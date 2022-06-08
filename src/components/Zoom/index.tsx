@@ -168,30 +168,31 @@ const Zoom: React.FC<Props> = ({
   const navigation = useMemo(() => {
     return (
       <div className={styles.navigationContainer}>
-        <button
-          className={cs(fontStyles.iconArrowLeft, fontStyles.icon, styles.prev)}
-          style={{ visibility: currentIndex > 0 ? "visible" : "hidden" }}
-          onClick={() => updateIndex(-1)}
-        />
-        <button
-          className={cs(
-            fontStyles.iconCrossNarrowBig,
-            fontStyles.icon,
-            styles.close
-          )}
-          onClick={closeModal}
-        />
-        <button
-          className={cs(
-            fontStyles.iconArrowRight,
-            fontStyles.icon,
-            styles.next
-          )}
-          style={{
-            visibility: currentIndex < images.length - 1 ? "visible" : "hidden"
-          }}
-          onClick={() => updateIndex(1)}
-        />
+        {!mobile && (
+          <button
+            className={cs(
+              fontStyles.iconArrowLeft,
+              fontStyles.icon,
+              styles.prev
+            )}
+            style={{ visibility: currentIndex > 0 ? "visible" : "hidden" }}
+            onClick={() => updateIndex(-1)}
+          />
+        )}
+        {!mobile && (
+          <button
+            className={cs(
+              fontStyles.iconArrowRight,
+              fontStyles.icon,
+              styles.next
+            )}
+            style={{
+              visibility:
+                currentIndex < images.length - 1 ? "visible" : "hidden"
+            }}
+            onClick={() => updateIndex(1)}
+          />
+        )}
       </div>
     );
   }, [images, currentIndex]);

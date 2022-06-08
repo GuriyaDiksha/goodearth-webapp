@@ -25,6 +25,7 @@ import ReactHtmlParser from "react-html-parser";
 import * as valid from "utils/validate";
 import { Currency } from "typings/currency";
 import { POPUP } from "constants/components";
+import metaActionCollection from "./metaAction";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -230,7 +231,7 @@ class CollectionSpecific extends React.Component<
     // dataLayer.push({
     //   event: "CategoryLangingPageView",
     //   PageURL: this.props.location.pathname,
-    //   PageTitle: "virtual_categoryLangingPage_view"
+    //   Page_Title: "virtual_categoryLangingPage_view"
     // });
     this.setState({
       specificMaker: true
@@ -451,3 +452,4 @@ class CollectionSpecific extends React.Component<
 
 export default connect(mapStateToProps, mapDispatchToProps)(CollectionSpecific);
 export { initActionSpecific };
+export { metaActionCollection };

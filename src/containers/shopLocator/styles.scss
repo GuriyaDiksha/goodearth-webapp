@@ -126,7 +126,7 @@ margin-top: $main-header;
     line-height: 22px;
     text-transform: capitalize;
     letter-spacing: 1px;
-    padding: 0;
+    padding-right: 40px;
     margin: 0;
   }
 &.shop-add-block-1 {
@@ -153,10 +153,10 @@ margin-top: $main-header;
 }
 .icon-cafe {
   height: 60px;
-    width: 60px;
-    position: absolute;
-    top: 7%;
-    margin-left: 20px;
+  width: 60px;
+  position: absolute;
+  right: 40px;
+  top:30px;
 }
 .view-directions-block {
   a{
@@ -164,6 +164,7 @@ margin-top: $main-header;
   text-transform: uppercase;
   font-size: 14px;
   letter-spacing: 1px;
+  max-width: 310px;
   }
 }
 }
@@ -174,7 +175,7 @@ margin-top: $main-header;
 .shop-add-block {
    .serial-number {
 position: absolute;
-    left: 5%;
+    left: 15px;
     background-color: #4d4d4d;
     width: 30px;
     height: 30px;

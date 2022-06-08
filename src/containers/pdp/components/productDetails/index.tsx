@@ -13,12 +13,13 @@ import { Link } from "react-router-dom";
 import cs from "classnames";
 import { useStore, useSelector } from "react-redux";
 // components
-import Quantity from "components/quantity";
+import PdpQuantity from "components/quantity/pdpQuantity";
 import SizeSelector from "components/SizeSelector";
-import Button from "components/Button";
+import PdpButton from "components/Button/pdpButton";
 import Share from "components/Share";
-import Accordion from "components/Accordion";
-import WishlistButton from "components/WishlistButton";
+import PdpAccordion from "components/Accordion/pdpAccordion";
+import WishlistButtonpdp from "components/WishlistButton/wishlistButtonpdp";
+
 import ColorSelector from "components/ColorSelector";
 import ReactHtmlParser from "react-html-parser";
 import Loader from "components/Loader";
@@ -54,14 +55,17 @@ import {
 import { MESSAGE } from "constants/messages";
 import { useLocation, useHistory } from "react-router";
 import { AppState } from "reducers/typings";
-import CustomerCareInfo from "components/CustomerCareInfo";
+import PdpCustomerCareInfo from "components/CustomerCareInfo/pdpCustomerCare";
 import { updateProduct } from "actions/product";
+import { updatefillerProduct, updateshowFiller } from "actions/filler";
 import * as valid from "utils/validate";
 import { POPUP } from "constants/components";
-import cushionFiller from "images/cushionFiller.svg";
+import asset from "images/asset.svg";
+import offer from "images/offer.svg";
 import inshop from "../../../../images/inShop.svg";
 import legal from "../../../../images/legal.svg";
 import DockedPanel from "../../docked";
+import { updateQuickviewId } from "../../../../actions/quickview";
 
 const ProductDetails: React.FC<Props> = ({
   data: {
@@ -75,6 +79,7 @@ const ProductDetails: React.FC<Props> = ({
     discountedPriceRecords,
     priceRecords,
     childAttributes,
+    sizeChartHtml,
     categories,
     loyaltyDisabled,
     shipping,
@@ -86,14 +91,15 @@ const ProductDetails: React.FC<Props> = ({
     groupedProducts,
     salesBadgeImage,
     fillerMessage,
-    showFillerMessage,
     complianceLine,
     fillerUrl,
     justAddedBadge,
     badgeType,
     invisibleFields,
     partner,
-    sizeChart
+    sizeChart,
+    badgeMessage,
+    fillerProduct
   },
   data,
   corporatePDP,
@@ -107,7 +113,7 @@ const ProductDetails: React.FC<Props> = ({
   source,
   showAddToBagMobile,
   loading
-}) => {
+}): JSX.Element => {
   const [productTitle, subtitle] = title.split("(");
   const {
     info,
@@ -135,6 +141,7 @@ const ProductDetails: React.FC<Props> = ({
   const [addedToBag, setAddedToBag] = useState(false);
   const [apiTrigger, setApiTrigger] = useState(false);
   const [isStockset, setIsStockset] = useState(false);
+  const isLoggedIn = useSelector((state: AppState) => state.user.isLoggedIn);
   // const [sizeerror, setSizeerror] = useState(false);
   // useEffect(() => {
   //   setAddedToBag(
@@ -181,6 +188,12 @@ const ProductDetails: React.FC<Props> = ({
       })
     );
   }, [childAttributes, selectedSize]);
+
+  useEffect(() => {
+    return () => {
+      dispatch(updateSizeChartSelected(undefined));
+    };
+  }, []);
 
   useEffect(() => {
     if (!selectedSize || selectedSize.id != selectedId) {
@@ -268,18 +281,16 @@ const ProductDetails: React.FC<Props> = ({
     [selectedSize]
   );
 
-  const onSizeChartClick = useCallback(() => {
-    if (!sizeChart) {
-      return;
+  const onSizeChartClick = () => {
+    if (sizeChart || sizeChart != "") {
+      dispatch(updateSizeChartData(sizeChart));
+      dispatch(updateSizeChartShow(true));
     }
-    dispatch(updateSizeChartData(sizeChart));
-    dispatch(updateSizeChartShow(true));
-  }, [sizeChart]);
+  };
 
   const [childAttr] = childAttributes;
   const { size = "" } = childAttr || {};
   const [height, width] = size.match(/[0-9.]+/gim) || [];
-
   const onWallpaperClick = useCallback(() => {
     updateComponentModal(POPUP.WALLPAPERPOPUP, {
       price: priceRecords[currency],
@@ -304,6 +315,31 @@ const ProductDetails: React.FC<Props> = ({
         header: "Shipping & Handling",
         body: <div>{ReactHtmlParser(shipping)}</div>,
         id: "shippAndHandle"
+      },
+      {
+        header: "For Any queries or Assistance",
+        body: <div> {!isQuickview && <PdpCustomerCareInfo />} </div>,
+        id: "queries"
+      },
+      {
+        header: "Share",
+        body: (
+          <div>
+            {!isQuickview && (
+              <Share
+                mobile={mobile}
+                link={`${__DOMAIN__}${location.pathname}`}
+                mailSubject="Gifting Ideas"
+                mailText={`${
+                  corporatePDP
+                    ? `Here's what I found, check it out on Good Earth's web boutique`
+                    : `Here's what I found! It reminded me of you, check it out on Good Earth's web boutique`
+                } ${__DOMAIN__}${location.pathname}`}
+              />
+            )}
+          </div>
+        ),
+        id: "share"
       }
     ];
     if (manufactureInfo) {
@@ -345,6 +381,29 @@ const ProductDetails: React.FC<Props> = ({
       "Category name": categoryname,
       "Sub Category Name": subcategoryname,
       Size: selectedSize?.size
+    });
+
+    const categoryList = categories
+      ? categories.length > 0
+        ? categories[categories.length - 1].replace(/>/g, "-")
+        : ""
+      : "";
+    let subcategory = categoryList ? categoryList.split(" > ") : "";
+    if (subcategory) {
+      subcategory = subcategory[subcategory.length - 1];
+    }
+    const size = selectedSize?.size || "";
+    dataLayer.push({
+      "Event Category": "GA Ecommerce",
+      "Event Action": "Add to Cart",
+      "Event Label": subcategory,
+      "Time Stamp": new Date().toISOString(),
+      "Cart Source": window.location.href,
+      "Product Category": categoryList,
+      "Login Status": isLoggedIn ? "logged in" : "logged out",
+      "Product Name": title,
+      "Product ID": selectedSize?.id,
+      Variant: size
     });
     dataLayer.push({
       event: "addToCart",
@@ -463,6 +522,16 @@ const ProductDetails: React.FC<Props> = ({
       .then(res => {
         valid.showGrowlMessage(dispatch, MESSAGE.ADD_TO_REGISTRY_SUCCESS);
         const registry = Object.assign({}, isRegistry);
+        dataLayer.push({
+          event: "registry",
+          "Event Category": "Registry",
+          "Event Action": "Product added",
+          // 'Event Label': bridalItem,
+          "Product Name": productTitle,
+          "Product ID": productId,
+          Variant: selectedSize?.size
+        });
+
         if (selectedSize) {
           registry[selectedSize.size] = true;
           setIsRegistry(registry);
@@ -491,13 +560,17 @@ const ProductDetails: React.FC<Props> = ({
   };
 
   const onEnquireClick = () => {
+    const selectdata = childAttributes.filter(data => {
+      return data.size == selectedSize?.size;
+    })[0];
     updateComponentModal(
       // <CorporateEnquiryPopup id={id} quantity={quantity} />,
       POPUP.THIRDPARTYENQUIRYPOPUP,
       {
         partner: partner,
-        id: id,
-        quantity: quantity
+        id: selectdata ? selectdata.id : id,
+        quantity: quantity,
+        size: selectedSize?.size
       },
       mobile ? true : false,
       mobile ? ModalStyles.bottomAlign : undefined
@@ -553,7 +626,7 @@ const ProductDetails: React.FC<Props> = ({
     showError();
   };
 
-  const button = useMemo(() => {
+  const Pdpbutton = useMemo(() => {
     let buttonText: string, action: EventHandler<MouseEvent>;
     if (corporatePDP) {
       buttonText = "Enquire Now";
@@ -576,7 +649,7 @@ const ProductDetails: React.FC<Props> = ({
       // setSizeerror(false);
     }
 
-    return <Button label={buttonText} onClick={action} />;
+    return <PdpButton label={buttonText} onClick={action} />;
   }, [
     corporatePDP,
     selectedSize,
@@ -641,7 +714,7 @@ const ProductDetails: React.FC<Props> = ({
       {!mobile && !isQuickview && showDock && (
         <DockedPanel
           data={data}
-          buttoncall={button}
+          buttoncall={Pdpbutton}
           showPrice={invisibleFields && invisibleFields.indexOf("price") > -1}
           price={price}
           discountPrice={discountPrices}
@@ -650,8 +723,7 @@ const ProductDetails: React.FC<Props> = ({
       <div className={bootstrap.row}>
         <div
           className={cs(
-            bootstrap.col10,
-            bootstrap.offset1,
+            bootstrap.col11,
             bootstrap.colMd11,
             styles.sideContainer,
             { [styles.marginT0]: withBadge }
@@ -698,16 +770,14 @@ const ProductDetails: React.FC<Props> = ({
                 </Link>
               )}
             </div>
-            <div
-              className={cs(bootstrap.col12, bootstrap.colMd8, styles.title)}
-            >
+            <div className={cs(bootstrap.col8, bootstrap.colMd8, styles.title)}>
               {productTitle}
               {subtitle && <p>({subtitle.split(")")[0]})</p>}
             </div>
             {!(invisibleFields && invisibleFields.indexOf("price") > -1) && (
               <div
                 className={cs(
-                  bootstrap.col12,
+                  bootstrap.col4,
                   bootstrap.colMd4,
                   styles.priceContainer,
                   { [globalStyles.textCenter]: !mobile }
@@ -731,7 +801,7 @@ const ProductDetails: React.FC<Props> = ({
                   </span>
                 ) : (
                   <span
-                    className={badgeType == "B_flat" ? globalStyles.cerise : ""}
+                    className={badgeType == "B_flat" ? globalStyles.gold : ""}
                   >
                     {" "}
                     {String.fromCharCode(...currencyCodes[currency])}
@@ -836,7 +906,7 @@ const ProductDetails: React.FC<Props> = ({
                 {sizeChart && !isQuickview && (
                   <div
                     className={cs(bootstrap.colSm4, styles.label, {
-                      [globalStyles.textCenter]: !mobile
+                      [globalStyles.textRight]: !mobile
                     })}
                   >
                     <span
@@ -886,7 +956,8 @@ const ProductDetails: React.FC<Props> = ({
             </span>
           )}
           <div
-            className={cs(bootstrap.row, globalStyles.marginT30, {
+            className={cs(bootstrap.row, {
+              [globalStyles.marginT30]: !mobile,
               [styles.spacerQuickview]: isQuickview && withBadge
             })}
           >
@@ -917,7 +988,7 @@ const ProductDetails: React.FC<Props> = ({
                       styles.widgetQty
                     )}
                   >
-                    <Quantity
+                    <PdpQuantity
                       source="pdp"
                       key={selectedSize?.sku}
                       id={selectedSize?.id || 0}
@@ -964,24 +1035,56 @@ const ProductDetails: React.FC<Props> = ({
               </div>
             )}
           </div>
-          {showFillerMessage && !isQuickview ? (
+          {badgeMessage && !isQuickview ? (
+            <div
+              className={cs(
+                bootstrap.col12,
+                bootstrap.colMd12,
+                styles.salesOffer
+              )}
+            >
+              <img
+                src={offer}
+                className={styles.offerImage}
+                alt="offer20-icon"
+              />
+              <div className={cs(styles.offerMessage)}>
+                {ReactHtmlParser(badgeMessage)}
+              </div>
+            </div>
+          ) : (
+            " "
+          )}
+          {fillerProduct && !isQuickview ? (
             <div
               className={cs(
                 bootstrap.col12,
                 bootstrap.colMd10,
                 globalStyles.voffset3,
-                styles.errorMsg,
+                styles.cushionError,
                 styles.fillerContainer
               )}
             >
               <img
-                src={cushionFiller}
+                src={asset}
                 className={styles.cushionFiller}
                 alt="cushion-filler-icon"
               />
               <div>
                 Insert not included.{" "}
-                <Link to={fillerUrl || "#"}>Click here</Link> to purchase.
+                <Link
+                  onClick={e => {
+                    if (Object.keys(fillerProduct)?.length > 0) {
+                      dispatch(updatefillerProduct(fillerProduct));
+                      dispatch(updateshowFiller(true));
+                    }
+
+                    e.preventDefault();
+                  }}
+                  to={fillerUrl || "#"}
+                >
+                  Click here to purchase.
+                </Link>
               </div>
             </div>
           ) : (
@@ -1008,7 +1111,7 @@ const ProductDetails: React.FC<Props> = ({
                 [globalStyles.hidden]: mobile && !showAddToBagMobile
               })}
             >
-              {button}
+              {Pdpbutton}
               {onload && !info.isSale && loyaltyDisabled && isQuickview ? (
                 <p className={cs(styles.errorMsg, styles.notEligible)}>
                   This product is not eligible for Cerise points accumulation.
@@ -1026,6 +1129,7 @@ const ProductDetails: React.FC<Props> = ({
                     changeModalState(false);
                     const listPath = `${source || "PLP"}`;
                     CookieService.setCookie("listPath", listPath);
+                    dispatch(updateQuickviewId(0));
                   }}
                 >
                   view more details
@@ -1036,12 +1140,13 @@ const ProductDetails: React.FC<Props> = ({
             </div>
             <div
               className={cs(bootstrap.col4, globalStyles.textCenter, {
+                [styles.wishlistText]: !mobile,
                 [styles.wishlistBtnContainer]: mobile,
                 [globalStyles.voffset1]: mobile,
                 [globalStyles.hidden]: corporatePDP || !showAddToBagMobile
               })}
             >
-              <WishlistButton
+              <WishlistButtonpdp
                 gtmListType={gtmListType}
                 title={title}
                 parentWidth={true}
@@ -1078,7 +1183,8 @@ const ProductDetails: React.FC<Props> = ({
               className={cs(
                 bootstrap.col12,
                 bootstrap.colMd9,
-                globalStyles.voffset3
+                globalStyles.voffset3,
+                styles.padding
               )}
             >
               <img
@@ -1095,7 +1201,6 @@ const ProductDetails: React.FC<Props> = ({
                 className={styles.shopAvailability}
                 onClick={checkAvailability}
               >
-                {" "}
                 Check in-shop availability{" "}
               </span>
             </div>
@@ -1104,7 +1209,7 @@ const ProductDetails: React.FC<Props> = ({
             <div
               className={cs(
                 bootstrap.col12,
-                bootstrap.colMd9,
+                bootstrap.colMd12,
                 globalStyles.voffset2
               )}
             >
@@ -1128,7 +1233,7 @@ const ProductDetails: React.FC<Props> = ({
           <div
             className={cs(
               bootstrap.col12,
-              bootstrap.colMd9,
+              bootstrap.colMd12,
               globalStyles.voffset3
             )}
           >
@@ -1146,21 +1251,23 @@ const ProductDetails: React.FC<Props> = ({
           )} */}
             <div>
               {!isQuickview && (
-                <Accordion
+                <PdpAccordion
                   sections={accordionSections}
                   headerClassName={styles.accordionHeader}
                   bodyClassName={styles.accordionBody}
+                  headerClosedClassName={styles.headerClosedClassName}
+                  headerOpenClassName={styles.headerOpenClassName}
                   defaultOpen="details"
                 />
               )}
             </div>
-            {!isQuickview && (
+            {/* {!isQuickview && (
               <div className={cs(styles.sku, globalStyles.voffset4)}>
                 Vref. {setSelectedSKU()}
               </div>
-            )}
-            {!isQuickview && <CustomerCareInfo />}
-            {!isQuickview && (
+            )} */}
+            {/* {!isQuickview && <CustomerCareInfo />} */}
+            {/* {!isQuickview && (
               <Share
                 mobile={mobile}
                 link={`${__DOMAIN__}${location.pathname}`}
@@ -1171,6 +1278,11 @@ const ProductDetails: React.FC<Props> = ({
                     : `Here's what I found! It reminded me of you, check it out on Good Earth's web boutique`
                 } ${__DOMAIN__}${location.pathname}`}
               />
+            )} */}
+            {!isQuickview && (
+              <div className={cs(styles.sku, globalStyles.voffset4)}>
+                Vref. {setSelectedSKU()}
+              </div>
             )}
           </div>
         </div>

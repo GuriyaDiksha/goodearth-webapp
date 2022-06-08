@@ -33,7 +33,8 @@ const mapStateToProps = (state: AppState) => {
   return {
     isSale: state.info.isSale,
     currency: state.currency,
-    isLoggedIn: state.user.isLoggedIn
+    isLoggedIn: state.user.isLoggedIn,
+    currencyList: state.info.currencyList
   };
 };
 type Props = MobileListProps &
@@ -215,7 +216,8 @@ class Mobilemenu extends React.Component<Props, MobileState> {
                 const childComponentData = child.componentData as MenuComponentImageData;
                 const l3MenuData: L2MenuData = {
                   text: childComponentData.heading,
-                  link: childComponentData.link
+                  link: childComponentData.link,
+                  ctaName: childComponentData.ctaName
                 };
                 l2MenuData.children && l2MenuData.children.push(l3MenuData);
               });
@@ -236,7 +238,8 @@ class Mobilemenu extends React.Component<Props, MobileState> {
                 const childComponentData = child.componentData as MenuComponentL2L3Data;
                 const l3MenuData: L2MenuData = {
                   text: childComponentData.text,
-                  link: childComponentData.link
+                  link: childComponentData.link,
+                  ctaName: childComponentData.ctaName
                 };
                 l2MenuData.children && l2MenuData.children.push(l3MenuData);
               });
@@ -253,7 +256,8 @@ class Mobilemenu extends React.Component<Props, MobileState> {
                 const childComponentData = child.componentData as MenuComponentImageData;
                 const l3MenuData: L2MenuData = {
                   text: childComponentData.heading,
-                  link: childComponentData.link
+                  link: childComponentData.link,
+                  ctaName: childComponentData.ctaName
                 };
                 l2MenuData.children && l2MenuData.children.push(l3MenuData);
               });
@@ -351,7 +355,7 @@ class Mobilemenu extends React.Component<Props, MobileState> {
                 [styles.highlight]: currentUrl == data.link
               })}
             >
-              <span>{ReactHtmlParser(data.text)}</span>
+              <span>{ReactHtmlParser(data.ctaName || data.text)}</span>
             </Link>
           </li>
         ) : (
@@ -467,7 +471,9 @@ class Mobilemenu extends React.Component<Props, MobileState> {
                             { [styles.highlight]: currentUrl == innerdata.link }
                           )}
                         >
-                          {ReactHtmlParser(innerdata.text.toLowerCase())}
+                          {ReactHtmlParser(
+                            innerdata.ctaName || innerdata.text.toLowerCase()
+                          )}
                         </Link>
                       </li>
                     );
@@ -802,6 +808,15 @@ class Mobilemenu extends React.Component<Props, MobileState> {
   }
 
   render() {
+    const curryList = this.props.currencyList.map(data => {
+      // return data.currencyCode
+      const abc = data.currencySymbol ? "(" + data.currencySymbol + ")" : "";
+      return {
+        label: `${data.countryName} | ${data.currencyCode}` + abc,
+        value: data.currencyCode
+      };
+    });
+
     const {
       isLoggedIn,
       clickToggle,
@@ -859,39 +874,24 @@ class Mobilemenu extends React.Component<Props, MobileState> {
           </li>
           <li className={showC ? "" : styles.hidden}>
             <ul className={styles.noMargin}>
-              <li
-                data-name="INR"
-                className={this.props.currency == "INR" ? styles.cerise : ""}
-                onClick={() => {
-                  changeCurrency("INR");
-                  util.headerClickGTM("Currency", "Top", true, isLoggedIn);
-                  clickToggle();
-                }}
-              >
-                India | INR(&#8377;)
-              </li>
-              <li
-                data-name="USD"
-                className={this.props.currency == "USD" ? styles.cerise : ""}
-                onClick={() => {
-                  changeCurrency("USD");
-                  util.headerClickGTM("Currency", "Top", true, isLoggedIn);
-                  clickToggle();
-                }}
-              >
-                Rest Of The World | USD (&#36;)
-              </li>
-              <li
-                data-name="GBP"
-                className={this.props.currency == "GBP" ? styles.cerise : ""}
-                onClick={() => {
-                  changeCurrency("GBP");
-                  util.headerClickGTM("Currency", "Top", true, isLoggedIn);
-                  clickToggle();
-                }}
-              >
-                United Kingdom | GBP (&#163;)
-              </li>
+              {curryList.map(item => {
+                return (
+                  <li
+                    key={item.value}
+                    data-name={item.value}
+                    className={
+                      this.props.currency == item.value ? styles.cerise : ""
+                    }
+                    onClick={() => {
+                      changeCurrency(item.value);
+                      util.headerClickGTM("Currency", "Top", true, isLoggedIn);
+                      clickToggle();
+                    }}
+                  >
+                    {item.label}
+                  </li>
+                );
+              })}
             </ul>
           </li>
 
@@ -955,7 +955,7 @@ class Mobilemenu extends React.Component<Props, MobileState> {
                 styles.outerMenuItem
               )}
             >
-              {data.columns[0].templates.length > 0 ? (
+              {data.columns[0]?.templates.length > 0 ? (
                 <>
                   <span
                     className={

@@ -9,6 +9,7 @@ import styles from "../styles.scss";
 import cs from "classnames";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router";
+import invoice from "../../../../images/invoice.svg";
 
 const OnlineOrders: React.FC<OrdersProps> = props => {
   const [data, setData] = useState([]);
@@ -126,6 +127,42 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
                     >
                       {" "}
                       TRACK ORDER{" "}
+                    </a>
+                  ) : (
+                    ""
+                  )}
+                </p>
+                <p className={styles.editTrack}>
+                  {data.invoiceFileName ? (
+                    <a
+                      className={globalStyles.cerise}
+                      onClick={e => {
+                        const filename = data.invoiceFileName.split(
+                          "ge-invoice-test/"
+                        )[1];
+                        fetch(data.invoiceFileName).then(function(t) {
+                          return t.blob().then(b => {
+                            const a = document.createElement("a");
+                            a.href = URL.createObjectURL(b);
+                            a.setAttribute("download", filename);
+                            a.click();
+                          });
+                        });
+                      }}
+                      data-name="track"
+                      id={data.number}
+                    >
+                      <img
+                        alt="goodearth-logo"
+                        src={invoice}
+                        style={{
+                          width: "20px",
+                          height: "15px",
+                          cursor: "pointer",
+                          marginLeft: "-8px"
+                        }}
+                      />{" "}
+                      INVOICE{" "}
                     </a>
                   ) : (
                     ""
@@ -283,6 +320,14 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
             {data.lines.map((item: any) => {
               const isDiscount =
                 +item.priceInclTax - +item.priceExclTaxExclDiscounts != 0;
+              const price1 =
+                +parseFloat(item.priceInclTax).toFixed(2) / +item.quantity;
+              const price2 =
+                +parseFloat(item.priceExclTaxExclDiscounts).toFixed(2) /
+                +item.quantity;
+              const price3 =
+                +parseFloat(item.priceExclTaxExclDiscounts).toFixed(2) /
+                +item.quantity;
               return (
                 <div
                   className={cs(
@@ -320,8 +365,9 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
                             {String.fromCharCode(
                               ...currencyCode[item.priceCurrency as Currency]
                             )}
-                            {+parseFloat(item.priceInclTax).toFixed(2) /
-                              +item.quantity}
+                            {Number.isSafeInteger(+price1)
+                              ? price1
+                              : price1.toFixed(2) + ""}
                             &nbsp;{" "}
                           </span>
                         ) : (
@@ -332,9 +378,9 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
                             {String.fromCharCode(
                               ...currencyCode[item.priceCurrency as Currency]
                             )}
-                            {+parseFloat(
-                              item.priceExclTaxExclDiscounts
-                            ).toFixed(2) / +item.quantity}
+                            {Number.isSafeInteger(+price2)
+                              ? price2
+                              : price2.toFixed(2) + ""}
                             &nbsp;{" "}
                           </span>
                         ) : (
@@ -351,9 +397,9 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
                               ...currencyCode[item.priceCurrency as Currency]
                             )}
                             &nbsp;{" "}
-                            {+parseFloat(
-                              item.priceExclTaxExclDiscounts
-                            ).toFixed(2) / +item.quantity}
+                            {Number.isSafeInteger(+price3)
+                              ? price3
+                              : price3.toFixed(2) + ""}
                           </span>
                         )}
                       </p>

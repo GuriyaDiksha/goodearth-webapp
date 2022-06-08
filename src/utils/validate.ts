@@ -696,7 +696,7 @@ export function plpProductClick(
   position?: any
 ) {
   try {
-    const products = [];
+    const products: any = [];
     position = position || 0;
     if (!data) return false;
     if (data.length < 1) return false;
@@ -708,25 +708,23 @@ export function plpProductClick(
         : "";
       category = category.replace(/>/g, "/");
     }
-    products.push(
-      data.childAttributes.map((child: any) => {
-        return Object.assign(
-          {},
-          {
-            name: data.title,
-            id: child.sku,
-            category: category,
-            // list: list,
-            price: child.discountedPriceRecords
-              ? child.discountedPriceRecords[currency]
-              : child.priceRecords[currency],
-            brand: "Goodearth",
-            position: position + 1,
-            variant: child.size || ""
-          }
-        );
-      })
-    );
+    const attr = data.childAttributes.map((child: any) => {
+      return Object.assign(
+        {},
+        {
+          name: data.title,
+          id: child.sku,
+          category: category,
+          // list: list,
+          price: child.discountedPriceRecords
+            ? child.discountedPriceRecords[currency]
+            : child.priceRecords[currency],
+          brand: "Goodearth",
+          position: position + 1,
+          variant: child.size || ""
+        }
+      );
+    });
     const listPath = `${list}`;
     CookieService.setCookie("listPath", listPath);
     dataLayer.push({
@@ -735,7 +733,7 @@ export function plpProductClick(
         currencyCode: currency,
         click: {
           actionField: { list: listPath },
-          products: products
+          products: products.concat(attr)
         }
       }
     });
@@ -840,7 +838,7 @@ export function MoreFromCollectionProductClick(
   currency: Currency,
   position: number
 ) {
-  const products = [];
+  const products: any = [];
   if (!data) return false;
   if (data.length < 1) return false;
   let category = "";
@@ -851,24 +849,22 @@ export function MoreFromCollectionProductClick(
       : "";
     category = category.replace(/>/g, "/");
   }
-  products.push(
-    data.childAttributes.map((child: any) => {
-      return Object.assign(
-        {},
-        {
-          name: data.title,
-          id: child.sku,
-          price: child.discountedPriceRecords
-            ? child.discountedPriceRecords[currency]
-            : child.priceRecords[currency],
-          brand: "Goodearth",
-          category: category,
-          variant: child.size || "",
-          position: position
-        }
-      );
-    })
-  );
+  const attr = data.childAttributes.map((child: any) => {
+    return Object.assign(
+      {},
+      {
+        name: data.title,
+        id: child.sku,
+        price: child.discountedPriceRecords
+          ? child.discountedPriceRecords[currency]
+          : child.priceRecords[currency],
+        brand: "Goodearth",
+        category: category,
+        variant: child.size || "",
+        position: position
+      }
+    );
+  });
   const listPath = `${list}`;
   CookieService.setCookie("listPath", listPath);
   dataLayer.push({
@@ -877,7 +873,7 @@ export function MoreFromCollectionProductClick(
       currencyCode: currency,
       click: {
         actionField: { list: listPath },
-        products: products
+        products: products.concat(attr)
       }
     }
   });
@@ -975,6 +971,23 @@ export const headerClickGTM = (
     });
   } catch (e) {
     console.log("Header click GTM error!");
+  }
+};
+
+export const footerClickGTM = (
+  clickType: string,
+  location: "Top" | "Bottom",
+  isLoggedIn: boolean
+) => {
+  try {
+    dataLayer.push({
+      event: "Footer Click",
+      clickType,
+      location,
+      userStatus: isLoggedIn ? "logged in" : "logged out"
+    });
+  } catch (e) {
+    console.log("Footer click GTM error!");
   }
 };
 
@@ -1106,13 +1119,13 @@ export const megaMenuNavigationGTM = ({
   }
 };
 
-export const pageViewGTM = (title: string) => {
+export const pageViewGTM = (Title: string) => {
   try {
     dataLayer.push({
       event: "pageview",
-      page: {
+      Page: {
         path: location.pathname,
-        title
+        Title
       }
     });
   } catch (e) {
@@ -1200,4 +1213,36 @@ export function useOnScreen(ref: any) {
   }, []);
 
   return isIntersecting;
+}
+
+export function getPageType() {
+  let pageType = "Home";
+  const isPDP =
+    location.pathname.includes("/catalogue/") &&
+    !location.pathname.includes("/catalogue/category");
+  const isPLP = location.pathname.includes("/catalogue/category");
+  const isCart = location.pathname.includes("/cart");
+  const isCategoryLanding = location.pathname.includes("/category_landing");
+  const isCollectionLanding = location.pathname.includes("/allcollection");
+  const isCollectionListing = location.pathname.includes("/collection");
+  if (isPDP) {
+    pageType = "PDP";
+  } else if (isPLP) {
+    pageType = "PLP";
+  } else if (isCart) {
+    pageType = "Cart";
+  } else if (isCategoryLanding) {
+    pageType = "Category Landing";
+  } else if (isCollectionLanding) {
+    pageType = "Collection Landing";
+  } else if (isCollectionListing) {
+    pageType = "Collection Listing";
+  } else if (location.pathname.includes("/order/checkout")) {
+    pageType = "Checkout";
+  } else if (location.pathname.includes("/order/orderconfirmation")) {
+    pageType = "Order Confirmation";
+  } else if (location.pathname.includes("/account")) {
+    pageType = "Account";
+  }
+  return pageType;
 }

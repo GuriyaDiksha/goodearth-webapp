@@ -59,6 +59,7 @@ export type MenuComponentImageData = {
   heading: string;
   subHeading: string;
   link: string;
+  ctaName?: string;
 };
 export interface MenuComponent {
   componentType: string;
@@ -154,6 +155,21 @@ export type SideMenuProps = {
   showBag: boolean;
   setShowBag: (showBag: boolean) => void;
   hideSearch: () => void;
+};
+
+export type BottomMenuProps = {
+  wishlistCount: number;
+  showMenu: boolean;
+  clickToggle: () => void;
+  isLoggedIn: boolean;
+  showSearch: () => void;
+  isSearch: boolean;
+  showBag: boolean;
+  setShowBag: (showBag: boolean) => void;
+  bagCount: number;
+  onBottomMenuClick?: (clickType: string) => void;
+  currencyList: any[];
+  currency: Currency;
 };
 
 export interface MouseParameter {

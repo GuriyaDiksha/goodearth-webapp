@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import cs from "classnames";
 import OnlineOrders from "./onlineOrders";
 import InShopOrder from "./InShopOrders";
@@ -10,6 +10,7 @@ import styles from "../styles.scss";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { AppState } from "reducers/typings";
+import * as util from "utils/validate";
 
 type Props = {
   setCurrentSection: () => void;
@@ -31,7 +32,14 @@ const PastOrders: React.FC<Props> = (props: Props) => {
     setHasShopped(true);
     setIsLoading(false);
     setIsData(false);
+    if (!hasShopped) {
+      setHasShopped(false);
+    }
   };
+
+  useEffect(() => {
+    util.pageViewGTM("MyAccount");
+  }, []);
 
   const isDataAvaliable = (data: boolean) => {
     setIsData(data);
@@ -43,6 +51,9 @@ const PastOrders: React.FC<Props> = (props: Props) => {
     setHasShopped(true);
     setIsLoading(false);
     setIsData(false);
+    if (!hasShopped) {
+      setHasShopped(false);
+    }
   };
   const browseButton = (
     <div className={styles.browseButton}>

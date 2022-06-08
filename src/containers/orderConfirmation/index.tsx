@@ -118,7 +118,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
     dataLayer.push({
       event: "OrderConfirmationPageView",
       PageURL: location.pathname,
-      PageTitle: "virtual_orderConfirmationPage_view"
+      Page_Title: "virtual_orderConfirmationPage_view"
     });
     Moengage.track_event("Page viewed", {
       "Page URL": location.pathname,
@@ -342,6 +342,15 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                     // according bakwas by gaurav
                     const isdisCount =
                       +item.priceInclTax - +item.priceExclTaxExclDiscounts != 0;
+                    const price1 =
+                      +parseFloat(item.priceInclTax).toFixed(2) /
+                      +item.quantity;
+                    const price2 =
+                      +parseFloat(item.priceExclTaxExclDiscounts).toFixed(2) /
+                      +item.quantity;
+                    const price3 =
+                      +parseFloat(item.priceExclTaxExclDiscounts).toFixed(2) /
+                      +item.quantity;
                     return (
                       <div
                         className={cs(
@@ -389,8 +398,9 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                                       item.priceCurrency as Currency
                                     ]
                                   )}
-                                  {+parseFloat(item.priceInclTax).toFixed(2) /
-                                    +item.quantity}
+                                  {Number.isSafeInteger(+price1)
+                                    ? price1
+                                    : price1.toFixed(2) + ""}
                                   &nbsp;{" "}
                                 </span>
                               ) : (
@@ -403,9 +413,9 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                                       item.priceCurrency as Currency
                                     ]
                                   )}
-                                  {+parseFloat(
-                                    item.priceExclTaxExclDiscounts
-                                  ).toFixed(2) / +item.quantity}
+                                  {Number.isSafeInteger(+price2)
+                                    ? price2
+                                    : price2.toFixed(2) + ""}
                                   &nbsp;{" "}
                                 </span>
                               ) : (
@@ -424,9 +434,9 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                                     ]
                                   )}
                                   &nbsp;{" "}
-                                  {+parseFloat(
-                                    item.priceExclTaxExclDiscounts
-                                  ).toFixed(2) / +item.quantity}
+                                  {Number.isSafeInteger(+price3)
+                                    ? price3
+                                    : price3.toFixed(2) + ""}
                                 </span>
                               )}
                             </p>

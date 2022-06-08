@@ -241,7 +241,7 @@ class OtpComponent extends React.Component<otpProps, otpState> {
 
   checkOtpValidation = () => {
     const { otpData } = this.state;
-    const newData = otpData;
+    const newData = Object.assign({}, otpData);
     newData["otp"] = this.state.otp;
     delete newData["inputType"];
     if (this.props.otpFor == "activateGC") {
@@ -513,7 +513,8 @@ class OtpComponent extends React.Component<otpProps, otpState> {
             if (message) {
               this.setState(
                 {
-                  showerrorOtp: message
+                  showerrorOtp: message,
+                  showerror: message
                 },
                 () => {
                   const errorElem = document.getElementById("customererror");

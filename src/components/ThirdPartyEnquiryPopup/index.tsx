@@ -28,6 +28,7 @@ type Props = {
   id: ProductID;
   quantity?: number;
   partner?: string;
+  size?: string;
 };
 type StateOptions = {
   value: string;
@@ -44,9 +45,13 @@ type CountryOptions = {
   states: StateOptions[];
 };
 
-const CorporateEnquiryPopup: React.FC<Props> = ({ id, quantity, partner }) => {
+const CorporateEnquiryPopup: React.FC<Props> = ({
+  id,
+  quantity,
+  partner,
+  size
+}) => {
   const dispatch = useDispatch();
-
   const { closeModal } = useContext(ModalContext);
   const [countrycode, setCountrycode] = useState("");
   const [countryOptions, setCountryOptions] = useState<CountryOptions[]>([]);
@@ -60,7 +65,8 @@ const CorporateEnquiryPopup: React.FC<Props> = ({ id, quantity, partner }) => {
     preferredContact: ["Phone", "Email"],
     query: true,
     state: true,
-    availableInternational: false
+    availableInternational: false,
+    size: true
   });
   const [enquiryMessage, setEnquiryMessage] = useState<
     string | (string | JSX.Element)[]
@@ -227,36 +233,55 @@ const CorporateEnquiryPopup: React.FC<Props> = ({ id, quantity, partner }) => {
     formData["country"] = country;
     formData["query"] = query;
     formData["email"] = email;
-    formData["contactNo"] = "+91" + phoneNo;
+    formData["contactNo"] = countrycode + phoneNo;
     formData["preferredContact"] = preferredContact;
     if (time) {
       formData["suitableTime"] = time;
     }
-
-    ProductService.thirdPartyEnquire(dispatch, formData).then(data => {
-      setSubmitted(true);
-      setEnquiryMessage([
-        "Thank you for this enquiry. Your mail has been received and our personal shopper will be in touch with you soon for the same. Please let us know if we may assist you with something else. Mail us at ",
-        <a href="mailto:customercare@goodearth.in" key="email">
-          customercare@goodearth.in
-        </a>,
-        " or dial in on ",
-        <>
-          <br />
-          <a href="tel:+91 9582 999 555" key="phone1">
-            +91 9582 999 555
-          </a>
-        </>,
-        " / ",
-        <>
-          <a href="tel:+91 9582 999 888" key="phone2">
-            +91 9582 999 888
-          </a>
-          <br />
-        </>,
-        " Monday - Saturday 9:00 am - 5:00 pm IST"
-      ]);
-    });
+    if (size) {
+      formData["size"] = size;
+    }
+    ProductService.thirdPartyEnquire(dispatch, formData)
+      .then(data => {
+        setSubmitted(true);
+        setEnquiryMessage([
+          "Thank you for this enquiry. Your mail has been received and our personal shopper will be in touch with you soon for the same. Please let us know if we may assist you with something else. Mail us at ",
+          <a href="mailto:customercare@goodearth.in" key="email">
+            customercare@goodearth.in
+          </a>,
+          " or dial in on ",
+          <>
+            <br />
+            <a href="tel:+91 9582 999 555" key="phone1">
+              +91 9582 999 555
+            </a>
+          </>,
+          " / ",
+          <>
+            <a href="tel:+91 9582 999 888" key="phone2">
+              +91 9582 999 888
+            </a>
+            <br />
+          </>,
+          " Monday - Saturday 9:00 am - 5:00 pm IST"
+        ]);
+      })
+      .catch(err => {
+        const form = EnquiryFormRef.current;
+        Object.keys(err.response.data).map(data => {
+          switch (data) {
+            case "contactNo":
+              form?.updateInputsWithError(
+                {
+                  phoneNo: err.response.data[data][0]
+                },
+                true
+              );
+              break;
+            default:
+          }
+        });
+      });
   };
 
   const handleInvalidSubmit = () => {
@@ -318,11 +343,11 @@ const CorporateEnquiryPopup: React.FC<Props> = ({ id, quantity, partner }) => {
             <div className="select-group text-left">
               <FormSelect
                 required
-                label="Country"
+                label={"Country*"}
                 options={countryOptions}
                 handleChange={onCountrySelect}
-                placeholder="Select Country"
-                disable={!popupfield.availableInternational}
+                placeholder={"Select Country*"}
+                disable={!popupfield.availableInternational || submitted}
                 name="country"
                 validations={{
                   isExisty: true
@@ -337,13 +362,22 @@ const CorporateEnquiryPopup: React.FC<Props> = ({ id, quantity, partner }) => {
           )}
         </div>
         <div>
+          {size ? (
+            <div className="select-group text-left">
+              <p className={cs(styles.selectSize)}>Selected Size : {size}</p>
+            </div>
+          ) : (
+            ""
+          )}
+        </div>
+        <div>
           {popupfield?.state && (
             <div className="select-group text-left">
               <FormSelect
                 required
                 name="state"
-                label="State"
-                placeholder="Select State"
+                label={"State*"}
+                placeholder={"Select State*"}
                 disable={submitted}
                 options={stateOptions}
                 value=""
@@ -408,10 +442,15 @@ const CorporateEnquiryPopup: React.FC<Props> = ({ id, quantity, partner }) => {
                   className={inputClass}
                   label={"Contact No.*"}
                   validations={{
-                    isLength: 10
+                    isINRPhone: (values, value) => {
+                      const { country } = values;
+                      return country == "India" ? value?.length == 10 : true;
+                    },
+                    isExisty: true
                   }}
                   validationErrors={{
-                    isLength: "Phone number should be 10 digit"
+                    isINRPhone: "Phone number should be 10 digit",
+                    isExisty: "Please enter a valid phone number"
                   }}
                   required
                 />
@@ -419,13 +458,13 @@ const CorporateEnquiryPopup: React.FC<Props> = ({ id, quantity, partner }) => {
             </div>
           </div>
         )}
-        <p className={cs(styles.msg)}>Preferred mode of contact</p>
+        <p className={cs(styles.msg)}>Preferred mode of contact*</p>
         <div>
           <div className="select-group text-left">
             <FormSelect
               required
               name="preferredContact"
-              label="Preferred mode"
+              label={"Preferred mode*"}
               placeholder="Select Mode"
               disable={submitted}
               options={modeOptions}
@@ -445,7 +484,7 @@ const CorporateEnquiryPopup: React.FC<Props> = ({ id, quantity, partner }) => {
                 <FormTime
                   id="en_time"
                   name="time"
-                  disable={false}
+                  disable={submitted}
                   label={""}
                   validations={{
                     isRequired: (values, value) => {
@@ -464,7 +503,7 @@ const CorporateEnquiryPopup: React.FC<Props> = ({ id, quantity, partner }) => {
         ) : (
           ""
         )}
-        <div className={styles.marginBottom50}>
+        <div className={styles.marginBottom90}>
           {enquiryMessage && (
             <p className={styles.enquireError}>{enquiryMessage}</p>
           )}

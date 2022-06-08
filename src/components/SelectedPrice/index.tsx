@@ -2,6 +2,7 @@ import React from "react";
 import { Props } from "./typings";
 import globalStyles from "styles/global.scss";
 import styles from "./styles.scss";
+import cs from "classnames";
 
 const SelectedPrice: React.FC<Props> = ({
   price,
@@ -14,7 +15,7 @@ const SelectedPrice: React.FC<Props> = ({
   return (
     <p className={styles.productN}>
       {isSale && discount ? (
-        <span className={styles.discountprice}>
+        <span className={cs(styles.discountprice)}>
           {String.fromCharCode(...code)} {discountPrice}
         </span>
       ) : (
@@ -26,7 +27,7 @@ const SelectedPrice: React.FC<Props> = ({
           {String.fromCharCode(...code)} {price}{" "}
         </span>
       ) : (
-        <span className={badgeType == "B_flat" ? globalStyles.cerise : ""}>
+        <span className={badgeType == "B_flat" ? globalStyles.gold : ""}>
           {String.fromCharCode(...code)} {price}
         </span>
       )}

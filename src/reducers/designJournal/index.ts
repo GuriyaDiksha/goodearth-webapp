@@ -8,7 +8,8 @@ const initialState: DesignJournalBookData = {
       INR: 0,
       USD: 0,
       GBP: 0,
-      AED: 0
+      AED: 0,
+      SGD: 0
     },
     currency: "INR",
     image: "",

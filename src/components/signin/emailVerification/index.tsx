@@ -34,7 +34,7 @@ const EmailVerification: React.FC<Props> = ({
   const [error, setError] = useState<(JSX.Element | string)[] | string>("");
   const dispatch = useDispatch();
   const timer = () => {
-    setTimeRemaining(60);
+    setTimeRemaining(90);
     setEnableBtn(false);
     const id = setInterval(() => {
       setTimeRemaining(timeRemaining => timeRemaining - 1);
@@ -54,11 +54,7 @@ const EmailVerification: React.FC<Props> = ({
     try {
       setIsLoading(true);
       setError("");
-      const res = await LoginService.verifyUserOTP(
-        dispatch,
-        email,
-        parseInt(otpValue)
-      );
+      const res = await LoginService.verifyUserOTP(dispatch, email, otpValue);
       if (res.success) {
         showGrowlMessage(
           dispatch,

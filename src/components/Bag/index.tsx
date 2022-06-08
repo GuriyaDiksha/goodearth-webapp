@@ -11,6 +11,7 @@ import { Dispatch } from "redux";
 import BasketService from "services/basket";
 import { connect } from "react-redux";
 import { AppState } from "reducers/typings";
+import * as util from "../../utils/validate";
 
 const mapDispatchToProps = (dispatch: Dispatch) => {
   return {
@@ -23,7 +24,8 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
 const mapStateToProps = (state: AppState) => {
   return {
     isSale: state.info.isSale,
-    customerGroup: state.user.customerGroup
+    customerGroup: state.user.customerGroup,
+    isLoggedIn: state.user.isLoggedIn
   };
 };
 type Props = CartProps &
@@ -43,6 +45,23 @@ class Bag extends React.Component<Props, State> {
 
   componentDidMount = () => {
     document.body.classList.add(globalStyles.noScroll);
+    try {
+      const skuList = this.props.cart.lineItems.map(
+        item => item.product.childAttributes?.[0].sku
+      );
+      dataLayer.push({
+        "Event Category": "GA Ecommerce",
+        "Event Action": "Cart Summary Page",
+        "Event Label": skuList.length > 0 ? skuList.join(",") : "",
+        "Time Stamp": new Date().toISOString(),
+        "Page Url": location.href,
+        "Page Type": util.getPageType(),
+        "Login Status": this.props.isLoggedIn ? "logged in" : "logged out",
+        "Page referrer url": location.href
+      });
+    } catch (err) {
+      console.log(err);
+    }
   };
   componentWillUnmount = () => {
     document.body.classList.remove(globalStyles.noScroll);
@@ -152,7 +171,7 @@ class Bag extends React.Component<Props, State> {
             )}
           >
             <div className={cs(styles.totalPrice, globalStyles.bold)}>
-              AMOUNT PAYABLE*
+              TOTAL*
             </div>
             <div className={globalStyles.textRight}>
               <h5 className={cs(styles.totalPrice, globalStyles.bold)}>
@@ -265,7 +284,7 @@ class Bag extends React.Component<Props, State> {
     // }
     // const self = this;
     const {
-      total,
+      totalWithoutShipping,
       freeShippingThreshold,
       freeShippingApplicable
     } = this.props.cart;
@@ -274,25 +293,27 @@ class Bag extends React.Component<Props, State> {
     }
     if (
       !this.state.freeShipping &&
-      total >= freeShippingThreshold &&
-      total < freeShippingApplicable &&
-      this.props.currency == "INR" &&
+      totalWithoutShipping &&
+      totalWithoutShipping >= freeShippingThreshold &&
+      totalWithoutShipping < freeShippingApplicable &&
       this.props.cart.shippable
     ) {
       this.props.showShipping(
-        freeShippingApplicable - parseInt(total.toString()),
+        freeShippingApplicable -
+          parseInt((totalWithoutShipping || 0).toString()),
         freeShippingApplicable
       );
       event.preventDefault();
     }
   };
+
   canCheckout = () => {
     // if (pathname.indexOf("checkout") > -1) {
     //   return false;
     // }
     // this.amountLeft = 50000 - this.props.cart.subTotal;
     const {
-      total,
+      totalWithoutShipping,
       freeShippingThreshold,
       freeShippingApplicable
     } = this.props.cart;
@@ -308,8 +329,9 @@ class Bag extends React.Component<Props, State> {
         shipping: false
       });
     } else if (
-      total >= freeShippingThreshold &&
-      total < freeShippingApplicable &&
+      totalWithoutShipping &&
+      totalWithoutShipping >= freeShippingThreshold &&
+      totalWithoutShipping < freeShippingApplicable &&
       this.state.shipping == false &&
       this.props.currency == "INR" &&
       this.props.cart.shippable
@@ -318,7 +340,9 @@ class Bag extends React.Component<Props, State> {
         shipping: true
       });
     } else if (
-      (total < freeShippingThreshold || total >= freeShippingApplicable) &&
+      totalWithoutShipping &&
+      (totalWithoutShipping < freeShippingThreshold ||
+        totalWithoutShipping >= freeShippingApplicable) &&
       this.state.shipping
     ) {
       this.setState({
@@ -330,7 +354,7 @@ class Bag extends React.Component<Props, State> {
 
   render() {
     const {
-      total,
+      totalWithoutShipping,
       freeShippingThreshold,
       freeShippingApplicable
     } = this.props.cart;
@@ -377,9 +401,9 @@ class Bag extends React.Component<Props, State> {
             </div>
           </div>
           {this.state.shipping &&
-          total >= freeShippingThreshold &&
-          total < freeShippingApplicable &&
-          this.props.currency == "INR" &&
+          totalWithoutShipping &&
+          totalWithoutShipping >= freeShippingThreshold &&
+          totalWithoutShipping < freeShippingApplicable &&
           this.props.cart.shippable ? (
             <div className={styles.cart}>
               <div className={cs(styles.message, styles.noMargin)}>

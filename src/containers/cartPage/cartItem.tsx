@@ -11,12 +11,13 @@ import WishlistButton from "components/WishlistButton";
 import globalStyles from "../../styles/global.scss";
 import iconStyles from "../../styles/iconFonts.scss";
 import BasketService from "services/basket";
-import { useStore } from "react-redux";
+import { useSelector, useStore } from "react-redux";
 import { updateModal, updateComponent } from "actions/modal";
 import ModalStyles from "components/Modal/styles.scss";
 import { ChildProductAttributes } from "typings/product";
 import { POPUP } from "constants/components";
 import bridalRing from "../../images/bridal/rings.svg";
+import { AppState } from "reducers/typings";
 
 const CartItems: React.FC<BasketItem> = memo(
   ({
@@ -27,7 +28,6 @@ const CartItems: React.FC<BasketItem> = memo(
     giftCardImage,
     quantity,
     product,
-    currency,
     saleStatus,
     GCValue,
     onMoveToWishlist,
@@ -35,11 +35,12 @@ const CartItems: React.FC<BasketItem> = memo(
   }) => {
     const [value, setValue] = useState(quantity | 0);
     const [qtyError, setQtyError] = useState(false);
+    const isLoggedIn = useSelector((state: AppState) => state.user.isLoggedIn);
+    const { currency } = useSelector((state: AppState) => state.basket);
     const { dispatch } = useStore();
-
     const {
       images,
-      collections,
+      collection,
       title,
       url,
       priceRecords,
@@ -92,7 +93,7 @@ const CartItems: React.FC<BasketItem> = memo(
           quantity: quantity,
           price: +price,
           Currency: currency,
-          "Collection name": collections,
+          "Collection name": collection,
           "Category name": categories[0]
         });
         dataLayer.push({
@@ -113,6 +114,34 @@ const CartItems: React.FC<BasketItem> = memo(
               ]
             }
           }
+        });
+        const categoryList = product.categories
+          ? product.categories.length > 0
+            ? product.categories[product.categories.length - 1].replace(
+                />/g,
+                "-"
+              )
+            : ""
+          : "";
+
+        let subcategoryname = categoryList ? categoryList.split(" > ") : "";
+        if (subcategoryname) {
+          subcategoryname = subcategoryname[subcategoryname.length - 1];
+        }
+        const size =
+          attributes.find(attribute => attribute.name == "Size")?.value || "";
+
+        dataLayer.push({
+          "Event Category": "GA Ecommerce",
+          "Event Action": "Cart Removal",
+          "Event Label": subcategoryname,
+          "Time Stamp": new Date().toISOString(),
+          "Cart Source": location.href,
+          "Product Category": categoryList,
+          "Login Status": isLoggedIn ? "logged in" : "logged out",
+          "Product Name": product.title,
+          "Product ID": product.id,
+          Variant: size
         });
       } catch (err) {
         console.log("cartPage GTM error!");
@@ -280,9 +309,7 @@ const CartItems: React.FC<BasketItem> = memo(
               <div className={cs(bootstrap.colLg6, bootstrap.col12)}>
                 <div className={cs(styles.section, styles.sectionInfo)}>
                   <div>
-                    <div className={styles.collectionName}>
-                      {collections[0]}
-                    </div>
+                    <div className={styles.collectionName}>{collection}</div>
                     <div className={styles.productName}>
                       <Link to={isGiftCard ? "#" : url}>{title}</Link>
                     </div>

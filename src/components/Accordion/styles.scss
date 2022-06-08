@@ -10,15 +10,36 @@
     content: "[+]";
     margin: 0 5px;
 }
+.arrowUp::before{
+    content:"\f123";
+    margin: 0 8px;
+  }
+.arrowDown::before{
+    content:"\f10c";
+    margin: 0 8px;   
+}
 
 .accordion-header {
     cursor: pointer;
 }
 
 .accordion-body {
-    display: none;
-
+    visibility: hidden;
+    height: 0px;
+    line-height: 20px;
     &.open {
-        display: block;
+        visibility: visible;
+        height: auto;
+        padding-bottom:15px;
     }
+    &.closed {
+        margin-top: 0px;
+        margin-bottom: 0px;
+        position: relative;
+        top:-10000px;
+    }
+}
+
+.size-guide-accordion{
+    position:relative;
 }
