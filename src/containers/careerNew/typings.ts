@@ -1,3 +1,12 @@
+export type Data = {
+  id: number;
+  title: string;
+  summary: string;
+  loc: string;
+  tags: string[];
+  dept: string;
+};
+
 export type JobListData = {
   facets: {
     depts: {
@@ -14,12 +23,5 @@ export type JobListData = {
       count: number;
     }[];
   };
-  data: {
-    id: number;
-    title: string;
-    summary: string;
-    loc: string;
-    tags: string[];
-    dept: string;
-  }[];
+  data: Data[];
 };

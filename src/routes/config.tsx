@@ -21,6 +21,7 @@ import initActionWishlist from "containers/wishlist/initAction";
 import initActionBridal from "containers/bridal/initAction";
 import initActionCheckout from "containers/checkout/initAction";
 import initActionCart from "containers/cartPage/initAction";
+import initActionCareer from "containers/careerNew/initAction";
 
 const paths: string[] = [];
 const routeMap: RouteMap = {};
@@ -75,7 +76,7 @@ const routes: RouteConfig = [
   {
     path: ROUTES.CAREER,
     component: loadable(() => import("containers/careerNew")),
-    action: async () => null,
+    action: initActionCareer,
     exact: false
   },
   {
