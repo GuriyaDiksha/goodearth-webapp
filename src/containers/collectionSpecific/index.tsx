@@ -231,7 +231,7 @@ class CollectionSpecific extends React.Component<
     // dataLayer.push({
     //   event: "CategoryLangingPageView",
     //   PageURL: this.props.location.pathname,
-    //   PageTitle: "virtual_categoryLangingPage_view"
+    //   Page_Title: "virtual_categoryLangingPage_view"
     // });
     this.setState({
       specificMaker: true

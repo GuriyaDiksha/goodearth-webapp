@@ -40,6 +40,7 @@ const NotificationForm: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [successMsg, setSuccessMsg] = useState("");
   const [enableSubmit, setEnableSubmit] = useState(false);
+  const [maker, setMaker] = useState(false);
   const history = useHistory();
   const location = history.location;
   const { countryData } = useSelector((state: AppState) => state.address);
@@ -55,6 +56,7 @@ const NotificationForm: React.FC = () => {
         });
       }
     }
+    setMaker(true);
   }, []);
 
   const changeCountryData = (countryData: Country[]) => {
@@ -120,7 +122,7 @@ const NotificationForm: React.FC = () => {
     HeaderService.saveHFH(dispatch, formData)
       .then(data => {
         setSuccessMsg(
-          "Thank you for signing up. You will be reminded once Good Earth's Home For the Holidays sale will be live!"
+          "Thank you for signing up. You will be reminded once Good Earth's offer will be live!"
         );
         resetForm();
         setEnableSubmit(false);
@@ -131,7 +133,7 @@ const NotificationForm: React.FC = () => {
           setSuccessMsg(errors[0]);
         } else {
           setSuccessMsg(
-            "You have already signed up for reminder notifications for the Home For Holidays Sale."
+            "You have already signed up for reminder notifications for our offer."
           );
         }
       })
@@ -177,8 +179,8 @@ const NotificationForm: React.FC = () => {
       )}
     >
       <h4>
-        Indulge in a season of magic and merriment with your favourites from
-        Good Earth, now at upto 50% OFF online. Sign up to get a reminder.
+        Discover Sweet Summer Lovin&apos; with seasonal favourites from Good
+        Earth, at 20% OFF online. Sign up to get a reminder.
       </h4>
       <Formsy
         onValidSubmit={handleSubmit}
@@ -320,11 +322,13 @@ const NotificationForm: React.FC = () => {
             })}
           >
             <div className={styles.careersImage}>
-              <MakerEnhance
-                user="goodearth"
-                index="1"
-                href={`${location.pathname}?${location.search}`}
-              />
+              {maker && (
+                <MakerEnhance
+                  user="goodearth"
+                  index="1"
+                  href={`${location.pathname}?${location.search}`}
+                />
+              )}
             </div>
           </div>
         }
