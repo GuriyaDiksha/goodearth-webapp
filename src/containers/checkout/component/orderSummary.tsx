@@ -25,7 +25,10 @@ const OrderSummary: React.FC<OrderProps> = props => {
   const { isSale, showDeliveryInstruction, deliveryText } = useSelector(
     (state: AppState) => state.info
   );
-  const { currency } = useSelector((state: AppState) => state.basket);
+  let { currency } = useSelector((state: AppState) => state.basket);
+  if (!currency) {
+    currency = "INR";
+  }
   const code = currencyCode[currency as Currency];
   const onArrowButtonClick = () => {
     setShowSummary(!showSummary);
