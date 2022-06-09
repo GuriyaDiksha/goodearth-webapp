@@ -194,7 +194,7 @@ class PDPContainer extends React.Component<Props, State> {
 
     let variants = "";
 
-    data.childAttributes.map((child: any) => {
+    data.childAttributes?.map((child: any) => {
       if (variants) {
         variants += "," + child.size;
       } else {
