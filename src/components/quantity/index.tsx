@@ -126,7 +126,11 @@ class Quantity extends React.Component<QuantityItem, State> {
             }
           )}
         >
-          {this.state.showError ? this.state.errorMsg : ""}
+          {this.state.showError
+            ? source == "bag"
+              ? ""
+              : this.state.errorMsg
+            : ""}
         </p>
       </>
     );
