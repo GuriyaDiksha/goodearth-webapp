@@ -15,7 +15,6 @@ import { useSelector, useStore } from "react-redux";
 import bridalRing from "../../images/bridal/rings.svg";
 import { AppState } from "reducers/typings";
 import quantityStyles from "../quantity/styles.scss";
-import basket from "services/basket";
 
 const LineItems: React.FC<BasketItem> = memo(
   ({
