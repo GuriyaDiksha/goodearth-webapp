@@ -708,7 +708,7 @@ export function plpProductClick(
         : "";
       category = category.replace(/>/g, "/");
     }
-    const attr = data.childAttributes?.map((child: any) => {
+    const attr = data?.childAttributes.map((child: any) => {
       return Object.assign(
         {},
         {
@@ -849,7 +849,7 @@ export function MoreFromCollectionProductClick(
       : "";
     category = category.replace(/>/g, "/");
   }
-  const attr = data.childAttributes?.map((child: any) => {
+  const attr = data?.childAttributes.map((child: any) => {
     return Object.assign(
       {},
       {

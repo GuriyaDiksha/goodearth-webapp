@@ -194,7 +194,7 @@ class PDPContainer extends React.Component<Props, State> {
 
     let variants = "";
 
-    data.childAttributes?.map((child: any) => {
+    data?.childAttributes?.map((child: any) => {
       if (variants) {
         variants += "," + child.size;
       } else {
@@ -209,8 +209,8 @@ class PDPContainer extends React.Component<Props, State> {
       "Login Status": this.props.isLoggedIn ? "logged in" : "logged out",
       "Time Stamp": new Date().toISOString(),
       "Page Url": location.href,
-      "Product Name": data.title,
-      "Product ID": data.id,
+      "Product Name": data?.title,
+      "Product ID": data?.id,
       Variant: variants,
       "Page Type": valid.getPageType(),
       "Page referrer url": CookieService.getCookie("prevUrl")
