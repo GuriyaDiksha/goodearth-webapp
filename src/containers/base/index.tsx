@@ -87,7 +87,7 @@ const BaseLayout: React.FC = () => {
         } else if (chatContainer) {
           chatContainer.style.display = "block";
         }
-      }, 3000);
+      }, 1000);
     }
 
     // const ele:any = document.getElementById("mobile-chat-container");
