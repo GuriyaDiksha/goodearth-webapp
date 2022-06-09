@@ -163,7 +163,8 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
         otpTimer: this.state.otpTimer - 1
       });
     } else {
-      clearInterval(this.timerId);
+      this.setState({ isResendOtpDisabled: false });
+      this.clearTimer();
     }
   }
 

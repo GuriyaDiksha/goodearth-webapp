@@ -1,23 +1,24 @@
 doctype html  
 html(lang='en')
     head  !{head.title.toString()}
+        script(src="https://www.googleoptimize.com/optimize.js?id=GTM-WX6K5P2")
         script.
           window.dataLayer = window.dataLayer || [];
           var isBot = /bot|googlebot|crawler|spider|robot|curl|crawling/i.test(window.navigator.userAgent);
           if(!isBot) {
-          (function (a, s, y, n, c, h, i, d, e) {
-            s.className += ' ' + y;
-            h.start = 1 * new Date;
-            h.end = i = function () {
-                s.className = s.className.replace(RegExp(' ?' + y), '')
-            };
-            (a[n] = a[n] || []).hide = h;
-            setTimeout(function () {
-                i();
-                h.end = null
-            }, c);
-            h.timeout = c;
-            })(window, document.documentElement, 'async-hide', 'dataLayer', 4000, {!{gtmdata}: true});
+          //- (function (a, s, y, n, c, h, i, d, e) {
+          //-   s.className += ' ' + y;
+          //-   h.start = 1 * new Date;
+          //-   h.end = i = function () {
+          //-       s.className = s.className.replace(RegExp(' ?' + y), '')
+          //-   };
+          //-   (a[n] = a[n] || []).hide = h;
+          //-   setTimeout(function () {
+          //-       i();
+          //-       h.end = null
+          //-   }, c);
+          //-   h.timeout = c;
+          //-   })(window, document.documentElement, 'async-hide', 'dataLayer', 4000, {!{gtmdata}: true});
 
           (function (w, d, s, l, i) {
             w[l] = w[l] || [];
@@ -119,79 +120,79 @@ html(lang='en')
               //- document.getElementById('fc_frame').style = {display:'block'}
           }
           
-            function initFreshChat() {
-              window.fcWidget.init({
-                token: "17403182-a90c-4083-85d3-079d49362ef1",
-                host: "https://wchat.freshchat.com",
-                config: {
-                  disableEvents: true,
-                  cssNames: {
-                    widget: 'fc_frame',
-                    open: 'fc_open',
-                    expanded: 'fc_expanded'
+          function initFreshChat() {
+            window.fcWidget.init({
+              token: "17403182-a90c-4083-85d3-079d49362ef1",
+              host: "https://wchat.freshchat.com",
+              config: {
+                disableEvents: true,
+                cssNames: {
+                  widget: 'fc_frame',
+                  open: 'fc_open',
+                  expanded: 'fc_expanded'
+                },
+                showFAQOnOpen: true,
+                hideFAQ: true,
+                agent: {
+                  hideName: false,
+                  hidePic: false,
+                  hideBio: false,
+                },
+                headerProperty: {
+                  //Hide the chat button on load
+                  hideChatButton: true,
+                },
+                content: {
+                  placeholders: {
+                    search_field: 'Search',
+                    reply_field: 'Reply',
+                    csat_reply: 'Add your comments here'
                   },
-                  showFAQOnOpen: true,
-                  hideFAQ: true,
-                  agent: {
-                    hideName: false,
-                    hidePic: false,
-                    hideBio: false,
+                  actions: {
+                    csat_yes: 'Yes',
+                    csat_no: 'No',
+                    push_notify_yes: 'Yes',
+                    push_notify_no: 'No',
+                    tab_faq: 'Solutions',
+                    tab_chat: 'Chat',
+                    csat_submit: 'Submit'
                   },
-                  headerProperty: {
-                    //Hide the chat button on load
-                    hideChatButton: true,
-                  },
-                  content: {
-                    placeholders: {
-                      search_field: 'Search',
-                      reply_field: 'Reply',
-                      csat_reply: 'Add your comments here'
-                    },
-                    actions: {
-                      csat_yes: 'Yes',
-                      csat_no: 'No',
-                      push_notify_yes: 'Yes',
-                      push_notify_no: 'No',
-                      tab_faq: 'Solutions',
-                      tab_chat: 'Chat',
-                      csat_submit: 'Submit'
-                    },
-                    headers: {
-                      chat: 'Welcome to Good Earth',
-                      chat_help: 'Reach out to us if you have any questions',
-                      faq: 'Solution Articles',
-                      faq_help: 'Browse our articles',
-                      faq_not_available: 'No Articles Found',
-                      faq_search_not_available: 'No articles were found for {{query}}',
-                      faq_useful: 'Was this article helpful?',
-                      faq_thankyou: 'Thank you for your feedback',
-                      faq_message_us: 'Message Us',
-                      push_notification: 'Don\'t miss out on any replies! Allow push notifications?',
-                      csat_question: 'Did we address your concerns??',
-                      csat_yes_question: 'How would you rate this interaction?',
-                      csat_no_question: 'How could we have helped better?',
-                      csat_thankyou: 'Thanks for the response',
-                      csat_rate_here: 'Submit your rating here',
-                      channel_response: {
-                        offline: 'We are currently away. Please leave us a message',
-                        online: {
-                          minutes: {
-                            one: "Currently replying in {!time!} minutes ",
-                            more: "Typically replies in {!time!} minutes"
-                          },
-                          hours: {
-                            one: "Currently replying in under an hour",
-                            more: "Typically replies in {!time!} hours",
-                          }
+                  headers: {
+                    chat: 'Welcome to Good Earth',
+                    chat_help: 'Reach out to us if you have any questions',
+                    faq: 'Solution Articles',
+                    faq_help: 'Browse our articles',
+                    faq_not_available: 'No Articles Found',
+                    faq_search_not_available: 'No articles were found for {{query}}',
+                    faq_useful: 'Was this article helpful?',
+                    faq_thankyou: 'Thank you for your feedback',
+                    faq_message_us: 'Message Us',
+                    push_notification: 'Don\'t miss out on any replies! Allow push notifications?',
+                    csat_question: 'Did we address your concerns??',
+                    csat_yes_question: 'How would you rate this interaction?',
+                    csat_no_question: 'How could we have helped better?',
+                    csat_thankyou: 'Thanks for the response',
+                    csat_rate_here: 'Submit your rating here',
+                    channel_response: {
+                      offline: 'We are currently away. Please leave us a message',
+                      online: {
+                        minutes: {
+                          one: "Currently replying in {!time!} minutes ",
+                          more: "Typically replies in {!time!} minutes"
+                        },
+                        hours: {
+                          one: "Currently replying in under an hour",
+                          more: "Typically replies in {!time!} hours",
                         }
                       }
                     }
                   }
                 }
-              });
-            }
-            //- default freshchat script
-            //- function initialize(i,t){var e;i.getElementById(t)?initFreshChat():setTimeout(function() {((e=i.createElement("script")).id=t,e.async=!0,e.src="https://wchat.freshchat.com/js/widget.js",e.onload=initFreshChat,i.head.appendChild(e))}, 100)}function initiateCall(){initialize(document,"freshchat-js-sdk")}window.addEventListener?window.addEventListener("load",initiateCall,!1):window.attachEvent("load",initiateCall,!1);
+              }
+            });
+          }
+          //- default freshchat script
+          //- function initialize(i,t){var e;i.getElementById(t)?initFreshChat():setTimeout(function() {((e=i.createElement("script")).id=t,e.async=!0,e.src="https://wchat.freshchat.com/js/widget.js",e.onload=initFreshChat,i.head.appendChild(e))}, 100)}function initiateCall(){initialize(document,"freshchat-js-sdk")}window.addEventListener?window.addEventListener("load",initiateCall,!1):window.attachEvent("load",initiateCall,!1);
 
             function initialize(i,t){var e;i.getElementById(t)?initFreshChat():setTimeout(function() {((e=i.createElement("script")).id=t,e.async=!0,e.src="https://wchat.freshchat.com/js/widget.js",e.onload=initFreshChat,i.head.appendChild(e))}, 100)}
 

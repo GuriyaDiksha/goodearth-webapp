@@ -20,7 +20,6 @@ import RegistryAddress from "containers/myAccount/components/Bridal/RegistryAddr
 import EditRegistryAddress from "../../../containers/myAccount/components/Bridal/EditRegistryAddress";
 import BridalContext from "containers/myAccount/components/Bridal/context";
 import myAccountStyles from "containers/myAccount/styles.scss";
-import { data } from "jquery";
 // import AddressDataList from "../../../../components/Address/AddressDataList.json";
 
 // import AddressMainComponent from '../../components/common/address/addressMain';

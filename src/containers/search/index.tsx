@@ -154,7 +154,7 @@ class Search extends React.Component<
     dataLayer.push({
       event: "SearchView",
       PageURL: this.props.location.pathname,
-      PageTitle: "virtual_search_view"
+      Page_Title: "virtual_search_view"
     });
     Moengage.track_event("Page viewed", {
       "Page URL": this.props.location.pathname,
@@ -490,7 +490,7 @@ class Search extends React.Component<
                         }
                       />
                     ) : (
-                      <GiftcardItem />
+                      <GiftcardItem isCorporateGifting={false} />
                     )}
                   </div>
                 );

@@ -20,6 +20,7 @@ import { genderOptions } from "constants/profile";
 import * as valid from "utils/validate";
 import { AppState } from "reducers/typings";
 import { Country } from "components/Formsy/CountryCode/typings";
+import * as util from "utils/validate";
 
 const mapStateToProps = (state: AppState) => {
   const isdList = state.address.countryData.map(list => {
@@ -87,6 +88,7 @@ class MyProfile extends React.Component<Props, State> {
       });
     this.props.fetchCountryData();
     this.changeCountryData(this.props.countryData);
+    util.pageViewGTM("MyAccount");
   }
 
   UNSAFE_componentWillReceiveProps(nextProps: Props) {
