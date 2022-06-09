@@ -36,7 +36,10 @@ const CartItems: React.FC<BasketItem> = memo(
     const [value, setValue] = useState(quantity | 0);
     const [qtyError, setQtyError] = useState(false);
     const isLoggedIn = useSelector((state: AppState) => state.user.isLoggedIn);
-    const { currency } = useSelector((state: AppState) => state.basket);
+    let { currency } = useSelector((state: AppState) => state.basket);
+    if (!currency) {
+      currency = "INR";
+    }
     const { dispatch } = useStore();
     const {
       images,
