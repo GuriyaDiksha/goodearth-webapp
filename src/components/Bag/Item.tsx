@@ -151,10 +151,10 @@ const LineItems: React.FC<BasketItem> = memo(
     return (
       <div
         className={cs(styles.cartItem, styles.gutter15, "cart-item", {
-          [styles.spacingError]:
-            saleStatus &&
-            childAttributes[0].showStockThreshold &&
-            childAttributes[0].stock > 0
+          // [styles.spacingError]:
+          //   saleStatus &&
+          //   childAttributes[0].showStockThreshold &&
+          //   childAttributes[0].stock > 0
         })}
         data-sku={product.childAttributes[0].sku}
       >
@@ -281,24 +281,6 @@ const LineItems: React.FC<BasketItem> = memo(
                     // errorMsg="Available qty in stock is"
                   />
                 </div>
-                {product.stockRecords ? (
-                  product.stockRecords[0].numInStock < 1 ? (
-                    <div
-                      className={cs(
-                        globalStyles.italic,
-                        globalStyles.marginT10,
-                        globalStyles.bold,
-                        globalStyles.errorMsg
-                      )}
-                    >
-                      Out of stock
-                    </div>
-                  ) : (
-                    ""
-                  )
-                ) : (
-                  ""
-                )}
               </div>
               {!bridalProfile && (
                 <div
@@ -322,6 +304,24 @@ const LineItems: React.FC<BasketItem> = memo(
                     inWishlist={inWishlist}
                   />
                 </div>
+              )}
+              {product.stockRecords ? (
+                product.stockRecords[0].numInStock < 1 ? (
+                  <div
+                    className={cs(
+                      globalStyles.errorMsg,
+                      styles.stockLeft,
+                      quantityStyles.errorMsg,
+                      quantityStyles.fontStyle
+                    )}
+                  >
+                    Out of stock
+                  </div>
+                ) : (
+                  ""
+                )
+              ) : (
+                ""
               )}
               <span
                 className={cs(
