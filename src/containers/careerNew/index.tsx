@@ -1,6 +1,6 @@
 import React from "react";
 import { Route, Switch } from "react-router";
-import Landing from "./components/landing";
+import Landing from "./components/Landing/landing";
 import Listing from "./components/listing";
 
 const Career: React.FC = () => {
