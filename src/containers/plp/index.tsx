@@ -148,14 +148,14 @@ class PLP extends React.Component<
     if (this.props.device.mobile) {
       const elem = document.getElementById("pincode-bar");
       elem && elem.classList.add(globalStyles.hiddenEye);
-      // const chatButtonElem = document.getElementById("chat-button");
-      // const scrollToTopButtonElem = document.getElementById("scrollToTop-btn");
-      // if (scrollToTopButtonElem) {
-      //   scrollToTopButtonElem.style.bottom = "65px";
-      // }
-      // if (chatButtonElem) {
-      //   chatButtonElem.style.bottom = "10px";
-      // }
+      const chatButtonElem = document.getElementById("mobile-chat-container");
+      const scrollToTopButtonElem = document.getElementById("scrollToTop-btn");
+      if (scrollToTopButtonElem) {
+        scrollToTopButtonElem.style.bottom = "65px";
+      }
+      if (chatButtonElem) {
+        chatButtonElem.style.bottom = "10px";
+      }
     }
     this.setState({
       plpMaker: true
@@ -344,21 +344,26 @@ class PLP extends React.Component<
     const cardIDs: any = [];
 
     cards.forEach(card => {
-      cardIDs.push(card.children[0].children[0].id);
+      cardIDs.push(
+        Array.from(card.children[0].children).filter(e => e.id != "")[0].id
+      );
     });
 
     const observer = new IntersectionObserver(
       entries => {
         let maxIndex = -Infinity;
         let element: any;
+        let productID: any, idx: any;
         entries.forEach((entry, index) => {
           if (
             entry.isIntersecting &&
             entry.target.getBoundingClientRect().bottom <
               window.innerHeight - 50
           ) {
-            const productID = entry.target.children[0].children[0].id;
-            const idx = cardIDs.findIndex((e: string) => e == productID);
+            productID = Array.from(entry.target.children[0].children).filter(
+              e => e.id != ""
+            )[0].id;
+            idx = cardIDs.findIndex((e: string) => e == productID);
             if (idx > maxIndex) {
               maxIndex = idx;
               element = entry.target;
@@ -366,8 +371,6 @@ class PLP extends React.Component<
           }
         });
         if (element) {
-          const productID = element.children[0].children[0].id;
-          const idx = cardIDs.findIndex((e: string) => e == productID);
           if (idx > -1 && !this.state.flag) {
             this.setState({ count: idx + 1 });
           }

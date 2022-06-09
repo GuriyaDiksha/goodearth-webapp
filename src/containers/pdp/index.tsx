@@ -193,14 +193,15 @@ class PDPContainer extends React.Component<Props, State> {
     }
 
     let variants = "";
-
-    data.childAttributes.map((child: any) => {
-      if (variants) {
-        variants += "," + child.size;
-      } else {
-        variants += child.size;
-      }
-    });
+    if (data) {
+      data.childAttributes.map((child: any) => {
+        if (variants) {
+          variants += "," + child.size;
+        } else {
+          variants += child.size;
+        }
+      });
+    }
     dataLayer.push({
       "Event Category": "GA Ecommerce",
       "Event Action": "PDP",
@@ -209,8 +210,8 @@ class PDPContainer extends React.Component<Props, State> {
       "Login Status": this.props.isLoggedIn ? "logged in" : "logged out",
       "Time Stamp": new Date().toISOString(),
       "Page Url": location.href,
-      "Product Name": data.title,
-      "Product ID": data.id,
+      "Product Name": data ? data.title : "",
+      "Product ID": data ? data.id : "",
       Variant: variants,
       "Page Type": valid.getPageType(),
       "Page referrer url": CookieService.getCookie("prevUrl")
@@ -228,19 +229,19 @@ class PDPContainer extends React.Component<Props, State> {
         currency
       );
     }
-    // if (this.props.device.mobile) {
-    //   this.getProductImagesData();
-    //   const elem = document.getElementById("pincode-bar");
-    //   elem && elem.classList.add(globalStyles.hiddenEye);
-    //   const chatButtonElem = document.getElementById("chat-button");
-    //   const scrollToTopButtonElem = document.getElementById("scrollToTop-btn");
-    //   if (scrollToTopButtonElem) {
-    //     scrollToTopButtonElem.style.bottom = "65px";
-    //   }
-    //   if (chatButtonElem) {
-    //     chatButtonElem.style.bottom = "10px";
-    //   }
-    // }
+    if (this.props.device.mobile) {
+      this.getProductImagesData();
+      const elem = document.getElementById("pincode-bar");
+      elem && elem.classList.add(globalStyles.hiddenEye);
+      const chatButtonElem = document.getElementById("chat-button");
+      const scrollToTopButtonElem = document.getElementById("scrollToTop-btn");
+      if (scrollToTopButtonElem) {
+        scrollToTopButtonElem.style.bottom = "65px";
+      }
+      if (chatButtonElem) {
+        chatButtonElem.style.bottom = "10px";
+      }
+    }
     this.setState(
       {
         mounted: true
@@ -269,14 +270,14 @@ class PDPContainer extends React.Component<Props, State> {
       elem &&
         elem.classList.contains(globalStyles.hiddenEye) &&
         elem.classList.remove(globalStyles.hiddenEye);
-      // const chatButtonElem = document.getElementById("chat-button");
-      // const scrollToTopButtonElem = document.getElementById("scrollToTop-btn");
-      // if (scrollToTopButtonElem) {
-      //   scrollToTopButtonElem.style.bottom = "65px";
-      // }
-      // if (chatButtonElem) {
-      //   chatButtonElem.style.bottom = "10px";
-      // }
+      const chatButtonElem = document.getElementById("mobile-chat-container");
+      const scrollToTopButtonElem = document.getElementById("scrollToTop-btn");
+      if (scrollToTopButtonElem) {
+        scrollToTopButtonElem.style.bottom = "65px";
+      }
+      if (chatButtonElem) {
+        chatButtonElem.style.bottom = "10px";
+      }
     }
     valid.moveChatUp();
   }
