@@ -172,7 +172,7 @@ class PDPContainer extends React.Component<Props, State> {
     dataLayer.push({
       event: "PdpView",
       PageURL: this.props.location.pathname,
-      PageTitle: "virtual_pdp_view"
+      Page_Title: "virtual_pdp_view"
     });
     Moengage.track_event("Page viewed", {
       "Page URL": this.props.location.pathname,
@@ -233,7 +233,7 @@ class PDPContainer extends React.Component<Props, State> {
       this.getProductImagesData();
       const elem = document.getElementById("pincode-bar");
       elem && elem.classList.add(globalStyles.hiddenEye);
-      const chatButtonElem = document.getElementById("mobile-chat-container");
+      const chatButtonElem = document.getElementById("chat-button");
       const scrollToTopButtonElem = document.getElementById("scrollToTop-btn");
       if (scrollToTopButtonElem) {
         scrollToTopButtonElem.style.bottom = "65px";

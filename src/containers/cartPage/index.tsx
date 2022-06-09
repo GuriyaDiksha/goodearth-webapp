@@ -140,7 +140,7 @@ class CartPage extends React.Component<Props, State> {
     dataLayer.push({
       event: "CartPageView",
       PageURL: this.props.location.pathname,
-      PageTitle: "virtual_cartPage_view"
+      Page_Title: "virtual_cartPage_view"
     });
     Moengage.track_event("Page viewed", {
       "Page URL": this.props.location.pathname,
