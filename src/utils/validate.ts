@@ -493,7 +493,7 @@ export function PDP(data: any, currency: Currency) {
     const quantitys: any = [];
     const colors: any = [];
 
-    data.childAttributes.map((child: any) => {
+    data.childAttributes?.map((child: any) => {
       skusid.push(child.sku);
       variantspdp.push(child.size);
       priceschild.push(+child.priceRecords[currency]);
@@ -546,6 +546,7 @@ export function PDP(data: any, currency: Currency) {
     dataLayer.push({
       event: "productDetailImpression",
       ecommerce: {
+        currencyCode: currency,
         detail: {
           actionField: { list: listPath },
           products
@@ -708,7 +709,7 @@ export function plpProductClick(
         : "";
       category = category.replace(/>/g, "/");
     }
-    const attr = data.childAttributes.map((child: any) => {
+    const attr = data?.childAttributes.map((child: any) => {
       return Object.assign(
         {},
         {
@@ -849,7 +850,7 @@ export function MoreFromCollectionProductClick(
       : "";
     category = category.replace(/>/g, "/");
   }
-  const attr = data.childAttributes.map((child: any) => {
+  const attr = data?.childAttributes.map((child: any) => {
     return Object.assign(
       {},
       {
