@@ -118,7 +118,7 @@ class PLP extends React.Component<
     dataLayer.push({
       event: "PlpView",
       PageURL: this.props.location.pathname,
-      PageTitle: "virtual_plp_view"
+      Page_Title: "virtual_plp_view"
     });
     // dataLayer.push(
     //   {
@@ -148,14 +148,14 @@ class PLP extends React.Component<
     if (this.props.device.mobile) {
       const elem = document.getElementById("pincode-bar");
       elem && elem.classList.add(globalStyles.hiddenEye);
-      const chatButtonElem = document.getElementById("mobile-chat-container");
-      const scrollToTopButtonElem = document.getElementById("scrollToTop-btn");
-      if (scrollToTopButtonElem) {
-        scrollToTopButtonElem.style.bottom = "65px";
-      }
-      if (chatButtonElem) {
-        chatButtonElem.style.bottom = "10px";
-      }
+      // const chatButtonElem = document.getElementById("chat-button");
+      // const scrollToTopButtonElem = document.getElementById("scrollToTop-btn");
+      // if (scrollToTopButtonElem) {
+      //   scrollToTopButtonElem.style.bottom = "65px";
+      // }
+      // if (chatButtonElem) {
+      //   chatButtonElem.style.bottom = "10px";
+      // }
     }
     this.setState({
       plpMaker: true

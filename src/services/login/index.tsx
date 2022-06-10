@@ -467,7 +467,7 @@ export default {
         unshippableProducts
       );
     }
-    dispatch(updateBasket(res));
+    // dispatch(updateBasket(res));
     return res;
   },
   reloadPage: (
