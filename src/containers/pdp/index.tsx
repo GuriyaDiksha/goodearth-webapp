@@ -226,6 +226,7 @@ class PDPContainer extends React.Component<Props, State> {
             this.setState({ showDock: false });
             this.bottomDockRef.current.style.maxHeight = 0 + "px";
           }
+          observer.disconnect();
         });
       },
       {
