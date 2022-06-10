@@ -118,7 +118,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
     dataLayer.push({
       event: "OrderConfirmationPageView",
       PageURL: location.pathname,
-      PageTitle: "virtual_orderConfirmationPage_view"
+      Page_Title: "virtual_orderConfirmationPage_view"
     });
     Moengage.track_event("Page viewed", {
       "Page URL": location.pathname,

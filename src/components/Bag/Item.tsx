@@ -23,15 +23,22 @@ const LineItems: React.FC<BasketItem> = memo(
     giftCardImage,
     quantity,
     product,
-    currency,
     saleStatus,
     toggleBag,
     GCValue
   }) => {
     const [value, setValue] = useState(quantity | 0);
     // const [qtyError, setQtyError] = useState(false);
-    const { tablet } = useSelector((state: AppState) => state.device);
-    const isLoggedIn = useSelector((state: AppState) => state.user.isLoggedIn);
+    let {
+      basket: { currency }
+    } = useSelector((state: AppState) => state);
+    const {
+      device: { tablet },
+      user: { isLoggedIn }
+    } = useSelector((state: AppState) => state);
+    if (!currency) {
+      currency = "INR";
+    }
     const { dispatch } = useStore();
     const handleChange = async (value: number) => {
       await BasketService.updateToBasket(dispatch, id, value)
