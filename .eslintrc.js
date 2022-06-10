@@ -29,10 +29,12 @@ module.exports = {
         }
       ]
     ,
+    "camelcase": "off",
+    "@typescript-eslint/camelcase": ["warn"],
     "react/jsx-uses-react": "error",
     "react/jsx-uses-vars": "error",
     "react/prop-types": 0,
-    "react/display-name": 0,
+    "react/display-name": 0
   },
   globals: {
     __DOMAIN__: false,
