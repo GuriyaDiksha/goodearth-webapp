@@ -459,41 +459,44 @@ class Search extends React.Component<
               id="product_images"
             >
               {data.map((item, i) => {
-                return (
-                  <div
-                    className={cs(
-                      bootstrap.colMd4,
-                      bootstrap.col6,
-                      styles.setWidth
-                    )}
-                    key={item.id}
-                    // onClick={e => {
-                    //   this.gtmPushSearchClick(e, item, i);
-                    // }}
-                  >
-                    {item.productClass != "GiftCard" ? (
-                      <PlpResultItem
-                        page="SearchResults"
-                        position={i}
-                        product={item}
-                        addedToWishlist={false}
-                        currency={currency}
-                        key={item.id}
-                        mobile={mobile}
-                        onClickQuickView={this.onClickQuickView}
-                        loader={this.state.flag}
-                        isCorporate={
-                          ["Pero", "Souk", "Eka"].indexOf(item.partner || "") >
-                          -1
-                            ? true
-                            : false
-                        }
-                      />
-                    ) : (
-                      <GiftcardItem isCorporateGifting={false} />
-                    )}
-                  </div>
-                );
+                if (item.priceRecords[currency] > 0) {
+                  return (
+                    <div
+                      className={cs(
+                        bootstrap.colMd4,
+                        bootstrap.col6,
+                        styles.setWidth
+                      )}
+                      key={item.id}
+                      // onClick={e => {
+                      //   this.gtmPushSearchClick(e, item, i);
+                      // }}
+                    >
+                      {item.productClass != "GiftCard" ? (
+                        <PlpResultItem
+                          page="SearchResults"
+                          position={i}
+                          product={item}
+                          addedToWishlist={false}
+                          currency={currency}
+                          key={item.id}
+                          mobile={mobile}
+                          onClickQuickView={this.onClickQuickView}
+                          loader={this.state.flag}
+                          isCorporate={
+                            ["Pero", "Souk", "Eka"].indexOf(
+                              item.partner || ""
+                            ) > -1
+                              ? true
+                              : false
+                          }
+                        />
+                      ) : (
+                        <GiftcardItem isCorporateGifting={false} />
+                      )}
+                    </div>
+                  );
+                }
               })}
             </div>
             <div
