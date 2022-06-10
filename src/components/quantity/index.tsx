@@ -111,27 +111,31 @@ class Quantity extends React.Component<QuantityItem, State> {
         >
           +
         </span>
-        <p
-          className={cs(
-            styles.errorMsg,
-            { [styles.left]: source == "pdp" },
-            {
-              // [styles.noBottom]: props.source == "cartpage"
-            },
-            {
-              [styles.fontStyle]: source == "bag" || source == "cartpage"
-            },
-            {
-              [styles.cartPageFixes]: source == "cartpage"
-            }
-          )}
-        >
-          {this.state.showError
-            ? source == "bag"
-              ? ""
-              : this.state.errorMsg
-            : ""}
-        </p>
+        {this.state.showError ? (
+          source == "bag" ? (
+            ""
+          ) : (
+            <p
+              className={cs(
+                styles.errorMsg,
+                { [styles.left]: source == "pdp" },
+                {
+                  // [styles.noBottom]: props.source == "cartpage"
+                },
+                {
+                  [styles.fontStyle]: source == "bag" || source == "cartpage"
+                },
+                {
+                  [styles.cartPageFixes]: source == "cartpage"
+                }
+              )}
+            >
+              {this.state.errorMsg}
+            </p>
+          )
+        ) : (
+          ""
+        )}
       </>
     );
   }
