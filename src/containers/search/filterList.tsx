@@ -532,7 +532,7 @@ class FilterList extends React.Component<Props, State> {
   updateDataFromAPI = (onload?: string) => {
     const { mobile, fetchSearchProducts, history, changeLoader } = this.props;
     if (!onload && mobile) {
-      return true;
+      // return true;
     }
     // this.setState({
     //     disableSelectedbox: true
