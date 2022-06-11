@@ -324,7 +324,10 @@ class Wishlist extends React.Component<Props, State> {
 
   UNSAFE_componentWillReceiveProps(nextProps: Props) {
     this.updateGrid(nextProps);
-    if (this.props.currency !== nextProps.currency) {
+    if (
+      this.props.currency !== nextProps.currency ||
+      this.props.isSale !== nextProps.isSale
+    ) {
       if (this.state.defaultOption.value == "discount") {
         this.setState(
           {
