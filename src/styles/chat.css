@@ -65,7 +65,7 @@
     -o-transform: translateY(0);
   }
   .mobile-chat-container {
-    bottom: 30px !important;
+    bottom: 60px !important;
     right: 10px !important;
   }
   .chat-container .chat-history {
@@ -261,9 +261,5 @@
     position: fixed;
     right: 12px;
     z-index: 9;
-  }
-  .mobile-chat-container {
-    bottom: 230px !important;
-    right: 10px !important;
   }
 }
