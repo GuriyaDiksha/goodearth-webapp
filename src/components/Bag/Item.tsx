@@ -29,11 +29,16 @@ const LineItems: React.FC<BasketItem> = memo(
   }) => {
     const [value, setValue] = useState(quantity | 0);
     // const [qtyError, setQtyError] = useState(false);
-    const {
-      device: { tablet },
+    let {
       basket: { currency }
     } = useSelector((state: AppState) => state);
-    const isLoggedIn = useSelector((state: AppState) => state.user.isLoggedIn);
+    const {
+      device: { tablet },
+      user: { isLoggedIn }
+    } = useSelector((state: AppState) => state);
+    if (!currency) {
+      currency = "INR";
+    }
     const { dispatch } = useStore();
     const handleChange = async (value: number) => {
       await BasketService.updateToBasket(dispatch, id, value)
