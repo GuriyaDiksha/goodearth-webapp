@@ -125,7 +125,7 @@
 
 .size-error {
     @include error-msg();
-    text-align: center;
+    // text-align: center;
     width: 100%;
     word-break: break-word;
     height: 15px;
