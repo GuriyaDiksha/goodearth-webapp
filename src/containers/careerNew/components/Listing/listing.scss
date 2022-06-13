@@ -1,0 +1,383 @@
+@import "../../../../styles/partials/variables";
+@import "../../../../styles/partials/mixins";
+
+.career_list_main_wrp{
+    margin-top: 80px;
+    background: #f9f8f5;
+
+    .career_list_wrp{
+        display: flex;
+    
+        .career_list_wrp_left{
+            width: 30%;
+            padding: 45px;
+            margin-right: 2px;
+            position: sticky;
+            position: -webkit-sticky;
+            top: 80px;
+            align-self: flex-start;
+            background: #FFFFFF 0% 0% no-repeat padding-box;
+            box-shadow: 0px 3px 6px #00000029;
+
+    
+            .filter_li{
+                margin-bottom: 40px;
+        
+                    .filter_label{
+                        text-align: center;
+                        font: normal normal normal 12px/20px Montserrat;
+                        letter-spacing: 0.36px;
+                        color: #191919;
+                        text-transform: uppercase;
+                        opacity: 1;
+        
+                        &:after {
+                            content: '';
+                            float: right;
+                            border: solid #191919;
+                            border-width: 0 1px 1px 0;
+                            width: 8px;
+                            height: 8px;
+                            transform: rotate(45deg);
+                            /* top: 0px; */
+                            position: absolute;
+                            right: 50px;
+                            /* left: 148px; */
+                            /* bottom: 0px; */
+                            margin-top: 8px;
+                          }
+                    }
+                    .filter_label_open {
+                        &:after {
+                          transform: rotate(225deg);
+                        }
+                    }
+        
+                    .filter_label_underline{
+                        border: 1px solid #f9f8f5;
+                    }
+            //     }
+            // }
+        
+            .filters_wrp{
+                padding:5px;
+        
+                // .ul{
+                //     .li{
+    
+                    [type="checkbox"]:checked + label,
+                     [type="checkbox"]:not(:checked) + label{
+                            position: relative;
+                            cursor: pointer;
+                            text-align: left;
+                            font: normal normal normal 12px/20px Montserrat;
+                            letter-spacing: 0.36px;
+                            color: #191919;
+                            opacity: 1;
+                            margin-left: 20px;
+                        }
+                       
+                        [type="checkbox"]:not(:checked) + label:before {
+                            content: '';
+                            position: absolute;
+                            right: 55px;
+                            width: 18px;
+                            height: 18px;
+                            background-color: $white;
+                            border: 1px #dbd4d4 solid;
+                        
+                          }
+    
+                          [type="checkbox"]:checked + label:before {
+                            content: '';
+                            position: absolute;
+                            background-color: #7EAAA9;
+                            right: 55px;
+                            width: 18px;
+                            height: 18px;
+                            border: 1px #dbd4d4 solid;
+                          }
+    
+                          input[type="checkbox"]:checked + label:after {
+                            content: '';
+                            display: block;
+                            width: 6px;
+                            height: 10px;
+                            border: solid $white;
+                            border-width: 0 2px 2px 0;
+                            position: absolute;
+                            top: 2px;
+                            right: 61px;
+                            font-size: 18px;
+                            line-height: 0.8;
+                            transition: all .1s;
+                          }
+                    
+                        .see_more_btn{
+                            text-align: center;
+                            font: normal normal normal 12px/20px Montserrat;
+                            letter-spacing: 0.36px;
+                            color: #191919;
+                            text-transform: uppercase;
+                            border-bottom: 1px solid #191919;
+                            padding-bottom: 1px;
+                            opacity: 1;
+                            background: #fff;
+                            border-top: none;
+                            border-left: none;
+                            border-right: none;
+                    
+                            &:hover{
+                                color: #3C7979;
+                                border-bottom: 1px solid #3C7979;
+                            }
+                        }
+        
+                    .filter_tag_wrp{  
+                        display: -webkit-inline-box;
+                        flex-wrap: wrap;
+        
+                        .filter_tag{
+                            background: #F2F2F2 0% 0% no-repeat padding-box;
+                            border-radius: 13px;
+                            opacity: 1;
+                            border-width: 1%;
+                            width: max-content;
+                            text-align: left;
+                            font: normal normal normal 9px/30px Montserrat;
+                            letter-spacing: 0.54px;
+                            color: #4C4C4C;
+                            opacity: 1;
+                            padding: 0px 14px;
+                            margin: 4px;
+        
+                            .close_btn{
+                                float: right;
+                                opacity: 1;
+                                padding-left: 15px;
+                                font: normal normal normal 14px/30px Montserrat;
+                            }
+        
+        
+                            
+                        }
+                    }
+                //     }
+                // }
+        
+            }
+            .filters_wrp_hide{
+                display: none;
+            }
+            }
+
+            .filter_mobile_button{
+                display: none;
+                @media screen and (max-width: 767px) {
+                    display: flex;
+                    position: fixed;
+                    margin-bottom: 0;
+                    bottom: 60px;
+                    left: 0;
+                    align-self: flex-start;
+                    z-index: 5;
+                    background-color: white;
+                    width: 100%;
+                    transition: bottom 0.3s;
+
+                    .cancel_btn{
+                        text-align: center;
+                        font: normal normal normal 14px/30px Montserrat;
+                        letter-spacing: 0.42px;
+                        color: #4C4C4C;
+                        text-transform: uppercase;
+                        opacity: 1;
+                        background: #FFFFFF00 0% 0% no-repeat padding-box;
+                        border: 1px solid #4C4C4C;
+                        width: 50%;
+                    }
+
+                    .apply_btn{
+                        background: var(--med-charcoal-4c4c4c) 0% 0% no-repeat padding-box;
+                        background: #4C4C4C 0% 0% no-repeat padding-box;
+                        opacity: 1;
+                        text-align: center;
+                        font: normal normal normal 14px/30px Montserrat;
+                        letter-spacing: 0.42px;
+                        color: #FFFFFF;
+                        text-transform: uppercase;
+                        width: 50%;
+                    }
+                }
+
+            }
+
+            @media screen and (max-width: 767px) {
+                display: none;
+            }
+        }
+
+        @media screen and (max-width: 767px) {
+           
+
+            .show{
+                display: block;
+                width: 100%;
+                padding: 35px;
+            }
+
+            .hide{
+                display: none;
+            }
+        }
+    
+        .career_list_wrp_right{
+            width: 70%;
+            padding: 60px;
+            background: $white;
+
+            @media screen and (max-width: 767px) {
+                width: auto;
+                padding: 30px;
+            }
+            
+            .opportunities_count{
+                text-align: left;
+                font: normal normal 300 12px/19px Montserrat;
+                letter-spacing: 0.36px;
+                color: #191919;
+                opacity: 1;
+            }
+    
+            .job_card_wrp{
+                background: #F9F8F5 0% 0% no-repeat padding-box;
+                opacity: 1;
+                padding: 30px;
+                margin: 10px 0px;
+                display: flex;
+
+                @media screen and (max-width: 767px) {
+                    display: block;
+                }
+
+                .job_card_heading{
+                    text-align: left;
+                    font: normal normal normal 20px/25px Lora;
+                    letter-spacing: 0.4px;
+                    color: #191919;
+                    opacity: 1;
+                }
+
+                .job_card_right_wrp{
+                    @media screen and (max-width: 767px) {
+                       display: flex;
+                       padding-top: 20px;
+                    }
+                   
+                    .job_card_share_heading{
+                        text-align: right;
+                        font: normal normal normal 12px/20px Montserrat;
+                        letter-spacing: 0.36px;
+                        color: #191919;
+                        text-transform: uppercase;
+                        opacity: 1;
+    
+                        @media screen and (max-width: 767px) {
+                            text-align: left;
+                        }
+                    }
+    
+                    .icon_wrp{
+                            padding-left: 10px;
+                    }
+        
+                }
+    
+                
+    
+                .job_card_location{
+                    text-align: left;
+                    font: normal normal normal 12px/20px Montserrat;
+                    letter-spacing: 0.36px;
+                    color: #191919;
+                    opacity: 1;
+                }
+    
+                .job_card_desc{
+                    text-align: left;
+                    font: normal normal 300 12px/19px Montserrat;
+                    letter-spacing: 0.36px;
+                    color: #191919;
+                    opacity: 1;
+                    margin: 20px 0px;
+                    width: 90%;
+                }
+    
+                .job_card_apply_btn{
+                    border: 1px solid var(--med-charcoal-4c4c4c);
+                    background: #FFFFFF00 0% 0% no-repeat padding-box;
+                    border: 1px solid #4C4C4C;
+                    opacity: 1;
+                    text-align: center;
+                    font: normal normal normal 14px/30px Montserrat;
+                    letter-spacing: 0.42px;
+                    color: #4C4C4C;
+                    text-transform: uppercase;
+                    opacity: 1;
+                    padding: 6px 12px;
+    
+                    &:hover{
+                        color: #3C7979;
+                        background: #FFFFFF00 0% 0% no-repeat padding-box;
+                        border: 1px solid #91B0B0;
+                        opacity: 1;
+                    }
+                }
+            }
+        }
+       
+    }
+
+    .filter_mobile{
+        display: none;
+        @media screen and (max-width: 767px) {
+            display: block;
+            position: fixed;
+            margin-bottom: 0;
+            bottom: 60px;
+            left: 0;
+            align-self: flex-start;
+            z-index: 5;
+            width: 100%;
+            transition: bottom 0.3s;
+            padding: 10px 25px;
+            width: 100%;
+            background: #FFFFFF 0% 0% no-repeat padding-box;
+            box-shadow: 0px -2px 6px #00000029;
+            opacity: 1;
+            text-align: left;
+            font: normal normal normal 12px/20px Montserrat;
+            letter-spacing: 0.36px;
+            color: #191919;
+            text-transform: uppercase;
+           
+
+            &:after {
+                content: '';
+                float: right;
+                border: solid #191919;
+                border-width: 0 1px 1px 0;
+                width: 10px;
+                height: 10px;
+                transform: rotate(225deg);
+                /* top: 0px; */
+                position: absolute;
+                right: 50px;
+                /* left: 148px; */
+                /* bottom: 0px; */
+                margin-top: 8px;
+              }
+        }
+
+    }
+}
