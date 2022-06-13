@@ -117,17 +117,15 @@ class PdpQuantity extends React.Component<QuantityItem, State> {
             +
           </span>
         </div>
-        <p
-          className={cs(
-            styles.errorMsg,
-            { [styles.left]: source == "pdp" },
-            {
-              // [styles.noBottom]: props.source == "cartpage"
-            }
-          )}
-        >
-          {this.state.showError ? this.state.errorMsg : ""}
-        </p>
+        {this.state.showError ? (
+          <p
+            className={cs(styles.errorMsg, { [styles.left]: source == "pdp" })}
+          >
+            {this.state.showError ? this.state.errorMsg : ""}
+          </p>
+        ) : (
+          ""
+        )}
       </>
     );
   }
