@@ -378,7 +378,7 @@ const NotifyMePopup: React.FC<Props> = ({
                   selectedSize.stock > 0 &&
                   selectedSize.showStockThreshold && (
                     <span className={styles.sizeError}>
-                      Only ${selectedSize.stock} Left!
+                      Only {selectedSize.stock} Left!
                     </span>
                   )}
               </div>
