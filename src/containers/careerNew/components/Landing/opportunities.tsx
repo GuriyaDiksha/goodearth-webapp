@@ -3,6 +3,7 @@ import landing from "./landing.scss";
 import { clone } from "lodash";
 import { Data } from "containers/careerNew/typings";
 import cardImage from "../../../../images/careers/CareersPostCard.png";
+import { useHistory } from "react-router";
 
 type Props = {
   data: Data[];
@@ -11,6 +12,7 @@ type Props = {
 
 const Opportunities: React.FC<Props> = ({ data, title }) => {
   const [list, setList] = useState<Data[]>([]);
+  const history = useHistory();
 
   useEffect(() => {
     setList([...data.slice(0, 8)]);
@@ -26,7 +28,11 @@ const Opportunities: React.FC<Props> = ({ data, title }) => {
       <h1 className={landing.heading}>{title}</h1>
       <div className={landing.dept_card_wrapper}>
         {list?.map((ele, i) => (
-          <div className={landing.dept_card} key={i}>
+          <div
+            className={landing.dept_card}
+            key={i}
+            onClick={() => history.push(`/careers/list/${ele.dept}`)}
+          >
             <div className={landing.dept_card_img_wrp}>
               <img
                 src={cardImage}

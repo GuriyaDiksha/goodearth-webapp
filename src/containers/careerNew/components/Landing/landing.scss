@@ -15,6 +15,7 @@
     flex-wrap: wrap;
     justify-content: center;
     padding: 20px 20px;
+    cursor: pointer;
 
     @media screen and (max-width: 767px) {
         padding: 0;
@@ -81,8 +82,8 @@
 
     .load_more_btn{
         text-align: center;
-        font: normal normal normal 12px/20px Montserrat;
-        letter-spacing: 0.36px;
+        font: normal normal normal 10px/16px Montserrat;
+        letter-spacing: 0.3px;
         color: #191919;
         text-transform: uppercase;
         border-bottom: 1px solid #191919;
@@ -91,7 +92,7 @@
         background: #fff;
         border-top: none;
         border-left: none;
-        border-right: none;
+        border-right: none;f
 
         &:hover{
             color: #9C7D50;
