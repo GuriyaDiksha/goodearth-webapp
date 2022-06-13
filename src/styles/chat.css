@@ -65,7 +65,7 @@
     -o-transform: translateY(0);
   }
   .mobile-chat-container {
-    bottom: 60px !important;
+    bottom: 160px !important;
     right: 10px !important;
   }
   .chat-container .chat-history {
