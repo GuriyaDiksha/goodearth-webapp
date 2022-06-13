@@ -112,7 +112,7 @@ class Quantity extends React.Component<QuantityItem, State> {
           +
         </span>
         {this.state.showError ? (
-          source == "bag" ? (
+          source == "bag" || source == "cartpage" ? (
             ""
           ) : (
             <p
