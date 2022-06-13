@@ -151,10 +151,13 @@ class CheckoutHeader extends React.Component<Props, { boId: string }> {
 
   componentDidMount() {
     // hide chat container
-    // const chatContainer = document.getElementById("chat-container");
-    // if (chatContainer) {
-    //   chatContainer.style.display = "none";
-    // }
+    setTimeout(() => {
+      const chatContainer = document.getElementById("mobile-chat-container");
+      if (chatContainer) {
+        chatContainer.style.display = "none";
+      }
+    }, 500);
+
     this.props.updateMeta(
       this.props.cookies,
       this.props.location.pathname,
@@ -165,7 +168,7 @@ class CheckoutHeader extends React.Component<Props, { boId: string }> {
 
   componentWillUnmount() {
     // show chat container
-    const chatContainer = document.getElementById("chat-container");
+    const chatContainer = document.getElementById("mobile-chat-container");
     if (chatContainer) {
       chatContainer.style.removeProperty("display");
     }
