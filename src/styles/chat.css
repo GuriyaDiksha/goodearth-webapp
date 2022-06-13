@@ -67,9 +67,7 @@
   .mobile-chat-container {
     bottom: 60px !important;
     right: 10px !important;
-    display: none;
   }
-
   div#lc_chat_layout.lc-collapsed {
     height: 0 !important;
     display: none !important;
