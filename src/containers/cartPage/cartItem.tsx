@@ -35,6 +35,7 @@ const CartItems: React.FC<BasketItem> = memo(
   }) => {
     const [value, setValue] = useState(quantity | 0);
     const [qtyError, setQtyError] = useState(false);
+    const [qtyErrorMsg, setQtyErrorMsg] = useState("");
     const isLoggedIn = useSelector((state: AppState) => state.user.isLoggedIn);
     let { currency } = useSelector((state: AppState) => state.basket);
     if (!currency) {
@@ -72,6 +73,9 @@ const CartItems: React.FC<BasketItem> = memo(
         })
         .catch(err => {
           setQtyError(true);
+          setQtyErrorMsg(
+            `Only ${value} piece${value > 1 ? "s" : ""} available in stock`
+          );
           throw err;
         });
     };
@@ -396,10 +400,27 @@ const CartItems: React.FC<BasketItem> = memo(
                         // errorMsg="Available qty in stock is"
                       />
                     </div>
+                    {qtyError && (
+                      <span
+                        className={cs(
+                          globalStyles.errorMsg,
+                          styles.stockLeft
+                          // {
+                          // [styles.stockLeftWithError]: qtyError
+                          // }
+                        )}
+                      >
+                        {qtyErrorMsg}
+                      </span>
+                    )}
                     <span
-                      className={cs(globalStyles.errorMsg, styles.stockLeft, {
-                        [styles.stockLeftWithError]: qtyError
-                      })}
+                      className={cs(
+                        globalStyles.errorMsg,
+                        styles.stockLeft
+                        // {
+                        //   [styles.stockLeftWithError]: qtyError
+                        // }
+                      )}
                     >
                       {saleStatus &&
                         childAttributes[0].showStockThreshold &&
