@@ -207,7 +207,6 @@ html(lang='en')
               if (window.innerHeight - window.pageYOffset < 0) {
                   const isMenuOpen = document.getElementById("chat-button") && document.getElementById("chat-button").classList.contains("chat-close");
                   const scrollToTopButton = document.getElementById("scrollToTop-btn");
-                  console.log(isMenuOpen,scrollToTopButton)
                   if (!isMenuOpen && scrollToTopButton && scrollToTopButton.classList.contains("scrollToTop-btn-hidden")) {
                       scrollToTopButton.classList.replace("scrollToTop-btn-hidden", "scrollToTop-btn");
                   }
