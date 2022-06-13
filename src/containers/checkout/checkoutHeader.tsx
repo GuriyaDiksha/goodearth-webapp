@@ -156,7 +156,7 @@ class CheckoutHeader extends React.Component<Props, { boId: string }> {
       if (chatContainer) {
         chatContainer.style.display = "none";
       }
-    }, 500);
+    }, 1000);
 
     this.props.updateMeta(
       this.props.cookies,
