@@ -233,8 +233,13 @@ class PDPContainer extends React.Component<Props, State> {
         rootMargin: "-110px 0px 0px 0px"
       }
     );
-    observer.observe(pdpCta);
-    observer.observe(footerStart);
+    if (pdpCta && this.bottomDockRef.current) {
+      observer.observe(pdpCta);
+    }
+
+    if (footerStart && this.bottomDockRef.current) {
+      observer.observe(footerStart);
+    }
   };
 
   componentDidMount() {
