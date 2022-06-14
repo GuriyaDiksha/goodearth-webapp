@@ -363,6 +363,7 @@ const NotifyMePopup: React.FC<Props> = ({
                   onChange={onSizeSelect}
                   sizeClassName={styles.sizeBox}
                   selected={selectedSize ? selectedSize.id : undefined}
+                  containerClassName={styles.sizesBox}
                 />
                 {sizeErrorMsg && (
                   <span className={styles.sizeError}>{sizeErrorMsg}</span>
@@ -372,13 +373,14 @@ const NotifyMePopup: React.FC<Props> = ({
                     Please select a size to proceed
                   </p>
                 )}
-                <span className={cs(styles.sizeError)}>
-                  {isSale &&
-                    selectedSize &&
-                    selectedSize.stock > 0 &&
-                    selectedSize.showStockThreshold &&
-                    `Only ${selectedSize.stock} Left!`}
-                </span>
+                {isSale &&
+                  selectedSize &&
+                  selectedSize.stock > 0 &&
+                  selectedSize.showStockThreshold && (
+                    <span className={styles.sizeError}>
+                      Only {selectedSize.stock} Left!
+                    </span>
+                  )}
               </div>
             </>
           ) : (

@@ -96,7 +96,7 @@ const BaseLayout: React.FC = () => {
     // } else{
     //   ele?.style.display = 'block';
     // }
-  }, [currency]);
+  }, []);
 
   useEffect(() => {
     const isHomePage = location.pathname == "/";
@@ -328,6 +328,19 @@ const BaseLayout: React.FC = () => {
       CookieService.setCookie("isBridal", "no");
     }
   }, [bridal]);
+
+  const chatContainer =
+    typeof document == "object"
+      ? document?.getElementById("mobile-chat-container")
+      : "";
+  if (chatContainer) {
+    if (currency == "INR" && chatContainer) {
+      chatContainer.style.display = "none";
+    } else if (chatContainer) {
+      chatContainer.style.display = "block";
+    }
+  }
+
   const isCheckout =
     pathname.indexOf("/checkout") > -1 ||
     pathname == "/cart" ||

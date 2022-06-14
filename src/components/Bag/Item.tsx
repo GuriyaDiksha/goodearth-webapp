@@ -40,12 +40,20 @@ const LineItems: React.FC<BasketItem> = memo(
       currency = "INR";
     }
     const { dispatch } = useStore();
+    const [showError, setShowError] = useState(false);
+    const [error, setError] = useState("");
     const handleChange = async (value: number) => {
       await BasketService.updateToBasket(dispatch, id, value)
         .then(res => {
           setValue(value);
         })
         .catch(err => {
+          setShowError(true);
+          setError(
+            `Only ${quantity} piece${
+              quantity > 1 ? "s" : ""
+            } available in stock`
+          );
           // setQtyError(true);
           throw err;
         });
@@ -328,26 +336,39 @@ const LineItems: React.FC<BasketItem> = memo(
               ) : (
                 ""
               )}
-              <span
-                className={cs(
-                  globalStyles.errorMsg,
-                  styles.stockLeft,
-                  quantityStyles.errorMsg,
-                  quantityStyles.fontStyle
+              {showError && (
+                <span
+                  className={cs(
+                    globalStyles.errorMsg,
+                    styles.stockLeft,
+                    quantityStyles.errorMsg,
+                    quantityStyles.fontStyle
+                  )}
+                >
+                  {error}
+                </span>
+              )}
+
+              {saleStatus &&
+                childAttributes[0].showStockThreshold &&
+                childAttributes[0].stock > 0 && (
+                  <span
+                    className={cs(
+                      globalStyles.errorMsg,
+                      styles.stockLeft,
+                      quantityStyles.errorMsg,
+                      quantityStyles.fontStyle
+                    )}
+                  >
+                    {`Only ${childAttributes[0].stock} Left!`}
+                    {childAttributes[0].showStockThreshold &&
+                      childAttributes[0].stock > 0 &&
+                      childAttributes[0].othersBasketCount > 0 &&
+                      ` *${childAttributes[0].othersBasketCount} other${
+                        childAttributes[0].othersBasketCount > 1 ? "s" : ""
+                      } have this item in their bag`}
+                  </span>
                 )}
-              >
-                {saleStatus &&
-                  childAttributes[0].showStockThreshold &&
-                  childAttributes[0].stock > 0 &&
-                  `Only ${childAttributes[0].stock} Left!`}
-                {saleStatus &&
-                  childAttributes[0].showStockThreshold &&
-                  childAttributes[0].stock > 0 &&
-                  childAttributes[0].othersBasketCount > 0 &&
-                  ` *${childAttributes[0].othersBasketCount} other${
-                    childAttributes[0].othersBasketCount > 1 ? "s" : ""
-                  } have this item in their bag`}
-              </span>
             </div>
           </div>
         </div>

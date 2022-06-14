@@ -229,19 +229,19 @@ class PDPContainer extends React.Component<Props, State> {
       );
     }
 
-    // if (this.props.device.mobile) {
-    //   this.getProductImagesData();
-    //   const elem = document.getElementById("pincode-bar");
-    //   elem && elem.classList.add(globalStyles.hiddenEye);
-    //   const chatButtonElem = document.getElementById("chat-button");
-    //   const scrollToTopButtonElem = document.getElementById("scrollToTop-btn");
-    //   if (scrollToTopButtonElem) {
-    //     scrollToTopButtonElem.style.bottom = "65px";
-    //   }
-    //   if (chatButtonElem) {
-    //     chatButtonElem.style.bottom = "10px";
-    //   }
-    // }
+    if (this.props.device.mobile) {
+      this.getProductImagesData();
+      const elem = document.getElementById("pincode-bar");
+      elem && elem.classList.add(globalStyles.hiddenEye);
+      const chatButtonElem = document.getElementById("chat-button");
+      const scrollToTopButtonElem = document.getElementById("scrollToTop-btn");
+      if (scrollToTopButtonElem) {
+        scrollToTopButtonElem.style.bottom = "65px";
+      }
+      if (chatButtonElem) {
+        chatButtonElem.style.bottom = "10px";
+      }
+    }
     this.setState(
       {
         mounted: true
@@ -270,14 +270,14 @@ class PDPContainer extends React.Component<Props, State> {
       elem &&
         elem.classList.contains(globalStyles.hiddenEye) &&
         elem.classList.remove(globalStyles.hiddenEye);
-      // const chatButtonElem = document.getElementById("chat-button");
-      // const scrollToTopButtonElem = document.getElementById("scrollToTop-btn");
-      // if (scrollToTopButtonElem) {
-      //   scrollToTopButtonElem.style.bottom = "65px";
-      // }
-      // if (chatButtonElem) {
-      //   chatButtonElem.style.bottom = "10px";
-      // }
+      const chatButtonElem = document.getElementById("chat-button");
+      const scrollToTopButtonElem = document.getElementById("scrollToTop-btn");
+      if (scrollToTopButtonElem) {
+        scrollToTopButtonElem.style.bottom = "65px";
+      }
+      if (chatButtonElem) {
+        chatButtonElem.style.bottom = "10px";
+      }
     }
     valid.moveChatUp();
   }
