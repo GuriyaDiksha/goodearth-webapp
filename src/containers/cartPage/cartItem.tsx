@@ -74,7 +74,9 @@ const CartItems: React.FC<BasketItem> = memo(
         .catch(err => {
           setQtyError(true);
           setQtyErrorMsg(
-            `Only ${value} piece${value > 1 ? "s" : ""} available in stock`
+            `Only ${quantity} piece${
+              quantity > 1 ? "s" : ""
+            } available in stock`
           );
           throw err;
         });
