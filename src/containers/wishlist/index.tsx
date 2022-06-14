@@ -171,6 +171,18 @@ class Wishlist extends React.Component<Props, State> {
     };
     this.impression = true;
     this.dragFlag = false;
+    AbsoluteGrid = createAbsoluteGrid(
+      SampleDisplay,
+      {
+        grid: this.props,
+        removeProduct: this.removeProduct,
+        mobile: this.props.mobile,
+        currency: this.props.currency,
+        isSale: this.props.isSale,
+        sortBy: this.state.currentFilter
+      },
+      false
+    );
   }
 
   getWishlist = (sortBy: string) => {
@@ -312,7 +324,10 @@ class Wishlist extends React.Component<Props, State> {
 
   UNSAFE_componentWillReceiveProps(nextProps: Props) {
     this.updateGrid(nextProps);
-    if (this.props.currency !== nextProps.currency) {
+    if (
+      this.props.currency !== nextProps.currency ||
+      this.props.isSale !== nextProps.isSale
+    ) {
       if (this.state.defaultOption.value == "discount") {
         this.setState(
           {
@@ -659,18 +674,6 @@ class Wishlist extends React.Component<Props, State> {
   };
 
   render() {
-    AbsoluteGrid = createAbsoluteGrid(
-      SampleDisplay,
-      {
-        grid: this.props,
-        removeProduct: this.removeProduct,
-        mobile: this.props.mobile,
-        currency: this.props.currency,
-        isSale: this.props.isSale,
-        sortBy: this.state.currentFilter
-      },
-      false
-    );
     const { mobile, isLoggedIn, sortedDiscount } = this.props;
     const options = [
       { value: "added_on", label: "Recently Added" },
