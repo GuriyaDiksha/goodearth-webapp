@@ -1,19 +1,21 @@
+import { Data } from "containers/careerNew/typings";
 import React from "react";
 import listing from "./listing.scss";
 
-const JobCard: React.FC = () => {
+type Props = {
+  job: Data;
+};
+
+const JobCard: React.FC<Props> = ({ job }) => {
+  const { title, loc, summary } = job;
+
   return (
     <div className={listing.job_card_wrp}>
       <div className={listing.job_card_left_wrp}>
-        <p className={listing.job_card_heading}>Marketing Manager</p>
+        <p className={listing.job_card_heading}>{title}</p>
 
-        <p className={listing.job_card_location}>Delhi, Remote Working</p>
-        <p className={listing.job_card_desc}>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-          minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-          aliquip ex ea commodo consequat.
-        </p>
+        <p className={listing.job_card_location}>{loc}</p>
+        <p className={listing.job_card_desc}>{summary}</p>
         <button className={listing.job_card_apply_btn}>
           read more & apply
         </button>
