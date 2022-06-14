@@ -50,7 +50,9 @@ const LineItems: React.FC<BasketItem> = memo(
         .catch(err => {
           setShowError(true);
           setError(
-            `Only ${value} piece${value > 1 ? "s" : ""} available in stock`
+            `Only ${quantity} piece${
+              quantity > 1 ? "s" : ""
+            } available in stock`
           );
           // setQtyError(true);
           throw err;
