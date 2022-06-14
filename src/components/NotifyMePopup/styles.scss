@@ -62,9 +62,11 @@
     font-size: 20px;
     line-height: 30px;
     font-family: $font-Montserrat;
+    text-align: right;
 }
 .qty-container {
     display: flex;
+    flex-direction: column;
     margin-bottom: 20px;
     justify-content: center;
     position: relative;
@@ -123,18 +125,34 @@
 
 .size-error {
     @include error-msg();
+    // text-align: center;
+    width: 100%;
+    word-break: break-word;
+    height: 15px;
+    line-height: 15px;
+    // left: 5px;
+    color: $cerise;
+    font-family: $font-Lora;
+    font-size: 14px;
+    letter-spacing: 0.28px;
+    font-style: normal;
+    font-weight: normal;
+    padding: 3px 0px 6px 0px;
+    margin: 10px 0px;
 }
+
 span{
     &.discountprice {
         color: $gold;
         font-family: $font-Lato;
-        font-size: 14px;
+        font-size: 20px;
       }
       &.strikeprice {
-        font-size: 14px;
+        font-size: 20px;
         text-decoration: line-through;
         color: #9F9F9F !important;
         font-family: $font-Lato;
+        display: block;
       }
 }
 
@@ -176,4 +194,8 @@ span{
         display: flex;
         flex-direction: column;
     }
+}
+
+.sizes-box{
+    margin-bottom: 10px;
 }

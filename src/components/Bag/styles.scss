@@ -108,13 +108,10 @@
         .section {
           margin-top: 15px;
           .stock-left {
-            position: relative;
-            text-align: center;
+            position: static !important;
+            text-align: left;
             top: 25px;
           }
-        }
-        &.spacingError{
-          padding: 40px 15px;
         }
         .product-image {
           width: 100%;
