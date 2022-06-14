@@ -69,9 +69,10 @@ function generateHeader(header) {
         l1.url && urls.push(domain + encodeStr(l1.url));
         l1.columns.forEach(column => {
             column.templates.forEach(template => {
-                template.templateData.componentData.link && urls.push(domain + encodeStr(template.templateData.componentData.link));
+                const newLink = template.templateData.componentData.link[0] == '/'? template.templateData.componentData.link:'/'+template.templateData.componentData.link;
+                template.templateData.componentData.link && urls.push(domain + encodeStr(newLink));
                 template.templateData.children.forEach(child => {
-                    child.componentData.link && urls.push(domain + encodeStr(child.componentData.link));
+                    child.componentData.link && urls.push(domain + encodeStr( child.componentData.link[0] == '/'? child.componentData.link:'/'+child.componentData.link));
                 });
             });
         });
@@ -82,9 +83,9 @@ function generateFooter(footer) {
     const urls = [];
     footer.data.footerList.forEach(column => {
         column.forEach(item => {
-            item.link && urls.push(domain + encodeStr(item.link));
+            item.link && urls.push(domain + encodeStr(item.link[0] == '/'? item.link:'/'+item.link));
             item.value.forEach(value => {
-                value.link && urls.push(domain + encodeStr(value.link));
+                value.link && urls.push(domain + encodeStr(value.link[0] == '/'? value.link:'/'+value.link));
             });
         });
     });
