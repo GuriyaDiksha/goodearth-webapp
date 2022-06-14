@@ -7,21 +7,29 @@ export type Data = {
   dept: string;
 };
 
+export type Depts = {
+  title: string;
+  desc: string;
+  count: number;
+};
+
+export type Locs = {
+  name: string;
+  count: number;
+};
+
+export type Tags = {
+  name: string;
+  count: number;
+};
+
+export type Facets = {
+  depts: Depts[];
+  locs: Locs[];
+  tags: Tags[];
+};
+
 export type JobListData = {
-  facets: {
-    depts: {
-      title: string;
-      desc: string;
-      count: number;
-    }[];
-    locs: {
-      name: string;
-      count: number;
-    }[];
-    tags: {
-      name: string;
-      count: number;
-    }[];
-  };
+  facets: Facets;
   data: Data[];
 };

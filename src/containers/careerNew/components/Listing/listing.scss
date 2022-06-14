@@ -30,6 +30,7 @@
                         color: #191919;
                         text-transform: uppercase;
                         opacity: 1;
+                        cursor: pointer;
         
                         &:after {
                             content: '';
@@ -75,12 +76,13 @@
                             color: #191919;
                             opacity: 1;
                             margin-left: 20px;
+                            width: 100%;
                         }
                        
                         [type="checkbox"]:not(:checked) + label:before {
                             content: '';
                             position: absolute;
-                            right: 55px;
+                            right: 333px;
                             width: 18px;
                             height: 18px;
                             background-color: $white;
@@ -92,7 +94,7 @@
                             content: '';
                             position: absolute;
                             background-color: #7EAAA9;
-                            right: 55px;
+                            right: 333px;
                             width: 18px;
                             height: 18px;
                             border: 1px #dbd4d4 solid;
@@ -107,7 +109,7 @@
                             border-width: 0 2px 2px 0;
                             position: absolute;
                             top: 2px;
-                            right: 61px;
+                            right: 339px;
                             font-size: 18px;
                             line-height: 0.8;
                             transition: all .1s;
@@ -115,7 +117,7 @@
                     
                         .see_more_btn{
                             text-align: center;
-                            font: normal normal normal 12px/20px Montserrat;
+                            font: normal normal normal 10px/16px Montserrat;
                             letter-spacing: 0.36px;
                             color: #191919;
                             text-transform: uppercase;
@@ -126,6 +128,7 @@
                             border-top: none;
                             border-left: none;
                             border-right: none;
+                            margin-top: 12px;
                     
                             &:hover{
                                 color: #3C7979;
@@ -156,6 +159,7 @@
                                 opacity: 1;
                                 padding-left: 15px;
                                 font: normal normal normal 14px/30px Montserrat;
+                                cursor: pointer;
                             }
         
         
@@ -169,6 +173,10 @@
             .filters_wrp_hide{
                 display: none;
             }
+            }
+
+            .filter_li_hide{
+                display: none;
             }
 
             .filter_mobile_button{
@@ -260,14 +268,18 @@
                     display: block;
                 }
 
-                .job_card_heading{
-                    text-align: left;
-                    font: normal normal normal 20px/25px Lora;
-                    letter-spacing: 0.4px;
-                    color: #191919;
-                    opacity: 1;
-                }
+                .job_card_left_wrp{
+                    width: 90%;
 
+                    .job_card_heading{
+                        text-align: left;
+                        font: normal normal normal 20px/25px Lora;
+                        letter-spacing: 0.4px;
+                        color: #191919;
+                        opacity: 1;
+                    }
+                }
+               
                 .job_card_right_wrp{
                     @media screen and (max-width: 767px) {
                        display: flex;
