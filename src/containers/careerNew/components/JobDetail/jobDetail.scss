@@ -1,0 +1,28 @@
+.job_detail_wrp{
+    margin-top: 80px;
+
+    .job_detail_form_wrp{
+        background: #fff;
+        position: absolute;
+        margin: 50px;
+        width:80%;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        margin: 100px auto;
+        box-shadow: 0px 3px 6px #00000029;
+        padding: 50px;
+
+        .job_detail_form{
+            display: flex;
+
+            .job_detail_form_left{
+                width: 70%;
+            }
+
+            .job_detail_form_right{
+                width: 30%;
+            }
+        }
+    }
+}

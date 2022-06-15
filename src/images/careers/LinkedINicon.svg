@@ -1,0 +1,15 @@
+<svg id="LinkedIN_icon" data-name="LinkedIN icon" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="16.838" height="16.838" viewBox="0 0 16.838 16.838">
+  <defs>
+    <clipPath id="clip-path">
+      <rect id="Rectangle_1354" data-name="Rectangle 1354" width="16.838" height="16.838" transform="translate(0 0)" fill="none"/>
+    </clipPath>
+  </defs>
+  <rect id="Rectangle_1352" data-name="Rectangle 1352" width="1.533" height="4.953" transform="translate(4.825 6.995)" fill="#3c3c3c"/>
+  <g id="Group_1381" data-name="Group 1381" transform="translate(0 0)">
+    <g id="Group_1380" data-name="Group 1380" clip-path="url(#clip-path)">
+      <path id="Path_360" data-name="Path 360" d="M5.584,6.346a.914.914,0,1,0-.907-.914.911.911,0,0,0,.907.914" fill="#3c3c3c"/>
+      <path id="Path_361" data-name="Path 361" d="M8.808,9.348c0-.7.32-1.111.934-1.111.564,0,.835.4.835,1.111v2.6H12.1V8.812a1.729,1.729,0,0,0-1.8-1.968,1.727,1.727,0,0,0-1.493.818V6.995H7.337v4.953H8.808Z" fill="#3c3c3c"/>
+      <path id="Rectangle_1353" data-name="Rectangle 1353" d="M.948,0H15.14a.948.948,0,0,1,.948.948V15.141a.947.947,0,0,1-.947.947H.948A.948.948,0,0,1,0,15.14V.948A.948.948,0,0,1,.948,0Z" transform="translate(0.375 0.375)" fill="none" stroke="#3c3c3c" stroke-width="0.75"/>
+    </g>
+  </g>
+</svg>

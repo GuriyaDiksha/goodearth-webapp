@@ -3,14 +3,26 @@ import listing from "./listing.scss";
 import cs from "classnames";
 import { clone } from "lodash";
 import { Depts, Facets, Locs, Tags } from "containers/careerNew/typings";
+import { useSelector } from "react-redux";
+import { AppState } from "reducers/typings";
 
 type Props = {
   facets: Facets;
   dept: string;
   setAppliedFilters: any;
+  isFilterOpen: boolean;
+  setIsFilterOpen: any;
+  reset: boolean;
 };
 
-const CareerFilter: React.FC<Props> = ({ facets, dept, setAppliedFilters }) => {
+const CareerFilter: React.FC<Props> = ({
+  facets,
+  dept,
+  setAppliedFilters,
+  isFilterOpen,
+  setIsFilterOpen,
+  reset
+}) => {
   const [depts, setDepts] = useState<Depts[]>([]);
   const [tags, setTags] = useState<Tags[]>([]);
   const [locs, setLocs] = useState<Locs[]>([]);
@@ -29,6 +41,8 @@ const CareerFilter: React.FC<Props> = ({ facets, dept, setAppliedFilters }) => {
   const [selectedFilters, setSelectedFilters] = useState<string[]>([]);
   const [selectedDept, setSelectedDept] = useState<string[]>([dept]);
 
+  const { mobile } = useSelector((state: AppState) => state.device);
+
   useEffect(() => {
     const { depts, tags, locs }: Facets = facets;
 
@@ -36,6 +50,17 @@ const CareerFilter: React.FC<Props> = ({ facets, dept, setAppliedFilters }) => {
     setTags(tags.slice(0, 4));
     setLocs(locs.slice(0, 4));
   }, [facets]);
+
+  const clearFilter = () => {
+    document.getElementById("tag_all").checked = false;
+    document.getElementById("loc_all").checked = false;
+    setSelectedFilters([]);
+    setSelectedDept([dept]);
+  };
+
+  useEffect(() => {
+    clearFilter();
+  }, [reset]);
 
   const selectFilter = (key: string, isShowMore: boolean) => {
     const { depts, tags, locs } = facets;
@@ -111,7 +136,6 @@ const CareerFilter: React.FC<Props> = ({ facets, dept, setAppliedFilters }) => {
       ? [...newDeptList]
       : [...newDeptList, dept];
 
-    console.log("check tag length========", newDeptList, deptsList);
     if (
       newList.filter(ele => tagsList.includes(ele)).length === tagsList.length
     ) {
@@ -135,12 +159,6 @@ const CareerFilter: React.FC<Props> = ({ facets, dept, setAppliedFilters }) => {
     }
 
     setAppliedFilters([...newList, ...newDeptList]);
-  };
-
-  const clearFilter = () => {
-    document.getElementById("tag_all").checked = false;
-    document.getElementById("loc_all").checked = false;
-    setSelectedFilters([]);
   };
 
   const removeFilter = (name: string) => {
@@ -167,7 +185,12 @@ const CareerFilter: React.FC<Props> = ({ facets, dept, setAppliedFilters }) => {
 
   return (
     <>
-      <div className={cs(listing.career_list_wrp_left)}>
+      <div
+        className={cs(
+          listing.career_list_wrp_left,
+          isFilterOpen ? listing.show : ""
+        )}
+      >
         <ul>
           <li
             className={cs(
@@ -179,13 +202,17 @@ const CareerFilter: React.FC<Props> = ({ facets, dept, setAppliedFilters }) => {
             )}
           >
             <span
-              className={listing.filter_label}
-              onClick={() =>
-                setHideFilter({
-                  ...hideFilter,
-                  appliedFilters: !hideFilter.appliedFilters
-                })
-              }
+              className={cs(
+                mobile ? listing.filter_applied : listing.filter_label
+              )}
+              onClick={() => {
+                mobile
+                  ? setIsFilterOpen(!isFilterOpen)
+                  : setHideFilter({
+                      ...hideFilter,
+                      appliedFilters: !hideFilter.appliedFilters
+                    });
+              }}
             >
               Filters Applied
             </span>
@@ -235,7 +262,7 @@ const CareerFilter: React.FC<Props> = ({ facets, dept, setAppliedFilters }) => {
             <div
               className={cs(
                 listing.filters_wrp,
-                hideFilter["dept"] ? listing.filters_wrp_hide : ""
+                hideFilter["depts"] ? listing.filters_wrp_hide : ""
               )}
             >
               <ul>
@@ -384,14 +411,34 @@ const CareerFilter: React.FC<Props> = ({ facets, dept, setAppliedFilters }) => {
             </div>
           </li>
         </ul>
-
-        <div className={listing.filter_mobile_button}>
-          <button className={listing.cancel_btn}>Cancel</button>
-          <button className={listing.apply_btn}>Apply filter</button>
-        </div>
       </div>
-      <div className={listing.filter_mobile}>
-        <span>FILTERS APPLIED</span>
+      <div
+        className={cs(
+          listing.filter_mobile,
+          isFilterOpen ? listing.filter_mobile_hide : ""
+        )}
+        onClick={() => setIsFilterOpen(!isFilterOpen)}
+      >
+        <span>FILTERS APPLIED ({selectedFilters.length})</span>
+      </div>
+      <div
+        className={cs(
+          listing.filter_mobile_button,
+          isFilterOpen ? "" : listing.filter_mobile_hide
+        )}
+      >
+        <button
+          className={listing.cancel_btn}
+          onClick={() => setIsFilterOpen(!isFilterOpen)}
+        >
+          Cancel
+        </button>
+        <button
+          className={listing.apply_btn}
+          onClick={() => setIsFilterOpen(!isFilterOpen)}
+        >
+          Apply filter
+        </button>
       </div>
     </>
   );

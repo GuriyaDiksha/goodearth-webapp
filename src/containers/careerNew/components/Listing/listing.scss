@@ -48,6 +48,29 @@
                             margin-top: 8px;
                           }
                     }
+                    .filter_applied{
+                        text-align: center;
+                        font: normal normal normal 12px/20px Montserrat;
+                        letter-spacing: 0.36px;
+                        color: #191919;
+                        text-transform: uppercase;
+                        opacity: 1;
+                        cursor: pointer;
+        
+                        &:after {
+
+                            @media screen and (max-width: 767px) {
+                                content: 'x';
+                                float: right;
+                                position: absolute;
+                                right: 30px;
+                                margin-top: 4px;
+                                font-size: 14px;
+                                transform: rotate(0deg);
+                                border: none;
+                            }
+                          }
+                    }
                     .filter_label_open {
                         &:after {
                           transform: rotate(225deg);
@@ -75,29 +98,28 @@
                             letter-spacing: 0.36px;
                             color: #191919;
                             opacity: 1;
-                            margin-left: 20px;
+                            padding-left: 30px;
                             width: 100%;
                         }
                        
                         [type="checkbox"]:not(:checked) + label:before {
                             content: '';
                             position: absolute;
-                            right: 333px;
                             width: 18px;
                             height: 18px;
                             background-color: $white;
                             border: 1px #dbd4d4 solid;
-                        
+                            left: 0;
                           }
     
                           [type="checkbox"]:checked + label:before {
                             content: '';
                             position: absolute;
                             background-color: #7EAAA9;
-                            right: 333px;
                             width: 18px;
                             height: 18px;
                             border: 1px #dbd4d4 solid;
+                            left: 0;
                           }
     
                           input[type="checkbox"]:checked + label:after {
@@ -109,7 +131,7 @@
                             border-width: 0 2px 2px 0;
                             position: absolute;
                             top: 2px;
-                            right: 339px;
+                            left: 6px;
                             font-size: 18px;
                             line-height: 0.8;
                             transition: all .1s;
@@ -179,47 +201,6 @@
                 display: none;
             }
 
-            .filter_mobile_button{
-                display: none;
-                @media screen and (max-width: 767px) {
-                    display: flex;
-                    position: fixed;
-                    margin-bottom: 0;
-                    bottom: 60px;
-                    left: 0;
-                    align-self: flex-start;
-                    z-index: 5;
-                    background-color: white;
-                    width: 100%;
-                    transition: bottom 0.3s;
-
-                    .cancel_btn{
-                        text-align: center;
-                        font: normal normal normal 14px/30px Montserrat;
-                        letter-spacing: 0.42px;
-                        color: #4C4C4C;
-                        text-transform: uppercase;
-                        opacity: 1;
-                        background: #FFFFFF00 0% 0% no-repeat padding-box;
-                        border: 1px solid #4C4C4C;
-                        width: 50%;
-                    }
-
-                    .apply_btn{
-                        background: var(--med-charcoal-4c4c4c) 0% 0% no-repeat padding-box;
-                        background: #4C4C4C 0% 0% no-repeat padding-box;
-                        opacity: 1;
-                        text-align: center;
-                        font: normal normal normal 14px/30px Montserrat;
-                        letter-spacing: 0.42px;
-                        color: #FFFFFF;
-                        text-transform: uppercase;
-                        width: 50%;
-                    }
-                }
-
-            }
-
             @media screen and (max-width: 767px) {
                 display: none;
             }
@@ -231,7 +212,7 @@
             .show{
                 display: block;
                 width: 100%;
-                padding: 35px;
+                padding: 24px;
             }
 
             .hide{
@@ -256,6 +237,60 @@
                 color: #191919;
                 opacity: 1;
             }
+
+            .no_resords_wrp{
+                text-align: center;
+                margin: 150px;
+
+                @media screen and (max-width: 767px) {
+                    margin: 20px;
+                }
+
+                .no_resords_heading{
+                    font: normal normal normal 20px/25px Lora;
+                    letter-spacing: 0.4px;
+                    color: #191919;
+                    opacity: 1;
+                    margin-bottom: 15px;
+                }
+
+                .no_resords_desc{
+                    opacity: 1;
+                    font: normal normal normal 12px/20px Montserrat;
+                    letter-spacing: 0.36px;
+                    color: #191919;
+                    width:35%;
+                    margin: auto;
+
+                    @media screen and (max-width: 767px) {
+                        width:50%;
+                    }
+                }
+
+                .no_resords_btn{
+                    background: var(--med-charcoal-4c4c4c) 0% 0% no-repeat padding-box;
+                    background: #4C4C4C 0% 0% no-repeat padding-box;
+                    opacity: 1;
+                    text-align: center;
+                    font: normal normal normal 14px/30px Montserrat;
+                    letter-spacing: 0.42px;
+                    color: #FFFFFF;
+                    text-transform: uppercase;
+                    width: 40%;
+                    padding: 6px 0px;
+                    margin-top: 30px;
+
+                    &:hover{
+                        color: #4C4C4C;
+                        background: #FFFFFF00 0% 0% no-repeat padding-box;
+                        border: 1px solid #4C4C4C;
+                    }
+
+                    @media screen and (max-width: 767px) {
+                        width:60%;
+                    }
+                }
+            }
     
             .job_card_wrp{
                 background: #F9F8F5 0% 0% no-repeat padding-box;
@@ -269,7 +304,11 @@
                 }
 
                 .job_card_left_wrp{
-                    width: 90%;
+                    width: 80%;
+
+                    @media screen and (max-width: 767px) {
+                        width: 100%;
+                     }
 
                     .job_card_heading{
                         text-align: left;
@@ -278,12 +317,54 @@
                         color: #191919;
                         opacity: 1;
                     }
+
+                    .job_card_location{
+                        text-align: left;
+                        font: normal normal normal 12px/20px Montserrat;
+                        letter-spacing: 0.36px;
+                        color: #191919;
+                        opacity: 1;
+                        padding: 20px 0px;
+                    }
+        
+                    .job_card_desc{
+                        text-align: left;
+                        font: normal normal 300 12px/19px Montserrat;
+                        letter-spacing: 0.36px;
+                        color: #191919;
+                        opacity: 1;
+                        width: 90%;
+                    }
+        
+                    .job_card_apply_btn{
+                        border: 1px solid var(--med-charcoal-4c4c4c);
+                        background: #FFFFFF00 0% 0% no-repeat padding-box;
+                        border: 1px solid #4C4C4C;
+                        opacity: 1;
+                        text-align: center;
+                        font: normal normal normal 14px/30px Montserrat;
+                        letter-spacing: 0.42px;
+                        color: #4C4C4C;
+                        text-transform: uppercase;
+                        opacity: 1;
+                        padding: 6px 12px;
+                        margin: 20px 0px;
+        
+                        &:hover{
+                            color: #3C7979;
+                            background: #FFFFFF00 0% 0% no-repeat padding-box;
+                            border: 1px solid #91B0B0;
+                            opacity: 1;
+                        }
+                    }
                 }
                
                 .job_card_right_wrp{
+                    width: 20%;
                     @media screen and (max-width: 767px) {
                        display: flex;
                        padding-top: 20px;
+                       width: 100%;
                     }
                    
                     .job_card_share_heading{
@@ -298,53 +379,16 @@
                             text-align: left;
                         }
                     }
-    
-                    .icon_wrp{
-                            padding-left: 10px;
+
+                    .icon_wrp_ul{
+                        float: right;
+                        .icon_wrp{
+                            padding-left: 15px;
+                        }
                     }
         
                 }
-    
-                
-    
-                .job_card_location{
-                    text-align: left;
-                    font: normal normal normal 12px/20px Montserrat;
-                    letter-spacing: 0.36px;
-                    color: #191919;
-                    opacity: 1;
-                }
-    
-                .job_card_desc{
-                    text-align: left;
-                    font: normal normal 300 12px/19px Montserrat;
-                    letter-spacing: 0.36px;
-                    color: #191919;
-                    opacity: 1;
-                    margin: 20px 0px;
-                    width: 90%;
-                }
-    
-                .job_card_apply_btn{
-                    border: 1px solid var(--med-charcoal-4c4c4c);
-                    background: #FFFFFF00 0% 0% no-repeat padding-box;
-                    border: 1px solid #4C4C4C;
-                    opacity: 1;
-                    text-align: center;
-                    font: normal normal normal 14px/30px Montserrat;
-                    letter-spacing: 0.42px;
-                    color: #4C4C4C;
-                    text-transform: uppercase;
-                    opacity: 1;
-                    padding: 6px 12px;
-    
-                    &:hover{
-                        color: #3C7979;
-                        background: #FFFFFF00 0% 0% no-repeat padding-box;
-                        border: 1px solid #91B0B0;
-                        opacity: 1;
-                    }
-                }
+               
             }
         }
        
@@ -388,8 +432,55 @@
                 /* left: 148px; */
                 /* bottom: 0px; */
                 margin-top: 8px;
+                cursor: pointer;
               }
         }
+    }
 
+    .filter_mobile_button{
+        display: none;
+        @media screen and (max-width: 767px) {
+            display:flex;
+            position: fixed;
+            margin-bottom: 0;
+            bottom: 60px;
+            left: 0;
+            align-self: flex-start;
+            z-index: 5;
+            background-color: white;
+            width: 100%;
+            transition: bottom 0.3s;
+
+            .cancel_btn{
+                text-align: center;
+                font: normal normal normal 14px/30px Montserrat;
+                letter-spacing: 0.42px;
+                color: #4C4C4C;
+                text-transform: uppercase;
+                opacity: 1;
+                background: #FFFFFF00 0% 0% no-repeat padding-box;
+                border: 1px solid #4C4C4C;
+                width: 50%;
+                padding: 10px 0px;
+            }
+
+            .apply_btn{
+                background: var(--med-charcoal-4c4c4c) 0% 0% no-repeat padding-box;
+                background: #4C4C4C 0% 0% no-repeat padding-box;
+                opacity: 1;
+                text-align: center;
+                font: normal normal normal 14px/30px Montserrat;
+                letter-spacing: 0.42px;
+                color: #FFFFFF;
+                text-transform: uppercase;
+                width: 50%;
+                padding: 10px 0px;
+            }
+        }
+
+    }
+    
+    .filter_mobile_hide{
+        display: none;
     }
 }
