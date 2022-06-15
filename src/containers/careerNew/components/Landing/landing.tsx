@@ -27,8 +27,9 @@ const Landing: React.FC = () => {
   }, [currency, isLoggedIn]);
 
   const applyNow = () => {
-    window.location.replace(
-      "https://docs.google.com/forms/d/e/1FAIpQLScO4bArbyl_YeXZqYZtWSrKfFyOp9UVAejgFvbf5UR60k8nOQ/viewform?_ga=2.91865114.1029825071.1647345387-2106724779.1644984711"
+    window.open(
+      "https://docs.google.com/forms/d/e/1FAIpQLScO4bArbyl_YeXZqYZtWSrKfFyOp9UVAejgFvbf5UR60k8nOQ/viewform?_ga=2.91865114.1029825071.1647345387-2106724779.1644984711",
+      "_blank"
     );
   };
 

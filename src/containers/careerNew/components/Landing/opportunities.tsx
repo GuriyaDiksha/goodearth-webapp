@@ -4,6 +4,7 @@ import { clone } from "lodash";
 import { Data } from "containers/careerNew/typings";
 import cardImage from "../../../../images/careers/CareersPostCard.png";
 import { useHistory } from "react-router";
+import Loader from "components/Loader";
 
 type Props = {
   data: Data[];
@@ -12,10 +13,12 @@ type Props = {
 
 const Opportunities: React.FC<Props> = ({ data, title }) => {
   const [list, setList] = useState<Data[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const history = useHistory();
 
   useEffect(() => {
     setList([...data.slice(0, 8)]);
+    setIsLoading(false);
   }, [data]);
 
   const loadMore = () => {
@@ -26,6 +29,7 @@ const Opportunities: React.FC<Props> = ({ data, title }) => {
   return (
     <>
       <h1 className={landing.heading}>{title}</h1>
+      {isLoading && <Loader />}
       <div className={landing.dept_card_wrapper}>
         {list?.map((ele, i) => (
           <div
@@ -49,7 +53,7 @@ const Opportunities: React.FC<Props> = ({ data, title }) => {
         ))}
       </div>
 
-      {data?.length !== list?.length ? (
+      {data?.length !== list?.length && !isLoading ? (
         <div className={landing.load_more_btn_wrp}>
           <button className={landing.load_more_btn} onClick={() => loadMore()}>
             Load More
