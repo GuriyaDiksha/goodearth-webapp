@@ -6,19 +6,19 @@ html(lang='en')
           window.dataLayer = window.dataLayer || [];
           var isBot = /bot|googlebot|crawler|spider|robot|curl|crawling/i.test(window.navigator.userAgent);
           if(!isBot) {
-          //- (function (a, s, y, n, c, h, i, d, e) {
-          //-   s.className += ' ' + y;
-          //-   h.start = 1 * new Date;
-          //-   h.end = i = function () {
-          //-       s.className = s.className.replace(RegExp(' ?' + y), '')
-          //-   };
-          //-   (a[n] = a[n] || []).hide = h;
-          //-   setTimeout(function () {
-          //-       i();
-          //-       h.end = null
-          //-   }, c);
-          //-   h.timeout = c;
-          //-   })(window, document.documentElement, 'async-hide', 'dataLayer', 4000, {!{gtmdata}: true});
+          (function (a, s, y, n, c, h, i, d, e) {
+            s.className += ' ' + y;
+            h.start = 1 * new Date;
+            h.end = i = function () {
+                s.className = s.className.replace(RegExp(' ?' + y), '')
+            };
+            (a[n] = a[n] || []).hide = h;
+            setTimeout(function () {
+                i();
+                h.end = null
+            }, c);
+            h.timeout = c;
+            })(window, document.documentElement, 'async-hide', 'dataLayer', 4000, {!{gtmdata}: true});
 
           (function (w, d, s, l, i) {
             w[l] = w[l] || [];
