@@ -713,7 +713,7 @@ const ProductDetails: React.FC<Props> = ({
   const withBadge = images && images.length && images[0].badgeImagePdp;
   return (
     <Fragment>
-      {!mobile && !isQuickview && showDock && (
+      {/* {!mobile && !isQuickview && showDock && (
         <DockedPanel
           data={data}
           buttoncall={Pdpbutton}
@@ -721,7 +721,7 @@ const ProductDetails: React.FC<Props> = ({
           price={price}
           discountPrice={discountPrices}
         />
-      )}
+      )} */}
       <div className={bootstrap.row}>
         <div
           className={cs(
