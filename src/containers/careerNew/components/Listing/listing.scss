@@ -40,12 +40,10 @@
                             width: 8px;
                             height: 8px;
                             transform: rotate(45deg);
-                            /* top: 0px; */
                             position: absolute;
                             right: 50px;
-                            /* left: 148px; */
-                            /* bottom: 0px; */
                             margin-top: 8px;
+                            transition: all 0.3s ease-out;
                           }
                     }
                     .filter_applied{
@@ -72,8 +70,25 @@
                           }
                     }
                     .filter_label_open {
+                        text-align: center;
+                        font: normal normal normal 12px/20px Montserrat;
+                        letter-spacing: 0.36px;
+                        color: #191919;
+                        text-transform: uppercase;
+                        opacity: 1;
+                        cursor: pointer;
                         &:after {
-                          transform: rotate(225deg);
+                          content: '';
+                          float: right;
+                          border: solid #191919;
+                          border-width: 0 1px 1px 0;
+                          width: 8px;
+                          height: 8px;
+                          transform: rotate(-135deg);
+                          position: absolute;
+                          right: 50px;
+                          margin-top: 8px;
+                          transition: all 0.3s ease-out;
                         }
                     }
         
@@ -202,7 +217,10 @@
             }
 
             @media screen and (max-width: 767px) {
-                display: none;
+                position: fixed;
+                transform: translateY(100%);
+                transition: all 0.3s ease-in;
+                /* top: 0; */
             }
         }
 
@@ -213,6 +231,9 @@
                 display: block;
                 width: 100%;
                 padding: 24px;
+                transition: all 0.3s ease-in;
+                opacity: 1;
+                transform: translateY(0);
             }
 
             .hide{
@@ -465,7 +486,6 @@
             }
 
             .apply_btn{
-                background: var(--med-charcoal-4c4c4c) 0% 0% no-repeat padding-box;
                 background: #4C4C4C 0% 0% no-repeat padding-box;
                 opacity: 1;
                 text-align: center;
@@ -475,6 +495,13 @@
                 text-transform: uppercase;
                 width: 50%;
                 padding: 10px 0px;
+                border: 1px solid #4C4C4C;
+
+                &:hover{
+                    background: #FFFFFF00 0% 0% no-repeat padding-box;
+                    color: #4C4C4C;
+                    border: 1px solid #4C4C4C;
+                }
             }
         }
 

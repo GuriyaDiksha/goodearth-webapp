@@ -16,7 +16,6 @@ type Props = {
 const JobCard: React.FC<Props> = ({ job }) => {
   const { title, loc, summary, id } = job;
   const { dispatch } = useStore();
-  const text = `${window.location.origin}/careers/${id}`;
   const history = useHistory();
 
   return (
@@ -42,7 +41,9 @@ const JobCard: React.FC<Props> = ({ job }) => {
               rel="noopener noreferrer"
               className={listing.icon_wrp}
               onClick={() => {
-                navigator?.clipboard?.writeText(text);
+                navigator?.clipboard?.writeText(
+                  `${window.location.origin}/careers/${id}`
+                );
                 valid.showGrowlMessage(
                   dispatch,
                   "The link of this product has been copied to clipboard!"

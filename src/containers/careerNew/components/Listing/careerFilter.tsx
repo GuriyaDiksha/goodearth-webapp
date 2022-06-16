@@ -52,10 +52,12 @@ const CareerFilter: React.FC<Props> = ({
   }, [facets]);
 
   const clearFilter = () => {
-    document.getElementById("tag_all").checked = false;
-    document.getElementById("loc_all").checked = false;
+    (document.getElementById("tag_all") as HTMLInputElement).checked = false;
+
+    (document.getElementById("loc_all") as HTMLInputElement).checked = false;
     setSelectedFilters([]);
     setSelectedDept([dept]);
+    setAppliedFilters([dept]);
   };
 
   useEffect(() => {
@@ -96,18 +98,20 @@ const CareerFilter: React.FC<Props> = ({
       if (e.target.name === "View All") {
         const newArr = facets[key].map((e: any) => e?.name || e?.title);
         if (key === "depts") {
-          newDeptList = [...newDeptList, ...newArr].filter(e => e !== dept);
+          newDeptList = [
+            ...new Set([...newDeptList, ...newArr].filter(e => e !== dept))
+          ];
           setSelectedDept(newDeptList);
         } else {
-          newList = [...newList, ...newArr];
+          newList = [...new Set([...newList, ...newArr])];
           setSelectedFilters(newList);
         }
       } else {
         if (key === "depts") {
-          newDeptList = [...newDeptList, e.target.name];
+          newDeptList = [...new Set([...newDeptList, e.target.name])];
           setSelectedDept(newDeptList);
         } else {
-          newList = [...newList, e.target.name];
+          newList = [...new Set([...newList, e.target.name])];
           setSelectedFilters(newList);
         }
       }
@@ -115,18 +119,22 @@ const CareerFilter: React.FC<Props> = ({
       if (e.target.name === "View All") {
         const newArr = facets[key].map((e: any) => e?.name || e.title);
         if (key === "depts") {
-          newDeptList = newDeptList.filter(el => !newArr.includes(el));
+          newDeptList = [
+            ...new Set(newDeptList.filter(el => !newArr.includes(el)))
+          ];
           setSelectedDept(newDeptList);
         } else {
-          newList = newList.filter(el => !newArr.includes(el));
+          newList = [...new Set(newList.filter(el => !newArr.includes(el)))];
           setSelectedFilters(newList);
         }
       } else {
         if (key === "depts") {
-          newDeptList = newDeptList.filter(ele => ele !== e.target?.name);
+          newDeptList = [
+            ...new Set(newDeptList.filter(ele => ele !== e.target?.name))
+          ];
           setSelectedDept(newDeptList);
         } else {
-          newList = newList.filter(ele => ele !== e.target?.name);
+          newList = [...new Set(newList.filter(ele => ele !== e.target?.name))];
           setSelectedFilters(newList);
         }
       }
@@ -139,23 +147,23 @@ const CareerFilter: React.FC<Props> = ({
     if (
       newList.filter(ele => tagsList.includes(ele)).length === tagsList.length
     ) {
-      document.getElementById("tag_all").checked = true;
+      (document.getElementById("tag_all") as HTMLInputElement).checked = true;
     } else {
-      document.getElementById("tag_all").checked = false;
+      (document.getElementById("tag_all") as HTMLInputElement).checked = false;
     }
 
     if (
       newList.filter(ele => locList.includes(ele)).length === locList.length
     ) {
-      document.getElementById("loc_all").checked = true;
+      (document.getElementById("loc_all") as HTMLInputElement).checked = true;
     } else {
-      document.getElementById("loc_all").checked = false;
+      (document.getElementById("loc_all") as HTMLInputElement).checked = false;
     }
 
     if (newDeptList.length === deptsList.length) {
-      document.getElementById("dept_all").checked = true;
+      (document.getElementById("dept_all") as HTMLInputElement).checked = true;
     } else {
-      document.getElementById("dept_all").checked = false;
+      (document.getElementById("dept_all") as HTMLInputElement).checked = false;
     }
 
     setAppliedFilters([...newList, ...newDeptList]);
@@ -170,17 +178,21 @@ const CareerFilter: React.FC<Props> = ({
       newList.filter(ele => ele !== name).filter(ele => tagsList.includes(ele))
         .length
     ) {
-      document.getElementById("tag_all").checked = false;
+      (document.getElementById("tag_all") as HTMLInputElement).checked = false;
     }
 
     if (
       newList.filter(ele => ele !== name).filter(ele => locList.includes(ele))
         .length
     ) {
-      document.getElementById("loc_all").checked = false;
+      (document.getElementById("loc_all") as HTMLInputElement).checked = false;
     }
 
     setSelectedFilters(newList.filter(ele => ele !== name));
+    setAppliedFilters([
+      ...newList.filter(ele => ele !== name),
+      ...selectedDept
+    ]);
   };
 
   return (
@@ -203,7 +215,11 @@ const CareerFilter: React.FC<Props> = ({
           >
             <span
               className={cs(
-                mobile ? listing.filter_applied : listing.filter_label
+                mobile
+                  ? listing.filter_applied
+                  : hideFilter["appliedFilters"]
+                  ? listing.filter_label
+                  : listing.filter_label_open
               )}
               onClick={() => {
                 mobile
@@ -251,7 +267,11 @@ const CareerFilter: React.FC<Props> = ({
 
           <li className={listing.filter_li}>
             <span
-              className={listing.filter_label}
+              className={cs(
+                hideFilter["depts"]
+                  ? listing.filter_label
+                  : listing.filter_label_open
+              )}
               onClick={() =>
                 setHideFilter({ ...hideFilter, depts: !hideFilter["depts"] })
               }
@@ -307,7 +327,11 @@ const CareerFilter: React.FC<Props> = ({
 
           <li className={listing.filter_li}>
             <span
-              className={listing.filter_label}
+              className={cs(
+                hideFilter["tags"]
+                  ? listing.filter_label
+                  : listing.filter_label_open
+              )}
               onClick={() =>
                 setHideFilter({ ...hideFilter, tags: !hideFilter["tags"] })
               }
@@ -361,7 +385,11 @@ const CareerFilter: React.FC<Props> = ({
 
           <li className={listing.filter_li}>
             <span
-              className={listing.filter_label}
+              className={cs(
+                hideFilter["locs"]
+                  ? listing.filter_label
+                  : listing.filter_label_open
+              )}
               onClick={() =>
                 setHideFilter({ ...hideFilter, locs: !hideFilter["locs"] })
               }
