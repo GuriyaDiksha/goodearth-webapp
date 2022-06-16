@@ -31,7 +31,8 @@ const DockedPanel: React.FC<Props> = ({
     <div
       className={cs(
         { [styles.secondaryHeaderContainerTimer]: showTimer },
-        bootstrap.row
+        bootstrap.row,
+        styles.dockContainer
       )}
     >
       <div className={cs(bootstrap.col8, globalStyles.flex)}>
@@ -41,9 +42,9 @@ const DockedPanel: React.FC<Props> = ({
             src={data.images?.[0].productImage.replace("/Medium/", "/Micro/")}
           />
         </div>
-        <span className={styles.dockText}> {data.altText}</span>
+        <span className={styles.dockText}>{data.altText}</span>
       </div>
-      <div className={cs(bootstrap.col2, styles.padding21)}>
+      <div className={cs(bootstrap.col2)}>
         {!showPrice && (
           <SelectedPrice
             code={currencyCodes[currency]}
