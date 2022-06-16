@@ -5,6 +5,9 @@ export type Data = {
   loc: string;
   tags: string[];
   dept: string;
+  exp: number;
+  desc: string;
+  req: string;
 };
 
 export type Depts = {
