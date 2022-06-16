@@ -133,40 +133,36 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
                   )}
                 </p>
                 <p className={styles.editTrack}>
-                  {data.invoiceFileName ? (
-                    <a
-                      className={globalStyles.cerise}
-                      onClick={e => {
-                        const filename = data.invoiceFileName.split(
-                          "ge-invoice-test/"
-                        )[1];
-                        fetch(data.invoiceFileName).then(function(t) {
-                          return t.blob().then(b => {
-                            const a = document.createElement("a");
-                            a.href = URL.createObjectURL(b);
-                            a.setAttribute("download", filename);
-                            a.click();
-                          });
+                  <a
+                    className={globalStyles.cerise}
+                    onClick={e => {
+                      const filename = data.invoiceFileName.split(
+                        "ge-invoice-test/"
+                      )[1];
+                      fetch(data.invoiceFileName).then(function(t) {
+                        return t.blob().then(b => {
+                          const a = document.createElement("a");
+                          a.href = URL.createObjectURL(b);
+                          a.setAttribute("download", filename);
+                          a.click();
                         });
+                      });
+                    }}
+                    data-name="track"
+                    id={data.number}
+                  >
+                    <img
+                      alt="goodearth-logo"
+                      src={invoice}
+                      style={{
+                        width: "20px",
+                        height: "15px",
+                        cursor: "pointer",
+                        marginLeft: "-8px"
                       }}
-                      data-name="track"
-                      id={data.number}
-                    >
-                      <img
-                        alt="goodearth-logo"
-                        src={invoice}
-                        style={{
-                          width: "20px",
-                          height: "15px",
-                          cursor: "pointer",
-                          marginLeft: "-8px"
-                        }}
-                      />{" "}
-                      INVOICE{" "}
-                    </a>
-                  ) : (
-                    ""
-                  )}
+                    />{" "}
+                    INVOICE{" "}
+                  </a>
                 </p>
               </div>
             </div>
