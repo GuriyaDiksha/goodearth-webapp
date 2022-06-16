@@ -57,7 +57,7 @@ const DockedPanel: React.FC<Props> = ({
           />
         )}
       </div>
-      <div className={cs(bootstrap.col2, styles.padding14)}>{buttoncall}</div>
+      <div className={cs(bootstrap.col2)}>{buttoncall}</div>
     </div>
   );
 };
