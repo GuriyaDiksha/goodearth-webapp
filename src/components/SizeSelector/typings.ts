@@ -9,4 +9,5 @@ export type Props = {
   selected?: number;
   sizeClassName?: string;
   isCorporatePDP?: boolean;
+  containerClassName?: string;
 };

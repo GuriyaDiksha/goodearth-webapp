@@ -101,7 +101,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
         "Coupon Code Applied Name": result.voucherCodeAppliedName,
         "Loyalty Points Redeemed": result.loyalityPointsRedeemed,
         "Gift voucher redeemed": result.giftVoucherRedeemed,
-        Currency: currency
+        Currency: result.currency
       });
       AccountServices.setGaStatus(dispatch, formData);
     }
