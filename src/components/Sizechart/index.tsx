@@ -11,12 +11,15 @@ import FitGuide from "./FitGuide";
 import SizeGuide from "./SizeGuide";
 import { useDispatch, useSelector } from "react-redux";
 import { updateSizeChartShow } from "actions/header";
+import { SizeChartResponse } from "reducers/header/typings";
 
 const Sizechart: React.FC<SizeChartProps> = ({ active }) => {
   const [hideScroll, setHideScroll] = useState(false);
-  const { image } = useSelector(
-    (state: AppState) => state.header.sizeChartData.data.fitGuide
+  const { fitGuide }: SizeChartResponse | any = useSelector(
+    (state: AppState) => state.header.sizeChartData.data
   );
+
+  const { image } = fitGuide;
   const dispatch = useDispatch();
   const closeSizeChart = () => {
     dispatch(updateSizeChartShow(false));
