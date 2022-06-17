@@ -272,10 +272,10 @@ class Search extends React.Component<
   UNSAFE_componentWillReceiveProps(nextProps: Props) {
     const queryString = nextProps.location.search;
     const urlParams = new URLSearchParams(queryString);
-    const searchValue = urlParams.get("q");
-    if (searchValue !== this.state.searchText) {
+    const searchValue: any = urlParams.get("q") || "";
+    if (decodeURIComponent(searchValue) !== this.state.searchText) {
       this.setState({
-        searchText: searchValue ? searchValue : ""
+        searchText: searchValue ? decodeURIComponent(searchValue) : ""
       });
     }
     const sort = urlParams.get("sort_by");

@@ -386,7 +386,7 @@ const ProductDetails: React.FC<Props> = ({
 
     const categoryList = categories
       ? categories.length > 0
-        ? categories[categories.length - 1]?.replaceAll(" > ", " - ")
+        ? categories[categories.length - 1].replace(/>/g, "-")
         : ""
       : "";
     let subcategory = categoryList ? categoryList.split(" > ") : "";
