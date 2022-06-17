@@ -54,13 +54,15 @@
 
 .error-msg{
     @include error-msg();
+}
+
+.pdp-error-msg{
+    @include error-msg();
     text-align: center;
     width: 100%;
     word-break: break-word;
     height: 15px;
     line-height: 15px;
-    position: absolute;
-    bottom: -12px;
     // left: 5px;
     color: $cerise;
     font-family: $font-Lora;
@@ -93,7 +95,8 @@
     border-radius: 12px;
     border-style: solid;
     border-width: 1px;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
+    width: fit-content;
 }
 .quantity-pdp
 {
