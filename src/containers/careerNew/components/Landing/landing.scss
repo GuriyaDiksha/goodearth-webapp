@@ -1,12 +1,14 @@
+@import "./../../../../styles/partials/variables";
+
 .heading{
     text-align: center;
-    font: italic normal normal 30px/39px Lora;
+    font: italic normal normal 30px/39px $font-Lora;
     letter-spacing: 0px;
-    color: #000000CC;
+    color: $default;
     opacity: 1;
 
     @media screen and (max-width: 767px) {
-        padding: 60px;
+        padding: 40px 60px;
     }
 }
 
@@ -42,9 +44,9 @@
             text-align: center;
             width: 100%;
              .dept_card_heading{
-                font: normal normal normal 20px/25px Lora;
+                font: normal normal normal 20px/25px $font-Lora;
                 letter-spacing: 0.4px;
-                color: #000000;
+                color: $default;
                 opacity: 1;
                 margin: auto;
                 top: 60px;
@@ -55,9 +57,9 @@
             }
 
              .dept_card_desc{
-                font: normal normal 300 12px/20px Montserrat;
+                font: normal normal 300 12px/20px $font-Montserrat;
                 letter-spacing: 0.36px;
-                color: #000000CC;
+                color: $default;
                 opacity: 1;
                 margin-top: 5%;
                 padding: 0% 15%;
@@ -82,21 +84,21 @@
 
     .load_more_btn{
         text-align: center;
-        font: normal normal normal 10px/16px Montserrat;
+        font: normal normal normal 10px/16px $font-Montserrat;
         letter-spacing: 0.3px;
-        color: #191919;
+        color: $charcoal19;
         text-transform: uppercase;
-        border-bottom: 1px solid #191919;
+        border-bottom: 1px solid $charcoal19;
         padding-bottom: 1px;
         opacity: 1;
-        background: #fff;
+        background: $white;
         border-top: none;
         border-left: none;
         border-right: none;
 
         &:hover{
-            color: #9C7D50;
-            border-bottom: 1px solid #9C7D50;
+            color: $gold;
+            border-bottom: 1px solid $gold;
         }
     }
 
@@ -113,9 +115,9 @@
 
     h1{
         text-align: center;
-        font: italic normal normal 30px/39px Lora;
+        font: italic normal normal 30px/39px $font-Lora;
         letter-spacing: 0px;
-        color: #191919;
+        color: $charcoal19;
         opacity: 1;
         margin-top: 8%;
 
@@ -127,9 +129,9 @@
 
     p{
         text-align: center;
-        font: normal normal normal 12px/20px Montserrat;
+        font: normal normal normal 12px/20px $font-Montserrat;
         letter-spacing: 0.36px;
-        color: #191919;
+        color: $charcoal19;
         opacity: 1;
 
         @media screen and (max-width: 767px) {
@@ -142,9 +144,9 @@
         opacity: 1;
         width: 30%;
         height: 60px;
-        color: #FFFFFF;
+        color: $white;
         text-align: center;
-        font: normal normal normal 14px/21px Montserrat;
+        font: normal normal normal 14px/21px $font-Montserrat;
         letter-spacing: 0.42px;
         margin-top: 30px;
         border: none;

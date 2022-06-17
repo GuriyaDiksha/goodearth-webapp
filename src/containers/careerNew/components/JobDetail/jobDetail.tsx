@@ -13,6 +13,7 @@ import { useParams } from "react-router";
 import { Data } from "containers/careerNew/typings";
 import Loader from "components/Loader";
 import { Link } from "react-router-dom";
+import { copyToClipboard } from "utils/clipboard";
 
 const JobDetail: React.FC = () => {
   const { data }: CareerData = useSelector((state: AppState) => state.career);
@@ -110,12 +111,12 @@ const JobDetail: React.FC = () => {
                   href="#"
                   rel="noopener noreferrer"
                   onClick={() => {
-                    navigator?.clipboard?.writeText(
-                      `${window?.location?.origin}/careers/${id}`
+                    copyToClipboard(
+                      `${window?.location?.origin}/careers/job/${id}`
                     );
                     valid.showGrowlMessage(
                       dispatch,
-                      "The link of this product has been copied to clipboard!"
+                      "The link of this job has been copied to clipboard!"
                     );
                   }}
                 >
