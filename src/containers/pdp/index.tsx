@@ -215,7 +215,14 @@ class PDPContainer extends React.Component<Props, State> {
               footerVisible = false;
             }
           }
-          if (!ctaVisible && !footerVisible) {
+          if (
+            !ctaVisible &&
+            !footerVisible &&
+            (this.getPairItWithSection() ||
+              this.state.showLooks ||
+              this.getRecommendedSection() ||
+              this.getMoreCollectionProductsSection())
+          ) {
             this.setState({ showDock: true });
             this.bottomDockRef.current.style.maxHeight = 80 + "px";
           } else {
