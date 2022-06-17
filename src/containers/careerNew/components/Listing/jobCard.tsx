@@ -8,6 +8,7 @@ import fb from "./../../../../images/careers/FBicon.svg";
 import * as valid from "utils/validate";
 import { useStore } from "react-redux";
 import { useHistory } from "react-router";
+import { copyToClipboard } from "utils/clipboard";
 
 type Props = {
   job: Data;
@@ -41,12 +42,10 @@ const JobCard: React.FC<Props> = ({ job }) => {
               rel="noopener noreferrer"
               className={listing.icon_wrp}
               onClick={() => {
-                navigator?.clipboard?.writeText(
-                  `${window.location.origin}/careers/${id}`
-                );
+                copyToClipboard(`${window.location.origin}/careers/job/${id}`);
                 valid.showGrowlMessage(
                   dispatch,
-                  "The link of this product has been copied to clipboard!"
+                  "The link of this job has been copied to clipboard!"
                 );
               }}
             >

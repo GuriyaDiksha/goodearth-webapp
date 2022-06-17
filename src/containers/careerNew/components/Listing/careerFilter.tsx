@@ -52,12 +52,13 @@ const CareerFilter: React.FC<Props> = ({
   }, [facets]);
 
   const clearFilter = () => {
+    const copiedData = clone(selectedDept);
     (document.getElementById("tag_all") as HTMLInputElement).checked = false;
 
     (document.getElementById("loc_all") as HTMLInputElement).checked = false;
+
+    setAppliedFilters([...copiedData]);
     setSelectedFilters([]);
-    setSelectedDept([dept]);
-    setAppliedFilters([dept]);
   };
 
   useEffect(() => {
@@ -101,6 +102,7 @@ const CareerFilter: React.FC<Props> = ({
           newDeptList = [
             ...new Set([...newDeptList, ...newArr].filter(e => e !== dept))
           ];
+
           setSelectedDept(newDeptList);
         } else {
           newList = [...new Set([...newList, ...newArr])];
@@ -122,6 +124,7 @@ const CareerFilter: React.FC<Props> = ({
           newDeptList = [
             ...new Set(newDeptList.filter(el => !newArr.includes(el)))
           ];
+
           setSelectedDept(newDeptList);
         } else {
           newList = [...new Set(newList.filter(el => !newArr.includes(el)))];
@@ -167,6 +170,7 @@ const CareerFilter: React.FC<Props> = ({
     }
 
     setAppliedFilters([...newList, ...newDeptList]);
+    setSelectedDept(newDeptList);
   };
 
   const removeFilter = (name: string) => {

@@ -1,3 +1,5 @@
+@import "../../../../styles/partials/variables";
+
 .job_detail_wrp{
     margin-top: 80px;
 
@@ -8,7 +10,7 @@
     }
 
     .job_detail_form_wrp{
-        background: #fff;
+        background: $white;
         width:60%;
         margin: 300px auto 100px;
         box-shadow: 0px 3px 6px #00000029;
@@ -48,22 +50,22 @@
                 .job_detail_form_heading{
                     font: normal normal normal 20px/25px Lora;
                     letter-spacing: 0.4px;
-                    color: #191919;
+                    color: $charcoal19;
                     opacity: 1;
                 }
 
                 .job_detail_form_sub_head{
                     font: normal normal normal 12px/20px Montserrat;
                     letter-spacing: 0.36px;
-                    color: #191919;
+                    color: $charcoal19;
                     text-transform: uppercase;
                     opacity: 1;
                     margin-top: 30px;
                 }
                 .job_detail_form_desc{
-                    font: normal normal normal 12px/20px Montserrat;
+                    font: normal normal 300 12px/19px Montserrat;
                     letter-spacing: 0.36px;
-                    color: #191919;
+                    color: $charcoal19;
                     opacity: 1;
                     margin-bottom: 30px;
                 }
@@ -88,7 +90,7 @@
                     text-align: center;
                     font: normal normal normal 14px/30px Montserrat;
                     letter-spacing: 0.42px;
-                    color: #FFFFFF;
+                    color: $white;
                     text-transform: uppercase;
                     width: 100%;
                     padding: 8px 0px;
@@ -110,7 +112,7 @@
                     .job_detail_share_li{
                         font: normal normal normal 12px/20px Montserrat;
                         letter-spacing: 0.36px;
-                        color: #191919;
+                        color: $charcoal19;
                         text-transform: uppercase;
                         opacity: 1;
                     }
