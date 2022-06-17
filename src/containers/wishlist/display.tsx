@@ -6,7 +6,6 @@ import { Currency } from "typings/currency";
 import styles from "./styles.scss";
 import iconStyles from "../../styles/iconFonts.scss";
 import globalStyles from "../../styles/global.scss";
-// import bootstrapStyles from "../../styles/bootstrap/bootstrap-grid.scss";
 import cs from "classnames";
 
 type Props = {
@@ -21,7 +20,7 @@ type Props = {
 
 const SampleDisplay: React.FC<Props> = props => {
   // const { currency } = useSelector((state: AppState) => state);
-  // const { mobile } = useSelector((state: AppState) => state.device);
+  // const { isSale } = useSelector((state: AppState) => state.info);
 
   const { isSale } = props;
 
