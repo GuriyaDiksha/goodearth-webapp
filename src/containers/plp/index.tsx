@@ -148,14 +148,14 @@ class PLP extends React.Component<
     if (this.props.device.mobile) {
       const elem = document.getElementById("pincode-bar");
       elem && elem.classList.add(globalStyles.hiddenEye);
-      // const chatButtonElem = document.getElementById("chat-button");
-      // const scrollToTopButtonElem = document.getElementById("scrollToTop-btn");
-      // if (scrollToTopButtonElem) {
-      //   scrollToTopButtonElem.style.bottom = "65px";
-      // }
-      // if (chatButtonElem) {
-      //   chatButtonElem.style.bottom = "10px";
-      // }
+      const chatButtonElem = document.getElementById("chat-button");
+      const scrollToTopButtonElem = document.getElementById("scrollToTop-btn");
+      if (scrollToTopButtonElem) {
+        scrollToTopButtonElem.style.bottom = "65px";
+      }
+      if (chatButtonElem) {
+        chatButtonElem.style.bottom = "10px";
+      }
     }
     this.setState({
       plpMaker: true
@@ -333,7 +333,7 @@ class PLP extends React.Component<
         if (currentIndex >= count) {
           currentIndex = count - 1;
         }
-        id = this.props.data.results.data[currentIndex].id;
+        id = this.props.data.results.data[currentIndex]?.id;
       }
     }
     return { id, currentIndex };
@@ -345,7 +345,7 @@ class PLP extends React.Component<
 
     cards.forEach(card => {
       cardIDs.push(
-        Array.from(card.children[0].children).filter(e => e.id != "")[0].id
+        Array.from(card.children[0].children).filter(e => e.id != "")[0]?.id
       );
     });
 
@@ -362,7 +362,7 @@ class PLP extends React.Component<
           ) {
             productID = Array.from(entry.target.children[0].children).filter(
               e => e.id != ""
-            )[0].id;
+            )[0]?.id;
             idx = cardIDs.findIndex((e: string) => e == productID);
             if (idx > maxIndex) {
               maxIndex = idx;
@@ -402,7 +402,7 @@ class PLP extends React.Component<
       const cardIDs: any = [];
 
       cards.forEach(card => {
-        cardIDs.push(card.children[0].children[0].id);
+        cardIDs.push(card.children[0].children[0]?.id);
       });
 
       const observer = new IntersectionObserver(
@@ -424,7 +424,7 @@ class PLP extends React.Component<
             }
           });
           if (leftMostPos != Infinity) {
-            const productID = leftMostElement.children[0].children[0].id;
+            const productID = leftMostElement.children[0].children[0]?.id;
             this.props.updateMobileView(plpMobileView);
             const top: number =
               leftMostElement.getBoundingClientRect().top - 135;
