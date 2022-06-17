@@ -7,7 +7,8 @@ import React, {
   MouseEvent,
   useEffect,
   useLayoutEffect,
-  Fragment
+  Fragment,
+  useContext
 } from "react";
 import { Link } from "react-router-dom";
 import cs from "classnames";
@@ -385,7 +386,7 @@ const ProductDetails: React.FC<Props> = ({
 
     const categoryList = categories
       ? categories.length > 0
-        ? categories[categories.length - 1].replaceAll(" > ", " - ")
+        ? categories[categories.length - 1].replace(/>/g, "-")
         : ""
       : "";
     let subcategory = categoryList ? categoryList.split(" > ") : "";
@@ -442,6 +443,7 @@ const ProductDetails: React.FC<Props> = ({
           setAddedToBag(true);
           setTimeout(() => {
             setAddedToBag(false);
+            closeModal ? closeModal() : null;
           }, 3000);
           valid.showGrowlMessage(dispatch, MESSAGE.ADD_TO_BAG_SUCCESS);
           gtmPushAddToBag();
@@ -522,6 +524,16 @@ const ProductDetails: React.FC<Props> = ({
       .then(res => {
         valid.showGrowlMessage(dispatch, MESSAGE.ADD_TO_REGISTRY_SUCCESS);
         const registry = Object.assign({}, isRegistry);
+        dataLayer.push({
+          event: "registry",
+          "Event Category": "Registry",
+          "Event Action": "Product added",
+          // 'Event Label': bridalItem,
+          "Product Name": productTitle,
+          "Product ID": productId,
+          Variant: selectedSize?.size
+        });
+
         if (selectedSize) {
           registry[selectedSize.size] = true;
           setIsRegistry(registry);

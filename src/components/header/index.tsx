@@ -191,6 +191,7 @@ class Header extends React.Component<Props, State> {
     const that = this;
     let previousUrl = "";
     const observer = new MutationObserver(function(mutations) {
+      console.log(that.props.showStock);
       if (location.href !== previousUrl) {
         previousUrl = location.href;
         that.setState({ showBag: false });
@@ -199,6 +200,9 @@ class Header extends React.Component<Props, State> {
         }
         if (that.props.openModal) {
           that.props.closeModal();
+        }
+        if (that.props.showStock) {
+          that.props.closeInShopAvailability();
         }
       }
     });
@@ -316,12 +320,13 @@ class Header extends React.Component<Props, State> {
   };
 
   onBottomMenuClick = (clickType: string) => {
-    util.headerClickGTM(
-      clickType,
-      "Bottom",
-      this.props.mobile,
-      this.props.isLoggedIn
-    );
+    // util.headerClickGTM(
+    //   clickType,
+    //   "Bottom",
+    //   this.props.mobile,
+    //   this.props.isLoggedIn
+    // );
+    util.footerClickGTM(clickType, "Bottom", this.props.isLoggedIn);
   };
 
   gtmPushWishlistClick = () => {

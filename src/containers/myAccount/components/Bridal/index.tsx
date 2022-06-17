@@ -251,6 +251,13 @@ const Bridal: React.FC<Props> = props => {
               bridalId: data.bridalId,
               bridalCurrency: currency
             });
+            dataLayer.push({
+              event: "registry",
+              "Event Category": "Registry",
+              "Event Action": "Registry created",
+              "Event Label": formData.occasion
+            });
+
             dispatch(updateUser(updatedUser));
             setCurrentModule("created");
           }
