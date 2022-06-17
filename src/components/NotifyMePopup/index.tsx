@@ -365,9 +365,6 @@ const NotifyMePopup: React.FC<Props> = ({
                   selected={selectedSize ? selectedSize.id : undefined}
                   containerClassName={styles.sizesBox}
                 />
-                {sizeErrorMsg && (
-                  <span className={styles.sizeError}>{sizeErrorMsg}</span>
-                )}
                 {sizeerror && (
                   <p className={styles.sizeError}>
                     Please select a size to proceed
