@@ -254,7 +254,7 @@ const NotifyMePopup: React.FC<Props> = ({
     }
   };
 
-  window.onpopstate = e => {
+  window.onpopstate = () => {
     closeModal();
   };
 
@@ -421,6 +421,9 @@ const NotifyMePopup: React.FC<Props> = ({
               />
             </div>
           )}
+          {/* {sizeerror && (
+            <p className={styles.sizeError}>Please select a size to proceed</p>
+          )} */}
         </div>
         <div className={styles.buttonContainer}>{Pdpbutton}</div>
       </div>

@@ -108,13 +108,10 @@
         .section {
           margin-top: 15px;
           .stock-left {
-            position: relative;
+            position: static !important;
             text-align: center;
             top: 25px;
           }
-        }
-        &.spacingError{
-          padding: 40px 15px;
         }
         .product-image {
           width: 100%;
@@ -341,10 +338,11 @@
 }
 
 .badge-position-plp-mobile {
-    width: 60%;
-    top: 0;
-    position: absolute;
+    position: relative;
     z-index: 4;
   img {
+    position: absolute;
+    width: 60%;
+    top: 5px;
   }
 }

@@ -26,7 +26,7 @@
   height: 60px;
   transition: bottom 0.3s;
   &.hide {
-    bottom: -50px;
+    bottom: -55px;
   }
 }
 
@@ -1176,8 +1176,8 @@ visibility: visible !important;
   position: absolute;
   z-index: 1;
   img {
-    width: 70%;
-    margin: 10px 0 0 10px;
+    // width: 70%;
+    margin: 10px 0 0 0;
   }
 }
 
@@ -1188,7 +1188,7 @@ visibility: visible !important;
     z-index: 4;
   img {
     width: 100%;
-    margin: 6px 0 0 6px;
+    margin: 10px 0 0 0;
   }
 }
 .imagebox-new {

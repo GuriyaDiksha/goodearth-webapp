@@ -493,7 +493,7 @@ export function PDP(data: any, currency: Currency) {
     const quantitys: any = [];
     const colors: any = [];
 
-    data.childAttributes.map((child: any) => {
+    data.childAttributes?.map((child: any) => {
       skusid.push(child.sku);
       variantspdp.push(child.size);
       priceschild.push(+child.priceRecords[currency]);
@@ -546,26 +546,13 @@ export function PDP(data: any, currency: Currency) {
     dataLayer.push({
       event: "productDetailImpression",
       ecommerce: {
+        currencyCode: currency,
         detail: {
           actionField: { list: listPath },
           products
         }
       }
     });
-    // dataLayer.push(
-    //   {
-    //   'Event Category':'GA Ecommerce',
-    //   'Event Action':'PDP ',
-    //   'Event Label':'Pass the L3 product category',
-    //   'Product Category':category,
-    //   "Login Status": this.props.isLoggedIn
-    //           ? "logged in"
-    //           : "logged out",
-    //   "Time Stamp": new Date().toISOString(),
-    //   "Page Url": location.href,
-    //   "Page Type": util.getPageType(),
-    //   "Page referrer url": CookieService.getCookie("prevUrl")
-    //   });
   } catch (e) {
     console.log(e);
     console.log("PDP impression error");
@@ -722,7 +709,7 @@ export function plpProductClick(
         : "";
       category = category.replace(/>/g, "/");
     }
-    const attr = data.childAttributes.map((child: any) => {
+    const attr = data?.childAttributes.map((child: any) => {
       return Object.assign(
         {},
         {
@@ -863,7 +850,7 @@ export function MoreFromCollectionProductClick(
       : "";
     category = category.replace(/>/g, "/");
   }
-  const attr = data.childAttributes.map((child: any) => {
+  const attr = data?.childAttributes.map((child: any) => {
     return Object.assign(
       {},
       {
@@ -985,6 +972,23 @@ export const headerClickGTM = (
     });
   } catch (e) {
     console.log("Header click GTM error!");
+  }
+};
+
+export const footerClickGTM = (
+  clickType: string,
+  location: "Top" | "Bottom",
+  isLoggedIn: boolean
+) => {
+  try {
+    dataLayer.push({
+      event: "Footer Click",
+      clickType,
+      location,
+      userStatus: isLoggedIn ? "logged in" : "logged out"
+    });
+  } catch (e) {
+    console.log("Footer click GTM error!");
   }
 };
 

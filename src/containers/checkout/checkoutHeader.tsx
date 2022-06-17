@@ -17,7 +17,7 @@ import BasketService from "services/basket";
 import HeaderService from "services/headerFooter";
 import { Dispatch } from "redux";
 import UserContext from "contexts/user";
-import { currencyCode, Currency } from "typings/currency";
+import { Currency } from "typings/currency";
 import { DropdownItem } from "components/dropdown/baseDropdownMenu/typings";
 import SelectableDropdownMenu from "../../components/dropdown/selectableDropdownMenu";
 import { Cookies } from "typings/cookies";
@@ -151,10 +151,10 @@ class CheckoutHeader extends React.Component<Props, { boId: string }> {
 
   componentDidMount() {
     // hide chat container
-    // const chatContainer = document.getElementById("chat-container");
-    // if (chatContainer) {
-    //   chatContainer.style.display = "none";
-    // }
+    const chatContainer = document.getElementById("chat-container");
+    if (chatContainer) {
+      chatContainer.style.display = "none";
+    }
     this.props.updateMeta(
       this.props.cookies,
       this.props.location.pathname,

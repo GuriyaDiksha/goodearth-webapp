@@ -27,7 +27,7 @@ import { LOGIN_SUCCESS, MESSAGE } from "constants/messages";
 import { POPUP } from "constants/components";
 import * as util from "../../utils/validate";
 import { Basket } from "typings/basket";
-import { updateBasket } from "actions/basket";
+// import { updateBasket } from "actions/basket";
 // import { CUST } from "constants/util";
 
 export default {
@@ -467,7 +467,7 @@ export default {
         unshippableProducts
       );
     }
-    dispatch(updateBasket(res));
+    // dispatch(updateBasket(res));
     return res;
   },
   reloadPage: (

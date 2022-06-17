@@ -44,11 +44,6 @@ import PDPLooksItem from "components/pairItWith/PDPLooksItem";
 import CookieService from "services/cookie";
 // import PdpSkeleton from "./components/pdpSkeleton"
 import Skeleton from "react-loading-skeleton";
-
-// const VerticalImageSelector = loadable(() =>
-//   import("components/VerticalImageSelector")
-// );
-// const ProductDetails = loadable(() => import("./components/productDetails"));
 import ProductDetails from "./components/productDetails";
 import PdpSlider from "components/PdpSlider";
 import activeGrid from "images/plpIcons/active_grid.svg";
@@ -90,7 +85,8 @@ const mapStateToProps = (state: AppState, props: PDPProps) => {
     scrollDown: state.info.scrollDown,
     showTimer: state.info.showTimer,
     customerGroup: state.user.customerGroup,
-    meta: state.meta
+    meta: state.meta,
+    isLoggedIn: state.user.isLoggedIn
   };
 };
 
@@ -176,13 +172,50 @@ class PDPContainer extends React.Component<Props, State> {
     dataLayer.push({
       event: "PdpView",
       PageURL: this.props.location.pathname,
-      PageTitle: "virtual_pdp_view"
+      Page_Title: "virtual_pdp_view"
     });
     Moengage.track_event("Page viewed", {
       "Page URL": this.props.location.pathname,
       "Page Name": "PdpView"
     });
     const { data, currency } = this.props;
+
+    let category = "",
+      subcategoryname = "";
+    if (data?.categories) {
+      const index = data.categories.length - 1;
+      category = data.categories[index]
+        ? data.categories[index].replace(/\s/g, "")
+        : "";
+      const arr = category.split(">");
+      subcategoryname = arr[arr.length - 1];
+      category = category.replace(/>/g, "/");
+    }
+
+    let variants = "";
+
+    data?.childAttributes?.map((child: any) => {
+      if (variants) {
+        variants += "," + child.size;
+      } else {
+        variants += child.size;
+      }
+    });
+    dataLayer.push({
+      "Event Category": "GA Ecommerce",
+      "Event Action": "PDP",
+      "Event Label": subcategoryname,
+      "Product Category": category.replace("/", "-"),
+      "Login Status": this.props.isLoggedIn ? "logged in" : "logged out",
+      "Time Stamp": new Date().toISOString(),
+      "Page Url": location.href,
+      "Product Name": data?.title,
+      "Product ID": data?.id,
+      Variant: variants,
+      "Page Type": valid.getPageType(),
+      "Page referrer url": CookieService.getCookie("prevUrl")
+    });
+
     valid.PDP(data, currency);
     const list = CookieService.getCookie("listPath");
     this.listPath = list || "";
@@ -195,6 +228,7 @@ class PDPContainer extends React.Component<Props, State> {
         currency
       );
     }
+
     // if (this.props.device.mobile) {
     //   this.getProductImagesData();
     //   const elem = document.getElementById("pincode-bar");
