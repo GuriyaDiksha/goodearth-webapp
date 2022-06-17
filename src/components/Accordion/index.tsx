@@ -34,14 +34,16 @@ const Accordion: React.FC<Props> = memo(
     };
 
     useEffect(() => {
-      if (defaultOpen != "") {
-        sections.map(({ id }, i) => {
-          if (id == defaultOpen) {
-            handleHeaderClick(i);
+      sections.map(({ id }, i) => {
+        if (id == defaultOpen) {
+          setActiveIndex(i);
+          if (bodyRef.current[i].scrollHeight > 15) {
+            bodyRef.current[i].style.maxHeight =
+              bodyRef.current[i].scrollHeight + "px";
           }
-        });
-      }
-    }, []);
+        }
+      });
+    }, [sections]);
 
     const accordionSections = sections.map(({ id, header, body }, i) => {
       const isOpen = activeIndex == i;

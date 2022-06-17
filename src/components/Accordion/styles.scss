@@ -21,6 +21,9 @@ strong {
     max-height: 0px;
     overflow: hidden;
     transition: max-height 0.3s ease-in;
+    &.default-open{
+      max-height: fit-content;
+    }
 }
 
 .arrow {
