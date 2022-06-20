@@ -177,6 +177,9 @@ a {
 .cerise {
   color: $cerise !important;
 }
+.ceriseDisabled {
+  color: tint(#000,80%) !important;
+}
 .gold{
   color: $gold !important;
 }
