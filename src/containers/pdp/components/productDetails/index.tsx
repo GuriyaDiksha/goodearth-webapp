@@ -1156,6 +1156,7 @@ const ProductDetails: React.FC<Props> = ({
                 categories={categories}
                 id={id}
                 showText={!mobile}
+                mobile={mobile}
                 size={selectedSize ? selectedSize.size : undefined}
                 iconClassName={cs({
                   [styles.mobileWishlistIcon]: mobile

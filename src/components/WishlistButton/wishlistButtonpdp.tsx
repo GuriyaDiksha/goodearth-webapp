@@ -165,21 +165,21 @@ const WishlistButtonpdp: React.FC<Props> = ({
     <>
       <div
         className={cs(className, stylespdp.wishlistButtonPdp)}
-        onClick={onClick}
+        // onClick={mobile?onClick:undefined}
       >
         <div
           style={parentWidth ? { width: "100%" } : {}}
-          className={cs(
-            iconStyles.icon,
-            stylespdp.wishlistIcon,
-            iconClassName,
-            {
-              [iconStyles.iconWishlistAdded]: addedToWishlist,
-              [iconStyles.iconWishlist]: !addedToWishlist,
-              [stylespdp.addedToWishlist]: addedToWishlist,
-              [stylespdp.mobileWishlist]: mobile
-            }
-          )}
+          // className={cs(
+          //   iconStyles.icon,
+          //   stylespdp.wishlistIcon,
+          //   iconClassName,
+          //   {
+          //     [iconStyles.iconWishlistAdded]: addedToWishlist,
+          //     [iconStyles.iconWishlist]: !addedToWishlist,
+          //     [stylespdp.addedToWishlist]: addedToWishlist,
+          //     [stylespdp.mobileWishlist]: mobile
+          //   }
+          // )}
           title={
             basketLineId
               ? addedToWishlist
@@ -187,12 +187,29 @@ const WishlistButtonpdp: React.FC<Props> = ({
                 : "Move to Saved Items"
               : ""
           }
-        ></div>
+        >
+          <i
+            style={parentWidth && mobile ? { width: "100%" } : {}}
+            className={cs(
+              iconStyles.icon,
+              stylespdp.wishlistIcon,
+              iconClassName,
+              {
+                [iconStyles.iconWishlistAdded]: addedToWishlist,
+                [iconStyles.iconWishlist]: !addedToWishlist,
+                [stylespdp.addedToWishlist]: addedToWishlist,
+                [stylespdp.mobileWishlist]: mobile
+              }
+            )}
+            onClick={onClick}
+          ></i>
+        </div>
         {showText && (
           <div
             className={cs(stylespdp.label, {
               [stylespdp.addedToWishlist]: addedToWishlist
             })}
+            onClick={onClick}
           >
             {addedToWishlist ? "SAVED!" : "SAVE FOR LATER"}
           </div>
