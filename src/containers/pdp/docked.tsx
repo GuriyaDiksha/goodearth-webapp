@@ -39,7 +39,13 @@ const DockedPanel: React.FC<Props> = ({
         <div className={styles.imgcontainer}>
           <img
             className={cs(globalStyles.imgResponsive)}
-            src={data.images?.[0].productImage.replace("/Medium/", "/Micro/")}
+            src={
+              data.images
+                ? data.images[0].productImage
+                  ? data.images[0].productImage.replace("/Medium/", "/Micro/")
+                  : ""
+                : ""
+            }
           />
         </div>
         <span className={styles.dockText}>{data.altText}</span>
