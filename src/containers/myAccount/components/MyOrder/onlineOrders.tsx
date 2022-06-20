@@ -10,6 +10,7 @@ import cs from "classnames";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router";
 import invoice from "../../../../images/invoice.svg";
+import invoiceDisabled from "../../../../images/invoiceDisabled.svg";
 
 const OnlineOrders: React.FC<OrdersProps> = props => {
   const [data, setData] = useState([]);
@@ -132,15 +133,28 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
                     ""
                   )}
                 </p>
-                <p className={styles.editTrack}>
+                <p
+                  className={cs(
+                    styles.editTrack,
+                    data.invoiceFileName ? "" : styles.editTrackDisabled
+                  )}
+                >
                   <a
-                    className={globalStyles.cerise}
+                    className={cs(
+                      data.invoiceFileName
+                        ? globalStyles.cerise
+                        : globalStyles.ceriseDisabled
+                    )}
                     onClick={e => {
                       const filename = data.invoiceFileName.split(
                         "ge-invoice-test/"
                       )[1];
                       fetch(data.invoiceFileName).then(function(t) {
                         return t.blob().then(b => {
+                          if (!data.invoiceFileName) {
+                            return false;
+                          }
+
                           const a = document.createElement("a");
                           a.href = URL.createObjectURL(b);
                           a.setAttribute("download", filename);
@@ -153,11 +167,13 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
                   >
                     <img
                       alt="goodearth-logo"
-                      src={invoice}
+                      src={data?.invoiceFileName ? invoice : invoiceDisabled}
                       style={{
                         width: "20px",
                         height: "15px",
-                        cursor: "pointer",
+                        cursor: data?.invoiceFileName
+                          ? "pointer"
+                          : "not-allowed",
                         marginLeft: "-8px"
                       }}
                     />{" "}
