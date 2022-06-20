@@ -48,7 +48,7 @@ const DockedPanel: React.FC<Props> = ({
             }
           />
         </div>
-        <span className={styles.dockText}>{data.altText}</span>
+        <span className={styles.dockText}>{data.title}</span>
       </div>
       <div className={cs(bootstrap.col2)}>
         {!showPrice && (
