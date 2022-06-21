@@ -100,6 +100,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
         event: "purchase",
         ecommerce: {
           currencyCode: result.currency,
+          paymentMethod: result.paymentMethod,
           purchase: {
             actionField: {
               id: result.number,
