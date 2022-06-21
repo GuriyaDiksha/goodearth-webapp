@@ -664,11 +664,13 @@ class PDPContainer extends React.Component<Props, State> {
     this.startImageAutoScroll();
   };
 
-  onClickImageArrowLeft = () => {
+  onClickImageArrowLeft = (event: React.MouseEvent<HTMLElement>) => {
+    event.preventDefault();
     this.prevImage(this.stopAutoImageScroll);
   };
 
-  onClickImageArrowRight = () => {
+  onClickImageArrowRight = (event: React.MouseEvent<HTMLElement>) => {
+    event.preventDefault();
     this.nextImage(this.stopAutoImageScroll);
   };
 
