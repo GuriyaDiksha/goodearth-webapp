@@ -140,6 +140,54 @@ const PaymentSection: React.FC<PaymentProps> = props => {
       }
       checkout(data)
         .then((response: any) => {
+          try {
+            const categoryname: string[] = [];
+            const subcategoryname: string[] = [];
+            const productid: string[] = [];
+            const productname: string[] = [];
+            const productprice: string[] = [];
+            const productquantity: number[] = [];
+            const products = basket.lineItems.map((line: any) => {
+              const index = line.product.categories
+                ? line.product.categories.length - 1
+                : 0;
+              let category =
+                line.product.categories && line.product.categories[index]
+                  ? line.product.categories[index].replace(/\s/g, "")
+                  : "";
+              const arr = category.split(">");
+              categoryname.push(arr[arr.length - 2]);
+              subcategoryname.push(arr[arr.length - 1]);
+              category = category.replace(/>/g, "/");
+              productid.push(line.product.sku);
+              productname.push(line.title);
+              productprice.push(line.product.pricerecords[currency]);
+              productquantity.push(+line.quantity);
+              return {
+                name: line.title,
+                id: line.product.sku,
+                price: line.product.pricerecords[currency],
+                brand: "Goodearth",
+                category: category,
+                variant: line.product.size || "",
+                quantity: line.quantity
+              };
+            });
+            dataLayer.push({
+              event: "checkout",
+              currenyCode: currency,
+              paymentMethod: paymentMethod,
+              ecommerce: {
+                checkout: {
+                  actionField: { step: 4, option: "Payment confirmation" },
+                  products: products
+                }
+              }
+            });
+          } catch (e) {
+            console.log("Error in GTM", e);
+          }
+
           gtmPushPaymentTracking(paymentMode, paymentMethod);
           location.href = `${__API_HOST__ + response.paymentUrl}`;
           // setIsLoading(false);
