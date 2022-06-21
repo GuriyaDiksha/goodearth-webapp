@@ -712,18 +712,22 @@ class PDPContainer extends React.Component<Props, State> {
               total={productImages.length}
             />
           </div>
-          <div
-            className={cs(styles.imageArrowLeft, {
-              [styles.show]: this.state.imageHover
-            })}
-            onClick={this.onClickImageArrowLeft}
-          ></div>
-          <div
-            className={cs(styles.imageArrowRight, {
-              [styles.show]: this.state.imageHover
-            })}
-            onClick={this.onClickImageArrowRight}
-          ></div>
+          {productImages.length > 1 && (
+            <div
+              className={cs(styles.imageArrowLeft, {
+                [styles.show]: this.state.imageHover
+              })}
+              onClick={this.onClickImageArrowLeft}
+            ></div>
+          )}
+          {productImages.length > 1 && (
+            <div
+              className={cs(styles.imageArrowRight, {
+                [styles.show]: this.state.imageHover
+              })}
+              onClick={this.onClickImageArrowRight}
+            ></div>
+          )}
         </div>
       );
       // });
