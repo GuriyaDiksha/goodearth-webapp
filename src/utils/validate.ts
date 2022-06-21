@@ -945,17 +945,30 @@ export const checkoutGTM = (
   paymentMethod?: string
 ) => {
   const productList = productForBasketGa(basket, currency);
-  dataLayer.push({
-    event: "checkout",
-    ecommerce: {
-      currencyCode: currency,
-      paymentMethod,
-      checkout: {
-        actionField: { step, option: checkoutSteps[step - 1] },
-        products: productList
+  if (paymentMethod) {
+    dataLayer.push({
+      event: "checkout",
+      ecommerce: {
+        currencyCode: currency,
+        paymentMethod,
+        checkout: {
+          actionField: { step, option: checkoutSteps[step - 1] },
+          products: productList
+        }
       }
-    }
-  });
+    });
+  } else {
+    dataLayer.push({
+      event: "checkout",
+      ecommerce: {
+        currencyCode: currency,
+        checkout: {
+          actionField: { step, option: checkoutSteps[step - 1] },
+          products: productList
+        }
+      }
+    });
+  }
 };
 
 export const headerClickGTM = (
