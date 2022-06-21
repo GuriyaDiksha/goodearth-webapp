@@ -7,8 +7,7 @@ import React, {
   MouseEvent,
   useEffect,
   useLayoutEffect,
-  Fragment,
-  useContext
+  Fragment
 } from "react";
 import { Link } from "react-router-dom";
 import cs from "classnames";
