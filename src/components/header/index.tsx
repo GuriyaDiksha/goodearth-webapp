@@ -58,7 +58,8 @@ const mapStateToProps = (state: AppState) => {
     showStock: state.header.storeData.visible,
     showSizeChart: state.header.sizeChartData.show,
     mobileMenuOpenState: state.header.mobileMenuOpenState,
-    filler: state.filler
+    filler: state.filler,
+    openModal: state.modal.openModal
   };
 };
 
@@ -185,6 +186,28 @@ class Header extends React.Component<Props, State> {
     // add click listener for announcement bar
     this.listenAnnouncementBarClick("bar1");
     this.listenAnnouncementBarClick("bar2");
+
+    //Close Mini bag after URL Change
+    const that = this;
+    let previousUrl = "";
+    const observer = new MutationObserver(function(mutations) {
+      console.log(that.props.showStock);
+      if (location.href !== previousUrl) {
+        previousUrl = location.href;
+        that.setState({ showBag: false });
+        if (that.props.showSizeChart) {
+          that.props.closeSizeChart();
+        }
+        if (that.props.openModal) {
+          that.props.closeModal();
+        }
+        if (that.props.showStock) {
+          that.props.closeInShopAvailability();
+        }
+      }
+    });
+    const config = { subtree: true, childList: true };
+    observer.observe(document, config);
   }
 
   UNSAFE_componentWillReceiveProps(nextProps: Props) {

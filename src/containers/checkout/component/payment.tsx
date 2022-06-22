@@ -11,10 +11,10 @@ import { AppState } from "reducers/typings";
 import { Link } from "react-router-dom";
 import Loader from "components/Loader";
 import Reedem from "./redeem";
-import { updateComponent, updateModal } from "actions/modal";
+// import { updateComponent, updateModal } from "actions/modal";
 import giftwrapIcon from "../../../images/gift-wrap-icon.svg";
 import * as valid from "utils/validate";
-import { POPUP } from "constants/components";
+// import { POPUP } from "constants/components";
 import CookieService from "services/cookie";
 import * as util from "../../../utils/validate";
 import CheckoutService from "services/checkout";
@@ -30,7 +30,8 @@ const PaymentSection: React.FC<PaymentProps> = props => {
   const { isActive, currency, checkout } = props;
   const [paymentError, setPaymentError] = useState("");
   const [subscribevalue, setSubscribevalue] = useState(false);
-  const [subscribegbp, setSubscribegbp] = useState(false);
+  //  const [subscribegbp, setSubscribegbp] = useState(true);
+  const [subscribegbp] = useState(true);
   const [isactivepromo, setIsactivepromo] = useState(false);
   const [isactiveredeem, setIsactiveredeem] = useState(false);
   const [giftwrap, setGiftwrap] = useState(false);
@@ -38,7 +39,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
   const [currentmethod, setCurrentmethod] = useState(data);
   const [isLoading, setIsLoading] = useState(false);
   const [textarea, setTextarea] = useState("");
-  const [gbpError, setGbpError] = useState("");
+  // const [gbpError, setGbpError] = useState("");
   const [getMethods, setGetMethods] = useState<any[]>([]);
   const dispatch = useDispatch();
 
@@ -53,31 +54,31 @@ const PaymentSection: React.FC<PaymentProps> = props => {
     setSubscribevalue(event.target.checked);
   };
 
-  const setAccept = () => {
-    setSubscribegbp(true);
-    setGbpError("");
-  };
+  // const setAccept = () => {
+  //   setSubscribegbp(true);
+  //   setGbpError("");
+  // };
 
-  const closeModal = () => {
-    // dispatch(updateComponent(<ShippingPopup closeModal={}/>, true));
-    dispatch(updateModal(false));
-  };
+  // const closeModal = () => {
+  //   // dispatch(updateComponent(<ShippingPopup closeModal={}/>, true));
+  //   dispatch(updateModal(false));
+  // };
 
-  const onClikcSubscribeGbp = (event: any) => {
-    if (!subscribegbp) {
-      dispatch(
-        updateComponent(
-          POPUP.SHIPPINGPOPUP,
-          { closeModal: closeModal, acceptCondition: setAccept },
-          true
-        )
-      );
-      dispatch(updateModal(true));
-    } else {
-      setSubscribegbp(false);
-      setGbpError("");
-    }
-  };
+  // const onClikcSubscribeGbp = (event: any) => {
+  //   if (!subscribegbp) {
+  // dispatch(
+  //   updateComponent(
+  //     POPUP.SHIPPINGPOPUP,
+  //     { closeModal: closeModal, acceptCondition: setAccept },
+  //     true
+  //   )
+  // );
+  // dispatch(updateModal(true));
+  //   } else {
+  //     setSubscribegbp(false);
+  //     setGbpError("");
+  //   }
+  // };
 
   // const onGiftChange =() =>{
 
@@ -117,7 +118,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
         data["giftMessage"] = textarea;
       }
       if (currency == "GBP" && !subscribegbp) {
-        setGbpError("Please agree to shipping & payment terms.");
+        //setGbpError("Please agree to shipping & payment terms.");
         valid.errorTracking(
           ["Please agree to shipping & payment terms."],
           location.href
@@ -524,7 +525,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
               </label>
             </div>
           </label>
-          {currency == "GBP" && (
+          {/* {currency == "GBP" && (
             <label
               className={cs(
                 globalStyles.flex,
@@ -568,7 +569,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
             data-name="error-msg"
           >
             {gbpError}
-          </div>
+          </div> */}
           {isLoading && <Loader />}
           <button
             className={cs(globalStyles.marginT10, globalStyles.ceriseBtn, {
