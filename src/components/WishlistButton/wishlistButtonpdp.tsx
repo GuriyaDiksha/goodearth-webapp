@@ -209,9 +209,10 @@ const WishlistButtonpdp: React.FC<Props> = ({
             className={cs(stylespdp.label, {
               [stylespdp.addedToWishlist]: addedToWishlist
             })}
-            onClick={onClick}
           >
-            {addedToWishlist ? "SAVED!" : "SAVE FOR LATER"}
+            <span onClick={onClick}>
+              {addedToWishlist ? "SAVED!" : "SAVE FOR LATER"}
+            </span>
           </div>
         )}
       </div>
