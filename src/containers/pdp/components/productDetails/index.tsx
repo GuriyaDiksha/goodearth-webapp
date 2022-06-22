@@ -1049,6 +1049,10 @@ const ProductDetails: React.FC<Props> = ({
                 src={offer}
                 className={styles.offerImage}
                 alt="offer20-icon"
+                style={{
+                  width: "17px",
+                  marginRight: "8px"
+                }}
               />
               <div className={cs(styles.offerMessage)}>
                 {ReactHtmlParser(badgeMessage)}
