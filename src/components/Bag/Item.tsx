@@ -119,10 +119,7 @@ const LineItems: React.FC<BasketItem> = memo(
       });
       const categoryList = product.categories
         ? product.categories.length > 0
-          ? product.categories[product.categories.length - 1]?.replaceAll(
-              " > ",
-              " - "
-            )
+          ? product.categories[product.categories.length - 1].replace(/>/g, "-")
           : ""
         : "";
 

@@ -254,7 +254,7 @@ const NotifyMePopup: React.FC<Props> = ({
     }
   };
 
-  window.onpopstate = e => {
+  window.onpopstate = () => {
     closeModal();
   };
 
