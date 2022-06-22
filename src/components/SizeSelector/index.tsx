@@ -1,6 +1,7 @@
 import React, { memo, useMemo, useCallback } from "react";
 import cs from "classnames";
 
+import { ChildProductAttributes } from "typings/product";
 import { Props } from "./typings";
 
 import styles from "./styles.scss";
@@ -10,7 +11,8 @@ const SizeSelector: React.FC<Props> = ({
   selected,
   onChange,
   sizeClassName,
-  isCorporatePDP
+  isCorporatePDP,
+  containerClassName
 }) => {
   const getSizeClickHandler = useCallback(
     child => {
@@ -22,7 +24,7 @@ const SizeSelector: React.FC<Props> = ({
   );
 
   const sizesHTML = useMemo(() => {
-    return sizes.map(child => {
+    return (sizes as Array<ChildProductAttributes>).map(child => {
       const { id, size, stock, sku } = child;
       return (
         <div
@@ -41,7 +43,11 @@ const SizeSelector: React.FC<Props> = ({
       );
     });
   }, [sizes, selected]);
-  return <div className={styles.sizeSelector}>{sizesHTML}</div>;
+  return (
+    <div className={cs(styles.sizeSelector, containerClassName)}>
+      {sizesHTML}
+    </div>
+  );
 };
 
 export default memo(SizeSelector);

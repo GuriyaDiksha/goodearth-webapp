@@ -871,7 +871,7 @@ class Header extends React.Component<Props, State> {
                         {bagCount}
                       </span>
                     </li>
-                    {this.state.showCartMobile && (
+                    {/* {this.state.showCartMobile && (
                       <>
                         {tablet && (
                           <li
@@ -906,7 +906,7 @@ class Header extends React.Component<Props, State> {
                           </li>
                         )}
                       </>
-                    )}
+                    )} */}
                   </ul>
                 )}
               </div>

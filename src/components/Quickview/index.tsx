@@ -68,7 +68,7 @@ class Quickview extends React.Component<Props, State> {
         category = this.props.data.categories[index].replace(/\s/g, "");
         category = category.replace(/>/g, "/");
       }
-      const productList = this.props.data.childAttributes.map(item => {
+      const productList = this.props.data.childAttributes?.map(item => {
         return {
           name: this.props.data.title,
           id: item.sku,
