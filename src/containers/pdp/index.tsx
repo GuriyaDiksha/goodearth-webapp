@@ -1,10 +1,18 @@
 // import loadable from "@loadable/component";
-import React, { RefObject, SyntheticEvent } from "react";
+import React, {
+  EventHandler,
+  RefObject,
+  SyntheticEvent,
+  useMemo,
+  MouseEvent
+} from "react";
 import { connect } from "react-redux";
+import throttle from "lodash/throttle";
 import cs from "classnames";
 import { Props as PDPProps, State } from "./typings.d";
 import initAction from "./initAction";
 import metaAction from "./metaAction";
+import DockedPanel from "./docked";
 import MakerEnhance from "maker-enhance";
 import { getProductIdFromSlug } from "utils/url";
 import { AppState } from "reducers/typings";
@@ -13,7 +21,6 @@ import {
   PLPProductItem,
   Product
 } from "typings/product";
-import SecondaryHeader from "components/SecondaryHeader";
 import Breadcrumbs from "components/Breadcrumbs";
 import PdpImage from "./components/pdpImage";
 import WeRecommendSlider from "components/weRecomend";
@@ -51,8 +58,12 @@ import inactiveGrid from "images/plpIcons/inactive_grid.svg";
 import activeList from "images/plpIcons/active_list.svg";
 import inactiveList from "images/plpIcons/inactive_list.svg";
 import Counter from "components/ProductCounter/counter";
+import { SingleEntryPlugin } from "webpack";
+import { isConstructorDeclaration } from "typescript";
+import PdpButton from "components/Button/pdpButton";
+import { currency } from "reducers/currency";
 
-import fontStyles from "styles/iconFonts.scss";
+import { config } from "components/PdpSlider/sliderConfig";
 
 const PDP_TOP_OFFSET = HEADER_HEIGHT + SECONDARY_HEADER_HEIGHT;
 const sidebarPosition = PDP_TOP_OFFSET + 23;
@@ -86,6 +97,7 @@ const mapStateToProps = (state: AppState, props: PDPProps) => {
     showTimer: state.info.showTimer,
     customerGroup: state.user.customerGroup,
     meta: state.meta,
+    selectedSizeId: state.header.sizeChartData.selected,
     isLoggedIn: state.user.isLoggedIn
   };
 };
@@ -112,15 +124,22 @@ class PDPContainer extends React.Component<Props, State> {
       index: -1,
       value: ""
     },
-    imageHover: false
+    imageHover: false,
+    showDock: false,
+    selectedSize: null,
+    pdpButton: null
   };
+
   myref: RefObject<any> = React.createRef();
+  bottomDockRef: RefObject<any> = React.createRef();
   imageOffsets: number[] = [];
   sidebarRef: RefObject<HTMLDivElement> = React.createRef();
   detailsRef: RefObject<HTMLDivElement> = React.createRef();
   containerRef: RefObject<HTMLDivElement> = React.createRef();
   pdpURL = "";
   listPath = "";
+  imageIntervalID: null | number = null;
+
   onImageClick = (index: number) => {
     const {
       updateComponentModal,
@@ -156,28 +175,98 @@ class PDPContainer extends React.Component<Props, State> {
     localStorage.setItem("pdpProductScroll", pdpProductScroll);
   };
 
+  setShowDock = () => {
+    //bottom banner code
+    const pdpCta = document.querySelectorAll(
+      ".src-containers-pdp-components-productDetails-_styles_action-buttons-container"
+    )[0];
+    const footerStart = document.querySelectorAll(
+      ".src-components-footer-_styles_footer-top"
+    )[0];
+    let ctaVisible = false;
+    let footerVisible = false;
+    let footerAboveHeader = false;
+    const observer = new IntersectionObserver(
+      entries => {
+        //Check for CTA not visible
+        entries.forEach(entry => {
+          if (
+            entry.target.classList.contains(
+              "src-containers-pdp-components-productDetails-_styles_action-buttons-container"
+            )
+          ) {
+            if (entry.target.getBoundingClientRect().bottom <= 115) {
+              ctaVisible = false;
+            }
+            if (entry.target.getBoundingClientRect().bottom > 115) {
+              ctaVisible = true;
+            }
+          }
+          if (
+            entry.target.classList.contains(
+              "src-components-footer-_styles_footer-top"
+            )
+          ) {
+            if (entry.intersectionRatio > 0.9) {
+              footerVisible = true;
+            } else if (entry.target.getBoundingClientRect().top < 90) {
+              footerAboveHeader = true;
+            } else {
+              footerVisible = false;
+            }
+          }
+          if (
+            !ctaVisible &&
+            !footerVisible &&
+            (this.getPairItWithSection() ||
+              this.state.showLooks ||
+              this.getRecommendedSection() ||
+              this.getMoreCollectionProductsSection())
+          ) {
+            this.setState({ showDock: true });
+            this.bottomDockRef.current.style.maxHeight = 80 + "px";
+          } else {
+            this.setState({ showDock: false });
+            this.bottomDockRef.current.style.maxHeight = 0 + "px";
+          }
+          if (!ctaVisible && !footerVisible && footerAboveHeader) {
+            this.setState({ showDock: false });
+            this.bottomDockRef.current.style.maxHeight = 0 + "px";
+          }
+          observer.disconnect();
+        });
+      },
+      {
+        rootMargin: "-110px 0px 0px 0px"
+      }
+    );
+    if (pdpCta && this.bottomDockRef.current) {
+      observer.observe(pdpCta);
+    }
+
+    if (footerStart && this.bottomDockRef.current) {
+      observer.observe(footerStart);
+    }
+  };
+
   componentDidMount() {
     this.pdpURL = this.props.location.pathname;
-    // if (
-    //   !this.props.device.mobile &&
-    //   this.imageOffsets.length < 1 &&
-    //   this.props.data
-    // ) {
-    //   this.getImageOffset();
-    // }
     dataLayer.push(function(this: any) {
       this.reset();
     });
+
     valid.pageViewGTM("PDP");
     dataLayer.push({
       event: "PdpView",
       PageURL: this.props.location.pathname,
       Page_Title: "virtual_pdp_view"
     });
+
     Moengage.track_event("Page viewed", {
       "Page URL": this.props.location.pathname,
       "Page Name": "PdpView"
     });
+
     const { data, currency } = this.props;
 
     let category = "",
@@ -217,10 +306,12 @@ class PDPContainer extends React.Component<Props, State> {
     });
 
     valid.PDP(data, currency);
+
     const list = CookieService.getCookie("listPath");
     this.listPath = list || "";
     CookieService.setCookie("listPath", "");
     valid.moveChatDown();
+
     if (data && data.looksProducts && data.looksProducts.length >= 2) {
       valid.MoreFromCollectionProductImpression(
         data.looksProducts,
@@ -228,6 +319,13 @@ class PDPContainer extends React.Component<Props, State> {
         currency
       );
     }
+
+    window.addEventListener(
+      "scroll",
+      throttle(() => {
+        this.setShowDock();
+      }, 50)
+    );
 
     if (this.props.device.mobile) {
       this.getProductImagesData();
@@ -252,6 +350,7 @@ class PDPContainer extends React.Component<Props, State> {
         }, 100);
       }
     );
+
     window.setTimeout(() => {
       if (this.state.loaded == false) {
         this.setState({
@@ -259,7 +358,10 @@ class PDPContainer extends React.Component<Props, State> {
         });
       }
     }, 1000);
+
     this.fetchMoreProductsFromCollection(this.props.id);
+
+    this.startImageAutoScroll();
   }
 
   componentWillUnmount() {
@@ -279,7 +381,17 @@ class PDPContainer extends React.Component<Props, State> {
         chatButtonElem.style.bottom = "10px";
       }
     }
+    window.removeEventListener(
+      "scroll",
+      throttle(() => {
+        this.setShowDock();
+      }, 100)
+    );
     valid.moveChatUp();
+
+    if (this.imageIntervalID) {
+      clearInterval(this.imageIntervalID);
+    }
   }
 
   UNSAFE_componentWillReceiveProps(nextProps: Props) {
@@ -350,7 +462,7 @@ class PDPContainer extends React.Component<Props, State> {
   }
 
   componentDidUpdate(props: Props) {
-    const { data } = this.props;
+    const { data, currency } = this.props;
     if (!data) {
       return;
     }
@@ -382,6 +494,15 @@ class PDPContainer extends React.Component<Props, State> {
       this.setState({
         mounted: true
       });
+    }
+    if (this.state.showDock) {
+      if (this.bottomDockRef.current) {
+        this.bottomDockRef.current.style.maxHeight = 80 + "px";
+      }
+    } else {
+      if (this.bottomDockRef.current) {
+        this.bottomDockRef.current.style.maxHeight = 0 + "px";
+      }
     }
   }
 
@@ -499,19 +620,57 @@ class PDPContainer extends React.Component<Props, State> {
     return images ? images.concat(sliderImages || []) : [];
   };
 
-  onClickImageArrowLeft = () => {
+  prevImage = (afterStateChangeCallback?: () => void) => {
     const len = this.getProductImagesData().length;
     const active = this.state.activeImage;
-    this.setState({
-      activeImage: (len + ((active - 1) % len)) % len
-    });
+    this.setState(
+      {
+        activeImage: (len + ((active - 1) % len)) % len
+      },
+      () => {
+        afterStateChangeCallback?.();
+      }
+    );
   };
 
-  onClickImageArrowRight = () => {
+  nextImage = (afterStateChangeCallback?: () => void) => {
     const len = this.getProductImagesData().length;
-    this.setState({
-      activeImage: (this.state.activeImage + 1) % len
-    });
+    const active = this.state.activeImage;
+    this.setState(
+      {
+        activeImage: (active + 1) % len
+      },
+      () => {
+        afterStateChangeCallback?.();
+      }
+    );
+  };
+
+  stopAutoImageScroll = () => {
+    if (this.imageIntervalID) {
+      clearInterval(this.imageIntervalID);
+    }
+  };
+
+  startImageAutoScroll = () => {
+    this.imageIntervalID = setInterval(this.nextImage, 7000);
+  };
+
+  resetAutoImageScroll = () => {
+    if (this.imageIntervalID) {
+      clearInterval(this.imageIntervalID);
+    }
+    this.startImageAutoScroll();
+  };
+
+  onClickImageArrowLeft = (event: React.MouseEvent<HTMLElement>) => {
+    event.preventDefault();
+    this.prevImage(this.stopAutoImageScroll);
+  };
+
+  onClickImageArrowRight = (event: React.MouseEvent<HTMLElement>) => {
+    event.preventDefault();
+    this.nextImage(this.stopAutoImageScroll);
   };
 
   getProductImages() {
@@ -554,24 +713,22 @@ class PDPContainer extends React.Component<Props, State> {
               total={productImages.length}
             />
           </div>
-          <i
-            className={cs(
-              fontStyles.icon,
-              fontStyles.iconArrowLeft,
-              styles.imageArrowLeft,
-              { [styles.show]: this.state.imageHover }
-            )}
-            onClick={this.onClickImageArrowLeft}
-          ></i>
-          <i
-            className={cs(
-              fontStyles.icon,
-              fontStyles.iconArrowRight,
-              styles.imageArrowRight,
-              { [styles.show]: this.state.imageHover }
-            )}
-            onClick={this.onClickImageArrowRight}
-          ></i>
+          {productImages.length > 1 && (
+            <div
+              className={cs(styles.imageArrowLeft, {
+                [styles.show]: this.state.imageHover
+              })}
+              onClick={this.onClickImageArrowLeft}
+            ></div>
+          )}
+          {productImages.length > 1 && (
+            <div
+              className={cs(styles.imageArrowRight, {
+                [styles.show]: this.state.imageHover
+              })}
+              onClick={this.onClickImageArrowRight}
+            ></div>
+          )}
         </div>
       );
       // });
@@ -613,6 +770,7 @@ class PDPContainer extends React.Component<Props, State> {
         updateComponentModal={updateComponentModal}
         changeModalState={changeModalState}
         loading={meta.templateType == "" ? true : false}
+        setPDPButton={this.getPDPButton}
       />
     );
   };
@@ -722,20 +880,9 @@ class PDPContainer extends React.Component<Props, State> {
       />
     );
   }
+
   onSliderImageClick = (index: number) => {
-    // const images = this.getProductImagesData();
-    // const { id } = images[index];
-    // const imageContainer = document.getElementById(`img-${id}`);
-
-    // if (!imageContainer) {
-    //   return;
-    // }
-
-    // const { top } = imageContainer?.getBoundingClientRect();
-
-    // const scrollBy = top - PDP_TOP_OFFSET;
-    // window.scrollBy(0, scrollBy);
-
+    this.stopAutoImageScroll();
     this.setState({
       activeImage: index
     });
@@ -836,6 +983,7 @@ class PDPContainer extends React.Component<Props, State> {
     );
     changeModalState(true);
   };
+
   getLooksSection = () => {
     const {
       currency,
@@ -1078,15 +1226,40 @@ class PDPContainer extends React.Component<Props, State> {
     });
   };
 
+  getPDPButton = (button: JSX.Element) => {
+    this.setState({ pdpButton: button });
+  };
+
+  returnPDPButton = () => {
+    return this.state.pdpButton;
+  };
+
   render() {
     const {
       data,
-      device: { mobile, tablet }
+      device: { mobile, tablet },
+      corporatePDP,
+      currency,
+      selectedSizeId
     } = this.props;
 
     if (!data) {
       return null;
     }
+
+    const selectedSize = data.childAttributes.filter(
+      item => item.id == selectedSizeId
+    )[0];
+
+    const price = corporatePDP
+      ? data.priceRecords[currency]
+      : selectedSize && selectedSize.priceRecords
+      ? selectedSize.priceRecords[currency]
+      : data.priceRecords[currency];
+    const discountPrices =
+      selectedSize && selectedSize.discountedPriceRecords
+        ? selectedSize.discountedPriceRecords[currency]
+        : data.discountedPriceRecords[currency];
 
     const { breadcrumbs } = data;
     const images: any[] = this.getProductImagesData();
@@ -1175,20 +1348,28 @@ class PDPContainer extends React.Component<Props, State> {
           // { [styles.pdpSecondcontainer]: !showSecondary },
           { [styles.pdpContainerTimer]: this.props.showTimer },
           bootstrap.containerFluid,
+          { [bootstrap.noPad]: !mobile },
           {
             [styles.mobile]: mobile
           }
         )}
       >
-        {!mobile && showSecondary && (
-          <SecondaryHeader>
+        {/* {!mobile && showSecondary && (
+          // <SecondaryHeader>
             <Breadcrumbs
               levels={breadcrumbs}
-              className={cs(bootstrap.colMd7, bootstrap.offsetMd1)}
+              className={cs(bootstrap.row, bootstrap.col12, styles.breadcrumbs)}
             />
-          </SecondaryHeader>
+          // </SecondaryHeader>
+        )} */}
+        {!mobile && (
+          <div className={cs(styles.breadcrumbsSection, bootstrap.row)}>
+            <Breadcrumbs
+              levels={breadcrumbs}
+              className={cs(bootstrap.colMd9)}
+            />
+          </div>
         )}
-
         <div
           className={cs(bootstrap.row, styles.productSection)}
           ref={this.containerRef}
@@ -1287,6 +1468,9 @@ class PDPContainer extends React.Component<Props, State> {
               bootstrap.col12,
               {
                 [globalStyles.pageStickyElement]: !mobile && detailStickyEnabled
+              },
+              {
+                [globalStyles.paddTop20]: mobile
               }
             )}
             ref={this.detailsRef}
@@ -1308,6 +1492,20 @@ class PDPContainer extends React.Component<Props, State> {
         <div className={cs(bootstrap.row)}>
           {!this.state.showLooks && this.getMoreCollectionProductsSection()}
         </div>
+        {!mobile && (
+          <div className={cs(styles.bottomPanel)} ref={this.bottomDockRef}>
+            <DockedPanel
+              data={data}
+              buttoncall={this.returnPDPButton()}
+              showPrice={
+                data.invisibleFields &&
+                data.invisibleFields.indexOf("price") > -1
+              }
+              price={price}
+              discountPrice={discountPrices}
+            />
+          </div>
+        )}
       </div>
     );
   }

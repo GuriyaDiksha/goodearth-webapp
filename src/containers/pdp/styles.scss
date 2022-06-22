@@ -6,7 +6,6 @@ $pdp-top: $header-height + $secondary-header-height;
 
 .pdp-container {
     margin-top: $header-height;
-    
     &:not(.mobile) {
         margin-top: $pdp-top;
     }
@@ -31,8 +30,9 @@ $pdp-top: $header-height + $secondary-header-height;
 }
 
 .product-image-container {
+    user-select: none;
     // padding-left: 40px;
-    margin-top: 40px;
+    // margin-top: 40px;
     img {
         cursor: url(../../images/cursorZoom.png), auto;
     }
@@ -44,7 +44,7 @@ $pdp-top: $header-height + $secondary-header-height;
 
 .product-section {
     position: relative;
-    margin-bottom: 20px;
+    padding-bottom: 100px;
     z-index: 6;
     justify-content: center;
 }
@@ -203,9 +203,10 @@ input[type="time"]::-webkit-calendar-picker-indicator{
     letter-spacing: 1px;
     line-height: 43px;
     text-decoration: none;
-    font-size: 12px;
+    font-size: 14px;
     margin-top: 15px;
-    padding-left: 10px;
+    padding-left: 40px;
+    font-family: $font-Lora
 }
 
 .mobile3d {
@@ -289,33 +290,71 @@ input[type="time"]::-webkit-calendar-picker-indicator{
   }
 
 .image-arrow-left {
+    border: solid #FFF;
+    border-width: 0 5px 5px 0;
+    padding: 15px;
     position: absolute;
     top: 50%;
-    transform: translateY(-50%);
-    left: 0;
-    font-size: 60px;
+    -webkit-transform: translateY(-50%) rotate(135deg);
+    -moz-transform: translateY(-50%) rotate(135deg);
+    transform: translateY(-50%) rotate(135deg);
+    left: 20px;
     display: none;
-    color: #E5E5E5;
+    box-shadow: 4px 4px 4px 0px #00000034;
     &:hover{
         cursor: pointer;
     }
     &.show{
-        display: block;
+        display: inline-block;
     }
 }
 
 .image-arrow-right {
+    border: solid #FFF;
+    border-width: 0 5px 5px 0;
+    padding: 15px;
     position: absolute;
     top: 50%;
-    transform: translateY(-50%);
-    right: 0;
-    font-size: 60px;
+    -webkit-transform: translateY(-50%) rotate(-45deg);
+    -moz-transform: translateY(-50%) rotate(-45deg);
+    transform: translateY(-50%) rotate(-45deg);
+    right: 20px;
     display: none;
-    color: #E5E5E5;
+    box-shadow: 4px 4px 4px 0px #00000034;
     &:hover{
         cursor: pointer;
     }
     &.show{
-        display: block;
+        display: inline-block;
     }
+}
+
+.breadcrumbs-section{
+    justify-content: center;
+}
+
+.bottom-panel{
+    width: 100%;
+    height: 80px;
+    max-height: 0px;
+    overflow: hidden;
+    position: fixed;
+    bottom: 0px;
+    z-index: 11;
+    box-shadow: -1px -2px 12px #0000001d;
+    background: #fff;
+    display: flex;
+    padding: 0% 8%;
+    flex-direction: column;
+    justify-content: center;
+    transition: max-height 0.2s ease-in;
+}
+
+.bottom-dock-price{
+    font-size: 20px !important;
+    font-family: $font-Montserrat !important;
+}
+
+.dock-container{
+    align-items: center;
 }
