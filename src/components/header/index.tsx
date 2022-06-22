@@ -191,7 +191,6 @@ class Header extends React.Component<Props, State> {
     const that = this;
     let previousUrl = "";
     const observer = new MutationObserver(function(mutations) {
-      console.log(that.props.showStock);
       if (location.href !== previousUrl) {
         previousUrl = location.href;
         that.setState({ showBag: false });
@@ -872,7 +871,7 @@ class Header extends React.Component<Props, State> {
                         {bagCount}
                       </span>
                     </li>
-                    {this.state.showCartMobile && (
+                    {/* {this.state.showCartMobile && (
                       <>
                         {tablet && (
                           <li
@@ -907,7 +906,7 @@ class Header extends React.Component<Props, State> {
                           </li>
                         )}
                       </>
-                    )}
+                    )} */}
                   </ul>
                 )}
               </div>

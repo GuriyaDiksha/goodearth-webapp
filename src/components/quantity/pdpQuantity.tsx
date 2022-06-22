@@ -49,6 +49,7 @@ class PdpQuantity extends React.Component<QuantityItem, State> {
     const value = this.props.currentValue;
     const props = this.props;
     const { disabled, source } = this.props;
+    const errorMsgClass = props.errorMsgClass || styles.errorMsg;
     // const error = props.errorMsg ? props.errorMsg + " " + props.maxValue : "";
     // const error
 
@@ -118,9 +119,7 @@ class PdpQuantity extends React.Component<QuantityItem, State> {
           </span>
         </div>
         {this.state.showError ? (
-          <p
-            className={cs(styles.errorMsg, { [styles.left]: source == "pdp" })}
-          >
+          <p className={cs(errorMsgClass, { [styles.left]: source == "pdp" })}>
             {this.state.showError ? this.state.errorMsg : ""}
           </p>
         ) : (

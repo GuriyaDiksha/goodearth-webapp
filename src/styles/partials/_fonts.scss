@@ -54,19 +54,19 @@
     font-style: italic;
     font-display: swap;
   }
-  // @font-face {
-  //   font-family: "Lora";
-  //   src: url("../fonts/Lora-italic.ttf") format("truetype");
-  //   font-weight: 300;
-  //   font-display: swap;
-  //   font-style: normal;
-  // }
+
+  @font-face {
+    font-family: "Lora";
+    src: url("../fonts/Lora-Italic.ttf") format("truetype");
+    font-weight: 400;
+    font-style: italic;
+    font-display: swap;
+  }
+
   @font-face {
     font-family: "Lora";
     src: url("../fonts/Lora-regular.ttf") format("truetype");
     font-display: swap;
-    font-style: normal;
-    font-weight: normal;
   }
   // @font-face {
   //   font-family: "Montserrat";

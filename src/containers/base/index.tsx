@@ -369,7 +369,11 @@ const BaseLayout: React.FC = () => {
         className={
           minimalPage
             ? ""
-            : cs(globalStyles.contentContainer, bootstrap.containerFluid)
+            : cs(globalStyles.contentContainer, bootstrap.containerFluid, {
+                //Failsafe if padding is required in other pages than pdp
+                [bootstrap.noPad]:
+                  pathname.indexOf("/catalogue") > -1 && !mobile
+              })
         }
         id="no-content"
       >

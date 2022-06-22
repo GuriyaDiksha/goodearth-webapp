@@ -10,24 +10,30 @@ const SelectedPrice: React.FC<Props> = ({
   badgeType,
   discount,
   isSale,
-  code
+  code,
+  className
 }) => {
   return (
-    <p className={styles.productN}>
+    <p className={cs(styles.productN)}>
       {isSale && discount ? (
-        <span className={cs(styles.discountprice)}>
+        <span className={cs(styles.discountprice, className)}>
           {String.fromCharCode(...code)} {discountPrice}
         </span>
       ) : (
         ""
       )}
       {isSale && discount ? (
-        <span className={styles.strikeprice}>
+        <span className={cs(styles.strikeprice, className)}>
           {" "}
           {String.fromCharCode(...code)} {price}{" "}
         </span>
       ) : (
-        <span className={badgeType == "B_flat" ? globalStyles.gold : ""}>
+        <span
+          className={cs(
+            badgeType == "B_flat" ? globalStyles.gold : "",
+            className
+          )}
+        >
           {String.fromCharCode(...code)} {price}
         </span>
       )}

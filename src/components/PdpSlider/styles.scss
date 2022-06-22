@@ -2,17 +2,28 @@
 @import "../../styles/partials/mixins";
 
 .image-container {
-    padding: 1px;
+    // padding: 1px;
     // border: 1px solid transparent;
     position: relative;
     &:not(:last-child) {
         margin-bottom: 10px;
     }
     width: 95%!important;
+    img {
+        border: 2px solid transparent;
+        padding: 2px;
+    }
 }
 
 .active {
-    border: 1px solid gray;
+    img {
+        background: #fff;
+        border: 2px solid gray;
+        padding: 2px;
+        -webkit-box-shadow: -1px -2px 12px #999999;
+        -moz-box-shadow:    -1px -2px 12px #999999;
+        box-shadow:         -1px -2px 12px #999999;
+    }
 }
 
 .clickable {
@@ -29,7 +40,10 @@
     padding-left: 80px;
     margin-top: 30px;
     .image-container {
-        padding: 4px;
+        // padding: 4px;
+        &:not(:last-child){
+            margin-right: 10px;
+        }
     }
 }
 
