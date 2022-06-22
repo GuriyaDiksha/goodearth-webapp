@@ -178,6 +178,7 @@ class Reedem extends React.Component<Props, RedeemState> {
                   <input
                     type="number"
                     value={txtvalue}
+                    onKeyDown={evt => evt.key === "." && evt.preventDefault()}
                     onChange={this.changeValue}
                     id="redeem"
                     min="0"
