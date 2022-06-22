@@ -71,7 +71,7 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
       "Time Stamp": new Date().toISOString(),
       "Page Url": location.href,
       "Page Type": valid.getPageType(),
-      "Product Category": category.replaceAll(">", "-"),
+      "Product Category": category.replace(/>/g, "-"),
       "Login Status": isLoggedIn ? "logged in" : "logged out",
       "Page referrer url": CookieService.getCookie("prevUrl"),
       "Product Name": product.title,
@@ -92,7 +92,7 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
     </div>
   ) : (
     <div className={styles.plpMain}>
-      {product.salesBadgeImage && (
+      {info.isSale && product.salesBadgeImage && (
         <div className={mobile ? styles.badgeImageMobile : styles.badgeImage}>
           <img src={product.salesBadgeImage} />
         </div>

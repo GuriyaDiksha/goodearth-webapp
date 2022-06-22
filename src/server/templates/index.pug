@@ -45,7 +45,7 @@ html(lang='en')
           });
           Moengage.call_web_push();
         link(rel="manifest", href=`${manifest}`)
-        meta(name="viewport",content="width=device-width, initial-scale=1")
+        meta(name="viewport",content="width=device-width, initial-scale=1, , maximum-scale=1")
         meta(name="theme-color",content="#ffffff")
         link(rel="apple-touch-icon", href="/static/icon_512x512.png")
         link(rel="preload", href=`${cdn}/media/fonts/Franklin%20Gothic%20Medium.ttf`, as="font", crossorigin)
@@ -192,8 +192,9 @@ html(lang='en')
             });
           }
           //- default freshchat script
-          function initialize(i,t){var e;i.getElementById(t)?initFreshChat():setTimeout(function() {((e=i.createElement("script")).id=t,e.async=!0,e.src="https://wchat.freshchat.com/js/widget.js",e.onload=initFreshChat,i.head.appendChild(e))}, 100)}function initiateCall(){initialize(document,"freshchat-js-sdk")}window.addEventListener?window.addEventListener("load",initiateCall,!1):window.attachEvent("load",initiateCall,!1);
 
+          //- function initialize(i,t){var e;i.getElementById(t)?initFreshChat():setTimeout(function() {((e=i.createElement("script")).id=t,e.async=!0,e.src="https://wchat.freshchat.com/js/widget.js",e.onload=initFreshChat,i.head.appendChild(e))}, 100)}function initiateCall(){initialize(document,"freshchat-js-sdk")}window.addEventListener?window.addEventListener("load",initiateCall,!1):window.attachEvent("load",initiateCall,!1);
+          (function (d, w, c) { if(!d.getElementById("spd-busns-spt")) { var n = d.getElementsByTagName('script')[0], s = d.createElement('script'); var loaded = false; s.id = "spd-busns-spt"; s.async = "async"; s.setAttribute("data-self-init", "false"); s.setAttribute("data-init-type", "opt"); s.src = 'https://cdn.freshbots.ai/assets/share/js/freshbots.min.js'; s.setAttribute("data-client", "cc75206fb31a8af22f08a88ee68bbf974436bbe2"); s.setAttribute("data-bot-hash", "a23bded977f08b7f22458799242a7d7c5747d3fd"); s.setAttribute("data-env", "prod"); s.setAttribute("data-region", "us"); if (c) { s.onreadystatechange = s.onload = function () { if (!loaded) { c(); } loaded = true; }; } n.parentNode.insertBefore(s, n); } }) (document, window, function () { Freshbots.initiateWidget({ autoInitChat: false, getClientParams: function () { return {"cstmr::eml":"","sn::auth::id":"","cstmr::nm":""}; } }, function(successResponse) { }, function(errorResponse) { }); })
             //- function initialize(i,t){var e;i.getElementById(t)?initFreshChat():setTimeout(function() {((e=i.createElement("script")).id=t,e.async=!0,e.src="https://wchat.freshchat.com/js/widget.js",e.onload=initFreshChat,i.head.appendChild(e))}, 100)}
 
           function ScrollToTop() {
@@ -226,12 +227,12 @@ html(lang='en')
           //- window.addEventListener('mousemove', handleMouseMove)
 
           const initializeFreshChat = function () {
-            if(!window.fcWidget) {
-              initialize(document,"freshchat-js-sdk");
-            }
+            //- if(!window.fcWidget) {
+            //-   initialize(document,"freshchat-js-sdk");
+            //- }
             window.removeEventListener('scroll', initializeFreshChat);
           }
-          //- window.addEventListener('scroll', initializeFreshChat)
+          window.addEventListener('scroll', initializeFreshChat)
 
     body
         noscript.
@@ -240,13 +241,13 @@ html(lang='en')
         div(id='main', class='main') !{content}
         div !{newrelicScript}
         div !{scripts}
-        div(id="chat-container" class='chat-container')
-          div(id='scrollToTop-btn' class='scrollToTop-btn-hidden' onClick='ScrollToTop()')
-            i(class='icon_uparrow-white')
-          a(href='https://wa.me/+917669303665' target='_blank' rel='noopener noreferrer')
-            div(id='whatsapp' class='whatsapp-img whatsapp-active')
-              //- img(src="/static/images/whatsapp.svg", alt="whatsapp icon" width='40px')
-          div(id='fresh-chat', onclick='OpenChatBox()', class='fresh-chat active')
-            i(class='icon-chat')
-          div(id='chat-button', onclick='OpenBox()', class='chat-button active')
-            i(class='icon-question')
+        //- div(id="chat-container" class='chat-container')
+        //- div(id='scrollToTop-btn' class='scrollToTop-btn-hidden' onClick='ScrollToTop()')
+        //-   i(class='icon_uparrow-white')
+          //- a(href='https://wa.me/+917669303665' target='_blank' rel='noopener noreferrer')
+          //-   div(id='whatsapp' class='whatsapp-img whatsapp-active')
+          //-     //- img(src="/static/images/whatsapp.svg", alt="whatsapp icon" width='40px')
+          //- div(id='fresh-chat', onclick='OpenChatBox()', class='fresh-chat active')
+          //-   i(class='icon-chat')
+          //- div(id='chat-button', onclick='OpenBox()', class='chat-button active')
+          //-   i(class='icon-question')

@@ -64,7 +64,14 @@
     -moz-transform: translateY(0);
     -o-transform: translateY(0);
   }
-  
+  .mobile-chat-container {
+    bottom: 60px !important;
+    right: 10px !important;
+  }
+  .chat-container .chat-history {
+    height: 350px !important;
+  }
+
   div#lc_chat_layout.lc-collapsed {
     height: 0 !important;
     display: none !important;
