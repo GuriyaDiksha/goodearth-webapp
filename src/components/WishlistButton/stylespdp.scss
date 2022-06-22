@@ -38,7 +38,10 @@
 .label {
     @include pdp_label();
      color:$gold;
-     cursor: pointer;
+    //  cursor: pointer;
+    span{
+        cursor: pointer;
+    }
 }
 
 .added-to-wishlist {
