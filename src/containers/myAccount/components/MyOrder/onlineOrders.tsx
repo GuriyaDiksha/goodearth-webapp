@@ -93,7 +93,7 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
               </div>
               <div className={bootstrapStyles.col4}>
                 <p>
-                  <span className={styles.op2}>Order Total</span>
+                  <span className={styles.op2}>Amount Payable</span>
                 </p>
                 <p className={cs(styles.bold, styles.price)}>
                   {String.fromCharCode(
@@ -230,7 +230,7 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
                 className={cs(bootstrapStyles.col12, bootstrapStyles.colMd6)}
               >
                 <p>
-                  <span className={styles.op2}>Order Total</span>
+                  <span className={styles.op2}>Amount Payable</span>
                 </p>
                 <p>
                   {String.fromCharCode(
