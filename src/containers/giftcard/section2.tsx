@@ -27,6 +27,7 @@ const Section2: React.FC<Section2Props> = ({
   mobile,
   currency,
   selectedCountry,
+  setSelectedCountry,
   next,
   goback,
   setData
@@ -69,6 +70,7 @@ const Section2: React.FC<Section2Props> = ({
         });
       setCountry(newCountry);
       setSelectcurrency(currency);
+      setSelectedCountry(newCountry);
       setCountrymsg("");
       setNummsg("");
       setErrorBorder(false);
@@ -125,6 +127,7 @@ const Section2: React.FC<Section2Props> = ({
 
   const onCountrySelect = (e: any) => {
     const country = e.target.value;
+    setSelectedCountry(country);
     setCountry(country);
     const data: any = { selectedCountry: country };
     setData(data, "amount");
