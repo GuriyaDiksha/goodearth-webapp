@@ -25,6 +25,7 @@ import { Context as ModalContext } from "components/Modal/context";
 // styles
 import globalStyles from "styles/global.scss";
 import styles from "./styles.scss";
+import inputStyles from "./../NotifyMePopup/styles.scss";
 import { ChildProductAttributes } from "typings/product";
 import { MESSAGE } from "constants/messages";
 import { Currency } from "typings/currency";
@@ -33,6 +34,7 @@ import { ProductID } from "typings/id";
 import * as util from "utils/validate";
 import Loader from "components/Loader";
 import { AppState } from "reducers/typings";
+import { staticMenu } from "components/dropdown/stories";
 
 type Props = {
   basketLineId?: ProductID;
@@ -87,6 +89,7 @@ const NotifyMePopup: React.FC<Props> = ({
   const [sizeerror, setSizeerror] = useState(false);
   const [quantity, setQuantity] = useState<number>(1);
   const isLoggedIn = useSelector((state: AppState) => state.user.isLoggedIn);
+  const mobile = useSelector((state: AppState) => state.device.mobile);
 
   const [productTitle, subtitle] = title.split("(");
 
@@ -310,7 +313,7 @@ const NotifyMePopup: React.FC<Props> = ({
     }
   });
   return (
-    <div className={cs(styles.container)}>
+    <div className={cs(styles.container, { [styles.mobile]: mobile })}>
       <div className={styles.header}>
         <CloseButton className={styles.closeBtn} />
       </div>
@@ -415,8 +418,8 @@ const NotifyMePopup: React.FC<Props> = ({
                 value={email}
                 onChange={onEmailChange}
                 validator={validator}
-                className={styles.field}
-                label="Email"
+                className="notify-me-email-input"
+                label="Email ID"
                 placeholder="Email Address"
                 errorMsg={emailError}
                 disabled={userExists}
