@@ -51,7 +51,7 @@ const SizeGuide: React.FC<SizeGuideProps> = memo(({ isSingleSection }) => {
   return (
     <>
       {isSingleSection ? (
-        <div className={styles.singleSectionTitle}>SIZE GUIDE</div>
+        <div className={styles.singleSectionTitle}>SIZE CHART</div>
       ) : null}
       <Toggle
         values={values as string[]}

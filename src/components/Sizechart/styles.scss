@@ -40,6 +40,7 @@
     right: 0;
     bottom: 0;
     z-index: 20;
+    min-width: 350px;
     width: auto;
     font-size: 16px;
     line-height: 16px;
@@ -53,16 +54,15 @@
     background-color: white;
     animation-name :slideLeft;
     animation-duration:0.4s;
-    min-width:200px;
     .remove {
       text-align: center;
     }
   
     .bag-header {
-      color: black;
-      padding: 20px 20px 20px 30px;
-      justify-content: end;
-    //   background-color: #4c4c4c;
+      color: white;
+      padding: 20px 20px 20px 20px;
+      justify-content: space-between;
+      background-color: #4c4c4c;
   
       .heading {
         font-family: $font-Lato;
@@ -492,6 +492,7 @@
   text-align: center;
   margin: 0 22px;
   padding: 20px 0;
+  font-size: 14px;
 }
 
 @media screen and (max-width:992px){
