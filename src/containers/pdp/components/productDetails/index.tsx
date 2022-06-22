@@ -998,6 +998,7 @@ const ProductDetails: React.FC<Props> = ({
                       maxValue={corporatePDP ? 1 : maxQuantity}
                       currentValue={quantity}
                       onChange={onQuantityChange}
+                      errorMsgClass={styles.sizeErrorMessage}
                       // errorMsg={selectedSize ? "Available qty in stock is" : ""}
                     />
                   </div>
