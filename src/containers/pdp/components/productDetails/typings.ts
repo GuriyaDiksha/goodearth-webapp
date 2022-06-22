@@ -21,4 +21,5 @@ export type Props = {
   showAddToBagMobile?: boolean;
   toggelHeader?: (value: boolean) => void;
   loading: boolean;
+  setPDPButton?: (button: JSX.Element) => void;
 };

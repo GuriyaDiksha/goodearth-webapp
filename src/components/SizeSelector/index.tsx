@@ -24,23 +24,24 @@ const SizeSelector: React.FC<Props> = ({
   );
 
   const sizesHTML = useMemo(() => {
-    return (sizes as Array<ChildProductAttributes>).map(
-      (child: ChildProductAttributes) => {
-        const { id, size, stock, sku } = child;
-        return (
-          <div
-            key={sku}
-            className={cs(styles.sizeButton, sizeClassName, {
-              [styles.selected]: id === selected,
-              [styles.unavailable]: stock === 0 && !isCorporatePDP
-            })}
-            onClick={getSizeClickHandler(child)}
-          >
-            {size}
-          </div>
-        );
-      }
-    );
+    return (sizes as Array<ChildProductAttributes>).map(child => {
+      const { id, size, stock, sku } = child;
+      return (
+        <div
+          key={sku}
+          className={cs(styles.sizeButton, sizeClassName, {
+            [styles.selected]: id === selected,
+            [styles.unavailable]: stock === 0 && !isCorporatePDP
+          })}
+          onClick={getSizeClickHandler(child)}
+        >
+          {size}
+          {/* {stock === 0 && !isCorporatePDP && (
+            <div className={styles.strikeSize}></div>
+          )} */}
+        </div>
+      );
+    });
   }, [sizes, selected]);
   return (
     <div className={cs(styles.sizeSelector, containerClassName)}>

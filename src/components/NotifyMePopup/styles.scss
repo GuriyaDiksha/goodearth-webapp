@@ -16,6 +16,9 @@
     .size-box {
         margin: 0 6px;
     }
+    &.mobile{
+        position: absolute;
+    }
 }
 
 .header {
@@ -125,20 +128,11 @@
 
 .size-error {
     @include error-msg();
-    // text-align: center;
-    width: 100%;
-    word-break: break-word;
-    height: 15px;
-    line-height: 15px;
-    // left: 5px;
-    color: $cerise;
-    font-family: $font-Lora;
     font-size: 14px;
-    letter-spacing: 0.28px;
-    font-style: normal;
+    font-family: $font-Lora;
+    font-style: italic;
     font-weight: normal;
-    padding: 3px 0px 6px 0px;
-    margin: 10px 0px;
+    letter-spacing: 0.3px;
 }
 
 span{
