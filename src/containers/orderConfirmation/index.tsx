@@ -132,6 +132,12 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
   }
   const shippingAddress = confirmData.shippingAddress?.[0],
     billingAddress = confirmData.billingAddress?.[0];
+  let giftCardAmount = 0;
+  // confirmData.giftVoucherRedeemed.map((val:number)=>giftCardAmount+val);
+  for (let i = 0; i < confirmData.giftVoucherRedeemed?.length; i++) {
+    giftCardAmount += confirmData.giftVoucherRedeemed[i];
+  }
+
   if (!confirmData.number) {
     return <></>;
   }
@@ -495,16 +501,24 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                 </p>
               </div>
 
-              <div className={cs(styles.discountSection)}>
-                <p>EMP Discount</p>
-                <p>
-                  (-){" "}
-                  {String.fromCharCode(
-                    ...currencyCode[confirmData.currency as Currency]
-                  )}
-                  &nbsp; {parseFloat(confirmData.totalInclTax).toFixed(2)}
-                </p>
-              </div>
+              {confirmData?.offerDiscounts?.map(
+                (discount: { name: string; amount: string }, index: number) => (
+                  <div className={cs(styles.discountSection)} key={index}>
+                    <p>
+                      {discount.name == "price-discount"
+                        ? "DISCOUNT"
+                        : discount.name}
+                    </p>
+                    <p>
+                      (-){" "}
+                      {String.fromCharCode(
+                        ...currencyCode[confirmData.currency as Currency]
+                      )}
+                      &nbsp; {parseFloat(discount.amount).toFixed(2)}
+                    </p>
+                  </div>
+                )
+              )}
 
               <div className={cs(styles.discountSection)}>
                 <p>Estimated Shipping</p>
@@ -513,7 +527,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                   {String.fromCharCode(
                     ...currencyCode[confirmData.currency as Currency]
                   )}
-                  &nbsp; {parseFloat(confirmData.totalInclTax).toFixed(2)}
+                  &nbsp; {parseFloat(confirmData.shippingInclTax).toFixed(2)}
                 </p>
               </div>
 
@@ -524,7 +538,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                   {String.fromCharCode(
                     ...currencyCode[confirmData.currency as Currency]
                   )}
-                  &nbsp; {parseFloat(confirmData.totalInclTax).toFixed(2)}
+                  &nbsp; {giftCardAmount.toFixed(2)}
                 </p>
               </div>
 
