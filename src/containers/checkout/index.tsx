@@ -753,7 +753,12 @@ class Checkout extends React.Component<Props, State> {
       data["deliveryInstructions"] = this.props.deliveryText;
     }
     const response = await this.props.finalCheckout(data);
-    valid.checkoutGTM(5, this.props.currency, this.props.basket);
+    valid.checkoutGTM(
+      5,
+      this.props.currency,
+      this.props.basket,
+      data.paymentMethod
+    );
     return response;
   };
 

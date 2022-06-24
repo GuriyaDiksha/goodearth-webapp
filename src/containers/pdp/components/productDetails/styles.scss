@@ -352,3 +352,18 @@
 {
     padding: 8px;
 }
+
+.sales-offer{
+    display: flex;
+    margin-top: 15px;
+    .offer-image{
+        margin-right: 8px;
+    }
+    .offer-message{
+        font-family: $font-Montserrat;
+        font-size: 12px;
+        a {
+            color: $gold;
+        }
+    }
+}
