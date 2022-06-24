@@ -259,7 +259,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                       )}
                     >
                       <p>
-                        <span className={globalStyles.op3}>Amount Payable</span>
+                        <span className={globalStyles.op3}>Order Total</span>
                       </p>
 
                       <p>
