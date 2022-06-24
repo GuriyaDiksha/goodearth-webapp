@@ -406,6 +406,7 @@ const NotifyMePopup: React.FC<Props> = ({
               // errorMsg={selectedSize ? "Available qty in stock is" : ""}
               disabled={(selectedSize && selectedSize.stock == 0) || false}
               className={styles.quantityWrapper}
+              errorMsgClass={styles.sizeError}
               inputClass={styles.inputQuantity}
             />
           </div>
