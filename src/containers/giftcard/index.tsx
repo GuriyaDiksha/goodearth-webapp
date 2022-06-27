@@ -129,6 +129,12 @@ class GiftCard extends React.Component<
     });
   };
 
+  setCountry = (country: string) => {
+    this.setState({
+      selectedCountry: country
+    });
+  };
+
   next = (data: any, section: string) => {
     const giftCardData = this.state.finalData;
     if (section == "amount") {
@@ -201,6 +207,7 @@ class GiftCard extends React.Component<
             data={this.state.finalData}
             mobile={this.props.device.mobile}
             currency={this.props.currency}
+            setSelectedCountry={this.setCountry}
             next={this.next}
             goback={this.goback}
             setData={this.setData}
