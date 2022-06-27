@@ -1624,9 +1624,7 @@ ul.inner-menu-mobile {
 //   display: inline;
 // }
 .announcement-content {
-  letter-spacing: 0.5px;
-  font-size: 14px;
-  font-family: $font-Lato;
+  @include b5_10px_white();
 }
 .announcement-cta-btn {
   padding: 0px 8px;

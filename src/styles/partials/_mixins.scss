@@ -705,3 +705,13 @@ $list: $grey 92%, $white 8%;
   font-family: "AmiriFont", "Baskerville", "Garamond";
   line-height: 30px;
 }
+
+/*******************************  UI Kit Fonts  **************************/
+//for announcement bar
+@mixin b5_10px_white{
+  font-family: $font-Montserrat;
+  font-weight: 600;
+  font-size: 10px;
+  color: #FFFFFF;
+  letter-spacing: 0.60px;
+}
