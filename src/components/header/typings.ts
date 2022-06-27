@@ -43,6 +43,7 @@ export type MenuComponentL2L3Data = {
   thumbnailSrc: string;
   ctaMobile?: string;
   viewAllLink?: string;
+  openInNewTab?: boolean;
 };
 
 export type MenuComponentTitleData = {
@@ -51,6 +52,7 @@ export type MenuComponentTitleData = {
   ctaName: string;
   src?: string;
   thumbnailSrc: string;
+  openInNewTab?: boolean;
 };
 
 export type MenuComponentImageData = {
@@ -60,6 +62,7 @@ export type MenuComponentImageData = {
   subHeading: string;
   link: string;
   ctaName?: string;
+  openInNewTab?: boolean;
 };
 export interface MenuComponent {
   componentType: string;
