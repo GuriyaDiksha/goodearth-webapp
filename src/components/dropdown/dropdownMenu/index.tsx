@@ -31,6 +31,7 @@ const DropdownMenu = ({
       };
       return (
         <DropdownMenuItem
+          id={id}
           key={item.value || item.href}
           {...itemProps}
         ></DropdownMenuItem>

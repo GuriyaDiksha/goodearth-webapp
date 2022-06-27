@@ -7,8 +7,7 @@ import React, {
   MouseEvent,
   useEffect,
   useLayoutEffect,
-  Fragment,
-  useContext
+  Fragment
 } from "react";
 import { Link } from "react-router-dom";
 import cs from "classnames";
@@ -998,6 +997,7 @@ const ProductDetails: React.FC<Props> = ({
                       maxValue={corporatePDP ? 1 : maxQuantity}
                       currentValue={quantity}
                       onChange={onQuantityChange}
+                      errorMsgClass={styles.sizeErrorMessage}
                       // errorMsg={selectedSize ? "Available qty in stock is" : ""}
                     />
                   </div>
@@ -1049,6 +1049,10 @@ const ProductDetails: React.FC<Props> = ({
                 src={offer}
                 className={styles.offerImage}
                 alt="offer20-icon"
+                style={{
+                  width: "17px",
+                  marginRight: "8px"
+                }}
               />
               <div className={cs(styles.offerMessage)}>
                 {ReactHtmlParser(badgeMessage)}

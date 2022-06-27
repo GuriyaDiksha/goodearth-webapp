@@ -133,53 +133,55 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
                     ""
                   )}
                 </p>
-                <p
-                  className={cs(
-                    styles.editTrack,
-                    data.invoiceFileName ? "" : styles.editTrackDisabled
-                  )}
-                >
-                  <a
+                {data?.status === "Delivered" ? (
+                  <p
                     className={cs(
-                      data.invoiceFileName
-                        ? globalStyles.cerise
-                        : globalStyles.ceriseDisabled
+                      styles.editTrack,
+                      data.invoiceFileName ? "" : styles.editTrackDisabled
                     )}
-                    onClick={e => {
-                      if (!data.invoiceFileName) {
-                        return false;
-                      }
-
-                      const filename = data.invoiceFileName.split(
-                        "ge-invoice-test/"
-                      )[1];
-                      fetch(data.invoiceFileName).then(function(t) {
-                        return t.blob().then(b => {
-                          const a = document.createElement("a");
-                          a.href = URL.createObjectURL(b);
-                          a.setAttribute("download", filename);
-                          a.click();
-                        });
-                      });
-                    }}
-                    data-name="track"
-                    id={data.number}
                   >
-                    <img
-                      alt="goodearth-logo"
-                      src={data?.invoiceFileName ? invoice : invoiceDisabled}
-                      style={{
-                        width: "20px",
-                        height: "15px",
-                        cursor: data?.invoiceFileName
-                          ? "pointer"
-                          : "not-allowed",
-                        marginLeft: "-8px"
+                    <a
+                      className={cs(
+                        data.invoiceFileName
+                          ? globalStyles.cerise
+                          : globalStyles.ceriseDisabled
+                      )}
+                      onClick={e => {
+                        const filename = data.invoiceFileName.split(
+                          "ge-invoice-test/"
+                        )[1];
+                        fetch(data.invoiceFileName).then(function(t) {
+                          return t.blob().then(b => {
+                            if (!data.invoiceFileName) {
+                              return false;
+                            }
+
+                            const a = document.createElement("a");
+                            a.href = URL.createObjectURL(b);
+                            a.setAttribute("download", filename);
+                            a.click();
+                          });
+                        });
                       }}
-                    />{" "}
-                    INVOICE{" "}
-                  </a>
-                </p>
+                      data-name="track"
+                      id={data.number}
+                    >
+                      <img
+                        alt="goodearth-logo"
+                        src={data?.invoiceFileName ? invoice : invoiceDisabled}
+                        style={{
+                          width: "20px",
+                          height: "15px",
+                          cursor: data?.invoiceFileName
+                            ? "pointer"
+                            : "not-allowed",
+                          marginLeft: "-8px"
+                        }}
+                      />{" "}
+                      INVOICE{" "}
+                    </a>
+                  </p>
+                ) : null}
               </div>
             </div>
           </address>
