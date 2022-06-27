@@ -715,3 +715,12 @@ $list: $grey 92%, $white 8%;
   color: #FFFFFF;
   letter-spacing: 0.60px;
 }
+
+//For L1s
+@mixin b3_14px_charcoal{
+  font-family: $font-Montserrat;
+  font-weight: normal;
+  font-size: 14px;
+  color: #191919;
+  letter-spacing: 0.30px;
+}

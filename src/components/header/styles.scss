@@ -63,10 +63,10 @@
       padding: 0 15px;
       // cursor: pointer;
       a.menu-item-link {
-        @include hdr-cat();
+        @include b3_14px_charcoal();
         display: block;
         text-align: center;
-        letter-spacing: 0.2em;
+        text-transform: uppercase;
         position: relative;
         line-height: 50px;
         &.hover-a {
