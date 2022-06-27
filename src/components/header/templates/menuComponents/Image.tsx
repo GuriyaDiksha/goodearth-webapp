@@ -64,6 +64,7 @@ const Image: React.FC<Props> = ({
                 {componentData.src && (
                   <Link
                     to={componentData.link}
+                    target={componentData.openInNewTab ? "_blank" : ""}
                     onClick={() =>
                       onHeaderMegaMenuClick({
                         l1,
@@ -97,6 +98,7 @@ const Image: React.FC<Props> = ({
                   <Link
                     to={data.componentData.link}
                     className={styles.title}
+                    target={componentData.openInNewTab ? "_blank" : ""}
                     onClick={() =>
                       onHeaderMegaMenuClick({
                         l1,
@@ -113,6 +115,7 @@ const Image: React.FC<Props> = ({
                     <Link
                       className={styles.heading}
                       to={componentData.link}
+                      target={componentData.openInNewTab ? "_blank" : ""}
                       onClick={() =>
                         onHeaderMegaMenuClick({
                           l1,
@@ -130,6 +133,7 @@ const Image: React.FC<Props> = ({
                     <Link
                       className={styles.subheading}
                       to={componentData.link}
+                      target={componentData.openInNewTab ? "_blank" : ""}
                       onClick={() =>
                         onHeaderMegaMenuClick({
                           l1,
