@@ -533,7 +533,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                   {String.fromCharCode(
                     ...currencyCode[confirmData.currency as Currency]
                   )}
-                  &nbsp; {parseFloat(confirmData.totalInclTax).toFixed(2)}
+                  &nbsp; {parseFloat(confirmData.orderSubTotal).toFixed(2)}
                 </p>
               </div>
 
