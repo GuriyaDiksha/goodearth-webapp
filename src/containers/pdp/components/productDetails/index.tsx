@@ -17,7 +17,7 @@ import PdpQuantity from "components/quantity/pdpQuantity";
 import SizeSelector from "components/SizeSelector";
 import PdpButton from "components/Button/pdpButton";
 import Share from "components/Share";
-import PdpAccordion from "components/Accordion/pdpAccordion";
+// import Accordion from "components/Accordion";
 import WishlistButtonpdp from "components/WishlistButton/wishlistButtonpdp";
 
 import ColorSelector from "components/ColorSelector";
@@ -66,6 +66,7 @@ import inshop from "../../../../images/inShop.svg";
 import legal from "../../../../images/legal.svg";
 import DockedPanel from "../../docked";
 import { updateQuickviewId } from "../../../../actions/quickview";
+import Accordion from "components/Accordion";
 
 const ProductDetails: React.FC<Props> = ({
   data: {
@@ -112,7 +113,8 @@ const ProductDetails: React.FC<Props> = ({
   toggelHeader,
   source,
   showAddToBagMobile,
-  loading
+  loading,
+  setPDPButton
 }): JSX.Element => {
   const [productTitle, subtitle] = title.split("(");
   const {
@@ -317,7 +319,7 @@ const ProductDetails: React.FC<Props> = ({
         id: "shippAndHandle"
       },
       {
-        header: "For Any queries or Assistance",
+        header: "Queries or Assistance",
         body: <div> {!isQuickview && <PdpCustomerCareInfo />} </div>,
         id: "queries"
       },
@@ -649,7 +651,7 @@ const ProductDetails: React.FC<Props> = ({
         : addToBasket;
       // setSizeerror(false);
     }
-
+    setPDPButton?.(<PdpButton label={buttonText} onClick={action} />);
     return <PdpButton label={buttonText} onClick={action} />;
   }, [
     corporatePDP,
@@ -712,7 +714,7 @@ const ProductDetails: React.FC<Props> = ({
   const withBadge = images && images.length && images[0].badgeImagePdp;
   return (
     <Fragment>
-      {!mobile && !isQuickview && showDock && (
+      {/* {!mobile && !isQuickview && showDock && (
         <DockedPanel
           data={data}
           buttoncall={Pdpbutton}
@@ -720,7 +722,7 @@ const ProductDetails: React.FC<Props> = ({
           price={price}
           discountPrice={discountPrices}
         />
-      )}
+      )} */}
       <div className={bootstrap.row}>
         <div
           className={cs(
@@ -756,21 +758,19 @@ const ProductDetails: React.FC<Props> = ({
               />
             </div>
           )} */}
-            <div
-              className={cs(bootstrap.col12, styles.collectionHeader, {
-                [globalStyles.voffset3]: !withBadge
-              })}
-            >
-              {collection && (
-                <Link
-                  to={collectionUrl || "#"}
-                  onClick={closeModal ? closeModal : () => null}
-                >
-                  {" "}
-                  {collection}{" "}
-                </Link>
-              )}
-            </div>
+            {collection && (
+              <div className={cs(bootstrap.col12, styles.collectionHeader, {})}>
+                {collection && (
+                  <Link
+                    to={collectionUrl || "#"}
+                    onClick={closeModal ? closeModal : () => null}
+                  >
+                    {" "}
+                    {collection}{" "}
+                  </Link>
+                )}
+              </div>
+            )}
             <div className={cs(bootstrap.col8, bootstrap.colMd8, styles.title)}>
               {productTitle}
               {subtitle && <p>({subtitle.split(")")[0]})</p>}
@@ -1048,6 +1048,10 @@ const ProductDetails: React.FC<Props> = ({
                 src={offer}
                 className={styles.offerImage}
                 alt="offer20-icon"
+                style={{
+                  width: "17px",
+                  marginRight: "8px"
+                }}
               />
               <div className={cs(styles.offerMessage)}>
                 {ReactHtmlParser(badgeMessage)}
@@ -1157,6 +1161,7 @@ const ProductDetails: React.FC<Props> = ({
                 categories={categories}
                 id={id}
                 showText={!mobile}
+                mobile={mobile}
                 size={selectedSize ? selectedSize.size : undefined}
                 iconClassName={cs({
                   [styles.mobileWishlistIcon]: mobile
@@ -1252,12 +1257,11 @@ const ProductDetails: React.FC<Props> = ({
           )} */}
             <div>
               {!isQuickview && (
-                <PdpAccordion
+                <Accordion
                   sections={accordionSections}
+                  className="pdp-accordion"
                   headerClassName={styles.accordionHeader}
                   bodyClassName={styles.accordionBody}
-                  headerClosedClassName={styles.headerClosedClassName}
-                  headerOpenClassName={styles.headerOpenClassName}
                   defaultOpen="details"
                 />
               )}

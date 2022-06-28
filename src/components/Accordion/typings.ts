@@ -9,14 +9,10 @@ export type Section = {
 export type Props = {
   sections: Section[];
   defaultOpen?: string;
-  openIconClass?: string;
-  closedIconClass?: string;
-  className?: string;
-  headerClassName?: string;
+  className: string;
+  headerClassName: string;
+  closedIconClassName?: string;
+  openIconClassName?: string;
   bodyClassName?: string;
-  headerClosedClassName?: string;
-  openClass?: string;
-  closedClass?: string;
-  setHideScroll?: any;
-  headerOpenClassName?: string;
+  sectionClassName?: string;
 };

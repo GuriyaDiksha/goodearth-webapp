@@ -7,10 +7,9 @@
         letter-spacing: 1px;
         line-height: 43px;
         text-decoration: none;
-        
         @include pdp_breadcrumbs();
         &:last-child {
-            color: tint(#000, 40%);
+            color: #191919;
         }
         
     }
