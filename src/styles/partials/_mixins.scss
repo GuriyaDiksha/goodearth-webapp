@@ -478,7 +478,7 @@
 }
 
 @mixin more-details {
-  font-family: $font-Lato;
+  font-family: $font-Lora;
   text-transform: uppercase;
   font-size: 12px;
   letter-spacing: 1px;
@@ -762,4 +762,19 @@ $list: $grey 92%, $white 8%;
   &.close {
     transform: rotate(-135deg);
   }
+}
+
+@mixin view_all_results {
+  font-family: $font-Montserrat;
+  font-size: 9px;
+  color: $gold;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+@mixin search_placeholder() {
+  font-family: $font-Lora;
+  font-size: 14px;
+  letter-spacing: 0.3px;
+  font-style: italic;
 }

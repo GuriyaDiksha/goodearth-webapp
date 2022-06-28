@@ -139,8 +139,9 @@
 
 .arrow{
   @include carret();
-  height: 4px;
-  width: 4px;
+  height: 5px;
+  width: 5px;
+  margin-left: 5px;
 }
 
 .open-up {
