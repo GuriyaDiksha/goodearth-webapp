@@ -8,4 +8,5 @@ export interface Props {
   code: any;
   currency: Currency;
   badgeType?: string;
+  className?: string;
 }
