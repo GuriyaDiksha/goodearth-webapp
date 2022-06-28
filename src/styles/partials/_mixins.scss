@@ -305,8 +305,7 @@
   font-family: $font-Montserrat;
   color: $charcoal19;
   text-transform: none;
-  //line-height: 20px;
-  margin-top: 15px;
+  line-height: 20px;
   letter-spacing: 0.36px;
 }
 // @mixin pdp_prod_title_mobile {
@@ -407,7 +406,7 @@
   font-style: italic;
   color: $cerise;
   font-weight: bold;
-  font-family: $font-Lato;
+  font-family: $font-Lora;
   letter-spacing: 1px;
   // text-transform: lowercase;
   &::first-letter {
@@ -473,7 +472,8 @@
 }
 
 @mixin pdp_breadcrumbs {
-  font-size: 12px;
+  font-size: 10px;
+  font-family: $font-Montserrat;
   color: tint(#000, 60%);
 }
 

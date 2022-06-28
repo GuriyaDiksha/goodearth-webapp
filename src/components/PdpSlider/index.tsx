@@ -18,7 +18,9 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import "../../styles/myslick.css";
 import "./slick.css";
-import Slider, { Settings } from "react-slick";
+import Slider from "react-slick";
+
+import { config } from "./sliderConfig";
 
 const PdpSlider: React.FC<Props> = memo(
   ({ images = [], activeIndex = 0, className, onImageClick, alt }) => {
@@ -29,25 +31,6 @@ const PdpSlider: React.FC<Props> = memo(
         onImageClick && onImageClick(index);
       };
     }, []);
-
-    const config: Settings = {
-      dots: false,
-      infinite: true,
-      speed: 500,
-      slidesToShow: 3,
-      arrows: true,
-      slidesToScroll: 1,
-      initialSlide: 0,
-      responsive: [
-        {
-          breakpoint: 992,
-          settings: {
-            dots: false,
-            arrows: true
-          }
-        }
-      ]
-    };
 
     const sliderRef: any = useRef();
 
@@ -75,7 +58,7 @@ const PdpSlider: React.FC<Props> = memo(
             <img
               alt={alt}
               className={globalStyles.imgResponsive}
-              src={productImage}
+              src={productImage.replace("/Micro/", "/Medium/")}
             ></img>
             {icon && iconcount == 1 && (
               <img src={overlay} className={styles.overlay}></img>
