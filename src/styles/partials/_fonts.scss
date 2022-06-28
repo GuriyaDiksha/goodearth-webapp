@@ -82,7 +82,12 @@
     font-style: normal;
   }
 
-
+@font-face {
+  font-family: "Lora";
+  src: url("../fonts/Lora-Italic.ttf");
+  font-style: italic;
+  font-display: swap;
+}
 //   @font-face {
 //     font-family: "AmiriFont";
 //     src: url("../../fonts/Amiri\ regular.ttf") format('truetype');

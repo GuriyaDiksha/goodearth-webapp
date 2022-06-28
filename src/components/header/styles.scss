@@ -70,10 +70,10 @@
         position: relative;
         line-height: 50px;
         &.hover-a {
-          text-decoration: underline;
+          color: $gold;
         }
         &.hover-stories:hover {
-          text-decoration: underline;
+          color: $gold;
         }
         &.hover-stories {
           text-decoration: none;
@@ -893,14 +893,17 @@ a {
     padding: 0 200px 0 120px;
     line-height: 60px;
     font-size: 20px;
+    &::placeholder{
+      @include search_placeholder();
+      color: $light-charcoal
+    }
   }
   .link-results {
     position: absolute;
     white-space: pre-wrap;
     right: 7%;
     cursor: pointer;
-    @include more-details();
-    font-size: 10px;
+    @include view_all_results();
     &.gold-color{
       color: #9C7D50
     }
@@ -1128,7 +1131,7 @@ color: tint(#000, 50%);
       right: 12%;
       top: 15%;
       &.mobile-link-results{
-        right: 12%;
+        right: 6%;
         font-size: 9px;
       }
     }
@@ -1478,7 +1481,7 @@ visibility: visible !important;
     bottom: 2px;
     color: #444444;
     &.wishlist-active{
-      color: $cerise
+      color: $gold;
     }
   }
   .menu-icon-style {

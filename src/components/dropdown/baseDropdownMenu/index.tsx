@@ -91,17 +91,17 @@ const BaseDropdownMenu = ({
               // {
               //   [styles.caret]: !menuOpen && id != "currency-dropdown-sidemenu"
               // },
-              {
-                [styles.caretUp]:
-                  !menuOpen && id == "currency-dropdown-sidemenu"
-              },
-              {
-                [styles.caret]: menuOpen && id == "currency-dropdown-sidemenu"
-              },
-              {
-                [globalStyles.cerise]:
-                  menuOpen && id == "currency-dropdown-sidemenu"
-              },
+              // {
+              //   [styles.caretUp]:
+              //     !menuOpen && id == "currency-dropdown-sidemenu"
+              // },
+              // {
+              //   [styles.caret]: menuOpen && id == "currency-dropdown-sidemenu"
+              // },
+              // {
+              //   [globalStyles.cerise]:
+              //     menuOpen && id == "currency-dropdown-sidemenu"
+              // },
               { [styles.disabled]: disabled },
               // { [styles.goldColor]: id == "currency-dropdown-sidemenu" },
 
@@ -110,11 +110,22 @@ const BaseDropdownMenu = ({
                   id == "currency-dropdown-sidemenu"
               },
 
-              //================The classes are reversed because of different usecase===============================
+              //================The classes are reversed because of different use case===============================
               { [styles.arrow]: id == "currency-dropdown" },
               { [styles.close]: !menuOpen && id == "currency-dropdown" },
               { [styles.open]: menuOpen && id == "currency-dropdown" },
-              { [styles.goldBorder]: menuOpen && id == "currency-dropdown" }
+              { [styles.goldBorder]: menuOpen && id == "currency-dropdown" },
+
+              //=================Currency Dropdown Sidemenu =====================================
+              { [styles.arrow]: id == "currency-dropdown-sidemenu" },
+              {
+                [styles.close]: !menuOpen && id == "currency-dropdown-sidemenu"
+              },
+              { [styles.open]: menuOpen && id == "currency-dropdown-sidemenu" },
+              {
+                [styles.goldBorder]:
+                  menuOpen && id == "currency-dropdown-sidemenu"
+              }
             )}
           ></span>
         ) : (
