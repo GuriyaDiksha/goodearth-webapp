@@ -879,16 +879,19 @@ class Mobilemenu extends React.Component<Props, MobileState> {
                   <li
                     key={item.value}
                     data-name={item.value}
-                    className={
-                      this.props.currency == item.value ? styles.cerise : ""
-                    }
+                    className={cs(
+                      this.props.currency == item.value
+                        ? styles.lowerMenuSelectedCurrency
+                        : "",
+                      styles.lowerMenuCurrency
+                    )}
                     onClick={() => {
                       changeCurrency(item.value);
                       util.headerClickGTM("Currency", "Top", true, isLoggedIn);
                       clickToggle();
                     }}
                   >
-                    {item.label}
+                    Shipping to: {item.label}
                   </li>
                 );
               })}
