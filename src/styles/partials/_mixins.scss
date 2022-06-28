@@ -724,3 +724,42 @@ $list: $grey 92%, $white 8%;
   color: #191919;
   letter-spacing: 0.30px;
 }
+
+//Base dropdown menu
+@mixin b5_10px_charcoal{
+  font-family: $font-Montserrat;
+  font-weight: normal;
+  font-size: 10px;
+  color: #191919;
+  letter-spacing: 0.30px;
+}
+
+@mixin search_text{
+  font-family: $font-Montserrat;
+  font-weight: normal;
+  font-size: 12px;
+  color: #9E2E56;
+  letter-spacing: 0.30px;
+}
+
+@mixin header_currency{
+  font-family: $font-Montserrat;
+  font-weight: normal;
+  font-size: 12px;
+  color: #4C4C4C;
+  letter-spacing: 0.30px; 
+}
+
+@mixin carret{
+  height: 12px;
+  width: 12px;
+  border-top: 1px solid black;
+  border-left: 1px solid black;
+  transition: transform 0.2s ease-in;
+  &.open {
+    transform: rotate(45deg);
+  }
+  &.close {
+    transform: rotate(-135deg);
+  }
+}
