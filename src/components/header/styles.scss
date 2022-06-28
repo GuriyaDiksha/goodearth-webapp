@@ -159,7 +159,7 @@
     }
     .inner-wish-container {
       margin-top: 4px !important;
-      color: $cerise;
+      color: $gold;
       &:hover {
         a, div {
           color: inherit;
@@ -178,7 +178,7 @@
     }
     .inner-cart-container {
       margin-top: 4px !important;
-      color: $cerise;
+      color: $gold;
       &:hover {
         i {
           color: inherit;
@@ -218,12 +218,6 @@
     .icon-style {
       font-size: 20px;
       margin: inherit;
-      &:hover {
-        color: $cerise;
-        + span {
-          color: $cerise;
-        }
-      }
     }
     .adding {
       right: -10px;
@@ -242,14 +236,6 @@
     display: inline-flex;
     margin-top: 2px;
     .curr {
-      &:hover {
-        span {
-          color: $cerise;
-          // &:nth-child(2) {
-          //  // border-top: 5px solid $cerise;
-          //   }
-        }
-      }
       span {
         &:first-child{
           margin: 0 6px 0 0;
@@ -692,16 +678,15 @@
 .first-menu{
   float: left;
   .icon-style {
-    font-size: 18px;
+    font-size: 14px;
+    line-height: 20px;
     margin-right: 10px;
+    height: 20px;
   }
   .search-text{
+    @include search_text();
     padding-top: 14px;
-    font-style: normal;
-    font-size: 12px;
-    font-family: $font-Lato;
     letter-spacing: 0.1em;
-    color: $cerise;
     display: flex;
     width: 100%;
     cursor: pointer;

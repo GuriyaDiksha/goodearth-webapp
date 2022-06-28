@@ -40,6 +40,8 @@
     }
 }
 
-.size-guide-accordion{
-    position:relative;
+.arrow {
+  @include carret();
+  position: absolute;
+  right: 20px;
 }
