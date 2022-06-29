@@ -1,11 +1,11 @@
 import { MetaAction } from "typings/actions";
-import { getJobIdFromSlug } from "utils/url";
+import { getJobIdFromPath } from "utils/url";
 
 const metaAction: MetaAction = ({ pathname }) => {
-  const id = getJobIdFromSlug(pathname);
+  const jobId = getJobIdFromPath(pathname);
   return {
     page: "careers",
-    jobId: id ? id.toString() : undefined
+    jobId: jobId ? jobId.toString() : undefined
   };
 };
 
