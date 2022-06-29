@@ -1,13 +1,21 @@
 import { Dispatch } from "redux";
 import API from "utils/api";
-import { JobData } from "containers/career/typings";
+import { JobData } from "containers/careerDetail/typings";
 import { ApiResponse } from "typings/api";
+import { JobListData } from "containers/careerNew/typings";
 
 export default {
-  fetchJobData: (dispatch: Dispatch) => {
+  fetchJobListData: (dispatch: Dispatch) => {
+    const data = API.get<JobListData>(
+      dispatch,
+      `${__API_HOST__}/myapi/common/job_list/`
+    );
+    return data;
+  },
+  fetchJob: (dispatch: Dispatch, jobId: number) => {
     const data = API.get<JobData>(
       dispatch,
-      `${__API_HOST__}/myapi/common/career_landing_page/`
+      `${__API_HOST__}/myapi/common/job?id=${jobId}`
     );
     return data;
   },
