@@ -14,6 +14,7 @@ export type Section2Props = {
   mobile: boolean;
   data: any;
   currency: Currency;
+  setSelectedCountry: (country: string) => void;
   next: (data: any, section: string) => void;
   goback: (section: string) => void;
   setData: (data: any, section: string) => void;

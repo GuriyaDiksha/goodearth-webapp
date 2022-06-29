@@ -47,6 +47,7 @@ const L3: React.FC<Props> = ({
               <Link
                 className={styles.l3}
                 to={componentData.link}
+                target={componentData.openInNewTab ? "_blank" : ""}
                 onClick={() =>
                   onHeaderMegaMenuClick({
                     l1,
