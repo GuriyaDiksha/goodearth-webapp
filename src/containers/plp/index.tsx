@@ -71,6 +71,7 @@ class PLP extends React.Component<
     corporoateGifting: boolean;
     isThirdParty: boolean;
     count: number;
+    showProductCounter: boolean;
   }
 > {
   constructor(props: Props) {
@@ -92,7 +93,8 @@ class PLP extends React.Component<
       corporoateGifting:
         props.location.pathname.includes("corporate-gifting") ||
         props.location.search.includes("&src_type=cp"),
-      isThirdParty: props.location.search.includes("&src_type=cp")
+      isThirdParty: props.location.search.includes("&src_type=cp"),
+      showProductCounter: true
     };
   }
   private child: any = FilterList;
@@ -476,6 +478,10 @@ class PLP extends React.Component<
       });
     }
   }
+
+  toggleSort = (state: boolean) => {
+    this.setState({ showProductCounter: state });
+  };
 
   render() {
     const {
@@ -1013,9 +1019,10 @@ class PLP extends React.Component<
             value={this.state.sortValue}
             key={"plpPageMobile"}
             sortedDiscount={facets.sortedDiscount}
+            toggleSort={this.toggleSort}
           />
         )}
-        {mobile && this.state.count > -1 && (
+        {mobile && this.state.count > -1 && this.state.showProductCounter && (
           <ProductCounter
             current={this.state.count}
             total={!this.state.corporoateGifting ? count + 1 : count}
