@@ -43,34 +43,34 @@ const Career: React.FC<Props> = props => {
   const [showMobileDropdown, setShowMobileDropdown] = useState(false);
   const { mobile } = useSelector((state: AppState) => state.device);
   const { showTimer } = useSelector((state: AppState) => state.info);
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
   // Fetch Jobs
   useEffect(() => {
-    CareerService.fetchJobData(dispatch)
-      .then(jobData => {
-        const jobList: Job[] = [];
-        const locationList: string[] = [];
-        jobData.forEach(locationwiseJobs => {
-          for (const location in locationwiseJobs) {
-            jobList.push(...locationwiseJobs[location]);
-            location.toLowerCase() != "any" && locationList.push(location);
-          }
-        });
-        const jobListOnly = jobList.filter(
-          job => job.jobTitle.toLowerCase() !== "all"
-        );
-        const applyAllJob = jobList.filter(
-          job => job.jobTitle.toLowerCase() === "all"
-        )[0];
-        setJobList(jobListOnly);
-        setAllJobList(jobListOnly);
-        setApplyAllJob(applyAllJob);
-        setLocationList(locationList);
-      })
-      .catch(err => {
-        // do nothing
-      });
+    // CareerService.fetchJobData(dispatch)
+    //   .then(jobData => {
+    //     const jobList: Job[] = [];
+    //     const locationList: string[] = [];
+    //     jobData.forEach(locationwiseJobs => {
+    //       for (const location in locationwiseJobs) {
+    //         jobList.push(...locationwiseJobs[location]);
+    //         location.toLowerCase() != "any" && locationList.push(location);
+    //       }
+    //     });
+    //     const jobListOnly = jobList.filter(
+    //       job => job.jobTitle.toLowerCase() !== "all"
+    //     );
+    //     const applyAllJob = jobList.filter(
+    //       job => job.jobTitle.toLowerCase() === "all"
+    //     )[0];
+    //     setJobList(jobListOnly);
+    //     setAllJobList(jobListOnly);
+    //     setApplyAllJob(applyAllJob);
+    //     setLocationList(locationList);
+    //   })
+    //   .catch(err => {
+    //     // do nothing
+    //   });
     window.scrollTo(0, 0);
     util.pageViewGTM("Career");
   }, []);

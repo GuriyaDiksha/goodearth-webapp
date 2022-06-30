@@ -44,6 +44,7 @@ const Title: React.FC<Props> = ({
             <Link
               className={styles.title}
               to={componentData.link}
+              target={componentData.openInNewTab ? "_blank" : ""}
               onClick={() =>
                 onHeaderMegaMenuClick({
                   l1,
@@ -58,6 +59,7 @@ const Title: React.FC<Props> = ({
             {componentData.src && (
               <Link
                 to={componentData.link}
+                target={componentData.openInNewTab ? "_blank" : ""}
                 onClick={() =>
                   onHeaderMegaMenuClick({
                     l1,
@@ -126,6 +128,7 @@ const Title: React.FC<Props> = ({
           <Link
             className={styles.cta}
             to={componentData.link}
+            target={componentData.openInNewTab ? "_blank" : ""}
             onClick={() =>
               onHeaderMegaMenuClick({
                 l1,
