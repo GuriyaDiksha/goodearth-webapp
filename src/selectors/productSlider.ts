@@ -10,7 +10,6 @@ export const getProductSliderItems = (
   const sliderItems: RecommendData[] = [];
   ids.map(id => {
     const product = products[id] as PartialProductItem;
-
     sliderItems.push({
       id: id,
       collection: product.collection || "",
