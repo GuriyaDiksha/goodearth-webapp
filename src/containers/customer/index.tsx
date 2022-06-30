@@ -20,6 +20,7 @@ import SaleTncAug2020 from "./components/Static/saleTncAug2020";
 import StaticService from "services/static";
 import * as util from "utils/validate";
 import Cust from "./components/Static/cust";
+import { useHistory } from "react-router-dom";
 
 type Props = {
   isbridal: boolean;
@@ -37,19 +38,26 @@ const StaticPage: React.FC<Props> = props => {
   const [accountListing, setAccountListing] = useState(false);
   const [slab] = useState("");
   const { mobile } = useStore().getState().device;
-  const { showTimer } = useSelector((state: AppState) => state.info);
+  const { showTimer, isSale } = useSelector((state: AppState) => state.info);
   const { footerList } = useSelector((state: AppState) => state.footer.data);
   const { path } = useRouteMatch();
-
+  const history = useHistory();
   const [currentSection, setCurrentSection] = useState("");
-
-  // const location = useLocation();
 
   useEffect(() => {
     bridalId = CookieService.getCookie("bridalId");
     window.scrollTo(0, 0);
     util.pageViewGTM("Static");
   }, []);
+
+  useEffect(() => {
+    if (
+      !isSale &&
+      window.location.pathname === "/customer-assistance/sales-conditions"
+    ) {
+      history?.push("/error-page");
+    }
+  }, [isSale]);
 
   const dispatch = useDispatch();
   const fetchTerms = async (link: string) => {
