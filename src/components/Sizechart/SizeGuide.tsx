@@ -51,7 +51,7 @@ const SizeGuide: React.FC<SizeGuideProps> = memo(({ isSingleSection }) => {
   return (
     <>
       {isSingleSection ? (
-        <div className={styles.singleSectionTitle}>SIZE GUIDE</div>
+        <div className={styles.singleSectionTitle}>SIZE CHART</div>
       ) : null}
       <Toggle
         values={values as string[]}
@@ -64,23 +64,10 @@ const SizeGuide: React.FC<SizeGuideProps> = memo(({ isSingleSection }) => {
           [styles.styleGuideSingleSection]: isSingleSection
         })}
       >
-        <table className={styles.tableContent}>
-          <tbody>
-            <tr>
-              <th scope="col">Measurements</th>
-            </tr>
-            {measurements.map((measurement: number, i: number) => (
-              <tr key={i}>
-                <th className={styles.sizeChartLegend} scope="row">
-                  {ReactHtmlParser(measurement)}
-                </th>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-        <table className={cs(styles.tableContent, styles.scrollable)}>
+        <table>
           <thead>
             <tr>
+              <th key={0}>Measurements</th>
               {sizes.map((child: ChildProductAttributes) => {
                 const { id, size, stock, sku } = child;
                 return (
@@ -109,6 +96,7 @@ const SizeGuide: React.FC<SizeGuideProps> = memo(({ isSingleSection }) => {
             {data.map((dataRow: number[], i: number) => {
               return (
                 <tr key={i}>
+                  {<td>{ReactHtmlParser(measurements[i])}</td>}
                   {dataRow.map((dataItem: number, j: number) => (
                     <td
                       key={j}
