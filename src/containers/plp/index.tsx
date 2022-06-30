@@ -114,26 +114,13 @@ class PLP extends React.Component<
     dataLayer.push(function(this: any) {
       this.reset();
     });
+
     util.pageViewGTM("PLP");
     dataLayer.push({
       event: "PlpView",
       PageURL: this.props.location.pathname,
       Page_Title: "virtual_plp_view"
     });
-    // dataLayer.push(
-    //   {
-    //   'Event Category':'GA Ecommerce',
-    //   'Event Action':'PLP ',
-    //   'Event Label':'Pass the L3 product category',
-    //   'Product Category':'Pass the product category L1 - L2 - L3',
-    //   "Login Status": this.props.isLoggedIn
-    //           ? "logged in"
-    //           : "logged out",
-    //   "Time Stamp": new Date().toISOString(),
-    //   "Page Url": location.href,
-    //   "Page Type": util.getPageType(),
-    //   "Page referrer url": CookieService.getCookie("prevUrl")
-    //   });
 
     Moengage.track_event("Page viewed", {
       "Page URL": this.props.location.pathname,
@@ -446,12 +433,38 @@ class PLP extends React.Component<
     }
   };
 
+  plpViewGTM(newdata: any) {
+    const product = newdata.data.results?.data[0];
+    const len = product.categories.length;
+    const category = product.categories[len - 1];
+    // const l3Len = category.split(">").length;
+    const l3 = category.split(">")[0];
+
+    dataLayer.push({
+      "Event Category": "GA Ecommerce",
+      "Event Action": "PLP ",
+      "Event Label": l3,
+      "Product Category": category.replace(/>/g, "-"),
+      "Login Status": this.props.isLoggedIn ? "logged in" : "logged out",
+      "Time Stamp": new Date().toISOString(),
+      "Page Url": location.href,
+      "Page Type": util.getPageType(),
+      "Page referrer url": CookieService.getCookie("prevUrl")
+    });
+  }
   UNSAFE_componentWillReceiveProps(nextProps: Props) {
     const queryString = nextProps.location.search;
     const urlParams = new URLSearchParams(queryString);
     const param = urlParams.get("sort_by");
+    if (
+      this.props.data.results.data.length == 0 &&
+      nextProps.data.results.data.length > 0
+    ) {
+      this.plpViewGTM(nextProps);
+    }
     if (this.props.location.pathname != nextProps.location.pathname) {
       util.pageViewGTM("PLP");
+      this.plpViewGTM(nextProps);
       this.setState({
         plpMaker: false,
         sortValue: param ? param : "hc",
