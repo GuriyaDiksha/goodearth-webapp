@@ -41,8 +41,8 @@ const DockedPanel: React.FC<Props> = ({
             className={cs(globalStyles.imgResponsive)}
             src={
               data.images
-                ? data.images[0].productImage
-                  ? data.images[0].productImage.replace("/Medium/", "/Micro/")
+                ? data.images[0]?.productImage
+                  ? data.images[0]?.productImage.replace("/Medium/", "/Micro/")
                   : ""
                 : ""
             }
