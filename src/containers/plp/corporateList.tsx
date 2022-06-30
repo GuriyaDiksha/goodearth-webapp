@@ -1575,7 +1575,8 @@ class CorporateFilter extends React.Component<Props, State> {
   };
 
   changeValue = (event: any, sort: any) => {
-    const filter = Object.assign({}, this.state.filter);
+    // const filter = Object.assign({}, this.state.filter);
+    const { filter } = this.state;
     if (sort == "price_asc") {
       filter.sortBy = { sortBy: "price_asc" };
     } else if (sort == "price_desc") {
