@@ -61,7 +61,7 @@ const TwoCTA: React.FC<Props> = ({
             className={cs(globalStyles.c22AI, styles.heading)}
             style={{ marginTop: icon ? "0" : "30px" }}
           >
-            {heading}
+            {ReactHtmlParser(heading)}
           </div>
           <div
             className={cs(
@@ -113,7 +113,11 @@ const TwoCTA: React.FC<Props> = ({
               </a>
             </div>
           </div>
-          {disclaimer && <div className={styles.disclaimer}>{disclaimer}</div>}
+          {disclaimer && (
+            <div className={styles.disclaimer}>
+              {ReactHtmlParser(disclaimer)}
+            </div>
+          )}
         </div>
       </div>
     </>
