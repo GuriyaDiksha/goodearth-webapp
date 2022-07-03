@@ -329,14 +329,22 @@ class SideMenu extends React.Component<Props, State> {
             >
               <div className={cs(styles.iconStyle, styles.innerCartContainer)}>
                 <i
-                  className={cs(iconStyles.icon, iconStyles.iconCart)}
+                  className={cs(iconStyles.icon, iconStyles.iconCart, {
+                    [styles.cartGold]: this.props.location.pathname.includes(
+                      "/cart"
+                    )
+                  })}
                   onClick={(): void => {
                     this.props.setShowBag(true);
                     this.props.onSideMenuClick("Cart");
                   }}
                 ></i>
                 <span
-                  className={styles.badge}
+                  className={cs(styles.badge, {
+                    [styles.cartGold]: this.props.location.pathname.includes(
+                      "/cart"
+                    )
+                  })}
                   onClick={(): void => {
                     this.props.setShowBag(true);
                     this.props.onSideMenuClick("Cart");
