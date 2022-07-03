@@ -35,23 +35,44 @@
       top: 5%;
       color: black;
       .icon-class {
-        color: $cerise;
+        color: $med-charcoal;
       }
       i {
         line-height: 44px;
         font-size: 20px;
+        color: $med-charcoal;
       }
     }
   }
   input {
-    font-size: 14px;
+    font-size: 12px !important;
     width: 100%;
     outline: none;
-    background-color: tint(#000, 90%);
+    background-color: #fff;
     border: 0;
     padding: 0 10px 0 30px;
     line-height: 50px;
-    font-family: $font-Lato;
+    font-family: $font-Montserrat;
+    &::-webkit-input-placeholder{
+      font-size: 12px;
+      font-family: $font-Montserrat;
+      text-transform: capitalize;
+    }
+    &::placeholder{
+      font-size: 12px !important;
+      font-family: $font-Montserrat;
+      text-transform: capitalize;
+    }
+    &::-moz-placeholder{
+      font-size: 12px;
+      font-family: $font-Montserrat;
+      text-transform: capitalize;
+    }
+    &::-ms-input-placeholder{
+      font-size: 12px;
+      font-family: $font-Montserrat;
+      text-transform: capitalize;
+    }
     &.open-state {
       background-color: tint(#000, 60%);
     }
@@ -180,10 +201,10 @@ position: fixed;
       }
     }
     input {
-      @include placeholder() {
-        font-family: $font-Lato;
-        font-style: italic;
-      }
+      // @include placeholder() {
+      //   font-family: $font-Lato;
+      //   font-style: italic;
+      // }
     }
   }
 
@@ -233,7 +254,7 @@ position: fixed;
     margin-top: 10px;
 
     >li {
-      @include ftr-heading-white();
+      @include b3_14px_bold_charcoal();
       line-height: 50px;
       font-weight: normal;
       >a {
@@ -269,13 +290,13 @@ position: fixed;
   }
 }
 
-input {
-  @include placeholder() {
-    font-family: $font-Lato;
-    font-style: italic;
-    font-size: 14px;
-  }
-}
+// input {
+//   @include placeholder() {
+//     font-family: $font-Montserrat;
+//     font-size: 10px;
+//     text-transform: capitalize;
+//   }
+// }
 
 @media screen and (min-width: 992px) {
   .main-menu {
@@ -338,28 +359,55 @@ input {
 }
 
 .shopDropdown {
-  border: 1px solid tint(#000, 70%);
-  border-top: 0;
-  width: 100%;
-  position: absolute;
+  height: 100vh;
+  top: 0;
+  left: 0;
   right: 0;
-  top: 100%;
-  background-color: #fff;
-  font-size: 12px;
-  text-transform: capitalize;
-  font-weight: normal;
-  max-height: 180px;
-  overflow-y: scroll;
-  z-index: 8;
-  ul {
-    margin-bottom: 0px;
+  bottom: 0;
+  z-index: 12;
+  display: block;
+  position: fixed;
+  background-color: rgba(0, 0, 0, 0.5);
+  .header{
+    font-family: $font-Montserrat;
+    font-size: 12px;
+  }
+  ul{
+    border: 1px solid tint(#000, 70%);
+    border-top: 0;
+    width: 100%;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    background-color: #fff;
+    font-size: 12px;
+    text-transform: capitalize;
+    font-weight: normal;
+    overflow-y: scroll;
+    z-index: 8;
+    .header{
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      @include b4_12px_charcoal_caps();
+      .locator-label{
+        .location{
+          .icon-store{
+            color: $aqua-bold;
+            font-size: 20px;
+            vertical-align: middle;
+          }
+        }
+      }
+    }
   }
   li {
-    border-top: 1px solid tint(#000, 70%);
+    border-top: 1px solid #9f9f9f33;
     cursor: pointer;
+    margin: 0px 25px;
+    @include b4_12px_charcoal();
     a {
       color: #000;
-      padding: 0 10px;
     }
     &:hover {
       a {
@@ -457,7 +505,7 @@ input {
   height: 0;
   border-top: 6px solid transparent;
   border-bottom: 6px solid transparent;
-  border-left: 6px solid $cerise;
+  border-left: 6px solid $med-charcoal;
   cursor: pointer;
 }
 
@@ -476,4 +524,19 @@ input {
   background-size: contain;
   background-repeat: repeat no-repeat;
   background-position: bottom;
+}
+
+.error-msg{
+  font-size: 14px;
+  color: $cerise;
+  font-family: $font-Lora;
+  font-style: italic;
+  text-align: left;
+}
+
+.subscribe-success{
+  @include b5_10px_white();
+  text-align: left;
+  letter-spacing: 0.8px;
+  font-weight: 600;
 }
