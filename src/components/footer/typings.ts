@@ -20,6 +20,7 @@ export type FooterState = {
   hideImage: boolean;
   newsletterEmail: string;
   newsletterMessage: string;
+  newsletterError: boolean;
   isInViewport: boolean;
 };
 

@@ -88,6 +88,7 @@ export const ShopLocator: React.FC<ShopLocatorProps> = ({
             placeholder="city, country"
             id="drop"
             autoComplete="off"
+            disabled
             onKeyUp={onChange}
           />
           <div
@@ -104,6 +105,27 @@ export const ShopLocator: React.FC<ShopLocatorProps> = ({
           }
         >
           <ul>
+            <li className={styles.header}>
+              <div className={styles.locatorLabel}>
+                <span className={cs(styles.location)}>
+                  <i
+                    className={cs(
+                      iconStyles.icon,
+                      iconStyles.iconLocation,
+                      styles.iconStore
+                    )}
+                  ></i>
+                </span>
+                <span className={styles.label}>City, Country</span>
+              </div>
+              <i
+                className={cs(
+                  iconStyles.icon,
+                  iconStyles.iconCrossNarrowBig,
+                  styles.iconCross
+                )}
+              ></i>
+            </li>
             {locations?.map(
               (data: { label: string; value: string }, index: number) => {
                 return (
