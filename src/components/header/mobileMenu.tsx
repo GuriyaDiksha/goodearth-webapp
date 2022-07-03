@@ -824,12 +824,53 @@ class Mobilemenu extends React.Component<Props, MobileState> {
       showCurrency,
       changeCurrency,
       showC,
-      profileItems
+      profileItems,
+      loginItem
     } = this.props;
     const wishlistIcon = wishlistCount > 0;
     const lowerMenu = (
       <div className={styles.lowerMenu}>
         <ul>
+          {loginItem.label == "Login" && (
+            <li
+              key={loginItem.label}
+              onClick={e => {
+                loginItem.onClick && loginItem.onClick(e);
+                clickToggle();
+              }}
+              className={cs(styles.lowerMenuLoginLogout)}
+            >
+              {loginItem.type == "button" ? (
+                <span
+                  onClick={() => {
+                    util.headerClickGTM(
+                      "Profile Item",
+                      "Top",
+                      true,
+                      isLoggedIn
+                    );
+                  }}
+                >
+                  {loginItem.label}
+                </span>
+              ) : (
+                <NavLink
+                  key={loginItem.label}
+                  to={loginItem.href as string}
+                  onClick={() => {
+                    util.headerClickGTM(
+                      "Profile Item",
+                      "Top",
+                      true,
+                      isLoggedIn
+                    );
+                  }}
+                >
+                  {loginItem.label}
+                </NavLink>
+              )}
+            </li>
+          )}
           <li>
             <Link
               to="/wishlist"
@@ -891,7 +932,7 @@ class Mobilemenu extends React.Component<Props, MobileState> {
                       clickToggle();
                     }}
                   >
-                    Shipping to: {item.label}
+                    {item.label}
                   </li>
                 );
               })}
@@ -940,6 +981,46 @@ class Mobilemenu extends React.Component<Props, MobileState> {
                 </li>
               );
             })}
+            {loginItem.label == "Logout" && (
+              <li
+                key={loginItem.label}
+                onClick={e => {
+                  loginItem.onClick && loginItem.onClick(e);
+                  clickToggle();
+                }}
+                className={cs(styles.lowerMenuLoginLogout)}
+              >
+                {loginItem.type == "button" ? (
+                  <span
+                    onClick={() => {
+                      util.headerClickGTM(
+                        "Profile Item",
+                        "Top",
+                        true,
+                        isLoggedIn
+                      );
+                    }}
+                  >
+                    {loginItem.label}
+                  </span>
+                ) : (
+                  <NavLink
+                    key={loginItem.label}
+                    to={loginItem.href as string}
+                    onClick={() => {
+                      util.headerClickGTM(
+                        "Profile Item",
+                        "Top",
+                        true,
+                        isLoggedIn
+                      );
+                    }}
+                  >
+                    {loginItem.label}
+                  </NavLink>
+                )}
+              </li>
+            )}
           </ul>
         </ul>
       </div>
@@ -964,7 +1045,7 @@ class Mobilemenu extends React.Component<Props, MobileState> {
                     className={
                       this.state.activeindex == i && this.state.showmenulevel1
                         ? cs(styles.menulevel1, styles.menulevel1Open)
-                        : styles.menulevel1
+                        : cs(styles.menulevel1)
                     }
                     onClick={this.Clickmenulevel1.bind(this, i)}
                   >

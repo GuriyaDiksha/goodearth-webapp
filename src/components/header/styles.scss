@@ -439,7 +439,7 @@
   transition: transform 1s ease;
   height: calc(100vh - #{$header-height});
   overflow-y: scroll;
-  background-color: tint(#000, 90%);
+  background-color: $light-beige;
   overflow-x: hidden;
   max-width: 100%;
 }
@@ -474,7 +474,7 @@
   }
   li {
     @include b4_12px_charcoal();
-    text-transform: uppercase;
+    text-transform: capitalize;
     line-height: 40px;
     a {
       color: $charcoal19;
@@ -483,7 +483,7 @@
       padding-left: 20px;
     }
     i {
-      position: absolute;
+      // position: absolute;
       left: 27px;
       top: 36px;
 
@@ -515,7 +515,11 @@
     i {
       font-size: 18px;
     }
-
+    &.lower-menu-login-logout {
+      @include b3_14px_gold();
+      text-transform: capitalize;
+      letter-spacing: 0.8px;
+    }
   }
 
   .p-open {
@@ -530,9 +534,9 @@
   }
 }
 
-.wishlist-link {
-  padding-left: 20px;
-}
+// .wishlist-link {
+//   padding-left: 20px;
+// }
 
 .active {
   -webkit-transform: translateX(-50%);
@@ -559,7 +563,7 @@
     padding: 0px;
   }
   .outer-menu-item {
-    border-bottom: 1px solid tint(#000, 90%);
+    border-bottom: 1px solid #e6e6e69c;
   }
   li {
     color: #000;
@@ -591,18 +595,17 @@
     }
   }
   .menulevel1 {
-    text-transform: uppercase;
-    font-size: 16px;
+    @include b4_14px_CAPS_charcoal();
     padding-left: 20px;
     display: block;
     &:after {
       content: '';
       float: right;
-      border: solid $cerise;
+      border: solid $med-charcoal;
       font-weight: bold;
-      border-width: 0 2px 2px 0;
-      width: 8px;
-      height: 8px;
+      border-width: 0 1px 1px 0;
+      width: 6px;
+      height: 6px;
       transform: rotate(-45deg);
       top: 25px;
       position: absolute;
@@ -622,9 +625,10 @@
     }
   }
   .menulevel1-stories {
-    color: #000;
-    text-transform: uppercase;
-    font-size: 16px;
+    @include b4_14px_CAPS_charcoal();
+    // color: #000;
+    // text-transform: uppercase;
+    // font-size: 16px;
     padding-left: 20px;
     display: block;
   }
@@ -1683,3 +1687,7 @@ ul.inner-menu-mobile {
 .wishlist-gold{
   color: $gold !important;
 }
+
+// .lower-menu-login-logout {
+//   @include b3_14px_gold();
+// }

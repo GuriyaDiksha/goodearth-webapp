@@ -742,6 +742,22 @@ $list: $grey 92%, $white 8%;
   letter-spacing: 0.30px;
 }
 
+@mixin b4_14px_CAPS_charcoal{
+  font-family: $font-Montserrat;
+  font-size: 14px;
+  color: $med-charcoal;
+  font-weight: normal;
+  letter-spacing: 0.30px;
+}
+
+@mixin b3_14px_gold{
+  font-family: $font-Montserrat;
+  font-size: 14px;
+  color: $gold;
+  font-weight: 600;
+  letter-spacing: 0.30px;
+}
+
 @mixin search_text{
   font-family: $font-Montserrat;
   font-weight: normal;
