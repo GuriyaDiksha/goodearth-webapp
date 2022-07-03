@@ -725,6 +725,14 @@ $list: $grey 92%, $white 8%;
   letter-spacing: 0.30px;
 }
 
+@mixin b3_14px_med_charcoal{
+  font-family: $font-Montserrat;
+  font-weight: normal;
+  font-size: 14px;
+  color: $med-charcoal;
+  letter-spacing: 0.30px;
+}
+
 //Base dropdown menu
 @mixin b5_10px_charcoal{
   font-family: $font-Montserrat;
@@ -755,6 +763,22 @@ $list: $grey 92%, $white 8%;
   font-size: 14px;
   color: $gold;
   font-weight: 600;
+  letter-spacing: 0.30px;
+}
+
+@mixin b3_14px_bold_charcoal{
+  font-family: $font-Montserrat;
+  font-weight: bold;
+  font-size: 14px;
+  color: $charcoal19;
+  letter-spacing: 0.30px;
+}
+
+@mixin b5_10px_charcoal{
+  font-family: $font-Montserrat;
+  font-weight: normal;
+  font-size: 10px;
+  color: $charcoal19;
   letter-spacing: 0.30px;
 }
 
