@@ -360,14 +360,6 @@
   color: #ab1e56 !important;
 }
 
-.highlight {
-  color: #ab1e56 !important;
-  font-weight: bold;
-  p {
-    color: #ab1e56 !important;
-    font-weight: bold;
-  }
-}
 .img-responsive {
   display: block;
   max-width: 100%;
@@ -574,8 +566,7 @@
     text-transform: uppercase;
     position: relative;
     span {
-      @include menu-cat-mobile();
-      font-family: inherit;
+      @include b3_14px_med_charcoal();
     }
     li {
       border-bottom: none;
@@ -584,8 +575,12 @@
       //   border-top: 1px solid tint(#000, 90%);
       // }
       a, span {
-        @include menu-copy();
+        @include b4_12px_charcoal();
+        text-transform: capitalize;
         display: block;
+        &.highlight{
+          font-weight: bold;
+        }
       }
       li {
         &:first-child {
@@ -656,17 +651,21 @@
     }
     &:after {
       content: '+';
-      font-weight: bold;
-      font-size: 25px;
-      color: $cerise;
-      font-family: "LatoFont","Helvetica","Arial";
-      font-weight: 300;
+      font-weight: normal;
+      color: $charcoal19;
+      font-size: 18px;
+      font-family: "Montserrat";
       position: absolute;
       right: 0;
       top: 0;
     }
   }
   .menulevel2-open {
+    span{
+      p{
+        font-weight: bold;
+      }
+    }
     &:after {
       content: '-';
     }
@@ -1518,24 +1517,23 @@ ul.inner-menu-mobile {
       position: -webkit-sticky;
       top: -1px;
       z-index: 1;
-      border-bottom: 1px solid #e6e6e6;
-      margin: 0 -35px;
+      // border-bottom: 1px solid #e6e6e6;
+      margin:0 -35px 10px -35px;
       padding: 0 35px;
   }
 }
 .inner-menu-heading {
   text-align: center;
   .back {
+    @include b5_10px_charcoal();
     text-transform: capitalize;
-    color: #464646;
-    font-size: 12px;
     &:before {
       content: '';
       float: left;
       border: solid black;
       border-width: 0 1px 1px 0;
-      width: 8px;
-      height: 8px;
+      width: 6px;
+      height: 6px;
       transform: rotate(135deg);
       top: 21px;
       position: absolute;
@@ -1543,12 +1541,13 @@ ul.inner-menu-mobile {
     }
   }
   .title {
+    @include b3_14px_bold_charcoal();
     text-transform: uppercase;
   }
 }
 
 .double-arrow {
-  font-size: 32px;
+  font-size: 26px;
   vertical-align: middle;
   right: -10px;
   position: relative;
