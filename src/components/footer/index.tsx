@@ -527,6 +527,7 @@ class Footer extends React.Component<Props, FooterState> {
                           saleStatus={this.props.saleStatus}
                           onChangeText={this.onChangeText}
                           shopLocations={this.props.data.shopLocations}
+                          mobile={this.props.mobile}
                         />
                         {this.props.isSale ||
                         !this.props.data.footerPlaylistData?.ctaText ? (
@@ -664,6 +665,7 @@ class Footer extends React.Component<Props, FooterState> {
                       saleStatus={this.props.saleStatus}
                       onChangeText={this.onChangeText}
                       shopLocations={this.props.data.shopLocations}
+                      mobile={this.props.mobile}
                     />
                     {this.props.mobile ? (
                       <div
