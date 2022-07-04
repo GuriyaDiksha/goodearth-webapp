@@ -15,11 +15,16 @@ const Listing: React.FC = () => {
   const { facets, data }: CareerData = useSelector(
     (state: AppState) => state.career
   );
-  const [appliedFilters, setAppliedFilters] = useState([dept]);
+  const [appliedFilters, setAppliedFilters] = useState<string[]>([]);
+  const [selectedDept, setSelectedDept] = useState<string[]>([]);
   const [filteredData, setFilteredData] = useState<Data[]>([]);
   const [isFilterOpen, setIsFilterOpen] = useState<boolean>(false);
   const [reset, setReset] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(true);
+
+  useEffect(() => {
+    setSelectedDept([dept]);
+  }, []);
 
   useEffect(() => {
     setFilteredData(data.filter(ele => ele?.dept === dept));
@@ -27,13 +32,13 @@ const Listing: React.FC = () => {
   }, [data]);
 
   const multipleExist = (arr: string[], values: string[]) => {
-    return values.every(value => {
+    return values.some(value => {
       return arr.includes(value);
     });
   };
 
   useEffect(() => {
-    let newData = data.filter(ele => appliedFilters.includes(ele?.dept));
+    let newData = data.filter(ele => selectedDept.includes(ele?.dept));
     const tagFilteres = facets.tags
       .map(ele => ele.name)
       .filter(ele => appliedFilters.includes(ele));
@@ -50,7 +55,7 @@ const Listing: React.FC = () => {
     }
 
     setFilteredData(newData);
-  }, [appliedFilters]);
+  }, [appliedFilters, selectedDept]);
 
   const NoResultsFound = () => (
     <div className={listing.no_resords_wrp}>
@@ -78,6 +83,8 @@ const Listing: React.FC = () => {
           isFilterOpen={isFilterOpen}
           setIsFilterOpen={setIsFilterOpen}
           reset={reset}
+          selectedDept={selectedDept}
+          setSelectedDept={setSelectedDept}
         />
 
         <div
