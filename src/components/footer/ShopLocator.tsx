@@ -13,7 +13,8 @@ export const ShopLocator: React.FC<ShopLocatorProps> = ({
   saleStatus,
   dropdown,
   onChangeText,
-  shopLocations
+  shopLocations,
+  mobile
 }) => {
   const [menuOpen, setOpenState] = useState(dropdown || false);
   const [locations, setLocations] = useState(shopLocations);
@@ -105,27 +106,29 @@ export const ShopLocator: React.FC<ShopLocatorProps> = ({
           }
         >
           <ul>
-            <li className={styles.header}>
-              <div className={styles.locatorLabel}>
-                <span className={cs(styles.location)}>
-                  <i
-                    className={cs(
-                      iconStyles.icon,
-                      iconStyles.iconLocation,
-                      styles.iconStore
-                    )}
-                  ></i>
-                </span>
-                <span className={styles.label}>City, Country</span>
-              </div>
-              <i
-                className={cs(
-                  iconStyles.icon,
-                  iconStyles.iconCrossNarrowBig,
-                  styles.iconCross
-                )}
-              ></i>
-            </li>
+            {mobile && (
+              <li className={styles.header}>
+                <div className={styles.locatorLabel}>
+                  <span className={cs(styles.location)}>
+                    <i
+                      className={cs(
+                        iconStyles.icon,
+                        iconStyles.iconLocation,
+                        styles.iconStore
+                      )}
+                    ></i>
+                    <span className={styles.label}>City, Country</span>
+                  </span>
+                </div>
+                <i
+                  className={cs(
+                    iconStyles.icon,
+                    iconStyles.iconCrossNarrowBig,
+                    styles.iconCross
+                  )}
+                ></i>
+              </li>
+            )}
             {locations?.map(
               (data: { label: string; value: string }, index: number) => {
                 return (

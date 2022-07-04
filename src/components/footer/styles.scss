@@ -35,7 +35,7 @@
       top: 5%;
       color: black;
       .icon-class {
-        color: $med-charcoal;
+        color: $aqua;
       }
       i {
         line-height: 44px;
@@ -197,14 +197,8 @@ position: fixed;
     position: relative;
     .cursor-pointer {
       &:hover {
-        color: $cerise;
+        color: $white;
       }
-    }
-    input {
-      // @include placeholder() {
-      //   font-family: $font-Lato;
-      //   font-style: italic;
-      // }
     }
   }
 
@@ -264,12 +258,11 @@ position: fixed;
         font-weight: normal;
       }
       li {
-        @include ftr-copy-white-desktop();
         text-transform: capitalize;
         font-weight: normal;
         line-height: 30px;
         a {
-          @include ftr-copy-white-desktop();
+          @include b4_12px_charcoal();
           font-weight: normal;
         }
       }
@@ -358,63 +351,107 @@ position: fixed;
   font-size: 25px;
 }
 
-.shopDropdown {
-  height: 100vh;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 12;
-  display: block;
-  position: fixed;
-  background-color: rgba(0, 0, 0, 0.5);
-  .header{
-    font-family: $font-Montserrat;
-    font-size: 12px;
-  }
-  ul{
-    border: 1px solid tint(#000, 70%);
-    border-top: 0;
+@media screen and (min-width: 992px){
+  .shopDropdown {
     width: 100%;
     position: absolute;
     right: 0;
-    bottom: 0;
+    top: 100%;
     background-color: #fff;
     font-size: 12px;
     text-transform: capitalize;
     font-weight: normal;
+    max-height: 180px;
     overflow-y: scroll;
     z-index: 8;
-    .header{
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      @include b4_12px_charcoal_caps();
-      .locator-label{
-        .location{
-          .icon-store{
-            color: $aqua-bold;
-            font-size: 20px;
-            vertical-align: middle;
-          }
+    ul {
+      margin-bottom: 0px;
+    }
+    li {
+      border-top: 1px solid #9f9f9f33;
+      cursor: pointer;
+      margin: 0px 10px;
+      @include b4_12px_charcoal();
+      a {
+        color: #000;
+      }
+      &:hover {
+        a {
+          color: $aqua-bold;
         }
       }
     }
   }
-  li {
-    border-top: 1px solid #9f9f9f33;
-    cursor: pointer;
-    margin: 0px 25px;
-    @include b4_12px_charcoal();
-    a {
-      color: #000;
-    }
-    &:hover {
-      a {
-        color: $cerise;
+  .shop-locator {
+    position: relative;
+    .cursor-pointer {
+      &:hover {
+        color: $white;
       }
     }
   }
+}
+
+@media screen and (max-width: 992px){
+  .shopDropdown {
+    height: 100vh;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 12;
+    display: block;
+    position: fixed;
+    background-color: rgba(0, 0, 0, 0.5);
+    .header{
+      font-family: $font-Montserrat;
+      font-size: 12px;
+    }
+    ul{
+      border: 1px solid tint(#000, 70%);
+      border-top: 0;
+      width: 100%;
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      background-color: #fff;
+      font-size: 12px;
+      text-transform: capitalize;
+      font-weight: normal;
+      overflow-y: scroll;
+      z-index: 8;
+      .header{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        @include b4_12px_charcoal_caps();
+        .locator-label{
+          .location{
+            .icon-store{
+              color: $aqua-bold;
+              font-size: 20px;
+              vertical-align: middle;
+            }
+          }
+        }
+      }
+    }
+    li {
+      border-top: 1px solid #9f9f9f33;
+      cursor: pointer;
+      margin: 0px 25px;
+      @include b4_12px_charcoal();
+      a {
+        color: #000;
+      }
+      &:hover {
+        a {
+          color: $cerise;
+        }
+      }
+    }
+  }
+  
 }
 
 @media screen and (min-width: 992px) {
@@ -436,32 +473,23 @@ position: fixed;
         line-height: 30px;
         font-weight: normal;
         color: #000;
-  
-        &:first-child {
+        &:first-child{
+          @include b3_14px_bold_charcoal();
+          letter-spacing: 1.5px;
           text-transform: uppercase;
-          @include ftr-heading-white();
-          line-height: 44px;
-          font-weight: normal;
           a {
-            text-transform: uppercase;
-            @include ftr-heading-white();
-            line-height: 44px;
-            font-weight: normal;
+            color: $charcoal19;
+            &:hover{
+              color: $white;
+            }
           }
         }
+        @include b4_12px_charcoal();
+        letter-spacing: 1px;
         a {
-          @include ftr-copy-white-desktop();
-          font-weight: normal;
-          text-transform: capitalize;
-          // &:nth-child(2) {
-          //   margin-right: 8px;
-          // }
-          &.email {
-            text-transform: lowercase;
-          }
-          &:hover {
-            color: $cerise !important;
-            text-decoration: none !important;
+          color: $charcoal19;
+          &:hover{
+            color: white;
           }
         }
       }
