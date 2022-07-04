@@ -43,7 +43,7 @@
 .mobile-slider .slick-arrow {
   background: rgba(0,0,0,0.3);
   border-radius: 0;
-  height: 70px;
+  height: 50px;
   width: 50px;
   font-size: 0;
   letter-spacing: 0;
@@ -61,8 +61,8 @@
 .mobile-slider .slick-prev::before,
 .mobile-slider .slick-next::before {
   font-size: 50px;
-  height: 70px;
-  line-height: 70px;
+  height: 50px;
+  line-height: 50px;
 }
 
 .slick-dots {
