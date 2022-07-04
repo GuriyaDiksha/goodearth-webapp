@@ -72,10 +72,7 @@ $pdp-top: $header-height + $secondary-header-height;
 
 .looks-btn {
     background-color: white;
-    color: #ab1e56;
-    letter-spacing: 2px;
-    font-family: "LatoFont", "Helvetica", "Arial";
-    text-transform: uppercase;
+    @include b4_12px_charcoal_caps();
     line-height: 42px;
     text-align: center;
     font-size: 12px;
@@ -86,6 +83,7 @@ $pdp-top: $header-height + $secondary-header-height;
     position: sticky;
     left: calc(50% - 165px);
     padding: 0 10px;
+    opacity: 0.9;
     width: max-content;
     a {
       color: #fff;
