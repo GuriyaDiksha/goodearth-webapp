@@ -132,7 +132,7 @@ const JobDetail: React.FC = () => {
 
               <li>
                 <a
-                  href="https://in.linkedin.com/s"
+                  href="https://in.linkedin.com/"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
