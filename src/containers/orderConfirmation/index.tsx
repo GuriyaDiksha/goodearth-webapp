@@ -557,7 +557,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
               )}
 
               <div className={cs(styles.discountSection)}>
-                <p>Estimated Shipping</p>
+                <p>Shipping & Handling</p>
                 <p>
                   (+){" "}
                   {String.fromCharCode(

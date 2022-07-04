@@ -60,7 +60,7 @@ const JobCard: React.FC<Props> = ({ job }) => {
               <img src={email} alt="email" />
             </a>
             <a
-              href="https://in.linkedin.com/s"
+              href="https://in.linkedin.com/"
               target="_blank"
               rel="noopener noreferrer"
               className={listing.icon_wrp}
