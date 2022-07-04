@@ -438,12 +438,12 @@ class PLP extends React.Component<
     const len = product.categories.length;
     const category = product.categories[len - 1];
     // const l3Len = category.split(">").length;
-    const l3 = category.split(">")[0];
+    const l1 = category.split(">")[0];
 
     dataLayer.push({
       "Event Category": "GA Ecommerce",
       "Event Action": "PLP ",
-      "Event Label": l3,
+      "Event Label": l1,
       "Product Category": category.replace(/>/g, "-"),
       "Login Status": this.props.isLoggedIn ? "logged in" : "logged out",
       "Time Stamp": new Date().toISOString(),
