@@ -37,8 +37,8 @@
 }
 
 .more-collection .slick-slider:hover .slick-arrow.slick-next, .more-collection .slick-slider:hover .slick-arrow.slick-prev {
-  height: 50px;
-  width: 50px;
+  height: 40px;
+  width: 40px;
   background: rgba(0, 0, 0, 0.3);
   border-radius: 50%;
 }
@@ -49,19 +49,19 @@
 
 .pdp-slider.slick-slider:hover .slick-arrow.slick-next::before {
   display: block;
-  font-size: 50px;
+  font-size: 40px;
   /* background-color: rgba(0, 0, 0, 0.3); */
   right: 0;
-  height: 50px;
-  line-height: 50px;
+  height: 40px;
+  line-height: 40px;
 }
 .pdp-slider.slick-slider:hover .slick-arrow.slick-prev:before {
   display: block;
-  font-size: 50px;
+  font-size: 40px;
   /* background-color: rgba(0, 0, 0, 0.3); */
   left: 0;
-  height: 50px;
-  line-height: 50px;
+  height: 40px;
+  line-height: 40px;
 }
 
 /* more collection specific*/
@@ -139,23 +139,23 @@
 }
 .more-collection .slick-slider:hover .slick-arrow.slick-next::before {
   display: block;
-  font-size: 50px;
+  font-size: 40px;
   right: 0;
 }
 .more-collection .slick-slider:hover .slick-arrow.slick-prev:before {
   display: block;
-  font-size: 50px;
+  font-size: 40px;
   left: 0;
 }
 .more-collection.mobile-slider .slick-slider .slick-arrow.slick-next:before{
   display: block;
-  font-size: 50px;
+  font-size: 40px;
   background: none;
   right: 0;
 }
 .more-collection.mobile-slider .slick-slider .slick-arrow.slick-prev:before{
   display: block;
-  font-size: 50px;
+  font-size: 40px;
   background: none;
   left: 0;
 }
