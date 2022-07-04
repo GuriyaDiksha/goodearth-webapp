@@ -6,13 +6,7 @@ import { ReactComponent as Maintain } from "images/inline/maintain.svg";
 
 export const faqs = [
   {
-    text: (
-      <>
-        Estimating Your
-        <br />
-        requirements
-      </>
-    ),
+    text: "Estimating your requirements",
     icon: <Estimate />,
     questions: [
       {
@@ -88,12 +82,7 @@ export const faqs = [
     ]
   },
   {
-    text: (
-      <>
-        selecting the <br />
-        right wallcovering
-      </>
-    ),
+    text: "Selecting the right wallcovering",
     icon: <Choose />,
     questions: [
       {
@@ -144,12 +133,7 @@ export const faqs = [
     ]
   },
   {
-    text: (
-      <>
-        Installing the <br />
-        wallcoverings
-      </>
-    ),
+    text: "Installing the wallcoverings",
     icon: <Install />,
     questions: [
       {
@@ -198,12 +182,7 @@ export const faqs = [
     ]
   },
   {
-    text: (
-      <>
-        Maintaining the <br />
-        wallcovering
-      </>
-    ),
+    text: "Maintaining the wallcovering",
     icon: <Maintain />,
     questions: [
       {

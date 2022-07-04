@@ -89,7 +89,7 @@ const WallpaperFAQ: React.FC<Props> = ({ mobile }) => {
             styles.container
           )}
         >
-          <h2>FAQ</h2>
+          <h2>Frequently Asked Questions</h2>
           <div className={styles.headerSections}>{headers}</div>
         </div>
       </div>
