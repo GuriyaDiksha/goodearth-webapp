@@ -13,8 +13,9 @@
         cursor: pointer;
         margin-top: 5px;
         margin-bottom: 5px;
+        color: $gold;
         &:hover {
-            color: $cerise;
+            color: $gold;
         }
     }
 }
@@ -24,7 +25,7 @@
 }
 
 .added-to-wishlist {
-  color: $cerise !important;
+  color: $gold !important;
 }
 
 .mobile-wishlist {

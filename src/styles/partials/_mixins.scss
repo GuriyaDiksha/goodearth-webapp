@@ -808,6 +808,14 @@ $list: $grey 92%, $white 8%;
   letter-spacing: 0.30px;
 }
 
+@mixin h2_24px_charcoal{
+  font-family: $font-Lora;
+  font-size: 24px;
+  font-weight: normal;
+  letter-spacing: 0.48px;
+  color: $charcoal19;
+}
+
 @mixin search_text{
   font-family: $font-Montserrat;
   font-weight: normal;
