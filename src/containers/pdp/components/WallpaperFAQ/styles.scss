@@ -1,4 +1,5 @@
 @import "../../../../styles/partials/variables";
+@import "../../../../styles/partials/mixins";
 
 .container {
     padding: 0;
@@ -27,48 +28,50 @@
 .header-sections {
     display: flex;
     justify-content: center;
+    .header-section{
+        .section-title {
+            border-right: 1px solid #9f9f9f36;
+        }
+        &:last-child{
+            .section-title{
+                border-right: none;
+            }
+        }
+    }
 }
 
 .header-section {
-    width: 180px;
-    margin: 0px 32px;
+    width: 200px;
+    max-width: max-content;
     cursor: pointer;
-
+    display: flex;
     svg {
         height: 50px;
         margin: 20px 0;
+        margin-left: 10px;
     }
-
+    &:first-child{
+        svg {
+            margin-left: 0px;
+        }
+    }
     &.active {
         svg {
-            fill: $cerise;
+            stroke: $aqua-bold;
+            stroke-width: 0.5px;
         }
-
         .section-title {
-            background: $cerise;
-            color: #fff;
+            @include b3_14px_aqua();
         }
     }
-
-    &:hover {
-        .section-title {
-            background: $cerise;
-            color: #fff;
-        }
-
-        svg {
-            fill: $cerise;
-        }
-    }
-
 }
 
 .section-title {
     padding: 11px 2px;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    font-size: 12px;
-    color: #000;
+    margin-right: 10px;
+    @include b3_14px_charcoal();
+    align-self: center;
+    text-align: left;;
 }
 
 .accordion-title {
@@ -131,7 +134,8 @@
 
         h2 {
             line-height: 150%;
-            font-size: 25px;
+            @include h2_24px_charcoal();
+            text-transform: capitalize;
         }
     }
 
