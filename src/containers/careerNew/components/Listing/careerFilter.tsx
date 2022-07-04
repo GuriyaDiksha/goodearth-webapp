@@ -13,6 +13,8 @@ type Props = {
   isFilterOpen: boolean;
   setIsFilterOpen: any;
   reset: boolean;
+  selectedDept: string[];
+  setSelectedDept: any;
 };
 
 const CareerFilter: React.FC<Props> = ({
@@ -21,7 +23,9 @@ const CareerFilter: React.FC<Props> = ({
   setAppliedFilters,
   isFilterOpen,
   setIsFilterOpen,
-  reset
+  reset,
+  selectedDept,
+  setSelectedDept
 }) => {
   const [depts, setDepts] = useState<Depts[]>([]);
   const [tags, setTags] = useState<Tags[]>([]);
@@ -39,7 +43,6 @@ const CareerFilter: React.FC<Props> = ({
     appliedFilters: false
   });
   const [selectedFilters, setSelectedFilters] = useState<string[]>([]);
-  const [selectedDept, setSelectedDept] = useState<string[]>([dept]);
 
   const { mobile } = useSelector((state: AppState) => state.device);
 
@@ -52,12 +55,11 @@ const CareerFilter: React.FC<Props> = ({
   }, [facets]);
 
   const clearFilter = () => {
-    const copiedData = clone(selectedDept);
     (document.getElementById("tag_all") as HTMLInputElement).checked = false;
 
     (document.getElementById("loc_all") as HTMLInputElement).checked = false;
 
-    setAppliedFilters([...copiedData]);
+    setAppliedFilters([]);
     setSelectedFilters([]);
   };
 
@@ -90,7 +92,7 @@ const CareerFilter: React.FC<Props> = ({
 
   const handleCheckbox = (e: any, key: string) => {
     let newList = clone(selectedFilters);
-    let newDeptList = clone(selectedDept.filter(e => e !== dept));
+    let newDeptList = clone(selectedDept);
     const tagsList = clone(tags.map(e => e.name));
     const locList = clone(locs.map(e => e.name));
     const deptsList = clone(depts.map(e => e.title));
@@ -99,9 +101,7 @@ const CareerFilter: React.FC<Props> = ({
       if (e.target.name === "View All") {
         const newArr = facets[key].map((e: any) => e?.name || e?.title);
         if (key === "depts") {
-          newDeptList = [
-            ...new Set([...newDeptList, ...newArr].filter(e => e !== dept))
-          ];
+          newDeptList = [...new Set([...newDeptList, ...newArr])];
 
           setSelectedDept(newDeptList);
         } else {
@@ -121,17 +121,16 @@ const CareerFilter: React.FC<Props> = ({
       if (e.target.name === "View All") {
         const newArr = facets[key].map((e: any) => e?.name || e.title);
         if (key === "depts") {
-          newDeptList = [
-            ...new Set(newDeptList.filter(el => !newArr.includes(el)))
-          ];
-
-          setSelectedDept(newDeptList);
+          // newDeptList = [
+          //   ...new Set(newDeptList.filter(el => !newArr.includes(el)))
+          // ];
+          // setSelectedDept(newDeptList);
         } else {
           newList = [...new Set(newList.filter(el => !newArr.includes(el)))];
           setSelectedFilters(newList);
         }
       } else {
-        if (key === "depts") {
+        if (key === "depts" && newDeptList.length > 1) {
           newDeptList = [
             ...new Set(newDeptList.filter(ele => ele !== e.target?.name))
           ];
@@ -143,9 +142,9 @@ const CareerFilter: React.FC<Props> = ({
       }
     }
 
-    newDeptList = newDeptList.includes[dept]
-      ? [...newDeptList]
-      : [...newDeptList, dept];
+    // newDeptList = newDeptList.includes[dept]
+    //   ? [...newDeptList]
+    //   : [...newDeptList, dept];
 
     if (
       newList.filter(ele => tagsList.includes(ele)).length === tagsList.length
@@ -169,7 +168,7 @@ const CareerFilter: React.FC<Props> = ({
       (document.getElementById("dept_all") as HTMLInputElement).checked = false;
     }
 
-    setAppliedFilters([...newList, ...newDeptList]);
+    setAppliedFilters([...newList]);
     setSelectedDept(newDeptList);
   };
 
@@ -193,10 +192,7 @@ const CareerFilter: React.FC<Props> = ({
     }
 
     setSelectedFilters(newList.filter(ele => ele !== name));
-    setAppliedFilters([
-      ...newList.filter(ele => ele !== name),
-      ...selectedDept
-    ]);
+    setAppliedFilters([...newList.filter(ele => ele !== name)]);
   };
 
   return (
@@ -307,9 +303,7 @@ const CareerFilter: React.FC<Props> = ({
                       id={"dept_" + i}
                       type="checkbox"
                       name={ele?.title}
-                      checked={
-                        dept === ele?.title || selectedDept.includes(ele?.title)
-                      }
+                      checked={selectedDept.includes(ele?.title)}
                       onClick={e => handleCheckbox(e, "depts")}
                     />
                     <label
