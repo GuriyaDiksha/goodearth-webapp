@@ -13,7 +13,9 @@ import { SizeChartResponse } from "reducers/header/typings";
 
 const SizeGuide: React.FC<SizeGuideProps> = memo(({ isSingleSection }) => {
   const {
-    data: { sizeGuide, disclaimer, note },
+    data: {
+      sizeGuide: { data, measurements, note, disclaimer }
+    },
     sizes,
     isCorporatePDP
   }: SizeChartResponse | any = useSelector(
@@ -62,69 +64,54 @@ const SizeGuide: React.FC<SizeGuideProps> = memo(({ isSingleSection }) => {
           [styles.styleGuideSingleSection]: isSingleSection
         })}
       >
-        {sizeGuide.map((guide: any, i: number) => {
-          return (
-            <table key={i}>
-              <thead>
-                <tr>
-                  <th key={0}>
-                    {guide.tableTitle == "" ? "Measurements" : guide.tableTitle}
+        <table>
+          <thead>
+            <tr>
+              <th key={0}>Measurements</th>
+              {sizes.map((child: ChildProductAttributes) => {
+                const { id, size, stock, sku } = child;
+                return (
+                  <th scope="col" key={sku}>
+                    <div
+                      className={cs(
+                        styles.sizeGuideItem,
+                        sizeStyles.sizeButton,
+                        {
+                          [sizeStyles.selected]: id === selected,
+                          [sizeStyles.unavailable]:
+                            stock === 0 && !isCorporatePDP
+                        }
+                      )}
+                      onClick={() => sizeClickHandler(child)}
+                      id={`size-guide-item-${size}`}
+                    >
+                      {size}
+                    </div>
                   </th>
-                  {i == 0
-                    ? sizes.map((child: ChildProductAttributes) => {
-                        const { id, size, stock, sku } = child;
-                        return (
-                          <th scope="col" key={sku}>
-                            <div
-                              className={cs(
-                                styles.sizeGuideItem,
-                                sizeStyles.sizeButton,
-                                {
-                                  [sizeStyles.selected]: id === selected,
-                                  [sizeStyles.unavailable]:
-                                    stock === 0 && !isCorporatePDP
-                                }
-                              )}
-                              onClick={() => sizeClickHandler(child)}
-                              id={`size-guide-item-${size}`}
-                            >
-                              {size}
-                            </div>
-                          </th>
-                        );
-                      })
-                    : guide.sizes.map((s: string, k: number) => {
-                        return (
-                          <th scope="col" key={`${s}-${k}`}>
-                            <div>{s}</div>
-                          </th>
-                        );
+                );
+              })}
+            </tr>
+          </thead>
+          <tbody>
+            {data.map((dataRow: number[], i: number) => {
+              return (
+                <tr key={i}>
+                  {<td>{ReactHtmlParser(measurements[i])}</td>}
+                  {dataRow.map((dataItem: number, j: number) => (
+                    <td
+                      key={j}
+                      className={cs({
+                        [styles.disabled]: sizes.length > j && !sizes[j]?.stock
                       })}
+                    >
+                      {unit == "in" ? dataItem : roundHalf(dataItem * 2.54)}
+                    </td>
+                  ))}
                 </tr>
-              </thead>
-              <tbody>
-                {guide.data.map((dataRow: number[], i: number) => {
-                  return (
-                    <tr key={i}>
-                      {<td>{ReactHtmlParser(guide.measurements[i])}</td>}
-                      {dataRow.map((dataItem: number, j: number) => (
-                        <td
-                          key={j}
-                          className={cs({
-                            [styles.disabled]:
-                              sizes.length > j && !sizes[j]?.stock
-                          })}
-                        >
-                          {unit == "in" ? dataItem : roundHalf(dataItem * 2.54)}
-                        </td>
-                      ))}
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          );
-        })}
+              );
+            })}
+          </tbody>
+        </table>
       </div>
       <div
         className={cs(styles.footer, {
