@@ -125,9 +125,7 @@ $pdp-top: $header-height + $secondary-header-height;
     padding: 0 30px;
 }
 .header {
-    font-size: 25px;
-    font-family: $font-Serif;
-    color: #333;
+    @include h2_24px_charcoal();
     line-height: 60px;
     text-transform: capitalize;
     text-align: center;

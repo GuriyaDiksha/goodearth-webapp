@@ -83,15 +83,17 @@ const PlpResultListViewItem: React.FC<PLPResultItemProps> = (
       action = () => notifyMeClick(product);
     }
     return (
-      <Button
+      <button
         className={cs(
           styles.addToBagListView,
-          bootstrapStyles.col6,
-          bootstrapStyles.offset3
+          styles.shopTheLookCta,
+          bootstrapStyles.col7,
+          { [styles.notifyMe]: allOutOfStock || isCorporate }
         )}
         onClick={action}
-        label={buttonText}
-      />
+      >
+        {buttonText}
+      </button>
     );
   }, []);
   const isStockAvailable = isCorporate || product.inStock;
