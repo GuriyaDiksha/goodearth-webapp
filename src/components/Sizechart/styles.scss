@@ -393,15 +393,14 @@
 }
 
 .table-container {
+  display: inline-flex;
   font-size: 14px;
   margin: 20px 0px;
+  justify-content: left;
   table{
     width: 100%;
     font-size: 12px;
     border-bottom: 1px solid #DBDAD9;
-    &:not(:last-child){
-      margin-bottom: 20px;
-    }
     td {
       border-left: 1px solid #DBDAD9;
       border-right: 1px solid #DBDAD9;
@@ -409,15 +408,15 @@
         border-left: none;
       }
       &:last-child{
-        // border-right: none;
+        border-right: none;
       }
     }
     thead {
       tr{
         background-color: #EFEFEF;
         th{
-          text-align: center;
-          padding: 7px 15px;
+          text-align: center ;
+          padding: 0px;
           &:first-child{
             text-align: left;
             font-size: 12px;
