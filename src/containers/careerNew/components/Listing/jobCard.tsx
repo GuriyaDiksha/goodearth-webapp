@@ -24,7 +24,7 @@ const JobCard: React.FC<Props> = ({ job }) => {
       <div className={listing.job_card_left_wrp}>
         <p className={listing.job_card_heading}>{title}</p>
 
-        <p className={listing.job_card_location}>{loc}</p>
+        <p className={listing.job_card_location}>{loc.join(", ")}</p>
         <p className={listing.job_card_desc}>{summary}</p>
         <button
           className={listing.job_card_apply_btn}
