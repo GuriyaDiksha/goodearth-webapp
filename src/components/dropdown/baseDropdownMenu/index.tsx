@@ -109,7 +109,18 @@ const BaseDropdownMenu = ({
                 [styles.carretVerticalMidAlign]:
                   id == "currency-dropdown-sidemenu"
               },
-
+              {
+                [styles.caret]:
+                  !menuOpen &&
+                  id != "currency-dropdown" &&
+                  id != "currency-dropdown-sidemenu"
+              },
+              {
+                [styles.caretUp]:
+                  menuOpen &&
+                  id != "currency-dropdown" &&
+                  id != "currency-dropdown-sidemenu"
+              },
               //================The classes are reversed because of different use case===============================
               { [styles.arrow]: id == "currency-dropdown" },
               { [styles.close]: !menuOpen && id == "currency-dropdown" },
