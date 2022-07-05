@@ -66,7 +66,11 @@ const InputField: React.FC<Props> = ({
 
   return (
     <>
-      <div className={cs(globalStyles.formFieldContainer, className)}>
+      <div
+        className={cs(globalStyles.formFieldContainer, className, {
+          [styles.notifyMeEmailInput]: className == "notify-me-email-input"
+        })}
+      >
         <input
           id={
             id ||
@@ -87,9 +91,16 @@ const InputField: React.FC<Props> = ({
             [styles.disabled]: disabled
           })}
         />
-        {focused && !disabled && <div className={styles.label}>{label}</div>}
+        {<div className={styles.label}>{label}</div>}
         {(error || errorMsg) && (
-          <span className={errorMsgClass}>{error || errorMsg}</span>
+          <span
+            className={cs(errorMsgClass, {
+              [styles.notifyMeEmailInputError]:
+                className == "notify-me-email-input"
+            })}
+          >
+            {error || errorMsg}
+          </span>
         )}
       </div>
     </>

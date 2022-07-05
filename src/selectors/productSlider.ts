@@ -18,7 +18,7 @@ export const getProductSliderItems = (
       productImage:
         (product.images &&
           product.images.length &&
-          product.images[0].productImage) ||
+          product.images[0]?.productImage) ||
         "",
       badgeImage: product.salesBadgeImage,
       productName: product.title,

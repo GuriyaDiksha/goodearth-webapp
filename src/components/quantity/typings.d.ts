@@ -13,6 +13,7 @@ export type QuantityItem = {
   className?: string;
   source: string;
   inputClass?: string;
+  errorMsgClass?: string;
 };
 
 export interface State {

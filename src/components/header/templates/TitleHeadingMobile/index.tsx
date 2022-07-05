@@ -44,6 +44,7 @@ const TitleHeadingMobile: React.FC<Props> = ({
         {componentData.src && (
           <Link
             to={componentData.link}
+            target={componentData.openInNewTab ? "_blank" : ""}
             onClick={() =>
               onHeaderMegaMenuClick({
                 l1,
@@ -69,6 +70,7 @@ const TitleHeadingMobile: React.FC<Props> = ({
             <Link
               className={styles.heading}
               to={componentData.link}
+              target={componentData.openInNewTab ? "_blank" : ""}
               onClick={() =>
                 onHeaderMegaMenuClick({
                   l1,
