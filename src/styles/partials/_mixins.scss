@@ -863,6 +863,13 @@ $list: $grey 92%, $white 8%;
   letter-spacing: 0.30px;
 }
 
+@mixin err_13px_lora_italic_cerise{
+  font-family: $font-Lora;
+  font-size: 13px;
+  color: $cerise;
+  font-style: italic;
+}
+
 @mixin search_text{
   font-family: $font-Montserrat;
   font-weight: normal;
