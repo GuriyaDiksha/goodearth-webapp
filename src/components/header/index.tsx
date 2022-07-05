@@ -582,6 +582,7 @@ class Header extends React.Component<Props, State> {
               ? meta.title
               : "Good Earth – Stylish Sustainable Luxury Retail | Goodearth.in"}
           </title>
+          {<h1>{meta.h1Tag}</h1>}
           <meta
             name="description"
             content={
