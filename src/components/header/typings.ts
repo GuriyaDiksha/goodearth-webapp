@@ -53,6 +53,7 @@ export type MenuComponentTitleData = {
   src?: string;
   openInNewTab?: boolean;
   thumbnailSrc: string;
+  openInNewTab?: boolean;
 };
 
 export type MenuComponentImageData = {
@@ -63,6 +64,7 @@ export type MenuComponentImageData = {
   link: string;
   openInNewTab?: boolean;
   ctaName?: string;
+  openInNewTab?: boolean;
 };
 export interface MenuComponent {
   componentType: string;
