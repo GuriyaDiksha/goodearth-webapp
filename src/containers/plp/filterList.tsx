@@ -1190,9 +1190,14 @@ class FilterList extends React.Component<Props, State> {
     index == this.state.categoryindex
       ? this.setState({
           categoryindex: -1,
-          categorylevel1: !this.state.categorylevel1
+          categorylevel1: !this.state.categorylevel1,
+          showmenulevel2: false
         })
-      : this.setState({ categoryindex: index, categorylevel1: true });
+      : this.setState({
+          categoryindex: index,
+          categorylevel1: true,
+          showmenulevel2: false
+        });
   };
 
   toggleFilterByDiscountMenu = () => {
