@@ -15,6 +15,10 @@
 
 .content-container{
     padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
 .title {
@@ -26,6 +30,7 @@
     font-size: 50px;
     position: absolute;
     right: 0px;
+    cursor: pointer;
 }
 
 .text {
@@ -35,13 +40,41 @@
     text-align: center;
 }
 
-.field {
-    margin-bottom: 20px;
+.fields-container{
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
-.result {
-    font-size: 14px;
-    margin-top: 20px;
+.field {
+    margin-bottom: 20px;
+    width: 80%;
+}
+
+.result-container {
+    margin-bottom: 20px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    .result-col{
+        display: flex;
+        flex-direction: column;
+        align-items: start;
+        justify-content: center;
+    }
+    .label{
+        text-align: left;
+        @include b4_12px_charcoal();
+        text-transform: capitalize;
+    }
+    .result{
+        text-align: left;
+        @include b4_12px_semibold_caps_charcoal();
+        text-transform: capitalize;
+    }
 }
 
 .btn-container{
@@ -50,17 +83,16 @@
     justify-content: center;
 }
 .calculate-btn{
-    width: 100%;
-    max-width: 250px;
+    width: 250px;
     padding: 18px 0px;
     border: 1.5px solid $aqua;
     background-color: $aqua;
-    color: $white;
+    color: $white !important;
     text-transform: uppercase;
     font-family: $font-Montserrat;
     font-size: 14px;
     &:hover{
-        color: $aqua;
+        color: $aqua !important;
         background-color: $white;
     }
 }
@@ -68,6 +100,10 @@
 .close-btn-container{
     height: 50px;
     border-bottom: 1px solid #9f9f9f36;
+}
+
+.errorMsg {
+    @include err_13px_lora_italic_cerise();
 }
 
 @media screen and (min-width: 992px) {

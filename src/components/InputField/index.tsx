@@ -16,6 +16,7 @@ const InputField: React.FC<Props> = ({
   className,
   placeholder,
   errorMsg,
+  errorMsgClass = styles.inputError,
   disabled,
   validateAfterBlur
 }) => {
@@ -88,7 +89,7 @@ const InputField: React.FC<Props> = ({
         />
         {focused && !disabled && <div className={styles.label}>{label}</div>}
         {(error || errorMsg) && (
-          <span className={styles.inputError}>{error || errorMsg}</span>
+          <span className={errorMsgClass}>{error || errorMsg}</span>
         )}
       </div>
     </>

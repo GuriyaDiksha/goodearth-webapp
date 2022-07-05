@@ -81,6 +81,14 @@ const WallpaperPopup: React.FC<Props> = ({ currency, price }) => {
     }
   };
 
+  const resetFields = () => {
+    setNumOfRolls(0);
+    setWidth("");
+    setHeight("");
+    setWidthError("");
+    setHeightError("");
+  };
+
   return (
     <div className={cs(styles.container)}>
       <div className={styles.closeBtnContainer}>
@@ -102,45 +110,65 @@ const WallpaperPopup: React.FC<Props> = ({ currency, price }) => {
           measure your walls and enter your measurements below to estimate how
           many standard rolls of wallcovering you will need.
         </div>
-
-        <InputField
-          id="width"
-          value={width}
-          onChange={onWidthChange}
-          validator={validator}
-          className={styles.field}
-          label="WIDTH"
-          placeholder="WIDTH (in ft)"
-          errorMsg={widthError}
-        />
-
-        <InputField
-          id="height"
-          value={height}
-          onChange={onHeightChange}
-          validator={validator}
-          className={styles.field}
-          label="HEIGHT"
-          placeholder="HEIGHT (in ft)"
-          errorMsg={heightError}
-        />
-        <div className={cs(styles.btnContainer)}>
-          <button className={styles.calculateBtn} onClick={calculateQuantity}>
-            Calculate
-          </button>
-        </div>
         {numOfRolls ? (
-          <div className={cs(bootstrap.row, styles.result)}>
-            <div className={cs(bootstrap.col12, bootstrap.colMd6)}>
-              {numOfRolls} roll(s) needed
+          <div className={cs(bootstrap.row, styles.resultContainer)}>
+            <div className={cs(styles.resultCol)}>
+              <span className={styles.label}>Wall Size:</span>
+              <span className={styles.result}>
+                {height} x {width} ft
+              </span>
             </div>
-            <div className={cs(bootstrap.col12, bootstrap.colMd6)}>
-              {currency} {price * numOfRolls}
+            <div className={cs(styles.resultCol)}>
+              <span className={styles.label}>Quantity:</span>
+              <span className={styles.result}>
+                {numOfRolls} roll{numOfRolls == 1 ? "" : "s"} needed
+              </span>
+            </div>
+            <div className={cs(styles.resultCol)}>
+              <span className={styles.label}>Price:</span>
+              <span className={styles.result}>
+                {currency} {price * numOfRolls}
+              </span>
             </div>
           </div>
         ) : (
-          ""
+          <div className={styles.fieldsContainer}>
+            <InputField
+              id="width"
+              value={width}
+              onChange={onWidthChange}
+              validator={validator}
+              className={styles.field}
+              label="Width*"
+              placeholder="Width (in ft)"
+              errorMsg={widthError}
+              errorMsgClass={styles.errorMsg}
+            />
+
+            <InputField
+              id="height"
+              value={height}
+              onChange={onHeightChange}
+              validator={validator}
+              className={styles.field}
+              label="Height*"
+              placeholder="Height (in ft)"
+              errorMsg={heightError}
+              errorMsgClass={styles.errorMsg}
+            />
+          </div>
         )}
+        <div className={cs(styles.btnContainer)}>
+          {numOfRolls ? (
+            <button className={styles.calculateBtn} onClick={resetFields}>
+              Reset Fields
+            </button>
+          ) : (
+            <button className={styles.calculateBtn} onClick={calculateQuantity}>
+              Calculate
+            </button>
+          )}
+        </div>
       </div>
     </div>
   );
