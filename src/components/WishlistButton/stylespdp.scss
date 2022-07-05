@@ -4,7 +4,9 @@
 .wishlist-icon {
     font-size: 22px;
     color: gray;
-    cursor: pointer;
+    &:before{
+        cursor: pointer;
+    }
 }
 
 @media screen and (min-width:992px) {
@@ -12,10 +14,9 @@
         font-size: 22px;
         border: $gold 1.25px;
         color:$gold;
-        cursor: pointer;
         margin-top: 5px;
         margin-bottom: 5px;
-        &:hover {
+            &:hover {
             color: $gold;           
         }
     }
@@ -25,7 +26,7 @@
         font-size: 22px;
         border: $gold 1.25px;
         color:$gold;
-        cursor: pointer;
+        // cursor: pointer;
         // margin-top: 5px;
         // margin-bottom: 5px;
         &:hover {
@@ -37,6 +38,10 @@
 .label {
     @include pdp_label();
      color:$gold;
+    //  cursor: pointer;
+    span{
+        cursor: pointer;
+    }
 }
 
 .added-to-wishlist {
@@ -44,7 +49,7 @@
 }
 
 .mobile-wishlist {
-    background-color: #fff;
+    // background-color: #fff;
     width: 30px;
     height: 30px;
     border-radius: 50%;

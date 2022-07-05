@@ -1,42 +1,31 @@
 @import "../../styles/partials/variables";
 @import "../../styles/partials/mixins";
 
-.icon-open::before {
-    content: "[-]";
-    margin: 0 5px;
-}
-
-.icon-closed::before {
-    content: "[+]";
-    margin: 0 5px;
-}
-.arrowUp::before{
-    content:"\f123";
-    margin: 0 8px;
-  }
-.arrowDown::before{
-    content:"\f10c";
-    margin: 0 8px;   
+.accordion-section {
+    box-shadow: 0px 1px 0px lightgrey;
 }
 
 .accordion-header {
+    padding: 15px 0px;
+    display: flex;
+    justify-content: space-between;
     cursor: pointer;
 }
 
-.accordion-body {
-    visibility: hidden;
-    height: 0px;
-    line-height: 20px;
-    &.open {
-        visibility: visible;
-        height: auto;
-        padding-bottom:15px;
+//Add padding when show
+.accordion-body{
+    max-height: 0px;
+    overflow: hidden;
+    transition: max-height 0.3s ease-in;
+    &.default-open{
+      max-height: fit-content;
     }
-    &.closed {
-        margin-top: 0px;
-        margin-bottom: 0px;
-        position: relative;
-        top:-10000px;
+    div{
+      p{
+        strong {
+          font-weight: 400;
+        }
+      }
     }
 }
 
