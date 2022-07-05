@@ -847,6 +847,14 @@ $list: $grey 92%, $white 8%;
   color: $charcoal19;
 }
 
+@mixin h3_20px_med_charcoal{
+  font-family: $font-Lora;
+  font-size: 20px;
+  font-weight: normal;
+  letter-spacing: 0.48px;
+  color: $charcoal19;
+}
+
 @mixin b3_14px_aqua{
   font-family: $font-Montserrat;
   font-size: 14px;
