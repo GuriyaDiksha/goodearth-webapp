@@ -51,6 +51,7 @@ export type MenuComponentTitleData = {
   link: string;
   ctaName: string;
   src?: string;
+  openInNewTab?: boolean;
   thumbnailSrc: string;
   openInNewTab?: boolean;
 };
@@ -61,6 +62,7 @@ export type MenuComponentImageData = {
   heading: string;
   subHeading: string;
   link: string;
+  openInNewTab?: boolean;
   ctaName?: string;
   openInNewTab?: boolean;
 };
