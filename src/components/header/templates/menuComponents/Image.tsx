@@ -97,6 +97,7 @@ const Image: React.FC<Props> = ({
                 <div className={styles.container}>
                   <Link
                     to={data.componentData.link}
+                    target={componentData.openInNewTab ? "_blank" : ""}
                     className={styles.title}
                     target={componentData.openInNewTab ? "_blank" : ""}
                     onClick={() =>
