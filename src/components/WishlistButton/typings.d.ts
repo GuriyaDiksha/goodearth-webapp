@@ -23,4 +23,5 @@ export type Props = {
   source?: string;
   inWishlist?: boolean;
   parentWidth?: boolean;
+  onComplete?: () => void;
 };

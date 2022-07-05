@@ -39,7 +39,8 @@ const WishlistButton: React.FC<Props> = ({
   parentWidth,
   source,
   // inWishlist,
-  onMoveToWishlist
+  onMoveToWishlist,
+  onComplete
 }) => {
   const { wishlistItems, wishlistChildItems } = useContext(WishlistContext);
   const { isLoggedIn } = useContext(UserContext);
@@ -121,6 +122,7 @@ const WishlistButton: React.FC<Props> = ({
           size
         ).finally(() => {
           dispatch(updateLoader(false));
+          onComplete && onComplete();
         });
       } else {
         WishlistService.moveToWishlist(
@@ -135,12 +137,14 @@ const WishlistButton: React.FC<Props> = ({
           })
           .finally(() => {
             dispatch(updateLoader(false));
+            onComplete && onComplete();
           });
       }
     } else {
       if (addedToWishlist) {
         WishlistService.removeFromWishlist(store.dispatch, id).finally(() => {
           dispatch(updateLoader(false));
+          onComplete && onComplete();
         });
       } else {
         WishlistService.addToWishlist(store.dispatch, id, size)
@@ -149,6 +153,7 @@ const WishlistButton: React.FC<Props> = ({
           })
           .finally(() => {
             dispatch(updateLoader(false));
+            onComplete && onComplete();
           });
       }
     }
@@ -160,7 +165,6 @@ const WishlistButton: React.FC<Props> = ({
         (basketLineId && wishlistChildItems.indexOf(id) != -1)
     );
   }, [wishlistChildItems, wishlistItems]);
-
   return (
     <>
       <div className={className}>

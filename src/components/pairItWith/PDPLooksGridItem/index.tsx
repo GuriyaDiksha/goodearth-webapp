@@ -89,7 +89,7 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
   const image = product.lookImageUrl
     ? product.lookImageUrl
     : product.images?.[0]
-    ? product.images[0].productImage
+    ? product.images[0]?.productImage
     : "/static/img/noimageplp.png";
   const isStockAvailable = isCorporate || product.inStock;
   return (
