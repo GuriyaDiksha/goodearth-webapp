@@ -2,7 +2,7 @@ export type Data = {
   id: number;
   title: string;
   summary: string;
-  loc: string;
+  loc: string[];
   tags: string[];
   dept: string;
   exp: number;

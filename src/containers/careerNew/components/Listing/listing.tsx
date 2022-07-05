@@ -47,11 +47,11 @@ const Listing: React.FC = () => {
       .filter(ele => appliedFilters.includes(ele));
 
     if (locsFilteres.length) {
-      newData = newData.filter(ele => locsFilteres.includes(ele?.loc));
+      newData = newData.filter(ele => multipleExist(locsFilteres, ele?.loc));
     }
 
     if (tagFilteres.length) {
-      newData = newData.filter(ele => multipleExist(tagFilteres, ele.tags));
+      newData = newData.filter(ele => multipleExist(tagFilteres, ele?.tags));
     }
 
     setFilteredData(newData);
