@@ -58,7 +58,9 @@ const JobDetail: React.FC = () => {
             {jobData?.loc ? (
               <>
                 <p className={jobDetail.job_detail_form_sub_head}>LOCATION</p>
-                <p className={jobDetail.job_detail_form_desc}>{jobData?.loc}</p>
+                <p className={jobDetail.job_detail_form_desc}>
+                  {jobData?.loc?.join(", ")}
+                </p>
               </>
             ) : null}
 
