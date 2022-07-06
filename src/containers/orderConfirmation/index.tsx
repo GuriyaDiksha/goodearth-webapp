@@ -69,6 +69,12 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
         coupon: result.offerDisounts?.[0].name
       };
     });
+    const categoryname2: string[] = [];
+    const subcategoryname2: string[] = [];
+    const productid2: string[] = [];
+    const productname2: string[] = [];
+    const productprice2: string[] = [];
+    const productquantity2: number[] = [];
     const secondproducts = result.lines.map((line: any) => {
       const index = line.product.categories
         ? line.product.categories.length - 1
@@ -78,13 +84,13 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
           ? line.product.categories[index].replace(/\s/g, "")
           : "";
       const arr = category.split(">");
-      categoryname.push(arr[arr.length - 2]);
-      subcategoryname.push(arr[arr.length - 1]);
+      categoryname2.push(arr[arr.length - 2]);
+      subcategoryname2.push(arr[arr.length - 1]);
       category = category.replace(/>/g, "/");
-      productid.push(line.product.sku);
-      productname.push(line.title);
-      productprice.push(line.product.pricerecords[result.currency]);
-      productquantity.push(+line.quantity);
+      productid2.push(line.product.sku);
+      productname2.push(line.title);
+      productprice2.push(line.product.pricerecords[result.currency]);
+      productquantity2.push(+line.quantity);
       return {
         "Product Name": line.title,
         "Product ID": line.product.sku,
@@ -128,6 +134,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
         "Sub category": subcategoryname,
         "Product name": productname,
         "Original price": productprice,
+        "Product ID": productid2,
         Quantity: productquantity,
         "Cart Amount": +result.totalInclTax,
         "Coupon Code Applied": result.voucherCodeAppliedAmount[0]

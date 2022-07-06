@@ -12,6 +12,7 @@ import initActionPLP from "containers/plp/initAction";
 import initActionSearch from "containers/search/initAction";
 import initActionCategoryLanding from "containers/categoryLanding/initAction";
 import metaActionCategoryLanding from "containers/categoryLanding/metaAction";
+import customerMetaAction from "containers/customer/metaAction";
 import initActionAccount from "containers/myAccount/initAction";
 import initActionGiftcard from "containers/giftcard/initAction";
 import initActionShop from "containers/shopLocator/initAction";
@@ -113,6 +114,7 @@ const routes: RouteConfig = [
     path: ROUTES.STATIC,
     component: loadable(() => import("containers/customer")), // StaticPage,
     action: async () => null,
+    meta: customerMetaAction,
     exact: false
   },
   {
