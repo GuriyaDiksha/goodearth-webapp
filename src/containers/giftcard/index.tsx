@@ -90,6 +90,7 @@ class GiftCard extends React.Component<
       this.state.currentSection != "card"
     ) {
       this.goback("amount");
+      const { fetchProductList } = this.props;
       const newCurrency = this.state.countryData[this.state.selectedCountry];
       if (nextProps.currency != newCurrency) {
         let newCountry = this.state.selectedCountry;
@@ -104,6 +105,11 @@ class GiftCard extends React.Component<
         }
         this.setState({
           selectedCountry: newCountry
+        });
+        fetchProductList().then((data: any) => {
+          this.setState({
+            productData: data
+          });
         });
       }
     }
