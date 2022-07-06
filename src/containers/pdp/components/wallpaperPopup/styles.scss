@@ -81,6 +81,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    height: 60px;
+    width: 250px;
 }
 .calculate-btn{
     width: 100%;
@@ -99,8 +101,7 @@
 }
 
 .close-btn-container{
-    height: 60px;
-    width: 250px;
+    height: 50px;
     border-bottom: 1px solid #9f9f9f36;
 }
 
