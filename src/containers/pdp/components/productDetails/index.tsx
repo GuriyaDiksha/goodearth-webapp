@@ -67,6 +67,7 @@ import legal from "../../../../images/legal.svg";
 import DockedPanel from "../../docked";
 import { updateQuickviewId } from "../../../../actions/quickview";
 import Accordion from "components/Accordion";
+import PdpSkeleton from "../pdpSkeleton";
 
 const ProductDetails: React.FC<Props> = ({
   data: {
@@ -143,6 +144,7 @@ const ProductDetails: React.FC<Props> = ({
   const [addedToBag, setAddedToBag] = useState(false);
   const [apiTrigger, setApiTrigger] = useState(false);
   const [isStockset, setIsStockset] = useState(false);
+  const [pdpLoader, setPdpLoader] = useState(true);
   const isLoggedIn = useSelector((state: AppState) => state.user.isLoggedIn);
   // const [sizeerror, setSizeerror] = useState(false);
   // useEffect(() => {
@@ -192,6 +194,9 @@ const ProductDetails: React.FC<Props> = ({
   }, [childAttributes, selectedSize]);
 
   useEffect(() => {
+    setTimeout(() => {
+      setPdpLoader(false);
+    }, 2000);
     return () => {
       dispatch(updateSizeChartSelected(undefined));
     };
@@ -723,28 +728,31 @@ const ProductDetails: React.FC<Props> = ({
           discountPrice={discountPrices}
         />
       )} */}
-      <div className={bootstrap.row}>
-        <div
-          className={cs(
-            bootstrap.col11,
-            bootstrap.colMd11,
-            styles.sideContainer,
-            { [styles.marginT0]: withBadge }
-          )}
-        >
-          {(isLoading || loading) && <Loader />}
-          <div className={cs(bootstrap.row)}>
-            {images && images[0]?.badgeImagePdp && (
-              <div className={bootstrap.col12}>
-                <img
-                  src={images[0]?.badgeImagePdp}
-                  width="100"
-                  className={styles.badgeImg}
-                />
-              </div>
+      {pdpLoader ? (
+        <PdpSkeleton />
+      ) : (
+        <div className={bootstrap.row}>
+          <div
+            className={cs(
+              bootstrap.col11,
+              bootstrap.colMd11,
+              styles.sideContainer,
+              { [styles.marginT0]: withBadge }
             )}
+          >
+            {(isLoading || loading) && <Loader />}
+            <div className={cs(bootstrap.row)}>
+              {images && images[0]?.badgeImagePdp && (
+                <div className={bootstrap.col12}>
+                  <img
+                    src={images[0]?.badgeImagePdp}
+                    width="100"
+                    className={styles.badgeImg}
+                  />
+                </div>
+              )}
 
-            {/* {mobile && (
+              {/* {mobile && (
             <div className={cs(bootstrap.col12)}>
               <Share
                 mobile={mobile}
@@ -758,106 +766,73 @@ const ProductDetails: React.FC<Props> = ({
               />
             </div>
           )} */}
-            {collection && (
-              <div className={cs(bootstrap.col12, styles.collectionHeader, {})}>
-                {collection && (
-                  <Link
-                    to={collectionUrl || "#"}
-                    onClick={closeModal ? closeModal : () => null}
-                  >
-                    {" "}
-                    {collection}{" "}
-                  </Link>
-                )}
-              </div>
-            )}
-            <div className={cs(bootstrap.col8, bootstrap.colMd8, styles.title)}>
-              {productTitle}
-              {subtitle && <p>({subtitle.split(")")[0]})</p>}
-            </div>
-            {!(invisibleFields && invisibleFields.indexOf("price") > -1) && (
-              <div
-                className={cs(
-                  bootstrap.col4,
-                  bootstrap.colMd4,
-                  styles.priceContainer,
-                  { [globalStyles.textCenter]: !mobile }
-                )}
-              >
-                {info.isSale && discount && discountedPriceRecords ? (
-                  <span className={styles.discountedPrice}>
-                    {String.fromCharCode(...currencyCodes[currency])}
-                    &nbsp;
-                    {discountPrices}
-                    <br />
-                  </span>
-                ) : (
-                  ""
-                )}
-                {info.isSale && discount ? (
-                  <span className={styles.oldPrice}>
-                    {String.fromCharCode(...currencyCodes[currency])}
-                    &nbsp;
-                    {price}
-                  </span>
-                ) : (
-                  <span
-                    className={badgeType == "B_flat" ? globalStyles.gold : ""}
-                  >
-                    {" "}
-                    {String.fromCharCode(...currencyCodes[currency])}
-                    &nbsp;
-                    {price}
-                  </span>
-                )}
-              </div>
-            )}
-          </div>
-
-          {groupedProducts?.length ? (
-            <div
-              className={cs(bootstrap.row, styles.spacer, {
-                [styles.spacerQuickview]: isQuickview && withBadge
-              })}
-            >
-              <div className={bootstrap.col8}>
-                <div className={bootstrap.row}>
-                  <div
-                    className={cs(
-                      bootstrap.col12,
-                      bootstrap.colSm3,
-                      { [bootstrap.colMd8]: mobile },
-                      styles.label,
-                      styles.colour
-                    )}
-                  >
-                    Color
-                  </div>
-                  <div
-                    className={cs(bootstrap.col12, bootstrap.colSm9, {
-                      [bootstrap.colMd4]: mobile
-                    })}
-                  >
-                    <ColorSelector
-                      products={groupedProducts}
+              {collection && (
+                <div
+                  className={cs(bootstrap.col12, styles.collectionHeader, {})}
+                >
+                  {collection && (
+                    <Link
+                      to={collectionUrl || "#"}
                       onClick={closeModal ? closeModal : () => null}
-                    />
-                  </div>
+                    >
+                      {" "}
+                      {collection}{" "}
+                    </Link>
+                  )}
                 </div>
+              )}
+              <div
+                className={cs(bootstrap.col8, bootstrap.colMd8, styles.title)}
+              >
+                {productTitle}
+                {subtitle && <p>({subtitle.split(")")[0]})</p>}
               </div>
+              {!(invisibleFields && invisibleFields.indexOf("price") > -1) && (
+                <div
+                  className={cs(
+                    bootstrap.col4,
+                    bootstrap.colMd4,
+                    styles.priceContainer,
+                    { [globalStyles.textCenter]: !mobile }
+                  )}
+                >
+                  {info.isSale && discount && discountedPriceRecords ? (
+                    <span className={styles.discountedPrice}>
+                      {String.fromCharCode(...currencyCodes[currency])}
+                      &nbsp;
+                      {discountPrices}
+                      <br />
+                    </span>
+                  ) : (
+                    ""
+                  )}
+                  {info.isSale && discount ? (
+                    <span className={styles.oldPrice}>
+                      {String.fromCharCode(...currencyCodes[currency])}
+                      &nbsp;
+                      {price}
+                    </span>
+                  ) : (
+                    <span
+                      className={badgeType == "B_flat" ? globalStyles.gold : ""}
+                    >
+                      {" "}
+                      {String.fromCharCode(...currencyCodes[currency])}
+                      &nbsp;
+                      {price}
+                    </span>
+                  )}
+                </div>
+              )}
             </div>
-          ) : (
-            ""
-          )}
 
-          {showSize ? (
-            !(invisibleFields && invisibleFields.indexOf("size") > -1) && (
+            {groupedProducts?.length ? (
               <div
                 className={cs(bootstrap.row, styles.spacer, {
                   [styles.spacerQuickview]: isQuickview && withBadge
                 })}
               >
-                <div className={mobile ? bootstrap.col12 : bootstrap.col8}>
+                <div className={bootstrap.col8}>
                   <div className={bootstrap.row}>
                     <div
                       className={cs(
@@ -865,386 +840,423 @@ const ProductDetails: React.FC<Props> = ({
                         bootstrap.colSm3,
                         { [bootstrap.colMd8]: mobile },
                         styles.label,
-                        styles.size,
-                        { [styles.mobileMargin]: mobile }
+                        styles.colour
                       )}
                     >
-                      Size
+                      Color
                     </div>
                     <div
-                      className={cs(
-                        bootstrap.col12,
-                        { [bootstrap.colMd4]: mobile },
-                        bootstrap.colSm9,
-                        styles.sizeContainer
-                      )}
+                      className={cs(bootstrap.col12, bootstrap.colSm9, {
+                        [bootstrap.colMd4]: mobile
+                      })}
                     >
-                      <SizeSelector
-                        isCorporatePDP={corporatePDP}
-                        sizes={childAttributes}
-                        onChange={onSizeSelect}
-                        selected={selectedSize ? selectedSize.id : undefined}
+                      <ColorSelector
+                        products={groupedProducts}
+                        onClick={closeModal ? closeModal : () => null}
                       />
-                      <span
-                        className={cs(styles.sizeErrorMessage, "show-error")}
-                      >
-                        {sizeError}
-                      </span>
-                      <span className={cs(styles.sizeErrorMessage)}>
-                        {info.isSale &&
-                          selectedSize &&
-                          selectedSize.showStockThreshold &&
-                          selectedSize.stock > 0 &&
-                          `Only ${selectedSize.stock} Left!${
-                            selectedSize.othersBasketCount > 0
-                              ? ` *${selectedSize.othersBasketCount} others have this item in their bag.`
-                              : ""
-                          }`}
-                      </span>
                     </div>
                   </div>
                 </div>
-                {sizeChart && !isQuickview && (
-                  <div
-                    className={cs(bootstrap.colSm4, styles.label, {
-                      [globalStyles.textRight]: !mobile
-                    })}
-                  >
-                    <span
-                      className={styles.sizeGuide}
-                      onClick={onSizeChartClick}
-                    >
-                      {" "}
-                      Size Guide{" "}
-                    </span>
-                  </div>
-                )}
-                {/* {sizeerror && mobile ? (
-              <p className={styles.errorMsg}>Please select a size to proceed</p>
+              </div>
             ) : (
               ""
-            )} */}
-                {categories &&
-                  categories.filter(category =>
-                    category.toLowerCase().includes("wallcovering")
-                  ).length > 0 && (
+            )}
+
+            {showSize ? (
+              !(invisibleFields && invisibleFields.indexOf("size") > -1) && (
+                <div
+                  className={cs(bootstrap.row, styles.spacer, {
+                    [styles.spacerQuickview]: isQuickview && withBadge
+                  })}
+                >
+                  <div className={mobile ? bootstrap.col12 : bootstrap.col8}>
+                    <div className={bootstrap.row}>
+                      <div
+                        className={cs(
+                          bootstrap.col12,
+                          bootstrap.colSm3,
+                          { [bootstrap.colMd8]: mobile },
+                          styles.label,
+                          styles.size,
+                          { [styles.mobileMargin]: mobile }
+                        )}
+                      >
+                        Size
+                      </div>
+                      <div
+                        className={cs(
+                          bootstrap.col12,
+                          { [bootstrap.colMd4]: mobile },
+                          bootstrap.colSm9,
+                          styles.sizeContainer
+                        )}
+                      >
+                        <SizeSelector
+                          isCorporatePDP={corporatePDP}
+                          sizes={childAttributes}
+                          onChange={onSizeSelect}
+                          selected={selectedSize ? selectedSize.id : undefined}
+                        />
+                        <span
+                          className={cs(styles.sizeErrorMessage, "show-error")}
+                        >
+                          {sizeError}
+                        </span>
+                        <span className={cs(styles.sizeErrorMessage)}>
+                          {info.isSale &&
+                            selectedSize &&
+                            selectedSize.showStockThreshold &&
+                            selectedSize.stock > 0 &&
+                            `Only ${selectedSize.stock} Left!${
+                              selectedSize.othersBasketCount > 0
+                                ? ` *${selectedSize.othersBasketCount} others have this item in their bag.`
+                                : ""
+                            }`}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  {sizeChart && !isQuickview && (
                     <div
                       className={cs(bootstrap.colSm4, styles.label, {
-                        [globalStyles.textCenter]: !mobile
+                        [globalStyles.textRight]: !mobile
                       })}
                     >
                       <span
                         className={styles.sizeGuide}
-                        onClick={onWallpaperClick}
+                        onClick={onSizeChartClick}
                       >
                         {" "}
-                        Wallpaper Calculator{" "}
+                        Size Guide{" "}
                       </span>
                     </div>
                   )}
-              </div>
-            )
-          ) : (
-            <span className={cs(styles.sizeErrorMessage)}>
-              {info.isSale &&
-                selectedSize &&
-                selectedSize.stock > 0 &&
-                selectedSize.showStockThreshold &&
-                `Only ${
-                  selectedSize.stock
-                } Left!${selectedSize.othersBasketCount &&
-                  ` *${selectedSize.othersBasketCount} others have this item in their bag.`}`}
-            </span>
-          )}
-          <div
-            className={cs(bootstrap.row, {
-              [globalStyles.marginT30]: !mobile,
-              [styles.spacerQuickview]: isQuickview && withBadge
-            })}
-          >
+                  {/* {sizeerror && mobile ? (
+              <p className={styles.errorMsg}>Please select a size to proceed</p>
+            ) : (
+              ""
+            )} */}
+                  {categories &&
+                    categories.filter(category =>
+                      category.toLowerCase().includes("wallcovering")
+                    ).length > 0 && (
+                      <div
+                        className={cs(bootstrap.colSm4, styles.label, {
+                          [globalStyles.textCenter]: !mobile
+                        })}
+                      >
+                        <span
+                          className={styles.sizeGuide}
+                          onClick={onWallpaperClick}
+                        >
+                          {" "}
+                          Wallpaper Calculator{" "}
+                        </span>
+                      </div>
+                    )}
+                </div>
+              )
+            ) : (
+              <span className={cs(styles.sizeErrorMessage)}>
+                {info.isSale &&
+                  selectedSize &&
+                  selectedSize.stock > 0 &&
+                  selectedSize.showStockThreshold &&
+                  `Only ${
+                    selectedSize.stock
+                  } Left!${selectedSize.othersBasketCount &&
+                    ` *${selectedSize.othersBasketCount} others have this item in their bag.`}`}
+              </span>
+            )}
             <div
-              className={cs(bootstrap.col8, { [bootstrap.colMd12]: mobile })}
+              className={cs(bootstrap.row, {
+                [globalStyles.marginT30]: !mobile,
+                [styles.spacerQuickview]: isQuickview && withBadge
+              })}
             >
-              {!(
-                invisibleFields && invisibleFields.indexOf("quantity") > -1
-              ) && (
-                <div className={bootstrap.row}>
+              <div
+                className={cs(bootstrap.col8, { [bootstrap.colMd12]: mobile })}
+              >
+                {!(
+                  invisibleFields && invisibleFields.indexOf("quantity") > -1
+                ) && (
+                  <div className={bootstrap.row}>
+                    <div
+                      className={cs(
+                        bootstrap.col12,
+                        bootstrap.colSm3,
+                        { [bootstrap.colMd8]: mobile },
+                        styles.label,
+                        styles.quantity,
+                        { [styles.mobileMargin]: mobile }
+                      )}
+                    >
+                      Quantity
+                    </div>
+                    <div
+                      className={cs(
+                        bootstrap.col12,
+                        bootstrap.colSm9,
+                        { [bootstrap.colMd4]: mobile },
+                        styles.widgetQty
+                      )}
+                    >
+                      <PdpQuantity
+                        source="pdp"
+                        key={selectedSize?.sku}
+                        id={selectedSize?.id || 0}
+                        minValue={minQuantity}
+                        maxValue={corporatePDP ? 1 : maxQuantity}
+                        currentValue={quantity}
+                        onChange={onQuantityChange}
+                        errorMsgClass={styles.sizeErrorMessage}
+                        // errorMsg={selectedSize ? "Available qty in stock is" : ""}
+                      />
+                    </div>
+                  </div>
+                )}
+              </div>
+              {bridalId !== 0 && bridalCurrency == currency && !corporatePDP && (
+                <div
+                  className={cs(
+                    bootstrap.col4,
+                    globalStyles.textCenter,
+                    styles.bridalSection
+                  )}
+                  onClick={addToRegistry}
+                >
                   <div
                     className={cs(
-                      bootstrap.col12,
-                      bootstrap.colSm3,
-                      { [bootstrap.colMd8]: mobile },
-                      styles.label,
-                      styles.quantity,
-                      { [styles.mobileMargin]: mobile }
+                      iconStyles.icon,
+                      iconStyles.iconRings,
+                      styles.bridalRing,
+                      {
+                        [styles.active]:
+                          selectedSize && isRegistry[selectedSize.size]
+                      }
                     )}
+                  ></div>
+                  <p
+                    className={cs(styles.label, {
+                      [globalStyles.cerise]:
+                        selectedSize && isRegistry[selectedSize.size]
+                    })}
                   >
-                    Quantity
-                  </div>
-                  <div
-                    className={cs(
-                      bootstrap.col12,
-                      bootstrap.colSm9,
-                      { [bootstrap.colMd4]: mobile },
-                      styles.widgetQty
-                    )}
-                  >
-                    <PdpQuantity
-                      source="pdp"
-                      key={selectedSize?.sku}
-                      id={selectedSize?.id || 0}
-                      minValue={minQuantity}
-                      maxValue={corporatePDP ? 1 : maxQuantity}
-                      currentValue={quantity}
-                      onChange={onQuantityChange}
-                      errorMsgClass={styles.sizeErrorMessage}
-                      // errorMsg={selectedSize ? "Available qty in stock is" : ""}
-                    />
-                  </div>
+                    {selectedSize && isRegistry[selectedSize.size]
+                      ? "added"
+                      : "add to registry"}
+                  </p>
                 </div>
               )}
             </div>
-            {bridalId !== 0 && bridalCurrency == currency && !corporatePDP && (
+            {badgeMessage && !isQuickview ? (
               <div
                 className={cs(
-                  bootstrap.col4,
-                  globalStyles.textCenter,
-                  styles.bridalSection
+                  bootstrap.col12,
+                  bootstrap.colMd12,
+                  styles.salesOffer
                 )}
-                onClick={addToRegistry}
-              >
-                <div
-                  className={cs(
-                    iconStyles.icon,
-                    iconStyles.iconRings,
-                    styles.bridalRing,
-                    {
-                      [styles.active]:
-                        selectedSize && isRegistry[selectedSize.size]
-                    }
-                  )}
-                ></div>
-                <p
-                  className={cs(styles.label, {
-                    [globalStyles.cerise]:
-                      selectedSize && isRegistry[selectedSize.size]
-                  })}
-                >
-                  {selectedSize && isRegistry[selectedSize.size]
-                    ? "added"
-                    : "add to registry"}
-                </p>
-              </div>
-            )}
-          </div>
-          {badgeMessage && !isQuickview ? (
-            <div
-              className={cs(
-                bootstrap.col12,
-                bootstrap.colMd12,
-                styles.salesOffer
-              )}
-            >
-              <img
-                src={offer}
-                className={styles.offerImage}
-                alt="offer20-icon"
-                style={{
-                  width: "17px",
-                  marginRight: "8px"
-                }}
-              />
-              <div className={cs(styles.offerMessage)}>
-                {ReactHtmlParser(badgeMessage)}
-              </div>
-            </div>
-          ) : (
-            " "
-          )}
-          {fillerProduct && !isQuickview ? (
-            <div
-              className={cs(
-                bootstrap.col12,
-                bootstrap.colMd10,
-                globalStyles.voffset3,
-                styles.cushionError,
-                styles.fillerContainer
-              )}
-            >
-              <img
-                src={asset}
-                className={styles.cushionFiller}
-                alt="cushion-filler-icon"
-              />
-              <div>
-                Insert not included.{" "}
-                <Link
-                  onClick={e => {
-                    if (Object.keys(fillerProduct)?.length > 0) {
-                      dispatch(updatefillerProduct(fillerProduct));
-                      dispatch(updateshowFiller(true));
-                    }
-
-                    e.preventDefault();
-                  }}
-                  to={fillerUrl || "#"}
-                >
-                  Click here to purchase.
-                </Link>
-              </div>
-            </div>
-          ) : (
-            ""
-          )}
-          <div
-            className={cs(
-              bootstrap.row,
-              styles.spacer,
-              { [styles.spacerQuickview]: isQuickview && withBadge },
-              styles.actionButtonsContainer,
-              {
-                [globalStyles.voffset3]: mobile
-              }
-            )}
-          >
-            <div
-              id="yourElement"
-              className={cs(globalStyles.textCenter, globalStyles.voffset1, {
-                [bootstrap.col8]: !corporatePDP,
-                [styles.addToBagBtnContainer]: mobile,
-                [bootstrap.colSm8]: !mobile,
-                [bootstrap.colSm12]: corporatePDP && mobile,
-                [globalStyles.hidden]: mobile && !showAddToBagMobile
-              })}
-            >
-              {Pdpbutton}
-              {onload && !info.isSale && loyaltyDisabled && isQuickview ? (
-                <p className={cs(styles.errorMsg, styles.notEligible)}>
-                  This product is not eligible for Cerise points accumulation.
-                </p>
-              ) : (
-                ""
-              )}
-              {isQuickview ? (
-                <Link
-                  to={url}
-                  className={cs(styles.moreDetails, {
-                    [styles.lh45]: withBadge
-                  })}
-                  onClick={() => {
-                    changeModalState(false);
-                    const listPath = `${source || "PLP"}`;
-                    CookieService.setCookie("listPath", listPath);
-                    dispatch(updateQuickviewId(0));
-                  }}
-                >
-                  view more details
-                </Link>
-              ) : (
-                ""
-              )}
-            </div>
-            <div
-              className={cs(bootstrap.col4, globalStyles.textCenter, {
-                [styles.wishlistText]: !mobile,
-                [styles.wishlistBtnContainer]: mobile,
-                [globalStyles.voffset1]: mobile,
-                [globalStyles.hidden]: corporatePDP || !showAddToBagMobile
-              })}
-            >
-              <WishlistButtonpdp
-                gtmListType={gtmListType}
-                title={title}
-                parentWidth={true}
-                childAttributes={childAttributes}
-                priceRecords={priceRecords}
-                discountedPriceRecords={discountedPriceRecords}
-                categories={categories}
-                id={id}
-                showText={!mobile}
-                mobile={mobile}
-                size={selectedSize ? selectedSize.size : undefined}
-                iconClassName={cs({
-                  [styles.mobileWishlistIcon]: mobile
-                })}
-              />
-            </div>
-          </div>
-          <div
-            className={cs(bootstrap.col12, bootstrap.colMd9, {
-              [styles.quickviewLoyaltyMessage]: isQuickview,
-              [globalStyles.voffset1]: !mobile,
-              [globalStyles.voffset3]: mobile
-            })}
-          >
-            {onload && !info.isSale && loyaltyDisabled && !isQuickview ? (
-              <p className={styles.errorMsg}>
-                This product is not eligible for Cerise points accumulation.
-              </p>
-            ) : (
-              ""
-            )}
-          </div>
-          {!isQuickview && (
-            <div
-              className={cs(
-                bootstrap.col12,
-                bootstrap.colMd9,
-                globalStyles.voffset3,
-                styles.padding
-              )}
-            >
-              <img
-                alt="goodearth-logo"
-                src={inshop}
-                style={{
-                  width: "17px",
-                  height: "17px",
-                  cursor: "pointer",
-                  marginRight: "8px"
-                }}
-              />
-              <span
-                className={styles.shopAvailability}
-                onClick={checkAvailability}
-              >
-                Check in-shop availability{" "}
-              </span>
-            </div>
-          )}
-          {complianceLine && !isQuickview && (
-            <div
-              className={cs(
-                bootstrap.col12,
-                bootstrap.colMd12,
-                globalStyles.voffset2
-              )}
-            >
-              <div
-                className={cs(globalStyles.flex, styles.complianceContainer)}
               >
                 <img
-                  alt="goodearth-logo"
-                  src={legal}
+                  src={offer}
+                  className={styles.offerImage}
+                  alt="offer20-icon"
                   style={{
                     width: "17px",
                     marginRight: "8px"
                   }}
                 />
-                <div className={styles.compliance}>
-                  {ReactHtmlParser(complianceLine)}
+                <div className={cs(styles.offerMessage)}>
+                  {ReactHtmlParser(badgeMessage)}
                 </div>
               </div>
-            </div>
-          )}
-          <div
-            className={cs(
-              bootstrap.col12,
-              bootstrap.colMd12,
-              globalStyles.voffset3
+            ) : (
+              " "
             )}
-          >
-            {/* {!mobile && !isQuickview && (
+            {fillerProduct && !isQuickview ? (
+              <div
+                className={cs(
+                  bootstrap.col12,
+                  bootstrap.colMd10,
+                  globalStyles.voffset3,
+                  styles.cushionError,
+                  styles.fillerContainer
+                )}
+              >
+                <img
+                  src={asset}
+                  className={styles.cushionFiller}
+                  alt="cushion-filler-icon"
+                />
+                <div>
+                  Insert not included.{" "}
+                  <Link
+                    onClick={e => {
+                      if (Object.keys(fillerProduct)?.length > 0) {
+                        dispatch(updatefillerProduct(fillerProduct));
+                        dispatch(updateshowFiller(true));
+                      }
+
+                      e.preventDefault();
+                    }}
+                    to={fillerUrl || "#"}
+                  >
+                    Click here to purchase.
+                  </Link>
+                </div>
+              </div>
+            ) : (
+              ""
+            )}
+            <div
+              className={cs(
+                bootstrap.row,
+                styles.spacer,
+                { [styles.spacerQuickview]: isQuickview && withBadge },
+                styles.actionButtonsContainer,
+                {
+                  [globalStyles.voffset3]: mobile
+                }
+              )}
+            >
+              <div
+                id="yourElement"
+                className={cs(globalStyles.textCenter, globalStyles.voffset1, {
+                  [bootstrap.col8]: !corporatePDP,
+                  [styles.addToBagBtnContainer]: mobile,
+                  [bootstrap.colSm8]: !mobile,
+                  [bootstrap.colSm12]: corporatePDP && mobile,
+                  [globalStyles.hidden]: mobile && !showAddToBagMobile
+                })}
+              >
+                {Pdpbutton}
+                {onload && !info.isSale && loyaltyDisabled && isQuickview ? (
+                  <p className={cs(styles.errorMsg, styles.notEligible)}>
+                    This product is not eligible for Cerise points accumulation.
+                  </p>
+                ) : (
+                  ""
+                )}
+                {isQuickview ? (
+                  <Link
+                    to={url}
+                    className={cs(styles.moreDetails, {
+                      [styles.lh45]: withBadge
+                    })}
+                    onClick={() => {
+                      changeModalState(false);
+                      const listPath = `${source || "PLP"}`;
+                      CookieService.setCookie("listPath", listPath);
+                      dispatch(updateQuickviewId(0));
+                    }}
+                  >
+                    view more details
+                  </Link>
+                ) : (
+                  ""
+                )}
+              </div>
+              <div
+                className={cs(bootstrap.col4, globalStyles.textCenter, {
+                  [styles.wishlistText]: !mobile,
+                  [styles.wishlistBtnContainer]: mobile,
+                  [globalStyles.voffset1]: mobile,
+                  [globalStyles.hidden]: corporatePDP || !showAddToBagMobile
+                })}
+              >
+                <WishlistButtonpdp
+                  gtmListType={gtmListType}
+                  title={title}
+                  parentWidth={true}
+                  childAttributes={childAttributes}
+                  priceRecords={priceRecords}
+                  discountedPriceRecords={discountedPriceRecords}
+                  categories={categories}
+                  id={id}
+                  showText={!mobile}
+                  mobile={mobile}
+                  size={selectedSize ? selectedSize.size : undefined}
+                  iconClassName={cs({
+                    [styles.mobileWishlistIcon]: mobile
+                  })}
+                />
+              </div>
+            </div>
+            <div
+              className={cs(bootstrap.col12, bootstrap.colMd9, {
+                [styles.quickviewLoyaltyMessage]: isQuickview,
+                [globalStyles.voffset1]: !mobile,
+                [globalStyles.voffset3]: mobile
+              })}
+            >
+              {onload && !info.isSale && loyaltyDisabled && !isQuickview ? (
+                <p className={styles.errorMsg}>
+                  This product is not eligible for Cerise points accumulation.
+                </p>
+              ) : (
+                ""
+              )}
+            </div>
+            {!isQuickview && (
+              <div
+                className={cs(
+                  bootstrap.col12,
+                  bootstrap.colMd9,
+                  globalStyles.voffset3,
+                  styles.padding
+                )}
+              >
+                <img
+                  alt="goodearth-logo"
+                  src={inshop}
+                  style={{
+                    width: "17px",
+                    height: "17px",
+                    cursor: "pointer",
+                    marginRight: "8px"
+                  }}
+                />
+                <span
+                  className={styles.shopAvailability}
+                  onClick={checkAvailability}
+                >
+                  Check in-shop availability{" "}
+                </span>
+              </div>
+            )}
+            {complianceLine && !isQuickview && (
+              <div
+                className={cs(
+                  bootstrap.col12,
+                  bootstrap.colMd12,
+                  globalStyles.voffset2
+                )}
+              >
+                <div
+                  className={cs(globalStyles.flex, styles.complianceContainer)}
+                >
+                  <img
+                    alt="goodearth-logo"
+                    src={legal}
+                    style={{
+                      width: "17px",
+                      marginRight: "8px"
+                    }}
+                  />
+                  <div className={styles.compliance}>
+                    {ReactHtmlParser(complianceLine)}
+                  </div>
+                </div>
+              </div>
+            )}
+            <div
+              className={cs(
+                bootstrap.col12,
+                bootstrap.colMd12,
+                globalStyles.voffset3
+              )}
+            >
+              {/* {!mobile && !isQuickview && (
             <Share
               mobile={mobile}
               link={`${__DOMAIN__}${location.pathname}`}
@@ -1256,24 +1268,24 @@ const ProductDetails: React.FC<Props> = ({
               } ${__DOMAIN__}${location.pathname}`}
             />
           )} */}
-            <div>
-              {!isQuickview && (
-                <Accordion
-                  sections={accordionSections}
-                  className="pdp-accordion"
-                  headerClassName={styles.accordionHeader}
-                  bodyClassName={styles.accordionBody}
-                  defaultOpen="details"
-                />
-              )}
-            </div>
-            {/* {!isQuickview && (
+              <div>
+                {!isQuickview && (
+                  <Accordion
+                    sections={accordionSections}
+                    className="pdp-accordion"
+                    headerClassName={styles.accordionHeader}
+                    bodyClassName={styles.accordionBody}
+                    defaultOpen="details"
+                  />
+                )}
+              </div>
+              {/* {!isQuickview && (
               <div className={cs(styles.sku, globalStyles.voffset4)}>
                 Vref. {setSelectedSKU()}
               </div>
             )} */}
-            {/* {!isQuickview && <CustomerCareInfo />} */}
-            {/* {!isQuickview && (
+              {/* {!isQuickview && <CustomerCareInfo />} */}
+              {/* {!isQuickview && (
               <Share
                 mobile={mobile}
                 link={`${__DOMAIN__}${location.pathname}`}
@@ -1285,14 +1297,15 @@ const ProductDetails: React.FC<Props> = ({
                 } ${__DOMAIN__}${location.pathname}`}
               />
             )} */}
-            {!isQuickview && (
-              <div className={cs(styles.sku, globalStyles.voffset4)}>
-                Vref. {setSelectedSKU()}
-              </div>
-            )}
+              {!isQuickview && (
+                <div className={cs(styles.sku, globalStyles.voffset4)}>
+                  Vref. {setSelectedSKU()}
+                </div>
+              )}
+            </div>
           </div>
         </div>
-      </div>
+      )}
     </Fragment>
   );
 };
