@@ -207,7 +207,7 @@ export default {
   fetchInshopOrder: async (dispatch: Dispatch, email: string) => {
     const courier = await new Promise((resolve, reject) => {
       fetch(
-        `${__OMNI_HOST__}/omni/customer_offline_orders_web/?email=${email}`,
+        `${__API_HOST__}/myapi/order/customer_offline_orders_web/?email=${email}`,
         { method: "GET" }
       )
         .then(resp => resp.json())
