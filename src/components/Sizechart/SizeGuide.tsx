@@ -126,11 +126,7 @@ const SizeGuide: React.FC<SizeGuideProps> = memo(({ isSingleSection }) => {
           );
         })}
       </div>
-      <div
-        className={cs(styles.footer, {
-          [styles.singleSectionFooter]: isSingleSection
-        })}
-      >
+      <div className={cs(styles.footer, styles.singleSectionFooter)}>
         <p>
           Note:{" "}
           {note !== "" ? (
