@@ -429,9 +429,9 @@ form {
 .login-form{
   input {
     &[type="text"]{
-      font-size: 12px;
+      font-size: 12px !important;
       &:focus{
-        font-size: 12px;
+        font-size: 12px !important;
       }
     }
   }
