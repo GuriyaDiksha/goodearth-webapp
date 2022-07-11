@@ -189,10 +189,10 @@ class Header extends React.Component<Props, State> {
 
     //Close Mini bag after URL Change
     const that = this;
-    let previousUrl = "";
+    let previousPath = "/";
     const observer = new MutationObserver(function(mutations) {
-      if (location.href !== previousUrl) {
-        previousUrl = location.href;
+      if (location.pathname !== previousPath) {
+        previousPath = location.pathname;
         that.setState({ showBag: false });
         if (that.props.showSizeChart) {
           that.props.closeSizeChart();
