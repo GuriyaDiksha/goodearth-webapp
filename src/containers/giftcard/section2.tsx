@@ -267,17 +267,16 @@ const Section2: React.FC<Section2Props> = ({
             className={cs(
               bootstrapStyles.col10,
               bootstrapStyles.offset1,
-              globalStyles.textCenter
+              globalStyles.textLeft
             )}
           >
-            <i className={styles.arrowUp}></i>
             <p
               className={styles.backGc}
               onClick={() => {
                 goback("card");
               }}
             >
-              Back To Design
+              {`<`} Back To Design
             </p>
           </div>
         </div>
@@ -397,7 +396,7 @@ const Section2: React.FC<Section2Props> = ({
                             className={
                               errorBorder ? globalStyles.errorBorder : ""
                             }
-                            placeholder="enter value"
+                            placeholder="Enter Custom Value"
                             onClick={e => {
                               setValuetext(e);
                             }}
@@ -426,52 +425,25 @@ const Section2: React.FC<Section2Props> = ({
                   )}
                 >
                   {numhighlight ? (
-                    <p
-                      className={cs(
-                        globalStyles.errorMsg,
-                        globalStyles.textCenter
-                      )}
-                    >
+                    <p className={cs(styles.errorMsg, globalStyles.textCenter)}>
                       {nummsg}
                     </p>
                   ) : (
-                    <p className={globalStyles.errorMsg}></p>
+                    <p className={styles.errorMsg}></p>
                   )}
                 </div>
               </div>
             </div>
-            <div
-              className={cs(
-                bootstrapStyles.row,
-                bootstrapStyles.col12,
-                globalStyles.textCenter,
-                globalStyles.voffset6
-              )}
-            >
-              <div className={bootstrapStyles.col12}>
-                <Button value="" onClick={gotoNext}>
-                  <input
-                    type="submit"
-                    className={styles.inputButton}
-                    value="proceed to filling details"
-                  />
-                </Button>
+            <div className={cs(bootstrapStyles.col12, styles.buttonRow)}>
+              <div className={cs(styles.imageSelectBtnContainer)}>
+                <button className={styles.imageSelectBtn} onClick={gotoNext}>
+                  proceed to filling details&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  <span></span>
+                </button>
               </div>
             </div>
           </div>
         </Formsy>
-        <div
-          className={cs(
-            bootstrapStyles.row,
-            bootstrapStyles.col12,
-            globalStyles.textCenter,
-            globalStyles.voffset4
-          )}
-        >
-          <div className={bootstrapStyles.col12}>
-            <i className={styles.arrowDown}></i>
-          </div>
-        </div>
       </section>
     </div>
   );
