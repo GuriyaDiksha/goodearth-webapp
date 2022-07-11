@@ -139,30 +139,12 @@ const Section1: React.FC<Section1Props> = props => {
               </div>
             </div>
           </div>
-          <div
-            className={cs(
-              bootstrapStyles.col12,
-              globalStyles.textCenter,
-              globalStyles.voffset6
-            )}
-          >
-            <div className={bootstrapStyles.row}>
-              <div className={bootstrapStyles.col12}>
-                <Button value="choose value" onClick={gotoNext} />
-              </div>
-            </div>
-          </div>
-          <div
-            className={cs(
-              bootstrapStyles.col12,
-              globalStyles.textCenter,
-              globalStyles.voffset4
-            )}
-          >
-            <div className={bootstrapStyles.row}>
-              <div className={bootstrapStyles.col12}>
-                <i className={styles.arrowDown}></i>
-              </div>
+          <div className={cs(bootstrapStyles.col12, styles.buttonRow)}>
+            <div className={cs(styles.imageSelectBtnContainer)}>
+              <button className={styles.imageSelectBtn} onClick={gotoNext}>
+                Confirm & Choose Value&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <span></span>
+              </button>
             </div>
           </div>
         </div>

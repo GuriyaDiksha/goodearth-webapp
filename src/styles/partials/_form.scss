@@ -158,15 +158,13 @@
         margin-top: 50px;
       }
       label {
-        @include c10-L-R();
+        @include b5_10px_charcoal();
         text-transform: none;
-        line-height: 22px;
-        display: inline;
         a {
-          color: $cerise;
+          color: $charcoal19;
           text-decoration: underline;
           &:hover {
-            color: $cerise;
+            color: $charcoal19;
             text-decoration: underline;
           }
         }
@@ -311,11 +309,11 @@
     content: '';
     position: absolute;
     left: 0;
-    top: 0px;
+    top: 5px;
     width: 18px;
     height: 18px;
     background-color: white;
-    border: 1px solid #666;
+    border: 1px solid $light-charcoal;
 
   }
   input[type="radio"]:not(:checked) + label,
@@ -333,14 +331,30 @@
     display: block;
     width: 6px;
     height: 10px;
-    border: solid #ab1e56;
+    border: solid $aqua;
     border-width: 0 2px 2px 0;
     position: absolute;
-    top: 2px;
+    top: 8px;
     left: 6px;
     font-size: 18px;
     line-height: 0.8;
     transition: all .1s;
+  }
+  input[type="checkbox"]{
+    &:not(:checked) + label:before{
+      background-color: $white;
+    }
+    &:not(:checked) + label:after{
+      border: solid $white;
+      border-width: 0 2px 2px 0;
+    }
+    &:checked + label:before{
+      background-color: $aqua;
+    }
+    &:checked + label:after{
+      border: solid $white;
+      border-width: 0 2px 2px 0;
+    }
   }
 }
 
@@ -379,7 +393,7 @@ input[type="checkbox"]:checked + label {
   position: relative;
   cursor: pointer;
   font-weight: normal;
-  font-size: 12px;
+  font-size: 12px !important;
   font-family: $font-Lato;
 }
 
