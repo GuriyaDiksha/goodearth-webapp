@@ -357,8 +357,8 @@
 }
 
 @mixin plp_filter_copy {
-  font-size: 12px;
-  color: tint(#000, 40%);
+  font-size: 10px;
+  color: $charcoal19;
 }
 
 @mixin curveBtnLink {
@@ -474,7 +474,7 @@
 @mixin pdp_breadcrumbs {
   font-size: 10px;
   font-family: $font-Montserrat;
-  color: tint(#000, 60%);
+  color: tint(#191919, 50%);
 }
 
 @mixin more-details {
