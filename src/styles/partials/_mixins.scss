@@ -207,10 +207,12 @@
 }
 
 @mixin plp_filter_sub {
-  font-family: $font-Lato;
-  font-size: 9px;
-  color: tint(#000, 60%);
+  font-family: $font-Montserrat;
+  font-size: 10px;
+  color: $charcoal19;
   font-weight: 300;
+  text-decoration: underline;
+  letter-spacing: 0px;
 }
 
 @mixin plp_filter_copy_cerise {
@@ -232,6 +234,12 @@
   letter-spacing: 2px;
   font-family: $font-Serif;
   line-height: 30px;
+}
+
+@mixin plp_filter_header {
+  font-size: 10px;
+  font-family: $font-Montserrat;
+  color: $charcoal19;
 }
 
 // @mixin pdp_prod_title {

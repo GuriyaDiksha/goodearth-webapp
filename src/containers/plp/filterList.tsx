@@ -1575,12 +1575,13 @@ class FilterList extends React.Component<Props, State> {
     const name: any = "all";
     if (html.length > 0) {
       html.push(
-        <div
-          onClick={e => this.clearFilter(e, "all")}
-          data-name={name}
-          className={styles.plp_filter_sub}
-        >
-          Clear All
+        <div data-name={name}>
+          <span
+            onClick={e => this.clearFilter(e, "all")}
+            className={styles.plp_filter_sub}
+          >
+            Clear All
+          </span>
         </div>
       );
       this.props.setFilterCount?.(filterCount);
