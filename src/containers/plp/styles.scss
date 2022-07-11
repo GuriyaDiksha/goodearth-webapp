@@ -318,8 +318,7 @@
     letter-spacing: 1px;
     line-height: 40px;
     border-bottom: 1px solid tint(#000,90%);
-    @include plp_filter_copy_cerise();
-    text-transform: uppercase;
+    @include b4_12px_med_gold_caps();
 
     li {
       border-bottom: none;
@@ -350,7 +349,6 @@
     text-transform: uppercase;
     cursor: pointer;
     display: block;
-    font-size: 14px;
     &:after {
       content: '+';
       float: right;
@@ -383,7 +381,7 @@
     }
   }
   .menulevel2 {
-    @include plp_filter_cat();
+    @include b4_12px_charcoal_caps();
     cursor: pointer;
     display: block;
     white-space: nowrap;

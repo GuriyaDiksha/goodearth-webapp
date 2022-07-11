@@ -238,7 +238,7 @@
 
 .filter-elements {
     span {
-      @include plp_filter_cat();
+      @include b4_12px_med_charcoal_caps();
       font-weight: normal;
       padding-left: 0px;
     }
@@ -275,8 +275,7 @@
     letter-spacing: 1px;
     line-height: 40px;
     border-bottom: 1px solid tint(#000,90%);
-    @include plp_filter_copy_cerise();
-    text-transform: uppercase;
+    @include b4_12px_med_gold_caps();
 
     li {
       border-bottom: none;
@@ -309,7 +308,6 @@
     text-transform: uppercase;
     cursor: pointer;
     display: block;
-    font-size: 14px;
     &:after {
       content: '+';
       float: right;
@@ -389,7 +387,7 @@
         }
       }
     }
-    @include plp_filter_copy();
+    @include b4_light_12px_charcoal();
     text-transform: capitalize;
     &.country-code {
       display: flex;
@@ -791,7 +789,7 @@ input[type="radio"]:checked, [type="checkbox"]:not(:checked),
   padding: 3px 25px 3px 10px !important;
   border-radius: 20px;
   cursor: default;
-  color: #ab1e56 !important;
+  color: $gold!important;
   margin-bottom: 10px;
 }
 
@@ -804,4 +802,8 @@ input[type="radio"]:checked, [type="checkbox"]:not(:checked),
   overflow: hidden;
   text-overflow: ellipsis;
   display: block;
+}
+
+.gold-color{
+  color: $gold !important;
 }

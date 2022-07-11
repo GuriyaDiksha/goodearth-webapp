@@ -1718,7 +1718,7 @@ class FilterList extends React.Component<Props, State> {
       <Fragment>
         <ul id="inner_filter" className={styles.filterSideMenu}>
           <li className={styles.filterElements}>
-            <span>Filtered By</span>
+            <span>Filter By</span>
             <ul id="currentFilter">{this.renderFilterList(filter)}</ul>
           </li>
           <li>
@@ -1732,7 +1732,7 @@ class FilterList extends React.Component<Props, State> {
                 this.ClickmenuCategory(0);
               }}
             >
-              Category
+              By Category
             </span>
             <div
               className={
