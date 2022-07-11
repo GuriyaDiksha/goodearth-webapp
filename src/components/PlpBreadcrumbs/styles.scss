@@ -9,12 +9,7 @@
         text-decoration: none;
         @include pdp_breadcrumbs();
         &:last-child {
-            color: tint(#000, 40%);
+            color: $charcoal19;
         }
     }
-
-    a:hover {
-        color: $cerise;
-    }
-
 }
