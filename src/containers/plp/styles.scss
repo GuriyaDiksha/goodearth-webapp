@@ -291,13 +291,13 @@
         span {
           text-transform: capitalize;
           &:first-child {
-            @include plp_filter_copy();
+            @include plp_filter_header();
           }
           color: $cerise;
           &:last-child {
             float: right;
             cursor: pointer;
-            font-size: 10px;
+            font-size: 6px;
             color: tint(#000, 50%);
           }
         }
@@ -343,6 +343,11 @@
     .plp_filter_sub {
       @include plp_filter_sub();
       cursor: pointer;
+      span {
+        &:hover{
+          color: $aqua;
+        }
+      }
     }
   }
   .menulevel1 {
@@ -485,13 +490,16 @@
     width: 18px;
     height: 18px;
     background-color: white;
-    border: 1px black solid;
+    border: 1px solid #9f9f9f;
 
   }
   input[type="radio"]:not(:checked) + label,
   input[type="radio"]:checked + label, [type="checkbox"]:not(:checked) + label,
   input[type="checkbox"]:checked + label {
     padding-left: 30px;
+  }
+  input[type="checkbox"]:checked + label:before {
+    background-color: $aqua;
   }
 }
 
@@ -506,12 +514,16 @@
     border: solid #ab1e56;
     border-width: 0 2px 2px 0;
     position: absolute;
-    top: 14px;
+    top: 12px;
     left: 6px;
     font-size: 18px;
     line-height: 0.8;
     transition: all .1s;
   }
+  input[type="checkbox"]:checked + label:after{
+    border: solid $white;
+    border-width: 0 2px 2px 0;
+  } 
 }
 
 .colorlabel {
@@ -731,7 +743,7 @@ p.corporate-sub-heading {
   padding: 3px 25px 3px 10px !important;
   border-radius: 20px;
   cursor: default;
-  color: #ab1e56 !important;
+  color: $charcoal19;
   margin-bottom: 10px;
 }
 
