@@ -22,7 +22,8 @@ const initialState: State = {
   twitterImage: "",
   twitterDomain: "",
   twitterCreator: "",
-  twitterSite: ""
+  twitterSite: "",
+  h1Tag: ""
 };
 
 export const meta = (state = initialState, action: MetaActions): State => {
