@@ -68,6 +68,7 @@ import DockedPanel from "../../docked";
 import { updateQuickviewId } from "../../../../actions/quickview";
 import Accordion from "components/Accordion";
 import PdpSkeleton from "../pdpSkeleton";
+import { isEmpty } from "lodash";
 
 const ProductDetails: React.FC<Props> = ({
   data: {
@@ -194,9 +195,17 @@ const ProductDetails: React.FC<Props> = ({
   }, [childAttributes, selectedSize]);
 
   useEffect(() => {
-    setTimeout(() => {
+    const falsyValues = ["", [], false, 0];
+    const isFalsyData = Object.values(data)?.every(
+      x =>
+        falsyValues.includes(x) ||
+        Object.values(data["priceRecords"])?.every(val => val === -1) ||
+        Object.values(data["discountedPriceRecords"])?.every(val => val === -1)
+    );
+    if (!isEmpty(data) && !isFalsyData) {
       setPdpLoader(false);
-    }, 2000);
+    }
+
     return () => {
       dispatch(updateSizeChartSelected(undefined));
     };
