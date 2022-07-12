@@ -21,6 +21,7 @@ export interface PlpResult {
   bannerMobile: string;
   bannerUrl: string;
   suggestions: any[];
+  filtered_facets: any;
 }
 
 export type PlpProps = {

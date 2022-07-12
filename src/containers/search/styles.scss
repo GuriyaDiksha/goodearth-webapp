@@ -331,6 +331,10 @@
         padding-left: 35px;
         margin-bottom: 0;
       }
+      .disableColors{
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
     }
   }
   .menulevel1-open {
@@ -588,6 +592,16 @@ input[type="radio"]:checked, [type="checkbox"]:not(:checked),
         background-color: tint(#000,95%);
 
       }
+    }
+  }
+  .disableSize{
+    opacity: 0.5;
+    cursor: not-allowed;
+    &:hover{
+      opacity: 0.5;
+      cursor: not-allowed;
+      border: 1px solid transparent;
+      background: #f2f2f2;
     }
   }
 }

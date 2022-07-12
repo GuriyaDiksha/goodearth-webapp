@@ -29,7 +29,8 @@ const mapStateToProps = (state: AppState) => {
     listdata: state.plplist.data.results.data,
     salestatus: state.info.isSale,
     scrollDown: state.info.scrollDown,
-    customerGroup: state.user.customerGroup
+    customerGroup: state.user.customerGroup,
+    filtered_facets: state.plplist.data.results.filtered_facets
   };
 };
 
@@ -1230,7 +1231,7 @@ class FilterList extends React.Component<Props, State> {
     event.stopPropagation();
   };
 
-  createColorCheckbox = (facets: any) => {
+  createColorCheckbox = (facets: any, filtered_facets: any) => {
     if (!facets.currentColor || facets.length == 0) return false;
     const html: any = [];
     const { filter } = this.state;
@@ -1257,8 +1258,23 @@ class FilterList extends React.Component<Props, State> {
               }
               onClick={this.handleClickColor}
               value={data[0]}
+              disabled={
+                filtered_facets?.currentColor?.filter(
+                  (e: string[]) => e[0] === data[0]
+                ).length === 0
+              }
             />
-            <label htmlFor={data[0]} style={multicolorImage}>
+            <label
+              className={
+                filtered_facets?.currentColor?.filter(
+                  (e: string[]) => e[0] === data[0]
+                ).length === 0
+                  ? styles.disableColors
+                  : ""
+              }
+              htmlFor={data[0]}
+              style={multicolorImage}
+            >
               {data[0].split("-")[0]}
             </label>
           </li>
@@ -1276,8 +1292,23 @@ class FilterList extends React.Component<Props, State> {
               }
               onClick={this.handleClickColor}
               value={data[0]}
+              disabled={
+                filtered_facets?.currentColor?.filter(
+                  (e: string[]) => e[0] === data[0]
+                ).length === 0
+              }
             />
-            <label htmlFor={data[0]} style={color}>
+            <label
+              className={
+                filtered_facets?.currentColor?.filter(
+                  (e: string[]) => e[0] === data[0]
+                ).length === 0
+                  ? styles.disableColors
+                  : ""
+              }
+              htmlFor={data[0]}
+              style={color}
+            >
               {data[0].split("-")[1]}
             </label>
           </li>
@@ -1591,7 +1622,7 @@ class FilterList extends React.Component<Props, State> {
     return html;
   };
 
-  createSizeCheckbox = (facets: any) => {
+  createSizeCheckbox = (facets: any, filtered_facets: any) => {
     if (facets.length == 0) return false;
     const html: any = [];
     const { filter } = this.state;
@@ -1608,16 +1639,26 @@ class FilterList extends React.Component<Props, State> {
             }
             onClick={this.handleClickSize}
             value={data[0]}
+            disabled={
+              filtered_facets?.availableSize?.filter(
+                (e: string[]) => e[0] === data[0]
+              ).length === 0
+            }
           />
           <li>
             <label
               htmlFor={data[0] + i}
-              className={
+              className={cs(
                 filter.availableSize[data[0]] &&
-                filter.availableSize[data[0]].isChecked
+                  filter.availableSize[data[0]].isChecked
                   ? cs(styles.sizeCat, styles.select_size)
-                  : styles.sizeCat
-              }
+                  : styles.sizeCat,
+                filtered_facets?.availableSize?.filter(
+                  (e: string[]) => e[0] === data[0]
+                ).length === 0
+                  ? styles.disableSize
+                  : ""
+              )}
             >
               {data[0]}
             </label>
@@ -1849,7 +1890,12 @@ class FilterList extends React.Component<Props, State> {
               }
             >
               <ul>
-                <span>{this.createColorCheckbox(this.props.facets)}</span>
+                <span>
+                  {this.createColorCheckbox(
+                    this.props.facets,
+                    this.props.filtered_facets
+                  )}
+                </span>
                 <div
                   onClick={e => this.clearFilter(e, "currentColor")}
                   data-name="currentColor"
@@ -1883,7 +1929,10 @@ class FilterList extends React.Component<Props, State> {
                   }
                 >
                   <ul className={styles.sizeList}>
-                    {this.createSizeCheckbox(this.props.facets)}
+                    {this.createSizeCheckbox(
+                      this.props.facets,
+                      this.props.filtered_facets
+                    )}
                   </ul>
                   <div
                     onClick={e => this.clearFilter(e, "availableSize")}
