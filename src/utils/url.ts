@@ -36,3 +36,14 @@ export const getJobIdFromSlug = (slug: string): string | null => {
   }
   return null;
 };
+
+export const getJobIdFromPath = (path: string): string | null => {
+  const arr = path.split("/");
+  if (arr.length > 2) {
+    const jobId = arr[2];
+    if (jobId) {
+      return jobId;
+    }
+  }
+  return null;
+};

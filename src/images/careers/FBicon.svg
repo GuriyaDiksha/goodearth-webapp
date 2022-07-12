@@ -1,0 +1,11 @@
+<svg id="FB_icon" data-name="FB icon" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="16.838" height="16.838" viewBox="0 0 16.838 16.838">
+  <defs>
+    <clipPath id="clip-path">
+      <rect id="Rectangle_1347" data-name="Rectangle 1347" width="16.838" height="16.838" transform="translate(0 0)" fill="none"/>
+    </clipPath>
+  </defs>
+  <g id="Group_1372" data-name="Group 1372" transform="translate(0 0)" clip-path="url(#clip-path)">
+    <path id="Path_353" data-name="Path 353" d="M7.215,13.136H9.092v-4.7H10.4l.139-1.574H9.092v-.9c0-.371.075-.518.433-.518h1.016V3.814h-1.3c-1.4,0-2.027.615-2.027,1.793V6.861H6.239V8.455h.976Z" fill="#3c3c3c"/>
+    <path id="Rectangle_1346" data-name="Rectangle 1346" d="M.948,0H15.14a.948.948,0,0,1,.948.948V15.141a.947.947,0,0,1-.947.947H.948A.948.948,0,0,1,0,15.14V.948A.948.948,0,0,1,.948,0Z" transform="translate(0.375 0.375)" fill="none" stroke="#3c3c3c" stroke-width="0.75"/>
+  </g>
+</svg>

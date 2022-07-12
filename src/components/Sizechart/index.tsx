@@ -31,7 +31,7 @@ const Sizechart: React.FC<SizeChartProps> = ({ active }) => {
       id: "fitGuide"
     },
     {
-      header: "SIZE GUIDE",
+      header: "SIZE CHART",
       body: <SizeGuide isSingleSection={false} />,
       id: "sizeGuide"
     }
@@ -58,6 +58,9 @@ const Sizechart: React.FC<SizeChartProps> = ({ active }) => {
         )}
       >
         <div className={cs(styles.bagHeader, globalStyles.flex)}>
+          <div>
+            <span>SIZE GUIDE</span>
+          </div>
           <div className={globalStyles.pointer} onClick={closeSizeChart}>
             <i
               className={cs(

@@ -3,7 +3,7 @@ import loadable from "@loadable/component";
 import { RouteConfig, ROUTES, RouteMap } from "./typings";
 import initAction from "containers/pdp/initAction";
 import metaAction from "containers/pdp/metaAction";
-import metaActionCareer from "containers/career/metaAction";
+import metaActionCareer from "containers/careerDetail/metaAction";
 import initActionCollection from "containers/collectionLanding/initAction";
 // import metaActionCollectionLanding from "containers/collectionLanding/metaAction";
 import metaActionCollectionSpecific from "containers/collectionSpecific/metaAction";
@@ -22,6 +22,7 @@ import initActionWishlist from "containers/wishlist/initAction";
 import initActionBridal from "containers/bridal/initAction";
 import initActionCheckout from "containers/checkout/initAction";
 import initActionCart from "containers/cartPage/initAction";
+import initActionCareer from "containers/careerNew/initAction";
 
 const paths: string[] = [];
 const routeMap: RouteMap = {};
@@ -68,16 +69,16 @@ const routes: RouteConfig = [
   },
   {
     path: ROUTES.CAREERDETAIL,
-    component: loadable(() => import("containers/career")),
+    component: loadable(() => import("containers/careerDetail")),
     action: async () => null,
     meta: metaActionCareer,
-    exact: false
+    exact: true
   },
   {
     path: ROUTES.CAREER,
-    component: loadable(() => import("containers/makerpage")),
-    action: async () => null,
-    exact: true
+    component: loadable(() => import("containers/careerNew")),
+    action: initActionCareer,
+    exact: false
   },
   {
     path: ROUTES.WISHLIST,
