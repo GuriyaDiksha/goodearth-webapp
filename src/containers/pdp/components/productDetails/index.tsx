@@ -156,6 +156,16 @@ const ProductDetails: React.FC<Props> = ({
   const selectedId = useSelector(
     (state: AppState) => state.header.sizeChartData.selected
   );
+
+  const ele: any = document.getElementsByClassName(
+    "src-containers-pdp-_styles_product-section"
+  );
+
+  if (pdpLoader && ele[0]) {
+    ele[0].style.zIndex = 5;
+  } else if (ele[0]) {
+    ele[0].style.zIndex = 6;
+  }
   useLayoutEffect(() => {
     setGtmListType("PDP");
     setOnload(true);
