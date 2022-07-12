@@ -208,10 +208,17 @@
 
 @mixin plp_filter_sub {
   font-family: $font-Montserrat;
+  font-size: 12px;
+  color: $light-charcoal;
+  font-weight: 300;
+  letter-spacing: 0px;
+}
+
+@mixin plp_clear_filter {
+  font-family: $font-Montserrat;
   font-size: 10px;
   color: $charcoal19;
   font-weight: 300;
-  text-decoration: underline;
   letter-spacing: 0px;
 }
 
@@ -223,6 +230,13 @@
   font-family: $font-Lato;
   font-size: 12px;
   color: tint(#000, 30%);
+}
+
+@mixin plp_color_filter{
+  font-family: $font-Montserrat;
+  font-size: 12px;
+  color: $med-charcoal;
+  font-weight: normal;
 }
 
 /**********************************************  PDP   ******************************************************/
