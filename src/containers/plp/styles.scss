@@ -341,8 +341,10 @@
 
     }
     .plp_filter_sub {
-      @include plp_filter_sub();
+      @include plp_clear_filter();
       cursor: pointer;
+      text-decoration: underline;
+      text-transform: capitalize;
       span {
         &:hover{
           color: $aqua;
@@ -354,6 +356,7 @@
     text-transform: uppercase;
     cursor: pointer;
     display: block;
+    user-select: none;
     &:after {
       content: '+';
       float: right;
@@ -394,6 +397,7 @@
     text-overflow: ellipsis;
     padding-right: 20px;
     position: relative;
+    user-select: none;
     &:after {
       content: '';
       float: right;
@@ -420,6 +424,7 @@
   }
   li {
     position: relative;
+    user-select: none;
     div {
       position: relative;
       &.user-gender-picker {
@@ -528,7 +533,7 @@
 
 .colorlabel {
   label {
-    @include plp_filter_copy();
+    @include plp_color_filter();
     text-transform: capitalize;
     position: relative;
   }
@@ -553,9 +558,11 @@
 
 .colorlabel {
   li {
-    @include plp_filter_copy();
-    text-transform: capitalize;
-    position: relative;
+    label {
+      @include plp_filter_copy();
+      text-transform: capitalize;
+      position: relative;
+    }
   }
   input[type="radio"]:not(:checked) + label:before,
   input[type="radio"]:checked + label:before, [type="checkbox"]:not(:checked) + label:before,
@@ -616,10 +623,10 @@ input[type="radio"]:checked, [type="checkbox"]:not(:checked),
     text-align: center;
     min-width: 40px;
     border-radius: 12px;
-    color: #ab1e56;
-    font-weight: bold;
-    font-size: 11px;
-    font-family: $font-Lato;
+    color: $med-charcoal;
+    font-weight: normal;
+    font-size: 10px;
+    font-family: $font-Montserrat;
     margin: 6px;
     cursor: pointer;
     border: 1px solid transparent;
@@ -630,7 +637,7 @@ input[type="radio"]:checked, [type="checkbox"]:not(:checked),
     }
 
     &:hover {
-      border: 1px solid #ab1e56;
+      border: 1px solid $aqua;
       background-color: white;
     }
     &.notavailable-select {
@@ -648,12 +655,14 @@ input[type="radio"]:checked, [type="checkbox"]:not(:checked),
 
       }
     }
+    &.select_size {
+      border: 1px solid $aqua !important;
+      background-color: white !important;
+      font-weight: bold !important;
+      color: $aqua !important;
+    }
   }
-}
-.select_size {
-  border: 1px solid #ab1e56 !important;
-  background-color: white !important;
-}
+} 
 .size-list-bg1 li {
   background-color: #fff;
 }
@@ -670,7 +679,7 @@ input[type="radio"]:checked, [type="checkbox"]:not(:checked),
     background-color: $light-bg !important;
   }
   .rc-slider-handle {
-    background-color: rgb(171, 30, 86);
+    background-color: black;
     border-radius: 0;
     border: 0;
     width: 2px;
@@ -678,7 +687,7 @@ input[type="radio"]:checked, [type="checkbox"]:not(:checked),
 
   }
   .rc-slider-track {
-    background-color: rgb(171, 30, 86);
+    background-color: black;
     height: 2px;
     border-radius: 0;
   }
@@ -699,6 +708,7 @@ input[type="radio"]:checked, [type="checkbox"]:not(:checked),
     text-align: center;
     border: 1px solid tint(#000, 80%);
     margin: 0 2%;
+    cursor: pointer;
   }
 }
 
