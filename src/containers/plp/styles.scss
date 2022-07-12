@@ -227,6 +227,7 @@
     left: 0;
     z-index: 11;
     background-color: white;
+    padding-top:5px;
     // -webkit-transition: all 0.5s linear;
     // -moz-transition: all 0.5s linear;
     // -o-transition: all 0.5s linear;
@@ -249,7 +250,7 @@
         @include cta_white();
         color: white;
       }
-      background-color: $cerise;
+      background-color: $med-charcoal;
     }
     .filter-button {
       width: 100%;
@@ -287,11 +288,14 @@
     }
     ul {
       li {
-        line-height: 25px;
+        line-height: 15px;
         span {
           text-transform: capitalize;
           &:first-child {
             @include plp_filter_header();
+          }
+          &.ellipses{
+            color: $med-charcoal;
           }
           color: $cerise;
           &:last-child {
@@ -301,7 +305,6 @@
             color: tint(#000, 50%);
           }
         }
-  
       }
     }
 }
@@ -319,10 +322,9 @@
     line-height: 40px;
     border-bottom: 1px solid tint(#000,90%);
     @include b4_12px_med_gold_caps();
-
     li {
       border-bottom: none;
-      padding-left: 20px;
+      // padding-left: 20px;
       // cursor: pointer;
 
       a {
@@ -738,19 +740,18 @@ p.corporate-sub-heading {
 
 .filter-item-cross {
   right: 18px;
-  top: 3px;
+  top: 0px;
   position: relative;
   float: right;
   cursor: pointer;
   font-size: 10px;
   color: black !important;
-  height: 30px;
   width: 15px;
 }
 
 .filter-item {
   background-color: rgba(0,0,0,0.1);
-  padding: 3px 25px 3px 10px !important;
+  padding: 0px 30px 0px 10px !important;
   border-radius: 20px;
   cursor: default;
   color: $charcoal19;

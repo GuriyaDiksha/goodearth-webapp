@@ -663,6 +663,7 @@ class PLP extends React.Component<
                 key="plp-filter"
                 changeLoader={this.changeLoader}
                 onStateChange={this.onStateChange}
+                filterCount={this.state.filterCount}
               />
             )}
           </div>

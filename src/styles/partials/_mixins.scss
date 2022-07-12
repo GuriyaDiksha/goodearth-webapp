@@ -96,7 +96,7 @@
 }
 
 @mixin menu-subcopy {
-  font-family: $font-Lato;
+  font-family: $font-Montserrat;
   font-size: 12px;
   letter-spacing: 1px;
   color: tint(#000, 30%);
@@ -126,11 +126,18 @@
 /**********************************************  PLP   ******************************************************/
 
 @mixin plp_subhdr_dd {
-  font-size: 14px;
+  font-size: 12px;
   font-weight: bold;
   font-family: $font-Lato;
   letter-spacing: 1px;
   color: $cerise;
+  text-transform: uppercase;
+}
+
+@mixin plp_bottom_filters{
+  font-family: $font-Montserrat;
+  font-size: 12px;
+  color: $charcoal19;
   text-transform: uppercase;
 }
 
@@ -155,9 +162,9 @@
 }
 
 @mixin plp_subhdr_open_mob {
-  font-size: 14px;
-  font-family: $font-Lato;
-  color: tint(#000, 50%);
+  font-size: 13 px;
+  font-family: $font-Montserrat;
+  color: $med-charcoal;
 }
 
 @mixin plp_coll_name_desktop {
@@ -174,7 +181,7 @@
 
 @mixin plp_prod_quantity {
   font-size: 10px;
-  color: tint(#000, 40%);
+  color: $charcoal19;
   font-family: $font-Lato;
   letter-spacing: 1px;
 }
@@ -292,11 +299,10 @@
 //   letter-spacing: 1px;
 // }
 @mixin cta_white {
-  font-weight: bold;
+  font-family: $font-Montserrat;
   font-size: 14px;
   text-transform: uppercase;
-  font-family: $font-Montserrat;
-  letter-spacing: 0.48px;
+  // letter-spacing: 0.48px;
 }
 
 // @mixin pdp_copy_head {

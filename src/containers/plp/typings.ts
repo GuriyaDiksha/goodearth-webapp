@@ -36,6 +36,7 @@ export type FilterProps = {
   history: any;
   changeLoader?: (data: boolean) => void;
   onStateChange?: () => void;
+  filterCount?: number;
 };
 
 export type State = {

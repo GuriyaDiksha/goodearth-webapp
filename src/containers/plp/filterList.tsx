@@ -1718,10 +1718,14 @@ class FilterList extends React.Component<Props, State> {
     return (
       <Fragment>
         <ul id="inner_filter" className={styles.filterSideMenu}>
-          <li className={styles.filterElements}>
-            <span>Filter By</span>
-            <ul id="currentFilter">{this.renderFilterList(filter)}</ul>
-          </li>
+          {this.renderFilterList(filter).length > 0 ? (
+            <li className={styles.filterElements}>
+              {!mobile && <span>Filter By</span>}
+              <ul id="currentFilter">{this.renderFilterList(filter)}</ul>
+            </li>
+          ) : (
+            ""
+          )}
           <li>
             <span
               className={
