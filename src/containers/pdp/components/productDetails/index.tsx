@@ -157,9 +157,11 @@ const ProductDetails: React.FC<Props> = ({
     (state: AppState) => state.header.sizeChartData.selected
   );
 
-  const ele: any = document.getElementsByClassName(
-    "src-containers-pdp-_styles_product-section"
-  );
+  const ele: any =
+    typeof document == "object" &&
+    document.getElementsByClassName(
+      "src-containers-pdp-_styles_product-section"
+    );
 
   if (pdpLoader && ele[0]) {
     ele[0].style.zIndex = 5;
