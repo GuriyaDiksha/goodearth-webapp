@@ -111,7 +111,6 @@ const PlpResultListViewItem: React.FC<PLPResultItemProps> = (
           styles.addToBagListView,
           styles.productBtn,
           bootstrapStyles.col8,
-          bootstrapStyles.offset1,
           { [styles.enquireNotifyMe]: isCorporate || allOutOfStock }
         )}
         onClick={action}

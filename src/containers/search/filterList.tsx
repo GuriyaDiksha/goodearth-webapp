@@ -1426,8 +1426,13 @@ class FilterList extends React.Component<Props, State> {
       <Fragment>
         {this.state.isLoading && <Loader />}
         <ul id="inner_filter" className={styles.filterSideMenu}>
-          <li className={styles.filterElements}>
-            <span>Filter By</span>
+          <li
+            className={cs(styles.filterElements, {
+              [styles.noBorder]:
+                this.renderFilterList(filter).length == 0 && mobile
+            })}
+          >
+            {!mobile && <span>Filter By</span>}
             <ul id="currentFilter">{this.renderFilterList(filter)}</ul>
           </li>
           <li>
