@@ -113,7 +113,7 @@ const PlpDropdownMenu = ({
             }}
           >
             {filterCount ? (
-              <span>{`Refine ( ${filterCount} )`}</span>
+              <span>{`Filter By ( ${filterCount} )`}</span>
             ) : (
               <span>Refine</span>
             )}
@@ -157,16 +157,13 @@ const PlpDropdownMenu = ({
               <span>
                 <pre>
                   {[
-                    "Refine  ",
-                    <span
-                      key="filter-count"
-                      className={globalStyles.cerise}
-                    >{`( ${filterCount} )`}</span>
+                    "FILTER BY  ",
+                    <span key="filter-count">{`( ${filterCount} )`}</span>
                   ]}
                 </pre>
               </span>
             ) : (
-              <span>Refine</span>
+              <span>FILTER BY</span>
             )}
             <span onClick={onInsideClick}>X</span>
           </div>
@@ -210,7 +207,7 @@ const PlpDropdownMenu = ({
                       }}
                       key={data.name}
                       className={cs({
-                        [globalStyles.cerise]: displayValue == data.value
+                        [styles.goldColor]: displayValue == data.value
                       })}
                     >
                       {data.label}
