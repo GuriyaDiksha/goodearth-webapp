@@ -876,6 +876,12 @@ $list: $grey 92%, $white 8%;
   letter-spacing: 0.3px;
 }
 
+@mixin h1_30px_charcoal{
+  font-family: $font-Lora;
+  font-size: 30px;
+  color: $charcoal19;
+}
+
 @mixin h2_24px_charcoal{
   font-family: $font-Lora;
   font-size: 24px;
