@@ -102,7 +102,8 @@ const ProductDetails: React.FC<Props> = ({
     partner,
     sizeChart,
     badgeMessage,
-    fillerProduct
+    fillerProduct,
+    shortDesc
   },
   data,
   corporatePDP,
@@ -118,7 +119,7 @@ const ProductDetails: React.FC<Props> = ({
   loading,
   setPDPButton
 }): JSX.Element => {
-  const [productTitle, subtitle] = title.split("(");
+  const [productTitle] = title.split("(");
   const {
     info,
     user: { bridalId, bridalCurrency }
@@ -794,7 +795,7 @@ const ProductDetails: React.FC<Props> = ({
                 className={cs(bootstrap.col8, bootstrap.colMd8, styles.title)}
               >
                 {productTitle}
-                {subtitle && <p>({subtitle.split(")")[0]})</p>}
+                <p>{shortDesc}</p>
               </div>
               {!(invisibleFields && invisibleFields.indexOf("price") > -1) && (
                 <div
