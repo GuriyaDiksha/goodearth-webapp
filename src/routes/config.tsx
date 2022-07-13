@@ -308,6 +308,12 @@ const routes: RouteConfig = [
     component: loadable(() => import("containers/Sitemap")),
     action: async () => null,
     exact: true
+  },
+  {
+    path: ROUTES.WORKSHOPS,
+    component: loadable(() => import("containers/makerpage")),
+    action: async () => null,
+    exact: true
   }
 ];
 

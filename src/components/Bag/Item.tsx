@@ -333,18 +333,24 @@ const LineItems: React.FC<BasketItem> = memo(
               ) : (
                 ""
               )}
-              {!saleStatus && showError && (
-                <span
-                  className={cs(
-                    globalStyles.errorMsg,
-                    styles.stockLeft,
-                    quantityStyles.errorMsg,
-                    quantityStyles.fontStyle
-                  )}
-                >
-                  {error}
-                </span>
-              )}
+              {showError &&
+                !(
+                  saleStatus &&
+                  childAttributes[0].showStockThreshold &&
+                  childAttributes[0].stock > 0 &&
+                  childAttributes[0].othersBasketCount > 0
+                ) && (
+                  <span
+                    className={cs(
+                      globalStyles.errorMsg,
+                      styles.stockLeft,
+                      quantityStyles.errorMsg,
+                      quantityStyles.fontStyle
+                    )}
+                  >
+                    {error}
+                  </span>
+                )}
 
               {saleStatus &&
                 childAttributes[0].showStockThreshold &&
