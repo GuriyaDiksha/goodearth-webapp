@@ -284,18 +284,20 @@ class BridalItem extends React.Component<Props, State> {
                       >
                         {this.state.btnContent}
                       </button>
-                      <div
-                        className={cs(
-                          globalStyles.c10LR,
-                          globalStyles.voffset2
-                        )}
-                      >
-                        Estimated Delivery On or Before:{" "}
-                        <span className={styles.black}>
-                          {" "}
-                          {this.props.bridalItem.productDeliveryDate}
-                        </span>
-                      </div>
+                      {this.props.bridalItem.productDeliveryDate && (
+                        <div
+                          className={cs(
+                            globalStyles.c10LR,
+                            globalStyles.voffset2
+                          )}
+                        >
+                          Estimated Delivery On or Before:{" "}
+                          <span className={styles.black}>
+                            {" "}
+                            {this.props.bridalItem.productDeliveryDate}
+                          </span>
+                        </div>
+                      )}
                     </>
                   )}
                   <div className={globalStyles.cerise}>
