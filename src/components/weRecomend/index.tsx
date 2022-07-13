@@ -94,13 +94,15 @@ const WeRecommend: React.FC<RecommenedSliderProps> = (
   const items = withoutZeroPriceData?.map((item: any, i: number) => {
     return (
       <div
-        onMouseEnter={() => setCurrentId(item.id)}
-        onMouseLeave={() => setCurrentId(-1)}
         key={item.id}
         className={cs(styles.slide, {
           [bootstrapStyles.col6]: mobile,
           [bootstrapStyles.col12]: !mobile
         })}
+        onMouseEnter={() => setCurrentId(item.id)}
+        onMouseLeave={() => {
+          setCurrentId(-1);
+        }}
       >
         {item.badgeImage ? (
           <div className={styles.saleBanner}>
@@ -125,6 +127,9 @@ const WeRecommend: React.FC<RecommenedSliderProps> = (
               showText={false}
               key={item.id}
               mobile={true}
+              onComplete={() => {
+                setCurrentId(item.id);
+              }}
             />
           </div>
         )}

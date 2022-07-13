@@ -45,7 +45,8 @@ $pdp-top: $header-height + $secondary-header-height;
 .product-section {
     position: relative;
     padding-bottom: 100px;
-    z-index: 6;
+    // z-index: 6;
+    z-index: 5;
     justify-content: center;
 }
 
@@ -106,9 +107,9 @@ $pdp-top: $header-height + $secondary-header-height;
 }
 .looks-btn-mobile {
     width: auto;
-    position: absolute;
-    left: calc(50% - 70px);
-    bottom: 80px;
+    // position: absolute;
+    // left: calc(50% - 70px);
+    // bottom: 80px;
 }
 
 .looks-item-container {

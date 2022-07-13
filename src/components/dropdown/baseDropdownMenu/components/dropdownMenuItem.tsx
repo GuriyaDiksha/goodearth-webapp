@@ -20,6 +20,9 @@ const DropdownMenuItem = ({
     props.onClick = onClick;
   }
   let innerHTML = <>{label}</>;
+  if (type === "button" && id === "profile-dropdown") {
+    innerHTML = <span>{label}</span>;
+  }
   if (type == "link") {
     innerHTML = <NavLink to={href as string}>{label}</NavLink>;
   }

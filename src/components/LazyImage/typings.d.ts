@@ -8,6 +8,8 @@ export type Props = {
   src: string;
   alt?: string;
   onClick?: () => void;
+  onMouseLeave?: () => void;
+  onMouseEnter?: () => void;
   onLoad?: EventHandler<SyntheticEvent<HTMLImageElement>>;
   onError?: EventHandler<SyntheticEvent<HTMLImageElement>>;
   shouldUpdateAspectRatio?: boolean;

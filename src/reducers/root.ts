@@ -25,6 +25,7 @@ import { info } from "./info";
 import { designJournal } from "./designJournal";
 import { home } from "./home";
 import { popup } from "./popup";
+import { career } from "./career";
 import { filler } from "./Filler";
 
 const createRootReducer = (history: History) => {
@@ -53,6 +54,7 @@ const createRootReducer = (history: History) => {
     designJournal,
     home,
     popup,
+    career,
     filler
   });
 };

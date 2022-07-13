@@ -506,7 +506,12 @@ export default {
         .then(resp => resp.json())
         .then(data => {
           if (data.currency) {
-            if (data.currency.code == "INR" || data.currency.code == "GBP") {
+            if (
+              data.currency.code == "INR" ||
+              data.currency.code == "GBP" ||
+              data.currency.code == "SGD" ||
+              data.currency.code == "AED"
+            ) {
               resolve(data.currency.code);
             } else {
               resolve("USD");
