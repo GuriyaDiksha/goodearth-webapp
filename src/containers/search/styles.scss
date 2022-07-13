@@ -303,10 +303,8 @@
       cursor: pointer;
       text-decoration: underline;
       text-transform: capitalize;
-      span {
-        &:hover{
-          color: $aqua;
-        }
+      &:hover{
+        color: $aqua;
       }
     }
   }
