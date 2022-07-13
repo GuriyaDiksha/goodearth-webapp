@@ -158,17 +158,6 @@ const LineItems: React.FC<BasketItem> = memo(
 
     const price = priceRecords[currency];
     const isGiftCard = product.structure.toLowerCase() == "giftcard";
-
-    console.log(
-      showError &&
-        !(
-          saleStatus &&
-          childAttributes[0].showStockThreshold &&
-          childAttributes[0].stock > 0 &&
-          childAttributes[0].othersBasketCount > 0
-        )
-    );
-
     return (
       <div
         className={cs(styles.cartItem, styles.gutter15, "cart-item", {
