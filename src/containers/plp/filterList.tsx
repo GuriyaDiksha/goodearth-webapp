@@ -1832,12 +1832,13 @@ class FilterList extends React.Component<Props, State> {
                 {this.createDiscountType(
                   this.props.facets && this.props.facets.availableDiscount
                 )}
-                <div
-                  onClick={e => this.clearFilter(e, "availableDiscount")}
-                  data-name="availableDiscount"
-                  className={styles.plp_filter_sub}
-                >
-                  Clear
+                <div data-name="availableDiscount">
+                  <span
+                    onClick={e => this.clearFilter(e, "availableDiscount")}
+                    className={styles.plp_filter_sub}
+                  >
+                    Clear
+                  </span>
                 </div>
               </div>
             </li>
@@ -1866,12 +1867,13 @@ class FilterList extends React.Component<Props, State> {
               }
             >
               {productHtml}
-              <div
-                onClick={e => this.clearFilter(e, "productType")}
-                data-name="productType"
-                className={styles.plp_filter_sub}
-              >
-                Clear
+              <div data-name="productType">
+                <span
+                  onClick={e => this.clearFilter(e, "productType")}
+                  className={styles.plp_filter_sub}
+                >
+                  Clear
+                </span>
               </div>
             </div>
           </li>
@@ -1902,12 +1904,13 @@ class FilterList extends React.Component<Props, State> {
                     this.props.filtered_facets
                   )}
                 </span>
-                <div
-                  onClick={e => this.clearFilter(e, "currentColor")}
-                  data-name="currentColor"
-                  className={styles.plp_filter_sub}
-                >
-                  Clear
+                <div data-name="currentColor">
+                  <span
+                    onClick={e => this.clearFilter(e, "currentColor")}
+                    className={styles.plp_filter_sub}
+                  >
+                    Clear
+                  </span>
                 </div>
               </ul>
             </div>
@@ -1940,12 +1943,13 @@ class FilterList extends React.Component<Props, State> {
                       this.props.filtered_facets
                     )}
                   </ul>
-                  <div
-                    onClick={e => this.clearFilter(e, "availableSize")}
-                    data-name="availableSize"
-                    className={styles.plp_filter_sub}
-                  >
-                    Clear
+                  <div data-name="availableSize">
+                    <span
+                      onClick={e => this.clearFilter(e, "availableSize")}
+                      className={styles.plp_filter_sub}
+                    >
+                      Clear
+                    </span>
                   </div>
                 </div>
               </li>
@@ -2004,12 +2008,13 @@ class FilterList extends React.Component<Props, State> {
                   {this.state.rangevalue[1]}
                 </div>
               </div>
-              <div
-                onClick={e => this.clearFilter(e, "price")}
-                data-name="price"
-                className={styles.plp_filter_sub}
-              >
-                Clear
+              <div data-name="price">
+                <span
+                  onClick={e => this.clearFilter(e, "price")}
+                  className={styles.plp_filter_sub}
+                >
+                  Clear
+                </span>
               </div>
             </div>
           </li>
