@@ -264,7 +264,6 @@ const CartItems: React.FC<BasketItem> = memo(
         ? images[0].productImage
         : "";
     const isGiftCard = structure.toLowerCase() == "giftcard";
-
     return (
       <div className={cs(styles.cartItem, styles.gutter15, styles.cart)}>
         <div className={bootstrap.row}>
@@ -402,19 +401,25 @@ const CartItems: React.FC<BasketItem> = memo(
                         // errorMsg="Available qty in stock is"
                       />
                     </div>
-                    {qtyError && (
-                      <span
-                        className={cs(
-                          globalStyles.errorMsg,
-                          styles.stockLeft
-                          // {
-                          // [styles.stockLeftWithError]: qtyError
-                          // }
-                        )}
-                      >
-                        {qtyErrorMsg}
-                      </span>
-                    )}
+                    {qtyError &&
+                      !(
+                        saleStatus &&
+                        childAttributes[0].showStockThreshold &&
+                        childAttributes[0].stock > 0 &&
+                        childAttributes[0].othersBasketCount > 0
+                      ) && (
+                        <span
+                          className={cs(
+                            globalStyles.errorMsg,
+                            styles.stockLeft
+                            // {
+                            // [styles.stockLeftWithError]: qtyError
+                            // }
+                          )}
+                        >
+                          {qtyErrorMsg}
+                        </span>
+                      )}
                     <span
                       className={cs(
                         globalStyles.errorMsg,
