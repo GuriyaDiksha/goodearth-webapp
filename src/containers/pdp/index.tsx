@@ -1396,7 +1396,7 @@ class PDPContainer extends React.Component<Props, State> {
                   {mobileSlides}
                 </MobileSlider>
               )}
-              {this.state.showLooks && mobile && (
+              {this.state.showLooks && typeof document == "object" && mobile && (
                 <div
                   id="looks-btn-mobile"
                   className={cs(styles.looksBtnMobile, styles.looksBtn)}
