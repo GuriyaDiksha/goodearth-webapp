@@ -288,7 +288,9 @@ const ProductDetails: React.FC<Props> = ({
   const onSizeSelect = useCallback(
     selected => {
       setSelectedSize(selected);
-      setQuantity(1);
+      if (selectedSize?.id !== selected.id) {
+        setQuantity(1);
+      }
       setSizeError("");
       dispatch(updateSizeChartSelected(selected.id));
     },
