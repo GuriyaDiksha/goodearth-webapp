@@ -793,7 +793,7 @@ class FilterList extends React.Component<Props, State> {
             <span
               className={
                 Object.keys(this.state.filter.categoryShop).length == 0
-                  ? globalStyles.cerise
+                  ? styles.goldColor
                   : ""
               }
               onClick={this.handleClickCategory}
@@ -820,9 +820,7 @@ class FilterList extends React.Component<Props, State> {
           <li className={styles.categoryTitle}>
             <span
               className={
-                this.state.filter.categoryShop[data[0]]
-                  ? globalStyles.cerise
-                  : ""
+                this.state.filter.categoryShop[data[0]] ? styles.goldColor : ""
               }
               onClick={this.handleClickCategory}
               data-value={data}
@@ -1469,8 +1467,13 @@ class FilterList extends React.Component<Props, State> {
       <Fragment>
         {this.state.isLoading && <Loader />}
         <ul id="inner_filter" className={styles.filterSideMenu}>
-          <li className={styles.filterElements}>
-            <span>Filtered By</span>
+          <li
+            className={cs(styles.filterElements, {
+              [styles.noBorder]:
+                this.renderFilterList(filter).length == 0 && mobile
+            })}
+          >
+            {!mobile && <span>Filter By</span>}
             <ul id="currentFilter">{this.renderFilterList(filter)}</ul>
           </li>
           <li>

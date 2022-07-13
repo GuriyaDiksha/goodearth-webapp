@@ -1606,12 +1606,13 @@ class FilterList extends React.Component<Props, State> {
     const name: any = "all";
     if (html.length > 0) {
       html.push(
-        <div
-          onClick={e => this.clearFilter(e, "all")}
-          data-name={name}
-          className={styles.plp_filter_sub}
-        >
-          Clear All
+        <div data-name={name}>
+          <span
+            onClick={e => this.clearFilter(e, "all")}
+            className={styles.plp_filter_sub}
+          >
+            Clear All
+          </span>
         </div>
       );
       this.props.setFilterCount?.(filterCount);
@@ -1758,8 +1759,13 @@ class FilterList extends React.Component<Props, State> {
     return (
       <Fragment>
         <ul id="inner_filter" className={styles.filterSideMenu}>
-          <li className={styles.filterElements}>
-            <span>Filtered By</span>
+          <li
+            className={cs(styles.filterElements, {
+              [styles.noBorder]:
+                this.renderFilterList(filter).length == 0 && mobile
+            })}
+          >
+            {!mobile && <span>Filter By</span>}
             <ul id="currentFilter">{this.renderFilterList(filter)}</ul>
           </li>
           <li>
@@ -1773,7 +1779,7 @@ class FilterList extends React.Component<Props, State> {
                 this.ClickmenuCategory(0);
               }}
             >
-              Category
+              By Category
             </span>
             <div
               className={

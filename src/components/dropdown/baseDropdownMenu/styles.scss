@@ -16,12 +16,15 @@
   border-color: #ddd;
   cursor: default !important;
 }
+
 .label {
-  @include hdr-curr();
-  display: inline-block;
+  @include header_currency();
+  display: flex;
   line-height: $dropdown-label-height;
   text-align: center;
   padding: 0 10px;
+  align-items: center;
+  justify-content: center;
  &.disabled {
    span {
      color: #bbb;
@@ -30,11 +33,6 @@
  &.gold-color{
   color: #987E56 !important;
  }
- &.menu-close{
-   span{
-     color: #333 !important;
-   }
- }
 }
 
 .menu {
@@ -42,7 +40,8 @@
   max-height: 0;
   overflow: hidden;
   // display: none;
-  min-width: 130px;
+  width: 100px;
+  min-width: max-content;
   background: $grey;
   position: absolute;
   top: $dropdown-label-height;
@@ -67,22 +66,20 @@
     display: block;
   }
   .label {
-    color: $cerise;
+    color: $gold;
     &.gold-color {
-      color: #987E56 !important;
+      color: $gold !important;
     }
   }
 }
 
 .menu-item {
+  @include b5_10px_charcoal();
   line-height: 40px;
   cursor: pointer;
-  font-size: 10px;
-  font-weight: 600;
   padding: 0 10px;
   text-align: center;
   border-bottom: 1px solid #fff;
-  letter-spacing: 0.1em;
   &:last-child {
     border-bottom: none;
   }
@@ -98,19 +95,20 @@
     text-decoration: none;
     color: #000;
     &:hover {
-      color: $cerise !important;
+      color: $gold !important;
     }
   }
   &.gold-color{
     color: #987E56 !important;
   }
   &:hover {
-    color: $cerise !important;
+    color: $gold;
   }
   &.bottom-dock-menu-item {
     color: #333 !important;
   }
 }
+
 .caret{
   border-top: 4px dashed;
   border-right: 4px solid transparent;
@@ -138,17 +136,11 @@
   }
 }
 
-.caret-up{
-    border-bottom: 4px dashed;
-    border-right: 4px solid transparent;
-    border-left: 4px solid transparent;
-    color: #000;
-    &.gold-color{
-      color: #987E56
-    }
-    position: absolute;
-    top: 50%;
-    right: 0;
+.arrow{
+  @include carret();
+  height: 5px;
+  width: 5px;
+  margin-left: 5px;
 }
 
 .open-up {
@@ -164,4 +156,8 @@
   ul{
     margin-bottom: 0px;
   }
+}
+
+.gold-border{
+  border-color: $gold;
 }

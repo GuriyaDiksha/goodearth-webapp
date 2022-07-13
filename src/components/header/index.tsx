@@ -550,21 +550,22 @@ class Header extends React.Component<Props, State> {
           : () => this.props.goLogin(undefined, "/account/bridal"),
         type: isLoggedIn ? "link" : "button",
         value: "Good Earth Registry"
-      },
-      {
-        label: isLoggedIn ? "Logout" : "Login",
-        onClick: isLoggedIn
-          ? () =>
-              handleLogOut(
-                this.props.history,
-                this.props.currency,
-                this.props.customerGroup
-              )
-          : goLogin,
-        type: "button",
-        value: isLoggedIn ? "Logout" : "Login"
       }
     );
+    const loginItem: DropdownItem = {
+      label: isLoggedIn ? "Logout" : "Login",
+      onClick: isLoggedIn
+        ? () =>
+            handleLogOut(
+              this.props.history,
+              this.props.currency,
+              this.props.customerGroup
+            )
+        : goLogin,
+      type: "button",
+      value: isLoggedIn ? "Logout" : "Login"
+    };
+
     const isBridalRegistryPage =
       this.props.location.pathname.indexOf("/bridal/") > -1 &&
       !(this.props.location.pathname.indexOf("/account/") > -1);
@@ -943,6 +944,7 @@ class Header extends React.Component<Props, State> {
                           showCurrency={this.showCurrency}
                           showC={this.state.showC}
                           profileItems={profileItems}
+                          loginItem={loginItem}
                           goLogin={this.props.goLogin}
                         />
                       </>

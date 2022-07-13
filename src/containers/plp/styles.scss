@@ -227,6 +227,7 @@
     left: 0;
     z-index: 11;
     background-color: white;
+    padding-top:5px;
     // -webkit-transition: all 0.5s linear;
     // -moz-transition: all 0.5s linear;
     // -o-transition: all 0.5s linear;
@@ -249,7 +250,7 @@
         @include cta_white();
         color: white;
       }
-      background-color: $cerise;
+      background-color: $med-charcoal;
     }
     .filter-button {
       width: 100%;
@@ -287,21 +288,23 @@
     }
     ul {
       li {
-        line-height: 25px;
+        line-height: 15px;
         span {
           text-transform: capitalize;
           &:first-child {
-            @include plp_filter_copy();
+            @include plp_filter_header();
+          }
+          &.ellipses{
+            color: $med-charcoal;
           }
           color: $cerise;
           &:last-child {
             float: right;
             cursor: pointer;
-            font-size: 10px;
+            font-size: 6px;
             color: tint(#000, 50%);
           }
         }
-  
       }
     }
 }
@@ -318,12 +321,10 @@
     letter-spacing: 1px;
     line-height: 40px;
     border-bottom: 1px solid tint(#000,90%);
-    @include plp_filter_copy_cerise();
-    text-transform: uppercase;
-
+    @include b4_12px_med_gold_caps();
     li {
       border-bottom: none;
-      padding-left: 20px;
+      // padding-left: 20px;
       // cursor: pointer;
 
       a {
@@ -342,15 +343,22 @@
 
     }
     .plp_filter_sub {
-      @include plp_filter_sub();
+      @include plp_clear_filter();
       cursor: pointer;
+      text-decoration: underline;
+      text-transform: capitalize;
+      span {
+        &:hover{
+          color: $aqua;
+        }
+      }
     }
   }
   .menulevel1 {
     text-transform: uppercase;
     cursor: pointer;
     display: block;
-    font-size: 14px;
+    user-select: none;
     &:after {
       content: '+';
       float: right;
@@ -387,7 +395,7 @@
     }
   }
   .menulevel2 {
-    @include plp_filter_cat();
+    @include b4_12px_charcoal_caps();
     cursor: pointer;
     display: block;
     white-space: nowrap;
@@ -395,6 +403,7 @@
     text-overflow: ellipsis;
     padding-right: 20px;
     position: relative;
+    user-select: none;
     &:after {
       content: '';
       float: right;
@@ -421,6 +430,7 @@
   }
   li {
     position: relative;
+    user-select: none;
     div {
       position: relative;
       &.user-gender-picker {
@@ -491,13 +501,16 @@
     width: 18px;
     height: 18px;
     background-color: white;
-    border: 1px black solid;
+    border: 1px solid #9f9f9f;
 
   }
   input[type="radio"]:not(:checked) + label,
   input[type="radio"]:checked + label, [type="checkbox"]:not(:checked) + label,
   input[type="checkbox"]:checked + label {
     padding-left: 30px;
+  }
+  input[type="checkbox"]:checked + label:before {
+    background-color: $aqua;
   }
 }
 
@@ -512,17 +525,21 @@
     border: solid #ab1e56;
     border-width: 0 2px 2px 0;
     position: absolute;
-    top: 14px;
+    top: 12px;
     left: 6px;
     font-size: 18px;
     line-height: 0.8;
     transition: all .1s;
   }
+  input[type="checkbox"]:checked + label:after{
+    border: solid $white;
+    border-width: 0 2px 2px 0;
+  } 
 }
 
 .colorlabel {
   label {
-    @include plp_filter_copy();
+    @include plp_color_filter();
     text-transform: capitalize;
     position: relative;
   }
@@ -547,9 +564,11 @@
 
 .colorlabel {
   li {
-    @include plp_filter_copy();
-    text-transform: capitalize;
-    position: relative;
+    label {
+      @include plp_filter_copy();
+      text-transform: capitalize;
+      position: relative;
+    }
   }
   input[type="radio"]:not(:checked) + label:before,
   input[type="radio"]:checked + label:before, [type="checkbox"]:not(:checked) + label:before,
@@ -610,10 +629,10 @@ input[type="radio"]:checked, [type="checkbox"]:not(:checked),
     text-align: center;
     min-width: 40px;
     border-radius: 12px;
-    color: #ab1e56;
-    font-weight: bold;
-    font-size: 11px;
-    font-family: $font-Lato;
+    color: $med-charcoal;
+    font-weight: normal;
+    font-size: 10px;
+    font-family: $font-Montserrat;
     margin: 6px;
     cursor: pointer;
     border: 1px solid transparent;
@@ -624,7 +643,7 @@ input[type="radio"]:checked, [type="checkbox"]:not(:checked),
     }
 
     &:hover {
-      border: 1px solid #ab1e56;
+      border: 1px solid $aqua;
       background-color: white;
     }
     &.notavailable-select {
@@ -641,6 +660,12 @@ input[type="radio"]:checked, [type="checkbox"]:not(:checked),
         background-color: tint(#000,95%);
 
       }
+    }
+    &.select_size {
+      border: 1px solid $aqua !important;
+      background-color: white !important;
+      font-weight: bold !important;
+      color: $aqua !important;
     }
   }
   .disableSize{
@@ -674,7 +699,7 @@ input[type="radio"]:checked, [type="checkbox"]:not(:checked),
     background-color: $light-bg !important;
   }
   .rc-slider-handle {
-    background-color: rgb(171, 30, 86);
+    background-color: black;
     border-radius: 0;
     border: 0;
     width: 2px;
@@ -682,7 +707,7 @@ input[type="radio"]:checked, [type="checkbox"]:not(:checked),
 
   }
   .rc-slider-track {
-    background-color: rgb(171, 30, 86);
+    background-color: black;
     height: 2px;
     border-radius: 0;
   }
@@ -703,6 +728,7 @@ input[type="radio"]:checked, [type="checkbox"]:not(:checked),
     text-align: center;
     border: 1px solid tint(#000, 80%);
     margin: 0 2%;
+    cursor: pointer;
   }
 }
 
@@ -732,22 +758,21 @@ p.corporate-sub-heading {
 
 .filter-item-cross {
   right: 18px;
-  top: 3px;
+  top: 0px;
   position: relative;
   float: right;
   cursor: pointer;
   font-size: 10px;
   color: black !important;
-  height: 30px;
   width: 15px;
 }
 
 .filter-item {
   background-color: rgba(0,0,0,0.1);
-  padding: 3px 25px 3px 10px !important;
+  padding: 0px 30px 0px 10px !important;
   border-radius: 20px;
   cursor: default;
-  color: #ab1e56 !important;
+  color: $charcoal19;
   margin-bottom: 10px;
 }
 
@@ -871,4 +896,8 @@ p.corporate-sub-heading {
   position: relative;
   top: 34%;
   transform: translateY(-50%);
+}
+
+.no-border{
+  border: none !important;
 }

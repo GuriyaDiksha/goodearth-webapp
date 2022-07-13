@@ -1,6 +1,6 @@
-
-
 @import "../../styles/partials/variables";
+@import "../../styles/partials/mixins";
+
 .image-boxnew {
     position: relative;
     display: block;
@@ -56,11 +56,8 @@
     line-height: 20px;
     cursor: pointer;
     p{
-        font-size: 12px;
-        text-transform: uppercase;
-        color: #ab1e56;
-        font-family: $font-Lato;
-        letter-spacing: 2px;
+        @include b4_12px_med_charcoal_caps();
+        letter-spacing: 1px;
         padding-top: 10px;
     }
     .image-hover {
@@ -72,11 +69,11 @@
         width: 100%;
     }
     .image-hover:nth-last-child(1) {
-        border-left: 1px solid gray;
+        border-left: 1px solid ;
     }
 
     .wishlist {
-        color: gray ;
+        color: lightgray;
         font-size: 30px ;
     }
     i:hover{
@@ -108,16 +105,12 @@
     overflow: hidden;
     text-overflow: ellipsis;
     a {
-        font-size: 14px;
-        font-family: $font-Lato;
-        color: #000;
+        @include b3_14px_charcoal();
         text-transform: capitalize;
         letter-spacing: 0.5px;
     }
     span {
-        font-size: 14px;
-        font-family: $font-Lato;
-        color: #000;
+        @include b3_14px_med_charcoal();
         text-transform: capitalize;
         letter-spacing: 0.5px;
     }
@@ -139,10 +132,10 @@
     }
 }
 .product-size {
-    font-family: $font-Lato;
-    font-size: 9px;
+    font-family: $font-Montserrat;
+    font-size: 10px;
     text-transform: uppercase;
-    color: #b3b3b3;
+    color: $charcoal19;
     letter-spacing: 2px;
     line-height: 25px;
     justify-content: center;
@@ -163,8 +156,8 @@
         li {
             display: inline;
             padding: 0 10px;
-            color: #ab1e56;
-            font-size: 12px;
+            color: $charcoal19;
+            font-size: 10px;
             line-height: 25px;
             &.disabled {
                 text-decoration: line-through;
@@ -175,11 +168,10 @@
 }
 .outstock {
     background: url('../../images/outofstock-cta.svg') no-repeat;
+    @include b4_12px_med_charcoal_caps();
     position: absolute;
     top: 50%;
     left: 50%;
-    color: #ab1e56;
-    font-family: "HeaderFont","Trebuchet MS","geneva";
     letter-spacing: 1px;
     opacity: .8;
     transform: translate(-50%, -50%);
@@ -188,8 +180,8 @@
     display: flex;
     justify-content: center;
     line-height: 40px;
-    a {
-        font-size: 14px;
+    a{
+        color: $charcoal19;
     }
 }
 
