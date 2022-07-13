@@ -97,8 +97,8 @@ const Image: React.FC<Props> = ({
                 <div className={styles.container}>
                   <Link
                     to={data.componentData.link}
-                    className={styles.title}
                     target={componentData.openInNewTab ? "_blank" : ""}
+                    className={styles.title}
                     onClick={() =>
                       onHeaderMegaMenuClick({
                         l1,

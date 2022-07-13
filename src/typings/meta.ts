@@ -21,4 +21,5 @@ export type PageMeta = {
   twitterDomain: string;
   twitterCreator: string;
   twitterSite: string;
+  h1Tag: string;
 };

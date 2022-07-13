@@ -1,0 +1,510 @@
+@import "../../../../styles/partials/variables";
+@import "../../../../styles/partials/mixins";
+
+.career_list_main_wrp{
+    margin-top: 80px;
+
+    .career_list_wrp{
+        display: flex;
+    
+        .career_list_wrp_left{
+            width: 30%;
+            padding: 45px;
+            margin-right: 2px;
+            position: sticky;
+            position: -webkit-sticky;
+            top: 80px;
+            align-self: flex-start;
+            background: $white 0% 0% no-repeat padding-box;
+            box-shadow: 0px 3px 6px #00000029;
+            min-height: 60vh;
+
+    
+            .filter_li{
+                margin-bottom: 40px;
+        
+                    .filter_label{
+                        text-align: center;
+                        font: normal normal normal 12px/20px $font-Montserrat;
+                        letter-spacing: 0.36px;
+                        color: $charcoal19;
+                        text-transform: uppercase;
+                        opacity: 1;
+                        cursor: pointer;
+        
+                        &:after {
+                            content: '';
+                            float: right;
+                            border: solid $charcoal19;
+                            border-width: 0 1px 1px 0;
+                            width: 8px;
+                            height: 8px;
+                            transform: rotate(45deg);
+                            position: absolute;
+                            right: 50px;
+                            margin-top: 8px;
+                            transition: all 0.3s ease-out;
+                          }
+                    }
+                    .filter_applied{
+                        text-align: center;
+                        font: normal normal normal 12px/20px $font-Montserrat;
+                        letter-spacing: 0.36px;
+                        color: $charcoal19;
+                        text-transform: uppercase;
+                        opacity: 1;
+                        cursor: pointer;
+        
+                        &:after {
+
+                            @media screen and (max-width: 767px) {
+                                content: 'x';
+                                float: right;
+                                position: absolute;
+                                right: 30px;
+                                margin-top: 4px;
+                                font-size: 14px;
+                                transform: rotate(0deg);
+                                border: none;
+                            }
+                          }
+                    }
+                    .filter_label_open {
+                        text-align: center;
+                        font: normal normal normal 12px/20px $font-Montserrat;
+                        letter-spacing: 0.36px;
+                        color: $charcoal19;
+                        text-transform: uppercase;
+                        opacity: 1;
+                        cursor: pointer;
+                        &:after {
+                          content: '';
+                          float: right;
+                          border: solid $charcoal19;
+                          border-width: 0 1px 1px 0;
+                          width: 8px;
+                          height: 8px;
+                          transform: rotate(-135deg);
+                          position: absolute;
+                          right: 50px;
+                          margin-top: 8px;
+                          transition: all 0.3s ease-out;
+                        }
+                    }
+        
+                    .filter_label_underline{
+                        border: 1px solid $grey;
+                    }
+        
+            .filters_wrp{
+                padding:5px;
+    
+                    [type="checkbox"]:checked + label,
+                     [type="checkbox"]:not(:checked) + label{
+                            position: relative;
+                            cursor: pointer;
+                            text-align: left;
+                            font: normal normal normal 12px/20px $font-Montserrat;
+                            letter-spacing: 0.36px;
+                            color: $charcoal19;
+                            opacity: 1;
+                            padding-left: 30px;
+                            width: 100%;
+                        }
+                       
+                        [type="checkbox"]:not(:checked) + label:before {
+                            content: '';
+                            position: absolute;
+                            width: 18px;
+                            height: 18px;
+                            background-color: $white;
+                            border: 1px #dbd4d4 solid;
+                            left: 0;
+                          }
+    
+                          [type="checkbox"]:checked + label:before {
+                            content: '';
+                            position: absolute;
+                            background-color: $aquablue;
+                            width: 18px;
+                            height: 18px;
+                            border: 1px #dbd4d4 solid;
+                            left: 0;
+                          }
+    
+                          input[type="checkbox"]:checked + label:after {
+                            content: '';
+                            display: block;
+                            width: 6px;
+                            height: 10px;
+                            border: solid $white;
+                            border-width: 0 2px 2px 0;
+                            position: absolute;
+                            top: 2px;
+                            left: 6px;
+                            font-size: 18px;
+                            line-height: 0.8;
+                            transition: all .1s;
+                          }
+                    
+                        .see_more_btn{
+                            text-align: center;
+                            font: normal normal normal 10px/16px $font-Montserrat;
+                            letter-spacing: 0.36px;
+                            color: $charcoal19;
+                            text-transform: uppercase;
+                            border-bottom: 1px solid $charcoal19;
+                            padding-bottom: 1px;
+                            opacity: 1;
+                            background: $white;
+                            border-top: none;
+                            border-left: none;
+                            border-right: none;
+                            margin-top: 12px;
+                    
+                            &:hover{
+                                color: $aquablue;
+                                border-bottom: 1px solid $aquablue;
+                            }
+                        }
+        
+                    .filter_tag_wrp{  
+                        display: -webkit-inline-box;
+                        flex-wrap: wrap;
+        
+                        .filter_tag{
+                            background: $disabled-input 0% 0% no-repeat padding-box;
+                            border-radius: 13px;
+                            opacity: 1;
+                            border-width: 1%;
+                            width: max-content;
+                            text-align: left;
+                            font: normal normal normal 9px/30px $font-Montserrat;
+                            letter-spacing: 0.54px;
+                            color: $formLabel;
+                            opacity: 1;
+                            padding: 0px 14px;
+                            margin: 4px;
+        
+                            .close_btn{
+                                float: right;
+                                opacity: 1;
+                                padding-left: 15px;
+                                font: normal normal normal 14px/30px $font-Montserrat;
+                                cursor: pointer;
+                            }
+        
+        
+                            
+                        }
+                    }        
+            }
+            .filters_wrp_hide{
+                display: none;
+            }
+            }
+
+            .filter_li_hide{
+                display: none;
+            }
+
+            @media screen and (max-width: 767px) {
+                position: fixed;
+                transform: translateY(300%);
+                transition: all 0.3s ease-in;
+                top: 0; 
+            }
+        }
+
+        @media screen and (max-width: 767px) {
+           
+
+            .show{
+                position: relative;
+                display: block;
+                width: 100%;
+                padding: 24px;
+                transition: all 0.3s ease-in;
+                opacity: 1;
+                transform: translateY(0);
+            }
+
+            .hide{
+                display: none;
+            }
+        }
+    
+        .career_list_wrp_right{
+            width: 70%;
+            padding: 60px;
+            background: $white;
+
+            @media screen and (max-width: 767px) {
+                width: auto;
+                padding: 30px;
+            }
+            
+            .opportunities_count{
+                text-align: left;
+                font: normal normal 300 12px/19px $font-Montserrat;
+                letter-spacing: 0.36px;
+                color: $charcoal19;
+                opacity: 1;
+            }
+
+            .no_resords_wrp{
+                text-align: center;
+                margin: 150px;
+
+                @media screen and (max-width: 767px) {
+                    margin: 20px;
+                }
+
+                @media screen and (max-width: 992px)  and (min-width:768px){
+                    margin: 100px;
+                }
+
+                .no_resords_heading{
+                    font: normal normal normal 20px/25px $font-Lora;
+                    letter-spacing: 0.4px;
+                    color: $charcoal19;
+                    opacity: 1;
+                    margin-bottom: 15px;
+                }
+
+                .no_resords_desc{
+                    opacity: 1;
+                    font: normal normal normal 12px/20px $font-Montserrat;
+                    letter-spacing: 0.36px;
+                    color: $charcoal19;
+                    width:35%;
+                    margin: auto;
+
+                    @media screen and (max-width: 992px) {
+                        width:100%;
+                    }
+                }
+
+                .no_resords_btn{
+                    background: var(--med-charcoal-4c4c4c) 0% 0% no-repeat padding-box;
+                    background: #4C4C4C 0% 0% no-repeat padding-box;
+                    opacity: 1;
+                    text-align: center;
+                    font: normal normal normal 14px/30px $font-Montserrat;
+                    letter-spacing: 0.42px;
+                    color: $white;
+                    text-transform: uppercase;
+                    width: 40%;
+                    padding: 6px 0px;
+                    margin-top: 30px;
+
+                    &:hover{
+                        color: $lgtDefault;
+                        background: #FFFFFF00 0% 0% no-repeat padding-box;
+                        border: 1px solid $lgtDefault;
+                    }
+
+                    @media screen and (max-width: 992px) {
+                        width:80%;
+                    }
+                }
+            }
+    
+            .job_card_wrp{
+                background: $grey 0% 0% no-repeat padding-box;
+                opacity: 1;
+                padding: 30px;
+                margin: 10px 0px;
+                display: flex;
+
+                @media screen and (max-width: 767px) {
+                    display: block;
+                }
+
+                .job_card_left_wrp{
+                    width: 80%;
+
+                    @media screen and (max-width: 767px) {
+                        width: 100%;
+                     }
+
+                    .job_card_heading{
+                        text-align: left;
+                        font: normal normal normal 20px/25px $font-Lora;
+                        letter-spacing: 0.4px;
+                        color: $charcoal19;
+                        opacity: 1;
+                    }
+
+                    .job_card_location{
+                        text-align: left;
+                        font: normal normal normal 12px/20px $font-Montserrat;
+                        letter-spacing: 0.36px;
+                        color: $charcoal19;
+                        opacity: 1;
+                        padding: 20px 0px;
+                    }
+        
+                    .job_card_desc{
+                        text-align: left;
+                        font: normal normal 300 12px/19px $font-Montserrat;
+                        letter-spacing: 0.36px;
+                        color: $charcoal19;
+                        opacity: 1;
+                        width: 90%;
+                    }
+        
+                    .job_card_apply_btn{
+                        background: #FFFFFF00 0% 0% no-repeat padding-box;
+                        border: 1px solid $lgtDefault;
+                        opacity: 1;
+                        text-align: center;
+                        font: normal normal normal 14px/30px $font-Montserrat;
+                        letter-spacing: 0.42px;
+                        color: $lgtDefault;
+                        text-transform: uppercase;
+                        opacity: 1;
+                        padding: 6px 12px;
+                        margin: 20px 0px;
+        
+                        &:hover{
+                            color: $aquablue;
+                            background: #FFFFFF00 0% 0% no-repeat padding-box;
+                            border: 1px solid $aquablue;
+                            opacity: 1;
+                        }
+                    }
+                }
+               
+                .job_card_right_wrp{
+                    width: 20%;
+                    @media screen and (max-width: 767px) {
+                       display: flex;
+                       padding-top: 20px;
+                       width: 100%;
+                    }
+
+                    @media screen and (min-width: 768px) and (max-width:1024px) {
+                        width: 30%;
+                     }
+                   
+                    .job_card_share_heading{
+                        text-align: right;
+                        font: normal normal normal 12px/20px $font-Montserrat;
+                        letter-spacing: 0.36px;
+                        color: #191919;
+                        text-transform: uppercase;
+                        opacity: 1;
+    
+                        @media screen and (max-width: 767px) {
+                            text-align: left;
+                        }
+                    }
+
+                    .icon_wrp_ul{
+                        float: right;
+                        .icon_wrp{
+                            padding-left: 15px;
+                        }
+                    }
+        
+                }
+               
+            }
+        }
+       
+    }
+
+    .filter_mobile{
+        display: none;
+        @media screen and (max-width: 767px) {
+            display: block;
+            position: fixed;
+            margin-bottom: 0;
+            bottom: 60px;
+            left: 0;
+            align-self: flex-start;
+            z-index: 5;
+            width: 100%;
+            transition: bottom 0.3s;
+            padding: 10px 25px;
+            width: 100%;
+            background: $white 0% 0% no-repeat padding-box;
+            box-shadow: 0px -2px 6px #00000029;
+            opacity: 1;
+            text-align: left;
+            font: normal normal normal 12px/20px $font-Montserrat;
+            letter-spacing: 0.36px;
+            color: $charcoal19;
+            text-transform: uppercase;
+           
+
+            &:after {
+                content: '';
+                float: right;
+                border: solid #191919;
+                border-width: 0 1px 1px 0;
+                width: 10px;
+                height: 10px;
+                transform: rotate(225deg);
+                position: absolute;
+                right: 50px;
+                margin-top: 8px;
+                cursor: pointer;
+              }
+        }
+    }
+
+    .filter_mobile_button{
+        display: none;
+        @media screen and (max-width: 767px) {
+            display:flex;
+            position: fixed;
+            margin-bottom: 0;
+            bottom: 60px;
+            left: 0;
+            align-self: flex-start;
+            z-index: 5;
+            background-color: $white;
+            width: 100%;
+            transition: bottom 0.3s;
+
+            .cancel_btn{
+                text-align: center;
+                font: normal normal normal 14px/30px $font-Montserrat;
+                letter-spacing: 0.42px;
+                color: #4C4C4C;
+                text-transform: uppercase;
+                opacity: 1;
+                background: #FFFFFF00 0% 0% no-repeat padding-box;
+                border: 1px solid #4C4C4C;
+                width: 50%;
+                padding: 10px 0px;
+            }
+
+            .apply_btn{
+                background: #4C4C4C 0% 0% no-repeat padding-box;
+                opacity: 1;
+                text-align: center;
+                font: normal normal normal 14px/30px $font-Montserrat;
+                letter-spacing: 0.42px;
+                color: $white;
+                text-transform: uppercase;
+                width: 50%;
+                padding: 10px 0px;
+                border: 1px solid #4C4C4C;
+
+                &:hover{
+                    background: #FFFFFF00 0% 0% no-repeat padding-box;
+                    color: #4C4C4C;
+                    border: 1px solid #4C4C4C;
+                }
+            }
+        }
+
+    }
+    
+    .filter_mobile_hide{
+        display: none;
+    }
+}

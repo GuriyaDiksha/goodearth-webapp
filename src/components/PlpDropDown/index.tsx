@@ -18,7 +18,8 @@ const PlpDropdownMenu = ({
   value,
   onChange,
   onStateChange,
-  sortedDiscount
+  sortedDiscount,
+  toggleSort
 }: MobileDropdownMenuProps): JSX.Element => {
   const [menuOpen, setOpenState] = useState(open || false);
   const [displayValue, setDisplayValue] = useState(value || "");
@@ -39,6 +40,7 @@ const PlpDropdownMenu = ({
       setShowmobileSort(true);
       setShowmobileFilterList(true);
       setOpenState(true);
+      toggleSort(false);
     }
   };
   const onInsideClick = () => {
@@ -48,6 +50,7 @@ const PlpDropdownMenu = ({
     setShowmobileFilterList(false);
     setMobileFilter(false);
     onStateChange(false);
+    toggleSort(true);
   };
 
   useLayoutEffect(() => {
