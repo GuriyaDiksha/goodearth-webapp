@@ -333,7 +333,7 @@ const LineItems: React.FC<BasketItem> = memo(
               ) : (
                 ""
               )}
-              {showError && (
+              {!saleStatus && showError && (
                 <span
                   className={cs(
                     globalStyles.errorMsg,
