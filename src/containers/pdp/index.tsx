@@ -154,7 +154,7 @@ class PDPContainer extends React.Component<Props, State> {
         startIndex: index,
         mobile: mobile,
         changeModalState: changeModalState,
-        alt: this.props.data.altText
+        alt: this.props?.data?.altText
       },
       true
     );
@@ -272,13 +272,13 @@ class PDPContainer extends React.Component<Props, State> {
     let category = "",
       subcategoryname = "";
     if (data?.categories) {
-      const index = data.categories.length - 1;
-      category = data.categories[index]
-        ? data.categories[index].replace(/\s/g, "")
+      const index = data?.categories?.length - 1;
+      category = data?.categories[index]
+        ? data?.categories[index]?.replace(/\s/g, "")
         : "";
-      const arr = category.split(">");
-      subcategoryname = arr[arr.length - 1];
-      category = category.replace(/>/g, "/");
+      const arr = category?.split(">");
+      subcategoryname = arr[arr?.length - 1];
+      category = category?.replace(/>/g, "/");
     }
 
     let variants = "";
@@ -312,7 +312,7 @@ class PDPContainer extends React.Component<Props, State> {
     CookieService.setCookie("listPath", "");
     valid.moveChatDown();
 
-    if (data && data.looksProducts && data.looksProducts.length >= 2) {
+    if (data && data?.looksProducts && data?.looksProducts?.length >= 2) {
       valid.MoreFromCollectionProductImpression(
         data.looksProducts,
         "ShopByLook",
@@ -359,7 +359,7 @@ class PDPContainer extends React.Component<Props, State> {
       }
     }, 1000);
 
-    this.fetchMoreProductsFromCollection(this.props.id);
+    this.fetchMoreProductsFromCollection(this.props?.id);
 
     this.startImageAutoScroll();
   }
@@ -396,10 +396,10 @@ class PDPContainer extends React.Component<Props, State> {
 
   UNSAFE_componentWillReceiveProps(nextProps: Props) {
     const { data, currency } = nextProps;
-    if (this.props.id && this.props.id != nextProps.id) {
+    if (this.props?.id && this.props?.id != nextProps?.id) {
       valid.pageViewGTM("PDP");
-      valid.PDP(nextProps.data, this.props.currency);
-      if (data && data.looksProducts && data.looksProducts.length >= 2) {
+      valid.PDP(nextProps?.data, this.props?.currency);
+      if (data && data?.looksProducts && data?.looksProducts?.length >= 2) {
         valid.MoreFromCollectionProductImpression(
           data.looksProducts,
           "ShopByLook",
@@ -413,11 +413,15 @@ class PDPContainer extends React.Component<Props, State> {
         detailStickyEnabled: true,
         mounted: false
       });
-      this.fetchMoreProductsFromCollection(nextProps.id);
+      this.fetchMoreProductsFromCollection(nextProps?.id);
     }
-    if (this.props.data && !this.props.data.title && nextProps.data.title) {
-      valid.PDP(nextProps.data, this.props.currency);
-      if (data && data.looksProducts && data.looksProducts.length >= 2) {
+    if (
+      this.props?.data &&
+      !this.props?.data?.title &&
+      nextProps?.data?.title
+    ) {
+      valid.PDP(nextProps?.data, this.props?.currency);
+      if (data && data?.looksProducts && data?.looksProducts?.length >= 2) {
         valid.MoreFromCollectionProductImpression(
           data.looksProducts,
           "ShopByLook",
@@ -425,34 +429,37 @@ class PDPContainer extends React.Component<Props, State> {
         );
       }
     }
-    if (!this.props.data && nextProps.data?.title) {
-      valid.PDP(nextProps.data, this.props.currency);
-      if (data && data.looksProducts && data.looksProducts.length >= 2) {
+    if (!this.props?.data && nextProps.data?.title) {
+      valid.PDP(nextProps?.data, this.props?.currency);
+      if (data && data?.looksProducts && data.looksProducts?.length >= 2) {
         valid.MoreFromCollectionProductImpression(
-          data.looksProducts,
+          data?.looksProducts,
           "ShopByLook",
           currency
         );
       }
     }
     if (
-      this.props.currency != nextProps.currency ||
-      this.props.customerGroup != nextProps.customerGroup
+      this.props?.currency != nextProps?.currency ||
+      this.props?.customerGroup != nextProps?.customerGroup
     ) {
-      this.fetchMoreProductsFromCollection(nextProps.id);
-      this.props.fetchProduct(this.props.slug);
+      this.fetchMoreProductsFromCollection(nextProps?.id);
+      this.props.fetchProduct(this.props?.slug);
       this.setState({
         mounted: false
       });
     }
-    if (nextProps.data && nextProps.data.looksProducts) {
-      if (nextProps.data.looksProducts.length >= 2 && !this.state.showLooks) {
+    if (nextProps?.data && nextProps?.data?.looksProducts) {
+      if (
+        nextProps.data?.looksProducts?.length >= 2 &&
+        !this.state?.showLooks
+      ) {
         this.setState({
           showLooks: true
         });
       } else if (
-        nextProps.data.looksProducts.length < 2 &&
-        this.state.showLooks
+        nextProps?.data?.looksProducts?.length < 2 &&
+        this.state?.showLooks
       ) {
         this.setState({
           showLooks: false
@@ -467,7 +474,7 @@ class PDPContainer extends React.Component<Props, State> {
       return;
     }
     const productImages = this.getProductImagesData();
-    if (props.data && props.data.id !== data.id) {
+    if (props?.data && props.data?.id !== data?.id) {
       document.removeEventListener("scroll", this.onScroll);
       window.scrollTo({
         top: 0
@@ -482,7 +489,7 @@ class PDPContainer extends React.Component<Props, State> {
         mounted: true
       };
 
-      if (productImages.length === 1 && this.state.detailStickyEnabled) {
+      if (productImages?.length === 1 && this.state?.detailStickyEnabled) {
         state.detailStickyEnabled = false;
       }
 
@@ -490,12 +497,12 @@ class PDPContainer extends React.Component<Props, State> {
         document.addEventListener("scroll", this.onScroll);
       });
     }
-    if (this.props.currency != props.currency) {
+    if (this?.props?.currency != props?.currency) {
       this.setState({
         mounted: true
       });
     }
-    if (this.state.showDock) {
+    if (this.state?.showDock) {
       if (this.bottomDockRef.current) {
         this.bottomDockRef.current.style.maxHeight = 80 + "px";
       }
@@ -524,13 +531,13 @@ class PDPContainer extends React.Component<Props, State> {
             });
           }
         } else {
-          if (this.state.showAddToBagMobile) {
+          if (this.state?.showAddToBagMobile) {
             this.setState({
               showAddToBagMobile
             });
           }
         }
-      } else if (!this.state.showAddToBagMobile) {
+      } else if (!this.state?.showAddToBagMobile) {
         this.setState({
           showAddToBagMobile: true
         });
@@ -549,10 +556,10 @@ class PDPContainer extends React.Component<Props, State> {
       const detailsBounds = detailsRef.current?.getBoundingClientRect();
       const scrollOffset = window.scrollY;
 
-      let sidebarSticky = this.state.sidebarSticky,
-        detailsSticky = this.state.detailsSticky,
+      let sidebarSticky = this.state?.sidebarSticky,
+        detailsSticky = this.state?.detailsSticky,
         update = false;
-      const activeImage = this.state.activeImage;
+      const activeImage = this.state?.activeImage;
 
       const containerBottom = Math.floor(containerBounds.bottom);
       if (sidebarSticky) {
@@ -589,7 +596,7 @@ class PDPContainer extends React.Component<Props, State> {
         }
       }
 
-      if (activeImage !== c && c < imageOffsets.length) {
+      if (activeImage !== c && c < imageOffsets?.length) {
         this.setState({
           activeImage: c
         });
@@ -614,15 +621,15 @@ class PDPContainer extends React.Component<Props, State> {
     const { data } = this.props;
     let sliderImages, images;
     if (data) {
-      sliderImages = data.sliderImages;
-      images = data.images;
+      sliderImages = data?.sliderImages;
+      images = data?.images;
     }
-    return images ? images.concat(sliderImages || []) : [];
+    return images ? images?.concat(sliderImages || []) : [];
   };
 
   prevImage = (afterStateChangeCallback?: () => void) => {
     const len = this.getProductImagesData().length;
-    const active = this.state.activeImage;
+    const active = this.state?.activeImage;
     this.setState(
       {
         activeImage: (len + ((active - 1) % len)) % len
@@ -635,7 +642,7 @@ class PDPContainer extends React.Component<Props, State> {
 
   nextImage = (afterStateChangeCallback?: () => void) => {
     const len = this.getProductImagesData().length;
-    const active = this.state.activeImage;
+    const active = this.state?.activeImage;
     this.setState(
       {
         activeImage: (active + 1) % len
@@ -675,10 +682,10 @@ class PDPContainer extends React.Component<Props, State> {
 
   getProductImages() {
     const productImages = this.getProductImagesData();
-    if (productImages.length > 0) {
+    if (productImages?.length > 0) {
       const img =
-        productImages?.[this.state.activeImage] ||
-        productImages?.[this.state.activeImage - 1];
+        productImages?.[this.state?.activeImage] ||
+        productImages?.[this.state?.activeImage - 1];
       // return productImages?.map((image, index) => {
       const onImageLoad = (event: SyntheticEvent<HTMLImageElement>) => {
         const ele = event.currentTarget;
@@ -690,8 +697,8 @@ class PDPContainer extends React.Component<Props, State> {
       return (
         <div
           className={styles.productImageContainer}
-          key={img.id}
-          id={`img-${img.id}`}
+          key={img?.id}
+          id={`img-${img?.id}`}
           onMouseEnter={() => {
             this.setState({ imageHover: true });
           }}
@@ -700,7 +707,7 @@ class PDPContainer extends React.Component<Props, State> {
           }}
         >
           <PdpImage
-            alt={this.props.data.altText || this.props.data.title}
+            alt={this.props.data?.altText || this.props.data?.title}
             {...img}
             index={this.state.activeImage}
             onClick={this.onImageClick}
@@ -713,7 +720,7 @@ class PDPContainer extends React.Component<Props, State> {
               total={productImages.length}
             />
           </div>
-          {productImages.length > 1 && (
+          {productImages?.length > 1 && (
             <div
               className={cs(styles.imageArrowLeft, {
                 [styles.show]: this.state.imageHover
@@ -721,7 +728,7 @@ class PDPContainer extends React.Component<Props, State> {
               onClick={this.onClickImageArrowLeft}
             ></div>
           )}
-          {productImages.length > 1 && (
+          {productImages?.length > 1 && (
             <div
               className={cs(styles.imageArrowRight, {
                 [styles.show]: this.state.imageHover
@@ -784,9 +791,9 @@ class PDPContainer extends React.Component<Props, State> {
     } = this.props;
 
     if (
-      recommendedSliderItems.length < 4 ||
+      recommendedSliderItems?.length < 4 ||
       typeof document == "undefined" ||
-      recommendedSliderItems.length == 0
+      recommendedSliderItems?.length == 0
     ) {
       return null;
     }
@@ -812,11 +819,11 @@ class PDPContainer extends React.Component<Props, State> {
     return (
       <WeRecommendSlider
         data={recommendedSliderItems}
-        recommendedProducts={this.props.recommendedProducts}
+        recommendedProducts={this.props?.recommendedProducts}
         setting={config as Settings}
         currency={currency}
         mobile={mobile || tablet}
-        isSale={this.props.isSale}
+        isSale={this.props?.isSale}
         corporatePDP={corporatePDP}
       />
     );
@@ -836,7 +843,7 @@ class PDPContainer extends React.Component<Props, State> {
       device: { mobile }
     } = this.props;
     if (
-      collectionProducts.length < (mobile ? 2 : 4) ||
+      collectionProducts?.length < (mobile ? 2 : 4) ||
       typeof document == "undefined"
     ) {
       return null;
@@ -896,7 +903,7 @@ class PDPContainer extends React.Component<Props, State> {
 
     const isWallcovering =
       categories &&
-      categories.filter(category =>
+      categories?.filter(category =>
         category.toLowerCase().includes("wallcovering")
       ).length > 0;
     categories;
@@ -957,15 +964,16 @@ class PDPContainer extends React.Component<Props, State> {
     //     selectedIndex = i;
     //   }
     // });
-    const index = categories.length - 1;
+    const index = categories?.length - 1;
     let category = categories[index]
-      ? categories[index].replace(/\s/g, "")
+      ? categories[index]?.replace(/\s/g, "")
       : "";
-    category = category.replace(/>/g, "/");
+    category = category?.replace(/>/g, "/");
     updateComponentModal(
       POPUP.NOTIFYMEPOPUP,
       {
-        collection: collections && collections.length > 0 ? collections[0] : "",
+        collection:
+          collections && collections?.length > 0 ? collections[0] : "",
         category: category,
         price: priceRecords[currency],
         currency: currency,
@@ -995,8 +1003,8 @@ class PDPContainer extends React.Component<Props, State> {
         {mobile && (
           <div
             className={cs(styles.listGridBar, {
-              [styles.listGridBarTimer]: this.props.showTimer,
-              [styles.hide]: this.props.scrollDown
+              [styles.listGridBarTimer]: this.props?.showTimer,
+              [styles.hide]: this.props?.scrollDown
             })}
           >
             <div
@@ -1005,7 +1013,7 @@ class PDPContainer extends React.Component<Props, State> {
             >
               <span
                 className={cs(styles.gridSpan, {
-                  [styles.active]: this.props.plpMobileView == "grid"
+                  [styles.active]: this.props?.plpMobileView == "grid"
                 })}
               >
                 Grid
@@ -1029,7 +1037,7 @@ class PDPContainer extends React.Component<Props, State> {
               />
               <span
                 className={cs(styles.listSpan, {
-                  [styles.active]: this.props.plpMobileView == "list"
+                  [styles.active]: this.props?.plpMobileView == "list"
                 })}
               >
                 List
@@ -1050,12 +1058,12 @@ class PDPContainer extends React.Component<Props, State> {
                     // onClick={gtmProductClick}
                   > */}
                   <LazyImage
-                    alt={data.altText || data.title}
+                    alt={data?.altText || data?.title}
                     aspectRatio="62:93"
                     src={
-                      data.lookImageUrl ||
-                      (data.images?.[0]
-                        ? data.images?.[0].productImage
+                      data?.lookImageUrl ||
+                      (data?.images?.[0]
+                        ? data?.images?.[0]?.productImage
                         : "/static/img/noimageplp.png")
                     }
                     className={styles.imageResultnew}
@@ -1069,9 +1077,9 @@ class PDPContainer extends React.Component<Props, State> {
                 </div>
               </div>
             )}
-            {mobile && this.props.plpMobileView == "grid" ? (
-              this.props.data.looksProducts &&
-              this.props.data.looksProducts.map((item, index) => {
+            {mobile && this.props?.plpMobileView == "grid" ? (
+              this.props.data?.looksProducts &&
+              this.props.data?.looksProducts.map((item, index) => {
                 return (
                   <div
                     className={cs(
@@ -1079,7 +1087,7 @@ class PDPContainer extends React.Component<Props, State> {
                       bootstrap.col6,
                       styles.setWidth
                     )}
-                    key={item.id}
+                    key={item?.id}
                   >
                     <PDPLooksGridItem
                       page="ShopByLook"
@@ -1105,8 +1113,8 @@ class PDPContainer extends React.Component<Props, State> {
                 })}
               >
                 <div className={bootstrap.row}>
-                  {this.props.data.looksProducts &&
-                    this.props.data.looksProducts.map((item, i) => {
+                  {this.props.data?.looksProducts &&
+                    this.props.data?.looksProducts?.map((item, i) => {
                       return (
                         <div
                           key={i}
@@ -1247,38 +1255,38 @@ class PDPContainer extends React.Component<Props, State> {
       return null;
     }
 
-    const selectedSize = data.childAttributes.filter(
+    const selectedSize = data?.childAttributes?.filter(
       item => item.id == selectedSizeId
     )[0];
 
     const price = corporatePDP
       ? data.priceRecords[currency]
-      : selectedSize && selectedSize.priceRecords
-      ? selectedSize.priceRecords[currency]
-      : data.priceRecords[currency];
+      : selectedSize && selectedSize?.priceRecords
+      ? selectedSize?.priceRecords[currency]
+      : data?.priceRecords[currency];
     const discountPrices =
-      selectedSize && selectedSize.discountedPriceRecords
-        ? selectedSize.discountedPriceRecords[currency]
-        : data.discountedPriceRecords[currency];
+      selectedSize && selectedSize?.discountedPriceRecords
+        ? selectedSize?.discountedPriceRecords[currency]
+        : data?.discountedPriceRecords[currency];
 
     const { breadcrumbs } = data;
     const images: any[] = this.getProductImagesData();
     let iconIndex = -1;
     images?.map((data, i) => {
-      if (data.code) {
+      if (data?.code) {
         iconIndex = i;
       }
-      return data.code != "";
+      return data?.code != "";
     });
     let mobileSlides: any[] = [];
     if (mobile || tablet) {
-      if (images.length > 0) {
+      if (images?.length > 0) {
         mobileSlides = images?.map(
           ({ id, productImage, icon, code }, i: number) => {
             return (
               <div key={id} className={globalStyles.relative}>
                 <LazyImage
-                  alt={data.altText || data.title}
+                  alt={data?.altText || data?.title}
                   aspectRatio="62:93"
                   src={productImage.replace("/Micro/", "/Medium/")}
                   className={globalStyles.imgResponsive}
@@ -1435,7 +1443,7 @@ class PDPContainer extends React.Component<Props, State> {
               {this.getProductImages()}
               {images && (
                 <PdpSlider
-                  alt={data.altText || data.title}
+                  alt={data?.altText || data?.title}
                   images={images}
                   className={cs(
                     bootstrap.colSm10,
@@ -1446,7 +1454,7 @@ class PDPContainer extends React.Component<Props, State> {
                   onImageClick={this.onSliderImageClick}
                 />
               )}
-              {this.state.showLooks && !mobile && (
+              {this.state?.showLooks && !mobile && (
                 <div
                   id="looks-btn"
                   className={styles.looksBtn}
@@ -1455,7 +1463,7 @@ class PDPContainer extends React.Component<Props, State> {
                   shop the look
                 </div>
               )}
-              {this.state.showLooks && !mobile && (
+              {this.state?.showLooks && !mobile && (
                 <div className={styles.looksBtnOverlay}></div>
               )}
             </div>
@@ -1490,7 +1498,7 @@ class PDPContainer extends React.Component<Props, State> {
         <div className={bootstrap.row}>{this.getPairItWithSection()}</div>
         <div className={cs(bootstrap.row)}>{this.getRecommendedSection()}</div>
         <div className={cs(bootstrap.row)}>
-          {!this.state.showLooks && this.getMoreCollectionProductsSection()}
+          {!this.state?.showLooks && this.getMoreCollectionProductsSection()}
         </div>
         {!mobile && (
           <div className={cs(styles.bottomPanel)} ref={this.bottomDockRef}>
