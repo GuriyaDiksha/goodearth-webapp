@@ -1,5 +1,5 @@
-
 @import "../../styles/partials/variables";
+@import "../../styles/partials/mixins";
 
 .Dropdown-root{
     min-width: 161px;
@@ -54,21 +54,18 @@
 }
 
 .subc-header{
-    background-color: #e6e6e6;
     padding: 15px 0;
     margin-top: $main-header;
     &.subcHeaderNew {
         margin-top: $header-height;
     }
     h1{
-        font-size: 28px;
-        font-family: $font-Serif;
+        @include h1_30px_charcoal();
+        font-style: italic;
         text-transform: capitalize;
     }
     p {
-        font-size: 12px;
-        font-family: $font-Lato;
-        color: #666;
+        @include b3_14px_charcoal();
         letter-spacing: 1px;
     }
 }

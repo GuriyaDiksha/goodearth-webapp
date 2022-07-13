@@ -58,6 +58,7 @@ class Footer extends React.Component<Props, FooterState> {
       hideImage: false,
       newsletterEmail: "",
       newsletterMessage: "",
+      newsletterError: false,
       isInViewport: false
     };
   }
@@ -157,23 +158,27 @@ class Footer extends React.Component<Props, FooterState> {
     if (valid.checkBlank(e.target.value)) {
       this.setState({
         newsletterEmail: e.target.value,
+        newsletterError: true,
         newsletterMessage: "Please enter your Email ID"
       });
       update = false;
     } else if (!valid.checkMail(e.target.value)) {
       this.setState({
         newsletterEmail: e.target.value,
+        newsletterError: true,
         newsletterMessage: "Please enter a valid Email ID"
       });
       update = false;
     } else if (e.target.value.length > 75) {
       this.setState({
+        newsletterError: true,
         newsletterMessage: "You are allowed to enter upto 75 characters only"
       });
       update = false;
     } else {
       this.setState({
         newsletterEmail: e.target.value,
+        newsletterError: false,
         newsletterMessage: ""
       });
     }
@@ -194,10 +199,10 @@ class Footer extends React.Component<Props, FooterState> {
           if (data.status) {
             const msg = valid.showErrors(data.message);
             // this.setState({newsletter_email: ""});
-            this.setState({ newsletterMessage: msg });
+            this.setState({ newsletterError: false, newsletterMessage: msg });
           } else {
             const msg = valid.showErrors(data.message);
-            this.setState({ newsletterMessage: msg });
+            this.setState({ newsletterError: false, newsletterMessage: msg });
           }
         })
         .catch(error => {
@@ -207,10 +212,13 @@ class Footer extends React.Component<Props, FooterState> {
               errorMsg =
                 "You have exceeded max attempts, please try after some time.";
             }
-            this.setState({ newsletterMessage: errorMsg });
+            this.setState({
+              newsletterError: true,
+              newsletterMessage: errorMsg
+            });
           } else {
             const msg = valid.showErrors(error.response.data.message);
-            this.setState({ newsletterMessage: msg });
+            this.setState({ newsletterError: true, newsletterMessage: msg });
             // console.log(error);
           }
         });
@@ -303,7 +311,14 @@ class Footer extends React.Component<Props, FooterState> {
                     ></div>
                   </div>
                   <div className={cs(globalStyles.voffset1)}>
-                    <div className={cs(globalStyles.errorMsg)}>
+                    <div
+                      className={cs(
+                        { [styles.errorMsg]: this.state.newsletterError },
+                        {
+                          [styles.subscribeSuccess]: !this.state.newsletterError
+                        }
+                      )}
+                    >
                       {this.state.newsletterMessage}{" "}
                     </div>
                   </div>
@@ -512,6 +527,7 @@ class Footer extends React.Component<Props, FooterState> {
                           saleStatus={this.props.saleStatus}
                           onChangeText={this.onChangeText}
                           shopLocations={this.props.data.shopLocations}
+                          mobile={this.props.mobile}
                         />
                         {this.props.isSale ||
                         !this.props.data.footerPlaylistData?.ctaText ? (
@@ -649,6 +665,7 @@ class Footer extends React.Component<Props, FooterState> {
                       saleStatus={this.props.saleStatus}
                       onChangeText={this.onChangeText}
                       shopLocations={this.props.data.shopLocations}
+                      mobile={this.props.mobile}
                     />
                     {this.props.mobile ? (
                       <div

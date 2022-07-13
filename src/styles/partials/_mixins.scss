@@ -96,7 +96,7 @@
 }
 
 @mixin menu-subcopy {
-  font-family: $font-Lato;
+  font-family: $font-Montserrat;
   font-size: 12px;
   letter-spacing: 1px;
   color: tint(#000, 30%);
@@ -126,11 +126,18 @@
 /**********************************************  PLP   ******************************************************/
 
 @mixin plp_subhdr_dd {
-  font-size: 14px;
+  font-size: 12px;
   font-weight: bold;
   font-family: $font-Lato;
   letter-spacing: 1px;
   color: $cerise;
+  text-transform: uppercase;
+}
+
+@mixin plp_bottom_filters{
+  font-family: $font-Montserrat;
+  font-size: 12px;
+  color: $charcoal19;
   text-transform: uppercase;
 }
 
@@ -155,9 +162,9 @@
 }
 
 @mixin plp_subhdr_open_mob {
-  font-size: 14px;
-  font-family: $font-Lato;
-  color: tint(#000, 50%);
+  font-size: 13 px;
+  font-family: $font-Montserrat;
+  color: $med-charcoal;
 }
 
 @mixin plp_coll_name_desktop {
@@ -174,7 +181,7 @@
 
 @mixin plp_prod_quantity {
   font-size: 10px;
-  color: tint(#000, 40%);
+  color: $charcoal19;
   font-family: $font-Lato;
   letter-spacing: 1px;
 }
@@ -207,10 +214,19 @@
 }
 
 @mixin plp_filter_sub {
-  font-family: $font-Lato;
-  font-size: 9px;
-  color: tint(#000, 60%);
+  font-family: $font-Montserrat;
+  font-size: 12px;
+  color: $light-charcoal;
   font-weight: 300;
+  letter-spacing: 0px;
+}
+
+@mixin plp_clear_filter {
+  font-family: $font-Montserrat;
+  font-size: 10px;
+  color: $charcoal19;
+  font-weight: 300;
+  letter-spacing: 0px;
 }
 
 @mixin plp_filter_copy_cerise {
@@ -223,6 +239,13 @@
   color: tint(#000, 30%);
 }
 
+@mixin plp_color_filter{
+  font-family: $font-Montserrat;
+  font-size: 12px;
+  color: $med-charcoal;
+  font-weight: normal;
+}
+
 /**********************************************  PDP   ******************************************************/
 
 @mixin pdp_collection_header {
@@ -232,6 +255,12 @@
   letter-spacing: 2px;
   font-family: $font-Serif;
   line-height: 30px;
+}
+
+@mixin plp_filter_header {
+  font-size: 10px;
+  font-family: $font-Montserrat;
+  color: $charcoal19;
 }
 
 // @mixin pdp_prod_title {
@@ -270,11 +299,10 @@
 //   letter-spacing: 1px;
 // }
 @mixin cta_white {
-  font-weight: bold;
+  font-family: $font-Montserrat;
   font-size: 14px;
   text-transform: uppercase;
-  font-family: $font-Montserrat;
-  letter-spacing: 0.48px;
+  // letter-spacing: 0.48px;
 }
 
 // @mixin pdp_copy_head {
@@ -354,11 +382,6 @@
   color: tint(#000, 50%);
   text-transform: uppercase;
   letter-spacing: 1px;
-}
-
-@mixin plp_filter_copy {
-  font-size: 12px;
-  color: tint(#000, 40%);
 }
 
 @mixin curveBtnLink {
@@ -474,11 +497,11 @@
 @mixin pdp_breadcrumbs {
   font-size: 10px;
   font-family: $font-Montserrat;
-  color: tint(#000, 60%);
+  color: tint(#191919, 50%);
 }
 
 @mixin more-details {
-  font-family: $font-Lato;
+  font-family: $font-Lora;
   text-transform: uppercase;
   font-size: 12px;
   letter-spacing: 1px;
@@ -704,4 +727,263 @@ $list: $grey 92%, $white 8%;
   letter-spacing: 2px;
   font-family: "AmiriFont", "Baskerville", "Garamond";
   line-height: 30px;
+}
+
+/*******************************  UI Kit Fonts  **************************/
+//for announcement bar
+@mixin b5_10px_white{
+  font-family: $font-Montserrat;
+  font-weight: 600;
+  font-size: 10px;
+  color: $white;
+  letter-spacing: 0.60px;
+}
+
+@mixin b5_10px_white{
+  font-family: $font-Montserrat;
+  font-size: 10px;
+  color: $charcoal19;
+  letter-spacing: 0.60px;
+}
+
+//For L1s
+@mixin b3_14px_charcoal{
+  font-family: $font-Montserrat;
+  font-weight: normal;
+  font-size: 14px;
+  color: $charcoal19;
+  letter-spacing: 0.30px;
+}
+
+@mixin b3_14px_med_charcoal{
+  font-family: $font-Montserrat;
+  font-weight: normal;
+  font-size: 14px;
+  color: $med-charcoal;
+  letter-spacing: 0.30px;
+}
+
+//Base dropdown menu
+@mixin b5_10px_charcoal{
+  font-family: $font-Montserrat;
+  font-weight: normal;
+  font-size: 10px;
+  color: $charcoal19;
+  letter-spacing: 0.30px;
+}
+
+@mixin b4_12px_charcoal{
+  font-family: $font-Montserrat;
+  font-size: 12px;
+  color: $charcoal19;
+  font-weight: normal;
+  letter-spacing: 0.30px;
+}
+
+@mixin b4_12px_charcoal_caps{
+  font-family: $font-Montserrat;
+  font-size: 12px;
+  color: $charcoal19;
+  font-weight: normal;
+  letter-spacing: 0.30px;
+  text-transform: uppercase;
+}
+
+@mixin b4_12px_semibold_caps_charcoal{
+  font-family: $font-Montserrat;
+  font-size: 12px;
+  color: $med-charcoal;
+  font-weight: 600;
+  letter-spacing: 0.30px;
+  text-transform: uppercase;
+}
+
+@mixin b4_14px_CAPS_charcoal{
+  font-family: $font-Montserrat;
+  font-size: 14px;
+  color: $med-charcoal;
+  font-weight: normal;
+  letter-spacing: 0.30px;
+}
+
+@mixin b4_12px_med_charcoal_caps{
+  font-family: $font-Montserrat;
+  font-size: 12px;
+  color: $med-charcoal;
+  font-weight: normal;
+  letter-spacing: 0.36px;
+  text-transform: uppercase;
+}
+
+@mixin b4_12px_med_grey_caps{
+  font-family: $font-Montserrat;
+  font-size: 12px;
+  color: $light-charcoal;
+  letter-spacing: 0.36px;
+}
+
+@mixin b3_14px_gold{
+  font-family: $font-Montserrat;
+  font-size: 14px;
+  color: $gold;
+  font-weight: 600;
+  letter-spacing: 0.30px;
+}
+
+@mixin b3_14px_bold_charcoal{
+  font-family: $font-Montserrat;
+  font-weight: bold;
+  font-size: 14px;
+  color: $charcoal19;
+  letter-spacing: 0.30px;
+}
+
+@mixin b5_10px_charcoal{
+  font-family: $font-Montserrat;
+  font-weight: normal;
+  font-size: 10px;
+  color: $charcoal19;
+  letter-spacing: 0.30px;
+}
+
+@mixin b5_10px_white{
+  font-family: $font-Montserrat;
+  font-weight: 600;
+  font-size: 10px;
+  color: $white;
+  letter-spacing: 0.30px;
+}
+
+@mixin b5_10px_charcoal{
+  font-family: $font-Montserrat;
+  font-size: 10px;
+  color: $charcoal19;
+  letter-spacing: 0.30px;
+}
+
+@mixin b3_14px_light_charcoal{
+  font-family: $font-Montserrat;
+  font-size: 14px;
+  font-weight: lighter;
+  color: $charcoal19;
+}
+
+@mixin b3_14px_med_charcoal{
+  font-family: $font-Montserrat;
+  font-size: 14px;
+  font-weight: normal;
+  color: $med-charcoal;
+  letter-spacing: 0.3px;
+}
+
+@mixin h1_30px_charcoal{
+  font-family: $font-Lora;
+  font-size: 30px;
+  color: $charcoal19;
+}
+
+@mixin h2_24px_charcoal{
+  font-family: $font-Lora;
+  font-size: 24px;
+  font-weight: normal;
+  letter-spacing: 0.48px;
+  color: $charcoal19;
+}
+
+@mixin h2_24px_med_charcoal{
+  font-family: $font-Lora;
+  font-size: 24px;
+  font-weight: normal;
+  letter-spacing: 0.48px;
+  color: $med-charcoal;
+}
+
+@mixin h3_20px_med_charcoal{
+  font-family: $font-Lora;
+  font-size: 20px;
+  font-weight: normal;
+  letter-spacing: 0.48px;
+  color: $charcoal19;
+}
+
+@mixin b3_14px_aqua{
+  font-family: $font-Montserrat;
+  font-size: 14px;
+  color: $aqua-bold;
+  font-weight: 600;
+  letter-spacing: 0.30px;
+}
+
+@mixin b4_light_12px_charcoal{
+  font-family: $font-Montserrat;
+  font-size: 12px;
+  color: $charcoal19;
+  font-weight: lighter;
+}
+
+@mixin b6_light_9px_charcoal{
+  font-family: $font-Montserrat;
+  font-size: 9px;
+  color: $charcoal19;
+  letter-spacing: 0.54px;
+  font-weight: lighter;
+}
+
+@mixin b4_12px_med_gold_caps{
+  font-family: $font-Montserrat;
+  font-size: 12px;
+  color: $gold;
+  text-transform: uppercase;
+}
+
+@mixin err_13px_lora_italic_cerise{
+  font-family: $font-Lora;
+  font-size: 13px;
+  color: $cerise;
+  font-style: italic;
+}
+
+@mixin search_text{
+  font-family: $font-Montserrat;
+  font-weight: normal;
+  font-size: 12px;
+  color: #9E2E56;
+  letter-spacing: 0.30px;
+}
+
+@mixin header_currency{
+  font-family: $font-Montserrat;
+  font-weight: normal;
+  font-size: 12px;
+  color: $med-charcoal;
+  letter-spacing: 0.30px; 
+}
+
+@mixin carret{
+  height: 12px;
+  width: 12px;
+  border-top: 1px solid black;
+  border-left: 1px solid black;
+  transition: transform 0.2s ease-in;
+  &.open {
+    transform: rotate(45deg);
+  }
+  &.close {
+    transform: rotate(-135deg);
+  }
+}
+
+@mixin view_all_results {
+  font-family: $font-Montserrat;
+  font-size: 9px;
+  color: $gold;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+@mixin search_placeholder() {
+  font-family: $font-Lora;
+  font-size: 14px;
+  letter-spacing: 0.3px;
+  font-style: italic;
 }

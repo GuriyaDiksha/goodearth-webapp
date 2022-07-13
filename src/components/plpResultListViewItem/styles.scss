@@ -1,6 +1,6 @@
-
-
 @import "../../styles/partials/variables";
+@import "../../styles/partials/mixins";
+
 .image-boxnew {
     position: relative;
     display: block;
@@ -106,18 +106,13 @@
     overflow: hidden;
     text-overflow: ellipsis;
     a {
-        font-size: 14px;
-        font-family: $font-Lato;
-        color: #000;
+        @include b3_14px_charcoal();
         text-transform: capitalize;
         letter-spacing: 0.5px;
     }
     span {
-        font-size: 14px;
-        font-family: $font-Lato;
-        color: #000;
+        @include b3_14px_med_charcoal();
         text-transform: capitalize;
-        letter-spacing: 0.5px;
     }
     .discountprice {
         color: #ab1e56;
@@ -137,12 +132,9 @@
     }
 }
 .product-size {
-    font-family: $font-Lato;
-    font-size: 9px;
-    text-transform: uppercase;
-    color: #b3b3b3;
-    letter-spacing: 2px;
+    @include b5_10px_charcoal();
     line-height: 25px;
+    text-transform: capitalize;
     justify-content: center;
     padding-right: 10px;
 }
@@ -161,7 +153,7 @@
         li {
             display: inline;
             padding: 0 10px;
-            color: #ab1e56;
+            color: $charcoal19;
             font-size: 12px;
             line-height: 25px;
             &.disabled {
@@ -173,11 +165,10 @@
 }
 .outstock {
     background: url('../../images/outofstock-cta.svg') no-repeat;
+    @include b4_12px_med_charcoal_caps();
     position: absolute;
     top: 50%;
     left: 50%;
-    color: #ab1e56;
-    font-family: "HeaderFont","Trebuchet MS","geneva";
     letter-spacing: 1px;
     opacity: .8;
     transform: translate(-50%, -50%);
@@ -186,8 +177,8 @@
     display: flex;
     justify-content: center;
     line-height: 40px;
-    a {
-        font-size: 14px;
+    a{
+        color: $charcoal19;
     }
 }
 
@@ -223,7 +214,29 @@
 
 .actions {
     margin: 5px 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     .add-to-bag-list-view {
         line-height: 38px;
     }
+}
+
+.product-btn{
+    background-color: $aqua;
+    span{
+        color: $white;
+        text-transform: uppercase;
+        font-size:14px;
+        font-family: $font-Montserrat;
+    }
+    &.enquire-notify-me{
+        background-color: $light-charcoal;
+    }
+}
+
+.wishlist-btn-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
