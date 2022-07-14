@@ -329,17 +329,17 @@ const BaseLayout: React.FC = () => {
     }
   }, [bridal]);
 
-  const chatContainer =
-    typeof document == "object"
-      ? document?.getElementById("mobile-chat-container")
-      : "";
-  if (chatContainer) {
-    if (currency == "INR" && chatContainer) {
-      chatContainer.style.display = "none";
-    } else if (chatContainer) {
-      chatContainer.style.display = "block";
-    }
-  }
+  // const chatContainer =
+  //   typeof document == "object"
+  //     ? document?.getElementById("mobile-chat-container")
+  //     : "";
+  // if (chatContainer) {
+  //   if (currency == "INR" && chatContainer) {
+  //     chatContainer.style.display = "none";
+  //   } else if (chatContainer) {
+  //     chatContainer.style.display = "block";
+  //   }
+  // }
 
   const isCheckout =
     pathname.indexOf("/checkout") > -1 ||
