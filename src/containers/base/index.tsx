@@ -71,32 +71,32 @@ const BaseLayout: React.FC = () => {
       });
     }
   }, []);
-  useEffect(() => {
-    const chatContainer = document.getElementById("mobile-chat-container");
-    if (chatContainer) {
-      if (currency == "INR" && chatContainer) {
-        chatContainer.style.display = "none";
-      } else if (chatContainer) {
-        chatContainer.style.display = "block";
-      }
-    } else {
-      setTimeout(() => {
-        const chatContainer = document.getElementById("mobile-chat-container");
-        if (currency == "INR" && chatContainer) {
-          chatContainer.style.display = "none";
-        } else if (chatContainer) {
-          chatContainer.style.display = "block";
-        }
-      }, 1000);
-    }
+  // useEffect(() => {
+  // const chatContainer = document.getElementById("mobile-chat-container");
+  // if (chatContainer) {
+  //   if (currency == "INR" && chatContainer) {
+  //     chatContainer.style.display = "none";
+  //   } else if (chatContainer) {
+  //     chatContainer.style.display = "block";
+  //   }
+  // } else {
+  //   setTimeout(() => {
+  //     const chatContainer = document.getElementById("mobile-chat-container");
+  //     if (currency == "INR" && chatContainer) {
+  //       chatContainer.style.display = "none";
+  //     } else if (chatContainer) {
+  //       chatContainer.style.display = "block";
+  //     }
+  //   }, 1000);
+  // }
 
-    // const ele:any = document.getElementById("mobile-chat-container");
-    // if(currency != "INR") {
-    //   ele?.style.display = 'none';
-    // } else{
-    //   ele?.style.display = 'block';
-    // }
-  }, []);
+  // const ele:any = document.getElementById("mobile-chat-container");
+  // if(currency != "INR") {
+  //   ele?.style.display = 'none';
+  // } else{
+  //   ele?.style.display = 'block';
+  // }
+  // }, []);
 
   useEffect(() => {
     const isHomePage = location.pathname == "/";
