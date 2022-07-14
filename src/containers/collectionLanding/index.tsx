@@ -249,7 +249,7 @@ class CollectionLanding extends React.Component<
               </div>
             ) : (
               <div className={styles.innerHeader}>
-                <p className={styles.filterText}>FILTER BY</p>
+                <p className={styles.filterText}>FILTER BY:</p>
                 <SelectableDropdownMenu
                   id="filter-dropdown-collectionlanding"
                   align="right"
