@@ -815,6 +815,15 @@ $list: $grey 92%, $white 8%;
   text-transform: uppercase;
 }
 
+@mixin b4_12px_med_charcoal{
+  font-family: $font-Montserrat;
+  font-size: 12px;
+  color: $med-charcoal;
+  font-weight: normal;
+  letter-spacing: 0.36px;
+  text-transform: uppercase;
+}
+
 @mixin b4_12px_med_grey_caps{
   font-family: $font-Montserrat;
   font-size: 12px;
