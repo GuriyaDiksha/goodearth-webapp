@@ -80,7 +80,7 @@ export const searchList = (
       return newState;
     }
     case "UPDATE_FACET": {
-      console.log("payload====",action.payload)
+      console.log("payload====", action.payload);
       const newState = { ...state };
       newState.onload = false;
       newState.facetObject = action.payload;

@@ -70,5 +70,5 @@ export type State = {
   categorylevel1: boolean;
   showmenulevel1: boolean;
   shouldScroll: boolean;
-  selectedCatShop:string;
+  selectedCatShop: string;
 };

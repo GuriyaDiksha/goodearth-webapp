@@ -14,4 +14,4 @@ export const updateFilterState = (data: boolean) =>
 export const updateOnload = (data: boolean) =>
   actionCreator("UPDATE_ONLOAD", data);
 
-  export const updateFacets = (data: any) => actionCreator("UPDATE_FACET", data);
+export const updateFacets = (data: any) => actionCreator("UPDATE_FACET", data);
