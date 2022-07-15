@@ -136,6 +136,19 @@
   }
 }
 
+.caret-up{
+  border-bottom: 4px dashed;
+  border-right: 4px solid transparent;
+  border-left: 4px solid transparent;
+  color: #000;
+  &.gold-color{
+    color: #987E56
+  }
+  position: absolute;
+  top: 50%;
+  right: 0;
+}
+
 .arrow{
   @include carret();
   height: 5px;
