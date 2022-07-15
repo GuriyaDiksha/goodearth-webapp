@@ -1,86 +1,130 @@
 @font-face {
-    font-family: "HeaderFont";
-    src: url("#{$cdn}/media/fonts/Franklin%20Gothic%20Medium.ttf");
-    font-weight: normal;
-    font-display: swap;
-  }
+  font-family: "HeaderFont";
+  src: url("#{$cdn}/media/fonts/Franklin%20Gothic%20Medium.ttf");
+  font-weight: normal;
+  font-display: swap;
+}
 
-  @font-face {
-    font-family: "LatoFont";
-    src: url("#{$cdn}/media/fonts/Lato%20regular.ttf");
-    font-weight: normal;
-    font-display: swap;
-  }
-  
+@font-face {
+  font-family: "LatoFont";
+  src: url("#{$cdn}/media/fonts/Lato%20regular.ttf");
+  font-weight: normal;
+  font-display: swap;
+}
+
 //   @font-face {
 //     font-family: "LatoFont";
 //     src: url("../../fonts/Lato\ 700italic.ttf") format('truetype');
 //     font-weight: bold;
 //     font-style: italic;
 //   }
-  
-  @font-face {
-    font-family: "LatoFont";
-    src: url("#{$cdn}/media/fonts/Lato%20300.ttf");
-    font-weight: 300;
-    font-display: swap;
-  }
 
-  @font-face {
-    font-family: "LatoFont";
-    src: url("#{$cdn}/media/fonts/Lato%20700italic.ttf");
-    font-weight: bold;
-    font-style: italic;
-    font-display: swap;
-  }
-  @font-face {
-    font-family: "LatoFont";
-    src: url("#{$cdn}/media/fonts/Lato%20300italic.ttf") format('truetype');
-    font-weight: 300;
-    font-style: italic;
-    font-display: swap;
-  }
-  @font-face {
-    font-family: "Edwardian";
-    src: url("../fonts/Edwardian\ regular.ttf") format("truetype");
-    font-weight: 300;
-    font-style: italic;
-    font-display: swap;
-  }
-  @font-face {
-    font-family: "MrsEaves";
-    src: url("../fonts/MrsEavesOT-Roman.otf") format("opentype");
-    font-weight: 300;
-    font-style: italic;
-    font-display: swap;
-  }
+@font-face {
+  font-family: "LatoFont";
+  src: url("#{$cdn}/media/fonts/Lato%20300.ttf");
+  font-weight: 300;
+  font-display: swap;
+}
 
-  @font-face {
-    font-family: "Lora";
-    src: url("../fonts/Lora-Italic.ttf") format("truetype");
-    font-weight: 400;
-    font-style: italic;
-    font-display: swap;
-  }
+@font-face {
+  font-family: "LatoFont";
+  src: url("#{$cdn}/media/fonts/Lato%20700italic.ttf");
+  font-weight: bold;
+  font-style: italic;
+  font-display: swap;
+}
 
-  @font-face {
-    font-family: "Lora";
-    src: url("../fonts/Lora-regular.ttf") format("truetype");
-    font-display: swap;
-  }
-  // @font-face {
-  //   font-family: "Montserrat";
-  //   src: url("../fonts/Montserrat-italic.ttf") format("truetype");
-  //   font-weight: 300;
-  //   font-display: swap;
-  //   font-style: normal;
-  // }
-  @font-face {
-    font-family: "Montserrat";
-    src: url("../fonts/Montserrat-regular.ttf") format("truetype");
-    font-display: swap;
-    font-style: normal;
-  }
+@font-face {
+  font-family: "LatoFont";
+  src: url("#{$cdn}/media/fonts/Lato%20300italic.ttf") format('truetype');
+  font-weight: 300;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Edwardian";
+  src: url("../fonts/Edwardian\ regular.ttf") format("truetype");
+  font-weight: 300;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "MrsEaves";
+  src: url("../fonts/MrsEavesOT-Roman.otf") format("opentype");
+  font-weight: 300;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Lora";
+  src: url("../fonts/Lora-Italic.ttf") format("truetype");
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Lora";
+  src: url("../fonts/Lora-regular.ttf") format("truetype");
+  font-display: swap;
+}
+// @font-face {
+//   font-family: "Montserrat";
+//   src: url("../fonts/Montserrat-italic.ttf") format("truetype");
+//   font-weight: 300;
+//   font-display: swap;
+//   font-style: normal;
+// }
+// @font-face {
+//   font-family: "Montserrat";
+//   src: url("../fonts/Montserrat-regular.ttf") format("truetype");
+//   font-display: swap;
+//   font-style: normal;
+// }
+
+@font-face {
+  font-family: "Montserrat";
+  src: url("../fonts/Montserrat-Light.ttf") format("truetype");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Montserrat";
+  src: url("../fonts/Montserrat-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+
+@font-face {
+  font-family: "Montserrat";
+  src: url("../fonts/Montserrat-Medium.ttf") format("truetype");
+  font-style: normal;
+  font-weight:500;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Montserrat";
+  src: url("../fonts/Montserrat-SemiBold.ttf") format("truetype");
+  font-style: normal;
+  font-weight:600;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Montserrat";
+  src: url("../fonts/Montserrat-Bold.ttf") format("truetype");
+  font-style: normal;
+  font-weight:700;
+  font-display: swap;
+}
 
 @font-face {
   font-family: "Lora";
