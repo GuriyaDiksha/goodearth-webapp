@@ -22,6 +22,7 @@
         border-left: 6px solid transparent;
         color: $charcoal19;
         transition: transform 0.3s;
+        margin-left: 15px;
         &.caret-up{
             transform: rotate(180deg);
         }

@@ -34,12 +34,18 @@
 }
 
 .filter-text{
-    line-height: 33px;
-    font-size: 14px;
-    font-family: $font-Lato;
+  @include b4_12px_charcoal();
+    font-weight: bold;
     letter-spacing: 1px;
-    color: #ab1e56;
     text-transform: uppercase;
+    line-height: $secondary-header-height;
+    height:$secondary-header-height;
+    // line-height: 33px;
+    // font-size: 14px;
+    // font-family: $font-Lato;
+    // letter-spacing: 1px;
+    // color: #ab1e56;
+    // text-transform: uppercase;
 }
 
 .page-body{
@@ -88,7 +94,6 @@
 .inner-header {
     display: -webkit-inline-box;
     margin-left: 8%;
-    margin-top: 7px;
 }
 
 .subc-header{
