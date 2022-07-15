@@ -133,52 +133,56 @@
 }
 
 .cookieclass {
-position: fixed;
-    bottom: 0;
-    right: 0;
-    width: 300px;
-    height: 216px;
-    background-color: #fff;
-    z-index: 100;
-    padding: 10px 30px;
-    text-align: center;
-    font-family: $font-Lato;
-    margin: 20px;
-    border: 1px solid #b3b3b3;
-    .close-popup{
-      right: 20px;
-      font-size: 40px;
-      color: gray;
-    }
-    h3 {
-      font-size: 11px;
-    font-family: $font-Lato;
-    color: #333;
-    line-height: 50px;
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  width: 300px;
+  height: 216px;
+  background-color: #fff;
+  z-index: 100;
+  padding: 10px 30px;
+  text-align: center;
+  font-family: $font-Lato;
+  margin: 20px;
+  border: 1px solid #b3b3b3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  .close-popup{
+    right: 0px;
+    top: 0px;
+    font-size: 40px;
+    color: gray;
+  }
+  h3 {
+    font-family: $font-Montserrat;
+    color: $charcoal19;
+    font-size: 12px;
+    line-height: 30px;
     text-transform: capitalize;
     font-weight: bold;
     letter-spacing: 0;
-    margin-top: 10px;
     padding: 0;
-    }
-    p {
-      font-size: 12px;
+  }
+  p {
+    font-family: $font-Montserrat;
+    color: $charcoal19;
+    font-size: 12px;
     line-height: 20px;
-    margin-bottom: 5px;
     a {
+      color: $gold;
       text-decoration: underline;
-      color: $cerise;
     }
-    }
-    .ok-btn {
-    background-color: #ab1e56;
+  }
+  .ok-btn {
+    background-color: $aqua;
     padding: 10px 50px;
     color: #fff;
     cursor: pointer;
     display: inline-block;
-    margin: 15px 0;
     font-size: 14px;
-    }
+  }
 }
 .close-popup {
   position: absolute;
