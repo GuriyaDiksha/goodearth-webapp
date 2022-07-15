@@ -155,7 +155,7 @@
     cursor: pointer; 
     z-index: 1;
     .inner-profile-container{
-      margin-top: 6px;
+      margin-top: 9px;
     }
     .inner-wish-container {
       margin-top: 4px !important;
@@ -169,7 +169,7 @@
         }
       }
       a, div {
-       color: #000;
+       color: $med-charcoal;
        &:hover {
          text-decoration: none;
          color: inherit;
@@ -188,10 +188,10 @@
         }
       }
       i {
-        color: #000;
+        color: $med-charcoal;
         &:hover {
           text-decoration: none;
-          color: inherit;
+          color: $gold !important;
         }
       }
     }
@@ -212,7 +212,7 @@
       border-radius: 10px;
       &:hover {
         // color: $cerise;
-        color: inherit;
+        color: $gold;
       }
     }
     .icon-style {

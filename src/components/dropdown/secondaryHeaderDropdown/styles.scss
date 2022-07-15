@@ -1,0 +1,56 @@
+@import "../../../styles/partials/variables";
+@import "../../../styles/partials/mixins";
+
+.container {
+    height: $secondary-header-height;
+    min-width: 150px;
+    cursor: pointer;
+    .label{
+        font-family: $font-Montserrat;
+        font-size: 12px;
+        color: $charcoal19;
+        line-height: $secondary-header-height;
+        height:$secondary-header-height;
+        padding: 0px 15px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+    .caret{
+        border-top: 6px dashed;
+        border-right: 6px solid transparent;
+        border-left: 6px solid transparent;
+        color: $charcoal19;
+        transition: transform 0.3s;
+        margin-left: 15px;
+        &.caret-up{
+            transform: rotate(180deg);
+        }
+    }
+    .list-container{
+        transition: max-height 0.3s ease-in-out;
+        max-height: 0;
+        overflow: hidden;
+        ul {
+            font-family: $font-Montserrat;
+            font-size: 12px;
+            color: $charcoal19;
+            li{
+                height: $secondary-header-height;
+                line-height: $secondary-header-height;
+                background: $white;
+                padding: 0 15px;
+                &:hover{
+                    background: #f9f8f5;
+                    color: $gold;
+                    font-weight: bold;
+                }
+            }
+        }
+        &.open{
+            -webkit-box-shadow: 0px 4px 7px 3px #d1ccca;
+            -moz-box-shadow: 0px 4px  7px 3px #d1ccca;
+            box-shadow: 0px 4px 7px 3px #d1ccca;
+        }
+    }
+}

@@ -30,15 +30,18 @@
 }
 
 .plpMain:hover{
+    position: relative;
     .combodiv{
         display: flex;
     }
     .product-size-list{
         display: flex;
     }
-}
-.plpMain {
-    position: relative;
+    .product-n{
+        a {
+            font-weight: bold;
+        }
+    }
 }
 
 .hidden{
@@ -56,7 +59,7 @@
     line-height: 20px;
     cursor: pointer;
     p{
-        @include b4_12px_med_charcoal_caps();
+        @include b4_12px_charcoal_caps();
         letter-spacing: 1px;
         padding-top: 10px;
     }
@@ -69,7 +72,7 @@
         width: 100%;
     }
     .image-hover:nth-last-child(1) {
-        border-left: 1px solid ;
+        border-left: 2px solid $light-charcoal;
     }
 
     .wishlist {
@@ -125,10 +128,6 @@
         text-decoration: line-through;
         color: gray;
         font-family: $font-Lato;
-    }
-    a:hover {
-        color: #ab1e56;
-        text-decoration: none;
     }
 }
 .product-size {

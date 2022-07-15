@@ -1286,12 +1286,13 @@ class FilterList extends React.Component<Props, State> {
     const name: any = "all";
     if (html.length > 0) {
       html.push(
-        <div
-          onClick={e => this.clearFilter(e, "all")}
-          data-name={name}
-          className={styles.plp_filter_sub}
-        >
-          Clear All
+        <div data-name={name}>
+          <span
+            onClick={e => this.clearFilter(e, "all")}
+            className={styles.plp_filter_sub}
+          >
+            Clear All
+          </span>
         </div>
       );
       this.props.setFilterCount?.(filterCount);
@@ -1533,12 +1534,13 @@ class FilterList extends React.Component<Props, State> {
                 {this.createDiscountType(
                   this.props.facets && this.props.facets.availableDiscount
                 )}
-                <div
-                  onClick={e => this.clearFilter(e, "availableDiscount")}
-                  data-name="availableDiscount"
-                  className={styles.plp_filter_sub}
-                >
-                  Clear
+                <div data-name="availableDiscount">
+                  <span
+                    onClick={e => this.clearFilter(e, "availableDiscount")}
+                    className={styles.plp_filter_sub}
+                  >
+                    Clear
+                  </span>
                 </div>
               </div>
             </li>
@@ -1569,12 +1571,13 @@ class FilterList extends React.Component<Props, State> {
                 this.props.facetObject.categoryObj,
                 this.props.facets
               )}
-              <div
-                onClick={e => this.clearFilter(e, "productType")}
-                data-name="productType"
-                className={styles.plp_filter_sub}
-              >
-                Clear
+              <div data-name="productType">
+                <span
+                  onClick={e => this.clearFilter(e, "productType")}
+                  className={styles.plp_filter_sub}
+                >
+                  Clear
+                </span>
               </div>
             </div>
           </li>
@@ -1609,12 +1612,13 @@ class FilterList extends React.Component<Props, State> {
                     this.props.filtered_facets
                   )}
                 </span>
-                <div
-                  onClick={e => this.clearFilter(e, "currentColor")}
-                  data-name="currentColor"
-                  className={styles.plp_filter_sub}
-                >
-                  Clear
+                <div data-name="currentColor">
+                  <span
+                    onClick={e => this.clearFilter(e, "currentColor")}
+                    className={styles.plp_filter_sub}
+                  >
+                    Clear
+                  </span>
                 </div>
               </ul>
             </div>
@@ -1645,12 +1649,13 @@ class FilterList extends React.Component<Props, State> {
                       this.props.filtered_facets
                     )}
                   </ul>
-                  <div
-                    onClick={e => this.clearFilter(e, "availableSize")}
-                    data-name="availableSize"
-                    className={styles.plp_filter_sub}
-                  >
-                    Clear
+                  <div data-name="availableSize">
+                    <span
+                      onClick={e => this.clearFilter(e, "availableSize")}
+                      className={styles.plp_filter_sub}
+                    >
+                      Clear
+                    </span>
                   </div>
                 </div>
               </li>
@@ -1707,12 +1712,13 @@ class FilterList extends React.Component<Props, State> {
                   {this.state.rangevalue[1]}
                 </div>
               </div>
-              <div
-                onClick={e => this.clearFilter(e, "price")}
-                data-name="price"
-                className={styles.plp_filter_sub}
-              >
-                Clear
+              <div data-name="price">
+                <span
+                  onClick={e => this.clearFilter(e, "price")}
+                  className={styles.plp_filter_sub}
+                >
+                  Clear
+                </span>
               </div>
             </div>
           </li>
