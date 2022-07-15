@@ -289,7 +289,7 @@
         @include menu-copy();
       }
       li {
-        padding-left: 0px;
+        padding-left: 15px;
         label {
           white-space: nowrap;
           overflow: hidden;
@@ -306,17 +306,20 @@
     }
   }
   .menulevel1 {
-    text-transform: uppercase;
+    // @include plp_filter_cat();
     cursor: pointer;
     display: block;
-    font-size: 14px;
     &:after {
-      content: '+';
+      content: '';
       float: right;
-      font-size: 25px;
-      color: tint(#000, 50%);
-      font-family: $font-Lato;
-      font-weight: 300;
+      border: solid #ab1e56;
+      border-width: 0 1px 1px 0;
+      width: 8px;
+      height: 8px;
+      transform: rotate(313deg);
+      top: 15px;
+      position: relative;
+      right: 5px;
     }
   }
   .colorhead {
@@ -334,6 +337,26 @@
     }
   }
   .menulevel1-open {
+    &:after {
+      transform: rotate(45deg);
+    }
+  }
+  .menulevel2 {
+    text-transform: uppercase; 
+    cursor: pointer;
+    display: block;
+    font-size: 14px;
+    color: black;
+    &:after {
+      content: '+';
+      float: right;
+      font-size: 25px;
+      color: #ab1e56;
+      font-family: $font-Lato;
+      font-weight: 300;
+    }
+  }
+  .menulevel2-open {
     li{
       font-size: 14px;
     }
@@ -341,28 +364,20 @@
       content: '-';
     }
   }
-  .menulevel2 {
-    @include plp_filter_cat();
+  .menulevel2-view-all{
+    text-transform: uppercase; 
     cursor: pointer;
     display: block;
-    &:after {
-      content: '';
-      float: right;
-      border: solid tint(#000, 50%);
-      border-width: 0 1px 1px 0;
-      width: 8px;
-      height: 8px;
-      transform: rotate(313deg);
-      top: 15px;
-      position: relative;
-      right: 5px;
+    font-size: 14px;
+    color: black;
+  }
+  .selected-cat-shop{
+    color: #ab1e56;
+    &::after{
+      content: "";
     }
   }
-  .menulevel2-open {
-    &:after {
-      transform: rotate(45deg);
-    }
-  }
+  
 }
 
 .categorylabel {
