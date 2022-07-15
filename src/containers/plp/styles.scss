@@ -34,12 +34,18 @@
 }
 
 .filter-text{
-    line-height: 33px;
-    font-size: 14px;
-    font-family: $font-Lato;
+  @include b4_12px_charcoal();
+    font-weight: bold;
     letter-spacing: 1px;
-    color: #ab1e56;
     text-transform: uppercase;
+    line-height: $secondary-header-height;
+    height:$secondary-header-height;
+    // line-height: 33px;
+    // font-size: 14px;
+    // font-family: $font-Lato;
+    // letter-spacing: 1px;
+    // color: #ab1e56;
+    // text-transform: uppercase;
 }
 
 .page-body{
@@ -88,7 +94,6 @@
 .inner-header {
     display: -webkit-inline-box;
     margin-left: 8%;
-    margin-top: 7px;
 }
 
 .subc-header{
@@ -347,10 +352,8 @@
       cursor: pointer;
       text-decoration: underline;
       text-transform: capitalize;
-      span {
-        &:hover{
-          color: $aqua;
-        }
+      &:hover{
+        color: $aqua-bold;
       }
     }
   }
@@ -575,15 +578,17 @@
   input[type="checkbox"]:checked + label:before {
     content: '';
     position: absolute;
+    padding:2px;
+    background-clip: content-box;
     left: 0;
     top: 6px;
     width: 25px;
     height: 25px;
     border-radius: 50%;
     background-color: var(--my-color-var);
-    -moz-box-shadow: inset 0 2px 6px #0e0b0b;
-    -webkit-box-shadow: inset 0 2px 6px #929292;
-    box-shadow: inset 0 2px 6px #929292;
+  }
+  input[type="checkbox"]:checked + label:before{
+    border: 1px solid black;
   }
 }
 
@@ -591,6 +596,7 @@
   input[type="radio"]:not(:checked) + label:before,
   input[type="radio"]:checked + label:before, [type="checkbox"]:not(:checked) + label:before,
   input[type="checkbox"]:checked + label:before {
+    background-clip: content-box;
     background-image: var(--my-bg-image);
   }
 }
