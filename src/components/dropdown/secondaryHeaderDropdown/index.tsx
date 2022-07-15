@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { SecondaryHeaderDropdownMenuProps } from "./typings";
 import cs from "classnames";
 import useOutsideDetection from "../../../hooks/useOutsideDetetion";
@@ -11,6 +11,7 @@ const SecondaryHeaderDropdown = ({
   items
 }: SecondaryHeaderDropdownMenuProps) => {
   const [menuOpen, setOpenState] = useState(false);
+  const [displayValue, setDisplayValue] = useState("");
 
   const onInsideClick = () => {
     setOpenState(!menuOpen);
@@ -38,12 +39,22 @@ const SecondaryHeaderDropdown = ({
     onChange(item.value, item.label);
   };
 
+  useEffect(() => {
+    let val = "";
+    items.map(item => {
+      if (item.value == value) {
+        val = item.label;
+      }
+    });
+    setDisplayValue(val);
+  }, [value]);
+
   const { ref } = useOutsideDetection<HTMLDivElement>(onOutsideClick);
 
   return (
     <div className={cs(styles.container)} ref={ref}>
       <div className={cs(styles.label)} onClick={onInsideClick}>
-        <span className={cs(styles.labelText)}>{value}</span>
+        <span className={cs(styles.labelText)}>{displayValue}</span>
         <span
           className={cs(styles.labelIcon, styles.caret, {
             [styles.caretUp]: menuOpen
