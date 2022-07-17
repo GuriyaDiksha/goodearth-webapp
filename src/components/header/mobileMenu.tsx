@@ -16,6 +16,7 @@ import {
   MenuComponentImageData,
   MenuComponentL2L3Data
 } from "./typings";
+import { currencyCodes } from "constants/currency";
 import styles from "./styles.scss";
 import fontStyles from "styles/iconFonts.scss";
 import bootstrap from "styles/bootstrap/bootstrap-grid.scss";
@@ -911,10 +912,11 @@ class Mobilemenu extends React.Component<Props, MobileState> {
             onClick={showCurrency}
           >
             {" "}
-            change currency:
+            change currency: {this.props.currency}(
+            {String.fromCharCode(...currencyCodes[this.props.currency])})
           </li>
           <li className={showC ? "" : styles.hidden}>
-            <ul className={styles.noMargin}>
+            <ul className={cs(styles.noMargin, styles.lowerMenuCurrencyList)}>
               {curryList.map(item => {
                 return (
                   <li
