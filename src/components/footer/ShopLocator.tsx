@@ -61,10 +61,9 @@ export const ShopLocator: React.FC<ShopLocatorProps> = ({
   const { ref } = useOutsideDetection<HTMLDivElement>(onOutsideClick);
   return (
     <div
-      className={cs(
-        styles.shopLocator,
-        saleStatus ? styles.ftrHeading80blkSale : styles.ftrHeadingWhite
-      )}
+      className={cs(styles.shopLocator, {
+        [styles.ftrHeading80blkSale]: saleStatus
+      })}
     >
       <div
         className={cs(styles.cursorPointer, globalStyles.pointer)}
