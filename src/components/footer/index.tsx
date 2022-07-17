@@ -677,15 +677,7 @@ class Footer extends React.Component<Props, FooterState> {
                           { [styles.footerSocialicons]: !this.props.saleStatus }
                         )}
                       >
-                        <div
-                          className={cs(
-                            {
-                              [styles.ftrHeadingWhiteSale]: this.props
-                                .saleStatus
-                            },
-                            { [styles.ftrHeadingWhite]: !this.props.saleStatus }
-                          )}
-                        >
+                        <div className={cs(styles.mobileFindUsOn)}>
                           find us on
                         </div>
                         <div

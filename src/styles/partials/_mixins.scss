@@ -835,6 +835,20 @@ $list: $grey 92%, $white 8%;
   color: $white;
 }
 
+@mixin b3_14px_montserrat_semibold_white{
+  font-family: $font-Montserrat;
+  font-size: 14px;
+  font-weight: $semibold;
+  color: $white;
+}
+
+@mixin b3_14px_montserrat_semibold_charcoal{
+  font-family: $font-Montserrat;
+  font-size: 14px;
+  font-weight: $semibold;
+  color: $charcoal19;
+}
+
 @mixin b3_14px_montserrat_gold{
   font-family: $font-Montserrat;
   font-size: 14px;

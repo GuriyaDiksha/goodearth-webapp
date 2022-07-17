@@ -1549,6 +1549,9 @@ ul.inner-menu-mobile {
   .title {
     @include b3_14px_montserrat_bold_charcoal();
     text-transform: uppercase;
+    a {
+        color: inherit;
+    }
   }
 }
 

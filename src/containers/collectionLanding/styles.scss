@@ -33,7 +33,7 @@
 }
 
 .filter-text{
-    @include b4_12px_charcoal();
+    @include b4_12px_montserrat_charcoal();
     font-weight: bold;
     letter-spacing: 1px;
     text-transform: uppercase;
@@ -58,12 +58,12 @@
         margin-top: $header-height;
     }
     h1{
-        @include h1_30px_charcoal();
+        @include h1_30px_lora_charcoal();
         font-style: italic;
         text-transform: capitalize;
     }
     p {
-        @include b3_14px_charcoal();
+        @include b3_14px_montserrat_charcoal();
         letter-spacing: 1px;
     }
 }
