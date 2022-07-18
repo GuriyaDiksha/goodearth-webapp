@@ -393,7 +393,7 @@ input[type="radio"]:checked+label:before {
     padding-left: 28px;
   }
   textarea, textarea:focus {
-    @include b4_12px_charcoal();
+    @include b4_12px_montserrat_charcoal();
     background-color: #f2f2f2;
     border: none;
     width: 100%;

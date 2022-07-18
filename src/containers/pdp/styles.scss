@@ -73,7 +73,7 @@ $pdp-top: $header-height + $secondary-header-height;
 
 .looks-btn {
     background-color: white;
-    @include b4_12px_charcoal_caps();
+    @include b4_12px_montserrat_charcoal_caps();
     line-height: 42px;
     text-align: center;
     font-size: 12px;
@@ -124,7 +124,7 @@ $pdp-top: $header-height + $secondary-header-height;
     padding: 0 30px;
 }
 .header {
-    @include h2_24px_charcoal();
+    @include h2_24px_lora_charcoal();
     line-height: 60px;
     text-transform: capitalize;
     text-align: center;

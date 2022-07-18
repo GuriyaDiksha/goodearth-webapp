@@ -626,7 +626,7 @@
     }
   }
   .menulevel1-stories {
-    @include b4_14px_CAPS_charcoal();
+    @include b3_14px_montserrat_caps_charcoal();
     // color: #000;
     // text-transform: uppercase;
     // font-size: 16px;
@@ -1624,7 +1624,7 @@ ul.inner-menu-mobile {
 //   display: inline;
 // }
 .announcement-content {
-  @include b5_10px_white();
+  @include b5_10px_montserrat_white();
 }
 .announcement-cta-btn {
   padding: 0px 8px;
@@ -1696,7 +1696,3 @@ ul.inner-menu-mobile {
 .cart-gold{
   color: $gold !important;
 }
-
-// .lower-menu-login-logout {
-//   @include b3_14px_gold();
-// }
