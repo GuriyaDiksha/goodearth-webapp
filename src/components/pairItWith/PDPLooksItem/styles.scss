@@ -106,11 +106,11 @@
     overflow: hidden;
     text-overflow: ellipsis;
     a {
-        @include b3_14px_charcoal();
+        @include b3_14px_montserrat_charcoal();
         text-transform: capitalize;
     }
     span {
-        @include b3_14px_med_charcoal();
+        @include b3_14px_montserrat_medcharcoal();
         text-transform: capitalize;
     }
     .discountprice {
@@ -129,7 +129,7 @@
     }
 }
 .product-size {
-    @include b5_10px_charcoal();
+    @include b5_10px_montserrat_charcoal();
     line-height: 25px;
     text-transform: capitalize;
     justify-content: center;
@@ -166,7 +166,8 @@
     top: 50%;
     left: 50%;
     a{
-        @include b4_12px_med_charcoal_caps();
+        @include b4_12px_medium_charcoal_caps();
+        text-transform: uppercase;
     }
     opacity: .8;
     transform: translate(-50%, -50%);
