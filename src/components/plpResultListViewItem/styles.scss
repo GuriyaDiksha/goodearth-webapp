@@ -106,17 +106,17 @@
     overflow: hidden;
     text-overflow: ellipsis;
     a {
-        @include b3_14px_charcoal();
+        @include b3_14px_montserrat_charcoal();
         text-transform: capitalize;
         letter-spacing: 0.5px;
     }
     span {
-        @include b3_14px_med_charcoal();
+        @include b3_14px_montserrat_charcoal();
         text-transform: capitalize;
     }
     .discountprice {
         color: #ab1e56;
-        font-family:  $font-Lato;
+        font-family:  $font-Montserrat;
         font-size: 14px;
     }
     
@@ -124,7 +124,7 @@
         font-size: 14px;
         text-decoration: line-through;
         color: gray;
-        font-family: $font-Lato;
+        font-family: $font-Montserrat;
     }
     a:hover {
         color: #ab1e56;
@@ -225,10 +225,8 @@
 .product-btn{
     background-color: $aqua;
     span{
-        color: $white;
+        @include b3_14px_montserrat_white();
         text-transform: uppercase;
-        font-size:14px;
-        font-family: $font-Montserrat;
     }
     &.enquire-notify-me{
         background-color: $light-charcoal;

@@ -39,7 +39,7 @@
     }
     .product-n{
         a {
-            font-weight: bold;
+            @include b3_14px_montserrat_medium_charcoal();
         }
     }
 }
@@ -59,7 +59,7 @@
     line-height: 20px;
     cursor: pointer;
     p{
-        @include b4_12px_charcoal_caps();
+        @include b4_12px_montserrat_charcoal_caps();
         letter-spacing: 1px;
         padding-top: 10px;
     }
@@ -108,12 +108,12 @@
     overflow: hidden;
     text-overflow: ellipsis;
     a {
-        @include b3_14px_charcoal();
+        @include b3_14px_montserrat_charcoal();
         text-transform: capitalize;
         letter-spacing: 0.5px;
     }
     span {
-        @include b3_14px_med_charcoal();
+        @include b3_14px_montserrat_charcoal();
         text-transform: capitalize;
         letter-spacing: 0.5px;
     }
