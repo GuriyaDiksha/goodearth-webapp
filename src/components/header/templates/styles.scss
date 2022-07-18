@@ -50,6 +50,9 @@
         &:hover{
             font-weight: $medium;
         }
+        strong{
+            font-weight: $medium;
+        }
     }
     .subheading {
         font-size: 11px;
@@ -93,6 +96,9 @@
         &:hover{
             font-weight: $medium;
         }
+        strong{
+            font-weight: $medium;
+        }
     }
     .subheading {
         font-size: 11px;
@@ -132,6 +138,9 @@
         border-bottom: none;
         line-height: 18px;
         @include b4_12px_montserrat_charcoal();
+        strong{
+            font-weight: $medium;
+        }
     }
     .subheading {
         font-size: 11px;
@@ -243,6 +252,9 @@
             line-height: 18px;
             display: block;
             @include b4_12px_montserrat_charcoal();
+            strong{
+                font-weight: $medium;
+            }
         }
         .subheading {
             display: none;
@@ -304,6 +316,9 @@
         &:hover{
             font-weight: $medium;
         }
+        strong{
+            font-weight: $medium;
+        }
     }
     .subheading {
         font-size: 11px;
@@ -362,6 +377,9 @@
             line-height: 18px;
             display: block;
             @include b4_12px_montserrat_charcoal();
+            strong{
+                font-weight: $medium;
+            }
         }
         .subheading {
             display: none;
