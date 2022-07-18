@@ -2,7 +2,7 @@
 @import "../../styles/partials/mixins";
 
 .recommend-header {
-    @include h2_24px_charcoal();
+    @include h2_24px_lora_charcoal();
     width: 100%;
     line-height: 60px;
     text-transform: capitalize;
@@ -55,14 +55,11 @@
     overflow: hidden;
     text-overflow: ellipsis;
     a {
-        @include b3_14px_charcoal();
+        @include b3_14px_montserrat_charcoal();
         text-transform: capitalize;
     }
-    a:hover{
-        // color: $gold;
-    }
     span{
-        @include b3_14px_med_charcoal();
+        @include b3_14px_montserrat_medcharcoal();
     }
     .discountprice {
         color: $gold;

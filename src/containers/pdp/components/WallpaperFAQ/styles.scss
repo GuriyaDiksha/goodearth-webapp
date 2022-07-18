@@ -74,7 +74,7 @@
             stroke-width: 0.5px;
         }
         .section-title {
-            @include b3_14px_aqua();
+            @include b3_14px_montserrat_aqua();
         }
     }
 }
@@ -82,14 +82,13 @@
 .section-title {
     padding: 11px 2px;
     margin-right: 10px;
-    @include b3_14px_charcoal();
+    @include b3_14px_montserrat_charcoal();
     align-self: center;
     text-align: left;;
 }
 
 .accordion-title {
-    @include b3_14px_charcoal();
-    font-weight: 600;
+    @include b3_14px_montserrat_medium_charcoal();
     padding-top: 10px;
     padding-left: 15px;
     margin-bottom: 10px !important;
@@ -101,7 +100,7 @@
 
 .accordion-text {
     width: 90%;
-    @include b4_12px_charcoal();
+    @include b4_12px_montserrat_charcoal();
     margin: 0 0 20px 0px;
     line-height: 20px;
     padding-left: 15px;
@@ -175,7 +174,7 @@
 
         h2 {
             line-height: 150%;
-            @include h2_24px_charcoal();
+            @include h2_24px_lora_charcoal();
             text-transform: capitalize;
         }
     }

@@ -142,10 +142,10 @@ const Section4: React.FC<Section4Props> = props => {
               <p>Dear {recipientName}</p>
               <p className={globalStyles.voffset3}>
                 You have received a Good Earth eGift card <br /> worth{" "}
-                <strong className={styles.aqua}>
+                <span className={styles.aqua}>
                   {String.fromCharCode(...code)}
                   {customPrice}
-                </strong>{" "}
+                </span>{" "}
                 from
                 {" " + senderName}
               </p>
@@ -218,9 +218,9 @@ const Section4: React.FC<Section4Props> = props => {
                       required
                     />
                     {nummsg ? (
-                      <p className={cs(globalStyles.errorMsg)}>{nummsg}</p>
+                      <p className={cs(styles.errorMsg)}>{nummsg}</p>
                     ) : (
-                      <p className={globalStyles.errorMsg}></p>
+                      <p className={styles.errorMsg}></p>
                     )}
                   </div>
                 </div>

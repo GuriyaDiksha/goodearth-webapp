@@ -7,7 +7,7 @@ $font-Edwar: "Edwardian";
 $font-MrsEaves: "MrsEaves";
 $border: 1px solid tint(#000, 80%);
 $bp-xlarge: 120em; //breakpoint 1920px
-$font-Montserrat: "Montserrat";
+$font-Montserrat: "Montserrat", "sans-serif";
 $font-Lora: "Lora", serif;
 
 // Colors
@@ -39,6 +39,7 @@ $grid-view-bar: 50px;
 $timer-height: 40px;
 
 // ================= UI Kit Colors ============================ //
+$aqua-text: #548B8B;
 // Primary Palette
 $cerise: #ab1e56;
 $gold: #9C7D50;
@@ -54,3 +55,10 @@ $aqua-bold: #548B8B;
 $aqua-light: #D0E0E0;
 $cerise-light: #C6507F;
 $gold-light: #B59C77;
+
+// ================= Font Weights ============================ //
+$light: 300;
+$regular: 400;
+$medium: 500;
+$semibold: 600;
+$bold: 700;

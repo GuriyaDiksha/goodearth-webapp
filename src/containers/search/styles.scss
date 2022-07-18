@@ -277,7 +277,7 @@
     letter-spacing: 1px;
     line-height: 40px;
     border-bottom: 1px solid tint(#000,90%);
-    @include b4_12px_med_gold_caps();
+    @include b4_12px_montserrat_gold_caps();
     li {
       border-bottom: none;
       // padding-left: 20px;
@@ -349,7 +349,7 @@
     }
   }
   .menulevel2 {
-    @include b4_12px_charcoal_caps();
+    @include b4_12px_montserrat_charcoal_caps();
     cursor: pointer;
     display: block;
     white-space: nowrap;
@@ -402,7 +402,7 @@
         }
       }
     }
-    @include b4_light_12px_charcoal();
+    @include b4_12px_montserrat_light_charcoal();
     text-transform: capitalize;
     &.country-code {
       display: flex;

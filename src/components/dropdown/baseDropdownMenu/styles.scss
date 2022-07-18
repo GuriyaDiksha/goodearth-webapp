@@ -74,7 +74,7 @@
 }
 
 .menu-item {
-  @include b5_10px_charcoal();
+  @include b5_10px_montserrat_charcoal();
   line-height: 40px;
   cursor: pointer;
   padding: 0 10px;

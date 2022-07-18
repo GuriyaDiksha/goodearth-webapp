@@ -63,7 +63,7 @@
       padding: 0 15px;
       // cursor: pointer;
       a.menu-item-link {
-        @include b3_14px_charcoal();
+        @include b3_14px_montserrat_caps_charcoal();
         display: block;
         text-align: center;
         text-transform: uppercase;
@@ -465,7 +465,7 @@
     margin-bottom: 100px;
   }
   li {
-    @include b4_12px_charcoal();
+    @include b4_12px_montserrat_charcoal();
     text-transform: capitalize;
     line-height: 40px;
     a {
@@ -502,13 +502,19 @@
     li {
       padding-left: 15px;
       text-transform: capitalize;
+      &.lower-menu-currency {
+        @include b5_10px_montserrat_charcoal();
+      }
 
+      &.lower-menu-selected-currency {
+        @include b5_10px_semibold_montserrat_charcoal();
+      }
     }
     i {
       font-size: 18px;
     }
     &.lower-menu-login-logout {
-      @include b3_14px_gold();
+      @include b3_14px_montserrat_gold();
       text-transform: capitalize;
       letter-spacing: 0.8px;
     }
@@ -566,7 +572,7 @@
     text-transform: uppercase;
     position: relative;
     span {
-      @include b3_14px_med_charcoal();
+      @include b3_14px_montserrat_charcoal();
     }
     li {
       border-bottom: none;
@@ -575,11 +581,11 @@
       //   border-top: 1px solid tint(#000, 90%);
       // }
       a, span {
-        @include b4_12px_charcoal();
+        @include b4_12px_montserrat_charcoal();
         text-transform: capitalize;
         display: block;
         &.highlight{
-          font-weight: bold;
+          @include b4_12px_montserrat_semibold_charcoal();
         }
       }
       li {
@@ -590,7 +596,7 @@
     }
   }
   .menulevel1 {
-    @include b4_14px_CAPS_charcoal();
+    @include b3_14px_montserrat_caps_charcoal();
     padding-left: 20px;
     display: block;
     &:after {
@@ -620,7 +626,7 @@
     }
   }
   .menulevel1-stories {
-    @include b4_14px_CAPS_charcoal();
+    @include b3_14px_montserrat_caps_charcoal();
     // color: #000;
     // text-transform: uppercase;
     // font-size: 16px;
@@ -1525,7 +1531,7 @@ ul.inner-menu-mobile {
 .inner-menu-heading {
   text-align: center;
   .back {
-    @include b5_10px_charcoal();
+    @include b5_10px_montserrat_charcoal();
     text-transform: capitalize;
     &:before {
       content: '';
@@ -1541,8 +1547,11 @@ ul.inner-menu-mobile {
     }
   }
   .title {
-    @include b3_14px_bold_charcoal();
+    @include b3_14px_montserrat_bold_charcoal();
     text-transform: uppercase;
+    a {
+        color: inherit;
+    }
   }
 }
 
@@ -1615,7 +1624,7 @@ ul.inner-menu-mobile {
 //   display: inline;
 // }
 .announcement-content {
-  @include b5_10px_white();
+  @include b5_10px_montserrat_white();
 }
 .announcement-cta-btn {
   padding: 0px 8px;
@@ -1672,16 +1681,13 @@ ul.inner-menu-mobile {
   }
 }
 
-.lower-menu-selected-currency {
-  font-size: 10px !important;
-  color: $charcoal19 !important;
-  font-weight: bold !important;
-}
+// .lower-menu-selected-currency {
+//   @include b5_10px_semibold_montserrat_charcoal();
+// }
 
-.lower-menu-currency {
-  font-size: 10px !important;
-  color: $charcoal19 !important;
-}
+// .lower-menu-currency {
+//   @include b5_10px_montserrat_charcoal();
+// }
 
 .wishlist-gold{
   color: $gold !important;
@@ -1690,7 +1696,3 @@ ul.inner-menu-mobile {
 .cart-gold{
   color: $gold !important;
 }
-
-// .lower-menu-login-logout {
-//   @include b3_14px_gold();
-// }
