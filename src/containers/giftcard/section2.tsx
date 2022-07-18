@@ -328,7 +328,7 @@ const Section2: React.FC<Section2Props> = ({
                     }}
                   />
                 </div>
-                <p className={cs(globalStyles.voffset2, styles.clrP)}>
+                <p className={cs(globalStyles.voffset2, styles.clrNote)}>
                   Please note: Gift cards can only be redeemed in the currency
                   they are bought in, so please choose the country based on your
                   recipient&apos;s address
