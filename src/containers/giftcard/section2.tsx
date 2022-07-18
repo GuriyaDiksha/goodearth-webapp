@@ -400,9 +400,9 @@ const Section2: React.FC<Section2Props> = ({
                               errorBorder ? globalStyles.errorBorder : ""
                             }
                             placeholder="Enter Custom Value"
-                            onClick={e => {
-                              setValuetext(e);
-                            }}
+                            // onClick={e => {
+                            //   setValuetext(e);
+                            // }}
                             onKeyUp={e => {
                               setValuetext(e);
                             }}
@@ -439,7 +439,14 @@ const Section2: React.FC<Section2Props> = ({
             </div>
             <div className={cs(bootstrapStyles.col12, styles.buttonRow)}>
               <div className={cs(styles.imageSelectBtnContainer)}>
-                <button className={styles.imageSelectBtn} onClick={gotoNext}>
+                <button
+                  className={cs(
+                    styles.imageSelectBtn,
+                    { [styles.mobileFullWidthButton]: mobile },
+                    { [styles.buttonErrBg]: selectvalue == "" || nummsg != "" }
+                  )}
+                  onClick={gotoNext}
+                >
                   proceed to filling details&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                   <span></span>
                 </button>
