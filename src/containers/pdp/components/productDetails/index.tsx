@@ -34,6 +34,7 @@ import CookieService from "../../../../services/cookie";
 import { Props } from "./typings";
 import {
   ChildProductAttributes,
+  GroupedProductItem,
   PartialProductItem,
   Product
 } from "typings/product";
@@ -217,6 +218,7 @@ const ProductDetails: React.FC<Props> = ({
       setSelectedSize(size);
     }
   }, [selectedId]);
+
   useEffect(() => {
     if (childAttributes.length === 1) {
       setSelectedSize(childAttributes[0]);
@@ -229,6 +231,7 @@ const ProductDetails: React.FC<Props> = ({
       dispatch(updateSizeChartSelected(newSize.id));
     }
   }, [discountedPriceRecords]);
+
   useEffect(() => {
     if (priceRecords[currency] == 0) {
       history.push("/error-page", {});
@@ -726,6 +729,33 @@ const ProductDetails: React.FC<Props> = ({
     return show;
   }, [childAttributes]);
   const withBadge = images && images.length && images[0].badgeImagePdp;
+
+  //For Current Product images in color variant array
+  let currentProductColorObj: GroupedProductItem = {
+    color: [""],
+    images: images,
+    title: "",
+    url: "",
+    id: 0
+  };
+  if (groupedProducts) {
+    if (groupedProducts.length > 0) {
+      if (childAttributes[0].color) {
+        currentProductColorObj = {
+          color: childAttributes[0].color,
+          images: images,
+          title: title,
+          url: url,
+          id: id
+        };
+      }
+    }
+  }
+
+  const currentProductColorObjArr: GroupedProductItem[] = [
+    currentProductColorObj
+  ];
+
   return (
     <Fragment>
       {/* {!mobile && !isQuickview && showDock && (
@@ -841,7 +871,7 @@ const ProductDetails: React.FC<Props> = ({
                   [styles.spacerQuickview]: isQuickview && withBadge
                 })}
               >
-                <div className={bootstrap.col8}>
+                <div className={bootstrap.col9}>
                   <div className={bootstrap.row}>
                     <div
                       className={cs(
@@ -860,7 +890,10 @@ const ProductDetails: React.FC<Props> = ({
                       })}
                     >
                       <ColorSelector
-                        products={groupedProducts}
+                        products={[
+                          ...currentProductColorObjArr,
+                          ...groupedProducts
+                        ]}
                         onClick={closeModal ? closeModal : () => null}
                       />
                     </div>
