@@ -58,9 +58,6 @@
         @include b3_14px_montserrat_charcoal();
         text-transform: capitalize;
     }
-    a:hover{
-        // color: $gold;
-    }
     span{
         @include b3_14px_montserrat_medcharcoal();
     }
