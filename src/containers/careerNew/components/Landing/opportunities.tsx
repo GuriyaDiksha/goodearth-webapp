@@ -5,6 +5,8 @@ import { Data } from "containers/careerNew/typings";
 import cardImage from "../../../../images/careers/CareersPostCard.png";
 import { useHistory } from "react-router";
 import Loader from "components/Loader";
+import bootstrap from "../../../../styles/bootstrap/bootstrap-grid.scss";
+import cs from "classnames";
 
 type Props = {
   data: Data[];
@@ -30,10 +32,10 @@ const Opportunities: React.FC<Props> = ({ data, title }) => {
     <>
       <h1 className={landing.heading}>{title}</h1>
       {isLoading && <Loader />}
-      <div className={landing.dept_card_wrapper}>
+      <div className={cs(landing.dept_card_wrapper, bootstrap.row)}>
         {list?.map((ele, i) => (
           <div
-            className={landing.dept_card}
+            className={cs(landing.dept_card, bootstrap.colmd4)}
             key={i}
             onClick={() => history.push(`/careers/list/${ele.dept}`)}
           >
