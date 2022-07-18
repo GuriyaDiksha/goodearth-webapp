@@ -167,7 +167,8 @@
 }
 .outstock {
     background: url('../../images/outofstock-cta.svg') no-repeat;
-    @include b4_12px_med_charcoal_caps();
+    @include b4_12px_montserrat_medcharcoal();
+    text-transform: uppercase;
     position: absolute;
     top: 50%;
     left: 50%;

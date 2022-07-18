@@ -158,7 +158,7 @@
         margin-top: 50px;
       }
       label {
-        @include b5_10px_charcoal();
+        @include b5_10px_montserrat_charcoal();
         text-transform: none;
         a {
           color: $charcoal19;

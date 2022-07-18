@@ -132,7 +132,7 @@
     }
 }
 .product-size {
-    @include b5_10px_charcoal();
+    @include b5_10px_montserrat_charcoal();
     line-height: 25px;
     text-transform: capitalize;
     justify-content: center;
@@ -165,7 +165,8 @@
 }
 .outstock {
     background: url('../../images/outofstock-cta.svg') no-repeat;
-    @include b4_12px_med_charcoal_caps();
+    @include b4_12px_montserrat_medcharcoal();
+    text-transform: uppercase;
     position: absolute;
     top: 50%;
     left: 50%;
