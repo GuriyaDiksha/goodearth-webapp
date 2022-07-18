@@ -34,18 +34,11 @@
 }
 
 .filter-text{
-  @include b4_12px_charcoal();
-    font-weight: bold;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    line-height: $secondary-header-height;
-    height:$secondary-header-height;
-    // line-height: 33px;
-    // font-size: 14px;
-    // font-family: $font-Lato;
-    // letter-spacing: 1px;
-    // color: #ab1e56;
-    // text-transform: uppercase;
+  @include b4_12px_medium_charcoal_caps();
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  line-height: $secondary-header-height;
+  height:$secondary-header-height;
 }
 
 .page-body{
@@ -287,8 +280,7 @@
 
 .filter-elements {
     span {
-      @include plp_filter_cat();
-      font-weight: normal;
+      @include b4_12px_medium_charcoal_caps();
       padding-left: 0px;
     }
     ul {
@@ -297,7 +289,7 @@
         span {
           text-transform: capitalize;
           &:first-child {
-            @include plp_filter_header();
+            @include b5_10px_montserrat_charcoal();
           }
           &.ellipses{
             color: $med-charcoal;
@@ -326,7 +318,7 @@
     letter-spacing: 1px;
     line-height: 40px;
     border-bottom: 1px solid tint(#000,90%);
-    @include b4_12px_med_gold_caps();
+    @include b4_12px_medium_gold_caps();
     li {
       border-bottom: none;
       // padding-left: 20px;
@@ -398,7 +390,7 @@
     }
   }
   .menulevel2 {
-    @include b4_12px_charcoal_caps();
+    @include b4_12px_montserrat_charcoal_caps();
     cursor: pointer;
     display: block;
     white-space: nowrap;
@@ -454,7 +446,7 @@
         }
       }
     }
-    @include plp_filter_copy();
+    @include b4_12px_montserrat_light_charcoal();
     text-transform: capitalize;
     &.country-code {
       display: flex;

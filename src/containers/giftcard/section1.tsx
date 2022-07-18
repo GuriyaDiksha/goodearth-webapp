@@ -141,7 +141,12 @@ const Section1: React.FC<Section1Props> = props => {
           </div>
           <div className={cs(bootstrapStyles.col12, styles.buttonRow)}>
             <div className={cs(styles.imageSelectBtnContainer)}>
-              <button className={styles.imageSelectBtn} onClick={gotoNext}>
+              <button
+                className={cs(styles.imageSelectBtn, {
+                  [styles.mobileFullWidthButton]: mobile
+                })}
+                onClick={gotoNext}
+              >
                 Confirm & Choose Value&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 <span></span>
               </button>

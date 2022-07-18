@@ -5,7 +5,7 @@
 .txt-settings {
   padding: 1em 21em 0 21em;
   h2 {
-    @include h2_24px_med_charcoal();
+    @include h2_24px_lora_charcoal();
     padding-top: 40px;
     line-height: 34px;
   }
@@ -19,7 +19,6 @@
 }
 
 h2 {
-  color: #000;
   text-transform: none;
   letter-spacing: 0;
   line-height: 34px;
@@ -29,41 +28,47 @@ h2 {
 
 
 .clr-p {
-  @include b4_12px_charcoal();
+  @include b4_12px_montserrat_charcoal();
+  letter-spacing: 1px;
+}
+
+.clr-note {
+  @include b5_10px_montserrat_charcoal();
   letter-spacing: 1px;
 }
 
 .gift-font {
-  @include b3_14px_charcoal();
+  @include b3_14px_montserrat_charcoal();
   letter-spacing: 1px;
-  strong {
+  .aqua {
+    font-weight: $medium;
     color: $aqua;
   }
 }
 
 .small-head-text {
-  @include b4_light_12px_charcoal();
+  @include b4_12px_montserrat_light_charcoal();
 }
 
 .message-text{
-  @include b3_14px_bold_charcoal();
+  @include b3_14px_montserrat_medium_charcoal();
 }
 
 .recipient-font{
-  @include b3_14px_bold_charcoal();
-  font-weight: bold;
+  @include b3_14px_montserrat_medium_charcoal();
   letter-spacing: 0.5px;
 }
 
 .gift-heading {
-  @include b4_light_12px_charcoal();
+  @include b4_12px_montserrat_light_charcoal();
   padding-top: 20px;
   letter-spacing: 0.5px;
 }
 
 .subscribe{
   label {
-    @include b5_10px_charcoal();
+    @include b5_10px_montserrat_charcoal();
+    letter-spacing: 0.5px;
     a {
       color: $charcoal19;
     }
@@ -71,7 +76,7 @@ h2 {
 }
 
 .gc-head {
-  @include b4_12px_med_charcoal_caps();
+  @include b4_12px_montserrat_medium_charcoal();
   text-transform: uppercase;
   letter-spacing: 1px;
 }
@@ -210,8 +215,9 @@ h2 {
 
 .back-gc {
   line-height: 50px;
-  @include b4_12px_med_grey_caps();
+  @include b4_12px_montserrat_medium_charcoal();
   text-transform: uppercase;
+  color:#9F9F9F;
   letter-spacing: 1px;
   cursor: pointer;
   &:hover{
@@ -230,11 +236,11 @@ h2 {
 .select-group {
   position: relative;
   select{
-    @include b4_12px_charcoal();
+    @include b4_12px_montserrat_charcoal();
     border: 1px solid lightgrey;
   }
   option {
-    @include b4_12px_charcoal();
+    @include b4_12px_montserrat_charcoal();
   }
 }
 
@@ -327,7 +333,7 @@ input[type="radio"]:checked+label:before {
 
 .price-block {
   span {
-    @include b3_14px_aqua();
+    @include b3_14px_montserrat_aqua();
     margin: 10px 25px;
     background-color: #fff;
     width: 220px;
@@ -338,7 +344,8 @@ input[type="radio"]:checked+label:before {
     border: 2px solid transparent;
   }
   > p {
-    @include b4_12px_med_charcoal_caps();
+    @include b4_12px_montserrat_light_charcoal();
+    text-transform: uppercase;
   }
   span:hover {
     border: 2px solid $aqua;
@@ -355,7 +362,8 @@ input[type="radio"]:checked+label:before {
     -moz-appearance: textfield;
     box-shadow: none;
     text-align: left;
-    @include b4_14px_CAPS_charcoal();
+    @include b3_14px_montserrat_charcoal();
+    min-width: 220px;
     @include placeholder {
       color: $light-charcoal;
       font-size: 14px;
@@ -368,8 +376,9 @@ input[type="radio"]:checked+label:before {
 .curr {
   position: absolute;
   top: 30%;
-  left: 10px;
-  @include b3_14px_charcoal();
+  left: 15px;
+  @include b3_14px_montserrat_charcoal();
+  color: #9F9F9F;
 }
 .gc {
   background: url('../../images/greyBg.jpg') repeat;
@@ -386,7 +395,7 @@ input[type="radio"]:checked+label:before {
     padding-left: 28px;
   }
   textarea, textarea:focus {
-    @include b4_12px_charcoal();
+    @include b4_12px_montserrat_charcoal();
     background-color: #f2f2f2;
     border: none;
     width: 100%;
@@ -405,7 +414,7 @@ input[type="radio"]:checked+label:before {
 
 form {
   input {
-    @include b4_12px_charcoal();
+    @include b4_12px_montserrat_charcoal();
     &[type="text"]{
       font-size: 12px;
     }
@@ -422,7 +431,7 @@ form {
     border-radius: 0;
   }
   label{
-    @include b6_light_9px_charcoal();
+    @include b6_9px_light_montserrat_charcoal();
   }
 }
 
@@ -483,7 +492,8 @@ form {
 }
 
 .note {
-  @include b5_10px_charcoal();
+  @include b5_10px_montserrat_charcoal();
+  letter-spacing: 0.5px;
   text-align: left;
   margin: 8px 10px;
 }
@@ -496,9 +506,20 @@ hr {
 }
 
 .limit{
-  @include b5_10px_charcoal();
+  @include b5_10px_montserrat_charcoal();
 }
 
 .error-msg {
   @include err_13px_lora_italic_cerise();  
+}
+
+.button-err-bg{
+  background-color: #9F9F9F !important;
+}
+
+.mobile-full-width-button {
+  width: 100vw;
+  position: absolute;
+  bottom: 0;
+  left: -3px;
 }

@@ -106,17 +106,17 @@
     overflow: hidden;
     text-overflow: ellipsis;
     a {
-        @include b3_14px_charcoal();
+        @include b3_14px_montserrat_charcoal();
         text-transform: capitalize;
         letter-spacing: 0.5px;
     }
     span {
-        @include b3_14px_med_charcoal();
+        @include b3_14px_montserrat_charcoal();
         text-transform: capitalize;
     }
     .discountprice {
         color: #ab1e56;
-        font-family:  $font-Lato;
+        font-family:  $font-Montserrat;
         font-size: 14px;
     }
     
@@ -124,7 +124,7 @@
         font-size: 14px;
         text-decoration: line-through;
         color: gray;
-        font-family: $font-Lato;
+        font-family: $font-Montserrat;
     }
     a:hover {
         color: #ab1e56;
@@ -132,7 +132,7 @@
     }
 }
 .product-size {
-    @include b5_10px_charcoal();
+    @include b5_10px_montserrat_charcoal();
     line-height: 25px;
     text-transform: capitalize;
     justify-content: center;
@@ -165,7 +165,8 @@
 }
 .outstock {
     background: url('../../images/outofstock-cta.svg') no-repeat;
-    @include b4_12px_med_charcoal_caps();
+    @include b4_12px_montserrat_medcharcoal();
+    text-transform: uppercase;
     position: absolute;
     top: 50%;
     left: 50%;
@@ -225,10 +226,8 @@
 .product-btn{
     background-color: $aqua;
     span{
-        color: $white;
+        @include b3_14px_montserrat_white();
         text-transform: uppercase;
-        font-size:14px;
-        font-family: $font-Montserrat;
     }
     &.enquire-notify-me{
         background-color: $light-charcoal;

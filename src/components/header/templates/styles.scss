@@ -14,14 +14,14 @@
         border-bottom: none;
         // padding-left: 20px;
         line-height: 30px;
-        @include b4_12px_semibold_caps_charcoal();
+        @include b4_12px_montserrat_semibold_charcoal();
+        text-transform: uppercase;
     }
     .l3 {
         text-transform: capitalize;
-        @include b4_12px_charcoal();
+        @include b4_12px_montserrat_charcoal();
             &:hover{
-                font-weight: 600;
-                color: #000
+                font-weight: $medium;
             }
     }
     .block-l2 {
@@ -46,9 +46,12 @@
         display: block;
         border-bottom: none;
         line-height: 18px;
-        @include b4_12px_charcoal();
+        @include b4_12px_montserrat_charcoal();
         &:hover{
-            font-weight: 600;
+            font-weight: $medium;
+        }
+        strong{
+            font-weight: $medium;
         }
     }
     .subheading {
@@ -89,9 +92,12 @@
         display: block;
         border-bottom: none;
         line-height: 18px;
-        @include b4_12px_charcoal();
+        @include b4_12px_montserrat_charcoal();
         &:hover{
-            font-weight: 600;
+            font-weight: $medium;
+        }
+        strong{
+            font-weight: $medium;
         }
     }
     .subheading {
@@ -131,7 +137,10 @@
         display: block;
         border-bottom: none;
         line-height: 18px;
-        @include b4_12px_charcoal();
+        @include b4_12px_montserrat_charcoal();
+        strong{
+            font-weight: $medium;
+        }
     }
     .subheading {
         font-size: 11px;
@@ -166,7 +175,8 @@
     }
     .title {
         line-height: 30px;
-        @include b4_12px_semibold_caps_charcoal();
+        @include b4_12px_montserrat_semibold_charcoal();
+        text-transform: uppercase;
     }
     .img {
         width: 50%;
@@ -185,7 +195,7 @@
             border-bottom: none;
             line-height: 18px;
             display: block;
-            @include b4_12px_charcoal();
+            @include b4_12px_montserrat_charcoal();
         }
         .subheading {
             font-size: 11px;
@@ -220,7 +230,8 @@
     .title {
         border-bottom: none;
         line-height: 30px;
-        @include b4_12px_semibold_caps_charcoal();
+        @include b4_12px_montserrat_semibold_charcoal();
+        text-transform: uppercase;
     }
     .img {
         width: 40%;
@@ -240,7 +251,10 @@
             // padding-left: 20px;
             line-height: 18px;
             display: block;
-            @include b4_12px_charcoal();
+            @include b4_12px_montserrat_charcoal();
+            strong{
+                font-weight: $medium;
+            }
         }
         .subheading {
             display: none;
@@ -262,7 +276,8 @@
     border-bottom: none;
     // padding-left: 20px;
     line-height: 30px;
-    @include b4_12px_semibold_caps_charcoal();
+    @include b4_12px_montserrat_semibold_charcoal();
+    text-transform: uppercase;
     a {
         color: $med-charcoal;
     }
@@ -297,9 +312,12 @@
     .heading {
         border-bottom: none;
         line-height: 30px;
-        @include b4_12px_charcoal();
+        @include b4_12px_montserrat_charcoal();
         &:hover{
-            font-weight: 600;
+            font-weight: $medium;
+        }
+        strong{
+            font-weight: $medium;
         }
     }
     .subheading {
@@ -358,7 +376,10 @@
             // padding-left: 20px;
             line-height: 18px;
             display: block;
-            @include b4_12px_charcoal();
+            @include b4_12px_montserrat_charcoal();
+            strong{
+                font-weight: $medium;
+            }
         }
         .subheading {
             display: none;

@@ -2,7 +2,7 @@
 @import "../../styles/partials/mixins";
 
 .header {
-    @include h2_24px_charcoal();
+    @include h2_24px_lora_charcoal();
     line-height: 60px;
     text-transform: capitalize;
     text-align: center;
@@ -14,7 +14,7 @@
     text-align: center;
 }
 .product-h {
-    @include b3_14px_light_charcoal();
+    @include b3_14px_montserrat_light_charcoal();
     letter-spacing: 1px;
     line-height: 30px;
     width: 100%;
@@ -25,7 +25,7 @@
     padding-top: 5px;
 }
 .product-n {
-    @include b3_14px_charcoal();
+    @include b3_14px_montserrat_charcoal();
     text-transform: capitalize;
     width: 100%;
     white-space: nowrap;
