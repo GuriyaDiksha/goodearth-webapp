@@ -68,6 +68,7 @@ h2 {
 .subscribe{
   label {
     @include b5_10px_montserrat_charcoal();
+    letter-spacing: 0.5px;
     a {
       color: $charcoal19;
     }
@@ -343,7 +344,8 @@ input[type="radio"]:checked+label:before {
     border: 2px solid transparent;
   }
   > p {
-    @include b4_12px_med_charcoal_caps();
+    @include b4_12px_montserrat_light_charcoal();
+    text-transform: uppercase;
   }
   span:hover {
     border: 2px solid $aqua;
@@ -491,6 +493,7 @@ form {
 
 .note {
   @include b5_10px_montserrat_charcoal();
+  letter-spacing: 0.5px;
   text-align: left;
   margin: 8px 10px;
 }
@@ -508,4 +511,15 @@ hr {
 
 .error-msg {
   @include err_13px_lora_italic_cerise();  
+}
+
+.button-err-bg{
+  background-color: #9F9F9F !important;
+}
+
+.mobile-full-width-button {
+  width: 100vw;
+  position: absolute;
+  bottom: 0;
+  left: -3px;
 }
