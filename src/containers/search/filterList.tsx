@@ -88,7 +88,8 @@ class FilterList extends React.Component<Props, State> {
       categoryindex: -1,
       activeindex: -1,
       activeindex2: 1,
-      selectedCatShop: "View All"
+      selectedCatShop: "View All",
+      isViewAll: false
     };
     this.props.onRef(this);
   }
@@ -183,11 +184,10 @@ class FilterList extends React.Component<Props, State> {
       subCategories: any = [],
       categoryNames: any = [],
       categoryObj: any = {};
-    let count: number = 0;
+    let count = 0;
     const { filter } = this.state;
 
-    let selectIndex: any = -1,
-      check = "";
+    let selectIndex: any = -1;
 
     if (facets.categoryShop && facets.categoryShop.length > 0) {
       facets.categoryShop.map((v: any, i: number) => {
@@ -236,7 +236,12 @@ class FilterList extends React.Component<Props, State> {
     facets.categories.map((data: any) => (count = count + data[2]));
     categoryObj[`View All (${count})`] = [];
 
-    filter.categoryShop["selectedCatShop"] = `View All (${count})`;
+    if (filter.categoryShop["selectedCatShop"]) {
+      selectIndex = filter.categoryShop["selectedCatShop"].split(">")[0].trim();
+    } else {
+      filter.categoryShop["selectedCatShop"] = `View All (${count})`;
+    }
+
     this.setState({ filter: filter });
 
     facets.categories.map((data: any, i: number) => {
@@ -272,7 +277,7 @@ class FilterList extends React.Component<Props, State> {
     //     filter.categoryShop[key][data[0]] = false;
     //   }
     // });
-    // let oldSelectedCategory: any = this.state.oldSelectedCategory;
+    //  let oldSelectedCategory: any = this.state.oldSelectedCategory;
     // code for setting  all values of filter is false
     // Object.keys(categoryObj).map((data, i) => {
     //   categoryObj[data].map((nestedList: any, j: number) => {
@@ -306,19 +311,20 @@ class FilterList extends React.Component<Props, State> {
     //     });
     //   });
     // }
-    // code for set active open state and set selected old value
-    // if (!oldSelectedCategory) {
-    //   Object.keys(filter.categoryShop).map((level2: any, i: number) => {
-    //     Object.keys(filter.categoryShop[level2]).map(
-    //       (level3: any, j: number) => {
-    //         if (filter.categoryShop[level2][level3]) {
-    //           selectIndex = level2;
-    //           oldSelectedCategory = level2.split(">")[0];
-    //         }
+    //code for set active open state and set selected old value
+    //if (!oldSelectedCategory) {
+
+    // Object.keys(filter.categoryShop).map((level2: any, i: number) => {
+    //   Object.keys(filter.categoryShop[level2]).map(
+    //     (level3: any, j: number) => {
+    //       if (filter.categoryShop[level2][level3]) {
+    //         selectIndex = level2;
+    //         oldSelectedCategory = level2.split(">")[0];
     //       }
-    //     );
-    //   });
-    // }
+    //     }
+    //   );
+    //});
+    //}
 
     this.setState({
       activeindex2: selectIndex + "l",
@@ -397,11 +403,7 @@ class FilterList extends React.Component<Props, State> {
                 /%20/g,
                 "+"
               );
-              console.log(
-                "categoryKey===========",
-                categoryKey,
-                categoryShopVars
-              );
+
               // categoryShopVars == ""
               //   ? (categoryShopVars = data)
               //   : (categoryShopVars += "|" + data);
@@ -743,7 +745,6 @@ class FilterList extends React.Component<Props, State> {
   }
 
   UNSAFE_componentWillReceiveProps = (nextProps: Props) => {
-    console.log("this.props.updateFacets==========", this.props.updateFacets);
     if (
       nextProps.onload &&
       nextProps.facets.categoryShop &&
@@ -969,8 +970,8 @@ class FilterList extends React.Component<Props, State> {
   };
 
   generateCatagory = (categoryObj: any, data: any, html: any) => {
-    const { filter, selectedCatShop } = this.state;
-    console.log("generateCatagory=============", data);
+    const { filter, selectedCatShop, isViewAll } = this.state;
+
     html.push(
       <ul key={`category-${data}`}>
         <li key={data + "l"}>
@@ -981,7 +982,9 @@ class FilterList extends React.Component<Props, State> {
                     data.startsWith("View All")
                       ? styles.menulevel2ViewAll
                       : styles.menulevel2,
-                    styles.menulevel2Open
+                    data.startsWith("View All")
+                      ? styles.menulevel2ViewAll
+                      : styles.menulevel2Open
                   )
                 : data.startsWith("View All")
                 ? styles.menulevel2ViewAll
@@ -1020,13 +1023,30 @@ class FilterList extends React.Component<Props, State> {
                     /> */}
                     <label
                       className={
-                        filter.categoryShop["selectedCatShop"] === nestedList[0]
+                        (!isViewAll &&
+                          filter.categoryShop["selectedCatShop"]
+                            ?.split(">")[1]
+                            ?.trim() === nestedList[0]) ||
+                        (isViewAll &&
+                          nestedList[0]?.startsWith("View all") &&
+                          filter.categoryShop["selectedCatShop"]?.split("|")
+                            .length &&
+                          filter.categoryShop["selectedCatShop"]
+                            ?.split(">")[0]
+                            .trim() === data)
                           ? styles.selectedCatShop
                           : ""
                       }
                       htmlFor={nestedList[1]}
                       id={nestedList[1]}
-                      onClick={e => this.handleClickCategory(e, data)}
+                      onClick={e =>
+                        this.handleClickCategory(
+                          e,
+                          data,
+                          categoryObj,
+                          nestedList[0]?.startsWith("View all")
+                        )
+                      }
                     >
                       {nestedList[0]}
                       {nestedList[3] && `(${nestedList[3]})`}
@@ -1158,15 +1178,33 @@ class FilterList extends React.Component<Props, State> {
     return html;
   };
 
-  handleClickCategory = (event: any, data: any) => {
+  handleClickCategory = (
+    event: any,
+    data: any,
+    categoryObj: any,
+    isViewAll: boolean
+  ) => {
     //code for checked view all true
-    console.log("check data====", data);
+
     const { filter } = this.state;
     filter.categoryShop = {};
     if (event.target.id == "all") {
       // do nothing
     } else {
-      filter.categoryShop["selectedCatShop"] = event.target.id;
+      if (isViewAll) {
+        let qparam = "";
+        Object.keys(categoryObj).map(ele => {
+          if (ele.trim() == event.target.id.split(">")[0].trim()) {
+            categoryObj[ele].map((val: any, index: number) => {
+              qparam += index === 0 ? "" : qparam ? "|" + val[1] : val[1];
+            });
+          }
+        });
+
+        filter.categoryShop["selectedCatShop"] = qparam;
+      } else {
+        filter.categoryShop["selectedCatShop"] = event.target.id;
+      }
     }
     if (filter.sortBy["sortBy"] == "discount") {
       filter.sortBy = {};
@@ -1175,7 +1213,8 @@ class FilterList extends React.Component<Props, State> {
     this.setState(
       {
         filter: filter,
-        selectedCatShop: data
+        selectedCatShop: data,
+        isViewAll: isViewAll
       },
       () => {
         this.createUrlfromFilter();
@@ -1215,13 +1254,22 @@ class FilterList extends React.Component<Props, State> {
     });
   };
 
-  Clickmenulevel2 = (index: number | string, event) => {
+  Clickmenulevel2 = (index: number | string) => {
     index == this.state.activeindex2
       ? this.setState({
           activeindex2: index,
           showmenulevel2: !this.state.showmenulevel2
         })
       : this.setState({ activeindex2: index, showmenulevel2: true });
+
+    if (isNaN(index) && index?.startsWith("View All")) {
+      this.handleClickCategory(
+        { target: { id: "all" } },
+        "View All",
+        null,
+        false
+      );
+    }
   };
 
   handleClickColor = (event: any) => {

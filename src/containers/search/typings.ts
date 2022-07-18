@@ -71,4 +71,5 @@ export type State = {
   showmenulevel1: boolean;
   shouldScroll: boolean;
   selectedCatShop: string;
+  isViewAll: boolean;
 };
