@@ -18,13 +18,13 @@
 }
 
 .collection-name {
-    @include h1_30px_charcoal();
+    @include h1_30px_lora_charcoal();
     font-style: italic;
     margin-top: 30px;
 }
 
 .collection-lowertext{
-    @include b3_14px_charcoal();
+    @include b3_14px_montserrat_charcoal();
     line-height: 27px;
     letter-spacing: 0.5px;
 }

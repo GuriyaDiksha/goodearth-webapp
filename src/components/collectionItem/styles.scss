@@ -15,7 +15,7 @@
     margin: 0 auto 3em auto;
     min-height: 115px;
     p {
-        @include h3_20px_med_charcoal();
+        @include h3_20px_lora_charcoal();
         letter-spacing: 1px;
         padding: 0 20px;
         line-height: 33px;
@@ -26,13 +26,8 @@
         font-weight: normal;
     }
     small{
-        font-family: $font-Lato;
-        font-weight: 300;
-        font-size: 14px;
         > p {
-            font-family: $font-Lato;
-            font-weight: 300;
-            font-size: 14px;
+            @include b4_12px_montserrat_charcoal();
         }
     }
 

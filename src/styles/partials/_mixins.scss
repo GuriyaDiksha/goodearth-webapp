@@ -1081,6 +1081,14 @@ $list: $grey 92%, $white 8%;
   text-transform: uppercase;
 }
 
+@mixin b4_12px_montserrat_medium_charcoal{
+  font-family: $font-Montserrat;
+  font-size: 12px;
+  font-weight: $medium;
+  color: $charcoal19;
+  text-transform: uppercase;
+}
+
 @mixin b5_10px_montserrat_charcoal{
   font-family: $font-Montserrat;
   font-size: 10px;

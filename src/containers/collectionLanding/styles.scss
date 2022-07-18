@@ -33,8 +33,7 @@
 }
 
 .filter-text{
-    @include b4_12px_montserrat_charcoal();
-    font-weight: bold;
+    @include b4_12px_montserrat_medium_charcoal();
     letter-spacing: 1px;
     text-transform: uppercase;
     line-height: $secondary-header-height;

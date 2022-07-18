@@ -14,11 +14,12 @@
         border-bottom: none;
         // padding-left: 20px;
         line-height: 30px;
-        @include b4_12px_semibold_caps_charcoal();
+        @include b4_12px_montserrat_semibold_charcoal();
+        text-transform: uppercase;
     }
     .l3 {
         text-transform: capitalize;
-        @include b4_12px_charcoal();
+        @include b4_12px_montserrat_charcoal();
             &:hover{
                 font-weight: $medium;
             }
@@ -45,7 +46,7 @@
         display: block;
         border-bottom: none;
         line-height: 18px;
-        @include b4_12px_charcoal();
+        @include b4_12px_montserrat_charcoal();
         &:hover{
             font-weight: $medium;
         }
@@ -88,7 +89,7 @@
         display: block;
         border-bottom: none;
         line-height: 18px;
-        @include b4_12px_charcoal();
+        @include b4_12px_montserrat_charcoal();
         &:hover{
             font-weight: $medium;
         }
@@ -130,7 +131,7 @@
         display: block;
         border-bottom: none;
         line-height: 18px;
-        @include b4_12px_charcoal();
+        @include b4_12px_montserrat_charcoal();
     }
     .subheading {
         font-size: 11px;
