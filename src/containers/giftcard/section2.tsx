@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import cs from "classnames";
 import bootstrapStyles from "../../styles/bootstrap/bootstrap-grid.scss";
 import globalStyles from "styles/global.scss";
@@ -47,6 +47,9 @@ const Section2: React.FC<Section2Props> = ({
   const GiftSection = React.useRef<Formsy>(null);
   const [country, setCountry] = useState(selectedCountry);
   const { customerGroup } = useSelector((state: AppState) => state.user);
+
+  const gcValueRef = useRef();
+
   useEffect(() => {
     const form = GiftSection.current;
     if (form) {
@@ -142,6 +145,7 @@ const Section2: React.FC<Section2Props> = ({
   };
 
   const setValuetext = (e: any) => {
+    console.log("here");
     setIsCustom(true);
     setNumhighlight(true);
     setErrorBorder(true);
@@ -253,6 +257,12 @@ const Section2: React.FC<Section2Props> = ({
     };
   });
 
+  const compare = (a: any, b: any) => {
+    return (
+      parseInt(b.priceRecords[currency]) - parseInt(a.priceRecords[currency])
+    );
+  };
+
   return (
     <div className={bootstrapStyles.row}>
       <section
@@ -349,7 +359,7 @@ const Section2: React.FC<Section2Props> = ({
                   styles.priceBlock
                 )}
               >
-                {productData.map((pro: any) => {
+                {productData.sort(compare).map((pro: any) => {
                   return pro.sku != sku ? (
                     <span
                       key={pro.sku}
@@ -396,15 +406,23 @@ const Section2: React.FC<Section2Props> = ({
                           <input
                             type="number"
                             id={pro.id}
+                            ref={gcValueRef.current}
                             className={
                               errorBorder ? globalStyles.errorBorder : ""
                             }
                             placeholder="Enter Custom Value"
-                            // onClick={e => {
-                            //   setValuetext(e);
-                            // }}
-                            onKeyUp={e => {
-                              setValuetext(e);
+                            onKeyPress={e => {
+                              const invalidChars = ["-", "+", "e"];
+                              if (invalidChars.includes(e.key)) {
+                                e.preventDefault();
+                                return false;
+                              } else {
+                                setValuetext(e);
+                              }
+                            }}
+                            onPaste={e => {
+                              e.preventDefault();
+                              return false;
                             }}
                           />
                           <div className={styles.curr}>
@@ -440,11 +458,9 @@ const Section2: React.FC<Section2Props> = ({
             <div className={cs(bootstrapStyles.col12, styles.buttonRow)}>
               <div className={cs(styles.imageSelectBtnContainer)}>
                 <button
-                  className={cs(
-                    styles.imageSelectBtn,
-                    { [styles.mobileFullWidthButton]: mobile },
-                    { [styles.buttonErrBg]: selectvalue == "" || nummsg != "" }
-                  )}
+                  className={cs(styles.imageSelectBtn, {
+                    [styles.mobileFullWidthButton]: mobile
+                  })}
                   onClick={gotoNext}
                 >
                   proceed to filling details&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
