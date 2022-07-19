@@ -40,7 +40,7 @@ const PlpDropdownMenu = ({
       setShowmobileSort(true);
       setShowmobileFilterList(true);
       setOpenState(true);
-      toggleSort(false);
+      toggleSort && toggleSort(false);
     }
   };
   const onInsideClick = () => {
@@ -50,7 +50,7 @@ const PlpDropdownMenu = ({
     setShowmobileFilterList(false);
     setMobileFilter(false);
     onStateChange(false);
-    toggleSort(true);
+    toggleSort && toggleSort(true);
   };
 
   useLayoutEffect(() => {
