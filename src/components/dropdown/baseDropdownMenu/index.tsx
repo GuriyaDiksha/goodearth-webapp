@@ -7,7 +7,6 @@ import useOutsideDetection from "../../../hooks/useOutsideDetetion";
 import cs from "classnames";
 
 import styles from "./styles.scss";
-import globalStyles from "styles/global.scss";
 
 const BaseDropdownMenu = ({
   align,
