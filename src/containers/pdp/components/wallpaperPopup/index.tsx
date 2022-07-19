@@ -2,7 +2,6 @@ import React, { useState, useContext } from "react";
 import cs from "classnames";
 // components
 import { Context } from "components/Modal/context";
-import CloseButton from "components/Modal/components/CloseButton";
 import InputField from "components/InputField";
 // styles
 import bootstrap from "styles/bootstrap/bootstrap-grid.scss";

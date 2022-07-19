@@ -6,7 +6,6 @@ import styles from "./styles.scss";
 import { Section1Props } from "./typings";
 import { useSelector } from "react-redux";
 import { AppState } from "reducers/typings";
-import Button from "./button";
 
 const Section1: React.FC<Section1Props> = props => {
   let imageName = "image0";

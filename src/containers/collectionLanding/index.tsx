@@ -1,7 +1,6 @@
 import React from "react";
 import { Dispatch } from "redux";
 import SecondaryHeader from "components/SecondaryHeader";
-import SelectableDropdownMenu from "components/dropdown/selectableDropdownMenu";
 import SecondaryHeaderDropdown from "components/dropdown/secondaryHeaderDropdown";
 import initActionCollection from "./initAction";
 import cs from "classnames";
