@@ -19,7 +19,6 @@ import { AppState } from "reducers/typings";
 import { Cookies } from "typings/cookies";
 import { MESSAGE } from "constants/messages";
 import * as valid from "utils/validate";
-import Button from "./button";
 
 const Section2: React.FC<Section2Props> = ({
   productData,

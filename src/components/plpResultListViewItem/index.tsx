@@ -15,7 +15,6 @@ import LazyImage from "components/LazyImage";
 import { AppState } from "reducers/typings";
 import { useSelector } from "react-redux";
 import * as valid from "utils/validate";
-import Button from "components/Button";
 import MobileSlider from "components/MobileSlider";
 import CookieService from "services/cookie";
 import Price from "components/Price";

@@ -14,7 +14,6 @@ import { updateBasket } from "actions/basket";
 import { Basket } from "typings/basket";
 import { MESSAGE } from "constants/messages";
 import * as valid from "utils/validate";
-import Button from "./button";
 import { AppState } from "reducers/typings";
 import Loader from "components/Loader";
 

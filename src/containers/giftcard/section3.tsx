@@ -9,7 +9,6 @@ import FormInput from "../../components/Formsy/FormInput";
 import FormTextArea from "components/Formsy/FormTextArea";
 // import { Currency, currencyCode } from "typings/currency";
 import * as valid from "utils/validate";
-import Button from "./button";
 
 const Section3: React.FC<Section3Props> = ({ next, data, goback, mobile }) => {
   const RegisterFormRef = React.useRef<Formsy>(null);
