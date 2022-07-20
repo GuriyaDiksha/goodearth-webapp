@@ -57,7 +57,7 @@
         margin-top: $header-height;
     }
     h1{
-        @include h1_30px_lora_charcoal();
+        @include h1_30px_lora_medium_charcoal();
         font-style: italic;
         text-transform: capitalize;
     }
