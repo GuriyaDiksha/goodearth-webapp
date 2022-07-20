@@ -9,4 +9,5 @@ export type MobileDropdownMenuProps = {
   onChange: (data: any, label: string) => void;
   filterCount?: number;
   sortedDiscount?: boolean;
+  toggleSort?: (state: boolean) => void;
 };

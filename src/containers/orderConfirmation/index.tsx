@@ -174,6 +174,12 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
   }
   const shippingAddress = confirmData?.shippingAddress?.[0],
     billingAddress = confirmData?.billingAddress?.[0];
+
+  let giftCardAmount = 0;
+  for (let i = 0; i < confirmData.giftVoucherRedeemed?.length; i++) {
+    giftCardAmount += confirmData.giftVoucherRedeemed[i];
+  }
+
   if (!confirmData?.number) {
     return <></>;
   }
@@ -266,7 +272,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                       )}
                     >
                       <p>
-                        <span className={globalStyles.op3}>Order Total</span>
+                        <span className={globalStyles.op3}>Amount Payable</span>
                       </p>
 
                       <p>
@@ -523,6 +529,70 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                     );
                   })}
                 </address>
+              </div>
+            </div>
+          </div>
+          <div className={cs(bootstrapStyles.row, styles.white)}>
+            <div className={cs(styles.priceSection)}>
+              <div className={cs(styles.subTotalSection)}>
+                <p>SUBTOTAL</p>
+                <p>
+                  {String.fromCharCode(
+                    ...currencyCode[confirmData.currency as Currency]
+                  )}
+                  &nbsp; {parseFloat(confirmData.orderSubTotal).toFixed(2)}
+                </p>
+              </div>
+
+              {confirmData?.offerDiscounts?.map(
+                (discount: { name: string; amount: string }, index: number) => (
+                  <div className={cs(styles.discountSection)} key={index}>
+                    <p>
+                      {discount.name == "price-discount"
+                        ? "DISCOUNT"
+                        : discount.name}
+                    </p>
+                    <p>
+                      (-){" "}
+                      {String.fromCharCode(
+                        ...currencyCode[confirmData.currency as Currency]
+                      )}
+                      &nbsp; {parseFloat(discount.amount).toFixed(2)}
+                    </p>
+                  </div>
+                )
+              )}
+
+              <div className={cs(styles.discountSection)}>
+                <p>Shipping & Handling</p>
+                <p>
+                  (+){" "}
+                  {String.fromCharCode(
+                    ...currencyCode[confirmData.currency as Currency]
+                  )}
+                  &nbsp; {parseFloat(confirmData.shippingInclTax).toFixed(2)}
+                </p>
+              </div>
+
+              <div className={cs(styles.discountSection)}>
+                <p>Gift Card</p>
+                <p>
+                  (-){" "}
+                  {String.fromCharCode(
+                    ...currencyCode[confirmData.currency as Currency]
+                  )}
+                  &nbsp; {giftCardAmount.toFixed(2)}
+                </p>
+              </div>
+
+              <div className={cs(styles.subTotalSection)}>
+                <p>AMOUNT PAYABLE</p>
+                <p>
+                  {String.fromCharCode(
+                    ...currencyCode[confirmData.currency as Currency]
+                  )}
+                  &nbsp; {parseFloat(confirmData.totalInclTax).toFixed(2)}
+                </p>
               </div>
             </div>
           </div>

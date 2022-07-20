@@ -1,11 +1,5 @@
 // import loadable from "@loadable/component";
-import React, {
-  EventHandler,
-  RefObject,
-  SyntheticEvent,
-  useMemo,
-  MouseEvent
-} from "react";
+import React, { RefObject, SyntheticEvent } from "react";
 import { connect } from "react-redux";
 import throttle from "lodash/throttle";
 import cs from "classnames";
@@ -58,12 +52,6 @@ import inactiveGrid from "images/plpIcons/inactive_grid.svg";
 import activeList from "images/plpIcons/active_list.svg";
 import inactiveList from "images/plpIcons/inactive_list.svg";
 import Counter from "components/ProductCounter/counter";
-import { SingleEntryPlugin } from "webpack";
-import { isConstructorDeclaration } from "typescript";
-import PdpButton from "components/Button/pdpButton";
-import { currency } from "reducers/currency";
-
-import { config } from "components/PdpSlider/sliderConfig";
 
 const PDP_TOP_OFFSET = HEADER_HEIGHT + SECONDARY_HEADER_HEIGHT;
 const sidebarPosition = PDP_TOP_OFFSET + 23;
@@ -469,7 +457,7 @@ class PDPContainer extends React.Component<Props, State> {
   }
 
   componentDidUpdate(props: Props) {
-    const { data, currency } = this.props;
+    const { data } = this.props;
     if (!data) {
       return;
     }
@@ -1341,12 +1329,7 @@ class PDPContainer extends React.Component<Props, State> {
       }
     }
 
-    const {
-      activeImage,
-      detailStickyEnabled,
-      mounted,
-      showSecondary
-    } = this.state;
+    const { activeImage, detailStickyEnabled, mounted } = this.state;
 
     return (
       <div

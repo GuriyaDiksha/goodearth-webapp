@@ -19,7 +19,6 @@ import { AppState } from "reducers/typings";
 import { Cookies } from "typings/cookies";
 import { MESSAGE } from "constants/messages";
 import * as valid from "utils/validate";
-import Button from "./button";
 
 const Section2: React.FC<Section2Props> = ({
   productData,
@@ -270,17 +269,16 @@ const Section2: React.FC<Section2Props> = ({
             className={cs(
               bootstrapStyles.col10,
               bootstrapStyles.offset1,
-              globalStyles.textCenter
+              globalStyles.textLeft
             )}
           >
-            <i className={styles.arrowUp}></i>
             <p
               className={styles.backGc}
               onClick={() => {
                 goback("card");
               }}
             >
-              Back To Design
+              {`<`} Back To Design
             </p>
           </div>
         </div>
@@ -329,7 +327,7 @@ const Section2: React.FC<Section2Props> = ({
                     }}
                   />
                 </div>
-                <p className={cs(globalStyles.voffset2, styles.clrP)}>
+                <p className={cs(globalStyles.voffset2, styles.clrNote)}>
                   Please note: Gift cards can only be redeemed in the currency
                   they are bought in, so please choose the country based on your
                   recipient&apos;s address
@@ -400,10 +398,10 @@ const Section2: React.FC<Section2Props> = ({
                             className={
                               errorBorder ? globalStyles.errorBorder : ""
                             }
-                            placeholder="enter value"
-                            onClick={e => {
-                              setValuetext(e);
-                            }}
+                            placeholder="Enter Custom Value"
+                            // onClick={e => {
+                            //   setValuetext(e);
+                            // }}
                             onKeyUp={e => {
                               setValuetext(e);
                             }}
@@ -429,52 +427,32 @@ const Section2: React.FC<Section2Props> = ({
                   )}
                 >
                   {numhighlight ? (
-                    <p
-                      className={cs(
-                        globalStyles.errorMsg,
-                        globalStyles.textCenter
-                      )}
-                    >
+                    <p className={cs(styles.errorMsg, globalStyles.textCenter)}>
                       {nummsg}
                     </p>
                   ) : (
-                    <p className={globalStyles.errorMsg}></p>
+                    <p className={styles.errorMsg}></p>
                   )}
                 </div>
               </div>
             </div>
-            <div
-              className={cs(
-                bootstrapStyles.row,
-                bootstrapStyles.col12,
-                globalStyles.textCenter,
-                globalStyles.voffset6
-              )}
-            >
-              <div className={bootstrapStyles.col12}>
-                <Button value="" onClick={gotoNext}>
-                  <input
-                    type="submit"
-                    className={styles.inputButton}
-                    value="proceed to filling details"
-                  />
-                </Button>
+            <div className={cs(bootstrapStyles.col12, styles.buttonRow)}>
+              <div className={cs(styles.imageSelectBtnContainer)}>
+                <button
+                  className={cs(
+                    styles.imageSelectBtn,
+                    { [styles.mobileFullWidthButton]: mobile },
+                    { [styles.buttonErrBg]: selectvalue == "" || nummsg != "" }
+                  )}
+                  onClick={gotoNext}
+                >
+                  proceed to filling details&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  <span></span>
+                </button>
               </div>
             </div>
           </div>
         </Formsy>
-        <div
-          className={cs(
-            bootstrapStyles.row,
-            bootstrapStyles.col12,
-            globalStyles.textCenter,
-            globalStyles.voffset4
-          )}
-        >
-          <div className={bootstrapStyles.col12}>
-            <i className={styles.arrowDown}></i>
-          </div>
-        </div>
       </section>
     </div>
   );

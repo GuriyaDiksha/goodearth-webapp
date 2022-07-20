@@ -15,7 +15,6 @@ import LazyImage from "components/LazyImage";
 import { AppState } from "reducers/typings";
 import { useSelector } from "react-redux";
 import * as valid from "utils/validate";
-import Button from "components/Button";
 import MobileSlider from "components/MobileSlider";
 import CookieService from "services/cookie";
 import Price from "components/Price";
@@ -106,15 +105,17 @@ const PlpResultListViewItem: React.FC<PLPResultItemProps> = (
       action = () => notifyMeClick(product);
     }
     return (
-      <Button
+      <div
         className={cs(
           styles.addToBagListView,
-          bootstrapStyles.col6,
-          bootstrapStyles.offset3
+          styles.productBtn,
+          bootstrapStyles.col8,
+          { [styles.enquireNotifyMe]: isCorporate || allOutOfStock }
         )}
         onClick={action}
-        label={buttonText}
-      />
+      >
+        <span>{buttonText}</span>
+      </div>
     );
   }, []);
   const isStockAvailable = isCorporate || product.inStock;
@@ -277,11 +278,12 @@ const PlpResultListViewItem: React.FC<PLPResultItemProps> = (
             <div
               className={cs(
                 globalStyles.textCenter,
-                bootstrapStyles.col3
+                bootstrapStyles.col3,
                 // globalStyles.mobileWishlist,
                 // {
                 //   [styles.wishlistBtnContainer]: mobile
                 // }
+                styles.wishlistBtnContainer
               )}
             >
               <WishlistButton

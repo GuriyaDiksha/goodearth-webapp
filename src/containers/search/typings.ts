@@ -21,6 +21,7 @@ export interface PlpResult {
   bannerMobile: string;
   bannerUrl: string;
   suggestions: any[];
+  filtered_facets: any;
 }
 
 export type PlpProps = {
@@ -35,6 +36,7 @@ export type FilterProps = {
   onRef: any;
   onChangeFilterState: (data: boolean, cross?: boolean) => void;
   changeLoader?: (data: boolean) => void;
+  filterCount: number;
 };
 
 export type State = {

@@ -72,10 +72,7 @@ $pdp-top: $header-height + $secondary-header-height;
 
 .looks-btn {
     background-color: white;
-    color: #ab1e56;
-    letter-spacing: 2px;
-    font-family: "LatoFont", "Helvetica", "Arial";
-    text-transform: uppercase;
+    @include b4_12px_montserrat_charcoal_caps();
     line-height: 42px;
     text-align: center;
     font-size: 12px;
@@ -86,6 +83,7 @@ $pdp-top: $header-height + $secondary-header-height;
     position: sticky;
     left: calc(50% - 165px);
     padding: 0 10px;
+    opacity: 0.9;
     width: max-content;
     a {
       color: #fff;
@@ -108,9 +106,9 @@ $pdp-top: $header-height + $secondary-header-height;
 }
 .looks-btn-mobile {
     width: auto;
-    position: absolute;
-    left: calc(50% - 70px);
-    bottom: 80px;
+    // position: absolute;
+    // left: calc(50% - 70px);
+    // bottom: 80px;
 }
 
 .looks-item-container {
@@ -125,9 +123,7 @@ $pdp-top: $header-height + $secondary-header-height;
     padding: 0 30px;
 }
 .header {
-    font-size: 25px;
-    font-family: $font-Serif;
-    color: #333;
+    @include h2_24px_lora_charcoal();
     line-height: 60px;
     text-transform: capitalize;
     text-align: center;

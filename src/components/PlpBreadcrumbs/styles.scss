@@ -7,14 +7,10 @@
         letter-spacing: 1px;
         line-height: 43px;
         text-decoration: none;
-        @include pdp_breadcrumbs();
+        @include b5_10px_montserrat_charcoal();
+        color: #8C8C8C;
         &:last-child {
-            color: tint(#000, 40%);
+            color: $charcoal19;
         }
     }
-
-    a:hover {
-        color: $cerise;
-    }
-
 }

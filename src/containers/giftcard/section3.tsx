@@ -9,7 +9,6 @@ import FormInput from "../../components/Formsy/FormInput";
 import FormTextArea from "components/Formsy/FormTextArea";
 // import { Currency, currencyCode } from "typings/currency";
 import * as valid from "utils/validate";
-import Button from "./button";
 
 const Section3: React.FC<Section3Props> = ({ next, data, goback, mobile }) => {
   const RegisterFormRef = React.useRef<Formsy>(null);
@@ -101,26 +100,27 @@ const Section3: React.FC<Section3Props> = ({ next, data, goback, mobile }) => {
           }
         )}
       >
-        <div className={cs(bootstrapStyles.row, globalStyles.voffset6)}>
-          <div
-            className={cs(
-              bootstrapStyles.col10,
-              bootstrapStyles.offset1,
-              globalStyles.textCenter
-            )}
-          >
-            <i className={styles.arrowUp}></i>
-            <p
-              className={styles.backGc}
-              onClick={() => {
-                goback("amount");
-              }}
-            >
-              Back To Value
-            </p>
+        <div
+          className={cs(
+            bootstrapStyles.col12,
+            bootstrapStyles.colLg4,
+            bootstrapStyles.offsetLg4,
+            globalStyles.textCenter
+          )}
+        >
+          <div className={cs(bootstrapStyles.row)}>
+            <div className={cs(bootstrapStyles.col10, globalStyles.textLeft)}>
+              <p
+                className={styles.backGc}
+                onClick={() => {
+                  goback("amount");
+                }}
+              >
+                {`<`}Back To Value
+              </p>
+            </div>
           </div>
         </div>
-        <div className={bootstrapStyles.row}></div>
         <div className={cs(bootstrapStyles.row, styles.nobg, styles.loginForm)}>
           <Formsy
             ref={RegisterFormRef}
@@ -142,7 +142,7 @@ const Section3: React.FC<Section3Props> = ({ next, data, goback, mobile }) => {
                   <FormInput
                     name="recipientName"
                     placeholder={"Recipient's Name"}
-                    label={"Name"}
+                    label={"Recipient's Name *"}
                     value={data["recipientName"]}
                     keyPress={e => (e.key == "Enter" ? e.preventDefault() : "")}
                     inputRef={lastNameInput}
@@ -163,7 +163,7 @@ const Section3: React.FC<Section3Props> = ({ next, data, goback, mobile }) => {
                   <FormInput
                     name="recipientEmail"
                     placeholder={"Recipient's Email"}
-                    label={"Email"}
+                    label={"Recipient's Email *"}
                     value={data["recipientEmail"]}
                     keyPress={e => (e.key == "Enter" ? e.preventDefault() : "")}
                     inputRef={emailInput}
@@ -183,7 +183,7 @@ const Section3: React.FC<Section3Props> = ({ next, data, goback, mobile }) => {
                   <FormInput
                     name="recipientEmailConfirm"
                     placeholder={"Confirm Recipient's Email"}
-                    label={"Confirm Email"}
+                    label={"Confirm Recipient's Email"}
                     keyPress={e => (e.key == "Enter" ? e.preventDefault() : "")}
                     inputRef={emailInput}
                     value={data["recipientEmail"]}
@@ -226,7 +226,7 @@ const Section3: React.FC<Section3Props> = ({ next, data, goback, mobile }) => {
                     // value={textarea}
                     // className={ehighlight ? "error-border" : ""}
                   ></FormTextArea>
-                  <div className={globalStyles.textLeft}>
+                  <div className={cs(globalStyles.textLeft, styles.limit)}>
                     Character Limit:{" "}
                     {250 - (textarea.trim() == "" ? 0 : textarea.length)}
                   </div>
@@ -260,36 +260,17 @@ const Section3: React.FC<Section3Props> = ({ next, data, goback, mobile }) => {
                     required
                   />
                 </div>
-              </div>
-            </div>
-
-            <div
-              className={cs(
-                bootstrapStyles.col12,
-                bootstrapStyles.colLg4,
-                bootstrapStyles.offsetLg4,
-                globalStyles.textCenter,
-                styles.buttonBg
-              )}
-            >
-              <Button value="" onClick={gotoNext}>
-                <input
-                  type="submit"
-                  className={styles.inputButton}
-                  value="proceed to preview card"
-                />
-              </Button>
-            </div>
-            <div
-              className={cs(
-                bootstrapStyles.row,
-                bootstrapStyles.col12,
-                globalStyles.textCenter,
-                globalStyles.voffset4
-              )}
-            >
-              <div className={bootstrapStyles.col12}>
-                <i className={styles.arrowDown}></i>
+                <div className={cs(bootstrapStyles.col12, styles.buttonRow)}>
+                  <div className={cs(styles.imageSelectBtnContainer)}>
+                    <button
+                      className={styles.imageSelectBtn}
+                      onClick={gotoNext}
+                    >
+                      Confirm & Preview Card&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                      <span></span>
+                    </button>
+                  </div>
+                </div>
               </div>
             </div>
           </Formsy>

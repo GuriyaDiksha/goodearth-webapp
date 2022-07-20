@@ -20,6 +20,7 @@ export interface PlpResult {
   banner: string;
   bannerMobile: string;
   bannerUrl: string;
+  filtered_facets: any;
 }
 
 export type PlpProps = {
@@ -36,6 +37,7 @@ export type FilterProps = {
   history: any;
   changeLoader?: (data: boolean) => void;
   onStateChange?: () => void;
+  filterCount?: number;
 };
 
 export type State = {

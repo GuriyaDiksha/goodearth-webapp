@@ -27,7 +27,7 @@
         padding: 5px;
         text-align: center;
         span {
-          @include plp_subhdr_dd();
+          @include plp_bottom_filters();
           line-height: 35px;
         }
     
@@ -63,7 +63,6 @@
             @include plp_subhdr_open_mob();
             letter-spacing: 1px;
             text-transform: uppercase;
-      
             &:first-child {
               float: left;
               margin-left: 0px;
@@ -96,14 +95,18 @@
             height: 100%;
             overflow: scroll;
             margin-bottom: 0;
-            li {
             padding: 0 20px;
-            line-height: 50px;
-            @include menu-subcopy();
-            border-bottom: 1px solid tint(#000, 90%);
-            a {
-                color: tint(#000, 50%);
-            }
+            li {
+              padding: 0 10px;
+              line-height: 50px;
+              @include menu-subcopy();
+              border-bottom: 1px solid tint(#000, 90%);
+              a {
+                  color: tint(#000, 50%);
+              }
+              &.gold-color{
+                color: $gold;
+              }
             }
         }
       }
