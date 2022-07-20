@@ -183,7 +183,7 @@ const PlpDropdownMenu = ({
               }
             )}
           >
-            <span>{"Sort"}</span>
+            <span>{"Sort By"}</span>
 
             <span onClick={onInsideClick}>X</span>
           </div>

@@ -181,6 +181,9 @@
     display: flex;
     justify-content: center;
     line-height: 40px;
+    a {
+        color: $med-charcoal !important;
+    }
 }
 
 

@@ -237,7 +237,7 @@
       background-color: #f9f8f5;
       span {
         line-height: 50px;
-        @include plp_prod_quantity();
+        @include b5_10px_montserrat_charcoal();
       }
   
     }
@@ -623,7 +623,7 @@ input[type="radio"]:checked, [type="checkbox"]:not(:checked),
     padding: 0px !important;
   }
   label {
-    background-color: #f9f8f5;
+    background: #f9f8f5;
     display: inline-block;
     text-align: center;
     min-width: 40px;
@@ -641,32 +641,57 @@ input[type="radio"]:checked, [type="checkbox"]:not(:checked),
     letter-spacing: 0.36px;
     position: relative;
     min-height: 40px;
-    &:hover {
+    &:hover{
       border: 1px solid $aqua-bold;
-      background-color: #f9f8f5;
+      color: $aqua-bold;
+    }
+    &.select_size{
+      border: 1px solid $aqua-bold !important;
       color: $aqua-bold;
       font-weight: 500;
     }
-    &.select_size {
-      border: 1px solid $aqua-bold;
-      background-color: white;
-      font-size:12px;
-      color: $aqua-bold;
-      font-weight: 500;
+    &.disableSize{
+      color: #E5E5E5 !important;
+      border: 1px solid #E5E5E5;
+      background: linear-gradient(to left top, #f9f8f5 47.75%, currentColor 50.5%, currentColor 49.5%, #f9f8f5 51.25%);
+      &:hover{
+        border: 1px solid $aqua-bold;
+      }
     }
-  }
-  .disableSize{
-    color: #E5E5E5;
-    border: #E5E5E5;
-    border-style: solid;
-    border-width: 1px;
-    background: linear-gradient(to left top, #f9f8f5 47.75%, currentColor 50.5%, currentColor 49.5%, #f9f8f5 51.25%);
-    &:hover {
-      border: 1px solid $aqua-bold;
-      background: white;
-      color: $aqua-bold;
-      font-weight: 500;
-    }
+    
+    // &:hover {
+    //   border: 1px solid $aqua-bold;
+    //   background-color: #f9f8f5;
+    //   color: $aqua-bold;
+    //   font-weight: 500;
+    // }
+    // &.select_size {
+    //   border: 1px solid $aqua-bold;
+    //   background-color: white;
+    //   font-size:12px;
+    //   color: $aqua-bold;
+    //   font-weight: 500;
+    //   &.select-size{
+    //     border: 1px solid $aqua-bold;
+    //     background-color: white;
+    //     font-size:12px;
+    //     color: #e5e5e5;
+    //     font-weight: 500;
+    //   }
+    // }
+    // &.disableSize{
+    //   color: #E5E5E5;
+    //   border: #E5E5E5;
+    //   border-style: solid;
+    //   border-width: 1px;
+    //   background: linear-gradient(to left top, #f9f8f5 47.75%, currentColor 50.5%, currentColor 49.5%, #f9f8f5 51.25%);
+    //   &:hover {
+    //     border: 1px solid $aqua-bold;
+    //     background: white;
+    //     color: $aqua-bold;
+    //     font-weight: 500;
+    //   }
+    // }
   }
 }
 
