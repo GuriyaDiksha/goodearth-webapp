@@ -34,7 +34,7 @@
 }
 
 .filter-text{
-  @include b4_12px_medium_charcoal_caps();
+  @include b4_12px_medium_medcharcoal_caps();
   letter-spacing: 1px;
   text-transform: uppercase;
   line-height: $secondary-header-height;
@@ -195,10 +195,11 @@
       }
     }
     span {
-      @include plp_filter_copy();
+      font-family: $font-Montserrat;
+      font-size: 10px;
+      color: $charcoal19;
       line-height: 35px;
       padding-left: 6px;
-      //margin-left: 35px;
     }
 }
 
@@ -280,7 +281,7 @@
 
 .filter-elements {
     span {
-      @include b4_12px_medium_charcoal_caps();
+      @include b4_12px_medium_medcharcoal_caps();
       padding-left: 0px;
     }
     ul {
