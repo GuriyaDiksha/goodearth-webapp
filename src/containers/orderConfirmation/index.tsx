@@ -175,10 +175,10 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
   const shippingAddress = confirmData?.shippingAddress?.[0],
     billingAddress = confirmData?.billingAddress?.[0];
 
-  let giftCardAmount = 0;
-  for (let i = 0; i < confirmData.giftVoucherRedeemed?.length; i++) {
-    giftCardAmount += confirmData.giftVoucherRedeemed[i];
-  }
+  // let giftCardAmount = 0;
+  // for (let i = 0; i < confirmData.giftVoucherRedeemed?.length; i++) {
+  //   giftCardAmount += confirmData.giftVoucherRedeemed[i];
+  // }
 
   if (!confirmData?.number) {
     return <></>;
@@ -532,7 +532,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
               </div>
             </div>
           </div>
-          <div className={cs(bootstrapStyles.row, styles.white)}>
+          {/* <div className={cs(bootstrapStyles.row, styles.white)}>
             <div className={cs(styles.priceSection)}>
               <div className={cs(styles.subTotalSection)}>
                 <p>SUBTOTAL</p>
@@ -595,7 +595,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                 </p>
               </div>
             </div>
-          </div>
+          </div> */}
 
           <div className={bootstrapStyles.row}>
             <div
