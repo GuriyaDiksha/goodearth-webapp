@@ -145,7 +145,6 @@ const Section2: React.FC<Section2Props> = ({
   };
 
   const setValuetext = (e: any) => {
-    console.log("here");
     setIsCustom(true);
     setNumhighlight(true);
     setErrorBorder(true);
@@ -155,41 +154,52 @@ const Section2: React.FC<Section2Props> = ({
   const currValue = (value: string | number) => {
     let status = false;
     let msg = "";
-    switch (currency) {
-      case "INR":
-        if (+value < 5000) {
-          status = true;
-          msg =
-            "Sorry, the minimum value of Gift Card is Rs 5000. Please enter a value greater than or equal to Rs 5000.";
-        } else if (+value > 500000) {
-          status = true;
-          msg =
-            "Sorry, the maximum value of Gift card is Rs 5,00,000. Please enter a value less than or equal to Rs 5,00,000.";
+
+    //TODO: To generate data. Can be fetched from an API
+    const currencyList = ["INR", "USD", "GBP", "AED", "SGD"];
+    const minLimits = ["5,000", "50", "50", "100", "100"];
+    const maxLimits = ["5,00,000", "8,000", "5,500", "25,000", "10,000"];
+
+    let limitsList: any = {};
+    currencyList.map((curr, i) => {
+      const limit = {
+        [currencyList[i]]: {
+          min: minLimits[i],
+          max: maxLimits[i]
         }
-        break;
-      case "USD":
-      case "GBP":
-        if (+value < 50) {
-          status = true;
-          msg = `Sorry, the minimum value of Gift Card is ${String.fromCharCode(
-            currencyCode[currency]
-          )} 50. Please enter a value greater than or equal to ${String.fromCharCode(
-            currencyCode[currency]
-          )} 50.`;
-        }
-        break;
-      case "AED":
-      case "SGD":
-        if (+value < 100) {
-          status = true;
-          msg = `Sorry, the minimum value of Gift Card is ${String.fromCharCode(
-            ...currencyCode[currency]
-          )} 100. Please enter a value greater than or equal to ${String.fromCharCode(
-            ...currencyCode[currency]
-          )} 100.`;
-        }
-        break;
+      };
+      limitsList = Object.assign(limitsList, limit);
+    });
+    // =======================================================//
+
+    const minString = (currency: string) => {
+      return `Sorry, the minimum value of Gift Card is ${String.fromCharCode(
+        currencyCode[currency]
+      )} ${
+        limitsList[currency].min
+      }. Please enter a value greater than or equal to ${String.fromCharCode(
+        currencyCode[currency]
+      )} ${limitsList[currency].min}.`;
+    };
+
+    const maxString = (currency: string) => {
+      return `Sorry, the maximum value of Gift card is ${String.fromCharCode(
+        currencyCode[currency]
+      )} ${
+        limitsList[currency].max
+      }. Please enter a value less than or equal to ${String.fromCharCode(
+        currencyCode[currency]
+      )} ${limitsList[currency].max}.`;
+    };
+
+    if (+value < +limitsList[currency].min.replaceAll(",", "")) {
+      status = true;
+      msg = minString(currency);
+    } else if (+value > +limitsList[currency].max.replaceAll(",", "")) {
+      status = true;
+      msg = maxString(currency);
     }
+
     return { sta: status, message: msg };
   };
 
