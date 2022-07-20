@@ -48,8 +48,8 @@ const Opportunities: React.FC<Props> = ({ data, title }) => {
             </div>
 
             <div className={landing.dept_card_content}>
-              <p className={landing.dept_card_heading}>{ele.dept}</p>
-              <p className={landing.dept_card_desc}>{ele.summary}</p>
+              <p className={landing.dept_card_heading}>{ele?.dept}</p>
+              <p className={landing.dept_card_desc}>{ele?.deptDesc}</p>
             </div>
           </div>
         ))}

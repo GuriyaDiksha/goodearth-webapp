@@ -8,6 +8,7 @@ export type Data = {
   exp: number;
   desc: string;
   req: string;
+  deptDesc: string;
 };
 
 export type Depts = {
