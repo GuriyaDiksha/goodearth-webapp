@@ -13,19 +13,36 @@ import invoice from "../../../../images/invoice.svg";
 import invoiceDisabled from "../../../../images/invoiceDisabled.svg";
 
 const OnlineOrders: React.FC<OrdersProps> = props => {
-  const [data, setData] = useState([]);
+  const [data, setData] = useState<any[]>([]);
+  const [pagination, setPagination] = useState({
+    count: 0,
+    prev: null,
+    next: null
+  });
   // const [hasShopped, setHasShopped] = useState(false);
   const [isOpenAddressIndex, setIsOpenAddressIndex] = useState(-1);
   const dispatch = useDispatch();
   const history = useHistory();
-  useEffect(() => {
+
+  const fetchOrders = (url?: string | null) => {
     props.isLoading(true);
-    AccountService.fetchMyOrders(dispatch)
-      .then(data => {
-        setData(data.results.slice(0, 14));
+    AccountService.fetchMyOrders(dispatch, url)
+      .then((resData: any) => {
+        console.log("check====,", resData?.prev, data, resData?.results);
+        if (resData?.previous) {
+          setData([...data, ...resData.results]);
+        } else {
+          setData(resData.results);
+        }
+
         // setHasShopped(data.results.length > 0);
-        props.hasShopped(data.results.length > 0);
-        props.isDataAvaliable(data.results.length > 0);
+        props.hasShopped(resData.results.length > 0);
+        props.isDataAvaliable(resData.results.length > 0);
+        setPagination({
+          count: resData?.count,
+          prev: resData?.previous,
+          next: resData?.next
+        });
       })
       .then(() => {
         props.isLoading(false);
@@ -43,7 +60,14 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
     return () => {
       props.hasShopped(false);
     };
+  };
+  useEffect(() => {
+    fetchOrders();
   }, []);
+
+  const backToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
 
   const showDetails = (index: number, id: string): any => {
     setIsOpenAddressIndex(index);
@@ -449,7 +473,8 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
   };
   return (
     <div>
-      {data.map((item: any, i: number) => {
+      {console.log("data====", data)}
+      {data?.map((item: any, i: number) => {
         return (
           <div
             className={cs(bootstrapStyles.row, globalStyles.voffset4)}
@@ -461,6 +486,22 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
           </div>
         );
       })}
+      {data?.length ? (
+        <div className={styles.btnWrp}>
+          {pagination?.next ? (
+            <button
+              className={styles.loadMoreBtn}
+              onClick={() => fetchOrders(pagination?.next)}
+            >
+              Load More
+            </button>
+          ) : (
+            <button className={styles.backToTopBtn} onClick={() => backToTop()}>
+              Back to top
+            </button>
+          )}
+        </div>
+      ) : null}
     </div>
   );
 };

@@ -172,7 +172,7 @@ const InShopOrder: React.FC<OrdersProps> = props => {
 
   return (
     <div>
-      {data.map((item: any, i: number) => {
+      {data?.map((item: any, i: number) => {
         return (
           <div
             className={cs(bootstrapStyles.row, globalStyles.voffset4)}

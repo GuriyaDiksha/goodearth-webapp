@@ -35,10 +35,10 @@ export default {
     );
     return data;
   },
-  fetchMyOrders: async (dispatch: Dispatch) => {
+  fetchMyOrders: async (dispatch: Dispatch, url?: string | null) => {
     const data = await API.get<MyOrdersResponse>(
       dispatch,
-      `${__API_HOST__ + "/myapi/order/my_orders"}`
+      url ? url : `${__API_HOST__ + "/myapi/order/my_orders"}`
     );
     return data;
   },
