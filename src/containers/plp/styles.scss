@@ -507,6 +507,7 @@
   }
   input[type="checkbox"]:checked + label:before {
     background-color: $aqua;
+    border: 1px solid $aqua;
   }
 }
 
