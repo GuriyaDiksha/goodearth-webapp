@@ -7,11 +7,7 @@ import cs from "classnames";
 import { useLocation } from "react-router";
 import { AppState } from "reducers/typings";
 import { useSelector } from "react-redux";
-// import { Link } from "react-router-dom";
-// import INRBanner from "../../images/banner/INRBanner.jpg";
-// import USDGBPBanner from "../../images/banner/USDGBPBanner.jpg";
-// import INRBannerMobile from "../../images/banner/INRBannerMobile.jpg";
-// import USDGBPBannerMobile from "../../images/banner/USDGBPBannerMobile.jpg";
+import * as util from "utils/validate";
 
 const MakerPage: React.FC = () => {
   const [mounted, setMounted] = useState(false);
@@ -37,29 +33,17 @@ const MakerPage: React.FC = () => {
       this.reset();
     });
     let page = "";
-    let pagetitle = "";
     switch (location.pathname) {
       case "/":
-        page = "HomePageView";
-        pagetitle = "virtual_homePage_view";
+        page = "Home";
         break;
       case "/workshops":
-        page = "WorkshopsPageView";
-        pagetitle = "virtual_workshops_view";
+        page = "Workshops";
         break;
       default:
-        pagetitle = "virtual_homePage_view";
-        page = "HomePageView";
+        page = "Home";
     }
-    dataLayer.push({
-      event: page,
-      PageURL: location.pathname,
-      Page_Title: pagetitle
-    });
-    Moengage.track_event("Page viewed", {
-      "Page URL": location.pathname,
-      "Page Name": page
-    });
+    util.pageViewGTM(page);
   }, []);
 
   useEffect(() => {
