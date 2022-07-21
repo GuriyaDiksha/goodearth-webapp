@@ -87,6 +87,7 @@ const Section2: React.FC<Section2Props> = ({
     setSelectvalue(id);
     setErrorBorder(false);
     setNumhighlight(false);
+    setNummsg("");
   };
   const { cookies } = useSelector((state: AppState) => state);
 
