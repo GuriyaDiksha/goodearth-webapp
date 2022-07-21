@@ -129,9 +129,11 @@ const BaseDropdownMenu = ({
               //=================Currency Dropdown Sidemenu =====================================
               { [styles.arrow]: id == "currency-dropdown-sidemenu" },
               {
-                [styles.close]: !menuOpen && id == "currency-dropdown-sidemenu"
+                [styles.close]: menuOpen && id == "currency-dropdown-sidemenu"
               },
-              { [styles.open]: menuOpen && id == "currency-dropdown-sidemenu" },
+              {
+                [styles.open]: !menuOpen && id == "currency-dropdown-sidemenu"
+              },
               {
                 [styles.goldBorder]:
                   menuOpen && id == "currency-dropdown-sidemenu"

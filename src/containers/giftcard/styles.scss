@@ -356,7 +356,7 @@ input[type="radio"]:checked+label:before {
   }
   input[type="number"] {
     background-color: #fff;
-    padding: 15px 15px 15px 40px;
+    padding: 15px 15px 15px 48px;
     width: 100%;
     border: 1px solid $aqua !important;
     -moz-appearance: textfield;
@@ -375,10 +375,13 @@ input[type="radio"]:checked+label:before {
 
 .curr {
   position: absolute;
-  top: 30%;
-  left: 15px;
+  top: 0;
+  left: 4px;
   @include b3_14px_montserrat_charcoal();
   color: #9F9F9F;
+  height: 50px;
+  width: 20%;
+  line-height: 50px;
 }
 .gc {
   background: url('../../images/greyBg.jpg') repeat;

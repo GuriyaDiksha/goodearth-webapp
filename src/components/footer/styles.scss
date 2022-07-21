@@ -273,9 +273,11 @@
       li {
         text-transform: capitalize;
         line-height: 30px;
+        @include b4_12px_montserrat_charcoal();
         a {
           @include b4_12px_montserrat_charcoal();
         }
+        
       }
       span {
         @include b3_14px_montserrat_semibold_charcoal();
