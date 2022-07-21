@@ -28,7 +28,6 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
     props.isLoading(true);
     AccountService.fetchMyOrders(dispatch, url)
       .then((resData: any) => {
-        console.log("check====,", resData?.prev, data, resData?.results);
         if (resData?.previous) {
           setData([...data, ...resData.results]);
         } else {
@@ -473,7 +472,6 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
   };
   return (
     <div>
-      {console.log("data====", data)}
       {data?.map((item: any, i: number) => {
         return (
           <div

@@ -14,6 +14,7 @@ import invoiceDisabled from "../../../../images/invoiceDisabled.svg";
 
 const InShopOrder: React.FC<OrdersProps> = props => {
   const [data, setData] = useState<any>([]);
+  const [allData, setAllData] = useState<any>([]);
   const [isOpenAddressIndex, setIsOpenAddressIndex] = useState(-1);
   const dispatch = useDispatch();
   // const history = useHistory();
@@ -22,7 +23,8 @@ const InShopOrder: React.FC<OrdersProps> = props => {
     props.isLoading(true);
     AccountService.fetchInshopOrder(dispatch, props.email || "")
       .then((result: any) => {
-        setData(result.slice(0, 14));
+        setData(result.slice(0, 10));
+        setAllData(result);
         props.hasShopped(result.length > 0);
         props.isDataAvaliable(result.length > 0);
       })
@@ -36,6 +38,14 @@ const InShopOrder: React.FC<OrdersProps> = props => {
       props.hasShopped(false);
     };
   }, []);
+
+  const backToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  const loadMore = () => {
+    setData([...data, ...allData.slice(data.length, data.length + 10)]);
+  };
 
   const showDetails = (index: number, id: string): any => {
     setIsOpenAddressIndex(index);
@@ -192,6 +202,20 @@ const InShopOrder: React.FC<OrdersProps> = props => {
           </div>
         );
       })}
+
+      {data?.length ? (
+        <div className={styles.btnWrp}>
+          {data?.length !== allData?.length ? (
+            <button className={styles.loadMoreBtn} onClick={() => loadMore()}>
+              Load More
+            </button>
+          ) : (
+            <button className={styles.backToTopBtn} onClick={() => backToTop()}>
+              Back to top
+            </button>
+          )}
+        </div>
+      ) : null}
     </div>
   );
 };
