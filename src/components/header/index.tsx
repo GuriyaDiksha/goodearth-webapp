@@ -197,9 +197,9 @@ class Header extends React.Component<Props, State> {
         if (that.props.showSizeChart) {
           that.props.closeSizeChart();
         }
-        if (that.props.openModal) {
-          that.props.closeModal();
-        }
+        // if (that.props.openModal) {
+        //   that.props.closeModal();
+        // }
         if (that.props.showStock) {
           that.props.closeInShopAvailability();
         }

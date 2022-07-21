@@ -148,6 +148,38 @@
    
 }
 
+.price-section{
+    text-align: center;
+    margin: auto;
+    border: 1px solid #ccc;
+    width: 65.8%;
+    margin-top: -16px;
+    padding: 0px 20px;
+    margin-bottom: 30px;
+    border-top: none;
+
+    @media screen and (max-width: 767px) {
+        width: 81.5%;
+    }
+
+    .sub-total-section{
+        display: flex;
+        justify-content: space-between;
+        font-weight: 600;
+        margin: 20px 0px;
+    }
+
+    .discount-section{
+        border-bottom: 1px solid #e6e6e6;
+        display: flex;
+        justify-content: space-between;
+        padding: 15px 0px;
+        font-size: 14px;
+    }
+
+
+}
+
 @media screen and (min-width: 992px) {
 .os {
    
