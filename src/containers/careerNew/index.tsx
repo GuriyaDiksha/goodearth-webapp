@@ -10,7 +10,7 @@ const Career: React.FC = () => {
       <Route key="landing" exact path="/careers/">
         <Landing />
       </Route>
-      <Route key="listing" exact path="/careers/list/:dept">
+      <Route key="listing" exact path="/careers/list">
         <Listing />
       </Route>
       <Route key="jobdetail" exact path="/careers/job/:id">

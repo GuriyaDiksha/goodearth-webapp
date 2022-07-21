@@ -37,7 +37,10 @@ const Listing: React.FC = () => {
       setSelectedDept(vars.dept.split("+"));
     }
     if (vars?.loc) {
-      temp = [...temp, ...vars?.loc?.split("+")];
+      temp = [
+        ...temp,
+        ...vars?.loc?.split("+").map(e => e.replace(/%20/g, " "))
+      ];
     }
     if (vars?.tag) {
       temp = [...temp, ...vars?.tag?.split("+")];
