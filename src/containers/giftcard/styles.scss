@@ -448,6 +448,28 @@ form {
       }
     }
   }
+  form {
+    input {
+      @include b4_12px_montserrat_charcoal();
+      &[type="text"]{
+        font-size: 12px;
+      }
+    }
+    select{
+      background-color: #fff;
+      border: 1px solid #eee;
+      width: 100%;
+      padding: 10px;
+      line-height: 25px;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none;
+      border-radius: 0;
+    }
+    label{
+      @include b6_9px_light_montserrat_charcoal();
+    }
+  }
 }
 
 .form-bg {
