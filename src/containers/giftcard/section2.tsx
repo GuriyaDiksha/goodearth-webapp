@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import cs from "classnames";
 import bootstrapStyles from "../../styles/bootstrap/bootstrap-grid.scss";
 import globalStyles from "styles/global.scss";
@@ -46,6 +46,9 @@ const Section2: React.FC<Section2Props> = ({
   const GiftSection = React.useRef<Formsy>(null);
   const [country, setCountry] = useState(selectedCountry);
   const { customerGroup } = useSelector((state: AppState) => state.user);
+
+  const gcValueRef = useRef();
+
   useEffect(() => {
     const form = GiftSection.current;
     if (form) {
@@ -150,41 +153,52 @@ const Section2: React.FC<Section2Props> = ({
   const currValue = (value: string | number) => {
     let status = false;
     let msg = "";
-    switch (currency) {
-      case "INR":
-        if (+value < 5000) {
-          status = true;
-          msg =
-            "Sorry, the minimum value of Gift Card is Rs 5000. Please enter a value greater than or equal to Rs 5000.";
-        } else if (+value > 500000) {
-          status = true;
-          msg =
-            "Sorry, the maximum value of Gift card is Rs 5,00,000. Please enter a value less than or equal to Rs 5,00,000.";
+
+    //TODO: To generate data. Can be fetched from an API
+    const currencyList = ["INR", "USD", "GBP", "AED", "SGD"];
+    const minLimits = ["5,000", "50", "50", "100", "100"];
+    const maxLimits = ["5,00,000", "8,000", "5,500", "25,000", "10,000"];
+
+    let limitsList: any = {};
+    currencyList.map((curr, i) => {
+      const limit = {
+        [currencyList[i]]: {
+          min: minLimits[i],
+          max: maxLimits[i]
         }
-        break;
-      case "USD":
-      case "GBP":
-        if (+value < 50) {
-          status = true;
-          msg = `Sorry, the minimum value of Gift Card is ${String.fromCharCode(
-            currencyCode[currency]
-          )} 50. Please enter a value greater than or equal to ${String.fromCharCode(
-            currencyCode[currency]
-          )} 50.`;
-        }
-        break;
-      case "AED":
-      case "SGD":
-        if (+value < 100) {
-          status = true;
-          msg = `Sorry, the minimum value of Gift Card is ${String.fromCharCode(
-            ...currencyCode[currency]
-          )} 100. Please enter a value greater than or equal to ${String.fromCharCode(
-            ...currencyCode[currency]
-          )} 100.`;
-        }
-        break;
+      };
+      limitsList = Object.assign(limitsList, limit);
+    });
+    // =======================================================//
+
+    const minString = (currency: string) => {
+      return `Sorry, the minimum value of Gift Card is ${String.fromCharCode(
+        currencyCode[currency]
+      )} ${
+        limitsList[currency].min
+      }. Please enter a value greater than or equal to ${String.fromCharCode(
+        currencyCode[currency]
+      )} ${limitsList[currency].min}.`;
+    };
+
+    const maxString = (currency: string) => {
+      return `Sorry, the maximum value of Gift card is ${String.fromCharCode(
+        currencyCode[currency]
+      )} ${
+        limitsList[currency].max
+      }. Please enter a value less than or equal to ${String.fromCharCode(
+        currencyCode[currency]
+      )} ${limitsList[currency].max}.`;
+    };
+
+    if (+value < +limitsList[currency].min.replaceAll(",", "")) {
+      status = true;
+      msg = minString(currency);
+    } else if (+value > +limitsList[currency].max.replaceAll(",", "")) {
+      status = true;
+      msg = maxString(currency);
     }
+
     return { sta: status, message: msg };
   };
 
@@ -251,6 +265,12 @@ const Section2: React.FC<Section2Props> = ({
       // currency: countryData[key]
     };
   });
+
+  const compare = (a: any, b: any) => {
+    return (
+      parseInt(b.priceRecords[currency]) - parseInt(a.priceRecords[currency])
+    );
+  };
 
   return (
     <div className={bootstrapStyles.row}>
@@ -348,7 +368,7 @@ const Section2: React.FC<Section2Props> = ({
                   styles.priceBlock
                 )}
               >
-                {productData.map((pro: any) => {
+                {productData.sort(compare).map((pro: any) => {
                   return pro.sku != sku ? (
                     <span
                       key={pro.sku}
@@ -395,15 +415,23 @@ const Section2: React.FC<Section2Props> = ({
                           <input
                             type="number"
                             id={pro.id}
+                            ref={gcValueRef.current}
                             className={
                               errorBorder ? globalStyles.errorBorder : ""
                             }
                             placeholder="Enter Custom Value"
-                            // onClick={e => {
-                            //   setValuetext(e);
-                            // }}
-                            onKeyUp={e => {
-                              setValuetext(e);
+                            onKeyPress={e => {
+                              const invalidChars = ["-", "+", "e"];
+                              if (invalidChars.includes(e.key)) {
+                                e.preventDefault();
+                                return false;
+                              } else {
+                                setValuetext(e);
+                              }
+                            }}
+                            onPaste={e => {
+                              e.preventDefault();
+                              return false;
                             }}
                           />
                           <div className={styles.curr}>
@@ -439,11 +467,9 @@ const Section2: React.FC<Section2Props> = ({
             <div className={cs(bootstrapStyles.col12, styles.buttonRow)}>
               <div className={cs(styles.imageSelectBtnContainer)}>
                 <button
-                  className={cs(
-                    styles.imageSelectBtn,
-                    { [styles.mobileFullWidthButton]: mobile },
-                    { [styles.buttonErrBg]: selectvalue == "" || nummsg != "" }
-                  )}
+                  className={cs(styles.imageSelectBtn, {
+                    [styles.mobileFullWidthButton]: mobile
+                  })}
                   onClick={gotoNext}
                 >
                   proceed to filling details&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
