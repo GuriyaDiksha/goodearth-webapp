@@ -1197,11 +1197,11 @@ visibility: visible !important;
   padding: 150% 0 0 0;
   .outstock {
     background: url('../../images/outofstock-cta.svg') no-repeat;
+    @include b4_12px_medium_medcharcoal_caps();
+    text-transform: uppercase;
     position: absolute;
     top: 50%;
     left: 50%;
-    color: $cerise;
-    font-family: $font-Header;
     letter-spacing: 1px;
     opacity: .8;
     transform: translate(-50%, -50%);
@@ -1211,9 +1211,8 @@ visibility: visible !important;
     justify-content: center;
     line-height: 40px;
     a {
-      color: $cerise;
+        color: $med-charcoal !important;
     }
-
   }
   .image-hover-corporate {
     text-align: center;
@@ -1262,20 +1261,12 @@ visibility: visible !important;
   overflow: hidden;
   text-overflow: ellipsis;
   a {
-      font-size: 16px;
-      font-family: $font-Serif;
-      color: #000;
-      text-transform: capitalize;
-  }
-  span {
-      font-size: 16px;
-      font-family: $font-Serif;
-      color: #000;
-      text-transform: capitalize;
-  }
-  a:hover {
-      color: #ab1e56;
-      text-decoration: none;
+    @include b3_14px_montserrat_charcoal();
+    text-transform: capitalize;
+    letter-spacing: 0.5px;
+    &:hover{
+      @include b3_14px_montserrat_medium_charcoal();
+    }
   }
   .discountprice {
     color: $cerise;
@@ -1289,24 +1280,24 @@ visibility: visible !important;
     font-family: $font-Lato;
   }
 }
-.image-content {
-  .product-h {
-    @include plp_coll_name_desktop();
-    //padding-top: 20px;
-  }
-  .product-n {
+// .image-content {
+//   .product-h {
+//     @include plp_coll_name_desktop();
+//     //padding-top: 20px;
+//   }
+//   .product-n {
 
-    @include plp_prod_name_desktop();
-    a {
-      @include plp_prod_name_desktop();
-    }
-    a {
-      &:hover {
-        color: $cerise;
-      }
-    }
-  }
-}
+//     @include plp_prod_name_desktop();
+//     a {
+//       @include plp_prod_name_desktop();
+//     }
+//     // a {
+//     //   &:hover {
+//     //     color: $cerise;
+//     //   }
+//     // }
+//   }
+// }
 
 .fixed-pincode-bar {
   position: fixed;

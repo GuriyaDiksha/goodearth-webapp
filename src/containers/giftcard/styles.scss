@@ -334,6 +334,7 @@ input[type="radio"]:checked+label:before {
 .price-block {
   span {
     @include b3_14px_montserrat_aqua();
+    color: #3c7979;
     margin: 10px 25px;
     background-color: #fff;
     width: 220px;
@@ -344,7 +345,7 @@ input[type="radio"]:checked+label:before {
     border: 2px solid transparent;
   }
   > p {
-    @include b4_12px_montserrat_light_charcoal();
+    @include b4_12px_montserrat_medium_charcoal();
     text-transform: uppercase;
   }
   span:hover {
@@ -356,7 +357,7 @@ input[type="radio"]:checked+label:before {
   }
   input[type="number"] {
     background-color: #fff;
-    padding: 15px 15px 15px 40px;
+    padding: 15px 15px 15px 48px;
     width: 100%;
     border: 1px solid $aqua !important;
     -moz-appearance: textfield;
@@ -375,10 +376,13 @@ input[type="radio"]:checked+label:before {
 
 .curr {
   position: absolute;
-  top: 30%;
-  left: 15px;
+  top: 0;
+  left: 4px;
   @include b3_14px_montserrat_charcoal();
   color: #9F9F9F;
+  height: 50px;
+  width: 20%;
+  line-height: 50px;
 }
 .gc {
   background: url('../../images/greyBg.jpg') repeat;
@@ -442,6 +446,28 @@ form {
       &:focus{
         font-size: 12px !important;
       }
+    }
+  }
+  form {
+    input {
+      @include b4_12px_montserrat_charcoal();
+      &[type="text"]{
+        font-size: 12px;
+      }
+    }
+    select{
+      background-color: #fff;
+      border: 1px solid #eee;
+      width: 100%;
+      padding: 10px;
+      line-height: 25px;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none;
+      border-radius: 0;
+    }
+    label{
+      @include b6_9px_light_montserrat_charcoal();
     }
   }
 }
