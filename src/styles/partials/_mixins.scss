@@ -98,9 +98,9 @@
 @mixin menu-subcopy {
   font-family: $font-Montserrat;
   font-size: 12px;
+  color: $charcoal19;
+  font-weight: 300;
   letter-spacing: 1px;
-  color: tint(#000, 30%);
-  font-weight: 400;
 }
 
 @mixin menu-subcopy-cerise {

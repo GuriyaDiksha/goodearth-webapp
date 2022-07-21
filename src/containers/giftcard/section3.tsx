@@ -183,7 +183,7 @@ const Section3: React.FC<Section3Props> = ({ next, data, goback, mobile }) => {
                   <FormInput
                     name="recipientEmailConfirm"
                     placeholder={"Confirm Recipient's Email"}
-                    label={"Confirm Recipient's Email"}
+                    label={"Confirm Recipient's Email *"}
                     keyPress={e => (e.key == "Enter" ? e.preventDefault() : "")}
                     inputRef={emailInput}
                     value={data["recipientEmail"]}
@@ -242,7 +242,7 @@ const Section3: React.FC<Section3Props> = ({ next, data, goback, mobile }) => {
                   <FormInput
                     name="senderName"
                     placeholder={"Sender's Name"}
-                    label={"Sender's Name"}
+                    label={"Sender's Name *"}
                     value={data["senderName"]}
                     // className={showFieldsClass}
                     keyPress={e => (e.key == "Enter" ? e.preventDefault() : "")}
