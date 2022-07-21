@@ -36,14 +36,29 @@ const MakerPage: React.FC = () => {
     dataLayer.push(function(this: any) {
       this.reset();
     });
+    let page = "";
+    let pagetitle = "";
+    switch (location.pathname) {
+      case "/":
+        page = "HomePageView";
+        pagetitle = "virtual_homePage_view";
+        break;
+      case "/workshops":
+        page = "WorkshopsPageView";
+        pagetitle = "virtual_workshops_view";
+        break;
+      default:
+        pagetitle = "virtual_homePage_view";
+        page = "HomePageView";
+    }
     dataLayer.push({
-      event: "HomePageView",
+      event: page,
       PageURL: location.pathname,
-      Page_Title: "virtual_homePage_view"
+      Page_Title: pagetitle
     });
     Moengage.track_event("Page viewed", {
       "Page URL": location.pathname,
-      "Page Name": "HomePageView"
+      "Page Name": page
     });
   }, []);
 
