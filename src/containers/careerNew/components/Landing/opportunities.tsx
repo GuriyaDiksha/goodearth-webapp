@@ -30,45 +30,44 @@ const Opportunities: React.FC<Props> = ({ data, title }) => {
   const uniquedata = (arr: any) => {
     const uniqueIds: any[] = [];
     const unique = arr.filter((data: any) => {
-      const isDuplicate = uniqueIds.includes(data.id);
+      const isDuplicate = uniqueIds.includes(data.dept);
       if (!isDuplicate) {
-        uniqueIds.push(data.id);
+        uniqueIds.push(data.dept);
         return true;
       }
       return false;
     });
     return unique;
   };
+  const listdata = uniquedata(list)?.filter((item: any) => {
+    return item.dept;
+  });
 
   return (
     <>
       <h1 className={landing.heading}>{title}</h1>
       {isLoading && <Loader />}
       <div className={cs(landing.dept_card_wrapper, bootstrap.row)}>
-        {uniquedata(list)
-          ?.filter((item: any) => {
-            return item.dept;
-          })
-          ?.map((ele: any, i: any) => (
-            <div
-              className={cs(landing.dept_card, bootstrap.colmd4)}
-              key={i}
-              onClick={() => history.push(`/careers/list?dept=${ele.dept}`)}
-            >
-              <div className={landing.dept_card_img_wrp}>
-                <img
-                  src={cardImage}
-                  className={landing.dept_card_img}
-                  alt="dept"
-                />
-              </div>
-
-              <div className={landing.dept_card_content}>
-                <p className={landing.dept_card_heading}>{ele?.dept}</p>
-                <p className={landing.dept_card_desc}>{ele?.deptDesc}</p>
-              </div>
+        {listdata?.map((ele: any, i: any) => (
+          <div
+            className={cs(landing.dept_card, bootstrap.colmd4)}
+            key={i}
+            onClick={() => history.push(`/careers/list?dept=${ele.dept}`)}
+          >
+            <div className={landing.dept_card_img_wrp}>
+              <img
+                src={cardImage}
+                className={landing.dept_card_img}
+                alt="dept"
+              />
             </div>
-          ))}
+
+            <div className={landing.dept_card_content}>
+              <p className={landing.dept_card_heading}>{ele?.dept}</p>
+              <p className={landing.dept_card_desc}>{ele?.deptDesc}</p>
+            </div>
+          </div>
+        ))}
       </div>
 
       {data?.length !== list?.length && !isLoading ? (
