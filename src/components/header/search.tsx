@@ -193,12 +193,12 @@ class Search extends React.Component<Props, State> {
         }
       }
     });
+    this.props.toggle();
     this.props.history.push(data.url);
   }
 
   onClickSearch = (event: any) => {
     if (this.state.searchValue.trim().length > 2) {
-      // console.log(encodeURIComponent(this.state.url))
       this.props.history.push(this.state.url);
       this.closeSearch();
       return false;
@@ -279,6 +279,10 @@ class Search extends React.Component<Props, State> {
     });
   };
 
+  renderCollectionTile = () => {
+    return "abc";
+  };
+
   render() {
     // const cur = "price" + this.props.currency.toLowerCase();
     // const originalCur = "original_price_" + this.props.currency.toLowerCase();
@@ -321,6 +325,14 @@ class Search extends React.Component<Props, State> {
                     this.state.count ? `  (${this.state.count})` : ""
                   }`}
                 </span>
+                <i
+                  className={cs(
+                    iconStyles.icon,
+                    iconStyles.iconSearch,
+                    styles.iconSearchPopup
+                  )}
+                  onClick={this.onClickSearch}
+                ></i>
                 {!mobile && (
                   <i
                     className={cs(
@@ -510,6 +522,37 @@ class Search extends React.Component<Props, State> {
                       })}
                     </div>
                   )}
+                  {
+                    <div>
+                      <p
+                        className={cs(
+                          styles.productHeading,
+                          globalStyles.voffset2,
+                          globalStyles.marginB20
+                        )}
+                      >
+                        CATEGORIES
+                      </p>
+                      <div
+                        className={cs(
+                          styles.productHeading,
+                          globalStyles.voffset2,
+                          globalStyles.marginB20
+                        )}
+                      ></div>
+                    </div>
+                  }
+                  {
+                    <p
+                      className={cs(
+                        styles.productHeading,
+                        globalStyles.voffset2,
+                        globalStyles.marginB20
+                      )}
+                    >
+                      PRODUCTS
+                    </p>
+                  }
                   {mobile && (
                     <p
                       className={cs(
