@@ -31,6 +31,8 @@
             text-transform: uppercase;
             opacity: 1;
             cursor: pointer;
+            border: none;
+            background-color: transparent;
         }
 
         .job_detail_form{
@@ -68,6 +70,13 @@
                     color: $charcoal19;
                     opacity: 1;
                     margin-bottom: 30px;
+                    ul,ol {
+                        list-style:inherit !important;
+                        li{
+                            list-style-type:inherit !important;
+                        }
+                    }
+                    
                 }
                        
 

@@ -9,7 +9,7 @@ import * as valid from "utils/validate";
 import { useSelector, useStore } from "react-redux";
 import { CareerData } from "reducers/career/typings";
 import { AppState } from "reducers/typings";
-import { useParams } from "react-router";
+import { useHistory, useParams } from "react-router";
 import { Data } from "containers/careerNew/typings";
 import Loader from "components/Loader";
 import { Link } from "react-router-dom";
@@ -21,6 +21,7 @@ const JobDetail: React.FC = () => {
   const { dispatch } = useStore();
   const [jobData, setJobData] = useState<Data>();
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const history = useHistory();
 
   useEffect(() => {
     setJobData(data.find(ele => ele?.id == +id));
@@ -42,12 +43,12 @@ const JobDetail: React.FC = () => {
       {isLoading && <Loader />}
 
       <div className={jobDetail.job_detail_form_wrp}>
-        <Link
+        <button
           className={jobDetail.job_detail_form_back}
-          to={`/careers/list/${jobData?.dept}`}
+          onClick={() => history.goBack()}
         >
           &lt; BACK TO JOB LISTING PAGE
-        </Link>
+        </button>
 
         <div className={jobDetail.job_detail_form}>
           <div className={jobDetail.job_detail_form_left}>
@@ -155,12 +156,12 @@ const JobDetail: React.FC = () => {
           </div>
         </div>
 
-        <Link
+        <button
           className={jobDetail.job_detail_form_back}
-          to={`/careers/list/${jobData?.dept}`}
+          onClick={() => history.goBack()}
         >
           &lt; BACK TO JOB LISTING PAGE
-        </Link>
+        </button>
       </div>
     </div>
   );
