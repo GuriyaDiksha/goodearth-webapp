@@ -110,7 +110,7 @@
         text-transform: capitalize;
     }
     span {
-        @include b3_14px_montserrat_medcharcoal();
+        @include b3_14px_montserrat_charcoal();
         text-transform: capitalize;
     }
     .discountprice {
@@ -150,12 +150,13 @@
         li {
             display: inline;
             padding: 0 10px;
+            font-family: $font-Montserrat;
             color: $charcoal19;
-            font-size: 12px;
+            font-size: 10px;
             line-height: 25px;
             &.disabled {
                 text-decoration: line-through;
-                color: tint(#000, 70%);
+                color: $light-charcoal;
               }
         }
     }
@@ -222,13 +223,13 @@
         letter-spacing: 0.4px;
         font-family: $font-Montserrat;
         font-size: 12px;
-        color: $aqua;
-        border: 1.5px solid $aqua;
+        color: $aqua-bold;
+        border: 1.5px solid $aqua-bold;
         background-color: $white;
-        font-weight: 600;
+        font-weight: 500;
         &:hover{
         color: $white;
-        background-color: $aqua;
+        background-color: $aqua-bold;
         }
         &.notify-me{
             border: 1.5px solid $light-charcoal;
