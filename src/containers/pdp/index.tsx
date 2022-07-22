@@ -717,6 +717,15 @@ class PDPContainer extends React.Component<Props, State> {
               onClick={this.onClickImageArrowRight}
             ></div>
           )}
+          {this.state.showLooks && (
+            <div
+              id="looks-btn"
+              className={styles.looksBtn}
+              onClick={this.handleLooksClick}
+            >
+              shop the look
+            </div>
+          )}
         </div>
       );
       // });
@@ -1300,6 +1309,15 @@ class PDPContainer extends React.Component<Props, State> {
                 ) : (
                   ""
                 )}
+                {this.state.showLooks && mobile && (
+                  <div
+                    id="looks-btn-mobile"
+                    className={cs(styles.looksBtnMobile, styles.looksBtn)}
+                    onClick={this.handleLooksClick}
+                  >
+                    shop the look
+                  </div>
+                )}
                 <div
                   className={styles.mobileZoomIcon}
                   onClick={this.getMobileZoomListener(i)}
@@ -1371,15 +1389,6 @@ class PDPContainer extends React.Component<Props, State> {
                   {mobileSlides}
                 </MobileSlider>
               )}
-              {this.state.showLooks && mobile && (
-                <div
-                  id="looks-btn-mobile"
-                  className={cs(styles.looksBtnMobile, styles.looksBtn)}
-                  onClick={this.handleLooksClick}
-                >
-                  shop the look
-                </div>
-              )}
             </div>
           )}
           {/* {!mobile && (
@@ -1428,18 +1437,6 @@ class PDPContainer extends React.Component<Props, State> {
                   activeIndex={activeImage}
                   onImageClick={this.onSliderImageClick}
                 />
-              )}
-              {this.state.showLooks && !mobile && (
-                <div
-                  id="looks-btn"
-                  className={styles.looksBtn}
-                  onClick={this.handleLooksClick}
-                >
-                  shop the look
-                </div>
-              )}
-              {this.state.showLooks && !mobile && (
-                <div className={styles.looksBtnOverlay}></div>
               )}
             </div>
           )}
