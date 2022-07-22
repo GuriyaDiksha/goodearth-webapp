@@ -96,7 +96,7 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
     ? product.images[0]?.productImage
     : "/static/img/noimageplp.png";
   const isStockAvailable = isCorporate || product.inStock;
-  console.log(product);
+
   return (
     <div className={styles.plpMain}>
       {product.salesBadgeImage && (
