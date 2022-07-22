@@ -14,6 +14,7 @@ import { Data } from "containers/careerNew/typings";
 import Loader from "components/Loader";
 import { Link } from "react-router-dom";
 import { copyToClipboard } from "utils/clipboard";
+import ReactHtmlParser from "react-html-parser";
 
 const JobDetail: React.FC = () => {
   const { data }: CareerData = useSelector((state: AppState) => state.career);
@@ -83,8 +84,10 @@ const JobDetail: React.FC = () => {
                 </p>
                 <div
                   className={jobDetail.job_detail_form_desc}
-                  dangerouslySetInnerHTML={{ __html: jobData?.desc || "" }}
-                ></div>
+                  // dangerouslySetInnerHTML={{ __html: jobData?.desc || "" }}
+                >
+                  {ReactHtmlParser(jobData?.desc)}
+                </div>
               </>
             ) : null}
 
