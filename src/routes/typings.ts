@@ -11,7 +11,7 @@ export const enum ROUTES {
   GOOGLE = "/account/google/login/?next=/",
   SEARCH = "/search",
   ACCOUNT = "/account",
-  CAREERDETAIL = "/careers-detail/:slug1?/:slug2?",
+  CAREERDETAIL = "/careers-detail/:jobId",
   CAREER = "/careers",
   WISHLIST = "/wishlist",
   GIFTCARD = "/giftcard",
