@@ -939,11 +939,11 @@ class FilterList extends React.Component<Props, State> {
               }
               onClick={this.handleClickColor}
               value={data[0]}
-              disabled={
-                filtered_facets?.currentColor.filter(
-                  (e: string[]) => e[0] === data[0]
-                ).length === 0
-              }
+              // disabled={
+              //   filtered_facets?.currentColor.filter(
+              //     (e: string[]) => e[0] === data[0]
+              //   ).length === 0
+              // }
             />
             <label
               className={
@@ -973,11 +973,11 @@ class FilterList extends React.Component<Props, State> {
               }
               onClick={this.handleClickColor}
               value={data[0]}
-              disabled={
-                filtered_facets?.currentColor.filter(
-                  (e: string[]) => e[0] === data[0]
-                ).length === 0
-              }
+              // disabled={
+              //   filtered_facets?.currentColor.filter(
+              //     (e: string[]) => e[0] === data[0]
+              //   ).length === 0
+              // }
             />
             <label
               className={
@@ -1320,11 +1320,11 @@ class FilterList extends React.Component<Props, State> {
             }
             onClick={this.handleClickSize}
             value={data[0]}
-            disabled={
-              filtered_facets?.availableSize.filter(
-                (e: string[]) => e[0] === data[0]
-              ).length === 0
-            }
+            // disabled={
+            //   filtered_facets?.availableSize.filter(
+            //     (e: string[]) => e[0] === data[0]
+            //   ).length === 0
+            // }
           />
           <li>
             <label
@@ -1333,12 +1333,11 @@ class FilterList extends React.Component<Props, State> {
                 filter.availableSize[data[0]] &&
                   filter.availableSize[data[0]].isChecked
                   ? cs(styles.sizeCat, styles.select_size)
-                  : styles.sizeCat,
-                filtered_facets?.availableSize.filter(
-                  (e: string[]) => e[0] === data[0]
-                ).length === 0
-                  ? styles.disableSize
-                  : ""
+                  : filtered_facets?.availableSize.filter(
+                      (e: string[]) => e[0] === data[0]
+                    ).length === 0
+                  ? cs(styles.disableSize)
+                  : cs(styles.sizeCat)
               )}
             >
               {data[0]}
