@@ -37,7 +37,7 @@ const Opportunities: React.FC<Props> = ({ data, title }) => {
           <div
             className={cs(landing.dept_card, bootstrap.colmd4)}
             key={i}
-            onClick={() => history.push(`/careers/list/${ele.dept}`)}
+            onClick={() => history.push(`/careers/list?dept=${ele.dept}`)}
           >
             <div className={landing.dept_card_img_wrp}>
               <img
