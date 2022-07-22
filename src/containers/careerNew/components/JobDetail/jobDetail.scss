@@ -2,7 +2,9 @@
 
 .job_detail_wrp{
     margin-top: 80px;
-
+    strong {
+        font-weight: 700;
+    }
     .job_detail_img_wrp{
         position: fixed;
         top: 80px;
@@ -71,7 +73,7 @@
                     opacity: 1;
                     margin-bottom: 30px;
                     ul,ol {
-                        list-style:inherit !important;
+                        list-style:auto;
                         li{
                             list-style-type:inherit !important;
                         }
