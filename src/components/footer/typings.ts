@@ -20,6 +20,7 @@ export type FooterState = {
   hideImage: boolean;
   newsletterEmail: string;
   newsletterMessage: string;
+  newsletterError: boolean;
   isInViewport: boolean;
 };
 
@@ -62,4 +63,5 @@ export type ShopLocatorProps = {
   dropdown?: boolean;
   onChangeText: (event: React.KeyboardEvent) => void;
   shopLocations: ShopLocations;
+  mobile?: boolean;
 };

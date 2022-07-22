@@ -64,7 +64,6 @@ import asset from "images/asset.svg";
 import offer from "images/offer.svg";
 import inshop from "../../../../images/inShop.svg";
 import legal from "../../../../images/legal.svg";
-import DockedPanel from "../../docked";
 import { updateQuickviewId } from "../../../../actions/quickview";
 import Accordion from "components/Accordion";
 import PdpSkeleton from "../pdpSkeleton";

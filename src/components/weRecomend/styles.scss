@@ -2,14 +2,11 @@
 @import "../../styles/partials/mixins";
 
 .recommend-header {
-    font-size: 25px;
-    font-family: $font-Serif;
-    color: #333;
+    @include h2_24px_lora_charcoal();
+    width: 100%;
     line-height: 60px;
     text-transform: capitalize;
     text-align: center;
-    font-weight: 100;
-    width: 100%;
 }
 
 .recommend-bg {
@@ -51,8 +48,6 @@
 
 
 .product-n {
-    font-size: 14px;
-    font-family: $font-Lato;
     color: #000;
     text-transform: capitalize;
     width: 100%;
@@ -60,18 +55,14 @@
     overflow: hidden;
     text-overflow: ellipsis;
     a {
-        font-size: 14px;
-        font-family: $font-Lato;
-        color: #000;
+        @include b3_14px_montserrat_charcoal();
         text-transform: capitalize;
     }
-    a:hover{
-        color: #ab1e56;
+    span{
+        @include b3_14px_montserrat_medcharcoal();
     }
-    
     .discountprice {
-        color: #ab1e56;
-        font-family:  $font-Lato;
+        color: $gold;
         font-size: 14px;
     }
     
