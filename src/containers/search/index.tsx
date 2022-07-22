@@ -397,6 +397,7 @@ class Search extends React.Component<
               setFilterCount={this.setFilterCount}
               changeLoader={this.changeLoader}
               onChangeFilterState={this.onChangeFilterState}
+              filterCount={this.state.filterCount}
             />
           </div>
           <div

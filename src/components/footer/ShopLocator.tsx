@@ -13,7 +13,8 @@ export const ShopLocator: React.FC<ShopLocatorProps> = ({
   saleStatus,
   dropdown,
   onChangeText,
-  shopLocations
+  shopLocations,
+  mobile
 }) => {
   const [menuOpen, setOpenState] = useState(dropdown || false);
   const [locations, setLocations] = useState(shopLocations);
@@ -60,10 +61,9 @@ export const ShopLocator: React.FC<ShopLocatorProps> = ({
   const { ref } = useOutsideDetection<HTMLDivElement>(onOutsideClick);
   return (
     <div
-      className={cs(
-        styles.shopLocator,
-        saleStatus ? styles.ftrHeading80blkSale : styles.ftrHeadingWhite
-      )}
+      className={cs(styles.shopLocator, {
+        [styles.ftrHeading80blkSale]: saleStatus
+      })}
     >
       <div
         className={cs(styles.cursorPointer, globalStyles.pointer)}
@@ -88,6 +88,7 @@ export const ShopLocator: React.FC<ShopLocatorProps> = ({
             placeholder="city, country"
             id="drop"
             autoComplete="off"
+            disabled
             onKeyUp={onChange}
           />
           <div
@@ -104,6 +105,29 @@ export const ShopLocator: React.FC<ShopLocatorProps> = ({
           }
         >
           <ul>
+            {mobile && (
+              <li className={styles.header}>
+                <div className={styles.locatorLabel}>
+                  <span className={cs(styles.location)}>
+                    <i
+                      className={cs(
+                        iconStyles.icon,
+                        iconStyles.iconLocation,
+                        styles.iconStore
+                      )}
+                    ></i>
+                    <span className={styles.label}>City, Country</span>
+                  </span>
+                </div>
+                <i
+                  className={cs(
+                    iconStyles.icon,
+                    iconStyles.iconCrossNarrowBig,
+                    styles.iconCross
+                  )}
+                ></i>
+              </li>
+            )}
             {locations?.map(
               (data: { label: string; value: string }, index: number) => {
                 return (

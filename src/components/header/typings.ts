@@ -290,6 +290,7 @@ export type MobileListProps = {
   showCurrency: () => void;
   showC: boolean;
   profileItems: DropdownItem[];
+  loginItem: DropdownItem;
   goLogin: (e?: React.MouseEvent) => void;
 };
 export interface State {

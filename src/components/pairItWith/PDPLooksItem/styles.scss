@@ -1,6 +1,6 @@
-
-
 @import "../../../styles/partials/variables";
+@import "../../../styles/partials/mixins";
+
 .image-boxnew {
     position: relative;
     display: block;
@@ -106,43 +106,32 @@
     overflow: hidden;
     text-overflow: ellipsis;
     a {
-        font-size: 14px;
-        font-family: $font-Lato;
-        color: #000;
+        @include b3_14px_montserrat_charcoal();
         text-transform: capitalize;
-        letter-spacing: 0.5px;
     }
     span {
-        font-size: 14px;
-        font-family: $font-Lato;
-        color: #000;
+        @include b3_14px_montserrat_charcoal();
         text-transform: capitalize;
-        letter-spacing: 0.5px;
     }
     .discountprice {
-        color: #ab1e56;
-        font-family:  $font-Lato;
+        color: $gold;
+        font-family: $font-Montserrat;
         font-size: 14px;
     }
-    
     .strikeprice {
         font-size: 14px;
         text-decoration: line-through;
         color: gray;
-        font-family: $font-Lato;
+        font-family: $font-Montserrat;
     }
     a:hover {
-        color: #ab1e56;
         text-decoration: none;
     }
 }
 .product-size {
-    font-family: $font-Lato;
-    font-size: 9px;
-    text-transform: uppercase;
-    color: #b3b3b3;
-    letter-spacing: 2px;
+    @include b5_10px_montserrat_charcoal();
     line-height: 25px;
+    text-transform: capitalize;
     justify-content: center;
     padding-right: 10px;
 }
@@ -161,12 +150,13 @@
         li {
             display: inline;
             padding: 0 10px;
-            color: #ab1e56;
-            font-size: 12px;
+            font-family: $font-Montserrat;
+            color: $charcoal19;
+            font-size: 10px;
             line-height: 25px;
             &.disabled {
                 text-decoration: line-through;
-                color: tint(#000, 70%);
+                color: $light-charcoal;
               }
         }
     }
@@ -176,9 +166,10 @@
     position: absolute;
     top: 50%;
     left: 50%;
-    color: #ab1e56;
-    font-family: "HeaderFont","Trebuchet MS","geneva";
-    letter-spacing: 1px;
+    a{
+        @include b4_12px_medium_charcoal_caps();
+        text-transform: uppercase;
+    }
     opacity: .8;
     transform: translate(-50%, -50%);
     width: 150px;
@@ -186,9 +177,6 @@
     display: flex;
     justify-content: center;
     line-height: 40px;
-    a {
-        font-size: 14px;
-    }
 }
 
 .badge-image{
@@ -222,6 +210,36 @@
 
 .actions {
     margin: 5px 0;
+    display: flex;
+    justify-content: flex-end;
+    height: 45px;
+    div{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .shop-the-look-cta{
+        text-transform: uppercase;
+        letter-spacing: 0.4px;
+        font-family: $font-Montserrat;
+        font-size: 12px;
+        color: $aqua-bold;
+        border: 1.5px solid $aqua-bold;
+        background-color: $white;
+        font-weight: 500;
+        &:hover{
+        color: $white;
+        background-color: $aqua-bold;
+        }
+        &.notify-me{
+            border: 1.5px solid $light-charcoal;
+            color: $light-charcoal;
+            &:hover{
+                background-color: $light-charcoal;
+                color: $white;
+            }
+        }
+    }
     .add-to-bag-list-view {
         line-height: 38px;
     }

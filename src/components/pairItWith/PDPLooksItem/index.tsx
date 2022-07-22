@@ -15,8 +15,6 @@ import LazyImage from "components/LazyImage";
 import { AppState } from "reducers/typings";
 import { useSelector } from "react-redux";
 import * as valid from "utils/validate";
-import Button from "components/Button";
-// import MobileSlider from "components/MobileSlider";
 import CookieService from "services/cookie";
 
 const PlpResultListViewItem: React.FC<PLPResultItemProps> = (
@@ -74,24 +72,35 @@ const PlpResultListViewItem: React.FC<PLPResultItemProps> = (
     let buttonText: string, action: EventHandler<MouseEvent>;
     if (isCorporate) {
       buttonText = "Enquire Now";
-      action = () => onEnquireClick(product.id, product.partner);
+      action = e => {
+        e.preventDefault();
+        onEnquireClick(product.id, product.partner);
+      };
     } else if (allOutOfStock) {
       buttonText = "Notify Me";
-      action = () => notifyMeClick(product);
+      action = e => {
+        e.preventDefault();
+        notifyMeClick(product);
+      };
     } else {
       buttonText = "Add to Bag";
-      action = () => notifyMeClick(product);
+      action = e => {
+        e.preventDefault();
+        notifyMeClick(product);
+      };
     }
     return (
-      <Button
+      <button
         className={cs(
           styles.addToBagListView,
-          bootstrapStyles.col6,
-          bootstrapStyles.offset3
+          styles.shopTheLookCta,
+          bootstrapStyles.col7,
+          { [styles.notifyMe]: allOutOfStock || isCorporate }
         )}
         onClick={action}
-        label={buttonText}
-      />
+      >
+        {buttonText}
+      </button>
     );
   }, []);
   const isStockAvailable = isCorporate || product.inStock;

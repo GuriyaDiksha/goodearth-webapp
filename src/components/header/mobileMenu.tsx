@@ -16,6 +16,7 @@ import {
   MenuComponentImageData,
   MenuComponentL2L3Data
 } from "./typings";
+import { currencyCodes } from "constants/currency";
 import styles from "./styles.scss";
 import fontStyles from "styles/iconFonts.scss";
 import bootstrap from "styles/bootstrap/bootstrap-grid.scss";
@@ -824,12 +825,53 @@ class Mobilemenu extends React.Component<Props, MobileState> {
       showCurrency,
       changeCurrency,
       showC,
-      profileItems
+      profileItems,
+      loginItem
     } = this.props;
     const wishlistIcon = wishlistCount > 0;
     const lowerMenu = (
       <div className={styles.lowerMenu}>
         <ul>
+          {loginItem.label == "Login" && (
+            <li
+              key={loginItem.label}
+              onClick={e => {
+                loginItem.onClick && loginItem.onClick(e);
+                clickToggle();
+              }}
+              className={cs(styles.lowerMenuLoginLogout)}
+            >
+              {loginItem.type == "button" ? (
+                <span
+                  onClick={() => {
+                    util.headerClickGTM(
+                      "Profile Item",
+                      "Top",
+                      true,
+                      isLoggedIn
+                    );
+                  }}
+                >
+                  {loginItem.label}
+                </span>
+              ) : (
+                <NavLink
+                  key={loginItem.label}
+                  to={loginItem.href as string}
+                  onClick={() => {
+                    util.headerClickGTM(
+                      "Profile Item",
+                      "Top",
+                      true,
+                      isLoggedIn
+                    );
+                  }}
+                >
+                  {loginItem.label}
+                </NavLink>
+              )}
+            </li>
+          )}
           <li>
             <Link
               to="/wishlist"
@@ -870,18 +912,22 @@ class Mobilemenu extends React.Component<Props, MobileState> {
             onClick={showCurrency}
           >
             {" "}
-            change currency:
+            change currency: {this.props.currency}(
+            {String.fromCharCode(...currencyCodes[this.props.currency])})
           </li>
           <li className={showC ? "" : styles.hidden}>
-            <ul className={styles.noMargin}>
+            <ul className={cs(styles.noMargin, styles.lowerMenuCurrencyList)}>
               {curryList.map(item => {
                 return (
                   <li
                     key={item.value}
                     data-name={item.value}
-                    className={
-                      this.props.currency == item.value ? styles.cerise : ""
-                    }
+                    className={cs(
+                      this.props.currency == item.value
+                        ? styles.lowerMenuSelectedCurrency
+                        : "",
+                      styles.lowerMenuCurrency
+                    )}
                     onClick={() => {
                       changeCurrency(item.value);
                       util.headerClickGTM("Currency", "Top", true, isLoggedIn);
@@ -937,6 +983,46 @@ class Mobilemenu extends React.Component<Props, MobileState> {
                 </li>
               );
             })}
+            {loginItem.label == "Logout" && (
+              <li
+                key={loginItem.label}
+                onClick={e => {
+                  loginItem.onClick && loginItem.onClick(e);
+                  clickToggle();
+                }}
+                className={cs(styles.lowerMenuLoginLogout)}
+              >
+                {loginItem.type == "button" ? (
+                  <span
+                    onClick={() => {
+                      util.headerClickGTM(
+                        "Profile Item",
+                        "Top",
+                        true,
+                        isLoggedIn
+                      );
+                    }}
+                  >
+                    {loginItem.label}
+                  </span>
+                ) : (
+                  <NavLink
+                    key={loginItem.label}
+                    to={loginItem.href as string}
+                    onClick={() => {
+                      util.headerClickGTM(
+                        "Profile Item",
+                        "Top",
+                        true,
+                        isLoggedIn
+                      );
+                    }}
+                  >
+                    {loginItem.label}
+                  </NavLink>
+                )}
+              </li>
+            )}
           </ul>
         </ul>
       </div>
@@ -961,7 +1047,7 @@ class Mobilemenu extends React.Component<Props, MobileState> {
                     className={
                       this.state.activeindex == i && this.state.showmenulevel1
                         ? cs(styles.menulevel1, styles.menulevel1Open)
-                        : styles.menulevel1
+                        : cs(styles.menulevel1)
                     }
                     onClick={this.Clickmenulevel1.bind(this, i)}
                   >
