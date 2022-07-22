@@ -336,7 +336,6 @@
       }
       .disableColors{
         opacity: 0.5;
-        cursor: not-allowed;
       }
     }
   }
@@ -605,20 +604,17 @@ input[type="radio"]:checked, [type="checkbox"]:not(:checked),
     }
     &.select_size {
       border: 1px solid $aqua !important;
-      background-color: white !important;
       font-weight: bold !important;
       color: $aqua !important;
     }
   }
   .disableSize{
-    opacity: 0.5;
-    cursor: not-allowed;
-    &:hover{
-      opacity: 0.5;
-      cursor: not-allowed;
-      border: 1px solid transparent;
-      background: #f2f2f2;
-    }
+      color: #E5E5E5 !important;
+      border: 1px solid #E5E5E5;
+      background: linear-gradient(to left top, #f9f8f5 47.75%, currentColor 50.5%, currentColor 49.5%, #f9f8f5 51.25%);
+      &:hover{
+        border: 1px solid $aqua-bold;
+      }
   }
 }
 .select_size {
