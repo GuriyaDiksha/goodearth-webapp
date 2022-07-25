@@ -7,7 +7,8 @@ const initialState: CareerData = {
     tags: []
   },
   data: [],
-  jobs: {}
+  jobs: {},
+  depts: []
 };
 export const career = (state = initialState, action: CareerAction) => {
   switch (action.type) {
@@ -20,6 +21,9 @@ export const career = (state = initialState, action: CareerAction) => {
       };
       const newJobs = { ...state.jobs, newJob };
       return { ...state, jobs: newJobs };
+    }
+    case "UPDATE_DEPT_LIST": {
+      return { ...state, depts: action.payload };
     }
     default: {
       return state;

@@ -5,10 +5,12 @@ import listing from "./listing.scss";
 import JobCard from "./jobCard";
 import cs from "classnames";
 import { AppState } from "reducers/typings";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { CareerData } from "reducers/career/typings";
 import { Data } from "containers/careerNew/typings";
 import Loader from "components/Loader";
+import CareerService from "services/career";
+import { updateJobList } from "actions/career";
 
 const Listing: React.FC = () => {
   const { facets, data }: CareerData = useSelector(
@@ -21,6 +23,13 @@ const Listing: React.FC = () => {
   const [reset, setReset] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const history = useHistory();
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    CareerService.fetchJobListData(dispatch).then(res => {
+      dispatch(updateJobList(res));
+    });
+  });
 
   useEffect(() => {
     const vars: { dept?: string; loc?: string; tag?: string } = {};
@@ -47,12 +56,8 @@ const Listing: React.FC = () => {
     }
 
     setAppliedFilters(temp);
-  }, []);
-
-  useEffect(() => {
-    // setFilteredData(data.filter(ele => ele?.dept === dept));
     setIsLoading(false);
-  }, [data]);
+  }, [facets, data]);
 
   const multipleExist = (arr: string[], values: string[]) => {
     return values.some(value => {
