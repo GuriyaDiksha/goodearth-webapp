@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { AppState } from "reducers/typings";
 import styles from "./styles.scss";
 import globalStyles from "../../styles/global.scss";
@@ -13,8 +13,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { updateSizeChartShow } from "actions/header";
 import { SizeChartResponse } from "reducers/header/typings";
 
+const hideScroll = false;
+
 const Sizechart: React.FC<SizeChartProps> = ({ active }) => {
-  const [hideScroll, setHideScroll] = useState(false);
+  // const [hideScroll, setHideScroll] = useState(false);
   const { fitGuide }: SizeChartResponse | any = useSelector(
     (state: AppState) => state.header.sizeChartData.data
   );
@@ -31,7 +33,7 @@ const Sizechart: React.FC<SizeChartProps> = ({ active }) => {
       id: "fitGuide"
     },
     {
-      header: "SIZE GUIDE",
+      header: "SIZE CHART",
       body: <SizeGuide isSingleSection={false} />,
       id: "sizeGuide"
     }
@@ -58,6 +60,9 @@ const Sizechart: React.FC<SizeChartProps> = ({ active }) => {
         )}
       >
         <div className={cs(styles.bagHeader, globalStyles.flex)}>
+          <div>
+            <span>SIZE GUIDE</span>
+          </div>
           <div className={globalStyles.pointer} onClick={closeSizeChart}>
             <i
               className={cs(

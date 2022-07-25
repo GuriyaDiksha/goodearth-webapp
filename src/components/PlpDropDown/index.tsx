@@ -18,7 +18,8 @@ const PlpDropdownMenu = ({
   value,
   onChange,
   onStateChange,
-  sortedDiscount
+  sortedDiscount,
+  toggleSort
 }: MobileDropdownMenuProps): JSX.Element => {
   const [menuOpen, setOpenState] = useState(open || false);
   const [displayValue, setDisplayValue] = useState(value || "");
@@ -39,6 +40,7 @@ const PlpDropdownMenu = ({
       setShowmobileSort(true);
       setShowmobileFilterList(true);
       setOpenState(true);
+      toggleSort && toggleSort(false);
     }
   };
   const onInsideClick = () => {
@@ -48,6 +50,7 @@ const PlpDropdownMenu = ({
     setShowmobileFilterList(false);
     setMobileFilter(false);
     onStateChange(false);
+    toggleSort && toggleSort(true);
   };
 
   useLayoutEffect(() => {
@@ -113,7 +116,7 @@ const PlpDropdownMenu = ({
             }}
           >
             {filterCount ? (
-              <span>{`Refine ( ${filterCount} )`}</span>
+              <span>{`Filter By ( ${filterCount} )`}</span>
             ) : (
               <span>Refine</span>
             )}
@@ -157,16 +160,13 @@ const PlpDropdownMenu = ({
               <span>
                 <pre>
                   {[
-                    "Refine  ",
-                    <span
-                      key="filter-count"
-                      className={globalStyles.cerise}
-                    >{`( ${filterCount} )`}</span>
+                    "FILTER BY  ",
+                    <span key="filter-count">{`( ${filterCount} )`}</span>
                   ]}
                 </pre>
               </span>
             ) : (
-              <span>Refine</span>
+              <span>FILTER BY</span>
             )}
             <span onClick={onInsideClick}>X</span>
           </div>
@@ -183,7 +183,7 @@ const PlpDropdownMenu = ({
               }
             )}
           >
-            <span>{"Sort"}</span>
+            <span>{"Sort By"}</span>
 
             <span onClick={onInsideClick}>X</span>
           </div>
@@ -210,7 +210,7 @@ const PlpDropdownMenu = ({
                       }}
                       key={data.name}
                       className={cs({
-                        [globalStyles.cerise]: displayValue == data.value
+                        [styles.goldColor]: displayValue == data.value
                       })}
                     >
                       {data.label}

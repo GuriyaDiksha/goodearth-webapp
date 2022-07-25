@@ -1,6 +1,6 @@
-
-
 @import "../../../styles/partials/variables";
+@import "../../../styles/partials/mixins";
+
 .image-boxnew {
     position: relative;
     display: block;
@@ -10,7 +10,7 @@
 }
 .image-content {
     text-align: center;
-    height: 140px;
+    height: auto;
     margin-top: 15px;
     width: 100%;
     white-space: nowrap;
@@ -27,6 +27,32 @@
     bottom: 0;
     left: 0;
     right: 0;
+}
+
+.product-btn{
+    margin-top: 10px;
+    background-color: $white;
+    border: 1px solid $aqua-text;
+    span{
+        @include b4_12px_montserrat_aqua_caps();
+        font-weight: 500;
+        text-transform: uppercase;
+    }
+    &.enquire-notify-me{
+        border-color: $light-charcoal;
+        span {
+            color: $light-charcoal;
+        }
+    }
+}
+
+.actions {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    .add-to-bag-list-view {
+        line-height: 38px;
+    }
 }
 
 .plpMain:hover{
@@ -97,7 +123,7 @@
     .image-content {
         padding: 0 10px;
         margin-top: 10px;
-        // height: 134px;
+        margin-bottom: 10px;
     }
 }
 
@@ -108,49 +134,38 @@
     overflow: hidden;
     text-overflow: ellipsis;
     a {
-        font-size: 14px;
-        font-family: $font-Lato;
-        color: #000;
+        @include b3_14px_montserrat_charcoal();
         text-transform: capitalize;
-        letter-spacing: 0.5px;
     }
     span {
-        font-size: 14px;
-        font-family: $font-Lato;
-        color: #000;
+        @include b3_14px_montserrat_charcoal();
         text-transform: capitalize;
-        letter-spacing: 0.5px;
     }
     .discountprice {
-        color: #ab1e56;
-        font-family:  $font-Lato;
+        color: $gold;
+        font-family: $font-Montserrat;
         font-size: 14px;
     }
-    
     .strikeprice {
         font-size: 14px;
         text-decoration: line-through;
         color: gray;
-        font-family: $font-Lato;
+        font-family: $font-Montserrat;
     }
     a:hover {
-        color: #ab1e56;
         text-decoration: none;
     }
 }
 .product-size {
-    font-family: $font-Lato;
-    font-size: 9px;
-    text-transform: uppercase;
-    color: #b3b3b3;
-    letter-spacing: 2px;
+    @include b5_10px_montserrat_charcoal();
     line-height: 25px;
+    text-transform: capitalize;
     justify-content: center;
     padding-right: 10px;
 }
 
 .product-size-list {
-    display: none;
+    display: flex;
     justify-content: center;
     &.product-size-list-mobile {
         display: flex;
@@ -163,12 +178,11 @@
         li {
             display: inline;
             padding: 0 10px;
-            color: #ab1e56;
-            font-size: 12px;
+            @include b5_10px_montserrat_charcoal();
             line-height: 25px;
             &.disabled {
                 text-decoration: line-through;
-                color: tint(#000, 70%);
+                color: $light-charcoal;
               }
         }
     }
@@ -178,9 +192,10 @@
     position: absolute;
     top: 50%;
     left: 50%;
-    color: #ab1e56;
-    font-family: "HeaderFont","Trebuchet MS","geneva";
-    letter-spacing: 1px;
+    a{
+        @include b4_12px_medium_charcoal_caps();
+        text-transform: uppercase;
+    }
     opacity: .8;
     transform: translate(-50%, -50%);
     width: 150px;
@@ -188,9 +203,6 @@
     display: flex;
     justify-content: center;
     line-height: 40px;
-    a {
-        font-size: 14px;
-    }
 }
 
 .badge-image{

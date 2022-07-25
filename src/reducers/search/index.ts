@@ -43,7 +43,8 @@ const initialState: State = {
       data: [],
       banner: "",
       bannerMobile: "",
-      bannerUrl: ""
+      bannerUrl: "",
+      filtered_facets: {}
     }
   },
   facetObject: {},

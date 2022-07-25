@@ -35,23 +35,44 @@
       top: 5%;
       color: black;
       .icon-class {
-        color: $cerise;
+        color: $aqua;
       }
       i {
         line-height: 44px;
         font-size: 20px;
+        color: $med-charcoal;
       }
     }
   }
   input {
-    font-size: 14px;
+    font-size: 12px !important;
     width: 100%;
     outline: none;
-    background-color: tint(#000, 90%);
+    background-color: #fff;
     border: 0;
     padding: 0 10px 0 30px;
     line-height: 50px;
-    font-family: $font-Lato;
+    font-family: $font-Montserrat;
+    &::-webkit-input-placeholder{
+      font-size: 12px;
+      font-family: $font-Montserrat;
+      text-transform: capitalize;
+    }
+    &::placeholder{
+      font-size: 12px !important;
+      font-family: $font-Montserrat;
+      text-transform: capitalize;
+    }
+    &::-moz-placeholder{
+      font-size: 12px;
+      font-family: $font-Montserrat;
+      text-transform: capitalize;
+    }
+    &::-ms-input-placeholder{
+      font-size: 12px;
+      font-family: $font-Montserrat;
+      text-transform: capitalize;
+    }
     &.open-state {
       background-color: tint(#000, 60%);
     }
@@ -94,6 +115,7 @@
   padding-top: 15px;
   padding-bottom: 55px;
   font-weight: 300;
+  bottom: 15px;
 }
 
 .fix-bottom {
@@ -110,53 +132,68 @@
   width: 10%;
 }
 
-.cookieclass {
-position: fixed;
-    bottom: 0;
-    right: 0;
-    width: 300px;
-    height: 216px;
-    background-color: #fff;
-    z-index: 100;
-    padding: 10px 30px;
-    text-align: center;
-    font-family: $font-Lato;
-    margin: 20px;
-    border: 1px solid #b3b3b3;
-    .close-popup{
-      right: 20px;
-      font-size: 40px;
-      color: gray;
+.shop-locator{
+  padding-top: 15px;
+  @include b3_14px_montserrat_semibold_charcoal();
+  text-transform: uppercase;
+  div {
+    &:nth-child(2){
+      padding-top: 15px;
     }
-    h3 {
-      font-size: 11px;
-    font-family: $font-Lato;
-    color: #333;
-    line-height: 50px;
+  }
+}
+
+.cookieclass {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  width: 300px;
+  height: 216px;
+  background-color: #fff;
+  z-index: 100;
+  padding: 10px 30px;
+  text-align: center;
+  font-family: $font-Lato;
+  margin: 20px;
+  border: 1px solid #b3b3b3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  .close-popup{
+    right: 0px;
+    top: 0px;
+    font-size: 40px;
+    color: gray;
+  }
+  h3 {
+    font-family: $font-Montserrat;
+    color: $charcoal19;
+    font-size: 12px;
+    line-height: 30px;
     text-transform: capitalize;
     font-weight: bold;
     letter-spacing: 0;
-    margin-top: 10px;
     padding: 0;
-    }
-    p {
-      font-size: 12px;
+  }
+  p {
+    font-family: $font-Montserrat;
+    color: $charcoal19;
+    font-size: 12px;
     line-height: 20px;
-    margin-bottom: 5px;
     a {
+      color: $gold;
       text-decoration: underline;
-      color: $cerise;
     }
-    }
-    .ok-btn {
-    background-color: #ab1e56;
+  }
+  .ok-btn {
+    background-color: $aqua;
     padding: 10px 50px;
     color: #fff;
     cursor: pointer;
     display: inline-block;
-    margin: 15px 0;
     font-size: 14px;
-    }
+  }
 }
 .close-popup {
   position: absolute;
@@ -176,13 +213,7 @@ position: fixed;
     position: relative;
     .cursor-pointer {
       &:hover {
-        color: $cerise;
-      }
-    }
-    input {
-      @include placeholder() {
-        font-family: $font-Lato;
-        font-style: italic;
+        color: $white;
       }
     }
   }
@@ -222,7 +253,6 @@ position: fixed;
   .footer-socialicons {
     margin: 20px auto 0 auto;
     .neg-margin {
-      margin-top: -15px;
       margin-bottom: 10px;
     }    
   }
@@ -233,29 +263,25 @@ position: fixed;
     margin-top: 10px;
 
     >li {
-      @include ftr-heading-white();
+      @include b3_14px_montserrat_semibold_charcoal();
       line-height: 50px;
-      font-weight: normal;
       >a {
         text-transform: uppercase;
-        @include ftr-heading-white();
+        @include b3_14px_montserrat_semibold_charcoal();
         line-height: 44px;
-        font-weight: normal;
       }
       li {
-        @include ftr-copy-white-desktop();
         text-transform: capitalize;
-        font-weight: normal;
         line-height: 30px;
+        @include b4_12px_montserrat_charcoal();
         a {
-          @include ftr-copy-white-desktop();
-          font-weight: normal;
+          @include b4_12px_montserrat_charcoal();
         }
+        
       }
       span {
-        @include ftr-heading-white();
+        @include b3_14px_montserrat_semibold_charcoal();
         text-transform: uppercase;
-        font-weight: normal;
       } 
     }
   }
@@ -269,13 +295,13 @@ position: fixed;
   }
 }
 
-input {
-  @include placeholder() {
-    font-family: $font-Lato;
-    font-style: italic;
-    font-size: 14px;
-  }
-}
+// input {
+//   @include placeholder() {
+//     font-family: $font-Montserrat;
+//     font-size: 10px;
+//     text-transform: capitalize;
+//   }
+// }
 
 @media screen and (min-width: 992px) {
   .main-menu {
@@ -337,36 +363,110 @@ input {
   font-size: 25px;
 }
 
-.shopDropdown {
-  border: 1px solid tint(#000, 70%);
-  border-top: 0;
-  width: 100%;
-  position: absolute;
-  right: 0;
-  top: 100%;
-  background-color: #fff;
-  font-size: 12px;
-  text-transform: capitalize;
-  font-weight: normal;
-  max-height: 180px;
-  overflow-y: scroll;
-  z-index: 8;
-  ul {
-    margin-bottom: 0px;
-  }
-  li {
-    border-top: 1px solid tint(#000, 70%);
-    cursor: pointer;
-    a {
-      color: #000;
-      padding: 0 10px;
+@media screen and (min-width: 992px){
+  .shopDropdown {
+    width: 100%;
+    position: absolute;
+    right: 0;
+    top: 100%;
+    background-color: #fff;
+    font-size: 12px;
+    text-transform: capitalize;
+    font-weight: normal;
+    max-height: 180px;
+    overflow-y: scroll;
+    z-index: 8;
+    ul {
+      margin-bottom: 0px;
     }
-    &:hover {
+    li {
+      border-top: 1px solid #9f9f9f33;
+      cursor: pointer;
+      margin: 0px 10px;
+      @include b4_12px_montserrat_charcoal();
+      line-height: 40px;
       a {
-        color: $cerise;
+        color: #000;
+      }
+      &:hover {
+        a {
+          color: $aqua-bold;
+        }
       }
     }
   }
+  .shop-locator {
+    position: relative;
+    .cursor-pointer {
+      &:hover {
+        color: $white;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 992px){
+  .shopDropdown {
+    height: 100vh;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 12;
+    display: block;
+    position: fixed;
+    background-color: rgba(0, 0, 0, 0.5);
+    .header{
+      font-family: $font-Montserrat;
+      font-size: 12px;
+    }
+    ul{
+      border: 1px solid tint(#000, 70%);
+      border-top: 0;
+      width: 100%;
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      background-color: #fff;
+      font-size: 12px;
+      text-transform: capitalize;
+      font-weight: normal;
+      overflow-y: scroll;
+      z-index: 8;
+      .header{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        @include b4_12px_montserrat_charcoal();
+        text-transform: uppercase;
+        .locator-label{
+          .location{
+            .icon-store{
+              color: $aqua-bold;
+              font-size: 20px;
+              vertical-align: middle;
+            }
+          }
+        }
+      }
+    }
+    li {
+      border-top: 1px solid #9f9f9f33;
+      cursor: pointer;
+      margin: 0px 25px;
+      @include b4_12px_montserrat_charcoal();
+      line-height: 45px;
+      a {
+        color: #000;
+      }
+      &:hover {
+        a {
+          color: $cerise;
+        }
+      }
+    }
+  }
+  
 }
 
 @media screen and (min-width: 992px) {
@@ -388,32 +488,23 @@ input {
         line-height: 30px;
         font-weight: normal;
         color: #000;
-  
-        &:first-child {
+        &:first-child{
+          @include b3_14px_montserrat_semibold_charcoal();
+          letter-spacing: 1.5px;
           text-transform: uppercase;
-          @include ftr-heading-white();
-          line-height: 44px;
-          font-weight: normal;
           a {
-            text-transform: uppercase;
-            @include ftr-heading-white();
-            line-height: 44px;
-            font-weight: normal;
+            color: $charcoal19;
+            &:hover{
+              color: $white;
+            }
           }
         }
+        @include b4_12px_montserrat_charcoal();
+        letter-spacing: 1px;
         a {
-          @include ftr-copy-white-desktop();
-          font-weight: normal;
-          text-transform: capitalize;
-          // &:nth-child(2) {
-          //   margin-right: 8px;
-          // }
-          &.email {
-            text-transform: lowercase;
-          }
-          &:hover {
-            color: $cerise !important;
-            text-decoration: none !important;
+          color: $charcoal19;
+          &:hover{
+            color: white;
           }
         }
       }
@@ -433,14 +524,13 @@ input {
 }
 
 .ftr-heading-white {
-  @include ftr-heading-white();
+  @include b3_14px_montserrat_semibold_white();
+  text-transform: uppercase;
   line-height: 44px;
 }
 
 .ftr-copy-white-desktop {
-  @include ftr-copy-white-desktop();
-  color: $white;
-  font-weight: 300;
+  @include b4_12px_montserrat_white();
   a {
     color: inherit;
     text-decoration: underline;
@@ -457,7 +547,7 @@ input {
   height: 0;
   border-top: 6px solid transparent;
   border-bottom: 6px solid transparent;
-  border-left: 6px solid $cerise;
+  border-left: 6px solid $med-charcoal;
   cursor: pointer;
 }
 
@@ -476,4 +566,25 @@ input {
   background-size: contain;
   background-repeat: repeat no-repeat;
   background-position: bottom;
+}
+
+.error-msg{
+  font-size: 14px;
+  color: $cerise;
+  font-family: $font-Lora;
+  font-style: italic;
+  text-align: left;
+}
+
+.subscribe-success{
+  @include b5_10px_montserrat_white();
+  font-weight: $semibold;
+  text-align: left;
+  letter-spacing: 0.8px;
+}
+
+.mobile-find-us-on{
+  @include b3_14px_montserrat_charcoal();
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
 }

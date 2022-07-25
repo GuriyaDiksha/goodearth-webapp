@@ -1,4 +1,5 @@
 @import "../../styles/partials/variables";
+@import "../../styles/partials/mixins";
 
 .product-n{
   margin: 5px 0;
@@ -14,11 +15,9 @@
       letter-spacing: 0.5px;
   }
   span {
-      font-size: 14px;
-      font-family: $font-Lato;
-      color: #000;
-      text-transform: capitalize;
-      letter-spacing: 0.5px;
+    @include b3_14px_montserrat_charcoal();
+    text-transform: capitalize;
+    letter-spacing: 0.5px;
   }
   .discountprice {
       color: #ab1e56;

@@ -2,9 +2,7 @@
 @import "../../styles/partials/mixins";
 
 .header {
-    font-size: 25px;
-    font-family: $font-Serif;
-    color: #333;
+    @include h2_24px_lora_charcoal();
     line-height: 60px;
     text-transform: capitalize;
     text-align: center;
@@ -16,11 +14,8 @@
     text-align: center;
 }
 .product-h {
-    font-size: 12px;
-    text-transform: uppercase;
-    color: #999;
-    letter-spacing: 2px;
-    font-family: $font-Serif;
+    @include b3_14px_montserrat_light_charcoal();
+    letter-spacing: 1px;
     line-height: 30px;
     width: 100%;
     white-space: nowrap;
@@ -30,9 +25,7 @@
     padding-top: 5px;
 }
 .product-n {
-    font-size: 14px;
-    font-family: $font-Lato;
-    color: #000;
+    @include b3_14px_montserrat_charcoal();
     text-transform: capitalize;
     width: 100%;
     white-space: nowrap;
@@ -45,7 +38,7 @@
         color: #000;
         text-transform: capitalize;
         &:hover {
-            color: $cerise;
+            font-weight: 600;
         }
     }
 }
@@ -72,7 +65,7 @@
     left: 3px;
     img {
         width: 80%;
-        margin-top: 10px;
+        margin-top: 0;
     }
 }
 

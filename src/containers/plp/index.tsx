@@ -1,8 +1,7 @@
 import React, { Fragment } from "react";
 import SecondaryHeader from "components/SecondaryHeader";
-import SelectableDropdownMenu from "components/dropdown/selectableDropdownMenu";
+import SecondaryHeaderDropdown from "components/dropdown/secondaryHeaderDropdown";
 import initActionCollection from "./initAction";
-import { DropdownItem } from "components/dropdown/baseDropdownMenu/typings";
 import cs from "classnames";
 import { AppState } from "reducers/typings";
 import { connect, DispatchProp } from "react-redux";
@@ -35,6 +34,7 @@ import activeGrid from "../../images/plpIcons/active_grid.svg";
 import inactiveGrid from "../../images/plpIcons/inactive_grid.svg";
 import activeList from "../../images/plpIcons/active_list.svg";
 import inactiveList from "../../images/plpIcons/inactive_list.svg";
+import { CategoryMenu } from "containers/categoryLanding/typings";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -71,6 +71,7 @@ class PLP extends React.Component<
     corporoateGifting: boolean;
     isThirdParty: boolean;
     count: number;
+    showProductCounter: boolean;
   }
 > {
   constructor(props: Props) {
@@ -92,7 +93,8 @@ class PLP extends React.Component<
       corporoateGifting:
         props.location.pathname.includes("corporate-gifting") ||
         props.location.search.includes("&src_type=cp"),
-      isThirdParty: props.location.search.includes("&src_type=cp")
+      isThirdParty: props.location.search.includes("&src_type=cp"),
+      showProductCounter: true
     };
   }
   private child: any = FilterList;
@@ -490,6 +492,10 @@ class PLP extends React.Component<
     }
   }
 
+  toggleSort = (state: boolean) => {
+    this.setState({ showProductCounter: state });
+  };
+
   render() {
     const {
       device: { mobile, tablet },
@@ -500,7 +506,7 @@ class PLP extends React.Component<
       }
     } = this.props;
     const { plpMaker, corporoateGifting } = this.state;
-    const items: DropdownItem[] = [
+    const items: CategoryMenu[] = [
       {
         label: "Our Curation",
         value: "hc"
@@ -575,8 +581,8 @@ class PLP extends React.Component<
                 />
               </div>
               <div className={cs(bootstrap.colMd3, styles.innerHeader)}>
-                <p className={styles.filterText}>Sort</p>
-                <SelectableDropdownMenu
+                <p className={styles.filterText}>Sort By: </p>
+                {/* <SelectableDropdownMenu
                   id="sort-dropdown-plp"
                   align="right"
                   className={styles.dropdownRoot}
@@ -585,7 +591,13 @@ class PLP extends React.Component<
                   showCaret={true}
                   value={this.state.sortValue}
                   key={"plpPage"}
-                ></SelectableDropdownMenu>
+                ></SelectableDropdownMenu> */}
+                <SecondaryHeaderDropdown
+                  id="collection-landing-filter"
+                  items={items}
+                  value={this.state.sortValue}
+                  onChange={this.onchangeFilter}
+                />
               </div>
             </Fragment>
           </SecondaryHeader>
@@ -676,6 +688,7 @@ class PLP extends React.Component<
                 key="plp-filter"
                 changeLoader={this.changeLoader}
                 onStateChange={this.onStateChange}
+                filterCount={this.state.filterCount}
               />
             )}
           </div>
@@ -1026,9 +1039,10 @@ class PLP extends React.Component<
             value={this.state.sortValue}
             key={"plpPageMobile"}
             sortedDiscount={facets.sortedDiscount}
+            toggleSort={this.toggleSort}
           />
         )}
-        {mobile && this.state.count > -1 && (
+        {mobile && this.state.count > -1 && this.state.showProductCounter && (
           <ProductCounter
             current={this.state.count}
             total={!this.state.corporoateGifting ? count + 1 : count}
