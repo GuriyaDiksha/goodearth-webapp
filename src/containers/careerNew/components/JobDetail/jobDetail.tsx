@@ -10,24 +10,30 @@ import { useSelector, useStore } from "react-redux";
 import { CareerData } from "reducers/career/typings";
 import { AppState } from "reducers/typings";
 import { useHistory, useParams } from "react-router";
-import { Data } from "containers/careerNew/typings";
 import Loader from "components/Loader";
-import { Link } from "react-router-dom";
 import { copyToClipboard } from "utils/clipboard";
 import ReactHtmlParser from "react-html-parser";
+import CareerService from "services/career";
+import { updateJob } from "actions/career";
 
 const JobDetail: React.FC = () => {
-  const { data }: CareerData = useSelector((state: AppState) => state.career);
+  const { job }: CareerData = useSelector((state: AppState) => state.career);
   const { id } = useParams<{ id: string }>();
   const { dispatch } = useStore();
-  const [jobData, setJobData] = useState<Data>();
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const history = useHistory();
+  const [isFooterBelowViewPort, setIsFooterBelowViewPort] = useState(true);
+  console.log("isFooterBelowViewPort====", isFooterBelowViewPort);
 
   useEffect(() => {
-    setJobData(data.find(ele => ele?.id == +id));
+    CareerService.fetchJob(dispatch, Number(id)).then(res => {
+      dispatch(updateJob(res));
+    });
+  }, []);
+
+  useEffect(() => {
     setIsLoading(false);
-  }, [data]);
+  }, [job]);
 
   const applyNow = () => {
     window.open(
@@ -53,52 +59,50 @@ const JobDetail: React.FC = () => {
 
         <div className={jobDetail.job_detail_form}>
           <div className={jobDetail.job_detail_form_left}>
-            <p className={jobDetail.job_detail_form_heading}>
-              {jobData?.title}
-            </p>
+            <p className={jobDetail.job_detail_form_heading}>{job?.title}</p>
 
-            {jobData?.loc ? (
+            {job?.loc ? (
               <>
                 <p className={jobDetail.job_detail_form_sub_head}>LOCATION</p>
                 <p className={jobDetail.job_detail_form_desc}>
-                  {jobData?.loc?.join(", ")}
+                  {job?.loc?.join(", ")}
                 </p>
               </>
             ) : null}
 
-            {jobData?.exp ? (
+            {job?.exp ? (
               <>
                 <p className={jobDetail.job_detail_form_sub_head}>
                   YEARS OF EXPERIENCE
                 </p>
                 <p className={jobDetail.job_detail_form_desc}>
-                  {jobData?.exp} years
+                  {job?.exp} years
                 </p>
               </>
             ) : null}
 
-            {jobData?.desc ? (
+            {job?.desc ? (
               <>
                 <p className={jobDetail.job_detail_form_sub_head}>
                   JOB DESCRIPTION
                 </p>
                 <div
                   className={jobDetail.job_detail_form_desc}
-                  // dangerouslySetInnerHTML={{ __html: jobData?.desc || "" }}
+                  // dangerouslySetInnerHTML={{ __html: job?.desc || "" }}
                 >
-                  {ReactHtmlParser(jobData?.desc)}
+                  {ReactHtmlParser(job?.desc)}
                 </div>
               </>
             ) : null}
 
-            {jobData?.req ? (
+            {job?.req ? (
               <>
                 <p className={jobDetail.job_detail_form_sub_head}>
                   REQUIREMENTS
                 </p>
                 <div
                   className={jobDetail.job_detail_form_desc}
-                  dangerouslySetInnerHTML={{ __html: jobData?.req || "" }}
+                  dangerouslySetInnerHTML={{ __html: job?.req || "" }}
                 ></div>
               </>
             ) : null}

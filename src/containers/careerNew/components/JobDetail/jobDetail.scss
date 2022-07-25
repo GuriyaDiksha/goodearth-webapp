@@ -1,12 +1,12 @@
 @import "../../../../styles/partials/variables";
 
 .job_detail_wrp{
-    margin-top: 80px;
+    // margin-top: 80px;
     strong {
         font-weight: 700;
     }
     .job_detail_img_wrp{
-        position: fixed;
+        position: sticky;
         top: 80px;
         width: 100%;
     }
@@ -14,7 +14,7 @@
     .job_detail_form_wrp{
         background: $white;
         width:60%;
-        margin: 300px auto 100px;
+        margin: -200px auto 100px;
         box-shadow: 0px 3px 6px #00000029;
         padding: 50px;
         z-index: 2;
@@ -22,7 +22,7 @@
 
         @media screen and (max-width: 767px) {
             width:85%;
-            margin: 150px auto 100px;
+            margin: 30px auto 100px;
             padding: 20px;
         }
 
@@ -104,7 +104,7 @@
                     color: $white;
                     text-transform: uppercase;
                     width: 100%;
-                    padding: 8px 0px;
+                    padding: 10px 20px;
     
                     &:hover{
                         

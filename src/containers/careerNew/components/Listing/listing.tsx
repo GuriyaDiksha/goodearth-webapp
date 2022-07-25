@@ -26,18 +26,16 @@ const Listing: React.FC = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    CareerService.fetchJobListData(dispatch).then(res => {
-      dispatch(updateJobList(res));
-    });
-  });
-
-  useEffect(() => {
     const vars: { dept?: string; loc?: string; tag?: string } = {};
     const url = history.location.search;
     let temp: any = [];
-
     const re = /[?&]+([^=&]+)=([^&]*)/gi;
     let match;
+
+    CareerService.fetchJobListData(dispatch).then(res => {
+      dispatch(updateJobList(res));
+    });
+
     while ((match = re.exec(url))) {
       vars[match[1]] = match[2];
     }
@@ -56,8 +54,7 @@ const Listing: React.FC = () => {
     }
 
     setAppliedFilters(temp);
-    setIsLoading(false);
-  }, [facets, data]);
+  }, []);
 
   const multipleExist = (arr: string[], values: string[]) => {
     return values.some(value => {
@@ -66,7 +63,9 @@ const Listing: React.FC = () => {
   };
 
   useEffect(() => {
-    if (selectedDept.length) {
+    setIsLoading(true);
+
+    if (selectedDept.length && facets?.depts?.length) {
       let newData = data.filter(ele => selectedDept.includes(ele?.dept));
 
       const tagFilteres = facets.tags
@@ -83,10 +82,10 @@ const Listing: React.FC = () => {
       if (tagFilteres.length) {
         newData = newData.filter(ele => multipleExist(tagFilteres, ele?.tags));
       }
-
       setFilteredData(newData);
+      setIsLoading(false);
     }
-  }, [appliedFilters, selectedDept]);
+  }, [appliedFilters, selectedDept, facets]);
 
   const NoResultsFound = () => (
     <div className={listing.no_resords_wrp}>

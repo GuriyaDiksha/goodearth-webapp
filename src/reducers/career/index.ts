@@ -7,7 +7,7 @@ const initialState: CareerData = {
     tags: []
   },
   data: [],
-  jobs: {},
+  job: {},
   depts: []
 };
 export const career = (state = initialState, action: CareerAction) => {
@@ -16,11 +16,7 @@ export const career = (state = initialState, action: CareerAction) => {
       return { ...state, ...action.payload };
     }
     case "UPDATE_JOB": {
-      const newJob = {
-        [action.payload.id]: action.payload
-      };
-      const newJobs = { ...state.jobs, newJob };
-      return { ...state, jobs: newJobs };
+      return { ...state, job: action.payload };
     }
     case "UPDATE_DEPT_LIST": {
       return { ...state, depts: action.payload };
