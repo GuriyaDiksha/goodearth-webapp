@@ -80,6 +80,13 @@ export const searchList = (
       newState.onload = action.payload;
       return newState;
     }
+    case "UPDATE_FACET": {
+      console.log("payload====", action.payload);
+      const newState = { ...state };
+      newState.onload = false;
+      newState.facetObject = action.payload;
+      return newState;
+    }
   }
   return state;
 };

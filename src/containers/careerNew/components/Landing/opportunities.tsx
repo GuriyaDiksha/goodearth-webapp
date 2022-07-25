@@ -27,13 +27,28 @@ const Opportunities: React.FC<Props> = ({ data, title }) => {
     const newList = clone(list);
     setList([...newList, ...data.slice(list.length, list.length + 8)]);
   };
+  const uniquedata = (arr: any) => {
+    const uniqueIds: any[] = [];
+    const unique = arr.filter((data: any) => {
+      const isDuplicate = uniqueIds.includes(data.dept);
+      if (!isDuplicate) {
+        uniqueIds.push(data.dept);
+        return true;
+      }
+      return false;
+    });
+    return unique;
+  };
+  const listdata = uniquedata(list)?.filter((item: any) => {
+    return item.dept;
+  });
 
   return (
     <>
       <h1 className={landing.heading}>{title}</h1>
       {isLoading && <Loader />}
       <div className={cs(landing.dept_card_wrapper, bootstrap.row)}>
-        {list?.map((ele, i) => (
+        {listdata?.map((ele: any, i: any) => (
           <div
             className={cs(landing.dept_card, bootstrap.colmd4)}
             key={i}
