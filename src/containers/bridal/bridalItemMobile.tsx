@@ -173,29 +173,31 @@ const BridalMobile: React.FC<Props> = ({ bridalItem, bridalId }) => {
           </button>
         </div>
       </div>
-      <div className={bootstrap.row}>
-        <div
-          className={cs(
-            bootstrap.col8,
-            bootstrap.offset2,
-            globalStyles.voffset3
-          )}
-        >
-          <div className={globalStyles.c10LR}>
-            Estimated Delivery On or Before:{" "}
-            <span className={styles.black}>
-              {bridalItem.productDeliveryDate}{" "}
-            </span>
-            <br />
-            <br />
-          </div>
-          <div className={cs(globalStyles.cerise, styles.font14)}>
-            {btnContent == "Fulfilled" || btnContent == "Out Of Stock"
-              ? btnContent
-              : ""}
+      {bridalItem.productDeliveryDate && (
+        <div className={bootstrap.row}>
+          <div
+            className={cs(
+              bootstrap.col8,
+              bootstrap.offset2,
+              globalStyles.voffset3
+            )}
+          >
+            <div className={globalStyles.c10LR}>
+              Estimated Delivery On or Before:{" "}
+              <span className={styles.black}>
+                {bridalItem.productDeliveryDate}{" "}
+              </span>
+              <br />
+              <br />
+            </div>
+            <div className={cs(globalStyles.cerise, styles.font14)}>
+              {btnContent == "Fulfilled" || btnContent == "Out Of Stock"
+                ? btnContent
+                : ""}
+            </div>
           </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };

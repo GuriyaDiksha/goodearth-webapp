@@ -48,7 +48,8 @@ export const enum ROUTES {
   GCEMAIL = "/send-giftcard",
   AUTH = "/auth",
   HFH = "/summer-lovin-reminders",
-  SITEMAP = "/sitemap"
+  SITEMAP = "/sitemap",
+  WORKSHOPS = "/workshops"
 }
 
 export type RouteConfig = RouteObject[];

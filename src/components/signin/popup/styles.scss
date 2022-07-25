@@ -8,6 +8,11 @@
     -webkit-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
     width: 100%;
+
+    button {
+      background-color: $white;
+      border-radius: 50%;
+    }
   }
   .popup-form-bg {
     padding-bottom: 40px;
@@ -45,10 +50,6 @@
   overflow-x: hidden !important;
 }
 
-button {
-  background-color: $white;
-  border-radius: 50%;
-}
 .close-popup {
   right: 20px;
   font-size: 40px;
@@ -104,6 +105,11 @@ button {
     bottom: 0;
     right: 0;
     // width: 100%;
+
+    button {
+      background-color: $white;
+      border-radius: 50%;
+    }
   }
   .popup-img {
     height: 100%;

@@ -64,6 +64,9 @@
       justify-content: space-between;
       background-color: #4c4c4c;
       margin-bottom: 15px;
+      position: sticky;
+      top: 0;
+      z-index: 1;
   
       .heading {
         font-family: $font-Lato;
@@ -338,7 +341,7 @@
   border-top: 1px solid black;
   border-left: 1px solid black;
   position: absolute;
-  right: 20px;
+  right: 30px;
   transition: transform 0.2s ease-in;
   &.open {
     transform: rotate(45deg);

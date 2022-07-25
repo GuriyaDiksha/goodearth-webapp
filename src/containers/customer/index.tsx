@@ -50,14 +50,14 @@ const StaticPage: React.FC<Props> = props => {
     util.pageViewGTM("Static");
   }, []);
 
-  useEffect(() => {
-    if (
-      !isSale &&
-      window.location.pathname === "/customer-assistance/sales-conditions"
-    ) {
-      history?.push("/error-page");
-    }
-  }, [isSale]);
+  // useEffect(() => {
+  //   if (
+  //     !isSale &&
+  //     window.location.pathname === "/customer-assistance/sales-conditions"
+  //   ) {
+  //     history?.push("/error-page");
+  //   }
+  // }, [isSale]);
 
   const dispatch = useDispatch();
   const fetchTerms = async (link: string) => {

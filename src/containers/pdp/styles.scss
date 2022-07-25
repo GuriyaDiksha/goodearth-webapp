@@ -81,8 +81,8 @@ $pdp-top: $header-height + $secondary-header-height;
     border-radius: 0;
     cursor: pointer;
     bottom: 50px;
-    position: sticky;
-    left: calc(50% - 165px);
+    position: absolute ;
+    right: 0;
     padding: 0 10px;
     opacity: 0.9;
     width: max-content;
@@ -105,11 +105,17 @@ $pdp-top: $header-height + $secondary-header-height;
     width: 80%;
     padding-left: 40px;
 }
+
+.mobile-pdp-image-container{
+    position: relative;
+}
+
 .looks-btn-mobile {
     width: auto;
-    // position: absolute;
-    // left: calc(50% - 70px);
-    // bottom: 80px;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 80px;
 }
 
 .looks-item-container {
