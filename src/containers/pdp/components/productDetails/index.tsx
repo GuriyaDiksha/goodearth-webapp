@@ -958,6 +958,7 @@ const ProductDetails: React.FC<Props> = ({
               ""
             )} */}
                   {categories &&
+                    !isQuickview &&
                     categories.filter(category =>
                       category.toLowerCase().includes("wallcovering")
                     ).length > 0 && (
