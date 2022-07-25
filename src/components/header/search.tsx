@@ -193,12 +193,12 @@ class Search extends React.Component<Props, State> {
         }
       }
     });
+    this.props.toggle();
     this.props.history.push(data.url);
   }
 
   onClickSearch = (event: any) => {
     if (this.state.searchValue.trim().length > 2) {
-      // console.log(encodeURIComponent(this.state.url))
       this.props.history.push(this.state.url);
       this.closeSearch();
       return false;

@@ -5,10 +5,11 @@ import { clone } from "lodash";
 import { Depts, Facets, Locs, Tags } from "containers/careerNew/typings";
 import { useSelector } from "react-redux";
 import { AppState } from "reducers/typings";
+import { useHistory } from "react-router";
 
 type Props = {
   facets: Facets;
-  dept: string;
+  appliedFilters: string[];
   setAppliedFilters: any;
   isFilterOpen: boolean;
   setIsFilterOpen: any;
@@ -19,7 +20,7 @@ type Props = {
 
 const CareerFilter: React.FC<Props> = ({
   facets,
-  dept,
+  appliedFilters,
   setAppliedFilters,
   isFilterOpen,
   setIsFilterOpen,
@@ -43,8 +44,41 @@ const CareerFilter: React.FC<Props> = ({
     appliedFilters: false
   });
   const [selectedFilters, setSelectedFilters] = useState<string[]>([]);
+  const history = useHistory();
 
   const { mobile } = useSelector((state: AppState) => state.device);
+
+  const handleViewAll = (newList: any, newDeptList: any) => {
+    const tagsList = clone(tags.map(e => e.name));
+    const locList = clone(locs.map(e => e.name));
+    const deptsList = clone(depts.map(e => e.title));
+
+    if (
+      newList.filter((ele: any) => tagsList.includes(ele)).length !== 0 &&
+      newList.filter((ele: any) => tagsList.includes(ele)).length ===
+        tagsList.length
+    ) {
+      (document.getElementById("tag_all") as HTMLInputElement).checked = true;
+    } else {
+      (document.getElementById("tag_all") as HTMLInputElement).checked = false;
+    }
+
+    if (
+      newList.filter((ele: any) => locList.includes(ele)).length !== 0 &&
+      newList.filter((ele: any) => locList.includes(ele)).length ===
+        locList.length
+    ) {
+      (document.getElementById("loc_all") as HTMLInputElement).checked = true;
+    } else {
+      (document.getElementById("loc_all") as HTMLInputElement).checked = false;
+    }
+
+    if (newDeptList.length !== 0 && newDeptList.length === deptsList.length) {
+      (document.getElementById("dept_all") as HTMLInputElement).checked = true;
+    } else {
+      (document.getElementById("dept_all") as HTMLInputElement).checked = false;
+    }
+  };
 
   useEffect(() => {
     const { depts, tags, locs }: Facets = facets;
@@ -52,6 +86,8 @@ const CareerFilter: React.FC<Props> = ({
     setDepts(depts.slice(0, 4));
     setTags(tags.slice(0, 4));
     setLocs(locs.slice(0, 4));
+    setSelectedFilters([...appliedFilters]);
+    handleViewAll(appliedFilters, selectedDept);
   }, [facets]);
 
   const clearFilter = () => {
@@ -93,9 +129,9 @@ const CareerFilter: React.FC<Props> = ({
   const handleCheckbox = (e: any, key: string) => {
     let newList = clone(selectedFilters);
     let newDeptList = clone(selectedDept);
-    const tagsList = clone(tags.map(e => e.name));
-    const locList = clone(locs.map(e => e.name));
-    const deptsList = clone(depts.map(e => e.title));
+    let deptUrl = "dept=";
+
+    const url = history?.location.pathname;
 
     if (e.target.checked) {
       if (e.target.name === "View All") {
@@ -146,30 +182,27 @@ const CareerFilter: React.FC<Props> = ({
     //   ? [...newDeptList]
     //   : [...newDeptList, dept];
 
-    if (
-      newList.filter(ele => tagsList.includes(ele)).length === tagsList.length
-    ) {
-      (document.getElementById("tag_all") as HTMLInputElement).checked = true;
-    } else {
-      (document.getElementById("tag_all") as HTMLInputElement).checked = false;
-    }
+    handleViewAll(newList, newDeptList);
 
-    if (
-      newList.filter(ele => locList.includes(ele)).length === locList.length
-    ) {
-      (document.getElementById("loc_all") as HTMLInputElement).checked = true;
-    } else {
-      (document.getElementById("loc_all") as HTMLInputElement).checked = false;
-    }
+    const tagFilteres = facets.tags
+      .map(ele => ele.name)
+      .filter(ele => newList.includes(ele));
+    const locsFilteres = facets.locs
+      .map(ele => ele.name)
+      .filter(ele => newList.includes(ele));
 
-    if (newDeptList.length === deptsList.length) {
-      (document.getElementById("dept_all") as HTMLInputElement).checked = true;
-    } else {
-      (document.getElementById("dept_all") as HTMLInputElement).checked = false;
-    }
+    deptUrl = deptUrl + newDeptList.join("+");
+    deptUrl = tagFilteres.length
+      ? deptUrl + "&tag=" + tagFilteres.join("+")
+      : deptUrl;
+    deptUrl = locsFilteres?.length
+      ? deptUrl + "&loc=" + locsFilteres.join("+")
+      : deptUrl;
 
     setAppliedFilters([...newList]);
     setSelectedDept(newDeptList);
+
+    history.replace(url + "?" + deptUrl);
   };
 
   const removeFilter = (name: string) => {

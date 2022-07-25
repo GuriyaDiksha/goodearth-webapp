@@ -166,16 +166,26 @@ class CheckoutHeader extends React.Component<Props, { boId: string }> {
     );
   }
 
-  componentWillUnmount() {
-    // show chat container
-    const chatContainer = document.getElementById("mobile-chat-container");
-    if (chatContainer) {
-      chatContainer.style.removeProperty("display");
-    }
-  }
+  // componentWillUnmount() {
+  //   // show chat container
+  //   debugger
+  //   const chatContainer = document.getElementById("mobile-chat-container");
+  //   if (chatContainer) {
+  //     chatContainer.style.removeProperty("display");
+  //   }
+  // }
 
   render() {
     const { meta, mobile, currency } = this.props;
+    // hide chat container
+    const chatContainer =
+      typeof document == "object"
+        ? document?.getElementById("mobile-chat-container")
+        : "";
+    if (chatContainer) {
+      chatContainer.style.display = "none";
+    }
+
     const curryList = this.props.currencyList.map(data => {
       // return data.currencyCode
       return {

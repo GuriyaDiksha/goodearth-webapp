@@ -26,7 +26,7 @@ const PDPImage: React.FC<Props> = ({
   icon,
   code
 }) => {
-  const src = productImage.replace(/Micro|Large/i, "Medium");
+  const src = productImage?.replace(/Micro|Large/i, "Medium");
   const onImageClick = useCallback(() => {
     onClick && onClick(index, id);
   }, [id]);
