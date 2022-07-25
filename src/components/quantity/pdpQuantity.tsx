@@ -90,7 +90,12 @@ class PdpQuantity extends React.Component<QuantityItem, State> {
             {value}
           </span>
           <span
-            className={cs(styles.plusQuantity, styles.quantityPdp, props.class)}
+            className={cs(
+              styles.plusQuantity,
+              styles.quantityPdp,
+              props.class,
+              this.state.showError ? styles.plusQuantityDisabled : ""
+            )}
             onClick={(): void => {
               if (disabled || this.state.disableButton) {
                 return;
