@@ -11,11 +11,12 @@ import CopyLink from "./copyLink";
 import globalStyles from "styles/global.scss";
 import styles from "./styles.scss";
 import * as util from "../../utils/validate";
+import Whatsapp from "./whatsapp";
 
 const Share: React.FC<Props> = ({ link, mailText, mailSubject, mobile }) => {
-  // const whatsappLink = `${
-  //   mobile ? "whatsapp://send?text=" : "https://web.whatsapp.com/send?text="
-  // }${link}%3Futm_source=Website-Shared%26utm_medium=Whatsapp`;
+  const whatsappLink = `${
+    mobile ? "whatsapp://send?text=" : "https://web.whatsapp.com/send?text="
+  }${link}%3Futm_source=Website-Shared%26utm_medium=Whatsapp`;
   const mailContent = `mailto:?subject=${mailSubject}&body=${mailText}%3Futm_source=Website-Shared%26utm_medium=Email`;
 
   const store = useStore();
@@ -42,9 +43,9 @@ const Share: React.FC<Props> = ({ link, mailText, mailSubject, mobile }) => {
           // show ? styles.show : styles.hide
         )}
       >
-        {/* <div>
-          <Whatsapp link={whatsappLink} className={styles.socialIcon} />{" "}
-        </div> */}
+        <div className={cs(styles.whatsapp)}>
+          <Whatsapp link={whatsappLink} className={styles.whatsappIcon} />{" "}
+        </div>
         <div className={cs(styles.mail)}>
           <Mail link={mailContent} className={styles.socialIcon} />{" "}
         </div>
