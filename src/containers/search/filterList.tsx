@@ -90,7 +90,9 @@ class FilterList extends React.Component<Props, State> {
       activeindex: -1,
       activeindex2: 1,
       selectedCatShop: "View All",
-      isViewAll: false
+      isViewAll: false,
+      urltempData: { categoryObj: {}, id: "" },
+      isCategoryClicked: false
     };
     this.props.onRef(this);
   }
@@ -131,8 +133,8 @@ class FilterList extends React.Component<Props, State> {
             break;
           case "category_shop":
             for (let i = 0; i < cc.length; i++) {
-              const csKey = cc[i].trim();
-              filter.categoryShop[csKey] = true;
+              // const csKey = cc[i].trim();
+              // filter.categoryShop[csKey] = true;
             }
             break;
           case "min_price":
@@ -169,13 +171,21 @@ class FilterList extends React.Component<Props, State> {
         }
       }
     }
+
+    if (!this.state.isCategoryClicked) {
+      this.setState({
+        showmenulevel2: true,
+        categoryindex: 0,
+        categorylevel1: true
+      });
+    }
     this.setState({
       filter: filter,
-      showmenulevel2: true,
-      categoryindex: 0,
+      // showmenulevel2: openCat || this.state.showmenulevel2,
+      // categoryindex: openCat ? -1 : 0,
       activeindex: this.state.openMenu,
-      activeindex2: 1,
-      categorylevel1: true
+      activeindex2: 1
+      // categorylevel1: openCat || this.state.categorylevel1
     });
   };
 
@@ -357,6 +367,7 @@ class FilterList extends React.Component<Props, State> {
 
   createUrlfromFilter = (load?: any) => {
     const array = this.state.filter;
+    const { isViewAll, urltempData, filter } = this.state;
     const { history } = this.props;
     let filterUrl = "",
       mainurl: string | undefined = "",
@@ -367,6 +378,22 @@ class FilterList extends React.Component<Props, State> {
       discountVars = "",
       searchValue = "",
       categoryKey: any;
+
+    if (isViewAll) {
+      let qparam = "";
+      Object.keys(urltempData?.categoryObj).map(ele => {
+        if (ele.trim() == urltempData?.id.split(">")[0].trim()) {
+          urltempData?.categoryObj[ele].map((val: any, index: number) => {
+            qparam += index === 0 ? "" : qparam ? "|" + val[1] : val[1];
+          });
+        }
+      });
+
+      filter.categoryShop["selectedCatShop"] = qparam;
+    } else if (urltempData?.id !== "all") {
+      filter.categoryShop["selectedCatShop"] = urltempData?.id;
+    }
+
     Object.keys(array).map((filterType, i) => {
       Object.keys(array[filterType]).map((key, i) => {
         switch (filterType) {
@@ -510,7 +537,8 @@ class FilterList extends React.Component<Props, State> {
   onchangeRange = (value: any) => {
     if (value[0] == value[1]) return false;
     this.setState({
-      rangevalue: [value[0], value[1]]
+      rangevalue: [value[0], value[1]],
+      isCategoryClicked: true
     });
   };
 
@@ -522,7 +550,8 @@ class FilterList extends React.Component<Props, State> {
     this.setState(
       {
         filter: filter,
-        rangevalue: [value[0], value[1]]
+        rangevalue: [value[0], value[1]],
+        isCategoryClicked: true
       },
       () => {
         this.createUrlfromFilter();
@@ -1064,7 +1093,7 @@ class FilterList extends React.Component<Props, State> {
   };
 
   generateSubCatagory = (data: any, html: any, categoryObj: any) => {
-    const name = data[0].split(">")[1]?.trim(),
+    const name = data && data[0].split(">")[1]?.trim(),
       id = data[0].trim();
     const { filter } = this.state;
 
@@ -1192,20 +1221,19 @@ class FilterList extends React.Component<Props, State> {
     if (event.target.id == "all") {
       // do nothing
     } else {
-      if (isViewAll) {
-        let qparam = "";
-        Object.keys(categoryObj).map(ele => {
-          if (ele.trim() == event.target.id.split(">")[0].trim()) {
-            categoryObj[ele].map((val: any, index: number) => {
-              qparam += index === 0 ? "" : qparam ? "|" + val[1] : val[1];
-            });
-          }
-        });
-
-        filter.categoryShop["selectedCatShop"] = qparam;
-      } else {
-        filter.categoryShop["selectedCatShop"] = event.target.id;
-      }
+      // if (isViewAll) {
+      //   let qparam = "";
+      //   Object.keys(categoryObj).map(ele => {
+      //     if (ele.trim() == event.target.id.split(">")[0].trim()) {
+      //       categoryObj[ele].map((val: any, index: number) => {
+      //         qparam += index === 0 ? "" : qparam ? "|" + val[1] : val[1];
+      //       });
+      //     }
+      //   });
+      //   filter.categoryShop["selectedCatShop"] = qparam;
+      // } else {
+      //   filter.categoryShop["selectedCatShop"] = event.target.id;
+      // }
     }
     if (filter.sortBy["sortBy"] == "discount") {
       filter.sortBy = {};
@@ -1215,7 +1243,8 @@ class FilterList extends React.Component<Props, State> {
       {
         filter: filter,
         selectedCatShop: data,
-        isViewAll: isViewAll
+        isViewAll: isViewAll,
+        urltempData: { categoryObj: categoryObj, id: event.target.id }
       },
       () => {
         this.createUrlfromFilter();
@@ -1280,7 +1309,8 @@ class FilterList extends React.Component<Props, State> {
       value: event.target.value
     };
     this.setState({
-      filter: filter
+      filter: filter,
+      isCategoryClicked: true
     });
     this.createUrlfromFilter();
     event.stopPropagation();
@@ -1381,7 +1411,8 @@ class FilterList extends React.Component<Props, State> {
     };
     this.setState(
       {
-        filter: filter
+        filter: filter,
+        isCategoryClicked: true
       },
       () => {
         this.createUrlfromFilter();
