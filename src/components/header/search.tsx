@@ -26,6 +26,7 @@ import { withRouter, RouteComponentProps } from "react-router";
 import { Link } from "react-router-dom";
 import { updateModal } from "actions/modal";
 import Price from "components/Price";
+import ReactHtmlParser from "react-html-parser";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -69,6 +70,8 @@ type State = {
   showDifferentImage: boolean;
   currentImageIndex: number;
   suggestions: any[];
+  collections: any[];
+  categories: any[];
 };
 class Search extends React.Component<Props, State> {
   constructor(props: Props) {
@@ -82,7 +85,9 @@ class Search extends React.Component<Props, State> {
       featureData: [],
       showDifferentImage: false,
       currentImageIndex: -1,
-      suggestions: []
+      suggestions: [],
+      collections: [],
+      categories: []
     };
   }
 
@@ -225,7 +230,7 @@ class Search extends React.Component<Props, State> {
     if (event.target.value.trim().length > 2) {
       if ((!event.charCode ? event.which : event.charCode) == 13) {
         this.props.history.push(
-          "/search?q=" + encodeURIComponent(event.target.value)
+          "/search/?q=" + encodeURIComponent(event.target.value)
         );
         this.closeSearch();
         return false;
@@ -245,19 +250,24 @@ class Search extends React.Component<Props, State> {
   };
 
   getSearchDataApi = (name: string) => {
-    const searchUrl = "/search?q=" + encodeURIComponent(name);
+    const searchUrl = "/autocomplete?q=" + encodeURIComponent(name);
     this.setState({
       url: searchUrl
     });
     this.props
-      .fetchSearchProducts(searchUrl.split("/search")[1])
+      .fetchSearchProducts(
+        `${searchUrl.split("/autocomplete")[1]}&currency=INR&source=frontend`
+      )
       .then(data => {
+        // debugger;
         valid.productImpression(data, "SearchResults", this.props.currency);
         this.setState({
-          productData: data.results.data,
+          productData: data.results.products,
           url: searchUrl,
-          count: data.count,
-          suggestions: data.results.suggestions
+          count: data.results.products.lenght,
+          suggestions: [],
+          categories: data.results.categories,
+          collections: data.results.collections
         });
       })
       .catch(function(error) {
@@ -279,8 +289,31 @@ class Search extends React.Component<Props, State> {
     });
   };
 
-  renderCollectionTile = () => {
-    return "abc";
+  renderCollectionTile = (data?: any) => {
+    // As discussed data will be only two section
+    // return <div>
+    //   {data?.map(
+    //           (item: any, i: number) => {
+    return (
+      <div key={3414} className={styles.collection}>
+        <Link to={"/"}>
+          <img
+            // alt={item.altText || item.title}
+            src={"https://d3qn6cjsz7zlnp.cloudfront.net/media/uploads/33.jpg"}
+            className={cs(globalStyles.imgResponsive, styles.sliderImage)}
+          />
+        </Link>
+        <div className={styles.moreBlock}>
+          <p className={styles.title}>Home/Cusion</p>
+          <p className={styles.productN}>
+            <Link to={"/"}> Manathon Collection</Link>
+          </p>
+        </div>
+      </div>
+    );
+    //           }
+    //         )}
+    // </div>;
   };
 
   render() {
@@ -289,6 +322,7 @@ class Search extends React.Component<Props, State> {
     const suggestionsExist = this.state.suggestions.length > 0;
     const productsExist = this.state.productData.length > 0;
     const { mobile, showTimer } = this.props;
+    const { collections, categories } = this.state;
     return (
       <div
         className={cs(globalStyles.minimumWidth, styles.search, {
@@ -522,37 +556,57 @@ class Search extends React.Component<Props, State> {
                       })}
                     </div>
                   )}
-                  {
-                    <div>
-                      <p
-                        className={cs(
-                          styles.productHeading,
-                          globalStyles.voffset2,
-                          globalStyles.marginB20
-                        )}
-                      >
-                        CATEGORIES
-                      </p>
-                      <div
-                        className={cs(
-                          styles.productHeading,
-                          globalStyles.voffset2,
-                          globalStyles.marginB20
-                        )}
-                      ></div>
-                    </div>
-                  }
-                  {
-                    <p
-                      className={cs(
-                        styles.productHeading,
-                        globalStyles.voffset2,
-                        globalStyles.marginB20
-                      )}
-                    >
-                      PRODUCTS
-                    </p>
-                  }
+                  <div>
+                    {categories.length > 0 && (
+                      <div className={globalStyles.voffset2}>
+                        <p
+                          className={cs(
+                            styles.productHeading,
+                            globalStyles.marginB20
+                          )}
+                        >
+                          CATEGORIES
+                        </p>
+                        {categories?.map(cat => {
+                          return (
+                            <p className={styles.categories}>
+                              {`${cat.parent.replace(">", "/")} / `}
+                              {ReactHtmlParser(cat.category)}
+                              {`(${cat.product_count})`}
+                            </p>
+                          );
+                        })}
+                      </div>
+                    )}
+                    {collections.length > 0 && (
+                      <div className={globalStyles.voffset5}>
+                        <p className={styles.productHeading}>COLLECTIONS</p>
+                        <div
+                          className={cs(
+                            styles.productHeading,
+                            globalStyles.voffset2,
+                            globalStyles.marginB20
+                          )}
+                        >
+                          {this.renderCollectionTile(collections)}
+                        </div>
+                      </div>
+                    )}
+                    {
+                      <div>
+                        <p
+                          className={cs(
+                            styles.productHeading,
+                            globalStyles.voffset4,
+                            globalStyles.marginB20
+                          )}
+                        >
+                          PRODUCTS
+                        </p>
+                      </div>
+                    }
+                  </div>
+
                   {mobile && (
                     <p
                       className={cs(
@@ -616,7 +670,7 @@ class Search extends React.Component<Props, State> {
                                   bootstrapStyles.col6
                                 )}
                               >
-                                {data.salesBadgeImage ? (
+                                {/* {data.salesBadgeImage ? (
                                   <div
                                     className={cs(
                                       {
@@ -636,7 +690,7 @@ class Search extends React.Component<Props, State> {
                                   </div>
                                 ) : (
                                   ""
-                                )}
+                                )} */}
                                 <div className={styles.imageboxNew}>
                                   <Link
                                     to={data.url}
@@ -655,19 +709,19 @@ class Search extends React.Component<Props, State> {
                                     )}
                                   >
                                     <img
-                                      src={imageSource}
+                                      src={data.image}
                                       onError={this.addDefaultSrc}
                                       alt={data.altText || data.title}
                                       className={styles.imageResultNew}
                                     />
                                   </Link>
-                                  {totalStock <= 0 ? (
+                                  {/* {totalStock <= 0 ? (
                                     <div className={styles.outstock}>
                                       <Link to={data.url}> NOTIFY ME </Link>
                                     </div>
                                   ) : (
                                     ""
-                                  )}
+                                  )} */}
                                 </div>
                                 <div className={styles.imageContent}>
                                   {/* <p className={styles.productH}>
@@ -685,11 +739,12 @@ class Search extends React.Component<Props, State> {
                                         : data.title}
                                     </Link>
                                   </p>
-                                  {data.productClass == "GiftCard"
+                                  {data?.productClass == "GiftCard"
                                     ? ""
                                     : !(
-                                        data.invisibleFields.indexOf("price") >
-                                        -1
+                                        data?.invisibleFields?.indexOf(
+                                          "price"
+                                        ) > -1
                                       ) && (
                                         <Price
                                           product={data}

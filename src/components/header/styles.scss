@@ -1690,4 +1690,23 @@ ul.inner-menu-mobile {
 
 .product-heading {
   padding: 0 10rem;
+  @include b5_10px_montserrat_light_charcoal();
+}
+.collection {
+    width: 35%;
+   .title{
+    @include b4_12px_montserrat_light_charcoal();
+    margin-top: 5px;
+   }
+   b {
+    font-weight: 600;
+    }
+}
+.categories {
+  @include b4_12px_montserrat_light_charcoal();
+  margin-top: 5px;
+  padding: 0 10rem;
+  b {
+    font-weight: 600;
+  }
 }
