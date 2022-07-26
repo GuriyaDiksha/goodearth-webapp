@@ -5,10 +5,12 @@ import listing from "./listing.scss";
 import JobCard from "./jobCard";
 import cs from "classnames";
 import { AppState } from "reducers/typings";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { CareerData } from "reducers/career/typings";
 import { Data } from "containers/careerNew/typings";
 import Loader from "components/Loader";
+import CareerService from "services/career";
+import { updateJobList } from "actions/career";
 
 const Listing: React.FC = () => {
   const { facets, data }: CareerData = useSelector(
@@ -21,14 +23,19 @@ const Listing: React.FC = () => {
   const [reset, setReset] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const history = useHistory();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const vars: { dept?: string; loc?: string; tag?: string } = {};
     const url = history.location.search;
     let temp: any = [];
-
     const re = /[?&]+([^=&]+)=([^&]*)/gi;
     let match;
+
+    CareerService.fetchJobListData(dispatch).then(res => {
+      dispatch(updateJobList(res));
+    });
+
     while ((match = re.exec(url))) {
       vars[match[1]] = match[2];
     }
@@ -49,11 +56,6 @@ const Listing: React.FC = () => {
     setAppliedFilters(temp);
   }, []);
 
-  useEffect(() => {
-    // setFilteredData(data.filter(ele => ele?.dept === dept));
-    setIsLoading(false);
-  }, [data]);
-
   const multipleExist = (arr: string[], values: string[]) => {
     return values.some(value => {
       return arr.includes(value);
@@ -61,7 +63,9 @@ const Listing: React.FC = () => {
   };
 
   useEffect(() => {
-    if (selectedDept.length) {
+    setIsLoading(true);
+
+    if (selectedDept.length && facets?.depts?.length) {
       let newData = data.filter(ele => selectedDept.includes(ele?.dept));
 
       const tagFilteres = facets.tags
@@ -78,10 +82,10 @@ const Listing: React.FC = () => {
       if (tagFilteres.length) {
         newData = newData.filter(ele => multipleExist(tagFilteres, ele?.tags));
       }
-
       setFilteredData(newData);
+      setIsLoading(false);
     }
-  }, [appliedFilters, selectedDept]);
+  }, [appliedFilters, selectedDept, facets]);
 
   const NoResultsFound = () => (
     <div className={listing.no_resords_wrp}>
