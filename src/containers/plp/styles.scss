@@ -377,8 +377,7 @@
         margin-bottom: 0;
       }
       .disableColors{
-        opacity: 0.5;
-        cursor: not-allowed;
+        // color: #4C4C4C;
       }
     }
   }
@@ -556,6 +555,12 @@
     font-size: 18px;
     line-height: 0.8;
     transition: all .1s;
+  }
+  input[type="checkbox"]:not(:checked) + label{
+    color: $med-charcoal;
+  }
+  input[type="checkbox"]:checked + label {
+    color: $charcoal19;
   }
 }
 
