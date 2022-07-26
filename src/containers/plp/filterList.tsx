@@ -1258,11 +1258,11 @@ class FilterList extends React.Component<Props, State> {
               }
               onClick={this.handleClickColor}
               value={data[0]}
-              disabled={
-                filtered_facets?.currentColor?.filter(
-                  (e: string[]) => e[0] === data[0]
-                ).length === 0
-              }
+              // disabled={
+              //   filtered_facets?.currentColor?.filter(
+              //     (e: string[]) => e[0] === data[0]
+              //   ).length === 0
+              // }
             />
             <label
               className={
@@ -1292,11 +1292,11 @@ class FilterList extends React.Component<Props, State> {
               }
               onClick={this.handleClickColor}
               value={data[0]}
-              disabled={
-                filtered_facets?.currentColor?.filter(
-                  (e: string[]) => e[0] === data[0]
-                ).length === 0
-              }
+              // disabled={
+              //   filtered_facets?.currentColor?.filter(
+              //     (e: string[]) => e[0] === data[0]
+              //   ).length === 0
+              // }
             />
             <label
               className={
