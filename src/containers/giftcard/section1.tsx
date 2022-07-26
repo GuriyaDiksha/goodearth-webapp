@@ -6,7 +6,6 @@ import styles from "./styles.scss";
 import { Section1Props } from "./typings";
 import { useSelector } from "react-redux";
 import { AppState } from "reducers/typings";
-import Button from "./button";
 
 const Section1: React.FC<Section1Props> = props => {
   let imageName = "image0";
@@ -139,30 +138,17 @@ const Section1: React.FC<Section1Props> = props => {
               </div>
             </div>
           </div>
-          <div
-            className={cs(
-              bootstrapStyles.col12,
-              globalStyles.textCenter,
-              globalStyles.voffset6
-            )}
-          >
-            <div className={bootstrapStyles.row}>
-              <div className={bootstrapStyles.col12}>
-                <Button value="choose value" onClick={gotoNext} />
-              </div>
-            </div>
-          </div>
-          <div
-            className={cs(
-              bootstrapStyles.col12,
-              globalStyles.textCenter,
-              globalStyles.voffset4
-            )}
-          >
-            <div className={bootstrapStyles.row}>
-              <div className={bootstrapStyles.col12}>
-                <i className={styles.arrowDown}></i>
-              </div>
+          <div className={cs(bootstrapStyles.col12, styles.buttonRow)}>
+            <div className={cs(styles.imageSelectBtnContainer)}>
+              <button
+                className={cs(styles.imageSelectBtn, {
+                  [styles.mobileFullWidthButton]: mobile
+                })}
+                onClick={gotoNext}
+              >
+                Confirm & Choose Value&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <span></span>
+              </button>
             </div>
           </div>
         </div>

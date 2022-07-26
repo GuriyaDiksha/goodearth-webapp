@@ -50,7 +50,9 @@ const WallpaperFAQ: React.FC<Props> = ({ mobile }) => {
             className={styles.sectionTitle}
             onClick={mobile ? onHeaderClick(i) : undefined}
           >
-            {section.text}
+            {mobile && section.icon}
+            {mobile && <span>{section.text}</span>}
+            {!mobile && section.text}
           </div>
           {mobile && (
             <div
@@ -60,10 +62,11 @@ const WallpaperFAQ: React.FC<Props> = ({ mobile }) => {
             >
               <Accordion
                 sections={accordionSections[i]}
+                className="wallpaperFAQ"
                 headerClassName={styles.accordionTitle}
                 bodyClassName={styles.accordionText}
-                openIconClass={styles.openIcon}
-                closedIconClass={styles.closeIcon}
+                openIconClassName={cs(styles.horizontal, styles.open)}
+                closedIconClassName={cs(styles.horizontal)}
               />
             </div>
           )}
@@ -89,7 +92,7 @@ const WallpaperFAQ: React.FC<Props> = ({ mobile }) => {
             styles.container
           )}
         >
-          <h2>FAQ</h2>
+          <h2>Frequently Asked Questions</h2>
           <div className={styles.headerSections}>{headers}</div>
         </div>
       </div>
@@ -104,11 +107,12 @@ const WallpaperFAQ: React.FC<Props> = ({ mobile }) => {
             )}
           >
             <Accordion
+              className="mobileWallpaperFAQ"
               sections={accordionSections[currentActive]}
               headerClassName={styles.accordionTitle}
               bodyClassName={styles.accordionText}
-              openIconClass={styles.openIcon}
-              closedIconClass={styles.closeIcon}
+              openIconClassName={cs(styles.horizontal, styles.open)}
+              closedIconClassName={cs(styles.horizontal)}
             />
           </div>
         </div>

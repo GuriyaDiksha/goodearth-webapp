@@ -298,10 +298,21 @@ class SideMenu extends React.Component<Props, State> {
                       iconStyles.icon,
                       iconStyles.iconWishlist,
                       styles.iconStyle,
+                      {
+                        [styles.wishlistGold]: this.props.location.pathname.includes(
+                          "/wishlist"
+                        )
+                      },
                       disableClass
                     )}
                   ></i>
-                  <span className={styles.badge}>
+                  <span
+                    className={cs(styles.badge, {
+                      [styles.wishlistGold]: this.props.location.pathname.includes(
+                        "/wishlist"
+                      )
+                    })}
+                  >
                     {wishlistCount > 0 ? wishlistCount : ""}
                   </span>
                 </Link>
@@ -318,14 +329,22 @@ class SideMenu extends React.Component<Props, State> {
             >
               <div className={cs(styles.iconStyle, styles.innerCartContainer)}>
                 <i
-                  className={cs(iconStyles.icon, iconStyles.iconCart)}
+                  className={cs(iconStyles.icon, iconStyles.iconCart, {
+                    [styles.cartGold]: this.props.location.pathname.includes(
+                      "/cart"
+                    )
+                  })}
                   onClick={(): void => {
                     this.props.setShowBag(true);
                     this.props.onSideMenuClick("Cart");
                   }}
                 ></i>
                 <span
-                  className={styles.badge}
+                  className={cs(styles.badge, {
+                    [styles.cartGold]: this.props.location.pathname.includes(
+                      "/cart"
+                    )
+                  })}
                   onClick={(): void => {
                     this.props.setShowBag(true);
                     this.props.onSideMenuClick("Cart");

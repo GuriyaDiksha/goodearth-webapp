@@ -1,4 +1,5 @@
 @import "../../../../styles/partials/variables";
+@import "../../../../styles/partials/mixins";
 
 .container {
     padding: 0;
@@ -27,56 +28,71 @@
 .header-sections {
     display: flex;
     justify-content: center;
+    .header-section{
+        .section-title {
+            border-right: 1px solid #9f9f9f36;
+        }
+        &:last-child{
+            .section-title{
+                border-right: none;
+            }
+        }
+    }
 }
 
 .header-section {
-    width: 180px;
-    margin: 0px 32px;
+    width: 200px;
+    max-width: max-content;
     cursor: pointer;
-
+    display: flex;
+    position: relative;
     svg {
         height: 50px;
         margin: 20px 0;
+        margin-left: 10px;
     }
-
+    &:first-child{
+        svg {
+            margin-left: 0px;
+        }
+    }
     &.active {
-        svg {
-            fill: $cerise;
+        // box-shadow: 0px 30px 0px -25px $aqua;
+        .section-title{
+            &::after{
+                content: "";
+                background: #7EAAA9;
+                position: absolute;
+                bottom: 0;
+                height: 5px;
+                width: 90%;
+                right: 20px;
+            }
         }
-
+        svg {
+            stroke: $aqua-bold;
+            stroke-width: 0.5px;
+        }
         .section-title {
-            background: $cerise;
-            color: #fff;
+            @include b3_14px_montserrat_aqua();
         }
     }
-
-    &:hover {
-        .section-title {
-            background: $cerise;
-            color: #fff;
-        }
-
-        svg {
-            fill: $cerise;
-        }
-    }
-
 }
 
 .section-title {
     padding: 11px 2px;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    font-size: 12px;
-    color: #000;
+    margin-right: 10px;
+    @include b3_14px_montserrat_charcoal();
+    align-self: center;
+    text-align: left;;
 }
 
 .accordion-title {
+    @include b3_14px_montserrat_medium_charcoal();
     padding-top: 10px;
-    padding-left: 5px;
-    font-size: 15px;
-    letter-spacing: 1px;
-    margin-bottom: 20px !important;
+    padding-left: 15px;
+    margin-bottom: 10px !important;
+    margin-top: 10px !important;
     cursor: pointer;
     text-align: left;
     position: relative;
@@ -84,17 +100,14 @@
 
 .accordion-text {
     width: 90%;
-    font-family: $font-Lato;
-    font-weight: 300;
-    font-size: 13px;
-    color: #4d4d4d;
-    margin: 20px 0;
+    @include b4_12px_montserrat_charcoal();
+    margin: 0 0 20px 0px;
     line-height: 20px;
-    padding-left: 5px;
+    padding-left: 15px;
     text-align: left;
 
-    a:hover, a:active, a:visited, a:focus {
-        color: $cerise;
+    a:hover, a:active, a:visited, a:focus, a {
+        color: $gold;
     }
 }
 
@@ -111,27 +124,58 @@
 }
 
 @media screen and (max-width: 992px) {
-    .header-sections {
-        display: block;
-    }
-    .header-section {
-        width: 100%;
-        margin: 0px;
+    .horizontal {
+        position: absolute !important;
+        right: 5px;
     }
 
-    .section-title {
-        text-align: left;
-        padding: 15px;
-        background: #f2f2f2;
-        border-bottom: 1px solid #fff;
+    .header-sections {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
     }
+
+    .header-section {
+        width: 100%;
+        max-width: 100%;
+        margin: 0px;
+        flex-direction: column;
+        margin-bottom: 2px;
+        background: #f2f2f2;
+
+        .section-title {
+            text-align: left;
+            border-right: none !important;
+            width: 100%;
+            padding: 15px 0px;
+            margin-right: 0px;
+            svg {
+                margin: 0px 20px;
+                height: 30px;
+            }
+        }
+
+        &.active{
+            background: #fff;
+            .section-title{
+                &::after{
+                    content: "";
+                    display:none;
+                }
+                border-bottom: 5px solid $aqua;
+            }
+
+        }
+    }
+
     .container {
         padding-top: 0;
         margin-bottom: 30px;
 
         h2 {
             line-height: 150%;
-            font-size: 25px;
+            @include h2_24px_lora_charcoal();
+            text-transform: capitalize;
         }
     }
 
@@ -144,8 +188,6 @@
 .open-icon, .close-icon {
     width: 28px;
     height: 28px;
-    border-radius: 50%;
-    border: 1px solid #d9d9d9;
     position: absolute;
     font-size: 18px;
     right: 5px;
@@ -163,4 +205,42 @@
     &::before {
         content: "+";
     }
+}
+
+.horizontal{
+    position: relative;
+    width: 20px;
+    height: 20px;
+
+    &:before,
+    &:after{
+        content: "";
+        position: absolute;
+        background-color: $charcoal19;
+        transition: transform 0.25s ease-out;
+    }
+
+    /* Vertical line */
+    &:before{
+        top: 0;
+        left: 50%;
+        width: 2px;
+        height: 100%;
+       margin-left: -1px;
+    }
+
+    /* horizontal line */
+    &:after{
+        top: 50%;
+        left: 0;
+        width: 100%;
+        height: 2px;
+        margin-top: -1px;
+    }
+}
+
+.open {
+    cursor: pointer;
+    &:before{ transform: rotate(90deg); }
+    &:after{ transform: rotate(180deg); }
 }

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import CareerFilter from "./careerFilter";
 import listing from "./listing.scss";
 import JobCard from "./jobCard";
@@ -11,7 +11,6 @@ import { Data } from "containers/careerNew/typings";
 import Loader from "components/Loader";
 
 const Listing: React.FC = () => {
-  const { dept } = useParams<{ dept: string }>();
   const { facets, data }: CareerData = useSelector(
     (state: AppState) => state.career
   );
@@ -21,13 +20,37 @@ const Listing: React.FC = () => {
   const [isFilterOpen, setIsFilterOpen] = useState<boolean>(false);
   const [reset, setReset] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const history = useHistory();
 
   useEffect(() => {
-    setSelectedDept([dept]);
+    const vars: { dept?: string; loc?: string; tag?: string } = {};
+    const url = history.location.search;
+    let temp: any = [];
+
+    const re = /[?&]+([^=&]+)=([^&]*)/gi;
+    let match;
+    while ((match = re.exec(url))) {
+      vars[match[1]] = match[2];
+    }
+
+    if (vars?.dept) {
+      setSelectedDept(vars.dept.split("+"));
+    }
+    if (vars?.loc) {
+      temp = [
+        ...temp,
+        ...vars?.loc?.split("+").map(e => e.replace(/%20/g, " "))
+      ];
+    }
+    if (vars?.tag) {
+      temp = [...temp, ...vars?.tag?.split("+")];
+    }
+
+    setAppliedFilters(temp);
   }, []);
 
   useEffect(() => {
-    setFilteredData(data.filter(ele => ele?.dept === dept));
+    // setFilteredData(data.filter(ele => ele?.dept === dept));
     setIsLoading(false);
   }, [data]);
 
@@ -38,23 +61,26 @@ const Listing: React.FC = () => {
   };
 
   useEffect(() => {
-    let newData = data.filter(ele => selectedDept.includes(ele?.dept));
-    const tagFilteres = facets.tags
-      .map(ele => ele.name)
-      .filter(ele => appliedFilters.includes(ele));
-    const locsFilteres = facets.locs
-      .map(ele => ele.name)
-      .filter(ele => appliedFilters.includes(ele));
+    if (selectedDept.length) {
+      let newData = data.filter(ele => selectedDept.includes(ele?.dept));
 
-    if (locsFilteres.length) {
-      newData = newData.filter(ele => multipleExist(locsFilteres, ele?.loc));
+      const tagFilteres = facets.tags
+        .map(ele => ele.name)
+        .filter(ele => appliedFilters.includes(ele));
+      const locsFilteres = facets.locs
+        .map(ele => ele.name)
+        .filter(ele => appliedFilters.includes(ele));
+
+      if (locsFilteres.length) {
+        newData = newData.filter(ele => multipleExist(locsFilteres, ele?.loc));
+      }
+
+      if (tagFilteres.length) {
+        newData = newData.filter(ele => multipleExist(tagFilteres, ele?.tags));
+      }
+
+      setFilteredData(newData);
     }
-
-    if (tagFilteres.length) {
-      newData = newData.filter(ele => multipleExist(tagFilteres, ele?.tags));
-    }
-
-    setFilteredData(newData);
   }, [appliedFilters, selectedDept]);
 
   const NoResultsFound = () => (
@@ -77,8 +103,8 @@ const Listing: React.FC = () => {
     <div className={listing.career_list_main_wrp}>
       <div className={listing.career_list_wrp}>
         <CareerFilter
+          appliedFilters={appliedFilters}
           facets={facets}
-          dept={dept}
           setAppliedFilters={setAppliedFilters}
           isFilterOpen={isFilterOpen}
           setIsFilterOpen={setIsFilterOpen}

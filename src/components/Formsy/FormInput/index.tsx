@@ -162,7 +162,13 @@ const FormInput: React.FC<Props & InjectedProps<string | null>> = props => {
         {props.label || ""}
       </label>
       {errorMessage && (
-        <p className={cs(globalStyles.errorMsg, globalStyles.txtnormal)}>
+        <p
+          className={cs(
+            styles.errorMsg,
+            globalStyles.txtnormal,
+            globalStyles.textLeft
+          )}
+        >
           {errorMessage}
         </p>
       )}
