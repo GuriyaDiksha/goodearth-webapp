@@ -101,6 +101,12 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
         "Product Quantity": line.quantity
       };
     });
+    const fbProduct = result.lines.map((line: any) => {
+      return {
+        id: line.product.sku, //Pass the all purchased product object
+        quantity: line.quantity
+      };
+    });
     if (result.pushToGA == false) {
       dataLayer.push({
         event: "purchase",
@@ -119,6 +125,12 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
             products: products
           }
         }
+      });
+      dataLayer.push({
+        event: "fb_purchase",
+        revenue: +result.totalInclTax,
+        currencyCode: result.currency,
+        contents: fbProduct
       });
       dataLayer.push({
         event: "customPurchaseSuccess",
