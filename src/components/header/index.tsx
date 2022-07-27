@@ -575,7 +575,6 @@ class Header extends React.Component<Props, State> {
         customerGroup == CUST.CERISE ||
         customerGroup == CUST.CERISE_SITARA
       : false;
-    console.log(meta.h1Tag);
     return (
       <div className="">
         {meta.h1Tag && <h1>{meta.h1Tag}</h1>}
