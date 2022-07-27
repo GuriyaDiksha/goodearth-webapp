@@ -407,11 +407,12 @@ const AddressSection: React.FC<AddressProps & {
     if (props.activeStep == Steps.STEP_BILLING) {
       const pass =
         currency == "INR"
-          ? "AS PER RBI GOVERNMENT REGULATIONS, PAN DETAILS ARE MANDATORY FOR TRANSACTIONS ABOVE RS. 2 LAKHS."
-          : "AS PER RBI GOVERNMENT REGULATIONS, PASSPORT DETAILS ARE MANDATORY FOR TRANSACTIONS ABOVE " +
-            String.fromCharCode(...code) +
-            amountPrice[currency] +
-            ".";
+          ? `AS PER RBI GOVERNMENT REGULATIONS, PAN DETAILS ARE MANDATORY FOR TRANSACTIONS ABOVE ${String.fromCharCode(
+              ...code
+            )} ${amountPrice[currency]}.`
+          : `AS PER RBI GOVERNMENT REGULATIONS, PASSPORT DETAILS ARE MANDATORY FOR TRANSACTIONS ABOVE ${String.fromCharCode(
+              ...code
+            )} ${amountPrice[currency]}.`;
       const panText =
         currency == "INR" ? "PAN Card Number*" : " Passport Number*";
       return (
