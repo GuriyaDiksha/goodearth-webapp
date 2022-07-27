@@ -77,11 +77,17 @@ const Listing: React.FC = () => {
 
     if (selectedDept.length && facets?.depts?.length) {
       let newData = data.filter(ele => selectedDept.includes(ele?.dept));
-      newData.map(ele => {
-        newTag = [...newTag, ...ele?.tags];
-        newLoc = [...newLoc, ...ele?.loc];
-        setTagLocFilter({ tag: uniq(newTag), loc: uniq(newLoc) });
-      });
+
+      if (newData?.length) {
+        newData.map(ele => {
+          newTag = [...newTag, ...ele?.tags];
+          newLoc = [...newLoc, ...ele?.loc];
+
+          setTagLocFilter({ tag: uniq(newTag), loc: uniq(newLoc) });
+        });
+      } else {
+        setTagLocFilter({ tag: [], loc: [] });
+      }
 
       deptUrl = deptUrl + selectedDept.join("+");
       deptUrl = appliedFilters.filter(e => newTag.includes(e)).length

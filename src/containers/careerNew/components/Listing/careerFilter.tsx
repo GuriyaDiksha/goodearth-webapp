@@ -5,7 +5,6 @@ import { clone } from "lodash";
 import { Depts, Facets, Locs, Tags } from "containers/careerNew/typings";
 import { useSelector } from "react-redux";
 import { AppState } from "reducers/typings";
-import { useHistory } from "react-router";
 
 type Props = {
   facets: Facets;
@@ -46,20 +45,12 @@ const CareerFilter: React.FC<Props> = ({
     appliedFilters: false
   });
   const [selectedFilters, setSelectedFilters] = useState<string[]>([]);
-  const history = useHistory();
 
   const { mobile } = useSelector((state: AppState) => state.device);
 
-  const handleViewAll = (
-    newList: any,
-    newDeptList: any,
-    tags: any,
-    locs: any,
-    depts: any
-  ) => {
+  const handleViewAllForFilters = (newList: any, tags: any, locs: any) => {
     const tagsList = clone(tags.map((e: any) => e.name));
     const locList = clone(locs.map((e: any) => e.name));
-    const deptsList = clone(depts.map((e: any) => e.title));
 
     if (
       newList.filter((ele: any) => tagsList.includes(ele)).length !== 0 &&
@@ -80,6 +71,18 @@ const CareerFilter: React.FC<Props> = ({
     } else {
       (document.getElementById("loc_all") as HTMLInputElement).checked = false;
     }
+  };
+
+  const handleViewAll = (
+    newList: any,
+    newDeptList: any,
+    tags: any,
+    locs: any,
+    depts: any
+  ) => {
+    const deptsList = clone(depts.map((e: any) => e.title));
+
+    handleViewAllForFilters(newList, tags, locs);
 
     if (newDeptList.length !== 0 && newDeptList.length === deptsList.length) {
       (document.getElementById("dept_all") as HTMLInputElement).checked = true;
@@ -89,10 +92,13 @@ const CareerFilter: React.FC<Props> = ({
   };
 
   useEffect(() => {
-    setSelectedFilters([
+    const newSelectedFilter = [
       ...selectedFilters.filter(e => tagLocFilter.tag.includes(e)),
       ...selectedFilters.filter(e => tagLocFilter.loc.includes(e))
-    ]);
+    ];
+
+    setSelectedFilters(newSelectedFilter);
+    handleViewAllForFilters(newSelectedFilter, tags, locs);
   }, [tagLocFilter]);
 
   useEffect(() => {
@@ -146,9 +152,6 @@ const CareerFilter: React.FC<Props> = ({
   const handleCheckbox = (e: any, key: string) => {
     let newList = clone(selectedFilters);
     let newDeptList = clone(selectedDept);
-    // let deptUrl = "dept=";
-
-    // const url = history?.location.pathname;
 
     if (e.target.checked) {
       if (e.target.name === "View All") {
@@ -195,31 +198,10 @@ const CareerFilter: React.FC<Props> = ({
       }
     }
 
-    // newDeptList = newDeptList.includes[dept]
-    //   ? [...newDeptList]
-    //   : [...newDeptList, dept];
-
     handleViewAll(newList, newDeptList, tags, locs, depts);
-
-    const tagFilteres = facets.tags
-      .map(ele => ele.name)
-      .filter(ele => newList.includes(ele));
-    const locsFilteres = facets.locs
-      .map(ele => ele.name)
-      .filter(ele => newList.includes(ele));
-
-    // deptUrl = deptUrl + newDeptList.join("+");
-    // deptUrl = tagFilteres.length
-    //   ? deptUrl + "&tag=" + tagFilteres.join("+")
-    //   : deptUrl;
-    // deptUrl = locsFilteres?.length
-    //   ? deptUrl + "&loc=" + locsFilteres.join("+")
-    //   : deptUrl;
 
     setAppliedFilters([...newList]);
     setSelectedDept(newDeptList);
-
-    // history.replace(url + "?" + deptUrl);
   };
 
   const removeFilter = (name: string) => {
