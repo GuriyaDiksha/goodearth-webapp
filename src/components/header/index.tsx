@@ -581,8 +581,8 @@ class Header extends React.Component<Props, State> {
         {meta.h1Tag && <h1>{meta.h1Tag}</h1>}
         <Helmet defer={false}>
           <title>
-            {meta.title
-              ? meta.title
+            {meta.titleTag
+              ? meta.titleTag
               : "Good Earth – Stylish Sustainable Luxury Retail | Goodearth.in"}
           </title>
           <meta
