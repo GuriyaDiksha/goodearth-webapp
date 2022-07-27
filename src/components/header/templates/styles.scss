@@ -392,24 +392,25 @@
             line-height: 18px;
         }
         .mobile-title{
-            border-bottom: none;
-            line-height: 30px;
-            letter-spacing: .05em;
-            font-size: 12px;
-            font-weight: 600;
-            text-transform: uppercase;
-            color: #000;
-            font-family: "LatoFont", "Helvetica", "Arial";
+            p{
+                border-bottom: none;
+                line-height: 30px;
+                @include b4_12px_montserrat_semibold_charcoal();
+                text-transform: uppercase;
+                a {
+                    color: $med-charcoal;
+                }
+            }
         }
         .mobile-heading{
-            border-bottom: none;
-            line-height: 18px;
-            letter-spacing: .05em;
-            display: block;
-            font-size: 12px;
-            font-weight: bold;
-            color: #000;
-            font-family: "LatoFont", "Helvetica", "Arial";
+            p{
+                display: block;
+                border-bottom: none;
+                line-height: 18px;
+                @include b4_12px_montserrat_charcoal();
+                font-weight: $medium;
+            }
+           
         }
     }
 }
