@@ -575,15 +575,16 @@ class Header extends React.Component<Props, State> {
         customerGroup == CUST.CERISE ||
         customerGroup == CUST.CERISE_SITARA
       : false;
+    console.log(meta.h1Tag);
     return (
       <div className="">
+        {meta.h1Tag && <h1>{meta.h1Tag}</h1>}
         <Helmet defer={false}>
           <title>
             {meta.title
               ? meta.title
               : "Good Earth – Stylish Sustainable Luxury Retail | Goodearth.in"}
           </title>
-          {<h1>{meta.h1Tag}</h1>}
           <meta
             name="description"
             content={
@@ -670,7 +671,6 @@ class Header extends React.Component<Props, State> {
             crossOrigin="crossorigin"
           />
         </Helmet>
-
         <div className={cs(styles.headerContainer)}>
           {this.state.reloadAnnouncementBar && (
             <AnnouncementBar
