@@ -146,6 +146,14 @@
                             line-height: 0.8;
                             transition: all .1s;
                           }
+
+                          .disable_label{
+                            opacity: 0.5;
+                            cursor: not-allowed;
+                            [type="checkbox"]:not(:checked) + label{
+                                cursor: not-allowed;
+                            }
+                          }
                     
                         .see_more_btn{
                             text-align: center;

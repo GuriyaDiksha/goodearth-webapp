@@ -16,6 +16,7 @@ type Props = {
   reset: boolean;
   selectedDept: string[];
   setSelectedDept: any;
+  tagLocFilter: { tag: string[]; loc: string[] };
 };
 
 const CareerFilter: React.FC<Props> = ({
@@ -26,7 +27,8 @@ const CareerFilter: React.FC<Props> = ({
   setIsFilterOpen,
   reset,
   selectedDept,
-  setSelectedDept
+  setSelectedDept,
+  tagLocFilter
 }) => {
   const [depts, setDepts] = useState<Depts[]>([]);
   const [tags, setTags] = useState<Tags[]>([]);
@@ -48,10 +50,16 @@ const CareerFilter: React.FC<Props> = ({
 
   const { mobile } = useSelector((state: AppState) => state.device);
 
-  const handleViewAll = (newList: any, newDeptList: any) => {
-    const tagsList = clone(tags.map(e => e.name));
-    const locList = clone(locs.map(e => e.name));
-    const deptsList = clone(depts.map(e => e.title));
+  const handleViewAll = (
+    newList: any,
+    newDeptList: any,
+    tags: any,
+    locs: any,
+    depts: any
+  ) => {
+    const tagsList = clone(tags.map((e: any) => e.name));
+    const locList = clone(locs.map((e: any) => e.name));
+    const deptsList = clone(depts.map((e: any) => e.title));
 
     if (
       newList.filter((ele: any) => tagsList.includes(ele)).length !== 0 &&
@@ -81,13 +89,22 @@ const CareerFilter: React.FC<Props> = ({
   };
 
   useEffect(() => {
+    setSelectedFilters([
+      ...selectedFilters.filter(e => tagLocFilter.tag.includes(e)),
+      ...selectedFilters.filter(e => tagLocFilter.loc.includes(e))
+    ]);
+  }, [tagLocFilter]);
+
+  useEffect(() => {
     const { depts, tags, locs }: Facets = facets;
 
-    setDepts(depts.slice(0, 4));
-    setTags(tags.slice(0, 4));
-    setLocs(locs.slice(0, 4));
-    setSelectedFilters([...appliedFilters]);
-    handleViewAll(appliedFilters, selectedDept);
+    if (selectedDept?.length && depts?.length && tags?.length && locs?.length) {
+      setDepts(depts.slice(0, 4));
+      setTags(tags.slice(0, 4));
+      setLocs(locs.slice(0, 4));
+      setSelectedFilters([...appliedFilters]);
+      handleViewAll(appliedFilters, selectedDept, tags, locs, depts);
+    }
   }, [facets]);
 
   const clearFilter = () => {
@@ -129,9 +146,9 @@ const CareerFilter: React.FC<Props> = ({
   const handleCheckbox = (e: any, key: string) => {
     let newList = clone(selectedFilters);
     let newDeptList = clone(selectedDept);
-    let deptUrl = "dept=";
+    // let deptUrl = "dept=";
 
-    const url = history?.location.pathname;
+    // const url = history?.location.pathname;
 
     if (e.target.checked) {
       if (e.target.name === "View All") {
@@ -182,7 +199,7 @@ const CareerFilter: React.FC<Props> = ({
     //   ? [...newDeptList]
     //   : [...newDeptList, dept];
 
-    handleViewAll(newList, newDeptList);
+    handleViewAll(newList, newDeptList, tags, locs, depts);
 
     const tagFilteres = facets.tags
       .map(ele => ele.name)
@@ -191,18 +208,18 @@ const CareerFilter: React.FC<Props> = ({
       .map(ele => ele.name)
       .filter(ele => newList.includes(ele));
 
-    deptUrl = deptUrl + newDeptList.join("+");
-    deptUrl = tagFilteres.length
-      ? deptUrl + "&tag=" + tagFilteres.join("+")
-      : deptUrl;
-    deptUrl = locsFilteres?.length
-      ? deptUrl + "&loc=" + locsFilteres.join("+")
-      : deptUrl;
+    // deptUrl = deptUrl + newDeptList.join("+");
+    // deptUrl = tagFilteres.length
+    //   ? deptUrl + "&tag=" + tagFilteres.join("+")
+    //   : deptUrl;
+    // deptUrl = locsFilteres?.length
+    //   ? deptUrl + "&loc=" + locsFilteres.join("+")
+    //   : deptUrl;
 
     setAppliedFilters([...newList]);
     setSelectedDept(newDeptList);
 
-    history.replace(url + "?" + deptUrl);
+    // history.replace(url + "?" + deptUrl);
   };
 
   const removeFilter = (name: string) => {
@@ -331,7 +348,7 @@ const CareerFilter: React.FC<Props> = ({
                   >{`View All(${facets?.depts?.length})`}</label>
                 </li>
                 {depts?.map((ele, i) => (
-                  <li>
+                  <li key={i}>
                     <input
                       id={"dept_" + i}
                       type="checkbox"
@@ -344,14 +361,16 @@ const CareerFilter: React.FC<Props> = ({
                     >{`${ele?.title}(${ele?.count})`}</label>
                   </li>
                 ))}
-                <li>
-                  <button
-                    className={listing.see_more_btn}
-                    onClick={() => toggle("depts")}
-                  >
-                    {showMore.depts ? "- Show Less" : "+ Show More"}
-                  </button>
-                </li>
+                {depts?.length > 5 ? (
+                  <li>
+                    <button
+                      className={listing.see_more_btn}
+                      onClick={() => toggle("depts")}
+                    >
+                      {showMore.depts ? "- Show Less" : "+ Show More"}
+                    </button>
+                  </li>
+                ) : null}
               </ul>
             </div>
           </li>
@@ -377,39 +396,56 @@ const CareerFilter: React.FC<Props> = ({
               )}
             >
               <ul>
-                <li>
+                <li
+                  className={
+                    tagLocFilter?.tag?.length === tags?.length
+                      ? ""
+                      : listing.disable_label
+                  }
+                >
                   <input
                     id="tag_all"
                     type="checkbox"
                     name="View All"
                     onClick={e => handleCheckbox(e, "tags")}
+                    disabled={tagLocFilter?.tag?.length !== tags?.length}
                   />
                   <label
                     htmlFor={"tag_all"}
                   >{`View All(${facets?.tags?.length})`}</label>
                 </li>
                 {tags?.map((ele, i) => (
-                  <li>
+                  <li
+                    className={
+                      tagLocFilter?.tag?.includes(ele?.name)
+                        ? ""
+                        : listing.disable_label
+                    }
+                    key={i}
+                  >
                     <input
                       id={"tags_" + i}
                       type="checkbox"
                       name={ele?.name}
                       checked={selectedFilters.includes(ele?.name)}
                       onClick={e => handleCheckbox(e, "tags")}
+                      disabled={!tagLocFilter?.tag?.includes(ele?.name)}
                     />
                     <label
                       htmlFor={"tags_" + i}
                     >{`${ele?.name}(${ele?.count})`}</label>
                   </li>
                 ))}
-                <li>
-                  <button
-                    className={listing.see_more_btn}
-                    onClick={() => toggle("tags")}
-                  >
-                    {showMore.tags ? "- Show Less" : "+ Show More"}
-                  </button>
-                </li>
+                {tags?.length > 5 ? (
+                  <li>
+                    <button
+                      className={listing.see_more_btn}
+                      onClick={() => toggle("tags")}
+                    >
+                      {showMore.tags ? "- Show Less" : "+ Show More"}
+                    </button>
+                  </li>
+                ) : null}
               </ul>
             </div>
           </li>
@@ -435,37 +471,54 @@ const CareerFilter: React.FC<Props> = ({
               )}
             >
               <ul>
-                <li>
+                <li
+                  className={
+                    tagLocFilter?.loc?.length === locs?.length
+                      ? ""
+                      : listing.disable_label
+                  }
+                >
                   <input
                     id="loc_all"
                     type="checkbox"
                     name="View All"
                     onClick={e => handleCheckbox(e, "locs")}
+                    disabled={tagLocFilter?.loc?.length !== locs?.length}
                   />
                   <label
                     htmlFor={"loc_all"}
                   >{`View All(${facets?.locs?.length})`}</label>
                 </li>
                 {locs?.map((ele, i) => (
-                  <li>
+                  <li
+                    className={
+                      tagLocFilter?.loc?.includes(ele?.name)
+                        ? ""
+                        : listing.disable_label
+                    }
+                    key={i}
+                  >
                     <input
                       id={"locs_" + i}
                       type="checkbox"
                       name={ele?.name}
                       checked={selectedFilters.includes(ele?.name)}
                       onClick={e => handleCheckbox(e, "locs")}
+                      disabled={!tagLocFilter?.loc?.includes(ele?.name)}
                     />
                     <label htmlFor={"locs_" + i}>{`${ele?.name}`}</label>
                   </li>
                 ))}
-                <li>
-                  <button
-                    className={listing.see_more_btn}
-                    onClick={() => toggle("locs")}
-                  >
-                    {showMore.locs ? "- Show Less" : "+ Show More"}
-                  </button>
-                </li>
+                {locs?.length > 5 ? (
+                  <li>
+                    <button
+                      className={listing.see_more_btn}
+                      onClick={() => toggle("locs")}
+                    >
+                      {showMore.locs ? "- Show Less" : "+ Show More"}
+                    </button>
+                  </li>
+                ) : null}
               </ul>
             </div>
           </li>
