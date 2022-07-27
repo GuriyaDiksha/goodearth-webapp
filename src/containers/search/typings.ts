@@ -74,4 +74,6 @@ export type State = {
   shouldScroll: boolean;
   selectedCatShop: string;
   isViewAll: boolean;
+  urltempData: any;
+  isCategoryClicked: boolean;
 };
