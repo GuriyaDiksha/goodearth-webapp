@@ -12,6 +12,7 @@ import Loader from "components/Loader";
 import CareerService from "services/career";
 import { updateJobList } from "actions/career";
 import { uniq } from "lodash";
+import bootstrap from "../../../../styles/bootstrap/bootstrap-grid.scss";
 
 const Listing: React.FC = () => {
   const { facets, data }: CareerData = useSelector(
@@ -27,6 +28,7 @@ const Listing: React.FC = () => {
     tag: string[];
     loc: string[];
   }>({ tag: [], loc: [] });
+  const { mobile } = useSelector((state: AppState) => state.device);
   const history = useHistory();
   const dispatch = useDispatch();
 
@@ -154,7 +156,7 @@ const Listing: React.FC = () => {
 
   return (
     <div className={listing.career_list_main_wrp}>
-      <div className={listing.career_list_wrp}>
+      <div className={cs(listing.career_list_wrp, bootstrap.row)}>
         <CareerFilter
           appliedFilters={appliedFilters}
           facets={facets}
@@ -169,6 +171,7 @@ const Listing: React.FC = () => {
 
         <div
           className={cs(
+            mobile ? bootstrap.col12 : bootstrap.col8,
             listing.career_list_wrp_right,
             isFilterOpen ? listing.hide : ""
           )}

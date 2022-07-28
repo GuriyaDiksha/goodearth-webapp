@@ -5,6 +5,7 @@ import { clone } from "lodash";
 import { Depts, Facets, Locs, Tags } from "containers/careerNew/typings";
 import { useSelector } from "react-redux";
 import { AppState } from "reducers/typings";
+import bootstrap from "../../../../styles/bootstrap/bootstrap-grid.scss";
 
 type Props = {
   facets: Facets;
@@ -45,7 +46,10 @@ const CareerFilter: React.FC<Props> = ({
     appliedFilters: false
   });
   const [selectedFilters, setSelectedFilters] = useState<string[]>([]);
-
+  const [oldStateOfFilters, setOldStateOfFilters] = useState<{
+    dept: string[];
+    filters: string[];
+  }>({ dept: [], filters: [] });
   const { mobile } = useSelector((state: AppState) => state.device);
 
   const handleViewAllForFilters = (newList: any, tags: any, locs: any) => {
@@ -227,10 +231,26 @@ const CareerFilter: React.FC<Props> = ({
     setAppliedFilters([...newList.filter(ele => ele !== name)]);
   };
 
+  const handleCancel = () => {
+    setSelectedDept([...oldStateOfFilters?.dept]);
+    setAppliedFilters([...oldStateOfFilters?.filters]);
+    setSelectedFilters([...oldStateOfFilters?.filters]);
+    handleViewAll(
+      oldStateOfFilters?.filters,
+      oldStateOfFilters?.dept,
+      tags,
+      locs,
+      depts
+    );
+    setOldStateOfFilters({ dept: [], filters: [] });
+    setIsFilterOpen(!isFilterOpen);
+  };
+
   return (
     <>
       <div
         className={cs(
+          mobile ? bootstrap.col12 : bootstrap.col3,
           listing.career_list_wrp_left,
           isFilterOpen ? listing.show : ""
         )}
@@ -511,7 +531,10 @@ const CareerFilter: React.FC<Props> = ({
           listing.filter_mobile,
           isFilterOpen ? listing.filter_mobile_hide : ""
         )}
-        onClick={() => setIsFilterOpen(!isFilterOpen)}
+        onClick={() => {
+          setOldStateOfFilters({ dept: selectedDept, filters: appliedFilters });
+          setIsFilterOpen(!isFilterOpen);
+        }}
       >
         <span>FILTERS APPLIED ({selectedFilters.length})</span>
       </div>
@@ -521,10 +544,7 @@ const CareerFilter: React.FC<Props> = ({
           isFilterOpen ? "" : listing.filter_mobile_hide
         )}
       >
-        <button
-          className={listing.cancel_btn}
-          onClick={() => setIsFilterOpen(!isFilterOpen)}
-        >
+        <button className={listing.cancel_btn} onClick={() => handleCancel()}>
           Cancel
         </button>
         <button
