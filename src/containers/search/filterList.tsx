@@ -262,7 +262,9 @@ class FilterList extends React.Component<Props, State> {
     if (filter.categoryShop["selectedCatShop"]) {
       selectIndex = filter.categoryShop["selectedCatShop"].split(">")[0].trim();
     } else {
-      filter.categoryShop["selectedCatShop"] = `View All (${count})`;
+      filter.categoryShop[
+        "selectedCatShop"
+      ] = selectIndex = `View All (${count})`;
     }
 
     this.setState({ filter: filter });
@@ -1035,7 +1037,7 @@ class FilterList extends React.Component<Props, State> {
                 : data.startsWith("View All")
                 ? styles.menulevel2ViewAll
                 : styles.menulevel2,
-              this.state.showmenulevel2 && this.state.activeindex2 == data + "l"
+              this.state.activeindex2 == data + "l"
                 ? styles.selectedCatShop
                 : ""
             )}
@@ -1111,7 +1113,6 @@ class FilterList extends React.Component<Props, State> {
   generateSubCatagory = (data: any, html: any, categoryObj: any) => {
     const name = data && data[0].split(">")[1]?.trim(),
       id = data[0].trim();
-    const { filter } = this.state;
 
     html.push(
       <ul
