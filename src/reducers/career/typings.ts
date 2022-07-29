@@ -5,8 +5,6 @@ import * as Actions from "../../actions/career";
 
 export type CareerAction = ActionType<typeof Actions>;
 export type CareerData = JobListData & {
-  job: {
-    [x: string]: JobData;
-  };
+  job: JobData;
   depts: DeptListData;
 };

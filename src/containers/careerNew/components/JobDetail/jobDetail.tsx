@@ -22,8 +22,6 @@ const JobDetail: React.FC = () => {
   const { dispatch } = useStore();
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const history = useHistory();
-  const [isFooterBelowViewPort, setIsFooterBelowViewPort] = useState(true);
-  console.log("isFooterBelowViewPort====", isFooterBelowViewPort);
 
   useEffect(() => {
     CareerService.fetchJob(dispatch, Number(id)).then(res => {
