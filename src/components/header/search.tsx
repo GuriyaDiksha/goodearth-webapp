@@ -664,7 +664,7 @@ class Search extends React.Component<Props, State> {
                     }
                   </div>
 
-                  {mobile && (
+                  {/* {mobile && (
                     <p
                       className={cs(
                         styles.suggestion,
@@ -674,7 +674,7 @@ class Search extends React.Component<Props, State> {
                     >
                       products
                     </p>
-                  )}
+                  )} */}
                   <div
                     className={cs(bootstrapStyles.row, {
                       [bootstrapStyles.colMd8]: suggestionsExist,
