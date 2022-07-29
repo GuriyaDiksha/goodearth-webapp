@@ -101,6 +101,8 @@ const AddressSection: React.FC<AddressProps & {
   }, [isGoodearthShipping, hidesameShipping, isBridal]);
 
   useEffect(() => {
+    setPanError("");
+    setPanCheck("");
     if (currency != "INR") {
       setGst(false);
     }
