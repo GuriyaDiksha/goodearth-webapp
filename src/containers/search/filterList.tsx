@@ -136,6 +136,18 @@ class FilterList extends React.Component<Props, State> {
               // const csKey = cc[i].trim();
               // filter.categoryShop[csKey] = true;
             }
+            if (cc.length > 1) {
+              let qparam = "";
+
+              cc.map((val: any, index: number) => {
+                qparam += index === 0 ? val : qparam ? "|" + val : val;
+              });
+
+              filter.categoryShop["selectedCatShop"] = qparam;
+            } else if (!cc[0].startsWith("View All")) {
+              filter.categoryShop["selectedCatShop"] = cc[0];
+            }
+
             break;
           case "min_price":
           case "max_price":
@@ -340,7 +352,8 @@ class FilterList extends React.Component<Props, State> {
     this.setState({
       activeindex2: selectIndex + "l",
       // oldSelectedCategory: oldSelectedCategory,
-      filter: filter
+      filter: filter,
+      isViewAll: filter.categoryShop["selectedCatShop"].includes("|")
     });
 
     return { categoryObj: categoryObj, facets: facets };
@@ -392,6 +405,8 @@ class FilterList extends React.Component<Props, State> {
       filter.categoryShop["selectedCatShop"] = qparam;
     } else if (urltempData?.id !== "all") {
       filter.categoryShop["selectedCatShop"] = urltempData?.id;
+    } else if (filter.categoryShop["selectedCatShop"]?.startsWith("View All")) {
+      filter.categoryShop["selectedCatShop"] = "";
     }
 
     Object.keys(array).map((filterType, i) => {
@@ -790,6 +805,7 @@ class FilterList extends React.Component<Props, State> {
       this.props.customerGroup != nextProps.customerGroup
     ) {
       const { filter } = this.state;
+
       if (filter.sortBy && filter.sortBy["sortBy"] == "discount") {
         filter.sortBy = {};
       }
@@ -1000,7 +1016,7 @@ class FilterList extends React.Component<Props, State> {
   };
 
   generateCatagory = (categoryObj: any, data: any, html: any) => {
-    const { filter, selectedCatShop, isViewAll } = this.state;
+    const { filter, isViewAll } = this.state;
 
     html.push(
       <ul key={`category-${data}`}>
@@ -1019,7 +1035,7 @@ class FilterList extends React.Component<Props, State> {
                 : data.startsWith("View All")
                 ? styles.menulevel2ViewAll
                 : styles.menulevel2,
-              data.startsWith(selectedCatShop) || selectedCatShop === data
+              this.state.showmenulevel2 && this.state.activeindex2 == data + "l"
                 ? styles.selectedCatShop
                 : ""
             )}
