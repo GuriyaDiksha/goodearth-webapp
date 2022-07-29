@@ -56,6 +56,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
 type Props = {
   toggle: () => void;
   ipad: boolean;
+  closePopup: () => void;
 } & ReturnType<typeof mapStateToProps> &
   ReturnType<typeof mapDispatchToProps> &
   RouteComponentProps;
@@ -92,9 +93,20 @@ class Search extends React.Component<Props, State> {
   }
 
   searchBoxRef = React.createRef<HTMLInputElement>();
+  impactRef = React.createRef<HTMLInputElement>();
 
   addDefaultSrc = (e: any) => {
     // e.target.src = "/static/img/noimageplp.png";
+  };
+
+  handleClickOutside = (evt: any) => {
+    if (
+      this.impactRef.current &&
+      !this.impactRef.current.contains(evt.target)
+    ) {
+      //Do what you want to handle in the callback
+      this.props.closePopup();
+    }
   };
 
   componentDidMount() {
@@ -110,6 +122,7 @@ class Search extends React.Component<Props, State> {
       .catch(function(error) {
         console.log(error);
       });
+    document.addEventListener("mousedown", this.handleClickOutside);
   }
 
   componentDidUpdate() {
@@ -124,6 +137,7 @@ class Search extends React.Component<Props, State> {
   }
   componentWillUnmount() {
     document.body.classList.remove(globalStyles.noScroll);
+    document.removeEventListener("mousedown", this.handleClickOutside);
   }
 
   closeSearch = () => {
@@ -204,7 +218,9 @@ class Search extends React.Component<Props, State> {
 
   onClickSearch = (event: any) => {
     if (this.state.searchValue.trim().length > 2) {
-      this.props.history.push(this.state.url);
+      this.props.history.push(
+        `search/${this.state.url.split("/autocomplete")[1]}`
+      );
       this.closeSearch();
       return false;
     }
@@ -339,6 +355,7 @@ class Search extends React.Component<Props, State> {
         className={cs(globalStyles.minimumWidth, styles.search, {
           [styles.searchTimer]: showTimer
         })}
+        ref={this.impactRef}
       >
         <div>
           <div className={bootstrapStyles.col12}>
@@ -370,14 +387,16 @@ class Search extends React.Component<Props, State> {
                     this.state.count ? `  (${this.state.count})` : ""
                   }`}
                 </span>
-                <i
-                  className={cs(
-                    iconStyles.icon,
-                    iconStyles.iconSearch,
-                    styles.iconSearchPopup
-                  )}
-                  onClick={this.onClickSearch}
-                ></i>
+                {!mobile && (
+                  <i
+                    className={cs(
+                      iconStyles.icon,
+                      iconStyles.iconSearch,
+                      styles.iconSearchPopup
+                    )}
+                    onClick={this.onClickSearch}
+                  ></i>
+                )}
                 {!mobile && (
                   <i
                     className={cs(
@@ -573,7 +592,9 @@ class Search extends React.Component<Props, State> {
                         <p
                           className={cs(
                             styles.productHeading,
-                            globalStyles.marginB20
+                            globalStyles.marginB20,
+                            { [styles.padding]: !mobile },
+                            { [styles.paddingMobile]: mobile }
                           )}
                         >
                           CATEGORIES
@@ -586,7 +607,13 @@ class Search extends React.Component<Props, State> {
                                 this.props.toggle();
                               }}
                             >
-                              <p className={styles.categories}>
+                              <p
+                                className={cs(
+                                  styles.categories,
+                                  { [styles.padding]: !mobile },
+                                  { [styles.paddingMobile]: mobile }
+                                )}
+                              >
                                 {`${cat.parent.replace(">", "/")} / `}
                                 {ReactHtmlParser(cat.category)}
                                 {`(${cat.product_count})`}
@@ -598,9 +625,19 @@ class Search extends React.Component<Props, State> {
                     )}
                     {collections.length > 0 && (
                       <div className={globalStyles.voffset5}>
-                        <p className={styles.productHeading}>COLLECTIONS</p>
+                        <p
+                          className={cs(
+                            styles.productHeading,
+                            { [styles.padding]: !mobile },
+                            { [styles.paddingMobile]: mobile }
+                          )}
+                        >
+                          COLLECTIONS
+                        </p>
                         <div
                           className={cs(
+                            { [styles.padding]: !mobile },
+                            { [styles.paddingMobile]: mobile },
                             styles.productHeading,
                             globalStyles.voffset2,
                             globalStyles.marginB20
@@ -616,7 +653,9 @@ class Search extends React.Component<Props, State> {
                           className={cs(
                             styles.productName,
                             globalStyles.voffset4,
-                            globalStyles.marginB20
+                            globalStyles.marginB20,
+                            { [styles.padding]: !mobile },
+                            { [styles.paddingMobile]: mobile }
                           )}
                         >
                           PRODUCTS
@@ -748,9 +787,11 @@ class Search extends React.Component<Props, State> {
                                   <p className={styles.productN}>
                                     <Link
                                       to={data.link}
-                                      onClick={e => {
-                                        this.showProduct.bind(this, data, i);
-                                      }}
+                                      onClick={this.showProduct.bind(
+                                        this,
+                                        data,
+                                        i
+                                      )}
                                     >
                                       {data.productClass == "GiftCard"
                                         ? "Gift Card"

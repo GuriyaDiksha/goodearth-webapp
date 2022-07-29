@@ -401,6 +401,11 @@
       right: 5px;
     }
   }
+  .menulevel2-open {
+    &:after {
+      transform: rotate(45deg);
+    }
+  }
   .selected-cat-shop{
     color: $gold;
   }
