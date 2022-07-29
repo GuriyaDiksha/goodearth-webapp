@@ -418,6 +418,10 @@
 
                     .icon_wrp_ul{
                         float: right;
+                        button{
+                            border: none;
+                            background: transparent;
+                        }
                         .icon_wrp{
                             padding-left: 15px;
                         }

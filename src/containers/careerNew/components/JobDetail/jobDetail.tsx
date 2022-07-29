@@ -117,9 +117,7 @@ const JobDetail: React.FC = () => {
             <ul className={jobDetail.job_detail_share_wrp}>
               <li className={jobDetail.job_detail_share_li}>Share</li>
               <li>
-                <a
-                  href="#"
-                  rel="noopener noreferrer"
+                <button
                   onClick={() => {
                     copyToClipboard(
                       `${window?.location?.origin}/careers/job/${id}`
@@ -131,7 +129,7 @@ const JobDetail: React.FC = () => {
                   }}
                 >
                   <img src={link} alt="link" />
-                </a>
+                </button>
               </li>
 
               <li>
