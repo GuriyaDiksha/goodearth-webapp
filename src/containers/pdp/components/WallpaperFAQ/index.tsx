@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useMemo, useState, useRef } from "react";
 import cs from "classnames";
 // data
 import { faqs } from "./data";
@@ -14,6 +14,7 @@ import styles from "./styles.scss";
 
 const WallpaperFAQ: React.FC<Props> = ({ mobile }) => {
   const [currentActive, setCurrentActive] = useState(0);
+  const bodyRef = useRef(new Array(faqs.length));
 
   const accordionSections = useMemo(() => {
     const sections: Array<Section[]> = faqs.map(faq => {
@@ -45,12 +46,14 @@ const WallpaperFAQ: React.FC<Props> = ({ mobile }) => {
           key={i}
           onClick={mobile ? undefined : onHeaderClick(i)}
         >
-          {!mobile && section.icon}
+          {!mobile && i === currentActive && section.iconAqua}
+          {!mobile && i !== currentActive && section.icon}
           <div
             className={styles.sectionTitle}
             onClick={mobile ? onHeaderClick(i) : undefined}
           >
-            {mobile && section.icon}
+            {mobile && i === currentActive && section.iconAqua}
+            {mobile && i !== currentActive && section.icon}
             {mobile && <span>{section.text}</span>}
             {!mobile && section.text}
           </div>
@@ -59,6 +62,7 @@ const WallpaperFAQ: React.FC<Props> = ({ mobile }) => {
               className={cs(styles.mobileFaqContainer, {
                 [styles.active]: currentActive === i
               })}
+              ref={el => (bodyRef.current[i] = el)}
             >
               <Accordion
                 sections={accordionSections[i]}
