@@ -1,4 +1,4 @@
-import React, { useMemo, useState, useRef } from "react";
+import React, { useMemo, useState, useRef, useEffect } from "react";
 import cs from "classnames";
 // data
 import { faqs } from "./data";
@@ -31,10 +31,18 @@ const WallpaperFAQ: React.FC<Props> = ({ mobile }) => {
   }, []);
 
   const onHeaderClick = (index: number) => {
-    return () => {
-      setCurrentActive(index);
-    };
+    setCurrentActive(index);
   };
+
+  useEffect(() => {
+    if (mobile) {
+      bodyRef.current.map(ref => {
+        ref.style.maxHeight = 0 + "px";
+      });
+      bodyRef.current[currentActive].style.maxHeight =
+        bodyRef.current[currentActive].scrollHeight + "px";
+    }
+  });
 
   const headers = useMemo(() => {
     return faqs.map((section, i) => {
@@ -44,14 +52,11 @@ const WallpaperFAQ: React.FC<Props> = ({ mobile }) => {
             [styles.active]: i === currentActive
           })}
           key={i}
-          onClick={mobile ? undefined : onHeaderClick(i)}
+          onClick={() => onHeaderClick(i)}
         >
           {!mobile && i === currentActive && section.iconAqua}
           {!mobile && i !== currentActive && section.icon}
-          <div
-            className={styles.sectionTitle}
-            onClick={mobile ? onHeaderClick(i) : undefined}
-          >
+          <div className={styles.sectionTitle} onClick={() => onHeaderClick(i)}>
             {mobile && i === currentActive && section.iconAqua}
             {mobile && i !== currentActive && section.icon}
             {mobile && <span>{section.text}</span>}
