@@ -24,6 +24,7 @@
 .title {
     @include h3_20px_lora_charcoal();
     text-align: center;
+    text-transform: capitalize;
 }
 
 .closeButton {
@@ -34,7 +35,7 @@
 }
 
 .text {
-    @include b4_12px_montserrat_charcoal_caps();
+    @include b4_12px_montserrat_charcoal();
     margin: 20px 0 30px 0;
     padding: 0px 30px;
     text-align: center;
@@ -50,7 +51,6 @@
 
 .field {
     margin-bottom: 20px;
-    width: 80%;
 }
 
 .result-container {
@@ -94,9 +94,18 @@
     text-transform: uppercase;
     font-family: $font-Montserrat;
     font-size: 14px;
-    &:hover{
+    &:active{
         color: $aqua !important;
         background-color: $white;
+    }
+}
+
+@media (hover: hover) {
+    .calculate-btn{
+        &:hover{
+            color: $aqua !important;
+            background-color: $white;
+        }
     }
 }
 

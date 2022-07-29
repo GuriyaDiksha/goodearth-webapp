@@ -102,7 +102,7 @@ const WallpaperPopup: React.FC<Props> = ({ currency, price }) => {
       </div>
 
       <div className={styles.contentContainer}>
-        <div className={styles.title}>WALLCOVERING CALCULATOR</div>
+        <div className={styles.title}>Wallcovering Calculator</div>
 
         <div className={styles.text}>
           In order to help you with your wallcovering calculations simply
