@@ -363,7 +363,7 @@ const CareerFilter: React.FC<Props> = ({
                     >{`${ele?.title}(${ele?.count})`}</label>
                   </li>
                 ))}
-                {depts?.length > 5 ? (
+                {depts?.length > 3 ? (
                   <li>
                     <button
                       className={listing.see_more_btn}
@@ -438,7 +438,7 @@ const CareerFilter: React.FC<Props> = ({
                     >{`${ele?.name}(${ele?.count})`}</label>
                   </li>
                 ))}
-                {tags?.length > 5 ? (
+                {tags?.length > 3 ? (
                   <li>
                     <button
                       className={listing.see_more_btn}
@@ -511,7 +511,7 @@ const CareerFilter: React.FC<Props> = ({
                     <label htmlFor={"locs_" + i}>{`${ele?.name}`}</label>
                   </li>
                 ))}
-                {locs?.length > 5 ? (
+                {locs?.length > 3 ? (
                   <li>
                     <button
                       className={listing.see_more_btn}
