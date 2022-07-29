@@ -81,14 +81,14 @@ const CareerFilter: React.FC<Props> = ({
     newList: any,
     newDeptList: any,
     tags: any,
-    locs: any,
-    depts: any
+    locs: any
   ) => {
-    const deptsList = clone(depts.map((e: any) => e.title));
-
     handleViewAllForFilters(newList, tags, locs);
 
-    if (newDeptList.length !== 0 && newDeptList.length === deptsList.length) {
+    if (
+      newDeptList.length !== 0 &&
+      newDeptList.length === facets?.depts.length
+    ) {
       (document.getElementById("dept_all") as HTMLInputElement).checked = true;
     } else {
       (document.getElementById("dept_all") as HTMLInputElement).checked = false;
@@ -113,7 +113,7 @@ const CareerFilter: React.FC<Props> = ({
       setTags(tags.slice(0, 4));
       setLocs(locs.slice(0, 4));
       setSelectedFilters([...appliedFilters]);
-      handleViewAll(appliedFilters, selectedDept, tags, locs, depts);
+      handleViewAll(appliedFilters, selectedDept, tags, locs);
     }
   }, [facets]);
 
@@ -202,7 +202,7 @@ const CareerFilter: React.FC<Props> = ({
       }
     }
 
-    handleViewAll(newList, newDeptList, tags, locs, depts);
+    handleViewAll(newList, newDeptList, tags, locs);
 
     setAppliedFilters([...newList]);
     setSelectedDept(newDeptList);
@@ -239,8 +239,7 @@ const CareerFilter: React.FC<Props> = ({
       oldStateOfFilters?.filters,
       oldStateOfFilters?.dept,
       tags,
-      locs,
-      depts
+      locs
     );
     setOldStateOfFilters({ dept: [], filters: [] });
     setIsFilterOpen(!isFilterOpen);
