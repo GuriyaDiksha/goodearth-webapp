@@ -264,7 +264,7 @@ const CareerFilter: React.FC<Props> = ({
                 : ""
             )}
           >
-            <span
+            <div
               className={cs(
                 mobile
                   ? listing.filter_applied
@@ -282,7 +282,7 @@ const CareerFilter: React.FC<Props> = ({
               }}
             >
               Filters Applied
-            </span>
+            </div>
             <hr className={listing.filter_label_underline} />
             <div
               className={cs(
@@ -317,7 +317,7 @@ const CareerFilter: React.FC<Props> = ({
           </li>
 
           <li className={listing.filter_li}>
-            <span
+            <div
               className={cs(
                 hideFilter["depts"]
                   ? listing.filter_label
@@ -328,7 +328,7 @@ const CareerFilter: React.FC<Props> = ({
               }
             >
               By Department
-            </span>
+            </div>
             <hr className={listing.filter_label_underline} />
             <div
               className={cs(
@@ -362,7 +362,7 @@ const CareerFilter: React.FC<Props> = ({
                     >{`${ele?.title}(${ele?.count})`}</label>
                   </li>
                 ))}
-                {depts?.length > 3 ? (
+                {facets?.depts?.length > 4 ? (
                   <li>
                     <button
                       className={listing.see_more_btn}
@@ -377,7 +377,7 @@ const CareerFilter: React.FC<Props> = ({
           </li>
 
           <li className={listing.filter_li}>
-            <span
+            <div
               className={cs(
                 hideFilter["tags"]
                   ? listing.filter_label
@@ -388,7 +388,7 @@ const CareerFilter: React.FC<Props> = ({
               }
             >
               By Tags
-            </span>
+            </div>
             <hr className={listing.filter_label_underline} />
             <div
               className={cs(
@@ -437,7 +437,7 @@ const CareerFilter: React.FC<Props> = ({
                     >{`${ele?.name}(${ele?.count})`}</label>
                   </li>
                 ))}
-                {tags?.length > 3 ? (
+                {facets?.tags?.length > 4 ? (
                   <li>
                     <button
                       className={listing.see_more_btn}
@@ -452,7 +452,7 @@ const CareerFilter: React.FC<Props> = ({
           </li>
 
           <li className={listing.filter_li}>
-            <span
+            <div
               className={cs(
                 hideFilter["locs"]
                   ? listing.filter_label
@@ -463,7 +463,7 @@ const CareerFilter: React.FC<Props> = ({
               }
             >
               By Location
-            </span>
+            </div>
             <hr className={listing.filter_label_underline} />
             <div
               className={cs(
@@ -510,7 +510,7 @@ const CareerFilter: React.FC<Props> = ({
                     <label htmlFor={"locs_" + i}>{`${ele?.name}`}</label>
                   </li>
                 ))}
-                {locs?.length > 3 ? (
+                {facets?.locs?.length > 4 ? (
                   <li>
                     <button
                       className={listing.see_more_btn}
