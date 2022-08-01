@@ -150,7 +150,7 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
                         // const filename = data.invoiceFileName.split(
                         //   "ge-invoice-test/"
                         // )[1];
-                        const filename = `E-Invoice_Order No.${data?.number}`;
+                        const filename = `E-Invoice_Order No. ${data?.number}`;
                         fetch(data.invoiceFileName).then(function(t) {
                           return t.blob().then(b => {
                             if (!data.invoiceFileName) {
