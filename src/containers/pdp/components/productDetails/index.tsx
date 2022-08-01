@@ -1323,3 +1323,5 @@ const ProductDetails: React.FC<Props> = ({
     </Fragment>
   );
 };
+
+export default memo(ProductDetails);
