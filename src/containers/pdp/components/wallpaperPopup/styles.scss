@@ -51,6 +51,9 @@
 
 .field {
     margin-bottom: 20px;
+    input {
+        @include b4_12px_montserrat_charcoal();
+    }
 }
 
 .result-container {

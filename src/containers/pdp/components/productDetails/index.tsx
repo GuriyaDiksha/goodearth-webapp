@@ -307,10 +307,16 @@ const ProductDetails: React.FC<Props> = ({
   const { size = "" } = childAttr || {};
   const [height, width] = size.match(/[0-9.]+/gim) || [];
   const onWallpaperClick = useCallback(() => {
-    updateComponentModal(POPUP.WALLPAPERPOPUP, {
-      price: priceRecords[currency],
-      currency: String.fromCharCode(...currencyCodes[currency])
-    });
+    updateComponentModal(
+      POPUP.WALLPAPERPOPUP,
+      {
+        price: priceRecords[currency],
+        currency: String.fromCharCode(...currencyCodes[currency])
+      },
+      undefined,
+      mobile ? styles.wallpaperPopupBody : "",
+      mobile ? styles.wallpaperPopupContainer : ""
+    );
     changeModalState(true);
   }, [height, width, currency]);
 
@@ -1317,5 +1323,3 @@ const ProductDetails: React.FC<Props> = ({
     </Fragment>
   );
 };
-
-export default memo(ProductDetails);
