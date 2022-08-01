@@ -4,13 +4,15 @@ export const updateComponent = (
   component: string,
   props: any,
   fullscreen = false,
-  bodyClass?: string
+  bodyClass?: string,
+  classname?: string
 ) =>
   actionCreator("UPDATE_COMPONENT", {
     component,
     props,
     fullscreen,
-    bodyClass
+    bodyClass,
+    classname
   });
 
 export const updateModal = (data: boolean) =>
