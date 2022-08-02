@@ -61,7 +61,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
       return {
         name: line.title,
         id: line.product.sku,
-        price: line.product.pricerecords[result.currency],
+        price: +line.priceExclTax,
         brand: "Goodearth",
         category: category,
         variant: line.product.size || "",
@@ -95,7 +95,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
         "Product Name": line.title,
         "Product ID": line.product.sku,
         "Product Brand": "Goodearth",
-        "Product Price": line.product.pricerecords[result.currency],
+        "Product Price": +line.priceExclTax,
         "Product Category": category,
         "Product Variant": line.product.size || "",
         "Product Quantity": line.quantity
