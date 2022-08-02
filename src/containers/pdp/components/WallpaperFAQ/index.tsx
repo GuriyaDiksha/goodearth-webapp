@@ -71,7 +71,7 @@ const WallpaperFAQ: React.FC<Props> = ({ mobile }) => {
             >
               <Accordion
                 sections={accordionSections[i]}
-                className="wallpaperFAQ"
+                className="mobileWallpaperFAQ"
                 headerClassName={styles.accordionTitle}
                 bodyClassName={styles.accordionText}
                 openIconClassName={cs(styles.horizontal, styles.open)}
@@ -83,6 +83,20 @@ const WallpaperFAQ: React.FC<Props> = ({ mobile }) => {
       );
     });
   }, [currentActive, mobile]);
+
+  const getAccordion = (index: number) => {
+    return (
+      <Accordion
+        className="wallpaperFAQ"
+        sections={accordionSections[index]}
+        headerClassName={styles.accordionTitle}
+        bodyClassName={styles.accordionText}
+        openIconClassName={cs(styles.horizontal, styles.open)}
+        closedIconClassName={cs(styles.horizontal)}
+        uniqueKey={index.toString()}
+      />
+    );
+  };
 
   return (
     <>
@@ -115,14 +129,7 @@ const WallpaperFAQ: React.FC<Props> = ({ mobile }) => {
               bootstrap.offset1
             )}
           >
-            <Accordion
-              className="mobileWallpaperFAQ"
-              sections={accordionSections[currentActive]}
-              headerClassName={styles.accordionTitle}
-              bodyClassName={styles.accordionText}
-              openIconClassName={cs(styles.horizontal, styles.open)}
-              closedIconClassName={cs(styles.horizontal)}
-            />
+            {getAccordion(currentActive)}
           </div>
         </div>
       )}

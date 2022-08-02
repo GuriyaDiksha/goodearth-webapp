@@ -377,8 +377,15 @@
         margin-bottom: 0;
       }
       .disableColors{
+        // cursor: not-allowed;
         opacity: 0.5;
       }
+    }
+    input[type="checkbox"]:not(:checked) + label{
+      @include b4_12px_montserrat_light_charcoal();
+    }
+    input[type="checkbox"]:checked + label{
+      @include b4_12px_montserrat_charcoal();
     }
   }
   .menulevel1-open {
@@ -406,15 +413,16 @@
       border-width: 0 1px 1px 0;
       width: 8px;
       height: 8px;
-      transform: rotate(313deg);
+      transform: rotate(45deg);
       top: 15px;
       position: absolute;
       right: 5px;
+      transition: transform 0.2s ease-in;
     }
   }
   .menulevel2-open {
     &:after {
-      transform: rotate(45deg);
+      transform: rotate(-135deg);
     }
   }
 }
@@ -485,6 +493,12 @@
     &.country-code-gc {
       top: 25px;
     }
+    input[type="checkbox"]:checked + label{
+      @include b4_12px_montserrat_charcoal();
+    }
+    input[type="checkbox"]:not(:checked) + label{
+      @include b4_12px_montserrat_light_charcoal();
+    }
   }
   input[type="radio"]:not(:checked) + label:before,
   input[type="radio"]:checked + label:before, [type="checkbox"]:not(:checked) + label:before,
@@ -538,6 +552,11 @@
     @include plp_color_filter();
     text-transform: capitalize;
     position: relative;
+    &.white-tick{
+      &:after{
+        border-color: #000 !important;
+      }
+    }
   }
 
   input[type="radio"]:not(:checked) + label:after,
@@ -547,7 +566,7 @@
     display: block;
     width: 6px;
     height: 10px;
-    border: solid #fff;
+    border: solid white;
     border-width: 0 2px 2px 0;
     position: absolute;
     top: 12px;
@@ -556,6 +575,7 @@
     line-height: 0.8;
     transition: all .1s;
   }
+  
 }
 
 .colorlabel {
