@@ -54,6 +54,12 @@
     input {
         @include b4_12px_montserrat_charcoal();
     }
+    div{
+        font-family: $font-Montserrat;
+        font-size: 9px;
+        font-weight: $light;
+        color: $charcoal19;
+    }
 }
 
 .result-container {
@@ -76,6 +82,7 @@
     .result{
         text-align: left;
         @include b4_12px_montserrat_semibold_charcoal();
+        color: $med-charcoal;
         text-transform: capitalize;
     }
 }
