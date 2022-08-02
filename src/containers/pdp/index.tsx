@@ -1436,7 +1436,7 @@ class PDPContainer extends React.Component<Props, State> {
               {images && (
                 <PdpSlider
                   alt={data?.altText || data?.title}
-                  imaghrTRMLXmezjrvMzv2qCaes={images}
+                  images={images}
                   className={cs(
                     bootstrap.colSm10,
                     bootstrap.offsetSm1,
