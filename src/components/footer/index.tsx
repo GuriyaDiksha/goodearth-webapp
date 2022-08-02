@@ -59,7 +59,8 @@ class Footer extends React.Component<Props, FooterState> {
       newsletterEmail: "",
       newsletterMessage: "",
       newsletterError: false,
-      isInViewport: false
+      isInViewport: false,
+      isPrefOpen: false
     };
   }
 
@@ -766,32 +767,64 @@ class Footer extends React.Component<Props, FooterState> {
           </div>
         </div>
         {this.props.showCookie && !this.props.mobileMenuOpenState && (
-          <div className={styles.cookieclass}>
-            <span
-              className={cs(
-                styles.closePopup,
-                fontStyles.icon,
-                fontStyles.iconCross
-              )}
-              onClick={() => {
-                this.props.hideCookies();
-              }}
-            ></span>
-            <h3>COOKIES & PRIVACY</h3>
-            <p>
-              This website uses cookies to ensure you get the best experience on
-              our website. Please read our &nbsp;
-              <Link to={"/customer-assistance/cookie-policy"}>
-                Cookie Policy
-              </Link>
-              &nbsp; and{" "}
-              <Link to={"/customer-assistance/privacy-policy"}>
-                Privacy Policy.
-              </Link>
-            </p>
-            <span className={styles.okBtn} onClick={this.acceptCookies}>
-              ACCEPT
-            </span>
+          <div
+            className={cs(
+              styles.cookieclass,
+              styles.eucookieclass,
+              this?.state?.isPrefOpen ? styles.euPref : ""
+            )}
+          >
+            {this?.state?.isPrefOpen ? (
+              <>
+                <p className={styles.heading}>YOUR COOKIE PREFERENCES</p>
+                <hr />
+                <p className={styles.question}>What is a cookie?</p>
+                <p className={styles.answer}>
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
+                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                  Ut enim ad minim veniam, quis nostrud exercitation veritatis
+                </p>
+                <p className={styles.prefhead}>Manage Cookie Preferences</p>
+                <div className={styles.btnWrp}>
+                  <button className={styles.savebtn}>save preferences</button>
+                  <button className={styles.acceptbtn}>accept all</button>
+                </div>
+              </>
+            ) : (
+              <>
+                <span
+                  className={cs(
+                    styles.closePopup,
+                    fontStyles.icon,
+                    fontStyles.iconCross
+                  )}
+                  onClick={() => {
+                    this.props.hideCookies();
+                  }}
+                ></span>
+                <h3>COOKIES & PRIVACY</h3>
+                <p>
+                  This website uses cookies to ensure you get the best
+                  experience on our website. Please read our &nbsp;
+                  <Link to={"/customer-assistance/cookie-policy"}>
+                    Cookie Policy
+                  </Link>
+                  &nbsp; and{" "}
+                  <Link to={"/customer-assistance/privacy-policy"}>
+                    Privacy Policy.
+                  </Link>
+                </p>
+                <p
+                  className={styles.preferencesLink}
+                  onClick={() => this.setState({ isPrefOpen: true })}
+                >
+                  set my cookie preferences
+                </p>
+                <span className={styles.okBtn} onClick={this.acceptCookies}>
+                  ACCEPT & CONTINUE
+                </span>
+              </>
+            )}
           </div>
         )}
       </div>
