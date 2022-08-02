@@ -22,7 +22,7 @@
         border-top: 6px dashed;
         border-right: 6px solid transparent;
         border-left: 6px solid transparent;
-        color: $charcoal19;
+        color: $med-charcoal;
         transition: transform 0.3s;
         margin-left: 15px;
         &.caret-up{
@@ -44,9 +44,9 @@
                 background: $white;
                 padding: 0 15px;
                 &:hover{
-                    background: #f9f8f5;
+                    background: #f7f7f7;
                     color: $gold;
-                    font-weight: bold;
+                    font-weight: 500;
                 }
             }
         }

@@ -290,17 +290,14 @@
         span {
           text-transform: capitalize;
           &:first-child {
-            @include b5_10px_montserrat_charcoal();
+            @include b6_9px_montserrat_charcoal();
+            line-height: 20px;
+            height: 20px;
           }
-          &.ellipses{
-            color: $med-charcoal;
-          }
-          color: $cerise;
           &:last-child {
-            float: right;
             cursor: pointer;
-            font-size: 6px;
-            color: tint(#000, 50%);
+            font-size: 8px;
+            color: $charcoal19;
           }
         }
       }
@@ -346,7 +343,7 @@
       text-decoration: underline;
       text-transform: capitalize;
       &:hover{
-        color: $aqua-bold;
+        color: #3C7979;
       }
     }
   }
@@ -790,7 +787,7 @@ p.corporate-sub-heading {
 
 .filter-item-cross {
   right: 18px;
-  top: 0px;
+  top: 3px;
   position: relative;
   float: right;
   cursor: pointer;
@@ -800,7 +797,7 @@ p.corporate-sub-heading {
 }
 
 .filter-item {
-  background-color: rgba(0,0,0,0.1);
+  background-color: #EBEBEB;
   padding: 0px 30px 0px 10px !important;
   border-radius: 20px;
   cursor: default;
