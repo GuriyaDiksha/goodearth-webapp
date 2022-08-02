@@ -12,7 +12,8 @@ const Accordion: React.FC<Props> = memo(
     headerClassName,
     bodyClassName,
     closedIconClassName = cs(styles.arrow, styles.close),
-    openIconClassName = cs(styles.arrow, styles.open)
+    openIconClassName = cs(styles.arrow, styles.open),
+    uniqueKey
   }) => {
     const bodyRef = useRef(new Array(sections.length));
 
@@ -34,6 +35,7 @@ const Accordion: React.FC<Props> = memo(
     };
 
     useEffect(() => {
+      setActiveIndex(-1);
       sections.map(({ id }, i) => {
         if (id == defaultOpen) {
           setActiveIndex(i);
@@ -47,6 +49,7 @@ const Accordion: React.FC<Props> = memo(
 
     const accordionSections = sections.map(({ id, header, body }, i) => {
       const isOpen = activeIndex == i;
+      console.log(isOpen, activeIndex);
       return (
         <div
           className={cs(styles.accordionSection, sectionClassName)}
@@ -74,7 +77,11 @@ const Accordion: React.FC<Props> = memo(
         </div>
       );
     });
-    return <div className={className}>{accordionSections}</div>;
+    return (
+      <div className={className} key={uniqueKey}>
+        {accordionSections}
+      </div>
+    );
   }
 );
 
