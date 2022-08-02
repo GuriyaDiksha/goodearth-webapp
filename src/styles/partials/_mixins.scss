@@ -742,7 +742,7 @@ $list: $grey 92%, $white 8%;
   font-size: 30px;
   color: $charcoal19;
   font-style: italic;
-  font-weight: 500;
+  font-weight: $medium;
 }
 
 @mixin h2_24px_lora_charcoal{
