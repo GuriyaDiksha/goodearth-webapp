@@ -42,7 +42,6 @@ const Opportunities: React.FC<Props> = ({ data, title }) => {
   // const listdata = uniquedata(list)?.filter((item: any) => {
   //   return item.dept;
   // });
-
   return (
     <>
       <h1 className={landing.heading}>{title}</h1>
