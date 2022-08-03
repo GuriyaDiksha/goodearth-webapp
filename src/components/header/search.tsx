@@ -26,6 +26,7 @@ import { withRouter, RouteComponentProps } from "react-router";
 import { Link } from "react-router-dom";
 import { updateModal } from "actions/modal";
 import Price from "components/Price";
+import ReactHtmlParser from "react-html-parser";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -62,7 +63,7 @@ type Props = {
 
 type State = {
   searchValue: string;
-  productData: PartialProductItem[];
+  productData: any[];
   url: string;
   value: string;
   count: number;
@@ -70,6 +71,8 @@ type State = {
   showDifferentImage: boolean;
   currentImageIndex: number;
   suggestions: any[];
+  collections: any[];
+  categories: any[];
 };
 class Search extends React.Component<Props, State> {
   constructor(props: Props) {
@@ -83,7 +86,9 @@ class Search extends React.Component<Props, State> {
       featureData: [],
       showDifferentImage: false,
       currentImageIndex: -1,
-      suggestions: []
+      suggestions: [],
+      collections: [],
+      categories: []
     };
   }
 
@@ -213,7 +218,9 @@ class Search extends React.Component<Props, State> {
 
   onClickSearch = (event: any) => {
     if (this.state.searchValue.trim().length > 2) {
-      this.props.history.push(this.state.url);
+      this.props.history.push(
+        `search/${this.state.url.split("/autocomplete")[1]}`
+      );
       this.closeSearch();
       return false;
     }
@@ -239,7 +246,7 @@ class Search extends React.Component<Props, State> {
     if (event.target.value.trim().length > 2) {
       if ((!event.charCode ? event.which : event.charCode) == 13) {
         this.props.history.push(
-          "/search?q=" + encodeURIComponent(event.target.value)
+          "/search/?q=" + encodeURIComponent(event.target.value)
         );
         this.closeSearch();
         return false;
@@ -259,19 +266,24 @@ class Search extends React.Component<Props, State> {
   };
 
   getSearchDataApi = (name: string) => {
-    const searchUrl = "/search?q=" + encodeURIComponent(name);
+    const searchUrl = "/autocomplete?q=" + encodeURIComponent(name);
     this.setState({
       url: searchUrl
     });
     this.props
-      .fetchSearchProducts(searchUrl.split("/search")[1])
+      .fetchSearchProducts(
+        `${searchUrl.split("/autocomplete")[1]}&currency=INR&source=frontend`
+      )
       .then(data => {
+        // debugger;
         valid.productImpression(data, "SearchResults", this.props.currency);
         this.setState({
-          productData: data.results.data,
+          productData: data.results.products,
           url: searchUrl,
-          count: data.count,
-          suggestions: data.results.suggestions
+          count: data.results.products.lenght,
+          suggestions: [],
+          categories: data.results.categories,
+          collections: data.results.collections
         });
       })
       .catch(function(error) {
@@ -293,12 +305,51 @@ class Search extends React.Component<Props, State> {
     });
   };
 
+  renderCollectionTile = (data?: any) => {
+    // As discussed data will be only two section
+    return (
+      <div className={styles.collectionlist}>
+        {data?.map((item: any, i: number) => {
+          return (
+            <div key={item.id} className={styles.collection}>
+              <Link
+                to={item.link}
+                onClick={() => {
+                  this.props.toggle();
+                }}
+              >
+                <img
+                  // alt={item.altText || item.title}
+                  src={item.image}
+                  className={cs(globalStyles.imgResponsive, styles.sliderImage)}
+                />
+              </Link>
+              <div className={styles.moreBlock}>
+                <p className={styles.title}>
+                  {" "}
+                  {`${item.category.replace(">", "/")} `}{" "}
+                </p>
+                <p className={styles.productN}>
+                  <Link to={item.link}>
+                    {" "}
+                    {ReactHtmlParser(item.collection)}
+                  </Link>
+                </p>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    );
+  };
+
   render() {
     // const cur = "price" + this.props.currency.toLowerCase();
     // const originalCur = "original_price_" + this.props.currency.toLowerCase();
     const suggestionsExist = this.state.suggestions.length > 0;
     const productsExist = this.state.productData.length > 0;
     const { mobile, showTimer } = this.props;
+    const { collections, categories } = this.state;
     return (
       <div
         className={cs(globalStyles.minimumWidth, styles.search, {
@@ -336,6 +387,16 @@ class Search extends React.Component<Props, State> {
                     this.state.count ? `  (${this.state.count})` : ""
                   }`}
                 </span>
+                {!mobile && (
+                  <i
+                    className={cs(
+                      iconStyles.icon,
+                      iconStyles.iconSearch,
+                      styles.iconSearchPopup
+                    )}
+                    onClick={this.onClickSearch}
+                  ></i>
+                )}
                 {!mobile && (
                   <i
                     className={cs(
@@ -525,7 +586,85 @@ class Search extends React.Component<Props, State> {
                       })}
                     </div>
                   )}
-                  {mobile && (
+                  <div>
+                    {categories.length > 0 && (
+                      <div className={globalStyles.voffset2}>
+                        <p
+                          className={cs(
+                            styles.productHeading,
+                            globalStyles.marginB20,
+                            { [styles.padding]: !mobile },
+                            { [styles.paddingMobile]: mobile }
+                          )}
+                        >
+                          CATEGORIES
+                        </p>
+                        {categories?.map(cat => {
+                          return (
+                            <Link
+                              to={cat.link}
+                              onClick={() => {
+                                this.props.toggle();
+                              }}
+                            >
+                              <p
+                                className={cs(
+                                  styles.categories,
+                                  { [styles.padding]: !mobile },
+                                  { [styles.paddingMobile]: mobile }
+                                )}
+                              >
+                                {`${cat.parent.replace(">", "/")} / `}
+                                {ReactHtmlParser(cat.category)}
+                                {`(${cat.product_count})`}
+                              </p>
+                            </Link>
+                          );
+                        })}
+                      </div>
+                    )}
+                    {collections.length > 0 && (
+                      <div className={globalStyles.voffset5}>
+                        <p
+                          className={cs(
+                            styles.productHeading,
+                            { [styles.padding]: !mobile },
+                            { [styles.paddingMobile]: mobile }
+                          )}
+                        >
+                          COLLECTIONS
+                        </p>
+                        <div
+                          className={cs(
+                            { [styles.padding]: !mobile },
+                            { [styles.paddingMobile]: mobile },
+                            styles.productHeading,
+                            globalStyles.voffset2,
+                            globalStyles.marginB20
+                          )}
+                        >
+                          {this.renderCollectionTile(collections)}
+                        </div>
+                      </div>
+                    )}
+                    {
+                      <div>
+                        <p
+                          className={cs(
+                            styles.productName,
+                            globalStyles.voffset4,
+                            globalStyles.marginB20,
+                            { [styles.padding]: !mobile },
+                            { [styles.paddingMobile]: mobile }
+                          )}
+                        >
+                          PRODUCTS
+                        </p>
+                      </div>
+                    }
+                  </div>
+
+                  {/* {mobile && (
                     <p
                       className={cs(
                         styles.suggestion,
@@ -535,7 +674,7 @@ class Search extends React.Component<Props, State> {
                     >
                       products
                     </p>
-                  )}
+                  )} */}
                   <div
                     className={cs(bootstrapStyles.row, {
                       [bootstrapStyles.colMd8]: suggestionsExist,
@@ -571,15 +710,15 @@ class Search extends React.Component<Props, State> {
                               0
                             );
                             totalStock = isCombo ? 100 : totalStock;
-                            const imageSource = !data.plpImages?.[0]
-                              ? noImagePlp
-                              : !data.plpImages?.[1]
-                              ? data.plpImages?.[0]
-                              : this.state.showDifferentImage &&
-                                !this.props.mobile &&
-                                this.state.currentImageIndex == i
-                              ? data.plpImages?.[1]
-                              : data.plpImages?.[0];
+                            // const imageSource = !data.plpImages?.[0]
+                            //   ? noImagePlp
+                            //   : !data.plpImages?.[1]
+                            //   ? data.plpImages?.[0]
+                            //   : this.state.showDifferentImage &&
+                            //     !this.props.mobile &&
+                            //     this.state.currentImageIndex == i
+                            //   ? data.plpImages?.[1]
+                            //   : data.plpImages?.[0];
                             return (
                               <div
                                 key={i}
@@ -588,7 +727,7 @@ class Search extends React.Component<Props, State> {
                                   bootstrapStyles.col6
                                 )}
                               >
-                                {data.salesBadgeImage ? (
+                                {/* {data.salesBadgeImage ? (
                                   <div
                                     className={cs(
                                       {
@@ -608,38 +747,38 @@ class Search extends React.Component<Props, State> {
                                   </div>
                                 ) : (
                                   ""
-                                )}
+                                )} */}
                                 <div className={styles.imageboxNew}>
                                   <Link
-                                    to={data.url}
+                                    to={data.link}
                                     onClick={this.showProduct.bind(
                                       this,
                                       data,
                                       i
                                     )}
-                                    onMouseOver={this.mouseOverImage.bind(
-                                      this,
-                                      i
-                                    )}
-                                    onMouseOut={this.mouseOutImage.bind(
-                                      this,
-                                      i
-                                    )}
+                                    // onMouseOver={this.mouseOverImage.bind(
+                                    //   this,
+                                    //   i
+                                    // )}
+                                    // onMouseOut={this.mouseOutImage.bind(
+                                    //   this,
+                                    //   i
+                                    // )}
                                   >
                                     <img
-                                      src={imageSource}
+                                      src={data.image}
                                       onError={this.addDefaultSrc}
                                       alt={data.altText || data.title}
                                       className={styles.imageResultNew}
                                     />
                                   </Link>
-                                  {totalStock <= 0 ? (
+                                  {/* {totalStock <= 0 ? (
                                     <div className={styles.outstock}>
                                       <Link to={data.url}> NOTIFY ME </Link>
                                     </div>
                                   ) : (
                                     ""
-                                  )}
+                                  )} */}
                                 </div>
                                 <div className={styles.imageContent}>
                                   {/* <p className={styles.productH}>
@@ -647,7 +786,7 @@ class Search extends React.Component<Props, State> {
                                   </p> */}
                                   <p className={styles.productN}>
                                     <Link
-                                      to={data.url}
+                                      to={data.link}
                                       onClick={this.showProduct.bind(
                                         this,
                                         data,
@@ -656,14 +795,15 @@ class Search extends React.Component<Props, State> {
                                     >
                                       {data.productClass == "GiftCard"
                                         ? "Gift Card"
-                                        : data.title}
+                                        : ReactHtmlParser(data.product)}
                                     </Link>
                                   </p>
-                                  {data.productClass == "GiftCard"
+                                  {data?.productClass == "GiftCard"
                                     ? ""
                                     : !(
-                                        data.invisibleFields.indexOf("price") >
-                                        -1
+                                        data?.invisibleFields?.indexOf(
+                                          "price"
+                                        ) > -1
                                       ) && (
                                         <Price
                                           product={data}
@@ -734,7 +874,7 @@ class Search extends React.Component<Props, State> {
               >
                 {this.state.searchValue.length > 2 ? (
                   <div className={styles.npfMsg}>
-                    {"No products were found matching"} &nbsp;
+                    {`Sorry, we couldn’t find any matching result for`} &nbsp;
                     <span>
                       {`"`}
                       {this.state.searchValue}
