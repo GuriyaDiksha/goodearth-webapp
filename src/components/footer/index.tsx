@@ -14,6 +14,7 @@ import * as valid from "utils/validate";
 import { Dispatch } from "redux";
 import HeaderFooterService from "services/headerFooter";
 import { updateShowCookie } from "actions/info";
+import ToggleSwitch from "components/Switch";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -60,7 +61,9 @@ class Footer extends React.Component<Props, FooterState> {
       newsletterMessage: "",
       newsletterError: false,
       isInViewport: false,
-      isPrefOpen: false
+      isPrefOpen: false,
+      isChecked: false,
+      isAnalyticsChecked: false
     };
   }
 
@@ -785,6 +788,73 @@ class Footer extends React.Component<Props, FooterState> {
                   Ut enim ad minim veniam, quis nostrud exercitation veritatis
                 </p>
                 <p className={styles.prefhead}>Manage Cookie Preferences</p>
+                <div className={styles.prefWrp}>
+                  <div className={styles.prefBlock}>
+                    <div className={styles.prefSubBlock}>
+                      <p className={styles.prefQue}>What is a cookie?</p>
+                      <p className={styles.prefAns}>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+                        sed do eiusmod tempor incididunt ut labore et dolore
+                        magna aliqua.
+                      </p>
+                    </div>
+                    <div className={styles.prefToggleWrp}>
+                      <ToggleSwitch
+                        id="necessaryCookie"
+                        checked={true}
+                        onChange={(checked: boolean) =>
+                          this.setState({ isChecked: checked })
+                        }
+                        small={false}
+                        disabled={false}
+                      />
+                    </div>
+                  </div>
+
+                  <div className={styles.prefBlock}>
+                    <div className={styles.prefSubBlock}>
+                      <p className={styles.prefQue}>What is a cookie?</p>
+                      <p className={styles.prefAns}>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+                        sed do eiusmod tempor incididunt ut labore et dolore
+                        magna aliqua.
+                      </p>
+                    </div>
+                    <div className={styles.prefToggleWrp}>
+                      <ToggleSwitch
+                        id="personalized"
+                        checked={this.state.isChecked}
+                        onChange={(checked: boolean) =>
+                          this.setState({ isChecked: checked })
+                        }
+                        small={false}
+                        disabled={false}
+                      />
+                    </div>
+                  </div>
+
+                  <div className={styles.prefBlock}>
+                    <div className={styles.prefSubBlock}>
+                      <p className={styles.prefQue}>What is a cookie?</p>
+                      <p className={styles.prefAns}>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+                        sed do eiusmod tempor incididunt ut labore et dolore
+                        magna aliqua.
+                      </p>
+                    </div>
+                    <div className={styles.prefToggleWrp}>
+                      <ToggleSwitch
+                        id="analytics"
+                        checked={this.state.isAnalyticsChecked}
+                        onChange={(checked: boolean) =>
+                          this.setState({ isAnalyticsChecked: checked })
+                        }
+                        small={false}
+                        disabled={false}
+                      />
+                    </div>
+                  </div>
+                </div>
                 <div className={styles.btnWrp}>
                   <button className={styles.savebtn}>save preferences</button>
                   <button className={styles.acceptbtn}>accept all</button>

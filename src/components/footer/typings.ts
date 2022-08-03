@@ -23,6 +23,8 @@ export type FooterState = {
   newsletterError: boolean;
   isInViewport: boolean;
   isPrefOpen: boolean;
+  isChecked: boolean;
+  isAnalyticsChecked: boolean;
 };
 
 export type ShopLocations = { label: string; value: string }[];
