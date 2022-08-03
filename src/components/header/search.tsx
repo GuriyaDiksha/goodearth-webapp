@@ -21,7 +21,6 @@ import globalStyles from "../../styles/global.scss";
 import styles from "./styles.scss";
 import iconStyles from "../../styles/iconFonts.scss";
 import cs from "classnames";
-import noImagePlp from "images/noimageplp.png";
 import { withRouter, RouteComponentProps } from "react-router";
 import { Link } from "react-router-dom";
 import { updateModal } from "actions/modal";
@@ -73,6 +72,7 @@ type State = {
   suggestions: any[];
   collections: any[];
   categories: any[];
+  usefulLink: any[];
 };
 class Search extends React.Component<Props, State> {
   constructor(props: Props) {
@@ -88,7 +88,8 @@ class Search extends React.Component<Props, State> {
       currentImageIndex: -1,
       suggestions: [],
       collections: [],
-      categories: []
+      categories: [],
+      usefulLink: []
     };
   }
 
@@ -283,7 +284,8 @@ class Search extends React.Component<Props, State> {
           count: data.results.products.lenght,
           suggestions: [],
           categories: data.results.categories,
-          collections: data.results.collections
+          collections: data.results.collections,
+          usefulLink: data.results.useful_links
         });
       })
       .catch(function(error) {
@@ -347,9 +349,13 @@ class Search extends React.Component<Props, State> {
     // const cur = "price" + this.props.currency.toLowerCase();
     // const originalCur = "original_price_" + this.props.currency.toLowerCase();
     const suggestionsExist = this.state.suggestions.length > 0;
-    const productsExist = this.state.productData.length > 0;
     const { mobile, showTimer } = this.props;
-    const { collections, categories } = this.state;
+    const { collections, categories, usefulLink, productData } = this.state;
+    const productsExist =
+      collections.length > 0 ||
+      categories.length > 0 ||
+      usefulLink.length > 0 ||
+      productData.length > 0;
     return (
       <div
         className={cs(globalStyles.minimumWidth, styles.search, {
@@ -587,6 +593,40 @@ class Search extends React.Component<Props, State> {
                     </div>
                   )}
                   <div>
+                    {usefulLink.length > 0 && (
+                      <div className={globalStyles.voffset2}>
+                        <p
+                          className={cs(
+                            styles.productHeading,
+                            globalStyles.marginB20,
+                            { [styles.padding]: !mobile },
+                            { [styles.paddingMobile]: mobile }
+                          )}
+                        >
+                          USEFUL LINKS
+                        </p>
+                        {usefulLink?.map(cat => {
+                          return (
+                            <Link
+                              to={cat.link}
+                              onClick={() => {
+                                this.props.toggle();
+                              }}
+                            >
+                              <p
+                                className={cs(
+                                  styles.categories,
+                                  { [styles.padding]: !mobile },
+                                  { [styles.paddingMobile]: mobile }
+                                )}
+                              >
+                                {ReactHtmlParser(cat.name)}
+                              </p>
+                            </Link>
+                          );
+                        })}
+                      </div>
+                    )}
                     {categories.length > 0 && (
                       <div className={globalStyles.voffset2}>
                         <p
@@ -647,7 +687,7 @@ class Search extends React.Component<Props, State> {
                         </div>
                       </div>
                     )}
-                    {
+                    {productData.length > 0 && (
                       <div>
                         <p
                           className={cs(
@@ -661,7 +701,7 @@ class Search extends React.Component<Props, State> {
                           PRODUCTS
                         </p>
                       </div>
-                    }
+                    )}
                   </div>
 
                   {/* {mobile && (
