@@ -255,7 +255,7 @@
         }
       }
     }
-    @include plp_filter_copy();
+    @include b5_10px_montserrat_charcoal();
     // text-transform: capitalize;
     &.country-code {
       display: flex;
@@ -349,6 +349,7 @@
       border-width: 0 2px 2px 0;
     }
     &:checked + label:before{
+      border-color: $aqua;
       background-color: $aqua;
     }
     &:checked + label:after{

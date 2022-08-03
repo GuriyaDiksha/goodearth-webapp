@@ -2,7 +2,9 @@
 
 .job_detail_wrp{
     margin-top: 80px;
-
+    strong {
+        font-weight: 700;
+    }
     .job_detail_img_wrp{
         position: fixed;
         top: 80px;
@@ -31,6 +33,8 @@
             text-transform: uppercase;
             opacity: 1;
             cursor: pointer;
+            border: none;
+            background-color: transparent;
         }
 
         .job_detail_form{
@@ -68,6 +72,13 @@
                     color: $charcoal19;
                     opacity: 1;
                     margin-bottom: 30px;
+                    ul,ol {
+                        list-style:auto;
+                        li{
+                            list-style-type:inherit !important;
+                        }
+                    }
+                    
                 }
                        
 

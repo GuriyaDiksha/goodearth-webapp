@@ -98,9 +98,9 @@
 @mixin menu-subcopy {
   font-family: $font-Montserrat;
   font-size: 12px;
+  color: $charcoal19;
+  font-weight: 300;
   letter-spacing: 1px;
-  color: tint(#000, 30%);
-  font-weight: 400;
 }
 
 @mixin menu-subcopy-cerise {
@@ -162,9 +162,9 @@
 }
 
 @mixin plp_subhdr_open_mob {
-  font-size: 13 px;
+  font-size: 14px;
   font-family: $font-Montserrat;
-  color: $med-charcoal;
+  color: $charcoal19;
 }
 
 @mixin plp_coll_name_desktop {
@@ -187,7 +187,7 @@
 }
 
 @mixin plp_breadcrumbs {
-  color: tint(#000, 50%);
+  color: #19191955;
   letter-spacing: 1px;
   font-family: $font-Lato;
 }
@@ -737,6 +737,14 @@ $list: $grey 92%, $white 8%;
   font-style: italic;
 }
 
+@mixin h1_30px_lora_medium_charcoal{
+  font-family: $font-Lora;
+  font-size: 30px;
+  color: $charcoal19;
+  font-style: italic;
+  font-weight: 500;
+}
+
 @mixin h2_24px_lora_charcoal{
   font-family: $font-Lora;
   font-size: 24px;
@@ -1008,6 +1016,14 @@ $list: $grey 92%, $white 8%;
   font-size: 12px;
   font-weight: $medium;
   color: $charcoal19;
+  text-transform: uppercase;
+}
+
+@mixin b4_12px_medium_medcharcoal_caps{
+  font-family: $font-Montserrat;
+  font-size: 12px;
+  font-weight: $medium;
+  color: $med-charcoal;
   text-transform: uppercase;
 }
 

@@ -670,6 +670,14 @@ class PDPContainer extends React.Component<Props, State> {
 
   getProductImages() {
     const productImages = this.getProductImagesData();
+    let iconAll, codeAll;
+    for (const e of productImages) {
+      if (e.icon) {
+        iconAll = e.icon;
+        codeAll = e.code;
+        break;
+      }
+    }
     if (productImages?.length > 0) {
       const img =
         productImages?.[this.state?.activeImage] ||
@@ -681,7 +689,6 @@ class PDPContainer extends React.Component<Props, State> {
         const height = (ele.width * naturalHeight) / naturalWidth;
         this.imageOffsets[0] = height;
       };
-
       return (
         <div
           className={styles.productImageContainer}
@@ -700,6 +707,8 @@ class PDPContainer extends React.Component<Props, State> {
             index={this.state.activeImage}
             onClick={this.onImageClick}
             onLoad={onImageLoad}
+            iconAll={iconAll}
+            codeAll={codeAll}
           />
           <div>
             <Counter
@@ -723,6 +732,15 @@ class PDPContainer extends React.Component<Props, State> {
               })}
               onClick={this.onClickImageArrowRight}
             ></div>
+          )}
+          {this.state.showLooks && (
+            <div
+              id="looks-btn"
+              className={styles.looksBtn}
+              onClick={this.handleLooksClick}
+            >
+              shop the look
+            </div>
           )}
         </div>
       );
@@ -1308,6 +1326,15 @@ class PDPContainer extends React.Component<Props, State> {
                 ) : (
                   ""
                 )}
+                {this.state.showLooks && mobile && (
+                  <div
+                    id="looks-btn-mobile"
+                    className={cs(styles.looksBtnMobile, styles.looksBtn)}
+                    onClick={this.handleLooksClick}
+                  >
+                    shop the look
+                  </div>
+                )}
                 <div
                   className={styles.mobileZoomIcon}
                   onClick={this.getMobileZoomListener(i)}
@@ -1379,15 +1406,6 @@ class PDPContainer extends React.Component<Props, State> {
                   {mobileSlides}
                 </MobileSlider>
               )}
-              {this.state.showLooks && typeof document == "object" && mobile && (
-                <div
-                  id="looks-btn-mobile"
-                  className={cs(styles.looksBtnMobile, styles.looksBtn)}
-                  onClick={this.handleLooksClick}
-                >
-                  shop the look
-                </div>
-              )}
             </div>
           )}
           {/* {!mobile && (
@@ -1436,18 +1454,6 @@ class PDPContainer extends React.Component<Props, State> {
                   activeIndex={activeImage}
                   onImageClick={this.onSliderImageClick}
                 />
-              )}
-              {this.state?.showLooks && !mobile && (
-                <div
-                  id="looks-btn"
-                  className={styles.looksBtn}
-                  onClick={this.handleLooksClick}
-                >
-                  shop the look
-                </div>
-              )}
-              {this.state?.showLooks && !mobile && (
-                <div className={styles.looksBtnOverlay}></div>
               )}
             </div>
           )}

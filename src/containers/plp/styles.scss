@@ -34,7 +34,7 @@
 }
 
 .filter-text{
-  @include b4_12px_medium_charcoal_caps();
+  @include b4_12px_medium_medcharcoal_caps();
   letter-spacing: 1px;
   text-transform: uppercase;
   line-height: $secondary-header-height;
@@ -195,10 +195,11 @@
       }
     }
     span {
-      @include plp_filter_copy();
+      font-family: $font-Montserrat;
+      font-size: 10px;
+      color: $charcoal19;
       line-height: 35px;
       padding-left: 6px;
-      //margin-left: 35px;
     }
 }
 
@@ -236,7 +237,7 @@
       background-color: #f9f8f5;
       span {
         line-height: 50px;
-        @include plp_prod_quantity();
+        @include b5_10px_montserrat_charcoal();
       }
   
     }
@@ -280,7 +281,7 @@
 
 .filter-elements {
     span {
-      @include b4_12px_medium_charcoal_caps();
+      @include b4_12px_medium_medcharcoal_caps();
       padding-left: 0px;
     }
     ul {
@@ -376,8 +377,7 @@
         margin-bottom: 0;
       }
       .disableColors{
-        opacity: 0.5;
-        cursor: not-allowed;
+        // color: #4C4C4C;
       }
     }
   }
@@ -506,6 +506,7 @@
   }
   input[type="checkbox"]:checked + label:before {
     background-color: $aqua;
+    border: 1px solid $aqua;
   }
 }
 
@@ -554,6 +555,12 @@
     font-size: 18px;
     line-height: 0.8;
     transition: all .1s;
+  }
+  input[type="checkbox"]:not(:checked) + label{
+    color: $med-charcoal;
+  }
+  input[type="checkbox"]:checked + label {
+    color: $charcoal19;
   }
 }
 
@@ -622,65 +629,78 @@ input[type="radio"]:checked, [type="checkbox"]:not(:checked),
     padding: 0px !important;
   }
   label {
-    background-color: $light-bg;
+    background: #f9f8f5;
     display: inline-block;
     text-align: center;
     min-width: 40px;
     border-radius: 12px;
-    color: $med-charcoal;
-    font-weight: normal;
-    font-size: 10px;
+    color: #4c4c4c;
+    font-weight: 400;
+    font-size: 12px;
     font-family: $font-Montserrat;
-    margin: 6px;
+    margin: 0 10px 10px 0;
+    padding: 0 5px;
     cursor: pointer;
-    border: 1px solid transparent;
+    border: 1px solid #E5E5E5;
     line-height: 40px;
-    padding: 0 4px;
-    &.size-cat {
-      padding: 0 4px;
+    padding: 0 5px;
+    letter-spacing: 0.36px;
+    position: relative;
+    min-height: 40px;
+    &:hover{
+      border: 1px solid $aqua-bold;
+      color: $aqua-bold;
     }
-
-    &:hover {
-      border: 1px solid $aqua;
-      background-color: white;
+    &.select_size{
+      border: 1px solid $aqua-bold !important;
+      color: $aqua-bold;
+      font-weight: 500;
     }
-    &.notavailable-select {
-      background-color:$white;
-      color: $cerise;
-      border: 1px solid $cerise;
-      cursor: pointer !important;
-      text-decoration: line-through;
-    }
-    &.notavailable {
-      color: tint(#000, 70%) !important;
-      text-decoration: line-through;
-      &:hover {
-        background-color: tint(#000,95%);
-
+    &.disableSize{
+      color: #E5E5E5 !important;
+      border: 1px solid #E5E5E5;
+      background: linear-gradient(to left top, #f9f8f5 47.75%, currentColor 50.5%, currentColor 49.5%, #f9f8f5 51.25%);
+      &:hover{
+        border: 1px solid $aqua-bold;
       }
     }
-    &.select_size {
-      border: 1px solid $aqua !important;
-      background-color: white !important;
-      font-weight: bold !important;
-      color: $aqua !important;
-    }
-  }
-  .disableSize{
-    opacity: 0.5;
-    cursor: not-allowed;
-    &:hover{
-      opacity: 0.5;
-      cursor: not-allowed;
-      border: 1px solid transparent;
-      background: #f2f2f2;
-    }
+    
+    // &:hover {
+    //   border: 1px solid $aqua-bold;
+    //   background-color: #f9f8f5;
+    //   color: $aqua-bold;
+    //   font-weight: 500;
+    // }
+    // &.select_size {
+    //   border: 1px solid $aqua-bold;
+    //   background-color: white;
+    //   font-size:12px;
+    //   color: $aqua-bold;
+    //   font-weight: 500;
+    //   &.select-size{
+    //     border: 1px solid $aqua-bold;
+    //     background-color: white;
+    //     font-size:12px;
+    //     color: #e5e5e5;
+    //     font-weight: 500;
+    //   }
+    // }
+    // &.disableSize{
+    //   color: #E5E5E5;
+    //   border: #E5E5E5;
+    //   border-style: solid;
+    //   border-width: 1px;
+    //   background: linear-gradient(to left top, #f9f8f5 47.75%, currentColor 50.5%, currentColor 49.5%, #f9f8f5 51.25%);
+    //   &:hover {
+    //     border: 1px solid $aqua-bold;
+    //     background: white;
+    //     color: $aqua-bold;
+    //     font-weight: 500;
+    //   }
+    // }
   }
 }
-.select_size {
-  border: 1px solid #ab1e56 !important;
-  background-color: white !important;
-}
+
 .size-list-bg1 li {
   background-color: #fff;
 }

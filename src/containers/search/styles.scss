@@ -38,7 +38,7 @@
     font-size: 14px;
     font-family: $font-Lato;
     letter-spacing: 1px;
-    color: #ab1e56;
+    color: $gold;
     text-transform: uppercase;
 }
 
@@ -287,7 +287,7 @@
         @include menu-copy();
       }
       li {
-        padding-left: 0px;
+        padding-left: 15px;
         label {
           white-space: nowrap;
           overflow: hidden;
@@ -309,17 +309,21 @@
     }
   }
   .menulevel1 {
-    text-transform: uppercase;
+    // @include plp_filter_cat();
     cursor: pointer;
     display: block;
     user-select: none;
     &:after {
-      content: '+';
+      content: '';
       float: right;
-      font-size: 25px;
-      color: tint(#000, 50%);
-      font-family: $font-Lato;
-      font-weight: 300;
+      border: solid $gold;
+      border-width: 0 1px 1px 0;
+      width: 8px;
+      height: 8px;
+      transform: rotate(313deg);
+      top: 15px;
+      position: relative;
+      right: 5px;
     }
   }
   .colorhead {
@@ -336,17 +340,43 @@
       }
       .disableColors{
         opacity: 0.5;
-        cursor: not-allowed;
       }
     }
   }
   .menulevel1-open {
+    &:after {
+      transform: rotate(45deg);
+    }
+  }
+  .menulevel2 {
+    text-transform: uppercase; 
+    cursor: pointer;
+    display: block;
+    font-size: 14px;
+    color: black;
+    &:after {
+      content: '+';
+      float: right;
+      font-size: 25px;
+      color: $gold;
+      font-family: $font-Lato;
+      font-weight: 300;
+    }
+  }
+  .menulevel2-open {
     li{
       font-size: 14px;
     }
     &:after {
       content: '-';
     }
+  }
+  .menulevel2-view-all{
+    text-transform: uppercase; 
+    cursor: pointer;
+    display: block;
+    font-size: 12px;
+    color: black;
   }
   .menulevel2 {
     @include b4_12px_montserrat_charcoal_caps();
@@ -376,6 +406,10 @@
       transform: rotate(45deg);
     }
   }
+  .selected-cat-shop{
+    color: $gold;
+  }
+  
 }
 
 .categorylabel {
@@ -470,7 +504,7 @@
     display: block;
     width: 6px;
     height: 10px;
-    border: solid #ab1e56;
+    border: solid $gold;
     border-width: 0 2px 2px 0;
     position: absolute;
     top: 14px;
@@ -605,24 +639,21 @@ input[type="radio"]:checked, [type="checkbox"]:not(:checked),
     }
     &.select_size {
       border: 1px solid $aqua !important;
-      background-color: white !important;
       font-weight: bold !important;
       color: $aqua !important;
     }
   }
   .disableSize{
-    opacity: 0.5;
-    cursor: not-allowed;
-    &:hover{
-      opacity: 0.5;
-      cursor: not-allowed;
-      border: 1px solid transparent;
-      background: #f2f2f2;
-    }
+      color: #E5E5E5 !important;
+      border: 1px solid #E5E5E5;
+      background: linear-gradient(to left top, #f9f8f5 47.75%, currentColor 50.5%, currentColor 49.5%, #f9f8f5 51.25%);
+      &:hover{
+        border: 1px solid $aqua-bold;
+      }
   }
 }
 .select_size {
-  border: 1px solid #ab1e56 !important;
+  border: 1px solid $gold !important;
   background-color: white !important;
 }
 .size-list-bg1 li {

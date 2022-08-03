@@ -11,4 +11,6 @@ export interface ProductImage {
   badgeImagePDP?: string;
   code?: boolean;
   icon?: boolean;
+  codeAll?: boolean;
+  iconAll?: boolean;
 }

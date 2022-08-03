@@ -18,8 +18,7 @@
 }
 
 .collection-name {
-    @include h1_30px_lora_charcoal();
-    font-style: italic;
+    @include h2_24px_lora_charcoal();
     margin-top: 30px;
 }
 
