@@ -1618,15 +1618,19 @@ ul.inner-menu-mobile {
   @include b5_10px_montserrat_white();
 }
 .announcement-cta-btn {
-  padding: 0px 8px;
-  font-size: 12px;
+  font-family: $font-Montserrat;
+  font-size: 10px;
+  letter-spacing: 0.60;
+  font-weight: $semibold; 
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  // padding: 0px 8px;
   // margin-top: 4px;
-  margin-left: 90px;
+  margin-left: 10px;
   cursor: pointer;
   line-height: 20px;
   height: 22px;
   letter-spacing: 1px;
-  font-family: $font-Lato;
 }
 .announcement-container {
   display: flex;
@@ -1637,8 +1641,7 @@ ul.inner-menu-mobile {
 
 @media (max-width: 992px) {
   .announcement-cta-btn {
-    margin-left: 30px;
-
+    margin-left: 10px;
   }
 }
 
