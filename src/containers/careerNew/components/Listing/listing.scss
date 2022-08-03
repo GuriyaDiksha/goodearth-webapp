@@ -8,7 +8,7 @@
         display: flex;
     
         .career_list_wrp_left{
-            width: 30%;
+            // width: 30%;
             padding: 45px;
             margin-right: 2px;
             position: sticky;
@@ -16,15 +16,15 @@
             top: 80px;
             align-self: flex-start;
             background: $white 0% 0% no-repeat padding-box;
-            box-shadow: 0px 3px 6px #00000029;
-            min-height: 60vh;
+            box-shadow: 0px 0px 6px #00000029;
+            min-height: 100vh;
 
     
             .filter_li{
                 margin-bottom: 40px;
         
                     .filter_label{
-                        text-align: center;
+                        // text-align: center;
                         font: normal normal normal 12px/20px $font-Montserrat;
                         letter-spacing: 0.36px;
                         color: $charcoal19;
@@ -47,7 +47,7 @@
                           }
                     }
                     .filter_applied{
-                        text-align: center;
+                        // text-align: center;
                         font: normal normal normal 12px/20px $font-Montserrat;
                         letter-spacing: 0.36px;
                         color: $charcoal19;
@@ -57,7 +57,7 @@
         
                         &:after {
 
-                            @media screen and (max-width: 767px) {
+                            @media screen and (max-width: 992px) {
                                 content: 'x';
                                 float: right;
                                 position: absolute;
@@ -70,7 +70,7 @@
                           }
                     }
                     .filter_label_open {
-                        text-align: center;
+                        // text-align: center;
                         font: normal normal normal 12px/20px $font-Montserrat;
                         letter-spacing: 0.36px;
                         color: $charcoal19;
@@ -146,6 +146,14 @@
                             line-height: 0.8;
                             transition: all .1s;
                           }
+
+                          .disable_label{
+                            opacity: 0.5;
+                            cursor: not-allowed;
+                            [type="checkbox"]:not(:checked) + label{
+                                cursor: not-allowed;
+                            }
+                          }
                     
                         .see_more_btn{
                             text-align: center;
@@ -208,7 +216,7 @@
                 display: none;
             }
 
-            @media screen and (max-width: 767px) {
+            @media screen and (max-width: 992px) {
                 position: fixed;
                 transform: translateY(300%);
                 transition: all 0.3s ease-in;
@@ -216,7 +224,7 @@
             }
         }
 
-        @media screen and (max-width: 767px) {
+        @media screen and (max-width: 992px) {
            
 
             .show{
@@ -235,13 +243,13 @@
         }
     
         .career_list_wrp_right{
-            width: 70%;
-            padding: 60px;
+            // width: 70%;
+            padding: 60px 0px 20px 60px;
             background: $white;
 
-            @media screen and (max-width: 767px) {
-                width: auto;
-                padding: 30px;
+            @media screen and (max-width: 992px) {
+                // width: auto;
+                padding: 25px;
             }
             
             .opportunities_count{
@@ -256,13 +264,13 @@
                 text-align: center;
                 margin: 150px;
 
-                @media screen and (max-width: 767px) {
+                @media screen and (max-width: 992px) {
                     margin: 20px;
                 }
 
-                @media screen and (max-width: 992px)  and (min-width:768px){
-                    margin: 100px;
-                }
+                // @media screen and (max-width: 992px)  and (min-width:992px){
+                //     margin: 100px;
+                // }
 
                 .no_resords_heading{
                     font: normal normal normal 20px/25px $font-Lora;
@@ -294,9 +302,10 @@
                     letter-spacing: 0.42px;
                     color: $white;
                     text-transform: uppercase;
-                    width: 40%;
-                    padding: 6px 0px;
+                    // width: 40%;
+                    // padding: 6px 0px;
                     margin-top: 30px;
+                    padding: 14px 45px;
 
                     &:hover{
                         color: $lgtDefault;
@@ -305,7 +314,8 @@
                     }
 
                     @media screen and (max-width: 992px) {
-                        width:80%;
+                        // width:80%;
+                        padding: 15px 20px;
                     }
                 }
             }
@@ -317,14 +327,14 @@
                 margin: 10px 0px;
                 display: flex;
 
-                @media screen and (max-width: 767px) {
+                @media screen and (max-width: 992px) {
                     display: block;
                 }
 
                 .job_card_left_wrp{
                     width: 80%;
 
-                    @media screen and (max-width: 767px) {
+                    @media screen and (max-width: 992px) {
                         width: 100%;
                      }
 
@@ -360,11 +370,11 @@
                         opacity: 1;
                         text-align: center;
                         font: normal normal normal 14px/30px $font-Montserrat;
-                        letter-spacing: 0.42px;
+                        letter-spacing: 0.5px;
                         color: $lgtDefault;
                         text-transform: uppercase;
                         opacity: 1;
-                        padding: 6px 12px;
+                        padding: 10px 20px;
                         margin: 20px 0px;
         
                         &:hover{
@@ -373,18 +383,23 @@
                             border: 1px solid $aquablue;
                             opacity: 1;
                         }
+
+                        @media screen and (max-width: 992px) {
+                            padding: 10px 16px;
+                            font: normal normal normal 14px/18px $font-Montserrat;
+                        }
                     }
                 }
                
                 .job_card_right_wrp{
                     width: 20%;
-                    @media screen and (max-width: 767px) {
+                    @media screen and (max-width: 992px) {
                        display: flex;
                        padding-top: 20px;
                        width: 100%;
                     }
 
-                    @media screen and (min-width: 768px) and (max-width:1024px) {
+                    @media screen and (min-width: 992px) and (max-width:1024px) {
                         width: 30%;
                      }
                    
@@ -396,13 +411,17 @@
                         text-transform: uppercase;
                         opacity: 1;
     
-                        @media screen and (max-width: 767px) {
+                        @media screen and (max-width: 992px) {
                             text-align: left;
                         }
                     }
 
                     .icon_wrp_ul{
                         float: right;
+                        button{
+                            border: none;
+                            background: transparent;
+                        }
                         .icon_wrp{
                             padding-left: 15px;
                         }
@@ -417,7 +436,7 @@
 
     .filter_mobile{
         display: none;
-        @media screen and (max-width: 767px) {
+        @media screen and (max-width: 992px) {
             display: block;
             position: fixed;
             margin-bottom: 0;
@@ -437,6 +456,7 @@
             letter-spacing: 0.36px;
             color: $charcoal19;
             text-transform: uppercase;
+            cursor: pointer;
            
 
             &:after {
@@ -457,7 +477,7 @@
 
     .filter_mobile_button{
         display: none;
-        @media screen and (max-width: 767px) {
+        @media screen and (max-width: 992px) {
             display:flex;
             position: fixed;
             margin-bottom: 0;
@@ -487,7 +507,7 @@
                 opacity: 1;
                 text-align: center;
                 font: normal normal normal 14px/30px $font-Montserrat;
-                letter-spacing: 0.42px;
+                letter-spacing: 0.5px;
                 color: $white;
                 text-transform: uppercase;
                 width: 50%;

@@ -37,9 +37,7 @@ const JobCard: React.FC<Props> = ({ job }) => {
         <p className={listing.job_card_share_heading}>share</p>
         <ul className={listing.icon_wrp_ul}>
           <li>
-            <a
-              href="#"
-              rel="noopener noreferrer"
+            <button
               className={listing.icon_wrp}
               onClick={() => {
                 copyToClipboard(`${window.location.origin}/careers/job/${id}`);
@@ -50,7 +48,7 @@ const JobCard: React.FC<Props> = ({ job }) => {
               }}
             >
               <img src={link} alt="link" />
-            </a>
+            </button>
             <a
               href={`mailto:`}
               target="_blank"

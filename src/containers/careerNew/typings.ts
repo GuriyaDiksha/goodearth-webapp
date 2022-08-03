@@ -37,3 +37,10 @@ export type JobListData = {
   facets: Facets;
   data: Data[];
 };
+
+export type DeptData = {
+  desc: string;
+  title: string;
+};
+
+export type DeptListData = DeptData[];
