@@ -553,7 +553,9 @@ class CushionBag extends React.Component<Props, State> {
               <div className={bootstrap.col8}>
                 <PdpButton label={buttonText} onClick={action} />
               </div>
-              <div className={bootstrap.col4}>
+              <div
+                className={cs(bootstrap.col4, styles.wishlistMobileContainer)}
+              >
                 <WishlistButtonpdp
                   gtmListType={"pdp"}
                   title={title}

@@ -623,7 +623,7 @@ class FilterList extends React.Component<Props, State> {
         "price" +
         currency[0].toUpperCase() +
         currency.substring(1).toLowerCase();
-    plpList.results.facets[currentCurrency]?.map(function(a: any) {
+    plpList.results.filtered_facets[currentCurrency]?.map(function(a: any) {
       pricearray.push(+a[0]);
     });
     if (pricearray.length > 0) {
@@ -704,7 +704,9 @@ class FilterList extends React.Component<Props, State> {
               "price" +
               currency[0].toUpperCase() +
               currency.substring(1).toLowerCase();
-          searchList.results.facets[currentCurrency]?.map(function(a: any) {
+          searchList.results.filtered_facets[currentCurrency]?.map(function(
+            a: any
+          ) {
             pricearray.push(+a[0]);
           });
           if (pricearray.length > 0) {

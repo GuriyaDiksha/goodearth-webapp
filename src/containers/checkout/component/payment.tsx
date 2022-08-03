@@ -494,7 +494,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
           <label
             className={cs(
               globalStyles.flex,
-              globalStyles.crossCenter,
+              { [globalStyles.crossCenter]: !mobile },
               globalStyles.voffset2
             )}
           >
