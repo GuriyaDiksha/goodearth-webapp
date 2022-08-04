@@ -9,12 +9,11 @@ import { ShopLocator } from "./ShopLocator";
 import { AppState } from "reducers/typings";
 import { connect } from "react-redux";
 import CookieService from "services/cookie";
-import fontStyles from "styles/iconFonts.scss";
 import * as valid from "utils/validate";
 import { Dispatch } from "redux";
 import HeaderFooterService from "services/headerFooter";
 import { updateShowCookie } from "actions/info";
-import ToggleSwitch from "components/Switch";
+import CookiePolicy from "./CookiePolicy";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -60,10 +59,7 @@ class Footer extends React.Component<Props, FooterState> {
       newsletterEmail: "",
       newsletterMessage: "",
       newsletterError: false,
-      isInViewport: false,
-      isPrefOpen: false,
-      isChecked: false,
-      isAnalyticsChecked: false
+      isInViewport: false
     };
   }
 
@@ -770,132 +766,10 @@ class Footer extends React.Component<Props, FooterState> {
           </div>
         </div>
         {this.props.showCookie && !this.props.mobileMenuOpenState && (
-          <div
-            className={cs(
-              styles.cookieclass,
-              styles.eucookieclass,
-              this?.state?.isPrefOpen ? styles.euPref : ""
-            )}
-          >
-            {this?.state?.isPrefOpen ? (
-              <>
-                <p className={styles.heading}>YOUR COOKIE PREFERENCES</p>
-                <hr />
-                <p className={styles.question}>What is a cookie?</p>
-                <p className={styles.answer}>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                  Ut enim ad minim veniam, quis nostrud exercitation veritatis
-                </p>
-                <p className={styles.prefhead}>Manage Cookie Preferences</p>
-                <div className={styles.prefWrp}>
-                  <div className={styles.prefBlock}>
-                    <div className={styles.prefSubBlock}>
-                      <p className={styles.prefQue}>What is a cookie?</p>
-                      <p className={styles.prefAns}>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                        sed do eiusmod tempor incididunt ut labore et dolore
-                        magna aliqua.
-                      </p>
-                    </div>
-                    <div className={styles.prefToggleWrp}>
-                      <ToggleSwitch
-                        id="necessaryCookie"
-                        checked={true}
-                        onChange={(checked: boolean) =>
-                          this.setState({ isChecked: checked })
-                        }
-                        small={false}
-                        disabled={false}
-                      />
-                    </div>
-                  </div>
-
-                  <div className={styles.prefBlock}>
-                    <div className={styles.prefSubBlock}>
-                      <p className={styles.prefQue}>What is a cookie?</p>
-                      <p className={styles.prefAns}>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                        sed do eiusmod tempor incididunt ut labore et dolore
-                        magna aliqua.
-                      </p>
-                    </div>
-                    <div className={styles.prefToggleWrp}>
-                      <ToggleSwitch
-                        id="personalized"
-                        checked={this.state.isChecked}
-                        onChange={(checked: boolean) =>
-                          this.setState({ isChecked: checked })
-                        }
-                        small={false}
-                        disabled={false}
-                      />
-                    </div>
-                  </div>
-
-                  <div className={styles.prefBlock}>
-                    <div className={styles.prefSubBlock}>
-                      <p className={styles.prefQue}>What is a cookie?</p>
-                      <p className={styles.prefAns}>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                        sed do eiusmod tempor incididunt ut labore et dolore
-                        magna aliqua.
-                      </p>
-                    </div>
-                    <div className={styles.prefToggleWrp}>
-                      <ToggleSwitch
-                        id="analytics"
-                        checked={this.state.isAnalyticsChecked}
-                        onChange={(checked: boolean) =>
-                          this.setState({ isAnalyticsChecked: checked })
-                        }
-                        small={false}
-                        disabled={false}
-                      />
-                    </div>
-                  </div>
-                </div>
-                <div className={styles.btnWrp}>
-                  <button className={styles.savebtn}>save preferences</button>
-                  <button className={styles.acceptbtn}>accept all</button>
-                </div>
-              </>
-            ) : (
-              <>
-                <span
-                  className={cs(
-                    styles.closePopup,
-                    fontStyles.icon,
-                    fontStyles.iconCross
-                  )}
-                  onClick={() => {
-                    this.props.hideCookies();
-                  }}
-                ></span>
-                <h3>COOKIES & PRIVACY</h3>
-                <p>
-                  This website uses cookies to ensure you get the best
-                  experience on our website. Please read our &nbsp;
-                  <Link to={"/customer-assistance/cookie-policy"}>
-                    Cookie Policy
-                  </Link>
-                  &nbsp; and{" "}
-                  <Link to={"/customer-assistance/privacy-policy"}>
-                    Privacy Policy.
-                  </Link>
-                </p>
-                <p
-                  className={styles.preferencesLink}
-                  onClick={() => this.setState({ isPrefOpen: true })}
-                >
-                  set my cookie preferences
-                </p>
-                <span className={styles.okBtn} onClick={this.acceptCookies}>
-                  ACCEPT & CONTINUE
-                </span>
-              </>
-            )}
-          </div>
+          <CookiePolicy
+            hideCookies={this.props.hideCookies}
+            acceptCookies={this.acceptCookies}
+          />
         )}
       </div>
     );

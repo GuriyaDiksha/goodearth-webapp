@@ -1,28 +1,32 @@
-import React from "react";
+import React, { useState } from "react";
 import styles from "./styles.scss";
 import cs from "classnames";
 
 type Props = {
   id: any;
   checked: boolean;
-  onChange: any;
+  changeValue: any;
   small: boolean;
   disabled: boolean;
 };
 
 const ToggleSwitch: React.FC<Props> = ({
   id,
-  checked,
-  onChange,
   small,
-  disabled
+  disabled,
+  checked,
+  changeValue
 }) => {
-  function handleKeyPress(e: any) {
-    if (e.keyCode !== 32) return;
+  // function handleKeyPress(e: any) {
+  //   if (e.keyCode !== 32) return;
 
-    e.preventDefault();
-    onChange(!checked);
-  }
+  //   e.preventDefault();
+  //   onChange(!checked);
+  // }
+
+  const onChange = (e: any, id: number) => {
+    changeValue(e.target.checked, id);
+  };
 
   return (
     <div className={cs(styles.toggleSwitch, small ? styles.smallSwitch : "")}>
@@ -31,21 +35,20 @@ const ToggleSwitch: React.FC<Props> = ({
         className={styles.toggleSwitchCheckbox}
         id={id}
         checked={checked}
-        onChange={e => onChange(e.target.checked)}
+        onChange={e => onChange(e, id)}
         disabled={disabled}
       />
       {id ? (
         <label
           className={styles.toggleSwitchLabel}
-          tabIndex={disabled ? -1 : 1}
-          onKeyDown={e => handleKeyPress(e)}
+          tabIndex={1}
+          // onKeyDown={e => handleKeyPress(e)}
           htmlFor={id}
         >
           <span
             className={cs(
-              disabled
-                ? (styles.toggleSwitchInner, styles.toggleSwitchDisabled)
-                : styles.toggleSwitchInner
+              styles.toggleSwitchInner,
+              disabled ? styles.toggleSwitchDisabled : ""
             )}
             // data-yes={optionLabels[0]}
             // data-no={optionLabels[1]}
@@ -53,9 +56,8 @@ const ToggleSwitch: React.FC<Props> = ({
           />
           <span
             className={cs(
-              disabled
-                ? (styles.toggleSwitchSwitch, styles.toggleSwitchDisabled)
-                : styles.toggleSwitchSwitch
+              styles.toggleSwitchSwitch,
+              disabled ? styles.toggleSwitchDisabled : ""
             )}
             tabIndex={-1}
           />

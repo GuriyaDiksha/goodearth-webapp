@@ -276,15 +276,17 @@ const BaseLayout: React.FC = () => {
     }
 
     const cookieCurrency = CookieService.getCookie("currency");
+    const cookieRegion = CookieService.getCookie("region");
     if (
-      !cookieCurrency &&
-      !(
-        location.pathname.includes("/bridal/") ||
-        announcementData.isBridalActive ||
-        bridal
-      )
+      (!cookieCurrency &&
+        !(
+          location.pathname.includes("/bridal/") ||
+          announcementData.isBridalActive ||
+          bridal
+        )) ||
+      !cookieRegion
     ) {
-      LoginService.getClientIpCurrency()
+      LoginService.getClientIpCurrency(dispatch)
         .then(curr => {
           if (curr != "error") {
             if (curr && !cookieCurrency) {

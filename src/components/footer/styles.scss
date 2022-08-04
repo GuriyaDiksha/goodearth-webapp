@@ -246,8 +246,21 @@
   }
   .prefWrp{
     overflow-y: scroll;
-    -ms-overflow-style: none;  /* IE and Edge */
-    scrollbar-width: none; 
+    height: 50%;
+
+    &::-webkit-scrollbar {
+      // background-color:#fff;
+      width: 8px;
+    }
+    /* background of the scrollbar except button or resizer */
+    /* scrollbar itself */
+    &::-webkit-scrollbar-thumb {
+        background-color:#a6a6a6;
+        border-radius:5px;
+        border:2px solid #fff;
+    }
+    /* set button(top and bottom of the scrollbar) */
+    &::-webkit-scrollbar-button {display:none}
 
     .prefBlock{
       display: flex;
@@ -265,9 +278,7 @@
         }
       }
     }
-    ::-webkit-scrollbar {
-      display: none; /* for Chrome, Safari and Opera */
-  }
+
   }
 
   .btnWrp{

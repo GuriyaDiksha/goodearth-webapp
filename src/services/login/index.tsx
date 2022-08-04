@@ -27,6 +27,7 @@ import { LOGIN_SUCCESS, MESSAGE } from "constants/messages";
 import { POPUP } from "constants/components";
 import * as util from "../../utils/validate";
 import { Basket } from "typings/basket";
+import { updateRegion } from "actions/widget";
 // import { updateBasket } from "actions/basket";
 // import { CUST } from "constants/util";
 
@@ -497,7 +498,7 @@ export default {
     });
     BasketService.fetchBasket(dispatch);
   },
-  getClientIpCurrency: async function() {
+  getClientIpCurrency: async function(dispatch: Dispatch) {
     // Axios.post(`${__API_HOST__}/myapi/common/count_api_hits/`);
     const response = await new Promise((resolve, reject) => {
       fetch(`https://api.ipdata.co/?api-key=${__IP_DATA_KEY__}`, {
@@ -505,6 +506,10 @@ export default {
       })
         .then(resp => resp.json())
         .then(data => {
+          console.log("region data====", data?.continent_name);
+          CookieService.setCookie("region", data?.continent_name, 365);
+          dispatch(updateRegion(data?.continent_name));
+
           if (data.currency) {
             if (
               data.currency.code == "INR" ||
