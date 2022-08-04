@@ -55,10 +55,8 @@
         }
     }
     .subheading {
-        font-size: 11px;
-        font-family: "LatoFont", "Helvetica", "Arial";
+        @include b5_10px_montserrat_charcoal();
         letter-spacing: 0.09em;
-        color: #1b1b1b;
         border-bottom: none;
         line-height: 16px;
         display: block;
