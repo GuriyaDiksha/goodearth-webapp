@@ -16,6 +16,7 @@ const Section1: React.FC<Section1Props> = props => {
   const [selected, setSelected] = useState(imageName);
   const [selectindex, setSelectindex] = useState(0);
   const { mobile } = useSelector((state: AppState) => state.device);
+  const { tablet } = useSelector((state: AppState) => state.device);
   const { showTimer } = useSelector((state: AppState) => state.info);
   const selectImage = (index: number) => {
     setSelected("image" + index);
@@ -42,14 +43,17 @@ const Section1: React.FC<Section1Props> = props => {
           {
             [styles.gcMobile]: mobile,
             [styles.gcMobileTimer]: mobile && showTimer
-          }
+          },
+          { [styles.gcNoPad]: mobile || tablet }
         )}
       >
         <div className={bootstrapStyles.row}>
           <div
             className={cs(
-              bootstrapStyles.col10,
-              bootstrapStyles.offset1,
+              bootstrapStyles.col6,
+              { [bootstrapStyles.offset3]: !mobile },
+              { [styles.gcMargin]: mobile },
+              { [styles.gcMinWidth]: mobile },
               globalStyles.textCenter,
               styles.txtSettings,
               { [styles.txtSettingsMobile]: mobile }
@@ -138,11 +142,15 @@ const Section1: React.FC<Section1Props> = props => {
               </div>
             </div>
           </div>
-          <div className={cs(bootstrapStyles.col12, styles.buttonRow)}>
+          <div
+            className={cs(bootstrapStyles.col12, styles.buttonRow, {
+              [styles.buttonSticky]: mobile || tablet
+            })}
+          >
             <div className={cs(styles.imageSelectBtnContainer)}>
               <button
                 className={cs(styles.imageSelectBtn, {
-                  [styles.mobileFullWidthButton]: mobile
+                  [styles.mobileFullWidthButton]: mobile || tablet
                 })}
                 onClick={gotoNext}
               >

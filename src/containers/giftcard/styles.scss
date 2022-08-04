@@ -3,7 +3,6 @@
 @import "../../styles/partials/form";
 
 .txt-settings {
-  padding: 1em 21em 0 21em;
   h2 {
     @include h2_24px_lora_charcoal();
     padding-top: 40px;
@@ -105,14 +104,16 @@ h2 {
   .image-select-btn-container {
     height: 60px;
     width: 350px;
+    font-family: $font-Montserrat;
     .image-select-btn{
       height: 100%;
-      width: 100%;
+      width: 101%;
       text-transform: uppercase;
       font-size: 14px;
       color: $white;
       background: $aqua;
       border: 1.5px solid $aqua;
+      letter-spacing: 0.5px;
       span {
         width: 10px;
         display: inline-block;
@@ -250,11 +251,9 @@ h2 {
 }
 
 .heading {
-  text-transform: uppercase;
-  color: #666;
+  @include b4_12px_montserrat_charcoal();
   letter-spacing: 1px;
-  font-size: 14px;
-  line-height: 48px;
+  line-height: 50px;
 }
 
   [type="radio"]:not(:checked) + label:after {
@@ -390,6 +389,7 @@ input[type="radio"]:checked+label:before {
   width: 100vw;
   padding-top: ($header-height + $secondary-header-height);
   padding-bottom: 50px;
+  position: relative;
 
   [type="radio"]:checked + label,
   [type="radio"]:not(:checked) + label {
@@ -410,7 +410,7 @@ input[type="radio"]:checked+label:before {
 }
 .gc-mobile {
   padding-top: ($header-height);
-  padding-bottom: 50px;
+  // padding-bottom: 50px;
 }
 .gc-mobile-timer {
   padding-top: ($header-height + $timer-height);
@@ -548,4 +548,21 @@ hr {
   position: absolute;
   bottom: 0;
   left: -3px;
+}
+
+.gc-min-width{
+  min-width: fit-content;
+}
+
+.gc-margin {
+  margin: 0 2%;
+}
+
+.button-sticky{
+  position: sticky;
+  bottom: 60px;
+}
+
+.gc-no-pad{
+  padding-bottom: 0px;
 }
