@@ -46,6 +46,7 @@ const Section2: React.FC<Section2Props> = ({
   const GiftSection = React.useRef<Formsy>(null);
   const [country, setCountry] = useState(selectedCountry);
   const { customerGroup } = useSelector((state: AppState) => state.user);
+  const { tablet } = useSelector((state: AppState) => state.device);
 
   const gcValueRef = useRef();
 
@@ -282,14 +283,16 @@ const Section2: React.FC<Section2Props> = ({
           bootstrapStyles.col12,
           {
             [styles.gcMobile]: mobile
-          }
+          },
+          { [styles.gcNoPad]: mobile || tablet }
         )}
       >
         <div className={cs(bootstrapStyles.row, globalStyles.voffset6)}>
           <div
             className={cs(
               bootstrapStyles.col10,
-              bootstrapStyles.offset1,
+              { [bootstrapStyles.offset3]: !mobile },
+              { [bootstrapStyles.offset1]: mobile },
               globalStyles.textLeft
             )}
           >
@@ -396,7 +399,8 @@ const Section2: React.FC<Section2Props> = ({
                   bootstrapStyles.col10,
                   bootstrapStyles.offset1,
                   globalStyles.textCenter,
-                  styles.priceBlock
+                  styles.priceBlock,
+                  { [styles.tabPriceBlock]: tablet }
                 )}
               >
                 <p>(or choose your own value)</p>
@@ -465,12 +469,22 @@ const Section2: React.FC<Section2Props> = ({
                 </div>
               </div>
             </div>
-            <div className={cs(bootstrapStyles.col12, styles.buttonRow)}>
+            <div
+              className={cs(bootstrapStyles.col12, styles.buttonRow, {
+                [styles.buttonSticky]: mobile
+              })}
+            >
               <div className={cs(styles.imageSelectBtnContainer)}>
                 <button
-                  className={cs(styles.imageSelectBtn, {
-                    [styles.mobileFullWidthButton]: mobile
-                  })}
+                  className={cs(
+                    styles.imageSelectBtn,
+                    {
+                      [styles.section2FullWidth]: mobile
+                    },
+                    {
+                      [styles.errorBtn]: numhighlight
+                    }
+                  )}
                   onClick={gotoNext}
                 >
                   proceed to filling details&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
