@@ -4,7 +4,7 @@
 .breadcrumbs-container {
     span, a {
         text-transform: capitalize;
-        letter-spacing: 1px;
+        letter-spacing: 0.5px;
         line-height: 43px;
         text-decoration: none;
         @include pdp_breadcrumbs();
