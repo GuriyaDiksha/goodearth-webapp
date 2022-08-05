@@ -60,6 +60,10 @@
                     margin-top: 20px;
                     font: normal normal normal 16px/25px $font-Lora;
                 }
+
+                @media screen and (min-width: 2000px) and(max-width: 2800px) {
+                    margin-top: 60px;
+                }
             }
 
              .dept_card_desc{
