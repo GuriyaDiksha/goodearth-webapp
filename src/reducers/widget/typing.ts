@@ -5,6 +5,9 @@ import { ActionType } from "typings/actionCreator";
 export type State = {
   region: string;
   widgetDetail: WidgetDetail | null;
+  consentDetail: null | string;
+  country: string;
+  ip: string;
 };
 
 export { Actions };

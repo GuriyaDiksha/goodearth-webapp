@@ -176,7 +176,7 @@
     // font-weight: bold;
     letter-spacing: 0;
     padding: 0;
-    margin-bottom: -30px;
+    // margin-bottom: -30px;
   }
   p {
     @include b4_12px_montserrat_charcoal();
@@ -184,7 +184,7 @@
     // color: $charcoal19;
     // font-size: 12px;
     line-height: 20px;
-    margin-bottom: -15px;
+    // margin-bottom: -15px;
     a {
       color: $gold;
       text-decoration: underline;
@@ -268,6 +268,7 @@
       margin-bottom: 6px;
 
       .prefSubBlock{
+        width: 75%;
         .prefQue{
           @include b4_12px_montserrat_charcoal();
           margin-bottom: 0px;
@@ -275,6 +276,15 @@
         .prefAns{
           @include b4_12px_montserrat_medcharcoal();
           margin-bottom: 0px;
+        }
+      }
+      .prefToggleWrp{
+        .prefActive{
+          font-family: $font-Montserrat;
+          font-size: 8px;
+          font-weight: $regular;
+          color: $med-charcoal;
+          margin-left: -6px;
         }
       }
     }

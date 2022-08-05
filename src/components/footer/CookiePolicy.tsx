@@ -20,9 +20,10 @@ const CookiePolicy: React.FC<Props> = ({ hideCookies, acceptCookies }) => {
   const [isPrefOpen, setIsPrefOpen] = useState(false);
   const [consents, setConsents] = useState<Consent[]>([]);
   const [regionName, setRegion] = useState<string>("");
-  const { region, widgetDetail } = useSelector(
+  const { region, widgetDetail, country, ip } = useSelector(
     (state: AppState) => state.widget
   );
+  const { email } = useSelector((state: AppState) => state.user);
   const store = useStore();
 
   useEffect(() => {
@@ -49,15 +50,34 @@ const CookiePolicy: React.FC<Props> = ({ hideCookies, acceptCookies }) => {
     setConsents(cloneConsent);
   };
 
+  const saveConsent = (consents: any) => {
+    WidgetService.postConsentDetail(store.dispatch, {
+      ip: ip || CookieService.getCookie("ip"),
+      consents: consents
+        .filter((e: any) => e.value === true)
+        .map((e: any) => e.name)
+        .join(","),
+      country: country || CookieService.getCookie("country"),
+      widget_name: regionName === "Europe" ? "EUROPE" : "GLOBAL",
+      email: email || ""
+    });
+  };
+
   const acceptAll = () => {
     const cloneConsent = clone(consents);
     cloneConsent.map(e => {
       e.value = true;
     });
     setConsents(cloneConsent);
+    saveConsent(cloneConsent);
     setTimeout(() => {
-      hideCookies();
-    }, 3000);
+      acceptCookies();
+    }, 2000);
+  };
+
+  const savePref = () => {
+    saveConsent(consents);
+    setIsPrefOpen(false);
   };
 
   return (
@@ -91,15 +111,18 @@ const CookiePolicy: React.FC<Props> = ({ hideCookies, acceptCookies }) => {
                     id={ele?.id}
                     checked={ele?.value}
                     changeValue={changeValue}
-                    small={false}
+                    small={true}
                     disabled={!ele?.is_editable}
                   />
+                  {!ele?.is_editable ? (
+                    <p className={styles.prefActive}>Always Active</p>
+                  ) : null}
                 </div>
               </div>
             ))}
           </div>
           <div className={styles.btnWrp}>
-            <button className={styles.savebtn} onClick={() => hideCookies()}>
+            <button className={styles.savebtn} onClick={() => savePref()}>
               save preferences
             </button>
             <button className={styles.acceptbtn} onClick={() => acceptAll()}>

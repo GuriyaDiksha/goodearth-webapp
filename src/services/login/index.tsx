@@ -506,9 +506,16 @@ export default {
       })
         .then(resp => resp.json())
         .then(data => {
-          console.log("region data====", data?.continent_name);
           CookieService.setCookie("region", data?.continent_name, 365);
-          dispatch(updateRegion(data?.continent_name));
+          CookieService.setCookie("ip", data?.ip, 365);
+          CookieService.setCookie("country", data?.country_name, 365);
+          dispatch(
+            updateRegion({
+              region: data?.continent_name,
+              ip: data?.ip,
+              country: data?.country_name
+            })
+          );
 
           if (data.currency) {
             if (
