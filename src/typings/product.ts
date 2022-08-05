@@ -74,6 +74,7 @@ export interface Product<T = ProductID> extends PartialProductItem {
   sizeChart: string | SizeChartResponse;
   badgeMessage?: string;
   fillerProduct: PartialProductItem | any;
+  shortDesc: string | null;
 }
 
 export interface PartialChildProductAttributes {

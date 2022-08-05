@@ -16,6 +16,7 @@ export type Props = {
     valid: boolean;
     message?: string;
   };
+  errorMsgClass?: string;
 };
 
 export type State = {

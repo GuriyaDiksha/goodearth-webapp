@@ -53,14 +53,16 @@
     @include pdp_label();
 
     .size-guide {
+        @include b5_10px_montserrat_charcoal();
         line-height: 50px;
-        font-size: 12px;
-        color: #000;
         text-decoration: underline;
         text-transform: none;
         // letter-spacing: 1px;
         cursor: pointer;
         text-underline-offset: 2px;
+        &:hover {
+            color: #3c7979;
+        }
     }
 
     &.colour {
@@ -366,4 +368,16 @@
             color: $gold;
         }
     }
+}
+
+.wallpaper-popup-body{
+    top: unset;
+    left: unset;
+    transform: unset;
+}
+
+.wallpaper-popup-container{
+    display: flex;
+    align-items: end;
+    justify-content: center;
 }

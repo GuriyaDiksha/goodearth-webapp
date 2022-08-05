@@ -550,21 +550,22 @@ class Header extends React.Component<Props, State> {
           : () => this.props.goLogin(undefined, "/account/bridal"),
         type: isLoggedIn ? "link" : "button",
         value: "Good Earth Registry"
-      },
-      {
-        label: isLoggedIn ? "Logout" : "Login",
-        onClick: isLoggedIn
-          ? () =>
-              handleLogOut(
-                this.props.history,
-                this.props.currency,
-                this.props.customerGroup
-              )
-          : goLogin,
-        type: "button",
-        value: isLoggedIn ? "Logout" : "Login"
       }
     );
+    const loginItem: DropdownItem = {
+      label: isLoggedIn ? "Logout" : "Login",
+      onClick: isLoggedIn
+        ? () =>
+            handleLogOut(
+              this.props.history,
+              this.props.currency,
+              this.props.customerGroup
+            )
+        : goLogin,
+      type: "button",
+      value: isLoggedIn ? "Logout" : "Login"
+    };
+
     const isBridalRegistryPage =
       this.props.location.pathname.indexOf("/bridal/") > -1 &&
       !(this.props.location.pathname.indexOf("/account/") > -1);
@@ -576,13 +577,13 @@ class Header extends React.Component<Props, State> {
       : false;
     return (
       <div className="">
+        {meta.h1Tag && <h1>{meta.h1Tag}</h1>}
         <Helmet defer={false}>
           <title>
-            {meta.title
-              ? meta.title
+            {meta.titleTag
+              ? meta.titleTag
               : "Good Earth – Stylish Sustainable Luxury Retail | Goodearth.in"}
           </title>
-          {<h1>{meta.h1Tag}</h1>}
           <meta
             name="description"
             content={
@@ -669,7 +670,6 @@ class Header extends React.Component<Props, State> {
             crossOrigin="crossorigin"
           />
         </Helmet>
-
         <div className={cs(styles.headerContainer)}>
           {this.state.reloadAnnouncementBar && (
             <AnnouncementBar
@@ -943,6 +943,7 @@ class Header extends React.Component<Props, State> {
                           showCurrency={this.showCurrency}
                           showC={this.state.showC}
                           profileItems={profileItems}
+                          loginItem={loginItem}
                           goLogin={this.props.goLogin}
                         />
                       </>

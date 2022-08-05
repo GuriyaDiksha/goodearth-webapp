@@ -4,21 +4,24 @@ import bootstrapStyles from "../../styles/bootstrap/bootstrap-grid.scss";
 import globalStyles from "styles/global.scss";
 import styles from "./styles.scss";
 import { Section3Props } from "./typings";
+import { useSelector } from "react-redux";
 import Formsy from "formsy-react";
 import FormInput from "../../components/Formsy/FormInput";
 import FormTextArea from "components/Formsy/FormTextArea";
+import { AppState } from "reducers/typings";
 // import { Currency, currencyCode } from "typings/currency";
 import * as valid from "utils/validate";
-import Button from "./button";
 
 const Section3: React.FC<Section3Props> = ({ next, data, goback, mobile }) => {
   const RegisterFormRef = React.useRef<Formsy>(null);
   const emailInput = React.useRef<HTMLInputElement>(null);
   const lastNameInput = React.useRef<HTMLInputElement>(null);
+  const { tablet } = useSelector((state: AppState) => state.device);
   const [textarea, setTextarea] = useState("");
   const englishandSpace = /^[a-zA-Z\s]+$/;
   // const [ehighlight, setEhighlight] = useState(false);
   // const [emsg, setEmsg] = useState("");
+  const [isErr, setIsErr] = useState(false);
 
   const gotoNext = () => {
     // document.cookie = "giftcard_image=" + this.state.giftimages[this.state.selectindex] + "; expires=Sun, 15 Jul 2020 00:00:01 UTC; path=/";
@@ -98,34 +101,42 @@ const Section3: React.FC<Section3Props> = ({ next, data, goback, mobile }) => {
           bootstrapStyles.col12,
           {
             [styles.gcMobile]: mobile
-          }
+          },
+          { [styles.gcNoPad]: mobile }
         )}
       >
-        <div className={cs(bootstrapStyles.row, globalStyles.voffset6)}>
-          <div
-            className={cs(
-              bootstrapStyles.col10,
-              bootstrapStyles.offset1,
-              globalStyles.textCenter
-            )}
-          >
-            <i className={styles.arrowUp}></i>
-            <p
-              className={styles.backGc}
-              onClick={() => {
-                goback("amount");
-              }}
-            >
-              Back To Value
-            </p>
+        <div
+          className={cs(
+            bootstrapStyles.col12,
+            bootstrapStyles.colLg4,
+            bootstrapStyles.offsetLg4,
+            globalStyles.textCenter
+          )}
+        >
+          <div className={cs(bootstrapStyles.row)}>
+            <div className={cs(bootstrapStyles.col10, globalStyles.textLeft)}>
+              <p
+                className={styles.backGc}
+                onClick={() => {
+                  goback("amount");
+                }}
+              >
+                {`<`}Back To Value
+              </p>
+            </div>
           </div>
         </div>
-        <div className={bootstrapStyles.row}></div>
         <div className={cs(bootstrapStyles.row, styles.nobg, styles.loginForm)}>
           <Formsy
             ref={RegisterFormRef}
             onValidSubmit={handleSubmit}
             onInvalidSubmit={handleInvalidSubmit}
+            onValid={() => {
+              setIsErr(false);
+            }}
+            onInvalid={() => {
+              setIsErr(true);
+            }}
           >
             <div
               className={cs(
@@ -142,14 +153,15 @@ const Section3: React.FC<Section3Props> = ({ next, data, goback, mobile }) => {
                   <FormInput
                     name="recipientName"
                     placeholder={"Recipient's Name"}
-                    label={"Name"}
+                    label={"Recipient's Name *"}
                     value={data["recipientName"]}
                     keyPress={e => (e.key == "Enter" ? e.preventDefault() : "")}
                     inputRef={lastNameInput}
                     validations={{
                       isEnglish: (values, value) => {
                         if (value) {
-                          return englishandSpace.test(value);
+                          const bool = englishandSpace.test(value);
+                          return bool;
                         } else return true;
                       }
                     }}
@@ -163,7 +175,7 @@ const Section3: React.FC<Section3Props> = ({ next, data, goback, mobile }) => {
                   <FormInput
                     name="recipientEmail"
                     placeholder={"Recipient's Email"}
-                    label={"Email"}
+                    label={"Recipient's Email *"}
                     value={data["recipientEmail"]}
                     keyPress={e => (e.key == "Enter" ? e.preventDefault() : "")}
                     inputRef={emailInput}
@@ -183,7 +195,7 @@ const Section3: React.FC<Section3Props> = ({ next, data, goback, mobile }) => {
                   <FormInput
                     name="recipientEmailConfirm"
                     placeholder={"Confirm Recipient's Email"}
-                    label={"Confirm Email"}
+                    label={"Confirm Recipient's Email *"}
                     keyPress={e => (e.key == "Enter" ? e.preventDefault() : "")}
                     inputRef={emailInput}
                     value={data["recipientEmail"]}
@@ -226,7 +238,7 @@ const Section3: React.FC<Section3Props> = ({ next, data, goback, mobile }) => {
                     // value={textarea}
                     // className={ehighlight ? "error-border" : ""}
                   ></FormTextArea>
-                  <div className={globalStyles.textLeft}>
+                  <div className={cs(globalStyles.textLeft, styles.limit)}>
                     Character Limit:{" "}
                     {250 - (textarea.trim() == "" ? 0 : textarea.length)}
                   </div>
@@ -242,7 +254,7 @@ const Section3: React.FC<Section3Props> = ({ next, data, goback, mobile }) => {
                   <FormInput
                     name="senderName"
                     placeholder={"Sender's Name"}
-                    label={"Sender's Name"}
+                    label={"Sender's Name *"}
                     value={data["senderName"]}
                     // className={showFieldsClass}
                     keyPress={e => (e.key == "Enter" ? e.preventDefault() : "")}
@@ -260,39 +272,73 @@ const Section3: React.FC<Section3Props> = ({ next, data, goback, mobile }) => {
                     required
                   />
                 </div>
-              </div>
-            </div>
-
-            <div
-              className={cs(
-                bootstrapStyles.col12,
-                bootstrapStyles.colLg4,
-                bootstrapStyles.offsetLg4,
-                globalStyles.textCenter,
-                styles.buttonBg
-              )}
-            >
-              <Button value="" onClick={gotoNext}>
-                <input
-                  type="submit"
-                  className={styles.inputButton}
-                  value="proceed to preview card"
-                />
-              </Button>
-            </div>
-            <div
-              className={cs(
-                bootstrapStyles.row,
-                bootstrapStyles.col12,
-                globalStyles.textCenter,
-                globalStyles.voffset4
-              )}
-            >
-              <div className={bootstrapStyles.col12}>
-                <i className={styles.arrowDown}></i>
+                {tablet && (
+                  <div className={cs(bootstrapStyles.col12, styles.buttonRow)}>
+                    <div className={cs(styles.imageSelectBtnContainer)}>
+                      <button
+                        className={cs(styles.imageSelectBtn, {
+                          [styles.errorBtn]: isErr
+                        })}
+                        onClick={gotoNext}
+                      >
+                        Confirm & Preview
+                        Card&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <span></span>
+                      </button>
+                    </div>
+                  </div>
+                )}
+                {!mobile && (
+                  <div className={cs(bootstrapStyles.col12, styles.buttonRow)}>
+                    <div className={cs(styles.imageSelectBtnContainer)}>
+                      <button
+                        className={cs(styles.imageSelectBtn, {
+                          [styles.errorBtn]: isErr
+                        })}
+                        onClick={gotoNext}
+                      >
+                        Confirm & Preview
+                        Card&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <span></span>
+                      </button>
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
           </Formsy>
+          {mobile && !tablet && (
+            <div
+              className={cs(
+                bootstrapStyles.col12,
+                styles.buttonRow,
+                {
+                  [styles.buttonSticky]: mobile && !tablet
+                },
+                {
+                  [styles.section3ButtonPositioningFix]: mobile && !tablet
+                }
+              )}
+            >
+              <div className={cs(styles.imageSelectBtnContainer)}>
+                <button
+                  className={cs(
+                    styles.imageSelectBtn,
+                    {
+                      [styles.section2FullWidth]: mobile && !tablet
+                    },
+                    {
+                      [styles.errorBtn]: isErr
+                    }
+                  )}
+                  onClick={gotoNext}
+                >
+                  Confirm & Preview Card&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  <span></span>
+                </button>
+              </div>
+            </div>
+          )}
         </div>
       </section>
     </div>

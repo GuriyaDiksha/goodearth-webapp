@@ -14,7 +14,6 @@ const PdpSkeleton: React.FC<{}> = () => {
           <Skeleton
             width={50}
             style={{ margin: `${mobile ? "0px" : "0px 20px"}` }}
-            inline
           />
           {mobile && <br />}
           <Skeleton
@@ -22,46 +21,32 @@ const PdpSkeleton: React.FC<{}> = () => {
             height={80}
             count={3}
             style={{ marginRight: "4px" }}
-            inline
           />
         </div>
         <div style={{ margin: "15px" }}>
           <Skeleton
             width={50}
             style={{ margin: `${mobile ? "0px" : "0px 20px"}` }}
-            inline
           />
           {mobile && <br />}
-          <Skeleton
-            width={80}
-            height={50}
-            style={{ marginRight: "4px" }}
-            inline
-          />
+          <Skeleton width={80} height={50} style={{ marginRight: "4px" }} />
         </div>
         <div style={{ margin: "15px" }}>
           <Skeleton
             width={50}
             style={{ margin: `${mobile ? "0px" : "0px 20px"}` }}
-            inline
           />
           {mobile && <br />}
           <Skeleton
             width={mobile ? 120 : 300}
             height={50}
             style={{ marginRight: "4px" }}
-            inline
           />
         </div>
         {mobile ? null : (
           <div style={{ margin: "15px" }}>
-            <Skeleton
-              height={50}
-              width={300}
-              style={{ marginRight: "4px" }}
-              inline
-            />
-            <Skeleton height={50} width={100} inline />
+            <Skeleton height={50} width={300} style={{ marginRight: "4px" }} />
+            <Skeleton height={50} width={100} />
           </div>
         )}
       </div>

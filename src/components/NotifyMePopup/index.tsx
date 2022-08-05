@@ -25,7 +25,6 @@ import { Context as ModalContext } from "components/Modal/context";
 // styles
 import globalStyles from "styles/global.scss";
 import styles from "./styles.scss";
-import inputStyles from "./../NotifyMePopup/styles.scss";
 import { ChildProductAttributes } from "typings/product";
 import { MESSAGE } from "constants/messages";
 import { Currency } from "typings/currency";
@@ -34,7 +33,6 @@ import { ProductID } from "typings/id";
 import * as util from "utils/validate";
 import Loader from "components/Loader";
 import { AppState } from "reducers/typings";
-import { staticMenu } from "components/dropdown/stories";
 
 type Props = {
   basketLineId?: ProductID;
@@ -120,7 +118,7 @@ const NotifyMePopup: React.FC<Props> = ({
   const userExists = !!(user && user.email);
 
   const [msg, setMsg] = useState("");
-  const [sizeErrorMsg, setSizeErrorMsg] = useState("");
+  // const [sizeErrorMsg, setSizeErrorMsg] = useState("");
 
   const [email, setEmail] = useState(userExists ? user.email : "");
   const [emailError, setEmailError] = useState("");
@@ -224,7 +222,7 @@ const NotifyMePopup: React.FC<Props> = ({
           setShowLoader(false);
         });
     } else {
-      setSizeErrorMsg("Please select a Size to proceed");
+      // setSizeErrorMsg("Please select a Size to proceed");
       util.errorTracking(["Please select a Size to proceed"], location.href);
     }
   };
@@ -251,7 +249,7 @@ const NotifyMePopup: React.FC<Props> = ({
           basketLineId && onNotifyCart?.(basketLineId);
         }
       } else {
-        setSizeErrorMsg("Please select a Size to proceed");
+        // setSizeErrorMsg("Please select a Size to proceed");
         util.errorTracking(["Please select a Size to proceed"], location.href);
       }
     }
@@ -301,7 +299,7 @@ const NotifyMePopup: React.FC<Props> = ({
   useEffect(() => {
     setMsg("");
     setEmailError("");
-    setSizeErrorMsg("");
+    // setSizeErrorMsg("");
   }, [selectedSize]);
 
   const sizeExists = childAttributes[0].size;

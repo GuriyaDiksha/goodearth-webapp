@@ -14,7 +14,8 @@ export type Props = {
     component: string,
     props: any,
     fullScreen?: boolean,
-    bodyClass?: string
+    bodyClass?: string,
+    classname?: string
   ) => void;
   corporatePDP: boolean;
   source?: string;

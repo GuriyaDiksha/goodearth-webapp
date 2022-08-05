@@ -29,7 +29,8 @@ const mapStateToProps = (state: AppState) => {
     listdata: state.plplist.data.results.data,
     salestatus: state.info.isSale,
     scrollDown: state.info.scrollDown,
-    customerGroup: state.user.customerGroup
+    customerGroup: state.user.customerGroup,
+    filtered_facets: state.plplist.data.results.filtered_facets
   };
 };
 
@@ -1230,7 +1231,7 @@ class FilterList extends React.Component<Props, State> {
     event.stopPropagation();
   };
 
-  createColorCheckbox = (facets: any) => {
+  createColorCheckbox = (facets: any, filtered_facets: any) => {
     if (!facets.currentColor || facets.length == 0) return false;
     const html: any = [];
     const { filter } = this.state;
@@ -1241,7 +1242,7 @@ class FilterList extends React.Component<Props, State> {
       const multicolorImage: any = {
         "--my-bg-image": `url(${multiColour})`
       };
-      if (data[0].toLowerCase() == "multicolor") {
+      if (data[0].endsWith("Multi")) {
         html.push(
           <li
             className={cs(styles.colorlabel, styles.multicolorlabel)}
@@ -1257,9 +1258,24 @@ class FilterList extends React.Component<Props, State> {
               }
               onClick={this.handleClickColor}
               value={data[0]}
+              // disabled={
+              //   filtered_facets?.currentColor?.filter(
+              //     (e: string[]) => e[0] === data[0]
+              //   ).length === 0
+              // }
             />
-            <label htmlFor={data[0]} style={multicolorImage}>
-              {data[0].split("-")[0]}
+            <label
+              className={
+                filtered_facets?.currentColor?.filter(
+                  (e: string[]) => e[0] === data[0]
+                ).length === 0
+                  ? styles.disableColors
+                  : ""
+              }
+              htmlFor={data[0]}
+              style={multicolorImage}
+            >
+              {data[0].split("-")[1]}
             </label>
           </li>
         );
@@ -1276,8 +1292,25 @@ class FilterList extends React.Component<Props, State> {
               }
               onClick={this.handleClickColor}
               value={data[0]}
+              // disabled={
+              //   filtered_facets?.currentColor?.filter(
+              //     (e: string[]) => e[0] === data[0]
+              //   ).length === 0
+              // }
             />
-            <label htmlFor={data[0]} style={color}>
+            <label
+              className={cs(
+                {
+                  [styles.disableColors]:
+                    filtered_facets?.currentColor?.filter(
+                      (e: string[]) => e[0] === data[0]
+                    ).length === 0
+                },
+                { [styles.whiteTick]: data[0].endsWith("Whites") }
+              )}
+              htmlFor={data[0]}
+              style={color}
+            >
               {data[0].split("-")[1]}
             </label>
           </li>
@@ -1575,12 +1608,13 @@ class FilterList extends React.Component<Props, State> {
     const name: any = "all";
     if (html.length > 0) {
       html.push(
-        <div
-          onClick={e => this.clearFilter(e, "all")}
-          data-name={name}
-          className={styles.plp_filter_sub}
-        >
-          Clear All
+        <div data-name={name}>
+          <span
+            onClick={e => this.clearFilter(e, "all")}
+            className={styles.plp_filter_sub}
+          >
+            Clear All
+          </span>
         </div>
       );
       this.props.setFilterCount?.(filterCount);
@@ -1591,7 +1625,7 @@ class FilterList extends React.Component<Props, State> {
     return html;
   };
 
-  createSizeCheckbox = (facets: any) => {
+  createSizeCheckbox = (facets: any, filtered_facets: any) => {
     if (facets.length == 0) return false;
     const html: any = [];
     const { filter } = this.state;
@@ -1608,16 +1642,25 @@ class FilterList extends React.Component<Props, State> {
             }
             onClick={this.handleClickSize}
             value={data[0]}
+            // disabled={
+            //   filtered_facets?.availableSize?.filter(
+            //     (e: string[]) => e[0] === data[0]
+            //   ).length === 0
+            // }
           />
           <li>
             <label
               htmlFor={data[0] + i}
-              className={
+              className={cs(
                 filter.availableSize[data[0]] &&
-                filter.availableSize[data[0]].isChecked
+                  filter.availableSize[data[0]].isChecked
                   ? cs(styles.sizeCat, styles.select_size)
-                  : styles.sizeCat
-              }
+                  : filtered_facets?.availableSize.filter(
+                      (e: string[]) => e[0] === data[0]
+                    ).length === 0
+                  ? cs(styles.disableSize)
+                  : cs(styles.sizeCat)
+              )}
             >
               {data[0]}
             </label>
@@ -1717,8 +1760,13 @@ class FilterList extends React.Component<Props, State> {
     return (
       <Fragment>
         <ul id="inner_filter" className={styles.filterSideMenu}>
-          <li className={styles.filterElements}>
-            <span>Filtered By</span>
+          <li
+            className={cs(styles.filterElements, {
+              [styles.noBorder]:
+                this.renderFilterList(filter).length == 0 && mobile
+            })}
+          >
+            {!mobile && <span>Filter By</span>}
             <ul id="currentFilter">{this.renderFilterList(filter)}</ul>
           </li>
           <li>
@@ -1732,7 +1780,7 @@ class FilterList extends React.Component<Props, State> {
                 this.ClickmenuCategory(0);
               }}
             >
-              Category
+              By Category
             </span>
             <div
               className={
@@ -1785,12 +1833,13 @@ class FilterList extends React.Component<Props, State> {
                 {this.createDiscountType(
                   this.props.facets && this.props.facets.availableDiscount
                 )}
-                <div
-                  onClick={e => this.clearFilter(e, "availableDiscount")}
-                  data-name="availableDiscount"
-                  className={styles.plp_filter_sub}
-                >
-                  Clear
+                <div data-name="availableDiscount">
+                  <span
+                    onClick={e => this.clearFilter(e, "availableDiscount")}
+                    className={styles.plp_filter_sub}
+                  >
+                    Clear
+                  </span>
                 </div>
               </div>
             </li>
@@ -1819,12 +1868,13 @@ class FilterList extends React.Component<Props, State> {
               }
             >
               {productHtml}
-              <div
-                onClick={e => this.clearFilter(e, "productType")}
-                data-name="productType"
-                className={styles.plp_filter_sub}
-              >
-                Clear
+              <div data-name="productType">
+                <span
+                  onClick={e => this.clearFilter(e, "productType")}
+                  className={styles.plp_filter_sub}
+                >
+                  Clear
+                </span>
               </div>
             </div>
           </li>
@@ -1849,13 +1899,19 @@ class FilterList extends React.Component<Props, State> {
               }
             >
               <ul>
-                <span>{this.createColorCheckbox(this.props.facets)}</span>
-                <div
-                  onClick={e => this.clearFilter(e, "currentColor")}
-                  data-name="currentColor"
-                  className={styles.plp_filter_sub}
-                >
-                  Clear
+                <span>
+                  {this.createColorCheckbox(
+                    this.props.facets,
+                    this.props.filtered_facets
+                  )}
+                </span>
+                <div data-name="currentColor">
+                  <span
+                    onClick={e => this.clearFilter(e, "currentColor")}
+                    className={styles.plp_filter_sub}
+                  >
+                    Clear
+                  </span>
                 </div>
               </ul>
             </div>
@@ -1883,14 +1939,18 @@ class FilterList extends React.Component<Props, State> {
                   }
                 >
                   <ul className={styles.sizeList}>
-                    {this.createSizeCheckbox(this.props.facets)}
+                    {this.createSizeCheckbox(
+                      this.props.facets,
+                      this.props.filtered_facets
+                    )}
                   </ul>
-                  <div
-                    onClick={e => this.clearFilter(e, "availableSize")}
-                    data-name="availableSize"
-                    className={styles.plp_filter_sub}
-                  >
-                    Clear
+                  <div data-name="availableSize">
+                    <span
+                      onClick={e => this.clearFilter(e, "availableSize")}
+                      className={styles.plp_filter_sub}
+                    >
+                      Clear
+                    </span>
                   </div>
                 </div>
               </li>
@@ -1949,12 +2009,13 @@ class FilterList extends React.Component<Props, State> {
                   {this.state.rangevalue[1]}
                 </div>
               </div>
-              <div
-                onClick={e => this.clearFilter(e, "price")}
-                data-name="price"
-                className={styles.plp_filter_sub}
-              >
-                Clear
+              <div data-name="price">
+                <span
+                  onClick={e => this.clearFilter(e, "price")}
+                  className={styles.plp_filter_sub}
+                >
+                  Clear
+                </span>
               </div>
             </div>
           </li>

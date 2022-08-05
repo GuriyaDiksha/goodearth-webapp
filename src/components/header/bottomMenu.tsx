@@ -223,9 +223,7 @@ const BottomMenu: React.FC<Props> = ({
                   iconStyles.icon,
                   iconStyles.iconWishlist,
                   {
-                    [globalStyles.cerise]: location.pathname.includes(
-                      "/wishlist"
-                    )
+                    [globalStyles.gold]: location.pathname.includes("/wishlist")
                   },
                   styles.iconStyle,
                   styles.wishlistIconStyle
@@ -233,7 +231,7 @@ const BottomMenu: React.FC<Props> = ({
               />
               <span
                 className={cs(styles.badge, {
-                  [globalStyles.cerise]: location.pathname.includes("/wishlist")
+                  [globalStyles.gold]: location.pathname.includes("/wishlist")
                 })}
               >
                 {wishlistCount > 0 ? wishlistCount : ""}
@@ -274,7 +272,12 @@ const BottomMenu: React.FC<Props> = ({
               className={cs(
                 iconStyles.icon,
                 iconStyles.iconProfile,
-                styles.iconStyle
+                styles.iconStyle,
+                {
+                  [globalStyles.gold]: location.pathname.includes(
+                    "/account/profile"
+                  )
+                }
               )}
               onClick={(): void => {
                 isLoggedIn ? history.push("/account/profile") : goLogin();

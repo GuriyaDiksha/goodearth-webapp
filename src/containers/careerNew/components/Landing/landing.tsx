@@ -1,6 +1,6 @@
 import MakerEnhance from "components/maker";
-import React, { useLayoutEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import React, { useEffect, useLayoutEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { AppState } from "reducers/typings";
 import styles from "../../styles.scss";
 import landing from "./landing.scss";
@@ -9,6 +9,8 @@ import cs from "classnames";
 import Jaali from "./../../../../images/careers/jaali.png";
 import Opportunities from "./opportunities";
 import { CareerData } from "reducers/career/typings";
+import CareerService from "services/career";
+import { updateDeptList } from "actions/career";
 
 const Landing: React.FC = () => {
   const [mounted, setMounted] = useState(false);
@@ -16,8 +18,15 @@ const Landing: React.FC = () => {
     currency,
     user: { isLoggedIn }
   } = useSelector((state: AppState) => state);
-  const { data }: CareerData = useSelector((state: AppState) => state.career);
+  const { depts }: CareerData = useSelector((state: AppState) => state.career);
   const { showTimer } = useSelector((state: AppState) => state.info);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    CareerService.fetchDeptListData(dispatch).then(res => {
+      dispatch(updateDeptList(res));
+    });
+  }, []);
 
   useLayoutEffect(() => {
     setMounted(false);
@@ -45,10 +54,10 @@ const Landing: React.FC = () => {
           href={`${window.location.origin}${location.pathname}?${location.search}`}
         />
       )}
-      {data?.length ? (
+      {depts?.length ? (
         <div className={styles.landingContainer}>
           <Opportunities
-            data={data || []}
+            data={depts || []}
             title="Opportunities at Good Earth"
           />
         </div>

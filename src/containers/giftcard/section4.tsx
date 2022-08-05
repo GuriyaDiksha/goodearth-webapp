@@ -14,7 +14,6 @@ import { updateBasket } from "actions/basket";
 import { Basket } from "typings/basket";
 import { MESSAGE } from "constants/messages";
 import * as valid from "utils/validate";
-import Button from "./button";
 import { AppState } from "reducers/typings";
 import Loader from "components/Loader";
 
@@ -36,9 +35,10 @@ const Section4: React.FC<Section4Props> = props => {
 
   const [subscribe, setSubscribe] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [isErr, setIsErr] = useState(false);
   const code = currencyCode[currency as Currency];
   const dispatch = useDispatch();
-  const { tablet } = useSelector((state: AppState) => state.device);
+  const { tablet, mobile } = useSelector((state: AppState) => state.device);
 
   const gotoNext = () => {
     if (subscribe) {
@@ -105,67 +105,68 @@ const Section4: React.FC<Section4Props> = props => {
               { [bootstrapStyles.colLg4]: !tablet },
               bootstrapStyles.offsetLg4,
               globalStyles.textCenter,
+              globalStyles.voffset3
+            )}
+          >
+            <div className={cs(bootstrapStyles.col10, globalStyles.textLeft)}>
+              <p
+                className={styles.backGc}
+                onClick={() => {
+                  goback("form");
+                }}
+              >
+                {`<`} Back To Details
+              </p>
+            </div>
+          </div>
+        </div>
+        <div className={bootstrapStyles.row}>
+          <div
+            className={cs(
+              bootstrapStyles.col12,
+              { [bootstrapStyles.colLg5]: tablet },
+              { [bootstrapStyles.colLg4]: !tablet },
+              bootstrapStyles.offsetLg4,
+              globalStyles.textCenter,
               styles.formBg,
               globalStyles.voffset3
             )}
           >
-            <div className={cs(bootstrapStyles.row)}>
-              <div
-                className={cs(
-                  bootstrapStyles.col10,
-                  bootstrapStyles.offset1,
-                  globalStyles.textCenter
-                )}
-              >
-                <i className={styles.arrowUp}></i>
-                <p
-                  className={styles.backGc}
-                  onClick={() => {
-                    goback("form");
-                  }}
-                >
-                  Back To Details
-                </p>
-              </div>
-            </div>
+            <div className={cs(bootstrapStyles.row)}></div>
             <div className={globalStyles.voffset2}>
-              <img className={styles.width100} src={imageUrl} />
+              <img className={styles.width65} src={imageUrl} />
             </div>
             <div className={styles.giftHeading}>Recipient Email:</div>
-            <div className={styles.giftFont}>{recipientEmail}</div>
+            <div className={styles.recipientFont}>{recipientEmail}</div>
             <div className={cs(globalStyles.voffset4, styles.giftFont)}>
               <p>Dear {recipientName}</p>
               <p className={globalStyles.voffset3}>
                 You have received a Good Earth eGift card <br /> worth{" "}
-                <strong className={globalStyles.cerise}>
+                <span className={styles.aqua}>
                   {String.fromCharCode(...code)}
                   {customPrice}
-                </strong>{" "}
+                </span>{" "}
                 from
                 {" " + senderName}
               </p>
             </div>
-            <div className={cs(globalStyles.voffset4, styles.giftFont)}>
+            <div className={cs(globalStyles.voffset4, styles.smallHeadText)}>
               <p>Their message:</p>
             </div>
-            <h2>{message}</h2>
+            <h2 className={styles.messageText}>{message}</h2>
             <div></div>
             <div className={cs(styles.grey, globalStyles.voffset4)}>
               <span>xxx xxx</span>
             </div>
-            <p className={cs(styles.giftFont)}>
+            <p className={cs(styles.smallHeadText)}>
               Apply this coupon code during checkout
             </p>
             <hr />
             <li className={styles.note}>
-              <div>Please Note:</div>
-              <ul>
-                <li>
-                  {" "}
-                  All our gift cards are valid for a period of 11 months from
-                  date of purchase.
-                </li>
-              </ul>
+              <div>
+                Please Note:All our gift cards are valid for a period of 11
+                months from date of purchase.
+              </div>
             </li>
             <div
               className={cs(
@@ -174,7 +175,14 @@ const Section4: React.FC<Section4Props> = props => {
                 styles.loginForm
               )}
             >
-              <Formsy>
+              <Formsy
+                onInvalid={() => {
+                  setIsErr(true);
+                }}
+                onValid={() => {
+                  setIsErr(false);
+                }}
+              >
                 <div className={styles.categorylabel}>
                   <div className={styles.subscribe}>
                     <FormCheckbox
@@ -216,12 +224,48 @@ const Section4: React.FC<Section4Props> = props => {
                       validations="isTrue"
                       required
                     />
+                    {nummsg ? (
+                      <p className={cs(styles.errorMsg)}>{nummsg}</p>
+                    ) : (
+                      <p className={styles.errorMsg}></p>
+                    )}
+                    {tablet && (
+                      <div
+                        className={cs(bootstrapStyles.col12, styles.buttonRow)}
+                      >
+                        <div className={cs(styles.imageSelectBtnContainer)}>
+                          <button
+                            className={cs(styles.imageSelectBtn, {
+                              [styles.errorBtn]: isErr
+                            })}
+                            onClick={!isLoading ? gotoNext : () => null}
+                          >
+                            Add To Bag
+                          </button>
+                        </div>
+                      </div>
+                    )}
+                    {!mobile && (
+                      <div
+                        className={cs(bootstrapStyles.col12, styles.buttonRow)}
+                      >
+                        <div className={cs(styles.imageSelectBtnContainer)}>
+                          <button
+                            className={cs(styles.imageSelectBtn, {
+                              [styles.errorBtn]: isErr
+                            })}
+                            onClick={!isLoading ? gotoNext : () => null}
+                          >
+                            Add To Bag
+                          </button>
+                        </div>
+                      </div>
+                    )}
                   </div>
                 </div>
               </Formsy>
             </div>
-
-            <div
+            {/* <div
               className={cs(
                 bootstrapStyles.row,
                 bootstrapStyles.col12,
@@ -240,22 +284,35 @@ const Section4: React.FC<Section4Props> = props => {
                   onClick={!isLoading ? gotoNext : () => null}
                 />
               </div>
-            </div>
-            <div
-              className={cs(
-                bootstrapStyles.row,
-                bootstrapStyles.col12,
-                globalStyles.textCenter,
-                globalStyles.voffset4
-              )}
-            >
-              <div className={bootstrapStyles.col12}>
-                <i className={styles.arrowDown}></i>
-              </div>
-            </div>
+            </div> */}
           </div>
         </div>
       </section>
+      {mobile && !tablet && (
+        <div
+          className={cs(bootstrapStyles.col12, styles.buttonRow, {
+            [styles.buttonSticky]: mobile
+          })}
+        >
+          <div className={cs(styles.imageSelectBtnContainer)}>
+            <button
+              className={cs(
+                styles.imageSelectBtn,
+                {
+                  [styles.section2FullWidth]: mobile
+                },
+                {
+                  [styles.errorBtn]: isErr
+                }
+              )}
+              onClick={!isLoading ? gotoNext : () => null}
+            >
+              Add To Bag
+            </button>
+          </div>
+        </div>
+      )}
+
       {isLoading && <Loader />}
     </div>
   );
