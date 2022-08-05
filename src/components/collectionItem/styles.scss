@@ -12,17 +12,19 @@
     left: 0;
     right: 0;
     width: 90%;
-    margin: 0 auto 3em auto;
+    margin: 20px auto 3em auto;
     min-height: 115px;
+    line-height: 20px;
     p {
         @include h3_20px_lora_charcoal();
-        letter-spacing: 0.36px;
+        letter-spacing: 0.5px;
         padding: 0 20px;
     }
     .para {
-        margin-top: 5px;
-        line-height: 23px;
+        margin-top: 20px;
+        line-height: 20px;
         font-weight: normal;
+        letter-spacing: 0.5px;
     }
     small{
         > p {
