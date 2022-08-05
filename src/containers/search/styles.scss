@@ -34,7 +34,8 @@
 }
 
 .filter-text{
-    line-height: 33px;
+    line-height: 60px;
+    height: 60px;
     font-size: 14px;
     font-family: $font-Lato;
     letter-spacing: 1px;
@@ -74,7 +75,6 @@
 .inner-header {
     display: -webkit-inline-box;
     margin-left: 8%;
-    margin-top: 14px;
 }
 
 .subc-header{
@@ -838,4 +838,9 @@ input[type="radio"]:checked, [type="checkbox"]:not(:checked),
 
 .gold-color{
   color: $gold !important;
+}
+
+.search-header-dropdown{
+  height: 60px !important;
+  line-height: 60px !important;
 }

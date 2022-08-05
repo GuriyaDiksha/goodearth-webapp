@@ -989,7 +989,7 @@ class PDPContainer extends React.Component<Props, State> {
     } = this.props;
     return data ? (
       <>
-        {mobile && (
+        {/* {mobile && (
           <div
             className={cs(styles.listGridBar, {
               [styles.listGridBarTimer]: this.props.showTimer,
@@ -1033,7 +1033,7 @@ class PDPContainer extends React.Component<Props, State> {
               </span>
             </div>
           </div>
-        )}
+        )} */}
         <div>
           <h2 id="looks-section" className={styles.header}>
             Shop The Look
@@ -1066,7 +1066,7 @@ class PDPContainer extends React.Component<Props, State> {
                 </div>
               </div>
             )}
-            {mobile && this.props.plpMobileView == "grid" ? (
+            {mobile ? (
               this.props.data.looksProducts &&
               this.props.data.looksProducts.map((item, index) => {
                 return (
