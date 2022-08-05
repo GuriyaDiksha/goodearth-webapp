@@ -576,7 +576,7 @@
     color: #000;
     font-size: 14px;
     font-family: $font-Header;
-    letter-spacing: 1px;
+    letter-spacing: 0.5px;
     line-height: 50px;
     text-transform: uppercase;
     position: relative;
@@ -1630,7 +1630,7 @@ ul.inner-menu-mobile {
 .announcement-cta-btn {
   font-family: $font-Montserrat;
   font-size: 10px;
-  letter-spacing: 0.60;
+  letter-spacing: 0.50px;
   font-weight: $semibold; 
   text-decoration: underline;
   text-underline-offset: 3px;
@@ -1640,7 +1640,6 @@ ul.inner-menu-mobile {
   cursor: pointer;
   line-height: 20px;
   height: 22px;
-  letter-spacing: 1px;
 }
 .announcement-container {
   display: flex;

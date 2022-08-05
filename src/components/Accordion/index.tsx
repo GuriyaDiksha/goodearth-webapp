@@ -49,7 +49,6 @@ const Accordion: React.FC<Props> = memo(
 
     const accordionSections = sections.map(({ id, header, body }, i) => {
       const isOpen = activeIndex == i;
-      console.log(isOpen, activeIndex);
       return (
         <div
           className={cs(styles.accordionSection, sectionClassName)}
