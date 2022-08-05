@@ -64,7 +64,6 @@ import asset from "images/asset.svg";
 import offer from "images/offer.svg";
 import inshop from "../../../../images/inShop.svg";
 import legal from "../../../../images/legal.svg";
-import DockedPanel from "../../docked";
 import { updateQuickviewId } from "../../../../actions/quickview";
 import Accordion from "components/Accordion";
 import PdpSkeleton from "../pdpSkeleton";
@@ -322,10 +321,16 @@ const ProductDetails: React.FC<Props> = ({
   const { size = "" } = childAttr || {};
   const [height, width] = size.match(/[0-9.]+/gim) || [];
   const onWallpaperClick = useCallback(() => {
-    updateComponentModal(POPUP.WALLPAPERPOPUP, {
-      price: priceRecords[currency],
-      currency: String.fromCharCode(...currencyCodes[currency])
-    });
+    updateComponentModal(
+      POPUP.WALLPAPERPOPUP,
+      {
+        price: priceRecords[currency],
+        currency: String.fromCharCode(...currencyCodes[currency])
+      },
+      undefined,
+      mobile ? styles.wallpaperPopupBody : "",
+      mobile ? styles.wallpaperPopupContainer : ""
+    );
     changeModalState(true);
   }, [height, width, currency]);
 

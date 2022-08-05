@@ -4,7 +4,7 @@
 .breadcrumbs-container {
     span, a {
         text-transform: capitalize;
-        letter-spacing: 1px;
+        letter-spacing: 0.5px;
         line-height: 43px;
         text-decoration: none;
         @include pdp_breadcrumbs();
@@ -14,10 +14,6 @@
         
     }
     a{
-        color: tint(#000, 60%) !important;
+        color: #19191955;
     }
-    a:hover {
-        color: $cerise;
-    }
-
 }

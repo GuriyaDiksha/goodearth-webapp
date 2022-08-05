@@ -167,7 +167,11 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
               }
             >
               <p onClick={onClickQuickview}>
-                {isCorporate ? "quickview" : "add to bag"}
+                {isCorporate
+                  ? "quickview"
+                  : isStockAvailable
+                  ? "add to bag"
+                  : "notify me"}
               </p>
             </div>
             {!isCorporate && (

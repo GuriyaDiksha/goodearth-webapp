@@ -1,11 +1,5 @@
 // import loadable from "@loadable/component";
-import React, {
-  EventHandler,
-  RefObject,
-  SyntheticEvent,
-  useMemo,
-  MouseEvent
-} from "react";
+import React, { RefObject, SyntheticEvent } from "react";
 import { connect } from "react-redux";
 import throttle from "lodash/throttle";
 import cs from "classnames";
@@ -58,12 +52,6 @@ import inactiveGrid from "images/plpIcons/inactive_grid.svg";
 import activeList from "images/plpIcons/active_list.svg";
 import inactiveList from "images/plpIcons/inactive_list.svg";
 import Counter from "components/ProductCounter/counter";
-import { SingleEntryPlugin } from "webpack";
-import { isConstructorDeclaration } from "typescript";
-import PdpButton from "components/Button/pdpButton";
-import { currency } from "reducers/currency";
-
-import { config } from "components/PdpSlider/sliderConfig";
 
 const PDP_TOP_OFFSET = HEADER_HEIGHT + SECONDARY_HEADER_HEIGHT;
 const sidebarPosition = PDP_TOP_OFFSET + 23;
@@ -469,7 +457,7 @@ class PDPContainer extends React.Component<Props, State> {
   }
 
   componentDidUpdate(props: Props) {
-    const { data, currency } = this.props;
+    const { data } = this.props;
     if (!data) {
       return;
     }
@@ -736,6 +724,15 @@ class PDPContainer extends React.Component<Props, State> {
               onClick={this.onClickImageArrowRight}
             ></div>
           )}
+          {this.state.showLooks && (
+            <div
+              id="looks-btn"
+              className={styles.looksBtn}
+              onClick={this.handleLooksClick}
+            >
+              shop the look
+            </div>
+          )}
         </div>
       );
       // });
@@ -1000,7 +997,7 @@ class PDPContainer extends React.Component<Props, State> {
     } = this.props;
     return data ? (
       <>
-        {mobile && (
+        {/* {mobile && (
           <div
             className={cs(styles.listGridBar, {
               [styles.listGridBarTimer]: this.props?.showTimer,
@@ -1044,7 +1041,7 @@ class PDPContainer extends React.Component<Props, State> {
               </span>
             </div>
           </div>
-        )}
+        )} */}
         <div>
           <h2 id="looks-section" className={styles.header}>
             Shop The Look
@@ -1077,9 +1074,9 @@ class PDPContainer extends React.Component<Props, State> {
                 </div>
               </div>
             )}
-            {mobile && this.props?.plpMobileView == "grid" ? (
-              this.props.data?.looksProducts &&
-              this.props.data?.looksProducts.map((item, index) => {
+            {mobile ? (
+              this.props.data.looksProducts &&
+              this.props.data.looksProducts.map((item, index) => {
                 return (
                   <div
                     className={cs(
@@ -1320,6 +1317,15 @@ class PDPContainer extends React.Component<Props, State> {
                 ) : (
                   ""
                 )}
+                {this.state.showLooks && mobile && (
+                  <div
+                    id="looks-btn-mobile"
+                    className={cs(styles.looksBtnMobile, styles.looksBtn)}
+                    onClick={this.handleLooksClick}
+                  >
+                    shop the look
+                  </div>
+                )}
                 <div
                   className={styles.mobileZoomIcon}
                   onClick={this.getMobileZoomListener(i)}
@@ -1341,12 +1347,7 @@ class PDPContainer extends React.Component<Props, State> {
       }
     }
 
-    const {
-      activeImage,
-      detailStickyEnabled,
-      mounted,
-      showSecondary
-    } = this.state;
+    const { activeImage, detailStickyEnabled, mounted } = this.state;
 
     return (
       <div
@@ -1396,15 +1397,6 @@ class PDPContainer extends React.Component<Props, State> {
                   {mobileSlides}
                 </MobileSlider>
               )}
-              {this.state.showLooks && typeof document == "object" && mobile && (
-                <div
-                  id="looks-btn-mobile"
-                  className={cs(styles.looksBtnMobile, styles.looksBtn)}
-                  onClick={this.handleLooksClick}
-                >
-                  shop the look
-                </div>
-              )}
             </div>
           )}
           {/* {!mobile && (
@@ -1453,18 +1445,6 @@ class PDPContainer extends React.Component<Props, State> {
                   activeIndex={activeImage}
                   onImageClick={this.onSliderImageClick}
                 />
-              )}
-              {this.state?.showLooks && !mobile && (
-                <div
-                  id="looks-btn"
-                  className={styles.looksBtn}
-                  onClick={this.handleLooksClick}
-                >
-                  shop the look
-                </div>
-              )}
-              {this.state?.showLooks && !mobile && (
-                <div className={styles.looksBtnOverlay}></div>
               )}
             </div>
           )}

@@ -233,10 +233,7 @@ class MegaMenu extends React.Component<Props, MenuState> {
               className={cs(
                 styles.menuItemLink,
                 disbaleClass,
-                styles.hoverStories,
-                {
-                  [styles.cerise]: !this.props.isSale
-                }
+                styles.hoverStories
               )}
               href="/stories"
               target="_blank"

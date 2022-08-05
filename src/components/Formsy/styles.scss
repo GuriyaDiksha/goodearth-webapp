@@ -38,3 +38,7 @@ input[type="date"] {
     text-align: left;
   }
 }
+
+.error-msg {
+  @include err_13px_lora_italic_cerise();  
+}

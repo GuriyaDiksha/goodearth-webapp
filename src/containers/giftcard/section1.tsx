@@ -6,7 +6,6 @@ import styles from "./styles.scss";
 import { Section1Props } from "./typings";
 import { useSelector } from "react-redux";
 import { AppState } from "reducers/typings";
-import Button from "./button";
 
 const Section1: React.FC<Section1Props> = props => {
   let imageName = "image0";
@@ -17,6 +16,7 @@ const Section1: React.FC<Section1Props> = props => {
   const [selected, setSelected] = useState(imageName);
   const [selectindex, setSelectindex] = useState(0);
   const { mobile } = useSelector((state: AppState) => state.device);
+  const { tablet } = useSelector((state: AppState) => state.device);
   const { showTimer } = useSelector((state: AppState) => state.info);
   const selectImage = (index: number) => {
     setSelected("image" + index);
@@ -43,14 +43,17 @@ const Section1: React.FC<Section1Props> = props => {
           {
             [styles.gcMobile]: mobile,
             [styles.gcMobileTimer]: mobile && showTimer
-          }
+          },
+          { [styles.gcNoPad]: mobile || tablet }
         )}
       >
         <div className={bootstrapStyles.row}>
           <div
             className={cs(
-              bootstrapStyles.col10,
-              bootstrapStyles.offset1,
+              bootstrapStyles.col6,
+              { [bootstrapStyles.offset3]: !mobile },
+              { [styles.gcMargin]: mobile },
+              { [styles.gcMinWidth]: mobile },
               globalStyles.textCenter,
               styles.txtSettings,
               { [styles.txtSettingsMobile]: mobile }
@@ -140,29 +143,20 @@ const Section1: React.FC<Section1Props> = props => {
             </div>
           </div>
           <div
-            className={cs(
-              bootstrapStyles.col12,
-              globalStyles.textCenter,
-              globalStyles.voffset6
-            )}
+            className={cs(bootstrapStyles.col12, styles.buttonRow, {
+              [styles.buttonSticky]: mobile || tablet
+            })}
           >
-            <div className={bootstrapStyles.row}>
-              <div className={bootstrapStyles.col12}>
-                <Button value="choose value" onClick={gotoNext} />
-              </div>
-            </div>
-          </div>
-          <div
-            className={cs(
-              bootstrapStyles.col12,
-              globalStyles.textCenter,
-              globalStyles.voffset4
-            )}
-          >
-            <div className={bootstrapStyles.row}>
-              <div className={bootstrapStyles.col12}>
-                <i className={styles.arrowDown}></i>
-              </div>
+            <div className={cs(styles.imageSelectBtnContainer)}>
+              <button
+                className={cs(styles.imageSelectBtn, {
+                  [styles.mobileFullWidthButton]: mobile || tablet
+                })}
+                onClick={gotoNext}
+              >
+                Confirm & Choose Value&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <span></span>
+              </button>
             </div>
           </div>
         </div>

@@ -15,6 +15,8 @@ import { useSelector } from "react-redux";
 import * as valid from "utils/validate";
 import CookieService from "services/cookie";
 import ButtonSmall from "components/ButtonSmall";
+import bootstrapStyles from "styles/bootstrap/bootstrap-grid.scss";
+import { PartialChildProductAttributes } from "typings/product";
 
 const PlpResultItem: React.FC<PLPResultItemProps> = (
   props: PLPResultItemProps
@@ -70,15 +72,17 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
       action = () => notifyMeClick(product);
     }
     return (
-      <ButtonSmall
+      <div
         className={cs(
           styles.addToBagListView,
-          bootstyles.col10,
-          bootstyles.offset1
+          styles.productBtn,
+          bootstrapStyles.col10,
+          { [styles.enquireNotifyMe]: isCorporate || allOutOfStock }
         )}
         onClick={action}
-        label={buttonText}
-      />
+      >
+        <span>{buttonText}</span>
+      </div>
     );
   }, []);
 
@@ -92,6 +96,7 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
     ? product.images[0]?.productImage
     : "/static/img/noimageplp.png";
   const isStockAvailable = isCorporate || product.inStock;
+
   return (
     <div className={styles.plpMain}>
       {product.salesBadgeImage && (
@@ -225,6 +230,36 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
             </span>
           )}
         </p>
+        <div
+          className={cs(
+            styles.productSizeList,
+            // { [styles.productSizeListMobile]: mobile },
+            bootstrapStyles.row
+          )}
+        >
+          <div className={styles.productSize}> size</div>
+          <div className="">
+            {!(product.invisibleFields.indexOf("size") > -1) && (
+              <ul>
+                {(props.product
+                  .childAttributes as PartialChildProductAttributes[])?.map(
+                  (data: PartialChildProductAttributes, i: number) => {
+                    return (
+                      <li
+                        className={
+                          +data.stock || isCorporate ? "" : styles.disabled
+                        }
+                        key={i}
+                      >
+                        {data.size}
+                      </li>
+                    );
+                  }
+                )}
+              </ul>
+            )}
+          </div>
+        </div>
         {product.justAddedBadge && mobile && (
           <p className={styles.productN}>
             <span className={styles.mobileBadge}>

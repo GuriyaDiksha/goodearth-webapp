@@ -3,7 +3,7 @@ import { State, MetaActions } from "./typings";
 const initialState: State = {
   keywords: "",
   description: "",
-  title: "",
+  titleTag: "",
   ogTitle: "",
   ogUrl: "",
   ogImage: "",

@@ -1,7 +1,7 @@
 import React from "react";
 import { Dispatch } from "redux";
 import SecondaryHeader from "components/SecondaryHeader";
-import SelectableDropdownMenu from "components/dropdown/selectableDropdownMenu";
+import SecondaryHeaderDropdown from "components/dropdown/secondaryHeaderDropdown";
 import initActionCollection from "./initAction";
 import cs from "classnames";
 import { AppState } from "reducers/typings";
@@ -249,8 +249,8 @@ class CollectionLanding extends React.Component<
               </div>
             ) : (
               <div className={styles.innerHeader}>
-                <p className={styles.filterText}>FILTER BY</p>
-                <SelectableDropdownMenu
+                <p className={styles.filterText}>FILTER BY:</p>
+                {/* <SelectableDropdownMenu
                   id="filter-dropdown-collectionlanding"
                   align="right"
                   className={styles.dropdownRoot}
@@ -258,7 +258,13 @@ class CollectionLanding extends React.Component<
                   value={this.state.filterData}
                   onChange={this.onChangeFilter}
                   showCaret={true}
-                ></SelectableDropdownMenu>
+                ></SelectableDropdownMenu> */}
+                <SecondaryHeaderDropdown
+                  id="collection-landing-filter"
+                  items={level2Categories}
+                  value={this.state.filterData}
+                  onChange={this.onChangeFilter}
+                />
               </div>
             )}
           </SecondaryHeader>
@@ -272,7 +278,13 @@ class CollectionLanding extends React.Component<
               [styles.subcHeaderNewTimer]: !isLivingpage && showTimer
             })}
           >
-            <div className={cs(bootstrap.colMd12, globalStyles.textCenter)}>
+            <div
+              className={cs(
+                bootstrap.colMd6,
+                globalStyles.textCenter,
+                bootstrap.offsetMd3
+              )}
+            >
               <h1>{collectionName} Collections </h1>
               <p>{ReactHtmlParser(this.props.data.description)}</p>
             </div>
