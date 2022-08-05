@@ -5,4 +5,5 @@ export type SecondaryHeaderDropdownMenuProps = {
   onChange: (value?: string, label?: string) => void;
   value: string;
   items: CategoryMenu[];
+  className?: string;
 };

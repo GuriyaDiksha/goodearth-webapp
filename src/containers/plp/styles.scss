@@ -55,7 +55,7 @@
 }
 @media screen and (min-width: 992px) {
   .sp-cat {
-    padding-left: 20px;
+    // padding-left: 20px;
     padding-right: 20px;
 }
 .image-container {
@@ -310,10 +310,10 @@
   &::-webkit-scrollbar {
     display: none;
   }
-  margin: 0 20px 30px 20px;
+  margin: 0px 0px 30px 20px;
 
   li {
-    letter-spacing: 1px;
+    letter-spacing: 0.5px;
     line-height: 40px;
     border-bottom: 1px solid tint(#000,90%);
     @include b4_12px_medium_gold_caps();
@@ -666,6 +666,7 @@ input[type="radio"]:checked, [type="checkbox"]:not(:checked),
       border: 1px solid $aqua-bold !important;
       color: $aqua-bold;
       font-weight: 500;
+      background: white;
     }
     &.disableSize{
       color: #E5E5E5 !important;
