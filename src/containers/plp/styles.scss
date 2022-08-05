@@ -291,8 +291,8 @@
           text-transform: capitalize;
           &:first-child {
             @include b6_9px_montserrat_charcoal();
-            line-height: 20px;
-            height: 20px;
+            line-height: 30px;
+            height: 30px;
           }
           &:last-child {
             cursor: pointer;
@@ -341,6 +341,7 @@
       @include plp_clear_filter();
       cursor: pointer;
       text-decoration: underline;
+      text-underline-offset: 2px;
       text-transform: capitalize;
       &:hover{
         color: #3C7979;
@@ -788,7 +789,7 @@ p.corporate-sub-heading {
 
 .filter-item-cross {
   right: 18px;
-  top: 0px;
+  top: 8px;
   position: relative;
   float: right;
   cursor: pointer;
@@ -798,9 +799,9 @@ p.corporate-sub-heading {
 }
 
 .filter-item {
-  background-color: #EBEBEB;
+  background-color: #F2F2F2;
   padding: 0px 30px 0px 10px !important;
-  border-radius: 20px;
+  border-radius: 13px;
   cursor: default;
   color: $charcoal19;
   margin-bottom: 10px;
