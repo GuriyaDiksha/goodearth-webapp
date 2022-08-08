@@ -192,6 +192,7 @@
   }
   .preferencesLink{
     @include b4_12px_montserrat_charcoal_caps();
+    margin-bottom: 10px;
     // border-bottom: 1px solid $charcoal19;
     cursor: pointer;
     &:hover{
@@ -208,10 +209,14 @@
       left:0;
       right:0;
       margin:auto;
-      top:85px;
+      top:60px;
+
+      @media screen and (max-width: 992px) {
+        top:70px;
+      }
 
       @media screen and (min-width: 2000px) {
-        top:150px;
+        top:60px;
       }
   }
 
@@ -243,7 +248,7 @@
   transform: translate(-50%, -50%);
   text-align: left;
   width: 500px;
-  height: auto;
+  // height: auto;
 
   .heading{
     @include b3_14px_montserrat_caps_charcoal();

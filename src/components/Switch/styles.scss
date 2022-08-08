@@ -107,13 +107,13 @@ $focus-color: #ff0;
       &:after,
       &:before {
         content: "";
-        height: 20px;
+        height: 24px;
         line-height: 20px;
       }
     }
     .toggle-switch-switch {
-      width: 16px;
-      right: 30px;
+      width: 20px;
+      right: 25px;
       margin: 2px;
     }
   }
