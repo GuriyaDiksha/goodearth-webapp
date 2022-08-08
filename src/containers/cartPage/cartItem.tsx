@@ -18,6 +18,7 @@ import { ChildProductAttributes } from "typings/product";
 import { POPUP } from "constants/components";
 import bridalRing from "../../images/bridal/rings.svg";
 import { AppState } from "reducers/typings";
+import CookieService from "services/cookie";
 
 const CartItems: React.FC<BasketItem> = memo(
   ({
@@ -105,25 +106,28 @@ const CartItems: React.FC<BasketItem> = memo(
           "Collection name": collection,
           "Category name": categories[0]
         });
-        dataLayer.push({
-          event: "removeFromCart",
-          ecommerce: {
-            currencyCode: currency,
-            remove: {
-              products: [
-                {
-                  name: title,
-                  id: sku || childAttributes[0].sku,
-                  price: price,
-                  brand: "Goodearth",
-                  category: category,
-                  variant: product.childAttributes?.[0].size || "",
-                  quantity: quantity
-                }
-              ]
+        const userConsent = CookieService.getCookie("consent").split(",");
+        if (userConsent.includes("GA-Calls")) {
+          dataLayer.push({
+            event: "removeFromCart",
+            ecommerce: {
+              currencyCode: currency,
+              remove: {
+                products: [
+                  {
+                    name: title,
+                    id: sku || childAttributes[0].sku,
+                    price: price,
+                    brand: "Goodearth",
+                    category: category,
+                    variant: product.childAttributes?.[0].size || "",
+                    quantity: quantity
+                  }
+                ]
+              }
             }
-          }
-        });
+          });
+        }
         const categoryList = product.categories
           ? product.categories.length > 0
             ? product.categories[product.categories.length - 1].replace(
@@ -139,19 +143,20 @@ const CartItems: React.FC<BasketItem> = memo(
         }
         const size =
           attributes.find(attribute => attribute.name == "Size")?.value || "";
-
-        dataLayer.push({
-          "Event Category": "GA Ecommerce",
-          "Event Action": "Cart Removal",
-          "Event Label": subcategoryname,
-          "Time Stamp": new Date().toISOString(),
-          "Cart Source": location.href,
-          "Product Category": categoryList,
-          "Login Status": isLoggedIn ? "logged in" : "logged out",
-          "Product Name": product.title,
-          "Product ID": product.id,
-          Variant: size
-        });
+        if (userConsent.includes("GA-Calls")) {
+          dataLayer.push({
+            "Event Category": "GA Ecommerce",
+            "Event Action": "Cart Removal",
+            "Event Label": subcategoryname,
+            "Time Stamp": new Date().toISOString(),
+            "Cart Source": location.href,
+            "Product Category": categoryList,
+            "Login Status": isLoggedIn ? "logged in" : "logged out",
+            "Product Name": product.title,
+            "Product ID": product.id,
+            Variant: size
+          });
+        }
       } catch (err) {
         console.log("cartPage GTM error!");
       }

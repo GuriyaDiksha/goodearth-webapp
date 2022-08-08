@@ -196,17 +196,20 @@ class Search extends React.Component<Props, State> {
         );
       }
     );
-    dataLayer.push({
-      event: "productClick",
-      ecommerce: {
-        currencyCode: this.props.currency,
-        click: {
-          // actionField: { list: "Search Popup" },
-          actionField: { list: listPath },
-          products: products.concat(attr)
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes("GA-Calls")) {
+      dataLayer.push({
+        event: "productClick",
+        ecommerce: {
+          currencyCode: this.props.currency,
+          click: {
+            // actionField: { list: "Search Popup" },
+            actionField: { list: listPath },
+            products: products.concat(attr)
+          }
         }
-      }
-    });
+      });
+    }
     this.props.toggle();
     this.props.history.push(data.url);
   }

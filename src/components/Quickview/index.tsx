@@ -82,17 +82,20 @@ class Quickview extends React.Component<Props, State> {
       });
       const listPath = `Quickview`;
       CookieService.setCookie("listPath", listPath);
-      dataLayer.push({
-        event: "productImpression",
-        ecommerce: {
-          currencyCode: this.props.currency,
-          detail: {
-            // actionField: { list: "Quickview" },
-            actionField: { list: listPath },
-            products: productList
+      const userConsent = CookieService.getCookie("consent").split(",");
+      if (userConsent.includes("GA-Calls")) {
+        dataLayer.push({
+          event: "productImpression",
+          ecommerce: {
+            currencyCode: this.props.currency,
+            detail: {
+              // actionField: { list: "Quickview" },
+              actionField: { list: listPath },
+              products: productList
+            }
           }
-        }
-      });
+        });
+      }
     } catch (err) {
       console.log("Quickview GTM error!");
     }

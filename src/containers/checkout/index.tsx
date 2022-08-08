@@ -306,22 +306,25 @@ class Checkout extends React.Component<Props, State> {
     this.state.isGoodearthShipping
       ? valid.checkoutGTM(2, this.props.currency, this.props.basket)
       : "";
-    dataLayer.push(function(this: any) {
-      this.reset();
-    });
-    dataLayer.push({
-      event: "checkoutView",
-      PageURL: this.props.location.pathname,
-      Page_Title: "virtual_checkout_view"
-    });
-    dataLayer.push({
-      "Event Category": "GA Ecommerce",
-      "Event Action": "Login Screen ",
-      "Time Stamp": new Date().toISOString(),
-      "Page Url": location.href,
-      "Page Type": util.getPageType(),
-      "Page referrer url": CookieService.getCookie("prevUrl")
-    });
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes("GA-Calls")) {
+      dataLayer.push(function(this: any) {
+        this.reset();
+      });
+      dataLayer.push({
+        event: "checkoutView",
+        PageURL: this.props.location.pathname,
+        Page_Title: "virtual_checkout_view"
+      });
+      dataLayer.push({
+        "Event Category": "GA Ecommerce",
+        "Event Action": "Login Screen ",
+        "Time Stamp": new Date().toISOString(),
+        "Page Url": location.href,
+        "Page Type": util.getPageType(),
+        "Page referrer url": CookieService.getCookie("prevUrl")
+      });
+    }
     Moengage.track_event("Page viewed", {
       "Page URL": this.props.location.pathname,
       "Page Name": "checkoutView"
@@ -396,18 +399,21 @@ class Checkout extends React.Component<Props, State> {
       // things to reset on currency change
       if (!shippingData) {
         if (this.state.isShipping == false) {
-          dataLayer.push({
-            "Event Category": "GA Ecommerce",
-            "Event Action": "Checkout Step 2",
-            "Event Label": "Address Detail Page",
-            "Time Stamp": new Date().toISOString(),
-            "Page Url": location.href,
-            "Page Type": util.getPageType(),
-            "Login Status": this.props.user.isLoggedIn
-              ? "logged in"
-              : "logged out",
-            "Page referrer url": CookieService.getCookie("prevUrl")
-          });
+          const userConsent = CookieService.getCookie("consent").split(",");
+          if (userConsent.includes("GA-Calls")) {
+            dataLayer.push({
+              "Event Category": "GA Ecommerce",
+              "Event Action": "Checkout Step 2",
+              "Event Label": "Address Detail Page",
+              "Time Stamp": new Date().toISOString(),
+              "Page Url": location.href,
+              "Page Type": util.getPageType(),
+              "Login Status": this.props.user.isLoggedIn
+                ? "logged in"
+                : "logged out",
+              "Page referrer url": CookieService.getCookie("prevUrl")
+            });
+          }
         }
         this.setState({
           activeStep: Steps.STEP_SHIPPING,

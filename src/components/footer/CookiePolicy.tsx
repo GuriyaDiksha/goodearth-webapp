@@ -51,6 +51,13 @@ const CookiePolicy: React.FC<Props> = ({ hideCookies, acceptCookies }) => {
   };
 
   const saveConsent = (consents: any) => {
+    const selectedConsent = consents
+      .filter((e: any) => e.value === true)
+      .map((e: any) => e.functionalities)
+      .join(",");
+
+    CookieService.setCookie("consent", selectedConsent, 365);
+
     WidgetService.postConsentDetail(store.dispatch, {
       ip: ip || CookieService.getCookie("ip"),
       consents: consents
@@ -112,7 +119,7 @@ const CookiePolicy: React.FC<Props> = ({ hideCookies, acceptCookies }) => {
                     checked={ele?.value}
                     changeValue={changeValue}
                     small={true}
-                    disabled={!ele?.is_editable}
+                    disabled={ele?.is_editable}
                   />
                   {!ele?.is_editable ? (
                     <p className={styles.prefActive}>Always Active</p>

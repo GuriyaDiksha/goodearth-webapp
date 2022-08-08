@@ -18,7 +18,7 @@ import { AppState } from "reducers/typings";
 import { RouteComponentProps, withRouter } from "react-router";
 import EmailVerification from "../emailVerification";
 import { USR_WITH_NO_ORDER } from "constants/messages";
-// import CookieService from "services/cookie";
+import CookieService from "services/cookie";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -221,12 +221,15 @@ class CheckoutLoginForm extends React.Component<Props, loginState> {
   };
 
   gtmPushSignIn = () => {
-    dataLayer.push({
-      event: "eventsToSend",
-      eventAction: "signIn",
-      eventCategory: "formSubmission",
-      eventLabel: location.pathname
-    });
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes("GA-Calls")) {
+      dataLayer.push({
+        event: "eventsToSend",
+        eventAction: "signIn",
+        eventCategory: "formSubmission",
+        eventLabel: location.pathname
+      });
+    }
   };
   handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();

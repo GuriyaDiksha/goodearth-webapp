@@ -30,6 +30,8 @@ import LazyImage from "components/LazyImage";
 import { Dispatch } from "redux";
 import { connect } from "react-redux";
 import * as valid from "utils/validate";
+import CookieService from "services/cookie";
+
 const mapStateToProps = (state: AppState) => {
   return {
     shopthelook1: state.category.shopthelook1,
@@ -114,15 +116,18 @@ class CategoryLanding extends React.Component<
     isSale: false
   };
   componentDidMount() {
-    dataLayer.push(function(this: any) {
-      this.reset();
-    });
-    valid.pageViewGTM("CategoryLanding");
-    dataLayer.push({
-      event: "CategoryLandingView",
-      PageURL: this.props.location.pathname,
-      Page_Title: "virtual_categoryLanding_view"
-    });
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes("GA-Calls")) {
+      dataLayer.push(function(this: any) {
+        this.reset();
+      });
+      valid.pageViewGTM("CategoryLanding");
+      dataLayer.push({
+        event: "CategoryLandingView",
+        PageURL: this.props.location.pathname,
+        Page_Title: "virtual_categoryLanding_view"
+      });
+    }
     Moengage.track_event("Page viewed", {
       "Page URL": this.props.location.pathname,
       "Page Name": "CategoryLandingView"

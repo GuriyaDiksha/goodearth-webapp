@@ -15,6 +15,7 @@ import { Link, RouteComponentProps, withRouter } from "react-router-dom";
 import { AppState } from "reducers/typings";
 import mapDispatchToProps from "./mapper/actions";
 import Loader from "components/Loader";
+import CookieService from "../../services/cookie";
 
 interface State {
   showc: boolean;
@@ -176,12 +177,15 @@ class SideMenu extends React.Component<Props, State> {
       }
     );
     const gtmPushWishlistClick = () => {
-      dataLayer.push({
-        event: "eventsToSend",
-        eventAction: "wishListClick",
-        eventCategory: "Click",
-        eventLabel: this.props.location.pathname
-      });
+      const userConsent = CookieService.getCookie("consent").split(",");
+      if (userConsent.includes("GA-Calls")) {
+        dataLayer.push({
+          event: "eventsToSend",
+          eventAction: "wishListClick",
+          eventCategory: "Click",
+          eventLabel: this.props.location.pathname
+        });
+      }
     };
     const selectClass = this.state.showp
       ? cs(

@@ -318,14 +318,17 @@ export function productImpression(
       );
       product.push(childProduct);
     });
-    dataLayer.push({ ecommerce: null });
-    dataLayer.push({
-      event: "productImpression",
-      ecommerce: {
-        currencyCode: currency,
-        impressions: product
-      }
-    });
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes("GA-Calls")) {
+      dataLayer.push({ ecommerce: null });
+      dataLayer.push({
+        event: "productImpression",
+        ecommerce: {
+          currencyCode: currency,
+          impressions: product
+        }
+      });
+    }
     Moengage.track_event("PLP views", {
       "Category Name": categoryName.trim(),
       "Sub Category Name": subcategoryname.trim(),
@@ -373,14 +376,17 @@ export function sliderProductImpression(
       );
       product.push(childProduct);
     });
-    dataLayer.push({ ecommerce: null });
-    dataLayer.push({
-      event: "productImpression",
-      ecommerce: {
-        currencyCode: currency,
-        impressions: product
-      }
-    });
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes("GA-Calls")) {
+      dataLayer.push({ ecommerce: null });
+      dataLayer.push({
+        event: "productImpression",
+        ecommerce: {
+          currencyCode: currency,
+          impressions: product
+        }
+      });
+    }
   } catch (e) {
     console.log("Impression error");
     console.log(e);
@@ -422,16 +428,19 @@ export function sliderProductClick(
         }
       )
     ];
-    dataLayer.push({
-      event: "productClick",
-      ecommerce: {
-        currencyCode: currency,
-        click: {
-          actionField: { list: listPath },
-          products: product
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes("GA-Calls")) {
+      dataLayer.push({
+        event: "productClick",
+        ecommerce: {
+          currencyCode: currency,
+          click: {
+            actionField: { list: listPath },
+            products: product
+          }
         }
-      }
-    });
+      });
+    }
     CookieService.setCookie("listPath", listPath);
   } catch (e) {
     console.log("Impression error");
@@ -449,14 +458,17 @@ export function promotionImpression(data: any) {
         position: image.order
       };
     });
-    dataLayer.push({
-      event: "promotionImpression",
-      ecommerce: {
-        promoView: {
-          promotions: promotions
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes("GA-Calls")) {
+      dataLayer.push({
+        event: "promotionImpression",
+        ecommerce: {
+          promoView: {
+            promotions: promotions
+          }
         }
-      }
-    });
+      });
+    }
   } catch (e) {
     console.log(e);
     console.log("promotionImpression error");
@@ -542,17 +554,20 @@ export function PDP(data: any, currency: Currency) {
       "Sub Category Name": subcategoryname
     });
     const listPath = CookieService.getCookie("listPath") || "DirectLandingView";
-    dataLayer.push({ ecommerce: null });
-    dataLayer.push({
-      event: "productDetailImpression",
-      ecommerce: {
-        currencyCode: currency,
-        detail: {
-          actionField: { list: listPath },
-          products
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes("GA-Calls")) {
+      dataLayer.push({ ecommerce: null });
+      dataLayer.push({
+        event: "productDetailImpression",
+        ecommerce: {
+          currencyCode: currency,
+          detail: {
+            actionField: { list: listPath },
+            products
+          }
         }
-      }
-    });
+      });
+    }
   } catch (e) {
     console.log(e);
     console.log("PDP impression error");
@@ -611,14 +626,17 @@ export function collectionProductImpression(
       );
       product.push(childProduct);
     });
-    dataLayer.push({ ecommerce: null });
-    dataLayer.push({
-      event: "productImpression",
-      ecommerce: {
-        currencyCode: currency,
-        impressions: product
-      }
-    });
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes("GA-Calls")) {
+      dataLayer.push({ ecommerce: null });
+      dataLayer.push({
+        event: "productImpression",
+        ecommerce: {
+          currencyCode: currency,
+          impressions: product
+        }
+      });
+    }
   } catch (e) {
     console.log(e);
     console.log("Impression error");
@@ -676,14 +694,17 @@ export function weRecommendProductImpression(
       );
       product.push(childProduct);
     });
-    dataLayer.push({ ecommerce: null });
-    dataLayer.push({
-      event: "productImpression",
-      ecommerce: {
-        currencyCode: currency,
-        impressions: product
-      }
-    });
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes("GA-Calls")) {
+      dataLayer.push({ ecommerce: null });
+      dataLayer.push({
+        event: "productImpression",
+        ecommerce: {
+          currencyCode: currency,
+          impressions: product
+        }
+      });
+    }
   } catch (e) {
     console.log(e);
     console.log("Impression error");
@@ -728,16 +749,19 @@ export function plpProductClick(
     });
     const listPath = `${list}`;
     CookieService.setCookie("listPath", listPath);
-    dataLayer.push({
-      event: "productClick",
-      ecommerce: {
-        currencyCode: currency,
-        click: {
-          actionField: { list: listPath },
-          products: products.concat(attr)
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes("GA-Calls")) {
+      dataLayer.push({
+        event: "productClick",
+        ecommerce: {
+          currencyCode: currency,
+          click: {
+            actionField: { list: listPath },
+            products: products.concat(attr)
+          }
         }
-      }
-    });
+      });
+    }
   } catch (e) {
     console.log(e);
     console.log("ProductClick impression error");
@@ -754,14 +778,17 @@ export function promotionClick(data: any) {
         position: data.order
       }
     ];
-    dataLayer.push({
-      event: "promotionClick",
-      ecommerce: {
-        promoClick: {
-          promotions: promotions
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes("GA-Calls")) {
+      dataLayer.push({
+        event: "promotionClick",
+        ecommerce: {
+          promoClick: {
+            promotions: promotions
+          }
         }
-      }
-    });
+      });
+    }
   } catch (e) {
     console.log(e);
     console.log("Promotion Click Impression error");
@@ -819,14 +846,17 @@ export function MoreFromCollectionProductImpression(
       );
       product.push(childProduct);
     });
-    dataLayer.push({ ecommerce: null });
-    dataLayer.push({
-      event: "productImpression",
-      ecommerce: {
-        currencyCode: currency,
-        impressions: product
-      }
-    });
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes("GA-Calls")) {
+      dataLayer.push({ ecommerce: null });
+      dataLayer.push({
+        event: "productImpression",
+        ecommerce: {
+          currencyCode: currency,
+          impressions: product
+        }
+      });
+    }
   } catch (e) {
     console.log(e);
     console.log("Impression error");
@@ -868,25 +898,31 @@ export function MoreFromCollectionProductClick(
   });
   const listPath = `${list}`;
   CookieService.setCookie("listPath", listPath);
-  dataLayer.push({
-    event: "productClick",
-    ecommerce: {
-      currencyCode: currency,
-      click: {
-        actionField: { list: listPath },
-        products: products.concat(attr)
+  const userConsent = CookieService.getCookie("consent").split(",");
+  if (userConsent.includes("GA-Calls")) {
+    dataLayer.push({
+      event: "productClick",
+      ecommerce: {
+        currencyCode: currency,
+        click: {
+          actionField: { list: listPath },
+          products: products.concat(attr)
+        }
       }
-    }
-  });
+    });
+  }
 }
 
 export function errorTracking(errorMessage: string[], url: string) {
   try {
-    dataLayer.push({
-      event: "errorMessage",
-      "Error Message": errorMessage,
-      "Error URL": url
-    });
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes("GA-Calls")) {
+      dataLayer.push({
+        event: "errorMessage",
+        "Error Message": errorMessage,
+        "Error URL": url
+      });
+    }
   } catch (e) {
     console.log(e);
     console.log("error Tracking error");
@@ -945,29 +981,35 @@ export const checkoutGTM = (
   paymentMethod?: string
 ) => {
   const productList = productForBasketGa(basket, currency);
+  const userConsent = CookieService.getCookie("consent").split(",");
+
   if (paymentMethod) {
-    dataLayer.push({
-      event: "checkout",
-      ecommerce: {
-        currencyCode: currency,
-        paymentMethod,
-        checkout: {
-          actionField: { step, option: checkoutSteps[step - 1] },
-          products: productList
+    if (userConsent.includes("GA-Calls")) {
+      dataLayer.push({
+        event: "checkout",
+        ecommerce: {
+          currencyCode: currency,
+          paymentMethod,
+          checkout: {
+            actionField: { step, option: checkoutSteps[step - 1] },
+            products: productList
+          }
         }
-      }
-    });
+      });
+    }
   } else {
-    dataLayer.push({
-      event: "checkout",
-      ecommerce: {
-        currencyCode: currency,
-        checkout: {
-          actionField: { step, option: checkoutSteps[step - 1] },
-          products: productList
+    if (userConsent.includes("GA-Calls")) {
+      dataLayer.push({
+        event: "checkout",
+        ecommerce: {
+          currencyCode: currency,
+          checkout: {
+            actionField: { step, option: checkoutSteps[step - 1] },
+            products: productList
+          }
         }
-      }
-    });
+      });
+    }
   }
 };
 
@@ -978,13 +1020,16 @@ export const headerClickGTM = (
   isLoggedIn: boolean
 ) => {
   try {
-    dataLayer.push({
-      event: "Header Click",
-      clickType,
-      location,
-      device: mobile ? "mobile" : "desktop",
-      userStatus: isLoggedIn ? "logged in" : "logged out"
-    });
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes("GA-Calls")) {
+      dataLayer.push({
+        event: "Header Click",
+        clickType,
+        location,
+        device: mobile ? "mobile" : "desktop",
+        userStatus: isLoggedIn ? "logged in" : "logged out"
+      });
+    }
   } catch (e) {
     console.log("Header click GTM error!");
   }
@@ -996,12 +1041,15 @@ export const footerClickGTM = (
   isLoggedIn: boolean
 ) => {
   try {
-    dataLayer.push({
-      event: "Footer Click",
-      clickType,
-      location,
-      userStatus: isLoggedIn ? "logged in" : "logged out"
-    });
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes("GA-Calls")) {
+      dataLayer.push({
+        event: "Footer Click",
+        clickType,
+        location,
+        userStatus: isLoggedIn ? "logged in" : "logged out"
+      });
+    }
   } catch (e) {
     console.log("Footer click GTM error!");
   }
@@ -1034,19 +1082,22 @@ export const menuNavigationGTM = ({
   isLoggedIn: boolean;
 }) => {
   try {
-    dataLayer.push({
-      event: "Menu Navigation",
-      clickType: "Category",
-      l1,
-      l2,
-      l3,
-      clickUrl1,
-      clickUrl2,
-      clickUrl3,
-      device: mobile ? "mobile" : "desktop",
-      userStatus: isLoggedIn ? "logged in" : "logged out",
-      url: `${location.pathname}${location.search}`
-    });
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes("GA-Calls")) {
+      dataLayer.push({
+        event: "Menu Navigation",
+        clickType: "Category",
+        l1,
+        l2,
+        l3,
+        clickUrl1,
+        clickUrl2,
+        clickUrl3,
+        device: mobile ? "mobile" : "desktop",
+        userStatus: isLoggedIn ? "logged in" : "logged out",
+        url: `${location.pathname}${location.search}`
+      });
+    }
   } catch (e) {
     console.log("Menu Navigation GTM error!");
   }
@@ -1112,24 +1163,27 @@ export const megaMenuNavigationGTM = ({
       });
     }
 
-    dataLayer.push({
-      event: "Menu Navigation",
-      clickType: "Category",
-      l1,
-      l2,
-      l3,
-      clickUrl1,
-      clickUrl2,
-      clickUrl3,
-      template,
-      img2,
-      img3,
-      cta,
-      subHeading,
-      device: mobile ? "mobile" : "desktop",
-      userStatus: isLoggedIn ? "logged in" : "logged out",
-      url: `${location.pathname}${location.search}`
-    });
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes("GA-Calls")) {
+      dataLayer.push({
+        event: "Menu Navigation",
+        clickType: "Category",
+        l1,
+        l2,
+        l3,
+        clickUrl1,
+        clickUrl2,
+        clickUrl3,
+        template,
+        img2,
+        img3,
+        cta,
+        subHeading,
+        device: mobile ? "mobile" : "desktop",
+        userStatus: isLoggedIn ? "logged in" : "logged out",
+        url: `${location.pathname}${location.search}`
+      });
+    }
   } catch (e) {
     console.log("Menu Navigation GTM error!");
   }
@@ -1137,13 +1191,16 @@ export const megaMenuNavigationGTM = ({
 
 export const pageViewGTM = (Title: string) => {
   try {
-    dataLayer.push({
-      event: "pageview",
-      Page: {
-        path: location.pathname,
-        Title
-      }
-    });
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes("GA-Calls")) {
+      dataLayer.push({
+        event: "pageview",
+        Page: {
+          path: location.pathname,
+          Title
+        }
+      });
+    }
   } catch (e) {
     console.log("Page VIew GTM error!");
   }
@@ -1167,10 +1224,13 @@ export const moveChatDown = () => {
 
 export const viewSelectionGTM = (clickType: "list" | "grid") => {
   try {
-    dataLayer.push({
-      event: "View Selection",
-      clickType
-    });
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes("GA-Calls")) {
+      dataLayer.push({
+        event: "View Selection",
+        clickType
+      });
+    }
   } catch (e) {
     console.log("View Selection GTM error!");
   }
@@ -1178,11 +1238,14 @@ export const viewSelectionGTM = (clickType: "list" | "grid") => {
 
 export const sortGTM = (clickType: string) => {
   try {
-    dataLayer.push({
-      event: "Sort",
-      clickType,
-      url: `${location.pathname}${location.search}`
-    });
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes("GA-Calls")) {
+      dataLayer.push({
+        event: "Sort",
+        clickType,
+        url: `${location.pathname}${location.search}`
+      });
+    }
   } catch (e) {
     console.log("Sort GTM error!");
   }
@@ -1190,11 +1253,14 @@ export const sortGTM = (clickType: string) => {
 
 export const footerGTM = (clickType: string) => {
   try {
-    dataLayer.push({
-      event: "Footer Navigation",
-      clickType,
-      url: `${location.pathname}${location.search}`
-    });
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes("GA-Calls")) {
+      dataLayer.push({
+        event: "Footer Navigation",
+        clickType,
+        url: `${location.pathname}${location.search}`
+      });
+    }
   } catch (e) {
     console.log("Footer Navigation GTM error!");
   }
@@ -1202,12 +1268,15 @@ export const footerGTM = (clickType: string) => {
 
 export const announcementBarGTM = (clickText: string, clickUrl: string) => {
   try {
-    dataLayer.push({
-      event: "Announcement Bar Click",
-      clickText,
-      clickUrl,
-      url: `${location.pathname}${location.search}`
-    });
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes("GA-Calls")) {
+      dataLayer.push({
+        event: "Announcement Bar Click",
+        clickText,
+        clickUrl,
+        url: `${location.pathname}${location.search}`
+      });
+    }
   } catch (e) {
     console.log("Announcement Bar click GTM error!");
   }

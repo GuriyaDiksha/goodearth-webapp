@@ -427,37 +427,40 @@ const ProductDetails: React.FC<Props> = ({
       subcategory = subcategory[subcategory.length - 1];
     }
     const size = selectedSize?.size || "";
-    dataLayer.push({
-      "Event Category": "GA Ecommerce",
-      "Event Action": "Add to Cart",
-      "Event Label": subcategory,
-      "Time Stamp": new Date().toISOString(),
-      "Cart Source": window.location.href,
-      "Product Category": categoryList,
-      "Login Status": isLoggedIn ? "logged in" : "logged out",
-      "Product Name": title,
-      "Product ID": selectedSize?.id,
-      Variant: size
-    });
-    dataLayer.push({
-      event: "addToCart",
-      ecommerce: {
-        currencyCode: currency,
-        add: {
-          products: [
-            {
-              name: title,
-              id: setSelectedSKU(),
-              price: discountPrices || price,
-              brand: "Goodearth",
-              category: category,
-              variant: selectedSize?.size || "",
-              quantity: quantity
-            }
-          ]
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes("GA-Calls")) {
+      dataLayer.push({
+        "Event Category": "GA Ecommerce",
+        "Event Action": "Add to Cart",
+        "Event Label": subcategory,
+        "Time Stamp": new Date().toISOString(),
+        "Cart Source": window.location.href,
+        "Product Category": categoryList,
+        "Login Status": isLoggedIn ? "logged in" : "logged out",
+        "Product Name": title,
+        "Product ID": selectedSize?.id,
+        Variant: size
+      });
+      dataLayer.push({
+        event: "addToCart",
+        ecommerce: {
+          currencyCode: currency,
+          add: {
+            products: [
+              {
+                name: title,
+                id: setSelectedSKU(),
+                price: discountPrices || price,
+                brand: "Goodearth",
+                category: category,
+                variant: selectedSize?.size || "",
+                quantity: quantity
+              }
+            ]
+          }
         }
-      }
-    });
+      });
+    }
   };
 
   const addToBasket = () => {
@@ -557,15 +560,18 @@ const ProductDetails: React.FC<Props> = ({
       .then(res => {
         valid.showGrowlMessage(dispatch, MESSAGE.ADD_TO_REGISTRY_SUCCESS);
         const registry = Object.assign({}, isRegistry);
-        dataLayer.push({
-          event: "registry",
-          "Event Category": "Registry",
-          "Event Action": "Product added",
-          // 'Event Label': bridalItem,
-          "Product Name": productTitle,
-          "Product ID": productId,
-          Variant: selectedSize?.size
-        });
+        const userConsent = CookieService.getCookie("consent").split(",");
+        if (userConsent.includes("GA-Calls")) {
+          dataLayer.push({
+            event: "registry",
+            "Event Category": "Registry",
+            "Event Action": "Product added",
+            // 'Event Label': bridalItem,
+            "Product Name": productTitle,
+            "Product ID": productId,
+            Variant: selectedSize?.size
+          });
+        }
 
         if (selectedSize) {
           registry[selectedSize.size] = true;

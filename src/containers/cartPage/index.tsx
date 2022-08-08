@@ -105,16 +105,19 @@ class CartPage extends React.Component<Props, State> {
       const skuList = this.props.cart.lineItems.map(
         item => item.product.childAttributes?.[0].sku
       );
-      dataLayer.push({
-        "Event Category": "GA Ecommerce",
-        "Event Action": "Cart Summary Page",
-        "Event Label": skuList.length > 0 ? skuList.join(",") : "",
-        "Time Stamp": new Date().toISOString(),
-        "Page Url": location.href,
-        "Page Type": util.getPageType(),
-        "Login Status": this.props.isLoggedIn ? "logged in" : "logged out",
-        "Page referrer url": CookieService.getCookie("prevUrl") || ""
-      });
+      const userConsent = CookieService.getCookie("consent").split(",");
+      if (userConsent.includes("GA-Calls")) {
+        dataLayer.push({
+          "Event Category": "GA Ecommerce",
+          "Event Action": "Cart Summary Page",
+          "Event Label": skuList.length > 0 ? skuList.join(",") : "",
+          "Time Stamp": new Date().toISOString(),
+          "Page Url": location.href,
+          "Page Type": util.getPageType(),
+          "Login Status": this.props.isLoggedIn ? "logged in" : "logged out",
+          "Page referrer url": CookieService.getCookie("prevUrl") || ""
+        });
+      }
     } catch (err) {
       console.log(err);
     }
@@ -134,14 +137,17 @@ class CartPage extends React.Component<Props, State> {
       .catch(function(error) {
         console.log(error);
       });
-    dataLayer.push(function(this: any) {
-      this.reset();
-    });
-    dataLayer.push({
-      event: "CartPageView",
-      PageURL: this.props.location.pathname,
-      Page_Title: "virtual_cartPage_view"
-    });
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes("GA-Calls")) {
+      dataLayer.push(function(this: any) {
+        this.reset();
+      });
+      dataLayer.push({
+        event: "CartPageView",
+        PageURL: this.props.location.pathname,
+        Page_Title: "virtual_cartPage_view"
+      });
+    }
     Moengage.track_event("Page viewed", {
       "Page URL": this.props.location.pathname,
       "Page Name": "CartPageView"

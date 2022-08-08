@@ -24,6 +24,7 @@ import { genderOptions } from "constants/profile";
 import * as valid from "utils/validate";
 import { Country } from "components/Formsy/CountryCode/typings";
 import EmailVerification from "../emailVerification";
+import CookieService from "services/cookie";
 const mapStateToProps = (state: AppState) => {
   const isdList = state.address.countryData.map(list => {
     return list.isdCode;
@@ -101,12 +102,15 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
     }
   }
   gtmPushRegister = () => {
-    dataLayer.push({
-      event: "eventsToSend",
-      eventAction: "signup",
-      eventCategory: "formSubmission",
-      eventLabel: location.pathname
-    });
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes("GA-Calls")) {
+      dataLayer.push({
+        event: "eventsToSend",
+        eventAction: "signup",
+        eventCategory: "formSubmission",
+        eventLabel: location.pathname
+      });
+    }
   };
 
   handleSubmit = (model: any, resetForm: any, updateInputsWithError: any) => {

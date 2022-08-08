@@ -89,11 +89,14 @@ const PaymentSection: React.FC<PaymentProps> = props => {
     paymentMethod: string
   ) => {
     try {
-      dataLayer.push({
-        event: "paymentDetails",
-        paymentMode: paymentMode,
-        paymentMethod: paymentMethod
-      });
+      const userConsent = CookieService.getCookie("consent").split(",");
+      if (userConsent.includes("GA-Calls")) {
+        dataLayer.push({
+          event: "paymentDetails",
+          paymentMode: paymentMode,
+          paymentMethod: paymentMethod
+        });
+      }
     } catch (e) {
       console.log(e);
       console.log("payment Tracking error");
@@ -162,16 +165,19 @@ const PaymentSection: React.FC<PaymentProps> = props => {
   };
 
   useEffect(() => {
-    dataLayer.push({
-      "Event Category": "GA Ecommerce",
-      "Event Action": "Checkout Step 3",
-      "Event Label": "Payment Option Page",
-      "Time Stamp": new Date().toISOString(),
-      "Page Url": location.href,
-      "Page Type": util.getPageType(),
-      "Login Status": isLoggedIn ? "logged in" : "logged out",
-      "Page referrer url": CookieService.getCookie("prevUrl")
-    });
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes("GA-Calls")) {
+      dataLayer.push({
+        "Event Category": "GA Ecommerce",
+        "Event Action": "Checkout Step 3",
+        "Event Label": "Payment Option Page",
+        "Time Stamp": new Date().toISOString(),
+        "Page Url": location.href,
+        "Page Type": util.getPageType(),
+        "Login Status": isLoggedIn ? "logged in" : "logged out",
+        "Page referrer url": CookieService.getCookie("prevUrl")
+      });
+    }
   }, []);
 
   useEffect(() => {

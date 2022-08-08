@@ -33,6 +33,7 @@ import { ProductID } from "typings/id";
 import * as util from "utils/validate";
 import Loader from "components/Loader";
 import { AppState } from "reducers/typings";
+import CookieService from "../../services/cookie";
 
 type Props = {
   basketLineId?: ProductID;
@@ -156,39 +157,42 @@ const NotifyMePopup: React.FC<Props> = ({
       subcategoryname = subcategoryname[subcategoryname.length - 1];
     }
     const size = selectedSize?.size || "";
-    dataLayer.push({
-      "Event Category": "GA Ecommerce",
-      "Event Action": "Add to Cart",
-      "Event Label": subcategoryname,
-      "Time Stamp": new Date().toISOString(),
-      "Cart Source": location.href,
-      "Product Category": categoryList,
-      "Login Status": isLoggedIn ? "logged in" : "logged out",
-      "Product Name": title,
-      "Product ID": selectedSize?.id,
-      Variant: size
-    });
-    dataLayer.push({
-      event: "addToCart",
-      ecommerce: {
-        currencyCode: currency,
-        add: {
-          products: [
-            {
-              name: title,
-              id: selectedSize?.sku || childAttributes[0].sku,
-              price:
-                selectedSize?.discountedPriceRecords[currency] ||
-                selectedSize?.priceRecords[currency],
-              brand: "Goodearth",
-              category: category,
-              variant: selectedSize?.size || childAttributes[0].size || "",
-              quantity: quantity
-            }
-          ]
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes("GA-Calls")) {
+      dataLayer.push({
+        "Event Category": "GA Ecommerce",
+        "Event Action": "Add to Cart",
+        "Event Label": subcategoryname,
+        "Time Stamp": new Date().toISOString(),
+        "Cart Source": location.href,
+        "Product Category": categoryList,
+        "Login Status": isLoggedIn ? "logged in" : "logged out",
+        "Product Name": title,
+        "Product ID": selectedSize?.id,
+        Variant: size
+      });
+      dataLayer.push({
+        event: "addToCart",
+        ecommerce: {
+          currencyCode: currency,
+          add: {
+            products: [
+              {
+                name: title,
+                id: selectedSize?.sku || childAttributes[0].sku,
+                price:
+                  selectedSize?.discountedPriceRecords[currency] ||
+                  selectedSize?.priceRecords[currency],
+                brand: "Goodearth",
+                category: category,
+                variant: selectedSize?.size || childAttributes[0].size || "",
+                quantity: quantity
+              }
+            ]
+          }
         }
-      }
-    });
+      });
+    }
   };
 
   const addToBasket = async () => {

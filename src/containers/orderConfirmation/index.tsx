@@ -12,6 +12,7 @@ import AccountServices from "services/account";
 import { currencyCode, Currency } from "typings/currency";
 import moment from "moment";
 import * as util from "utils/validate";
+import CookieService from "services/cookie";
 
 const orderConfirmation: React.FC<{ oid: string }> = props => {
   const {
@@ -102,33 +103,36 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
       };
     });
     if (result.pushToGA == false) {
-      dataLayer.push({
-        event: "purchase",
-        ecommerce: {
-          currencyCode: result.currency,
-          paymentMethod: result.paymentMethod,
-          purchase: {
-            actionField: {
-              id: result.number,
-              affiliation: "Online Store",
-              revenue: result.totalInclTax,
-              tax: 0,
-              shipping: result.shippingInclTax,
-              coupon: result.offerDiscounts?.[0]?.name
-            },
-            products: products
+      const userConsent = CookieService.getCookie("consent").split(",");
+      if (userConsent.includes("GA-Calls")) {
+        dataLayer.push({
+          event: "purchase",
+          ecommerce: {
+            currencyCode: result.currency,
+            paymentMethod: result.paymentMethod,
+            purchase: {
+              actionField: {
+                id: result.number,
+                affiliation: "Online Store",
+                revenue: result.totalInclTax,
+                tax: 0,
+                shipping: result.shippingInclTax,
+                coupon: result.offerDiscounts?.[0]?.name
+              },
+              products: products
+            }
           }
-        }
-      });
-      dataLayer.push({
-        event: "customPurchaseSuccess",
-        "Transaction ID": result.transactionId,
-        Revenue: +result.totalInclTax,
-        "Shipping Charges": +result.shippingInclTax,
-        "Payment Method": result.paymentMethod,
-        "Currency Code": result.currency,
-        Products: secondproducts
-      });
+        });
+        dataLayer.push({
+          event: "customPurchaseSuccess",
+          "Transaction ID": result.transactionId,
+          Revenue: +result.totalInclTax,
+          "Shipping Charges": +result.shippingInclTax,
+          "Payment Method": result.paymentMethod,
+          "Currency Code": result.currency,
+          Products: secondproducts
+        });
+      }
       Moengage.track_event("PurchasedOnline", {
         "Category Name": categoryname,
         "Sub category": subcategoryname,
@@ -153,15 +157,18 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
       setConfirmData(response.results?.[0]);
       gtmPushOrderConfirmation(response.results?.[0]);
     });
-    dataLayer.push(function(this: any) {
-      this.reset();
-    });
-    util.pageViewGTM("OrderConfirmation");
-    dataLayer.push({
-      event: "OrderConfirmationPageView",
-      PageURL: location.pathname,
-      Page_Title: "virtual_orderConfirmationPage_view"
-    });
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes("GA-Calls")) {
+      dataLayer.push(function(this: any) {
+        this.reset();
+      });
+      util.pageViewGTM("OrderConfirmation");
+      dataLayer.push({
+        event: "OrderConfirmationPageView",
+        PageURL: location.pathname,
+        Page_Title: "virtual_orderConfirmationPage_view"
+      });
+    }
     Moengage.track_event("Page viewed", {
       "Page URL": location.pathname,
       "Page Name": "OrderConfirmationPageView"

@@ -18,7 +18,7 @@ import { AppState } from "reducers/typings";
 import { RouteComponentProps, withRouter } from "react-router";
 import EmailVerification from "../emailVerification";
 import { USR_WITH_NO_ORDER } from "constants/messages";
-// import CookieService from "services/cookie";
+import CookieService from "services/cookie";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -223,12 +223,15 @@ class MainLogin extends React.Component<Props, loginState> {
   };
 
   gtmPushSignIn = () => {
-    dataLayer.push({
-      event: "eventsToSend",
-      eventAction: "signIn",
-      eventCategory: "formSubmission",
-      eventLabel: location.pathname
-    });
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes("GA-Calls")) {
+      dataLayer.push({
+        event: "eventsToSend",
+        eventAction: "signIn",
+        eventCategory: "formSubmission",
+        eventLabel: location.pathname
+      });
+    }
   };
   handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
@@ -259,16 +262,19 @@ class MainLogin extends React.Component<Props, loginState> {
             this.props.history.location.search
           ).get("loginpopup");
           loginpopup == "cerise" && this.props.history.push("/");
-          dataLayer.push({
-            event: "checkout",
-            ecommerce: {
-              currencyCode: this.props.currency,
-              checkout: {
-                actionField: { step: 1 },
-                products: this.props.basket.products
+          const userConsent = CookieService.getCookie("consent").split(",");
+          if (userConsent.includes("GA-Calls")) {
+            dataLayer.push({
+              event: "checkout",
+              ecommerce: {
+                currencyCode: this.props.currency,
+                checkout: {
+                  actionField: { step: 1 },
+                  products: this.props.basket.products
+                }
               }
-            }
-          });
+            });
+          }
           // this.context.closeModal();
           this.props.nextStep?.();
         })
