@@ -133,22 +133,24 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
           Products: secondproducts
         });
       }
-      Moengage.track_event("PurchasedOnline", {
-        "Category Name": categoryname,
-        "Sub category": subcategoryname,
-        "Product name": productname,
-        "Original price": productprice,
-        "Product ID": productid2,
-        Quantity: productquantity,
-        "Cart Amount": +result.totalInclTax,
-        "Coupon Code Applied": result.voucherCodeAppliedAmount[0]
-          ? true
-          : false,
-        "Coupon Code Applied Name": result.voucherCodeAppliedName,
-        "Loyalty Points Redeemed": result.loyalityPointsRedeemed,
-        "Gift voucher redeemed": result.giftVoucherRedeemed,
-        Currency: result.currency
-      });
+      if (userConsent.includes("Moengage")) {
+        Moengage.track_event("PurchasedOnline", {
+          "Category Name": categoryname,
+          "Sub category": subcategoryname,
+          "Product name": productname,
+          "Original price": productprice,
+          "Product ID": productid2,
+          Quantity: productquantity,
+          "Cart Amount": +result.totalInclTax,
+          "Coupon Code Applied": result.voucherCodeAppliedAmount[0]
+            ? true
+            : false,
+          "Coupon Code Applied Name": result.voucherCodeAppliedName,
+          "Loyalty Points Redeemed": result.loyalityPointsRedeemed,
+          "Gift voucher redeemed": result.giftVoucherRedeemed,
+          Currency: result.currency
+        });
+      }
       AccountServices.setGaStatus(dispatch, formData);
     }
   };
@@ -169,10 +171,12 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
         Page_Title: "virtual_orderConfirmationPage_view"
       });
     }
-    Moengage.track_event("Page viewed", {
-      "Page URL": location.pathname,
-      "Page Name": "OrderConfirmationPageView"
-    });
+    if (userConsent.includes("Moengage")) {
+      Moengage.track_event("Page viewed", {
+        "Page URL": location.pathname,
+        "Page Name": "OrderConfirmationPageView"
+      });
+    }
   }, []);
 
   let totalItem = 0;

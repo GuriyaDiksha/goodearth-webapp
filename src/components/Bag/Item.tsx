@@ -89,17 +89,19 @@ const LineItems: React.FC<BasketItem> = memo(
       const arr = category.split(">");
       const categoryname = arr[arr.length - 2];
       const subcategoryname = arr[arr.length - 1];
-      Moengage.track_event("remove_from_cart", {
-        "Product id": product.sku || product.childAttributes[0].sku,
-        "Product name": product.title,
-        quantity: quantity,
-        price: +price,
-        Currency: currency,
-        "Collection name": product.collection,
-        "Category name": categoryname,
-        "Sub Category Name": subcategoryname
-      });
       const userConsent = CookieService.getCookie("consent").split(",");
+      if (userConsent.includes("Moengage")) {
+        Moengage.track_event("remove_from_cart", {
+          "Product id": product.sku || product.childAttributes[0].sku,
+          "Product name": product.title,
+          quantity: quantity,
+          price: +price,
+          Currency: currency,
+          "Collection name": product.collection,
+          "Category name": categoryname,
+          "Sub Category Name": subcategoryname
+        });
+      }
       if (userConsent.includes("GA-Calls")) {
         dataLayer.push({
           event: "removeFromCart",

@@ -91,7 +91,7 @@ const CookiePolicy: React.FC<Props> = ({ hideCookies, acceptCookies }) => {
     <div
       className={cs(
         styles.cookieclass,
-        regionName === "Europe" ? styles.eucookieclass : "",
+        regionName !== "Europe" ? styles.eucookieclass : "",
         isPrefOpen ? styles.euPref : ""
       )}
     >
@@ -159,7 +159,7 @@ const CookiePolicy: React.FC<Props> = ({ hideCookies, acceptCookies }) => {
               Privacy Policy.
             </Link>
           </p>
-          {regionName === "Europe" ? (
+          {regionName !== "Europe" ? (
             <p
               className={styles.preferencesLink}
               onClick={() => setIsPrefOpen(true)}

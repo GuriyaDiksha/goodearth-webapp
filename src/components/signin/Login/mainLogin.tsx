@@ -237,6 +237,8 @@ class MainLogin extends React.Component<Props, loginState> {
     event.preventDefault();
     this.myBlur(undefined, "submit");
     this.myBlurP();
+    const userConsent = CookieService.getCookie("consent").split(",");
+
     if (!this.state.highlight && !this.state.highlightp) {
       this.props
         .login(
@@ -249,20 +251,21 @@ class MainLogin extends React.Component<Props, loginState> {
         )
         .then(data => {
           this.gtmPushSignIn();
-          Moengage.track_event("Login", {
-            email: this.state.email
-          });
-          Moengage.add_first_name(data.firstName);
-          Moengage.add_last_name(data.lastName);
-          Moengage.add_email(data.email);
-          Moengage.add_mobile(data.phoneNo);
-          Moengage.add_gender(data.gender);
-          Moengage.add_unique_user_id(this.state.email);
+          if (userConsent.includes("Moengage")) {
+            Moengage.track_event("Login", {
+              email: this.state.email
+            });
+            Moengage.add_first_name(data.firstName);
+            Moengage.add_last_name(data.lastName);
+            Moengage.add_email(data.email);
+            Moengage.add_mobile(data.phoneNo);
+            Moengage.add_gender(data.gender);
+            Moengage.add_unique_user_id(this.state.email);
+          }
           const loginpopup = new URLSearchParams(
             this.props.history.location.search
           ).get("loginpopup");
           loginpopup == "cerise" && this.props.history.push("/");
-          const userConsent = CookieService.getCookie("consent").split(",");
           if (userConsent.includes("GA-Calls")) {
             dataLayer.push({
               event: "checkout",

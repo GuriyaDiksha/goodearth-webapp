@@ -128,10 +128,12 @@ class CategoryLanding extends React.Component<
         Page_Title: "virtual_categoryLanding_view"
       });
     }
-    Moengage.track_event("Page viewed", {
-      "Page URL": this.props.location.pathname,
-      "Page Name": "CategoryLandingView"
-    });
+    if (userConsent.includes("Moengage")) {
+      Moengage.track_event("Page viewed", {
+        "Page URL": this.props.location.pathname,
+        "Page Name": "CategoryLandingView"
+      });
+    }
     this.setState({
       catLanding: true
     });

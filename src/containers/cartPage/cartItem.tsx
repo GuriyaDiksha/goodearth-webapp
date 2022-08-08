@@ -96,17 +96,19 @@ const CartItems: React.FC<BasketItem> = memo(
             : "";
           category = category.replace(/>/g, "/");
         }
-
-        Moengage.track_event("remove_from_cart", {
-          "Product id": sku || childAttributes[0].sku,
-          "Product name": title,
-          quantity: quantity,
-          price: +price,
-          Currency: currency,
-          "Collection name": collection,
-          "Category name": categories[0]
-        });
         const userConsent = CookieService.getCookie("consent").split(",");
+
+        if (userConsent.includes("Moengage")) {
+          Moengage.track_event("remove_from_cart", {
+            "Product id": sku || childAttributes[0].sku,
+            "Product name": title,
+            quantity: quantity,
+            price: +price,
+            Currency: currency,
+            "Collection name": collection,
+            "Category name": categories[0]
+          });
+        }
         if (userConsent.includes("GA-Calls")) {
           dataLayer.push({
             event: "removeFromCart",

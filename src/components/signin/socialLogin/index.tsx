@@ -12,6 +12,7 @@ import { props } from "./typings";
 import * as util from "../../../utils/validate";
 import { useHistory } from "react-router";
 import { AppState } from "reducers/typings";
+import CookieService from "services/cookie";
 
 const SocialLogin: React.FC<props> = ({ closeModel }) => {
   const dispatch = useDispatch();
@@ -67,12 +68,16 @@ const SocialLogin: React.FC<props> = ({ closeModel }) => {
       )
         .then(res => {
           // closeModel();
-          Moengage.add_first_name(user.profileObj.givenName);
-          Moengage.add_last_name(user.profileObj.familyName);
-          Moengage.add_email(user.profileObj.email);
-          Moengage.add_mobile("");
-          Moengage.add_gender("");
-          Moengage.add_unique_user_id(user.profileObj.email);
+          const userConsent = CookieService.getCookie("consent").split(",");
+
+          if (userConsent.includes("Moengage")) {
+            Moengage.add_first_name(user.profileObj.givenName);
+            Moengage.add_last_name(user.profileObj.familyName);
+            Moengage.add_email(user.profileObj.email);
+            Moengage.add_mobile("");
+            Moengage.add_gender("");
+            Moengage.add_unique_user_id(user.profileObj.email);
+          }
         })
         .catch(err => {
           const data = err.response?.data;

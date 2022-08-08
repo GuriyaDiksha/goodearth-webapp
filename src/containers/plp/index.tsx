@@ -126,11 +126,12 @@ class PLP extends React.Component<
         Page_Title: "virtual_plp_view"
       });
     }
-
-    Moengage.track_event("Page viewed", {
-      "Page URL": this.props.location.pathname,
-      "Page Name": "PlpView"
-    });
+    if (userConsent.includes("Moengage")) {
+      Moengage.track_event("Page viewed", {
+        "Page URL": this.props.location.pathname,
+        "Page Name": "PlpView"
+      });
+    }
     window.addEventListener(
       "scroll",
       throttle(() => {

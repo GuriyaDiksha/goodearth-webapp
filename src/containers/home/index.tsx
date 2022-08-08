@@ -32,10 +32,12 @@ const Home: React.FC = () => {
         Page_Title: "virtual_homePage_view"
       });
     }
-    Moengage.track_event("Page viewed", {
-      "Page URL": location.pathname,
-      "Page Name": "HomePageView"
-    });
+    if (userConsent.includes("Moengage")) {
+      Moengage.track_event("Page viewed", {
+        "Page URL": location.pathname,
+        "Page Name": "HomePageView"
+      });
+    }
   }, []);
   const { showTimer } = useSelector((state: AppState) => state.info);
 

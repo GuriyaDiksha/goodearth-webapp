@@ -105,16 +105,20 @@ const PaymentSection: React.FC<PaymentProps> = props => {
 
   const onsubmit = () => {
     const isFree = +basket.total <= 0;
+    const userConsent = CookieService.getCookie("consent").split(",");
+
     if (currentmethod.mode || isFree) {
       const data: any = {
         paymentMethod: isFree ? "FREE" : currentmethod.key,
         paymentMode: currentmethod.mode
       };
-      Moengage.track_event("Mode of payment selected", {
-        "Payment Method": currentmethod.value,
-        Amount: +basket.total,
-        Currency: currency
-      });
+      if (userConsent.includes("Moengage")) {
+        Moengage.track_event("Mode of payment selected", {
+          "Payment Method": currentmethod.value,
+          Amount: +basket.total,
+          Currency: currency
+        });
+      }
       if (giftwrap) {
         data["isGift"] = giftwrap;
         data["giftRemovePrice"] = giftwrapprice;

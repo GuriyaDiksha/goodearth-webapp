@@ -253,10 +253,12 @@ class PDPContainer extends React.Component<Props, State> {
       });
     }
 
-    Moengage.track_event("Page viewed", {
-      "Page URL": this.props.location.pathname,
-      "Page Name": "PdpView"
-    });
+    if (userConsent.includes("Moengage")) {
+      Moengage.track_event("Page viewed", {
+        "Page URL": this.props.location.pathname,
+        "Page Name": "PdpView"
+      });
+    }
 
     const { data, currency } = this.props;
 

@@ -405,17 +405,20 @@ const ProductDetails: React.FC<Props> = ({
     subcategoryname = arr[arr.length - 1];
     category = category.replace(/>/g, "/");
 
-    Moengage.track_event("add_to_cart", {
-      "Product id": sku || childAttributes[0].sku,
-      "Product name": title,
-      quantity: quantity,
-      price: +price,
-      Currency: currency,
-      "Collection name": collection,
-      "Category name": categoryname,
-      "Sub Category Name": subcategoryname,
-      Size: selectedSize?.size
-    });
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes("Moengage")) {
+      Moengage.track_event("add_to_cart", {
+        "Product id": sku || childAttributes[0].sku,
+        "Product name": title,
+        quantity: quantity,
+        price: +price,
+        Currency: currency,
+        "Collection name": collection,
+        "Category name": categoryname,
+        "Sub Category Name": subcategoryname,
+        Size: selectedSize?.size
+      });
+    }
 
     const categoryList = categories
       ? categories.length > 0
@@ -427,7 +430,6 @@ const ProductDetails: React.FC<Props> = ({
       subcategory = subcategory[subcategory.length - 1];
     }
     const size = selectedSize?.size || "";
-    const userConsent = CookieService.getCookie("consent").split(",");
     if (userConsent.includes("GA-Calls")) {
       dataLayer.push({
         "Event Category": "GA Ecommerce",

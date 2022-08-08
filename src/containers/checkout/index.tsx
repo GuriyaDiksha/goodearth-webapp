@@ -325,10 +325,12 @@ class Checkout extends React.Component<Props, State> {
         "Page referrer url": CookieService.getCookie("prevUrl")
       });
     }
-    Moengage.track_event("Page viewed", {
-      "Page URL": this.props.location.pathname,
-      "Page Name": "checkoutView"
-    });
+    if (userConsent.includes("Moengage")) {
+      Moengage.track_event("Page viewed", {
+        "Page URL": this.props.location.pathname,
+        "Page Name": "checkoutView"
+      });
+    }
     this.props
       .fetchBasket(this.props.history, this.props.user.isLoggedIn)
       .then(res => {
@@ -564,6 +566,8 @@ class Checkout extends React.Component<Props, State> {
       // }
 
       const { bridal } = this.props.basket;
+      const userConsent = CookieService.getCookie("consent").split(",");
+
       this.props
         .specifyShippingAddress(
           address.id,
@@ -573,16 +577,18 @@ class Checkout extends React.Component<Props, State> {
           this.props.history
         )
         .then(data => {
-          Moengage.track_event("Shipping Address Added", {
-            "First Name": address.firstName,
-            "Last Name": address.lastName,
-            "Zip code": address.postCode,
-            Country: address.countryName,
-            State: address.state,
-            Address: address.line1 + address.line2,
-            City: address.city,
-            "Contact Number": address.phoneCountryCode + address.phoneNumber
-          });
+          if (userConsent.includes("Moengage")) {
+            Moengage.track_event("Shipping Address Added", {
+              "First Name": address.firstName,
+              "Last Name": address.lastName,
+              "Zip code": address.postCode,
+              Country: address.countryName,
+              State: address.state,
+              Address: address.line1 + address.line2,
+              City: address.city,
+              "Contact Number": address.phoneCountryCode + address.phoneNumber
+            });
+          }
           if (address.country == "IN") {
             this.props
               .checkPinCodeShippable(address.postCode)
@@ -702,17 +708,20 @@ class Checkout extends React.Component<Props, State> {
         this.props
           .specifyBillingAddress(data)
           .then(() => {
-            Moengage.track_event("Billing Address Added", {
-              "First Name": billingAddress.firstName,
-              "Last Name": billingAddress.lastName,
-              "Zip code": billingAddress.postCode,
-              Country: billingAddress.countryName,
-              State: billingAddress.state,
-              Address: billingAddress.line1 + billingAddress.line2,
-              City: billingAddress.city,
-              "Contact Number":
-                billingAddress.phoneCountryCode + billingAddress.phoneNumber
-            });
+            const userConsent = CookieService.getCookie("consent").split(",");
+            if (userConsent.includes("Moengage")) {
+              Moengage.track_event("Billing Address Added", {
+                "First Name": billingAddress.firstName,
+                "Last Name": billingAddress.lastName,
+                "Zip code": billingAddress.postCode,
+                Country: billingAddress.countryName,
+                State: billingAddress.state,
+                Address: billingAddress.line1 + billingAddress.line2,
+                City: billingAddress.city,
+                "Contact Number":
+                  billingAddress.phoneCountryCode + billingAddress.phoneNumber
+              });
+            }
             this.setState({
               billingAddress: billingAddress,
               activeStep:

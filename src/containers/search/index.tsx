@@ -159,10 +159,12 @@ class Search extends React.Component<
         Page_Title: "virtual_search_view"
       });
     }
-    Moengage.track_event("Page viewed", {
-      "Page URL": this.props.location.pathname,
-      "Page Name": "SearchView"
-    });
+    if (userConsent.includes("Moengage")) {
+      Moengage.track_event("Page viewed", {
+        "Page URL": this.props.location.pathname,
+        "Page Name": "SearchView"
+      });
+    }
     this.props
       .fetchFeaturedContent()
       .then(data => {
@@ -250,11 +252,13 @@ class Search extends React.Component<
             }
           });
         }
-        Moengage.track_event("search", {
-          keyword: product.name,
-          "Search Suggestions Clicked": true,
-          Currency: this.props.currency
-        });
+        if (userConsent.includes("Moengage")) {
+          Moengage.track_event("search", {
+            keyword: product.name,
+            "Search Suggestions Clicked": true,
+            Currency: this.props.currency
+          });
+        }
       }
     } catch (err) {
       console.log("Search GTM error");

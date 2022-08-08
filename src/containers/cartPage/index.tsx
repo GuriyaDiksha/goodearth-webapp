@@ -148,10 +148,13 @@ class CartPage extends React.Component<Props, State> {
         Page_Title: "virtual_cartPage_view"
       });
     }
-    Moengage.track_event("Page viewed", {
-      "Page URL": this.props.location.pathname,
-      "Page Name": "CartPageView"
-    });
+
+    if (userConsent.includes("Moengage")) {
+      Moengage.track_event("Page viewed", {
+        "Page URL": this.props.location.pathname,
+        "Page Name": "CartPageView"
+      });
+    }
   }
 
   onNotifyCart = (basketLineId: ProductID) => {
