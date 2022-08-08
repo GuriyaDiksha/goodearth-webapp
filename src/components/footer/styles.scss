@@ -192,12 +192,32 @@
   }
   .preferencesLink{
     @include b4_12px_montserrat_charcoal_caps();
-    border-bottom: 1px solid $charcoal19;
+    // border-bottom: 1px solid $charcoal19;
     cursor: pointer;
     &:hover{
       @include b4_12px_montserrat_gold_caps();
-      border-bottom: 1px solid $gold;
+      // border-bottom: 1px solid $gold;
     }
+    &:after {
+      content:'';
+      position:absolute;
+      width:200px;
+      height:1px;
+      background:$charcoal19;
+      bottom:0;
+      left:0;
+      right:0;
+      margin:auto;
+      top:85px;
+
+      @media screen and (min-width: 2000px) {
+        top:150px;
+      }
+  }
+
+  &:hover:after{
+    background: $gold;
+  }
   }
   .ok-btn {
     @include b3_14px_caps_white();
@@ -227,6 +247,7 @@
 
   .heading{
     @include b3_14px_montserrat_caps_charcoal();
+    margin-top: 10px;
   }
 
   hr{
@@ -284,7 +305,7 @@
           font-size: 8px;
           font-weight: $regular;
           color: $med-charcoal;
-          margin-left: -6px;
+          padding: 0;
         }
       }
     }
@@ -310,6 +331,10 @@
         color: #3C7979;
         border: 1px solid #3C7979;
       }
+      @media screen and (max-width: 992px) {
+        padding: 15px 0px;
+        width: 50%;
+      }
     }
   
     .acceptbtn{
@@ -324,6 +349,10 @@
       &:hover{
         @include b3_14px_montserrat_caps_charcoal();
         background-color: $white;
+      }
+      @media screen and (max-width: 992px) {
+        padding: 15px 0px;
+        width: 50%;
       }
     }
   }

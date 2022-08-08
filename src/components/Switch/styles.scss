@@ -102,7 +102,7 @@ $focus-color: #ff0;
     }
   }
   &.small-switch {
-    width: 40px;
+    width: 50px;
     .toggle-switch-inner {
       &:after,
       &:before {
@@ -113,7 +113,7 @@ $focus-color: #ff0;
     }
     .toggle-switch-switch {
       width: 16px;
-      right: 20px;
+      right: 30px;
       margin: 2px;
     }
   }
@@ -124,6 +124,6 @@ $focus-color: #ff0;
     transform: scale(0.825);
   }
   @media screen and (max-width: 575px) {
-    transform: scale(0.75);
+    transform: scale(1);
   }
 }
