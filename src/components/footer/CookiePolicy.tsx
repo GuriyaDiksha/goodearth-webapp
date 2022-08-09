@@ -82,9 +82,14 @@ const CookiePolicy: React.FC<Props> = ({ hideCookies, acceptCookies }) => {
     }, 2000);
   };
 
-  const savePref = () => {
+  // const savePref = () => {
+  //   saveConsent(consents);
+  //   setIsPrefOpen(false);
+  // };
+
+  const acceptAndContinue = () => {
     saveConsent(consents);
-    setIsPrefOpen(false);
+    acceptCookies();
   };
 
   return (
@@ -129,7 +134,10 @@ const CookiePolicy: React.FC<Props> = ({ hideCookies, acceptCookies }) => {
             ))}
           </div>
           <div className={styles.btnWrp}>
-            <button className={styles.savebtn} onClick={() => savePref()}>
+            <button
+              className={styles.savebtn}
+              onClick={() => setIsPrefOpen(false)}
+            >
               save preferences
             </button>
             <button className={styles.acceptbtn} onClick={() => acceptAll()}>
@@ -167,7 +175,7 @@ const CookiePolicy: React.FC<Props> = ({ hideCookies, acceptCookies }) => {
               set my cookie preferences
             </p>
           ) : null}
-          <span className={styles.okBtn} onClick={acceptCookies}>
+          <span className={styles.okBtn} onClick={() => acceptAndContinue()}>
             ACCEPT & CONTINUE
           </span>
         </>
