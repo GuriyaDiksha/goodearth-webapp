@@ -15,4 +15,5 @@ export type Props = {
   openIconClassName?: string;
   bodyClassName?: string;
   sectionClassName?: string;
+  uniqueKey?: string;
 };

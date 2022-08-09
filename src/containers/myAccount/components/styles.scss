@@ -705,3 +705,44 @@
     }
   }
 }
+
+.btnWrp{
+  margin-top: 20px;
+
+  .loadMoreBtn {
+    @include b4_12px_medium_aqua_caps();
+    border: 1px solid $aqua;
+    text-align: center;
+    // font: normal normal medium 12px/20px $font-Montserrat;
+    letter-spacing: 0.36px;
+    // color: #548B8B;
+    // text-transform: uppercase;
+    opacity: 1;
+    background: $white;
+    padding: 8px 20px;
+
+    &:hover {
+      background-color: $aqua;
+      color: $white;
+    }
+    
+  }
+
+  .backToTopBtn {
+    @include b4_12px_montserrat_charcoal_caps();
+    text-align: center;
+    // font: normal normal normal 12px/20px $font-Montserrat;
+    letter-spacing: 0.36px;
+    // color: #191919;
+    // text-transform: uppercase;
+    opacity: 1;
+    border: none;
+    background: white;
+    border-bottom: 1px solid;
+
+    &:hover {
+      color: $aqua;
+    }
+
+  }
+}

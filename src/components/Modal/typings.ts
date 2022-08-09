@@ -1,9 +1,9 @@
 import { ReactNode } from "react";
 
 export type Props = {
-  bodyClassName?: "string";
+  bodyClassName?: string;
   children?: ReactNode;
-  className?: string;
+  classname?: string;
   fullscreen?: boolean;
   openModal?: boolean;
 };

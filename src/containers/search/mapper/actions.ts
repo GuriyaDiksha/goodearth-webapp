@@ -1,12 +1,12 @@
 import { Dispatch } from "redux";
 
-import { updateFilterState, updateOnload } from "actions/search";
+import { updateFilterState, updateOnload, updateFacets } from "actions/search";
 import SearchService from "services/search";
 
 const mapActionsToProps = (dispatch: Dispatch) => {
   return {
     updateFacets: (data: any) => {
-      // dispatch(updateFacets(data));
+      dispatch(updateFacets(data));
     },
     updateFilterData: (data: string) => {
       // dispatch(updateFilterData(data));

@@ -16,6 +16,7 @@ const InputField: React.FC<Props> = ({
   className,
   placeholder,
   errorMsg,
+  errorMsgClass = styles.inputError,
   disabled,
   validateAfterBlur
 }) => {
@@ -93,7 +94,7 @@ const InputField: React.FC<Props> = ({
         {<div className={styles.label}>{label}</div>}
         {(error || errorMsg) && (
           <span
-            className={cs(styles.inputError, {
+            className={cs(errorMsgClass, {
               [styles.notifyMeEmailInputError]:
                 className == "notify-me-email-input"
             })}

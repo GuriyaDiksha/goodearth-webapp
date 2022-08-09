@@ -34,7 +34,7 @@ const pdpCustomerCareInfo: React.FC = () => {
           </a>
         </span>
       </p>
-      <p className={globalStyles.gold}>Mon-Sat | 9am-5pm IST</p>
+      <p className={globalStyles.gold}>Mon-Sat | 9:30am-5:30pm IST</p>
     </div>
   );
 };

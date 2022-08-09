@@ -7,6 +7,7 @@ export type State = {
   openModal: boolean;
   fullscreen: boolean;
   bodyClass: string;
+  classname: string;
 };
 
 export type ModalActions = ActionType<typeof Actions>;

@@ -96,11 +96,11 @@
 }
 
 @mixin menu-subcopy {
-  font-family: $font-Lato;
+  font-family: $font-Montserrat;
   font-size: 12px;
+  color: $charcoal19;
+  font-weight: 300;
   letter-spacing: 1px;
-  color: tint(#000, 30%);
-  font-weight: 400;
 }
 
 @mixin menu-subcopy-cerise {
@@ -126,11 +126,18 @@
 /**********************************************  PLP   ******************************************************/
 
 @mixin plp_subhdr_dd {
-  font-size: 14px;
+  font-size: 12px;
   font-weight: bold;
   font-family: $font-Lato;
   letter-spacing: 1px;
   color: $cerise;
+  text-transform: uppercase;
+}
+
+@mixin plp_bottom_filters{
+  font-family: $font-Montserrat;
+  font-size: 12px;
+  color: $charcoal19;
   text-transform: uppercase;
 }
 
@@ -156,8 +163,8 @@
 
 @mixin plp_subhdr_open_mob {
   font-size: 14px;
-  font-family: $font-Lato;
-  color: tint(#000, 50%);
+  font-family: $font-Montserrat;
+  color: $charcoal19;
 }
 
 @mixin plp_coll_name_desktop {
@@ -174,13 +181,13 @@
 
 @mixin plp_prod_quantity {
   font-size: 10px;
-  color: tint(#000, 40%);
+  color: $charcoal19;
   font-family: $font-Lato;
   letter-spacing: 1px;
 }
 
 @mixin plp_breadcrumbs {
-  color: tint(#000, 50%);
+  color: #19191955;
   letter-spacing: 1px;
   font-family: $font-Lato;
 }
@@ -207,10 +214,19 @@
 }
 
 @mixin plp_filter_sub {
-  font-family: $font-Lato;
-  font-size: 9px;
-  color: tint(#000, 60%);
+  font-family: $font-Montserrat;
+  font-size: 12px;
+  color: $light-charcoal;
   font-weight: 300;
+  letter-spacing: 0px;
+}
+
+@mixin plp_clear_filter {
+  font-family: $font-Montserrat;
+  font-size: 10px;
+  color: $charcoal19;
+  font-weight: 300;
+  letter-spacing: 0px;
 }
 
 @mixin plp_filter_copy_cerise {
@@ -223,6 +239,13 @@
   color: tint(#000, 30%);
 }
 
+@mixin plp_color_filter{
+  font-family: $font-Montserrat;
+  font-size: 12px;
+  color: $med-charcoal;
+  font-weight: normal;
+}
+
 /**********************************************  PDP   ******************************************************/
 
 @mixin pdp_collection_header {
@@ -232,6 +255,12 @@
   letter-spacing: 2px;
   font-family: $font-Serif;
   line-height: 30px;
+}
+
+@mixin plp_filter_header {
+  font-size: 10px;
+  font-family: $font-Montserrat;
+  color: $charcoal19;
 }
 
 // @mixin pdp_prod_title {
@@ -270,11 +299,10 @@
 //   letter-spacing: 1px;
 // }
 @mixin cta_white {
-  font-weight: bold;
+  font-family: $font-Montserrat;
   font-size: 14px;
   text-transform: uppercase;
-  font-family: $font-Montserrat;
-  letter-spacing: 0.48px;
+  // letter-spacing: 0.48px;
 }
 
 // @mixin pdp_copy_head {
@@ -354,11 +382,6 @@
   color: tint(#000, 50%);
   text-transform: uppercase;
   letter-spacing: 1px;
-}
-
-@mixin plp_filter_copy {
-  font-size: 12px;
-  color: tint(#000, 40%);
 }
 
 @mixin curveBtnLink {
@@ -474,11 +497,11 @@
 @mixin pdp_breadcrumbs {
   font-size: 10px;
   font-family: $font-Montserrat;
-  color: tint(#000, 60%);
+  color: tint(#191919, 50%);
 }
 
 @mixin more-details {
-  font-family: $font-Lato;
+  font-family: $font-Lora;
   text-transform: uppercase;
   font-size: 12px;
   letter-spacing: 1px;
@@ -704,4 +727,519 @@ $list: $grey 92%, $white 8%;
   letter-spacing: 2px;
   font-family: "AmiriFont", "Baskerville", "Garamond";
   line-height: 30px;
+}
+
+/*******************************  UI Kit Fonts  **************************/
+@mixin h1_30px_lora_charcoal{
+  font-family: $font-Lora;
+  font-size: 30px;
+  color: $charcoal19;
+  font-style: italic;
+}
+
+@mixin h1_30px_lora_medium_charcoal{
+  font-family: $font-Lora;
+  font-size: 30px;
+  color: $charcoal19;
+  font-style: italic;
+  font-weight: 500;
+}
+
+@mixin h2_24px_lora_charcoal{
+  font-family: $font-Lora;
+  font-size: 24px;
+  color: $charcoal19;
+}
+
+@mixin h2_24px_lora_white{
+  font-family: $font-Lora;
+  font-size: 24px;
+  color: $white;
+}
+
+@mixin h3_20px_lora_charcoal{
+  font-family: $font-Lora;
+  font-size: 20px;
+  color: $charcoal19;
+}
+
+@mixin h3_20px_lora_white{
+  font-family: $font-Lora;
+  font-size: 20px;
+  color: $white;
+}
+
+@mixin h3_20px_lora_gold{
+  font-family: $font-Lora;
+  font-size: 20px;
+  color: $gold;
+}
+
+@mixin h4_20px_montserrat_charcoal{
+  font-family: $font-Montserrat;
+  font-size: 20px;
+  color: $charcoal19;
+  font-weight: $regular;
+}
+
+@mixin h4_20px_montserrat_gold{
+  font-family: $font-Montserrat;
+  font-size: 20px;
+  color: $gold;
+  font-weight: $regular;
+}
+
+@mixin h6_16px_lora_charcoal{
+  font-family: $font-Lora;
+  font-size: 16px;
+  color: $charcoal19;
+}
+
+@mixin h6_16px_lora_white{
+  font-family: $font-Lora;
+  font-size: 16px;
+  color: $white;
+}
+
+@mixin b1_16px_charcoal{
+  font-family: $font-Lora;
+  font-size: 16px;
+  font-style: normal;
+  color: $charcoal19;
+}
+
+@mixin b1_16px_aqua{
+  font-family: $font-Montserrat;
+  font-size: 16px;
+  font-weight: $regular;
+  color: $aqua-bold;
+}
+
+@mixin b2_14px_charcoal_lora{
+  font-family: $font-Lora;
+  font-size: 14px;
+  font-style: normal;
+  color: $charcoal19;
+}
+
+@mixin b3_14px_montserrat_light_charcoal{
+  font-family: $font-Montserrat;
+  font-size: 14px;
+  font-weight: $light;
+  color: $charcoal19;
+}
+
+@mixin b3_14px_montserrat_charcoal{
+  font-family: $font-Montserrat;
+  font-size: 14px;
+  font-weight: $regular;
+  color: $charcoal19;
+}
+
+@mixin b3_14px_montserrat_medcharcoal{
+  font-family: $font-Montserrat;
+  font-size: 14px;
+  font-weight: $regular;
+  color: $med-charcoal;
+}
+
+@mixin b3_14px_montserrat_white{
+  font-family: $font-Montserrat;
+  font-size: 14px;
+  font-weight: $regular;
+  color: $white;
+}
+
+@mixin b3_14px_montserrat_semibold_white{
+  font-family: $font-Montserrat;
+  font-size: 14px;
+  font-weight: $semibold;
+  color: $white;
+}
+
+@mixin b3_14px_montserrat_semibold_charcoal{
+  font-family: $font-Montserrat;
+  font-size: 14px;
+  font-weight: $semibold;
+  color: $charcoal19;
+}
+
+@mixin b3_14px_montserrat_gold{
+  font-family: $font-Montserrat;
+  font-size: 14px;
+  font-weight: $regular;
+  color: $gold;
+}
+
+@mixin b3_14px_montserrat_aqua{
+  font-family: $font-Montserrat;
+  font-size: 14px;
+  font-weight: $regular;
+  color: $aqua-text;
+}
+
+@mixin b3_14px_montserrat_medium_charcoal{
+  font-family: $font-Montserrat;
+  font-size: 14px;
+  font-weight: $medium;
+  color: $charcoal19;
+}
+
+@mixin b3_14px_montserrat_bold_charcoal{
+  font-family: $font-Montserrat;
+  font-size: 14px;
+  font-weight: $bold;
+  color: $charcoal19;
+}
+
+@mixin b3_14px_montserrat_caps_charcoal{
+  font-family: $font-Montserrat;
+  font-size: 14px;
+  font-weight: $regular;
+  text-transform: uppercase;
+  color: $charcoal19;
+}
+
+@mixin b3_14px_caps_white{
+  font-family: $font-Montserrat;
+  font-size: 14px;
+  font-weight: $regular;
+  text-transform: uppercase;
+  color: $white
+}
+
+@mixin b3_14px_caps_gold{
+  font-family: $font-Montserrat;
+  font-size: 14px;
+  font-weight: $regular;
+  text-transform: uppercase;
+  color: $gold
+}
+
+@mixin b3_14px_caps_aqua{
+  font-family: $font-Montserrat;
+  font-size: 14px;
+  font-weight: $regular;
+  text-transform: uppercase;
+  color: #3C7979;
+}
+
+@mixin b4_12px_montserrat_light_charcoal{
+  font-family: $font-Montserrat;
+  font-size: 12px;
+  font-weight: $light;
+  color: $charcoal19;
+}
+
+@mixin b4_12px_montserrat_light_white{
+  font-family: $font-Montserrat;
+  font-size: 12px;
+  font-weight: $light;
+  color: $white;
+}
+
+@mixin b4_12px_montserrat_light_gold{
+  font-family: $font-Montserrat;
+  font-size: 12px;
+  font-weight: $light;
+  color: $gold;
+}
+
+@mixin b4_12px_montserrat_charcoal{
+  font-family: $font-Montserrat;
+  font-size: 12px;
+  font-weight: $regular;
+  color: $charcoal19;
+}
+
+@mixin b4_12px_montserrat_charcoal_caps{
+  font-family: $font-Montserrat;
+  font-size: 12px;
+  font-weight: $regular;
+  color: $charcoal19;
+  text-transform: uppercase;
+}
+
+@mixin b4_12px_montserrat_medcharcoal{
+  font-family: $font-Montserrat;
+  font-size: 12px;
+  font-weight: $regular;
+  color: $med-charcoal;
+}
+
+@mixin b4_12px_montserrat_white{
+  font-family: $font-Montserrat;
+  font-size: 12px;
+  font-weight: $regular;
+  color: $white;
+}
+
+@mixin b4_12px_montserrat_gold{
+  font-family: $font-Montserrat;
+  font-size: 12px;
+  font-weight: $regular;
+  color: $gold;
+}
+
+@mixin b4_12px_montserrat_aqua{
+  font-family: $font-Montserrat;
+  font-size: 12px;
+  font-weight: $regular;
+  color: $aqua-text;
+}
+
+@mixin b4_12px_montserrat_semibold_charcoal{
+  font-family: $font-Montserrat;
+  font-size: 12px;
+  font-weight: $semibold;
+  color: $charcoal19;
+}
+
+@mixin b4_12px_montserrat_gold_caps{
+  font-family: $font-Montserrat;
+  font-size: 12px;
+  font-weight: $regular;
+  color: $gold;
+  text-transform: uppercase;
+}
+
+@mixin b4_12px_montserrat_aqua_caps{
+  font-family: $font-Montserrat;
+  font-size: 12px;
+  font-weight: $regular;
+  color: $aqua-text;
+  text-transform: uppercase;
+}
+
+@mixin b4_12px_medium_charcoal_caps{
+  font-family: $font-Montserrat;
+  font-size: 12px;
+  font-weight: $medium;
+  color: $charcoal19;
+  text-transform: uppercase;
+}
+
+@mixin b4_12px_medium_medcharcoal_caps{
+  font-family: $font-Montserrat;
+  font-size: 12px;
+  font-weight: $medium;
+  color: $med-charcoal;
+  text-transform: uppercase;
+}
+
+@mixin b4_12px_medium_white{
+  font-family: $font-Montserrat;
+  font-size: 12px;
+  font-weight: $medium;
+  color: $white;
+}
+
+@mixin b4_12px_medium_white_caps{
+  font-family: $font-Montserrat;
+  font-size: 12px;
+  font-weight: $medium;
+  color: $white;
+  text-transform: uppercase;
+}
+
+@mixin b4_12px_medium_light_charcoal{
+  font-family: $font-Montserrat;
+  font-size: 12px;
+  font-weight: $medium;
+  color: $light-charcoal;
+}
+
+@mixin b4_12px_medium_light_charcoal_caps{
+  font-family: $font-Montserrat;
+  font-size: 12px;
+  font-weight: $medium;
+  color: $light-charcoal;
+  text-transform: uppercase;
+}
+
+@mixin b4_12px_medium_gold{
+  font-family: $font-Montserrat;
+  font-size: 12px;
+  font-weight: $medium;
+  color: $gold;
+}
+
+@mixin b4_12px_medium_gold_caps{
+  font-family: $font-Montserrat;
+  font-size: 12px;
+  font-weight: $medium;
+  color: $gold;
+  text-transform: uppercase;
+}
+
+@mixin b4_12px_medium_cerise{
+  font-family: $font-Montserrat;
+  font-size: 12px;
+  font-weight: $medium;
+  color: $cerise;
+}
+
+@mixin b4_12px_medium_cerise_caps{
+  font-family: $font-Montserrat;
+  font-size: 12px;
+  font-weight: $medium;
+  color: $cerise;
+  text-transform: uppercase;
+}
+
+@mixin b4_12px_medium_aqua{
+  font-family: $font-Montserrat;
+  font-size: 12px;
+  font-weight: $medium;
+  color: $aqua-text;
+}
+
+@mixin b4_12px_medium_aqua_caps{
+  font-family: $font-Montserrat;
+  font-size: 12px;
+  font-weight: $medium;
+  color: $aqua-text;
+  text-transform: uppercase;
+}
+
+
+@mixin b4_12px_semibold_caps_charocal{
+  font-family: $font-Montserrat;
+  font-size: 12px;
+  font-weight: $semibold;
+  color: $charcoal19;
+  text-transform: uppercase;
+}
+
+@mixin b4_12px_montserrat_medium_charcoal{
+  font-family: $font-Montserrat;
+  font-size: 12px;
+  font-weight: $medium;
+  color: $charcoal19;
+  text-transform: uppercase;
+}
+
+@mixin b5_10px_montserrat_charcoal{
+  font-family: $font-Montserrat;
+  font-size: 10px;
+  font-weight: $regular;
+  color: $charcoal19;
+}
+
+@mixin b5_10px_montserrat_white{
+  font-family: $font-Montserrat;
+  font-size: 10px;
+  font-weight: $regular;
+  color: $white;
+}
+
+@mixin b5_10px_montserrat_aqua{
+  font-family: $font-Montserrat;
+  font-size: 10px;
+  font-weight: $regular;
+  color: $aqua-text;
+}
+
+@mixin b5_10px_montserrat_charcoal_caps{
+  font-family: $font-Montserrat;
+  font-size: 10px;
+  font-weight: $regular;
+  color: $charcoal19;
+  text-transform: uppercase;
+}
+
+@mixin b5_10px_montserrat_light_charcoal{
+  font-family: $font-Montserrat;
+  font-size: 10px;
+  font-weight: $regular;
+  color: $charcoal19;
+}
+
+@mixin b5_10px_semibold_montserrat_charcoal{
+  font-family: $font-Montserrat;
+  font-size: 10px;
+  font-weight: $semibold;
+  color: $charcoal19;
+}
+
+@mixin b6_9px_light_montserrat_charcoal{
+  font-family: $font-Montserrat;
+  font-size: 9px;
+  font-weight: $light;
+  color: $charcoal19;
+}
+
+@mixin b6_9px_montserrat_charcoal{
+  font-family: $font-Montserrat;
+  font-size: 9px;
+  font-weight: $regular;
+  color: $charcoal19;
+}
+
+@mixin error_msg_charcoal{
+  font-family: $font-Lora;
+  font-size: 13px;
+  font-style: italic;
+  color: $charcoal19;
+}
+
+@mixin error_msg_charcoal{
+  font-family: $font-Lora;
+  font-size: 13px;
+  font-style: italic;
+  color: $cerise;
+}
+
+// =================================
+
+@mixin err_13px_lora_italic_cerise{
+  font-family: $font-Lora;
+  font-size: 13px;
+  color: $cerise;
+  font-style: italic;
+}
+
+@mixin search_text{
+  font-family: $font-Montserrat;
+  font-weight: normal;
+  font-size: 12px;
+  color: #9E2E56;
+  letter-spacing: 0.30px;
+}
+
+@mixin header_currency{
+  font-family: $font-Montserrat;
+  font-weight: normal;
+  font-size: 12px;
+  color: $med-charcoal;
+  letter-spacing: 0.30px; 
+}
+
+@mixin carret{
+  height: 12px;
+  width: 12px;
+  border-top: 1px solid black;
+  border-left: 1px solid black;
+  transition: transform 0.2s ease-in;
+  &.open {
+    transform: rotate(45deg);
+  }
+  &.close {
+    transform: rotate(-135deg);
+  }
+}
+
+@mixin view_all_results {
+  font-family: $font-Montserrat;
+  font-size: 9px;
+  color: $gold;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+@mixin search_placeholder() {
+  font-family: $font-Lora;
+  font-size: 14px;
+  letter-spacing: 0.3px;
+  font-style: italic;
 }

@@ -43,7 +43,8 @@ const initialState: State = {
       data: [],
       banner: "",
       bannerMobile: "",
-      bannerUrl: ""
+      bannerUrl: "",
+      filtered_facets: {}
     }
   },
   facetObject: {},
@@ -77,6 +78,13 @@ export const searchList = (
     case "UPDATE_ONLOAD": {
       const newState = { ...state };
       newState.onload = action.payload;
+      return newState;
+    }
+    case "UPDATE_FACET": {
+      console.log("payload====", action.payload);
+      const newState = { ...state };
+      newState.onload = false;
+      newState.facetObject = action.payload;
       return newState;
     }
   }

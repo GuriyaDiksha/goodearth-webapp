@@ -35,8 +35,8 @@ const BaseLayout: React.FC = () => {
     currency,
     basket: { bridal },
     header: { announcementData },
-    device: { orientation, tablet, mobile }
-    // user: { customerGroup }
+    device: { orientation, tablet, mobile },
+    user: { customerGroup }
   } = useSelector((state: AppState) => state);
   const {
     modal: { component }
@@ -296,7 +296,13 @@ const BaseLayout: React.FC = () => {
                 const data: any = {
                   currency: goCurrencyValue.toString().toUpperCase()
                 };
-                LoginService.changeCurrency(dispatch, data);
+                LoginService.changeCurrency(dispatch, data).then(res => {
+                  LoginService.reloadPage(
+                    dispatch,
+                    res.currency,
+                    customerGroup
+                  );
+                });
               } else {
                 CookieService.setCookie(
                   "currency",

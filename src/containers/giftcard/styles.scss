@@ -5,18 +5,13 @@
 .txt-settings {
   padding: 1em 21em 0 21em;
   h2 {
+    @include h2_24px_lora_charcoal();
     padding-top: 40px;
-    color: #000;
-    text-transform: none;
-    letter-spacing: 0;
     line-height: 34px;
-    font-size: 25px;
-    font-family: $font-Serif;
   }
   p {
     padding: 1em 0;
     line-height: 20px;
-    font-size: 14px;
   }
 }
 .txt-settings-mobile {
@@ -24,8 +19,6 @@
 }
 
 h2 {
-  padding-top: 20px;
-  color: #000;
   text-transform: none;
   letter-spacing: 0;
   line-height: 34px;
@@ -35,48 +28,111 @@ h2 {
 
 
 .clr-p {
-  font-size: 12px;
-  font-family: $font-Lato;
-  color: #666;
+  @include b4_12px_montserrat_charcoal();
+  letter-spacing: 1px;
+}
+
+.clr-note {
+  @include b5_10px_montserrat_charcoal();
   letter-spacing: 1px;
 }
 
 .gift-font {
-  font-size: 14px;
-  color: black;
-  font-family: $font-Lato;
+  @include b3_14px_montserrat_charcoal();
   letter-spacing: 1px;
+  .aqua {
+    font-weight: $medium;
+    color: $aqua;
+  }
+}
+
+.small-head-text {
+  @include b4_12px_montserrat_light_charcoal();
+}
+
+.message-text{
+  @include b3_14px_montserrat_medium_charcoal();
+}
+
+.recipient-font{
+  @include b3_14px_montserrat_medium_charcoal();
+  letter-spacing: 0.5px;
 }
 
 .gift-heading {
+  @include b4_12px_montserrat_light_charcoal();
   padding-top: 20px;
-  font-size: 14px;
-  color: black;
-  font-family: $font-Lato;
   letter-spacing: 0.5px;
-  font-weight: bold;
 }
+
+.subscribe{
+  label {
+    @include b5_10px_montserrat_charcoal();
+    letter-spacing: 0.5px;
+    a {
+      color: $charcoal19;
+    }
+  }
+}
+
 .gc-head {
+  @include b4_12px_montserrat_medium_charcoal();
   text-transform: uppercase;
-  font-size: 14px;
-  font-family: $font-Lato;
   letter-spacing: 1px;
 }
 
 .card-img {
-  border: 1px solid transparent;
+  border: 2px solid transparent;
   padding: 2px;
   border-radius: 10px;
   width: 100%;
-}
-
-.card-img:hover {
-  border-color: #ab1e56;
-  cursor: pointer;
+  &:hover {
+    border-color: $aqua;
+    cursor: pointer;
+  }
 }
 
 .card-img-hover {
-  border-color: #ab1e56;
+  border: 2px solid $aqua;
+}
+
+.button-row{
+  width: 100%;
+  margin-top: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  .image-select-btn-container {
+    height: 60px;
+    width: 350px;
+    .image-select-btn{
+      height: 100%;
+      width: 100%;
+      text-transform: uppercase;
+      font-size: 14px;
+      color: $white;
+      background: $aqua;
+      border: 1.5px solid $aqua;
+      span {
+        width: 10px;
+        display: inline-block;
+        height: 10px;
+        border: 1px solid $white;
+        border-top: none;
+        border-left: none;
+        transform: rotate(-45deg);
+      }
+      &:hover{
+        color: $aqua;
+        background: transparent;
+        span{
+          border: 1px solid $aqua;
+          border-top: none;
+          border-left: none;
+        }
+      }
+    }
+  }
 }
 
 .btn-gc {
@@ -159,20 +215,14 @@ h2 {
 
 .back-gc {
   line-height: 50px;
-  font-size: 12px;
-  color: #000;
-  text-transform: none;
+  @include b4_12px_montserrat_medium_charcoal();
+  text-transform: uppercase;
+  color:#9F9F9F;
   letter-spacing: 1px;
   cursor: pointer;
-  font-family: $font-Lato;
   &:hover{
     text-decoration: underline;
   }
-}
-.gc-head {
-  text-transform: uppercase;
-  font-size: 14px;
-  letter-spacing: 1px;
 }
 
 .nobg {
@@ -185,8 +235,12 @@ h2 {
 
 .select-group {
   position: relative;
+  select{
+    @include b4_12px_montserrat_charcoal();
+    border: 1px solid lightgrey;
+  }
   option {
-    font-family: $font-Lato;
+    @include b4_12px_montserrat_charcoal();
   }
 }
 
@@ -218,7 +272,7 @@ h2 {
     content: '';
     width: 8px;
     height: 8px;
-    background: #ab1e56;
+    background: $aqua;
     position: absolute;
     top: 4px;
     left: 4px;
@@ -241,7 +295,7 @@ input[type="radio"]:checked+label:after {
   content: '';
   width: 8px;
   height: 8px;
-  background: #ab1e56;
+  background: $aqua;
   position: absolute;
   top: 4px;
   left: 4px;
@@ -279,42 +333,61 @@ input[type="radio"]:checked+label:before {
 
 .price-block {
   span {
-    font-size: 14px;
-    font-family: $font-Lato;
+    @include b3_14px_montserrat_aqua();
+    color: #3c7979;
     margin: 10px 25px;
     background-color: #fff;
     width: 220px;
     text-align: center;
-    color: #ab1e56;
     line-height: 50px;
     display: inline-block;
     letter-spacing: 1px;
-    font-weight: bold;
     border: 2px solid transparent;
   }
   > p {
-    font-size: 14px;
-    font-family: $font-Lato;
+    @include b4_12px_montserrat_medium_charcoal();
+    text-transform: uppercase;
   }
   span:hover {
-    border: 2px solid #ab1e56;
+    border: 2px solid $aqua;
     cursor: pointer;
   }
   .value-hover {
-    border-color: #ab1e56;
+    border-color: $aqua;
+  }
+  input[type="number"] {
+    background-color: #fff;
+    padding: 15px 15px 15px 48px;
+    width: 100%;
+    border: 1px solid $aqua !important;
+    -moz-appearance: textfield;
+    box-shadow: none;
+    text-align: left;
+    @include b3_14px_montserrat_charcoal();
+    min-width: 220px;
+    @include placeholder {
+      color: $light-charcoal;
+      font-size: 14px;
+      font-family: $font-Montserrat;
+      font-weight: 300;
+    }
   }
 }
 
 .curr {
   position: absolute;
-  top: 30%;
-  left: 10px;
-  color: #ab1e56;
+  top: 0;
+  left: 4px;
+  @include b3_14px_montserrat_charcoal();
+  color: #9F9F9F;
+  height: 50px;
+  width: 20%;
+  line-height: 50px;
 }
 .gc {
   background: url('../../images/greyBg.jpg') repeat;
-  height: 100%;
-  width: 100%;
+  min-height: 100vh;
+  width: 100vw;
   padding-top: ($header-height + $secondary-header-height);
   padding-bottom: 50px;
 
@@ -326,6 +399,7 @@ input[type="radio"]:checked+label:before {
     padding-left: 28px;
   }
   textarea, textarea:focus {
+    @include b4_12px_montserrat_charcoal();
     background-color: #f2f2f2;
     border: none;
     width: 100%;
@@ -343,17 +417,58 @@ input[type="radio"]:checked+label:before {
 }
 
 form {
+  input {
+    @include b4_12px_montserrat_charcoal();
+    &[type="text"]{
+      font-size: 12px;
+    }
+  }
   select{
     background-color: #fff;
     border: 1px solid #eee;
     width: 100%;
     padding: 10px;
-    font-size: 14px;
     line-height: 25px;
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
     border-radius: 0;
+  }
+  label{
+    @include b6_9px_light_montserrat_charcoal();
+  }
+}
+
+.login-form{
+  input {
+    &[type="text"]{
+      font-size: 12px !important;
+      &:focus{
+        font-size: 12px !important;
+      }
+    }
+  }
+  form {
+    input {
+      @include b4_12px_montserrat_charcoal();
+      &[type="text"]{
+        font-size: 12px;
+      }
+    }
+    select{
+      background-color: #fff;
+      border: 1px solid #eee;
+      width: 100%;
+      padding: 10px;
+      line-height: 25px;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none;
+      border-radius: 0;
+    }
+    label{
+      @include b6_9px_light_montserrat_charcoal();
+    }
   }
 }
 
@@ -365,23 +480,6 @@ form {
 .button-bg {
   background-color: #fff;
   padding-bottom: 50px;
-}
-
-input[type="number"] {
-  background-color: #fff;
-  padding: 15px 15px 15px 40px;
-  width: 100%;
-  border: none;
-  -moz-appearance: textfield;
-  box-shadow: none;
-  text-align: left;
-  @include placeholder {
-    font-style: italic;
-    color: #666;
-    font-size: 15px;
-    font-family: $font-Lato;
-    font-weight: 300;
-  }
 }
 
 .input-button {
@@ -420,18 +518,10 @@ input[type="number"] {
 }
 
 .note {
+  @include b5_10px_montserrat_charcoal();
+  letter-spacing: 0.5px;
   text-align: left;
-  font-size: 12px;
-    ul {
-      margin-left:15px;
-      li {
-        margin: 8px 10px;
-        font-size: 12px;
-        font-family: $font-Lato;
-        color: #666666;
-        list-style-type: disc;
-      }
-    }
+  margin: 8px 10px;
 }
 
 hr {
@@ -439,4 +529,23 @@ hr {
   border-top: 1px solid #eeeeee;
   margin-top: 20px;
   margin-bottom: 20px;
+}
+
+.limit{
+  @include b5_10px_montserrat_charcoal();
+}
+
+.error-msg {
+  @include err_13px_lora_italic_cerise();  
+}
+
+.button-err-bg{
+  background-color: #9F9F9F !important;
+}
+
+.mobile-full-width-button {
+  width: 100vw;
+  position: absolute;
+  bottom: 0;
+  left: -3px;
 }

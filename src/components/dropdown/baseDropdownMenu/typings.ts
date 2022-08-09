@@ -10,6 +10,7 @@ export type DropdownMenuItemProps = {
   selected?: boolean;
   type: MenuItemType;
   id?: string;
+  direction?: string;
 };
 
 export type DropdownItem = {
