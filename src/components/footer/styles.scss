@@ -148,7 +148,7 @@
   bottom: 0;
   right: 0;
   width: 362px;
-  height: 263px;
+  height: 230px;
   background-color: #fff;
   z-index: 100;
   padding: 10px 30px;
@@ -209,14 +209,14 @@
       left:0;
       right:0;
       margin:auto;
-      top:60px;
+      top:70px;
 
-      @media screen and (max-width: 992px) {
-        top:70px;
-      }
+      // @media screen and (max-width: 992px) {
+      //   top:70px;
+      // }
 
       @media screen and (min-width: 2000px) {
-        top:60px;
+        top:80px;
       }
   }
 
@@ -248,7 +248,7 @@
   transform: translate(-50%, -50%);
   text-align: left;
   width: 500px;
-  // height: auto;
+  height: 340px;
 
   .heading{
     @include b3_14px_montserrat_caps_charcoal();
@@ -291,7 +291,7 @@
     .prefBlock{
       display: flex;
       justify-content: space-between;
-      margin-bottom: 6px;
+      margin-bottom: 15px;
 
       .prefSubBlock{
         width: 75%;
@@ -300,16 +300,13 @@
           margin-bottom: 0px;
         }
         .prefAns{
-          @include b4_12px_montserrat_medcharcoal();
+          @include b4_12px_montserrat_light_charcoal();
           margin-bottom: 0px;
         }
       }
       .prefToggleWrp{
         .prefActive{
-          font-family: $font-Montserrat;
-          font-size: 8px;
-          font-weight: $regular;
-          color: $med-charcoal;
+          @include b6_9px_light_montserrat_charcoal();
           padding: 0;
         }
       }
