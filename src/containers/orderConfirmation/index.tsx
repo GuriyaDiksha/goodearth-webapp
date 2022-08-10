@@ -62,7 +62,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
       return {
         name: line.title,
         id: line.product.sku,
-        price: line.product.pricerecords[result.currency],
+        price: +line.priceExclTax,
         brand: "Goodearth",
         category: category,
         variant: line.product.size || "",
@@ -96,10 +96,16 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
         "Product Name": line.title,
         "Product ID": line.product.sku,
         "Product Brand": "Goodearth",
-        "Product Price": line.product.pricerecords[result.currency],
+        "Product Price": +line.priceExclTax,
         "Product Category": category,
         "Product Variant": line.product.size || "",
         "Product Quantity": line.quantity
+      };
+    });
+    const fbProduct = result.lines.map((line: any) => {
+      return {
+        id: line.product.sku, //Pass the all purchased product object
+        quantity: line.quantity
       };
     });
     if (result.pushToGA == false) {
@@ -122,6 +128,12 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
               products: products
             }
           }
+        });
+        dataLayer.push({
+          event: "fb_purchase",
+          revenue: +result.totalInclTax,
+          currencyCode: result.currency,
+          contents: fbProduct
         });
         dataLayer.push({
           event: "customPurchaseSuccess",
@@ -151,6 +163,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
           Currency: result.currency
         });
       }
+
       AccountServices.setGaStatus(dispatch, formData);
     }
   };

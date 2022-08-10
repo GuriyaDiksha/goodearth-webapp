@@ -13,7 +13,7 @@ import { addHomeData } from "actions/home";
 import CacheService from "services/cache";
 import { Dispatch } from "redux";
 import API from "utils/api";
-import { PlpProps } from "containers/search/typings";
+// import { PlpProps } from "containers/search/typings";
 import { Currency } from "typings/currency";
 // import * as data from "./data.json";
 
@@ -99,9 +99,9 @@ export default {
     return res;
   },
   fetchSearchProducts: async function(dispatch: Dispatch, url: string) {
-    const res = await API.get<PlpProps>(
+    const res = await API.get<any>(
       dispatch,
-      `${__API_HOST__ + "/myapi/search/" + url}`
+      `${__API_HOST__ + "/myapi/search/autocomplete/" + url}`
     );
     // dispatch(newSearchList({ ...res }));
     // dispatch(updatePlpProduct(res.results.data));

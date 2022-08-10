@@ -6,7 +6,8 @@ const initialState: State = {
   props: null,
   openModal: false,
   fullscreen: false,
-  bodyClass: ""
+  bodyClass: "",
+  classname: ""
 };
 
 export const modal = (state = initialState, action: ModalActions): State => {
@@ -17,7 +18,8 @@ export const modal = (state = initialState, action: ModalActions): State => {
         component: action.payload.component,
         props: action.payload.props,
         fullscreen: action.payload.fullscreen,
-        bodyClass: action.payload.bodyClass || ""
+        bodyClass: action.payload.bodyClass || "",
+        classname: action.payload.classname || ""
       };
     }
     case "UPDATE_MODAL": {

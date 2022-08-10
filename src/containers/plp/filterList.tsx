@@ -1266,7 +1266,7 @@ class FilterList extends React.Component<Props, State> {
       const multicolorImage: any = {
         "--my-bg-image": `url(${multiColour})`
       };
-      if (data[0].toLowerCase() == "multicolor") {
+      if (data[0].endsWith("Multi")) {
         html.push(
           <li
             className={cs(styles.colorlabel, styles.multicolorlabel)}
@@ -1299,7 +1299,7 @@ class FilterList extends React.Component<Props, State> {
               htmlFor={data[0]}
               style={multicolorImage}
             >
-              {data[0].split("-")[0]}
+              {data[0].split("-")[1]}
             </label>
           </li>
         );
@@ -1323,13 +1323,15 @@ class FilterList extends React.Component<Props, State> {
               // }
             />
             <label
-              className={
-                filtered_facets?.currentColor?.filter(
-                  (e: string[]) => e[0] === data[0]
-                ).length === 0
-                  ? styles.disableColors
-                  : ""
-              }
+              className={cs(
+                {
+                  [styles.disableColors]:
+                    filtered_facets?.currentColor?.filter(
+                      (e: string[]) => e[0] === data[0]
+                    ).length === 0
+                },
+                { [styles.whiteTick]: data[0].endsWith("Whites") }
+              )}
               htmlFor={data[0]}
               style={color}
             >

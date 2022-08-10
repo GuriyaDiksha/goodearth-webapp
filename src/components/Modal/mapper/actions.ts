@@ -9,9 +9,12 @@ const mapActionsToProps = (dispatch: Dispatch) => {
       component: string,
       props: any,
       fullscreen?: boolean,
-      bodyClass?: string
+      bodyClass?: string,
+      classname?: string
     ) => {
-      dispatch(updateComponent(component, props, fullscreen, bodyClass));
+      dispatch(
+        updateComponent(component, props, fullscreen, bodyClass, classname)
+      );
     },
     changeModalState: (data: boolean) => {
       dispatch(updateModal(data));

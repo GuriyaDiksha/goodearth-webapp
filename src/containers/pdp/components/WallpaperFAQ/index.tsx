@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useMemo, useState, useRef, useEffect } from "react";
 import cs from "classnames";
 // data
 import { faqs } from "./data";
@@ -14,6 +14,7 @@ import styles from "./styles.scss";
 
 const WallpaperFAQ: React.FC<Props> = ({ mobile }) => {
   const [currentActive, setCurrentActive] = useState(0);
+  const bodyRef = useRef(new Array(faqs.length));
 
   const accordionSections = useMemo(() => {
     const sections: Array<Section[]> = faqs.map(faq => {
@@ -30,10 +31,18 @@ const WallpaperFAQ: React.FC<Props> = ({ mobile }) => {
   }, []);
 
   const onHeaderClick = (index: number) => {
-    return () => {
-      setCurrentActive(index);
-    };
+    setCurrentActive(index);
   };
+
+  useEffect(() => {
+    if (mobile) {
+      bodyRef.current.map(ref => {
+        ref.style.maxHeight = 0 + "px";
+      });
+      bodyRef.current[currentActive].style.maxHeight =
+        bodyRef.current[currentActive].scrollHeight + "px";
+    }
+  });
 
   const headers = useMemo(() => {
     return faqs.map((section, i) => {
@@ -43,14 +52,13 @@ const WallpaperFAQ: React.FC<Props> = ({ mobile }) => {
             [styles.active]: i === currentActive
           })}
           key={i}
-          onClick={mobile ? undefined : onHeaderClick(i)}
+          onClick={() => onHeaderClick(i)}
         >
-          {!mobile && section.icon}
-          <div
-            className={styles.sectionTitle}
-            onClick={mobile ? onHeaderClick(i) : undefined}
-          >
-            {mobile && section.icon}
+          {!mobile && i === currentActive && section.iconAqua}
+          {!mobile && i !== currentActive && section.icon}
+          <div className={styles.sectionTitle} onClick={() => onHeaderClick(i)}>
+            {mobile && i === currentActive && section.iconAqua}
+            {mobile && i !== currentActive && section.icon}
             {mobile && <span>{section.text}</span>}
             {!mobile && section.text}
           </div>
@@ -59,10 +67,11 @@ const WallpaperFAQ: React.FC<Props> = ({ mobile }) => {
               className={cs(styles.mobileFaqContainer, {
                 [styles.active]: currentActive === i
               })}
+              ref={el => (bodyRef.current[i] = el)}
             >
               <Accordion
                 sections={accordionSections[i]}
-                className="wallpaperFAQ"
+                className="mobileWallpaperFAQ"
                 headerClassName={styles.accordionTitle}
                 bodyClassName={styles.accordionText}
                 openIconClassName={cs(styles.horizontal, styles.open)}
@@ -74,6 +83,20 @@ const WallpaperFAQ: React.FC<Props> = ({ mobile }) => {
       );
     });
   }, [currentActive, mobile]);
+
+  const getAccordion = (index: number) => {
+    return (
+      <Accordion
+        className="wallpaperFAQ"
+        sections={accordionSections[index]}
+        headerClassName={styles.accordionTitle}
+        bodyClassName={styles.accordionText}
+        openIconClassName={cs(styles.horizontal, styles.open)}
+        closedIconClassName={cs(styles.horizontal)}
+        uniqueKey={index.toString()}
+      />
+    );
+  };
 
   return (
     <>
@@ -106,14 +129,7 @@ const WallpaperFAQ: React.FC<Props> = ({ mobile }) => {
               bootstrap.offset1
             )}
           >
-            <Accordion
-              className="mobileWallpaperFAQ"
-              sections={accordionSections[currentActive]}
-              headerClassName={styles.accordionTitle}
-              bodyClassName={styles.accordionText}
-              openIconClassName={cs(styles.horizontal, styles.open)}
-              closedIconClassName={cs(styles.horizontal)}
-            />
+            {getAccordion(currentActive)}
           </div>
         </div>
       )}

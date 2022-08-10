@@ -3,11 +3,16 @@ import { ReactComponent as Estimate } from "images/inline/estimate.svg";
 import { ReactComponent as Choose } from "images/inline/choose.svg";
 import { ReactComponent as Install } from "images/inline/install.svg";
 import { ReactComponent as Maintain } from "images/inline/maintain.svg";
+import { ReactComponent as EstimateAqua } from "images/inline/estimate_aqua.svg";
+import { ReactComponent as ChooseAqua } from "images/inline/choose_aqua.svg";
+import { ReactComponent as InstallAqua } from "images/inline/install_aqua.svg";
+import { ReactComponent as MaintainAqua } from "images/inline/maintain_aqua.svg";
 
 export const faqs = [
   {
     text: "Estimating your requirements",
     icon: <Estimate />,
+    iconAqua: <EstimateAqua />,
     questions: [
       {
         ques:
@@ -84,6 +89,7 @@ export const faqs = [
   {
     text: "Selecting the right wallcovering",
     icon: <Choose />,
+    iconAqua: <ChooseAqua />,
     questions: [
       {
         ques: "Can I get a customized design?",
@@ -135,6 +141,7 @@ export const faqs = [
   {
     text: "Installing the wallcoverings",
     icon: <Install />,
+    iconAqua: <InstallAqua />,
     questions: [
       {
         ques: "Who will install the wallcovering?",
@@ -184,6 +191,7 @@ export const faqs = [
   {
     text: "Maintaining the wallcovering",
     icon: <Maintain />,
+    iconAqua: <MaintainAqua />,
     questions: [
       {
         ques: "How do I maintain the wallcovering?",
