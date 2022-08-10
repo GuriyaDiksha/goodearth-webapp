@@ -5,8 +5,8 @@ import { InitAction } from "typings/actions";
 const initActionCareer: InitAction = async store => {
   const dispatch = store.dispatch;
   try {
-    const data = await CareerService.fetchJobListData(dispatch);
-    dispatch(updateJobList(data));
+    // const data = await CareerService.fetchJobListData(dispatch);
+    // dispatch(updateJobList(data));
   } catch (err) {
     console.log(err);
   }

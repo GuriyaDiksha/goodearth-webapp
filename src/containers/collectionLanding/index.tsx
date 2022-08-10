@@ -278,7 +278,13 @@ class CollectionLanding extends React.Component<
               [styles.subcHeaderNewTimer]: !isLivingpage && showTimer
             })}
           >
-            <div className={cs(bootstrap.colMd12, globalStyles.textCenter)}>
+            <div
+              className={cs(
+                bootstrap.colMd6,
+                globalStyles.textCenter,
+                bootstrap.offsetMd3
+              )}
+            >
               <h1>{collectionName} Collections </h1>
               <p>{ReactHtmlParser(this.props.data.description)}</p>
             </div>

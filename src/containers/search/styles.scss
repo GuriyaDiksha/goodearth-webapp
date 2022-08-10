@@ -34,11 +34,16 @@
 }
 
 .filter-text{
-    line-height: 33px;
+    line-height: 60px;
+    height: 60px;
     font-size: 14px;
     font-family: $font-Lato;
     letter-spacing: 1px;
+<<<<<<< HEAD
     color: $gold;
+=======
+    color: $charcoal19;
+>>>>>>> 492f691cc7e32df1d45b4f29bbe76d581b389e5f
     text-transform: uppercase;
 }
 
@@ -74,7 +79,6 @@
 .inner-header {
     display: -webkit-inline-box;
     margin-left: 8%;
-    margin-top: 14px;
 }
 
 .subc-header{
@@ -94,16 +98,15 @@
     }
 }
 
-
-
 .npf-msg {
-    font-size: 20px;
-    letter-spacing: 1px;
-    color: tint(#000, 50%);
+  font-size: 20px;
+  letter-spacing: 0.5px;
+  font-family: $font-Montserrat;
+  color: tint(#000, 50%);
     span {
-      color: $cerise;
+      color: $gold;
     }
-}
+  }
 
 .product-number {
     border-bottom: var(--myborder);
@@ -274,10 +277,11 @@
   margin: 0 20px 30px 20px;
 
   li {
-    letter-spacing: 1px;
+    letter-spacing: 0.5px;
     line-height: 40px;
     border-bottom: 1px solid tint(#000,90%);
     @include b4_12px_montserrat_gold_caps();
+    font-weight: $medium;
     li {
       border-bottom: none;
       // padding-left: 20px;
@@ -436,7 +440,7 @@
         }
       }
     }
-    @include b4_12px_montserrat_light_charcoal();
+    @include b4_12px_montserrat_charcoal();
     text-transform: capitalize;
     &.country-code {
       display: flex;
@@ -715,10 +719,11 @@ input[type="radio"]:checked, [type="checkbox"]:not(:checked),
     text-align: start;
     margin-top: 10px;
     border: 0;
+    font-family: $font-Montserrat;
   }
   .icon-searchbar {
     font-size: 30px;
-    color: $cerise;
+    color: $charcoal19;
     position: absolute;
     top: 30%;
     right: 3%;
@@ -735,12 +740,13 @@ input[type="radio"]:checked, [type="checkbox"]:not(:checked),
   text-transform: capitalize;
   font-size: 25px;
   h2 {
-    font-size: 25px;
-    font-family: "Baskerville","Amiri","Serif";
-    color: #333;
+    @include h2_24px_lora_charcoal();
     line-height: 60px;
     text-transform: capitalize;
-    margin-top: 10px;
+    margin-top: 60px;
+    line-height: 60px;
+    text-transform: capitalize;
+    margin-top: 60px;
   }
   }
 
@@ -869,4 +875,9 @@ input[type="radio"]:checked, [type="checkbox"]:not(:checked),
 
 .gold-color{
   color: $gold !important;
+}
+
+.search-header-dropdown{
+  height: 60px !important;
+  line-height: 60px !important;
 }

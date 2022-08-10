@@ -4,9 +4,11 @@ import bootstrapStyles from "../../styles/bootstrap/bootstrap-grid.scss";
 import globalStyles from "styles/global.scss";
 import styles from "./styles.scss";
 import { Section3Props } from "./typings";
+import { useSelector } from "react-redux";
 import Formsy from "formsy-react";
 import FormInput from "../../components/Formsy/FormInput";
 import FormTextArea from "components/Formsy/FormTextArea";
+import { AppState } from "reducers/typings";
 // import { Currency, currencyCode } from "typings/currency";
 import * as valid from "utils/validate";
 
@@ -14,10 +16,12 @@ const Section3: React.FC<Section3Props> = ({ next, data, goback, mobile }) => {
   const RegisterFormRef = React.useRef<Formsy>(null);
   const emailInput = React.useRef<HTMLInputElement>(null);
   const lastNameInput = React.useRef<HTMLInputElement>(null);
+  const { tablet } = useSelector((state: AppState) => state.device);
   const [textarea, setTextarea] = useState("");
   const englishandSpace = /^[a-zA-Z\s]+$/;
   // const [ehighlight, setEhighlight] = useState(false);
   // const [emsg, setEmsg] = useState("");
+  const [isErr, setIsErr] = useState(false);
 
   const gotoNext = () => {
     // document.cookie = "giftcard_image=" + this.state.giftimages[this.state.selectindex] + "; expires=Sun, 15 Jul 2020 00:00:01 UTC; path=/";
@@ -97,7 +101,8 @@ const Section3: React.FC<Section3Props> = ({ next, data, goback, mobile }) => {
           bootstrapStyles.col12,
           {
             [styles.gcMobile]: mobile
-          }
+          },
+          { [styles.gcNoPad]: mobile }
         )}
       >
         <div
@@ -126,6 +131,12 @@ const Section3: React.FC<Section3Props> = ({ next, data, goback, mobile }) => {
             ref={RegisterFormRef}
             onValidSubmit={handleSubmit}
             onInvalidSubmit={handleInvalidSubmit}
+            onValid={() => {
+              setIsErr(false);
+            }}
+            onInvalid={() => {
+              setIsErr(true);
+            }}
           >
             <div
               className={cs(
@@ -149,7 +160,8 @@ const Section3: React.FC<Section3Props> = ({ next, data, goback, mobile }) => {
                     validations={{
                       isEnglish: (values, value) => {
                         if (value) {
-                          return englishandSpace.test(value);
+                          const bool = englishandSpace.test(value);
+                          return bool;
                         } else return true;
                       }
                     }}
@@ -260,20 +272,73 @@ const Section3: React.FC<Section3Props> = ({ next, data, goback, mobile }) => {
                     required
                   />
                 </div>
-                <div className={cs(bootstrapStyles.col12, styles.buttonRow)}>
-                  <div className={cs(styles.imageSelectBtnContainer)}>
-                    <button
-                      className={styles.imageSelectBtn}
-                      onClick={gotoNext}
-                    >
-                      Confirm & Preview Card&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                      <span></span>
-                    </button>
+                {tablet && (
+                  <div className={cs(bootstrapStyles.col12, styles.buttonRow)}>
+                    <div className={cs(styles.imageSelectBtnContainer)}>
+                      <button
+                        className={cs(styles.imageSelectBtn, {
+                          [styles.errorBtn]: isErr
+                        })}
+                        onClick={gotoNext}
+                      >
+                        Confirm & Preview
+                        Card&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <span></span>
+                      </button>
+                    </div>
                   </div>
-                </div>
+                )}
+                {!mobile && (
+                  <div className={cs(bootstrapStyles.col12, styles.buttonRow)}>
+                    <div className={cs(styles.imageSelectBtnContainer)}>
+                      <button
+                        className={cs(styles.imageSelectBtn, {
+                          [styles.errorBtn]: isErr
+                        })}
+                        onClick={gotoNext}
+                      >
+                        Confirm & Preview
+                        Card&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <span></span>
+                      </button>
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
           </Formsy>
+          {mobile && !tablet && (
+            <div
+              className={cs(
+                bootstrapStyles.col12,
+                styles.buttonRow,
+                {
+                  [styles.buttonSticky]: mobile && !tablet
+                },
+                {
+                  [styles.section3ButtonPositioningFix]: mobile && !tablet
+                }
+              )}
+            >
+              <div className={cs(styles.imageSelectBtnContainer)}>
+                <button
+                  className={cs(
+                    styles.imageSelectBtn,
+                    {
+                      [styles.section2FullWidth]: mobile && !tablet
+                    },
+                    {
+                      [styles.errorBtn]: isErr
+                    }
+                  )}
+                  onClick={gotoNext}
+                >
+                  Confirm & Preview Card&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  <span></span>
+                </button>
+              </div>
+            </div>
+          )}
         </div>
       </section>
     </div>

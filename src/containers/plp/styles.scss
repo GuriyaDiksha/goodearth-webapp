@@ -55,7 +55,7 @@
 }
 @media screen and (min-width: 992px) {
   .sp-cat {
-    padding-left: 20px;
+    // padding-left: 20px;
     padding-right: 20px;
 }
 .image-container {
@@ -290,17 +290,14 @@
         span {
           text-transform: capitalize;
           &:first-child {
-            @include b5_10px_montserrat_charcoal();
+            @include b6_9px_montserrat_charcoal();
+            line-height: 30px;
+            height: 30px;
           }
-          &.ellipses{
-            color: $med-charcoal;
-          }
-          color: $cerise;
           &:last-child {
-            float: right;
             cursor: pointer;
-            font-size: 6px;
-            color: tint(#000, 50%);
+            font-size: 8px;
+            color: $charcoal19;
           }
         }
       }
@@ -313,10 +310,10 @@
   &::-webkit-scrollbar {
     display: none;
   }
-  margin: 0 20px 30px 20px;
+  margin: 0px 0px 30px 20px;
 
   li {
-    letter-spacing: 1px;
+    letter-spacing: 0.5px;
     line-height: 40px;
     border-bottom: 1px solid tint(#000,90%);
     @include b4_12px_medium_gold_caps();
@@ -344,9 +341,10 @@
       @include plp_clear_filter();
       cursor: pointer;
       text-decoration: underline;
+      text-underline-offset: 2px;
       text-transform: capitalize;
       &:hover{
-        color: $aqua-bold;
+        color: #3C7979;
       }
     }
   }
@@ -378,7 +376,15 @@
       }
       .disableColors{
         // color: #4C4C4C;
+        // cursor: not-allowed;
+        opacity: 0.5;
       }
+    }
+    input[type="checkbox"]:not(:checked) + label{
+      @include b4_12px_montserrat_light_charcoal();
+    }
+    input[type="checkbox"]:checked + label{
+      @include b4_12px_montserrat_charcoal();
     }
   }
   .menulevel1-open {
@@ -406,15 +412,16 @@
       border-width: 0 1px 1px 0;
       width: 8px;
       height: 8px;
-      transform: rotate(313deg);
+      transform: rotate(45deg);
       top: 15px;
       position: absolute;
       right: 5px;
+      transition: transform 0.2s ease-in;
     }
   }
   .menulevel2-open {
     &:after {
-      transform: rotate(45deg);
+      transform: rotate(-135deg);
     }
   }
 }
@@ -485,6 +492,12 @@
     &.country-code-gc {
       top: 25px;
     }
+    input[type="checkbox"]:checked + label{
+      @include b4_12px_montserrat_charcoal();
+    }
+    input[type="checkbox"]:not(:checked) + label{
+      @include b4_12px_montserrat_light_charcoal();
+    }
   }
   input[type="radio"]:not(:checked) + label:before,
   input[type="radio"]:checked + label:before, [type="checkbox"]:not(:checked) + label:before,
@@ -538,6 +551,11 @@
     @include plp_color_filter();
     text-transform: capitalize;
     position: relative;
+    &.white-tick{
+      &:after{
+        border-color: #000 !important;
+      }
+    }
   }
 
   input[type="radio"]:not(:checked) + label:after,
@@ -547,7 +565,7 @@
     display: block;
     width: 6px;
     height: 10px;
-    border: solid #fff;
+    border: solid white;
     border-width: 0 2px 2px 0;
     position: absolute;
     top: 12px;
@@ -556,12 +574,7 @@
     line-height: 0.8;
     transition: all .1s;
   }
-  input[type="checkbox"]:not(:checked) + label{
-    color: $med-charcoal;
-  }
-  input[type="checkbox"]:checked + label {
-    color: $charcoal19;
-  }
+  
 }
 
 .colorlabel {
@@ -655,6 +668,7 @@ input[type="radio"]:checked, [type="checkbox"]:not(:checked),
       border: 1px solid $aqua-bold !important;
       color: $aqua-bold;
       font-weight: 500;
+      background: white;
     }
     &.disableSize{
       color: #E5E5E5 !important;
@@ -776,7 +790,7 @@ p.corporate-sub-heading {
 
 .filter-item-cross {
   right: 18px;
-  top: 0px;
+  top: 8px;
   position: relative;
   float: right;
   cursor: pointer;
@@ -786,9 +800,9 @@ p.corporate-sub-heading {
 }
 
 .filter-item {
-  background-color: rgba(0,0,0,0.1);
+  background-color: #F2F2F2;
   padding: 0px 30px 0px 10px !important;
-  border-radius: 20px;
+  border-radius: 13px;
   cursor: default;
   color: $charcoal19;
   margin-bottom: 10px;

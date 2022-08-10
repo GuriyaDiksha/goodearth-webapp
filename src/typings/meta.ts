@@ -1,7 +1,7 @@
 export type PageMeta = {
   keywords: string;
   description: string;
-  title: string;
+  titleTag: string;
   ogTitle: string;
   ogUrl: string;
   ogImage: string;

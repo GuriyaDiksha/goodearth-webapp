@@ -4,8 +4,8 @@
 .breadcrumbs-container {
     span, a {
         text-transform: capitalize;
-        letter-spacing: 1px;
-        line-height: 43px;
+        letter-spacing: 0.5px;
+        line-height: 50px;
         text-decoration: none;
         @include b5_10px_montserrat_charcoal();
         color: #19191955;
