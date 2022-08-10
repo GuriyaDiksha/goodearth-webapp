@@ -52,12 +52,14 @@
                 letter-spacing: 0.4px;
                 color: $default;
                 opacity: 1;
-                margin: auto;
                 top: 60px;
-                margin-top: 27px;
+                margin: 27px auto auto auto;
+                width: 90%;
+                padding: 0% 2% 0% 0%;
 
                 @media screen and (max-width: 992px) {
                     margin-top: 20px;
+                    width: 100%;
                     font: normal normal normal 16px/25px $font-Lora;
                 }
 
