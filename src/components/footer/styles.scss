@@ -134,7 +134,7 @@
 
 .shop-locator{
   padding-top: 15px;
-  @include b3_14px_montserrat_semibold_charcoal();
+  @include b3_14px_montserrat_medium_charcoal;
   text-transform: uppercase;
   div {
     &:nth-child(2){
@@ -263,11 +263,11 @@
     margin-top: 10px;
 
     >li {
-      @include b3_14px_montserrat_semibold_charcoal();
+      @include b3_14px_montserrat_medium_charcoal();
       line-height: 50px;
       >a {
         text-transform: uppercase;
-        @include b3_14px_montserrat_semibold_charcoal();
+        @include b3_14px_montserrat_medium_charcoal();
         line-height: 44px;
       }
       li {
@@ -280,7 +280,7 @@
         
       }
       span {
-        @include b3_14px_montserrat_semibold_charcoal();
+        @include b3_14px_montserrat_medium_charcoal();
         text-transform: uppercase;
       } 
     }
@@ -484,13 +484,13 @@
       li {
         width: 100%;
         font-size: 12px;
-        letter-spacing: 1px;
+        letter-spacing: 0.50px;
         line-height: 30px;
         font-weight: normal;
         color: #000;
         &:first-child{
-          @include b3_14px_montserrat_semibold_charcoal();
-          letter-spacing: 1.5px;
+          @include b3_14px_montserrat_medium_charcoal;
+          letter-spacing: 0.5px;
           text-transform: uppercase;
           a {
             color: $charcoal19;
@@ -500,7 +500,6 @@
           }
         }
         @include b4_12px_montserrat_charcoal();
-        letter-spacing: 1px;
         a {
           color: $charcoal19;
           &:hover{
@@ -584,7 +583,8 @@
 }
 
 .mobile-find-us-on{
-  @include b3_14px_montserrat_charcoal();
-  letter-spacing: 1.5px;
+  @include b3_14px_montserrat_medium_charcoal();
+  letter-spacing: 0.5px;
+
   text-transform: uppercase;
 }
