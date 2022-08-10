@@ -26,6 +26,8 @@ import GiftcardItem from "components/plpResultItem/giftCard";
 import CookieService from "../../services/cookie";
 import { POPUP } from "constants/components";
 import * as util from "utils/validate";
+import SecondaryHeaderDropdown from "components/dropdown/secondaryHeaderDropdown";
+import { CategoryMenu } from "containers/plp/typings";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -302,7 +304,7 @@ class Search extends React.Component<
       }
     } = this.props;
     // const { searchMaker } = this.state;
-    const items: DropdownItem[] = [
+    const items: CategoryMenu[] = [
       {
         label: "Our Curation",
         value: "hc"
@@ -362,7 +364,7 @@ class Search extends React.Component<
               </div>
               <div className={cs(bootstrap.colMd3, styles.innerHeader)}>
                 <p className={styles.filterText}>Sort</p>
-                <SelectableDropdownMenu
+                {/* <SelectableDropdownMenu
                   id="sort-dropdown-search"
                   align="right"
                   className={styles.dropdownRoot}
@@ -371,7 +373,14 @@ class Search extends React.Component<
                   onChange={this.onchangeFilter}
                   showCaret={true}
                   disabled={data.length == 0 ? true : false}
-                ></SelectableDropdownMenu>
+                ></SelectableDropdownMenu> */}
+                <SecondaryHeaderDropdown
+                  id="sort-dropdown-search"
+                  items={items}
+                  onChange={this.onchangeFilter}
+                  value={this.state.sortValue}
+                  className={styles.searchHeaderDropdown}
+                />
               </div>
             </Fragment>
           </SecondaryHeader>
@@ -388,7 +397,7 @@ class Search extends React.Component<
                     { [styles.mobileFilterMenuTimer]: this.props.showTimer },
                     globalStyles.hideLeft
                   )
-                : cs(bootstrap.colMd2, styles.filterSticky)
+                : cs(bootstrap.colMd3, styles.filterSticky)
             }
           >
             <FilterListSearch
@@ -405,7 +414,7 @@ class Search extends React.Component<
               { [globalStyles.hidden]: this.state.showmobileSort },
               { [globalStyles.paddTop80]: !this.state.showmobileSort },
               { [styles.spCat]: !this.state.showmobileSort },
-              bootstrap.colMd10,
+              bootstrap.colMd9,
               bootstrap.col12
             )}
           >

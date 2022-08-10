@@ -55,7 +55,7 @@
 }
 @media screen and (min-width: 992px) {
   .sp-cat {
-    padding-left: 20px;
+    // padding-left: 20px;
     padding-right: 20px;
 }
 .image-container {
@@ -290,17 +290,14 @@
         span {
           text-transform: capitalize;
           &:first-child {
-            @include b5_10px_montserrat_charcoal();
+            @include b6_9px_montserrat_charcoal();
+            line-height: 30px;
+            height: 30px;
           }
-          &.ellipses{
-            color: $med-charcoal;
-          }
-          color: $cerise;
           &:last-child {
-            float: right;
             cursor: pointer;
-            font-size: 6px;
-            color: tint(#000, 50%);
+            font-size: 8px;
+            color: $charcoal19;
           }
         }
       }
@@ -313,10 +310,10 @@
   &::-webkit-scrollbar {
     display: none;
   }
-  margin: 0 20px 30px 20px;
+  margin: 0px 0px 30px 20px;
 
   li {
-    letter-spacing: 1px;
+    letter-spacing: 0.5px;
     line-height: 40px;
     border-bottom: 1px solid tint(#000,90%);
     @include b4_12px_medium_gold_caps();
@@ -344,9 +341,10 @@
       @include plp_clear_filter();
       cursor: pointer;
       text-decoration: underline;
+      text-underline-offset: 2px;
       text-transform: capitalize;
       &:hover{
-        color: $aqua-bold;
+        color: #3C7979;
       }
     }
   }
@@ -669,6 +667,7 @@ input[type="radio"]:checked, [type="checkbox"]:not(:checked),
       border: 1px solid $aqua-bold !important;
       color: $aqua-bold;
       font-weight: 500;
+      background: white;
     }
     &.disableSize{
       color: #E5E5E5 !important;
@@ -790,7 +789,7 @@ p.corporate-sub-heading {
 
 .filter-item-cross {
   right: 18px;
-  top: 0px;
+  top: 8px;
   position: relative;
   float: right;
   cursor: pointer;
@@ -800,9 +799,9 @@ p.corporate-sub-heading {
 }
 
 .filter-item {
-  background-color: rgba(0,0,0,0.1);
+  background-color: #F2F2F2;
   padding: 0px 30px 0px 10px !important;
-  border-radius: 20px;
+  border-radius: 13px;
   cursor: default;
   color: $charcoal19;
   margin-bottom: 10px;
