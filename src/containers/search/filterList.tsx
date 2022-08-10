@@ -206,8 +206,9 @@ class FilterList extends React.Component<Props, State> {
     const categories: any = [],
       subCategories: any = [],
       categoryNames: any = [],
-      categoryObj: any = {};
-    let count = 0;
+      categoryObj: any = {},
+      counts = {};
+
     const { filter } = this.state;
 
     let selectIndex: any = -1;
@@ -256,15 +257,16 @@ class FilterList extends React.Component<Props, State> {
       });
     }
 
-    facets.categories.map((data: any) => (count = count + data[2]));
-    categoryObj[`View All (${count})`] = [];
+    // facets.categories.map((data: any) => (count = count + data[2]));
+    // console.log("count facets.categories====",facets.categories,facets.subCategories,facets.categoryShop)
+    categoryObj[`View All (${facets.subCategories?.[0][1]})`] = [];
 
     if (filter.categoryShop["selectedCatShop"]) {
       selectIndex = filter.categoryShop["selectedCatShop"].split(">")[0].trim();
     } else {
       filter.categoryShop[
         "selectedCatShop"
-      ] = selectIndex = `View All (${count})`;
+      ] = selectIndex = `View All (${facets.subCategories?.[0][1]})`;
     }
 
     this.setState({ filter: filter });
@@ -276,13 +278,13 @@ class FilterList extends React.Component<Props, State> {
       // viewData.length > 2 ? viewData.pop() : "";
       if (!categoryObj[tempKey]) {
         categoryObj[tempKey] = [["View all", viewData.join(">").trim()]];
-        count = 0;
+        counts[tempKey] = 0;
       }
 
       if (data[0].split(">")[1]) {
         categoryObj[tempKey].push([data[0].split(">")[1].trim()].concat(data));
-        count = count + data[2];
-        categoryObj[tempKey][0][3] = count;
+        counts[tempKey] = counts[tempKey] + data[2];
+        categoryObj[tempKey][0][3] = counts[tempKey];
       }
     });
 
