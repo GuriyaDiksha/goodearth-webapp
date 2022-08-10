@@ -24,7 +24,9 @@ const PDPImage: React.FC<Props> = ({
   onClick,
   onLoad,
   icon,
-  code
+  code,
+  iconAll,
+  codeAll
 }) => {
   const src = productImage?.replace(/Micro|Large/i, "Medium");
   const onImageClick = useCallback(() => {
@@ -56,11 +58,11 @@ const PDPImage: React.FC<Props> = ({
         onLoad={onLoad}
         isVisible={index < 2 ? true : undefined}
       />
-      {icon && (
+      {iconAll && (
         <img
           src={mobile3d}
           className={styles.helloimageButton}
-          onClick={(e: any) => onClick3dButton(e, code)}
+          onClick={(e: any) => onClick3dButton(e, codeAll)}
         ></img>
       )}
     </div>

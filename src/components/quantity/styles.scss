@@ -52,6 +52,10 @@
     border-left: 1px solid #fff;
 }
 
+.plus-quantity-disabled{
+    color: #D8D8D8 !important;
+}
+
 .error-msg{
     @include error-msg();
 }

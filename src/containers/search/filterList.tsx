@@ -88,7 +88,11 @@ class FilterList extends React.Component<Props, State> {
       showFilterByDiscountMenu: true,
       categoryindex: -1,
       activeindex: -1,
-      activeindex2: 1
+      activeindex2: 1,
+      selectedCatShop: "View All",
+      isViewAll: false,
+      urltempData: { categoryObj: {}, id: "" },
+      isCategoryClicked: false
     };
     this.props.onRef(this);
   }
@@ -129,9 +133,21 @@ class FilterList extends React.Component<Props, State> {
             break;
           case "category_shop":
             for (let i = 0; i < cc.length; i++) {
-              const csKey = cc[i].trim();
-              filter.categoryShop[csKey] = true;
+              // const csKey = cc[i].trim();
+              // filter.categoryShop[csKey] = true;
             }
+            if (cc.length > 1) {
+              let qparam = "";
+
+              cc.map((val: any, index: number) => {
+                qparam += index === 0 ? val : qparam ? "|" + val : val;
+              });
+
+              filter.categoryShop["selectedCatShop"] = qparam;
+            } else if (!cc[0].startsWith("View All")) {
+              filter.categoryShop["selectedCatShop"] = cc[0];
+            }
+
             break;
           case "min_price":
           case "max_price":
@@ -167,14 +183,182 @@ class FilterList extends React.Component<Props, State> {
         }
       }
     }
+
+    if (!this.state.isCategoryClicked) {
+      this.setState({
+        showmenulevel2: true,
+        categoryindex: 0,
+        categorylevel1: true
+      });
+    }
     this.setState({
       filter: filter,
-      showmenulevel2: true,
-      categoryindex: 0,
+      // showmenulevel2: openCat || this.state.showmenulevel2,
+      // categoryindex: openCat ? -1 : 0,
       activeindex: this.state.openMenu,
-      activeindex2: 1,
-      categorylevel1: true
+      activeindex2: 1
+      // categorylevel1: openCat || this.state.categorylevel1
     });
+  };
+
+  getSortedFacets = (facets: any): any => {
+    if (facets.length == 0) return false;
+    const categories: any = [],
+      subCategories: any = [],
+      categoryNames: any = [],
+      categoryObj: any = {};
+    let count = 0;
+    const { filter } = this.state;
+
+    let selectIndex: any = -1;
+
+    if (facets.categoryShop && facets.categoryShop.length > 0) {
+      facets.categoryShop.map((v: any, i: number) => {
+        const baseCategory = v[0];
+
+        let categoryUrl: any = "";
+        if (facets.categoryShopDetail && facets.categoryShopDetail.length > 0) {
+          categoryUrl = facets.categoryShopDetail.filter(function(
+            k: any,
+            i: any
+          ) {
+            return Object.prototype.hasOwnProperty.call(k, baseCategory);
+          })[0];
+        }
+        if (categoryUrl) {
+          v.push(categoryUrl[baseCategory]);
+        }
+
+        const labelArr = baseCategory.split(">");
+        // labelArr.shift();
+
+        if (labelArr.length > 1) {
+          //categories having child categories
+          categories.push(v);
+          if (categoryNames.indexOf(labelArr[0].trim()) == -1) {
+            categoryNames.push(labelArr[0].trim());
+          }
+        } else if (labelArr.length == 1) {
+          subCategories.push(v);
+        }
+      });
+
+      facets.categories = categories;
+      facets.subCategories = subCategories;
+    }
+
+    for (let i = 0; i < categoryNames.length; i++) {
+      facets.subCategories.map(function(v: any, k: any) {
+        if (v[0].indexOf(categoryNames[i]) != -1) {
+          facets.categories.push(v);
+          facets.subCategories.splice(k, 1);
+        }
+      });
+    }
+
+    facets.categories.map((data: any) => (count = count + data[2]));
+    categoryObj[`View All (${count})`] = [];
+
+    if (filter.categoryShop["selectedCatShop"]) {
+      selectIndex = filter.categoryShop["selectedCatShop"].split(">")[0].trim();
+    } else {
+      filter.categoryShop[
+        "selectedCatShop"
+      ] = selectIndex = `View All (${count})`;
+    }
+
+    this.setState({ filter: filter });
+
+    facets.categories.map((data: any, i: number) => {
+      const tempKey = data[0].split(">")[0]?.trim(),
+        viewData = data[0].split(">");
+
+      // viewData.length > 2 ? viewData.pop() : "";
+      if (!categoryObj[tempKey]) {
+        categoryObj[tempKey] = [["View all", viewData.join(">").trim()]];
+        count = 0;
+      }
+
+      if (data[0].split(">")[1]) {
+        categoryObj[tempKey].push([data[0].split(">")[1].trim()].concat(data));
+        count = count + data[2];
+        categoryObj[tempKey][0][3] = count;
+      }
+    });
+
+    // code for setting all values of filter false
+    // facets.subCategories.map((data: any, i: number) => {
+    //   const key = data[0].split(">")[0]?.trim();
+    //   if (filter.categoryShop[key]) {
+    //     // check that view all is clicked or not by (arrow key >)
+    //     if (filter.categoryShop[key][data[0]]) {
+    //       // nestedList[1].split('>').length == 2 ? check = data : '';
+    //       selectIndex = key;
+    //       // this.state.old_selected_category = key;
+    //       // filter.categoryShop[key][data[0]] = false
+    //     }
+    //   } else {
+    //     filter.categoryShop[key] = {};
+    //     filter.categoryShop[key][data[0]] = false;
+    //   }
+    // });
+    //  let oldSelectedCategory: any = this.state.oldSelectedCategory;
+    // code for setting  all values of filter is false
+    // Object.keys(categoryObj).map((data, i) => {
+    //   categoryObj[data].map((nestedList: any, j: number) => {
+    //     if (filter.categoryShop[data]) {
+    //       // check that view all is clicked or not by (arrow key >)
+    //       if (filter.categoryShop[data][nestedList[1]]) {
+    //         nestedList[1].split(">").length == 2 ? (check = data) : "";
+    //         selectIndex = data;
+    //         oldSelectedCategory = data;
+    //       } else {
+    //         if (check == data) {
+    //           filter.categoryShop[data][nestedList[1]] = true;
+    //           selectIndex = data;
+    //         } else {
+    //           filter.categoryShop[data][nestedList[1]] = false;
+    //         }
+    //       }
+    //     } else {
+    //       filter.categoryShop[data] = {};
+    //       filter.categoryShop[data][nestedList[1]] = false;
+    //     }
+    //   });
+    // });
+    // code for all product_by filter false
+    // if (facets.categoryProductTypeMapping) {
+    //   Object.keys(facets.categoryProductTypeMapping).map((level4: any) => {
+    //     facets.categoryProductTypeMapping[level4].map((productBy: any) => {
+    //       if (!filter.productType["pb_" + productBy]) {
+    //         filter.productType["pb_" + productBy] = false;
+    //       }
+    //     });
+    //   });
+    // }
+    //code for set active open state and set selected old value
+    //if (!oldSelectedCategory) {
+
+    // Object.keys(filter.categoryShop).map((level2: any, i: number) => {
+    //   Object.keys(filter.categoryShop[level2]).map(
+    //     (level3: any, j: number) => {
+    //       if (filter.categoryShop[level2][level3]) {
+    //         selectIndex = level2;
+    //         oldSelectedCategory = level2.split(">")[0];
+    //       }
+    //     }
+    //   );
+    //});
+    //}
+
+    this.setState({
+      activeindex2: selectIndex + "l",
+      // oldSelectedCategory: oldSelectedCategory,
+      filter: filter,
+      isViewAll: filter.categoryShop["selectedCatShop"].includes("|")
+    });
+
+    return { categoryObj: categoryObj, facets: facets };
   };
 
   getMainUrl = (matchkey: any) => {
@@ -198,6 +382,7 @@ class FilterList extends React.Component<Props, State> {
 
   createUrlfromFilter = (load?: any) => {
     const array = this.state.filter;
+    const { isViewAll, urltempData, filter } = this.state;
     const { history } = this.props;
     let filterUrl = "",
       mainurl: string | undefined = "",
@@ -206,7 +391,26 @@ class FilterList extends React.Component<Props, State> {
       categoryShopVars = "",
       productVars = "",
       discountVars = "",
-      searchValue = "";
+      searchValue = "",
+      categoryKey: any;
+
+    if (isViewAll) {
+      let qparam = "";
+      Object.keys(urltempData?.categoryObj).map(ele => {
+        if (ele.trim() == urltempData?.id.split(">")[0].trim()) {
+          urltempData?.categoryObj[ele].map((val: any, index: number) => {
+            qparam += index === 0 ? "" : qparam ? "|" + val[1] : val[1];
+          });
+        }
+      });
+
+      filter.categoryShop["selectedCatShop"] = qparam;
+    } else if (urltempData?.id !== "all") {
+      filter.categoryShop["selectedCatShop"] = urltempData?.id;
+    } else if (filter.categoryShop["selectedCatShop"]?.startsWith("View All")) {
+      filter.categoryShop["selectedCatShop"] = "";
+    }
+
     Object.keys(array).map((filterType, i) => {
       Object.keys(array[filterType]).map((key, i) => {
         switch (filterType) {
@@ -232,9 +436,25 @@ class FilterList extends React.Component<Props, State> {
             break;
           case "categoryShop":
             // this.state.old_selected_category = k]y;
-            if (array[filterType][key]) {
-              categoryShopVars = encodeURIComponent(key).replace(/%20/g, "+");
+            // if (array[filterType][key]) {
+            //   categoryShopVars = encodeURIComponent(key).replace(/%20/g, "+");
+            //   console.log("categoryShop=======",categoryShopVars,filterType)
+            // }
+            categoryKey = array[filterType][key];
+
+            //Object.keys(categoryKey).map(data => {
+            if (categoryKey) {
+              categoryShopVars = encodeURIComponent(categoryKey).replace(
+                /%20/g,
+                "+"
+              );
+
+              // categoryShopVars == ""
+              //   ? (categoryShopVars = data)
+              //   : (categoryShopVars += "|" + data);
+              // mainurl = this.getMainUrl(orignalData);
             }
+            //});
             break;
           case "price":
             filterUrl += "&" + key + "=" + array[filterType][key];
@@ -295,6 +515,7 @@ class FilterList extends React.Component<Props, State> {
       mainurl = history.location.pathname;
     }
     // filter_url = filter_url.replace(/\s/g, "+");
+
     history.replace(mainurl + "?q=" + searchValue + filterUrl, {});
     // history.replaceState({}, "", mainurl + "?q=" + searchValue + filterUrl);
     this.updateDataFromAPI(load);
@@ -333,7 +554,8 @@ class FilterList extends React.Component<Props, State> {
   onchangeRange = (value: any) => {
     if (value[0] == value[1]) return false;
     this.setState({
-      rangevalue: [value[0], value[1]]
+      rangevalue: [value[0], value[1]],
+      isCategoryClicked: true
     });
   };
 
@@ -345,7 +567,8 @@ class FilterList extends React.Component<Props, State> {
     this.setState(
       {
         filter: filter,
-        rangevalue: [value[0], value[1]]
+        rangevalue: [value[0], value[1]],
+        isCategoryClicked: true
       },
       () => {
         this.createUrlfromFilter();
@@ -522,6 +745,9 @@ class FilterList extends React.Component<Props, State> {
               }
             }
           );
+          this.props.updateFacets(
+            this.getSortedFacets(searchList.results.facets)
+          );
         })
         .finally(() => {
           this.setState({ isLoading: false });
@@ -550,6 +776,9 @@ class FilterList extends React.Component<Props, State> {
         changeLoader?.(false);
         valid.productImpression(searchList, "PLP", this.props.currency);
         this.createList(searchList);
+        this.props.updateFacets(
+          this.getSortedFacets(searchList.results.facets)
+        );
       })
       .finally(() => {
         changeLoader?.(false);
@@ -563,9 +792,14 @@ class FilterList extends React.Component<Props, State> {
   }
 
   UNSAFE_componentWillReceiveProps = (nextProps: Props) => {
-    if (nextProps.onload && nextProps.facets.categoryShop) {
+    if (
+      nextProps.onload &&
+      nextProps.facets.categoryShop &&
+      this.props.updateFacets
+    ) {
       this.props.updateOnload(false);
       this.createList(nextProps.data);
+      this.props.updateFacets(this.getSortedFacets(nextProps.facets));
     }
 
     if (
@@ -573,6 +807,7 @@ class FilterList extends React.Component<Props, State> {
       this.props.customerGroup != nextProps.customerGroup
     ) {
       const { filter } = this.state;
+
       if (filter.sortBy && filter.sortBy["sortBy"] == "discount") {
         filter.sortBy = {};
       }
@@ -782,67 +1017,240 @@ class FilterList extends React.Component<Props, State> {
     return html;
   };
 
-  createCatagoryFromFacets = (categoryObj: any) => {
-    const html: any = [];
-    if (!categoryObj.categoryShop) return false;
+  generateCatagory = (categoryObj: any, data: any, html: any) => {
+    const { filter, isViewAll } = this.state;
 
-    if (categoryObj.categoryShop) {
-      html.push(
-        <ul className={cs(styles.categorylabel, styles.searchCategory)}>
-          <li className={styles.categoryTitle}>
-            <span
-              className={
-                Object.keys(this.state.filter.categoryShop).length == 0
-                  ? styles.goldColor
-                  : ""
-              }
-              onClick={this.handleClickCategory}
-              data-value="all"
-              id="all"
-            >
-              All (
-              {categoryObj.categoryShop[0]
-                ? categoryObj.categoryShop.filter(
-                    (category: any) => category[0] == "All"
-                  )[0][1]
-                : "0"}
-              )
-            </span>
-          </li>
-        </ul>
-      );
-    }
-    categoryObj.categoryShop.map((data: any, i: number) => {
-      if (data[0] == "All") return false;
-      const len = data[0].split(">").length;
-      html.push(
-        <ul className={cs(styles.categorylabel, styles.searchCategory)}>
-          <li className={styles.categoryTitle}>
-            <span
-              className={
-                this.state.filter.categoryShop[data[0]] ? styles.goldColor : ""
-              }
-              onClick={this.handleClickCategory}
-              data-value={data}
-              id={data[0]}
-            >
-              {data[0].split(">")[len - 1] + " (" + data[2] + ")"}
-            </span>
-          </li>
-        </ul>
-      );
-    });
+    html.push(
+      <ul key={`category-${data}`}>
+        <li key={data + "l"}>
+          <span
+            className={cs(
+              this.state.showmenulevel2 && this.state.activeindex2 == data + "l"
+                ? cs(
+                    data.startsWith("View All")
+                      ? styles.menulevel2ViewAll
+                      : styles.menulevel2,
+                    data.startsWith("View All")
+                      ? styles.menulevel2ViewAll
+                      : styles.menulevel2Open
+                  )
+                : data.startsWith("View All")
+                ? styles.menulevel2ViewAll
+                : styles.menulevel2,
+              this.state.activeindex2 == data + "l"
+                ? styles.selectedCatShop
+                : ""
+            )}
+            onClick={this.Clickmenulevel2.bind(this, data + "l")}
+          >
+            {data}
+          </span>
+          <div
+            className={
+              this.state.showmenulevel2 && this.state.activeindex2 == data + "l"
+                ? styles.showheader2
+                : globalStyles.hidden
+            }
+          >
+            <ul className={styles.categorylabel}>
+              {categoryObj[data].map((nestedList: any, j: number) => {
+                return (
+                  <li key={nestedList[0]}>
+                    {/* <input
+                      type="checkbox"
+                      id={nestedList[1]}
+                      disabled={this.state.disableSelectedbox}
+                      checked={
+                        filter.categoryShop[data]
+                          ? filter.categoryShop[data][nestedList[1]]
+                          : false
+                      }
+                      onClick={this.handleClickCategory}
+                      value={data}
+                      name={nestedList[0]}
+                    /> */}
+                    <label
+                      className={
+                        (!isViewAll &&
+                          filter.categoryShop["selectedCatShop"]
+                            ?.split(">")[1]
+                            ?.trim() === nestedList[0]) ||
+                        (isViewAll &&
+                          nestedList[0]?.startsWith("View all") &&
+                          filter.categoryShop["selectedCatShop"]?.split("|")
+                            .length &&
+                          filter.categoryShop["selectedCatShop"]
+                            ?.split(">")[0]
+                            .trim() === data)
+                          ? styles.selectedCatShop
+                          : ""
+                      }
+                      htmlFor={nestedList[1]}
+                      id={nestedList[1]}
+                      onClick={e =>
+                        this.handleClickCategory(
+                          e,
+                          data,
+                          categoryObj,
+                          nestedList[0]?.startsWith("View all")
+                        )
+                      }
+                    >
+                      {nestedList[0]}
+                      {nestedList[3] && `(${nestedList[3]})`}
+                    </label>
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+        </li>
+      </ul>
+    );
     return html;
   };
 
-  handleClickCategory = (event: any) => {
+  generateSubCatagory = (data: any, html: any, categoryObj: any) => {
+    const name = data && data[0].split(">")[1]?.trim(),
+      id = data[0].trim();
+
+    html.push(
+      <ul
+        className={cs(styles.categorylabel, styles.searchCategory)}
+        key={`subcategory-${name}-${id}`}
+      >
+        <li className={styles.categoryTitle} key={id}>
+          <span
+            className={
+              Object.keys(this.state.filter.categoryShop).length == 0
+                ? globalStyles.cerise
+                : ""
+            }
+            // onClick={this.handleClickCategory}
+            data-value="all"
+            id="all"
+          >
+            All (
+            {categoryObj.categoryShop[0]
+              ? categoryObj.categoryShop.filter(
+                  (category: any) => category[0] == "All"
+                )[0][1]
+              : "0"}
+            )
+          </span>
+        </li>
+      </ul>
+    );
+
+    return html;
+  };
+
+  createCatagoryFromFacets = (categoryObj: any, categorydata: any) => {
+    // const html: any = [];
+    // if (!categoryObj.categoryShop) return false;
+
+    // if (categoryObj.categoryShop) {
+    //   html.push(
+    //     <ul className={cs(styles.categorylabel, styles.searchCategory)}>
+    //       <li className={styles.categoryTitle}>
+    //         <span
+    //           className={
+    //             Object.keys(this.state.filter.categoryShop).length == 0
+    //               ? globalStyles.cerise
+    //               : ""
+    //           }
+    //           onClick={this.handleClickCategory}
+    //           data-value="all"
+    //           id="all"
+    //         >
+    //           All (
+    //           {categoryObj.categoryShop[0]
+    //             ? categoryObj.categoryShop.filter(
+    //                 (category: any) => category[0] == "All"
+    //               )[0][1]
+    //             : "0"}
+    //           )
+    //         </span>
+    //       </li>
+    //     </ul>
+    //   );
+    // }
+    // categoryObj.categoryShop.map((data: any, i: number) => {
+    //   if (data[0] == "All") return false;
+    //   const len = data[0].split(">").length;
+    //   html.push(
+    //     <ul className={cs(styles.categorylabel, styles.searchCategory)}>
+    //       <li className={styles.categoryTitle}>
+    //         <span
+    //           className={
+    //             this.state.filter.categoryShop[data[0]]
+    //               ? globalStyles.cerise
+    //               : ""
+    //           }
+    //           onClick={this.handleClickCategory}
+    //           data-value={data}
+    //           id={data[0]}
+    //         >
+    //           {data[0].split(">")[len - 1] + " (" + data[2] + ")"}
+    //         </span>
+    //       </li>
+    //     </ul>
+    //   );
+    // });
+
+    let html: any = [];
+    if (!categoryObj) return false;
+    const cat = categorydata.categories
+      .concat(categorydata.subCategories)
+      .filter(function(a: any) {
+        return a[0].split(">").length == 2;
+      });
+
+    const subcat = cat.sort(function(a: any, b: any) {
+      return +a[1] - +b[1];
+    });
+
+    for (const key in categoryObj) {
+      html = this.generateCatagory(categoryObj, key, html);
+    }
+
+    subcat.map((data: any) => {
+      categorydata.subCategories.map((sub: any) => {
+        if (data[0].indexOf(sub[0]) > -1) {
+          html = this.generateSubCatagory(sub, html, categoryObj);
+        }
+      });
+    });
+
+    return html;
+  };
+
+  handleClickCategory = (
+    event: any,
+    data: any,
+    categoryObj: any,
+    isViewAll: boolean
+  ) => {
     //code for checked view all true
+
     const { filter } = this.state;
     filter.categoryShop = {};
     if (event.target.id == "all") {
       // do nothing
     } else {
-      filter.categoryShop[event.target.id] = true;
+      // if (isViewAll) {
+      //   let qparam = "";
+      //   Object.keys(categoryObj).map(ele => {
+      //     if (ele.trim() == event.target.id.split(">")[0].trim()) {
+      //       categoryObj[ele].map((val: any, index: number) => {
+      //         qparam += index === 0 ? "" : qparam ? "|" + val[1] : val[1];
+      //       });
+      //     }
+      //   });
+      //   filter.categoryShop["selectedCatShop"] = qparam;
+      // } else {
+      //   filter.categoryShop["selectedCatShop"] = event.target.id;
+      // }
     }
     if (filter.sortBy["sortBy"] == "discount") {
       filter.sortBy = {};
@@ -850,7 +1258,10 @@ class FilterList extends React.Component<Props, State> {
     this.clearFilter(undefined, "all", true);
     this.setState(
       {
-        filter: filter
+        filter: filter,
+        selectedCatShop: data,
+        isViewAll: isViewAll,
+        urltempData: { categoryObj: categoryObj, id: event.target.id }
       },
       () => {
         this.createUrlfromFilter();
@@ -897,6 +1308,15 @@ class FilterList extends React.Component<Props, State> {
           showmenulevel2: !this.state.showmenulevel2
         })
       : this.setState({ activeindex2: index, showmenulevel2: true });
+
+    if (isNaN(index) && index?.startsWith("View All")) {
+      this.handleClickCategory(
+        { target: { id: "all" } },
+        "View All",
+        null,
+        false
+      );
+    }
   };
 
   handleClickColor = (event: any) => {
@@ -906,7 +1326,8 @@ class FilterList extends React.Component<Props, State> {
       value: event.target.value
     };
     this.setState({
-      filter: filter
+      filter: filter,
+      isCategoryClicked: true
     });
     this.createUrlfromFilter();
     event.stopPropagation();
@@ -1007,7 +1428,8 @@ class FilterList extends React.Component<Props, State> {
     };
     this.setState(
       {
-        filter: filter
+        filter: filter,
+        isCategoryClicked: true
       },
       () => {
         this.createUrlfromFilter();
@@ -1494,7 +1916,10 @@ class FilterList extends React.Component<Props, State> {
                   : globalStyles.hidden
               }
             >
-              {this.createCatagoryFromFacets(this.props.data.results.facets)}
+              {this.createCatagoryFromFacets(
+                this.props.facetObject.categoryObj,
+                this.props.facetObject.facets
+              )}
             </div>
           </li>
           {this.props.salestatus && (

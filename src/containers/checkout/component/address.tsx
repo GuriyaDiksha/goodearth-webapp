@@ -20,6 +20,7 @@ import { AppState } from "reducers/typings";
 import { AddressData } from "components/Address/typings";
 import * as valid from "utils/validate";
 import { CheckoutAddressContext } from "./context";
+import { Currency, currencyCode } from "typings/currency";
 
 const AddressSection: React.FC<AddressProps & {
   mode: string;
@@ -62,6 +63,8 @@ const AddressSection: React.FC<AddressProps & {
     SGD: 3500
   };
 
+  const code = currencyCode[currency as Currency];
+
   const [sameAsShipping, setSameAsShipping] = useState(sameShipping);
   const [gst, setGst] = useState(false);
   const [gstText, setGstText] = useState("");
@@ -98,6 +101,8 @@ const AddressSection: React.FC<AddressProps & {
   }, [isGoodearthShipping, hidesameShipping, isBridal]);
 
   useEffect(() => {
+    setPanError("");
+    setPanCheck("");
     if (currency != "INR") {
       setGst(false);
     }
@@ -279,11 +284,19 @@ const AddressSection: React.FC<AddressProps & {
       setPanCheck("");
       validate = true;
     } else if (valid.checkBlank(pancardText)) {
-      setPanError("Please enter your PAN Number");
+      setPanError(
+        currency == "INR"
+          ? "Please enter your PAN Number"
+          : "Please enter your Passport Number"
+      );
       setPanCheck("");
       validate = false;
     } else {
-      setPanError("Please enter a valid PAN Number");
+      setPanError(
+        currency == "INR"
+          ? "Please enter a valid PAN Number"
+          : "Please enter a valid Passport Number"
+      );
       setPanCheck("");
       validate = false;
     }
@@ -396,10 +409,12 @@ const AddressSection: React.FC<AddressProps & {
     if (props.activeStep == Steps.STEP_BILLING) {
       const pass =
         currency == "INR"
-          ? "AS PER RBI GOVERNMENT REGULATIONS, PAN DETAILS ARE MANDATORY FOR TRANSACTIONS ABOVE RS. 2 LAKHS."
-          : "AS PER RBI GOVERNMENT REGULATIONS, PASSPORT DETAILS ARE MANDATORY FOR TRANSACTIONS ABOVE" +
-            amountPrice[currency] +
-            ".";
+          ? `AS PER RBI GOVERNMENT REGULATIONS, PAN DETAILS ARE MANDATORY FOR TRANSACTIONS ABOVE ${String.fromCharCode(
+              ...code
+            )} ${amountPrice[currency]}.`
+          : `AS PER RBI GOVERNMENT REGULATIONS, PASSPORT DETAILS ARE MANDATORY FOR TRANSACTIONS ABOVE ${String.fromCharCode(
+              ...code
+            )} ${amountPrice[currency]}.`;
       const panText =
         currency == "INR" ? "PAN Card Number*" : " Passport Number*";
       return (
