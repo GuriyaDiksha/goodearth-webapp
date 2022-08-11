@@ -36,25 +36,31 @@ export default {
     return data;
   },
   fetchMyOrders: async (dispatch: Dispatch, url?: string | null) => {
-    const data = await API.get<MyOrdersResponse>(
+    const data = await API.post<MyOrdersResponse>(
       dispatch,
-      url ? url : `${__API_HOST__ + "/myapi/order/my_orders"}`
+      url ? url : `${__API_HOST__ + "/myapi/order/my_orders"}`,
+      {}
     );
     return data;
   },
   fetchInShopOrders: async (dispatch: Dispatch, email: string) => {
     const data = await API.post<any>(
       dispatch,
-      `${__OMNI_HOST__}/omni/customer_offline_orders_web/?email=${email}`,
-      {}
+      `${__OMNI_HOST__}/omni/customer_offline_orders_web/`,
+      {
+        email: email
+      }
     );
     return data;
   },
   fetchOrderBy: async (dispatch: Dispatch, id: string, email: string) => {
-    const data = await API.get<MyOrdersResponse>(
+    const data = await API.post<MyOrdersResponse>(
       dispatch,
-      `${__API_HOST__ +
-        "/myapi/order/my_orders?orderNumber="}${id}&email=${email}`
+      `${__API_HOST__}/myapi/order/my_orders`,
+      {
+        orderNumber: id,
+        email: email
+      }
     );
     return data;
   },
