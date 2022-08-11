@@ -57,11 +57,11 @@ const TopImage: React.FC<Props> = ({
         <div>
           <div>
             <img
-              className={styles.leftImage}
+              className={cs(styles.leftImage, styles.topImage)}
               src={mobile || tablet ? imageMobile || image : image}
             />
           </div>
-          <div className={cs(styles.gcTnc)}>
+          <div className={cs(styles.gcTnc, styles.topImage)}>
             {/* {icon && <img src={icon} className={styles.icon} />} */}
             <div className={cs(globalStyles.popupHeading, styles.heading)}>
               {ReactHtmlParser(heading)}

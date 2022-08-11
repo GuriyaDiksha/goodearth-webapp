@@ -20,6 +20,10 @@
       // font-size: 12px;
       }
       .cms-content {
+        @include b4_12px_montserrat_charcoal();
+        letter-spacing: 0.36px;
+        margin-bottom: 30px;
+        padding: 0px 20px;
         p {
           padding: 0;
         }
@@ -1062,27 +1066,50 @@
 
 .two-button {
   display: flex;
-  justify-content: space-around;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   margin-bottom: 30px;
-  &.two-button-mobile {
-    flex-direction: column-reverse;
-    align-items: center;
-  }
   .button1 {
     width: 40%;
-    max-width: 240px;
+    // max-width: 240px;
+    min-width: 300px;
+    height: 58px !important;
+    font-family: $font-Montserrat !important;
+    font-size: 14px !important;
+    font-weight: $regular !important;
+    color: #fff !important;
+    background-color: $aqua-bold !important;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     position: relative;
+    a{
+      p{
+        padding: 0;
+      }
+    }
   }
   .button2 {
     width: 40%;
     max-width: 240px;
-    position: relative;
-    background-color: white;
+    @include b4_12px_montserrat_charcoal_caps();
+    text-decoration: underline;
+    text-underline-offset: 4px;
+    &:hover{
+      color: $aqua-bold;
+    }
   }
 }
 
 .left-image {
   width: 100%;
+}
+
+.top-image{
+  width: 100%;
+  height: 160px;
 }
 
 .gc-tnc{
@@ -1092,6 +1119,7 @@
   }
   .heading{
     @include h3_20px_lora_charcoal();
+    letter-spacing: 0.5px;
     margin-bottom: 30px;
   }
   .left-image-content{
@@ -1100,7 +1128,7 @@
     margin-bottom: 30px;
     padding: 0px 20px;
   }
-  .popup-cta{
+  .left-image-cta{
     margin-bottom: 30px;
     border: 1px solid $aqua-bold;
     color: $aqua-bold;
@@ -1113,14 +1141,62 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    letter-spacing: 0.5px;
     &:hover{
       color: $white;
       background: $aqua-bold;
     }
   }
+  .popup-cta{
+    color: #fff;
+    font-family: $font-Montserrat;
+    background-color: $aqua-bold;
+    font-size: 14px;
+    font-weight: $regular;
+    text-transform: uppercase;
+    height: 58px;
+    line-height: unset;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    letter-spacing: 0.5px;
+    min-width: 300px;
+    // &:hover{
+    //   color: $white;
+    //   background: $aqua-bold;
+    // }
+  }
   .disclaimer{
     @include b6_9px_light_montserrat_charcoal();
     line-height: unset;
+  }
+  &.top-image{
+    .disclaimer{
+      p{
+        padding: 0px 25%;
+      }
+    }
+  }
+  &.heading-cta{
+    .disclaimer{
+      p{
+        padding: 0px 25%;
+      }
+    }
+  }
+  &.top-image{
+    .disclaimer{
+      p{
+        padding: 0px 25%;
+      }
+    }
+  }
+  &.two-cta{
+    .disclaimer{
+      p{
+        padding: 0px 25%;
+      }
+    }
   }
 }
 
@@ -1153,7 +1229,7 @@
     }
     .disclaimer{
       p {
-        padding: 7px 25%;
+        padding: 0px 25%;
       }
     }
   }

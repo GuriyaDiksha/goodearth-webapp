@@ -99,7 +99,7 @@ const LeftImage: React.FC<Props> = ({
                 styles.ceriseBtn30,
                 styles.ceriseBtn80,
                 globalStyles.marginT20,
-                styles.popupCta
+                styles.leftImageCta
               )}
               // style={{ backgroundColor: ctaColor }}
             >
