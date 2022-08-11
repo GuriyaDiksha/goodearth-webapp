@@ -211,23 +211,18 @@ export default {
     return temp;
   },
   fetchInshopOrder: async (dispatch: Dispatch, email: string) => {
-    const courier = await new Promise((resolve, reject) => {
-      fetch(`${__API_HOST__}/myapi/order/customer_offline_orders_web`, {
-        method: "POST",
-        body: JSON.stringify({
-          email: email
-        })
-      })
-        .then(resp => resp.json())
-        .then(data => {
-          if (data.data) {
-            resolve(data.data);
-          } else {
-            resolve("error");
-          }
-        });
-    });
-    return courier;
+    const data: any = await API.post<BalanceProps>(
+      dispatch,
+      `${__API_HOST__}/myapi/order/customer_offline_orders_web/`,
+      {
+        email: email
+      }
+    );
+    if (data.data) {
+      return data.data;
+    } else {
+      return "error";
+    }
   },
   fetchshopOrderDetails: async (dispatch: Dispatch, number: string) => {
     const courier = await new Promise((resolve, reject) => {
