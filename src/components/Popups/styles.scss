@@ -17,7 +17,7 @@
         line-height: 20px;
       // padding: 7px 57px;
       text-align: center;
-      font-size: 12px;
+      // font-size: 12px;
       }
       .cms-content {
         p {
@@ -31,12 +31,13 @@
       .cross {
         border-bottom: 1px solid #f2f2f2;
             text-align: right;
-            padding: 15px;
+            padding: 13px;
             cursor: pointer;
             position: fixed;
             z-index: 10;
             background-color: #fff;
             width: 100%;
+            font-size: 13px;
         }
       .left-image-cross {
         border-bottom: none;
@@ -499,11 +500,7 @@
     min-width: auto;
   }
 }
-.gc-tnc {
-  .left-image-content {
-    padding: 7px 20px;
-  }
-}
+
 .side-margin {
   margin-left: 30px;
   margin-right: 30px;
@@ -1057,7 +1054,7 @@
   color: #363636;
   font-size: 10px;
   font-family: $font-Lato;
-  margin: 10px;
+  // margin: 10px;
   margin-top: 30px;
   letter-spacing: 0.5px;
   font-weight: lighter;
@@ -1086,4 +1083,78 @@
 
 .left-image {
   width: 100%;
+}
+
+.gc-tnc{
+  .left-image-cross{
+    font-size: 14px;
+    color: $charcoal19;
+  }
+  .heading{
+    @include h3_20px_lora_charcoal();
+    margin-bottom: 30px;
+  }
+  .left-image-content{
+    @include b4_12px_montserrat_charcoal();
+    letter-spacing: 0.36px;
+    margin-bottom: 30px;
+    padding: 0px 20px;
+  }
+  .popup-cta{
+    margin-bottom: 30px;
+    border: 1px solid $aqua-bold;
+    color: $aqua-bold;
+    font-family: $font-Montserrat;
+    font-size: 12px;
+    font-weight: $medium;
+    text-transform: uppercase;
+    height: 50px;
+    line-height: unset;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    &:hover{
+      color: $white;
+      background: $aqua-bold;
+    }
+  }
+  .disclaimer{
+    @include b6_9px_light_montserrat_charcoal();
+    line-height: unset;
+  }
+}
+
+@media (max-width: 992px){
+  .left-image{
+    height: 160px;
+  }
+  .gc-tnc{
+    padding: 30px 0 30px 0 !important;
+    img{
+      background-color: #E5E5E5;
+    }
+    .heading {
+      margin-bottom: 20px;
+    }
+    .popup-cta{
+      width: 70%;
+      height: 58px;
+      font-size: 14px;
+      font-weight: $regular;
+      color: $white;
+      background: $aqua-bold;
+      letter-spacing: 0.42px;
+      margin-bottom: 20px;
+      a {
+        p {
+          padding: 0px;
+        }
+      }
+    }
+    .disclaimer{
+      p {
+        padding: 7px 25%;
+      }
+    }
+  }
 }

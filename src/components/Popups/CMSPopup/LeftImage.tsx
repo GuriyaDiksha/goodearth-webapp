@@ -76,7 +76,7 @@ const LeftImage: React.FC<Props> = ({
         </div>
         <div className={bootstrapStyles.row}>
           <div className={bootstrapStyles.col6}>
-            <img className={styles.leftImage} src={image} />
+            <img className={cs(styles.leftImage)} src={image} />
           </div>
           <div className={cs(styles.gcTnc, bootstrapStyles.col6)}>
             {/* {icon && <img src={icon} className={styles.icon} />} */}
@@ -85,7 +85,7 @@ const LeftImage: React.FC<Props> = ({
             </div>
             <div
               className={cs(
-                globalStyles.c10LR,
+                // globalStyles.c10LR,
                 styles.content,
                 styles.cmsContent,
                 styles.leftImageContent
@@ -95,12 +95,13 @@ const LeftImage: React.FC<Props> = ({
             </div>
             <div
               className={cs(
-                globalStyles.ceriseBtn,
+                // globalStyles.ceriseBtn,
                 styles.ceriseBtn30,
                 styles.ceriseBtn80,
-                globalStyles.marginT20
+                globalStyles.marginT20,
+                styles.popupCta
               )}
-              style={{ backgroundColor: ctaColor }}
+              // style={{ backgroundColor: ctaColor }}
             >
               <a
                 id="info-popup-accept-button"
