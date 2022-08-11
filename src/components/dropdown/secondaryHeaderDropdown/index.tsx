@@ -8,7 +8,8 @@ const SecondaryHeaderDropdown = ({
   id,
   value,
   onChange,
-  items
+  items,
+  className
 }: SecondaryHeaderDropdownMenuProps) => {
   const [menuOpen, setOpenState] = useState(false);
   const [displayValue, setDisplayValue] = useState("");
@@ -53,7 +54,7 @@ const SecondaryHeaderDropdown = ({
 
   return (
     <div className={cs(styles.container)} ref={ref}>
-      <div className={cs(styles.label)} onClick={onInsideClick}>
+      <div className={cs(styles.label, className)} onClick={onInsideClick}>
         <span className={cs(styles.labelText)}>{displayValue}</span>
         <span
           className={cs(styles.labelIcon, styles.caret, {
