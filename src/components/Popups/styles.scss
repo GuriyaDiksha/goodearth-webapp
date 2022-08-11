@@ -12,6 +12,9 @@
         height: 100%;
       padding: 50px 0 30px 0;
       // overflow-y: scroll;
+      &.top-image{
+        padding: 30px;
+      }
       }
       p {
         line-height: 20px;
@@ -1121,6 +1124,9 @@
     @include h3_20px_lora_charcoal();
     letter-spacing: 0.5px;
     margin-bottom: 30px;
+    p{
+      line-height: 30px;
+    }
   }
   .left-image-content{
     @include b4_12px_montserrat_charcoal();
