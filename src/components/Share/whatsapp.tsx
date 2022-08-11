@@ -1,4 +1,5 @@
 import React from "react";
+import whatsapp from "./../../images/whatsapp_new.svg";
 
 type Props = {
   link: string;
@@ -13,7 +14,7 @@ const Whatsapp: React.FC<Props> = ({ link, className }) => {
       className={className}
       rel="noopener noreferrer"
     >
-      <svg
+      {/* <svg
         id="Layer_1"
         data-name="Layer 1"
         xmlns="http://www.w3.org/2000/svg"
@@ -31,7 +32,9 @@ const Whatsapp: React.FC<Props> = ({ link, className }) => {
           fill="#fff"
           d="M24,20.7l-1.4-.6c-.2-.1-.3-.1-.5.1l-.6.8a.5.5,0,0,1-.5,0,5.6,5.6,0,0,1-1.6-1,10.1,10.1,0,0,1-1.2-1.4c-.1-.2,0-.3.1-.4l.3-.4c.1,0,.1,0,.1-.1s.1-.1.1-.2a.3.3,0,0,0,0-.4,11.4,11.4,0,0,0-.6-1.5c-.2-.4-.3-.3-.5-.3h-.4a.6.6,0,0,0-.5.2,2.2,2.2,0,0,0-.7,1.7,1.5,1.5,0,0,0,.1.7,4.3,4.3,0,0,0,.7,1.4,7.7,7.7,0,0,0,3.5,3.1c2.1.8,2.1.5,2.5.5s1.2-.5,1.3-1a2.3,2.3,0,0,0,.2-.9Z"
         />
-      </svg>
+      </svg> */}
+      <img src={whatsapp} alt="whatsapp" />
+      <p>Share via Whatsapp</p>
     </a>
   );
 };

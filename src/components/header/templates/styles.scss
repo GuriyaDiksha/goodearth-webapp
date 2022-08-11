@@ -382,5 +382,26 @@
             padding-left: 20px;
             line-height: 18px;
         }
+        .mobile-title{
+            p{
+                border-bottom: none;
+                line-height: 30px;
+                @include b4_12px_montserrat_semibold_charcoal();
+                text-transform: uppercase;
+                a {
+                    color: $med-charcoal;
+                }
+            }
+        }
+        .mobile-heading{
+            p{
+                display: block;
+                border-bottom: none;
+                line-height: 18px;
+                @include b4_12px_montserrat_charcoal();
+                font-weight: $medium;
+            }
+           
+        }
     }
 }
