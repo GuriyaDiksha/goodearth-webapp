@@ -212,10 +212,12 @@ export default {
   },
   fetchInshopOrder: async (dispatch: Dispatch, email: string) => {
     const courier = await new Promise((resolve, reject) => {
-      fetch(
-        `${__API_HOST__}/myapi/order/customer_offline_orders_web/?email=${email}`,
-        { method: "GET" }
-      )
+      fetch(`${__API_HOST__}/myapi/order/customer_offline_orders_web`, {
+        method: "POST",
+        body: JSON.stringify({
+          email: email
+        })
+      })
         .then(resp => resp.json())
         .then(data => {
           if (data.data) {
