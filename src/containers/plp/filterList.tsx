@@ -94,7 +94,7 @@ class FilterList extends React.Component<Props, State> {
     this.props.onRef(this);
   }
 
-  createFilterfromUrl = () => {
+  createFilterfromUrl = (openCat: boolean) => {
     const vars: any = {};
     const { history } = this.props;
     const url = decodeURI(history.location.search.replace(/\+/g, " "));
@@ -169,13 +169,20 @@ class FilterList extends React.Component<Props, State> {
         }
       }
     }
+    if (openCat) {
+      this.setState({
+        showmenulevel2: true,
+        categoryindex: 0,
+        categorylevel1: true
+      });
+    }
     this.setState({
       filter: filter,
-      showmenulevel2: true,
-      categoryindex: 0,
+      // showmenulevel2: true,
+      // categoryindex: 0,
       activeindex: this.state.openMenu,
       activeindex2: 1,
-      categorylevel1: true,
+      // categorylevel1: true,
       isViewAll: isViewAll
     });
   };
@@ -378,13 +385,13 @@ class FilterList extends React.Component<Props, State> {
       this.prevScroll = scroll;
     }
   };
-  createList = (plpList: any) => {
+  createList = (plpList: any, openCat: boolean) => {
     if (!plpList.results.facets.categoryShop) return false;
     const { currency } = this.props;
     const { filter } = this.state;
     const minMaxvalue: any = [];
     let currentRange: any = [];
-    this.createFilterfromUrl();
+    this.createFilterfromUrl(openCat);
     const pricearray: any = [],
       currentCurrency =
         "price" +
@@ -466,7 +473,7 @@ class FilterList extends React.Component<Props, State> {
             this.props.currency,
             plpList.results.data.length
           );
-          this.createFilterfromUrl();
+          this.createFilterfromUrl(false);
           const pricearray: any = [],
             currentCurrency =
               "price" +
@@ -532,6 +539,7 @@ class FilterList extends React.Component<Props, State> {
       history,
       changeLoader
     } = this.props;
+
     if (!onload && mobile) {
       return true;
     }
@@ -543,7 +551,7 @@ class FilterList extends React.Component<Props, State> {
     fetchPlpProducts(filterUrl + `&page_size=${pageSize}`).then(plpList => {
       valid.productImpression(plpList, "PLP", this.props.currency);
       changeLoader?.(false);
-      this.createList(plpList);
+      this.createList(plpList, false);
       this.props.updateFacets(this.getSortedFacets(plpList.results.facets));
     });
     const urlParams = new URLSearchParams(history.location.search);
@@ -596,7 +604,7 @@ class FilterList extends React.Component<Props, State> {
       this.props.updateFacets
     ) {
       this.props.updateOnload(false);
-      this.createList(nextProps.data);
+      this.createList(nextProps.data, true);
       this.props.updateFacets(this.getSortedFacets(nextProps.facets));
     }
     if (
@@ -1192,8 +1200,13 @@ class FilterList extends React.Component<Props, State> {
       ? this.setState({
           categoryindex: -1,
           categorylevel1: !this.state.categorylevel1
+          // showmenulevel2: false
         })
-      : this.setState({ categoryindex: index, categorylevel1: true });
+      : this.setState({
+          categoryindex: index,
+          categorylevel1: true
+          // showmenulevel2: false
+        });
   };
 
   toggleFilterByDiscountMenu = () => {

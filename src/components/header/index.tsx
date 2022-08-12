@@ -682,7 +682,16 @@ class Header extends React.Component<Props, State> {
             this.props.showTimer &&
             this.props.timerData && <CountdownTimer />}
           {this.state.showSearch && (
-            <Search ipad={false} toggle={this.showSearch} />
+            <Search
+              ipad={false}
+              toggle={this.showSearch}
+              closePopup={() => {
+                this.setState({
+                  showSearch: false,
+                  showMenu: false
+                });
+              }}
+            />
           )}
           <div className={cs(styles.minimumWidth, styles.headerBg)}>
             <div className={bootstrap.row}>

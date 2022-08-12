@@ -545,8 +545,8 @@ export function PDP(data: any, currency: Currency) {
     dataLayer.push({ ecommerce: null });
     dataLayer.push({
       event: "productDetailImpression",
+      currencyCode: currency,
       ecommerce: {
-        currencyCode: currency,
         detail: {
           actionField: { list: listPath },
           products

@@ -65,3 +65,28 @@
      width: 25px;
      margin: 5px;
  }
+
+.whatsapp
+{
+    font-family: $font-Montserrat;
+    font-size: 14px;
+    letter-spacing: 0.28px;
+    color: #9B7D50;
+
+    .whatsapp-icon {
+        width: 40px;
+        display: inline;
+        color: $gold;
+
+        img {
+            width: 25px;
+            margin: 5px;
+            cursor: default;
+        }
+        
+        p{
+            display: inline; 
+            margin:12px;
+        }
+    }
+}
