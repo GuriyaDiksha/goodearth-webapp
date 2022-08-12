@@ -43,7 +43,7 @@ const TitleHeadingMobile: React.FC<Props> = ({
       {data?.children?.map((child: any, ind: number) => (
         <div className={styles.titleHeadingMobile} key={ind}>
           <div className={styles.featuredMobileCosntainer}>
-            {componentData?.src && (
+            {(componentData.thumbnailSrc || componentData?.src) && (
               <Link
                 to={child.componentData?.link}
                 target={child.componentData.openInNewTab ? "_blank" : ""}
@@ -62,7 +62,7 @@ const TitleHeadingMobile: React.FC<Props> = ({
               >
                 <img
                   className={styles.img}
-                  src={componentData.src}
+                  src={mobile ? componentData.thumbnailSrc : componentData.src}
                   alt={getInnerText(child.componentData.title)}
                 />
               </Link>
