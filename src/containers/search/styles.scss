@@ -293,6 +293,7 @@
           overflow: hidden;
           text-overflow: ellipsis;
           display: block;
+          cursor: pointer;
         }
 
       }
@@ -877,4 +878,8 @@ input[type="radio"]:checked, [type="checkbox"]:not(:checked),
 .search-header-dropdown{
   height: 60px !important;
   line-height: 60px !important;
+}
+
+.remove-border{
+  border-bottom:none !important;
 }

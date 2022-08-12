@@ -259,7 +259,7 @@ class FilterList extends React.Component<Props, State> {
 
     // facets.categories.map((data: any) => (count = count + data[2]));
     // console.log("count facets.categories====",facets.categories,facets.subCategories,facets.categoryShop)
-    categoryObj[`View All (${facets.subCategories?.[0][1]})`] = [];
+    categoryObj[`View All(${facets.subCategories?.[0][1]})`] = [];
 
     if (filter.categoryShop["selectedCatShop"]) {
       selectIndex = filter.categoryShop["selectedCatShop"].split(">")[0].trim();
@@ -1933,7 +1933,7 @@ class FilterList extends React.Component<Props, State> {
                 this.props.facets.availableDiscount &&
                 this.props.facets.availableDiscount.length > 0
                   ? ""
-                  : globalStyles.hidden
+                  : (globalStyles.hidden, styles.removeBorder)
               }
             >
               {this.props.facets &&
@@ -1973,7 +1973,11 @@ class FilterList extends React.Component<Props, State> {
               </div>
             </li>
           )}
-          <li className={this.productData.length > 0 ? "" : "hidden"}>
+          <li
+            className={
+              this.productData.length > 0 ? "" : `${styles.removeBorder} hidden`
+            }
+          >
             {this.productData.length > 0 ? (
               <span
                 className={
@@ -2013,7 +2017,7 @@ class FilterList extends React.Component<Props, State> {
             className={
               this.props.facets?.currentColor?.length > 0
                 ? ""
-                : globalStyles.hidden
+                : (globalStyles.hidden, styles.removeBorder)
             }
           >
             <span
