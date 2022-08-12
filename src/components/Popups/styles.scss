@@ -1174,33 +1174,37 @@
   }
   .disclaimer{
     @include b6_9px_light_montserrat_charcoal();
-    line-height: unset;
+    line-height: 15px;
   }
   &.top-image{
     .disclaimer{
       p{
-        padding: 0px 25%;
+        // padding: 0px 25%;
+        line-height: 15px;
       }
     }
   }
   &.heading-cta{
     .disclaimer{
       p{
-        padding: 0px 25%;
+        // padding: 0px 25%;
+        line-height: 15px;
       }
     }
   }
   &.top-image{
     .disclaimer{
       p{
-        padding: 0px 25%;
+        // padding: 0px 25%;
+        line-height: 15px;
       }
     }
   }
   &.two-cta{
     .disclaimer{
       p{
-        padding: 0px 25%;
+        // padding: 0px 25%;
+        line-height: 15px;
       }
     }
   }
@@ -1235,7 +1239,8 @@
     }
     .disclaimer{
       p {
-        padding: 0px 25%;
+        // padding: 0px 25%;
+        line-height: 15px;
       }
     }
   }
