@@ -293,6 +293,7 @@
           overflow: hidden;
           text-overflow: ellipsis;
           display: block;
+          cursor: pointer;
         }
 
       }
@@ -372,11 +373,12 @@
     }
   }
   .menulevel2-view-all{
-    text-transform: uppercase; 
+    //text-transform: uppercase; 
     cursor: pointer;
     display: block;
-    font-size: 12px;
-    color: black;
+    // font-size: 12px;
+    // color: black;
+    @include b4_12px_montserrat_charcoal_caps();
   }
   .menulevel2 {
     @include b4_12px_montserrat_charcoal_caps();
@@ -876,4 +878,8 @@ input[type="radio"]:checked, [type="checkbox"]:not(:checked),
 .search-header-dropdown{
   height: 60px !important;
   line-height: 60px !important;
+}
+
+.remove-border{
+  border-bottom:none !important;
 }
