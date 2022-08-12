@@ -670,6 +670,14 @@ class PDPContainer extends React.Component<Props, State> {
 
   getProductImages() {
     const productImages = this.getProductImagesData();
+    let iconAll, codeAll;
+    for (const e of productImages) {
+      if (e.icon) {
+        iconAll = e.icon;
+        codeAll = e.code;
+        break;
+      }
+    }
     if (productImages?.length > 0) {
       const img =
         productImages?.[this.state?.activeImage] ||
@@ -681,7 +689,6 @@ class PDPContainer extends React.Component<Props, State> {
         const height = (ele.width * naturalHeight) / naturalWidth;
         this.imageOffsets[0] = height;
       };
-
       return (
         <div
           className={styles.productImageContainer}
@@ -700,6 +707,8 @@ class PDPContainer extends React.Component<Props, State> {
             index={this.state.activeImage}
             onClick={this.onImageClick}
             onLoad={onImageLoad}
+            iconAll={iconAll}
+            codeAll={codeAll}
           />
           <div>
             <Counter

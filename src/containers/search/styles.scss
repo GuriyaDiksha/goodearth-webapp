@@ -1,6 +1,7 @@
 @import "../../styles/partials/variables";
 @import "../../styles/partials/mixins";
 
+
 .Dropdown-root {
     min-width: 161px;
     cursor: pointer;
@@ -287,12 +288,13 @@
         @include menu-copy();
       }
       li {
-        padding-left: 0px;
+        padding-left: 15px;
         label {
           white-space: nowrap;
           overflow: hidden;
           text-overflow: ellipsis;
           display: block;
+          cursor: pointer;
         }
 
       }
@@ -309,17 +311,21 @@
     }
   }
   .menulevel1 {
-    text-transform: uppercase;
+    // @include plp_filter_cat();
     cursor: pointer;
     display: block;
     user-select: none;
     &:after {
-      content: '+';
+      content: '';
       float: right;
-      font-size: 25px;
-      color: tint(#000, 50%);
-      font-family: $font-Lato;
-      font-weight: 300;
+      border: solid $gold;
+      border-width: 0 1px 1px 0;
+      width: 8px;
+      height: 8px;
+      transform: rotate(313deg);
+      top: 15px;
+      position: relative;
+      right: 5px;
     }
   }
   .colorhead {
@@ -340,12 +346,41 @@
     }
   }
   .menulevel1-open {
+    &:after {
+      transform: rotate(45deg);
+    }
+  }
+  .menulevel2 {
+    text-transform: uppercase; 
+    cursor: pointer;
+    display: block;
+    font-size: 14px;
+    color: black;
+    &:after {
+      content: '+';
+      float: right;
+      font-size: 25px;
+      color: $gold;
+      font-family: $font-Lato;
+      font-weight: 300;
+    }
+  }
+  .menulevel2-open {
     li{
       font-size: 14px;
     }
     &:after {
       content: '-';
     }
+  }
+  .menulevel2-view-all{
+    //text-transform: uppercase; 
+    cursor: pointer;
+    display: block;
+    // font-size: 12px;
+    // color: black;
+    
+    @include b4_12px_montserrat_charcoal_caps();
   }
   .menulevel2 {
     @include b4_12px_montserrat_charcoal_caps();
@@ -375,6 +410,10 @@
       transform: rotate(45deg);
     }
   }
+  .selected-cat-shop{
+    color: $gold;
+  }
+  
 }
 
 .categorylabel {
@@ -469,7 +508,7 @@
     display: block;
     width: 6px;
     height: 10px;
-    border: solid #ab1e56;
+    border: solid $gold;
     border-width: 0 2px 2px 0;
     position: absolute;
     top: 14px;
@@ -618,7 +657,7 @@ input[type="radio"]:checked, [type="checkbox"]:not(:checked),
   }
 }
 .select_size {
-  border: 1px solid #ab1e56 !important;
+  border: 1px solid $gold !important;
   background-color: white !important;
 }
 .size-list-bg1 li {
@@ -841,4 +880,8 @@ input[type="radio"]:checked, [type="checkbox"]:not(:checked),
 .search-header-dropdown{
   height: 60px !important;
   line-height: 60px !important;
+}
+
+.remove-border{
+  border-bottom:none !important;
 }

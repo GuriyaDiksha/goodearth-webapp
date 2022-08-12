@@ -2,12 +2,15 @@ import React, { memo } from "react";
 
 import { Props } from "./typings";
 
+import cs from "classnames";
+
 import styles from "./styles.scss";
-import globalStyles from "styles/global.scss";
+import { useLocation } from "react-router-dom";
 
 import { Link } from "react-router-dom";
 
 const ColorSelector: React.FC<Props> = ({ products, onClick }) => {
+  const location = useLocation();
   const colors = products.map(({ url, id, images, color }) => {
     const [image] = images;
     const [colorString] = color;
@@ -19,9 +22,16 @@ const ColorSelector: React.FC<Props> = ({ products, onClick }) => {
     const colorName = colorString.split("-")[1];
 
     return (
-      <Link key={id} to={url} className={styles.link} onClick={onClick}>
-        <img src={productImage} className={globalStyles.imgResponsive} />
-        <div className={styles.text}>{colorName}</div>
+      <Link
+        key={id}
+        to={location.pathname.includes(url) ? "#" : url}
+        className={cs(styles.link, {
+          [styles.disabled]: location.pathname.includes(url)
+        })}
+        onClick={onClick}
+      >
+        <img src={productImage} className={styles.imgResponsive} />
+        {/* <div className={styles.text}>{colorName}</div> */}
       </Link>
     );
   });

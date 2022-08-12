@@ -55,6 +55,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
 type Props = {
   toggle: () => void;
   ipad: boolean;
+  closePopup: () => void;
 } & ReturnType<typeof mapStateToProps> &
   ReturnType<typeof mapDispatchToProps> &
   RouteComponentProps;
@@ -87,9 +88,20 @@ class Search extends React.Component<Props, State> {
   }
 
   searchBoxRef = React.createRef<HTMLInputElement>();
+  impactRef = React.createRef<HTMLInputElement>();
 
   addDefaultSrc = (e: any) => {
     // e.target.src = "/static/img/noimageplp.png";
+  };
+
+  handleClickOutside = (evt: any) => {
+    if (
+      this.impactRef.current &&
+      !this.impactRef.current.contains(evt.target)
+    ) {
+      //Do what you want to handle in the callback
+      this.props.closePopup();
+    }
   };
 
   componentDidMount() {
@@ -105,6 +117,7 @@ class Search extends React.Component<Props, State> {
       .catch(function(error) {
         console.log(error);
       });
+    document.addEventListener("mousedown", this.handleClickOutside);
   }
 
   componentDidUpdate() {
@@ -119,6 +132,7 @@ class Search extends React.Component<Props, State> {
   }
   componentWillUnmount() {
     document.body.classList.remove(globalStyles.noScroll);
+    document.removeEventListener("mousedown", this.handleClickOutside);
   }
 
   closeSearch = () => {
@@ -290,6 +304,7 @@ class Search extends React.Component<Props, State> {
         className={cs(globalStyles.minimumWidth, styles.search, {
           [styles.searchTimer]: showTimer
         })}
+        ref={this.impactRef}
       >
         <div>
           <div className={bootstrapStyles.col12}>
@@ -633,9 +648,11 @@ class Search extends React.Component<Props, State> {
                                   <p className={styles.productN}>
                                     <Link
                                       to={data.url}
-                                      onClick={e => {
-                                        this.showProduct.bind(this, data, i);
-                                      }}
+                                      onClick={this.showProduct.bind(
+                                        this,
+                                        data,
+                                        i
+                                      )}
                                     >
                                       {data.productClass == "GiftCard"
                                         ? "Gift Card"

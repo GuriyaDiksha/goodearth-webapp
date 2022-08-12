@@ -57,11 +57,11 @@ const TopImage: React.FC<Props> = ({
         <div>
           <div>
             <img
-              className={styles.leftImage}
+              className={cs(styles.leftImage, styles.topImage)}
               src={mobile || tablet ? imageMobile || image : image}
             />
           </div>
-          <div className={cs(styles.gcTnc)}>
+          <div className={cs(styles.gcTnc, styles.topImage)}>
             {/* {icon && <img src={icon} className={styles.icon} />} */}
             <div className={cs(globalStyles.popupHeading, styles.heading)}>
               {ReactHtmlParser(heading)}
@@ -78,9 +78,10 @@ const TopImage: React.FC<Props> = ({
             </div>
             <div
               className={cs(
-                globalStyles.ceriseBtn,
+                // globalStyles.ceriseBtn,
                 styles.ceriseBtn30,
-                globalStyles.marginT20
+                globalStyles.marginT20,
+                styles.popupCta
               )}
               style={{ backgroundColor: ctaColor }}
             >
@@ -93,7 +94,9 @@ const TopImage: React.FC<Props> = ({
               </a>
             </div>
             {disclaimer && (
-              <div className={styles.disclaimer}>{disclaimer}</div>
+              <div className={styles.disclaimer}>
+                {ReactHtmlParser(disclaimer)}
+              </div>
             )}
           </div>
         </div>
