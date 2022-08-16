@@ -259,7 +259,7 @@ class FilterList extends React.Component<Props, State> {
 
     // facets.categories.map((data: any) => (count = count + data[2]));
     // console.log("count facets.categories====",facets.categories,facets.subCategories,facets.categoryShop)
-    categoryObj[`View All(${facets.subCategories?.[0][1]})`] = [];
+    categoryObj[`View All (${facets.subCategories?.[0][1]})`] = [];
 
     if (filter.categoryShop["selectedCatShop"]) {
       selectIndex = filter.categoryShop["selectedCatShop"].split(">")[0].trim();
@@ -277,7 +277,7 @@ class FilterList extends React.Component<Props, State> {
 
       // viewData.length > 2 ? viewData.pop() : "";
       if (!categoryObj[tempKey]) {
-        categoryObj[tempKey] = [["View all", viewData.join(">").trim()]];
+        categoryObj[tempKey] = [["View all ", viewData.join(">").trim()]];
         counts[tempKey] = 0;
       }
 
@@ -1101,7 +1101,7 @@ class FilterList extends React.Component<Props, State> {
                       }
                     >
                       {nestedList[0]}
-                      {nestedList[3] && `(${nestedList[3]})`}
+                      {nestedList[3] && ` (${nestedList[3]})`}
                     </label>
                   </li>
                 );
@@ -1313,7 +1313,7 @@ class FilterList extends React.Component<Props, State> {
         })
       : this.setState({ activeindex2: index, showmenulevel2: true });
 
-    if (isNaN(index) && index?.startsWith("View All")) {
+    if (isNaN(index || 0) && index?.startsWith("View All")) {
       this.handleClickCategory(
         { target: { id: "all" } },
         "View All",
