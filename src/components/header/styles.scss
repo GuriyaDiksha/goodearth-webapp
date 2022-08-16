@@ -1123,12 +1123,10 @@ input {
   font-weight: bold;
 }
 .npf-msg {
-font-size: 20px;
-letter-spacing: 0.5px;
-font-family: $font-Montserrat;
-color: tint(#000, 50%);
+letter-spacing: 1px;
+@include b3_14px_montserrat_light_charcoal();
   span {
-    color: $gold;
+    @include b3_14px_montserrat_gold();
   }
 }
 
@@ -1278,6 +1276,9 @@ visibility: visible !important;
     &:hover{
       @include b3_14px_montserrat_medium_charcoal();
     }
+  }
+  b{
+    font-weight: 600;
   }
   .discountprice {
     color: $cerise;
@@ -1699,4 +1700,41 @@ ul.inner-menu-mobile {
 
 .cart-gold{
   color: $gold !important;
+}
+
+.product-heading {
+  @include b5_10px_montserrat_light_charcoal();
+}
+.product-name {
+  @include b5_10px_montserrat_light_charcoal();
+}
+
+.padding-mobile {
+  margin-left: 20px;
+}
+
+.padding {
+  padding: 0 10.5rem;
+}
+.collection {
+    width: 35%;
+    margin-left: 5px;
+   .title{
+    @include b4_12px_montserrat_light_charcoal();
+    margin-top: 5px;
+   }
+   b {
+    font-weight: 600;
+    }
+}
+.categories {
+  @include b4_12px_montserrat_light_charcoal();
+  margin-top: 5px;
+  b {
+    font-weight: 600;
+  }
+  cursor: pointer;
+}
+.collectionlist {
+  display: inline-flex;
 }

@@ -31,7 +31,7 @@ const CustomerCareInfo: React.FC = () => {
           <a href="tel:+919582999888">+91 95829 99888</a>
         </span>
       </p>
-      <p>Mon-Sat | 9am-5pm IST</p>
+      <p>Mon-Sat | 9:30am-5:30pm IST</p>
     </div>
   );
 };

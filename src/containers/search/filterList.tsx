@@ -266,7 +266,7 @@ class FilterList extends React.Component<Props, State> {
     } else {
       filter.categoryShop[
         "selectedCatShop"
-      ] = selectIndex = `View All(${facets.subCategories?.[0][1]})`;
+      ] = selectIndex = `View All (${facets.subCategories?.[0][1]})`;
     }
 
     this.setState({ filter: filter });
@@ -278,13 +278,11 @@ class FilterList extends React.Component<Props, State> {
       // viewData.length > 2 ? viewData.pop() : "";
       if (!categoryObj[tempKey]) {
         categoryObj[tempKey] = [["View all", viewData.join(">").trim()]];
-
         counts[tempKey] = 0;
       }
 
       if (data[0].split(">")[1]) {
         categoryObj[tempKey].push([data[0].split(">")[1].trim()].concat(data));
-
         counts[tempKey] = counts[tempKey] + data[2];
         categoryObj[tempKey][0][3] = counts[tempKey];
       }
