@@ -84,12 +84,9 @@ const TopImage: React.FC<Props> = ({
                 styles.popupCta
               )}
               style={{ backgroundColor: ctaColor }}
+              onClick={() => close(ctaLink)}
             >
-              <a
-                id="info-popup-accept-button"
-                tabIndex={-1}
-                onClick={() => close(ctaLink)}
-              >
+              <a id="info-popup-accept-button" tabIndex={-1}>
                 {ReactHtmlParser(ctaLabel)}
               </a>
             </div>
