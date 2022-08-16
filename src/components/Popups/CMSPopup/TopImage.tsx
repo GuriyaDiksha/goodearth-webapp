@@ -42,7 +42,11 @@ const TopImage: React.FC<Props> = ({
     <>
       <div style={bgStyle}>
         <div
-          className={cs(styles.cross, styles.leftImageCross)}
+          className={cs(
+            styles.cross,
+            styles.leftImageCross,
+            styles.crossWhiteBtn
+          )}
           onClick={() => close()}
         >
           <i
