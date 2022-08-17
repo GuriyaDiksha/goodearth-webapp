@@ -143,6 +143,23 @@ export function productForBasketGa(data: Basket, currency: Currency) {
   return product;
 }
 
+export function productForGa(data: Basket) {
+  let product: any = [];
+  if (data.lineItems) {
+    product = data.lineItems.map(prod => {
+      return Object.assign(
+        {},
+        {
+          id: prod.product.childAttributes[0].sku,
+          quantity: prod.quantity
+        }
+      );
+    });
+  }
+
+  return product;
+}
+
 export function proceedTocheckout(data: Basket, currency: Currency) {
   if (data.lineItems) {
     const quantitys: any = [];
@@ -545,8 +562,8 @@ export function PDP(data: any, currency: Currency) {
     dataLayer.push({ ecommerce: null });
     dataLayer.push({
       event: "productDetailImpression",
+      currencyCode: currency,
       ecommerce: {
-        currencyCode: currency,
         detail: {
           actionField: { list: listPath },
           products
@@ -945,6 +962,32 @@ export const checkoutGTM = (
   paymentMethod?: string
 ) => {
   const productList = productForBasketGa(basket, currency);
+  const fbproductData = productForGa(basket);
+  const totalId = basket.lineItems.map(prod => {
+    return {
+      id: prod.product.childAttributes[0].sku
+    };
+  });
+  if (step == 1) {
+    dataLayer.push({
+      event: "initiate_checkout",
+      total_amount: basket.total,
+      currencyCode: currency,
+      total_item: basket.lineItems.length,
+      content_ids: totalId,
+      contents: fbproductData
+    });
+  }
+  if (step == 3) {
+    dataLayer.push({
+      event: "payment_info",
+      total_amount: basket.total,
+      currencyCode: currency,
+      total_item: basket.lineItems.length,
+      content_ids: totalId,
+      contents: fbproductData
+    });
+  }
   if (paymentMethod) {
     dataLayer.push({
       event: "checkout",
