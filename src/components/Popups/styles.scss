@@ -13,7 +13,7 @@
       padding: 50px 0 30px 0;
       // overflow-y: scroll;
       &.top-image{
-        padding: 30px;
+        padding: 20px;
       }
       }
       p {
@@ -1065,7 +1065,7 @@
   font-size: 10px;
   font-family: $font-Lato;
   // margin: 10px;
-  margin-top: 30px;
+  margin-top: 20px;
   letter-spacing: 0.5px;
   font-weight: lighter;
 }
@@ -1115,7 +1115,7 @@
 
 .top-image{
   width: 100%;
-  height: 160px;
+  // height: 160px;
 
   @media (min-width: 600px) and (max-width: 992px){
     object-fit:cover;
@@ -1130,7 +1130,7 @@
   .heading{
     @include h3_20px_lora_charcoal();
     letter-spacing: 0.5px;
-    margin-bottom: 30px;
+    margin-bottom: 20px;
     p{
       line-height: 30px;
     }
@@ -1138,8 +1138,9 @@
   .left-image-content{
     @include b4_12px_montserrat_charcoal();
     letter-spacing: 0.36px;
-    margin-bottom: 30px;
-    padding: 0px 20px;
+    margin-bottom: 20px;
+    // padding: 0px 20px;
+    padding: 0px;
   }
   .left-image-cta{
     margin-bottom: 30px;
@@ -1167,7 +1168,7 @@
     font-size: 14px;
     font-weight: $regular;
     text-transform: uppercase;
-    height: 58px;
+    height: 40px;
     line-height: unset;
     display: flex;
     align-items: center;
@@ -1225,9 +1226,9 @@
 // }
 
 @media (max-width: 992px){
-  .left-image{
-    height: 160px;
-  }
+  // .left-image{
+  //   height: 160px;
+  // }
   .gc-tnc{
     padding: 30px 0 30px 0 !important;
     img{
@@ -1238,7 +1239,6 @@
     }
     .popup-cta{
       width: 70%;
-      height: 58px;
       font-size: 14px;
       font-weight: $regular;
       color: $white;
