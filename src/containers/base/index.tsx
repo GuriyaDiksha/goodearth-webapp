@@ -114,6 +114,7 @@ const BaseLayout: React.FC = () => {
     CookieService.setCookie("prevUrl", prevUrl);
     setPrevUrl(location.href);
   }, [history.location.pathname, history.location.search]);
+
   useEffect(() => {
     const value = CookieService.getCookie("auth");
     if (
@@ -170,7 +171,7 @@ const BaseLayout: React.FC = () => {
         if (!show) {
           if (
             CookieService.getCookie(
-              pathname.split("/").join("_") + "_" + currentPopup[0].heading
+              pathname.split("/").join("_") + "_" + currentPopup[0].id
             ) != "show"
           ) {
             show = true;
