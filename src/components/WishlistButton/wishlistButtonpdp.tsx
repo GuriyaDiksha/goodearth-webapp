@@ -53,7 +53,7 @@ const WishlistButtonpdp: React.FC<Props> = ({
       (basketLineId && wishlistChildItems.indexOf(id) != -1)
   );
   const dispatch = useDispatch();
-  const gtmPushAddToWishlist = () => {
+  const gtmPushAddToWishlist = (addWishlist?: boolean) => {
     try {
       if (gtmListType) {
         const index = categories ? categories.length - 1 : 0;
@@ -64,17 +64,29 @@ const WishlistButtonpdp: React.FC<Props> = ({
         category = category && category.replace(/>/g, "/");
         const listPath = `${gtmListType}`;
         const child = childAttributes as ChildProductAttributes[];
-        console.log(category, id, title, priceRecords);
-        Moengage.track_event("add_to_wishlist", {
-          "Product id": id,
-          "Product name": title,
-          quantity: 1,
-          price: priceRecords?.[currency] ? +priceRecords?.[currency] : "",
-          Currency: currency,
-          // "Collection name": collection,
-          "Category name": category?.split("/")[0],
-          "Sub Category Name": category?.split("/")[1] || ""
-        });
+        if (addWishlist) {
+          Moengage.track_event("add_to_wishlist", {
+            "Product id": id,
+            "Product name": title,
+            quantity: 1,
+            price: priceRecords?.[currency] ? +priceRecords?.[currency] : "",
+            Currency: currency,
+            // "Collection name": collection,
+            "Category name": category?.split("/")[0],
+            "Sub Category Name": category?.split("/")[1] || ""
+          });
+        } else {
+          Moengage.track_event("remove_from_wishlist", {
+            "Product id": id,
+            "Product name": title,
+            quantity: 1,
+            price: priceRecords?.[currency] ? +priceRecords?.[currency] : "",
+            Currency: currency,
+            // "Collection name": collection,
+            "Category name": category?.split("/")[0],
+            "Sub Category Name": category?.split("/")[1] || ""
+          });
+        }
 
         dataLayer.push({
           event: "AddtoWishlist",
@@ -141,11 +153,12 @@ const WishlistButtonpdp: React.FC<Props> = ({
       if (addedToWishlist) {
         WishlistService.removeFromWishlist(store.dispatch, id).finally(() => {
           dispatch(updateLoader(false));
+          gtmPushAddToWishlist(true);
         });
       } else {
         WishlistService.addToWishlist(store.dispatch, id, size)
           .then(() => {
-            gtmPushAddToWishlist();
+            gtmPushAddToWishlist(true);
           })
           .finally(() => {
             dispatch(updateLoader(false));
