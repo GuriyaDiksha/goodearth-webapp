@@ -1704,9 +1704,11 @@ ul.inner-menu-mobile {
 
 .product-heading {
   @include b5_10px_montserrat_light_charcoal();
+  color: $light-charcoal;
 }
 .product-name {
   @include b5_10px_montserrat_light_charcoal();
+  color: $light-charcoal;
 }
 
 .padding-mobile {

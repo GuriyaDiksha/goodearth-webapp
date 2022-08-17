@@ -218,7 +218,7 @@ class Search extends React.Component<Props, State> {
   }
 
   onClickSearch = (event: any) => {
-    if (this.state.searchValue.trim().length > 2) {
+    if (this.state.searchValue.trim().length > 0) {
       this.props.history.push(
         `search/${this.state.url.split("/autocomplete")[1]}`
       );
@@ -244,7 +244,7 @@ class Search extends React.Component<Props, State> {
   };
 
   checkSearchValueUp = (event: any) => {
-    if (event.target.value.trim().length > 2) {
+    if (event.target.value.trim().length > 0) {
       if ((!event.charCode ? event.which : event.charCode) == 13) {
         this.props.history.push(
           "/search/?q=" + encodeURIComponent(event.target.value)
@@ -259,6 +259,9 @@ class Search extends React.Component<Props, State> {
     } else {
       this.setState({
         productData: [],
+        collections: [],
+        categories: [],
+        usefulLink: [],
         count: 0,
         url: "/search",
         searchValue: event.target.value
@@ -628,7 +631,7 @@ class Search extends React.Component<Props, State> {
                       </div>
                     )}
                     {categories.length > 0 && (
-                      <div className={globalStyles.voffset2}>
+                      <div className={globalStyles.voffset5}>
                         <p
                           className={cs(
                             styles.productHeading,
