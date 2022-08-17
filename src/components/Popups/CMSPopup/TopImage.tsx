@@ -42,7 +42,11 @@ const TopImage: React.FC<Props> = ({
     <>
       <div style={bgStyle}>
         <div
-          className={cs(styles.cross, styles.leftImageCross)}
+          className={cs(
+            styles.cross,
+            styles.leftImageCross,
+            styles.crossWhiteBtn
+          )}
           onClick={() => close()}
         >
           <i
@@ -83,13 +87,15 @@ const TopImage: React.FC<Props> = ({
                 globalStyles.marginT20,
                 styles.popupCta
               )}
-              style={{ backgroundColor: ctaColor }}
+              style={{
+                backgroundColor: ctaColor,
+                width: "max-content",
+                padding: "0 30px",
+                minWidth: "max-content"
+              }}
+              onClick={() => close(ctaLink)}
             >
-              <a
-                id="info-popup-accept-button"
-                tabIndex={-1}
-                onClick={() => close(ctaLink)}
-              >
+              <a id="info-popup-accept-button" tabIndex={-1}>
                 {ReactHtmlParser(ctaLabel)}
               </a>
             </div>

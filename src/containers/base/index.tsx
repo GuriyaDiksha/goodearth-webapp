@@ -35,8 +35,8 @@ const BaseLayout: React.FC = () => {
     currency,
     basket: { bridal },
     header: { announcementData },
-    device: { orientation, tablet, mobile }
-    // user: { customerGroup }
+    device: { orientation, tablet, mobile },
+    user: { isLoggedIn }
   } = useSelector((state: AppState) => state);
   const {
     modal: { component }
@@ -48,7 +48,7 @@ const BaseLayout: React.FC = () => {
   // don't show info popup
   const isSuspended = false;
   const popup = useSelector((state: AppState) => state.popup);
-  const isLoggedIn = useSelector((state: AppState) => state.user.isLoggedIn);
+  // const isLoggedIn = useSelector((state: AppState) => state.user.isLoggedIn);
   const [prevUrl, setPrevUrl] = useState("");
   const dominList = ["dv", "stg", "pprod"];
   // const flower = [flowerimg1, flowerimg2, flowerimg3, flowerimg4];
@@ -114,6 +114,7 @@ const BaseLayout: React.FC = () => {
     CookieService.setCookie("prevUrl", prevUrl);
     setPrevUrl(location.href);
   }, [history.location.pathname, history.location.search]);
+
   useEffect(() => {
     const value = CookieService.getCookie("auth");
     if (
@@ -170,7 +171,7 @@ const BaseLayout: React.FC = () => {
         if (!show) {
           if (
             CookieService.getCookie(
-              pathname.split("/").join("_") + "_" + currentPopup[0].heading
+              pathname.split("/").join("_") + "_" + currentPopup[0].id
             ) != "show"
           ) {
             show = true;
@@ -182,7 +183,7 @@ const BaseLayout: React.FC = () => {
         }
       }
     }
-  }, [pathname, search]);
+  }, [pathname, search, popup.length]);
 
   useEffect(() => {
     // let isDragging = false;
