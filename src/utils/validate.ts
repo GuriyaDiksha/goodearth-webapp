@@ -502,6 +502,11 @@ export function PDP(data: any, currency: Currency) {
     let skus = "";
     let variants = "";
     let prices = "";
+    const len = data.categories.length;
+    const categri = data.categories[len - 1];
+    const l3Len = category.split(">").length;
+    const cat = categri.split(">")[l3Len - 1];
+    const l1 = categri.split(">")[0];
 
     const skusid: any = [];
     const variantspdp: any = [];
@@ -510,6 +515,35 @@ export function PDP(data: any, currency: Currency) {
     const quantitys: any = [];
     const colors: any = [];
 
+    const childAttr = data?.childAttributes.map((child: any, index: number) => {
+      return Object.assign(
+        {},
+        {
+          item_id: child.sku, //Pass the product id
+          item_name: data.title,
+          affiliation: "",
+          coupon: "", // Pass the coupon if available
+          currency: currency, // Pass the currency code
+          discount: child.discountedPriceRecords
+            ? child.discountedPriceRecords[currency]
+            : child.priceRecords[currency], // Pass the discount amount
+          index: index,
+          item_brand: "goodearth",
+          item_category: cat,
+          item_category2: child.size,
+          item_category3: data.sliderImages?.some((key: any) => key.icon)
+            ? "3d"
+            : "non 3d",
+          item_list_id: "",
+          item_list_name: "",
+          item_variant: child.color,
+          item_category4: l1,
+          item_category5: data.collection,
+          price: child.priceRecords[currency],
+          quantity: 1
+        }
+      );
+    });
     data.childAttributes?.map((child: any) => {
       skusid.push(child.sku);
       variantspdp.push(child.size);
@@ -559,6 +593,13 @@ export function PDP(data: any, currency: Currency) {
       "Sub Category Name": subcategoryname
     });
     const listPath = CookieService.getCookie("listPath") || "DirectLandingView";
+    dataLayer.push({ ecommerce: null }); // Clear the previous ecommerce object.
+    dataLayer.push({
+      event: "view_item",
+      ecommerce: {
+        items: childAttr
+      }
+    });
     dataLayer.push({ ecommerce: null });
     dataLayer.push({
       event: "productDetailImpression",
@@ -743,6 +784,40 @@ export function plpProductClick(
         }
       );
     });
+    const len = data.categories.length;
+    const categri = data.categories[len - 1];
+    const l3Len = category.split(">").length;
+    const cat = categri.split(">")[l3Len - 1];
+    const l1 = categri.split(">")[0];
+    const childAttr = data?.childAttributes.map((child: any, index: number) => {
+      return Object.assign(
+        {},
+        {
+          item_id: child.sku, //Pass the product id
+          item_name: data.title,
+          affiliation: "",
+          coupon: "", // Pass the coupon if available
+          currency: currency, // Pass the currency code
+          discount: child.discountedPriceRecords
+            ? child.discountedPriceRecords[currency]
+            : child.priceRecords[currency], // Pass the discount amount
+          index: index,
+          item_brand: "goodearth",
+          item_category: cat,
+          item_category2: child.size,
+          item_category3: data.sliderImages?.some((key: any) => key.icon)
+            ? "3d"
+            : "non 3d",
+          item_list_id: "",
+          item_list_name: "",
+          item_variant: child.color,
+          item_category4: l1,
+          item_category5: data.collection,
+          price: child.priceRecords[currency],
+          quantity: 1
+        }
+      );
+    });
     const listPath = `${list}`;
     CookieService.setCookie("listPath", listPath);
     dataLayer.push({
@@ -753,6 +828,13 @@ export function plpProductClick(
           actionField: { list: listPath },
           products: products.concat(attr)
         }
+      }
+    });
+    dataLayer.push({ ecommerce: null }); // Clear the previous ecommerce object.
+    dataLayer.push({
+      event: "select_item",
+      ecommerce: {
+        items: childAttr
       }
     });
   } catch (e) {
