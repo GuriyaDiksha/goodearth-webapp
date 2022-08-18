@@ -103,7 +103,8 @@ const ProductDetails: React.FC<Props> = ({
     sizeChart,
     badgeMessage,
     fillerProduct,
-    shortDesc
+    shortDesc,
+    sliderImages
   },
   data,
   corporatePDP,
@@ -410,6 +411,10 @@ const ProductDetails: React.FC<Props> = ({
     categoryname = arr[arr.length - 2];
     subcategoryname = arr[arr.length - 1];
     category = category.replace(/>/g, "/");
+    const l1 = arr[arr.length - 3];
+    const category3 = sliderImages.filter(ele => ele?.icon).length
+      ? "3d"
+      : "non 3d";
 
     Moengage.track_event("add_to_cart", {
       "Product id": sku || childAttributes[0].sku,
@@ -462,6 +467,34 @@ const ProductDetails: React.FC<Props> = ({
             }
           ]
         }
+      }
+    });
+    dataLayer.push({ ecommerce: null }); // Clear the previous ecommerce object.
+    dataLayer.push({
+      event: "add_to_cart",
+      ecommerce: {
+        items: [
+          {
+            item_id: setSelectedSKU(), //Pass the product id
+            item_name: title, // Pass the product name
+            affiliation: title, // Pass the product name
+            coupon: "", // Pass the coupon if available
+            currency: currency, // Pass the currency code
+            discount: discount, // Pass the discount amount
+            index: "",
+            item_brand: "Goodearth",
+            item_category: category,
+            item_category2: selectedSize?.size, //pass the item category2 ex.Size
+            item_category3: category3, //pass the product type 3d or non 3d
+            item_list_id: "", //pass the item list id
+            item_list_name: "", //pass the item list name ex.search results
+            item_variant: selectedSize?.size || "",
+            item_category4: l1,
+            item_category5: collection,
+            price: discountPrices || price,
+            quantity: quantity
+          }
+        ]
       }
     });
   };
@@ -646,7 +679,8 @@ const ProductDetails: React.FC<Props> = ({
         badgeType: badgeType,
         isSale: info.isSale,
         discountedPrice: discountPrices,
-        list: isQuickview ? "quickview" : "pdp"
+        list: isQuickview ? "quickview" : "pdp",
+        sliderImages: sliderImages
       },
       false,
       ModalStyles.bottomAlign
