@@ -284,7 +284,7 @@ class Search extends React.Component<Props, State> {
         this.setState({
           productData: data.results.products,
           url: searchUrl,
-          count: data.results.products.lenght,
+          count: data.results.products.length,
           suggestions: [],
           categories: data.results.categories,
           collections: data.results.collections,
@@ -875,11 +875,9 @@ class Search extends React.Component<Props, State> {
                     >
                       <div className={styles.searchBottomBlock}>
                         <div className={globalStyles.textCenter}>
-                          <div className={styles.count}>
-                            {" "}
-                            {this.state.count} Search Results Found
-                          </div>
-                          <p onClick={this.onClickSearch}>View All Results</p>
+                          <button onClick={this.onClickSearch}>
+                            {`View All ${this.state.count} Results`}{" "}
+                          </button>
                         </div>
                       </div>
                     </div>
