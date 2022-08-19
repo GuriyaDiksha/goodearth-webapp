@@ -156,6 +156,11 @@ h2 {
         &:hover{
           color: $white;
           background: #9f9f9f;
+          span{
+            border: 1px solid $white;
+          border-top: none;
+          border-left: none;
+          }
         }
       }
     }
@@ -379,7 +384,7 @@ input[type="radio"]:checked+label:before {
 .price-block {
   span {
     @include b3_14px_montserrat_aqua();
-    color: #3c7979;
+    color: $charcoal19;
     margin: 10px 25px;
     background-color: #fff;
     width: 220px;
@@ -399,13 +404,14 @@ input[type="radio"]:checked+label:before {
   }
   .value-hover {
     border-color: $aqua;
+    color: #3c7979;
   }
   input[type="number"] {
     background-color: #fff;
     padding: 15px 15px 15px 48px;
     width: 100%;
-    border: 1px solid $aqua !important;
     -moz-appearance: textfield;
+    border: 1px solid $white !important;;
     box-shadow: none;
     text-align: left;
     @include b3_14px_montserrat_charcoal();
@@ -415,6 +421,9 @@ input[type="radio"]:checked+label:before {
       font-size: 14px;
       font-family: $font-Montserrat;
       font-weight: 300;
+    }
+    &:focus{
+      border: 1px solid $aqua !important;
     }
   }
 }
