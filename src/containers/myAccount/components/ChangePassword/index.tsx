@@ -58,6 +58,9 @@ class ChangePassword extends React.Component<Props, State> {
           this.setState({
             showSuccess: true
           });
+          setTimeout(() => {
+            window.location.replace(window.location.origin);
+          }, 3000);
         }
       })
       .catch(err => {
