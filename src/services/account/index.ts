@@ -43,6 +43,14 @@ export default {
     );
     return data;
   },
+  fetchOrders: async (dispatch: Dispatch, url?: string | null) => {
+    const data = await API.post<MyOrdersResponse>(
+      dispatch,
+      url ? url : `${__API_HOST__ + "/myapi/order/user_orders"}`,
+      {}
+    );
+    return data;
+  },
   fetchInShopOrders: async (dispatch: Dispatch, email: string) => {
     const data = await API.post<any>(
       dispatch,

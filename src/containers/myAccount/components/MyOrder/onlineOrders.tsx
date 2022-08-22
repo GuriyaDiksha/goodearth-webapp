@@ -26,7 +26,7 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
 
   const fetchOrders = (url?: string | null) => {
     props.isLoading(true);
-    AccountService.fetchMyOrders(dispatch, url)
+    AccountService.fetchOrders(dispatch, url)
       .then((resData: any) => {
         if (resData?.previous) {
           setData([...data, ...resData.results]);
@@ -85,18 +85,19 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
   };
 
   const closeAddress = (data: any, index: number) => {
+    // if(!data.lines) return false;
     const html = [];
     const orderData = new Date(data.datePlaced);
     const todayDate = new Date();
 
     let totalItem = 0;
-    for (let i = 0; i < data.lines.length; i++) {
+    for (let i = 0; i < data.lines?.length; i++) {
       totalItem += data.lines[i].quantity;
     }
     todayDate.setMonth(todayDate.getMonth() - 1);
     // now today date is one month less
     const isHide = orderData >= todayDate;
-    const shippingAddress = data.shippingAddress[0];
+    const shippingAddress = data.shippingAddress?.[0];
     html.push(
       <div className={bootstrapStyles.col12}>
         <div className={styles.add} id={data.number}>
@@ -355,7 +356,7 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
                 </div>
               </div>
             </div>
-            {data.lines.map((item: any) => {
+            {data?.lines.map((item: any) => {
               const isDiscount =
                 +item.priceInclTax - +item.priceExclTaxExclDiscounts != 0;
               const price1 =
