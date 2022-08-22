@@ -220,7 +220,7 @@ class Search extends React.Component<Props, State> {
   onClickSearch = (event: any) => {
     if (this.state.searchValue.trim().length > 0) {
       this.props.history.push(
-        `search/${this.state.url.split("/autocomplete")[1]}`
+        `/search/${this.state.url.split("/autocomplete")[1]}`
       );
       this.closeSearch();
       return false;
@@ -392,9 +392,7 @@ class Search extends React.Component<Props, State> {
                   })}
                   onClick={this.onClickSearch}
                 >
-                  {`view all results${
-                    this.state.count ? `  (${this.state.count})` : ""
-                  }`}
+                  {`view all results`}
                 </span>
                 {!mobile && (
                   <i
