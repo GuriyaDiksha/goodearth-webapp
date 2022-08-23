@@ -502,7 +502,6 @@ export function PDP(data: any, currency: Currency) {
     let skus = "";
     let variants = "";
     let prices = "";
-    let color = "";
     const len = data.categories.length;
     const categri = data.categories[len - 1];
     const l3Len = category.split(">").length;
@@ -516,12 +515,35 @@ export function PDP(data: any, currency: Currency) {
     const quantitys: any = [];
     const colors: any = [];
 
-    // const childAttr = data?.childAttributes.map((child: any, index: number) => {
-    //   return Object.assign(
-    //     {},
-
-    //   );
-    // });
+    const childAttr = data?.childAttributes.map((child: any, index: number) => {
+      return Object.assign(
+        {},
+        {
+          item_id: child.sku, //Pass the product id
+          item_name: data.title,
+          affiliation: "",
+          coupon: "", // Pass the coupon if available
+          currency: currency, // Pass the currency code
+          discount: child.discountedPriceRecords
+            ? child.discountedPriceRecords[currency]
+            : child.priceRecords[currency], // Pass the discount amount
+          index: index,
+          item_brand: "goodearth",
+          item_category: cat,
+          item_category2: child.size,
+          item_category3: data.sliderImages?.some((key: any) => key.icon)
+            ? "3d"
+            : "non 3d",
+          item_list_id: "",
+          item_list_name: "",
+          item_variant: child.color,
+          item_category4: l1,
+          item_category5: data.collection,
+          price: child.priceRecords[currency],
+          quantity: 1
+        }
+      );
+    });
     data.childAttributes?.map((child: any) => {
       skusid.push(child.sku);
       variantspdp.push(child.size);
@@ -531,7 +553,6 @@ export function PDP(data: any, currency: Currency) {
       colors.push(child.color?.split("-")?.[1]);
       skus += "," + child.sku;
       variants += "," + child.size;
-      color += "," + child.color?.split("-")?.[1];
       prices +=
         "," +
         (child.discountedPriceRecords
@@ -542,7 +563,6 @@ export function PDP(data: any, currency: Currency) {
     });
     skus = skus.slice(1);
     variants = variants.slice(1);
-    color = color.slice(1);
     prices = prices.slice(1);
     const childProduct = Object.assign(
       {},
@@ -556,6 +576,7 @@ export function PDP(data: any, currency: Currency) {
       }
     );
     products.push(childProduct);
+
     Moengage.track_event("PDP View", {
       "Product id": skusid,
       "Product name": data.title,
@@ -576,32 +597,7 @@ export function PDP(data: any, currency: Currency) {
     dataLayer.push({
       event: "view_item",
       ecommerce: {
-        items: [
-          {
-            item_id: data.sku, //Pass the product id
-            item_name: data.title,
-            affiliation: "",
-            coupon: "", // Pass the coupon if available
-            currency: currency, // Pass the currency code
-            discount: data.discountedPriceRecords
-              ? data.discountedPriceRecords[currency]
-              : data.priceRecords[currency], // Pass the discount amount
-            index: "",
-            item_brand: "goodearth",
-            item_category: cat,
-            item_category2: variants,
-            item_category3: data.sliderImages?.some((key: any) => key.icon)
-              ? "3d"
-              : "non 3d",
-            item_list_id: "",
-            item_list_name: "",
-            item_variant: color,
-            item_category4: l1,
-            item_category5: data.collection,
-            price: data.priceRecords[currency],
-            quantity: 1
-          }
-        ]
+        items: childAttr
       }
     });
     dataLayer.push({ ecommerce: null });
@@ -793,14 +789,35 @@ export function plpProductClick(
     const l3Len = category.split(">").length;
     const cat = categri.split(">")[l3Len - 1];
     const l1 = categri.split(">")[0];
-    let variants = "";
-    let color = "";
-    data?.childAttributes.map((child: any, index: number) => {
-      variants += "," + child.size;
-      color += "," + child.color?.split("-")?.[1];
+    const childAttr = data?.childAttributes.map((child: any, index: number) => {
+      return Object.assign(
+        {},
+        {
+          item_id: child.sku, //Pass the product id
+          item_name: data.title,
+          affiliation: "",
+          coupon: "", // Pass the coupon if available
+          currency: currency, // Pass the currency code
+          discount: child.discountedPriceRecords
+            ? child.discountedPriceRecords[currency]
+            : child.priceRecords[currency], // Pass the discount amount
+          index: index,
+          item_brand: "goodearth",
+          item_category: cat,
+          item_category2: child.size,
+          item_category3: data.sliderImages?.some((key: any) => key.icon)
+            ? "3d"
+            : "non 3d",
+          item_list_id: "",
+          item_list_name: "",
+          item_variant: child.color,
+          item_category4: l1,
+          item_category5: data.collection,
+          price: child.priceRecords[currency],
+          quantity: 1
+        }
+      );
     });
-    variants = variants.slice(1);
-    color = color.slice(1);
     const listPath = `${list}`;
     CookieService.setCookie("listPath", listPath);
     dataLayer.push({
@@ -817,32 +834,7 @@ export function plpProductClick(
     dataLayer.push({
       event: "select_item",
       ecommerce: {
-        items: [
-          {
-            item_id: data.sku, //Pass the product id
-            item_name: data.title,
-            affiliation: "",
-            coupon: "", // Pass the coupon if available
-            currency: currency, // Pass the currency code
-            discount: data.discountedPriceRecords
-              ? data.discountedPriceRecords[currency]
-              : data.priceRecords[currency], // Pass the discount amount
-            index: "",
-            item_brand: "goodearth",
-            item_category: cat,
-            item_category2: variants,
-            item_category3: data.sliderImages?.some((key: any) => key.icon)
-              ? "3d"
-              : "non 3d",
-            item_list_id: "",
-            item_list_name: "",
-            item_variant: color,
-            item_category4: l1,
-            item_category5: data.collection,
-            price: data.priceRecords[currency],
-            quantity: 1
-          }
-        ]
+        items: childAttr
       }
     });
   } catch (e) {
