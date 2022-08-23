@@ -278,13 +278,11 @@ class FilterList extends React.Component<Props, State> {
       // viewData.length > 2 ? viewData.pop() : "";
       if (!categoryObj[tempKey]) {
         categoryObj[tempKey] = [["View all ", viewData.join(">").trim()]];
-
         counts[tempKey] = 0;
       }
 
       if (data[0].split(">")[1]) {
         categoryObj[tempKey].push([data[0].split(">")[1].trim()].concat(data));
-
         counts[tempKey] = counts[tempKey] + data[2];
         categoryObj[tempKey][0][3] = counts[tempKey];
       }
@@ -1315,7 +1313,7 @@ class FilterList extends React.Component<Props, State> {
         })
       : this.setState({ activeindex2: index, showmenulevel2: true });
 
-    if (isNaN(index) && index?.startsWith("View All")) {
+    if (isNaN(index || 0) && index?.startsWith("View All")) {
       this.handleClickCategory(
         { target: { id: "all" } },
         "View All",
