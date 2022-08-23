@@ -265,7 +265,7 @@
 }
 
 .filter-side-menu {
-  height: calc(100vh - 185px);
+  height: calc(100% - 60px);
   overflow:scroll;
   &::-webkit-scrollbar {
     display: none;
