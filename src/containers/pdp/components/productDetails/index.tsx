@@ -265,6 +265,12 @@ const ProductDetails: React.FC<Props> = ({
   const [sizeError, setSizeError] = useState("");
   const [quantity, setQuantity] = useState<number>(1);
 
+  useEffect(() => {
+    if (window?.location?.pathname === "/cart") {
+      closeModal ? closeModal() : null;
+    }
+  }, [window?.location?.pathname]);
+
   const showError = () => {
     setTimeout(() => {
       const firstErrorField = document.getElementsByClassName(
@@ -515,7 +521,7 @@ const ProductDetails: React.FC<Props> = ({
           setAddedToBag(true);
           setTimeout(() => {
             setAddedToBag(false);
-            closeModal ? closeModal() : null;
+            //closeModal ? closeModal() : null;
           }, 3000);
           valid.showGrowlMessage(dispatch, MESSAGE.ADD_TO_BAG_SUCCESS);
           gtmPushAddToBag();
