@@ -15,6 +15,7 @@ import { useSelector, useStore } from "react-redux";
 import bridalRing from "../../images/bridal/rings.svg";
 import { AppState } from "reducers/typings";
 import quantityStyles from "../quantity/styles.scss";
+import CookieService from "services/cookie";
 
 const LineItems: React.FC<BasketItem> = memo(
   ({
@@ -88,35 +89,40 @@ const LineItems: React.FC<BasketItem> = memo(
       const arr = category.split(">");
       const categoryname = arr[arr.length - 2];
       const subcategoryname = arr[arr.length - 1];
-      Moengage.track_event("remove_from_cart", {
-        "Product id": product.sku || product.childAttributes[0].sku,
-        "Product name": product.title,
-        quantity: quantity,
-        price: +price,
-        Currency: currency,
-        "Collection name": product.collection,
-        "Category name": categoryname,
-        "Sub Category Name": subcategoryname
-      });
-      dataLayer.push({
-        event: "removeFromCart",
-        ecommerce: {
-          currencyCode: currency,
-          remove: {
-            products: [
-              {
-                name: product.title,
-                id: product.sku || product.childAttributes[0].sku,
-                price: price,
-                brand: "Goodearth",
-                category: category,
-                variant: size,
-                quantity: quantity
-              }
-            ]
+      const userConsent = CookieService.getCookie("consent").split(",");
+      if (userConsent.includes("Moengage")) {
+        Moengage.track_event("remove_from_cart", {
+          "Product id": product.sku || product.childAttributes[0].sku,
+          "Product name": product.title,
+          quantity: quantity,
+          price: +price,
+          Currency: currency,
+          "Collection name": product.collection,
+          "Category name": categoryname,
+          "Sub Category Name": subcategoryname
+        });
+      }
+      if (userConsent.includes("GA-Calls")) {
+        dataLayer.push({
+          event: "removeFromCart",
+          ecommerce: {
+            currencyCode: currency,
+            remove: {
+              products: [
+                {
+                  name: product.title,
+                  id: product.sku || product.childAttributes[0].sku,
+                  price: price,
+                  brand: "Goodearth",
+                  category: category,
+                  variant: size,
+                  quantity: quantity
+                }
+              ]
+            }
           }
-        }
-      });
+        });
+      }
       const categoryList = product.categories
         ? product.categories.length > 0
           ? product.categories[product.categories.length - 1].replace(/>/g, "-")
@@ -127,18 +133,20 @@ const LineItems: React.FC<BasketItem> = memo(
       if (subcategory) {
         subcategory = subcategory[subcategory.length - 1];
       }
-      dataLayer.push({
-        "Event Category": "GA Ecommerce",
-        "Event Action": "Cart Removal",
-        "Event Label": subcategory,
-        "Time Stamp": new Date().toISOString(),
-        "Cart Source": location.href,
-        "Product Category": categoryList,
-        "Login Status": isLoggedIn ? "logged in" : "logged out",
-        "Product Name": product.title,
-        "Product ID": product.id,
-        Variant: size
-      });
+      if (userConsent.includes("GA-Calls")) {
+        dataLayer.push({
+          "Event Category": "GA Ecommerce",
+          "Event Action": "Cart Removal",
+          "Event Label": subcategory,
+          "Time Stamp": new Date().toISOString(),
+          "Cart Source": location.href,
+          "Product Category": categoryList,
+          "Login Status": isLoggedIn ? "logged in" : "logged out",
+          "Product Name": product.title,
+          "Product ID": product.id,
+          Variant: size
+        });
+      }
     };
 
     const deleteItem = () => {

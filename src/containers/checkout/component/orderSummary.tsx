@@ -13,6 +13,7 @@ import { AppState } from "reducers/typings";
 import { updateComponent, updateModal } from "actions/modal";
 import { updateDeliveryText } from "actions/info";
 import { POPUP } from "constants/components";
+import CookieService from "services/cookie";
 
 const OrderSummary: React.FC<OrderProps> = props => {
   const { mobile, basket, page, shippingAddress, salestatus, validbo } = props;
@@ -468,19 +469,25 @@ const OrderSummary: React.FC<OrderProps> = props => {
   };
 
   const goToWishlist = (e: any) => {
-    dataLayer.push({
-      event: "eventsToSend",
-      eventAction: "wishListClick",
-      eventCategory: "Click",
-      eventLabel: location.pathname
-    });
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes("GA-Calls")) {
+      dataLayer.push({
+        event: "eventsToSend",
+        eventAction: "wishListClick",
+        eventCategory: "Click",
+        eventLabel: location.pathname
+      });
+    }
   };
   const saveInstruction = (data: string) => {
     dispatch(updateDeliveryText(data));
-    dataLayer.push({
-      event: "Delivery Instruction",
-      message: data
-    });
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes("GA-Calls")) {
+      dataLayer.push({
+        event: "Delivery Instruction",
+        message: data
+      });
+    }
   };
 
   const openDeliveryBox = () => {

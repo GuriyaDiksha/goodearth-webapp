@@ -149,19 +149,24 @@ class Search extends React.Component<
     this.setState({
       searchMaker: true
     });
-    dataLayer.push(function(this: any) {
-      this.reset();
-    });
-    util.pageViewGTM("Search");
-    dataLayer.push({
-      event: "SearchView",
-      PageURL: this.props.location.pathname,
-      Page_Title: "virtual_search_view"
-    });
-    Moengage.track_event("Page viewed", {
-      "Page URL": this.props.location.pathname,
-      "Page Name": "SearchView"
-    });
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes("GA-Calls")) {
+      dataLayer.push(function(this: any) {
+        this.reset();
+      });
+      util.pageViewGTM("Search");
+      dataLayer.push({
+        event: "SearchView",
+        PageURL: this.props.location.pathname,
+        Page_Title: "virtual_search_view"
+      });
+    }
+    if (userConsent.includes("Moengage")) {
+      Moengage.track_event("Page viewed", {
+        "Page URL": this.props.location.pathname,
+        "Page Name": "SearchView"
+      });
+    }
     this.props
       .fetchFeaturedContent()
       .then(data => {
@@ -235,22 +240,27 @@ class Search extends React.Component<
         const listPath = `SearchResults`;
         CookieService.setCookie("listPath", listPath);
         // let cur = this.state.salestatus ? item.product.discounted_pricerecord[window.currency] : item.product.pricerecords[window.currency]
-        dataLayer.push({
-          event: "productClick",
-          ecommerce: {
-            currencyCode: this.props.currency,
-            click: {
-              // actionField: { list: "Search Page" },
-              actionField: { list: listPath },
-              products: product
+        const userConsent = CookieService.getCookie("consent").split(",");
+        if (userConsent.includes("GA-Calls")) {
+          dataLayer.push({
+            event: "productClick",
+            ecommerce: {
+              currencyCode: this.props.currency,
+              click: {
+                // actionField: { list: "Search Page" },
+                actionField: { list: listPath },
+                products: product
+              }
             }
-          }
-        });
-        Moengage.track_event("search", {
-          keyword: product.name,
-          "Search Suggestions Clicked": true,
-          Currency: this.props.currency
-        });
+          });
+        }
+        if (userConsent.includes("Moengage")) {
+          Moengage.track_event("search", {
+            keyword: product.name,
+            "Search Suggestions Clicked": true,
+            Currency: this.props.currency
+          });
+        }
       }
     } catch (err) {
       console.log("Search GTM error");

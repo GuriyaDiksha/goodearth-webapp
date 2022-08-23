@@ -64,19 +64,22 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
     const category = product.categories[len - 1];
     const l3Len = category.split(">").length;
     const l3 = category.split(">")[l3Len - 1];
-    dataLayer.push({
-      "Event Category": "GA Ecommerce",
-      "Event Action": "Product Click ",
-      "Event Label": l3,
-      "Time Stamp": new Date().toISOString(),
-      "Page Url": location.href,
-      "Page Type": valid.getPageType(),
-      "Product Category": category.replace(/>/g, "-"),
-      "Login Status": isLoggedIn ? "logged in" : "logged out",
-      "Page referrer url": CookieService.getCookie("prevUrl"),
-      "Product Name": product.title,
-      "Product ID": product.id
-    });
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes("GA-Calls")) {
+      dataLayer.push({
+        "Event Category": "GA Ecommerce",
+        "Event Action": "Product Click ",
+        "Event Label": l3,
+        "Time Stamp": new Date().toISOString(),
+        "Page Url": location.href,
+        "Page Type": valid.getPageType(),
+        "Product Category": category.replace(/>/g, "-"),
+        "Login Status": isLoggedIn ? "logged in" : "logged out",
+        "Page referrer url": CookieService.getCookie("prevUrl"),
+        "Product Name": product.title,
+        "Product ID": product.id
+      });
+    }
   };
   const image = primaryimage
     ? product.plpImages

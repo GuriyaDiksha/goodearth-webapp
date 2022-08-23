@@ -14,6 +14,7 @@ import { Link, withRouter, RouteComponentProps } from "react-router-dom";
 import mapDispatchToProps from "./mapper/actions";
 import { BottomMenuProps } from "./typings";
 import { connect } from "react-redux";
+import CookieService from "services/cookie";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -56,12 +57,15 @@ const BottomMenu: React.FC<Props> = ({
     location.pathname.includes("/catalogue/category") ||
     location.pathname.includes("/search");
   const gtmPushWishlistClick = () => {
-    dataLayer.push({
-      event: "eventsToSend",
-      eventAction: "wishListClick",
-      eventCategory: "Click",
-      eventLabel: location.pathname
-    });
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes("GA-Calls")) {
+      dataLayer.push({
+        event: "eventsToSend",
+        eventAction: "wishListClick",
+        eventCategory: "Click",
+        eventLabel: location.pathname
+      });
+    }
   };
 
   const curryList = currencyList.map(data => {

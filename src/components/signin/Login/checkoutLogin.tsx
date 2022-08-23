@@ -18,7 +18,7 @@ import { AppState } from "reducers/typings";
 import { RouteComponentProps, withRouter } from "react-router";
 import EmailVerification from "../emailVerification";
 import { USR_WITH_NO_ORDER } from "constants/messages";
-// import CookieService from "services/cookie";
+import CookieService from "services/cookie";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -221,12 +221,15 @@ class CheckoutLoginForm extends React.Component<Props, loginState> {
   };
 
   gtmPushSignIn = () => {
-    dataLayer.push({
-      event: "eventsToSend",
-      eventAction: "signIn",
-      eventCategory: "formSubmission",
-      eventLabel: location.pathname
-    });
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes("GA-Calls")) {
+      dataLayer.push({
+        event: "eventsToSend",
+        eventAction: "signIn",
+        eventCategory: "formSubmission",
+        eventLabel: location.pathname
+      });
+    }
   };
   handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
@@ -243,15 +246,19 @@ class CheckoutLoginForm extends React.Component<Props, loginState> {
           this.props.sortBy
         )
         .then((data: any) => {
-          Moengage.track_event("Login", {
-            email: this.state.email
-          });
-          Moengage.add_first_name(data.firstName);
-          Moengage.add_last_name(data.lastName);
-          Moengage.add_email(data.email);
-          Moengage.add_mobile(data.phoneNo);
-          Moengage.add_gender(data.gender);
-          Moengage.add_unique_user_id(this.state.email);
+          const userConsent = CookieService.getCookie("consent").split(",");
+
+          if (userConsent.includes("Moengage")) {
+            Moengage.track_event("Login", {
+              email: this.state.email
+            });
+            Moengage.add_first_name(data.firstName);
+            Moengage.add_last_name(data.lastName);
+            Moengage.add_email(data.email);
+            Moengage.add_mobile(data.phoneNo);
+            Moengage.add_gender(data.gender);
+            Moengage.add_unique_user_id(this.state.email);
+          }
           this.gtmPushSignIn();
           // this.context.closeModal();
           // this.props.nextStep?.();

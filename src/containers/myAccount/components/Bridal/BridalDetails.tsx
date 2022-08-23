@@ -12,6 +12,7 @@ import globalStyles from "styles/global.scss";
 import cs from "classnames";
 import Formsy from "formsy-react";
 import FormInput from "../../../../components/Formsy/FormInput";
+import CookieService from "services/cookie";
 
 const BridalDetails: React.FC = () => {
   const { setCurrentModule, setCurrentModuleData, data } = useContext(
@@ -60,12 +61,15 @@ const BridalDetails: React.FC = () => {
   };
 
   useEffect(() => {
-    dataLayer.push({
-      event: "registry",
-      "Event Category": "Registry",
-      "Event Action": "Details page",
-      "Event Label": data.occasion
-    });
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes("GA-Calls")) {
+      dataLayer.push({
+        event: "registry",
+        "Event Category": "Registry",
+        "Event Action": "Details page",
+        "Event Label": data.occasion
+      });
+    }
   }, []);
 
   return (

@@ -9,11 +9,11 @@ import { ShopLocator } from "./ShopLocator";
 import { AppState } from "reducers/typings";
 import { connect } from "react-redux";
 import CookieService from "services/cookie";
-import fontStyles from "styles/iconFonts.scss";
 import * as valid from "utils/validate";
 import { Dispatch } from "redux";
 import HeaderFooterService from "services/headerFooter";
 import { updateShowCookie } from "actions/info";
+import CookiePolicy from "./CookiePolicy";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -766,33 +766,10 @@ class Footer extends React.Component<Props, FooterState> {
           </div>
         </div>
         {this.props.showCookie && !this.props.mobileMenuOpenState && (
-          <div className={styles.cookieclass}>
-            <span
-              className={cs(
-                styles.closePopup,
-                fontStyles.icon,
-                fontStyles.iconCross
-              )}
-              onClick={() => {
-                this.props.hideCookies();
-              }}
-            ></span>
-            <h3>COOKIES & PRIVACY</h3>
-            <p>
-              This website uses cookies to ensure you get the best experience on
-              our website. Please read our &nbsp;
-              <Link to={"/customer-assistance/cookie-policy"}>
-                Cookie Policy
-              </Link>
-              &nbsp; and{" "}
-              <Link to={"/customer-assistance/privacy-policy"}>
-                Privacy Policy.
-              </Link>
-            </p>
-            <span className={styles.okBtn} onClick={this.acceptCookies}>
-              ACCEPT
-            </span>
-          </div>
+          <CookiePolicy
+            hideCookies={this.props.hideCookies}
+            acceptCookies={this.acceptCookies}
+          />
         )}
       </div>
     );

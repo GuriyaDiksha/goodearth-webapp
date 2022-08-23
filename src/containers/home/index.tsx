@@ -8,6 +8,7 @@ import cs from "classnames";
 import * as util from "utils/validate";
 import { useSelector } from "react-redux";
 import { AppState } from "reducers/typings";
+import CookieService from "services/cookie";
 // import { Link } from "react-router-dom";
 // import INRBanner from "../../images/banner/INRBanner.jpg";
 // import USDGBPBanner from "../../images/banner/USDGBPBanner.jpg";
@@ -19,19 +20,24 @@ const Home: React.FC = () => {
     setTimeout(() => {
       window.scrollTo(0, 0);
     }, 1000);
-    dataLayer.push(function(this: any) {
-      this.reset();
-    });
-    util.pageViewGTM("Home");
-    dataLayer.push({
-      event: "HomePageView",
-      PageURL: location.pathname,
-      Page_Title: "virtual_homePage_view"
-    });
-    Moengage.track_event("Page viewed", {
-      "Page URL": location.pathname,
-      "Page Name": "HomePageView"
-    });
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes("GA-Calls")) {
+      dataLayer.push(function(this: any) {
+        this.reset();
+      });
+      util.pageViewGTM("Home");
+      dataLayer.push({
+        event: "HomePageView",
+        PageURL: location.pathname,
+        Page_Title: "virtual_homePage_view"
+      });
+    }
+    if (userConsent.includes("Moengage")) {
+      Moengage.track_event("Page viewed", {
+        "Page URL": location.pathname,
+        "Page Name": "HomePageView"
+      });
+    }
   }, []);
   const { showTimer } = useSelector((state: AppState) => state.info);
 

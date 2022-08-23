@@ -16,6 +16,7 @@ import { MESSAGE } from "constants/messages";
 import * as valid from "utils/validate";
 import { AppState } from "reducers/typings";
 import Loader from "components/Loader";
+import CookieService from "services/cookie";
 
 const Section4: React.FC<Section4Props> = props => {
   const [nummsg, setNummsg] = useState("");
@@ -47,12 +48,15 @@ const Section4: React.FC<Section4Props> = props => {
       setIsLoading(true);
       GiftcardService.addToGiftcard(dispatch, data)
         .then((res: any) => {
-          dataLayer.push({
-            event: "card_add_to_cart",
-            design: data.imageUrl,
-            location: props.selectedCountry,
-            value: data.customPrice
-          });
+          const userConsent = CookieService.getCookie("consent").split(",");
+          if (userConsent.includes("GA-Calls")) {
+            dataLayer.push({
+              event: "card_add_to_cart",
+              design: data.imageUrl,
+              location: props.selectedCountry,
+              value: data.customPrice
+            });
+          }
 
           const basket: Basket = res.data;
           dispatch(updateBasket(basket));
