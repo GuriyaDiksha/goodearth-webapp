@@ -956,7 +956,8 @@ class PDPContainer extends React.Component<Props, State> {
       childAttributes,
       title,
       discount,
-      badgeType
+      badgeType,
+      plpSliderImages
     } = product;
     const {
       updateComponentModal,
@@ -990,7 +991,8 @@ class PDPContainer extends React.Component<Props, State> {
         badgeType: badgeType,
         isSale: isSale,
         discountedPrice: discountedPriceRecords[currency],
-        list: "pdp"
+        list: "pdp",
+        sliderImages: plpSliderImages
       },
       false,
       ModalStyles.bottomAlign
