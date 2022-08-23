@@ -59,7 +59,8 @@ const CartItems: React.FC<BasketItem> = memo(
       productDeliveryDate,
       attributes,
       categories,
-      sku
+      sku,
+      plpSliderImages
     } = product;
     const showDeliveryTimelines = true;
     useEffect(() => {
@@ -204,7 +205,8 @@ const CartItems: React.FC<BasketItem> = memo(
             discount: false,
             onNotifyCart: onNotifyCart,
             // changeSize:{changeSize},
-            list: "cart"
+            list: "cart",
+            sliderImages: plpSliderImages
           },
           false,
           ModalStyles.bottomAlign

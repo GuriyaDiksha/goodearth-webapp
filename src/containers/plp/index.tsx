@@ -223,7 +223,8 @@ class PLP extends React.Component<
       childAttributes,
       title,
       discount,
-      badgeType
+      badgeType,
+      plpSliderImages
     } = product;
     const selectedIndex = childAttributes?.length == 1 ? 0 : undefined;
     const {
@@ -256,7 +257,8 @@ class PLP extends React.Component<
         badgeType: badgeType,
         isSale: isSale,
         discountedPrice: discountedPriceRecords[currency],
-        list: "plp"
+        list: "plp",
+        sliderImages: plpSliderImages
       },
       false,
       ModalStyles.bottomAlign
