@@ -227,7 +227,8 @@ class PLP extends React.Component<
       childAttributes,
       title,
       discount,
-      badgeType
+      badgeType,
+      plpSliderImages
     } = product;
     const selectedIndex = childAttributes?.length == 1 ? 0 : undefined;
     const {
@@ -260,7 +261,8 @@ class PLP extends React.Component<
         badgeType: badgeType,
         isSale: isSale,
         discountedPrice: discountedPriceRecords[currency],
-        list: "plp"
+        list: "plp",
+        sliderImages: plpSliderImages
       },
       false,
       ModalStyles.bottomAlign
@@ -675,7 +677,7 @@ class PLP extends React.Component<
                     { [styles.mobileFilterMenuTimer]: this.props.showTimer },
                     globalStyles.hideLeft
                   )
-                : cs(bootstrap.colMd2, styles.filterSticky)
+                : cs(bootstrap.colMd3, styles.filterSticky)
             }
           >
             {corporoateGifting ? (
@@ -704,7 +706,7 @@ class PLP extends React.Component<
             className={cs(
               { [globalStyles.hidden]: this.state.showmobileSort },
               { [styles.spCat]: !this.state.showmobileSort },
-              bootstrap.colLg10,
+              bootstrap.colLg9,
               bootstrap.col12
             )}
           >

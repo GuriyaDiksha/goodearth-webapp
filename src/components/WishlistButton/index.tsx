@@ -55,7 +55,7 @@ const WishlistButton: React.FC<Props> = ({
       (basketLineId && wishlistChildItems.indexOf(id) != -1)
   );
   const dispatch = useDispatch();
-  const gtmPushAddToWishlist = () => {
+  const gtmPushAddToWishlist = (addWishlist?: boolean) => {
     try {
       if (gtmListType) {
         const index = categories ? categories.length - 1 : 0;
@@ -68,18 +68,30 @@ const WishlistButton: React.FC<Props> = ({
         const child = childAttributes as ChildProductAttributes[];
         console.log(category, id, title, priceRecords);
         const userConsent = CookieService.getCookie("consent").split(",");
-
         if (userConsent.includes("Moengage")) {
-          Moengage.track_event("add_to_wishlist", {
-            "Product id": id,
-            "Product name": title,
-            quantity: 1,
-            price: priceRecords?.[currency] ? +priceRecords?.[currency] : "",
-            Currency: currency,
-            // "Collection name": collection,
-            "Category name": category?.split("/")[0],
-            "Sub Category Name": category?.split("/")[1] || ""
-          });
+          if (addWishlist) {
+            Moengage.track_event("add_to_wishlist", {
+              "Product id": id,
+              "Product name": title,
+              quantity: 1,
+              price: priceRecords?.[currency] ? +priceRecords?.[currency] : "",
+              Currency: currency,
+              // "Collection name": collection,
+              "Category name": category?.split("/")[0],
+              "Sub Category Name": category?.split("/")[1] || ""
+            });
+          } else {
+            Moengage.track_event("remove_from_wishlist", {
+              "Product id": id,
+              "Product name": title,
+              quantity: 1,
+              price: priceRecords?.[currency] ? +priceRecords?.[currency] : "",
+              Currency: currency,
+              // "Collection name": collection,
+              "Category name": category?.split("/")[0],
+              "Sub Category Name": category?.split("/")[1] || ""
+            });
+          }
         }
 
         if (userConsent.includes("GA-Calls")) {
@@ -152,11 +164,12 @@ const WishlistButton: React.FC<Props> = ({
         WishlistService.removeFromWishlist(store.dispatch, id).finally(() => {
           dispatch(updateLoader(false));
           onComplete && onComplete();
+          gtmPushAddToWishlist(false);
         });
       } else {
         WishlistService.addToWishlist(store.dispatch, id, size)
           .then(() => {
-            gtmPushAddToWishlist();
+            gtmPushAddToWishlist(true);
           })
           .finally(() => {
             dispatch(updateLoader(false));

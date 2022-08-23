@@ -143,6 +143,23 @@ export function productForBasketGa(data: Basket, currency: Currency) {
   return product;
 }
 
+export function productForGa(data: Basket) {
+  let product: any = [];
+  if (data.lineItems) {
+    product = data.lineItems.map(prod => {
+      return Object.assign(
+        {},
+        {
+          id: prod.product.childAttributes[0].sku,
+          quantity: prod.quantity
+        }
+      );
+    });
+  }
+
+  return product;
+}
+
 export function proceedTocheckout(data: Basket, currency: Currency) {
   if (data.lineItems) {
     const quantitys: any = [];
@@ -561,19 +578,19 @@ export function PDP(data: any, currency: Currency) {
       });
     }
     const listPath = CookieService.getCookie("listPath") || "DirectLandingView";
-    if (userConsent.includes("GA-Calls")) {
-      dataLayer.push({ ecommerce: null });
-      dataLayer.push({
-        event: "productDetailImpression",
+    dataLayer.push({ ecommerce: null });
+    dataLayer.push({
+      event: "productDetailImpression",
+      ecommerce: {
+        currencyCode: currency,
         ecommerce: {
-          currencyCode: currency,
           detail: {
             actionField: { list: listPath },
             products
           }
         }
-      });
-    }
+      }
+    });
   } catch (e) {
     console.log(e);
     console.log("PDP impression error");

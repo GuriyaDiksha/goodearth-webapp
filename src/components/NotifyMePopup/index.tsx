@@ -52,6 +52,7 @@ type Props = {
   onNotifyCart?: (basketLineId: ProductID) => void;
   sortBy?: string;
   list?: string;
+  sliderImages: { icon: boolean }[];
 };
 
 const NotifyMePopup: React.FC<Props> = ({
@@ -70,7 +71,8 @@ const NotifyMePopup: React.FC<Props> = ({
   discount,
   badgeType,
   sortBy,
-  list
+  list,
+  sliderImages
 }) => {
   const { dispatch } = useStore();
 
@@ -157,6 +159,11 @@ const NotifyMePopup: React.FC<Props> = ({
       subcategoryname = subcategoryname[subcategoryname.length - 1];
     }
     const size = selectedSize?.size || "";
+    const arr = category?.split(">");
+    const l1 = arr?.[arr.length - 3];
+    const category3 = (sliderImages || [])?.filter(ele => ele?.icon).length
+      ? "3d"
+      : "non 3d";
     const userConsent = CookieService.getCookie("consent").split(",");
     if (userConsent.includes("GA-Calls")) {
       dataLayer.push({
@@ -190,6 +197,36 @@ const NotifyMePopup: React.FC<Props> = ({
               }
             ]
           }
+        }
+      });
+      dataLayer.push({ ecommerce: null }); // Clear the previous ecommerce object.
+      dataLayer.push({
+        event: "add_to_cart",
+        ecommerce: {
+          items: [
+            {
+              item_id: selectedSize?.sku || childAttributes[0].sku, //Pass the product id
+              item_name: title, // Pass the product name
+              affiliation: title, // Pass the product name
+              coupon: "", // Pass the coupon if available
+              currency: currency, // Pass the currency code
+              discount: discount, // Pass the discount amount
+              index: "",
+              item_brand: "Goodearth",
+              item_category: category,
+              item_category2: selectedSize?.size, //pass the item category2 ex.Size
+              item_category3: category3, //pass the product type 3d or non 3d
+              item_list_id: "", //pass the item list id
+              item_list_name: "", //pass the item list name ex.search results
+              item_variant: selectedSize?.size || "",
+              item_category4: l1, //pass the L1
+              item_category5: collection,
+              price:
+                selectedSize?.discountedPriceRecords[currency] ||
+                selectedSize?.priceRecords[currency],
+              quantity: quantity
+            }
+          ]
         }
       });
     }

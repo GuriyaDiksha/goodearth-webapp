@@ -884,7 +884,7 @@ class Mobilemenu extends React.Component<Props, MobileState> {
               <i
                 className={cs(
                   styles.wishlistIcon,
-                  { [globalStyles.cerise]: wishlistIcon },
+                  { [styles.wishlistGold]: wishlistIcon },
                   {
                     [iconStyles.iconWishlistAdded]: wishlistIcon
                   },

@@ -25,7 +25,6 @@
     padding-top: 5px;
 }
 .product-n {
-    @include b3_14px_montserrat_charcoal();
     text-transform: capitalize;
     width: 100%;
     white-space: nowrap;
@@ -33,15 +32,12 @@
     text-overflow: ellipsis;
     padding: 0 10px;
     a {
-        font-size: 14px;
-        font-family: $font-Lato;
-        color: #000;
-        text-transform: capitalize;
-        &:hover {
-            font-weight: 600;
-        }
+        @include b3_14px_montserrat_charcoal();
     }
 }
+
+
+
 .img-responsive{
     display: block;
     max-width: 100%;
@@ -55,6 +51,15 @@
         padding: 0 3px;
     }
     position: relative;
+    &:hover {
+        div{
+            .product-n{
+                a{
+                    font-weight: $medium;
+                }
+            }
+        }
+    }
 }
 
 .sale-banner {

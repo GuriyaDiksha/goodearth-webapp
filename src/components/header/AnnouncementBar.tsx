@@ -168,10 +168,10 @@ const AnnouncementBar: React.FC<Props> = ({
                 ) : data[currentIndex]?.ctaRedirection == "OPEN_A_POP_UP" ? (
                   <div
                     className={styles.announcementCtaBtn}
-                    style={{
+                    /*style={{
                       color: data[currentIndex]?.ctaBorderColor,
                       border: `1px solid ${data[currentIndex]?.ctaBorderColor}`
-                    }}
+                    }}*/
                     onClick={() =>
                       openPopup(
                         data[currentIndex]?.ctaRedirectionPopup as PopupData
@@ -184,10 +184,10 @@ const AnnouncementBar: React.FC<Props> = ({
                   !data[currentIndex]?.ctaRedirection && (
                     <div
                       className={styles.announcementCtaBtn}
-                      style={{
+                      /*style={{
                         color: data[currentIndex]?.ctaBorderColor,
                         border: `1px solid ${data[currentIndex]?.ctaBorderColor}`
-                      }}
+                      }}*/
                     >
                       {ReactHtmlParser(data[currentIndex]?.ctaLabel)}
                     </div>

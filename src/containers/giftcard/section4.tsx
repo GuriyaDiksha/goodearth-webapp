@@ -36,9 +36,10 @@ const Section4: React.FC<Section4Props> = props => {
 
   const [subscribe, setSubscribe] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [isErr, setIsErr] = useState(false);
   const code = currencyCode[currency as Currency];
   const dispatch = useDispatch();
-  const { tablet } = useSelector((state: AppState) => state.device);
+  const { tablet, mobile } = useSelector((state: AppState) => state.device);
 
   const gotoNext = () => {
     if (subscribe) {
@@ -137,7 +138,7 @@ const Section4: React.FC<Section4Props> = props => {
           >
             <div className={cs(bootstrapStyles.row)}></div>
             <div className={globalStyles.voffset2}>
-              <img className={styles.width100} src={imageUrl} />
+              <img className={styles.width65} src={imageUrl} />
             </div>
             <div className={styles.giftHeading}>Recipient Email:</div>
             <div className={styles.recipientFont}>{recipientEmail}</div>
@@ -147,6 +148,7 @@ const Section4: React.FC<Section4Props> = props => {
                 You have received a Good Earth eGift card <br /> worth{" "}
                 <span className={styles.aqua}>
                   {String.fromCharCode(...code)}
+                  {"  "}
                   {customPrice}
                 </span>{" "}
                 from
@@ -178,7 +180,14 @@ const Section4: React.FC<Section4Props> = props => {
                 styles.loginForm
               )}
             >
-              <Formsy>
+              <Formsy
+                onInvalid={() => {
+                  setIsErr(true);
+                }}
+                onValid={() => {
+                  setIsErr(false);
+                }}
+              >
                 <div className={styles.categorylabel}>
                   <div className={styles.subscribe}>
                     <FormCheckbox
@@ -225,19 +234,41 @@ const Section4: React.FC<Section4Props> = props => {
                     ) : (
                       <p className={styles.errorMsg}></p>
                     )}
+                    {tablet && (
+                      <div
+                        className={cs(bootstrapStyles.col12, styles.buttonRow)}
+                      >
+                        <div className={cs(styles.imageSelectBtnContainer)}>
+                          <button
+                            className={cs(styles.imageSelectBtn, {
+                              [styles.errorBtn]: isErr
+                            })}
+                            onClick={!isLoading ? gotoNext : () => null}
+                          >
+                            Add To Bag
+                          </button>
+                        </div>
+                      </div>
+                    )}
+                    {!mobile && (
+                      <div
+                        className={cs(bootstrapStyles.col12, styles.buttonRow)}
+                      >
+                        <div className={cs(styles.imageSelectBtnContainer)}>
+                          <button
+                            className={cs(styles.imageSelectBtn, {
+                              [styles.errorBtn]: isErr
+                            })}
+                            onClick={!isLoading ? gotoNext : () => null}
+                          >
+                            Add To Bag
+                          </button>
+                        </div>
+                      </div>
+                    )}
                   </div>
                 </div>
               </Formsy>
-            </div>
-            <div className={cs(bootstrapStyles.col12, styles.buttonRow)}>
-              <div className={cs(styles.imageSelectBtnContainer)}>
-                <button
-                  className={styles.imageSelectBtn}
-                  onClick={!isLoading ? gotoNext : () => null}
-                >
-                  Add To Bag
-                </button>
-              </div>
             </div>
             {/* <div
               className={cs(
@@ -262,6 +293,31 @@ const Section4: React.FC<Section4Props> = props => {
           </div>
         </div>
       </section>
+      {mobile && !tablet && (
+        <div
+          className={cs(bootstrapStyles.col12, styles.buttonRow, {
+            [styles.buttonSticky]: mobile
+          })}
+        >
+          <div className={cs(styles.imageSelectBtnContainer)}>
+            <button
+              className={cs(
+                styles.imageSelectBtn,
+                {
+                  [styles.section2FullWidth]: mobile
+                },
+                {
+                  [styles.errorBtn]: isErr
+                }
+              )}
+              onClick={!isLoading ? gotoNext : () => null}
+            >
+              Add To Bag
+            </button>
+          </div>
+        </div>
+      )}
+
       {isLoading && <Loader />}
     </div>
   );

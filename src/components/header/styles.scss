@@ -470,6 +470,12 @@
     line-height: 40px;
     a {
       color: $charcoal19;
+      &.wishlist-link{
+        position: relative;
+        span{
+          margin-left: 25px;
+        }
+      }
     }
     > :nth-child(2) {
       padding-left: 20px;
@@ -480,7 +486,10 @@
       top: 36px;
 
       &.wishlist-icon {
-        top: 34px;
+        position: absolute;
+        left: 0px;
+        top: 50%;
+        transform: translateY(-50%);
       }
     }
     &.currency {
@@ -567,7 +576,7 @@
     color: #000;
     font-size: 14px;
     font-family: $font-Header;
-    letter-spacing: 1px;
+    letter-spacing: 0.5px;
     line-height: 50px;
     text-transform: uppercase;
     position: relative;
@@ -586,6 +595,7 @@
         display: block;
         &.highlight{
           @include b4_12px_montserrat_semibold_charcoal();
+          font-weight: $medium;
         }
       }
       li {
@@ -669,7 +679,7 @@
   .menulevel2-open {
     span{
       p{
-        font-weight: bold;
+        font-weight: $semibold;
       }
     }
     &:after {
@@ -902,6 +912,8 @@ a {
     padding: 0 200px 0 120px;
     line-height: 60px;
     font-size: 20px;
+    font-family: "Montserrat";
+    letter-spacing: 0.5px;
     &::placeholder{
       @include search_placeholder();
       color: $light-charcoal
@@ -918,12 +930,12 @@ a {
     }
   }
   .icon-search-popup {
-    cursor: pointer;
-    font-size: 24px;
-    color: $cerise;
+    // cursor: pointer;
+    font-size: 23px;
+    color: $charcoal19;
     position: absolute;
     top: 35%;
-    right: 3%;
+    left: 3%;
   }
   .icon-search-cross {
     cursor: pointer;
@@ -1021,12 +1033,10 @@ padding: 135% 0 0 0;
 text-transform: capitalize;
 font-size: 25px;
 h2 {
-  font-size: 25px;
-  font-family: "Baskerville","Amiri","Serif";
-  color: #333;
+  @include h2_24px_lora_charcoal();
   line-height: 60px;
   text-transform: capitalize;
-  margin-top: 10px;
+  margin-top: 60px;
 }
 }
 
@@ -1053,7 +1063,6 @@ padding: 10px 0;
 // bottom: 0;
 width: 100vw;
 height: 150px;
-background-color: tint(#000, 90%);
 z-index: 10;
 padding: 10px 0;
 .count {
@@ -1062,14 +1071,18 @@ padding: 10px 0;
   font-size: 13px;
   letter-spacing: .5px;
 }
-p {
-  text-decoration: underline;
+button {
+  height: 50px;
+  width: 207px;
+  border: 0px;
   cursor: pointer;
   margin-top: 6px;
-  font-size: 15px;
-  color: $cerise;
+  font-size: 14px;
+  background-color: $med-charcoal;
+  color: white;
   text-transform: uppercase;
-  letter-spacing: 1px;
+  letter-spacing: .5px;
+  font-family: $font-Montserrat;
 }
 }
 
@@ -1096,8 +1109,8 @@ input {
 }
 .icon-search-popup {
 
-  font-size: 24px;
-  color: $cerise;
+  font-size: 23px;
+  color: $charcoal19;
   position: absolute;
   top: 30%;
   right: 3%;
@@ -1540,7 +1553,7 @@ ul.inner-menu-mobile {
     }
   }
   .title {
-    @include b3_14px_montserrat_bold_charcoal();
+    @include b3_14px_montserrat_semibold_charcoal();
     text-transform: uppercase;
     a {
         color: inherit;
@@ -1620,15 +1633,18 @@ ul.inner-menu-mobile {
   @include b5_10px_montserrat_white();
 }
 .announcement-cta-btn {
-  padding: 0px 8px;
-  font-size: 12px;
+  font-family: $font-Montserrat;
+  font-size: 10px;
+  letter-spacing: 0.50px;
+  font-weight: $semibold; 
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  // padding: 0px 8px;
   // margin-top: 4px;
-  margin-left: 90px;
+  margin-left: 10px;
   cursor: pointer;
   line-height: 20px;
   height: 22px;
-  letter-spacing: 1px;
-  font-family: $font-Lato;
 }
 .announcement-container {
   display: flex;
@@ -1639,8 +1655,7 @@ ul.inner-menu-mobile {
 
 @media (max-width: 992px) {
   .announcement-cta-btn {
-    margin-left: 30px;
-
+    margin-left: 10px;
   }
 }
 
@@ -1692,9 +1707,11 @@ ul.inner-menu-mobile {
 
 .product-heading {
   @include b5_10px_montserrat_light_charcoal();
+  color: $light-charcoal;
 }
 .product-name {
   @include b5_10px_montserrat_light_charcoal();
+  color: $light-charcoal;
 }
 
 .padding-mobile {

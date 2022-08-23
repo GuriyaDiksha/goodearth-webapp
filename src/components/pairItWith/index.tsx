@@ -65,7 +65,8 @@ const PairItWithSlider: React.FC<PairItWithSliderProps> = (
       childAttributes,
       title,
       discount,
-      badgeType
+      badgeType,
+      plpSliderImages
     } = product;
     const selectedIndex = childAttributes?.length == 1 ? 0 : undefined;
     // childAttributes?.map((v, i) => {
@@ -94,7 +95,8 @@ const PairItWithSlider: React.FC<PairItWithSliderProps> = (
           badgeType: badgeType,
           isSale: isSale,
           discountedPrice: discountedPriceRecords[currency],
-          list: "plp"
+          list: "plp",
+          sliderImages: plpSliderImages
         },
         false,
         ModalStyles.bottomAlign
