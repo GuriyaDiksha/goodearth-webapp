@@ -144,6 +144,7 @@ const Section4: React.FC<Section4Props> = props => {
                 You have received a Good Earth eGift card <br /> worth{" "}
                 <span className={styles.aqua}>
                   {String.fromCharCode(...code)}
+                  {"  "}
                   {customPrice}
                 </span>{" "}
                 from
