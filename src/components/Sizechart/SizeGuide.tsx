@@ -1,3 +1,4 @@
+/* eslint-disable no-useless-escape */
 import Toggle from "components/Toggle";
 import React, { memo, useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -106,7 +107,11 @@ const SizeGuide: React.FC<SizeGuideProps> = memo(({ isSingleSection }) => {
                 {guide.data.map((dataRow: number[], i: number) => {
                   return (
                     <tr key={i}>
-                      <td>{guide.measurements[i].replace(/\s/g, " ")}</td>
+                      <td>
+                        {ReactHtmlParser(guide.measurements[i])[0]
+                          .replace(/\s/g, " ")
+                          .replace(/\&nbsp;/g, " ")}
+                      </td>
                       {dataRow.map((dataItem: number, j: number) => (
                         <td
                           key={j}
