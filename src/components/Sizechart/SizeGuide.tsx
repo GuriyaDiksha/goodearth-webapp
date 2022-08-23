@@ -106,7 +106,7 @@ const SizeGuide: React.FC<SizeGuideProps> = memo(({ isSingleSection }) => {
                 {guide.data.map((dataRow: number[], i: number) => {
                   return (
                     <tr key={i}>
-                      {<td>{ReactHtmlParser(guide.measurements[i])}</td>}
+                      <td>{guide.measurements[i].replace(/\s/g, " ")}</td>
                       {dataRow.map((dataItem: number, j: number) => (
                         <td
                           key={j}

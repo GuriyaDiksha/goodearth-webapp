@@ -100,6 +100,7 @@
       -webkit-flex-grow: 1;
       flex-grow: 1;
       overflow-y: auto;
+      overflow-x: hidden;
   
       .cart-item {
         padding: 20px 15px;
@@ -703,7 +704,13 @@ margin-top: 0;
 .mobile-wishlist-icon {
   font-size: 26px !important;
   cursor: pointer !important;
-  margin-top: 18px !important;
+  // margin-top: 18px !important;
   text-align: center;
+}
+
+.wishlist-mobile-container{
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 

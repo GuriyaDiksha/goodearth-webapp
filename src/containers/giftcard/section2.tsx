@@ -42,6 +42,7 @@ const Section2: React.FC<Section2Props> = ({
   const [nummsg, setNummsg] = useState("");
   const [errorBorder, setErrorBorder] = useState(false);
   const [isCustom, setIsCustom] = useState(false);
+  const [customInputEmpty, setCustomInputEmpty] = useState(true);
   const dispatch = useDispatch();
   const GiftSection = React.useRef<Formsy>(null);
   const [country, setCountry] = useState(selectedCountry);
@@ -76,8 +77,14 @@ const Section2: React.FC<Section2Props> = ({
       setSelectedCountry(newCountry);
       setCountrymsg("");
       setNummsg("");
+      if (selectvalue != "") {
+        setSelectvalue("");
+        const el = document.getElementById(selectvalue);
+        (el as HTMLInputElement).value = "";
+      }
       setErrorBorder(false);
     }
+
     window.scrollTo(0, 0);
   }, [currency]);
 
@@ -152,6 +159,17 @@ const Section2: React.FC<Section2Props> = ({
     setSelectvalue(e.target.id);
   };
 
+  const onCustomValueChange = (e: any) => {
+    if (e.target.value == "") {
+      setCustomInputEmpty(true);
+      setSelectvalue("");
+      return;
+    } else {
+      setCustomInputEmpty(false);
+      return;
+    }
+  };
+
   const currValue = (value: string | number) => {
     let status = false;
     let msg = "";
@@ -175,21 +193,21 @@ const Section2: React.FC<Section2Props> = ({
 
     const minString = (currency: string) => {
       return `Sorry, the minimum value of Gift Card is ${String.fromCharCode(
-        currencyCode[currency]
+        ...currencyCode[currency]
       )} ${
         limitsList[currency].min
       }. Please enter a value greater than or equal to ${String.fromCharCode(
-        currencyCode[currency]
+        ...currencyCode[currency]
       )} ${limitsList[currency].min}.`;
     };
 
     const maxString = (currency: string) => {
       return `Sorry, the maximum value of Gift card is ${String.fromCharCode(
-        currencyCode[currency]
+        ...currencyCode[currency]
       )} ${
         limitsList[currency].max
       }. Please enter a value less than or equal to ${String.fromCharCode(
-        currencyCode[currency]
+        ...currencyCode[currency]
       )} ${limitsList[currency].max}.`;
     };
 
@@ -203,7 +221,10 @@ const Section2: React.FC<Section2Props> = ({
 
     return { sta: status, message: msg };
   };
-
+  console.log(
+    String.fromCharCode(currencyCode["SGD"]),
+    String.fromCharCode(currencyCode["INR"])
+  );
   const gotoNext = () => {
     const data: any = {};
     if (selectcurrency != "INR" && !selectedCountry) {
@@ -380,7 +401,9 @@ const Section2: React.FC<Section2Props> = ({
                         setValue(pro.id);
                       }}
                       data-value={pro.priceRecords[currency]}
-                      className={selectvalue == pro.id ? styles.valueHover : ""}
+                      className={cs({
+                        [styles.valueHover]: selectvalue == pro.id
+                      })}
                       id={pro.id}
                     >
                       {String.fromCharCode(...code) +
@@ -425,13 +448,14 @@ const Section2: React.FC<Section2Props> = ({
                               errorBorder ? globalStyles.errorBorder : ""
                             }
                             placeholder="Enter Custom Value"
+                            onChange={onCustomValueChange}
                             onKeyPress={e => {
-                              const invalidChars = ["-", "+", "e"];
-                              if (invalidChars.includes(e.key)) {
+                              const regex = /^[0-9]+$/;
+                              if (regex.test(e.key)) {
+                                setValuetext(e);
+                              } else {
                                 e.preventDefault();
                                 return false;
-                              } else {
-                                setValuetext(e);
                               }
                             }}
                             onPaste={e => {
@@ -482,7 +506,7 @@ const Section2: React.FC<Section2Props> = ({
                       [styles.section2FullWidth]: mobile
                     },
                     {
-                      [styles.errorBtn]: numhighlight
+                      [styles.errorBtn]: customInputEmpty && selectvalue == ""
                     }
                   )}
                   onClick={gotoNext}

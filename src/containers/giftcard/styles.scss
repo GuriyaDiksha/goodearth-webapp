@@ -38,7 +38,7 @@ h2 {
 
 .gift-font {
   @include b3_14px_montserrat_charcoal();
-  letter-spacing: 1px;
+  letter-spacing: 0.5px;
   .aqua {
     font-weight: $medium;
     color: $aqua;
@@ -47,10 +47,12 @@ h2 {
 
 .small-head-text {
   @include b4_12px_montserrat_light_charcoal();
+  letter-spacing: 0.5px;
 }
 
 .message-text{
   @include b3_14px_montserrat_medium_charcoal();
+  letter-spacing: 0.5px;
 }
 
 .recipient-font{
@@ -67,7 +69,7 @@ h2 {
 .subscribe{
   label {
     @include b5_10px_montserrat_charcoal();
-    letter-spacing: 0.3px;
+    letter-spacing: 0.5px;
     a {
       color: $charcoal19;
     }
@@ -156,6 +158,11 @@ h2 {
         &:hover{
           color: $white;
           background: #9f9f9f;
+          span{
+            border: 1px solid $white;
+          border-top: none;
+          border-left: none;
+          }
         }
       }
     }
@@ -379,7 +386,7 @@ input[type="radio"]:checked+label:before {
 .price-block {
   span {
     @include b3_14px_montserrat_aqua();
-    color: #3c7979;
+    color: $charcoal19;
     margin: 10px 25px;
     background-color: #fff;
     width: 220px;
@@ -395,17 +402,19 @@ input[type="radio"]:checked+label:before {
   }
   span:hover {
     border: 2px solid $aqua;
+    color: #3c7979;
     cursor: pointer;
   }
   .value-hover {
     border-color: $aqua;
+    color: #3c7979;
   }
   input[type="number"] {
     background-color: #fff;
     padding: 15px 15px 15px 48px;
     width: 100%;
-    border: 1px solid $aqua !important;
     -moz-appearance: textfield;
+    border: 1px solid $white !important;;
     box-shadow: none;
     text-align: left;
     @include b3_14px_montserrat_charcoal();
@@ -415,6 +424,9 @@ input[type="radio"]:checked+label:before {
       font-size: 14px;
       font-family: $font-Montserrat;
       font-weight: 300;
+    }
+    &:focus{
+      border: 1px solid $aqua !important;
     }
   }
 }
@@ -565,7 +577,7 @@ form {
 
 .note {
   @include b5_10px_montserrat_charcoal();
-  letter-spacing: 0.3px;
+  letter-spacing: 0.5px;
   margin: 8px 10px;
   text-align: left;
 }
@@ -582,7 +594,8 @@ hr {
 }
 
 .error-msg {
-  @include err_13px_lora_italic_cerise();  
+  @include err_13px_lora_italic_cerise(); 
+  letter-spacing: 0.5px;
 }
 
 .button-err-bg{
