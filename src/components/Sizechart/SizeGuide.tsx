@@ -97,7 +97,11 @@ const SizeGuide: React.FC<SizeGuideProps> = memo(({ isSingleSection }) => {
                     : guide.sizes.map((s: string, k: number) => {
                         return (
                           <th scope="col" key={`${s}-${k}`}>
-                            <div>{s}</div>
+                            <div>
+                              {ReactHtmlParser(s)[0]
+                                .replace(/\s/g, " ")
+                                .replace(/\&nbsp;/g, " ")}
+                            </div>
                           </th>
                         );
                       })}
