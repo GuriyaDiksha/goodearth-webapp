@@ -96,10 +96,10 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
     const orderData = new Date(data.datePlaced);
     const todayDate = new Date();
 
-    let totalItem = 0;
-    for (let i = 0; i < data.lines?.length; i++) {
-      totalItem += data.lines[i].quantity;
-    }
+    // let totalItem = 0;
+    // for (let i = 0; i < data.lines?.length; i++) {
+    //   totalItem += data.lines[i].quantity;
+    // }
     todayDate.setMonth(todayDate.getMonth() - 1);
     // now today date is one month less
     const isHide = orderData >= todayDate;
@@ -118,7 +118,7 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
                 </p>
                 <p>
                   <span className={styles.op2}> Items: </span> &nbsp;{" "}
-                  {totalItem}
+                  {data.itemCount}
                 </p>
               </div>
               <div className={bootstrapStyles.col4}>
