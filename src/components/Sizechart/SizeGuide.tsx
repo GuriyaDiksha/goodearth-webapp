@@ -69,7 +69,12 @@ const SizeGuide: React.FC<SizeGuideProps> = memo(({ isSingleSection }) => {
               <thead>
                 <tr>
                   <th key={0}>
-                    {guide.tableTitle == "" ? "Measurements" : guide.tableTitle}
+                    {guide.tableTitle == ""
+                      ? "Measurements"
+                      : ReactHtmlParser(guide.tableTitle)[0]
+                          .replace(/\s/g, " ")
+                          .replace(/\&nbsp;/g, " ")
+                          .replace(/\&Nbsp;/g, " ")}
                   </th>
                   {i == 0
                     ? sizes.map((child: ChildProductAttributes) => {
