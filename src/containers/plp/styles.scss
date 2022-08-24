@@ -636,11 +636,15 @@ input[type="radio"]:checked, [type="checkbox"]:not(:checked),
   transition:max-height 0.3s ease-in;
   overflow: hidden;
 }
+.showheader2{
+  transition:max-height 0.3s ease-in;
+  overflow: hidden;
+}
 
 .hide-div{
   overflow: hidden;
   transition:max-height 0.3s ease-out;
-  max-height:0 ;
+  max-height:0 !important;
 }
 
 .size-list {

@@ -962,15 +962,23 @@ class FilterList extends React.Component<Props, State> {
                 ? cs(styles.menulevel2, styles.menulevel2Open)
                 : styles.menulevel2
             }
-            onClick={this.Clickmenulevel2.bind(this, name + "l")}
+            onClick={() => {
+              this.handleAnimation(
+                name + "l",
+                this.state.showmenulevel2 &&
+                  this.state.activeindex2 == name + "l"
+              );
+              this.Clickmenulevel2(name + "l");
+            }}
           >
             {data[0].split(">")[1]}
           </span>
           <div
+            id={`${name + "l"}`}
             className={
               this.state.showmenulevel2 && this.state.activeindex2 == name + "l"
                 ? styles.showheader2
-                : globalStyles.hidden
+                : styles.hideDiv
             }
           >
             <ul className={styles.categorylabel}>
@@ -1010,15 +1018,23 @@ class FilterList extends React.Component<Props, State> {
                 ? cs(styles.menulevel2, styles.menulevel2Open)
                 : styles.menulevel2
             }
-            onClick={this.Clickmenulevel2.bind(this, data + "l")}
+            onClick={() => {
+              this.handleAnimation(
+                `${data + "l"}`,
+                this.state.showmenulevel2 &&
+                  this.state.activeindex2 == data + "l"
+              );
+              this.Clickmenulevel2(data + "l");
+            }}
           >
             {data}
           </span>
           <div
+            id={`${data + "l"}`}
             className={
               this.state.showmenulevel2 && this.state.activeindex2 == data + "l"
                 ? styles.showheader2
-                : globalStyles.hidden
+                : styles.hideDiv
             }
           >
             <ul className={styles.categorylabel}>
@@ -1198,12 +1214,14 @@ class FilterList extends React.Component<Props, State> {
   };
 
   handleAnimation = (id: string, isShow: boolean) => {
-    if (!isShow) {
-      document.getElementById(id).style.maxHeight = `${
-        document.getElementById(id)?.scrollHeight
-      }px`;
-    } else {
-      document.getElementById(id).style.maxHeight = "0px";
+    if (typeof document == "object" && document.getElementById(id)) {
+      if (!isShow) {
+        document.getElementById(id).style.maxHeight = `${
+          document.getElementById(id)?.scrollHeight
+        }px`;
+      } else {
+        document.getElementById(id).style.maxHeight = "0px";
+      }
     }
   };
 
@@ -1846,6 +1864,10 @@ class FilterList extends React.Component<Props, State> {
                   }
                   onClick={() => {
                     this.toggleFilterByDiscountMenu();
+                    this.handleAnimation(
+                      "discount",
+                      this.state.showFilterByDiscountMenu
+                    );
                   }}
                 >
                   FILTER BY DISCOUNT
@@ -1857,8 +1879,9 @@ class FilterList extends React.Component<Props, State> {
                 className={
                   this.state.showFilterByDiscountMenu
                     ? styles.showheader1
-                    : globalStyles.hidden
+                    : styles.hideDiv
                 }
+                id="discount"
               >
                 {this.createDiscountType(
                   this.props.facets && this.props.facets.availableDiscount
@@ -1886,15 +1909,22 @@ class FilterList extends React.Component<Props, State> {
                   ? cs(styles.menulevel1, styles.menulevel1Open)
                   : styles.menulevel1
               }
-              onClick={this.ClickProductCategory}
+              onClick={() => {
+                this.ClickProductCategory;
+                this.handleAnimation(
+                  "producttype",
+                  this.state.showProductFilter
+                );
+              }}
             >
               PRODUCT TYPE
             </span>
             <div
+              id="producttype"
               className={
                 this.state.showProductFilter
                   ? styles.showheader1
-                  : globalStyles.hidden
+                  : styles.hideDiv
               }
             >
               {productHtml}
