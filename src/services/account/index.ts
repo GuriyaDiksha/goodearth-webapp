@@ -72,6 +72,17 @@ export default {
     );
     return data;
   },
+  fetchOrderById: async (dispatch: Dispatch, id: string, email: string) => {
+    const data = await API.post<MyOrdersResponse>(
+      dispatch,
+      `${__API_HOST__}/myapi/order/my_order_detail`,
+      {
+        orderNumber: id,
+        email: email
+      }
+    );
+    return data;
+  },
   fetchEmailbyOrder: async (dispatch: Dispatch, id: string) => {
     const data = await API.get<MyOrdersResponse>(
       dispatch,

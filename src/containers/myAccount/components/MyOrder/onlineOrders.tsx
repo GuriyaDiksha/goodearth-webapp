@@ -14,6 +14,7 @@ import invoiceDisabled from "../../../../images/invoiceDisabled.svg";
 
 const OnlineOrders: React.FC<OrdersProps> = props => {
   const [data, setData] = useState<any[]>([]);
+  const [orderdata, setOrderdata] = useState<any[]>([]);
   const [pagination, setPagination] = useState({
     count: 0,
     prev: null,
@@ -69,13 +70,18 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
   };
 
   const showDetails = (index: number, id: string): any => {
-    setIsOpenAddressIndex(index);
-    setTimeout(() => {
-      const orderElem = id && document.getElementById(id);
-      if (orderElem) {
-        orderElem.scrollIntoView({ block: "start", behavior: "auto" });
+    AccountService.fetchOrderById(dispatch, id, props.email || "").then(
+      (data: any) => {
+        setOrderdata(data);
+        setIsOpenAddressIndex(index);
+        setTimeout(() => {
+          const orderElem = id && document.getElementById(id);
+          if (orderElem) {
+            orderElem.scrollIntoView({ block: "start", behavior: "auto" });
+          }
+        }, 300);
       }
-    }, 300);
+    );
   };
 
   const trackOrder = (e: React.MouseEvent) => {
@@ -226,7 +232,8 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
     }, 300);
   };
 
-  const openAddress = (data: any, index: number) => {
+  const openAddress = (list: any, index: number) => {
+    const data: any = orderdata;
     const html = [],
       shippingAddress = data.shippingAddress[0],
       billingAddress = data.billingAddress[0];
@@ -244,7 +251,7 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
               <div
                 className={cs(bootstrapStyles.col12, bootstrapStyles.colMd6)}
               >
-                <p>{moment(data.datePlaced).format("D MMM,YYYY")}</p>
+                <p>{moment(list.datePlaced).format("D MMM,YYYY")}</p>
                 <p>
                   <span className={styles.op2}>Status</span>: &nbsp;
                   <span className={styles.orderStatus}>{data.status}</span>
@@ -261,9 +268,9 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
                 </p>
                 <p>
                   {String.fromCharCode(
-                    ...currencyCode[data.currency as Currency]
+                    ...currencyCode[list.currency as Currency]
                   )}{" "}
-                  &nbsp;{data.totalInclTax}
+                  &nbsp;{list.totalInclTax}
                 </p>
               </div>
               <p className={styles.edit}>
