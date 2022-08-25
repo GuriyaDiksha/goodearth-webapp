@@ -175,6 +175,7 @@ const NotifyMePopup: React.FC<Props> = ({
       "Product ID": selectedSize?.id,
       Variant: size
     });
+
     dataLayer.push({
       event: "addToCart",
       ecommerce: {
