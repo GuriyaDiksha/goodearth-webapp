@@ -433,7 +433,7 @@ class FilterList extends React.Component<Props, State> {
       },
       () => {
         if (!this.state.scrollView) {
-          this.checkForProductScroll();
+          // this.checkForProductScroll();
         }
         window.scrollTo(0, 0);
       }
