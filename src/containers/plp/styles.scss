@@ -645,6 +645,15 @@ input[type="radio"]:checked, [type="checkbox"]:not(:checked),
   overflow: hidden;
   transition:max-height 0.3s ease-out;
   max-height:0 !important;
+  .colorlabel {
+    label {
+      padding-left: 35px;
+      margin-bottom: 0;
+    }
+    .disableColors{
+      opacity: 0.5;
+    }
+  }
 }
 
 .size-list {
