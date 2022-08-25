@@ -388,7 +388,7 @@ export function productImpression(
         {},
         {
           item_id: skus, //Pass the product id
-          item_name: data.title,
+          item_name: child.title,
           affiliation: "",
           coupon: "", // Pass the coupon if available
           currency: currency, // Pass the currency code
