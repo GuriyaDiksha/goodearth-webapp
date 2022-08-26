@@ -126,7 +126,7 @@ const WishlistButtonpdp: React.FC<Props> = ({
             event: "add_to_wishlist",
             ecommerce: {
               currency: currency,
-              value: "pass the total value of items",
+              value: "",
               items: [
                 {
                   item_id: id, //Pass the product id
@@ -139,15 +139,15 @@ const WishlistButtonpdp: React.FC<Props> = ({
                   item_brand: "Goodearth",
                   item_category: category?.split("/")[0],
                   item_category2: category?.split("/")[1],
-                  item_category3: "pass the product type 3d or non 3d",
-                  item_list_id: "pass the item list id",
-                  item_list_name: "pass the item list name ex.search results",
+                  item_category3: "",
+                  item_list_id: "",
+                  item_list_name: "",
                   item_variant:
                     childAttributes && childAttributes[0].size
                       ? childAttributes[0].size
                       : "",
-                  item_category4: "pass the L1",
-                  item_category5: "Pass the collection name",
+                  item_category4: "",
+                  item_category5: "",
                   price: child?.[0].discountedPriceRecords
                     ? child?.[0].discountedPriceRecords[currency]
                     : child?.[0].priceRecords
