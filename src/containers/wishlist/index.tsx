@@ -276,10 +276,20 @@ class Wishlist extends React.Component<Props, State> {
     this.setState({
       isLoading: true
     });
-
+    const { currency } = this.props;
     this.props
       .removeFromWishlist(this.state.defaultOption.value, undefined, data.id)
       .finally(() => {
+        Moengage.track_event("remove_from_wishlist", {
+          "Product id": data.id,
+          "Product name": data.productName,
+          quantity: 1,
+          price: data.price?.[currency] ? +data.price?.[currency] : "",
+          Currency: currency,
+          // "Collection name": collection,
+          "Category name": data.category[0]?.split(">")[0],
+          "Sub Category Name": data.category[0]?.split(">")[1] || ""
+        });
         this.setState({ isLoading: false });
       });
   };

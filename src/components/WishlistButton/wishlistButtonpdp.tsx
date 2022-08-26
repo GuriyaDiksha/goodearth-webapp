@@ -160,7 +160,7 @@ const WishlistButtonpdp: React.FC<Props> = ({
       if (addedToWishlist) {
         WishlistService.removeFromWishlist(store.dispatch, id).finally(() => {
           dispatch(updateLoader(false));
-          gtmPushAddToWishlist(true);
+          gtmPushAddToWishlist(false);
         });
       } else {
         WishlistService.addToWishlist(store.dispatch, id, size)
