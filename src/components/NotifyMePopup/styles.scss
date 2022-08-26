@@ -117,8 +117,9 @@
     left: 0;
     background-color: $aquablue !important;
     color: white;
+    border: none !important;
     &:hover{
-        color: white !important
+        color: white !important;
     }
 }
 

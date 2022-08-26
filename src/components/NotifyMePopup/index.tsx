@@ -312,12 +312,13 @@ const NotifyMePopup: React.FC<Props> = ({
         allOutOfStock = false;
       }
     });
-    if (allOutOfStock || (selectedSize && selectedSize.stock == 0)) {
-      buttonText = "Notify Me";
-      action = onNotifyClick;
-    } else if (!selectedSize && childAttributes.length > 1) {
+
+    if (!selectedSize && childAttributes.length > 1) {
       buttonText = "Select Size";
       action = sizeSelectClick;
+    } else if (allOutOfStock || (selectedSize && selectedSize.stock == 0)) {
+      buttonText = "Notify Me";
+      action = onNotifyClick;
     } else {
       buttonText = "Add to Bag";
       action = addToBasket;
@@ -466,9 +467,6 @@ const NotifyMePopup: React.FC<Props> = ({
               />
             </div>
           )}
-          {/* {sizeerror && (
-            <p className={styles.sizeError}>Please select a size to proceed</p>
-          )} */}
         </div>
         <div className={styles.buttonContainer}>{Pdpbutton}</div>
       </div>
