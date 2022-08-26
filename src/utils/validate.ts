@@ -103,7 +103,7 @@ export const checkoutSteps = [
   "Initiated Checkout",
   "Shipping Details",
   "Billing Details",
-  "Payment Details",
+  "Payment confirmation",
   "Proceed to Payment Gateway"
 ];
 
