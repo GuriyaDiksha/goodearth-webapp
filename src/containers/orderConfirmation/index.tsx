@@ -12,6 +12,7 @@ import AccountServices from "services/account";
 import { currencyCode, Currency } from "typings/currency";
 import moment from "moment";
 import * as util from "utils/validate";
+import CookieService from "services/cookie";
 
 const orderConfirmation: React.FC<{ oid: string }> = props => {
   const {
@@ -108,55 +109,73 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
       };
     });
     if (result.pushToGA == false) {
-      dataLayer.push({
-        event: "purchase",
-        ecommerce: {
-          currencyCode: result.currency,
-          paymentMethod: result.paymentMethod,
-          purchase: {
-            actionField: {
-              id: result.number,
-              affiliation: "Online Store",
-              revenue: result.totalInclTax,
-              tax: 0,
-              shipping: result.shippingInclTax,
-              coupon: result.offerDiscounts?.[0]?.name
-            },
-            products: products
+      const userConsent = CookieService.getCookie("consent").split(",");
+      if (userConsent.includes("GA-Calls")) {
+        dataLayer.push({
+          event: "purchase",
+          ecommerce: {
+            currencyCode: result.currency,
+            paymentMethod: result.paymentMethod,
+            purchase: {
+              actionField: {
+                id: result.number,
+                affiliation: "Online Store",
+                revenue: result.totalInclTax,
+                tax: 0,
+                shipping: result.shippingInclTax,
+                coupon: result.offerDiscounts?.[0]?.name
+              },
+              products: products
+            }
           }
-        }
-      });
-      dataLayer.push({
-        event: "fb_purchase",
-        revenue: +result.totalInclTax,
-        currencyCode: result.currency,
-        contents: fbProduct
-      });
-      dataLayer.push({
-        event: "customPurchaseSuccess",
-        "Transaction ID": result.transactionId,
-        Revenue: +result.totalInclTax,
-        "Shipping Charges": +result.shippingInclTax,
-        "Payment Method": result.paymentMethod,
-        "Currency Code": result.currency,
-        Products: secondproducts
-      });
-      Moengage.track_event("PurchasedOnline", {
-        "Category Name": categoryname,
-        "Sub category": subcategoryname,
-        "Product name": productname,
-        "Original price": productprice,
-        "Product ID": productid2,
-        Quantity: productquantity,
-        "Cart Amount": +result.totalInclTax,
-        "Coupon Code Applied": result.voucherCodeAppliedAmount[0]
-          ? true
-          : false,
-        "Coupon Code Applied Name": result.voucherCodeAppliedName,
-        "Loyalty Points Redeemed": result.loyalityPointsRedeemed,
-        "Gift voucher redeemed": result.giftVoucherRedeemed,
-        Currency: result.currency
-      });
+        });
+        dataLayer.push({
+          event: "fb_purchase",
+          revenue: +result.totalInclTax,
+          currencyCode: result.currency,
+          contents: fbProduct
+        });
+        dataLayer.push({
+          event: "customPurchaseSuccess",
+          "Transaction ID": result.transactionId,
+          Revenue: +result.totalInclTax,
+          "Shipping Charges": +result.shippingInclTax,
+          "Payment Method": result.paymentMethod,
+          "Currency Code": result.currency,
+          Products: secondproducts
+        });
+        dataLayer.push({ ecommerce: null }); // Clear the previous ecommerce object.
+        dataLayer.push({
+          event: "checkout",
+          currenyCode: result.currency,
+          paymentMethod: result.paymentMethod,
+          ecommerce: {
+            checkout: {
+              actionField: { step: 6, option: "Purchase Success" },
+              products: products
+            }
+          }
+        });
+      }
+      if (userConsent.includes("Moengage")) {
+        Moengage.track_event("PurchasedOnline", {
+          "Category Name": categoryname,
+          "Sub category": subcategoryname,
+          "Product name": productname,
+          "Original price": productprice,
+          "Product ID": productid2,
+          Quantity: productquantity,
+          "Cart Amount": +result.totalInclTax,
+          "Coupon Code Applied": result.voucherCodeAppliedAmount[0]
+            ? true
+            : false,
+          "Coupon Code Applied Name": result.voucherCodeAppliedName,
+          "Loyalty Points Redeemed": result.loyalityPointsRedeemed,
+          "Gift voucher redeemed": result.giftVoucherRedeemed,
+          Currency: result.currency
+        });
+      }
+
       AccountServices.setGaStatus(dispatch, formData);
     }
   };
@@ -165,19 +184,24 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
       setConfirmData(response.results?.[0]);
       gtmPushOrderConfirmation(response.results?.[0]);
     });
-    dataLayer.push(function(this: any) {
-      this.reset();
-    });
-    util.pageViewGTM("OrderConfirmation");
-    dataLayer.push({
-      event: "OrderConfirmationPageView",
-      PageURL: location.pathname,
-      Page_Title: "virtual_orderConfirmationPage_view"
-    });
-    Moengage.track_event("Page viewed", {
-      "Page URL": location.pathname,
-      "Page Name": "OrderConfirmationPageView"
-    });
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes("GA-Calls")) {
+      dataLayer.push(function(this: any) {
+        this.reset();
+      });
+      util.pageViewGTM("OrderConfirmation");
+      dataLayer.push({
+        event: "OrderConfirmationPageView",
+        PageURL: location.pathname,
+        Page_Title: "virtual_orderConfirmationPage_view"
+      });
+    }
+    if (userConsent.includes("Moengage")) {
+      Moengage.track_event("Page viewed", {
+        "Page URL": location.pathname,
+        "Page Name": "OrderConfirmationPageView"
+      });
+    }
   }, []);
 
   let totalItem = 0;
