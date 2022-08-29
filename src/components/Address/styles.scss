@@ -383,6 +383,10 @@
   display: flex;
 }
 
-.pincode-msg{
-  
+.pincode-msg, .contact-msg{
+  font-style: italic;
+  font-size: 12px;
+  margin-top: 5px;
+  letter-spacing: 0.5px;
+  text-align: left;
 }

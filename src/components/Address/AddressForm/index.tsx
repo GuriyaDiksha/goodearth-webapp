@@ -559,7 +559,6 @@ const AddressForm: React.FC<Props> = props => {
           ) : (
             <div>
               <FormInput
-                required
                 name="province"
                 label={"Province"}
                 placeholder={"Province"}
