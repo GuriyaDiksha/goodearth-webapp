@@ -29,6 +29,7 @@ import HeaderService from "services/headerFooter";
 import LoginService from "services/login";
 import { POPUP } from "constants/components";
 import * as util from "utils/validate";
+import CookieService from "../../services/cookie";
 
 let AbsoluteGrid: any;
 
@@ -122,7 +123,8 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
             isSale: isSale,
             discount: item.discount,
             badgeType: item.badgeType,
-            list: "wishlist"
+            list: "wishlist",
+            sliderImages: []
           },
           false,
           ModalStyles.bottomAlign
@@ -274,10 +276,20 @@ class Wishlist extends React.Component<Props, State> {
     this.setState({
       isLoading: true
     });
-
+    const { currency } = this.props;
     this.props
       .removeFromWishlist(this.state.defaultOption.value, undefined, data.id)
       .finally(() => {
+        Moengage.track_event("remove_from_wishlist", {
+          "Product id": data.id,
+          "Product name": data.productName,
+          quantity: 1,
+          price: data.price?.[currency] ? +data.price?.[currency] : "",
+          Currency: currency,
+          // "Collection name": collection,
+          "Category name": data.category[0]?.split(">")[0],
+          "Sub Category Name": data.category[0]?.split(">")[1] || ""
+        });
         this.setState({ isLoading: false });
       });
   };
@@ -422,13 +434,16 @@ class Wishlist extends React.Component<Props, State> {
     });
     if (product.length > 0 && this.impression) {
       this.impression = false;
-      dataLayer.push({
-        event: "productImpression",
-        ecommerce: {
-          currencyCode: this.props.currency,
-          impressions: product
-        }
-      });
+      const userConsent = CookieService.getCookie("consent").split(",");
+      if (userConsent.includes("GA-Calls")) {
+        dataLayer.push({
+          event: "productImpression",
+          ecommerce: {
+            currencyCode: this.props.currency,
+            impressions: product
+          }
+        });
+      }
     }
 
     const wishlistTotal = nextProps.wishlistData.map(item => {

@@ -8,6 +8,7 @@ import { useLocation } from "react-router";
 import { AppState } from "reducers/typings";
 import { useSelector } from "react-redux";
 import * as util from "utils/validate";
+import CookieService from "services/cookie";
 
 const MakerPage: React.FC = () => {
   const [mounted, setMounted] = useState(false);
@@ -29,9 +30,12 @@ const MakerPage: React.FC = () => {
     setTimeout(() => {
       window.scrollTo(0, 0);
     }, 1000);
-    dataLayer.push(function(this: any) {
-      this.reset();
-    });
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes("GA-Calls")) {
+      dataLayer.push(function(this: any) {
+        this.reset();
+      });
+    }
     let page = "";
     switch (location.pathname) {
       case "/":

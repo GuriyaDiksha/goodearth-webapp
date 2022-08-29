@@ -12,13 +12,6 @@
   font-display: swap;
 }
 
-//   @font-face {
-//     font-family: "LatoFont";
-//     src: url("../../fonts/Lato\ 700italic.ttf") format('truetype');
-//     font-weight: bold;
-//     font-style: italic;
-//   }
-
 @font-face {
   font-family: "LatoFont";
   src: url("#{$cdn}/media/fonts/Lato%20300.ttf");
@@ -79,19 +72,6 @@
   src: url("../fonts/Lora-regular.ttf") format("truetype");
   font-display: swap;
 }
-// @font-face {
-//   font-family: "Montserrat";
-//   src: url("../fonts/Montserrat-italic.ttf") format("truetype");
-//   font-weight: 300;
-//   font-display: swap;
-//   font-style: normal;
-// }
-// @font-face {
-//   font-family: "Montserrat";
-//   src: url("../fonts/Montserrat-regular.ttf") format("truetype");
-//   font-display: swap;
-//   font-style: normal;
-// }
 
 @font-face {
   font-family: "Montserrat";
@@ -103,7 +83,7 @@
 
 @font-face {
   font-family: "Montserrat";
-  src: url("../fonts/Montserrat-regular.ttf") format("truetype");
+  src: url("../fonts/Montserrat-Regular.ttf") format("truetype");
   font-weight: 400;
   font-style: normal;
   font-display: swap;
@@ -140,15 +120,3 @@
   font-style: italic;
   font-display: swap;
 }
-//   @font-face {
-//     font-family: "AmiriFont";
-//     src: url("../../fonts/Amiri\ regular.ttf") format('truetype');
-//     font-weight: normal;
-//   }
-  
-//   @font-face {
-//     font-family: "AmiriFont";
-//     src: url("../../fonts/Amiri\ italic.ttf") format('truetype');
-//     font-weight: normal;
-//     font-style: italic;
-//   }

@@ -42,7 +42,11 @@ const TopImage: React.FC<Props> = ({
     <>
       <div style={bgStyle}>
         <div
-          className={cs(styles.cross, styles.leftImageCross)}
+          className={cs(
+            styles.cross,
+            styles.leftImageCross,
+            styles.crossWhiteBtn
+          )}
           onClick={() => close()}
         >
           <i
@@ -57,11 +61,11 @@ const TopImage: React.FC<Props> = ({
         <div>
           <div>
             <img
-              className={styles.leftImage}
+              className={cs(styles.leftImage, styles.topImage)}
               src={mobile || tablet ? imageMobile || image : image}
             />
           </div>
-          <div className={cs(styles.gcTnc)}>
+          <div className={cs(styles.gcTnc, styles.topImage)}>
             {/* {icon && <img src={icon} className={styles.icon} />} */}
             <div className={cs(globalStyles.popupHeading, styles.heading)}>
               {ReactHtmlParser(heading)}
@@ -78,22 +82,27 @@ const TopImage: React.FC<Props> = ({
             </div>
             <div
               className={cs(
-                globalStyles.ceriseBtn,
+                // globalStyles.ceriseBtn,
                 styles.ceriseBtn30,
-                globalStyles.marginT20
+                globalStyles.marginT20,
+                styles.popupCta
               )}
-              style={{ backgroundColor: ctaColor }}
+              style={{
+                backgroundColor: ctaColor,
+                width: "max-content",
+                padding: "0 30px",
+                minWidth: "max-content"
+              }}
+              onClick={() => close(ctaLink)}
             >
-              <a
-                id="info-popup-accept-button"
-                tabIndex={-1}
-                onClick={() => close(ctaLink)}
-              >
+              <a id="info-popup-accept-button" tabIndex={-1}>
                 {ReactHtmlParser(ctaLabel)}
               </a>
             </div>
             {disclaimer && (
-              <div className={styles.disclaimer}>{disclaimer}</div>
+              <div className={styles.disclaimer}>
+                {ReactHtmlParser(disclaimer)}
+              </div>
             )}
           </div>
         </div>

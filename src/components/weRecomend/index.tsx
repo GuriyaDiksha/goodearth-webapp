@@ -61,18 +61,20 @@ const WeRecommend: React.FC<RecommenedSliderProps> = (
           }
         );
       });
-
-      dataLayer.push({
-        event: "productClick",
-        ecommerce: {
-          currencyCode: currency,
-          click: {
-            // actionField: { list: "We Recommend" },
-            actionField: { list: listPath },
-            products: products.concat(attr)
+      const userConsent = CookieService.getCookie("consent").split(",");
+      if (userConsent.includes("GA-Calls")) {
+        dataLayer.push({
+          event: "productClick",
+          ecommerce: {
+            currencyCode: currency,
+            click: {
+              // actionField: { list: "We Recommend" },
+              actionField: { list: listPath },
+              products: products.concat(attr)
+            }
           }
-        }
-      });
+        });
+      }
     } catch (err) {
       console.log("weRecommend GTM error!");
     }

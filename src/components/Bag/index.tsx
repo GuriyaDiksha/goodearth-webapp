@@ -12,6 +12,7 @@ import BasketService from "services/basket";
 import { connect } from "react-redux";
 import { AppState } from "reducers/typings";
 import * as util from "../../utils/validate";
+import CookieService from "services/cookie";
 
 const mapDispatchToProps = (dispatch: Dispatch) => {
   return {
@@ -49,16 +50,19 @@ class Bag extends React.Component<Props, State> {
       const skuList = this.props.cart.lineItems.map(
         item => item.product.childAttributes?.[0].sku
       );
-      dataLayer.push({
-        "Event Category": "GA Ecommerce",
-        "Event Action": "Cart Summary Page",
-        "Event Label": skuList.length > 0 ? skuList.join(",") : "",
-        "Time Stamp": new Date().toISOString(),
-        "Page Url": location.href,
-        "Page Type": util.getPageType(),
-        "Login Status": this.props.isLoggedIn ? "logged in" : "logged out",
-        "Page referrer url": location.href
-      });
+      const userConsent = CookieService.getCookie("consent").split(",");
+      if (userConsent.includes("GA-Calls")) {
+        dataLayer.push({
+          "Event Category": "GA Ecommerce",
+          "Event Action": "Cart Summary Page",
+          "Event Label": skuList.length > 0 ? skuList.join(",") : "",
+          "Time Stamp": new Date().toISOString(),
+          "Page Url": location.href,
+          "Page Type": util.getPageType(),
+          "Login Status": this.props.isLoggedIn ? "logged in" : "logged out",
+          "Page referrer url": location.href
+        });
+      }
     } catch (err) {
       console.log(err);
     }

@@ -103,7 +103,8 @@ const ProductDetails: React.FC<Props> = ({
     sizeChart,
     badgeMessage,
     fillerProduct,
-    shortDesc
+    shortDesc,
+    sliderImages
   },
   data,
   corporatePDP,
@@ -264,6 +265,12 @@ const ProductDetails: React.FC<Props> = ({
   const [sizeError, setSizeError] = useState("");
   const [quantity, setQuantity] = useState<number>(1);
 
+  // useEffect(() => {
+  //   if (window?.location?.pathname === "/cart") {
+  //     closeModal ? closeModal() : null;
+  //   }
+  // }, [window?.location?.pathname]);
+
   const showError = () => {
     setTimeout(() => {
       const firstErrorField = document.getElementsByClassName(
@@ -410,18 +417,25 @@ const ProductDetails: React.FC<Props> = ({
     categoryname = arr[arr.length - 2];
     subcategoryname = arr[arr.length - 1];
     category = category.replace(/>/g, "/");
+    const l1 = arr[arr.length - 3];
+    const category3 = sliderImages.filter(ele => ele?.icon).length
+      ? "3d"
+      : "non 3d";
 
-    Moengage.track_event("add_to_cart", {
-      "Product id": sku || childAttributes[0].sku,
-      "Product name": title,
-      quantity: quantity,
-      price: +price,
-      Currency: currency,
-      "Collection name": collection,
-      "Category name": categoryname,
-      "Sub Category Name": subcategoryname,
-      Size: selectedSize?.size
-    });
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes("Moengage")) {
+      Moengage.track_event("add_to_cart", {
+        "Product id": sku || childAttributes[0].sku,
+        "Product name": title,
+        quantity: quantity,
+        price: +price,
+        Currency: currency,
+        "Collection name": collection,
+        "Category name": categoryname,
+        "Sub Category Name": subcategoryname,
+        Size: selectedSize?.size
+      });
+    }
 
     const categoryList = categories
       ? categories.length > 0
@@ -433,37 +447,67 @@ const ProductDetails: React.FC<Props> = ({
       subcategory = subcategory[subcategory.length - 1];
     }
     const size = selectedSize?.size || "";
-    dataLayer.push({
-      "Event Category": "GA Ecommerce",
-      "Event Action": "Add to Cart",
-      "Event Label": subcategory,
-      "Time Stamp": new Date().toISOString(),
-      "Cart Source": window.location.href,
-      "Product Category": categoryList,
-      "Login Status": isLoggedIn ? "logged in" : "logged out",
-      "Product Name": title,
-      "Product ID": selectedSize?.id,
-      Variant: size
-    });
-    dataLayer.push({
-      event: "addToCart",
-      ecommerce: {
-        currencyCode: currency,
-        add: {
-          products: [
+    if (userConsent.includes("GA-Calls")) {
+      dataLayer.push({
+        "Event Category": "GA Ecommerce",
+        "Event Action": "Add to Cart",
+        "Event Label": subcategory,
+        "Time Stamp": new Date().toISOString(),
+        "Cart Source": window.location.href,
+        "Product Category": categoryList,
+        "Login Status": isLoggedIn ? "logged in" : "logged out",
+        "Product Name": title,
+        "Product ID": selectedSize?.id,
+        Variant: size
+      });
+      dataLayer.push({
+        event: "addToCart",
+        ecommerce: {
+          currencyCode: currency,
+          add: {
+            products: [
+              {
+                name: title,
+                id: setSelectedSKU(),
+                price: discountPrices || price,
+                brand: "Goodearth",
+                category: category,
+                variant: selectedSize?.size || "",
+                quantity: quantity
+              }
+            ]
+          }
+        }
+      });
+      dataLayer.push({ ecommerce: null }); // Clear the previous ecommerce object.
+      dataLayer.push({
+        event: "add_to_cart",
+        ecommerce: {
+          items: [
             {
-              name: title,
-              id: setSelectedSKU(),
+              item_id: setSelectedSKU(), //Pass the product id
+              item_name: title, // Pass the product name
+              affiliation: title, // Pass the product name
+              coupon: "", // Pass the coupon if available
+              currency: currency, // Pass the currency code
+              discount: discount, // Pass the discount amount
+              index: "",
+              item_brand: "Goodearth",
+              item_category: category,
+              item_category2: selectedSize?.size, //pass the item category2 ex.Size
+              item_category3: category3, //pass the product type 3d or non 3d
+              item_list_id: "", //pass the item list id
+              item_list_name: "", //pass the item list name ex.search results
+              item_variant: selectedSize?.size || "",
+              item_category4: l1,
+              item_category5: collection,
               price: discountPrices || price,
-              brand: "Goodearth",
-              category: category,
-              variant: selectedSize?.size || "",
               quantity: quantity
             }
           ]
         }
-      }
-    });
+      });
+    }
   };
 
   const addToBasket = () => {
@@ -563,15 +607,18 @@ const ProductDetails: React.FC<Props> = ({
       .then(res => {
         valid.showGrowlMessage(dispatch, MESSAGE.ADD_TO_REGISTRY_SUCCESS);
         const registry = Object.assign({}, isRegistry);
-        dataLayer.push({
-          event: "registry",
-          "Event Category": "Registry",
-          "Event Action": "Product added",
-          // 'Event Label': bridalItem,
-          "Product Name": productTitle,
-          "Product ID": productId,
-          Variant: selectedSize?.size
-        });
+        const userConsent = CookieService.getCookie("consent").split(",");
+        if (userConsent.includes("GA-Calls")) {
+          dataLayer.push({
+            event: "registry",
+            "Event Category": "Registry",
+            "Event Action": "Product added",
+            // 'Event Label': bridalItem,
+            "Product Name": productTitle,
+            "Product ID": productId,
+            Variant: selectedSize?.size
+          });
+        }
 
         if (selectedSize) {
           registry[selectedSize.size] = true;
@@ -646,7 +693,8 @@ const ProductDetails: React.FC<Props> = ({
         badgeType: badgeType,
         isSale: info.isSale,
         discountedPrice: discountPrices,
-        list: isQuickview ? "quickview" : "pdp"
+        list: isQuickview ? "quickview" : "pdp",
+        sliderImages: sliderImages
       },
       false,
       ModalStyles.bottomAlign

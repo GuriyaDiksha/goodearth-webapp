@@ -202,17 +202,20 @@ class Search extends React.Component<Props, State> {
         );
       }
     );
-    dataLayer.push({
-      event: "productClick",
-      ecommerce: {
-        currencyCode: this.props.currency,
-        click: {
-          // actionField: { list: "Search Popup" },
-          actionField: { list: listPath },
-          products: products.concat(attr)
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes("GA-Calls")) {
+      dataLayer.push({
+        event: "productClick",
+        ecommerce: {
+          currencyCode: this.props.currency,
+          click: {
+            // actionField: { list: "Search Popup" },
+            actionField: { list: listPath },
+            products: products.concat(attr)
+          }
         }
-      }
-    });
+      });
+    }
     this.props.toggle();
     this.props.history.push(data.url);
   }
@@ -220,7 +223,7 @@ class Search extends React.Component<Props, State> {
   onClickSearch = (event: any) => {
     if (this.state.searchValue.trim().length > 0) {
       this.props.history.push(
-        `search/${this.state.url.split("/autocomplete")[1]}`
+        `/search/${this.state.url.split("/autocomplete")[1]}`
       );
       this.closeSearch();
       return false;
@@ -392,9 +395,7 @@ class Search extends React.Component<Props, State> {
                   })}
                   onClick={this.onClickSearch}
                 >
-                  {`view all results${
-                    this.state.count ? `  (${this.state.count})` : ""
-                  }`}
+                  {`view all results`}
                 </span>
                 {!mobile && (
                   <i

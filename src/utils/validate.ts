@@ -170,6 +170,7 @@ export function proceedTocheckout(data: Basket, currency: Currency) {
     const collectionname: any = [];
     const categoryname: any = [];
     const subcategoryname: any = [];
+    const userConsent = CookieService.getCookie("consent").split(",");
 
     data.lineItems.map(prod => {
       const category = categoryForGa(prod.product.categories);
@@ -198,19 +199,20 @@ export function proceedTocheckout(data: Basket, currency: Currency) {
         }
       );
     });
-
-    Moengage.track_event("Proceed to checkout", {
-      "Product id": skusid,
-      "Product name": productname,
-      Quantity: quantitys,
-      price: priceschild,
-      Currency: currency,
-      Size: variantspdp,
-      // "Percentage discount",
-      // "Collection name": data.collection,
-      "Category name": categoryname,
-      "Sub Category Name": subcategoryname
-    });
+    if (userConsent.includes("Moengage")) {
+      Moengage.track_event("Proceed to checkout", {
+        "Product id": skusid,
+        "Product name": productname,
+        Quantity: quantitys,
+        price: priceschild,
+        Currency: currency,
+        Size: variantspdp,
+        // "Percentage discount",
+        // "Collection name": data.collection,
+        "Category name": categoryname,
+        "Sub Category Name": subcategoryname
+      });
+    }
   }
 }
 
@@ -308,6 +310,7 @@ export function productImpression(
       let skus = "";
       let variants = "";
       let prices = "";
+
       prod.childAttributes.map((child: any) => {
         skus += "," + child.sku;
         variants += "," + child.size;
@@ -335,19 +338,106 @@ export function productImpression(
       );
       product.push(childProduct);
     });
-    dataLayer.push({ ecommerce: null });
-    dataLayer.push({
-      event: "productImpression",
-      ecommerce: {
-        currencyCode: currency,
-        impressions: product
+
+    const childAttr = data.results?.data.map((child: any, index: number) => {
+      let category = "";
+      if (child.categories) {
+        const index = child.categories.length - 1;
+        category = child.categories[index]
+          ? child.categories[index].replace(/\s/g, "")
+          : "";
+        categoryName = category.split(">")[0];
+        subcategoryname = category.split(">")[1];
+        if (
+          !collectionName &&
+          child.collections &&
+          child.collections.length > 0
+        ) {
+          collectionName = child.collections[0];
+        }
+        category = category.replace(/>/g, "/");
       }
+      let skus = "";
+      let variants = "";
+      let prices = "";
+
+      child.childAttributes.map((child: any) => {
+        skus += "," + child.sku;
+        variants += "," + child.size;
+        prices +=
+          "," +
+          (child.discountedPriceRecords
+            ? child.discountedPriceRecords[currency]
+            : child.priceRecords[currency]);
+      });
+      skus = skus.slice(1);
+      variants = variants.slice(1);
+      prices = prices.slice(1);
+      // const childProduct = Object.assign(
+      //   {},
+      //   {
+      //     name: prod.title,
+      //     id: skus,
+      //     category: category,
+      //     list: listPath,
+      //     price: prices,
+      //     brand: "Goodearth",
+      //     position: position + i + 1,
+      //     variant: variants || ""
+      //   }
+      // );
+      return Object.assign(
+        {},
+        {
+          item_id: skus, //Pass the product id
+          item_name: child.title,
+          affiliation: "",
+          coupon: "", // Pass the coupon if available
+          currency: currency, // Pass the currency code
+          discount: child.discountedPriceRecords
+            ? child.discountedPriceRecords[currency]
+            : child.priceRecords[currency], // Pass the discount amount
+          index: index,
+          item_brand: "goodearth",
+          item_category: categoryName,
+          item_category2: variants,
+          item_category3: "",
+          item_list_id: "",
+          item_list_name: "",
+          item_variant: "",
+          item_category4: "",
+          item_category5: collectionName,
+          price: child.priceRecords[currency],
+          quantity: 1
+        }
+      );
     });
-    Moengage.track_event("PLP views", {
-      "Category Name": categoryName.trim(),
-      "Sub Category Name": subcategoryname.trim(),
-      "Collection Name": collectionName
-    });
+
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes("GA-Calls")) {
+      dataLayer.push({ ecommerce: null });
+      dataLayer.push({
+        event: "productImpression",
+        ecommerce: {
+          currencyCode: currency,
+          impressions: product
+        }
+      });
+      dataLayer.push({ ecommerce: null }); // Clear the previous ecommerce object.
+      dataLayer.push({
+        event: "view_item_list",
+        ecommerce: {
+          items: childAttr
+        }
+      });
+    }
+    if (userConsent.includes("Moengage")) {
+      Moengage.track_event("PLP views", {
+        "Category Name": categoryName.trim(),
+        "Sub Category Name": subcategoryname.trim(),
+        "Collection Name": collectionName
+      });
+    }
   } catch (e) {
     // console.log(e);
     console.log("Impression error");
@@ -390,14 +480,17 @@ export function sliderProductImpression(
       );
       product.push(childProduct);
     });
-    dataLayer.push({ ecommerce: null });
-    dataLayer.push({
-      event: "productImpression",
-      ecommerce: {
-        currencyCode: currency,
-        impressions: product
-      }
-    });
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes("GA-Calls")) {
+      dataLayer.push({ ecommerce: null });
+      dataLayer.push({
+        event: "productImpression",
+        ecommerce: {
+          currencyCode: currency,
+          impressions: product
+        }
+      });
+    }
   } catch (e) {
     console.log("Impression error");
     console.log(e);
@@ -439,16 +532,19 @@ export function sliderProductClick(
         }
       )
     ];
-    dataLayer.push({
-      event: "productClick",
-      ecommerce: {
-        currencyCode: currency,
-        click: {
-          actionField: { list: listPath },
-          products: product
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes("GA-Calls")) {
+      dataLayer.push({
+        event: "productClick",
+        ecommerce: {
+          currencyCode: currency,
+          click: {
+            actionField: { list: listPath },
+            products: product
+          }
         }
-      }
-    });
+      });
+    }
     CookieService.setCookie("listPath", listPath);
   } catch (e) {
     console.log("Impression error");
@@ -466,14 +562,17 @@ export function promotionImpression(data: any) {
         position: image.order
       };
     });
-    dataLayer.push({
-      event: "promotionImpression",
-      ecommerce: {
-        promoView: {
-          promotions: promotions
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes("GA-Calls")) {
+      dataLayer.push({
+        event: "promotionImpression",
+        ecommerce: {
+          promoView: {
+            promotions: promotions
+          }
         }
-      }
-    });
+      });
+    }
   } catch (e) {
     console.log(e);
     console.log("promotionImpression error");
@@ -502,6 +601,11 @@ export function PDP(data: any, currency: Currency) {
     let skus = "";
     let variants = "";
     let prices = "";
+    const len = data.categories.length;
+    const categri = data.categories[len - 1];
+    const l3Len = category.split(">").length;
+    const cat = categri.split(">")[l3Len - 1];
+    const l1 = categri.split(">")[0];
 
     const skusid: any = [];
     const variantspdp: any = [];
@@ -509,7 +613,37 @@ export function PDP(data: any, currency: Currency) {
     const discountPrice: any = [];
     const quantitys: any = [];
     const colors: any = [];
+    const userConsent = CookieService.getCookie("consent").split(",");
 
+    const childAttr = data?.childAttributes.map((child: any, index: number) => {
+      return Object.assign(
+        {},
+        {
+          item_id: child.sku, //Pass the product id
+          item_name: data.title,
+          affiliation: "",
+          coupon: "", // Pass the coupon if available
+          currency: currency, // Pass the currency code
+          discount: child.discountedPriceRecords
+            ? child.discountedPriceRecords[currency]
+            : child.priceRecords[currency], // Pass the discount amount
+          index: index,
+          item_brand: "goodearth",
+          item_category: cat,
+          item_category2: child.size,
+          item_category3: data.sliderImages?.some((key: any) => key.icon)
+            ? "3d"
+            : "non 3d",
+          item_list_id: "",
+          item_list_name: "",
+          item_variant: child.color,
+          item_category4: l1,
+          item_category5: data.collection,
+          price: child.priceRecords[currency],
+          quantity: 1
+        }
+      );
+    });
     data.childAttributes?.map((child: any) => {
       skusid.push(child.sku);
       variantspdp.push(child.size);
@@ -543,30 +677,41 @@ export function PDP(data: any, currency: Currency) {
     );
     products.push(childProduct);
 
-    Moengage.track_event("PDP View", {
-      "Product id": skusid,
-      "Product name": data.title,
-      Quantity: quantitys,
-      price: priceschild,
-      Currency: currency,
-      Color: colors,
-      Size: variantspdp,
-      "Original price": priceschild,
-      "Discounted price": discountPrice,
-      // "Percentage discount",
-      "Collection name": data.collection,
-      "Category name": categoryname,
-      "Sub Category Name": subcategoryname
-    });
+    if (userConsent.includes("Moengage")) {
+      Moengage.track_event("PDP View", {
+        "Product id": skusid,
+        "Product name": data.title,
+        Quantity: quantitys,
+        price: priceschild,
+        Currency: currency,
+        Color: colors,
+        Size: variantspdp,
+        "Original price": priceschild,
+        "Discounted price": discountPrice,
+        // "Percentage discount",
+        "Collection name": data.collection,
+        "Category name": categoryname,
+        "Sub Category Name": subcategoryname
+      });
+    }
     const listPath = CookieService.getCookie("listPath") || "DirectLandingView";
+    dataLayer.push({ ecommerce: null }); // Clear the previous ecommerce object.
+    dataLayer.push({
+      event: "view_item",
+      ecommerce: {
+        items: childAttr
+      }
+    });
     dataLayer.push({ ecommerce: null });
     dataLayer.push({
       event: "productDetailImpression",
-      currencyCode: currency,
       ecommerce: {
-        detail: {
-          actionField: { list: listPath },
-          products
+        currencyCode: currency,
+        ecommerce: {
+          detail: {
+            actionField: { list: listPath },
+            products
+          }
         }
       }
     });
@@ -628,14 +773,17 @@ export function collectionProductImpression(
       );
       product.push(childProduct);
     });
-    dataLayer.push({ ecommerce: null });
-    dataLayer.push({
-      event: "productImpression",
-      ecommerce: {
-        currencyCode: currency,
-        impressions: product
-      }
-    });
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes("GA-Calls")) {
+      dataLayer.push({ ecommerce: null });
+      dataLayer.push({
+        event: "productImpression",
+        ecommerce: {
+          currencyCode: currency,
+          impressions: product
+        }
+      });
+    }
   } catch (e) {
     console.log(e);
     console.log("Impression error");
@@ -693,14 +841,17 @@ export function weRecommendProductImpression(
       );
       product.push(childProduct);
     });
-    dataLayer.push({ ecommerce: null });
-    dataLayer.push({
-      event: "productImpression",
-      ecommerce: {
-        currencyCode: currency,
-        impressions: product
-      }
-    });
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes("GA-Calls")) {
+      dataLayer.push({ ecommerce: null });
+      dataLayer.push({
+        event: "productImpression",
+        ecommerce: {
+          currencyCode: currency,
+          impressions: product
+        }
+      });
+    }
   } catch (e) {
     console.log(e);
     console.log("Impression error");
@@ -743,18 +894,62 @@ export function plpProductClick(
         }
       );
     });
+    const len = data.categories.length;
+    const categri = data.categories[len - 1];
+    const l3Len = category.split(">").length;
+    const cat = categri.split(">")[l3Len - 1];
+    const l1 = categri.split(">")[0];
+    const childAttr = data?.childAttributes.map((child: any, index: number) => {
+      return Object.assign(
+        {},
+        {
+          item_id: child.sku, //Pass the product id
+          item_name: data.title,
+          affiliation: "",
+          coupon: "", // Pass the coupon if available
+          currency: currency, // Pass the currency code
+          discount: child.discountedPriceRecords
+            ? child.discountedPriceRecords[currency]
+            : child.priceRecords[currency], // Pass the discount amount
+          index: index,
+          item_brand: "goodearth",
+          item_category: cat,
+          item_category2: child.size,
+          item_category3: data.sliderImages?.some((key: any) => key.icon)
+            ? "3d"
+            : "non 3d",
+          item_list_id: "",
+          item_list_name: "",
+          item_variant: child.color,
+          item_category4: l1,
+          item_category5: data.collection,
+          price: child.priceRecords[currency],
+          quantity: 1
+        }
+      );
+    });
     const listPath = `${list}`;
     CookieService.setCookie("listPath", listPath);
-    dataLayer.push({
-      event: "productClick",
-      ecommerce: {
-        currencyCode: currency,
-        click: {
-          actionField: { list: listPath },
-          products: products.concat(attr)
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes("GA-Calls")) {
+      dataLayer.push({
+        event: "productClick",
+        ecommerce: {
+          currencyCode: currency,
+          click: {
+            actionField: { list: listPath },
+            products: products.concat(attr)
+          }
         }
-      }
-    });
+      });
+      dataLayer.push({ ecommerce: null }); // Clear the previous ecommerce object.
+      dataLayer.push({
+        event: "select_item",
+        ecommerce: {
+          items: childAttr
+        }
+      });
+    }
   } catch (e) {
     console.log(e);
     console.log("ProductClick impression error");
@@ -771,14 +966,17 @@ export function promotionClick(data: any) {
         position: data.order
       }
     ];
-    dataLayer.push({
-      event: "promotionClick",
-      ecommerce: {
-        promoClick: {
-          promotions: promotions
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes("GA-Calls")) {
+      dataLayer.push({
+        event: "promotionClick",
+        ecommerce: {
+          promoClick: {
+            promotions: promotions
+          }
         }
-      }
-    });
+      });
+    }
   } catch (e) {
     console.log(e);
     console.log("Promotion Click Impression error");
@@ -836,14 +1034,17 @@ export function MoreFromCollectionProductImpression(
       );
       product.push(childProduct);
     });
-    dataLayer.push({ ecommerce: null });
-    dataLayer.push({
-      event: "productImpression",
-      ecommerce: {
-        currencyCode: currency,
-        impressions: product
-      }
-    });
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes("GA-Calls")) {
+      dataLayer.push({ ecommerce: null });
+      dataLayer.push({
+        event: "productImpression",
+        ecommerce: {
+          currencyCode: currency,
+          impressions: product
+        }
+      });
+    }
   } catch (e) {
     console.log(e);
     console.log("Impression error");
@@ -885,25 +1086,31 @@ export function MoreFromCollectionProductClick(
   });
   const listPath = `${list}`;
   CookieService.setCookie("listPath", listPath);
-  dataLayer.push({
-    event: "productClick",
-    ecommerce: {
-      currencyCode: currency,
-      click: {
-        actionField: { list: listPath },
-        products: products.concat(attr)
+  const userConsent = CookieService.getCookie("consent").split(",");
+  if (userConsent.includes("GA-Calls")) {
+    dataLayer.push({
+      event: "productClick",
+      ecommerce: {
+        currencyCode: currency,
+        click: {
+          actionField: { list: listPath },
+          products: products.concat(attr)
+        }
       }
-    }
-  });
+    });
+  }
 }
 
 export function errorTracking(errorMessage: string[], url: string) {
   try {
-    dataLayer.push({
-      event: "errorMessage",
-      "Error Message": errorMessage,
-      "Error URL": url
-    });
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes("GA-Calls")) {
+      dataLayer.push({
+        event: "errorMessage",
+        "Error Message": errorMessage,
+        "Error URL": url
+      });
+    }
   } catch (e) {
     console.log(e);
     console.log("error Tracking error");
@@ -962,55 +1169,35 @@ export const checkoutGTM = (
   paymentMethod?: string
 ) => {
   const productList = productForBasketGa(basket, currency);
-  const fbproductData = productForGa(basket);
-  const totalId = basket.lineItems.map(prod => {
-    return {
-      id: prod.product.childAttributes[0].sku
-    };
-  });
-  if (step == 1) {
-    dataLayer.push({
-      event: "initiate_checkout",
-      total_amount: basket.total,
-      currencyCode: currency,
-      total_item: basket.lineItems.length,
-      content_ids: totalId,
-      contents: fbproductData
-    });
-  }
-  if (step == 3) {
-    dataLayer.push({
-      event: "payment_info",
-      total_amount: basket.total,
-      currencyCode: currency,
-      total_item: basket.lineItems.length,
-      content_ids: totalId,
-      contents: fbproductData
-    });
-  }
+  const userConsent = CookieService.getCookie("consent").split(",");
+
   if (paymentMethod) {
-    dataLayer.push({
-      event: "checkout",
-      ecommerce: {
-        currencyCode: currency,
-        paymentMethod,
-        checkout: {
-          actionField: { step, option: checkoutSteps[step - 1] },
-          products: productList
+    if (userConsent.includes("GA-Calls")) {
+      dataLayer.push({
+        event: "checkout",
+        ecommerce: {
+          currencyCode: currency,
+          paymentMethod,
+          checkout: {
+            actionField: { step, option: checkoutSteps[step - 1] },
+            products: productList
+          }
         }
-      }
-    });
+      });
+    }
   } else {
-    dataLayer.push({
-      event: "checkout",
-      ecommerce: {
-        currencyCode: currency,
-        checkout: {
-          actionField: { step, option: checkoutSteps[step - 1] },
-          products: productList
+    if (userConsent.includes("GA-Calls")) {
+      dataLayer.push({
+        event: "checkout",
+        ecommerce: {
+          currencyCode: currency,
+          checkout: {
+            actionField: { step, option: checkoutSteps[step - 1] },
+            products: productList
+          }
         }
-      }
-    });
+      });
+    }
   }
 };
 
@@ -1021,13 +1208,16 @@ export const headerClickGTM = (
   isLoggedIn: boolean
 ) => {
   try {
-    dataLayer.push({
-      event: "Header Click",
-      clickType,
-      location,
-      device: mobile ? "mobile" : "desktop",
-      userStatus: isLoggedIn ? "logged in" : "logged out"
-    });
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes("GA-Calls")) {
+      dataLayer.push({
+        event: "Header Click",
+        clickType,
+        location,
+        device: mobile ? "mobile" : "desktop",
+        userStatus: isLoggedIn ? "logged in" : "logged out"
+      });
+    }
   } catch (e) {
     console.log("Header click GTM error!");
   }
@@ -1039,12 +1229,15 @@ export const footerClickGTM = (
   isLoggedIn: boolean
 ) => {
   try {
-    dataLayer.push({
-      event: "Footer Click",
-      clickType,
-      location,
-      userStatus: isLoggedIn ? "logged in" : "logged out"
-    });
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes("GA-Calls")) {
+      dataLayer.push({
+        event: "Footer Click",
+        clickType,
+        location,
+        userStatus: isLoggedIn ? "logged in" : "logged out"
+      });
+    }
   } catch (e) {
     console.log("Footer click GTM error!");
   }
@@ -1077,19 +1270,22 @@ export const menuNavigationGTM = ({
   isLoggedIn: boolean;
 }) => {
   try {
-    dataLayer.push({
-      event: "Menu Navigation",
-      clickType: "Category",
-      l1,
-      l2,
-      l3,
-      clickUrl1,
-      clickUrl2,
-      clickUrl3,
-      device: mobile ? "mobile" : "desktop",
-      userStatus: isLoggedIn ? "logged in" : "logged out",
-      url: `${location.pathname}${location.search}`
-    });
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes("GA-Calls")) {
+      dataLayer.push({
+        event: "Menu Navigation",
+        clickType: "Category",
+        l1,
+        l2,
+        l3,
+        clickUrl1,
+        clickUrl2,
+        clickUrl3,
+        device: mobile ? "mobile" : "desktop",
+        userStatus: isLoggedIn ? "logged in" : "logged out",
+        url: `${location.pathname}${location.search}`
+      });
+    }
   } catch (e) {
     console.log("Menu Navigation GTM error!");
   }
@@ -1115,18 +1311,22 @@ export const megaMenuNavigationGTM = ({
   isLoggedIn: boolean;
 }) => {
   try {
-    if (l3) {
-      Moengage.track_event("L1Clicked", {
-        "Category Name": l3
-      });
-    } else if (l2) {
-      Moengage.track_event("L2Clicked", {
-        "Category Name": l2
-      });
-    } else if (l1 && !template) {
-      Moengage.track_event("L1Clicked", {
-        "Category Name": l1
-      });
+    const userConsent = CookieService.getCookie("consent").split(",");
+
+    if (userConsent.includes("Moengage")) {
+      if (l3) {
+        Moengage.track_event("L1Clicked", {
+          "Category Name": l3
+        });
+      } else if (l2) {
+        Moengage.track_event("L2Clicked", {
+          "Category Name": l2
+        });
+      } else if (l1 && !template) {
+        Moengage.track_event("L1Clicked", {
+          "Category Name": l1
+        });
+      }
     }
 
     if (template) {
@@ -1150,29 +1350,33 @@ export const megaMenuNavigationGTM = ({
         default:
           eventName = "";
       }
-      Moengage.track_event(eventName, {
-        "Category Name": l1
-      });
+      if (userConsent.includes("Moengage")) {
+        Moengage.track_event(eventName, {
+          "Category Name": l1
+        });
+      }
     }
 
-    dataLayer.push({
-      event: "Menu Navigation",
-      clickType: "Category",
-      l1,
-      l2,
-      l3,
-      clickUrl1,
-      clickUrl2,
-      clickUrl3,
-      template,
-      img2,
-      img3,
-      cta,
-      subHeading,
-      device: mobile ? "mobile" : "desktop",
-      userStatus: isLoggedIn ? "logged in" : "logged out",
-      url: `${location.pathname}${location.search}`
-    });
+    if (userConsent.includes("GA-Calls")) {
+      dataLayer.push({
+        event: "Menu Navigation",
+        clickType: "Category",
+        l1,
+        l2,
+        l3,
+        clickUrl1,
+        clickUrl2,
+        clickUrl3,
+        template,
+        img2,
+        img3,
+        cta,
+        subHeading,
+        device: mobile ? "mobile" : "desktop",
+        userStatus: isLoggedIn ? "logged in" : "logged out",
+        url: `${location.pathname}${location.search}`
+      });
+    }
   } catch (e) {
     console.log("Menu Navigation GTM error!");
   }
@@ -1180,13 +1384,16 @@ export const megaMenuNavigationGTM = ({
 
 export const pageViewGTM = (Title: string) => {
   try {
-    dataLayer.push({
-      event: "pageview",
-      Page: {
-        path: location.pathname,
-        Title
-      }
-    });
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes("GA-Calls")) {
+      dataLayer.push({
+        event: "pageview",
+        Page: {
+          path: location.pathname,
+          Title
+        }
+      });
+    }
   } catch (e) {
     console.log("Page VIew GTM error!");
   }
@@ -1210,10 +1417,13 @@ export const moveChatDown = () => {
 
 export const viewSelectionGTM = (clickType: "list" | "grid") => {
   try {
-    dataLayer.push({
-      event: "View Selection",
-      clickType
-    });
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes("GA-Calls")) {
+      dataLayer.push({
+        event: "View Selection",
+        clickType
+      });
+    }
   } catch (e) {
     console.log("View Selection GTM error!");
   }
@@ -1221,11 +1431,14 @@ export const viewSelectionGTM = (clickType: "list" | "grid") => {
 
 export const sortGTM = (clickType: string) => {
   try {
-    dataLayer.push({
-      event: "Sort",
-      clickType,
-      url: `${location.pathname}${location.search}`
-    });
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes("GA-Calls")) {
+      dataLayer.push({
+        event: "Sort",
+        clickType,
+        url: `${location.pathname}${location.search}`
+      });
+    }
   } catch (e) {
     console.log("Sort GTM error!");
   }
@@ -1233,11 +1446,14 @@ export const sortGTM = (clickType: string) => {
 
 export const footerGTM = (clickType: string) => {
   try {
-    dataLayer.push({
-      event: "Footer Navigation",
-      clickType,
-      url: `${location.pathname}${location.search}`
-    });
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes("GA-Calls")) {
+      dataLayer.push({
+        event: "Footer Navigation",
+        clickType,
+        url: `${location.pathname}${location.search}`
+      });
+    }
   } catch (e) {
     console.log("Footer Navigation GTM error!");
   }
@@ -1245,12 +1461,15 @@ export const footerGTM = (clickType: string) => {
 
 export const announcementBarGTM = (clickText: string, clickUrl: string) => {
   try {
-    dataLayer.push({
-      event: "Announcement Bar Click",
-      clickText,
-      clickUrl,
-      url: `${location.pathname}${location.search}`
-    });
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes("GA-Calls")) {
+      dataLayer.push({
+        event: "Announcement Bar Click",
+        clickText,
+        clickUrl,
+        url: `${location.pathname}${location.search}`
+      });
+    }
   } catch (e) {
     console.log("Announcement Bar click GTM error!");
   }

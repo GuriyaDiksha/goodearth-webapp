@@ -14,6 +14,7 @@ import Section4 from "./section4";
 import bootstrap from "../../styles/bootstrap/bootstrap-grid.scss";
 import mapDispatchToProps from "./mapper/actions";
 import * as util from "utils/validate";
+import CookieService from "services/cookie";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -143,18 +144,24 @@ class GiftCard extends React.Component<
 
   next = (data: any, section: string) => {
     const giftCardData = this.state.finalData;
+    const userConsent = CookieService.getCookie("consent").split(",");
+
     if (section == "amount") {
       giftCardData["imageUrl"] = data;
-      dataLayer.push({ event: "card_design_selected", design: data });
+      if (userConsent.includes("GA-Calls")) {
+        dataLayer.push({ event: "card_design_selected", design: data });
+      }
     } else if (section == "form") {
       giftCardData["customPrice"] = data.customPrice;
       giftCardData["productId"] = data.productId;
-      dataLayer.push({
-        event: "card_value_selected",
-        design: giftCardData.imageUrl,
-        location: data.selectedCountry,
-        value: data.customPrice
-      });
+      if (userConsent.includes("GA-Calls")) {
+        dataLayer.push({
+          event: "card_value_selected",
+          design: giftCardData.imageUrl,
+          location: data.selectedCountry,
+          value: data.customPrice
+        });
+      }
 
       this.setState({
         selectedCountry: data.selectedCountry
@@ -165,12 +172,14 @@ class GiftCard extends React.Component<
       giftCardData["recipientName"] = data.recipientName;
       giftCardData["senderName"] = data.senderName;
       giftCardData["quantity"] = 1;
-      dataLayer.push({
-        event: "card_details_selected",
-        design: giftCardData.imageUrl,
-        location: this.state.selectedCountry,
-        value: giftCardData.customPrice
-      });
+      if (userConsent.includes("GA-Calls")) {
+        dataLayer.push({
+          event: "card_details_selected",
+          design: giftCardData.imageUrl,
+          location: this.state.selectedCountry,
+          value: giftCardData.customPrice
+        });
+      }
     } else if (section == "card") {
       // giftCardData = {};
       let newCountry = "";

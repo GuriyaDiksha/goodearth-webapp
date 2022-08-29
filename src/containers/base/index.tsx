@@ -36,7 +36,7 @@ const BaseLayout: React.FC = () => {
     basket: { bridal },
     header: { announcementData },
     device: { orientation, tablet, mobile },
-    user: { customerGroup }
+    user: { customerGroup, isLoggedIn }
   } = useSelector((state: AppState) => state);
   const {
     modal: { component }
@@ -48,7 +48,7 @@ const BaseLayout: React.FC = () => {
   // don't show info popup
   const isSuspended = false;
   const popup = useSelector((state: AppState) => state.popup);
-  const isLoggedIn = useSelector((state: AppState) => state.user.isLoggedIn);
+  // const isLoggedIn = useSelector((state: AppState) => state.user.isLoggedIn);
   const [prevUrl, setPrevUrl] = useState("");
   const dominList = ["dv", "stg", "pprod"];
   // const flower = [flowerimg1, flowerimg2, flowerimg3, flowerimg4];
@@ -65,10 +65,13 @@ const BaseLayout: React.FC = () => {
   };
   useEffect(() => {
     if (getPWADisplayMode() == "standalone") {
-      dataLayer.push({
-        event: "App Icon Click",
-        page: location
-      });
+      const userConsent = CookieService.getCookie("consent").split(",");
+      if (userConsent.includes("GA-Calls")) {
+        dataLayer.push({
+          event: "App Icon Click",
+          page: location
+        });
+      }
     }
   }, []);
   // useEffect(() => {
@@ -101,19 +104,23 @@ const BaseLayout: React.FC = () => {
   useEffect(() => {
     const isHomePage = location.pathname == "/";
     if (isHomePage) {
-      dataLayer.push({
-        "Event Category": "General Pages",
-        "Event Action": "Home Page",
-        "Event Label": " web|home",
-        "Time Stamp": new Date().toISOString(),
-        "Page Url": location.hostname + location.pathname,
-        "Page Type": "Home",
-        "Login Status": isLoggedIn ? "logged in" : "logged out"
-      });
+      const userConsent = CookieService.getCookie("consent").split(",");
+      if (userConsent.includes("GA-Calls")) {
+        dataLayer.push({
+          "Event Category": "General Pages",
+          "Event Action": "Home Page",
+          "Event Label": " web|home",
+          "Time Stamp": new Date().toISOString(),
+          "Page Url": location.hostname + location.pathname,
+          "Page Type": "Home",
+          "Login Status": isLoggedIn ? "logged in" : "logged out"
+        });
+      }
     }
     CookieService.setCookie("prevUrl", prevUrl);
     setPrevUrl(location.href);
   }, [history.location.pathname, history.location.search]);
+
   useEffect(() => {
     const value = CookieService.getCookie("auth");
     if (
@@ -170,7 +177,7 @@ const BaseLayout: React.FC = () => {
         if (!show) {
           if (
             CookieService.getCookie(
-              pathname.split("/").join("_") + "_" + currentPopup[0].heading
+              pathname.split("/").join("_") + "_" + currentPopup[0].id
             ) != "show"
           ) {
             show = true;
@@ -182,7 +189,7 @@ const BaseLayout: React.FC = () => {
         }
       }
     }
-  }, [pathname, search]);
+  }, [pathname, search, popup.length]);
 
   useEffect(() => {
     // let isDragging = false;
@@ -276,15 +283,17 @@ const BaseLayout: React.FC = () => {
     }
 
     const cookieCurrency = CookieService.getCookie("currency");
+    const cookieRegion = CookieService.getCookie("region");
     if (
-      !cookieCurrency &&
-      !(
-        location.pathname.includes("/bridal/") ||
-        announcementData.isBridalActive ||
-        bridal
-      )
+      (!cookieCurrency &&
+        !(
+          location.pathname.includes("/bridal/") ||
+          announcementData.isBridalActive ||
+          bridal
+        )) ||
+      !cookieRegion
     ) {
-      LoginService.getClientIpCurrency()
+      LoginService.getClientIpCurrency(dispatch)
         .then(curr => {
           if (curr != "error") {
             if (curr && !cookieCurrency) {

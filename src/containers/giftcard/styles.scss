@@ -38,7 +38,7 @@ h2 {
 
 .gift-font {
   @include b3_14px_montserrat_charcoal();
-  letter-spacing: 1px;
+  letter-spacing: 0.5px;
   .aqua {
     font-weight: $medium;
     color: $aqua;
@@ -47,10 +47,12 @@ h2 {
 
 .small-head-text {
   @include b4_12px_montserrat_light_charcoal();
+  letter-spacing: 0.5px;
 }
 
 .message-text{
   @include b3_14px_montserrat_medium_charcoal();
+  letter-spacing: 0.5px;
 }
 
 .recipient-font{
@@ -67,7 +69,7 @@ h2 {
 .subscribe{
   label {
     @include b5_10px_montserrat_charcoal();
-    letter-spacing: 0.3px;
+    letter-spacing: 0.5px;
     a {
       color: $charcoal19;
     }
@@ -575,7 +577,7 @@ form {
 
 .note {
   @include b5_10px_montserrat_charcoal();
-  letter-spacing: 0.3px;
+  letter-spacing: 0.5px;
   margin: 8px 10px;
   text-align: left;
 }
@@ -592,7 +594,8 @@ hr {
 }
 
 .error-msg {
-  @include err_13px_lora_italic_cerise();  
+  @include err_13px_lora_italic_cerise(); 
+  letter-spacing: 0.5px;
 }
 
 .button-err-bg{
