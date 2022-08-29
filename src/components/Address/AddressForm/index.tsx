@@ -509,6 +509,9 @@ const AddressForm: React.FC<Props> = props => {
                   matchRegexp: isAlphanumericError
                 }}
               />
+              <p key="pincode-msg" className={styles.pincodeMsg}>
+                If there is no PIN code for your area please enter 000000.
+              </p>
             </div>
           )}
           <div>
@@ -531,27 +534,52 @@ const AddressForm: React.FC<Props> = props => {
               <span className="arrow"></span>
             </div>
           </div>
-          <div>
-            <div className="select-group text-left">
-              <FormSelect
+          {stateOptions && stateOptions.length > 0 ? (
+            <div>
+              <div className="select-group text-left">
+                <FormSelect
+                  required
+                  name="state"
+                  label={"State*"}
+                  placeholder={"Select State*"}
+                  disable={isIndia}
+                  options={stateOptions}
+                  value=""
+                  handleChange={() => setIsAddressChanged(true)}
+                  validations={{
+                    isExisty: true
+                  }}
+                  validationErrors={{
+                    isExisty: isExistyError,
+                    isEmptyString: isExistyError
+                  }}
+                />
+              </div>
+            </div>
+          ) : (
+            <div>
+              <FormInput
                 required
-                name="state"
-                label={"State*"}
-                placeholder={"Select State*"}
-                disable={isIndia}
-                options={stateOptions}
-                value=""
-                handleChange={() => setIsAddressChanged(true)}
-                validations={{
-                  isExisty: true
+                name="province"
+                label={"Province"}
+                placeholder={"Province"}
+                value={
+                  addressData && !isCountryChanged ? addressData.province : ""
+                }
+                handleChange={event => {
+                  setIsAddressChanged(true);
                 }}
-                validationErrors={{
-                  isExisty: isExistyError,
-                  isEmptyString: isExistyError
-                }}
+                // validations={{
+                //   isExisty: true,
+                //   matchRegexp: /^[a-z\d\-_\s]+$/i
+                // }}
+                // validationErrors={{
+                //   isExisty: "Please fill this field",
+                //   matchRegexp: isAlphanumericError
+                // }}
               />
             </div>
-          </div>
+          )}
           <div>
             <FormInput
               required
