@@ -1152,6 +1152,19 @@ export const checkoutGTM = (
       contents: fbproductData
     });
   }
+  // if(step == 4) {
+  //   dataLayer.push({
+  //     event: "checkout",
+  //     ecommerce: {
+  //       currencyCode: currency,
+  //       paymentMethod,
+  //       checkout: {
+  //         actionField: { step, option:  'Payment confirmation'},
+  //         products: productList
+  //       }
+  //     }
+  //   });
+  // }
   if (paymentMethod) {
     dataLayer.push({
       event: "checkout",
