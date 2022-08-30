@@ -184,6 +184,7 @@ const WishlistButton: React.FC<Props> = ({
         )
           .then(() => {
             onMoveToWishlist?.();
+            gtmPushAddToWishlist(true);
           })
           .finally(() => {
             dispatch(updateLoader(false));
