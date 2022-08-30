@@ -43,7 +43,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
     const productname: string[] = [];
     const productprice: string[] = [];
     const productquantity: number[] = [];
-    const items = result.lines.map((line: any) => {
+    const items = result.lines.map((line: any, ind: number) => {
       const index = line.product.categories
         ? line.product.categories.length - 1
         : 0;
@@ -60,7 +60,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
         coupon: result.offerDisounts?.[0].name, // Pass the coupon if available
         currency: result.currency, // Pass the currency code
         discount: "", // Pass the discount amount
-        index: "",
+        index: ind,
         item_brand: "Goodearth",
         item_category: arr[arr.length - 2],
         item_category2: arr[arr.length - 1],
@@ -201,7 +201,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
         ecommerce: {
           transaction_id: result.transactionId,
           affiliation: "Online Store", // Pass the product name
-          value: "",
+          value: +result.totalInclTax,
           tax: 0,
           shipping: +result.shippingInclTax,
           currency: result.currency, // Pass the currency code

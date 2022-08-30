@@ -161,7 +161,7 @@ const AddressItem: React.FC<Props> = props => {
   };
 
   const addGAForShipping = () => {
-    const items = basket.lineItems.map(line => {
+    const items = basket.lineItems.map((line, ind) => {
       const index = line?.product.categories
         ? line?.product.categories.length - 1
         : 0;
@@ -178,7 +178,7 @@ const AddressItem: React.FC<Props> = props => {
         coupon: "", // Pass the coupon if available
         currency: currency, // Pass the currency code
         discount: "", // Pass the discount amount
-        index: "",
+        index: ind,
         item_brand: "Goodearth",
         item_category: arr[arr.length - 2],
         item_category2: arr[arr.length - 1],
