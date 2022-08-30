@@ -12,7 +12,6 @@ import { CheckoutAddressContext } from "containers/checkout/component/context";
 import BridalContext from "containers/myAccount/components/Bridal/context";
 import { AppState } from "reducers/typings";
 import bridalRing from "../../../images/bridal/rings.svg";
-import CookieService from "services/cookie";
 
 type Props = {
   addressData: AddressData;
@@ -162,7 +161,6 @@ const AddressItem: React.FC<Props> = props => {
   };
 
   const addGAForShipping = () => {
-    const userConsent = CookieService.getCookie("consent").split(",");
     const items = basket.lineItems.map(line => {
       const index = line?.product.categories
         ? line?.product.categories.length - 1
@@ -195,19 +193,18 @@ const AddressItem: React.FC<Props> = props => {
       };
     });
 
-    if (userConsent.includes("GA-Calls")) {
-      dataLayer.push({ ecommerce: null }); // Clear the previous ecommerce object.
-      dataLayer.push({
-        event: "add_shipping_info",
-        ecommerce: {
-          currency: currency, // Pass the currency code
-          value: basket?.total,
-          coupon: "",
-          items: items
-        }
-      });
-    }
+    dataLayer.push({ ecommerce: null }); // Clear the previous ecommerce object.
+    dataLayer.push({
+      event: "add_shipping_info",
+      ecommerce: {
+        currency: currency, // Pass the currency code
+        value: basket?.total,
+        coupon: "",
+        items: items
+      }
+    });
   };
+
   // const openAddressForm = (address: AddressData) => {
   //     // props.showEditForm({showAddresses: false, addressData: data, editMode: true, newAddressMode: false, addressesAvailable: true});
   //     // if (props.setAddressModeProfile) {
