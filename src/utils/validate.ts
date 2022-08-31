@@ -198,7 +198,78 @@ export function proceedTocheckout(data: Basket, currency: Currency) {
         }
       );
     });
+    let categoryName = "";
+    let subcategory = "";
+    let collectionName = "";
+    const childAttr = data.lineItems.map((child: any, index: number) => {
+      let category = "";
+      const { product } = child;
+      if (product.categories) {
+        const index = product.categories.length - 1;
+        category = product.categories[index]
+          ? product.categories[index].replace(/\s/g, "")
+          : "";
+        categoryName = category.split(">")[0];
+        subcategory = category.split(">")[1];
+        if (
+          !collectionName &&
+          product.collections &&
+          product.collections.length > 0
+        ) {
+          collectionName = product.collections[0];
+        }
+        category = category.replace(/>/g, "/");
+      }
+      let skus = "";
+      let variants = "";
+      let prices = "";
 
+      product.childAttributes.map((child: any) => {
+        skus += "," + child.sku;
+        variants += "," + child.size;
+        prices +=
+          "," +
+          (child.discountedPriceRecords
+            ? child.discountedPriceRecords[currency]
+            : child.priceRecords[currency]);
+      });
+      skus = skus.slice(1);
+      variants = variants.slice(1);
+      prices = prices.slice(1);
+      return Object.assign(
+        {},
+        {
+          item_id: skus, //Pass the product id
+          item_name: product.title,
+          affiliation: "",
+          coupon: "", // Pass the coupon if available
+          currency: currency, // Pass the currency code
+          discount: product.discountedPriceRecords
+            ? product.discountedPriceRecords[currency]
+            : product.priceRecords[currency], // Pass the discount amount
+          index: index,
+          item_brand: "goodearth",
+          item_category: categoryName,
+          item_category2: variants,
+          item_category3: "",
+          item_list_id: "",
+          item_list_name: "",
+          item_variant: "",
+          item_category4: "",
+          item_category5: collectionName,
+          price: product.priceRecords[currency],
+          quantity: 1
+        }
+      );
+    });
+
+    dataLayer.push({ ecommerce: null }); // Clear the previous ecommerce object.
+    dataLayer.push({
+      event: "begin_checkout",
+      ecommerce: {
+        items: childAttr
+      }
+    });
     Moengage.track_event("Proceed to checkout", {
       "Product id": skusid,
       "Product name": productname,

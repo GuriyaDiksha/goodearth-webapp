@@ -125,6 +125,7 @@ const CartItems: React.FC<BasketItem> = memo(
             }
           }
         });
+
         const categoryList = product.categories
           ? product.categories.length > 0
             ? product.categories[product.categories.length - 1].replace(
@@ -139,7 +140,8 @@ const CartItems: React.FC<BasketItem> = memo(
           subcategoryname = subcategoryname[subcategoryname.length - 1];
         }
         const size =
-          attributes.find(attribute => attribute.name == "Size")?.value || "";
+          attributes.find((attribute: any) => attribute.name == "Size")
+            ?.value || "";
 
         dataLayer.push({
           "Event Category": "GA Ecommerce",
@@ -152,6 +154,35 @@ const CartItems: React.FC<BasketItem> = memo(
           "Product Name": product.title,
           "Product ID": product.id,
           Variant: size
+        });
+
+        dataLayer.push({ ecommerce: null }); // Clear the previous ecommerce object.
+        dataLayer.push({
+          event: "remove_from_cart",
+          ecommerce: {
+            items: [
+              {
+                item_id: product.sku || product.childAttributes[0].sku,
+                item_name: product.title,
+                affiliation: product.title,
+                coupon: "", // Pass the coupon if available
+                currency: currency, // Pass the currency code
+                discount: childAttributes[0]?.discountedPriceRecords[currency], // Pass the discount amount
+                index: "",
+                item_brand: "goodearth",
+                item_category: categories[0],
+                item_category2: size,
+                item_category3: "",
+                item_list_id: "",
+                item_list_name: "",
+                item_variant: "",
+                item_category4: product.categories[0],
+                item_category5: product.collection,
+                price: price,
+                quantity: quantity
+              }
+            ]
+          }
         });
       } catch (err) {
         console.log("cartPage GTM error!");
