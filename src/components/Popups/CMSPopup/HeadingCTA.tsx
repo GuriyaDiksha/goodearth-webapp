@@ -53,7 +53,7 @@ const HeadingCTA: React.FC<Props> = ({
             )}
           ></i>
         </div>
-        <div className={styles.gcTnc}>
+        <div className={cs(styles.gcTnc, styles.headingCta)}>
           {icon && <img src={icon} className={styles.icon} />}
           <div
             className={cs(globalStyles.c22AI, styles.heading)}
@@ -72,11 +72,12 @@ const HeadingCTA: React.FC<Props> = ({
           </div>
           <div
             className={cs(
-              globalStyles.ceriseBtn,
+              // globalStyles.ceriseBtn,
               styles.ceriseBtn30,
-              globalStyles.marginT20
+              globalStyles.marginT20,
+              styles.popupCta
             )}
-            style={{ backgroundColor: ctaColor }}
+            // style={{ backgroundColor: ctaColor }}
           >
             <a
               id="info-popup-accept-button"

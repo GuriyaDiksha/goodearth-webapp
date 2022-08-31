@@ -55,11 +55,14 @@ const TwoCTA: React.FC<Props> = ({
             )}
           ></i>
         </div>
-        <div className={styles.gcTnc}>
+        <div className={cs(styles.gcTnc, styles.twoCta)}>
           {icon && <img src={icon} className={styles.icon} />}
           <div
             className={cs(globalStyles.c22AI, styles.heading)}
-            style={{ marginTop: icon ? "0" : "30px" }}
+            style={{
+              marginTop: icon ? "0" : "20px",
+              marginBottom: icon ? "0" : "20px"
+            }}
           >
             {ReactHtmlParser(heading)}
           </div>
@@ -79,30 +82,10 @@ const TwoCTA: React.FC<Props> = ({
           >
             <div
               className={cs(
-                globalStyles.ceriseBtn,
-                styles.button2,
-                globalStyles.marginT20
+                // globalStyles.ceriseBtn,
+                styles.button1
               )}
-              style={{
-                border: `1px solid ${ctaColor2 ? ctaColor2 : "#ab1e56"}`
-              }}
-            >
-              <a
-                id="info-popup-accept-button2"
-                style={{ color: ctaColor2 ? ctaColor2 : "#ab1e56" }}
-                tabIndex={-1}
-                onClick={() => close(ctaLink2)}
-              >
-                {ReactHtmlParser(ctaLabel2)}
-              </a>
-            </div>
-            <div
-              className={cs(
-                globalStyles.ceriseBtn,
-                styles.button1,
-                globalStyles.marginT20
-              )}
-              style={{ backgroundColor: ctaColor || "#ab1e56" }}
+              // style={{ backgroundColor: ctaColor || "#ab1e56" }}
             >
               <a
                 id="info-popup-accept-button"
@@ -110,6 +93,16 @@ const TwoCTA: React.FC<Props> = ({
                 onClick={() => close(ctaLink)}
               >
                 {ReactHtmlParser(ctaLabel)}
+              </a>
+            </div>
+            <div className={cs(styles.button2, globalStyles.marginT20)}>
+              <a
+                id="info-popup-accept-button2"
+                // style={{ color: ctaColor2 ? ctaColor2 : "#ab1e56" }}
+                tabIndex={-1}
+                onClick={() => close(ctaLink2)}
+              >
+                {ReactHtmlParser(ctaLabel2)}
               </a>
             </div>
           </div>

@@ -17,6 +17,7 @@ import MakerEnhance from "maker-enhance";
 import CollectionService from "services/collection";
 import ReactHtmlParser from "react-html-parser";
 import metaActionCollection from "./metaAction";
+import CookieService from "services/cookie";
 
 import {
   updateCollectionData,
@@ -161,9 +162,12 @@ class CollectionLanding extends React.Component<
     }
   }
   componentDidMount() {
-    dataLayer.push(function(this: any) {
-      this.reset();
-    });
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes("GA-Calls")) {
+      dataLayer.push(function(this: any) {
+        this.reset();
+      });
+    }
     util.pageViewGTM("CollectionLanding");
     // dataLayer.push({
     //   event: "CategoryLangingPageView",

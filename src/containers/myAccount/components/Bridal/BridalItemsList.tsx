@@ -11,6 +11,7 @@ import bootstrapStyles from "../../../../styles/bootstrap/bootstrap-grid.scss";
 import iconStyles from "../../../../styles/iconFonts.scss";
 import cartIcon from "../../../../images/bridal/icons_cartregistry-details.svg";
 import { AppState } from "reducers/typings";
+import CookieService from "services/cookie";
 type Props = {
   product: BridalItemData;
   mobile: boolean;
@@ -90,14 +91,17 @@ const BridalItemsList: React.FC<Props> = props => {
       };
       BridalService.deleteBridalItem(dispatch, data)
         .then(res => {
-          dataLayer.push({
-            event: "registry",
-            "Event Category": "Registry",
-            "Event Action": "Product removed",
-            "Product Name": props.product.productName,
-            "Product ID": props.product.productId,
-            Variant: props.product.size
-          });
+          const userConsent = CookieService.getCookie("consent").split(",");
+          if (userConsent.includes("GA-Calls")) {
+            dataLayer.push({
+              event: "registry",
+              "Event Category": "Registry",
+              "Event Action": "Product removed",
+              "Product Name": props.product.productName,
+              "Product ID": props.product.productId,
+              Variant: props.product.size
+            });
+          }
           props.fetchBridalItems();
         })
         .catch(error => {

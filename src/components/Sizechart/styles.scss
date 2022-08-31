@@ -452,7 +452,8 @@
             min-width: 120px;
             max-width: 220px;
             width: auto;
-            padding-right: 60px;
+            // padding-right: 60px;
+            word-break: break-word;
           }
         }
       }
@@ -498,4 +499,5 @@
 
 .accordion-section{
   box-shadow: 0px 23px 0px -22px lightgrey !important;
+  border-bottom: none !important;
 }

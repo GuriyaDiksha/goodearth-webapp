@@ -24,6 +24,7 @@ import { genderOptions } from "constants/profile";
 import * as valid from "utils/validate";
 import { Country } from "components/Formsy/CountryCode/typings";
 import EmailVerification from "../emailVerification";
+import CookieService from "services/cookie";
 const mapStateToProps = (state: AppState) => {
   const isdList = state.address.countryData.map(list => {
     return list.isdCode;
@@ -101,12 +102,15 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
     }
   }
   gtmPushRegister = () => {
-    dataLayer.push({
-      event: "eventsToSend",
-      eventAction: "signup",
-      eventCategory: "formSubmission",
-      eventLabel: location.pathname
-    });
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes("GA-Calls")) {
+      dataLayer.push({
+        event: "eventsToSend",
+        eventAction: "signup",
+        eventCategory: "formSubmission",
+        eventLabel: location.pathname
+      });
+    }
   };
 
   handleSubmit = (model: any, resetForm: any, updateInputsWithError: any) => {
@@ -155,22 +159,26 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
     this.props
       .register(formData, "checkout", this.props.sortBy)
       .then(data => {
-        Moengage.track_event("Registered", {
-          "First Name": firstName,
-          "Last Name": lastName,
-          Country: country,
-          State: state,
-          Gender: gender,
-          "Date of birth": moment(dateOfBirth).format("YYYY-MM-DD"),
-          "Contact Number": code + phone
-        });
-        Moengage.add_first_name(firstName);
-        Moengage.add_last_name(lastName);
-        Moengage.add_email(email);
-        Moengage.add_mobile(code + phone);
-        Moengage.add_gender(gender);
-        Moengage.add_birthday(moment(dateOfBirth).format("YYYY-MM-DD"));
-        Moengage.add_unique_user_id(email);
+        const userConsent = CookieService.getCookie("consent").split(",");
+
+        if (userConsent.includes("Moengage")) {
+          Moengage.track_event("Registered", {
+            "First Name": firstName,
+            "Last Name": lastName,
+            Country: country,
+            State: state,
+            Gender: gender,
+            "Date of birth": moment(dateOfBirth).format("YYYY-MM-DD"),
+            "Contact Number": code + phone
+          });
+          Moengage.add_first_name(firstName);
+          Moengage.add_last_name(lastName);
+          Moengage.add_email(email);
+          Moengage.add_mobile(code + phone);
+          Moengage.add_gender(gender);
+          Moengage.add_birthday(moment(dateOfBirth).format("YYYY-MM-DD"));
+          Moengage.add_unique_user_id(email);
+        }
         this.gtmPushRegister();
         // this.props.nextStep?.();
         this.setState({
