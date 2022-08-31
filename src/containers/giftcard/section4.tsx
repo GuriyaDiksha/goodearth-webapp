@@ -17,6 +17,7 @@ import * as valid from "utils/validate";
 import { AppState } from "reducers/typings";
 import Loader from "components/Loader";
 import CookieService from "services/cookie";
+import { GA_CALLS } from "constants/cookieConsent";
 
 const Section4: React.FC<Section4Props> = props => {
   const [nummsg, setNummsg] = useState("");
@@ -49,7 +50,7 @@ const Section4: React.FC<Section4Props> = props => {
       GiftcardService.addToGiftcard(dispatch, data)
         .then((res: any) => {
           const userConsent = CookieService.getCookie("consent").split(",");
-          if (userConsent.includes("GA-Calls")) {
+          if (userConsent.includes(GA_CALLS)) {
             dataLayer.push({
               event: "card_add_to_cart",
               design: data.imageUrl,

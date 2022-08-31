@@ -12,6 +12,7 @@ import iconStyles from "../../../../styles/iconFonts.scss";
 import cartIcon from "../../../../images/bridal/icons_cartregistry-details.svg";
 import { AppState } from "reducers/typings";
 import CookieService from "services/cookie";
+import { GA_CALLS } from "constants/cookieConsent";
 type Props = {
   product: BridalItemData;
   mobile: boolean;
@@ -92,7 +93,7 @@ const BridalItemsList: React.FC<Props> = props => {
       BridalService.deleteBridalItem(dispatch, data)
         .then(res => {
           const userConsent = CookieService.getCookie("consent").split(",");
-          if (userConsent.includes("GA-Calls")) {
+          if (userConsent.includes(GA_CALLS)) {
             dataLayer.push({
               event: "registry",
               "Event Category": "Registry",

@@ -28,6 +28,7 @@ import { POPUP } from "constants/components";
 import * as util from "utils/validate";
 import SecondaryHeaderDropdown from "components/dropdown/secondaryHeaderDropdown";
 import { CategoryMenu } from "containers/plp/typings";
+import { GA_CALLS, ANY_ADS } from "constants/cookieConsent";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -150,7 +151,7 @@ class Search extends React.Component<
       searchMaker: true
     });
     const userConsent = CookieService.getCookie("consent").split(",");
-    if (userConsent.includes("GA-Calls")) {
+    if (userConsent.includes(GA_CALLS)) {
       dataLayer.push(function(this: any) {
         this.reset();
       });
@@ -161,7 +162,7 @@ class Search extends React.Component<
         Page_Title: "virtual_search_view"
       });
     }
-    if (userConsent.includes("Moengage")) {
+    if (userConsent.includes(ANY_ADS)) {
       Moengage.track_event("Page viewed", {
         "Page URL": this.props.location.pathname,
         "Page Name": "SearchView"
@@ -241,7 +242,7 @@ class Search extends React.Component<
         CookieService.setCookie("listPath", listPath);
         // let cur = this.state.salestatus ? item.product.discounted_pricerecord[window.currency] : item.product.pricerecords[window.currency]
         const userConsent = CookieService.getCookie("consent").split(",");
-        if (userConsent.includes("GA-Calls")) {
+        if (userConsent.includes(GA_CALLS)) {
           dataLayer.push({
             event: "productClick",
             ecommerce: {
@@ -254,7 +255,7 @@ class Search extends React.Component<
             }
           });
         }
-        if (userConsent.includes("Moengage")) {
+        if (userConsent.includes(ANY_ADS)) {
           Moengage.track_event("search", {
             keyword: product.name,
             "Search Suggestions Clicked": true,

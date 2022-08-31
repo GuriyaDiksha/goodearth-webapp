@@ -17,6 +17,7 @@ import iconStyles from "../../styles/iconFonts.scss";
 import multiColour from "../../images/multiColour.svg";
 import bootstrap from "../../styles/bootstrap/bootstrap-grid.scss";
 import CookieService from "services/cookie";
+import { GA_CALLS } from "constants/cookieConsent";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -329,7 +330,7 @@ class FilterList extends React.Component<Props, State> {
       rangevalue: [value[0], value[1]]
     });
     const userConsent = CookieService.getCookie("consent").split(",");
-    if (userConsent.includes("GA-Calls")) {
+    if (userConsent.includes(GA_CALLS)) {
       dataLayer.push({
         event: "Filter used",
         "Filter type": "Price",
@@ -1197,7 +1198,7 @@ class FilterList extends React.Component<Props, State> {
       oldSelectedCategory: event.target.value
     });
     const userConsent = CookieService.getCookie("consent").split(",");
-    if (userConsent.includes("GA-Calls")) {
+    if (userConsent.includes(GA_CALLS)) {
       dataLayer.push({
         event: "Filter used",
         "Filter type": "Category",
@@ -1273,7 +1274,7 @@ class FilterList extends React.Component<Props, State> {
       value: event.target.value
     };
     const userConsent = CookieService.getCookie("consent").split(",");
-    if (userConsent.includes("GA-Calls")) {
+    if (userConsent.includes(GA_CALLS)) {
       dataLayer.push({
         event: "Filter used",
         "Filter type": "Color",
@@ -1383,7 +1384,7 @@ class FilterList extends React.Component<Props, State> {
       value: event.target.value
     };
     const userConsent = CookieService.getCookie("consent").split(",");
-    if (userConsent.includes("GA-Calls")) {
+    if (userConsent.includes(GA_CALLS)) {
       dataLayer.push({
         event: "Filter used",
         "Filter type": "Size​",

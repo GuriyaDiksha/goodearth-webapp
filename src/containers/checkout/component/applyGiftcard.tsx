@@ -12,6 +12,7 @@ import { Link, RouteComponentProps, withRouter } from "react-router-dom";
 import * as valid from "utils/validate";
 import SelectableDropdownMenu from "components/dropdown/selectableDropdownMenu";
 import CookieService from "services/cookie";
+import { GA_CALLS } from "constants/cookieConsent";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -88,7 +89,7 @@ class ApplyGiftcard extends React.Component<Props, GiftState> {
           this.updateError(response.message, response.isNotActivated);
         } else {
           const userConsent = CookieService.getCookie("consent").split(",");
-          if (userConsent.includes("GA-Calls")) {
+          if (userConsent.includes(GA_CALLS)) {
             dataLayer.push({
               event: "eventsToSend",
               eventAction: "giftCard",

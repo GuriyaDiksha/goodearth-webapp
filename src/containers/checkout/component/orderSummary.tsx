@@ -14,6 +14,7 @@ import { updateComponent, updateModal } from "actions/modal";
 import { updateDeliveryText } from "actions/info";
 import { POPUP } from "constants/components";
 import CookieService from "services/cookie";
+import { GA_CALLS } from "constants/cookieConsent";
 
 const OrderSummary: React.FC<OrderProps> = props => {
   const { mobile, basket, page, shippingAddress, salestatus, validbo } = props;
@@ -470,7 +471,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
 
   const goToWishlist = (e: any) => {
     const userConsent = CookieService.getCookie("consent").split(",");
-    if (userConsent.includes("GA-Calls")) {
+    if (userConsent.includes(GA_CALLS)) {
       dataLayer.push({
         event: "eventsToSend",
         eventAction: "wishListClick",
@@ -482,7 +483,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
   const saveInstruction = (data: string) => {
     dispatch(updateDeliveryText(data));
     const userConsent = CookieService.getCookie("consent").split(",");
-    if (userConsent.includes("GA-Calls")) {
+    if (userConsent.includes(GA_CALLS)) {
       dataLayer.push({
         event: "Delivery Instruction",
         message: data

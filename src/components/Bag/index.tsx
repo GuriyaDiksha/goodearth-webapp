@@ -13,6 +13,7 @@ import { connect } from "react-redux";
 import { AppState } from "reducers/typings";
 import * as util from "../../utils/validate";
 import CookieService from "services/cookie";
+import { GA_CALLS } from "constants/cookieConsent";
 
 const mapDispatchToProps = (dispatch: Dispatch) => {
   return {
@@ -51,7 +52,7 @@ class Bag extends React.Component<Props, State> {
         item => item.product.childAttributes?.[0].sku
       );
       const userConsent = CookieService.getCookie("consent").split(",");
-      if (userConsent.includes("GA-Calls")) {
+      if (userConsent.includes(GA_CALLS)) {
         dataLayer.push({
           "Event Category": "GA Ecommerce",
           "Event Action": "Cart Summary Page",

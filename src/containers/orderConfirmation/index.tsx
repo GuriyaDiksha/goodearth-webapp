@@ -13,6 +13,7 @@ import { currencyCode, Currency } from "typings/currency";
 import moment from "moment";
 import * as util from "utils/validate";
 import CookieService from "services/cookie";
+import { GA_CALLS, ANY_ADS } from "constants/cookieConsent";
 
 const orderConfirmation: React.FC<{ oid: string }> = props => {
   const {
@@ -141,7 +142,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
     });
     if (result.pushToGA == false) {
       const userConsent = CookieService.getCookie("consent").split(",");
-      if (userConsent.includes("GA-Calls")) {
+      if (userConsent.includes(GA_CALLS)) {
         dataLayer.push({
           event: "purchase",
           ecommerce: {
@@ -190,7 +191,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
           }
         });
       }
-      if (userConsent.includes("Moengage")) {
+      if (userConsent.includes(ANY_ADS)) {
         Moengage.track_event("PurchasedOnline", {
           "Category Name": categoryname,
           "Sub category": subcategoryname,
@@ -218,7 +219,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
       gtmPushOrderConfirmation(response.results?.[0]);
     });
     const userConsent = CookieService.getCookie("consent").split(",");
-    if (userConsent.includes("GA-Calls")) {
+    if (userConsent.includes(GA_CALLS)) {
       dataLayer.push(function(this: any) {
         this.reset();
       });
@@ -229,7 +230,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
         Page_Title: "virtual_orderConfirmationPage_view"
       });
     }
-    if (userConsent.includes("Moengage")) {
+    if (userConsent.includes(ANY_ADS)) {
       Moengage.track_event("Page viewed", {
         "Page URL": location.pathname,
         "Page Name": "OrderConfirmationPageView"

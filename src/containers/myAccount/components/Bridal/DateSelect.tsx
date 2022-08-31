@@ -17,6 +17,7 @@ import calendarIcon from "../../../../images/bridal/icons_bridal-registry-calend
 import "react-datepicker/dist/react-datepicker.css";
 import "../../../../styles/reactDatepicker.css";
 import CookieService from "services/cookie";
+import { GA_CALLS } from "constants/cookieConsent";
 
 const DateSelect: React.FC = () => {
   // const [data, setData ] = useState();
@@ -57,7 +58,7 @@ const DateSelect: React.FC = () => {
 
   useEffect(() => {
     const userConsent = CookieService.getCookie("consent").split(",");
-    if (userConsent.includes("GA-Calls")) {
+    if (userConsent.includes(GA_CALLS)) {
       dataLayer.push({
         event: "registry",
         "Event Category": "Registry",

@@ -15,6 +15,7 @@ import mapDispatchToProps from "./mapper/actions";
 import { BottomMenuProps } from "./typings";
 import { connect } from "react-redux";
 import CookieService from "services/cookie";
+import { GA_CALLS } from "constants/cookieConsent";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -58,7 +59,7 @@ const BottomMenu: React.FC<Props> = ({
     location.pathname.includes("/search");
   const gtmPushWishlistClick = () => {
     const userConsent = CookieService.getCookie("consent").split(",");
-    if (userConsent.includes("GA-Calls")) {
+    if (userConsent.includes(GA_CALLS)) {
       dataLayer.push({
         event: "eventsToSend",
         eventAction: "wishListClick",

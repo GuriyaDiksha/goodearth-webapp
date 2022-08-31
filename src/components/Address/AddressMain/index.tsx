@@ -21,6 +21,7 @@ import EditRegistryAddress from "../../../containers/myAccount/components/Bridal
 import BridalContext from "containers/myAccount/components/Bridal/context";
 import myAccountStyles from "containers/myAccount/styles.scss";
 import CookieService from "services/cookie";
+import { GA_CALLS } from "constants/cookieConsent";
 // import AddressDataList from "../../../../components/Address/AddressDataList.json";
 
 // import AddressMainComponent from '../../components/common/address/addressMain';
@@ -49,7 +50,7 @@ const AddressMain: React.FC<Props> = props => {
   useEffect(() => {
     if (props.currentCallBackComponent == "bridal") {
       const userConsent = CookieService.getCookie("consent").split(",");
-      if (userConsent.includes("GA-Calls")) {
+      if (userConsent.includes(GA_CALLS)) {
         dataLayer.push({
           event: "registry",
           "Event Category": "Registry",

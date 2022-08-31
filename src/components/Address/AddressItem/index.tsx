@@ -13,6 +13,7 @@ import BridalContext from "containers/myAccount/components/Bridal/context";
 import { AppState } from "reducers/typings";
 import bridalRing from "../../../images/bridal/rings.svg";
 import CookieService from "services/cookie";
+import { GA_CALLS } from "constants/cookieConsent";
 
 type Props = {
   addressData: AddressData;
@@ -195,7 +196,7 @@ const AddressItem: React.FC<Props> = props => {
       };
     });
 
-    if (userConsent.includes("GA-Calls")) {
+    if (userConsent.includes(GA_CALLS)) {
       dataLayer.push({ ecommerce: null }); // Clear the previous ecommerce object.
       dataLayer.push({
         event: "add_shipping_info",
