@@ -103,7 +103,7 @@ export const checkoutSteps = [
   "Initiated Checkout",
   "Shipping Details",
   "Billing Details",
-  "Payment Details",
+  "Payment confirmation",
   "Proceed to Payment Gateway"
 ];
 
@@ -308,6 +308,7 @@ export function productImpression(
       let skus = "";
       let variants = "";
       let prices = "";
+
       prod.childAttributes.map((child: any) => {
         skus += "," + child.sku;
         variants += "," + child.size;
@@ -335,12 +336,93 @@ export function productImpression(
       );
       product.push(childProduct);
     });
+
+    const childAttr = data.results?.data.map((child: any, index: number) => {
+      let category = "";
+      if (child.categories) {
+        const index = child.categories.length - 1;
+        category = child.categories[index]
+          ? child.categories[index].replace(/\s/g, "")
+          : "";
+        categoryName = category.split(">")[0];
+        subcategoryname = category.split(">")[1];
+        if (
+          !collectionName &&
+          child.collections &&
+          child.collections.length > 0
+        ) {
+          collectionName = child.collections[0];
+        }
+        category = category.replace(/>/g, "/");
+      }
+      let skus = "";
+      let variants = "";
+      let prices = "";
+
+      child.childAttributes.map((child: any) => {
+        skus += "," + child.sku;
+        variants += "," + child.size;
+        prices +=
+          "," +
+          (child.discountedPriceRecords
+            ? child.discountedPriceRecords[currency]
+            : child.priceRecords[currency]);
+      });
+      skus = skus.slice(1);
+      variants = variants.slice(1);
+      prices = prices.slice(1);
+      // const childProduct = Object.assign(
+      //   {},
+      //   {
+      //     name: prod.title,
+      //     id: skus,
+      //     category: category,
+      //     list: listPath,
+      //     price: prices,
+      //     brand: "Goodearth",
+      //     position: position + i + 1,
+      //     variant: variants || ""
+      //   }
+      // );
+      return Object.assign(
+        {},
+        {
+          item_id: skus, //Pass the product id
+          item_name: child.title,
+          affiliation: "",
+          coupon: "", // Pass the coupon if available
+          currency: currency, // Pass the currency code
+          discount: child.discountedPriceRecords
+            ? child.discountedPriceRecords[currency]
+            : child.priceRecords[currency], // Pass the discount amount
+          index: index,
+          item_brand: "goodearth",
+          item_category: categoryName,
+          item_category2: variants,
+          item_category3: "",
+          item_list_id: "",
+          item_list_name: "",
+          item_variant: "",
+          item_category4: "",
+          item_category5: collectionName,
+          price: child.priceRecords[currency],
+          quantity: 1
+        }
+      );
+    });
     dataLayer.push({ ecommerce: null });
     dataLayer.push({
       event: "productImpression",
       ecommerce: {
         currencyCode: currency,
         impressions: product
+      }
+    });
+    dataLayer.push({ ecommerce: null }); // Clear the previous ecommerce object.
+    dataLayer.push({
+      event: "view_item_list",
+      ecommerce: {
+        items: childAttr
       }
     });
     Moengage.track_event("PLP views", {
@@ -1070,6 +1152,19 @@ export const checkoutGTM = (
       contents: fbproductData
     });
   }
+  // if(step == 4) {
+  //   dataLayer.push({
+  //     event: "checkout",
+  //     ecommerce: {
+  //       currencyCode: currency,
+  //       paymentMethod,
+  //       checkout: {
+  //         actionField: { step, option:  'Payment confirmation'},
+  //         products: productList
+  //       }
+  //     }
+  //   });
+  // }
   if (paymentMethod) {
     dataLayer.push({
       event: "checkout",
