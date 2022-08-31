@@ -940,13 +940,13 @@ const ProductDetails: React.FC<Props> = ({
                   [styles.spacerQuickview]: isQuickview && withBadge
                 })}
               >
-                <div className={bootstrap.col9}>
+                <div className={bootstrap.col12}>
                   <div className={bootstrap.row}>
                     <div
                       className={cs(
                         bootstrap.col12,
                         bootstrap.colSm3,
-                        { [bootstrap.colMd8]: mobile },
+                        { [bootstrap.colMd6]: mobile },
                         styles.label,
                         styles.colour
                       )}
@@ -955,7 +955,7 @@ const ProductDetails: React.FC<Props> = ({
                     </div>
                     <div
                       className={cs(bootstrap.col12, bootstrap.colSm9, {
-                        [bootstrap.colMd4]: mobile
+                        [bootstrap.colMd6]: mobile
                       })}
                     >
                       <ColorSelector
@@ -986,7 +986,7 @@ const ProductDetails: React.FC<Props> = ({
                         className={cs(
                           bootstrap.col12,
                           bootstrap.colSm3,
-                          { [bootstrap.colMd8]: mobile },
+                          { [bootstrap.colMd6]: mobile },
                           styles.label,
                           styles.size,
                           { [styles.mobileMargin]: mobile }
@@ -1097,7 +1097,7 @@ const ProductDetails: React.FC<Props> = ({
                       className={cs(
                         bootstrap.col12,
                         bootstrap.colSm3,
-                        { [bootstrap.colMd8]: mobile },
+                        { [bootstrap.colMd6]: mobile },
                         styles.label,
                         styles.quantity,
                         { [styles.mobileMargin]: mobile }
