@@ -26,6 +26,7 @@ import {
 import { getProductIdFromSlug } from "utils/url";
 import { RouteComponentProps, withRouter } from "react-router";
 import * as util from "utils/validate";
+import { GA_CALLS } from "constants/cookieConsent";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -163,7 +164,7 @@ class CollectionLanding extends React.Component<
   }
   componentDidMount() {
     const userConsent = CookieService.getCookie("consent").split(",");
-    if (userConsent.includes("GA-Calls")) {
+    if (userConsent.includes(GA_CALLS)) {
       dataLayer.push(function(this: any) {
         this.reset();
       });

@@ -24,6 +24,7 @@ import { genderOptions } from "constants/profile";
 import * as valid from "utils/validate";
 import { AppState } from "reducers/typings";
 import CookieService from "services/cookie";
+import { GA_CALLS } from "constants/cookieConsent";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -196,7 +197,7 @@ class RegisterForm extends React.Component<Props, registerState> {
 
   gtmPushRegister = () => {
     const userConsent = CookieService.getCookie("consent").split(",");
-    if (userConsent.includes("GA-Calls")) {
+    if (userConsent.includes(GA_CALLS)) {
       dataLayer.push({
         event: "eventsToSend",
         eventAction: "signup",

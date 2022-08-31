@@ -35,6 +35,7 @@ import { CUST } from "constants/util";
 import Loader from "components/Loader";
 import Sizechart from "components/Sizechart";
 import CookieService from "services/cookie";
+import { GA_CALLS } from "constants/cookieConsent";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -331,7 +332,7 @@ class Header extends React.Component<Props, State> {
 
   gtmPushWishlistClick = () => {
     const userConsent = CookieService.getCookie("consent").split(",");
-    if (userConsent.includes("GA-Calls")) {
+    if (userConsent.includes(GA_CALLS)) {
       dataLayer.push({
         event: "eventsToSend",
         eventAction: "wishListClick",
@@ -447,7 +448,7 @@ class Header extends React.Component<Props, State> {
 
   gtmPushLogoClick = () => {
     const userConsent = CookieService.getCookie("consent").split(",");
-    if (userConsent.includes("GA-Calls")) {
+    if (userConsent.includes(GA_CALLS)) {
       dataLayer.push({
         event: "eventsToSend",
         eventAction: "logo",

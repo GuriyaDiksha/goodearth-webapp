@@ -52,6 +52,7 @@ import inactiveGrid from "images/plpIcons/inactive_grid.svg";
 import activeList from "images/plpIcons/active_list.svg";
 import inactiveList from "images/plpIcons/inactive_list.svg";
 import Counter from "components/ProductCounter/counter";
+import { GA_CALLS, ANY_ADS } from "constants/cookieConsent";
 
 const PDP_TOP_OFFSET = HEADER_HEIGHT + SECONDARY_HEADER_HEIGHT;
 const sidebarPosition = PDP_TOP_OFFSET + 23;
@@ -240,7 +241,7 @@ class PDPContainer extends React.Component<Props, State> {
   componentDidMount() {
     this.pdpURL = this.props.location.pathname;
     const userConsent = CookieService.getCookie("consent").split(",");
-    if (userConsent.includes("GA-Calls")) {
+    if (userConsent.includes(GA_CALLS)) {
       dataLayer.push(function(this: any) {
         this.reset();
       });
@@ -253,7 +254,7 @@ class PDPContainer extends React.Component<Props, State> {
       });
     }
 
-    if (userConsent.includes("Any-Ads")) {
+    if (userConsent.includes(ANY_ADS)) {
       Moengage.track_event("Page viewed", {
         "Page URL": this.props.location.pathname,
         "Page Name": "PdpView"
@@ -283,7 +284,7 @@ class PDPContainer extends React.Component<Props, State> {
         variants += child.size;
       }
     });
-    if (userConsent.includes("GA-Calls")) {
+    if (userConsent.includes(GA_CALLS)) {
       dataLayer.push({
         "Event Category": "GA Ecommerce",
         "Event Action": "PDP",

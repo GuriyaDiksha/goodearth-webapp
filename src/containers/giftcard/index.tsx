@@ -15,6 +15,7 @@ import bootstrap from "../../styles/bootstrap/bootstrap-grid.scss";
 import mapDispatchToProps from "./mapper/actions";
 import * as util from "utils/validate";
 import CookieService from "services/cookie";
+import { GA_CALLS } from "constants/cookieConsent";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -148,13 +149,13 @@ class GiftCard extends React.Component<
 
     if (section == "amount") {
       giftCardData["imageUrl"] = data;
-      if (userConsent.includes("GA-Calls")) {
+      if (userConsent.includes(GA_CALLS)) {
         dataLayer.push({ event: "card_design_selected", design: data });
       }
     } else if (section == "form") {
       giftCardData["customPrice"] = data.customPrice;
       giftCardData["productId"] = data.productId;
-      if (userConsent.includes("GA-Calls")) {
+      if (userConsent.includes(GA_CALLS)) {
         dataLayer.push({
           event: "card_value_selected",
           design: giftCardData.imageUrl,
@@ -172,7 +173,7 @@ class GiftCard extends React.Component<
       giftCardData["recipientName"] = data.recipientName;
       giftCardData["senderName"] = data.senderName;
       giftCardData["quantity"] = 1;
-      if (userConsent.includes("GA-Calls")) {
+      if (userConsent.includes(GA_CALLS)) {
         dataLayer.push({
           event: "card_details_selected",
           design: giftCardData.imageUrl,

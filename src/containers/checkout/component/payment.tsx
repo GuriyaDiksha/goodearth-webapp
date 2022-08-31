@@ -18,6 +18,7 @@ import * as valid from "utils/validate";
 import CookieService from "services/cookie";
 import * as util from "../../../utils/validate";
 import CheckoutService from "services/checkout";
+import { GA_CALLS, ANY_ADS } from "constants/cookieConsent";
 
 const PaymentSection: React.FC<PaymentProps> = props => {
   const data: any = {};
@@ -90,7 +91,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
   ) => {
     try {
       const userConsent = CookieService.getCookie("consent").split(",");
-      if (userConsent.includes("GA-Calls")) {
+      if (userConsent.includes(GA_CALLS)) {
         dataLayer.push({
           event: "paymentDetails",
           paymentMode: paymentMode,
@@ -112,7 +113,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
         paymentMethod: isFree ? "FREE" : currentmethod.key,
         paymentMode: currentmethod.mode
       };
-      if (userConsent.includes("Any-Ads")) {
+      if (userConsent.includes(ANY_ADS)) {
         Moengage.track_event("Mode of payment selected", {
           "Payment Method": currentmethod.value,
           Amount: +basket.total,
@@ -170,7 +171,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
 
   useEffect(() => {
     const userConsent = CookieService.getCookie("consent").split(",");
-    if (userConsent.includes("GA-Calls")) {
+    if (userConsent.includes(GA_CALLS)) {
       dataLayer.push({
         "Event Category": "GA Ecommerce",
         "Event Action": "Checkout Step 3",

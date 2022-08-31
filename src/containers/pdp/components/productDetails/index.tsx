@@ -69,6 +69,7 @@ import { updateQuickviewId } from "../../../../actions/quickview";
 import Accordion from "components/Accordion";
 import PdpSkeleton from "../pdpSkeleton";
 import { isEmpty } from "lodash";
+import { GA_CALLS, ANY_ADS } from "constants/cookieConsent";
 
 const ProductDetails: React.FC<Props> = ({
   data: {
@@ -423,7 +424,7 @@ const ProductDetails: React.FC<Props> = ({
       : "non 3d";
 
     const userConsent = CookieService.getCookie("consent").split(",");
-    if (userConsent.includes("Any-Ads")) {
+    if (userConsent.includes(ANY_ADS)) {
       Moengage.track_event("add_to_cart", {
         "Product id": sku || childAttributes[0].sku,
         "Product name": title,
@@ -447,7 +448,7 @@ const ProductDetails: React.FC<Props> = ({
       subcategory = subcategory[subcategory.length - 1];
     }
     const size = selectedSize?.size || "";
-    if (userConsent.includes("GA-Calls")) {
+    if (userConsent.includes(GA_CALLS)) {
       dataLayer.push({
         "Event Category": "GA Ecommerce",
         "Event Action": "Add to Cart",
@@ -608,7 +609,7 @@ const ProductDetails: React.FC<Props> = ({
         valid.showGrowlMessage(dispatch, MESSAGE.ADD_TO_REGISTRY_SUCCESS);
         const registry = Object.assign({}, isRegistry);
         const userConsent = CookieService.getCookie("consent").split(",");
-        if (userConsent.includes("GA-Calls")) {
+        if (userConsent.includes(GA_CALLS)) {
           dataLayer.push({
             event: "registry",
             "Event Category": "Registry",
