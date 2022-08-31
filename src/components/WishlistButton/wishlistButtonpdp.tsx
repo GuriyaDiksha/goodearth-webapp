@@ -130,7 +130,7 @@ const WishlistButtonpdp: React.FC<Props> = ({
           });
         }
         const userConsent = CookieService.getCookie("consent").split(",");
-        if (userConsent.includes("Moengage")) {
+        if (userConsent.includes("Any-Ads")) {
           if (addWishlist) {
             Moengage.track_event("add_to_wishlist", {
               "Product id": id,

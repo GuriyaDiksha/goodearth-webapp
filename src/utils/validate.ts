@@ -271,7 +271,7 @@ export function proceedTocheckout(data: Basket, currency: Currency) {
         items: childAttr
       }
     });
-    if (userConsent.includes("Moengage")) {
+    if (userConsent.includes("Any-Ads")) {
       Moengage.track_event("Proceed to checkout", {
         "Product id": skusid,
         "Product name": productname,
@@ -503,7 +503,7 @@ export function productImpression(
         }
       });
     }
-    if (userConsent.includes("Moengage")) {
+    if (userConsent.includes("Any-Ads")) {
       Moengage.track_event("PLP views", {
         "Category Name": categoryName.trim(),
         "Sub Category Name": subcategoryname.trim(),
@@ -749,7 +749,7 @@ export function PDP(data: any, currency: Currency) {
     );
     products.push(childProduct);
 
-    if (userConsent.includes("Moengage")) {
+    if (userConsent.includes("Any-Ads")) {
       Moengage.track_event("PDP View", {
         "Product id": skusid,
         "Product name": data.title,
@@ -1424,7 +1424,7 @@ export const megaMenuNavigationGTM = ({
   try {
     const userConsent = CookieService.getCookie("consent").split(",");
 
-    if (userConsent.includes("Moengage")) {
+    if (userConsent.includes("Any-Ads")) {
       if (l3) {
         Moengage.track_event("L1Clicked", {
           "Category Name": l3
@@ -1461,7 +1461,7 @@ export const megaMenuNavigationGTM = ({
         default:
           eventName = "";
       }
-      if (userConsent.includes("Moengage")) {
+      if (userConsent.includes("Any-Ads")) {
         Moengage.track_event(eventName, {
           "Category Name": l1
         });

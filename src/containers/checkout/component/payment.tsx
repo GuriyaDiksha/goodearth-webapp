@@ -112,7 +112,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
         paymentMethod: isFree ? "FREE" : currentmethod.key,
         paymentMode: currentmethod.mode
       };
-      if (userConsent.includes("Moengage")) {
+      if (userConsent.includes("Any-Ads")) {
         Moengage.track_event("Mode of payment selected", {
           "Payment Method": currentmethod.value,
           Amount: +basket.total,

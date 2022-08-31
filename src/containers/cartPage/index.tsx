@@ -191,7 +191,7 @@ class CartPage extends React.Component<Props, State> {
       });
     }
 
-    if (userConsent.includes("Moengage")) {
+    if (userConsent.includes("Any-Ads")) {
       Moengage.track_event("Page viewed", {
         "Page URL": this.props.location.pathname,
         "Page Name": "CartPageView"

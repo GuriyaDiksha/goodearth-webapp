@@ -128,7 +128,7 @@ class CategoryLanding extends React.Component<
         Page_Title: "virtual_categoryLanding_view"
       });
     }
-    if (userConsent.includes("Moengage")) {
+    if (userConsent.includes("Any-Ads")) {
       Moengage.track_event("Page viewed", {
         "Page URL": this.props.location.pathname,
         "Page Name": "CategoryLandingView"

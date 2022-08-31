@@ -248,7 +248,7 @@ class CheckoutLoginForm extends React.Component<Props, loginState> {
         .then((data: any) => {
           const userConsent = CookieService.getCookie("consent").split(",");
 
-          if (userConsent.includes("Moengage")) {
+          if (userConsent.includes("Any-Ads")) {
             Moengage.track_event("Login", {
               email: this.state.email
             });

@@ -325,7 +325,7 @@ class Checkout extends React.Component<Props, State> {
         "Page referrer url": CookieService.getCookie("prevUrl")
       });
     }
-    if (userConsent.includes("Moengage")) {
+    if (userConsent.includes("Any-Ads")) {
       Moengage.track_event("Page viewed", {
         "Page URL": this.props.location.pathname,
         "Page Name": "checkoutView"
@@ -577,7 +577,7 @@ class Checkout extends React.Component<Props, State> {
           this.props.history
         )
         .then(data => {
-          if (userConsent.includes("Moengage")) {
+          if (userConsent.includes("Any-Ads")) {
             Moengage.track_event("Shipping Address Added", {
               "First Name": address.firstName,
               "Last Name": address.lastName,
@@ -709,7 +709,7 @@ class Checkout extends React.Component<Props, State> {
           .specifyBillingAddress(data)
           .then(() => {
             const userConsent = CookieService.getCookie("consent").split(",");
-            if (userConsent.includes("Moengage")) {
+            if (userConsent.includes("Any-Ads")) {
               Moengage.track_event("Billing Address Added", {
                 "First Name": billingAddress.firstName,
                 "Last Name": billingAddress.lastName,
