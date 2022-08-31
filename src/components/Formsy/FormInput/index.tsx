@@ -154,6 +154,7 @@ const FormInput: React.FC<Props & InjectedProps<string | null>> = props => {
         max={props.max || ""}
         ref={props.inputRef || null}
         disabled={props.disable || false}
+        onKeyDown={e => (props.keyDown ? props.keyDown(e) : null)}
       />
       <label
         className={labelClass || false ? "" : globalStyles.hidden}
