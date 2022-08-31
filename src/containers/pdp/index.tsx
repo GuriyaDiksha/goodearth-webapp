@@ -239,21 +239,26 @@ class PDPContainer extends React.Component<Props, State> {
 
   componentDidMount() {
     this.pdpURL = this.props.location.pathname;
-    dataLayer.push(function(this: any) {
-      this.reset();
-    });
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes("GA-Calls")) {
+      dataLayer.push(function(this: any) {
+        this.reset();
+      });
 
-    valid.pageViewGTM("PDP");
-    dataLayer.push({
-      event: "PdpView",
-      PageURL: this.props.location.pathname,
-      Page_Title: "virtual_pdp_view"
-    });
+      valid.pageViewGTM("PDP");
+      dataLayer.push({
+        event: "PdpView",
+        PageURL: this.props.location.pathname,
+        Page_Title: "virtual_pdp_view"
+      });
+    }
 
-    Moengage.track_event("Page viewed", {
-      "Page URL": this.props.location.pathname,
-      "Page Name": "PdpView"
-    });
+    if (userConsent.includes("Moengage")) {
+      Moengage.track_event("Page viewed", {
+        "Page URL": this.props.location.pathname,
+        "Page Name": "PdpView"
+      });
+    }
 
     const { data, currency } = this.props;
 
@@ -278,20 +283,22 @@ class PDPContainer extends React.Component<Props, State> {
         variants += child.size;
       }
     });
-    dataLayer.push({
-      "Event Category": "GA Ecommerce",
-      "Event Action": "PDP",
-      "Event Label": subcategoryname,
-      "Product Category": category.replace("/", "-"),
-      "Login Status": this.props.isLoggedIn ? "logged in" : "logged out",
-      "Time Stamp": new Date().toISOString(),
-      "Page Url": location.href,
-      "Product Name": data?.title,
-      "Product ID": data?.id,
-      Variant: variants,
-      "Page Type": valid.getPageType(),
-      "Page referrer url": CookieService.getCookie("prevUrl")
-    });
+    if (userConsent.includes("GA-Calls")) {
+      dataLayer.push({
+        "Event Category": "GA Ecommerce",
+        "Event Action": "PDP",
+        "Event Label": subcategoryname,
+        "Product Category": category.replace("/", "-"),
+        "Login Status": this.props.isLoggedIn ? "logged in" : "logged out",
+        "Time Stamp": new Date().toISOString(),
+        "Page Url": location.href,
+        "Product Name": data?.title,
+        "Product ID": data?.id,
+        Variant: variants,
+        "Page Type": valid.getPageType(),
+        "Page referrer url": CookieService.getCookie("prevUrl")
+      });
+    }
 
     valid.PDP(data, currency);
 

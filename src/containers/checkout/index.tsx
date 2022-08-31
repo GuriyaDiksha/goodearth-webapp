@@ -306,26 +306,31 @@ class Checkout extends React.Component<Props, State> {
     this.state.isGoodearthShipping
       ? valid.checkoutGTM(2, this.props.currency, this.props.basket)
       : "";
-    dataLayer.push(function(this: any) {
-      this.reset();
-    });
-    dataLayer.push({
-      event: "checkoutView",
-      PageURL: this.props.location.pathname,
-      Page_Title: "virtual_checkout_view"
-    });
-    dataLayer.push({
-      "Event Category": "GA Ecommerce",
-      "Event Action": "Login Screen ",
-      "Time Stamp": new Date().toISOString(),
-      "Page Url": location.href,
-      "Page Type": util.getPageType(),
-      "Page referrer url": CookieService.getCookie("prevUrl")
-    });
-    Moengage.track_event("Page viewed", {
-      "Page URL": this.props.location.pathname,
-      "Page Name": "checkoutView"
-    });
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes("GA-Calls")) {
+      dataLayer.push(function(this: any) {
+        this.reset();
+      });
+      dataLayer.push({
+        event: "checkoutView",
+        PageURL: this.props.location.pathname,
+        Page_Title: "virtual_checkout_view"
+      });
+      dataLayer.push({
+        "Event Category": "GA Ecommerce",
+        "Event Action": "Login Screen ",
+        "Time Stamp": new Date().toISOString(),
+        "Page Url": location.href,
+        "Page Type": util.getPageType(),
+        "Page referrer url": CookieService.getCookie("prevUrl")
+      });
+    }
+    if (userConsent.includes("Moengage")) {
+      Moengage.track_event("Page viewed", {
+        "Page URL": this.props.location.pathname,
+        "Page Name": "checkoutView"
+      });
+    }
     this.props
       .fetchBasket(this.props.history, this.props.user.isLoggedIn)
       .then(res => {
@@ -396,18 +401,21 @@ class Checkout extends React.Component<Props, State> {
       // things to reset on currency change
       if (!shippingData) {
         if (this.state.isShipping == false) {
-          dataLayer.push({
-            "Event Category": "GA Ecommerce",
-            "Event Action": "Checkout Step 2",
-            "Event Label": "Address Detail Page",
-            "Time Stamp": new Date().toISOString(),
-            "Page Url": location.href,
-            "Page Type": util.getPageType(),
-            "Login Status": this.props.user.isLoggedIn
-              ? "logged in"
-              : "logged out",
-            "Page referrer url": CookieService.getCookie("prevUrl")
-          });
+          const userConsent = CookieService.getCookie("consent").split(",");
+          if (userConsent.includes("GA-Calls")) {
+            dataLayer.push({
+              "Event Category": "GA Ecommerce",
+              "Event Action": "Checkout Step 2",
+              "Event Label": "Address Detail Page",
+              "Time Stamp": new Date().toISOString(),
+              "Page Url": location.href,
+              "Page Type": util.getPageType(),
+              "Login Status": this.props.user.isLoggedIn
+                ? "logged in"
+                : "logged out",
+              "Page referrer url": CookieService.getCookie("prevUrl")
+            });
+          }
         }
         this.setState({
           activeStep: Steps.STEP_SHIPPING,
@@ -558,6 +566,8 @@ class Checkout extends React.Component<Props, State> {
       // }
 
       const { bridal } = this.props.basket;
+      const userConsent = CookieService.getCookie("consent").split(",");
+
       this.props
         .specifyShippingAddress(
           address.id,
@@ -567,16 +577,18 @@ class Checkout extends React.Component<Props, State> {
           this.props.history
         )
         .then(data => {
-          Moengage.track_event("Shipping Address Added", {
-            "First Name": address.firstName,
-            "Last Name": address.lastName,
-            "Zip code": address.postCode,
-            Country: address.countryName,
-            State: address.state,
-            Address: address.line1 + address.line2,
-            City: address.city,
-            "Contact Number": address.phoneCountryCode + address.phoneNumber
-          });
+          if (userConsent.includes("Moengage")) {
+            Moengage.track_event("Shipping Address Added", {
+              "First Name": address.firstName,
+              "Last Name": address.lastName,
+              "Zip code": address.postCode,
+              Country: address.countryName,
+              State: address.state,
+              Address: address.line1 + address.line2,
+              City: address.city,
+              "Contact Number": address.phoneCountryCode + address.phoneNumber
+            });
+          }
           if (address.country == "IN") {
             this.props
               .checkPinCodeShippable(address.postCode)
@@ -696,17 +708,20 @@ class Checkout extends React.Component<Props, State> {
         this.props
           .specifyBillingAddress(data)
           .then(() => {
-            Moengage.track_event("Billing Address Added", {
-              "First Name": billingAddress.firstName,
-              "Last Name": billingAddress.lastName,
-              "Zip code": billingAddress.postCode,
-              Country: billingAddress.countryName,
-              State: billingAddress.state,
-              Address: billingAddress.line1 + billingAddress.line2,
-              City: billingAddress.city,
-              "Contact Number":
-                billingAddress.phoneCountryCode + billingAddress.phoneNumber
-            });
+            const userConsent = CookieService.getCookie("consent").split(",");
+            if (userConsent.includes("Moengage")) {
+              Moengage.track_event("Billing Address Added", {
+                "First Name": billingAddress.firstName,
+                "Last Name": billingAddress.lastName,
+                "Zip code": billingAddress.postCode,
+                Country: billingAddress.countryName,
+                State: billingAddress.state,
+                Address: billingAddress.line1 + billingAddress.line2,
+                City: billingAddress.city,
+                "Contact Number":
+                  billingAddress.phoneCountryCode + billingAddress.phoneNumber
+              });
+            }
             this.setState({
               billingAddress: billingAddress,
               activeStep:

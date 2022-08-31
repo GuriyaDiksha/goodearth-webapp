@@ -21,6 +21,7 @@ import stylespdp from "./stylespdp.scss";
 import { AppState } from "reducers/typings";
 import { ChildProductAttributes } from "typings/product";
 import { updateLoader } from "actions/info";
+import CookieService from "../../services/cookie";
 
 const WishlistButtonpdp: React.FC<Props> = ({
   gtmListType,
@@ -128,34 +129,61 @@ const WishlistButtonpdp: React.FC<Props> = ({
             }
           });
         }
-
-        dataLayer.push({
-          event: "AddtoWishlist",
-          ecommerce: {
-            currencyCode: currency,
-            add: {
-              products: [
-                {
-                  name: title,
-                  id: child?.[0].sku,
-                  price: child?.[0].discountedPriceRecords
-                    ? child?.[0].discountedPriceRecords[currency]
-                    : child?.[0].priceRecords
-                    ? child?.[0].priceRecords[currency]
-                    : null,
-                  brand: "Goodearth",
-                  category: category,
-                  variant:
-                    childAttributes && childAttributes[0].size
-                      ? childAttributes[0].size
-                      : "",
-                  quantity: 1,
-                  list: listPath
-                }
-              ]
-            }
+        const userConsent = CookieService.getCookie("consent").split(",");
+        if (userConsent.includes("Moengage")) {
+          if (addWishlist) {
+            Moengage.track_event("add_to_wishlist", {
+              "Product id": id,
+              "Product name": title,
+              quantity: 1,
+              price: priceRecords?.[currency] ? +priceRecords?.[currency] : "",
+              Currency: currency,
+              // "Collection name": collection,
+              "Category name": category?.split("/")[0],
+              "Sub Category Name": category?.split("/")[1] || ""
+            });
+          } else {
+            Moengage.track_event("remove_from_wishlist", {
+              "Product id": id,
+              "Product name": title,
+              quantity: 1,
+              price: priceRecords?.[currency] ? +priceRecords?.[currency] : "",
+              Currency: currency,
+              // "Collection name": collection,
+              "Category name": category?.split("/")[0],
+              "Sub Category Name": category?.split("/")[1] || ""
+            });
           }
-        });
+        }
+        if (userConsent.includes("GA-Calls")) {
+          dataLayer.push({
+            event: "AddtoWishlist",
+            ecommerce: {
+              currencyCode: currency,
+              add: {
+                products: [
+                  {
+                    name: title,
+                    id: child?.[0].sku,
+                    price: child?.[0].discountedPriceRecords
+                      ? child?.[0].discountedPriceRecords[currency]
+                      : child?.[0].priceRecords
+                      ? child?.[0].priceRecords[currency]
+                      : null,
+                    brand: "Goodearth",
+                    category: category,
+                    variant:
+                      childAttributes && childAttributes[0].size
+                        ? childAttributes[0].size
+                        : "",
+                    quantity: 1,
+                    list: listPath
+                  }
+                ]
+              }
+            }
+          });
+        }
       }
     } catch (err) {
       console.log("Wishlist GTM error!");

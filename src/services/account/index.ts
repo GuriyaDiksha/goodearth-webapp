@@ -43,6 +43,14 @@ export default {
     );
     return data;
   },
+  fetchOrders: async (dispatch: Dispatch, url?: string | null) => {
+    const data = await API.post<MyOrdersResponse>(
+      dispatch,
+      url ? url : `${__API_HOST__ + "/myapi/order/user_orders"}`,
+      {}
+    );
+    return data;
+  },
   fetchInShopOrders: async (dispatch: Dispatch, email: string) => {
     const data = await API.post<any>(
       dispatch,
@@ -57,6 +65,17 @@ export default {
     const data = await API.post<MyOrdersResponse>(
       dispatch,
       `${__API_HOST__}/myapi/order/my_orders`,
+      {
+        orderNumber: id,
+        email: email
+      }
+    );
+    return data;
+  },
+  fetchOrderById: async (dispatch: Dispatch, id: string, email: string) => {
+    const data = await API.post<MyOrdersResponse>(
+      dispatch,
+      `${__API_HOST__}/myapi/order/my_order_detail`,
       {
         orderNumber: id,
         email: email

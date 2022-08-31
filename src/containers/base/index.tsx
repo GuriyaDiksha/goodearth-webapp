@@ -65,10 +65,13 @@ const BaseLayout: React.FC = () => {
   };
   useEffect(() => {
     if (getPWADisplayMode() == "standalone") {
-      dataLayer.push({
-        event: "App Icon Click",
-        page: location
-      });
+      const userConsent = CookieService.getCookie("consent").split(",");
+      if (userConsent.includes("GA-Calls")) {
+        dataLayer.push({
+          event: "App Icon Click",
+          page: location
+        });
+      }
     }
   }, []);
   // useEffect(() => {
@@ -101,15 +104,18 @@ const BaseLayout: React.FC = () => {
   useEffect(() => {
     const isHomePage = location.pathname == "/";
     if (isHomePage) {
-      dataLayer.push({
-        "Event Category": "General Pages",
-        "Event Action": "Home Page",
-        "Event Label": " web|home",
-        "Time Stamp": new Date().toISOString(),
-        "Page Url": location.hostname + location.pathname,
-        "Page Type": "Home",
-        "Login Status": isLoggedIn ? "logged in" : "logged out"
-      });
+      const userConsent = CookieService.getCookie("consent").split(",");
+      if (userConsent.includes("GA-Calls")) {
+        dataLayer.push({
+          "Event Category": "General Pages",
+          "Event Action": "Home Page",
+          "Event Label": " web|home",
+          "Time Stamp": new Date().toISOString(),
+          "Page Url": location.hostname + location.pathname,
+          "Page Type": "Home",
+          "Login Status": isLoggedIn ? "logged in" : "logged out"
+        });
+      }
     }
     CookieService.setCookie("prevUrl", prevUrl);
     setPrevUrl(location.href);
@@ -277,15 +283,17 @@ const BaseLayout: React.FC = () => {
     }
 
     const cookieCurrency = CookieService.getCookie("currency");
+    const cookieRegion = CookieService.getCookie("region");
     if (
-      !cookieCurrency &&
-      !(
-        location.pathname.includes("/bridal/") ||
-        announcementData.isBridalActive ||
-        bridal
-      )
+      (!cookieCurrency &&
+        !(
+          location.pathname.includes("/bridal/") ||
+          announcementData.isBridalActive ||
+          bridal
+        )) ||
+      !cookieRegion
     ) {
-      LoginService.getClientIpCurrency()
+      LoginService.getClientIpCurrency(dispatch)
         .then(curr => {
           if (curr != "error") {
             if (curr && !cookieCurrency) {
