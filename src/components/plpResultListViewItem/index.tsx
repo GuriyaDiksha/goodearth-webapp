@@ -19,6 +19,7 @@ import MobileSlider from "components/MobileSlider";
 import CookieService from "services/cookie";
 import Price from "components/Price";
 import SkeletonImage from "components/plpResultItem/skeleton";
+import { GA_CALLS } from "constants/cookieConsent";
 
 const PlpResultListViewItem: React.FC<PLPResultItemProps> = (
   props: PLPResultItemProps
@@ -78,7 +79,7 @@ const PlpResultListViewItem: React.FC<PLPResultItemProps> = (
     const l3Len = category.split(">").length;
     const l3 = category.split(">")[l3Len - 1];
     const userConsent = CookieService.getCookie("consent").split(",");
-    if (userConsent.includes("GA-Calls")) {
+    if (userConsent.includes(GA_CALLS)) {
       dataLayer.push({
         "Event Category": "GA Ecommerce",
         "Event Action": "Product Click ",

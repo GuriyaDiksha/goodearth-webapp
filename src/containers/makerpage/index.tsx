@@ -9,6 +9,7 @@ import { AppState } from "reducers/typings";
 import { useSelector } from "react-redux";
 import * as util from "utils/validate";
 import CookieService from "services/cookie";
+import { GA_CALLS } from "constants/cookieConsent";
 
 const MakerPage: React.FC = () => {
   const [mounted, setMounted] = useState(false);
@@ -31,7 +32,7 @@ const MakerPage: React.FC = () => {
       window.scrollTo(0, 0);
     }, 1000);
     const userConsent = CookieService.getCookie("consent").split(",");
-    if (userConsent.includes("GA-Calls")) {
+    if (userConsent.includes(GA_CALLS)) {
       dataLayer.push(function(this: any) {
         this.reset();
       });

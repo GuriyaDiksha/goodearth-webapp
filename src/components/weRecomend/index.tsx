@@ -16,6 +16,7 @@ import WishlistButton from "components/WishlistButton";
 import LazyImage from "components/LazyImage";
 import * as valid from "utils/validate";
 import CookieService from "../../services/cookie";
+import { GA_CALLS } from "constants/cookieConsent";
 
 const WeRecommend: React.FC<RecommenedSliderProps> = (
   props: RecommenedSliderProps
@@ -62,7 +63,7 @@ const WeRecommend: React.FC<RecommenedSliderProps> = (
         );
       });
       const userConsent = CookieService.getCookie("consent").split(",");
-      if (userConsent.includes("GA-Calls")) {
+      if (userConsent.includes(GA_CALLS)) {
         dataLayer.push({
           event: "productClick",
           ecommerce: {

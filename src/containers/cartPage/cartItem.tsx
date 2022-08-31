@@ -19,6 +19,7 @@ import { POPUP } from "constants/components";
 import bridalRing from "../../images/bridal/rings.svg";
 import { AppState } from "reducers/typings";
 import CookieService from "services/cookie";
+import { GA_CALLS, ANY_ADS } from "constants/cookieConsent";
 
 const CartItems: React.FC<BasketItem> = memo(
   ({
@@ -99,7 +100,7 @@ const CartItems: React.FC<BasketItem> = memo(
         }
         const userConsent = CookieService.getCookie("consent").split(",");
 
-        if (userConsent.includes("Any-Ads")) {
+        if (userConsent.includes(ANY_ADS)) {
           Moengage.track_event("remove_from_cart", {
             "Product id": sku || childAttributes[0].sku,
             "Product name": title,
@@ -110,8 +111,7 @@ const CartItems: React.FC<BasketItem> = memo(
             "Category name": categories[0]
           });
         }
-
-        if (userConsent.includes("GA-Calls")) {
+        if (userConsent.includes(GA_CALLS)) {
           dataLayer.push({
             event: "removeFromCart",
             ecommerce: {
@@ -131,24 +131,23 @@ const CartItems: React.FC<BasketItem> = memo(
               }
             }
           });
+        }
+        const categoryList = product.categories
+          ? product.categories.length > 0
+            ? product.categories[product.categories.length - 1].replace(
+                />/g,
+                "-"
+              )
+            : ""
+          : "";
 
-          const categoryList = product.categories
-            ? product.categories.length > 0
-              ? product.categories[product.categories.length - 1].replace(
-                  />/g,
-                  "-"
-                )
-              : ""
-            : "";
-
-          let subcategoryname = categoryList ? categoryList.split(" > ") : "";
-          if (subcategoryname) {
-            subcategoryname = subcategoryname[subcategoryname.length - 1];
-          }
-          const size =
-            attributes.find((attribute: any) => attribute.name == "Size")
-              ?.value || "";
-
+        let subcategoryname = categoryList ? categoryList.split(" > ") : "";
+        if (subcategoryname) {
+          subcategoryname = subcategoryname[subcategoryname.length - 1];
+        }
+        const size =
+          attributes.find(attribute => attribute.name == "Size")?.value || "";
+        if (userConsent.includes(GA_CALLS)) {
           dataLayer.push({
             "Event Category": "GA Ecommerce",
             "Event Action": "Cart Removal",

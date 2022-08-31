@@ -13,6 +13,7 @@ import * as util from "../../../utils/validate";
 import { useHistory } from "react-router";
 import { AppState } from "reducers/typings";
 import CookieService from "services/cookie";
+import { ANY_ADS } from "constants/cookieConsent";
 
 const SocialLogin: React.FC<props> = ({ closeModel }) => {
   const dispatch = useDispatch();
@@ -70,7 +71,7 @@ const SocialLogin: React.FC<props> = ({ closeModel }) => {
           // closeModel();
           const userConsent = CookieService.getCookie("consent").split(",");
 
-          if (userConsent.includes("Any-Ads")) {
+          if (userConsent.includes(ANY_ADS)) {
             Moengage.add_first_name(user.profileObj.givenName);
             Moengage.add_last_name(user.profileObj.familyName);
             Moengage.add_email(user.profileObj.email);

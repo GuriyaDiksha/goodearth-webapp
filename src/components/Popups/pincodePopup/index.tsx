@@ -14,6 +14,7 @@ import globalStyles from "../../../styles/global.scss";
 import styles from "../styles.scss";
 import cs from "classnames";
 import CookieService from "services/cookie";
+import { GA_CALLS } from "constants/cookieConsent";
 
 const mapDispatchToProps = (dispatch: Dispatch) => {
   return {
@@ -70,7 +71,7 @@ class PincodePopup extends React.Component<Props, State> {
           this.setState({ status: "no" });
         }
         const userConsent = CookieService.getCookie("consent").split(",");
-        if (userConsent.includes("GA-Calls")) {
+        if (userConsent.includes(GA_CALLS)) {
           dataLayer.push({
             event: "Pincode Information",
             clickType: pinCode,

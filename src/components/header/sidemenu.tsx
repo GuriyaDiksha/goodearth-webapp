@@ -16,6 +16,7 @@ import { AppState } from "reducers/typings";
 import mapDispatchToProps from "./mapper/actions";
 import Loader from "components/Loader";
 import CookieService from "../../services/cookie";
+import { GA_CALLS } from "constants/cookieConsent";
 
 interface State {
   showc: boolean;
@@ -178,7 +179,7 @@ class SideMenu extends React.Component<Props, State> {
     );
     const gtmPushWishlistClick = () => {
       const userConsent = CookieService.getCookie("consent").split(",");
-      if (userConsent.includes("GA-Calls")) {
+      if (userConsent.includes(GA_CALLS)) {
         dataLayer.push({
           event: "eventsToSend",
           eventAction: "wishListClick",

@@ -8,6 +8,7 @@ import iconStyles from "../../styles/iconFonts.scss";
 import { useHistory } from "react-router-dom";
 import globalStyles from "../../styles/global.scss";
 import CookieService from "services/cookie";
+import { GA_CALLS } from "constants/cookieConsent";
 
 export const ShopLocator: React.FC<ShopLocatorProps> = ({
   goToShopLocator,
@@ -42,7 +43,7 @@ export const ShopLocator: React.FC<ShopLocatorProps> = ({
     if (data.label) {
       history.push("/Cafe-Shop/" + data.label);
       const userConsent = CookieService.getCookie("consent").split(",");
-      if (userConsent.includes("GA-Calls")) {
+      if (userConsent.includes(GA_CALLS)) {
         dataLayer.push({
           event: "eventsToSend",
           eventAction: "shopCafeLocatorClick",

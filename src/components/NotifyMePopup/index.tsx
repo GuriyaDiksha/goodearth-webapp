@@ -34,6 +34,7 @@ import * as util from "utils/validate";
 import Loader from "components/Loader";
 import { AppState } from "reducers/typings";
 import CookieService from "../../services/cookie";
+import { GA_CALLS } from "constants/cookieConsent";
 
 type Props = {
   basketLineId?: ProductID;
@@ -165,7 +166,7 @@ const NotifyMePopup: React.FC<Props> = ({
       ? "3d"
       : "non 3d";
     const userConsent = CookieService.getCookie("consent").split(",");
-    if (userConsent.includes("GA-Calls")) {
+    if (userConsent.includes(GA_CALLS)) {
       dataLayer.push({
         "Event Category": "GA Ecommerce",
         "Event Action": "Add to Cart",

@@ -22,6 +22,7 @@ import { AppState } from "reducers/typings";
 import { ChildProductAttributes } from "typings/product";
 import { updateLoader } from "actions/info";
 import CookieService from "../../services/cookie";
+import { GA_CALLS, ANY_ADS } from "constants/cookieConsent";
 
 const WishlistButtonpdp: React.FC<Props> = ({
   gtmListType,
@@ -130,7 +131,7 @@ const WishlistButtonpdp: React.FC<Props> = ({
           });
         }
         const userConsent = CookieService.getCookie("consent").split(",");
-        if (userConsent.includes("Any-Ads")) {
+        if (userConsent.includes(ANY_ADS)) {
           if (addWishlist) {
             Moengage.track_event("add_to_wishlist", {
               "Product id": id,
@@ -155,7 +156,7 @@ const WishlistButtonpdp: React.FC<Props> = ({
             });
           }
         }
-        if (userConsent.includes("GA-Calls")) {
+        if (userConsent.includes(GA_CALLS)) {
           dataLayer.push({
             event: "AddtoWishlist",
             ecommerce: {
