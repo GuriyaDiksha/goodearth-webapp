@@ -99,7 +99,7 @@ const CartItems: React.FC<BasketItem> = memo(
         }
         const userConsent = CookieService.getCookie("consent").split(",");
 
-        if (userConsent.includes("Moengage")) {
+        if (userConsent.includes("Any-Ads")) {
           Moengage.track_event("remove_from_cart", {
             "Product id": sku || childAttributes[0].sku,
             "Product name": title,

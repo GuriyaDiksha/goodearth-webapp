@@ -423,7 +423,7 @@ const ProductDetails: React.FC<Props> = ({
       : "non 3d";
 
     const userConsent = CookieService.getCookie("consent").split(",");
-    if (userConsent.includes("Moengage")) {
+    if (userConsent.includes("Any-Ads")) {
       Moengage.track_event("add_to_cart", {
         "Product id": sku || childAttributes[0].sku,
         "Product name": title,

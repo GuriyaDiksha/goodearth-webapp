@@ -251,7 +251,7 @@ class MainLogin extends React.Component<Props, loginState> {
         )
         .then(data => {
           this.gtmPushSignIn();
-          if (userConsent.includes("Moengage")) {
+          if (userConsent.includes("Any-Ads")) {
             Moengage.track_event("Login", {
               email: this.state.email
             });

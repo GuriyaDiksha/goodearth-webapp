@@ -145,7 +145,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
           Products: secondproducts
         });
       }
-      if (userConsent.includes("Moengage")) {
+      if (userConsent.includes("Any-Ads")) {
         Moengage.track_event("PurchasedOnline", {
           "Category Name": categoryname,
           "Sub category": subcategoryname,
@@ -184,7 +184,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
         Page_Title: "virtual_orderConfirmationPage_view"
       });
     }
-    if (userConsent.includes("Moengage")) {
+    if (userConsent.includes("Any-Ads")) {
       Moengage.track_event("Page viewed", {
         "Page URL": location.pathname,
         "Page Name": "OrderConfirmationPageView"

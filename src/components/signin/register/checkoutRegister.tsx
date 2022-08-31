@@ -161,7 +161,7 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
       .then(data => {
         const userConsent = CookieService.getCookie("consent").split(",");
 
-        if (userConsent.includes("Moengage")) {
+        if (userConsent.includes("Any-Ads")) {
           Moengage.track_event("Registered", {
             "First Name": firstName,
             "Last Name": lastName,

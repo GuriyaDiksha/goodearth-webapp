@@ -90,7 +90,7 @@ const LineItems: React.FC<BasketItem> = memo(
       const categoryname = arr[arr.length - 2];
       const subcategoryname = arr[arr.length - 1];
       const userConsent = CookieService.getCookie("consent").split(",");
-      if (userConsent.includes("Moengage")) {
+      if (userConsent.includes("Any-Ads")) {
         Moengage.track_event("remove_from_cart", {
           "Product id": product.sku || product.childAttributes[0].sku,
           "Product name": product.title,
