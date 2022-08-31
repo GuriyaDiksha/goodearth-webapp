@@ -50,14 +50,22 @@ const StaticPage: React.FC<Props> = props => {
     util.pageViewGTM("Static");
   }, []);
 
-  // useEffect(() => {
-  //   if (
-  //     !isSale &&
-  //     window.location.pathname === "/customer-assistance/sales-conditions"
-  //   ) {
-  //     history?.push("/error-page");
-  //   }
-  // }, [isSale]);
+  useEffect(() => {
+    if (
+      !footerList.filter(
+        eleList =>
+          eleList.filter(
+            ele =>
+              ele?.name === "HELP" &&
+              ele?.value.filter(
+                e => e?.link === "/customer-assistance/sales-conditions"
+              ).length
+          ).length
+      ).length
+    ) {
+      history?.push("/error-page");
+    }
+  }, [footerList]);
 
   const dispatch = useDispatch();
   const fetchTerms = async (link: string) => {

@@ -44,6 +44,36 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
     const productname: string[] = [];
     const productprice: string[] = [];
     const productquantity: number[] = [];
+    const items = result.lines.map((line: any) => {
+      const index = line.product.categories
+        ? line.product.categories.length - 1
+        : 0;
+      const category =
+        line.product.categories && line.product.categories[index]
+          ? line.product.categories[index].replace(/\s/g, "")
+          : "";
+      const arr = category.split(">");
+
+      return {
+        item_id: line.product.sku, //Pass the product id
+        item_name: line.title, // Pass the product name
+        affiliation: line.title, // Pass the product name
+        coupon: result.offerDisounts?.[0].name, // Pass the coupon if available
+        currency: result.currency, // Pass the currency code
+        discount: "", // Pass the discount amount
+        index: "",
+        item_brand: "Goodearth",
+        item_category: arr[arr.length - 2],
+        item_category2: arr[arr.length - 1],
+        item_category3: "",
+        item_list_id: "",
+        item_list_name: "",
+        item_variant: line.product.size || "",
+        item_category4: "",
+        price: +line.priceExclTax,
+        quantity: line.quantity
+      };
+    });
     const products = result.lines.map((line: any) => {
       const index = line.product.categories
         ? line.product.categories.length - 1
@@ -60,6 +90,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
       productname.push(line.title);
       productprice.push(line.product.pricerecords[result.currency]);
       productquantity.push(+line.quantity);
+
       return {
         name: line.title,
         id: line.product.sku,
@@ -144,6 +175,20 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
           "Payment Method": result.paymentMethod,
           "Currency Code": result.currency,
           Products: secondproducts
+        });
+        dataLayer.push({ ecommerce: null }); // Clear the previous ecommerce object.
+        dataLayer.push({
+          event: "purchase",
+          ecommerce: {
+            transaction_id: result.transactionId,
+            affiliation: "Online Store", // Pass the product name
+            value: "",
+            tax: 0,
+            shipping: +result.shippingInclTax,
+            currency: result.currency, // Pass the currency code
+            coupon: result.offerDiscounts?.[0]?.name,
+            items: items
+          }
         });
       }
       if (userConsent.includes(ANY_ADS)) {

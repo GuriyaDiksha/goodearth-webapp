@@ -118,7 +118,13 @@ const BridalDetails: React.FC = () => {
                       placeholder="Registrant’s  Name"
                       label={"Registrant’s Name"}
                       inputRef={registrantNameRef}
-                      validations="isExisty"
+                      validations={{
+                        maxLength: 50,
+                        isExisty: true
+                      }}
+                      validationErrors={{
+                        maxLength: "You can not enter more than 50 characters"
+                      }}
                       required
                       value={data.registrantName || ""}
                       handleChange={handleChange}
@@ -130,7 +136,13 @@ const BridalDetails: React.FC = () => {
                       placeholder="Co-registrant’s  Name"
                       label={"Co-registrant’s  Name"}
                       inputRef={coRegistrantNameRef}
-                      validations="isExisty"
+                      validations={{
+                        maxLength: 50,
+                        isExisty: true
+                      }}
+                      validationErrors={{
+                        maxLength: "You can not enter more than 50 characters"
+                      }}
                       required
                       value={data.coRegistrantName || ""}
                       handleChange={handleChange}
@@ -141,6 +153,13 @@ const BridalDetails: React.FC = () => {
                       name="registryName"
                       inputRef={regName}
                       placeholder="Registry Name (optional)"
+                      validations={{
+                        maxLength: 50,
+                        isExisty: true
+                      }}
+                      validationErrors={{
+                        maxLength: "You can not enter more than 50 characters"
+                      }}
                       value={data.registryName || ""}
                       label={"Registry Name"}
                     />
