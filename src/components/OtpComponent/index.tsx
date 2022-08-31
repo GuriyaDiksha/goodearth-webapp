@@ -898,6 +898,9 @@ class OtpComponent extends React.Component<otpProps, otpState> {
                         isLength: "Phone number should be 10 digit"
                       }}
                       required={radioType != "number" ? "isFalse" : true}
+                      keyDown={e =>
+                        e.which === 69 ? e.preventDefault() : null
+                      }
                     />
                   </div>
                   <p id="selectError" className={cs(styles.errorMsg)}>

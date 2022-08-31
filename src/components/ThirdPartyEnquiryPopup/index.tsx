@@ -453,6 +453,7 @@ const CorporateEnquiryPopup: React.FC<Props> = ({
                     isExisty: "Please enter a valid phone number"
                   }}
                   required
+                  keyDown={e => (e.which === 69 ? e.preventDefault() : null)}
                 />
               </div>
             </div>

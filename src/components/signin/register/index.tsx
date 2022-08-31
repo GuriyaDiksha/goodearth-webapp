@@ -565,6 +565,7 @@ class RegisterForm extends React.Component<Props, registerState> {
                 isPhoneValid: "Please enter your Contact Number"
               }}
               keyPress={e => (e.key == "Enter" ? e.preventDefault() : "")}
+              keyDown={e => (e.which === 69 ? e.preventDefault() : null)}
             />
           </div>
           <div>

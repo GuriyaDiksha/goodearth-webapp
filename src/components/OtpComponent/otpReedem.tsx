@@ -487,6 +487,7 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
                       isLength: "Phone Number should be 10 digit"
                     }}
                     required={radioType != "number" ? "isFalse" : true}
+                    keyDown={e => (e.which === 69 ? e.preventDefault() : null)}
                   />
                 </div>
                 <p className={cs(styles.errorMsg)}>{this.state.msgt}</p>

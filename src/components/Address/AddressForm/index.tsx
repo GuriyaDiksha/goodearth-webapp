@@ -642,6 +642,7 @@ const AddressForm: React.FC<Props> = props => {
                 isExisty: "Please enter your Contact Number",
                 matchRegexp: "Please enter a valid Contact Number"
               }}
+              keyDown={e => (e.which === 69 ? e.preventDefault() : null)}
             />
             <p key="contact-msg" className={styles.contactMsg}>
               This number will be used for sending OTP during delivery.
