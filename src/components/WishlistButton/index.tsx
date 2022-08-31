@@ -122,6 +122,43 @@ const WishlistButton: React.FC<Props> = ({
               }
             }
           });
+          dataLayer.push({ ecommerce: null }); // Clear the previous ecommerce object.
+          dataLayer.push({
+            event: "add_to_wishlist",
+            ecommerce: {
+              currency: currency,
+              value: "",
+              items: [
+                {
+                  item_id: id, //Pass the product id
+                  item_name: title, // Pass the product name
+                  affiliation: title, // Pass the product name
+                  coupon: "", // Pass the coupon if available
+                  currency: currency, // Pass the currency code
+                  discount: "", // Pass the discount amount
+                  index: "",
+                  item_brand: "Goodearth",
+                  item_category: category?.split("/")[0],
+                  item_category2: category?.split("/")[1],
+                  item_category3: "",
+                  item_list_id: "",
+                  item_list_name: "",
+                  item_variant:
+                    childAttributes && childAttributes[0].size
+                      ? childAttributes[0].size
+                      : "",
+                  item_category4: "",
+                  item_category5: "",
+                  price: child?.[0].discountedPriceRecords
+                    ? child?.[0].discountedPriceRecords[currency]
+                    : child?.[0].priceRecords
+                    ? child?.[0].priceRecords[currency]
+                    : null,
+                  quantity: 1
+                }
+              ]
+            }
+          });
         }
       }
     } catch (err) {
