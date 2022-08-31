@@ -436,7 +436,7 @@ class FilterList extends React.Component<Props, State> {
         banner: plpList.results.banner
       },
       () => {
-        if (!this.state.scrollView) {
+        if (!this.state.scrollView && this.props.history.action === "POP") {
           this.checkForProductScroll();
         }
         window.scrollTo(0, 0);
@@ -521,7 +521,11 @@ class FilterList extends React.Component<Props, State> {
               totalItems: plpList.count
             },
             () => {
-              if (!this.state.scrollView && this.state.shouldScroll) {
+              if (
+                !this.state.scrollView &&
+                this.state.shouldScroll &&
+                this.props.history.action === "POP"
+              ) {
                 this.handleProductSearch();
               }
             }
