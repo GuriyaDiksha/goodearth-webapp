@@ -25,6 +25,7 @@ import * as valid from "utils/validate";
 import { Country } from "components/Formsy/CountryCode/typings";
 import EmailVerification from "../emailVerification";
 import CookieService from "services/cookie";
+import { GA_CALLS, ANY_ADS } from "constants/cookieConsent";
 const mapStateToProps = (state: AppState) => {
   const isdList = state.address.countryData.map(list => {
     return list.isdCode;
@@ -103,7 +104,7 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
   }
   gtmPushRegister = () => {
     const userConsent = CookieService.getCookie("consent").split(",");
-    if (userConsent.includes("GA-Calls")) {
+    if (userConsent.includes(GA_CALLS)) {
       dataLayer.push({
         event: "eventsToSend",
         eventAction: "signup",
@@ -161,7 +162,7 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
       .then(data => {
         const userConsent = CookieService.getCookie("consent").split(",");
 
-        if (userConsent.includes("Moengage")) {
+        if (userConsent.includes(ANY_ADS)) {
           Moengage.track_event("Registered", {
             "First Name": firstName,
             "Last Name": lastName,

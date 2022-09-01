@@ -16,6 +16,7 @@ import bridalRing from "../../images/bridal/rings.svg";
 import { AppState } from "reducers/typings";
 import quantityStyles from "../quantity/styles.scss";
 import CookieService from "services/cookie";
+import { GA_CALLS, ANY_ADS } from "constants/cookieConsent";
 
 const LineItems: React.FC<BasketItem> = memo(
   ({
@@ -90,7 +91,7 @@ const LineItems: React.FC<BasketItem> = memo(
       const categoryname = arr[arr.length - 2];
       const subcategoryname = arr[arr.length - 1];
       const userConsent = CookieService.getCookie("consent").split(",");
-      if (userConsent.includes("Moengage")) {
+      if (userConsent.includes(ANY_ADS)) {
         Moengage.track_event("remove_from_cart", {
           "Product id": product.sku || product.childAttributes[0].sku,
           "Product name": product.title,
@@ -102,7 +103,7 @@ const LineItems: React.FC<BasketItem> = memo(
           "Sub Category Name": subcategoryname
         });
       }
-      if (userConsent.includes("GA-Calls")) {
+      if (userConsent.includes(GA_CALLS)) {
         dataLayer.push({
           event: "removeFromCart",
           ecommerce: {
@@ -150,33 +151,30 @@ const LineItems: React.FC<BasketItem> = memo(
             ]
           }
         });
-        const categoryList = product.categories
-          ? product.categories.length > 0
-            ? product.categories[product.categories.length - 1].replace(
-                />/g,
-                "-"
-              )
-            : ""
-          : "";
+      }
+      const categoryList = product.categories
+        ? product.categories.length > 0
+          ? product.categories[product.categories.length - 1].replace(/>/g, "-")
+          : ""
+        : "";
 
-        let subcategory = categoryList ? categoryList.split(" > ") : "";
-        if (subcategory) {
-          subcategory = subcategory[subcategory.length - 1];
-        }
-        if (userConsent.includes("GA-Calls")) {
-          dataLayer.push({
-            "Event Category": "GA Ecommerce",
-            "Event Action": "Cart Removal",
-            "Event Label": subcategory,
-            "Time Stamp": new Date().toISOString(),
-            "Cart Source": location.href,
-            "Product Category": categoryList,
-            "Login Status": isLoggedIn ? "logged in" : "logged out",
-            "Product Name": product.title,
-            "Product ID": product.id,
-            Variant: size
-          });
-        }
+      let subcategory = categoryList ? categoryList.split(" > ") : "";
+      if (subcategory) {
+        subcategory = subcategory[subcategory.length - 1];
+      }
+      if (userConsent.includes(GA_CALLS)) {
+        dataLayer.push({
+          "Event Category": "GA Ecommerce",
+          "Event Action": "Cart Removal",
+          "Event Label": subcategory,
+          "Time Stamp": new Date().toISOString(),
+          "Cart Source": location.href,
+          "Product Category": categoryList,
+          "Login Status": isLoggedIn ? "logged in" : "logged out",
+          "Product Name": product.title,
+          "Product ID": product.id,
+          Variant: size
+        });
       }
     };
 

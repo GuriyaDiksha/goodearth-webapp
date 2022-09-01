@@ -25,6 +25,7 @@ import cs from "classnames";
 // import MakerPopup from "components/Popups/MakerPopup";
 import { POPUP } from "constants/components";
 import Loader from "components/Loader";
+import { GA_CALLS } from "constants/cookieConsent";
 // import { CUST } from "constants/util";
 // import * as _ from "lodash";
 const BaseLayout: React.FC = () => {
@@ -66,7 +67,7 @@ const BaseLayout: React.FC = () => {
   useEffect(() => {
     if (getPWADisplayMode() == "standalone") {
       const userConsent = CookieService.getCookie("consent").split(",");
-      if (userConsent.includes("GA-Calls")) {
+      if (userConsent.includes(GA_CALLS)) {
         dataLayer.push({
           event: "App Icon Click",
           page: location
@@ -105,7 +106,7 @@ const BaseLayout: React.FC = () => {
     const isHomePage = location.pathname == "/";
     if (isHomePage) {
       const userConsent = CookieService.getCookie("consent").split(",");
-      if (userConsent.includes("GA-Calls")) {
+      if (userConsent.includes(GA_CALLS)) {
         dataLayer.push({
           "Event Category": "General Pages",
           "Event Action": "Home Page",

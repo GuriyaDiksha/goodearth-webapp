@@ -23,6 +23,7 @@ import noImagePlp from "../../images/noimageplp.png";
 import { updateComponent, updateModal } from "actions/modal";
 import { POPUP } from "constants/components";
 import CookieService from "services/cookie";
+import { GA_CALLS, ANY_ADS } from "constants/cookieConsent";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -106,7 +107,7 @@ class CartPage extends React.Component<Props, State> {
         item => item.product.childAttributes?.[0].sku
       );
       const userConsent = CookieService.getCookie("consent").split(",");
-      if (userConsent.includes("GA-Calls")) {
+      if (userConsent.includes(GA_CALLS)) {
         dataLayer.push({
           "Event Category": "GA Ecommerce",
           "Event Action": "Cart Summary Page",
@@ -171,7 +172,7 @@ class CartPage extends React.Component<Props, State> {
     });
 
     const userConsent = CookieService.getCookie("consent").split(",");
-    if (userConsent.includes("GA-Calls")) {
+    if (userConsent.includes(GA_CALLS)) {
       dataLayer.push(function(this: any) {
         this.reset();
       });
@@ -191,7 +192,7 @@ class CartPage extends React.Component<Props, State> {
       });
     }
 
-    if (userConsent.includes("Moengage")) {
+    if (userConsent.includes(ANY_ADS)) {
       Moengage.track_event("Page viewed", {
         "Page URL": this.props.location.pathname,
         "Page Name": "CartPageView"

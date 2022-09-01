@@ -14,6 +14,7 @@ import globalStyles from "styles/global.scss";
 import mapDispatchToProps from "./initAction";
 import fontStyles from "styles/iconFonts.scss";
 import CookieService from "../../services/cookie";
+import { GA_CALLS } from "constants/cookieConsent";
 
 const VerticalImageSelector = loadable(() =>
   import("components/VerticalImageSelector")
@@ -83,7 +84,7 @@ class Quickview extends React.Component<Props, State> {
       const listPath = `Quickview`;
       CookieService.setCookie("listPath", listPath);
       const userConsent = CookieService.getCookie("consent").split(",");
-      if (userConsent.includes("GA-Calls")) {
+      if (userConsent.includes(GA_CALLS)) {
         dataLayer.push({
           event: "productImpression",
           ecommerce: {

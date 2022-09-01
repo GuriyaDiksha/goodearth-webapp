@@ -28,6 +28,7 @@ import { POPUP } from "constants/components";
 import * as util from "../../utils/validate";
 import { Basket } from "typings/basket";
 import { updateRegion } from "actions/widget";
+import { ANY_ADS } from "constants/cookieConsent";
 // import { updateBasket } from "actions/basket";
 // import { CUST } from "constants/util";
 
@@ -349,7 +350,7 @@ export default {
       });
 
       const userConsent = CookieService.getCookie("consent").split(",");
-      if (userConsent.includes("Moengage")) {
+      if (userConsent.includes(ANY_ADS)) {
         Moengage.destroy_session();
       }
       WishlistService.resetWishlist(dispatch);

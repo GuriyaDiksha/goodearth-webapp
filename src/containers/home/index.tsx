@@ -9,6 +9,7 @@ import * as util from "utils/validate";
 import { useSelector } from "react-redux";
 import { AppState } from "reducers/typings";
 import CookieService from "services/cookie";
+import { GA_CALLS, ANY_ADS } from "constants/cookieConsent";
 // import { Link } from "react-router-dom";
 // import INRBanner from "../../images/banner/INRBanner.jpg";
 // import USDGBPBanner from "../../images/banner/USDGBPBanner.jpg";
@@ -21,7 +22,7 @@ const Home: React.FC = () => {
       window.scrollTo(0, 0);
     }, 1000);
     const userConsent = CookieService.getCookie("consent").split(",");
-    if (userConsent.includes("GA-Calls")) {
+    if (userConsent.includes(GA_CALLS)) {
       dataLayer.push(function(this: any) {
         this.reset();
       });
@@ -32,7 +33,7 @@ const Home: React.FC = () => {
         Page_Title: "virtual_homePage_view"
       });
     }
-    if (userConsent.includes("Moengage")) {
+    if (userConsent.includes(ANY_ADS)) {
       Moengage.track_event("Page viewed", {
         "Page URL": location.pathname,
         "Page Name": "HomePageView"
