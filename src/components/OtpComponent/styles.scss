@@ -429,3 +429,73 @@ hr {
   margin-top: 20px;
   margin-bottom: 20px;
 }
+
+//=========New OTP Component===============//
+
+.otp-wrp{
+  background: #FFFFFF 0% 0% no-repeat padding-box;
+  box-shadow: 0px 3px 6px #00000029;
+  opacity: 1;
+  width: 100%;
+  padding: 40px 60px;
+
+  .otp-heading{
+    @include b4_12px_montserrat_charcoal();
+    padding-bottom: 20px;
+  }
+
+  .otp-timer{
+    @include b4_12px_montserrat_light_charcoal();
+    padding: 30px 0px;
+  }
+
+  .otp-input-wrp{
+    display: flex;
+    justify-content: space-between;
+    .otp-input{
+      width: 15%;
+      border: 1px solid #E5E5E5;
+      border-radius: 7px;
+      opacity: 1;
+      height: 45px;
+      background: #FFFFFF 0% 0% no-repeat padding-box;
+
+    }
+  }
+
+  .otp-btn{
+    width: 100%;
+    padding: 20px 0px;
+    background-color: #4C4C4C;
+    border: 1px solid #4C4C4C;
+    border-radius:0%;
+    @include b3_14px_montserrat_white();
+
+    &:hover{
+      background-color: $white;
+      @include b3_14px_montserrat_charcoal();
+    }
+
+    .disable{
+      background-color:#9F9F9F;
+    }
+  }
+
+  .otp-attempt{
+    @include b6_9px_light_montserrat_charcoal();
+    padding-top: 10px;
+  }
+
+  .otp-policy{
+    @include b5_10px_montserrat_charcoal();
+    padding-top: 25px;
+    text-decoration:underline !important;
+
+    &:hover{
+      color: $aqua;
+    }
+
+  }
+
+
+}
