@@ -34,15 +34,15 @@ const CookiePolicy: React.FC<Props> = ({ hideCookies, acceptCookies }) => {
   }, []);
 
   useEffect(() => {
-    setRegion("Europe");
-    WidgetService.getWidgetDetail(store.dispatch, "GLOBAL");
-    // setRegion(region === "" ? CookieService.getCookie("region") : region);
-    // WidgetService.getWidgetDetail(
-    //   store.dispatch,
-    //   (region === "" ? CookieService.getCookie("region") : region) === "Europe"
-    //     ? "EUROPE"
-    //     : "GLOBAL"
-    // );
+    // setRegion("Europe");
+    // WidgetService.getWidgetDetail(store.dispatch, "GLOBAL");
+    setRegion(region === "" ? CookieService.getCookie("region") : region);
+    WidgetService.getWidgetDetail(
+      store.dispatch,
+      (region === "" ? CookieService.getCookie("region") : region) === "Europe"
+        ? "EUROPE"
+        : "GLOBAL"
+    );
   }, [region]);
 
   useEffect(() => {
