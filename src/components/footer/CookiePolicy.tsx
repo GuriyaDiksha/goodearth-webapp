@@ -108,9 +108,11 @@ const CookiePolicy: React.FC<Props> = ({ hideCookies, acceptCookies }) => {
             <hr />
             <p className={styles.question}>What is a cookie?</p>
             <p className={styles.answer}>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-              enim ad minim veniam, quis nostrud exercitation veritatis
+              Goodearth uses cookies, including third-party cookies, for
+              functional reasons, for statistical analysis, to personalise your
+              experience, offer you content that targets your particular
+              interests and analyse the performance of our advertising
+              campaigns.
             </p>
             <p className={styles.prefhead}>Manage Cookie Preferences</p>
             <div className={styles.prefWrp}>
