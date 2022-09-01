@@ -203,6 +203,7 @@
   .preferencesLink{
     @include b4_12px_montserrat_charcoal_caps();
     margin-bottom: 10px;
+    text-decoration:underline;
     
     @media screen and (max-width: 500px) {
       margin-bottom: 33px;
@@ -213,30 +214,30 @@
       @include b4_12px_montserrat_gold_caps();
       // border-bottom: 1px solid $gold;
     }
-    &:after {
-      content:'';
-      position:absolute;
-      width:200px;
-      height:1px;
-      background:$charcoal19;
-      bottom:0;
-      left:0;
-      right:0;
-      margin:auto;
-      top:70px;
+  //   &:after {
+  //     content:'';
+  //     position:absolute;
+  //     width:200px;
+  //     height:1px;
+  //     background:$charcoal19;
+  //     bottom:0;
+  //     left:0;
+  //     right:0;
+  //     margin:auto;
+  //     top:70px;
 
-      // @media screen and (max-width: 992px) {
-      //   top:70px;
-      // }
+  //     // @media screen and (max-width: 992px) {
+  //     //   top:70px;
+  //     // }
 
-      @media screen and (min-width: 2000px) {
-        top:80px;
-      }
-  }
+  //     @media screen and (min-width: 2000px) {
+  //       top:80px;
+  //     }
+  // }
 
-  &:hover:after{
-    background: $gold;
-  }
+  // &:hover:after{
+  //   background: $gold;
+  // }
   }
   .ok-btn {
     @include b3_14px_caps_white();
