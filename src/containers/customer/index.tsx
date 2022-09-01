@@ -61,7 +61,8 @@ const StaticPage: React.FC<Props> = props => {
                 e => e?.link === "/customer-assistance/sales-conditions"
               ).length
           ).length
-      ).length
+      ).length &&
+      window.location.pathname === "/customer-assistance/sales-conditions"
     ) {
       history?.push("/error-page");
     }
