@@ -597,7 +597,7 @@ class Header extends React.Component<Props, State> {
             content={
               meta.description
                 ? meta.description
-                : "Good Earth India's official website. Explore unique product stories and craft traditions that celebrate the heritage of the Indian subcontinent."
+                : "Good Earth – Luxury Indian Design House Explore handcrafted designs that celebrate style from an Indian perspective"
             }
           />
           {__DOMAIN__ != "https://www.goodearth.in" && (
