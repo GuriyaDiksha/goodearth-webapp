@@ -203,8 +203,11 @@
   .preferencesLink{
     @include b4_12px_montserrat_charcoal_caps();
     margin-bottom: 10px;
-    text-decoration:underline;
-    
+    // text-decoration:underline;
+    border-bottom: 1px solid $charcoal19;
+    padding-left: 0;
+    padding-right: 0;
+
     @media screen and (max-width: 500px) {
       margin-bottom: 33px;
     }
@@ -212,7 +215,7 @@
     cursor: pointer;
     &:hover{
       @include b4_12px_montserrat_gold_caps();
-      // border-bottom: 1px solid $gold;
+      border-bottom: 1px solid $gold;
     }
   //   &:after {
   //     content:'';
