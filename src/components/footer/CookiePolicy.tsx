@@ -179,7 +179,7 @@ const CookiePolicy: React.FC<Props> = ({ setConsent, acceptCookies }) => {
                 <h3>COOKIES & PRIVACY</h3>
                 <p style={{ textAlign: "center" }}>
                   This website uses cookies to ensure you get the best
-                  experience on our website. Please read our &nbsp;
+                  experience on our website. Please read our ;
                   <Link to={"/customer-assistance/cookie-policy"}>
                     Cookie Policy
                   </Link>
