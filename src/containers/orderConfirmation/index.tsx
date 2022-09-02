@@ -582,7 +582,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                 </p>
               </div>
 
-              {confirmData.voucherDiscounts.map((vd: any, i: number) => (
+              {/* {confirmData.voucherDiscounts.map((vd: any, i: number) => (
                 <div
                   className={cs(styles.discountSection)}
                   key={`voucher_${i}`}
@@ -596,7 +596,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                     &nbsp; {parseFloat(vd.amount).toFixed(2)}
                   </p>
                 </div>
-              ))}
+              ))} */}
 
               {confirmData.giftVoucherRedeemed.map(
                 (gccn: number, i: number) => (
