@@ -447,6 +447,12 @@ hr {
   .otp-timer{
     @include b4_12px_montserrat_light_charcoal();
     padding: 30px 0px;
+    .otp-resend{
+      span{
+        border-bottom: 1px solid $charcoal19;
+        cursor: pointer;
+      }
+    }
   }
 
   .otp-input-wrp{
@@ -461,6 +467,12 @@ hr {
       background: #FFFFFF 0% 0% no-repeat padding-box;
 
     }
+  }
+
+  .otp-error{
+    @include error-msg();
+    padding-top: 10px;
+    text-align: left;
   }
 
   .otp-btn{
@@ -489,10 +501,10 @@ hr {
   .otp-policy{
     @include b5_10px_montserrat_charcoal();
     padding-top: 25px;
-    text-decoration:underline !important;
-
+    border-bottom: 1px solid $charcoal19;
     &:hover{
       color: $aqua;
+      border-bottom: 1px solid $aqua;
     }
 
   }
