@@ -59,7 +59,8 @@ class Footer extends React.Component<Props, FooterState> {
       newsletterEmail: "",
       newsletterMessage: "",
       newsletterError: false,
-      isInViewport: false
+      isInViewport: false,
+      isConsentSave: false
     };
   }
 
@@ -113,6 +114,7 @@ class Footer extends React.Component<Props, FooterState> {
         this.observer.observe(this.container);
       }
     }
+    this.setState({ isConsentSave: CookieService.getCookie("consent") !== "" });
   }
 
   subMenu = (index: number) => {
@@ -121,6 +123,10 @@ class Footer extends React.Component<Props, FooterState> {
     } else {
       this.setState({ isOpened: true, currentIndex: index });
     }
+  };
+
+  setConsent = () => {
+    this.setState({ isConsentSave: CookieService.getCookie("consent") !== "" });
   };
 
   showDropdown(value: boolean) {
@@ -765,16 +771,16 @@ class Footer extends React.Component<Props, FooterState> {
             </div>
           </div>
         </div>
-
         {this.props.location.pathname !==
           "/customer-assistance/cookie-policy" &&
           this.props.location.pathname !==
             "/customer-assistance/privacy-policy" &&
-          this.props.showCookie &&
-          !this.props.mobileMenuOpenState && (
+          ((this.props.showCookie && !this.props.mobileMenuOpenState) ||
+            !this.state.isConsentSave) && (
             <CookiePolicy
               hideCookies={this.props.hideCookies}
               acceptCookies={this.acceptCookies}
+              setConsent={this.setConsent}
             />
           )}
       </div>
