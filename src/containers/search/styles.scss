@@ -266,13 +266,17 @@
 }
 
 .filter-side-menu {
-  height: calc(100% - 60px);
+  height: calc(100vh - 185px);
   overflow:scroll;
   &::-webkit-scrollbar {
     display: none;
   }
   margin: 0 20px 30px 20px;
 
+  @media screen and (max-width: 992px){
+    height: calc(100% - 60px);
+  }
+  
   li {
     letter-spacing: 0.5px;
     line-height: 40px;
