@@ -423,6 +423,10 @@ const ProductDetails: React.FC<Props> = ({
       ? "3d"
       : "non 3d";
 
+    const view3dValue = sliderImages.filter(ele => ele?.icon).length
+      ? "View3d"
+      : "nonView3d";
+
     const userConsent = CookieService.getCookie("consent").split(",");
     if (userConsent.includes(ANY_ADS)) {
       Moengage.track_event("add_to_cart", {
@@ -459,6 +463,7 @@ const ProductDetails: React.FC<Props> = ({
         "Login Status": isLoggedIn ? "logged in" : "logged out",
         "Product Name": title,
         "Product ID": selectedSize?.id,
+        dimension8: view3dValue,
         Variant: size
       });
       dataLayer.push({

@@ -744,7 +744,10 @@ export function PDP(data: any, currency: Currency) {
         category: category,
         price: prices,
         brand: "Goodearth",
-        variant: variants || ""
+        variant: variants || "",
+        dimension8: data.sliderImages?.some((key: any) => key.icon)
+          ? "View3d"
+          : "nonView3d"
       }
     );
     products.push(childProduct);
