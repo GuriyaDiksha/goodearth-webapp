@@ -29,6 +29,8 @@ import HeaderService from "services/headerFooter";
 import LoginService from "services/login";
 import { POPUP } from "constants/components";
 import * as util from "utils/validate";
+import CookieService from "../../services/cookie";
+import { GA_CALLS } from "constants/cookieConsent";
 
 let AbsoluteGrid: any;
 
@@ -122,7 +124,8 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
             isSale: isSale,
             discount: item.discount,
             badgeType: item.badgeType,
-            list: "wishlist"
+            list: "wishlist",
+            sliderImages: []
           },
           false,
           ModalStyles.bottomAlign
@@ -432,13 +435,16 @@ class Wishlist extends React.Component<Props, State> {
     });
     if (product.length > 0 && this.impression) {
       this.impression = false;
-      dataLayer.push({
-        event: "productImpression",
-        ecommerce: {
-          currencyCode: this.props.currency,
-          impressions: product
-        }
-      });
+      const userConsent = CookieService.getCookie("consent").split(",");
+      if (userConsent.includes(GA_CALLS)) {
+        dataLayer.push({
+          event: "productImpression",
+          ecommerce: {
+            currencyCode: this.props.currency,
+            impressions: product
+          }
+        });
+      }
     }
 
     const wishlistTotal = nextProps.wishlistData.map(item => {

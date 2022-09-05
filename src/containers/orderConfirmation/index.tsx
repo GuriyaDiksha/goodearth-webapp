@@ -12,6 +12,8 @@ import AccountServices from "services/account";
 import { currencyCode, Currency } from "typings/currency";
 import moment from "moment";
 import * as util from "utils/validate";
+import CookieService from "services/cookie";
+import { GA_CALLS, ANY_ADS } from "constants/cookieConsent";
 
 const orderConfirmation: React.FC<{ oid: string }> = props => {
   const {
@@ -42,6 +44,36 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
     const productname: string[] = [];
     const productprice: string[] = [];
     const productquantity: number[] = [];
+    const items = result.lines.map((line: any, ind: number) => {
+      const index = line.product.categories
+        ? line.product.categories.length - 1
+        : 0;
+      const category =
+        line.product.categories && line.product.categories[index]
+          ? line.product.categories[index].replace(/\s/g, "")
+          : "";
+      const arr = category.split(">");
+
+      return {
+        item_id: line.product.sku, //Pass the product id
+        item_name: line.title, // Pass the product name
+        affiliation: line.title, // Pass the product name
+        coupon: result.offerDisounts?.[0].name, // Pass the coupon if available
+        currency: result.currency, // Pass the currency code
+        discount: "", // Pass the discount amount
+        index: ind,
+        item_brand: "Goodearth",
+        item_category: arr[arr.length - 2],
+        item_category2: arr[arr.length - 1],
+        item_category3: "",
+        item_list_id: "",
+        item_list_name: "",
+        item_variant: line.product.size || "",
+        item_category4: "",
+        price: +line.priceExclTax,
+        quantity: line.quantity
+      };
+    });
     const products = result.lines.map((line: any) => {
       const index = line.product.categories
         ? line.product.categories.length - 1
@@ -58,6 +90,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
       productname.push(line.title);
       productprice.push(line.product.pricerecords[result.currency]);
       productquantity.push(+line.quantity);
+
       return {
         name: line.title,
         id: line.product.sku,
@@ -108,55 +141,88 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
       };
     });
     if (result.pushToGA == false) {
-      dataLayer.push({
-        event: "purchase",
-        ecommerce: {
-          currencyCode: result.currency,
-          paymentMethod: result.paymentMethod,
-          purchase: {
-            actionField: {
-              id: result.number,
-              affiliation: "Online Store",
-              revenue: result.totalInclTax,
-              tax: 0,
-              shipping: result.shippingInclTax,
-              coupon: result.offerDiscounts?.[0]?.name
-            },
-            products: products
+      const userConsent = CookieService.getCookie("consent").split(",");
+      if (userConsent.includes(GA_CALLS)) {
+        dataLayer.push({
+          event: "purchase",
+          ecommerce: {
+            currencyCode: result.currency,
+            paymentMethod: result.paymentMethod,
+            purchase: {
+              actionField: {
+                id: result.number,
+                affiliation: "Online Store",
+                revenue: result.totalInclTax,
+                tax: 0,
+                shipping: result.shippingInclTax,
+                coupon: result.offerDiscounts?.[0]?.name
+              },
+              products: products
+            }
           }
-        }
-      });
-      dataLayer.push({
-        event: "fb_purchase",
-        revenue: +result.totalInclTax,
-        currencyCode: result.currency,
-        contents: fbProduct
-      });
-      dataLayer.push({
-        event: "customPurchaseSuccess",
-        "Transaction ID": result.transactionId,
-        Revenue: +result.totalInclTax,
-        "Shipping Charges": +result.shippingInclTax,
-        "Payment Method": result.paymentMethod,
-        "Currency Code": result.currency,
-        Products: secondproducts
-      });
-      Moengage.track_event("PurchasedOnline", {
-        "Category Name": categoryname,
-        "Sub category": subcategoryname,
-        "Product name": productname,
-        "Original price": productprice,
-        "Product ID": productid2,
-        Quantity: productquantity,
-        "Cart Amount": +result.totalInclTax,
-        "Coupon Code Applied": result.voucherCodeAppliedAmount[0]
-          ? true
-          : false,
-        "Coupon Code Applied Name": result.voucherCodeAppliedName,
-        "Loyalty Points Redeemed": result.loyalityPointsRedeemed,
-        "Gift voucher redeemed": result.giftVoucherRedeemed,
-        Currency: result.currency
-      });
+        });
+        dataLayer.push({
+          event: "customPurchaseSuccess",
+          "Transaction ID": result.transactionId,
+          Revenue: +result.totalInclTax,
+          "Shipping Charges": +result.shippingInclTax,
+          "Payment Method": result.paymentMethod,
+          "Currency Code": result.currency,
+          Products: secondproducts
+        });
+        dataLayer.push({ ecommerce: null }); // Clear the previous ecommerce object.
+        dataLayer.push({
+          event: "checkout",
+          currenyCode: result.currency,
+          paymentMethod: result.paymentMethod,
+          ecommerce: {
+            checkout: {
+              actionField: { step: 6, option: "Purchase Success" },
+              products: products
+            }
+          }
+        });
+        dataLayer.push({ ecommerce: null }); // Clear the previous ecommerce object.
+        dataLayer.push({
+          event: "purchase",
+          ecommerce: {
+            transaction_id: result.transactionId,
+            affiliation: "Online Store", // Pass the product name
+            value: +result.totalInclTax,
+            tax: 0,
+            shipping: +result.shippingInclTax,
+            currency: result.currency, // Pass the currency code
+            coupon: result.offerDiscounts?.[0]?.name,
+            items: items
+          }
+        });
+
+        dataLayer.push({
+          event: "fb_purchase",
+          revenue: +result.totalInclTax,
+          currencyCode: result.currency,
+          contents: fbProduct
+        });
+      }
+      if (userConsent.includes(ANY_ADS)) {
+        Moengage.track_event("PurchasedOnline", {
+          "Category Name": categoryname,
+          "Sub category": subcategoryname,
+          "Product name": productname,
+          "Original price": productprice,
+          "Product ID": productid2,
+          Quantity: productquantity,
+          "Cart Amount": +result.totalInclTax,
+          "Coupon Code Applied": result.voucherCodeAppliedAmount[0]
+            ? true
+            : false,
+          "Coupon Code Applied Name": result.voucherCodeAppliedName,
+          "Loyalty Points Redeemed": result.loyalityPointsRedeemed,
+          "Gift voucher redeemed": result.giftVoucherRedeemed,
+          Currency: result.currency
+        });
+      }
+
       AccountServices.setGaStatus(dispatch, formData);
     }
   };
@@ -165,19 +231,24 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
       setConfirmData(response.results?.[0]);
       gtmPushOrderConfirmation(response.results?.[0]);
     });
-    dataLayer.push(function(this: any) {
-      this.reset();
-    });
-    util.pageViewGTM("OrderConfirmation");
-    dataLayer.push({
-      event: "OrderConfirmationPageView",
-      PageURL: location.pathname,
-      Page_Title: "virtual_orderConfirmationPage_view"
-    });
-    Moengage.track_event("Page viewed", {
-      "Page URL": location.pathname,
-      "Page Name": "OrderConfirmationPageView"
-    });
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes(GA_CALLS)) {
+      dataLayer.push(function(this: any) {
+        this.reset();
+      });
+      util.pageViewGTM("OrderConfirmation");
+      dataLayer.push({
+        event: "OrderConfirmationPageView",
+        PageURL: location.pathname,
+        Page_Title: "virtual_orderConfirmationPage_view"
+      });
+    }
+    if (userConsent.includes(ANY_ADS)) {
+      Moengage.track_event("Page viewed", {
+        "Page URL": location.pathname,
+        "Page Name": "OrderConfirmationPageView"
+      });
+    }
   }, []);
 
   let totalItem = 0;
