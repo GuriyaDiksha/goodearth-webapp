@@ -617,6 +617,7 @@ class FilterList extends React.Component<Props, State> {
       this.props.updateOnload(false);
       this.createList(nextProps.data, true);
       this.props.updateFacets(this.getSortedFacets(nextProps.facets));
+      this.handleAnimation("category", false);
     }
     if (
       this.props.currency != nextProps.currency ||
@@ -824,6 +825,7 @@ class FilterList extends React.Component<Props, State> {
       });
     }
 
+    this.handleAnimation(selectIndex + "l", false);
     this.setState({
       activeindex2: selectIndex + "l",
       oldSelectedCategory: oldSelectedCategory,
