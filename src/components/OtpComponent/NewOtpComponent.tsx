@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import style from "./styles.scss";
 
-const NewOtpComponent = ({ resendOtp, verifyOtp }) => {
+const NewOtpComponent = ({ resendOtp, verifyOtp, errorMsg }) => {
   const [timeRemaining, setTimeRemaining] = useState(60);
   const [input, setInput] = useState({
     otp1: "",
@@ -50,12 +50,6 @@ const NewOtpComponent = ({ resendOtp, verifyOtp }) => {
     const ele =
       typeof document == "object" &&
       document.getElementById(`otp${+e.target.id.match(/\d+/)[0] + 1}`);
-    console.log(
-      "event===",
-      ele,
-      +e.target.id.match(/\d+/)[0],
-      +e.target.id.match(/\d+/)[0] + 1
-    );
     if (ele) {
       ele.focus();
     }
@@ -129,9 +123,11 @@ const NewOtpComponent = ({ resendOtp, verifyOtp }) => {
           max={9}
         />
       </div>
-      <p className={style.otpError}>
-        Maximum attempts reached. Please request for a new OTP after 5 mins
-      </p>
+      {errorMsg ? (
+        <p className={style.otpError}>
+          Maximum attempts reached. Please request for a new OTP after 5 mins
+        </p>
+      ) : null}
 
       <p className={style.otpTimer}>
         {timeRemaining ? (

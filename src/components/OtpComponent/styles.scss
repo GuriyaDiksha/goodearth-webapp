@@ -465,7 +465,12 @@ hr {
       opacity: 1;
       height: 45px;
       background: #FFFFFF 0% 0% no-repeat padding-box;
+      text-align: center;
+      @include b1_16px_charcoal();
 
+      &:active{
+        border: 1px solid $aqua-text;
+      }
     }
   }
 
