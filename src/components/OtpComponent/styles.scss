@@ -471,6 +471,11 @@ hr {
       &:active{
         border: 1px solid $aqua-text;
       }
+
+      &:focus{
+        border: 1px solid $aqua-text;
+      }
+
     }
   }
 
@@ -493,9 +498,13 @@ hr {
       @include b3_14px_montserrat_charcoal();
     }
 
-    .disable{
-      background-color:#9F9F9F;
-    }
+  }
+
+  .disable{
+    background-color:#9F9F9F;
+    border: 1px solid #9F9F9F;
+    cursor: not-allowed;
+
   }
 
   .otp-attempt{

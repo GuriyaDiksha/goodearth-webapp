@@ -12,6 +12,7 @@ import OtpBox from "components/OtpComponent/otpBox";
 import { showGrowlMessage } from "utils/validate";
 import { MESSAGE } from "constants/messages";
 import { useLocation } from "react-router";
+import NewOtpComponent from "components/OtpComponent/NewOtpComponent";
 
 type Props = {
   successMsg: string;
@@ -32,6 +33,10 @@ const EmailVerification: React.FC<Props> = ({
   const [timerId, setTimerId] = useState<any>();
   const [otpValue, setOtpValue] = useState("");
   const [error, setError] = useState<(JSX.Element | string)[] | string>("");
+  const [attempts, setAttempts] = useState({
+    attempts: 0,
+    maxAttemptsAllow: 5
+  });
   const dispatch = useDispatch();
   const timer = () => {
     setTimeRemaining(90);
@@ -50,11 +55,12 @@ const EmailVerification: React.FC<Props> = ({
   const queryString = location.search;
   const urlParams = new URLSearchParams(queryString);
   const boId = urlParams.get("bo_id");
-  const verifyOtp = async () => {
+  const verifyOtp = async (otp: string) => {
     try {
       setIsLoading(true);
       setError("");
-      const res = await LoginService.verifyUserOTP(dispatch, email, otpValue);
+      const res = await LoginService.verifyUserOTP(dispatch, email, otp);
+
       if (res.success) {
         showGrowlMessage(
           dispatch,
@@ -62,11 +68,20 @@ const EmailVerification: React.FC<Props> = ({
           3000,
           "VERIFY_SUCCESS"
         );
+        setAttempts({
+          attempts: res?.attempts,
+          maxAttemptsAllow: res?.maxAttemptsAllow
+        });
+
         showLogin();
       } else {
         setError("Invalid OTP");
       }
     } catch (err) {
+      setAttempts({
+        attempts: err.response.data?.attempts,
+        maxAttemptsAllow: err.response.data?.maxAttemptsAllow
+      });
       if (err.response.data.alreadyVerified) {
         setError([
           "Looks like you are aleady verified. ",
@@ -248,6 +263,7 @@ const EmailVerification: React.FC<Props> = ({
           </div>
         )}
       </>
+      {/* <NewOtpComponent resendOtp={sendOtp}  verifyOtp={verifyOtp} errorMsg={error} setOtpValue={setOtpValue} attempts={attempts}/> */}
       {isLoading && <Loader />}
     </div>
   );

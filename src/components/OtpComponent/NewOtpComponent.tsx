@@ -1,7 +1,21 @@
 import React, { useEffect, useState } from "react";
 import style from "./styles.scss";
 
-const NewOtpComponent = ({ resendOtp, verifyOtp, errorMsg }) => {
+type Props = {
+  setOtpValue: (x: string) => void;
+  errorMsg: string;
+  verifyOtp: (x: string) => void;
+  resendOtp: () => void;
+  attempts: { attempts: number; maxAttemptsAllow: number };
+};
+
+const NewOtpComponent: React.FC<Props> = ({
+  resendOtp,
+  verifyOtp,
+  errorMsg,
+  setOtpValue,
+  attempts
+}) => {
   const [timeRemaining, setTimeRemaining] = useState(60);
   const [input, setInput] = useState({
     otp1: "",
@@ -18,7 +32,8 @@ const NewOtpComponent = ({ resendOtp, verifyOtp, errorMsg }) => {
     return minutes + ":" + seconds;
   };
 
-  const timer = () => {
+  const timer = (time: number) => {
+    setTimeRemaining(time);
     setInterval(() => {
       setTimeRemaining(timeRemaining => timeRemaining - 1);
     }, 1000);
@@ -30,7 +45,7 @@ const NewOtpComponent = ({ resendOtp, verifyOtp, errorMsg }) => {
   };
 
   useEffect(() => {
-    timer();
+    timer(60);
   }, []);
 
   useEffect(() => {
@@ -39,10 +54,16 @@ const NewOtpComponent = ({ resendOtp, verifyOtp, errorMsg }) => {
     }
   }, [timeRemaining]);
 
+  useEffect(() => {
+    if (attempts?.maxAttemptsAllow === attempts?.attempts) {
+      timer(60);
+    }
+  }, [attempts?.attempts]);
+
   const resetTimer = () => {
     resendOtp();
     setTimeRemaining(60);
-    timer();
+    timer(60);
   };
 
   const onOtpChange = (e: any) => {
@@ -53,6 +74,15 @@ const NewOtpComponent = ({ resendOtp, verifyOtp, errorMsg }) => {
     if (ele) {
       ele.focus();
     }
+  };
+
+  const sendOtp = () => {
+    setOtpValue(
+      `${input?.otp1}${input?.otp2}${input?.otp3}${input?.otp4}${input?.otp5}${input?.otp6}`
+    );
+    verifyOtp(
+      `${input?.otp1}${input?.otp2}${input?.otp3}${input?.otp4}${input?.otp5}${input?.otp6}`
+    );
   };
 
   return (
@@ -125,7 +155,9 @@ const NewOtpComponent = ({ resendOtp, verifyOtp, errorMsg }) => {
       </div>
       {errorMsg ? (
         <p className={style.otpError}>
-          Maximum attempts reached. Please request for a new OTP after 5 mins
+          {attempts?.maxAttemptsAllow === attempts?.attempts
+            ? "Maximum attempts reached. Please request for a new OTP after 5 mins"
+            : errorMsg}
         </p>
       ) : null}
 
@@ -139,10 +171,24 @@ const NewOtpComponent = ({ resendOtp, verifyOtp, errorMsg }) => {
           </div>
         )}
       </p>
-      <button className={style.otpBtn} onClick={() => verifyOtp()}>
+      <button
+        className={`${style.otpBtn} ${
+          `${input?.otp1}${input?.otp2}${input?.otp3}${input?.otp4}${input?.otp5}${input?.otp6}`
+            .length !== 6 || attempts?.maxAttemptsAllow === attempts?.attempts
+            ? style.disable
+            : ""
+        }`}
+        onClick={() => sendOtp()}
+        disabled={
+          `${input?.otp1}${input?.otp2}${input?.otp3}${input?.otp4}${input?.otp5}${input?.otp6}`
+            .length !== 6 || attempts?.maxAttemptsAllow === attempts?.attempts
+        }
+      >
         Send
       </button>
-      <p className={style.otpAttempt}>Attempt: 0/5</p>
+      <p className={style.otpAttempt}>
+        Attempt: {attempts?.attempts}/{attempts?.maxAttemptsAllow}
+      </p>
       <a
         className={style.otpPolicy}
         href={`${window.location.hostname}/customer-assistance/cookie-policy`}
