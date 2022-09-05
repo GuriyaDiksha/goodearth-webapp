@@ -352,6 +352,7 @@ class FilterList extends React.Component<Props, State> {
     //   );
     //});
     //}
+    this.handleAnimation(selectIndex + "l", false);
 
     this.setState({
       activeindex2: selectIndex + "l",
@@ -804,6 +805,7 @@ class FilterList extends React.Component<Props, State> {
       this.props.updateOnload(false);
       this.createList(nextProps.data);
       this.props.updateFacets(this.getSortedFacets(nextProps.facets));
+      this.handleAnimation("category", false);
     }
 
     if (
@@ -1135,8 +1137,8 @@ class FilterList extends React.Component<Props, State> {
   };
 
   generateSubCatagory = (data: any, html: any, categoryObj: any) => {
-    const name = data && data[0].split(">")[1]?.trim(),
-      id = data[0].trim();
+    const name = data && data?.[0].split(">")?.[1]?.trim(),
+      id = data?.[0]?.trim();
 
     html.push(
       <ul
@@ -1155,10 +1157,10 @@ class FilterList extends React.Component<Props, State> {
             id="all"
           >
             All (
-            {categoryObj.categoryShop[0]
+            {categoryObj.categoryShop?.[0]
               ? categoryObj.categoryShop.filter(
-                  (category: any) => category[0] == "All"
-                )[0][1]
+                  (category: any) => category?.[0] == "All"
+                )?.[0][1]
               : "0"}
             )
           </span>
