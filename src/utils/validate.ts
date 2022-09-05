@@ -123,9 +123,7 @@ export function productForBasketGa(data: Basket, currency: Currency) {
   if (data.lineItems) {
     product = data.lineItems.map(prod => {
       const category = categoryForGa(prod.product.categories);
-      const realPrice = prod.product.childAttributes[0].discountedPriceRecords
-        ? prod.product.childAttributes[0].discountedPriceRecords[currency]
-        : prod.product.childAttributes[0].priceRecords[currency];
+      const realPrice = prod.GCValue;
       return Object.assign(
         {},
         {
