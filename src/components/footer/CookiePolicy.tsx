@@ -115,39 +115,41 @@ const CookiePolicy: React.FC<Props> = ({ setConsent, acceptCookies }) => {
             )}
           >
             {isPrefOpen ? (
-              <>
-                <p className={styles.heading}>YOUR COOKIE PREFERENCES</p>
-                <hr />
-                <p className={styles.question}>What is a cookie?</p>
-                <p className={styles.answer}>
-                  Goodearth uses cookies, including third-party cookies, for
-                  functional reasons, for statistical analysis, to personalise
-                  your experience, offer you content that targets your
-                  particular interests and analyse the performance of our
-                  advertising campaigns.
-                </p>
-                <p className={styles.prefhead}>Manage Cookie Preferences</p>
-                <div className={styles.prefWrp}>
-                  {consents?.map((ele, i) => (
-                    <div className={styles.prefBlock} key={i}>
-                      <div className={styles.prefSubBlock}>
-                        <p className={styles.prefQue}>{ele?.name}</p>
-                        <p className={styles.prefAns}>{ele?.description}</p>
+              <div className={styles.euWrapper}>
+                <div className={styles.euInnerWrapper}>
+                  <p className={styles.heading}>YOUR COOKIE PREFERENCES</p>
+                  <hr />
+                  <p className={styles.question}>What is a cookie?</p>
+                  <p className={styles.answer}>
+                    Goodearth uses cookies, including third-party cookies, for
+                    functional reasons, for statistical analysis, to personalise
+                    your experience, offer you content that targets your
+                    particular interests and analyse the performance of our
+                    advertising campaigns.
+                  </p>
+                  <p className={styles.prefhead}>Manage Cookie Preferences</p>
+                  <div className={styles.prefWrp}>
+                    {consents?.map((ele, i) => (
+                      <div className={styles.prefBlock} key={i}>
+                        <div className={styles.prefSubBlock}>
+                          <p className={styles.prefQue}>{ele?.name}</p>
+                          <p className={styles.prefAns}>{ele?.description}</p>
+                        </div>
+                        <div className={styles.prefToggleWrp}>
+                          <ToggleSwitch
+                            id={ele?.id}
+                            checked={ele?.value}
+                            changeValue={changeValue}
+                            small={true}
+                            disabled={!ele?.is_editable}
+                          />
+                          {!ele?.is_editable ? (
+                            <p className={styles.prefActive}>Always Active</p>
+                          ) : null}
+                        </div>
                       </div>
-                      <div className={styles.prefToggleWrp}>
-                        <ToggleSwitch
-                          id={ele?.id}
-                          checked={ele?.value}
-                          changeValue={changeValue}
-                          small={true}
-                          disabled={!ele?.is_editable}
-                        />
-                        {!ele?.is_editable ? (
-                          <p className={styles.prefActive}>Always Active</p>
-                        ) : null}
-                      </div>
-                    </div>
-                  ))}
+                    ))}
+                  </div>
                 </div>
                 <div className={styles.btnWrp}>
                   <button
@@ -163,7 +165,7 @@ const CookiePolicy: React.FC<Props> = ({ setConsent, acceptCookies }) => {
                     accept all
                   </button>
                 </div>
-              </>
+              </div>
             ) : (
               <>
                 {/* <span
@@ -179,7 +181,7 @@ const CookiePolicy: React.FC<Props> = ({ setConsent, acceptCookies }) => {
                 <h3>COOKIES & PRIVACY</h3>
                 <p style={{ textAlign: "center" }}>
                   This website uses cookies to ensure you get the best
-                  experience on our website. Please read our ;
+                  experience on our website. Please read our&nbsp;
                   <Link to={"/customer-assistance/cookie-policy"}>
                     Cookie Policy
                   </Link>
