@@ -1229,9 +1229,11 @@ class FilterList extends React.Component<Props, State> {
   handleAnimation = (id: string, isShow: boolean) => {
     if (typeof document == "object" && document.getElementById(id)) {
       if (!isShow) {
-        document.getElementById(id).style.maxHeight = `${
-          document.getElementById(id)?.scrollHeight
-        }px`;
+        document.getElementById(id).style.maxHeight = document.getElementById(
+          id
+        )?.scrollHeight
+          ? `${document.getElementById(id)?.scrollHeight}px`
+          : "max-content";
       } else {
         document.getElementById(id).style.maxHeight = "0px";
       }
