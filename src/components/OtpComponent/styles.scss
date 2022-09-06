@@ -436,8 +436,14 @@ hr {
   background: #FFFFFF 0% 0% no-repeat padding-box;
   box-shadow: 0px 3px 6px #00000029;
   opacity: 1;
-  width: 100%;
-  padding: 40px 60px;
+  padding: 55px 80px 40px 80px;
+  max-width: 500px;
+  height: 400px;
+  margin: auto;
+
+  @media screen and (max-width: 1100px) {
+    padding: 40px;
+  }
 
   .otp-heading{
     @include b4_12px_montserrat_charcoal();
@@ -459,21 +465,26 @@ hr {
     display: flex;
     justify-content: space-between;
     .otp-input{
-      width: 15%;
-      border: 1px solid #E5E5E5;
-      border-radius: 7px;
+      width: 15% !important;
+      border: 1px solid #E5E5E5 !important;
+      border-radius: 7px !important;
       opacity: 1;
-      height: 45px;
+      height: 54px !important;
       background: #FFFFFF 0% 0% no-repeat padding-box;
-      text-align: center;
+      text-align: center !important;
       @include b1_16px_charcoal();
+      
+      @media screen and (max-width: 500px) {
+        padding: 0px;
+        height: 40px !important;
+      }
 
       &:active{
-        border: 1px solid $aqua-text;
+        border: 1px solid $aqua-text !important;
       }
 
       &:focus{
-        border: 1px solid $aqua-text;
+        border: 1px solid $aqua-text !important;
       }
 
     }
@@ -510,6 +521,7 @@ hr {
   .otp-attempt{
     @include b6_9px_light_montserrat_charcoal();
     padding-top: 10px;
+    padding-bottom: 20px;
   }
 
   .otp-policy{

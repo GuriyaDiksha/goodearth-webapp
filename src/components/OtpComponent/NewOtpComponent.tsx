@@ -2,19 +2,23 @@ import React, { useEffect, useState } from "react";
 import style from "./styles.scss";
 
 type Props = {
-  setOtpValue: (x: string) => void;
-  errorMsg: string;
+  errorMsg: (JSX.Element | string)[] | string;
   verifyOtp: (x: string) => void;
   resendOtp: () => void;
   attempts: { attempts: number; maxAttemptsAllow: number };
+  setAttempts: (x: any) => void;
+  otpSentVia: string;
+  btnText: string;
 };
 
 const NewOtpComponent: React.FC<Props> = ({
+  otpSentVia,
   resendOtp,
   verifyOtp,
   errorMsg,
-  setOtpValue,
-  attempts
+  attempts,
+  setAttempts,
+  btnText
 }) => {
   const [timeRemaining, setTimeRemaining] = useState(60);
   const [input, setInput] = useState({
@@ -42,6 +46,12 @@ const NewOtpComponent: React.FC<Props> = ({
   const clearTimer = () => {
     clearInterval(0);
     setTimeRemaining(0);
+    if (attempts?.maxAttemptsAllow === attempts?.attempts) {
+      setAttempts({
+        attempts: 0,
+        maxAttemptsAllow: 5
+      });
+    }
   };
 
   useEffect(() => {
@@ -60,6 +70,19 @@ const NewOtpComponent: React.FC<Props> = ({
     }
   }, [attempts?.attempts]);
 
+  useEffect(() => {
+    if (errorMsg) {
+      setInput({
+        otp1: "",
+        otp2: "",
+        otp3: "",
+        otp4: "",
+        otp5: "",
+        otp6: ""
+      });
+    }
+  }, [errorMsg]);
+
   const resetTimer = () => {
     resendOtp();
     setTimeRemaining(60);
@@ -67,19 +90,20 @@ const NewOtpComponent: React.FC<Props> = ({
   };
 
   const onOtpChange = (e: any) => {
-    setInput({ ...input, [e.target.name]: e.target.value });
-    const ele =
-      typeof document == "object" &&
-      document.getElementById(`otp${+e.target.id.match(/\d+/)[0] + 1}`);
-    if (ele) {
-      ele.focus();
+    const max_chars = 2;
+
+    if (e.target.value.length < max_chars) {
+      setInput({ ...input, [e.target.name]: e.target.value });
+      const ele =
+        typeof document == "object" &&
+        document.getElementById(`otp${+e.target.id.match(/\d+/)[0] + 1}`);
+      if (ele) {
+        ele.focus();
+      }
     }
   };
 
   const sendOtp = () => {
-    setOtpValue(
-      `${input?.otp1}${input?.otp2}${input?.otp3}${input?.otp4}${input?.otp5}${input?.otp6}`
-    );
     verifyOtp(
       `${input?.otp1}${input?.otp2}${input?.otp3}${input?.otp4}${input?.otp5}${input?.otp6}`
     );
@@ -88,7 +112,7 @@ const NewOtpComponent: React.FC<Props> = ({
   return (
     <div className={style.otpWrp}>
       <p className={style.otpHeading}>
-        OTP has been sent to you via your mobile number. Please enter below:
+        OTP has been sent to you via your {otpSentVia}. Please enter below:
       </p>
 
       <div className={style.otpInputWrp}>
@@ -153,7 +177,7 @@ const NewOtpComponent: React.FC<Props> = ({
           max={9}
         />
       </div>
-      {errorMsg ? (
+      {errorMsg || attempts?.maxAttemptsAllow === attempts?.attempts ? (
         <p className={style.otpError}>
           {attempts?.maxAttemptsAllow === attempts?.attempts
             ? "Maximum attempts reached. Please request for a new OTP after 5 mins"
@@ -181,10 +205,12 @@ const NewOtpComponent: React.FC<Props> = ({
         onClick={() => sendOtp()}
         disabled={
           `${input?.otp1}${input?.otp2}${input?.otp3}${input?.otp4}${input?.otp5}${input?.otp6}`
-            .length !== 6 || attempts?.maxAttemptsAllow === attempts?.attempts
+            .length !== 6 ||
+          attempts?.maxAttemptsAllow === attempts?.attempts ||
+          errorMsg !== ""
         }
       >
-        Send
+        {btnText}
       </button>
       <p className={style.otpAttempt}>
         Attempt: {attempts?.attempts}/{attempts?.maxAttemptsAllow}
