@@ -6,6 +6,9 @@ import { showMessage } from "actions/growlMessage";
 import { DomUtils, parseDocument } from "htmlparser2";
 import { useEffect, useState } from "react";
 import { GA_CALLS, ANY_ADS } from "constants/cookieConsent";
+import { sha256 } from "js-sha256";
+import { AppState } from "reducers/typings";
+import { useSelector } from "react-redux";
 
 export function checkMail(email: any) {
   // original regex with escape characters "\["
@@ -1499,9 +1502,22 @@ export const megaMenuNavigationGTM = ({
 export const pageViewGTM = (Title: string) => {
   try {
     const userConsent = CookieService.getCookie("consent").split(",");
+    const userInfo = JSON.parse(CookieService.getCookie("user"));
+
     if (userConsent.includes(GA_CALLS)) {
       dataLayer.push({
         event: "pageview",
+        Email: sha256(userInfo.email),
+        "First Name": sha256(userInfo.firstName),
+        "Last Name": sha256(userInfo.lastName),
+        Phone: sha256(userInfo.phoneNumber),
+        "External ID": sha256(userInfo.email),
+        Gender: sha256(userInfo.email),
+        Birthdate: "", //format will be this before hashing - 19910526 for May 26, 1991.
+        City: "", // Lowercase with any spaces removed before hashing.
+        "State or Province": sha256(userInfo.state?.toLowerCase()), // Lowercase two-letter state or province code before hashing.
+        "Zip or Postal Code": sha256(userInfo.pincode), //String
+        Country: sha256(userInfo.country),
         Page: {
           path: location.pathname,
           Title
