@@ -352,7 +352,7 @@ class FilterList extends React.Component<Props, State> {
     //   );
     //});
     //}
-    this.handleAnimation(selectIndex + "l", false);
+    this.handleAnimation(selectIndex + "l", false, true);
 
     this.setState({
       activeindex2: selectIndex + "l",
@@ -887,9 +887,23 @@ class FilterList extends React.Component<Props, State> {
     this.unlisten();
   }
 
-  handleAnimation = (id: string, isShow: boolean) => {
+  handleAnimation = (id: string, isShow: boolean, isSubCat = false) => {
     if (typeof document == "object" && document.getElementById(id)) {
       if (!isShow) {
+        if (
+          isSubCat &&
+          typeof document == "object" &&
+          document.getElementById("category")
+        ) {
+          document.getElementById(
+            "category"
+          ).style.maxHeight = document.getElementById("category")?.scrollHeight
+            ? `${Number(
+                (document.getElementById("category")?.scrollHeight || 0) +
+                  (document.getElementById(id)?.scrollHeight || 0)
+              )}px`
+            : "max-content";
+        }
         document.getElementById(id).style.maxHeight = document.getElementById(
           id
         )?.scrollHeight
@@ -1066,7 +1080,8 @@ class FilterList extends React.Component<Props, State> {
               this.handleAnimation(
                 data + "l",
                 this.state.showmenulevel2 &&
-                  this.state.activeindex2 == data + "l"
+                  this.state.activeindex2 == data + "l",
+                true
               );
             }}
           >
