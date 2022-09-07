@@ -1947,7 +1947,7 @@ class FilterList extends React.Component<Props, State> {
                   : styles.menulevel1
               }
               onClick={() => {
-                this.ClickProductCategory;
+                this.ClickProductCategory();
                 this.handleAnimation(
                   "producttype",
                   this.state.showProductFilter
