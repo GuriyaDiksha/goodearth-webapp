@@ -25,6 +25,7 @@ import AddressService from "services/address";
 import { updateCountryData } from "actions/address";
 import * as valid from "utils/validate";
 import BridalContext from "containers/myAccount/components/Bridal/context";
+import noPincodeCountryList from "./noPincodeCountryList";
 
 type Props = {
   addressData?: AddressData;
@@ -61,6 +62,7 @@ const AddressForm: React.FC<Props> = props => {
     currentCallBackComponent
   } = useContext(AddressContext);
   const [isIndia, setIsIndia] = useState(false);
+  const [showPincode, setShowPincode] = useState(true);
   const [countryOptions, setCountryOptions] = useState<CountryOptions[]>([]);
   const [stateOptions, setStateOptions] = useState<StateOptions[]>([]);
   const { addressData } = props;
@@ -120,6 +122,10 @@ const AddressForm: React.FC<Props> = props => {
       const { states, isd, value } = countryOptions.filter(
         country => country.value == selectedCountry
       )[0];
+
+      if (noPincodeCountryList.includes(selectedCountry)) {
+        setShowPincode(false);
+      }
 
       if (form) {
         // reset state
@@ -487,7 +493,7 @@ const AddressForm: React.FC<Props> = props => {
                 required
               />
             </div>
-          ) : (
+          ) : showPincode ? (
             <div>
               <FormInput
                 required
@@ -510,6 +516,8 @@ const AddressForm: React.FC<Props> = props => {
                 }}
               />
             </div>
+          ) : (
+            ""
           )}
           <div>
             <div className="select-group text-left">
