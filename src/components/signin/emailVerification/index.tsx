@@ -94,7 +94,7 @@ const EmailVerification: React.FC<Props> = ({
           </span>
         ]);
       } else {
-        setError("OTP Expired or Invalid OTP");
+        setError(err.response.data?.message || "OTP Expired or Invalid OTP");
       }
     } finally {
       setIsLoading(false);
@@ -202,7 +202,6 @@ const EmailVerification: React.FC<Props> = ({
           verifyOtp={verifyOtp}
           errorMsg={error}
           attempts={attempts}
-          setAttempts={setAttempts}
           btnText={"Verify OTP"}
         />
         {/* <div className={cs(styles.para, styles.verifyPara)}>

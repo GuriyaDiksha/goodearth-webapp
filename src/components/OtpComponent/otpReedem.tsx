@@ -298,7 +298,6 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
           verifyOtp={this.checkOtpValidation}
           errorMsg={this.state.showerror}
           attempts={this.state.attempts}
-          setAttempts={this.changeAttepts}
           btnText={"Redeem Points"}
         />
         {/* {(this.props.otpFor == "activateGC"

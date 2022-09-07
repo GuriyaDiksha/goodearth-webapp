@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import style from "./styles.scss";
+import cs from "classnames";
 
 type Props = {
   errorMsg: (JSX.Element | string)[] | string;
   verifyOtp: (x: string) => void;
   resendOtp: () => void;
   attempts: { attempts: number; maxAttemptsAllow: number };
-  setAttempts: (x: any) => void;
   otpSentVia: string;
   btnText: string;
 };
@@ -17,10 +17,10 @@ const NewOtpComponent: React.FC<Props> = ({
   verifyOtp,
   errorMsg,
   attempts,
-  setAttempts,
   btnText
 }) => {
-  const [timeRemaining, setTimeRemaining] = useState(60);
+  const [timeRemaining, setTimeRemaining] = useState(90);
+  const [error, setError] = useState<(JSX.Element | string)[] | string>("");
   const [input, setInput] = useState({
     otp1: "",
     otp2: "",
@@ -36,8 +36,7 @@ const NewOtpComponent: React.FC<Props> = ({
     return minutes + ":" + seconds;
   };
 
-  const timer = (time: number) => {
-    setTimeRemaining(time);
+  const timer = () => {
     setInterval(() => {
       setTimeRemaining(timeRemaining => timeRemaining - 1);
     }, 1000);
@@ -46,16 +45,11 @@ const NewOtpComponent: React.FC<Props> = ({
   const clearTimer = () => {
     clearInterval(0);
     setTimeRemaining(0);
-    if (attempts?.maxAttemptsAllow === attempts?.attempts) {
-      setAttempts({
-        attempts: 0,
-        maxAttemptsAllow: 5
-      });
-    }
   };
 
   useEffect(() => {
-    timer(60);
+    setTimeRemaining(90);
+    timer();
   }, []);
 
   useEffect(() => {
@@ -66,7 +60,8 @@ const NewOtpComponent: React.FC<Props> = ({
 
   useEffect(() => {
     if (attempts?.maxAttemptsAllow === attempts?.attempts) {
-      timer(60);
+      setTimeRemaining(300);
+      timer();
     }
   }, [attempts?.attempts]);
 
@@ -80,13 +75,14 @@ const NewOtpComponent: React.FC<Props> = ({
         otp5: "",
         otp6: ""
       });
+      setError(errorMsg);
     }
   }, [errorMsg]);
 
   const resetTimer = () => {
     resendOtp();
-    setTimeRemaining(60);
-    timer(60);
+    setTimeRemaining(90);
+    timer();
   };
 
   const onOtpChange = (e: any) => {
@@ -94,11 +90,14 @@ const NewOtpComponent: React.FC<Props> = ({
 
     if (e.target.value.length < max_chars) {
       setInput({ ...input, [e.target.name]: e.target.value });
-      const ele =
-        typeof document == "object" &&
-        document.getElementById(`otp${+e.target.id.match(/\d+/)[0] + 1}`);
-      if (ele) {
-        ele.focus();
+      setError("");
+      if (e.target.value !== "") {
+        const ele =
+          typeof document == "object" &&
+          document.getElementById(`otp${+e.target.id.match(/\d+/)[0] + 1}`);
+        if (ele) {
+          ele.focus();
+        }
       }
     }
   };
@@ -109,6 +108,23 @@ const NewOtpComponent: React.FC<Props> = ({
     );
   };
 
+  const onPasteOtp = (e: any) => {
+    const arr = e?.clipboardData.getData("Text").split("");
+    let newObj = {
+      otp1: "",
+      otp2: "",
+      otp3: "",
+      otp4: "",
+      otp5: "",
+      otp6: ""
+    };
+    setError("");
+    arr.map((ele: number, i: number) => {
+      newObj = { ...newObj, [`otp${i + 1}`]: ele };
+    });
+    setInput(newObj);
+  };
+
   return (
     <div className={style.otpWrp}>
       <p className={style.otpHeading}>
@@ -117,9 +133,10 @@ const NewOtpComponent: React.FC<Props> = ({
 
       <div className={style.otpInputWrp}>
         <input
-          className={style.otpInput}
+          className={cs(style.otpInput, error ? style.error : "")}
           value={input["otp1"]}
           onChange={e => onOtpChange(e)}
+          onPaste={e => onPasteOtp(e)}
           id="otp1"
           type="number"
           name="otp1"
@@ -127,9 +144,10 @@ const NewOtpComponent: React.FC<Props> = ({
           max={9}
         />
         <input
-          className={style.otpInput}
+          className={cs(style.otpInput, error ? style.error : "")}
           value={input["otp2"]}
           onChange={e => onOtpChange(e)}
+          onPaste={e => onPasteOtp(e)}
           id="otp2"
           type="number"
           name="otp2"
@@ -137,9 +155,10 @@ const NewOtpComponent: React.FC<Props> = ({
           max={9}
         />
         <input
-          className={style.otpInput}
+          className={cs(style.otpInput, error ? style.error : "")}
           value={input["otp3"]}
           onChange={e => onOtpChange(e)}
+          onPaste={e => onPasteOtp(e)}
           id="otp3"
           type="number"
           name="otp3"
@@ -147,9 +166,10 @@ const NewOtpComponent: React.FC<Props> = ({
           max={9}
         />
         <input
-          className={style.otpInput}
+          className={cs(style.otpInput, error ? style.error : "")}
           value={input["otp4"]}
           onChange={e => onOtpChange(e)}
+          onPaste={e => onPasteOtp(e)}
           id="otp4"
           type="number"
           name="otp4"
@@ -157,9 +177,10 @@ const NewOtpComponent: React.FC<Props> = ({
           max={9}
         />
         <input
-          className={style.otpInput}
+          className={cs(style.otpInput, error ? style.error : "")}
           value={input["otp5"]}
           onChange={e => onOtpChange(e)}
+          onPaste={e => onPasteOtp(e)}
           id="otp5"
           type="number"
           name="otp5"
@@ -167,9 +188,10 @@ const NewOtpComponent: React.FC<Props> = ({
           max={9}
         />
         <input
-          className={style.otpInput}
+          className={cs(style.otpInput, error ? style.error : "")}
           value={input["otp6"]}
           onChange={e => onOtpChange(e)}
+          onPaste={e => onPasteOtp(e)}
           id="otp6"
           type="number"
           name="otp6"
@@ -177,13 +199,7 @@ const NewOtpComponent: React.FC<Props> = ({
           max={9}
         />
       </div>
-      {errorMsg || attempts?.maxAttemptsAllow === attempts?.attempts ? (
-        <p className={style.otpError}>
-          {attempts?.maxAttemptsAllow === attempts?.attempts
-            ? "Maximum attempts reached. Please request for a new OTP after 5 mins"
-            : errorMsg}
-        </p>
-      ) : null}
+      {error ? <p className={style.otpError}>{error}</p> : null}
 
       <p className={style.otpTimer}>
         {timeRemaining ? (
@@ -205,9 +221,7 @@ const NewOtpComponent: React.FC<Props> = ({
         onClick={() => sendOtp()}
         disabled={
           `${input?.otp1}${input?.otp2}${input?.otp3}${input?.otp4}${input?.otp5}${input?.otp6}`
-            .length !== 6 ||
-          attempts?.maxAttemptsAllow === attempts?.attempts ||
-          errorMsg !== ""
+            .length !== 6 || attempts?.maxAttemptsAllow === attempts?.attempts
         }
       >
         {btnText}

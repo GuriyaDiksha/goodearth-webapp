@@ -650,7 +650,6 @@ class OtpComponent extends React.Component<otpProps, otpState> {
             verifyOtp={this.checkOtpValidation}
             errorMsg={this.state.showerror}
             attempts={this.state.attempts}
-            setAttempts={this.changeAttepts}
             btnText={
               this.props.otpFor == "activateGC"
                 ? "Activate Gift Card"

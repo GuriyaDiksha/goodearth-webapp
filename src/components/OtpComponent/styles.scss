@@ -464,12 +464,14 @@ hr {
   .otp-input-wrp{
     display: flex;
     justify-content: space-between;
+    height: 15%;
+
     .otp-input{
       width: 15% !important;
       border: 1px solid #E5E5E5 !important;
       border-radius: 7px !important;
       opacity: 1;
-      height: 54px !important;
+      height: 100% !important;
       background: #FFFFFF 0% 0% no-repeat padding-box;
       text-align: center !important;
       @include b1_16px_charcoal();
@@ -485,6 +487,10 @@ hr {
 
       &:focus{
         border: 1px solid $aqua-text !important;
+      }
+
+      &.error{
+        border: 1px solid $cerise !important;
       }
 
     }
