@@ -427,7 +427,7 @@ class Search extends React.Component<Props, State> {
                 !productsExist &&
                 this.state.searchValue.length <= 2 &&
                 !suggestionsExist
-                  ? cs(bootstrapStyles.row, globalStyles.voffset5)
+                  ? cs(bootstrapStyles.row, globalStyles.marginT20)
                   : globalStyles.hidden
               }
             >
@@ -480,7 +480,7 @@ class Search extends React.Component<Props, State> {
                 !productsExist &&
                 suggestionsExist &&
                 this.state.searchValue.length > 2
-                  ? cs(bootstrapStyles.row, globalStyles.voffset2)
+                  ? cs(bootstrapStyles.row, globalStyles.marginT20)
                   : globalStyles.hidden
               }
             >
@@ -543,7 +543,7 @@ class Search extends React.Component<Props, State> {
             <div
               className={
                 productsExist
-                  ? cs(bootstrapStyles.row, globalStyles.voffset5)
+                  ? cs(bootstrapStyles.row, globalStyles.marginT20)
                   : globalStyles.hidden
               }
             >
