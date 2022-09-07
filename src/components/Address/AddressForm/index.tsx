@@ -509,9 +509,6 @@ const AddressForm: React.FC<Props> = props => {
                   matchRegexp: isAlphanumericError
                 }}
               />
-              <p key="pincode-msg" className={styles.pincodeMsg}>
-                If there is no PIN code for your area please enter 000000.
-              </p>
             </div>
           )}
           <div>
