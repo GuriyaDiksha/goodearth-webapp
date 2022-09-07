@@ -18,6 +18,7 @@ export type otpState = {
     attempts: number;
     maxAttemptsAllow: number;
   };
+  startTimer: boolean;
 };
 
 export type otpProps = {

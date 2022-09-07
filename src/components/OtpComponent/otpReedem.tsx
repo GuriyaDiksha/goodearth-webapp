@@ -32,7 +32,8 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
       attempts: {
         attempts: 0,
         maxAttemptsAllow: 5
-      }
+      },
+      startTimer: false
     };
   }
   // timerId: any = 0;
@@ -85,6 +86,7 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
     }
     // data["inputType"] = "GIFT";
     data["points"] = this.props.points;
+    this.setState({ startTimer: true });
     this.sendOtpApiCall(data);
   };
 
@@ -120,7 +122,11 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
             this.setState(
               {
                 showerror: data.message,
-                isLoading: false
+                isLoading: false,
+                attempts: {
+                  attempts: data?.attempts || 0,
+                  maxAttemptsAllow: data?.maxAttemptsAllow || 5
+                }
               },
               () => {
                 valid.errorTracking([this.state.showerror], location.href);
@@ -299,6 +305,7 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
           errorMsg={this.state.showerror}
           attempts={this.state.attempts}
           btnText={"Redeem Points"}
+          startTimer={this.state.startTimer}
         />
         {/* {(this.props.otpFor == "activateGC"
           ? this.props.newCardBox == true

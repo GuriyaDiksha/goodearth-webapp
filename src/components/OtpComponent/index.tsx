@@ -32,7 +32,8 @@ class OtpComponent extends React.Component<otpProps, otpState> {
       attempts: {
         attempts: 0,
         maxAttemptsAllow: 5
-      }
+      },
+      startTimer: true
     };
   }
   // timerId: any = 0;
@@ -264,7 +265,11 @@ class OtpComponent extends React.Component<otpProps, otpState> {
               this.setState(
                 {
                   showerror: data.message,
-                  disable: true
+                  disable: true,
+                  attempts: {
+                    attempts: data?.attempts || 0,
+                    maxAttemptsAllow: data?.maxAttemptsAllow || 5
+                  }
                 },
                 () => {
                   valid.errorTracking([this.state.showerror], location.href);
@@ -655,6 +660,7 @@ class OtpComponent extends React.Component<otpProps, otpState> {
                 ? "Activate Gift Card"
                 : "Check Balance"
             }
+            startTimer={this.state.startTimer}
           />
           // <>
           //   {radioType == "number" ? (

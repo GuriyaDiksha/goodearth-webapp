@@ -71,6 +71,10 @@ const EmailVerification: React.FC<Props> = ({
 
         showLogin();
       } else {
+        setAttempts({
+          attempts: res?.attempts || 0,
+          maxAttemptsAllow: res?.maxAttemptsAllow || 5
+        });
         setError("Invalid OTP");
       }
     } catch (err) {
@@ -203,6 +207,7 @@ const EmailVerification: React.FC<Props> = ({
           errorMsg={error}
           attempts={attempts}
           btnText={"Verify OTP"}
+          startTimer={true}
         />
         {/* <div className={cs(styles.para, styles.verifyPara)}>
           <p>

@@ -9,6 +9,7 @@ type Props = {
   attempts: { attempts: number; maxAttemptsAllow: number };
   otpSentVia: string;
   btnText: string;
+  startTimer: boolean;
 };
 
 const NewOtpComponent: React.FC<Props> = ({
@@ -17,9 +18,11 @@ const NewOtpComponent: React.FC<Props> = ({
   verifyOtp,
   errorMsg,
   attempts,
-  btnText
+  btnText,
+  startTimer
 }) => {
   const [timeRemaining, setTimeRemaining] = useState(90);
+  const [timerId, setTimerId] = useState<any>();
   const [error, setError] = useState<(JSX.Element | string)[] | string>("");
   const [input, setInput] = useState({
     otp1: "",
@@ -37,26 +40,29 @@ const NewOtpComponent: React.FC<Props> = ({
   };
 
   const timer = () => {
-    setInterval(() => {
+    const id = setInterval(() => {
       setTimeRemaining(timeRemaining => timeRemaining - 1);
     }, 1000);
+    setTimerId(id);
   };
 
   const clearTimer = () => {
-    clearInterval(0);
+    clearInterval(timerId);
     setTimeRemaining(0);
   };
 
   useEffect(() => {
-    setTimeRemaining(90);
-    timer();
-  }, []);
+    if (startTimer) {
+      setTimeRemaining(90);
+      timer();
+    }
+  }, [startTimer]);
 
   useEffect(() => {
     if (timeRemaining <= 0) {
       clearTimer();
     }
-  }, [timeRemaining]);
+  }, [timeRemaining, timerId]);
 
   useEffect(() => {
     if (attempts?.maxAttemptsAllow === attempts?.attempts) {
@@ -80,6 +86,7 @@ const NewOtpComponent: React.FC<Props> = ({
   }, [errorMsg]);
 
   const resetTimer = () => {
+    setError("");
     resendOtp();
     setTimeRemaining(90);
     timer();
