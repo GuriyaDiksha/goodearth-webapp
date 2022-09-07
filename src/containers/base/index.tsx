@@ -17,6 +17,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { updateComponent, updateModal } from "actions/modal";
 import bootstrap from "../../styles/bootstrap/bootstrap-grid.scss";
 import cs from "classnames";
+import MakerSmartNav from "./MakerSmartNav";
 // import MusicPlayer from "components/MusicBar";
 // import whatsapp from "../../images/whatsapp.svg";
 // import flowerimg2 from "images/flower2.gif";
@@ -388,6 +389,7 @@ const BaseLayout: React.FC = () => {
         <Switch>{routes}</Switch>
       </div>
       {value && !(minimalPage || isCheckout) && <Footer />}
+      {pathname == "/" && <MakerSmartNav id="goodearth" inline={true} />}
       <Modal />
     </Fragment>
   );

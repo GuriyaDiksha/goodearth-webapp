@@ -174,7 +174,7 @@ let config = [
             rules: [
                            
                 {
-                    test: /\.(ts|tsx)$/,
+                    test: /\.(ts|tsx|jsx)$/,
                     exclude: /server/,
                     use: [
                         {
@@ -323,7 +323,7 @@ let config = [
             rules: [
                            
                 {
-                    test: /\.(ts|tsx)$/,
+                    test: /\.(ts|tsx|jsx)$/,
                     use: [ {
                         loader: "babel-loader",
                         options: {

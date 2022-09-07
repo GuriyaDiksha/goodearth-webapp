@@ -47,10 +47,10 @@ import CookieService from "services/cookie";
 import Skeleton from "react-loading-skeleton";
 import ProductDetails from "./components/productDetails";
 import PdpSlider from "components/PdpSlider";
-import activeGrid from "images/plpIcons/active_grid.svg";
-import inactiveGrid from "images/plpIcons/inactive_grid.svg";
-import activeList from "images/plpIcons/active_list.svg";
-import inactiveList from "images/plpIcons/inactive_list.svg";
+// import activeGrid from "images/plpIcons/active_grid.svg";
+// import inactiveGrid from "images/plpIcons/inactive_grid.svg";
+// import activeList from "images/plpIcons/active_list.svg";
+// import inactiveList from "images/plpIcons/inactive_list.svg";
 import Counter from "components/ProductCounter/counter";
 
 const PDP_TOP_OFFSET = HEADER_HEIGHT + SECONDARY_HEADER_HEIGHT;
