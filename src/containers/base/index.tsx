@@ -399,7 +399,7 @@ const BaseLayout: React.FC = () => {
       </div>
       {value && !(minimalPage || isCheckout) && <Footer />}
       {pathname == "/" && (currency == "INR" || currency == "USD") && (
-        <MakerSmartNav id="goodearth" inline={true} />
+        <MakerSmartNav id="TDEHYqQNA" inline={false} />
       )}
       <Modal />
     </Fragment>
