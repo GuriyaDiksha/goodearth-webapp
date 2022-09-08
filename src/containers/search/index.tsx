@@ -346,7 +346,7 @@ class Search extends React.Component<
                   styles.searchBlockPage
                 )}
               >
-                <input
+                {/* <input
                   type="text"
                   placeholder="Looking for something?"
                   value={this.state.searchText}
@@ -360,7 +360,7 @@ class Search extends React.Component<
                     styles.iconSearchbar
                   )}
                   onClick={this.onClickSearch}
-                ></i>
+                ></i> */}
               </div>
               <div className={cs(bootstrap.colMd3, styles.innerHeader)}>
                 <p className={styles.filterText}>Sort</p>
@@ -438,11 +438,11 @@ class Search extends React.Component<
                 href={`${window.location.origin}${this.props.location.pathname}?${this.props.location.search}`}
               />
             )} */}
-            {!mobile && data.length ? (
+            {data.length ? (
               <div
                 className={cs(
                   styles.productNumber,
-                  globalStyles.voffset5,
+                  globalStyles.marginT20,
                   styles.imageContainer,
                   {
                     [styles.border]: mobile
@@ -450,9 +450,9 @@ class Search extends React.Component<
                 )}
               >
                 <span>
-                  {count > 1
-                    ? count + " products found"
-                    : count + " product found"}{" "}
+                  Showing&nbsp;
+                  {count > 1 ? count + " results" : count + " result"}
+                  &nbsp;for {this.state.searchText}
                 </span>
               </div>
             ) : (
