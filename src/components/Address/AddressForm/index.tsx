@@ -522,7 +522,7 @@ const AddressForm: React.FC<Props> = props => {
                 name="postCode"
                 label={"Pin/Zip Code*"}
                 placeholder={"Pin/Zip Code*"}
-                value=""
+                value="000000"
                 handleChange={event => {
                   setIsAddressChanged(true);
                 }}
