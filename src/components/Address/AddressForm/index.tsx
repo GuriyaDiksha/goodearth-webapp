@@ -517,7 +517,25 @@ const AddressForm: React.FC<Props> = props => {
               />
             </div>
           ) : (
-            ""
+            <div style={{ display: "none" }}>
+              <FormInput
+                name="postCode"
+                label={"Pin/Zip Code*"}
+                placeholder={"Pin/Zip Code*"}
+                value=""
+                handleChange={event => {
+                  setIsAddressChanged(true);
+                }}
+                // validations={{
+                //   isExisty: true,
+                //   matchRegexp: /^[a-z\d\-_\s]+$/i
+                // }}
+                // validationErrors={{
+                //   isExisty: "Please fill this field",
+                //   matchRegexp: isAlphanumericError
+                // }}
+              />
+            </div>
           )}
           <div>
             <div className="select-group text-left">
