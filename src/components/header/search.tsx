@@ -766,8 +766,9 @@ class Search extends React.Component<Props, State> {
                               <div
                                 key={i}
                                 className={cs(
-                                  bootstrapStyles.colMd4,
-                                  bootstrapStyles.col6
+                                  // bootstrapStyles.colMd4,
+                                  bootstrapStyles.colMd2,
+                                  styles.suggestionBoxWidth
                                 )}
                               >
                                 {/* {data.salesBadgeImage ? (
