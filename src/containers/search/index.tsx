@@ -449,10 +449,11 @@ class Search extends React.Component<
                   }
                 )}
               >
-                <span>
+                <span className={styles.searchRes}>
                   Showing&nbsp;
                   {count > 1 ? count + " results" : count + " result"}
-                  &nbsp;for {this.state.searchText}
+                  &nbsp;for
+                  <span>&nbsp;&ldquo;{this.state.searchText}&rdquo;</span>
                 </span>
               </div>
             ) : (
