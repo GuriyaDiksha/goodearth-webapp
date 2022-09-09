@@ -209,7 +209,6 @@ const AddressItem: React.FC<Props> = props => {
       });
     }
   };
-
   // const openAddressForm = (address: AddressData) => {
   //     // props.showEditForm({showAddresses: false, addressData: data, editMode: true, newAddressMode: false, addressesAvailable: true});
   //     // if (props.setAddressModeProfile) {

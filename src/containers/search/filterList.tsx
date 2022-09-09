@@ -352,6 +352,7 @@ class FilterList extends React.Component<Props, State> {
     //   );
     //});
     //}
+    this.handleAnimation(selectIndex + "l", false, true);
 
     this.setState({
       activeindex2: selectIndex + "l",
@@ -804,6 +805,7 @@ class FilterList extends React.Component<Props, State> {
       this.props.updateOnload(false);
       this.createList(nextProps.data);
       this.props.updateFacets(this.getSortedFacets(nextProps.facets));
+      this.handleAnimation("category", false);
     }
 
     if (
@@ -884,6 +886,34 @@ class FilterList extends React.Component<Props, State> {
     window.removeEventListener("scroll", this.handleScroll);
     this.unlisten();
   }
+
+  handleAnimation = (id: string, isShow: boolean, isSubCat = false) => {
+    if (typeof document == "object" && document.getElementById(id)) {
+      if (!isShow) {
+        if (
+          isSubCat &&
+          typeof document == "object" &&
+          document.getElementById("category")
+        ) {
+          document.getElementById(
+            "category"
+          ).style.maxHeight = document.getElementById("category")?.scrollHeight
+            ? `${Number(
+                (document.getElementById("category")?.scrollHeight || 0) +
+                  (document.getElementById(id)?.scrollHeight || 0)
+              )}px`
+            : "max-content";
+        }
+        document.getElementById(id).style.maxHeight = document.getElementById(
+          id
+        )?.scrollHeight
+          ? `${document.getElementById(id)?.scrollHeight}px`
+          : "max-content";
+      } else {
+        document.getElementById(id).style.maxHeight = "0px";
+      }
+    }
+  };
 
   onClickLevel4 = (event: any) => {
     const id = event.target.id;
@@ -1045,15 +1075,24 @@ class FilterList extends React.Component<Props, State> {
                 ? styles.selectedCatShop
                 : ""
             )}
-            onClick={this.Clickmenulevel2.bind(this, data + "l")}
+            onClick={() => {
+              this.Clickmenulevel2(data + "l");
+              this.handleAnimation(
+                data + "l",
+                this.state.showmenulevel2 &&
+                  this.state.activeindex2 == data + "l",
+                true
+              );
+            }}
           >
             {data}
           </span>
           <div
+            id={data + "l"}
             className={
               this.state.showmenulevel2 && this.state.activeindex2 == data + "l"
                 ? styles.showheader2
-                : globalStyles.hidden
+                : styles.hideDiv
             }
           >
             <ul className={styles.categorylabel}>
@@ -1115,8 +1154,8 @@ class FilterList extends React.Component<Props, State> {
   };
 
   generateSubCatagory = (data: any, html: any, categoryObj: any) => {
-    const name = data && data[0].split(">")[1]?.trim(),
-      id = data[0].trim();
+    const name = data && data?.[0].split(">")?.[1]?.trim(),
+      id = data?.[0]?.trim();
 
     html.push(
       <ul
@@ -1135,10 +1174,10 @@ class FilterList extends React.Component<Props, State> {
             id="all"
           >
             All (
-            {categoryObj.categoryShop[0]
+            {categoryObj.categoryShop?.[0]
               ? categoryObj.categoryShop.filter(
-                  (category: any) => category[0] == "All"
-                )[0][1]
+                  (category: any) => category?.[0] == "All"
+                )?.[0][1]
               : "0"}
             )
           </span>
@@ -1909,15 +1948,22 @@ class FilterList extends React.Component<Props, State> {
                   ? cs(styles.menulevel1, styles.menulevel1Open)
                   : styles.menulevel1
               }
-              onClick={this.ClickmenuCategory.bind(this, 0)}
+              onClick={() => {
+                this.ClickmenuCategory(0);
+                this.handleAnimation(
+                  "category",
+                  this.state.categoryindex == 0 && this.state.categorylevel1
+                );
+              }}
             >
               Category
             </span>
             <div
+              id="category"
               className={
                 this.state.categoryindex == 0 && this.state.categorylevel1
                   ? styles.showheader1
-                  : globalStyles.hidden
+                  : styles.hideDiv
               }
             >
               {this.createCatagoryFromFacets(
@@ -1945,7 +1991,13 @@ class FilterList extends React.Component<Props, State> {
                       ? cs(styles.menulevel1, styles.menulevel1Open)
                       : styles.menulevel1
                   }
-                  onClick={this.toggleFilterByDiscountMenu.bind(this)}
+                  onClick={() => {
+                    this.toggleFilterByDiscountMenu();
+                    this.handleAnimation(
+                      "discount",
+                      this.state.showFilterByDiscountMenu
+                    );
+                  }}
                 >
                   FILTER BY DISCOUNT
                 </span>
@@ -1953,10 +2005,11 @@ class FilterList extends React.Component<Props, State> {
                 ""
               )}
               <div
+                id="discount"
                 className={
                   this.state.showFilterByDiscountMenu
                     ? styles.showheader1
-                    : globalStyles.hidden
+                    : styles.hideDiv
                 }
               >
                 {this.createDiscountType(
@@ -1985,7 +2038,13 @@ class FilterList extends React.Component<Props, State> {
                     ? cs(styles.menulevel1, styles.menulevel1Open)
                     : globalStyles.menulevel1
                 }
-                onClick={this.ClickProductCategory.bind(this)}
+                onClick={() => {
+                  this.ClickProductCategory();
+                  this.handleAnimation(
+                    "producttype",
+                    this.state.showProductFilter
+                  );
+                }}
               >
                 PRODUCT TYPE
               </span>
@@ -1993,10 +2052,11 @@ class FilterList extends React.Component<Props, State> {
               ""
             )}
             <div
+              id="producttype"
               className={
                 this.state.showProductFilter
                   ? styles.showheader1
-                  : globalStyles.hidden
+                  : styles.hideDiv
               }
             >
               {this.createProductType(
@@ -2026,15 +2086,22 @@ class FilterList extends React.Component<Props, State> {
                   ? cs(styles.menulevel1, styles.menulevel1Open)
                   : styles.menulevel1
               }
-              onClick={this.Clickmenulevel1.bind(this, 1)}
+              onClick={() => {
+                this.Clickmenulevel1(1);
+                this.handleAnimation(
+                  "color",
+                  this.state.activeindex == 1 && this.state.showmenulevel1
+                );
+              }}
             >
               COLOR
             </span>
             <div
+              id="color"
               className={
                 this.state.activeindex == 1 && this.state.showmenulevel1
                   ? styles.colorhead
-                  : globalStyles.hidden
+                  : styles.hideDiv
               }
             >
               <ul>
@@ -2064,15 +2131,22 @@ class FilterList extends React.Component<Props, State> {
                       ? cs(styles.menulevel1, styles.menulevel1Open)
                       : styles.menulevel1
                   }
-                  onClick={this.Clickmenulevel1.bind(this, 2)}
+                  onClick={() => {
+                    this.Clickmenulevel1(2);
+                    this.handleAnimation(
+                      "size",
+                      this.state.activeindex == 2 && this.state.showmenulevel1
+                    );
+                  }}
                 >
                   size
                 </span>
                 <div
+                  id="size"
                   className={
                     this.state.activeindex == 2 && this.state.showmenulevel1
                       ? styles.showheader1
-                      : globalStyles.hidden
+                      : styles.hideDiv
                   }
                 >
                   <ul className={styles.sizeList}>
@@ -2112,15 +2186,22 @@ class FilterList extends React.Component<Props, State> {
                   ? cs(styles.menulevel1, styles.menulevel1Open)
                   : styles.menulevel1
               }
-              onClick={this.Clickmenulevel1.bind(this, 3)}
+              onClick={() => {
+                this.Clickmenulevel1(3);
+                this.handleAnimation(
+                  "price",
+                  this.state.activeindex == 3 && this.state.showmenulevel1
+                );
+              }}
             >
               Price
             </span>
             <div
+              id="price"
               className={
                 this.state.activeindex == 3 && this.state.showmenulevel1
                   ? "showheader1"
-                  : globalStyles.hidden
+                  : styles.hideDiv
               }
             >
               {this.state.rangevalue.length > 0 ? (
