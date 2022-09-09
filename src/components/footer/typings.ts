@@ -22,6 +22,7 @@ export type FooterState = {
   newsletterMessage: string;
   newsletterError: boolean;
   isInViewport: boolean;
+  isConsentSave: boolean;
 };
 
 export type ShopLocations = { label: string; value: string }[];

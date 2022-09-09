@@ -48,7 +48,7 @@ const PdpSlider: React.FC<Props> = memo(
         }
         return (
           <div
-            key={id}
+            key={`${id}${index}`}
             className={cs(styles.imageContainer, {
               [styles.active]: currentIndex == index,
               [styles.clickable]: onImageClick

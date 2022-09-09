@@ -1,8 +1,6 @@
 import React, { Fragment } from "react";
 import SecondaryHeader from "components/SecondaryHeader";
-import SelectableDropdownMenu from "components/dropdown/selectableDropdownMenu";
 import initActionSearch from "./initAction";
-import { DropdownItem } from "components/dropdown/baseDropdownMenu/typings";
 import cs from "classnames";
 import { AppState } from "reducers/typings";
 import { connect } from "react-redux";
@@ -28,6 +26,7 @@ import { POPUP } from "constants/components";
 import * as util from "utils/validate";
 import SecondaryHeaderDropdown from "components/dropdown/secondaryHeaderDropdown";
 import { CategoryMenu } from "containers/plp/typings";
+import { GA_CALLS, ANY_ADS } from "constants/cookieConsent";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -149,19 +148,24 @@ class Search extends React.Component<
     this.setState({
       searchMaker: true
     });
-    dataLayer.push(function(this: any) {
-      this.reset();
-    });
-    util.pageViewGTM("Search");
-    dataLayer.push({
-      event: "SearchView",
-      PageURL: this.props.location.pathname,
-      Page_Title: "virtual_search_view"
-    });
-    Moengage.track_event("Page viewed", {
-      "Page URL": this.props.location.pathname,
-      "Page Name": "SearchView"
-    });
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes(GA_CALLS)) {
+      dataLayer.push(function(this: any) {
+        this.reset();
+      });
+      util.pageViewGTM("Search");
+      dataLayer.push({
+        event: "SearchView",
+        PageURL: this.props.location.pathname,
+        Page_Title: "virtual_search_view"
+      });
+    }
+    if (userConsent.includes(ANY_ADS)) {
+      Moengage.track_event("Page viewed", {
+        "Page URL": this.props.location.pathname,
+        "Page Name": "SearchView"
+      });
+    }
     this.props
       .fetchFeaturedContent()
       .then(data => {
@@ -235,22 +239,27 @@ class Search extends React.Component<
         const listPath = `SearchResults`;
         CookieService.setCookie("listPath", listPath);
         // let cur = this.state.salestatus ? item.product.discounted_pricerecord[window.currency] : item.product.pricerecords[window.currency]
-        dataLayer.push({
-          event: "productClick",
-          ecommerce: {
-            currencyCode: this.props.currency,
-            click: {
-              // actionField: { list: "Search Page" },
-              actionField: { list: listPath },
-              products: product
+        const userConsent = CookieService.getCookie("consent").split(",");
+        if (userConsent.includes(GA_CALLS)) {
+          dataLayer.push({
+            event: "productClick",
+            ecommerce: {
+              currencyCode: this.props.currency,
+              click: {
+                // actionField: { list: "Search Page" },
+                actionField: { list: listPath },
+                products: product
+              }
             }
-          }
-        });
-        Moengage.track_event("search", {
-          keyword: product.name,
-          "Search Suggestions Clicked": true,
-          Currency: this.props.currency
-        });
+          });
+        }
+        if (userConsent.includes(ANY_ADS)) {
+          Moengage.track_event("search", {
+            keyword: product.name,
+            "Search Suggestions Clicked": true,
+            Currency: this.props.currency
+          });
+        }
       }
     } catch (err) {
       console.log("Search GTM error");

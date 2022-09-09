@@ -47,11 +47,12 @@ import CookieService from "services/cookie";
 import Skeleton from "react-loading-skeleton";
 import ProductDetails from "./components/productDetails";
 import PdpSlider from "components/PdpSlider";
-import activeGrid from "images/plpIcons/active_grid.svg";
-import inactiveGrid from "images/plpIcons/inactive_grid.svg";
-import activeList from "images/plpIcons/active_list.svg";
-import inactiveList from "images/plpIcons/inactive_list.svg";
+// import activeGrid from "images/plpIcons/active_grid.svg";
+// import inactiveGrid from "images/plpIcons/inactive_grid.svg";
+// import activeList from "images/plpIcons/active_list.svg";
+// import inactiveList from "images/plpIcons/inactive_list.svg";
 import Counter from "components/ProductCounter/counter";
+import { GA_CALLS, ANY_ADS } from "constants/cookieConsent";
 
 const PDP_TOP_OFFSET = HEADER_HEIGHT + SECONDARY_HEADER_HEIGHT;
 const sidebarPosition = PDP_TOP_OFFSET + 23;
@@ -239,21 +240,26 @@ class PDPContainer extends React.Component<Props, State> {
 
   componentDidMount() {
     this.pdpURL = this.props.location.pathname;
-    dataLayer.push(function(this: any) {
-      this.reset();
-    });
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes(GA_CALLS)) {
+      dataLayer.push(function(this: any) {
+        this.reset();
+      });
 
-    valid.pageViewGTM("PDP");
-    dataLayer.push({
-      event: "PdpView",
-      PageURL: this.props.location.pathname,
-      Page_Title: "virtual_pdp_view"
-    });
+      valid.pageViewGTM("PDP");
+      dataLayer.push({
+        event: "PdpView",
+        PageURL: this.props.location.pathname,
+        Page_Title: "virtual_pdp_view"
+      });
+    }
 
-    Moengage.track_event("Page viewed", {
-      "Page URL": this.props.location.pathname,
-      "Page Name": "PdpView"
-    });
+    if (userConsent.includes(ANY_ADS)) {
+      Moengage.track_event("Page viewed", {
+        "Page URL": this.props.location.pathname,
+        "Page Name": "PdpView"
+      });
+    }
 
     const { data, currency } = this.props;
 
@@ -278,20 +284,22 @@ class PDPContainer extends React.Component<Props, State> {
         variants += child.size;
       }
     });
-    dataLayer.push({
-      "Event Category": "GA Ecommerce",
-      "Event Action": "PDP",
-      "Event Label": subcategoryname,
-      "Product Category": category.replace("/", "-"),
-      "Login Status": this.props.isLoggedIn ? "logged in" : "logged out",
-      "Time Stamp": new Date().toISOString(),
-      "Page Url": location.href,
-      "Product Name": data?.title,
-      "Product ID": data?.id,
-      Variant: variants,
-      "Page Type": valid.getPageType(),
-      "Page referrer url": CookieService.getCookie("prevUrl")
-    });
+    if (userConsent.includes(GA_CALLS)) {
+      dataLayer.push({
+        "Event Category": "GA Ecommerce",
+        "Event Action": "PDP",
+        "Event Label": subcategoryname,
+        "Product Category": category.replace("/", "-"),
+        "Login Status": this.props.isLoggedIn ? "logged in" : "logged out",
+        "Time Stamp": new Date().toISOString(),
+        "Page Url": location.href,
+        "Product Name": data?.title,
+        "Product ID": data?.id,
+        Variant: variants,
+        "Page Type": valid.getPageType(),
+        "Page referrer url": CookieService.getCookie("prevUrl")
+      });
+    }
 
     valid.PDP(data, currency);
 
@@ -956,7 +964,8 @@ class PDPContainer extends React.Component<Props, State> {
       childAttributes,
       title,
       discount,
-      badgeType
+      badgeType,
+      plpSliderImages
     } = product;
     const {
       updateComponentModal,
@@ -990,7 +999,8 @@ class PDPContainer extends React.Component<Props, State> {
         badgeType: badgeType,
         isSale: isSale,
         discountedPrice: discountedPriceRecords[currency],
-        list: "pdp"
+        list: "pdp",
+        sliderImages: plpSliderImages
       },
       false,
       ModalStyles.bottomAlign

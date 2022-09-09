@@ -26,6 +26,7 @@ import { Link } from "react-router-dom";
 import { updateModal } from "actions/modal";
 import Price from "components/Price";
 import ReactHtmlParser from "react-html-parser";
+import { GA_CALLS } from "constants/cookieConsent";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -202,17 +203,20 @@ class Search extends React.Component<Props, State> {
         );
       }
     );
-    dataLayer.push({
-      event: "productClick",
-      ecommerce: {
-        currencyCode: this.props.currency,
-        click: {
-          // actionField: { list: "Search Popup" },
-          actionField: { list: listPath },
-          products: products.concat(attr)
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes(GA_CALLS)) {
+      dataLayer.push({
+        event: "productClick",
+        ecommerce: {
+          currencyCode: this.props.currency,
+          click: {
+            // actionField: { list: "Search Popup" },
+            actionField: { list: listPath },
+            products: products.concat(attr)
+          }
         }
-      }
-    });
+      });
+    }
     this.props.toggle();
     this.props.history.push(data.url);
   }

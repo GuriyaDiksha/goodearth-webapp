@@ -26,6 +26,8 @@ import * as valid from "utils/validate";
 import { Currency } from "typings/currency";
 import { POPUP } from "constants/components";
 import metaActionCollection from "./metaAction";
+import CookieService from "services/cookie";
+import { GA_CALLS } from "constants/cookieConsent";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -224,10 +226,13 @@ class CollectionSpecific extends React.Component<
   }
 
   componentDidMount() {
-    dataLayer.push(function(this: any) {
-      this.reset();
-    });
-    valid.pageViewGTM("CollectionSpecific");
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes(GA_CALLS)) {
+      dataLayer.push(function(this: any) {
+        this.reset();
+      });
+      valid.pageViewGTM("CollectionSpecific");
+    }
     // dataLayer.push({
     //   event: "CategoryLangingPageView",
     //   PageURL: this.props.location.pathname,

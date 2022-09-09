@@ -44,13 +44,13 @@ const PromoSection: React.FC<PromoProps> = props => {
     ) {
       PromoChild.gcBalance();
     } else {
-      util.checkoutGTM(4, currency, basket);
+      // util.checkoutGTM(4, currency, basket);
       next(Steps.STEP_PAYMENT);
     }
   };
 
   const onNext = () => {
-    util.checkoutGTM(4, currency, basket);
+    // util.checkoutGTM(4, currency, basket);
     next(Steps.STEP_PAYMENT);
   };
 
