@@ -121,7 +121,7 @@ a {
   margin-top: 30px;
 }
 .margin-t-40 {
-  margin-top: 40px;
+  margin-top: 40px !important;
 }
 .margin-t-50 {
   margin-top: 50px;
@@ -412,6 +412,14 @@ font-weight: bold;
 
 .voffset9 {
   margin-top: 150px;
+}
+
+.paddBottom-20 {
+  padding-bottom: 20px;
+}
+
+.paddLeft-10 {
+  padding-left: 10px;
 }
 
 .paddTop-20 {

@@ -231,9 +231,15 @@ const Section4: React.FC<Section4Props> = props => {
                       required
                     />
                     {nummsg ? (
-                      <p className={cs(styles.errorMsg)}>{nummsg}</p>
+                      <p
+                        className={cs(styles.errorMsg, globalStyles.paddLeft10)}
+                      >
+                        {nummsg}
+                      </p>
                     ) : (
-                      <p className={styles.errorMsg}></p>
+                      <p
+                        className={cs(styles.errorMsg, globalStyles.paddLeft10)}
+                      ></p>
                     )}
                     {tablet && (
                       <div
@@ -253,7 +259,11 @@ const Section4: React.FC<Section4Props> = props => {
                     )}
                     {!mobile && (
                       <div
-                        className={cs(bootstrapStyles.col12, styles.buttonRow)}
+                        className={cs(
+                          bootstrapStyles.col12,
+                          globalStyles.marginT40,
+                          styles.buttonRow
+                        )}
                       >
                         <div className={cs(styles.imageSelectBtnContainer)}>
                           <button

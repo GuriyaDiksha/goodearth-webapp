@@ -19,7 +19,7 @@
 
 h2 {
   text-transform: none;
-  letter-spacing: 0;
+  letter-spacing: 0.5px;
   line-height: 34px;
   font-size: 25px;
   font-family: $font-Serif;
@@ -28,7 +28,7 @@ h2 {
 
 .clr-p {
   @include b4_12px_montserrat_charcoal();
-  letter-spacing: 1px;
+  letter-spacing: 0.5px;
 }
 
 .clr-note {
@@ -70,6 +70,7 @@ h2 {
   label {
     @include b5_10px_montserrat_charcoal();
     letter-spacing: 0.5px;
+    margin-bottom: 0;
     a {
       color: $charcoal19;
     }
@@ -97,7 +98,7 @@ h2 {
 .gc-head {
   @include b4_12px_montserrat_medium_charcoal();
   text-transform: uppercase;
-  letter-spacing: 1px;
+  letter-spacing: 0.5px;
 }
 
 .card-img {
@@ -206,7 +207,7 @@ h2 {
   }
   }
   .banner-btn-link {
-    letter-spacing: 1px;
+    letter-spacing: 0.5px;
     cursor: pointer;
     position: relative;
     span {
@@ -272,7 +273,7 @@ h2 {
   @include b4_12px_montserrat_medium_charcoal();
   text-transform: uppercase;
   color:#9F9F9F;
-  letter-spacing: 1px;
+  letter-spacing: 0.5px;
   cursor: pointer;
   &:hover{
     text-decoration: underline;
@@ -305,7 +306,7 @@ h2 {
 
 .heading {
   @include b4_12px_montserrat_charcoal();
-  letter-spacing: 1px;
+  letter-spacing: 0.5px;
   line-height: 50px;
 }
 
@@ -377,7 +378,7 @@ input[type="radio"]:checked+label:before {
     text-align: center;
     line-height: 50px;
     display: inline-block;
-    letter-spacing: 1px;
+    letter-spacing: 0.5px;
     font-weight: bold;
     border: 2px solid transparent;
   }
@@ -393,7 +394,7 @@ input[type="radio"]:checked+label:before {
     text-align: center;
     line-height: 50px;
     display: inline-block;
-    letter-spacing: 1px;
+    letter-spacing: 0.5px;
     border: 2px solid transparent;
   }
   > p {
