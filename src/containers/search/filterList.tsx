@@ -1221,7 +1221,7 @@ class FilterList extends React.Component<Props, State> {
     subcat.map((data: any) => {
       categorydata.subCategories.map((sub: any) => {
         if (data[0].indexOf(sub[0]) > -1) {
-          html = this.generateSubCatagory(sub, html, categoryObj);
+          // html = this.generateSubCatagory(sub, html, categoryObj);
         }
       });
     });
