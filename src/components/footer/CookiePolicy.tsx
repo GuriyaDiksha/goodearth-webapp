@@ -6,10 +6,11 @@ import { Link } from "react-router-dom";
 import CookieService from "services/cookie";
 import { AppState } from "reducers/typings";
 import { useSelector, useStore } from "react-redux";
-import WidgetService from "services/widget";
+// import WidgetService from "services/widget";
 import { Consent } from "services/widget/typings";
 import { clone } from "lodash";
 import globalStyles from "../../styles/global.scss";
+import fontStyles from "styles/iconFonts.scss";
 
 type Props = {
   hideCookies: any;
@@ -17,15 +18,19 @@ type Props = {
   setConsent: any;
 };
 
-const CookiePolicy: React.FC<Props> = ({ setConsent, acceptCookies }) => {
+const CookiePolicy: React.FC<Props> = ({
+  setConsent,
+  acceptCookies,
+  hideCookies
+}) => {
   const [isPrefOpen, setIsPrefOpen] = useState(false);
   const [consents, setConsents] = useState<Consent[]>([]);
   const [regionName, setRegion] = useState<string>("");
   const { region, widgetDetail, country, ip } = useSelector(
     (state: AppState) => state.widget
   );
-  const { email } = useSelector((state: AppState) => state.user);
-  const store = useStore();
+  // const { email } = useSelector((state: AppState) => state.user);
+  // const store = useStore();
 
   useEffect(() => {
     document.body.classList.add(globalStyles.noScroll);
@@ -35,15 +40,15 @@ const CookiePolicy: React.FC<Props> = ({ setConsent, acceptCookies }) => {
   }, []);
 
   useEffect(() => {
-    // setRegion("Europe");
-    // WidgetService.getWidgetDetail(store.dispatch, "EUROPE");
-    setRegion(region === "" ? CookieService.getCookie("region") : region);
-    WidgetService.getWidgetDetail(
-      store.dispatch,
-      (region === "" ? CookieService.getCookie("region") : region) === "Europe"
-        ? "EUROPE"
-        : "GLOBAL"
-    );
+    setRegion("India"); //Hardcoded region
+    // WidgetService.getWidgetDetail(store.dispatch, "GLOBAL");
+    // setRegion(region === "" ? CookieService.getCookie("region") : region);
+    // WidgetService.getWidgetDetail(
+    //   store.dispatch,
+    //   (region === "" ? CookieService.getCookie("region") : region) === "Europe"
+    //     ? "EUROPE"
+    //     : "GLOBAL"
+    // );
   }, [region]);
 
   useEffect(() => {
@@ -61,23 +66,23 @@ const CookiePolicy: React.FC<Props> = ({ setConsent, acceptCookies }) => {
   };
 
   const saveConsent = (consents: any) => {
-    const selectedConsent: any = consents
-      .filter((e: any) => e.value === true)
-      .map((e: any) => e.functionalities)
-      .join(",");
+    // const selectedConsent: any = consents
+    //   .filter((e: any) => e.value === true)
+    //   .map((e: any) => e.functionalities)
+    //   .join(",");
 
-    CookieService.setCookie("consent", selectedConsent, 365);
+    CookieService.setCookie("consent", "GA-Calls,Any-Ads", 365); //Hardcoded consents
 
-    WidgetService.postConsentDetail(store.dispatch, {
-      ip: ip || CookieService.getCookie("ip"),
-      consents: consents
-        .filter((e: any) => e.value === true)
-        .map((e: any) => e.name)
-        .join(","),
-      country: country || CookieService.getCookie("country"),
-      widget_name: regionName === "Europe" ? "EUROPE" : "GLOBAL",
-      email: email || ""
-    });
+    // WidgetService.postConsentDetail(store.dispatch, {
+    //   ip: ip || CookieService.getCookie("ip"),
+    //   consents: consents
+    //     .filter((e: any) => e.value === true)
+    //     .map((e: any) => e.name)
+    //     .join(","),
+    //   country: country || CookieService.getCookie("country"),
+    //   widget_name: regionName === "Europe" ? "EUROPE" : "GLOBAL",
+    //   email: email || ""
+    // });
     setConsent();
   };
 
@@ -101,6 +106,11 @@ const CookiePolicy: React.FC<Props> = ({ setConsent, acceptCookies }) => {
   const acceptAndContinue = () => {
     saveConsent(consents);
     acceptCookies();
+  };
+
+  const hideCookie = () => {
+    CookieService.setCookie("consent", "GA-Calls,Any-Ads", 365); //Hardcoded consents
+    hideCookies();
   };
 
   return (
@@ -168,16 +178,16 @@ const CookiePolicy: React.FC<Props> = ({ setConsent, acceptCookies }) => {
               </div>
             ) : (
               <>
-                {/* <span
-            className={cs(
-              styles.closePopup,
-              fontStyles.icon,
-              fontStyles.iconCross
-            )}
-            onClick={() => {
-              hideCookies();
-            }}
-          ></span> */}
+                <span
+                  className={cs(
+                    styles.closePopup,
+                    fontStyles.icon,
+                    fontStyles.iconCross
+                  )}
+                  onClick={() => {
+                    hideCookie();
+                  }}
+                ></span>
                 <h3>COOKIES & PRIVACY</h3>
                 <p style={{ textAlign: "center" }}>
                   This website uses cookies to ensure you get the best
