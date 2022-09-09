@@ -13,6 +13,8 @@ import iconStyles from "styles/iconFonts.scss";
 import globalStyles from "../../../styles/global.scss";
 import styles from "../styles.scss";
 import cs from "classnames";
+import CookieService from "services/cookie";
+import { GA_CALLS } from "constants/cookieConsent";
 
 const mapDispatchToProps = (dispatch: Dispatch) => {
   return {
@@ -68,11 +70,14 @@ class PincodePopup extends React.Component<Props, State> {
         } else {
           this.setState({ status: "no" });
         }
-        dataLayer.push({
-          event: "Pincode Information",
-          clickType: pinCode,
-          message: data.status ? "Start shopping" : "Pincode Not Serviceable"
-        });
+        const userConsent = CookieService.getCookie("consent").split(",");
+        if (userConsent.includes(GA_CALLS)) {
+          dataLayer.push({
+            event: "Pincode Information",
+            clickType: pinCode,
+            message: data.status ? "Start shopping" : "Pincode Not Serviceable"
+          });
+        }
         localStorage.setItem("selectedPincode", pinCode);
         this.props.setPincode(pinCode);
       })
