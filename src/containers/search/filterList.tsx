@@ -206,8 +206,8 @@ class FilterList extends React.Component<Props, State> {
     const categories: any = [],
       subCategories: any = [],
       categoryNames: any = [],
-      categoryObj: any = {},
-      counts = {};
+      categoryObj: any = {};
+    // counts = {};
 
     const { filter } = this.state;
 
@@ -278,13 +278,15 @@ class FilterList extends React.Component<Props, State> {
       // viewData.length > 2 ? viewData.pop() : "";
       if (!categoryObj[tempKey]) {
         categoryObj[tempKey] = [["View all ", viewData.join(">").trim()]];
-        counts[tempKey] = 0;
+        categoryObj[tempKey][0][3] = facets?.categoryShopDetail.filter(
+          (ele: any) => ele.name === tempKey
+        )[0]["all_count"];
       }
 
       if (data[0].split(">")[1]) {
         categoryObj[tempKey].push([data[0].split(">")[1].trim()].concat(data));
-        counts[tempKey] = counts[tempKey] + data[2];
-        categoryObj[tempKey][0][3] = counts[tempKey];
+        // counts[tempKey] = counts[tempKey] + data[2];
+        // categoryObj[tempKey][0][3] = counts[tempKey];
       }
     });
 
