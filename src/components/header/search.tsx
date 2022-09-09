@@ -877,7 +877,8 @@ class Search extends React.Component<Props, State> {
                       <div className={styles.searchBottomBlock}>
                         <div className={globalStyles.textCenter}>
                           <button onClick={this.onClickSearch}>
-                            {`View All ${this.state.count} Results`}{" "}
+                            {/* {`View All ${this.state.count} Results`}{" "} */}
+                            {`View All Results`}{" "}
                           </button>
                         </div>
                       </div>
