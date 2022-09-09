@@ -344,9 +344,7 @@ const CareerFilter: React.FC<Props> = ({
                     name="View All"
                     onClick={e => handleCheckbox(e, "depts")}
                   />
-                  <label htmlFor={"dept_all"}>{`View All (${facets?.depts
-                    ?.map(e => e.count)
-                    .reduce((partialSum, a) => partialSum + a, 0)})`}</label>
+                  <label htmlFor={"dept_all"}>{`View All`}</label>
                 </li>
                 {depts?.map((ele, i) => (
                   <li key={i}>
@@ -411,9 +409,7 @@ const CareerFilter: React.FC<Props> = ({
                     onClick={e => handleCheckbox(e, "tags")}
                     disabled={tagLocFilter?.tag?.length !== tags?.length}
                   />
-                  <label htmlFor={"tag_all"}>{`View All (${facets?.tags
-                    ?.map(e => e.count)
-                    .reduce((partialSum, a) => partialSum + a, 0)})`}</label>
+                  <label htmlFor={"tag_all"}>{`View All`}</label>
                 </li>
                 {tags?.map((ele, i) => (
                   <li
@@ -486,9 +482,10 @@ const CareerFilter: React.FC<Props> = ({
                     onClick={e => handleCheckbox(e, "locs")}
                     disabled={tagLocFilter?.loc?.length !== locs?.length}
                   />
-                  <label htmlFor={"loc_all"}>{`View All (${facets?.locs
+                  {/* <label htmlFor={"loc_all"}>{`View All (${facets?.locs
                     ?.map(e => e.count)
-                    .reduce((partialSum, a) => partialSum + a, 0)})`}</label>
+                    .reduce((partialSum, a) => partialSum + a, 0)})`}</label> */}
+                  <label htmlFor={"loc_all"}>{`View All`}</label>
                 </li>
                 {locs?.map((ele, i) => (
                   <li
