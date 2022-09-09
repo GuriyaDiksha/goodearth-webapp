@@ -398,9 +398,9 @@ const BaseLayout: React.FC = () => {
         <Switch>{routes}</Switch>
       </div>
       {value && !(minimalPage || isCheckout) && <Footer />}
-      {pathname == "/" && (currency == "INR" || currency == "USD") && (
+      {/* {pathname == "/" && (currency == "INR" || currency == "USD") && (
         <MakerSmartNav id="TDEHYqQNA" inline={false} />
-      )}
+      )} */}
       <Modal />
     </Fragment>
   );
