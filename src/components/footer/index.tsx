@@ -775,8 +775,8 @@ class Footer extends React.Component<Props, FooterState> {
           "/customer-assistance/cookie-policy" &&
           this.props.location.pathname !==
             "/customer-assistance/privacy-policy" &&
-          ((this.props.showCookie && !this.props.mobileMenuOpenState) ||
-            !this.state.isConsentSave) && (
+          this.props.showCookie && !this.props.mobileMenuOpenState && (
+            // || !this.state.isConsentSave)
             <CookiePolicy
               hideCookies={this.props.hideCookies}
               acceptCookies={this.acceptCookies}
