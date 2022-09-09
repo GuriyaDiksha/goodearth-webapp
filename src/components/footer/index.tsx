@@ -773,10 +773,10 @@ class Footer extends React.Component<Props, FooterState> {
             </div>
           </div>
         </div>
-        {/* {this.props.location.pathname == "/" &&
+        {this.props.location.pathname == "/" &&
           (this.props.currency == "INR" || this.props.currency == "USD") && (
             <MakerSmartNav id="TDEHYqQNA" inline={false} />
-          )} */}
+          )}
 
         {this.props.location.pathname !==
           "/customer-assistance/cookie-policy" &&
