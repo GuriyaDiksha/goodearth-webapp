@@ -33,6 +33,7 @@ export type AddressFormData = {
   line1: string;
   line2: string;
   state: string;
+  province?: string;
 };
 
 export type Props = {

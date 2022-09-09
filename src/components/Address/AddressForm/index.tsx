@@ -25,6 +25,7 @@ import AddressService from "services/address";
 import { updateCountryData } from "actions/address";
 import * as valid from "utils/validate";
 import BridalContext from "containers/myAccount/components/Bridal/context";
+import noPincodeCountryList from "./noPincodeCountryList";
 
 type Props = {
   addressData?: AddressData;
@@ -61,6 +62,7 @@ const AddressForm: React.FC<Props> = props => {
     currentCallBackComponent
   } = useContext(AddressContext);
   const [isIndia, setIsIndia] = useState(false);
+  const [showPincode, setShowPincode] = useState(true);
   const [countryOptions, setCountryOptions] = useState<CountryOptions[]>([]);
   const [stateOptions, setStateOptions] = useState<StateOptions[]>([]);
   const { addressData } = props;
@@ -120,6 +122,10 @@ const AddressForm: React.FC<Props> = props => {
       const { states, isd, value } = countryOptions.filter(
         country => country.value == selectedCountry
       )[0];
+
+      if (noPincodeCountryList.includes(selectedCountry)) {
+        setShowPincode(false);
+      }
 
       if (form) {
         // reset state
@@ -487,7 +493,7 @@ const AddressForm: React.FC<Props> = props => {
                 required
               />
             </div>
-          ) : (
+          ) : showPincode ? (
             <div>
               <FormInput
                 required
@@ -508,6 +514,26 @@ const AddressForm: React.FC<Props> = props => {
                   isExisty: "Please fill this field",
                   matchRegexp: isAlphanumericError
                 }}
+              />
+            </div>
+          ) : (
+            <div style={{ display: "none" }}>
+              <FormInput
+                name="postCode"
+                label={"Pin/Zip Code*"}
+                placeholder={"Pin/Zip Code*"}
+                value="000000"
+                handleChange={event => {
+                  setIsAddressChanged(true);
+                }}
+                // validations={{
+                //   isExisty: true,
+                //   matchRegexp: /^[a-z\d\-_\s]+$/i
+                // }}
+                // validationErrors={{
+                //   isExisty: "Please fill this field",
+                //   matchRegexp: isAlphanumericError
+                // }}
               />
             </div>
           )}
@@ -531,27 +557,51 @@ const AddressForm: React.FC<Props> = props => {
               <span className="arrow"></span>
             </div>
           </div>
-          <div>
-            <div className="select-group text-left">
-              <FormSelect
-                required
-                name="state"
-                label={"State*"}
-                placeholder={"Select State*"}
-                disable={isIndia}
-                options={stateOptions}
-                value=""
-                handleChange={() => setIsAddressChanged(true)}
-                validations={{
-                  isExisty: true
+          {stateOptions && stateOptions.length > 0 ? (
+            <div>
+              <div className="select-group text-left">
+                <FormSelect
+                  required
+                  name="state"
+                  label={"State*"}
+                  placeholder={"Select State*"}
+                  disable={isIndia}
+                  options={stateOptions}
+                  value=""
+                  handleChange={() => setIsAddressChanged(true)}
+                  validations={{
+                    isExisty: true
+                  }}
+                  validationErrors={{
+                    isExisty: isExistyError,
+                    isEmptyString: isExistyError
+                  }}
+                />
+              </div>
+            </div>
+          ) : (
+            <div>
+              <FormInput
+                name="province"
+                label={"Province"}
+                placeholder={"Province"}
+                value={
+                  addressData && !isCountryChanged ? addressData.province : ""
+                }
+                handleChange={event => {
+                  setIsAddressChanged(true);
                 }}
-                validationErrors={{
-                  isExisty: isExistyError,
-                  isEmptyString: isExistyError
-                }}
+                // validations={{
+                //   isExisty: true,
+                //   matchRegexp: /^[a-z\d\-_\s]+$/i
+                // }}
+                // validationErrors={{
+                //   isExisty: "Please fill this field",
+                //   matchRegexp: isAlphanumericError
+                // }}
               />
             </div>
-          </div>
+          )}
           <div>
             <FormInput
               required
