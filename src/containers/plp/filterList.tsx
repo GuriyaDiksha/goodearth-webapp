@@ -16,6 +16,8 @@ import * as valid from "utils/validate";
 import iconStyles from "../../styles/iconFonts.scss";
 import multiColour from "../../images/multiColour.svg";
 import bootstrap from "../../styles/bootstrap/bootstrap-grid.scss";
+import CookieService from "services/cookie";
+import { GA_CALLS } from "constants/cookieConsent";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -327,11 +329,14 @@ class FilterList extends React.Component<Props, State> {
       filter: filter,
       rangevalue: [value[0], value[1]]
     });
-    dataLayer.push({
-      event: "Filter used",
-      "Filter type": "Price",
-      "Filter value": value[0] + "-" + value[1]
-    });
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes(GA_CALLS)) {
+      dataLayer.push({
+        event: "Filter used",
+        "Filter type": "Price",
+        "Filter value": value[0] + "-" + value[1]
+      });
+    }
     this.createUrlfromFilter();
   };
 
@@ -1172,12 +1177,14 @@ class FilterList extends React.Component<Props, State> {
       filter: filter,
       oldSelectedCategory: event.target.value
     });
-
-    dataLayer.push({
-      event: "Filter used",
-      "Filter type": "Category",
-      "Filter value": event.target.value
-    });
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes(GA_CALLS)) {
+      dataLayer.push({
+        event: "Filter used",
+        "Filter type": "Category",
+        "Filter value": event.target.value
+      });
+    }
 
     this.createUrlfromFilter();
     event.stopPropagation();
@@ -1234,11 +1241,14 @@ class FilterList extends React.Component<Props, State> {
       isChecked: event.target.checked,
       value: event.target.value
     };
-    dataLayer.push({
-      event: "Filter used",
-      "Filter type": "Color",
-      "Filter value": event.target.value
-    });
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes(GA_CALLS)) {
+      dataLayer.push({
+        event: "Filter used",
+        "Filter type": "Color",
+        "Filter value": event.target.value
+      });
+    }
     this.setState({
       filter: filter
     });
@@ -1341,11 +1351,14 @@ class FilterList extends React.Component<Props, State> {
       isChecked: event.target.checked,
       value: event.target.value
     };
-    dataLayer.push({
-      event: "Filter used",
-      "Filter type": "Size​",
-      "Filter value": event.target.value
-    });
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes(GA_CALLS)) {
+      dataLayer.push({
+        event: "Filter used",
+        "Filter type": "Size​",
+        "Filter value": event.target.value
+      });
+    }
 
     this.setState({
       filter: filter

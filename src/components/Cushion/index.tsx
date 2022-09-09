@@ -478,6 +478,7 @@ class CushionBag extends React.Component<Props, State> {
       }
     });
     const index = categories.length - 1;
+    const { data } = this.props.filler;
     let category = categories[index]
       ? categories[index].replace(/\s/g, "")
       : "";
@@ -496,7 +497,8 @@ class CushionBag extends React.Component<Props, State> {
         badgeType: badgeType,
         isSale: this.props.isSale,
         discountedPrice: discountPrices,
-        list: "pdp"
+        list: "pdp",
+        sliderImages: data.plpSliderImages
       },
       false,
       ModalStyles.bottomAlign

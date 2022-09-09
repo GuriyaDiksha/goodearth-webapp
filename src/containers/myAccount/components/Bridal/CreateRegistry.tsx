@@ -14,6 +14,8 @@ import glasses from "../../../../images/bridal/glasses.svg";
 import bridalRing from "../../../../images/bridal/rings.svg";
 import { confirmPopup } from "utils/validate";
 import * as util from "utils/validate";
+import CookieService from "services/cookie";
+import { GA_CALLS } from "constants/cookieConsent";
 
 const CreateRegistry: React.FC = () => {
   const { setCurrentModule, setCurrentModuleData, data } = useContext(
@@ -32,12 +34,15 @@ const CreateRegistry: React.FC = () => {
 
   useEffect(() => {
     window.addEventListener("beforeunload", confirmPopup);
-    util.pageViewGTM("MyAccount");
-    dataLayer.push({
-      event: "registry",
-      "Event Category": "Registry",
-      "Event Action": "Registry page"
-    });
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes(GA_CALLS)) {
+      util.pageViewGTM("MyAccount");
+      dataLayer.push({
+        event: "registry",
+        "Event Category": "Registry",
+        "Event Action": "Registry page"
+      });
+    }
   }, []);
 
   return (

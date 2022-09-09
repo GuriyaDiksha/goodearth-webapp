@@ -16,6 +16,8 @@ import { MESSAGE } from "constants/messages";
 import * as valid from "utils/validate";
 import { AppState } from "reducers/typings";
 import Loader from "components/Loader";
+import CookieService from "services/cookie";
+import { GA_CALLS } from "constants/cookieConsent";
 
 const Section4: React.FC<Section4Props> = props => {
   const [nummsg, setNummsg] = useState("");
@@ -47,13 +49,35 @@ const Section4: React.FC<Section4Props> = props => {
       setIsLoading(true);
       GiftcardService.addToGiftcard(dispatch, data)
         .then((res: any) => {
-          dataLayer.push({
-            event: "card_add_to_cart",
-            design: data.imageUrl,
-            location: props.selectedCountry,
-            value: data.customPrice
-          });
+          const userConsent = CookieService.getCookie("consent").split(",");
+          if (userConsent.includes(GA_CALLS)) {
+            dataLayer.push({
+              event: "card_add_to_cart",
+              design: data.imageUrl,
+              location: props.selectedCountry,
+              value: data.customPrice
+            });
 
+            dataLayer.push({
+              event: "addToCart",
+              ecommerce: {
+                currencyCode: currency,
+                add: {
+                  products: [
+                    {
+                      name: "Gift Card",
+                      id: data.productId,
+                      price: res.data.total,
+                      brand: "Goodearth",
+                      category: "Gift Card",
+                      variant: "",
+                      quantity: 1
+                    }
+                  ]
+                }
+              }
+            });
+          }
           const basket: Basket = res.data;
           dispatch(updateBasket(basket));
           valid.showGrowlMessage(dispatch, MESSAGE.ADD_TO_BAG_GIFTCARD_SUCCESS);
@@ -144,6 +168,7 @@ const Section4: React.FC<Section4Props> = props => {
                 You have received a Good Earth eGift card <br /> worth{" "}
                 <span className={styles.aqua}>
                   {String.fromCharCode(...code)}
+                  {"  "}
                   {customPrice}
                 </span>{" "}
                 from
