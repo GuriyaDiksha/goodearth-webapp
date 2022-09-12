@@ -3,6 +3,7 @@ import loadable from "@loadable/component";
 import { RouteConfig, ROUTES, RouteMap } from "./typings";
 import initAction from "containers/pdp/initAction";
 import metaAction from "containers/pdp/metaAction";
+import metaActionPlp from "containers/plp/metaAction";
 import metaActionCareer from "containers/careerDetail/metaAction";
 import initActionCollection from "containers/collectionLanding/initAction";
 // import metaActionCollectionLanding from "containers/collectionLanding/metaAction";
@@ -46,6 +47,7 @@ const routes: RouteConfig = [
     path: ROUTES.PLP,
     component: loadable(() => import("containers/plp")),
     action: initActionPLP,
+    meta: metaActionPlp,
     exact: false
   },
   {
