@@ -280,7 +280,9 @@ class Search extends React.Component<Props, State> {
     });
     this.props
       .fetchSearchProducts(
-        `${searchUrl.split("/autocomplete")[1]}&currency=INR&source=frontend`
+        `${searchUrl.split("/autocomplete")[1]}&currency=${
+          this.props.currency
+        }&source=frontend`
       )
       .then(data => {
         // debugger;
