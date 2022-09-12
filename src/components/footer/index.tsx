@@ -387,7 +387,15 @@ class Footer extends React.Component<Props, FooterState> {
                                         ? cs(styles.cerise)
                                         : ""
                                     }
-                                    onClick={() => valid.footerGTM(list.name)}
+                                    onClick={() => {
+                                      if (
+                                        this.props.location.pathname ==
+                                        list.link
+                                      ) {
+                                        window.scrollTo(0, 0);
+                                      }
+                                      valid.footerGTM(list.name);
+                                    }}
                                   >
                                     {list.name}
                                   </Link>
@@ -436,11 +444,17 @@ class Footer extends React.Component<Props, FooterState> {
                                                   ? "/account/bridal"
                                                   : currentValue.link
                                               }
-                                              onClick={() =>
+                                              onClick={() => {
+                                                if (
+                                                  this.props.location
+                                                    .pathname == list.link
+                                                ) {
+                                                  window.scrollTo(0, 0);
+                                                }
                                                 valid.footerGTM(
                                                   currentValue.text
-                                                )
-                                              }
+                                                );
+                                              }}
                                               key={j}
                                             >
                                               {currentValue.text}
@@ -583,9 +597,15 @@ class Footer extends React.Component<Props, FooterState> {
                                     {item.link ? (
                                       <Link
                                         to={item.link || "#"}
-                                        onClick={() =>
-                                          valid.footerGTM(item.name)
-                                        }
+                                        onClick={() => {
+                                          if (
+                                            this.props.location.pathname ==
+                                            item.link
+                                          ) {
+                                            window.scrollTo(0, 0);
+                                          }
+                                          valid.footerGTM(item.name);
+                                        }}
                                       >
                                         {item.name}
                                       </Link>
@@ -606,9 +626,15 @@ class Footer extends React.Component<Props, FooterState> {
                                           <a
                                             className={globalStyles.txtNormal}
                                             href={child.link}
-                                            onClick={() =>
-                                              valid.footerGTM(child.text)
-                                            }
+                                            onClick={() => {
+                                              if (
+                                                this.props.location.pathname ==
+                                                child.link
+                                              ) {
+                                                window.scrollTo(0, 0);
+                                              }
+                                              valid.footerGTM(child.text);
+                                            }}
                                           >
                                             {child.text}
                                           </a>
@@ -621,9 +647,15 @@ class Footer extends React.Component<Props, FooterState> {
                                                 ? "/account/bridal"
                                                 : child.link
                                             }
-                                            onClick={() =>
-                                              valid.footerGTM(child.text)
-                                            }
+                                            onClick={() => {
+                                              if (
+                                                this.props.location.pathname ==
+                                                child.link
+                                              ) {
+                                                window.scrollTo(0, 0);
+                                              }
+                                              valid.footerGTM(child.text);
+                                            }}
                                           >
                                             {child.text}
                                           </Link>
