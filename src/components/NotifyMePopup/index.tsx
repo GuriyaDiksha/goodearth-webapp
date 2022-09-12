@@ -33,6 +33,8 @@ import { ProductID } from "typings/id";
 import * as util from "utils/validate";
 import Loader from "components/Loader";
 import { AppState } from "reducers/typings";
+import CookieService from "../../services/cookie";
+import { GA_CALLS } from "constants/cookieConsent";
 
 type Props = {
   basketLineId?: ProductID;
@@ -163,70 +165,72 @@ const NotifyMePopup: React.FC<Props> = ({
     const category3 = (sliderImages || [])?.filter(ele => ele?.icon).length
       ? "3d"
       : "non 3d";
-    dataLayer.push({
-      "Event Category": "GA Ecommerce",
-      "Event Action": "Add to Cart",
-      "Event Label": subcategoryname,
-      "Time Stamp": new Date().toISOString(),
-      "Cart Source": location.href,
-      "Product Category": categoryList,
-      "Login Status": isLoggedIn ? "logged in" : "logged out",
-      "Product Name": title,
-      "Product ID": selectedSize?.id,
-      Variant: size
-    });
-
-    dataLayer.push({
-      event: "addToCart",
-      ecommerce: {
-        currencyCode: currency,
-        add: {
-          products: [
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes(GA_CALLS)) {
+      dataLayer.push({
+        "Event Category": "GA Ecommerce",
+        "Event Action": "Add to Cart",
+        "Event Label": subcategoryname,
+        "Time Stamp": new Date().toISOString(),
+        "Cart Source": location.href,
+        "Product Category": categoryList,
+        "Login Status": isLoggedIn ? "logged in" : "logged out",
+        "Product Name": title,
+        "Product ID": selectedSize?.id,
+        Variant: size
+      });
+      dataLayer.push({
+        event: "addToCart",
+        ecommerce: {
+          currencyCode: currency,
+          add: {
+            products: [
+              {
+                name: title,
+                id: selectedSize?.sku || childAttributes[0].sku,
+                price:
+                  selectedSize?.discountedPriceRecords[currency] ||
+                  selectedSize?.priceRecords[currency],
+                brand: "Goodearth",
+                category: category,
+                variant: selectedSize?.size || childAttributes[0].size || "",
+                quantity: quantity
+              }
+            ]
+          }
+        }
+      });
+      dataLayer.push({ ecommerce: null }); // Clear the previous ecommerce object.
+      dataLayer.push({
+        event: "add_to_cart",
+        ecommerce: {
+          items: [
             {
-              name: title,
-              id: selectedSize?.sku || childAttributes[0].sku,
+              item_id: selectedSize?.sku || childAttributes[0].sku, //Pass the product id
+              item_name: title, // Pass the product name
+              affiliation: title, // Pass the product name
+              coupon: "", // Pass the coupon if available
+              currency: currency, // Pass the currency code
+              discount: discount, // Pass the discount amount
+              index: "",
+              item_brand: "Goodearth",
+              item_category: category,
+              item_category2: selectedSize?.size, //pass the item category2 ex.Size
+              item_category3: category3, //pass the product type 3d or non 3d
+              item_list_id: "", //pass the item list id
+              item_list_name: "", //pass the item list name ex.search results
+              item_variant: selectedSize?.size || "",
+              item_category4: l1, //pass the L1
+              item_category5: collection,
               price:
                 selectedSize?.discountedPriceRecords[currency] ||
                 selectedSize?.priceRecords[currency],
-              brand: "Goodearth",
-              category: category,
-              variant: selectedSize?.size || childAttributes[0].size || "",
               quantity: quantity
             }
           ]
         }
-      }
-    });
-    dataLayer.push({ ecommerce: null }); // Clear the previous ecommerce object.
-    dataLayer.push({
-      event: "add_to_cart",
-      ecommerce: {
-        items: [
-          {
-            item_id: selectedSize?.sku || childAttributes[0].sku, //Pass the product id
-            item_name: title, // Pass the product name
-            affiliation: title, // Pass the product name
-            coupon: "", // Pass the coupon if available
-            currency: currency, // Pass the currency code
-            discount: discount, // Pass the discount amount
-            index: "",
-            item_brand: "Goodearth",
-            item_category: category,
-            item_category2: selectedSize?.size, //pass the item category2 ex.Size
-            item_category3: category3, //pass the product type 3d or non 3d
-            item_list_id: "", //pass the item list id
-            item_list_name: "", //pass the item list name ex.search results
-            item_variant: selectedSize?.size || "",
-            item_category4: l1, //pass the L1
-            item_category5: collection,
-            price:
-              selectedSize?.discountedPriceRecords[currency] ||
-              selectedSize?.priceRecords[currency],
-            quantity: quantity
-          }
-        ]
-      }
-    });
+      });
+    }
   };
 
   const addToBasket = async () => {
@@ -309,12 +313,13 @@ const NotifyMePopup: React.FC<Props> = ({
         allOutOfStock = false;
       }
     });
-    if (allOutOfStock || (selectedSize && selectedSize.stock == 0)) {
-      buttonText = "Notify Me";
-      action = onNotifyClick;
-    } else if (!selectedSize && childAttributes.length > 1) {
+
+    if (!selectedSize && childAttributes.length > 1) {
       buttonText = "Select Size";
       action = sizeSelectClick;
+    } else if (allOutOfStock || (selectedSize && selectedSize.stock == 0)) {
+      buttonText = "Notify Me";
+      action = onNotifyClick;
     } else {
       buttonText = "Add to Bag";
       action = addToBasket;
@@ -463,9 +468,6 @@ const NotifyMePopup: React.FC<Props> = ({
               />
             </div>
           )}
-          {/* {sizeerror && (
-            <p className={styles.sizeError}>Please select a size to proceed</p>
-          )} */}
         </div>
         <div className={styles.buttonContainer}>{Pdpbutton}</div>
       </div>

@@ -17,6 +17,7 @@ import MakerEnhance from "maker-enhance";
 import CollectionService from "services/collection";
 import ReactHtmlParser from "react-html-parser";
 import metaActionCollection from "./metaAction";
+import CookieService from "services/cookie";
 
 import {
   updateCollectionData,
@@ -25,6 +26,7 @@ import {
 import { getProductIdFromSlug } from "utils/url";
 import { RouteComponentProps, withRouter } from "react-router";
 import * as util from "utils/validate";
+import { GA_CALLS } from "constants/cookieConsent";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -161,9 +163,12 @@ class CollectionLanding extends React.Component<
     }
   }
   componentDidMount() {
-    dataLayer.push(function(this: any) {
-      this.reset();
-    });
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes(GA_CALLS)) {
+      dataLayer.push(function(this: any) {
+        this.reset();
+      });
+    }
     util.pageViewGTM("CollectionLanding");
     // dataLayer.push({
     //   event: "CategoryLangingPageView",

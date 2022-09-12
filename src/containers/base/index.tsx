@@ -17,6 +17,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { updateComponent, updateModal } from "actions/modal";
 import bootstrap from "../../styles/bootstrap/bootstrap-grid.scss";
 import cs from "classnames";
+import MakerSmartNav from "./MakerSmartNav";
 // import MusicPlayer from "components/MusicBar";
 // import whatsapp from "../../images/whatsapp.svg";
 // import flowerimg2 from "images/flower2.gif";
@@ -25,6 +26,7 @@ import cs from "classnames";
 // import MakerPopup from "components/Popups/MakerPopup";
 import { POPUP } from "constants/components";
 import Loader from "components/Loader";
+import { GA_CALLS } from "constants/cookieConsent";
 // import { CUST } from "constants/util";
 // import * as _ from "lodash";
 const BaseLayout: React.FC = () => {
@@ -65,10 +67,13 @@ const BaseLayout: React.FC = () => {
   };
   useEffect(() => {
     if (getPWADisplayMode() == "standalone") {
-      dataLayer.push({
-        event: "App Icon Click",
-        page: location
-      });
+      const userConsent = CookieService.getCookie("consent").split(",");
+      if (userConsent.includes(GA_CALLS)) {
+        dataLayer.push({
+          event: "App Icon Click",
+          page: location
+        });
+      }
     }
   }, []);
   // useEffect(() => {
@@ -101,15 +106,18 @@ const BaseLayout: React.FC = () => {
   useEffect(() => {
     const isHomePage = location.pathname == "/";
     if (isHomePage) {
-      dataLayer.push({
-        "Event Category": "General Pages",
-        "Event Action": "Home Page",
-        "Event Label": " web|home",
-        "Time Stamp": new Date().toISOString(),
-        "Page Url": location.hostname + location.pathname,
-        "Page Type": "Home",
-        "Login Status": isLoggedIn ? "logged in" : "logged out"
-      });
+      const userConsent = CookieService.getCookie("consent").split(",");
+      if (userConsent.includes(GA_CALLS)) {
+        dataLayer.push({
+          "Event Category": "General Pages",
+          "Event Action": "Home Page",
+          "Event Label": " web|home",
+          "Time Stamp": new Date().toISOString(),
+          "Page Url": location.hostname + location.pathname,
+          "Page Type": "Home",
+          "Login Status": isLoggedIn ? "logged in" : "logged out"
+        });
+      }
     }
     CookieService.setCookie("prevUrl", prevUrl);
     setPrevUrl(location.href);
@@ -277,15 +285,17 @@ const BaseLayout: React.FC = () => {
     }
 
     const cookieCurrency = CookieService.getCookie("currency");
+    const cookieRegion = CookieService.getCookie("region");
     if (
-      !cookieCurrency &&
-      !(
-        location.pathname.includes("/bridal/") ||
-        announcementData.isBridalActive ||
-        bridal
-      )
+      (!cookieCurrency &&
+        !(
+          location.pathname.includes("/bridal/") ||
+          announcementData.isBridalActive ||
+          bridal
+        )) ||
+      !cookieRegion
     ) {
-      LoginService.getClientIpCurrency()
+      LoginService.getClientIpCurrency(dispatch)
         .then(curr => {
           if (curr != "error") {
             if (curr && !cookieCurrency) {
@@ -388,6 +398,9 @@ const BaseLayout: React.FC = () => {
         <Switch>{routes}</Switch>
       </div>
       {value && !(minimalPage || isCheckout) && <Footer />}
+      {/* {pathname == "/" && (currency == "INR" || currency == "USD") && (
+        <MakerSmartNav id="TDEHYqQNA" inline={false} />
+      )} */}
       <Modal />
     </Fragment>
   );

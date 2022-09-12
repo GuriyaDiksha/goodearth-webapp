@@ -23,6 +23,8 @@ import { updateUser } from "actions/user";
 import { POPUP } from "constants/components";
 import { useHistory } from "react-router";
 import * as util from "utils/validate";
+import CookieService from "services/cookie";
+import { GA_CALLS } from "constants/cookieConsent";
 // import globalStyles from "styles/global.scss";
 type Props = {
   bridalId: number;
@@ -251,12 +253,15 @@ const Bridal: React.FC<Props> = props => {
               bridalId: data.bridalId,
               bridalCurrency: currency
             });
-            dataLayer.push({
-              event: "registry",
-              "Event Category": "Registry",
-              "Event Action": "Registry created",
-              "Event Label": formData.occasion
-            });
+            const userConsent = CookieService.getCookie("consent").split(",");
+            if (userConsent.includes(GA_CALLS)) {
+              dataLayer.push({
+                event: "registry",
+                "Event Category": "Registry",
+                "Event Action": "Registry created",
+                "Event Label": formData.occasion
+              });
+            }
 
             dispatch(updateUser(updatedUser));
             setCurrentModule("created");

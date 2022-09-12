@@ -5,6 +5,7 @@ import { Dispatch } from "redux";
 import { showMessage } from "actions/growlMessage";
 import { DomUtils, parseDocument } from "htmlparser2";
 import { useEffect, useState } from "react";
+import { GA_CALLS, ANY_ADS } from "constants/cookieConsent";
 
 export function checkMail(email: any) {
   // original regex with escape characters "\["
@@ -170,6 +171,7 @@ export function proceedTocheckout(data: Basket, currency: Currency) {
     const collectionname: any = [];
     const categoryname: any = [];
     const subcategoryname: any = [];
+    const userConsent = CookieService.getCookie("consent").split(",");
 
     data.lineItems.map(prod => {
       const category = categoryForGa(prod.product.categories);
@@ -262,26 +264,29 @@ export function proceedTocheckout(data: Basket, currency: Currency) {
         }
       );
     });
-
-    dataLayer.push({ ecommerce: null }); // Clear the previous ecommerce object.
-    dataLayer.push({
-      event: "begin_checkout",
-      ecommerce: {
-        items: childAttr
-      }
-    });
-    Moengage.track_event("Proceed to checkout", {
-      "Product id": skusid,
-      "Product name": productname,
-      Quantity: quantitys,
-      price: priceschild,
-      Currency: currency,
-      Size: variantspdp,
-      // "Percentage discount",
-      // "Collection name": data.collection,
-      "Category name": categoryname,
-      "Sub Category Name": subcategoryname
-    });
+    if (userConsent.includes(GA_CALLS)) {
+      dataLayer.push({ ecommerce: null }); // Clear the previous ecommerce object.
+      dataLayer.push({
+        event: "begin_checkout",
+        ecommerce: {
+          items: childAttr
+        }
+      });
+    }
+    if (userConsent.includes(ANY_ADS)) {
+      Moengage.track_event("Proceed to checkout", {
+        "Product id": skusid,
+        "Product name": productname,
+        Quantity: quantitys,
+        price: priceschild,
+        Currency: currency,
+        Size: variantspdp,
+        // "Percentage discount",
+        // "Collection name": data.collection,
+        "Category name": categoryname,
+        "Sub Category Name": subcategoryname
+      });
+    }
   }
 }
 
@@ -481,26 +486,32 @@ export function productImpression(
         }
       );
     });
-    dataLayer.push({ ecommerce: null });
-    dataLayer.push({
-      event: "productImpression",
-      ecommerce: {
-        currencyCode: currency,
-        impressions: product
-      }
-    });
-    dataLayer.push({ ecommerce: null }); // Clear the previous ecommerce object.
-    dataLayer.push({
-      event: "view_item_list",
-      ecommerce: {
-        items: childAttr
-      }
-    });
-    Moengage.track_event("PLP views", {
-      "Category Name": categoryName.trim(),
-      "Sub Category Name": subcategoryname.trim(),
-      "Collection Name": collectionName
-    });
+
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes(GA_CALLS)) {
+      dataLayer.push({ ecommerce: null });
+      dataLayer.push({
+        event: "productImpression",
+        ecommerce: {
+          currencyCode: currency,
+          impressions: product
+        }
+      });
+      dataLayer.push({ ecommerce: null }); // Clear the previous ecommerce object.
+      dataLayer.push({
+        event: "view_item_list",
+        ecommerce: {
+          items: childAttr
+        }
+      });
+    }
+    if (userConsent.includes(ANY_ADS)) {
+      Moengage.track_event("PLP views", {
+        "Category Name": categoryName.trim(),
+        "Sub Category Name": subcategoryname.trim(),
+        "Collection Name": collectionName
+      });
+    }
   } catch (e) {
     // console.log(e);
     console.log("Impression error");
@@ -543,14 +554,17 @@ export function sliderProductImpression(
       );
       product.push(childProduct);
     });
-    dataLayer.push({ ecommerce: null });
-    dataLayer.push({
-      event: "productImpression",
-      ecommerce: {
-        currencyCode: currency,
-        impressions: product
-      }
-    });
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes(GA_CALLS)) {
+      dataLayer.push({ ecommerce: null });
+      dataLayer.push({
+        event: "productImpression",
+        ecommerce: {
+          currencyCode: currency,
+          impressions: product
+        }
+      });
+    }
   } catch (e) {
     console.log("Impression error");
     console.log(e);
@@ -592,16 +606,19 @@ export function sliderProductClick(
         }
       )
     ];
-    dataLayer.push({
-      event: "productClick",
-      ecommerce: {
-        currencyCode: currency,
-        click: {
-          actionField: { list: listPath },
-          products: product
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes(GA_CALLS)) {
+      dataLayer.push({
+        event: "productClick",
+        ecommerce: {
+          currencyCode: currency,
+          click: {
+            actionField: { list: listPath },
+            products: product
+          }
         }
-      }
-    });
+      });
+    }
     CookieService.setCookie("listPath", listPath);
   } catch (e) {
     console.log("Impression error");
@@ -619,14 +636,17 @@ export function promotionImpression(data: any) {
         position: image.order
       };
     });
-    dataLayer.push({
-      event: "promotionImpression",
-      ecommerce: {
-        promoView: {
-          promotions: promotions
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes(GA_CALLS)) {
+      dataLayer.push({
+        event: "promotionImpression",
+        ecommerce: {
+          promoView: {
+            promotions: promotions
+          }
         }
-      }
-    });
+      });
+    }
   } catch (e) {
     console.log(e);
     console.log("promotionImpression error");
@@ -667,6 +687,7 @@ export function PDP(data: any, currency: Currency) {
     const discountPrice: any = [];
     const quantitys: any = [];
     const colors: any = [];
+    const userConsent = CookieService.getCookie("consent").split(",");
 
     const childAttr = data?.childAttributes.map((child: any, index: number) => {
       return Object.assign(
@@ -730,21 +751,23 @@ export function PDP(data: any, currency: Currency) {
     );
     products.push(childProduct);
 
-    Moengage.track_event("PDP View", {
-      "Product id": skusid,
-      "Product name": data.title,
-      Quantity: quantitys,
-      price: priceschild,
-      Currency: currency,
-      Color: colors,
-      Size: variantspdp,
-      "Original price": priceschild,
-      "Discounted price": discountPrice,
-      // "Percentage discount",
-      "Collection name": data.collection,
-      "Category name": categoryname,
-      "Sub Category Name": subcategoryname
-    });
+    if (userConsent.includes(ANY_ADS)) {
+      Moengage.track_event("PDP View", {
+        "Product id": skusid,
+        "Product name": data.title,
+        Quantity: quantitys,
+        price: priceschild,
+        Currency: currency,
+        Color: colors,
+        Size: variantspdp,
+        "Original price": priceschild,
+        "Discounted price": discountPrice,
+        // "Percentage discount",
+        "Collection name": data.collection,
+        "Category name": categoryname,
+        "Sub Category Name": subcategoryname
+      });
+    }
     const listPath = CookieService.getCookie("listPath") || "DirectLandingView";
     dataLayer.push({ ecommerce: null }); // Clear the previous ecommerce object.
     dataLayer.push({
@@ -756,11 +779,13 @@ export function PDP(data: any, currency: Currency) {
     dataLayer.push({ ecommerce: null });
     dataLayer.push({
       event: "productDetailImpression",
-      currencyCode: currency,
       ecommerce: {
-        detail: {
-          actionField: { list: listPath },
-          products
+        currencyCode: currency,
+        ecommerce: {
+          detail: {
+            actionField: { list: listPath },
+            products
+          }
         }
       }
     });
@@ -822,14 +847,17 @@ export function collectionProductImpression(
       );
       product.push(childProduct);
     });
-    dataLayer.push({ ecommerce: null });
-    dataLayer.push({
-      event: "productImpression",
-      ecommerce: {
-        currencyCode: currency,
-        impressions: product
-      }
-    });
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes(GA_CALLS)) {
+      dataLayer.push({ ecommerce: null });
+      dataLayer.push({
+        event: "productImpression",
+        ecommerce: {
+          currencyCode: currency,
+          impressions: product
+        }
+      });
+    }
   } catch (e) {
     console.log(e);
     console.log("Impression error");
@@ -887,14 +915,17 @@ export function weRecommendProductImpression(
       );
       product.push(childProduct);
     });
-    dataLayer.push({ ecommerce: null });
-    dataLayer.push({
-      event: "productImpression",
-      ecommerce: {
-        currencyCode: currency,
-        impressions: product
-      }
-    });
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes(GA_CALLS)) {
+      dataLayer.push({ ecommerce: null });
+      dataLayer.push({
+        event: "productImpression",
+        ecommerce: {
+          currencyCode: currency,
+          impressions: product
+        }
+      });
+    }
   } catch (e) {
     console.log(e);
     console.log("Impression error");
@@ -973,23 +1004,26 @@ export function plpProductClick(
     });
     const listPath = `${list}`;
     CookieService.setCookie("listPath", listPath);
-    dataLayer.push({
-      event: "productClick",
-      ecommerce: {
-        currencyCode: currency,
-        click: {
-          actionField: { list: listPath },
-          products: products.concat(attr)
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes(GA_CALLS)) {
+      dataLayer.push({
+        event: "productClick",
+        ecommerce: {
+          currencyCode: currency,
+          click: {
+            actionField: { list: listPath },
+            products: products.concat(attr)
+          }
         }
-      }
-    });
-    dataLayer.push({ ecommerce: null }); // Clear the previous ecommerce object.
-    dataLayer.push({
-      event: "select_item",
-      ecommerce: {
-        items: childAttr
-      }
-    });
+      });
+      dataLayer.push({ ecommerce: null }); // Clear the previous ecommerce object.
+      dataLayer.push({
+        event: "select_item",
+        ecommerce: {
+          items: childAttr
+        }
+      });
+    }
   } catch (e) {
     console.log(e);
     console.log("ProductClick impression error");
@@ -1006,14 +1040,17 @@ export function promotionClick(data: any) {
         position: data.order
       }
     ];
-    dataLayer.push({
-      event: "promotionClick",
-      ecommerce: {
-        promoClick: {
-          promotions: promotions
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes(GA_CALLS)) {
+      dataLayer.push({
+        event: "promotionClick",
+        ecommerce: {
+          promoClick: {
+            promotions: promotions
+          }
         }
-      }
-    });
+      });
+    }
   } catch (e) {
     console.log(e);
     console.log("Promotion Click Impression error");
@@ -1071,14 +1108,17 @@ export function MoreFromCollectionProductImpression(
       );
       product.push(childProduct);
     });
-    dataLayer.push({ ecommerce: null });
-    dataLayer.push({
-      event: "productImpression",
-      ecommerce: {
-        currencyCode: currency,
-        impressions: product
-      }
-    });
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes(GA_CALLS)) {
+      dataLayer.push({ ecommerce: null });
+      dataLayer.push({
+        event: "productImpression",
+        ecommerce: {
+          currencyCode: currency,
+          impressions: product
+        }
+      });
+    }
   } catch (e) {
     console.log(e);
     console.log("Impression error");
@@ -1120,25 +1160,31 @@ export function MoreFromCollectionProductClick(
   });
   const listPath = `${list}`;
   CookieService.setCookie("listPath", listPath);
-  dataLayer.push({
-    event: "productClick",
-    ecommerce: {
-      currencyCode: currency,
-      click: {
-        actionField: { list: listPath },
-        products: products.concat(attr)
+  const userConsent = CookieService.getCookie("consent").split(",");
+  if (userConsent.includes(GA_CALLS)) {
+    dataLayer.push({
+      event: "productClick",
+      ecommerce: {
+        currencyCode: currency,
+        click: {
+          actionField: { list: listPath },
+          products: products.concat(attr)
+        }
       }
-    }
-  });
+    });
+  }
 }
 
 export function errorTracking(errorMessage: string[], url: string) {
   try {
-    dataLayer.push({
-      event: "errorMessage",
-      "Error Message": errorMessage,
-      "Error URL": url
-    });
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes(GA_CALLS)) {
+      dataLayer.push({
+        event: "errorMessage",
+        "Error Message": errorMessage,
+        "Error URL": url
+      });
+    }
   } catch (e) {
     console.log(e);
     console.log("error Tracking error");
@@ -1236,29 +1282,35 @@ export const checkoutGTM = (
   //     }
   //   });
   // }
+
+  const userConsent = CookieService.getCookie("consent").split(",");
   if (paymentMethod) {
-    dataLayer.push({
-      event: "checkout",
-      ecommerce: {
-        currencyCode: currency,
-        paymentMethod,
-        checkout: {
-          actionField: { step, option: checkoutSteps[step - 1] },
-          products: productList
+    if (userConsent.includes(GA_CALLS)) {
+      dataLayer.push({
+        event: "checkout",
+        ecommerce: {
+          currencyCode: currency,
+          paymentMethod,
+          checkout: {
+            actionField: { step, option: checkoutSteps[step - 1] },
+            products: productList
+          }
         }
-      }
-    });
+      });
+    }
   } else {
-    dataLayer.push({
-      event: "checkout",
-      ecommerce: {
-        currencyCode: currency,
-        checkout: {
-          actionField: { step, option: checkoutSteps[step - 1] },
-          products: productList
+    if (userConsent.includes(GA_CALLS)) {
+      dataLayer.push({
+        event: "checkout",
+        ecommerce: {
+          currencyCode: currency,
+          checkout: {
+            actionField: { step, option: checkoutSteps[step - 1] },
+            products: productList
+          }
         }
-      }
-    });
+      });
+    }
   }
 };
 
@@ -1269,13 +1321,16 @@ export const headerClickGTM = (
   isLoggedIn: boolean
 ) => {
   try {
-    dataLayer.push({
-      event: "Header Click",
-      clickType,
-      location,
-      device: mobile ? "mobile" : "desktop",
-      userStatus: isLoggedIn ? "logged in" : "logged out"
-    });
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes(GA_CALLS)) {
+      dataLayer.push({
+        event: "Header Click",
+        clickType,
+        location,
+        device: mobile ? "mobile" : "desktop",
+        userStatus: isLoggedIn ? "logged in" : "logged out"
+      });
+    }
   } catch (e) {
     console.log("Header click GTM error!");
   }
@@ -1287,12 +1342,15 @@ export const footerClickGTM = (
   isLoggedIn: boolean
 ) => {
   try {
-    dataLayer.push({
-      event: "Footer Click",
-      clickType,
-      location,
-      userStatus: isLoggedIn ? "logged in" : "logged out"
-    });
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes(GA_CALLS)) {
+      dataLayer.push({
+        event: "Footer Click",
+        clickType,
+        location,
+        userStatus: isLoggedIn ? "logged in" : "logged out"
+      });
+    }
   } catch (e) {
     console.log("Footer click GTM error!");
   }
@@ -1325,19 +1383,22 @@ export const menuNavigationGTM = ({
   isLoggedIn: boolean;
 }) => {
   try {
-    dataLayer.push({
-      event: "Menu Navigation",
-      clickType: "Category",
-      l1,
-      l2,
-      l3,
-      clickUrl1,
-      clickUrl2,
-      clickUrl3,
-      device: mobile ? "mobile" : "desktop",
-      userStatus: isLoggedIn ? "logged in" : "logged out",
-      url: `${location.pathname}${location.search}`
-    });
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes(GA_CALLS)) {
+      dataLayer.push({
+        event: "Menu Navigation",
+        clickType: "Category",
+        l1,
+        l2,
+        l3,
+        clickUrl1,
+        clickUrl2,
+        clickUrl3,
+        device: mobile ? "mobile" : "desktop",
+        userStatus: isLoggedIn ? "logged in" : "logged out",
+        url: `${location.pathname}${location.search}`
+      });
+    }
   } catch (e) {
     console.log("Menu Navigation GTM error!");
   }
@@ -1363,18 +1424,22 @@ export const megaMenuNavigationGTM = ({
   isLoggedIn: boolean;
 }) => {
   try {
-    if (l3) {
-      Moengage.track_event("L1Clicked", {
-        "Category Name": l3
-      });
-    } else if (l2) {
-      Moengage.track_event("L2Clicked", {
-        "Category Name": l2
-      });
-    } else if (l1 && !template) {
-      Moengage.track_event("L1Clicked", {
-        "Category Name": l1
-      });
+    const userConsent = CookieService.getCookie("consent").split(",");
+
+    if (userConsent.includes(ANY_ADS)) {
+      if (l3) {
+        Moengage.track_event("L1Clicked", {
+          "Category Name": l3
+        });
+      } else if (l2) {
+        Moengage.track_event("L2Clicked", {
+          "Category Name": l2
+        });
+      } else if (l1 && !template) {
+        Moengage.track_event("L1Clicked", {
+          "Category Name": l1
+        });
+      }
     }
 
     if (template) {
@@ -1398,29 +1463,33 @@ export const megaMenuNavigationGTM = ({
         default:
           eventName = "";
       }
-      Moengage.track_event(eventName, {
-        "Category Name": l1
-      });
+      if (userConsent.includes(ANY_ADS)) {
+        Moengage.track_event(eventName, {
+          "Category Name": l1
+        });
+      }
     }
 
-    dataLayer.push({
-      event: "Menu Navigation",
-      clickType: "Category",
-      l1,
-      l2,
-      l3,
-      clickUrl1,
-      clickUrl2,
-      clickUrl3,
-      template,
-      img2,
-      img3,
-      cta,
-      subHeading,
-      device: mobile ? "mobile" : "desktop",
-      userStatus: isLoggedIn ? "logged in" : "logged out",
-      url: `${location.pathname}${location.search}`
-    });
+    if (userConsent.includes(GA_CALLS)) {
+      dataLayer.push({
+        event: "Menu Navigation",
+        clickType: "Category",
+        l1,
+        l2,
+        l3,
+        clickUrl1,
+        clickUrl2,
+        clickUrl3,
+        template,
+        img2,
+        img3,
+        cta,
+        subHeading,
+        device: mobile ? "mobile" : "desktop",
+        userStatus: isLoggedIn ? "logged in" : "logged out",
+        url: `${location.pathname}${location.search}`
+      });
+    }
   } catch (e) {
     console.log("Menu Navigation GTM error!");
   }
@@ -1428,13 +1497,16 @@ export const megaMenuNavigationGTM = ({
 
 export const pageViewGTM = (Title: string) => {
   try {
-    dataLayer.push({
-      event: "pageview",
-      Page: {
-        path: location.pathname,
-        Title
-      }
-    });
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes(GA_CALLS)) {
+      dataLayer.push({
+        event: "pageview",
+        Page: {
+          path: location.pathname,
+          Title
+        }
+      });
+    }
   } catch (e) {
     console.log("Page VIew GTM error!");
   }
@@ -1458,10 +1530,13 @@ export const moveChatDown = () => {
 
 export const viewSelectionGTM = (clickType: "list" | "grid") => {
   try {
-    dataLayer.push({
-      event: "View Selection",
-      clickType
-    });
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes(GA_CALLS)) {
+      dataLayer.push({
+        event: "View Selection",
+        clickType
+      });
+    }
   } catch (e) {
     console.log("View Selection GTM error!");
   }
@@ -1469,11 +1544,14 @@ export const viewSelectionGTM = (clickType: "list" | "grid") => {
 
 export const sortGTM = (clickType: string) => {
   try {
-    dataLayer.push({
-      event: "Sort",
-      clickType,
-      url: `${location.pathname}${location.search}`
-    });
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes(GA_CALLS)) {
+      dataLayer.push({
+        event: "Sort",
+        clickType,
+        url: `${location.pathname}${location.search}`
+      });
+    }
   } catch (e) {
     console.log("Sort GTM error!");
   }
@@ -1481,11 +1559,14 @@ export const sortGTM = (clickType: string) => {
 
 export const footerGTM = (clickType: string) => {
   try {
-    dataLayer.push({
-      event: "Footer Navigation",
-      clickType,
-      url: `${location.pathname}${location.search}`
-    });
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes(GA_CALLS)) {
+      dataLayer.push({
+        event: "Footer Navigation",
+        clickType,
+        url: `${location.pathname}${location.search}`
+      });
+    }
   } catch (e) {
     console.log("Footer Navigation GTM error!");
   }
@@ -1493,12 +1574,15 @@ export const footerGTM = (clickType: string) => {
 
 export const announcementBarGTM = (clickText: string, clickUrl: string) => {
   try {
-    dataLayer.push({
-      event: "Announcement Bar Click",
-      clickText,
-      clickUrl,
-      url: `${location.pathname}${location.search}`
-    });
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes(GA_CALLS)) {
+      dataLayer.push({
+        event: "Announcement Bar Click",
+        clickText,
+        clickUrl,
+        url: `${location.pathname}${location.search}`
+      });
+    }
   } catch (e) {
     console.log("Announcement Bar click GTM error!");
   }
