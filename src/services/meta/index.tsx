@@ -69,6 +69,7 @@ export default {
       }
       if (typeof document != "undefined") {
         CookieService.setCookie("currency", meta.currency, 365);
+        CookieService.setCookie("user", JSON.stringify(meta.user), 365);
       }
       dispatch(updateCurrency(meta.currency));
       return meta;
