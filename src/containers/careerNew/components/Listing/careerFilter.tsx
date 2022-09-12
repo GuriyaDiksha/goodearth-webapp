@@ -55,7 +55,6 @@ const CareerFilter: React.FC<Props> = ({
   const handleViewAllForFilters = (newList: any, tags: any, locs: any) => {
     const tagsList = clone(tags.map((e: any) => e.name));
     const locList = clone(locs.map((e: any) => e.name));
-
     if (
       newList.filter((ele: any) => tagsList.includes(ele)).length !== 0 &&
       newList.filter((ele: any) => tagsList.includes(ele)).length ===

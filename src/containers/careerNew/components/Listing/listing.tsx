@@ -39,17 +39,24 @@ const Listing: React.FC = () => {
     const re = /[?&]+([^=&]+)=([^&]*)/gi;
     let match;
 
-    CareerService.fetchJobListData(dispatch).then(res => {
-      dispatch(updateJobList(res));
-    });
-
     while ((match = re.exec(url))) {
       vars[match[1]] = match[2];
     }
 
+    CareerService.fetchJobListData(dispatch, vars.dept)
+      .then(res => {
+        dispatch(updateJobList(res));
+      })
+      .catch(e => {
+        dispatch(
+          updateJobList({ facets: { depts: [], locs: [], tags: [] }, data: [] })
+        );
+      });
+
     if (vars?.dept) {
       setSelectedDept(vars.dept.split("+"));
     }
+
     if (vars?.loc) {
       temp = [
         ...temp,
@@ -84,7 +91,6 @@ const Listing: React.FC = () => {
         newData.map(ele => {
           newTag = [...newTag, ...ele?.tags];
           newLoc = [...newLoc, ...ele?.loc];
-
           setTagLocFilter({ tag: uniq(newTag), loc: uniq(newLoc) });
         });
       } else {
@@ -131,11 +137,9 @@ const Listing: React.FC = () => {
         newLoc = [...newLoc, ...ele?.loc];
         setTagLocFilter({ tag: uniq(newTag), loc: uniq(newLoc) });
       });
-
       history.replace(url + "?" + deptUrl);
-
-      setIsLoading(false);
     }
+    setIsLoading(false);
   }, [appliedFilters, selectedDept, facets]);
 
   const NoResultsFound = () => (
