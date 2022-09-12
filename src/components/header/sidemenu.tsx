@@ -7,7 +7,7 @@ import iconStyles from "../../styles/iconFonts.scss";
 import SelectableDropdownMenu from "../dropdown/selectableDropdownMenu";
 import { DropdownItem } from "../dropdown/baseDropdownMenu/typings";
 import storyStyles from "../../styles/stories.scss";
-import DropdownMenu from "../dropdown/dropdownMenu";
+// import DropdownMenu from "../dropdown/dropdownMenu";
 import { Basket } from "typings/basket";
 import { connect } from "react-redux";
 import UserContext from "contexts/user";
@@ -17,6 +17,7 @@ import mapDispatchToProps from "./mapper/actions";
 import Loader from "components/Loader";
 import CookieService from "../../services/cookie";
 import { GA_CALLS } from "constants/cookieConsent";
+import CeriseProfileMenu from "components/dropdown/CeriseProfileMenu";
 
 interface State {
   showc: boolean;
@@ -133,30 +134,30 @@ class SideMenu extends React.Component<Props, State> {
         href: "/account/track-order",
         type: "link"
       },
-      {
-        label: "Good Earth Registry",
-        href: isLoggedIn ? "/account/bridal" : "",
-        onClick: isLoggedIn
-          ? () => null
-          : () => this.props.goLogin(undefined, "/account/bridal"),
-        type: isLoggedIn ? "link" : "button",
-        value: "Good Earth Registry"
-      },
+      // {
+      //   label: "Good Earth Registry",
+      //   href: isLoggedIn ? "/account/bridal" : "",
+      //   onClick: isLoggedIn
+      //     ? () => null
+      //     : () => this.props.goLogin(undefined, "/account/bridal"),
+      //   type: isLoggedIn ? "link" : "button",
+      //   value: "Good Earth Registry"
+      // },
       {
         label: "Activate Gift Card",
         href: "/account/giftcard-activation",
         type: "link",
         value: "Activate Gift Card"
       },
-      {
-        label: "Cerise Program",
-        href:
-          isLoggedIn && this.props.slab && this.props.slab != "Fresh"
-            ? "/account/cerise"
-            : "/cerise",
-        type: "link",
-        value: "Cerise Program"
-      },
+      // {
+      //   label: "Cerise Program",
+      //   href:
+      //     isLoggedIn && this.props.slab && this.props.slab != "Fresh"
+      //       ? "/account/cerise"
+      //       : "/cerise",
+      //   type: "link",
+      //   value: "Cerise Program"
+      // },
       {
         label: "Check Balance",
         href: "/account/check-balance",
@@ -261,7 +262,7 @@ class SideMenu extends React.Component<Props, State> {
               }
             >
               <div className={styles.innerProfileContainer}>
-                <DropdownMenu
+                {/* <DropdownMenu
                   id="profile-dropdown"
                   display={<i className={selectClass}></i>}
                   className={storyStyles.greyBG}
@@ -269,7 +270,16 @@ class SideMenu extends React.Component<Props, State> {
                   items={profileItems}
                   onDropDownMenuClick={this.props.onSideMenuClick}
                   disabled={isBridalRegistryPage ? true : false}
-                ></DropdownMenu>
+                ></DropdownMenu> */}
+                <CeriseProfileMenu
+                  id="profile-dropdown"
+                  display={<i className={selectClass}></i>}
+                  className={storyStyles.greyBG}
+                  align="right"
+                  items={profileItems}
+                  onDropDownMenuClick={this.props.onSideMenuClick}
+                  disabled={isBridalRegistryPage ? true : false}
+                />
               </div>
             </li>
           )}
