@@ -29,6 +29,7 @@ import { connect } from "react-redux";
 import ImageWithSideSubheadingMobile from "./templates/ImageWithSideSubheadingMobile";
 import TitleHeadingMobile from "./templates/TitleHeadingMobile";
 import * as util from "../../utils/validate";
+import CeriseCard from "components/CeriseCard";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -1161,6 +1162,7 @@ class Mobilemenu extends React.Component<Props, MobileState> {
         {outerMenu}
         {innerMenu}
         {lowerMenu}
+        <CeriseCard />
       </div>
     );
   }

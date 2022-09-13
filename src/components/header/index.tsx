@@ -542,23 +542,23 @@ class Header extends React.Component<Props, State> {
         label: "Check gift card Balance",
         href: "/account/check-balance",
         type: "link",
-        value: "Check Balance"
-      },
-      {
-        label: "Cerise Program",
-        href: isLoggedIn && this.props.slab ? "/account/cerise" : "/cerise",
-        type: "link",
-        value: "Cerise Program"
-      },
-      {
-        label: "Good Earth Registry",
-        href: isLoggedIn ? "/account/bridal" : "",
-        onClick: isLoggedIn
-          ? () => null
-          : () => this.props.goLogin(undefined, "/account/bridal"),
-        type: isLoggedIn ? "link" : "button",
-        value: "Good Earth Registry"
+        value: "Check Gift Card Balance"
       }
+      // {
+      //   label: "Cerise Program",
+      //   href: isLoggedIn && this.props.slab ? "/account/cerise" : "/cerise",
+      //   type: "link",
+      //   value: "Cerise Program"
+      // },
+      // {
+      //   label: "Good Earth Registry",
+      //   href: isLoggedIn ? "/account/bridal" : "",
+      //   onClick: isLoggedIn
+      //     ? () => null
+      //     : () => this.props.goLogin(undefined, "/account/bridal"),
+      //   type: isLoggedIn ? "link" : "button",
+      //   value: "Good Earth Registry"
+      // }
     );
     const loginItem: DropdownItem = {
       label: isLoggedIn ? "Logout" : "Login",

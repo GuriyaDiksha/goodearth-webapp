@@ -159,7 +159,7 @@ class SideMenu extends React.Component<Props, State> {
       //   value: "Cerise Program"
       // },
       {
-        label: "Check Balance",
+        label: "Check Gift Card Balance",
         href: "/account/check-balance",
         type: "link",
         value: "Check Balance"

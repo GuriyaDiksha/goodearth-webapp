@@ -1,3 +1,145 @@
 @import "../../styles/partials/variables";
 @import "../../styles/partials/mixins";
 
+.cerise-card-left-container{
+    height: 100%;
+    @media (max-width: 992px) {
+        position: relative;
+        float: left;
+        width: 100%;
+    }
+    img{
+        height: 100%;
+        object-fit: cover;
+        @media (max-width: 992px) {
+           width: 50%;
+        }
+    }
+    .cerise-card-left-wrp{
+        height: 100%;
+        background: $cerise;
+        padding: 30px;
+        width: 414px;
+
+        @media (max-width: 992px) {
+            width: 50%;
+        }
+        
+        .header{
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 30px;
+
+            .heading{
+                @include h2_24px_lora_white();
+            }
+            
+            .sub-heading{
+                border-bottom: 1px solid;
+                margin: auto 0;
+                @include b4_12px_montserrat_light_white();
+            }
+        }
+        .name-header{
+            margin-bottom: 30px;
+            .greeting{
+                @include h6_16px_lora_white();
+            }
+            .name{
+                @include h2_24px_lora_white();
+            }
+        }
+        .cerise-table{
+            margin-bottom: 30px;
+            .cerise-row{
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 15px;
+                @include b3_14px_montserrat_white();
+            }
+        }
+       
+        .info-wrp{
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            .progressbar-wrp-container{
+                width: 75%;
+                margin: auto 0;
+                &.inactive{
+                    display: none;
+                }
+                .progressbar-wrp{
+                    border-radius: 10px;
+                    background-color: $cerise-light;
+                    .progressbar{
+                        border-radius: 10px;
+                        background-color: $white;
+                    }
+                }
+            }
+          
+            .info{
+                padding-left: 5px;
+                border-radius: 15px;
+                width: 8%;
+                // &:hover{
+                //     background-color: white;
+                //     padding: 0 0 0 5px;
+                //     width: 315px;
+                //     text-align: left !important;
+                //     .info-text{
+                //         display: block;
+                //     }
+                // }
+                &.active {
+                    background-color: $white;
+                    padding: 0 0 0 5px;
+                    width: 100%;
+                    text-align: left !important;
+                }
+                .info-icon{
+                    background: $white;
+                    width: 30px;
+                    border-radius: 30px;
+                    height: 30px;
+                    p{
+                        text-align: center;
+                        padding:5px;
+                        font-style: italic;
+                        color: $cerise;
+                        @include h6_16px_lora_charcoal();
+                    }
+                    &.inactive {
+                        display: none;
+                    }
+                }
+                .info-text{
+                    display: none;
+                    line-height: 20px;
+                    // position: absolute;
+                    // top: 0;
+                    // left: 50px;
+                    margin: 0 10px;
+                    transition: all .2s ease;
+                    @include b5_10px_montserrat_charcoal();
+
+                    .close{
+                        color: $cerise;
+                        float: right;
+                    }
+
+                    &.active{
+                        display: block;
+                    }
+                }
+
+            }
+
+        }
+        .footer{
+            margin-top: 25px;
+            @include b4_12px_montserrat_light_white();
+        }
+    }
+}

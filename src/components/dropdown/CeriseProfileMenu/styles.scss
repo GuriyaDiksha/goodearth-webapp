@@ -3,7 +3,7 @@
 
 .cerise-card-menu-wrp {
     display: flex;
-    width: 550px;
+    max-width: 630px;
     background: white;
 
     .cerise-card-menu{
@@ -16,9 +16,9 @@
             &:hover{
                 color: $gold !important;
             }
-            &:nth-child(1) {
-                margin-top: 0px;
-            }
+        }
+        &:nth-child(1) {
+            margin-top: 0px;
         }
         }
     }
