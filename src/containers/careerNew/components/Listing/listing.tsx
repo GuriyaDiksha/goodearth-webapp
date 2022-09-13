@@ -31,23 +31,24 @@ const Listing: React.FC = () => {
   const { mobile } = useSelector((state: AppState) => state.device);
   const history = useHistory();
   const dispatch = useDispatch();
+  const vars: { dept?: string; loc?: string; tag?: string } = {};
+  const url = history.location.search;
+  let temp: any = [];
+  const re = /[?&]+([^=&]+)=([^&]*)/gi;
+  let match;
+
+  while ((match = re.exec(url))) {
+    vars[match[1]] = match[2];
+  }
 
   useEffect(() => {
-    const vars: { dept?: string; loc?: string; tag?: string } = {};
-    const url = history.location.search;
-    let temp: any = [];
-    const re = /[?&]+([^=&]+)=([^&]*)/gi;
-    let match;
-
-    while ((match = re.exec(url))) {
-      vars[match[1]] = match[2];
-    }
-
     CareerService.fetchJobListData(dispatch, vars.dept)
       .then(res => {
+        setReset(!reset);
         dispatch(updateJobList(res));
       })
       .catch(e => {
+        setReset(!reset);
         dispatch(
           updateJobList({ facets: { depts: [], locs: [], tags: [] }, data: [] })
         );
@@ -68,7 +69,7 @@ const Listing: React.FC = () => {
     }
 
     setAppliedFilters(temp);
-  }, []);
+  }, [vars?.dept]);
 
   const multipleExist = (arr: string[], values: string[]) => {
     return values.some(value => {
