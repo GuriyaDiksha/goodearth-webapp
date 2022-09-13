@@ -230,11 +230,7 @@ export function proceedTocheckout(data: Basket, currency: Currency) {
       product.childAttributes.map((child: any) => {
         skus += "," + child.sku;
         variants += "," + child.size;
-        prices +=
-          "," +
-          (child.discountedPriceRecords
-            ? child.discountedPriceRecords[currency]
-            : child.priceRecords[currency]);
+        prices += "," + child.GCValue;
       });
       skus = skus.slice(1);
       variants = variants.slice(1);
@@ -260,7 +256,7 @@ export function proceedTocheckout(data: Basket, currency: Currency) {
           item_variant: "",
           item_category4: "",
           item_category5: collectionName,
-          price: product.priceRecords[currency],
+          price: child.GCValue,
           quantity: 1
         }
       );
