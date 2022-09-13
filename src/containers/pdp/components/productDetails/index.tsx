@@ -897,7 +897,7 @@ const ProductDetails: React.FC<Props> = ({
                     <div
                       className={cs(
                         bootstrap.col12,
-                        bootstrap.colSm3,
+                        bootstrap.colSm2,
                         { [bootstrap.colMd6]: mobile },
                         styles.label,
                         styles.colour
@@ -906,7 +906,7 @@ const ProductDetails: React.FC<Props> = ({
                       Color
                     </div>
                     <div
-                      className={cs(bootstrap.col12, bootstrap.colSm9, {
+                      className={cs(bootstrap.col12, bootstrap.colSm10, {
                         [bootstrap.colMd6]: mobile
                       })}
                     >
