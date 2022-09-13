@@ -1,8 +1,9 @@
 import { MetaAction } from "typings/actions";
 
-const metaAction: MetaAction = ({ pathname }) => {
+const metaAction: MetaAction = ({ pathname, search }) => {
   return {
-    page: "plp"
+    page: "plp",
+    pathName: pathname + search
   };
 };
 
