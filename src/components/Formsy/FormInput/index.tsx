@@ -148,6 +148,8 @@ const FormInput: React.FC<Props & InjectedProps<string | null>> = props => {
             ? e => {
                 e.preventDefault();
               }
+            : props?.onPaste
+            ? e => (props.onPaste ? props.onPaste(e) : null)
             : undefined
         }
         min={props.min || ""}
