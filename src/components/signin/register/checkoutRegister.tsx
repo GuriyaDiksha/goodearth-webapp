@@ -750,6 +750,11 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
               }}
               keyPress={e => (e.key == "Enter" ? e.preventDefault() : "")}
               keyDown={e => (e.which === 69 ? e.preventDefault() : null)}
+              onPaste={e =>
+                e?.clipboardData.getData("Text").match(/([e|E])/)
+                  ? e.preventDefault()
+                  : null
+              }
             />
           </div>
           <div>

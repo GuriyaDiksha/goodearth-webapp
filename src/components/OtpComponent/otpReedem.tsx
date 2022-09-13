@@ -518,6 +518,11 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
                     }}
                     required={radioType != "number" ? "isFalse" : true}
                     keyDown={e => (e.which === 69 ? e.preventDefault() : null)}
+                    onPaste={e =>
+                      e?.clipboardData.getData("Text").match(/([e|E])/)
+                        ? e.preventDefault()
+                        : null
+                    }
                   />
                 </div>
                 <p className={cs(styles.errorMsg)}>{this.state.msgt}</p>

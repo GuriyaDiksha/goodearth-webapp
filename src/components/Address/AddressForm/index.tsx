@@ -693,6 +693,11 @@ const AddressForm: React.FC<Props> = props => {
                 matchRegexp: "Please enter a valid Contact Number"
               }}
               keyDown={e => (e.which === 69 ? e.preventDefault() : null)}
+              onPaste={e =>
+                e?.clipboardData.getData("Text").match(/([e|E])/)
+                  ? e.preventDefault()
+                  : null
+              }
             />
             <p key="contact-msg" className={styles.contactMsg}>
               This number will be used for sending OTP during delivery.

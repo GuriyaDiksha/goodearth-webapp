@@ -454,6 +454,11 @@ const CorporateEnquiryPopup: React.FC<Props> = ({
                   }}
                   required
                   keyDown={e => (e.which === 69 ? e.preventDefault() : null)}
+                  onPaste={e =>
+                    e?.clipboardData.getData("Text").match(/([e|E])/)
+                      ? e.preventDefault()
+                      : null
+                  }
                 />
               </div>
             </div>
