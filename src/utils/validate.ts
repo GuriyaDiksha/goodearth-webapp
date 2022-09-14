@@ -1507,17 +1507,19 @@ export const pageViewGTM = (Title: string) => {
     if (userConsent.includes(GA_CALLS)) {
       dataLayer.push({
         event: "pageview",
-        Email: sha256(userInfo.email),
-        "First Name": sha256(userInfo.firstName),
-        "Last Name": sha256(userInfo.lastName),
-        Phone: sha256(userInfo.phoneNumber),
-        "External ID": sha256(userInfo.email),
-        Gender: sha256(userInfo.email),
+        Email: userInfo.email ? sha256(userInfo.email) : "",
+        "First Name": userInfo.firstName ? sha256(userInfo.firstName) : "",
+        "Last Name": userInfo.lastName ? sha256(userInfo.lastName) : "",
+        Phone: userInfo.phoneNumber ? sha256(userInfo.phoneNumber) : "",
+        "External ID": userInfo.email ? sha256(userInfo.email) : "",
+        Gender: userInfo.gender ? sha256(userInfo.gender) : "",
         Birthdate: "", //format will be this before hashing - 19910526 for May 26, 1991.
         City: "", // Lowercase with any spaces removed before hashing.
-        "State or Province": sha256(userInfo.state?.toLowerCase()), // Lowercase two-letter state or province code before hashing.
-        "Zip or Postal Code": sha256(userInfo.pincode), //String
-        Country: sha256(userInfo.country),
+        "State or Province": userInfo.state
+          ? sha256(userInfo.state?.toLowerCase())
+          : "", // Lowercase two-letter state or province code before hashing.
+        "Zip or Postal Code": userInfo.pincode ? sha256(userInfo.pincode) : "", //String
+        Country: userInfo.country ? sha256(userInfo.country) : "",
         Page: {
           path: location.pathname,
           Title
