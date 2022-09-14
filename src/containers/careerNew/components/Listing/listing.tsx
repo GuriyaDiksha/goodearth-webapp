@@ -55,17 +55,17 @@ const Listing: React.FC = () => {
       });
 
     if (vars?.dept) {
-      setSelectedDept(vars.dept.split("+"));
+      setSelectedDept(vars.dept.split("|"));
     }
 
     if (vars?.loc) {
       temp = [
         ...temp,
-        ...vars?.loc?.split("+").map(e => e.replace(/%20/g, " "))
+        ...vars?.loc?.split("|").map(e => e.replace(/%20/g, " "))
       ];
     }
     if (vars?.tag) {
-      temp = [...temp, ...vars?.tag?.split("+")];
+      temp = [...temp, ...vars?.tag?.split("|")];
     }
 
     setAppliedFilters(temp);
@@ -98,16 +98,16 @@ const Listing: React.FC = () => {
         setTagLocFilter({ tag: [], loc: [] });
       }
 
-      deptUrl = deptUrl + selectedDept.join("+");
+      deptUrl = deptUrl + selectedDept.join("|");
       deptUrl = appliedFilters.filter(e => newTag.includes(e)).length
         ? deptUrl +
           "&tag=" +
-          appliedFilters.filter(e => newTag.includes(e)).join("+")
+          appliedFilters.filter(e => newTag.includes(e)).join("|")
         : deptUrl;
       deptUrl = appliedFilters.filter(e => newLoc.includes(e))?.length
         ? deptUrl +
           "&loc=" +
-          appliedFilters.filter(e => newLoc.includes(e)).join("+")
+          appliedFilters.filter(e => newLoc.includes(e)).join("|")
         : deptUrl;
 
       const tagFilteres = facets.tags
