@@ -1,37 +1,62 @@
-import React, { memo, useState } from "react";
+import React, { memo, useEffect, useState } from "react";
 import { Props } from "./typings";
 import styles from "./styles.scss";
 import cs from "classnames";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { AppState } from "reducers/typings";
 import { NavLink } from "react-router-dom";
+import LoyaltyService from "services/loyalty";
+import { updateLoyaltyPoints } from "actions/loyalty";
+import moment from "moment";
 
 const CeriseCard: React.FC<Props> = memo(() => {
   const [active, setActive] = useState(false);
-  const { slab } = useSelector((state: AppState) => state.user);
+  const {
+    user: { slab, email, firstName, lastName },
+    loyalty: { loyaltyPoints }
+  } = useSelector((state: AppState) => state);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (email && slab) {
+      LoyaltyService.getLoyaltyPoints(dispatch, { email })
+        .then(res => {
+          dispatch(updateLoyaltyPoints(res?.CustomerPointInformation));
+        })
+        .catch(e => {
+          console.log("error===", e);
+        });
+    }
+  }, [email, slab]);
 
   return (
     <div className={styles.ceriseCardLeftContainer}>
       {slab ? (
         <div className={styles.ceriseCardLeftWrp}>
           <div className={styles.header}>
-            <p className={styles.heading}>Cerise Club</p>
+            <p className={styles.heading}>{loyaltyPoints?.MembershipClub}</p>
             <NavLink to={"/account/cerise"} className={styles.subHeading}>
               View My Dashboard
             </NavLink>
           </div>
           <div className={styles.nameHeader}>
             <p className={styles.greeting}>Hello!</p>
-            <p className={styles.name}>Ansuiya Sablok</p>
+            <p className={styles.name}>
+              {firstName} {lastName}
+            </p>
           </div>
           <div className={styles.ceriseTable}>
             <div className={styles.ceriseRow}>
               <p>Cerise points available</p>
-              <p>4500</p>
+              <p>{loyaltyPoints?.AvailablePoint}</p>
             </div>
             <div className={styles.ceriseRow}>
-              <p>Cerise points available</p>
-              <p>4500</p>
+              <p>Membership Expires</p>
+              <p>
+                {moment(loyaltyPoints?.ExpiryDate, "DD/MM/YYYY").format(
+                  "DD MMMM YYYY"
+                )}
+              </p>
             </div>
           </div>
 
@@ -45,7 +70,10 @@ const CeriseCard: React.FC<Props> = memo(() => {
               <div className={styles.progressbarWrp}>
                 <div
                   className={styles.progressbar}
-                  style={{ height: "7px", width: "75%" }}
+                  style={{
+                    height: "7px",
+                    width: `${loyaltyPoints?.NextSlabProgress}%`
+                  }}
                 ></div>
               </div>
             </div>
@@ -59,26 +87,31 @@ const CeriseCard: React.FC<Props> = memo(() => {
                 }}
               >
                 <p>i</p>
-              </div>
-              <span
-                className={cs(styles.infoText, active ? styles.active : "")}
-              >
-                A little column extra info. Aaand just a little bit more{" "}
                 <span
-                  className={styles.close}
-                  onClick={e => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    setActive(false);
-                  }}
+                  className={cs(styles.infoText, active ? styles.active : "")}
                 >
-                  X
+                  {loyaltyPoints?.AdditionalSpend} additional spends needed to
+                  become a {loyaltyPoints?.NextUpgradeMembershipClub}
+                  <span
+                    className={styles.close}
+                    onClick={e => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      setActive(false);
+                    }}
+                  >
+                    X
+                  </span>
                 </span>
-              </span>
+              </div>
             </div>
           </div>
           <p className={styles.footer}>
-            A little column extra info. Aaand just a little bit more
+            {loyaltyPoints?.ExpiryPoints} points are due to expire on{" "}
+            {moment(loyaltyPoints?.ExpiryDate, "DD/MM/YYYY").format(
+              "Do MMMM YYYY"
+            )}
+            .
           </p>
         </div>
       ) : (
