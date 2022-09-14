@@ -327,7 +327,7 @@ const CareerFilter: React.FC<Props> = ({
                 setHideFilter({ ...hideFilter, depts: !hideFilter["depts"] })
               }
             >
-              By Department
+              By Department{" "}
             </div>
             <hr className={listing.filter_label_underline} />
             <div

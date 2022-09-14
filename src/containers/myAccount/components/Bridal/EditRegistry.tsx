@@ -248,7 +248,13 @@ const EditRegistry: React.FC<Props> = props => {
                         placeholder="Registrant’s  Name"
                         label={"Registrant’s Name"}
                         inputRef={registrantNameRef}
-                        validations="isExisty"
+                        validations={{
+                          maxLength: 50,
+                          isExisty: true
+                        }}
+                        validationErrors={{
+                          maxLength: "You can not enter more than 50 characters"
+                        }}
                         required
                         value={props.bridalProfile?.registrantName || ""}
                         handleChange={handleChange}
@@ -260,7 +266,13 @@ const EditRegistry: React.FC<Props> = props => {
                         placeholder="Co-registrant’s  Name"
                         label={"Co-registrant’s  Name"}
                         inputRef={coRegistrantNameRef}
-                        validations="isExisty"
+                        validations={{
+                          maxLength: 50,
+                          isExisty: true
+                        }}
+                        validationErrors={{
+                          maxLength: "You can not enter more than 50 characters"
+                        }}
                         required
                         value={props.bridalProfile?.coRegistrantName || ""}
                         handleChange={handleChange}
@@ -271,6 +283,13 @@ const EditRegistry: React.FC<Props> = props => {
                         name="registryName"
                         inputRef={regName}
                         placeholder="Registry Name (optional)"
+                        validations={{
+                          maxLength: 50,
+                          isExisty: true
+                        }}
+                        validationErrors={{
+                          maxLength: "You can not enter more than 50 characters"
+                        }}
                         value={props.bridalProfile?.registryName || ""}
                         label={"Registry Name"}
                         handleChange={handleChange}
