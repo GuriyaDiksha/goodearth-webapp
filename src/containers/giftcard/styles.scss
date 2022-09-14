@@ -293,9 +293,11 @@ h2 {
   select{
     @include b4_12px_montserrat_charcoal();
     border: 1px solid lightgrey;
+    letter-spacing: 0.5px;
   }
   option {
     @include b4_12px_montserrat_charcoal();
+    letter-spacing: 0.5px;
   }
 }
 
@@ -400,6 +402,7 @@ input[type="radio"]:checked+label:before {
   > p {
     @include b4_12px_montserrat_medium_charcoal();
     text-transform: uppercase;
+    letter-spacing: 0.5px;
   }
   span:hover {
     border: 2px solid $aqua;
@@ -420,11 +423,13 @@ input[type="radio"]:checked+label:before {
     text-align: left;
     @include b3_14px_montserrat_charcoal();
     min-width: 220px;
+    letter-spacing: 0.5px;
     @include placeholder {
       color: $light-charcoal;
       font-size: 14px;
       font-family: $font-Montserrat;
       font-weight: 300;
+      letter-spacing: 0.5px;
     }
     &:focus{
       border: 1px solid $aqua !important;
@@ -462,6 +467,7 @@ input[type="radio"]:checked+label:before {
     background-color: #f2f2f2;
     border: none;
     width: 100%;
+    letter-spacing: 0.5px;
   }
 }
 .gc-timer {
@@ -478,8 +484,10 @@ input[type="radio"]:checked+label:before {
 form {
   input {
     @include b4_12px_montserrat_charcoal();
+    letter-spacing: 0.5px;
     &[type="text"]{
       font-size: 12px;
+      letter-spacing: 0.5px;
     }
   }
   select{
@@ -492,15 +500,18 @@ form {
     -moz-appearance: none;
     appearance: none;
     border-radius: 0;
+    letter-spacing: 0.5px;
   }
   label{
     @include b6_9px_light_montserrat_charcoal();
+    letter-spacing: 0.5px;
   }
 }
 
 .login-form{
   input {
     &[type="text"]{
+      letter-spacing: 0.5px;
       font-size: 12px !important;
       &:focus{
         font-size: 12px !important;
@@ -510,6 +521,7 @@ form {
   form {
     input {
       @include b4_12px_montserrat_charcoal();
+      letter-spacing: 0.5px;
       &[type="text"]{
         font-size: 12px;
       }
@@ -524,9 +536,11 @@ form {
       -moz-appearance: none;
       appearance: none;
       border-radius: 0;
+      letter-spacing: 0.5px;
     }
     label{
       @include b6_9px_light_montserrat_charcoal();
+      letter-spacing: 0.5px;
     }
   }
 }
@@ -557,6 +571,7 @@ form {
     line-height: 50px;
     font-family: $font-Lato;
     white-space: nowrap;
+    letter-spacing: 0.5px;
 }
 
 .margin-x-15 {
@@ -569,7 +584,7 @@ form {
 
 @media screen and (max-width: 992px) {
   .form-bg {
-    padding: 50px 30px;
+    padding: 50px 30px 40px 30px;
   }
   .input-button {
     width: 230px;
@@ -592,6 +607,7 @@ hr {
 
 .limit{
   @include b5_10px_montserrat_charcoal();
+  letter-spacing: 0.5px;
 }
 
 .error-msg {
@@ -630,7 +646,7 @@ hr {
 .button-sticky{
   position: sticky;
   bottom: 60px;
-  margin: 0px;
+  margin: 40px 0 0 0;
 }
 
 .gc-no-pad{
