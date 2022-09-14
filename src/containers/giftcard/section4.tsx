@@ -101,6 +101,7 @@ const Section4: React.FC<Section4Props> = props => {
             [styles.gcMobile]: props.mobile
           }
         )}
+        style={{ paddingBottom: props.mobile ? 0 : "50px" }}
       >
         <div className={bootstrapStyles.row}>
           <div
@@ -136,6 +137,7 @@ const Section4: React.FC<Section4Props> = props => {
               styles.formBg,
               globalStyles.voffset3
             )}
+            style={{ paddingBottom: props.mobile ? 0 : "40px" }}
           >
             <div className={cs(bootstrapStyles.row)}></div>
             <div className={globalStyles.voffset2}>
