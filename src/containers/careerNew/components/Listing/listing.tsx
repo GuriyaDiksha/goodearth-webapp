@@ -55,7 +55,7 @@ const Listing: React.FC = () => {
       });
 
     if (vars?.dept) {
-      setSelectedDept(vars.dept.split("|"));
+      setSelectedDept(vars.dept.split("|").map(e => e.replace(/%20/g, " ")));
     }
 
     if (vars?.loc) {
@@ -65,7 +65,10 @@ const Listing: React.FC = () => {
       ];
     }
     if (vars?.tag) {
-      temp = [...temp, ...vars?.tag?.split("|")];
+      temp = [
+        ...temp,
+        ...vars?.tag?.split("|").map(e => e.replace(/%20/g, " "))
+      ];
     }
 
     setAppliedFilters(temp);
