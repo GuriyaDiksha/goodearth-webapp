@@ -1333,8 +1333,8 @@ export const checkoutGTM = (
       event: "add_billing_info",
       ecommerce: {
         currency: currency, // Pass the currency code
-        value: "pass the total value",
-        coupon: "pass the coupon code",
+        value: basket.total,
+        coupon: "",
         items: itemList
       }
     });
