@@ -1,4 +1,4 @@
-import React, { memo, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Props } from "./typings";
 import styles from "./styles.scss";
 import cs from "classnames";
@@ -9,7 +9,7 @@ import LoyaltyService from "services/loyalty";
 import { updateLoyaltyPoints } from "actions/loyalty";
 import moment from "moment";
 
-const CeriseCard: React.FC<Props> = memo(() => {
+const CeriseCard: React.FC<Props> = () => {
   const [active, setActive] = useState(false);
   const {
     user: { slab, email, firstName, lastName },
@@ -122,6 +122,6 @@ const CeriseCard: React.FC<Props> = memo(() => {
       )}
     </div>
   );
-});
+};
 
 export default CeriseCard;
