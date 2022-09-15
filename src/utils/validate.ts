@@ -288,11 +288,7 @@ export function proceedTocheckout(data: Basket, currency: Currency) {
       product.childAttributes.map((child: any) => {
         skus += "," + child.sku;
         variants += "," + child.size;
-        prices +=
-          "," +
-          (child.discountedPriceRecords
-            ? child.discountedPriceRecords[currency]
-            : child.priceRecords[currency]);
+        prices += "," + child.GCValue;
       });
       skus = skus.slice(1);
       variants = variants.slice(1);
