@@ -53,7 +53,6 @@ export type MenuComponentTitleData = {
   src?: string;
   openInNewTab?: boolean;
   thumbnailSrc: string;
-  openInNewTab?: boolean;
 };
 
 export type MenuComponentImageData = {
@@ -106,6 +105,7 @@ export interface L2MenuData {
   hideViewAllOnMobile?: boolean;
   children?: L2MenuData[];
   templateType?: string;
+  openInNewTab?: boolean;
 }
 
 type Redirection = "OPEN_A_POP_UP" | "OPEN_A_NEW_PAGE" | null;
