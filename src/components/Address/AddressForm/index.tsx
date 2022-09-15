@@ -679,6 +679,7 @@ const AddressForm: React.FC<Props> = props => {
             />
 
             <FormInput
+              type="number"
               required
               name="phoneNumber"
               label={"Contact Number*"}
