@@ -125,6 +125,8 @@ const AddressForm: React.FC<Props> = props => {
 
       if (noPincodeCountryList.includes(selectedCountry)) {
         setShowPincode(false);
+      } else {
+        setShowPincode(true);
       }
 
       if (form) {
