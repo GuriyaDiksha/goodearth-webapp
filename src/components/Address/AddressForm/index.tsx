@@ -109,7 +109,8 @@ const AddressForm: React.FC<Props> = props => {
         form &&
           form.updateInputsWithValue(
             {
-              state: ""
+              state: "",
+              province: ""
             },
             false
           );
@@ -135,10 +136,15 @@ const AddressForm: React.FC<Props> = props => {
 
       if (form) {
         // reset state
-        const { state } = form.getModel();
+        const { state, province } = form.getModel();
         if (state) {
           form.updateInputsWithValue({
             state: ""
+          });
+        }
+        if (province) {
+          form.updateInputsWithValue({
+            province: ""
           });
         }
         form.updateInputsWithValue({
@@ -207,12 +213,23 @@ const AddressForm: React.FC<Props> = props => {
     setErrorMessage("");
     setIsLoading(true);
     // prepare data
-    const { country } = model;
+    const { country, state, province } = model;
+    let st = state;
+    let pro = province;
     const countryCode = countryOptions.filter(
       countryOption => countryOption.value == country
     )[0].code2;
+    if (stateOptions.length > 0) {
+      pro = "";
+      st = state;
+    } else {
+      st = "";
+      pro = province;
+    }
     const formData: AddressFormData = {
       ...model,
+      st,
+      pro,
       isDefaultForBilling: false,
       country: countryCode
     };
