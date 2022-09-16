@@ -81,7 +81,11 @@ const AddressForm: React.FC<Props> = props => {
     (postCode: string, state: string): boolean => {
       let isValid = false;
       const validState = pinCodeData[postCode];
-      if (validState && state.toLowerCase() == validState.toLowerCase()) {
+      if (
+        validState &&
+        state &&
+        state.toLowerCase() == validState.toLowerCase()
+      ) {
         isValid = true;
       }
       return isValid;
@@ -342,7 +346,8 @@ const AddressForm: React.FC<Props> = props => {
         isDefaultForShipping,
         line1,
         line2,
-        state
+        state,
+        province
       } = addressData;
       // update stateOptions based on country
       onCountrySelect(null, countryName);
@@ -361,7 +366,8 @@ const AddressForm: React.FC<Props> = props => {
             isDefaultForShipping,
             line1,
             line2,
-            state
+            state,
+            province
           },
           true
         );
@@ -569,7 +575,9 @@ const AddressForm: React.FC<Props> = props => {
                   placeholder={"Select State*"}
                   disable={isIndia}
                   options={stateOptions}
-                  value=""
+                  value={
+                    addressData && !isCountryChanged ? addressData.state : ""
+                  }
                   handleChange={() => setIsAddressChanged(true)}
                   validations={{
                     isExisty: true
