@@ -2,16 +2,31 @@
 @import "../../styles/partials/mixins";
 
 .loyalty-conatiner {
-  margin-top: $main-header;
-  padding: 565px 180px 90px 180px;
+  margin-top: $header-height;
+  padding: 435px 180px 90px 180px;
   background: #2D455C;
+
+  @media screen and (max-width:992px) {
+    padding: 565px 0px 1px 0px;
+  }
+
+  .align-center-text{
+    text-align: center;
+  }
 
   .loyalty-wrp{
     background-color: $white;
     padding: 40px 170px;
 
+    @media screen and (max-width:992px) {
+      padding: 40px 24px;
+    }
+
     .loyalty-header{
       width: 65%;
+      @media screen and (max-width:992px) {
+        width: 98%;
+      }
       .heading{
         @include h1_30px_lora_medium_charcoal();
       }
@@ -34,6 +49,9 @@
         }
         .loyalty-info-col{
           padding: 0 20px;
+          @media screen and (max-width:992px) {
+            width: 98%;
+          }
           .loyalty-info-heading{
             @include h3_20px_lora_charcoal();
           }
@@ -47,16 +65,113 @@
 
     .loyaltyPointsTable{
       .tableRow{
-        border-bottom: 1px solid lightgray;
         padding: 8px 0px;
-        img{
-          width: 25px;
-          height: 30px;
+
+        &.table-first-row{
+          border-top: 1px solid lightgray;
+          padding-bottom: 0;
+          padding-top:15px;
+
+          @media screen and (max-width:992px) {
+           border-top: none;
+          }
+
+          .table-row-wrp{
+            display: flex;
+            img{
+              width: 30px;
+              height: 30px;
+            }
+            p{
+              margin: auto 10px;
+              @include h3_20px_lora_charcoal();
+            }
+
+          }
+
+          p{
+            margin: auto;
+            img{
+              width: 20px;
+              height: 25px;
+            }
+            span{
+              content: '';
+              float: right;
+              border: solid grey;
+              border-width: 0 1px 1px 0;
+              width: 10px;
+              height: 10px;
+              position: relative;
+              transform: rotate(45deg);
+              top: 2px;
+              display: none;
+
+              &.active{
+                transform: rotate(225deg);
+                top: 6px;
+              }
+              
+              @media screen and (max-width:992px) {
+                display: block;
+              }
+            }
+          }
+
         }
+        &.table-second-row{
+          border-top: none;
+          padding-bottom: 15px;
+          padding-top:0;   
+          
+          @media screen and (max-width:992px) {
+            border-bottom: 1px solid grey;
+           }
+
+          @media screen and (max-width:992px) {
+            padding-bottom: 0px;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+            max-height: 0;
+            padding-top:15px;          
+          }
+
+          p{
+            margin: auto 40px;
+            @include b4_12px_montserrat_light_charcoal();
+          }
+
+          &.active{
+            max-height: 200px;
+            transition: max-height 0.3s ease-in;
+            padding-bottom: 15px;
+            overflow: hidden;
+          }
+        }
+       
         .tableHeading{
             @include b2_14px_charcoal_lora();
         }
       }
     }
   }
+
+  .footer{
+    @include b4_12px_montserrat_light_white();
+    margin: 40px auto;
+    text-align: center;
+
+    @media screen and (max-width:992px) {
+      padding: 20px 35px;
+    }
+
+    a{
+      border-bottom: 1px solid;
+      @include b4_12px_montserrat_light_white();
+    }
+  }
+}
+
+.loyalty-container-timer{
+  margin-top: $header-height + $timer-height;
 }

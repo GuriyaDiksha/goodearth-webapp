@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import MakerEnhance from "components/maker";
 import styles from "./styles.scss";
 import ceriseTulip from "./../../images/loyalty/ceriseTulip.svg";
@@ -6,10 +6,22 @@ import sitaraGold from "./../../images/loyalty/sitaraGold.svg";
 import cerisePoint from "./../../images/loyalty/cerisePoint.svg";
 import bootstrap from "../../styles/bootstrap/bootstrap-grid.scss";
 import cs from "classnames";
+import { useSelector } from "react-redux";
+import { AppState } from "reducers/typings";
 
 const LoyaltyLanding = () => {
+  const [openStateId, setOpenStateId] = useState({ id: 0, state: true });
+  const {
+    device: { mobile },
+    info: { showTimer }
+  } = useSelector((state: AppState) => state);
+
   return (
-    <div className={styles.loyaltyConatiner}>
+    <div
+      className={cs(styles.loyaltyConatiner, {
+        [styles.loyaltyContainerTimer]: showTimer
+      })}
+    >
       {/* <MakerEnhance
           user="goodearth"
           href={`${window.location.origin}${location.pathname}?${location.search}`}
@@ -47,24 +59,178 @@ const LoyaltyLanding = () => {
 
         <div className={styles.loyaltyPointsTable}>
           <div className={cs(bootstrap.row, styles.tableRow)}>
-            <p className={cs(bootstrap.col10, styles.tableHeading)}>Benefits</p>
-            <p className={cs(bootstrap.col1, styles.tableHeading)}>Club</p>
-            <p className={cs(bootstrap.col1, styles.tableHeading)}>Sitara</p>
+            <p
+              className={cs(
+                mobile ? bootstrap.col8 : bootstrap.col10,
+                styles.tableHeading
+              )}
+            >
+              {mobile ? "" : "Benefits"}
+            </p>
+            <p
+              className={cs(
+                mobile ? bootstrap.col2 : bootstrap.col1,
+                styles.tableHeading,
+                styles.alignCenterText
+              )}
+            >
+              Club
+            </p>
+            <p
+              className={cs(
+                mobile ? bootstrap.col2 : bootstrap.col1,
+                styles.tableHeading,
+                styles.alignCenterText
+              )}
+            >
+              Sitara
+            </p>
           </div>
-          <div className={cs(bootstrap.row, styles.tableRow)}>
-            <img className={cs(bootstrap.col1)} src={cerisePoint} />
-            <div className={cs(bootstrap.col9, styles.tableHeading)}>
-              <p className={cs(styles.tableHeading)}>Cerise Points</p>
-              <p className={cs(styles.tableHeading)}>
+          <div
+            className={cs(bootstrap.row, styles.tableRow, styles.tableFirstRow)}
+          >
+            <div
+              className={cs(
+                mobile ? bootstrap.col8 : bootstrap.col10,
+                styles.tableRowWrp
+              )}
+            >
+              <img src={cerisePoint} />
+              <p className={cs(styles.tableRowHead)}>Cerise Points</p>
+            </div>
+            <p
+              className={cs(
+                mobile ? bootstrap.col2 : bootstrap.col1,
+                styles.tableHeading,
+                styles.alignCenterText
+              )}
+            >
+              10%
+            </p>
+            <p
+              className={cs(
+                mobile ? bootstrap.col2 : bootstrap.col1,
+                styles.tableHeading,
+                styles.alignCenterText
+              )}
+            >
+              15%
+              <span
+                className={
+                  openStateId["id"] === 0 && openStateId["state"]
+                    ? styles.active
+                    : ""
+                }
+                onClick={() =>
+                  setOpenStateId({
+                    id: 0,
+                    state:
+                      openStateId["id"] === 0 ? !openStateId["state"] : true
+                  })
+                }
+              ></span>
+            </p>
+          </div>
+          <div
+            className={cs(
+              bootstrap.row,
+              styles.tableRow,
+              styles.tableSecondRow,
+              openStateId["id"] === 0 && openStateId["state"]
+                ? styles.active
+                : styles.inactive
+            )}
+          >
+            <div className={cs(bootstrap.col8)}>
+              <p>
                 Earn Cerise points on the value of your purchases. 1 point is
                 equivalent 1 ₹.
               </p>
             </div>
-            <p className={cs(bootstrap.col1, styles.tableHeading)}>10%</p>
-            <p className={cs(bootstrap.col1, styles.tableHeading)}>10%</p>
+          </div>
+          <div
+            className={cs(bootstrap.row, styles.tableRow, styles.tableFirstRow)}
+          >
+            <div
+              className={cs(
+                mobile ? bootstrap.col8 : bootstrap.col10,
+                styles.tableRowWrp
+              )}
+            >
+              <img src={cerisePoint} />
+              <p className={cs(styles.tableRowHead)}>Cerise Points</p>
+            </div>
+            <p
+              className={cs(
+                mobile ? bootstrap.col2 : bootstrap.col1,
+                styles.tableHeading,
+                styles.alignCenterText
+              )}
+            >
+              <img src={ceriseTulip} />
+            </p>
+            <p
+              className={cs(
+                mobile ? bootstrap.col2 : bootstrap.col1,
+                styles.tableHeading,
+                styles.alignCenterText
+              )}
+            >
+              <img src={sitaraGold} />
+              <span
+                className={
+                  openStateId["id"] === 1 && openStateId["state"]
+                    ? styles.active
+                    : ""
+                }
+                onClick={() =>
+                  setOpenStateId({
+                    id: 1,
+                    state:
+                      openStateId["id"] === 1 ? !openStateId["state"] : true
+                  })
+                }
+              ></span>
+            </p>
+          </div>
+          <div
+            className={cs(
+              bootstrap.row,
+              styles.tableRow,
+              styles.tableSecondRow,
+              openStateId["id"] === 1 && openStateId["state"]
+                ? styles.active
+                : styles.inactive
+            )}
+          >
+            <div className={cs(bootstrap.col8)}>
+              <p>
+                Earn Cerise points on the value of your purchases. 1 point is
+                equivalent 1 ₹.
+              </p>
+            </div>
           </div>
         </div>
       </div>
+
+      <p className={styles.footer}>
+        For further information, please refer to&nbsp;
+        <a
+          href={`/customer-assistance/terms`}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Terms &#38; Conditions
+        </a>
+        &nbsp;and{" "}
+        <a
+          href={`/customer-assistance/terms#faq`}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          FAQs.
+        </a>
+      </p>
     </div>
   );
 };
