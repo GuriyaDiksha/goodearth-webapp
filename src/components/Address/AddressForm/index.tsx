@@ -228,8 +228,8 @@ const AddressForm: React.FC<Props> = props => {
     }
     const formData: AddressFormData = {
       ...model,
-      st,
-      pro,
+      state: st,
+      province: pro,
       isDefaultForBilling: false,
       country: countryCode
     };
