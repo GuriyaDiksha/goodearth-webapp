@@ -770,8 +770,9 @@ class Search extends React.Component<Props, State> {
                               <div
                                 key={i}
                                 className={cs(
-                                  bootstrapStyles.colMd4,
-                                  bootstrapStyles.col6
+                                  // bootstrapStyles.colMd4,
+                                  bootstrapStyles.colMd2,
+                                  styles.suggestionBoxWidth
                                 )}
                               >
                                 {/* {data.salesBadgeImage ? (
@@ -880,7 +881,8 @@ class Search extends React.Component<Props, State> {
                       <div className={styles.searchBottomBlock}>
                         <div className={globalStyles.textCenter}>
                           <button onClick={this.onClickSearch}>
-                            {`View All ${this.state.count} Results`}{" "}
+                            {/* {`View All ${this.state.count} Results`}{" "} */}
+                            {`View All Results`}{" "}
                           </button>
                         </div>
                       </div>
