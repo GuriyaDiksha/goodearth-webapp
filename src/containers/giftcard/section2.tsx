@@ -221,10 +221,6 @@ const Section2: React.FC<Section2Props> = ({
 
     return { sta: status, message: msg };
   };
-  console.log(
-    String.fromCharCode(currencyCode["SGD"]),
-    String.fromCharCode(currencyCode["INR"])
-  );
   const gotoNext = () => {
     const data: any = {};
     if (selectcurrency != "INR" && !selectedCountry) {

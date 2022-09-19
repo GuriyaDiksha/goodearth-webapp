@@ -128,7 +128,11 @@ const WishlistButton: React.FC<Props> = ({
             event: "add_to_wishlist",
             ecommerce: {
               currency: currency,
-              value: "",
+              value: child?.[0].discountedPriceRecords
+                ? child?.[0].discountedPriceRecords[currency]
+                : child?.[0].priceRecords
+                ? child?.[0].priceRecords[currency]
+                : null,
               items: [
                 {
                   item_id: id, //Pass the product id
@@ -137,7 +141,7 @@ const WishlistButton: React.FC<Props> = ({
                   coupon: "", // Pass the coupon if available
                   currency: currency, // Pass the currency code
                   discount: "", // Pass the discount amount
-                  index: "",
+                  index: 0,
                   item_brand: "Goodearth",
                   item_category: category?.split("/")[0],
                   item_category2: category?.split("/")[1],
@@ -191,6 +195,7 @@ const WishlistButton: React.FC<Props> = ({
         )
           .then(() => {
             onMoveToWishlist?.();
+            gtmPushAddToWishlist(true);
           })
           .finally(() => {
             dispatch(updateLoader(false));

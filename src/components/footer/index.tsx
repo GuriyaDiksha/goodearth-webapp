@@ -14,6 +14,7 @@ import { Dispatch } from "redux";
 import HeaderFooterService from "services/headerFooter";
 import { updateShowCookie } from "actions/info";
 import CookiePolicy from "./CookiePolicy";
+import MakerSmartNav from "containers/base/MakerSmartNav";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -23,7 +24,8 @@ const mapStateToProps = (state: AppState) => {
     saleStatus: false,
     isSale: state.info.isSale,
     showCookie: state.info.showCookie,
-    mobileMenuOpenState: state.header.mobileMenuOpenState
+    mobileMenuOpenState: state.header.mobileMenuOpenState,
+    currency: state.currency
   };
 };
 
@@ -59,7 +61,8 @@ class Footer extends React.Component<Props, FooterState> {
       newsletterEmail: "",
       newsletterMessage: "",
       newsletterError: false,
-      isInViewport: false
+      isInViewport: false,
+      isConsentSave: false
     };
   }
 
@@ -113,6 +116,7 @@ class Footer extends React.Component<Props, FooterState> {
         this.observer.observe(this.container);
       }
     }
+    this.setState({ isConsentSave: CookieService.getCookie("consent") !== "" });
   }
 
   subMenu = (index: number) => {
@@ -121,6 +125,10 @@ class Footer extends React.Component<Props, FooterState> {
     } else {
       this.setState({ isOpened: true, currentIndex: index });
     }
+  };
+
+  setConsent = () => {
+    this.setState({ isConsentSave: CookieService.getCookie("consent") !== "" });
   };
 
   showDropdown(value: boolean) {
@@ -765,6 +773,10 @@ class Footer extends React.Component<Props, FooterState> {
             </div>
           </div>
         </div>
+        {this.props.location.pathname == "/" &&
+          (this.props.currency == "INR" || this.props.currency == "USD") && (
+            <MakerSmartNav id="TDEHYqQNA" inline={false} />
+          )}
 
         {this.props.location.pathname !==
           "/customer-assistance/cookie-policy" &&
@@ -772,9 +784,11 @@ class Footer extends React.Component<Props, FooterState> {
             "/customer-assistance/privacy-policy" &&
           this.props.showCookie &&
           !this.props.mobileMenuOpenState && (
+            // || !this.state.isConsentSave)
             <CookiePolicy
               hideCookies={this.props.hideCookies}
               acceptCookies={this.acceptCookies}
+              setConsent={this.setConsent}
             />
           )}
       </div>

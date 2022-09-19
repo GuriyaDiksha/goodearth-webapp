@@ -165,6 +165,9 @@ const NotifyMePopup: React.FC<Props> = ({
     const category3 = (sliderImages || [])?.filter(ele => ele?.icon).length
       ? "3d"
       : "non 3d";
+    const view3dValue = sliderImages.filter(ele => ele?.icon).length
+      ? "View3d"
+      : "nonView3d";
     const userConsent = CookieService.getCookie("consent").split(",");
     if (userConsent.includes(GA_CALLS)) {
       dataLayer.push({
@@ -177,6 +180,7 @@ const NotifyMePopup: React.FC<Props> = ({
         "Login Status": isLoggedIn ? "logged in" : "logged out",
         "Product Name": title,
         "Product ID": selectedSize?.id,
+        dimension8: view3dValue,
         Variant: size
       });
       dataLayer.push({

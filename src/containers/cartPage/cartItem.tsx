@@ -160,6 +160,36 @@ const CartItems: React.FC<BasketItem> = memo(
             "Product ID": product.id,
             Variant: size
           });
+
+          dataLayer.push({ ecommerce: null }); // Clear the previous ecommerce object.
+          dataLayer.push({
+            event: "remove_from_cart",
+            ecommerce: {
+              items: [
+                {
+                  item_id: product.sku || product.childAttributes[0].sku,
+                  item_name: product.title,
+                  affiliation: product.title,
+                  coupon: "", // Pass the coupon if available
+                  currency: currency, // Pass the currency code
+                  discount:
+                    childAttributes[0]?.discountedPriceRecords[currency], // Pass the discount amount
+                  index: "",
+                  item_brand: "goodearth",
+                  item_category: categories[0],
+                  item_category2: size,
+                  item_category3: "",
+                  item_list_id: "",
+                  item_list_name: "",
+                  item_variant: "",
+                  item_category4: product.categories[0],
+                  item_category5: product.collection,
+                  price: price,
+                  quantity: quantity
+                }
+              ]
+            }
+          });
         }
       } catch (err) {
         console.log("cartPage GTM error!");

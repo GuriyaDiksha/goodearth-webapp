@@ -44,7 +44,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
     const productname: string[] = [];
     const productprice: string[] = [];
     const productquantity: number[] = [];
-    const items = result.lines.map((line: any) => {
+    const items = result.lines.map((line: any, ind: number) => {
       const index = line.product.categories
         ? line.product.categories.length - 1
         : 0;
@@ -61,7 +61,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
         coupon: result.offerDisounts?.[0].name, // Pass the coupon if available
         currency: result.currency, // Pass the currency code
         discount: "", // Pass the discount amount
-        index: "",
+        index: ind,
         item_brand: "Goodearth",
         item_category: arr[arr.length - 2],
         item_category2: arr[arr.length - 1],
@@ -162,12 +162,6 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
           }
         });
         dataLayer.push({
-          event: "fb_purchase",
-          revenue: +result.totalInclTax,
-          currencyCode: result.currency,
-          contents: fbProduct
-        });
-        dataLayer.push({
           event: "customPurchaseSuccess",
           "Transaction ID": result.transactionId,
           Revenue: +result.totalInclTax,
@@ -178,17 +172,36 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
         });
         dataLayer.push({ ecommerce: null }); // Clear the previous ecommerce object.
         dataLayer.push({
+          event: "checkout",
+          currenyCode: result.currency,
+          paymentMethod: result.paymentMethod,
+          ecommerce: {
+            checkout: {
+              actionField: { step: 6, option: "Purchase Success" },
+              products: products
+            }
+          }
+        });
+        dataLayer.push({ ecommerce: null }); // Clear the previous ecommerce object.
+        dataLayer.push({
           event: "purchase",
           ecommerce: {
             transaction_id: result.transactionId,
             affiliation: "Online Store", // Pass the product name
-            value: "",
+            value: +result.totalInclTax,
             tax: 0,
             shipping: +result.shippingInclTax,
             currency: result.currency, // Pass the currency code
             coupon: result.offerDiscounts?.[0]?.name,
             items: items
           }
+        });
+
+        dataLayer.push({
+          event: "fb_purchase",
+          revenue: +result.totalInclTax,
+          currencyCode: result.currency,
+          contents: fbProduct
         });
       }
       if (userConsent.includes(ANY_ADS)) {

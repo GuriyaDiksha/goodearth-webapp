@@ -66,8 +66,29 @@ const WishlistButtonpdp: React.FC<Props> = ({
         category = category && category.replace(/>/g, "/");
         const listPath = `${gtmListType}`;
         const child = childAttributes as ChildProductAttributes[];
-
-        console.log(category, id, title, priceRecords);
+        if (addWishlist) {
+          Moengage.track_event("add_to_wishlist", {
+            "Product id": id,
+            "Product name": title,
+            quantity: 1,
+            price: priceRecords?.[currency] ? +priceRecords?.[currency] : "",
+            Currency: currency,
+            // "Collection name": collection,
+            "Category name": category?.split("/")[0],
+            "Sub Category Name": category?.split("/")[1] || ""
+          });
+        } else {
+          Moengage.track_event("remove_from_wishlist", {
+            "Product id": id,
+            "Product name": title,
+            quantity: 1,
+            price: priceRecords?.[currency] ? +priceRecords?.[currency] : "",
+            Currency: currency,
+            // "Collection name": collection,
+            "Category name": category?.split("/")[0],
+            "Sub Category Name": category?.split("/")[1] || ""
+          });
+        }
         const userConsent = CookieService.getCookie("consent").split(",");
         if (userConsent.includes(ANY_ADS)) {
           if (addWishlist) {
@@ -127,7 +148,11 @@ const WishlistButtonpdp: React.FC<Props> = ({
             event: "add_to_wishlist",
             ecommerce: {
               currency: currency,
-              value: "",
+              value: child?.[0].discountedPriceRecords
+                ? child?.[0].discountedPriceRecords[currency]
+                : child?.[0].priceRecords
+                ? child?.[0].priceRecords[currency]
+                : null,
               items: [
                 {
                   item_id: id, //Pass the product id
@@ -136,7 +161,7 @@ const WishlistButtonpdp: React.FC<Props> = ({
                   coupon: "", // Pass the coupon if available
                   currency: currency, // Pass the currency code
                   discount: "", // Pass the discount amount
-                  index: "",
+                  index: 0,
                   item_brand: "Goodearth",
                   item_category: category?.split("/")[0],
                   item_category2: category?.split("/")[1],

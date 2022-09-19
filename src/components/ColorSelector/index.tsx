@@ -21,7 +21,7 @@ const ColorSelector: React.FC<Props> = ({ products, onClick }) => {
       }
 
       const { productImage } = image;
-      const colorName = colorString.split("-")[1];
+      // const colorName = colorString.split("-")[1];
 
       return (
         <Link

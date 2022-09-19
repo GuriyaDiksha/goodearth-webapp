@@ -1,8 +1,6 @@
 import React, { Fragment } from "react";
 import SecondaryHeader from "components/SecondaryHeader";
-import SelectableDropdownMenu from "components/dropdown/selectableDropdownMenu";
 import initActionSearch from "./initAction";
-import { DropdownItem } from "components/dropdown/baseDropdownMenu/typings";
 import cs from "classnames";
 import { AppState } from "reducers/typings";
 import { connect } from "react-redux";

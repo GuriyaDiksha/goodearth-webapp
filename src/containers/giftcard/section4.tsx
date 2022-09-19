@@ -57,8 +57,27 @@ const Section4: React.FC<Section4Props> = props => {
               location: props.selectedCountry,
               value: data.customPrice
             });
-          }
 
+            dataLayer.push({
+              event: "addToCart",
+              ecommerce: {
+                currencyCode: currency,
+                add: {
+                  products: [
+                    {
+                      name: "Gift Card",
+                      id: data.productId,
+                      price: res.data.total,
+                      brand: "Goodearth",
+                      category: "Gift Card",
+                      variant: "",
+                      quantity: 1
+                    }
+                  ]
+                }
+              }
+            });
+          }
           const basket: Basket = res.data;
           dispatch(updateBasket(basket));
           valid.showGrowlMessage(dispatch, MESSAGE.ADD_TO_BAG_GIFTCARD_SUCCESS);
