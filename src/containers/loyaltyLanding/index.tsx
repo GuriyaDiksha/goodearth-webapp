@@ -1,20 +1,32 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import MakerEnhance from "components/maker";
 import styles from "./styles.scss";
 import ceriseTulip from "./../../images/loyalty/ceriseTulip.svg";
 import sitaraGold from "./../../images/loyalty/sitaraGold.svg";
-import cerisePoint from "./../../images/loyalty/cerisePoint.svg";
-import bootstrap from "../../styles/bootstrap/bootstrap-grid.scss";
 import cs from "classnames";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { AppState } from "reducers/typings";
+import LoyaltyService from "services/loyalty";
+import { Landing } from "reducers/loyalty/typings";
+import LandingTable from "./landingTable";
 
 const LoyaltyLanding = () => {
-  const [openStateId, setOpenStateId] = useState({ id: 0, state: true });
+  const [data, setData] = useState<Landing[]>([]);
   const {
     device: { mobile },
     info: { showTimer }
   } = useSelector((state: AppState) => state);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    LoyaltyService.getLoyaltyLanding(dispatch)
+      .then(res => {
+        setData(res);
+      })
+      .catch(e => {
+        console.log("e======", e);
+      });
+  }, []);
 
   return (
     <div
@@ -57,160 +69,7 @@ const LoyaltyLanding = () => {
           </div>
         </div>
 
-        <div className={styles.loyaltyPointsTable}>
-          <div className={cs(bootstrap.row, styles.tableRow)}>
-            <p
-              className={cs(
-                mobile ? bootstrap.col8 : bootstrap.col10,
-                styles.tableHeading
-              )}
-            >
-              {mobile ? "" : "Benefits"}
-            </p>
-            <p
-              className={cs(
-                mobile ? bootstrap.col2 : bootstrap.col1,
-                styles.tableHeading,
-                styles.alignCenterText
-              )}
-            >
-              Club
-            </p>
-            <p
-              className={cs(
-                mobile ? bootstrap.col2 : bootstrap.col1,
-                styles.tableHeading,
-                styles.alignCenterText
-              )}
-            >
-              Sitara
-            </p>
-          </div>
-          <div
-            className={cs(bootstrap.row, styles.tableRow, styles.tableFirstRow)}
-          >
-            <div
-              className={cs(
-                mobile ? bootstrap.col8 : bootstrap.col10,
-                styles.tableRowWrp
-              )}
-            >
-              <img src={cerisePoint} />
-              <p className={cs(styles.tableRowHead)}>Cerise Points</p>
-            </div>
-            <p
-              className={cs(
-                mobile ? bootstrap.col2 : bootstrap.col1,
-                styles.tableHeading,
-                styles.alignCenterText
-              )}
-            >
-              10%
-            </p>
-            <p
-              className={cs(
-                mobile ? bootstrap.col2 : bootstrap.col1,
-                styles.tableHeading,
-                styles.alignCenterText
-              )}
-            >
-              15%
-              <span
-                className={
-                  openStateId["id"] === 0 && openStateId["state"]
-                    ? styles.active
-                    : ""
-                }
-                onClick={() =>
-                  setOpenStateId({
-                    id: 0,
-                    state:
-                      openStateId["id"] === 0 ? !openStateId["state"] : true
-                  })
-                }
-              ></span>
-            </p>
-          </div>
-          <div
-            className={cs(
-              bootstrap.row,
-              styles.tableRow,
-              styles.tableSecondRow,
-              openStateId["id"] === 0 && openStateId["state"]
-                ? styles.active
-                : styles.inactive
-            )}
-          >
-            <div className={cs(bootstrap.col8)}>
-              <p>
-                Earn Cerise points on the value of your purchases. 1 point is
-                equivalent 1 ₹.
-              </p>
-            </div>
-          </div>
-          <div
-            className={cs(bootstrap.row, styles.tableRow, styles.tableFirstRow)}
-          >
-            <div
-              className={cs(
-                mobile ? bootstrap.col8 : bootstrap.col10,
-                styles.tableRowWrp
-              )}
-            >
-              <img src={cerisePoint} />
-              <p className={cs(styles.tableRowHead)}>Cerise Points</p>
-            </div>
-            <p
-              className={cs(
-                mobile ? bootstrap.col2 : bootstrap.col1,
-                styles.tableHeading,
-                styles.alignCenterText
-              )}
-            >
-              <img src={ceriseTulip} />
-            </p>
-            <p
-              className={cs(
-                mobile ? bootstrap.col2 : bootstrap.col1,
-                styles.tableHeading,
-                styles.alignCenterText
-              )}
-            >
-              <img src={sitaraGold} />
-              <span
-                className={
-                  openStateId["id"] === 1 && openStateId["state"]
-                    ? styles.active
-                    : ""
-                }
-                onClick={() =>
-                  setOpenStateId({
-                    id: 1,
-                    state:
-                      openStateId["id"] === 1 ? !openStateId["state"] : true
-                  })
-                }
-              ></span>
-            </p>
-          </div>
-          <div
-            className={cs(
-              bootstrap.row,
-              styles.tableRow,
-              styles.tableSecondRow,
-              openStateId["id"] === 1 && openStateId["state"]
-                ? styles.active
-                : styles.inactive
-            )}
-          >
-            <div className={cs(bootstrap.col8)}>
-              <p>
-                Earn Cerise points on the value of your purchases. 1 point is
-                equivalent 1 ₹.
-              </p>
-            </div>
-          </div>
-        </div>
+        <LandingTable mobile={mobile} data={data} />
       </div>
 
       <p className={styles.footer}>

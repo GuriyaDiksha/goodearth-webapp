@@ -17,7 +17,8 @@ const initialState: State = {
       currencycode: "",
       currencyname: ""
     }
-  }
+  },
+  landing: []
 };
 
 export const loyalty = (
@@ -26,6 +27,9 @@ export const loyalty = (
 ) => {
   switch (action.type) {
     case "UPDATE_LOYALTY_POINTS": {
+      return { ...state, loyaltyPoints: action.payload };
+    }
+    case "UPDATE_LOYALTY_LANDING": {
       return { ...state, loyaltyPoints: action.payload };
     }
     default: {

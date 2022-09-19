@@ -18,6 +18,14 @@ export type LoyaltyPoints = {
     currencyname: string;
   };
 };
-export type State = { loyaltyPoints: LoyaltyPoints };
+
+export type Landing = {
+  heading: string;
+  shortDescription: string;
+  uploadIcon: string;
+  level: string[];
+};
+
+export type State = { loyaltyPoints: LoyaltyPoints; landing: Landing[] };
 
 export type LoyaltyActions = ActionType<typeof Actions>;
