@@ -4,11 +4,12 @@ import styles from "./styles.scss";
 import { otpRedeemProps, otpState } from "./typings";
 // import { Currency, currencyCode } from "typings/currency";
 import globalStyles from "styles/global.scss";
-import OtpBox from "./otpBox";
+// import OtpBox from "./otpBox";
 import Formsy from "formsy-react";
 import FormInput from "components/Formsy/FormInput";
 import Loader from "components/Loader";
 import * as valid from "utils/validate";
+import NewOtpComponent from "./NewOtpComponent";
 
 class OtpReedem extends React.Component<otpRedeemProps, otpState> {
   constructor(props: otpRedeemProps) {
@@ -27,10 +28,15 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
       showerrorOtp: "",
       otp: "",
       toggleOtp: false,
-      isLoading: false
+      isLoading: false,
+      attempts: {
+        attempts: 0,
+        maxAttemptsAllow: 5
+      },
+      startTimer: false
     };
   }
-  timerId: any = 0;
+  // timerId: any = 0;
   emailRef: RefObject<typeof FormInput> = React.createRef();
   RegisterFormRef: RefObject<Formsy> = React.createRef();
   RegisterFormRef1: RefObject<Formsy> = React.createRef();
@@ -80,6 +86,7 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
     }
     // data["inputType"] = "GIFT";
     data["points"] = this.props.points;
+    this.setState({ startTimer: true });
     this.sendOtpApiCall(data);
   };
 
@@ -91,7 +98,7 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
     });
   };
 
-  checkOtpValidation = () => {
+  checkOtpValidation = (value: any) => {
     const { otpData } = this.state;
     if (!this.props.points) {
       this.props.updateError(true);
@@ -101,9 +108,11 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
       return false;
     }
     const newData = otpData;
-    newData["otp"] = this.state.otp;
+    newData["otp"] = value;
+
     this.setState({
-      isLoading: true
+      isLoading: true,
+      otp: value
     });
     this.props.checkOtpRedeem &&
       this.props
@@ -113,7 +122,11 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
             this.setState(
               {
                 showerror: data.message,
-                isLoading: false
+                isLoading: false,
+                attempts: {
+                  attempts: data?.attempts || 0,
+                  maxAttemptsAllow: data?.maxAttemptsAllow || 5
+                }
               },
               () => {
                 valid.errorTracking([this.state.showerror], location.href);
@@ -133,7 +146,11 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
           this.setState(
             {
               showerror: err.response.data.message,
-              isLoading: false
+              isLoading: false,
+              attempts: {
+                attempts: err.response.data?.attempts || 0,
+                maxAttemptsAllow: err.response.data?.maxAttemptsAllow || 5
+              }
             },
             () => {
               valid.errorTracking([this.state.showerror], location.href);
@@ -141,39 +158,39 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
           );
         })
         .finally(() => {
-          this.clearTimer();
+          // this.clearTimer();
           this.setState({
             isResendOtpDisabled: false
           });
         });
   };
 
-  timer = () => {
-    this.setState({
-      otpTimer: 300
-    });
-    this.timerId = setInterval(() => {
-      this.decrementTimeRemaining();
-    }, 1000);
-  };
+  // timer = () => {
+  //   this.setState({
+  //     otpTimer: 300
+  //   });
+  //   this.timerId = setInterval(() => {
+  //     this.decrementTimeRemaining();
+  //   }, 1000);
+  // };
 
-  decrementTimeRemaining() {
-    if (this.state.otpTimer > 0) {
-      this.setState({
-        otpTimer: this.state.otpTimer - 1
-      });
-    } else {
-      this.setState({ isResendOtpDisabled: false });
-      this.clearTimer();
-    }
-  }
+  // decrementTimeRemaining() {
+  //   if (this.state.otpTimer > 0) {
+  //     this.setState({
+  //       otpTimer: this.state.otpTimer - 1
+  //     });
+  //   } else {
+  //     this.setState({ isResendOtpDisabled: false });
+  //     this.clearTimer();
+  //   }
+  // }
 
-  clearTimer() {
-    clearInterval(this.timerId);
-    this.setState({
-      otpTimer: 0
-    });
-  }
+  // clearTimer() {
+  //   clearInterval(this.timerId);
+  //   this.setState({
+  //     otpTimer: 0
+  //   });
+  // }
 
   clickHereOtpInvalid = () => {
     this.props.toggleOtp(false);
@@ -226,7 +243,7 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
             isLoading: false
           },
           () => {
-            this.timer();
+            // this.timer();
             this.props.toggleOtp(true);
           }
         );
@@ -246,11 +263,15 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
   };
 
   resendOtp = () => {
-    this.clearTimer();
+    // this.clearTimer();
     this.setState({
       showerror: ""
     });
     this.sendOtpApiCall(this.state.otpData);
+  };
+
+  changeAttepts = (value: any) => {
+    this.setState({ attempts: value });
   };
 
   secondsToMints = (seconds: number) => {
@@ -277,7 +298,16 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
           id="otp-comp"
         ></div>
         <hr />
-        {(this.props.otpFor == "activateGC"
+        <NewOtpComponent
+          otpSentVia={radioType == "number" ? "mobile number" : "email"}
+          resendOtp={this.resendOtp}
+          verifyOtp={this.checkOtpValidation}
+          errorMsg={this.state.showerror}
+          attempts={this.state.attempts}
+          btnText={"Redeem Points"}
+          startTimer={this.state.startTimer}
+        />
+        {/* {(this.props.otpFor == "activateGC"
           ? this.props.newCardBox == true
             ? true
             : false
@@ -353,7 +383,7 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
               />
             </div>
           </>
-        )}
+        )} */}
       </div>
     );
   };
@@ -487,6 +517,12 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
                       isLength: "Phone Number should be 10 digit"
                     }}
                     required={radioType != "number" ? "isFalse" : true}
+                    keyDown={e => (e.which === 69 ? e.preventDefault() : null)}
+                    onPaste={e =>
+                      e?.clipboardData.getData("Text").match(/([e|E])/)
+                        ? e.preventDefault()
+                        : null
+                    }
                   />
                 </div>
                 <p className={cs(styles.errorMsg)}>{this.state.msgt}</p>
