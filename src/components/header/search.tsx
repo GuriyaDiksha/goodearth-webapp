@@ -56,7 +56,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
 type Props = {
   toggle: () => void;
   ipad: boolean;
-  closePopup: () => void;
+  closePopup: (e: any) => void;
 } & ReturnType<typeof mapStateToProps> &
   ReturnType<typeof mapDispatchToProps> &
   RouteComponentProps;
@@ -107,7 +107,7 @@ class Search extends React.Component<Props, State> {
       !this.impactRef.current.contains(evt.target)
     ) {
       //Do what you want to handle in the callback
-      this.props.closePopup();
+      this.props.closePopup(evt);
     }
   };
 

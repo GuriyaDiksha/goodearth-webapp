@@ -33,7 +33,7 @@
 .header-container {
     position: fixed;
     top: $header-top;
-    z-index: 12;
+    z-index: 1000009;
     width: 100%;
     background-color: rgb(249, 248, 245);
     height: $header-height;
