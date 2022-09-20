@@ -9,6 +9,7 @@ import * as valid from "utils/validate";
 import { useStore } from "react-redux";
 import { useHistory } from "react-router";
 import { copyToClipboard } from "utils/clipboard";
+import cs from "classnames";
 
 type Props = {
   job: Data;
@@ -58,7 +59,7 @@ const JobCard: React.FC<Props> = ({ job }) => {
               <img src={email} alt="email" />
             </a>
             <a
-              href="https://in.linkedin.com/"
+              href="https://www.linkedin.com/sharing/share-offsite/?url={https%3A%2F%2Fwww.linkedin.com%2Fposts%2Fieee-mait_greetings-of-the-day-ieee-mait-in-collaboration-activity-6975706082161647617-nfQc%3Futm_source%3Dshare%26utm_medium%3Dmember_desktop}"
               target="_blank"
               rel="noopener noreferrer"
               className={listing.icon_wrp}
@@ -66,9 +67,9 @@ const JobCard: React.FC<Props> = ({ job }) => {
               <img src={linkedin} alt="linkedin" />
             </a>
             <a
-              href="https://www.facebook.com/GoodEarthIndia/"
               target="_blank"
-              className={listing.icon_wrp}
+              href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fwww.facebook.com%2Fswardhan%2Fposts%2Fpfbid0MwYThENJ9bTduJqHA8mqhDkKfWgXZdhkUKr3eypAnW14KRauSUZAoBQE4hsFyEqKl&amp;src=sdkpreparse"
+              className={cs("fb-xfbml-parse-ignore", listing.icon_wrp)}
               rel="noopener noreferrer"
             >
               <img src={fb} alt="fb" />
