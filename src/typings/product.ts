@@ -28,6 +28,7 @@ export interface PLPProductItem {
   plpSliderImages: string[];
   lookImageUrl?: string;
   images?: ProductImage[];
+  sliderImages?: ProductImage[];
   invisibleFields: string[];
   partner?: string;
   altText: string;
