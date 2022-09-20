@@ -404,10 +404,15 @@ class Header extends React.Component<Props, State> {
     ) {
       return false;
     }
-    this.setState({
-      showSearch: !this.state.showSearch,
-      showMenu: false
-    });
+    this.setState(
+      {
+        showSearch: !this.state.showSearch,
+        showMenu: false
+      },
+      () => {
+        console.log(this.state);
+      }
+    );
   };
 
   hideSearch = () => {
@@ -693,11 +698,13 @@ class Header extends React.Component<Props, State> {
             <Search
               ipad={false}
               toggle={this.showSearch}
-              closePopup={() => {
-                this.setState({
-                  showSearch: false,
-                  showMenu: false
-                });
+              closePopup={e => {
+                if (e.target?.id != "searchIcon") {
+                  this.setState({
+                    showSearch: false,
+                    showMenu: false
+                  });
+                }
               }}
             />
           )}
@@ -848,6 +855,7 @@ class Header extends React.Component<Props, State> {
                         }}
                       >
                         <i
+                          id="searchIcon"
                           className={
                             this.state.showSearch
                               ? cs(
