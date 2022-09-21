@@ -40,7 +40,14 @@ const InShopOrder: React.FC<OrdersProps> = props => {
   }, []);
 
   const backToTop = () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    if (props.mobile) {
+      const ele = document.getElementById("my-orders-head");
+      if (ele) {
+        ele.scrollIntoView({ behavior: "smooth" });
+      }
+    } else {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
   };
 
   const loadMore = () => {
