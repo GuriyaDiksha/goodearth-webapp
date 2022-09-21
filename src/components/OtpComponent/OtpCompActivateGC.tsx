@@ -3,7 +3,7 @@ import cs from "classnames";
 import styles from "./styles.scss";
 import { otpProps, otpState } from "./typings";
 import globalStyles from "styles/global.scss";
-import OtpBox from "./otpBox";
+// import OtpBox from "./otpBox";
 import Formsy from "formsy-react";
 import { Link } from "react-router-dom";
 import FormCheckbox from "components/Formsy/FormCheckbox";
@@ -11,7 +11,8 @@ import FormInput from "components/Formsy/FormInput";
 import * as valid from "utils/validate";
 import CustomerCareInfo from "components/CustomerCareInfo";
 import Loader from "components/Loader";
-import ReactHtmlParser from "react-html-parser";
+// import ReactHtmlParser from "react-html-parser";
+import NewOtpComponent from "./NewOtpComponent";
 class OtpCompActivateGC extends React.Component<otpProps, otpState> {
   constructor(props: otpProps) {
     super(props);
@@ -29,10 +30,15 @@ class OtpCompActivateGC extends React.Component<otpProps, otpState> {
       otp: "",
       toggleOtp: false,
       isLoading: false,
-      otpLimitError: false
+      otpLimitError: false,
+      attempts: {
+        attempts: 0,
+        maxAttemptsAllow: 5
+      },
+      startTimer: true
     };
   }
-  timerId: any = 0;
+  // timerId: any = 0;
   emailRef: RefObject<typeof FormInput> = React.createRef();
   RegisterFormRef: RefObject<Formsy> = React.createRef();
   RegisterFormRef1: RefObject<Formsy> = React.createRef();
@@ -69,6 +75,10 @@ class OtpCompActivateGC extends React.Component<otpProps, otpState> {
     this.props.isIndiaGC
       ? this.phoneInput.current && this.phoneInput.current.focus()
       : this.phoneInput.current && this.phoneInput.current.focus();
+  };
+
+  changeAttepts = (value: any) => {
+    this.setState({ attempts: value });
   };
 
   handleSubmit2 = (model: any, resetForm: any, updateInputsWithError: any) => {
@@ -242,11 +252,12 @@ class OtpCompActivateGC extends React.Component<otpProps, otpState> {
     }
   };
 
-  checkOtpValidation = () => {
+  checkOtpValidation = (value: any) => {
     const { otpData } = this.state;
     const newData = otpData;
-    newData["otp"] = this.state.otp;
+    newData["otp"] = value;
     delete newData["inputType"];
+    this.setState({ otp: value });
     if (this.props.otpFor == "activateGC") {
       this.props.activateGiftCard &&
         this.props
@@ -257,7 +268,11 @@ class OtpCompActivateGC extends React.Component<otpProps, otpState> {
               this.setState(
                 {
                   showerror: data.message,
-                  disable: true
+                  disable: true,
+                  attempts: {
+                    attempts: data?.attempts || 0,
+                    maxAttemptsAllow: data?.maxAttemptsAllow || 5
+                  }
                 },
                 () => {
                   valid.errorTracking([this.state.showerror], location.href);
@@ -277,6 +292,12 @@ class OtpCompActivateGC extends React.Component<otpProps, otpState> {
             // }
           })
           .catch(err => {
+            this.setState({
+              attempts: {
+                attempts: err.response.data?.attempts || 0,
+                maxAttemptsAllow: err.response.data?.maxAttemptsAllow || 5
+              }
+            });
             if (err.response.data.error_message) {
               let errorMsg = err.response.data.error_message[0];
               if (errorMsg == "MaxRetries") {
@@ -310,7 +331,7 @@ class OtpCompActivateGC extends React.Component<otpProps, otpState> {
             }
           })
           .finally(() => {
-            this.clearTimer();
+            // this.clearTimer();
           });
     } else {
       this.props
@@ -360,36 +381,36 @@ class OtpCompActivateGC extends React.Component<otpProps, otpState> {
           }
         })
         .finally(() => {
-          this.clearTimer();
+          // this.clearTimer();
         });
     }
   };
 
-  timer = () => {
-    this.setState({
-      otpTimer: 90
-    });
-    this.timerId = setInterval(() => {
-      this.decrementTimeRemaining();
-    }, 1000);
-  };
+  // timer = () => {
+  //   this.setState({
+  //     otpTimer: 90
+  //   });
+  //   this.timerId = setInterval(() => {
+  //     this.decrementTimeRemaining();
+  //   }, 1000);
+  // };
 
-  decrementTimeRemaining() {
-    if (this.state.otpTimer > 0) {
-      this.setState({
-        otpTimer: this.state.otpTimer - 1
-      });
-    } else {
-      clearInterval(this.timerId);
-    }
-  }
+  // decrementTimeRemaining() {
+  //   if (this.state.otpTimer > 0) {
+  //     this.setState({
+  //       otpTimer: this.state.otpTimer - 1
+  //     });
+  //   } else {
+  //     clearInterval(this.timerId);
+  //   }
+  // }
 
-  clearTimer() {
-    clearInterval(this.timerId);
-    this.setState({
-      otpTimer: 0
-    });
-  }
+  // clearTimer() {
+  //   clearInterval(this.timerId);
+  //   this.setState({
+  //     otpTimer: 0
+  //   });
+  // }
 
   clickHereOtpInvalid = () => {
     this.props.toggleOtp(false);
@@ -484,7 +505,7 @@ class OtpCompActivateGC extends React.Component<otpProps, otpState> {
               otpData: formData
             },
             () => {
-              this.timer();
+              // this.timer();
               this.props.toggleOtp(true);
               this.props.updateError("");
               // document.getElementById("otp-comp").scrollIntoView();
@@ -576,7 +597,7 @@ class OtpCompActivateGC extends React.Component<otpProps, otpState> {
   };
 
   resendOtp = () => {
-    this.clearTimer();
+    // this.clearTimer();
     this.sendOtpApiCall(this.state.otpData, true);
   };
 
@@ -664,109 +685,122 @@ class OtpCompActivateGC extends React.Component<otpProps, otpState> {
             ? true
             : false
           : true) && (
-          <>
-            {!this.state.otpLimitError && (
-              <>
-                <div
-                  className={cs(
-                    styles.loginForm,
-                    globalStyles.voffset4,
-                    styles.otpLabel
-                  )}
-                >
-                  {`OTP HAS BEEN SENT TO YOU VIA YOUR ${
-                    this.props.isIndiaGC ? "MOBILE NUMBER" : "EMAIL ADDRESS"
-                  }. PLEASE ENTER IT
-                BELOW`}
-                </div>
-                <OtpBox otpValue={this.getOtpValue} />
+          <NewOtpComponent
+            otpSentVia={this.props.isIndiaGC ? "mobile number" : "email"}
+            resendOtp={this.resendOtp}
+            verifyOtp={this.checkOtpValidation}
+            errorMsg={this.state.showerror}
+            attempts={this.state.attempts}
+            btnText={
+              this.props.otpFor == "activateGC"
+                ? "Activate Gift Card"
+                : "Check Balance"
+            }
+            startTimer={this.state.startTimer}
+          />
+          // <>
+          //   {!this.state.otpLimitError && (
+          //     <>
+          //       <div
+          //         className={cs(
+          //           styles.loginForm,
+          //           globalStyles.voffset4,
+          //           styles.otpLabel
+          //         )}
+          //       >
+          //         {`OTP HAS BEEN SENT TO YOU VIA YOUR ${
+          //           this.props.isIndiaGC ? "MOBILE NUMBER" : "EMAIL ADDRESS"
+          //         }. PLEASE ENTER IT
+          //       BELOW`}
+          //       </div>
+          //       <OtpBox otpValue={this.getOtpValue} />
 
-                <div className={cs(globalStyles.voffset4, styles.otpLabel)}>
-                  DIDN’T RECEIVE OTP?{" "}
-                  {this.state.showerror ? (
-                    <a
-                      className={cs(globalStyles.cerise, styles.otpLabel)}
-                      onClick={this.clickHereOtpInvalid}
-                    >
-                      CLICK HERE
-                    </a>
-                  ) : (
-                    <a
-                      className={
-                        otpTimer > 0
-                          ? styles.iconStyleDisabled
-                          : cs(styles.otpLabel, globalStyles.cerise)
-                      }
-                      onClick={() => {
-                        otpTimer > 0 ? "" : this.resendOtp();
-                      }}
-                    >
-                      RESEND OTP
-                    </a>
-                  )}
-                  {otpTimer > 0 ? (
-                    <p>OTP SENT: {this.secondsToMints(otpTimer)}s</p>
-                  ) : (
-                    ""
-                  )}
-                </div>
-              </>
-            )}
-            <div
-              className={cs(
-                globalStyles.voffset3,
-                globalStyles.relative,
-                globalStyles.textLeft
-              )}
-            >
-              {this.state.showerror ? (
-                <p
-                  className={cs(
-                    globalStyles.errorMsg,
-                    globalStyles.txtnormal,
-                    globalStyles.textLeft
-                  )}
-                  id="resend-otp-error"
-                >
-                  {ReactHtmlParser(this.state.showerror)}
-                </p>
-              ) : (
-                <p className={globalStyles.errorMsg}></p>
-              )}
-              {this.state.otpLimitError && (
-                <div
-                  className={cs(globalStyles.voffset4, globalStyles.marginB30)}
-                >
-                  <input
-                    type="button"
-                    className={globalStyles.whiteBtn}
-                    value="< Activate Another Gift Card"
-                    onClick={this.props.newGiftCard}
-                  />
-                </div>
-              )}
-              {this.state.showerror && <CustomerCareInfo />}
-            </div>
-            {!this.state.otpLimitError && (
-              <div className={globalStyles.voffset2}>
-                <input
-                  type="button"
-                  disabled={!this.state.updateStatus}
-                  className={
-                    !this.state.updateStatus
-                      ? cs(globalStyles.disabledBtn, globalStyles.ceriseBtn)
-                      : globalStyles.ceriseBtn
-                  }
-                  value={
-                    this.props.otpFor == "activateGC"
-                      ? "Activate Gift Card"
-                      : "Check Balance"
-                  }
-                  onClick={this.checkOtpValidation}
-                />
-              </div>
-            )}
-          </>
+          //       <div className={cs(globalStyles.voffset4, styles.otpLabel)}>
+          //         DIDN’T RECEIVE OTP?{" "}
+          //         {this.state.showerror ? (
+          //           <a
+          //             className={cs(globalStyles.cerise, styles.otpLabel)}
+          //             onClick={this.clickHereOtpInvalid}
+          //           >
+          //             CLICK HERE
+          //           </a>
+          //         ) : (
+          //           <a
+          //             className={
+          //               otpTimer > 0
+          //                 ? styles.iconStyleDisabled
+          //                 : cs(styles.otpLabel, globalStyles.cerise)
+          //             }
+          //             onClick={() => {
+          //               otpTimer > 0 ? "" : this.resendOtp();
+          //             }}
+          //           >
+          //             RESEND OTP
+          //           </a>
+          //         )}
+          //         {otpTimer > 0 ? (
+          //           <p>OTP SENT: {this.secondsToMints(otpTimer)}s</p>
+          //         ) : (
+          //           ""
+          //         )}
+          //       </div>
+          //     </>
+          //   )}
+          //   <div
+          //     className={cs(
+          //       globalStyles.voffset3,
+          //       globalStyles.relative,
+          //       globalStyles.textLeft
+          //     )}
+          //   >
+          //     {this.state.showerror ? (
+          //       <p
+          //         className={cs(
+          //           globalStyles.errorMsg,
+          //           globalStyles.txtnormal,
+          //           globalStyles.textLeft
+          //         )}
+          //         id="resend-otp-error"
+          //       >
+          //         {ReactHtmlParser(this.state.showerror)}
+          //       </p>
+          //     ) : (
+          //       <p className={globalStyles.errorMsg}></p>
+          //     )}
+          //     {this.state.otpLimitError && (
+          //       <div
+          //         className={cs(globalStyles.voffset4, globalStyles.marginB30)}
+          //       >
+          //         <input
+          //           type="button"
+          //           className={globalStyles.whiteBtn}
+          //           value="< Activate Another Gift Card"
+          //           onClick={this.props.newGiftCard}
+          //         />
+          //       </div>
+          //     )}
+          //     {this.state.showerror && <CustomerCareInfo />}
+          //   </div>
+          //   {!this.state.otpLimitError && (
+          //     <div className={globalStyles.voffset2}>
+          //       <input
+          //         type="button"
+          //         disabled={!this.state.updateStatus}
+          //         className={
+          //           !this.state.updateStatus
+          //             ? cs(globalStyles.disabledBtn, globalStyles.ceriseBtn)
+          //             : globalStyles.ceriseBtn
+          //         }
+          //         value={
+          //           this.props.otpFor == "activateGC"
+          //             ? "Activate Gift Card"
+          //             : "Check Balance"
+          //         }
+          //         onClick={this.checkOtpValidation}
+          //       />
+          //     </div>
+          //   )}
+          // </>
         )}
       </div>
     );
@@ -931,6 +965,14 @@ class OtpCompActivateGC extends React.Component<otpProps, otpState> {
                           isLength: "Phone number should be 10 digit"
                         }}
                         required={!this.props.isIndiaGC ? "isFalse" : true}
+                        keyDown={e =>
+                          e.which === 69 ? e.preventDefault() : null
+                        }
+                        onPaste={e =>
+                          e?.clipboardData.getData("Text").match(/([e|E])/)
+                            ? e.preventDefault()
+                            : null
+                        }
                       />
                     </div>
                     <p id="selectError" className={cs(styles.errorMsg)}>

@@ -429,3 +429,117 @@ hr {
   margin-top: 20px;
   margin-bottom: 20px;
 }
+
+//=========New OTP Component===============//
+
+.otp-wrp{
+  background: #FFFFFF 0% 0% no-repeat padding-box;
+  box-shadow: 0px 3px 6px #00000029;
+  opacity: 1;
+  padding: 55px 80px 40px 80px;
+  max-width: 500px;
+  height: 400px;
+  margin: auto;
+
+  @media screen and (max-width: 1100px) {
+    padding: 40px;
+  }
+
+  .otp-heading{
+    @include b4_12px_montserrat_charcoal();
+    padding-bottom: 20px;
+  }
+
+  .otp-timer{
+    @include b4_12px_montserrat_light_charcoal();
+    padding: 30px 0px;
+    .otp-resend{
+      span{
+        border-bottom: 1px solid $charcoal19;
+        cursor: pointer;
+      }
+    }
+  }
+
+  .otp-input-wrp{
+    display: flex;
+    justify-content: space-between;
+    height: 15%;
+
+    .otp-input{
+      width: 15% !important;
+      border: 1px solid #E5E5E5 !important;
+      border-radius: 7px !important;
+      opacity: 1;
+      height: 100% !important;
+      background: #FFFFFF 0% 0% no-repeat padding-box;
+      text-align: center !important;
+      @include b1_16px_charcoal();
+      
+      @media screen and (max-width: 500px) {
+        padding: 0px;
+        height: 40px !important;
+      }
+
+      &:active{
+        border: 1px solid $aqua-text !important;
+      }
+
+      &:focus{
+        border: 1px solid $aqua-text !important;
+      }
+
+      &.error{
+        border: 1px solid $cerise !important;
+      }
+
+    }
+  }
+
+  .otp-error{
+    @include error-msg();
+    padding-top: 10px;
+    text-align: left;
+  }
+
+  .otp-btn{
+    width: 100%;
+    padding: 20px 0px;
+    background-color: #4C4C4C;
+    border: 1px solid #4C4C4C;
+    border-radius:0%;
+    @include b3_14px_montserrat_white();
+
+    &:hover{
+      background-color: $white;
+      @include b3_14px_montserrat_charcoal();
+    }
+
+  }
+
+  .disable{
+    background-color:#9F9F9F;
+    border: 1px solid #9F9F9F;
+    cursor: not-allowed;
+
+  }
+
+  .otp-attempt{
+    @include b6_9px_light_montserrat_charcoal();
+    padding-top: 10px;
+    padding-bottom: 20px;
+  }
+
+  .otp-policy{
+    @include b5_10px_montserrat_charcoal();
+    padding-top: 25px;
+    border-bottom: 1px solid $charcoal19;
+    &:hover{
+      color: $aqua;
+      border-bottom: 1px solid $aqua;
+    }
+
+  }
+
+
+}

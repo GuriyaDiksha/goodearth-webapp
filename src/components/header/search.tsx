@@ -431,7 +431,7 @@ class Search extends React.Component<Props, State> {
                 !productsExist &&
                 this.state.searchValue.length <= 2 &&
                 !suggestionsExist
-                  ? cs(bootstrapStyles.row, globalStyles.voffset5)
+                  ? cs(bootstrapStyles.row, globalStyles.marginT30)
                   : globalStyles.hidden
               }
             >
@@ -484,7 +484,7 @@ class Search extends React.Component<Props, State> {
                 !productsExist &&
                 suggestionsExist &&
                 this.state.searchValue.length > 2
-                  ? cs(bootstrapStyles.row, globalStyles.voffset2)
+                  ? cs(bootstrapStyles.row, globalStyles.marginT30)
                   : globalStyles.hidden
               }
             >
@@ -547,7 +547,7 @@ class Search extends React.Component<Props, State> {
             <div
               className={
                 productsExist
-                  ? cs(bootstrapStyles.row, globalStyles.voffset5)
+                  ? cs(bootstrapStyles.row, globalStyles.marginT30)
                   : globalStyles.hidden
               }
             >
@@ -601,7 +601,7 @@ class Search extends React.Component<Props, State> {
                   )}
                   <div>
                     {usefulLink.length > 0 && (
-                      <div className={globalStyles.voffset2}>
+                      <div className={globalStyles.marginT30}>
                         <p
                           className={cs(
                             styles.productHeading,
@@ -635,7 +635,7 @@ class Search extends React.Component<Props, State> {
                       </div>
                     )}
                     {categories.length > 0 && (
-                      <div className={globalStyles.voffset5}>
+                      <div className={globalStyles.marginT30}>
                         <p
                           className={cs(
                             styles.productHeading,
@@ -671,7 +671,7 @@ class Search extends React.Component<Props, State> {
                       </div>
                     )}
                     {collections.length > 0 && (
-                      <div className={globalStyles.voffset5}>
+                      <div className={globalStyles.marginT30}>
                         <p
                           className={cs(
                             styles.productHeading,
@@ -699,7 +699,7 @@ class Search extends React.Component<Props, State> {
                         <p
                           className={cs(
                             styles.productName,
-                            globalStyles.voffset4,
+                            globalStyles.marginT30,
                             globalStyles.marginB20,
                             { [styles.padding]: !mobile },
                             { [styles.paddingMobile]: mobile }
@@ -770,8 +770,9 @@ class Search extends React.Component<Props, State> {
                               <div
                                 key={i}
                                 className={cs(
-                                  bootstrapStyles.colMd4,
-                                  bootstrapStyles.col6
+                                  // bootstrapStyles.colMd4,
+                                  bootstrapStyles.colMd2,
+                                  styles.suggestionBoxWidth
                                 )}
                               >
                                 {/* {data.salesBadgeImage ? (
@@ -880,7 +881,8 @@ class Search extends React.Component<Props, State> {
                       <div className={styles.searchBottomBlock}>
                         <div className={globalStyles.textCenter}>
                           <button onClick={this.onClickSearch}>
-                            {`View All ${this.state.count} Results`}{" "}
+                            {/* {`View All ${this.state.count} Results`}{" "} */}
+                            {`View All Results`}{" "}
                           </button>
                         </div>
                       </div>
@@ -899,7 +901,7 @@ class Search extends React.Component<Props, State> {
                   ? cs(
                       bootstrapStyles.row,
                       styles.searchProducts,
-                      globalStyles.voffset5
+                      globalStyles.marginT30
                     )
                   : globalStyles.hidden
               } ${
@@ -918,7 +920,7 @@ class Search extends React.Component<Props, State> {
                 )}
               >
                 {this.state.searchValue.length > 2 ? (
-                  <div className={styles.npfMsg}>
+                  <div className={cs(styles.npfMsg, globalStyles.marginT30)}>
                     {`Sorry, we couldn’t find any matching result for`} &nbsp;
                     <span>
                       {`"`}

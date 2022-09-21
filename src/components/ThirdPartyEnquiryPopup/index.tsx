@@ -453,6 +453,12 @@ const CorporateEnquiryPopup: React.FC<Props> = ({
                     isExisty: "Please enter a valid phone number"
                   }}
                   required
+                  keyDown={e => (e.which === 69 ? e.preventDefault() : null)}
+                  onPaste={e =>
+                    e?.clipboardData.getData("Text").match(/([e|E])/)
+                      ? e.preventDefault()
+                      : null
+                  }
                 />
               </div>
             </div>

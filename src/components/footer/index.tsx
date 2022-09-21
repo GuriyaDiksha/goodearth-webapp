@@ -14,7 +14,7 @@ import { Dispatch } from "redux";
 import HeaderFooterService from "services/headerFooter";
 import { updateShowCookie } from "actions/info";
 import CookiePolicy from "./CookiePolicy";
-// import MakerSmartNav from "containers/base/MakerSmartNav";
+import MakerSmartNav from "containers/base/MakerSmartNav";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -395,7 +395,15 @@ class Footer extends React.Component<Props, FooterState> {
                                         ? cs(styles.cerise)
                                         : ""
                                     }
-                                    onClick={() => valid.footerGTM(list.name)}
+                                    onClick={() => {
+                                      if (
+                                        this.props.location.pathname ==
+                                        list.link
+                                      ) {
+                                        window.scrollTo(0, 0);
+                                      }
+                                      valid.footerGTM(list.name);
+                                    }}
                                   >
                                     {list.name}
                                   </Link>
@@ -441,11 +449,19 @@ class Footer extends React.Component<Props, FooterState> {
                                             this.props.isLoggedIn ? (
                                               <Link
                                                 to={"/account/bridal"}
-                                                onClick={() =>
+                                                onClick={() => {
+                                                  if (
+                                                    this.props.location
+                                                      .pathname == list.link ||
+                                                    currentValue.text.toLowerCase() ==
+                                                      "good earth registry"
+                                                  ) {
+                                                    window.scrollTo(0, 0);
+                                                  }
                                                   valid.footerGTM(
                                                     currentValue.text
-                                                  )
-                                                }
+                                                  );
+                                                }}
                                                 key={j}
                                               >
                                                 {currentValue.text}
@@ -453,11 +469,19 @@ class Footer extends React.Component<Props, FooterState> {
                                             ) : (
                                               <a
                                                 href={currentValue.link}
-                                                onClick={() =>
+                                                onClick={() => {
+                                                  if (
+                                                    this.props.location
+                                                      .pathname == list.link ||
+                                                    currentValue.text.toLowerCase() ==
+                                                      "good earth registry"
+                                                  ) {
+                                                    window.scrollTo(0, 0);
+                                                  }
                                                   valid.footerGTM(
                                                     currentValue.text
-                                                  )
-                                                }
+                                                  );
+                                                }}
                                                 key={j}
                                               >
                                                 {currentValue.text}
@@ -601,9 +625,15 @@ class Footer extends React.Component<Props, FooterState> {
                                     {item.link ? (
                                       <Link
                                         to={item.link || "#"}
-                                        onClick={() =>
-                                          valid.footerGTM(item.name)
-                                        }
+                                        onClick={() => {
+                                          if (
+                                            this.props.location.pathname ==
+                                            item.link
+                                          ) {
+                                            window.scrollTo(0, 0);
+                                          }
+                                          valid.footerGTM(item.name);
+                                        }}
                                       >
                                         {item.name}
                                       </Link>
@@ -624,9 +654,15 @@ class Footer extends React.Component<Props, FooterState> {
                                           <a
                                             className={globalStyles.txtNormal}
                                             href={child.link}
-                                            onClick={() =>
-                                              valid.footerGTM(child.text)
-                                            }
+                                            onClick={() => {
+                                              if (
+                                                this.props.location.pathname ==
+                                                child.link
+                                              ) {
+                                                window.scrollTo(0, 0);
+                                              }
+                                              valid.footerGTM(child.text);
+                                            }}
                                           >
                                             {child.text}
                                           </a>
@@ -639,9 +675,17 @@ class Footer extends React.Component<Props, FooterState> {
                                                 ? "/account/bridal"
                                                 : child.link
                                             }
-                                            onClick={() =>
-                                              valid.footerGTM(child.text)
-                                            }
+                                            onClick={() => {
+                                              if (
+                                                this.props.location.pathname ==
+                                                  child.link ||
+                                                child.text.toLowerCase() ==
+                                                  "good earth registry"
+                                              ) {
+                                                window.scrollTo(0, 0);
+                                              }
+                                              valid.footerGTM(child.text);
+                                            }}
                                           >
                                             {child.text}
                                           </Link>
@@ -783,10 +827,10 @@ class Footer extends React.Component<Props, FooterState> {
             </div>
           </div>
         </div>
-        {/* {this.props.location.pathname == "/" &&
+        {this.props.location.pathname == "/" &&
           (this.props.currency == "INR" || this.props.currency == "USD") && (
             <MakerSmartNav id="TDEHYqQNA" inline={false} />
-          )} */}
+          )}
 
         {this.props.location.pathname !==
           "/customer-assistance/cookie-policy" &&

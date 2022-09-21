@@ -958,6 +958,18 @@ a {
   // &:hover {
   //   @include scrollbar();
   // }
+  .suggestion-box-width{
+    max-width: 20%;
+    flex: 0 0 20%;
+    @media screen and (max-width: 500px) {
+      max-width: 50% !important;
+      flex: 0 0 50%;
+    }
+    @media screen and (min-width: 501px) and (max-width: 992px) {
+      max-width: 30% !important;
+      flex: 0 0 30%;
+    }
+  }
   .checkheight {
     display: flex;
     flex-wrap: wrap;
