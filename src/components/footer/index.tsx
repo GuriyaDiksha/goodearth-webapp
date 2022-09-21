@@ -447,7 +447,9 @@ class Footer extends React.Component<Props, FooterState> {
                                               onClick={() => {
                                                 if (
                                                   this.props.location
-                                                    .pathname == list.link
+                                                    .pathname == list.link ||
+                                                  currentValue.text.toLowerCase() ==
+                                                    "good earth registry"
                                                 ) {
                                                   window.scrollTo(0, 0);
                                                 }
@@ -650,7 +652,9 @@ class Footer extends React.Component<Props, FooterState> {
                                             onClick={() => {
                                               if (
                                                 this.props.location.pathname ==
-                                                child.link
+                                                  child.link ||
+                                                child.text.toLowerCase() ==
+                                                  "good earth registry"
                                               ) {
                                                 window.scrollTo(0, 0);
                                               }
