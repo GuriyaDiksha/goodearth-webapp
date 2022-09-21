@@ -282,7 +282,7 @@ const CareerFilter: React.FC<Props> = ({
             >
               Filters Applied
             </div>
-            <hr className={listing.filter_label_underline} />
+            {/* <hr className={listing.filter_label_underline} /> */}
             <div
               className={cs(
                 listing.filters_wrp,
@@ -328,7 +328,7 @@ const CareerFilter: React.FC<Props> = ({
             >
               By Department{" "}
             </div>
-            <hr className={listing.filter_label_underline} />
+            {/* <hr className={listing.filter_label_underline} /> */}
             <div
               className={cs(
                 listing.filters_wrp,
@@ -386,7 +386,7 @@ const CareerFilter: React.FC<Props> = ({
             >
               By Tags
             </div>
-            <hr className={listing.filter_label_underline} />
+            {/* <hr className={listing.filter_label_underline} /> */}
             <div
               className={cs(
                 listing.filters_wrp,
@@ -459,7 +459,7 @@ const CareerFilter: React.FC<Props> = ({
             >
               By Location
             </div>
-            <hr className={listing.filter_label_underline} />
+            {/* <hr className={listing.filter_label_underline} /> */}
             <div
               className={cs(
                 listing.filters_wrp,

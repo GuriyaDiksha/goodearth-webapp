@@ -1981,7 +1981,7 @@ class FilterList extends React.Component<Props, State> {
                 this.props.facets.availableDiscount &&
                 this.props.facets.availableDiscount.length > 0
                   ? ""
-                  : (globalStyles.hidden, styles.removeBorder)
+                  : (styles.removeBorder, globalStyles.hidden)
               }
             >
               {this.props.facets &&
