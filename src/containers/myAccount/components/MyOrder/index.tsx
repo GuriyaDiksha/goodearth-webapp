@@ -106,6 +106,7 @@ const PastOrders: React.FC<Props> = (props: Props) => {
             hasShopped={setHasShopped}
             isLoading={setIsLoading}
             isDataAvaliable={isDataAvaliable}
+            mobile={mobile}
           />
           {!hasShopped && !isLoading && browseButton}
         </>
@@ -118,6 +119,7 @@ const PastOrders: React.FC<Props> = (props: Props) => {
             isLoading={setIsLoading}
             isDataAvaliable={isDataAvaliable}
             email={email}
+            mobile={mobile}
           />
           {!hasShopped && !isLoading && browseButton}
         </>
@@ -139,7 +141,9 @@ const PastOrders: React.FC<Props> = (props: Props) => {
               [bootstrapStyles.colMd10]: !mobile
             })}
           >
-            <div className={styles.formHeading}>My Orders</div>
+            <div id="my-orders-head" className={styles.formHeading}>
+              My Orders
+            </div>
             <div className={styles.formSubheading}>
               View all your past orders.
             </div>
