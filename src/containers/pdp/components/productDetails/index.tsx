@@ -479,7 +479,8 @@ const ProductDetails: React.FC<Props> = ({
                 brand: "Goodearth",
                 category: category,
                 variant: selectedSize?.size || "",
-                quantity: quantity
+                quantity: quantity,
+                dimension8: view3dValue
               }
             ]
           }
