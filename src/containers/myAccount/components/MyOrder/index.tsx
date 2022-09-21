@@ -106,6 +106,7 @@ const PastOrders: React.FC<Props> = (props: Props) => {
             hasShopped={setHasShopped}
             isLoading={setIsLoading}
             isDataAvaliable={isDataAvaliable}
+            email={email}
             mobile={mobile}
           />
           {!hasShopped && !isLoading && browseButton}
