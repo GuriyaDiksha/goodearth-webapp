@@ -436,23 +436,33 @@ class Footer extends React.Component<Props, FooterState> {
                                             />
                                           )}
                                           {currentValue.link ? (
-                                            <Link
-                                              to={
-                                                currentValue.text.toLowerCase() ==
-                                                  "good earth registry" &&
-                                                this.props.isLoggedIn
-                                                  ? "/account/bridal"
-                                                  : currentValue.link
-                                              }
-                                              onClick={() =>
-                                                valid.footerGTM(
-                                                  currentValue.text
-                                                )
-                                              }
-                                              key={j}
-                                            >
-                                              {currentValue.text}
-                                            </Link>
+                                            currentValue.text.toLowerCase() ==
+                                              "good earth registry" &&
+                                            this.props.isLoggedIn ? (
+                                              <Link
+                                                to={"/account/bridal"}
+                                                onClick={() =>
+                                                  valid.footerGTM(
+                                                    currentValue.text
+                                                  )
+                                                }
+                                                key={j}
+                                              >
+                                                {currentValue.text}
+                                              </Link>
+                                            ) : (
+                                              <a
+                                                href={currentValue.link}
+                                                onClick={() =>
+                                                  valid.footerGTM(
+                                                    currentValue.text
+                                                  )
+                                                }
+                                                key={j}
+                                              >
+                                                {currentValue.text}
+                                              </a>
+                                            )
                                           ) : currentValue.newTabLink ? (
                                             <a
                                               href={currentValue.newTabLink}
