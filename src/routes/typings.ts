@@ -49,7 +49,8 @@ export const enum ROUTES {
   AUTH = "/auth",
   HFH = "/summer-lovin-reminders",
   SITEMAP = "/sitemap",
-  WORKSHOPS = "/workshops"
+  WORKSHOPS = "/workshops",
+  ERROR404 = "/404"
 }
 
 export type RouteConfig = RouteObject[];

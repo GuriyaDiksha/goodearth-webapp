@@ -23,6 +23,7 @@ import noImagePlp from "../../images/noimageplp.png";
 import { updateComponent, updateModal } from "actions/modal";
 import { POPUP } from "constants/components";
 import CookieService from "services/cookie";
+import { GA_CALLS, ANY_ADS } from "constants/cookieConsent";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -105,16 +106,19 @@ class CartPage extends React.Component<Props, State> {
       const skuList = this.props.cart.lineItems.map(
         item => item.product.childAttributes?.[0].sku
       );
-      dataLayer.push({
-        "Event Category": "GA Ecommerce",
-        "Event Action": "Cart Summary Page",
-        "Event Label": skuList.length > 0 ? skuList.join(",") : "",
-        "Time Stamp": new Date().toISOString(),
-        "Page Url": location.href,
-        "Page Type": util.getPageType(),
-        "Login Status": this.props.isLoggedIn ? "logged in" : "logged out",
-        "Page referrer url": CookieService.getCookie("prevUrl") || ""
-      });
+      const userConsent = CookieService.getCookie("consent").split(",");
+      if (userConsent.includes(GA_CALLS)) {
+        dataLayer.push({
+          "Event Category": "GA Ecommerce",
+          "Event Action": "Cart Summary Page",
+          "Event Label": skuList.length > 0 ? skuList.join(",") : "",
+          "Time Stamp": new Date().toISOString(),
+          "Page Url": location.href,
+          "Page Type": util.getPageType(),
+          "Login Status": this.props.isLoggedIn ? "logged in" : "logged out",
+          "Page referrer url": CookieService.getCookie("prevUrl") || ""
+        });
+      }
     } catch (err) {
       console.log(err);
     }
@@ -134,18 +138,97 @@ class CartPage extends React.Component<Props, State> {
       .catch(function(error) {
         console.log(error);
       });
-    dataLayer.push(function(this: any) {
-      this.reset();
+
+    const items = this.props.cart.lineItems.map((line, ind) => {
+      const index = line?.product.categories
+        ? line?.product.categories.length - 1
+        : 0;
+      const category =
+        line?.product.categories && line?.product.categories[index]
+          ? line?.product.categories[index].replace(/\s/g, "")
+          : "";
+      const arr = category.split(">");
+
+      return {
+        item_id: line?.product?.id, //Pass the product id
+        item_name: line?.product?.title, // Pass the product name
+        affiliation: line?.product?.title, // Pass the product name
+        coupon: "", // Pass the coupon if available
+        currency: this.props.currency, // Pass the currency code
+        discount: "", // Pass the discount amount
+        index: ind,
+        item_brand: "Goodearth",
+        item_category: arr[arr.length - 2],
+        item_category2: arr[arr.length - 1],
+        item_category3: "",
+        item_list_id: "",
+        item_list_name: "",
+        item_variant: "",
+        item_category4: "",
+        item_category5: line?.product?.collection,
+        price: line?.product?.priceRecords[this.props.currency],
+        quantity: line?.quantity
+      };
     });
-    dataLayer.push({
-      event: "CartPageView",
-      PageURL: this.props.location.pathname,
-      Page_Title: "virtual_cartPage_view"
-    });
-    Moengage.track_event("Page viewed", {
-      "Page URL": this.props.location.pathname,
-      "Page Name": "CartPageView"
-    });
+
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes(GA_CALLS)) {
+      const items = this.props.cart.lineItems.map((line, ind) => {
+        const index = line?.product.categories
+          ? line?.product.categories.length - 1
+          : 0;
+        const category =
+          line?.product.categories && line?.product.categories[index]
+            ? line?.product.categories[index].replace(/\s/g, "")
+            : "";
+        const arr = category.split(">");
+
+        return {
+          item_id: line?.product?.id, //Pass the product id
+          item_name: line?.product?.title, // Pass the product name
+          affiliation: line?.product?.title, // Pass the product name
+          coupon: "", // Pass the coupon if available
+          currency: this.props.currency, // Pass the currency code
+          discount: "", // Pass the discount amount
+          index: ind,
+          item_brand: "Goodearth",
+          item_category: arr[arr.length - 2],
+          item_category2: arr[arr.length - 1],
+          item_category3: "",
+          item_list_id: "",
+          item_list_name: "",
+          item_variant: "",
+          item_category4: "",
+          item_category5: line?.product?.collection,
+          price: line?.product?.priceRecords[this.props.currency],
+          quantity: line?.quantity
+        };
+      });
+      dataLayer.push(function(this: any) {
+        this.reset();
+      });
+      dataLayer.push({
+        event: "CartPageView",
+        PageURL: this.props.location.pathname,
+        Page_Title: "virtual_cartPage_view"
+      });
+      dataLayer.push({ ecommerce: null }); // Clear the previous ecommerce object.
+      dataLayer.push({
+        event: "view_cart",
+        ecommerce: {
+          currency: this.props.currency, // Pass the currency code
+          value: this.props.cart.total,
+          items: items
+        }
+      });
+    }
+
+    if (userConsent.includes(ANY_ADS)) {
+      Moengage.track_event("Page viewed", {
+        "Page URL": this.props.location.pathname,
+        "Page Name": "CartPageView"
+      });
+    }
   }
 
   onNotifyCart = (basketLineId: ProductID) => {

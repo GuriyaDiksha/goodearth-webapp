@@ -12,6 +12,8 @@ import globalStyles from "styles/global.scss";
 import cs from "classnames";
 import Formsy from "formsy-react";
 import FormInput from "../../../../components/Formsy/FormInput";
+import CookieService from "services/cookie";
+import { GA_CALLS } from "constants/cookieConsent";
 
 const BridalDetails: React.FC = () => {
   const { setCurrentModule, setCurrentModuleData, data } = useContext(
@@ -60,12 +62,15 @@ const BridalDetails: React.FC = () => {
   };
 
   useEffect(() => {
-    dataLayer.push({
-      event: "registry",
-      "Event Category": "Registry",
-      "Event Action": "Details page",
-      "Event Label": data.occasion
-    });
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes(GA_CALLS)) {
+      dataLayer.push({
+        event: "registry",
+        "Event Category": "Registry",
+        "Event Action": "Details page",
+        "Event Label": data.occasion
+      });
+    }
   }, []);
 
   return (
@@ -113,7 +118,13 @@ const BridalDetails: React.FC = () => {
                       placeholder="Registrant’s  Name"
                       label={"Registrant’s Name"}
                       inputRef={registrantNameRef}
-                      validations="isExisty"
+                      validations={{
+                        maxLength: 50,
+                        isExisty: true
+                      }}
+                      validationErrors={{
+                        maxLength: "You can not enter more than 50 characters"
+                      }}
                       required
                       value={data.registrantName || ""}
                       handleChange={handleChange}
@@ -125,7 +136,13 @@ const BridalDetails: React.FC = () => {
                       placeholder="Co-registrant’s  Name"
                       label={"Co-registrant’s  Name"}
                       inputRef={coRegistrantNameRef}
-                      validations="isExisty"
+                      validations={{
+                        maxLength: 50,
+                        isExisty: true
+                      }}
+                      validationErrors={{
+                        maxLength: "You can not enter more than 50 characters"
+                      }}
                       required
                       value={data.coRegistrantName || ""}
                       handleChange={handleChange}
@@ -136,6 +153,13 @@ const BridalDetails: React.FC = () => {
                       name="registryName"
                       inputRef={regName}
                       placeholder="Registry Name (optional)"
+                      validations={{
+                        maxLength: 50,
+                        isExisty: true
+                      }}
+                      validationErrors={{
+                        maxLength: "You can not enter more than 50 characters"
+                      }}
                       value={data.registryName || ""}
                       label={"Registry Name"}
                     />

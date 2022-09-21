@@ -27,6 +27,8 @@ import { LOGIN_SUCCESS, MESSAGE } from "constants/messages";
 import { POPUP } from "constants/components";
 import * as util from "../../utils/validate";
 import { Basket } from "typings/basket";
+import { updateRegion } from "actions/widget";
+import { ANY_ADS } from "constants/cookieConsent";
 // import { updateBasket } from "actions/basket";
 // import { CUST } from "constants/util";
 
@@ -346,7 +348,11 @@ export default {
       MetaService.updateMeta(dispatch, {}).catch(err => {
         console.log(err);
       });
-      Moengage.destroy_session();
+
+      const userConsent = CookieService.getCookie("consent").split(",");
+      if (userConsent.includes(ANY_ADS)) {
+        Moengage.destroy_session();
+      }
       WishlistService.resetWishlist(dispatch);
       Api.getSalesStatus(dispatch).catch(err => {
         console.log("Sales Api Status ==== " + err);
@@ -497,7 +503,7 @@ export default {
     });
     BasketService.fetchBasket(dispatch);
   },
-  getClientIpCurrency: async function() {
+  getClientIpCurrency: async function(dispatch: Dispatch) {
     // Axios.post(`${__API_HOST__}/myapi/common/count_api_hits/`);
     const response = await new Promise((resolve, reject) => {
       fetch(`https://api.ipdata.co/?api-key=${__IP_DATA_KEY__}`, {
@@ -505,6 +511,17 @@ export default {
       })
         .then(resp => resp.json())
         .then(data => {
+          CookieService.setCookie("region", data?.continent_name, 365);
+          CookieService.setCookie("ip", data?.ip, 365);
+          CookieService.setCookie("country", data?.country_name, 365);
+          dispatch(
+            updateRegion({
+              region: data?.continent_name,
+              ip: data?.ip,
+              country: data?.country_name
+            })
+          );
+
           if (data.currency) {
             if (
               data.currency.code == "INR" ||
@@ -557,6 +574,8 @@ export default {
       expired: boolean;
       email: string;
       message: string;
+      attempts: number;
+      maxAttemptsAllow: number;
     }>(dispatch, `${__API_HOST__}/myapi/customer/verify_user_otp/`, {
       email,
       otp

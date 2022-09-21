@@ -12,10 +12,10 @@ export default {
     );
     return data;
   },
-  fetchJobListData: (dispatch: Dispatch) => {
+  fetchJobListData: (dispatch: Dispatch, depts: string | undefined) => {
     const data = API.get<JobListData>(
       dispatch,
-      `${__API_HOST__}/myapi/common/job_list/`
+      `${__API_HOST__}/myapi/common/job_list/?dept=${depts}`
     );
     return data;
   },

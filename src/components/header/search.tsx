@@ -26,6 +26,7 @@ import { Link } from "react-router-dom";
 import { updateModal } from "actions/modal";
 import Price from "components/Price";
 import ReactHtmlParser from "react-html-parser";
+import { GA_CALLS } from "constants/cookieConsent";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -55,7 +56,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
 type Props = {
   toggle: () => void;
   ipad: boolean;
-  closePopup: () => void;
+  closePopup: (e: any) => void;
 } & ReturnType<typeof mapStateToProps> &
   ReturnType<typeof mapDispatchToProps> &
   RouteComponentProps;
@@ -106,7 +107,7 @@ class Search extends React.Component<Props, State> {
       !this.impactRef.current.contains(evt.target)
     ) {
       //Do what you want to handle in the callback
-      this.props.closePopup();
+      this.props.closePopup(evt);
     }
   };
 
@@ -202,17 +203,20 @@ class Search extends React.Component<Props, State> {
         );
       }
     );
-    dataLayer.push({
-      event: "productClick",
-      ecommerce: {
-        currencyCode: this.props.currency,
-        click: {
-          // actionField: { list: "Search Popup" },
-          actionField: { list: listPath },
-          products: products.concat(attr)
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes(GA_CALLS)) {
+      dataLayer.push({
+        event: "productClick",
+        ecommerce: {
+          currencyCode: this.props.currency,
+          click: {
+            // actionField: { list: "Search Popup" },
+            actionField: { list: listPath },
+            products: products.concat(attr)
+          }
         }
-      }
-    });
+      });
+    }
     this.props.toggle();
     this.props.history.push(data.url);
   }
@@ -276,7 +280,9 @@ class Search extends React.Component<Props, State> {
     });
     this.props
       .fetchSearchProducts(
-        `${searchUrl.split("/autocomplete")[1]}&currency=INR&source=frontend`
+        `${searchUrl.split("/autocomplete")[1]}&currency=${
+          this.props.currency
+        }&source=frontend`
       )
       .then(data => {
         // debugger;

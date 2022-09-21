@@ -16,6 +16,8 @@ import * as valid from "utils/validate";
 import iconStyles from "../../styles/iconFonts.scss";
 import multiColour from "../../images/multiColour.svg";
 import bootstrap from "../../styles/bootstrap/bootstrap-grid.scss";
+import CookieService from "services/cookie";
+import { GA_CALLS } from "constants/cookieConsent";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -327,11 +329,14 @@ class FilterList extends React.Component<Props, State> {
       filter: filter,
       rangevalue: [value[0], value[1]]
     });
-    dataLayer.push({
-      event: "Filter used",
-      "Filter type": "Price",
-      "Filter value": value[0] + "-" + value[1]
-    });
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes(GA_CALLS)) {
+      dataLayer.push({
+        event: "Filter used",
+        "Filter type": "Price",
+        "Filter value": value[0] + "-" + value[1]
+      });
+    }
     this.createUrlfromFilter();
   };
 
@@ -432,7 +437,7 @@ class FilterList extends React.Component<Props, State> {
         banner: plpList.results.banner
       },
       () => {
-        if (!this.state.scrollView) {
+        if (!this.state.scrollView && this.props.history.action === "POP") {
           this.checkForProductScroll();
         }
         window.scrollTo(0, 0);
@@ -517,7 +522,11 @@ class FilterList extends React.Component<Props, State> {
               totalItems: plpList.count
             },
             () => {
-              if (!this.state.scrollView && this.state.shouldScroll) {
+              if (
+                !this.state.scrollView &&
+                this.state.shouldScroll &&
+                this.props.history.action === "POP"
+              ) {
                 this.handleProductSearch();
               }
             }
@@ -608,6 +617,7 @@ class FilterList extends React.Component<Props, State> {
       this.props.updateOnload(false);
       this.createList(nextProps.data, true);
       this.props.updateFacets(this.getSortedFacets(nextProps.facets));
+      this.handleAnimation("category", false);
     }
     if (
       this.props.currency != nextProps.currency ||
@@ -815,6 +825,7 @@ class FilterList extends React.Component<Props, State> {
       });
     }
 
+    this.handleAnimation(selectIndex + "l", false, true);
     this.setState({
       activeindex2: selectIndex + "l",
       oldSelectedCategory: oldSelectedCategory,
@@ -962,15 +973,24 @@ class FilterList extends React.Component<Props, State> {
                 ? cs(styles.menulevel2, styles.menulevel2Open)
                 : styles.menulevel2
             }
-            onClick={this.Clickmenulevel2.bind(this, name + "l")}
+            onClick={() => {
+              this.handleAnimation(
+                name + "l",
+                this.state.showmenulevel2 &&
+                  this.state.activeindex2 == name + "l",
+                true
+              );
+              this.Clickmenulevel2(name + "l");
+            }}
           >
             {data[0].split(">")[1]}
           </span>
           <div
+            id={`${name + "l"}`}
             className={
               this.state.showmenulevel2 && this.state.activeindex2 == name + "l"
                 ? styles.showheader2
-                : globalStyles.hidden
+                : styles.hideDiv
             }
           >
             <ul className={styles.categorylabel}>
@@ -1010,15 +1030,24 @@ class FilterList extends React.Component<Props, State> {
                 ? cs(styles.menulevel2, styles.menulevel2Open)
                 : styles.menulevel2
             }
-            onClick={this.Clickmenulevel2.bind(this, data + "l")}
+            onClick={() => {
+              this.handleAnimation(
+                `${data + "l"}`,
+                this.state.showmenulevel2 &&
+                  this.state.activeindex2 == data + "l",
+                true
+              );
+              this.Clickmenulevel2(data + "l");
+            }}
           >
             {data}
           </span>
           <div
+            id={`${data + "l"}`}
             className={
               this.state.showmenulevel2 && this.state.activeindex2 == data + "l"
                 ? styles.showheader2
-                : globalStyles.hidden
+                : styles.hideDiv
             }
           >
             <ul className={styles.categorylabel}>
@@ -1172,12 +1201,14 @@ class FilterList extends React.Component<Props, State> {
       filter: filter,
       oldSelectedCategory: event.target.value
     });
-
-    dataLayer.push({
-      event: "Filter used",
-      "Filter type": "Category",
-      "Filter value": event.target.value
-    });
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes(GA_CALLS)) {
+      dataLayer.push({
+        event: "Filter used",
+        "Filter type": "Category",
+        "Filter value": event.target.value
+      });
+    }
 
     this.createUrlfromFilter();
     event.stopPropagation();
@@ -1195,6 +1226,34 @@ class FilterList extends React.Component<Props, State> {
           openMenu: index,
           showmenulevel1: true
         });
+  };
+
+  handleAnimation = (id: string, isShow: boolean, isSubCat = false) => {
+    if (typeof document == "object" && document.getElementById(id)) {
+      if (!isShow) {
+        if (
+          isSubCat &&
+          typeof document == "object" &&
+          document.getElementById("category")
+        ) {
+          document.getElementById(
+            "category"
+          ).style.maxHeight = document.getElementById("category")?.scrollHeight
+            ? `${Number(
+                (document.getElementById("category")?.scrollHeight || 0) +
+                  (document.getElementById(id)?.scrollHeight || 0)
+              )}px`
+            : "max-content";
+        }
+        document.getElementById(id).style.maxHeight = document.getElementById(
+          id
+        )?.scrollHeight
+          ? `${document.getElementById(id)?.scrollHeight}px`
+          : "max-content";
+      } else {
+        document.getElementById(id).style.maxHeight = "0px";
+      }
+    }
   };
 
   ClickmenuCategory = (index: number) => {
@@ -1234,11 +1293,14 @@ class FilterList extends React.Component<Props, State> {
       isChecked: event.target.checked,
       value: event.target.value
     };
-    dataLayer.push({
-      event: "Filter used",
-      "Filter type": "Color",
-      "Filter value": event.target.value
-    });
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes(GA_CALLS)) {
+      dataLayer.push({
+        event: "Filter used",
+        "Filter type": "Color",
+        "Filter value": event.target.value
+      });
+    }
     this.setState({
       filter: filter
     });
@@ -1341,11 +1403,14 @@ class FilterList extends React.Component<Props, State> {
       isChecked: event.target.checked,
       value: event.target.value
     };
-    dataLayer.push({
-      event: "Filter used",
-      "Filter type": "Size​",
-      "Filter value": event.target.value
-    });
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes(GA_CALLS)) {
+      dataLayer.push({
+        event: "Filter used",
+        "Filter type": "Size​",
+        "Filter value": event.target.value
+      });
+    }
 
     this.setState({
       filter: filter
@@ -1793,15 +1858,20 @@ class FilterList extends React.Component<Props, State> {
               }
               onClick={() => {
                 this.ClickmenuCategory(0);
+                this.handleAnimation(
+                  "category",
+                  this.state.categoryindex == 0 && this.state.categorylevel1
+                );
               }}
             >
               By Category
             </span>
             <div
+              id="category"
               className={
                 this.state.categoryindex == 0 && this.state.categorylevel1
                   ? styles.showheader1
-                  : globalStyles.hidden
+                  : styles.hideDiv
               }
             >
               {this.createCatagoryFromFacets(
@@ -1831,6 +1901,10 @@ class FilterList extends React.Component<Props, State> {
                   }
                   onClick={() => {
                     this.toggleFilterByDiscountMenu();
+                    this.handleAnimation(
+                      "discount",
+                      this.state.showFilterByDiscountMenu
+                    );
                   }}
                 >
                   FILTER BY DISCOUNT
@@ -1842,8 +1916,9 @@ class FilterList extends React.Component<Props, State> {
                 className={
                   this.state.showFilterByDiscountMenu
                     ? styles.showheader1
-                    : globalStyles.hidden
+                    : styles.hideDiv
                 }
+                id="discount"
               >
                 {this.createDiscountType(
                   this.props.facets && this.props.facets.availableDiscount
@@ -1871,15 +1946,22 @@ class FilterList extends React.Component<Props, State> {
                   ? cs(styles.menulevel1, styles.menulevel1Open)
                   : styles.menulevel1
               }
-              onClick={this.ClickProductCategory}
+              onClick={() => {
+                this.ClickProductCategory();
+                this.handleAnimation(
+                  "producttype",
+                  this.state.showProductFilter
+                );
+              }}
             >
               PRODUCT TYPE
             </span>
             <div
+              id="producttype"
               className={
                 this.state.showProductFilter
                   ? styles.showheader1
-                  : globalStyles.hidden
+                  : styles.hideDiv
               }
             >
               {productHtml}
@@ -1902,15 +1984,20 @@ class FilterList extends React.Component<Props, State> {
               }
               onClick={() => {
                 this.Clickmenulevel1(1);
+                this.handleAnimation(
+                  "color",
+                  this.state.activeindex == 1 && this.state.showmenulevel1
+                );
               }}
             >
               COLOUR FAMILY
             </span>
             <div
+              id="color"
               className={
                 this.state.activeindex == 1 && this.state.showmenulevel1
                   ? styles.colorhead
-                  : globalStyles.hidden
+                  : styles.hideDiv
               }
             >
               <ul>
@@ -1942,15 +2029,20 @@ class FilterList extends React.Component<Props, State> {
                   }
                   onClick={() => {
                     this.Clickmenulevel1(2);
+                    this.handleAnimation(
+                      "size",
+                      this.state.activeindex == 2 && this.state.showmenulevel1
+                    );
                   }}
                 >
                   size
                 </span>
                 <div
+                  id="size"
                   className={
                     this.state.activeindex == 2 && this.state.showmenulevel1
                       ? styles.showheader1
-                      : globalStyles.hidden
+                      : styles.hideDiv
                   }
                 >
                   <ul className={styles.sizeList}>
@@ -1992,15 +2084,20 @@ class FilterList extends React.Component<Props, State> {
               }
               onClick={() => {
                 this.Clickmenulevel1(3);
+                this.handleAnimation(
+                  "price",
+                  this.state.activeindex == 3 && this.state.showmenulevel1
+                );
               }}
             >
               Price
             </span>
             <div
+              id="price"
               className={
                 this.state.activeindex == 3 && this.state.showmenulevel1
                   ? "showheader1"
-                  : globalStyles.hidden
+                  : styles.hideDiv
               }
             >
               {this.state.rangevalue.length > 0 ? (

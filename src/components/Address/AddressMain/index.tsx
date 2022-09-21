@@ -20,6 +20,8 @@ import RegistryAddress from "containers/myAccount/components/Bridal/RegistryAddr
 import EditRegistryAddress from "../../../containers/myAccount/components/Bridal/EditRegistryAddress";
 import BridalContext from "containers/myAccount/components/Bridal/context";
 import myAccountStyles from "containers/myAccount/styles.scss";
+import CookieService from "services/cookie";
+import { GA_CALLS } from "constants/cookieConsent";
 // import AddressDataList from "../../../../components/Address/AddressDataList.json";
 
 // import AddressMainComponent from '../../components/common/address/addressMain';
@@ -47,12 +49,15 @@ const AddressMain: React.FC<Props> = props => {
 
   useEffect(() => {
     if (props.currentCallBackComponent == "bridal") {
-      dataLayer.push({
-        event: "registry",
-        "Event Category": "Registry",
-        "Event Action": "Shipping address page",
-        "Event Label": occasion
-      });
+      const userConsent = CookieService.getCookie("consent").split(",");
+      if (userConsent.includes(GA_CALLS)) {
+        dataLayer.push({
+          event: "registry",
+          "Event Category": "Registry",
+          "Event Action": "Shipping address page",
+          "Event Label": occasion
+        });
+      }
     }
   }, []);
   const [mode, setMode] = useState<AddressModes>("list");

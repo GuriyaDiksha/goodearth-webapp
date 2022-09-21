@@ -12,6 +12,8 @@ import { CheckoutAddressContext } from "containers/checkout/component/context";
 import BridalContext from "containers/myAccount/components/Bridal/context";
 import { AppState } from "reducers/typings";
 import bridalRing from "../../../images/bridal/rings.svg";
+import CookieService from "services/cookie";
+import { GA_CALLS } from "constants/cookieConsent";
 
 type Props = {
   addressData: AddressData;
@@ -38,6 +40,8 @@ const AddressItem: React.FC<Props> = props => {
     isAddressValid
   } = useContext(AddressContext);
   const { onSelectAddress } = useContext(CheckoutAddressContext);
+  const { currency, basket } = useSelector((state: AppState) => state);
+
   // const isDefaultAddress = () => {
   //     return props.addressData.isDefaultForShipping;
   // }
@@ -155,6 +159,54 @@ const AddressItem: React.FC<Props> = props => {
         // this.manageAddressPostcode("edit", address);
         openAddressForm(address);
       }
+    }
+  };
+
+  const addGAForShipping = () => {
+    const userConsent = CookieService.getCookie("consent").split(",");
+    const items = basket.lineItems.map((line, ind) => {
+      const index = line?.product.categories
+        ? line?.product.categories.length - 1
+        : 0;
+      const category =
+        line?.product.categories && line?.product.categories[index]
+          ? line?.product.categories[index].replace(/\s/g, "")
+          : "";
+      const arr = category.split(">");
+
+      return {
+        item_id: line?.product?.id, //Pass the product id
+        item_name: line?.product?.title, // Pass the product name
+        affiliation: line?.product?.title, // Pass the product name
+        coupon: "", // Pass the coupon if available
+        currency: currency, // Pass the currency code
+        discount: "", // Pass the discount amount
+        index: ind,
+        item_brand: "Goodearth",
+        item_category: arr[arr.length - 2],
+        item_category2: arr[arr.length - 1],
+        item_category3: "",
+        item_list_id: "",
+        item_list_name: "",
+        item_variant: "",
+        item_category4: "",
+        item_category5: line?.product?.collection,
+        price: line?.product?.priceRecords[currency],
+        quantity: line?.quantity
+      };
+    });
+
+    if (userConsent.includes(GA_CALLS)) {
+      dataLayer.push({ ecommerce: null }); // Clear the previous ecommerce object.
+      dataLayer.push({
+        event: "add_shipping_info",
+        ecommerce: {
+          currency: currency, // Pass the currency code
+          value: basket?.total,
+          coupon: "",
+          items: items
+        }
+      });
     }
   };
   // const openAddressForm = (address: AddressData) => {
@@ -354,7 +406,12 @@ const AddressItem: React.FC<Props> = props => {
           </div>
           <div className={styles.line}>{address.city}</div>
           <div className={styles.line}>
-            {address.state}, {address.postCode}
+            {address.state
+              ? address.state
+              : address.province
+              ? address.province
+              : ""}
+            , {address.postCode == "000000" ? "" : address.postCode}
           </div>
           <div className={styles.line}>{address.countryName}</div>
           <div
@@ -412,7 +469,10 @@ const AddressItem: React.FC<Props> = props => {
             props.currentCallBackComponent !== "cerise" && (
               <div
                 className={cs(globalStyles.ceriseBtn, styles.shipToThisBtn)}
-                onClick={() => onSelectAddress(address)}
+                onClick={() => {
+                  onSelectAddress(address);
+                  addGAForShipping();
+                }}
               >
                 {activeStep == Steps.STEP_SHIPPING ? "SHIP" : "BILL"}
                 &nbsp;TO THIS ADDRESS {address.isTulsi ? "(FREE)" : ""}

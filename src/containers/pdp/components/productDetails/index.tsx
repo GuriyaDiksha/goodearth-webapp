@@ -69,6 +69,7 @@ import { updateQuickviewId } from "../../../../actions/quickview";
 import Accordion from "components/Accordion";
 import PdpSkeleton from "../pdpSkeleton";
 import { isEmpty } from "lodash";
+import { GA_CALLS, ANY_ADS } from "constants/cookieConsent";
 
 const ProductDetails: React.FC<Props> = ({
   data: {
@@ -103,7 +104,8 @@ const ProductDetails: React.FC<Props> = ({
     sizeChart,
     badgeMessage,
     fillerProduct,
-    shortDesc
+    shortDesc,
+    sliderImages
   },
   data,
   corporatePDP,
@@ -264,6 +266,12 @@ const ProductDetails: React.FC<Props> = ({
   const [sizeError, setSizeError] = useState("");
   const [quantity, setQuantity] = useState<number>(1);
 
+  // useEffect(() => {
+  //   if (window?.location?.pathname === "/cart") {
+  //     closeModal ? closeModal() : null;
+  //   }
+  // }, [window?.location?.pathname]);
+
   const showError = () => {
     setTimeout(() => {
       const firstErrorField = document.getElementsByClassName(
@@ -410,18 +418,29 @@ const ProductDetails: React.FC<Props> = ({
     categoryname = arr[arr.length - 2];
     subcategoryname = arr[arr.length - 1];
     category = category.replace(/>/g, "/");
+    const l1 = arr[arr.length - 3];
+    const category3 = sliderImages.filter(ele => ele?.icon).length
+      ? "3d"
+      : "non 3d";
 
-    Moengage.track_event("add_to_cart", {
-      "Product id": sku || childAttributes[0].sku,
-      "Product name": title,
-      quantity: quantity,
-      price: +price,
-      Currency: currency,
-      "Collection name": collection,
-      "Category name": categoryname,
-      "Sub Category Name": subcategoryname,
-      Size: selectedSize?.size
-    });
+    const view3dValue = sliderImages.filter(ele => ele?.icon).length
+      ? "View3d"
+      : "nonView3d";
+
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes(ANY_ADS)) {
+      Moengage.track_event("add_to_cart", {
+        "Product id": sku || childAttributes[0].sku,
+        "Product name": title,
+        quantity: quantity,
+        price: +price,
+        Currency: currency,
+        "Collection name": collection,
+        "Category name": categoryname,
+        "Sub Category Name": subcategoryname,
+        Size: selectedSize?.size
+      });
+    }
 
     const categoryList = categories
       ? categories.length > 0
@@ -433,37 +452,69 @@ const ProductDetails: React.FC<Props> = ({
       subcategory = subcategory[subcategory.length - 1];
     }
     const size = selectedSize?.size || "";
-    dataLayer.push({
-      "Event Category": "GA Ecommerce",
-      "Event Action": "Add to Cart",
-      "Event Label": subcategory,
-      "Time Stamp": new Date().toISOString(),
-      "Cart Source": window.location.href,
-      "Product Category": categoryList,
-      "Login Status": isLoggedIn ? "logged in" : "logged out",
-      "Product Name": title,
-      "Product ID": selectedSize?.id,
-      Variant: size
-    });
-    dataLayer.push({
-      event: "addToCart",
-      ecommerce: {
-        currencyCode: currency,
-        add: {
-          products: [
+    if (userConsent.includes(GA_CALLS)) {
+      dataLayer.push({
+        "Event Category": "GA Ecommerce",
+        "Event Action": "Add to Cart",
+        "Event Label": subcategory,
+        "Time Stamp": new Date().toISOString(),
+        "Cart Source": window.location.href,
+        "Product Category": categoryList,
+        "Login Status": isLoggedIn ? "logged in" : "logged out",
+        "Product Name": title,
+        "Product ID": selectedSize?.id,
+        dimension8: view3dValue,
+        Variant: size
+      });
+      dataLayer.push({
+        event: "addToCart",
+        ecommerce: {
+          currencyCode: currency,
+          add: {
+            products: [
+              {
+                name: title,
+                id: setSelectedSKU(),
+                price: discountPrices || price,
+                brand: "Goodearth",
+                category: category,
+                variant: selectedSize?.size || "",
+                quantity: quantity,
+                dimension8: view3dValue
+              }
+            ]
+          }
+        }
+      });
+      dataLayer.push({ ecommerce: null }); // Clear the previous ecommerce object.
+      dataLayer.push({
+        event: "add_to_cart",
+        ecommerce: {
+          items: [
             {
-              name: title,
-              id: setSelectedSKU(),
+              item_id: setSelectedSKU(), //Pass the product id
+              item_name: title, // Pass the product name
+              affiliation: title, // Pass the product name
+              coupon: "", // Pass the coupon if available
+              currency: currency, // Pass the currency code
+              discount: discount, // Pass the discount amount
+              index: "",
+              item_brand: "Goodearth",
+              item_category: category,
+              item_category2: selectedSize?.size, //pass the item category2 ex.Size
+              item_category3: category3, //pass the product type 3d or non 3d
+              item_list_id: "", //pass the item list id
+              item_list_name: "", //pass the item list name ex.search results
+              item_variant: selectedSize?.size || "",
+              item_category4: l1,
+              item_category5: collection,
               price: discountPrices || price,
-              brand: "Goodearth",
-              category: category,
-              variant: selectedSize?.size || "",
               quantity: quantity
             }
           ]
         }
-      }
-    });
+      });
+    }
   };
 
   const addToBasket = () => {
@@ -563,15 +614,18 @@ const ProductDetails: React.FC<Props> = ({
       .then(res => {
         valid.showGrowlMessage(dispatch, MESSAGE.ADD_TO_REGISTRY_SUCCESS);
         const registry = Object.assign({}, isRegistry);
-        dataLayer.push({
-          event: "registry",
-          "Event Category": "Registry",
-          "Event Action": "Product added",
-          // 'Event Label': bridalItem,
-          "Product Name": productTitle,
-          "Product ID": productId,
-          Variant: selectedSize?.size
-        });
+        const userConsent = CookieService.getCookie("consent").split(",");
+        if (userConsent.includes(GA_CALLS)) {
+          dataLayer.push({
+            event: "registry",
+            "Event Category": "Registry",
+            "Event Action": "Product added",
+            // 'Event Label': bridalItem,
+            "Product Name": productTitle,
+            "Product ID": productId,
+            Variant: selectedSize?.size
+          });
+        }
 
         if (selectedSize) {
           registry[selectedSize.size] = true;
@@ -646,7 +700,8 @@ const ProductDetails: React.FC<Props> = ({
         badgeType: badgeType,
         isSale: info.isSale,
         discountedPrice: discountPrices,
-        list: isQuickview ? "quickview" : "pdp"
+        list: isQuickview ? "quickview" : "pdp",
+        sliderImages: sliderImages
       },
       false,
       ModalStyles.bottomAlign
@@ -892,13 +947,13 @@ const ProductDetails: React.FC<Props> = ({
                   [styles.spacerQuickview]: isQuickview && withBadge
                 })}
               >
-                <div className={bootstrap.col9}>
+                <div className={bootstrap.col12}>
                   <div className={bootstrap.row}>
                     <div
                       className={cs(
                         bootstrap.col12,
-                        bootstrap.colSm3,
-                        { [bootstrap.colMd8]: mobile },
+                        bootstrap.colSm2,
+                        { [bootstrap.colMd6]: mobile },
                         styles.label,
                         styles.colour
                       )}
@@ -906,8 +961,8 @@ const ProductDetails: React.FC<Props> = ({
                       Color
                     </div>
                     <div
-                      className={cs(bootstrap.col12, bootstrap.colSm9, {
-                        [bootstrap.colMd4]: mobile
+                      className={cs(bootstrap.col12, bootstrap.colSm10, {
+                        [bootstrap.colMd6]: mobile
                       })}
                     >
                       <ColorSelector
@@ -938,7 +993,7 @@ const ProductDetails: React.FC<Props> = ({
                         className={cs(
                           bootstrap.col12,
                           bootstrap.colSm3,
-                          { [bootstrap.colMd8]: mobile },
+                          { [bootstrap.colMd6]: mobile },
                           styles.label,
                           styles.size,
                           { [styles.mobileMargin]: mobile }
@@ -1049,7 +1104,7 @@ const ProductDetails: React.FC<Props> = ({
                       className={cs(
                         bootstrap.col12,
                         bootstrap.colSm3,
-                        { [bootstrap.colMd8]: mobile },
+                        { [bootstrap.colMd6]: mobile },
                         styles.label,
                         styles.quantity,
                         { [styles.mobileMargin]: mobile }

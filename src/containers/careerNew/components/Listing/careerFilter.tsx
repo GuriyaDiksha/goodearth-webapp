@@ -55,7 +55,6 @@ const CareerFilter: React.FC<Props> = ({
   const handleViewAllForFilters = (newList: any, tags: any, locs: any) => {
     const tagsList = clone(tags.map((e: any) => e.name));
     const locList = clone(locs.map((e: any) => e.name));
-
     if (
       newList.filter((ele: any) => tagsList.includes(ele)).length !== 0 &&
       newList.filter((ele: any) => tagsList.includes(ele)).length ===
@@ -95,41 +94,6 @@ const CareerFilter: React.FC<Props> = ({
     }
   };
 
-  useEffect(() => {
-    const newSelectedFilter = [
-      ...selectedFilters.filter(e => tagLocFilter.tag.includes(e)),
-      ...selectedFilters.filter(e => tagLocFilter.loc.includes(e))
-    ];
-
-    setSelectedFilters(newSelectedFilter);
-    handleViewAllForFilters(newSelectedFilter, tags, locs);
-  }, [tagLocFilter]);
-
-  useEffect(() => {
-    const { depts, tags, locs }: Facets = facets;
-
-    if (selectedDept?.length && depts?.length && tags?.length && locs?.length) {
-      setDepts(depts.slice(0, 4));
-      setTags(tags.slice(0, 4));
-      setLocs(locs.slice(0, 4));
-      setSelectedFilters([...appliedFilters]);
-      handleViewAll(appliedFilters, selectedDept, tags, locs);
-    }
-  }, [facets]);
-
-  const clearFilter = () => {
-    (document.getElementById("tag_all") as HTMLInputElement).checked = false;
-
-    (document.getElementById("loc_all") as HTMLInputElement).checked = false;
-
-    setAppliedFilters([]);
-    setSelectedFilters([]);
-  };
-
-  useEffect(() => {
-    clearFilter();
-  }, [reset]);
-
   const selectFilter = (key: string, isShowMore: boolean) => {
     const { depts, tags, locs } = facets;
 
@@ -147,6 +111,51 @@ const CareerFilter: React.FC<Props> = ({
         return;
     }
   };
+
+  useEffect(() => {
+    const newSelectedFilter = [
+      ...selectedFilters.filter(e => tagLocFilter.tag.includes(e)),
+      ...selectedFilters.filter(e => tagLocFilter.loc.includes(e))
+    ];
+
+    setSelectedFilters(newSelectedFilter);
+    handleViewAllForFilters(newSelectedFilter, tags, locs);
+  }, [tagLocFilter]);
+
+  useEffect(() => {
+    const { depts, tags, locs }: Facets = facets;
+
+    if (selectedDept?.length && depts?.length && tags?.length && locs?.length) {
+      // setDepts(depts.slice(0, 4));
+      // setTags(tags.slice(0, 4));
+      // setLocs(locs.slice(0, 4));
+
+      selectFilter("depts", showMore["depts"]);
+      selectFilter("tags", false);
+      selectFilter("locs", false);
+      setShowMore({
+        ...showMore,
+        depts: showMore["depts"],
+        tags: false,
+        locs: false
+      });
+      setSelectedFilters([...appliedFilters]);
+      handleViewAll(appliedFilters, selectedDept, tags, locs);
+    }
+  }, [facets]);
+
+  const clearFilter = () => {
+    (document.getElementById("tag_all") as HTMLInputElement).checked = false;
+
+    (document.getElementById("loc_all") as HTMLInputElement).checked = false;
+
+    setAppliedFilters([]);
+    setSelectedFilters([]);
+  };
+
+  useEffect(() => {
+    clearFilter();
+  }, [reset]);
 
   const toggle = (key: string) => {
     selectFilter(key, !showMore[key]);
@@ -327,7 +336,7 @@ const CareerFilter: React.FC<Props> = ({
                 setHideFilter({ ...hideFilter, depts: !hideFilter["depts"] })
               }
             >
-              By Department
+              By Department{" "}
             </div>
             <hr className={listing.filter_label_underline} />
             <div
@@ -344,9 +353,7 @@ const CareerFilter: React.FC<Props> = ({
                     name="View All"
                     onClick={e => handleCheckbox(e, "depts")}
                   />
-                  <label htmlFor={"dept_all"}>{`View All (${facets?.depts
-                    ?.map(e => e.count)
-                    .reduce((partialSum, a) => partialSum + a, 0)})`}</label>
+                  <label htmlFor={"dept_all"}>{`View All`}</label>
                 </li>
                 {depts?.map((ele, i) => (
                   <li key={i}>
@@ -411,9 +418,7 @@ const CareerFilter: React.FC<Props> = ({
                     onClick={e => handleCheckbox(e, "tags")}
                     disabled={tagLocFilter?.tag?.length !== tags?.length}
                   />
-                  <label htmlFor={"tag_all"}>{`View All (${facets?.tags
-                    ?.map(e => e.count)
-                    .reduce((partialSum, a) => partialSum + a, 0)})`}</label>
+                  <label htmlFor={"tag_all"}>{`View All`}</label>
                 </li>
                 {tags?.map((ele, i) => (
                   <li
@@ -486,9 +491,10 @@ const CareerFilter: React.FC<Props> = ({
                     onClick={e => handleCheckbox(e, "locs")}
                     disabled={tagLocFilter?.loc?.length !== locs?.length}
                   />
-                  <label htmlFor={"loc_all"}>{`View All (${facets?.locs
+                  {/* <label htmlFor={"loc_all"}>{`View All (${facets?.locs
                     ?.map(e => e.count)
-                    .reduce((partialSum, a) => partialSum + a, 0)})`}</label>
+                    .reduce((partialSum, a) => partialSum + a, 0)})`}</label> */}
+                  <label htmlFor={"loc_all"}>{`View All`}</label>
                 </li>
                 {locs?.map((ele, i) => (
                   <li

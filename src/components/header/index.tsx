@@ -34,6 +34,8 @@ import AnnouncementBar from "./AnnouncementBar";
 import { CUST } from "constants/util";
 import Loader from "components/Loader";
 import Sizechart from "components/Sizechart";
+import CookieService from "services/cookie";
+import { GA_CALLS } from "constants/cookieConsent";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -329,12 +331,15 @@ class Header extends React.Component<Props, State> {
   };
 
   gtmPushWishlistClick = () => {
-    dataLayer.push({
-      event: "eventsToSend",
-      eventAction: "wishListClick",
-      eventCategory: "Click",
-      eventLabel: this.props.location.pathname
-    });
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes(GA_CALLS)) {
+      dataLayer.push({
+        event: "eventsToSend",
+        eventAction: "wishListClick",
+        eventCategory: "Click",
+        eventLabel: this.props.location.pathname
+      });
+    }
   };
 
   onMenuClick = ({
@@ -399,10 +404,15 @@ class Header extends React.Component<Props, State> {
     ) {
       return false;
     }
-    this.setState({
-      showSearch: !this.state.showSearch,
-      showMenu: false
-    });
+    this.setState(
+      {
+        showSearch: !this.state.showSearch,
+        showMenu: false
+      },
+      () => {
+        console.log(this.state);
+      }
+    );
   };
 
   hideSearch = () => {
@@ -442,12 +452,15 @@ class Header extends React.Component<Props, State> {
   };
 
   gtmPushLogoClick = () => {
-    dataLayer.push({
-      event: "eventsToSend",
-      eventAction: "logo",
-      eventCategory: "Click",
-      eventLabel: location.pathname
-    });
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes(GA_CALLS)) {
+      dataLayer.push({
+        event: "eventsToSend",
+        eventAction: "logo",
+        eventCategory: "Click",
+        eventLabel: location.pathname
+      });
+    }
   };
 
   setShowBag = (showBag: boolean) => {
@@ -589,7 +602,7 @@ class Header extends React.Component<Props, State> {
             content={
               meta.description
                 ? meta.description
-                : "Good Earth India's official website. Explore unique product stories and craft traditions that celebrate the heritage of the Indian subcontinent."
+                : "Good Earth – Luxury Indian Design House Explore handcrafted designs that celebrate style from an Indian perspective"
             }
           />
           {__DOMAIN__ != "https://www.goodearth.in" && (
@@ -685,11 +698,13 @@ class Header extends React.Component<Props, State> {
             <Search
               ipad={false}
               toggle={this.showSearch}
-              closePopup={() => {
-                this.setState({
-                  showSearch: false,
-                  showMenu: false
-                });
+              closePopup={e => {
+                if (e.target?.id != "searchIcon") {
+                  this.setState({
+                    showSearch: false,
+                    showMenu: false
+                  });
+                }
               }}
             />
           )}
@@ -840,6 +855,7 @@ class Header extends React.Component<Props, State> {
                         }}
                       >
                         <i
+                          id="searchIcon"
                           className={
                             this.state.showSearch
                               ? cs(

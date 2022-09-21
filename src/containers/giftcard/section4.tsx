@@ -16,6 +16,8 @@ import { MESSAGE } from "constants/messages";
 import * as valid from "utils/validate";
 import { AppState } from "reducers/typings";
 import Loader from "components/Loader";
+import CookieService from "services/cookie";
+import { GA_CALLS } from "constants/cookieConsent";
 
 const Section4: React.FC<Section4Props> = props => {
   const [nummsg, setNummsg] = useState("");
@@ -47,13 +49,35 @@ const Section4: React.FC<Section4Props> = props => {
       setIsLoading(true);
       GiftcardService.addToGiftcard(dispatch, data)
         .then((res: any) => {
-          dataLayer.push({
-            event: "card_add_to_cart",
-            design: data.imageUrl,
-            location: props.selectedCountry,
-            value: data.customPrice
-          });
+          const userConsent = CookieService.getCookie("consent").split(",");
+          if (userConsent.includes(GA_CALLS)) {
+            dataLayer.push({
+              event: "card_add_to_cart",
+              design: data.imageUrl,
+              location: props.selectedCountry,
+              value: data.customPrice
+            });
 
+            dataLayer.push({
+              event: "addToCart",
+              ecommerce: {
+                currencyCode: currency,
+                add: {
+                  products: [
+                    {
+                      name: "Gift Card",
+                      id: data.productId,
+                      price: res.data.total,
+                      brand: "Goodearth",
+                      category: "Gift Card",
+                      variant: "",
+                      quantity: 1
+                    }
+                  ]
+                }
+              }
+            });
+          }
           const basket: Basket = res.data;
           dispatch(updateBasket(basket));
           valid.showGrowlMessage(dispatch, MESSAGE.ADD_TO_BAG_GIFTCARD_SUCCESS);
@@ -96,6 +120,7 @@ const Section4: React.FC<Section4Props> = props => {
             [styles.gcMobile]: props.mobile
           }
         )}
+        style={{ paddingBottom: props.mobile ? 0 : "50px" }}
       >
         <div className={bootstrapStyles.row}>
           <div
@@ -131,6 +156,7 @@ const Section4: React.FC<Section4Props> = props => {
               styles.formBg,
               globalStyles.voffset3
             )}
+            style={{ paddingBottom: props.mobile ? 0 : "40px" }}
           >
             <div className={cs(bootstrapStyles.row)}></div>
             <div className={globalStyles.voffset2}>
@@ -144,6 +170,7 @@ const Section4: React.FC<Section4Props> = props => {
                 You have received a Good Earth eGift card <br /> worth{" "}
                 <span className={styles.aqua}>
                   {String.fromCharCode(...code)}
+                  {"  "}
                   {customPrice}
                 </span>{" "}
                 from
@@ -225,9 +252,15 @@ const Section4: React.FC<Section4Props> = props => {
                       required
                     />
                     {nummsg ? (
-                      <p className={cs(styles.errorMsg)}>{nummsg}</p>
+                      <p
+                        className={cs(styles.errorMsg, globalStyles.paddLeft10)}
+                      >
+                        {nummsg}
+                      </p>
                     ) : (
-                      <p className={styles.errorMsg}></p>
+                      <p
+                        className={cs(styles.errorMsg, globalStyles.paddLeft10)}
+                      ></p>
                     )}
                     {tablet && (
                       <div
@@ -247,7 +280,11 @@ const Section4: React.FC<Section4Props> = props => {
                     )}
                     {!mobile && (
                       <div
-                        className={cs(bootstrapStyles.col12, styles.buttonRow)}
+                        className={cs(
+                          bootstrapStyles.col12,
+                          globalStyles.marginT40,
+                          styles.buttonRow
+                        )}
                       >
                         <div className={cs(styles.imageSelectBtnContainer)}>
                           <button

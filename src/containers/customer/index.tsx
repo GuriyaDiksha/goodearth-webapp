@@ -20,7 +20,6 @@ import SaleTncAug2020 from "./components/Static/saleTncAug2020";
 import StaticService from "services/static";
 import * as util from "utils/validate";
 import Cust from "./components/Static/cust";
-import { useHistory } from "react-router-dom";
 
 type Props = {
   isbridal: boolean;
@@ -38,10 +37,9 @@ const StaticPage: React.FC<Props> = props => {
   const [accountListing, setAccountListing] = useState(false);
   const [slab] = useState("");
   const { mobile } = useStore().getState().device;
-  const { showTimer, isSale } = useSelector((state: AppState) => state.info);
+  const { showTimer } = useSelector((state: AppState) => state.info);
   const { footerList } = useSelector((state: AppState) => state.footer.data);
   const { path } = useRouteMatch();
-  const history = useHistory();
   const [currentSection, setCurrentSection] = useState("");
 
   useEffect(() => {
@@ -50,14 +48,23 @@ const StaticPage: React.FC<Props> = props => {
     util.pageViewGTM("Static");
   }, []);
 
-  // useEffect(() => {
-  //   if (
-  //     !isSale &&
-  //     window.location.pathname === "/customer-assistance/sales-conditions"
-  //   ) {
-  //     history?.push("/error-page");
-  //   }
-  // }, [isSale]);
+  useEffect(() => {
+    if (
+      !footerList.filter(
+        eleList =>
+          eleList.filter(
+            ele =>
+              ele?.name === "HELP" &&
+              ele?.value.filter(
+                e => e?.link === "/customer-assistance/sales-conditions"
+              ).length
+          ).length
+      ).length &&
+      window.location.pathname === "/customer-assistance/sales-conditions"
+    ) {
+      history?.push("/error-page");
+    }
+  }, [footerList]);
 
   const dispatch = useDispatch();
   const fetchTerms = async (link: string) => {

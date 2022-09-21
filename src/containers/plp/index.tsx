@@ -35,6 +35,7 @@ import inactiveGrid from "../../images/plpIcons/inactive_grid.svg";
 import activeList from "../../images/plpIcons/active_list.svg";
 import inactiveList from "../../images/plpIcons/inactive_list.svg";
 import { CategoryMenu } from "containers/categoryLanding/typings";
+import { GA_CALLS, ANY_ADS } from "constants/cookieConsent";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -113,21 +114,25 @@ class PLP extends React.Component<
 
   componentDidMount() {
     const that = this;
-    dataLayer.push(function(this: any) {
-      this.reset();
-    });
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes(GA_CALLS)) {
+      dataLayer.push(function(this: any) {
+        this.reset();
+      });
 
-    util.pageViewGTM("PLP");
-    dataLayer.push({
-      event: "PlpView",
-      PageURL: this.props.location.pathname,
-      Page_Title: "virtual_plp_view"
-    });
-
-    Moengage.track_event("Page viewed", {
-      "Page URL": this.props.location.pathname,
-      "Page Name": "PlpView"
-    });
+      util.pageViewGTM("PLP");
+      dataLayer.push({
+        event: "PlpView",
+        PageURL: this.props.location.pathname,
+        Page_Title: "virtual_plp_view"
+      });
+    }
+    if (userConsent.includes(ANY_ADS)) {
+      Moengage.track_event("Page viewed", {
+        "Page URL": this.props.location.pathname,
+        "Page Name": "PlpView"
+      });
+    }
     window.addEventListener(
       "scroll",
       throttle(() => {
@@ -223,7 +228,8 @@ class PLP extends React.Component<
       childAttributes,
       title,
       discount,
-      badgeType
+      badgeType,
+      plpSliderImages
     } = product;
     const selectedIndex = childAttributes?.length == 1 ? 0 : undefined;
     const {
@@ -256,7 +262,8 @@ class PLP extends React.Component<
         badgeType: badgeType,
         isSale: isSale,
         discountedPrice: discountedPriceRecords[currency],
-        list: "plp"
+        list: "plp",
+        sliderImages: plpSliderImages
       },
       false,
       ModalStyles.bottomAlign
@@ -442,17 +449,20 @@ class PLP extends React.Component<
     // const l3Len = category.split(">").length;
     const l1 = category.split(">")[0];
 
-    dataLayer.push({
-      "Event Category": "GA Ecommerce",
-      "Event Action": "PLP ",
-      "Event Label": l1,
-      "Product Category": category.replace(/>/g, "-"),
-      "Login Status": this.props.isLoggedIn ? "logged in" : "logged out",
-      "Time Stamp": new Date().toISOString(),
-      "Page Url": location.href,
-      "Page Type": util.getPageType(),
-      "Page referrer url": CookieService.getCookie("prevUrl")
-    });
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes(GA_CALLS)) {
+      dataLayer.push({
+        "Event Category": "GA Ecommerce",
+        "Event Action": "PLP ",
+        "Event Label": l1,
+        "Product Category": category.replace(/>/g, "-"),
+        "Login Status": this.props.isLoggedIn ? "logged in" : "logged out",
+        "Time Stamp": new Date().toISOString(),
+        "Page Url": location.href,
+        "Page Type": util.getPageType(),
+        "Page referrer url": CookieService.getCookie("prevUrl")
+      });
+    }
   }
   UNSAFE_componentWillReceiveProps(nextProps: Props) {
     const queryString = nextProps.location.search;

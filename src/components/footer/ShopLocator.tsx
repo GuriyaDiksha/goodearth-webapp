@@ -7,6 +7,8 @@ import useOutsideDetection from "../../hooks/useOutsideDetetion";
 import iconStyles from "../../styles/iconFonts.scss";
 import { useHistory } from "react-router-dom";
 import globalStyles from "../../styles/global.scss";
+import CookieService from "services/cookie";
+import { GA_CALLS } from "constants/cookieConsent";
 
 export const ShopLocator: React.FC<ShopLocatorProps> = ({
   goToShopLocator,
@@ -40,12 +42,15 @@ export const ShopLocator: React.FC<ShopLocatorProps> = ({
   const redirectToShop = (e: React.MouseEvent, data: any) => {
     if (data.label) {
       history.push("/Cafe-Shop/" + data.label);
-      dataLayer.push({
-        event: "eventsToSend",
-        eventAction: "shopCafeLocatorClick",
-        eventCategory: "Click",
-        eventLabel: location.pathname
-      });
+      const userConsent = CookieService.getCookie("consent").split(",");
+      if (userConsent.includes(GA_CALLS)) {
+        dataLayer.push({
+          event: "eventsToSend",
+          eventAction: "shopCafeLocatorClick",
+          eventCategory: "Click",
+          eventLabel: location.pathname
+        });
+      }
       // dataLayer.push({
       //   event: 'Shop Locator',
       //   'Location Selected': data?.value,

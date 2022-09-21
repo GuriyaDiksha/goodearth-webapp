@@ -31,37 +31,48 @@ const Listing: React.FC = () => {
   const { mobile } = useSelector((state: AppState) => state.device);
   const history = useHistory();
   const dispatch = useDispatch();
+  const vars: { dept?: string; loc?: string; tag?: string } = {};
+  const url = history.location.search;
+  let temp: any = [];
+  const re = /[?&]+([^=&]+)=([^&]*)/gi;
+  let match;
+
+  while ((match = re.exec(url))) {
+    vars[match[1]] = match[2];
+  }
 
   useEffect(() => {
-    const vars: { dept?: string; loc?: string; tag?: string } = {};
-    const url = history.location.search;
-    let temp: any = [];
-    const re = /[?&]+([^=&]+)=([^&]*)/gi;
-    let match;
-
-    CareerService.fetchJobListData(dispatch).then(res => {
-      dispatch(updateJobList(res));
-    });
-
-    while ((match = re.exec(url))) {
-      vars[match[1]] = match[2];
-    }
+    CareerService.fetchJobListData(dispatch, vars.dept)
+      .then(res => {
+        setReset(!reset);
+        dispatch(updateJobList(res));
+      })
+      .catch(e => {
+        setReset(!reset);
+        dispatch(
+          updateJobList({ facets: { depts: [], locs: [], tags: [] }, data: [] })
+        );
+      });
 
     if (vars?.dept) {
-      setSelectedDept(vars.dept.split("+"));
+      setSelectedDept(vars.dept.split("|").map(e => e.replace(/%20/g, " ")));
     }
+
     if (vars?.loc) {
       temp = [
         ...temp,
-        ...vars?.loc?.split("+").map(e => e.replace(/%20/g, " "))
+        ...vars?.loc?.split("|").map(e => e.replace(/%20/g, " "))
       ];
     }
     if (vars?.tag) {
-      temp = [...temp, ...vars?.tag?.split("+")];
+      temp = [
+        ...temp,
+        ...vars?.tag?.split("|").map(e => e.replace(/%20/g, " "))
+      ];
     }
 
     setAppliedFilters(temp);
-  }, []);
+  }, [vars?.dept]);
 
   const multipleExist = (arr: string[], values: string[]) => {
     return values.some(value => {
@@ -84,23 +95,22 @@ const Listing: React.FC = () => {
         newData.map(ele => {
           newTag = [...newTag, ...ele?.tags];
           newLoc = [...newLoc, ...ele?.loc];
-
           setTagLocFilter({ tag: uniq(newTag), loc: uniq(newLoc) });
         });
       } else {
         setTagLocFilter({ tag: [], loc: [] });
       }
 
-      deptUrl = deptUrl + selectedDept.join("+");
+      deptUrl = deptUrl + selectedDept.join("|");
       deptUrl = appliedFilters.filter(e => newTag.includes(e)).length
         ? deptUrl +
           "&tag=" +
-          appliedFilters.filter(e => newTag.includes(e)).join("+")
+          appliedFilters.filter(e => newTag.includes(e)).join("|")
         : deptUrl;
       deptUrl = appliedFilters.filter(e => newLoc.includes(e))?.length
         ? deptUrl +
           "&loc=" +
-          appliedFilters.filter(e => newLoc.includes(e)).join("+")
+          appliedFilters.filter(e => newLoc.includes(e)).join("|")
         : deptUrl;
 
       const tagFilteres = facets.tags
@@ -131,11 +141,9 @@ const Listing: React.FC = () => {
         newLoc = [...newLoc, ...ele?.loc];
         setTagLocFilter({ tag: uniq(newTag), loc: uniq(newLoc) });
       });
-
       history.replace(url + "?" + deptUrl);
-
-      setIsLoading(false);
     }
+    setIsLoading(false);
   }, [appliedFilters, selectedDept, facets]);
 
   const NoResultsFound = () => (

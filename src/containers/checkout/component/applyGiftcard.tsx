@@ -11,6 +11,9 @@ import { AppState } from "reducers/typings";
 import { Link, RouteComponentProps, withRouter } from "react-router-dom";
 import * as valid from "utils/validate";
 import SelectableDropdownMenu from "components/dropdown/selectableDropdownMenu";
+import CookieService from "services/cookie";
+import { GA_CALLS } from "constants/cookieConsent";
+
 const mapStateToProps = (state: AppState) => {
   return {
     user: state.user,
@@ -85,12 +88,15 @@ class ApplyGiftcard extends React.Component<Props, GiftState> {
         if (response.status == false) {
           this.updateError(response.message, response.isNotActivated);
         } else {
-          dataLayer.push({
-            event: "eventsToSend",
-            eventAction: "giftCard",
-            eventCategory: "promoCoupons",
-            eventLabel: data.cardId
-          });
+          const userConsent = CookieService.getCookie("consent").split(",");
+          if (userConsent.includes(GA_CALLS)) {
+            dataLayer.push({
+              event: "eventsToSend",
+              eventAction: "giftCard",
+              eventCategory: "promoCoupons",
+              eventLabel: data.cardId
+            });
+          }
           this.setState({
             newCardBox: false,
             txtvalue: "",
