@@ -78,27 +78,31 @@ const LeftImage: React.FC<Props> = ({
           <div className={bootstrapStyles.col6}>
             <img className={cs(styles.leftImage)} src={image} />
           </div>
-          <div className={cs(styles.gcTnc, bootstrapStyles.col6)}>
+          <div
+            className={cs(styles.gcTnc, styles.leftImage, bootstrapStyles.col6)}
+          >
             {/* {icon && <img src={icon} className={styles.icon} />} */}
             <div className={cs(globalStyles.popupHeading, styles.heading)}>
               {ReactHtmlParser(heading)}
             </div>
-            <div
-              className={cs(
-                // globalStyles.c10LR,
-                styles.content,
-                styles.cmsContent,
-                styles.leftImageContent
-              )}
-            >
-              {ReactHtmlParser(finalContent)}
-            </div>
+            {ReactHtmlParser(finalContent)[0].trim() && (
+              <div
+                className={cs(
+                  // globalStyles.c10LR,
+                  styles.content,
+                  styles.cmsContent,
+                  styles.leftImageContent
+                )}
+              >
+                {ReactHtmlParser(finalContent)}
+              </div>
+            )}
             <div
               className={cs(
                 // globalStyles.ceriseBtn,
                 styles.ceriseBtn30,
                 styles.ceriseBtn80,
-                globalStyles.marginT20,
+                // globalStyles.marginT30,
                 styles.leftImageCta
               )}
               // style={{ backgroundColor: ctaColor }}
