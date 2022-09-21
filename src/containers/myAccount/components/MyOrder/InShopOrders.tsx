@@ -209,10 +209,12 @@ const InShopOrder: React.FC<OrdersProps> = props => {
             <button className={styles.loadMoreBtn} onClick={() => loadMore()}>
               Load More
             </button>
-          ) : (
+          ) : data.length >= 3 ? (
             <button className={styles.backToTopBtn} onClick={() => backToTop()}>
               Back to top
             </button>
+          ) : (
+            ""
           )}
         </div>
       ) : null}
