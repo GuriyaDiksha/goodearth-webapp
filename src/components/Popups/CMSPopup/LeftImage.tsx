@@ -102,7 +102,7 @@ const LeftImage: React.FC<Props> = ({
                 // globalStyles.ceriseBtn,
                 styles.ceriseBtn30,
                 styles.ceriseBtn80,
-                // globalStyles.marginT30,
+                globalStyles.marginT30,
                 styles.leftImageCta
               )}
               // style={{ backgroundColor: ctaColor }}
