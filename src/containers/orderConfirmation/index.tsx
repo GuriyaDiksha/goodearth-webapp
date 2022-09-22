@@ -94,7 +94,9 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
       return {
         name: line.title,
         id: line.product.sku,
-        price: +line.priceExclTax,
+        price: line.isEgiftCard
+          ? +line.priceExclTax
+          : line.product.pricerecords[result.currency],
         dimension8: line.product.is3DView ? "View3d" : "nonView3d",
         brand: "Goodearth",
         category: category,
