@@ -266,7 +266,7 @@ class PLP extends React.Component<
         sliderImages: plpSliderImages
       },
       false,
-      ModalStyles.bottomAlign
+      this.props.device.mobile ? ModalStyles.bottomAlign : ""
     );
     changeModalState(true);
   };
