@@ -605,7 +605,7 @@ class Search extends React.Component<Props, State> {
                         <p
                           className={cs(
                             styles.productHeading,
-                            globalStyles.marginB20,
+                            globalStyles.marginB10,
                             { [styles.padding]: !mobile },
                             { [styles.paddingMobile]: mobile }
                           )}
@@ -639,7 +639,7 @@ class Search extends React.Component<Props, State> {
                         <p
                           className={cs(
                             styles.productHeading,
-                            globalStyles.marginB20,
+                            globalStyles.marginB10,
                             { [styles.padding]: !mobile },
                             { [styles.paddingMobile]: mobile }
                           )}
@@ -675,6 +675,7 @@ class Search extends React.Component<Props, State> {
                         <p
                           className={cs(
                             styles.productHeading,
+                            globalStyles.marginB10,
                             { [styles.padding]: !mobile },
                             { [styles.paddingMobile]: mobile }
                           )}
@@ -700,7 +701,7 @@ class Search extends React.Component<Props, State> {
                           className={cs(
                             styles.productName,
                             globalStyles.marginT30,
-                            globalStyles.marginB20,
+                            globalStyles.marginB10,
                             { [styles.padding]: !mobile },
                             { [styles.paddingMobile]: mobile }
                           )}
