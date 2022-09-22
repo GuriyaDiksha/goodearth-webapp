@@ -1138,6 +1138,12 @@ class FilterList extends React.Component<Props, State> {
       }
       // clear filters
       this.clearFilter(undefined, "all", true);
+      this.setState({
+        activeindex: 0,
+        showFilterByDiscountMenu: false,
+        showProductFilter: false,
+        showmenulevel1: false
+      });
     }
 
     // code to tick all when clicked on viewall / normal checkbox

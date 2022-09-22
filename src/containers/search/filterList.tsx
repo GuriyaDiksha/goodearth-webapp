@@ -1304,7 +1304,11 @@ class FilterList extends React.Component<Props, State> {
         filter: filter,
         selectedCatShop: data,
         isViewAll: isViewAll,
-        urltempData: { categoryObj: categoryObj, id: event.target.id }
+        urltempData: { categoryObj: categoryObj, id: event.target.id },
+        activeindex: 0,
+        showFilterByDiscountMenu: false,
+        showProductFilter: false,
+        showmenulevel1: false
       },
       () => {
         this.createUrlfromFilter();
