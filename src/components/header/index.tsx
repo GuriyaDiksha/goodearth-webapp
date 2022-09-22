@@ -582,6 +582,7 @@ class Header extends React.Component<Props, State> {
     const isBridalRegistryPage =
       this.props.location.pathname.indexOf("/bridal/") > -1 &&
       !(this.props.location.pathname.indexOf("/account/") > -1);
+    const { showMenu } = this.state;
     const isCeriseCustomer = slab
       ? slab.toLowerCase() == "cerise" ||
         slab.toLowerCase() == "cerise sitara" ||
@@ -683,7 +684,12 @@ class Header extends React.Component<Props, State> {
             crossOrigin="crossorigin"
           />
         </Helmet>
-        <div className={cs(styles.headerContainer)}>
+        <div
+          className={cs(
+            { [styles.headerIndex]: showMenu },
+            styles.headerContainer
+          )}
+        >
           {this.state.reloadAnnouncementBar && (
             <AnnouncementBar
               clearBridalSession={this.clearBridalSession}
@@ -720,7 +726,7 @@ class Header extends React.Component<Props, State> {
                 >
                   <i
                     className={
-                      this.state.showMenu
+                      showMenu
                         ? styles.hidden
                         : cs(
                             iconStyles.icon,
@@ -741,7 +747,7 @@ class Header extends React.Component<Props, State> {
                   ></i>
                   <i
                     className={
-                      this.state.showMenu
+                      showMenu
                         ? cs(
                             iconStyles.icon,
                             iconStyles.iconCrossNarrowBig,
@@ -942,7 +948,7 @@ class Header extends React.Component<Props, State> {
             <div className={cs(bootstrap.row)}>
               <div
                 className={
-                  this.state.showMenu
+                  showMenu
                     ? cs(bootstrap.col12, styles.mobileList, styles.menuOverlay)
                     : bootstrap.col12
                 }
@@ -950,29 +956,25 @@ class Header extends React.Component<Props, State> {
                 {mobile || tablet ? (
                   <div
                     className={
-                      this.state.showMenu
+                      showMenu
                         ? styles.menuSliderAnimate
                         : cs(styles.menuSlider, styles.mobileList)
                     }
                   >
-                    {
-                      <>
-                        <Mobilemenu
-                          onMobileMenuClick={this.onMenuClick}
-                          onHeaderMegaMenuClick={this.onMegaMenuClick}
-                          megaMenuData={this.props.megaMenuData}
-                          location={this.props.location}
-                          clickToggle={this.clickToggle}
-                          wishlistCount={wishlistCount}
-                          changeCurrency={this.changeCurrency}
-                          showCurrency={this.showCurrency}
-                          showC={this.state.showC}
-                          profileItems={profileItems}
-                          loginItem={loginItem}
-                          goLogin={this.props.goLogin}
-                        />
-                      </>
-                    }
+                    <Mobilemenu
+                      onMobileMenuClick={this.onMenuClick}
+                      onHeaderMegaMenuClick={this.onMegaMenuClick}
+                      megaMenuData={this.props.megaMenuData}
+                      location={this.props.location}
+                      clickToggle={this.clickToggle}
+                      wishlistCount={wishlistCount}
+                      changeCurrency={this.changeCurrency}
+                      showCurrency={this.showCurrency}
+                      showC={this.state.showC}
+                      profileItems={profileItems}
+                      loginItem={loginItem}
+                      goLogin={this.props.goLogin}
+                    />
                   </div>
                 ) : (
                   ""
@@ -1034,6 +1036,19 @@ class Header extends React.Component<Props, State> {
           />
         )}
         {this.props.filler.show && <CushionBag />}
+
+        {this.props.showStock && (
+          <StoreDetails
+            showShipping={this.props.showShipping}
+            cart={this.props.cart}
+            currency={this.props.currency}
+            active={this.props.showStock}
+          />
+        )}
+        {this.props.showSizeChart && (
+          <Sizechart active={this.props.showSizeChart} />
+        )}
+        {this.state.isLoading && <Loader />}
         {this.state.showBag && (
           <Bag
             showShipping={this.props.showShipping}
@@ -1047,18 +1062,6 @@ class Header extends React.Component<Props, State> {
             }}
           />
         )}
-        {this.props.showStock && (
-          <StoreDetails
-            showShipping={this.props.showShipping}
-            cart={this.props.cart}
-            currency={this.props.currency}
-            active={this.props.showStock}
-          />
-        )}
-        {this.props.showSizeChart && (
-          <Sizechart active={this.props.showSizeChart} />
-        )}
-        {this.state.isLoading && <Loader />}
       </div>
     );
   }
