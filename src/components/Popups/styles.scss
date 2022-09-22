@@ -22,6 +22,11 @@
           gap: 30px;
         }
       }
+      .disclaimer{
+        p {
+          line-height: 15px;
+        }
+      }
       p {
         line-height: 20px;
       // padding: 7px 57px;
@@ -35,6 +40,9 @@
         padding: 0px 20px;
         p {
           padding: 0;
+        }
+        &.left-image-content{
+          margin-bottom: 0px;
         }
       }
       .cerise-btn-width {
@@ -1074,7 +1082,7 @@
   // margin-top: 20px;
   letter-spacing: 0.5px;
   font-weight: lighter;
-  padding: 0px 20px;
+  padding: 0px 30px;
 }
 
 .two-button {
@@ -1148,9 +1156,9 @@
   .left-image-content{
     @include b4_12px_montserrat_charcoal();
     letter-spacing: 0.36px;
-    margin-bottom: 20px;
+    // margin-bottom: 20px;
     // padding: 0px 20px;
-    padding: 0px;
+    padding: 0px 30px;
   }
   .left-image-cta{
     // margin-bottom: 30px;
