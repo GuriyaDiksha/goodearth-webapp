@@ -280,7 +280,7 @@ class FilterList extends React.Component<Props, State> {
         categoryObj[tempKey] = [["View all ", viewData.join(">").trim()]];
         categoryObj[tempKey][0][3] = facets?.categoryShopDetail.filter(
           (ele: any) => ele.name === tempKey
-        )[0]["all_count"];
+        )?.[0]?.["all_count"];
       }
 
       if (data[0].split(">")[1]) {
