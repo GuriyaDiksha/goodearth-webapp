@@ -85,7 +85,7 @@ const LeftImage: React.FC<Props> = ({
             <div className={cs(globalStyles.popupHeading, styles.heading)}>
               {ReactHtmlParser(heading)}
             </div>
-            {ReactHtmlParser(finalContent)[0].trim() && (
+            {ReactHtmlParser(finalContent) && (
               <div
                 className={cs(
                   // globalStyles.c10LR,
