@@ -52,31 +52,31 @@
   height: auto;
   // padding-top: 60px;
   &.cerise-club {
-    background-color: #fbf6f0;
-    background-image: url(../../images/loyalty/ceriseBg.png), url(../../images/loyalty/ceriseMainlogo.svg), url(../../images/loyalty/ceriseBg2.png), url(../../images/loyalty/butterfly2.png);
-    background-position: left 22% top 9%, center top 4%, left 112% top 54%, right 16% top 3%;
-    background-size: 80%, 18%, 30%, 16%;
-    max-width: 100%;
-    background-repeat: no-repeat, no-repeat, no-repeat, no-repeat;
-    letter-spacing: 1px;
-    @media screen and (max-width: 767px) {
-      background-size: 85%, 50%, 60%, 30%;
-      background-position: left -40% top 7%, center top 2%, left 145% top 45%, right 2% top 5%;
-    }
+    // background-color: #fbf6f0;
+    // background-image: url(../../images/loyalty/ceriseBg.png), url(../../images/loyalty/ceriseMainlogo.svg), url(../../images/loyalty/ceriseBg2.png), url(../../images/loyalty/butterfly2.png);
+    // background-position: left 22% top 9%, center top 4%, left 112% top 54%, right 16% top 3%;
+    // background-size: 80%, 18%, 30%, 16%;
+    // max-width: 100%;
+    // background-repeat: no-repeat, no-repeat, no-repeat, no-repeat;
+    // letter-spacing: 1px;
+    // @media screen and (max-width: 767px) {
+    //   background-size: 85%, 50%, 60%, 30%;
+    //   background-position: left -40% top 7%, center top 2%, left 145% top 45%, right 2% top 5%;
+    // }
   }
   &.cerise-sitara-club {
-    background-color: #fbf6f0;
-    background-image: url(../../images/loyalty/ceriseSitaraCloudSun.png), url(../../images/loyalty/ceriseSitaraMainlogo.svg),
-    url(../../images/loyalty/ceriseSitaraCloud.png), url(../../images/loyalty/ceriseSitaraCloudSun2.png), url(../../images/loyalty/ceriseSitaraCloudSun3.png), url(../../images/loyalty/ceriseSitaraCloudSun4.png);
-    background-position: left 10% top 6%, center top 4%, left 104% top 3%, right 5% top 40%, right -11% top 78%, left 0 top 100%;
-    background-size: 27%, 21%, 45%, 93%, 50%, 50%;
-    max-width: 100%;
-    background-repeat: no-repeat, no-repeat, no-repeat, no-repeat;
-    letter-spacing: 1px;
-    @media screen and (max-width: 767px) {
-      background-position: left -49% top 6%, center top 2%, left 238% top 8%, right 5% top 22%, right -11% top 83%, left -44% top 101%;
-      background-size: 60%, 45%, 87%, 102%, 100%, 75%;
-    }
+    // background-color: #fbf6f0;
+    // background-image: url(../../images/loyalty/ceriseSitaraCloudSun.png), url(../../images/loyalty/ceriseSitaraMainlogo.svg),
+    // url(../../images/loyalty/ceriseSitaraCloud.png), url(../../images/loyalty/ceriseSitaraCloudSun2.png), url(../../images/loyalty/ceriseSitaraCloudSun3.png), url(../../images/loyalty/ceriseSitaraCloudSun4.png);
+    // background-position: left 10% top 6%, center top 4%, left 104% top 3%, right 5% top 40%, right -11% top 78%, left 0 top 100%;
+    // background-size: 27%, 21%, 45%, 93%, 50%, 50%;
+    // max-width: 100%;
+    // background-repeat: no-repeat, no-repeat, no-repeat, no-repeat;
+    // letter-spacing: 1px;
+    // @media screen and (max-width: 767px) {
+    //   background-position: left -49% top 6%, center top 2%, left 238% top 8%, right 5% top 22%, right -11% top 83%, left -44% top 101%;
+    //   background-size: 60%, 45%, 87%, 102%, 100%, 75%;
+    // }
   }
 }
 .account-form-bg {

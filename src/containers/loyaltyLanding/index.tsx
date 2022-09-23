@@ -9,6 +9,7 @@ import { AppState } from "reducers/typings";
 import LoyaltyService from "services/loyalty";
 import { Landing } from "reducers/loyalty/typings";
 import LandingTable from "./landingTable";
+import { updateLoyaltyLanding } from "actions/loyalty";
 
 const LoyaltyLanding = () => {
   const [data, setData] = useState<Landing[]>([]);
@@ -22,6 +23,7 @@ const LoyaltyLanding = () => {
     LoyaltyService.getLoyaltyLanding(dispatch)
       .then(res => {
         setData(res);
+        dispatch(updateLoyaltyLanding(res));
       })
       .catch(e => {
         console.log("e======", e);

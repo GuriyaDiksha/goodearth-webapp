@@ -1,0 +1,250 @@
+@import "../../../../styles/partials/variables";
+@import "../../../../styles/partials/mixins";
+
+.cerise-dashboard-container{
+
+    background: none;
+    .cerise-dashboard{
+        background-color: $light-beige;
+        padding: 75px 155px;
+        width: 100%;
+
+        @media screen and (max-width:992px) {
+            padding: 0;
+        }
+
+        .transaction-wrp{
+            padding: 40px 0 80px 0;
+            border-bottom: 1px solid lightgray;
+            @media screen and (max-width:992px) {
+                margin: 40px 25px;
+                padding: 0 0 40px 0;
+            }
+            .heading{
+                @include h3_20px_lora_charcoal();
+            }
+            .description{
+                @include b4_12px_montserrat_charcoal();
+                padding: 22px 0;
+            }
+            .view-statement{
+                width: 207px;
+                height: 50px;
+                margin: auto;
+                background-color: $med-charcoal;
+                @include b4_12px_medium_white_caps();
+                border: 1px solid $med-charcoal;
+
+                &:hover{
+                    @include b4_12px_medium_charcoal_caps();
+                    background-color: $white;
+                }
+            }
+
+        }
+    }
+}
+
+//===================Header section===========================//
+.cerise-dashboard-header{
+    display: flex;
+    margin: auto;
+    justify-content: start;
+    height: 355px;
+
+    @media screen and (max-width:992px) {
+        display: block;
+        height: auto;
+        img{
+            width: 100%;
+        }
+    }
+}
+//====================Reward section========================//
+.rewards-wrp{
+    margin: 50px 0;
+
+    @media screen and (max-width:992px) {
+        margin: 50px 25px;
+    }
+
+    .rewards-header{
+        display: flex;
+        justify-content: space-between;
+
+        p{
+            @include h3_20px_lora_charcoal();
+        }
+        a{
+            @include b4_12px_montserrat_medcharcoal();
+            border-bottom: 1px solid $med-charcoal;
+            margin: auto 0;
+
+            &:hover{
+                @include b4_12px_montserrat_aqua();
+                border-bottom: 1px solid $aqua;
+
+            }
+        }
+    }
+
+    .rewards-list{
+        margin: 40px 0;
+
+        .hidden-rewards{
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+        }
+
+        .show-rewards{
+            overflow: hidden;
+            transition: max-height 0.3s ease-in;
+        }
+        
+    }
+
+    .reward-row{
+        border-bottom: 1px solid lightgray;
+        display: flex;
+        padding: 10px 0;
+
+        img{
+            height: 25px;
+            width: 25px;
+        }
+        .reward-col{
+            margin-left: 12px;
+            .reward-heading{
+                @include b2_14px_charcoal_lora();
+                margin-bottom: 10px;
+            }
+            .reward-subHead{
+                @include b4_12px_montserrat_light_charcoal();
+            }
+        }
+    }
+
+    .show-more{
+        @include b3_14px_montserrat_light_charcoal();
+        border-bottom: 1px solid $charcoal19;
+        width: fit-content;
+        cursor: pointer;
+
+        &:hover{
+            @include b3_14px_montserrat_aqua();
+            border-bottom: 1px solid $aqua;
+        }
+
+    }
+    .opacity-div{
+            opacity: 0.4
+    }
+}
+
+//==================Address section=========================//
+.cerise-address-wrp{
+    border-top: 1px solid lightgray;
+    padding-top: 40px;
+
+    @media screen and (max-width:992px) {
+        margin: 25px;
+    }
+
+    .heading{
+        @include h3_20px_lora_charcoal();
+    }
+    .description{
+        margin: 20px 0;
+        @include b4_12px_montserrat_charcoal();
+    }
+    .address-container{
+        border: 1px solid #E5E5E5;
+        padding: 20px;
+
+        .first-section{
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+
+            .left-section{
+                display: flex;
+                .radio-button-wrp{
+                    display: block;
+                    position: relative;
+                    margin-bottom: 12px;
+                    cursor: pointer;
+                    font-size: 22px;
+                    -webkit-user-select: none;
+                    -moz-user-select: none;
+                    -ms-user-select: none;
+                    user-select: none;
+                    margin-right: 35px;
+
+                    .radio-button{
+                        display: inline-block;
+                        position: absolute;
+                        opacity: 0;
+                        cursor: pointer;
+                        left: 95%;
+                        height: 15px;
+                        width: 15px;
+                        background-color: white;
+                        border: 1px solid black;
+                        border-radius: 50%;
+                        padding: 20px 0;
+                    }
+
+                    span{
+                        background: white;
+                        position: absolute;
+                        height: 20px;
+                        width: 20px;
+                        background-color: #fff;
+                        border: 1px solid #888;
+                        border-radius: 60%;
+
+                        &::after{
+                            display: block;
+                            top: 2px;
+                            left: 2px;
+                            width: 14px;
+                            height: 14px;
+                            border-radius: 60%;
+                            background: $aqua;
+                            content: "";
+                            position: absolute;
+                        }
+                    }
+
+                }
+                .name{
+                    @include b4_12px_montserrat_charcoal();
+                }
+            }
+            
+            .default-address{
+                @include b5_10px_montserrat_aqua();
+            }
+        }
+        .second-section{
+            display: flex;
+            justify-content: space-between;
+
+            .address{
+                @include b5_10px_montserrat_charcoal();
+                margin-left: 35px;
+            }
+            .edit-address{
+                @include b4_12px_montserrat_charcoal();
+                margin: auto 0 0 0;
+                border-bottom: 1px solid $charcoal19; 
+
+                &:hover{
+                    @include b4_12px_montserrat_aqua();
+                    border-bottom: 1px solid $aqua;
+                }
+            }
+        }
+    }
+}

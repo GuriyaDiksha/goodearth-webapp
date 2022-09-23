@@ -11,7 +11,7 @@ import LoginService from "services/login";
 import globalStyles from "../../styles/global.scss";
 import styles from "./styles.scss";
 import bootstrapStyles from "../../styles/bootstrap/bootstrap-grid.scss";
-import loyaltyStyles from "./components/CeriseClub/styles.scss";
+import loyaltyStyles from "./components/CeriseDashboard/styles.scss";
 import cs from "classnames";
 import iconStyles from "styles/iconFonts.scss";
 import MyProfile from "./components/MyProfile";
@@ -27,6 +27,8 @@ import ActivateGiftCard from "./components/ActivateGiftCard";
 import TrackOrder from "./components/TrackOrder";
 import AccountServices from "services/account";
 import CeriseClubMain from "./components/CeriseClub/ceriseClubMain";
+import CeriseDashboard from "./components/CeriseDashboard";
+import TransactionDashboard from "./components/TransactionDashboard";
 
 type Props = {
   isBridal: boolean;
@@ -219,10 +221,17 @@ const MyAccount: React.FC<Props> = props => {
     accountMenuItems.push({
       label: "Cerise",
       href: "/account/cerise",
-      component: CeriseClubMain,
+      component: CeriseDashboard,
       title: "Cerise",
       loggedInOnly: true
     });
+  accountMenuItems.push({
+    label: "",
+    href: "/account/cerise/transaction",
+    component: TransactionDashboard,
+    title: "",
+    loggedInOnly: true
+  });
   accountMenuItems.push(
     {
       label: "Good Earth Registry",
@@ -270,8 +279,8 @@ const MyAccount: React.FC<Props> = props => {
 
     slab && pathname == "/account/cerise"
       ? slab.toLowerCase() == "cerise" || slab.toLowerCase() == "ff10"
-        ? cs(styles.ceriseClub, loyaltyStyles.ceriseLoyalty)
-        : cs(styles.ceriseSitaraClub, loyaltyStyles.ceriseLoyalty)
+        ? cs(styles.ceriseClub, loyaltyStyles.ceriseDashboardContainer)
+        : cs(styles.ceriseSitaraClub, loyaltyStyles.ceriseDashboardContainer)
       : ""
   );
   return (
@@ -283,14 +292,19 @@ const MyAccount: React.FC<Props> = props => {
       <SecondaryHeader>
         <div className={cs(bootstrapStyles.colMd11, bootstrapStyles.offsetMd1)}>
           <span className={cs(styles.heading, globalStyles.verticalMiddle)}>
-            <i
-              className={cs(
-                iconStyles.icon,
-                iconStyles.iconProfile,
-                styles.icon
-              )}
-            ></i>{" "}
-            My Account
+            {history?.location?.pathname ===
+            "/account/cerise/transaction" ? null : (
+              <i
+                className={cs(
+                  iconStyles.icon,
+                  iconStyles.iconProfile,
+                  styles.icon
+                )}
+              ></i>
+            )}{" "}
+            {history?.location?.pathname === "/account/cerise/transaction"
+              ? "Cerise"
+              : "My Account"}
           </span>
         </div>
       </SecondaryHeader>
@@ -371,7 +385,7 @@ const MyAccount: React.FC<Props> = props => {
                           isLoggedIn ? true : !item.loggedInOnly
                         )
                         .map(item => {
-                          return (
+                          return item.label ? (
                             <li key={item.label}>
                               <NavLink
                                 onClick={() => setAccountListing(false)}
@@ -382,7 +396,7 @@ const MyAccount: React.FC<Props> = props => {
                                 {item.label}
                               </NavLink>
                             </li>
-                          );
+                          ) : null;
                         })}
 
                       {/* <li>
