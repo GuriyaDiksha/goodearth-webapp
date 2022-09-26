@@ -16,7 +16,7 @@ type Props = {
 };
 
 const JobCard: React.FC<Props> = ({ job }) => {
-  const { title, loc, summary, id } = job;
+  const { title, loc, summary, id, fbUrl, linkedinUrl } = job;
   const { dispatch } = useStore();
   const history = useHistory();
 
@@ -59,7 +59,9 @@ const JobCard: React.FC<Props> = ({ job }) => {
               <img src={email} alt="email" />
             </a>
             <a
-              href="https://www.linkedin.com/sharing/share-offsite/?url={https%3A%2F%2Fwww.linkedin.com%2Fposts%2Fieee-mait_greetings-of-the-day-ieee-mait-in-collaboration-activity-6975706082161647617-nfQc%3Futm_source%3Dshare%26utm_medium%3Dmember_desktop}"
+              href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(
+                linkedinUrl
+              )}`}
               target="_blank"
               rel="noopener noreferrer"
               className={listing.icon_wrp}
@@ -68,7 +70,9 @@ const JobCard: React.FC<Props> = ({ job }) => {
             </a>
             <a
               target="_blank"
-              href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fwww.facebook.com%2Fswardhan%2Fposts%2Fpfbid0MwYThENJ9bTduJqHA8mqhDkKfWgXZdhkUKr3eypAnW14KRauSUZAoBQE4hsFyEqKl&amp;src=sdkpreparse"
+              href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
+                fbUrl
+              )}`}
               className={cs("fb-xfbml-parse-ignore", listing.icon_wrp)}
               rel="noopener noreferrer"
             >
