@@ -30,6 +30,9 @@
   }
 }
 
+.header-index {
+  z-index: 1000009 !important;
+}
 .header-container {
     position: fixed;
     top: $header-top;
