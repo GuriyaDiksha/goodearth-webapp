@@ -238,7 +238,7 @@ const NewOtpComponent: React.FC<Props> = ({
       </p>
       <a
         className={style.otpPolicy}
-        href={`${window.location.hostname}/customer-assistance/cookie-policy`}
+        href={`/customer-assistance/cookie-policy`}
         rel="noopener noreferrer"
         target="_blank"
       >
