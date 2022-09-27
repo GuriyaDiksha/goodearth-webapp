@@ -33,7 +33,8 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
         attempts: 0,
         maxAttemptsAllow: 5
       },
-      startTimer: false
+      startTimer: true,
+      isOtpSent: false
     };
   }
   // timerId: any = 0;
@@ -86,7 +87,7 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
     }
     // data["inputType"] = "GIFT";
     data["points"] = this.props.points;
-    this.setState({ startTimer: true });
+    // this.setState({ startTimer: true });
     this.sendOtpApiCall(data);
   };
 
@@ -112,7 +113,8 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
 
     this.setState({
       isLoading: true,
-      otp: value
+      otp: value,
+      showerror: ""
     });
     this.props.checkOtpRedeem &&
       this.props
@@ -240,7 +242,8 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
             toggleOtp: true,
             otpData: formData,
             disable: true,
-            isLoading: false
+            isLoading: false,
+            isOtpSent: true
           },
           () => {
             // this.timer();
@@ -556,9 +559,11 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
               />
             </div>
           </Formsy>
-          <div className={globalStyles.textCenter}>
-            {this.getValidationForOtp()}
-          </div>
+          {this.state.isOtpSent ? (
+            <div className={globalStyles.textCenter}>
+              {this.getValidationForOtp()}
+            </div>
+          ) : null}
         </div>
         {isLoading && <Loader />}
       </Fragment>
