@@ -708,6 +708,7 @@ class Footer extends React.Component<Props, FooterState> {
                       onChangeText={this.onChangeText}
                       shopLocations={this.props.data.shopLocations}
                       mobile={this.props.mobile}
+                      footerHeadingFontColor={footerHeadingFontColor}
                     />
                     {this.props.mobile ? (
                       <div
