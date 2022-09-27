@@ -187,7 +187,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
         });
         dataLayer.push({ ecommerce: null }); // Clear the previous ecommerce object.
         dataLayer.push({
-          event: "purchase",
+          event: "GA4_purchase",
           ecommerce: {
             transaction_id: result.transactionId,
             affiliation: "Online Store", // Pass the product name
