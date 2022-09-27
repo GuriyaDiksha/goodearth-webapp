@@ -254,7 +254,8 @@ class OtpComponent extends React.Component<otpProps, otpState> {
     const newData = Object.assign({}, otpData);
     newData["otp"] = value;
     delete newData["inputType"];
-    this.setState({ otp: value });
+    this.setState({ otp: value, showerror: "" });
+
     if (this.props.otpFor == "activateGC") {
       this.props.activateGiftCard &&
         this.props
@@ -461,7 +462,8 @@ class OtpComponent extends React.Component<otpProps, otpState> {
 
   sendOtpApiCall = (formData: any) => {
     this.setState({
-      disable: true
+      disable: true,
+      showerror: ""
     });
     this.props
       .sendOtp(formData)
