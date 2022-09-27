@@ -591,13 +591,21 @@ class Footer extends React.Component<Props, FooterState> {
                             {footerItems.map((item, i) => {
                               return (
                                 <ul key={i} className={styles.column}>
-                                  <li>
+                                  <li
+                                    style={{
+                                      color: footerHeadingFontColor
+                                    }}
+                                  >
                                     {item.link ? (
                                       <Link
                                         to={item.link || "#"}
                                         onClick={() =>
                                           valid.footerGTM(item.name)
                                         }
+                                        //TODO: hover state
+                                        style={{
+                                          color: footerHeadingFontColor
+                                        }}
                                       >
                                         {item.name}
                                       </Link>
@@ -606,7 +614,12 @@ class Footer extends React.Component<Props, FooterState> {
                                     )}
                                   </li>
                                   {item.value.map((child, index) => (
-                                    <li key={index}>
+                                    <li
+                                      key={index}
+                                      style={{
+                                        color: footerSubHeadingFontColor
+                                      }}
+                                    >
                                       {child.iconImage && (
                                         <img
                                           className={styles.footerConnectIcon}
@@ -621,6 +634,9 @@ class Footer extends React.Component<Props, FooterState> {
                                             onClick={() =>
                                               valid.footerGTM(child.text)
                                             }
+                                            style={{
+                                              color: footerSubHeadingFontColor
+                                            }}
                                           >
                                             {child.text}
                                           </a>
@@ -636,6 +652,9 @@ class Footer extends React.Component<Props, FooterState> {
                                             onClick={() =>
                                               valid.footerGTM(child.text)
                                             }
+                                            style={{
+                                              color: footerSubHeadingFontColor
+                                            }}
                                           >
                                             {child.text}
                                           </Link>
@@ -649,6 +668,9 @@ class Footer extends React.Component<Props, FooterState> {
                                           onClick={() =>
                                             valid.footerGTM(child.text)
                                           }
+                                          style={{
+                                            color: footerSubHeadingFontColor
+                                          }}
                                         >
                                           {child.text}
                                         </a>
