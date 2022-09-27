@@ -514,7 +514,14 @@ class Footer extends React.Component<Props, FooterState> {
                         key={"first-column"}
                       >
                         <ul key={0} className={styles.column}>
-                          <li key={0}>find us on</li>
+                          <li
+                            key={0}
+                            style={{
+                              color: footerHeadingFontColor
+                            }}
+                          >
+                            find us on
+                          </li>
                           <li className={cs(styles.footerSocialicons)} key={1}>
                             {findUsOnData &&
                               findUsOnData.map(({ link, iconImage }, index) => {
@@ -540,6 +547,7 @@ class Footer extends React.Component<Props, FooterState> {
                           onChangeText={this.onChangeText}
                           shopLocations={this.props.data.shopLocations}
                           mobile={this.props.mobile}
+                          footerHeadingFontColor={footerHeadingFontColor}
                         />
                         {this.props.isSale ||
                         !this.props.data.footerPlaylistData?.ctaText ? (

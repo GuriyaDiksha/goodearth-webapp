@@ -16,7 +16,8 @@ export const ShopLocator: React.FC<ShopLocatorProps> = ({
   dropdown,
   onChangeText,
   shopLocations,
-  mobile
+  mobile,
+  footerHeadingFontColor
 }) => {
   const [menuOpen, setOpenState] = useState(dropdown || false);
   const [locations, setLocations] = useState(shopLocations);
@@ -73,6 +74,9 @@ export const ShopLocator: React.FC<ShopLocatorProps> = ({
       <div
         className={cs(styles.cursorPointer, globalStyles.pointer)}
         onClick={e => goToShopLocator(e, null)}
+        style={{
+          color: footerHeadingFontColor
+        }}
       >
         Shop & cafe Locator
       </div>

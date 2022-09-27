@@ -69,4 +69,5 @@ export type ShopLocatorProps = {
   onChangeText: (event: React.KeyboardEvent) => void;
   shopLocations: ShopLocations;
   mobile?: boolean;
+  footerHeadingFontColor: string;
 };
