@@ -245,7 +245,11 @@ class Footer extends React.Component<Props, FooterState> {
         footerImageMobile,
         footerImageSubsDeskTop,
         footerImageSubsMobile,
-        footerBgColorMobile
+        footerBgColorMobile,
+        footerHeadingFontColor,
+        footerSubHeadingFontColor,
+        footerHeadingHoverColor,
+        footerSubHeadingHoverColor
       },
       findUsOnData
     } = this.props.data;

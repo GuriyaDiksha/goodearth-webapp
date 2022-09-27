@@ -42,6 +42,10 @@ export type FooterDataProps = {
     footerImageSubsMobile: string;
     footerBgColorDeskTop: string;
     footerBgColorMobile: string;
+    footerHeadingFontColor: string;
+    footerSubHeadingFontColor: string;
+    footerHeadingHoverColor: string;
+    footerSubHeadingHoverColor: string;
   };
   findUsOnData: {
     iconImage: string;
