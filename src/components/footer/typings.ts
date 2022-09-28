@@ -23,6 +23,8 @@ export type FooterState = {
   newsletterError: boolean;
   isInViewport: boolean;
   isConsentSave: boolean;
+  headingHoverArray: boolean[];
+  subheadingHoverArray: boolean[];
 };
 
 export type ShopLocations = { label: string; value: string }[];
@@ -70,4 +72,5 @@ export type ShopLocatorProps = {
   shopLocations: ShopLocations;
   mobile?: boolean;
   footerHeadingFontColor: string;
+  footerHeadingHoverColor: string;
 };
