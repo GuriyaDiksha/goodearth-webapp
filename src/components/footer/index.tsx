@@ -156,6 +156,27 @@ class Footer extends React.Component<Props, FooterState> {
     this.setState({ isConsentSave: CookieService.getCookie("consent") !== "" });
   }
 
+  componentDidUpdate(
+    prevProps: Readonly<Props>,
+    prevState: Readonly<FooterState>,
+    snapshot?: any
+  ): void {
+    if (prevProps.data.footerList != this.props.data.footerList) {
+      let headingLength = 0;
+      let subHeadingLength = 0;
+      this.props.data.footerList.map(e => {
+        headingLength += e.length;
+        e.map(ele => {
+          subHeadingLength += ele.value.length;
+        });
+      });
+      this.setState({
+        headingHoverArray: new Array<boolean>(headingLength),
+        subheadingHoverArray: new Array<boolean>(subHeadingLength)
+      });
+    }
+  }
+
   subMenu = (index: number) => {
     if (this.state.currentIndex == index) {
       this.setState({ isOpened: !this.state.isOpened, currentIndex: index });
