@@ -23,6 +23,8 @@ export type FooterState = {
   newsletterError: boolean;
   isInViewport: boolean;
   isConsentSave: boolean;
+  headingHoverArray: boolean[];
+  subheadingHoverArray: boolean[];
 };
 
 export type ShopLocations = { label: string; value: string }[];
@@ -42,6 +44,10 @@ export type FooterDataProps = {
     footerImageSubsMobile: string;
     footerBgColorDeskTop: string;
     footerBgColorMobile: string;
+    footerHeadingFontColor: string;
+    footerSubHeadingFontColor: string;
+    footerHeadingHoverColor: string;
+    footerSubHeadingHoverColor: string;
   };
   findUsOnData: {
     iconImage: string;
@@ -65,4 +71,6 @@ export type ShopLocatorProps = {
   onChangeText: (event: React.KeyboardEvent) => void;
   shopLocations: ShopLocations;
   mobile?: boolean;
+  footerHeadingFontColor: string;
+  footerHeadingHoverColor: string;
 };
