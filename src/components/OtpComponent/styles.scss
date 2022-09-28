@@ -434,14 +434,18 @@ hr {
 
 .otp-wrp{
   background: #FFFFFF 0% 0% no-repeat padding-box;
-  box-shadow: 0px 3px 6px #00000029;
+  // box-shadow: 0px 3px 6px #00000029;
   opacity: 1;
   padding: 55px 80px 40px 80px;
   max-width: 500px;
-  height: 400px;
+  max-height: 500px;
   margin: auto;
 
-  @media screen and (max-width: 1100px) {
+  @media screen and (max-width: 500px) {
+    padding: 40px 0;
+  }
+
+  @media screen and (min-width: 501px) and (max-width: 1100px) {
     padding: 40px;
   }
 
@@ -452,7 +456,7 @@ hr {
 
   .otp-timer{
     @include b4_12px_montserrat_light_charcoal();
-    padding: 30px 0px;
+    padding: 20px 0px 30px 0;
     .otp-resend{
       span{
         border-bottom: 1px solid $charcoal19;
@@ -461,54 +465,64 @@ hr {
     }
   }
 
-  .otp-input-wrp{
-    display: flex;
-    justify-content: space-between;
-    height: 15%;
+  .otp-input-err{
+    max-width: 100%;
+    width: 263px;
+    margin: 0 auto;
 
-    .otp-input{
-      width: 15% !important;
-      border: 1px solid #E5E5E5 !important;
-      border-radius: 7px !important;
-      opacity: 1;
-      height: 100% !important;
-      background: #FFFFFF 0% 0% no-repeat padding-box;
-      text-align: center !important;
-      @include b1_16px_charcoal();
-      
-      @media screen and (max-width: 500px) {
-        padding: 0px;
-        height: 40px !important;
+    .otp-input-wrp{
+      display: flex;
+      justify-content: center;
+  
+      .otp-input{
+        width: 40px;
+        height: 40px;
+        flex: 0 0 40px;
+        border: 1px solid #E5E5E5 !important;
+        border-radius: 7px !important;
+        opacity: 1;
+        background: #FFFFFF 0% 0% no-repeat padding-box;
+        text-align: center !important;
+        margin: 0 2px 0 3px;
+        @include b1_16px_charcoal();
+        
+        @media screen and (max-width: 500px) {
+          padding: 0px;
+        }
+  
+        &:active{
+          border: 1px solid $aqua-text !important;
+        }
+  
+        &:focus{
+          border: 1px solid $aqua-text !important;
+        }
+  
+        &.error{
+          border: 1px solid $cerise !important;
+        }
+  
       }
-
-      &:active{
-        border: 1px solid $aqua-text !important;
-      }
-
-      &:focus{
-        border: 1px solid $aqua-text !important;
-      }
-
-      &.error{
-        border: 1px solid $cerise !important;
-      }
-
+    }
+  
+    .otp-error{
+      @include error_msg_cerise();
+      padding-top: 10px;
+      text-align: left;
     }
   }
 
-  .otp-error{
-    @include error-msg();
-    padding-top: 10px;
-    text-align: left;
-  }
-
   .otp-btn{
-    width: 100%;
-    padding: 20px 0px;
+    width: 300px;
+    height: 60px;
     background-color: #4C4C4C;
     border: 1px solid #4C4C4C;
     border-radius:0%;
     @include b3_14px_montserrat_white();
+
+    @media screen and (min-width:1000px) and (max-width:1600px) {
+      width: 100%;
+    }
 
     &:hover{
       background-color: $white;
@@ -521,6 +535,12 @@ hr {
     background-color:#9F9F9F;
     border: 1px solid #9F9F9F;
     cursor: not-allowed;
+
+    &:hover{
+      background-color: #9F9F9F;
+      border: 1px solid #9F9F9F;
+      @include b3_14px_montserrat_white();
+    }
 
   }
 
@@ -535,8 +555,8 @@ hr {
     padding-top: 25px;
     border-bottom: 1px solid $charcoal19;
     &:hover{
-      color: $aqua;
-      border-bottom: 1px solid $aqua;
+      color: #3C7979 !important;
+      border-bottom: 1px solid #3C7979 !important;
     }
 
   }

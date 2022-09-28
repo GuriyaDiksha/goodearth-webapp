@@ -71,6 +71,9 @@
   .image-container {
     margin-left: 20px;
   }
+  .product-number{
+    margin-left: 0;
+  }
 }
 
 .inner-header {
@@ -158,6 +161,14 @@
       line-height: 35px;
       padding-left: 6px;
       //margin-left: 35px;
+    }
+    .search-res{
+      @include b3_14px_montserrat_light_charcoal();
+      padding-left: 0px;
+      span{
+        @include b1_16px_charcoal_montserrat();
+        padding-left: 0px;
+      }
     }
 }
 
@@ -732,7 +743,7 @@ input[type="radio"]:checked, [type="checkbox"]:not(:checked),
 }
 
 .search-block-page {
-  cursor: pointer;
+  // cursor: pointer;
   input {
     width: 100%;
     background-color: $white;
