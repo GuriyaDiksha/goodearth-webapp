@@ -692,7 +692,8 @@ class Footer extends React.Component<Props, FooterState> {
                                     onMouseEnter={() => {
                                       const items = [
                                         ...this.state.headingHoverArray
-                                      ];
+                                      ].fill(false);
+
                                       items[this.indexOfHeading(i, j)] = true;
                                       this.setState({
                                         headingHoverArray: items
@@ -731,7 +732,8 @@ class Footer extends React.Component<Props, FooterState> {
                                         onMouseEnter={() => {
                                           const items = [
                                             ...this.state.headingHoverArray
-                                          ];
+                                          ].fill(false);
+
                                           items[
                                             this.indexOfHeading(i, j)
                                           ] = true;
@@ -742,7 +744,7 @@ class Footer extends React.Component<Props, FooterState> {
                                         onMouseLeave={() => {
                                           const items = [
                                             ...this.state.headingHoverArray
-                                          ];
+                                          ].fill(false);
                                           items[
                                             this.indexOfHeading(i, j)
                                           ] = false;
@@ -769,8 +771,10 @@ class Footer extends React.Component<Props, FooterState> {
                                             : footerSubHeadingFontColor
                                       }}
                                       onMouseEnter={() => {
-                                        const items = this.state
-                                          .subheadingHoverArray;
+                                        const items = [
+                                          ...this.state.subheadingHoverArray
+                                        ].fill(false);
+
                                         items[
                                           this.indexOfSubHeading(i, j, k)
                                         ] = true;
@@ -779,8 +783,10 @@ class Footer extends React.Component<Props, FooterState> {
                                         });
                                       }}
                                       onMouseLeave={() => {
-                                        const items = this.state
-                                          .subheadingHoverArray;
+                                        const items = [
+                                          ...this.state.subheadingHoverArray
+                                        ].fill(false);
+
                                         items[
                                           this.indexOfSubHeading(i, j, k)
                                         ] = false;
@@ -822,8 +828,11 @@ class Footer extends React.Component<Props, FooterState> {
                                                   : footerSubHeadingFontColor
                                             }}
                                             onMouseEnter={() => {
-                                              const items = this.state
-                                                .subheadingHoverArray;
+                                              const items = [
+                                                ...this.state
+                                                  .subheadingHoverArray
+                                              ].fill(false);
+
                                               items[
                                                 this.indexOfSubHeading(i, j, k)
                                               ] = true;
@@ -873,21 +882,29 @@ class Footer extends React.Component<Props, FooterState> {
                                                 : footerSubHeadingFontColor
                                             }}
                                             onMouseEnter={() => {
-                                              const items = this.state
-                                                .subheadingHoverArray;
+                                              const items = [
+                                                ...this.state
+                                                  .subheadingHoverArray
+                                              ].fill(false);
+
                                               items[
                                                 this.indexOfSubHeading(i, j, k)
                                               ] = true;
+
                                               this.setState({
                                                 subheadingHoverArray: items
                                               });
                                             }}
                                             onMouseLeave={() => {
-                                              const items = this.state
-                                                .subheadingHoverArray;
+                                              const items = [
+                                                ...this.state
+                                                  .subheadingHoverArray
+                                              ].fill(false);
+
                                               items[
                                                 this.indexOfSubHeading(i, j, k)
                                               ] = false;
+
                                               this.setState({
                                                 subheadingHoverArray: items
                                               });
@@ -914,11 +931,14 @@ class Footer extends React.Component<Props, FooterState> {
                                               : footerSubHeadingFontColor
                                           }}
                                           onMouseEnter={() => {
-                                            const items = this.state
-                                              .subheadingHoverArray;
+                                            const items = [
+                                              ...this.state.subheadingHoverArray
+                                            ].fill(false);
+
                                             items[
                                               this.indexOfSubHeading(i, j, k)
                                             ] = true;
+
                                             this.setState({
                                               subheadingHoverArray: items
                                             });
