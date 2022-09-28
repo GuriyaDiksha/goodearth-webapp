@@ -43,9 +43,11 @@ type Props = {
 const MyAccount: React.FC<Props> = props => {
   const { bridalId } = useSelector((state: AppState) => state.user);
   const [accountListing, setAccountListing] = useState(false);
-  const [slab, setSlab] = useState("");
+  // const [slab, setSlab] = useState("");
   const { mobile } = useSelector((state: AppState) => state.device);
-  const { isLoggedIn, email } = useSelector((state: AppState) => state.user);
+  const { isLoggedIn, email, slab } = useSelector(
+    (state: AppState) => state.user
+  );
   const { showTimer } = useSelector((state: AppState) => state.info);
   // const [ isCeriseClubMember, setIsCeriseClubMember ] = useState(false);
 
@@ -138,25 +140,25 @@ const MyAccount: React.FC<Props> = props => {
   const history = useHistory();
   const dispatch = useDispatch();
 
-  const getLoyaltyTransactions = () => {
-    const formData = new FormData();
-    formData.append("email", email);
-    formData.append("phoneno", "");
-    AccountServices.getLoyaltyTransactions(dispatch, formData)
-      .then((data: any) => {
-        if (data.is_success) {
-          // const isCeriseClubMember = data.message.Slab == "CERISE" || data.message.Slab == "CERISE SITARA" || data.message.Slab == "FF10" || data.message.Slab == "FF15"
-          const responseSlab = data.message.Slab;
-          setSlab(responseSlab);
-          // setIsCeriseClubMember(isCeriseClubMember);
-          // const slab = responseSlab.toLowerCase() == "cerise" || responseSlab.toLowerCase() == "cerise sitara";
-          // this.props.updateCeriseClubAccess(slab);
-        }
-      })
-      .catch(err => {
-        console.log(err);
-      });
-  };
+  // const getLoyaltyTransactions = () => {
+  //   const formData = new FormData();
+  //   formData.append("email", email);
+  //   formData.append("phoneno", "");
+  // AccountServices.getLoyaltyTransactions(dispatch, formData)
+  //   .then((data: any) => {
+  //     if (data.is_success) {
+  // const isCeriseClubMember = data.message.Slab == "CERISE" || data.message.Slab == "CERISE SITARA" || data.message.Slab == "FF10" || data.message.Slab == "FF15"
+  // const responseSlab = data.message.Slab;
+  // setSlab(responseSlab);
+  // setIsCeriseClubMember(isCeriseClubMember);
+  // const slab = responseSlab.toLowerCase() == "cerise" || responseSlab.toLowerCase() == "cerise sitara";
+  // this.props.updateCeriseClubAccess(slab);
+  //   }
+  // })
+  // .catch(err => {
+  //   console.log(err);
+  // });
+  // };
 
   useEffect(() => {
     const noContentContainerElem = document.getElementById(
@@ -167,7 +169,7 @@ const MyAccount: React.FC<Props> = props => {
     ) {
       noContentContainerElem.classList.remove(globalStyles.contentContainer);
     }
-    getLoyaltyTransactions();
+    // getLoyaltyTransactions();
     // window.scrollTo(0, 0);
   }, []);
 

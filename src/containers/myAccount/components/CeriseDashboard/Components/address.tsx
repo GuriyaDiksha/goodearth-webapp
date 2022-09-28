@@ -1,8 +1,22 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import styles from "./../styles.scss";
+import AddressService from "services/address";
+import { useDispatch } from "react-redux";
+import { updateAddressList } from "actions/address";
+import { AddressData } from "components/Address/typings";
 
 const Address = () => {
+  const [address, setAddress] = useState<AddressData[]>([]);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    AddressService.fetchAddressList(dispatch).then(addressList => {
+      setAddress(addressList.filter(address => address.isDefaultForShipping));
+      dispatch(updateAddressList(addressList));
+    });
+  }, []);
+
   return (
     <div className={styles.ceriseAddressWrp}>
       <p className={styles.heading}>My Address</p>
@@ -10,29 +24,43 @@ const Address = () => {
         Your selected default address will be used for reward related purposes &
         communication.
       </p>
-      <div className={styles.addressContainer}>
-        <div className={styles.firstSection}>
-          <div className={styles.leftSection}>
-            <div className={styles.radioButtonWrp}>
-              <input type="radio" className={styles.radioButton} />
-              <span></span>
+      {address?.length ? (
+        <div className={styles.addressContainer}>
+          <div className={styles.firstSection}>
+            <div className={styles.leftSection}>
+              <div className={styles.radioButtonWrp}>
+                <input type="radio" className={styles.radioButton} />
+                <span></span>
+              </div>
+              <p className={styles.name}>
+                {address?.[0]?.firstName} {address?.[0]?.lastName}
+              </p>
             </div>
-            <p className={styles.name}>Tanvi Julka</p>
+            <p className={styles.defaultAddress}>Default Address</p>
           </div>
-          <p className={styles.defaultAddress}>Default Address</p>
-        </div>
-        <div className={styles.secondSection}>
-          <div className={styles.address}>
-            <p>Address Line 1 </p>
-            <p> Address Line 2, City</p>
-            <p> State, Country - 110017</p>
-            <p> M:+91 99999 99999</p>
+          <div className={styles.secondSection}>
+            <div className={styles.address}>
+              <p>{address?.[0]?.line1} </p>
+              <p>
+                {" "}
+                {address?.[0]?.line2}, {address?.[0]?.city}
+              </p>
+              <p>
+                {" "}
+                {address?.[0]?.state}, {address?.[0]?.countryName} -{" "}
+                {address?.[0]?.postCode}
+              </p>
+              <p>
+                {" "}
+                M:{address?.[0]?.phoneCountryCode} {address?.[0]?.phoneNumber}
+              </p>
+            </div>
+            <NavLink to="/account/address" className={styles.editAddress}>
+              Edit
+            </NavLink>
           </div>
-          <NavLink to="/account/address" className={styles.editAddress}>
-            Edit
-          </NavLink>
         </div>
-      </div>
+      ) : null}
     </div>
   );
 };

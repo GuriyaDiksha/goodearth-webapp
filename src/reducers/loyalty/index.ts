@@ -30,7 +30,7 @@ export const loyalty = (
       return { ...state, loyaltyPoints: action.payload };
     }
     case "UPDATE_LOYALTY_LANDING": {
-      return { ...state, loyaltyPoints: action.payload };
+      return { ...state, landing: action.payload };
     }
     default: {
       return state;

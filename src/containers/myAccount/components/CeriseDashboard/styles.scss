@@ -105,9 +105,13 @@
     }
 
     .reward-row{
-        border-bottom: 1px solid lightgray;
+        border-top: 1px solid lightgray;
         display: flex;
-        padding: 10px 0;
+        padding: 15px 0;
+
+        &:nth-child(1){
+            border-top: none;
+        }
 
         img{
             height: 25px;
@@ -173,7 +177,7 @@
                     display: block;
                     position: relative;
                     margin-bottom: 12px;
-                    cursor: pointer;
+                    // cursor: pointer;
                     font-size: 22px;
                     -webkit-user-select: none;
                     -moz-user-select: none;
@@ -185,7 +189,7 @@
                         display: inline-block;
                         position: absolute;
                         opacity: 0;
-                        cursor: pointer;
+                        // cursor: pointer;
                         left: 95%;
                         height: 15px;
                         width: 15px;
@@ -210,7 +214,7 @@
                             left: 2px;
                             width: 14px;
                             height: 14px;
-                            border-radius: 60%;
+                            border-radius: 100%;
                             background: $aqua;
                             content: "";
                             position: absolute;

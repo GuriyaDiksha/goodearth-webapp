@@ -6,7 +6,7 @@
     @media (max-width: 992px) {
         position: relative;
         float: left;
-        width: 100%;
+        width: 51%;
     }
     img{
         height: 100%;
@@ -123,6 +123,7 @@
                     padding:2px;
                     font-style: italic;
                     color: $cerise;
+                    cursor: pointer;
                     @include h6_16px_lora_charcoal();
                 }
                 &.inactive {
@@ -143,6 +144,7 @@
                 @include b5_10px_montserrat_charcoal();
 
                 .close{
+                    cursor: pointer;
                     color: $cerise;
                     float: right;
                 }

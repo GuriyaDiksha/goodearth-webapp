@@ -62,7 +62,7 @@ const CeriseCardDetail: React.FC<Props> = ({ isViewDashboard }) => {
           {firstName} {lastName}
         </p>
         <p className={styles.email}>
-          {email} | {phoneNumber}
+          {email} {phoneNumber ? "|" : ""} {phoneNumber}
         </p>
       </div>
       <div className={styles.ceriseTable}>
