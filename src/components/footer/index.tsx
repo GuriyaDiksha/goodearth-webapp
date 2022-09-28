@@ -62,7 +62,9 @@ class Footer extends React.Component<Props, FooterState> {
       newsletterMessage: "",
       newsletterError: false,
       isInViewport: false,
-      isConsentSave: false
+      isConsentSave: false,
+      headingHoverArray: [],
+      subheadingHoverArray: []
     };
   }
 
@@ -105,7 +107,42 @@ class Footer extends React.Component<Props, FooterState> {
     }
   }
 
+  //Utility function For Heading Fonts
+  indexOfHeading(i: number, j: number) {
+    let temp = 0;
+    for (let k = 0; k < i; k++) {
+      temp += this.props.data.footerList[k].length;
+    }
+    return temp + j;
+  }
+
+  indexOfSubHeading(i: number, j: number, k: number) {
+    let subHeadingLength = 0;
+    for (let I = 0; I < i; I++) {
+      for (let J = 0; J < this.props.data.footerList[I].length; J++) {
+        subHeadingLength += this.props.data.footerList[I][J].value.length;
+      }
+    }
+    for (let J = 0; J < j; J++) {
+      subHeadingLength += this.props.data.footerList[i][J].value.length;
+    }
+    return subHeadingLength + k;
+  }
+
   componentDidMount() {
+    let headingLength = 0;
+    let subHeadingLength = 0;
+    this.props.data.footerList.map(e => {
+      headingLength += e.length;
+      e.map(ele => {
+        subHeadingLength += ele.value.length;
+      });
+    });
+    this.setState({
+      headingHoverArray: new Array<boolean>(headingLength),
+      subheadingHoverArray: new Array<boolean>(subHeadingLength)
+    });
+
     if (!window.IntersectionObserver) {
       this.setState({
         isInViewport: true
@@ -117,6 +154,27 @@ class Footer extends React.Component<Props, FooterState> {
       }
     }
     this.setState({ isConsentSave: CookieService.getCookie("consent") !== "" });
+  }
+
+  componentDidUpdate(
+    prevProps: Readonly<Props>,
+    prevState: Readonly<FooterState>,
+    snapshot?: any
+  ): void {
+    if (prevProps.data.footerList != this.props.data.footerList) {
+      let headingLength = 0;
+      let subHeadingLength = 0;
+      this.props.data.footerList.map(e => {
+        headingLength += e.length;
+        e.map(ele => {
+          subHeadingLength += ele.value.length;
+        });
+      });
+      this.setState({
+        headingHoverArray: new Array<boolean>(headingLength),
+        subheadingHoverArray: new Array<boolean>(subHeadingLength)
+      });
+    }
   }
 
   subMenu = (index: number) => {
@@ -245,7 +303,11 @@ class Footer extends React.Component<Props, FooterState> {
         footerImageMobile,
         footerImageSubsDeskTop,
         footerImageSubsMobile,
-        footerBgColorMobile
+        footerBgColorMobile,
+        footerHeadingFontColor,
+        footerSubHeadingFontColor,
+        footerHeadingHoverColor,
+        footerSubHeadingHoverColor
       },
       findUsOnData
     } = this.props.data;
@@ -383,6 +445,9 @@ class Footer extends React.Component<Props, FooterState> {
                                     onClick={() => {
                                       this.subMenu(i);
                                     }}
+                                    style={{
+                                      color: footerHeadingFontColor
+                                    }}
                                   >
                                     {" "}
                                     {list.name}{" "}
@@ -395,14 +460,8 @@ class Footer extends React.Component<Props, FooterState> {
                                         ? cs(styles.cerise)
                                         : ""
                                     }
-                                    onClick={() => {
-                                      if (
-                                        this.props.location.pathname ==
-                                        list.link
-                                      ) {
-                                        window.scrollTo(0, 0);
-                                      }
-                                      valid.footerGTM(list.name);
+                                    style={{
+                                      color: footerHeadingFontColor
                                     }}
                                   >
                                     {list.name}
@@ -434,6 +493,9 @@ class Footer extends React.Component<Props, FooterState> {
                                             }
                                           )}
                                           key={j}
+                                          style={{
+                                            color: footerSubHeadingFontColor
+                                          }}
                                         >
                                           {currentValue.iconImage && (
                                             <img
@@ -466,6 +528,9 @@ class Footer extends React.Component<Props, FooterState> {
                                                 );
                                               }}
                                               key={j}
+                                              style={{
+                                                color: footerSubHeadingFontColor
+                                              }}
                                             >
                                               {currentValue.text}
                                             </Link>
@@ -480,6 +545,9 @@ class Footer extends React.Component<Props, FooterState> {
                                                 )
                                               }
                                               key={j}
+                                              style={{
+                                                color: footerSubHeadingFontColor
+                                              }}
                                             >
                                               {currentValue.text}
                                             </a>
@@ -526,7 +594,14 @@ class Footer extends React.Component<Props, FooterState> {
                         key={"first-column"}
                       >
                         <ul key={0} className={styles.column}>
-                          <li key={0}>find us on</li>
+                          <li
+                            key={0}
+                            style={{
+                              color: footerHeadingFontColor
+                            }}
+                          >
+                            find us on
+                          </li>
                           <li className={cs(styles.footerSocialicons)} key={1}>
                             {findUsOnData &&
                               findUsOnData.map(({ link, iconImage }, index) => {
@@ -552,6 +627,8 @@ class Footer extends React.Component<Props, FooterState> {
                           onChangeText={this.onChangeText}
                           shopLocations={this.props.data.shopLocations}
                           mobile={this.props.mobile}
+                          footerHeadingFontColor={footerHeadingFontColor}
+                          footerHeadingHoverColor={footerHeadingHoverColor}
                         />
                         {this.props.isSale ||
                         !this.props.data.footerPlaylistData?.ctaText ? (
@@ -589,21 +666,48 @@ class Footer extends React.Component<Props, FooterState> {
                           </ul>
                         )}
                       </div>
-                      {this.props.data.footerList?.map((footerItems, index) => {
+                      {this.props.data.footerList?.map((footerItems, i) => {
                         let res: any = "";
                         res = (
                           <div
-                            key={index}
+                            key={i}
                             className={cs(
-                              index == 3 ? bootstrap.colMd3 : bootstrap.colMd2,
+                              i == 3 ? bootstrap.colMd3 : bootstrap.colMd2,
                               bootstrap.px2,
                               styles.footerColumn
                             )}
                           >
-                            {footerItems.map((item, i) => {
+                            {footerItems.map((item, j) => {
                               return (
-                                <ul key={i} className={styles.column}>
-                                  <li>
+                                <ul key={j} className={styles.column}>
+                                  <li
+                                    style={{
+                                      color:
+                                        this.state.headingHoverArray[
+                                          this.indexOfHeading(i, j)
+                                        ] && item.link
+                                          ? footerHeadingHoverColor
+                                          : footerHeadingFontColor
+                                    }}
+                                    onMouseEnter={() => {
+                                      const items = [
+                                        ...this.state.headingHoverArray
+                                      ];
+                                      items[this.indexOfHeading(i, j)] = true;
+                                      this.setState({
+                                        headingHoverArray: items
+                                      });
+                                    }}
+                                    onMouseLeave={() => {
+                                      const items = [
+                                        ...this.state.headingHoverArray
+                                      ];
+                                      items[this.indexOfHeading(i, j)] = false;
+                                      this.setState({
+                                        headingHoverArray: items
+                                      });
+                                    }}
+                                  >
                                     {item.link ? (
                                       <Link
                                         to={item.link || "#"}
@@ -616,6 +720,36 @@ class Footer extends React.Component<Props, FooterState> {
                                           }
                                           valid.footerGTM(item.name);
                                         }}
+                                        style={{
+                                          color:
+                                            this.state.headingHoverArray[
+                                              this.indexOfHeading(i, j)
+                                            ] && item.link
+                                              ? footerHeadingHoverColor
+                                              : footerHeadingFontColor
+                                        }}
+                                        onMouseEnter={() => {
+                                          const items = [
+                                            ...this.state.headingHoverArray
+                                          ];
+                                          items[
+                                            this.indexOfHeading(i, j)
+                                          ] = true;
+                                          this.setState({
+                                            headingHoverArray: items
+                                          });
+                                        }}
+                                        onMouseLeave={() => {
+                                          const items = [
+                                            ...this.state.headingHoverArray
+                                          ];
+                                          items[
+                                            this.indexOfHeading(i, j)
+                                          ] = false;
+                                          this.setState({
+                                            headingHoverArray: items
+                                          });
+                                        }}
                                       >
                                         {item.name}
                                       </Link>
@@ -623,8 +757,38 @@ class Footer extends React.Component<Props, FooterState> {
                                       item.name
                                     )}
                                   </li>
-                                  {item.value.map((child, index) => (
-                                    <li key={index}>
+                                  {item.value.map((child, k) => (
+                                    <li
+                                      key={k}
+                                      style={{
+                                        color:
+                                          this.state.subheadingHoverArray[
+                                            this.indexOfSubHeading(i, j, k)
+                                          ] && child.link
+                                            ? footerSubHeadingHoverColor
+                                            : footerSubHeadingFontColor
+                                      }}
+                                      onMouseEnter={() => {
+                                        const items = this.state
+                                          .subheadingHoverArray;
+                                        items[
+                                          this.indexOfSubHeading(i, j, k)
+                                        ] = true;
+                                        this.setState({
+                                          subheadingHoverArray: items
+                                        });
+                                      }}
+                                      onMouseLeave={() => {
+                                        const items = this.state
+                                          .subheadingHoverArray;
+                                        items[
+                                          this.indexOfSubHeading(i, j, k)
+                                        ] = false;
+                                        this.setState({
+                                          subheadingHoverArray: items
+                                        });
+                                      }}
+                                    >
                                       {child.iconImage && (
                                         <img
                                           className={styles.footerConnectIcon}
@@ -644,6 +808,38 @@ class Footer extends React.Component<Props, FooterState> {
                                                 window.scrollTo(0, 0);
                                               }
                                               valid.footerGTM(child.text);
+                                            }}
+                                            style={{
+                                              color:
+                                                this.state.subheadingHoverArray[
+                                                  this.indexOfSubHeading(
+                                                    i,
+                                                    j,
+                                                    k
+                                                  )
+                                                ] && child.link
+                                                  ? footerSubHeadingHoverColor
+                                                  : footerSubHeadingFontColor
+                                            }}
+                                            onMouseEnter={() => {
+                                              const items = this.state
+                                                .subheadingHoverArray;
+                                              items[
+                                                this.indexOfSubHeading(i, j, k)
+                                              ] = true;
+                                              this.setState({
+                                                subheadingHoverArray: items
+                                              });
+                                            }}
+                                            onMouseLeave={() => {
+                                              const items = this.state
+                                                .subheadingHoverArray;
+                                              items[
+                                                this.indexOfSubHeading(i, j, k)
+                                              ] = false;
+                                              this.setState({
+                                                subheadingHoverArray: items
+                                              });
                                             }}
                                           >
                                             {child.text}
@@ -668,6 +864,34 @@ class Footer extends React.Component<Props, FooterState> {
                                               }
                                               valid.footerGTM(child.text);
                                             }}
+                                            style={{
+                                              color: this.state
+                                                .subheadingHoverArray[
+                                                this.indexOfSubHeading(i, j, k)
+                                              ]
+                                                ? footerSubHeadingHoverColor
+                                                : footerSubHeadingFontColor
+                                            }}
+                                            onMouseEnter={() => {
+                                              const items = this.state
+                                                .subheadingHoverArray;
+                                              items[
+                                                this.indexOfSubHeading(i, j, k)
+                                              ] = true;
+                                              this.setState({
+                                                subheadingHoverArray: items
+                                              });
+                                            }}
+                                            onMouseLeave={() => {
+                                              const items = this.state
+                                                .subheadingHoverArray;
+                                              items[
+                                                this.indexOfSubHeading(i, j, k)
+                                              ] = false;
+                                              this.setState({
+                                                subheadingHoverArray: items
+                                              });
+                                            }}
                                           >
                                             {child.text}
                                           </Link>
@@ -681,6 +905,34 @@ class Footer extends React.Component<Props, FooterState> {
                                           onClick={() =>
                                             valid.footerGTM(child.text)
                                           }
+                                          style={{
+                                            color: this.state
+                                              .subheadingHoverArray[
+                                              this.indexOfSubHeading(i, j, k)
+                                            ]
+                                              ? footerSubHeadingHoverColor
+                                              : footerSubHeadingFontColor
+                                          }}
+                                          onMouseEnter={() => {
+                                            const items = this.state
+                                              .subheadingHoverArray;
+                                            items[
+                                              this.indexOfSubHeading(i, j, k)
+                                            ] = true;
+                                            this.setState({
+                                              subheadingHoverArray: items
+                                            });
+                                          }}
+                                          onMouseLeave={() => {
+                                            const items = this.state
+                                              .subheadingHoverArray;
+                                            items[
+                                              this.indexOfSubHeading(i, j, k)
+                                            ] = false;
+                                            this.setState({
+                                              subheadingHoverArray: items
+                                            });
+                                          }}
                                         >
                                           {child.text}
                                         </a>
@@ -710,6 +962,8 @@ class Footer extends React.Component<Props, FooterState> {
                       onChangeText={this.onChangeText}
                       shopLocations={this.props.data.shopLocations}
                       mobile={this.props.mobile}
+                      footerHeadingFontColor={footerHeadingFontColor}
+                      footerHeadingHoverColor={footerHeadingHoverColor}
                     />
                     {this.props.mobile ? (
                       <div
@@ -721,7 +975,12 @@ class Footer extends React.Component<Props, FooterState> {
                           { [styles.footerSocialicons]: !this.props.saleStatus }
                         )}
                       >
-                        <div className={cs(styles.mobileFindUsOn)}>
+                        <div
+                          className={cs(styles.mobileFindUsOn)}
+                          style={{
+                            color: footerHeadingFontColor
+                          }}
+                        >
                           find us on
                         </div>
                         <div
