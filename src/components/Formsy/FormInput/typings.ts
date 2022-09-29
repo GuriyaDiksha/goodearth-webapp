@@ -25,6 +25,7 @@ export type Props = {
   inputRef?: RefObject<HTMLInputElement>;
   isPlaceholderVisible?: boolean;
   maxlength?: number;
+  defaultClass?: string;
 };
 
 export type State = {

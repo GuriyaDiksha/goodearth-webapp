@@ -79,7 +79,7 @@ const FormSelect: React.FC<Props & InjectedProps<string | null>> = props => {
       >
         {props.label}
       </label>
-      {errorMessage && <p className={globalStyles.errorMsg}>{errorMessage}</p>}
+      {errorMessage && <p className={styles.errorMsg}>{errorMessage}</p>}
       <span
         className={cs(
           { [styles.arrow]: true },

@@ -126,7 +126,7 @@ const FormInput: React.FC<Props & InjectedProps<string | null>> = props => {
           errorMessage || false
             ? globalStyles.errorBorder
             : props.inputClass || "",
-          props.value ? styles.black : styles.default
+          props.value ? styles.black : props.defaultClass || styles.default
         )}
         value={props.value || ""}
         placeholder={placeholder}
