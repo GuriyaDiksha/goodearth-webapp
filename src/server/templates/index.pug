@@ -221,6 +221,11 @@ html(lang='en')
           window.addEventListener('scroll', initializeFreshChat)
 
     body
+        script(src='https://platform.linkedin.com/in.js', type='text/javascript').
+          lang: en_US
+        script(type='IN/Share', data-url='https://www.linkedin.com').
+        #fb-root
+        script(async='', defer='', crossorigin='anonymous', src='https://connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v15.0', nonce='WeI6CMhM')
         noscript.
           <iframe src="https://www.googletagmanager.com/ns.html?id="+!{gtmdata}
             height="0" width="0" style="display:none;visibility:hidden"></iframe>
