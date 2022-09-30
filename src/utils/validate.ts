@@ -1666,7 +1666,7 @@ export const pageViewGTM = (Title: string) => {
         Phone: userInfo.phoneNumber ? sha256(userInfo.phoneNumber) : "",
         "External ID": userInfo.email ? sha256(userInfo.email) : "",
         Gender: userInfo.gender ? sha256(userInfo.gender) : "",
-        Birthdate: "", //format will be this before hashing - 19910526 for May 26, 1991.
+        Birthdate: userInfo.dob ? sha256(userInfo.dob) : "", //format will be this before hashing - 19910526 for May 26, 1991.
         City: "", // Lowercase with any spaces removed before hashing.
         "State or Province": userInfo.state
           ? sha256(userInfo.state?.toLowerCase())
