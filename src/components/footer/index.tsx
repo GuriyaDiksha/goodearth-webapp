@@ -509,34 +509,55 @@ class Footer extends React.Component<Props, FooterState> {
                                             />
                                           )}
                                           {currentValue.link ? (
-                                            <Link
-                                              to={
-                                                currentValue.text.toLowerCase() ==
-                                                  "good earth registry" &&
-                                                this.props.isLoggedIn
-                                                  ? "/account/bridal"
-                                                  : currentValue.link
-                                              }
-                                              onClick={() => {
-                                                if (
-                                                  this.props.location
-                                                    .pathname == list.link ||
-                                                  currentValue.text.toLowerCase() ==
-                                                    "good earth registry"
-                                                ) {
-                                                  window.scrollTo(0, 0);
-                                                }
-                                                valid.footerGTM(
-                                                  currentValue.text
-                                                );
-                                              }}
-                                              key={j}
-                                              style={{
-                                                color: footerSubHeadingFontColor
-                                              }}
-                                            >
-                                              {currentValue.text}
-                                            </Link>
+                                            currentValue.text.toLowerCase() ==
+                                              "good earth registry" &&
+                                            this.props.isLoggedIn ? (
+                                              <Link
+                                                to={"/account/bridal"}
+                                                onClick={() => {
+                                                  if (
+                                                    this.props.location
+                                                      .pathname == list.link ||
+                                                    currentValue.text.toLowerCase() ==
+                                                      "good earth registry"
+                                                  ) {
+                                                    window.scrollTo(0, 0);
+                                                  }
+                                                  valid.footerGTM(
+                                                    currentValue.text
+                                                  );
+                                                }}
+                                                key={j}
+                                                style={{
+                                                  color: footerSubHeadingFontColor
+                                                }}
+                                              >
+                                                {currentValue.text}
+                                              </Link>
+                                            ) : (
+                                              <a
+                                                href={currentValue.link}
+                                                onClick={() => {
+                                                  if (
+                                                    this.props.location
+                                                      .pathname == list.link ||
+                                                    currentValue.text.toLowerCase() ==
+                                                      "good earth registry"
+                                                  ) {
+                                                    window.scrollTo(0, 0);
+                                                  }
+                                                  valid.footerGTM(
+                                                    currentValue.text
+                                                  );
+                                                }}
+                                                key={j}
+                                                style={{
+                                                  color: footerSubHeadingFontColor
+                                                }}
+                                              >
+                                                {currentValue.text}
+                                              </a>
+                                            )
                                           ) : currentValue.newTabLink ? (
                                             <a
                                               href={currentValue.newTabLink}
