@@ -388,6 +388,9 @@ class Footer extends React.Component<Props, FooterState> {
                           [styles.subscribeSuccess]: !this.state.newsletterError
                         }
                       )}
+                      style={{
+                        color: "#b2b2b2"
+                      }}
                     >
                       {this.state.newsletterMessage}{" "}
                     </div>
