@@ -669,6 +669,7 @@ class OtpComponent extends React.Component<otpProps, otpState> {
                 : "Check Balance"
             }
             startTimer={this.state.startTimer}
+            setAttempts={this.changeAttepts}
           />
           // <>
           //   {radioType == "number" ? (
