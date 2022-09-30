@@ -208,6 +208,7 @@ const EmailVerification: React.FC<Props> = ({
           attempts={attempts}
           btnText={"Verify OTP"}
           startTimer={true}
+          setAttempts={setAttempts}
         />
         {/* <div className={cs(styles.para, styles.verifyPara)}>
           <p>

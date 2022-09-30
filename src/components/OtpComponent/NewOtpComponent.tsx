@@ -10,6 +10,7 @@ type Props = {
   otpSentVia: string;
   btnText: string;
   startTimer: boolean;
+  setAttempts: (x: any) => void;
 };
 
 const NewOtpComponent: React.FC<Props> = ({
@@ -19,7 +20,8 @@ const NewOtpComponent: React.FC<Props> = ({
   errorMsg,
   attempts,
   btnText,
-  startTimer
+  startTimer,
+  setAttempts
 }) => {
   const [timeRemaining, setTimeRemaining] = useState(90);
   const [timerId, setTimerId] = useState<any>();
@@ -95,6 +97,10 @@ const NewOtpComponent: React.FC<Props> = ({
       otp4: "",
       otp5: "",
       otp6: ""
+    });
+    setAttempts({
+      attempts: 0,
+      maxAttemptsAllow: 5
     });
     resendOtp();
     setTimeRemaining(90);
