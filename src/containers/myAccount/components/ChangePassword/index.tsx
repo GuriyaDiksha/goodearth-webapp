@@ -397,10 +397,11 @@ class ChangePassword extends React.Component<Props, State> {
                         <input
                           type="submit"
                           disabled={!updatePassword}
-                          className={cs(
-                            { [globalStyles.disabledBtn]: !updatePassword },
-                            globalStyles.ceriseBtn
-                          )}
+                          className={
+                            updatePassword
+                              ? styles.updateDetails
+                              : styles.updated
+                          }
                           value={updatePassword ? "Update Details" : "Updated"}
                         />
                       </div>

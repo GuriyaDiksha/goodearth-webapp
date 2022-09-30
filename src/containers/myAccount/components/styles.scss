@@ -711,8 +711,8 @@
     margin-top: -10px !important;
   }
   p {
+    @include b4_12px_montserrat_charcoal;
     text-align: left;
-    font-size: 13px;
     line-height: 20px;
   }
   ul {
@@ -724,23 +724,26 @@
       flex: 50%;
       line-height: 24px;
       text-align: left;
+      font-family: $font-Montserrat;
+      font-size: 10px;
+      color: #191919;
       &::before {
         content: '';
         display: inline-block;
-        height: 15px;
-        width: 15px;
+        height: 12px;
+        width: 12px;
         border-radius: 50%;
-        border: 1px solid;
+        border: 1px solid #9f9f9f;
         vertical-align: text-bottom;
         margin-right: 7px;
       }
       &.correct {
-        color: #86BAB4;
+        color: #548b8b;
         &::before {
           content: '';
-          height: 12px;
-          width: 7px;
-          border-width: 0 2px 2px 0;
+          height: 9px;
+          width: 5px;
+          border-width: 0 1px 1px 0;
           transform: rotate(45deg);
           border-radius: 0;
           vertical-align: baseline;
