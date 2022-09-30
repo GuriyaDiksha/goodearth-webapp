@@ -191,6 +191,9 @@
         }
         &:last-child {
           float: right;
+          height: 12px;
+          width: 12px;
+          color: #4C4C4C;
         }
       }
     }
@@ -397,6 +400,7 @@
     }
     &:after {
       content: '-';
+      font-size: 43px;
     }
   }
   .menulevel2 {
