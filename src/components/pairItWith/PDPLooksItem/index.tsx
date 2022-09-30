@@ -133,6 +133,31 @@ const PlpResultListViewItem: React.FC<PLPResultItemProps> = (
   //             />
   //           </div>
   //         ];
+  const getImageSrc = () => {
+    if (page == "ShopByLook") {
+      let src = "";
+      product.images?.map(item => {
+        if (item.looks_tagged) {
+          src = item.productImage;
+        }
+      });
+      if (!src) {
+        product.sliderImages?.map(item => {
+          if (item.looks_tagged) {
+            src = item.productImage.replace("/Micro/", "/Medium/");
+          }
+        });
+      }
+      return src || "/static/img/noimageplp.png";
+    } else {
+      return (
+        product.lookImageUrl ||
+        (product.images?.[0]
+          ? product.images?.[0].productImage
+          : "/static/img/noimageplp.png")
+      );
+    }
+  };
   return (
     <div className={styles.plpMain}>
       {product.salesBadgeImage && (
@@ -150,12 +175,7 @@ const PlpResultListViewItem: React.FC<PLPResultItemProps> = (
           {/* <MobileSlider>{mobileSlides}</MobileSlider> */}
           <LazyImage
             aspectRatio="62:93"
-            src={
-              product.lookImageUrl ||
-              (product.images?.[0]
-                ? product.images?.[0].productImage
-                : "/static/img/noimageplp.png")
-            }
+            src={getImageSrc()}
             alt={product.altText || product.title}
             className={styles.imageResultnew}
             isVisible={isVisible}

@@ -14,6 +14,12 @@ export type otpState = {
   isLoading: boolean;
   isResendOtpDisabled?: boolean;
   otpLimitError?: boolean;
+  attempts: {
+    attempts: number;
+    maxAttemptsAllow: number;
+  };
+  startTimer: boolean;
+  isOtpSent?: boolean;
 };
 
 export type otpProps = {

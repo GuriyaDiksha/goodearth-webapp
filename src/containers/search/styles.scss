@@ -71,6 +71,9 @@
   .image-container {
     margin-left: 20px;
   }
+  .product-number{
+    margin-left: 0;
+  }
 }
 
 .inner-header {
@@ -159,6 +162,14 @@
       padding-left: 6px;
       //margin-left: 35px;
     }
+    .search-res{
+      @include b3_14px_montserrat_light_charcoal();
+      padding-left: 0px;
+      span{
+        @include b1_16px_charcoal_montserrat();
+        padding-left: 0px;
+      }
+    }
 }
 
 .border {
@@ -238,28 +249,25 @@
 
 .filter-elements {
   span {
-    @include plp_filter_cat();
-    font-weight: normal;
+    @include b4_12px_medium_medcharcoal_caps();
     padding-left: 0px;
   }
   ul {
     li {
       line-height: 15px;
       span {
-        text-transform: capitalize;
-        &:first-child {
-          @include plp_filter_header();
-        }
-        &.ellipses{
-          color: $med-charcoal !important;
-        }
-        color: $cerise;
-        &:last-child {
-          float: right;
-          cursor: pointer;
-          font-size: 6px;
-          color: tint(#000, 50%);
-        }
+          text-transform: capitalize;
+          &:first-child {
+            @include b6_9px_montserrat_charcoal();
+            line-height: 30px;
+            height: 30px;
+            color: $charcoal19 !important;
+          }
+          &:last-child {
+            cursor: pointer;
+            font-size: 8px;
+            color: $charcoal19 !important;
+          }
       }
     }
   }
@@ -279,10 +287,9 @@
   
   li {
     letter-spacing: 0.5px;
-    line-height: 40px;
+    line-height: 50px;
     border-bottom: 1px solid tint(#000,90%);
-    @include b4_12px_montserrat_gold_caps();
-    font-weight: $medium;
+    @include b4_12px_medium_gold_caps();
     li {
       border-bottom: none;
       // padding-left: 20px;
@@ -292,13 +299,12 @@
         @include menu-copy();
       }
       li {
-        padding-left: 15px;
+        padding-left: 0px;
         label {
           white-space: nowrap;
           overflow: hidden;
           text-overflow: ellipsis;
           display: block;
-          cursor: pointer;
         }
 
       }
@@ -308,9 +314,10 @@
       @include plp_clear_filter();
       cursor: pointer;
       text-decoration: underline;
+      text-underline-offset: 2px;
       text-transform: capitalize;
       &:hover{
-        color: $aqua;
+        color: #3C7979;
       }
     }
   }
@@ -736,7 +743,7 @@ input[type="radio"]:checked, [type="checkbox"]:not(:checked),
 }
 
 .search-block-page {
-  cursor: pointer;
+  // cursor: pointer;
   input {
     width: 100%;
     background-color: $white;
@@ -870,22 +877,21 @@ input[type="radio"]:checked, [type="checkbox"]:not(:checked),
 
 .filter-item-cross {
   right: 18px;
-  top: 3px;
+  top: 8px;
   position: relative;
   float: right;
   cursor: pointer;
   font-size: 10px;
   color: black !important;
-  height: 30px;
   width: 15px;
 }
 
 .filter-item {
-  background-color: rgba(0,0,0,0.1);
-  padding: 3px 25px 3px 10px !important;
-  border-radius: 20px;
+  background-color: #F2F2F2;
+  padding: 0px 30px 0px 10px !important;
+  border-radius: 13px;
   cursor: default;
-  color: $gold!important;
+  color: $charcoal19;
   margin-bottom: 10px;
 }
 

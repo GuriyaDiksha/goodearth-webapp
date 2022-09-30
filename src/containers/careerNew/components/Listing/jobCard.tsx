@@ -9,13 +9,14 @@ import * as valid from "utils/validate";
 import { useStore } from "react-redux";
 import { useHistory } from "react-router";
 import { copyToClipboard } from "utils/clipboard";
+import cs from "classnames";
 
 type Props = {
   job: Data;
 };
 
 const JobCard: React.FC<Props> = ({ job }) => {
-  const { title, loc, summary, id } = job;
+  const { title, loc, summary, id, fbUrl, linkedinUrl } = job;
   const { dispatch } = useStore();
   const history = useHistory();
 
@@ -58,7 +59,9 @@ const JobCard: React.FC<Props> = ({ job }) => {
               <img src={email} alt="email" />
             </a>
             <a
-              href="https://in.linkedin.com/"
+              href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(
+                linkedinUrl
+              )}`}
               target="_blank"
               rel="noopener noreferrer"
               className={listing.icon_wrp}
@@ -66,9 +69,11 @@ const JobCard: React.FC<Props> = ({ job }) => {
               <img src={linkedin} alt="linkedin" />
             </a>
             <a
-              href="https://www.facebook.com/GoodEarthIndia/"
               target="_blank"
-              className={listing.icon_wrp}
+              href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
+                fbUrl
+              )}`}
+              className={cs("fb-xfbml-parse-ignore", listing.icon_wrp)}
               rel="noopener noreferrer"
             >
               <img src={fb} alt="fb" />

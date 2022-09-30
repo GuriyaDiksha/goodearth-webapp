@@ -574,6 +574,8 @@ export default {
       expired: boolean;
       email: string;
       message: string;
+      attempts: number;
+      maxAttemptsAllow: number;
     }>(dispatch, `${__API_HOST__}/myapi/customer/verify_user_otp/`, {
       email,
       otp

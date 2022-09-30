@@ -145,6 +145,63 @@ export function productForBasketGa(data: Basket, currency: Currency) {
   return product;
 }
 
+export function dataForBilling(data: Basket, currency: Currency) {
+  let product: any = [];
+  if (data.lineItems) {
+    let categoryName = "";
+    // let subcategory = "";
+    let collectionName = "";
+    product = data.lineItems.map((prod, ind) => {
+      const realPrice = prod.GCValue;
+      let category = "";
+      const { product } = prod;
+      if (product.categories) {
+        const index = product.categories.length - 1;
+        category = product.categories[index]
+          ? product.categories[index].replace(/\s/g, "")
+          : "";
+        categoryName = category.split(">")[0];
+        // subcategory = category.split(">")[1];
+        if (
+          !collectionName &&
+          product.collections &&
+          product.collections.length > 0
+        ) {
+          collectionName = product.collections[0];
+        }
+        category = category.replace(/>/g, "/");
+      }
+      return Object.assign(
+        {},
+        {
+          item_id: prod.product.childAttributes[0].sku, //Pass the product id
+          item_name: prod.product.title, // Pass the product name
+          affiliation: prod.product.title, // Pass the product name
+          coupon: "", // Pass the coupon if available
+          currency: currency, // Pass the currency code
+          discount: product.discountedPriceRecords
+            ? product.discountedPriceRecords[currency]
+            : product.priceRecords[currency], // Pass the discount amount
+          index: ind,
+          item_brand: "Goodearth",
+          item_category: categoryName,
+          item_category2: prod.product.childAttributes[0].size,
+          item_category3: "",
+          item_list_id: "",
+          item_list_name: "",
+          item_variant: "",
+          item_category4: "",
+          item_category5: collectionName,
+          price: realPrice,
+          quantity: prod.quantity
+        }
+      );
+    });
+  }
+
+  return product;
+}
+
 export function productForGa(data: Basket) {
   let product: any = [];
   if (data.lineItems) {
@@ -201,6 +258,100 @@ export function proceedTocheckout(data: Basket, currency: Currency) {
         }
       );
     });
+    let categoryName = "";
+    // let subcategory = "";
+    let collectionName = "";
+    const childAttr = data.lineItems.map((child: any, index: number) => {
+      let category = "";
+      const { product } = child;
+      const realPrice = child.GCValue;
+      if (product.categories) {
+        const index = product.categories.length - 1;
+        category = product.categories[index]
+          ? product.categories[index].replace(/\s/g, "")
+          : "";
+        categoryName = category.split(">")[0];
+        // subcategory = category.split(">")[1];
+        if (
+          !collectionName &&
+          product.collections &&
+          product.collections.length > 0
+        ) {
+          collectionName = product.collections[0];
+        }
+        category = category.replace(/>/g, "/");
+      }
+      let skus = "";
+      let variants = "";
+      let prices = "";
+
+      product.childAttributes.map((child: any) => {
+        skus += "," + child.sku;
+        variants += "," + child.size;
+        prices += "," + child.GCValue;
+      });
+      skus = skus.slice(1);
+      variants = variants.slice(1);
+      prices = prices.slice(1);
+      return Object.assign(
+        {},
+        {
+          item_id: skus, //Pass the product id
+          item_name: product.title,
+          affiliation: "",
+          coupon: "", // Pass the coupon if available
+          currency: currency, // Pass the currency code
+          discount: product.discountedPriceRecords
+            ? product.discountedPriceRecords[currency]
+            : product.priceRecords[currency], // Pass the discount amount
+          index: index,
+          item_brand: "goodearth",
+          item_category: categoryName,
+          item_category2: variants,
+          item_category3: "",
+          item_list_id: "",
+          item_list_name: "",
+          item_variant: "",
+          item_category4: "",
+          item_category5: collectionName,
+          price: realPrice,
+          quantity: 1
+        }
+      );
+    });
+    if (userConsent.includes(GA_CALLS)) {
+      dataLayer.push({ ecommerce: null }); // Clear the previous ecommerce object.
+      dataLayer.push({
+        event: "begin_checkout",
+        ecommerce: {
+          items: childAttr
+        }
+      });
+    }
+    if (userConsent.includes(ANY_ADS)) {
+      Moengage.track_event("Proceed to checkout", {
+        "Product id": skusid,
+        "Product name": productname,
+        Quantity: quantitys,
+        price: priceschild,
+        Currency: currency,
+        Size: variantspdp,
+        // "Percentage discount",
+        // "Collection name": data.collection,
+        "Category name": categoryname,
+        "Sub Category Name": subcategoryname
+      });
+    }
+  }
+}
+
+export function proceedForPayment(
+  data: Basket,
+  currency: Currency,
+  paymentMethod: string
+) {
+  if (data.lineItems) {
+    const userConsent = CookieService.getCookie("consent").split(",");
     let categoryName = "";
     let subcategory = "";
     let collectionName = "";
@@ -268,24 +419,14 @@ export function proceedTocheckout(data: Basket, currency: Currency) {
     if (userConsent.includes(GA_CALLS)) {
       dataLayer.push({ ecommerce: null }); // Clear the previous ecommerce object.
       dataLayer.push({
-        event: "begin_checkout",
+        event: "add_payment_info",
         ecommerce: {
+          currency: currency, // Pass the currency code
+          value: data.total,
+          coupon: "", // Pass the coupon if available
+          payment_type: paymentMethod,
           items: childAttr
         }
-      });
-    }
-    if (userConsent.includes(ANY_ADS)) {
-      Moengage.track_event("Proceed to checkout", {
-        "Product id": skusid,
-        "Product name": productname,
-        Quantity: quantitys,
-        price: priceschild,
-        Currency: currency,
-        Size: variantspdp,
-        // "Percentage discount",
-        // "Collection name": data.collection,
-        "Category name": categoryname,
-        "Sub Category Name": subcategoryname
       });
     }
   }
@@ -416,6 +557,7 @@ export function productImpression(
 
     const childAttr = data.results?.data.map((child: any, index: number) => {
       let category = "";
+
       if (child.categories) {
         const index = child.categories.length - 1;
         category = child.categories[index]
@@ -1247,6 +1389,7 @@ export const checkoutGTM = (
   paymentMethod?: string
 ) => {
   const productList = productForBasketGa(basket, currency);
+  const itemList = dataForBilling(basket, currency);
   const fbproductData = productForGa(basket);
   const totalId = basket.lineItems.map(prod => {
     return {
@@ -1271,6 +1414,16 @@ export const checkoutGTM = (
       total_item: basket.lineItems.length,
       content_ids: totalId,
       contents: fbproductData
+    });
+    dataLayer.push({ ecommerce: null }); // Clear the previous ecommerce object.
+    dataLayer.push({
+      event: "add_billing_info",
+      ecommerce: {
+        currency: currency, // Pass the currency code
+        value: basket.total,
+        coupon: "",
+        items: itemList
+      }
     });
   }
   // if(step == 4) {

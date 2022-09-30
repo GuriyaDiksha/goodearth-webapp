@@ -65,7 +65,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
         item_brand: "Goodearth",
         item_category: arr[arr.length - 2],
         item_category2: arr[arr.length - 1],
-        item_category3: "",
+        item_category3: line.product.is3DView ? "3d" : "non 3d",
         item_list_id: "",
         item_list_name: "",
         item_variant: line.product.size || "",
@@ -94,7 +94,10 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
       return {
         name: line.title,
         id: line.product.sku,
-        price: +line.priceExclTax,
+        price: line.isEgiftCard
+          ? +line.priceExclTax
+          : line.product.pricerecords[result.currency],
+        dimension8: line.product.is3DView ? "View3d" : "nonView3d",
         brand: "Goodearth",
         category: category,
         variant: line.product.size || "",
@@ -184,7 +187,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
         });
         dataLayer.push({ ecommerce: null }); // Clear the previous ecommerce object.
         dataLayer.push({
-          event: "purchase",
+          event: "GA4_purchase",
           ecommerce: {
             transaction_id: result.transactionId,
             affiliation: "Online Store", // Pass the product name
@@ -228,7 +231,17 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
   };
   useEffect(() => {
     fetchData().then(response => {
-      setConfirmData(response.results?.[0]);
+      const res = response.results?.[0];
+      if (res.voucherDiscounts?.length > 0) {
+        for (let i = 0; i < res.voucherDiscounts.length; i++) {
+          for (let j = 0; j < res.offerDiscounts.length; i++) {
+            if (res.voucherDiscounts[i].name == res.offerDiscounts[j].name) {
+              res.offerDiscounts.splice(i, 1);
+            }
+          }
+        }
+      }
+      setConfirmData(res);
       gtmPushOrderConfirmation(response.results?.[0]);
     });
     const userConsent = CookieService.getCookie("consent").split(",");
@@ -615,7 +628,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
               </div>
             </div>
           </div>
-          {/* <div className={cs(bootstrapStyles.row, styles.white)}>
+          <div className={cs(bootstrapStyles.row, styles.white)}>
             <div className={cs(styles.priceSection)}>
               <div className={cs(styles.subTotalSection)}>
                 <p>SUBTOTAL</p>
@@ -626,15 +639,11 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                   &nbsp; {parseFloat(confirmData.orderSubTotal).toFixed(2)}
                 </p>
               </div>
-
+              {/* Filter this key and remove vouchers */}
               {confirmData?.offerDiscounts?.map(
                 (discount: { name: string; amount: string }, index: number) => (
                   <div className={cs(styles.discountSection)} key={index}>
-                    <p>
-                      {discount.name == "price-discount"
-                        ? "DISCOUNT"
-                        : discount.name}
-                    </p>
+                    <p>{discount.name}</p>
                     <p>
                       (-){" "}
                       {String.fromCharCode(
@@ -657,16 +666,58 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                 </p>
               </div>
 
-              <div className={cs(styles.discountSection)}>
-                <p>Gift Card</p>
-                <p>
-                  (-){" "}
-                  {String.fromCharCode(
-                    ...currencyCode[confirmData.currency as Currency]
-                  )}
-                  &nbsp; {giftCardAmount.toFixed(2)}
-                </p>
-              </div>
+              {confirmData.voucherDiscounts.map((vd: any, i: number) => (
+                <div
+                  className={cs(styles.discountSection)}
+                  key={`voucher_${i}`}
+                >
+                  <p>{vd.name}</p>
+                  <p>
+                    (-){" "}
+                    {String.fromCharCode(
+                      ...currencyCode[confirmData.currency as Currency]
+                    )}
+                    &nbsp; {parseFloat(vd.amount).toFixed(2)}
+                  </p>
+                </div>
+              ))}
+
+              {confirmData.giftVoucherRedeemed.map(
+                (gccn: number, i: number) => (
+                  <div className={cs(styles.discountSection)} key={`gccn_${i}`}>
+                    <p>Gift Card/Credit Note</p>
+                    <p>
+                      (-){" "}
+                      {String.fromCharCode(
+                        ...currencyCode[confirmData.currency as Currency]
+                      )}
+                      &nbsp;{" "}
+                      {parseFloat(confirmData.giftVoucherRedeemed).toFixed(2)}
+                    </p>
+                  </div>
+                )
+              )}
+
+              {confirmData.loyalityPointsRedeemed.map(
+                (gccn: number, i: number) => (
+                  <div
+                    className={cs(styles.discountSection)}
+                    key={`loyalty_${i}`}
+                  >
+                    <p>Loyalty Points</p>
+                    <p>
+                      (-){" "}
+                      {String.fromCharCode(
+                        ...currencyCode[confirmData.currency as Currency]
+                      )}
+                      &nbsp;{" "}
+                      {parseFloat(confirmData.loyalityPointsRedeemed).toFixed(
+                        2
+                      )}
+                    </p>
+                  </div>
+                )
+              )}
 
               <div className={cs(styles.subTotalSection)}>
                 <p>AMOUNT PAYABLE</p>
@@ -678,7 +729,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                 </p>
               </div>
             </div>
-          </div> */}
+          </div>
 
           <div className={bootstrapStyles.row}>
             <div

@@ -406,7 +406,12 @@ const AddressItem: React.FC<Props> = props => {
           </div>
           <div className={styles.line}>{address.city}</div>
           <div className={styles.line}>
-            {address.state}, {address.postCode}
+            {address.state
+              ? address.state
+              : address.province
+              ? address.province
+              : ""}
+            , {address.postCode == "000000" ? "" : address.postCode}
           </div>
           <div className={styles.line}>{address.countryName}</div>
           <div
@@ -497,6 +502,7 @@ const AddressItem: React.FC<Props> = props => {
                         behavior: "smooth"
                       });
                     }
+                    window.scrollTo(0, 0);
                   }
                 }}
               >

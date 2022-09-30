@@ -477,13 +477,13 @@ class RegisterForm extends React.Component<Props, registerState> {
           </div>
           <div className={styles.userGenderPicker}>
             <FormSelect
-              required
               name="gender"
               label="Select Gender*"
               placeholder="Select Gender*"
               options={genderOptions}
               disable={!this.state.showFields}
               className={this.state.showFields ? "" : styles.disabledInput}
+              required
             />
           </div>
           <div className={styles.calendarIconContainer}>
@@ -566,6 +566,12 @@ class RegisterForm extends React.Component<Props, registerState> {
                 isPhoneValid: "Please enter your Contact Number"
               }}
               keyPress={e => (e.key == "Enter" ? e.preventDefault() : "")}
+              keyDown={e => (e.which === 69 ? e.preventDefault() : null)}
+              onPaste={e =>
+                e?.clipboardData.getData("Text").match(/([e|E])/)
+                  ? e.preventDefault()
+                  : null
+              }
             />
           </div>
           <div>
@@ -676,17 +682,11 @@ class RegisterForm extends React.Component<Props, registerState> {
               ]}
             />
           </div>
-          <div>
-            <p
-              className={
-                this.state.msgt
-                  ? cs(globalStyles.errorMsg, globalStyles.wordCap)
-                  : globalStyles.hiddenEye
-              }
-            >
+          {this.state.msgt && (
+            <p className={cs(styles.errorMsg, globalStyles.textLeft)}>
               Please accept the Terms & Conditions
             </p>
-          </div>
+          )}
           <div>
             {this.state.showerror ? (
               <p className={styles.loginErrMsg}>{this.state.showerror}</p>

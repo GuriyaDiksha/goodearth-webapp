@@ -216,6 +216,12 @@ const NotificationForm: React.FC = () => {
                 matchRegexp: "Please enter valid a phone number",
                 isNumeric: "Phone should contain numbers"
               }}
+              keyDown={e => (e.which === 69 ? e.preventDefault() : null)}
+              onPaste={e =>
+                e?.clipboardData.getData("Text").match(/([e|E])/)
+                  ? e.preventDefault()
+                  : null
+              }
             />
           </div>
           <div className={styles.label}>

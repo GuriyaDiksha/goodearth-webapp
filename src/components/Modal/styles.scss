@@ -8,7 +8,7 @@
   top: 0;
   left: 0;
   background: rgba(0,0,0,0.7);
-  z-index: 100;
+  z-index: 1000009;
 }
 
 .body {
@@ -25,6 +25,20 @@
     width: 100%;
     height: 100%;
     transform: translate(0,0);
+  }
+  &.bottom-align{
+    top: unset;
+    left: unset;
+    transform: unset;
+    bottom: 0;
+  }
+  &.bottom-align-slide-up{
+    top: unset;
+    left: unset;
+    transform: unset;
+    bottom: 0px;
+    max-height: 0px;
+    transition: max-height 0.5s; 
   }
 }
 

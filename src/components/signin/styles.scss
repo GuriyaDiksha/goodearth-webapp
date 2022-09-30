@@ -120,20 +120,17 @@ input[type="checkbox"]:checked + label {
 }
 
 .login-change {
+  @include b5_10px_montserrat_charcoal();
   border: 1px solid #eee;
   padding: 15px;
   padding-left: 8px;
   top: 0px;
-  right: 0px;
+  right: 5px;
   width: 54px;
   border-left: none;
+  border-right: none;
   position: absolute;
   cursor: pointer;
-  font-size: 10px;
-  font-style: italic;
-  color: #ab1e56 !important;
-  font-weight: bold;
-  font-family: $font-Lato;
   letter-spacing: 1px;
   text-transform: none;
   line-height: 15px;
@@ -280,4 +277,9 @@ span.error-msg {
 }
 .verify-subheading {
   letter-spacing: 0.3px;
+}
+
+.error-msg {
+  @include err_13px_lora_italic_cerise();
+  letter-spacing: 0.5px;
 }

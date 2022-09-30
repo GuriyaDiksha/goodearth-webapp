@@ -308,7 +308,7 @@
 }
 
 .filter-side-menu {
-  height: calc(100vh - 185px);
+  height: calc(100vh - 240px);
   overflow:scroll;
   &::-webkit-scrollbar {
     display: none;
@@ -321,7 +321,7 @@
 
   li {
     letter-spacing: 0.5px;
-    line-height: 40px;
+    line-height: 50px;
     border-bottom: 1px solid tint(#000,90%);
     @include b4_12px_medium_gold_caps();
     li {
