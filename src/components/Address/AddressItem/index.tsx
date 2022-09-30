@@ -502,6 +502,7 @@ const AddressItem: React.FC<Props> = props => {
                         behavior: "smooth"
                       });
                     }
+                    window.scrollTo(0, 0);
                   }
                 }}
               >
