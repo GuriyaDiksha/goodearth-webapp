@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import style from "./styles.scss";
 import cs from "classnames";
 
@@ -32,6 +32,7 @@ const NewOtpComponent: React.FC<Props> = ({
     otp5: "",
     otp6: ""
   });
+  const count = useRef(0);
 
   const secondsToMinutes = (seconds: number) => {
     const minutes = Math.floor(seconds / 60);
@@ -87,6 +88,14 @@ const NewOtpComponent: React.FC<Props> = ({
 
   const resetTimer = () => {
     setError("");
+    setInput({
+      otp1: "",
+      otp2: "",
+      otp3: "",
+      otp4: "",
+      otp5: "",
+      otp6: ""
+    });
     resendOtp();
     setTimeRemaining(90);
     timer();
@@ -94,9 +103,13 @@ const NewOtpComponent: React.FC<Props> = ({
 
   const onOtpChange = (e: any) => {
     const max_chars = 2;
-
     if (e.target.value.length < max_chars) {
-      setInput({ ...input, [e.target.name]: e.target.value });
+      if (count.current !== 0) {
+        setInput({ ...input, [`otp${count?.current}`]: "" });
+        count.current = 0;
+      } else {
+        setInput({ ...input, [e.target.name]: e.target.value });
+      }
       setError("");
       if (e.target.value !== "") {
         const ele =
@@ -132,6 +145,18 @@ const NewOtpComponent: React.FC<Props> = ({
     setInput(newObj);
   };
 
+  const handleKeyDown = (e: any) => {
+    if (e.key === "Backspace") {
+      const ele =
+        typeof document == "object" &&
+        document.getElementById(`otp${+e.target.id.match(/\d+/)[0] - 1}`);
+      if (ele) {
+        ele.focus();
+        count.current = +e.target.id.match(/\d+/)[0];
+      }
+    }
+  };
+
   return (
     <div className={style.otpWrp}>
       <p className={style.otpHeading}>
@@ -144,6 +169,7 @@ const NewOtpComponent: React.FC<Props> = ({
             value={input["otp1"]}
             onChange={e => onOtpChange(e)}
             onPaste={e => onPasteOtp(e)}
+            onKeyDown={e => handleKeyDown(e)}
             id="otp1"
             type="number"
             name="otp1"
@@ -155,6 +181,7 @@ const NewOtpComponent: React.FC<Props> = ({
             value={input["otp2"]}
             onChange={e => onOtpChange(e)}
             onPaste={e => onPasteOtp(e)}
+            onKeyDown={e => handleKeyDown(e)}
             id="otp2"
             type="number"
             name="otp2"
@@ -166,6 +193,7 @@ const NewOtpComponent: React.FC<Props> = ({
             value={input["otp3"]}
             onChange={e => onOtpChange(e)}
             onPaste={e => onPasteOtp(e)}
+            onKeyDown={e => handleKeyDown(e)}
             id="otp3"
             type="number"
             name="otp3"
@@ -177,6 +205,7 @@ const NewOtpComponent: React.FC<Props> = ({
             value={input["otp4"]}
             onChange={e => onOtpChange(e)}
             onPaste={e => onPasteOtp(e)}
+            onKeyDown={e => handleKeyDown(e)}
             id="otp4"
             type="number"
             name="otp4"
@@ -188,6 +217,7 @@ const NewOtpComponent: React.FC<Props> = ({
             value={input["otp5"]}
             onChange={e => onOtpChange(e)}
             onPaste={e => onPasteOtp(e)}
+            onKeyDown={e => handleKeyDown(e)}
             id="otp5"
             type="number"
             name="otp5"
@@ -199,6 +229,7 @@ const NewOtpComponent: React.FC<Props> = ({
             value={input["otp6"]}
             onChange={e => onOtpChange(e)}
             onPaste={e => onPasteOtp(e)}
+            onKeyDown={e => handleKeyDown(e)}
             id="otp6"
             type="number"
             name="otp6"
@@ -214,7 +245,7 @@ const NewOtpComponent: React.FC<Props> = ({
           `Resend OTP code in: ${secondsToMinutes(timeRemaining)}s`
         ) : (
           <div className={style.otpResend}>
-            DIDN’T RECEIVE OTP ?{" "}
+            DIDN’T RECEIVE OTP?{" "}
             <span onClick={() => resetTimer()}>RE-SEND OTP</span>
           </div>
         )}
@@ -239,7 +270,7 @@ const NewOtpComponent: React.FC<Props> = ({
       </p>
       <a
         className={style.otpPolicy}
-        href={`/customer-assistance/cookie-policy`}
+        href={`/customer-assistance/privacy-policy`}
         rel="noopener noreferrer"
         target="_blank"
       >
