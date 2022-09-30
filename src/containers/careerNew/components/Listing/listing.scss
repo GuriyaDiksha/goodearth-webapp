@@ -9,25 +9,39 @@
     
         .career_list_wrp_left{
             // width: 30%;
-            padding: 45px;
-            margin-right: 2px;
+            // padding: 45px;
+            // margin-right: 2px;
             position: sticky;
             position: -webkit-sticky;
             top: 80px;
             align-self: flex-start;
             background: $white 0% 0% no-repeat padding-box;
-            box-shadow: 0px 0px 6px #00000029;
-            min-height: 100vh;
+            // box-shadow: 0px 0px 6px #00000029;
+            min-height: 90vh;
+            margin: 30px 30px 0 30px;
+            overflow: auto;
+            &::-webkit-scrollbar {
+                display: none;
+              }
+            height: 90vh;
+
+            @media screen and (max-width:992px) {
+                height: 100vh;
+                margin: 0;
+                padding: 30px 30px 0 30px;
+            }
 
     
             .filter_li{
-                margin-bottom: 40px;
+                line-height: 50px;
+                border-bottom: 1px solid #e6e6e6;
         
                     .filter_label{
                         // text-align: center;
-                        font: normal normal normal 12px/20px $font-Montserrat;
-                        letter-spacing: 0.36px;
-                        color: $charcoal19;
+                        // font: normal normal normal 12px/20px $font-Montserrat;
+                        // letter-spacing: 0.36px;
+                        // color: $charcoal19;     
+                        @include b4_12px_montserrat_gold();
                         text-transform: uppercase;
                         opacity: 1;
                         cursor: pointer;
@@ -41,9 +55,13 @@
                             height: 8px;
                             transform: rotate(45deg);
                             position: absolute;
-                            right: 50px;
-                            margin-top: 8px;
+                            right: 10px;
+                            margin-top: 20px;
                             transition: all 0.3s ease-out;
+
+                            @media screen and (max-width:992px) {
+                                right: 31px;
+                            }
                           }
                     }
                     .filter_applied{
@@ -71,9 +89,10 @@
                     }
                     .filter_label_open {
                         // text-align: center;
-                        font: normal normal normal 12px/20px $font-Montserrat;
-                        letter-spacing: 0.36px;
-                        color: $charcoal19;
+                        // font: normal normal normal 12px/20px $font-Montserrat;
+                        // letter-spacing: 0.36px;
+                        // color: $charcoal19;
+                        @include b4_12px_montserrat_gold();
                         text-transform: uppercase;
                         opacity: 1;
                         cursor: pointer;
@@ -86,9 +105,13 @@
                           height: 8px;
                           transform: rotate(-135deg);
                           position: absolute;
-                          right: 50px;
-                          margin-top: 8px;
+                          right: 10px;
+                          margin-top: 20px;
                           transition: all 0.3s ease-out;
+
+                          @media screen and (max-width:992px) {
+                            right: 31px;
+                          }
                         }
                     }
         
@@ -100,7 +123,7 @@
                 transition:max-height 0.3s ease-in;
                 max-height: 1000px;
                 overflow: hidden;
-                margin:5px;
+                // margin:5px;
     
                     [type="checkbox"]:checked + label,
                      [type="checkbox"]:not(:checked) + label{
@@ -214,6 +237,7 @@
                 max-height: 0px;
                 overflow: hidden;
                 transition:max-height 0.3s ease-out;
+                // margin: 0;
             }
             }
 
@@ -236,7 +260,6 @@
                 position: relative;
                 display: block;
                 width: 100%;
-                padding: 24px;
                 transition: all 0.3s ease-in;
                 opacity: 1;
                 transform: translateY(0);

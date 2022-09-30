@@ -9,6 +9,8 @@ export type Data = {
   desc: string;
   req: string;
   deptDesc: string;
+  fbUrl: string;
+  linkedinUrl: string;
 };
 
 export type Depts = {

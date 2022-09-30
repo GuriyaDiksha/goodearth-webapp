@@ -137,76 +137,77 @@ const NewOtpComponent: React.FC<Props> = ({
       <p className={style.otpHeading}>
         OTP has been sent to you via your {otpSentVia}. Please enter below:
       </p>
-
-      <div className={style.otpInputWrp}>
-        <input
-          className={cs(style.otpInput, error ? style.error : "")}
-          value={input["otp1"]}
-          onChange={e => onOtpChange(e)}
-          onPaste={e => onPasteOtp(e)}
-          id="otp1"
-          type="number"
-          name="otp1"
-          min={0}
-          max={9}
-        />
-        <input
-          className={cs(style.otpInput, error ? style.error : "")}
-          value={input["otp2"]}
-          onChange={e => onOtpChange(e)}
-          onPaste={e => onPasteOtp(e)}
-          id="otp2"
-          type="number"
-          name="otp2"
-          min={0}
-          max={9}
-        />
-        <input
-          className={cs(style.otpInput, error ? style.error : "")}
-          value={input["otp3"]}
-          onChange={e => onOtpChange(e)}
-          onPaste={e => onPasteOtp(e)}
-          id="otp3"
-          type="number"
-          name="otp3"
-          min={0}
-          max={9}
-        />
-        <input
-          className={cs(style.otpInput, error ? style.error : "")}
-          value={input["otp4"]}
-          onChange={e => onOtpChange(e)}
-          onPaste={e => onPasteOtp(e)}
-          id="otp4"
-          type="number"
-          name="otp4"
-          min={0}
-          max={9}
-        />
-        <input
-          className={cs(style.otpInput, error ? style.error : "")}
-          value={input["otp5"]}
-          onChange={e => onOtpChange(e)}
-          onPaste={e => onPasteOtp(e)}
-          id="otp5"
-          type="number"
-          name="otp5"
-          min={0}
-          max={9}
-        />
-        <input
-          className={cs(style.otpInput, error ? style.error : "")}
-          value={input["otp6"]}
-          onChange={e => onOtpChange(e)}
-          onPaste={e => onPasteOtp(e)}
-          id="otp6"
-          type="number"
-          name="otp6"
-          min={0}
-          max={9}
-        />
+      <div className={style.otpInputErr}>
+        <div className={style.otpInputWrp}>
+          <input
+            className={cs(style.otpInput, error ? style.error : "")}
+            value={input["otp1"]}
+            onChange={e => onOtpChange(e)}
+            onPaste={e => onPasteOtp(e)}
+            id="otp1"
+            type="number"
+            name="otp1"
+            min={0}
+            max={9}
+          />
+          <input
+            className={cs(style.otpInput, error ? style.error : "")}
+            value={input["otp2"]}
+            onChange={e => onOtpChange(e)}
+            onPaste={e => onPasteOtp(e)}
+            id="otp2"
+            type="number"
+            name="otp2"
+            min={0}
+            max={9}
+          />
+          <input
+            className={cs(style.otpInput, error ? style.error : "")}
+            value={input["otp3"]}
+            onChange={e => onOtpChange(e)}
+            onPaste={e => onPasteOtp(e)}
+            id="otp3"
+            type="number"
+            name="otp3"
+            min={0}
+            max={9}
+          />
+          <input
+            className={cs(style.otpInput, error ? style.error : "")}
+            value={input["otp4"]}
+            onChange={e => onOtpChange(e)}
+            onPaste={e => onPasteOtp(e)}
+            id="otp4"
+            type="number"
+            name="otp4"
+            min={0}
+            max={9}
+          />
+          <input
+            className={cs(style.otpInput, error ? style.error : "")}
+            value={input["otp5"]}
+            onChange={e => onOtpChange(e)}
+            onPaste={e => onPasteOtp(e)}
+            id="otp5"
+            type="number"
+            name="otp5"
+            min={0}
+            max={9}
+          />
+          <input
+            className={cs(style.otpInput, error ? style.error : "")}
+            value={input["otp6"]}
+            onChange={e => onOtpChange(e)}
+            onPaste={e => onPasteOtp(e)}
+            id="otp6"
+            type="number"
+            name="otp6"
+            min={0}
+            max={9}
+          />
+        </div>
+        {error ? <p className={style.otpError}>{error}</p> : null}
       </div>
-      {error ? <p className={style.otpError}>{error}</p> : null}
 
       <p className={style.otpTimer}>
         {timeRemaining ? (
@@ -238,7 +239,7 @@ const NewOtpComponent: React.FC<Props> = ({
       </p>
       <a
         className={style.otpPolicy}
-        href={`${window.location.hostname}/customer-assistance/cookie-policy`}
+        href={`/customer-assistance/cookie-policy`}
         rel="noopener noreferrer"
         target="_blank"
       >

@@ -257,7 +257,7 @@ class OtpCompActivateGC extends React.Component<otpProps, otpState> {
     const newData = otpData;
     newData["otp"] = value;
     delete newData["inputType"];
-    this.setState({ otp: value });
+    this.setState({ otp: value, showerror: "" });
     if (this.props.otpFor == "activateGC") {
       this.props.activateGiftCard &&
         this.props
@@ -465,7 +465,8 @@ class OtpCompActivateGC extends React.Component<otpProps, otpState> {
   sendOtpApiCall = (formData: any, isResendOtp: boolean) => {
     this.setState({
       disable: true,
-      isLoading: true
+      isLoading: true,
+      showerror: ""
     });
     this.props
       .sendOtp(formData)

@@ -40,5 +40,6 @@ input[type="date"] {
 }
 
 .error-msg {
-  @include err_13px_lora_italic_cerise();  
+  @include err_13px_lora_italic_cerise();
+  letter-spacing: 0.5px;
 }

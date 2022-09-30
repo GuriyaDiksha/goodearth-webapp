@@ -1,5 +1,6 @@
 @import "../../../styles/partials/form";
 @import "../../../styles/partials/variables";
+@import "../../../styles/partials/mixins";
 
 .toggle-password-btn {
   width: 26px;
@@ -9,11 +10,7 @@
   cursor: pointer;
 }
 .login-err-msg {
-    font-size: 10px;
-    font-style: italic;
-    color: $cerise;
-    font-weight: bold;
-    font-family: $font-Lato;
+    @include err_13px_lora_italic_cerise();
     letter-spacing: 1px;
     text-transform: none;
     line-height: 15px;

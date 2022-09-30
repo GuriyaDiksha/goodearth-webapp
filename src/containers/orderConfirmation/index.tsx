@@ -65,7 +65,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
         item_brand: "Goodearth",
         item_category: arr[arr.length - 2],
         item_category2: arr[arr.length - 1],
-        item_category3: "",
+        item_category3: line.product.is3DView ? "3d" : "non 3d",
         item_list_id: "",
         item_list_name: "",
         item_variant: line.product.size || "",
@@ -94,7 +94,10 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
       return {
         name: line.title,
         id: line.product.sku,
-        price: +line.priceExclTax,
+        price: line.isEgiftCard
+          ? +line.priceExclTax
+          : line.product.pricerecords[result.currency],
+        dimension8: line.product.is3DView ? "View3d" : "nonView3d",
         brand: "Goodearth",
         category: category,
         variant: line.product.size || "",
@@ -184,7 +187,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
         });
         dataLayer.push({ ecommerce: null }); // Clear the previous ecommerce object.
         dataLayer.push({
-          event: "purchase",
+          event: "GA4_purchase",
           ecommerce: {
             transaction_id: result.transactionId,
             affiliation: "Online Store", // Pass the product name

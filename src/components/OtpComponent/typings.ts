@@ -19,6 +19,7 @@ export type otpState = {
     maxAttemptsAllow: number;
   };
   startTimer: boolean;
+  isOtpSent?: boolean;
 };
 
 export type otpProps = {

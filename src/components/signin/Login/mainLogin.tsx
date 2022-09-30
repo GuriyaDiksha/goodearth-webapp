@@ -484,7 +484,7 @@ class MainLogin extends React.Component<Props, loginState> {
           </div>
           <div>
             {this.state.showerror ? (
-              <p className={styles.loginErrMsg}>{this.state.showerror}</p>
+              <p className={styles.errorMsg}>{this.state.showerror}</p>
             ) : (
               ""
             )}
@@ -581,7 +581,7 @@ class MainLogin extends React.Component<Props, loginState> {
           </div>
           <div>
             {this.state.showerror ? (
-              <p className={styles.loginErrMsg}>{this.state.showerror}</p>
+              <p className={styles.errorMsg}>{this.state.showerror}</p>
             ) : (
               ""
             )}

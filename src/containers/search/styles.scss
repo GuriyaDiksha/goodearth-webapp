@@ -279,7 +279,7 @@
   &::-webkit-scrollbar {
     display: none;
   }
-  margin: 0px 0px 30px 20px;
+  margin: 30 0px 30px 0px;
 
   @media screen and (max-width: 992px){
     height: calc(100% - 60px);
@@ -287,7 +287,7 @@
   
   li {
     letter-spacing: 0.5px;
-    line-height: 40px;
+    line-height: 50px;
     border-bottom: 1px solid tint(#000,90%);
     @include b4_12px_medium_gold_caps();
     li {
@@ -743,7 +743,7 @@ input[type="radio"]:checked, [type="checkbox"]:not(:checked),
 }
 
 .search-block-page {
-  cursor: pointer;
+  // cursor: pointer;
   input {
     width: 100%;
     background-color: $white;
