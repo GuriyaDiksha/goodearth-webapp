@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Props } from "./typings";
+import styles from "../styles.scss";
 import globalStyles from "styles/global.scss";
 import cs from "classnames";
 
@@ -88,7 +89,7 @@ const InputField: React.FC<Props> = props => {
         {props.label || ""}
       </label>
       {props.error && (
-        <p className={cs(globalStyles.errorMsg, globalStyles.txtnormal)}>
+        <p className={cs(styles.errorMsg, globalStyles.textLeft)}>
           {props.error}
         </p>
       )}
