@@ -16,10 +16,13 @@ export const ShopLocator: React.FC<ShopLocatorProps> = ({
   dropdown,
   onChangeText,
   shopLocations,
-  mobile
+  mobile,
+  footerHeadingFontColor,
+  footerHeadingHoverColor
 }) => {
   const [menuOpen, setOpenState] = useState(dropdown || false);
   const [locations, setLocations] = useState(shopLocations);
+  const [isHovered, setIsHovered] = useState(false);
 
   useEffect(() => {
     setLocations(shopLocations);
@@ -73,6 +76,11 @@ export const ShopLocator: React.FC<ShopLocatorProps> = ({
       <div
         className={cs(styles.cursorPointer, globalStyles.pointer)}
         onClick={e => goToShopLocator(e, null)}
+        style={{
+          color: isHovered ? footerHeadingHoverColor : footerHeadingFontColor
+        }}
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
       >
         Shop & cafe Locator
       </div>
