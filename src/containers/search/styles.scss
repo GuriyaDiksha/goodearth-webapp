@@ -37,11 +37,12 @@
 .filter-text{
     line-height: 60px;
     height: 60px;
-    font-size: 14px;
-    font-family: $font-Lato;
+    // font-size: 14px;
+    // font-family: $font-Lato;
     letter-spacing: 1px;
-    color: $charcoal19;
-    text-transform: uppercase;
+    // color: $charcoal19;
+    // text-transform: uppercase;
+    @include b4_12px_medium_charcoal_caps();
 }
 
 .page-body{
@@ -423,6 +424,7 @@
   }
   .selected-cat-shop{
     color: $gold;
+    text-decoration: underline;
   }
   
 }

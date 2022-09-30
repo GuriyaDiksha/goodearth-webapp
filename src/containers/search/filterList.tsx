@@ -2079,7 +2079,7 @@ class FilterList extends React.Component<Props, State> {
             className={
               this.props.facets?.currentColor?.length > 0
                 ? ""
-                : (globalStyles.hidden, styles.removeBorder)
+                : globalStyles.hidden
             }
           >
             <span
