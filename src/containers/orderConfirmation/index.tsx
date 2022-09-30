@@ -70,7 +70,9 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
         item_list_name: "",
         item_variant: line.product.size || "",
         item_category4: "",
-        price: +line.priceExclTax,
+        price: line.isEgiftCard
+          ? +line.priceExclTax
+          : line.product.pricerecords[result.currency],
         quantity: line.quantity
       };
     });
