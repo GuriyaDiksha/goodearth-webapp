@@ -933,10 +933,14 @@ a {
   .icon-search-popup {
     // cursor: pointer;
     font-size: 20px;
-    color: $charcoal19;
+    color: #4c4c4c;
     position: absolute;
     top: 41%;
     left: 9%;
+    @media screen and  (max-width:992px) {
+      top: 39%;
+      left: 5%;
+    }
   }
   .icon-search-cross {
     cursor: pointer;
@@ -1160,7 +1164,7 @@ letter-spacing: 1px;
   .search-input-block {
     line-height: 60px;
     input {
-      padding: 0 170px 0 20px;
+      padding: 0 170px 0 50px;
       border: none;
       line-height: 40px;
     }

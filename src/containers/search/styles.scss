@@ -100,12 +100,15 @@
 }
 
 .npf-msg {
-  font-size: 20px;
+  // font-size: 20px;
   letter-spacing: 0.5px;
-  font-family: $font-Montserrat;
+  // font-family: $font-Montserrat;
+  margin: 0 70px;
+  @include b3_14px_montserrat_charcoal();
   color: tint(#000, 50%);
     span {
-      color: $gold;
+      // color: $gold;
+      @include b3_14px_montserrat_gold();
     }
   }
 
