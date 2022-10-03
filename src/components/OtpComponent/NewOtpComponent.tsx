@@ -43,6 +43,7 @@ const NewOtpComponent: React.FC<Props> = ({
   };
 
   const timer = () => {
+    clearInterval(timerId);
     const id = setInterval(() => {
       setTimeRemaining(timeRemaining => timeRemaining - 1);
     }, 1000);
@@ -59,6 +60,10 @@ const NewOtpComponent: React.FC<Props> = ({
       setTimeRemaining(90);
       timer();
     }
+
+    return () => {
+      clearTimer();
+    };
   }, [startTimer]);
 
   useEffect(() => {
@@ -135,20 +140,24 @@ const NewOtpComponent: React.FC<Props> = ({
   };
 
   const onPasteOtp = (e: any) => {
-    const arr = e?.clipboardData.getData("Text").split("");
-    let newObj = {
-      otp1: "",
-      otp2: "",
-      otp3: "",
-      otp4: "",
-      otp5: "",
-      otp6: ""
-    };
-    setError("");
-    arr.map((ele: number, i: number) => {
-      newObj = { ...newObj, [`otp${i + 1}`]: ele };
-    });
-    setInput(newObj);
+    if (e?.clipboardData.getData("Text").match(/([e|E])/)) {
+      e.preventDefault();
+    } else {
+      const arr = e?.clipboardData.getData("Text").split("");
+      let newObj = {
+        otp1: "",
+        otp2: "",
+        otp3: "",
+        otp4: "",
+        otp5: "",
+        otp6: ""
+      };
+      setError("");
+      arr.map((ele: number, i: number) => {
+        newObj = { ...newObj, [`otp${i + 1}`]: ele };
+      });
+      setInput(newObj);
+    }
   };
 
   const handleKeyDown = (e: any) => {
@@ -160,6 +169,8 @@ const NewOtpComponent: React.FC<Props> = ({
         ele.focus();
         count.current = +e.target.id.match(/\d+/)[0];
       }
+    } else if (e.which === 69) {
+      e.preventDefault();
     }
   };
 
