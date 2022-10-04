@@ -33,12 +33,10 @@ const CeriseCard: React.FC<Props> = ({ clickToggle }) => {
       {slab ? (
         <CeriseCardDetail isViewDashboard={true} />
       ) : (
-        <NavLink to={"/cerise"} onClick={() => clickToggle && clickToggle()}>
-          <img
-            src={"https://d3qn6cjsz7zlnp.cloudfront.net/ceries_pic.png"}
-            width={322}
-          />
-        </NavLink>
+        <img
+          src={"https://d3qn6cjsz7zlnp.cloudfront.net/ceries_pic.png"}
+          width={322}
+        />
       )}
     </div>
   );
