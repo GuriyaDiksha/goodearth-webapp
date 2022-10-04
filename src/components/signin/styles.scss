@@ -137,6 +137,9 @@ input[type="checkbox"]:checked + label {
   text-align: left;
   margin-bottom: 10px;
   background-color: white;
+  &:hover{
+    text-decoration: underline;
+  }
 }
 
 .password-validation {
