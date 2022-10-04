@@ -873,6 +873,49 @@ class Mobilemenu extends React.Component<Props, MobileState> {
               )}
             </li>
           )}
+          <ul className={styles.adding}>
+            {profileItems.slice(0, 2).map(item => {
+              return (
+                <li
+                  key={item.label}
+                  onClick={e => {
+                    item.onClick && item.onClick(e);
+                    clickToggle();
+                  }}
+                >
+                  {item.type == "button" ? (
+                    <span
+                      onClick={() => {
+                        util.headerClickGTM(
+                          "Profile Item",
+                          "Top",
+                          true,
+                          isLoggedIn
+                        );
+                      }}
+                    >
+                      {item.label}
+                    </span>
+                  ) : (
+                    <NavLink
+                      key={item.label}
+                      to={item.href as string}
+                      onClick={() => {
+                        util.headerClickGTM(
+                          "Profile Item",
+                          "Top",
+                          true,
+                          isLoggedIn
+                        );
+                      }}
+                    >
+                      {item.label}
+                    </NavLink>
+                  )}
+                </li>
+              );
+            })}
+          </ul>
           <li>
             <Link
               to="/wishlist"
@@ -882,7 +925,7 @@ class Mobilemenu extends React.Component<Props, MobileState> {
                 util.headerClickGTM("Wishlist", "Top", true, isLoggedIn);
               }}
             >
-              <i
+              {/* <i
                 className={cs(
                   styles.wishlistIcon,
                   { [styles.wishlistGold]: wishlistIcon },
@@ -894,11 +937,11 @@ class Mobilemenu extends React.Component<Props, MobileState> {
                   },
                   iconStyles.icon
                 )}
-              />
-              <span>
-                {" "}
-                saved items {wishlistCount ? `(${wishlistCount})` : ""}
-              </span>
+              /> */}
+              {/* <span>
+                {" "} */}
+              saved items {wishlistCount ? `(${wishlistCount})` : ""}
+              {/* </span> */}
             </Link>
           </li>
           <li
@@ -943,7 +986,7 @@ class Mobilemenu extends React.Component<Props, MobileState> {
           </li>
 
           <ul className={styles.adding}>
-            {profileItems.map(item => {
+            {profileItems.slice(2, profileItems?.length).map(item => {
               return (
                 <li
                   key={item.label}
@@ -1162,7 +1205,7 @@ class Mobilemenu extends React.Component<Props, MobileState> {
         {outerMenu}
         {innerMenu}
         {lowerMenu}
-        <CeriseCard />
+        <CeriseCard clickToggle={clickToggle} />
       </div>
     );
   }

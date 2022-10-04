@@ -115,6 +115,13 @@ class SideMenu extends React.Component<Props, State> {
     const items: DropdownItem[] = curryList;
 
     const profileItems: DropdownItem[] = [];
+    !isLoggedIn &&
+      profileItems.push({
+        label: "Login",
+        onClick: this.props.goLogin,
+        type: "button",
+        value: "Login"
+      });
     isLoggedIn &&
       profileItems.push(
         {
@@ -163,21 +170,33 @@ class SideMenu extends React.Component<Props, State> {
         href: "/account/check-balance",
         type: "link",
         value: "Check Balance"
-      },
-      {
-        label: isLoggedIn ? "Logout" : "Login",
-        onClick: isLoggedIn
-          ? () =>
-              this.props.handleLogOut(
-                this.props.history,
-                this.props.currency,
-                this.props.user.customerGroup
-              )
-          : this.props.goLogin,
-        type: "button",
-        value: isLoggedIn ? "Logout" : "Login"
       }
+      // {
+      //   label: isLoggedIn ? "Logout" : "Login",
+      //   onClick: isLoggedIn
+      //     ? () =>
+      //         this.props.handleLogOut(
+      //           this.props.history,
+      //           this.props.currency,
+      //           this.props.user.customerGroup
+      //         )
+      //     : this.props.goLogin,
+      //   type: "button",
+      //   value: isLoggedIn ? "Logout" : "Login"
+      // }
     );
+    isLoggedIn &&
+      profileItems.push({
+        label: "Logout",
+        onClick: () =>
+          this.props.handleLogOut(
+            this.props.history,
+            this.props.currency,
+            this.props.user.customerGroup
+          ),
+        type: "button",
+        value: "Logout"
+      });
     const gtmPushWishlistClick = () => {
       const userConsent = CookieService.getCookie("consent").split(",");
       if (userConsent.includes(GA_CALLS)) {

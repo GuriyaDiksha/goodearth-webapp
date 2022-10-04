@@ -28,9 +28,7 @@ const CeriseProfileMenu = ({
   const getMenuItems = (): JSX.Element => {
     return (
       <div className={styles.ceriseCardMenuWrp}>
-        <NavLink to={"/cerise"}>
-          <CeriseCard />
-        </NavLink>
+        <CeriseCard />
         <div className={styles.ceriseCardMenu}>
           <ul>
             {items.map((item, ind) => {

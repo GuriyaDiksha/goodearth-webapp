@@ -1,15 +1,16 @@
 import React, { useEffect } from "react";
-import { Props } from "./typings";
 import styles from "./styles.scss";
 import { useDispatch, useSelector } from "react-redux";
 import { AppState } from "reducers/typings";
 import LoyaltyService from "services/loyalty";
 import { updateLoyaltyPoints } from "actions/loyalty";
 import CeriseCardDetail from "./CeriseCardDetail";
+import { NavLink } from "react-router-dom";
 
 type StateData = { user: { slab: string; email: string } };
+type Props = { clickToggle?: any };
 
-const CeriseCard: React.FC<Props> = () => {
+const CeriseCard: React.FC<Props> = ({ clickToggle }) => {
   const {
     user: { slab, email }
   }: StateData = useSelector((state: AppState) => state);
@@ -32,10 +33,12 @@ const CeriseCard: React.FC<Props> = () => {
       {slab ? (
         <CeriseCardDetail isViewDashboard={true} />
       ) : (
-        <img
-          src={"https://d3qn6cjsz7zlnp.cloudfront.net/ceries_pic.png"}
-          width={322}
-        />
+        <NavLink to={"/cerise"} onClick={() => clickToggle && clickToggle()}>
+          <img
+            src={"https://d3qn6cjsz7zlnp.cloudfront.net/ceries_pic.png"}
+            width={322}
+          />
+        </NavLink>
       )}
     </div>
   );
