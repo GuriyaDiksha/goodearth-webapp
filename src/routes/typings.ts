@@ -40,7 +40,7 @@ export const enum ROUTES {
   WITHMAKER = "/withmaker",
   WITHOUTMAKER = "/withoutmaker",
   MICROSITE = "/microsite/:id?",
-  VIRTUAL = "/virtualappointment",
+  VIRTUAL = "/flowers-fragrance-anita-lal",
   SHOPPER = "/personal-shopper-form",
   INSTORE = "/instoreservices",
   THANKYOU = "/thankyou",
