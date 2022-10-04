@@ -90,11 +90,38 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
     CookieService.setCookie("listPath", page);
     valid.plpProductClick(product, page, currency, position);
   };
-  const image = product.lookImageUrl
-    ? product.lookImageUrl
-    : product.images?.[0]
-    ? product.images[0]?.productImage
-    : "/static/img/noimageplp.png";
+
+  const getImageSrc = () => {
+    if (page == "ShopByLook") {
+      let src = "";
+      product.images?.map(item => {
+        if (item.looks_tagged) {
+          src = item.productImage;
+        }
+      });
+      if (!src) {
+        product.sliderImages?.map(item => {
+          if (item.looks_tagged) {
+            src = item.productImage.replace("/Micro/", "/Medium/");
+          }
+        });
+      }
+      return src || "/static/img/noimageplp.png";
+    } else {
+      return product.lookImageUrl
+        ? product.lookImageUrl
+        : product.images?.[0]
+        ? product.images[0]?.productImage
+        : "/static/img/noimageplp.png";
+    }
+  };
+
+  // const image = product.lookImageUrl
+  //   ? product.lookImageUrl
+  //   : product.images?.[0]
+  //   ? product.images[0]?.productImage
+  //   : "/static/img/noimageplp.png";
+
   const isStockAvailable = isCorporate || product.inStock;
 
   return (
@@ -142,7 +169,7 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
           <LazyImage
             alt={product.altText || product.title}
             aspectRatio="62:93"
-            src={image}
+            src={getImageSrc()}
             className={styles.imageResultnew}
             isVisible={isVisible}
             onError={(e: any) => {

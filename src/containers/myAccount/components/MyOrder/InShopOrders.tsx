@@ -40,7 +40,14 @@ const InShopOrder: React.FC<OrdersProps> = props => {
   }, []);
 
   const backToTop = () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    if (props.mobile) {
+      const ele = document.getElementById("my-orders-head");
+      if (ele) {
+        ele.scrollIntoView({ behavior: "smooth" });
+      }
+    } else {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
   };
 
   const loadMore = () => {
@@ -209,10 +216,12 @@ const InShopOrder: React.FC<OrdersProps> = props => {
             <button className={styles.loadMoreBtn} onClick={() => loadMore()}>
               Load More
             </button>
-          ) : (
+          ) : data.length >= 3 ? (
             <button className={styles.backToTopBtn} onClick={() => backToTop()}>
               Back to top
             </button>
+          ) : (
+            ""
           )}
         </div>
       ) : null}

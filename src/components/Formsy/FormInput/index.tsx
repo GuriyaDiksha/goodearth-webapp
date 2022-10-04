@@ -148,12 +148,15 @@ const FormInput: React.FC<Props & InjectedProps<string | null>> = props => {
             ? e => {
                 e.preventDefault();
               }
+            : props?.onPaste
+            ? e => (props.onPaste ? props.onPaste(e) : null)
             : undefined
         }
         min={props.min || ""}
         max={props.max || ""}
         ref={props.inputRef || null}
         disabled={props.disable || false}
+        onKeyDown={e => (props.keyDown ? props.keyDown(e) : null)}
       />
       <label
         className={labelClass || false ? "" : globalStyles.hidden}

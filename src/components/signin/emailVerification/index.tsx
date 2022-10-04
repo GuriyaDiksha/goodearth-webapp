@@ -8,10 +8,11 @@ import bootstrapStyles from "../../../styles/bootstrap/bootstrap-grid.scss";
 import LoginService from "services/login";
 import { useDispatch } from "react-redux";
 import Loader from "components/Loader";
-import OtpBox from "components/OtpComponent/otpBox";
+// import OtpBox from "components/OtpComponent/otpBox";
 import { showGrowlMessage } from "utils/validate";
 import { MESSAGE } from "constants/messages";
 import { useLocation } from "react-router";
+import NewOtpComponent from "components/OtpComponent/NewOtpComponent";
 
 type Props = {
   successMsg: string;
@@ -26,21 +27,25 @@ const EmailVerification: React.FC<Props> = ({
   goLogin
 }) => {
   const [isLoading, setIsLoading] = useState(false);
-  const [enableBtn, setEnableBtn] = useState(false);
-  const [timeRemaining, setTimeRemaining] = useState(60);
-  const [showCustCare, setShowCustCare] = useState(false);
-  const [timerId, setTimerId] = useState<any>();
-  const [otpValue, setOtpValue] = useState("");
+  // const [enableBtn, setEnableBtn] = useState(false);
+  // const [timeRemaining, setTimeRemaining] = useState(60);
+  //const [showCustCare, setShowCustCare] = useState(false);
+  // const [timerId, setTimerId] = useState<any>();
+  // const [otpValue, setOtpValue] = useState("");
   const [error, setError] = useState<(JSX.Element | string)[] | string>("");
+  const [attempts, setAttempts] = useState({
+    attempts: 0,
+    maxAttemptsAllow: 5
+  });
   const dispatch = useDispatch();
-  const timer = () => {
-    setTimeRemaining(90);
-    setEnableBtn(false);
-    const id = setInterval(() => {
-      setTimeRemaining(timeRemaining => timeRemaining - 1);
-    }, 1000);
-    setTimerId(id);
-  };
+  // const timer = () => {
+  //   setTimeRemaining(90);
+  //   setEnableBtn(false);
+  //   const id = setInterval(() => {
+  //     setTimeRemaining(timeRemaining => timeRemaining - 1);
+  //   }, 1000);
+  //   setTimerId(id);
+  // };
 
   const showLogin = () => {
     localStorage.setItem("tempEmail", email);
@@ -50,11 +55,12 @@ const EmailVerification: React.FC<Props> = ({
   const queryString = location.search;
   const urlParams = new URLSearchParams(queryString);
   const boId = urlParams.get("bo_id");
-  const verifyOtp = async () => {
+  const verifyOtp = async (otp: string) => {
     try {
       setIsLoading(true);
       setError("");
-      const res = await LoginService.verifyUserOTP(dispatch, email, otpValue);
+      const res = await LoginService.verifyUserOTP(dispatch, email, otp);
+
       if (res.success) {
         showGrowlMessage(
           dispatch,
@@ -62,11 +68,21 @@ const EmailVerification: React.FC<Props> = ({
           3000,
           "VERIFY_SUCCESS"
         );
+
         showLogin();
       } else {
+        setAttempts({
+          attempts: res?.attempts || 0,
+          maxAttemptsAllow: res?.maxAttemptsAllow || 5
+        });
         setError("Invalid OTP");
       }
     } catch (err) {
+      setAttempts({
+        attempts: err.response.data?.attempts || 0,
+        maxAttemptsAllow: err.response.data?.maxAttemptsAllow || 5
+      });
+
       if (err.response.data.alreadyVerified) {
         setError([
           "Looks like you are aleady verified. ",
@@ -82,7 +98,7 @@ const EmailVerification: React.FC<Props> = ({
           </span>
         ]);
       } else {
-        setError("OTP Expired or Invalid OTP");
+        setError(err.response.data?.message || "OTP Expired or Invalid OTP");
       }
     } finally {
       setIsLoading(false);
@@ -95,7 +111,7 @@ const EmailVerification: React.FC<Props> = ({
       const res = await LoginService.sendUserOTP(dispatch, email);
       if (res.otpSent) {
         // handle success
-        timer();
+        // timer();
       } else if (res.alreadyVerified) {
         setError([
           "Looks like you are aleady verified. ",
@@ -111,7 +127,7 @@ const EmailVerification: React.FC<Props> = ({
           </span>
         ]);
       }
-      setShowCustCare(true);
+      // setShowCustCare(true);
     } catch (err) {
       if (err.response.data.alreadyVerified) {
         setError([
@@ -125,41 +141,41 @@ const EmailVerification: React.FC<Props> = ({
           </span>
         ]);
       } else {
-        setShowCustCare(true);
+        // setShowCustCare(true);
       }
     } finally {
       setIsLoading(false);
     }
   };
-  const clearTimer = () => {
-    clearInterval(timerId);
-    setTimeRemaining(0);
-    setEnableBtn(true);
-  };
+  // const clearTimer = () => {
+  //   clearInterval(timerId);
+  //   setTimeRemaining(0);
+  //   setEnableBtn(true);
+  // };
 
-  const changeOTP = (value: string) => {
-    setOtpValue(value);
-    setError("");
-  };
-  useEffect(() => {
-    if (timeRemaining <= 0) {
-      clearTimer();
-    }
-  }, [timeRemaining, timerId]);
-  +useEffect(() => {
-    timer();
-    const elem = document.getElementById("first-heading");
-    elem?.scrollIntoView({ block: "end", inline: "nearest" });
-    return () => {
-      clearTimer();
-    };
-  }, []);
+  // const changeOTP = (value: string) => {
+  //   setOtpValue(value);
+  //   setError("");
+  // };
+  // useEffect(() => {
+  //   if (timeRemaining <= 0) {
+  //     clearTimer();
+  //   }
+  // }, [timeRemaining, timerId]);
+  // +useEffect(() => {
+  //   timer();
+  //   const elem = document.getElementById("first-heading");
+  //   elem?.scrollIntoView({ block: "end", inline: "nearest" });
+  //   return () => {
+  //     clearTimer();
+  //   };
+  // }, []);
 
-  const secondsToMinutes = (seconds: number) => {
-    const minutes = Math.floor(seconds / 60);
-    seconds -= minutes * 60;
-    return minutes + ":" + seconds;
-  };
+  // const secondsToMinutes = (seconds: number) => {
+  //   const minutes = Math.floor(seconds / 60);
+  //   seconds -= minutes * 60;
+  //   return minutes + ":" + seconds;
+  // };
   return (
     <div className={globalStyles.textCenter}>
       {successMsg ? (
@@ -184,7 +200,17 @@ const EmailVerification: React.FC<Props> = ({
         >
           Verify Email
         </div>
-        <div className={cs(styles.para, styles.verifyPara)}>
+        <NewOtpComponent
+          otpSentVia={"email"}
+          resendOtp={sendOtp}
+          verifyOtp={verifyOtp}
+          errorMsg={error}
+          attempts={attempts}
+          btnText={"Verify OTP"}
+          startTimer={true}
+          setAttempts={setAttempts}
+        />
+        {/* <div className={cs(styles.para, styles.verifyPara)}>
           <p>
             Please verify your email id by entering OTP sent to{" "}
             <strong>{email}</strong>
@@ -239,9 +265,9 @@ const EmailVerification: React.FC<Props> = ({
         >
           Verify OTP
         </div>
-        <br />
+        <br />*/}
         {!boId && (
-          <div className={styles.bigTxt}>
+          <div className={styles.bigTxt} style={{ marginTop: "10px" }}>
             <div className={globalStyles.pointer} onClick={changeEmail}>
               &lt; Back{" "}
             </div>

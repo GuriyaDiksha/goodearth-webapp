@@ -815,6 +815,14 @@ $list: $grey 92%, $white 8%;
   color: $aqua-bold;
 }
 
+@mixin b1_16px_charcoal_montserrat{
+  font-family: $font-Montserrat;
+  font-size: 16px;
+  font-style: normal;
+  color: $charcoal19;
+  font-weight: $regular;
+}
+
 @mixin b2_14px_charcoal_lora{
   font-family: $font-Lora;
   font-size: 14px;
@@ -1183,7 +1191,7 @@ $list: $grey 92%, $white 8%;
   color: $charcoal19;
 }
 
-@mixin error_msg_charcoal{
+@mixin error_msg_cerise{
   font-family: $font-Lora;
   font-size: 13px;
   font-style: italic;
