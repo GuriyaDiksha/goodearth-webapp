@@ -120,6 +120,7 @@ const Section4: React.FC<Section4Props> = props => {
             [styles.gcMobile]: props.mobile
           }
         )}
+        style={{ paddingBottom: props.mobile ? 0 : "50px" }}
       >
         <div className={bootstrapStyles.row}>
           <div
@@ -155,6 +156,7 @@ const Section4: React.FC<Section4Props> = props => {
               styles.formBg,
               globalStyles.voffset3
             )}
+            style={{ paddingBottom: props.mobile ? 0 : "40px" }}
           >
             <div className={cs(bootstrapStyles.row)}></div>
             <div className={globalStyles.voffset2}>
@@ -250,9 +252,15 @@ const Section4: React.FC<Section4Props> = props => {
                       required
                     />
                     {nummsg ? (
-                      <p className={cs(styles.errorMsg)}>{nummsg}</p>
+                      <p
+                        className={cs(styles.errorMsg, globalStyles.paddLeft10)}
+                      >
+                        {nummsg}
+                      </p>
                     ) : (
-                      <p className={styles.errorMsg}></p>
+                      <p
+                        className={cs(styles.errorMsg, globalStyles.paddLeft10)}
+                      ></p>
                     )}
                     {tablet && (
                       <div
@@ -272,7 +280,11 @@ const Section4: React.FC<Section4Props> = props => {
                     )}
                     {!mobile && (
                       <div
-                        className={cs(bootstrapStyles.col12, styles.buttonRow)}
+                        className={cs(
+                          bootstrapStyles.col12,
+                          globalStyles.marginT40,
+                          styles.buttonRow
+                        )}
                       >
                         <div className={cs(styles.imageSelectBtnContainer)}>
                           <button

@@ -40,7 +40,7 @@ const WallpaperFAQ: React.FC<Props> = ({ mobile }) => {
         ref.style.maxHeight = 0 + "px";
       });
       bodyRef.current[currentActive].style.maxHeight =
-        bodyRef.current[currentActive].scrollHeight + "px";
+        bodyRef.current[currentActive].scrollHeight + 500 + "px";
     }
   });
 
