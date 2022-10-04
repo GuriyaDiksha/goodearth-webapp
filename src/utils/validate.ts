@@ -6,7 +6,7 @@ import { showMessage } from "actions/growlMessage";
 import { DomUtils, parseDocument } from "htmlparser2";
 import { useEffect, useState } from "react";
 import { GA_CALLS, ANY_ADS } from "constants/cookieConsent";
-// import { sha256 } from "js-sha256";
+import { sha256 } from "js-sha256";
 // import { AppState } from "reducers/typings";
 // import { useSelector } from "react-redux";
 
@@ -1655,24 +1655,24 @@ export const megaMenuNavigationGTM = ({
 export const pageViewGTM = (Title: string) => {
   try {
     const userConsent = CookieService.getCookie("consent").split(",");
-    // const userInfo = JSON.parse(CookieService.getCookie("user"));
+    const userInfo = JSON.parse(CookieService.getCookie("user"));
 
     if (userConsent.includes(GA_CALLS)) {
       dataLayer.push({
         event: "pageview",
-        // Email: userInfo.email ? sha256(userInfo.email) : "",
-        // "First Name": userInfo.firstName ? sha256(userInfo.firstName) : "",
-        // "Last Name": userInfo.lastName ? sha256(userInfo.lastName) : "",
-        // Phone: userInfo.phoneNumber ? sha256(userInfo.phoneNumber) : "",
-        // "External ID": userInfo.email ? sha256(userInfo.email) : "",
-        // Gender: userInfo.gender ? sha256(userInfo.gender) : "",
-        // Birthdate: "", //format will be this before hashing - 19910526 for May 26, 1991.
-        // City: "", // Lowercase with any spaces removed before hashing.
-        // "State or Province": userInfo.state
-        //   ? sha256(userInfo.state?.toLowerCase())
-        //   : "", // Lowercase two-letter state or province code before hashing.
-        // "Zip or Postal Code": userInfo.pincode ? sha256(userInfo.pincode) : "", //String
-        // Country: userInfo.country ? sha256(userInfo.country) : "",
+        Email: userInfo.email ? sha256(userInfo.email) : "",
+        "First Name": userInfo.firstName ? sha256(userInfo.firstName) : "",
+        "Last Name": userInfo.lastName ? sha256(userInfo.lastName) : "",
+        Phone: userInfo.phoneNumber ? sha256(userInfo.phoneNumber) : "",
+        "External ID": userInfo.email ? sha256(userInfo.email) : "",
+        Gender: userInfo.gender ? sha256(userInfo.gender) : "",
+        Birthdate: userInfo.dob ? sha256(userInfo.dob) : "", //format will be this before hashing - 19910526 for May 26, 1991.
+        City: "", // Lowercase with any spaces removed before hashing.
+        "State or Province": userInfo.state
+          ? sha256(userInfo.state?.toLowerCase())
+          : "", // Lowercase two-letter state or province code before hashing.
+        "Zip or Postal Code": userInfo.pincode ? sha256(userInfo.pincode) : "", //String
+        Country: userInfo.country ? sha256(userInfo.country) : "",
         Page: {
           path: location.pathname,
           Title

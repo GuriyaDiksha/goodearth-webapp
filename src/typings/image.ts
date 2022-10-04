@@ -13,4 +13,5 @@ export interface ProductImage {
   icon?: boolean;
   codeAll?: boolean;
   iconAll?: boolean;
+  looks_tagged?: boolean;
 }

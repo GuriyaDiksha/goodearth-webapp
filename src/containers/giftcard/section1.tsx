@@ -86,7 +86,7 @@ const Section1: React.FC<Section1Props> = props => {
               <div className={styles.gcHead}> 1. Pick a design</div>
             </div>
           </div>
-          <div className={bootstrapStyles.col12}>
+          <div className={cs(bootstrapStyles.col12)}>
             <div className={bootstrapStyles.row}>
               <div
                 className={cs(
@@ -122,7 +122,13 @@ const Section1: React.FC<Section1Props> = props => {
                             }
                           />
                           <br />
-                          <div className={globalStyles.marginB10}>
+                          <div
+                            className={
+                              props.giftimages?.length - 1 === i
+                                ? globalStyles.paddBottom0
+                                : globalStyles.paddBottom20
+                            }
+                          >
                             <input
                               type="radio"
                               id={"image" + i}
