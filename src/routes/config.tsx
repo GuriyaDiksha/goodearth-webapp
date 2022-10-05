@@ -108,12 +108,6 @@ const routes: RouteConfig = [
     exact: false
   },
   {
-    path: ROUTES.SAFETYMEASURES,
-    component: loadable(() => import("containers/makerpage")),
-    action: async () => null,
-    exact: true
-  },
-  {
     path: ROUTES.STATIC,
     component: loadable(() => import("containers/customer")), // StaticPage,
     action: async () => null,
@@ -157,18 +151,6 @@ const routes: RouteConfig = [
     exact: true
   },
   {
-    path: ROUTES.ABOUTUS,
-    component: loadable(() => import("containers/makerpage")),
-    action: async () => null,
-    exact: true
-  },
-  {
-    path: ROUTES.APPOINTMENTS,
-    component: loadable(() => import("containers/makerpage")),
-    action: async () => null,
-    exact: true
-  },
-  {
     path: ROUTES.LOYALTYLANDING,
     component: loadable(() => import("containers/loyaltyLanding")),
     action: async () => null,
@@ -185,25 +167,7 @@ const routes: RouteConfig = [
   //   component: loadable(() => import("containers/designJournalBook")),
   //   action: initActionDesignJournalBook,
   //   exact: false
-  // }
-  {
-    path: ROUTES.CORPORATEGIFTING,
-    component: loadable(() => import("containers/makerpage")),
-    action: async () => null,
-    exact: true
-  },
-  {
-    path: ROUTES.GIFTINGLANDING,
-    component: loadable(() => import("containers/makerpage")),
-    action: async () => null,
-    exact: true
-  },
-  {
-    path: ROUTES.BRIDAL,
-    component: loadable(() => import("containers/makerpage")),
-    action: async () => null,
-    exact: true
-  },
+  // },
   {
     path: ROUTES.BACKENDERROR,
     component: loadable(() => import("containers/BackendOrderError")),
@@ -211,26 +175,8 @@ const routes: RouteConfig = [
     exact: true
   },
   {
-    path: ROUTES.PUSHPANJALI,
-    component: loadable(() => import("containers/makerpage")),
-    action: async () => null,
-    exact: true
-  },
-  {
     path: ROUTES.MAINTENANCE,
     component: loadable(() => import("containers/maintenance")),
-    action: async () => null,
-    exact: true
-  },
-  {
-    path: ROUTES.HOME,
-    component: loadable(() => import("containers/makerpage")),
-    action: async () => null,
-    exact: true
-  },
-  {
-    path: ROUTES.ERROR404,
-    component: loadable(() => import("containers/makerpage")),
     action: async () => null,
     exact: true
   },
@@ -247,12 +193,6 @@ const routes: RouteConfig = [
     exact: true
   },
   {
-    path: ROUTES.WITHMAKER,
-    component: loadable(() => import("containers/makerpage")),
-    action: async () => null,
-    exact: true
-  },
-  {
     path: ROUTES.WITHOUTMAKER,
     component: loadable(() => import("containers/withoutmaker")),
     action: async () => null,
@@ -265,40 +205,10 @@ const routes: RouteConfig = [
     exact: true
   },
   {
-    path: ROUTES.VIRTUAL,
-    component: loadable(() => import("containers/makerpage")),
-    action: async () => null,
-    exact: true
-  },
-  {
-    path: ROUTES.INSTORE,
-    component: loadable(() => import("containers/makerpage")),
-    action: async () => null,
-    exact: true
-  },
-  {
-    path: ROUTES.THANKYOU,
-    component: loadable(() => import("containers/makerpage")),
-    action: async () => null,
-    exact: true
-  },
-  {
     path: ROUTES.SHOPPER,
     component: loadable(() => import("containers/ShopperForm")),
     action: async () => null,
     exact: true
-  },
-  {
-    path: ROUTES.MUMTAZ,
-    component: loadable(() => import("containers/makerpage")),
-    action: async () => null,
-    exact: true
-  },
-  {
-    path: ROUTES.GCEMAIL,
-    component: loadable(() => import("containers/makerpage")),
-    action: async () => null,
-    exact: false
   },
   {
     path: ROUTES.AUTH,
@@ -317,14 +227,42 @@ const routes: RouteConfig = [
     component: loadable(() => import("containers/Sitemap")),
     action: async () => null,
     exact: true
-  },
-  {
-    path: ROUTES.WORKSHOPS,
+  }
+];
+
+const makerRoutes = [
+  ROUTES.SAFETYMEASURES,
+  ROUTES.ABOUTUS,
+  ROUTES.APPOINTMENTS,
+  ROUTES.CORPORATEGIFTING,
+  ROUTES.GIFTINGLANDING,
+  ROUTES.BRIDAL,
+  ROUTES.PUSHPANJALI,
+  ROUTES.HOME,
+  ROUTES.ERROR404,
+  ROUTES.WITHMAKER,
+  ROUTES.VIRTUAL,
+  ROUTES.INSTORE,
+  ROUTES.THANKYOU,
+  ROUTES.MUMTAZ,
+  ROUTES.GCEMAIL,
+  ROUTES.WORKSHOPS,
+  ROUTES.DEVIKANARAIN,
+  ROUTES.MARUTSIKHA,
+  ROUTES.NEHAKAPUR,
+  ROUTES.SABINASINGH,
+  ROUTES.DEEPSHIKHA,
+  ROUTES.EESHAAN
+];
+
+makerRoutes.forEach(route => {
+  routes.push({
+    path: route,
     component: loadable(() => import("containers/makerpage")),
     action: async () => null,
     exact: true
-  }
-];
+  });
+});
 
 routes.forEach(route => {
   paths.push(route.path);

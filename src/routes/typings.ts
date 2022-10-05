@@ -50,7 +50,13 @@ export const enum ROUTES {
   HFH = "/summer-lovin-reminders",
   SITEMAP = "/sitemap",
   WORKSHOPS = "/workshops",
-  ERROR404 = "/404"
+  ERROR404 = "/404",
+  DEVIKANARAIN = "/art-of-decorating-devika-narain",
+  MARUTSIKHA = "/perfect-menu-marut-sikka",
+  NEHAKAPUR = "/festive-style-neha-kapur-kunal-nayyar",
+  SABINASINGH = "/setting-the-vibe-ad-sabina-singh",
+  DEEPSHIKHA = "/thoughtful-gifts-deepshika-khanna",
+  EESHAAN = "/toast-eeshaan-kashyap"
 }
 
 export type RouteConfig = RouteObject[];
