@@ -323,6 +323,42 @@ const routes: RouteConfig = [
     component: loadable(() => import("containers/makerpage")),
     action: async () => null,
     exact: true
+  },
+  {
+    path: ROUTES.DEVIKANARAIN,
+    component: loadable(() => import("containers/makerpage")),
+    action: async () => null,
+    exact: true
+  },
+  {
+    path: ROUTES.MARUTSIKHA,
+    component: loadable(() => import("containers/makerpage")),
+    action: async () => null,
+    exact: true
+  },
+  {
+    path: ROUTES.NEHAKAPUR,
+    component: loadable(() => import("containers/makerpage")),
+    action: async () => null,
+    exact: true
+  },
+  {
+    path: ROUTES.SABINASINGH,
+    component: loadable(() => import("containers/makerpage")),
+    action: async () => null,
+    exact: true
+  },
+  {
+    path: ROUTES.DEEPSHIKHA,
+    component: loadable(() => import("containers/makerpage")),
+    action: async () => null,
+    exact: true
+  },
+  {
+    path: ROUTES.EESHAAN,
+    component: loadable(() => import("containers/makerpage")),
+    action: async () => null,
+    exact: true
   }
 ];
 
