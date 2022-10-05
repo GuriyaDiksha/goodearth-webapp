@@ -1,5 +1,6 @@
 @import "../../styles/partials/form";
 @import "../../styles/partials/variables";
+@import "../../styles/partials/mixins";
 
 .back-btn-top {
     position: absolute;
@@ -50,14 +51,17 @@
 
 .address-item-container {
   position: relative;
-  min-height: 320px;
-  border: 1px solid #ccc;
+  // min-height: 320px;
+  border: 1px solid #eaeaea;
+  &.default{
+    border: 1px solid #4c4c4c;
+  }
   .address-item {
     background-color: #fff;
-    height: 308px;
+    // height: 308px;
     font-weight: 400;
     text-align: left;
-    padding: 35px 25px 76px 25px;
+    padding: 25px 25px 26px 25px;
     flex-grow: 1;
     border: none;
     font-family: $font-Lato;
@@ -91,9 +95,9 @@
       letter-spacing: 2px;
     }
     div.address-phone-number {
-      font-size: 13px;
+      @include b4_12px_montserrat_charcoal();
+      letter-spacing: 0.36px;
       line-height: 22px;
-      font-weight: 400;
     }
     .default-container {
       display: block;
@@ -111,9 +115,9 @@
           font-size: 10px;
           }
         div.default-address {
-          @include error-msg();
+          @include b4_12px_montserrat_aqua();
           text-align: right;
-          font-size: 12px;
+          font-style: normal;
         }
         &.bridal {
           grid-template-columns: 4fr 15fr 1fr;
@@ -226,10 +230,11 @@
         cursor: pointer;
       }
     }
+    .phone-and-edit-container{
+      display: flex;
+      justify-content: space-between;
+    }
     .edit {
-
-      bottom: 25px;
-      position: absolute;
       text-transform: uppercase;
       font-size: 12px;
       letter-spacing: 1px;
@@ -325,31 +330,36 @@
   }
 
   .line-head {
-    color: #333333;
+    @include b4_12px_montserrat_charcoal();
+    letter-spacing:  0.36px;
     margin-top: 10px;
     word-wrap: break-word;
-    font-size: 14px;
   }
 
   .line {
-    color: #808080;
-    font-size: 13px;
+    @include b4_12px_montserrat_light_charcoal();
+    letter-spacing: 0.36px;
     &.address-line {
       word-wrap: break-word;
-      font-size: 13px;
+      font-size: 12px;
     }
   }
 
   .separator {
     margin: 0 10px;
     font-size: 12px;
-    color: #333333;
+    color: #eaeaea;
   }
 
   .action {
-    cursor: pointer;
-    font-size: 12px;
-    color: #333333;
+    @include b5_10px_montserrat_charcoal_caps();
+    letter-spacing: 0.3px;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    &:hover {
+      color: $aqua-bold;
+      cursor: pointer;
+    }
   }
   .address-info-bridal {
     padding: 30px;

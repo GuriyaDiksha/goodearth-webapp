@@ -286,7 +286,7 @@ const AddressItem: React.FC<Props> = props => {
             )
           : cs(
               bootstrapStyles.col12,
-              bootstrapStyles.colMd6,
+              // bootstrapStyles.colMd12,
               globalStyles.voffset5,
               "address-container"
             )
@@ -306,6 +306,9 @@ const AddressItem: React.FC<Props> = props => {
           {
             [styles.ceriseAddressItemContainer]:
               props.currentCallBackComponent == "cerise"
+          },
+          {
+            [styles.default]: address.isDefaultForShipping
           }
         )}
       >
@@ -409,54 +412,56 @@ const AddressItem: React.FC<Props> = props => {
             {address.state}, {address.postCode}
           </div>
           <div className={styles.line}>{address.countryName}</div>
-          <div
-            className={styles.addressPhoneNumber}
-          >{`${address.phoneCountryCode} ${address.phoneNumber}`}</div>
-          <div
-            className={cs(globalStyles.marginT20, styles.edit, {
-              [styles.addCheckoutActions]:
-                currentCallBackComponent == "checkout-shipping" ||
-                currentCallBackComponent == "checkout-billing" ||
-                currentCallBackComponent == "bridal" ||
-                currentCallBackComponent == "bridal-edit"
-            })}
-          >
-            {!(
-              address.isTulsi ||
-              address.isBackendOrder ||
-              props.currentCallBackComponent == "cerise"
-            ) && (
-              <span
-                className={cs(styles.action, {
-                  [styles.addressEdit]: billingEditDisable
-                })}
-                onClick={
-                  billingEditDisable
-                    ? () => false
-                    : () => openAddressForm(address)
-                }
-              >
-                EDIT
-              </span>
-            )}
-            {!(
-              address.isBridal ||
-              address.isBackendOrder ||
-              props.isOnlyAddress ||
-              address.isTulsi ||
-              props.currentCallBackComponent == "cerise"
-            ) && <span className={styles.separator}>|</span>}
-            {!(
-              address.isBridal ||
-              props.isOnlyAddress ||
-              address.isBackendOrder ||
-              address.isTulsi ||
-              props.currentCallBackComponent == "cerise"
-            ) && (
-              <span className={styles.action} onClick={deleteAddress}>
-                DELETE
-              </span>
-            )}
+          <div className={cs(styles.phoneAndEditContainer)}>
+            <div className={styles.addressPhoneNumber}>
+              M: {`${address.phoneCountryCode} ${address.phoneNumber}`}
+            </div>
+            <div
+              className={cs(styles.edit, {
+                [styles.addCheckoutActions]:
+                  currentCallBackComponent == "checkout-shipping" ||
+                  currentCallBackComponent == "checkout-billing" ||
+                  currentCallBackComponent == "bridal" ||
+                  currentCallBackComponent == "bridal-edit"
+              })}
+            >
+              {!(
+                address.isTulsi ||
+                address.isBackendOrder ||
+                props.currentCallBackComponent == "cerise"
+              ) && (
+                <span
+                  className={cs(styles.action, {
+                    [styles.addressEdit]: billingEditDisable
+                  })}
+                  onClick={
+                    billingEditDisable
+                      ? () => false
+                      : () => openAddressForm(address)
+                  }
+                >
+                  EDIT
+                </span>
+              )}
+              {!(
+                address.isBridal ||
+                address.isBackendOrder ||
+                props.isOnlyAddress ||
+                address.isTulsi ||
+                props.currentCallBackComponent == "cerise"
+              ) && <span className={styles.separator}>|</span>}
+              {!(
+                address.isBridal ||
+                props.isOnlyAddress ||
+                address.isBackendOrder ||
+                address.isTulsi ||
+                props.currentCallBackComponent == "cerise"
+              ) && (
+                <span className={styles.action} onClick={deleteAddress}>
+                  DELETE
+                </span>
+              )}
+            </div>
           </div>
           {currentCallBackComponent !== "account" &&
             currentCallBackComponent !== "bridal" &&
