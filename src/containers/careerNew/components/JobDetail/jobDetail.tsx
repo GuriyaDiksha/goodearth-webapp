@@ -139,7 +139,7 @@ const JobDetail: React.FC = () => {
               <li>
                 <a
                   href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(
-                    job.linkedinUrl
+                    `${window.location.origin}/careers/job/${id}`
                   )}`}
                   target="_blank"
                   rel="noopener noreferrer"
@@ -151,7 +151,7 @@ const JobDetail: React.FC = () => {
               <li>
                 <a
                   href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
-                    job.fbUrl
+                    `${window.location.origin}/careers/job/${id}`
                   )}`}
                   target="_blank"
                   rel="noopener noreferrer"

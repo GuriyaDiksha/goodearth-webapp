@@ -60,7 +60,7 @@ const JobCard: React.FC<Props> = ({ job }) => {
             </a>
             <a
               href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(
-                linkedinUrl
+                `${window.location.origin}/careers/job/${id}`
               )}`}
               target="_blank"
               rel="noopener noreferrer"
@@ -71,7 +71,7 @@ const JobCard: React.FC<Props> = ({ job }) => {
             <a
               target="_blank"
               href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
-                fbUrl
+                `${window.location.origin}/careers/job/${id}`
               )}`}
               className={cs("fb-xfbml-parse-ignore", listing.icon_wrp)}
               rel="noopener noreferrer"
