@@ -42,6 +42,7 @@ const Growl: React.FC<Props> = ({ text, id, timeout, params }) => {
     <div className={styles.growl} key={id}>
       <div className={styles.innerContainer}>
         <div>{renderText}</div>
+        <div className={cs(styles.separator)}></div>
         <span>
           <i
             className={cs(
