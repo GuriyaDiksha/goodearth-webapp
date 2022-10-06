@@ -3,12 +3,11 @@
 
 .container {
     position: fixed;
-    right: 30px;
+    right: -1000px;
     z-index: 2000000001;
-    opacity: 0;
-    top: -99999999px;
+    top: 55px;
     pointer-events: none;
-    transition: opacity 0.2s;
+    transition: right 0.8s;
 }
 
 .inner-container {
@@ -50,8 +49,7 @@
 }
 
 .visible {
-    top: 55px;
-    opacity: 1;
+    right: 30px
 }
 .growl {
     position: relative;
