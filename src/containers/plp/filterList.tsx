@@ -91,8 +91,7 @@ class FilterList extends React.Component<Props, State> {
       categoryindex: -1,
       activeindex: -1,
       activeindex2: 1,
-      isViewAll: false,
-      currLocation: ""
+      isViewAll: false
     };
     this.props.onRef(this);
   }
@@ -610,8 +609,18 @@ class FilterList extends React.Component<Props, State> {
   }
 
   UNSAFE_componentWillReceiveProps = (nextProps: Props) => {
-    const urlParams2 = new URLSearchParams(nextProps.history.location.search);
-    const categoryShop2 = urlParams2.get("category_shop")?.split(">")[1];
+    // const urlParams2 = new URLSearchParams(nextProps.history.location.search);
+    // const categoryShop2 = urlParams2.get("category_shop")?.split(">")[1];
+
+    const url = decodeURI(
+      nextProps?.history.location.search.replace(/\+/g, " ")
+    );
+    const re = /[?&]+([^=&]+)=([^&]*)/gi;
+    let match;
+    const vars: any = {};
+    while ((match = re.exec(url))) {
+      vars[match[1]] = match[2];
+    }
 
     if (
       nextProps.onload &&
@@ -642,18 +651,18 @@ class FilterList extends React.Component<Props, State> {
         }
       );
     }
-    if (this.state.currLocation === "") {
-      this.setState({
-        currLocation: categoryShop2
-      });
-    }
-    if (this.state.currLocation !== categoryShop2) {
+
+    if (
+      Object.entries(vars).length === 2 &&
+      Object.entries(vars).filter(
+        e => e[0] === "source" || e[0] === "category_shop"
+      ).length === 2
+    ) {
       this.setState({
         activeindex: 0,
         showFilterByDiscountMenu: false,
         showProductFilter: false,
-        showmenulevel1: false,
-        currLocation: categoryShop2
+        showmenulevel1: false
       });
     }
   };

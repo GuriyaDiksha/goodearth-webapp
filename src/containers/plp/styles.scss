@@ -321,7 +321,7 @@
 
   li {
     letter-spacing: 0.5px;
-    line-height: 50px;
+    line-height: 40px;
     border-bottom: 1px solid tint(#000,90%);
     @include b4_12px_medium_gold_caps();
     li {
@@ -360,6 +360,7 @@
     cursor: pointer;
     display: block;
     user-select: none;
+    line-height: 50px;
     &:after {
       content: '+';
       float: right;
@@ -413,6 +414,7 @@
     padding-right: 20px;
     position: relative;
     user-select: none;
+    line-height: 50px;
     &:after {
       content: '';
       float: right;
