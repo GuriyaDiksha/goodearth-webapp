@@ -21,6 +21,7 @@
     margin-bottom: 5px;
     border-radius: 10px;
     display: flex;
+    transition: transform 0.8s ease-in;
     .separator{
         background: #ffffff40;
         margin-left: 10px;
@@ -54,4 +55,12 @@
 .growl {
     position: relative;
     padding-bottom: 20px;
+}
+
+@keyframes slideOut {
+    from {
+        transform: translateX(0)
+    } to {
+        transform: translateX(20px)
+    }
 }
