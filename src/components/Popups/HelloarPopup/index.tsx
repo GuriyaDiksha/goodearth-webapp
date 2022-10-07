@@ -2,6 +2,8 @@
 import React, { useContext } from "react";
 // import { useSelector } from "react-redux";
 // import { AppState } from "reducers/typings";
+import DockedPanel from "containers/pdp/docked";
+import { Product } from "typings/product";
 import styles from "../styles.scss";
 // import globalStyles from "../../../styles/global.scss";
 import iconStyles from "styles/iconFonts.scss";
@@ -12,7 +14,24 @@ import { AppState } from "reducers/typings";
 import { useSelector } from "react-redux";
 import header360 from "images/3d/header360.svg";
 
-const HelloarPopup: React.FC<{ code: string }> = ({ code }) => {
+type Props = {
+  code: string;
+  data: Product;
+  showAddToBagMobile?: boolean;
+  buttoncall: any;
+  showPrice: boolean;
+  price: string | number;
+  discountPrice: string | number;
+};
+
+const HelloarPopup: React.FC<Props> = ({
+  code,
+  data,
+  buttoncall,
+  showPrice,
+  price,
+  discountPrice
+}) => {
   // const [isLoading, setIsLoading] = useState(true);
   const { closeModal } = useContext(Context);
   const { mobile } = useSelector((state: AppState) => state.device);
@@ -60,7 +79,15 @@ const HelloarPopup: React.FC<{ code: string }> = ({ code }) => {
           Discover Bosporus
         </Link>
       </div> */}
-      <div className={cs(styles.footer)}></div>
+      <div className={cs(styles.footer)}>
+        <DockedPanel
+          data={data}
+          buttoncall={buttoncall}
+          showPrice={showPrice}
+          price={price}
+          discountPrice={discountPrice}
+        />
+      </div>
     </div>
   );
 };

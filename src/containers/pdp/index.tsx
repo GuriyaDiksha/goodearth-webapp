@@ -944,11 +944,38 @@ class PDPContainer extends React.Component<Props, State> {
   };
 
   onClickMobile3d = (e: any, code: string) => {
-    const { updateComponentModal, changeModalState } = this.props;
+    const {
+      updateComponentModal,
+      changeModalState,
+      data,
+      corporatePDP,
+      selectedSizeId,
+      currency
+    } = this.props;
+    const selectedSize = data?.childAttributes?.filter(
+      item => item.id == selectedSizeId
+    )[0];
+
+    const price = corporatePDP
+      ? data.priceRecords[currency]
+      : selectedSize && selectedSize?.priceRecords
+      ? selectedSize?.priceRecords[currency]
+      : data?.priceRecords[currency];
+
+    const discountPrices =
+      selectedSize && selectedSize?.discountedPriceRecords
+        ? selectedSize?.discountedPriceRecords[currency]
+        : data?.discountedPriceRecords[currency];
     updateComponentModal(
       POPUP.HELLOARPOPUP,
       {
-        code
+        code,
+        data,
+        buttoncall: this.returnPDPButton(),
+        showPrice:
+          data.invisibleFields && data.invisibleFields.indexOf("price") > -1,
+        price,
+        discountPrices
       },
       true
     );
@@ -1280,6 +1307,7 @@ class PDPContainer extends React.Component<Props, State> {
       : selectedSize && selectedSize?.priceRecords
       ? selectedSize?.priceRecords[currency]
       : data?.priceRecords[currency];
+
     const discountPrices =
       selectedSize && selectedSize?.discountedPriceRecords
         ? selectedSize?.discountedPriceRecords[currency]
