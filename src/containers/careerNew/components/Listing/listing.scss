@@ -72,20 +72,26 @@
                         text-transform: uppercase;
                         opacity: 1;
                         cursor: pointer;
-        
-                        &:after {
 
-                            @media screen and (max-width: 992px) {
-                                content: 'x';
-                                float: right;
-                                position: absolute;
-                                right: 30px;
-                                margin-top: 4px;
-                                font-size: 14px;
-                                transform: rotate(0deg);
-                                border: none;
-                            }
-                          }
+                        .cross_icon{
+                            float: right;
+                            font-size: 14px;
+                            margin-top: 4px;
+                        }
+        
+                        // &:after {
+
+                        //     @media screen and (max-width: 992px) {
+                        //         content: 'x';
+                        //         float: right;
+                        //         position: absolute;
+                        //         right: 30px;
+                        //         margin-top: 4px;
+                        //         font-size: 14px;
+                        //         transform: rotate(0deg);
+                        //         border: none;
+                        //     }
+                        //   }
                     }
                     .filter_label_open {
                         // text-align: center;
