@@ -6,6 +6,7 @@ import { Depts, Facets, Locs, Tags } from "containers/careerNew/typings";
 import { useSelector } from "react-redux";
 import { AppState } from "reducers/typings";
 import bootstrap from "../../../../styles/bootstrap/bootstrap-grid.scss";
+import iconStyles from "../../../../styles/iconFonts.scss";
 
 type Props = {
   facets: Facets;
@@ -291,6 +292,13 @@ const CareerFilter: React.FC<Props> = ({
               }}
             >
               Filters Applied
+              <i
+                className={cs(
+                  iconStyles.icon,
+                  iconStyles.iconCrossNarrowBig,
+                  listing.crossIcon
+                )}
+              ></i>
             </div>
             {/* <hr className={listing.filter_label_underline} /> */}
             <div

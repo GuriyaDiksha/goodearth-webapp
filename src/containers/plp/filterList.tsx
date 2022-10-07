@@ -91,7 +91,8 @@ class FilterList extends React.Component<Props, State> {
       categoryindex: -1,
       activeindex: -1,
       activeindex2: 1,
-      isViewAll: false
+      isViewAll: false,
+      currLocation: ""
     };
     this.props.onRef(this);
   }
@@ -609,6 +610,9 @@ class FilterList extends React.Component<Props, State> {
   }
 
   UNSAFE_componentWillReceiveProps = (nextProps: Props) => {
+    const urlParams2 = new URLSearchParams(nextProps.history.location.search);
+    const categoryShop2 = urlParams2.get("category_shop")?.split(">")[1];
+
     if (
       nextProps.onload &&
       nextProps.facets.categoryShop &&
@@ -637,6 +641,20 @@ class FilterList extends React.Component<Props, State> {
           nextProps.mobile ? this.updateDataFromAPI("load") : "";
         }
       );
+    }
+    if (this.state.currLocation === "") {
+      this.setState({
+        currLocation: categoryShop2
+      });
+    }
+    if (this.state.currLocation !== categoryShop2) {
+      this.setState({
+        activeindex: 0,
+        showFilterByDiscountMenu: false,
+        showProductFilter: false,
+        showmenulevel1: false,
+        currLocation: categoryShop2
+      });
     }
   };
 
