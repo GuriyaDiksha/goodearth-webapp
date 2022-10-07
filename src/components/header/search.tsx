@@ -57,6 +57,8 @@ type Props = {
   toggle: () => void;
   ipad: boolean;
   closePopup: (e: any) => void;
+  hideSearch: () => void;
+  hideMenu: () => void;
 } & ReturnType<typeof mapStateToProps> &
   ReturnType<typeof mapDispatchToProps> &
   RouteComponentProps;
@@ -107,7 +109,7 @@ class Search extends React.Component<Props, State> {
       !this.impactRef.current.contains(evt.target)
     ) {
       //Do what you want to handle in the callback
-      this.props.closePopup(evt);
+      // this.props.closePopup(evt);
     }
   };
 
@@ -253,7 +255,9 @@ class Search extends React.Component<Props, State> {
         this.props.history.push(
           "/search/?q=" + encodeURIComponent(event.target.value)
         );
-        this.closeSearch();
+        // this.closeSearch();
+        this.props.hideSearch();
+        this.props.hideMenu();
         return false;
       }
       this.setState({
@@ -419,7 +423,7 @@ class Search extends React.Component<Props, State> {
                       styles.iconSearchCross
                     )}
                     onClick={() => {
-                      this.closeSearch();
+                      this.props.hideSearch();
                     }}
                   ></i>
                 )}
