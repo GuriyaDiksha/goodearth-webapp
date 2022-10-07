@@ -10,6 +10,7 @@ import cs from "classnames";
 import { Context } from "components/Modal/context";
 import { AppState } from "reducers/typings";
 import { useSelector } from "react-redux";
+import header360 from "images/3d/header360.svg";
 
 const HelloarPopup: React.FC<{ code: string }> = ({ code }) => {
   // const [isLoading, setIsLoading] = useState(true);
@@ -29,18 +30,23 @@ const HelloarPopup: React.FC<{ code: string }> = ({ code }) => {
   // const { mobile } = useSelector((state: AppState) => state.device);
   return (
     <div className={styles.videoPopupContainer}>
-      <div
-        className={mobile ? styles.crossHellomobile : styles.crossHello}
-        onClick={closeModal}
-      >
-        <i
-          className={cs(
-            iconStyles.icon,
-            iconStyles.iconCrossNarrowBig,
-            styles.icon,
-            styles.iconCross
-          )}
-        ></i>
+      <div className={cs(styles.header)}>
+        <div className={cs(styles.headerContent)}>
+          <img src={header360} className={cs(styles.headerIcon)} />
+          <div className={cs(styles.headerText)}>
+            Spin & Drag to rotate the product
+          </div>
+        </div>
+        <div className={styles.helloArClose} onClick={closeModal}>
+          <i
+            className={cs(
+              iconStyles.icon,
+              iconStyles.iconCrossNarrowBig,
+              styles.icon,
+              styles.iconCross
+            )}
+          ></i>
+        </div>
       </div>
       <iframe
         src={`https://viewer.helloar.io?id=${code}`}
@@ -54,6 +60,7 @@ const HelloarPopup: React.FC<{ code: string }> = ({ code }) => {
           Discover Bosporus
         </Link>
       </div> */}
+      <div className={cs(styles.footer)}></div>
     </div>
   );
 };
