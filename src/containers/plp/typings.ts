@@ -75,5 +75,4 @@ export type State = {
   showmenulevel1: boolean;
   shouldScroll: boolean;
   isViewAll: boolean;
-  currLocation: string | undefined;
 };
