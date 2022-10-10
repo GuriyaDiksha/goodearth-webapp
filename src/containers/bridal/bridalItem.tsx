@@ -232,10 +232,11 @@ class BridalItem extends React.Component<Props, State> {
                           {this.props.bridalItem.qtyRemaining}
                         </div>
                       </div>
-
-                      {this.props.bridalItem.productAvailable && (
-                        <div className="">
+                      <div className="">
+                        {this.props.bridalItem.productAvailable && (
                           <div className={styles.textMuted}>QTY</div>
+                        )}
+                        {this.props.bridalItem.productAvailable && (
                           <div className={styles.widgetQty}>
                             <span
                               className={styles.btnQty}
@@ -253,22 +254,22 @@ class BridalItem extends React.Component<Props, State> {
                               +
                             </span>
                           </div>
-                          <div className={styles.h15}>
-                            {this.state.err ? (
-                              <div
-                                className={cs(
-                                  globalStyles.errorMsg,
-                                  globalStyles.textCenter
-                                )}
-                              >
-                                {this.state.err}
-                              </div>
-                            ) : (
-                              ""
-                            )}
-                          </div>
+                        )}
+                        <div className={styles.h15}>
+                          {this.state.err ? (
+                            <div
+                              className={cs(
+                                globalStyles.errorMsg,
+                                globalStyles.textCenter
+                              )}
+                            >
+                              {this.state.err}
+                            </div>
+                          ) : (
+                            ""
+                          )}
                         </div>
-                      )}
+                      </div>
                     </div>
                   </div>
                 )}
