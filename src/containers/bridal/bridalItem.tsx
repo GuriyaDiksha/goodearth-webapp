@@ -74,7 +74,13 @@ class BridalItem extends React.Component<Props, State> {
   };
 
   componentDidMount() {
-    if (this.props.bridalItem.qtyRemaining == 0) {
+    if (!this.props.bridalItem.productAvailable) {
+      this.setState({
+        buttonStatus: true,
+        btnDisable: cs(globalStyles.ceriseBtn, globalStyles.disabledBtn),
+        btnContent: "NOT AVAILABLE"
+      });
+    } else if (this.props.bridalItem.qtyRemaining == 0) {
       this.setState({
         buttonStatus: true,
         btnDisable: cs(globalStyles.ceriseBtn, globalStyles.disabledBtn),
@@ -227,40 +233,42 @@ class BridalItem extends React.Component<Props, State> {
                         </div>
                       </div>
 
-                      <div className="">
-                        <div className={styles.textMuted}>QTY</div>
-                        <div className={styles.widgetQty}>
-                          <span
-                            className={styles.btnQty}
-                            onClick={this.decreaseState}
-                          >
-                            -
-                          </span>
-                          <span className={styles.qty}>
-                            {this.state.qtyCurrent}
-                          </span>
-                          <span
-                            className={styles.btnQty}
-                            onClick={this.increaseState}
-                          >
-                            +
-                          </span>
-                        </div>
-                        <div className={styles.h15}>
-                          {this.state.err ? (
-                            <div
-                              className={cs(
-                                globalStyles.errorMsg,
-                                globalStyles.textCenter
-                              )}
+                      {this.props.bridalItem.productAvailable && (
+                        <div className="">
+                          <div className={styles.textMuted}>QTY</div>
+                          <div className={styles.widgetQty}>
+                            <span
+                              className={styles.btnQty}
+                              onClick={this.decreaseState}
                             >
-                              {this.state.err}
-                            </div>
-                          ) : (
-                            ""
-                          )}
+                              -
+                            </span>
+                            <span className={styles.qty}>
+                              {this.state.qtyCurrent}
+                            </span>
+                            <span
+                              className={styles.btnQty}
+                              onClick={this.increaseState}
+                            >
+                              +
+                            </span>
+                          </div>
+                          <div className={styles.h15}>
+                            {this.state.err ? (
+                              <div
+                                className={cs(
+                                  globalStyles.errorMsg,
+                                  globalStyles.textCenter
+                                )}
+                              >
+                                {this.state.err}
+                              </div>
+                            ) : (
+                              ""
+                            )}
+                          </div>
                         </div>
-                      </div>
+                      )}
                     </div>
                   </div>
                 )}
