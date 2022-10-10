@@ -717,6 +717,10 @@ class PDPContainer extends React.Component<Props, State> {
             onLoad={onImageLoad}
             iconAll={iconAll}
             codeAll={codeAll}
+            data={this.props.data}
+            corporatePDP={this.props.corporatePDP}
+            selectedSizeId={this.props.selectedSizeId}
+            currency={this.props.currency}
           />
           <div>
             <Counter
@@ -952,6 +956,7 @@ class PDPContainer extends React.Component<Props, State> {
       selectedSizeId,
       currency
     } = this.props;
+
     const selectedSize = data?.childAttributes?.filter(
       item => item.id == selectedSizeId
     )[0];
@@ -966,6 +971,7 @@ class PDPContainer extends React.Component<Props, State> {
       selectedSize && selectedSize?.discountedPriceRecords
         ? selectedSize?.discountedPriceRecords[currency]
         : data?.discountedPriceRecords[currency];
+
     updateComponentModal(
       POPUP.HELLOARPOPUP,
       {

@@ -1009,6 +1009,16 @@
       }
     }
   }
+  iframe{
+    height: calc(100% - 170px);
+  }
+  .footer{
+    background: #fff;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: 80px;
+  }
   .cta {
     bottom: 40px;
     position: absolute;

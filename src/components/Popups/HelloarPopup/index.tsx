@@ -33,8 +33,10 @@ const HelloarPopup: React.FC<Props> = ({
   discountPrice
 }) => {
   // const [isLoading, setIsLoading] = useState(true);
+
   const { closeModal } = useContext(Context);
   const { mobile } = useSelector((state: AppState) => state.device);
+
   // let player: any = null;
   // const togglePlay = (e: any) => {
   //   player.getPaused().then((isPaused: boolean) => {
@@ -47,6 +49,7 @@ const HelloarPopup: React.FC<Props> = ({
   // };
 
   // const { mobile } = useSelector((state: AppState) => state.device);
+
   return (
     <div className={styles.videoPopupContainer}>
       <div className={cs(styles.header)}>
@@ -69,7 +72,7 @@ const HelloarPopup: React.FC<Props> = ({
       </div>
       <iframe
         src={`https://viewer.helloar.io?id=${code}`}
-        height="100%"
+        // height="100%"
         width="100%"
         allow="xr-spatial-tracking;fullscreen;"
         frameBorder="0"
