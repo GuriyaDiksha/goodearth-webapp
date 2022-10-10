@@ -1655,7 +1655,7 @@ export const megaMenuNavigationGTM = ({
 export const pageViewGTM = (Title: string) => {
   try {
     const userConsent = CookieService.getCookie("consent").split(",");
-    const userInfo = JSON.parse(CookieService.getCookie("user"));
+    const userInfo = JSON.parse(CookieService.getCookie("user") || "{}");
 
     if (userConsent.includes(GA_CALLS)) {
       dataLayer.push({
