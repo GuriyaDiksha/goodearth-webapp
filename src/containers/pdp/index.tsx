@@ -721,6 +721,7 @@ class PDPContainer extends React.Component<Props, State> {
             corporatePDP={this.props.corporatePDP}
             selectedSizeId={this.props.selectedSizeId}
             currency={this.props.currency}
+            buttoncall={this.state.pdpButton}
           />
           <div>
             <Counter
