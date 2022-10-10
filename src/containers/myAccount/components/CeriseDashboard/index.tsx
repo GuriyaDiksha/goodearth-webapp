@@ -24,8 +24,8 @@ const CeriseDashboard = () => {
           View Statement
         </button>
       </div>
-      {/* <Rewards />
-      <Address /> */}
+      <Rewards />
+      <Address />
     </div>
   );
 };
