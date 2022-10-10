@@ -24,7 +24,11 @@ const BridalMobile: React.FC<Props> = ({ bridalItem, bridalId }) => {
   const [err, setErr] = useState("");
 
   useEffect(() => {
-    if (bridalItem.qtyRemaining == 0) {
+    if (!bridalItem.productAvailable) {
+      setButtonStatus(true);
+      setBtnDisable(cs(globalStyles.ceriseBtn, globalStyles.disabledBtn));
+      setBtnContent("NOT AVAILABLE");
+    } else if (bridalItem.qtyRemaining == 0) {
       setButtonStatus(true);
       setBtnDisable(cs(globalStyles.ceriseBtn, globalStyles.disabledBtn));
       setBtnContent("Fulfilled");
@@ -128,30 +132,32 @@ const BridalMobile: React.FC<Props> = ({ bridalItem, bridalId }) => {
                 </div>
               </div>
 
-              <div className={styles.voffset3}>
-                <div className={styles.textMuted}>QTY</div>
-                <div className={styles.widgetQty}>
-                  <span className={styles.btnQty} onClick={decreaseState}>
-                    -
-                  </span>
-                  <span className={styles.qty}>{qtyCurrent}</span>
-                  <span className={styles.btnQty} onClick={increaseState}>
-                    +
-                  </span>
-                </div>
-                {err ? (
-                  <div
-                    className={cs(
-                      globalStyles.errorMsg,
-                      globalStyles.textCenter
-                    )}
-                  >
-                    {err}
+              {bridalItem.productAvailable && (
+                <div className={styles.voffset3}>
+                  <div className={styles.textMuted}>QTY</div>
+                  <div className={styles.widgetQty}>
+                    <span className={styles.btnQty} onClick={decreaseState}>
+                      -
+                    </span>
+                    <span className={styles.qty}>{qtyCurrent}</span>
+                    <span className={styles.btnQty} onClick={increaseState}>
+                      +
+                    </span>
                   </div>
-                ) : (
-                  ""
-                )}
-              </div>
+                  {err ? (
+                    <div
+                      className={cs(
+                        globalStyles.errorMsg,
+                        globalStyles.textCenter
+                      )}
+                    >
+                      {err}
+                    </div>
+                  ) : (
+                    ""
+                  )}
+                </div>
+              )}
             </div>
           </div>
         </div>
