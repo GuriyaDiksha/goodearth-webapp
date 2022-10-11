@@ -61,7 +61,7 @@
     // height: 308px;
     font-weight: 400;
     text-align: left;
-    padding: 25px 25px 26px 25px;
+    padding: 20px 20px 20px 40px;
     flex-grow: 1;
     border: none;
     font-family: $font-Lato;
@@ -105,10 +105,10 @@
       div.default-address-div {
         text-align: right;
         font-size: 10px;
-        height: 18px;
+        // height: 18px;
         font-style: italic;
         display: grid;
-        margin-bottom: 18px;
+        // margin-bottom: 18px;
         grid-template-columns: 22fr 1fr;
         .line {
           color: #808080;
@@ -192,7 +192,7 @@
     }
     .default-address-checkbox {
       position: relative;
-      left: 95%;
+      left: -27px;
       height: 15px;
       width: 15px;
       background-color: #fff;
@@ -332,8 +332,13 @@
   .line-head {
     @include b4_12px_montserrat_charcoal();
     letter-spacing:  0.36px;
-    margin-top: 10px;
+    // margin-top: 10px;
     word-wrap: break-word;
+    display: flex;
+    justify-content: space-between;
+    .radio{
+      position: absolute;
+    }
   }
 
   .line {
@@ -393,3 +398,11 @@
   display: -webkit-flex;
   display: flex;
 }
+ .add-new-address{
+  @include b4_12px_montserrat_charcoal();
+  text-transform: uppercase;
+  letter-spacing: 0.36px;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  margin-top: 30px;
+ }
