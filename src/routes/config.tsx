@@ -252,7 +252,8 @@ const makerRoutes = [
   ROUTES.NEHAKAPUR,
   ROUTES.SABINASINGH,
   ROUTES.DEEPSHIKHA,
-  ROUTES.EESHAAN
+  ROUTES.EESHAAN,
+  ROUTES.GUEST
 ];
 
 makerRoutes.forEach(route => {
