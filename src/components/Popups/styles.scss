@@ -980,6 +980,11 @@
   top: 50%;
   transform: translate(-50%, -50%);
   box-sizing: content-box;
+  &.mobile{
+    height: calc(100% - 56px);
+    top: 0%;
+    transform: translate(-50%, 0%);
+  }
   .header{
     background-color: #ffffff;
     height: 90px;
@@ -1011,6 +1016,9 @@
   }
   iframe{
     height: calc(100% - 170px);
+    &.mobile{
+      height: calc(100% - 150px);
+    }
   }
   .footer{
     background: #fff;
@@ -1023,7 +1031,12 @@
     padding: 0% 8%;
     flex-direction: column;
     justify-content: center;
+    &.mobile {
+      padding: 0%;
+      height: 60px;
+    }
   }
+
   .cta {
     bottom: 40px;
     position: absolute;

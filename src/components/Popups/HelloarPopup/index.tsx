@@ -51,7 +51,9 @@ const HelloarPopup: React.FC<Props> = ({
   // const { mobile } = useSelector((state: AppState) => state.device);
 
   return (
-    <div className={styles.videoPopupContainer}>
+    <div
+      className={cs(styles.videoPopupContainer, { [styles.mobile]: mobile })}
+    >
       <div className={cs(styles.header)}>
         <div className={cs(styles.headerContent)}>
           <img src={header360} className={cs(styles.headerIcon)} />
@@ -82,13 +84,14 @@ const HelloarPopup: React.FC<Props> = ({
           Discover Bosporus
         </Link>
       </div> */}
-      <div className={cs(styles.footer)}>
+      <div className={cs(styles.footer, { [styles.mobileFooter]: mobile })}>
         <DockedPanel
           data={data}
           buttoncall={buttoncall}
           showPrice={showPrice}
           price={price}
           discountPrice={discountPrice}
+          mobile={mobile}
         />
       </div>
     </div>
