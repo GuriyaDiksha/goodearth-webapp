@@ -554,6 +554,12 @@ class MyProfile extends React.Component<Props, State> {
                   // }}
                   keyPress={e => (e.key == "Enter" ? e.preventDefault() : "")}
                   defaultClass={styles.inputDefault}
+                  keyDown={e => (e.which === 69 ? e.preventDefault() : null)}
+                  onPaste={e =>
+                    e?.clipboardData.getData("Text").match(/([e|E])/)
+                      ? e.preventDefault()
+                      : null
+                  }
                 />
               </div>
               <div>

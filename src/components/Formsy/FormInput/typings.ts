@@ -19,6 +19,7 @@ export type Props = {
   disablePassword?: () => void;
   handleChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
   keyPress?: (event: React.KeyboardEvent) => void;
+  keyDown?: (event: React.KeyboardEvent) => void;
   keyUp?: (event: React.KeyboardEvent) => void;
   min?: number | string;
   max?: number | string;
@@ -26,6 +27,7 @@ export type Props = {
   isPlaceholderVisible?: boolean;
   maxlength?: number;
   defaultClass?: string;
+  onPaste?: (event: React.ClipboardEvent) => void;
 };
 
 export type State = {

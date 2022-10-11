@@ -9,12 +9,23 @@
       width: 430px;
       min-height: 360px;
       .gc-tnc {
-        height: 100%;
-      padding: 50px 0 30px 0;
-      // overflow-y: scroll;
-      &.top-image{
-        padding: 20px;
+        height: auto;
+        padding: 50px 0 30px 0;
+        // overflow-y: scroll;
+        &.top-image{
+          padding: 20px;
+        }
+        &.left-image{
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          gap: 30px;
+        }
       }
+      .disclaimer{
+        p {
+          line-height: 15px;
+        }
       }
       p {
         line-height: 20px;
@@ -29,6 +40,9 @@
         padding: 0px 20px;
         p {
           padding: 0;
+        }
+        &.left-image-content{
+          margin-bottom: 0px;
         }
       }
       .cerise-btn-width {
@@ -503,7 +517,7 @@
     position: relative;
     transform: translateX(-50%);
     left: 50%;
-    margin-bottom: 20px;
+    // margin-bottom: 20px;
   }
   .cerise-btn80 {
     width: 80%;
@@ -1065,9 +1079,10 @@
   font-size: 10px;
   font-family: $font-Lato;
   // margin: 10px;
-  margin-top: 20px;
+  // margin-top: 20px;
   letter-spacing: 0.5px;
   font-weight: lighter;
+  padding: 0px 30px;
 }
 
 .two-button {
@@ -1130,7 +1145,10 @@
   .heading{
     @include h3_20px_lora_charcoal();
     letter-spacing: 0.5px;
-    margin-bottom: 20px;
+    // margin-bottom: 20px;
+    h1 {
+      margin: 0px;
+    }
     p{
       line-height: 30px;
     }
@@ -1138,13 +1156,13 @@
   .left-image-content{
     @include b4_12px_montserrat_charcoal();
     letter-spacing: 0.36px;
-    margin-bottom: 20px;
+    // margin-bottom: 20px;
     // padding: 0px 20px;
-    padding: 0px;
+    padding: 0px 30px;
   }
   .left-image-cta{
-    margin-bottom: 30px;
-    border: 1px solid $aqua-bold;
+    // margin-bottom: 30px;
+    // border: 1px solid $aqua-bold;
     color: $aqua-bold;
     font-family: $font-Montserrat;
     font-size: 12px;
@@ -1156,10 +1174,11 @@
     align-items: center;
     justify-content: center;
     letter-spacing: 0.5px;
-    &:hover{
-      color: $white;
-      background: $aqua-bold;
-    }
+    background: #ab1e56;
+    // &:hover{
+    //   color: $white;
+    //   background: $aqua-bold;
+    // }
   }
   .popup-cta{
     color: #fff;
@@ -1201,14 +1220,6 @@
       }
     }
   }
-  &.top-image{
-    .disclaimer{
-      p{
-        // padding: 0px 25%;
-        line-height: 15px;
-      }
-    }
-  }
   &.two-cta{
     .disclaimer{
       p{
@@ -1224,6 +1235,13 @@
 //     padding: 30px 0 30px 0 !important;
 //   }
 // }
+
+@media (min-width: 992px){
+  .left-image-template-container{
+    height: 700px;
+    width: 615px;
+  }
+}
 
 @media (max-width: 992px){
   // .left-image{

@@ -429,3 +429,144 @@ hr {
   margin-top: 20px;
   margin-bottom: 20px;
 }
+
+//=========New OTP Component===============//
+
+.otp-wrp{
+  background: #FFFFFF 0% 0% no-repeat padding-box;
+  // box-shadow: 0px 3px 6px #00000029;
+  opacity: 1;
+  padding: 30px 30px 40px 30px;
+  max-width: 500px;
+  max-height: 500px;
+  margin: auto;
+
+  @media screen and (max-width: 500px) {
+    padding: 40px 0;
+  }
+
+  @media screen and (min-width: 501px) and (max-width: 1100px) {
+    padding: 40px;
+  }
+
+  .otp-heading{
+    @include b4_12px_montserrat_charcoal();
+    padding-bottom: 20px;
+    letter-spacing: 0.5px;
+  }
+
+  .otp-timer{
+    @include b4_12px_montserrat_light_charcoal();
+    padding: 20px 0px 30px 0;
+    letter-spacing: 0.5px;
+    .otp-resend{
+      font-weight: 400;
+      span{
+        border-bottom: 1px solid $charcoal19;
+        cursor: pointer;
+        letter-spacing: 0.5px;
+      }
+    }
+  }
+
+  .otp-input-err{
+    max-width: 100%;
+    width: 263px;
+    margin: 0 auto;
+    letter-spacing: 0.5px;
+
+    .otp-input-wrp{
+      display: flex;
+      justify-content: center;
+  
+      .otp-input{
+        width: 40px;
+        height: 40px;
+        flex: 0 0 40px;
+        border: 1px solid #E5E5E5 !important;
+        border-radius: 7px !important;
+        opacity: 1;
+        background: #FFFFFF 0% 0% no-repeat padding-box;
+        text-align: center !important;
+        margin: 0 2px 0 3px;
+        letter-spacing: 0.5px;
+        @include b1_16px_charcoal_montserrat();
+        
+        @media screen and (max-width: 500px) {
+          padding: 0px;
+        }
+  
+        &:active{
+          border: 1px solid $aqua-text !important;
+        }
+  
+        &:focus{
+          border: 1px solid $aqua-text !important;
+        }
+  
+        &.error{
+          border: 1px solid $cerise !important;
+        }
+  
+      }
+    }
+  
+    .otp-error{
+      @include error_msg_cerise();
+      padding-top: 10px;
+      text-align: left;
+      letter-spacing: 0.5px;
+    }
+  }
+
+  .otp-btn{
+    width: 300px;
+    height: 60px;
+    background-color: #4C4C4C;
+    border: 1px solid #4C4C4C;
+    border-radius:0%;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    @include b3_14px_montserrat_white();
+
+    &:hover{
+      background-color: $white;
+      @include b3_14px_montserrat_charcoal();
+    }
+
+  }
+
+  .disable{
+    background-color:#9F9F9F;
+    border: 1px solid #9F9F9F;
+    cursor: not-allowed;
+
+    &:hover{
+      background-color: #9F9F9F;
+      border: 1px solid #9F9F9F;
+      @include b3_14px_montserrat_white();
+    }
+
+  }
+
+  .otp-attempt{
+    @include b6_9px_light_montserrat_charcoal();
+    padding-top: 10px;
+    padding-bottom: 20px;
+    letter-spacing: 0.5px;
+  }
+
+  .otp-policy{
+    @include b5_10px_montserrat_charcoal();
+    padding-top: 25px;
+    border-bottom: 1px solid $charcoal19;
+    letter-spacing: 0.5px;
+    &:hover{
+      color: #3C7979 !important;
+      border-bottom: 1px solid #3C7979 !important;
+    }
+
+  }
+
+
+}
