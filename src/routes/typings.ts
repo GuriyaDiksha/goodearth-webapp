@@ -56,7 +56,8 @@ export const enum ROUTES {
   NEHAKAPUR = "/festive-style-neha-kapur-kunal-nayyar",
   SABINASINGH = "/setting-the-vibe-ad-sabina-singh",
   DEEPSHIKHA = "/thoughtful-gifts-deepshika-khanna",
-  EESHAAN = "/toast-eeshaan-kashyap"
+  EESHAAN = "/toast-eeshaan-kashyap",
+  GUEST = "/be-my-guest-entertaining-guide"
 }
 
 export type RouteConfig = RouteObject[];
