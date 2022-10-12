@@ -14,7 +14,7 @@ import { Dispatch } from "redux";
 import HeaderFooterService from "services/headerFooter";
 import { updateShowCookie } from "actions/info";
 import CookiePolicy from "./CookiePolicy";
-// import MakerSmartNav from "containers/base/MakerSmartNav";
+import MakerSmartNav from "containers/base/MakerSmartNav";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -1100,10 +1100,10 @@ class Footer extends React.Component<Props, FooterState> {
             </div>
           </div>
         </div>
-        {/* {this.props.location.pathname == "/" &&
+        {this.props.location.pathname == "/" &&
           this.props.currency == "INR" && (
             <MakerSmartNav id="TDEHYqQNA" inline={false} />
-          )} */}
+          )}
 
         {this.props.location.pathname !==
           "/customer-assistance/cookie-policy" &&
