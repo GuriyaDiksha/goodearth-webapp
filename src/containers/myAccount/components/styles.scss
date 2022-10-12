@@ -409,7 +409,7 @@
 }
 
 .login-form {
-  input[type="text"], input[type="date"]{
+  input[type="text"], input[type="date"], input[type="password"], input[type="number"]{
     font-family: $font-Montserrat;
     font-size: 12px;
     font-weight: $regular;
@@ -672,6 +672,8 @@
   }
 
   .cta-error{
+    @include error_msg_cerise();
+    text-align: left;
     margin-bottom: 7px;
   }
 
@@ -825,4 +827,48 @@
 
 .error-msg{
   @include err_13px_lora_italic_cerise();
+}
+
+.country-code{
+  display: flex;
+  justify-content: space-between;
+}
+
+.charcoal-btn{
+  background-color: #4C4C4C;
+  @include b3_14px_montserrat_white();
+  text-transform: uppercase;
+  letter-spacing: 0.42px;
+  line-height: 52px;
+  width: 100%;
+  text-align: center;
+  border: 1px solid #4C4C4C;
+  border-radius: 0;
+  cursor: pointer;
+  &:hover{
+    color: #191919;
+    background-color: #fff;
+  }
+  &.disabled-btn{
+    color: #fff;
+    background-color: #9f9f9f;
+    border: 1px solid #9f9f9f;
+  }
+}
+
+.categorylabel{
+  input[type="text"], input[type="number"]{
+    font-size: 12px !important;
+    &::placeholder{
+      font-size: 12px;
+    }
+  }
+  select{
+    font-size: 12px !important;
+  }
+  .address-form-checkbox{
+    input[type="checkbox"]:checked + label:after{
+      top: 3px;
+    }
+  }
 }

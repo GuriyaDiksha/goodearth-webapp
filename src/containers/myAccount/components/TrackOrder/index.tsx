@@ -296,19 +296,16 @@ class TrackOrder extends React.Component<Props, State> {
               </div>
               <div>
                 {this.state.showerror ? (
-                  <p className={cs(globalStyles.errorMsg, styles.ctaError)}>
-                    {this.state.showerror}
-                  </p>
+                  <p className={cs(styles.ctaError)}>{this.state.showerror}</p>
                 ) : (
                   ""
                 )}
                 <input
                   type="submit"
                   disabled={!updateSubmit}
-                  className={cs(
-                    { [globalStyles.disabledBtn]: !updateSubmit },
-                    globalStyles.ceriseBtn
-                  )}
+                  className={cs(styles.charcoalBtn, {
+                    [styles.disabledBtn]: !updateSubmit
+                  })}
                   value={"CHECK ORDER STATUS"}
                 />
               </div>

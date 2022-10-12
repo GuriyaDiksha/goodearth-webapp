@@ -134,6 +134,11 @@
       text-align: left;
       label {
         left: 0px;
+        @include b4_12px_montserrat_charcoal();
+        letter-spacing: 0.42px;
+        &:before {
+          top:0px;
+        }
       }
     }
     &.notify {
@@ -262,17 +267,17 @@
       position: relative;
       margin: 35px 0 20px 0;
       flex-wrap: wrap;
-      .contact-msg {
-        font-style: italic;
-        font-size: 12px;
-        margin-top: 5px;
-        letter-spacing: 0.5px;
-      }
+      // .contact-msg {
+      //   font-style: italic;
+      //   font-size: 12px;
+      //   margin-top: 5px;
+      //   letter-spacing: 0.5px;
+      // }
       select {
         cursor: pointer;
       }
       >div {
-        width: 35%;
+        width: 30%;
         position: relative;
         +div {
           width: 65%;

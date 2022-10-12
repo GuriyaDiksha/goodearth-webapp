@@ -11,7 +11,8 @@
     z-index: 1;
     &.back-btn-address {
       top: 50px;
-      right: -45px;
+      left: -65px;
+      text-align: left;
     }
     @media screen and (max-width: 992px) {
       &.back-btn-address {
@@ -405,12 +406,60 @@
   text-decoration: underline;
   text-underline-offset: 2px;
   margin-top: 30px;
+  cursor: pointer;
  }
 
 .contact-msg{
-  font-style: italic;
-  font-size: 12px;
+  @include b5_10px_montserrat_charcoal();
   margin-top: 5px;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.32px;
   text-align: left;
+}
+
+.charcoal-btn{
+  background-color: #4C4C4C;
+  @include b3_14px_montserrat_white();
+  text-transform: uppercase;
+  letter-spacing: 0.42px;
+  line-height: 52px;
+  width: 100%;
+  text-align: center;
+  border: 1px solid #4C4C4C;
+  border-radius: 0;
+  cursor: pointer;
+  &:hover{
+    color: #191919;
+    background-color: #fff;
+  }
+  &.disabled-btn{
+    color: #fff;
+    background-color: #9f9f9f;
+    border: 1px solid #9f9f9f;
+  }
+}
+
+.back-btn-font {
+  @include b4_12px_medium_light_charcoal();
+}
+
+.categorylabel{
+  input[type="text"], input[type="number"]{
+    font-size: 12px !important;
+    &::placeholder{
+      font-size: 12px;
+    }
+  }
+  select{
+    font-size: 12px !important;
+  }
+  .address-form-checkbox{
+    input[type="checkbox"]:checked + label:after{
+      top: 3px;
+    }
+  }
+}
+
+.country-code{
+  display: flex;
+  justify-content: space-between;
 }

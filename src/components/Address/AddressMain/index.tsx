@@ -303,7 +303,7 @@ const AddressMain: React.FC<Props> = props => {
                     <input
                       type="button"
                       id="address_button"
-                      className={cs(globalStyles.ceriseBtn, {
+                      className={cs(styles.charcoalBtn, {
                         [globalStyles.disabledBtn]:
                           currentCallBackComponent == "bridal" &&
                           !userAddress?.id
@@ -311,7 +311,7 @@ const AddressMain: React.FC<Props> = props => {
                       value={
                         currentCallBackComponent == "bridal"
                           ? "create registry"
-                          : "add a new address"
+                          : "+ add a new address"
                       }
                       onClick={() => {
                         if (

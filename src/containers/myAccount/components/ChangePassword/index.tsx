@@ -122,7 +122,7 @@ class ChangePassword extends React.Component<Props, State> {
   render() {
     const { updatePassword } = this.state;
     return (
-      <div className={bootstrapStyles.row}>
+      <div className={cs(bootstrapStyles.row, styles.loginForm)}>
         <div
           className={cs(
             bootstrapStyles.col10,
