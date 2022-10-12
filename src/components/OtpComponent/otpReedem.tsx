@@ -309,6 +309,7 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
           attempts={this.state.attempts}
           btnText={"Redeem Points"}
           startTimer={this.state.startTimer}
+          setAttempts={this.changeAttepts}
         />
         {/* {(this.props.otpFor == "activateGC"
           ? this.props.newCardBox == true

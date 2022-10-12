@@ -346,6 +346,12 @@ class OtpComponent extends React.Component<otpProps, otpState> {
           this.props.toggleOtp(false);
         })
         .catch((error: any) => {
+          this.setState({
+            attempts: {
+              attempts: error?.response.data?.attempts || 0,
+              maxAttemptsAllow: error?.response.data?.maxAttemptsAllow || 5
+            }
+          });
           if (error.response.data.error_message) {
             let errorMsg = error.response.data.error_message[0];
             if (errorMsg == "MaxRetries") {
@@ -663,6 +669,7 @@ class OtpComponent extends React.Component<otpProps, otpState> {
                 : "Check Balance"
             }
             startTimer={this.state.startTimer}
+            setAttempts={this.changeAttepts}
           />
           // <>
           //   {radioType == "number" ? (

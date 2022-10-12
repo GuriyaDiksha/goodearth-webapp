@@ -14,7 +14,7 @@ import { Dispatch } from "redux";
 import HeaderFooterService from "services/headerFooter";
 import { updateShowCookie } from "actions/info";
 import CookiePolicy from "./CookiePolicy";
-import MakerSmartNav from "containers/base/MakerSmartNav";
+// import MakerSmartNav from "containers/base/MakerSmartNav";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -466,6 +466,15 @@ class Footer extends React.Component<Props, FooterState> {
                                     style={{
                                       color: footerHeadingFontColor
                                     }}
+                                    onClick={() => {
+                                      if (
+                                        this.props.location.pathname ==
+                                        list.link
+                                      ) {
+                                        window.scrollTo(0, 0);
+                                      }
+                                      valid.footerGTM(list.name);
+                                    }}
                                   >
                                     {list.name}
                                   </Link>
@@ -830,15 +839,6 @@ class Footer extends React.Component<Props, FooterState> {
                                           <a
                                             className={globalStyles.txtNormal}
                                             href={child.link}
-                                            onClick={() => {
-                                              if (
-                                                this.props.location.pathname ==
-                                                child.link
-                                              ) {
-                                                window.scrollTo(0, 0);
-                                              }
-                                              valid.footerGTM(child.text);
-                                            }}
                                             style={{
                                               color:
                                                 this.state.subheadingHoverArray[
@@ -873,6 +873,15 @@ class Footer extends React.Component<Props, FooterState> {
                                               this.setState({
                                                 subheadingHoverArray: items
                                               });
+                                            }}
+                                            onClick={() => {
+                                              if (
+                                                this.props.location.pathname ==
+                                                child.link
+                                              ) {
+                                                window.scrollTo(0, 0);
+                                              }
+                                              valid.footerGTM(child.text);
                                             }}
                                           >
                                             {child.text}
@@ -1112,10 +1121,10 @@ class Footer extends React.Component<Props, FooterState> {
             </div>
           </div>
         </div>
-        {this.props.location.pathname == "/" &&
-          (this.props.currency == "INR" || this.props.currency == "USD") && (
+        {/* {this.props.location.pathname == "/" &&
+          this.props.currency == "INR" && (
             <MakerSmartNav id="TDEHYqQNA" inline={false} />
-          )}
+          )} */}
 
         {this.props.location.pathname !==
           "/customer-assistance/cookie-policy" &&
