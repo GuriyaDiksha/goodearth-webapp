@@ -150,7 +150,7 @@ const BridalItemsList: React.FC<Props> = props => {
                     </div>
                   </div>
                   <div className={styles.productPrice}>
-                    {saleStatus && discount ? (
+                    {discount ? (
                       <span className={styles.productPrice}>
                         <span className={styles.discountprice}>
                           {getCurrency()} {discountedPrice[props.currency]}

@@ -704,7 +704,8 @@ const ProductDetails: React.FC<Props> = ({
         sliderImages: sliderImages
       },
       false,
-      ModalStyles.bottomAlign
+      mobile ? ModalStyles.bottomAlignSlideUp : "",
+      mobile ? "slide-up-bottom-align" : ""
     );
     changeModalState(true);
   };

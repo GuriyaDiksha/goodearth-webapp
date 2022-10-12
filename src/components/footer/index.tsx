@@ -518,34 +518,55 @@ class Footer extends React.Component<Props, FooterState> {
                                             />
                                           )}
                                           {currentValue.link ? (
-                                            <Link
-                                              to={
-                                                currentValue.text.toLowerCase() ==
-                                                  "good earth registry" &&
-                                                this.props.isLoggedIn
-                                                  ? "/account/bridal"
-                                                  : currentValue.link
-                                              }
-                                              onClick={() => {
-                                                if (
-                                                  this.props.location
-                                                    .pathname == list.link ||
-                                                  currentValue.text.toLowerCase() ==
-                                                    "good earth registry"
-                                                ) {
-                                                  window.scrollTo(0, 0);
-                                                }
-                                                valid.footerGTM(
-                                                  currentValue.text
-                                                );
-                                              }}
-                                              key={j}
-                                              style={{
-                                                color: footerSubHeadingFontColor
-                                              }}
-                                            >
-                                              {currentValue.text}
-                                            </Link>
+                                            currentValue.text.toLowerCase() ==
+                                              "good earth registry" &&
+                                            this.props.isLoggedIn ? (
+                                              <Link
+                                                to={"/account/bridal"}
+                                                onClick={() => {
+                                                  if (
+                                                    this.props.location
+                                                      .pathname == list.link ||
+                                                    currentValue.text.toLowerCase() ==
+                                                      "good earth registry"
+                                                  ) {
+                                                    window.scrollTo(0, 0);
+                                                  }
+                                                  valid.footerGTM(
+                                                    currentValue.text
+                                                  );
+                                                }}
+                                                key={j}
+                                                style={{
+                                                  color: footerSubHeadingFontColor
+                                                }}
+                                              >
+                                                {currentValue.text}
+                                              </Link>
+                                            ) : (
+                                              <a
+                                                href={currentValue.link}
+                                                onClick={() => {
+                                                  if (
+                                                    this.props.location
+                                                      .pathname == list.link ||
+                                                    currentValue.text.toLowerCase() ==
+                                                      "good earth registry"
+                                                  ) {
+                                                    window.scrollTo(0, 0);
+                                                  }
+                                                  valid.footerGTM(
+                                                    currentValue.text
+                                                  );
+                                                }}
+                                                key={j}
+                                                style={{
+                                                  color: footerSubHeadingFontColor
+                                                }}
+                                              >
+                                                {currentValue.text}
+                                              </a>
+                                            )
                                           ) : currentValue.newTabLink ? (
                                             <a
                                               href={currentValue.newTabLink}
@@ -724,6 +745,15 @@ class Footer extends React.Component<Props, FooterState> {
                                     {item.link ? (
                                       <Link
                                         to={item.link || "#"}
+                                        onClick={() => {
+                                          if (
+                                            this.props.location.pathname ==
+                                            item.link
+                                          ) {
+                                            window.scrollTo(0, 0);
+                                          }
+                                          valid.footerGTM(item.name);
+                                        }}
                                         style={{
                                           color:
                                             this.state.headingHoverArray[
@@ -754,15 +784,6 @@ class Footer extends React.Component<Props, FooterState> {
                                           this.setState({
                                             headingHoverArray: items
                                           });
-                                        }}
-                                        onClick={() => {
-                                          if (
-                                            this.props.location.pathname ==
-                                            item.link
-                                          ) {
-                                            window.scrollTo(0, 0);
-                                          }
-                                          valid.footerGTM(item.name);
                                         }}
                                       >
                                         {item.name}
@@ -874,6 +895,17 @@ class Footer extends React.Component<Props, FooterState> {
                                                 ? "/account/bridal"
                                                 : child.link
                                             }
+                                            onClick={() => {
+                                              if (
+                                                this.props.location.pathname ==
+                                                  child.link ||
+                                                child.text.toLowerCase() ==
+                                                  "good earth registry"
+                                              ) {
+                                                window.scrollTo(0, 0);
+                                              }
+                                              valid.footerGTM(child.text);
+                                            }}
                                             style={{
                                               color: this.state
                                                 .subheadingHoverArray[
@@ -909,17 +941,6 @@ class Footer extends React.Component<Props, FooterState> {
                                               this.setState({
                                                 subheadingHoverArray: items
                                               });
-                                            }}
-                                            onClick={() => {
-                                              if (
-                                                this.props.location.pathname ==
-                                                  child.link ||
-                                                child.text.toLowerCase() ==
-                                                  "good earth registry"
-                                              ) {
-                                                window.scrollTo(0, 0);
-                                              }
-                                              valid.footerGTM(child.text);
                                             }}
                                           >
                                             {child.text}
