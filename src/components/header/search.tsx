@@ -404,7 +404,7 @@ class Search extends React.Component<Props, State> {
                 >
                   {`view all results`}
                 </span>
-                {!mobile && (
+                {
                   <i
                     className={cs(
                       iconStyles.icon,
@@ -413,7 +413,7 @@ class Search extends React.Component<Props, State> {
                     )}
                     onClick={this.onClickSearch}
                   ></i>
-                )}
+                }
                 {!mobile && (
                   <i
                     className={cs(
