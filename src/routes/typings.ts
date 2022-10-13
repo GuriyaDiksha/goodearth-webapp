@@ -26,7 +26,7 @@ export const enum ROUTES {
   PressStories = "/press-stories",
   ABOUTUS = "/about-us",
   APPOINTMENTS = "/brand",
-  SAFETYMEASURES = "/customer-assistance/safety-measures",
+  SAFETYMEASURES = "/safety-measures",
   CORPORATEGIFTING = "/corporate-gifts-catalogue",
   GIFTINGLANDING = "/gifting",
   BRIDAL = "/the-good-earth-registry",
@@ -40,7 +40,7 @@ export const enum ROUTES {
   WITHMAKER = "/withmaker",
   WITHOUTMAKER = "/withoutmaker",
   MICROSITE = "/microsite/:id?",
-  VIRTUAL = "/virtualappointment",
+  VIRTUAL = "/flowers-fragrance-anita-lal",
   SHOPPER = "/personal-shopper-form",
   INSTORE = "/instoreservices",
   THANKYOU = "/thankyou",
@@ -49,7 +49,15 @@ export const enum ROUTES {
   AUTH = "/auth",
   HFH = "/summer-lovin-reminders",
   SITEMAP = "/sitemap",
-  WORKSHOPS = "/workshops"
+  WORKSHOPS = "/workshops",
+  ERROR404 = "/404",
+  DEVIKANARAIN = "/art-of-decorating-devika-narain",
+  MARUTSIKHA = "/perfect-menu-marut-sikka",
+  NEHAKAPUR = "/festive-style-neha-kapur-kunal-nayyar",
+  SABINASINGH = "/setting-the-vibe-ad-sabina-singh",
+  DEEPSHIKHA = "/thoughtful-gifts-deepshika-khanna",
+  EESHAAN = "/toast-eeshaan-kashyap",
+  GUEST = "/be-my-guest-entertaining-guide"
 }
 
 export type RouteConfig = RouteObject[];

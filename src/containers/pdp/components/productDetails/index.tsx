@@ -423,6 +423,10 @@ const ProductDetails: React.FC<Props> = ({
       ? "3d"
       : "non 3d";
 
+    const view3dValue = sliderImages.filter(ele => ele?.icon).length
+      ? "View3d"
+      : "nonView3d";
+
     const userConsent = CookieService.getCookie("consent").split(",");
     if (userConsent.includes(ANY_ADS)) {
       Moengage.track_event("add_to_cart", {
@@ -459,6 +463,7 @@ const ProductDetails: React.FC<Props> = ({
         "Login Status": isLoggedIn ? "logged in" : "logged out",
         "Product Name": title,
         "Product ID": selectedSize?.id,
+        dimension8: view3dValue,
         Variant: size
       });
       dataLayer.push({
@@ -474,7 +479,8 @@ const ProductDetails: React.FC<Props> = ({
                 brand: "Goodearth",
                 category: category,
                 variant: selectedSize?.size || "",
-                quantity: quantity
+                quantity: quantity,
+                dimension8: view3dValue
               }
             ]
           }
@@ -941,13 +947,13 @@ const ProductDetails: React.FC<Props> = ({
                   [styles.spacerQuickview]: isQuickview && withBadge
                 })}
               >
-                <div className={bootstrap.col9}>
+                <div className={bootstrap.col12}>
                   <div className={bootstrap.row}>
                     <div
                       className={cs(
                         bootstrap.col12,
-                        bootstrap.colSm3,
-                        { [bootstrap.colMd8]: mobile },
+                        bootstrap.colSm2,
+                        { [bootstrap.colMd6]: mobile },
                         styles.label,
                         styles.colour
                       )}
@@ -955,8 +961,8 @@ const ProductDetails: React.FC<Props> = ({
                       Color
                     </div>
                     <div
-                      className={cs(bootstrap.col12, bootstrap.colSm9, {
-                        [bootstrap.colMd4]: mobile
+                      className={cs(bootstrap.col12, bootstrap.colSm10, {
+                        [bootstrap.colMd6]: mobile
                       })}
                     >
                       <ColorSelector
@@ -987,7 +993,7 @@ const ProductDetails: React.FC<Props> = ({
                         className={cs(
                           bootstrap.col12,
                           bootstrap.colSm3,
-                          { [bootstrap.colMd8]: mobile },
+                          { [bootstrap.colMd6]: mobile },
                           styles.label,
                           styles.size,
                           { [styles.mobileMargin]: mobile }
@@ -1098,7 +1104,7 @@ const ProductDetails: React.FC<Props> = ({
                       className={cs(
                         bootstrap.col12,
                         bootstrap.colSm3,
-                        { [bootstrap.colMd8]: mobile },
+                        { [bootstrap.colMd6]: mobile },
                         styles.label,
                         styles.quantity,
                         { [styles.mobileMargin]: mobile }

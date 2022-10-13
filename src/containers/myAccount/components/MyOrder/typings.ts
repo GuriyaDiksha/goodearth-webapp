@@ -11,6 +11,7 @@ export type OrdersProps = {
   isLoading: (x: boolean) => void;
   isDataAvaliable: (x: boolean) => void;
   email?: string;
+  mobile?: boolean;
 };
 
 export type ShopProps = {

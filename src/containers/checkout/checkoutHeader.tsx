@@ -247,7 +247,7 @@ class CheckoutHeader extends React.Component<Props, { boId: string }> {
             content={
               meta.description
                 ? meta.description
-                : "Good Earth India's official website. Explore unique product stories and craft traditions that celebrate the heritage of the Indian subcontinent."
+                : "Good Earth – Luxury Indian Design House Explore handcrafted designs that celebrate style from an Indian perspective"
             }
           />
           {meta.keywords && <meta name="keywords" content={meta.keywords} />}

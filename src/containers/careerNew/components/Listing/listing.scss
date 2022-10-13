@@ -97,7 +97,10 @@
                     }
         
             .filters_wrp{
-                padding:5px;
+                transition:max-height 0.3s ease-in;
+                max-height: 1000px;
+                overflow: hidden;
+                margin:5px;
     
                     [type="checkbox"]:checked + label,
                      [type="checkbox"]:not(:checked) + label{
@@ -208,7 +211,9 @@
                     }        
             }
             .filters_wrp_hide{
-                display: none;
+                max-height: 0px;
+                overflow: hidden;
+                transition:max-height 0.3s ease-out;
             }
             }
 

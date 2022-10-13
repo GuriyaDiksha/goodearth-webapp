@@ -5,7 +5,7 @@ import ToggleSwitch from "components/Switch";
 import { Link } from "react-router-dom";
 import CookieService from "services/cookie";
 import { AppState } from "reducers/typings";
-import { useSelector, useStore } from "react-redux";
+import { useSelector } from "react-redux";
 // import WidgetService from "services/widget";
 import { Consent } from "services/widget/typings";
 import { clone } from "lodash";
@@ -26,7 +26,7 @@ const CookiePolicy: React.FC<Props> = ({
   const [isPrefOpen, setIsPrefOpen] = useState(false);
   const [consents, setConsents] = useState<Consent[]>([]);
   const [regionName, setRegion] = useState<string>("");
-  const { region, widgetDetail, country, ip } = useSelector(
+  const { region, widgetDetail } = useSelector(
     (state: AppState) => state.widget
   );
   // const { email } = useSelector((state: AppState) => state.user);

@@ -208,10 +208,11 @@ class Mobilemenu extends React.Component<Props, MobileState> {
               .componentData as MenuComponentTitleData;
             const children = template.templateData.children;
 
-            const { title, link, ctaName } = componentData;
+            const { title, link, ctaName, openInNewTab } = componentData;
             l2MenuData.text = title;
             l2MenuData.link = link;
             l2MenuData.ctaName = ctaName || "";
+            l2MenuData.openInNewTab = openInNewTab;
             children &&
               children.length > 0 &&
               children.map((child, index) => {
@@ -219,7 +220,8 @@ class Mobilemenu extends React.Component<Props, MobileState> {
                 const l3MenuData: L2MenuData = {
                   text: childComponentData.heading,
                   link: childComponentData.link,
-                  ctaName: childComponentData.ctaName
+                  ctaName: childComponentData.ctaName,
+                  openInNewTab: childComponentData.openInNewTab
                 };
                 l2MenuData.children && l2MenuData.children.push(l3MenuData);
               });
@@ -228,12 +230,19 @@ class Mobilemenu extends React.Component<Props, MobileState> {
               .componentData as MenuComponentL2L3Data;
             const children = template.templateData.children;
 
-            const { text, link, ctaMobile, viewAllLink } = componentData;
+            const {
+              text,
+              link,
+              ctaMobile,
+              viewAllLink,
+              openInNewTab
+            } = componentData;
             l2MenuData.text = text;
             l2MenuData.link = link;
             l2MenuData.ctaMobile = ctaMobile;
             l2MenuData.viewAllLink = viewAllLink;
             l2MenuData.hideViewAllOnMobile = template.hideViewAllOnMobile;
+            l2MenuData.openInNewTab = openInNewTab;
             children &&
               children.length > 1 &&
               children.map((child, index) => {
@@ -241,7 +250,8 @@ class Mobilemenu extends React.Component<Props, MobileState> {
                 const l3MenuData: L2MenuData = {
                   text: childComponentData.text,
                   link: childComponentData.link,
-                  ctaName: childComponentData.ctaName
+                  ctaName: childComponentData.ctaName,
+                  openInNewTab: childComponentData.openInNewTab
                 };
                 l2MenuData.children && l2MenuData.children.push(l3MenuData);
               });
@@ -259,7 +269,8 @@ class Mobilemenu extends React.Component<Props, MobileState> {
                 const l3MenuData: L2MenuData = {
                   text: childComponentData.heading,
                   link: childComponentData.link,
-                  ctaName: childComponentData.ctaName
+                  ctaName: childComponentData.ctaName,
+                  openInNewTab: childComponentData.openInNewTab
                 };
                 l2MenuData.children && l2MenuData.children.push(l3MenuData);
               });
@@ -274,7 +285,6 @@ class Mobilemenu extends React.Component<Props, MobileState> {
   createMegaListElement(megaMenuData: MegaMenuData) {
     const html = [];
     const innerMenuData: InnerMenuData = this.createInnerMenuData(megaMenuData);
-    // console.log(innerMenuData);
     const l2MenuData = innerMenuData.l2MenuData || [];
     const isStories = innerMenuData.text.toLowerCase() == "stories";
     const isEmpty = innerMenuData.l2MenuData.length == 0;
@@ -458,6 +468,7 @@ class Mobilemenu extends React.Component<Props, MobileState> {
                       >
                         <Link
                           to={innerdata.link}
+                          target={innerdata.openInNewTab ? "_blank" : ""}
                           onClick={() => {
                             this.props.onMobileMenuClick({
                               l1: innerMenuData.text,
