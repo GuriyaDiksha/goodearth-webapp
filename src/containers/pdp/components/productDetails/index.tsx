@@ -317,7 +317,7 @@ const ProductDetails: React.FC<Props> = ({
         setQuantity(value);
         setSizeError("");
       } else {
-        setSizeError("Please select a Size to proceed");
+        setSizeError("Please select a size to proceed");
       }
     },
     [selectedSize]
@@ -519,9 +519,9 @@ const ProductDetails: React.FC<Props> = ({
 
   const addToBasket = () => {
     if (!selectedSize) {
-      setSizeError("Please select a Size to proceed");
+      setSizeError("Please select a size to proceed");
       valid.errorTracking(
-        ["Please select a Size to proceed"],
+        ["Please select a size to proceed"],
         window.location.href
       );
       showError();
@@ -550,9 +550,9 @@ const ProductDetails: React.FC<Props> = ({
 
   const checkAvailability = () => {
     if (!selectedSize) {
-      setSizeError("Please select a Size to proceed");
+      setSizeError("Please select a size to proceed");
       valid.errorTracking(
-        ["Please select a Size to proceed"],
+        ["Please select a size to proceed"],
         window.location.href
       );
       showError();
@@ -594,7 +594,7 @@ const ProductDetails: React.FC<Props> = ({
     }
     if (childAttributes[0].size) {
       if (!selectedSize) {
-        setSizeError("Please select a Size to proceed");
+        setSizeError("Please select a size to proceed");
         showError();
         return false;
       }
@@ -719,7 +719,7 @@ const ProductDetails: React.FC<Props> = ({
 
   const sizeSelectClick = () => {
     // setSizeerror(true);
-    setSizeError("Please select a Size to proceed");
+    setSizeError("Please select a size to proceed");
     showError();
   };
 
