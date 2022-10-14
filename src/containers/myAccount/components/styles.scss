@@ -427,6 +427,12 @@
       font-weight: $regular;
       color: #9f9f9f;
     }
+    &:active{
+      font-size: 12px;
+    }
+    &:focus{
+      font-size: 12px;
+    }
   }
   select{
     font-family: $font-Montserrat;
@@ -690,16 +696,18 @@
   padding: 15px;
   padding-left: 8px;
   top: 0px;
-  right: 0px;
+  right: 8px;
   width: 54px;
   border-left: none;
+  border-right: none;
   position: absolute;
   cursor: pointer;
-  font-size: 10px;
-  font-style: italic;
-  color: #ab1e56 !important;
-  font-weight: bold;
-  font-family: $font-Lato;
+  @include b5_10px_montserrat_charcoal();
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  &:hover{
+    color: $aqua-bold;
+  }
   letter-spacing: 1px;
   text-transform: none;
   line-height: 15px;
@@ -880,4 +888,18 @@
       top: 3px;
     }
   }
+}
+
+.giftcard-balance{
+  @include b4_12px_medium_aqua();
+}
+
+.line-head{
+  @include b4_12px_montserrat_charcoal_caps();
+  margin-top: 20px;
+}
+
+.line{
+  @include b4_12px_montserrat_charcoal();
+  font-weight: $semibold;
 }

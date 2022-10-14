@@ -460,11 +460,12 @@ class Giftcard extends React.Component<Props, GiftState> {
                 className={cs(
                   styles.rtcinfo,
                   globalStyles.pointer,
-                  globalStyles.textLeft
+                  globalStyles.textLeft,
+                  styles.charcoalBtn
                 )}
                 onClick={this.newGiftcard}
               >
-                [+] ACTIVATE ANOTHER GIFT CARD
+                ACTIVATE ANOTHER GIFT CARD
               </div>
             )}
           </div>
