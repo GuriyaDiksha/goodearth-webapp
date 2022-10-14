@@ -5,10 +5,9 @@ import { AppState } from "reducers/typings";
 import LoyaltyService from "services/loyalty";
 import { updateLoyaltyPoints } from "actions/loyalty";
 import CeriseCardDetail from "./CeriseCardDetail";
-import { NavLink } from "react-router-dom";
 
 type StateData = { user: { slab: string; email: string } };
-type Props = { clickToggle?: any };
+type Props = { clickToggle?: any; isMobileMenu?: boolean };
 
 const CeriseCard: React.FC<Props> = ({ clickToggle }) => {
   const {

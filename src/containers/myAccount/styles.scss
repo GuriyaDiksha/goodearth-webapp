@@ -50,6 +50,9 @@
 .bg-profile {
   background: url('../../images/myaccountBg.jpg') repeat;
   height: auto;
+  &.cerise-transaction{
+    background:none;
+  }
   // padding-top: 60px;
   &.cerise-club {
     // background-color: #fbf6f0;

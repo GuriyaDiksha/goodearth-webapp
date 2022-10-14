@@ -29,7 +29,7 @@ import AccountServices from "services/account";
 import CeriseClubMain from "./components/CeriseClub/ceriseClubMain";
 import CeriseDashboard from "./components/CeriseDashboard";
 import TransactionDashboard from "./components/TransactionDashboard";
-
+const slab = "cerise";
 type Props = {
   isBridal: boolean;
   mobile: boolean;
@@ -45,9 +45,7 @@ const MyAccount: React.FC<Props> = props => {
   const [accountListing, setAccountListing] = useState(false);
   // const [slab, setSlab] = useState("");
   const { mobile } = useSelector((state: AppState) => state.device);
-  const { isLoggedIn, email, slab } = useSelector(
-    (state: AppState) => state.user
-  );
+  const { isLoggedIn, email } = useSelector((state: AppState) => state.user);
   const { showTimer } = useSelector((state: AppState) => state.info);
   // const [ isCeriseClubMember, setIsCeriseClubMember ] = useState(false);
 
@@ -283,6 +281,9 @@ const MyAccount: React.FC<Props> = props => {
       ? slab.toLowerCase() == "cerise" || slab.toLowerCase() == "ff10"
         ? cs(styles.ceriseClub, loyaltyStyles.ceriseDashboardContainer)
         : cs(styles.ceriseSitaraClub, loyaltyStyles.ceriseDashboardContainer)
+      : "",
+    slab && pathname == "/account/cerise/transaction"
+      ? cs(styles.ceriseSitaraClub, loyaltyStyles.ceriseDashboardContainer)
       : ""
   );
   return (
@@ -532,7 +533,7 @@ const MyAccount: React.FC<Props> = props => {
             {accountMenuItems.map(
               ({ component, href, label, title, currentCallBackComponent }) => {
                 const Component = component;
-                if (title.toLowerCase() == "cerise") {
+                if (title.toLowerCase() == "cerise" || title === "") {
                   return (
                     <Route key={label} exact path={href}>
                       <div className={bgClass}>

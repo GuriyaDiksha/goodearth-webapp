@@ -1,2 +1,396 @@
 @import "../../../../styles/partials/variables";
 @import "../../../../styles/partials/mixins";
+
+.transaction-dash-wrp{
+
+    background-color: #F9F8F5;
+    padding: 75px 155px;
+    width: 100%;
+
+    @media screen and (max-width:992px) {
+        padding: 0;
+    }
+    
+    .back-wrp{
+        margin-bottom: 15px;
+
+        .back{
+            cursor: pointer;
+            margin-bottom: 15px;
+            @include b5_10px_montserrat_charcoal();
+        }
+    }
+
+    .transaction-wrp{
+        margin-top: 65px;
+
+        .heading{
+            @include h3_20px_lora_charcoal();
+            margin-bottom: 40px;
+
+            @media screen and (max-width:992px) {
+                margin-left: 25px;
+            }
+        }
+
+        .points-wrp{
+            display: flex;
+            flex-wrap: wrap;
+
+            .points{
+                text-align: center;
+                flex: 0 0 25%;
+                max-width: 25%;
+                padding: 0 50px;
+                margin-bottom: 30px;
+
+                @media only screen and (max-width: 992px) {
+                    padding: 0 25px;
+                }
+
+                @media only screen and (max-width: 992px) {
+                    flex: 0 0 50%;
+                    max-width: 50%;
+                    
+                }
+
+                &:not(:last-child) {
+                    border-right: 1px solid lightgray;
+                }
+
+                &:nth-child(2) {
+                    @media only screen and (max-width: 992px) {
+                        border-right: 0px;
+                    }
+                }
+
+                // &:nth-child(1){
+                //     border-left: none;
+
+                //     @media only screen and (max-width: 992px) {
+                //         padding-right: 25px;
+                //     }
+                // }
+
+                &:nth-child(4){
+
+                    .name{
+                        @include b4_12px_montserrat_aqua();
+                    }
+                    .point{
+                        @include b1_16px_aqua();
+                    }
+                }
+
+                .name{
+                    @include b4_12px_montserrat_charcoal();
+                    margin-bottom: 22px;
+                }
+                .point{
+                    @include b1_16px_charcoal();
+                }
+                
+            }
+        }
+    }
+
+}
+
+.transaction-table-background{
+    background-color: $white;
+    padding: 30px;
+    margin-bottom: 30px;
+
+    @media screen and (max-width: 992px) {
+        padding: 30px 18.25px;
+    }
+
+    .transaction-table-header{
+        display: flex;
+        padding: 0 20px;
+        border-bottom: 1px solid lightgrey;
+        padding-bottom: 30px;
+        justify-content: space-evenly;
+
+        @media screen and (max-width:992px) {
+            position: fixed;
+            bottom: 60px;
+            z-index: 99;
+            background: white;
+            border: none;
+            padding: 0;  
+            left: 0;
+            width: 100%;          
+        }
+
+        .heading{
+            margin: auto 0;
+            @include b4_12px_montserrat_charcoal_caps();
+        }
+
+    }
+}
+
+.transactionTable{
+    .tableRow{
+      padding: 15px 0px;
+
+      .first-head {
+        @media screen and (max-width:992px) {
+            margin: 0 5px;
+        }
+      }
+
+      @media screen and (max-width: 992px) {
+        .invoice{
+        flex: 0 0 32%;
+        max-width: 32%;
+        }
+        .desc{
+        flex: 0 0 30%;
+        max-width: 30%;
+        }
+        .col-point{
+        flex: 0 0 23%;
+        max-width: 23%;
+        }
+      }
+
+
+
+      &.table-first-row{
+        border-top: 1px solid lightgray;
+        padding-bottom: 15px;
+        padding-top:15px;
+
+       .point{
+        height: 15px;
+        width: 15px;
+        background-color: #bbb;
+        border-radius: 50%;
+        display: inline-block;
+        flex: 0 0 2%;
+
+        @media screen and (max-width:500px) {
+            height: 10px;
+            width: 15px;
+            background-color: #bbb;
+            border-radius: 50%;
+            display: inline-block;
+            flex: 0 0 3%;
+            top: 3px;
+            margin: 0 5px;
+        }
+       }
+
+       .icon-carrot{
+        span{
+            content: '';
+            // float: left;
+            border: solid grey;
+            border-width: 0 1px 1px 0;
+            width: 10px;
+            height: 10px;
+            position: absolute;
+            transform: rotate(45deg);
+            top: 2px;
+            // left: 30px;
+
+            &.active{
+              transform: rotate(225deg);
+              top: 6px;
+            }
+       }
+
+      }
+
+      }
+      &.table-second-row{
+        border-top: none;
+        // padding-bottom: 15px;
+        padding:0; 
+        background-color: #E5E5E5;  
+        overflow: hidden;
+        transition: max-height 0.3s ease-out;
+        max-height: 0;
+
+        .inner-details{
+            margin: 10px;
+            width: 100%;
+
+            .head{
+                @include b6_9px_montserrat_charcoal();
+            }
+            .desc{
+                @include b4_12px_montserrat_charcoal();
+            }
+
+        }
+        
+        table{
+            margin: 17px 135px 17px 50px;
+            width: 100%;
+
+            @media screen and (max-width:992px) {
+                margin: 10px;
+            }
+
+            th{
+                @include b6_9px_montserrat_charcoal();
+                padding-bottom: 10px;
+            }
+            td{
+                @include b4_12px_montserrat_light_charcoal();
+                padding-bottom: 10px;
+
+                img{
+                    height: 25px
+                }
+            }
+            .first-td{
+                width: 63%;
+            }
+        }
+
+        &.active{
+            max-height: 200px;
+            transition: max-height 0.3s ease-in;
+            overflow: hidden;
+
+            @media screen and (max-width:992px) {
+                max-height: 300px;
+            }
+          }
+      }
+     
+      .tableHeading{
+          @include b4_12px_montserrat_charcoal();
+
+          span{
+            img{
+                margin: 4px;
+            }
+          }
+
+          &.first-head{
+            flex: 0 0 2%;
+          }
+      }
+    }
+  }
+
+ .align-center-text{
+    text-align: center;
+  } 
+
+.pagination{
+    display: flex;
+    width: 20%;
+    justify-content: space-around;
+    margin: auto;
+    padding-top: 20px;
+
+    p{
+        @include b4_12px_montserrat_light_charcoal();
+
+        &.active{
+            @include b4_12px_montserrat_charcoal();
+            border-bottom: 1px solid $charcoal19;
+        }
+
+        &:nth-child(1),:nth-child(6){
+            content: '';
+            float: left;
+            border: solid $charcoal19;
+            border-width: 0 1px 1px 0;
+            width: 10px;
+            height: 10px;
+            position: relative;
+            transform: rotate(135deg);
+            top: 4px;
+            left: 3px;
+        }
+        &:nth-child(6){
+            content: '';
+            float: left;
+            border: solid $charcoal19;
+            border-width: 0 1px 1px 0;
+            width: 10px;
+            height: 10px;
+            position: relative;
+            transform: rotate(310deg);
+            top: 4px;
+            left: 0px;
+        }
+    }
+}
+
+.table-footer{
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid lightgray;
+    padding-bottom: 50px;
+
+    @media screen and (max-width:992px) {
+        display: block;
+    }
+
+    .table-footer-left{
+        .table-lables{
+            display: flex;
+            margin-left: 25px;
+           
+            .footer-label{
+                display: flex;
+                margin-right: 20px;
+                .point{
+                    height: 15px;
+                    width: 15px;
+                    background-color: $aqua;
+                    border-radius: 50%;
+                    display: inline-block;
+                    margin-right: 10px;
+                }
+                .label{
+                    margin-top: 2px;
+                    @include b6_9px_montserrat_charcoal();
+                }
+            }
+    
+        }
+
+        .footer-line{
+            @include b6_9px_montserrat_charcoal();
+            padding-left: 25px;
+            margin-top: 10px;
+        
+            a{
+                @include b5_10px_montserrat_charcoal();
+                border-bottom: 1px solid $charcoal19;
+            }
+        }
+    }
+
+   
+    .download-link{
+
+        @media screen and (max-width:992px) {
+            text-align: center;
+            margin-top: 35px;
+        }
+        button{
+            background: none;
+            border: none;
+            border-bottom: 1px solid $charcoal19;
+            margin-left: 10px;
+            @include b4_12px_montserrat_charcoal_caps();
+
+            &:hover{
+                @include b4_12px_montserrat_aqua();
+                border-bottom: 1px solid $aqua;
+            }
+        }
+    }
+
+}
+

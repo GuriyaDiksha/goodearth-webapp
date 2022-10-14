@@ -45,7 +45,8 @@ const CeriseCardDetail: React.FC<Props> = ({ isViewDashboard }) => {
     <div
       className={cs(styles.ceriseCardLeftWrp, styles.mobileWidth, {
         [styles.goldBackground]:
-          loyaltyPoints?.MembershipClub === "Cerise Sitara"
+          loyaltyPoints?.MembershipClub === "Cerise Sitara",
+        [styles.leftMaxWidth]: isViewDashboard
       })}
     >
       <div className={styles.header}>
@@ -99,7 +100,10 @@ const CeriseCardDetail: React.FC<Props> = ({ isViewDashboard }) => {
         </div>
         <div className={cs(styles.info, active ? styles.active : "")}>
           <div
-            className={cs(styles.infoIcon, active ? styles.inactive : "")}
+            className={cs(styles.infoIcon, active ? styles.inactive : "", {
+              [styles.goldColor]:
+                loyaltyPoints?.MembershipClub === "Cerise Sitara"
+            })}
             onClick={e => {
               e.preventDefault();
               e.stopPropagation();
@@ -111,7 +115,10 @@ const CeriseCardDetail: React.FC<Props> = ({ isViewDashboard }) => {
               {loyaltyPoints?.AdditionalSpend} additional spends needed to
               become a {loyaltyPoints?.NextUpgradeMembershipClub}
               <span
-                className={styles.close}
+                className={cs(styles.close, {
+                  [styles.goldColor]:
+                    loyaltyPoints?.MembershipClub === "Cerise Sitara"
+                })}
                 onClick={e => {
                   e.preventDefault();
                   e.stopPropagation();
