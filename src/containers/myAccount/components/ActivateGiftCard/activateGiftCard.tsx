@@ -392,8 +392,8 @@ class Giftcard extends React.Component<Props, GiftState> {
                         <input
                           type="submit"
                           value="proceed"
-                          className={cs(globalStyles.ceriseBtn, {
-                            [globalStyles.disabledBtn]: this.state
+                          className={cs(styles.charcoalBtn, {
+                            [styles.disabledBtn]: this.state
                               .isProceedBtnDisabled
                           })}
                           disabled={this.state.isProceedBtnDisabled}

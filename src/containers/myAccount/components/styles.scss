@@ -377,10 +377,18 @@
   text-align: left;
 }
 .rtc {
-  font-size: 12px;
-  letter-spacing: 1px;
   margin-left: 20px;
-  text-align: left;
+  text-align: center;
+}
+
+.underline-link{
+  @include b5_10px_montserrat_charcoal();
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  letter-spacing: 0.3px;
+  &:hover{
+    color: $aqua-bold
+  }
 }
 
 .error-msg {
@@ -430,7 +438,7 @@
     font-size: 9px;
     letter-spacing: 0.36px;
     font-weight: $light;
-    color: #19191940;
+    color: #191919;
     position: absolute;
     top: -10px;
     left: 10px;
@@ -848,6 +856,7 @@
   &:hover{
     color: #191919;
     background-color: #fff;
+    border: 1px solid #4C4C4C;
   }
   &.disabled-btn{
     color: #fff;

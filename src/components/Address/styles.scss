@@ -407,6 +407,9 @@
   text-underline-offset: 2px;
   margin-top: 30px;
   cursor: pointer;
+  &:hover{
+    color: $aqua-bold
+  }
  }
 
 .contact-msg{

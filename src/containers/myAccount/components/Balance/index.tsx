@@ -124,11 +124,11 @@ class CheckBalance extends React.Component<Props, State> {
                       <div className={styles.rtc}>
                         <Link
                           to="/customer-assistance/terms-conditions"
-                          className={globalStyles.cerise}
+                          className={styles.underlineLink}
                           target="_blank"
                         >
                           {" "}
-                          Read Terms & Conditions{" "}
+                          View Terms & Conditions{" "}
                         </Link>
                       </div>
                     </div>
