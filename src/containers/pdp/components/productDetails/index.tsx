@@ -452,6 +452,7 @@ const ProductDetails: React.FC<Props> = ({
       subcategory = subcategory[subcategory.length - 1];
     }
     const size = selectedSize?.size || "";
+    const search = CookieService.getCookie("search") || "";
     if (userConsent.includes(GA_CALLS)) {
       dataLayer.push({
         "Event Category": "GA Ecommerce",
@@ -504,7 +505,7 @@ const ProductDetails: React.FC<Props> = ({
               item_category2: selectedSize?.size, //pass the item category2 ex.Size
               item_category3: category3, //pass the product type 3d or non 3d
               item_list_id: "", //pass the item list id
-              item_list_name: "", //pass the item list name ex.search results
+              item_list_name: search, //pass the item list name ex.search results
               item_variant: selectedSize?.size || "",
               item_category4: l1,
               item_category5: collection,

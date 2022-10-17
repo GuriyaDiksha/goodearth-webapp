@@ -264,6 +264,7 @@ class Search extends React.Component<Props, State> {
         searchValue: event.target.value
       });
       this.getSearchDataApi(event.target.value);
+      CookieService.setCookie("search", event.target.value, 365);
     } else {
       this.setState({
         productData: [],
@@ -274,6 +275,7 @@ class Search extends React.Component<Props, State> {
         url: "/search",
         searchValue: event.target.value
       });
+      CookieService.setCookie("search", event.target.value, 365);
     }
   };
 
