@@ -3,6 +3,7 @@ import cs from "classnames";
 import { MobileDropdownMenuProps } from "./typing";
 import styles from "./styles.scss";
 import bootstrap from "../../styles/bootstrap/bootstrap-grid.scss";
+import iconStyles from "../../styles/iconFonts.scss";
 // import useOutsideDetection from "../../../hooks/useOutsideDetetion";
 import globalStyles from "styles/global.scss";
 import { useSelector } from "react-redux";
@@ -168,7 +169,17 @@ const PlpDropdownMenu = ({
             ) : (
               <span>FILTER BY</span>
             )}
-            <span onClick={onInsideClick}>X</span>
+            {/* <span onClick={onInsideClick}>X</span> */}
+            <i
+              className={cs(
+                iconStyles.icon,
+                iconStyles.iconCrossNarrowBig,
+                styles.iconStyle,
+                styles.iconSearchCross,
+                styles.crossIcon
+              )}
+              onClick={onInsideClick}
+            ></i>
           </div>
           <div
             className={cs(

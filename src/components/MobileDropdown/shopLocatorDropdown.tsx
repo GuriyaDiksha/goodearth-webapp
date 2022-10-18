@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import cs from "classnames";
 import { MobileDropdownMenuProps } from "./typing";
 import styles from "./styles.scss";
@@ -26,6 +26,10 @@ const ShopDropdownMenu = ({
     setOpenState(false);
     onChange(data.value);
   };
+
+  useEffect(() => {
+    setDisplayValue(value);
+  }, [value]);
 
   return (
     <div className={styles.cSort}>
