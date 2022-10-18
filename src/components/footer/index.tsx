@@ -351,18 +351,10 @@ class Footer extends React.Component<Props, FooterState> {
                     styles.ftrHeadingWhite,
                     styles.ftrHeadingWhite2
                   )}
-                  style={{
-                    color: sectionFontColor
-                  }}
                 >
                   be in the know
                 </div>
-                <div
-                  style={{
-                    color: sectionFontColor
-                  }}
-                  className={cs(styles.ftrCopyWhiteDesktop)}
-                >
+                <div className={cs(styles.ftrCopyWhiteDesktop)}>
                   {ReactHtmlParser(sectionContent)}
                 </div>
                 <div
@@ -395,7 +387,7 @@ class Footer extends React.Component<Props, FooterState> {
                         }
                       )}
                       style={{
-                        color: "#b2b2b2"
+                        color: sectionFontColor
                       }}
                     >
                       {this.state.newsletterMessage}{" "}
