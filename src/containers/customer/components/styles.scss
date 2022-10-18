@@ -519,6 +519,8 @@ ol {
     margin-bottom: 10px;
   }
   .content{
+    // padding-top: 20px;
+    padding-bottom: 20px;
     div{
       margin: 0 !important;
       padding: 0 !important;
@@ -536,4 +538,29 @@ ol {
       padding: 0 !important;
     }
   }
+}
+
+.page-title{
+  @include h3_20px_lora_charcoal();
+  margin-bottom: 20px;
+}
+
+.description{
+  @include b4_12px_montserrat_charcoal();
+  padding-bottom: 50px;
+}
+
+.accordion-header{
+  @include b4_12px_semibold_caps_charocal();
+  padding-right: 40px;
+  border-bottom: 1px solid lightgray;
+}
+
+.accordion-body{
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+.content-heading {
+  @include b4_12px_semibold_caps_charocal();
 }

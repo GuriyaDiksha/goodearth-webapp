@@ -59,6 +59,7 @@ export default class Cust extends React.Component<
                   sections={section}
                   className={styles.accordionClass}
                   headerClassName={styles.accordionHeader}
+                  bodyClassName={styles.accordionBody}
                   openIconClassName={cs(faqStyles.horizontal, faqStyles.open)}
                   closedIconClassName={cs(faqStyles.horizontal)}
                 />
