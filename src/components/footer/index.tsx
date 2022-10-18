@@ -14,6 +14,7 @@ import { Dispatch } from "redux";
 import HeaderFooterService from "services/headerFooter";
 import { updateShowCookie } from "actions/info";
 import CookiePolicy from "./CookiePolicy";
+import ReactHtmlParser from "react-html-parser";
 // import MakerSmartNav from "containers/base/MakerSmartNav";
 
 const mapStateToProps = (state: AppState) => {
@@ -307,7 +308,9 @@ class Footer extends React.Component<Props, FooterState> {
         footerHeadingFontColor,
         footerSubHeadingFontColor,
         footerHeadingHoverColor,
-        footerSubHeadingHoverColor
+        footerSubHeadingHoverColor,
+        sectionContent,
+        sectionFontColor
       },
       findUsOnData
     } = this.props.data;
@@ -348,16 +351,19 @@ class Footer extends React.Component<Props, FooterState> {
                     styles.ftrHeadingWhite,
                     styles.ftrHeadingWhite2
                   )}
+                  style={{
+                    color: sectionFontColor
+                  }}
                 >
                   be in the know
                 </div>
-                <div className={cs(styles.ftrCopyWhiteDesktop)}>
-                  By signing up for alerts, you agree to receive e-mails, calls
-                  and text messages from Goodearth. To know more how we keep
-                  your data safe, refer to our{" "}
-                  <Link to="/customer-assistance/privacy-policy">
-                    Privacy Policy
-                  </Link>
+                <div
+                  style={{
+                    color: sectionFontColor
+                  }}
+                  className={cs(styles.ftrCopyWhiteDesktop)}
+                >
+                  {ReactHtmlParser(sectionContent)}
                 </div>
                 <div
                   className={cs(
