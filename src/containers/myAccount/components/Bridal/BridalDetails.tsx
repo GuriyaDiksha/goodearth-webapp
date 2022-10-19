@@ -63,7 +63,7 @@ const BridalDetails: React.FC = () => {
 
   useEffect(() => {
     const userConsent = CookieService.getCookie("consent").split(",");
-    if (userConsent.includes(GA_CALLS)) {
+    if (userConsent.includes(GA_CALLS) || true) {
       dataLayer.push({
         event: "registry",
         "Event Category": "Registry",

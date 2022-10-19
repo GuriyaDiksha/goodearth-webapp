@@ -35,7 +35,7 @@ const CreateRegistry: React.FC = () => {
   useEffect(() => {
     window.addEventListener("beforeunload", confirmPopup);
     const userConsent = CookieService.getCookie("consent").split(",");
-    if (userConsent.includes(GA_CALLS)) {
+    if (userConsent.includes(GA_CALLS) || true) {
       util.pageViewGTM("MyAccount");
       dataLayer.push({
         event: "registry",

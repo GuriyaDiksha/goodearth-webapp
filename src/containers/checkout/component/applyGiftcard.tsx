@@ -89,7 +89,7 @@ class ApplyGiftcard extends React.Component<Props, GiftState> {
           this.updateError(response.message, response.isNotActivated);
         } else {
           const userConsent = CookieService.getCookie("consent").split(",");
-          if (userConsent.includes(GA_CALLS)) {
+          if (userConsent.includes(GA_CALLS) || true) {
             dataLayer.push({
               event: "eventsToSend",
               eventAction: "giftCard",

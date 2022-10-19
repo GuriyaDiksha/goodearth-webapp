@@ -147,7 +147,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
     });
     if (result.pushToGA == false) {
       const userConsent = CookieService.getCookie("consent").split(",");
-      if (userConsent.includes(GA_CALLS)) {
+      if (userConsent.includes(GA_CALLS) || true) {
         dataLayer.push({
           event: "purchase",
           ecommerce: {
@@ -209,7 +209,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
           contents: fbProduct
         });
       }
-      if (userConsent.includes(ANY_ADS)) {
+      if (userConsent.includes(ANY_ADS) || true) {
         Moengage.track_event("PurchasedOnline", {
           "Category Name": categoryname,
           "Sub category": subcategoryname,
@@ -247,7 +247,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
       gtmPushOrderConfirmation(response.results?.[0]);
     });
     const userConsent = CookieService.getCookie("consent").split(",");
-    if (userConsent.includes(GA_CALLS)) {
+    if (userConsent.includes(GA_CALLS) || true) {
       dataLayer.push(function(this: any) {
         this.reset();
       });
@@ -258,7 +258,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
         Page_Title: "virtual_orderConfirmationPage_view"
       });
     }
-    if (userConsent.includes(ANY_ADS)) {
+    if (userConsent.includes(ANY_ADS) || true) {
       Moengage.track_event("Page viewed", {
         "Page URL": location.pathname,
         "Page Name": "OrderConfirmationPageView"

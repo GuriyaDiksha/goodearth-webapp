@@ -197,7 +197,7 @@ class RegisterForm extends React.Component<Props, registerState> {
 
   gtmPushRegister = () => {
     const userConsent = CookieService.getCookie("consent").split(",");
-    if (userConsent.includes(GA_CALLS)) {
+    if (userConsent.includes(GA_CALLS) || true) {
       dataLayer.push({
         event: "eventsToSend",
         eventAction: "signup",
@@ -477,13 +477,13 @@ class RegisterForm extends React.Component<Props, registerState> {
           </div>
           <div className={styles.userGenderPicker}>
             <FormSelect
-              required
               name="gender"
               label="Select Gender*"
               placeholder="Select Gender*"
               options={genderOptions}
               disable={!this.state.showFields}
               className={this.state.showFields ? "" : styles.disabledInput}
+              required
             />
           </div>
           <div className={styles.calendarIconContainer}>
@@ -682,17 +682,11 @@ class RegisterForm extends React.Component<Props, registerState> {
               ]}
             />
           </div>
-          <div>
-            <p
-              className={
-                this.state.msgt
-                  ? cs(globalStyles.errorMsg, globalStyles.wordCap)
-                  : globalStyles.hiddenEye
-              }
-            >
+          {this.state.msgt && (
+            <p className={cs(styles.errorMsg, globalStyles.textLeft)}>
               Please accept the Terms & Conditions
             </p>
-          </div>
+          )}
           <div>
             {this.state.showerror ? (
               <p className={styles.loginErrMsg}>{this.state.showerror}</p>

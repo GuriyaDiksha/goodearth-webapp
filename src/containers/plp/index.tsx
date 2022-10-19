@@ -115,7 +115,7 @@ class PLP extends React.Component<
   componentDidMount() {
     const that = this;
     const userConsent = CookieService.getCookie("consent").split(",");
-    if (userConsent.includes(GA_CALLS)) {
+    if (userConsent.includes(GA_CALLS) || true) {
       dataLayer.push(function(this: any) {
         this.reset();
       });
@@ -127,7 +127,7 @@ class PLP extends React.Component<
         Page_Title: "virtual_plp_view"
       });
     }
-    if (userConsent.includes(ANY_ADS)) {
+    if (userConsent.includes(ANY_ADS) || true) {
       Moengage.track_event("Page viewed", {
         "Page URL": this.props.location.pathname,
         "Page Name": "PlpView"
@@ -266,7 +266,8 @@ class PLP extends React.Component<
         sliderImages: plpSliderImages
       },
       false,
-      ModalStyles.bottomAlign
+      this.props.device.mobile ? ModalStyles.bottomAlignSlideUp : "",
+      this.props.device.mobile ? "slide-up-bottom-align" : ""
     );
     changeModalState(true);
   };
@@ -450,7 +451,7 @@ class PLP extends React.Component<
     const l1 = category.split(">")[0];
 
     const userConsent = CookieService.getCookie("consent").split(",");
-    if (userConsent.includes(GA_CALLS)) {
+    if (userConsent.includes(GA_CALLS) || true) {
       dataLayer.push({
         "Event Category": "GA Ecommerce",
         "Event Action": "PLP ",

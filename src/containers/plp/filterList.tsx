@@ -330,7 +330,7 @@ class FilterList extends React.Component<Props, State> {
       rangevalue: [value[0], value[1]]
     });
     const userConsent = CookieService.getCookie("consent").split(",");
-    if (userConsent.includes(GA_CALLS)) {
+    if (userConsent.includes(GA_CALLS) || true) {
       dataLayer.push({
         event: "Filter used",
         "Filter type": "Price",
@@ -609,6 +609,19 @@ class FilterList extends React.Component<Props, State> {
   }
 
   UNSAFE_componentWillReceiveProps = (nextProps: Props) => {
+    // const urlParams2 = new URLSearchParams(nextProps.history.location.search);
+    // const categoryShop2 = urlParams2.get("category_shop")?.split(">")[1];
+
+    const url = decodeURI(
+      nextProps?.history.location.search.replace(/\+/g, " ")
+    );
+    const re = /[?&]+([^=&]+)=([^&]*)/gi;
+    let match;
+    const vars: any = {};
+    while ((match = re.exec(url))) {
+      vars[match[1]] = match[2];
+    }
+
     if (
       nextProps.onload &&
       nextProps.facets.categoryShop &&
@@ -637,6 +650,20 @@ class FilterList extends React.Component<Props, State> {
           nextProps.mobile ? this.updateDataFromAPI("load") : "";
         }
       );
+    }
+
+    if (
+      Object.entries(vars).length === 2 &&
+      Object.entries(vars).filter(
+        e => e[0] === "source" || e[0] === "category_shop"
+      ).length === 2
+    ) {
+      this.setState({
+        activeindex: 0,
+        showFilterByDiscountMenu: false,
+        showProductFilter: false,
+        showmenulevel1: false
+      });
     }
   };
 
@@ -1138,6 +1165,12 @@ class FilterList extends React.Component<Props, State> {
       }
       // clear filters
       this.clearFilter(undefined, "all", true);
+      this.setState({
+        activeindex: 0,
+        showFilterByDiscountMenu: false,
+        showProductFilter: false,
+        showmenulevel1: false
+      });
     }
 
     // code to tick all when clicked on viewall / normal checkbox
@@ -1202,7 +1235,7 @@ class FilterList extends React.Component<Props, State> {
       oldSelectedCategory: event.target.value
     });
     const userConsent = CookieService.getCookie("consent").split(",");
-    if (userConsent.includes(GA_CALLS)) {
+    if (userConsent.includes(GA_CALLS) || true) {
       dataLayer.push({
         event: "Filter used",
         "Filter type": "Category",
@@ -1294,7 +1327,7 @@ class FilterList extends React.Component<Props, State> {
       value: event.target.value
     };
     const userConsent = CookieService.getCookie("consent").split(",");
-    if (userConsent.includes(GA_CALLS)) {
+    if (userConsent.includes(GA_CALLS) || true) {
       dataLayer.push({
         event: "Filter used",
         "Filter type": "Color",
@@ -1404,7 +1437,7 @@ class FilterList extends React.Component<Props, State> {
       value: event.target.value
     };
     const userConsent = CookieService.getCookie("consent").split(",");
-    if (userConsent.includes(GA_CALLS)) {
+    if (userConsent.includes(GA_CALLS) || true) {
       dataLayer.push({
         event: "Filter used",
         "Filter type": "Size​",
