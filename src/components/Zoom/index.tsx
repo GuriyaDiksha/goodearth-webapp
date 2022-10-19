@@ -15,6 +15,7 @@ import globalStyles from "styles/global.scss";
 import styles from "./styles.scss";
 import bootstrap from "styles/bootstrap/bootstrap-grid.scss";
 import fontStyles from "styles/iconFonts.scss";
+import close from "./../../images/closeZoom.svg";
 
 const Zoom: React.FC<Props> = ({
   images = [],
@@ -131,14 +132,15 @@ const Zoom: React.FC<Props> = ({
     if (!mobile) {
       return (
         <div className={cs(bootstrap.colMd1, styles.sidebar)}>
-          <button
+          {/* <button
             className={cs(
               fontStyles.icon,
               fontStyles.iconCrossNarrowBig,
               styles.closeBtn
             )}
             onClick={closeModal}
-          />
+          /> */}
+          <img src={close} className={styles.close} onClick={closeModal} />
           {images.map(function(v, i) {
             return (
               <div
@@ -216,14 +218,21 @@ const Zoom: React.FC<Props> = ({
       )}
       {sidebar}
       {mobile && (
-        <button
-          className={cs(
-            fontStyles.icon,
-            fontStyles.iconCrossNarrowBig,
-            styles.closeBtn,
-            styles.mobile
-          )}
+        // <button
+        //   className={cs(
+        //     fontStyles.icon,
+        //     fontStyles.iconCrossNarrowBig,
+        //     styles.closeBtn,
+        //     styles.mobile
+        //   )}
+        //   onClick={closeModal}
+        // />
+        <img
+          src={close}
+          className={cs(styles.close, styles.mobile)}
           onClick={closeModal}
+          height={30}
+          width={30}
         />
       )}
       {mobile && navigation}

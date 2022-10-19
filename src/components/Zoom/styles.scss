@@ -49,6 +49,17 @@
   }
 }
 
+.close{
+    margin-bottom: 40px;
+    cursor: pointer;
+
+    &.mobile {
+        position: fixed;
+        top: 26px;
+        right: 26px;
+      }
+}
+
 .main-image-container {
     width: 100%;
     position: fixed;
