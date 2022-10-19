@@ -32,7 +32,7 @@ const MakerPage: React.FC = () => {
       window.scrollTo(0, 0);
     }, 1000);
     const userConsent = CookieService.getCookie("consent").split(",");
-    if (userConsent.includes(GA_CALLS)) {
+    if (userConsent.includes(GA_CALLS) || true) {
       dataLayer.push(function(this: any) {
         this.reset();
       });

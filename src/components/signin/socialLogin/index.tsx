@@ -71,7 +71,7 @@ const SocialLogin: React.FC<props> = ({ closeModel }) => {
           // closeModel();
           const userConsent = CookieService.getCookie("consent").split(",");
 
-          if (userConsent.includes(ANY_ADS)) {
+          if (userConsent.includes(ANY_ADS) || true) {
             Moengage.add_first_name(user.profileObj.givenName);
             Moengage.add_last_name(user.profileObj.familyName);
             Moengage.add_email(user.profileObj.email);

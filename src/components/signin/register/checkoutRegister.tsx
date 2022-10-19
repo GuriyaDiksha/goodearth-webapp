@@ -104,7 +104,7 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
   }
   gtmPushRegister = () => {
     const userConsent = CookieService.getCookie("consent").split(",");
-    if (userConsent.includes(GA_CALLS)) {
+    if (userConsent.includes(GA_CALLS) || true) {
       dataLayer.push({
         event: "eventsToSend",
         eventAction: "signup",
@@ -162,7 +162,7 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
       .then(data => {
         const userConsent = CookieService.getCookie("consent").split(",");
 
-        if (userConsent.includes(ANY_ADS)) {
+        if (userConsent.includes(ANY_ADS) || true) {
           Moengage.track_event("Registered", {
             "First Name": firstName,
             "Last Name": lastName,

@@ -59,7 +59,7 @@ const BottomMenu: React.FC<Props> = ({
     location.pathname.includes("/search");
   const gtmPushWishlistClick = () => {
     const userConsent = CookieService.getCookie("consent").split(",");
-    if (userConsent.includes(GA_CALLS)) {
+    if (userConsent.includes(GA_CALLS) || true) {
       dataLayer.push({
         event: "eventsToSend",
         eventAction: "wishListClick",

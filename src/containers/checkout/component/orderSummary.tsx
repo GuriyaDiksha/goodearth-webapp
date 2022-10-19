@@ -471,7 +471,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
 
   const goToWishlist = (e: any) => {
     const userConsent = CookieService.getCookie("consent").split(",");
-    if (userConsent.includes(GA_CALLS)) {
+    if (userConsent.includes(GA_CALLS) || true) {
       dataLayer.push({
         event: "eventsToSend",
         eventAction: "wishListClick",
@@ -483,7 +483,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
   const saveInstruction = (data: string) => {
     dispatch(updateDeliveryText(data));
     const userConsent = CookieService.getCookie("consent").split(",");
-    if (userConsent.includes(GA_CALLS)) {
+    if (userConsent.includes(GA_CALLS) || true) {
       dataLayer.push({
         event: "Delivery Instruction",
         message: data

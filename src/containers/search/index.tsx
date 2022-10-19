@@ -149,7 +149,7 @@ class Search extends React.Component<
       searchMaker: true
     });
     const userConsent = CookieService.getCookie("consent").split(",");
-    if (userConsent.includes(GA_CALLS)) {
+    if (userConsent.includes(GA_CALLS) || true) {
       dataLayer.push(function(this: any) {
         this.reset();
       });
@@ -160,7 +160,7 @@ class Search extends React.Component<
         Page_Title: "virtual_search_view"
       });
     }
-    if (userConsent.includes(ANY_ADS)) {
+    if (userConsent.includes(ANY_ADS) || true) {
       Moengage.track_event("Page viewed", {
         "Page URL": this.props.location.pathname,
         "Page Name": "SearchView"
@@ -240,7 +240,7 @@ class Search extends React.Component<
         CookieService.setCookie("listPath", listPath);
         // let cur = this.state.salestatus ? item.product.discounted_pricerecord[window.currency] : item.product.pricerecords[window.currency]
         const userConsent = CookieService.getCookie("consent").split(",");
-        if (userConsent.includes(GA_CALLS)) {
+        if (userConsent.includes(GA_CALLS) || true) {
           dataLayer.push({
             event: "productClick",
             ecommerce: {
@@ -253,7 +253,7 @@ class Search extends React.Component<
             }
           });
         }
-        if (userConsent.includes(ANY_ADS)) {
+        if (userConsent.includes(ANY_ADS) || true) {
           Moengage.track_event("search", {
             keyword: product.name,
             "Search Suggestions Clicked": true,

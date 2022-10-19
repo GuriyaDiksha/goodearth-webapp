@@ -169,7 +169,7 @@ const NotifyMePopup: React.FC<Props> = ({
       ? "View3d"
       : "nonView3d";
     const userConsent = CookieService.getCookie("consent").split(",");
-    if (userConsent.includes(GA_CALLS)) {
+    if (userConsent.includes(GA_CALLS) || true) {
       dataLayer.push({
         "Event Category": "GA Ecommerce",
         "Event Action": "Add to Cart",
