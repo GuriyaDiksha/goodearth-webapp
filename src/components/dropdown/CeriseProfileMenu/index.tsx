@@ -2,7 +2,7 @@ import React from "react";
 import { CeriseProfileMenuProps } from "./typings";
 import styles from "./styles.scss";
 import CeriseCard from "components/CeriseCard";
-import { NavLink } from "react-router-dom";
+import { NavLink, useHistory } from "react-router-dom";
 import BaseDropdownMenu from "../baseDropdownMenu";
 
 const CeriseProfileMenu = ({
@@ -25,13 +25,15 @@ const CeriseProfileMenu = ({
     id
   };
 
+  const history = useHistory();
+
   const getMenuItems = (): JSX.Element => {
     return (
       <div className={styles.ceriseCardMenuWrp}>
-        <NavLink to={"/cerise"}>
+        <div onClick={() => history.push("/cerise")}>
           <CeriseCard />
-        </NavLink>
-        <div className={styles.ceriseCardMenu}>
+        </div>
+        <div className={styles.ceriseCardMenu} id={id}>
           <ul>
             {items.map((item, ind) => {
               const props: any = {};

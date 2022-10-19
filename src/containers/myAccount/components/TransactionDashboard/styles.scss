@@ -163,10 +163,14 @@
         padding-bottom: 15px;
         padding-top:15px;
 
+        .col-point{
+            color: $aqua;
+          }
+
        .point{
         height: 15px;
         width: 15px;
-        background-color: #bbb;
+        background-color: $aqua;
         border-radius: 50%;
         display: inline-block;
         flex: 0 0 2%;
@@ -174,7 +178,7 @@
         @media screen and (max-width:500px) {
             height: 10px;
             width: 15px;
-            background-color: #bbb;
+            background-color: $aqua;
             border-radius: 50%;
             display: inline-block;
             flex: 0 0 3%;
@@ -292,13 +296,14 @@
 
     p{
         @include b4_12px_montserrat_light_charcoal();
+        cursor: pointer;
 
         &.active{
             @include b4_12px_montserrat_charcoal();
             border-bottom: 1px solid $charcoal19;
         }
 
-        &:nth-child(1),:nth-child(6){
+        &:nth-child(1),:last-child{
             content: '';
             float: left;
             border: solid $charcoal19;
@@ -309,8 +314,14 @@
             transform: rotate(135deg);
             top: 4px;
             left: 3px;
+
+            &.inactive{
+                @include b4_12px_montserrat_light_charcoal();
+                cursor: not-allowed;
+            }
+
         }
-        &:nth-child(6){
+        &:last-child{
             content: '';
             float: left;
             border: solid $charcoal19;
@@ -321,6 +332,11 @@
             transform: rotate(310deg);
             top: 4px;
             left: 0px;
+
+            &.inactive{
+                @include b4_12px_montserrat_light_charcoal();
+                cursor: not-allowed;
+            }
         }
     }
 }

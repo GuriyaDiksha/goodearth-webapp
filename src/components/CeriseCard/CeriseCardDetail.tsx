@@ -4,7 +4,7 @@ import styles from "./styles.scss";
 import cs from "classnames";
 import { useDispatch, useSelector } from "react-redux";
 import { AppState } from "reducers/typings";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import LoyaltyService from "services/loyalty";
 import { updateLoyaltyPoints } from "actions/loyalty";
 import moment from "moment";
@@ -113,7 +113,10 @@ const CeriseCardDetail: React.FC<Props> = ({ isViewDashboard }) => {
             <p>i</p>
             <span className={cs(styles.infoText, active ? styles.active : "")}>
               {loyaltyPoints?.AdditionalSpend} additional spends needed to
-              become a {loyaltyPoints?.NextUpgradeMembershipClub}
+              become a{" "}
+              <Link to="/account/cerise">
+                {loyaltyPoints?.NextUpgradeMembershipClub}
+              </Link>
               <span
                 className={cs(styles.close, {
                   [styles.goldColor]:

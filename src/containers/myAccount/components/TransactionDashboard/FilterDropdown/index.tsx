@@ -13,7 +13,10 @@ const FilterDropdown = ({
   onChange,
   items,
   className,
-  isCheckBox
+  isCheckBox,
+  handleCheckbox,
+  setOldFilterState,
+  cancelFilter
 }: SecondaryHeaderDropdownMenuProps) => {
   const [menuOpen, setOpenState] = useState(false);
   const [displayValue, setDisplayValue] = useState("");
@@ -23,6 +26,9 @@ const FilterDropdown = ({
 
   const onInsideClick = () => {
     setOpenState(!menuOpen);
+    if (mobile) {
+      setOldFilterState();
+    }
     const elem = document.getElementById(id) as HTMLDivElement;
     if (elem) {
       if (!elem.style.maxHeight) {
@@ -81,7 +87,12 @@ const FilterDropdown = ({
             <li className={styles.filterWrp}>
               <p className={styles.filterLabel}>
                 Filter By
-                <img src={Close} onClick={() => setOpenState(!menuOpen)} />
+                <img
+                  src={Close}
+                  onClick={() => {
+                    setOpenState(!menuOpen);
+                  }}
+                />
               </p>
             </li>
           ) : null}
@@ -89,19 +100,33 @@ const FilterDropdown = ({
             return (
               <li
                 key={item.id}
-                onClick={() => {
-                  handleItemClick(item);
+                onClick={e => {
+                  if (isCheckBox) {
+                    e.preventDefault();
+                    handleCheckbox && handleCheckbox(item?.value);
+                  } else {
+                    if (mobile) {
+                      e.preventDefault();
+                      handleCheckbox && handleCheckbox(item?.value);
+                    } else {
+                      handleItemClick(item);
+                    }
+                  }
                 }}
               >
                 {isCheckBox ? (
                   <input
                     type="checkbox"
+                    checked={value === item?.value || value === "ALL"}
                     className={styles.toggleCheckbox}
-                    checked={true}
+                    onChange={e => {
+                      e.preventDefault();
+                      handleCheckbox && handleCheckbox(item?.value);
+                    }}
                   />
                 ) : null}
                 <label
-                  className={displayValue === item?.value ? styles.active : ""}
+                  className={displayValue === item?.label ? styles.active : ""}
                 >
                   {item.label}
                 </label>
@@ -110,20 +135,37 @@ const FilterDropdown = ({
           })}
           {isCheckBox && !mobile ? (
             <li className={styles.applyBtnWrp}>
-              <button className={styles.applyBtn}>Apply Selection</button>
+              <button
+                className={styles.applyBtn}
+                onClick={e => {
+                  handleItemClick(value);
+                }}
+              >
+                Apply Selection
+              </button>
             </li>
           ) : null}
           {mobile ? (
             <li className={styles.btnWrp}>
               <button
                 className={styles.cnlBtn}
-                onClick={() => setOpenState(!menuOpen)}
+                onClick={() => {
+                  cancelFilter();
+                  setOpenState(!menuOpen);
+                }}
               >
                 cancle
               </button>
               <button
                 className={styles.srtBtn}
-                onClick={() => setOpenState(!menuOpen)}
+                onClick={() => {
+                  setOpenState(!menuOpen);
+                  if (isCheckBox) {
+                    handleItemClick(value);
+                  } else {
+                    handleItemClick({ value });
+                  }
+                }}
               >
                 apply sort by
               </button>

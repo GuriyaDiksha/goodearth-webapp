@@ -138,8 +138,16 @@ export default {
   sendOtpRedeem: async (dispatch: Dispatch, formData: FormData) => {
     const data = await API.post<BalanceProps>(
       dispatch,
-      `${__API_HOST__ + "/mobiquest/send_loyalty_otp/"}`,
+      `${__API_HOST__ + "/imast/redemption_request_otp/"}`,
       formData
+    );
+    return data;
+  },
+  resendOtpRedeem: async (dispatch: Dispatch) => {
+    const data = await API.post<BalanceProps>(
+      dispatch,
+      `${__API_HOST__ + "/imast/redemption_request_resend_otp/"}`,
+      {}
     );
     return data;
   },
@@ -191,7 +199,7 @@ export default {
   checkOtpRedeem: async (dispatch: Dispatch, formData: any) => {
     const data = await API.post<BalanceProps>(
       dispatch,
-      `${__API_HOST__ + "/mobiquest/validate_loyalty_otp/"}`,
+      `${__API_HOST__ + "/imast/redemption_request_validate/"}`,
       formData
     );
     return data;

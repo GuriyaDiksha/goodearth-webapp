@@ -134,6 +134,12 @@
                 width: 25px;
                 border-radius: 25px;
                 height: 25px;
+
+                &.gold-color{
+                    p{
+                        color: $gold !important;
+                    }
+                }
                 p{
                     text-align: center;
                     padding:2px;
@@ -141,6 +147,7 @@
                     color: $cerise !important;
                     cursor: pointer;
                     @include h6_16px_lora_charcoal();
+
                 }
                 &.inactive {
                     width: 100%;
@@ -159,10 +166,19 @@
                 transition: all .2s ease;
                 @include b5_10px_montserrat_charcoal();
 
+                a{
+                    @include b4_12px_montserrat_charcoal();
+                    border-bottom: 1px solid $charcoal19;
+                }
+
                 .close{
                     cursor: pointer;
                     color: $cerise;
                     float: right;
+
+                    &.gold-color{
+                        color: $gold;
+                    }
                 }
 
                 &.active{
@@ -181,8 +197,4 @@
 
 .gold-background{
     background-color: $gold;
-}
-
-.gold-color{
-    color: $gold;
 }

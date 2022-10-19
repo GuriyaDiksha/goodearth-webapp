@@ -78,13 +78,14 @@
 
           .table-row-wrp{
             display: flex;
+
             img{
-              width: 30px;
-              height: 30px;
+              width: 25px;
+              height: 25px;
             }
             p{
               margin: auto 10px;
-              @include h3_20px_lora_charcoal();
+              @include b2_14px_charcoal_lora();
             }
 
           }

@@ -9,7 +9,8 @@ import TransactionTable from "./TransactionTable";
 
 const TransactionDashboard = () => {
   const {
-    device: { mobile }
+    device: { mobile },
+    loyalty: { transaction }
   } = useSelector((state: AppState) => state);
 
   return (
@@ -27,19 +28,19 @@ const TransactionDashboard = () => {
         <div className={styles.pointsWrp}>
           <div className={styles.points}>
             <p className={styles.name}>TOTAL POINTS EARNED</p>
-            <p className={styles.point}>6000</p>
+            <p className={styles.point}>{transaction?.EarnPoints}</p>
           </div>
           <div className={styles.points}>
             <p className={styles.name}>TOTAL POINTS REDEEMED</p>
-            <p className={styles.point}>1000</p>
+            <p className={styles.point}>{transaction?.RedeemPoints}</p>
           </div>
           <div className={styles.points}>
             <p className={styles.name}>TOTAL POINTS EXPIRED</p>
-            <p className={styles.point}>500</p>
+            <p className={styles.point}>{transaction?.ExpiredPoints}</p>
           </div>
           <div className={styles.points}>
-            <p className={styles.name}>TOTAL POINTS EXPIRED</p>
-            <p className={styles.point}>4500</p>
+            <p className={styles.name}>BALANCE POINTS</p>
+            <p className={styles.point}>{transaction?.BalancePoints}</p>
           </div>
         </div>
       </div>

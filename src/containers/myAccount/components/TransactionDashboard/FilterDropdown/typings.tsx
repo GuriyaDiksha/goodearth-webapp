@@ -7,4 +7,7 @@ export type SecondaryHeaderDropdownMenuProps = {
   items: CategoryMenu[];
   className?: string;
   isCheckBox: boolean;
+  handleCheckbox: (val: string) => void;
+  setOldFilterState: () => void;
+  cancelFilter: () => void;
 };

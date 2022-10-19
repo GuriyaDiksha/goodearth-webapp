@@ -10,3 +10,10 @@ export type LoyaltyPointsResponse = {
   message: string;
   CustomerPointInformation: LoyaltyPoints;
 };
+
+export type TransactionPayload = {
+  email: string;
+  DateRangeFilter: string;
+  TransactionFilter: string;
+  PageNumber: number;
+};

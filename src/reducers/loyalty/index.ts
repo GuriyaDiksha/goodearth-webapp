@@ -18,7 +18,18 @@ const initialState: State = {
       currencyname: ""
     }
   },
-  landing: []
+  landing: [],
+  transaction: {
+    total_records: 0,
+    total_pages: 0,
+    previouspage: "",
+    nextpage: "",
+    EarnPoints: 0,
+    RedeemPoints: 0,
+    BalancePoints: 0,
+    ExpiredPoints: 0,
+    records: []
+  }
 };
 
 export const loyalty = (
@@ -31,6 +42,9 @@ export const loyalty = (
     }
     case "UPDATE_LOYALTY_LANDING": {
       return { ...state, landing: action.payload };
+    }
+    case "UPDATE_TRANSACTION": {
+      return { ...state, transaction: action.payload };
     }
     default: {
       return state;
