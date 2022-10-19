@@ -10,7 +10,7 @@ export type Props = {
   sections: Section[];
   defaultOpen?: string;
   className: string;
-  headerClassName: string;
+  headerClassName?: string;
   closedIconClassName?: string;
   openIconClassName?: string;
   bodyClassName?: string;
