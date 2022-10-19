@@ -227,6 +227,12 @@ const routes: RouteConfig = [
     component: loadable(() => import("containers/Sitemap")),
     action: async () => null,
     exact: true
+  },
+  {
+    path: ROUTES.IFRAME,
+    component: loadable(() => import("containers/iframepage")),
+    action: async () => null,
+    exact: true
   }
 ];
 
