@@ -74,7 +74,13 @@ class BridalItem extends React.Component<Props, State> {
   };
 
   componentDidMount() {
-    if (this.props.bridalItem.qtyRemaining == 0) {
+    if (!this.props.bridalItem.productAvailable) {
+      this.setState({
+        buttonStatus: true,
+        btnDisable: cs(globalStyles.ceriseBtn, globalStyles.disabledBtn),
+        btnContent: "NOT AVAILABLE"
+      });
+    } else if (this.props.bridalItem.qtyRemaining == 0) {
       this.setState({
         buttonStatus: true,
         btnDisable: cs(globalStyles.ceriseBtn, globalStyles.disabledBtn),
@@ -226,26 +232,29 @@ class BridalItem extends React.Component<Props, State> {
                           {this.props.bridalItem.qtyRemaining}
                         </div>
                       </div>
-
                       <div className="">
-                        <div className={styles.textMuted}>QTY</div>
-                        <div className={styles.widgetQty}>
-                          <span
-                            className={styles.btnQty}
-                            onClick={this.decreaseState}
-                          >
-                            -
-                          </span>
-                          <span className={styles.qty}>
-                            {this.state.qtyCurrent}
-                          </span>
-                          <span
-                            className={styles.btnQty}
-                            onClick={this.increaseState}
-                          >
-                            +
-                          </span>
-                        </div>
+                        {this.props.bridalItem.productAvailable && (
+                          <div className={styles.textMuted}>QTY</div>
+                        )}
+                        {this.props.bridalItem.productAvailable && (
+                          <div className={styles.widgetQty}>
+                            <span
+                              className={styles.btnQty}
+                              onClick={this.decreaseState}
+                            >
+                              -
+                            </span>
+                            <span className={styles.qty}>
+                              {this.state.qtyCurrent}
+                            </span>
+                            <span
+                              className={styles.btnQty}
+                              onClick={this.increaseState}
+                            >
+                              +
+                            </span>
+                          </div>
+                        )}
                         <div className={styles.h15}>
                           {this.state.err ? (
                             <div

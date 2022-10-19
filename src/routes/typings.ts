@@ -26,7 +26,7 @@ export const enum ROUTES {
   PressStories = "/press-stories",
   ABOUTUS = "/about-us",
   APPOINTMENTS = "/brand",
-  SAFETYMEASURES = "/customer-assistance/safety-measures",
+  SAFETYMEASURES = "/safety-measures",
   CORPORATEGIFTING = "/corporate-gifts-catalogue",
   GIFTINGLANDING = "/gifting",
   BRIDAL = "/the-good-earth-registry",

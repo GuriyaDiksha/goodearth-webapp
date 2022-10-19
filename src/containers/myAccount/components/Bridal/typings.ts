@@ -56,6 +56,7 @@ export type BridalItemData = {
   stock: number;
   sku: string;
   productDeliveryDate: string;
+  productAvailable: boolean;
 };
 
 export type BridalPublicProfileData = {

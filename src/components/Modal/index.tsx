@@ -31,8 +31,20 @@ class Modal extends React.Component<ModalProps> {
   closeModal = () => {
     localStorage.removeItem("tempEmail");
     const { changeModalState, updateQuickviewId } = this.props;
-    changeModalState(false);
-    updateQuickviewId();
+
+    const ele = document.getElementById("modal-fullscreen") as HTMLDivElement;
+    if (ele && this.props.classname == "slide-up-bottom-align") {
+      ele.style.maxHeight = 0 + "px";
+    }
+    if (this.props.classname == "slide-up-bottom-align") {
+      setTimeout(() => {
+        changeModalState(false);
+        updateQuickviewId();
+      }, 500);
+    } else {
+      changeModalState(false);
+      updateQuickviewId();
+    }
   };
 
   componentDidUpdate(prevProps: Props) {
@@ -49,9 +61,14 @@ class Modal extends React.Component<ModalProps> {
         document.documentElement.scrollTop = this.prevScroll;
       }
     }
+
     const elem = document.getElementById("modal-fullscreen") as HTMLDivElement;
     if (elem && !elem.style.opacity) {
       elem.style.opacity = "1";
+    }
+
+    if (elem && this.props.classname == "slide-up-bottom-align") {
+      elem.style.maxHeight = 500 + "px";
     }
   }
   render() {
@@ -75,9 +92,15 @@ class Modal extends React.Component<ModalProps> {
           <div className={styles.backdrop} onClick={this.closeModal}></div>
           <div
             id="modal-fullscreen"
-            className={cs(styles.body, bodyClass, {
-              [styles.fullscreen]: fullscreen
-            })}
+            className={cs(
+              styles.body,
+              bodyClass,
+              { [styles.fullscreen]: fullscreen },
+              {
+                [styles.slideUpBottomAlign]:
+                  classname == "slide-up-bottom-align"
+              }
+            )}
           >
             <Comp {...props} />
           </div>
