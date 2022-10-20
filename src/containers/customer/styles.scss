@@ -25,9 +25,7 @@
     li {
       line-height: 40px;
       a {
-        font-size: 14px;
-        font-family: $font-Lato;
-        color: #333;
+        @include b4_12px_montserrat_charcoal();
         cursor: pointer;
         &:hover {
           color: $cerise;
