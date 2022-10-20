@@ -6,14 +6,16 @@ import globalStyles from "../../styles/global.scss";
 import cs from "classnames";
 import { useLocation } from "react-router";
 import { AppState } from "reducers/typings";
-import { useSelector } from "react-redux";
+import { useSelector, useStore } from "react-redux";
 import * as util from "utils/validate";
 import CookieService from "services/cookie";
 import { GA_CALLS } from "constants/cookieConsent";
+import MetaService from "services/meta";
 
 const MakerPage: React.FC = () => {
   const [mounted, setMounted] = useState(false);
   const location = useLocation();
+  const store = useStore();
   const {
     currency,
     info: { showTimer },
@@ -49,6 +51,13 @@ const MakerPage: React.FC = () => {
         page = "Home";
     }
     util.pageViewGTM(page);
+    if (location.pathname == "/about-us") {
+      const request = {
+        page: "static",
+        pathName: location.pathname
+      };
+      MetaService.updatePageMeta(store.dispatch, request);
+    }
   }, []);
 
   useEffect(() => {
