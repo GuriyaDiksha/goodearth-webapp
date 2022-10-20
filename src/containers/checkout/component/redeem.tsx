@@ -45,7 +45,7 @@ class Reedem extends React.Component<Props, RedeemState> {
         txtvalue: ""
       });
     } else if (
-      +value <= loyaltyData?.eligiblePoints
+      +value <= loyaltyData?.CustomerPointInformation?.AvailablePoint
       //  && value >= 0
     ) {
       this.setState({
@@ -54,7 +54,9 @@ class Reedem extends React.Component<Props, RedeemState> {
       });
     } else {
       this.setState({
-        error: "You can redeem points upto " + loyaltyData?.eligiblePoints
+        error:
+          "You can redeem points upto " +
+          loyaltyData?.CustomerPointInformation?.AvailablePoint
       });
     }
   };
@@ -143,7 +145,7 @@ class Reedem extends React.Component<Props, RedeemState> {
                   CERISE POINTS BALANCE:
                 </p>
                 <p className={styles.textMuted}>
-                  {loyaltyData?.customerPoints}
+                  {loyaltyData?.CustomerPointInformation?.AvailablePoint}
                 </p>
               </div>
               <div className={cs(styles.textLeft, globalStyles.voffset4)}>
@@ -151,7 +153,7 @@ class Reedem extends React.Component<Props, RedeemState> {
                   ELIGIBLE FOR REDEMPTION:
                 </p>
                 <p className={styles.textMuted}>
-                  {loyaltyData?.eligiblePoints}
+                  {loyaltyData?.CustomerPointInformation?.AvailablePoint}
                 </p>
               </div>
               <div
@@ -213,6 +215,8 @@ class Reedem extends React.Component<Props, RedeemState> {
                   loyaltyData={loyaltyData}
                   points={this.state.txtvalue}
                   number={this.props.user.phoneNumber}
+                  email={this.props.user.email}
+                  resendOtp={this.props.resendOtpRedeem}
                 />
               </div>
             </Fragment>

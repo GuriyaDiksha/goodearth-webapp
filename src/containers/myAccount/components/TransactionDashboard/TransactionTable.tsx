@@ -13,6 +13,7 @@ import { updateTransaction } from "actions/loyalty";
 import { TransactionPayload } from "services/loyalty/typings";
 import globalStyles from "./../../../../styles/global.scss";
 import Loader from "components/Loader";
+import moment from "moment";
 
 type Props = {
   mobile: boolean;
@@ -303,7 +304,9 @@ const TransactionTable = ({ mobile }: Props) => {
                       styles.alignCenterText
                     )}
                   >
-                    {ele?.DocumentDate}
+                    {moment(ele?.DocumentDate, "DD/MM/YYYY").format(
+                      "DD/MM/YYYY"
+                    )}
                   </p>
                 )}
                 {mobile ? null : (

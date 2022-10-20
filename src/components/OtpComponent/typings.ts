@@ -46,6 +46,7 @@ export type otpProps = {
 
 export type otpRedeemProps = {
   sendOtp: (data: any) => any;
+  resendOtp: () => any;
   toggleOtp: (data: boolean) => void;
   checkOtpRedeem: (
     data: any,

@@ -335,6 +335,9 @@ const MyAccount: React.FC<Props> = props => {
                         : "Manage Registry"
                       : pathname == "/account/giftcard-activation"
                       ? "Activate Gift Card"
+                      : pathname == "/account/cerise" ||
+                        pathname == "/account/cerise/transaction"
+                      ? "Cerise"
                       : currentSection}
                   </span>
                 </div>
@@ -539,7 +542,9 @@ const MyAccount: React.FC<Props> = props => {
                       <div className={bgClass}>
                         <div className={bootstrapStyles.row}>
                           <Component
-                            setCurrentSection={() => setCurrentSection(title)}
+                            setCurrentSection={() =>
+                              setCurrentSection(title || "Cerise")
+                            }
                             currentCallBackComponent={currentCallBackComponent}
                           />
                         </div>
@@ -564,7 +569,7 @@ const MyAccount: React.FC<Props> = props => {
                             {title.toLowerCase() == "bridal" ? (
                               <Component
                                 setCurrentSection={() =>
-                                  setCurrentSection(title)
+                                  setCurrentSection(title || "Cerise")
                                 }
                                 currentCallBackComponent={
                                   currentCallBackComponent
@@ -574,7 +579,7 @@ const MyAccount: React.FC<Props> = props => {
                             ) : (
                               <Component
                                 setCurrentSection={() =>
-                                  setCurrentSection(title)
+                                  setCurrentSection(title || "Cerise")
                                 }
                                 currentCallBackComponent={
                                   currentCallBackComponent

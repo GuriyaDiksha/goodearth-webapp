@@ -13,6 +13,10 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       const otp = await AccountService.sendOtpRedeem(dispatch, data);
       return otp;
     },
+    resendOtpRedeem: async () => {
+      const otp = await AccountService.resendOtpRedeem(dispatch);
+      return otp;
+    },
     checkOtpBalance: async (data: FormData) => {
       const balance = await AccountService.checkOtpBalance(dispatch, data);
       return balance;

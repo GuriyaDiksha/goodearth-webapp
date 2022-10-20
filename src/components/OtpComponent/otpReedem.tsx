@@ -54,22 +54,22 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
   handleSubmit = (model: any, resetForm: any, updateInputsWithError: any) => {
     this.setState({ showerrorOtp: "" });
 
-    const radioElement: any = document.getElementsByName("redeem");
+    // const radioElement: any = document.getElementsByName("redeem");
     // const elem = this.subscribeRef.current;
-    const { email, phoneNo } = model;
+    // const { email, phoneNo } = model;
     const data: any = {};
-    if (!radioElement[0].checked && !radioElement[1].checked) {
-      this.setState(
-        {
-          msgt:
-            "Please select at least one mode of communication for OTP verification of your gift card"
-        },
-        () => {
-          valid.errorTracking([this.state.msgt], location.href);
-        }
-      );
-      return false;
-    }
+    // if (!radioElement[0].checked && !radioElement[1].checked) {
+    //   this.setState(
+    //     {
+    //       msgt:
+    //         "Please select at least one mode of communication for OTP verification of your gift card"
+    //     },
+    //     () => {
+    //       valid.errorTracking([this.state.msgt], location.href);
+    //     }
+    //   );
+    //   return false;
+    // }
 
     if (!this.props.points) {
       this.props.updateError(true);
@@ -80,11 +80,11 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
       this.RegisterFormRef1.current.submit();
       return false;
     }
-    if (this.state.radioType == "email") {
-      data["email"] = email;
-    } else {
-      data["phoneNo"] = "+91" + phoneNo;
-    }
+    // if (this.state.radioType == "email") {
+    //   data["email"] = email;
+    // } else {
+    //   data["phoneNo"] = "+91" + phoneNo;
+    // }
     // data["inputType"] = "GIFT";
     data["points"] = this.props.points;
     // this.setState({ startTimer: true });
@@ -105,7 +105,7 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
       this.props.updateError(true);
       return false;
     }
-    if (!this.state.radioType || !this.state.otpData["points"]) {
+    if (!this.state.otpData["points"]) {
       return false;
     }
     const newData = otpData;
@@ -270,7 +270,38 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
     this.setState({
       showerror: ""
     });
-    this.sendOtpApiCall(this.state.otpData);
+    // this.sendOtpApiCall(this.state.otpData);
+    this.setState({
+      isLoading: true
+    });
+    this.props
+      .resendOtp()
+      .then((data: any) => {
+        this.setState(
+          {
+            toggleOtp: true,
+            disable: true,
+            isLoading: false,
+            isOtpSent: true
+          },
+          () => {
+            // this.timer();
+            this.props.toggleOtp(true);
+          }
+        );
+        // }
+      })
+      .catch((error: any) => {
+        this.setState(
+          {
+            showerrorOtp: error.response.data.message,
+            isLoading: false
+          },
+          () => {
+            valid.errorTracking([this.state.showerrorOtp], location.href);
+          }
+        );
+      });
   };
 
   changeAttepts = (value: any) => {
@@ -404,8 +435,9 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
   render() {
     const { radioType, isLoading } = this.state;
     const {
-      loyaltyData: { detail },
-      number
+      loyaltyData: { CustomerPointInformation },
+      number,
+      email
     } = this.props;
     // console.log(number);
     return (
@@ -435,7 +467,7 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
             onInvalidSubmit={this.handleInvalidSubmit}
           >
             <li className={cs(styles.radiobtn1, styles.xradio)}>
-              <label className={styles.radio1}>
+              {/* <label className={styles.radio1}>
                 <input
                   type="radio"
                   name={"redeem"}
@@ -445,18 +477,18 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
                   }}
                 />
                 <span className={styles.checkmark}></span>
-              </label>
+              </label> */}
               <FormInput
                 name="email"
                 placeholder={"Email*"}
                 label={"Email*"}
                 className={cs(
-                  { [styles.disableInput]: detail?.EmailId },
+                  { [styles.disableInput]: email },
                   styles.relative
                 )}
-                disable={detail?.EmailId ? true : false}
+                disable={email ? true : false}
                 inputRef={this.emailInput}
-                value={detail ? detail.EmailId : ""}
+                value={email ? email : ""}
                 validations={
                   radioType == "email"
                     ? {
@@ -472,14 +504,15 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
                 required={radioType != "email" ? "isFalse" : true}
               />
             </li>
-            <li
-              className={cs(
-                styles.countryCode,
-                // styles.countryCodeGc,
-                styles.xradio
-              )}
-            >
-              <label className={styles.radio1}>
+            {number ? (
+              <li
+                className={cs(
+                  styles.countryCode,
+                  // styles.countryCodeGc,
+                  styles.xradio
+                )}
+              >
+                {/* <label className={styles.radio1}>
                 <input
                   type="radio"
                   name={"redeem"}
@@ -489,49 +522,52 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
                   }}
                 />
                 <span className={styles.checkmark}></span>
-              </label>
-              <div className={styles.flex}>
-                <div className={styles.countryCode}>
-                  <input
-                    type="text"
-                    value="+91"
-                    placeholder="Code"
-                    disabled={true}
-                    className={styles.codeInput}
-                  />
+              </label> */}
+                <div className={styles.flex}>
+                  <div className={styles.countryCode}>
+                    <input
+                      type="text"
+                      value="+91"
+                      placeholder="Code"
+                      disabled={true}
+                      className={styles.codeInput}
+                    />
+                  </div>
+                  <div className={styles.contactNumber}>
+                    <FormInput
+                      name="phoneNo"
+                      value={number ? number : ""}
+                      disable={number ? true : false}
+                      className={cs({ [styles.disableInput]: number })}
+                      inputRef={this.phoneInput}
+                      placeholder={"Contact Number"}
+                      type="number"
+                      label={"Contact Number"}
+                      validations={
+                        radioType == "number"
+                          ? {
+                              isLength: 10
+                            }
+                          : {}
+                      }
+                      validationErrors={{
+                        isLength: "Phone Number should be 10 digit"
+                      }}
+                      required={radioType != "number" ? "isFalse" : true}
+                      keyDown={e =>
+                        e.which === 69 ? e.preventDefault() : null
+                      }
+                      onPaste={e =>
+                        e?.clipboardData.getData("Text").match(/([e|E])/)
+                          ? e.preventDefault()
+                          : null
+                      }
+                    />
+                  </div>
+                  <p className={cs(styles.errorMsg)}>{this.state.msgt}</p>
                 </div>
-                <div className={styles.contactNumber}>
-                  <FormInput
-                    name="phoneNo"
-                    value={number ? number : ""}
-                    disable={number ? true : false}
-                    className={cs({ [styles.disableInput]: number })}
-                    inputRef={this.phoneInput}
-                    placeholder={"Contact Number"}
-                    type="number"
-                    label={"Contact Number"}
-                    validations={
-                      radioType == "number"
-                        ? {
-                            isLength: 10
-                          }
-                        : {}
-                    }
-                    validationErrors={{
-                      isLength: "Phone Number should be 10 digit"
-                    }}
-                    required={radioType != "number" ? "isFalse" : true}
-                    keyDown={e => (e.which === 69 ? e.preventDefault() : null)}
-                    onPaste={e =>
-                      e?.clipboardData.getData("Text").match(/([e|E])/)
-                        ? e.preventDefault()
-                        : null
-                    }
-                  />
-                </div>
-                <p className={cs(styles.errorMsg)}>{this.state.msgt}</p>
-              </div>
-            </li>
+              </li>
+            ) : null}
             <li className={styles.subscribe}>
               <p
                 className={
@@ -550,12 +586,8 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
             >
               <input
                 type="submit"
-                disabled={this.state.disable}
-                className={
-                  this.state.disable
-                    ? cs(globalStyles.ceriseBtn, globalStyles.disabledBtn)
-                    : globalStyles.ceriseBtn
-                }
+                // disabled={this.state.disable}
+                className={globalStyles.ceriseBtn}
                 value="Send otp"
               />
             </div>

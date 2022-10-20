@@ -52,7 +52,13 @@ const CeriseCardDetail: React.FC<Props> = ({ isViewDashboard }) => {
       <div className={styles.header}>
         <p className={styles.heading}>{loyaltyPoints?.MembershipClub}</p>
         {isViewDashboard ? (
-          <NavLink to={"/account/cerise"} className={styles.subHeading}>
+          <NavLink
+            to={"/account/cerise"}
+            onClick={e => {
+              e.stopPropagation();
+            }}
+            className={styles.subHeading}
+          >
             View My Dashboard
           </NavLink>
         ) : null}

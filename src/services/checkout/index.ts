@@ -24,7 +24,7 @@ export default {
   removeRedeem: async function(dispatch: Dispatch) {
     const res = await API.post<ApiResponse>(
       dispatch,
-      `${__API_HOST__ + "/mobiquest/remove_loyalty_points/"}`,
+      `${__API_HOST__ + "/imast/redemption_request_cancel/"}`,
       {}
     );
     return res;
@@ -56,7 +56,7 @@ export default {
   getLoyaltyPoints: async function(dispatch: Dispatch, formData: any) {
     const res = await API.post<ApiResponse>(
       dispatch,
-      `${__API_HOST__ + "/mobiquest/loyalty_points_and_history/"}`,
+      `${__API_HOST__ + "/imast/loyalty_user_points/"}`,
       formData
     );
     return res;

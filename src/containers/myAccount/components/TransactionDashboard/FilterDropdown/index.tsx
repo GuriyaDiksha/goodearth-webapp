@@ -154,7 +154,7 @@ const FilterDropdown = ({
                   setOpenState(!menuOpen);
                 }}
               >
-                cancle
+                cancel
               </button>
               <button
                 className={styles.srtBtn}
@@ -167,7 +167,7 @@ const FilterDropdown = ({
                   }
                 }}
               >
-                apply sort by
+                {isCheckBox ? "apply selection" : "apply sort by"}
               </button>
             </li>
           ) : null}

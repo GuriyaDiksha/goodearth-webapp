@@ -412,8 +412,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
                 </div>
               </div>
             )}
-
-            {loyaltyData?.detail && currency == "INR" && (
+            {loyaltyData?.CustomerPointInformation && currency == "INR" && (
               <Fragment>
                 <hr className={styles.hr} />
                 <div className={bootstrapStyles.row}>

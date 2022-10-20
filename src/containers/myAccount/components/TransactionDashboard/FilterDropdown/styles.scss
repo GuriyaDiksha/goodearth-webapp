@@ -16,9 +16,12 @@
     }
 
     &:hover{
-        border: 1px solid #f3f3f3;
+        border: 1px solid $charcoal19;
         @media screen and (max-width:992px) {
             border: none;
+        }
+        .label{
+            font-weight: $regular;
         }
     }
     .label{
@@ -30,6 +33,10 @@
         align-items: center;
         justify-content: space-between;
         user-select: none;
+
+        // &:hover{
+        //     color: $charcoal19 !important;
+        // }
     }
     
     .caret{
@@ -99,7 +106,7 @@
                 }
 
                 .active {
-                    color: $charcoal19;
+                    font-weight: $regular;
                 }
 
                 &.filter-wrp{
