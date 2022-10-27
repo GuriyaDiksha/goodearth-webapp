@@ -105,7 +105,9 @@ const StaticPage: React.FC<Props> = props => {
       })}
     >
       <SecondaryHeader>
-        <div className={cs(bootstrapStyles.colMd11, bootstrapStyles.offsetMd1)}>
+        <div
+          className={cs(bootstrapStyles.colMd11, styles.secondaryHeaderText)}
+        >
           <span className={styles.heading}>CUSTOMER ASSISTANCE</span>
         </div>
       </SecondaryHeader>
