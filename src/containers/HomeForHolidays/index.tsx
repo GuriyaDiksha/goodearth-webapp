@@ -277,12 +277,10 @@ const NotificationForm: React.FC = () => {
               label="City"
               placeholder="City"
               validations={{
-                maxLength: 50,
-                isAlpha: true
+                maxLength: 50
               }}
               validationErrors={{
-                maxLength: "Max limit reached.",
-                isAlpha: "Only alphabets are allowed."
+                maxLength: "Max limit reached."
               }}
             />
           </div>
