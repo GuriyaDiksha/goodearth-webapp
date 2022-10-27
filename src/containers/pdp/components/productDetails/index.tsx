@@ -150,12 +150,13 @@ const ProductDetails: React.FC<Props> = ({
   const [isStockset, setIsStockset] = useState(false);
   const [pdpLoader, setPdpLoader] = useState(true);
   const isLoggedIn = useSelector((state: AppState) => state.user.isLoggedIn);
-  // const [sizeerror, setSizeerror] = useState(false);
-  // useEffect(() => {
-  //   setAddedToBag(
-  //     (selectedSize?.id && items.indexOf(selectedSize?.id) !== -1) as boolean
-  //   );
-  // }, [selectedSize]);
+  const canUseDOM = !!(
+    typeof window !== "undefined" &&
+    typeof window.document !== "undefined" &&
+    typeof window.document.createElement !== "undefined"
+  );
+
+  const useIsomorphicLayoutEffect = canUseDOM ? useLayoutEffect : useEffect;
   const selectedId = useSelector(
     (state: AppState) => state.header.sizeChartData.selected
   );
@@ -172,7 +173,7 @@ const ProductDetails: React.FC<Props> = ({
     ele[0].style.zIndex = 6;
   }
 
-  useLayoutEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     setGtmListType("PDP");
     setOnload(true);
   });

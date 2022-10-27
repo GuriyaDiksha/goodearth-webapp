@@ -23,7 +23,15 @@ const MakerPage: React.FC = () => {
     // device: { mobile }
   } = useSelector((state: AppState) => state);
   const { makerReloadToggle } = useSelector((state: AppState) => state.info);
-  useLayoutEffect(() => {
+  const canUseDOM = !!(
+    typeof window !== "undefined" &&
+    typeof window.document !== "undefined" &&
+    typeof window.document.createElement !== "undefined"
+  );
+
+  const useIsomorphicLayoutEffect = canUseDOM ? useLayoutEffect : useEffect;
+
+  useIsomorphicLayoutEffect(() => {
     setMounted(false);
     setTimeout(() => {
       setMounted(true);
