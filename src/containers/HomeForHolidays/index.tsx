@@ -330,7 +330,7 @@ const NotificationForm: React.FC = () => {
                 <MakerEnhance
                   user="goodearth"
                   index="1"
-                  href={`${window.location.origin}${location.pathname}?${location.search}`}
+                  href={`${window.location.origin}${location.pathname}`}
                 />
               )}
             </div>
