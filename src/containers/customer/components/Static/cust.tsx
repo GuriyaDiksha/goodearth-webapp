@@ -31,14 +31,17 @@ export default class Cust extends React.Component<
   saleStatus = true;
   componentDidMount() {
     this.props.fetchTerms().then(res => {
+      const cont = ReactHtmlParser(res.content).filter((e: any) => {
+        return e.props["data-f-id"] != "pbf";
+      });
       this.setState({
-        content: res.content,
+        content: cont,
         pageTitle: res.pageTitle,
         link: res.link,
         accordionData: res.accordionData
       });
-      scrollToId();
       removeFroala();
+      scrollToId();
     });
   }
   render() {
@@ -48,11 +51,14 @@ export default class Cust extends React.Component<
       <div>
         <div className={styles.terms}>
           <div className={styles.pageTitle}>{pageTitle}</div>
-          <div className={styles.description}>{ReactHtmlParser(content)}</div>
+          <div className={styles.description}>{content}</div>
           {accordionData.map(({ content, heading, isAccordion }, index) => {
             if (isAccordion) {
+              const cont = ReactHtmlParser(content).filter((e: any) => {
+                return e.props["data-f-id"] != "pbf";
+              });
               const section = ([
-                { header: heading, body: ReactHtmlParser(content), id: index }
+                { header: heading, body: cont, id: index }
               ] as unknown) as Section[];
               return (
                 <Accordion

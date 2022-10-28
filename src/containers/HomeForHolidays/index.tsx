@@ -277,12 +277,10 @@ const NotificationForm: React.FC = () => {
               label="City"
               placeholder="City"
               validations={{
-                maxLength: 50,
-                isAlpha: true
+                maxLength: 50
               }}
               validationErrors={{
-                maxLength: "Max limit reached.",
-                isAlpha: "Only alphabets are allowed."
+                maxLength: "Max limit reached."
               }}
             />
           </div>
@@ -332,7 +330,7 @@ const NotificationForm: React.FC = () => {
                 <MakerEnhance
                   user="goodearth"
                   index="1"
-                  href={`${window.location.origin}${location.pathname}?${location.search}`}
+                  href={`${window.location.origin}${location.pathname}`}
                 />
               )}
             </div>
