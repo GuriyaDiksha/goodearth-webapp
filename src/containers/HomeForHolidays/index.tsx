@@ -44,7 +44,9 @@ const NotificationForm: React.FC = () => {
   const history = useHistory();
   const location = history.location;
   const { countryData } = useSelector((state: AppState) => state.address);
+
   const dispatch = useDispatch();
+
   useEffect(() => {
     if (currency == "INR") {
       history.push("/");
@@ -60,24 +62,28 @@ const NotificationForm: React.FC = () => {
   }, []);
 
   const changeCountryData = (countryData: Country[]) => {
-    const countryOptions = countryData.map(country => {
-      const states = country.regionSet.map(state => {
-        return Object.assign({}, state, {
-          value: state.nameAscii,
-          label: state.nameAscii
+    const countryOptions = countryData
+      .filter(c => {
+        return c.nameAscii !== "India";
+      })
+      .map(country => {
+        const states = country.regionSet.map(state => {
+          return Object.assign({}, state, {
+            value: state.nameAscii,
+            label: state.nameAscii
+          });
         });
+        return Object.assign(
+          {},
+          {
+            value: country.nameAscii,
+            label: country.nameAscii,
+            code2: country.code2,
+            isd: country.isdCode,
+            states: states
+          }
+        );
       });
-      return Object.assign(
-        {},
-        {
-          value: country.nameAscii,
-          label: country.nameAscii,
-          code2: country.code2,
-          isd: country.isdCode,
-          states: states
-        }
-      );
-    });
     setCountryOptions(countryOptions);
   };
 
@@ -133,7 +139,7 @@ const NotificationForm: React.FC = () => {
           setSuccessMsg(errors[0]);
         } else {
           setSuccessMsg(
-            "You have already signed up for reminder notifications for our offer."
+            "You have already signed up for reminder notifications for the Home For Holidays Sale."
           );
         }
       })
@@ -271,12 +277,10 @@ const NotificationForm: React.FC = () => {
               label="City"
               placeholder="City"
               validations={{
-                maxLength: 50,
-                isAlpha: true
+                maxLength: 50
               }}
               validationErrors={{
-                maxLength: "Max limit reached.",
-                isAlpha: "Only alphabets are allowed."
+                maxLength: "Max limit reached."
               }}
             />
           </div>
@@ -292,7 +296,7 @@ const NotificationForm: React.FC = () => {
               </Link>
             ]}
           </div>
-          <p className={cs(styles.successMessage, globalStyles.errorMsg)}>
+          <p className={cs(styles.successMessage, styles.errorMsg)}>
             {successMsg}
           </p>
           <input
@@ -326,7 +330,7 @@ const NotificationForm: React.FC = () => {
                 <MakerEnhance
                   user="goodearth"
                   index="1"
-                  href={`${location.pathname}?${location.search}`}
+                  href={`${window.location.origin}${location.pathname}`}
                 />
               )}
             </div>
