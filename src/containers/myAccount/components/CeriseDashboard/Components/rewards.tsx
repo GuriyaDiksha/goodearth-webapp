@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Landing } from "reducers/loyalty/typings";
 import LoyaltyService from "services/loyalty";
 import { updateLoyaltyLanding } from "actions/loyalty";
+import cs from "classnames";
 
 const Rewards = () => {
   const [showMore, setShowMore] = useState(false);
@@ -56,7 +57,12 @@ const Rewards = () => {
 
       <div className={styles.rewardsList}>
         {landing?.slice(0, 4)?.map((ele, ind) => (
-          <div className={styles.rewardRow} key={ind}>
+          <div
+            className={cs(styles.rewardRow, {
+              [styles.opacityDiv]: ind === 3 && !showMore
+            })}
+            key={ind}
+          >
             <img src={ele?.uploadIcon} />
             <div className={styles.rewardCol}>
               <p className={styles.rewardHeading}>{ele?.heading}</p>

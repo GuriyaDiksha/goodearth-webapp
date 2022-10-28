@@ -97,12 +97,12 @@
                         width: 207px;
                         height: 50px;
                         @include b3_14px_caps_white();
-                    }
 
-                    &:hover{
-                        background-color: $white;
+                        &:hover{
+                            background-color: $white;
+                            color: $aqua;
+                        }
                     }
-
                 }
 
                 .active {
@@ -139,8 +139,9 @@
                         border: 1px solid $charcoal19;
                         @include b3_14px_montserrat_caps_charcoal();
 
-                        &.active{
+                        &:hover{
                             color: $aqua;
+                            background-color: $white;
                             border: 1px solid $aqua;
                         }
                     }
@@ -149,9 +150,9 @@
                         @include b3_14px_caps_white();
                         border: 1px solid $aqua;
 
-                        &.active{
+                        &:hover{
                             color: $aqua;
-                            border: 1px solid $aqua;
+                            background-color: $white
                         }
                     }   
                 }

@@ -21,7 +21,10 @@ type StateData = {
   loyalty: { loyaltyPoints: LoyaltyPoints };
 };
 
-const CeriseCardDetail: React.FC<Props> = ({ isViewDashboard }) => {
+const CeriseCardDetail: React.FC<Props> = ({
+  isViewDashboard,
+  clickToggle
+}) => {
   const [active, setActive] = useState(false);
   const {
     user: { slab, email, firstName, lastName, phoneNumber },
@@ -56,6 +59,7 @@ const CeriseCardDetail: React.FC<Props> = ({ isViewDashboard }) => {
             to={"/account/cerise"}
             onClick={e => {
               e.stopPropagation();
+              clickToggle && clickToggle();
             }}
             className={styles.subHeading}
           >

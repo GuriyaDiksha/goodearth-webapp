@@ -15,7 +15,7 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
   constructor(props: otpRedeemProps) {
     super(props);
     this.state = {
-      disable: true,
+      disable: false,
       msgt: "",
       showFields: false,
       radioType: "",
@@ -320,7 +320,7 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
   };
 
   getValidationForOtp = () => {
-    const { radioType, otpTimer } = this.state;
+    // const { radioType, otpTimer } = this.state;
     return (
       <div>
         <div
@@ -333,7 +333,7 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
         ></div>
         <hr />
         <NewOtpComponent
-          otpSentVia={radioType == "number" ? "mobile number" : "email"}
+          otpSentVia={this.props.number ? "" : "email"}
           resendOtp={this.resendOtp}
           verifyOtp={this.checkOtpValidation}
           errorMsg={this.state.showerror}
@@ -586,8 +586,10 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
             >
               <input
                 type="submit"
-                // disabled={this.state.disable}
-                className={globalStyles.ceriseBtn}
+                disabled={this.state.disable}
+                className={cs(globalStyles.ceriseBtn, {
+                  [globalStyles.disabledBtn]: this.state.disable
+                })}
                 value="Send otp"
               />
             </div>

@@ -30,7 +30,7 @@ const CeriseCard: React.FC<Props> = ({ clickToggle }) => {
   return (
     <div className={styles.ceriseCardLeftContainer}>
       {slab ? (
-        <CeriseCardDetail isViewDashboard={true} />
+        <CeriseCardDetail isViewDashboard={true} clickToggle={clickToggle} />
       ) : (
         <img
           src={"https://d3qn6cjsz7zlnp.cloudfront.net/ceries_pic.png"}

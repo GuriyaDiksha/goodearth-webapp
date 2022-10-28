@@ -177,7 +177,8 @@ const NewOtpComponent: React.FC<Props> = ({
   return (
     <div className={style.otpWrp}>
       <p className={style.otpHeading}>
-        OTP has been sent to you via your {otpSentVia}. Please enter below:
+        OTP has been sent to you{otpSentVia && ` via your ${otpSentVia}`}.
+        Please enter below:
       </p>
       <div className={style.otpInputErr}>
         <div className={style.otpInputWrp}>
