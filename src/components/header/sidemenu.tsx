@@ -179,7 +179,7 @@ class SideMenu extends React.Component<Props, State> {
     );
     const gtmPushWishlistClick = () => {
       const userConsent = CookieService.getCookie("consent").split(",");
-      if (userConsent.includes(GA_CALLS)) {
+      if (userConsent.includes(GA_CALLS) || true) {
         dataLayer.push({
           event: "eventsToSend",
           eventAction: "wishListClick",

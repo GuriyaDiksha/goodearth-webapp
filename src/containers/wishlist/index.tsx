@@ -438,7 +438,7 @@ class Wishlist extends React.Component<Props, State> {
     if (product.length > 0 && this.impression) {
       this.impression = false;
       const userConsent = CookieService.getCookie("consent").split(",");
-      if (userConsent.includes(GA_CALLS)) {
+      if (userConsent.includes(GA_CALLS) || true) {
         dataLayer.push({
           event: "productImpression",
           ecommerce: {

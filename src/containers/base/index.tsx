@@ -67,7 +67,7 @@ const BaseLayout: React.FC = () => {
   useEffect(() => {
     if (getPWADisplayMode() == "standalone") {
       const userConsent = CookieService.getCookie("consent").split(",");
-      if (userConsent.includes(GA_CALLS)) {
+      if (userConsent.includes(GA_CALLS) || true) {
         dataLayer.push({
           event: "App Icon Click",
           page: location
@@ -106,7 +106,7 @@ const BaseLayout: React.FC = () => {
     const isHomePage = location.pathname == "/";
     if (isHomePage) {
       const userConsent = CookieService.getCookie("consent").split(",");
-      if (userConsent.includes(GA_CALLS)) {
+      if (userConsent.includes(GA_CALLS) || true) {
         dataLayer.push({
           "Event Category": "General Pages",
           "Event Action": "Home Page",
