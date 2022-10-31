@@ -985,7 +985,7 @@ class PDPContainer extends React.Component<Props, State> {
         discountPrices
       },
       true,
-      "",
+      "mobile-3d",
       styles.mobileHelloArPopup
     );
     changeModalState(true);

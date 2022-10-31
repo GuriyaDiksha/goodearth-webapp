@@ -981,7 +981,7 @@
   transform: translate(-50%, -50%);
   box-sizing: content-box;
   &.mobile{
-    height: calc(100% - 56px);
+    height: 100%;
     top: 0%;
     transform: translate(-50%, 0%);
   }
