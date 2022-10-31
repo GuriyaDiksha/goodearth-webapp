@@ -1018,7 +1018,8 @@
       }
     }
   }
-  iframe{
+  .iframe-placeholder{
+    background-color: white;
     height: calc(100% - 170px);
     transform: translateY(90px);
     z-index: 0;
