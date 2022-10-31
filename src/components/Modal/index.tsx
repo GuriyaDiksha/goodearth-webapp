@@ -83,8 +83,6 @@ class Modal extends React.Component<ModalProps> {
 
     const Comp = popupComponents[component];
 
-    console.log(bodyClass, classname);
-
     return openModal ? (
       <Context.Provider
         value={{
