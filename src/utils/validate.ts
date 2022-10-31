@@ -353,7 +353,7 @@ export function proceedForPayment(
   if (data.lineItems) {
     const userConsent = CookieService.getCookie("consent").split(",");
     let categoryName = "";
-    let subcategory = "";
+    // let subcategory = "";
     let collectionName = "";
     const childAttr = data.lineItems.map((child: any, index: number) => {
       let category = "";
@@ -364,7 +364,7 @@ export function proceedForPayment(
           ? product.categories[index].replace(/\s/g, "")
           : "";
         categoryName = category.split(">")[0];
-        subcategory = category.split(">")[1];
+        // subcategory = category.split(">")[1];
         if (
           !collectionName &&
           product.collections &&
