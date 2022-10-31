@@ -78,6 +78,7 @@ const HelloarPopup: React.FC<Props> = ({
         width="100%"
         allow="xr-spatial-tracking;fullscreen;"
         frameBorder="0"
+        className={styles.iframePlaceholder}
       ></iframe>
       {/* <div className={cs(globalStyles.ceriseBtn, styles.cta)}>
         <Link to="/cart" onClick={closeModal}>
