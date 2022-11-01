@@ -290,7 +290,7 @@ class TrackOrder extends React.Component<Props, State> {
                       "You are allowed to enter upto 75 characters only"
                   }}
                   disable={isLoggedIn ? true : false}
-                  inputClass={isLoggedIn ? styles.disabledInput : ""}
+                  className={isLoggedIn ? styles.disabledInput : ""}
                   required
                 />
               </div>
