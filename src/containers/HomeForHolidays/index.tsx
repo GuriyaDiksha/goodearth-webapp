@@ -128,7 +128,7 @@ const NotificationForm: React.FC = () => {
     HeaderService.saveHFH(dispatch, formData)
       .then(data => {
         setSuccessMsg(
-          "Thank you for signing up. You will be reminded once Good Earth's offer will be live!"
+          "Thank for you signing up! You will receive a reminder when our Home For Holidays sale is live!"
         );
         resetForm();
         setEnableSubmit(false);
