@@ -20,20 +20,23 @@
     line-height: 20px;
     margin-bottom: 5px;
     border-radius: 10px;
-    display: flex;
     transition: transform 0.8s ease-in;
-    justify-content: flex-end;
-    .separator{
-        background: #ffffff40;
-        margin-left: 10px;
-        margin-right: 15px;
-        width: 2px;
-    }
-    span {
+    display: flex;
+    justify-content: space-between;
+    .asset-container{
         display: flex;
-        justify-content: center;
-        align-items: center;
-        font-size: 15px;
+        .separator{
+            background: #ffffff40;
+            margin-left: 10px;
+            margin-right: 15px;
+            width: 2px;
+        }
+        span {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 15px;
+        }
     }
     a {
         color: #fff;
