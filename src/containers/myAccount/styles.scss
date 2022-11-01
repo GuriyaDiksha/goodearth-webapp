@@ -264,16 +264,16 @@
   a {
     display: block;
   }
-  &:after {
-    content: '-';
-    text-align: right;
-    position: absolute;
-    z-index: -1;
-    right: 20px;
-    font-size: 20px;
-    top: 0;
-    z-index: -1;
-  }
+  // &:after {
+  //   content: '-';
+  //   text-align: right;
+  //   position: absolute;
+  //   z-index: -1;
+  //   right: 20px;
+  //   font-size: 20px;
+  //   top: 0;
+  //   z-index: -1;
+  // }
   &.bridalplus:after {
     content: '+';
   }

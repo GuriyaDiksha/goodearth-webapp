@@ -423,7 +423,7 @@ const MyAccount: React.FC<Props> = props => {
                         className={
                           showRegistry
                             ? styles.bridalleftsec
-                            : cs(styles.bridalleftsec, styles.bridalplus)
+                            : cs(styles.bridalleftsec)
                         }
                       >
                         <span
