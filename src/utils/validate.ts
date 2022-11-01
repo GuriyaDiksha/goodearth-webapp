@@ -505,6 +505,7 @@ export function productImpression(
     let categoryName = "";
     let subcategoryname = "";
     let collectionName = "";
+    const search = CookieService.getCookie("search") || "";
     data.results.data.map((prod: any, i: number) => {
       let category = "";
       if (prod.categories) {
@@ -620,7 +621,7 @@ export function productImpression(
           item_category2: variants,
           item_category3: "",
           item_list_id: "",
-          item_list_name: "",
+          item_list_name: search,
           item_variant: "",
           item_category4: "",
           item_category5: collectionName,
