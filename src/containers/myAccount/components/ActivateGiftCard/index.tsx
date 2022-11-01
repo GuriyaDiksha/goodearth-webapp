@@ -50,17 +50,7 @@ class ActivateGiftCard extends React.Component<Props, State> {
     return (
       <div className={bootstrapStyles.row}>
         <div className={bootstrapStyles.col12}>
-          <div className={styles.formHeading}>
-            Activate Gift Card{" "}
-            <Link
-              to="/customer-assistance/terms-conditions?id=howtoactivategiftcard"
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{ position: "relative", top: "-4px" }}
-            >
-              <img src={iconHowto} width="30" />
-            </Link>
-          </div>
+          <div className={styles.formHeading}>Activate Gift Card </div>
           <div className={styles.formSubheading}>
             Enter your personal information to activate your gift card
           </div>
@@ -85,6 +75,14 @@ class ActivateGiftCard extends React.Component<Props, State> {
                     <Giftcard />
                   </div>
                 </div>
+                <Link
+                  to="/customer-assistance/terms-conditions?id=howtoactivategiftcard"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={styles.viewTnc}
+                >
+                  View Terms & Conditions
+                </Link>
               </div>
             </div>
           </div>

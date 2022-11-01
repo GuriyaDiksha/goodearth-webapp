@@ -903,3 +903,16 @@
   @include b4_12px_montserrat_charcoal();
   font-weight: $semibold;
 }
+
+.view-tnc{
+  @include b4_12px_montserrat_charcoal();
+  text-transform: uppercase;
+  letter-spacing: 0.36px;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  margin-top: 30px;
+  cursor: pointer;
+  &:hover{
+    color: $aqua-bold
+  }
+}
