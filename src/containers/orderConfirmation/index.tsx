@@ -44,6 +44,8 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
     const productname: string[] = [];
     const productprice: string[] = [];
     const productquantity: number[] = [];
+
+    const search = CookieService.getCookie("search") || "";
     const items = result.lines.map((line: any, ind: number) => {
       const index = line.product.categories
         ? line.product.categories.length - 1
@@ -67,7 +69,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
         item_category2: arr[arr.length - 1],
         item_category3: line.product.is3DView ? "3d" : "non 3d",
         item_list_id: "",
-        item_list_name: "",
+        item_list_name: search,
         item_variant: line.product.size || "",
         item_category4: "",
         price: line.isEgiftCard
@@ -208,6 +210,9 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
           currencyCode: result.currency,
           contents: fbProduct
         });
+        const cookieString =
+          "search=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/";
+        document.cookie = cookieString;
       }
       if (userConsent.includes(ANY_ADS) || true) {
         Moengage.track_event("PurchasedOnline", {

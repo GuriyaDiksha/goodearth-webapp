@@ -91,9 +91,6 @@ const PaymentSection: React.FC<PaymentProps> = props => {
   ) => {
     try {
       const userConsent = CookieService.getCookie("consent").split(",");
-      const cookieString =
-        "search=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/";
-      document.cookie = cookieString;
       if (userConsent.includes(GA_CALLS) || true) {
         dataLayer.push({
           event: "paymentDetails",
