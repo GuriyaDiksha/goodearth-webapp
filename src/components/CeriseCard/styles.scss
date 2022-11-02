@@ -7,6 +7,10 @@
         position: relative;
         float: left;
         width: 100%;
+
+        &.padd-bottom{
+            padding-bottom: 20px;
+        }
     }
     img{
         height: 100%;

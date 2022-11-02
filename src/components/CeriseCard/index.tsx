@@ -5,6 +5,7 @@ import { AppState } from "reducers/typings";
 import LoyaltyService from "services/loyalty";
 import { updateLoyaltyPoints } from "actions/loyalty";
 import CeriseCardDetail from "./CeriseCardDetail";
+import cs from "classnames";
 
 type StateData = { user: { slab: string; email: string } };
 type Props = { clickToggle?: any; isMobileMenu?: boolean };
@@ -28,7 +29,11 @@ const CeriseCard: React.FC<Props> = ({ clickToggle }) => {
   }, [email, slab]);
 
   return (
-    <div className={styles.ceriseCardLeftContainer}>
+    <div
+      className={cs(styles.ceriseCardLeftContainer, {
+        [styles.paddBottom]: clickToggle
+      })}
+    >
       {slab ? (
         <CeriseCardDetail isViewDashboard={true} clickToggle={clickToggle} />
       ) : (
