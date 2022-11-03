@@ -15,6 +15,7 @@ import HeaderFooterService from "services/headerFooter";
 import { updateShowCookie } from "actions/info";
 import CookiePolicy from "./CookiePolicy";
 import MakerSmartNav from "containers/base/MakerSmartNav";
+import ReactHtmlParser from "react-html-parser";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -307,7 +308,9 @@ class Footer extends React.Component<Props, FooterState> {
         footerHeadingFontColor,
         footerSubHeadingFontColor,
         footerHeadingHoverColor,
-        footerSubHeadingHoverColor
+        footerSubHeadingHoverColor,
+        sectionContent,
+        sectionFontColor
       },
       findUsOnData
     } = this.props.data;
@@ -352,12 +355,7 @@ class Footer extends React.Component<Props, FooterState> {
                   be in the know
                 </div>
                 <div className={cs(styles.ftrCopyWhiteDesktop)}>
-                  By signing up for alerts, you agree to receive e-mails, calls
-                  and text messages from Goodearth. To know more how we keep
-                  your data safe, refer to our{" "}
-                  <Link to="/customer-assistance/privacy-policy">
-                    Privacy Policy
-                  </Link>
+                  {ReactHtmlParser(sectionContent)}
                 </div>
                 <div
                   className={cs(
@@ -389,7 +387,7 @@ class Footer extends React.Component<Props, FooterState> {
                         }
                       )}
                       style={{
-                        color: "#b2b2b2"
+                        color: sectionFontColor
                       }}
                     >
                       {this.state.newsletterMessage}{" "}

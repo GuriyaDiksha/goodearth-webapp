@@ -16,6 +16,7 @@ type Props = {
   showPrice: boolean;
   price: string | number;
   discountPrice: string | number;
+  mobile: boolean;
 };
 
 const DockedPanel: React.FC<Props> = ({
@@ -23,10 +24,12 @@ const DockedPanel: React.FC<Props> = ({
   buttoncall,
   showPrice,
   price,
-  discountPrice
+  discountPrice,
+  mobile
 }) => {
   const { showTimer, isSale } = useSelector((state: AppState) => state.info);
   const { currency } = useSelector((state: AppState) => state);
+
   return (
     <div
       className={cs(
@@ -36,21 +39,33 @@ const DockedPanel: React.FC<Props> = ({
       )}
     >
       <div className={cs(bootstrap.col8, globalStyles.flex)}>
-        <div className={styles.imgcontainer}>
-          <img
-            className={cs(globalStyles.imgResponsive)}
-            src={
-              data.images
-                ? data.images[0]?.productImage
-                  ? data.images[0]?.productImage.replace("/Medium/", "/Micro/")
+        {!mobile && (
+          <div className={styles.imgcontainer}>
+            <img
+              className={cs(globalStyles.imgResponsive)}
+              src={
+                data.images
+                  ? data.images[0]?.productImage
+                    ? data.images[0]?.productImage.replace(
+                        "/Medium/",
+                        "/Micro/"
+                      )
+                    : ""
                   : ""
-                : ""
-            }
-          />
-        </div>
-        <span className={styles.dockText}>{data.title}</span>
+              }
+            />
+          </div>
+        )}
+        <span className={cs(styles.dockText, { [styles.mobile]: mobile })}>
+          {data.title}
+        </span>
       </div>
-      <div className={cs(bootstrap.col2)}>
+      <div
+        className={cs(
+          { [bootstrap.col2]: !mobile },
+          { [bootstrap.col4]: mobile }
+        )}
+      >
         {!showPrice && (
           <SelectedPrice
             code={currencyCodes[currency]}
@@ -64,7 +79,7 @@ const DockedPanel: React.FC<Props> = ({
           />
         )}
       </div>
-      <div className={cs(bootstrap.col2)}>{buttoncall}</div>
+      {!mobile && <div className={cs(bootstrap.col2)}>{buttoncall}</div>}
     </div>
   );
 };
