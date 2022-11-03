@@ -1,4 +1,4 @@
-import React, { useState, useLayoutEffect, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect } from "react";
 
 import { SelectableDropdownMenuProps } from "./typings";
 
@@ -24,6 +24,7 @@ const DropdownMenu = ({
 }: SelectableDropdownMenuProps): JSX.Element => {
   const [currentValue, setCurrentValue] = useState(value);
   const mounted = useRef(false);
+
   useEffect(() => {
     setCurrentValue(value);
   }, [value]);
@@ -45,11 +46,12 @@ const DropdownMenu = ({
       setCurrentValue(val);
     }
   };
-  useLayoutEffect(() => {
+  useEffect(() => {
     if (!mounted.current) {
       mounted.current = true;
     }
   }, [currentValue]);
+
   const getMenuItems = (): JSX.Element[] => {
     return items.map((item: DropdownItem) => {
       const itemProps: DropdownMenuItemProps = {

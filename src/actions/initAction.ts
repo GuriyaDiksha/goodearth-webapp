@@ -35,14 +35,14 @@ const initAction: any = async (
   let apiCalls: Promise<void | MetaResponse | undefined>[] = [
     HeaderService.fetchHeaderDetails(store.dispatch, currency, customerGroup)
       .then(data => {
-        console.log(data);
+        // console.log(data);
       })
       .catch(err => {
         console.log("HEADER API ERROR ==== " + err);
       }),
     HeaderService.fetchFooterDetails(store.dispatch)
       .then(data => {
-        console.log(data);
+        // console.log(data);
       })
       .catch(err => {
         console.log("FOOTER API ERROR ==== " + err);
@@ -56,7 +56,7 @@ const initAction: any = async (
       }),
     Api.getAnnouncement(store.dispatch)
       .then(data => {
-        console.log(data);
+        // console.log(data);
       })
       .catch(err => {
         console.log("FOOTER API ERROR ==== " + err);

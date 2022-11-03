@@ -27,6 +27,14 @@ const PlpDropdownMenu = ({
   const [showmobileSort, setShowmobileSort] = useState(false);
   const [showmobileFilterList, setShowmobileFilterList] = useState(false);
   const [mobileFilter, setMobileFilter] = useState(false);
+  const canUseDOM = !!(
+    typeof window !== "undefined" &&
+    typeof window.document !== "undefined" &&
+    typeof window.document.createElement !== "undefined"
+  );
+
+  const useIsomorphicLayoutEffect = canUseDOM ? useLayoutEffect : useEffect;
+
   const { scrollDown, showTimer } = useSelector(
     (state: AppState) => state.info
   );
@@ -54,7 +62,7 @@ const PlpDropdownMenu = ({
     toggleSort && toggleSort(true);
   };
 
-  useLayoutEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     if (showCaret) {
       onInsideClick();
     }

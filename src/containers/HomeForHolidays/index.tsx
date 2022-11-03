@@ -322,15 +322,15 @@ const NotificationForm: React.FC = () => {
               [styles.careersContentTimer]: showTimer
             })}
           >
-            <div className={styles.careersImage}>
-              {maker && (
-                <MakerEnhance
-                  user="goodearth"
-                  index="1"
-                  href={`${window.location.origin}${location.pathname}`}
-                />
-              )}
-            </div>
+            {/* <div className={styles.careersImage}> */}
+            {maker && (
+              <MakerEnhance
+                user="goodearth"
+                index="1"
+                href={`${window.location.origin}${location.pathname}`}
+              />
+            )}
+            {/* </div> */}
           </div>
         }
         {formContent}

@@ -25,9 +25,7 @@
     li {
       line-height: 40px;
       a {
-        font-size: 14px;
-        font-family: $font-Lato;
-        color: #333;
+        @include b4_12px_montserrat_charcoal();
         cursor: pointer;
         &:hover {
           color: $cerise;
@@ -214,4 +212,16 @@
 
 .mobile-filter-menu-timer {
   top: $main-header + $timer-height;
+}
+
+.menu-container {
+  box-shadow: 0px -100px 0px white,
+              0px 100px 0px white, 
+              1px -100px 10px #EAEAEA,
+              1px 100px 10px #eaeaea;
+  height: 100vh;
+}
+
+.secondary-header-text {
+  margin-left: 3.32%;
 }
