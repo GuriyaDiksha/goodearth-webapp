@@ -48,6 +48,8 @@ export type FooterDataProps = {
     footerSubHeadingFontColor: string;
     footerHeadingHoverColor: string;
     footerSubHeadingHoverColor: string;
+    sectionContent: string;
+    sectionFontColor: string;
   };
   findUsOnData: {
     iconImage: string;

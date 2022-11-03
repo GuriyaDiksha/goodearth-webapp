@@ -138,9 +138,13 @@ const JobDetail: React.FC = () => {
 
               <li>
                 <a
-                  href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(
-                    `${window.location.origin}/careers/job/${id}`
-                  )}`}
+                  href={
+                    typeof document == "object"
+                      ? `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(
+                          `${window.location.origin}/careers/job/${id}`
+                        )}`
+                      : ""
+                  }
                   target="_blank"
                   rel="noopener noreferrer"
                 >
@@ -150,9 +154,13 @@ const JobDetail: React.FC = () => {
 
               <li>
                 <a
-                  href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
-                    `${window.location.origin}/careers/job/${id}`
-                  )}`}
+                  href={
+                    typeof document == "object"
+                      ? `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
+                          `${window.location.origin}/careers/job/${id}`
+                        )}`
+                      : ""
+                  }
                   target="_blank"
                   rel="noopener noreferrer"
                 >

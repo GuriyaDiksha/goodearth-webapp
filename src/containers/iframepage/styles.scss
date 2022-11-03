@@ -1,0 +1,17 @@
+@import "../../styles/partials/variables";
+
+$home-top: $header-height;
+
+.maker-top{
+    margin-top: $home-top;
+}
+.maker-top-timer {
+    margin-top: $header-height + $timer-height;
+}
+.iframestyle {
+    width: 100%; 
+    height: 3740.69px; 
+    border: none; 
+    display: block; 
+    visibility: visible;
+}
