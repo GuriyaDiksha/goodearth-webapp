@@ -462,6 +462,14 @@ class PDPContainer extends React.Component<Props, State> {
         });
       }
     }
+
+    if (this.props.location.pathname != nextProps.location.pathname) {
+      setTimeout(() => {
+        window.scrollTo({
+          top: 0
+        });
+      }, 100);
+    }
   }
 
   componentDidUpdate(props: Props) {
@@ -472,9 +480,6 @@ class PDPContainer extends React.Component<Props, State> {
     const productImages = this.getProductImagesData();
     if (props?.data && props.data?.id !== data?.id) {
       document.removeEventListener("scroll", this.onScroll);
-      window.scrollTo({
-        top: 0
-      });
       this.setState({
         showSecondary: true
       });
