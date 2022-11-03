@@ -480,6 +480,9 @@ class PDPContainer extends React.Component<Props, State> {
     const productImages = this.getProductImagesData();
     if (props?.data && props.data?.id !== data?.id) {
       document.removeEventListener("scroll", this.onScroll);
+      window.scrollTo({
+        top: 0
+      });
       this.setState({
         showSecondary: true
       });
