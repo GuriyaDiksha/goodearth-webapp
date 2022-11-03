@@ -860,7 +860,11 @@ class Header extends React.Component<Props, State> {
                         onClick={() => {
                           !this.state.showSearch &&
                             this.onSideMenuClick("Search");
-                          this.showSearch();
+                          if (this.state.showSearch) {
+                            this.hideSearch();
+                          } else {
+                            this.showSearch();
+                          }
                         }}
                       >
                         <i
