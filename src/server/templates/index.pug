@@ -28,8 +28,8 @@ html(lang='en')
               app_id:!{moengage},
               debug_logs: !{moengageId},
               cluster: "DC_3",
-              swPath: "/moengageserviceworker.js"
-              //- swScope: '/a/'
+              swPath: "/mo/moengageserviceworker.js",
+              swScope: '/mo/'
           });
           Moengage.call_web_push();
         link(rel="manifest", href=`${manifest}`)
