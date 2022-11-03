@@ -111,7 +111,7 @@ let config = [
                 clientsClaim: true,
                 swDest: context + "/dist/sw.js",
                 // additionalManifestEntries: ["/"],
-                importScripts:["https://cdn.moengage.com/webpush/releases/serviceworker_cdn.min.latest.js"],
+                // importScripts:["https://cdn.moengage.com/webpush/releases/serviceworker_cdn.min.latest.js"],
                 runtimeCaching: [{
                     urlPattern: /^$/,
                     handler: 'NetworkFirst',
