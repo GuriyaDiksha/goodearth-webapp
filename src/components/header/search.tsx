@@ -219,7 +219,8 @@ class Search extends React.Component<Props, State> {
         }
       });
     }
-    this.props.toggle();
+    // this.props.toggle();
+    this.props.hideSearch();
     this.props.history.push(data.url);
   }
 
