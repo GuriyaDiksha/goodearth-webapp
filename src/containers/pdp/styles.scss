@@ -208,7 +208,18 @@ input[type="time"]::-webkit-calendar-picker-indicator{
     font-size: 14px;
     margin-top: 15px;
     padding-left: 40px;
-    font-family: $font-Lora
+    font-family: $font-Lora;
+    text-overflow: ellipsis;
+    &.mobile{
+        padding-left: 0px;
+        @include h6_16px_lora_charcoal();
+        line-height: unset;
+        margin-top: 0px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        margin-right: 10px;
+    }
 }
 
 .mobile3d {
@@ -359,4 +370,8 @@ input[type="time"]::-webkit-calendar-picker-indicator{
 
 .dock-container{
     align-items: center;
+}
+
+.mobile-hello-ar-popup{
+    height: 90%;
 }
