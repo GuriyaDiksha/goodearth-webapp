@@ -219,7 +219,8 @@ class Search extends React.Component<Props, State> {
         }
       });
     }
-    this.props.toggle();
+    // this.props.toggle();
+    this.props.hideSearch();
     this.props.history.push(data.url);
   }
 
@@ -228,7 +229,8 @@ class Search extends React.Component<Props, State> {
       this.props.history.push(
         `/search/${this.state.url.split("/autocomplete")[1]}`
       );
-      this.closeSearch();
+      // this.closeSearch();
+      this.props.hideSearch();
       return false;
     }
   };
@@ -332,7 +334,8 @@ class Search extends React.Component<Props, State> {
               <Link
                 to={item.link}
                 onClick={() => {
-                  this.props.toggle();
+                  // this.props.toggle();
+                  this.props.hideSearch();
                 }}
               >
                 <img
@@ -623,7 +626,8 @@ class Search extends React.Component<Props, State> {
                             <Link
                               to={cat.link}
                               onClick={() => {
-                                this.props.toggle();
+                                //this.props.toggle();
+                                this.props.hideSearch();
                               }}
                             >
                               <p
@@ -657,7 +661,8 @@ class Search extends React.Component<Props, State> {
                             <Link
                               to={cat.link}
                               onClick={() => {
-                                this.props.toggle();
+                                //this.props.toggle();
+                                this.props.hideSearch();
                               }}
                             >
                               <p
