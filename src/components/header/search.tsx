@@ -206,7 +206,7 @@ class Search extends React.Component<Props, State> {
       }
     );
     const userConsent = CookieService.getCookie("consent").split(",");
-    if (userConsent.includes(GA_CALLS)) {
+    if (userConsent.includes(GA_CALLS) || true) {
       dataLayer.push({
         event: "productClick",
         ecommerce: {
@@ -219,7 +219,8 @@ class Search extends React.Component<Props, State> {
         }
       });
     }
-    this.props.toggle();
+    // this.props.toggle();
+    this.props.hideSearch();
     this.props.history.push(data.url);
   }
 
@@ -228,7 +229,8 @@ class Search extends React.Component<Props, State> {
       this.props.history.push(
         `/search/${this.state.url.split("/autocomplete")[1]}`
       );
-      this.closeSearch();
+      // this.closeSearch();
+      this.props.hideSearch();
       return false;
     }
   };
@@ -292,15 +294,15 @@ class Search extends React.Component<Props, State> {
       )
       .then(data => {
         // debugger;
-        valid.productImpression(data, "SearchResults", this.props.currency);
+        // valid.productImpression(data, "SearchResults", this.props.currency);
         this.setState({
-          productData: data.results.products,
+          productData: data.results?.products || [],
           url: searchUrl,
-          count: data.results.products.length,
+          count: data.results?.products.length || [],
           suggestions: [],
-          categories: data.results.categories,
-          collections: data.results.collections,
-          usefulLink: data.results.useful_links
+          categories: data.results?.categories || [],
+          collections: data.results?.collections || [],
+          usefulLink: data.results?.useful_links || []
         });
       })
       .catch(function(error) {
@@ -332,7 +334,8 @@ class Search extends React.Component<Props, State> {
               <Link
                 to={item.link}
                 onClick={() => {
-                  this.props.toggle();
+                  // this.props.toggle();
+                  this.props.hideSearch();
                 }}
               >
                 <img
@@ -623,7 +626,8 @@ class Search extends React.Component<Props, State> {
                             <Link
                               to={cat.link}
                               onClick={() => {
-                                this.props.toggle();
+                                //this.props.toggle();
+                                this.props.hideSearch();
                               }}
                             >
                               <p
@@ -657,7 +661,8 @@ class Search extends React.Component<Props, State> {
                             <Link
                               to={cat.link}
                               onClick={() => {
-                                this.props.toggle();
+                                //this.props.toggle();
+                                this.props.hideSearch();
                               }}
                             >
                               <p

@@ -941,6 +941,9 @@ a {
       top: 39%;
       left: 5%;
     }
+    @media screen and  (min-width:1700px) {
+      left: 7%;
+    }
   }
   .icon-search-cross {
     cursor: pointer;

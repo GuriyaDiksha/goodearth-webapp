@@ -93,6 +93,16 @@
                         //     }
                         //   }
                     }
+                    .first_filter{
+                        font: normal normal normal 12px/20px $font-Montserrat;
+                        letter-spacing: 0.36px;
+                        color: $charcoal19 !important;
+                        text-transform: uppercase !important;
+                        cursor: none !important;
+                        &:after {
+                            border: none !important;
+                        }
+                    }
                     .filter_label_open {
                         // text-align: center;
                         // font: normal normal normal 12px/20px $font-Montserrat;

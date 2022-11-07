@@ -318,7 +318,7 @@ const ProductDetails: React.FC<Props> = ({
         setQuantity(value);
         setSizeError("");
       } else {
-        setSizeError("Please select a Size to proceed");
+        setSizeError("Please select a size to proceed");
       }
     },
     [selectedSize]
@@ -429,7 +429,7 @@ const ProductDetails: React.FC<Props> = ({
       : "nonView3d";
 
     const userConsent = CookieService.getCookie("consent").split(",");
-    if (userConsent.includes(ANY_ADS)) {
+    if (userConsent.includes(ANY_ADS) || true) {
       Moengage.track_event("add_to_cart", {
         "Product id": sku || childAttributes[0].sku,
         "Product name": title,
@@ -454,7 +454,7 @@ const ProductDetails: React.FC<Props> = ({
     }
     const size = selectedSize?.size || "";
     const search = CookieService.getCookie("search") || "";
-    if (userConsent.includes(GA_CALLS)) {
+    if (userConsent.includes(GA_CALLS) || true) {
       dataLayer.push({
         "Event Category": "GA Ecommerce",
         "Event Action": "Add to Cart",
@@ -521,9 +521,9 @@ const ProductDetails: React.FC<Props> = ({
 
   const addToBasket = () => {
     if (!selectedSize) {
-      setSizeError("Please select a Size to proceed");
+      setSizeError("Please select a size to proceed");
       valid.errorTracking(
-        ["Please select a Size to proceed"],
+        ["Please select a size to proceed"],
         window.location.href
       );
       showError();
@@ -552,9 +552,9 @@ const ProductDetails: React.FC<Props> = ({
 
   const checkAvailability = () => {
     if (!selectedSize) {
-      setSizeError("Please select a Size to proceed");
+      setSizeError("Please select a size to proceed");
       valid.errorTracking(
-        ["Please select a Size to proceed"],
+        ["Please select a size to proceed"],
         window.location.href
       );
       showError();
@@ -596,7 +596,7 @@ const ProductDetails: React.FC<Props> = ({
     }
     if (childAttributes[0].size) {
       if (!selectedSize) {
-        setSizeError("Please select a Size to proceed");
+        setSizeError("Please select a size to proceed");
         showError();
         return false;
       }
@@ -617,7 +617,7 @@ const ProductDetails: React.FC<Props> = ({
         valid.showGrowlMessage(dispatch, MESSAGE.ADD_TO_REGISTRY_SUCCESS);
         const registry = Object.assign({}, isRegistry);
         const userConsent = CookieService.getCookie("consent").split(",");
-        if (userConsent.includes(GA_CALLS)) {
+        if (userConsent.includes(GA_CALLS) || true) {
           dataLayer.push({
             event: "registry",
             "Event Category": "Registry",
@@ -721,7 +721,7 @@ const ProductDetails: React.FC<Props> = ({
 
   const sizeSelectClick = () => {
     // setSizeerror(true);
-    setSizeError("Please select a Size to proceed");
+    setSizeError("Please select a size to proceed");
     showError();
   };
 

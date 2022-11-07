@@ -128,7 +128,7 @@ const NotificationForm: React.FC = () => {
     HeaderService.saveHFH(dispatch, formData)
       .then(data => {
         setSuccessMsg(
-          "Thank you for signing up. You will be reminded once Good Earth's offer will be live!"
+          "Thank for you signing up! You will receive a reminder when our Home For Holidays sale is live!"
         );
         resetForm();
         setEnableSubmit(false);
@@ -184,10 +184,7 @@ const NotificationForm: React.FC = () => {
         styles.loginForm
       )}
     >
-      <h4>
-        Discover Sweet Summer Lovin&apos; with seasonal favourites from Good
-        Earth, at 20% OFF online. Sign up to get a reminder.
-      </h4>
+      <h4>Sign up to get a reminder for our Home For the Holidays Sale</h4>
       <Formsy
         onValidSubmit={handleSubmit}
         onInvalidSubmit={handleInvalidSubmit}

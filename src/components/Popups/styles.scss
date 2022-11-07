@@ -981,7 +981,7 @@
   transform: translate(-50%, -50%);
   box-sizing: content-box;
   &.mobile{
-    height: calc(100% - 56px);
+    height: 100%;
     top: 0%;
     transform: translate(-50%, 0%);
   }
@@ -992,6 +992,10 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    box-shadow: 2px 2px black;
+    position: fixed;
+    z-index: 1;
+    box-shadow: 1px 0px 12px #0000001d;
     .header-content{
       flex-basis: 90%;
       display: flex;
@@ -1014,8 +1018,11 @@
       }
     }
   }
-  iframe{
+  .iframe-placeholder{
+    background-color: white;
     height: calc(100% - 170px);
+    transform: translateY(90px);
+    z-index: 0;
     &.mobile{
       height: calc(100% - 150px);
     }

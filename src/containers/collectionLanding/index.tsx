@@ -164,7 +164,7 @@ class CollectionLanding extends React.Component<
   }
   componentDidMount() {
     const userConsent = CookieService.getCookie("consent").split(",");
-    if (userConsent.includes(GA_CALLS)) {
+    if (userConsent.includes(GA_CALLS) || true) {
       dataLayer.push(function(this: any) {
         this.reset();
       });

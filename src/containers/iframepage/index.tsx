@@ -1,21 +1,15 @@
 import React, { useEffect, useLayoutEffect, useState } from "react";
-import MakerEnhance from "maker-enhance";
 import styles from "./styles.scss";
 // import bootstrap from "../../styles/bootstrap/bootstrap-grid.scss";
 import globalStyles from "../../styles/global.scss";
 import cs from "classnames";
 import { useLocation } from "react-router";
 import { AppState } from "reducers/typings";
-import { useSelector, useStore } from "react-redux";
-import * as util from "utils/validate";
-import CookieService from "services/cookie";
-import { GA_CALLS } from "constants/cookieConsent";
-import MetaService from "services/meta";
+import { useSelector } from "react-redux";
 
-const MakerPage: React.FC = () => {
+const IframPage: React.FC = () => {
   const [mounted, setMounted] = useState(false);
   const location = useLocation();
-  const store = useStore();
   const {
     currency,
     info: { showTimer },
@@ -23,50 +17,12 @@ const MakerPage: React.FC = () => {
     // device: { mobile }
   } = useSelector((state: AppState) => state);
   const { makerReloadToggle } = useSelector((state: AppState) => state.info);
-  const canUseDOM = !!(
-    typeof window !== "undefined" &&
-    typeof window.document !== "undefined" &&
-    typeof window.document.createElement !== "undefined"
-  );
-
-  const useIsomorphicLayoutEffect = canUseDOM ? useLayoutEffect : useEffect;
-
-  useIsomorphicLayoutEffect(() => {
+  useLayoutEffect(() => {
     setMounted(false);
     setTimeout(() => {
       setMounted(true);
     }, 100);
   }, [currency, isLoggedIn, makerReloadToggle]);
-  useEffect(() => {
-    setTimeout(() => {
-      window.scrollTo(0, 0);
-    }, 1000);
-    const userConsent = CookieService.getCookie("consent").split(",");
-    if (userConsent.includes(GA_CALLS) || true) {
-      dataLayer.push(function(this: any) {
-        this.reset();
-      });
-    }
-    let page = "";
-    switch (location.pathname) {
-      case "/":
-        page = "Home";
-        break;
-      case "/workshops":
-        page = "Workshops";
-        break;
-      default:
-        page = "Home";
-    }
-    util.pageViewGTM(page);
-    if (location.pathname == "/about-us") {
-      const request = {
-        page: "static",
-        pathName: location.pathname
-      };
-      MetaService.updatePageMeta(store.dispatch, request);
-    }
-  }, []);
 
   useEffect(() => {
     const noContentContainerElem = document.getElementById(
@@ -116,14 +72,15 @@ const MakerPage: React.FC = () => {
         </div>
       </section> */}
       {mounted && (
-        <MakerEnhance
-          user="goodearth"
-          index="1"
-          href={`${window.location.origin}${location.pathname}?${location.search}`}
-        />
+        <iframe
+          title="Content"
+          src="https://darpantest.w3spaces.com/index.html"
+          allow="autoplay; fullscreen"
+          className={styles.iframestyle}
+        ></iframe>
       )}
     </div>
   );
 };
 
-export default MakerPage;
+export default IframPage;
