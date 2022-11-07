@@ -82,6 +82,7 @@ class Modal extends React.Component<ModalProps> {
     } = this.props;
 
     const Comp = popupComponents[component];
+
     return openModal ? (
       <Context.Provider
         value={{
@@ -96,6 +97,10 @@ class Modal extends React.Component<ModalProps> {
               styles.body,
               bodyClass,
               { [styles.fullscreen]: fullscreen },
+              {
+                [styles.fullscreenAdjust]:
+                  this.props.device.mobile && bodyClass == "mobile-3d"
+              },
               {
                 [styles.slideUpBottomAlign]:
                   classname == "slide-up-bottom-align"

@@ -8,8 +8,15 @@ import styles from "../styles.scss";
 import { useDispatch } from "react-redux";
 import { updateComponent, updateModal } from "actions/modal";
 import { POPUP } from "constants/components";
+import { Product } from "typings/product";
+import { Currency } from "typings/currency";
 
 type Props = ProductImage & {
+  data?: Product;
+  selectedSizeId?: number | undefined;
+  corporatePDP?: boolean;
+  currency?: Currency;
+  buttoncall?: JSX.Element | null | undefined;
   onClick: (index: number, id: number) => void;
   index: number;
   onLoad?: EventHandler<SyntheticEvent<HTMLImageElement>>;
@@ -17,6 +24,11 @@ type Props = ProductImage & {
 };
 
 const PDPImage: React.FC<Props> = ({
+  data,
+  selectedSizeId,
+  corporatePDP,
+  currency,
+  buttoncall,
   id,
   alt,
   productImage,
@@ -35,15 +47,50 @@ const PDPImage: React.FC<Props> = ({
   const dispatch = useDispatch();
 
   const onClick3dButton = (e: any, code: any) => {
-    dispatch(
-      updateComponent(
-        POPUP.HELLOARPOPUP,
-        {
-          code
-        },
-        true
-      )
-    );
+    if (data && currency) {
+      const selectedSize = data?.childAttributes?.filter(
+        item => item.id == selectedSizeId
+      )[0];
+
+      const price = corporatePDP
+        ? data?.priceRecords[currency]
+        : selectedSize && selectedSize?.priceRecords
+        ? selectedSize?.priceRecords[currency]
+        : data?.priceRecords[currency];
+
+      const discountPrices =
+        selectedSize && selectedSize?.discountedPriceRecords
+          ? selectedSize?.discountedPriceRecords[currency]
+          : data?.discountedPriceRecords[currency];
+
+      dispatch(
+        updateComponent(
+          POPUP.HELLOARPOPUP,
+          {
+            code,
+            data,
+            buttoncall,
+            showPrice:
+              data.invisibleFields &&
+              data.invisibleFields.indexOf("price") > -1,
+            price,
+            discountPrices
+          },
+          true
+        )
+      );
+    } else {
+      dispatch(
+        updateComponent(
+          POPUP.HELLOARPOPUP,
+          {
+            code
+          },
+          true
+        )
+      );
+    }
+
     dispatch(updateModal(true));
   };
 

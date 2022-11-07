@@ -7,7 +7,8 @@ import React, {
   MouseEvent,
   useRef,
   useCallback,
-  useLayoutEffect
+  useLayoutEffect,
+  useEffect
 } from "react";
 import cs from "classnames";
 import { Props } from "./typings";
@@ -15,6 +16,7 @@ import globalStyles from "styles/global.scss";
 import styles from "./styles.scss";
 import bootstrap from "styles/bootstrap/bootstrap-grid.scss";
 import fontStyles from "styles/iconFonts.scss";
+import close from "./../../images/closeZoom.svg";
 
 const Zoom: React.FC<Props> = ({
   images = [],
@@ -24,6 +26,13 @@ const Zoom: React.FC<Props> = ({
   alt
 }) => {
   const [currentIndex, setCurrentIndex] = useState(1);
+  const canUseDOM = !!(
+    typeof window !== "undefined" &&
+    typeof window.document !== "undefined" &&
+    typeof window.document.createElement !== "undefined"
+  );
+
+  const useIsomorphicLayoutEffect = canUseDOM ? useLayoutEffect : useEffect;
   const [style, setStyle] = useState({
     scale: 1.1,
     translateX: 0,
@@ -35,7 +44,7 @@ const Zoom: React.FC<Props> = ({
 
   const windowWidth = window.innerWidth;
   const windowHeight = window.innerHeight;
-  useLayoutEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     if (!mounted.current) {
       setCurrentIndex(startIndex);
       mounted.current = true;
@@ -131,14 +140,15 @@ const Zoom: React.FC<Props> = ({
     if (!mobile) {
       return (
         <div className={cs(bootstrap.colMd1, styles.sidebar)}>
-          <button
+          {/* <button
             className={cs(
               fontStyles.icon,
               fontStyles.iconCrossNarrowBig,
               styles.closeBtn
             )}
             onClick={closeModal}
-          />
+          /> */}
+          <img src={close} className={styles.close} onClick={closeModal} />
           {images.map(function(v, i) {
             return (
               <div
@@ -216,14 +226,21 @@ const Zoom: React.FC<Props> = ({
       )}
       {sidebar}
       {mobile && (
-        <button
-          className={cs(
-            fontStyles.icon,
-            fontStyles.iconCrossNarrowBig,
-            styles.closeBtn,
-            styles.mobile
-          )}
+        // <button
+        //   className={cs(
+        //     fontStyles.icon,
+        //     fontStyles.iconCrossNarrowBig,
+        //     styles.closeBtn,
+        //     styles.mobile
+        //   )}
+        //   onClick={closeModal}
+        // />
+        <img
+          src={close}
+          className={cs(styles.close, styles.mobile)}
           onClick={closeModal}
+          height={30}
+          width={30}
         />
       )}
       {mobile && navigation}

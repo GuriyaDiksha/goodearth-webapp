@@ -57,6 +57,8 @@ type Props = {
   toggle: () => void;
   ipad: boolean;
   closePopup: (e: any) => void;
+  hideSearch: () => void;
+  hideMenu: () => void;
 } & ReturnType<typeof mapStateToProps> &
   ReturnType<typeof mapDispatchToProps> &
   RouteComponentProps;
@@ -107,7 +109,7 @@ class Search extends React.Component<Props, State> {
       !this.impactRef.current.contains(evt.target)
     ) {
       //Do what you want to handle in the callback
-      this.props.closePopup(evt);
+      // this.props.closePopup(evt);
     }
   };
 
@@ -253,13 +255,16 @@ class Search extends React.Component<Props, State> {
         this.props.history.push(
           "/search/?q=" + encodeURIComponent(event.target.value)
         );
-        this.closeSearch();
+        // this.closeSearch();
+        this.props.hideSearch();
+        this.props.hideMenu();
         return false;
       }
       this.setState({
         searchValue: event.target.value
       });
       this.getSearchDataApi(event.target.value);
+      CookieService.setCookie("search", event.target.value, 365);
     } else {
       this.setState({
         productData: [],
@@ -270,6 +275,7 @@ class Search extends React.Component<Props, State> {
         url: "/search",
         searchValue: event.target.value
       });
+      CookieService.setCookie("search", event.target.value, 365);
     }
   };
 
@@ -286,15 +292,15 @@ class Search extends React.Component<Props, State> {
       )
       .then(data => {
         // debugger;
-        valid.productImpression(data, "SearchResults", this.props.currency);
+        // valid.productImpression(data, "SearchResults", this.props.currency);
         this.setState({
-          productData: data.results.products,
+          productData: data.results?.products || [],
           url: searchUrl,
-          count: data.results.products.length,
+          count: data.results?.products.length || [],
           suggestions: [],
-          categories: data.results.categories,
-          collections: data.results.collections,
-          usefulLink: data.results.useful_links
+          categories: data.results?.categories || [],
+          collections: data.results?.collections || [],
+          usefulLink: data.results?.useful_links || []
         });
       })
       .catch(function(error) {
@@ -400,7 +406,7 @@ class Search extends React.Component<Props, State> {
                 >
                   {`view all results`}
                 </span>
-                {!mobile && (
+                {
                   <i
                     className={cs(
                       iconStyles.icon,
@@ -409,7 +415,7 @@ class Search extends React.Component<Props, State> {
                     )}
                     onClick={this.onClickSearch}
                   ></i>
-                )}
+                }
                 {!mobile && (
                   <i
                     className={cs(
@@ -419,7 +425,7 @@ class Search extends React.Component<Props, State> {
                       styles.iconSearchCross
                     )}
                     onClick={() => {
-                      this.closeSearch();
+                      this.props.hideSearch();
                     }}
                   ></i>
                 )}

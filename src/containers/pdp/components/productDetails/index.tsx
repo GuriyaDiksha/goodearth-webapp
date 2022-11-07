@@ -150,12 +150,13 @@ const ProductDetails: React.FC<Props> = ({
   const [isStockset, setIsStockset] = useState(false);
   const [pdpLoader, setPdpLoader] = useState(true);
   const isLoggedIn = useSelector((state: AppState) => state.user.isLoggedIn);
-  // const [sizeerror, setSizeerror] = useState(false);
-  // useEffect(() => {
-  //   setAddedToBag(
-  //     (selectedSize?.id && items.indexOf(selectedSize?.id) !== -1) as boolean
-  //   );
-  // }, [selectedSize]);
+  const canUseDOM = !!(
+    typeof window !== "undefined" &&
+    typeof window.document !== "undefined" &&
+    typeof window.document.createElement !== "undefined"
+  );
+
+  const useIsomorphicLayoutEffect = canUseDOM ? useLayoutEffect : useEffect;
   const selectedId = useSelector(
     (state: AppState) => state.header.sizeChartData.selected
   );
@@ -172,7 +173,7 @@ const ProductDetails: React.FC<Props> = ({
     ele[0].style.zIndex = 6;
   }
 
-  useLayoutEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     setGtmListType("PDP");
     setOnload(true);
   });
@@ -452,6 +453,7 @@ const ProductDetails: React.FC<Props> = ({
       subcategory = subcategory[subcategory.length - 1];
     }
     const size = selectedSize?.size || "";
+    const search = CookieService.getCookie("search") || "";
     if (userConsent.includes(GA_CALLS) || true) {
       dataLayer.push({
         "Event Category": "GA Ecommerce",
@@ -504,7 +506,7 @@ const ProductDetails: React.FC<Props> = ({
               item_category2: selectedSize?.size, //pass the item category2 ex.Size
               item_category3: category3, //pass the product type 3d or non 3d
               item_list_id: "", //pass the item list id
-              item_list_name: "", //pass the item list name ex.search results
+              item_list_name: search, //pass the item list name ex.search results
               item_variant: selectedSize?.size || "",
               item_category4: l1,
               item_category5: collection,
