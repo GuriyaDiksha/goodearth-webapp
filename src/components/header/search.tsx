@@ -618,13 +618,14 @@ class Search extends React.Component<Props, State> {
                         >
                           USEFUL LINKS
                         </p>
-                        {usefulLink?.map(cat => {
+                        {usefulLink?.map((cat, ind) => {
                           return (
                             <Link
                               to={cat.link}
                               onClick={() => {
                                 this.props.toggle();
                               }}
+                              key={ind}
                             >
                               <p
                                 className={cs(
@@ -652,13 +653,14 @@ class Search extends React.Component<Props, State> {
                         >
                           CATEGORIES
                         </p>
-                        {categories?.map(cat => {
+                        {categories?.map((cat, ind) => {
                           return (
                             <Link
                               to={cat.link}
                               onClick={() => {
                                 this.props.toggle();
                               }}
+                              key={ind}
                             >
                               <p
                                 className={cs(

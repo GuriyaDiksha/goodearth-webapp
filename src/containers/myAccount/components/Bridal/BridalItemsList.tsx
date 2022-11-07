@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { currencyCode, Currency } from "typings/currency";
 import { BridalItemData } from "./typings";
 import BridalService from "services/bridal";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 //styles
 import cs from "classnames";
 import globalStyles from "../../../../styles/global.scss";
@@ -10,7 +10,7 @@ import styles from "./styles.scss";
 import bootstrapStyles from "../../../../styles/bootstrap/bootstrap-grid.scss";
 import iconStyles from "../../../../styles/iconFonts.scss";
 import cartIcon from "../../../../images/bridal/icons_cartregistry-details.svg";
-import { AppState } from "reducers/typings";
+// import { AppState } from "reducers/typings";
 import CookieService from "services/cookie";
 import { GA_CALLS } from "constants/cookieConsent";
 type Props = {
@@ -25,7 +25,7 @@ type Props = {
 };
 
 const BridalItemsList: React.FC<Props> = props => {
-  const saleStatus = useSelector((state: AppState) => state.info.isSale);
+  // const saleStatus = useSelector((state: AppState) => state.info.isSale);
   const [reqCurrent, setReqCurrent] = useState(props.product.qtyRequested);
   const [err, setErr] = useState("");
 

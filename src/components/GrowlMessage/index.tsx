@@ -50,7 +50,7 @@ const Growl: React.FC<Props> = ({ text, id, timeout, params }) => {
   }
 
   return (
-    <div className={styles.growl} key={id}>
+    <div className={styles.growl} key={`growl_${id}`}>
       <div className={styles.innerContainer} id={`growl_${id}`}>
         <div>{renderText}</div>
         <div className={cs(styles.separator)}></div>

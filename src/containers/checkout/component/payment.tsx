@@ -290,7 +290,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
               <input
                 type="radio"
                 checked={giftwrap}
-                onClick={() => {
+                onChange={() => {
                   setGiftwrap(!giftwrap);
                   setGiftwrapprice(!giftwrap);
                 }}
