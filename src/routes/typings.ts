@@ -47,7 +47,7 @@ export const enum ROUTES {
   MUMTAZ = "/mumtaz-virtual-appointment",
   GCEMAIL = "/send-giftcard",
   AUTH = "/auth",
-  HFH = "/summer-lovin-reminders",
+  HFH = "/Hfh2022-reminders",
   SITEMAP = "/sitemap",
   WORKSHOPS = "/workshops",
   ERROR404 = "/404",
@@ -57,7 +57,8 @@ export const enum ROUTES {
   SABINASINGH = "/setting-the-vibe-ad-sabina-singh",
   DEEPSHIKHA = "/thoughtful-gifts-deepshika-khanna",
   EESHAAN = "/toast-eeshaan-kashyap",
-  GUEST = "/be-my-guest-entertaining-guide"
+  GUEST = "/be-my-guest-entertaining-guide",
+  IFRAME = "/iframe-testing"
 }
 
 export type RouteConfig = RouteObject[];
