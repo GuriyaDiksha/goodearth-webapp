@@ -24,7 +24,9 @@ const TransactionDashboard = () => {
       )}
       <Header />
       <div className={styles.transactionWrp}>
-        <p className={styles.heading}>My Transaction Statement</p>
+        <p className={styles.heading} id="transaction">
+          My Transaction Statement
+        </p>
         <div className={styles.pointsWrp}>
           <div className={styles.points}>
             <p className={styles.name}>TOTAL POINTS EARNED</p>

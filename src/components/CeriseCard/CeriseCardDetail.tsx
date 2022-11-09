@@ -84,9 +84,11 @@ const CeriseCardDetail: React.FC<Props> = ({
         <div className={styles.ceriseRow}>
           <p>Membership Expires</p>
           <p>
-            {moment(loyaltyPoints?.ExpiryDate, "DD/MM/YYYY").format(
-              "DD MMMM YYYY"
-            )}
+            {loyaltyPoints?.ExpiryDate
+              ? moment(loyaltyPoints?.ExpiryDate, "DD/MM/YYYY").format(
+                  "DD MMMM YYYY"
+                )
+              : null}
           </p>
         </div>
       </div>

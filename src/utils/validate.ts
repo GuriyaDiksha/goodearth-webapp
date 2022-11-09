@@ -490,6 +490,24 @@ export function scrollToId() {
   }, 1000);
 }
 
+export function scrollToGivenId(id: string) {
+  setTimeout(() => {
+    if (id) {
+      const element = document.getElementById(id);
+      if (element) {
+        element.scrollIntoView();
+        const headerHeight = 50;
+        const secondaryHeaderHeight = 48;
+        const announcementBarHeight = 30;
+        window.scrollBy(
+          0,
+          -(headerHeight + secondaryHeaderHeight + announcementBarHeight)
+        );
+      }
+    }
+  }, 500);
+}
+
 export function productImpression(
   data: any,
   list: any,

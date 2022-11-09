@@ -14,13 +14,17 @@ import { TransactionPayload } from "services/loyalty/typings";
 import globalStyles from "./../../../../styles/global.scss";
 import Loader from "components/Loader";
 import moment from "moment";
+import { scrollToGivenId } from "utils/validate";
 
 type Props = {
   mobile: boolean;
 };
 
 const TransactionTable = ({ mobile }: Props) => {
-  const [openStateId, setOpenStateId] = useState({ id: 0, state: true });
+  const [openStateId, setOpenStateId] = useState<{
+    id: string | number;
+    state: boolean;
+  }>({ id: 0, state: true });
   const [dropDownValue, setDropdownValue] = useState("L3M");
   const [dropDownValue2, setDropdownValue2] = useState("ALL");
   const [currentPage, setCurrentPage] = useState(1);
@@ -265,163 +269,311 @@ const TransactionTable = ({ mobile }: Props) => {
               {mobile ? null : "DETAILS"}
             </p>
           </div>
-
           {records?.map((ele, ind) => (
-            <div key={ind}>
-              <div
-                className={cs(
-                  bootstrap.row,
-                  styles.tableRow,
-                  styles.tableFirstRow
-                )}
-              >
-                <div
-                  className={cs(
-                    bootstrap.col1,
-                    styles.alignCenterText,
-                    styles.point,
-                    {
-                      [globalStyles.ceriseBackground]:
-                        ele?.TransactionRedeemPoints !== 0
-                    }
-                  )}
-                ></div>
-                <p
-                  className={cs(
-                    mobile ? bootstrap.col3 : bootstrap.col2,
-                    styles.alignCenterText,
-                    styles.tableHeading,
-                    styles.invoice
-                  )}
-                >
-                  {ele?.DocumentNumber}
-                </p>
-                {mobile ? null : (
-                  <p
+            <>
+              {((ele?.TransactionRedeemPoints === 0 &&
+                ele?.TransactionEarnPoints) ||
+                ele?.TransactionRedeemPoints > 0) &&
+              (dropDownValue2 === "RD" || dropDownValue2 === "ALL") ? (
+                <div key={ind}>
+                  <div
                     className={cs(
-                      bootstrap.col2,
-                      styles.tableHeading,
-                      styles.alignCenterText
+                      bootstrap.row,
+                      styles.tableRow,
+                      styles.tableFirstRow
                     )}
                   >
-                    {moment(ele?.DocumentDate, "DD/MM/YYYY").format(
-                      "DD/MM/YYYY"
+                    <div
+                      className={cs(
+                        bootstrap.col1,
+                        styles.alignCenterText,
+                        styles.point,
+                        globalStyles.ceriseBackground
+                      )}
+                    ></div>
+                    <p
+                      className={cs(
+                        mobile ? bootstrap.col3 : bootstrap.col2,
+                        styles.alignCenterText,
+                        styles.tableHeading,
+                        styles.invoice
+                      )}
+                    >
+                      {ele?.DocumentNumber}
+                    </p>
+                    {mobile ? null : (
+                      <p
+                        className={cs(
+                          bootstrap.col2,
+                          styles.tableHeading,
+                          styles.alignCenterText
+                        )}
+                      >
+                        {moment(ele?.DocumentDate, "DD/MM/YYYY").format(
+                          "DD/MM/YYYY"
+                        )}
+                      </p>
                     )}
-                  </p>
-                )}
-                {mobile ? null : (
-                  <p
+                    {mobile ? null : (
+                      <p
+                        className={cs(
+                          bootstrap.col2,
+                          styles.tableHeading,
+                          styles.alignCenterText
+                        )}
+                      >
+                        {ele?.Location}
+                      </p>
+                    )}
+                    <p
+                      className={cs(
+                        mobile ? bootstrap.col3 : bootstrap.col2,
+                        styles.tableHeading,
+                        styles.alignCenterText,
+                        styles.desc
+                      )}
+                    >
+                      {"Points Redeemed"}
+                    </p>
+                    <p
+                      className={cs(
+                        mobile ? bootstrap.col3 : bootstrap.col2,
+                        styles.tableHeading,
+                        styles.alignCenterText,
+                        styles.colPoint,
+                        globalStyles.cerise
+                      )}
+                    >
+                      {`[-] ${ele?.TransactionRedeemPoints}`}
+                    </p>
+                    <p
+                      className={cs(
+                        bootstrap.col1,
+                        styles.alignCenterText,
+                        styles.iconCarrot
+                      )}
+                    >
+                      <span
+                        className={
+                          openStateId["id"] === ind && openStateId["state"]
+                            ? styles.active
+                            : ""
+                        }
+                        onClick={() => {
+                          setOpenStateId({
+                            id: ind,
+                            state:
+                              openStateId["id"] === ind
+                                ? !openStateId["state"]
+                                : true
+                          });
+                        }}
+                      ></span>
+                    </p>
+                  </div>
+                  <div
                     className={cs(
-                      bootstrap.col2,
-                      styles.tableHeading,
-                      styles.alignCenterText
-                    )}
-                  >
-                    {ele?.Location}
-                  </p>
-                )}
-                <p
-                  className={cs(
-                    mobile ? bootstrap.col3 : bootstrap.col2,
-                    styles.tableHeading,
-                    styles.alignCenterText,
-                    styles.desc
-                  )}
-                >
-                  {ele?.TransactionRedeemPoints !== 0
-                    ? "Points Redeemed"
-                    : "Points Earned"}
-                </p>
-                <p
-                  className={cs(
-                    mobile ? bootstrap.col3 : bootstrap.col2,
-                    styles.tableHeading,
-                    styles.alignCenterText,
-                    styles.colPoint,
-                    {
-                      [globalStyles.cerise]: ele?.TransactionRedeemPoints !== 0
-                    }
-                  )}
-                >
-                  {ele?.TransactionEarnPoints !== 0
-                    ? `[+] ${ele?.TransactionEarnPoints}`
-                    : `[-] ${ele?.TransactionRedeemPoints}`}
-                </p>
-                <p
-                  className={cs(
-                    bootstrap.col1,
-                    styles.alignCenterText,
-                    styles.iconCarrot
-                  )}
-                >
-                  <span
-                    className={
+                      bootstrap.row,
+                      styles.tableRow,
+                      styles.tableSecondRow,
                       openStateId["id"] === ind && openStateId["state"]
                         ? styles.active
-                        : ""
-                    }
-                    onClick={() => {
-                      setOpenStateId({
-                        id: ind,
-                        state:
-                          openStateId["id"] === ind
-                            ? !openStateId["state"]
-                            : true
-                      });
-                    }}
-                  ></span>
-                </p>
-              </div>
-              <div
-                className={cs(
-                  bootstrap.row,
-                  styles.tableRow,
-                  styles.tableSecondRow,
-                  openStateId["id"] === ind && openStateId["state"]
-                    ? styles.active
-                    : styles.inactive
-                )}
-              >
-                {mobile ? (
-                  <>
-                    <div className={styles.innerDetails}>
-                      <p className={styles.head}>Date</p>
-                      <p className={styles.desc}>{ele?.DocumentDate}</p>
-                    </div>
-                    <div className={styles.innerDetails}>
-                      <p className={styles.head}>Location</p>
-                      <p className={styles.desc}>{ele?.Location}</p>
-                    </div>
-                  </>
-                ) : null}
-                <table className={cs(styles.col12)}>
-                  <tr className={cs(styles.firstTd)}>
-                    <th>Items</th>
-                    <th className={cs(styles.alignCenterText)}>Price</th>
-                    <th className={cs(styles.alignCenterText)}>
-                      Eligible for Loyalty
-                    </th>
-                  </tr>
-                  {ele?.ItemDetail.map((e, index) => (
-                    <tr key={index}>
-                      <td className={cs(styles.firstTd)}>
-                        {e?.ItemName} | QTY {e?.ItemQuantity}
-                      </td>
-                      <td className={cs(styles.alignCenterText)}>
-                        ₹ {e?.ItemValue}
-                      </td>
-                      <td className={cs(styles.alignCenterText)}>
-                        {e?.ItemEligiblity ? (
-                          <img src={True} />
-                        ) : (
-                          <img src={Close} />
+                        : styles.inactive
+                    )}
+                  >
+                    {mobile ? (
+                      <>
+                        <div className={styles.innerDetails}>
+                          <p className={styles.head}>Date</p>
+                          <p className={styles.desc}>{ele?.DocumentDate}</p>
+                        </div>
+                        <div className={styles.innerDetails}>
+                          <p className={styles.head}>Location</p>
+                          <p className={styles.desc}>{ele?.Location}</p>
+                        </div>
+                      </>
+                    ) : null}
+                    <table className={cs(styles.col12)}>
+                      <tr className={cs(styles.firstTd)}>
+                        <th>Items</th>
+                        <th className={cs(styles.alignCenterText)}>Price</th>
+                        <th className={cs(styles.alignCenterText)}>
+                          Eligible for Loyalty
+                        </th>
+                      </tr>
+                      {ele?.ItemDetail.map((e, index) => (
+                        <tr key={index}>
+                          <td className={cs(styles.firstTd)}>
+                            {e?.ItemName} | QTY {e?.ItemQuantity}
+                          </td>
+                          <td className={cs(styles.alignCenterText)}>
+                            ₹ {e?.ItemValue}
+                          </td>
+                          <td className={cs(styles.alignCenterText)}>
+                            {e?.ItemEligiblity === "Yes" ? (
+                              <img src={True} />
+                            ) : (
+                              <img src={Close} />
+                            )}
+                          </td>
+                        </tr>
+                      ))}
+                    </table>
+                  </div>
+                </div>
+              ) : null}
+
+              {((ele?.TransactionRedeemPoints === 0 &&
+                ele?.TransactionEarnPoints) ||
+                ele?.TransactionEarnPoints > 0) &&
+              (dropDownValue2 === "ER" || dropDownValue2 === "ALL") ? (
+                <div key={ind + "t"}>
+                  <div
+                    className={cs(
+                      bootstrap.row,
+                      styles.tableRow,
+                      styles.tableFirstRow
+                    )}
+                  >
+                    <div
+                      className={cs(
+                        bootstrap.col1,
+                        styles.alignCenterText,
+                        styles.point
+                      )}
+                    ></div>
+                    <p
+                      className={cs(
+                        mobile ? bootstrap.col3 : bootstrap.col2,
+                        styles.alignCenterText,
+                        styles.tableHeading,
+                        styles.invoice
+                      )}
+                    >
+                      {ele?.DocumentNumber}
+                    </p>
+                    {mobile ? null : (
+                      <p
+                        className={cs(
+                          bootstrap.col2,
+                          styles.tableHeading,
+                          styles.alignCenterText
                         )}
-                      </td>
-                    </tr>
-                  ))}
-                </table>
-              </div>
-            </div>
+                      >
+                        {moment(ele?.DocumentDate, "DD/MM/YYYY").format(
+                          "DD/MM/YYYY"
+                        )}
+                      </p>
+                    )}
+                    {mobile ? null : (
+                      <p
+                        className={cs(
+                          bootstrap.col2,
+                          styles.tableHeading,
+                          styles.alignCenterText
+                        )}
+                      >
+                        {ele?.Location}
+                      </p>
+                    )}
+                    <p
+                      className={cs(
+                        mobile ? bootstrap.col3 : bootstrap.col2,
+                        styles.tableHeading,
+                        styles.alignCenterText,
+                        styles.desc
+                      )}
+                    >
+                      {"Points Earned"}
+                    </p>
+                    <p
+                      className={cs(
+                        mobile ? bootstrap.col3 : bootstrap.col2,
+                        styles.tableHeading,
+                        styles.alignCenterText,
+                        styles.colPoint
+                      )}
+                    >
+                      {`[+] ${ele?.TransactionEarnPoints}`}
+                    </p>
+                    <p
+                      className={cs(
+                        bootstrap.col1,
+                        styles.alignCenterText,
+                        styles.iconCarrot
+                      )}
+                    >
+                      <span
+                        className={
+                          openStateId["id"] === ind + "t" &&
+                          openStateId["state"]
+                            ? styles.active
+                            : ""
+                        }
+                        onClick={() => {
+                          setOpenStateId({
+                            id: ind + "t",
+                            state:
+                              openStateId["id"] === ind + "t"
+                                ? !openStateId["state"]
+                                : true
+                          });
+                        }}
+                      ></span>
+                    </p>
+                  </div>
+                  <div
+                    className={cs(
+                      bootstrap.row,
+                      styles.tableRow,
+                      styles.tableSecondRow,
+                      openStateId["id"] === ind + "t" && openStateId["state"]
+                        ? styles.active
+                        : styles.inactive
+                    )}
+                  >
+                    {mobile ? (
+                      <>
+                        <div className={styles.innerDetails}>
+                          <p className={styles.head}>Date</p>
+                          <p className={styles.desc}>{ele?.DocumentDate}</p>
+                        </div>
+                        <div className={styles.innerDetails}>
+                          <p className={styles.head}>Location</p>
+                          <p className={styles.desc}>{ele?.Location}</p>
+                        </div>
+                      </>
+                    ) : null}
+                    <table className={cs(styles.col12)}>
+                      <tr className={cs(styles.firstTd)}>
+                        <th>Items</th>
+                        <th className={cs(styles.alignCenterText)}>Price</th>
+                        <th className={cs(styles.alignCenterText)}>
+                          Eligible for Loyalty
+                        </th>
+                      </tr>
+                      {ele?.ItemDetail.map((e, index) => (
+                        <tr key={index}>
+                          <td className={cs(styles.firstTd)}>
+                            {e?.ItemName} | QTY {e?.ItemQuantity}
+                          </td>
+                          <td className={cs(styles.alignCenterText)}>
+                            ₹ {e?.ItemValue}
+                          </td>
+                          <td className={cs(styles.alignCenterText)}>
+                            {e?.ItemEligiblity === "Yes" ? (
+                              <img src={True} />
+                            ) : (
+                              <img src={Close} />
+                            )}
+                          </td>
+                        </tr>
+                      ))}
+                    </table>
+                  </div>
+                </div>
+              ) : null}
+            </>
           ))}
         </div>
 
@@ -429,20 +581,29 @@ const TransactionTable = ({ mobile }: Props) => {
           <div className={styles.pagination}>
             <p
               className={previouspage ? "" : styles.inactive}
-              onClick={() => onPageClick(currentPage - 1)}
+              onClick={() => {
+                onPageClick(currentPage - 1);
+                scrollToGivenId("transaction");
+              }}
             ></p>
             {[...Array(Number(total_pages)).keys()].map((ele, ind) => (
               <p
                 key={ind}
                 className={currentPage === ele + 1 ? styles.active : ""}
-                onClick={() => onPageClick(ele + 1)}
+                onClick={() => {
+                  onPageClick(ele + 1);
+                  scrollToGivenId("transaction");
+                }}
               >
                 {ele + 1}
               </p>
             ))}
             <p
               className={nextpage ? "" : styles.inactive}
-              onClick={() => onPageClick(currentPage + 1)}
+              onClick={() => {
+                onPageClick(currentPage + 1);
+                scrollToGivenId("transaction");
+              }}
             ></p>
           </div>
         )}
