@@ -4,7 +4,7 @@ import styles from "./styles.scss";
 import cs from "classnames";
 import { useDispatch, useSelector } from "react-redux";
 import { AppState } from "reducers/typings";
-import { Link, NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 import LoyaltyService from "services/loyalty";
 import { updateLoyaltyPoints } from "actions/loyalty";
 import moment from "moment";
@@ -55,16 +55,19 @@ const CeriseCardDetail: React.FC<Props> = ({
       <div className={styles.header}>
         <p className={styles.heading}>{loyaltyPoints?.MembershipClub}</p>
         {isViewDashboard ? (
-          <NavLink
-            to={"/account/cerise"}
+          <div
+            //to={"/account/cerise"}
+            id="dashboard"
             onClick={e => {
-              e.stopPropagation();
+              // e.stopPropagation();
+              // onDropDownMenuClick();
+              // history.push("/account/cerise")
               clickToggle && clickToggle();
             }}
             className={styles.subHeading}
           >
             View My Dashboard
-          </NavLink>
+          </div>
         ) : null}
       </div>
       <div className={styles.nameHeader}>

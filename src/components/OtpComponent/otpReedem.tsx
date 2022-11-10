@@ -105,9 +105,9 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
       this.props.updateError(true);
       return false;
     }
-    if (!this.state.otpData["points"]) {
-      return false;
-    }
+    // if (!this.state.otpData["points"]) {
+    //   return false;
+    // }
     const newData = otpData;
     newData["otp"] = value;
 
@@ -586,15 +586,22 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
             >
               <input
                 type="submit"
-                disabled={this.state.disable}
+                disabled={
+                  this.state.disable ||
+                  (this.props.validated !== undefined && !this.props.validated)
+                }
                 className={cs(globalStyles.ceriseBtn, {
-                  [globalStyles.disabledBtn]: this.state.disable
+                  [globalStyles.disabledBtn]:
+                    this.state.disable ||
+                    (this.props.validated !== undefined &&
+                      !this.props.validated)
                 })}
                 value="Send otp"
               />
             </div>
           </Formsy>
-          {this.state.isOtpSent ? (
+          {this.state.isOtpSent ||
+          (this.props.validated !== undefined && !this.props.validated) ? (
             <div className={globalStyles.textCenter}>
               {this.getValidationForOtp()}
             </div>

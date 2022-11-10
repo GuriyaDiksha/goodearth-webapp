@@ -106,10 +106,12 @@ class Reedem extends React.Component<Props, RedeemState> {
     const { loyalty } = this.props;
     const { loyaltyData } = this.props.user;
     const points = loyalty?.[0]?.points;
+    const isValidated = loyalty?.[0]?.isValidated;
+
     return (
       <Fragment>
         <div className={cs(bootstrapStyles.row, styles.giftDisplay)}>
-          {points ? (
+          {points && isValidated ? (
             <div
               className={cs(
                 styles.textLeft,
@@ -179,7 +181,7 @@ class Reedem extends React.Component<Props, RedeemState> {
                 >
                   <input
                     type="number"
-                    value={txtvalue}
+                    value={txtvalue || points}
                     onKeyDown={evt => evt.key === "." && evt.preventDefault()}
                     onChange={this.changeValue}
                     id="redeem"
@@ -213,10 +215,11 @@ class Reedem extends React.Component<Props, RedeemState> {
                   checkOtpRedeem={this.props.checkOtpRedeem}
                   updateList={this.updateList}
                   loyaltyData={loyaltyData}
-                  points={this.state.txtvalue}
+                  points={this.state.txtvalue || points}
                   number={this.props.user.phoneNumber}
                   email={this.props.user.email}
                   resendOtp={this.props.resendOtpRedeem}
+                  validated={isValidated}
                 />
               </div>
             </Fragment>

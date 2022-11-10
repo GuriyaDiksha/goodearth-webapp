@@ -67,6 +67,7 @@ export type otpRedeemProps = {
   number?: string;
   isLoggedIn: boolean;
   history: any;
+  validated: boolean;
 };
 
 export type otpBoxProps = {

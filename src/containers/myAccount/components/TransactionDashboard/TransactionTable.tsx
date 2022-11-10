@@ -29,6 +29,7 @@ const TransactionTable = ({ mobile }: Props) => {
   const [dropDownValue2, setDropdownValue2] = useState("ALL");
   const [currentPage, setCurrentPage] = useState(1);
   const [isLoading, setLoading] = useState(false);
+  const [renderVal, setRenderVal] = useState("ALL");
   const [oldFilterState, setOldFilterState] = useState({
     dropDownValue: "",
     dropDownValue2: ""
@@ -93,6 +94,7 @@ const TransactionTable = ({ mobile }: Props) => {
       TransactionFilter: dropDownValue2,
       PageNumber: currentPage
     });
+    setRenderVal(dropDownValue2);
   };
 
   const onPageClick = (currentPage: number) => {
@@ -272,9 +274,9 @@ const TransactionTable = ({ mobile }: Props) => {
           {records?.map((ele, ind) => (
             <>
               {((ele?.TransactionRedeemPoints === 0 &&
-                ele?.TransactionEarnPoints) ||
+                ele?.TransactionEarnPoints === 0) ||
                 ele?.TransactionRedeemPoints > 0) &&
-              (dropDownValue2 === "RD" || dropDownValue2 === "ALL") ? (
+              (renderVal === "RD" || renderVal === "ALL") ? (
                 <div key={ind}>
                   <div
                     className={cs(
@@ -424,9 +426,9 @@ const TransactionTable = ({ mobile }: Props) => {
               ) : null}
 
               {((ele?.TransactionRedeemPoints === 0 &&
-                ele?.TransactionEarnPoints) ||
+                ele?.TransactionEarnPoints === 0) ||
                 ele?.TransactionEarnPoints > 0) &&
-              (dropDownValue2 === "ER" || dropDownValue2 === "ALL") ? (
+              (renderVal === "ER" || renderVal === "ALL") ? (
                 <div key={ind + "t"}>
                   <div
                     className={cs(

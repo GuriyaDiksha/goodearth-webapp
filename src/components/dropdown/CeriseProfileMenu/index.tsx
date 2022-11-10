@@ -30,7 +30,15 @@ const CeriseProfileMenu = ({
   const getMenuItems = (): JSX.Element => {
     return (
       <div className={styles.ceriseCardMenuWrp}>
-        <div onClick={() => history.push("/cerise")}>
+        <div
+          onClick={e => {
+            if (e.target?.id === "dashboard") {
+              history.push("/account/cerise");
+            } else {
+              history.push("/cerise");
+            }
+          }}
+        >
           <CeriseCard />
         </div>
         <div className={styles.ceriseCardMenu} id={id}>
