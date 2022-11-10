@@ -233,7 +233,7 @@ const StaticPage: React.FC<Props> = props => {
           </div>
         ) : (
           <div className={cs(styles.fixLeftPane, bootstrapStyles.colMd2)}>
-            <div className={cs(globalStyles.voffset5, styles.menuContainer)}>
+            <div className={cs(styles.menuContainer)}>
               <ul>
                 {accountMenuItems.map(item => {
                   return (
