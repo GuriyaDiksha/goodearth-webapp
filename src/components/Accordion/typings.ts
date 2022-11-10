@@ -4,6 +4,7 @@ export type Section = {
   header: ReactNode;
   body: ReactNode;
   id: string;
+  alwaysOpen?: boolean;
 };
 
 export type Props = {

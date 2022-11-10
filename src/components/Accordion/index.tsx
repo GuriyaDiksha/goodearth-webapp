@@ -19,7 +19,10 @@ const Accordion: React.FC<Props> = memo(
 
     const [activeIndex, setActiveIndex] = useState(-1);
 
-    const handleHeaderClick = (i: number) => {
+    const handleHeaderClick = (i: number, alwaysOpen: boolean | undefined) => {
+      if (alwaysOpen) {
+        return;
+      }
       if (activeIndex != -1) {
         const currentBody = bodyRef.current[activeIndex];
         currentBody.style.maxHeight = 0 + "px";
@@ -36,7 +39,7 @@ const Accordion: React.FC<Props> = memo(
 
     useEffect(() => {
       setActiveIndex(-1);
-      sections.map(({ id }, i) => {
+      sections.map(({ id, alwaysOpen }, i) => {
         if (id == defaultOpen) {
           setActiveIndex(i);
           if (bodyRef.current[i].scrollHeight > 15) {
@@ -44,38 +47,46 @@ const Accordion: React.FC<Props> = memo(
               bodyRef.current[i].scrollHeight + "px";
           }
         }
+        if (alwaysOpen) {
+          bodyRef.current[i].style.maxHeight =
+            bodyRef.current[i].scrollHeight + "px";
+        }
       });
     }, [sections]);
 
-    const accordionSections = sections.map(({ id, header, body }, i) => {
-      const isOpen = activeIndex == i;
-      return (
-        <div
-          className={cs(styles.accordionSection, sectionClassName)}
-          key={id}
-          id={id}
-        >
+    const accordionSections = sections.map(
+      ({ id, header, body, alwaysOpen }, i) => {
+        const isOpen = activeIndex == i;
+        return (
           <div
-            className={cs(styles.accordionHeader, headerClassName)}
-            onClick={() => handleHeaderClick(i)}
+            className={cs(styles.accordionSection, sectionClassName)}
+            key={id}
+            id={id}
           >
-            {header}
-            <span
-              className={cs(
-                { [closedIconClassName]: !isOpen },
-                { [openIconClassName]: isOpen }
+            <div
+              className={cs(styles.accordionHeader, headerClassName)}
+              onClick={() => handleHeaderClick(i, alwaysOpen)}
+            >
+              {header}
+              {!alwaysOpen && (
+                <span
+                  className={cs(
+                    { [closedIconClassName]: !isOpen },
+                    { [openIconClassName]: isOpen }
+                  )}
+                ></span>
               )}
-            ></span>
+            </div>
+            <div
+              className={cs(styles.accordionBody)}
+              ref={el => (bodyRef.current[i] = el)}
+            >
+              <div className={cs(bodyClassName)}>{body}</div>
+            </div>
           </div>
-          <div
-            className={cs(styles.accordionBody)}
-            ref={el => (bodyRef.current[i] = el)}
-          >
-            <div className={cs(bodyClassName)}>{body}</div>
-          </div>
-        </div>
-      );
-    });
+        );
+      }
+    );
     return (
       <div className={className} key={uniqueKey}>
         {accordionSections}
