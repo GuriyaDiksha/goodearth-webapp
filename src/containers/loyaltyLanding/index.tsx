@@ -13,6 +13,8 @@ import { updateLoyaltyLanding } from "actions/loyalty";
 
 const LoyaltyLanding = () => {
   const [data, setData] = useState<Landing[]>([]);
+  const [showMaker, setShowMaker] = useState(false);
+
   const {
     device: { mobile },
     info: { showTimer }
@@ -20,6 +22,7 @@ const LoyaltyLanding = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    setShowMaker(true);
     LoyaltyService.getLoyaltyLanding(dispatch)
       .then(res => {
         setData(res);
@@ -36,10 +39,12 @@ const LoyaltyLanding = () => {
         [styles.loyaltyContainerTimer]: showTimer
       })}
     >
-      {/* <MakerEnhance
+      {showMaker && (
+        <MakerEnhance
           user="goodearth"
           href={`${window.location.origin}${location.pathname}?${location.search}`}
-        /> */}
+        />
+      )}
       <div className={styles.loyaltyWrp}>
         <div className={styles.loyaltyHeader}>
           <p className={styles.heading}>Cerise Membership</p>

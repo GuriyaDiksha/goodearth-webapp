@@ -57,6 +57,8 @@ type Props = {
   toggle: () => void;
   ipad: boolean;
   closePopup: (e: any) => void;
+  hideSearch: () => void;
+  hideMenu: () => void;
 } & ReturnType<typeof mapStateToProps> &
   ReturnType<typeof mapDispatchToProps> &
   RouteComponentProps;
@@ -107,7 +109,7 @@ class Search extends React.Component<Props, State> {
       !this.impactRef.current.contains(evt.target)
     ) {
       //Do what you want to handle in the callback
-      this.props.closePopup(evt);
+      // this.props.closePopup(evt);
     }
   };
 
@@ -204,7 +206,7 @@ class Search extends React.Component<Props, State> {
       }
     );
     const userConsent = CookieService.getCookie("consent").split(",");
-    if (userConsent.includes(GA_CALLS)) {
+    if (userConsent.includes(GA_CALLS) || true) {
       dataLayer.push({
         event: "productClick",
         ecommerce: {
@@ -217,7 +219,8 @@ class Search extends React.Component<Props, State> {
         }
       });
     }
-    this.props.toggle();
+    // this.props.toggle();
+    this.props.hideSearch();
     this.props.history.push(data.url);
   }
 
@@ -226,7 +229,8 @@ class Search extends React.Component<Props, State> {
       this.props.history.push(
         `/search/${this.state.url.split("/autocomplete")[1]}`
       );
-      this.closeSearch();
+      // this.closeSearch();
+      this.props.hideSearch();
       return false;
     }
   };
@@ -253,13 +257,16 @@ class Search extends React.Component<Props, State> {
         this.props.history.push(
           "/search/?q=" + encodeURIComponent(event.target.value)
         );
-        this.closeSearch();
+        // this.closeSearch();
+        this.props.hideSearch();
+        this.props.hideMenu();
         return false;
       }
       this.setState({
         searchValue: event.target.value
       });
       this.getSearchDataApi(event.target.value);
+      CookieService.setCookie("search", event.target.value, 365);
     } else {
       this.setState({
         productData: [],
@@ -270,6 +277,7 @@ class Search extends React.Component<Props, State> {
         url: "/search",
         searchValue: event.target.value
       });
+      CookieService.setCookie("search", event.target.value, 365);
     }
   };
 
@@ -326,7 +334,8 @@ class Search extends React.Component<Props, State> {
               <Link
                 to={item.link}
                 onClick={() => {
-                  this.props.toggle();
+                  // this.props.toggle();
+                  this.props.hideSearch();
                 }}
               >
                 <img
@@ -400,7 +409,7 @@ class Search extends React.Component<Props, State> {
                 >
                   {`view all results`}
                 </span>
-                {!mobile && (
+                {
                   <i
                     className={cs(
                       iconStyles.icon,
@@ -409,7 +418,7 @@ class Search extends React.Component<Props, State> {
                     )}
                     onClick={this.onClickSearch}
                   ></i>
-                )}
+                }
                 {!mobile && (
                   <i
                     className={cs(
@@ -419,7 +428,7 @@ class Search extends React.Component<Props, State> {
                       styles.iconSearchCross
                     )}
                     onClick={() => {
-                      this.closeSearch();
+                      this.props.hideSearch();
                     }}
                   ></i>
                 )}
@@ -617,7 +626,8 @@ class Search extends React.Component<Props, State> {
                             <Link
                               to={cat.link}
                               onClick={() => {
-                                this.props.toggle();
+                                //this.props.toggle();
+                                this.props.hideSearch();
                               }}
                             >
                               <p
@@ -651,7 +661,8 @@ class Search extends React.Component<Props, State> {
                             <Link
                               to={cat.link}
                               onClick={() => {
-                                this.props.toggle();
+                                //this.props.toggle();
+                                this.props.hideSearch();
                               }}
                             >
                               <p

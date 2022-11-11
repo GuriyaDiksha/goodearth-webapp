@@ -4,7 +4,8 @@ import {
   NavLink,
   Switch,
   Route,
-  useRouteMatch
+  useRouteMatch,
+  useHistory
   // useLocation
 } from "react-router-dom";
 import globalStyles from "../../styles/global.scss";
@@ -41,6 +42,7 @@ const StaticPage: React.FC<Props> = props => {
   const { footerList } = useSelector((state: AppState) => state.footer.data);
   const { path } = useRouteMatch();
   const [currentSection, setCurrentSection] = useState("");
+  const history = useHistory();
 
   useEffect(() => {
     bridalId = CookieService.getCookie("bridalId");

@@ -151,6 +151,7 @@ export function dataForBilling(data: Basket, currency: Currency) {
     let categoryName = "";
     // let subcategory = "";
     let collectionName = "";
+    const search = CookieService.getCookie("search") || "";
     product = data.lineItems.map((prod, ind) => {
       const realPrice = prod.GCValue;
       let category = "";
@@ -188,7 +189,7 @@ export function dataForBilling(data: Basket, currency: Currency) {
           item_category2: prod.product.childAttributes[0].size,
           item_category3: "",
           item_list_id: "",
-          item_list_name: "",
+          item_list_name: search,
           item_variant: "",
           item_category4: "",
           item_category5: collectionName,
@@ -230,7 +231,7 @@ export function proceedTocheckout(data: Basket, currency: Currency) {
     const categoryname: any = [];
     const subcategoryname: any = [];
     const userConsent = CookieService.getCookie("consent").split(",");
-
+    const search = CookieService.getCookie("search") || "";
     data.lineItems.map(prod => {
       const category = categoryForGa(prod.product.categories);
       const categorylist = category?.split("/");
@@ -310,7 +311,7 @@ export function proceedTocheckout(data: Basket, currency: Currency) {
           item_category2: variants,
           item_category3: "",
           item_list_id: "",
-          item_list_name: "",
+          item_list_name: search,
           item_variant: "",
           item_category4: "",
           item_category5: collectionName,
@@ -319,7 +320,7 @@ export function proceedTocheckout(data: Basket, currency: Currency) {
         }
       );
     });
-    if (userConsent.includes(GA_CALLS)) {
+    if (userConsent.includes(GA_CALLS) || true) {
       dataLayer.push({ ecommerce: null }); // Clear the previous ecommerce object.
       dataLayer.push({
         event: "begin_checkout",
@@ -328,7 +329,7 @@ export function proceedTocheckout(data: Basket, currency: Currency) {
         }
       });
     }
-    if (userConsent.includes(ANY_ADS)) {
+    if (userConsent.includes(ANY_ADS) || true) {
       Moengage.track_event("Proceed to checkout", {
         "Product id": skusid,
         "Product name": productname,
@@ -353,8 +354,8 @@ export function proceedForPayment(
   if (data.lineItems) {
     const userConsent = CookieService.getCookie("consent").split(",");
     let categoryName = "";
-    let subcategory = "";
     let collectionName = "";
+    const search = CookieService.getCookie("search") || "";
     const childAttr = data.lineItems.map((child: any, index: number) => {
       let category = "";
       const { product } = child;
@@ -364,7 +365,6 @@ export function proceedForPayment(
           ? product.categories[index].replace(/\s/g, "")
           : "";
         categoryName = category.split(">")[0];
-        subcategory = category.split(">")[1];
         if (
           !collectionName &&
           product.collections &&
@@ -407,7 +407,7 @@ export function proceedForPayment(
           item_category2: variants,
           item_category3: "",
           item_list_id: "",
-          item_list_name: "",
+          item_list_name: search,
           item_variant: "",
           item_category4: "",
           item_category5: collectionName,
@@ -416,7 +416,7 @@ export function proceedForPayment(
         }
       );
     });
-    if (userConsent.includes(GA_CALLS)) {
+    if (userConsent.includes(GA_CALLS) || true) {
       dataLayer.push({ ecommerce: null }); // Clear the previous ecommerce object.
       dataLayer.push({
         event: "add_payment_info",
@@ -523,6 +523,7 @@ export function productImpression(
     let categoryName = "";
     let subcategoryname = "";
     let collectionName = "";
+    const search = CookieService.getCookie("search") || "";
     data.results.data.map((prod: any, i: number) => {
       let category = "";
       if (prod.categories) {
@@ -638,7 +639,7 @@ export function productImpression(
           item_category2: variants,
           item_category3: "",
           item_list_id: "",
-          item_list_name: "",
+          item_list_name: search,
           item_variant: "",
           item_category4: "",
           item_category5: collectionName,
@@ -649,7 +650,7 @@ export function productImpression(
     });
 
     const userConsent = CookieService.getCookie("consent").split(",");
-    if (userConsent.includes(GA_CALLS)) {
+    if (userConsent.includes(GA_CALLS) || true) {
       dataLayer.push({ ecommerce: null });
       dataLayer.push({
         event: "productImpression",
@@ -666,7 +667,7 @@ export function productImpression(
         }
       });
     }
-    if (userConsent.includes(ANY_ADS)) {
+    if (userConsent.includes(ANY_ADS) || true) {
       Moengage.track_event("PLP views", {
         "Category Name": categoryName.trim(),
         "Sub Category Name": subcategoryname.trim(),
@@ -716,7 +717,7 @@ export function sliderProductImpression(
       product.push(childProduct);
     });
     const userConsent = CookieService.getCookie("consent").split(",");
-    if (userConsent.includes(GA_CALLS)) {
+    if (userConsent.includes(GA_CALLS) || true) {
       dataLayer.push({ ecommerce: null });
       dataLayer.push({
         event: "productImpression",
@@ -768,7 +769,7 @@ export function sliderProductClick(
       )
     ];
     const userConsent = CookieService.getCookie("consent").split(",");
-    if (userConsent.includes(GA_CALLS)) {
+    if (userConsent.includes(GA_CALLS) || true) {
       dataLayer.push({
         event: "productClick",
         ecommerce: {
@@ -798,7 +799,7 @@ export function promotionImpression(data: any) {
       };
     });
     const userConsent = CookieService.getCookie("consent").split(",");
-    if (userConsent.includes(GA_CALLS)) {
+    if (userConsent.includes(GA_CALLS) || true) {
       dataLayer.push({
         event: "promotionImpression",
         ecommerce: {
@@ -849,7 +850,7 @@ export function PDP(data: any, currency: Currency) {
     const quantitys: any = [];
     const colors: any = [];
     const userConsent = CookieService.getCookie("consent").split(",");
-
+    const search = CookieService.getCookie("search") || "";
     const childAttr = data?.childAttributes.map((child: any, index: number) => {
       return Object.assign(
         {},
@@ -870,7 +871,7 @@ export function PDP(data: any, currency: Currency) {
             ? "3d"
             : "non 3d",
           item_list_id: "",
-          item_list_name: "",
+          item_list_name: search,
           item_variant: child.color,
           item_category4: l1,
           item_category5: data.collection,
@@ -915,7 +916,7 @@ export function PDP(data: any, currency: Currency) {
     );
     products.push(childProduct);
 
-    if (userConsent.includes(ANY_ADS)) {
+    if (userConsent.includes(ANY_ADS) || true) {
       Moengage.track_event("PDP View", {
         "Product id": skusid,
         "Product name": data.title,
@@ -1012,7 +1013,7 @@ export function collectionProductImpression(
       product.push(childProduct);
     });
     const userConsent = CookieService.getCookie("consent").split(",");
-    if (userConsent.includes(GA_CALLS)) {
+    if (userConsent.includes(GA_CALLS) || true) {
       dataLayer.push({ ecommerce: null });
       dataLayer.push({
         event: "productImpression",
@@ -1080,7 +1081,7 @@ export function weRecommendProductImpression(
       product.push(childProduct);
     });
     const userConsent = CookieService.getCookie("consent").split(",");
-    if (userConsent.includes(GA_CALLS)) {
+    if (userConsent.includes(GA_CALLS) || true) {
       dataLayer.push({ ecommerce: null });
       dataLayer.push({
         event: "productImpression",
@@ -1137,6 +1138,7 @@ export function plpProductClick(
     const l3Len = category.split(">").length;
     const cat = categri.split(">")[l3Len - 1];
     const l1 = categri.split(">")[0];
+    const search = CookieService.getCookie("search") || "";
     const childAttr = data?.childAttributes.map((child: any, index: number) => {
       return Object.assign(
         {},
@@ -1157,7 +1159,7 @@ export function plpProductClick(
             ? "3d"
             : "non 3d",
           item_list_id: "",
-          item_list_name: "",
+          item_list_name: search,
           item_variant: child.color,
           item_category4: l1,
           item_category5: data.collection,
@@ -1169,7 +1171,7 @@ export function plpProductClick(
     const listPath = `${list}`;
     CookieService.setCookie("listPath", listPath);
     const userConsent = CookieService.getCookie("consent").split(",");
-    if (userConsent.includes(GA_CALLS)) {
+    if (userConsent.includes(GA_CALLS) || true) {
       dataLayer.push({
         event: "productClick",
         ecommerce: {
@@ -1205,7 +1207,7 @@ export function promotionClick(data: any) {
       }
     ];
     const userConsent = CookieService.getCookie("consent").split(",");
-    if (userConsent.includes(GA_CALLS)) {
+    if (userConsent.includes(GA_CALLS) || true) {
       dataLayer.push({
         event: "promotionClick",
         ecommerce: {
@@ -1273,7 +1275,7 @@ export function MoreFromCollectionProductImpression(
       product.push(childProduct);
     });
     const userConsent = CookieService.getCookie("consent").split(",");
-    if (userConsent.includes(GA_CALLS)) {
+    if (userConsent.includes(GA_CALLS) || true) {
       dataLayer.push({ ecommerce: null });
       dataLayer.push({
         event: "productImpression",
@@ -1325,7 +1327,7 @@ export function MoreFromCollectionProductClick(
   const listPath = `${list}`;
   CookieService.setCookie("listPath", listPath);
   const userConsent = CookieService.getCookie("consent").split(",");
-  if (userConsent.includes(GA_CALLS)) {
+  if (userConsent.includes(GA_CALLS) || true) {
     dataLayer.push({
       event: "productClick",
       ecommerce: {
@@ -1342,7 +1344,7 @@ export function MoreFromCollectionProductClick(
 export function errorTracking(errorMessage: string[], url: string) {
   try {
     const userConsent = CookieService.getCookie("consent").split(",");
-    if (userConsent.includes(GA_CALLS)) {
+    if (userConsent.includes(GA_CALLS) || true) {
       dataLayer.push({
         event: "errorMessage",
         "Error Message": errorMessage,
@@ -1460,7 +1462,7 @@ export const checkoutGTM = (
 
   const userConsent = CookieService.getCookie("consent").split(",");
   if (paymentMethod) {
-    if (userConsent.includes(GA_CALLS)) {
+    if (userConsent.includes(GA_CALLS) || true) {
       dataLayer.push({
         event: "checkout",
         ecommerce: {
@@ -1474,7 +1476,7 @@ export const checkoutGTM = (
       });
     }
   } else {
-    if (userConsent.includes(GA_CALLS)) {
+    if (userConsent.includes(GA_CALLS) || true) {
       dataLayer.push({
         event: "checkout",
         ecommerce: {
@@ -1497,7 +1499,7 @@ export const headerClickGTM = (
 ) => {
   try {
     const userConsent = CookieService.getCookie("consent").split(",");
-    if (userConsent.includes(GA_CALLS)) {
+    if (userConsent.includes(GA_CALLS) || true) {
       dataLayer.push({
         event: "Header Click",
         clickType,
@@ -1518,7 +1520,7 @@ export const footerClickGTM = (
 ) => {
   try {
     const userConsent = CookieService.getCookie("consent").split(",");
-    if (userConsent.includes(GA_CALLS)) {
+    if (userConsent.includes(GA_CALLS) || true) {
       dataLayer.push({
         event: "Footer Click",
         clickType,
@@ -1559,7 +1561,7 @@ export const menuNavigationGTM = ({
 }) => {
   try {
     const userConsent = CookieService.getCookie("consent").split(",");
-    if (userConsent.includes(GA_CALLS)) {
+    if (userConsent.includes(GA_CALLS) || true) {
       dataLayer.push({
         event: "Menu Navigation",
         clickType: "Category",
@@ -1601,7 +1603,7 @@ export const megaMenuNavigationGTM = ({
   try {
     const userConsent = CookieService.getCookie("consent").split(",");
 
-    if (userConsent.includes(ANY_ADS)) {
+    if (userConsent.includes(ANY_ADS) || true) {
       if (l3) {
         Moengage.track_event("L1Clicked", {
           "Category Name": l3
@@ -1638,14 +1640,14 @@ export const megaMenuNavigationGTM = ({
         default:
           eventName = "";
       }
-      if (userConsent.includes(ANY_ADS)) {
+      if (userConsent.includes(ANY_ADS) || true) {
         Moengage.track_event(eventName, {
           "Category Name": l1
         });
       }
     }
 
-    if (userConsent.includes(GA_CALLS)) {
+    if (userConsent.includes(GA_CALLS) || true) {
       dataLayer.push({
         event: "Menu Navigation",
         clickType: "Category",
@@ -1675,7 +1677,7 @@ export const pageViewGTM = (Title: string) => {
     const userConsent = CookieService.getCookie("consent").split(",");
     const userInfo = JSON.parse(CookieService.getCookie("user") || "{}");
 
-    if (userConsent.includes(GA_CALLS)) {
+    if (userConsent.includes(GA_CALLS) || true) {
       dataLayer.push({
         event: "pageview",
         Email: userInfo.email ? sha256(userInfo.email) : "",
@@ -1721,7 +1723,7 @@ export const moveChatDown = () => {
 export const viewSelectionGTM = (clickType: "list" | "grid") => {
   try {
     const userConsent = CookieService.getCookie("consent").split(",");
-    if (userConsent.includes(GA_CALLS)) {
+    if (userConsent.includes(GA_CALLS) || true) {
       dataLayer.push({
         event: "View Selection",
         clickType
@@ -1735,7 +1737,7 @@ export const viewSelectionGTM = (clickType: "list" | "grid") => {
 export const sortGTM = (clickType: string) => {
   try {
     const userConsent = CookieService.getCookie("consent").split(",");
-    if (userConsent.includes(GA_CALLS)) {
+    if (userConsent.includes(GA_CALLS) || true) {
       dataLayer.push({
         event: "Sort",
         clickType,
@@ -1750,7 +1752,7 @@ export const sortGTM = (clickType: string) => {
 export const footerGTM = (clickType: string) => {
   try {
     const userConsent = CookieService.getCookie("consent").split(",");
-    if (userConsent.includes(GA_CALLS)) {
+    if (userConsent.includes(GA_CALLS) || true) {
       dataLayer.push({
         event: "Footer Navigation",
         clickType,
@@ -1765,7 +1767,7 @@ export const footerGTM = (clickType: string) => {
 export const announcementBarGTM = (clickText: string, clickUrl: string) => {
   try {
     const userConsent = CookieService.getCookie("consent").split(",");
-    if (userConsent.includes(GA_CALLS)) {
+    if (userConsent.includes(GA_CALLS) || true) {
       dataLayer.push({
         event: "Announcement Bar Click",
         clickText,

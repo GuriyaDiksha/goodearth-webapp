@@ -241,7 +241,7 @@ class PDPContainer extends React.Component<Props, State> {
   componentDidMount() {
     this.pdpURL = this.props.location.pathname;
     const userConsent = CookieService.getCookie("consent").split(",");
-    if (userConsent.includes(GA_CALLS)) {
+    if (userConsent.includes(GA_CALLS) || true) {
       dataLayer.push(function(this: any) {
         this.reset();
       });
@@ -254,7 +254,7 @@ class PDPContainer extends React.Component<Props, State> {
       });
     }
 
-    if (userConsent.includes(ANY_ADS)) {
+    if (userConsent.includes(ANY_ADS) || true) {
       Moengage.track_event("Page viewed", {
         "Page URL": this.props.location.pathname,
         "Page Name": "PdpView"
@@ -284,7 +284,7 @@ class PDPContainer extends React.Component<Props, State> {
         variants += child.size;
       }
     });
-    if (userConsent.includes(GA_CALLS)) {
+    if (userConsent.includes(GA_CALLS) || true) {
       dataLayer.push({
         "Event Category": "GA Ecommerce",
         "Event Action": "PDP",
@@ -717,6 +717,11 @@ class PDPContainer extends React.Component<Props, State> {
             onLoad={onImageLoad}
             iconAll={iconAll}
             codeAll={codeAll}
+            data={this.props.data}
+            corporatePDP={this.props.corporatePDP}
+            selectedSizeId={this.props.selectedSizeId}
+            currency={this.props.currency}
+            buttoncall={this.state.pdpButton}
           />
           <div>
             <Counter
@@ -944,13 +949,44 @@ class PDPContainer extends React.Component<Props, State> {
   };
 
   onClickMobile3d = (e: any, code: string) => {
-    const { updateComponentModal, changeModalState } = this.props;
+    const {
+      updateComponentModal,
+      changeModalState,
+      data,
+      corporatePDP,
+      selectedSizeId,
+      currency
+    } = this.props;
+
+    const selectedSize = data?.childAttributes?.filter(
+      item => item.id == selectedSizeId
+    )[0];
+
+    const price = corporatePDP
+      ? data.priceRecords[currency]
+      : selectedSize && selectedSize?.priceRecords
+      ? selectedSize?.priceRecords[currency]
+      : data?.priceRecords[currency];
+
+    const discountPrices =
+      selectedSize && selectedSize?.discountedPriceRecords
+        ? selectedSize?.discountedPriceRecords[currency]
+        : data?.discountedPriceRecords[currency];
+
     updateComponentModal(
       POPUP.HELLOARPOPUP,
       {
-        code
+        code,
+        data,
+        buttoncall: this.returnPDPButton(),
+        showPrice:
+          data.invisibleFields && data.invisibleFields.indexOf("price") > -1,
+        price,
+        discountPrices
       },
-      true
+      true,
+      "mobile-3d",
+      styles.mobileHelloArPopup
     );
     changeModalState(true);
   };
@@ -1280,6 +1316,7 @@ class PDPContainer extends React.Component<Props, State> {
       : selectedSize && selectedSize?.priceRecords
       ? selectedSize?.priceRecords[currency]
       : data?.priceRecords[currency];
+
     const discountPrices =
       selectedSize && selectedSize?.discountedPriceRecords
         ? selectedSize?.discountedPriceRecords[currency]
@@ -1510,6 +1547,7 @@ class PDPContainer extends React.Component<Props, State> {
               }
               price={price}
               discountPrice={discountPrices}
+              mobile={mobile}
             />
           </div>
         )}

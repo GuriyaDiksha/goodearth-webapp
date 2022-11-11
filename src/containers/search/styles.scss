@@ -37,11 +37,12 @@
 .filter-text{
     line-height: 60px;
     height: 60px;
-    font-size: 14px;
-    font-family: $font-Lato;
+    // font-size: 14px;
+    // font-family: $font-Lato;
     letter-spacing: 1px;
-    color: $charcoal19;
-    text-transform: uppercase;
+    // color: $charcoal19;
+    // text-transform: uppercase;
+    @include b4_12px_medium_charcoal_caps();
 }
 
 .page-body{
@@ -99,12 +100,15 @@
 }
 
 .npf-msg {
-  font-size: 20px;
+  // font-size: 20px;
   letter-spacing: 0.5px;
-  font-family: $font-Montserrat;
+  // font-family: $font-Montserrat;
+  margin: 0 70px;
+  @include b3_14px_montserrat_charcoal();
   color: tint(#000, 50%);
     span {
-      color: $gold;
+      // color: $gold;
+      @include b3_14px_montserrat_gold();
     }
   }
 
@@ -279,7 +283,7 @@
   &::-webkit-scrollbar {
     display: none;
   }
-  margin: 0px 0px 30px 20px;
+  margin: 0 30px 0px 30px;
 
   @media screen and (max-width: 992px){
     height: calc(100% - 60px);
@@ -326,6 +330,7 @@
     cursor: pointer;
     display: block;
     user-select: none;
+    line-height: 50px;
     &:after {
       content: '';
       float: right;
@@ -423,6 +428,7 @@
   }
   .selected-cat-shop{
     color: $gold;
+    text-decoration: underline;
   }
   
 }

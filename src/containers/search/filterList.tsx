@@ -1306,7 +1306,11 @@ class FilterList extends React.Component<Props, State> {
         filter: filter,
         selectedCatShop: data,
         isViewAll: isViewAll,
-        urltempData: { categoryObj: categoryObj, id: event.target.id }
+        urltempData: { categoryObj: categoryObj, id: event.target.id },
+        activeindex: 0,
+        showFilterByDiscountMenu: false,
+        showProductFilter: false,
+        showmenulevel1: false
       },
       () => {
         this.createUrlfromFilter();
@@ -1981,7 +1985,7 @@ class FilterList extends React.Component<Props, State> {
                 this.props.facets.availableDiscount &&
                 this.props.facets.availableDiscount.length > 0
                   ? ""
-                  : (globalStyles.hidden, styles.removeBorder)
+                  : (styles.removeBorder, globalStyles.hidden)
               }
             >
               {this.props.facets &&
@@ -2079,7 +2083,7 @@ class FilterList extends React.Component<Props, State> {
             className={
               this.props.facets?.currentColor?.length > 0
                 ? ""
-                : (globalStyles.hidden, styles.removeBorder)
+                : globalStyles.hidden
             }
           >
             <span

@@ -66,7 +66,8 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       item: WishListGridItem,
       currency: Currency,
       sortBy: string,
-      isSale?: boolean
+      isSale?: boolean,
+      mobile?: boolean
     ) => {
       const childAttributes = item.stockDetails.map(
         ({
@@ -128,7 +129,8 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
             sliderImages: []
           },
           false,
-          ModalStyles.bottomAlign
+          mobile ? ModalStyles.bottomAlignSlideUp : "",
+          mobile ? "slide-up-bottom-align" : ""
         )
       );
       dispatch(updateModal(true));
@@ -436,7 +438,7 @@ class Wishlist extends React.Component<Props, State> {
     if (product.length > 0 && this.impression) {
       this.impression = false;
       const userConsent = CookieService.getCookie("consent").split(",");
-      if (userConsent.includes(GA_CALLS)) {
+      if (userConsent.includes(GA_CALLS) || true) {
         dataLayer.push({
           event: "productImpression",
           ecommerce: {
