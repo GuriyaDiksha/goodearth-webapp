@@ -146,20 +146,20 @@ const OrderSummary: React.FC<OrderProps> = props => {
                       <span className={styles.discountprice}>
                         {String.fromCharCode(...code)}{" "}
                         {item.product.structure == "GiftCard"
-                          ? parseFloat(item.GCValue.toString()).toFixed(2)
+                          ? parseFloat(item.GCValue?.toString()).toFixed(2)
                           : parseFloat(
                               item.product.discountedPriceRecords[
                                 currency
-                              ].toString()
+                              ]?.toString()
                             ).toFixed(2)}
                       </span>
                       &nbsp; &nbsp;
                       <span className={styles.strikeprice}>
                         {String.fromCharCode(...code)}{" "}
                         {item.product.structure == "GiftCard"
-                          ? parseFloat(item.GCValue.toString()).toFixed(2)
+                          ? parseFloat(item.GCValue?.toString()).toFixed(2)
                           : parseFloat(
-                              item.product.priceRecords[currency].toString()
+                              item.product.priceRecords[currency]?.toString()
                             ).toFixed(2)}{" "}
                       </span>{" "}
                     </span>
@@ -172,9 +172,9 @@ const OrderSummary: React.FC<OrderProps> = props => {
                     >
                       {String.fromCharCode(...code)}{" "}
                       {item.product.structure == "GiftCard"
-                        ? parseFloat(item.GCValue.toString()).toFixed(2)
+                        ? parseFloat(item.GCValue?.toString()).toFixed(2)
                         : parseFloat(
-                            item.product.priceRecords[currency].toString()
+                            item.product.priceRecords[currency]?.toString()
                           ).toFixed(2)}
                     </span>
                   )}
@@ -454,7 +454,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
           {
             remainingAmount:
               freeShippingApplicable -
-              parseInt((basket.totalWithoutShipping || 0).toString()),
+              parseInt((basket.totalWithoutShipping || 0)?.toString()),
             freeShippingApplicable
           },
           true
