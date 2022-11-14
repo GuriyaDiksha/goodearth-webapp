@@ -224,3 +224,7 @@
         margin-top: 30px !important;
     }
 }
+
+.error-msg{
+    @include error_msg_cerise();
+}

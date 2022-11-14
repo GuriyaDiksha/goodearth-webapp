@@ -372,7 +372,7 @@ class Search extends React.Component<
                 ></i> */}
               </div>
               <div className={cs(bootstrap.colMd3, styles.innerHeader)}>
-                <p className={styles.filterText}>Sort</p>
+                <p className={styles.filterText}>Sort By:</p>
                 {/* <SelectableDropdownMenu
                   id="sort-dropdown-search"
                   align="right"

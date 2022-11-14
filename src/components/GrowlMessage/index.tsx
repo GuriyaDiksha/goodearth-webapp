@@ -16,20 +16,31 @@ type Props = {
 
 const Growl: React.FC<Props> = ({ text, id, timeout, params }) => {
   const dispatch = useDispatch();
+
+  const closeMessage = (id: string) => {
+    const element = document.getElementById(`growl_${id}`);
+    if (element) {
+      element.style.transform = "translateX(500px)";
+      setTimeout(() => {
+        dispatch(hideMessage(id));
+      }, 900);
+    } else {
+      dispatch(hideMessage(id));
+    }
+  };
+
   useEffect(() => {
     // if timeout == 0 don't close the growl
     if (timeout) {
       const timeoutId = setTimeout(() => {
-        dispatch(hideMessage(id));
+        closeMessage(id);
       }, timeout);
       return () => {
         window.clearTimeout(timeoutId);
       };
     }
   }, []);
-  const closeMessage = (id: string) => {
-    dispatch(hideMessage(id));
-  };
+
   let renderText: any = text;
   if (text in Messages) {
     renderText = Messages[text];
@@ -40,18 +51,21 @@ const Growl: React.FC<Props> = ({ text, id, timeout, params }) => {
 
   return (
     <div className={styles.growl} key={id}>
-      <div className={styles.innerContainer}>
+      <div className={styles.innerContainer} id={`growl_${id}`}>
         <div>{renderText}</div>
-        <span>
-          <i
-            className={cs(
-              iconStyles.icon,
-              iconStyles.iconCrossNarrowBig,
-              styles.closeButton
-            )}
-            onClick={() => closeMessage(id)}
-          />
-        </span>
+        <div className={styles.assetContainer}>
+          <div className={cs(styles.separator)}></div>
+          <span>
+            <i
+              className={cs(
+                iconStyles.icon,
+                iconStyles.iconCrossNarrowBig,
+                styles.closeButton
+              )}
+              onClick={() => closeMessage(id)}
+            />
+          </span>
+        </div>
       </div>
     </div>
   );

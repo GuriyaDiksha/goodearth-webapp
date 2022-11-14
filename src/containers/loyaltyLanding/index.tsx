@@ -217,7 +217,7 @@ class LoyaltyLanding extends Component<Props, State> {
       image: specialPreviews,
       heading: "Special Previews",
       subHeading:
-        "Be the first to enjoy our newly launched collections in-store and online.",
+        "Be the first to enjoy our new collections in-store and online.",
       isCeriseOnly: true
     },
     {
@@ -258,14 +258,14 @@ class LoyaltyLanding extends Component<Props, State> {
       image: paro,
       heading: "Discover PARO",
       subHeading:
-        "Indulge in custom experiences from Paro, a luxury wellness brand by Good Earth.",
+        "Access to custom experiences from Paro, a luxury wellness brand by Good Earth.",
       isCeriseOnly: false
     },
     {
       image: loungeAccess,
-      heading: "Berouj Lounge Access",
+      heading: "Sitara Lounge",
       subHeading:
-        "Enjoy unlimited access to our upcoming bespoke atelier, complete with exclusive collections, butler services, and private styling appointments.",
+        "Unlimited access to our Private Lounge in Khan Market, complete with exclusive collections, butler service, and private styling appointments. Contact your personal shopper to know more.",
       isCeriseOnly: false
     }
   ];
