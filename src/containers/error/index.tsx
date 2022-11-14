@@ -14,7 +14,9 @@ const ErrorPage: React.FC = () => {
   useLayoutEffect(() => {
     util.pageViewGTM("Error");
     setTimeout(() => {
-      history.push("/");
+      if (history.location.pathname === "/error-page") {
+        history.push("/");
+      }
     }, 3000);
   }, []);
 

@@ -32,6 +32,7 @@ export const enum ROUTES {
   BRIDAL = "/the-good-earth-registry",
   LOYALTYLANDING = "/cerise",
   ERROR = "/error-page",
+  ERR404 = "/404",
   BACKENDERROR = "/backend-order-error",
   PUSHPANJALI = "/puspanjali-festive-2020",
   MAINTENANCE = "/maintenance",
