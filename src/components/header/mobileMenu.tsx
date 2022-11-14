@@ -1216,7 +1216,18 @@ class Mobilemenu extends React.Component<Props, MobileState> {
         {outerMenu}
         {innerMenu}
         {lowerMenu}
-        <NavLink to={"/cerise"} onClick={() => clickToggle()}>
+        <NavLink
+          to={"/cerise"}
+          onClick={e => {
+            if (e.target?.id === "dashboard") {
+              e.preventDefault();
+              this.props.history.push("/account/cerise");
+              clickToggle();
+            } else {
+              clickToggle();
+            }
+          }}
+        >
           <CeriseCard clickToggle={clickToggle} />
         </NavLink>
       </div>

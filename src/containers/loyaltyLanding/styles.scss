@@ -29,6 +29,7 @@
       }
       .heading{
         @include h1_30px_lora_medium_charcoal();
+        font-weight: 400 !important;
       }
       .sub-heading{
         margin-top:10px;
@@ -126,7 +127,7 @@
           padding-top:0;   
           
           @media screen and (max-width:992px) {
-            border-bottom: 1px solid grey;
+            border-bottom: 0.5px solid #CBCBCB;
            }
 
           @media screen and (max-width:992px) {

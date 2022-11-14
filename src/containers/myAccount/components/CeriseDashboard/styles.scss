@@ -34,6 +34,7 @@
                 background-color: $med-charcoal;
                 @include b4_12px_medium_white_caps();
                 border: 1px solid $med-charcoal;
+                background-color: transparent;
 
                 &:hover{
                     @include b4_12px_medium_charcoal_caps();
@@ -98,6 +99,7 @@
             @include b4_12px_montserrat_medcharcoal();
             border-bottom: 1px solid $med-charcoal;
             margin: auto 0;
+            font-size: 9px !important;
 
             &:hover{
                 @include b4_12px_montserrat_aqua();

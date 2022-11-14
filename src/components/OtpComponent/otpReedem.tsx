@@ -266,6 +266,10 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
   };
 
   resendOtp = () => {
+    if (!this.props.points) {
+      this.props.updateError(true);
+      return false;
+    }
     // this.clearTimer();
     this.setState({
       showerror: ""
@@ -275,7 +279,7 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
       isLoading: true
     });
     this.props
-      .resendOtp()
+      .resendOtp(this.props.points)
       .then((data: any) => {
         this.setState(
           {

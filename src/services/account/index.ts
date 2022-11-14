@@ -143,11 +143,11 @@ export default {
     );
     return data;
   },
-  resendOtpRedeem: async (dispatch: Dispatch) => {
+  resendOtpRedeem: async (dispatch: Dispatch, points: number | string) => {
     const data = await API.post<BalanceProps>(
       dispatch,
       `${__API_HOST__ + "/imast/redemption_request_resend_otp/"}`,
-      {}
+      { points }
     );
     return data;
   },
