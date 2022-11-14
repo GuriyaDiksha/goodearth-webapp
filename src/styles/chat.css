@@ -67,6 +67,7 @@
   .mobile-chat-container {
     bottom: 60px !important;
     right: 10px !important;
+    z-index: 1000008 !important;
   }
   .chat-container .chat-history {
     height: 350px !important;
