@@ -186,7 +186,7 @@ const NotificationForm: React.FC = () => {
     >
       <h4>
         Indulge in a season of merriment with your Good Earth favourites at upto
-        50% OFF. Sign up to get a reminder for our Home For the Holidays Sale.
+        50% OFF. Sign up to get a reminder for our Home for the Holidays Sale.
       </h4>
       <Formsy
         onValidSubmit={handleSubmit}
