@@ -153,7 +153,7 @@ class CheckoutHeader extends React.Component<Props, { boId: string }> {
     // hide chat container
     setTimeout(() => {
       const chatContainer = document.getElementById("mobile-chat-container");
-      if (chatContainer) {
+      if (chatContainer && this.props.location.pathname == "/order/checkout") {
         chatContainer.style.display = "none";
       }
     }, 1000);
@@ -182,7 +182,7 @@ class CheckoutHeader extends React.Component<Props, { boId: string }> {
       typeof document == "object"
         ? document?.getElementById("mobile-chat-container")
         : "";
-    if (chatContainer) {
+    if (chatContainer && this.props.location.pathname == "/order/checkout") {
       chatContainer.style.display = "none";
     }
 
