@@ -63,6 +63,10 @@
             border-bottom: 1px solid;
             margin: auto 0;
             @include b4_12px_montserrat_light_white();
+
+            &:hover{
+                font-weight: 400;
+            }
         }
     }
     .name-header{

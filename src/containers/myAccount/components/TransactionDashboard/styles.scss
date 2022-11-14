@@ -41,7 +41,7 @@
                 text-align: center;
                 flex: 0 0 25%;
                 max-width: 25%;
-                padding: 0 50px;
+                padding: 0 67px;
                 margin-bottom: 30px;
 
                 @media only screen and (max-width: 992px) {
@@ -87,7 +87,7 @@
                     margin-bottom: 22px;
                 }
                 .point{
-                    @include b1_16px_charcoal();
+                    @include b1_16px_charcoal_montserrat();
                 }
                 
             }

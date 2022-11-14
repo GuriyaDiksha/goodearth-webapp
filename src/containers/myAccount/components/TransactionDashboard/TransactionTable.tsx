@@ -632,7 +632,7 @@ const TransactionTable = ({ mobile }: Props) => {
         </div>
         <div className={styles.downloadLink} onClick={() => downloadPdf()}>
           <img src={Download}></img>
-          <button>Download Statment PDF</button>
+          <button>Download Statement PDF</button>
         </div>
       </div>
     </>

@@ -34,11 +34,10 @@
                 background-color: $med-charcoal;
                 @include b4_12px_medium_white_caps();
                 border: 1px solid $med-charcoal;
-                background-color: transparent;
 
                 &:hover{
                     @include b4_12px_medium_charcoal_caps();
-                    background-color: $white;
+                    background-color: transparent;
                 }
             }
 
@@ -186,6 +185,11 @@
     .address-container{
         border: 1px solid #E5E5E5;
         padding: 20px;
+        width: 55%;
+
+        @media screen and (max-width:992px) {
+            width: 100%;
+        }
 
         .first-section{
             display: flex;
