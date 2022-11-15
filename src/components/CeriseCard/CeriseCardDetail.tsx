@@ -9,6 +9,7 @@ import LoyaltyService from "services/loyalty";
 import { updateLoyaltyPoints } from "actions/loyalty";
 import moment from "moment";
 import { LoyaltyPoints } from "reducers/loyalty/typings";
+import iconStyles from "../../styles/iconFonts.scss";
 
 type StateData = {
   user: {
@@ -144,7 +145,9 @@ const CeriseCardDetail: React.FC<Props> = ({
                   setActive(false);
                 }}
               >
-                X
+                <i
+                  className={cs(iconStyles.icon, iconStyles.iconCrossNarrowBig)}
+                ></i>
               </span>
             </span>
           </div>

@@ -5,7 +5,6 @@
     height: $secondary-header-height;
     min-width: 285px;
     cursor: pointer;
-    border: 1px solid lightgray;
     position: relative;
     z-index: 1;
 
@@ -15,15 +14,7 @@
         z-index: auto;
     }
 
-    &:hover{
-        border: 1px solid $charcoal19;
-        @media screen and (max-width:992px) {
-            border: none;
-        }
-        .label{
-            font-weight: $regular;
-        }
-    }
+   
     .label{
         @include b4_12px_montserrat_light_charcoal();
         line-height: $secondary-header-height;
@@ -33,6 +24,15 @@
         align-items: center;
         justify-content: space-between;
         user-select: none;
+        border: 1px solid lightgray;
+
+        &:hover{
+            border: 1px solid $charcoal19;
+            font-weight: $regular;
+            @media screen and (max-width:992px) {
+                border: none;
+            }
+        }
 
         // &:hover{
         //     color: $charcoal19 !important;
@@ -54,6 +54,7 @@
         transition: max-height 0.3s ease-in-out;
         max-height: 0;
         overflow: hidden;
+        margin-top: 0px;
 
         @media screen and (max-width: 992px) {
              transform: translateY(100%);
@@ -99,7 +100,7 @@
                         @include b3_14px_caps_white();
 
                         &:hover{
-                            background-color: $white;
+                            background-color: transparent;
                             color: $aqua;
                         }
                     }
@@ -200,9 +201,14 @@
                     border-width: 0 2px 2px 0;
                 } 
                 &:hover{
-                    background: $grey;
+                    background: #f7f7f7;
                     // color: $gold;
                     font-weight: 500;
+                    &:nth-child(4){
+                        background-color: $white;
+                        font-weight: 300;
+                    }
+                   
                 }
             }
         }

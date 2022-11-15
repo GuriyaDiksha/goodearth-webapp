@@ -29,11 +29,7 @@ const CeriseCard: React.FC<Props> = ({ clickToggle }) => {
   }, [email, slab]);
 
   return (
-    <div
-      className={cs(styles.ceriseCardLeftContainer, {
-        [styles.paddBottom]: clickToggle
-      })}
-    >
+    <div className={cs(styles.ceriseCardLeftContainer)}>
       {slab ? (
         <CeriseCardDetail isViewDashboard={true} clickToggle={clickToggle} />
       ) : (

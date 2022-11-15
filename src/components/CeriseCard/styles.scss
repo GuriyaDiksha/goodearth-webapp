@@ -8,9 +8,9 @@
         float: left;
         width: 100%;
 
-        &.padd-bottom{
-            padding-bottom: 30%;
-        }
+        // &.padd-bottom{
+        //     padding-bottom: 30%;
+        // }
     }
     img{
         height: 100%;
@@ -35,6 +35,7 @@
         @media only screen and (max-width: 992px) {
             width: 50%;
             max-width: 50%;
+            padding-bottom: 10%;
         }
     }
 
