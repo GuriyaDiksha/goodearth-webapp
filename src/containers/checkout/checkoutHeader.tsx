@@ -166,14 +166,41 @@ class CheckoutHeader extends React.Component<Props, { boId: string }> {
     );
   }
 
+  setIntervalX = (callback: any, delay: number, repetitions: number) => {
+    let x = 0;
+    const intervalID = window.setInterval(function() {
+      callback();
+
+      if (++x === repetitions) {
+        window.clearInterval(intervalID);
+      }
+    }, delay);
+  };
+
   UNSAFE_componentWillReceiveProps(nextProps: Props) {
     if (this.props.location.pathname != nextProps.location.pathname) {
-      setTimeout(() => {
-        const chatContainer = document.getElementById("mobile-chat-container");
-        if (chatContainer && nextProps.location.pathname == "/order/checkout") {
-          chatContainer.style.display = "none";
-        }
-      }, 1000);
+      this.setIntervalX(
+        () => {
+          const chatContainer = document.getElementById(
+            "mobile-chat-container"
+          );
+
+          if (
+            chatContainer &&
+            nextProps.location.pathname == "/order/checkout"
+          ) {
+            chatContainer.style.display = "none";
+          }
+        },
+        1000,
+        4
+      );
+      // setTimeout(() => {
+      //   const chatContainer = document.getElementById("mobile-chat-container");
+      //   if (chatContainer && nextProps.location.pathname == "/order/checkout") {
+      //     chatContainer.style.display = "none";
+      //   }
+      // }, 1000);
     }
   }
 
