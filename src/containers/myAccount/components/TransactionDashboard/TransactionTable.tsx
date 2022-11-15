@@ -272,7 +272,7 @@ const TransactionTable = ({ mobile }: Props) => {
             </p>
           </div>
           {records?.map((ele, ind) => (
-            <>
+            <div key={ind}>
               {((ele?.TransactionRedeemPoints === 0 &&
                 ele?.TransactionEarnPoints === 0) ||
                 ele?.TransactionRedeemPoints > 0) &&
@@ -575,7 +575,7 @@ const TransactionTable = ({ mobile }: Props) => {
                   </div>
                 </div>
               ) : null}
-            </>
+            </div>
           ))}
         </div>
 

@@ -32,7 +32,7 @@ const CeriseProfileMenu = ({
       <div className={styles.ceriseCardMenuWrp}>
         <div
           onClick={e => {
-            if (e.target?.id === "dashboard") {
+            if ((e.target as HTMLInputElement)?.id === "dashboard") {
               history.push("/account/cerise");
             } else {
               history.push("/cerise");

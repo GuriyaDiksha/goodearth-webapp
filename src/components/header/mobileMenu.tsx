@@ -1219,7 +1219,7 @@ class Mobilemenu extends React.Component<Props, MobileState> {
         <NavLink
           to={"/cerise"}
           onClick={e => {
-            if (e.target?.id === "dashboard") {
+            if ((e.target as HTMLInputElement)?.id === "dashboard") {
               e.preventDefault();
               this.props.history.push("/account/cerise");
               clickToggle();

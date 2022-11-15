@@ -45,7 +45,7 @@ const LandingTable: React.FC<Props> = ({ mobile, data }) => {
         </p>
       </div>
       {data?.map((ele, ind) => (
-        <>
+        <div key={ind}>
           <div
             className={cs(bootstrap.row, styles.tableRow, styles.tableFirstRow)}
           >
@@ -113,7 +113,7 @@ const LandingTable: React.FC<Props> = ({ mobile, data }) => {
               <p>{ele?.shortDescription}</p>
             </div>
           </div>
-        </>
+        </div>
       ))}
     </div>
   );
