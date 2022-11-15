@@ -500,8 +500,8 @@ class CushionBag extends React.Component<Props, State> {
         list: "pdp",
         sliderImages: data.plpSliderImages
       },
-      false,
-      ModalStyles.bottomAlign
+      false
+      // ModalStyles.bottomAlign
     );
     this.props.changeModalState(true);
   };
