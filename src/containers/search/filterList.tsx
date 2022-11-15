@@ -921,22 +921,25 @@ class FilterList extends React.Component<Props, State> {
           typeof document == "object" &&
           document.getElementById("category")
         ) {
-          document.getElementById(
+          (document.getElementById(
             "category"
-          ).style.maxHeight = document.getElementById("category")?.scrollHeight
+          ) as HTMLElement).style.maxHeight = document.getElementById(
+            "category"
+          )?.scrollHeight
             ? `${Number(
                 (document.getElementById("category")?.scrollHeight || 0) +
                   (document.getElementById(id)?.scrollHeight || 0)
               )}px`
             : "max-content";
         }
-        document.getElementById(id).style.maxHeight = document.getElementById(
+        (document.getElementById(
           id
-        )?.scrollHeight
+        ) as HTMLElement).style.maxHeight = document.getElementById(id)
+          ?.scrollHeight
           ? `${document.getElementById(id)?.scrollHeight}px`
           : "max-content";
       } else {
-        document.getElementById(id).style.maxHeight = "0px";
+        (document.getElementById(id) as HTMLElement).style.maxHeight = "0px";
       }
     }
   };
@@ -1436,7 +1439,10 @@ class FilterList extends React.Component<Props, State> {
         })
       : this.setState({ activeindex2: index, showmenulevel2: true });
 
-    if (isNaN(index || 0) && index?.startsWith("View All")) {
+    if (
+      isNaN((index as number) || 0) &&
+      (index as string)?.startsWith("View All")
+    ) {
       this.handleClickCategory(
         { target: { id: "all" } },
         "View All",
@@ -1708,7 +1714,7 @@ class FilterList extends React.Component<Props, State> {
                 <span>
                   {data == "currentColor"
                     ? "Color"
-                    : "currentMaterial"
+                    : data == "currentMaterial"
                     ? "Material"
                     : "Size"}
                   :{" "}
