@@ -534,7 +534,7 @@ class TrackOrder extends React.Component<Props, State> {
               )}
             >
               <div className={styles.formHeading}>Track Order</div>
-              <div className={styles.formSubheading}>
+              <div className={cs(styles.formSubheading, styles.trackOrder)}>
                 {!showTracking
                   ? `Enter tracking number to track shipments and get delivery
                 status.`

@@ -10,6 +10,9 @@
   @include b4_12px_montserrat_charcoal();
   letter-spacing: 0.5px;
   padding: 0px 52px;
+  &.track-order{
+    padding: 0px 130px
+  }
 }
 
 .disabledInput{
@@ -111,7 +114,8 @@
         height: 70px;
       }
       img {
-        padding-right: 20px;
+        padding: 0px 20px;
+        width: 80%;
       }
     }
     &.order-block {
@@ -229,13 +233,15 @@
         //text-decoration: underline;
         &.order-status {
           text-transform: uppercase;
-          text-decoration: underline;
         }
       }
     }
     .order-block {
-      min-height: 160px;
+      min-height: 100px;
       position: relative;
+      div {
+        padding-left: 20px;
+      }
       span {
         //text-transform: uppercase; cant use this --- it will make order status span uppercase
         //text-decoration: underline;
@@ -314,10 +320,13 @@
       }
     }
     p {
-      font-size: 14px;
+      @include b4_12px_montserrat_semibold_charcoal();
+      letter-spacing: 0.36px;;
       line-height: 22px;
-      font-weight: 400;
-      text-transform: capitalize;
+      .op2{
+        @include b4_12px_montserrat_charcoal();
+        letter-spacing: 0.36px;
+      }
       &.names {
         text-transform: none;
       }
@@ -327,21 +336,33 @@
       a:hover {
         cursor: pointer;
       }
+      &.order-status{
+        color: #4C4C4C;
+        font-weight: $semibold;
+        .status {
+          text-transform: uppercase;
+        }
+      }
+      &.order-items{
+        color: #4C4C4C;
+        font-weight: $semibold;
+      }
+      &.order-total{
+        color: #4C4C4C;
+        font-weight: $semibold;
+      }
     }
     .light {
       color: tint(#000, 50%);
 
     }
     label {
+      @include b4_12px_montserrat_charcoal_caps();
       position: absolute;
       top: -8px;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      color: tint(#000, 50%);
+      letter-spacing: 0.36px;
       background-color: #fff;
-      padding: 0 3px;
-      font-size: 13px;
-      font-weight: 400;
+      padding: 0 20px;
     }
   }
 }
@@ -619,16 +640,15 @@
 }
 
 .back-track {
+  @include b4_12px_montserrat_charcoal();
+  font-weight: $medium;
+  color: #9F9F9F;
+  letter-spacing: 0.36px;
   text-transform: uppercase;
   margin-top: 20px;
-  font-weight: bold;
   z-index: 1;
-  color:$cerise;
   text-align: left;
   cursor: pointer;
-  font-size: 12px;
-  font-family: $font-Lato;
-  letter-spacing: 1px;
 }
 
 .back-btn {
@@ -914,5 +934,57 @@
   cursor: pointer;
   &:hover{
     color: $aqua-bold
+  }
+}
+
+.track-order-address{
+  padding: 0px 20px;
+  .title{
+    @include b4_12px_medium_light_charcoal_caps();
+    letter-spacing: 0.5px;
+  }
+  .name{
+    @include b4_12px_montserrat_charcoal();
+    padding: 10px 0px;
+    letter-spacing: 0.36px;
+  }
+  .address-line{
+    @include b5_10px_montserrat_charcoal();
+    letter-spacing: 0.3px;
+  }
+  .phone{
+    @include b4_12px_montserrat_charcoal();
+    padding: 10px 0px;
+    letter-spacing: 0.36px;
+  }
+}
+
+.order-content{
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  .collection {
+    @include b3_14px_montserrat_light_charcoal();
+    color: #9f9f9f;
+  }
+  .product-n{
+    @include b2_14px_charcoal_lora();
+    letter-spacing: 0.28px;
+  }
+  .price{
+    @include b3_14px_montserrat_charcoal();
+    padding: 10px 0px;
+    .strikeprice{
+      font-family: $font-Montserrat;
+      font-size: 12px;
+      font-weight: $regular;
+      color: #9f9f9f;
+      text-decoration: line-through;
+    }
+  }
+  .size, .quantity{
+    @include b5_10px_montserrat_charcoal();
+    letter-spacing: 0.3px;
   }
 }
