@@ -15,7 +15,13 @@ const initialState: FooterState = {
       footerImageSubsDeskTop: "",
       footerImageSubsMobile: "",
       footerBgColorDeskTop: "",
-      footerBgColorMobile: ""
+      footerBgColorMobile: "",
+      footerHeadingFontColor: "",
+      footerSubHeadingFontColor: "",
+      footerHeadingHoverColor: "",
+      footerSubHeadingHoverColor: "",
+      sectionContent: "",
+      sectionFontColor: ""
     },
     findUsOnData: []
   }
