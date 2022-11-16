@@ -98,8 +98,8 @@ const PairItWithSlider: React.FC<PairItWithSliderProps> = (
           list: "plp",
           sliderImages: plpSliderImages
         },
-        false,
-        ModalStyles.bottomAlign
+        false
+        //        ModalStyles.bottomAlign
       )
     );
     dispatch(updateModal(true));

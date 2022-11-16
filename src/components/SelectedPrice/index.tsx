@@ -22,6 +22,7 @@ const SelectedPrice: React.FC<Props> = ({
       ) : (
         ""
       )}
+      &nbsp; &nbsp;
       {isSale && discount ? (
         <span className={cs(styles.strikeprice, className)}>
           {" "}
