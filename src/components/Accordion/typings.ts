@@ -12,6 +12,7 @@ export type Props = {
   defaultOpen?: string;
   className: string;
   headerClassName?: string;
+  openHeaderClassName?: string;
   closedIconClassName?: string;
   openIconClassName?: string;
   bodyClassName?: string;

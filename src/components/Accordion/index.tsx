@@ -10,6 +10,7 @@ const Accordion: React.FC<Props> = memo(
     className,
     sectionClassName,
     headerClassName,
+    openHeaderClassName,
     bodyClassName,
     closedIconClassName = cs(styles.arrow, styles.close),
     openIconClassName = cs(styles.arrow, styles.open),
@@ -64,7 +65,11 @@ const Accordion: React.FC<Props> = memo(
             id={id}
           >
             <div
-              className={cs(styles.accordionHeader, headerClassName)}
+              className={cs(
+                styles.accordionHeader,
+                headerClassName,
+                isOpen ? openHeaderClassName : ""
+              )}
               onClick={() => handleHeaderClick(i, alwaysOpen)}
             >
               {header}
