@@ -61,18 +61,20 @@ export default class Cust extends React.Component<
                 { header: heading, body: cont, id: index }
               ] as unknown) as Section[];
               return (
-                <Accordion
-                  sections={section}
-                  className={styles.accordionClass}
-                  headerClassName={styles.accordionHeader}
-                  bodyClassName={styles.accordionBody}
-                  openIconClassName={cs(faqStyles.horizontal, faqStyles.open)}
-                  closedIconClassName={cs(faqStyles.horizontal)}
-                />
+                <React.Fragment key={index}>
+                  <Accordion
+                    sections={section}
+                    className={styles.accordionClass}
+                    headerClassName={styles.accordionHeader}
+                    bodyClassName={styles.accordionBody}
+                    openIconClassName={cs(faqStyles.horizontal, faqStyles.open)}
+                    closedIconClassName={cs(faqStyles.horizontal)}
+                  />
+                </React.Fragment>
               );
             } else {
               return (
-                <div className={styles.noAccordion}>
+                <div className={styles.noAccordion} key={index}>
                   <div className={styles.contentHeading}>{heading}</div>
                   <div className={styles.content}>
                     {ReactHtmlParser(content)}
