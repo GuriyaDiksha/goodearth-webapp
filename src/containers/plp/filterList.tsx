@@ -946,7 +946,7 @@ class FilterList extends React.Component<Props, State> {
                 <li key={"pb_" + level4}>
                   <input
                     type="checkbox"
-                    onClick={this.onClickLevel4}
+                    onChange={this.onClickLevel4}
                     id={"pb_" + level4}
                     checked={
                       filter.productType["pb_" + level4]
@@ -989,7 +989,7 @@ class FilterList extends React.Component<Props, State> {
                 <li key={discount[0]}>
                   <input
                     type="checkbox"
-                    onClick={this.onClickDiscount}
+                    onChange={this.onClickDiscount}
                     id={"disc_" + discount[0]}
                     checked={
                       filter.availableDiscount["disc_" + discount[0]]
@@ -1026,7 +1026,7 @@ class FilterList extends React.Component<Props, State> {
                 ? filter?.currentMaterial[data[0]]?.isChecked
                 : false
             }
-            onClick={this.handleClickMaterial}
+            onChange={this.handleClickMaterial}
             value={data?.[0]}
             // disabled={
             //   filtered_facets?.currentMaterial?.filter(
@@ -1095,7 +1095,7 @@ class FilterList extends React.Component<Props, State> {
                       ? filter.categoryShop[name][id]
                       : false
                   }
-                  onClick={this.handleClickCategory}
+                  onChange={this.handleClickCategory}
                   value={data[0].split(">")[1].trim()}
                   name="View all"
                 />
@@ -1154,7 +1154,7 @@ class FilterList extends React.Component<Props, State> {
                           ? filter.categoryShop[data][nestedList[1]]
                           : false
                       }
-                      onClick={this.handleClickCategory}
+                      onChange={this.handleClickCategory}
                       value={data}
                       name={nestedList[0]}
                     />
@@ -1447,7 +1447,7 @@ class FilterList extends React.Component<Props, State> {
                   ? filter.currentColor[data[0]].isChecked
                   : false
               }
-              onClick={this.handleClickColor}
+              onChange={this.handleClickColor}
               value={data[0]}
               // disabled={
               //   filtered_facets?.currentColor?.filter(
@@ -1481,7 +1481,7 @@ class FilterList extends React.Component<Props, State> {
                   ? filter.currentColor[data[0]].isChecked
                   : false
               }
-              onClick={this.handleClickColor}
+              onChange={this.handleClickColor}
               value={data[0]}
               // disabled={
               //   filtered_facets?.currentColor?.filter(
@@ -1846,7 +1846,7 @@ class FilterList extends React.Component<Props, State> {
                 ? filter.availableSize[data[0]].isChecked
                 : false
             }
-            onClick={this.handleClickSize}
+            onChange={this.handleClickSize}
             value={data[0]}
             // disabled={
             //   filtered_facets?.availableSize?.filter(

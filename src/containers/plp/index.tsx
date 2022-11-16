@@ -840,7 +840,7 @@ class PLP extends React.Component<
               {!mobile || this.props.plpMobileView == "grid"
                 ? data.map((item, index) => {
                     return (
-                      <>
+                      <React.Fragment key={index}>
                         {showTemplates["Product"] &&
                         data.length >= productTemplatePos &&
                         index == productTemplatePos - 1 ? (
@@ -905,12 +905,12 @@ class PLP extends React.Component<
                             />
                           )}
                         </div>
-                      </>
+                      </React.Fragment>
                     );
                   })
                 : data.map((item, index) => {
                     return (
-                      <>
+                      <React.Fragment key={index}>
                         {showTemplates["Product"] &&
                         data.length >= productTemplatePos &&
                         index == productTemplatePos - 1 ? (
@@ -960,7 +960,7 @@ class PLP extends React.Component<
                             loader={this.state.flag}
                           />
                         </div>
-                      </>
+                      </React.Fragment>
                     );
                   })}
               <div
