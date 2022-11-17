@@ -190,8 +190,6 @@ const WeRecommend: React.FC<RecommenedSliderProps> = (
     );
   });
 
-  console.log(items);
-
   return (
     <Fragment>
       {items.length > 0 && (
