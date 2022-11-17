@@ -517,10 +517,27 @@
     border: 1px solid #ab1e56 !important;
   }
   .rtcinfo {
-    font-size: 11px;
-    letter-spacing: 1px;
     margin-top: 15px;
-    line-height: 18px;
+    p{
+      line-height: 18px;
+      margin-bottom: 10px;
+      .line-head{
+        @include b4_12px_montserrat_charcoal();
+        letter-spacing: 0.5px;
+
+      }
+      .line {
+        @include b4_12px_montserrat_semibold_charcoal();
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 10px;
+      }
+      &.balance{
+        @include b4_12px_montserrat_aqua();
+        letter-spacing: 0.5px;
+        margin: 25px 0px 45px 0px;
+      }
+    }
     &.mTop0 {
       margin-top: 0 !important;
     }
@@ -546,6 +563,7 @@
 }
 .gift-display{
   display: block !important;
+  margin-bottom: 27px;
 }
 
 

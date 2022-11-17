@@ -223,8 +223,8 @@
       letter-spacing: 1px;
       font-weight: bold;
       &.add-checkout-actions {
-        bottom: auto;
-        position: absolute;
+        // bottom: auto;
+        // position: absolute;
       }
       cursor: pointer;
       a:hover {
@@ -241,8 +241,8 @@
       letter-spacing: 1px;
       font-weight: bold;
       &.add-checkout-actions {
-        bottom: auto;
-        position: absolute;
+        // bottom: auto;
+        // position: absolute;
       }
       cursor: pointer;
       a:hover {
@@ -301,7 +301,7 @@
   }
 }
 .address-item-container-checkout {
-  min-height: 360px;
+  min-height: 250px;
 }
 
 .address-item {

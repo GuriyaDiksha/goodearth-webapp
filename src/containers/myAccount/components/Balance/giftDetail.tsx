@@ -112,7 +112,7 @@ const GiftCardItem = ({
                 </span>
               </p>
             )}
-            <p className={cl(styles.giftcardBalance, globalStyles.voffset1)}>
+            <p className={cl(styles.balance)}>
               {" "}
               Balance amount: {String.fromCharCode(...unicode)} {remValues} |
               Gift Card INACTIVE |{" "}
@@ -225,7 +225,7 @@ const GiftCardItem = ({
               {String.fromCharCode(...unicode)} {fullValue}{" "}
             </span>
           </p>
-          <p className={cl(globalStyles.cerise, globalStyles.voffset1)}>
+          <p className={cl(styles.balance)}>
             {" "}
             Balance amount: {String.fromCharCode(...unicode)} {remValues}{" "}
           </p>
