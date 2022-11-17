@@ -391,15 +391,17 @@ class SideMenu extends React.Component<Props, State> {
               <p
                 className={cs(styles.searchText, disableClass)}
                 onClick={isBridalRegistryPage ? () => null : this.toggleSearch}
+                id="searchIcon"
               >
                 <i
+                  id="searchIcon"
                   className={cs(
                     iconStyles.icon,
                     iconStyles.iconSearch,
                     styles.iconStyle
                   )}
                 ></i>
-                {mobile ? "" : <span>Search</span>}
+                {mobile ? "" : <span id="searchIcon">Search</span>}
               </p>
             </li>
           )}

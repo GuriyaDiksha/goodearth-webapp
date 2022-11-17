@@ -109,7 +109,7 @@ class Search extends React.Component<Props, State> {
       !this.impactRef.current.contains(evt.target)
     ) {
       //Do what you want to handle in the callback
-      // this.props.closePopup(evt);
+      this.props.closePopup(evt);
     }
   };
 
