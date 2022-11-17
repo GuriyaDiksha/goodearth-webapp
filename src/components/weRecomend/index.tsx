@@ -189,6 +189,9 @@ const WeRecommend: React.FC<RecommenedSliderProps> = (
       </div>
     );
   });
+
+  console.log(items);
+
   return (
     <Fragment>
       {items.length > 0 && (
@@ -206,7 +209,13 @@ const WeRecommend: React.FC<RecommenedSliderProps> = (
               We Recommend
             </h2>
             <div className={bootstrapStyles.col12}>
-              {!mobile && <Slider {...setting}>{items}</Slider>}
+              {!mobile && items.length >= 4 ? (
+                <Slider {...setting}>{items}</Slider>
+              ) : (
+                <Slider {...setting} infinite={false}>
+                  {items}
+                </Slider>
+              )}
               {mobile && <div className={bootstrapStyles.row}>{items}</div>}
             </div>
           </div>
