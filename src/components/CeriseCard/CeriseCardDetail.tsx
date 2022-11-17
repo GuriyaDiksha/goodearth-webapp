@@ -105,7 +105,12 @@ const CeriseCardDetail: React.FC<Props> = ({
             active ? styles.inactive : ""
           )}
         >
-          <div className={styles.progressbarWrp}>
+          <div
+            className={cs(styles.progressbarWrp, {
+              [styles.goldBackground]:
+                loyaltyPoints?.MembershipClub === "Cerise Sitara"
+            })}
+          >
             <div
               className={styles.progressbar}
               style={{
