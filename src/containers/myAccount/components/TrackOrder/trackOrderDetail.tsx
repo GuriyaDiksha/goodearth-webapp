@@ -21,27 +21,31 @@ const TrackDetails: React.FC<OrdersProps> = props => {
     });
     if (status == 1) {
       html.push(
-        <div className={cs(styles.mainBlock, styles.cerisebg)}>
-          <p>{text}</p>
-          <p>
-            {mydata[0]?.date
-              ? moment(mydata[0]?.date).format("D-MMM-YYYY")
-              : ""}
-          </p>
+        <div className={cs(styles.mainBlock, styles.inactive)}>
+          <div className={cs(styles.circle, styles.active)}></div>
+          <div className={styles.textBlock}>
+            <p>{text}</p>
+            <p>
+              {mydata[0]?.date
+                ? moment(mydata[0]?.date).format("D-MMM-YYYY")
+                : ""}
+            </p>
+          </div>
         </div>
       );
-      html.push(<hr />);
     } else {
       const date = moment(mydata[0] ? mydata[0]?.date : new Date()).format(
         "D-MMM-YYYY"
       );
       html.push(
-        <div className={cs(styles.mainBlock, styles.cerisebg)}>
-          <p>{text}</p>
-          <p>{date}</p>
+        <div className={cs(styles.mainBlock, styles.active)}>
+          <div className={cs(styles.circle, styles.active)}></div>
+          <div className={styles.textBlock}>
+            <p>{text}</p>
+            <p>{date}</p>
+          </div>
         </div>
       );
-      html.push(<hr className={styles.cerisehr} />);
     }
 
     return html;
@@ -55,69 +59,90 @@ const TrackDetails: React.FC<OrdersProps> = props => {
     if (status == 2) {
       // const date = moment(new Date());
       html.push(
-        <div className={cs(styles.mainBlock, styles.cerisebg)}>
-          <p>{text}</p>
-          <p>
-            {mydata[0]?.date
-              ? moment(mydata[0]?.date).format("D-MMM-YYYY")
-              : ""}
-          </p>
+        <div className={cs(styles.mainBlock, styles.inactive)}>
+          <div className={cs(styles.circle, styles.active)}></div>
+          <div className={styles.textBlock}>
+            <p>{text}</p>
+            <p>
+              {mydata[0]?.date
+                ? moment(mydata[0]?.date).format("D-MMM-YYYY")
+                : ""}
+            </p>
+          </div>
         </div>
       );
-      html.push(<hr />);
     } else {
       html.push(
-        <div className={cs(styles.mainBlock, styles.cerisebg)}>
-          <p>{text}</p>
-          <p>
-            {mydata[0]?.date
-              ? moment(mydata[0]?.date).format("D-MMM-YYYY")
-              : ""}
-          </p>
+        <div
+          className={cs(
+            styles.mainBlock,
+            status > 2 ? styles.active : styles.inactive
+          )}
+        >
+          <div
+            className={cs(
+              styles.circle,
+              status > 2 ? styles.active : styles.inactive
+            )}
+          ></div>
+          <div className={styles.textBlock}>
+            <p>{text}</p>
+            <p>
+              {mydata[0]?.date
+                ? moment(mydata[0]?.date).format("D-MMM-YYYY")
+                : ""}
+            </p>
+          </div>
         </div>
       );
-      html.push(<hr className={styles.cerisehr} />);
     }
 
     return html;
   };
 
   const shipped = (data: any, text: string, status: number) => {
+    console.log(status, data);
     const mydata = data.filter((a: any) => {
       return a.status == "Shipped";
     });
     const html = [];
     if (status == 3) {
       html.push(
-        <div className={cs(styles.mainBlock, styles.whitebg)}>
-          <p>{text}</p>
-          <p>
-            {mydata[0]?.date
-              ? moment(mydata[0]?.date).format("D-MMM-YYYY")
-              : ""}
-          </p>
+        <div className={cs(styles.mainBlock, styles.inactive)}>
+          <div className={cs(styles.circle, styles.active)}></div>
+          <div className={styles.textBlock}>
+            <p>{text}</p>
+            <p>
+              {mydata[0]?.date
+                ? moment(mydata[0]?.date).format("D-MMM-YYYY")
+                : ""}
+            </p>
+          </div>
         </div>
       );
-      html.push(<hr />);
     } else if (status > 3) {
       html.push(
-        <div className={cs(styles.mainBlock, styles.cerisebg)}>
-          <p>{text}</p>
-          <p>
-            {mydata[0]?.date
-              ? moment(mydata[0]?.date).format("D-MMM-YYYY")
-              : ""}
-          </p>
+        <div className={cs(styles.mainBlock, styles.active)}>
+          <div className={cs(styles.circle, styles.active)}></div>
+          <div className={styles.textBlock}>
+            <p>{text}</p>
+            <p>
+              {mydata[0]?.date
+                ? moment(mydata[0]?.date).format("D-MMM-YYYY")
+                : ""}
+            </p>
+          </div>
         </div>
       );
-      html.push(<hr className={styles.cerisehr} />);
     } else {
       html.push(
-        <div className={cs(styles.mainBlock, styles.grayborder)}>
-          <p>{text}</p>
+        <div className={cs(styles.mainBlock, styles.inactive)}>
+          <div className={cs(styles.circle, styles.inactive)}></div>
+          <div className={styles.textBlock}>
+            <p>{text}</p>
+          </div>
         </div>
       );
-      html.push(<hr />);
     }
     return html;
   };
@@ -130,20 +155,9 @@ const TrackDetails: React.FC<OrdersProps> = props => {
 
     if (status == 5) {
       html.push(
-        <div className={cs(styles.mainBlock, styles.cerisebg)}>
-          <p>{text}</p>
-          <p>
-            {mydata[0]?.date
-              ? moment(mydata[0]?.date).format("D-MMM-YYYY")
-              : ""}
-          </p>
-        </div>
-      );
-      html.push(<hr className={styles.cerisehr} />);
-    } else if (status == 4) {
-      html.push(
-        <div className={styles.relative}>
-          <div className={cs(styles.mainBlock, styles.whitebg)}>
+        <div className={cs(styles.mainBlock, styles.active)}>
+          <div className={cs(styles.circle, styles.active)}></div>
+          <div className={styles.textBlock}>
             <p>{text}</p>
             <p>
               {mydata[0]?.date
@@ -151,20 +165,35 @@ const TrackDetails: React.FC<OrdersProps> = props => {
                 : ""}
             </p>
           </div>
-          <div className={styles.txtRight}>
-            <img src={liveImg} width="30" /> Live Status Update:{" "}
-            {mydata[0].location}
+        </div>
+      );
+    } else if (status == 4) {
+      html.push(
+        <div className={cs(styles.mainBlock, styles.inactive)}>
+          <div className={cs(styles.circle, styles.active)}></div>
+          <div className={styles.textBlock}>
+            <p>{text}</p>
+            <p>
+              {mydata[0]?.date
+                ? moment(mydata[0]?.date).format("D-MMM-YYYY")
+                : ""}
+            </p>
+            <div className={cs(styles.liveLocation)}>
+              <img src={liveImg} width="30" /> Live Status Update:{" "}
+              {mydata[0].location}
+            </div>
           </div>
         </div>
       );
-      html.push(<hr />);
     } else {
       html.push(
-        <div className={cs(styles.mainBlock, styles.grayborder)}>
-          <p>{text}</p>
+        <div className={cs(styles.mainBlock, styles.inactive)}>
+          <div className={cs(styles.circle, styles.inactive)}></div>
+          <div className={styles.textBlock}>
+            <p>{text}</p>
+          </div>
         </div>
       );
-      html.push(<hr />);
     }
     return html;
   };
@@ -176,19 +205,25 @@ const TrackDetails: React.FC<OrdersProps> = props => {
     });
     if (status == 5) {
       html.push(
-        <div className={cs(styles.mainBlock, styles.cerisebg)}>
-          <p>{text}</p>
-          <p>
-            {mydata[0]?.date
-              ? moment(mydata[0]?.date).format("D-MMM-YYYY")
-              : ""}
-          </p>
+        <div className={cs(styles.mainBlock, styles.delivered)}>
+          <div className={cs(styles.circle, styles.active)}></div>
+          <div className={styles.textBlock}>
+            <p>{text}</p>
+            <p>
+              {mydata[0]?.date
+                ? moment(mydata[0]?.date).format("D-MMM-YYYY")
+                : ""}
+            </p>
+          </div>
         </div>
       );
     } else {
       html.push(
-        <div className={cs(styles.mainBlock, styles.grayborder)}>
-          <p style={{ lineHeight: "35px;" }}>{text}</p>
+        <div className={cs(styles.mainBlock, styles.delivered)}>
+          <div className={cs(styles.circle, styles.inactive)}></div>
+          <div className={styles.textBlock}>
+            <p style={{ lineHeight: "35px;" }}>{text}</p>
+          </div>
         </div>
       );
     }
@@ -201,7 +236,7 @@ const TrackDetails: React.FC<OrdersProps> = props => {
     const order = [
         "Order Received",
         "Ready to Pick",
-        "Order Shipped",
+        "Shipped",
         "Intransit",
         "Delivered"
       ],
