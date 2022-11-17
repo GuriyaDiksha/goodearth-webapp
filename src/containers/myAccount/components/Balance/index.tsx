@@ -66,19 +66,18 @@ class CheckBalance extends React.Component<Props, State> {
                       bootstrapStyles.offset1
                     )}
                   >
-                    <hr
-                      className={cs(styles.hrMargin, globalStyles.voffset5)}
-                    />
-                    <div>
-                      <div className={styles.flex} id="gc-balance">
+                    <div className={styles.balanceContainer}>
+                      <div
+                        className={cs(styles.flex, styles.section)}
+                        id="gc-balance"
+                      >
                         <div
-                          className={cs(
-                            styles.colorPrimary,
-                            globalStyles.pointer
-                          )}
+                          className={cs(styles.horizontal, {
+                            [styles.open]: this.state.isActive
+                          })}
                           onClick={this.toggleInputGC}
                         >
-                          {this.state.isActive ? "-" : "+"}
+                          {/* {this.state.isActive ? "-" : "+"} */}
                         </div>
                         <div className={cs(styles.inputContainer)}>
                           <div
@@ -86,7 +85,7 @@ class CheckBalance extends React.Component<Props, State> {
                           >
                             <span
                               onClick={this.toggleInputGC}
-                              className={globalStyles.pointer}
+                              className={styles.balanceSectionHead}
                             >
                               ENTER YOUR GIFT CARD CODE{" "}
                             </span>
@@ -94,16 +93,17 @@ class CheckBalance extends React.Component<Props, State> {
                           <div>{this.state.isActive && <Giftcard />}</div>
                         </div>
                       </div>
-                      <hr className={styles.hrMargin} />
-                      <div className={styles.flex} id="cc-balance">
+                      <div
+                        className={cs(styles.flex, styles.section)}
+                        id="cc-balance"
+                      >
                         <div
-                          className={cs(
-                            styles.colorPrimary,
-                            globalStyles.pointer
-                          )}
+                          className={cs(styles.horizontal, {
+                            [styles.open]: this.state.isActiveCN
+                          })}
                           onClick={this.toggleInputCN}
                         >
-                          {this.state.isActiveCN ? "-" : "+"}
+                          {/* {this.state.isActiveCN ? "-" : "+"} */}
                         </div>
                         <div className={cs(styles.inputContainer)}>
                           <div
@@ -111,7 +111,7 @@ class CheckBalance extends React.Component<Props, State> {
                           >
                             <span
                               onClick={this.toggleInputCN}
-                              className={globalStyles.pointer}
+                              className={styles.balanceSectionHead}
                             >
                               ENTER YOUR CREDIT NOTE CODE
                             </span>
@@ -119,7 +119,6 @@ class CheckBalance extends React.Component<Props, State> {
                           <div>{this.state.isActiveCN && <CreditCard />}</div>
                         </div>
                       </div>
-                      <hr className={styles.hrMargin} />
 
                       <div className={styles.rtc}>
                         <Link
