@@ -55,7 +55,9 @@ class ActivateGiftCard extends React.Component<Props, State> {
             Enter your personal information to activate your gift card
           </div>
           <div className={cs(styles.loginForm, globalStyles.voffset4)}>
-            <div className={bootstrapStyles.row}>
+            <div
+              className={cs(bootstrapStyles.row, styles.otpComponentContainer)}
+            >
               <div
                 className={cs(
                   bootstrapStyles.colMd12,
@@ -63,13 +65,13 @@ class ActivateGiftCard extends React.Component<Props, State> {
                   styles.popupformbg
                 )}
               >
-                <div className={bootstrapStyles.row}>
+                <div className={cs(bootstrapStyles.row, styles.formContainer)}>
                   <div
                     className={cs(
                       bootstrapStyles.col10,
-                      bootstrapStyles.offset1,
-                      bootstrapStyles.colMd8,
-                      bootstrapStyles.offsetMd2
+                      // bootstrapStyles.offset1,
+                      bootstrapStyles.colMd8
+                      // bootstrapStyles.offsetMd2
                     )}
                   >
                     <Giftcard />

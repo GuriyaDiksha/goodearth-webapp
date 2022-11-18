@@ -446,6 +446,14 @@
 }
 
 .login-form {
+  .otp-component-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .form-container{
+    justify-content: center;
+  }
   input[type="text"], input[type="date"], input[type="password"], input[type="number"]{
     font-family: $font-Montserrat;
     font-size: 12px;
