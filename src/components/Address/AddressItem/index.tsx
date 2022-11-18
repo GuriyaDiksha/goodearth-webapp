@@ -309,6 +309,9 @@ const AddressItem: React.FC<Props> = props => {
           },
           {
             [styles.default]: address.isDefaultForShipping
+          },
+          {
+            [styles.isTulsi]: address.isTulsi
           }
         )}
       >
@@ -322,7 +325,7 @@ const AddressItem: React.FC<Props> = props => {
                 currentCallBackComponent == "bridal" ||
                 currentCallBackComponent == "bridal-edit"
             },
-            { [styles.shippingBorder]: address.isTulsi },
+            // { [styles.shippingBorder]: address.isTulsi },
             { [styles.diabledBorder]: address.id == userAddress?.id },
             {
               [styles.addressInUse]:
@@ -332,7 +335,7 @@ const AddressItem: React.FC<Props> = props => {
         >
           {divOrText == "text" && (
             <div className={styles.lineHead}>
-              {props.currentCallBackComponent != "cerise" && (
+              {!address.isTulsi && props.currentCallBackComponent != "cerise" && (
                 <div
                   className={styles.radio}
                   id={id}
@@ -388,7 +391,7 @@ const AddressItem: React.FC<Props> = props => {
           )}
           {divOrText == "div" && (
             <div className={styles.lineHead}>
-              {props.currentCallBackComponent != "cerise" && (
+              {!address.isTulsi && props.currentCallBackComponent != "cerise" && (
                 <div
                   className={styles.radio}
                   id={id}
