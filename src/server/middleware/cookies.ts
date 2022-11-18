@@ -44,6 +44,7 @@ export default async function cookies(
   // if (pathname != "/maintenance") {
   //   ctx.redirect("/maintenance");
   // }
+
   if (
     !currency &&
     (!isBridalBasket || isBridalBasket == "no") &&
@@ -59,7 +60,7 @@ export default async function cookies(
     tkn: token,
     sessionid: sessionId
   };
-  if (["INR", "USD", "GBP"].indexOf(currency) > -1) {
+  if (["INR", "USD", "GBP", "AED", "SGD"].indexOf(currency) > -1) {
     store.dispatch(updateCurrency(currency));
   } else if (!storeCurrency) {
     store.dispatch(updateCurrency("INR"));
