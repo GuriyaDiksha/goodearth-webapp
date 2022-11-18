@@ -80,6 +80,11 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       );
       const userData = { ...user, shippingData: shippingAddress };
       dispatch(updateUser(userData));
+      CheckoutService.getLoyaltyPoints(dispatch, { email: user?.email }).then(
+        loyalty => {
+          dispatch(updateUser({ loyaltyData: loyalty }));
+        }
+      );
       AddressService.fetchAddressList(dispatch).then(addressList => {
         dispatch(updateAddressList(addressList));
       });
