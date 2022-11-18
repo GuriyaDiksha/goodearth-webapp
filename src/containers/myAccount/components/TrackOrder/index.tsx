@@ -545,6 +545,7 @@ class TrackOrder extends React.Component<Props, State> {
                 <TrackDetails
                   orderData={this.state.orderData}
                   trackingData={this.state.trackingData}
+                  mobile={this.props.mobile}
                 />
               )}
             </div>

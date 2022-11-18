@@ -391,6 +391,7 @@ const AddressForm: React.FC<Props> = props => {
     }
   }, [addressData, countryOptions]);
   const bridalUser = { userId: 0 };
+
   return (
     <div
       className={cs(
@@ -407,7 +408,7 @@ const AddressForm: React.FC<Props> = props => {
         }
       )}
     >
-      {(currentCallBackComponent == "account" ||
+      {((!mobile && currentCallBackComponent == "account") ||
         currentCallBackComponent == "bridal-edit") && (
         <div className="back-btn-div">
           <div

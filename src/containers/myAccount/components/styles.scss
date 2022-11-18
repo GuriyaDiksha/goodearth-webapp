@@ -16,6 +16,7 @@
 }
 @media screen  and (max-width: 992px){
   .form-subheading{
+    padding : 0px;
     &.track-order{
       padding: 0px 20px;
     }
@@ -993,6 +994,11 @@
     @include b4_12px_montserrat_charcoal();
     padding: 10px 0px;
     letter-spacing: 0.36px;
+  }
+  @media screen and (max-width:992px) {
+    &:nth-of-type(1){
+      margin-bottom: 20px;
+    }
   }
 }
 

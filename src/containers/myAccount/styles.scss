@@ -248,7 +248,7 @@
       @include menu-subcopy();
       border-bottom: 1px solid tint(#000, 90%);
       a {
-        color: tint(#000, 50%);
+        color: $charcoal19;
       }
     }
   }
