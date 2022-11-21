@@ -79,6 +79,35 @@ export default class Cust extends React.Component<
             openIconClassName={cs(faqStyles.horizontal, faqStyles.open)}
             closedIconClassName={cs(faqStyles.horizontal)}
           />
+          {/* {accordionData.map(({ content, heading, isAccordion }, index) => {
+            if (isAccordion) {
+              const cont = ReactHtmlParser(content).filter((e: any) => {
+                return e.props["data-f-id"] != "pbf";
+              });
+              const section = ([
+                { header: heading, body: cont, id: index }
+              ] as unknown) as Section[];
+              return (
+                <Accordion
+                  sections={section}
+                  className={styles.accordionClass}
+                  headerClassName={styles.accordionHeader}
+                  bodyClassName={styles.accordionBody}
+                  openIconClassName={cs(faqStyles.horizontal, faqStyles.open)}
+                  closedIconClassName={cs(faqStyles.horizontal)}
+                />
+              );
+            } else {
+              return (
+                <div className={styles.noAccordion}>
+                  <div className={styles.contentHeading}>{heading}</div>
+                  <div className={styles.content}>
+                    {ReactHtmlParser(content)}
+                  </div>
+                </div>
+              );
+            }
+          })} */}
         </div>
       </div>
     );

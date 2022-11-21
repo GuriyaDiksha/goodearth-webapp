@@ -10,12 +10,18 @@ const initialState: FooterState = {
     },
     shopLocations: [],
     footerImages: {
-      footerImageDeskTop: "",
       footerImageMobile: "",
       footerImageSubsDeskTop: "",
+      footerImageDeskTop: "",
       footerImageSubsMobile: "",
       footerBgColorDeskTop: "",
-      footerBgColorMobile: ""
+      footerBgColorMobile: "",
+      footerHeadingFontColor: "",
+      footerSubHeadingFontColor: "",
+      footerHeadingHoverColor: "",
+      footerSubHeadingHoverColor: "",
+      sectionContent: "",
+      sectionFontColor: ""
     },
     findUsOnData: []
   }

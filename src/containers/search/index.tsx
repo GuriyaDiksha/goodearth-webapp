@@ -4,7 +4,7 @@ import initActionSearch from "./initAction";
 import cs from "classnames";
 import { AppState } from "reducers/typings";
 import { connect } from "react-redux";
-import iconStyles from "../../styles/iconFonts.scss";
+// import iconStyles from "../../styles/iconFonts.scss";
 import styles from "./styles.scss";
 import globalStyles from "styles/global.scss";
 import bootstrap from "../../styles/bootstrap/bootstrap-grid.scss";
