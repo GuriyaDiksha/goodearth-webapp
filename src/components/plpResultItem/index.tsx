@@ -17,6 +17,7 @@ import SkeletonImage from "./skeleton";
 import * as valid from "utils/validate";
 import CookieService from "services/cookie";
 import { GA_CALLS } from "constants/cookieConsent";
+import PlpResultImageSlider from "components/PlpResultImageSlider";
 const PlpResultItem: React.FC<PLPResultItemProps> = (
   props: PLPResultItemProps
 ) => {
@@ -29,7 +30,8 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
     isCorporate,
     position,
     page,
-    loader
+    loader,
+    isSearch
   } = props;
   const code = currencyCode[currency as Currency];
   // const {} = useStore({state:App})
@@ -90,6 +92,41 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
     ? product.plpImages[1]
     : "";
   const isStockAvailable = isCorporate || product.inStock;
+  const mobileSlides = product?.plpImages?.map((productImage, i: number) => {
+    return (
+      <div key={i} className={globalStyles.relative}>
+        <LazyImage
+          alt={product.altText || product.title}
+          aspectRatio="62:93"
+          src={productImage.replace("/Micro/", "/Medium/")}
+          isVisible={isVisible}
+          className={globalStyles.imgResponsive}
+          onError={(e: any) => {
+            e.target.onerror = null;
+            e.target.src = noPlpImage;
+          }}
+          containerClassName={
+            position === 0 && !isSearch ? "firstImageContainer" : ""
+          }
+        />
+        {i === 0 && product?.plpImages?.[1] && position === 0 && !isSearch ? (
+          <LazyImage
+            alt={product.altText || product.title}
+            aspectRatio="62:93"
+            src={product?.plpImages?.[1].replace("/Micro/", "/Medium/")}
+            isVisible={isVisible}
+            className={cs(globalStyles.imgResponsive, "secondImage")}
+            onError={(e: any) => {
+              e.target.onerror = null;
+              e.target.src = noPlpImage;
+            }}
+            containerClassName={"secondImageContainer"}
+          />
+        ) : null}
+      </div>
+    );
+  });
+
   return loader ? (
     <div className={styles.plpMain}>
       <SkeletonImage />
@@ -140,17 +177,21 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
           onMouseEnter={onMouseEnter}
           onClick={gtmProductClick}
         >
-          <LazyImage
-            aspectRatio="62:93"
-            src={image}
-            alt={product.altText || product.title}
-            className={styles.imageResultnew}
-            isVisible={isVisible}
-            onError={(e: any) => {
-              e.target.onerror = null;
-              e.target.src = noPlpImage;
-            }}
-          />
+          {mobile ? (
+            <PlpResultImageSlider>{mobileSlides}</PlpResultImageSlider>
+          ) : (
+            <LazyImage
+              aspectRatio="62:93"
+              src={image}
+              alt={product.altText || product.title}
+              className={styles.imageResultnew}
+              isVisible={isVisible}
+              onError={(e: any) => {
+                e.target.onerror = null;
+                e.target.src = noPlpImage;
+              }}
+            />
+          )}
         </Link>
         <div
           className={cs(

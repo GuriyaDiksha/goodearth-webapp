@@ -508,6 +508,7 @@ class Search extends React.Component<
                             ? true
                             : false
                         }
+                        isSearch={true}
                       />
                     ) : (
                       <GiftcardItem isCorporateGifting={false} />
