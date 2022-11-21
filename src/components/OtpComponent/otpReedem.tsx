@@ -592,11 +592,13 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
                 type="submit"
                 disabled={
                   this.state.disable ||
+                  this.props.disableBtn !== "" ||
                   (this.props.validated !== undefined && !this.props.validated)
                 }
                 className={cs(globalStyles.ceriseBtn, {
                   [globalStyles.disabledBtn]:
                     this.state.disable ||
+                    this.props.disableBtn !== "" ||
                     (this.props.validated !== undefined &&
                       !this.props.validated)
                 })}

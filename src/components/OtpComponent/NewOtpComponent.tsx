@@ -271,14 +271,14 @@ const NewOtpComponent: React.FC<Props> = ({
       <button
         className={`${style.otpBtn} ${
           `${input?.otp1}${input?.otp2}${input?.otp3}${input?.otp4}${input?.otp5}${input?.otp6}`
-            .length !== 6 || attempts?.maxAttemptsAllow === attempts?.attempts
+            .length !== 6 || attempts?.maxAttemptsAllow <= attempts?.attempts
             ? style.disable
             : ""
         }`}
         onClick={() => sendOtp()}
         disabled={
           `${input?.otp1}${input?.otp2}${input?.otp3}${input?.otp4}${input?.otp5}${input?.otp6}`
-            .length !== 6 || attempts?.maxAttemptsAllow === attempts?.attempts
+            .length !== 6 || attempts?.maxAttemptsAllow <= attempts?.attempts
         }
       >
         {btnText}

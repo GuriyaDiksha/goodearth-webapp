@@ -220,6 +220,7 @@ class Reedem extends React.Component<Props, RedeemState> {
                   email={this.props.user.email}
                   resendOtp={this.props.resendOtpRedeem}
                   validated={isValidated}
+                  disableBtn={this.state.error}
                 />
               </div>
             </Fragment>

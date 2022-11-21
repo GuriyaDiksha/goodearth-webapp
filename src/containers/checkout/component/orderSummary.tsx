@@ -328,7 +328,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
       });
     }
     const redeemDetails = basket.loyalty?.[0];
-    if (redeemDetails) {
+    if (redeemDetails && redeemDetails?.isValidated) {
       isline = true;
       loyalty = (
         <div

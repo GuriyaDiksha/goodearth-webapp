@@ -68,6 +68,7 @@ export type otpRedeemProps = {
   isLoggedIn: boolean;
   history: any;
   validated: boolean;
+  disableBtn: string;
 };
 
 export type otpBoxProps = {
