@@ -552,7 +552,10 @@ ol {
 
 .accordion-header{
   @include b4_12px_semibold_caps_charocal();
-  padding-right: 40px;
+  padding: 20px 40px 20px 0px;
+}
+
+.accordion-header-open{
   border-bottom: 1px solid lightgray;
 }
 

@@ -27,8 +27,9 @@ html(lang='en')
           Moengage = moe({
               app_id:!{moengage},
               debug_logs: !{moengageId},
-              cluster: "DC_3"
-              //- swPath: "/serviceworker.js"
+              cluster: "DC_3",
+              swPath: "/mo/moengageserviceworker.js",
+              swScope: '/mo/'
           });
           Moengage.call_web_push();
         link(rel="manifest", href=`${manifest}`)
@@ -78,109 +79,109 @@ html(lang='en')
             }
           }
 
-          //- function OpenBox() {
-          //-     // initialize freshchat if not already
-          //-     if(!window.fcWidget) {
-          //-       initialize(document,"freshchat-js-sdk");
-          //-     }
-          //-     if(document.getElementById('chat-button').className == "chat-close") {
-          //-       document.getElementById('chat-button').className = "chat-button active";
-          //-       document.getElementById('whatsapp').className = 'whatsapp-img whatsapp-active';
-          //-       document.getElementById('fresh-chat').className = 'fresh-chat active';
-          //-       // to handle scroll button hide
-          //-       if (window.innerHeight - window.pageYOffset < 0) {
-          //-         const scrollToTopButton = document.getElementById("scrollToTop-btn");
-          //-         if (scrollToTopButton && scrollToTopButton.classList.contains("scrollToTop-btn-hidden")) {
-          //-             scrollToTopButton.classList.replace("scrollToTop-btn-hidden", "scrollToTop-btn");
-          //-         }
-          //-     }
-          //-     } else {
-          //-       document.getElementById('chat-button').className = "chat-close";
-          //-       document.getElementById('whatsapp').className = 'whatsapp-img whatsapp-active activate';
-          //-       document.getElementById('fresh-chat').className = 'fresh-chat';
-          //-       // to handle scroll button show
-          //-       const scrollToTopButton = document.getElementById("scrollToTop-btn");
-          //-         if (scrollToTopButton && scrollToTopButton.classList.contains("scrollToTop-btn")) {
-          //-             scrollToTopButton.classList.replace("scrollToTop-btn", "scrollToTop-btn-hidden");
-          //-         }
-          //-     }
-          //-     //- document.getElementById('fc_frame').style = {display:'block'}
-          //- }
+          function OpenBox() {
+              // initialize freshchat if not already
+              if(!window.fcWidget) {
+                initialize(document,"freshchat-js-sdk");
+              }
+              if(document.getElementById('chat-button').className == "chat-close") {
+                document.getElementById('chat-button').className = "chat-button active";
+                document.getElementById('whatsapp').className = 'whatsapp-img whatsapp-active';
+                document.getElementById('fresh-chat').className = 'fresh-chat active';
+                // to handle scroll button hide
+                if (window.innerHeight - window.pageYOffset < 0) {
+                  const scrollToTopButton = document.getElementById("scrollToTop-btn");
+                  if (scrollToTopButton && scrollToTopButton.classList.contains("scrollToTop-btn-hidden")) {
+                      scrollToTopButton.classList.replace("scrollToTop-btn-hidden", "scrollToTop-btn");
+                  }
+              }
+              } else {
+                document.getElementById('chat-button').className = "chat-close";
+                document.getElementById('whatsapp').className = 'whatsapp-img whatsapp-active activate';
+                document.getElementById('fresh-chat').className = 'fresh-chat';
+                // to handle scroll button show
+                const scrollToTopButton = document.getElementById("scrollToTop-btn");
+                  if (scrollToTopButton && scrollToTopButton.classList.contains("scrollToTop-btn")) {
+                      scrollToTopButton.classList.replace("scrollToTop-btn", "scrollToTop-btn-hidden");
+                  }
+              }
+              //- document.getElementById('fc_frame').style = {display:'block'}
+          }
           
-          //- function initFreshChat() {
-          //-   window.fcWidget.init({
-          //-     token: "17403182-a90c-4083-85d3-079d49362ef1",
-          //-     host: "https://wchat.freshchat.com",
-          //-     config: {
-          //-       disableEvents: true,
-          //-       cssNames: {
-          //-         widget: 'fc_frame',
-          //-         open: 'fc_open',
-          //-         expanded: 'fc_expanded'
-          //-       },
-          //-       showFAQOnOpen: true,
-          //-       hideFAQ: true,
-          //-       agent: {
-          //-         hideName: false,
-          //-         hidePic: false,
-          //-         hideBio: false,
-          //-       },
-          //-       headerProperty: {
-          //-         //Hide the chat button on load
-          //-         hideChatButton: true,
-          //-       },
-          //-       content: {
-          //-         placeholders: {
-          //-           search_field: 'Search',
-          //-           reply_field: 'Reply',
-          //-           csat_reply: 'Add your comments here'
-          //-         },
-          //-         actions: {
-          //-           csat_yes: 'Yes',
-          //-           csat_no: 'No',
-          //-           push_notify_yes: 'Yes',
-          //-           push_notify_no: 'No',
-          //-           tab_faq: 'Solutions',
-          //-           tab_chat: 'Chat',
-          //-           csat_submit: 'Submit'
-          //-         },
-          //-         headers: {
-          //-           chat: 'Welcome to Good Earth',
-          //-           chat_help: 'Reach out to us if you have any questions',
-          //-           faq: 'Solution Articles',
-          //-           faq_help: 'Browse our articles',
-          //-           faq_not_available: 'No Articles Found',
-          //-           faq_search_not_available: 'No articles were found for {{query}}',
-          //-           faq_useful: 'Was this article helpful?',
-          //-           faq_thankyou: 'Thank you for your feedback',
-          //-           faq_message_us: 'Message Us',
-          //-           push_notification: 'Don\'t miss out on any replies! Allow push notifications?',
-          //-           csat_question: 'Did we address your concerns??',
-          //-           csat_yes_question: 'How would you rate this interaction?',
-          //-           csat_no_question: 'How could we have helped better?',
-          //-           csat_thankyou: 'Thanks for the response',
-          //-           csat_rate_here: 'Submit your rating here',
-          //-           channel_response: {
-          //-             offline: 'We are currently away. Please leave us a message',
-          //-             online: {
-          //-               minutes: {
-          //-                 one: "Currently replying in {!time!} minutes ",
-          //-                 more: "Typically replies in {!time!} minutes"
-          //-               },
-          //-               hours: {
-          //-                 one: "Currently replying in under an hour",
-          //-                 more: "Typically replies in {!time!} hours",
-          //-               }
-          //-             }
-          //-           }
-          //-         }
-          //-       }
-          //-     }
-          //-   });
-          //- }
+          function initFreshChat() {
+            window.fcWidget.init({
+              token: "17403182-a90c-4083-85d3-079d49362ef1",
+              host: "https://wchat.freshchat.com",
+              config: {
+                disableEvents: true,
+                cssNames: {
+                  widget: 'fc_frame',
+                  open: 'fc_open',
+                  expanded: 'fc_expanded'
+                },
+                showFAQOnOpen: true,
+                hideFAQ: true,
+                agent: {
+                  hideName: false,
+                  hidePic: false,
+                  hideBio: false,
+                },
+                headerProperty: {
+                  //Hide the chat button on load
+                  hideChatButton: true,
+                },
+                content: {
+                  placeholders: {
+                    search_field: 'Search',
+                    reply_field: 'Reply',
+                    csat_reply: 'Add your comments here'
+                  },
+                  actions: {
+                    csat_yes: 'Yes',
+                    csat_no: 'No',
+                    push_notify_yes: 'Yes',
+                    push_notify_no: 'No',
+                    tab_faq: 'Solutions',
+                    tab_chat: 'Chat',
+                    csat_submit: 'Submit'
+                  },
+                  headers: {
+                    chat: 'Welcome to Good Earth',
+                    chat_help: 'Reach out to us if you have any questions',
+                    faq: 'Solution Articles',
+                    faq_help: 'Browse our articles',
+                    faq_not_available: 'No Articles Found',
+                    faq_search_not_available: 'No articles were found for {{query}}',
+                    faq_useful: 'Was this article helpful?',
+                    faq_thankyou: 'Thank you for your feedback',
+                    faq_message_us: 'Message Us',
+                    push_notification: 'Don\'t miss out on any replies! Allow push notifications?',
+                    csat_question: 'Did we address your concerns??',
+                    csat_yes_question: 'How would you rate this interaction?',
+                    csat_no_question: 'How could we have helped better?',
+                    csat_thankyou: 'Thanks for the response',
+                    csat_rate_here: 'Submit your rating here',
+                    channel_response: {
+                      offline: 'We are currently away. Please leave us a message',
+                      online: {
+                        minutes: {
+                          one: "Currently replying in {!time!} minutes ",
+                          more: "Typically replies in {!time!} minutes"
+                        },
+                        hours: {
+                          one: "Currently replying in under an hour",
+                          more: "Typically replies in {!time!} hours",
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            });
+          }
           //- default freshchat script
           //- function initialize(i,t){var e;i.getElementById(t)?initFreshChat():setTimeout(function() {((e=i.createElement("script")).id=t,e.async=!0,e.src="https://wchat.freshchat.com/js/widget.js",e.onload=initFreshChat,i.head.appendChild(e))}, 100)}function initiateCall(){initialize(document,"freshchat-js-sdk")}window.addEventListener?window.addEventListener("load",initiateCall,!1):window.attachEvent("load",initiateCall,!1);
-          //- (function (d, w, c) { if(!d.getElementById("spd-busns-spt")) { var n = d.getElementsByTagName('script')[0], s = d.createElement('script'); var loaded = false; s.id = "spd-busns-spt"; s.async = "async"; s.setAttribute("data-self-init", "false"); s.setAttribute("data-init-type", "opt"); s.src = 'https://cdn.freshbots.ai/assets/share/js/freshbots.min.js'; s.setAttribute("data-client", "cc75206fb31a8af22f08a88ee68bbf974436bbe2"); s.setAttribute("data-bot-hash", "a23bded977f08b7f22458799242a7d7c5747d3fd"); s.setAttribute("data-env", "prod"); s.setAttribute("data-region", "us"); if (c) { s.onreadystatechange = s.onload = function () { if (!loaded) { c(); } loaded = true; }; } n.parentNode.insertBefore(s, n); } }) (document, window, function () { Freshbots.initiateWidget({ autoInitChat: false, getClientParams: function () { return {"cstmr::eml":"","sn::auth::id":"","cstmr::nm":""}; } }, function(successResponse) { }, function(errorResponse) { }); })
+          (function (d, w, c) { if(!d.getElementById("spd-busns-spt")) { var n = d.getElementsByTagName('script')[0], s = d.createElement('script'); var loaded = false; s.id = "spd-busns-spt"; s.async = "async"; s.setAttribute("data-self-init", "false"); s.setAttribute("data-init-type", "opt"); s.src = 'https://cdn.freshbots.ai/assets/share/js/freshbots.min.js'; s.setAttribute("data-client", "cc75206fb31a8af22f08a88ee68bbf974436bbe2"); s.setAttribute("data-bot-hash", "a23bded977f08b7f22458799242a7d7c5747d3fd"); s.setAttribute("data-env", "prod"); s.setAttribute("data-region", "us"); if (c) { s.onreadystatechange = s.onload = function () { if (!loaded) { c(); } loaded = true; }; } n.parentNode.insertBefore(s, n); } }) (document, window, function () { Freshbots.initiateWidget({ autoInitChat: false, getClientParams: function () { return {"cstmr::eml":"","sn::auth::id":"","cstmr::nm":""}; } }, function(successResponse) { }, function(errorResponse) { }); })
             //- function initialize(i,t){var e;i.getElementById(t)?initFreshChat():setTimeout(function() {((e=i.createElement("script")).id=t,e.async=!0,e.src="https://wchat.freshchat.com/js/widget.js",e.onload=initFreshChat,i.head.appendChild(e))}, 100)}
 
           function ScrollToTop() {
@@ -204,21 +205,21 @@ html(lang='en')
                   }
               }
           })
-          //- const handleMouseMove = function () {
-          //-   if(!window.fcWidget) {
-          //-     initialize(document,"freshchat-js-sdk");
-          //-   }
-          //-   window.removeEventListener('mousemove', handleMouseMove);
-          //- }
+          const handleMouseMove = function () {
+            if(!window.fcWidget) {
+              initialize(document,"freshchat-js-sdk");
+            }
+            window.removeEventListener('mousemove', handleMouseMove);
+          }
           //- window.addEventListener('mousemove', handleMouseMove)
 
-          //- const initializeFreshChat = function () {
-          //-   //- if(!window.fcWidget) {
-          //-   //-   initialize(document,"freshchat-js-sdk");
-          //-   //- }
-          //-   window.removeEventListener('scroll', initializeFreshChat);
-          //- }
-          //- window.addEventListener('scroll', initializeFreshChat)
+          const initializeFreshChat = function () {
+            //- if(!window.fcWidget) {
+            //-   initialize(document,"freshchat-js-sdk");
+            //- }
+            window.removeEventListener('scroll', initializeFreshChat);
+          }
+          window.addEventListener('scroll', initializeFreshChat)
 
     body
         script(src='https://platform.linkedin.com/in.js', type='text/javascript').
@@ -230,15 +231,15 @@ html(lang='en')
           <iframe src="https://www.googletagmanager.com/ns.html?id="+!{gtmdata}
             height="0" width="0" style="display:none;visibility:hidden"></iframe>
         div(id='main', class='main') !{content}
-        div !{newrelicScript}
+        //- div !{newrelicScript}
         div !{scripts}
-        //- div(id="chat-container" class='chat-container')
-        //- div(id='scrollToTop-btn' class='scrollToTop-btn-hidden' onClick='ScrollToTop()')
-        //-   i(class='icon_uparrow-white')
-          //- a(href='https://wa.me/+917669303665' target='_blank' rel='noopener noreferrer')
-          //-   div(id='whatsapp' class='whatsapp-img whatsapp-active')
-          //-     //- img(src="/static/images/whatsapp.svg", alt="whatsapp icon" width='40px')
-          //- div(id='fresh-chat', onclick='OpenChatBox()', class='fresh-chat active')
-          //-   i(class='icon-chat')
-          //- div(id='chat-button', onclick='OpenBox()', class='chat-button active')
-          //-   i(class='icon-question')
+        div(id="chat-container" class='chat-container')
+        div(id='scrollToTop-btn' class='scrollToTop-btn-hidden' onClick='ScrollToTop()')
+          i(class='icon_uparrow-white')
+          a(href='https://wa.me/+917669303665' target='_blank' rel='noopener noreferrer')
+            div(id='whatsapp' class='whatsapp-img whatsapp-active')
+              //- img(src="/static/images/whatsapp.svg", alt="whatsapp icon" width='40px')
+          div(id='fresh-chat', onclick='OpenChatBox()', class='fresh-chat active')
+            i(class='icon-chat')
+          div(id='chat-button', onclick='OpenBox()', class='chat-button active')
+            i(class='icon-question')

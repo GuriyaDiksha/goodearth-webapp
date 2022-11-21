@@ -4,6 +4,7 @@ export type Section = {
   header: ReactNode;
   body: ReactNode;
   id: string;
+  alwaysOpen?: boolean;
 };
 
 export type Props = {
@@ -11,6 +12,7 @@ export type Props = {
   defaultOpen?: string;
   className: string;
   headerClassName?: string;
+  openHeaderClassName?: string;
   closedIconClassName?: string;
   openIconClassName?: string;
   bodyClassName?: string;

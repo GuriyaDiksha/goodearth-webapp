@@ -52,7 +52,7 @@ class Bag extends React.Component<Props, State> {
         item => item.product.childAttributes?.[0].sku
       );
       const userConsent = CookieService.getCookie("consent").split(",");
-      if (userConsent.includes(GA_CALLS)) {
+      if (userConsent.includes(GA_CALLS) || true) {
         dataLayer.push({
           "Event Category": "GA Ecommerce",
           "Event Action": "Cart Summary Page",

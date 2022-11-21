@@ -53,17 +53,19 @@ const Growl: React.FC<Props> = ({ text, id, timeout, params }) => {
     <div className={styles.growl} key={`growl_${id}`}>
       <div className={styles.innerContainer} id={`growl_${id}`}>
         <div>{renderText}</div>
-        <div className={cs(styles.separator)}></div>
-        <span>
-          <i
-            className={cs(
-              iconStyles.icon,
-              iconStyles.iconCrossNarrowBig,
-              styles.closeButton
-            )}
-            onClick={() => closeMessage(id)}
-          />
-        </span>
+        <div className={styles.assetContainer}>
+          <div className={cs(styles.separator)}></div>
+          <span>
+            <i
+              className={cs(
+                iconStyles.icon,
+                iconStyles.iconCrossNarrowBig,
+                styles.closeButton
+              )}
+              onClick={() => closeMessage(id)}
+            />
+          </span>
+        </div>
       </div>
     </div>
   );

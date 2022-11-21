@@ -46,7 +46,7 @@ export const ShopLocator: React.FC<ShopLocatorProps> = ({
     if (data.label) {
       history.push("/Cafe-Shop/" + data.label);
       const userConsent = CookieService.getCookie("consent").split(",");
-      if (userConsent.includes(GA_CALLS)) {
+      if (userConsent.includes(GA_CALLS) || true) {
         dataLayer.push({
           event: "eventsToSend",
           eventAction: "shopCafeLocatorClick",

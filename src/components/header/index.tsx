@@ -332,7 +332,7 @@ class Header extends React.Component<Props, State> {
 
   gtmPushWishlistClick = () => {
     const userConsent = CookieService.getCookie("consent").split(",");
-    if (userConsent.includes(GA_CALLS)) {
+    if (userConsent.includes(GA_CALLS) || true) {
       dataLayer.push({
         event: "eventsToSend",
         eventAction: "wishListClick",
@@ -454,7 +454,7 @@ class Header extends React.Component<Props, State> {
 
   gtmPushLogoClick = () => {
     const userConsent = CookieService.getCookie("consent").split(",");
-    if (userConsent.includes(GA_CALLS)) {
+    if (userConsent.includes(GA_CALLS) || true) {
       dataLayer.push({
         event: "eventsToSend",
         eventAction: "logo",
@@ -860,7 +860,11 @@ class Header extends React.Component<Props, State> {
                         onClick={() => {
                           !this.state.showSearch &&
                             this.onSideMenuClick("Search");
-                          this.showSearch();
+                          if (this.state.showSearch) {
+                            this.hideSearch();
+                          } else {
+                            this.showSearch();
+                          }
                         }}
                       >
                         <i

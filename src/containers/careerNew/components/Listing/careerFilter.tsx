@@ -276,29 +276,35 @@ const CareerFilter: React.FC<Props> = ({
           >
             <div
               className={cs(
+                listing.firstFilter,
                 mobile
                   ? listing.filter_applied
-                  : hideFilter["appliedFilters"]
-                  ? listing.filter_label
-                  : listing.filter_label_open
+                  : // : hideFilter["appliedFilters"]
+                    //? listing.filter_label
+                    listing.filter_label_open
               )}
-              onClick={() => {
-                mobile
-                  ? setIsFilterOpen(!isFilterOpen)
-                  : setHideFilter({
-                      ...hideFilter,
-                      appliedFilters: !hideFilter.appliedFilters
-                    });
-              }}
+              // onClick={() => {
+              //   mobile
+              //     ? setIsFilterOpen(!isFilterOpen)
+              //     : setHideFilter({
+              //         ...hideFilter,
+              //         appliedFilters: !hideFilter.appliedFilters
+              //       });
+              // }}
             >
               Filters Applied
-              <i
-                className={cs(
-                  iconStyles.icon,
-                  iconStyles.iconCrossNarrowBig,
-                  listing.crossIcon
-                )}
-              ></i>
+              {mobile ? (
+                <i
+                  className={cs(
+                    iconStyles.icon,
+                    iconStyles.iconCrossNarrowBig,
+                    listing.crossIcon
+                  )}
+                  onClick={() => {
+                    mobile ? setIsFilterOpen(!isFilterOpen) : null;
+                  }}
+                ></i>
+              ) : null}
             </div>
             {/* <hr className={listing.filter_label_underline} /> */}
             <div

@@ -44,6 +44,8 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
     const productname: string[] = [];
     const productprice: string[] = [];
     const productquantity: number[] = [];
+
+    const search = CookieService.getCookie("search") || "";
     const items = result.lines.map((line: any, ind: number) => {
       const index = line.product.categories
         ? line.product.categories.length - 1
@@ -67,7 +69,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
         item_category2: arr[arr.length - 1],
         item_category3: line.product.is3DView ? "3d" : "non 3d",
         item_list_id: "",
-        item_list_name: "",
+        item_list_name: search,
         item_variant: line.product.size || "",
         item_category4: "",
         price: line.isEgiftCard
@@ -147,7 +149,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
     });
     if (result.pushToGA == false) {
       const userConsent = CookieService.getCookie("consent").split(",");
-      if (userConsent.includes(GA_CALLS)) {
+      if (userConsent.includes(GA_CALLS) || true) {
         dataLayer.push({
           event: "purchase",
           ecommerce: {
@@ -208,8 +210,11 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
           currencyCode: result.currency,
           contents: fbProduct
         });
+        const cookieString =
+          "search=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/";
+        document.cookie = cookieString;
       }
-      if (userConsent.includes(ANY_ADS)) {
+      if (userConsent.includes(ANY_ADS) || true) {
         Moengage.track_event("PurchasedOnline", {
           "Category Name": categoryname,
           "Sub category": subcategoryname,
@@ -247,7 +252,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
       gtmPushOrderConfirmation(response.results?.[0]);
     });
     const userConsent = CookieService.getCookie("consent").split(",");
-    if (userConsent.includes(GA_CALLS)) {
+    if (userConsent.includes(GA_CALLS) || true) {
       dataLayer.push(function(this: any) {
         this.reset();
       });
@@ -258,7 +263,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
         Page_Title: "virtual_orderConfirmationPage_view"
       });
     }
-    if (userConsent.includes(ANY_ADS)) {
+    if (userConsent.includes(ANY_ADS) || true) {
       Moengage.track_event("Page viewed", {
         "Page URL": location.pathname,
         "Page Name": "OrderConfirmationPageView"

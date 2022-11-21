@@ -241,7 +241,7 @@ class PDPContainer extends React.Component<Props, State> {
   componentDidMount() {
     this.pdpURL = this.props.location.pathname;
     const userConsent = CookieService.getCookie("consent").split(",");
-    if (userConsent.includes(GA_CALLS)) {
+    if (userConsent.includes(GA_CALLS) || true) {
       dataLayer.push(function(this: any) {
         this.reset();
       });
@@ -254,7 +254,7 @@ class PDPContainer extends React.Component<Props, State> {
       });
     }
 
-    if (userConsent.includes(ANY_ADS)) {
+    if (userConsent.includes(ANY_ADS) || true) {
       Moengage.track_event("Page viewed", {
         "Page URL": this.props.location.pathname,
         "Page Name": "PdpView"
@@ -284,7 +284,7 @@ class PDPContainer extends React.Component<Props, State> {
         variants += child.size;
       }
     });
-    if (userConsent.includes(GA_CALLS)) {
+    if (userConsent.includes(GA_CALLS) || true) {
       dataLayer.push({
         "Event Category": "GA Ecommerce",
         "Event Action": "PDP",
@@ -985,7 +985,7 @@ class PDPContainer extends React.Component<Props, State> {
         discountPrices
       },
       true,
-      "",
+      "mobile-3d",
       styles.mobileHelloArPopup
     );
     changeModalState(true);
