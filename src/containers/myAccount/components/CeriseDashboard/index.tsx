@@ -21,7 +21,7 @@ const CeriseDashboard = () => {
           className={styles.viewStatement}
           onClick={() => history.push("/account/cerise/transaction")}
         >
-          View Statement
+          VIEW STATEMENT
         </button>
       </div>
       <Rewards />

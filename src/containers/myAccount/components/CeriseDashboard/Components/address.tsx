@@ -56,7 +56,7 @@ const Address = () => {
               </p>
             </div>
             <NavLink to="/account/address" className={styles.editAddress}>
-              Edit
+              EDIT
             </NavLink>
           </div>
         </div>

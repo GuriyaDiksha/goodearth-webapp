@@ -30,7 +30,8 @@ const CeriseCard: React.FC<Props> = ({ clickToggle }) => {
 
   return (
     <div className={cs(styles.ceriseCardLeftContainer)}>
-      {slab ? (
+      {slab.toLowerCase() === "cerise" ||
+      slab.toLowerCase() === "cerise sitara" ? (
         <CeriseCardDetail isViewDashboard={true} clickToggle={clickToggle} />
       ) : (
         <img

@@ -26,7 +26,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
     basket,
     device: { mobile },
     info: { showGiftWrap },
-    user: { loyaltyData, isLoggedIn }
+    user: { loyaltyData, isLoggedIn, slab }
   } = useSelector((state: AppState) => state);
   const { isActive, currency, checkout } = props;
   const [paymentError, setPaymentError] = useState("");
@@ -412,51 +412,54 @@ const PaymentSection: React.FC<PaymentProps> = props => {
                 </div>
               </div>
             )}
-            {loyaltyData?.CustomerPointInformation && currency == "INR" && (
-              <Fragment>
-                <hr className={styles.hr} />
-                <div className={bootstrapStyles.row}>
-                  <div
-                    className={cs(
-                      bootstrapStyles.col12,
-                      bootstrapStyles.colMd6,
-                      styles.title
-                    )}
-                  >
-                    <span className={isActive ? "" : styles.closed}>
-                      REDEEM CERISE POINTS
-                    </span>
-                  </div>
-                </div>
-                <hr className={styles.hr} />
-                <div className={globalStyles.flex}>
-                  <div
-                    className={cs(
-                      styles.marginR10,
-                      globalStyles.cerise,
-                      globalStyles.pointer
-                    )}
-                    onClick={toggleInputReedem}
-                  >
-                    {isactiveredeem ? "-" : "+"}
-                  </div>
-                  <div className={styles.inputContainer}>
+            {(slab.toLowerCase() === "cerise" ||
+              slab.toLowerCase() === "cerise sitara") &&
+              loyaltyData?.CustomerPointInformation &&
+              currency == "INR" && (
+                <Fragment>
+                  <hr className={styles.hr} />
+                  <div className={bootstrapStyles.row}>
                     <div
                       className={cs(
-                        globalStyles.c10LR,
-                        styles.promoMargin,
+                        bootstrapStyles.col12,
+                        bootstrapStyles.colMd6,
+                        styles.title
+                      )}
+                    >
+                      <span className={isActive ? "" : styles.closed}>
+                        REDEEM CERISE POINTS
+                      </span>
+                    </div>
+                  </div>
+                  <hr className={styles.hr} />
+                  <div className={globalStyles.flex}>
+                    <div
+                      className={cs(
+                        styles.marginR10,
                         globalStyles.cerise,
                         globalStyles.pointer
                       )}
                       onClick={toggleInputReedem}
                     >
-                      REDEEM CERISE POINTS
+                      {isactiveredeem ? "-" : "+"}
                     </div>
-                    {isactiveredeem ? <Reedem /> : ""}
+                    <div className={styles.inputContainer}>
+                      <div
+                        className={cs(
+                          globalStyles.c10LR,
+                          styles.promoMargin,
+                          globalStyles.cerise,
+                          globalStyles.pointer
+                        )}
+                        onClick={toggleInputReedem}
+                      >
+                        REDEEM CERISE POINTS
+                      </div>
+                      {isactiveredeem ? <Reedem /> : ""}
+                    </div>
                   </div>
-                </div>
-              </Fragment>
-            )}
+                </Fragment>
+              )}
 
             {isPaymentNeeded && <hr className={styles.hr} />}
             {isPaymentNeeded && (

@@ -32,11 +32,11 @@
                 height: 50px;
                 margin: auto;
                 background-color: $med-charcoal;
-                @include b4_12px_medium_white_caps();
+                @include b3_14px_montserrat_white();
                 border: 1px solid $med-charcoal;
 
                 &:hover{
-                    @include b4_12px_medium_charcoal_caps();
+                    @include b3_14px_montserrat_charcoal();
                     background-color: transparent;
                 }
             }
