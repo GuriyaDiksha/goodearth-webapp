@@ -109,7 +109,7 @@ class Search extends React.Component<Props, State> {
       !this.impactRef.current.contains(evt.target)
     ) {
       //Do what you want to handle in the callback
-      // this.props.closePopup(evt);
+      this.props.closePopup(evt);
     }
   };
 
@@ -787,7 +787,7 @@ class Search extends React.Component<Props, State> {
                                   styles.suggestionBoxWidth
                                 )}
                               >
-                                {/* {data.salesBadgeImage ? (
+                                {data.salesBadgeImage ? (
                                   <div
                                     className={cs(
                                       {
@@ -807,7 +807,7 @@ class Search extends React.Component<Props, State> {
                                   </div>
                                 ) : (
                                   ""
-                                )} */}
+                                )}
                                 <div className={styles.imageboxNew}>
                                   <Link
                                     to={data.link}

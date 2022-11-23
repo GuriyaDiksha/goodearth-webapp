@@ -21,7 +21,7 @@ type Props = {
   buttoncall: any;
   showPrice: boolean;
   price: string | number;
-  discountPrice: string | number;
+  discountPrices: string | number;
 };
 
 const HelloarPopup: React.FC<Props> = ({
@@ -30,7 +30,7 @@ const HelloarPopup: React.FC<Props> = ({
   buttoncall,
   showPrice,
   price,
-  discountPrice
+  discountPrices
 }) => {
   // const [isLoading, setIsLoading] = useState(true);
 
@@ -91,7 +91,7 @@ const HelloarPopup: React.FC<Props> = ({
           buttoncall={buttoncall}
           showPrice={showPrice}
           price={price}
-          discountPrice={discountPrice}
+          discountPrice={discountPrices}
           mobile={mobile}
         />
       </div>

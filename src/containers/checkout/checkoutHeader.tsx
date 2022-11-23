@@ -153,7 +153,7 @@ class CheckoutHeader extends React.Component<Props, { boId: string }> {
     // hide chat container
     setTimeout(() => {
       const chatContainer = document.getElementById("mobile-chat-container");
-      if (chatContainer) {
+      if (chatContainer && this.props.location.pathname == "/order/checkout") {
         chatContainer.style.display = "none";
       }
     }, 1000);
@@ -164,6 +164,44 @@ class CheckoutHeader extends React.Component<Props, { boId: string }> {
       this.props.currency,
       this.props.cart
     );
+  }
+
+  setIntervalX = (callback: any, delay: number, repetitions: number) => {
+    let x = 0;
+    const intervalID = window.setInterval(function() {
+      callback();
+
+      if (++x === repetitions) {
+        window.clearInterval(intervalID);
+      }
+    }, delay);
+  };
+
+  UNSAFE_componentWillReceiveProps(nextProps: Props) {
+    if (this.props.location.pathname != nextProps.location.pathname) {
+      this.setIntervalX(
+        () => {
+          const chatContainer = document.getElementById(
+            "mobile-chat-container"
+          );
+
+          if (
+            chatContainer &&
+            nextProps.location.pathname == "/order/checkout"
+          ) {
+            chatContainer.style.display = "none";
+          }
+        },
+        1000,
+        4
+      );
+      // setTimeout(() => {
+      //   const chatContainer = document.getElementById("mobile-chat-container");
+      //   if (chatContainer && nextProps.location.pathname == "/order/checkout") {
+      //     chatContainer.style.display = "none";
+      //   }
+      // }, 1000);
+    }
   }
 
   // componentWillUnmount() {
@@ -177,14 +215,6 @@ class CheckoutHeader extends React.Component<Props, { boId: string }> {
 
   render() {
     const { meta, mobile, currency } = this.props;
-    // hide chat container
-    const chatContainer =
-      typeof document == "object"
-        ? document?.getElementById("mobile-chat-container")
-        : "";
-    if (chatContainer) {
-      chatContainer.style.display = "none";
-    }
 
     const curryList = this.props.currencyList.map(data => {
       // return data.currencyCode
