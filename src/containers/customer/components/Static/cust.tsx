@@ -49,7 +49,11 @@ export default class Cust extends React.Component<
     const sections: Section[] = [];
     this.state.accordionData.map(({ content, heading, isAccordion }, index) => {
       const cont = ReactHtmlParser(content).filter((e: any) => {
-        return e.props["data-f-id"] != "pbf";
+        if (e.props) {
+          return e.props["data-f-id"] != "pbf";
+        } else {
+          return true;
+        }
       });
       const section = ({
         header: heading,
