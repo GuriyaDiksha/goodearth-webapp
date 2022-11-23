@@ -101,12 +101,12 @@ class Reedem extends React.Component<Props, RedeemState> {
     this.props.removeRedeem(this.props.history, this.props.user.isLoggedIn);
   };
 
-  componentDidMount() {
-    const { loyalty } = this.props;
-    if (!loyalty?.[0]?.isValidated) {
-      this.removeRedeem();
-    }
-  }
+  // componentDidMount() {
+  //   const { loyalty } = this.props;
+  //   if (!loyalty?.[0]?.isValidated) {
+  //     this.removeRedeem();
+  //   }
+  // }
 
   render() {
     const { newCardBox, txtvalue } = this.state;

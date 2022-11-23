@@ -190,7 +190,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
     if (basket.giftCards.length > 0) {
       setIsactivepromo(true);
     }
-    if (basket.loyalty.length > 0) {
+    if (basket.loyalty.length > 0 && basket.loyalty[0].isValidated) {
       setIsactiveredeem(true);
     }
   }, [basket.giftCards, basket.loyalty]);

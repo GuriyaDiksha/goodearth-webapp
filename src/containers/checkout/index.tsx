@@ -164,6 +164,11 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     checkPinCodeShippable: async (pinCode: string) => {
       const res = await HeaderService.checkPinCodeShippable(dispatch, pinCode);
       return res;
+    },
+    removeRedeem: async (isLoggedIn: boolean) => {
+      const response = await CheckoutService.removeRedeem(dispatch);
+      BasketService.fetchBasket(dispatch, "checkout", history, isLoggedIn);
+      return response;
     }
   };
 };
@@ -270,6 +275,7 @@ class Checkout extends React.Component<Props, State> {
     const queryString = this.props.location.search;
     const urlParams = new URLSearchParams(queryString);
     const boId = urlParams.get("bo_id");
+
     if (boId) {
       this.props
         .getBoDetail(boId)
@@ -349,6 +355,12 @@ class Checkout extends React.Component<Props, State> {
         }
         if (this.checkToMessage(res)) {
           this.props.showNotify(REGISTRY_MIXED_SHIPPING);
+        }
+        if (
+          res?.loyalty?.length &&
+          !(res?.loyalty?.[0]?.isValidated === true)
+        ) {
+          this.props.removeRedeem(this.props.user.isLoggedIn);
         }
         valid.proceedTocheckout(res, this.props.currency);
         valid.checkoutGTM(1, this.props.currency, res);
