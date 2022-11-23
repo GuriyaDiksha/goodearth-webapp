@@ -7,6 +7,7 @@ import { DomUtils, parseDocument } from "htmlparser2";
 import { useEffect, useState } from "react";
 import { GA_CALLS, ANY_ADS } from "constants/cookieConsent";
 import { sha256 } from "js-sha256";
+import CryptoJS from "crypto-js";
 // import { AppState } from "reducers/typings";
 // import { useSelector } from "react-redux";
 
@@ -1654,12 +1655,33 @@ export const megaMenuNavigationGTM = ({
   }
 };
 
+export const encryptdata = (message: string) => {
+  let key = "AAAAAAAAAAAAAAAA"; //key used in Python
+  key = CryptoJS.enc.Utf8.parse(key);
+  const encrypted = CryptoJS.AES.encrypt(message, key, {
+    mode: CryptoJS.mode.ECB
+  });
+  return encrypted.toString();
+};
+
+export const decriptdata = (encrypted: string) => {
+  let key = "AAAAAAAAAAAAAAAA"; //key used in Python
+  key = CryptoJS.enc.Utf8.parse(key);
+  const decrypted = CryptoJS.AES.decrypt(encrypted, key, {
+    mode: CryptoJS.mode.ECB
+  });
+  return decrypted.toString(CryptoJS.enc.Utf8);
+};
+
 export const pageViewGTM = (Title: string) => {
   try {
     const userConsent = CookieService.getCookie("consent").split(",");
     const userInfo = JSON.parse(CookieService.getCookie("user") || "{}");
 
     if (userConsent.includes(GA_CALLS) || true) {
+      const enc = encryptdata("deepakdubey@goodearth.in");
+      console.log("encripted", enc);
+      console.log("decrypted", decriptdata(enc));
       dataLayer.push({
         event: "pageview",
         Email: userInfo.email ? sha256(userInfo.email) : "",
