@@ -1120,8 +1120,7 @@ class Footer extends React.Component<Props, FooterState> {
           </div>
         </div>
         {this.props.location.pathname == "/" &&
-          this.props.currency == "INR" &&
-          __API_HOST__ == "https://pp.goodearth.in" && (
+          this.props.currency == "INR" && (
             <MakerSmartNav id="TDEHYqQNA" inline={false} />
           )}
 
