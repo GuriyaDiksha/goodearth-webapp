@@ -1,16 +1,11 @@
-import React, { useState, useLayoutEffect } from "react";
+import React, { useState, useLayoutEffect, useEffect } from "react";
 // import { Link } from "react-router-dom";
 // import cs from "classnames";
 import styles from "./styles.scss";
-// import globalStyles from "../../styles/global.scss";
 import bootstrapStyles from "../../styles/bootstrap/bootstrap-grid.scss";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-// import "../../styles/myslick.css";
-// import "./slick.css";
 import { InstaProps } from "./typings";
-
-// import { RecommendData, RecommenedSliderProps } from "./typings";
 import Slider from "react-slick";
 // import WishlistButton from "components/WishlistButton";
 // import LazyImage from "components/LazyImage";
@@ -19,12 +14,15 @@ const Instagram: React.FC<InstaProps> = Props => {
   // const { data, setting, currency, mobile } = props;
   // const code = currencyCode[currency as Currency];
   const [instData, setInstData] = useState([]);
-  // const items = data?.map((item: any, i: number) => {
-  //   return (
+  const canUseDOM = !!(
+    typeof window !== "undefined" &&
+    typeof window.document !== "undefined" &&
+    typeof window.document.createElement !== "undefined"
+  );
 
-  //   );
-  // });
-  useLayoutEffect(() => {
+  const useIsomorphicLayoutEffect = canUseDOM ? useLayoutEffect : useEffect;
+
+  useIsomorphicLayoutEffect(() => {
     fetch(
       "https://graph.instagram.com/me/media?fields=caption,id,media_type,media_url,permalink,thumbnail_url,timestamp,username&access_token=IGQVJYbDJsdXBHT1hGY2M1ZA1dlOHJvVGY1OHpmZA1Y2NGZAFVUs0T084RzlDa1FxeEgtaUpqcmZAZATDFiYlluWjY3SmItcVY1ZAkRBMzI3LUIxcGtlSFpfN2w3LWhZAcU96RzBIZAVN5U2RzR3NRcXlxY1BvLQZDZD",
       {

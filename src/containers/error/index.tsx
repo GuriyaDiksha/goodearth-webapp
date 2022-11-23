@@ -1,4 +1,4 @@
-import React, { useLayoutEffect } from "react";
+import React, { useEffect, useLayoutEffect } from "react";
 import globalStyles from "styles/global.scss";
 import { useHistory } from "react-router";
 import mobileImg from "../../images/404mobile.jpg";
@@ -10,8 +10,15 @@ import * as util from "utils/validate";
 const ErrorPage: React.FC = () => {
   const history = useHistory();
   const { mobile } = useSelector((state: AppState) => state.device);
+  const canUseDOM = !!(
+    typeof window !== "undefined" &&
+    typeof window.document !== "undefined" &&
+    typeof window.document.createElement !== "undefined"
+  );
 
-  useLayoutEffect(() => {
+  const useIsomorphicLayoutEffect = canUseDOM ? useLayoutEffect : useEffect;
+
+  useIsomorphicLayoutEffect(() => {
     util.pageViewGTM("Error");
     setTimeout(() => {
       history.push("/");
