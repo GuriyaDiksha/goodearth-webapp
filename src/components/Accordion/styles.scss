@@ -20,6 +20,9 @@
     &.default-open{
       max-height: fit-content;
     }
+    &.empty-body{
+      max-height: 0px !important;
+    }
     div{
       p{
         strong {
