@@ -68,7 +68,8 @@ const Accordion: React.FC<Props> = memo(
               className={cs(
                 styles.accordionHeader,
                 headerClassName,
-                isOpen ? openHeaderClassName : ""
+                isOpen ? openHeaderClassName : "",
+                { [styles.emptyHeader]: header?.toString().length == 0 }
               )}
               onClick={() => handleHeaderClick(i, alwaysOpen)}
             >
