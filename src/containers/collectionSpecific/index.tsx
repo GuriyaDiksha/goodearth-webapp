@@ -145,6 +145,21 @@ class CollectionSpecific extends React.Component<
       scrollView: false
     };
   }
+  pdpURL = "";
+  listPath = "";
+
+  onBeforeUnload = () => {
+    const pdpProductScroll = JSON.stringify({
+      id: Number(
+        (decodeURI(this.pdpURL)
+          .split("_")
+          .pop() as string).split("/")[0]
+      ),
+      timestamp: new Date(),
+      source: this.listPath
+    });
+    localStorage.setItem("collectionSpecificScroll", pdpProductScroll);
+  };
 
   getPdpProduct = (): any => {
     let hasPdpProductDetails = false;
@@ -221,11 +236,13 @@ class CollectionSpecific extends React.Component<
   };
 
   componentWillUnmount() {
+    this.onBeforeUnload();
     window.removeEventListener("scroll", this.handleScroll);
     this.props.resetCollectionSpecificBanner();
   }
 
   componentDidMount() {
+    this.pdpURL = this.props.location.pathname;
     const userConsent = CookieService.getCookie("consent").split(",");
     if (userConsent.includes(GA_CALLS)) {
       dataLayer.push(function(this: any) {
@@ -241,6 +258,9 @@ class CollectionSpecific extends React.Component<
     this.setState({
       specificMaker: true
     });
+
+    this.listPath = "CollectionLanding";
+
     window.addEventListener("scroll", this.handleScroll);
     if (!this.state.scrollView) {
       this.checkForProductScroll();
