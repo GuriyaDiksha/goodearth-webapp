@@ -68,13 +68,13 @@ export default class Cust extends React.Component<
 
   render() {
     const { pageTitle, content } = this.state;
-
     return (
       <div>
         <div className={styles.terms}>
           <div className={styles.pageTitle}>{pageTitle}</div>
           <div className={styles.description}>{content}</div>
           <Accordion
+            uniqueKey="static-pages"
             sections={this.getSections()}
             className={styles.accordionClass}
             headerClassName={styles.accordionHeader}
