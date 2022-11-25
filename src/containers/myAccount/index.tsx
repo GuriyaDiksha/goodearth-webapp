@@ -29,7 +29,7 @@ import AccountServices from "services/account";
 import CeriseClubMain from "./components/CeriseClub/ceriseClubMain";
 import CeriseDashboard from "./components/CeriseDashboard";
 import TransactionDashboard from "./components/TransactionDashboard";
-const slab = "cerise";
+
 type Props = {
   isBridal: boolean;
   mobile: boolean;
@@ -45,7 +45,9 @@ const MyAccount: React.FC<Props> = props => {
   const [accountListing, setAccountListing] = useState(false);
   // const [slab, setSlab] = useState("");
   const { mobile } = useSelector((state: AppState) => state.device);
-  const { isLoggedIn, email } = useSelector((state: AppState) => state.user);
+  const { isLoggedIn, email, slab } = useSelector(
+    (state: AppState) => state.user
+  );
   const { showTimer } = useSelector((state: AppState) => state.info);
   // const [ isCeriseClubMember, setIsCeriseClubMember ] = useState(false);
 
@@ -392,14 +394,14 @@ const MyAccount: React.FC<Props> = props => {
                         )
                         .map(item => {
                           return item.label ? (
-                            <li key={item.label}>
+                            <li key={item?.label}>
                               <NavLink
                                 onClick={() => setAccountListing(false)}
-                                key={item.label}
-                                to={item.href}
+                                key={item?.label}
+                                to={item?.href}
                                 activeClassName={globalStyles.cerise}
                               >
-                                {item.label}
+                                {item?.label}
                               </NavLink>
                             </li>
                           ) : null;
@@ -443,9 +445,9 @@ const MyAccount: React.FC<Props> = props => {
                 {accountMenuItems
                   .filter(item => (isLoggedIn ? true : !item.loggedInOnly))
                   .map(item => {
-                    return item.title == "bridal" ? (
+                    return item?.title == "bridal" ? (
                       <li
-                        key={item.label}
+                        key={item?.label}
                         className={
                           showRegistry
                             ? styles.bridalleftsec
@@ -468,7 +470,7 @@ const MyAccount: React.FC<Props> = props => {
                               <NavLink
                                 // name="bridal"
 
-                                to={item.href}
+                                to={item?.href}
                                 activeClassName={globalStyles.cerise}
                                 // className={showregistry && currentSection == "bridal" ? "cerise":""}
                               >
@@ -491,14 +493,14 @@ const MyAccount: React.FC<Props> = props => {
                         )}
                       </li>
                     ) : (
-                      <li key={item.label}>
+                      <li key={item?.label}>
                         {" "}
                         <NavLink
-                          key={item.label}
-                          to={item.href}
+                          key={item?.label}
+                          to={item?.href}
                           activeClassName={globalStyles.cerise}
                         >
-                          {item.label}
+                          {item?.label}
                         </NavLink>
                       </li>
                     );
@@ -536,7 +538,7 @@ const MyAccount: React.FC<Props> = props => {
             {accountMenuItems.map(
               ({ component, href, label, title, currentCallBackComponent }) => {
                 const Component = component;
-                if (title.toLowerCase() == "cerise" || title === "") {
+                if (title?.toLowerCase() == "cerise" || title === "") {
                   return (
                     <Route key={label} exact path={href}>
                       <div className={bgClass}>
