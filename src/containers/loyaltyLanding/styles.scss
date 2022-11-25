@@ -3,11 +3,12 @@
 
 .loyalty-conatiner {
   margin-top: $header-height;
-  padding: 435px 180px 90px 180px;
+  // padding: 0px 180px 90px 180px;
+  padding-bottom: 90px;
   background: #2D455C;
 
   @media screen and (max-width:992px) {
-    padding: 565px 0px 1px 0px;
+    padding-bottom: 1px;
   }
 
   .align-center-text{
@@ -17,9 +18,11 @@
   .loyalty-wrp{
     background-color: $white;
     padding: 40px 170px;
+    margin: 0px 180px 0px 180px;
 
     @media screen and (max-width:992px) {
       padding: 40px 24px;
+      margin: 0;
     }
 
     .loyalty-header{
@@ -139,7 +142,7 @@
           }
 
           p{
-            margin: auto 40px;
+            margin: 5px 0 0px 35px;
             @include b4_12px_montserrat_light_charcoal();
           }
 
@@ -148,6 +151,7 @@
             transition: max-height 0.3s ease-in;
             padding-bottom: 15px;
             overflow: hidden;
+            padding-top:0px; 
           }
         }
        

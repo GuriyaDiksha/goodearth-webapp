@@ -45,7 +45,16 @@ const LandingTable: React.FC<Props> = ({ mobile, data }) => {
         </p>
       </div>
       {data?.map((ele, ind) => (
-        <div key={ind}>
+        <div
+          key={ind}
+          onClick={() =>
+            mobile &&
+            setOpenStateId({
+              id: ind,
+              state: openStateId["id"] === ind ? !openStateId["state"] : true
+            })
+          }
+        >
           <div
             className={cs(bootstrap.row, styles.tableRow, styles.tableFirstRow)}
           >

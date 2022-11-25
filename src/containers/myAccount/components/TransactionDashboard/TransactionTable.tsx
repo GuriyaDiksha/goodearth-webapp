@@ -627,7 +627,7 @@ const TransactionTable = ({ mobile }: Props) => {
           </div>
           <div className={styles.footerLine}>
             To request a statement older than 1 year, contact{" "}
-            <a href={`mailto:${email}`}>Customer Care.</a>
+            <a href={`mailto:customercare@goodearth.in`}>Customer Care.</a>
           </div>
         </div>
         <div className={styles.downloadLink} onClick={() => downloadPdf()}>

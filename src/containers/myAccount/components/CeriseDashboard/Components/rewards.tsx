@@ -59,7 +59,8 @@ const Rewards = () => {
         {landing?.slice(0, 4)?.map((ele, ind) => (
           <div
             className={cs(styles.rewardRow, {
-              [styles.opacityDiv]: ind === 3 && !showMore
+              [styles.opacityDiv]: ind === 3 && !showMore,
+              [styles.removeBorder]: ind === 0
             })}
             key={ind}
           >

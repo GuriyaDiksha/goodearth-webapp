@@ -80,7 +80,8 @@ const LoyaltyLanding = () => {
       </div>
 
       <p className={styles.footer}>
-        For further information, please refer to&nbsp;
+        For further information, please refer to
+        <br />
         <a
           href={`/customer-assistance/terms`}
           target="_blank"
