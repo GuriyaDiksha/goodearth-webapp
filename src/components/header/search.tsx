@@ -621,7 +621,7 @@ class Search extends React.Component<Props, State> {
                         >
                           USEFUL LINKS
                         </p>
-                        {usefulLink?.map(cat => {
+                        {usefulLink?.map((cat, ind) => {
                           return (
                             <Link
                               to={cat.link}
@@ -629,6 +629,7 @@ class Search extends React.Component<Props, State> {
                                 //this.props.toggle();
                                 this.props.hideSearch();
                               }}
+                              key={ind}
                             >
                               <p
                                 className={cs(
@@ -656,7 +657,7 @@ class Search extends React.Component<Props, State> {
                         >
                           CATEGORIES
                         </p>
-                        {categories?.map(cat => {
+                        {categories?.map((cat, ind) => {
                           return (
                             <Link
                               to={cat.link}
@@ -664,6 +665,7 @@ class Search extends React.Component<Props, State> {
                                 //this.props.toggle();
                                 this.props.hideSearch();
                               }}
+                              key={ind}
                             >
                               <p
                                 className={cs(
@@ -787,7 +789,7 @@ class Search extends React.Component<Props, State> {
                                   styles.suggestionBoxWidth
                                 )}
                               >
-                                {/* {data.salesBadgeImage ? (
+                                {data.salesBadgeImage ? (
                                   <div
                                     className={cs(
                                       {
@@ -807,7 +809,7 @@ class Search extends React.Component<Props, State> {
                                   </div>
                                 ) : (
                                   ""
-                                )} */}
+                                )}
                                 <div className={styles.imageboxNew}>
                                   <Link
                                     to={data.link}

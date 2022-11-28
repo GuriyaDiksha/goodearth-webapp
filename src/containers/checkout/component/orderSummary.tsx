@@ -729,7 +729,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
                   styles.font
                 )}
               >
-                AMOUNT PAYABLE
+                AMOUNT PAID
               </span>
               <span className={cs(styles.grandTotal, globalStyles.voffset2)}>
                 {String.fromCharCode(...code)}{" "}

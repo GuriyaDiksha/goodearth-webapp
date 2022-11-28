@@ -16,7 +16,7 @@ type Props = {
 };
 
 const JobCard: React.FC<Props> = ({ job }) => {
-  const { title, loc, summary, id, fbUrl, linkedinUrl } = job;
+  const { title, loc, summary, id } = job;
   const { dispatch } = useStore();
   const history = useHistory();
 

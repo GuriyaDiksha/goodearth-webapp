@@ -614,7 +614,7 @@ class OtpCompActivateGC extends React.Component<otpProps, otpState> {
   };
 
   getValidationForOtp = () => {
-    const { otpTimer, otpData } = this.state;
+    const { otpData } = this.state;
     return (
       <div>
         <div
