@@ -763,7 +763,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
                 <hr className={styles.hr} />
                 <NavLink
                   key="cartCheckout"
-                  to={canCheckout() ? "/order/checkout/" : "#"}
+                  to={canCheckout() ? "/order/checkout" : "#"}
                 >
                   <button
                     onClick={chkshipping}

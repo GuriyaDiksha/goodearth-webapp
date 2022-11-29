@@ -10,7 +10,7 @@ import TwoCTA from "./TwoCTA";
 import LeftImage from "./LeftImage";
 import TopImage from "./TopImage";
 import { useHistory } from "react-router";
-import ReactHtmlParser from "react-html-parser";
+// import ReactHtmlParser from "react-html-parser";
 
 const CMSPopup: React.FC<PopupData> = props => {
   const { closeModal } = useContext(Context);

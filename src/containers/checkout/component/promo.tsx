@@ -10,12 +10,12 @@ import ApplyPromo from "./applyPromo";
 import { useSelector } from "react-redux";
 import { AppState } from "reducers/typings";
 import { useHistory } from "react-router";
-import * as util from "utils/validate";
+// import * as util from "utils/validate";
 
 const PromoSection: React.FC<PromoProps> = props => {
   const { isActive, next, selectedAddress } = props;
   const [isactivepromo, setIsactivepromo] = useState(false);
-  const { basket, currency, info } = useSelector((state: AppState) => state);
+  const { basket, info } = useSelector((state: AppState) => state);
   const toggleInput = () => {
     setIsactivepromo(!isactivepromo);
   };

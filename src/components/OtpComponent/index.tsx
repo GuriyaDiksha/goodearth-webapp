@@ -585,7 +585,7 @@ class OtpComponent extends React.Component<otpProps, otpState> {
   };
 
   getValidationForOtp = () => {
-    const { radioType, otpTimer, otpData } = this.state;
+    const { radioType, otpData } = this.state;
     return (
       <div>
         <div

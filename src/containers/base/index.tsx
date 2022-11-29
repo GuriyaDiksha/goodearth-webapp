@@ -1,5 +1,5 @@
 import React, { Fragment, useEffect, useState } from "react";
-import { Switch, useHistory } from "react-router";
+import { Redirect, Route, Switch, useHistory } from "react-router";
 import routes from "routes/index";
 import Header from "components/header";
 import Footer from "components/footer";
@@ -394,7 +394,12 @@ const BaseLayout: React.FC = () => {
         id="no-content"
       >
         {/* {!isauth && <FormPage/>} */}
-        <Switch>{routes}</Switch>
+        <Switch>
+          {routes}
+          <Route path="*">
+            <Redirect to="/404" />
+          </Route>
+        </Switch>
       </div>
       {value && !(minimalPage || isCheckout) && <Footer />}
       <Modal />

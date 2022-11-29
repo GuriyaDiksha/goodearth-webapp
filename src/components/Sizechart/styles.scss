@@ -462,7 +462,8 @@
 }
 
 .style-guide-single-section{
-  display: inline-flex;
+  display: flex;
+  flex-direction: column;
   font-size: 14px;
   width: 100%;
   margin: 20px 0;
