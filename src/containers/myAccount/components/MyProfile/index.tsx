@@ -553,6 +553,7 @@ class MyProfile extends React.Component<Props, State> {
                   //   isPhoneValid: "Please enter your Contact Number"
                   // }}
                   keyPress={e => (e.key == "Enter" ? e.preventDefault() : "")}
+                  defaultClass={styles.inputDefault}
                   keyDown={e => (e.which === 69 ? e.preventDefault() : null)}
                   onPaste={e =>
                     e?.clipboardData.getData("Text").match(/([e|E])/)
@@ -569,6 +570,7 @@ class MyProfile extends React.Component<Props, State> {
                   handleChange={() => this.setUpdateProfile()}
                   disable={panPassportNumber ? true : false}
                   className={cs({ [styles.disabledInput]: panPassportNumber })}
+                  defaultClass={styles.inputDefault}
                 />
               </div>
               <div className={styles.subscribe}>
@@ -592,9 +594,7 @@ class MyProfile extends React.Component<Props, State> {
               </div>
               <div>
                 {this.state.showerror ? (
-                  <p className={globalStyles.errorMsg}>
-                    {this.state.showerror}
-                  </p>
+                  <p className={styles.errorMsg}>{this.state.showerror}</p>
                 ) : (
                   ""
                 )}
@@ -604,8 +604,8 @@ class MyProfile extends React.Component<Props, State> {
                   disabled={!this.state.updateProfile}
                   className={
                     this.state.updateProfile
-                      ? globalStyles.ceriseBtn
-                      : cs(globalStyles.disabledBtn, globalStyles.ceriseBtn)
+                      ? styles.updateDetails
+                      : styles.updated
                   }
                   value={
                     this.state.updateProfile ? "Update Details" : "Updated"

@@ -22,6 +22,7 @@ import BridalContext from "containers/myAccount/components/Bridal/context";
 import myAccountStyles from "containers/myAccount/styles.scss";
 import CookieService from "services/cookie";
 import { GA_CALLS } from "constants/cookieConsent";
+import styles from "../styles.scss";
 // import AddressDataList from "../../../../components/Address/AddressDataList.json";
 
 // import AddressMainComponent from '../../components/common/address/addressMain';
@@ -269,6 +270,21 @@ const AddressMain: React.FC<Props> = props => {
     <>
       {mode == "list" && (
         <div>
+          <div
+            className={cs(styles.addNewAddress)}
+            onClick={() => {
+              if (
+                currentCallBackComponent == "bridal" &&
+                props.createRegistry
+              ) {
+                props.createRegistry();
+              } else {
+                openAddressForm();
+              }
+            }}
+          >
+            + ADD NEW ADDRESS
+          </div>
           <AddressList
             addressDataList={addressList}
             isBridal={bridal}
@@ -287,7 +303,7 @@ const AddressMain: React.FC<Props> = props => {
                     <input
                       type="button"
                       id="address_button"
-                      className={cs(globalStyles.ceriseBtn, {
+                      className={cs(styles.charcoalBtn, {
                         [globalStyles.disabledBtn]:
                           currentCallBackComponent == "bridal" &&
                           !userAddress?.id
@@ -295,7 +311,7 @@ const AddressMain: React.FC<Props> = props => {
                       value={
                         currentCallBackComponent == "bridal"
                           ? "create registry"
-                          : "add a new address"
+                          : "+ add a new address"
                       }
                       onClick={() => {
                         if (

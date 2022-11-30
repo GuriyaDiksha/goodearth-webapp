@@ -2,16 +2,12 @@
 @import "../../styles/partials/mixins";
 @import "../../styles/partials/form";
 .heading {
-  text-transform: uppercase;
-  color: tint(#000, 40%);
-  letter-spacing: 1px;
-  font-size: 14px;
+  @include b4_12px_montserrat_charcoal_caps();
+  letter-spacing: 0.5px;
   line-height: 50px;
   .icon {
-    font-size: 18px;
-    color: $cerise;
-    margin-right: 5px;
-    font-weight: bold;
+    height: 20px;
+    margin-right: 15px;
   }
 }
 .fix-left-pane {
@@ -25,14 +21,12 @@
     li {
       line-height: 40px;
       a, span {
-        font-size: 14px;
-        font-family: $font-Lato;
-        color: #333;
+        @include b4_12px_montserrat_charcoal();
         cursor: pointer;
-        &:hover {
-          color: $cerise;
-          text-decoration: none;
-        }
+        // &:hover {
+        //   color: $gold;
+        //   text-decoration: none;
+        // }
       }
       ul {
         margin-left: 0;
@@ -48,7 +42,7 @@
   }
 }
 .bg-profile {
-  background: url('../../images/myaccountBg.jpg') repeat;
+  background: url('../../images/myAccountBg2.png') repeat;
   height: auto;
   // padding-top: 60px;
   &.cerise-club {
@@ -254,7 +248,7 @@
       @include menu-subcopy();
       border-bottom: 1px solid tint(#000, 90%);
       a {
-        color: tint(#000, 50%);
+        color: $charcoal19;
       }
     }
   }
@@ -270,20 +264,28 @@
   a {
     display: block;
   }
-  &:after {
-    content: '-';
-    text-align: right;
-    position: absolute;
-    z-index: -1;
-    right: 20px;
-    font-size: 20px;
-    top: 0;
-    z-index: -1;
-  }
+  // &:after {
+  //   content: '-';
+  //   text-align: right;
+  //   position: absolute;
+  //   z-index: -1;
+  //   right: 20px;
+  //   font-size: 20px;
+  //   top: 0;
+  //   z-index: -1;
+  // }
   &.bridalplus:after {
     content: '+';
   }
   a {
     display: block;
   }
+}
+
+.gold {
+  color: $gold !important
+}
+
+.error-msg{
+  @include err_13px_lora_italic_cerise();
 }

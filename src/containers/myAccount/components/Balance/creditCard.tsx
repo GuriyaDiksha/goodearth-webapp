@@ -275,7 +275,8 @@ class CreditNote extends React.Component<Props, GiftState> {
                         className={cs(
                           styles.colorPrimary,
                           globalStyles.pointer,
-                          { [globalStyles.hidden]: !isLoggedIn }
+                          { [globalStyles.hidden]: !isLoggedIn },
+                          styles.arrowContainer
                         )}
                       >
                         <span
@@ -301,7 +302,8 @@ class CreditNote extends React.Component<Props, GiftState> {
                   className={cs(
                     styles.rtcinfo,
                     globalStyles.pointer,
-                    globalStyles.textLeft
+                    globalStyles.textLeft,
+                    styles.checkAnother
                   )}
                   onClick={this.newGiftcard}
                 >

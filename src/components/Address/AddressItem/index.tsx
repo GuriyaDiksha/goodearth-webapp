@@ -278,15 +278,15 @@ const AddressItem: React.FC<Props> = props => {
         currentCallBackComponent == "checkout-billing" ||
         currentCallBackComponent == "checkout-shipping"
           ? cs(
-              bootstrapStyles.col10,
-              bootstrapStyles.colSm4,
-              bootstrapStyles.colMd4,
+              bootstrapStyles.col12,
+              bootstrapStyles.colSm12,
+              bootstrapStyles.colMd12,
               globalStyles.voffset5,
               "address-container"
             )
           : cs(
               bootstrapStyles.col12,
-              bootstrapStyles.colMd6,
+              // bootstrapStyles.colMd12,
               globalStyles.voffset5,
               "address-container"
             )
@@ -306,6 +306,12 @@ const AddressItem: React.FC<Props> = props => {
           {
             [styles.ceriseAddressItemContainer]:
               props.currentCallBackComponent == "cerise"
+          },
+          {
+            [styles.default]: address.isDefaultForShipping
+          },
+          {
+            [styles.isTulsi]: address.isTulsi
           }
         )}
       >
@@ -319,7 +325,7 @@ const AddressItem: React.FC<Props> = props => {
                 currentCallBackComponent == "bridal" ||
                 currentCallBackComponent == "bridal-edit"
             },
-            { [styles.shippingBorder]: address.isTulsi },
+            // { [styles.shippingBorder]: address.isTulsi },
             { [styles.diabledBorder]: address.id == userAddress?.id },
             {
               [styles.addressInUse]:
@@ -327,65 +333,115 @@ const AddressItem: React.FC<Props> = props => {
             }
           )}
         >
-          {!address.isTulsi && (
-            <div className={styles.defaultContainer}>
-              <div
-                className={cs(styles.defaultAddressDiv, {
-                  [styles.bridal]: address.isBridal
-                })}
-              >
-                {address.isBridal && (
-                  <svg
-                    viewBox="-3 -3 46 46"
-                    width="60"
-                    height="60"
-                    preserveAspectRatio="xMidYMid meet"
-                    x="0"
-                    y="0"
-                    className={styles.ceriseBridalRings}
-                  >
-                    <use xlinkHref={`${bridalRing}#bridal-ring`}></use>
-                  </svg>
-                )}
-                {address.isDefaultForShipping && (
-                  <div className={styles.defaultAddress}>Default</div>
-                )}
-                {!address.isDefaultForShipping && (
-                  <div className={styles.line}>Make default</div>
-                )}
-                {props.currentCallBackComponent != "cerise" && (
-                  <div
-                    className={styles.radio}
-                    id={id}
-                    onClick={() => markAsDefault(address)}
-                  >
-                    <input
-                      id={id}
-                      className={styles.defaultAddressCheckbox}
-                      checked={address.isDefaultForShipping}
-                      name={id}
-                      type="radio"
-                      onChange={() => markAsDefault(address)}
-                    />
-                    <span className={styles.checkmark}></span>
-                  </div>
-                )}
-              </div>
-            </div>
-          )}
           {divOrText == "text" && (
             <div className={styles.lineHead}>
+              {!address.isTulsi && props.currentCallBackComponent != "cerise" && (
+                <div
+                  className={styles.radio}
+                  id={id}
+                  onClick={() => markAsDefault(address)}
+                >
+                  <input
+                    id={id}
+                    className={styles.defaultAddressCheckbox}
+                    checked={address.isDefaultForShipping}
+                    name={id}
+                    type="radio"
+                    onChange={() => markAsDefault(address)}
+                  />
+                  <span className={styles.checkmark}></span>
+                </div>
+              )}
               {props.title}
               {address.firstName}
               &nbsp;
               {address.lastName}
+              {!address.isTulsi && (
+                <div className={styles.defaultContainer}>
+                  <div
+                    className={cs(styles.defaultAddressDiv, {
+                      [styles.bridal]: address.isBridal
+                    })}
+                  >
+                    {address.isBridal && (
+                      <svg
+                        viewBox="-3 -3 46 46"
+                        width="60"
+                        height="60"
+                        preserveAspectRatio="xMidYMid meet"
+                        x="0"
+                        y="0"
+                        className={styles.ceriseBridalRings}
+                      >
+                        <use xlinkHref={`${bridalRing}#bridal-ring`}></use>
+                      </svg>
+                    )}
+                    {address.isDefaultForShipping && (
+                      <div className={styles.defaultAddress}>
+                        Default Address
+                      </div>
+                    )}
+                    {/* {!address.isDefaultForShipping && (
+                      <div className={styles.line}>Make default</div>
+                    )} */}
+                  </div>
+                </div>
+              )}
             </div>
           )}
           {divOrText == "div" && (
             <div className={styles.lineHead}>
+              {!address.isTulsi && props.currentCallBackComponent != "cerise" && (
+                <div
+                  className={styles.radio}
+                  id={id}
+                  onClick={() => markAsDefault(address)}
+                >
+                  <input
+                    id={id}
+                    className={styles.defaultAddressCheckbox}
+                    checked={address.isDefaultForShipping}
+                    name={id}
+                    type="radio"
+                    onChange={() => markAsDefault(address)}
+                  />
+                  <span className={styles.checkmark}></span>
+                </div>
+              )}
               {props.title}
               <p className={styles.names}>{address.firstName}</p>
               <p className={styles.names}>{address.lastName}</p>
+              {!address.isTulsi && (
+                <div className={styles.defaultContainer}>
+                  <div
+                    className={cs(styles.defaultAddressDiv, {
+                      [styles.bridal]: address.isBridal
+                    })}
+                  >
+                    {address.isBridal && (
+                      <svg
+                        viewBox="-3 -3 46 46"
+                        width="60"
+                        height="60"
+                        preserveAspectRatio="xMidYMid meet"
+                        x="0"
+                        y="0"
+                        className={styles.ceriseBridalRings}
+                      >
+                        <use xlinkHref={`${bridalRing}#bridal-ring`}></use>
+                      </svg>
+                    )}
+                    {address.isDefaultForShipping && (
+                      <div className={styles.defaultAddress}>
+                        Default Address
+                      </div>
+                    )}
+                    {/* {!address.isDefaultForShipping && (
+                      <div className={styles.line}>Make default</div>
+                    )} */}
+                  </div>
+                </div>
+              )}
             </div>
           )}
           <div
@@ -414,54 +470,56 @@ const AddressItem: React.FC<Props> = props => {
             , {address.postCode == "000000" ? "" : address.postCode}
           </div>
           <div className={styles.line}>{address.countryName}</div>
-          <div
-            className={styles.addressPhoneNumber}
-          >{`${address.phoneCountryCode} ${address.phoneNumber}`}</div>
-          <div
-            className={cs(globalStyles.marginT20, styles.edit, {
-              [styles.addCheckoutActions]:
-                currentCallBackComponent == "checkout-shipping" ||
-                currentCallBackComponent == "checkout-billing" ||
-                currentCallBackComponent == "bridal" ||
-                currentCallBackComponent == "bridal-edit"
-            })}
-          >
-            {!(
-              address.isTulsi ||
-              address.isBackendOrder ||
-              props.currentCallBackComponent == "cerise"
-            ) && (
-              <span
-                className={cs(styles.action, {
-                  [styles.addressEdit]: billingEditDisable
-                })}
-                onClick={
-                  billingEditDisable
-                    ? () => false
-                    : () => openAddressForm(address)
-                }
-              >
-                EDIT
-              </span>
-            )}
-            {!(
-              address.isBridal ||
-              address.isBackendOrder ||
-              props.isOnlyAddress ||
-              address.isTulsi ||
-              props.currentCallBackComponent == "cerise"
-            ) && <span className={styles.separator}>|</span>}
-            {!(
-              address.isBridal ||
-              props.isOnlyAddress ||
-              address.isBackendOrder ||
-              address.isTulsi ||
-              props.currentCallBackComponent == "cerise"
-            ) && (
-              <span className={styles.action} onClick={deleteAddress}>
-                DELETE
-              </span>
-            )}
+          <div className={cs(styles.phoneAndEditContainer)}>
+            <div className={styles.addressPhoneNumber}>
+              M: {`${address.phoneCountryCode} ${address.phoneNumber}`}
+            </div>
+            <div
+              className={cs(styles.edit, {
+                [styles.addCheckoutActions]:
+                  currentCallBackComponent == "checkout-shipping" ||
+                  currentCallBackComponent == "checkout-billing" ||
+                  currentCallBackComponent == "bridal" ||
+                  currentCallBackComponent == "bridal-edit"
+              })}
+            >
+              {!(
+                address.isTulsi ||
+                address.isBackendOrder ||
+                props.currentCallBackComponent == "cerise"
+              ) && (
+                <span
+                  className={cs(styles.action, {
+                    [styles.addressEdit]: billingEditDisable
+                  })}
+                  onClick={
+                    billingEditDisable
+                      ? () => false
+                      : () => openAddressForm(address)
+                  }
+                >
+                  EDIT
+                </span>
+              )}
+              {!(
+                address.isBridal ||
+                address.isBackendOrder ||
+                props.isOnlyAddress ||
+                address.isTulsi ||
+                props.currentCallBackComponent == "cerise"
+              ) && <span className={styles.separator}>|</span>}
+              {!(
+                address.isBridal ||
+                props.isOnlyAddress ||
+                address.isBackendOrder ||
+                address.isTulsi ||
+                props.currentCallBackComponent == "cerise"
+              ) && (
+                <span className={styles.action} onClick={deleteAddress}>
+                  DELETE
+                </span>
+              )}
+            </div>
           </div>
           {currentCallBackComponent !== "account" &&
             currentCallBackComponent !== "bridal" &&
