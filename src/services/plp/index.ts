@@ -24,7 +24,8 @@ export default {
   onLoadPlpPage: async function(
     dispatch: Dispatch,
     url: string,
-    currency: Currency
+    currency: Currency,
+    listPath: string
   ) {
     const res = await API.get<PlpProps>(
       dispatch,
@@ -33,7 +34,7 @@ export default {
     dispatch(newPlpList({ ...res }));
     dispatch(updatePlpProduct(res.results.data));
     if (typeof document != "undefined") {
-      valid.productImpression(res, "PLP", currency);
+      valid.productImpression(res, listPath || "PLP", currency);
     }
     return res;
   },
