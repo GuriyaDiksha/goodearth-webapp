@@ -73,6 +73,7 @@ const StaticPage: React.FC<Props> = props => {
     const res = await StaticService.fetchTerms(dispatch, link);
     return res;
   };
+
   const accountMenuItems: AccountMenuItem[] = [];
   footerList?.map(itemsList => {
     itemsList?.map(items => {

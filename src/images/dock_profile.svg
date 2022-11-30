@@ -1,0 +1,11 @@
+<svg id="dock_profile" data-name="dock profile" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="17.05" height="20" viewBox="0 0 17.05 20">
+  <defs>
+    <clipPath id="clip-path">
+      <rect id="Rectangle_872" data-name="Rectangle 872" width="17.05" height="20" fill="none" stroke="#987e56" stroke-width="1"/>
+    </clipPath>
+  </defs>
+  <g id="Group_666" data-name="Group 666" clip-path="url(#clip-path)">
+    <path id="Path_86" data-name="Path 86" d="M.5,19.5a8.025,8.025,0,0,1,16.05,0" fill="none" stroke="#987e56" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+    <circle id="Ellipse_1" data-name="Ellipse 1" cx="4.806" cy="4.806" r="4.806" transform="translate(3.812 0.5)" fill="none" stroke="#987e56" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+  </g>
+</svg>

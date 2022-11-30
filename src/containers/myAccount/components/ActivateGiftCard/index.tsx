@@ -50,22 +50,14 @@ class ActivateGiftCard extends React.Component<Props, State> {
     return (
       <div className={bootstrapStyles.row}>
         <div className={bootstrapStyles.col12}>
-          <div className={styles.formHeading}>
-            Activate Gift Card{" "}
-            <Link
-              to="/customer-assistance/terms-conditions?id=howtoactivategiftcard"
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{ position: "relative", top: "-4px" }}
-            >
-              <img src={iconHowto} width="30" />
-            </Link>
-          </div>
+          <div className={styles.formHeading}>Activate Gift Card </div>
           <div className={styles.formSubheading}>
             Enter your personal information to activate your gift card
           </div>
           <div className={cs(styles.loginForm, globalStyles.voffset4)}>
-            <div className={bootstrapStyles.row}>
+            <div
+              className={cs(bootstrapStyles.row, styles.otpComponentContainer)}
+            >
               <div
                 className={cs(
                   bootstrapStyles.colMd12,
@@ -73,18 +65,26 @@ class ActivateGiftCard extends React.Component<Props, State> {
                   styles.popupformbg
                 )}
               >
-                <div className={bootstrapStyles.row}>
+                <div className={cs(bootstrapStyles.row, styles.formContainer)}>
                   <div
                     className={cs(
                       bootstrapStyles.col10,
-                      bootstrapStyles.offset1,
-                      bootstrapStyles.colMd8,
-                      bootstrapStyles.offsetMd2
+                      // bootstrapStyles.offset1,
+                      bootstrapStyles.colMd8
+                      // bootstrapStyles.offsetMd2
                     )}
                   >
                     <Giftcard />
                   </div>
                 </div>
+                <Link
+                  to="/customer-assistance/terms-conditions?id=howtoactivategiftcard"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={styles.viewTnc}
+                >
+                  View Terms & Conditions
+                </Link>
               </div>
             </div>
           </div>
