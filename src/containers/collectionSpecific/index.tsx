@@ -319,13 +319,6 @@ class CollectionSpecific extends React.Component<
         let element: any;
         let productID: any, idx: any;
         entries.forEach((entry, index) => {
-          console.log(
-            height,
-            entry.target.getBoundingClientRect().bottom,
-            window.innerHeight - 50,
-            window.scrollY
-          );
-
           if (
             entry.isIntersecting &&
             entry.target.getBoundingClientRect().bottom <
@@ -622,12 +615,6 @@ class CollectionSpecific extends React.Component<
             index="2"
             href={`${window.location.origin}${this.props.location.pathname}?${this.props.location.search}`}
           />
-        )}
-        {console.log(
-          "check==========",
-          mobile,
-          this.state.count,
-          this.state.showProductCounter
         )}
         {mobile && this.state.count > -1 && this.state.showProductCounter && (
           <ProductCounter
