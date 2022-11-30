@@ -4,7 +4,7 @@ import styles from "./styles.scss";
 import cs from "classnames";
 import { useDispatch, useSelector } from "react-redux";
 import { AppState } from "reducers/typings";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import LoyaltyService from "services/loyalty";
 import { updateLoyaltyPoints } from "actions/loyalty";
 import moment from "moment";
@@ -32,6 +32,7 @@ const CeriseCardDetail: React.FC<Props> = ({
     loyalty: { loyaltyPoints }
   }: StateData = useSelector((state: AppState) => state);
   const dispatch = useDispatch();
+  const history = useHistory();
 
   useEffect(() => {
     if (email && slab) {
@@ -62,7 +63,7 @@ const CeriseCardDetail: React.FC<Props> = ({
             onClick={e => {
               // e.stopPropagation();
               // onDropDownMenuClick();
-              // history.push("/account/cerise")
+              history.push("/account/cerise");
               clickToggle && clickToggle();
             }}
             className={styles.subHeading}
@@ -83,7 +84,11 @@ const CeriseCardDetail: React.FC<Props> = ({
       <div className={styles.ceriseTable}>
         <div className={styles.ceriseRow}>
           <p>Cerise points available</p>
-          <p>{loyaltyPoints?.AvailablePoint}</p>
+          <p>
+            {loyaltyPoints?.AvailablePoint === 0
+              ? "No points to expire"
+              : loyaltyPoints?.AvailablePoint}
+          </p>
         </div>
         <div className={styles.ceriseRow}>
           <p>Membership Expires</p>

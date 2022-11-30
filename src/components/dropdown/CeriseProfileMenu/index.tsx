@@ -2,7 +2,7 @@ import React from "react";
 import { CeriseProfileMenuProps } from "./typings";
 import styles from "./styles.scss";
 import CeriseCard from "components/CeriseCard";
-import { NavLink, useHistory } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import BaseDropdownMenu from "../baseDropdownMenu";
 
 const CeriseProfileMenu = ({
@@ -25,19 +25,17 @@ const CeriseProfileMenu = ({
     id
   };
 
-  const history = useHistory();
-
   const getMenuItems = (): JSX.Element => {
     return (
       <div className={styles.ceriseCardMenuWrp}>
         <div
-          onClick={e => {
-            if ((e.target as HTMLInputElement)?.id === "dashboard") {
-              history.push("/account/cerise");
-            } else {
-              history.push("/cerise");
-            }
-          }}
+        // onClick={e => {
+        //   if ((e.target as HTMLInputElement)?.id === "dashboard") {
+        //     history.push("/account/cerise");
+        //   } else {
+        //     history.push("/cerise");
+        //   }
+        // }}
         >
           <CeriseCard />
         </div>

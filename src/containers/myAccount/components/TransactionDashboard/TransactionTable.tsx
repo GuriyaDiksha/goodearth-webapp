@@ -227,7 +227,7 @@ const TransactionTable = ({ mobile }: Props) => {
                   styles.alignCenterText
                 )}
               >
-                Date
+                DATE
               </p>
             )}
             {mobile ? null : (

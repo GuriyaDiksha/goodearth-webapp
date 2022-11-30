@@ -6,6 +6,7 @@ import LoyaltyService from "services/loyalty";
 import { updateLoyaltyPoints } from "actions/loyalty";
 import CeriseCardDetail from "./CeriseCardDetail";
 import cs from "classnames";
+import { Link } from "react-router-dom";
 
 type StateData = { user: { slab: string; email: string } };
 type Props = { clickToggle?: any; isMobileMenu?: boolean };
@@ -34,10 +35,17 @@ const CeriseCard: React.FC<Props> = ({ clickToggle }) => {
       slab.toLowerCase() === "cerise sitara" ? (
         <CeriseCardDetail isViewDashboard={true} clickToggle={clickToggle} />
       ) : (
-        <img
-          src={"https://d3qn6cjsz7zlnp.cloudfront.net/ceries_pic.png"}
-          width={322}
-        />
+        <Link
+          to="/cerise"
+          onClick={e => {
+            clickToggle && clickToggle();
+          }}
+        >
+          <img
+            src={"https://d3qn6cjsz7zlnp.cloudfront.net/ceries_pic.png"}
+            width={322}
+          />
+        </Link>
       )}
     </div>
   );
