@@ -299,6 +299,13 @@ class CollectionSpecific extends React.Component<
   setProductCount = () => {
     const cards = document.querySelectorAll(".collection-container");
     const cardIDs: any = [];
+    const height =
+      (document.getElementById("collection_banner") as HTMLElement)
+        ?.offsetHeight +
+      (document.getElementById("collection_desc") as HTMLElement)
+        ?.offsetHeight +
+      (document.getElementById("collection_long_desc") as HTMLElement)
+        ?.offsetHeight;
 
     cards.forEach(card => {
       cardIDs.push(
@@ -315,7 +322,7 @@ class CollectionSpecific extends React.Component<
           if (
             entry.isIntersecting &&
             entry.target.getBoundingClientRect().bottom <
-              window.innerHeight - 50
+              window.innerHeight - 450
           ) {
             productID = Array.from(entry.target.children[0].children).filter(
               e => e.id != ""
@@ -331,12 +338,12 @@ class CollectionSpecific extends React.Component<
           if (idx > -1) {
             this.setState({ count: idx + 1 });
           }
-          if (window.scrollY < 120) {
+          if (window.scrollY < height) {
             this.setState({ count: -1 });
           }
         } else if (
-          cards[cards.length - 1].getBoundingClientRect().bottom < 130 ||
-          window.scrollY < 120
+          cards[cards.length - 1].getBoundingClientRect().bottom < height ||
+          window.scrollY < height
         ) {
           this.setState({ count: -1 });
         }
@@ -508,7 +515,7 @@ class CollectionSpecific extends React.Component<
             href={`${window.location.origin}${this.props.location.pathname}?${this.props.location.search}`}
           />
         )}
-        <section>
+        <section id="collection_banner">
           <div className={cs(bootstrap.row, styles.firstBlock)}>
             <div className={bootstrap.col12}>
               {widgetImages.map((widget: any) => {
@@ -536,7 +543,7 @@ class CollectionSpecific extends React.Component<
             </div>
           </div>
         </section>
-        <div className={cs(bootstrap.row, styles.padding)}>
+        <div className={cs(bootstrap.row, styles.padding)} id="collection_desc">
           <div
             className={cs(
               bootstrap.colMd12,
@@ -547,7 +554,7 @@ class CollectionSpecific extends React.Component<
             {description}
           </div>
         </div>
-        <div className={bootstrap.row}>
+        <div className={bootstrap.row} id="collection_long_desc">
           <div
             className={cs(
               bootstrap.col8,
@@ -609,7 +616,6 @@ class CollectionSpecific extends React.Component<
             href={`${window.location.origin}${this.props.location.pathname}?${this.props.location.search}`}
           />
         )}
-
         {mobile && this.state.count > -1 && this.state.showProductCounter && (
           <ProductCounter
             current={this.state.count}
