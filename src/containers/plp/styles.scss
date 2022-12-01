@@ -963,7 +963,7 @@ p.corporate-sub-heading {
   padding: 10px 20px;
   background-color: white;
   position: fixed;
-  top: $header-height;
+  top: 80px;
   z-index: 3;
   box-shadow: 0 8px 6px -6px #e6e6e6;
   display: flex;
@@ -977,7 +977,7 @@ p.corporate-sub-heading {
 }
 
 .list-grid-bar-timer {
-  top: $header-height + $timer-height;
+  top: 80px + $timer-height;
 }
 .list-view-container {
   padding-left: 30px;
