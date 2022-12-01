@@ -84,11 +84,7 @@ const CeriseCardDetail: React.FC<Props> = ({
       <div className={styles.ceriseTable}>
         <div className={styles.ceriseRow}>
           <p>Cerise points available</p>
-          <p>
-            {loyaltyPoints?.AvailablePoint === 0
-              ? "No points to expire"
-              : loyaltyPoints?.AvailablePoint}
-          </p>
+          <p>{loyaltyPoints?.AvailablePoint}</p>
         </div>
         <div className={styles.ceriseRow}>
           <p>Membership Expires</p>
