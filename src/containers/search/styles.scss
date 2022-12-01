@@ -64,7 +64,7 @@
 
 @media screen and (max-width: 992px) {
   .page-body{
-    margin-top: $header-height;
+    margin-top: 100px;
   }
   .page-body-timer {
     margin-top: $header-height + $timer-height;
@@ -195,7 +195,7 @@
 .mobile-filter-menu {
     position: fixed;
     bottom: 0;
-    top: $main-header;
+    top: 90px;
     left: 0;
     z-index: 11;
     background-color: white;

@@ -584,7 +584,7 @@ class Search extends React.Component<
               <div
                 className={cs(
                   styles.productNumber,
-                  globalStyles.marginT20,
+                  // globalStyles.marginT20,
                   styles.imageContainer,
                   {
                     [styles.border]: mobile
@@ -776,16 +776,25 @@ class Search extends React.Component<
                 </div>
               </div>
             </div>
-            {(data && this.state.searchText ? (
-              data.length == 0 &&
-              this.state.searchText.length > 2 &&
-              this.state.filterCount < 1
+            {data.length == 0 &&
+            this.state.searchText.length > 2 &&
+            this.state.filterCount > 0 ? (
+              <div className={cs(bootstrap.row)}>
+                <div className={cs(bootstrap.colMd4, bootstrap.col6)}>
+                  <GiftcardItem isCorporateGifting={false} />
+                </div>
+                <div className={cs(bootstrap.colMd4, bootstrap.col6)}>
+                  <ResetFiltersTile
+                    resetFilters={this.child.clearFilter}
+                    mobileApply={this.child.updateDataFromAPI}
+                    mobile={mobile}
+                    tablet={false}
+                    view={"grid"}
+                  />
+                </div>
+              </div>
             ) : (
-              false
-            )) ? (
               ""
-            ) : (
-              <ResetFiltersTile resetFilters={this.child.clearFilter} />
             )}
           </div>
         </div>

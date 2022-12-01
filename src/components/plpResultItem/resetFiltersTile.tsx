@@ -5,10 +5,11 @@ import cs from "classnames";
 
 const ResetFiltersTile: React.FC<{
   resetFilters: (event: any, key: string, ischange?: boolean) => void;
+  mobileApply: (st: string) => void;
   mobile?: boolean;
   tablet?: boolean;
   view?: "list" | "grid";
-}> = memo(({ resetFilters, view, mobile, tablet }) => {
+}> = memo(({ resetFilters, mobileApply, view, mobile, tablet }) => {
   return (
     <div className={styles.plpMain}>
       <div className={styles.imageBoxnew} id="gift-card-item">
@@ -44,6 +45,8 @@ const ResetFiltersTile: React.FC<{
           <a
             onClick={e => {
               resetFilters(e, "all");
+              mobileApply("load");
+              // mobileApply(e);
             }}
           >
             <p className={styles.resetLink}>RESET FILTERS</p>
