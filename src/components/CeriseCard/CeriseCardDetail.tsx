@@ -141,9 +141,16 @@ const CeriseCardDetail: React.FC<Props> = ({
             <span className={cs(styles.infoText, active ? styles.active : "")}>
               {loyaltyPoints?.AdditionalSpend} additional spends needed to
               become a{" "}
-              <Link to="/account/cerise">
+              <a
+                href="/cerise"
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={e => {
+                  window?.open("/cerise", "_blank");
+                }}
+              >
                 {loyaltyPoints?.NextUpgradeMembershipClub}
-              </Link>
+              </a>
               <span
                 className={cs(styles.close, {
                   [styles.goldColor]:
@@ -164,8 +171,12 @@ const CeriseCardDetail: React.FC<Props> = ({
         </div>
       </div>
       <p className={styles.footer}>
-        {loyaltyPoints?.ExpiryPoints} points are due to expire on{" "}
-        {moment(loyaltyPoints?.ExpiryDate, "DD/MM/YYYY").format("Do MMMM YYYY")}
+        {loyaltyPoints?.ExpiryPoints === 0
+          ? "No points to expire"
+          : `${loyaltyPoints?.ExpiryPoints} points are due to expire on
+      ${moment(loyaltyPoints?.ExpiryDate, "DD/MM/YYYY").format(
+        "Do MMMM YYYY"
+      )}`}
         .
       </p>
     </div>

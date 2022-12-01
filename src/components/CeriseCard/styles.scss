@@ -3,6 +3,7 @@
 
 .cerise-card-left-container{
     height: 100%;
+    cursor: auto;
     @media (max-width: 992px) {
         position: relative;
         float: left;
@@ -63,6 +64,7 @@
         .sub-heading{
             border-bottom: 1px solid;
             margin: auto 0;
+            cursor: pointer;
             @include b4_12px_montserrat_light_white();
 
             &:hover{
