@@ -1,10 +1,14 @@
 import React, { memo } from "react";
 import styles from "./styles.scss";
 import bird from "images/bird.png";
+import cs from "classnames";
 
 const ResetFiltersTile: React.FC<{
   resetFilters: (event: any, key: string, ischange?: boolean) => void;
-}> = memo(({ resetFilters }) => {
+  mobile?: boolean;
+  tablet?: boolean;
+  view?: "list" | "grid";
+}> = memo(({ resetFilters, view, mobile, tablet }) => {
   return (
     <div className={styles.plpMain}>
       <div className={styles.imageBoxnew} id="gift-card-item">
@@ -14,13 +18,28 @@ const ResetFiltersTile: React.FC<{
           className={styles.imageResultnew}
         />
         <div className={styles.overlay}>
-          <img src={bird} />
+          <img
+            src={bird}
+            className={cs({
+              [styles.mobileGrid]: mobile && view == "grid" && !tablet
+            })}
+          />
           <p className={styles.textContent}>
-            <p className={styles.msg}>
+            <p
+              className={cs(styles.msg, {
+                [styles.mobileGrid]: mobile && view == "grid" && !tablet
+              })}
+            >
               Sorry, we cannot find what you are looking for. Reset the filters
               to try again.
             </p>
-            <p className={styles.byline}>Reset the filters to try again.</p>
+            <p
+              className={cs(styles.byline, {
+                [styles.mobileGrid]: mobile && view == "grid" && !tablet
+              })}
+            >
+              Reset the filters to try again.
+            </p>
           </p>
           <a
             onClick={e => {

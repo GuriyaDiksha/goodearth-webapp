@@ -29,6 +29,7 @@ import { CategoryMenu } from "containers/plp/typings";
 import { GA_CALLS, ANY_ADS } from "constants/cookieConsent";
 import ProductCounter from "components/ProductCounter";
 import { throttle } from "lodash";
+import ResetFiltersTile from "components/plpResultItem/resetFiltersTile";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -655,7 +656,9 @@ class Search extends React.Component<
             <div
               className={
                 (data && this.state.searchText
-                ? data.length == 0 && this.state.searchText.length > 2
+                ? data.length == 0 &&
+                  this.state.searchText.length > 2 &&
+                  this.state.filterCount < 1
                 : false)
                   ? " voffset5 row image-container search searchpage mobile-nosearch"
                   : globalStyles.hidden
@@ -773,6 +776,17 @@ class Search extends React.Component<
                 </div>
               </div>
             </div>
+            {(data && this.state.searchText ? (
+              data.length == 0 &&
+              this.state.searchText.length > 2 &&
+              this.state.filterCount < 1
+            ) : (
+              false
+            )) ? (
+              ""
+            ) : (
+              <ResetFiltersTile resetFilters={this.child.clearFilter} />
+            )}
           </div>
         </div>
         {mobile && (
