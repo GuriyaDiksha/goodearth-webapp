@@ -1,6 +1,10 @@
 @import "../../styles/partials/variables";
 @import "../../styles/partials/mixins";
 
+.title-h1{
+  font-size: 1px;
+}
+
 .header-container {
     top: $header-top;
 }
