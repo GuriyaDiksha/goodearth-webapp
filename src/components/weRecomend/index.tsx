@@ -207,12 +207,16 @@ const WeRecommend: React.FC<RecommenedSliderProps> = (
               We Recommend
             </h2>
             <div className={bootstrapStyles.col12}>
-              {!mobile && items.length >= 4 ? (
-                <Slider {...setting}>{items}</Slider>
+              {!mobile ? (
+                items.length >= 4 ? (
+                  <Slider {...setting}>{items}</Slider>
+                ) : (
+                  <Slider {...setting} infinite={false}>
+                    {items}
+                  </Slider>
+                )
               ) : (
-                <Slider {...setting} infinite={false}>
-                  {items}
-                </Slider>
+                ""
               )}
               {mobile && <div className={bootstrapStyles.row}>{items}</div>}
             </div>
