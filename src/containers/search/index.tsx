@@ -584,7 +584,7 @@ class Search extends React.Component<
               <div
                 className={cs(
                   styles.productNumber,
-                  // globalStyles.marginT20,
+                  globalStyles.marginT20,
                   styles.imageContainer,
                   {
                     [styles.border]: mobile
