@@ -27,6 +27,7 @@ import ActivateGiftCard from "./components/ActivateGiftCard";
 import TrackOrder from "./components/TrackOrder";
 import AccountServices from "services/account";
 import CeriseClubMain from "./components/CeriseClub/ceriseClubMain";
+import profileIcon from "../../images/dock_profile.svg";
 
 type Props = {
   isBridal: boolean;
@@ -283,14 +284,7 @@ const MyAccount: React.FC<Props> = props => {
       <SecondaryHeader>
         <div className={cs(bootstrapStyles.colMd11, bootstrapStyles.offsetMd1)}>
           <span className={cs(styles.heading, globalStyles.verticalMiddle)}>
-            <i
-              className={cs(
-                iconStyles.icon,
-                iconStyles.iconProfile,
-                styles.icon
-              )}
-            ></i>{" "}
-            My Account
+            <img className={styles.icon} src={profileIcon} /> My Account
           </span>
         </div>
       </SecondaryHeader>
@@ -377,7 +371,7 @@ const MyAccount: React.FC<Props> = props => {
                                 onClick={() => setAccountListing(false)}
                                 key={item.label}
                                 to={item.href}
-                                activeClassName={globalStyles.cerise}
+                                activeClassName={styles.gold}
                               >
                                 {item.label}
                               </NavLink>
@@ -429,14 +423,14 @@ const MyAccount: React.FC<Props> = props => {
                         className={
                           showRegistry
                             ? styles.bridalleftsec
-                            : cs(styles.bridalleftsec, styles.bridalplus)
+                            : cs(styles.bridalleftsec)
                         }
                       >
                         <span
                           onClick={() => setShowRegistry(!showRegistry)}
                           className={
                             showRegistry && currentSection == "bridal"
-                              ? globalStyles.cerise
+                              ? styles.gold
                               : ""
                           }
                         >
@@ -449,7 +443,7 @@ const MyAccount: React.FC<Props> = props => {
                                 // name="bridal"
 
                                 to={item.href}
-                                activeClassName={globalStyles.cerise}
+                                activeClassName={styles.gold}
                                 // className={showregistry && currentSection == "bridal" ? "cerise":""}
                               >
                                 {bridalId == 0
@@ -476,7 +470,7 @@ const MyAccount: React.FC<Props> = props => {
                         <NavLink
                           key={item.label}
                           to={item.href}
-                          activeClassName={globalStyles.cerise}
+                          activeClassName={styles.gold}
                         >
                           {item.label}
                         </NavLink>

@@ -640,6 +640,7 @@ class FilterList extends React.Component<Props, State> {
       this.appendData();
     }
   };
+
   createList = (plpList: any) => {
     if (!plpList.results.facets.categoryShop) return false;
     const { currency } = this.props;

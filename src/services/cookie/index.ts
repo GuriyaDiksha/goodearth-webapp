@@ -15,7 +15,9 @@ export default {
   },
   getCookie(cname: string) {
     const name = cname + "=";
-    const decodedCookie = decodeURIComponent(document.cookie);
+    const decodedCookie = decodeURIComponent(
+      document.cookie.replace(/%/g, "%25")
+    );
     const ca = decodedCookie.split(";");
     for (let i = 0; i < ca.length; i++) {
       let c = ca[i];

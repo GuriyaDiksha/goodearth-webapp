@@ -375,7 +375,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                       )}
                     >
                       <p>
-                        <span className={globalStyles.op3}>Amount Payable</span>
+                        <span className={globalStyles.op3}>Amount Paid</span>
                       </p>
 
                       <p>
@@ -727,7 +727,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
               )}
 
               <div className={cs(styles.subTotalSection)}>
-                <p>AMOUNT PAYABLE</p>
+                <p>AMOUNT PAID</p>
                 <p>
                   {String.fromCharCode(
                     ...currencyCode[confirmData.currency as Currency]

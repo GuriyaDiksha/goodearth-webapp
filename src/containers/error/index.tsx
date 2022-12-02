@@ -21,7 +21,9 @@ const ErrorPage: React.FC = () => {
   useIsomorphicLayoutEffect(() => {
     util.pageViewGTM("Error");
     setTimeout(() => {
-      history.push("/");
+      if (history.location.pathname === "/error-page") {
+        history.push("/");
+      }
     }, 3000);
   }, []);
 

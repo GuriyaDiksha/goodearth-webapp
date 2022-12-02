@@ -789,7 +789,7 @@ class Search extends React.Component<Props, State> {
                                   styles.suggestionBoxWidth
                                 )}
                               >
-                                {/* {data.salesBadgeImage ? (
+                                {data.salesBadgeImage ? (
                                   <div
                                     className={cs(
                                       {
@@ -809,7 +809,7 @@ class Search extends React.Component<Props, State> {
                                   </div>
                                 ) : (
                                   ""
-                                )} */}
+                                )}
                                 <div className={styles.imageboxNew}>
                                   <Link
                                     to={data.link}
