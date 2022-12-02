@@ -3,12 +3,19 @@ import { ProductCounterProps } from "./typings";
 import cs from "classnames";
 import styles from "./styles.scss";
 import arrow from "../../images/arrow-counter-02.svg";
+import { useSelector } from "react-redux";
+import { AppState } from "reducers/typings";
 
 const ProductCounter: React.FC<ProductCounterProps> = ({
   current,
   total,
   id
 }) => {
+  const {
+    header: { timerData },
+    info: { showTimer }
+  } = useSelector((state: AppState) => state);
+
   const scrollToTop = () => {
     window.scrollTo({
       top: 0,
@@ -16,7 +23,11 @@ const ProductCounter: React.FC<ProductCounterProps> = ({
     });
   };
   return (
-    <div className={cs(styles.scrollDownUp)}>
+    <div
+      className={cs(styles.scrollDownUp, {
+        [styles.topPosition]: showTimer && timerData
+      })}
+    >
       <div className={cs(styles.counter)}>
         <div
           className={cs(styles.counterNumber, {

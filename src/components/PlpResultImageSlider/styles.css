@@ -1,0 +1,49 @@
+.imageSlideronatiner .slick-slider .slick-dots{
+    position: absolute;
+    content: "";
+    bottom: 15px;
+}
+.imageSlideronatiner .slick-slider .slick-dots li{
+    margin: 0;
+    position: relative;
+    display: inline-block;
+    width: 20px;
+    height: 20px
+}
+
+.imageSlideronatiner .slick-slider .slick-dots li.slick-active button{
+    background-color: white;
+    opacity: 1;
+}
+.imageSlideronatiner .slick-slider .slick-dots li button{
+    opacity: 0.5;
+    background-color: white;
+    font-size: 0;
+    line-height: 0;
+    display: block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    padding: 4px;
+    cursor: pointer;
+    color: transparent;
+    border: 0;
+    outline: none;
+    margin: 0 auto;
+}
+.imageSlideronatiner .slick-slider .slick-dots li.slick-active button::before{
+    content: unset;
+}
+.imageSlideronatiner .slick-slider .slick-dots li button::before{
+    content: unset;
+}
+
+.firstImageContainer{background-color: transparent !important;}
+.firstImageContainer img{animation: swipeLeft 2s linear 2 1s;}
+.secondImageContainer{position: absolute;top:0;z-index: -1;left: 0;right: 0;bottom: 0;}
+
+@keyframes swipeLeft{
+    0% {transform: translateX(0%);}
+    50% {transform: translateX(-40%);}
+    100% {transform: translateX(0%);}
+}

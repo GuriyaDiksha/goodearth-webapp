@@ -26,6 +26,7 @@ export type Props = {
   inputRef?: RefObject<HTMLInputElement>;
   isPlaceholderVisible?: boolean;
   maxlength?: number;
+  defaultClass?: string;
   onPaste?: (event: React.ClipboardEvent) => void;
 };
 

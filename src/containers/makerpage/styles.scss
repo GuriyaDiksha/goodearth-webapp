@@ -1,10 +1,10 @@
 @import "../../styles/partials/variables";
 
-$home-top: $header-height;
+$home-top: 80px;
 
 .maker-top{
-    margin-top: $home-top;
+    margin-top: $home-top ;
 }
 .maker-top-timer {
-    margin-top: $header-height + $timer-height;
+    margin-top: $home-top + $timer-height;
 }

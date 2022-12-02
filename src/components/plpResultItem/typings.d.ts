@@ -13,4 +13,5 @@ export type PLPResultItemProps = {
   position: number;
   page: string;
   loader?: boolean;
+  isSearch?: boolean;
 };

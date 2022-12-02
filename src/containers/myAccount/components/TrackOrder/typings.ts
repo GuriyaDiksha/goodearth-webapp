@@ -18,4 +18,5 @@ export type OrdersProps = {
   hasShopped?: (x: boolean) => void;
   isLoading?: (x: boolean) => void;
   isDataAvaliable?: (x: boolean) => void;
+  mobile?: boolean;
 };

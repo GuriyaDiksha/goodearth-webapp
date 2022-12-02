@@ -614,7 +614,7 @@ class OtpCompActivateGC extends React.Component<otpProps, otpState> {
   };
 
   getValidationForOtp = () => {
-    const { otpTimer, otpData } = this.state;
+    const { otpData } = this.state;
     return (
       <div>
         <div
@@ -631,52 +631,67 @@ class OtpCompActivateGC extends React.Component<otpProps, otpState> {
                 className={cs(
                   globalStyles.op2,
                   globalStyles.bold,
-                  globalStyles.voffset2
+                  globalStyles.voffset2,
+                  styles.lineHead
                 )}
               >
                 FIRST NAME
               </p>
-              <p>{this.props.firstName}</p>
+              <p className={styles.line}>{this.props.firstName}</p>
               <p
                 className={cs(
                   globalStyles.op2,
                   globalStyles.bold,
-                  globalStyles.voffset2
+                  globalStyles.voffset2,
+                  styles.lineHead
                 )}
               >
                 LAST NAME
               </p>
-              <p>{this.props.lastName}</p>
+              <p className={styles.line}>{this.props.lastName}</p>
             </>
           )}
           <p
             className={cs(
               globalStyles.op2,
               globalStyles.bold,
-              globalStyles.voffset2
+              globalStyles.voffset2,
+              styles.lineHead
             )}
           >
             {this.props.otpFor == "balanceCN"
               ? "CREDIT NOTE"
               : "GIFT CARD CODE"}
           </p>
-          <p>{this.props.txtvalue}</p>
+          <p className={styles.line}>{this.props.txtvalue}</p>
           {!this.props.isIndiaGC ? (
             <p className={globalStyles.voffset2}>
-              <strong className={cs(globalStyles.op2, globalStyles.bold)}>
+              <p
+                className={cs(
+                  globalStyles.op2,
+                  globalStyles.bold,
+                  styles.lineHead
+                )}
+              >
                 {" "}
                 OTP SENT TO EMAIL ADDRESS:
-              </strong>{" "}
-              <br />
-              <p className={styles.overflowEmail}>{otpData.email}</p>
+              </p>{" "}
+              <p className={cs(styles.overflowEmail, styles.line)}>
+                {otpData.email}
+              </p>
             </p>
           ) : (
             <p className={globalStyles.voffset2}>
-              <strong className={cs(globalStyles.op2, globalStyles.bold)}>
+              <p
+                className={cs(
+                  globalStyles.op2,
+                  globalStyles.bold,
+                  styles.lineHead
+                )}
+              >
                 OTP SMS SENT TO MOBILE NUMBER:
-              </strong>{" "}
-              <br />
-              {otpData.phoneNo}
+              </p>{" "}
+              <p className={styles.line}>{otpData.phoneNo}</p>
             </p>
           )}
         </div>
@@ -884,12 +899,9 @@ class OtpCompActivateGC extends React.Component<otpProps, otpState> {
               <hr />
             </li>
             <li className={cs(globalStyles.textLeft, styles.otpText)}>
-              SEND{" "}
-              <span className={globalStyles.cerise}>
-                {" "}
-                ONE TIME PASSWORD (OTP){" "}
-              </span>
-              VIA:
+              Send{" "}
+              <span className={styles.aquaBold}> One Time Passowrd (OTP) </span>
+              Via:
             </li>
             <Formsy
               ref={this.RegisterFormRef}
@@ -1017,7 +1029,7 @@ class OtpCompActivateGC extends React.Component<otpProps, otpState> {
                   <p
                     className={
                       this.state.subscribeError
-                        ? cs(globalStyles.errorMsg, globalStyles.wordCap)
+                        ? cs(styles.errorMsg, globalStyles.wordCap)
                         : globalStyles.hidden
                     }
                   >
@@ -1027,7 +1039,7 @@ class OtpCompActivateGC extends React.Component<otpProps, otpState> {
                     id="customererror"
                     className={
                       this.state.showerrorOtp
-                        ? cs(globalStyles.errorMsg, globalStyles.wordCap)
+                        ? cs(styles.errorMsg, globalStyles.wordCap)
                         : globalStyles.hidden
                     }
                   >
@@ -1042,8 +1054,8 @@ class OtpCompActivateGC extends React.Component<otpProps, otpState> {
                   disabled={this.state.disable}
                   className={
                     this.state.disable
-                      ? cs(globalStyles.ceriseBtn, globalStyles.disabledBtn)
-                      : globalStyles.ceriseBtn
+                      ? cs(styles.charcoalBtn, styles.disabledBtn)
+                      : styles.charcoalBtn
                   }
                   value="Send otp"
                 />

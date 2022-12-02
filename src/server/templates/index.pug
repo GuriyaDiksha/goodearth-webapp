@@ -27,8 +27,9 @@ html(lang='en')
           Moengage = moe({
               app_id:!{moengage},
               debug_logs: !{moengageId},
-              cluster: "DC_3"
-              //- swPath: "/moengageserviceworker.js"
+              cluster: "DC_3",
+              swPath: "/mo/moengageserviceworker.js",
+              swScope: '/mo/'
           });
           Moengage.call_web_push();
         link(rel="manifest", href=`${manifest}`)

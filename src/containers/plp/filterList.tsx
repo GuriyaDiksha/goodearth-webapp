@@ -70,7 +70,8 @@ class FilterList extends React.Component<Props, State> {
         currency: {},
         sortBy: {},
         productType: {},
-        availableDiscount: {}
+        availableDiscount: {},
+        currentMaterial: {}
       },
       searchUrl: this.props.history.location,
       mobileFilter: false,
@@ -114,6 +115,14 @@ class FilterList extends React.Component<Props, State> {
           case "current_color":
             for (let i = 0; i < cc.length; i++) {
               filter.currentColor[cc[i]] = {
+                isChecked: true,
+                value: cc[i]
+              };
+            }
+            break;
+          case "current_material":
+            for (let i = 0; i < cc.length; i++) {
+              filter.currentMaterial[cc[i]] = {
                 isChecked: true,
                 value: cc[i]
               };
@@ -215,6 +224,7 @@ class FilterList extends React.Component<Props, State> {
       categoryKey: any,
       mainurl: string | undefined = "",
       colorVars = "",
+      materialVars = "",
       sizeVars = "",
       categoryShopVars = "",
       productVars = "",
@@ -230,6 +240,16 @@ class FilterList extends React.Component<Props, State> {
               colorVars == ""
                 ? (colorVars = array[filterType][key].value)
                 : (colorVars += "|" + array[filterType][key].value);
+            }
+            break;
+          case "currentMaterial":
+            if (
+              array[filterType][key].value &&
+              array[filterType][key].isChecked
+            ) {
+              materialVars == ""
+                ? (materialVars = array[filterType][key].value)
+                : (materialVars += "|" + array[filterType][key].value);
             }
             break;
           case "availableSize":
@@ -298,6 +318,9 @@ class FilterList extends React.Component<Props, State> {
       });
     });
     colorVars != "" ? (filterUrl += "&current_color=" + colorVars) : "";
+    materialVars != ""
+      ? (filterUrl += "&current_material=" + materialVars)
+      : "";
     sizeVars != "" ? (filterUrl += "&available_size=" + sizeVars) : "";
     categoryShopVars != ""
       ? (filterUrl += "&category_shop=" + categoryShopVars)
@@ -589,7 +612,8 @@ class FilterList extends React.Component<Props, State> {
             currency: {},
             sortBy: {},
             productType: {},
-            availableDiscount: {}
+            availableDiscount: {},
+            currentMaterial: {}
           }
         },
         () => {
@@ -922,7 +946,7 @@ class FilterList extends React.Component<Props, State> {
                 <li key={"pb_" + level4}>
                   <input
                     type="checkbox"
-                    onClick={this.onClickLevel4}
+                    onChange={this.onClickLevel4}
                     id={"pb_" + level4}
                     checked={
                       filter.productType["pb_" + level4]
@@ -965,7 +989,7 @@ class FilterList extends React.Component<Props, State> {
                 <li key={discount[0]}>
                   <input
                     type="checkbox"
-                    onClick={this.onClickDiscount}
+                    onChange={this.onClickDiscount}
                     id={"disc_" + discount[0]}
                     checked={
                       filter.availableDiscount["disc_" + discount[0]]
@@ -984,6 +1008,46 @@ class FilterList extends React.Component<Props, State> {
       </ul>
     );
 
+    return html;
+  };
+
+  createMaterial = (facets: any, filtered_facets: any) => {
+    if (!facets?.currentMaterial || facets.length == 0) return false;
+    const html: any = [];
+    const { filter } = this.state;
+    facets?.currentMaterial.map((data: any, i: number) => {
+      html.push(
+        <li className={styles.materiallabel} key={data?.[0]}>
+          <input
+            type="checkbox"
+            id={data?.[0]}
+            checked={
+              filter?.currentMaterial[data[0]]
+                ? filter?.currentMaterial[data[0]]?.isChecked
+                : false
+            }
+            onChange={this.handleClickMaterial}
+            value={data?.[0]}
+            // disabled={
+            //   filtered_facets?.currentMaterial?.filter(
+            //     (e: string[]) => e[0] === data[0]
+            //   ).length === 0
+            // }
+          />
+          <label
+            className={cs({
+              [styles.disableColors]:
+                filtered_facets?.currentMaterial?.filter(
+                  (e: string[]) => e[0] === data?.[0]
+                ).length === 0
+            })}
+            htmlFor={data?.[0]}
+          >
+            {data?.[0]}
+          </label>
+        </li>
+      );
+    });
     return html;
   };
 
@@ -1031,7 +1095,7 @@ class FilterList extends React.Component<Props, State> {
                       ? filter.categoryShop[name][id]
                       : false
                   }
-                  onClick={this.handleClickCategory}
+                  onChange={this.handleClickCategory}
                   value={data[0].split(">")[1].trim()}
                   name="View all"
                 />
@@ -1090,7 +1154,7 @@ class FilterList extends React.Component<Props, State> {
                           ? filter.categoryShop[data][nestedList[1]]
                           : false
                       }
-                      onClick={this.handleClickCategory}
+                      onChange={this.handleClickCategory}
                       value={data}
                       name={nestedList[0]}
                     />
@@ -1269,22 +1333,25 @@ class FilterList extends React.Component<Props, State> {
           typeof document == "object" &&
           document.getElementById("category")
         ) {
-          document.getElementById(
+          (document.getElementById(
             "category"
-          ).style.maxHeight = document.getElementById("category")?.scrollHeight
+          ) as HTMLElement).style.maxHeight = document.getElementById(
+            "category"
+          )?.scrollHeight
             ? `${Number(
                 (document.getElementById("category")?.scrollHeight || 0) +
                   (document.getElementById(id)?.scrollHeight || 0)
               )}px`
             : "max-content";
         }
-        document.getElementById(id).style.maxHeight = document.getElementById(
+        (document.getElementById(
           id
-        )?.scrollHeight
+        ) as HTMLElement).style.maxHeight = document.getElementById(id)
+          ?.scrollHeight
           ? `${document.getElementById(id)?.scrollHeight}px`
           : "max-content";
       } else {
-        document.getElementById(id).style.maxHeight = "0px";
+        (document.getElementById(id) as HTMLElement).style.maxHeight = "0px";
       }
     }
   };
@@ -1341,6 +1408,20 @@ class FilterList extends React.Component<Props, State> {
     event.stopPropagation();
   };
 
+  handleClickMaterial = (event: any) => {
+    const { filter } = this.state;
+    filter.currentMaterial[event.target.id] = {
+      isChecked: event.target.checked,
+      value: event.target.value
+    };
+
+    this.setState({
+      filter: filter
+    });
+    this.createUrlfromFilter();
+    event.stopPropagation();
+  };
+
   createColorCheckbox = (facets: any, filtered_facets: any) => {
     if (!facets.currentColor || facets.length == 0) return false;
     const html: any = [];
@@ -1366,7 +1447,7 @@ class FilterList extends React.Component<Props, State> {
                   ? filter.currentColor[data[0]].isChecked
                   : false
               }
-              onClick={this.handleClickColor}
+              onChange={this.handleClickColor}
               value={data[0]}
               // disabled={
               //   filtered_facets?.currentColor?.filter(
@@ -1400,7 +1481,7 @@ class FilterList extends React.Component<Props, State> {
                   ? filter.currentColor[data[0]].isChecked
                   : false
               }
-              onClick={this.handleClickColor}
+              onChange={this.handleClickColor}
               value={data[0]}
               // disabled={
               //   filtered_facets?.currentColor?.filter(
@@ -1485,6 +1566,9 @@ class FilterList extends React.Component<Props, State> {
     if ((elementCount ? elementCount.childElementCount : null) == 0)
       return false;
     switch (key) {
+      case "currentMaterial":
+        filter[key] = {};
+        break;
       case "currentColor":
         filter[key] = {};
         break;
@@ -1515,6 +1599,7 @@ class FilterList extends React.Component<Props, State> {
       case "all":
         filter.currentColor = {};
         filter.availableSize = {};
+        filter.currentMaterial = {};
         filter.price = {};
         for (const prop in filter.productType) {
           filter.productType[prop] = false;
@@ -1551,6 +1636,7 @@ class FilterList extends React.Component<Props, State> {
     Object.keys(filterObj).map(data => {
       switch (data) {
         case "currentColor":
+        case "currentMaterial":
         case "availableSize": {
           const filter: any = [];
           Object.keys(filterObj[data]).map((data1, index) => {
@@ -1586,7 +1672,14 @@ class FilterList extends React.Component<Props, State> {
           if (filter.length > 0) {
             html.push(
               <li key={data}>
-                <span>{data == "currentColor" ? "Color" : "Size"}: </span>
+                <span>
+                  {data == "currentColor"
+                    ? "Color"
+                    : data == "currentMaterial"
+                    ? "Material"
+                    : "Size"}
+                  :{" "}
+                </span>
                 <ul>{filter}</ul>
               </li>
             );
@@ -1753,7 +1846,7 @@ class FilterList extends React.Component<Props, State> {
                 ? filter.availableSize[data[0]].isChecked
                 : false
             }
-            onClick={this.handleClickSize}
+            onChange={this.handleClickSize}
             value={data[0]}
             // disabled={
             //   filtered_facets?.availableSize?.filter(
@@ -2043,6 +2136,50 @@ class FilterList extends React.Component<Props, State> {
                 <div data-name="currentColor">
                   <span
                     onClick={e => this.clearFilter(e, "currentColor")}
+                    className={styles.plp_filter_sub}
+                  >
+                    Clear
+                  </span>
+                </div>
+              </ul>
+            </div>
+          </li>
+
+          <li>
+            <span
+              className={
+                this.state.activeindex == 4 && this.state.showmenulevel1
+                  ? cs(styles.menulevel1, styles.menulevel1Open)
+                  : styles.menulevel1
+              }
+              onClick={() => {
+                this.Clickmenulevel1(4);
+                this.handleAnimation(
+                  "material",
+                  this.state.activeindex == 4 && this.state.showmenulevel1
+                );
+              }}
+            >
+              MATERIAL
+            </span>
+            <div
+              id="material"
+              className={
+                this.state.activeindex == 4 && this.state.showmenulevel1
+                  ? styles.colorhead
+                  : styles.hideDiv
+              }
+            >
+              <ul>
+                <span>
+                  {this.createMaterial(
+                    this.props.facets,
+                    this.props.filtered_facets
+                  )}
+                </span>
+                <div data-name="currentMaterial">
+                  <span
+                    onClick={e => this.clearFilter(e, "currentMaterial")}
                     className={styles.plp_filter_sub}
                   >
                     Clear
