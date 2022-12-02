@@ -29,19 +29,35 @@ const TransactionDashboard = () => {
         </p>
         <div className={styles.pointsWrp}>
           <div className={styles.points}>
-            <p className={styles.name}>TOTAL POINTS EARNED</p>
+            <p className={styles.name}>
+              TOTAL POINTS
+              <br />
+              EARNED
+            </p>
             <p className={styles.point}>{transaction?.EarnPoints}</p>
           </div>
           <div className={styles.points}>
-            <p className={styles.name}>TOTAL POINTS REDEEMED</p>
+            <p className={styles.name}>
+              TOTAL POINTS
+              <br />
+              REDEEMED
+            </p>
             <p className={styles.point}>{transaction?.RedeemPoints}</p>
           </div>
           <div className={styles.points}>
-            <p className={styles.name}>TOTAL POINTS EXPIRED</p>
+            <p className={styles.name}>
+              TOTAL POINTS
+              <br />
+              EXPIRED
+            </p>
             <p className={styles.point}>{transaction?.ExpiredPoints}</p>
           </div>
           <div className={styles.points}>
-            <p className={styles.name}>BALANCE POINTS</p>
+            <p className={styles.name}>
+              BALANCE
+              <br />
+              POINTS
+            </p>
             <p className={styles.point}>{transaction?.BalancePoints}</p>
           </div>
         </div>

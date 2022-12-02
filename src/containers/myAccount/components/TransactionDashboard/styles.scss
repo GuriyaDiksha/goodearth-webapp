@@ -3,7 +3,7 @@
 
 .transaction-dash-wrp{
 
-    background-color: #F9F8F5;
+    background-color: #F9F8F5 !important;
     padding: 75px 155px;
     width: 100%;
 
@@ -41,11 +41,11 @@
                 text-align: center;
                 flex: 0 0 25%;
                 max-width: 25%;
-                padding: 0 67px;
+                // padding: 0 67px;
                 margin-bottom: 30px;
 
                 @media only screen and (max-width: 992px) {
-                    padding: 0 25px;
+                    // padding: 0 25px;
                 }
 
                 @media only screen and (max-width: 992px) {
@@ -215,7 +215,7 @@
         border-top: none;
         // padding-bottom: 15px;
         padding:0; 
-        background-color: #E5E5E5;  
+        background-color: #F8F8F8;  
         overflow: hidden;
         transition: max-height 0.3s ease-out;
         max-height: 0;
