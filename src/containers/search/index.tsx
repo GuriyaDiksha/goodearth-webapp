@@ -779,18 +779,21 @@ class Search extends React.Component<
             {data.length == 0 &&
             this.state.searchText.length > 2 &&
             this.state.filterCount > 0 ? (
-              <div className={cs(bootstrap.row)}>
-                <div className={cs(bootstrap.colMd4, bootstrap.col6)}>
-                  <GiftcardItem isCorporateGifting={false} />
-                </div>
-                <div className={cs(bootstrap.colMd4, bootstrap.col6)}>
-                  <ResetFiltersTile
-                    resetFilters={this.child.clearFilter}
-                    mobileApply={this.child.updateDataFromAPI}
-                    mobile={mobile}
-                    tablet={false}
-                    view={"grid"}
-                  />
+              <div className={cs(styles.npfContainer)}>
+                <div className={cs(styles.npf)}>No products found</div>
+                <div className={cs(bootstrap.row, styles.tilesContainer)}>
+                  <div className={cs(bootstrap.colMd4, bootstrap.col6)}>
+                    <GiftcardItem isCorporateGifting={false} />
+                  </div>
+                  <div className={cs(bootstrap.colMd4, bootstrap.col6)}>
+                    <ResetFiltersTile
+                      resetFilters={this.child.clearFilter}
+                      mobileApply={this.child.updateDataFromAPI}
+                      mobile={mobile}
+                      tablet={false}
+                      view={"grid"}
+                    />
+                  </div>
                 </div>
               </div>
             ) : (

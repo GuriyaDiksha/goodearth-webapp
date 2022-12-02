@@ -42,10 +42,10 @@
 }
 
 .page-body{
-  margin-top: $main-header;
+  margin-top: $header-height;
 }
 .page-body-timer {
-  margin-top: $main-header + $timer-height;
+  margin-top: $header-height + $timer-height;
 }
 .page-body-tab {
   margin-top: $header-height;
@@ -67,10 +67,10 @@
 }
 @media screen and (max-width: 992px) {
   .page-body{
-    margin-top: $header-height + $grid-view-bar;
+    margin-top: $header-height ;
   }
   .page-body-timer {
-    margin-top: $header-height + $grid-view-bar + $timer-height;
+    margin-top: $header-height + $timer-height;
   }
   .page-body-tab {
     margin-top: $header-height;
