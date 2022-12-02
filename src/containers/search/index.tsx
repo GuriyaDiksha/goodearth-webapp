@@ -29,6 +29,7 @@ import { CategoryMenu } from "containers/plp/typings";
 import { GA_CALLS, ANY_ADS } from "constants/cookieConsent";
 import ProductCounter from "components/ProductCounter";
 import { throttle } from "lodash";
+import ResetFiltersTile from "components/plpResultItem/resetFiltersTile";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -583,7 +584,7 @@ class Search extends React.Component<
               <div
                 className={cs(
                   styles.productNumber,
-                  globalStyles.marginT20,
+                  // globalStyles.marginT20,
                   styles.imageContainer,
                   {
                     [styles.border]: mobile
@@ -655,7 +656,9 @@ class Search extends React.Component<
             <div
               className={
                 (data && this.state.searchText
-                ? data.length == 0 && this.state.searchText.length > 2
+                ? data.length == 0 &&
+                  this.state.searchText.length > 2 &&
+                  this.state.filterCount < 1
                 : false)
                   ? " voffset5 row image-container search searchpage mobile-nosearch"
                   : globalStyles.hidden
@@ -773,6 +776,26 @@ class Search extends React.Component<
                 </div>
               </div>
             </div>
+            {data.length == 0 &&
+            this.state.searchText.length > 2 &&
+            this.state.filterCount > 0 ? (
+              <div className={cs(bootstrap.row)}>
+                <div className={cs(bootstrap.colMd4, bootstrap.col6)}>
+                  <GiftcardItem isCorporateGifting={false} />
+                </div>
+                <div className={cs(bootstrap.colMd4, bootstrap.col6)}>
+                  <ResetFiltersTile
+                    resetFilters={this.child.clearFilter}
+                    mobileApply={this.child.updateDataFromAPI}
+                    mobile={mobile}
+                    tablet={false}
+                    view={"grid"}
+                  />
+                </div>
+              </div>
+            ) : (
+              ""
+            )}
           </div>
         </div>
         {mobile && (

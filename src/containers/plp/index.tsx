@@ -1011,7 +1011,13 @@ class PLP extends React.Component<
                   {this.state.corporoateGifting ? (
                     ""
                   ) : (
-                    <ResetFiltersTile resetFilters={this.child.clearFilter} />
+                    <ResetFiltersTile
+                      resetFilters={this.child.clearFilter}
+                      mobileApply={this.child.updateDataFromAPI}
+                      mobile={mobile}
+                      tablet={tablet}
+                      view={this.props.plpMobileView}
+                    />
                   )}
                 </div>
               ) : (
