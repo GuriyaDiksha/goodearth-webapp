@@ -92,7 +92,7 @@
     .c-sort-header {
       position: fixed;
       background-color: #fff;
-      top: $header-height;
+      top: 80px;
       line-height: 50px;
       width: 100%;
       left: 0;
@@ -101,7 +101,7 @@
       border-bottom: 1px solid tint(#000, 80%);
     }
     .c-sort-header-timer {
-      top: $header-height + $timer-height;
+      top: 80px + $timer-height;
     }
     .mobile-filter-header {
       left: 0;
@@ -128,9 +128,8 @@
     .collection-header {
       position: relative;
       > span {
-        font-size: 14px;
-        font-family: $font-Lato;
-        letter-spacing: 1px;
+        @include b3_14px_montserrat_light_charcoal();
+        letter-spacing: 0.5px;
         text-transform: uppercase;
         line-height: 35px;
       }
@@ -171,7 +170,7 @@
   z-index: 9;
   background-color: #fff;
   padding: 11px 20px 4px 20px;
-  top: $header-height;
+  top: 80px;
   border-bottom: 1px solid tint(#000, 80%);
   .filter-cross {
     line-height: 30px;
@@ -200,7 +199,7 @@
   }
 }
 .mobile-filter-header-timer {
-  top: $header-height + $timer-height;
+  top: 80px + $timer-height;
 }
 .mobile-filter-menu {
   position: fixed;
