@@ -203,6 +203,9 @@
       border: 1px solid #888;
       border-radius: 50%;
       padding: 20px 0;
+    }
+
+    input[type="radio"]:checked.default-address-checkbox{
       &::after{
         content: "";
         height: 9px;
@@ -215,6 +218,7 @@
         transform: translate(50%,-50%);
       }
     }
+
     .edit-track {
       bottom: 25px;
       text-transform: uppercase;
