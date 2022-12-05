@@ -8,8 +8,9 @@
 }
 .form-subheading{
   @include b4_12px_montserrat_charcoal();
-  letter-spacing: 0.5px;
+  letter-spacing: 0.36px;
   padding: 0px 52px;
+  line-height: 20px;
   &.track-order{
     padding: 0px 100px
   }
@@ -339,7 +340,7 @@
         text-transform: none;
       }
       &.price {
-        font-size: 18px;
+        font-size: 14px;
       }
       a:hover {
         cursor: pointer;
@@ -579,6 +580,8 @@
 .gift-display{
   display: block !important;
   margin-bottom: 27px;
+  margin-top: 30px;
+  padding-left: 20px;
 }
 
 
@@ -655,6 +658,9 @@
             font-size: 10px;
             display: flex;
           }
+          .data{
+            font-weight: 400;
+          }
         }
       }
 }
@@ -710,6 +716,7 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  font-weight: 400;
   .discountprice {
       color: #ab1e56;
       font-family:  $font-Lato;
@@ -954,6 +961,11 @@
       top: 3px;
     }
   }
+  .subscribe {
+    label {
+      left: 0px;
+    }
+  }
 }
 
 .giftcard-balance{
@@ -1062,6 +1074,8 @@
 .check-another{
   @include b4_12px_montserrat_charcoal_caps();
   letter-spacing: 0.5px;
+  text-decoration: underline;
+  text-underline-offset: 2px;
 }
 
 .horizontal{

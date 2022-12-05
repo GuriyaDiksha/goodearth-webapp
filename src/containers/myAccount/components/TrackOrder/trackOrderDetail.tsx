@@ -25,7 +25,7 @@ const TrackDetails: React.FC<OrdersProps> = props => {
           <div className={cs(styles.circle, styles.active)}></div>
           <div className={styles.textBlock}>
             <p>{text}</p>
-            <p>
+            <p className={styles.data}>
               {mydata[0]?.date
                 ? moment(mydata[0]?.date).format("D-MMM-YYYY")
                 : ""}
@@ -42,7 +42,7 @@ const TrackDetails: React.FC<OrdersProps> = props => {
           <div className={cs(styles.circle, styles.active)}></div>
           <div className={styles.textBlock}>
             <p>{text}</p>
-            <p>{date}</p>
+            <p className={styles.data}>{date}</p>
           </div>
         </div>
       );
@@ -63,7 +63,7 @@ const TrackDetails: React.FC<OrdersProps> = props => {
           <div className={cs(styles.circle, styles.active)}></div>
           <div className={styles.textBlock}>
             <p>{text}</p>
-            <p>
+            <p className={styles.data}>
               {mydata[0]?.date
                 ? moment(mydata[0]?.date).format("D-MMM-YYYY")
                 : ""}
@@ -87,7 +87,7 @@ const TrackDetails: React.FC<OrdersProps> = props => {
           ></div>
           <div className={styles.textBlock}>
             <p>{text}</p>
-            <p>
+            <p className={styles.data}>
               {mydata[0]?.date
                 ? moment(mydata[0]?.date).format("D-MMM-YYYY")
                 : ""}
@@ -112,7 +112,7 @@ const TrackDetails: React.FC<OrdersProps> = props => {
           <div className={cs(styles.circle, styles.active)}></div>
           <div className={styles.textBlock}>
             <p>{text}</p>
-            <p>
+            <p className={styles.data}>
               {mydata[0]?.date
                 ? moment(mydata[0]?.date).format("D-MMM-YYYY")
                 : ""}
@@ -126,7 +126,7 @@ const TrackDetails: React.FC<OrdersProps> = props => {
           <div className={cs(styles.circle, styles.active)}></div>
           <div className={styles.textBlock}>
             <p>{text}</p>
-            <p>
+            <p className={styles.data}>
               {mydata[0]?.date
                 ? moment(mydata[0]?.date).format("D-MMM-YYYY")
                 : ""}
@@ -159,7 +159,7 @@ const TrackDetails: React.FC<OrdersProps> = props => {
           <div className={cs(styles.circle, styles.active)}></div>
           <div className={styles.textBlock}>
             <p>{text}</p>
-            <p>
+            <p className={styles.data}>
               {mydata[0]?.date
                 ? moment(mydata[0]?.date).format("D-MMM-YYYY")
                 : ""}
@@ -173,7 +173,7 @@ const TrackDetails: React.FC<OrdersProps> = props => {
           <div className={cs(styles.circle, styles.active)}></div>
           <div className={styles.textBlock}>
             <p>{text}</p>
-            <p>
+            <p className={styles.data}>
               {mydata[0]?.date
                 ? moment(mydata[0]?.date).format("D-MMM-YYYY")
                 : ""}
@@ -209,7 +209,7 @@ const TrackDetails: React.FC<OrdersProps> = props => {
           <div className={cs(styles.circle, styles.active)}></div>
           <div className={styles.textBlock}>
             <p>{text}</p>
-            <p>
+            <p className={styles.data}>
               {mydata[0]?.date
                 ? moment(mydata[0]?.date).format("D-MMM-YYYY")
                 : ""}

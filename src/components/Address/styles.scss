@@ -203,6 +203,17 @@
       border: 1px solid #888;
       border-radius: 50%;
       padding: 20px 0;
+      &::after{
+        content: "";
+        height: 9px;
+        width: 9px;
+        border-radius: 50%;
+        background-color: #548B8B;
+        position: absolute;
+        top: 50%;
+        right: 50%;
+        transform: translate(50%,-50%);
+      }
     }
     .edit-track {
       bottom: 25px;
