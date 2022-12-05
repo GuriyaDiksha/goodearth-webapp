@@ -164,6 +164,8 @@
       }
       label {
         @include b5_10px_montserrat_charcoal();
+        letter-spacing: 0.3px;
+        line-height: 16px;
         text-transform: none;
         a {
           color: $charcoal19;
