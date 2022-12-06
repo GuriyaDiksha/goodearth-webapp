@@ -28,7 +28,7 @@ const ShopDropdownMenu = ({
   };
 
   useEffect(() => {
-    setDisplayValue(value);
+    setDisplayValue(value || "");
   }, [value]);
 
   return (

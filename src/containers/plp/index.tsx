@@ -512,10 +512,20 @@ class PLP extends React.Component<
       device: { mobile, tablet },
       currency,
       data: {
-        results: { breadcrumb, banner, bannerMobile, data, facets, bannerUrl },
+        results: { breadcrumb, banner, bannerMobile, facets, bannerUrl },
         count
       }
     } = this.props;
+    let {
+      data: {
+        results: { data }
+      }
+    } = this.props;
+
+    data = data.filter((item: any) => {
+      return +item.priceRecords[currency] != 0;
+    });
+
     const { plpMaker, corporoateGifting } = this.state;
     const items: CategoryMenu[] = [
       {
@@ -840,7 +850,7 @@ class PLP extends React.Component<
               {!mobile || this.props.plpMobileView == "grid"
                 ? data.map((item, index) => {
                     return (
-                      <>
+                      <React.Fragment key={index}>
                         {showTemplates["Product"] &&
                         data.length >= productTemplatePos &&
                         index == productTemplatePos - 1 ? (
@@ -905,12 +915,12 @@ class PLP extends React.Component<
                             />
                           )}
                         </div>
-                      </>
+                      </React.Fragment>
                     );
                   })
                 : data.map((item, index) => {
                     return (
-                      <>
+                      <React.Fragment key={index}>
                         {showTemplates["Product"] &&
                         data.length >= productTemplatePos &&
                         index == productTemplatePos - 1 ? (
@@ -960,7 +970,7 @@ class PLP extends React.Component<
                             loader={this.state.flag}
                           />
                         </div>
-                      </>
+                      </React.Fragment>
                     );
                   })}
               <div

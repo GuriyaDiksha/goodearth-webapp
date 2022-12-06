@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import cs from "classnames";
 // styles
 import styles from "../styles.scss";
