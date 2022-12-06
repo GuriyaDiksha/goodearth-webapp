@@ -195,10 +195,10 @@
       }
     }
     .default-address-checkbox {
-      position: relative;
+      position: absolute;
       left: -27px;
-      height: 15px;
-      width: 15px;
+      height: 14px;
+      width: 14px;
       background-color: #fff;
       border: 1px solid #888;
       border-radius: 50%;
@@ -208,14 +208,26 @@
     input[type="radio"]:checked.default-address-checkbox{
       &::after{
         content: "";
-        height: 9px;
-        width: 9px;
+        height: 8px;
+        width: 8px;
         border-radius: 50%;
         background-color: #548B8B;
         position: absolute;
         top: 50%;
         right: 50%;
         transform: translate(50%,-50%);
+      }
+      &::before{
+        content: "";
+        height: 16px;
+        width: 16px;
+        border-radius: 50%;
+        background-color: white;
+        position: absolute;
+        top: 50%;
+        right: 50%;
+        transform: translate(50%, -50%);
+        border: 1px solid #54b8b8;
       }
     }
 
@@ -356,7 +368,7 @@
     display: flex;
     justify-content: space-between;
     .radio{
-      position: absolute;
+      position: relative;
     }
   }
 
