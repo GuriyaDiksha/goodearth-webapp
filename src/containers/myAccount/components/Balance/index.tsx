@@ -66,7 +66,9 @@ class CheckBalance extends React.Component<Props, State> {
                       bootstrapStyles.offset1
                     )}
                   >
-                    <div className={styles.balanceContainer}>
+                    <div
+                      className={cs(styles.balanceContainer, styles.marginFix)}
+                    >
                       <div
                         className={cs(styles.flex, styles.section)}
                         id="gc-balance"
