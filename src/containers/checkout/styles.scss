@@ -917,6 +917,13 @@ input[type="radio"] {
 .font14 {
   font-size: 14px;
 }
+.gift-wrap-message{
+  width: 41%;
+
+  @media screen and (max-width: 600px) {
+    width: 98%;
+  }
+}
 .linkCerise {
   a {
     color: $cerise;
