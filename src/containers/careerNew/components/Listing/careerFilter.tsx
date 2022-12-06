@@ -376,7 +376,7 @@ const CareerFilter: React.FC<Props> = ({
                       type="checkbox"
                       name={ele?.title}
                       checked={selectedDept.includes(ele?.title)}
-                      onClick={e => handleCheckbox(e, "depts")}
+                      onChange={e => handleCheckbox(e, "depts")}
                     />
                     <label
                       htmlFor={"dept_" + i}
@@ -448,7 +448,7 @@ const CareerFilter: React.FC<Props> = ({
                       type="checkbox"
                       name={ele?.name}
                       checked={selectedFilters.includes(ele?.name)}
-                      onClick={e => handleCheckbox(e, "tags")}
+                      onChange={e => handleCheckbox(e, "tags")}
                       disabled={!tagLocFilter?.tag?.includes(ele?.name)}
                     />
                     <label
@@ -524,7 +524,7 @@ const CareerFilter: React.FC<Props> = ({
                       type="checkbox"
                       name={ele?.name}
                       checked={selectedFilters.includes(ele?.name)}
-                      onClick={e => handleCheckbox(e, "locs")}
+                      onChange={e => handleCheckbox(e, "locs")}
                       disabled={!tagLocFilter?.loc?.includes(ele?.name)}
                     />
                     <label

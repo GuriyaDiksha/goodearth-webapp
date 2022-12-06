@@ -22,7 +22,7 @@ export type PopupData = {
   ctaLabel2?: string;
   ctaColor2?: string;
   disclaimer: string;
-  id: number;
+  id?: number;
 };
 
 export type PopupResponse = {
