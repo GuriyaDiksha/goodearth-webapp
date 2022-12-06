@@ -1053,6 +1053,9 @@
 }
 
 .balance-container {
+  &.margin-fix{
+    margin: 0px 6%;
+  }
   .rtc{
     margin-top: 30px;
   }
@@ -1115,4 +1118,8 @@
   cursor: pointer;
   &:before{ transform: rotate(90deg); }
   &:after{ transform: rotate(180deg); }
+}
+
+.margin-fix{
+  margin: 30px 8.6% 0px 8.6%;
 }

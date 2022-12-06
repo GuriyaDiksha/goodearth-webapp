@@ -407,7 +407,13 @@ class TrackOrder extends React.Component<Props, State> {
       user: { email, isLoggedIn }
     } = this.props;
     return (
-      <div className={cs(styles.loginForm, globalStyles.voffset4)}>
+      <div
+        className={cs(
+          styles.loginForm,
+          globalStyles.voffset4,
+          styles.marginFix
+        )}
+      >
         <div>
           <Formsy
             ref={this.TrackOrderFormRef}
