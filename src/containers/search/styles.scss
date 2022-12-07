@@ -195,7 +195,7 @@
 .mobile-filter-menu {
     position: fixed;
     bottom: 0;
-    top: $main-header;
+    top: 90px;
     left: 0;
     z-index: 11;
     background-color: white;
@@ -1027,4 +1027,15 @@ input[type="radio"]:checked, [type="checkbox"]:not(:checked),
 
 .remove-border{
   border-bottom:none !important;
+}
+
+.npfContainer{
+  padding: 0px 3px;
+  .npf{
+    font-family: "Montserrat", "sans-serif";
+    font-size: 10px;
+    color: #191919;
+    line-height: 35px;
+    padding: 8px 0px 8px 6px;
+  }
 }

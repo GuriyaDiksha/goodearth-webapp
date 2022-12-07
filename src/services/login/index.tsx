@@ -29,6 +29,7 @@ import * as util from "../../utils/validate";
 import { Basket } from "typings/basket";
 import { updateRegion } from "actions/widget";
 import { ANY_ADS } from "constants/cookieConsent";
+import * as valid from "utils/validate";
 // import { updateBasket } from "actions/basket";
 // import { CUST } from "constants/util";
 
@@ -53,10 +54,11 @@ export default {
       dispatch,
       `${__API_HOST__ + "/myapi/auth/check_user_password/"}`,
       {
-        email
+        email: valid.encrypttext(email)
       }
     );
-    return res;
+    const response = valid.decriptdata(res);
+    return response;
   },
   resetPassword: async function(dispatch: Dispatch, formData: FormData) {
     const res = await API.post<resetPasswordResponse>(
@@ -83,34 +85,39 @@ export default {
       dispatch,
       `${__API_HOST__}/myapi/auth/login/${source ? "?source=" + source : ""}`,
       {
-        email: email,
-        password: password,
+        email: valid.encrypttext(email),
+        password: valid.encrypttext(password),
         boId: boId
       }
     );
-    CookieService.setCookie("atkn", res.token, 365);
-    CookieService.setCookie("userId", res.userId, 365);
-    CookieService.setCookie("email", res.email, 365);
+    const response = valid.decriptdata(res);
+    CookieService.setCookie("atkn", response.token, 365);
+    CookieService.setCookie("userId", response.userId, 365);
+    CookieService.setCookie("email", response.email, 365);
     CookieService.setCookie(
       "custGrp",
       res.customerGroup ? res.customerGroup.toLowerCase() : "",
       365
     );
-    util.showGrowlMessage(dispatch, `${res.firstName}, ${LOGIN_SUCCESS}`, 5000);
-    if (res.oldBasketHasItems) {
+    util.showGrowlMessage(
+      dispatch,
+      `${response.firstName}, ${LOGIN_SUCCESS}`,
+      5000
+    );
+    if (response.oldBasketHasItems) {
       util.showGrowlMessage(dispatch, MESSAGE.PREVIOUS_BASKET, 0);
     }
     if (
-      (res.updated || res.publishRemove) &&
-      res.updatedRemovedItems &&
-      res.updatedRemovedItems.length > 0
+      (response.updated || response.publishRemove) &&
+      response.updatedRemovedItems &&
+      response.updatedRemovedItems.length > 0
     ) {
       util.showGrowlMessage(
         dispatch,
         MESSAGE.PRODUCT_UNPUBLISHED,
         0,
         undefined,
-        res.updatedRemovedItems
+        response.updatedRemovedItems
       );
     }
     // if (
@@ -125,21 +132,24 @@ export default {
     //   dispatch(updateModal(false));
     // }
     dispatch(updateModal(false));
-    dispatch(updateCookies({ tkn: res.token }));
+    dispatch(updateCookies({ tkn: response.token }));
     dispatch(
-      updateUser({ isLoggedIn: true, customerGroup: res.customerGroup || "" })
+      updateUser({
+        isLoggedIn: true,
+        customerGroup: response.customerGroup || ""
+      })
     );
 
     // HeaderService.fetchHomepageData(dispatch);
     HeaderService.fetchHeaderDetails(
       dispatch,
       currency,
-      res.customerGroup
+      response.customerGroup
     ).catch(err => {
       console.log("FOOTER API ERROR ==== " + err);
     });
     const metaResponse = await MetaService.updateMeta(dispatch, {
-      tkn: res.token
+      tkn: response.token
     });
     WishlistService.updateWishlist(dispatch, sortBy);
     Api.getAnnouncement(dispatch).catch(err => {
@@ -216,13 +226,15 @@ export default {
     history: any,
     sortBy?: string
   ) {
-    const res = await API.post<loginResponse>(
+    const enc = valid.encryptdata(formdata);
+    const response = await API.post<loginResponse>(
       dispatch,
       `${__API_HOST__}/myapi/auth/sociallogin/${
         source ? "?source=" + source : ""
       }`,
-      formdata
+      enc
     );
+    const res = valid.decriptdata(response);
     CookieService.setCookie("atkn", res.token, 365);
     CookieService.setCookie("userId", res.userId, 365);
     CookieService.setCookie("email", res.email, 365);
@@ -415,10 +427,11 @@ export default {
     source?: string,
     sortBy?: string
   ) {
+    const enc = valid.encryptdata(formData);
     const res = await API.post<registerResponse>(
       dispatch,
       `${__API_HOST__ + "/myapi/auth/register/"}`,
-      formData
+      enc
     );
     // CookieService.setCookie("atkn", res.token, 365);
     // CookieService.setCookie("userId", res.userId, 365);
@@ -437,7 +450,8 @@ export default {
     //     util.checkoutGTM(1, metaResponse?.currency || "INR", res);
     //   }
     // });
-    return res;
+    const response = valid.decriptdata(res);
+    return response;
   },
   changeCurrency: async function(
     dispatch: Dispatch,
@@ -565,9 +579,10 @@ export default {
       message: string;
       alreadyVerified: boolean;
     }>(dispatch, `${__API_HOST__}/myapi/customer/send_user_otp/`, {
-      email
+      email: valid.encrypttext(email)
     });
-    return res;
+    const response = valid.decriptdata(res);
+    return response;
   },
   verifyUserOTP: async (dispatch: Dispatch, email: string, otp: string) => {
     const res = await API.post<{
@@ -578,9 +593,10 @@ export default {
       attempts: number;
       maxAttemptsAllow: number;
     }>(dispatch, `${__API_HOST__}/myapi/customer/verify_user_otp/`, {
-      email,
+      email: valid.encrypttext(email),
       otp
     });
-    return res;
+    const response = valid.decriptdata(res);
+    return response;
   }
 };

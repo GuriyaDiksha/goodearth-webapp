@@ -7,6 +7,7 @@ import { DomUtils, parseDocument } from "htmlparser2";
 import { useEffect, useState } from "react";
 import { GA_CALLS, ANY_ADS } from "constants/cookieConsent";
 import { sha256 } from "js-sha256";
+import CryptoJS from "crypto-js";
 // import { AppState } from "reducers/typings";
 // import { useSelector } from "react-redux";
 
@@ -1652,6 +1653,40 @@ export const megaMenuNavigationGTM = ({
   } catch (e) {
     console.log("Menu Navigation GTM error!");
   }
+};
+
+export const encrypttext = (message: string) => {
+  if (typeof message != "string" || !__EnableCrypto__) return message;
+  let key = "AAAAAAAAAAAAAAAA"; //key used in Python
+  key = CryptoJS.enc.Utf8.parse(key);
+  const encrypted = CryptoJS.AES.encrypt(message, key, {
+    mode: CryptoJS.mode.ECB
+  });
+  return encrypted.toString();
+};
+
+export const decripttext = (encrypted: string) => {
+  if (typeof encrypted != "string" || !__EnableCrypto__) return encrypted;
+  let key = "AAAAAAAAAAAAAAAA"; //key used in Python
+  key = CryptoJS.enc.Utf8.parse(key);
+  const decrypted = CryptoJS.AES.decrypt(encrypted, key, {
+    mode: CryptoJS.mode.ECB
+  });
+  return decrypted.toString(CryptoJS.enc.Utf8);
+};
+
+export const encryptdata = (data: any) => {
+  for (const key in data) {
+    if (typeof data[key] == "string") data[key] = encrypttext(data[key]);
+  }
+  return { ...data };
+};
+
+export const decriptdata = (data: any) => {
+  for (const key in data) {
+    if (typeof data[key] == "string") data[key] = decripttext(data[key]);
+  }
+  return { ...data };
 };
 
 export const pageViewGTM = (Title: string) => {

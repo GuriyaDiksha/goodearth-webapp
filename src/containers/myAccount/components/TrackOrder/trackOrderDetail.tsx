@@ -21,27 +21,31 @@ const TrackDetails: React.FC<OrdersProps> = props => {
     });
     if (status == 1) {
       html.push(
-        <div className={cs(styles.mainBlock, styles.cerisebg)}>
-          <p>{text}</p>
-          <p>
-            {mydata[0]?.date
-              ? moment(mydata[0]?.date).format("D-MMM-YYYY")
-              : ""}
-          </p>
+        <div className={cs(styles.mainBlock, styles.inactive)}>
+          <div className={cs(styles.circle, styles.active)}></div>
+          <div className={styles.textBlock}>
+            <p>{text}</p>
+            <p className={styles.data}>
+              {mydata[0]?.date
+                ? moment(mydata[0]?.date).format("D-MMM-YYYY")
+                : ""}
+            </p>
+          </div>
         </div>
       );
-      html.push(<hr />);
     } else {
       const date = moment(mydata[0] ? mydata[0]?.date : new Date()).format(
         "D-MMM-YYYY"
       );
       html.push(
-        <div className={cs(styles.mainBlock, styles.cerisebg)}>
-          <p>{text}</p>
-          <p>{date}</p>
+        <div className={cs(styles.mainBlock, styles.active)}>
+          <div className={cs(styles.circle, styles.active)}></div>
+          <div className={styles.textBlock}>
+            <p>{text}</p>
+            <p className={styles.data}>{date}</p>
+          </div>
         </div>
       );
-      html.push(<hr className={styles.cerisehr} />);
     }
 
     return html;
@@ -55,69 +59,90 @@ const TrackDetails: React.FC<OrdersProps> = props => {
     if (status == 2) {
       // const date = moment(new Date());
       html.push(
-        <div className={cs(styles.mainBlock, styles.cerisebg)}>
-          <p>{text}</p>
-          <p>
-            {mydata[0]?.date
-              ? moment(mydata[0]?.date).format("D-MMM-YYYY")
-              : ""}
-          </p>
+        <div className={cs(styles.mainBlock, styles.inactive)}>
+          <div className={cs(styles.circle, styles.active)}></div>
+          <div className={styles.textBlock}>
+            <p>{text}</p>
+            <p className={styles.data}>
+              {mydata[0]?.date
+                ? moment(mydata[0]?.date).format("D-MMM-YYYY")
+                : ""}
+            </p>
+          </div>
         </div>
       );
-      html.push(<hr />);
     } else {
       html.push(
-        <div className={cs(styles.mainBlock, styles.cerisebg)}>
-          <p>{text}</p>
-          <p>
-            {mydata[0]?.date
-              ? moment(mydata[0]?.date).format("D-MMM-YYYY")
-              : ""}
-          </p>
+        <div
+          className={cs(
+            styles.mainBlock,
+            status > 2 ? styles.active : styles.inactive
+          )}
+        >
+          <div
+            className={cs(
+              styles.circle,
+              status > 2 ? styles.active : styles.inactive
+            )}
+          ></div>
+          <div className={styles.textBlock}>
+            <p>{text}</p>
+            <p className={styles.data}>
+              {mydata[0]?.date
+                ? moment(mydata[0]?.date).format("D-MMM-YYYY")
+                : ""}
+            </p>
+          </div>
         </div>
       );
-      html.push(<hr className={styles.cerisehr} />);
     }
 
     return html;
   };
 
   const shipped = (data: any, text: string, status: number) => {
+    console.log(status, data);
     const mydata = data.filter((a: any) => {
       return a.status == "Shipped";
     });
     const html = [];
     if (status == 3) {
       html.push(
-        <div className={cs(styles.mainBlock, styles.whitebg)}>
-          <p>{text}</p>
-          <p>
-            {mydata[0]?.date
-              ? moment(mydata[0]?.date).format("D-MMM-YYYY")
-              : ""}
-          </p>
+        <div className={cs(styles.mainBlock, styles.inactive)}>
+          <div className={cs(styles.circle, styles.active)}></div>
+          <div className={styles.textBlock}>
+            <p>{text}</p>
+            <p className={styles.data}>
+              {mydata[0]?.date
+                ? moment(mydata[0]?.date).format("D-MMM-YYYY")
+                : ""}
+            </p>
+          </div>
         </div>
       );
-      html.push(<hr />);
     } else if (status > 3) {
       html.push(
-        <div className={cs(styles.mainBlock, styles.cerisebg)}>
-          <p>{text}</p>
-          <p>
-            {mydata[0]?.date
-              ? moment(mydata[0]?.date).format("D-MMM-YYYY")
-              : ""}
-          </p>
+        <div className={cs(styles.mainBlock, styles.active)}>
+          <div className={cs(styles.circle, styles.active)}></div>
+          <div className={styles.textBlock}>
+            <p>{text}</p>
+            <p className={styles.data}>
+              {mydata[0]?.date
+                ? moment(mydata[0]?.date).format("D-MMM-YYYY")
+                : ""}
+            </p>
+          </div>
         </div>
       );
-      html.push(<hr className={styles.cerisehr} />);
     } else {
       html.push(
-        <div className={cs(styles.mainBlock, styles.grayborder)}>
-          <p>{text}</p>
+        <div className={cs(styles.mainBlock, styles.inactive)}>
+          <div className={cs(styles.circle, styles.inactive)}></div>
+          <div className={styles.textBlock}>
+            <p>{text}</p>
+          </div>
         </div>
       );
-      html.push(<hr />);
     }
     return html;
   };
@@ -130,41 +155,45 @@ const TrackDetails: React.FC<OrdersProps> = props => {
 
     if (status == 5) {
       html.push(
-        <div className={cs(styles.mainBlock, styles.cerisebg)}>
-          <p>{text}</p>
-          <p>
-            {mydata[0]?.date
-              ? moment(mydata[0]?.date).format("D-MMM-YYYY")
-              : ""}
-          </p>
-        </div>
-      );
-      html.push(<hr className={styles.cerisehr} />);
-    } else if (status == 4) {
-      html.push(
-        <div className={styles.relative}>
-          <div className={cs(styles.mainBlock, styles.whitebg)}>
+        <div className={cs(styles.mainBlock, styles.active)}>
+          <div className={cs(styles.circle, styles.active)}></div>
+          <div className={styles.textBlock}>
             <p>{text}</p>
-            <p>
+            <p className={styles.data}>
               {mydata[0]?.date
                 ? moment(mydata[0]?.date).format("D-MMM-YYYY")
                 : ""}
             </p>
           </div>
-          <div className={styles.txtRight}>
-            <img src={liveImg} width="30" /> Live Status Update:{" "}
-            {mydata[0].location}
+        </div>
+      );
+    } else if (status == 4) {
+      html.push(
+        <div className={cs(styles.mainBlock, styles.inactive)}>
+          <div className={cs(styles.circle, styles.active)}></div>
+          <div className={styles.textBlock}>
+            <p>{text}</p>
+            <p className={styles.data}>
+              {mydata[0]?.date
+                ? moment(mydata[0]?.date).format("D-MMM-YYYY")
+                : ""}
+            </p>
+            <div className={cs(styles.liveLocation)}>
+              <img src={liveImg} width="30" /> Live Status Update:{" "}
+              {mydata[0].location}
+            </div>
           </div>
         </div>
       );
-      html.push(<hr />);
     } else {
       html.push(
-        <div className={cs(styles.mainBlock, styles.grayborder)}>
-          <p>{text}</p>
+        <div className={cs(styles.mainBlock, styles.inactive)}>
+          <div className={cs(styles.circle, styles.inactive)}></div>
+          <div className={styles.textBlock}>
+            <p>{text}</p>
+          </div>
         </div>
       );
-      html.push(<hr />);
     }
     return html;
   };
@@ -176,19 +205,25 @@ const TrackDetails: React.FC<OrdersProps> = props => {
     });
     if (status == 5) {
       html.push(
-        <div className={cs(styles.mainBlock, styles.cerisebg)}>
-          <p>{text}</p>
-          <p>
-            {mydata[0]?.date
-              ? moment(mydata[0]?.date).format("D-MMM-YYYY")
-              : ""}
-          </p>
+        <div className={cs(styles.mainBlock, styles.delivered)}>
+          <div className={cs(styles.circle, styles.active)}></div>
+          <div className={styles.textBlock}>
+            <p>{text}</p>
+            <p className={styles.data}>
+              {mydata[0]?.date
+                ? moment(mydata[0]?.date).format("D-MMM-YYYY")
+                : ""}
+            </p>
+          </div>
         </div>
       );
     } else {
       html.push(
-        <div className={cs(styles.mainBlock, styles.grayborder)}>
-          <p style={{ lineHeight: "35px;" }}>{text}</p>
+        <div className={cs(styles.mainBlock, styles.delivered)}>
+          <div className={cs(styles.circle, styles.inactive)}></div>
+          <div className={styles.textBlock}>
+            <p style={{ lineHeight: "35px;" }}>{text}</p>
+          </div>
         </div>
       );
     }
@@ -201,7 +236,7 @@ const TrackDetails: React.FC<OrdersProps> = props => {
     const order = [
         "Order Received",
         "Ready to Pick",
-        "Order Shipped",
+        "Shipped",
         "Intransit",
         "Delivered"
       ],
@@ -270,12 +305,12 @@ const TrackDetails: React.FC<OrdersProps> = props => {
                 className={cs(bootstrapStyles.col12, bootstrapStyles.colMd6)}
               >
                 <p>{moment(data.datePlaced).format("D MMM,YYYY")}</p>
-                <p>
-                  <span className={styles.op2}>Status</span>: &nbsp;
-                  <span className={styles.orderStatus}>{data.status}</span>
+                <p className={styles.orderStatus}>
+                  <span className={styles.op2}>Status:</span> &nbsp;
+                  <span className={styles.status}>{data.status}</span>
                 </p>
-                <p>
-                  <span className={styles.op2}>Items</span>: &nbsp;{totalItem}
+                <p className={styles.orderItems}>
+                  <span className={styles.op2}>Items:</span> &nbsp;{totalItem}
                 </p>
               </div>
               <div
@@ -284,7 +319,7 @@ const TrackDetails: React.FC<OrdersProps> = props => {
                 <p>
                   <span className={styles.op2}>Amount Paid</span>
                 </p>
-                <p>
+                <p className={styles.orderTotal}>
                   {String.fromCharCode(
                     ...currencyCode[data.currency as Currency]
                   )}{" "}
@@ -326,25 +361,30 @@ const TrackDetails: React.FC<OrdersProps> = props => {
                 ) : (
                   <div className={styles.add}>
                     {shippingAddress ? (
-                      <address>
-                        <label>shipping address</label>
-                        <p>
+                      <div className={styles.trackOrderAddress}>
+                        <div className={styles.title}>Shipping Address</div>
+                        <div className={styles.name}>
                           {shippingAddress.firstName}
                           &nbsp; {shippingAddress.lastName}
-                          <br />
-                        </p>
-                        <p className={styles.light}>
-                          {shippingAddress.line1}
-                          <br />
-                          {shippingAddress.line2}{" "}
-                          {shippingAddress.line2 && <br />}
-                          {shippingAddress.state}, {shippingAddress.postcode}{" "}
-                          <br />
-                          {shippingAddress.countryName}
-                          <br />
-                        </p>
-                        <p> {shippingAddress.phoneNumber}</p>
-                      </address>
+                        </div>
+                        <div className={styles.address}>
+                          <div className={cs(styles.addressLine, styles.line1)}>
+                            {shippingAddress.line1}
+                          </div>
+                          <div className={cs(styles.addressLine, styles.line2)}>
+                            {shippingAddress.line2}
+                          </div>
+                          <div className={cs(styles.addressLine)}>
+                            {shippingAddress.state}, {shippingAddress.postcode}
+                          </div>
+                          <div className={cs(styles.addressLine)}>
+                            {shippingAddress.countryName}
+                          </div>
+                          <div className={styles.phone}>
+                            M: {shippingAddress.phoneNumber}
+                          </div>
+                        </div>
+                      </div>
                     ) : (
                       ""
                     )}
@@ -356,23 +396,30 @@ const TrackDetails: React.FC<OrdersProps> = props => {
               >
                 <div className={styles.add}>
                   {billingAddress ? (
-                    <address>
-                      <label>billing address</label>
-                      <p>
+                    <div className={styles.trackOrderAddress}>
+                      <div className={styles.title}>Billing Address</div>
+                      <div className={styles.name}>
                         {billingAddress.firstName}
                         &nbsp; {billingAddress.lastName}
-                        <br />
-                      </p>
-                      <p className={styles.light}>
-                        {billingAddress.line1}
-                        <br />
-                        {billingAddress.line2} {billingAddress.line2 && <br />}
-                        {billingAddress.state}, {billingAddress.postcode} <br />
-                        {billingAddress.countryName}
-                        <br />
-                      </p>
-                      <p> {billingAddress.phoneNumber}</p>
-                    </address>
+                      </div>
+                      <div className={styles.address}>
+                        <div className={cs(styles.addressLine, styles.line1)}>
+                          {billingAddress.line1}
+                        </div>
+                        <div className={cs(styles.addressLine, styles.line2)}>
+                          {billingAddress.line2}
+                        </div>
+                        <div className={cs(styles.addressLine)}>
+                          {billingAddress.state}, {billingAddress.postcode}
+                        </div>
+                        <div className={cs(styles.addressLine)}>
+                          {billingAddress.countryName}
+                        </div>
+                      </div>
+                      <div className={styles.phone}>
+                        M: {billingAddress.phoneNumber}
+                      </div>
+                    </div>
                   ) : (
                     ""
                   )}
@@ -414,14 +461,14 @@ const TrackDetails: React.FC<OrdersProps> = props => {
                   <div
                     className={cs(bootstrapStyles.col7, bootstrapStyles.colMd9)}
                   >
-                    <div className={cs(styles.imageContent, styles.textLeft)}>
-                      <p className={cs(styles.productH, styles.itemPadding)}>
+                    <div className={cs(styles.orderContent, styles.textLeft)}>
+                      <p className={cs(styles.collection, styles.itemPadding)}>
                         {item.product.collection}
                       </p>
                       <p className={cs(styles.productN, styles.itemPadding)}>
                         {item.title}
                       </p>
-                      <p className={cs(styles.productN, styles.itemPadding)}>
+                      <p className={cs(styles.price, styles.itemPadding)}>
                         {isdisCount ? (
                           <span className={styles.discountprice}>
                             {String.fromCharCode(
@@ -465,13 +512,13 @@ const TrackDetails: React.FC<OrdersProps> = props => {
                         )}
                       </p>
                       {item.product.size ? (
-                        <div className={styles.plp_prod_quantity}>
+                        <div className={styles.size}>
                           Size:&nbsp; {item.product.size}
                         </div>
                       ) : (
                         ""
                       )}
-                      <div className={styles.plp_prod_quantity}>
+                      <div className={styles.quantity}>
                         Qty:&nbsp; {item.quantity}
                       </div>
                     </div>

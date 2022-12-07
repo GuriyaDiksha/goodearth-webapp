@@ -48,6 +48,7 @@ module.exports = {
     __MOENG__:false,
     Vimeo: false,
     __CAREERS_FORM__: false,
-    Moengage: false
+    Moengage: false,
+    __EnableCrypto__:false
 }
 };

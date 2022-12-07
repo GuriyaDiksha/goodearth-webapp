@@ -27,6 +27,9 @@ import * as util from "utils/validate";
 import SecondaryHeaderDropdown from "components/dropdown/secondaryHeaderDropdown";
 import { CategoryMenu } from "containers/plp/typings";
 import { GA_CALLS, ANY_ADS } from "constants/cookieConsent";
+import ProductCounter from "components/ProductCounter";
+import { throttle } from "lodash";
+import ResetFiltersTile from "components/plpResultItem/resetFiltersTile";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -78,6 +81,8 @@ class Search extends React.Component<
     searchMaker: boolean;
     featureData: WidgetImage[];
     flag: boolean;
+    count: number;
+    showProductCounter: boolean;
   }
 > {
   private child: any = FilterListSearch;
@@ -96,7 +101,9 @@ class Search extends React.Component<
       sortValue: param ? param : "hc",
       searchMaker: false,
       flag: false,
-      featureData: []
+      featureData: [],
+      count: -1,
+      showProductCounter: true
     };
   }
 
@@ -144,6 +151,7 @@ class Search extends React.Component<
     changeModalState(true);
   };
   componentDidMount() {
+    const that = this;
     util.moveChatDown();
     this.setState({
       searchMaker: true
@@ -176,11 +184,136 @@ class Search extends React.Component<
       .catch(function(error) {
         console.log(error);
       });
+    window.addEventListener(
+      "scroll",
+      throttle(() => {
+        this.setProductCount();
+      }, 50)
+    );
+    let previousUrl = "";
+    const observer = new MutationObserver(function(mutations) {
+      if (location.href !== previousUrl) {
+        previousUrl = location.href;
+        that.setState({ count: -1 });
+      }
+    });
+    const config = { subtree: true, childList: true };
+    observer.observe(document, config);
   }
 
   componentWillUnmount() {
     util.moveChatUp();
+    window.removeEventListener(
+      "scroll",
+      throttle(() => {
+        this.setProductCount();
+      }, 100)
+    );
   }
+
+  setProductCount = () => {
+    const cards = document.querySelectorAll(".search-container");
+    const cardIDs: any = [];
+
+    cards.forEach(card => {
+      cardIDs.push(
+        Array.from(card.children[0].children).filter(e => e.id != "")[0]?.id
+      );
+    });
+    const observer = new IntersectionObserver(
+      entries => {
+        let maxIndex = -Infinity;
+        let element: any;
+        let productID: any, idx: any;
+        entries.forEach((entry, index) => {
+          if (
+            entry.isIntersecting &&
+            entry.target.getBoundingClientRect().bottom <
+              window.innerHeight - 50
+          ) {
+            productID = Array.from(entry.target.children[0].children).filter(
+              e => e.id != ""
+            )[0]?.id;
+            idx = cardIDs.findIndex((e: string) => e == productID);
+            if (idx > maxIndex) {
+              maxIndex = idx;
+              element = entry.target;
+            }
+          }
+        });
+        if (element) {
+          if (idx > -1 && !this.state.flag) {
+            this.setState({ count: idx + 1 });
+          }
+          if (window.scrollY < 120) {
+            this.setState({ count: -1 });
+          }
+        } else if (
+          cards[cards.length - 1].getBoundingClientRect().bottom < 130 ||
+          window.scrollY < 120
+        ) {
+          this.setState({ count: -1 });
+        }
+        observer.disconnect();
+      },
+      {
+        rootMargin: "-130px 0px -90px 0px"
+      }
+    );
+    cards.forEach(card => {
+      observer.observe(card);
+    });
+  };
+
+  updateMobileView = () => {
+    if (this.props.device.mobile) {
+      const cards = document.querySelectorAll(".search-container");
+      const cardIDs: any = [];
+
+      cards.forEach(card => {
+        cardIDs.push(card.children[0].children[0]?.id);
+      });
+
+      const observer = new IntersectionObserver(
+        entries => {
+          let topMostPos = Infinity;
+          let leftMostPos = Infinity;
+          let leftMostElement: any;
+          entries.forEach((entry, index) => {
+            if (entry.isIntersecting && entry.intersectionRatio > 0.4) {
+              const y: number = entry.target.getBoundingClientRect().y;
+              const x: number = entry.target.getBoundingClientRect().x;
+              if (y < topMostPos) {
+                topMostPos = y;
+              }
+              if (x < leftMostPos) {
+                leftMostPos = x;
+                leftMostElement = entry.target;
+              }
+            }
+          });
+          if (leftMostPos != Infinity) {
+            const productID = leftMostElement.children[0].children[0]?.id;
+            // this.props.updateMobileView();
+            const top: number =
+              leftMostElement.getBoundingClientRect().top - 135;
+            window.scrollBy({ top: top, behavior: "smooth" });
+            if (productID == cardIDs[0]) this.setState({ count: -1 });
+          } else {
+            // this.props.updateMobileView();
+          }
+          observer.disconnect();
+        },
+        {
+          rootMargin: "-130px 0px -90px 0px"
+        }
+      );
+
+      cards.forEach(card => {
+        observer.observe(card);
+      });
+    }
+  };
 
   onChangeFilterState = (state: boolean, cross?: boolean) => {
     if (cross) {
@@ -484,9 +617,12 @@ class Search extends React.Component<
                     className={cs(
                       bootstrap.colMd4,
                       bootstrap.col6,
-                      styles.setWidth
+                      styles.setWidth,
+                      "search-container"
                     )}
                     key={item.id}
+                    id={i == 0 ? "first-item" : ""}
+                    onClick={() => this.updateMobileView()}
                     // onClick={e => {
                     //   this.gtmPushSearchClick(e, item, i);
                     // }}
@@ -508,6 +644,7 @@ class Search extends React.Component<
                             ? true
                             : false
                         }
+                        isSearch={true}
                       />
                     ) : (
                       <GiftcardItem isCorporateGifting={false} />
@@ -519,7 +656,9 @@ class Search extends React.Component<
             <div
               className={
                 (data && this.state.searchText
-                ? data.length == 0 && this.state.searchText.length > 2
+                ? data.length == 0 &&
+                  this.state.searchText.length > 2 &&
+                  this.state.filterCount < 1
                 : false)
                   ? " voffset5 row image-container search searchpage mobile-nosearch"
                   : globalStyles.hidden
@@ -637,6 +776,29 @@ class Search extends React.Component<
                 </div>
               </div>
             </div>
+            {data.length == 0 &&
+            this.state.searchText.length > 2 &&
+            this.state.filterCount > 0 ? (
+              <div className={cs(styles.npfContainer)}>
+                <div className={cs(styles.npf)}>No products found</div>
+                <div className={cs(bootstrap.row, styles.tilesContainer)}>
+                  <div className={cs(bootstrap.colMd4, bootstrap.col6)}>
+                    <GiftcardItem isCorporateGifting={false} />
+                  </div>
+                  <div className={cs(bootstrap.colMd4, bootstrap.col6)}>
+                    <ResetFiltersTile
+                      resetFilters={this.child.clearFilter}
+                      mobileApply={this.child.updateDataFromAPI}
+                      mobile={mobile}
+                      tablet={false}
+                      view={"grid"}
+                    />
+                  </div>
+                </div>
+              </div>
+            ) : (
+              ""
+            )}
           </div>
         </div>
         {mobile && (
@@ -649,6 +811,13 @@ class Search extends React.Component<
             open={false}
             value="hc"
             sortedDiscount={facets.sortedDiscount}
+          />
+        )}
+        {mobile && this.state.count > -1 && this.state.showProductCounter && (
+          <ProductCounter
+            current={this.state.count}
+            total={count}
+            id="plp-product-counter"
           />
         )}
       </div>

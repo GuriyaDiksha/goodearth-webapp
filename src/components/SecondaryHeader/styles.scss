@@ -4,10 +4,15 @@
 .secondary-header-container {
     box-shadow: 0 8px 6px -6px tint(#000, 90%);
     height: $secondary-header-height;
-    @include sticky-top();
+    position: fixed;
+    width: 100%;
+    z-index: 9;
+    background-color: $white;
+    left: 0;
+    top: 80px;
 }
 .secondary-header-container-timer {
-    top: $header-height + $timer-height;
+    top: 80px + $timer-height;
 }
 .careers {
     .secondary-header-container {
