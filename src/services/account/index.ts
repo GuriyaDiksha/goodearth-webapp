@@ -185,6 +185,7 @@ export default {
     return temp;
   },
   checkOtpBalance: async (dispatch: Dispatch, formData: any) => {
+    const olddata = { ...formData };
     const enc = valid.encryptdata(formData);
     const data = await API.post<BalanceProps>(
       dispatch,
@@ -196,7 +197,7 @@ export default {
     const temp = {
       ...response
     };
-    temp["code"] = formData.code;
+    temp["code"] = olddata.code;
     return temp;
   },
   checkOtpRedeem: async (dispatch: Dispatch, formData: any) => {
