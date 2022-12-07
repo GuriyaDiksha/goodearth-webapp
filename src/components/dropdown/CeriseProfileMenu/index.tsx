@@ -4,6 +4,8 @@ import styles from "./styles.scss";
 import CeriseCard from "components/CeriseCard";
 import { NavLink } from "react-router-dom";
 import BaseDropdownMenu from "../baseDropdownMenu";
+import { useSelector } from "react-redux";
+import { AppState } from "reducers/typings";
 
 const CeriseProfileMenu = ({
   align,
@@ -24,21 +26,24 @@ const CeriseProfileMenu = ({
     disabled,
     id
   };
+  const { currency } = useSelector((state: AppState) => state);
 
   const getMenuItems = (): JSX.Element => {
     return (
       <div className={styles.ceriseCardMenuWrp}>
-        <div
-        // onClick={e => {
-        //   if ((e.target as HTMLInputElement)?.id === "dashboard") {
-        //     history.push("/account/cerise");
-        //   } else {
-        //     history.push("/cerise");
-        //   }
-        // }}
-        >
-          <CeriseCard />
-        </div>
+        {currency === "INR" && (
+          <div
+          // onClick={e => {
+          //   if ((e.target as HTMLInputElement)?.id === "dashboard") {
+          //     history.push("/account/cerise");
+          //   } else {
+          //     history.push("/cerise");
+          //   }
+          // }}
+          >
+            <CeriseCard />
+          </div>
+        )}
         <div className={styles.ceriseCardMenu} id={id}>
           <ul>
             {items.map((item, ind) => {

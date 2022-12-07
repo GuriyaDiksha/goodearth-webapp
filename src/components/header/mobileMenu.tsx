@@ -1228,7 +1228,9 @@ class Mobilemenu extends React.Component<Props, MobileState> {
             }
           }}
         > */}
-        <CeriseCard clickToggle={clickToggle} />
+        {this.props.currency === "INR" && (
+          <CeriseCard clickToggle={clickToggle} />
+        )}
         {/* </NavLink> */}
       </div>
     );
