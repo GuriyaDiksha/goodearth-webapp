@@ -170,6 +170,7 @@ export default {
     return data;
   },
   sendOtpGiftcard: async (dispatch: Dispatch, formData: FormData) => {
+    const olddata = { ...formData };
     const enc = valid.encryptdata(formData);
     const data = await API.post<BalanceProps>(
       dispatch,
@@ -179,7 +180,7 @@ export default {
     const response = valid.decriptdata(data);
     const temp = {
       ...response,
-      ...formData
+      ...olddata
     };
     return temp;
   },
