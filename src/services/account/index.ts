@@ -18,7 +18,8 @@ export default {
       dispatch,
       `${__API_HOST__ + "/myapi/customer/profile"}`
     );
-    return data;
+    const response = valid.decriptdata(data);
+    return response;
   },
   updateProfileData: async (dispatch: Dispatch, formData: FormData) => {
     const enc = valid.encryptdata(formData);
