@@ -594,7 +594,7 @@ export default {
       maxAttemptsAllow: number;
     }>(dispatch, `${__API_HOST__}/myapi/customer/verify_user_otp/`, {
       email: valid.encrypttext(email),
-      otp
+      otp: valid.encrypttext(otp)
     });
     const response = valid.decriptdata(res);
     return response;

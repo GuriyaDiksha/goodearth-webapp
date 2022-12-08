@@ -22,7 +22,8 @@ export default {
     return response;
   },
   updateProfileData: async (dispatch: Dispatch, formData: FormData) => {
-    const enc = valid.encryptdata(formData);
+    const newdata = { ...formData };
+    const enc = valid.encryptdata(newdata);
     const data = await API.post<ProfileResponse>(
       dispatch,
       `${__API_HOST__ + "/myapi/customer/update_profile/"}`,
@@ -132,7 +133,8 @@ export default {
     return temp;
   },
   sendOtpBalance: async (dispatch: Dispatch, formData: FormData) => {
-    const enc = valid.encryptdata(formData);
+    const newdata = { ...formData };
+    const enc = valid.encryptdata(newdata);
     const data = await API.post<BalanceProps>(
       dispatch,
       `${__API_HOST__ + "/myapi/giftcard/send_otp_for_anonymous_user/"}`,
