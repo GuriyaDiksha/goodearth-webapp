@@ -463,6 +463,9 @@ class CorporateFilter extends React.Component<Props, State> {
   appendData = () => {
     const minMaxvalue: any = [];
     let currentRange: any = [];
+    const queryString = this.props.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    const categoryShop = urlParams.get("category_shop")?.split(">")[0];
     const {
       nextUrl,
       // mobile,
@@ -488,7 +491,7 @@ class CorporateFilter extends React.Component<Props, State> {
           changeLoader?.(false);
           valid.productImpression(
             plpList,
-            "PLP",
+            categoryShop || "PLP",
             this.props.currency,
             plpList.results.data.length
           );
@@ -555,8 +558,15 @@ class CorporateFilter extends React.Component<Props, State> {
     const filterUrl = "?" + url.split("?")[1];
     // const pageSize = mobile ? 10 : 20;
     const pageSize = 20;
+    const queryString = this.props.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    const categoryShop = urlParams.get("category_shop")?.split(">")[0];
     fetchPlpProducts(filterUrl + `&page_size=${pageSize}`).then(plpList => {
-      valid.productImpression(plpList, "PLP", this.props.currency);
+      valid.productImpression(
+        plpList,
+        categoryShop || "PLP",
+        this.props.currency
+      );
       changeLoader?.(false);
       this.createList(plpList);
       this.props.updateFacets(this.getSortedFacets(plpList.results.facets));

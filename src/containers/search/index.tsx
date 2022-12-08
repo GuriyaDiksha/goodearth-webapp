@@ -446,6 +446,9 @@ class Search extends React.Component<
       }
     } = this.props;
     // const { searchMaker } = this.state;
+    const queryString = this.props.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    const searchValue: any = urlParams.get("q") || "";
     const items: CategoryMenu[] = [
       {
         label: "Our Curation",
@@ -629,7 +632,7 @@ class Search extends React.Component<
                   >
                     {item.productClass != "GiftCard" ? (
                       <PlpResultItem
-                        page="SearchResults"
+                        page={searchValue}
                         position={i}
                         product={item}
                         addedToWishlist={false}
