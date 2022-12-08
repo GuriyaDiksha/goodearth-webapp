@@ -706,64 +706,69 @@ class PDPContainer extends React.Component<Props, State> {
         this.imageOffsets[0] = height;
       };
       return (
-        <div
-          className={styles.productImageContainer}
-          key={img?.id}
-          id={`img-${img?.id}`}
-          onMouseEnter={() => {
-            this.setState({ imageHover: true });
-          }}
-          onMouseLeave={() => {
-            this.setState({ imageHover: false });
-          }}
-        >
-          <PdpImage
-            alt={this.props.data?.altText || this.props.data?.title}
-            {...img}
-            index={this.state.activeImage}
-            onClick={this.onImageClick}
-            onLoad={onImageLoad}
-            iconAll={iconAll}
-            codeAll={codeAll}
-            data={this.props.data}
-            corporatePDP={this.props.corporatePDP}
-            selectedSizeId={this.props.selectedSizeId}
-            currency={this.props.currency}
-            buttoncall={this.state.pdpButton}
-          />
-          <div>
-            <Counter
-              id="pdp-image-counter"
-              current={this.state.activeImage + 1}
-              total={productImages.length}
-            />
+        <div className={styles.productImageContainer}>
+          <div style={{ width: "100%" }}>
+            <img src={productImages[0].productImage} />
           </div>
-          {productImages?.length > 1 && (
-            <div
-              className={cs(styles.imageArrowLeft, {
-                [styles.show]: this.state.imageHover
-              })}
-              onClick={this.onClickImageArrowLeft}
-            ></div>
-          )}
-          {productImages?.length > 1 && (
-            <div
-              className={cs(styles.imageArrowRight, {
-                [styles.show]: this.state.imageHover
-              })}
-              onClick={this.onClickImageArrowRight}
-            ></div>
-          )}
-          {this.state.showLooks && (
-            <div
-              id="looks-btn"
-              className={styles.looksBtn}
-              onClick={this.handleLooksClick}
-            >
-              shop the look
-            </div>
-          )}
         </div>
+        // <div
+        //   className={styles.productImageContainer}
+        //   key={img?.id}
+        //   id={`img-${img?.id}`}
+        //   onMouseEnter={() => {
+        //     this.setState({ imageHover: true });
+        //   }}
+        //   onMouseLeave={() => {
+        //     this.setState({ imageHover: false });
+        //   }}
+        // >
+        //   <PdpImage
+        //     alt={this.props.data?.altText || this.props.data?.title}
+        //     {...img}
+        //     index={this.state.activeImage}
+        //     onClick={this.onImageClick}
+        //     onLoad={onImageLoad}
+        //     iconAll={iconAll}
+        //     codeAll={codeAll}
+        //     data={this.props.data}
+        //     corporatePDP={this.props.corporatePDP}
+        //     selectedSizeId={this.props.selectedSizeId}
+        //     currency={this.props.currency}
+        //     buttoncall={this.state.pdpButton}
+        //   />
+        //   <div>
+        //     <Counter
+        //       id="pdp-image-counter"
+        //       current={this.state.activeImage + 1}
+        //       total={productImages.length}
+        //     />
+        //   </div>
+        //   {productImages?.length > 1 && (
+        //     <div
+        //       className={cs(styles.imageArrowLeft, {
+        //         [styles.show]: this.state.imageHover
+        //       })}
+        //       onClick={this.onClickImageArrowLeft}
+        //     ></div>
+        //   )}
+        //   {productImages?.length > 1 && (
+        //     <div
+        //       className={cs(styles.imageArrowRight, {
+        //         [styles.show]: this.state.imageHover
+        //       })}
+        //       onClick={this.onClickImageArrowRight}
+        //     ></div>
+        //   )}
+        //   {this.state.showLooks && (
+        //     <div
+        //       id="looks-btn"
+        //       className={styles.looksBtn}
+        //       onClick={this.handleLooksClick}
+        //     >
+        //       shop the look
+        //     </div>
+        //   )}
+        // </div>
       );
       // });
     } else {
