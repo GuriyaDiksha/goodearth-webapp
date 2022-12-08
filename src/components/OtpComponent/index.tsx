@@ -518,7 +518,9 @@ class OtpComponent extends React.Component<otpProps, otpState> {
         }
       })
       .catch((error: any) => {
-        const { status, currStatus, message, email } = error.response.data;
+        const { status, currStatus, message, email } = valid.decriptdata(
+          error.response.data
+        );
         if (!status) {
           if (currStatus == "Invalid-CN") {
             let errorMessage = `Please enter a valid ${
