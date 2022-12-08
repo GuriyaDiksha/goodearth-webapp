@@ -521,7 +521,7 @@ class OtpCompActivateGC extends React.Component<otpProps, otpState> {
           message,
           email,
           otpLimitExceeded
-        } = error.response.data;
+        } = valid.decriptdata(error.response.data);
         if (!status) {
           if (currStatus == "Invalid-CN") {
             let errorMessage = `Please enter a valid ${
