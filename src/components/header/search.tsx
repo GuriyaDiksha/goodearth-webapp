@@ -294,7 +294,7 @@ class Search extends React.Component<Props, State> {
       )
       .then(data => {
         // debugger;
-        // valid.productImpression(data, "SearchResults", this.props.currency);
+        valid.productImpression(data, "SearchResults", this.props.currency);
         this.setState({
           productData: data.results?.products || [],
           url: searchUrl,
