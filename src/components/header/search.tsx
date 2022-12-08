@@ -328,7 +328,7 @@ class Search extends React.Component<Props, State> {
     // As discussed data will be only two section
     return (
       <div className={styles.collectionlist}>
-        {data?.map((item: any, i: number) => {
+        {data?.slice(0, 6)?.map((item: any, i: number) => {
           return (
             <div key={item.id} className={styles.collection}>
               <Link
@@ -575,7 +575,7 @@ class Search extends React.Component<Props, State> {
                   }
                 )}
               >
-                <div className={bootstrapStyles.row}>
+                <div className={cs(bootstrapStyles.row, styles.suggestionWrap)}>
                   {suggestionsExist && (
                     <div
                       className={cs(
