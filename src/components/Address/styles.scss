@@ -1,5 +1,6 @@
 @import "../../styles/partials/form";
 @import "../../styles/partials/variables";
+@import "../../styles/partials/mixins";
 
 .back-btn-top {
     position: absolute;
@@ -10,7 +11,8 @@
     z-index: 1;
     &.back-btn-address {
       top: 50px;
-      right: -45px;
+      left: -65px;
+      text-align: left;
     }
     @media screen and (max-width: 992px) {
       &.back-btn-address {
@@ -50,14 +52,20 @@
 
 .address-item-container {
   position: relative;
-  min-height: 320px;
-  border: 1px solid #ccc;
+  // min-height: 320px;
+  border: 1px solid #eaeaea;
+  &.default{
+    border: 1px solid #4c4c4c;
+  }
+  &.is-tulsi{
+    border: 1px solid #8cb8aa;
+  }
   .address-item {
     background-color: #fff;
-    height: 308px;
+    // height: 308px;
     font-weight: 400;
     text-align: left;
-    padding: 35px 25px 76px 25px;
+    padding: 20px 20px 20px 40px;
     flex-grow: 1;
     border: none;
     font-family: $font-Lato;
@@ -91,9 +99,9 @@
       letter-spacing: 2px;
     }
     div.address-phone-number {
-      font-size: 13px;
+      @include b4_12px_montserrat_charcoal();
+      letter-spacing: 0.36px;
       line-height: 22px;
-      font-weight: 400;
     }
     .default-container {
       display: block;
@@ -101,19 +109,19 @@
       div.default-address-div {
         text-align: right;
         font-size: 10px;
-        height: 18px;
+        // height: 18px;
         font-style: italic;
         display: grid;
-        margin-bottom: 18px;
+        // margin-bottom: 18px;
         grid-template-columns: 22fr 1fr;
         .line {
           color: #808080;
           font-size: 10px;
           }
         div.default-address {
-          @include error-msg();
+          @include b4_12px_montserrat_aqua();
           text-align: right;
-          font-size: 12px;
+          font-style: normal;
         }
         &.bridal {
           grid-template-columns: 4fr 15fr 1fr;
@@ -187,15 +195,42 @@
       }
     }
     .default-address-checkbox {
-      position: relative;
-      left: 95%;
-      height: 15px;
-      width: 15px;
+      position: absolute;
+      left: -27px;
+      height: 14px;
+      width: 14px;
       background-color: #fff;
       border: 1px solid #888;
       border-radius: 50%;
       padding: 20px 0;
     }
+
+    input[type="radio"]:checked.default-address-checkbox{
+      &::after{
+        content: "";
+        height: 8px;
+        width: 8px;
+        border-radius: 50%;
+        background-color: #548B8B;
+        position: absolute;
+        top: 50%;
+        right: 50%;
+        transform: translate(50%,-50%);
+      }
+      &::before{
+        content: "";
+        height: 16px;
+        width: 16px;
+        border-radius: 50%;
+        background-color: white;
+        position: absolute;
+        top: 50%;
+        right: 50%;
+        transform: translate(50%, -50%);
+        border: 1px solid #54b8b8;
+      }
+    }
+
     .edit-track {
       bottom: 25px;
       text-transform: uppercase;
@@ -218,25 +253,26 @@
       letter-spacing: 1px;
       font-weight: bold;
       &.add-checkout-actions {
-        bottom: auto;
-        position: absolute;
+        // bottom: auto;
+        // position: absolute;
       }
       cursor: pointer;
       a:hover {
         cursor: pointer;
       }
     }
+    .phone-and-edit-container{
+      display: flex;
+      justify-content: space-between;
+    }
     .edit {
-
-      bottom: 25px;
-      position: absolute;
       text-transform: uppercase;
       font-size: 12px;
       letter-spacing: 1px;
       font-weight: bold;
       &.add-checkout-actions {
-        bottom: auto;
-        position: absolute;
+        // bottom: auto;
+        // position: absolute;
       }
       cursor: pointer;
       a:hover {
@@ -295,7 +331,7 @@
   }
 }
 .address-item-container-checkout {
-  min-height: 360px;
+  min-height: 250px;
 }
 
 .address-item {
@@ -325,31 +361,41 @@
   }
 
   .line-head {
-    color: #333333;
-    margin-top: 10px;
+    @include b4_12px_montserrat_charcoal();
+    letter-spacing:  0.36px;
+    // margin-top: 10px;
     word-wrap: break-word;
-    font-size: 14px;
+    display: flex;
+    justify-content: space-between;
+    .radio{
+      position: relative;
+    }
   }
 
   .line {
-    color: #808080;
-    font-size: 13px;
+    @include b4_12px_montserrat_light_charcoal();
+    letter-spacing: 0.36px;
     &.address-line {
       word-wrap: break-word;
-      font-size: 13px;
+      font-size: 12px;
     }
   }
 
   .separator {
     margin: 0 10px;
     font-size: 12px;
-    color: #333333;
+    color: #eaeaea;
   }
 
   .action {
-    cursor: pointer;
-    font-size: 12px;
-    color: #333333;
+    @include b5_10px_montserrat_charcoal_caps();
+    letter-spacing: 0.3px;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    &:hover {
+      color: $aqua-bold;
+      cursor: pointer;
+    }
   }
   .address-info-bridal {
     padding: 30px;
@@ -359,6 +405,7 @@
 .address-list-container {
   display: flex;
   flex-wrap: wrap;
+  flex-direction: column;
 }
 
 .address-item-container {
@@ -382,11 +429,70 @@
   display: -webkit-flex;
   display: flex;
 }
+ .add-new-address{
+  @include b4_12px_montserrat_charcoal();
+  text-transform: uppercase;
+  letter-spacing: 0.36px;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  margin-top: 30px;
+  cursor: pointer;
+  &:hover{
+    color: $aqua-bold
+  }
+ }
 
 .contact-msg{
-  font-style: italic;
-  font-size: 12px;
+  @include b5_10px_montserrat_charcoal();
   margin-top: 5px;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.32px;
   text-align: left;
+}
+
+.charcoal-btn{
+  background-color: #4C4C4C;
+  @include b3_14px_montserrat_white();
+  text-transform: uppercase;
+  letter-spacing: 0.42px;
+  line-height: 52px;
+  width: 100%;
+  text-align: center;
+  border: 1px solid #4C4C4C;
+  border-radius: 0;
+  cursor: pointer;
+  &:hover{
+    color: #191919;
+    background-color: #fff;
+  }
+  &.disabled-btn{
+    color: #fff;
+    background-color: #9f9f9f;
+    border: 1px solid #9f9f9f;
+  }
+}
+
+.back-btn-font {
+  @include b4_12px_medium_light_charcoal();
+}
+
+.categorylabel{
+  input[type="text"], input[type="number"]{
+    font-size: 12px !important;
+    &::placeholder{
+      font-size: 12px;
+    }
+  }
+  select{
+    font-size: 12px !important;
+  }
+  .address-form-checkbox{
+    input[type="checkbox"]:checked + label:after{
+      top: 3px;
+    }
+  }
+}
+
+.country-code{
+  display: flex;
+  justify-content: space-between;
 }

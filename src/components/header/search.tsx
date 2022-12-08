@@ -294,19 +294,15 @@ class Search extends React.Component<Props, State> {
       )
       .then(data => {
         // debugger;
-        valid.productImpression(
-          data,
-          this.state.searchValue,
-          this.props.currency
-        );
+        valid.productImpression(data, "SearchResults", this.props.currency);
         this.setState({
-          productData: data.results.products,
+          productData: data.results?.products || [],
           url: searchUrl,
-          count: data.results.products.length,
+          count: data.results?.products.length || [],
           suggestions: [],
-          categories: data.results.categories,
-          collections: data.results.collections,
-          usefulLink: data.results.useful_links
+          categories: data.results?.categories || [],
+          collections: data.results?.collections || [],
+          usefulLink: data.results?.useful_links || []
         });
       })
       .catch(function(error) {
@@ -625,7 +621,7 @@ class Search extends React.Component<Props, State> {
                         >
                           USEFUL LINKS
                         </p>
-                        {usefulLink?.map(cat => {
+                        {usefulLink?.map((cat, ind) => {
                           return (
                             <Link
                               to={cat.link}
@@ -633,6 +629,7 @@ class Search extends React.Component<Props, State> {
                                 //this.props.toggle();
                                 this.props.hideSearch();
                               }}
+                              key={ind}
                             >
                               <p
                                 className={cs(
@@ -660,7 +657,7 @@ class Search extends React.Component<Props, State> {
                         >
                           CATEGORIES
                         </p>
-                        {categories?.map(cat => {
+                        {categories?.map((cat, ind) => {
                           return (
                             <Link
                               to={cat.link}
@@ -668,6 +665,7 @@ class Search extends React.Component<Props, State> {
                                 //this.props.toggle();
                                 this.props.hideSearch();
                               }}
+                              key={ind}
                             >
                               <p
                                 className={cs(

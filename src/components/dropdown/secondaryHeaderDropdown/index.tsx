@@ -71,7 +71,7 @@ const SecondaryHeaderDropdown = ({
             if (item.label != value) {
               return (
                 <li
-                  key={item.id}
+                  key={`${item?.id}_${item?.label}`}
                   onClick={() => {
                     handleItemClick(item);
                   }}

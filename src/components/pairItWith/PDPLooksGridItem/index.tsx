@@ -14,7 +14,7 @@ import { AppState } from "reducers/typings";
 import { useSelector } from "react-redux";
 import * as valid from "utils/validate";
 import CookieService from "services/cookie";
-import ButtonSmall from "components/ButtonSmall";
+// import ButtonSmall from "components/ButtonSmall";
 import bootstrapStyles from "styles/bootstrap/bootstrap-grid.scss";
 import { PartialChildProductAttributes } from "typings/product";
 

@@ -21,6 +21,13 @@ const Landing: React.FC = () => {
   const { depts }: CareerData = useSelector((state: AppState) => state.career);
   const { showTimer } = useSelector((state: AppState) => state.info);
   const dispatch = useDispatch();
+  const canUseDOM = !!(
+    typeof window !== "undefined" &&
+    typeof window.document !== "undefined" &&
+    typeof window.document.createElement !== "undefined"
+  );
+
+  const useIsomorphicLayoutEffect = canUseDOM ? useLayoutEffect : useEffect;
 
   useEffect(() => {
     CareerService.fetchDeptListData(dispatch).then(res => {
@@ -28,7 +35,7 @@ const Landing: React.FC = () => {
     });
   }, []);
 
-  useLayoutEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     setMounted(false);
     setTimeout(() => {
       setMounted(true);

@@ -73,6 +73,7 @@ const StaticPage: React.FC<Props> = props => {
     const res = await StaticService.fetchTerms(dispatch, link);
     return res;
   };
+
   const accountMenuItems: AccountMenuItem[] = [];
   footerList?.map(itemsList => {
     itemsList?.map(items => {
@@ -105,7 +106,9 @@ const StaticPage: React.FC<Props> = props => {
       })}
     >
       <SecondaryHeader>
-        <div className={cs(bootstrapStyles.colMd11, bootstrapStyles.offsetMd1)}>
+        <div
+          className={cs(bootstrapStyles.colMd11, styles.secondaryHeaderText)}
+        >
           <span className={styles.heading}>CUSTOMER ASSISTANCE</span>
         </div>
       </SecondaryHeader>
@@ -231,7 +234,7 @@ const StaticPage: React.FC<Props> = props => {
           </div>
         ) : (
           <div className={cs(styles.fixLeftPane, bootstrapStyles.colMd2)}>
-            <div className={globalStyles.voffset5}>
+            <div className={cs(styles.menuContainer)}>
               <ul>
                 {accountMenuItems.map(item => {
                   return (

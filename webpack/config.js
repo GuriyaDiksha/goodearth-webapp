@@ -30,6 +30,8 @@ const gtmId = JSON.stringify(envConfig.gtmID);
 const ipDataKey = JSON.stringify(envConfig.ipDataKey);
 const moeng = JSON.stringify(envConfig.moengId)
 const careersForm = JSON.stringify(envConfig.careersForm);
+const crypto = JSON.stringify(envConfig.enableCrypto);
+
 const alias = {
     components : context + "/src/components",
     constants : context + "/src/constants",
@@ -98,7 +100,8 @@ let config = [
                 __GTM_ID__:gtmId,
                 __IP_DATA_KEY__: ipDataKey,
                 __MOENG__:moeng,
-                __CAREERS_FORM__: careersForm
+                __CAREERS_FORM__: careersForm,
+                __EnableCrypto__:crypto
             }),
             env === "development" ? new ForkTsCheckerWebpackPlugin() : () => {},
             new LoadablePlugin(),
@@ -111,7 +114,7 @@ let config = [
                 clientsClaim: true,
                 swDest: context + "/dist/sw.js",
                 // additionalManifestEntries: ["/"],
-                importScripts:["https://cdn.moengage.com/webpush/releases/serviceworker_cdn.min.latest.js"],
+                // importScripts:["https://cdn.moengage.com/webpush/releases/serviceworker_cdn.min.latest.js"],
                 runtimeCaching: [{
                     urlPattern: /^$/,
                     handler: 'NetworkFirst',
