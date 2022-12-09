@@ -270,21 +270,24 @@ const AddressMain: React.FC<Props> = props => {
     <>
       {mode == "list" && (
         <div>
-          <div
-            className={cs(styles.addNewAddress)}
-            onClick={() => {
-              if (
-                currentCallBackComponent == "bridal" &&
-                props.createRegistry
-              ) {
-                props.createRegistry();
-              } else {
-                openAddressForm();
-              }
-            }}
-          >
-            + ADD NEW ADDRESS
-          </div>
+          {currentCallBackComponent !== "checkout-shipping" &&
+            currentCallBackComponent !== "checkout-shipping" && (
+              <div
+                className={cs(styles.addNewAddress)}
+                onClick={() => {
+                  if (
+                    currentCallBackComponent == "bridal" &&
+                    props.createRegistry
+                  ) {
+                    props.createRegistry();
+                  } else {
+                    openAddressForm();
+                  }
+                }}
+              >
+                + ADD NEW ADDRESS
+              </div>
+            )}
           <AddressList
             addressDataList={addressList}
             isBridal={bridal}

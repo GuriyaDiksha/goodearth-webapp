@@ -278,9 +278,9 @@ const AddressItem: React.FC<Props> = props => {
         currentCallBackComponent == "checkout-billing" ||
         currentCallBackComponent == "checkout-shipping"
           ? cs(
-              bootstrapStyles.col12,
-              bootstrapStyles.colSm12,
-              bootstrapStyles.colMd12,
+              bootstrapStyles.col10,
+              bootstrapStyles.colSm4,
+              bootstrapStyles.colMd4,
               globalStyles.voffset5,
               "address-container"
             )
@@ -330,6 +330,13 @@ const AddressItem: React.FC<Props> = props => {
             {
               [styles.addressInUse]:
                 props.showAddressInBridalUse && address.isBridal
+            },
+            {
+              [styles.checkoutHeightFix]:
+                currentCallBackComponent == "checkout-shipping" ||
+                currentCallBackComponent == "checkout-billing" ||
+                currentCallBackComponent == "bridal" ||
+                currentCallBackComponent == "bridal-edit"
             }
           )}
         >
@@ -470,7 +477,15 @@ const AddressItem: React.FC<Props> = props => {
             , {address.postCode == "000000" ? "" : address.postCode}
           </div>
           <div className={styles.line}>{address.countryName}</div>
-          <div className={cs(styles.phoneAndEditContainer)}>
+          <div
+            className={cs(styles.phoneAndEditContainer, {
+              [styles.checkoutFix]:
+                currentCallBackComponent == "checkout-shipping" ||
+                currentCallBackComponent == "checkout-billing" ||
+                currentCallBackComponent == "bridal" ||
+                currentCallBackComponent == "bridal-edit"
+            })}
+          >
             <div className={styles.addressPhoneNumber}>
               M: {`${address.phoneCountryCode} ${address.phoneNumber}`}
             </div>

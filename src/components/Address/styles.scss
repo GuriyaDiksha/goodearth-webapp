@@ -264,6 +264,9 @@
     .phone-and-edit-container{
       display: flex;
       justify-content: space-between;
+      &.checkout-fix{
+        display: unset;
+      }
     }
     .edit {
       text-transform: uppercase;
@@ -271,6 +274,7 @@
       letter-spacing: 1px;
       font-weight: bold;
       &.add-checkout-actions {
+        margin-top: 15px;
         // bottom: auto;
         // position: absolute;
       }
@@ -331,7 +335,7 @@
   }
 }
 .address-item-container-checkout {
-  min-height: 250px;
+  min-height: 308px;
 }
 
 .address-item {
@@ -406,6 +410,9 @@
   display: flex;
   flex-wrap: wrap;
   flex-direction: column;
+  &.checkout-fix{
+    flex-direction: row;
+  }
 }
 
 .address-item-container {
