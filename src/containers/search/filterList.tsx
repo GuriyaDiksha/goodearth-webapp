@@ -1655,7 +1655,8 @@ class FilterList extends React.Component<Props, State> {
       this.createUrlfromFilter();
     }
     this.setState({
-      filter: filter
+      filter: filter,
+      showmenulevel1: false
     });
     if (key == "price" || key == "all") {
       this.setState({
