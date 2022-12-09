@@ -232,12 +232,14 @@ export default {
     return data;
   },
   activateGiftCard: async (dispatch: Dispatch, formData: FormData) => {
-    const enc = valid.encryptdata(formData);
+    const olddata = { ...formData };
+    const enc = valid.encryptdata(olddata);
     const data = await API.post<BalanceProps>(
       dispatch,
       `${__API_HOST__ + "/myapi/giftcard/giftcard_activate/"}`,
       enc
     );
+
     const response = valid.decriptdata(data);
     const temp = {
       ...response
