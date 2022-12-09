@@ -347,14 +347,15 @@ class OtpComponent extends React.Component<otpProps, otpState> {
           this.props.toggleOtp(false);
         })
         .catch((error: any) => {
+          const data = valid.decriptdata(error.response?.data);
           this.setState({
             attempts: {
-              attempts: error?.response.data?.attempts || 0,
-              maxAttemptsAllow: error?.response.data?.maxAttemptsAllow || 5
+              attempts: data?.attempts || 0,
+              maxAttemptsAllow: data?.maxAttemptsAllow || 5
             }
           });
-          if (error.response.data.error_message) {
-            let errorMsg = error.response.data.error_message[0];
+          if (data.error_message) {
+            let errorMsg = data.error_message[0];
             if (errorMsg == "MaxRetries") {
               errorMsg =
                 "You have exceeded max attempts, please try after some time.";
@@ -375,7 +376,7 @@ class OtpComponent extends React.Component<otpProps, otpState> {
           } else {
             this.setState(
               {
-                showerror: error.response.data.message,
+                showerror: data.message,
                 updateStatus: false,
                 disable: true
               },
