@@ -2236,7 +2236,7 @@ class FilterList extends React.Component<Props, State> {
               </ul>
             </div>
           </li>
-          <li>
+          {/* <li>
             <span
               className={
                 this.state.activeindex == 4 && this.state.showmenulevel1
@@ -2278,7 +2278,7 @@ class FilterList extends React.Component<Props, State> {
                 </div>
               </ul>
             </div>
-          </li>
+          </li> */}
           {this.props.facets.availableSize ? (
             this.props.facets.availableSize.length > 0 ? (
               <li>
