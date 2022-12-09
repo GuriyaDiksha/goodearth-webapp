@@ -31,8 +31,7 @@ const ResetFiltersTile: React.FC<{
                 [styles.mobileGrid]: mobile && view == "grid" && !tablet
               })}
             >
-              Sorry, we cannot find what you are looking for. Reset the filters
-              to try again.
+              Sorry, we cannot find what you are looking for.
             </p>
             <p
               className={cs(styles.byline, {
