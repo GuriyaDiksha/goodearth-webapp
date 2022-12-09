@@ -13,6 +13,7 @@ import { showGrowlMessage } from "utils/validate";
 import { MESSAGE } from "constants/messages";
 import { useLocation } from "react-router";
 import NewOtpComponent from "components/OtpComponent/NewOtpComponent";
+import * as valid from "utils/validate";
 
 type Props = {
   successMsg: string;
@@ -68,7 +69,6 @@ const EmailVerification: React.FC<Props> = ({
           3000,
           "VERIFY_SUCCESS"
         );
-
         showLogin();
       } else {
         setAttempts({
@@ -77,13 +77,14 @@ const EmailVerification: React.FC<Props> = ({
         });
         setError("Invalid OTP");
       }
-    } catch (err) {
+    } catch (error) {
+      const data = valid.decriptdata(error.response?.data);
       setAttempts({
-        attempts: err.response.data?.attempts || 0,
-        maxAttemptsAllow: err.response.data?.maxAttemptsAllow || 5
+        attempts: data?.attempts || 0,
+        maxAttemptsAllow: data?.maxAttemptsAllow || 5
       });
 
-      if (err.response.data.alreadyVerified) {
+      if (data.alreadyVerified) {
         setError([
           "Looks like you are aleady verified. ",
           <span
@@ -98,7 +99,7 @@ const EmailVerification: React.FC<Props> = ({
           </span>
         ]);
       } else {
-        setError(err.response.data?.message || "OTP Expired or Invalid OTP");
+        setError(data?.message || "OTP Expired or Invalid OTP");
       }
     } finally {
       setIsLoading(false);
