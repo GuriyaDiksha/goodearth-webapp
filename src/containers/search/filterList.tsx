@@ -717,6 +717,9 @@ class FilterList extends React.Component<Props, State> {
       const filterUrl = "?" + nextUrl.split("?")[1];
       // const pageSize = mobile ? 10 : 20;
       const pageSize = 20;
+      const queryString = this.props.location.search;
+      const urlParams = new URLSearchParams(queryString);
+      const searchValue: any = urlParams.get("q") || "";
       this.setState({ isLoading: true });
       changeLoader?.(true);
       updateProduct(filterUrl + `&page_size=${pageSize}`, listdata)
@@ -724,7 +727,7 @@ class FilterList extends React.Component<Props, State> {
           changeLoader?.(false);
           valid.productImpression(
             searchList,
-            "PLP",
+            searchValue || "PLP",
             this.props.currency,
             searchList.results.data.length
           );
@@ -798,6 +801,9 @@ class FilterList extends React.Component<Props, State> {
     // });
     const url = decodeURI(history.location.search);
     const filterUrl = "?" + url.split("?")[1];
+    const queryString = this.props.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    const searchValue: any = urlParams.get("q") || "";
 
     // const pageSize = mobile ? 10 : 20;
     const pageSize = 20;
@@ -806,7 +812,11 @@ class FilterList extends React.Component<Props, State> {
     fetchSearchProducts(filterUrl + `&page_size=${pageSize}`)
       .then(searchList => {
         changeLoader?.(false);
-        valid.productImpression(searchList, "PLP", this.props.currency);
+        valid.productImpression(
+          searchList,
+          searchValue || "PLP",
+          this.props.currency
+        );
         this.createList(searchList);
         this.props.updateFacets(
           this.getSortedFacets(searchList.results.facets)
@@ -2227,7 +2237,7 @@ class FilterList extends React.Component<Props, State> {
               </ul>
             </div>
           </li>
-          <li>
+          {/* <li>
             <span
               className={
                 this.state.activeindex == 4 && this.state.showmenulevel1
@@ -2269,7 +2279,7 @@ class FilterList extends React.Component<Props, State> {
                 </div>
               </ul>
             </div>
-          </li>
+          </li> */}
           {this.props.facets.availableSize ? (
             this.props.facets.availableSize.length > 0 ? (
               <li>

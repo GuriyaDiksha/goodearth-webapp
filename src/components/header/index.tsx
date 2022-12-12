@@ -593,7 +593,10 @@ class Header extends React.Component<Props, State> {
     return (
       <div className="">
         {meta.h1Tag && (
-          <h1 style={mobile ? { height: "45px", maxHeight: "45px" } : {}}>
+          <h1
+            style={mobile ? { height: "45px", maxHeight: "45px" } : {}}
+            className={styles.titleH1}
+          >
             {meta.h1Tag}
           </h1>
         )}
