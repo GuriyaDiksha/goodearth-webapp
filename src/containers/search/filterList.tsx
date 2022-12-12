@@ -932,12 +932,10 @@ class FilterList extends React.Component<Props, State> {
               )}px`
             : "max-content";
         }
-        (document.getElementById(
-          id
-        ) as HTMLElement).style.maxHeight = document.getElementById(id)
-          ?.scrollHeight
-          ? `${document.getElementById(id)?.scrollHeight}px`
-          : "max-content";
+        (document.getElementById(id) as HTMLElement).style.maxHeight =
+          document.getElementById(id)?.scrollHeight && id !== "category"
+            ? `${document.getElementById(id)?.scrollHeight}px`
+            : "max-content";
       } else {
         (document.getElementById(id) as HTMLElement).style.maxHeight = "0px";
       }
