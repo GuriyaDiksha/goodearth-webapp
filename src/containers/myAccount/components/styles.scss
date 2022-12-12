@@ -247,12 +247,16 @@ input[type="text"]{
           text-transform: uppercase;
         }
       }
+
     }
     .order-block {
       min-height: 100px;
       position: relative;
       div {
         padding-left: 30px;
+        &.amount-paid{
+          display: flex;
+        }
       }
       span {
         //text-transform: uppercase; cant use this --- it will make order status span uppercase
@@ -348,7 +352,7 @@ input[type="text"]{
     }
     p {
       @include b4_12px_montserrat_semibold_charcoal();
-      letter-spacing: 0.36px;;
+      letter-spacing: 0.5px;;
       line-height: 22px;
       .op2{
         @include b4_12px_montserrat_charcoal();
@@ -609,8 +613,12 @@ input[type="text"]{
 }
 
 .trail-track {
-  width: 170px;
+  width: 220px;
   margin-bottom: 25px;
+  margin-left: 25px;
+  @media screen and (max-width: 992px){
+    margin-left:10px;
+  }
   .txt-right {
     position: absolute;
     left: 110%;
@@ -674,7 +682,8 @@ input[type="text"]{
           transform: translateY(-12px);
           position: relative;
           .live-location{
-            font-size: 10px;
+            @include b5_10px_montserrat_charcoal();
+            letter-spacing: 0.5px;;
             display: flex;
           }
           .data{
@@ -687,7 +696,7 @@ input[type="text"]{
 @media screen and (max-width: 992px) {
   .trail-track {
     width: 180px;
-    margin: 0 auto;
+    // margin: 0 auto;
     margin-bottom: 25px;
     .txt-right {
       left: 0;
@@ -1023,16 +1032,16 @@ input[type="text"]{
   .name{
     @include b4_12px_montserrat_charcoal();
     padding: 10px 0px;
-    letter-spacing: 0.36px;
+    letter-spacing: 0.5px;
   }
   .address-line{
     @include b5_10px_montserrat_charcoal();
-    letter-spacing: 0.3px;
+    letter-spacing: 0.5px;
   }
   .phone{
     @include b4_12px_montserrat_charcoal();
     padding: 10px 0px;
-    letter-spacing: 0.36px;
+    letter-spacing: 0.5px;
   }
   @media screen and (max-width:992px) {
     &:nth-of-type(1){
@@ -1141,4 +1150,9 @@ input[type="text"]{
 
 .margin-fix{
   margin: 30px 8.6% 0px 8.6%;
+}
+@media screen and (max-width: 992px){
+  .margin-fix{
+    margin: 0;
+  }
 }
