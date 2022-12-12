@@ -84,9 +84,8 @@ input[type="text"]{
 }
 
 .no-purchases-message {
-  color: #5f5c5c;
-  font-size: 13px;
-  font-weight: bold;
+  @include b4_12px_montserrat_charcoal();
+  opacity: unset;
 }
 
 .browse-button {
@@ -118,7 +117,7 @@ input[type="text"]{
     font-weight: 300;
     address {
       border: none;
-      padding: 25px 0;
+      padding: 25px 0px 20px 30px;
     }
     .border-add {
       border-top: 1px solid tint(#000, 90%);
@@ -253,7 +252,7 @@ input[type="text"]{
       min-height: 100px;
       position: relative;
       div {
-        padding-left: 20px;
+        padding-left: 30px;
       }
       span {
         //text-transform: uppercase; cant use this --- it will make order status span uppercase
@@ -269,7 +268,7 @@ input[type="text"]{
       text-transform: uppercase;
       font-size: 12px;
       letter-spacing: 1px;
-      font-weight: bold;
+      font-weight: $semibold;
       &.add-checkout-actions {
         bottom: auto;
         position: absolute;
@@ -290,7 +289,7 @@ input[type="text"]{
       text-transform: uppercase;
       font-size: 12px;
       letter-spacing: 1px;
-      font-weight: bold;
+      font-weight: $semibold;
       &.add-checkout-actions {
         bottom: auto;
         position: absolute;
@@ -306,7 +305,7 @@ input[type="text"]{
       text-transform: uppercase;
       font-size: 12px;
       letter-spacing: 1px;
-      font-weight: bold;
+      font-weight: $semibold;
       &.add-checkout-actions {
         bottom: auto;
         position: absolute;
@@ -314,15 +313,25 @@ input[type="text"]{
       cursor: pointer;
       a:hover {
         cursor: pointer;
+      }
+      &.close1{
+        position:  relative !important;
+        bottom: unset;
+        padding-left: 30px;
+        margin-bottom: 40px;
+      }
+      &.close2{
+        position:  relative !important;
+        bottom: unset;
+        padding-left: 20px;
+        margin-top: 20px;
       }
     }
     .edit-mobile {
-      bottom: 2px;
-      position: absolute;
       text-transform: uppercase;
       font-size: 12px;
       letter-spacing: 1px;
-      font-weight: bold;
+      font-weight: $semibold;
       &.add-checkout-actions {
         bottom: auto;
         position: absolute;
@@ -330,6 +339,10 @@ input[type="text"]{
       cursor: pointer;
       a:hover {
         cursor: pointer;
+      }
+      &.close{
+        padding-left: 20px;
+        margin-bottom: 40px;
       }
     }
     p {
@@ -371,11 +384,13 @@ input[type="text"]{
     }
     label {
       @include b4_12px_montserrat_charcoal_caps();
-      position: absolute;
-      top: -8px;
       letter-spacing: 0.36px;
       background-color: #fff;
-      padding: 0 20px;
+      &.top-label{
+        position: absolute;
+        top: -8px;
+        padding: 0px 20px;
+      }
     }
   }
 }

@@ -115,7 +115,7 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
       <div className={bootstrapStyles.col12}>
         <div className={styles.add} id={data.number}>
           <address className={styles.orderBlock}>
-            <label>order # {data.number}</label>
+            <label className={styles.topLabel}>order # {data.number}</label>
             <div className={bootstrapStyles.row}>
               <div className={bootstrapStyles.col8}>
                 <p>{moment(data.datePlaced).format("D MMM,YYYY")}</p>
@@ -252,8 +252,8 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
     html.push(
       <div className={bootstrapStyles.col12}>
         <div className={styles.add} id={data.number}>
-          <address>
-            <label>order # {data.number}</label>
+          <address className={styles.orderBlock}>
+            <label className={styles.topLabel}>order # {data.number}</label>
             <div className={styles.orderBlock}>
               <div
                 className={cs(bootstrapStyles.col12, bootstrapStyles.colMd6)}
@@ -280,7 +280,7 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
                   &nbsp;{list.totalInclTax}
                 </p>
               </div>
-              <p className={styles.edit}>
+              <p className={cs(styles.edit, styles.close1)}>
                 <a
                   className={globalStyles.cerise}
                   onClick={() => closeDetails(data.number)}
@@ -471,7 +471,7 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
                 </div>
               );
             })}
-            <div className={styles.edit}>
+            <div className={cs(styles.edit, styles.close2)}>
               <a
                 className={globalStyles.cerise}
                 onClick={() => closeDetails(data.number)}
