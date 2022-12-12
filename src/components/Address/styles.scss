@@ -102,6 +102,12 @@
       @include b4_12px_montserrat_charcoal();
       letter-spacing: 0.36px;
       line-height: 22px;
+      &.checkout-fix{
+        font-size: 13px;
+        font-family: $font-Lato;
+        font-weight: 400;
+        color: #191919;
+      }
     }
     .default-container {
       display: block;
@@ -383,12 +389,24 @@
       word-wrap: break-word;
       font-size: 12px;
     }
+    &.checkout-fix{
+      font-size: 13px;
+      font-family: $font-Lato;
+      font-weight: 400;
+      color: #808080;
+    }
   }
 
   .separator {
     margin: 0 10px;
     font-size: 12px;
     color: #eaeaea;
+    &.checkout-fix{
+      font-size: 13px;
+      font-family: $font-Lato;
+      font-weight: 400;
+      color: #191919;
+    }
   }
 
   .action {
@@ -399,6 +417,17 @@
     &:hover {
       color: $aqua-bold;
       cursor: pointer;
+    }
+    &.checkout-fix{
+      font-size: 13px;
+      font-family: $font-Lato;
+      font-weight: 400;
+      color: #191919;
+      text-decoration: none;
+      &:hover{
+        color: #191919;
+        cursor: pointer;
+      }
     }
   }
   .address-info-bridal {

@@ -340,6 +340,8 @@ const AddressItem: React.FC<Props> = props => {
             }
           )}
         >
+          {/*=================== Name and Default ================= */}
+
           {divOrText == "text" && (
             <div className={styles.lineHead}>
               {!address.isTulsi && props.currentCallBackComponent != "cerise" && (
@@ -451,24 +453,48 @@ const AddressItem: React.FC<Props> = props => {
               )}
             </div>
           )}
+          {/* ========= Address ============= */}
           <div
             className={cs(
               globalStyles.voffset2,
               styles.line,
-              styles.addressLine
+              styles.addressLine,
+              {
+                [styles.checkoutFix]:
+                  currentCallBackComponent == "checkout-shipping" ||
+                  currentCallBackComponent == "checkout-billing" ||
+                  currentCallBackComponent == "bridal" ||
+                  currentCallBackComponent == "bridal-edit"
+              }
             )}
           >
             {address.line1.length > addressLineOneWithSpace
               ? address.line1.slice(0, addressLineOneWithSpace).concat("...")
               : address.line1}
           </div>
-          <div className={cs(styles.line, styles.addressLine)}>
+          <div
+            className={cs(styles.line, styles.addressLine, {
+              [styles.checkoutFix]:
+                currentCallBackComponent == "checkout-shipping" ||
+                currentCallBackComponent == "checkout-billing" ||
+                currentCallBackComponent == "bridal" ||
+                currentCallBackComponent == "bridal-edit"
+            })}
+          >
             {address.line2.length > addressLineTwoWithSpace
               ? address.line2.slice(0, addressLineTwoWithSpace).concat("...")
               : address.line2}
           </div>
           <div className={styles.line}>{address.city}</div>
-          <div className={styles.line}>
+          <div
+            className={cs(styles.line, styles.addressLine, {
+              [styles.checkoutFix]:
+                currentCallBackComponent == "checkout-shipping" ||
+                currentCallBackComponent == "checkout-billing" ||
+                currentCallBackComponent == "bridal" ||
+                currentCallBackComponent == "bridal-edit"
+            })}
+          >
             {address.state
               ? address.state
               : address.province
@@ -476,7 +502,17 @@ const AddressItem: React.FC<Props> = props => {
               : ""}
             , {address.postCode == "000000" ? "" : address.postCode}
           </div>
-          <div className={styles.line}>{address.countryName}</div>
+          <div
+            className={cs(styles.line, styles.addressLine, {
+              [styles.checkoutFix]:
+                currentCallBackComponent == "checkout-shipping" ||
+                currentCallBackComponent == "checkout-billing" ||
+                currentCallBackComponent == "bridal" ||
+                currentCallBackComponent == "bridal-edit"
+            })}
+          >
+            {address.countryName}
+          </div>
           <div
             className={cs(styles.phoneAndEditContainer, {
               [styles.checkoutFix]:
@@ -486,9 +522,19 @@ const AddressItem: React.FC<Props> = props => {
                 currentCallBackComponent == "bridal-edit"
             })}
           >
-            <div className={styles.addressPhoneNumber}>
+            {/* ================== Mobile ==================== */}
+            <div
+              className={cs(styles.addressPhoneNumber, {
+                [styles.checkoutFix]:
+                  currentCallBackComponent == "checkout-shipping" ||
+                  currentCallBackComponent == "checkout-billing" ||
+                  currentCallBackComponent == "bridal" ||
+                  currentCallBackComponent == "bridal-edit"
+              })}
+            >
               M: {`${address.phoneCountryCode} ${address.phoneNumber}`}
             </div>
+            {/* ================== Edit and Delete ======================== */}
             <div
               className={cs(styles.edit, {
                 [styles.addCheckoutActions]:
@@ -504,9 +550,19 @@ const AddressItem: React.FC<Props> = props => {
                 props.currentCallBackComponent == "cerise"
               ) && (
                 <span
-                  className={cs(styles.action, {
-                    [styles.addressEdit]: billingEditDisable
-                  })}
+                  className={cs(
+                    styles.action,
+                    {
+                      [styles.addressEdit]: billingEditDisable
+                    },
+                    {
+                      [styles.checkoutFix]:
+                        currentCallBackComponent == "checkout-shipping" ||
+                        currentCallBackComponent == "checkout-billing" ||
+                        currentCallBackComponent == "bridal" ||
+                        currentCallBackComponent == "bridal-edit"
+                    }
+                  )}
                   onClick={
                     billingEditDisable
                       ? () => false
@@ -522,7 +578,19 @@ const AddressItem: React.FC<Props> = props => {
                 props.isOnlyAddress ||
                 address.isTulsi ||
                 props.currentCallBackComponent == "cerise"
-              ) && <span className={styles.separator}>|</span>}
+              ) && (
+                <span
+                  className={cs(styles.separator, {
+                    [styles.checkoutFix]:
+                      currentCallBackComponent == "checkout-shipping" ||
+                      currentCallBackComponent == "checkout-billing" ||
+                      currentCallBackComponent == "bridal" ||
+                      currentCallBackComponent == "bridal-edit"
+                  })}
+                >
+                  |
+                </span>
+              )}
               {!(
                 address.isBridal ||
                 props.isOnlyAddress ||
@@ -530,7 +598,16 @@ const AddressItem: React.FC<Props> = props => {
                 address.isTulsi ||
                 props.currentCallBackComponent == "cerise"
               ) && (
-                <span className={styles.action} onClick={deleteAddress}>
+                <span
+                  className={cs(styles.action, {
+                    [styles.checkoutFix]:
+                      currentCallBackComponent == "checkout-shipping" ||
+                      currentCallBackComponent == "checkout-billing" ||
+                      currentCallBackComponent == "bridal" ||
+                      currentCallBackComponent == "bridal-edit"
+                  })}
+                  onClick={deleteAddress}
+                >
                   DELETE
                 </span>
               )}
