@@ -1,6 +1,15 @@
 @import "../../styles/partials/variables";
 @import "../../styles/partials/mixins";
 @import "../../styles/partials/form";
+
+input[type="text"]{
+  height: 50px !important;
+}
+
+input[type="password"]{
+  height: 50px !important;
+}
+
 .heading {
   @include b4_12px_montserrat_charcoal_caps();
   letter-spacing: 0.5px;
@@ -128,7 +137,7 @@
     .collection-header {
       position: relative;
       > span {
-        @include b3_14px_montserrat_light_charcoal();
+        @include b3_14px_montserrat_charcoal();
         letter-spacing: 0.5px;
         text-transform: uppercase;
         line-height: 35px;

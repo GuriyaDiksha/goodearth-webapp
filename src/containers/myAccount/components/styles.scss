@@ -1,6 +1,10 @@
 @import "../../../styles/partials/form";
 @import "../../../styles/partials/mixins";
 
+input[type="text"]{
+  height: 50px !important;
+}
+
 .form-heading {
   @include h2_24px_lora_charcoal();
   line-height: 50px;
@@ -480,13 +484,12 @@
   label {
     font-family: $font-Montserrat;
     font-size: 9px;
-    letter-spacing: 0.36px;
+    letter-spacing: 0.5px;
     font-weight: $light;
     color: #191919;
     position: absolute;
     top: -10px;
     left: 10px;
-    letter-spacing: 1px;
     background-color: #fff;
     padding: 3px;
   }
