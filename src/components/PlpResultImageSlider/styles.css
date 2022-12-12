@@ -12,10 +12,12 @@
 }
 
 .imageSlideronatiner .slick-slider .slick-dots li.slick-active button{
+    box-shadow: 1px 1px 3px #00000058;
     background-color: white;
     opacity: 1;
 }
 .imageSlideronatiner .slick-slider .slick-dots li button{
+    box-shadow: 1px 1px 3px #00000059;
     opacity: 0.5;
     background-color: white;
     font-size: 0;
