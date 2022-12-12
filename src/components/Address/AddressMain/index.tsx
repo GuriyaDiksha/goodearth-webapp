@@ -271,7 +271,9 @@ const AddressMain: React.FC<Props> = props => {
       {mode == "list" && (
         <div>
           {currentCallBackComponent !== "checkout-shipping" &&
-            currentCallBackComponent !== "checkout-shipping" && (
+            currentCallBackComponent !== "checkout-billing" &&
+            currentCallBackComponent !== "bridal-edit" &&
+            currentCallBackComponent !== "bridal" && (
               <div
                 className={cs(styles.addNewAddress)}
                 onClick={() => {
