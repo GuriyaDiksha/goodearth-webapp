@@ -1,5 +1,6 @@
 import { Dispatch } from "redux";
 import AccountService from "services/account";
+import * as util from "utils/validate";
 
 const mapDispatchToProps = (dispatch: Dispatch) => {
   return {
@@ -29,6 +30,9 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     checkGiftCard: async (code: string) => {
       const res = await AccountService.checkGiftCard(dispatch, code);
       return res;
+    },
+    showGCSuccess: (msg: string, timeout: number) => {
+      util.showGrowlMessage(dispatch, msg, timeout);
     }
   };
 };

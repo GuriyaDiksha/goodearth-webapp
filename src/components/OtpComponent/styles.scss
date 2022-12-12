@@ -177,12 +177,14 @@
         label {
           @include b5_10px_montserrat_charcoal();
           text-transform: none;
-          line-height: 12px;
+          line-height: 18px;
+          letter-spacing: 0.5px;
           a {
             color: $charcoal19;
             text-decoration: underline;
             &:hover {
               color: $aqua-bold;
+              font-weight: $semibold;
             }
           }
         }
@@ -195,7 +197,7 @@
           width: 18px;
           height: 18px;
           background-color: #fff;
-          border: 1px solid #eaeaea;
+          border: 1px solid #799999;
         }
         input[type="checkbox"]:checked + label:before{
           content: '';
@@ -205,7 +207,7 @@
           width: 18px;
           height: 18px;
           background-color: #7EAAA9;
-          border: 1px solid #19191950;
+          border: 1px solid #7EAAA9;
         }
         input[type="checkbox"]:checked + label {
           @include b5_10px_montserrat_charcoal();
@@ -317,6 +319,7 @@
   @include b4_12px_montserrat_charcoal();
   .aqua-bold{
     color: $aqua-bold;
+    font-weight: $semibold;
   }
 }
 .error-msg{

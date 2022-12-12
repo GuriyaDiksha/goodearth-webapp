@@ -1052,11 +1052,9 @@ class OtpCompActivateGC extends React.Component<otpProps, otpState> {
                 <input
                   type="submit"
                   disabled={this.state.disable}
-                  className={
-                    this.state.disable
-                      ? cs(styles.charcoalBtn, styles.disabledBtn)
-                      : styles.charcoalBtn
-                  }
+                  className={cs(styles.charcoalBtn, {
+                    [styles.disabledBtn]: !this.subscribeRef.current?.checked
+                  })}
                   value="Send otp"
                 />
               </li>

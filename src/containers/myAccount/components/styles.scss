@@ -573,6 +573,7 @@ input[type="text"]{
       }
       &.balance{
         @include b4_12px_montserrat_aqua();
+        font-weight: $medium;
         letter-spacing: 0.5px;
         margin: 25px 0px 45px 0px;
       }
@@ -604,7 +605,7 @@ input[type="text"]{
   display: block !important;
   margin-bottom: 27px;
   margin-top: 30px;
-  padding-left: 20px;
+  // padding-left: 20px;
 }
 
 
@@ -1015,11 +1016,12 @@ input[type="text"]{
   text-transform: uppercase;
   letter-spacing: 0.36px;
   text-decoration: underline;
-  text-underline-offset: 2px;
+  text-underline-offset: 5px;
   margin-top: 30px;
   cursor: pointer;
   &:hover{
-    color: $aqua-bold
+    color: $aqua-bold;
+    text-decoration: underline;
   }
 }
 
