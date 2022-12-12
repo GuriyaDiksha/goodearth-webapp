@@ -342,7 +342,63 @@ const AddressItem: React.FC<Props> = props => {
         >
           {/*=================== Name and Default ================= */}
 
-          {divOrText == "text" && (
+          {divOrText == "text" && currentCallBackComponent != "account" && (
+            <div className={styles.lineHead}>
+              {!address.isTulsi && props.currentCallBackComponent != "cerise" && (
+                <div
+                  className={styles.radio}
+                  id={id}
+                  onClick={() => markAsDefault(address)}
+                >
+                  <input
+                    id={id}
+                    className={styles.defaultAddressCheckbox}
+                    checked={address.isDefaultForShipping}
+                    name={id}
+                    type="radio"
+                    onChange={() => markAsDefault(address)}
+                  />
+                  <span className={styles.checkmark}></span>
+                </div>
+              )}
+              {props.title}
+              {address.firstName}
+              &nbsp;
+              {address.lastName}
+              {!address.isTulsi && (
+                <div className={styles.defaultContainer}>
+                  <div
+                    className={cs(styles.defaultAddressDiv, {
+                      [styles.bridal]: address.isBridal
+                    })}
+                  >
+                    {address.isBridal && (
+                      <svg
+                        viewBox="-3 -3 46 46"
+                        width="60"
+                        height="60"
+                        preserveAspectRatio="xMidYMid meet"
+                        x="0"
+                        y="0"
+                        className={styles.ceriseBridalRings}
+                      >
+                        <use xlinkHref={`${bridalRing}#bridal-ring`}></use>
+                      </svg>
+                    )}
+                    {/* {address.isDefaultForShipping && (
+                      <div className={styles.defaultAddress}>
+                        Default Address
+                      </div>
+                    )} */}
+                    {!address.isDefaultForShipping && (
+                      <div className={styles.line}>Make default</div>
+                    )}
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
+          {divOrText == "text" && currentCallBackComponent == "account" && (
             <div className={styles.lineHead}>
               {!address.isTulsi && props.currentCallBackComponent != "cerise" && (
                 <div
