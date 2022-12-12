@@ -66,6 +66,9 @@
     font-weight: 400;
     text-align: left;
     padding: 20px 20px 20px 40px;
+    &.checkout-fix{
+      padding: 35px 25px 76px 25px;
+    }
     flex-grow: 1;
     border: none;
     font-family: $font-Lato;
@@ -209,6 +212,11 @@
       border: 1px solid #888;
       border-radius: 50%;
       padding: 20px 0;
+      &.checkout-fix{
+        position: relative;
+        left: 0px;
+        margin-left: 10px;
+      }
     }
 
     input[type="radio"]:checked.default-address-checkbox{
@@ -234,6 +242,31 @@
         right: 50%;
         transform: translate(50%, -50%);
         border: 1px solid #54b8b8;
+      }
+      &.checkout-fix{
+        &::after{
+          content: "";
+          height: 8px;
+          width: 8px;
+          border-radius: 50%;
+          background-color: #191919;
+          position: absolute;
+          top: 50%;
+          right: 50%;
+          transform: translate(50%,-50%);
+        }
+        &::before{
+          content: "";
+          height: 16px;
+          width: 16px;
+          border-radius: 50%;
+          background-color: white;
+          position: absolute;
+          top: 50%;
+          right: 50%;
+          transform: translate(50%, -50%);
+          border: 1px solid #191919;
+        }
       }
     }
 
@@ -341,7 +374,8 @@
   }
 }
 .address-item-container-checkout {
-  min-height: 308px;
+  min-height: 360px;
+  border: 1px solid #eaeaea;
 }
 
 .address-item {
@@ -380,6 +414,10 @@
     .radio{
       position: relative;
     }
+    &.checkout-fix{
+      font-family: $font-Lato;
+      font-size: 14px;
+    }
   }
 
   .line {
@@ -395,8 +433,21 @@
       font-weight: 400;
       color: #808080;
     }
+    &.make-default-checkout-fix{
+      font-size: 10px;
+      font-style: italic;
+      color: #808080;
+      display: flex;
+      justify-content: end;
+    }
     &.default-checkout-fix{
-      font-family: $font-Lato;
+      font-family: $font-Lora;
+      font-size: 12px;
+      font-style: italic;
+      font-weight: 700;
+      color: $cerise;
+      display: flex;
+      justify-content: end;
     }
   }
 
