@@ -66,6 +66,9 @@
     font-weight: 400;
     text-align: left;
     padding: 20px 20px 20px 40px;
+    &.checkout-fix{
+      padding: 35px 25px 76px 25px;
+    }
     flex-grow: 1;
     border: none;
     font-family: $font-Lato;
@@ -102,6 +105,12 @@
       @include b4_12px_montserrat_charcoal();
       letter-spacing: 0.36px;
       line-height: 22px;
+      &.checkout-fix{
+        font-size: 13px;
+        font-family: $font-Lato;
+        font-weight: 400;
+        color: #191919;
+      }
     }
     .default-container {
       display: block;
@@ -203,6 +212,11 @@
       border: 1px solid #888;
       border-radius: 50%;
       padding: 20px 0;
+      &.checkout-fix{
+        position: relative;
+        left: 0px;
+        margin-left: 10px;
+      }
     }
 
     input[type="radio"]:checked.default-address-checkbox{
@@ -228,6 +242,31 @@
         right: 50%;
         transform: translate(50%, -50%);
         border: 1px solid #54b8b8;
+      }
+      &.checkout-fix{
+        &::after{
+          content: "";
+          height: 8px;
+          width: 8px;
+          border-radius: 50%;
+          background-color: #191919;
+          position: absolute;
+          top: 50%;
+          right: 50%;
+          transform: translate(50%,-50%);
+        }
+        &::before{
+          content: "";
+          height: 16px;
+          width: 16px;
+          border-radius: 50%;
+          background-color: white;
+          position: absolute;
+          top: 50%;
+          right: 50%;
+          transform: translate(50%, -50%);
+          border: 1px solid #191919;
+        }
       }
     }
 
@@ -264,6 +303,9 @@
     .phone-and-edit-container{
       display: flex;
       justify-content: space-between;
+      &.checkout-fix{
+        display: unset;
+      }
     }
     .edit {
       text-transform: uppercase;
@@ -271,6 +313,7 @@
       letter-spacing: 1px;
       font-weight: bold;
       &.add-checkout-actions {
+        margin-top: 15px;
         // bottom: auto;
         // position: absolute;
       }
@@ -331,7 +374,8 @@
   }
 }
 .address-item-container-checkout {
-  min-height: 250px;
+  min-height: 360px;
+  border: 1px solid #eaeaea;
 }
 
 .address-item {
@@ -370,6 +414,10 @@
     .radio{
       position: relative;
     }
+    &.checkout-fix{
+      font-family: $font-Lato;
+      font-size: 14px;
+    }
   }
 
   .line {
@@ -379,12 +427,40 @@
       word-wrap: break-word;
       font-size: 12px;
     }
+    &.checkout-fix{
+      font-size: 13px;
+      font-family: $font-Lato;
+      font-weight: 400;
+      color: #808080;
+    }
+    &.make-default-checkout-fix{
+      font-size: 10px;
+      font-style: italic;
+      color: #808080;
+      display: flex;
+      justify-content: end;
+    }
+    &.default-checkout-fix{
+      font-family: $font-Lora;
+      font-size: 12px;
+      font-style: italic;
+      font-weight: 700;
+      color: $cerise;
+      display: flex;
+      justify-content: end;
+    }
   }
 
   .separator {
     margin: 0 10px;
     font-size: 12px;
     color: #eaeaea;
+    &.checkout-fix{
+      font-size: 13px;
+      font-family: $font-Lato;
+      font-weight: 400;
+      color: #191919;
+    }
   }
 
   .action {
@@ -396,6 +472,17 @@
       color: $aqua-bold;
       cursor: pointer;
     }
+    &.checkout-fix{
+      font-size: 13px;
+      font-family: $font-Lato;
+      font-weight: 400;
+      color: #191919;
+      text-decoration: none;
+      &:hover{
+        color: #191919;
+        cursor: pointer;
+      }
+    }
   }
   .address-info-bridal {
     padding: 30px;
@@ -406,6 +493,9 @@
   display: flex;
   flex-wrap: wrap;
   flex-direction: column;
+  &.checkout-fix{
+    flex-direction: row;
+  }
 }
 
 .address-item-container {

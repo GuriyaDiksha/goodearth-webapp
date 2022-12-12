@@ -296,9 +296,9 @@ const RegistryAddress: React.FC<{ children: React.ReactNode }> = props => {
             }}
           >
             {mobile ? (
-              <span>[+] ADD ADDRESS</span>
+              <span className={styles.addNewAddress}>+ ADD ADDRESS</span>
             ) : (
-              <span>[+] ADD NEW ADDRESS</span>
+              <span className={styles.addNewAddress}>+ ADD NEW ADDRESS</span>
             )}
           </div>
         )}
