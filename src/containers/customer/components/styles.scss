@@ -5,6 +5,7 @@
 
 .terms {
   padding-bottom: 80px;
+  padding-top: 25px;
  
 h3 {
   @include c22-A-I();
@@ -36,7 +37,6 @@ p {
     }
 }
 ul {
-  padding: 5px 0;
   li {
     @include c10-L-R();
     list-style-type: disc;
@@ -547,7 +547,7 @@ ol {
 
 .description{
   @include b4_12px_montserrat_charcoal();
-  padding-bottom: 50px;
+  padding-bottom: 30px;
 }
 
 .accordion-header{
@@ -555,12 +555,7 @@ ol {
   padding: 20px 40px 20px 0px;
 }
 
-.accordion-header-open{
-  border-bottom: 1px solid lightgray;
-}
-
 .accordion-body{
-  padding-top: 20px;
   padding-bottom: 20px;
 }
 

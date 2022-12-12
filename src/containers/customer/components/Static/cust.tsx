@@ -49,7 +49,11 @@ export default class Cust extends React.Component<
     const sections: Section[] = [];
     this.state.accordionData.map(({ content, heading, isAccordion }, index) => {
       const cont = ReactHtmlParser(content).filter((e: any) => {
-        return e.props["data-f-id"] != "pbf";
+        if (e.props) {
+          return e.props["data-f-id"] != "pbf";
+        } else {
+          return true;
+        }
       });
       const section = ({
         header: heading,
@@ -64,17 +68,16 @@ export default class Cust extends React.Component<
 
   render() {
     const { pageTitle, content } = this.state;
-
     return (
       <div>
         <div className={styles.terms}>
           <div className={styles.pageTitle}>{pageTitle}</div>
           <div className={styles.description}>{content}</div>
           <Accordion
+            uniqueKey="static-pages"
             sections={this.getSections()}
             className={styles.accordionClass}
             headerClassName={styles.accordionHeader}
-            openHeaderClassName={styles.accordionHeaderOpen}
             bodyClassName={styles.accordionBody}
             openIconClassName={cs(faqStyles.horizontal, faqStyles.open)}
             closedIconClassName={cs(faqStyles.horizontal)}
