@@ -313,7 +313,7 @@
       letter-spacing: 1px;
       font-weight: bold;
       &.add-checkout-actions {
-        margin-top: 15px;
+        margin-top: 20px;
         // bottom: auto;
         // position: absolute;
       }
@@ -411,6 +411,7 @@
     word-wrap: break-word;
     display: flex;
     justify-content: space-between;
+    margin-top: 10px;
     .radio{
       position: relative;
     }
@@ -448,6 +449,7 @@
       color: $cerise;
       display: flex;
       justify-content: end;
+      letter-spacing: 1px;
     }
   }
 

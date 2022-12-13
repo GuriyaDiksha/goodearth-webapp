@@ -1,6 +1,6 @@
 import React, { Fragment } from "react";
 import cs from "classnames";
-import { connect } from "react-redux";
+import { connect, useStore } from "react-redux";
 import globalStyles from "styles/global.scss";
 import bootstrapStyles from "../../../../styles/bootstrap/bootstrap-grid.scss";
 import styles from "../styles.scss";
@@ -122,6 +122,9 @@ class Giftcard extends React.Component<Props, GiftState> {
         isSuccess: true
         // txtvalue: ""
       });
+      //Show  Growl Messsage
+      const msg = "Success. Gift Card Activated!";
+      this.props.showGCSuccess(msg, 7000);
       window.scrollTo(0, 0);
     }
   };
@@ -315,11 +318,11 @@ class Giftcard extends React.Component<Props, GiftState> {
     const { firstName, lastName, txtvalue, isSuccess, isLoading } = this.state;
     return (
       <Fragment>
-        {!newCardBox && isSuccess && (
+        {/* {!newCardBox && isSuccess && (
           <div className={cs(globalStyles.successMsg)}>
             Success. Gift Card Code Activated.
           </div>
-        )}
+        )} */}
         {newCardBox && (
           <div>
             <Formsy

@@ -37,6 +37,7 @@ const TrackDetails: React.FC<OrdersProps> = props => {
       const date = moment(mydata[0] ? mydata[0]?.date : new Date()).format(
         "D-MMM-YYYY"
       );
+
       html.push(
         <div className={cs(styles.mainBlock, styles.active)}>
           <div className={cs(styles.circle, styles.active)}></div>
@@ -47,7 +48,6 @@ const TrackDetails: React.FC<OrdersProps> = props => {
         </div>
       );
     }
-
     return html;
   };
 
@@ -179,8 +179,7 @@ const TrackDetails: React.FC<OrdersProps> = props => {
                 : ""}
             </p>
             <div className={cs(styles.liveLocation)}>
-              <img src={liveImg} width="30" /> Live Status Update:{" "}
-              {mydata[0].location}
+              Live Status Update:&nbsp;&nbsp;{mydata[0].location}
             </div>
           </div>
         </div>
@@ -299,12 +298,12 @@ const TrackDetails: React.FC<OrdersProps> = props => {
       <div className={bootstrapStyles.col12}>
         <div className={styles.add} id={data.number}>
           <address>
-            <label>order # {data.number}</label>
+            <label className={cs(styles.topLabel)}>order # {data.number}</label>
             <div className={cs(bootstrapStyles.row, styles.orderBlock)}>
               <div
                 className={cs(bootstrapStyles.col12, bootstrapStyles.colMd6)}
               >
-                <p>{moment(data.datePlaced).format("D MMM,YYYY")}</p>
+                <p>{moment(data.datePlaced).format("D MMM, YYYY")}</p>
                 <p className={styles.orderStatus}>
                   <span className={styles.op2}>Status:</span> &nbsp;
                   <span className={styles.status}>{data.status}</span>
@@ -314,10 +313,14 @@ const TrackDetails: React.FC<OrdersProps> = props => {
                 </p>
               </div>
               <div
-                className={cs(bootstrapStyles.col12, bootstrapStyles.colMd6)}
+                className={cs(
+                  bootstrapStyles.col12,
+                  bootstrapStyles.colMd6,
+                  styles.amountPaid
+                )}
               >
                 <p>
-                  <span className={styles.op2}>Amount Paid</span>
+                  <span className={styles.op2}>Amount Paid:&nbsp;&nbsp;</span>
                 </p>
                 <p className={styles.orderTotal}>
                   {String.fromCharCode(

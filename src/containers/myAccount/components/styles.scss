@@ -1,6 +1,10 @@
 @import "../../../styles/partials/form";
 @import "../../../styles/partials/mixins";
 
+input[type="text"]{
+  height: 50px !important;
+}
+
 .form-heading {
   @include h2_24px_lora_charcoal();
   line-height: 50px;
@@ -80,9 +84,8 @@
 }
 
 .no-purchases-message {
-  color: #5f5c5c;
-  font-size: 13px;
-  font-weight: bold;
+  @include b4_12px_montserrat_charcoal();
+  opacity: unset;
 }
 
 .browse-button {
@@ -110,11 +113,11 @@
     &.address-checkout {
       padding: 35px 25px 90px 25px;
     }
-    padding: 35px 25px 55px 25px;
+    padding: 35px 25px 40px 25px;
     font-weight: 300;
     address {
       border: none;
-      padding: 25px 0;
+      padding: 25px 0px 20px 30px;
     }
     .border-add {
       border-top: 1px solid tint(#000, 90%);
@@ -129,7 +132,9 @@
     }
     &.order-block {
       background-color: tint(#000, 95%);
-
+      &.background-white{
+        background-color: #fff;
+      }
       &.manage-add {
         background-color: $white;
         min-height: 160px;
@@ -244,12 +249,16 @@
           text-transform: uppercase;
         }
       }
+
     }
     .order-block {
       min-height: 100px;
       position: relative;
       div {
-        padding-left: 20px;
+        padding-left: 30px;
+        &.amount-paid{
+          display: flex;
+        }
       }
       span {
         //text-transform: uppercase; cant use this --- it will make order status span uppercase
@@ -265,7 +274,7 @@
       text-transform: uppercase;
       font-size: 12px;
       letter-spacing: 1px;
-      font-weight: bold;
+      font-weight: $semibold;
       &.add-checkout-actions {
         bottom: auto;
         position: absolute;
@@ -286,7 +295,7 @@
       text-transform: uppercase;
       font-size: 12px;
       letter-spacing: 1px;
-      font-weight: bold;
+      font-weight: $semibold;
       &.add-checkout-actions {
         bottom: auto;
         position: absolute;
@@ -302,7 +311,7 @@
       text-transform: uppercase;
       font-size: 12px;
       letter-spacing: 1px;
-      font-weight: bold;
+      font-weight: $semibold;
       &.add-checkout-actions {
         bottom: auto;
         position: absolute;
@@ -310,15 +319,26 @@
       cursor: pointer;
       a:hover {
         cursor: pointer;
+      }
+      &.close1{
+        position:  relative !important;
+        bottom: unset;
+        padding-left: 30px;
+        margin-bottom: 20px;
+        margin-top:20px;
+      }
+      &.close2{
+        position:  relative !important;
+        bottom: unset;
+        padding-left: 20px;
+        margin-top: 30px;
       }
     }
     .edit-mobile {
-      bottom: 2px;
-      position: absolute;
       text-transform: uppercase;
       font-size: 12px;
       letter-spacing: 1px;
-      font-weight: bold;
+      font-weight: $semibold;
       &.add-checkout-actions {
         bottom: auto;
         position: absolute;
@@ -326,11 +346,15 @@
       cursor: pointer;
       a:hover {
         cursor: pointer;
+      }
+      &.close{
+        padding-left: 20px;
+        margin-bottom: 40px;
       }
     }
     p {
       @include b4_12px_montserrat_semibold_charcoal();
-      letter-spacing: 0.36px;;
+      letter-spacing: 0.5px;;
       line-height: 22px;
       .op2{
         @include b4_12px_montserrat_charcoal();
@@ -367,11 +391,13 @@
     }
     label {
       @include b4_12px_montserrat_charcoal_caps();
-      position: absolute;
-      top: -8px;
       letter-spacing: 0.36px;
       background-color: #fff;
-      padding: 0 20px;
+      &.top-label{
+        position: absolute;
+        top: -8px;
+        padding: 0px 20px;
+      }
     }
   }
 }
@@ -414,8 +440,8 @@
 .underline-link{
   @include b5_10px_montserrat_charcoal();
   text-decoration: underline;
-  text-underline-offset: 2px;
-  letter-spacing: 0.3px;
+  text-underline-offset: 5px;
+  letter-spacing: 0.5px;
   &:hover{
     color: $aqua-bold
   }
@@ -480,13 +506,12 @@
   label {
     font-family: $font-Montserrat;
     font-size: 9px;
-    letter-spacing: 0.36px;
+    letter-spacing: 0.5px;
     font-weight: $light;
     color: #191919;
     position: absolute;
     top: -10px;
     left: 10px;
-    letter-spacing: 1px;
     background-color: #fff;
     padding: 3px;
   }
@@ -550,6 +575,7 @@
       }
       &.balance{
         @include b4_12px_montserrat_aqua();
+        font-weight: $medium;
         letter-spacing: 0.5px;
         margin: 25px 0px 45px 0px;
       }
@@ -581,7 +607,7 @@
   display: block !important;
   margin-bottom: 27px;
   margin-top: 30px;
-  padding-left: 20px;
+  // padding-left: 20px;
 }
 
 
@@ -590,8 +616,12 @@
 }
 
 .trail-track {
-  width: 170px;
+  width: 220px;
   margin-bottom: 25px;
+  margin-left: 25px;
+  @media screen and (max-width: 992px){
+    margin-left:10px;
+  }
   .txt-right {
     position: absolute;
     left: 110%;
@@ -655,7 +685,8 @@
           transform: translateY(-12px);
           position: relative;
           .live-location{
-            font-size: 10px;
+            @include b5_10px_montserrat_charcoal();
+            letter-spacing: 0.5px;;
             display: flex;
           }
           .data{
@@ -668,7 +699,7 @@
 @media screen and (max-width: 992px) {
   .trail-track {
     width: 180px;
-    margin: 0 auto;
+    // margin: 0 auto;
     margin-bottom: 25px;
     .txt-right {
       left: 0;
@@ -985,13 +1016,14 @@
 .view-tnc{
   @include b5_10px_montserrat_charcoal();
   text-transform: uppercase;
-  letter-spacing: 0.36px;
+  letter-spacing: 0.5px;
   text-decoration: underline;
-  text-underline-offset: 2px;
+  text-underline-offset: 5px;
   margin-top: 30px;
   cursor: pointer;
   &:hover{
-    color: $aqua-bold
+    color: $aqua-bold;
+    text-decoration: underline;
   }
 }
 
@@ -1004,16 +1036,16 @@
   .name{
     @include b4_12px_montserrat_charcoal();
     padding: 10px 0px;
-    letter-spacing: 0.36px;
+    letter-spacing: 0.5px;
   }
   .address-line{
     @include b5_10px_montserrat_charcoal();
-    letter-spacing: 0.3px;
+    letter-spacing: 0.5px;
   }
   .phone{
     @include b4_12px_montserrat_charcoal();
     padding: 10px 0px;
-    letter-spacing: 0.36px;
+    letter-spacing: 0.5px;
   }
   @media screen and (max-width:992px) {
     &:nth-of-type(1){
@@ -1078,7 +1110,7 @@
   @include b4_12px_montserrat_charcoal_caps();
   letter-spacing: 0.5px;
   text-decoration: underline;
-  text-underline-offset: 2px;
+  text-underline-offset: 5px;
 }
 
 .horizontal{
@@ -1122,4 +1154,9 @@
 
 .margin-fix{
   margin: 30px 8.6% 0px 8.6%;
+}
+@media screen and (max-width: 992px){
+  .margin-fix{
+    margin: 0;
+  }
 }

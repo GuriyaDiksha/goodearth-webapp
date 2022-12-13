@@ -31,6 +31,8 @@ class OtpCompActivateGC extends React.Component<otpProps, otpState> {
       toggleOtp: false,
       isLoading: false,
       otpLimitError: false,
+      phoneInput: "",
+      emailInput: "",
       attempts: {
         attempts: 0,
         maxAttemptsAllow: 5
@@ -59,6 +61,7 @@ class OtpCompActivateGC extends React.Component<otpProps, otpState> {
       this.RegisterFormRef.current.updateInputsWithValue({
         email: value
       });
+      this.setState({ emailInput: "" });
     }
   };
 
@@ -75,6 +78,11 @@ class OtpCompActivateGC extends React.Component<otpProps, otpState> {
     this.props.isIndiaGC
       ? this.phoneInput.current && this.phoneInput.current.focus()
       : this.phoneInput.current && this.phoneInput.current.focus();
+
+    this.setState({
+      phoneInput: this.props.phoneNo || "",
+      emailInput: this.props.email || ""
+    });
   };
 
   changeAttepts = (value: any) => {
@@ -850,6 +858,11 @@ class OtpCompActivateGC extends React.Component<otpProps, otpState> {
 
   render() {
     const { toggleOtp } = this.state;
+    console.log(
+      this.state.emailInput,
+      this.state.phoneInput,
+      this.props.isIndiaGC
+    );
     return (
       <Fragment>
         {toggleOtp || this.props.newCardBox == false ? (
@@ -921,6 +934,9 @@ class OtpCompActivateGC extends React.Component<otpProps, otpState> {
                     disable={this.props.isCredit}
                     inputRef={this.emailInput}
                     value={this.props.email ? this.props.email : ""}
+                    handleChange={e =>
+                      this.setState({ emailInput: e.target.value })
+                    }
                     validations={
                       !this.props.isIndiaGC
                         ? {
@@ -968,6 +984,9 @@ class OtpCompActivateGC extends React.Component<otpProps, otpState> {
                         placeholder={"Contact Number"}
                         type="number"
                         label={"Contact Number"}
+                        handleChange={e =>
+                          this.setState({ phoneInput: e.target.value })
+                        }
                         validations={
                           this.props.isIndiaGC
                             ? {
@@ -1052,11 +1071,14 @@ class OtpCompActivateGC extends React.Component<otpProps, otpState> {
                 <input
                   type="submit"
                   disabled={this.state.disable}
-                  className={
-                    this.state.disable
-                      ? cs(styles.charcoalBtn, styles.disabledBtn)
-                      : styles.charcoalBtn
-                  }
+                  className={cs(styles.charcoalBtn, {
+                    [styles.disabledBtn]:
+                      !this.subscribeRef.current?.checked ||
+                      (this.props.isIndiaGC && this.state.phoneInput == "") ||
+                        (!this.props.isIndiaGC &&
+                          this.state.emailInput == "") ||
+                        (this.props.isCredit && this.state.emailInput == "")
+                  })}
                   value="Send otp"
                 />
               </li>

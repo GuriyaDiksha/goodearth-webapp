@@ -280,7 +280,7 @@ class Giftcard extends React.Component<Props, GiftState> {
             className={cs(
               styles.loginForm,
               { [globalStyles.voffset4]: newCardBox },
-              bootstrapStyles.colMd8
+              bootstrapStyles.colMd12
             )}
           >
             {newCardBox ? (
