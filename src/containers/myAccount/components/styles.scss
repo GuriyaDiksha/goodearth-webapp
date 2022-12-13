@@ -132,7 +132,9 @@ input[type="text"]{
     }
     &.order-block {
       background-color: tint(#000, 95%);
-
+      &.background-white{
+        background-color: #fff;
+      }
       &.manage-add {
         background-color: $white;
         min-height: 160px;
@@ -438,8 +440,8 @@ input[type="text"]{
 .underline-link{
   @include b5_10px_montserrat_charcoal();
   text-decoration: underline;
-  text-underline-offset: 2px;
-  letter-spacing: 0.3px;
+  text-underline-offset: 5px;
+  letter-spacing: 0.5px;
   &:hover{
     color: $aqua-bold
   }
@@ -1014,7 +1016,7 @@ input[type="text"]{
 .view-tnc{
   @include b5_10px_montserrat_charcoal();
   text-transform: uppercase;
-  letter-spacing: 0.36px;
+  letter-spacing: 0.5px;
   text-decoration: underline;
   text-underline-offset: 5px;
   margin-top: 30px;
@@ -1108,7 +1110,7 @@ input[type="text"]{
   @include b4_12px_montserrat_charcoal_caps();
   letter-spacing: 0.5px;
   text-decoration: underline;
-  text-underline-offset: 2px;
+  text-underline-offset: 5px;
 }
 
 .horizontal{

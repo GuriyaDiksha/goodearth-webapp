@@ -252,7 +252,11 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
     html.push(
       <div className={bootstrapStyles.col12}>
         <div className={styles.add} id={data.number}>
-          <address className={styles.orderBlock}>
+          <address
+            className={cs(styles.orderBlock, {
+              [styles.backgroundWhite]: index == isOpenAddressIndex
+            })}
+          >
             <label className={styles.topLabel}>order # {data.number}</label>
             <div className={styles.orderBlock}>
               <div
