@@ -435,11 +435,14 @@
       color: #808080;
     }
     &.make-default-checkout-fix{
+      font-family: $font-Lato;
+      letter-spacing: 1px;
       font-size: 10px;
       font-style: italic;
       color: #808080;
       display: flex;
       justify-content: end;
+      font-weight: 400;
     }
     &.default-checkout-fix{
       font-family: $font-Lora;
