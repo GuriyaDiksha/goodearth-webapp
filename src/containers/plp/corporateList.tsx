@@ -325,11 +325,11 @@ class CorporateFilter extends React.Component<Props, State> {
     Object.keys(this.state.extraParams).map(key => {
       filterUrl += `&${key}=${this.state.extraParams[key]}`;
     });
-    if (!this.props.mobile) {
-      this.setState({
-        extraParams: {}
-      });
-    }
+    // if (!this.props.mobile) {
+    //   this.setState({
+    //     extraParams: {}
+    //   });
+    // }
     if (mainurl == "" || !mainurl) {
       mainurl = history.location.pathname;
     }
@@ -762,18 +762,17 @@ class CorporateFilter extends React.Component<Props, State> {
       });
     }
 
-    facets.categories.map((data: any, i: number) => {
-      const tempKey = data[0].split(">")[1].trim(),
-        viewData = data[0].split(">");
-      viewData.length > 2 ? viewData.pop() : "";
-      categoryObj[tempKey]
-        ? false
-        : (categoryObj[tempKey] = [["View all", viewData.join(">").trim()]]);
-      if (data[0].split(">")[2]) {
-        categoryObj[tempKey].push([data[0].split(">")[2].trim()].concat(data));
-      }
-    });
-
+    // facets.categories.map((data: any, i: number) => {
+    //   const tempKey = data[0].split(">")[1].trim(),
+    //     viewData = data[0].split(">");
+    //   viewData.length > 2 ? viewData.pop() : "";
+    //   categoryObj[tempKey]
+    //     ? false
+    //     : (categoryObj[tempKey] = [["View all", viewData.join(">").trim()]]);
+    //   if (data[0].split(">")[2]) {
+    //     categoryObj[tempKey].push([data[0].split(">")[2].trim()].concat(data));
+    //   }
+    // });
     // code for setting all values of filter false
     facets.categoryShop.map((data: any, i: number) => {
       // const key = data[0].split(">")[1].trim();
