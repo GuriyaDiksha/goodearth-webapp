@@ -435,6 +435,7 @@ input[type="text"]{
 .rtc {
   margin-left: 20px;
   text-align: center;
+  text-transform: uppercase;
 }
 
 .underline-link{
@@ -1065,7 +1066,8 @@ input[type="text"]{
   }
   .product-n{
     @include b2_14px_charcoal_lora();
-    letter-spacing: 0.28px;
+    font-weight: 400;
+    letter-spacing: 0.5px;
   }
   .price{
     @include b3_14px_montserrat_charcoal();
