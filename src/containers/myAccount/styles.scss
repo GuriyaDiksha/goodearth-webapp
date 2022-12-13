@@ -254,6 +254,8 @@ input[type="password"]{
       padding: 0 20px;
       line-height: 50px;
       @include menu-subcopy();
+      font-weight: 400;
+      letter-spacing: 0.5px;
       border-bottom: 1px solid tint(#000, 90%);
       a {
         color: $charcoal19;
