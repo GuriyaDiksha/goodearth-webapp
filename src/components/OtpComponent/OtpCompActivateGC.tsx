@@ -858,11 +858,7 @@ class OtpCompActivateGC extends React.Component<otpProps, otpState> {
 
   render() {
     const { toggleOtp } = this.state;
-    console.log(
-      this.state.emailInput,
-      this.state.phoneInput,
-      this.props.isIndiaGC
-    );
+
     return (
       <Fragment>
         {toggleOtp || this.props.newCardBox == false ? (
@@ -1075,9 +1071,8 @@ class OtpCompActivateGC extends React.Component<otpProps, otpState> {
                     [styles.disabledBtn]:
                       !this.subscribeRef.current?.checked ||
                       (this.props.isIndiaGC && this.state.phoneInput == "") ||
-                        (!this.props.isIndiaGC &&
-                          this.state.emailInput == "") ||
-                        (this.props.isCredit && this.state.emailInput == "")
+                      (!this.props.isIndiaGC && this.state.emailInput == "") ||
+                      (this.props.isCredit && this.state.emailInput == "")
                   })}
                   value="Send otp"
                 />
