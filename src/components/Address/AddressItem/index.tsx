@@ -571,7 +571,17 @@ const AddressItem: React.FC<Props> = props => {
               ? address.line2.slice(0, addressLineTwoWithSpace).concat("...")
               : address.line2}
           </div>
-          <div className={styles.line}>{address.city}</div>
+          <div
+            className={cs(styles.line, {
+              [styles.checkoutFix]:
+                currentCallBackComponent == "checkout-shipping" ||
+                currentCallBackComponent == "checkout-billing" ||
+                currentCallBackComponent == "bridal" ||
+                currentCallBackComponent == "bridal-edit"
+            })}
+          >
+            {address.city}
+          </div>
           <div
             className={cs(styles.line, styles.addressLine, {
               [styles.checkoutFix]:
