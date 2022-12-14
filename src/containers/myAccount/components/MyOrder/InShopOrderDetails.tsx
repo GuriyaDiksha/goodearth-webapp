@@ -126,7 +126,7 @@ const InShopOrderDetails: React.FC<ShopProps> = props => {
               >
                 <div className={styles.add}>
                   {billingAddress ? (
-                    <address>
+                    <address className={styles.address}>
                       <label>billing address</label>
                       <p>
                         {billingAddress.first_name}

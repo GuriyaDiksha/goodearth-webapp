@@ -301,7 +301,7 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
                 {data.isBridalOrder ? (
                   <div className={styles.add}>
                     {shippingAddress ? (
-                      <address>
+                      <address className={styles.address}>
                         <label>shipping address</label>
                         <p>
                           {data.registrantName}
@@ -321,14 +321,14 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
                 ) : (
                   <div className={styles.add}>
                     {shippingAddress ? (
-                      <address>
+                      <address className={styles.address}>
                         <label>shipping address</label>
                         <p>
                           {shippingAddress.firstName}
                           &nbsp; {shippingAddress.lastName}
                           <br />
                         </p>
-                        <p className={styles.light}>
+                        <p>
                           {shippingAddress.line1}
                           <br />
                           {shippingAddress.line2}{" "}
@@ -351,7 +351,7 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
               >
                 <div className={styles.add}>
                   {billingAddress ? (
-                    <address>
+                    <address className={styles.address}>
                       <label>billing address</label>
                       <p>
                         {billingAddress.firstName}
