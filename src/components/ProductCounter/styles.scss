@@ -13,6 +13,9 @@ box-shadow: 3px 3px 10px #00000029;
 opacity: 1;
 position:fixed;
 z-index: 10;
+    &.top-position{
+        top: 170px;
+    }
     .counter {
         height: 100%;
         color: #000000CC;

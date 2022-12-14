@@ -14,6 +14,8 @@ export type otpState = {
   isLoading: boolean;
   isResendOtpDisabled?: boolean;
   otpLimitError?: boolean;
+  phoneInput: string;
+  emailInput: string;
   attempts: {
     attempts: number;
     maxAttemptsAllow: number;
