@@ -980,6 +980,9 @@
   top: 50%;
   transform: translate(-50%, -50%);
   box-sizing: content-box;
+  &.helloar{
+    background-color: $white;
+  }
   &.mobile{
     height: 100%;
     top: 0%;
@@ -1019,10 +1022,17 @@
     }
   }
   .iframe-placeholder{
+    width: 94%;
+    margin: 0 auto;
+    display: flex;
     background-color: white;
     height: calc(100% - 170px);
     transform: translateY(90px);
     z-index: 0;
+
+    @media screen and (max-width:992px) {
+      width: 100%
+    }
     &.mobile{
       height: calc(100% - 150px);
     }
