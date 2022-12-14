@@ -36,6 +36,7 @@ const mapStateToProps = (state: AppState) => {
     isSale: state.info.isSale,
     currency: state.currency,
     isLoggedIn: state.user.isLoggedIn,
+    slab: state.user.slab,
     currencyList: state.info.currencyList
   };
 };
@@ -1228,7 +1229,9 @@ class Mobilemenu extends React.Component<Props, MobileState> {
             }
           }}
         > */}
-        {this.props.currency === "INR" && (
+        {(this.props.currency === "INR" ||
+          this.props.slab.toLowerCase() === "cerise" ||
+            this.props.slab.toLowerCase() === "cerise sitara") && (
           <CeriseCard clickToggle={clickToggle} />
         )}
         {/* </NavLink> */}

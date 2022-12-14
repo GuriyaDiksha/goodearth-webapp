@@ -30,7 +30,7 @@ const FilterDropdown = ({
       setOldFilterState();
     }
     const elem = document.getElementById(id) as HTMLDivElement;
-    if (elem) {
+    if (elem && !mobile) {
       if (!elem.style.maxHeight) {
         elem.style.maxHeight = elem.scrollHeight + "px";
       } else {

@@ -51,23 +51,25 @@
         }
     }
     .list-container{
-        transition: max-height 0.3s ease-in-out;
+        // transition: max-height 0.3s ease-in-out;
         max-height: 0;
         overflow: hidden;
         margin-top: 0px;
+        transition: max-height .10s ease-in-out;
 
-        @media screen and (max-width: 992px) {
-             transform: translateY(100%);
-             transition: transform .3s ease-in-out;
-             max-height: 0;
+        @media screen and (max-width:992px) {
+            transition: transform .10s ease-in-out;
         }
-
-       
+        
         ul {
             @include b4_12px_montserrat_light_charcoal();
             margin-bottom: 0;
             background-color: $white;
-            
+            @media screen and (max-width: 992px) {
+                transform: translateY(100%);
+                transition: max-height 0.3s ease-in-out;
+                max-height: 0;
+            }
             li{
                 height: $secondary-header-height;
                 line-height: $secondary-header-height;
@@ -217,11 +219,15 @@
             // -moz-box-shadow: 0px 6px 7px 1px #d1ccca;
             // box-shadow: 0px 6px 7px 1px #d1ccca;
             border: 1px solid lightgray;
-
-            @media screen and (max-width: 992px) {
+            ul {
+                @media screen and (max-width: 992px) {
                     transform: translateY(0%);
+                    max-height: 100% !important;
+                    transition: max-height 0.3s ease-in-out;
+                }
+            }
+            @media screen and (max-width: 992px) {
                     position: fixed;
-                    top: 0;
                     right: 0;
                     bottom: 0;
                     right: 0;
@@ -230,10 +236,10 @@
                     display: flex;
                     justify-content: flex-end;
                     flex-direction: column;
-                    max-height: 100% !important;
                     z-index: 1054;
-                    transition: transform .3s ease-in-out;
                     background: rgba(0, 0, 0, .5);
+                    top: 0;
+                    max-height: 100% !important;
                 
             }
         }

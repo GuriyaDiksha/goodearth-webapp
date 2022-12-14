@@ -26,12 +26,17 @@ const CeriseProfileMenu = ({
     disabled,
     id
   };
-  const { currency } = useSelector((state: AppState) => state);
+  const {
+    currency,
+    user: { slab }
+  } = useSelector((state: AppState) => state);
 
   const getMenuItems = (): JSX.Element => {
     return (
       <div className={styles.ceriseCardMenuWrp}>
-        {currency === "INR" && (
+        {(currency === "INR" ||
+          slab.toLowerCase() === "cerise" ||
+            slab.toLowerCase() === "cerise sitara") && (
           <div
           // onClick={e => {
           //   if ((e.target as HTMLInputElement)?.id === "dashboard") {
