@@ -13,6 +13,7 @@ import CorporateFilter from "./corporateList";
 import PlpDropdownMenu from "components/PlpDropDown";
 import PlpResultItem from "components/plpResultItem";
 import GiftcardItem from "components/plpResultItem/giftCard";
+import ResetFiltersTile from "components/plpResultItem/resetFiltersTile";
 import PlpBreadcrumbs from "components/PlpBreadcrumbs";
 import mapDispatchToProps from "../../components/Modal/mapper/actions";
 import MakerEnhance from "maker-enhance";
@@ -801,11 +802,11 @@ class PLP extends React.Component<
                 })}
               >
                 <span>
-                  {count > 1
-                    ? (!this.state.corporoateGifting ? count + 1 : count) +
-                      " products found"
-                    : (!this.state.corporoateGifting ? count + 1 : count) +
-                      " product found"}{" "}
+                  {count > 0
+                    ? count > 1
+                      ? count + " products found"
+                      : count + " product found"
+                    : "No products found"}{" "}
                 </span>
               </div>
             ) : (
@@ -813,11 +814,11 @@ class PLP extends React.Component<
                 className={cs(styles.productNumber, styles.imageContainer, {})}
               >
                 <span>
-                  {count > 1
-                    ? (!this.state.corporoateGifting ? count + 1 : count) +
-                      " products found"
-                    : (!this.state.corporoateGifting ? count + 1 : count) +
-                      " product found"}{" "}
+                  {count > 0
+                    ? count > 1
+                      ? count + " products found"
+                      : count + " product found"
+                    : "No products found"}{" "}
                 </span>
               </div>
             )}
@@ -997,6 +998,41 @@ class PLP extends React.Component<
                   />
                 )}
               </div>
+
+              {count < 1 && this.state.filterCount > 0 ? (
+                <div
+                  className={
+                    !mobile || this.props.plpMobileView == "grid"
+                      ? cs(bootstrap.colLg4, bootstrap.col6, styles.setWidth, {
+                          ["product-container"]: !this.state.corporoateGifting
+                        })
+                      : cs(
+                          bootstrap.colLg4,
+                          bootstrap.col12,
+                          styles.setWidth,
+                          styles.listViewContainer,
+                          {
+                            ["product-container"]: !this.state.corporoateGifting
+                          }
+                        )
+                  }
+                  key={2}
+                >
+                  {this.state.corporoateGifting ? (
+                    ""
+                  ) : (
+                    <ResetFiltersTile
+                      resetFilters={this.child.clearFilter}
+                      mobileApply={this.child.updateDataFromAPI}
+                      mobile={mobile}
+                      tablet={tablet}
+                      view={this.props.plpMobileView}
+                    />
+                  )}
+                </div>
+              ) : (
+                ""
+              )}
             </div>
           </div>
           {mobile && !tablet && (

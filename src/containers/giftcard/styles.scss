@@ -445,7 +445,10 @@ input[type="radio"]:checked+label:before {
   color: #9F9F9F;
   height: 50px;
   width: 20%;
-  line-height: 50px;
+  line-height: 53px;
+  @media screen and (max-width:992px) {
+    line-height: 52px;
+  }
 }
 .gc {
   background: url('../../images/greyBg.jpg') repeat;

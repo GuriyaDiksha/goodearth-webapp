@@ -391,6 +391,7 @@ const AddressForm: React.FC<Props> = props => {
     }
   }, [addressData, countryOptions]);
   const bridalUser = { userId: 0 };
+
   return (
     <div
       className={cs(
@@ -407,14 +408,14 @@ const AddressForm: React.FC<Props> = props => {
         }
       )}
     >
-      {(currentCallBackComponent == "account" ||
+      {((!mobile && currentCallBackComponent == "account") ||
         currentCallBackComponent == "bridal-edit") && (
         <div className="back-btn-div">
           <div
             className={cs(
               styles.backBtnTop,
               styles.backBtnAddress,
-              styles.formSubheading
+              styles.backBtnFont
             )}
             onClick={closeAddressForm}
           >
@@ -735,7 +736,7 @@ const AddressForm: React.FC<Props> = props => {
             <div className={styles.addressFormCheckbox}>
               <FormCheckbox
                 name="isDefaultForShipping"
-                label={["MAKE THIS MY DEFAULT ADDRESS"]}
+                label={["Make Default Address"]}
                 value={false}
                 id="isShippingAddress"
                 disable={false}
@@ -751,9 +752,16 @@ const AddressForm: React.FC<Props> = props => {
                     formNoValidate={true}
                     type="submit"
                     value={isAddressChanged ? "Update Address" : "Updated"}
-                    className={cs(globalStyles.ceriseBtn, {
-                      [globalStyles.disabledBtn]: !isAddressChanged
-                    })}
+                    className={cs(
+                      globalStyles.ceriseBtn,
+                      {
+                        [globalStyles.disabledBtn]: !isAddressChanged
+                      },
+                      {
+                        [styles.charcoalBtn]:
+                          currentCallBackComponent == "account"
+                      }
+                    )}
                     disabled={!isAddressChanged}
                   />
                 ) : (
@@ -761,9 +769,16 @@ const AddressForm: React.FC<Props> = props => {
                     formNoValidate={true}
                     type="submit"
                     value="Save Address"
-                    className={cs(globalStyles.ceriseBtn, {
-                      [globalStyles.disabledBtn]: !isAddressChanged
-                    })}
+                    className={cs(
+                      globalStyles.ceriseBtn,
+                      {
+                        [styles.disabledBtn]: !isAddressChanged
+                      },
+                      {
+                        [styles.charcoalBtn]:
+                          currentCallBackComponent == "account"
+                      }
+                    )}
                     disabled={!isAddressChanged}
                   />
                 )}
@@ -787,11 +802,11 @@ const AddressForm: React.FC<Props> = props => {
             className={cs(
               styles.backBtn,
               globalStyles.ointer,
-              styles.formSubheading
+              styles.addNewAddress
             )}
             onClick={closeAddressForm}
           >
-            &lt; back
+            Cancel & Go Back
           </span>
         </div>
       )}

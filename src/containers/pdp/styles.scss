@@ -5,11 +5,18 @@
 $pdp-top: $header-height + $secondary-header-height;
 
 .pdp-container {
-    margin-top: $header-height;
+    margin-top: $header-height - 40px;;
     &:not(.mobile) {
         margin-top: $pdp-top;
     }
 }
+
+@media screen and (max-width: 992px){
+    .pdp-container{
+        margin-top: $header-height - 40px;
+    }
+}
+
 .pdp-secondcontainer {
     margin-top: $header-height;
     

@@ -122,7 +122,7 @@ class ChangePassword extends React.Component<Props, State> {
   render() {
     const { updatePassword } = this.state;
     return (
-      <div className={bootstrapStyles.row}>
+      <div className={cs(bootstrapStyles.row, styles.loginForm)}>
         <div
           className={cs(
             bootstrapStyles.col10,
@@ -397,10 +397,11 @@ class ChangePassword extends React.Component<Props, State> {
                         <input
                           type="submit"
                           disabled={!updatePassword}
-                          className={cs(
-                            { [globalStyles.disabledBtn]: !updatePassword },
-                            globalStyles.ceriseBtn
-                          )}
+                          className={
+                            updatePassword
+                              ? styles.updateDetails
+                              : styles.updated
+                          }
                           value={updatePassword ? "Update Details" : "Updated"}
                         />
                       </div>

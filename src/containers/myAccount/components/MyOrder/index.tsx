@@ -90,13 +90,12 @@ const PastOrders: React.FC<Props> = (props: Props) => {
       {!hasShopped && !isLoading && (
         <div
           className={cs(
-            styles.formSubheading,
             globalStyles.op2,
             styles.noPurchasesMessage,
             globalStyles.voffset4
           )}
         >
-          {isData ? "" : <em>{"You haven't made any purchases yet"}</em>}
+          {isData ? "" : <div>{"You haven't made any purchases yet"}</div>}
         </div>
       )}
       {hasShoppedOnlineitems && (

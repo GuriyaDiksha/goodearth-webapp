@@ -1434,7 +1434,7 @@ margin-bottom: 50px !important;
   top: 0;
 }
 .form-heading {
-  text-align: right;
+  text-align: center;
   margin-top: 20px;
 }
 
@@ -1448,4 +1448,17 @@ margin-bottom: 50px !important;
       color: #fff !important;
       width: 100%;
       right: -40px;
+}
+
+.add-new-address{
+  @include b4_12px_montserrat_charcoal();
+  text-transform: uppercase;
+  letter-spacing: 0.36px;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  margin-top: 30px;
+  cursor: pointer;
+  &:hover{
+    color: $aqua-bold
+  }
 }

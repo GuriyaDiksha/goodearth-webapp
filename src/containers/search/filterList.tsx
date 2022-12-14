@@ -640,6 +640,7 @@ class FilterList extends React.Component<Props, State> {
       this.appendData();
     }
   };
+
   createList = (plpList: any) => {
     if (!plpList.results.facets.categoryShop) return false;
     const { currency } = this.props;
@@ -1654,7 +1655,8 @@ class FilterList extends React.Component<Props, State> {
       this.createUrlfromFilter();
     }
     this.setState({
-      filter: filter
+      filter: filter,
+      showmenulevel1: false
     });
     if (key == "price" || key == "all") {
       this.setState({

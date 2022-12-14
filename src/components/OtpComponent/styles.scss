@@ -114,6 +114,7 @@
   }
   .contact-code {
     flex: 1 1 0;
+    margin-right: 10px;
   }
     .country-code {
       display: flex;
@@ -148,7 +149,7 @@
     }
     li {
       position: relative;
-      margin: 20px 0;
+      margin: 35px 0;
       &.notify {
         width: 70%;
         margin: 0 auto;
@@ -168,37 +169,51 @@
         text-align: left;
         margin: 75px 0 0 0;
         &.subscribe-gc {
-          margin: 50px 0 0 0;
+          margin: 35px 0 0 0;
         }
         &.subs1 {
           margin-top: 50px !important;
         }
         label {
-          @include c10-L-R();
+          @include b5_10px_montserrat_charcoal();
           text-transform: none;
-          line-height: 22px;
+          line-height: 18px;
+          letter-spacing: 0.5px;
           a {
-            color: $cerise;
+            color: $charcoal19;
             text-decoration: underline;
             &:hover {
-              color: $cerise;
-              text-decoration: underline;
+              color: $aqua-bold;
+              font-weight: $semibold;
             }
           }
         }
         input[type="radio"]:not(:checked) + label:before,
-        input[type="radio"]:checked + label:before, [type="checkbox"]:not(:checked) + label:before,
-        input[type="checkbox"]:checked + label:before {
+        input[type="radio"]:checked + label:before, [type="checkbox"]:not(:checked) + label:before {
           content: '';
           position: absolute;
-          left: 0;
-          top: 0px;
+          left: 3px;
+          top: 5px;
           width: 18px;
           height: 18px;
-          background-color: white;
-          border: 1px solid #666;
-
+          background-color: #fff;
+          border: 1px solid #799999;
         }
+        input[type="checkbox"]:checked + label:before{
+          content: '';
+          position: absolute;
+          left: 3px;
+          top: 5px;
+          width: 18px;
+          height: 18px;
+          background-color: #7EAAA9;
+          border: 1px solid #7EAAA9;
+        }
+        input[type="checkbox"]:checked + label {
+          @include b5_10px_montserrat_charcoal();
+          position: relative;
+          cursor: pointer;
+      }
         input[type="radio"]:not(:checked) + label,
         input[type="radio"]:checked + label, [type="checkbox"]:not(:checked) + label,
         input[type="checkbox"]:checked + label {
@@ -212,11 +227,11 @@
           display: block;
           width: 6px;
           height: 10px;
-          border: solid #ab1e56;
+          border: solid #fff;
           border-width: 0 2px 2px 0;
           position: absolute;
-          top: 2px;
-          left: 6px;
+          top: 8px;
+          left: 9px;
           font-size: 18px;
           line-height: 0.8;
           transition: all .1s;
@@ -301,9 +316,11 @@
 }
 
 .otp-text{
-  font-size: 12px;
-  color: #666;
-  text-transform: capitalize;
+  @include b4_12px_montserrat_charcoal();
+  .aqua-bold{
+    color: $aqua-bold;
+    font-weight: $semibold;
+  }
 }
 .error-msg{
   position: absolute;
@@ -410,15 +427,14 @@
 }
 .note {
   text-align: left;
-  font-size: 12px;
+  @include b4_12px_montserrat_charcoal();
+  letter-spacing: 0.36px;
     ul {
       margin-left:15px;
       li {
         margin: 8px 10px;
-        font-size: 12px;
-        font-family: $font-Lato;
-        color: #666666;
         list-style-type: disc;
+        @include b5_10px_montserrat_charcoal();
       }
     }
 }
@@ -471,8 +487,8 @@ hr {
 
   .otp-input-err{
     max-width: 100%;
-    width: 263px;
-    margin: 0 auto;
+    // width: 263px;
+    // margin: 0 auto;
     letter-spacing: 0.5px;
 
     .otp-input-wrp{
@@ -480,9 +496,10 @@ hr {
       justify-content: center;
   
       .otp-input{
-        width: 40px;
-        height: 40px;
-        flex: 0 0 40px;
+        width: 50px;
+        height: 50px;
+        // flex: 0 0 40px;
+        flex-basis: 50px;
         border: 1px solid #E5E5E5 !important;
         border-radius: 7px !important;
         opacity: 1;
@@ -567,6 +584,42 @@ hr {
     }
 
   }
+}
 
+.charcoal-btn{
+  background-color: #4C4C4C;
+  @include b3_14px_montserrat_white();
+  text-transform: uppercase;
+  letter-spacing: 0.42px;
+  line-height: 52px;
+  width: 100%;
+  text-align: center;
+  border: 1px solid #4C4C4C;
+  border-radius: 0;
+  cursor: pointer;
+  &:hover{
+    color: #191919;
+    background-color: #fff;
+    border: 1px solid #4C4C4C;
+  }
+  &.disabled-btn{
+    color: #fff;
+    background-color: #9f9f9f;
+    border: 1px solid #9f9f9f;
+  }
+}
 
+.error-msg{
+  @include err_13px_lora_italic_cerise();
+  font-weight: 400;
+}
+
+.line-head{
+  @include b4_12px_montserrat_charcoal_caps();
+  margin-top: 30px;
+}
+
+.line{
+  @include b4_12px_montserrat_charcoal();
+  font-weight: $semibold;
 }
