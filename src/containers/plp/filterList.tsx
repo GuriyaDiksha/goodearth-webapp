@@ -492,12 +492,15 @@ class FilterList extends React.Component<Props, State> {
       const filterUrl = "?" + nextUrl.split("?")[1];
       // const pageSize = mobile ? 10 : 20;
       const pageSize = 20;
+      const urlParams = new URLSearchParams(this.props.history.location.search);
+      const categoryShop = urlParams.get("category_shop");
+      const categoryShopL1 = urlParams.get("category_shop")?.split(">")[0];
       updateProduct(filterUrl + `&page_size=${pageSize}`, listdata).then(
         plpList => {
           changeLoader?.(false);
           valid.productImpression(
             plpList,
-            "PLP",
+            categoryShopL1 || "PLP",
             this.props.currency,
             plpList.results.data.length
           );
@@ -557,8 +560,7 @@ class FilterList extends React.Component<Props, State> {
           this.props.updateFacets(this.getSortedFacets(plpList.results.facets));
         }
       );
-      const urlParams = new URLSearchParams(this.props.history.location.search);
-      const categoryShop = urlParams.get("category_shop");
+
       if (categoryShop) {
         fetchPlpTemplates(categoryShop);
       }
@@ -580,16 +582,21 @@ class FilterList extends React.Component<Props, State> {
     changeLoader?.(true);
     const url = decodeURI(history.location.search);
     const filterUrl = "?" + url.split("?")[1];
+    const urlParams = new URLSearchParams(history.location.search);
+    const categoryShop = urlParams.get("category_shop");
+    const categoryShopL1 = urlParams.get("category_shop")?.split(">")[0];
     // const pageSize = mobile ? 10 : 20;
     const pageSize = 20;
     fetchPlpProducts(filterUrl + `&page_size=${pageSize}`).then(plpList => {
-      valid.productImpression(plpList, "PLP", this.props.currency);
+      valid.productImpression(
+        plpList,
+        categoryShopL1 || "PLP",
+        this.props.currency
+      );
       changeLoader?.(false);
       this.createList(plpList, false);
       this.props.updateFacets(this.getSortedFacets(plpList.results.facets));
     });
-    const urlParams = new URLSearchParams(history.location.search);
-    const categoryShop = urlParams.get("category_shop");
     if (categoryShop) {
       fetchPlpTemplates(categoryShop);
     }

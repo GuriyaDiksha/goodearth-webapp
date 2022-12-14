@@ -528,6 +528,10 @@ class PLP extends React.Component<
     });
 
     const { plpMaker, corporoateGifting } = this.state;
+    const queryString = this.props.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    const categoryShop = urlParams.get("category_shop")?.split(">")?.[0];
+
     const items: CategoryMenu[] = [
       {
         label: "Our Curation",
@@ -902,7 +906,7 @@ class PLP extends React.Component<
                             />
                           ) : (
                             <PlpResultItem
-                              page="PLP"
+                              page={categoryShop || "plp"}
                               position={index}
                               product={item}
                               addedToWishlist={false}
