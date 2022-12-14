@@ -113,6 +113,11 @@ input[type="text"]{
     &.address-checkout {
       padding: 35px 25px 90px 25px;
     }
+    &.address {
+      p {
+        font-weight: 400;
+      }
+    }
     padding: 35px 25px 40px 25px;
     font-weight: 300;
     address {
@@ -1033,20 +1038,24 @@ input[type="text"]{
   .title{
     @include b4_12px_medium_light_charcoal_caps();
     letter-spacing: 0.5px;
+    font-weight: 400;
   }
   .name{
     @include b4_12px_montserrat_charcoal();
     padding: 10px 0px;
     letter-spacing: 0.5px;
+    font-weight: 400;
   }
   .address-line{
     @include b5_10px_montserrat_charcoal();
     letter-spacing: 0.5px;
+    font-weight: 400;
   }
   .phone{
     @include b4_12px_montserrat_charcoal();
     padding: 10px 0px;
     letter-spacing: 0.5px;
+    font-weight: 400;
   }
   @media screen and (max-width:992px) {
     &:nth-of-type(1){
@@ -1066,7 +1075,6 @@ input[type="text"]{
   }
   .product-n{
     @include b2_14px_charcoal_lora();
-    font-weight: 400;
     letter-spacing: 0.5px;
   }
   .price{
