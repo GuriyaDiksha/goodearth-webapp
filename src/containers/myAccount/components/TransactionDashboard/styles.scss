@@ -173,15 +173,21 @@
         background-color: $aqua;
         border-radius: 50%;
         display: inline-block;
-        flex: 0 0 2%;
+        flex: 0 0 15px;
+        border-radius: 50%;
+        display: inline-block;
+        flex: 0 0 15px;
+        max-width: inherit;
+        padding: 0;
+        margin-right: 4px;
 
         @media screen and (max-width:500px) {
-            height: 10px;
-            width: 15px;
+            height: 13px;
+            width: 13px;
             background-color: $aqua;
             border-radius: 50%;
             display: inline-block;
-            flex: 0 0 3%;
+            flex: 0 0 13px;
             top: 3px;
             margin: 0 5px;
         }
