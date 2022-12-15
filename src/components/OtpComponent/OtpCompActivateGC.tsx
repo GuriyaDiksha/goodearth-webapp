@@ -299,15 +299,16 @@ class OtpCompActivateGC extends React.Component<otpProps, otpState> {
             // this.props.toggleOtp(false);
             // }
           })
-          .catch(err => {
+          .catch(error => {
+            const data = valid.decriptdata(error.response?.data);
             this.setState({
               attempts: {
-                attempts: err.response.data?.attempts || 0,
-                maxAttemptsAllow: err.response.data?.maxAttemptsAllow || 5
+                attempts: data?.attempts || 0,
+                maxAttemptsAllow: data?.maxAttemptsAllow || 5
               }
             });
-            if (err.response.data.error_message) {
-              let errorMsg = err.response.data.error_message[0];
+            if (data.error_message) {
+              let errorMsg = data.error_message[0];
               if (errorMsg == "MaxRetries") {
                 errorMsg =
                   "You have exceeded max attempts, please try after some time.";
@@ -328,7 +329,7 @@ class OtpCompActivateGC extends React.Component<otpProps, otpState> {
             } else {
               this.setState(
                 {
-                  showerror: err.response.data.message,
+                  showerror: data.message,
                   updateStatus: false,
                   disable: true
                 },
@@ -529,7 +530,7 @@ class OtpCompActivateGC extends React.Component<otpProps, otpState> {
           message,
           email,
           otpLimitExceeded
-        } = error.response.data;
+        } = valid.decriptdata(error.response.data);
         if (!status) {
           if (currStatus == "Invalid-CN") {
             let errorMessage = `Please enter a valid ${
