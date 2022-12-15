@@ -33,8 +33,38 @@ $pdp-top: $header-height + $secondary-header-height;
     user-select: none;
     // padding-left: 40px;
     // margin-top: 40px;
+    display: grid;
+    column-gap: 4px;
+    row-gap: 4px;
+
+    // Even number of images
+    &.even{
+        grid-template-columns: 1fr 1fr;
+    }
+
+    //Odd Number of Images
+    //3 images
+    &.three-images{
+        grid-template-columns: 1fr 1fr;
+    }
+    .third-image{
+        grid-column: 1 / -1;
+    }
+
+    //5 images
+    &.odd-images{
+        grid-template-columns: repeat(6, 1fr);
+    }
+    .top-row-images{
+        grid-column: span 3;
+    }
+    .bottom-row-images{
+        grid-column: span 2;
+    }
+    
     img {
         cursor: url(../../images/cursorZoom.png), auto;
+        width: 100%;
     }
     &:not(:last-child) {
         margin-bottom: 6px;
