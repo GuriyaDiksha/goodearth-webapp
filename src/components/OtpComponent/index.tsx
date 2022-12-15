@@ -60,6 +60,15 @@ class OtpComponent extends React.Component<otpProps, otpState> {
     }
   };
 
+  componentDidMount() {
+    if (this.props.isFromCheckBalance) {
+      this.setState({
+        radioType: "email",
+        msgt: ""
+      });
+    }
+  }
+
   UNSAFE_componentWillReceiveProps = (nextProps: otpProps) => {
     if (this.props.toggleReset !== nextProps.toggleReset) {
       this.clickHereOtpInvalid();
@@ -172,7 +181,7 @@ class OtpComponent extends React.Component<otpProps, otpState> {
       return false;
     }
 
-    if (!radioElement[0].checked && !radioElement[1].checked) {
+    if (!radioElement?.[0]?.checked && !radioElement?.[1]?.checked) {
       this.setState(
         {
           msgt:
@@ -860,6 +869,7 @@ class OtpComponent extends React.Component<otpProps, otpState> {
                     onClick={e => {
                       this.onClickRadio(e);
                     }}
+                    checked={this.state.radioType === "email"}
                   />
                   <span className={styles.checkmark}></span>
                 </label>
@@ -891,72 +901,78 @@ class OtpComponent extends React.Component<otpProps, otpState> {
                   }
                 />
               </li>
-              <li
-                className={cs(
-                  styles.countryCode,
-                  // styles.countryCodeGc,
-                  styles.xradio
-                )}
-              >
-                <label className={styles.radio1}>
-                  <input
-                    type="radio"
-                    name={this.props.isCredit ? "cca" : "gca"}
-                    value="number"
-                    onClick={e => {
-                      this.onClickRadio(e);
-                    }}
-                  />
-                  <span className={styles.checkmark}></span>
-                </label>
-                <p className={cs(styles.msg, styles.wordCap)}>
-                  For Domestic (Pan-India) phone number only
-                </p>
-                <div className={styles.flex}>
-                  <div className={styles.contactCode}>
+              {!this.props.isFromCheckBalance && (
+                <li
+                  className={cs(
+                    styles.countryCode,
+                    // styles.countryCodeGc,
+                    styles.xradio
+                  )}
+                >
+                  <label className={styles.radio1}>
                     <input
-                      type="text"
-                      value="+91"
-                      placeholder="Code"
-                      disabled={true}
-                      className={styles.codeInput}
-                    />
-                  </div>
-                  <div className={styles.contactNumber}>
-                    <FormInput
-                      name="phoneNo"
-                      value={this.props.phoneNo ? this.props.phoneNo : ""}
-                      inputRef={this.phoneInput}
-                      placeholder={"Contact Number"}
-                      type="number"
-                      label={"Contact Number"}
-                      validations={
-                        radioType == "number"
-                          ? {
-                              isLength: 10
-                            }
-                          : {}
-                      }
-                      validationErrors={{
-                        isLength: "Phone number should be 10 digit"
+                      type="radio"
+                      name={this.props.isCredit ? "cca" : "gca"}
+                      value="number"
+                      onClick={e => {
+                        this.onClickRadio(e);
                       }}
-                      required={radioType != "number" ? "isFalse" : true}
-                      keyDown={e =>
-                        e.which === 69 ? e.preventDefault() : null
-                      }
-                      onPaste={e =>
-                        e?.clipboardData.getData("Text").match(/([e|E])/)
-                          ? e.preventDefault()
-                          : null
-                      }
                     />
-                  </div>
-                  <p id="selectError" className={cs(styles.errorMsg)}>
-                    {this.state.msgt}
+                    <span className={styles.checkmark}></span>
+                  </label>
+                  <p className={cs(styles.msg, styles.wordCap)}>
+                    For Domestic (Pan-India) phone number only
                   </p>
-                </div>
-              </li>
-              <li className={styles.subscribe}>
+                  <div className={styles.flex}>
+                    <div className={styles.contactCode}>
+                      <input
+                        type="text"
+                        value="+91"
+                        placeholder="Code"
+                        disabled={true}
+                        className={styles.codeInput}
+                      />
+                    </div>
+                    <div className={styles.contactNumber}>
+                      <FormInput
+                        name="phoneNo"
+                        value={this.props.phoneNo ? this.props.phoneNo : ""}
+                        inputRef={this.phoneInput}
+                        placeholder={"Contact Number"}
+                        type="number"
+                        label={"Contact Number"}
+                        validations={
+                          radioType == "number"
+                            ? {
+                                isLength: 10
+                              }
+                            : {}
+                        }
+                        validationErrors={{
+                          isLength: "Phone number should be 10 digit"
+                        }}
+                        required={radioType != "number" ? "isFalse" : true}
+                        keyDown={e =>
+                          e.which === 69 ? e.preventDefault() : null
+                        }
+                        onPaste={e =>
+                          e?.clipboardData.getData("Text").match(/([e|E])/)
+                            ? e.preventDefault()
+                            : null
+                        }
+                      />
+                    </div>
+                    <p id="selectError" className={cs(styles.errorMsg)}>
+                      {this.state.msgt}
+                    </p>
+                  </div>
+                </li>
+              )}
+              <li
+                className={cs(styles.subscribe, {
+                  [styles.subscribeGc]: this.props.isFromCheckBalance
+                })}
+              >
                 <FormCheckbox
                   value={false}
                   id={"subscrib" + this.props.isCredit}
