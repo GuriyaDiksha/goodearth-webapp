@@ -76,12 +76,12 @@ const Delivery: React.FC<PopupProps> = props => {
                 />
                 <div
                   className={cs(
-                    globalStyles.textLeft,
+                    globalStyles.textRight,
                     styles.font14,
                     styles.freeDelivery
                   )}
                 >
-                  Character Limit: {250 - textarea.length}
+                  Character Limit: {250 - textarea.length} / 250
                 </div>
               </div>
             </div>
