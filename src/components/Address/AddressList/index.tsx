@@ -151,7 +151,11 @@ const AddressList: React.FC<Props> = props => {
   return (
     <div>
       <div
-        className={cs(bootstrapStyles.row, styles.addressListContainer)}
+        className={cs(bootstrapStyles.row, styles.addressListContainer, {
+          [styles.checkoutFix]:
+            props.currentCallBackComponent == "checkout-shipping" ||
+            props.currentCallBackComponent == "checkout-billing"
+        })}
         id="addressData"
       >
         {isBridal && activeStep == "SHIPPING" ? (

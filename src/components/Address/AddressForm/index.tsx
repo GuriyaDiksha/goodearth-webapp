@@ -755,9 +755,16 @@ const AddressForm: React.FC<Props> = props => {
                     formNoValidate={true}
                     type="submit"
                     value={isAddressChanged ? "Update Address" : "Updated"}
-                    className={cs(globalStyles.ceriseBtn, {
-                      [globalStyles.disabledBtn]: !isAddressChanged
-                    })}
+                    className={cs(
+                      globalStyles.ceriseBtn,
+                      {
+                        [globalStyles.disabledBtn]: !isAddressChanged
+                      },
+                      {
+                        [styles.charcoalBtn]:
+                          currentCallBackComponent == "account"
+                      }
+                    )}
                     disabled={!isAddressChanged}
                   />
                 ) : (
@@ -765,9 +772,16 @@ const AddressForm: React.FC<Props> = props => {
                     formNoValidate={true}
                     type="submit"
                     value="Save Address"
-                    className={cs(styles.charcoalBtn, {
-                      [styles.disabledBtn]: !isAddressChanged
-                    })}
+                    className={cs(
+                      globalStyles.ceriseBtn,
+                      {
+                        [styles.disabledBtn]: !isAddressChanged
+                      },
+                      {
+                        [styles.charcoalBtn]:
+                          currentCallBackComponent == "account"
+                      }
+                    )}
                     disabled={!isAddressChanged}
                   />
                 )}

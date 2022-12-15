@@ -115,7 +115,7 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
       <div className={bootstrapStyles.col12}>
         <div className={styles.add} id={data.number}>
           <address className={styles.orderBlock}>
-            <label>order # {data.number}</label>
+            <label className={styles.topLabel}>order # {data.number}</label>
             <div className={bootstrapStyles.row}>
               <div className={bootstrapStyles.col8}>
                 <p>{moment(data.datePlaced).format("D MMM,YYYY")}</p>
@@ -252,8 +252,12 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
     html.push(
       <div className={bootstrapStyles.col12}>
         <div className={styles.add} id={data.number}>
-          <address>
-            <label>order # {data.number}</label>
+          <address
+            className={cs(styles.orderBlock, {
+              [styles.backgroundWhite]: index == isOpenAddressIndex
+            })}
+          >
+            <label className={styles.topLabel}>order # {data.number}</label>
             <div className={styles.orderBlock}>
               <div
                 className={cs(bootstrapStyles.col12, bootstrapStyles.colMd6)}
@@ -280,7 +284,7 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
                   &nbsp;{list.totalInclTax}
                 </p>
               </div>
-              <p className={styles.edit}>
+              <p className={cs(styles.edit, styles.close1)}>
                 <a
                   className={globalStyles.cerise}
                   onClick={() => closeDetails(data.number)}
@@ -297,7 +301,7 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
                 {data.isBridalOrder ? (
                   <div className={styles.add}>
                     {shippingAddress ? (
-                      <address>
+                      <address className={styles.address}>
                         <label>shipping address</label>
                         <p>
                           {data.registrantName}
@@ -317,14 +321,14 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
                 ) : (
                   <div className={styles.add}>
                     {shippingAddress ? (
-                      <address>
+                      <address className={styles.address}>
                         <label>shipping address</label>
                         <p>
                           {shippingAddress.firstName}
                           &nbsp; {shippingAddress.lastName}
                           <br />
                         </p>
-                        <p className={styles.light}>
+                        <p>
                           {shippingAddress.line1}
                           <br />
                           {shippingAddress.line2}{" "}
@@ -347,7 +351,7 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
               >
                 <div className={styles.add}>
                   {billingAddress ? (
-                    <address>
+                    <address className={styles.address}>
                       <label>billing address</label>
                       <p>
                         {billingAddress.firstName}
@@ -471,7 +475,7 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
                 </div>
               );
             })}
-            <div className={styles.edit}>
+            <div className={cs(styles.edit, styles.close2)}>
               <a
                 className={globalStyles.cerise}
                 onClick={() => closeDetails(data.number)}

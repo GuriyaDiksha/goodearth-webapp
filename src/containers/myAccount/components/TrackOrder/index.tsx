@@ -535,11 +535,9 @@ class TrackOrder extends React.Component<Props, State> {
           )}
           <div className={bootstrapStyles.row}>
             <div
-              className={cs(
-                bootstrapStyles.col10,
-                { [bootstrapStyles.offset1]: this.props.mobile },
-                bootstrapStyles.colMd10
-              )}
+              className={cs(bootstrapStyles.col10, {
+                [bootstrapStyles.col12]: this.props.mobile
+              })}
             >
               <div className={styles.formHeading}>Track Order</div>
               <div className={cs(styles.formSubheading, styles.trackOrder)}>

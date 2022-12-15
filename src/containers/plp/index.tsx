@@ -513,10 +513,20 @@ class PLP extends React.Component<
       device: { mobile, tablet },
       currency,
       data: {
-        results: { breadcrumb, banner, bannerMobile, data, facets, bannerUrl },
+        results: { breadcrumb, banner, bannerMobile, facets, bannerUrl },
         count
       }
     } = this.props;
+    let {
+      data: {
+        results: { data }
+      }
+    } = this.props;
+
+    data = data.filter((item: any) => {
+      return +item.priceRecords[currency] != 0;
+    });
+
     const { plpMaker, corporoateGifting } = this.state;
     const queryString = this.props.location.search;
     const urlParams = new URLSearchParams(queryString);
