@@ -17,7 +17,7 @@ const mapStateToProps = (state: AppState) => {
   };
 };
 type Props = ReturnType<typeof mapDispatchToProps> &
-  ReturnType<typeof mapStateToProps>;
+  ReturnType<typeof mapStateToProps> & { isFromCheckBalance?: boolean };
 
 class CreditNote extends React.Component<Props, GiftState> {
   constructor(props: Props) {
@@ -329,6 +329,7 @@ class CreditNote extends React.Component<Props, GiftState> {
               isCredit={true}
               checkOtpBalance={this.props.checkOtpBalance}
               updateList={this.updateList}
+              isFromCheckBalance={this.props?.isFromCheckBalance}
             />
           )
         ) : (
