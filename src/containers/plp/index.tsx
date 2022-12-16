@@ -50,7 +50,8 @@ const mapStateToProps = (state: AppState) => {
     isSale: state.info.isSale,
     showTimer: state.info.showTimer,
     isLoggedIn: state.user.isLoggedIn,
-    plpTemplates: state.plplist.plpTemplates
+    plpTemplates: state.plplist.plpTemplates,
+    mobile: state.device.mobile
   };
 };
 
@@ -136,7 +137,9 @@ class PLP extends React.Component<
     window.addEventListener(
       "scroll",
       throttle(() => {
-        this.setProductCount();
+        if (this.props.mobile) {
+          this.setProductCount();
+        }
       }, 50)
     );
     if (this.props.device.mobile) {
