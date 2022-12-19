@@ -688,14 +688,13 @@ class PDPContainer extends React.Component<Props, State> {
 
   getProductImages() {
     const productImages = this.getProductImagesData();
-    // let iconAll, codeAll;
-    // for (const e of productImages) {
-    //   if (e.icon) {
-    //     iconAll = e.icon;
-    //     codeAll = e.code;
-    //     break;
-    //   }
-    // }
+    let icon;
+    for (const e of productImages) {
+      if (e.icon) {
+        icon = e.icon;
+        break;
+      }
+    }
     // console.log(productImages)
     // if (productImages?.length > 0) {
     //   const img =
@@ -712,6 +711,10 @@ class PDPContainer extends React.Component<Props, State> {
       <PDPImagesContainer
         productImages={productImages}
         onClick={this.onImageClick}
+        is3d={icon || false}
+        data={this.props.data}
+        selectedSizeId={this.props.selectedSizeId}
+        currency={this.props.currency}
       />
       // <div
       //   className={styles.productImageContainer}
@@ -761,15 +764,15 @@ class PDPContainer extends React.Component<Props, State> {
       //       onClick={this.onClickImageArrowRight}
       //     ></div>
       //   )}
-      //   {this.state.showLooks && (
-      //     <div
-      //       id="looks-btn"
-      //       className={styles.looksBtn}
-      //       onClick={this.handleLooksClick}
-      //     >
-      //       shop the look
-      //     </div>
-      //   )}
+      // {this.state.showLooks && (
+      //   <div
+      //     id="looks-btn"
+      //     className={styles.looksBtn}
+      //     onClick={this.handleLooksClick}
+      //   >
+      //     shop the look
+      //   </div>
+      // )}
       // </div>
     );
     // });
