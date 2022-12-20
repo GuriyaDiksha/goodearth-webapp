@@ -19,6 +19,7 @@ type Props = {
   currency?: Currency;
   corporatePDP?: boolean;
   buttoncall?: JSX.Element | null | undefined;
+  handleLooksClick: () => void;
 };
 
 const PDPImagesContainer: React.FC<Props> = ({
@@ -29,7 +30,8 @@ const PDPImagesContainer: React.FC<Props> = ({
   selectedSizeId,
   productImages,
   onClick,
-  is3d
+  is3d,
+  handleLooksClick
 }) => {
   const dispatch = useDispatch();
 
@@ -105,6 +107,11 @@ const PDPImagesContainer: React.FC<Props> = ({
               {productImages[0].icon && viewIn3dBtn(productImages[0].code)}
             </div>
             {is3d && <img className={styles.pdpTop3d} src={pdp_top} />}
+            {productImages[0].shop_the_look && (
+              <div id="looks-btn" className={styles.looksBtn}>
+                shop the look
+              </div>
+            )}
           </div>
         );
       case 3:
@@ -129,6 +136,11 @@ const PDPImagesContainer: React.FC<Props> = ({
                     }}
                   />
                   {item.icon && viewIn3dBtn(item.code)}
+                  {item.shop_the_look && (
+                    <div id="looks-btn" className={styles.looksBtn}>
+                      shop the look
+                    </div>
+                  )}
                 </div>
               );
             })}
@@ -158,6 +170,15 @@ const PDPImagesContainer: React.FC<Props> = ({
                     }}
                   />
                   {item.icon && viewIn3dBtn(item.code)}
+                  {item.shop_the_look && (
+                    <div
+                      id="looks-btn"
+                      className={styles.looksBtn}
+                      onClick={handleLooksClick}
+                    >
+                      shop the look
+                    </div>
+                  )}
                 </div>
               );
             })}
@@ -187,6 +208,11 @@ const PDPImagesContainer: React.FC<Props> = ({
                     }}
                   />
                   {item.icon && viewIn3dBtn(item.code)}
+                  {item.shop_the_look && (
+                    <div id="looks-btn" className={styles.looksBtn}>
+                      shop the look
+                    </div>
+                  )}
                 </div>
               );
             })}
@@ -216,6 +242,11 @@ const PDPImagesContainer: React.FC<Props> = ({
                 }}
               />
               {item.icon && viewIn3dBtn(item.code)}
+              {item.shop_the_look && (
+                <div id="looks-btn" className={styles.looksBtn}>
+                  shop the look
+                </div>
+              )}
             </div>
           );
         })}

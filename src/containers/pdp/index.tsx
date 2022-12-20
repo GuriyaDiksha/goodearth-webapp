@@ -715,6 +715,7 @@ class PDPContainer extends React.Component<Props, State> {
         data={this.props.data}
         selectedSizeId={this.props.selectedSizeId}
         currency={this.props.currency}
+        handleLooksClick={this.handleLooksClick}
       />
       // <div
       //   className={styles.productImageContainer}
@@ -765,13 +766,13 @@ class PDPContainer extends React.Component<Props, State> {
       //     ></div>
       //   )}
       // {this.state.showLooks && (
-      //   <div
-      //     id="looks-btn"
-      //     className={styles.looksBtn}
-      //     onClick={this.handleLooksClick}
-      //   >
-      //     shop the look
-      //   </div>
+      // <div
+      //   id="looks-btn"
+      //   className={styles.looksBtn}
+      //   onClick={this.handleLooksClick}
+      // >
+      //   shop the look
+      // </div>
       // )}
       // </div>
     );
