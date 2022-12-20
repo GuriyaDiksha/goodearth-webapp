@@ -226,7 +226,8 @@ export default {
     history: any,
     sortBy?: string
   ) {
-    const enc = valid.encryptdata(formdata);
+    const olddata = { ...formdata };
+    const enc = valid.encryptdata(olddata);
     const response = await API.post<loginResponse>(
       dispatch,
       `${__API_HOST__}/myapi/auth/sociallogin/${
@@ -427,7 +428,8 @@ export default {
     source?: string,
     sortBy?: string
   ) {
-    const enc = valid.encryptdata(formData);
+    const olddata = { ...formData };
+    const enc = valid.encryptdata(olddata);
     const res = await API.post<registerResponse>(
       dispatch,
       `${__API_HOST__ + "/myapi/auth/register/"}`,
@@ -594,7 +596,7 @@ export default {
       maxAttemptsAllow: number;
     }>(dispatch, `${__API_HOST__}/myapi/customer/verify_user_otp/`, {
       email: valid.encrypttext(email),
-      otp
+      otp: valid.encrypttext(otp)
     });
     const response = valid.decriptdata(res);
     return response;

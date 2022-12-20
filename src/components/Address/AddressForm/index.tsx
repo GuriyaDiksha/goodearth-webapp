@@ -84,7 +84,8 @@ const AddressForm: React.FC<Props> = props => {
       if (
         validState &&
         state &&
-        state.toLowerCase() == validState.toLowerCase()
+        state.toLowerCase() == validState.toLowerCase() &&
+        postCode.length <= 20
       ) {
         isValid = true;
       }
@@ -534,11 +535,13 @@ const AddressForm: React.FC<Props> = props => {
                 }}
                 validations={{
                   isExisty: true,
-                  matchRegexp: /^[a-z\d\-_\s]+$/i
+                  matchRegexp: /^[a-z\d\-_\s]+$/i,
+                  maxLength: 20
                 }}
                 validationErrors={{
                   isExisty: "Please fill this field",
-                  matchRegexp: isAlphanumericError
+                  matchRegexp: isAlphanumericError,
+                  maxLength: "Maximum Length is 20 characters"
                 }}
               />
             </div>

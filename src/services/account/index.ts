@@ -18,10 +18,12 @@ export default {
       dispatch,
       `${__API_HOST__ + "/myapi/customer/profile"}`
     );
-    return data;
+    const response = valid.decriptdata(data);
+    return response;
   },
   updateProfileData: async (dispatch: Dispatch, formData: FormData) => {
-    const enc = valid.encryptdata(formData);
+    const newdata = { ...formData };
+    const enc = valid.encryptdata(newdata);
     const data = await API.post<ProfileResponse>(
       dispatch,
       `${__API_HOST__ + "/myapi/customer/update_profile/"}`,
@@ -131,7 +133,8 @@ export default {
     return temp;
   },
   sendOtpBalance: async (dispatch: Dispatch, formData: FormData) => {
-    const enc = valid.encryptdata(formData);
+    const newdata = { ...formData };
+    const enc = valid.encryptdata(newdata);
     const data = await API.post<BalanceProps>(
       dispatch,
       `${__API_HOST__ + "/myapi/giftcard/send_otp_for_anonymous_user/"}`,
@@ -169,7 +172,8 @@ export default {
     return data;
   },
   sendOtpGiftcard: async (dispatch: Dispatch, formData: FormData) => {
-    const enc = valid.encryptdata(formData);
+    const olddata = { ...formData };
+    const enc = valid.encryptdata(olddata);
     const data = await API.post<BalanceProps>(
       dispatch,
       `${__API_HOST__ + "/myapi/giftcard/send_giftcard_otp/"}`,
@@ -183,7 +187,8 @@ export default {
     return temp;
   },
   checkOtpBalance: async (dispatch: Dispatch, formData: any) => {
-    const enc = valid.encryptdata(formData);
+    const olddata = { ...formData };
+    const enc = valid.encryptdata(olddata);
     const data = await API.post<BalanceProps>(
       dispatch,
       `${__API_HOST__ +
@@ -227,12 +232,14 @@ export default {
     return data;
   },
   activateGiftCard: async (dispatch: Dispatch, formData: FormData) => {
-    const enc = valid.encryptdata(formData);
+    const olddata = { ...formData };
+    const enc = valid.encryptdata(olddata);
     const data = await API.post<BalanceProps>(
       dispatch,
       `${__API_HOST__ + "/myapi/giftcard/giftcard_activate/"}`,
       enc
     );
+
     const response = valid.decriptdata(data);
     const temp = {
       ...response

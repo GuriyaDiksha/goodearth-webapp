@@ -194,7 +194,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
           event: "GA4_purchase",
           ecommerce: {
             transaction_id: result.transactionId,
-            affiliation: "Online Store", // Pass the product name
+            affiliation: productname, // Pass the product name
             value: +result.totalInclTax,
             tax: 0,
             shipping: +result.shippingInclTax,
