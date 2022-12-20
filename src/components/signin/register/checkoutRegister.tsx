@@ -187,7 +187,8 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
           email
         });
       })
-      .catch(err => {
+      .catch(error => {
+        const data = valid.decriptdata(error.response?.data);
         this.setState(
           {
             disableButton: false
@@ -196,7 +197,7 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
             this.handleInvalidSubmit();
           }
         );
-        Object.keys(err.response.data).map(data => {
+        Object.keys(data).map(data => {
           switch (data) {
             case "firstName":
             case "lastName":
@@ -206,7 +207,7 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
             case "dateOfBirth":
               updateInputsWithError(
                 {
-                  [data]: err.response.data[data][0]
+                  [data]: data[data][0]
                 },
                 true
               );
@@ -214,17 +215,17 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
             case "phoneNo":
               updateInputsWithError(
                 {
-                  phone: err.response.data[data][0]
+                  phone: data[data][0]
                 },
                 true
               );
               break;
             case "email":
-              if (err.response.data[data].length == 2) {
+              if (data[data].length == 2) {
                 this.setState({
                   showerror:
                     "This account already exists <a class='error' href=" +
-                    err.response.data[data][0] +
+                    data[data][0] +
                     "> please set a new password</a>"
                 });
               } else {
@@ -233,15 +234,15 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
                 });
                 updateInputsWithError(
                   {
-                    email: err.response.data[data][0]
+                    email: data[data][0]
                   },
                   true
                 );
               }
               break;
             default:
-              if (typeof err.response.data == "object") {
-                let errorMsg = err.response.data[data][0];
+              if (typeof data == "object") {
+                let errorMsg = data[data][0];
                 if (errorMsg == "MaxRetries") {
                   errorMsg =
                     "You have exceeded max registration attempts, please try after some time";

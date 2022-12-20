@@ -300,12 +300,8 @@ class PDPContainer extends React.Component<Props, State> {
         "Page referrer url": CookieService.getCookie("prevUrl")
       });
     }
-
     valid.PDP(data, currency);
 
-    const list = CookieService.getCookie("listPath");
-    this.listPath = list || "";
-    CookieService.setCookie("listPath", "");
     valid.moveChatDown();
 
     if (data && data?.looksProducts && data?.looksProducts?.length >= 2) {
@@ -315,6 +311,12 @@ class PDPContainer extends React.Component<Props, State> {
         currency
       );
     }
+
+    setTimeout(() => {
+      const list = CookieService.getCookie("listPath");
+      this.listPath = list || "";
+      CookieService.setCookie("listPath", "");
+    }, 2000);
 
     window.addEventListener(
       "scroll",
