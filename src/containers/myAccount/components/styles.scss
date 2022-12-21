@@ -34,8 +34,12 @@ input[type="text"]{
     color: #9F9F9F !important;
   }
   select{
-    background: #fff !important;
+    background: #E5E5E526 !important;
     color: #9F9F9F !important;
+    option{
+      color: #9F9F9F !important;
+      background: #E5E5E526 !important;
+    }
   }
 }
 
