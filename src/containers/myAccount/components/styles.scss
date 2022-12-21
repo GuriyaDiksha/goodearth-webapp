@@ -35,9 +35,9 @@ input[type="text"]{
   }
   select{
     background: #E5E5E526 !important;
-    color: #9F9F9F !important;
-    option{
-      color: #9F9F9F !important;
+    color: #777777 !important;
+    &:disabled{
+      color: #777777 !important;
       background: #E5E5E526 !important;
     }
   }
