@@ -15,13 +15,19 @@ import { copyToClipboard } from "utils/clipboard";
 import ReactHtmlParser from "react-html-parser";
 import CareerService from "services/career";
 import { updateJob } from "actions/career";
+import { Helmet } from "react-helmet";
+import { PageMeta } from "typings/meta";
 
 const JobDetail: React.FC = () => {
   const { job }: CareerData = useSelector((state: AppState) => state.career);
+  const { ogDescription, description }: PageMeta = useSelector(
+    (state: AppState) => state.meta
+  );
   const { id } = useParams<{ id: string }>();
   const { dispatch } = useStore();
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const history = useHistory();
+  const url = `${__DOMAIN__}/careers/job/${id}`;
 
   useEffect(() => {
     CareerService.fetchJob(dispatch, Number(id)).then(res => {
@@ -42,6 +48,24 @@ const JobDetail: React.FC = () => {
 
   return (
     <div className={jobDetail.job_detail_wrp}>
+      <Helmet defer={false}>
+        <meta
+          name="description"
+          content={
+            job?.summary
+              ? job?.summary
+              : description
+              ? description
+              : "Good Earth – Luxury Indian Design House Explore handcrafted designs that celebrate style from an Indian perspective"
+          }
+        />
+        <meta
+          property="og:description"
+          content={
+            job?.summary ? job?.summary : ogDescription ? ogDescription : ""
+          }
+        />
+      </Helmet>
       <div className={jobDetail.job_detail_img_wrp}>
         <img src={bannerCareers} alt="banner" width={"100%"} />
       </div>
@@ -131,7 +155,11 @@ const JobDetail: React.FC = () => {
               </li>
 
               <li>
-                <a href={`mailto:`} target="_blank" rel="noopener noreferrer">
+                <a
+                  href={`mailto:?subject=I'd like to share a job link with you at Good earth&body=${url}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
                   <img src={email} alt="email" />
                 </a>
               </li>
