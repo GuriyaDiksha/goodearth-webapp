@@ -106,7 +106,13 @@ const PDPImagesContainer: React.FC<Props> = ({
               />
               {productImages[0].icon && viewIn3dBtn(productImages[0].code)}
             </div>
-            {is3d && <img className={styles.pdpTop3d} src={pdp_top} />}
+            {is3d && (
+              <img
+                className={styles.pdpTop}
+                src={pdp_top}
+                onClick={e => onClick3dButton(e, productImages[0].code)}
+              />
+            )}
             {productImages[0].shop_the_look && (
               <div id="looks-btn" className={styles.looksBtn}>
                 shop the look
