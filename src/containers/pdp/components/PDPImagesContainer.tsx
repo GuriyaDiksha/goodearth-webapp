@@ -114,7 +114,11 @@ const PDPImagesContainer: React.FC<Props> = ({
               />
             )}
             {productImages[0].shop_the_look && (
-              <div id="looks-btn" className={styles.looksBtn}>
+              <div
+                id="looks-btn"
+                className={styles.looksBtn}
+                onClick={handleLooksClick}
+              >
                 shop the look
               </div>
             )}
@@ -143,7 +147,11 @@ const PDPImagesContainer: React.FC<Props> = ({
                   />
                   {item.icon && viewIn3dBtn(item.code)}
                   {item.shop_the_look && (
-                    <div id="looks-btn" className={styles.looksBtn}>
+                    <div
+                      id="looks-btn"
+                      className={styles.looksBtn}
+                      onClick={handleLooksClick}
+                    >
                       shop the look
                     </div>
                   )}
@@ -215,7 +223,11 @@ const PDPImagesContainer: React.FC<Props> = ({
                   />
                   {item.icon && viewIn3dBtn(item.code)}
                   {item.shop_the_look && (
-                    <div id="looks-btn" className={styles.looksBtn}>
+                    <div
+                      id="looks-btn"
+                      className={styles.looksBtn}
+                      onClick={handleLooksClick}
+                    >
                       shop the look
                     </div>
                   )}
@@ -249,7 +261,11 @@ const PDPImagesContainer: React.FC<Props> = ({
               />
               {item.icon && viewIn3dBtn(item.code)}
               {item.shop_the_look && (
-                <div id="looks-btn" className={styles.looksBtn}>
+                <div
+                  id="looks-btn"
+                  className={styles.looksBtn}
+                  onClick={handleLooksClick}
+                >
                   shop the look
                 </div>
               )}
