@@ -1,0 +1,119 @@
+@import "../../styles/partials/variables";
+@import "../../styles/partials/mixins";
+@import "../../styles/partials/form";
+
+$sale-timer-height:50px;
+
+.page-container {
+    margin-top: $header-height;
+    &.sale-timer-margin{
+        margin-top: $header-height+$sale-timer-height;
+    }
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    .container{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        min-width: 991px;
+        
+        .preview-gc{
+            min-width: 470px;
+            background-color: #f8f8f8;
+            height: 100px;
+        }
+
+        .form-gc{
+            min-width: 370px;
+            height: 100px;
+            max-width: 470px;
+            .form-header{
+                @include h2_24px_lora_charcoal();
+                letter-spacing: 0.5px;
+            }
+            div {
+                .section-title{
+                    @include b4_12px_montserrat_charcoal_caps();
+                    letter-spacing: 0.5px;
+                }
+            }
+
+            .card-design{
+                width: 100%;
+                .designs-container{
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                    .img-options{
+                        border: 1px solid $lightest-charcoal;
+                        padding: 2px;
+                        border-radius: 5px;
+                        cursor: pointer;
+                        &.selected{
+                            border: 2px solid $aqua;
+                        }
+                        img{
+                            width: 107px;
+                            border-radius: 5px;
+                        }
+                    }
+                }
+            }
+
+            .shipping-destination{
+                .select-group {
+                    position: relative;
+                    select{
+                        @include b4_12px_montserrat_charcoal();
+                        border: 1px solid lightgrey;
+                        letter-spacing: 0.5px;
+                        background-color: #fff;
+                        border: 1px solid #eee;
+                        width: 100%;
+                        padding: 10px;
+                        line-height: 25px;
+                        -webkit-appearance: none;
+                        -moz-appearance: none;
+                        appearance: none;
+                        border-radius: 0;
+                        letter-spacing: 0.5px;
+                    }
+                    option {
+                      @include b4_12px_montserrat_charcoal();
+                      letter-spacing: 0.5px;
+                    }
+                }
+                .note{
+                    @include b5_10px_montserrat_charcoal();
+                    letter-spacing: 0.5px;
+                }
+            }
+
+            .card-value{
+                .prices-container{
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    div{
+                        @include b3_14px_montserrat_caps_charcoal();
+                        letter-spacing: 0.5px;
+                        width: 115px;
+                        height: 50px;
+                        line-height: 50px;
+                        border: 1px solid #f2f2f2;
+                        text-align: center;
+                        &.selected{
+                            color: #3C7979;
+                            border: 1px solid #3c7979;
+                        }
+                        &:hover{
+                            color: #3C7979;
+                            border: 1px solid #3c7979;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
