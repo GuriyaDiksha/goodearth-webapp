@@ -530,7 +530,13 @@ class Search extends React.Component<
             </Fragment>
           </SecondaryHeader>
         )}
-        <div className={cs(bootstrap.row, globalStyles.minimumWidth)}>
+        <div
+          className={cs(
+            bootstrap.row,
+            globalStyles.minimumWidth,
+            styles.serachWrapperData
+          )}
+        >
           <div
             id="filter_by"
             className={
