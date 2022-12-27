@@ -240,7 +240,7 @@ const Section3: React.FC<Section3Props> = ({ next, data, goback, mobile }) => {
                   ></FormTextArea>
                   <div className={cs(globalStyles.textLeft, styles.limit)}>
                     Character Limit:{" "}
-                    {250 - (textarea.trim() == "" ? 0 : textarea.length)}
+                    {250 - (textarea.trim() == "" ? 0 : textarea.length)} / 250
                   </div>
                   {/* {emsg ? (
                     <p className={globalStyles.errorMsg}>
