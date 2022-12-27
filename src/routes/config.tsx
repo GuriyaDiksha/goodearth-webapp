@@ -97,7 +97,7 @@ const routes: RouteConfig = [
   },
   {
     path: ROUTES.GIFTCARD,
-    component: loadable(() => import("containers/giftcard")), // GiftCard,
+    component: loadable(() => import("containers/newGiftcard")), // GiftCard,
     action: initActionGiftcard,
     exact: true
   },
