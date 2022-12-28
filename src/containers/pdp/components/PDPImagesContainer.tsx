@@ -106,13 +106,6 @@ const PDPImagesContainer: React.FC<Props> = ({
               />
               {productImages[0].icon && viewIn3dBtn(productImages[0].code)}
             </div>
-            {is3d && (
-              <img
-                className={styles.pdpTop}
-                src={pdp_top}
-                onClick={e => onClick3dButton(e, productImages[0].code)}
-              />
-            )}
             {productImages[0].shop_the_look && (
               <div
                 id="looks-btn"
@@ -122,12 +115,23 @@ const PDPImagesContainer: React.FC<Props> = ({
                 shop the look
               </div>
             )}
+            {is3d && (
+              <img
+                className={styles.pdpTop}
+                src={pdp_top}
+                onClick={e => onClick3dButton(e, productImages[0].code)}
+              />
+            )}
           </div>
         );
-      case 3:
+      case 3: {
+        let code: string;
         return (
           <div className={cs(styles.productImageContainer, styles.threeImages)}>
             {productImages.map((item: any, index: number) => {
+              if (item.code) {
+                code = item.code;
+              }
               return (
                 <div
                   className={cs(
@@ -158,13 +162,24 @@ const PDPImagesContainer: React.FC<Props> = ({
                 </div>
               );
             })}
-            {is3d && <img className={styles.pdpTop} src={pdp_top} />}
+            {is3d && (
+              <img
+                className={styles.pdpTop}
+                src={pdp_top}
+                onClick={e => onClick3dButton(e, code)}
+              />
+            )}
           </div>
         );
-      case 5:
+      }
+      case 5: {
+        let code: string;
         return (
           <div className={cs(styles.productImageContainer, styles.oddImages)}>
             {productImages.map((item: any, index: number) => {
+              if (item.code) {
+                code = item.code;
+              }
               return (
                 <div
                   className={cs(
@@ -196,13 +211,24 @@ const PDPImagesContainer: React.FC<Props> = ({
                 </div>
               );
             })}
-            {is3d && <img className={styles.pdpTop} src={pdp_top} />}
+            {is3d && (
+              <img
+                className={styles.pdpTop}
+                src={pdp_top}
+                onClick={e => onClick3dButton(e, code)}
+              />
+            )}
           </div>
         );
-      case 7:
+      }
+      case 7: {
+        let code: string;
         return (
           <div className={cs(styles.productImageContainer, styles.oddImages)}>
             {productImages.map((item: any, index: number) => {
+              if (item.code) {
+                code = item.code;
+              }
               return (
                 <div
                   className={cs(
@@ -234,9 +260,16 @@ const PDPImagesContainer: React.FC<Props> = ({
                 </div>
               );
             })}
-            {is3d && <img className={styles.pdpTop} src={pdp_top} />}
+            {is3d && (
+              <img
+                className={styles.pdpTop}
+                src={pdp_top}
+                onClick={e => onClick3dButton(e, code)}
+              />
+            )}
           </div>
         );
+      }
       default:
         return (
           <div className={styles.productImageContainer}>
@@ -245,9 +278,13 @@ const PDPImagesContainer: React.FC<Props> = ({
         );
     }
   } else {
+    let code: string;
     return (
       <div className={cs(styles.productImageContainer, styles.even)}>
         {productImages.map((item: any, index: number) => {
+          if (item.code) {
+            code = item.code;
+          }
           return (
             <div key={`img_${index}`} className={styles.productImage}>
               <img
@@ -272,7 +309,13 @@ const PDPImagesContainer: React.FC<Props> = ({
             </div>
           );
         })}
-        {is3d && <img className={styles.pdpTop} src={pdp_top} />}
+        {is3d && (
+          <img
+            className={styles.pdpTop}
+            src={pdp_top}
+            onClick={e => onClick3dButton(e, code)}
+          />
+        )}
       </div>
     );
   }
