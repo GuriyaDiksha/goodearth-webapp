@@ -12,6 +12,7 @@ $sale-timer-height:50px;
     display: flex;
     align-items: center;
     justify-content: center;
+    height: 100%;
     .container{
         display: flex;
         align-items: center;
@@ -26,7 +27,6 @@ $sale-timer-height:50px;
 
         .form-gc{
             min-width: 370px;
-            height: 100px;
             max-width: 470px;
             .form-header{
                 @include h2_24px_lora_charcoal();
@@ -111,6 +111,189 @@ $sale-timer-height:50px;
                             color: #3C7979;
                             border: 1px solid #3c7979;
                         }
+                    }
+                }
+                form {
+                    .custom-value-input{
+                        position: relative;
+                        input{
+                            @include b3_14px_montserrat_charcoal();
+                            letter-spacing: 0.5px;;
+                            height: 50px;
+                            width: 100%;
+                            border: 1px solid #eee;
+                            padding-left: 35px;
+                            &::placeholder{
+                                @include b3_14px_montserrat_light_charcoal();
+                                color: #19191950;
+                                letter-spacing: 0.5px;
+                            }
+                            &.aqua-border{
+                                border: 1px solid #3c7979;
+                            }
+                            &.error-border{
+                                border: 1px solid #ab1e56;
+                            }
+                        }
+                        .curr {
+                            @include b3_14px_montserrat_caps_charcoal();
+                            letter-spacing: 1px;
+                            position: absolute;
+                            left: 14px;
+                            top: 50%;
+                            transform: translatey(-50%);
+                        }
+                    }
+                }
+            }
+
+            .e-gift-card-details{
+                form{
+                    div{
+                        position: relative;
+                        margin-top:30px;
+                        input[type="text"]{
+                            @include b4_12px_montserrat_charcoal();
+                            letter-spacing: 0.5px;
+                            height: 50px;
+                            width: 100%;
+                            border: 1px solid #e5e5e5;
+                            padding: 10px;
+                        }
+                        textarea{
+                            @include b4_12px_montserrat_charcoal();
+                            letter-spacing: 0.5px;
+                            background-color: #f2f2f2;
+                            border: none;
+                            width: 100%;
+                            letter-spacing: 0.5px;
+                            padding: 10px;
+                            overflow: auto;
+                            resize: vertical;
+                            appearance: none;
+                            border-radius: 0;
+                            text-align: start;
+                        }
+                        label{
+                            @include b6_9px_light_montserrat_charcoal();
+                            letter-spacing: 0.42px;
+                            position: absolute;
+                            left: 10px;
+                            top: -10px;
+                            background-color: #fff;
+                            padding: 3px;
+                        }
+                        &.subscribe{
+                            label{
+                                @include b5_10px_montserrat_charcoal();
+                                letter-spacing: 0.5px;
+                                padding: 0px 0px 0px 30px;
+                                position: relative;
+                                top: unset;
+                                left: unset;
+                                a {
+                                    color: #191919;
+                                    text-decoration: underline; 
+                                }
+                            }
+                            input[type="checkbox"]:not(:checked)+label:before{
+                                content: '';
+                                position: absolute;
+                                left: 0;
+                                top: 0px;
+                                width: 18px;
+                                height: 18px;
+                                background-color: white;
+                                border: 1px solid #9F9F9F;
+                            }
+                            input[type="checkbox"]:not(:checked)+label:after{
+                                content: '';
+                                display: block;
+                                width: 6px;
+                                height: 10px;
+                                border: solid #7EAAA9;
+                                border-width: 0 2px 2px 0;
+                                position: absolute;
+                                top: 3px;
+                                left: 6px;
+                                font-size: 18px;
+                                line-height: 0.8;
+                                transition: all .1s;
+                            }
+                            input[type="checkbox"]:checked+label:before {
+                                content: '';
+                                position: absolute;
+                                left: 0;
+                                top: 0px;
+                                width: 18px;
+                                height: 18px;
+                                background-color: white;
+                                border: 1px solid #9F9F9F;
+                                border-color: #7EAAA9;
+                                background-color: #7EAAA9;
+                            }
+                            input[type="checkbox"]:checked+label:after {
+                                content: '';
+                                display: block;
+                                width: 6px;
+                                height: 10px;
+                                border: solid #7EAAA9;
+                                border-width: 0 2px 2px 0;
+                                position: absolute;
+                                top: 3px;
+                                left: 6px;
+                                font-size: 18px;
+                                line-height: 0.8;
+                                transition: all .1s;
+                                border: solid #fff;
+                                border-width: 0 2px 2px 0;
+                            }
+                        }
+                    }
+                    .limit{
+                        @include b5_10px_montserrat_charcoal();
+                        letter-spacing: 0.5px;
+                        margin-top: 0px;
+                        text-align: right;
+                    }
+                }
+            }
+
+            .add-to-bag{
+                width: 100%;
+                height: 50px;
+                @include b3_14px_montserrat_caps_charcoal();
+                letter-spacing: 0.5px;
+                line-height: 50px;
+                color: white;
+                background-color: #9f9f9f;
+                text-align: center;
+                cursor: pointer;
+                &.active{
+                    background-color: #7EAAA9;
+                    &:hover{
+                        border: 1px solid #7EAAA9;
+                        background-color: #FFFFFF;
+                        color: #7EAAA9;
+                    }
+                }
+                margin-bottom: 80px;
+            }
+
+            .contact-us{
+                border-top: 2px solid #e5e5e5;
+                padding-top: 30px;
+                margin-bottom: 80px;
+                .querries-title{
+                    @include b3_14px_montserrat_caps_charcoal();
+                    letter-spacing: 0.5px;
+                    margin-bottom: 20px;
+                }
+                .querries-info{
+                    @include b3_14px_montserrat_gold();
+                    letter-spacing: 0.5px;
+                    &:not(:first-child){
+                        margin-top: 12px;
                     }
                 }
             }

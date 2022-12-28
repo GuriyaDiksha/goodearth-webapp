@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ChangeEvent } from "react";
 import cs from "classnames";
 import { AppState } from "reducers/typings";
 import { connect, DispatchProp } from "react-redux";
@@ -9,6 +9,10 @@ import styles from "./styles.scss";
 import mapDispatchToProps from "./mapper/actions";
 import { Currency, currencyCode } from "typings/currency";
 import * as util from "utils/validate";
+import FormInput from "components/Formsy/FormInput";
+import FormTextArea from "components/Formsy/FormTextArea";
+import FormCheckbox from "components/Formsy/FormCheckbox";
+import { Link } from "react-router-dom";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -29,9 +33,17 @@ type State = {
   countryData: any;
   selectedCountry: string;
   sku: string;
+  cardId: string;
   cardValue: string;
-  code: number[];
+  currencyCode: number[];
   currency: Currency;
+  recipientName: string;
+  recipientEmail: string;
+  confirmRecipientEmail: string;
+  message: string;
+  senderName: string;
+  englishandSpace: RegExp;
+  subscribe: boolean;
 };
 
 class NewGiftcard extends React.Component<Props, State> {
@@ -49,9 +61,17 @@ class NewGiftcard extends React.Component<Props, State> {
       countryData: [],
       selectedCountry: "",
       sku: "I00121125",
+      cardId: "",
       cardValue: "",
-      code: [],
-      currency: props.currency
+      currencyCode: [],
+      currency: props.currency,
+      recipientName: "",
+      recipientEmail: "",
+      confirmRecipientEmail: "",
+      message: "",
+      senderName: "",
+      englishandSpace: /^[a-zA-Z\s]+$/,
+      subscribe: false
     };
   }
 
@@ -67,8 +87,49 @@ class NewGiftcard extends React.Component<Props, State> {
   };
 
   static getDerivedStateFromProps(nextProps: Props, prevState: State) {
-    return { code: currencyCode[nextProps.currency] };
+    return { currencyCode: currencyCode[nextProps.currency] };
   }
+
+  onCustomValueChange = (e: any) => {
+    this.setState({
+      cardId: "",
+      cardValue: e.target.value
+    });
+  };
+
+  onRecipientNameChange = (e: any) => {
+    this.setState({
+      recipientName: e.target.value
+    });
+  };
+
+  onRecipientEmailChange = (e: any) => {
+    this.setState({
+      recipientEmail: e.target.value
+    });
+  };
+
+  onConfirmRecipientEmailChange = (e: any) => {
+    this.setState({
+      confirmRecipientEmail: ""
+    });
+  };
+
+  onMessageChange = (e: any) => {
+    this.setState({
+      message: ""
+    });
+  };
+
+  onSenderNameChange = (e: any) => {
+    this.setState({
+      senderName: ""
+    });
+  };
+
+  onSubmit = (e: any) => {
+    return null;
+  };
 
   componentDidMount() {
     const { fetchCountryList, fetchProductList } = this.props;
@@ -107,12 +168,20 @@ class NewGiftcard extends React.Component<Props, State> {
       productData,
       selectedCountry,
       sku,
+      cardId,
       cardValue,
-      code
+      currencyCode,
+      recipientName,
+      englishandSpace,
+      recipientEmail,
+      confirmRecipientEmail,
+      message,
+      senderName,
+      subscribe
     } = this.state;
-    console.log("Code: ", code);
-    const { currency } = this.props;
 
+    const { currency } = this.props;
+    console.log(cardValue);
     const list = Object.keys(countryData).map(key => {
       return {
         label: key,
@@ -186,15 +255,15 @@ class NewGiftcard extends React.Component<Props, State> {
                     <div
                       key={pro.sku}
                       onClick={() => {
-                        this.setState({ cardValue: pro.id });
+                        this.setState({ cardId: pro.id });
                       }}
                       data-value={pro.priceRecords[currency]}
                       className={cs({
-                        [styles.selected]: cardValue == pro.id
+                        [styles.selected]: cardId == pro.id
                       })}
                       id={pro.id}
                     >
-                      {String.fromCharCode(...code) +
+                      {String.fromCharCode(...currencyCode) +
                         " " +
                         pro.priceRecords[currency]}
                     </div>
@@ -207,13 +276,207 @@ class NewGiftcard extends React.Component<Props, State> {
                 (or choose your own value)
               </div>
               {/* Custom Value Input */}
+              <form>
+                {productData.map((pro: any) => {
+                  return pro.sku == sku ? (
+                    <div className={styles.customValueInput} key={sku}>
+                      <input
+                        type="number"
+                        id={pro.id}
+                        placeholder="Enter Custom Value"
+                        onChange={this.onCustomValueChange}
+                        value={cardValue}
+                        className={cs({ [styles.aquaBorder]: cardValue != "" })}
+                        onKeyPress={e => {
+                          const regex = /^[0-9]+$/;
+                          if (regex.test(e.key)) {
+                            this.onCustomValueChange(e);
+                          } else {
+                            e.preventDefault();
+                            return false;
+                          }
+                        }}
+                        onPaste={e => {
+                          e.preventDefault();
+                          return false;
+                        }}
+                      />
+                      <div className={styles.curr}>
+                        {" "}
+                        {String.fromCharCode(...currencyCode)}{" "}
+                      </div>
+                    </div>
+                  ) : (
+                    ""
+                  );
+                })}
+              </form>
             </div>
             {/* 4.E-Gift Card Details */}
             <div className={styles.eGiftCardDetails}>
-              <div className={styles.sectionTitle}></div>
+              <div className={styles.sectionTitle}>E-GIFT CARD DETAILS</div>
+              <Formsy>
+                <FormInput
+                  name="recipientName"
+                  placeholder={"Recipient's Name"}
+                  label={"Recipient's Name *"}
+                  value={recipientName}
+                  keyPress={e => (e.key == "Enter" ? e.preventDefault() : "")}
+                  validations={{
+                    isEnglish: (values, value) => {
+                      if (value) {
+                        const bool = englishandSpace.test(value);
+                        return bool;
+                      } else return true;
+                    }
+                  }}
+                  validationErrors={{
+                    isEnglish: "Only alphabets are allowed"
+                  }}
+                  required
+                />
+                <FormInput
+                  name="recipientEmail"
+                  placeholder={"Recipient's Email"}
+                  label={"Recipient's Email *"}
+                  handleChange={this.onRecipientEmailChange}
+                  value={recipientEmail}
+                  keyPress={e => (e.key == "Enter" ? e.preventDefault() : "")}
+                  validations={{
+                    isEmail: true,
+                    maxLength: 75
+                  }}
+                  validationErrors={{
+                    isEmail: "Please enter a valid Email ID",
+                    maxLength:
+                      "You are allowed to enter upto 75 characters only"
+                  }}
+                  required
+                />
+                <FormInput
+                  name="recipientEmailConfirm"
+                  placeholder={"Confirm Recipient's Email"}
+                  label={"Confirm Recipient's Email *"}
+                  handleChange={this.onConfirmRecipientEmailChange}
+                  keyPress={e => (e.key == "Enter" ? e.preventDefault() : "")}
+                  value={confirmRecipientEmail}
+                  isDrop={true}
+                  isPaste={true}
+                  validations={{
+                    isEmail: true,
+                    maxLength: 75,
+                    equalsField: "recipientEmail"
+                  }}
+                  validationErrors={{
+                    isEmail: "Please enter a valid Email ID",
+                    maxLength:
+                      "You are allowed to enter upto 75 characters only",
+                    equalsField: "The Email ID entered doesn't match"
+                  }}
+                  required
+                />
+                <FormTextArea
+                  placeholder=""
+                  maxLength={250}
+                  name="message"
+                  rows={5}
+                  value={message}
+                  id="sender_msg"
+                  handleChange={e => {
+                    this.onMessageChange(e);
+                  }}
+                  required
+                  validations={{
+                    isEmpty: (values, value) => {
+                      return value?.trim() ? true : false;
+                    }
+                  }}
+                  validationErrors={{
+                    isEmpty: "Please enter your message"
+                  }}
+                ></FormTextArea>
+                <div className={cs(styles.limit)}>
+                  Character Limit:{" "}
+                  {250 - (message.trim() == "" ? 0 : message.length)}
+                </div>
+                <FormInput
+                  name="senderName"
+                  placeholder={"Sender's Name"}
+                  label={"Sender's Name *"}
+                  value={senderName}
+                  keyPress={e => (e.key == "Enter" ? e.preventDefault() : "")}
+                  validations={{
+                    isEnglish: (values, value) => {
+                      if (value) {
+                        const bool = englishandSpace.test(value);
+                        return bool;
+                      } else return true;
+                    }
+                  }}
+                  validationErrors={{
+                    isEnglish: "Only alphabets are allowed"
+                  }}
+                  required
+                />
+                <div className={styles.subscribe}>
+                  <FormCheckbox
+                    value={subscribe || false}
+                    name="subscribe"
+                    disable={false}
+                    handleChange={(
+                      event: ChangeEvent<HTMLInputElement>
+                    ): void => {
+                      const checked = event.currentTarget.checked;
+                      if (checked) {
+                        this.setState({ subscribe: true });
+                      } else {
+                        this.setState({ subscribe: false });
+                      }
+                    }}
+                    id="subscribe"
+                    label={[
+                      "I agree to the ",
+                      <Link
+                        key="terms"
+                        to="/customer-assistance/terms-conditions?id=giftcardpolicy"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        Terms and Conditions.
+                      </Link>,
+                      " To know more how we keep your data safe, refer to our ",
+                      <Link
+                        key="privacy"
+                        to="/customer-assistance/privacy-policy"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        Privacy Policy.
+                      </Link>
+                    ]}
+                    validations="isTrue"
+                    required
+                  />
+                </div>
+              </Formsy>
             </div>
             {/* 5. Add to Bag */}
-            {/* 6. Terms and Conditions */}
+            <div className={cs(styles.addToBag, styles.active)}>
+              <a onSubmit={this.onSubmit}>ADD TO BAG</a>
+            </div>
+            {/* 6. Contact Us */}
+            <div className={styles.contactUs}>
+              <div className={styles.querriesTitle}>
+                FOR QUERRIES OR ASSISTANCE
+              </div>
+              <div className={styles.querriesInfo}>
+                customercare@goodearth.in
+              </div>
+              <div className={styles.querriesInfo}>
+                +91 95829 995555/ +91 95829 99888
+              </div>
+              <div className={styles.querriesInfo}>Mon- Sat | 9am-5pm IST</div>
+            </div>
           </div>
         </div>
       </div>
