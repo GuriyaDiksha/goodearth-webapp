@@ -45,7 +45,7 @@ const VerticalImageSelector: React.FC<Props> = memo(
               className={globalStyles.imgResponsive}
               src={productImage}
             ></img>
-            {/* {icon && <img src={overlay} className={styles.overlay}></img>} */}
+            {icon && <img src={overlay} className={styles.overlay}></img>}
           </div>
         );
       }
