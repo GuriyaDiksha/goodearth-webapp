@@ -358,7 +358,6 @@ const PaymentSection: React.FC<PaymentProps> = props => {
                 <div className={styles.giftWrapMessage}>
                   <textarea
                     rows={5}
-                    cols={45}
                     className={styles.giftMessage}
                     value={textarea}
                     placeholder={"add message (optional)"}
