@@ -31,7 +31,7 @@ const CookiePolicy: React.FC<Props> = ({
   );
   const { email } = useSelector((state: AppState) => state.user);
   const store = useStore();
-  console.log("region=======", country);
+
   useEffect(() => {
     document.body.classList.add(globalStyles.noScroll);
     return () => {
@@ -131,6 +131,19 @@ const CookiePolicy: React.FC<Props> = ({
               <div className={styles.euWrapper}>
                 <div className={styles.euInnerWrapper}>
                   <p className={styles.heading}>YOUR COOKIE PREFERENCES</p>
+                  {regionName === "India" && (
+                    <span
+                      className={cs(
+                        styles.closePopup,
+                        fontStyles.icon,
+                        fontStyles.iconCross,
+                        styles.prefPopup
+                      )}
+                      onClick={() => {
+                        hideCookie();
+                      }}
+                    ></span>
+                  )}
                   <hr />
                   <p className={styles.question}>What is a cookie?</p>
                   <p className={styles.answer}>
@@ -183,16 +196,18 @@ const CookiePolicy: React.FC<Props> = ({
               </div>
             ) : (
               <>
-                <span
-                  className={cs(
-                    styles.closePopup,
-                    fontStyles.icon,
-                    fontStyles.iconCross
-                  )}
-                  onClick={() => {
-                    hideCookie();
-                  }}
-                ></span>
+                {regionName === "India" && (
+                  <span
+                    className={cs(
+                      styles.closePopup,
+                      fontStyles.icon,
+                      fontStyles.iconCross
+                    )}
+                    onClick={() => {
+                      hideCookie();
+                    }}
+                  ></span>
+                )}
                 <h3>COOKIES & PRIVACY</h3>
                 <p style={{ textAlign: "center" }}>
                   This website uses cookies to ensure you get the best
