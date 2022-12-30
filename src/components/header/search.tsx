@@ -49,6 +49,10 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     },
     changeModalState: (show: boolean) => {
       dispatch(updateModal(show));
+    },
+    fetchTrendingKeyword: async () => {
+      const res = await HeaderService.fetchTrendingKeyword(dispatch);
+      return res;
     }
   };
 };
@@ -76,6 +80,7 @@ type State = {
   collections: any[];
   categories: any[];
   usefulLink: any[];
+  trendingWords: any[];
 };
 class Search extends React.Component<Props, State> {
   constructor(props: Props) {
@@ -92,7 +97,8 @@ class Search extends React.Component<Props, State> {
       suggestions: [],
       collections: [],
       categories: [],
-      usefulLink: []
+      usefulLink: [],
+      trendingWords: []
     };
   }
 
@@ -121,6 +127,16 @@ class Search extends React.Component<Props, State> {
       .then(data => {
         this.setState({
           featureData: data.widgetImages
+        });
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+    this.props
+      .fetchTrendingKeyword()
+      .then(res => {
+        this.setState({
+          trendingWords: res.data
         });
       })
       .catch(function(error) {
@@ -368,12 +384,20 @@ class Search extends React.Component<Props, State> {
     // const originalCur = "original_price_" + this.props.currency.toLowerCase();
     const suggestionsExist = this.state.suggestions.length > 0;
     const { mobile, showTimer } = this.props;
-    const { collections, categories, usefulLink, productData } = this.state;
+    const {
+      collections,
+      categories,
+      usefulLink,
+      productData,
+      trendingWords
+    } = this.state;
     const productsExist =
       collections.length > 0 ||
       categories.length > 0 ||
       usefulLink.length > 0 ||
-      productData.length > 0;
+      productData.length > 0 ||
+      trendingWords.length > 0;
+
     return (
       <div
         className={cs(globalStyles.minimumWidth, styles.search, {
@@ -609,6 +633,69 @@ class Search extends React.Component<Props, State> {
                     </div>
                   )}
                   <div>
+                    {trendingWords.length > 0 && (
+                      <div className={globalStyles.marginT30}>
+                        <p
+                          className={cs(
+                            styles.productHeading,
+                            globalStyles.marginB10,
+                            { [styles.padding]: !mobile },
+                            { [styles.paddingMobile]: mobile }
+                          )}
+                        >
+                          POPULAR SEARCHES
+                        </p>
+                        <div
+                          className={cs(
+                            styles.trending,
+                            { [styles.trendingdesktopPad]: !mobile },
+                            { [styles.trendingmobilePad]: mobile }
+                          )}
+                        >
+                          {trendingWords?.map((cat, ind) => {
+                            return (
+                              <Link
+                                to={cat.link}
+                                onClick={(e: any) => {
+                                  if (
+                                    !cat.link &&
+                                    this.searchBoxRef &&
+                                    this.searchBoxRef.current
+                                  ) {
+                                    this.searchBoxRef.current.value =
+                                      cat.name || "";
+                                    this.setState({
+                                      searchValue: cat.name
+                                    });
+                                    e.preventDefault();
+                                  } else {
+                                    this.props.hideSearch();
+                                  }
+                                }}
+                                key={ind}
+                              >
+                                <i
+                                  className={cs(
+                                    iconStyles.icon,
+                                    iconStyles.iconSearch,
+                                    styles.iconCross
+                                  )}
+                                ></i>
+                                <span
+                                  className={cs(
+                                    styles.trendingcat
+                                    // { [styles.padding]: !mobile },
+                                    // { [styles.paddingMobile]: mobile }
+                                  )}
+                                >
+                                  {ReactHtmlParser(cat.name)}
+                                </span>
+                              </Link>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    )}
                     {usefulLink.length > 0 && (
                       <div className={globalStyles.marginT30}>
                         <p
