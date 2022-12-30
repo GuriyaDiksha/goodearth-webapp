@@ -130,6 +130,7 @@ class Header extends React.Component<Props, State> {
       this.props.location.pathname.includes("/bridal/") &&
       !this.props.location.pathname.includes("/account/");
     let bridalKey = "";
+    document.addEventListener("scroll", this.onScroll);
     if (isBridalPublicPage) {
       const pathArray = this.props.location.pathname.split("/");
       bridalKey = pathArray[pathArray.length - 1];
@@ -263,6 +264,24 @@ class Header extends React.Component<Props, State> {
   // mouseOut(data: { show: boolean }) {
   //   this.setState({ show: data.show });
   // }
+
+  onScroll = () => {
+    const header = document.getElementById("myHeader");
+    const sticky = (header as HTMLElement)?.offsetTop;
+    const secondaryHeader = document.getElementById("secondaryHeader");
+    console.log("check=====", window?.pageYOffset, sticky);
+    if (window?.pageYOffset > sticky) {
+      (header as HTMLElement).style.position = "fixed";
+      (secondaryHeader as HTMLElement).style.top = "50px";
+    } else {
+      (header as HTMLElement).style.position = "relative";
+      (secondaryHeader as HTMLElement).style.top = "90px";
+    }
+  };
+
+  componentWillUnmount() {
+    document.removeEventListener("scroll", this.onScroll);
+  }
 
   showCurrency = () => {
     this.setState({
@@ -692,18 +711,19 @@ class Header extends React.Component<Props, State> {
             crossOrigin="crossorigin"
           />
         </Helmet>
+        {this.state.reloadAnnouncementBar && (
+          <AnnouncementBar
+            clearBridalSession={this.clearBridalSession}
+            isBridalRegistryPage={isBridalRegistryPage}
+          />
+        )}
         <div
+          id="myHeader"
           className={cs(
             { [styles.headerIndex]: showMenu },
             styles.headerContainer
           )}
         >
-          {this.state.reloadAnnouncementBar && (
-            <AnnouncementBar
-              clearBridalSession={this.clearBridalSession}
-              isBridalRegistryPage={isBridalRegistryPage}
-            />
-          )}
           {!isBridalRegistryPage &&
             !isCeriseCustomer &&
             this.props.showTimer &&

@@ -3,6 +3,7 @@
 
 .title-h1{
   font-size: 1px;
+  margin-bottom: -2px;
 }
 
 .header-container {
@@ -38,7 +39,7 @@
   z-index: 1000009 !important;
 }
 .header-container {
-    position: fixed;
+    position: relative;
     top: $header-top;
     z-index: 12;
     width: 100%;
@@ -726,19 +727,24 @@
 
 
 .announcement {
- 
+// position: relative;
+top: $header-top;
 width: 100%;
 //position: fixed;
-line-height: 29px;
-min-height: 30px;
+max-height: 40px;
 text-align: center;
-font-size: 12px;
+font-size: 10px;
 background-color: $summerGreen;
-//padding: 2px 2px 2px 15px;
-display: flex;
+padding: 13px 31px 14px 31px;
+// display: flex;
 z-index: 10;
 font-family: $font-Lato;
 color: $white;
+
+@media (max-width:992px) {
+  padding: 8px 28px 6px 28px;
+}
+
 .width100 {
   width: 100%;
 }
@@ -747,28 +753,28 @@ color: $white;
 }
 /* Elements to animate */
 .boxx1 {
-  width: 100%;
-  padding: 2px 15px;
-  line-height: 20px;
+  // width: 100%;
+  // padding: 2px 15px;
+  // line-height: 20px;
   // position: absolute;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  left: 0;
-  animation-name: animatetxt1;
-  animation-duration: 4s;
-  animation-fill-mode: both;
-  animation-iteration-count: infinite;
+  // display: flex;
+  // align-items: center;
+  // justify-content: center;
+  // left: 0;
+  // animation-name: animatetxt1;
+  // animation-duration: 4s;
+  // animation-fill-mode: both;
+  // animation-iteration-count: infinite;
 }
 .boxx2 {
-  width: 100%;
-  position: absolute;
-  left: 0;
-  animation-name: animatetxt2;
-  animation-duration: 12s;
-  animation-fill-mode: both;
-  text-align: center;
-  animation-iteration-count: infinite;
+  // width: 100%;
+  // position: absolute;
+  // left: 0;
+  // animation-name: animatetxt2;
+  // animation-duration: 12s;
+  // animation-fill-mode: both;
+  // text-align: center;
+  // animation-iteration-count: infinite;
 }
 
 /* Keyframes */
@@ -1658,7 +1664,16 @@ ul.inner-menu-mobile {
 //   display: inline;
 // }
 .announcement-content {
+  max-width: 75%;
   @include b5_10px_montserrat_white();
+
+  a{
+    @include b5_10px_montserrat_white();
+    line-height: 13px;
+    p{
+      display: flex;
+    }
+  }
 }
 .announcement-cta-btn {
   font-family: $font-Montserrat;

@@ -1,0 +1,55 @@
+.announcementbarSliderContainer .play-button{
+    position: absolute;
+    top: 18px;
+    transform: translateY(-50%);
+    left: 31px;
+    width: 17px;
+    height: 17px;
+    cursor: pointer;
+    z-index: 1;
+}
+
+@media (max-width: 992px) {
+    .announcementbarSliderContainer .play-button{
+        display: none;
+    }
+}
+
+.announcementbarSliderContainer .slick-slider .slick-dots{
+    display: flex !important;
+    justify-content: center;
+    align-items: center;
+    top: 50%;
+    left: 24px;
+    bottom: auto;
+    width: auto;
+    gap: 5px;
+    transform: translateY(-50%);
+}
+
+.announcementbarSliderContainer .slick-slider .slick-dots li {
+    width: 10px;
+    height: 10px;
+    margin: 0;
+}
+
+.announcementbarSliderContainer .slick-slider .slick-dots li button{
+    padding: 0;
+    width: 10px;
+    height: 10px;
+    font-size: 0px;
+}
+
+.announcementbarSliderContainer .slick-slider .slick-dots li button:before{
+    content: "";
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    opacity: 1;
+    background: rgba(255, 255, 255, 30%);
+}
+
+.announcementbarSliderContainer .slick-slider .slick-dots li.slick-active button:before{
+    background: #fff;
+
+}
