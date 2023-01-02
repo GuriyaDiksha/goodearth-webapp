@@ -1421,6 +1421,12 @@ visibility: visible !important;
   
   
 }
+.suggestion-wrap{
+  @media screen and (max-width:992px) {
+    display: block;
+    flex-wrap: nowrap;
+  }
+}
 
 .suggestion {
     font-weight: bold;
@@ -1762,6 +1768,22 @@ ul.inner-menu-mobile {
    b {
     font-weight: 600;
     }
+  .slider-image{
+    @media screen and (max-width: 992px){
+      height: 86px !important;
+      object-fit: cover !important;
+    }
+  }
+    
+  @media screen and (max-width:992px){
+    flex: 0 0 100%;
+    max-width: 175px;
+    margin-left: 0px;
+
+    &:not(:last-child) {
+      padding-right: 6px;
+    }
+  }
 }
 .categories {
   @include b4_12px_montserrat_light_charcoal();
@@ -1773,4 +1795,15 @@ ul.inner-menu-mobile {
 }
 .collectionlist {
   display: inline-flex;
+
+  @media screen and (max-width:992px){
+    display: flex;
+    flex-wrap: nowrap;
+    white-space: normal;
+    overflow-x: scroll;
+    scroll-snap-type: x mandatory;
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
 }
