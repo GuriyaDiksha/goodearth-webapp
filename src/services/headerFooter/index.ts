@@ -81,7 +81,10 @@ export default {
     // }
     return res as FooterDataProps;
   },
-  makeNewsletterSignupRequest: async (dispatch: Dispatch, email: string) => {
+  makeNewsletterSignupRequest: async (
+    dispatch: Dispatch,
+    email: string
+  ): Promise<any> => {
     const res = await API.post<{ status: boolean; message: string }>(
       dispatch,
       `${__API_HOST__}/myapi/newsletter/signup/`,
@@ -95,6 +98,13 @@ export default {
     const res = await API.get<SearchFeaturedData>(
       dispatch,
       `${__API_HOST__}/myapi/promotions/multi_image_page_widget/search_featured`
+    );
+    return res;
+  },
+  fetchTrendingKeyword: async (dispatch: Dispatch) => {
+    const res = await API.get<any>(
+      dispatch,
+      `${__API_HOST__}/myapi/search/autocomplete_init/`
     );
     return res;
   },

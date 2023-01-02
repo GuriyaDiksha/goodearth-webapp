@@ -92,7 +92,11 @@ class CheckBalance extends React.Component<Props, State> {
                               ENTER YOUR GIFT CARD CODE{" "}
                             </span>
                           </div>
-                          <div>{this.state.isActive && <Giftcard />}</div>
+                          <div>
+                            {this.state.isActive && (
+                              <Giftcard isFromCheckBalance={true} />
+                            )}
+                          </div>
                         </div>
                       </div>
                       <div
@@ -118,7 +122,11 @@ class CheckBalance extends React.Component<Props, State> {
                               ENTER YOUR CREDIT NOTE CODE
                             </span>
                           </div>
-                          <div>{this.state.isActiveCN && <CreditCard />}</div>
+                          <div>
+                            {this.state.isActiveCN && (
+                              <CreditCard isFromCheckBalance={true} />
+                            )}
+                          </div>
                         </div>
                       </div>
 
