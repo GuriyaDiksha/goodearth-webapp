@@ -1,7 +1,8 @@
 import { Dispatch } from "redux";
-// import { updateFilterState } from "actions/giftcard";
 import GiftcardService from "services/giftcard";
-import { refreshPage } from "actions/user";
+import { updateBasket } from "actions/basket";
+import { Basket } from "typings/basket";
+import { showGrowlMessage } from "utils/validate";
 
 const mapActionsToProps = (dispatch: Dispatch) => {
   return {
@@ -13,8 +14,15 @@ const mapActionsToProps = (dispatch: Dispatch) => {
       const data = await GiftcardService.fetchProductList(dispatch);
       return data;
     },
-    refreshPage: () => {
-      dispatch(refreshPage(undefined));
+    addToGiftcard: async (data: any) => {
+      const result = await GiftcardService.addToGiftcard(dispatch, data);
+      return result;
+    },
+    updateBasket: (basket: Basket) => {
+      dispatch(updateBasket(basket));
+    },
+    showGrowlMessage: (string: string) => {
+      showGrowlMessage(dispatch, string);
     }
   };
 };

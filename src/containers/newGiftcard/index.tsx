@@ -13,6 +13,8 @@ import FormInput from "components/Formsy/FormInput";
 import FormTextArea from "components/Formsy/FormTextArea";
 import FormCheckbox from "components/Formsy/FormCheckbox";
 import { Link } from "react-router-dom";
+import { Basket } from "typings/basket";
+import { MESSAGE } from "constants/messages";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -47,9 +49,13 @@ type State = {
   subscribe: boolean;
   customValueErrorMsg: string;
   selectCountryErrorMsg: string;
+  previewOpen: boolean;
+  formDisabled: boolean;
 };
 
 class NewGiftcard extends React.Component<Props, State> {
+  observer?: IntersectionObserver;
+  container: HTMLDivElement | null = null;
   constructor(props: Props) {
     super(props);
     this.state = {
@@ -77,7 +83,9 @@ class NewGiftcard extends React.Component<Props, State> {
       subscribe: false,
       customValueErrorMsg: "",
       selectCountryErrorMsg: "",
-      customValue: ""
+      customValue: "",
+      previewOpen: false,
+      formDisabled: true
     };
   }
 
@@ -177,16 +185,23 @@ class NewGiftcard extends React.Component<Props, State> {
   };
 
   onCustomValueChange = (e: any) => {
-    this.setState({
-      cardId: e.target.getAttribute("id"),
-      customValue: e.target.value,
-      cardValue: ""
-    });
+    if (e.target.value.length > 10) return;
+
     const { sta, message } = this.customValueCheck(e.target.value);
     if (sta) {
-      this.setState({ customValueErrorMsg: message });
+      this.setState({
+        cardId: e.target.getAttribute("id"),
+        customValue: e.target.value,
+        cardValue: "",
+        customValueErrorMsg: message
+      });
     } else {
-      this.setState({ customValueErrorMsg: "" });
+      this.setState({
+        cardId: e.target.getAttribute("id"),
+        customValue: e.target.value,
+        cardValue: "",
+        customValueErrorMsg: ""
+      });
     }
   };
 
@@ -204,19 +219,19 @@ class NewGiftcard extends React.Component<Props, State> {
 
   onConfirmRecipientEmailChange = (e: any) => {
     this.setState({
-      confirmRecipientEmail: ""
+      confirmRecipientEmail: e.target.value
     });
   };
 
   onMessageChange = (e: any) => {
     this.setState({
-      message: ""
+      message: e.target.value
     });
   };
 
   onSenderNameChange = (e: any) => {
     this.setState({
-      senderName: ""
+      senderName: e.target.value
     });
   };
 
@@ -229,13 +244,19 @@ class NewGiftcard extends React.Component<Props, State> {
       recipientEmail,
       recipientName,
       senderName,
-      customValue
+      customValue,
+      formDisabled,
+      selectedCountry
     } = this.state;
-    // Check for errors, prepare data
+
+    if (formDisabled || selectedCountry == "") {
+      return;
+    }
+
     const data = Object.assign(
       {},
       {
-        imageUrl: selectedImage,
+        imageUrl: selectedImage.replace("/gc", "/gc_"),
         customPrice: cardValue || customValue,
         productId: cardId,
         message: message,
@@ -245,14 +266,37 @@ class NewGiftcard extends React.Component<Props, State> {
         quantity: 1
       }
     );
-    console.log(data);
+
+    this.props
+      .addToGiftcard(data)
+      .then((res: any) => {
+        const basket: Basket = res.data;
+        this.props.updateBasket(basket);
+        this.props.showGrowlMessage(MESSAGE.ADD_TO_BAG_GIFTCARD_SUCCESS);
+      })
+      .catch(error => {
+        if (error.response.status == 406) {
+          return false;
+        }
+      });
+  };
+
+  onSeePreviewClick = () => {
+    this.setState({
+      previewOpen: true
+    });
+  };
+
+  onBackToGcClick = () => {
+    this.setState({
+      previewOpen: false
+    });
   };
 
   componentDidUpdate(prevProps: any, prevState: any) {
     if (prevState.currency != this.props.currency) {
       const newCurrency = this.props.currency;
       let newCountry = "";
-      let errorMsg = "";
       if (this.props.currency == "INR") {
         newCountry = "India";
       } else if (this.props.currency == "GBP") {
@@ -263,7 +307,6 @@ class NewGiftcard extends React.Component<Props, State> {
         newCountry = "Singapore";
       } else if (this.props.currency == "USD") {
         newCountry = "";
-        errorMsg = "Please select a country.";
       }
       if (newCountry) {
         this.setState({
@@ -282,7 +325,31 @@ class NewGiftcard extends React.Component<Props, State> {
     }
   }
 
+  observerCallback = (entries: IntersectionObserverEntry[]) => {
+    //bottom < 130 && ratio > 0
+    const ele = document.getElementById("show-preview");
+    entries.forEach((entry: IntersectionObserverEntry) => {
+      if (ele) {
+        if (
+          entry.intersectionRatio > 0 ||
+          entry.boundingClientRect.bottom < 130
+        ) {
+          ele.style.display = "none";
+        } else {
+          ele.style.display = "block";
+        }
+      }
+    });
+  };
+
   componentDidMount() {
+    if (this.container) {
+      this.observer = new IntersectionObserver(this.observerCallback, {
+        rootMargin: "-130px 0px -60px 0px"
+      });
+      this.observer.observe(this.container);
+    }
+
     const { fetchCountryList, fetchProductList } = this.props;
     fetchProductList().then((data: any) => {
       this.setState({
@@ -319,6 +386,8 @@ class NewGiftcard extends React.Component<Props, State> {
   }
 
   render(): React.ReactNode {
+    const { mobile } = this.props.device;
+
     const {
       giftImages,
       selectedImage,
@@ -339,7 +408,9 @@ class NewGiftcard extends React.Component<Props, State> {
       subscribe,
       customValueErrorMsg,
       selectCountryErrorMsg,
-      customValue
+      customValue,
+      previewOpen,
+      formDisabled
     } = this.state;
     const list = Object.keys(countryData).map(key => {
       return {
@@ -355,7 +426,37 @@ class NewGiftcard extends React.Component<Props, State> {
         })}
       >
         <div className={styles.container}>
-          <div className={styles.previewGc}>Preview</div>
+          <div className={styles.previewGc}>
+            <div className={styles.title}>Preview</div>
+            <div className={styles.imageContainer}>
+              <img src={selectedImage} />
+            </div>
+            <div className={styles.salutation}>
+              Dear {recipientName ? recipientName : `[Reciever's Name]`}
+            </div>
+            <div className={styles.staticMsg}>
+              You have recieved a Good Earth eGift card worth
+            </div>
+            <div className={styles.gcAmount}>
+              {String.fromCharCode(...currencyCharCode)}&nbsp;&nbsp;
+              {cardValue ? cardValue : customValue}
+            </div>
+            <div className={styles.senderName}>
+              From {senderName ? senderName : `[Sender's Name]`}
+            </div>
+            <div className={styles.theirMessage}>Their Message:</div>
+            <div className={styles.message}>{message}</div>
+            <div className={styles.theirMessage}>
+              Apply this code during checkout :
+            </div>
+            <div className={styles.dummyCode}>
+              <span>xxxxxx</span>
+            </div>
+            <div className={styles.note}>
+              Please Note: All our gift cards are valid for a period of 11
+              months from date of purchase.
+            </div>
+          </div>
           <div className={styles.formGc}>
             <div className={styles.formHeader}>E-Gift Card</div>
             {/* 1. Card Design */}
@@ -486,12 +587,24 @@ class NewGiftcard extends React.Component<Props, State> {
             {/* 4.E-Gift Card Details */}
             <div className={styles.eGiftCardDetails}>
               <div className={styles.sectionTitle}>E-GIFT CARD DETAILS</div>
-              <Formsy>
+              <Formsy
+                onValid={() => {
+                  this.setState({
+                    formDisabled: false
+                  });
+                }}
+                onInvalid={() => {
+                  this.setState({
+                    formDisabled: true
+                  });
+                }}
+              >
                 <FormInput
                   name="recipientName"
                   placeholder={"Recipient's Name"}
                   label={"Recipient's Name *"}
                   value={recipientName}
+                  handleChange={this.onRecipientNameChange}
                   keyPress={e => (e.key == "Enter" ? e.preventDefault() : "")}
                   validations={{
                     isEnglish: (values, value) => {
@@ -575,6 +688,7 @@ class NewGiftcard extends React.Component<Props, State> {
                   placeholder={"Sender's Name"}
                   label={"Sender's Name *"}
                   value={senderName}
+                  handleChange={this.onSenderNameChange}
                   keyPress={e => (e.key == "Enter" ? e.preventDefault() : "")}
                   validations={{
                     isEnglish: (values, value) => {
@@ -589,7 +703,10 @@ class NewGiftcard extends React.Component<Props, State> {
                   }}
                   required
                 />
-                <div className={styles.subscribe}>
+                <div
+                  className={styles.subscribe}
+                  ref={ele => (this.container = ele)}
+                >
                   <FormCheckbox
                     value={subscribe || false}
                     name="subscribe"
@@ -632,12 +749,16 @@ class NewGiftcard extends React.Component<Props, State> {
               </Formsy>
             </div>
             {/* 5. Add to Bag */}
-            <div
-              className={cs(styles.addToBag, { [styles.active]: true })}
-              onClick={this.onSubmit}
-            >
-              <a onClick={this.onSubmit}>ADD TO BAG</a>
-            </div>
+            {!mobile && (
+              <div
+                className={cs(styles.addToBag, {
+                  [styles.active]: !formDisabled && selectedCountry != ""
+                })}
+                onClick={this.onSubmit}
+              >
+                <a onClick={this.onSubmit}>ADD TO BAG</a>
+              </div>
+            )}
             {/* 6. Contact Us */}
             <div className={styles.contactUs}>
               <div className={styles.querriesTitle}>
@@ -653,6 +774,72 @@ class NewGiftcard extends React.Component<Props, State> {
             </div>
           </div>
         </div>
+        {mobile && (
+          <div
+            id="show-preview"
+            className={cs(styles.previewTrigger)}
+            onClick={this.onSeePreviewClick}
+          >
+            <div className={cs(styles.carretContainer)}>
+              <div className={cs(styles.carretUp)}></div>
+            </div>
+            <div className={cs(styles.text)}>See Gift Card Preview</div>
+          </div>
+        )}
+        {mobile && (
+          <div
+            className={cs(
+              styles.addToBag,
+              { [styles.active]: true },
+              { [styles.previewOpen]: previewOpen }
+            )}
+            onClick={this.onSubmit}
+          >
+            <a onClick={this.onSubmit}>ADD TO BAG</a>
+          </div>
+        )}
+        {previewOpen && (
+          <div className={styles.previewModal}>
+            <div
+              className={styles.backToGcDetails}
+              onClick={this.onBackToGcClick}
+            >
+              <div className={styles.text}>Back to Gift Card Details</div>
+              <div className={styles.carretContainer}>
+                <div className={styles.carretDown}></div>
+              </div>
+            </div>
+            <div className={styles.title}>Preview</div>
+            <div className={styles.imageContainer}>
+              <img src={selectedImage} />
+            </div>
+            <div className={styles.salutation}>
+              Dear {recipientName ? recipientName : `[Reciever's Name]`}
+            </div>
+            <div className={styles.staticMsg}>
+              You have recieved a Good Earth eGift card worth
+            </div>
+            <div className={styles.gcAmount}>
+              {String.fromCharCode(...currencyCharCode)}&nbsp;&nbsp;
+              {cardValue ? cardValue : customValue}
+            </div>
+            <div className={styles.senderName}>
+              From {senderName ? senderName : `[Sender's Name]`}
+            </div>
+            <div className={styles.theirMessage}>Their Message:</div>
+            <div className={styles.message}>{message}</div>
+            <div className={styles.theirMessage}>
+              Apply this code during checkout :
+            </div>
+            <div className={styles.dummyCode}>
+              <span>xxxxxx</span>
+            </div>
+            <div className={styles.note}>
+              Please Note: All our gift cards are valid for a period of 11
+              months from date of purchase.
+            </div>
+          </div>
+        )}
       </div>
     );
   }
