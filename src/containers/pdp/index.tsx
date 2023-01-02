@@ -16,7 +16,6 @@ import {
   Product
 } from "typings/product";
 import Breadcrumbs from "components/Breadcrumbs";
-import PdpImage from "./components/pdpImage";
 import WeRecommendSlider from "components/weRecomend";
 import CollectionProductsSlider from "components/moreCollection";
 import WallpaperFAQ from "./components/WallpaperFAQ";
@@ -47,12 +46,15 @@ import CookieService from "services/cookie";
 import Skeleton from "react-loading-skeleton";
 import ProductDetails from "./components/productDetails";
 import PdpSlider from "components/PdpSlider";
+import PDPImagesContainer from "./components/PDPImagesContainer";
+
 // import activeGrid from "images/plpIcons/active_grid.svg";
 // import inactiveGrid from "images/plpIcons/inactive_grid.svg";
 // import activeList from "images/plpIcons/active_list.svg";
 // import inactiveList from "images/plpIcons/inactive_list.svg";
 import Counter from "components/ProductCounter/counter";
 import { GA_CALLS, ANY_ADS } from "constants/cookieConsent";
+import { product } from "reducers/product";
 
 const PDP_TOP_OFFSET = HEADER_HEIGHT + SECONDARY_HEADER_HEIGHT;
 const sidebarPosition = PDP_TOP_OFFSET + 23;
@@ -688,99 +690,108 @@ class PDPContainer extends React.Component<Props, State> {
 
   getProductImages() {
     const productImages = this.getProductImagesData();
-    let iconAll, codeAll;
+    let icon;
     for (const e of productImages) {
       if (e.icon) {
-        iconAll = e.icon;
-        codeAll = e.code;
+        icon = e.icon;
         break;
       }
     }
-    if (productImages?.length > 0) {
-      const img =
-        productImages?.[this.state?.activeImage] ||
-        productImages?.[this.state?.activeImage - 1];
-      // return productImages?.map((image, index) => {
-      const onImageLoad = (event: SyntheticEvent<HTMLImageElement>) => {
-        const ele = event.currentTarget;
-        const { naturalHeight, naturalWidth } = ele;
-        const height = (ele.width * naturalHeight) / naturalWidth;
-        this.imageOffsets[0] = height;
-      };
-      return (
-        <div
-          className={styles.productImageContainer}
-          key={img?.id}
-          id={`img-${img?.id}`}
-          onMouseEnter={() => {
-            this.setState({ imageHover: true });
-          }}
-          onMouseLeave={() => {
-            this.setState({ imageHover: false });
-          }}
-        >
-          <PdpImage
-            alt={this.props.data?.altText || this.props.data?.title}
-            {...img}
-            index={this.state.activeImage}
-            onClick={this.onImageClick}
-            onLoad={onImageLoad}
-            iconAll={iconAll}
-            codeAll={codeAll}
-            data={this.props.data}
-            corporatePDP={this.props.corporatePDP}
-            selectedSizeId={this.props.selectedSizeId}
-            currency={this.props.currency}
-            buttoncall={this.state.pdpButton}
-          />
-          <div>
-            <Counter
-              id="pdp-image-counter"
-              current={this.state.activeImage + 1}
-              total={productImages.length}
-            />
-          </div>
-          {productImages?.length > 1 && (
-            <div
-              className={cs(styles.imageArrowLeft, {
-                [styles.show]: this.state.imageHover
-              })}
-              onClick={this.onClickImageArrowLeft}
-            ></div>
-          )}
-          {productImages?.length > 1 && (
-            <div
-              className={cs(styles.imageArrowRight, {
-                [styles.show]: this.state.imageHover
-              })}
-              onClick={this.onClickImageArrowRight}
-            ></div>
-          )}
-          {this.state.showLooks && (
-            <div
-              id="looks-btn"
-              className={styles.looksBtn}
-              onClick={this.handleLooksClick}
-            >
-              shop the look
-            </div>
-          )}
-        </div>
-      );
-      // });
-    } else {
-      return [1, 2, 3].map((image, index) => {
-        return (
-          <div
-            className={styles.productImageContainer}
-            key={image}
-            id={`img-${image}`}
-          >
-            <Skeleton duration={1} height={540} />
-          </div>
-        );
-      });
-    }
+    // console.log(productImages)
+    // if (productImages?.length > 0) {
+    //   const img =
+    //     productImages?.[this.state?.activeImage] ||
+    //     productImages?.[this.state?.activeImage - 1];
+    //   // return productImages?.map((image, index) => {
+    //   const onImageLoad = (event: SyntheticEvent<HTMLImageElement>) => {
+    //     const ele = event.currentTarget;
+    //     const { naturalHeight, naturalWidth } = ele;
+    //     const height = (ele.width * naturalHeight) / naturalWidth;
+    //     this.imageOffsets[0] = height;
+    //   };
+    return (
+      <PDPImagesContainer
+        productImages={productImages}
+        onClick={this.onImageClick}
+        is3d={icon || false}
+        data={this.props.data}
+        selectedSizeId={this.props.selectedSizeId}
+        currency={this.props.currency}
+        handleLooksClick={this.handleLooksClick}
+      />
+      // <div
+      //   className={styles.productImageContainer}
+      //   key={img?.id}
+      //   id={`img-${img?.id}`}
+      //   onMouseEnter={() => {
+      //     this.setState({ imageHover: true });
+      //   }}
+      //   onMouseLeave={() => {
+      //     this.setState({ imageHover: false });
+      //   }}
+      // >
+      //   <PdpImage
+      //     alt={this.props.data?.altText || this.props.data?.title}
+      //     {...img}
+      //     index={this.state.activeImage}
+      // onClick={this.onImageClick}
+      //     onLoad={onImageLoad}
+      //     iconAll={iconAll}
+      //     codeAll={codeAll}
+      //     data={this.props.data}
+      //     corporatePDP={this.props.corporatePDP}
+      //     selectedSizeId={this.props.selectedSizeId}
+      //     currency={this.props.currency}
+      //     buttoncall={this.state.pdpButton}
+      //   />
+      //   <div>
+      //     <Counter
+      //       id="pdp-image-counter"
+      //       current={this.state.activeImage + 1}
+      //       total={productImages.length}
+      //     />
+      //   </div>
+      //   {productImages?.length > 1 && (
+      //     <div
+      //       className={cs(styles.imageArrowLeft, {
+      //         [styles.show]: this.state.imageHover
+      //       })}
+      //       onClick={this.onClickImageArrowLeft}
+      //     ></div>
+      //   )}
+      //   {productImages?.length > 1 && (
+      //     <div
+      //       className={cs(styles.imageArrowRight, {
+      //         [styles.show]: this.state.imageHover
+      //       })}
+      //       onClick={this.onClickImageArrowRight}
+      //     ></div>
+      //   )}
+      // {this.state.showLooks && (
+      // <div
+      //   id="looks-btn"
+      //   className={styles.looksBtn}
+      //   onClick={this.handleLooksClick}
+      // >
+      //   shop the look
+      // </div>
+      // )}
+      // </div>
+    );
+    // });
+    // } else {
+    // return [1, 2, 3].map((image, index) => {
+    //   return (
+    //     <div
+    //       className={styles.productImageContainer}
+    //       key={image}
+    //       id={`img-${image}`}
+    //     >
+    //       <Skeleton duration={1} height={540} />
+    //     </div>
+    //   );
+    // });
+    // }
   }
 
   getProductDetails = () => {
@@ -1499,7 +1510,7 @@ class PDPContainer extends React.Component<Props, State> {
               )}
             >
               {this.getProductImages()}
-              {images && (
+              {/* {images && (
                 <PdpSlider
                   alt={data?.altText || data?.title}
                   images={images}
@@ -1511,7 +1522,7 @@ class PDPContainer extends React.Component<Props, State> {
                   activeIndex={activeImage}
                   onImageClick={this.onSliderImageClick}
                 />
-              )}
+              )} */}
             </div>
           )}
 

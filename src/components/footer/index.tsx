@@ -298,6 +298,9 @@ class Footer extends React.Component<Props, FooterState> {
   };
 
   render() {
+    const desktopPlp =
+      this.props.location.pathname.includes("/catalogue/category/") &&
+      !this.props.mobile;
     const {
       footerImages: {
         footerImageDeskTop,
@@ -1120,7 +1123,8 @@ class Footer extends React.Component<Props, FooterState> {
           </div>
         </div>
         {(this.props.location.pathname == "/" ||
-          this.props.location.pathname.includes("/category_landing/")) &&
+          this.props.location.pathname.includes("/category_landing/") ||
+          desktopPlp) &&
           this.props.currency == "INR" && (
             <MakerSmartNav id="TDEHYqQNA" inline={false} />
           )}

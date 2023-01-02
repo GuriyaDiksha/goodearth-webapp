@@ -272,6 +272,7 @@ const AddressItem: React.FC<Props> = props => {
       : "div";
   const billingEditDisable =
     activeStep == "BILLING" && shippingData && address.id == shippingData.id;
+
   return (
     <div
       className={
@@ -485,7 +486,7 @@ const AddressItem: React.FC<Props> = props => {
                   currentCallBackComponent == "bridal-edit"
               })}
             >
-              {!address.isTulsi && props.currentCallBackComponent != "cerise" && (
+              {!address.isTulsi && currentCallBackComponent == "account" && (
                 <div
                   className={styles.radio}
                   id={id}
@@ -526,11 +527,12 @@ const AddressItem: React.FC<Props> = props => {
                         <use xlinkHref={`${bridalRing}#bridal-ring`}></use>
                       </svg>
                     )}
-                    {address.isDefaultForShipping && (
-                      <div className={styles.defaultAddress}>
-                        Default Address
-                      </div>
-                    )}
+                    {address.isDefaultForShipping &&
+                      currentCallBackComponent == "account" && (
+                        <div className={styles.defaultAddress}>
+                          Default Address
+                        </div>
+                      )}
                     {/* {!address.isDefaultForShipping && (
                       <div className={styles.line}>Make default</div>
                     )} */}

@@ -52,7 +52,9 @@ const HelloarPopup: React.FC<Props> = ({
 
   return (
     <div
-      className={cs(styles.videoPopupContainer, { [styles.mobile]: mobile })}
+      className={cs(styles.videoPopupContainer, styles.helloar, {
+        [styles.mobile]: mobile
+      })}
     >
       <div className={cs(styles.header)}>
         <div className={cs(styles.headerContent)}>
@@ -73,10 +75,10 @@ const HelloarPopup: React.FC<Props> = ({
         </div>
       </div>
       <iframe
-        src={`https://viewer.helloar.io?id=${code}`}
+        src={`https://viewer.helloar.io?id=${code}&disable_pan=true&fullscreen=false&show_zoom_bar=true`}
         // height="100%"
         width="100%"
-        allow="xr-spatial-tracking;fullscreen;"
+        allow="xr-spatial-tracking;"
         frameBorder="0"
         className={styles.iframePlaceholder}
       ></iframe>
