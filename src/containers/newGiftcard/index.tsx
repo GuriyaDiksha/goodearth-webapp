@@ -35,7 +35,8 @@ type State = {
   sku: string;
   cardId: string;
   cardValue: string;
-  currencyCode: number[];
+  customValue: string;
+  currencyCharCode: number[];
   currency: Currency;
   recipientName: string;
   recipientEmail: string;
@@ -44,6 +45,8 @@ type State = {
   senderName: string;
   englishandSpace: RegExp;
   subscribe: boolean;
+  customValueErrorMsg: string;
+  selectCountryErrorMsg: string;
 };
 
 class NewGiftcard extends React.Component<Props, State> {
@@ -63,7 +66,7 @@ class NewGiftcard extends React.Component<Props, State> {
       sku: "I00121125",
       cardId: "",
       cardValue: "",
-      currencyCode: [],
+      currencyCharCode: [],
       currency: props.currency,
       recipientName: "",
       recipientEmail: "",
@@ -71,7 +74,10 @@ class NewGiftcard extends React.Component<Props, State> {
       message: "",
       senderName: "",
       englishandSpace: /^[a-zA-Z\s]+$/,
-      subscribe: false
+      subscribe: false,
+      customValueErrorMsg: "",
+      selectCountryErrorMsg: "",
+      customValue: ""
     };
   }
 
@@ -86,15 +92,102 @@ class NewGiftcard extends React.Component<Props, State> {
     );
   };
 
-  static getDerivedStateFromProps(nextProps: Props, prevState: State) {
-    return { currencyCode: currencyCode[nextProps.currency] };
-  }
+  onCountrySelect = (e: any) => {
+    const { countryData, currency } = this.state;
+    const country = e.target.value;
+    const newCurrency = countryData[country];
+    const newCurrencyCode = currencyCode[newCurrency];
+
+    this.setState(
+      {
+        selectedCountry: country,
+        selectCountryErrorMsg: ""
+      },
+      () => {
+        if (newCurrency != currency) {
+          this.setState({
+            currency: newCurrency,
+            currencyCharCode: newCurrencyCode
+          });
+        }
+      }
+    );
+  };
+
+  customValueCheck = (value: string | number) => {
+    let status = false;
+    let msg = "";
+    const { currency } = this.state;
+
+    //TODO: To generate data. Can be fetched from an API
+    const currencyList = ["INR", "USD", "GBP", "AED", "SGD"];
+    const minLimits = ["5,000", "50", "50", "100", "100"];
+    const maxLimits = ["5,00,000", "8,000", "5,500", "25,000", "10,000"];
+
+    let limitsList: any = {};
+    currencyList.map((curr, i) => {
+      const limit = {
+        [currencyList[i]]: {
+          min: minLimits[i],
+          max: maxLimits[i]
+        }
+      };
+      limitsList = Object.assign(limitsList, limit);
+    });
+    // =======================================================//
+
+    const minString = (currency: string) => {
+      return `Sorry, the minimum value of Gift Card is ${String.fromCharCode(
+        ...currencyCode[currency]
+      )} ${
+        limitsList[currency].min
+      }. Please enter a value greater than or equal to ${String.fromCharCode(
+        ...currencyCode[currency]
+      )} ${limitsList[currency].min}.`;
+    };
+
+    const maxString = (currency: string) => {
+      return `Sorry, the maximum value of Gift card is ${String.fromCharCode(
+        ...currencyCode[currency]
+      )} ${
+        limitsList[currency].max
+      }. Please enter a value less than or equal to ${String.fromCharCode(
+        ...currencyCode[currency]
+      )} ${limitsList[currency].max}.`;
+    };
+
+    if (+value < +limitsList[currency].min.replaceAll(",", "")) {
+      status = true;
+      msg = minString(currency);
+    } else if (+value > +limitsList[currency].max.replaceAll(",", "")) {
+      status = true;
+      msg = maxString(currency);
+    }
+
+    return { sta: status, message: msg };
+  };
+
+  onCardValueClick = (e: any) => {
+    this.setState({
+      cardId: e.target.getAttribute("id"),
+      customValueErrorMsg: "",
+      customValue: "",
+      cardValue: e.target.getAttribute("data-value")
+    });
+  };
 
   onCustomValueChange = (e: any) => {
     this.setState({
-      cardId: "",
-      cardValue: e.target.value
+      cardId: e.target.getAttribute("id"),
+      customValue: e.target.value,
+      cardValue: ""
     });
+    const { sta, message } = this.customValueCheck(e.target.value);
+    if (sta) {
+      this.setState({ customValueErrorMsg: message });
+    } else {
+      this.setState({ customValueErrorMsg: "" });
+    }
   };
 
   onRecipientNameChange = (e: any) => {
@@ -128,8 +221,66 @@ class NewGiftcard extends React.Component<Props, State> {
   };
 
   onSubmit = (e: any) => {
-    return null;
+    const {
+      selectedImage,
+      cardValue,
+      cardId,
+      message,
+      recipientEmail,
+      recipientName,
+      senderName,
+      customValue
+    } = this.state;
+    // Check for errors, prepare data
+    const data = Object.assign(
+      {},
+      {
+        imageUrl: selectedImage,
+        customPrice: cardValue || customValue,
+        productId: cardId,
+        message: message,
+        recipientEmail: recipientEmail,
+        recipientName: recipientName,
+        senderName: senderName,
+        quantity: 1
+      }
+    );
+    console.log(data);
   };
+
+  componentDidUpdate(prevProps: any, prevState: any) {
+    if (prevState.currency != this.props.currency) {
+      const newCurrency = this.props.currency;
+      let newCountry = "";
+      let errorMsg = "";
+      if (this.props.currency == "INR") {
+        newCountry = "India";
+      } else if (this.props.currency == "GBP") {
+        newCountry = "United Kingdom";
+      } else if (this.props.currency == "AED") {
+        newCountry = "United Arab Emirates";
+      } else if (this.props.currency == "SGD") {
+        newCountry = "Singapore";
+      } else if (this.props.currency == "USD") {
+        newCountry = "";
+        errorMsg = "Please select a country.";
+      }
+      if (newCountry) {
+        this.setState({
+          currency: newCurrency,
+          selectedCountry: newCountry,
+          selectCountryErrorMsg: "",
+          currencyCharCode: currencyCode[newCurrency]
+        });
+      } else {
+        this.setState({
+          currency: newCurrency,
+          selectedCountry: "",
+          currencyCharCode: currencyCode[newCurrency]
+        });
+      }
+    }
+  }
 
   componentDidMount() {
     const { fetchCountryList, fetchProductList } = this.props;
@@ -151,11 +302,18 @@ class NewGiftcard extends React.Component<Props, State> {
         newCountry = "United Arab Emirates";
       } else if (this.props.currency == "SGD") {
         newCountry = "Singapore";
+      } else if (this.props.currency == "USD") {
+        this.setState({
+          selectCountryErrorMsg: "Please Select a Country"
+        });
       }
       newCountry &&
         this.setState({
           selectedCountry: newCountry
         });
+    });
+    this.setState({
+      currencyCharCode: currencyCode[this.props.currency]
     });
     util.pageViewGTM("GiftCard");
   }
@@ -167,21 +325,22 @@ class NewGiftcard extends React.Component<Props, State> {
       countryData,
       productData,
       selectedCountry,
+      currency,
       sku,
       cardId,
       cardValue,
-      currencyCode,
+      currencyCharCode,
       recipientName,
       englishandSpace,
       recipientEmail,
       confirmRecipientEmail,
       message,
       senderName,
-      subscribe
+      subscribe,
+      customValueErrorMsg,
+      selectCountryErrorMsg,
+      customValue
     } = this.state;
-
-    const { currency } = this.props;
-    console.log(cardValue);
     const list = Object.keys(countryData).map(key => {
       return {
         label: key,
@@ -229,7 +388,7 @@ class NewGiftcard extends React.Component<Props, State> {
                     value={selectedCountry}
                     placeholder="Select Country"
                     options={list}
-                    // handleChange={}
+                    handleChange={this.onCountrySelect}
                     name="country"
                     validations={{
                       isExisty: true
@@ -239,6 +398,11 @@ class NewGiftcard extends React.Component<Props, State> {
                     }}
                   />
                 </Formsy>
+                {selectCountryErrorMsg && (
+                  <div className={styles.errorMessage}>
+                    {selectCountryErrorMsg}
+                  </div>
+                )}
               </div>
               <div className={styles.note}>
                 Please note: Gift cards can only be redeemed in the currency
@@ -254,8 +418,8 @@ class NewGiftcard extends React.Component<Props, State> {
                   return pro.sku != sku ? (
                     <div
                       key={pro.sku}
-                      onClick={() => {
-                        this.setState({ cardId: pro.id });
+                      onClick={(e: any) => {
+                        this.onCardValueClick(e);
                       }}
                       data-value={pro.priceRecords[currency]}
                       className={cs({
@@ -263,7 +427,7 @@ class NewGiftcard extends React.Component<Props, State> {
                       })}
                       id={pro.id}
                     >
-                      {String.fromCharCode(...currencyCode) +
+                      {String.fromCharCode(...currencyCharCode) +
                         " " +
                         pro.priceRecords[currency]}
                     </div>
@@ -285,8 +449,10 @@ class NewGiftcard extends React.Component<Props, State> {
                         id={pro.id}
                         placeholder="Enter Custom Value"
                         onChange={this.onCustomValueChange}
-                        value={cardValue}
-                        className={cs({ [styles.aquaBorder]: cardValue != "" })}
+                        value={customValue}
+                        className={cs({
+                          [styles.aquaBorder]: customValue != ""
+                        })}
                         onKeyPress={e => {
                           const regex = /^[0-9]+$/;
                           if (regex.test(e.key)) {
@@ -303,13 +469,18 @@ class NewGiftcard extends React.Component<Props, State> {
                       />
                       <div className={styles.curr}>
                         {" "}
-                        {String.fromCharCode(...currencyCode)}{" "}
+                        {String.fromCharCode(...currencyCharCode)}{" "}
                       </div>
                     </div>
                   ) : (
                     ""
                   );
                 })}
+                {customValueErrorMsg && (
+                  <div className={styles.errorMessage}>
+                    {customValueErrorMsg}
+                  </div>
+                )}
               </form>
             </div>
             {/* 4.E-Gift Card Details */}
@@ -461,8 +632,11 @@ class NewGiftcard extends React.Component<Props, State> {
               </Formsy>
             </div>
             {/* 5. Add to Bag */}
-            <div className={cs(styles.addToBag, styles.active)}>
-              <a onSubmit={this.onSubmit}>ADD TO BAG</a>
+            <div
+              className={cs(styles.addToBag, { [styles.active]: true })}
+              onClick={this.onSubmit}
+            >
+              <a onClick={this.onSubmit}>ADD TO BAG</a>
             </div>
             {/* 6. Contact Us */}
             <div className={styles.contactUs}>

@@ -31,16 +31,19 @@ $sale-timer-height:50px;
             .form-header{
                 @include h2_24px_lora_charcoal();
                 letter-spacing: 0.5px;
+                margin-bottom: 35px;
             }
             div {
                 .section-title{
                     @include b4_12px_montserrat_charcoal_caps();
                     letter-spacing: 0.5px;
+                    margin-bottom: 10px;
                 }
             }
 
             .card-design{
                 width: 100%;
+                margin-bottom: 35px;
                 .designs-container{
                     display: flex;
                     align-items: center;
@@ -62,8 +65,10 @@ $sale-timer-height:50px;
             }
 
             .shipping-destination{
+                margin-bottom: 45px;
                 .select-group {
                     position: relative;
+                    margin-bottom: 10px;
                     select{
                         @include b4_12px_montserrat_charcoal();
                         border: 1px solid lightgrey;
@@ -95,6 +100,7 @@ $sale-timer-height:50px;
                     display: flex;
                     justify-content: space-between;
                     align-items: center;
+                    margin-bottom: 25px;
                     div{
                         @include b3_14px_montserrat_caps_charcoal();
                         letter-spacing: 0.5px;
@@ -114,8 +120,10 @@ $sale-timer-height:50px;
                     }
                 }
                 form {
+                    margin-bottom: 35px;
                     .custom-value-input{
                         position: relative;
+                        margin-bottom: 10px;
                         input{
                             @include b3_14px_montserrat_charcoal();
                             letter-spacing: 0.5px;;
@@ -184,6 +192,8 @@ $sale-timer-height:50px;
                             padding: 3px;
                         }
                         &.subscribe{
+                            margin-top: 40px;
+                            margin-bottom: 40px;
                             label{
                                 @include b5_10px_montserrat_charcoal();
                                 letter-spacing: 0.5px;
@@ -299,4 +309,8 @@ $sale-timer-height:50px;
             }
         }
     }
+}
+
+.error-message{
+    @include err_13px_lora_italic_cerise();
 }

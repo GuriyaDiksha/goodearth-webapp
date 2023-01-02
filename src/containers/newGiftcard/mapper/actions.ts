@@ -1,6 +1,7 @@
 import { Dispatch } from "redux";
 // import { updateFilterState } from "actions/giftcard";
 import GiftcardService from "services/giftcard";
+import { refreshPage } from "actions/user";
 
 const mapActionsToProps = (dispatch: Dispatch) => {
   return {
@@ -11,6 +12,9 @@ const mapActionsToProps = (dispatch: Dispatch) => {
     fetchProductList: async () => {
       const data = await GiftcardService.fetchProductList(dispatch);
       return data;
+    },
+    refreshPage: () => {
+      dispatch(refreshPage(undefined));
     }
   };
 };
