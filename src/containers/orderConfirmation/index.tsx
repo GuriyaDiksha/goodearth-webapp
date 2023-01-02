@@ -698,8 +698,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                       {String.fromCharCode(
                         ...currencyCode[confirmData.currency as Currency]
                       )}
-                      &nbsp;{" "}
-                      {parseFloat(confirmData.giftVoucherRedeemed).toFixed(2)}
+                      &nbsp; {parseFloat("" + gccn).toFixed(2)}
                     </p>
                   </div>
                 )
