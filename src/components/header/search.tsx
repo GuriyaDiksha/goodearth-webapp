@@ -662,11 +662,10 @@ class Search extends React.Component<Props, State> {
                                     this.searchBoxRef &&
                                     this.searchBoxRef.current
                                   ) {
-                                    this.searchBoxRef.current.value =
-                                      cat.name || "";
-                                    this.setState({
-                                      searchValue: cat.name
-                                    });
+                                    this.props.history.push(
+                                      "/search/?q=" + cat.name
+                                    );
+                                    this.props.hideSearch();
                                     e.preventDefault();
                                   } else {
                                     this.props.hideSearch();

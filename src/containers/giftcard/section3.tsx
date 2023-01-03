@@ -250,7 +250,7 @@ const Section3: React.FC<Section3Props> = ({ next, data, goback, mobile }) => {
                     <p className={globalStyles.errorMsg}></p>
                   )} */}
                 </div>
-                <div>
+                <div style={{ paddingTop: "10px" }}>
                   <FormInput
                     name="senderName"
                     placeholder={"Sender's Name"}
