@@ -91,202 +91,48 @@ const PDPImagesContainer: React.FC<Props> = ({
       </div>
     );
   };
-
-  if (productImages.length % 2 == 1) {
-    switch (productImages.length) {
-      case 1:
-        return (
-          <div className={styles.productImageContainer}>
-            <div className={styles.productImage}>
-              <img
-                src={productImages[0].productImage}
-                onClick={() => {
-                  onClick(0);
-                }}
-              />
-              {productImages[0].icon && viewIn3dBtn(productImages[0].code)}
-            </div>
-            {productImages[0].shop_the_look && (
-              <div
-                id="looks-btn"
-                className={styles.looksBtn}
-                onClick={handleLooksClick}
-              >
-                shop the look
-              </div>
-            )}
-            {is3d && (
-              <img
-                className={styles.pdpTop}
-                src={pdp_top}
-                onClick={e => onClick3dButton(e, productImages[0].code)}
-              />
-            )}
-          </div>
-        );
-      case 3: {
-        let code: string;
-        return (
-          <div className={cs(styles.productImageContainer, styles.threeImages)}>
-            {productImages.map((item: any, index: number) => {
-              if (item.code) {
-                code = item.code;
-              }
-              return (
-                <div
-                  className={cs(
-                    { [styles.thirdImage]: index == 2 },
-                    styles.productImage
-                  )}
-                  key={`img_${index}`}
-                >
-                  <img
-                    src={productImages[index].productImage.replace(
-                      /Micro|Large/i,
-                      "Medium"
-                    )}
-                    onClick={() => {
-                      onClick(index);
-                    }}
-                  />
-                  {item.icon && viewIn3dBtn(item.code)}
-                  {item.shop_the_look && (
-                    <div
-                      id="looks-btn"
-                      className={styles.looksBtn}
-                      onClick={handleLooksClick}
-                    >
-                      shop the look
-                    </div>
-                  )}
-                </div>
-              );
-            })}
-            {is3d && (
-              <img
-                className={styles.pdpTop}
-                src={pdp_top}
-                onClick={e => onClick3dButton(e, code)}
-              />
-            )}
-          </div>
-        );
-      }
-      case 5: {
-        let code: string;
-        return (
-          <div className={cs(styles.productImageContainer, styles.oddImages)}>
-            {productImages.map((item: any, index: number) => {
-              if (item.code) {
-                code = item.code;
-              }
-              return (
-                <div
-                  className={cs(
-                    { [styles.topRowImages]: index < 2 },
-                    { [styles.bottomRowImages]: index >= 2 },
-                    styles.productImage
-                  )}
-                  key={`img_${index}`}
-                >
-                  <img
-                    src={productImages[index].productImage.replace(
-                      /Micro|Large/i,
-                      "Medium"
-                    )}
-                    onClick={() => {
-                      onClick(index);
-                    }}
-                  />
-                  {item.icon && viewIn3dBtn(item.code)}
-                  {item.shop_the_look && (
-                    <div
-                      id="looks-btn"
-                      className={styles.looksBtn}
-                      onClick={handleLooksClick}
-                    >
-                      shop the look
-                    </div>
-                  )}
-                </div>
-              );
-            })}
-            {is3d && (
-              <img
-                className={styles.pdpTop}
-                src={pdp_top}
-                onClick={e => onClick3dButton(e, code)}
-              />
-            )}
-          </div>
-        );
-      }
-      case 7: {
-        let code: string;
-        return (
-          <div className={cs(styles.productImageContainer, styles.oddImages)}>
-            {productImages.map((item: any, index: number) => {
-              if (item.code) {
-                code = item.code;
-              }
-              return (
-                <div
-                  className={cs(
-                    { [styles.topRowImages]: index < 4 },
-                    { [styles.bottomRowImages]: index >= 4 },
-                    styles.productImage
-                  )}
-                  key={`img_${index}`}
-                >
-                  <img
-                    src={productImages[index].productImage.replace(
-                      /Micro|Large/i,
-                      "Medium"
-                    )}
-                    onClick={() => {
-                      onClick(index);
-                    }}
-                  />
-                  {item.icon && viewIn3dBtn(item.code)}
-                  {item.shop_the_look && (
-                    <div
-                      id="looks-btn"
-                      className={styles.looksBtn}
-                      onClick={handleLooksClick}
-                    >
-                      shop the look
-                    </div>
-                  )}
-                </div>
-              );
-            })}
-            {is3d && (
-              <img
-                className={styles.pdpTop}
-                src={pdp_top}
-                onClick={e => onClick3dButton(e, code)}
-              />
-            )}
-          </div>
-        );
-      }
-      default:
-        return (
-          <div className={styles.productImageContainer}>
-            <Skeleton duration={1} height={540} />
-          </div>
-        );
-    }
-  } else {
+  if (productImages.length != 0) {
+    const length = productImages.length;
     let code: string;
+
+    //Stores Index required for styling of top and bottom row Images length 7 and 5
+    const oddRowIndices = {
+      7: 4,
+      5: 2
+    };
+
     return (
-      <div className={cs(styles.productImageContainer, styles.even)}>
+      <div
+        className={cs(
+          styles.productImageContainer,
+          //For Even Images
+          { [styles.even]: length % 2 == 0 },
+          //For Three Images
+          {
+            [styles.threeImages]: length == 3
+          },
+          //For odd images other than 3
+          {
+            [styles.oddImages]: length != 3 && length != 1 && length % 2 == 1
+          }
+        )}
+      >
         {productImages.map((item: any, index: number) => {
           if (item.code) {
             code = item.code;
           }
           return (
-            <div key={`img_${index}`} className={styles.productImage}>
+            <div
+              key={`img_${index}`}
+              className={cs(
+                styles.productImage,
+                //For 3 Images
+                { [styles.thirdImage]: index == 2 && length == 3 },
+                //For 5 and 7 images
+                { [styles.topRowImages]: index < oddRowIndices[length] },
+                { [styles.bottomRowImages]: index >= oddRowIndices[length] }
+              )}
+            >
               <img
                 src={productImages[index].productImage.replace(
                   /Micro|Large/i,
@@ -318,7 +164,12 @@ const PDPImagesContainer: React.FC<Props> = ({
         )}
       </div>
     );
+  } else {
+    return (
+      <div className={styles.productImageContainer}>
+        <Skeleton duration={1} height={540} />
+      </div>
+    );
   }
 };
-
 export default PDPImagesContainer;
