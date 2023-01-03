@@ -1807,17 +1807,19 @@ ul.inner-menu-mobile {
   }
 }
 .trending {
-  display: flex;
+  display: inline-block;
   a {
     margin-right: 1.2rem;
-    display: flex;
     color: black;
     cursor: pointer;
     background-color: #F7F7F7;
+    display: inline-block;
+    width: -moz-fit-content;
+    padding-left: 19px;
   }
 }
 .trendingmobilePad {
-  padding-left: 19px;
+  // padding-left: 19px;
 }
 .trendingdesktopPad {
   padding-left: 10.2rem;
