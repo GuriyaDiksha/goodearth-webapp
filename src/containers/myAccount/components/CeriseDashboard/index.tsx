@@ -4,9 +4,14 @@ import Header from "./Components/header";
 import Rewards from "./Components/rewards";
 import { useHistory } from "react-router";
 import Address from "./Components/address";
+import { useSelector } from "react-redux";
+import { AppState } from "reducers/typings";
 
 const CeriseDashboard = () => {
   const history = useHistory();
+  const {
+    user: { slab }
+  } = useSelector((state: AppState) => state);
 
   return (
     <div className={styles.ceriseDashboard}>
@@ -24,7 +29,7 @@ const CeriseDashboard = () => {
           VIEW STATEMENT
         </button>
       </div>
-      <Rewards />
+      {slab === "Cerise Sitara" ? <Rewards /> : null}
       <Address />
     </div>
   );

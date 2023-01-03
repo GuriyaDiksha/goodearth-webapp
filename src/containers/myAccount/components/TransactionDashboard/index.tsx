@@ -10,7 +10,8 @@ import TransactionTable from "./TransactionTable";
 const TransactionDashboard = () => {
   const {
     device: { mobile },
-    loyalty: { transaction }
+    loyalty: { transaction },
+    user: { slab }
   } = useSelector((state: AppState) => state);
 
   return (
@@ -63,7 +64,7 @@ const TransactionDashboard = () => {
         </div>
       </div>
       <TransactionTable mobile={mobile} />
-      <Rewards />
+      {slab === "Cerise Sitara" ? <Rewards /> : null}
     </div>
   );
 };

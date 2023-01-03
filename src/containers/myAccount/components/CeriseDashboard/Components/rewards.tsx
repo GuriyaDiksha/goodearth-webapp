@@ -56,7 +56,7 @@ const Rewards = () => {
       </div>
 
       <div className={styles.rewardsList}>
-        {landing?.slice(0, 4)?.map((ele, ind) => (
+        {landing?.map((ele, ind) => (
           <div
             className={cs(styles.rewardRow, {
               [styles.opacityDiv]: ind === 3 && !showMore,
@@ -72,7 +72,7 @@ const Rewards = () => {
           </div>
         ))}
 
-        <div
+        {/* <div
           id="hiddenRewards"
           className={showMore ? styles.showRewards : styles.hiddenRewards}
         >
@@ -85,14 +85,14 @@ const Rewards = () => {
               </div>
             </div>
           ))}
-        </div>
+        </div> */}
       </div>
 
-      {landing?.length > 4 ? (
+      {/* {landing?.length > 4 ? (
         <p className={styles.showMore} onClick={() => handleShowMore()}>
           {showMore ? "SHOW LESS" : "SHOW MORE"}
         </p>
-      ) : null}
+      ) : null} */}
     </div>
   );
 };
