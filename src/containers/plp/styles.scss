@@ -396,8 +396,6 @@
       }
       .disableColors{
         opacity: 0.5;
-        // color: #4C4C4C;
-        // cursor: not-allowed;
       }
     }
     .materiallabel{
@@ -407,10 +405,7 @@
       }
       .disableColors{
         opacity: 0.5;
-        // color: #4C4C4C;
-        // cursor: not-allowed;
-      }
-    }
+      }}
     input[type="checkbox"]:not(:checked) + label{
       @include b4_12px_montserrat_light_charcoal();
     }
