@@ -27,6 +27,8 @@ type Props = {
   billingErrorMsg?: string;
   addressDataIdError?: number;
   userAddress?: any;
+  defaultAddress: string;
+  setDefaultAddress: (x: string) => void;
 };
 
 const AddressItem: React.FC<Props> = props => {
@@ -41,6 +43,7 @@ const AddressItem: React.FC<Props> = props => {
   } = useContext(AddressContext);
   const { onSelectAddress } = useContext(CheckoutAddressContext);
   const { currency, basket } = useSelector((state: AppState) => state);
+  const { defaultAddress, setDefaultAddress } = props;
 
   // const isDefaultAddress = () => {
   //     return props.addressData.isDefaultForShipping;
@@ -310,8 +313,7 @@ const AddressItem: React.FC<Props> = props => {
           },
           {
             [styles.default]:
-              address.isDefaultForShipping &&
-              currentCallBackComponent == "account"
+              id === defaultAddress && currentCallBackComponent == "account"
           },
           {
             [styles.isTulsi]: address.isTulsi
@@ -353,7 +355,7 @@ const AddressItem: React.FC<Props> = props => {
           {/*=================== Name and Default ================= */}
           {currentCallBackComponent != "account" && (
             <div>
-              {!address.isDefaultForShipping && (
+              {!(id === defaultAddress) && (
                 <div className={cs(styles.line, styles.makeDefaultCheckoutFix)}>
                   Make default
                   {!address.isTulsi &&
@@ -361,7 +363,10 @@ const AddressItem: React.FC<Props> = props => {
                       <div
                         className={styles.radio}
                         id={id}
-                        onClick={() => markAsDefault(address)}
+                        onClick={() => {
+                          markAsDefault(address);
+                          setDefaultAddress(id);
+                        }}
                       >
                         <input
                           id={id}
@@ -369,10 +374,13 @@ const AddressItem: React.FC<Props> = props => {
                             styles.defaultAddressCheckbox,
                             styles.checkoutFix
                           )}
-                          checked={address.isDefaultForShipping}
+                          checked={id === defaultAddress}
                           name={id}
                           type="radio"
-                          onChange={() => markAsDefault(address)}
+                          onChange={() => {
+                            markAsDefault(address);
+                            setDefaultAddress(id);
+                          }}
                         />
                       </div>
                     )}
@@ -383,7 +391,7 @@ const AddressItem: React.FC<Props> = props => {
 
           {currentCallBackComponent != "account" && (
             <div>
-              {address.isDefaultForShipping && (
+              {id === defaultAddress && (
                 <div className={cs(styles.line, styles.defaultCheckoutFix)}>
                   {!address.isTulsi && "Default"}
                   {!address.isTulsi &&
@@ -391,7 +399,10 @@ const AddressItem: React.FC<Props> = props => {
                       <div
                         className={styles.radio}
                         id={id}
-                        onClick={() => markAsDefault(address)}
+                        onClick={() => {
+                          markAsDefault(address);
+                          setDefaultAddress(id);
+                        }}
                       >
                         <input
                           id={id}
@@ -399,10 +410,13 @@ const AddressItem: React.FC<Props> = props => {
                             styles.defaultAddressCheckbox,
                             styles.checkoutFix
                           )}
-                          checked={address.isDefaultForShipping}
+                          checked={id === defaultAddress}
                           name={id}
                           type="radio"
-                          onChange={() => markAsDefault(address)}
+                          onChange={() => {
+                            markAsDefault(address);
+                            setDefaultAddress(id);
+                          }}
                         />
                       </div>
                     )}
@@ -426,15 +440,21 @@ const AddressItem: React.FC<Props> = props => {
                 <div
                   className={styles.radio}
                   id={id}
-                  onClick={() => markAsDefault(address)}
+                  onClick={() => {
+                    markAsDefault(address);
+                    setDefaultAddress(id);
+                  }}
                 >
                   <input
                     id={id}
                     className={styles.defaultAddressCheckbox}
-                    checked={address.isDefaultForShipping}
+                    checked={id === defaultAddress}
                     name={id}
                     type="radio"
-                    onChange={() => markAsDefault(address)}
+                    onChange={() => {
+                      markAsDefault(address);
+                      setDefaultAddress(id);
+                    }}
                   />
                   <span className={styles.checkmark}></span>
                 </div>
@@ -463,7 +483,7 @@ const AddressItem: React.FC<Props> = props => {
                         <use xlinkHref={`${bridalRing}#bridal-ring`}></use>
                       </svg>
                     )}
-                    {address.isDefaultForShipping && (
+                    {id === defaultAddress && (
                       <div className={styles.defaultAddress}>
                         Default Address
                       </div>
@@ -490,15 +510,21 @@ const AddressItem: React.FC<Props> = props => {
                 <div
                   className={styles.radio}
                   id={id}
-                  onClick={() => markAsDefault(address)}
+                  onClick={() => {
+                    markAsDefault(address);
+                    setDefaultAddress(id);
+                  }}
                 >
                   <input
                     id={id}
                     className={styles.defaultAddressCheckbox}
-                    checked={address.isDefaultForShipping}
+                    checked={id === defaultAddress}
                     name={id}
                     type="radio"
-                    onChange={() => markAsDefault(address)}
+                    onChange={() => {
+                      markAsDefault(address);
+                      setDefaultAddress(id);
+                    }}
                   />
                   <span className={styles.checkmark}></span>
                 </div>
@@ -527,7 +553,7 @@ const AddressItem: React.FC<Props> = props => {
                         <use xlinkHref={`${bridalRing}#bridal-ring`}></use>
                       </svg>
                     )}
-                    {address.isDefaultForShipping &&
+                    {id === defaultAddress &&
                       currentCallBackComponent == "account" && (
                         <div className={styles.defaultAddress}>
                           Default Address
