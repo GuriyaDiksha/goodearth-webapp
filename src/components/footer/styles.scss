@@ -157,10 +157,10 @@
   position: fixed;
   bottom: 0;
   right: 0;
-  width: 362px;
+  width: 414px;
   // height: 230px;
-  min-height: 300px;
-  max-height: 300px;
+  min-height: 276px;
+  max-height: 276px;
   background-color: #fff;
   z-index: 100;
   padding: 30px 40px;
@@ -177,9 +177,20 @@
     top: 0px;
     font-size: 40px;
     color: gray;
+
+    &.prefPopup{
+      right: 30px;
+      top: 30px;
+
+      @media screen and (max-width:992px) {
+        right: 10px;
+        top: 15px;
+      }
+    }
   }
   h3 {
     @include b3_14px_montserrat_caps_charcoal();
+    font-weight: 500;
     // font-family: $font-Montserrat;
     // color: $charcoal19;
     // font-size: 12px;
@@ -187,12 +198,14 @@
     // text-transform: capitalize;
     // font-weight: bold;
     letter-spacing: 0.5px;
-    padding: 10px 0 0 0;
+    // padding: 10px 0 0 0;
     // margin-bottom: -30px;
   }
   p {
     @include b4_12px_montserrat_charcoal();
+    font-weight: 500 !important;
     letter-spacing: 0.5px;
+    margin-top: 15px;
     // font-family: $font-Montserrat;
     // color: $charcoal19;
     // font-size: 12px;
@@ -200,26 +213,33 @@
     // margin-bottom: -15px;
     a {
       letter-spacing: 0.5px;
-      color: $gold;
+      font-weight: 500 !important;
       text-decoration: underline;
+      @include b4_12px_montserrat_charcoal();
+
+      &:hover{
+        color: $gold;
+      }
     }
   }
   .preferencesLink{
     @include b4_12px_montserrat_charcoal_caps();
-    margin-bottom: 10px;
+    font-weight: 500  !important;
+    margin-bottom: 30px;
     // text-decoration:underline;
     border-bottom: 1px solid $charcoal19;
     padding-left: 0;
     padding-right: 0;
     letter-spacing: 0.5px;
 
-    @media screen and (max-width: 500px) {
-      margin-bottom: 33px;
-    }
+    // @media screen and (max-width: 500px) {
+    //   margin-bottom: 33px;
+    // }
     // border-bottom: 1px solid $charcoal19;
     cursor: pointer;
     &:hover{
       @include b4_12px_montserrat_gold_caps();
+      font-weight: 500;
       border-bottom: 1px solid $gold;
     }
   //   &:after {
@@ -289,6 +309,10 @@
     .euInnerWrapper{
       height: 92%;
 
+      @media screen and (max-width: 992px) {
+        padding: 20px 20px 50px 20px;
+      }
+
       @media screen and (min-width: 700px) and (max-width: 992px) {
         height: 85%;
       }
@@ -296,7 +320,9 @@
       .heading{
         letter-spacing: 0.5px;
         @include b3_14px_montserrat_caps_charcoal();
+        font-weight: 500;
         margin-top: 10px;
+        margin-bottom: 20px;
       }
     
       hr{
@@ -305,23 +331,27 @@
       }
     
       .question{
-        padding-top: 25px;
+        padding-top: 10px;
         letter-spacing: 0.5px;
+        font-weight: 500;
         @include b3_14px_montserrat_charcoal();
       }
       
       .answer{
         letter-spacing: 0.5px;
+        font-weight: 500;
         @include b4_12px_montserrat_charcoal();
       }
       .prefhead{
-        padding-top: 25px;
+        padding-top: 10px;
         letter-spacing: 0.5px;
+        font-weight: 500;
         @include b2_14px_charcoal_lora();
       }
       .prefWrp{
         overflow-y: scroll;
         height: 50%;
+        font-weight: 500;
 
         @media screen and (min-width: 700px) and (max-width: 992px) {
           height: 68%;
@@ -349,21 +379,25 @@
         .prefBlock{
           display: flex;
           justify-content: space-between;
-          margin-top: 25px;
+          margin-top: 15px;
     
           .prefSubBlock{
             width: 75%;
             .prefQue{
               @include b4_12px_montserrat_charcoal();
+              font-weight: 500 !important;
               margin-bottom: 0px;
+              margin-top: 0px;
               letter-spacing: 0.5px;
             }
             .prefAns{
               @include b4_12px_montserrat_light_charcoal();
               margin-bottom: 0px;
-              padding-top: 10px;
+              padding-top: 0px;
               letter-spacing: 0.5px;
-              line-height: 19px
+              line-height: 19px;
+              margin-top:5px;
+              font-weight: 300 !important
             }
           }
           .prefToggleWrp{
@@ -372,6 +406,7 @@
               padding: 0;
               letter-spacing: 0.5px;
               margin-left:-5px;
+              margin-top: 0;
             }
           }
         }
@@ -383,7 +418,10 @@
     .btnWrp{
       display: flex;
       width: 100%;
-      justify-content: space-evenly;
+      justify-content: space-between;
+      z-index: 1;
+      position: fixed;
+      bottom: 7px;
   
       @media screen and (max-width: 500px) {
         margin-bottom: -6px;
@@ -410,10 +448,10 @@
           color: #3C7979;
           border: 1px solid #3C7979;
         }
-        // @media screen and (max-width: 992px) {
-        //   padding: 15px 0px;
-        //   width: 50%;
-        // }
+        @media screen and (max-width: 767px) {
+          // padding: 15px 0px;
+          width: 50%;
+        }
       }
     
       .acceptbtn{
@@ -432,10 +470,10 @@
           @include b3_14px_montserrat_caps_charcoal();
           background-color: $white;
         }
-        // @media screen and (max-width: 992px) {
-        //   padding: 15px 0px;
-        //   width: 50%;
-        // }
+        @media screen and (max-width: 767px) {
+          // padding: 15px 0px;
+          width: 50%;
+        }
       }
     }
   }
@@ -567,14 +605,14 @@
   .noneu{
     padding: 0;
     margin: 0;
-    top: calc(100% - 285px);
+    top: calc(100% - 276px);
     left: 0;
     bottom: 0;
     right: 0;
 
-    p{
-      margin-top: -25px;
-    }
+    // p{
+    //   margin-top: -25px;
+    // }
   }
 
   .eucookieclass{
