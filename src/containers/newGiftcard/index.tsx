@@ -2,6 +2,7 @@ import React, { ChangeEvent } from "react";
 import cs from "classnames";
 import { AppState } from "reducers/typings";
 import { connect, DispatchProp } from "react-redux";
+import MakerEnhance from "components/maker";
 
 import Formsy from "formsy-react";
 import FormSelect from "../../components/Formsy/FormSelect";
@@ -51,6 +52,7 @@ type State = {
   selectCountryErrorMsg: string;
   previewOpen: boolean;
   formDisabled: boolean;
+  maker: boolean;
 };
 
 class NewGiftcard extends React.Component<Props, State> {
@@ -85,12 +87,45 @@ class NewGiftcard extends React.Component<Props, State> {
       selectCountryErrorMsg: "",
       customValue: "",
       previewOpen: false,
-      formDisabled: true
+      formDisabled: true,
+      maker: false
     };
   }
 
   onImageClick = (img: string) => {
     this.setState({ selectedImage: img });
+  };
+
+  resetState = () => {
+    this.setState({
+      giftImages: [
+        "https://d3qn6cjsz7zlnp.cloudfront.net/media/giftcard/gc1.png",
+        "https://d3qn6cjsz7zlnp.cloudfront.net/media/giftcard/gc2.png",
+        "https://d3qn6cjsz7zlnp.cloudfront.net/media/giftcard/gc3.png"
+      ],
+      selectedImage:
+        "https://d3qn6cjsz7zlnp.cloudfront.net/media/giftcard/gc1.png",
+      productData: [],
+      countryData: [],
+      selectedCountry: "",
+      sku: "I00121125",
+      cardId: "",
+      cardValue: "",
+      currencyCharCode: [],
+      currency: this.props.currency,
+      recipientName: "",
+      recipientEmail: "",
+      confirmRecipientEmail: "",
+      message: "",
+      senderName: "",
+      englishandSpace: /^[a-zA-Z\s]+$/,
+      subscribe: false,
+      customValueErrorMsg: "",
+      selectCountryErrorMsg: "",
+      customValue: "",
+      previewOpen: false,
+      formDisabled: true
+    });
   };
 
   compare = (a: any, b: any) => {
@@ -190,7 +225,7 @@ class NewGiftcard extends React.Component<Props, State> {
     const { sta, message } = this.customValueCheck(e.target.value);
     if (sta) {
       this.setState({
-        cardId: e.target.getAttribute("id"),
+        cardId: "",
         customValue: e.target.value,
         cardValue: "",
         customValueErrorMsg: message
@@ -273,8 +308,12 @@ class NewGiftcard extends React.Component<Props, State> {
         const basket: Basket = res.data;
         this.props.updateBasket(basket);
         this.props.showGrowlMessage(MESSAGE.ADD_TO_BAG_GIFTCARD_SUCCESS);
+        this.resetState();
       })
       .catch(error => {
+        this.props.showGrowlMessage(
+          "Internal Server Error. Please try again later."
+        );
         if (error.response.status == 406) {
           return false;
         }
@@ -383,6 +422,7 @@ class NewGiftcard extends React.Component<Props, State> {
       currencyCharCode: currencyCode[this.props.currency]
     });
     util.pageViewGTM("GiftCard");
+    this.setState({ maker: true });
   }
 
   render(): React.ReactNode {
@@ -410,7 +450,8 @@ class NewGiftcard extends React.Component<Props, State> {
       selectCountryErrorMsg,
       customValue,
       previewOpen,
-      formDisabled
+      formDisabled,
+      maker
     } = this.state;
     const list = Object.keys(countryData).map(key => {
       return {
@@ -425,6 +466,13 @@ class NewGiftcard extends React.Component<Props, State> {
           [styles.saleTimerMargin]: this.props.saleTimer
         })}
       >
+        {maker && (
+          <MakerEnhance
+            user="goodearth"
+            index="1"
+            href={`${window.location.origin}${location.pathname}`}
+          />
+        )}
         <div className={styles.container}>
           <div className={styles.previewGc}>
             <div className={styles.title}>Preview</div>
@@ -752,7 +800,8 @@ class NewGiftcard extends React.Component<Props, State> {
             {!mobile && (
               <div
                 className={cs(styles.addToBag, {
-                  [styles.active]: !formDisabled && selectedCountry != ""
+                  [styles.active]:
+                    !formDisabled && selectedCountry != "" && cardId != ""
                 })}
                 onClick={this.onSubmit}
               >
@@ -790,7 +839,10 @@ class NewGiftcard extends React.Component<Props, State> {
           <div
             className={cs(
               styles.addToBag,
-              { [styles.active]: true },
+              {
+                [styles.active]:
+                  !formDisabled && selectedCountry != "" && cardId != ""
+              },
               { [styles.previewOpen]: previewOpen }
             )}
             onClick={this.onSubmit}

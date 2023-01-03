@@ -388,7 +388,7 @@ $sale-timer-height:50px;
     }
 }
 
-@media screen and (max-width: 767px){
+@media screen and (max-width: 991px){
     .page-container{
         display: block;
         position: relative;
@@ -574,6 +574,7 @@ $sale-timer-height:50px;
             min-width: unset;
             flex-direction: column-reverse;
             position: relative;
+            align-items: center;
             .form-gc{
                 padding: 35px 20px 0px 20px;
                 .card-design {
@@ -588,7 +589,9 @@ $sale-timer-height:50px;
 
                 .card-value{
                     .prices-container{
-                        width: 106px;
+                        div {
+                            width: 106px;
+                        }
                     }
                 }
             }
