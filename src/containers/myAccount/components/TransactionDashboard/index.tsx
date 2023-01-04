@@ -10,8 +10,7 @@ import TransactionTable from "./TransactionTable";
 const TransactionDashboard = () => {
   const {
     device: { mobile },
-    loyalty: { transaction },
-    user: { slab }
+    loyalty: { transaction }
   } = useSelector((state: AppState) => state);
 
   return (
