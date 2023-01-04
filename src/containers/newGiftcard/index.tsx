@@ -21,7 +21,9 @@ const mapStateToProps = (state: AppState) => {
   return {
     currency: state.currency,
     device: state.device,
-    saleTimer: state.info.showTimer
+    saleTimer: state.info.showTimer,
+    cookies: state.cookies,
+    customerGroup: state.user.customerGroup
   };
 };
 
@@ -97,6 +99,7 @@ class NewGiftcard extends React.Component<Props, State> {
   };
 
   resetState = () => {
+    // dont make maker false
     this.setState({
       giftImages: [
         "https://d3qn6cjsz7zlnp.cloudfront.net/media/giftcard/gc1.png",
@@ -148,9 +151,20 @@ class NewGiftcard extends React.Component<Props, State> {
       },
       () => {
         if (newCurrency != currency) {
+          const data: any = { currency: newCurrency };
+          this.props.changeCurrency(data).then(res => {
+            this.props.reloadPage(
+              this.props.cookies,
+              newCurrency,
+              this.props.customerGroup
+            );
+          });
           this.setState({
             currency: newCurrency,
-            currencyCharCode: newCurrencyCode
+            currencyCharCode: newCurrencyCode,
+            cardId: "",
+            cardValue: "",
+            customValue: ""
           });
         }
       }
