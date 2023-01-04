@@ -64,7 +64,7 @@ const TransactionDashboard = () => {
         </div>
       </div>
       <TransactionTable mobile={mobile} />
-      {slab === "Cerise Sitara" ? <Rewards /> : null}
+      <Rewards />
     </div>
   );
 };

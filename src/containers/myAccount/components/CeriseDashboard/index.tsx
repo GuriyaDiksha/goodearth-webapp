@@ -29,7 +29,7 @@ const CeriseDashboard = () => {
           VIEW STATEMENT
         </button>
       </div>
-      {slab === "Cerise Sitara" ? <Rewards /> : null}
+      <Rewards />
       <Address />
     </div>
   );

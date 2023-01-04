@@ -9,10 +9,12 @@ import cs from "classnames";
 
 const Rewards = () => {
   const [showMore, setShowMore] = useState(false);
+  const [benefits, setBenefits] = useState<Landing[]>([]);
   const dispatch = useDispatch();
   const {
-    loyalty: { landing }
-  }: { loyalty: { landing: Landing[] } } = useSelector(
+    loyalty: { landing },
+    user: { slab }
+  }: { loyalty: { landing: Landing[] }; user: { slab: string } } = useSelector(
     (state: AppState) => state
   );
 
@@ -25,6 +27,16 @@ const Rewards = () => {
         console.log("e======", e);
       });
   }, []);
+
+  useEffect(() => {
+    setBenefits(
+      landing?.filter(
+        e =>
+          (e.level?.includes("Club") && slab === "Cerise") ||
+          (e.level?.includes("Sitara") && slab === "Cerise Sitara")
+      )
+    );
+  }, [landing]);
 
   const handleShowMore = () => {
     const ele =
@@ -56,43 +68,50 @@ const Rewards = () => {
       </div>
 
       <div className={styles.rewardsList}>
-        {landing?.map((ele, ind) => (
-          <div
-            className={cs(styles.rewardRow, {
-              [styles.opacityDiv]: ind === 3 && !showMore,
-              [styles.removeBorder]: ind === 0
-            })}
-            key={ind}
-          >
-            <img src={ele?.uploadIcon} />
-            <div className={styles.rewardCol}>
-              <p className={styles.rewardHeading}>{ele?.heading}</p>
-              <p className={styles.rewardSubHead}>{ele?.shortDescription}</p>
-            </div>
-          </div>
-        ))}
-
-        {/* <div
-          id="hiddenRewards"
-          className={showMore ? styles.showRewards : styles.hiddenRewards}
-        >
-          {landing?.slice(4, landing?.length)?.map((ele, ind) => (
-            <div className={styles.rewardRow} key={ind}>
+        {(slab === "Cerise" ? benefits : benefits.slice(0, 4))?.map(
+          (ele, ind) => (
+            <div
+              className={cs(styles.rewardRow, {
+                [styles.opacityDiv]:
+                  ind === 3 && !showMore && slab === "Cerise Sitara",
+                [styles.removeBorder]: ind === 0
+              })}
+              key={ind}
+            >
               <img src={ele?.uploadIcon} />
               <div className={styles.rewardCol}>
                 <p className={styles.rewardHeading}>{ele?.heading}</p>
                 <p className={styles.rewardSubHead}>{ele?.shortDescription}</p>
               </div>
             </div>
-          ))}
-        </div> */}
+          )
+        )}
+
+        {slab === "Cerise Sitara" ? (
+          <div
+            id="hiddenRewards"
+            className={showMore ? styles.showRewards : styles.hiddenRewards}
+          >
+            {benefits?.slice(4, landing?.length)?.map((ele, ind) => (
+              <div className={styles.rewardRow} key={ind}>
+                <img src={ele?.uploadIcon} />
+                <div className={styles.rewardCol}>
+                  <p className={styles.rewardHeading}>{ele?.heading}</p>
+                  <p className={styles.rewardSubHead}>
+                    {ele?.shortDescription}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+        ) : null}
       </div>
 
-      {/* {landing?.length > 4 ? (
+      {landing?.length > 4 && slab === "Cerise Sitara" ? (
         <p className={styles.showMore} onClick={() => handleShowMore()}>
           {showMore ? "SHOW LESS" : "SHOW MORE"}
         </p>
-      ) : null} */}
+      ) : null}
     </div>
   );
 };
