@@ -344,7 +344,7 @@ class Search extends React.Component<Props, State> {
     // As discussed data will be only two section
     return (
       <div className={styles.collectionlist}>
-        {data?.slice(0, 6)?.map((item: any, i: number) => {
+        {data?.slice(0, 5)?.map((item: any, i: number) => {
           return (
             <div key={item.id} className={styles.collection}>
               <Link
@@ -365,7 +365,7 @@ class Search extends React.Component<Props, State> {
                   {" "}
                   {`${item.category.replace(">", "/")} `}{" "}
                 </p>
-                <p className={styles.productN}>
+                <p className={cs(styles.productN, styles.collectionN)}>
                   <Link to={item.link}>
                     {" "}
                     {ReactHtmlParser(item.collection)}

@@ -1300,6 +1300,10 @@ visibility: visible !important;
   overflow: hidden;
   text-overflow: ellipsis;
   padding: 0 7%;
+
+  &.collection-n{
+    padding: 0;
+  }
   a {
     @include b3_14px_montserrat_charcoal();
     text-transform: capitalize;
@@ -1759,8 +1763,17 @@ ul.inner-menu-mobile {
   padding: 0 10.2rem;
 }
 .collection {
-    width: 35%;
+    // width: 35%;
     margin-left: 5px;
+    .slider-image{
+    
+      @media screen and (min-width:992px) {
+        object-fit: cover;
+        height: 113px;
+        width: 223px;
+      }
+     
+    }
    .title{
     @include b4_12px_montserrat_light_charcoal();
     margin-top: 5px;
