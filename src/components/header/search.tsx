@@ -344,7 +344,7 @@ class Search extends React.Component<Props, State> {
     // As discussed data will be only two section
     return (
       <div className={styles.collectionlist}>
-        {data?.slice(0, 6)?.map((item: any, i: number) => {
+        {data?.slice(0, 5)?.map((item: any, i: number) => {
           return (
             <div key={item.id} className={styles.collection}>
               <Link
@@ -365,7 +365,7 @@ class Search extends React.Component<Props, State> {
                   {" "}
                   {`${item.category.replace(">", "/")} `}{" "}
                 </p>
-                <p className={styles.productN}>
+                <p className={cs(styles.productN, styles.collectionN)}>
                   <Link to={item.link}>
                     {" "}
                     {ReactHtmlParser(item.collection)}
@@ -633,68 +633,68 @@ class Search extends React.Component<Props, State> {
                     </div>
                   )}
                   <div>
-                    {trendingWords.length > 0 && (
-                      <div className={globalStyles.marginT30}>
-                        <p
-                          className={cs(
-                            styles.productHeading,
-                            globalStyles.marginB10,
-                            { [styles.padding]: !mobile },
-                            { [styles.paddingMobile]: mobile }
-                          )}
-                        >
-                          POPULAR SEARCHES
-                        </p>
+                    {trendingWords.length > 0 &&
+                      this.state.searchValue.length == 0 && (
                         <div
                           className={cs(
-                            styles.trending,
+                            { [globalStyles.marginT30]: !mobile },
+                            { [globalStyles.marginT10]: mobile },
                             { [styles.trendingdesktopPad]: !mobile },
                             { [styles.trendingmobilePad]: mobile }
                           )}
                         >
-                          {trendingWords?.map((cat, ind) => {
-                            return (
-                              <Link
-                                to={cat.link}
-                                onClick={(e: any) => {
-                                  if (
-                                    !cat.link &&
-                                    this.searchBoxRef &&
-                                    this.searchBoxRef.current
-                                  ) {
-                                    this.props.history.push(
-                                      "/search/?q=" + cat.name
-                                    );
-                                    this.props.hideSearch();
-                                    e.preventDefault();
-                                  } else {
-                                    this.props.hideSearch();
-                                  }
-                                }}
-                                key={ind}
-                              >
-                                <i
-                                  className={cs(
-                                    iconStyles.icon,
-                                    iconStyles.iconSearch,
-                                    styles.iconCross
-                                  )}
-                                ></i>
-                                <span
-                                  className={cs(
-                                    styles.trendingcat
-                                    // { [styles.padding]: !mobile },
-                                    // { [styles.paddingMobile]: mobile }
-                                  )}
+                          <p
+                            className={cs(
+                              styles.productHeading,
+                              globalStyles.marginB10
+                            )}
+                          >
+                            POPULAR SEARCHES
+                          </p>
+                          <div className={cs(styles.trending)}>
+                            {trendingWords?.map((cat, ind) => {
+                              return (
+                                <Link
+                                  to={cat.link}
+                                  onClick={(e: any) => {
+                                    if (
+                                      !cat.link &&
+                                      this.searchBoxRef &&
+                                      this.searchBoxRef.current
+                                    ) {
+                                      this.props.history.push(
+                                        "/search/?q=" + cat.name
+                                      );
+                                      this.props.hideSearch();
+                                      e.preventDefault();
+                                    } else {
+                                      this.props.hideSearch();
+                                    }
+                                  }}
+                                  key={ind}
                                 >
-                                  {ReactHtmlParser(cat.name)}
-                                </span>
-                              </Link>
-                            );
-                          })}
+                                  <i
+                                    className={cs(
+                                      iconStyles.icon,
+                                      iconStyles.iconSearch,
+                                      styles.iconCross
+                                    )}
+                                  ></i>
+                                  <span
+                                    className={cs(
+                                      styles.trendingcat
+                                      // { [styles.padding]: !mobile },
+                                      // { [styles.paddingMobile]: mobile }
+                                    )}
+                                  >
+                                    {ReactHtmlParser(cat.name)}
+                                  </span>
+                                </Link>
+                              );
+                            })}
+                          </div>
                         </div>
-                      </div>
-                    )}
+                      )}
                     {usefulLink.length > 0 && (
                       <div className={globalStyles.marginT30}>
                         <p
