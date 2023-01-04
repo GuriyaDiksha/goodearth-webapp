@@ -1815,14 +1815,21 @@ ul.inner-menu-mobile {
     background-color: #F7F7F7;
     display: inline-block;
     width: -moz-fit-content;
-    padding-left: 19px;
+    padding-left: 10px;
+    padding-bottom: 4px;
+    padding-right: 12px;
+    margin-top: 10px;
   }
 }
 .trendingmobilePad {
   // padding-left: 19px;
+  margin-left: 5%;
+  width: 100%;
 }
 .trendingdesktopPad {
-  padding-left: 10.2rem;
+  // padding-left: 10.2rem;
+  margin-left: 35%;
+  width: 100%;
 }
 
 .icon-cross {

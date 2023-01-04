@@ -634,24 +634,23 @@ class Search extends React.Component<Props, State> {
                   )}
                   <div>
                     {trendingWords.length > 0 && (
-                      <div className={globalStyles.marginT30}>
+                      <div
+                        className={cs(
+                          { [globalStyles.marginT30]: !mobile },
+                          { [globalStyles.marginT10]: mobile },
+                          { [styles.trendingdesktopPad]: !mobile },
+                          { [styles.trendingmobilePad]: mobile }
+                        )}
+                      >
                         <p
                           className={cs(
                             styles.productHeading,
-                            globalStyles.marginB10,
-                            { [styles.padding]: !mobile },
-                            { [styles.paddingMobile]: mobile }
+                            globalStyles.marginB10
                           )}
                         >
                           POPULAR SEARCHES
                         </p>
-                        <div
-                          className={cs(
-                            styles.trending,
-                            { [styles.trendingdesktopPad]: !mobile },
-                            { [styles.trendingmobilePad]: mobile }
-                          )}
-                        >
+                        <div className={cs(styles.trending)}>
                           {trendingWords?.map((cat, ind) => {
                             return (
                               <Link
