@@ -41,12 +41,12 @@
 }
 
 .firstImageContainer{background-color: transparent !important;}
-.firstImageContainer img{animation: swipeLeft 2s linear 2 1s;}
+.firstImageContainer img{animation: swipeLeft 3s ease-out 2 2s;}
 .secondImageContainer{position: absolute;top:0;z-index: -1;left: 0;right: 0;bottom: 0;}
 
 @keyframes swipeLeft{
     0% {transform: translateX(0%);}
-    45% {transform: translateX(-40%);}
-    65% {transform: translateX(-40%);}
+    50% {transform: translateX(-40%);}
+    60% {transform: translateX(-40%);}
     100% {transform: translateX(0%);}
 }
