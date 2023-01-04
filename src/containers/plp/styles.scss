@@ -218,8 +218,7 @@
     top: 130px;
     align-self: flex-start;
     @media screen and (min-width:992px) {
-      height: calc(100vh - 130px);
-      overflow:scroll;
+      overflow: hidden;
       &::-webkit-scrollbar {
         display: none;
       }
@@ -315,11 +314,11 @@
 }
 
 .filter-side-menu {
-  // height: calc(100vh - 240px);
-  // overflow:scroll;
-  // &::-webkit-scrollbar {
-  //   display: none;
-  // }
+  height: calc(100vh - 240px);
+  overflow:scroll;
+  &::-webkit-scrollbar {
+    display: none;
+  }
   margin: 0px 30px 0px 30px;
 
   @media screen and (max-width: 992px){
