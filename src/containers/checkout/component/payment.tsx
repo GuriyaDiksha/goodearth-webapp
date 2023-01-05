@@ -431,8 +431,8 @@ const PaymentSection: React.FC<PaymentProps> = props => {
                       </span>
                     </div>
                   </div>
-                  <hr className={styles.hr} />
-                  <div className={globalStyles.flex}>
+                  {/* <hr className={styles.hr} /> */}
+                  <div className={cs(globalStyles.flex, globalStyles.voffset2)}>
                     <div
                       className={cs(
                         styles.marginR10,
