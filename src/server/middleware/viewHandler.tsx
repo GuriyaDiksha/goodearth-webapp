@@ -1,4 +1,3 @@
-import newrelic from "newrelic";
 import path from "path";
 import Koa from "koa";
 import React from "react";
@@ -96,7 +95,6 @@ const viewHandler: Koa.Middleware = async function(ctx, next) {
     const html = renderToString(jsx);
     const meta = Helmet.renderStatic();
     const scriptTags = extractor.getScriptTags();
-    const newrelicScript = (newrelic as any).getBrowserTimingHeader();
     const styleElements = extractor.getStyleElements();
 
     let styleSheets: string[] = [];
@@ -137,7 +135,6 @@ const viewHandler: Koa.Middleware = async function(ctx, next) {
       }),
       content: html,
       scripts: scriptTags,
-      newrelicScript: newrelicScript,
       styles: styleSheets,
       styleSheets: linkTags,
       head: meta,
