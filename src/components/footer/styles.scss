@@ -180,7 +180,7 @@
 
     &.prefPopup{
       right: 30px;
-      top: 30px;
+      top: 20px;
 
       @media screen and (max-width:992px) {
         right: 10px;
@@ -224,7 +224,7 @@
   }
   .preferencesLink{
     @include b4_12px_montserrat_charcoal_caps();
-    font-weight: 500  !important;
+    font-weight: 400  !important;
     margin-bottom: 30px;
     // text-decoration:underline;
     border-bottom: 1px solid $charcoal19;
@@ -310,7 +310,7 @@
       height: 92%;
 
       @media screen and (max-width: 992px) {
-        padding: 20px 20px 50px 20px;
+        padding: 20px 20px 160px 20px;
       }
 
       @media screen and (min-width: 700px) and (max-width: 992px) {
@@ -321,7 +321,7 @@
         letter-spacing: 0.5px;
         @include b3_14px_montserrat_caps_charcoal();
         font-weight: 500;
-        margin-top: 10px;
+        margin-top: 0px;
         margin-bottom: 20px;
       }
     
@@ -346,6 +346,7 @@
         padding-top: 10px;
         letter-spacing: 0.5px;
         font-weight: 500;
+        margin-bottom: 15px;
         @include b2_14px_charcoal_lora();
       }
       .prefWrp{
@@ -380,6 +381,10 @@
           display: flex;
           justify-content: space-between;
           margin-top: 15px;
+
+          &:nth-child(1){
+            margin-top: 0px;
+          }
     
           .prefSubBlock{
             width: 75%;
@@ -417,18 +422,24 @@
 
     .btnWrp{
       display: flex;
-      width: 100%;
+      width: 85%;
       justify-content: space-between;
       z-index: 1;
       position: fixed;
       bottom: 7px;
+      padding-bottom: 30px;
   
-      @media screen and (max-width: 500px) {
+      @media screen and (max-width: 767px) {
         margin-bottom: -6px;
+        width: 100%;
+        padding-bottom: 0px;
+
       }
 
-      @media screen and (min-width: 700px) and (max-width: 992px) {
+      @media screen and (min-width: 768px) and (max-width: 992px) {
         padding: 0px 100px;
+        width: 100%;
+        padding-bottom: 0px;
       }
   
       .savebtn{
@@ -483,8 +494,9 @@
 .euPref{
   align-items: flex-start;
   top:90%;
-  height: 85%;
-  max-height: 85%;
+  height: 565px;
+  max-height: 565px;
+  padding-bottom: 170px;
 }
 
 .close-popup {
@@ -593,6 +605,10 @@
     }
     p{
       padding: 5px 40px;
+
+      @media screen and (max-width:992px) {
+        padding: 1px 40px;
+      }
     }
     .ok-btn{
       width: 100%;
