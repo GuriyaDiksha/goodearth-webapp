@@ -265,7 +265,8 @@ const makerRoutes = [
   ROUTES.SABINASINGH,
   ROUTES.DEEPSHIKHA,
   ROUTES.EESHAAN,
-  ROUTES.GUEST
+  ROUTES.GUEST,
+  ROUTES.TASTINGROOM
 ];
 
 makerRoutes.forEach(route => {
