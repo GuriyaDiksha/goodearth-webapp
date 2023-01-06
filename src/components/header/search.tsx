@@ -389,14 +389,15 @@ class Search extends React.Component<Props, State> {
       categories,
       usefulLink,
       productData,
-      trendingWords
+      trendingWords,
+      searchValue
     } = this.state;
     const productsExist =
       collections.length > 0 ||
       categories.length > 0 ||
       usefulLink.length > 0 ||
       productData.length > 0 ||
-      trendingWords.length > 0;
+      (trendingWords.length > 0 && searchValue.length == 0);
 
     return (
       <div
