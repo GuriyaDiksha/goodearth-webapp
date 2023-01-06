@@ -398,7 +398,7 @@ class NewGiftcard extends React.Component<Props, State> {
   componentDidMount() {
     if (this.container) {
       this.observer = new IntersectionObserver(this.observerCallback, {
-        rootMargin: "-130px 0px -60px 0px"
+        rootMargin: "-130px 0px -110px 0px"
       });
       this.observer.observe(this.container);
     }

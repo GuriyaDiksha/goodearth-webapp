@@ -1,6 +1,7 @@
 import React, { memo } from "react";
 import styles from "./styles.scss";
 import { Link } from "react-router-dom";
+import giftcardTile from "images/giftcard-tile.png";
 
 const GiftcardItem: React.FC<{
   isCorporateGifting: boolean;
@@ -11,7 +12,7 @@ const GiftcardItem: React.FC<{
         <Link to="/giftcard">
           <img
             alt="giftcard-tile"
-            src="https://djhiy8e1dslha.cloudfront.net/static/email/giftcard/gift-card-plp-tile.jpg"
+            src={giftcardTile}
             className={styles.imageResultnew}
           />
         </Link>
