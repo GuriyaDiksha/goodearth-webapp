@@ -217,6 +217,12 @@
     margin-top: 2%;
     top: 130px;
     align-self: flex-start;
+    @media screen and (min-width:992px) {
+      overflow: hidden;
+      &::-webkit-scrollbar {
+        display: none;
+      }
+    }
 }
 
 
@@ -317,6 +323,10 @@
 
   @media screen and (max-width: 992px){
     height: calc(100% - 60px);
+      overflow:scroll;
+      &::-webkit-scrollbar {
+        display: none;
+      }
   }
 
   li {
