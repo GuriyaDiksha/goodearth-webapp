@@ -493,10 +493,11 @@
 
 .euPref{
   align-items: flex-start;
-  top:90%;
+  top:50%;
   height: 565px;
   max-height: 565px;
   padding-bottom: 170px;
+  bottom: unset;
 }
 
 .close-popup {
