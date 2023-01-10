@@ -600,7 +600,7 @@ class NewGiftcard extends React.Component<Props, State> {
               <div className={styles.note}>
                 Please note: Gift cards can only be redeemed in the currency
                 they are bought in, so please choose the country based on your
-                recipient’s addres
+                recipient’s address
               </div>
             </div>
             {/* 3. Card Value */}
