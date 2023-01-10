@@ -924,6 +924,10 @@ class OtpCompActivateGC extends React.Component<otpProps, otpState> {
             >
               {/* {!this.props.isIndiaGC && ( */}
               <li className={cs(styles.radiobtn1, styles.xradio)}>
+                <div className={styles.placeholderRadio}>
+                  <div className={styles.outer}></div>
+                  <div className={styles.inner}></div>
+                </div>
                 <FormInput
                   name="email"
                   placeholder={"Email*"}
@@ -948,11 +952,12 @@ class OtpCompActivateGC extends React.Component<otpProps, otpState> {
                     maxLength:
                       "You are allowed to enter upto 75 characters only"
                   }}
-                  required={
-                    this.props.isIndiaGC || this.props.isCredit
-                      ? "isFalse"
-                      : true
-                  }
+                  // required={
+                  //   this.props.isIndiaGC || this.props.isCredit
+                  //     ? "isFalse"
+                  //     : true
+                  // }
+                  required={true}
                 />
               </li>
               {/* )} */}

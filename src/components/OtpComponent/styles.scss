@@ -1,7 +1,6 @@
 @import "../../styles/partials/variables";
 @import "../../styles/partials/mixins";
 
-
     .otp-label {
       font-size: 12px;
       letter-spacing: 1px;
@@ -622,4 +621,30 @@ hr {
 .line{
   @include b4_12px_montserrat_charcoal();
   font-weight: $semibold;
+}
+
+.radiobtn1 > div.placeholder-radio{
+  position: relative;
+  width: 40px;
+  cursor: pointer;
+  .outer{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    height: 16px;
+    width: 16px;
+    border-radius: 100%;
+    border: 1px solid black;
+    transform: translate(-50%, -50%);
+  }
+  .inner {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    height: 8px;
+    width: 8px;
+    border-radius: 100%;
+    transform: translate(-50%, -50%);
+    background-color: #191919;
+  }
 }
