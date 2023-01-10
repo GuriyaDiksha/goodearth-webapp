@@ -849,7 +849,7 @@ class NewGiftcard extends React.Component<Props, State> {
                 })}
                 onClick={this.onSubmit}
               >
-                <a onClick={this.onSubmit}>ADD TO BAG</a>
+                <a>ADD TO BAG</a>
               </div>
             )}
             {/* 6. Contact Us */}
@@ -891,7 +891,7 @@ class NewGiftcard extends React.Component<Props, State> {
             )}
             onClick={this.onSubmit}
           >
-            <a onClick={this.onSubmit}>ADD TO BAG</a>
+            <a>ADD TO BAG</a>
           </div>
         )}
         {previewOpen && (
