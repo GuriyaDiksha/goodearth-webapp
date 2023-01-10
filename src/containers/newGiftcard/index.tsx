@@ -773,7 +773,7 @@ class NewGiftcard extends React.Component<Props, State> {
                 ></FormTextArea>
                 <div className={cs(styles.limit)}>
                   Character Limit:{" "}
-                  {248 - (message.trim() == "" ? 0 : message.length)}
+                  {248 - (message.trim() == "" ? 0 : message.length)} / 248
                 </div>
                 <FormInput
                   name="senderName"
