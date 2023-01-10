@@ -17,6 +17,17 @@ import { Link } from "react-router-dom";
 import { Basket } from "typings/basket";
 import { MESSAGE } from "constants/messages";
 
+function makeid(length: number) {
+  let result = "";
+  const characters =
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  const charactersLength = characters.length;
+  for (let i = 0; i < length; i++) {
+    result += characters.charAt(Math.floor(Math.random() * charactersLength));
+  }
+  return result;
+}
+
 const mapStateToProps = (state: AppState) => {
   return {
     currency: state.currency,
@@ -55,6 +66,7 @@ type State = {
   previewOpen: boolean;
   formDisabled: boolean;
   maker: boolean;
+  key: string;
 };
 
 class NewGiftcard extends React.Component<Props, State> {
@@ -90,7 +102,8 @@ class NewGiftcard extends React.Component<Props, State> {
       customValue: "",
       previewOpen: false,
       formDisabled: true,
-      maker: false
+      maker: false,
+      key: makeid(5)
     };
   }
 
@@ -98,36 +111,51 @@ class NewGiftcard extends React.Component<Props, State> {
     this.setState({ selectedImage: img });
   };
 
-  resetState = () => {
+  resetStateOnSuccess = () => {
+    const newCurrency = this.props.currency;
+    let newCountry = "";
+    if (this.props.currency == "INR") {
+      newCountry = "India";
+    } else if (this.props.currency == "GBP") {
+      newCountry = "United Kingdom";
+    } else if (this.props.currency == "AED") {
+      newCountry = "United Arab Emirates";
+    } else if (this.props.currency == "SGD") {
+      newCountry = "Singapore";
+    } else if (this.props.currency == "USD") {
+      newCountry = "";
+    }
+    if (newCountry) {
+      this.setState({
+        currency: newCurrency,
+        selectedCountry: newCountry,
+        selectCountryErrorMsg: "",
+        currencyCharCode: currencyCode[newCurrency]
+      });
+    } else {
+      this.setState({
+        currency: newCurrency,
+        selectedCountry: "",
+        selectCountryErrorMsg: "Please select your Country",
+        currencyCharCode: currencyCode[newCurrency]
+      });
+    }
     // dont make maker false
     this.setState({
-      giftImages: [
-        "https://d3qn6cjsz7zlnp.cloudfront.net/media/giftcard/gc1.png",
-        "https://d3qn6cjsz7zlnp.cloudfront.net/media/giftcard/gc2.png",
-        "https://d3qn6cjsz7zlnp.cloudfront.net/media/giftcard/gc3.png"
-      ],
       selectedImage:
         "https://d3qn6cjsz7zlnp.cloudfront.net/media/giftcard/gc1.png",
-      productData: [],
-      countryData: [],
-      selectedCountry: "",
-      sku: "I00121125",
       cardId: "",
       cardValue: "",
-      currencyCharCode: [],
-      currency: this.props.currency,
       recipientName: "",
       recipientEmail: "",
       confirmRecipientEmail: "",
       message: "",
       senderName: "",
-      englishandSpace: /^[a-zA-Z\s]+$/,
       subscribe: false,
-      customValueErrorMsg: "",
-      selectCountryErrorMsg: "",
       customValue: "",
       previewOpen: false,
-      formDisabled: true
+      formDisabled: true,
+      key: makeid(5)
     });
   };
 
@@ -301,7 +329,7 @@ class NewGiftcard extends React.Component<Props, State> {
     if (formDisabled || selectedCountry == "") {
       return;
     }
-
+    this.setState({ formDisabled: true });
     const data = Object.assign(
       {},
       {
@@ -319,10 +347,10 @@ class NewGiftcard extends React.Component<Props, State> {
     this.props
       .addToGiftcard(data)
       .then((res: any) => {
+        this.resetStateOnSuccess();
         const basket: Basket = res.data;
         this.props.updateBasket(basket);
         this.props.showGrowlMessage(MESSAGE.ADD_TO_BAG_GIFTCARD_SUCCESS);
-        this.resetState();
       })
       .catch(error => {
         this.props.showGrowlMessage(
@@ -465,7 +493,8 @@ class NewGiftcard extends React.Component<Props, State> {
       customValue,
       previewOpen,
       formDisabled,
-      maker
+      maker,
+      key
     } = this.state;
     const list = Object.keys(countryData).map(key => {
       return {
@@ -479,6 +508,7 @@ class NewGiftcard extends React.Component<Props, State> {
         className={cs(styles.pageContainer, {
           [styles.saleTimerMargin]: this.props.saleTimer
         })}
+        key={key}
       >
         {maker && (
           <MakerEnhance
@@ -743,7 +773,7 @@ class NewGiftcard extends React.Component<Props, State> {
                 ></FormTextArea>
                 <div className={cs(styles.limit)}>
                   Character Limit:{" "}
-                  {240 - (message.trim() == "" ? 0 : message.length)}
+                  {248 - (message.trim() == "" ? 0 : message.length)}
                 </div>
                 <FormInput
                   name="senderName"
