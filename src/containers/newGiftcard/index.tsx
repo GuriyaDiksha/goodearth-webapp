@@ -723,7 +723,7 @@ class NewGiftcard extends React.Component<Props, State> {
                 />
                 <FormTextArea
                   placeholder=""
-                  maxLength={250}
+                  maxLength={248}
                   name="message"
                   rows={5}
                   value={message}
@@ -743,7 +743,7 @@ class NewGiftcard extends React.Component<Props, State> {
                 ></FormTextArea>
                 <div className={cs(styles.limit)}>
                   Character Limit:{" "}
-                  {250 - (message.trim() == "" ? 0 : message.length)}
+                  {240 - (message.trim() == "" ? 0 : message.length)}
                 </div>
                 <FormInput
                   name="senderName"
