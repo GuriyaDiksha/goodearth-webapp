@@ -674,24 +674,24 @@ class OtpCompActivateGC extends React.Component<otpProps, otpState> {
               : "GIFT CARD CODE"}
           </p>
           <p className={styles.line}>{this.props.txtvalue}</p>
-          {!this.props.isIndiaGC ? (
-            <p className={globalStyles.voffset2}>
-              <p
-                className={cs(
-                  globalStyles.op2,
-                  globalStyles.bold,
-                  styles.lineHead
-                )}
-              >
-                {" "}
-                OTP SENT TO EMAIL ADDRESS:
-              </p>{" "}
-              <p className={cs(styles.overflowEmail, styles.line)}>
-                {otpData.email}
-              </p>
+          {/* {!this.props.isIndiaGC ? ( */}
+          <p className={globalStyles.voffset2}>
+            <p
+              className={cs(
+                globalStyles.op2,
+                globalStyles.bold,
+                styles.lineHead
+              )}
+            >
+              {" "}
+              OTP SENT TO EMAIL ADDRESS:
+            </p>{" "}
+            <p className={cs(styles.overflowEmail, styles.line)}>
+              {otpData.email}
             </p>
-          ) : (
-            <p className={globalStyles.voffset2}>
+          </p>
+          {/* ) : ( */}
+          {/* <p className={globalStyles.voffset2}>
               <p
                 className={cs(
                   globalStyles.op2,
@@ -702,8 +702,8 @@ class OtpCompActivateGC extends React.Component<otpProps, otpState> {
                 OTP SMS SENT TO MOBILE NUMBER:
               </p>{" "}
               <p className={styles.line}>{otpData.phoneNo}</p>
-            </p>
-          )}
+            </p> */}
+          {/* )} */}
         </div>
         <hr />
         {(this.props.otpFor == "activateGC"
@@ -712,7 +712,8 @@ class OtpCompActivateGC extends React.Component<otpProps, otpState> {
             : false
           : true) && (
           <NewOtpComponent
-            otpSentVia={this.props.isIndiaGC ? "mobile number" : "email"}
+            // otpSentVia={this.props.isIndiaGC ? "mobile number" : "email"}
+            otpSentVia={"email"}
             resendOtp={this.resendOtp}
             verifyOtp={this.checkOtpValidation}
             errorMsg={this.state.showerror}
@@ -939,14 +940,18 @@ class OtpCompActivateGC extends React.Component<otpProps, otpState> {
                   handleChange={e =>
                     this.setState({ emailInput: e.target.value })
                   }
-                  validations={
-                    !this.props.isIndiaGC
-                      ? {
-                          isEmail: true,
-                          maxLength: 75
-                        }
-                      : {}
-                  }
+                  // validations={
+                  //   !this.props.isIndiaGC
+                  //     ? {
+                  //         isEmail: true,
+                  //         maxLength: 75
+                  //       }
+                  //     : {}
+                  // }
+                  validations={{
+                    isEmail: true,
+                    maxLength: 75
+                  }}
                   validationErrors={{
                     isEmail: "Please enter a valid Email ID",
                     maxLength:
