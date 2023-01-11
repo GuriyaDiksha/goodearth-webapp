@@ -117,8 +117,10 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
           <address className={styles.orderBlock}>
             <label className={styles.topLabel}>order # {data.number}</label>
             <div className={bootstrapStyles.row}>
-              <div className={bootstrapStyles.col8}>
-                <p>{moment(data.datePlaced).format("D MMM,YYYY")}</p>
+              <div className={cs(bootstrapStyles.col8, styles.block1)}>
+                <p className={cs(styles.date)}>
+                  {moment(data.datePlaced).format("D MMM,YYYY")}
+                </p>
                 <p>
                   <span className={styles.op2}> Status: </span> &nbsp;{" "}
                   <span className={styles.orderStatus}>{data.status}</span>
@@ -128,7 +130,7 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
                   {data.itemCount}
                 </p>
               </div>
-              <div className={bootstrapStyles.col4}>
+              <div className={cs(bootstrapStyles.col4, styles.block2)}>
                 <p>
                   <span className={styles.op2}>Amount Paid</span>
                 </p>
@@ -143,20 +145,13 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
             <div className={bootstrapStyles.row}>
               <div className={bootstrapStyles.col8}>
                 <p className={styles.editView}>
-                  <a
-                    className={globalStyles.cerise}
-                    onClick={() => showDetails(index, data.number)}
-                  >
-                    {" "}
-                    view{" "}
-                  </a>
+                  <a onClick={() => showDetails(index, data.number)}> view </a>
                 </p>
               </div>
               <div className={bootstrapStyles.col4}>
                 <p className={styles.editTrack}>
                   {isHide && !shippingAddress?.isTulsi ? (
                     <a
-                      className={globalStyles.cerise}
                       onClick={e => {
                         trackOrder(e);
                       }}
@@ -174,15 +169,10 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
                   <p
                     className={cs(
                       styles.editTrack,
-                      data.invoiceFileName ? "" : styles.editTrackDisabled
+                      data.invoiceFileName ? "" : styles.editDisabled
                     )}
                   >
                     <a
-                      className={cs(
-                        data.invoiceFileName
-                          ? globalStyles.cerise
-                          : globalStyles.ceriseDisabled
-                      )}
                       onClick={e => {
                         // const filename = data.invoiceFileName.split(
                         //   "ge-invoice-test/"

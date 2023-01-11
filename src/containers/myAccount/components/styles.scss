@@ -66,6 +66,16 @@ input[type="text"]{
 
 .order-tabs {
   margin-top: 40px;
+  .order-tab {
+    @include b3_14px_montserrat_light_charcoal();
+    &:hover{
+      cursor: pointer;
+    }
+    &.active{
+      font-weight: $semibold;
+      color: $gold;
+    }
+  }
   .orders {
     cursor: pointer;
     font-size: 15px;
@@ -74,26 +84,41 @@ input[type="text"]{
 
   .hr-line {
     color: #afa5a5;
-    margin-right: 15px;
-    margin-left: 15px;
+    margin-right: 26px;
+    margin-left: 26px;
+    font-weight: 100;
   }
 
   .active {
-    color: #ab1e56;
+    color: $gold;
   }
 }
 
 .no-purchases-message {
-  @include b4_12px_montserrat_charcoal();
+  @include b3_14px_montserrat_charcoal();
+  letter-spacing: 0.5px;
   opacity: unset;
 }
 
-.browse-button {
+.start-shopping-button {
   margin: auto;
   margin-top: 30px;
   width: 50%;
-  input {
-    line-height: 40px;
+  a{
+    input {
+      text-transform: uppercase;
+      background-color: #4C4C4C;
+      @include b3_14px_montserrat_white();
+      letter-spacing: 0.5px;
+      border: 1px solid #4c4c4c;
+      line-height: 40px;
+      width: 100%;
+      &:hover{
+        color: #4C4C4C;
+        background-color: #fff;
+        border: 1px solid #4c4c4c;
+      }
+    }
   }
 }
 
@@ -136,7 +161,7 @@ input[type="text"]{
       }
     }
     &.order-block {
-      background-color: tint(#000, 95%);
+      background-color: #fff;
       &.background-white{
         background-color: #fff;
       }
@@ -265,6 +290,14 @@ input[type="text"]{
           display: flex;
         }
       }
+      .block1{
+        .date{
+          margin-bottom: 10px;
+        }
+      }
+      .block2{
+
+      }
       span {
         //text-transform: uppercase; cant use this --- it will make order status span uppercase
         //text-decoration: underline;
@@ -277,9 +310,14 @@ input[type="text"]{
     .edit-track {
       bottom: 25px;
       text-transform: uppercase;
-      font-size: 12px;
-      letter-spacing: 1px;
-      font-weight: $semibold;
+      @include b4_12px_montserrat_charcoal_caps();
+      letter-spacing: 0.5px;
+      text-decoration: underline;
+      text-underline-offset: 4px;
+      &.edit-disabled{
+        color: #19191950;
+        cursor: not-allowed;
+      }
       &.add-checkout-actions {
         bottom: auto;
         position: absolute;
@@ -298,9 +336,10 @@ input[type="text"]{
     .edit-view {
       bottom: 25px;
       text-transform: uppercase;
-      font-size: 12px;
-      letter-spacing: 1px;
-      font-weight: $semibold;
+      @include b4_12px_montserrat_charcoal_caps();
+      letter-spacing: 0.5px;
+      text-decoration: underline;
+      text-underline-offset: 4px;
       &.add-checkout-actions {
         bottom: auto;
         position: absolute;
@@ -400,8 +439,9 @@ input[type="text"]{
       background-color: #fff;
       &.top-label{
         position: absolute;
-        top: -8px;
-        padding: 0px 20px;
+        top: 0px;
+        padding: 0px 12px;
+        transform: translateY(-50%);
       }
     }
   }
@@ -898,7 +938,7 @@ input[type="text"]{
     opacity: 1;
     background: $white;
     padding: 8px 20px;
-
+    height: 50px;
     &:hover {
       background-color: $aqua;
       color: $white;
