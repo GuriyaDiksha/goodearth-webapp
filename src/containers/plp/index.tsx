@@ -600,11 +600,13 @@ class PLP extends React.Component<
           <SecondaryHeader>
             <Fragment>
               <div className={cs(bootstrap.colMd7, bootstrap.offsetMd1)}>
-                <PlpBreadcrumbs
-                  levels={breadcrumb}
-                  className={cs(bootstrap.colMd12)}
-                  isViewAll={this.child.state?.isViewAll}
-                />
+                {categoryShop?.trim() !== "Souk" ? (
+                  <PlpBreadcrumbs
+                    levels={breadcrumb}
+                    className={cs(bootstrap.colMd12)}
+                    isViewAll={this.child.state?.isViewAll}
+                  />
+                ) : null}
               </div>
               <div className={cs(bootstrap.colMd3, styles.innerHeader)}>
                 <p className={styles.filterText}>Sort By: </p>
