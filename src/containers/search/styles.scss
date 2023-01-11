@@ -1039,3 +1039,10 @@ input[type="radio"]:checked, [type="checkbox"]:not(:checked),
     padding: 8px 0px 8px 6px;
   }
 }
+
+@media only screen and (max-width: 992px) and (min-width: 768px) {
+  .serachWrapperData {
+    max-width: 100%;
+    justify-content: center;
+  }
+}

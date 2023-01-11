@@ -5,8 +5,8 @@ import ToggleSwitch from "components/Switch";
 import { Link } from "react-router-dom";
 import CookieService from "services/cookie";
 import { AppState } from "reducers/typings";
-import { useSelector } from "react-redux";
-// import WidgetService from "services/widget";
+import { useSelector, useStore } from "react-redux";
+import WidgetService from "services/widget";
 import { Consent } from "services/widget/typings";
 import { clone } from "lodash";
 import globalStyles from "../../styles/global.scss";
@@ -26,11 +26,11 @@ const CookiePolicy: React.FC<Props> = ({
   const [isPrefOpen, setIsPrefOpen] = useState(false);
   const [consents, setConsents] = useState<Consent[]>([]);
   const [regionName, setRegion] = useState<string>("");
-  const { region, widgetDetail } = useSelector(
+  const { region, widgetDetail, ip, country } = useSelector(
     (state: AppState) => state.widget
   );
-  // const { email } = useSelector((state: AppState) => state.user);
-  // const store = useStore();
+  const { email } = useSelector((state: AppState) => state.user);
+  const store = useStore();
 
   useEffect(() => {
     document.body.classList.add(globalStyles.noScroll);
@@ -40,16 +40,18 @@ const CookiePolicy: React.FC<Props> = ({
   }, []);
 
   useEffect(() => {
-    setRegion("India"); //Hardcoded region
+    //setRegion("India");
+    //Hardcoded region
     // WidgetService.getWidgetDetail(store.dispatch, "GLOBAL");
-    // setRegion(region === "" ? CookieService.getCookie("region") : region);
-    // WidgetService.getWidgetDetail(
-    //   store.dispatch,
-    //   (region === "" ? CookieService.getCookie("region") : region) === "Europe"
-    //     ? "EUROPE"
-    //     : "GLOBAL"
-    // );
-  }, [region]);
+    setRegion(country === "" ? CookieService.getCookie("country") : country);
+    WidgetService.getWidgetDetail(
+      store.dispatch,
+      (country === "" ? CookieService.getCookie("country") : country) ===
+        "India"
+        ? "INDIA"
+        : "ROTW"
+    );
+  }, [country]);
 
   useEffect(() => {
     setConsents(widgetDetail?.consents || []);
@@ -71,18 +73,18 @@ const CookiePolicy: React.FC<Props> = ({
     //   .map((e: any) => e.functionalities)
     //   .join(",");
 
-    CookieService.setCookie("consent", "GA-Calls,Any-Ads", 365); //Hardcoded consents
+    // CookieService.setCookie("consent", "GA-Calls,Any-Ads", 365); //Hardcoded consents
 
-    // WidgetService.postConsentDetail(store.dispatch, {
-    //   ip: ip || CookieService.getCookie("ip"),
-    //   consents: consents
-    //     .filter((e: any) => e.value === true)
-    //     .map((e: any) => e.name)
-    //     .join(","),
-    //   country: country || CookieService.getCookie("country"),
-    //   widget_name: regionName === "Europe" ? "EUROPE" : "GLOBAL",
-    //   email: email || ""
-    // });
+    WidgetService.postConsentDetail(store.dispatch, {
+      ip: ip || CookieService.getCookie("ip"),
+      consents: consents
+        .filter((e: any) => e.value === true)
+        .map((e: any) => e.name)
+        .join(","),
+      country: country || CookieService.getCookie("country"),
+      widget_name: regionName === "India" ? "INDIA" : "ROTW",
+      email: email || ""
+    });
     setConsent();
   };
 
@@ -98,10 +100,10 @@ const CookiePolicy: React.FC<Props> = ({
     }, 2000);
   };
 
-  // const savePref = () => {
-  //   saveConsent(consents);
-  //   setIsPrefOpen(false);
-  // };
+  const savePref = () => {
+    saveConsent(consents);
+    setIsPrefOpen(false);
+  };
 
   const acceptAndContinue = () => {
     saveConsent(consents);
@@ -109,7 +111,7 @@ const CookiePolicy: React.FC<Props> = ({
   };
 
   const hideCookie = () => {
-    CookieService.setCookie("consent", "GA-Calls,Any-Ads", 365); //Hardcoded consents
+    // CookieService.setCookie("consent", "GA-Calls,Any-Ads", 365); //Hardcoded consents
     hideCookies();
   };
 
@@ -120,7 +122,8 @@ const CookiePolicy: React.FC<Props> = ({
           <div
             className={cs(
               styles.cookieclass,
-              regionName === "Europe" ? styles.eucookieclass : styles.noneu,
+              isPrefOpen ? styles.eucookieclass : styles.noneu,
+              // styles.eucookieclass,
               isPrefOpen ? styles.euPref : ""
             )}
           >
@@ -128,6 +131,19 @@ const CookiePolicy: React.FC<Props> = ({
               <div className={styles.euWrapper}>
                 <div className={styles.euInnerWrapper}>
                   <p className={styles.heading}>YOUR COOKIE PREFERENCES</p>
+                  {regionName === "India" && (
+                    <span
+                      className={cs(
+                        styles.closePopup,
+                        fontStyles.icon,
+                        fontStyles.iconCross,
+                        styles.prefPopup
+                      )}
+                      onClick={() => {
+                        hideCookie();
+                      }}
+                    ></span>
+                  )}
                   <hr />
                   <p className={styles.question}>What is a cookie?</p>
                   <p className={styles.answer}>
@@ -164,7 +180,9 @@ const CookiePolicy: React.FC<Props> = ({
                 <div className={styles.btnWrp}>
                   <button
                     className={styles.savebtn}
-                    onClick={() => setIsPrefOpen(false)}
+                    onClick={() => {
+                      setIsPrefOpen(false), savePref();
+                    }}
                   >
                     save preferences
                   </button>
@@ -178,16 +196,18 @@ const CookiePolicy: React.FC<Props> = ({
               </div>
             ) : (
               <>
-                <span
-                  className={cs(
-                    styles.closePopup,
-                    fontStyles.icon,
-                    fontStyles.iconCross
-                  )}
-                  onClick={() => {
-                    hideCookie();
-                  }}
-                ></span>
+                {regionName === "India" && (
+                  <span
+                    className={cs(
+                      styles.closePopup,
+                      fontStyles.icon,
+                      fontStyles.iconCross
+                    )}
+                    onClick={() => {
+                      hideCookie();
+                    }}
+                  ></span>
+                )}
                 <h3>COOKIES & PRIVACY</h3>
                 <p style={{ textAlign: "center" }}>
                   This website uses cookies to ensure you get the best
@@ -200,19 +220,16 @@ const CookiePolicy: React.FC<Props> = ({
                     Privacy Policy.
                   </Link>
                 </p>
-                {regionName === "Europe" ? (
-                  <p
-                    className={styles.preferencesLink}
-                    onClick={() => setIsPrefOpen(true)}
-                  >
-                    set my cookie preferences
-                  </p>
-                ) : null}
+                {/* {regionName !== "Europe" ? ( */}
+                <p
+                  className={styles.preferencesLink}
+                  onClick={() => setIsPrefOpen(true)}
+                >
+                  set my cookie preferences
+                </p>
+                {/* ) : null} */}
                 <span
-                  className={cs(
-                    styles.okBtn,
-                    regionName === "Europe" ? styles.euBtn : ""
-                  )}
+                  className={cs(styles.okBtn, isPrefOpen ? styles.euBtn : "")}
                   onClick={() => acceptAndContinue()}
                 >
                   ACCEPT & CONTINUE

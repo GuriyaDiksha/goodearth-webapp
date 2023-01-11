@@ -1162,7 +1162,7 @@ letter-spacing: 1px;
 
 @media screen and (max-width: 992px) {
 .search-bottom-block {
-  height: 200px;
+  height: 100px;
 }
 .search-bottom-block-second {
   height: 200px;
@@ -1186,8 +1186,21 @@ letter-spacing: 1px;
   }
 }
 
+@media only screen and (max-width: 992px) and (min-width: 850px) {
+  .search {
+    .search-input-block {
+      input {
+        padding: 0 170px 0 60px;
+      }
+    }
+  }
+}
+
 .npf-msg {
   font-size: 15px;
+  width: 259px;
+  height: 39px;
+  margin: 0 auto;
 }
 .banner-mobile-category {
   margin-top: 70px;

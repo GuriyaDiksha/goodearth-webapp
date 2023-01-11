@@ -127,7 +127,7 @@ const CountryCode: React.FC<Props & InjectedProps<string | null>> = props => {
       <span className={styles.arrow}></span>
       <label
         className={cs({
-          [globalStyles.hidden]: !(labelClass && !props.disable)
+          [globalStyles.hidden]: props.value ? false : labelClass ? false : true
         })}
       >
         {props.label}
