@@ -114,105 +114,103 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
     html.push(
       <div className={bootstrapStyles.col12}>
         <div className={styles.add} id={data.number}>
-          <address className={styles.orderBlock}>
-            <label className={styles.topLabel}>order # {data.number}</label>
-            <div className={bootstrapStyles.row}>
-              <div className={cs(bootstrapStyles.col8, styles.block1)}>
-                <p className={cs(styles.date)}>
-                  {moment(data.datePlaced).format("D MMM,YYYY")}
-                </p>
-                <p>
-                  <span className={styles.op2}> Status: </span> &nbsp;{" "}
-                  <span className={styles.orderStatus}>{data.status}</span>
-                </p>
-                <p>
-                  <span className={styles.op2}> Items: </span> &nbsp;{" "}
-                  {data.itemCount}
-                </p>
+          <div className={styles.myOrderBlock}>
+            <label>order # {data.number}</label>
+            {/* Info */}
+            <div className={styles.orderData}>
+              <div className={styles.info}>
+                <div className={styles.row}>
+                  <div className={styles.data}>
+                    {moment(data.datePlaced).format("D MMM,YYYY")}
+                  </div>
+                </div>
+                <div className={styles.row}>
+                  <span className={styles.label}> Status: </span> &nbsp;{" "}
+                  <span className={styles.data}>{data.status}</span>
+                </div>
+                <div className={styles.row}>
+                  <span className={styles.label}> Items: </span> &nbsp;{" "}
+                  <span className={styles.data}>{data.itemCount}</span>
+                </div>
               </div>
-              <div className={cs(bootstrapStyles.col4, styles.block2)}>
-                <p>
-                  <span className={styles.op2}>Amount Paid</span>
-                </p>
-                <p className={cs(styles.bold, styles.price)}>
+              <div className={styles.amountPaid}>
+                <span className={styles.label}>Amount Paid</span>
+                <span className={styles.data}>
                   {String.fromCharCode(
                     ...currencyCode[data.currency as Currency]
                   )}
                   &nbsp;{data.totalInclTax}
-                </p>
+                </span>
               </div>
             </div>
-            <div className={bootstrapStyles.row}>
-              <div className={bootstrapStyles.col8}>
-                <p className={styles.editView}>
-                  <a onClick={() => showDetails(index, data.number)}> view </a>
-                </p>
-              </div>
-              <div className={bootstrapStyles.col4}>
-                <p className={styles.editTrack}>
-                  {isHide && !shippingAddress?.isTulsi ? (
-                    <a
-                      onClick={e => {
-                        trackOrder(e);
-                      }}
-                      data-name="track"
-                      id={data.number}
-                    >
-                      {" "}
-                      TRACK ORDER{" "}
-                    </a>
-                  ) : (
-                    ""
-                  )}
-                </p>
-                {data?.status === "Delivered" ? (
-                  <p
-                    className={cs(
-                      styles.editTrack,
-                      data.invoiceFileName ? "" : styles.editDisabled
-                    )}
+            {/* Actions */}
+            <div className={styles.actions}>
+              <p className={styles.action}>
+                <a onClick={() => showDetails(index, data.number)}> view </a>
+              </p>
+              <p className={styles.action}>
+                {isHide && !shippingAddress?.isTulsi ? (
+                  <a
+                    onClick={e => {
+                      trackOrder(e);
+                    }}
+                    data-name="track"
+                    id={data.number}
                   >
-                    <a
-                      onClick={e => {
-                        // const filename = data.invoiceFileName.split(
-                        //   "ge-invoice-test/"
-                        // )[1];
-                        const filename = `E-Invoice_Order No. ${data?.number}.pdf`;
-                        fetch(data.invoiceFileName).then(function(t) {
-                          return t.blob().then(b => {
-                            if (!data.invoiceFileName) {
-                              return false;
-                            }
+                    {" "}
+                    TRACK ORDER{" "}
+                  </a>
+                ) : (
+                  ""
+                )}
+              </p>
+              {data?.status === "Delivered" ? (
+                <p
+                  className={cs(
+                    styles.action,
+                    data.invoiceFileName ? "" : styles.disabled
+                  )}
+                >
+                  <a
+                    onClick={e => {
+                      // const filename = data.invoiceFileName.split(
+                      //   "ge-invoice-test/"
+                      // )[1];
+                      const filename = `E-Invoice_Order No. ${data?.number}.pdf`;
+                      fetch(data.invoiceFileName).then(function(t) {
+                        return t.blob().then(b => {
+                          if (!data.invoiceFileName) {
+                            return false;
+                          }
 
-                            const a = document.createElement("a");
-                            a.href = URL.createObjectURL(b);
-                            a.setAttribute("download", filename);
-                            a.click();
-                          });
+                          const a = document.createElement("a");
+                          a.href = URL.createObjectURL(b);
+                          a.setAttribute("download", filename);
+                          a.click();
                         });
+                      });
+                    }}
+                    data-name="track"
+                    id={data.number}
+                  >
+                    <img
+                      alt="goodearth-logo"
+                      src={data?.invoiceFileName ? invoice : invoiceDisabled}
+                      style={{
+                        width: "20px",
+                        height: "15px",
+                        cursor: data?.invoiceFileName
+                          ? "pointer"
+                          : "not-allowed",
+                        marginLeft: "-8px"
                       }}
-                      data-name="track"
-                      id={data.number}
-                    >
-                      <img
-                        alt="goodearth-logo"
-                        src={data?.invoiceFileName ? invoice : invoiceDisabled}
-                        style={{
-                          width: "20px",
-                          height: "15px",
-                          cursor: data?.invoiceFileName
-                            ? "pointer"
-                            : "not-allowed",
-                          marginLeft: "-8px"
-                        }}
-                      />{" "}
-                      INVOICE{" "}
-                    </a>
-                  </p>
-                ) : null}
-              </div>
+                    />{" "}
+                    INVOICE{" "}
+                  </a>
+                </p>
+              ) : null}
             </div>
-          </address>
+          </div>
         </div>
       </div>
     );
@@ -480,6 +478,7 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
     );
     return html;
   };
+
   return (
     <div>
       {data?.map((item: any, i: number) => {

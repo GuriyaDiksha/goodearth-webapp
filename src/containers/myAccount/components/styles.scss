@@ -1210,3 +1210,65 @@ input[type="text"]{
     margin: 0;
   }
 }
+
+.my-order-block {
+  border: 1px solid #E5E5E5;
+  position: relative;
+  padding: 30px;
+  label {
+    background-color: #ffffff;
+    position: absolute;
+    top: 0;
+    left: 12px;
+    transform: translateY(-50%);
+    @include b4_12px_montserrat_charcoal_caps();
+    margin-bottom: unset;
+    padding: 0px 10px;
+  }
+  .order-data{
+    display: flex;
+    justify-content: space-between;
+    .info{
+      width: 40%;
+      .row{
+        text-align: left;
+        margin-bottom: 6px;
+        .label{
+          @include b4_12px_montserrat_charcoal();
+        }
+        .data{
+          @include b4_12px_montserrat_semibold_charcoal();
+          text-transform: uppercase;
+        }
+      }
+    }
+    .amount-paid{
+      width: 35%;
+      display: flex;
+      flex-direction: column;
+      text-align: left;
+      .label{
+        @include b4_12px_montserrat_charcoal();
+        margin-bottom: 6px;
+      }
+      .data{
+        @include b4_12px_montserrat_semibold_charcoal();
+        text-transform: uppercase;
+      }
+    }
+  }
+  .actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+    .action{
+      @include b4_12px_montserrat_charcoal_caps();
+      text-decoration: underline;
+      text-underline-offset: 4px;
+      &.disabled{
+        color: #19191950;
+        cursor: not-allowed;
+      }
+    }
+  }
+}
