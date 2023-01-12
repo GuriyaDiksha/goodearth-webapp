@@ -200,7 +200,8 @@ class Search extends React.Component<Props, State> {
             brand: "Goodearth",
             category: category,
             variant: itemData.childAttributes?.[0].size || "",
-            position: indices
+            position: indices,
+            dimension12: child?.color
           }
         );
       }

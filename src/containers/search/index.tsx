@@ -366,7 +366,8 @@ class Search extends React.Component<
             brand: "Goodearth",
             category: category,
             variant: skuItem.size || "",
-            position: i
+            position: i,
+            dimension12: skuItem?.color
           };
         });
         const listPath = `SearchResults`;
