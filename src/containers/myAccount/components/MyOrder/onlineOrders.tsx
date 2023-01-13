@@ -21,7 +21,7 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
     next: null
   });
   // const [hasShopped, setHasShopped] = useState(false);
-  const [isOpenAddressIndex, setIsOpenAddressIndex] = useState(-1);
+  const [isopenOrderIndex, setIsopenOrderIndex] = useState(-1);
   const dispatch = useDispatch();
   const history = useHistory();
 
@@ -61,6 +61,7 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
       props.hasShopped(false);
     };
   };
+
   useEffect(() => {
     fetchOrders();
   }, []);
@@ -80,7 +81,7 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
     AccountService.fetchOrderById(dispatch, id, props.email || "").then(
       (data: any) => {
         setOrderdata(data);
-        setIsOpenAddressIndex(index);
+        setIsopenOrderIndex(index);
         setTimeout(() => {
           const orderElem = id && document.getElementById(id);
           if (orderElem) {
@@ -97,128 +98,8 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
     // props.setAccountPage(e);
   };
 
-  const closeAddress = (data: any, index: number) => {
-    // if(!data.lines) return false;
-    const html = [];
-    const orderData = new Date(data.datePlaced);
-    const todayDate = new Date();
-
-    // let totalItem = 0;
-    // for (let i = 0; i < data.lines?.length; i++) {
-    //   totalItem += data.lines[i].quantity;
-    // }
-    todayDate.setMonth(todayDate.getMonth() - 1);
-    // now today date is one month less
-    const isHide = orderData >= todayDate;
-    const shippingAddress = data.shippingAddress?.[0];
-    html.push(
-      <div className={bootstrapStyles.col12}>
-        <div className={styles.add} id={data.number}>
-          <div className={styles.myOrderBlock}>
-            <label>order # {data.number}</label>
-            {/* Info */}
-            <div className={styles.orderData}>
-              <div className={styles.info}>
-                <div className={styles.row}>
-                  <div className={styles.data}>
-                    {moment(data.datePlaced).format("D MMM,YYYY")}
-                  </div>
-                </div>
-                <div className={styles.row}>
-                  <span className={styles.label}> Status: </span> &nbsp;{" "}
-                  <span className={styles.data}>{data.status}</span>
-                </div>
-                <div className={styles.row}>
-                  <span className={styles.label}> Items: </span> &nbsp;{" "}
-                  <span className={styles.data}>{data.itemCount}</span>
-                </div>
-              </div>
-              <div className={styles.amountPaid}>
-                <span className={styles.label}>Amount Paid</span>
-                <span className={styles.data}>
-                  {String.fromCharCode(
-                    ...currencyCode[data.currency as Currency]
-                  )}
-                  &nbsp;{data.totalInclTax}
-                </span>
-              </div>
-            </div>
-            {/* Actions */}
-            <div className={styles.actions}>
-              <p className={styles.action}>
-                <a onClick={() => showDetails(index, data.number)}> view </a>
-              </p>
-              <p className={styles.action}>
-                {isHide && !shippingAddress?.isTulsi ? (
-                  <a
-                    onClick={e => {
-                      trackOrder(e);
-                    }}
-                    data-name="track"
-                    id={data.number}
-                  >
-                    {" "}
-                    TRACK ORDER{" "}
-                  </a>
-                ) : (
-                  ""
-                )}
-              </p>
-              {data?.status === "Delivered" ? (
-                <p
-                  className={cs(
-                    styles.action,
-                    data.invoiceFileName ? "" : styles.disabled
-                  )}
-                >
-                  <a
-                    onClick={e => {
-                      // const filename = data.invoiceFileName.split(
-                      //   "ge-invoice-test/"
-                      // )[1];
-                      const filename = `E-Invoice_Order No. ${data?.number}.pdf`;
-                      fetch(data.invoiceFileName).then(function(t) {
-                        return t.blob().then(b => {
-                          if (!data.invoiceFileName) {
-                            return false;
-                          }
-
-                          const a = document.createElement("a");
-                          a.href = URL.createObjectURL(b);
-                          a.setAttribute("download", filename);
-                          a.click();
-                        });
-                      });
-                    }}
-                    data-name="track"
-                    id={data.number}
-                  >
-                    <img
-                      alt="goodearth-logo"
-                      src={data?.invoiceFileName ? invoice : invoiceDisabled}
-                      style={{
-                        width: "20px",
-                        height: "15px",
-                        cursor: data?.invoiceFileName
-                          ? "pointer"
-                          : "not-allowed",
-                        marginLeft: "-8px"
-                      }}
-                    />{" "}
-                    INVOICE{" "}
-                  </a>
-                </p>
-              ) : null}
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-    return html;
-  };
-
   const closeDetails = (orderNum?: string) => {
-    setIsOpenAddressIndex(-1);
+    setIsopenOrderIndex(-1);
     setTimeout(() => {
       const orderElem = orderNum && document.getElementById(orderNum);
       if (orderElem) {
@@ -227,139 +108,149 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
     }, 300);
   };
 
-  const openAddress = (list: any, index: number) => {
+  const renderOrder = (index: number) => {
+    return <div>Order</div>;
+  };
+
+  const openOrder = (list: any, index: number) => {
     const data: any = orderdata;
     const html = [],
       shippingAddress = data.shippingAddress[0],
-      billingAddress = data.billingAddress[0];
+      billingAddress = data.billingAddress[0],
+      priceCurrency = list.currency;
+
+    const currencyChar = String.fromCharCode(
+      ...currencyCode[priceCurrency as Currency]
+    );
+
     let totalItem = 0;
 
     for (let i = 0; i < data.lines.length; i++) {
       totalItem += data.lines[i].quantity;
     }
+
     html.push(
       <div className={bootstrapStyles.col12}>
         <div className={styles.add} id={data.number}>
-          <address
-            className={cs(styles.orderBlock, {
-              [styles.backgroundWhite]: index == isOpenAddressIndex
-            })}
-          >
-            <label className={styles.topLabel}>order # {data.number}</label>
-            <div className={styles.orderBlock}>
-              <div
-                className={cs(bootstrapStyles.col12, bootstrapStyles.colMd6)}
-              >
-                <p>{moment(list.datePlaced).format("D MMM,YYYY")}</p>
-                <p>
-                  <span className={styles.op2}>Status</span>: &nbsp;
-                  <span className={styles.orderStatus}>{data.status}</span>
-                </p>
-                <p>
-                  <span className={styles.op2}>Items</span>: &nbsp;{totalItem}
-                </p>
+          <div className={styles.orderBlock}>
+            <div className={styles.myOrderBlock}>
+              <label className={styles.topLabel}>order # {data.number}</label>
+              <div className={cs(styles.orderData, styles.singleOrder)}>
+                <div className={styles.info}>
+                  <div className={styles.row}>
+                    <div className={styles.data}>
+                      {moment(list.datePlaced).format("D MMM,YYYY")}
+                    </div>
+                  </div>
+                  <div className={styles.row}>
+                    <span className={styles.label}>Status</span>: &nbsp;
+                    <span className={styles.data}>{data.status}</span>
+                  </div>
+                  <div className={styles.row}>
+                    <span className={styles.label}>Items</span>: &nbsp;
+                    <span className={styles.data}>{totalItem}</span>
+                  </div>
+                </div>
+                <div className={styles.amountPaid}>
+                  <span className={styles.label}>Amount Paid</span>
+                  <span className={styles.data}>
+                    {currencyChar} &nbsp;{list.totalInclTax}
+                  </span>
+                </div>
               </div>
-              <div
-                className={cs(bootstrapStyles.col12, bootstrapStyles.colMd6)}
-              >
-                <p>
-                  <span className={styles.op2}>Amount Paid</span>
-                </p>
-                <p>
-                  {String.fromCharCode(
-                    ...currencyCode[list.currency as Currency]
-                  )}{" "}
-                  &nbsp;{list.totalInclTax}
-                </p>
-              </div>
-              <p className={cs(styles.edit, styles.close1)}>
-                <a
-                  className={globalStyles.cerise}
-                  onClick={() => closeDetails(data.number)}
-                >
-                  {" "}
-                  close{" "}
-                </a>
-              </p>
-            </div>
-            <div className={cs(bootstrapStyles.row, styles.borderAdd)}>
-              <div
-                className={cs(bootstrapStyles.col12, bootstrapStyles.colMd6)}
-              >
-                {data.isBridalOrder ? (
-                  <div className={styles.add}>
-                    {shippingAddress ? (
-                      <address className={styles.address}>
-                        <label>shipping address</label>
-                        <p>
+              <div className={styles.addressBlock}>
+                {/* Shipping Address */}
+                {shippingAddress && (
+                  <div className={styles.address}>
+                    <div className={styles.title}>shipping address</div>
+                    {data.isBridalOrder && (
+                      <div className={styles.row}>
+                        <span className={styles.bridalInfo}>
                           {data.registrantName}
                           &nbsp; & &nbsp;{data.coRegistrantName}
                           {"'s "}
                           {data.occasion} Registry
-                        </p>
-                        <p className={styles.light}>
-                          {" "}
-                          Address predefined by registrant{" "}
-                        </p>
-                      </address>
-                    ) : (
-                      ""
+                        </span>
+                        <span className={styles.bridalMessage}></span>
+                      </div>
                     )}
+                    <div className={cs(styles.row, styles.name)}>
+                      {shippingAddress.firstName}
+                      &nbsp; {shippingAddress.lastName}
+                    </div>
+                    <div className={styles.row}>{shippingAddress.line1}</div>
+                    <div className={styles.row}>{shippingAddress.line2}</div>
+                    <div className={styles.row}>
+                      {shippingAddress.state},&nbsp;{shippingAddress.postcode}
+                    </div>
+                    <div className={styles.row}>
+                      {shippingAddress.countryName}
+                    </div>
+                    <div className={cs(styles.row, styles.phoneNumber)}>
+                      {shippingAddress.phoneNumber}
+                    </div>
                   </div>
-                ) : (
-                  <div className={styles.add}>
-                    {shippingAddress ? (
-                      <address className={styles.address}>
-                        <label>shipping address</label>
-                        <p>
-                          {shippingAddress.firstName}
-                          &nbsp; {shippingAddress.lastName}
-                          <br />
-                        </p>
-                        <p>
-                          {shippingAddress.line1}
-                          <br />
-                          {shippingAddress.line2}{" "}
-                          {shippingAddress.line2 && <br />}
-                          {shippingAddress.state}, {shippingAddress.postcode}{" "}
-                          <br />
-                          {shippingAddress.countryName}
-                          <br />
-                        </p>
-                        <p> {shippingAddress.phoneNumber}</p>
-                      </address>
-                    ) : (
-                      ""
-                    )}
+                )}
+                {/* Billing Address */}
+                {billingAddress && (
+                  <div className={styles.address}>
+                    <div className={styles.title}>billing address</div>
+                    <div className={cs(styles.row, styles.name)}>
+                      {billingAddress.firstName}
+                      &nbsp; {billingAddress.lastName}
+                    </div>
+                    <div className={styles.row}>{billingAddress.line1}</div>
+                    <div className={styles.row}>{billingAddress.line2}</div>
+                    <div className={styles.row}>
+                      {billingAddress.state},&nbsp;{billingAddress.postcode}
+                    </div>
+                    <div className={styles.row}>
+                      {billingAddress.countryName}
+                    </div>
+                    <div className={cs(styles.row, styles.phoneNumber)}>
+                      {billingAddress.phoneNumber}
+                    </div>
                   </div>
                 )}
               </div>
-              <div
-                className={cs(bootstrapStyles.col12, bootstrapStyles.colMd6)}
-              >
-                <div className={styles.add}>
-                  {billingAddress ? (
-                    <address className={styles.address}>
-                      <label>billing address</label>
-                      <p>
-                        {billingAddress.firstName}
-                        &nbsp; {billingAddress.lastName}
-                        <br />
-                      </p>
-                      <p className={styles.light}>
-                        {billingAddress.line1}
-                        <br />
-                        {billingAddress.line2} {billingAddress.line2 && <br />}
-                        {billingAddress.state}, {billingAddress.postcode} <br />
-                        {billingAddress.countryName}
-                        <br />
-                      </p>
-                      <p> {billingAddress.phoneNumber}</p>
-                    </address>
-                  ) : (
-                    ""
-                  )}
+              {/* Products */}
+              {/* Prices */}
+              <div className={styles.prices}>
+                <div className={cs(styles.price, styles.price1)}>
+                  <span className={styles.label}>SUBTOTAL</span>
+                  <span className={styles.value}>
+                    {currencyChar} &nbsp; 9,000
+                  </span>
                 </div>
+                <div className={cs(styles.price, styles.price2)}>
+                  <span className={styles.label}>SHIPPING & HANDLING</span>
+                  <span className={styles.value}>
+                    {`(+)`}&nbsp;{currencyChar} &nbsp; 100
+                  </span>
+                </div>
+                <div
+                  className={cs(styles.price, styles.price3, styles.discount)}
+                >
+                  <span className={styles.label}>DISCOUNT</span>
+                  <span className={styles.value}>
+                    {`(-)`}&nbsp;{currencyChar} &nbsp; 400
+                  </span>
+                </div>
+                <div className={cs(styles.price, styles.total)}>
+                  <span className={styles.label}>AMOUNT PAID</span>
+                  <span className={styles.value}>
+                    {currencyChar} &nbsp; 9,600
+                  </span>
+                </div>
+              </div>
+              {/* Actions */}
+              <div className={styles.actions}>
+                <p className={styles.action}>
+                  <a onClick={() => closeDetails(data.number)}>close</a>
+                </p>
+                <p className={styles.action}>
+                  <a>TRACK ORDER</a>
+                </p>
               </div>
             </div>
             {data?.lines.map((item: any) => {
@@ -373,6 +264,7 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
               const price3 =
                 +parseFloat(item.priceExclTaxExclDiscounts).toFixed(2) /
                 +item.quantity;
+              console.log(price1, price2, price3);
               return (
                 <div
                   className={cs(
@@ -472,7 +364,7 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
                 close{" "}
               </a>
             </div>
-          </address>
+          </div>
         </div>
       </div>
     );
@@ -482,14 +374,127 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
   return (
     <div>
       {data?.map((item: any, i: number) => {
+        const orderDate = new Date(item.datePlaced);
+        const todayDate = new Date();
+
+        todayDate.setMonth(todayDate.getMonth() - 1);
+        // now today date is one month less
+        const isHide = orderDate >= todayDate;
+
+        const shippingAddress = item.shippingAddress?.[0];
         return (
           <div
             className={cs(bootstrapStyles.row, globalStyles.voffset4)}
             key={item.number}
           >
-            {isOpenAddressIndex == i
-              ? openAddress(item, i)
-              : closeAddress(item, i)}
+            <div className={bootstrapStyles.col12}>
+              <div className={styles.add} id={item.number}>
+                <div className={styles.myOrderBlock}>
+                  <label>order # {item.number}</label>
+                  {/* Info */}
+                  <div className={styles.orderData}>
+                    <div className={styles.info}>
+                      <div className={styles.row}>
+                        <div className={styles.data}>
+                          {moment(item.datePlaced).format("D MMM,YYYY")}
+                        </div>
+                      </div>
+                      <div className={styles.row}>
+                        <span className={styles.label}> Status: </span> &nbsp;{" "}
+                        <span className={styles.data}>{item.status}</span>
+                      </div>
+                      <div className={styles.row}>
+                        <span className={styles.label}> Items: </span> &nbsp;{" "}
+                        <span className={styles.data}>{item.itemCount}</span>
+                      </div>
+                    </div>
+                    <div className={styles.amountPaid}>
+                      <span className={styles.label}>Amount Paid</span>
+                      <span className={styles.data}>
+                        {String.fromCharCode(
+                          ...currencyCode[item.currency as Currency]
+                        )}
+                        &nbsp;{item.totalInclTax}
+                      </span>
+                    </div>
+                  </div>
+                  {isopenOrderIndex == i ? renderOrder(i) : null}
+                  {/* Actions */}
+                  <div className={styles.actions}>
+                    <p className={styles.action}>
+                      {isopenOrderIndex !== -1 ? (
+                        <a onClick={() => closeDetails(item.number)}>close</a>
+                      ) : (
+                        <a onClick={() => showDetails(i, item.number)}>view</a>
+                      )}
+                    </p>
+                    <p className={styles.action}>
+                      {isHide && !shippingAddress?.isTulsi ? (
+                        <a
+                          onClick={e => {
+                            trackOrder(e);
+                          }}
+                          data-name="track"
+                          id={item.number}
+                        >
+                          {" "}
+                          TRACK ORDER{" "}
+                        </a>
+                      ) : (
+                        ""
+                      )}
+                    </p>
+                    {item?.status === "Delivered" ? (
+                      <p
+                        className={cs(
+                          styles.action,
+                          item.invoiceFileName ? "" : styles.disabled
+                        )}
+                      >
+                        <a
+                          onClick={e => {
+                            // const filename = data.invoiceFileName.split(
+                            //   "ge-invoice-test/"
+                            // )[1];
+                            const filename = `E-Invoice_Order No. ${item?.number}.pdf`;
+                            fetch(item.invoiceFileName).then(function(t) {
+                              return t.blob().then(b => {
+                                if (!item.invoiceFileName) {
+                                  return false;
+                                }
+
+                                const a = document.createElement("a");
+                                a.href = URL.createObjectURL(b);
+                                a.setAttribute("download", filename);
+                                a.click();
+                              });
+                            });
+                          }}
+                          data-name="track"
+                          id={item.number}
+                        >
+                          <img
+                            alt="goodearth-logo"
+                            src={
+                              item?.invoiceFileName ? invoice : invoiceDisabled
+                            }
+                            style={{
+                              width: "20px",
+                              height: "15px",
+                              cursor: item?.invoiceFileName
+                                ? "pointer"
+                                : "not-allowed",
+                              marginLeft: "-8px"
+                            }}
+                          />{" "}
+                          INVOICE{" "}
+                        </a>
+                      </p>
+                    ) : null}
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         );
       })}
