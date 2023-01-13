@@ -108,8 +108,161 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
     }, 300);
   };
 
-  const renderOrder = (index: number) => {
-    return <div>Order</div>;
+  const renderOrder = (item: any, index: number) => {
+    const data: any = orderdata;
+    const html = [],
+      shippingAddress = data.shippingAddress[0],
+      billingAddress = data.billingAddress[0],
+      priceCurrency = item.currency;
+
+    const currencyChar = String.fromCharCode(
+      ...currencyCode[priceCurrency as Currency]
+    );
+
+    html.push(
+      <div className={styles.addressBlock}>
+        {/* Shipping Address */}
+        {shippingAddress && (
+          <div className={styles.address}>
+            <div className={styles.title}>shipping address</div>
+            {data.isBridalOrder && (
+              <div className={styles.row}>
+                <span className={styles.bridalInfo}>
+                  {data.registrantName}
+                  &nbsp; & &nbsp;{data.coRegistrantName}
+                  {"'s "}
+                  {data.occasion} Registry
+                </span>
+                <span className={styles.bridalMessage}></span>
+              </div>
+            )}
+            <div className={cs(styles.row, styles.name)}>
+              {shippingAddress.firstName}
+              &nbsp; {shippingAddress.lastName}
+            </div>
+            <div className={styles.row}>{shippingAddress.line1}</div>
+            <div className={styles.row}>{shippingAddress.line2}</div>
+            <div className={styles.row}>
+              {shippingAddress.state},&nbsp;{shippingAddress.postcode}
+            </div>
+            <div className={styles.row}>{shippingAddress.countryName}</div>
+            <div className={cs(styles.row, styles.phoneNumber)}>
+              {shippingAddress.phoneNumber}
+            </div>
+          </div>
+        )}
+        {/* Billing Address */}
+        {billingAddress && (
+          <div className={styles.address}>
+            <div className={styles.title}>billing address</div>
+            <div className={cs(styles.row, styles.name)}>
+              {billingAddress.firstName}
+              &nbsp; {billingAddress.lastName}
+            </div>
+            <div className={styles.row}>{billingAddress.line1}</div>
+            <div className={styles.row}>{billingAddress.line2}</div>
+            <div className={styles.row}>
+              {billingAddress.state},&nbsp;{billingAddress.postcode}
+            </div>
+            <div className={styles.row}>{billingAddress.countryName}</div>
+            <div className={cs(styles.row, styles.phoneNumber)}>
+              {billingAddress.phoneNumber}
+            </div>
+          </div>
+        )}
+      </div>
+    );
+
+    {
+      data?.lines.map((item: any) => {
+        const isDiscount =
+          +item.priceInclTax - +item.priceExclTaxExclDiscounts != 0;
+
+        const amountPaid =
+          +parseFloat(item.priceInclTax).toFixed(2) / +item.quantity;
+        const price =
+          +parseFloat(item.priceExclTaxExclDiscounts).toFixed(2) /
+          +item.quantity;
+
+        const charCurrency = String.fromCharCode(
+          ...currencyCode[item.priceCurrency as Currency]
+        );
+
+        html.push(
+          <div className={cs(styles.product)} key={item.product.id}>
+            <div className={cs(styles.imageContainer)}>
+              <img
+                src={
+                  item.product.images[0]
+                    ? item.product.images[0].productImage
+                    : ""
+                }
+              />
+            </div>
+            <div className={cs(styles.productInfo)}>
+              {item.product.collection && (
+                <p className={cs(styles.collection)}>
+                  {item.product.collection}
+                </p>
+              )}
+              <p className={styles.title}>{item.title}</p>
+              <p className={cs(styles.price)}>
+                <span className={cs(styles.amountPaid)}>
+                  {`${charCurrency} ${amountPaid}`}
+                </span>
+                {isDiscount && (
+                  <span className={styles.originalPrice}>
+                    {`${charCurrency} ${price}`}
+                  </span>
+                )}
+              </p>
+              {item.product.size && (
+                <div className={styles.size}>
+                  {`Size: ${item.product.size}`}
+                </div>
+              )}
+              <div className={styles.quantity}>{`Qty: ${item.quantity}`}</div>
+            </div>
+          </div>
+        );
+      });
+    }
+
+    const discount = +item.orderSubTotal - +item.totalExclTax;
+    html.push(
+      <div className={styles.prices}>
+        <div className={cs(styles.price, styles.price1)}>
+          <span className={styles.label}>SUBTOTAL</span>
+          <span className={styles.value}>
+            {`${currencyChar} ${item.orderSubTotal}`}
+          </span>
+        </div>
+        <div className={cs(styles.price, styles.price2)}>
+          <span className={styles.label}>SHIPPING & HANDLING</span>
+          <span className={styles.value}>
+            {`(+) ${currencyChar} ${item.shippingInclTax}`}
+          </span>
+        </div>
+        {discount > 0 && (
+          <div className={cs(styles.price, styles.price3, styles.discount)}>
+            <span className={styles.label}>DISCOUNT</span>
+            <span className={styles.value}>
+              {`(-)${currencyChar} ${discount}`}
+            </span>
+          </div>
+        )}
+        <div className={cs(styles.price, styles.total)}>
+          <span className={styles.label}>
+            AMOUNT PAID<span className={styles.light}>Incl. Tax</span>
+          </span>
+          <span className={styles.value}>
+            {`(${currencyChar} ${item.totalInclTax})`}
+          </span>
+        </div>
+      </div>
+    );
+
+    return html;
   };
 
   const openOrder = (list: any, index: number) => {
@@ -392,7 +545,11 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
                 <div className={styles.myOrderBlock}>
                   <label>order # {item.number}</label>
                   {/* Info */}
-                  <div className={styles.orderData}>
+                  <div
+                    className={cs(styles.orderData, {
+                      [styles.singleOrder]: isopenOrderIndex == i
+                    })}
+                  >
                     <div className={styles.info}>
                       <div className={styles.row}>
                         <div className={styles.data}>
@@ -418,11 +575,11 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
                       </span>
                     </div>
                   </div>
-                  {isopenOrderIndex == i ? renderOrder(i) : null}
+                  {isopenOrderIndex == i ? renderOrder(item, i) : null}
                   {/* Actions */}
                   <div className={styles.actions}>
                     <p className={styles.action}>
-                      {isopenOrderIndex !== -1 ? (
+                      {isopenOrderIndex == i ? (
                         <a onClick={() => closeDetails(item.number)}>close</a>
                       ) : (
                         <a onClick={() => showDetails(i, item.number)}>view</a>
