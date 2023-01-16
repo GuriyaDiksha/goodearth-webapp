@@ -242,7 +242,7 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
               break;
             default:
               if (typeof data == "object") {
-                let errorMsg = data[data][0];
+                let errorMsg: string = data[data][0];
                 if (errorMsg == "MaxRetries") {
                   errorMsg =
                     "You have exceeded max registration attempts, please try after some time";
@@ -736,6 +736,7 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
               }}
             />
             <FormInput
+              required
               name="phone"
               value=""
               placeholder={"Contact Number"}
