@@ -1857,3 +1857,37 @@ ul.inner-menu-mobile {
   margin: 5px;
   text-align: center;
 }
+
+.recentWrp{
+  margin-left: 17%;
+  width: 70vw;
+  margin-top: 50px;
+
+  @media screen and (max-width:992px) {
+    margin-left: 5%;
+    width: 90vw;
+  }
+
+  button{
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid black;
+    margin-bottom: 5px;
+    @include b5_10px_montserrat_charcoal();
+  }
+
+  .recentWrpHead{
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 15px;
+  }
+  .recentBlock{
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 15px;
+
+    a{
+      @include b4_12px_montserrat_light_charcoal();
+    }
+  }
+}
