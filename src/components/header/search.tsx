@@ -709,7 +709,8 @@ class Search extends React.Component<Props, State> {
                           </div>
                         </div>
                       )}
-                    {recentSearchs?.length ? (
+                    {recentSearchs?.length &&
+                    this.state.searchValue.length == 0 ? (
                       <div className={styles.recentWrp}>
                         <div className={styles.recentWrpHead}>
                           <p
