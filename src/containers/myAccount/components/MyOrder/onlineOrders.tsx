@@ -237,12 +237,14 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
             {`${currencyChar} ${item.orderSubTotal}`}
           </span>
         </div>
-        <div className={cs(styles.price, styles.price2)}>
-          <span className={styles.label}>SHIPPING & HANDLING</span>
-          <span className={styles.value}>
-            {`(+) ${currencyChar} ${item.shippingInclTax}`}
-          </span>
-        </div>
+        {item.shippingInclTax > 0 && (
+          <div className={cs(styles.price, styles.price2)}>
+            <span className={styles.label}>SHIPPING & HANDLING</span>
+            <span className={styles.value}>
+              {`(+) ${currencyChar} ${item.shippingInclTax}`}
+            </span>
+          </div>
+        )}
         {discount > 0 && (
           <div className={cs(styles.price, styles.price3, styles.discount)}>
             <span className={styles.label}>DISCOUNT</span>
