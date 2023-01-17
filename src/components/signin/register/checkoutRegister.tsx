@@ -197,8 +197,8 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
             this.handleInvalidSubmit();
           }
         );
-        Object.keys(data).map(data => {
-          switch (data) {
+        Object.keys(data).map(key => {
+          switch (key) {
             case "firstName":
             case "lastName":
             case "password1":
@@ -207,7 +207,7 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
             case "dateOfBirth":
               updateInputsWithError(
                 {
-                  [data]: data[data][0]
+                  [key]: data[key][0]
                 },
                 true
               );
@@ -215,17 +215,17 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
             case "phoneNo":
               updateInputsWithError(
                 {
-                  phone: data[data][0]
+                  phone: data[key][0]
                 },
                 true
               );
               break;
             case "email":
-              if (data[data].length == 2) {
+              if (data[key].length == 2) {
                 this.setState({
                   showerror:
                     "This account already exists <a class='error' href=" +
-                    data[data][0] +
+                    data[key][0] +
                     "> please set a new password</a>"
                 });
               } else {
@@ -234,7 +234,7 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
                 });
                 updateInputsWithError(
                   {
-                    email: data[data][0]
+                    email: data[key][0]
                   },
                   true
                 );
@@ -242,7 +242,7 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
               break;
             default:
               if (typeof data == "object") {
-                let errorMsg = data[data][0];
+                let errorMsg: string = data[key][0];
                 if (errorMsg == "MaxRetries") {
                   errorMsg =
                     "You have exceeded max registration attempts, please try after some time";
@@ -736,6 +736,7 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
               }}
             />
             <FormInput
+              required
               name="phone"
               value=""
               placeholder={"Contact Number"}
