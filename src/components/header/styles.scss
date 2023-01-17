@@ -735,15 +735,11 @@ max-height: 40px;
 text-align: center;
 font-size: 10px;
 background-color: $summerGreen;
-padding: 13px 31px 14px 31px;
+// padding: 13px 31px 14px 31px;
 // display: flex;
 z-index: 10;
 font-family: $font-Lato;
 color: $white;
-
-@media (max-width:992px) {
-  padding: 8px 28px 6px 28px;
-}
 
 .width100 {
   width: 100%;
@@ -1665,13 +1661,16 @@ ul.inner-menu-mobile {
 // }
 .announcement-content {
   max-width: 75%;
+  font-weight: $semibold; 
   @include b5_10px_montserrat_white();
 
   a{
     @include b5_10px_montserrat_white();
     line-height: 13px;
+    font-weight: $semibold; 
     p{
       display: flex;
+      font-weight: $semibold; 
     }
   }
 }
@@ -1694,6 +1693,11 @@ ul.inner-menu-mobile {
   justify-content: center;
   height: 100%;
   align-items: center;
+  padding: 13px 31px 14px 31px;
+
+  @media (max-width:992px) {
+    padding: 8px 28px 20px 28px;
+  }
 }
 
 @media (max-width: 992px) {

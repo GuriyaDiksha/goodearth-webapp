@@ -8,8 +8,14 @@ type Props = {
   dots?: boolean;
   val?: any;
   type?: string;
+  dataLength: number;
+  isBridalPage: boolean;
 };
-const AnnouncementBarSlider: React.FC<Props> = ({ children }) => {
+const AnnouncementBarSlider: React.FC<Props> = ({
+  children,
+  dataLength,
+  isBridalPage
+}) => {
   const [play, setPlay] = useState(true);
 
   const settings = {
@@ -26,13 +32,15 @@ const AnnouncementBarSlider: React.FC<Props> = ({ children }) => {
 
   return (
     <div className="announcementbarSliderContainer">
-      <div className="play-button">
-        <img
-          src={play ? pauseBtn : playBtn}
-          onClick={() => setPlay(!play)}
-          width={20}
-        />
-      </div>
+      {dataLength > 1 && !isBridalPage ? (
+        <div className="play-button">
+          <img
+            src={play ? pauseBtn : playBtn}
+            onClick={() => setPlay(!play)}
+            width={20}
+          />
+        </div>
+      ) : null}
       <Slider {...settings}>{children}</Slider>
     </div>
   );

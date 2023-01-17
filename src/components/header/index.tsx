@@ -613,7 +613,7 @@ class Header extends React.Component<Props, State> {
       <div className="">
         {meta.h1Tag && (
           <h1
-            style={mobile ? { height: "45px", maxHeight: "45px" } : {}}
+            style={mobile ? { height: "0px", maxHeight: "0px" } : {}}
             className={styles.titleH1}
           >
             {meta.h1Tag}

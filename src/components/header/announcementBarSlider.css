@@ -9,22 +9,22 @@
     z-index: 1;
 }
 
-@media (max-width: 992px) {
-    .announcementbarSliderContainer .play-button{
-        display: none;
-    }
-}
-
 .announcementbarSliderContainer .slick-slider .slick-dots{
     display: flex !important;
     justify-content: center;
     align-items: center;
-    top: 50%;
-    left: 24px;
+    top: 25%;
+    left: 55px;
     bottom: auto;
     width: auto;
     gap: 5px;
     transform: translateY(-50%);
+}
+
+@media (max-width: 992px) {
+    .announcementbarSliderContainer .slick-slider .slick-dots{
+        display: none !important;
+    }
 }
 
 .announcementbarSliderContainer .slick-slider .slick-dots li {
