@@ -3,386 +3,404 @@
 @import "../../styles/partials/form";
 
 $sale-timer-height:50px;
+$banner-desktop-height:300px;
+$banner-mobile-height:180px;
 
 .page-container {
     margin-top: $header-height;
     &.sale-timer-margin{
-        margin-top: $header-height+$sale-timer-height;
+        margin-top: $header-height+$sale-timer-height - 10px;
     }
-    display: flex;
-    align-items: center;
-    justify-content: center;
     height: 100%;
-    .container{
-        display: flex;
-        align-items: flex-start;
-        justify-content: space-between;
-        min-width: 991px;
-        margin-top: 70px;
-        .preview-gc{
-            min-width: 370px;
-            max-width: 470px;
-            background-color: #f8f8f8;
-            .title {
-                margin: 0 5%;
-                @include b4_12px_montserrat_charcoal_caps();
-                color: #9f9f9f;
-                text-align: center;
-                letter-spacing: 0.5px;
-                line-height: 45px;
-                border-bottom: 2px solid #fff;
-            }
-            .image-container{
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                img{
-                    height: 190px;
-                    border-radius: 20px;
-                    margin: 25px auto;
-                }
-            }
-            .salutation{
-                @include b3_14px_montserrat_medium_charcoal();
-                letter-spacing: 0.5px;
-                text-align: center;
-            }
-            .static-msg{
-                @include b3_14px_montserrat_charcoal();
-                letter-spacing: 0.5px;
-                text-align: center;
-                margin: 10px;
-            }
-            .gc-amount{
-                font-family: $font-Montserrat;
-                font-size: 20px;
-                color: #7EAAA9;
-                text-align: center;
-                line-height: 30px;
-                height: 30px;
-            }
-            .sender-name{
-                @include b3_14px_montserrat_charcoal();
-                letter-spacing: 0.5px;
-                text-align: center;
-                margin-bottom: 30px;
-            }
-            .their-message{
-                @include b4_12px_montserrat_light_charcoal();
-                letter-spacing: 0.5px;
-                text-align: center;
-                line-height: 20px;
-            }
-            .message{
-                @include b3_14px_montserrat_medium_charcoal();
-                letter-spacing: 0.5px;
-                text-align: center;
-                line-height: 20px;
-                margin: 0px 20px 30px 20px;
-                word-break: break-word;
-            }
-            .dummy-code {
-                text-align: center;
-                margin-top: 10px;
-                margin-bottom: 10px;
-                span {
-                    display: inline-block;
-                    height: 50px;
-                    line-height: 50px;
-                    width: 200px;
-                    border: 1px dashed #9f9f9f;
-                }
-            }
-            .note{
-                @include b5_10px_montserrat_charcoal();
-                letter-spacing: 0.5px;
-                text-align: center;
-                width: 51%;
-                margin: 0px auto 35px auto;
-            }
+    .banner{
+        height: $banner-desktop-height;
+        width: 100%;
+        background-image: url("../../images/gc-desktop.png");
+        background-size: contain;
+        .banner-text{
+            font-family: $font-Lora;
+            font-size: 30px;
+            font-style: italic;
+            text-align: center;
+            color: #fff;
+            line-height: $banner-desktop-height;
         }
-
-        .form-gc{
-            min-width: 370px;
-            max-width: 470px;
-            .form-header{
-                @include h2_24px_lora_charcoal();
-                letter-spacing: 0.5px;
-                margin-bottom: 35px;
-            }
-            div {
-                .section-title{
+    }
+    .page-body{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        .container{
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            min-width: 991px;
+            margin-top: 70px;
+            .preview-gc{
+                min-width: 370px;
+                max-width: 470px;
+                background-color: #f8f8f8;
+                .title {
+                    margin: 0 5%;
                     @include b4_12px_montserrat_charcoal_caps();
+                    color: #9f9f9f;
+                    text-align: center;
                     letter-spacing: 0.5px;
-                    margin-bottom: 10px;
+                    line-height: 45px;
+                    border-bottom: 2px solid #fff;
                 }
-            }
-
-            .card-design{
-                width: 100%;
-                margin-bottom: 35px;
-                .designs-container{
+                .image-container{
                     display: flex;
                     align-items: center;
-                    justify-content: space-between;
-                    .img-options{
-                        border: 1px solid $lightest-charcoal;
-                        padding: 2px;
-                        border-radius: 5px;
-                        cursor: pointer;
-                        &.selected{
-                            border: 2px solid $aqua;
-                        }
-                        img{
-                            width: 107px;
-                            border-radius: 5px;
-                        }
+                    justify-content: center;
+                    img{
+                        height: 190px;
+                        border-radius: 20px;
+                        margin: 25px auto;
                     }
                 }
-            }
-
-            .shipping-destination{
-                margin-bottom: 45px;
-                .select-group {
-                    position: relative;
+                .salutation{
+                    @include b3_14px_montserrat_medium_charcoal();
+                    letter-spacing: 0.5px;
+                    text-align: center;
+                }
+                .static-msg{
+                    @include b3_14px_montserrat_charcoal();
+                    letter-spacing: 0.5px;
+                    text-align: center;
+                    margin: 10px;
+                }
+                .gc-amount{
+                    font-family: $font-Montserrat;
+                    font-size: 20px;
+                    color: #7EAAA9;
+                    text-align: center;
+                    line-height: 30px;
+                    height: 30px;
+                }
+                .sender-name{
+                    @include b3_14px_montserrat_charcoal();
+                    letter-spacing: 0.5px;
+                    text-align: center;
+                    margin-bottom: 30px;
+                }
+                .their-message{
+                    @include b4_12px_montserrat_light_charcoal();
+                    letter-spacing: 0.5px;
+                    text-align: center;
+                    line-height: 20px;
+                }
+                .message{
+                    @include b3_14px_montserrat_medium_charcoal();
+                    letter-spacing: 0.5px;
+                    text-align: center;
+                    line-height: 20px;
+                    margin: 0px 20px 30px 20px;
+                    word-break: break-word;
+                }
+                .dummy-code {
+                    text-align: center;
+                    margin-top: 10px;
                     margin-bottom: 10px;
-                    select{
-                        @include b4_12px_montserrat_charcoal();
-                        border: 1px solid lightgrey;
-                        letter-spacing: 0.5px;
-                        background-color: #fff;
-                        border: 1px solid #eee;
-                        width: 100%;
-                        padding: 10px;
-                        line-height: 25px;
-                        -webkit-appearance: none;
-                        -moz-appearance: none;
-                        appearance: none;
-                        border-radius: 0;
-                        letter-spacing: 0.5px;
-                    }
-                    option {
-                      @include b4_12px_montserrat_charcoal();
-                      letter-spacing: 0.5px;
+                    span {
+                        display: inline-block;
+                        height: 50px;
+                        line-height: 50px;
+                        width: 200px;
+                        border: 1px dashed #9f9f9f;
                     }
                 }
                 .note{
                     @include b5_10px_montserrat_charcoal();
                     letter-spacing: 0.5px;
+                    text-align: center;
+                    width: 51%;
+                    margin: 0px auto 35px auto;
                 }
             }
-
-            .card-value{
-                .prices-container{
-                    display: flex;
-                    justify-content: space-between;
-                    align-items: center;
-                    margin-bottom: 25px;
-                    div{
-                        @include b3_14px_montserrat_caps_charcoal();
+    
+            .form-gc{
+                min-width: 370px;
+                max-width: 470px;
+                .form-header{
+                    @include h2_24px_lora_charcoal();
+                    letter-spacing: 0.5px;
+                    margin-bottom: 35px;
+                }
+                div {
+                    .section-title{
+                        @include b4_12px_montserrat_charcoal_caps();
                         letter-spacing: 0.5px;
-                        width: 115px;
-                        height: 50px;
-                        line-height: 50px;
-                        border: 1px solid #f2f2f2;
-                        text-align: center;
-                        &.selected{
-                            color: #3C7979;
-                            border: 1px solid #3c7979;
-                        }
-                        &:hover{
-                            color: #3C7979;
-                            border: 1px solid #3c7979;
+                        margin-bottom: 10px;
+                    }
+                }
+    
+                .card-design{
+                    width: 100%;
+                    margin-bottom: 35px;
+                    .designs-container{
+                        display: flex;
+                        align-items: center;
+                        justify-content: space-between;
+                        .img-options{
+                            border: 1px solid $lightest-charcoal;
+                            padding: 2px;
+                            border-radius: 5px;
+                            cursor: pointer;
+                            &.selected{
+                                border: 2px solid $aqua;
+                            }
+                            img{
+                                width: 107px;
+                                border-radius: 5px;
+                            }
                         }
                     }
                 }
-                form {
-                    margin-bottom: 35px;
-                    .custom-value-input{
+    
+                .shipping-destination{
+                    margin-bottom: 45px;
+                    .select-group {
                         position: relative;
                         margin-bottom: 10px;
-                        input{
-                            @include b3_14px_montserrat_charcoal();
-                            letter-spacing: 0.5px;;
-                            height: 50px;
-                            width: 100%;
+                        select{
+                            @include b4_12px_montserrat_charcoal();
+                            border: 1px solid lightgrey;
+                            letter-spacing: 0.5px;
+                            background-color: #fff;
                             border: 1px solid #eee;
-                            padding-left: 55px;
-                            &::placeholder{
-                                @include b3_14px_montserrat_light_charcoal();
-                                color: #19191950;
-                                letter-spacing: 0.5px;
-                            }
-                            &.aqua-border{
-                                border: 1px solid #3c7979;
-                            }
-                            &.error-border{
-                                border: 1px solid #ab1e56;
-                            }
-                        }
-                        .curr {
-                            @include b3_14px_montserrat_caps_charcoal();
-                            letter-spacing: 1px;
-                            position: absolute;
-                            left: 14px;
-                            top: 50%;
-                            transform: translatey(-50%);
-                        }
-                    }
-                }
-            }
-
-            .e-gift-card-details{
-                form{
-                    div{
-                        position: relative;
-                        margin-top:30px;
-                        input[type="text"]{
-                            @include b4_12px_montserrat_charcoal();
-                            letter-spacing: 0.5px;
-                            height: 50px;
                             width: 100%;
-                            border: 1px solid #e5e5e5;
                             padding: 10px;
-                        }
-                        textarea{
-                            @include b4_12px_montserrat_charcoal();
-                            letter-spacing: 0.5px;
-                            background-color: #f2f2f2;
-                            border: none;
-                            width: 100%;
-                            letter-spacing: 0.5px;
-                            padding: 10px;
-                            overflow: auto;
-                            resize: vertical;
+                            line-height: 25px;
+                            -webkit-appearance: none;
+                            -moz-appearance: none;
                             appearance: none;
                             border-radius: 0;
-                            text-align: start;
+                            letter-spacing: 0.5px;
                         }
-                        label{
-                            @include b6_9px_light_montserrat_charcoal();
-                            letter-spacing: 0.42px;
-                            position: absolute;
-                            left: 10px;
-                            top: -10px;
-                            background-color: #fff;
-                            padding: 3px;
-                        }
-                        &.subscribe{
-                            margin-top: 40px;
-                            margin-bottom: 40px;
-                            label{
-                                @include b5_10px_montserrat_charcoal();
-                                letter-spacing: 0.5px;
-                                padding: 0px 0px 0px 30px;
-                                position: relative;
-                                top: unset;
-                                left: unset;
-                                a {
-                                    color: #191919;
-                                    text-decoration: underline; 
-                                }
-                            }
-                            input[type="checkbox"]:not(:checked)+label:before{
-                                content: '';
-                                position: absolute;
-                                left: 0;
-                                top: 0px;
-                                width: 18px;
-                                height: 18px;
-                                background-color: white;
-                                border: 1px solid #9F9F9F;
-                            }
-                            input[type="checkbox"]:not(:checked)+label:after{
-                                content: '';
-                                display: block;
-                                width: 6px;
-                                height: 10px;
-                                border: solid #7EAAA9;
-                                border-width: 0 2px 2px 0;
-                                position: absolute;
-                                top: 3px;
-                                left: 6px;
-                                font-size: 18px;
-                                line-height: 0.8;
-                                transition: all .1s;
-                            }
-                            input[type="checkbox"]:checked+label:before {
-                                content: '';
-                                position: absolute;
-                                left: 0;
-                                top: 0px;
-                                width: 18px;
-                                height: 18px;
-                                background-color: white;
-                                border: 1px solid #9F9F9F;
-                                border-color: #7EAAA9;
-                                background-color: #7EAAA9;
-                            }
-                            input[type="checkbox"]:checked+label:after {
-                                content: '';
-                                display: block;
-                                width: 6px;
-                                height: 10px;
-                                border: solid #7EAAA9;
-                                border-width: 0 2px 2px 0;
-                                position: absolute;
-                                top: 3px;
-                                left: 6px;
-                                font-size: 18px;
-                                line-height: 0.8;
-                                transition: all .1s;
-                                border: solid #fff;
-                                border-width: 0 2px 2px 0;
-                            }
+                        option {
+                          @include b4_12px_montserrat_charcoal();
+                          letter-spacing: 0.5px;
                         }
                     }
-                    .limit{
+                    .note{
                         @include b5_10px_montserrat_charcoal();
                         letter-spacing: 0.5px;
-                        margin-top: 0px;
-                        text-align: right;
                     }
                 }
-            }
-
-            .add-to-bag{
-                width: 100%;
-                height: 50px;
-                @include b3_14px_montserrat_caps_charcoal();
-                letter-spacing: 0.5px;
-                line-height: 50px;
-                color: white;
-                background-color: #9f9f9f;
-                text-align: center;
-                pointer-events: none;
-                &.active{
-                    background-color: #7EAAA9;
-                    cursor: pointer;
-                    pointer-events: unset;
-                    &:hover{
-                        border: 1px solid #7EAAA9;
-                        background-color: #FFFFFF;
-                        color: #7EAAA9;
+    
+                .card-value{
+                    .prices-container{
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                        margin-bottom: 25px;
+                        div{
+                            @include b3_14px_montserrat_caps_charcoal();
+                            letter-spacing: 0.5px;
+                            width: 115px;
+                            height: 50px;
+                            line-height: 50px;
+                            border: 1px solid #f2f2f2;
+                            text-align: center;
+                            &.selected{
+                                color: #3C7979;
+                                border: 1px solid #3c7979;
+                            }
+                            &:hover{
+                                color: #3C7979;
+                                border: 1px solid #3c7979;
+                            }
+                        }
+                    }
+                    form {
+                        margin-bottom: 35px;
+                        .custom-value-input{
+                            position: relative;
+                            margin-bottom: 10px;
+                            input{
+                                @include b3_14px_montserrat_charcoal();
+                                letter-spacing: 0.5px;;
+                                height: 50px;
+                                width: 100%;
+                                border: 1px solid #eee;
+                                padding-left: 55px;
+                                &::placeholder{
+                                    @include b3_14px_montserrat_light_charcoal();
+                                    color: #19191950;
+                                    letter-spacing: 0.5px;
+                                }
+                                &.aqua-border{
+                                    border: 1px solid #3c7979;
+                                }
+                                &.error-border{
+                                    border: 1px solid #ab1e56;
+                                }
+                            }
+                            .curr {
+                                @include b3_14px_montserrat_caps_charcoal();
+                                letter-spacing: 1px;
+                                position: absolute;
+                                left: 14px;
+                                top: 50%;
+                                transform: translatey(-50%);
+                            }
+                        }
                     }
                 }
-                margin-bottom: 80px;
-            }
-
-            .contact-us{
-                border-top: 2px solid #e5e5e5;
-                padding-top: 30px;
-                margin-bottom: 80px;
-                .querries-title{
+    
+                .e-gift-card-details{
+                    form{
+                        div{
+                            position: relative;
+                            margin-top:30px;
+                            input[type="text"]{
+                                @include b4_12px_montserrat_charcoal();
+                                letter-spacing: 0.5px;
+                                height: 50px;
+                                width: 100%;
+                                border: 1px solid #e5e5e5;
+                                padding: 10px;
+                            }
+                            textarea{
+                                @include b4_12px_montserrat_charcoal();
+                                letter-spacing: 0.5px;
+                                background-color: #f2f2f2;
+                                border: none;
+                                width: 100%;
+                                letter-spacing: 0.5px;
+                                padding: 10px;
+                                overflow: auto;
+                                resize: vertical;
+                                appearance: none;
+                                border-radius: 0;
+                                text-align: start;
+                            }
+                            label{
+                                @include b6_9px_light_montserrat_charcoal();
+                                letter-spacing: 0.42px;
+                                position: absolute;
+                                left: 10px;
+                                top: -10px;
+                                background-color: #fff;
+                                padding: 3px;
+                            }
+                            &.subscribe{
+                                margin-top: 40px;
+                                margin-bottom: 40px;
+                                label{
+                                    @include b5_10px_montserrat_charcoal();
+                                    letter-spacing: 0.5px;
+                                    padding: 0px 0px 0px 30px;
+                                    position: relative;
+                                    top: unset;
+                                    left: unset;
+                                    a {
+                                        color: #191919;
+                                        text-decoration: underline; 
+                                    }
+                                }
+                                input[type="checkbox"]:not(:checked)+label:before{
+                                    content: '';
+                                    position: absolute;
+                                    left: 0;
+                                    top: 0px;
+                                    width: 18px;
+                                    height: 18px;
+                                    background-color: white;
+                                    border: 1px solid #9F9F9F;
+                                }
+                                input[type="checkbox"]:not(:checked)+label:after{
+                                    content: '';
+                                    display: block;
+                                    width: 6px;
+                                    height: 10px;
+                                    border: solid #7EAAA9;
+                                    border-width: 0 2px 2px 0;
+                                    position: absolute;
+                                    top: 3px;
+                                    left: 6px;
+                                    font-size: 18px;
+                                    line-height: 0.8;
+                                    transition: all .1s;
+                                }
+                                input[type="checkbox"]:checked+label:before {
+                                    content: '';
+                                    position: absolute;
+                                    left: 0;
+                                    top: 0px;
+                                    width: 18px;
+                                    height: 18px;
+                                    background-color: white;
+                                    border: 1px solid #9F9F9F;
+                                    border-color: #7EAAA9;
+                                    background-color: #7EAAA9;
+                                }
+                                input[type="checkbox"]:checked+label:after {
+                                    content: '';
+                                    display: block;
+                                    width: 6px;
+                                    height: 10px;
+                                    border: solid #7EAAA9;
+                                    border-width: 0 2px 2px 0;
+                                    position: absolute;
+                                    top: 3px;
+                                    left: 6px;
+                                    font-size: 18px;
+                                    line-height: 0.8;
+                                    transition: all .1s;
+                                    border: solid #fff;
+                                    border-width: 0 2px 2px 0;
+                                }
+                            }
+                        }
+                        .limit{
+                            @include b5_10px_montserrat_charcoal();
+                            letter-spacing: 0.5px;
+                            margin-top: 0px;
+                            text-align: right;
+                        }
+                    }
+                }
+    
+                .add-to-bag{
+                    width: 100%;
+                    height: 50px;
                     @include b3_14px_montserrat_caps_charcoal();
                     letter-spacing: 0.5px;
-                    margin-bottom: 20px;
+                    line-height: 50px;
+                    color: white;
+                    background-color: #9f9f9f;
+                    text-align: center;
+                    pointer-events: none;
+                    &.active{
+                        background-color: #7EAAA9;
+                        cursor: pointer;
+                        pointer-events: unset;
+                        &:hover{
+                            border: 1px solid #7EAAA9;
+                            background-color: #FFFFFF;
+                            color: #7EAAA9;
+                        }
+                    }
+                    margin-bottom: 80px;
                 }
-                .querries-info{
-                    @include b3_14px_montserrat_gold();
-                    letter-spacing: 0.5px;
-                    &:not(:first-child){
-                        margin-top: 12px;
+    
+                .contact-us{
+                    border-top: 2px solid #e5e5e5;
+                    padding-top: 30px;
+                    margin-bottom: 80px;
+                    .querries-title{
+                        @include b3_14px_montserrat_caps_charcoal();
+                        letter-spacing: 0.5px;
+                        margin-bottom: 20px;
+                    }
+                    .querries-info{
+                        @include b3_14px_montserrat_gold();
+                        letter-spacing: 0.5px;
+                        &:not(:first-child){
+                            margin-top: 12px;
+                        }
                     }
                 }
             }
@@ -392,8 +410,49 @@ $sale-timer-height:50px;
 
 @media screen and (max-width: 991px){
     .page-container{
-        display: block;
-        position: relative;
+        .banner{
+            height: $banner-mobile-height;
+            width: 100%;
+            background-image: url("../../images/gc-mobile.png");
+            .banner-text{
+                font-family: $font-Lora;
+                font-size: 30px;
+                font-style: italic;
+                text-align: center;
+                color: #fff;
+                line-height: $banner-mobile-height;
+            }
+        }
+        .page-body{
+            display: block;
+            position: relative;
+            .container {
+                min-width: unset;
+                flex-direction: column-reverse;
+                position: relative;
+                align-items: center;
+                .form-gc{
+                    padding: 35px 20px 0px 20px;
+                    .card-design {
+                        .designs-container{
+                            .img-options{
+                                img {
+                                    width: 102px;
+                                }
+                            }
+                        }
+                    }
+    
+                    .card-value{
+                        .prices-container{
+                            div {
+                                width: 106px;
+                            }
+                        }
+                    }
+                }
+            }
+        }
         .preview-modal{
             position: fixed;
             top: 0px;
@@ -573,32 +632,6 @@ $sale-timer-height:50px;
                 position: fixed;
             }
             
-        }
-        .container {
-            min-width: unset;
-            flex-direction: column-reverse;
-            position: relative;
-            align-items: center;
-            .form-gc{
-                padding: 35px 20px 0px 20px;
-                .card-design {
-                    .designs-container{
-                        .img-options{
-                            img {
-                                width: 102px;
-                            }
-                        }
-                    }
-                }
-
-                .card-value{
-                    .prices-container{
-                        div {
-                            width: 106px;
-                        }
-                    }
-                }
-            }
         }
     }
 }
