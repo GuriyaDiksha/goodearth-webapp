@@ -92,7 +92,6 @@ const CookiePolicy: React.FC<Props> = ({
       widget_name: regionName === "India" ? "INDIA" : "ROTW",
       email: email || ""
     });
-    setConsent(false);
   };
 
   const acceptAll = () => {
