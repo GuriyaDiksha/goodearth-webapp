@@ -974,10 +974,16 @@ p.corporate-sub-heading {
     top: 0px;
     transition: top 1.5s;
   }
+  &.top-height{
+    top: 54px;
+  }
 }
 
 .list-grid-bar-timer {
   top: 93px + $timer-height;
+  &.top-height{
+    top: 54px+ $timer-height;
+  }
 }
 .list-view-container {
   padding-left: 30px;

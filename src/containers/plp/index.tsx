@@ -74,6 +74,7 @@ class PLP extends React.Component<
     isThirdParty: boolean;
     count: number;
     showProductCounter: boolean;
+    header: string;
   }
 > {
   constructor(props: Props) {
@@ -96,7 +97,8 @@ class PLP extends React.Component<
         props.location.pathname.includes("corporate-gifting") ||
         props.location.search.includes("&src_type=cp"),
       isThirdParty: props.location.search.includes("&src_type=cp"),
-      showProductCounter: true
+      showProductCounter: true,
+      header: ""
     };
   }
   private child: any = FilterList;
@@ -137,6 +139,9 @@ class PLP extends React.Component<
     window.addEventListener(
       "scroll",
       throttle(() => {
+        const header =
+          document?.getElementById("myHeader")?.style.position || "";
+        this.setState({ header });
         this.setProductCount();
       }, 50)
     );
@@ -1043,7 +1048,9 @@ class PLP extends React.Component<
             <div
               className={cs(styles.listGridBar, {
                 [styles.listGridBarTimer]: this.props.showTimer,
-                [styles.hide]: this.props.scrollDown
+                [styles.hide]: this.props.scrollDown,
+                [styles.topHeight]:
+                  this.state.header === "fixed" && !this.props.scrollDown
               })}
             >
               <div

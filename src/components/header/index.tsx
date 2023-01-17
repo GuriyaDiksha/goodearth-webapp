@@ -269,7 +269,7 @@ class Header extends React.Component<Props, State> {
     const header = document.getElementById("myHeader");
     const sticky = (header as HTMLElement)?.offsetTop;
     const secondaryHeader = document.getElementById("secondaryHeader");
-    console.log("check=====", window?.pageYOffset, sticky);
+
     if (window?.pageYOffset > sticky) {
       (header as HTMLElement).style.position = "fixed";
       (secondaryHeader as HTMLElement).style.top = "50px";

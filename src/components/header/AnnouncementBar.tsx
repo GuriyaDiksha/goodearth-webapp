@@ -60,13 +60,13 @@ const AnnouncementBar: React.FC<Props> = ({
         dataLength={data?.length}
         isBridalPage={isBridalRegistryPage || isBridalActive}
       >
-        <div
-          key={"msgtext"}
-          className={
-            data.length > 1 || !isBridalRegistryPage ? "" : styles.width100
-          }
-        >
-          {isBridalRegistryPage || isBridalActive ? (
+        {isBridalRegistryPage || isBridalActive ? (
+          <div
+            key={"msgtext"}
+            className={
+              data.length > 1 || !isBridalRegistryPage ? "" : styles.width100
+            }
+          >
             <div style={{ backgroundColor: bridalBgColorcode, height: "40px" }}>
               <>
                 <svg
@@ -105,8 +105,15 @@ const AnnouncementBar: React.FC<Props> = ({
                 </b>
               </>
             </div>
-          ) : (
-            data?.map((ele, index) => (
+          </div>
+        ) : (
+          data?.map((ele, index) => (
+            <div
+              key={"msgtext"}
+              className={
+                data.length > 1 || !isBridalRegistryPage ? "" : styles.width100
+              }
+            >
               <div
                 className={cs(
                   globalStyles.textCenter,
@@ -191,9 +198,9 @@ const AnnouncementBar: React.FC<Props> = ({
                     ))}
                 </div>
               </div>
-            ))
-          )}
-        </div>
+            </div>
+          ))
+        )}
       </AnnouncementBarSlider>
     </div>
   );
