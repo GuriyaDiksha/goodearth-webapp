@@ -51,7 +51,8 @@ const mapStateToProps = (state: AppState) => {
     isSale: state.info.isSale,
     showTimer: state.info.showTimer,
     isLoggedIn: state.user.isLoggedIn,
-    plpTemplates: state.plplist.plpTemplates
+    plpTemplates: state.plplist.plpTemplates,
+    mobile: state.device.mobile
   };
 };
 
@@ -139,9 +140,6 @@ class PLP extends React.Component<
     window.addEventListener(
       "scroll",
       throttle(() => {
-        const header =
-          document?.getElementById("myHeader")?.style.position || "";
-        this.setState({ header });
         this.setProductCount();
       }, 50)
     );
@@ -183,6 +181,9 @@ class PLP extends React.Component<
     window.removeEventListener(
       "scroll",
       throttle(() => {
+        const header =
+          document?.getElementById("myHeader")?.style.position || "";
+        this.setState({ header });
         this.setProductCount();
       }, 100)
     );

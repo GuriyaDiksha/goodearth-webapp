@@ -355,10 +355,9 @@ const PaymentSection: React.FC<PaymentProps> = props => {
             <>
               {!basket.isOnlyGiftCart && giftWrapRender}
               {giftwrap && !basket.isOnlyGiftCart && (
-                <div>
+                <div className={styles.giftWrapMessage}>
                   <textarea
                     rows={5}
-                    cols={45}
                     className={styles.giftMessage}
                     value={textarea}
                     placeholder={"add message (optional)"}
@@ -371,8 +370,8 @@ const PaymentSection: React.FC<PaymentProps> = props => {
                       }
                     }}
                   />
-                  <div className={cs(globalStyles.textLeft, styles.font14)}>
-                    Character Limit: {250 - textarea.length}
+                  <div className={cs(globalStyles.textRight, styles.font14)}>
+                    Character Limit: {250 - textarea.length} / 250
                   </div>
                 </div>
               )}

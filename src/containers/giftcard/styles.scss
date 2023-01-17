@@ -415,7 +415,7 @@ input[type="radio"]:checked+label:before {
   }
   input[type="number"] {
     background-color: #fff;
-    padding: 15px 15px 15px 48px;
+    padding: 15px 15px 15px 16%;
     width: 100%;
     -moz-appearance: textfield;
     border: 1px solid $white !important;;
@@ -611,6 +611,7 @@ hr {
 .limit{
   @include b5_10px_montserrat_charcoal();
   letter-spacing: 0.5px;
+  float: right;
 }
 
 .error-msg {

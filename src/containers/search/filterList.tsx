@@ -943,12 +943,10 @@ class FilterList extends React.Component<Props, State> {
               )}px`
             : "max-content";
         }
-        (document.getElementById(
-          id
-        ) as HTMLElement).style.maxHeight = document.getElementById(id)
-          ?.scrollHeight
-          ? `${document.getElementById(id)?.scrollHeight}px`
-          : "max-content";
+        (document.getElementById(id) as HTMLElement).style.maxHeight =
+          document.getElementById(id)?.scrollHeight && id !== "category"
+            ? `${document.getElementById(id)?.scrollHeight}px`
+            : "max-content";
       } else {
         (document.getElementById(id) as HTMLElement).style.maxHeight = "0px";
       }
@@ -2237,49 +2235,51 @@ class FilterList extends React.Component<Props, State> {
               </ul>
             </div>
           </li>
-          {/* <li>
-            <span
-              className={
-                this.state.activeindex == 4 && this.state.showmenulevel1
-                  ? cs(styles.menulevel1, styles.menulevel1Open)
-                  : styles.menulevel1
-              }
-              onClick={() => {
-                this.Clickmenulevel1(4);
-                this.handleAnimation(
-                  "material",
+          {this.props.facets?.currentMaterial?.length > 0 ? (
+            <li>
+              <span
+                className={
                   this.state.activeindex == 4 && this.state.showmenulevel1
-                );
-              }}
-            >
-              MATERIAL
-            </span>
-            <div
-              id="material"
-              className={
-                this.state.activeindex == 4 && this.state.showmenulevel1
-                  ? styles.colorhead
-                  : styles.hideDiv
-              }
-            >
-              <ul>
-                <span>
-                  {this.createMaterial(
-                    this.props.facets,
-                    this.props.filtered_facets
-                  )}
-                </span>
-                <div data-name="currentMaterial">
-                  <span
-                    onClick={e => this.clearFilter(e, "currentMaterial")}
-                    className={styles.plp_filter_sub}
-                  >
-                    Clear
+                    ? cs(styles.menulevel1, styles.menulevel1Open)
+                    : styles.menulevel1
+                }
+                onClick={() => {
+                  this.Clickmenulevel1(4);
+                  this.handleAnimation(
+                    "material",
+                    this.state.activeindex == 4 && this.state.showmenulevel1
+                  );
+                }}
+              >
+                MATERIAL
+              </span>
+              <div
+                id="material"
+                className={
+                  this.state.activeindex == 4 && this.state.showmenulevel1
+                    ? styles.colorhead
+                    : styles.hideDiv
+                }
+              >
+                <ul>
+                  <span>
+                    {this.createMaterial(
+                      this.props.facets,
+                      this.props.filtered_facets
+                    )}
                   </span>
-                </div>
-              </ul>
-            </div>
-          </li> */}
+                  <div data-name="currentMaterial">
+                    <span
+                      onClick={e => this.clearFilter(e, "currentMaterial")}
+                      className={styles.plp_filter_sub}
+                    >
+                      Clear
+                    </span>
+                  </div>
+                </ul>
+              </div>
+            </li>
+          ) : null}
           {this.props.facets.availableSize ? (
             this.props.facets.availableSize.length > 0 ? (
               <li>

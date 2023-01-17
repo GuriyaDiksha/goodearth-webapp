@@ -97,7 +97,7 @@ const routes: RouteConfig = [
   },
   {
     path: ROUTES.GIFTCARD,
-    component: loadable(() => import("containers/giftcard")), // GiftCard,
+    component: loadable(() => import("containers/newGiftcard")), // GiftCard,
     action: initActionGiftcard,
     exact: true
   },
@@ -265,7 +265,8 @@ const makerRoutes = [
   ROUTES.SABINASINGH,
   ROUTES.DEEPSHIKHA,
   ROUTES.EESHAAN,
-  ROUTES.GUEST
+  ROUTES.GUEST,
+  ROUTES.TASTINGROOM
 ];
 
 makerRoutes.forEach(route => {
