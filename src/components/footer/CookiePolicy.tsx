@@ -73,19 +73,26 @@ const CookiePolicy: React.FC<Props> = ({
     //   .map((e: any) => e.functionalities)
     //   .join(",");
 
-    // CookieService.setCookie("consent", "GA-Calls,Any-Ads", 365); //Hardcoded consents
+    CookieService.setCookie(
+      "consent",
+      consents
+        .filter((e: any) => e.value === true)
+        .map((e: any) => e?.functionalities)
+        .join(","),
+      365
+    );
 
     WidgetService.postConsentDetail(store.dispatch, {
       ip: ip || CookieService.getCookie("ip"),
       consents: consents
         .filter((e: any) => e.value === true)
-        .map((e: any) => e.name)
+        .map((e: any) => e.functionalities)
         .join(","),
       country: country || CookieService.getCookie("country"),
       widget_name: regionName === "India" ? "INDIA" : "ROTW",
       email: email || ""
     });
-    setConsent();
+    setConsent(false);
   };
 
   const acceptAll = () => {
@@ -111,7 +118,7 @@ const CookiePolicy: React.FC<Props> = ({
   };
 
   const hideCookie = () => {
-    // CookieService.setCookie("consent", "GA-Calls,Any-Ads", 365); //Hardcoded consents
+    setConsent(true);
     hideCookies();
   };
 
