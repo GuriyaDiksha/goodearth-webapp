@@ -77,7 +77,7 @@ const CookiePolicy: React.FC<Props> = ({
       "consent",
       consents
         .filter((e: any) => e.value === true)
-        .map((e: any) => e.name)
+        .map((e: any) => e?.functionalities)
         .join(","),
       365
     );
@@ -86,7 +86,7 @@ const CookiePolicy: React.FC<Props> = ({
       ip: ip || CookieService.getCookie("ip"),
       consents: consents
         .filter((e: any) => e.value === true)
-        .map((e: any) => e.name)
+        .map((e: any) => e.functionalities)
         .join(","),
       country: country || CookieService.getCookie("country"),
       widget_name: regionName === "India" ? "INDIA" : "ROTW",
