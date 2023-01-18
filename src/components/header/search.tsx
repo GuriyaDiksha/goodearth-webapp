@@ -222,7 +222,7 @@ class Search extends React.Component<Props, State> {
       }
     );
     const userConsent = CookieService.getCookie("consent").split(",");
-    if (userConsent.includes(GA_CALLS) || true) {
+    if (userConsent.includes(GA_CALLS)) {
       dataLayer.push({
         event: "productClick",
         ecommerce: {

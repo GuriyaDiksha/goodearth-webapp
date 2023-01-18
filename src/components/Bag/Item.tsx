@@ -91,7 +91,7 @@ const LineItems: React.FC<BasketItem> = memo(
       const categoryname = arr[arr.length - 2];
       const subcategoryname = arr[arr.length - 1];
       const userConsent = CookieService.getCookie("consent").split(",");
-      if (userConsent.includes(ANY_ADS) || true) {
+      if (userConsent.includes(ANY_ADS)) {
         Moengage.track_event("remove_from_cart", {
           "Product id": product.sku || product.childAttributes[0].sku,
           "Product name": product.title,
@@ -103,7 +103,7 @@ const LineItems: React.FC<BasketItem> = memo(
           "Sub Category Name": subcategoryname
         });
       }
-      if (userConsent.includes(GA_CALLS) || true) {
+      if (userConsent.includes(GA_CALLS)) {
         dataLayer.push({
           event: "removeFromCart",
           ecommerce: {
@@ -162,7 +162,7 @@ const LineItems: React.FC<BasketItem> = memo(
       if (subcategory) {
         subcategory = subcategory[subcategory.length - 1];
       }
-      if (userConsent.includes(GA_CALLS) || true) {
+      if (userConsent.includes(GA_CALLS)) {
         dataLayer.push({
           "Event Category": "GA Ecommerce",
           "Event Action": "Cart Removal",

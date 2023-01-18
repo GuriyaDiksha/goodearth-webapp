@@ -71,7 +71,7 @@ class PincodePopup extends React.Component<Props, State> {
           this.setState({ status: "no" });
         }
         const userConsent = CookieService.getCookie("consent").split(",");
-        if (userConsent.includes(GA_CALLS) || true) {
+        if (userConsent.includes(GA_CALLS)) {
           dataLayer.push({
             event: "Pincode Information",
             clickType: pinCode,
