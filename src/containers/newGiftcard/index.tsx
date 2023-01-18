@@ -16,7 +16,7 @@ import { Link } from "react-router-dom";
 import { Basket } from "typings/basket";
 import { MESSAGE } from "constants/messages";
 
-function makeid(length: number) {
+const makeid = (length: number) => {
   let result = "";
   const characters =
     "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
@@ -25,7 +25,17 @@ function makeid(length: number) {
     result += characters.charAt(Math.floor(Math.random() * charactersLength));
   }
   return result;
-}
+};
+
+const displayPriceWithCommas = (price: string | number, currency: Currency) => {
+  let arg = "";
+  if (currency == "INR") {
+    arg = "en-IN";
+  } else {
+    arg = "en-US";
+  }
+  return parseInt(price.toString()).toLocaleString(arg);
+};
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -91,7 +101,7 @@ class NewGiftcard extends React.Component<Props, State> {
       recipientName: "",
       recipientEmail: "",
       confirmRecipientEmail: "",
-      message: "",
+      message: "Here is a gift for you!",
       senderName: "",
       englishandSpace: /^[a-zA-Z\s]+$/,
       subscribe: false,
@@ -391,13 +401,19 @@ class NewGiftcard extends React.Component<Props, State> {
           currency: newCurrency,
           selectedCountry: newCountry,
           selectCountryErrorMsg: "",
-          currencyCharCode: currencyCode[newCurrency]
+          currencyCharCode: currencyCode[newCurrency],
+          cardId: "",
+          cardValue: "",
+          customValue: ""
         });
       } else {
         this.setState({
           currency: newCurrency,
           selectedCountry: "",
-          currencyCharCode: currencyCode[newCurrency]
+          currencyCharCode: currencyCode[newCurrency],
+          cardId: "",
+          cardValue: "",
+          customValue: ""
         });
       }
     }
@@ -510,7 +526,12 @@ class NewGiftcard extends React.Component<Props, State> {
         </div>
         <div className={styles.pageBody}>
           <div className={styles.container}>
-            <div className={styles.previewGc}>
+            <div
+              className={cs(styles.previewGc, {
+                [styles.saleTimerPosition]: this.props.saleTimer
+              })}
+              ref={ele => (this.container = ele)}
+            >
               <div className={styles.title}>Preview</div>
               <div className={styles.imageContainer}>
                 <img src={selectedImage} />
@@ -523,7 +544,11 @@ class NewGiftcard extends React.Component<Props, State> {
               </div>
               <div className={styles.gcAmount}>
                 {String.fromCharCode(...currencyCharCode)}&nbsp;&nbsp;
-                {cardValue ? cardValue : customValue}
+                {+cardValue > 0
+                  ? displayPriceWithCommas(cardValue, currency)
+                  : +customValue > 0
+                  ? displayPriceWithCommas(customValue, currency)
+                  : ""}
               </div>
               <div className={styles.senderName}>
                 From {senderName ? senderName : `[Sender's Name]`}
@@ -614,7 +639,10 @@ class NewGiftcard extends React.Component<Props, State> {
                       >
                         {String.fromCharCode(...currencyCharCode) +
                           " " +
-                          pro.priceRecords[currency]}
+                          displayPriceWithCommas(
+                            pro.priceRecords[currency],
+                            currency
+                          )}
                       </div>
                     ) : (
                       ""
@@ -787,10 +815,7 @@ class NewGiftcard extends React.Component<Props, State> {
                     }}
                     required
                   />
-                  <div
-                    className={styles.subscribe}
-                    ref={ele => (this.container = ele)}
-                  >
+                  <div className={styles.subscribe}>
                     <FormCheckbox
                       value={subscribe || false}
                       name="subscribe"
@@ -846,18 +871,16 @@ class NewGiftcard extends React.Component<Props, State> {
               )}
               {/* 6. Contact Us */}
               <div className={styles.contactUs}>
-                <div className={styles.querriesTitle}>
-                  FOR QUERRIES OR ASSISTANCE
+                <div className={styles.queriesTitle}>
+                  FOR QUERIES OR ASSISTANCE
                 </div>
-                <div className={styles.querriesInfo}>
+                <div className={styles.queriesInfo}>
                   customercare@goodearth.in
                 </div>
-                <div className={styles.querriesInfo}>
+                <div className={styles.queriesInfo}>
                   +91 95829 995555/ +91 95829 99888
                 </div>
-                <div className={styles.querriesInfo}>
-                  Mon- Sat | 9am-5pm IST
-                </div>
+                <div className={styles.queriesInfo}>Mon- Sat | 9am-5pm IST</div>
               </div>
             </div>
           </div>
@@ -876,14 +899,10 @@ class NewGiftcard extends React.Component<Props, State> {
         )}
         {mobile && (
           <div
-            className={cs(
-              styles.addToBag,
-              {
-                [styles.active]:
-                  !formDisabled && selectedCountry != "" && cardId != ""
-              },
-              { [styles.previewOpen]: previewOpen }
-            )}
+            className={cs(styles.addToBag, {
+              [styles.active]:
+                !formDisabled && selectedCountry != "" && cardId != ""
+            })}
             onClick={this.onSubmit}
           >
             <a>ADD TO BAG</a>

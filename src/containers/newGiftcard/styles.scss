@@ -24,6 +24,7 @@ $banner-mobile-height:180px;
             text-align: center;
             color: #fff;
             line-height: $banner-desktop-height;
+            text-shadow: 0px 3px 6px #00000084;
         }
     }
     .page-body{
@@ -33,13 +34,18 @@ $banner-mobile-height:180px;
         .container{
             display: flex;
             align-items: flex-start;
-            justify-content: space-between;
+            justify-content: space-around;
             min-width: 991px;
             margin-top: 70px;
             .preview-gc{
                 min-width: 370px;
                 max-width: 470px;
                 background-color: #f8f8f8;
+                position: sticky;
+                top: $header-height;
+                &.sale-timer-position{
+                    top: $header-height+$sale-timer-height - 10px;
+                }
                 .title {
                     margin: 0 5%;
                     @include b4_12px_montserrat_charcoal_caps();
@@ -120,8 +126,8 @@ $banner-mobile-height:180px;
             }
     
             .form-gc{
-                min-width: 370px;
-                max-width: 470px;
+                min-width: 366px;
+                max-width: 370px;
                 .form-header{
                     @include h2_24px_lora_charcoal();
                     letter-spacing: 0.5px;
@@ -390,12 +396,12 @@ $banner-mobile-height:180px;
                     border-top: 2px solid #e5e5e5;
                     padding-top: 30px;
                     margin-bottom: 80px;
-                    .querries-title{
+                    .queries-title{
                         @include b3_14px_montserrat_caps_charcoal();
                         letter-spacing: 0.5px;
                         margin-bottom: 20px;
                     }
-                    .querries-info{
+                    .queries-info{
                         @include b3_14px_montserrat_gold();
                         letter-spacing: 0.5px;
                         &:not(:first-child){
@@ -421,6 +427,7 @@ $banner-mobile-height:180px;
                 text-align: center;
                 color: #fff;
                 line-height: $banner-mobile-height;
+                text-shadow: 0px 3px 6px #00000084;
             }
         }
         .page-body{
@@ -431,8 +438,12 @@ $banner-mobile-height:180px;
                 flex-direction: column-reverse;
                 position: relative;
                 align-items: center;
+                .preview-gc{
+                    position: unset;
+                }
                 .form-gc{
                     padding: 35px 20px 0px 20px;
+                    max-width: 100%;
                     .card-design {
                         .designs-container{
                             .img-options{
@@ -612,7 +623,7 @@ $banner-mobile-height:180px;
             }
         }
         .add-to-bag {
-            position: sticky;
+            position: fixed;
             bottom: 0px;
             left: 0px;
             z-index: 13;
@@ -628,10 +639,6 @@ $banner-mobile-height:180px;
             &.active{
                 background-color: #7EAAA9;
             }
-            &.preview-open {
-                position: fixed;
-            }
-            
         }
     }
 }
