@@ -186,8 +186,12 @@ class Footer extends React.Component<Props, FooterState> {
     }
   };
 
-  setConsent = () => {
-    this.setState({ isConsentSave: CookieService.getCookie("consent") !== "" });
+  setConsent = (isHide: boolean) => {
+    this.setState({
+      isConsentSave: isHide
+        ? !isHide
+        : CookieService.getCookie("consent") !== ""
+    });
   };
 
   showDropdown(value: boolean) {
@@ -1128,13 +1132,13 @@ class Footer extends React.Component<Props, FooterState> {
           this.props.currency == "INR" && (
             <MakerSmartNav id="TDEHYqQNA" inline={false} />
           )}
-
         {this.props.location.pathname !==
           "/customer-assistance/cookie-policy" &&
           this.props.location.pathname !==
             "/customer-assistance/privacy-policy" &&
           this.props.showCookie &&
-          !this.props.mobileMenuOpenState && (
+          !this.props.mobileMenuOpenState &&
+          !this.state.isConsentSave && (
             // || !this.state.isConsentSave)
             <CookiePolicy
               hideCookies={this.props.hideCookies}
