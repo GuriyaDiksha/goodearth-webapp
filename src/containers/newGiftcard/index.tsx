@@ -530,6 +530,7 @@ class NewGiftcard extends React.Component<Props, State> {
               className={cs(styles.previewGc, {
                 [styles.saleTimerPosition]: this.props.saleTimer
               })}
+              ref={ele => (this.container = ele)}
             >
               <div className={styles.title}>Preview</div>
               <div className={styles.imageContainer}>
@@ -814,10 +815,7 @@ class NewGiftcard extends React.Component<Props, State> {
                     }}
                     required
                   />
-                  <div
-                    className={styles.subscribe}
-                    ref={ele => (this.container = ele)}
-                  >
+                  <div className={styles.subscribe}>
                     <FormCheckbox
                       value={subscribe || false}
                       name="subscribe"
