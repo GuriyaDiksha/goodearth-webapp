@@ -118,7 +118,7 @@ class CategoryLanding extends React.Component<
   };
   componentDidMount() {
     const userConsent = CookieService.getCookie("consent").split(",");
-    if (userConsent.includes(GA_CALLS) || true) {
+    if (userConsent.includes(GA_CALLS)) {
       dataLayer.push(function(this: any) {
         this.reset();
       });
@@ -129,7 +129,7 @@ class CategoryLanding extends React.Component<
         Page_Title: "virtual_categoryLanding_view"
       });
     }
-    if (userConsent.includes(ANY_ADS) || true) {
+    if (userConsent.includes(ANY_ADS)) {
       Moengage.track_event("Page viewed", {
         "Page URL": this.props.location.pathname,
         "Page Name": "CategoryLandingView"
