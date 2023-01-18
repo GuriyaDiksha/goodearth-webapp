@@ -1835,15 +1835,16 @@ ul.inner-menu-mobile {
 .trending {
   display: inline-block;
   a {
-    margin-right: 1.2rem;
+    margin-right: 10px;
+    height: 30px;
     color: black;
     cursor: pointer;
     background-color: #F7F7F7;
     display: inline-block;
     width: -moz-fit-content;
-    padding-left: 10px;
-    padding-bottom: 4px;
-    padding-right: 12px;
+    padding-left: 8px;
+    padding-top: 2px;
+    padding-right: 10px;
     margin-top: 10px;
   }
 }
