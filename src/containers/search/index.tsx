@@ -407,7 +407,7 @@ class Search extends React.Component<
     // e.target.src = "/static/img/noimageplp.png";
   };
 
-  onClickSearch = (event: any) => {
+  onClickSearch = () => {
     if (this.state.searchText.trim().length > 2) {
       this.child.changeSearchValue(this.state.searchText);
     }
@@ -418,9 +418,14 @@ class Search extends React.Component<
     const urlParams = new URLSearchParams(queryString);
     const searchValue: any = urlParams.get("q") || "";
     if (searchValue !== this.state.searchText) {
-      this.setState({
-        searchText: searchValue ? searchValue : ""
-      });
+      this.setState(
+        {
+          searchText: searchValue ? searchValue : ""
+        },
+        () => {
+          this.onClickSearch();
+        }
+      );
     }
     const sort = urlParams.get("sort_by");
     if (sort !== this.state.sortValue) {
