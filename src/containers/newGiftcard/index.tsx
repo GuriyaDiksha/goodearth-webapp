@@ -908,8 +908,10 @@ class NewGiftcard extends React.Component<Props, State> {
             <a>ADD TO BAG</a>
           </div>
         )}
-        {previewOpen && (
-          <div className={styles.previewModal}>
+        {mobile && (
+          <div
+            className={cs(styles.previewModal, { [styles.open]: previewOpen })}
+          >
             <div
               className={styles.backToGcDetails}
               onClick={this.onBackToGcClick}

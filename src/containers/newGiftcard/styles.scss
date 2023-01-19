@@ -468,7 +468,7 @@ $banner-mobile-height:180px;
         }
         .preview-modal{
             position: fixed;
-            top: 0px;
+            bottom: 60px;
             left: 0px;
             height: calc(100vh - 60px);
             background-color: #ffffff;
@@ -476,6 +476,11 @@ $banner-mobile-height:180px;
             z-index: 12;
             overscroll-behavior: contain;
             overflow: auto;
+            max-height: 0px;
+            transition: max-height 1s;
+            &.open{
+                max-height: calc(100vh - 60px);
+            }
             .back-to-gc-details{
                 position: sticky;
                 top: 0;
