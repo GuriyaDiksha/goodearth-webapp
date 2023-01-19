@@ -81,6 +81,7 @@ type State = {
   categories: any[];
   usefulLink: any[];
   trendingWords: any[];
+  recentSearchs: any[];
 };
 class Search extends React.Component<Props, State> {
   constructor(props: Props) {
@@ -98,7 +99,8 @@ class Search extends React.Component<Props, State> {
       collections: [],
       categories: [],
       usefulLink: [],
-      trendingWords: []
+      trendingWords: [],
+      recentSearchs: []
     };
   }
 
@@ -143,6 +145,11 @@ class Search extends React.Component<Props, State> {
         console.log(error);
       });
     document.addEventListener("mousedown", this.handleClickOutside);
+    this.setState({
+      recentSearchs: CookieService.getCookie("recentSearch")
+        ? JSON.parse(CookieService.getCookie("recentSearch"))
+        : []
+    });
   }
 
   componentDidUpdate() {
@@ -175,6 +182,11 @@ class Search extends React.Component<Props, State> {
   };
 
   UNSAFE_componentWillReceiveProps = (nextProps: Props) => {
+    this.setState({
+      recentSearchs: CookieService.getCookie("recentSearch")
+        ? JSON.parse(CookieService.getCookie("recentSearch"))
+        : []
+    });
     if (nextProps.location.pathname !== this.props.location.pathname) {
       this.props.toggle();
     }
@@ -390,7 +402,8 @@ class Search extends React.Component<Props, State> {
       usefulLink,
       productData,
       trendingWords,
-      searchValue
+      searchValue,
+      recentSearchs
     } = this.state;
     const productsExist =
       collections.length > 0 ||
@@ -696,6 +709,67 @@ class Search extends React.Component<Props, State> {
                           </div>
                         </div>
                       )}
+                    {recentSearchs?.length &&
+                    this.state.searchValue.length == 0 ? (
+                      <div className={styles.recentWrp}>
+                        <div className={styles.recentWrpHead}>
+                          <p
+                            className={cs(
+                              styles.productHeading,
+                              globalStyles.marginB10
+                            )}
+                          >
+                            RECENT SEARCHES
+                          </p>
+                          <button
+                            onClick={() => {
+                              this.setState({ recentSearchs: [] });
+                              CookieService.setCookie(
+                                "recentSearch",
+                                JSON.stringify([])
+                              );
+                            }}
+                          >
+                            CLEAR ALL
+                          </button>
+                        </div>
+
+                        {recentSearchs?.map((ele, ind) => (
+                          <div className={styles.recentBlock}>
+                            <Link
+                              to={"/search/?q=" + ele}
+                              onClick={() => {
+                                this.props.hideSearch();
+                              }}
+                              key={ind}
+                            >
+                              {ele}
+                            </Link>
+                            <i
+                              className={cs(
+                                iconStyles.icon,
+                                iconStyles.iconCross,
+                                styles.iconStyle,
+                                styles.iconSearchCross
+                              )}
+                              onClick={() => {
+                                this.setState({
+                                  recentSearchs: recentSearchs.filter(
+                                    e => e !== ele
+                                  )
+                                });
+                                CookieService.setCookie(
+                                  "recentSearch",
+                                  JSON.stringify(
+                                    recentSearchs.filter(e => e !== ele)
+                                  )
+                                );
+                              }}
+                            ></i>
+                          </div>
+                        ))}
+                      </div>
+                    ) : null}
                     {usefulLink.length > 0 && (
                       <div className={globalStyles.marginT30}>
                         <p
