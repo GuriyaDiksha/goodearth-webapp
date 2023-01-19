@@ -1082,7 +1082,7 @@ class OtpCompActivateGC extends React.Component<otpProps, otpState> {
                   className={cs(styles.charcoalBtn, {
                     [styles.disabledBtn]:
                       !this.subscribeRef.current?.checked ||
-                      (this.props.isIndiaGC && this.state.phoneInput == "") ||
+                      // (this.props.isIndiaGC && this.state.phoneInput == "") ||
                       (!this.props.isIndiaGC && this.state.emailInput == "") ||
                       (this.props.isCredit && this.state.emailInput == "")
                   })}
