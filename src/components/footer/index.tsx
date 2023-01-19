@@ -12,7 +12,7 @@ import CookieService from "services/cookie";
 import * as valid from "utils/validate";
 import { Dispatch } from "redux";
 import HeaderFooterService from "services/headerFooter";
-import { updateShowCookie } from "actions/info";
+import { updateShowCookie, updateCookiePrefrence } from "actions/info";
 import CookiePolicy from "./CookiePolicy";
 import MakerSmartNav from "containers/base/MakerSmartNav";
 import ReactHtmlParser from "react-html-parser";
@@ -26,7 +26,8 @@ const mapStateToProps = (state: AppState) => {
     isSale: state.info.isSale,
     showCookie: state.info.showCookie,
     mobileMenuOpenState: state.header.mobileMenuOpenState,
-    currency: state.currency
+    currency: state.currency,
+    showCookiePref: state.info.showCookiePref
   };
 };
 
@@ -41,6 +42,9 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     },
     hideCookies: () => {
       dispatch(updateShowCookie(false));
+    },
+    showCookiePrefs: () => {
+      dispatch(updateCookiePrefrence(false));
     }
   };
 };
@@ -1132,20 +1136,34 @@ class Footer extends React.Component<Props, FooterState> {
           this.props.currency == "INR" && (
             <MakerSmartNav id="TDEHYqQNA" inline={false} />
           )}
-        {this.props.location.pathname !==
+        {console.log(
+          "showCookiePref==",
+          this.props?.showCookiePref,
+          this.props.location.pathname !==
+            "/customer-assistance/cookie-policy" &&
+            this.props.location.pathname !==
+              "/customer-assistance/privacy-policy" &&
+            this.props.showCookie &&
+            !this.props.mobileMenuOpenState &&
+            !this.state.isConsentSave
+        )}
+        {((this.props.location.pathname !==
           "/customer-assistance/cookie-policy" &&
           this.props.location.pathname !==
             "/customer-assistance/privacy-policy" &&
           this.props.showCookie &&
           !this.props.mobileMenuOpenState &&
-          !this.state.isConsentSave && (
-            // || !this.state.isConsentSave)
-            <CookiePolicy
-              hideCookies={this.props.hideCookies}
-              acceptCookies={this.acceptCookies}
-              setConsent={this.setConsent}
-            />
-          )}
+          !this.state.isConsentSave) ||
+          this.props?.showCookiePref) && (
+          // || !this.state.isConsentSave)
+          <CookiePolicy
+            hideCookies={this.props.hideCookies}
+            acceptCookies={this.acceptCookies}
+            setConsent={this.setConsent}
+            showCookiePref={this.props?.showCookiePref}
+            showCookiePrefs={this.props?.showCookiePrefs}
+          />
+        )}
       </div>
     );
   }

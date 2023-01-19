@@ -16,17 +16,21 @@ type Props = {
   hideCookies: any;
   acceptCookies: any;
   setConsent: any;
+  showCookiePref: boolean;
+  showCookiePrefs: any;
 };
 
 const CookiePolicy: React.FC<Props> = ({
   setConsent,
   acceptCookies,
-  hideCookies
+  hideCookies,
+  showCookiePref,
+  showCookiePrefs
 }) => {
   const [isPrefOpen, setIsPrefOpen] = useState(false);
   const [consents, setConsents] = useState<Consent[]>([]);
   const [regionName, setRegion] = useState<string>("");
-  const { region, widgetDetail, ip, country } = useSelector(
+  const { widgetDetail, ip, country } = useSelector(
     (state: AppState) => state.widget
   );
   const { email } = useSelector((state: AppState) => state.user);
@@ -38,6 +42,10 @@ const CookiePolicy: React.FC<Props> = ({
       document.body.classList.remove(globalStyles.noScroll);
     };
   }, []);
+
+  useEffect(() => {
+    setIsPrefOpen(showCookiePref);
+  }, [showCookiePref]);
 
   useEffect(() => {
     //setRegion("India");
@@ -54,13 +62,24 @@ const CookiePolicy: React.FC<Props> = ({
   }, [country]);
 
   useEffect(() => {
-    setConsents(widgetDetail?.consents || []);
+    const consent = widgetDetail?.consents || [];
+    if (CookieService.getCookie("consent") !== "") {
+      consent.map(e => {
+        if (CookieService.getCookie("consent")?.includes(e?.functionalities)) {
+          e.value = true;
+        } else {
+          e.value = false;
+        }
+      });
+    }
+
+    setConsents(consent || []);
   }, [widgetDetail]);
 
-  const changeValue = (checked: boolean, id: number) => {
+  const changeValue = (checked: boolean, id: string) => {
     const cloneConsent = clone(consents);
-    cloneConsent.map(e => {
-      if (Number(e.id) === id) {
+    cloneConsent.map((e, i) => {
+      if (`${e.id}${i}` === id) {
         e.value = checked;
       }
     });
@@ -81,7 +100,7 @@ const CookiePolicy: React.FC<Props> = ({
         .join(","),
       365
     );
-
+    showCookiePrefs();
     WidgetService.postConsentDetail(store.dispatch, {
       ip: ip || CookieService.getCookie("ip"),
       consents: consents
@@ -119,6 +138,7 @@ const CookiePolicy: React.FC<Props> = ({
   const hideCookie = () => {
     setConsent(true);
     hideCookies();
+    showCookiePrefs();
   };
 
   return (
@@ -162,14 +182,14 @@ const CookiePolicy: React.FC<Props> = ({
                   <p className={styles.prefhead}>Manage Cookie Preferences</p>
                   <div className={styles.prefWrp}>
                     {consents?.map((ele, i) => (
-                      <div className={styles.prefBlock} key={i}>
+                      <div className={styles.prefBlock} key={ele?.id}>
                         <div className={styles.prefSubBlock}>
                           <p className={styles.prefQue}>{ele?.name}</p>
                           <p className={styles.prefAns}>{ele?.description}</p>
                         </div>
                         <div className={styles.prefToggleWrp}>
                           <ToggleSwitch
-                            id={ele?.id}
+                            id={`${ele?.id}${i}`}
                             checked={ele?.value}
                             changeValue={changeValue}
                             small={true}

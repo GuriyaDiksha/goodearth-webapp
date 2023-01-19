@@ -1401,35 +1401,38 @@ export const checkoutGTM = (
       id: prod.product.childAttributes[0].sku
     };
   });
-  if (step == 1) {
-    dataLayer.push({
-      event: "initiate_checkout",
-      total_amount: basket.total,
-      currencyCode: currency,
-      total_item: basket.lineItems.length,
-      content_ids: totalId,
-      contents: fbproductData
-    });
-  }
-  if (step == 3) {
-    dataLayer.push({
-      event: "payment_info",
-      total_amount: basket.total,
-      currencyCode: currency,
-      total_item: basket.lineItems.length,
-      content_ids: totalId,
-      contents: fbproductData
-    });
-    dataLayer.push({ ecommerce: null }); // Clear the previous ecommerce object.
-    dataLayer.push({
-      event: "add_billing_info",
-      ecommerce: {
-        currency: currency, // Pass the currency code
-        value: basket.total,
-        coupon: "",
-        items: itemList
-      }
-    });
+  const userConsent = CookieService.getCookie("consent").split(",");
+  if (userConsent.includes(GA_CALLS)) {
+    if (step == 1) {
+      dataLayer.push({
+        event: "initiate_checkout",
+        total_amount: basket.total,
+        currencyCode: currency,
+        total_item: basket.lineItems.length,
+        content_ids: totalId,
+        contents: fbproductData
+      });
+    }
+    if (step == 3) {
+      dataLayer.push({
+        event: "payment_info",
+        total_amount: basket.total,
+        currencyCode: currency,
+        total_item: basket.lineItems.length,
+        content_ids: totalId,
+        contents: fbproductData
+      });
+      dataLayer.push({ ecommerce: null }); // Clear the previous ecommerce object.
+      dataLayer.push({
+        event: "add_billing_info",
+        ecommerce: {
+          currency: currency, // Pass the currency code
+          value: basket.total,
+          coupon: "",
+          items: itemList
+        }
+      });
+    }
   }
   // if(step == 4) {
   //   dataLayer.push({
@@ -1445,7 +1448,6 @@ export const checkoutGTM = (
   //   });
   // }
 
-  const userConsent = CookieService.getCookie("consent").split(",");
   if (paymentMethod) {
     if (userConsent.includes(GA_CALLS)) {
       dataLayer.push({
