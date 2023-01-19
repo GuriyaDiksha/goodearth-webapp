@@ -137,7 +137,8 @@ export function productForBasketGa(data: Basket, currency: Currency) {
           brand: "Goodearth",
           category: category,
           quantity: prod.quantity,
-          variant: prod.product.childAttributes[0].size || ""
+          variant: prod.product.childAttributes[0].size || "",
+          dimension12: prod.product.childAttributes[0]?.color
         }
       );
     });
@@ -769,7 +770,8 @@ export function sliderProductClick(
           // price: child.priceRecords[currency],
           brand: "Goodearth",
           position: position + 1,
-          variant: prod.size || ""
+          variant: prod.size || "",
+          dimension12: prod?.color
         }
       )
     ];
@@ -1147,7 +1149,8 @@ export function plpProductClick(
             : child.priceRecords[currency],
           brand: "Goodearth",
           position: position + 1,
-          variant: child.size || ""
+          variant: child.size || "",
+          dimension12: child?.color
         }
       );
     });
@@ -1342,7 +1345,8 @@ export function MoreFromCollectionProductClick(
         brand: "Goodearth",
         category: category,
         variant: child.size || "",
-        position: position
+        position: position,
+        dimension12: child?.color
       }
     );
   });
