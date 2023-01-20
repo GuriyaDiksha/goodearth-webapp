@@ -80,7 +80,17 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
   const showDetails = (index: number, id: string): any => {
     AccountService.fetchOrderBy(dispatch, id, props.email || "").then(
       (data: any) => {
-        setOrderdata(data.results[0]);
+        const res = data.results?.[0];
+        if (res.voucherDiscounts?.length > 0) {
+          for (let i = 0; i < res.voucherDiscounts.length; i++) {
+            for (let j = 0; j < res.offerDiscounts.length; i++) {
+              if (res.voucherDiscounts[i].name == res.offerDiscounts[j].name) {
+                res.offerDiscounts.splice(i, 1);
+              }
+            }
+          }
+        }
+        setOrderdata(res);
         setIsopenOrderIndex(index);
         setTimeout(() => {
           const orderElem = id && document.getElementById(id);
@@ -228,46 +238,87 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
       });
     }
 
-    let discount = 0;
-    for (let i = 0; i < data.offerDiscounts.length; i++) {
-      discount += +data.offerDiscounts[i].amount;
-    }
-
     html.push(
       <div className={styles.prices}>
+        {/* Subtotal */}
         <div className={cs(styles.price, styles.price1)}>
           <span className={styles.label}>SUBTOTAL</span>
           <span className={styles.value}>
-            {`${currencyChar} ${item.orderSubTotal}`}
+            {`${currencyChar} ${parseFloat(item.orderSubTotal).toFixed(2)}`}
           </span>
         </div>
-        {item.shippingInclTax > 0 && (
+        {/* offer discounts */}
+        {data.offerDiscounts?.map(
+          (discount: { name: string; amount: string }, index: number) => {
+            return (
+              <div className={cs(styles.price, styles.price3, styles.discount)}>
+                <span className={styles.label}>{discount.name}</span>
+                <span className={styles.value}>
+                  {`(-)${currencyChar} ${parseFloat(discount.amount).toFixed(
+                    2
+                  )}`}
+                </span>
+              </div>
+            );
+          }
+        )}
+        {/* shipping and handling */}
+        {data.shippingInclTax > 0 && (
           <div className={cs(styles.price, styles.price2)}>
             <span className={styles.label}>SHIPPING & HANDLING</span>
             <span className={styles.value}>
-              {`(+) ${currencyChar} ${item.shippingInclTax}`}
+              {`(+) ${currencyChar} ${parseFloat(item.shippingInclTax).toFixed(
+                2
+              )}`}
             </span>
           </div>
         )}
-        {discount > 0 && (
-          <div className={cs(styles.price, styles.price3, styles.discount)}>
-            <span className={styles.label}>DISCOUNT</span>
-            <span className={styles.value}>
-              {`(-)${currencyChar} ${discount}`}
-            </span>
-          </div>
-        )}
+        {/* voucher discounts */}
+        {data.voucherDiscounts?.map((vd: any, i: number) => {
+          return (
+            <div className={cs(styles.price, styles.price3, styles.discount)}>
+              <span className={styles.label}>{vd.name}</span>
+              <span className={styles.value}>
+                {`(-)${currencyChar} ${parseFloat(vd.amount).toFixed(2)}`}
+              </span>
+            </div>
+          );
+        })}
+        {/* giftcard and credit note */}
+        {data.giftVoucherRedeemed?.map((gccn: number, i: number) => {
+          return (
+            <div className={cs(styles.price, styles.price3, styles.discount)}>
+              <span className={styles.label}>Gift Card/Credit Note</span>
+              <span className={styles.value}>
+                {`(-)${currencyChar} ${parseFloat("" + gccn).toFixed(2)}`}
+              </span>
+            </div>
+          );
+        })}
+        {/* Loyalty Points */}
+        {data.loyalityPointsRedeemed?.map((gccn: number, i: number) => {
+          return (
+            <div className={cs(styles.price, styles.price3, styles.discount)}>
+              <span className={styles.label}>Loyalty Points</span>
+              <span className={styles.value}>
+                {`(-)${currencyChar} ${parseFloat(
+                  item.loyalityPointsRedeemed
+                ).toFixed(2)}`}
+              </span>
+            </div>
+          );
+        })}
+        {/* amount paid */}
         <div className={cs(styles.price, styles.total)}>
           <span className={styles.label}>
             AMOUNT PAID<span className={styles.light}>Incl. Tax</span>
           </span>
           <span className={styles.value}>
-            {`(${currencyChar} ${item.totalInclTax})`}
+            {`${currencyChar} ${parseFloat(item.totalInclTax).toFixed(2)}`}
           </span>
         </div>
       </div>
     );
-
     return html;
   };
 
