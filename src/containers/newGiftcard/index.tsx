@@ -404,7 +404,8 @@ class NewGiftcard extends React.Component<Props, State> {
           currencyCharCode: currencyCode[newCurrency],
           cardId: "",
           cardValue: "",
-          customValue: ""
+          customValue: "",
+          customValueErrorMsg: ""
         });
       } else {
         this.setState({
@@ -413,7 +414,8 @@ class NewGiftcard extends React.Component<Props, State> {
           currencyCharCode: currencyCode[newCurrency],
           cardId: "",
           cardValue: "",
-          customValue: ""
+          customValue: "",
+          customValueErrorMsg: ""
         });
       }
     }
