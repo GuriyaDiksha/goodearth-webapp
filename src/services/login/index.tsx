@@ -551,6 +551,9 @@ export default {
               resolve("USD");
             }
           } else {
+            // CookieService.setCookie("region", "INDIA", 365);
+            // CookieService.setCookie("ip", data?.ip, 365);
+            CookieService.setCookie("country", "India", 365);
             resolve("error");
           }
         });

@@ -1136,17 +1136,7 @@ class Footer extends React.Component<Props, FooterState> {
           this.props.currency == "INR" && (
             <MakerSmartNav id="TDEHYqQNA" inline={false} />
           )}
-        {console.log(
-          "showCookiePref==",
-          this.props?.showCookiePref,
-          this.props.location.pathname !==
-            "/customer-assistance/cookie-policy" &&
-            this.props.location.pathname !==
-              "/customer-assistance/privacy-policy" &&
-            this.props.showCookie &&
-            !this.props.mobileMenuOpenState &&
-            !this.state.isConsentSave
-        )}
+
         {((this.props.location.pathname !==
           "/customer-assistance/cookie-policy" &&
           this.props.location.pathname !==
