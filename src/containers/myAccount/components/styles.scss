@@ -115,7 +115,7 @@ input[type="text"]{
       @include b3_14px_montserrat_white();
       letter-spacing: 0.5px;
       border: 1px solid #4c4c4c;
-      line-height: 40px;
+      line-height: 50px;
       width: 100%;
       &:hover{
         color: #4C4C4C;
@@ -1406,6 +1406,9 @@ input[type="text"]{
       &.disabled{
         color: #19191950;
         cursor: not-allowed;
+      }
+      &:hover{
+        color: $gold;
       }
     }
   }
