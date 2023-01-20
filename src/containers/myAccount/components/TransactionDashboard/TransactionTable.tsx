@@ -29,7 +29,6 @@ const TransactionTable = ({ mobile }: Props) => {
   const [dropDownValue2, setDropdownValue2] = useState("ALL");
   const [currentPage, setCurrentPage] = useState(1);
   const [isLoading, setLoading] = useState(false);
-  const [renderVal, setRenderVal] = useState("ALL");
   const [oldFilterState, setOldFilterState] = useState({
     dropDownValue: "",
     dropDownValue2: ""
@@ -94,7 +93,6 @@ const TransactionTable = ({ mobile }: Props) => {
       TransactionFilter: dropDownValue2,
       PageNumber: currentPage
     });
-    setRenderVal(dropDownValue2);
   };
 
   const onPageClick = (currentPage: number) => {
@@ -273,308 +271,178 @@ const TransactionTable = ({ mobile }: Props) => {
           </div>
           {records?.map((ele, ind) => (
             <div key={ind}>
-              {((ele?.TransactionRedeemPoints === 0 &&
-                ele?.TransactionEarnPoints === 0) ||
-                ele?.TransactionRedeemPoints > 0) &&
-              (renderVal === "RD" || renderVal === "ALL") ? (
-                <div key={ind}>
+              <div key={ind + "t"}>
+                <div
+                  className={cs(
+                    bootstrap.row,
+                    styles.tableRow,
+                    styles.tableFirstRow
+                  )}
+                >
                   <div
                     className={cs(
-                      bootstrap.row,
-                      styles.tableRow,
-                      styles.tableFirstRow
+                      bootstrap.col1,
+                      styles.alignCenterText,
+                      styles.point,
+                      {
+                        [globalStyles.ceriseBackground]:
+                          ele?.Description === "PointRedeemed"
+                      },
+                      {
+                        [globalStyles.greyBackground]: ele?.Description === "NA"
+                      }
                     )}
-                  >
-                    <div
-                      className={cs(
-                        bootstrap.col1,
-                        styles.alignCenterText,
-                        styles.point,
-                        globalStyles.ceriseBackground
-                      )}
-                    ></div>
-                    <p
-                      className={cs(
-                        mobile ? bootstrap.col3 : bootstrap.col2,
-                        styles.alignCenterText,
-                        styles.tableHeading,
-                        styles.invoice
-                      )}
-                    >
-                      {ele?.DocumentNumber}
-                    </p>
-                    {mobile ? null : (
-                      <p
-                        className={cs(
-                          bootstrap.col2,
-                          styles.tableHeading,
-                          styles.alignCenterText
-                        )}
-                      >
-                        {moment(ele?.DocumentDate, "DD/MM/YYYY").format(
-                          "DD/MM/YYYY"
-                        )}
-                      </p>
-                    )}
-                    {mobile ? null : (
-                      <p
-                        className={cs(
-                          bootstrap.col2,
-                          styles.tableHeading,
-                          styles.alignCenterText
-                        )}
-                      >
-                        {ele?.Location}
-                      </p>
-                    )}
-                    <p
-                      className={cs(
-                        mobile ? bootstrap.col3 : bootstrap.col2,
-                        styles.tableHeading,
-                        styles.alignCenterText,
-                        styles.desc
-                      )}
-                    >
-                      {"Points Redeemed"}
-                    </p>
-                    <p
-                      className={cs(
-                        mobile ? bootstrap.col3 : bootstrap.col2,
-                        styles.tableHeading,
-                        styles.alignCenterText,
-                        styles.colPoint,
-                        globalStyles.cerise
-                      )}
-                    >
-                      {`[-] ${ele?.TransactionRedeemPoints}`}
-                    </p>
-                    <p
-                      className={cs(
-                        bootstrap.col1,
-                        styles.alignCenterText,
-                        styles.iconCarrot
-                      )}
-                    >
-                      <span
-                        className={
-                          openStateId["id"] === ind && openStateId["state"]
-                            ? styles.active
-                            : ""
-                        }
-                        onClick={() => {
-                          setOpenStateId({
-                            id: ind,
-                            state:
-                              openStateId["id"] === ind
-                                ? !openStateId["state"]
-                                : true
-                          });
-                        }}
-                      ></span>
-                    </p>
-                  </div>
-                  <div
+                  ></div>
+                  <p
                     className={cs(
-                      bootstrap.row,
-                      styles.tableRow,
-                      styles.tableSecondRow,
-                      openStateId["id"] === ind && openStateId["state"]
-                        ? styles.active
-                        : styles.inactive
+                      mobile ? bootstrap.col3 : bootstrap.col2,
+                      styles.alignCenterText,
+                      styles.tableHeading,
+                      styles.invoice
                     )}
                   >
-                    {mobile ? (
-                      <>
+                    {ele?.DocumentNumber}
+                  </p>
+                  {mobile ? null : (
+                    <p
+                      className={cs(
+                        bootstrap.col2,
+                        styles.tableHeading,
+                        styles.alignCenterText
+                      )}
+                    >
+                      {moment(ele?.DocumentDate, "DD/MM/YYYY").format(
+                        "DD/MM/YYYY"
+                      )}
+                    </p>
+                  )}
+                  {mobile ? null : (
+                    <p
+                      className={cs(
+                        bootstrap.col2,
+                        styles.tableHeading,
+                        styles.alignCenterText
+                      )}
+                    >
+                      {ele?.Location}
+                    </p>
+                  )}
+                  <p
+                    className={cs(
+                      mobile ? bootstrap.col3 : bootstrap.col2,
+                      styles.tableHeading,
+                      styles.alignCenterText,
+                      styles.desc
+                    )}
+                  >
+                    {ele?.Description}
+                  </p>
+                  <p
+                    className={cs(
+                      mobile ? bootstrap.col3 : bootstrap.col2,
+                      styles.tableHeading,
+                      styles.alignCenterText,
+                      styles.colPoint,
+                      {
+                        [globalStyles.cerise]:
+                          ele?.Description === "PointRedeemed"
+                      },
+                      { [globalStyles.greyColor]: ele?.Description === "NA" }
+                    )}
+                  >
+                    {`[+] ${ele?.Points}`}
+                  </p>
+                  <p
+                    className={cs(
+                      bootstrap.col1,
+                      styles.alignCenterText,
+                      styles.iconCarrot
+                    )}
+                  >
+                    <span
+                      className={
+                        openStateId["id"] === ind + "t" && openStateId["state"]
+                          ? styles.active
+                          : ""
+                      }
+                      onClick={() => {
+                        setOpenStateId({
+                          id: ind + "t",
+                          state:
+                            openStateId["id"] === ind + "t"
+                              ? !openStateId["state"]
+                              : true
+                        });
+                      }}
+                    ></span>
+                  </p>
+                </div>
+                <div
+                  className={cs(
+                    bootstrap.row,
+                    styles.tableRow,
+                    styles.tableSecondRow,
+                    openStateId["id"] === ind + "t" && openStateId["state"]
+                      ? styles.active
+                      : styles.inactive
+                  )}
+                >
+                  <>
+                    <div className={styles.innerDetailsWrp}>
+                      {mobile ? (
                         <div className={styles.innerDetails}>
                           <p className={styles.head}>Date</p>
                           <p className={styles.desc}>{ele?.DocumentDate}</p>
                         </div>
+                      ) : null}
+                      <div
+                        style={{ textAlign: "right" }}
+                        className={styles.innerDetails}
+                      >
+                        <p className={styles.head}>
+                          Net eligible amount for earning points
+                        </p>
+                        <p className={styles.desc}>{ele?.NetEligibleAmt}</p>
+                      </div>
+                    </div>
+                    {mobile ? (
+                      <div className={styles.innerDetailsWrp}>
                         <div className={styles.innerDetails}>
                           <p className={styles.head}>Location</p>
                           <p className={styles.desc}>{ele?.Location}</p>
                         </div>
-                      </>
+                      </div>
                     ) : null}
-                    <table className={cs(styles.col12)}>
-                      <tr className={cs(styles.firstTd)}>
-                        <th>Items</th>
-                        <th className={cs(styles.alignCenterText)}>Price</th>
-                        <th className={cs(styles.alignCenterText)}>
-                          Eligible for Loyalty
-                        </th>
-                      </tr>
-                      {ele?.ItemDetail.map((e, index) => (
-                        <tr key={index}>
-                          <td className={cs(styles.firstTd)}>
-                            {e?.ItemName} | QTY {e?.ItemQuantity}
-                          </td>
-                          <td className={cs(styles.alignCenterText)}>
-                            ₹ {e?.ItemValue}
-                          </td>
-                          <td className={cs(styles.alignCenterText)}>
-                            {e?.ItemEligiblity === "Yes" ? (
-                              <img src={True} />
-                            ) : (
-                              <img src={Close} />
-                            )}
-                          </td>
-                        </tr>
-                      ))}
-                    </table>
-                  </div>
-                </div>
-              ) : null}
+                  </>
 
-              {((ele?.TransactionRedeemPoints === 0 &&
-                ele?.TransactionEarnPoints === 0) ||
-                ele?.TransactionEarnPoints > 0) &&
-              (renderVal === "ER" || renderVal === "ALL") ? (
-                <div key={ind + "t"}>
-                  <div
-                    className={cs(
-                      bootstrap.row,
-                      styles.tableRow,
-                      styles.tableFirstRow
-                    )}
-                  >
-                    <div
-                      className={cs(
-                        bootstrap.col1,
-                        styles.alignCenterText,
-                        styles.point
-                      )}
-                    ></div>
-                    <p
-                      className={cs(
-                        mobile ? bootstrap.col3 : bootstrap.col2,
-                        styles.alignCenterText,
-                        styles.tableHeading,
-                        styles.invoice
-                      )}
-                    >
-                      {ele?.DocumentNumber}
-                    </p>
-                    {mobile ? null : (
-                      <p
-                        className={cs(
-                          bootstrap.col2,
-                          styles.tableHeading,
-                          styles.alignCenterText
-                        )}
-                      >
-                        {moment(ele?.DocumentDate, "DD/MM/YYYY").format(
-                          "DD/MM/YYYY"
-                        )}
-                      </p>
-                    )}
-                    {mobile ? null : (
-                      <p
-                        className={cs(
-                          bootstrap.col2,
-                          styles.tableHeading,
-                          styles.alignCenterText
-                        )}
-                      >
-                        {ele?.Location}
-                      </p>
-                    )}
-                    <p
-                      className={cs(
-                        mobile ? bootstrap.col3 : bootstrap.col2,
-                        styles.tableHeading,
-                        styles.alignCenterText,
-                        styles.desc
-                      )}
-                    >
-                      {"Points Earned"}
-                    </p>
-                    <p
-                      className={cs(
-                        mobile ? bootstrap.col3 : bootstrap.col2,
-                        styles.tableHeading,
-                        styles.alignCenterText,
-                        styles.colPoint
-                      )}
-                    >
-                      {`[+] ${ele?.TransactionEarnPoints}`}
-                    </p>
-                    <p
-                      className={cs(
-                        bootstrap.col1,
-                        styles.alignCenterText,
-                        styles.iconCarrot
-                      )}
-                    >
-                      <span
-                        className={
-                          openStateId["id"] === ind + "t" &&
-                          openStateId["state"]
-                            ? styles.active
-                            : ""
-                        }
-                        onClick={() => {
-                          setOpenStateId({
-                            id: ind + "t",
-                            state:
-                              openStateId["id"] === ind + "t"
-                                ? !openStateId["state"]
-                                : true
-                          });
-                        }}
-                      ></span>
-                    </p>
-                  </div>
-                  <div
-                    className={cs(
-                      bootstrap.row,
-                      styles.tableRow,
-                      styles.tableSecondRow,
-                      openStateId["id"] === ind + "t" && openStateId["state"]
-                        ? styles.active
-                        : styles.inactive
-                    )}
-                  >
-                    {mobile ? (
-                      <>
-                        <div className={styles.innerDetails}>
-                          <p className={styles.head}>Date</p>
-                          <p className={styles.desc}>{ele?.DocumentDate}</p>
-                        </div>
-                        <div className={styles.innerDetails}>
-                          <p className={styles.head}>Location</p>
-                          <p className={styles.desc}>{ele?.Location}</p>
-                        </div>
-                      </>
-                    ) : null}
-                    <table className={cs(styles.col12)}>
-                      <tr className={cs(styles.firstTd)}>
-                        <th>Items</th>
-                        <th className={cs(styles.alignCenterText)}>Price</th>
-                        <th className={cs(styles.alignCenterText)}>
-                          Eligible for Loyalty
-                        </th>
+                  <table className={cs(styles.col12)}>
+                    <tr className={cs(styles.firstTd)}>
+                      <th>Items</th>
+                      <th className={cs(styles.alignCenterText)}>Price</th>
+                      <th className={cs(styles.alignCenterText)}>
+                        Eligible for Loyalty
+                      </th>
+                    </tr>
+                    {ele?.ItemDetail.map((e, index) => (
+                      <tr key={index}>
+                        <td className={cs(styles.firstTd)}>
+                          {e?.ItemName} | QTY {e?.ItemQuantity}
+                        </td>
+                        <td className={cs(styles.alignCenterText)}>
+                          ₹ {e?.ItemValue}
+                        </td>
+                        <td className={cs(styles.alignCenterText)}>
+                          {e?.ItemEligiblity === "Yes" ? (
+                            <img src={True} />
+                          ) : (
+                            <img src={Close} />
+                          )}
+                        </td>
                       </tr>
-                      {ele?.ItemDetail.map((e, index) => (
-                        <tr key={index}>
-                          <td className={cs(styles.firstTd)}>
-                            {e?.ItemName} | QTY {e?.ItemQuantity}
-                          </td>
-                          <td className={cs(styles.alignCenterText)}>
-                            ₹ {e?.ItemValue}
-                          </td>
-                          <td className={cs(styles.alignCenterText)}>
-                            {e?.ItemEligiblity === "Yes" ? (
-                              <img src={True} />
-                            ) : (
-                              <img src={Close} />
-                            )}
-                          </td>
-                        </tr>
-                      ))}
-                    </table>
-                  </div>
+                    ))}
+                  </table>
                 </div>
-              ) : null}
+              </div>
             </div>
           ))}
         </div>
@@ -623,6 +491,10 @@ const TransactionTable = ({ mobile }: Props) => {
                 className={cs(styles.point, globalStyles.ceriseBackground)}
               ></p>
               <p className={styles.label}>Points Redeemed</p>
+            </div>
+            <div className={styles.footerLabel}>
+              <p className={cs(styles.point, globalStyles.greyBackground)}></p>
+              <p className={styles.label}>Not Available</p>
             </div>
           </div>
           <div className={styles.footerLine}>

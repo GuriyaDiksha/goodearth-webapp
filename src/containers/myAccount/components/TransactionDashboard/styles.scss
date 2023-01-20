@@ -226,15 +226,33 @@
         transition: max-height 0.3s ease-out;
         max-height: 0;
 
-        .inner-details{
-            margin: 10px;
-            width: 100%;
+        .inner-details-wrp{
+            margin: 17px 185px 17px 50px;
+                width: 100%;
+                text-align: right;
 
-            .head{
-                @include b6_9px_montserrat_charcoal();
-            }
-            .desc{
-                @include b4_12px_montserrat_charcoal();
+                @media screen and (max-width:992px) {
+                    display: flex;
+                    margin: 10px;
+                   width: 100%;
+                   text-align: unset;
+                }
+            .inner-details{    
+                
+                
+                @media screen and (max-width:992px) {
+                   width: 100%;
+                }
+    
+                .head{
+                    @include b6_9px_montserrat_charcoal();
+                }
+                .desc{
+                    width: 100%;
+                    max-width: 100%;
+                    @include b4_12px_montserrat_charcoal();
+                }
+    
             }
 
         }

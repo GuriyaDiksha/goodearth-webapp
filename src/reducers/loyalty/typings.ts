@@ -52,6 +52,9 @@ export type Records = {
   TransactionEarnPoints: number;
   TransactionRedeemPoints: number;
   ItemDetail: ItemDetail[];
+  Points: string;
+  Description: string;
+  NetEligibleAmt: number;
 };
 
 export type Transaction = {
