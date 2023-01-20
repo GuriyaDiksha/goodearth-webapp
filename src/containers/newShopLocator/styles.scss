@@ -1,0 +1,62 @@
+@import "../../styles/partials/variables";
+@import "../../styles/partials/mixins";
+
+$sale-timer-height:50px;
+$banner-desktop-height:440px;
+$banner-mobile-height:500px;
+
+.page-container{
+    margin-top: $header-height;
+    &.sale-timer-margin{
+        margin-top: $header-height+$sale-timer-height - 10px;
+    }
+    height: 100%;
+    .banner{
+        height: 440px;
+        width: 100%;
+        border-color: 1px solid black;
+        .banner-text{
+            line-height: 440px;
+            font-family: $font-Lora;
+            font-size: 30px;
+            font-style: italic;
+            color: #fff;
+            background: #e5e5e5;
+            text-align: center;
+        }
+    }
+    .page-description{
+        height: 200px;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        .text{
+            text-align: center;
+            width: 512px;
+            @include b3_14px_montserrat_charcoal();
+            letter-spacing: 0.5px;
+        }
+    }
+    .header {
+        height: 70px;
+        box-shadow: 0px 4px 6px #00000021;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        column-gap: 53px;
+        .item {
+            width: 100px;
+            text-align: center;
+            @include b4_12px_medium_aqua_caps();
+            color: #9f9f9f;
+            line-height: 70px;
+            cursor: pointer;
+            &.active{
+                color: $aqua-bold;
+                border-bottom: 5px solid $aqua;
+            }
+        }
+    }
+}
