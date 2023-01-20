@@ -6,8 +6,6 @@ import { withRouter, RouteComponentProps } from "react-router-dom";
 import cs from "classnames";
 import styles from "./styles.scss";
 
-import rawData from "./data.json";
-
 const mapStateToProps = (state: AppState) => {
   return {
     mobile: state.device.mobile,
@@ -35,34 +33,39 @@ class ShopLocator extends Component<Props, State> {
       currentCity: ""
     };
   }
-  componentDidMount(): void {
-    // this.props.fetchShopLocatorData()
-    // .then((data: any) => {
-    //     this.setState({
-    //         shopData: data
-    //     })
-    // })
-    // .catch((err: any) => {
-    //     console.log(err);
-    //     this.setState({
-    //         shopData: rawData
-    //     })
-    // })
-    this.setState({
-      shopData: rawData
-    });
 
-    if (this.props.city) {
-      this.setState({ currentCity: this.props.city });
-    } else {
-      // change this
-      this.setState({ currentCity: Object.keys(rawData)[0] });
-    }
+  onHeaderItemClick = (data: any) => {
+    this.setState({
+      currentCity: data
+    });
+  };
+
+  componentDidMount(): void {
+    this.props
+      .fetchShopLocatorData()
+      .then((data: any) => {
+        this.setState(
+          {
+            shopData: data
+          },
+          () => {
+            if (this.props.city) {
+              this.setState({ currentCity: this.props.city });
+            } else {
+              // change this
+              this.setState({
+                currentCity: Object.keys(this.state.shopData)[0]
+              });
+            }
+          }
+        );
+      })
+      .catch((err: any) => {
+        console.log(err);
+      });
   }
 
   render() {
-    console.log("Data: ", this.state.shopData);
-    console.log("props: ", this.props);
     const { shopData, currentCity } = this.state;
     return (
       <div
@@ -89,11 +92,25 @@ class ShopLocator extends Component<Props, State> {
                   [styles.active]: data == currentCity
                 })}
                 key={i}
+                onClick={() => this.onHeaderItemClick(data)}
               >
                 {data}
               </div>
             );
           })}
+        </div>
+        <div className={styles.pageBody}>
+          {
+            // shopData[currentCity].map((data: any, i: number) => {
+            //   return (
+            //     <div className={styles.locationsContainer} key={`${data.place}_${i}`}>
+            //       {/* Shop Block */}
+            //       asdf
+            //       {/* Cafe Block */}
+            //     </div>
+            //   )
+            // })
+          }
         </div>
       </div>
     );
