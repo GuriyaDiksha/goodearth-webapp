@@ -27,6 +27,7 @@ import { updateModal } from "actions/modal";
 import Price from "components/Price";
 import ReactHtmlParser from "react-html-parser";
 import { GA_CALLS } from "constants/cookieConsent";
+import giftCardTile from "images/giftcard-tile.png";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -235,7 +236,7 @@ class Search extends React.Component<Props, State> {
       }
     );
     const userConsent = CookieService.getCookie("consent").split(",");
-    if (userConsent.includes(GA_CALLS) || true) {
+    if (userConsent.includes(GA_CALLS)) {
       dataLayer.push({
         event: "productClick",
         ecommerce: {
@@ -922,7 +923,6 @@ class Search extends React.Component<Props, State> {
                       {this.state.productData.length > 0
                         ? this.state.productData.map((data, i) => {
                             const isCombo = data.inStock;
-
                             let totalStock = (data.childAttributes as PartialChildProductAttributes[])?.reduce(
                               (
                                 total: number,
@@ -990,7 +990,11 @@ class Search extends React.Component<Props, State> {
                                     // )}
                                   >
                                     <img
-                                      src={data.image}
+                                      src={
+                                        data.link == "/giftcard"
+                                          ? giftCardTile
+                                          : data.image
+                                      }
                                       onError={this.addDefaultSrc}
                                       alt={data.altText || data.title}
                                       className={styles.imageResultNew}
@@ -1022,7 +1026,7 @@ class Search extends React.Component<Props, State> {
                                         : ReactHtmlParser(data.product)}
                                     </Link>
                                   </p>
-                                  {data?.productClass == "GiftCard"
+                                  {data?.link == "/giftcard"
                                     ? ""
                                     : !(
                                         data?.invisibleFields?.indexOf(

@@ -429,7 +429,7 @@ const ProductDetails: React.FC<Props> = ({
       : "nonView3d";
 
     const userConsent = CookieService.getCookie("consent").split(",");
-    if (userConsent.includes(ANY_ADS) || true) {
+    if (userConsent.includes(ANY_ADS)) {
       Moengage.track_event("add_to_cart", {
         "Product id": sku || childAttributes[0].sku,
         "Product name": title,
@@ -454,7 +454,7 @@ const ProductDetails: React.FC<Props> = ({
     }
     const size = selectedSize?.size || "";
     const search = CookieService.getCookie("search") || "";
-    if (userConsent.includes(GA_CALLS) || true) {
+    if (userConsent.includes(GA_CALLS)) {
       dataLayer.push({
         "Event Category": "GA Ecommerce",
         "Event Action": "Add to Cart",
@@ -620,7 +620,7 @@ const ProductDetails: React.FC<Props> = ({
         valid.showGrowlMessage(dispatch, MESSAGE.ADD_TO_REGISTRY_SUCCESS);
         const registry = Object.assign({}, isRegistry);
         const userConsent = CookieService.getCookie("consent").split(",");
-        if (userConsent.includes(GA_CALLS) || true) {
+        if (userConsent.includes(GA_CALLS)) {
           dataLayer.push({
             event: "registry",
             "Event Category": "Registry",

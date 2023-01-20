@@ -322,7 +322,7 @@ export function proceedTocheckout(data: Basket, currency: Currency) {
         }
       );
     });
-    if (userConsent.includes(GA_CALLS) || true) {
+    if (userConsent.includes(GA_CALLS)) {
       dataLayer.push({ ecommerce: null }); // Clear the previous ecommerce object.
       dataLayer.push({
         event: "begin_checkout",
@@ -331,7 +331,7 @@ export function proceedTocheckout(data: Basket, currency: Currency) {
         }
       });
     }
-    if (userConsent.includes(ANY_ADS) || true) {
+    if (userConsent.includes(ANY_ADS)) {
       Moengage.track_event("Proceed to checkout", {
         "Product id": skusid,
         "Product name": productname,
@@ -418,7 +418,7 @@ export function proceedForPayment(
         }
       );
     });
-    if (userConsent.includes(GA_CALLS) || true) {
+    if (userConsent.includes(GA_CALLS)) {
       dataLayer.push({ ecommerce: null }); // Clear the previous ecommerce object.
       dataLayer.push({
         event: "add_payment_info",
@@ -656,7 +656,7 @@ export function productImpression(
     });
 
     const userConsent = CookieService.getCookie("consent").split(",");
-    if (userConsent.includes(GA_CALLS) || true) {
+    if (userConsent.includes(GA_CALLS)) {
       dataLayer.push({ ecommerce: null });
       dataLayer.push({
         event: "productImpression",
@@ -673,7 +673,7 @@ export function productImpression(
         }
       });
     }
-    if (userConsent.includes(ANY_ADS) || true) {
+    if (userConsent.includes(ANY_ADS)) {
       Moengage.track_event("PLP views", {
         "Category Name": categoryName.trim(),
         "Sub Category Name": subcategoryname.trim(),
@@ -723,7 +723,7 @@ export function sliderProductImpression(
       product.push(childProduct);
     });
     const userConsent = CookieService.getCookie("consent").split(",");
-    if (userConsent.includes(GA_CALLS) || true) {
+    if (userConsent.includes(GA_CALLS)) {
       dataLayer.push({ ecommerce: null });
       dataLayer.push({
         event: "productImpression",
@@ -776,7 +776,7 @@ export function sliderProductClick(
       )
     ];
     const userConsent = CookieService.getCookie("consent").split(",");
-    if (userConsent.includes(GA_CALLS) || true) {
+    if (userConsent.includes(GA_CALLS)) {
       dataLayer.push({
         event: "productClick",
         ecommerce: {
@@ -806,7 +806,7 @@ export function promotionImpression(data: any) {
       };
     });
     const userConsent = CookieService.getCookie("consent").split(",");
-    if (userConsent.includes(GA_CALLS) || true) {
+    if (userConsent.includes(GA_CALLS)) {
       dataLayer.push({
         event: "promotionImpression",
         ecommerce: {
@@ -928,7 +928,7 @@ export function PDP(data: any, currency: Currency) {
     // variants = variants.slice(1);
     // prices = prices.slice(1);
 
-    if (userConsent.includes(ANY_ADS) || true) {
+    if (userConsent.includes(ANY_ADS)) {
       Moengage.track_event("PDP View", {
         "Product id": skusid,
         "Product name": data.title,
@@ -946,26 +946,28 @@ export function PDP(data: any, currency: Currency) {
       });
     }
     const listPath = CookieService.getCookie("listPath") || "DirectLandingView";
-    dataLayer.push({ ecommerce: null }); // Clear the previous ecommerce object.
-    dataLayer.push({
-      event: "view_item",
-      ecommerce: {
-        items: childAttr
-      }
-    });
-    dataLayer.push({ ecommerce: null });
-    dataLayer.push({
-      event: "productDetailImpression",
-      ecommerce: {
-        currencyCode: currency,
+    if (userConsent.includes(GA_CALLS)) {
+      dataLayer.push({ ecommerce: null }); // Clear the previous ecommerce object.
+      dataLayer.push({
+        event: "view_item",
         ecommerce: {
-          detail: {
-            actionField: { list: listPath },
-            products
+          items: childAttr
+        }
+      });
+      dataLayer.push({ ecommerce: null });
+      dataLayer.push({
+        event: "productDetailImpression",
+        ecommerce: {
+          currencyCode: currency,
+          ecommerce: {
+            detail: {
+              actionField: { list: listPath },
+              products
+            }
           }
         }
-      }
-    });
+      });
+    }
   } catch (e) {
     console.log(e);
     console.log("PDP impression error");
@@ -1029,7 +1031,7 @@ export function collectionProductImpression(
       // prices = prices.slice(1);
     });
     const userConsent = CookieService.getCookie("consent").split(",");
-    if (userConsent.includes(GA_CALLS) || true) {
+    if (userConsent.includes(GA_CALLS)) {
       dataLayer.push({ ecommerce: null });
       dataLayer.push({
         event: "productImpression",
@@ -1101,7 +1103,7 @@ export function weRecommendProductImpression(
       // prices = prices.slice(1);
     });
     const userConsent = CookieService.getCookie("consent").split(",");
-    if (userConsent.includes(GA_CALLS) || true) {
+    if (userConsent.includes(GA_CALLS)) {
       dataLayer.push({ ecommerce: null });
       dataLayer.push({
         event: "productImpression",
@@ -1192,7 +1194,7 @@ export function plpProductClick(
     const listPath = `${list}`;
     CookieService.setCookie("listPath", listPath);
     const userConsent = CookieService.getCookie("consent").split(",");
-    if (userConsent.includes(GA_CALLS) || true) {
+    if (userConsent.includes(GA_CALLS)) {
       dataLayer.push({
         event: "productClick",
         ecommerce: {
@@ -1228,7 +1230,7 @@ export function promotionClick(data: any) {
       }
     ];
     const userConsent = CookieService.getCookie("consent").split(",");
-    if (userConsent.includes(GA_CALLS) || true) {
+    if (userConsent.includes(GA_CALLS)) {
       dataLayer.push({
         event: "promotionClick",
         ecommerce: {
@@ -1300,7 +1302,7 @@ export function MoreFromCollectionProductImpression(
       // prices = prices.slice(1);
     });
     const userConsent = CookieService.getCookie("consent").split(",");
-    if (userConsent.includes(GA_CALLS) || true) {
+    if (userConsent.includes(GA_CALLS)) {
       dataLayer.push({ ecommerce: null });
       dataLayer.push({
         event: "productImpression",
@@ -1353,7 +1355,7 @@ export function MoreFromCollectionProductClick(
   const listPath = `${list}`;
   CookieService.setCookie("listPath", listPath);
   const userConsent = CookieService.getCookie("consent").split(",");
-  if (userConsent.includes(GA_CALLS) || true) {
+  if (userConsent.includes(GA_CALLS)) {
     dataLayer.push({
       event: "productClick",
       ecommerce: {
@@ -1370,7 +1372,7 @@ export function MoreFromCollectionProductClick(
 export function errorTracking(errorMessage: string[], url: string) {
   try {
     const userConsent = CookieService.getCookie("consent").split(",");
-    if (userConsent.includes(GA_CALLS) || true) {
+    if (userConsent.includes(GA_CALLS)) {
       dataLayer.push({
         event: "errorMessage",
         "Error Message": errorMessage,
@@ -1442,35 +1444,38 @@ export const checkoutGTM = (
       id: prod.product.childAttributes[0].sku
     };
   });
-  if (step == 1) {
-    dataLayer.push({
-      event: "initiate_checkout",
-      total_amount: basket.total,
-      currencyCode: currency,
-      total_item: basket.lineItems.length,
-      content_ids: totalId,
-      contents: fbproductData
-    });
-  }
-  if (step == 3) {
-    dataLayer.push({
-      event: "payment_info",
-      total_amount: basket.total,
-      currencyCode: currency,
-      total_item: basket.lineItems.length,
-      content_ids: totalId,
-      contents: fbproductData
-    });
-    dataLayer.push({ ecommerce: null }); // Clear the previous ecommerce object.
-    dataLayer.push({
-      event: "add_billing_info",
-      ecommerce: {
-        currency: currency, // Pass the currency code
-        value: basket.total,
-        coupon: "",
-        items: itemList
-      }
-    });
+  const userConsent = CookieService.getCookie("consent").split(",");
+  if (userConsent.includes(GA_CALLS)) {
+    if (step == 1) {
+      dataLayer.push({
+        event: "initiate_checkout",
+        total_amount: basket.total,
+        currencyCode: currency,
+        total_item: basket.lineItems.length,
+        content_ids: totalId,
+        contents: fbproductData
+      });
+    }
+    if (step == 3) {
+      dataLayer.push({
+        event: "payment_info",
+        total_amount: basket.total,
+        currencyCode: currency,
+        total_item: basket.lineItems.length,
+        content_ids: totalId,
+        contents: fbproductData
+      });
+      dataLayer.push({ ecommerce: null }); // Clear the previous ecommerce object.
+      dataLayer.push({
+        event: "add_billing_info",
+        ecommerce: {
+          currency: currency, // Pass the currency code
+          value: basket.total,
+          coupon: "",
+          items: itemList
+        }
+      });
+    }
   }
   // if(step == 4) {
   //   dataLayer.push({
@@ -1486,9 +1491,8 @@ export const checkoutGTM = (
   //   });
   // }
 
-  const userConsent = CookieService.getCookie("consent").split(",");
   if (paymentMethod) {
-    if (userConsent.includes(GA_CALLS) || true) {
+    if (userConsent.includes(GA_CALLS)) {
       dataLayer.push({
         event: "checkout",
         ecommerce: {
@@ -1502,7 +1506,7 @@ export const checkoutGTM = (
       });
     }
   } else {
-    if (userConsent.includes(GA_CALLS) || true) {
+    if (userConsent.includes(GA_CALLS)) {
       dataLayer.push({
         event: "checkout",
         ecommerce: {
@@ -1525,7 +1529,7 @@ export const headerClickGTM = (
 ) => {
   try {
     const userConsent = CookieService.getCookie("consent").split(",");
-    if (userConsent.includes(GA_CALLS) || true) {
+    if (userConsent.includes(GA_CALLS)) {
       dataLayer.push({
         event: "Header Click",
         clickType,
@@ -1546,7 +1550,7 @@ export const footerClickGTM = (
 ) => {
   try {
     const userConsent = CookieService.getCookie("consent").split(",");
-    if (userConsent.includes(GA_CALLS) || true) {
+    if (userConsent.includes(GA_CALLS)) {
       dataLayer.push({
         event: "Footer Click",
         clickType,
@@ -1587,7 +1591,7 @@ export const menuNavigationGTM = ({
 }) => {
   try {
     const userConsent = CookieService.getCookie("consent").split(",");
-    if (userConsent.includes(GA_CALLS) || true) {
+    if (userConsent.includes(GA_CALLS)) {
       dataLayer.push({
         event: "Menu Navigation",
         clickType: "Category",
@@ -1629,7 +1633,7 @@ export const megaMenuNavigationGTM = ({
   try {
     const userConsent = CookieService.getCookie("consent").split(",");
 
-    if (userConsent.includes(ANY_ADS) || true) {
+    if (userConsent.includes(ANY_ADS)) {
       if (l3) {
         Moengage.track_event("L1Clicked", {
           "Category Name": l3
@@ -1666,14 +1670,14 @@ export const megaMenuNavigationGTM = ({
         default:
           eventName = "";
       }
-      if (userConsent.includes(ANY_ADS) || true) {
+      if (userConsent.includes(ANY_ADS)) {
         Moengage.track_event(eventName, {
           "Category Name": l1
         });
       }
     }
 
-    if (userConsent.includes(GA_CALLS) || true) {
+    if (userConsent.includes(GA_CALLS)) {
       dataLayer.push({
         event: "Menu Navigation",
         clickType: "Category",
@@ -1737,7 +1741,7 @@ export const pageViewGTM = (Title: string) => {
     const userConsent = CookieService.getCookie("consent").split(",");
     const userInfo = JSON.parse(CookieService.getCookie("user") || "{}");
 
-    if (userConsent.includes(GA_CALLS) || true) {
+    if (userConsent.includes(GA_CALLS)) {
       dataLayer.push({
         event: "pageview",
         Email: userInfo.email ? sha256(userInfo.email) : "",
@@ -1783,7 +1787,7 @@ export const moveChatDown = () => {
 export const viewSelectionGTM = (clickType: "list" | "grid") => {
   try {
     const userConsent = CookieService.getCookie("consent").split(",");
-    if (userConsent.includes(GA_CALLS) || true) {
+    if (userConsent.includes(GA_CALLS)) {
       dataLayer.push({
         event: "View Selection",
         clickType
@@ -1797,7 +1801,7 @@ export const viewSelectionGTM = (clickType: "list" | "grid") => {
 export const sortGTM = (clickType: string) => {
   try {
     const userConsent = CookieService.getCookie("consent").split(",");
-    if (userConsent.includes(GA_CALLS) || true) {
+    if (userConsent.includes(GA_CALLS)) {
       dataLayer.push({
         event: "Sort",
         clickType,
@@ -1812,7 +1816,7 @@ export const sortGTM = (clickType: string) => {
 export const footerGTM = (clickType: string) => {
   try {
     const userConsent = CookieService.getCookie("consent").split(",");
-    if (userConsent.includes(GA_CALLS) || true) {
+    if (userConsent.includes(GA_CALLS)) {
       dataLayer.push({
         event: "Footer Navigation",
         clickType,
@@ -1827,7 +1831,7 @@ export const footerGTM = (clickType: string) => {
 export const announcementBarGTM = (clickText: string, clickUrl: string) => {
   try {
     const userConsent = CookieService.getCookie("consent").split(",");
-    if (userConsent.includes(GA_CALLS) || true) {
+    if (userConsent.includes(GA_CALLS)) {
       dataLayer.push({
         event: "Announcement Bar Click",
         clickText,

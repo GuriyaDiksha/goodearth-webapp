@@ -8,9 +8,29 @@ import { scrollToId, removeFroala } from "utils/validate";
 import { AccordionData } from "../../typings";
 import { Section } from "components/Accordion/typings";
 import faqStyles from "containers/pdp/components/WallpaperFAQ/styles.scss";
+import { updateCookiePrefrence } from "actions/info";
+import { Dispatch } from "redux";
+import { connect } from "react-redux";
+import { AppState } from "reducers/typings";
 
-export default class Cust extends React.Component<
-  Props,
+const mapStateToProps = (state: AppState) => {
+  return {
+    showCookiePref: state.info.showCookiePref
+  };
+};
+
+const mapDispatchToProps = (dispatch: Dispatch) => {
+  return {
+    showCookiePrefs: () => {
+      dispatch(updateCookiePrefrence(true));
+    }
+  };
+};
+
+class Cust extends React.Component<
+  Props &
+    ReturnType<typeof mapStateToProps> &
+    ReturnType<typeof mapDispatchToProps>,
   {
     link: string;
     content: string;
@@ -18,7 +38,11 @@ export default class Cust extends React.Component<
     accordionData: AccordionData[];
   }
 > {
-  constructor(props: Props) {
+  constructor(
+    props: Props &
+      ReturnType<typeof mapStateToProps> &
+      ReturnType<typeof mapDispatchToProps>
+  ) {
     super(props);
     this.state = {
       content: "",
@@ -66,6 +90,10 @@ export default class Cust extends React.Component<
     return sections;
   };
 
+  showPref = () => {
+    this.props.showCookiePrefs();
+  };
+
   render() {
     const { pageTitle, content } = this.state;
     return (
@@ -111,8 +139,15 @@ export default class Cust extends React.Component<
               );
             }
           })} */}
+          {this.props?.path === "/customer-assistance/cookie-policy" ? (
+            <div className={styles.cookie} onClick={() => this.showPref()}>
+              MANAGE COOKIE PREFRENCES
+            </div>
+          ) : null}
         </div>
       </div>
     );
   }
 }
+
+export default connect(mapStateToProps, mapDispatchToProps)(Cust);
