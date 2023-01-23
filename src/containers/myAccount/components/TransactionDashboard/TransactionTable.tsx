@@ -388,23 +388,28 @@ const TransactionTable = ({ mobile }: Props) => {
                   )}
                 >
                   <>
-                    <div className={styles.innerDetailsWrp}>
-                      {mobile ? (
-                        <div className={styles.innerDetails}>
-                          <p className={styles.head}>Date</p>
-                          <p className={styles.desc}>{ele?.DocumentDate}</p>
-                        </div>
-                      ) : null}
-                      <div
-                        style={{ textAlign: "right" }}
-                        className={styles.innerDetails}
-                      >
-                        <p className={styles.head}>
-                          Net eligible amount for earning points
-                        </p>
-                        <p className={styles.desc}>{ele?.NetEligibleAmt}</p>
+                    {ele?.Description === "PointEarned" || mobile ? (
+                      <div className={styles.innerDetailsWrp}>
+                        {mobile ? (
+                          <div className={styles.innerDetails}>
+                            <p className={styles.head}>Date</p>
+                            <p className={styles.desc}>{ele?.DocumentDate}</p>
+                          </div>
+                        ) : null}
+                        {ele?.Description === "PointEarned" ? (
+                          <div
+                            style={{ textAlign: "right" }}
+                            className={styles.innerDetails}
+                          >
+                            <p className={styles.head}>
+                              Net eligible amount for earning points
+                            </p>
+                            <p className={styles.desc}>{ele?.NetEligibleAmt}</p>
+                          </div>
+                        ) : null}
                       </div>
-                    </div>
+                    ) : null}
+
                     {mobile ? (
                       <div className={styles.innerDetailsWrp}>
                         <div className={styles.innerDetails}>
