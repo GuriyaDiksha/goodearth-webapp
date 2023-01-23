@@ -69,7 +69,7 @@ const WishlistButton: React.FC<Props> = ({
         const child = childAttributes as ChildProductAttributes[];
         console.log(category, id, title, priceRecords);
         const userConsent = CookieService.getCookie("consent").split(",");
-        if (userConsent.includes(ANY_ADS) || true) {
+        if (userConsent.includes(ANY_ADS)) {
           if (addWishlist) {
             Moengage.track_event("add_to_wishlist", {
               "Product id": id,
@@ -95,7 +95,7 @@ const WishlistButton: React.FC<Props> = ({
           }
         }
 
-        if (userConsent.includes(GA_CALLS) || true) {
+        if (userConsent.includes(GA_CALLS)) {
           dataLayer.push({
             event: "AddtoWishlist",
             ecommerce: {

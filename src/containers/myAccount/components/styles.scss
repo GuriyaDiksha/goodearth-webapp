@@ -34,8 +34,12 @@ input[type="text"]{
     color: #9F9F9F !important;
   }
   select{
-    background: #fff !important;
-    color: #9F9F9F !important;
+    background: #E5E5E526 !important;
+    color: #777777 !important;
+    &:disabled{
+      color: #777777 !important;
+      background: #E5E5E526 !important;
+    }
   }
 }
 
@@ -539,6 +543,9 @@ input[type="text"]{
     -webkit-align-items: center;
     align-items: center;
     margin-bottom: 5px;
+  }
+  .balance-input{
+    position: relative;
   }
   .txt-width60 {
     width: 60%;

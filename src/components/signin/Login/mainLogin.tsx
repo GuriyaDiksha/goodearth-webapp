@@ -225,7 +225,7 @@ class MainLogin extends React.Component<Props, loginState> {
 
   gtmPushSignIn = () => {
     const userConsent = CookieService.getCookie("consent").split(",");
-    if (userConsent.includes(GA_CALLS) || true) {
+    if (userConsent.includes(GA_CALLS)) {
       dataLayer.push({
         event: "eventsToSend",
         eventAction: "signIn",
@@ -252,7 +252,7 @@ class MainLogin extends React.Component<Props, loginState> {
         )
         .then(data => {
           this.gtmPushSignIn();
-          if (userConsent.includes(ANY_ADS) || true) {
+          if (userConsent.includes(ANY_ADS)) {
             Moengage.track_event("Login", {
               email: this.state.email
             });
@@ -267,7 +267,7 @@ class MainLogin extends React.Component<Props, loginState> {
             this.props.history.location.search
           ).get("loginpopup");
           loginpopup == "cerise" && this.props.history.push("/");
-          if (userConsent.includes(GA_CALLS) || true) {
+          if (userConsent.includes(GA_CALLS)) {
             dataLayer.push({
               event: "checkout",
               ecommerce: {

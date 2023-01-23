@@ -93,7 +93,7 @@ const BridalItemsList: React.FC<Props> = props => {
       BridalService.deleteBridalItem(dispatch, data)
         .then(res => {
           const userConsent = CookieService.getCookie("consent").split(",");
-          if (userConsent.includes(GA_CALLS) || true) {
+          if (userConsent.includes(GA_CALLS)) {
             dataLayer.push({
               event: "registry",
               "Event Category": "Registry",
