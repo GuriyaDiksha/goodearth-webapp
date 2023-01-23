@@ -1,6 +1,6 @@
 .announcementbarSliderContainer .play-button{
     position: absolute;
-    top: 18px;
+    top: 20px;
     transform: translateY(-50%);
     left: 31px;
     width: 17px;
@@ -13,7 +13,7 @@
     display: flex !important;
     justify-content: center;
     align-items: center;
-    top: 40%;
+    top: 48%;
     left: 55px;
     bottom: auto;
     width: auto;

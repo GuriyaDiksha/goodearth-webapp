@@ -37,7 +37,7 @@ const AnnouncementBarSlider: React.FC<Props> = ({
           <img
             src={play ? pauseBtn : playBtn}
             onClick={() => setPlay(!play)}
-            width={20}
+            width={17}
           />
         </div>
       ) : null}
