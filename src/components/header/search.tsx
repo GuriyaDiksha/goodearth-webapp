@@ -732,7 +732,7 @@ class Search extends React.Component<Props, State> {
                               );
                             }}
                           >
-                            CLEAR ALL
+                            Clear All
                           </button>
                         </div>
 
