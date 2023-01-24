@@ -14,7 +14,8 @@ const initialState: State = {
   showGiftWrap: false,
   showDeliveryInstruction: false,
   showPromo: false,
-  isLoading: false
+  isLoading: false,
+  showCookiePref: false
 };
 
 export const info = (state: State = initialState, action: InfoActions) => {
@@ -87,6 +88,11 @@ export const info = (state: State = initialState, action: InfoActions) => {
     case "UPDATE_LOADER": {
       const newState = { ...state };
       newState.isLoading = action.payload;
+      return newState;
+    }
+    case "UPDATE_SHOW_COOKIE_PREF": {
+      const newState = { ...state };
+      newState.showCookiePref = action.payload;
       return newState;
     }
   }

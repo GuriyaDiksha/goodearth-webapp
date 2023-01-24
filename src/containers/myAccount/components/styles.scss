@@ -34,8 +34,12 @@ input[type="text"]{
     color: #9F9F9F !important;
   }
   select{
-    background: #fff !important;
-    color: #9F9F9F !important;
+    background: #E5E5E526 !important;
+    color: #777777 !important;
+    &:disabled{
+      color: #777777 !important;
+      background: #E5E5E526 !important;
+    }
   }
 }
 
@@ -66,6 +70,16 @@ input[type="text"]{
 
 .order-tabs {
   margin-top: 40px;
+  .order-tab {
+    @include b3_14px_montserrat_light_charcoal();
+    &:hover{
+      cursor: pointer;
+    }
+    &.active{
+      font-weight: $semibold;
+      color: $gold;
+    }
+  }
   .orders {
     cursor: pointer;
     font-size: 15px;
@@ -74,26 +88,41 @@ input[type="text"]{
 
   .hr-line {
     color: #afa5a5;
-    margin-right: 15px;
-    margin-left: 15px;
+    margin-right: 26px;
+    margin-left: 26px;
+    font-weight: 100;
   }
 
   .active {
-    color: #ab1e56;
+    color: $gold;
   }
 }
 
 .no-purchases-message {
-  @include b4_12px_montserrat_charcoal();
+  @include b3_14px_montserrat_charcoal();
+  letter-spacing: 0.5px;
   opacity: unset;
 }
 
-.browse-button {
+.start-shopping-button {
   margin: auto;
   margin-top: 30px;
   width: 50%;
-  input {
-    line-height: 40px;
+  a{
+    input {
+      text-transform: uppercase;
+      background-color: #4C4C4C;
+      @include b3_14px_montserrat_white();
+      letter-spacing: 0.5px;
+      border: 1px solid #4c4c4c;
+      line-height: 50px;
+      width: 100%;
+      &:hover{
+        color: #4C4C4C;
+        background-color: #fff;
+        border: 1px solid #4c4c4c;
+      }
+    }
   }
 }
 
@@ -136,7 +165,7 @@ input[type="text"]{
       }
     }
     &.order-block {
-      background-color: tint(#000, 95%);
+      background-color: #fff;
       &.background-white{
         background-color: #fff;
       }
@@ -265,6 +294,11 @@ input[type="text"]{
           display: flex;
         }
       }
+      .block1{
+        .date{
+          margin-bottom: 10px;
+        }
+      }
       span {
         //text-transform: uppercase; cant use this --- it will make order status span uppercase
         //text-decoration: underline;
@@ -277,9 +311,14 @@ input[type="text"]{
     .edit-track {
       bottom: 25px;
       text-transform: uppercase;
-      font-size: 12px;
-      letter-spacing: 1px;
-      font-weight: $semibold;
+      @include b4_12px_montserrat_charcoal_caps();
+      letter-spacing: 0.5px;
+      text-decoration: underline;
+      text-underline-offset: 4px;
+      &.edit-disabled{
+        color: #19191950;
+        cursor: not-allowed;
+      }
       &.add-checkout-actions {
         bottom: auto;
         position: absolute;
@@ -298,9 +337,10 @@ input[type="text"]{
     .edit-view {
       bottom: 25px;
       text-transform: uppercase;
-      font-size: 12px;
-      letter-spacing: 1px;
-      font-weight: $semibold;
+      @include b4_12px_montserrat_charcoal_caps();
+      letter-spacing: 0.5px;
+      text-decoration: underline;
+      text-underline-offset: 4px;
       &.add-checkout-actions {
         bottom: auto;
         position: absolute;
@@ -400,8 +440,9 @@ input[type="text"]{
       background-color: #fff;
       &.top-label{
         position: absolute;
-        top: -8px;
-        padding: 0px 20px;
+        top: 0px;
+        padding: 0px 12px;
+        transform: translateY(-50%);
       }
     }
   }
@@ -540,6 +581,9 @@ input[type="text"]{
     align-items: center;
     margin-bottom: 5px;
   }
+  .balance-input{
+    position: relative;
+  }
   .txt-width60 {
     width: 60%;
   }
@@ -619,87 +663,6 @@ input[type="text"]{
 
 .hr-margin {
   margin: 15px 0;
-}
-
-.trail-track {
-  width: 220px;
-  margin-bottom: 25px;
-  margin-left: 25px;
-  @media screen and (max-width: 992px){
-    margin-left:10px;
-  }
-  .txt-right {
-    position: absolute;
-    left: 110%;
-    top: 7px;
-    font-size: 11px;
-    display: inline-flex;
-    width: 100%;
-    align-items: center;
-    img {
-      padding-right: 0 !important;
-    }
-  }
-  .cerisehr{
-    background-color: $cerise;
-    width: 1px;
-  }
-    hr {
-      width: 1px;
-      height: 50px;
-      background-color: tint(#000,70%);
-      margin: 0 auto;
-      border:0px;
-    }
-      hr {
-        &.cerise {
-          background-color: $cerise;
-
-        }
-    }
-      .main-block {
-        position: relative;
-        height: 100px;
-        margin-left: 30px;
-        &.active{
-          border-left: 1px solid $aqua;
-        }
-        &.inactive{
-          border-left: 1px solid $lightest-charcoal;
-        }
-        &.delivered{
-          height: 30px;
-        }
-        .circle{
-          height: 18px;
-          width: 18px;
-          border-radius: 100%;
-          position: absolute;
-          left:-9px;
-          top:-9px;
-          &.active{
-            background-color: $aqua;
-            border: 1px solid $aqua;
-          }
-          &.inactive{
-            background-color: $white;
-            border: 1px solid lightgray;
-          }
-        }
-        .text-block{
-          margin-left: 35px;
-          transform: translateY(-12px);
-          position: relative;
-          .live-location{
-            @include b5_10px_montserrat_charcoal();
-            letter-spacing: 0.5px;;
-            display: flex;
-          }
-          .data{
-            font-weight: 400;
-          }
-        }
-      }
 }
 
 @media screen and (max-width: 992px) {
@@ -898,7 +861,7 @@ input[type="text"]{
     opacity: 1;
     background: $white;
     padding: 8px 20px;
-
+    height: 50px;
     &:hover {
       background-color: $aqua;
       color: $white;
@@ -1168,5 +1131,285 @@ input[type="text"]{
 @media screen and (max-width: 992px){
   .margin-fix{
     margin: 0;
+  }
+}
+
+.my-order-block {
+  border: 1px solid #E5E5E5;
+  position: relative;
+  label {
+    background-color: #ffffff;
+    position: absolute;
+    top: 0;
+    left: 12px;
+    transform: translateY(-50%);
+    @include b4_12px_montserrat_charcoal_caps();
+    margin-bottom: unset;
+    padding: 0px 10px;
+  }
+  .order-data{
+    display: flex;
+    justify-content: space-between;
+    padding: 30px 30px 0px 30px;
+    &.single-order{
+      padding: 30px;
+    }
+    .info{
+      width: 40%;
+      .row{
+        text-align: left;
+        margin-bottom: 6px;
+        .label{
+          @include b4_12px_montserrat_charcoal();
+        }
+        .data{
+          @include b4_12px_montserrat_semibold_charcoal();
+          text-transform: uppercase;
+        }
+      }
+    }
+    .amount-paid{
+      width: 40%;
+      display: flex;
+      flex-direction: column;
+      text-align: left;
+      .label{
+        @include b4_12px_montserrat_charcoal();
+        margin-bottom: 6px;
+      }
+      .data{
+        @include b4_12px_montserrat_semibold_charcoal();
+        text-transform: uppercase;
+      }
+    }
+  }
+  .trail-track {
+    width: 100%;
+    margin: 30px 30px 0 30px;
+    padding: 25px 0 0 0;
+    border-top: 1px solid #E5E5E5;
+    @media screen and (max-width: 992px){
+      margin-left:10px;
+    }
+    .txt-right {
+      position: absolute;
+      left: 110%;
+      top: 7px;
+      font-size: 11px;
+      display: inline-flex;
+      width: 100%;
+      align-items: center;
+      img {
+        padding-right: 0 !important;
+      }
+    }
+    .cerisehr{
+      background-color: $cerise;
+      width: 1px;
+    }
+    hr {
+      width: 1px;
+      height: 50px;
+      background-color: tint(#000,70%);
+      margin: 0 auto;
+      border:0px;
+    }
+    hr {
+      &.cerise {
+        background-color: $cerise;
+
+      }
+    }
+    .main-block {
+      position: relative;
+      height: 75px;
+      margin-left: 30px;
+      text-align: left;
+      &.active{
+        border-left: 1px solid $aqua;
+      }
+      &.inactive{
+        border-left: 1px solid $lightest-charcoal;
+      }
+      &.delivered{
+        height: 30px;
+      }
+      .circle{
+        height: 18px;
+        width: 18px;
+        border-radius: 100%;
+        position: absolute;
+        left:-9px;
+        top:-9px;
+        &.active{
+          background-color: $aqua;
+          border: 1px solid $aqua;
+        }
+        &.inactive{
+          background-color: $white;
+          border: 1px solid lightgray;
+        }
+      }
+      .text-block{
+        margin-left: 35px;
+        transform: translateY(-12px);
+        position: relative;
+        .live-location{
+          @include b5_10px_montserrat_charcoal();
+          letter-spacing: 0.5px;;
+        }
+        .date{
+          font-family: $font-Montserrat;
+          font-size: 12px;
+          font-weight: $semibold;
+          letter-spacing: 0.5px;
+          line-height: 20px;
+          color: #191919;
+          font-weight: $regular;
+        }
+        .text {
+          font-family: $font-Montserrat;
+          font-size: 12px;
+          font-weight: $semibold;
+          letter-spacing: 0.5px;
+          line-height: 20px;
+          color: #191919;
+        }
+      }
+    }
+  }
+  .address-block {
+    display: flex;
+    justify-content: space-between;
+    border: 1px solid #E5E5E5;
+    border-left: none;
+    border-right: none;
+    margin: 0 30px;
+    padding: 30px 0;
+    .address{
+      width: 40%;
+      .title{
+        font-family: $font-Montserrat;
+        font-size: 12px;
+        font-weight: $medium;
+        color: #9f9f9f;
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
+        line-height: 20px;
+        margin-bottom: 15px;
+        text-align: left;
+      }
+      .row {
+        @include b5_10px_montserrat_charcoal();
+        letter-spacing: 0.3px;
+        line-height: 16px;
+        text-align: left;
+        &.name {
+          @include b4_12px_montserrat_charcoal();
+          font-weight: $medium;
+          line-height: 20px;
+        }
+        &.phone-number {
+          @include b4_12px_montserrat_charcoal();
+          line-height: 20px;
+          letter-spacing: 0.5px;
+        }
+      }
+    }
+  }
+  .product{
+    padding: 30px;
+    display: flex;
+    .image-container{
+      margin-right: 20px;
+      width: 90px;
+      img {
+        width: 100%;
+      }
+    }
+    .product-info{
+      text-align: left;
+      p{
+        margin-bottom: 10px;
+      }
+      .collection{
+        font-family: $font-Serif;
+        font-size: 12px;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        color: #999;
+        line-height: 16px;
+      }
+      .title{
+        font-family: $font-Lora;
+        font-size: 14px;
+        color: #191919;
+        letter-spacing: 0.28px;
+        line-height: 22px;
+      }
+      .price {
+        .amount-paid{
+          @include b3_14px_montserrat_charcoal();
+          color: $gold;
+          text-transform: uppercase;
+        }
+        .original-price{
+          @include b4_12px_montserrat_charcoal();
+          color: #9f9f9f;
+          text-decoration: line-through;
+          margin-left: 8px;
+        }
+      }
+      .size, .quantity{
+        @include b5_10px_montserrat_charcoal();
+        letter-spacing: 0.5px;
+        line-height: 20px;
+      }
+    }
+  }
+  .prices{
+    background-color: #f4f4f4;
+    padding: 30px;
+    .price{
+      display: flex;
+      justify-content: space-between;
+      line-height: 40px;
+      @include b4_12px_montserrat_charcoal_caps();
+      letter-spacing: 0.5px;
+      &.discount{
+        color: $gold;
+      }
+      &.total{
+        border-top: 1px solid #e5e5e5;
+        font-weight: $semibold;
+        line-height: 50px;
+      }
+      .label{
+        .light{
+          font-size: 9px;
+          font-weight: $regular;
+          text-transform: capitalize;
+          font-style: italic;
+        }
+      }
+    }
+  }
+  .actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+    padding: 0px 30px 30px 30px;
+    .action{
+      @include b4_12px_montserrat_charcoal_caps();
+      text-decoration: underline;
+      text-underline-offset: 4px;
+      &.disabled{
+        color: #19191950;
+        cursor: not-allowed;
+      }
+      &:hover{
+        color: $gold;
+      }
+    }
   }
 }

@@ -364,7 +364,7 @@ export default {
       });
 
       const userConsent = CookieService.getCookie("consent").split(",");
-      if (userConsent.includes(ANY_ADS) || true) {
+      if (userConsent.includes(ANY_ADS)) {
         Moengage.destroy_session();
       }
       WishlistService.resetWishlist(dispatch);
@@ -551,6 +551,9 @@ export default {
               resolve("USD");
             }
           } else {
+            // CookieService.setCookie("region", "INDIA", 365);
+            // CookieService.setCookie("ip", data?.ip, 365);
+            CookieService.setCookie("country", "India", 365);
             resolve("error");
           }
         });

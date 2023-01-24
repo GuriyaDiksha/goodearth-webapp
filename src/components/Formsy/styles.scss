@@ -11,6 +11,7 @@
     position: absolute;
     top: 21px;
     right: 20px;
+    pointer-events: none;
     &.mright {
       right: 10px;
     }
