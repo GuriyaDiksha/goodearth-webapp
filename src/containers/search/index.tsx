@@ -26,7 +26,7 @@ import { POPUP } from "constants/components";
 import * as util from "utils/validate";
 import SecondaryHeaderDropdown from "components/dropdown/secondaryHeaderDropdown";
 import { CategoryMenu } from "containers/plp/typings";
-import { GA_CALLS, ANY_ADS } from "constants/cookieConsent";
+import { GA_CALLS, ANY_ADS, SEARCH_HISTORY } from "constants/cookieConsent";
 import ProductCounter from "components/ProductCounter";
 import { throttle } from "lodash";
 import ResetFiltersTile from "components/plpResultItem/resetFiltersTile";
@@ -162,12 +162,16 @@ class Search extends React.Component<
     const searchArr = CookieService.getCookie("recentSearch")
       ? JSON.parse(CookieService.getCookie("recentSearch"))
       : [];
-    CookieService.setCookie(
-      "recentSearch",
-      JSON.stringify(
-        [searchValue, ...searchArr].filter(this.onlyUnique).slice(0, 5)
-      )
-    );
+
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes(SEARCH_HISTORY)) {
+      CookieService.setCookie(
+        "recentSearch",
+        JSON.stringify(
+          [searchValue, ...searchArr].filter(this.onlyUnique).slice(0, 5)
+        )
+      );
+    }
   }
 
   componentDidMount() {
