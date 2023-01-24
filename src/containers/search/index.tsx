@@ -151,29 +151,6 @@ class Search extends React.Component<
     changeModalState(true);
   };
 
-  onlyUnique(value: any, index: any, self: any) {
-    return self.indexOf(value) === index;
-  }
-
-  recentSearch() {
-    const queryString = this.props.location.search;
-    const urlParams = new URLSearchParams(queryString);
-    const searchValue = urlParams.get("q");
-    const searchArr = CookieService.getCookie("recentSearch")
-      ? JSON.parse(CookieService.getCookie("recentSearch"))
-      : [];
-
-    const userConsent = CookieService.getCookie("consent").split(",");
-    if (userConsent.includes(SEARCH_HISTORY)) {
-      CookieService.setCookie(
-        "recentSearch",
-        JSON.stringify(
-          [searchValue, ...searchArr].filter(this.onlyUnique).slice(0, 5)
-        )
-      );
-    }
-  }
-
   componentDidMount() {
     const that = this;
     util.moveChatDown();
@@ -223,8 +200,6 @@ class Search extends React.Component<
     });
     const config = { subtree: true, childList: true };
     observer.observe(document, config);
-
-    this.recentSearch();
   }
 
   componentWillUnmount() {
@@ -451,12 +426,10 @@ class Search extends React.Component<
           searchText: searchValue ? searchValue : ""
         },
         () => {
-          this.recentSearch();
           this.onClickSearch();
         }
       );
     } else {
-      this.recentSearch();
     }
     const sort = urlParams.get("sort_by");
     if (sort !== this.state.sortValue) {

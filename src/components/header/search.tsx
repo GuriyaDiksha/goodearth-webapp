@@ -26,7 +26,7 @@ import { Link } from "react-router-dom";
 import { updateModal } from "actions/modal";
 import Price from "components/Price";
 import ReactHtmlParser from "react-html-parser";
-import { GA_CALLS } from "constants/cookieConsent";
+import { GA_CALLS, SEARCH_HISTORY } from "constants/cookieConsent";
 import giftCardTile from "images/giftcard-tile.png";
 
 const mapStateToProps = (state: AppState) => {
@@ -254,6 +254,27 @@ class Search extends React.Component<Props, State> {
     this.props.history.push(data.url);
   }
 
+  onlyUnique(value: any, index: any, self: any) {
+    return self.indexOf(value) === index;
+  }
+
+  recentSearch(value: string | null) {
+    const searchValue = value || this.state.searchValue;
+    const searchArr = CookieService.getCookie("recentSearch")
+      ? JSON.parse(CookieService.getCookie("recentSearch"))
+      : [];
+
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes(SEARCH_HISTORY)) {
+      CookieService.setCookie(
+        "recentSearch",
+        JSON.stringify(
+          [searchValue, ...searchArr].filter(this.onlyUnique).slice(0, 5)
+        )
+      );
+    }
+  }
+
   onClickSearch = (event: any) => {
     if (this.state.searchValue.trim().length > 0) {
       this.props.history.push(
@@ -261,6 +282,7 @@ class Search extends React.Component<Props, State> {
       );
       // this.closeSearch();
       this.props.hideSearch();
+      this.recentSearch(null);
       return false;
     }
   };
@@ -290,6 +312,7 @@ class Search extends React.Component<Props, State> {
         // this.closeSearch();
         this.props.hideSearch();
         this.props.hideMenu();
+        this.recentSearch(event.target.value);
         return false;
       }
       this.setState({
