@@ -272,10 +272,18 @@ class Header extends React.Component<Props, State> {
 
     if (window?.pageYOffset > sticky) {
       (header as HTMLElement).style.position = "fixed";
-      (secondaryHeader as HTMLElement).style.top = "50px";
+      if (this.props.showTimer) {
+        (secondaryHeader as HTMLElement).style.top = "90px";
+      } else {
+        (secondaryHeader as HTMLElement).style.top = "50px";
+      }
     } else {
       (header as HTMLElement).style.position = "relative";
-      (secondaryHeader as HTMLElement).style.top = "90px";
+      if (this.props.showTimer) {
+        (secondaryHeader as HTMLElement).style.top = "130px";
+      } else {
+        (secondaryHeader as HTMLElement).style.top = "90px";
+      }
     }
   };
 
