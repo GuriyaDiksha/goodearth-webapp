@@ -439,11 +439,18 @@ class Search extends React.Component<
     const queryString = nextProps.location.search;
     const urlParams = new URLSearchParams(queryString);
     const searchValue: any = urlParams.get("q") || "";
-    this.recentSearch();
+
     if (searchValue !== this.state.searchText) {
-      this.setState({
-        searchText: searchValue ? searchValue : ""
-      });
+      this.setState(
+        {
+          searchText: searchValue ? searchValue : ""
+        },
+        () => {
+          this.recentSearch();
+        }
+      );
+    } else {
+      this.recentSearch();
     }
     const sort = urlParams.get("sort_by");
     if (sort !== this.state.sortValue) {
