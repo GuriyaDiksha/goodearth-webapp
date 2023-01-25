@@ -101,6 +101,7 @@ const CookiePolicy: React.FC<Props> = ({
       365
     );
     showCookiePrefs();
+    CookieService.setCookie("recentSearch", JSON.stringify([]));
     WidgetService.postConsentDetail(store.dispatch, {
       ip: ip || CookieService.getCookie("ip"),
       consents: consents
