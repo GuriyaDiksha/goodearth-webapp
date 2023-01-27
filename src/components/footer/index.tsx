@@ -16,6 +16,8 @@ import { updateShowCookie, updateCookiePrefrence } from "actions/info";
 import CookiePolicy from "./CookiePolicy";
 import MakerSmartNav from "containers/base/MakerSmartNav";
 import ReactHtmlParser from "react-html-parser";
+import { OLD_COOKIE_SETTINGS } from "constants/cookieConsent";
+import cookie from "services/cookie";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -329,6 +331,11 @@ class Footer extends React.Component<Props, FooterState> {
     this.props.data.footerList.map(item => {
       mobileFooterList.push(...item);
     });
+    const cookiCheck =
+      this.props.location.pathname !== "/customer-assistance/cookie-policy" &&
+      this.props.location.pathname !== "/customer-assistance/privacy-policy" &&
+      this.props.showCookie &&
+      !this.props.mobileMenuOpenState;
 
     return (
       <div
@@ -1137,14 +1144,10 @@ class Footer extends React.Component<Props, FooterState> {
             <MakerSmartNav id="TDEHYqQNA" inline={false} />
           )}
 
-        {((this.props.location.pathname !==
-          "/customer-assistance/cookie-policy" &&
-          this.props.location.pathname !==
-            "/customer-assistance/privacy-policy" &&
-          this.props.showCookie &&
-          !this.props.mobileMenuOpenState &&
-          !this.state.isConsentSave) ||
-          this.props?.showCookiePref) && (
+        {(OLD_COOKIE_SETTINGS
+          ? cookiCheck
+          : (cookiCheck && !this.state.isConsentSave) ||
+            this.props?.showCookiePref) && (
           // || !this.state.isConsentSave)
           <CookiePolicy
             hideCookies={this.props.hideCookies}

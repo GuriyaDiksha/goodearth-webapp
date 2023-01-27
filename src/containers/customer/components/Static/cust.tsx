@@ -12,6 +12,7 @@ import { updateCookiePrefrence } from "actions/info";
 import { Dispatch } from "redux";
 import { connect } from "react-redux";
 import { AppState } from "reducers/typings";
+import { OLD_COOKIE_SETTINGS } from "constants/cookieConsent";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -139,7 +140,8 @@ class Cust extends React.Component<
               );
             }
           })} */}
-          {this.props?.path === "/customer-assistance/cookie-policy" ? (
+          {this.props?.path === "/customer-assistance/cookie-policy" &&
+          !OLD_COOKIE_SETTINGS ? (
             <div className={styles.cookie} onClick={() => this.showPref()}>
               MANAGE COOKIE PREFRENCES
             </div>

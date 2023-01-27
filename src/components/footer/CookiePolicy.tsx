@@ -11,6 +11,7 @@ import { Consent } from "services/widget/typings";
 import { clone } from "lodash";
 import globalStyles from "../../styles/global.scss";
 import fontStyles from "styles/iconFonts.scss";
+import { OLD_COOKIE_SETTINGS } from "constants/cookieConsent";
 
 type Props = {
   hideCookies: any;
@@ -92,25 +93,34 @@ const CookiePolicy: React.FC<Props> = ({
     //   .map((e: any) => e.functionalities)
     //   .join(",");
 
-    CookieService.setCookie(
-      "consent",
-      consents
-        .filter((e: any) => e.value === true)
-        .map((e: any) => e?.functionalities)
-        .join(","),
-      365
-    );
     showCookiePrefs();
-    WidgetService.postConsentDetail(store.dispatch, {
-      ip: ip || CookieService.getCookie("ip"),
-      consents: consents
-        .filter((e: any) => e.value === true)
-        .map((e: any) => e.functionalities)
-        .join(","),
-      country: country || CookieService.getCookie("country"),
-      widget_name: regionName === "India" ? "INDIA" : "ROTW",
-      email: email || ""
-    });
+    if (OLD_COOKIE_SETTINGS) {
+      CookieService.setCookie(
+        "consent",
+        "GA-Calls,Any-Ads,Search-History",
+        365
+      ); //Hardcoded consents
+    } else {
+      CookieService.setCookie(
+        "consent",
+        consents
+          .filter((e: any) => e.value === true)
+          .map((e: any) => e?.functionalities)
+          .join(","),
+        365
+      );
+
+      WidgetService.postConsentDetail(store.dispatch, {
+        ip: ip || CookieService.getCookie("ip"),
+        consents: consents
+          .filter((e: any) => e.value === true)
+          .map((e: any) => e.functionalities)
+          .join(","),
+        country: country || CookieService.getCookie("country"),
+        widget_name: regionName === "India" ? "INDIA" : "ROTW",
+        email: email || ""
+      });
+    }
   };
 
   const acceptAll = () => {
@@ -137,6 +147,13 @@ const CookiePolicy: React.FC<Props> = ({
 
   const hideCookie = () => {
     setConsent(true);
+    if (OLD_COOKIE_SETTINGS) {
+      CookieService.setCookie(
+        "consent",
+        "GA-Calls,Any-Ads,Search-History",
+        365
+      ); //Hardcoded consents
+    }
     hideCookies();
     showCookiePrefs();
   };
@@ -235,7 +252,12 @@ const CookiePolicy: React.FC<Props> = ({
                   ></span>
                 )}
                 <h3>COOKIES & PRIVACY</h3>
-                <p style={{ textAlign: "center" }}>
+                <p
+                  style={{
+                    textAlign: "center",
+                    marginTop: OLD_COOKIE_SETTINGS ? "0px" : "15px"
+                  }}
+                >
                   This website uses cookies to ensure you get the best
                   experience on our website. Please read our&nbsp;
                   <Link to={"/customer-assistance/cookie-policy"}>
@@ -247,12 +269,14 @@ const CookiePolicy: React.FC<Props> = ({
                   </Link>
                 </p>
                 {/* {regionName !== "Europe" ? ( */}
-                <p
-                  className={styles.preferencesLink}
-                  onClick={() => setIsPrefOpen(true)}
-                >
-                  set my cookie preferences
-                </p>
+                {!OLD_COOKIE_SETTINGS ? (
+                  <p
+                    className={styles.preferencesLink}
+                    onClick={() => setIsPrefOpen(true)}
+                  >
+                    set my cookie preferences
+                  </p>
+                ) : null}
                 {/* ) : null} */}
                 <span
                   className={cs(styles.okBtn, isPrefOpen ? styles.euBtn : "")}
