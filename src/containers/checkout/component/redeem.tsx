@@ -36,6 +36,28 @@ class Reedem extends React.Component<Props, RedeemState> {
   }
   // ProfileFormRef: RefObject<Formsy> = React.createRef();
 
+  componentDidMount(): void {
+    if (
+      this.props.user?.loyaltyData?.CustomerPointInformation?.AvailablePoint ===
+      0
+    ) {
+      this.setState({ error: "You don't have points to redeem" });
+    }
+  }
+
+  UNSAFE_componentWillReceiveProps(
+    nextProps: Readonly<Props>,
+    nextContext: any
+  ): void {
+    if (
+      this.props.user?.loyaltyData?.CustomerPointInformation?.AvailablePoint !==
+        nextProps.user?.loyaltyData?.CustomerPointInformation?.AvailablePoint &&
+      nextProps.user?.loyaltyData?.CustomerPointInformation?.AvailablePoint ===
+        0
+    ) {
+      this.setState({ error: "You don't have points to redeem" });
+    }
+  }
   changeValue = (event: any) => {
     const { loyaltyData } = this.props.user;
     const value = event.target.value;
@@ -197,6 +219,10 @@ class Reedem extends React.Component<Props, RedeemState> {
                       this.state.error
                         ? cs(styles.marginR10, styles.err)
                         : styles.marginR10
+                    }
+                    disabled={
+                      loyaltyData?.CustomerPointInformation?.AvailablePoint ===
+                      0
                     }
                   />
                 </div>
