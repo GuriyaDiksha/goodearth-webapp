@@ -332,7 +332,7 @@ class Header extends React.Component<Props, State> {
 
   gtmPushWishlistClick = () => {
     const userConsent = CookieService.getCookie("consent").split(",");
-    if (userConsent.includes(GA_CALLS) || true) {
+    if (userConsent.includes(GA_CALLS)) {
       dataLayer.push({
         event: "eventsToSend",
         eventAction: "wishListClick",
@@ -454,7 +454,7 @@ class Header extends React.Component<Props, State> {
 
   gtmPushLogoClick = () => {
     const userConsent = CookieService.getCookie("consent").split(",");
-    if (userConsent.includes(GA_CALLS) || true) {
+    if (userConsent.includes(GA_CALLS)) {
       dataLayer.push({
         event: "eventsToSend",
         eventAction: "logo",

@@ -6,7 +6,7 @@ import email from "./../../../../images/careers/email.svg";
 import linkedin from "./../../../../images/careers/LinkedINicon.svg";
 import fb from "./../../../../images/careers/FBicon.svg";
 import * as valid from "utils/validate";
-import { useStore } from "react-redux";
+import { useSelector, useStore } from "react-redux";
 import { useHistory } from "react-router";
 import { copyToClipboard } from "utils/clipboard";
 import cs from "classnames";
@@ -51,7 +51,7 @@ const JobCard: React.FC<Props> = ({ job }) => {
               <img src={link} alt="link" />
             </button>
             <a
-              href={`mailto:`}
+              href={`mailto:?subject=I'd like to share a job link with you at Good earth&body=${__DOMAIN__}/careers/job/${id}`}
               target="_blank"
               rel="noopener noreferrer"
               className={listing.icon_wrp}
