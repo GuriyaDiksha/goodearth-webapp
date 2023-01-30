@@ -494,7 +494,10 @@ class FilterList extends React.Component<Props, State> {
       const pageSize = 20;
       const urlParams = new URLSearchParams(this.props.history.location.search);
       const categoryShop = urlParams.get("category_shop");
-      const categoryShopL1 = urlParams.get("category_shop")?.split(">")[0];
+      const categoryShopL1 = urlParams
+        .get("category_shop")
+        ?.split(">")[1]
+        ?.trim();
       updateProduct(filterUrl + `&page_size=${pageSize}`, listdata).then(
         plpList => {
           changeLoader?.(false);
@@ -584,7 +587,10 @@ class FilterList extends React.Component<Props, State> {
     const filterUrl = "?" + url.split("?")[1];
     const urlParams = new URLSearchParams(history.location.search);
     const categoryShop = urlParams.get("category_shop");
-    const categoryShopL1 = urlParams.get("category_shop")?.split(">")[0];
+    const categoryShopL1 = urlParams
+      .get("category_shop")
+      ?.split(">")[1]
+      ?.trim();
     // const pageSize = mobile ? 10 : 20;
     const pageSize = 20;
     fetchPlpProducts(filterUrl + `&page_size=${pageSize}`).then(plpList => {
