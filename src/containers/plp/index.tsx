@@ -75,6 +75,7 @@ class PLP extends React.Component<
     isThirdParty: boolean;
     count: number;
     showProductCounter: boolean;
+    header: string;
   }
 > {
   constructor(props: Props) {
@@ -97,7 +98,8 @@ class PLP extends React.Component<
         props.location.pathname.includes("corporate-gifting") ||
         props.location.search.includes("&src_type=cp"),
       isThirdParty: props.location.search.includes("&src_type=cp"),
-      showProductCounter: true
+      showProductCounter: true,
+      header: ""
     };
   }
   private child: any = FilterList;
@@ -138,9 +140,7 @@ class PLP extends React.Component<
     window.addEventListener(
       "scroll",
       throttle(() => {
-        if (this.props.mobile) {
-          this.setProductCount();
-        }
+        this.setProductCount();
       }, 50)
     );
     if (this.props.device.mobile) {
@@ -181,6 +181,9 @@ class PLP extends React.Component<
     window.removeEventListener(
       "scroll",
       throttle(() => {
+        const header =
+          document?.getElementById("myHeader")?.style.position || "";
+        this.setState({ header });
         this.setProductCount();
       }, 100)
     );
@@ -603,11 +606,13 @@ class PLP extends React.Component<
           <SecondaryHeader>
             <Fragment>
               <div className={cs(bootstrap.colMd7, bootstrap.offsetMd1)}>
-                <PlpBreadcrumbs
-                  levels={breadcrumb}
-                  className={cs(bootstrap.colMd12)}
-                  isViewAll={this.child.state?.isViewAll}
-                />
+                {categoryShop?.trim() !== "Souk" ? (
+                  <PlpBreadcrumbs
+                    levels={breadcrumb}
+                    className={cs(bootstrap.colMd12)}
+                    isViewAll={this.child.state?.isViewAll}
+                  />
+                ) : null}
               </div>
               <div className={cs(bootstrap.colMd3, styles.innerHeader)}>
                 <p className={styles.filterText}>Sort By: </p>
@@ -1046,7 +1051,9 @@ class PLP extends React.Component<
             <div
               className={cs(styles.listGridBar, {
                 [styles.listGridBarTimer]: this.props.showTimer,
-                [styles.hide]: this.props.scrollDown
+                [styles.hide]: this.props.scrollDown,
+                [styles.topHeight]:
+                  this.state.header === "fixed" && !this.props.scrollDown
               })}
             >
               <div

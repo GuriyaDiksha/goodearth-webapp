@@ -3,10 +3,10 @@
 $home-top: $header-height;
 .home-page {
     .maker-top{
-        margin-top: $home-top;
+        margin-top: 0;
     }
     .maker-top-timer {
-        margin-top: $header-height + $timer-height;
+        margin-top: 0 + $timer-height;
     }
     .title {
         font-family: $font-Serif;
