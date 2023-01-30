@@ -140,7 +140,9 @@ class PLP extends React.Component<
     window.addEventListener(
       "scroll",
       throttle(() => {
-        this.setProductCount();
+        if (this.props.mobile) {
+          this.setProductCount();
+        }
       }, 50)
     );
     if (this.props.device.mobile) {
