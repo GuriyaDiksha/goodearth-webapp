@@ -1,540 +1,582 @@
 {
-    "Delhi": [
+  "Delhi": [
       {
-        "tel1": "<p><a href=\"tel:01124647175\">+91-11-24647175</a></p>\r\n\r\n<p><a href=\"tel:01124647176\">+91-11-24647176</a></p>\r\n\r\n<p><a href=\"tel:01124647179\">+91-11-24647179</a></p>",
-        "city": "Delhi",
-        "direction": "https://www.google.com/maps/dir//28.599641,77.226376/@28.599641,77.226376,16z?hl=en-GB",
-        "cafeContent": "Latitude 28 Café and Wine Bar is it perfect place for a power lunch or an afternoon shopping date for a spot of tea with friends. Celebrity chef Ritu Dalmia’s wine paired menu is as delightful as it is dynamic. Café is open till 11pm daily.",
-        "cafeAddress": "Shop No.9 A.B.C.;\r\nGround 1st & 2nd Floor;\r\nKhan Market, Delhi – 110003",
-        "cafeTel1": "<p>T: +91-11-24621013</p>\r\n<p>M: +91 7827934134</p>",
-        "address": "<p>Shop directly with -</p>\r\n\r\n<p><a href=\"tel:9582559308\"><strong>Shikha(Home)&nbsp;+919582559308</strong></a></p>\r\n\r\n<p><a href=\"tel:7291911112\"><strong>Sadhna(Apparel) +917291911112.</strong></a></p>\r\n\r\n<p>&nbsp;</p>\r\n\r\n<p>Shop No.9 A.B.C.</p>\r\n\r\n<p>Ground 1st &amp; 2nd Floor</p>\r\n\r\n<p>Khan Market, New Delhi -&nbsp;110003</p>",
-        "cafeDirection": "https://www.google.com/maps/dir//28.599641,77.226376/@28.5998402,77.2265567,16.22z?hl=en-GB",
-        "cafeHeading2": "Latitude°28",
-        "bannerCafe": [
-          {
-            "image": "https://d3qn6cjsz7zlnp.cloudfront.net/media/cafe/khanmarketcafed1.jpg",
-            "imageType": "1"
-          },
-          {
-            "image": "https://d3qn6cjsz7zlnp.cloudfront.net/media/cafe/khanmarket1_1.jpg",
-            "imageType": "2"
-          },
-          {
-            "image": "https://d3qn6cjsz7zlnp.cloudfront.net/media/cafe/khanmarket2_1.jpg",
-            "imageType": "2"
-          },
-          {
-            "image": "https://d3qn6cjsz7zlnp.cloudfront.net/media/cafe/khanmarketcafed2.jpg",
-            "imageType": "1"
-          },
-          {
-            "image": "https://d3qn6cjsz7zlnp.cloudfront.net/media/cafe/khanmarketcafed3.jpg",
-            "imageType": "1"
-          },
-          {
-            "image": "https://d3qn6cjsz7zlnp.cloudfront.net/media/cafe/khanmarket3_1.jpg",
-            "imageType": "2"
-          },
-          {
-            "image": "https://d3qn6cjsz7zlnp.cloudfront.net/media/cafe/khanmarket4.jpg",
-            "imageType": "2"
-          },
-          {
-            "image": "https://d3qn6cjsz7zlnp.cloudfront.net/media/cafe/khanmarket5.jpg",
-            "imageType": "2"
-          }
-        ],
-        "bannerShop": [
-          {
-            "image": "https://d3qn6cjsz7zlnp.cloudfront.net/media/store_locator/khanmarketd1.jpg",
-            "imageType": "1"
-          },
-          {
-            "image": "https://d3qn6cjsz7zlnp.cloudfront.net/media/store_locator/khanmarket1.jpg",
-            "imageType": "2"
-          },
-          {
-            "image": "https://d3qn6cjsz7zlnp.cloudfront.net/media/store_locator/khanmarketd2.jpg",
-            "imageType": "1"
-          },
-          {
-            "image": "https://d3qn6cjsz7zlnp.cloudfront.net/media/store_locator/khanmarket2.jpg",
-            "imageType": "2"
-          },
-          {
-            "image": "https://d3qn6cjsz7zlnp.cloudfront.net/media/store_locator/khanmarket3.jpg",
-            "imageType": "2"
-          }
-        ],
-        "place": "Khan Market",
-        "cafeIframemap": "https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d7006.00905424862!2d77.226376!3d28.599641!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0xeb0accce6f3226e8!2sGood+Earth!5e0!3m2!1sen!2sin!4v1540965321199",
-        "time": "11:00 am - 8:00 pm IST",
-        "shopContent": "<p>An urban haven of contemporary Indian design and lifestyle luxury in the midst of Delhi&rsquo;s busiest marketplace. Meandering paths of discovery through a dynamically edited Good Earth Home universe and 2600 sq.ft. of Sustain apparel</p>",
-        "opendays": "OPEN 7 DAYS A WEEK",
-        "cafeOpendays": "OPEN 7 DAYS A WEEK",
-        "iframemap": "https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d7006.00905424862!2d77.226376!3d28.599641!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0xeb0accce6f3226e8!2sGood+Earth!5e0!3m2!1sen!2sin!4v1540965321199",
-        "cafeTime": null
+          "tel1": [
+              "01124647175",
+              "911124647175",
+              "01124647176",
+              "01124647179"
+          ],
+          "city": "Delhi",
+          "direction": "https://www.google.com/maps/dir//28.599641,77.226376/@28.599641,77.226376,16z?hl=en-GB",
+          "cafeContent": "Latitude 28 Café and Wine Bar is it perfect place for a power lunch or an afternoon shopping date for a spot of tea with friends. Celebrity chef Ritu Dalmia’s wine paired menu is as delightful as it is dynamic. Café is open till 11pm daily.",
+          "cafeAddress": "Shop No.9 A.B.C.;\r\nGround 1st & 2nd Floor;\r\nKhan Market, Delhi – 110003",
+          "cafeTel1": [
+              "24621013",
+              "7827934134"
+          ],
+          "address": "<p>Shop directly with -</p>\r\n\r\n<p><a href=\"tel:9582559308\">Shikha(Home)&nbsp;+919582559308</a></p>\r\n\r\n<p><a href=\"tel:7291911112\">Sadhna(Apparel) +917291911112</a></p>\r\n\r\n<p>&nbsp;</p>\r\n\r\n<p>Shop No.9 A.B.C.</p>\r\n\r\n<p>Ground 1st & 2nd Floor</p>\r\n\r\n<p>Khan Market, New Delhi -&nbsp;110003</p>",
+          "cafeDirection": "https://www.google.co.in/maps/dir//Latitude+28,+Shop+No.+9,+Second+Floor,+above+The+Goodearth+Store,+Khan+Market,+New+Delhi,+Delhi+110003/@28.5995482,77.2241871,17z/data=!4m9!4m8!1m0!1m5!1m1!1s0x390ce2e84bb1b8d7:0x492198a34733325e!2m2!1d77.2263758!2d",
+          "cafeHeading2": "Latitude°28",
+          "bannerCafe": [
+              {
+                  "image": "https://d3qn6cjsz7zlnp.cloudfront.net/media/cafe/khanmarketcafed1.jpg",
+                  "imageType": "1"
+              },
+              {
+                  "image": "https://d3qn6cjsz7zlnp.cloudfront.net/media/cafe/khanmarket1_1.jpg",
+                  "imageType": "2"
+              },
+              {
+                  "image": "https://d3qn6cjsz7zlnp.cloudfront.net/media/cafe/khanmarket2_2.png",
+                  "imageType": "2"
+              },
+              {
+                  "image": "https://d3qn6cjsz7zlnp.cloudfront.net/media/cafe/khanmarketcafed2.jpg",
+                  "imageType": "1"
+              },
+              {
+                  "image": "https://d3qn6cjsz7zlnp.cloudfront.net/media/cafe/khanmarket3_1.jpg",
+                  "imageType": "2"
+              },
+              {
+                  "image": "https://d3qn6cjsz7zlnp.cloudfront.net/media/cafe/khanmarketcafed3.jpg",
+                  "imageType": "1"
+              },
+              {
+                  "image": "https://d3qn6cjsz7zlnp.cloudfront.net/media/cafe/khanmarket4.jpg",
+                  "imageType": "2"
+              },
+              {
+                  "image": "https://d3qn6cjsz7zlnp.cloudfront.net/media/cafe/khanmarket5.jpg",
+                  "imageType": "2"
+              }
+          ],
+          "bannerShop": [
+              {
+                  "image": "https://d3qn6cjsz7zlnp.cloudfront.net/media/store_locator/khanmarketd1.jpg",
+                  "imageType": "1"
+              },
+              {
+                  "image": "https://d3qn6cjsz7zlnp.cloudfront.net/media/store_locator/khanmarket1.jpg",
+                  "imageType": "2"
+              },
+              {
+                  "image": "https://d3qn6cjsz7zlnp.cloudfront.net/media/store_locator/khanmarketd2.jpg",
+                  "imageType": "1"
+              },
+              {
+                  "image": "https://d3qn6cjsz7zlnp.cloudfront.net/media/store_locator/khanmarket2.jpg",
+                  "imageType": "2"
+              },
+              {
+                  "image": "https://d3qn6cjsz7zlnp.cloudfront.net/media/store_locator/khanmarket3.jpg",
+                  "imageType": "2"
+              }
+          ],
+          "place": "Khan Market",
+          "time": "11:00 am - 8:00 pm IST",
+          "shopContent": "<p>An urban haven of contemporary Indian design and lifestyle luxury in the midst of Delhi&rsquo;s busiest marketplace. Meandering paths of discovery through a dynamically edited Good Earth Home universe and 2600 sq.ft. of Sustain apparel</p>",
+          "opendays": "OPEN 7 DAYS A WEEK",
+          "cafeOpendays": "OPEN 7 DAYS A WEEK",
+          "cafeTime": null
       },
       {
-        "tel1": "<p><a href=\"tel:01140534567\">T: +91-11-40534567</a></p>\r\n\r\n<p><a href=\"tel:01140533231\">T: +91-11-40533231</a></p>",
-        "city": "Delhi",
-        "direction": "https://www.google.com/maps/dir//28.5289359,77.2197326/@28.528936,77.219733,17z?hl=en-US",
-        "cafeContent": "",
-        "cafeAddress": "",
-        "cafeTel1": "",
-        "address": "<p>Shop directly with -&nbsp;</p>\r\n\r\n<p><a href=\"tel:9911092966\"><strong>Aman +91 9911092966.</strong></a></p>\r\n\r\n<p>&nbsp;</p>\r\n\r\n<p>S-06, A-3 District Centre</p>\r\n\r\n<p>3rd Floor Select City Walk Mall</p>\r\n\r\n<p>Saket, Delhi -&nbsp;110017</p>",
-        "cafeDirection": null,
-        "cafeHeading2": null,
-        "bannerCafe": [],
-        "bannerShop": [
-          {
-            "image": "https://d3qn6cjsz7zlnp.cloudfront.net/media/store_locator/citywalkd1.jpg",
-            "imageType": "1"
-          },
-          {
-            "image": "https://d3qn6cjsz7zlnp.cloudfront.net/media/store_locator/citywalk1.jpg",
-            "imageType": "2"
-          },
-          {
-            "image": "https://d3qn6cjsz7zlnp.cloudfront.net/media/store_locator/citywalkd2.jpg",
-            "imageType": "1"
-          },
-          {
-            "image": "https://d3qn6cjsz7zlnp.cloudfront.net/media/store_locator/citywalk2.jpg",
-            "imageType": "2"
-          },
-          {
-            "image": "https://d3qn6cjsz7zlnp.cloudfront.net/media/store_locator/citywalk3.jpg",
-            "imageType": "2"
-          }
-        ],
-        "place": "Select City Walk",
-        "cafeIframemap": null,
-        "time": "<p>11:00 am - 7:00 pm IST</p>",
-        "shopContent": "<p>Three floors of Luxury Living encompassing the entire Good Earth universe of Apparel, D&eacute;cor Accessories, Accent Furniture, Home Spa &amp; Bath, Dining, Textiles, Tableware, Barware &amp; Gifts.</p>",
-        "opendays": "<p>OPEN 7 DAYS A WEEK</p>",
-        "cafeOpendays": "<p>OPEN 7 DAYS A WEEK</p>",
-        "iframemap": "https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d3505.3587077500074!2d77.219733!3d28.528936!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0xe5fa69feace0abba!2sGood+Earth!5e0!3m2!1sen!2sin!4v1540966530136",
-        "cafeTime": null
+          "tel1": [
+              "01140534567",
+              "40534567",
+              "01140533231",
+              "40533231"
+          ],
+          "city": "Delhi",
+          "direction": "https://www.google.com/maps/dir//28.5289359,77.2197326/@28.528936,77.219733,17z?hl=en-US",
+          "cafeContent": "",
+          "cafeAddress": "",
+          "cafeTel1": [],
+          "address": "<p>Shop directly with -&nbsp;</p>\r\n\r\n<p>Aman +91 8860083541</p>\r\n\r\n<p>&nbsp;</p>\r\n\r\n<p>S-06, A-3 District Centre</p>\r\n\r\n<p>3rd Floor Select City Walk Mall</p>\r\n\r\n<p>Saket, Delhi -&nbsp;110017</p>",
+          "cafeDirection": null,
+          "cafeHeading2": null,
+          "bannerCafe": [],
+          "bannerShop": [
+              {
+                  "image": "https://d3qn6cjsz7zlnp.cloudfront.net/media/store_locator/citywalkd1.jpg",
+                  "imageType": "1"
+              },
+              {
+                  "image": "https://d3qn6cjsz7zlnp.cloudfront.net/media/store_locator/citywalk1.jpg",
+                  "imageType": "2"
+              },
+              {
+                  "image": "https://d3qn6cjsz7zlnp.cloudfront.net/media/store_locator/citywalkd2.jpg",
+                  "imageType": "1"
+              },
+              {
+                  "image": "https://d3qn6cjsz7zlnp.cloudfront.net/media/store_locator/citywalk2.jpg",
+                  "imageType": "2"
+              },
+              {
+                  "image": "https://d3qn6cjsz7zlnp.cloudfront.net/media/store_locator/citywalk3.jpg",
+                  "imageType": "2"
+              }
+          ],
+          "place": "Select City Walk",
+          "time": "11:00 am - 8:00 pm IST",
+          "shopContent": "<p>Three floors of Luxury Living encompassing the entire Good Earth universe of Apparel, D&eacute;cor Accessories, Accent Furniture, Home Spa & Bath, Dining, Textiles, Tableware, Barware & Gifts.</p>",
+          "opendays": "OPEN 7 DAYS A WEEK",
+          "cafeOpendays": "OPEN 7 DAYS A WEEK",
+          "cafeTime": null
       }
-    ],
-    "Mumbai": [
-      {
-        "tel1": "<p><a href=\"tel:8104107142\">Home: +91-8104107142</a></p>\r\n\r\n<p><a href=\"tel:8104107143\">Apparel: +91-8104107143</a></p>",
+  ],
+  "Mumbai": [
+    {
+        "tel1": [
+            "8104107142",
+            "8104107142",
+            "8104107143",
+            "8104107143"
+        ],
         "city": "Mumbai",
         "direction": "https://www.google.com/maps/dir//18.993498,72.8243347/@18.993498,72.824335,17z?hl=en-US",
-        "cafeContent": "",
-        "cafeAddress": "",
-        "cafeTel1": "",
-        "address": "<p>Shop directly with -</p>\r\n\r\n<p><a href=\"tel:9867395294\"><strong>Devika Tavri +91 9867395294.</strong></a></p>\r\n\r\n<p>&nbsp;</p>\r\n\r\n<p>11-12 Raghuvanshi Mills Compound</p>\r\n\r\n<p>Senapati Bapat Marg,&nbsp;</p>\r\n\r\n<p>Lower Parel, Mumbai -&nbsp;400013</p>",
-        "cafeDirection": null,
-        "cafeHeading2": null,
+        "cafeContent": "<p>Chef Ritu Dalmia brings her signature panache for flavor and food to Raghuvanshi Mills, Mumbai with a fresh Mediterranean-style menu at The Tasting Room by DIVA. Experience the charm of a modern Persian café adorned with jeweled chenille details and baroque chandeliers.</p>",
+        "cafeAddress": "The Tasting Room\r\nFirst Floor\r\nGood Earth\r\nRaghuvanshi Mill Compound, Senapati Bapat Road, Lower Parel West-400013",
+        "cafeTel1": [
+            "7290030698",
+            "7290030698"
+        ],
+        "address": "<p>Shop directly with -</p>\r\n\r\n<p><a href=\"tel:9867395294\"><strong>Devika Tavri +91 9867395294</strong></a></p>\r\n\r\n<p>&nbsp;</p>\r\n\r\n<p>11-12 Raghuvanshi Mills Compound</p>\r\n\r\n<p>Senapati Bapat Marg,&nbsp;</p>\r\n\r\n<p>Lower Parel, Mumbai -&nbsp;400013</p>",
+        "cafeDirection": "https://www.google.com/maps/place//data=!4m2!3m1!1s0x3be7cf7aeb36a81b:0xcd6e321ea0850cee?source=g.page.m.we._",
+        "cafeHeading2": "The Tasting Room by Diva",
         "bannerCafe": [
-          {
-            "image": "https://d3qn6cjsz7zlnp.cloudfront.net/media/cafe/raghuwanshicafed1.jpg",
-            "imageType": "1"
-          },
-          {
-            "image": "https://d3qn6cjsz7zlnp.cloudfront.net/media/cafe/raghuwanshicafed2.jpg",
-            "imageType": "1"
-          },
-          {
-            "image": "https://d3qn6cjsz7zlnp.cloudfront.net/media/cafe/raghuwanshicafe1.jpg",
-            "imageType": "2"
-          },
-          {
-            "image": "https://d3qn6cjsz7zlnp.cloudfront.net/media/cafe/raghuwanshicafe2.jpg",
-            "imageType": "2"
-          },
-          {
-            "image": "https://d3qn6cjsz7zlnp.cloudfront.net/media/cafe/raghuwanshicafe3.jpg",
-            "imageType": "2"
-          },
-          {
-            "image": "https://d3qn6cjsz7zlnp.cloudfront.net/media/cafe/raghuwanshicafe4.jpg",
-            "imageType": "2"
-          }
+            {
+                "image": "https://d3qn6cjsz7zlnp.cloudfront.net/media/cafe/5.jpg",
+                "imageType": "1"
+            },
+            {
+                "image": "https://d3qn6cjsz7zlnp.cloudfront.net/media/cafe/2.jpg",
+                "imageType": "1"
+            },
+            {
+                "image": "https://d3qn6cjsz7zlnp.cloudfront.net/media/cafe/1.jpg",
+                "imageType": "2"
+            },
+            {
+                "image": "https://d3qn6cjsz7zlnp.cloudfront.net/media/cafe/4.jpg",
+                "imageType": "2"
+            },
+            {
+                "image": "https://d3qn6cjsz7zlnp.cloudfront.net/media/cafe/6.jpg",
+                "imageType": "1"
+            },
+            {
+                "image": "https://d3qn6cjsz7zlnp.cloudfront.net/media/cafe/10.jpg",
+                "imageType": "2"
+            }
         ],
         "bannerShop": [
-          {
-            "image": "https://d3qn6cjsz7zlnp.cloudfront.net/media/store_locator/raghuwanshid1.jpg",
-            "imageType": "1"
-          },
-          {
-            "image": "https://d3qn6cjsz7zlnp.cloudfront.net/media/store_locator/raghuvanshi1.jpg",
-            "imageType": "2"
-          },
-          {
-            "image": "https://d3qn6cjsz7zlnp.cloudfront.net/media/store_locator/raghuvanshi2.jpg",
-            "imageType": "2"
-          },
-          {
-            "image": "https://d3qn6cjsz7zlnp.cloudfront.net/media/store_locator/raghuwanshid2.jpg",
-            "imageType": "1"
-          },
-          {
-            "image": "https://d3qn6cjsz7zlnp.cloudfront.net/media/store_locator/raghuwanshid3.jpg",
-            "imageType": "1"
-          },
-          {
-            "image": "https://d3qn6cjsz7zlnp.cloudfront.net/media/store_locator/raghuvanshi3.jpg",
-            "imageType": "2"
-          },
-          {
-            "image": "https://d3qn6cjsz7zlnp.cloudfront.net/media/store_locator/raghuwanshid4.jpg",
-            "imageType": "1"
-          },
-          {
-            "image": "https://d3qn6cjsz7zlnp.cloudfront.net/media/store_locator/raghuvanshi4.jpg",
-            "imageType": "2"
-          }
+            {
+                "image": "https://d3qn6cjsz7zlnp.cloudfront.net/media/store_locator/raghuvanshid5.png",
+                "imageType": "1"
+            },
+            {
+                "image": "https://d3qn6cjsz7zlnp.cloudfront.net/media/store_locator/raghuvanshi6.png",
+                "imageType": "1"
+            },
+            {
+                "image": "https://d3qn6cjsz7zlnp.cloudfront.net/media/store_locator/raghuvanshim1.png",
+                "imageType": "2"
+            },
+            {
+                "image": "https://d3qn6cjsz7zlnp.cloudfront.net/media/store_locator/raghuvanshim3.png",
+                "imageType": "2"
+            },
+            {
+                "image": "https://d3qn6cjsz7zlnp.cloudfront.net/media/store_locator/raghuvanshim2.png",
+                "imageType": "2"
+            },
+            {
+                "image": "https://d3qn6cjsz7zlnp.cloudfront.net/media/store_locator/raghuvanshi7.png",
+                "imageType": "1"
+            },
+            {
+                "image": "https://d3qn6cjsz7zlnp.cloudfront.net/media/store_locator/raghuvanshi3.jpg",
+                "imageType": "2"
+            },
+            {
+                "image": "https://d3qn6cjsz7zlnp.cloudfront.net/media/store_locator/raghuwanshid3.jpg",
+                "imageType": "1"
+            },
+            {
+                "image": "https://d3qn6cjsz7zlnp.cloudfront.net/media/store_locator/raghuvanshi4.jpg",
+                "imageType": "2"
+            },
+            {
+                "image": "https://d3qn6cjsz7zlnp.cloudfront.net/media/store_locator/raghuwanshid4.jpg",
+                "imageType": "1"
+            }
         ],
         "place": "Raghuvanshi Mills",
-        "cafeIframemap": null,
-        "time": "<p>11:00 am - 4:00 pm IST</p>",
-        "shopContent": "<p>The Bombay flagship is housed in a refurbished textiles mill that won a heritage award for its sensitive renovation. The Good Earth universe of Apparel, D&eacute;cor Accessories, Accent Furniture, Home Spa &amp; Bath, Dining, Textiles, Tableware, Barware &amp; Gifts is spread over 20,000 sq ft that feels like a museum and serves as a midtown oasis in the bustling city.</p>",
-        "opendays": "<p>OPEN 5 DAY A WEEK (Mon-Fri)</p>",
-        "cafeOpendays": "<p>OPEN 5 DAY A WEEK (Mon-Fri)</p>",
-        "iframemap": "https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d7545.189436576948!2d72.824335!3d18.993498!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0xe92d8d70271e4d5c!2sGood+Earth!5e0!3m2!1sen!2sin!4v1540967031225",
-        "cafeTime": null
-      },
-      {
-        "tel1": "<p><a href=\"tel:8104107145\">T: +91-8104107145</a></p>",
+        "time": "11:00 am - 8:00 pm",
+        "shopContent": "<p>The Bombay flagship is housed in a refurbished textiles mill that won a heritage award for its sensitive renovation. The Good Earth universe of Apparel, D&eacute;cor Accessories, Accent Furniture, Home Spa & Bath, Dining, Textiles, Tableware, Barware & Gifts is spread over 20,000 sq ft that feels like a museum and serves as a midtown oasis in the bustling city.</p><br />\r\n<p>A new chapter in the art of Indian dressing is the newly opened apparel space in our Raghuvanshi Mills flagship. A destination for conscious fashion and mindful where in-house brands come together with designers who share our passion for Indian heritage textiles and commitment to sustainable design practices.</p>",
+        "opendays": "OPEN 7 DAYS A WEEK",
+        "cafeOpendays": "OPEN 7 DAYS A WEEK",
+        "cafeTime": "11:00 am - 8:00 pm IST"
+    },
+    {
+        "tel1": [
+            "8104107145",
+            "8104107145"
+        ],
         "city": "Mumbai",
         "direction": "https://www.google.com/maps/dir//18.9211705,72.8324617/@18.921171,72.832462,17z?hl=en-US",
         "cafeContent": "",
         "cafeAddress": "",
-        "cafeTel1": "",
-        "address": "<p>Shop directly with -</p>\r\n\r\n<p><strong><a href=\"tel:9819827991\">Aneri +91 9819827991</a></strong></p>\r\n\r\n<p>&nbsp;</p>\r\n\r\n<p>2 Reay House, Adjacent to Taj Mahal Hotel,&nbsp;</p>\r\n\r\n<p>Colaba, Mumbai - 400001</p>",
+        "cafeTel1": [],
+        "address": "<p>Shop directly with -</p>\r\n\r\n<p><strong><a href=\"tel:8104107145\">Kunjana +91 8104107145</a></strong></p>\r\n\r\n<p>&nbsp;</p>\r\n\r\n<p>2 Reay House, Adjacent to Taj Mahal Hotel,&nbsp;</p>\r\n\r\n<p>Colaba, Mumbai - 400001</p>",
         "cafeDirection": null,
         "cafeHeading2": null,
         "bannerCafe": [],
         "bannerShop": [
-          {
-            "image": "https://d3qn6cjsz7zlnp.cloudfront.net/media/store_locator/colabad1.jpg",
-            "imageType": "1"
-          },
-          {
-            "image": "https://d3qn6cjsz7zlnp.cloudfront.net/media/store_locator/colaba1.jpg",
-            "imageType": "2"
-          },
-          {
-            "image": "https://d3qn6cjsz7zlnp.cloudfront.net/media/store_locator/colaba2.jpg",
-            "imageType": "2"
-          },
-          {
-            "image": "https://d3qn6cjsz7zlnp.cloudfront.net/media/store_locator/colaba3.jpg",
-            "imageType": "2"
-          }
+            {
+                "image": "https://d3qn6cjsz7zlnp.cloudfront.net/media/store_locator/colabad1.jpg",
+                "imageType": "1"
+            },
+            {
+                "image": "https://d3qn6cjsz7zlnp.cloudfront.net/media/store_locator/colaba1.jpg",
+                "imageType": "2"
+            },
+            {
+                "image": "https://d3qn6cjsz7zlnp.cloudfront.net/media/store_locator/colaba2.jpg",
+                "imageType": "2"
+            },
+            {
+                "image": "https://d3qn6cjsz7zlnp.cloudfront.net/media/store_locator/colaba3.jpg",
+                "imageType": "2"
+            }
         ],
         "place": "Colaba",
-        "cafeIframemap": null,
-        "time": "<p>11:00 am - 4:00 pm IST</p>",
+        "time": "<p>11:00 am - 8:00 pm</p>",
         "shopContent": "<p>An architectural ode to our Mughal heritage neighbouring historic Mumbai icons, the Taj Mahal hotel and the Gateway of India. An edited selection of Good Earth&rsquo;s most popular gifts and iconic designs in the heart of swishy South Bombay.</p>",
-        "opendays": "<p>OPEN 5 DAYS A WEEK (Mon-Fri)</p>",
-        "cafeOpendays": "<p>OPEN 5 DAYS A WEEK (Mon-Fri)</p>",
-        "iframemap": "https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d7548.461807068166!2d72.83246200000002!3d18.921171!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x95a31dff8e334c44!2sReay+House!5e0!3m2!1sen!2sin!4v1540967504148",
+        "opendays": "<p>OPEN 7 DAYS A WEEK</p>",
+        "cafeOpendays": "<p>OPEN 7 DAYS A WEEK</p>",
         "cafeTime": null
-      },
-      {
-        "tel1": "<p><a href=\"tel:2226112482\">T: +91 22 26112482</a></p>\r\n\r\n<p><a href=\"tel:2226112483\">T: +91 22 26112483</a></p>",
+    },
+    {
+        "tel1": [
+            "2226112482",
+            "8800877243"
+        ],
         "city": "Mumbai",
         "direction": "https://www.google.com/maps/dir//18.9211705,72.8324617/@18.921171,72.832462,17z?hl=en-US",
         "cafeContent": "",
         "cafeAddress": "",
-        "cafeTel1": "",
-        "address": "<p>Shop Directly with:</p>\r\n\r\n<p><a href=\"tel:9702730321\"><strong>Jaimala Rasam +91 9702730321.</strong></a></p>\r\n\r\n<p>&nbsp;</p>\r\n\r\n<p>R/154 Ground Floor,</p>\r\n\r\n<p>Opposite JW Marriott Hotel Juhu Tara Road,</p>\r\n\r\n<p>Juhu, Mumbai - 400049</p>",
+        "cafeTel1": [],
+        "address": "<p>Shop Directly with:</p>\r\n\r\n<p><a href=\"tel:9702730321\"><strong>Jaimala Rasam +91 8800877243.</strong></a></p>\r\n\r\n<p>&nbsp;</p>\r\n\r\n<p>R/154 Ground Floor,</p>\r\n\r\n<p>Opposite JW Marriott Hotel Juhu Tara Road,</p>\r\n\r\n<p>Juhu, Mumbai - 400049</p>",
         "cafeDirection": null,
         "cafeHeading2": null,
         "bannerCafe": [],
         "bannerShop": [
-          {
-            "image": "https://d3qn6cjsz7zlnp.cloudfront.net/media/store_locator/juhud1.jpg",
-            "imageType": "1"
-          },
-          {
-            "image": "https://d3qn6cjsz7zlnp.cloudfront.net/media/store_locator/juhu-mobile1.jpg",
-            "imageType": "2"
-          },
-          {
-            "image": "https://d3qn6cjsz7zlnp.cloudfront.net/media/store_locator/juhud2.jpg",
-            "imageType": "1"
-          },
-          {
-            "image": "https://d3qn6cjsz7zlnp.cloudfront.net/media/store_locator/juhu-mobile2.jpg",
-            "imageType": "2"
-          }
+            {
+                "image": "https://d3qn6cjsz7zlnp.cloudfront.net/media/store_locator/juhud1.jpg",
+                "imageType": "1"
+            },
+            {
+                "image": "https://d3qn6cjsz7zlnp.cloudfront.net/media/store_locator/juhu-mobile1.jpg",
+                "imageType": "2"
+            },
+            {
+                "image": "https://d3qn6cjsz7zlnp.cloudfront.net/media/store_locator/juhud2.jpg",
+                "imageType": "1"
+            },
+            {
+                "image": "https://d3qn6cjsz7zlnp.cloudfront.net/media/store_locator/juhu-mobile2.jpg",
+                "imageType": "2"
+            }
         ],
         "place": "Juhu",
-        "cafeIframemap": null,
-        "time": "<p>11:00 am - 4:00 pm IST</p>",
+        "time": "<p>11:00 am - 8:00 pm</p>",
         "shopContent": "<p>An urban haven of contemporary Indian design and lifestyle luxury in the heart of North Bombay. Offers an edited selection of Good Earth&rsquo;s most popular gifts and iconic designs on Bollywood&rsquo;s avenue of the stars.</p>",
-        "opendays": "<p>OPEN 5 DAYS A WEEK(Mon-Fri)</p>",
-        "cafeOpendays": "<p>OPEN 5 DAYS A WEEK(Mon-Fri)</p>",
-        "iframemap": "https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d15080.491491608074!2d72.827164!3d19.1022648!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0xc574ba95e409980e!2sGood+Earth!5e0!3m2!1sen!2sin!4v1542363599612",
+        "opendays": "<p>OPEN 7 DAYS A WEEK</p>",
+        "cafeOpendays": "<p>OPEN 7 DAYS A WEEK</p>",
         "cafeTime": null
-      }
-    ],
-    "Bangalore": [
-      {
-        "tel1": "<p><a href=\"tel:9811041293\">M:+91-9811041293</a></p>\r\n\r\n<p><a href=\"tel:08040920986 \">T: +91-080-40920986</a></p>\r\n\r\n<p><a href=\"tel:080-40921029\">T: +91-080-40921029</a></p>",
+    }
+  ],
+  "Bangalore": [
+    {
+        "tel1": [
+            "9811041293",
+            "9811041293",
+            "08040920986",
+            "40920986",
+            "40921029",
+            "40921029"
+        ],
         "city": "Bangalore",
         "direction": "https://www.google.com/maps/dir//12.971652,77.597891/@12.971652,77.597891,17z?hl=en-US",
         "cafeContent": "Nestled under a canopy of trees, the Fresh Pressery cafe at our shop on Walton Road is a relaxed and serene space for cold pressed juices and guilt-free indulgence.",
         "cafeAddress": "No.4 Walton Road, Off Lavelle Road,;\r\nBangalore – 560001",
-        "cafeTel1": "T: +91-080-40920986,\r\nT: +91-080-40921029",
-        "address": "<p>Shop directly with -</p>\r\n\r\n<p><a href=\"tel:9481244194\"><strong>Shalini Srivastava +91 9481244194.</strong></a></p>\r\n\r\n<p>&nbsp;</p>\r\n\r\n<p>No.4 Walton Road, Off Lavelle Road,</p>\r\n\r\n<p>Bangalore -&nbsp;560001</p>",
+        "cafeTel1": [
+            "40920986",
+            "40921029"
+        ],
+        "address": "<p>Shop directly with -</p>\r\n\r\n<p><strong><a href=\"tel:9481244194\">Shalini Srivastava&nbsp; +91 9481244194</a></strong></p>\r\n\r\n<p>&nbsp;</p>\r\n\r\n<p>No.4 Walton Road, Off Lavelle Road,</p>\r\n\r\n<p>Bangalore -&nbsp;560001</p>",
         "cafeDirection": "https://www.google.com/maps/dir//12.971652,77.597891/@12.971652,77.597891,17z?hl=en-US",
         "cafeHeading2": "Fresh Pressery Cafe",
         "bannerCafe": [
-          {
-            "image": "https://d3qn6cjsz7zlnp.cloudfront.net/media/cafe/banglorecafed1.jpg",
-            "imageType": "1"
-          },
-          {
-            "image": "https://d3qn6cjsz7zlnp.cloudfront.net/media/cafe/banglorecafe1.jpg",
-            "imageType": "2"
-          },
-          {
-            "image": "https://d3qn6cjsz7zlnp.cloudfront.net/media/cafe/banglorecafed2.jpg",
-            "imageType": "1"
-          },
-          {
-            "image": "https://d3qn6cjsz7zlnp.cloudfront.net/media/cafe/bangloredcafe2.jpg",
-            "imageType": "2"
-          }
+            {
+                "image": "https://d3qn6cjsz7zlnp.cloudfront.net/media/cafe/banglorecafed1.jpg",
+                "imageType": "1"
+            },
+            {
+                "image": "https://d3qn6cjsz7zlnp.cloudfront.net/media/cafe/banglorecafe1.jpg",
+                "imageType": "2"
+            },
+            {
+                "image": "https://d3qn6cjsz7zlnp.cloudfront.net/media/cafe/banglorecafed2.jpg",
+                "imageType": "1"
+            },
+            {
+                "image": "https://d3qn6cjsz7zlnp.cloudfront.net/media/cafe/bangloredcafe2.jpg",
+                "imageType": "2"
+            }
         ],
         "bannerShop": [
-          {
-            "image": "https://d3qn6cjsz7zlnp.cloudfront.net/media/store_locator/banglored1.jpg",
-            "imageType": "1"
-          },
-          {
-            "image": "https://d3qn6cjsz7zlnp.cloudfront.net/media/store_locator/banglore1.jpg",
-            "imageType": "2"
-          },
-          {
-            "image": "https://d3qn6cjsz7zlnp.cloudfront.net/media/store_locator/banglore2.jpg",
-            "imageType": "2"
-          },
-          {
-            "image": "https://d3qn6cjsz7zlnp.cloudfront.net/media/store_locator/banglore3.jpg",
-            "imageType": "2"
-          },
-          {
-            "image": "https://d3qn6cjsz7zlnp.cloudfront.net/media/store_locator/banglore4.jpg",
-            "imageType": "2"
-          }
+            {
+                "image": "https://d3qn6cjsz7zlnp.cloudfront.net/media/store_locator/banglored1.jpg",
+                "imageType": "1"
+            },
+            {
+                "image": "https://d3qn6cjsz7zlnp.cloudfront.net/media/store_locator/banglore1.jpg",
+                "imageType": "2"
+            },
+            {
+                "image": "https://d3qn6cjsz7zlnp.cloudfront.net/media/store_locator/banglore2.jpg",
+                "imageType": "2"
+            },
+            {
+                "image": "https://d3qn6cjsz7zlnp.cloudfront.net/media/store_locator/banglore3.jpg",
+                "imageType": "2"
+            },
+            {
+                "image": "https://d3qn6cjsz7zlnp.cloudfront.net/media/store_locator/banglore4.jpg",
+                "imageType": "2"
+            }
         ],
         "place": "Lavelle Road",
-        "cafeIframemap": "https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d7776.006237411983!2d77.597891!3d12.971652!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0xfb48d19a6a869f2a!2sGood+Earth!5e0!3m2!1sen!2sin!4v1540969091721",
-        "time": "<p>10:00 am - 5:00 pm (IST)</p>",
+        "time": "<p>11:00 am - 8:00 pm</p>",
         "shopContent": "<p>Located at the heart of Bangalore&rsquo;s shopping district, our newly opened 10,000 sq.ft. flagship is designed to reflect the culture of Bangalore that is both tropical and digitally engaged.</p>",
-        "opendays": "<p>OPEN 5 DAYS A WEEK (Mon-Fri)</p>",
-        "cafeOpendays": "<p>OPEN 5 DAYS A WEEK (Mon-Fri)</p>",
-        "iframemap": "https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d7776.006237411983!2d77.597891!3d12.971652!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0xfb48d19a6a869f2a!2sGood+Earth!5e0!3m2!1sen!2sin!4v1540969091721",
+        "opendays": "<p>OPEN 7 DAYS A WEEK;</p>",
+        "cafeOpendays": "<p>OPEN 7 DAYS A WEEK;</p>",
         "cafeTime": null
-      }
-    ],
-    "Chennai": [
-      {
-        "tel1": "<p><a href=\"tel:44-43087878\">T: +91-44-43087878</a></p>\r\n\r\n<p><a href=\"tel:44-43087879\">T: +91-44-43087879</a></p>",
+    }
+  ],
+  "Chennai": [
+    {
+        "tel1": [
+            "7200107964",
+            "43087878",
+            "43087878",
+            "43087879",
+            "43087879"
+        ],
         "city": "Chennai",
         "direction": "https://www.google.com/maps/dir//13.0590366,80.2513058/@13.059037,80.251306,17z?hl=en-US",
         "cafeContent": "The Latitude 13 Café has quickly become the toast of the town. It is managed by the Park Hotel team who serves the best of their treats in verandah full of Good Earth prints accented with pendant chandeliers.",
         "cafeAddress": "No.3 Ruthland Gate, 4th Street,;\r\nThousand Lights, Nungambakkam,;\r\nOpposite Taj Coromandel, Chennai – 600006",
-        "cafeTel1": "T: +91-44-43087878,\r\nT: +91-44-43087879",
-        "address": "<p>Shop directly with -</p>\r\n\r\n<p><a href=\"tel:8056132496\"><strong>Tabassum +91 8056132496.</strong></a></p>\r\n\r\n<p>&nbsp;</p>\r\n\r\n<p>No.3 Ruthland Gate, 4th Street,</p>\r\n\r\n<p>Thousand Lights, Nungambakkam,</p>\r\n\r\n<p>Opposite Taj Coromandel, Chennai -&nbsp;600006</p>",
+        "cafeTel1": [
+            "43087878",
+            "43087879"
+        ],
+        "address": "<p>Shop directly with -</p>\r\n\r\n<p><a href=\"tel:8056132496\"><strong>Ameera +91 7200107964</strong></a></p>\r\n\r\n<p>&nbsp;</p>\r\n\r\n<p>No.3 Ruthland Gate, 4th Street,</p>\r\n\r\n<p>Thousand Lights, Nungambakkam,</p>\r\n\r\n<p>Opposite Taj Coromandel, Chennai -&nbsp;600006</p>",
         "cafeDirection": "https://www.google.com/maps/dir//13.0590366,80.2513058/@13.059037,80.251306,17z?hl=en-US",
         "cafeHeading2": "Latitude 13º Cafe",
         "bannerCafe": [
-          {
-            "image": "https://d3qn6cjsz7zlnp.cloudfront.net/media/cafe/chennaicafed1.jpg",
-            "imageType": "1"
-          },
-          {
-            "image": "https://d3qn6cjsz7zlnp.cloudfront.net/media/cafe/chennaicafe1.jpg",
-            "imageType": "2"
-          },
-          {
-            "image": "https://d3qn6cjsz7zlnp.cloudfront.net/media/cafe/chennaicafed2.jpg",
-            "imageType": "1"
-          },
-          {
-            "image": "https://d3qn6cjsz7zlnp.cloudfront.net/media/cafe/chennaicafe2.jpg",
-            "imageType": "2"
-          }
+            {
+                "image": "https://d3qn6cjsz7zlnp.cloudfront.net/media/cafe/chennaicafed1.jpg",
+                "imageType": "1"
+            },
+            {
+                "image": "https://d3qn6cjsz7zlnp.cloudfront.net/media/cafe/chennaicafe1.jpg",
+                "imageType": "2"
+            },
+            {
+                "image": "https://d3qn6cjsz7zlnp.cloudfront.net/media/cafe/chennaicafed2.jpg",
+                "imageType": "1"
+            },
+            {
+                "image": "https://d3qn6cjsz7zlnp.cloudfront.net/media/cafe/chennaicafe2.jpg",
+                "imageType": "2"
+            }
         ],
         "bannerShop": [
-          {
-            "image": "https://d3qn6cjsz7zlnp.cloudfront.net/media/store_locator/chennaid1.jpg",
-            "imageType": "1"
-          },
-          {
-            "image": "https://d3qn6cjsz7zlnp.cloudfront.net/media/store_locator/chennai1.jpg",
-            "imageType": "2"
-          },
-          {
-            "image": "https://d3qn6cjsz7zlnp.cloudfront.net/media/store_locator/chennaid2.jpg",
-            "imageType": "1"
-          },
-          {
-            "image": "https://d3qn6cjsz7zlnp.cloudfront.net/media/store_locator/chennai2.jpg",
-            "imageType": "2"
-          }
+            {
+                "image": "https://d3qn6cjsz7zlnp.cloudfront.net/media/store_locator/chennaid1.jpg",
+                "imageType": "1"
+            },
+            {
+                "image": "https://d3qn6cjsz7zlnp.cloudfront.net/media/store_locator/chennai1.jpg",
+                "imageType": "2"
+            },
+            {
+                "image": "https://d3qn6cjsz7zlnp.cloudfront.net/media/store_locator/chennaid2.jpg",
+                "imageType": "1"
+            },
+            {
+                "image": "https://d3qn6cjsz7zlnp.cloudfront.net/media/store_locator/chennai2.jpg",
+                "imageType": "2"
+            }
         ],
         "place": "Rutland Gate",
-        "cafeIframemap": "https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d7773.26536481837!2d80.25130600000001!3d13.059037!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0xb4f48e6d9d37d633!2sGood+Earth!5e0!3m2!1sen!2sin!4v1540969468360",
-        "time": "<p>10:00 am - 5:00 pm IST</p>",
-        "shopContent": "<p>A converted residence in Chennai houses the Good Earth universe of Apparel, D&eacute;cor Accessories, Accent Furniture, Home Spa &amp; Bath, Dining, Textiles, Tableware, Barware &amp; Gifts. Celebrating style in Chennai&rsquo;s most centrally located and poshest residential district that serves as the city&rsquo;s diplomatic enclave.</p>",
+        "time": "<p>11:00 am - 8:00 pm IST</p>",
+        "shopContent": "<p>A converted residence in Chennai houses the Good Earth universe of Apparel, D&eacute;cor Accessories, Accent Furniture, Home Spa & Bath, Dining, Textiles, Tableware, Barware & Gifts. Celebrating style in Chennai&rsquo;s most centrally located and poshest residential district that serves as the city&rsquo;s diplomatic enclave.</p>",
         "opendays": "<p>OPEN 7 DAYS A WEEK</p>",
         "cafeOpendays": "<p>OPEN 7 DAYS A WEEK</p>",
-        "iframemap": "https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d7773.26536481837!2d80.25130600000001!3d13.059037!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0xb4f48e6d9d37d633!2sGood+Earth!5e0!3m2!1sen!2sin!4v1540969468360",
         "cafeTime": null
-      }
-    ],
-    "Hyderabad": [
-      {
-        "tel1": "<p><a href=\"tel:40-2333-8000\">T: +91-40-2333-8000</a></p>\r\n\r\n<p><a href=\"tel:9030232102\">M: +91-9030232102</a></p>",
+    }
+  ],
+  "Hyderabad": [
+    {
+        "tel1": [
+            "9030232102"
+        ],
         "city": "Hyderabad",
         "direction": "https://www.google.com/maps/dir//17.4121635,78.4304128/@17.412164,78.430413,15z?hl=en-US",
         "cafeContent": "",
         "cafeAddress": "",
-        "cafeTel1": "",
-        "address": "<p>Shop directly with -&nbsp;</p>\r\n\r\n<p><strong><a href=\"tel:9849082166\">Patricia +91 9849082166.</a></strong></p>\r\n\r\n<p>&nbsp;</p>\r\n\r\n<p>8-2-686/D Road No 12,</p>\r\n\r\n<p>Banjara Hills, Hyderabad - 500034</p>",
+        "cafeTel1": [],
+        "address": "<p>Shop directly with -&nbsp;</p>\r\n\r\n<p><strong><a href=\"tel:9849082166\">Jyothi +91 9030232102</a></strong></p>\r\n\r\n<p>&nbsp;</p>\r\n\r\n<p>8-2-686/D Road No 12,</p>\r\n\r\n<p>Banjara Hills, Hyderabad - 500034</p>",
         "cafeDirection": null,
         "cafeHeading2": null,
         "bannerCafe": [],
         "bannerShop": [
-          {
-            "image": "https://d3qn6cjsz7zlnp.cloudfront.net/media/store_locator/hydd1.jpg",
-            "imageType": "1"
-          },
-          {
-            "image": "https://d3qn6cjsz7zlnp.cloudfront.net/media/store_locator/hyd1.jpg",
-            "imageType": "2"
-          },
-          {
-            "image": "https://d3qn6cjsz7zlnp.cloudfront.net/media/store_locator/hydd2.jpg",
-            "imageType": "1"
-          },
-          {
-            "image": "https://d3qn6cjsz7zlnp.cloudfront.net/media/store_locator/hyd2.jpg",
-            "imageType": "2"
-          }
+            {
+                "image": "https://d3qn6cjsz7zlnp.cloudfront.net/media/store_locator/hydd1.jpg",
+                "imageType": "1"
+            },
+            {
+                "image": "https://d3qn6cjsz7zlnp.cloudfront.net/media/store_locator/hyd1.jpg",
+                "imageType": "2"
+            },
+            {
+                "image": "https://d3qn6cjsz7zlnp.cloudfront.net/media/store_locator/hydd2.jpg",
+                "imageType": "1"
+            },
+            {
+                "image": "https://d3qn6cjsz7zlnp.cloudfront.net/media/store_locator/hyd2.jpg",
+                "imageType": "2"
+            }
         ],
         "place": "Banjara Hills",
-        "cafeIframemap": null,
-        "time": "<p>11:00 am - 7.00 pm IST</p>",
-        "shopContent": "<p>Conveniently located in the heart of Banjara hills, once the hunting grounds of the Nizams serves today&rsquo;s heritage hunters. Offers the Good Earth Universe of Apparel, D&eacute;cor Accessories, Accent Furniture, Home Spa &amp; Bath, Dining, Textiles, Tableware, Barware &amp; Gifts and includes an Amrapali jewelry room specially curated for our shoppers.</p>",
+        "time": "<p>11:00 am - 8.00 pm IST</p>",
+        "shopContent": "<p>Conveniently located in the heart of Banjara hills, once the hunting grounds of the Nizams serves today&rsquo;s heritage hunters. Offers the Good Earth Universe of Apparel, D&eacute;cor Accessories, Accent Furniture, Home Spa & Bath, Dining, Textiles, Tableware, Barware & Gifts and includes an Amrapali jewelry room specially curated for our shoppers.</p>",
         "opendays": "<p>OPEN 7 DAYS A WEEK</p>",
         "cafeOpendays": "<p>OPEN 7 DAYS A WEEK</p>",
-        "iframemap": "https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d30455.937261405244!2d78.430413!3d17.412164!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0xb61167646bb16d65!2sGood+Earth!5e0!3m2!1sen!2sin!4v1540969816419",
         "cafeTime": null
-      }
-    ],
-    "Jaipur": [
-      {
-        "tel1": "<p><a href=\"tel:141-4086542\">T: +91-141-4086542</a></p>",
+    }
+],
+"Jaipur": [
+    {
+        "tel1": [
+            "4086542",
+            "4086542"
+        ],
         "city": "Jaipur",
         "direction": "https://www.google.com/maps/dir//26.9043888,75.7921156/@26.904389,75.792116,17z?hl=en-US",
         "cafeContent": "",
         "cafeAddress": "",
-        "cafeTel1": "",
-        "address": "<p>Shop directly with -</p>\r\n\r\n<p><strong><span style=\"color:#000119\">Shilpa<u><a href=\"tel:8929590387\"> +91 8929590387</a></u></span></strong></p>\r\n\r\n<p>&nbsp;</p>\r\n\r\n<p>Rajmahal Palace, Sardar Patel Marg,</p>\r\n\r\n<p>Jaipur, Rajasthan - 302001</p>",
+        "cafeTel1": [],
+        "address": "<p>Shop directly with -</p>\r\n\r\n<p><span style=\"color:#000119\">Shilpa: +91 8929590387</span></p>\r\n\r\n<p>&nbsp;</p>\r\n\r\n<p>Rajmahal Palace, Sardar Patel Marg,</p>\r\n\r\n<p>Jaipur, Rajasthan - 302001</p>",
         "cafeDirection": null,
         "cafeHeading2": null,
         "bannerCafe": [],
         "bannerShop": [
-          {
-            "image": "https://d3qn6cjsz7zlnp.cloudfront.net/media/store_locator/jaipur1.jpg",
-            "imageType": "2"
-          },
-          {
-            "image": "https://d3qn6cjsz7zlnp.cloudfront.net/media/store_locator/jaipurd1.jpg",
-            "imageType": "1"
-          },
-          {
-            "image": "https://d3qn6cjsz7zlnp.cloudfront.net/media/store_locator/jaipur2.jpg",
-            "imageType": "2"
-          },
-          {
-            "image": "https://d3qn6cjsz7zlnp.cloudfront.net/media/store_locator/jaipurd2.jpg",
-            "imageType": "1"
-          },
-          {
-            "image": "https://d3qn6cjsz7zlnp.cloudfront.net/media/store_locator/jaipurd3.jpg",
-            "imageType": "1"
-          },
-          {
-            "image": "https://d3qn6cjsz7zlnp.cloudfront.net/media/store_locator/jaipur3.jpg",
-            "imageType": "2"
-          },
-          {
-            "image": "https://d3qn6cjsz7zlnp.cloudfront.net/media/store_locator/jaipur4.jpg",
-            "imageType": "2"
-          }
+            {
+                "image": "https://d3qn6cjsz7zlnp.cloudfront.net/media/store_locator/jaipur1.jpg",
+                "imageType": "2"
+            },
+            {
+                "image": "https://d3qn6cjsz7zlnp.cloudfront.net/media/store_locator/jaipurd1.jpg",
+                "imageType": "1"
+            },
+            {
+                "image": "https://d3qn6cjsz7zlnp.cloudfront.net/media/store_locator/jaipur2.jpg",
+                "imageType": "2"
+            },
+            {
+                "image": "https://d3qn6cjsz7zlnp.cloudfront.net/media/store_locator/jaipurd2.jpg",
+                "imageType": "1"
+            },
+            {
+                "image": "https://d3qn6cjsz7zlnp.cloudfront.net/media/store_locator/jaipurd3.jpg",
+                "imageType": "1"
+            },
+            {
+                "image": "https://d3qn6cjsz7zlnp.cloudfront.net/media/store_locator/jaipur3.jpg",
+                "imageType": "2"
+            },
+            {
+                "image": "https://d3qn6cjsz7zlnp.cloudfront.net/media/store_locator/jaipur4.jpg",
+                "imageType": "2"
+            }
         ],
         "place": "Jaipur Good Earth",
-        "cafeIframemap": null,
-        "time": "<p>10:30 am - 4:00 pm (IST)</p>",
+        "time": "<p>11:00 am - 7:00 pm (IST)</p>",
         "shopContent": "<p>Situated in the heart of India&rsquo;s design capital, Jaipur - The historic Rajmahal Palace houses a jewel-like gift shop that entails designs that are a celebration of our craft and cultural heritage, Witness our signature designs brought to life within royal hallways and domed chambers.</p>",
-        "opendays": "<p>OPEN 5 DAYS A WEEK (Mon-Fri)</p>",
-        "cafeOpendays": "<p>OPEN 5 DAYS A WEEK (Mon-Fri)</p>",
-        "iframemap": "https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d7115.943667136839!2d75.792116!3d26.904389!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x572e35e0da190487!2sGood+Earth+Jaipur!5e0!3m2!1sen!2sus!4v1540970257454",
+        "opendays": "<p>OPEN 6 DAYS A WEEK (Mon-Sat)</p>",
+        "cafeOpendays": "<p>OPEN 6 DAYS A WEEK (Mon-Sat)</p>",
         "cafeTime": null
-      }
-    ],
-    "Jodhpur": [
-      {
-        "tel1": "<p><a href=\"tel:291-2618005\">T: +91-291-2618005</a></p>",
+    }
+  ],
+  "Jodhpur": [
+    {
+        "tel1": [
+            "2618005",
+            "2618005"
+        ],
         "city": "Jodhpur",
         "direction": "https://www.google.com/maps/dir//26.2966084,73.0228743/@26.296608,73.022874,17z?hl=en-US",
         "cafeContent": "",
         "cafeAddress": "",
-        "cafeTel1": "",
-        "address": "<p>Shop directly with -</p>\r\n\r\n<p><strong><a href=\"tel:8769400627\">Chandrika Rathore +91 8769400627.</a></strong></p>\r\n\r\n<p>&nbsp;</p>\r\n\r\n<p>Moon House Haveli, Stepwell Square,</p>\r\n\r\n<p>The Walled City, Jodhpur</p>",
+        "cafeTel1": [],
+        "address": "<p>Shop directly with -</p>\r\n\r\n<p><strong><a href=\"tel:8769400627\">Chandrika Rathore +91 9</a>811041283</strong></p>\r\n\r\n<p>&nbsp;</p>\r\n\r\n<p>Moon House Haveli, Stepwell Square,</p>\r\n\r\n<p>The Walled City, Jodhpur</p>",
         "cafeDirection": null,
         "cafeHeading2": null,
         "bannerCafe": [],
         "bannerShop": [
-          {
-            "image": "https://d3qn6cjsz7zlnp.cloudfront.net/media/store_locator/jodhpurd1.jpg",
-            "imageType": "1"
-          },
-          {
-            "image": "https://d3qn6cjsz7zlnp.cloudfront.net/media/store_locator/jodhpur1.jpg",
-            "imageType": "2"
-          },
-          {
-            "image": "https://d3qn6cjsz7zlnp.cloudfront.net/media/store_locator/jodhpurd2.jpg",
-            "imageType": "1"
-          },
-          {
-            "image": "https://d3qn6cjsz7zlnp.cloudfront.net/media/store_locator/jodhpur2.jpg",
-            "imageType": "2"
-          },
-          {
-            "image": "https://d3qn6cjsz7zlnp.cloudfront.net/media/store_locator/jodhpur3.jpg",
-            "imageType": "2"
-          },
-          {
-            "image": "https://d3qn6cjsz7zlnp.cloudfront.net/media/store_locator/jodhpurd3.jpg",
-            "imageType": "1"
-          },
-          {
-            "image": "https://d3qn6cjsz7zlnp.cloudfront.net/media/store_locator/jodhpurd4.jpg",
-            "imageType": "1"
-          }
+            {
+                "image": "https://d3qn6cjsz7zlnp.cloudfront.net/media/store_locator/jodhpurd1.jpg",
+                "imageType": "1"
+            },
+            {
+                "image": "https://d3qn6cjsz7zlnp.cloudfront.net/media/store_locator/jodhpur1.jpg",
+                "imageType": "2"
+            },
+            {
+                "image": "https://d3qn6cjsz7zlnp.cloudfront.net/media/store_locator/jodhpurd2.jpg",
+                "imageType": "1"
+            },
+            {
+                "image": "https://d3qn6cjsz7zlnp.cloudfront.net/media/store_locator/jodhpur2.jpg",
+                "imageType": "2"
+            },
+            {
+                "image": "https://d3qn6cjsz7zlnp.cloudfront.net/media/store_locator/jodhpur3.jpg",
+                "imageType": "2"
+            },
+            {
+                "image": "https://d3qn6cjsz7zlnp.cloudfront.net/media/store_locator/jodhpurd3.jpg",
+                "imageType": "1"
+            },
+            {
+                "image": "https://d3qn6cjsz7zlnp.cloudfront.net/media/store_locator/jodhpurd4.jpg",
+                "imageType": "1"
+            }
         ],
         "place": "Jodhpur Good Earth",
-        "cafeIframemap": null,
-        "time": "<p>10:30 am - 4:00 pm IST</p>",
+        "time": "",
         "shopContent": "<p>The newest Good Earth India boutique is a modern day Silk Route souk full of glittering gifts and craft collectibles. Our Moon House haveli celebrates the future of heritage in a city at the precipice of a cultural renaissance.</p>",
-        "opendays": "<p>OPEN 5 DAYS A WEEK (Mon-Fri)</p>",
-        "cafeOpendays": "<p>OPEN 5 DAYS A WEEK (Mon-Fri)</p>",
-        "iframemap": "https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d7153.845265162902!2d73.022874!3d26.296608!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0xef3e5567acfb8ccc!2sGood+Earth+-+Moon+House+Haveli!5e0!3m2!1sen!2sin!4v1540970523552",
+        "opendays": "CLOSED TODAY",
+        "cafeOpendays": "CLOSED TODAY",
         "cafeTime": null
-      }
-    ]
-  }
+    }
+  ]
+}

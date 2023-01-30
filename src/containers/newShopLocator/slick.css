@@ -1,0 +1,33 @@
+.slick-prev {
+    left: -30px;
+}
+
+.slick-next {
+    right: -20px;
+}
+
+.slick-prev:before {
+    content: url('../../images/shopLocatorPrev.svg');
+    display: block;
+    height: 30px;
+    width: 30px;
+}
+
+.slick-next:before {
+    content: url('../../images/shopLocatorNext.svg');
+    display: block;
+    height: 30px;
+    width: 30px;
+}
+
+.slick-prev.slick-disabled:before, .slick-next.slick-disabled:before {
+    opacity: unset;
+}
+
+.slick-dots li.slick-active button:before {
+    color: #7EAAA9;
+}
+
+.slick-dots li button:before{
+    font-size: 8px;
+}
