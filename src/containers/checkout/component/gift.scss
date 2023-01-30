@@ -382,6 +382,14 @@
   .err {
     border: 1px solid #ab1e56 !important;
   }
+  .disable-input-msg{
+    color: #666;
+    font-style: normal;
+  }
+  .disable-input{
+      background-color: #f2f2f2 !important;
+    border: 1px solid #f2f2f2 !important;
+  }
   label {
     position: absolute;
     top: -10px;

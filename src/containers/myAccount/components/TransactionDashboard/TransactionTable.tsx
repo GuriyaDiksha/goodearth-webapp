@@ -354,7 +354,8 @@ const TransactionTable = ({ mobile }: Props) => {
                       ele?.Points
                     }`}
                   </p>
-                  {ele?.Description === "Point Earned" ? (
+                  {ele?.Description === "Point Earned" ||
+                  ele?.Description === "Point Redeemed" ? (
                     <p
                       className={cs(
                         bootstrap.col1,

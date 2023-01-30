@@ -215,11 +215,16 @@ class Reedem extends React.Component<Props, RedeemState> {
                     onChange={this.changeValue}
                     id="redeem"
                     min="0"
-                    className={
+                    className={cs(
                       this.state.error
                         ? cs(styles.marginR10, styles.err)
-                        : styles.marginR10
-                    }
+                        : styles.marginR10,
+                      {
+                        [styles.disableInput]:
+                          loyaltyData?.CustomerPointInformation
+                            ?.AvailablePoint === 0
+                      }
+                    )}
                     disabled={
                       loyaltyData?.CustomerPointInformation?.AvailablePoint ===
                       0
@@ -236,7 +241,13 @@ class Reedem extends React.Component<Props, RedeemState> {
                 <label>Redeem Points</label>
 
                 {this.state.error ? (
-                  <p className={cs(globalStyles.errorMsg)}>
+                  <p
+                    className={cs(globalStyles.errorMsg, {
+                      [styles.disableInputMsg]:
+                        loyaltyData?.CustomerPointInformation
+                          ?.AvailablePoint === 0
+                    })}
+                  >
                     {this.state.error}
                   </p>
                 ) : (
