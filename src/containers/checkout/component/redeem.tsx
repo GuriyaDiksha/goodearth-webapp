@@ -224,6 +224,13 @@ class Reedem extends React.Component<Props, RedeemState> {
                       loyaltyData?.CustomerPointInformation?.AvailablePoint ===
                       0
                     }
+                    style={{
+                      cursor:
+                        loyaltyData?.CustomerPointInformation
+                          ?.AvailablePoint === 0
+                          ? "not-allowed"
+                          : "inherit"
+                    }}
                   />
                 </div>
                 <label>Redeem Points</label>

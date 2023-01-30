@@ -286,7 +286,7 @@ const TransactionTable = ({ mobile }: Props) => {
                       styles.point,
                       {
                         [globalStyles.ceriseBackground]:
-                          ele?.Description === "PointRedeemed"
+                          ele?.Description === "Point Redeemed"
                       },
                       {
                         [globalStyles.greyBackground]: ele?.Description === "NA"
@@ -345,37 +345,42 @@ const TransactionTable = ({ mobile }: Props) => {
                       styles.colPoint,
                       {
                         [globalStyles.cerise]:
-                          ele?.Description === "PointRedeemed"
+                          ele?.Description === "Point Redeemed"
                       },
                       { [globalStyles.greyColor]: ele?.Description === "NA" }
                     )}
                   >
-                    {`[+] ${ele?.Points}`}
+                    {`[${ele?.Description === "Point Redeemed" ? "-" : "+"}] ${
+                      ele?.Points
+                    }`}
                   </p>
-                  <p
-                    className={cs(
-                      bootstrap.col1,
-                      styles.alignCenterText,
-                      styles.iconCarrot
-                    )}
-                  >
-                    <span
-                      className={
-                        openStateId["id"] === ind + "t" && openStateId["state"]
-                          ? styles.active
-                          : ""
-                      }
-                      onClick={() => {
-                        setOpenStateId({
-                          id: ind + "t",
-                          state:
-                            openStateId["id"] === ind + "t"
-                              ? !openStateId["state"]
-                              : true
-                        });
-                      }}
-                    ></span>
-                  </p>
+                  {ele?.Description === "Point Earned" ? (
+                    <p
+                      className={cs(
+                        bootstrap.col1,
+                        styles.alignCenterText,
+                        styles.iconCarrot
+                      )}
+                    >
+                      <span
+                        className={
+                          openStateId["id"] === ind + "t" &&
+                          openStateId["state"]
+                            ? styles.active
+                            : ""
+                        }
+                        onClick={() => {
+                          setOpenStateId({
+                            id: ind + "t",
+                            state:
+                              openStateId["id"] === ind + "t"
+                                ? !openStateId["state"]
+                                : true
+                          });
+                        }}
+                      ></span>
+                    </p>
+                  ) : null}
                 </div>
                 <div
                   className={cs(
@@ -388,7 +393,7 @@ const TransactionTable = ({ mobile }: Props) => {
                   )}
                 >
                   <>
-                    {ele?.Description === "PointEarned" || mobile ? (
+                    {ele?.Description === "Point Earned" || mobile ? (
                       <div className={styles.innerDetailsWrp}>
                         {mobile ? (
                           <div className={styles.innerDetails}>
@@ -396,7 +401,7 @@ const TransactionTable = ({ mobile }: Props) => {
                             <p className={styles.desc}>{ele?.DocumentDate}</p>
                           </div>
                         ) : null}
-                        {ele?.Description === "PointEarned" ? (
+                        {ele?.Description === "Point Earned" ? (
                           <div
                             style={{ textAlign: "right" }}
                             className={styles.innerDetails}
