@@ -23,6 +23,8 @@ const AddressList: React.FC<Props> = props => {
   const [addressData, setAddressData] = useState(props.addressDataList);
   const { bridalAddressId } = useSelector((state: AppState) => state.basket);
   const { addressDataList, isBridal } = props;
+  const [defaultAddress, setDefaultAddress] = useState(`default_check_${0}`);
+
   useEffect(() => {
     let addressData = addressDataList;
     if (
@@ -55,7 +57,7 @@ const AddressList: React.FC<Props> = props => {
     //   addressData = addressData.filter(data => data.id !== props.bridalId);
     // }
     setAddressData(addressData);
-  }, [addressDataList]);
+  }, []);
 
   // const [ addressDataList: addressData || [],
   const [isLoading] = useState(false);
@@ -151,7 +153,11 @@ const AddressList: React.FC<Props> = props => {
   return (
     <div>
       <div
-        className={cs(bootstrapStyles.row, styles.addressListContainer)}
+        className={cs(bootstrapStyles.row, styles.addressListContainer, {
+          [styles.checkoutFix]:
+            props.currentCallBackComponent == "checkout-shipping" ||
+            props.currentCallBackComponent == "checkout-billing"
+        })}
         id="addressData"
       >
         {isBridal && activeStep == "SHIPPING" ? (
@@ -171,6 +177,8 @@ const AddressList: React.FC<Props> = props => {
                 index={i}
                 isOnlyAddress={addressData.length === 1}
                 showAddressInBridalUse={props.showAddressInBridalUse}
+                defaultAddress={defaultAddress}
+                setDefaultAddress={setDefaultAddress}
               />
             );
           })

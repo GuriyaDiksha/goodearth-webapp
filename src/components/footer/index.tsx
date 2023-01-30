@@ -12,10 +12,12 @@ import CookieService from "services/cookie";
 import * as valid from "utils/validate";
 import { Dispatch } from "redux";
 import HeaderFooterService from "services/headerFooter";
-import { updateShowCookie } from "actions/info";
+import { updateShowCookie, updateCookiePrefrence } from "actions/info";
 import CookiePolicy from "./CookiePolicy";
 import MakerSmartNav from "containers/base/MakerSmartNav";
 import ReactHtmlParser from "react-html-parser";
+import { OLD_COOKIE_SETTINGS } from "constants/cookieConsent";
+import cookie from "services/cookie";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -26,7 +28,8 @@ const mapStateToProps = (state: AppState) => {
     isSale: state.info.isSale,
     showCookie: state.info.showCookie,
     mobileMenuOpenState: state.header.mobileMenuOpenState,
-    currency: state.currency
+    currency: state.currency,
+    showCookiePref: state.info.showCookiePref
   };
 };
 
@@ -41,6 +44,9 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     },
     hideCookies: () => {
       dispatch(updateShowCookie(false));
+    },
+    showCookiePrefs: () => {
+      dispatch(updateCookiePrefrence(false));
     }
   };
 };
@@ -186,8 +192,12 @@ class Footer extends React.Component<Props, FooterState> {
     }
   };
 
-  setConsent = () => {
-    this.setState({ isConsentSave: CookieService.getCookie("consent") !== "" });
+  setConsent = (isHide: boolean) => {
+    this.setState({
+      isConsentSave: isHide
+        ? !isHide
+        : CookieService.getCookie("consent") !== ""
+    });
   };
 
   showDropdown(value: boolean) {
@@ -298,6 +308,9 @@ class Footer extends React.Component<Props, FooterState> {
   };
 
   render() {
+    const desktopPlp =
+      this.props.location.pathname.includes("/catalogue/category/") &&
+      !this.props.mobile;
     const {
       footerImages: {
         footerImageDeskTop,
@@ -318,6 +331,11 @@ class Footer extends React.Component<Props, FooterState> {
     this.props.data.footerList.map(item => {
       mobileFooterList.push(...item);
     });
+    const cookiCheck =
+      this.props.location.pathname !== "/customer-assistance/cookie-policy" &&
+      this.props.location.pathname !== "/customer-assistance/privacy-policy" &&
+      this.props.showCookie &&
+      !this.props.mobileMenuOpenState;
 
     return (
       <div
@@ -1119,24 +1137,26 @@ class Footer extends React.Component<Props, FooterState> {
             </div>
           </div>
         </div>
-        {this.props.location.pathname == "/" &&
+        {(this.props.location.pathname == "/" ||
+          this.props.location.pathname.includes("/category_landing/") ||
+          desktopPlp) &&
           this.props.currency == "INR" && (
             <MakerSmartNav id="TDEHYqQNA" inline={false} />
           )}
 
-        {this.props.location.pathname !==
-          "/customer-assistance/cookie-policy" &&
-          this.props.location.pathname !==
-            "/customer-assistance/privacy-policy" &&
-          this.props.showCookie &&
-          !this.props.mobileMenuOpenState && (
-            // || !this.state.isConsentSave)
-            <CookiePolicy
-              hideCookies={this.props.hideCookies}
-              acceptCookies={this.acceptCookies}
-              setConsent={this.setConsent}
-            />
-          )}
+        {(OLD_COOKIE_SETTINGS
+          ? cookiCheck
+          : (cookiCheck && !this.state.isConsentSave) ||
+            this.props?.showCookiePref) && (
+          // || !this.state.isConsentSave)
+          <CookiePolicy
+            hideCookies={this.props.hideCookies}
+            acceptCookies={this.acceptCookies}
+            setConsent={this.setConsent}
+            showCookiePref={this.props?.showCookiePref}
+            showCookiePrefs={this.props?.showCookiePrefs}
+          />
+        )}
       </div>
     );
   }

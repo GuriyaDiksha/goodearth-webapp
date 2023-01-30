@@ -1,9 +1,9 @@
-import { updateJobList } from "actions/career";
-import CareerService from "services/career";
+// import { updateJobList } from "actions/career";
+// import CareerService from "services/career";
 import { InitAction } from "typings/actions";
 
 const initActionCareer: InitAction = async store => {
-  const dispatch = store.dispatch;
+  // const dispatch = store.dispatch;
   try {
     // const data = await CareerService.fetchJobListData(dispatch);
     // dispatch(updateJobList(data));

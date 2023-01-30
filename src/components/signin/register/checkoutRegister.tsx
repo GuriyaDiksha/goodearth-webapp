@@ -104,7 +104,7 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
   }
   gtmPushRegister = () => {
     const userConsent = CookieService.getCookie("consent").split(",");
-    if (userConsent.includes(GA_CALLS) || true) {
+    if (userConsent.includes(GA_CALLS)) {
       dataLayer.push({
         event: "eventsToSend",
         eventAction: "signup",
@@ -162,7 +162,7 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
       .then(data => {
         const userConsent = CookieService.getCookie("consent").split(",");
 
-        if (userConsent.includes(ANY_ADS) || true) {
+        if (userConsent.includes(ANY_ADS)) {
           Moengage.track_event("Registered", {
             "First Name": firstName,
             "Last Name": lastName,
@@ -187,7 +187,8 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
           email
         });
       })
-      .catch(err => {
+      .catch(error => {
+        const data = valid.decriptdata(error.response?.data);
         this.setState(
           {
             disableButton: false
@@ -196,8 +197,8 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
             this.handleInvalidSubmit();
           }
         );
-        Object.keys(err.response.data).map(data => {
-          switch (data) {
+        Object.keys(data).map(key => {
+          switch (key) {
             case "firstName":
             case "lastName":
             case "password1":
@@ -206,7 +207,7 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
             case "dateOfBirth":
               updateInputsWithError(
                 {
-                  [data]: err.response.data[data][0]
+                  [key]: data[key][0]
                 },
                 true
               );
@@ -214,17 +215,17 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
             case "phoneNo":
               updateInputsWithError(
                 {
-                  phone: err.response.data[data][0]
+                  phone: data[key][0]
                 },
                 true
               );
               break;
             case "email":
-              if (err.response.data[data].length == 2) {
+              if (data[key].length == 2) {
                 this.setState({
                   showerror:
                     "This account already exists <a class='error' href=" +
-                    err.response.data[data][0] +
+                    data[key][0] +
                     "> please set a new password</a>"
                 });
               } else {
@@ -233,15 +234,15 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
                 });
                 updateInputsWithError(
                   {
-                    email: err.response.data[data][0]
+                    email: data[key][0]
                   },
                   true
                 );
               }
               break;
             default:
-              if (typeof err.response.data == "object") {
-                let errorMsg = err.response.data[data][0];
+              if (typeof data == "object") {
+                let errorMsg: string = data[key][0];
                 if (errorMsg == "MaxRetries") {
                   errorMsg =
                     "You have exceeded max registration attempts, please try after some time";
@@ -735,6 +736,7 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
               }}
             />
             <FormInput
+              required
               name="phone"
               value=""
               placeholder={"Contact Number"}

@@ -27,6 +27,7 @@ import { updateModal } from "actions/modal";
 import Price from "components/Price";
 import ReactHtmlParser from "react-html-parser";
 import { GA_CALLS } from "constants/cookieConsent";
+import giftCardTile from "images/giftcard-tile.png";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -49,6 +50,10 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     },
     changeModalState: (show: boolean) => {
       dispatch(updateModal(show));
+    },
+    fetchTrendingKeyword: async () => {
+      const res = await HeaderService.fetchTrendingKeyword(dispatch);
+      return res;
     }
   };
 };
@@ -76,6 +81,7 @@ type State = {
   collections: any[];
   categories: any[];
   usefulLink: any[];
+  trendingWords: any[];
 };
 class Search extends React.Component<Props, State> {
   constructor(props: Props) {
@@ -92,7 +98,8 @@ class Search extends React.Component<Props, State> {
       suggestions: [],
       collections: [],
       categories: [],
-      usefulLink: []
+      usefulLink: [],
+      trendingWords: []
     };
   }
 
@@ -121,6 +128,16 @@ class Search extends React.Component<Props, State> {
       .then(data => {
         this.setState({
           featureData: data.widgetImages
+        });
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+    this.props
+      .fetchTrendingKeyword()
+      .then(res => {
+        this.setState({
+          trendingWords: res.data
         });
       })
       .catch(function(error) {
@@ -206,7 +223,7 @@ class Search extends React.Component<Props, State> {
       }
     );
     const userConsent = CookieService.getCookie("consent").split(",");
-    if (userConsent.includes(GA_CALLS) || true) {
+    if (userConsent.includes(GA_CALLS)) {
       dataLayer.push({
         event: "productClick",
         ecommerce: {
@@ -296,13 +313,13 @@ class Search extends React.Component<Props, State> {
         // debugger;
         valid.productImpression(data, "SearchResults", this.props.currency);
         this.setState({
-          productData: data.results.products,
+          productData: data.results?.products || [],
           url: searchUrl,
-          count: data.results.products.length,
+          count: data.results?.products.length || [],
           suggestions: [],
-          categories: data.results.categories,
-          collections: data.results.collections,
-          usefulLink: data.results.useful_links
+          categories: data.results?.categories || [],
+          collections: data.results?.collections || [],
+          usefulLink: data.results?.useful_links || []
         });
       })
       .catch(function(error) {
@@ -328,7 +345,7 @@ class Search extends React.Component<Props, State> {
     // As discussed data will be only two section
     return (
       <div className={styles.collectionlist}>
-        {data?.map((item: any, i: number) => {
+        {data?.slice(0, 5)?.map((item: any, i: number) => {
           return (
             <div key={item.id} className={styles.collection}>
               <Link
@@ -349,7 +366,7 @@ class Search extends React.Component<Props, State> {
                   {" "}
                   {`${item.category.replace(">", "/")} `}{" "}
                 </p>
-                <p className={styles.productN}>
+                <p className={cs(styles.productN, styles.collectionN)}>
                   <Link to={item.link}>
                     {" "}
                     {ReactHtmlParser(item.collection)}
@@ -368,12 +385,21 @@ class Search extends React.Component<Props, State> {
     // const originalCur = "original_price_" + this.props.currency.toLowerCase();
     const suggestionsExist = this.state.suggestions.length > 0;
     const { mobile, showTimer } = this.props;
-    const { collections, categories, usefulLink, productData } = this.state;
+    const {
+      collections,
+      categories,
+      usefulLink,
+      productData,
+      trendingWords,
+      searchValue
+    } = this.state;
     const productsExist =
       collections.length > 0 ||
       categories.length > 0 ||
       usefulLink.length > 0 ||
-      productData.length > 0;
+      productData.length > 0 ||
+      (trendingWords.length > 0 && searchValue.length == 0);
+
     return (
       <div
         className={cs(globalStyles.minimumWidth, styles.search, {
@@ -575,7 +601,7 @@ class Search extends React.Component<Props, State> {
                   }
                 )}
               >
-                <div className={bootstrapStyles.row}>
+                <div className={cs(bootstrapStyles.row, styles.suggestionWrap)}>
                   {suggestionsExist && (
                     <div
                       className={cs(
@@ -609,6 +635,68 @@ class Search extends React.Component<Props, State> {
                     </div>
                   )}
                   <div>
+                    {trendingWords.length > 0 &&
+                      this.state.searchValue.length == 0 && (
+                        <div
+                          className={cs(
+                            { [globalStyles.marginT30]: !mobile },
+                            { [globalStyles.marginT10]: mobile },
+                            { [styles.trendingdesktopPad]: !mobile },
+                            { [styles.trendingmobilePad]: mobile }
+                          )}
+                        >
+                          <p
+                            className={cs(
+                              styles.productHeading,
+                              globalStyles.marginB10
+                            )}
+                          >
+                            POPULAR SEARCHES
+                          </p>
+                          <div className={cs(styles.trending)}>
+                            {trendingWords?.map((cat, ind) => {
+                              return (
+                                <Link
+                                  to={cat.link}
+                                  onClick={(e: any) => {
+                                    if (
+                                      !cat.link &&
+                                      this.searchBoxRef &&
+                                      this.searchBoxRef.current
+                                    ) {
+                                      this.props.history.push(
+                                        "/search/?q=" + cat.name
+                                      );
+                                      this.props.hideSearch();
+                                      e.preventDefault();
+                                    } else {
+                                      this.props.hideSearch();
+                                    }
+                                  }}
+                                  key={ind}
+                                >
+                                  <i
+                                    className={cs(
+                                      iconStyles.icon,
+                                      iconStyles.iconSearch,
+                                      styles.iconCross
+                                    )}
+                                  ></i>
+                                  <span
+                                    className={cs(
+                                      styles.trendingcat
+                                      // { [styles.padding]: !mobile },
+                                      // { [styles.paddingMobile]: mobile }
+                                    )}
+                                  >
+                                    {ReactHtmlParser(cat.name)}
+                                  </span>
+                                </Link>
+                              );
+                            })}
+                          </div>
+                        </div>
+                      )}
                     {usefulLink.length > 0 && (
                       <div className={globalStyles.marginT30}>
                         <p
@@ -621,7 +709,7 @@ class Search extends React.Component<Props, State> {
                         >
                           USEFUL LINKS
                         </p>
-                        {usefulLink?.map(cat => {
+                        {usefulLink?.map((cat, ind) => {
                           return (
                             <Link
                               to={cat.link}
@@ -629,6 +717,7 @@ class Search extends React.Component<Props, State> {
                                 //this.props.toggle();
                                 this.props.hideSearch();
                               }}
+                              key={ind}
                             >
                               <p
                                 className={cs(
@@ -656,7 +745,7 @@ class Search extends React.Component<Props, State> {
                         >
                           CATEGORIES
                         </p>
-                        {categories?.map(cat => {
+                        {categories?.map((cat, ind) => {
                           return (
                             <Link
                               to={cat.link}
@@ -664,6 +753,7 @@ class Search extends React.Component<Props, State> {
                                 //this.props.toggle();
                                 this.props.hideSearch();
                               }}
+                              key={ind}
                             >
                               <p
                                 className={cs(
@@ -758,7 +848,6 @@ class Search extends React.Component<Props, State> {
                       {this.state.productData.length > 0
                         ? this.state.productData.map((data, i) => {
                             const isCombo = data.inStock;
-
                             let totalStock = (data.childAttributes as PartialChildProductAttributes[])?.reduce(
                               (
                                 total: number,
@@ -826,7 +915,11 @@ class Search extends React.Component<Props, State> {
                                     // )}
                                   >
                                     <img
-                                      src={data.image}
+                                      src={
+                                        data.link == "/giftcard"
+                                          ? giftCardTile
+                                          : data.image
+                                      }
                                       onError={this.addDefaultSrc}
                                       alt={data.altText || data.title}
                                       className={styles.imageResultNew}
@@ -858,7 +951,7 @@ class Search extends React.Component<Props, State> {
                                         : ReactHtmlParser(data.product)}
                                     </Link>
                                   </p>
-                                  {data?.productClass == "GiftCard"
+                                  {data?.link == "/giftcard"
                                     ? ""
                                     : !(
                                         data?.invisibleFields?.indexOf(

@@ -1,5 +1,5 @@
 import React, { Fragment, useEffect, useState } from "react";
-import { Switch, useHistory } from "react-router";
+import { Redirect, Route, Switch, useHistory } from "react-router";
 import routes from "routes/index";
 import Header from "components/header";
 import Footer from "components/footer";
@@ -67,7 +67,7 @@ const BaseLayout: React.FC = () => {
   useEffect(() => {
     if (getPWADisplayMode() == "standalone") {
       const userConsent = CookieService.getCookie("consent").split(",");
-      if (userConsent.includes(GA_CALLS) || true) {
+      if (userConsent.includes(GA_CALLS)) {
         dataLayer.push({
           event: "App Icon Click",
           page: location
@@ -106,7 +106,7 @@ const BaseLayout: React.FC = () => {
     const isHomePage = location.pathname == "/";
     if (isHomePage) {
       const userConsent = CookieService.getCookie("consent").split(",");
-      if (userConsent.includes(GA_CALLS) || true) {
+      if (userConsent.includes(GA_CALLS)) {
         dataLayer.push({
           "Event Category": "General Pages",
           "Event Action": "Home Page",
@@ -394,7 +394,12 @@ const BaseLayout: React.FC = () => {
         id="no-content"
       >
         {/* {!isauth && <FormPage/>} */}
-        <Switch>{routes}</Switch>
+        <Switch>
+          {routes}
+          <Route path="*">
+            <Redirect to="/404" />
+          </Route>
+        </Switch>
       </div>
       {value && !(minimalPage || isCheckout) && <Footer />}
       <Modal />

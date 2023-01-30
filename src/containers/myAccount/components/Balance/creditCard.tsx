@@ -17,7 +17,7 @@ const mapStateToProps = (state: AppState) => {
   };
 };
 type Props = ReturnType<typeof mapDispatchToProps> &
-  ReturnType<typeof mapStateToProps>;
+  ReturnType<typeof mapStateToProps> & { isFromCheckBalance?: boolean };
 
 class CreditNote extends React.Component<Props, GiftState> {
   constructor(props: Props) {
@@ -249,7 +249,7 @@ class CreditNote extends React.Component<Props, GiftState> {
             className={cs(
               styles.loginForm,
               { [globalStyles.voffset4]: newCardBox },
-              bootstrapStyles.colMd8
+              bootstrapStyles.colMd12
             )}
           >
             {newCardBox ? (
@@ -258,7 +258,13 @@ class CreditNote extends React.Component<Props, GiftState> {
                   ""
                 ) : (
                   <Fragment>
-                    <div className={cs(styles.flex, styles.vCenterBalance)}>
+                    <div
+                      className={cs(
+                        styles.flex,
+                        styles.vCenterBalance,
+                        styles.balanceInput
+                      )}
+                    >
                       <input
                         type="text"
                         autoComplete="off"
@@ -275,7 +281,8 @@ class CreditNote extends React.Component<Props, GiftState> {
                         className={cs(
                           styles.colorPrimary,
                           globalStyles.pointer,
-                          { [globalStyles.hidden]: !isLoggedIn }
+                          { [globalStyles.hidden]: !isLoggedIn },
+                          styles.arrowContainer
                         )}
                       >
                         <span
@@ -301,7 +308,8 @@ class CreditNote extends React.Component<Props, GiftState> {
                   className={cs(
                     styles.rtcinfo,
                     globalStyles.pointer,
-                    globalStyles.textLeft
+                    globalStyles.textLeft,
+                    styles.checkAnother
                   )}
                   onClick={this.newGiftcard}
                 >
@@ -327,6 +335,7 @@ class CreditNote extends React.Component<Props, GiftState> {
               isCredit={true}
               checkOtpBalance={this.props.checkOtpBalance}
               updateList={this.updateList}
+              isFromCheckBalance={this.props?.isFromCheckBalance}
             />
           )
         ) : (

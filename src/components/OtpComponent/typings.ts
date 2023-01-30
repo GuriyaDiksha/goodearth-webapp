@@ -14,6 +14,8 @@ export type otpState = {
   isLoading: boolean;
   isResendOtpDisabled?: boolean;
   otpLimitError?: boolean;
+  phoneInput?: string;
+  emailInput?: string;
   attempts: {
     attempts: number;
     maxAttemptsAllow: number;
@@ -42,6 +44,7 @@ export type otpProps = {
   disableSendOtpButton: boolean;
   isIndiaGC?: boolean;
   newGiftCard?: () => void;
+  isFromCheckBalance?: boolean;
 };
 
 export type otpRedeemProps = {

@@ -1,4 +1,3 @@
-import "newrelic";
 import path from "path";
 import Koa from "koa";
 import Pug from "koa-pug";
@@ -13,6 +12,7 @@ import device from "./middleware/device";
 import initAction from "./middleware/initAction";
 import viewHandler from "./middleware/viewHandler";
 import errorHandler from "./middleware/errorHandler";
+import logger from "koa-logger";
 
 const cwd = process.cwd();
 
@@ -20,7 +20,7 @@ const staticRoot = `${cwd}/dist`;
 
 const app = new Koa();
 const PORT = process.env.NODE_PORT || 3000;
-
+app.use(logger());
 app.use(
   serve(staticRoot, {
     maxAge: 31536000000

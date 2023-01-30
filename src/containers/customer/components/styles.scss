@@ -5,6 +5,7 @@
 
 .terms {
   padding-bottom: 80px;
+  padding-top: 25px;
  
 h3 {
   @include c22-A-I();
@@ -36,7 +37,6 @@ p {
     }
 }
 ul {
-  padding: 5px 0;
   li {
     @include c10-L-R();
     list-style-type: disc;
@@ -68,6 +68,12 @@ ol {
     letter-spacing: .5px;
     margin-left: 12px;
   }
+}
+.cookie{
+  @include b4_12px_medium_gold_caps();
+  font-weight: 600 ;
+  padding: 20px 40px 20px 0px;
+  cursor: pointer;
 }
 
 }
@@ -510,4 +516,61 @@ ol {
 }
 .gift-display{
   display: block;
+}
+
+.no-accordion{
+  margin-top: 20px;
+  border-bottom: 1px solid lightgray;
+  .content-heading{
+    margin-bottom: 10px;
+  }
+  .content{
+    // padding-top: 20px;
+    padding-bottom: 20px;
+    div{
+      margin: 0 !important;
+      padding: 0 !important;
+    }
+    ul{
+      margin: 0 !important;
+      padding: 0 !important;
+    }
+    p{
+      margin: 0 !important;
+      padding: 0 !important;
+    }
+    li{
+      margin: 0 !important;
+      padding: 0 !important;
+    }
+  }
+}
+
+.page-title{
+  @include h3_20px_lora_charcoal();
+  margin-bottom: 20px;
+}
+
+.description{
+  @include b4_12px_montserrat_charcoal();
+  padding-bottom: 30px;
+}
+
+.accordion-header{
+  @include b4_12px_semibold_caps_charocal();
+  padding: 20px 40px 20px 0px;
+}
+
+.accordion-body{
+  padding-bottom: 20px;
+}
+
+.content-heading {
+  @include b4_12px_semibold_caps_charocal();
+}
+
+@media screen and (max-width: 767px){
+  .description{
+    padding-bottom: 20px;
+  }
 }

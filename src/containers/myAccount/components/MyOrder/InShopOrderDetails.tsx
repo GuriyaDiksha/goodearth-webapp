@@ -57,8 +57,8 @@ const InShopOrderDetails: React.FC<ShopProps> = props => {
     html.push(
       <div className={bootstrapStyles.col12}>
         <div className={styles.add}>
-          <address>
-            <label>order # {shopdata.number}</label>
+          <address className={styles.orderBlock}>
+            <label className={styles.topLabel}>order # {shopdata.number}</label>
             <div className={cs(styles.orderBlock, bootstrapStyles.row)}>
               <div
                 className={cs(bootstrapStyles.col12, bootstrapStyles.colMd6)}
@@ -78,14 +78,20 @@ const InShopOrderDetails: React.FC<ShopProps> = props => {
                 className={cs(bootstrapStyles.col12, bootstrapStyles.colMd6)}
               >
                 <p>
-                  <span className={styles.op2}>Order Total</span>
+                  <span className={styles.op2}>Amount Paid</span>
                 </p>
                 <p>
                   {String.fromCharCode(...currencyCode["INR"])} &nbsp;
                   {shopdata.total}
                 </p>
               </div>
-              <p className={mobile ? styles.editMobile : styles.edit}>
+              <p
+                className={
+                  mobile
+                    ? cs(styles.editMobile, styles.close1)
+                    : cs(styles.edit, styles.close2)
+                }
+              >
                 <a
                   className={globalStyles.cerise}
                   onClick={() => {
@@ -120,7 +126,7 @@ const InShopOrderDetails: React.FC<ShopProps> = props => {
               >
                 <div className={styles.add}>
                   {billingAddress ? (
-                    <address>
+                    <address className={styles.address}>
                       <label>billing address</label>
                       <p>
                         {billingAddress.first_name}

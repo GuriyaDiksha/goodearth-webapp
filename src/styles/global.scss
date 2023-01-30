@@ -254,6 +254,7 @@ font-weight: bold;
     background-color: tint(#000, 95%);
     color: tint(#000, 50%) !important;
     cursor: default;
+    border: none;
   }
   a {
     font-weight: normal;
@@ -295,6 +296,7 @@ font-weight: bold;
   background-color: tint(#000, 95%);
   color: tint(#000, 50%)  !important;
   cursor: default !important;
+  border: none;
 }
 
 .error-border {

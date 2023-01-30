@@ -376,7 +376,7 @@ const CareerFilter: React.FC<Props> = ({
                       type="checkbox"
                       name={ele?.title}
                       checked={selectedDept.includes(ele?.title)}
-                      onClick={e => handleCheckbox(e, "depts")}
+                      onChange={e => handleCheckbox(e, "depts")}
                     />
                     <label
                       htmlFor={"dept_" + i}
@@ -419,18 +419,18 @@ const CareerFilter: React.FC<Props> = ({
             >
               <ul>
                 <li
-                  className={
-                    tagLocFilter?.tag?.length === tags?.length
-                      ? ""
-                      : listing.disable_label
-                  }
+                // className={
+                //   tagLocFilter?.tag?.length === tags?.length
+                //     ? ""
+                //     : listing.disable_label
+                // }
                 >
                   <input
                     id="tag_all"
                     type="checkbox"
                     name="View All"
                     onClick={e => handleCheckbox(e, "tags")}
-                    disabled={tagLocFilter?.tag?.length !== tags?.length}
+                    // disabled={tagLocFilter?.tag?.length !== tags?.length}
                   />
                   <label htmlFor={"tag_all"}>{`View All`}</label>
                 </li>
@@ -448,7 +448,7 @@ const CareerFilter: React.FC<Props> = ({
                       type="checkbox"
                       name={ele?.name}
                       checked={selectedFilters.includes(ele?.name)}
-                      onClick={e => handleCheckbox(e, "tags")}
+                      onChange={e => handleCheckbox(e, "tags")}
                       disabled={!tagLocFilter?.tag?.includes(ele?.name)}
                     />
                     <label
@@ -492,18 +492,18 @@ const CareerFilter: React.FC<Props> = ({
             >
               <ul>
                 <li
-                  className={
-                    tagLocFilter?.loc?.length === locs?.length
-                      ? ""
-                      : listing.disable_label
-                  }
+                // className={
+                //   tagLocFilter?.loc?.length === locs?.length
+                //     ? ""
+                //     : listing.disable_label
+                // }
                 >
                   <input
                     id="loc_all"
                     type="checkbox"
                     name="View All"
                     onClick={e => handleCheckbox(e, "locs")}
-                    disabled={tagLocFilter?.loc?.length !== locs?.length}
+                    // disabled={tagLocFilter?.loc?.length !== locs?.length}
                   />
                   {/* <label htmlFor={"loc_all"}>{`View All (${facets?.locs
                     ?.map(e => e.count)
@@ -524,7 +524,7 @@ const CareerFilter: React.FC<Props> = ({
                       type="checkbox"
                       name={ele?.name}
                       checked={selectedFilters.includes(ele?.name)}
-                      onClick={e => handleCheckbox(e, "locs")}
+                      onChange={e => handleCheckbox(e, "locs")}
                       disabled={!tagLocFilter?.loc?.includes(ele?.name)}
                     />
                     <label

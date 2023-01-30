@@ -10,9 +10,9 @@ const initialState: FooterState = {
     },
     shopLocations: [],
     footerImages: {
-      footerImageDeskTop: "",
       footerImageMobile: "",
       footerImageSubsDeskTop: "",
+      footerImageDeskTop: "",
       footerImageSubsMobile: "",
       footerBgColorDeskTop: "",
       footerBgColorMobile: "",

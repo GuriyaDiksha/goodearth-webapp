@@ -32,6 +32,7 @@ export const enum ROUTES {
   BRIDAL = "/the-good-earth-registry",
   LOYALTYLANDING = "/cerise",
   ERROR = "/error-page",
+  ERR404 = "/404",
   BACKENDERROR = "/backend-order-error",
   PUSHPANJALI = "/puspanjali-festive-2020",
   MAINTENANCE = "/maintenance",
@@ -58,7 +59,11 @@ export const enum ROUTES {
   DEEPSHIKHA = "/thoughtful-gifts-deepshika-khanna",
   EESHAAN = "/toast-eeshaan-kashyap",
   GUEST = "/be-my-guest-entertaining-guide",
-  IFRAME = "/iframe-testing"
+  IFRAME = "/iframe-testing",
+  TASTINGROOM = "/high-tea-at-the-tasting-room",
+  MIRAGESHOP = "/mirageshop",
+  MIRAGE = "/mirage",
+  MAGHREB = "/maghreb"
 }
 
 export type RouteConfig = RouteObject[];

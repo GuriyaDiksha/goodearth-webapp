@@ -6,10 +6,22 @@ export type AccountMenuItem = {
   pageTitle?: string;
 };
 
+export type AccordionData = {
+  content: string;
+  heading: string;
+  isAccordion: boolean;
+};
+
 export type Props = {
   setCurrentSection: () => void;
   mobile: boolean;
-  fetchTerms: () => Promise<{ link: string; content: string }>;
+  fetchTerms: () => Promise<{
+    link: string;
+    content: string;
+    pageTitle: string;
+    accordionData: AccordionData[];
+  }>;
+  path?: string;
 };
 export type State = {
   isActive: boolean;

@@ -150,12 +150,13 @@ const ProductDetails: React.FC<Props> = ({
   const [isStockset, setIsStockset] = useState(false);
   const [pdpLoader, setPdpLoader] = useState(true);
   const isLoggedIn = useSelector((state: AppState) => state.user.isLoggedIn);
-  // const [sizeerror, setSizeerror] = useState(false);
-  // useEffect(() => {
-  //   setAddedToBag(
-  //     (selectedSize?.id && items.indexOf(selectedSize?.id) !== -1) as boolean
-  //   );
-  // }, [selectedSize]);
+  const canUseDOM = !!(
+    typeof window !== "undefined" &&
+    typeof window.document !== "undefined" &&
+    typeof window.document.createElement !== "undefined"
+  );
+
+  const useIsomorphicLayoutEffect = canUseDOM ? useLayoutEffect : useEffect;
   const selectedId = useSelector(
     (state: AppState) => state.header.sizeChartData.selected
   );
@@ -172,7 +173,7 @@ const ProductDetails: React.FC<Props> = ({
     ele[0].style.zIndex = 6;
   }
 
-  useLayoutEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     setGtmListType("PDP");
     setOnload(true);
   });
@@ -428,7 +429,7 @@ const ProductDetails: React.FC<Props> = ({
       : "nonView3d";
 
     const userConsent = CookieService.getCookie("consent").split(",");
-    if (userConsent.includes(ANY_ADS) || true) {
+    if (userConsent.includes(ANY_ADS)) {
       Moengage.track_event("add_to_cart", {
         "Product id": sku || childAttributes[0].sku,
         "Product name": title,
@@ -453,7 +454,7 @@ const ProductDetails: React.FC<Props> = ({
     }
     const size = selectedSize?.size || "";
     const search = CookieService.getCookie("search") || "";
-    if (userConsent.includes(GA_CALLS) || true) {
+    if (userConsent.includes(GA_CALLS)) {
       dataLayer.push({
         "Event Category": "GA Ecommerce",
         "Event Action": "Add to Cart",
@@ -616,7 +617,7 @@ const ProductDetails: React.FC<Props> = ({
         valid.showGrowlMessage(dispatch, MESSAGE.ADD_TO_REGISTRY_SUCCESS);
         const registry = Object.assign({}, isRegistry);
         const userConsent = CookieService.getCookie("consent").split(",");
-        if (userConsent.includes(GA_CALLS) || true) {
+        if (userConsent.includes(GA_CALLS)) {
           dataLayer.push({
             event: "registry",
             "Event Category": "Registry",

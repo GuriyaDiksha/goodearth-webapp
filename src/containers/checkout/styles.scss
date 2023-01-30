@@ -639,6 +639,7 @@
     border: 0;
     padding: 20px;
     max-width: 100%;
+    width: 100%;
     background-color: #f9f8f5;
     font-size: 14px;
   }
@@ -913,9 +914,20 @@ input[type="radio"] {
   max-width: 100%;
   background-color: #f9f8f5;
   margin-top: 20px;
+  width: 100%;
 }
 .font14 {
   font-size: 14px;
+  color: #4d4d4d;
+  letter-spacing: .5px;
+  font-size: 10px;
+}
+.gift-wrap-message{
+  max-width: 430px;
+
+  @media screen and (max-width: 600px) {
+    width: 98%;
+  }
 }
 .linkCerise {
   a {

@@ -4,13 +4,15 @@ export type Section = {
   header: ReactNode;
   body: ReactNode;
   id: string;
+  alwaysOpen?: boolean;
 };
 
 export type Props = {
   sections: Section[];
   defaultOpen?: string;
   className: string;
-  headerClassName: string;
+  headerClassName?: string;
+  openHeaderClassName?: string;
   closedIconClassName?: string;
   openIconClassName?: string;
   bodyClassName?: string;

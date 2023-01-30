@@ -91,7 +91,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
   ) => {
     try {
       const userConsent = CookieService.getCookie("consent").split(",");
-      if (userConsent.includes(GA_CALLS) || true) {
+      if (userConsent.includes(GA_CALLS)) {
         dataLayer.push({
           event: "paymentDetails",
           paymentMode: paymentMode,
@@ -113,7 +113,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
         paymentMethod: isFree ? "FREE" : currentmethod.key,
         paymentMode: currentmethod.mode
       };
-      if (userConsent.includes(ANY_ADS) || true) {
+      if (userConsent.includes(ANY_ADS)) {
         Moengage.track_event("Mode of payment selected", {
           "Payment Method": currentmethod.value,
           Amount: +basket.total,
@@ -172,7 +172,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
 
   useEffect(() => {
     const userConsent = CookieService.getCookie("consent").split(",");
-    if (userConsent.includes(GA_CALLS) || true) {
+    if (userConsent.includes(GA_CALLS)) {
       dataLayer.push({
         "Event Category": "GA Ecommerce",
         "Event Action": "Checkout Step 3",
@@ -287,7 +287,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
               <input
                 type="radio"
                 checked={giftwrap}
-                onClick={() => {
+                onChange={() => {
                   setGiftwrap(!giftwrap);
                   setGiftwrapprice(!giftwrap);
                 }}
@@ -355,10 +355,9 @@ const PaymentSection: React.FC<PaymentProps> = props => {
             <>
               {!basket.isOnlyGiftCart && giftWrapRender}
               {giftwrap && !basket.isOnlyGiftCart && (
-                <div>
+                <div className={styles.giftWrapMessage}>
                   <textarea
                     rows={5}
-                    cols={45}
                     className={styles.giftMessage}
                     value={textarea}
                     placeholder={"add message (optional)"}
@@ -371,8 +370,8 @@ const PaymentSection: React.FC<PaymentProps> = props => {
                       }
                     }}
                   />
-                  <div className={cs(globalStyles.textLeft, styles.font14)}>
-                    Character Limit: {250 - textarea.length}
+                  <div className={cs(globalStyles.textRight, styles.font14)}>
+                    Character Limit: {250 - textarea.length} / 250
                   </div>
                 </div>
               )}

@@ -84,13 +84,73 @@ type Props = ReturnType<typeof mapStateToProps> &
 
 class CollectionLanding extends React.Component<
   Props,
-  { filterData: string; onloadState: boolean; landingMaker: boolean }
+  {
+    filterData: string;
+    onloadState: boolean;
+    landingMaker: boolean;
+    shouldScroll: boolean;
+    scrollView: boolean;
+  }
 > {
   state = {
     filterData: "All",
     onloadState: false,
-    landingMaker: false
+    landingMaker: false,
+    shouldScroll: false,
+    scrollView: false
   };
+
+  getPdpProduct = (): any => {
+    let hasPdpProductDetails = false;
+    let pdpProductDetails;
+    if (localStorage.getItem("collectionSpecificScroll")) {
+      hasPdpProductDetails = true;
+      const item: any = localStorage.getItem("collectionSpecificScroll");
+      pdpProductDetails = JSON.parse(item);
+    }
+    return { hasPdpProductDetails, pdpProductDetails };
+  };
+  handleProductSearch() {
+    const pdpProductScrollId = this.getPdpProduct().pdpProductDetails.id;
+    if (document.getElementById(pdpProductScrollId)) {
+      setTimeout(() => {
+        const element = document.getElementById(pdpProductScrollId);
+        element ? element.scrollIntoView(true) : "";
+        window.scrollBy(0, -150);
+        localStorage.removeItem("collectionSpecificScroll");
+      }, 1000);
+      this.setState({
+        scrollView: true
+      });
+    }
+  }
+
+  checkForProductScroll() {
+    const currentTimeStamp = new Date().getTime();
+    let shouldScroll;
+    let pdpProductScroll;
+    const hasPdpScrollableProduct = this.getPdpProduct();
+    if (hasPdpScrollableProduct.hasPdpProductDetails) {
+      pdpProductScroll = hasPdpScrollableProduct.pdpProductDetails;
+      if (pdpProductScroll) {
+        const pdpTimeStamp = new Date(pdpProductScroll.timestamp).getTime();
+        const source = pdpProductScroll.source;
+        if (source.toLowerCase() == "collectionlanding") {
+          shouldScroll = currentTimeStamp - pdpTimeStamp < 8000;
+          this.setState(
+            {
+              shouldScroll: shouldScroll
+            },
+            () => {
+              if (this.state.shouldScroll) {
+                this.handleProductSearch();
+              }
+            }
+          );
+        }
+      }
+    }
+  }
 
   onChangeFilter = (data: any, label?: string): void => {
     const {
@@ -161,10 +221,15 @@ class CollectionLanding extends React.Component<
         landingMaker: false
       });
     }
+    // if (this.props.collectionSpecificData != nextProps.collectionSpecificData) {
+    //   if (!this.state.scrollView) {
+    //     this.checkForProductScroll();
+    //   }
+    // }
   }
   componentDidMount() {
     const userConsent = CookieService.getCookie("consent").split(",");
-    if (userConsent.includes(GA_CALLS) || true) {
+    if (userConsent.includes(GA_CALLS)) {
       dataLayer.push(function(this: any) {
         this.reset();
       });
@@ -178,9 +243,12 @@ class CollectionLanding extends React.Component<
     this.setState({
       landingMaker: true
     });
-    setTimeout(() => {
-      window.scrollTo(0, 0);
-    }, 1000);
+    if (!this.state.scrollView) {
+      this.checkForProductScroll();
+    }
+    // setTimeout(() => {
+    //   window.scrollTo(0, 0);
+    // }, 1000);
   }
 
   componentDidUpdate(previous: Props) {
@@ -322,6 +390,7 @@ class CollectionLanding extends React.Component<
                       "collection-item"
                     )}
                     key={i + "collection-item"}
+                    id={`${data?.id}`}
                   >
                     <CollectionImage
                       data={data}

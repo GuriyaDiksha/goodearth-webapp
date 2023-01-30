@@ -77,7 +77,7 @@ const InShopOrder: React.FC<OrdersProps> = props => {
       <div className={bootstrapStyles.col12}>
         <div className={styles.add} id={data.number}>
           <address className={styles.orderBlock}>
-            <label>order # {data.number}</label>
+            <label className={styles.topLabel}>order # {data.number}</label>
             <div className={bootstrapStyles.row}>
               <div className={bootstrapStyles.col8}>
                 <p>{moment(data.date_placed).format("D MMM,YYYY")}</p>
@@ -94,7 +94,7 @@ const InShopOrder: React.FC<OrdersProps> = props => {
               </div>
               <div className={bootstrapStyles.col4}>
                 <p>
-                  <span className={styles.op2}>Order Total</span>
+                  <span className={styles.op2}>Amount Paid</span>
                 </p>
                 <p className={cs(styles.bold, styles.price)}>
                   {String.fromCharCode(...currencyCode["INR"])}

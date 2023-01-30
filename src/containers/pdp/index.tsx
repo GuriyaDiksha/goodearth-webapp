@@ -1,5 +1,5 @@
 // import loadable from "@loadable/component";
-import React, { RefObject, SyntheticEvent } from "react";
+import React, { RefObject } from "react";
 import { connect } from "react-redux";
 import throttle from "lodash/throttle";
 import cs from "classnames";
@@ -16,7 +16,6 @@ import {
   Product
 } from "typings/product";
 import Breadcrumbs from "components/Breadcrumbs";
-import PdpImage from "./components/pdpImage";
 import WeRecommendSlider from "components/weRecomend";
 import CollectionProductsSlider from "components/moreCollection";
 import WallpaperFAQ from "./components/WallpaperFAQ";
@@ -30,13 +29,13 @@ import mapDispatchToProps from "./mappers/actions";
 import MobileSlider from "../../components/MobileSlider";
 import { HEADER_HEIGHT, SECONDARY_HEADER_HEIGHT } from "constants/heights";
 import zoom from "images/zoom.svg";
-import mobile3d from "images/3d/3DButton.svg";
+// import mobile3d from "images/3d/3DButton.svg";
 import LazyImage from "components/LazyImage";
 import * as valid from "utils/validate";
 import { POPUP } from "constants/components";
 import PairItWithSlider from "components/pairItWith";
 import ModalStyles from "components/Modal/styles.scss";
-import overlay from "images/3d/HelloARIcon.svg";
+// import overlay from "images/3d/HelloARIcon.svg";
 // import { Link } from "react-router-dom";
 import noPlpImage from "images/noimageplp.png";
 // import iconFonts from "../../styles/iconFonts.scss";
@@ -46,13 +45,18 @@ import CookieService from "services/cookie";
 // import PdpSkeleton from "./components/pdpSkeleton"
 import Skeleton from "react-loading-skeleton";
 import ProductDetails from "./components/productDetails";
-import PdpSlider from "components/PdpSlider";
+// import PdpSlider from "components/PdpSlider";
+import PDPImagesContainer from "./components/PDPImagesContainer";
+
 // import activeGrid from "images/plpIcons/active_grid.svg";
 // import inactiveGrid from "images/plpIcons/inactive_grid.svg";
 // import activeList from "images/plpIcons/active_list.svg";
 // import inactiveList from "images/plpIcons/inactive_list.svg";
-import Counter from "components/ProductCounter/counter";
+// import Counter from "components/ProductCounter/counter";
 import { GA_CALLS, ANY_ADS } from "constants/cookieConsent";
+// import { product } from "reducers/product";
+import pdp_top from "images/3d/pdp_top.svg";
+import button_image from "images/3d/button_image.svg";
 
 const PDP_TOP_OFFSET = HEADER_HEIGHT + SECONDARY_HEADER_HEIGHT;
 const sidebarPosition = PDP_TOP_OFFSET + 23;
@@ -241,7 +245,7 @@ class PDPContainer extends React.Component<Props, State> {
   componentDidMount() {
     this.pdpURL = this.props.location.pathname;
     const userConsent = CookieService.getCookie("consent").split(",");
-    if (userConsent.includes(GA_CALLS) || true) {
+    if (userConsent.includes(GA_CALLS)) {
       dataLayer.push(function(this: any) {
         this.reset();
       });
@@ -254,7 +258,7 @@ class PDPContainer extends React.Component<Props, State> {
       });
     }
 
-    if (userConsent.includes(ANY_ADS) || true) {
+    if (userConsent.includes(ANY_ADS)) {
       Moengage.track_event("Page viewed", {
         "Page URL": this.props.location.pathname,
         "Page Name": "PdpView"
@@ -284,7 +288,7 @@ class PDPContainer extends React.Component<Props, State> {
         variants += child.size;
       }
     });
-    if (userConsent.includes(GA_CALLS) || true) {
+    if (userConsent.includes(GA_CALLS)) {
       dataLayer.push({
         "Event Category": "GA Ecommerce",
         "Event Action": "PDP",
@@ -300,12 +304,8 @@ class PDPContainer extends React.Component<Props, State> {
         "Page referrer url": CookieService.getCookie("prevUrl")
       });
     }
-
     valid.PDP(data, currency);
 
-    const list = CookieService.getCookie("listPath");
-    this.listPath = list || "";
-    CookieService.setCookie("listPath", "");
     valid.moveChatDown();
 
     if (data && data?.looksProducts && data?.looksProducts?.length >= 2) {
@@ -315,6 +315,12 @@ class PDPContainer extends React.Component<Props, State> {
         currency
       );
     }
+
+    setTimeout(() => {
+      const list = CookieService.getCookie("listPath");
+      this.listPath = list || "";
+      CookieService.setCookie("listPath", "");
+    }, 2000);
 
     window.addEventListener(
       "scroll",
@@ -461,6 +467,14 @@ class PDPContainer extends React.Component<Props, State> {
           showLooks: false
         });
       }
+    }
+
+    if (this.props.location.pathname != nextProps.location.pathname) {
+      setTimeout(() => {
+        window.scrollTo({
+          top: 0
+        });
+      }, 100);
     }
   }
 
@@ -678,99 +692,109 @@ class PDPContainer extends React.Component<Props, State> {
 
   getProductImages() {
     const productImages = this.getProductImagesData();
-    let iconAll, codeAll;
+    let icon;
     for (const e of productImages) {
       if (e.icon) {
-        iconAll = e.icon;
-        codeAll = e.code;
+        icon = e.icon;
         break;
       }
     }
-    if (productImages?.length > 0) {
-      const img =
-        productImages?.[this.state?.activeImage] ||
-        productImages?.[this.state?.activeImage - 1];
-      // return productImages?.map((image, index) => {
-      const onImageLoad = (event: SyntheticEvent<HTMLImageElement>) => {
-        const ele = event.currentTarget;
-        const { naturalHeight, naturalWidth } = ele;
-        const height = (ele.width * naturalHeight) / naturalWidth;
-        this.imageOffsets[0] = height;
-      };
-      return (
-        <div
-          className={styles.productImageContainer}
-          key={img?.id}
-          id={`img-${img?.id}`}
-          onMouseEnter={() => {
-            this.setState({ imageHover: true });
-          }}
-          onMouseLeave={() => {
-            this.setState({ imageHover: false });
-          }}
-        >
-          <PdpImage
-            alt={this.props.data?.altText || this.props.data?.title}
-            {...img}
-            index={this.state.activeImage}
-            onClick={this.onImageClick}
-            onLoad={onImageLoad}
-            iconAll={iconAll}
-            codeAll={codeAll}
-            data={this.props.data}
-            corporatePDP={this.props.corporatePDP}
-            selectedSizeId={this.props.selectedSizeId}
-            currency={this.props.currency}
-            buttoncall={this.state.pdpButton}
-          />
-          <div>
-            <Counter
-              id="pdp-image-counter"
-              current={this.state.activeImage + 1}
-              total={productImages.length}
-            />
-          </div>
-          {productImages?.length > 1 && (
-            <div
-              className={cs(styles.imageArrowLeft, {
-                [styles.show]: this.state.imageHover
-              })}
-              onClick={this.onClickImageArrowLeft}
-            ></div>
-          )}
-          {productImages?.length > 1 && (
-            <div
-              className={cs(styles.imageArrowRight, {
-                [styles.show]: this.state.imageHover
-              })}
-              onClick={this.onClickImageArrowRight}
-            ></div>
-          )}
-          {this.state.showLooks && (
-            <div
-              id="looks-btn"
-              className={styles.looksBtn}
-              onClick={this.handleLooksClick}
-            >
-              shop the look
-            </div>
-          )}
-        </div>
-      );
-      // });
-    } else {
-      return [1, 2, 3].map((image, index) => {
-        return (
-          <div
-            className={styles.productImageContainer}
-            key={image}
-            id={`img-${image}`}
-          >
-            <Skeleton duration={1} height={540} />
-          </div>
-        );
-      });
-    }
+    // console.log(productImages)
+    // if (productImages?.length > 0) {
+    //   const img =
+    //     productImages?.[this.state?.activeImage] ||
+    //     productImages?.[this.state?.activeImage - 1];
+    //   // return productImages?.map((image, index) => {
+    //   const onImageLoad = (event: SyntheticEvent<HTMLImageElement>) => {
+    //     const ele = event.currentTarget;
+    //     const { naturalHeight, naturalWidth } = ele;
+    //     const height = (ele.width * naturalHeight) / naturalWidth;
+    //     this.imageOffsets[0] = height;
+    //   };
+    return (
+      <PDPImagesContainer
+        productImages={productImages}
+        onClick={this.onImageClick}
+        is3d={icon || false}
+        data={this.props.data}
+        selectedSizeId={this.props.selectedSizeId}
+        currency={this.props.currency}
+        handleLooksClick={this.handleLooksClick}
+        buttoncall={this.returnPDPButton()}
+      />
+      // <div
+      //   className={styles.productImageContainer}
+      //   key={img?.id}
+      //   id={`img-${img?.id}`}
+      //   onMouseEnter={() => {
+      //     this.setState({ imageHover: true });
+      //   }}
+      //   onMouseLeave={() => {
+      //     this.setState({ imageHover: false });
+      //   }}
+      // >
+      //   <PdpImage
+      //     alt={this.props.data?.altText || this.props.data?.title}
+      //     {...img}
+      //     index={this.state.activeImage}
+      // onClick={this.onImageClick}
+      //     onLoad={onImageLoad}
+      //     iconAll={iconAll}
+      //     codeAll={codeAll}
+      //     data={this.props.data}
+      //     corporatePDP={this.props.corporatePDP}
+      //     selectedSizeId={this.props.selectedSizeId}
+      //     currency={this.props.currency}
+      //     buttoncall={this.state.pdpButton}
+      //   />
+      //   <div>
+      //     <Counter
+      //       id="pdp-image-counter"
+      //       current={this.state.activeImage + 1}
+      //       total={productImages.length}
+      //     />
+      //   </div>
+      //   {productImages?.length > 1 && (
+      //     <div
+      //       className={cs(styles.imageArrowLeft, {
+      //         [styles.show]: this.state.imageHover
+      //       })}
+      //       onClick={this.onClickImageArrowLeft}
+      //     ></div>
+      //   )}
+      //   {productImages?.length > 1 && (
+      //     <div
+      //       className={cs(styles.imageArrowRight, {
+      //         [styles.show]: this.state.imageHover
+      //       })}
+      //       onClick={this.onClickImageArrowRight}
+      //     ></div>
+      //   )}
+      // {this.state.showLooks && (
+      // <div
+      //   id="looks-btn"
+      //   className={styles.looksBtn}
+      //   onClick={this.handleLooksClick}
+      // >
+      //   shop the look
+      // </div>
+      // )}
+      // </div>
+    );
+    // });
+    // } else {
+    // return [1, 2, 3].map((image, index) => {
+    //   return (
+    //     <div
+    //       className={styles.productImageContainer}
+    //       key={image}
+    //       id={`img-${image}`}
+    //     >
+    //       <Skeleton duration={1} height={540} />
+    //     </div>
+    //   );
+    // });
+    // }
   }
 
   getProductDetails = () => {
@@ -1347,15 +1371,22 @@ class PDPContainer extends React.Component<Props, State> {
                 />
                 {iconIndex > -1 ? (
                   icon ? (
-                    <div className={styles.mobile3d}>
-                      <img
-                        src={mobile3d}
-                        onClick={(e: any) => this.onClickMobile3d(e, code)}
-                      ></img>
+                    // <div className={styles.mobile3d}>
+                    //   <img
+                    //     src={mobile3d}
+                    //     onClick={(e: any) => this.onClickMobile3d(e, code)}
+                    //   ></img>
+                    // </div>
+                    <div
+                      className={styles.viewInBtn}
+                      onClick={(e: any) => this.onClickMobile3d(e, code)}
+                    >
+                      <img className={styles.image} src={button_image} />
+                      <div className={styles.text}>VIEW IN 3D</div>
                     </div>
                   ) : (
                     <img
-                      src={overlay}
+                      src={pdp_top}
                       className={cs({
                         [styles.mobileHelloicon]: mobile,
                         [styles.tabHelloicon]: tablet
@@ -1403,7 +1434,7 @@ class PDPContainer extends React.Component<Props, State> {
       }
     }
 
-    const { activeImage, detailStickyEnabled, mounted } = this.state;
+    const { detailStickyEnabled, mounted } = this.state;
 
     return (
       <div
@@ -1489,7 +1520,7 @@ class PDPContainer extends React.Component<Props, State> {
               )}
             >
               {this.getProductImages()}
-              {images && (
+              {/* {images && (
                 <PdpSlider
                   alt={data?.altText || data?.title}
                   images={images}
@@ -1501,7 +1532,7 @@ class PDPContainer extends React.Component<Props, State> {
                   activeIndex={activeImage}
                   onImageClick={this.onSliderImageClick}
                 />
-              )}
+              )} */}
             </div>
           )}
 

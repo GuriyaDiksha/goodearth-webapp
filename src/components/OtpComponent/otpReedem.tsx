@@ -324,7 +324,7 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
   };
 
   getValidationForOtp = () => {
-    // const { radioType, otpTimer } = this.state;
+    const { radioType } = this.state;
     return (
       <div>
         <div

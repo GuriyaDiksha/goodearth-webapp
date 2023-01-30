@@ -1,12 +1,48 @@
 @import "../../../styles/partials/form";
 @import "../../../styles/partials/mixins";
 
+input[type="text"]{
+  height: 50px !important;
+}
+
 .form-heading {
-  font-size: 25px;
-  font-family: $font-Serif;
+  @include h2_24px_lora_charcoal();
   line-height: 50px;
   margin-top: 30px;
 }
+.form-subheading{
+  @include b4_12px_montserrat_charcoal();
+  letter-spacing: 0.36px;
+  padding: 0px 52px;
+  line-height: 20px;
+  &.track-order{
+    padding: 0px 100px
+  }
+}
+@media screen  and (max-width: 992px){
+  .form-subheading{
+    padding : 0px;
+    &.track-order{
+      padding: 0px 20px;
+    }
+  }
+}
+
+.disabledInput{
+  input{
+    background: #E5E5E526 !important;
+    color: #9F9F9F !important;
+  }
+  select{
+    background: #E5E5E526 !important;
+    color: #777777 !important;
+    &:disabled{
+      color: #777777 !important;
+      background: #E5E5E526 !important;
+    }
+  }
+}
+
 .form-heading-multi {
   line-height: 36px;
 }
@@ -52,9 +88,8 @@
 }
 
 .no-purchases-message {
-  color: #5f5c5c;
-  font-size: 13px;
-  font-weight: bold;
+  @include b4_12px_montserrat_charcoal();
+  opacity: unset;
 }
 
 .browse-button {
@@ -82,11 +117,16 @@
     &.address-checkout {
       padding: 35px 25px 90px 25px;
     }
-    padding: 35px 25px 55px 25px;
+    &.address {
+      p {
+        font-weight: 400;
+      }
+    }
+    padding: 35px 25px 40px 25px;
     font-weight: 300;
     address {
       border: none;
-      padding: 25px 0;
+      padding: 25px 0px 20px 30px;
     }
     .border-add {
       border-top: 1px solid tint(#000, 90%);
@@ -95,12 +135,15 @@
         height: 70px;
       }
       img {
-        padding-right: 20px;
+        padding: 0px 20px;
+        width: 80%;
       }
     }
     &.order-block {
       background-color: tint(#000, 95%);
-
+      &.background-white{
+        background-color: #fff;
+      }
       &.manage-add {
         background-color: $white;
         min-height: 160px;
@@ -213,13 +256,19 @@
         //text-decoration: underline;
         &.order-status {
           text-transform: uppercase;
-          text-decoration: underline;
         }
       }
+
     }
     .order-block {
-      min-height: 160px;
+      min-height: 100px;
       position: relative;
+      div {
+        padding-left: 30px;
+        &.amount-paid{
+          display: flex;
+        }
+      }
       span {
         //text-transform: uppercase; cant use this --- it will make order status span uppercase
         //text-decoration: underline;
@@ -234,7 +283,7 @@
       text-transform: uppercase;
       font-size: 12px;
       letter-spacing: 1px;
-      font-weight: bold;
+      font-weight: $semibold;
       &.add-checkout-actions {
         bottom: auto;
         position: absolute;
@@ -255,7 +304,7 @@
       text-transform: uppercase;
       font-size: 12px;
       letter-spacing: 1px;
-      font-weight: bold;
+      font-weight: $semibold;
       &.add-checkout-actions {
         bottom: auto;
         position: absolute;
@@ -271,7 +320,7 @@
       text-transform: uppercase;
       font-size: 12px;
       letter-spacing: 1px;
-      font-weight: bold;
+      font-weight: $semibold;
       &.add-checkout-actions {
         bottom: auto;
         position: absolute;
@@ -279,15 +328,26 @@
       cursor: pointer;
       a:hover {
         cursor: pointer;
+      }
+      &.close1{
+        position:  relative !important;
+        bottom: unset;
+        padding-left: 30px;
+        margin-bottom: 20px;
+        margin-top:20px;
+      }
+      &.close2{
+        position:  relative !important;
+        bottom: unset;
+        padding-left: 20px;
+        margin-top: 30px;
       }
     }
     .edit-mobile {
-      bottom: 2px;
-      position: absolute;
       text-transform: uppercase;
       font-size: 12px;
       letter-spacing: 1px;
-      font-weight: bold;
+      font-weight: $semibold;
       &.add-checkout-actions {
         bottom: auto;
         position: absolute;
@@ -296,20 +356,42 @@
       a:hover {
         cursor: pointer;
       }
+      &.close{
+        padding-left: 20px;
+        margin-bottom: 40px;
+      }
     }
     p {
-      font-size: 14px;
+      @include b4_12px_montserrat_semibold_charcoal();
+      letter-spacing: 0.5px;;
       line-height: 22px;
-      font-weight: 400;
-      text-transform: capitalize;
+      .op2{
+        @include b4_12px_montserrat_charcoal();
+        letter-spacing: 0.36px;
+      }
       &.names {
         text-transform: none;
       }
       &.price {
-        font-size: 18px;
+        font-size: 14px;
       }
       a:hover {
         cursor: pointer;
+      }
+      &.order-status{
+        color: #4C4C4C;
+        font-weight: $semibold;
+        .status {
+          text-transform: uppercase;
+        }
+      }
+      &.order-items{
+        color: #4C4C4C;
+        font-weight: $semibold;
+      }
+      &.order-total{
+        color: #4C4C4C;
+        font-weight: $semibold;
       }
     }
     .light {
@@ -317,15 +399,14 @@
 
     }
     label {
-      position: absolute;
-      top: -8px;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      color: tint(#000, 50%);
+      @include b4_12px_montserrat_charcoal_caps();
+      letter-spacing: 0.36px;
       background-color: #fff;
-      padding: 0 3px;
-      font-size: 13px;
-      font-weight: 400;
+      &.top-label{
+        position: absolute;
+        top: -8px;
+        padding: 0px 20px;
+      }
     }
   }
 }
@@ -361,10 +442,19 @@
   text-align: left;
 }
 .rtc {
-  font-size: 12px;
-  letter-spacing: 1px;
   margin-left: 20px;
-  text-align: left;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.underline-link{
+  @include b5_10px_montserrat_charcoal();
+  text-decoration: underline;
+  text-underline-offset: 5px;
+  letter-spacing: 0.5px;
+  &:hover{
+    color: $aqua-bold
+  }
 }
 
 .error-msg {
@@ -380,7 +470,62 @@
   line-height: 15px;
 }
 
+.input-default{
+  font-family: $font-Montserrat;
+  font-size: 12px !important;
+  font-weight: $regular;
+  &::placeholder{
+    font-family: $font-Montserrat;
+    font-size: 12px !important;
+    font-weight: $regular;
+    color: #9f9f9f !important;
+  }
+}
+
 .login-form {
+  .otp-component-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .form-container{
+    justify-content: center;
+  }
+  input[type="text"], input[type="date"], input[type="password"], input[type="number"]{
+    font-family: $font-Montserrat;
+    font-size: 12px;
+    font-weight: $regular;
+    &::placeholder{
+      font-family: $font-Montserrat;
+      font-size: 12px;
+      font-weight: $regular;
+      color: #9f9f9f;
+    }
+    &:active{
+      font-size: 12px;
+    }
+    &:focus{
+      font-size: 12px;
+    }
+  }
+  select{
+    font-family: $font-Montserrat;
+    font-size: 12px;
+    font-weight: $regular;
+  }
+  label {
+    font-family: $font-Montserrat;
+    font-size: 9px;
+    letter-spacing: 0.5px;
+    font-weight: $light;
+    color: #191919;
+    position: absolute;
+    top: -10px;
+    left: 10px;
+    background-color: #fff;
+    padding: 3px;
+  }
+  
   hr {
     border: 0;
     border-top: 1px solid #eeeeee;
@@ -399,8 +544,17 @@
     align-items: center;
     margin-bottom: 5px;
   }
+  .balance-input{
+    position: relative;
+  }
   .txt-width60 {
     width: 60%;
+  }
+  .arrow-container{
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 16px;
   }
   .arrowrightsmall {
     display: inline-block;
@@ -408,7 +562,7 @@
     height: 0;
     border-top: 8px solid transparent;
     border-bottom: 8px solid transparent;
-    border-left: 8px solid #ab1e56;
+    border-left: 8px solid #4c4c4c;
   }
   .margin-r-10{
     margin-right: 10px;
@@ -416,22 +570,29 @@
   .err {
     border: 1px solid #ab1e56 !important;
   }
-  label {
-    position: absolute;
-    top: -10px;
-    left: 10px;
-    font-weight: 100;
-    font-size: 10px;
-    color: $formLabel;
-    letter-spacing: 1px;
-    background-color: #fff;
-    padding: 3px;
-  }
   .rtcinfo {
-    font-size: 11px;
-    letter-spacing: 1px;
     margin-top: 15px;
-    line-height: 18px;
+    p{
+      line-height: 18px;
+      margin-bottom: 10px;
+      .line-head{
+        @include b4_12px_montserrat_charcoal();
+        letter-spacing: 0.5px;
+
+      }
+      .line {
+        @include b4_12px_montserrat_semibold_charcoal();
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 10px;
+      }
+      &.balance{
+        @include b4_12px_montserrat_aqua();
+        font-weight: $medium;
+        letter-spacing: 0.5px;
+        margin: 25px 0px 45px 0px;
+      }
+    }
     &.mTop0 {
       margin-top: 0 !important;
     }
@@ -446,8 +607,8 @@
 }
 
 .value12 {
-  @include c10-L-R();
-  color: #000;
+  @include b4_12px_semibold_caps_charocal();
+  letter-spacing: 0.5px;
   margin: 10px 0 5px 0;
   .cross {
     padding-left: 10px;
@@ -457,6 +618,9 @@
 }
 .gift-display{
   display: block !important;
+  margin-bottom: 27px;
+  margin-top: 30px;
+  // padding-left: 20px;
 }
 
 
@@ -465,8 +629,12 @@
 }
 
 .trail-track {
-  width: 170px;
+  width: 220px;
   margin-bottom: 25px;
+  margin-left: 25px;
+  @media screen and (max-width: 992px){
+    margin-left:10px;
+  }
   .txt-right {
     position: absolute;
     left: 110%;
@@ -497,36 +665,46 @@
         }
     }
       .main-block {
-        text-transform: uppercase;
-          width: 170px;
-          height: 45px;
-          display: inline-block;
-          line-height: 50px;
-        font-family: $font-Lato;
-          text-align: center;
-
-        p:first-child {
-          font-size: 12px;
-          font-weight: bold;
-          padding-top: 5px;
+        position: relative;
+        height: 100px;
+        margin-left: 30px;
+        &.active{
+          border-left: 1px solid $aqua;
         }
-        p:last-child {
-          color: tint(#000,80%);
-          font-size: 10px;
-          line-height: 9px;
+        &.inactive{
+          border-left: 1px solid $lightest-charcoal;
         }
-
-        &.cerisebg {
-          background: url('../../../images/track/curlyFillCeriz.svg') no-repeat;
-          color: $white;
+        &.delivered{
+          height: 30px;
         }
-        &.whitebg {
-          background: url('../../../images/track/redBorder.svg') no-repeat;
-          color: Black;
+        .circle{
+          height: 18px;
+          width: 18px;
+          border-radius: 100%;
+          position: absolute;
+          left:-9px;
+          top:-9px;
+          &.active{
+            background-color: $aqua;
+            border: 1px solid $aqua;
+          }
+          &.inactive{
+            background-color: $white;
+            border: 1px solid lightgray;
+          }
         }
-        &.grayborder {
-          background: url('../../../images/track/greyButton.svg') no-repeat;
-          color: tint(#000, 80%);
+        .text-block{
+          margin-left: 35px;
+          transform: translateY(-12px);
+          position: relative;
+          .live-location{
+            @include b5_10px_montserrat_charcoal();
+            letter-spacing: 0.5px;;
+            display: flex;
+          }
+          .data{
+            font-weight: 400;
+          }
         }
       }
 }
@@ -534,7 +712,7 @@
 @media screen and (max-width: 992px) {
   .trail-track {
     width: 180px;
-    margin: 0 auto;
+    // margin: 0 auto;
     margin-bottom: 25px;
     .txt-right {
       left: 0;
@@ -558,16 +736,15 @@
 }
 
 .back-track {
+  @include b4_12px_montserrat_charcoal();
+  font-weight: $medium;
+  color: #9F9F9F;
+  letter-spacing: 0.36px;
   text-transform: uppercase;
   margin-top: 20px;
-  font-weight: bold;
   z-index: 1;
-  color:$cerise;
   text-align: left;
   cursor: pointer;
-  font-size: 12px;
-  font-family: $font-Lato;
-  letter-spacing: 1px;
 }
 
 .back-btn {
@@ -583,6 +760,7 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  font-weight: 400;
   .discountprice {
       color: #ab1e56;
       font-family:  $font-Lato;
@@ -625,6 +803,8 @@
   }
 
   .cta-error{
+    @include error_msg_cerise();
+    text-align: left;
     margin-bottom: 7px;
   }
 
@@ -633,16 +813,18 @@
   padding: 15px;
   padding-left: 8px;
   top: 0px;
-  right: 0px;
+  right: 8px;
   width: 54px;
   border-left: none;
+  border-right: none;
   position: absolute;
   cursor: pointer;
-  font-size: 10px;
-  font-style: italic;
-  color: #ab1e56 !important;
-  font-weight: bold;
-  font-family: $font-Lato;
+  @include b5_10px_montserrat_charcoal();
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  &:hover{
+    color: $aqua-bold;
+  }
   letter-spacing: 1px;
   text-transform: none;
   line-height: 15px;
@@ -664,8 +846,8 @@
     margin-top: -10px !important;
   }
   p {
+    @include b4_12px_montserrat_charcoal;
     text-align: left;
-    font-size: 13px;
     line-height: 20px;
   }
   ul {
@@ -677,23 +859,26 @@
       flex: 50%;
       line-height: 24px;
       text-align: left;
+      font-family: $font-Montserrat;
+      font-size: 10px;
+      color: #191919;
       &::before {
         content: '';
         display: inline-block;
-        height: 15px;
-        width: 15px;
+        height: 12px;
+        width: 12px;
         border-radius: 50%;
-        border: 1px solid;
+        border: 1px solid #9f9f9f;
         vertical-align: text-bottom;
         margin-right: 7px;
       }
       &.correct {
-        color: #86BAB4;
+        color: #548b8b;
         &::before {
           content: '';
-          height: 12px;
-          width: 7px;
-          border-width: 0 2px 2px 0;
+          height: 9px;
+          width: 5px;
+          border-width: 0 1px 1px 0;
           transform: rotate(45deg);
           border-radius: 0;
           vertical-align: baseline;
@@ -744,5 +929,251 @@
       color: $aqua;
     }
 
+  }
+}
+
+.updated{
+  background-color: #9F9F9F;
+  height: 60px;
+  width: 100%;
+  @include b3_14px_montserrat_white();
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  outline: none;
+  border: 2px solid #9f9f9f;
+}
+
+.update-details{
+  background-color: #4c4c4c;
+  border: 2px solid #4c4c4c;
+  letter-spacing: 0.5px;
+  @include b3_14px_montserrat_white();
+  height: 60px;
+  width: 100%;
+  text-transform: uppercase;
+  outline: none;
+  &:hover{
+    color: #4c4c4c;
+    background-color: #FFF;
+  }
+}
+
+.error-msg{
+  @include err_13px_lora_italic_cerise();
+}
+
+.country-code{
+  display: flex;
+  justify-content: space-between;
+}
+
+.charcoal-btn{
+  background-color: #4C4C4C;
+  @include b3_14px_montserrat_white();
+  text-transform: uppercase;
+  letter-spacing: 0.42px;
+  line-height: 52px;
+  width: 100%;
+  text-align: center;
+  border: 1px solid #4C4C4C;
+  border-radius: 0;
+  cursor: pointer;
+  &:hover{
+    color: #191919;
+    background-color: #fff;
+    border: 1px solid #4C4C4C;
+  }
+  &.disabled-btn{
+    color: #fff;
+    background-color: #9f9f9f;
+    border: 1px solid #9f9f9f;
+  }
+}
+
+.categorylabel{
+  input[type="text"], input[type="number"]{
+    font-size: 12px !important;
+    &::placeholder{
+      font-size: 12px;
+    }
+  }
+  select{
+    font-size: 12px !important;
+  }
+  .address-form-checkbox{
+    input[type="checkbox"]:checked + label:after{
+      top: 3px;
+    }
+  }
+  .subscribe {
+    label {
+      left: 0px;
+    }
+  }
+}
+
+.giftcard-balance{
+  @include b4_12px_medium_aqua();
+}
+
+.line-head{
+  @include b4_12px_montserrat_charcoal_caps();
+  margin-top: 20px;
+}
+
+.line{
+  @include b4_12px_montserrat_charcoal();
+  font-weight: $semibold;
+}
+
+.view-tnc{
+  @include b5_10px_montserrat_charcoal();
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  text-decoration: underline;
+  text-underline-offset: 5px;
+  margin-top: 30px;
+  cursor: pointer;
+  &:hover{
+    color: $aqua-bold;
+    text-decoration: underline;
+  }
+}
+
+.track-order-address{
+  padding: 0px 20px;
+  .title{
+    @include b4_12px_medium_light_charcoal_caps();
+    letter-spacing: 0.5px;
+    font-weight: 400;
+  }
+  .name{
+    @include b4_12px_montserrat_charcoal();
+    padding: 10px 0px;
+    letter-spacing: 0.5px;
+    font-weight: 400;
+  }
+  .address-line{
+    @include b5_10px_montserrat_charcoal();
+    letter-spacing: 0.5px;
+    font-weight: 400;
+  }
+  .phone{
+    @include b4_12px_montserrat_charcoal();
+    padding: 10px 0px;
+    letter-spacing: 0.5px;
+    font-weight: 400;
+  }
+  @media screen and (max-width:992px) {
+    &:nth-of-type(1){
+      margin-bottom: 20px;
+    }
+  }
+}
+
+.order-content{
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  .collection {
+    @include b3_14px_montserrat_light_charcoal();
+    color: #9f9f9f;
+  }
+  .product-n{
+    @include b2_14px_charcoal_lora();
+    letter-spacing: 0.5px;
+  }
+  .price{
+    @include b3_14px_montserrat_charcoal();
+    padding: 10px 0px;
+    .strikeprice{
+      font-family: $font-Montserrat;
+      font-size: 12px;
+      font-weight: $regular;
+      color: #9f9f9f;
+      text-decoration: line-through;
+    }
+  }
+  .size, .quantity{
+    @include b5_10px_montserrat_charcoal();
+    letter-spacing: 0.3px;
+  }
+}
+
+.balance-container {
+  &.margin-fix{
+    margin: 0px 6%;
+  }
+  .rtc{
+    margin-top: 30px;
+  }
+}
+
+.section {
+  border-bottom: 1px solid lightgray;
+  padding: 25px 0px;
+  cursor: pointer;
+}
+
+.balance-section-head{
+  @include b4_12px_montserrat_charcoal_caps();
+  font-weight: $medium;
+  letter-spacing: 0.5px;
+  margin-left: 15px;
+}
+
+.check-another{
+  @include b4_12px_montserrat_charcoal_caps();
+  letter-spacing: 0.5px;
+  text-decoration: underline;
+  text-underline-offset: 5px;
+}
+
+.horizontal{
+  position: relative;
+  width: 16px;
+  height: 16px;
+  font-family: $font-Montserrat;
+
+  &:before,
+  &:after{
+      content: "";
+      position: absolute;
+      background-color: $charcoal19;
+      transition: transform 0.25s ease-out;
+  }
+
+  /* Vertical line */
+  &:before{
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 1px;
+      height: 100%;
+  }
+
+  /* horizontal line */
+  &:after{
+      top: 50%;
+      left: 0;
+      transform: translateY(-50%);
+      width: 100%;
+      height: 1px;
+  }
+}
+
+.open {
+  cursor: pointer;
+  &:before{ transform: rotate(90deg); }
+  &:after{ transform: rotate(180deg); }
+}
+
+.margin-fix{
+  margin: 30px 8.6% 0px 8.6%;
+}
+@media screen and (max-width: 992px){
+  .margin-fix{
+    margin: 0;
   }
 }

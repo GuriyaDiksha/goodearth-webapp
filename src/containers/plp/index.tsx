@@ -13,6 +13,7 @@ import CorporateFilter from "./corporateList";
 import PlpDropdownMenu from "components/PlpDropDown";
 import PlpResultItem from "components/plpResultItem";
 import GiftcardItem from "components/plpResultItem/giftCard";
+import ResetFiltersTile from "components/plpResultItem/resetFiltersTile";
 import PlpBreadcrumbs from "components/PlpBreadcrumbs";
 import mapDispatchToProps from "../../components/Modal/mapper/actions";
 import MakerEnhance from "maker-enhance";
@@ -50,7 +51,8 @@ const mapStateToProps = (state: AppState) => {
     isSale: state.info.isSale,
     showTimer: state.info.showTimer,
     isLoggedIn: state.user.isLoggedIn,
-    plpTemplates: state.plplist.plpTemplates
+    plpTemplates: state.plplist.plpTemplates,
+    mobile: state.device.mobile
   };
 };
 
@@ -115,7 +117,7 @@ class PLP extends React.Component<
   componentDidMount() {
     const that = this;
     const userConsent = CookieService.getCookie("consent").split(",");
-    if (userConsent.includes(GA_CALLS) || true) {
+    if (userConsent.includes(GA_CALLS)) {
       dataLayer.push(function(this: any) {
         this.reset();
       });
@@ -127,7 +129,7 @@ class PLP extends React.Component<
         Page_Title: "virtual_plp_view"
       });
     }
-    if (userConsent.includes(ANY_ADS) || true) {
+    if (userConsent.includes(ANY_ADS)) {
       Moengage.track_event("Page viewed", {
         "Page URL": this.props.location.pathname,
         "Page Name": "PlpView"
@@ -136,7 +138,9 @@ class PLP extends React.Component<
     window.addEventListener(
       "scroll",
       throttle(() => {
-        this.setProductCount();
+        if (this.props.mobile) {
+          this.setProductCount();
+        }
       }, 50)
     );
     if (this.props.device.mobile) {
@@ -451,7 +455,7 @@ class PLP extends React.Component<
     const l1 = category?.split(">")[0];
 
     const userConsent = CookieService.getCookie("consent").split(",");
-    if (userConsent.includes(GA_CALLS) || true) {
+    if (userConsent.includes(GA_CALLS)) {
       dataLayer.push({
         "Event Category": "GA Ecommerce",
         "Event Action": "PLP ",
@@ -512,11 +516,25 @@ class PLP extends React.Component<
       device: { mobile, tablet },
       currency,
       data: {
-        results: { breadcrumb, banner, bannerMobile, data, facets, bannerUrl },
+        results: { breadcrumb, banner, bannerMobile, facets, bannerUrl },
         count
       }
     } = this.props;
+    let {
+      data: {
+        results: { data }
+      }
+    } = this.props;
+
+    data = data.filter((item: any) => {
+      return +item.priceRecords[currency] != 0;
+    });
+
     const { plpMaker, corporoateGifting } = this.state;
+    const queryString = this.props.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    const categoryShop = urlParams.get("category_shop")?.split(">")?.[0];
+
     const items: CategoryMenu[] = [
       {
         label: "Our Curation",
@@ -791,11 +809,11 @@ class PLP extends React.Component<
                 })}
               >
                 <span>
-                  {count > 1
-                    ? (!this.state.corporoateGifting ? count + 1 : count) +
-                      " products found"
-                    : (!this.state.corporoateGifting ? count + 1 : count) +
-                      " product found"}{" "}
+                  {count > 0
+                    ? count > 1
+                      ? count + " products found"
+                      : count + " product found"
+                    : "No products found"}{" "}
                 </span>
               </div>
             ) : (
@@ -803,11 +821,11 @@ class PLP extends React.Component<
                 className={cs(styles.productNumber, styles.imageContainer, {})}
               >
                 <span>
-                  {count > 1
-                    ? (!this.state.corporoateGifting ? count + 1 : count) +
-                      " products found"
-                    : (!this.state.corporoateGifting ? count + 1 : count) +
-                      " product found"}{" "}
+                  {count > 0
+                    ? count > 1
+                      ? count + " products found"
+                      : count + " product found"
+                    : "No products found"}{" "}
                 </span>
               </div>
             )}
@@ -840,7 +858,7 @@ class PLP extends React.Component<
               {!mobile || this.props.plpMobileView == "grid"
                 ? data.map((item, index) => {
                     return (
-                      <>
+                      <React.Fragment key={index}>
                         {showTemplates["Product"] &&
                         data.length >= productTemplatePos &&
                         index == productTemplatePos - 1 ? (
@@ -891,7 +909,7 @@ class PLP extends React.Component<
                             />
                           ) : (
                             <PlpResultItem
-                              page="PLP"
+                              page={categoryShop || "plp"}
                               position={index}
                               product={item}
                               addedToWishlist={false}
@@ -905,12 +923,12 @@ class PLP extends React.Component<
                             />
                           )}
                         </div>
-                      </>
+                      </React.Fragment>
                     );
                   })
                 : data.map((item, index) => {
                     return (
-                      <>
+                      <React.Fragment key={index}>
                         {showTemplates["Product"] &&
                         data.length >= productTemplatePos &&
                         index == productTemplatePos - 1 ? (
@@ -960,7 +978,7 @@ class PLP extends React.Component<
                             loader={this.state.flag}
                           />
                         </div>
-                      </>
+                      </React.Fragment>
                     );
                   })}
               <div
@@ -987,6 +1005,41 @@ class PLP extends React.Component<
                   />
                 )}
               </div>
+
+              {count < 1 && this.state.filterCount > 0 ? (
+                <div
+                  className={
+                    !mobile || this.props.plpMobileView == "grid"
+                      ? cs(bootstrap.colLg4, bootstrap.col6, styles.setWidth, {
+                          ["product-container"]: !this.state.corporoateGifting
+                        })
+                      : cs(
+                          bootstrap.colLg4,
+                          bootstrap.col12,
+                          styles.setWidth,
+                          styles.listViewContainer,
+                          {
+                            ["product-container"]: !this.state.corporoateGifting
+                          }
+                        )
+                  }
+                  key={2}
+                >
+                  {this.state.corporoateGifting ? (
+                    ""
+                  ) : (
+                    <ResetFiltersTile
+                      resetFilters={this.child.clearFilter}
+                      mobileApply={this.child.updateDataFromAPI}
+                      mobile={mobile}
+                      tablet={tablet}
+                      view={this.props.plpMobileView}
+                    />
+                  )}
+                </div>
+              ) : (
+                ""
+              )}
             </div>
           </div>
           {mobile && !tablet && (

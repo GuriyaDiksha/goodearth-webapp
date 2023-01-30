@@ -9,12 +9,18 @@ const initActionPLP: InitAction = async (
 ) => {
   const dispatch = store.dispatch;
   const categoryShop = new URLSearchParams(search).get("category_shop");
+  const categoryShopL1 = new URLSearchParams(search)
+    .get("category_shop")
+    ?.split(">")[0];
   const promises: any[] = [
-    PlpService.onLoadPlpPage(dispatch, search, currency || "INR").catch(
-      error => {
-        console.log("PLP SERVER ", error);
-      }
-    )
+    PlpService.onLoadPlpPage(
+      dispatch,
+      search,
+      currency || "INR",
+      categoryShopL1 || ""
+    ).catch(error => {
+      console.log("PLP SERVER ", error);
+    })
   ];
   if (categoryShop) {
     promises.push(

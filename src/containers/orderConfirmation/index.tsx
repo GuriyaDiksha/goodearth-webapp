@@ -149,7 +149,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
     });
     if (result.pushToGA == false) {
       const userConsent = CookieService.getCookie("consent").split(",");
-      if (userConsent.includes(GA_CALLS) || true) {
+      if (userConsent.includes(GA_CALLS)) {
         dataLayer.push({
           event: "purchase",
           ecommerce: {
@@ -194,7 +194,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
           event: "GA4_purchase",
           ecommerce: {
             transaction_id: result.transactionId,
-            affiliation: "Online Store", // Pass the product name
+            affiliation: productname, // Pass the product name
             value: +result.totalInclTax,
             tax: 0,
             shipping: +result.shippingInclTax,
@@ -214,7 +214,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
           "search=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/";
         document.cookie = cookieString;
       }
-      if (userConsent.includes(ANY_ADS) || true) {
+      if (userConsent.includes(ANY_ADS)) {
         Moengage.track_event("PurchasedOnline", {
           "Category Name": categoryname,
           "Sub category": subcategoryname,
@@ -252,7 +252,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
       gtmPushOrderConfirmation(response.results?.[0]);
     });
     const userConsent = CookieService.getCookie("consent").split(",");
-    if (userConsent.includes(GA_CALLS) || true) {
+    if (userConsent.includes(GA_CALLS)) {
       dataLayer.push(function(this: any) {
         this.reset();
       });
@@ -263,7 +263,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
         Page_Title: "virtual_orderConfirmationPage_view"
       });
     }
-    if (userConsent.includes(ANY_ADS) || true) {
+    if (userConsent.includes(ANY_ADS)) {
       Moengage.track_event("Page viewed", {
         "Page URL": location.pathname,
         "Page Name": "OrderConfirmationPageView"
@@ -375,7 +375,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                       )}
                     >
                       <p>
-                        <span className={globalStyles.op3}>Amount Payable</span>
+                        <span className={globalStyles.op3}>Amount Paid</span>
                       </p>
 
                       <p>
@@ -698,8 +698,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                       {String.fromCharCode(
                         ...currencyCode[confirmData.currency as Currency]
                       )}
-                      &nbsp;{" "}
-                      {parseFloat(confirmData.giftVoucherRedeemed).toFixed(2)}
+                      &nbsp; {parseFloat("" + gccn).toFixed(2)}
                     </p>
                   </div>
                 )
@@ -727,7 +726,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
               )}
 
               <div className={cs(styles.subTotalSection)}>
-                <p>AMOUNT PAYABLE</p>
+                <p>AMOUNT PAID</p>
                 <p>
                   {String.fromCharCode(
                     ...currencyCode[confirmData.currency as Currency]

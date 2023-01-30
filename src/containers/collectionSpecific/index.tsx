@@ -28,6 +28,8 @@ import { POPUP } from "constants/components";
 import metaActionCollection from "./metaAction";
 import CookieService from "services/cookie";
 import { GA_CALLS } from "constants/cookieConsent";
+import ProductCounter from "components/ProductCounter";
+import { throttle } from "lodash";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -131,6 +133,8 @@ class CollectionSpecific extends React.Component<
     loader: boolean;
     shouldScroll: boolean;
     scrollView: boolean;
+    showProductCounter: boolean;
+    count: number;
   }
 > {
   private scrollload = true;
@@ -142,9 +146,26 @@ class CollectionSpecific extends React.Component<
       nextPage: null,
       loader: false,
       shouldScroll: false,
-      scrollView: false
+      scrollView: false,
+      showProductCounter: true,
+      count: -1
     };
   }
+  pdpURL = "";
+  listPath = "";
+
+  onBeforeUnload = () => {
+    const pdpProductScroll = JSON.stringify({
+      id: Number(
+        (decodeURI(this.pdpURL)
+          .split("_")
+          .pop() as string).split("/")[0]
+      ),
+      timestamp: new Date(),
+      source: this.listPath
+    });
+    localStorage.setItem("collectionSpecificScroll", pdpProductScroll);
+  };
 
   getPdpProduct = (): any => {
     let hasPdpProductDetails = false;
@@ -221,13 +242,22 @@ class CollectionSpecific extends React.Component<
   };
 
   componentWillUnmount() {
+    this.onBeforeUnload();
     window.removeEventListener("scroll", this.handleScroll);
     this.props.resetCollectionSpecificBanner();
+    window.removeEventListener(
+      "scroll",
+      throttle(() => {
+        this.setProductCount();
+      }, 100)
+    );
   }
 
   componentDidMount() {
+    const that = this;
+    this.pdpURL = this.props.location.pathname;
     const userConsent = CookieService.getCookie("consent").split(",");
-    if (userConsent.includes(GA_CALLS) || true) {
+    if (userConsent.includes(GA_CALLS)) {
       dataLayer.push(function(this: any) {
         this.reset();
       });
@@ -241,12 +271,142 @@ class CollectionSpecific extends React.Component<
     this.setState({
       specificMaker: true
     });
+
+    this.listPath = "CollectionLanding";
+
     window.addEventListener("scroll", this.handleScroll);
     if (!this.state.scrollView) {
       this.checkForProductScroll();
     }
     // this.updateCollectionFilter(this.props.currency);
+    window.addEventListener(
+      "scroll",
+      throttle(() => {
+        this.setProductCount();
+      }, 50)
+    );
+    let previousUrl = "";
+    const observer = new MutationObserver(function(mutations) {
+      if (location.href !== previousUrl) {
+        previousUrl = location.href;
+        that.setState({ count: -1 });
+      }
+    });
+    const config = { subtree: true, childList: true };
+    observer.observe(document, config);
   }
+
+  setProductCount = () => {
+    const cards = document.querySelectorAll(".collection-container");
+    const cardIDs: any = [];
+    const height =
+      (document.getElementById("collection_banner") as HTMLElement)
+        ?.offsetHeight +
+      (document.getElementById("collection_desc") as HTMLElement)
+        ?.offsetHeight +
+      (document.getElementById("collection_long_desc") as HTMLElement)
+        ?.offsetHeight;
+
+    cards.forEach(card => {
+      cardIDs.push(
+        Array.from(card.children[0].children).filter(e => e.id != "")[0]?.id
+      );
+    });
+
+    const observer = new IntersectionObserver(
+      entries => {
+        let maxIndex = -Infinity;
+        let element: any;
+        let productID: any, idx: any;
+        entries.forEach((entry, index) => {
+          if (
+            entry.isIntersecting &&
+            entry.target.getBoundingClientRect().bottom <
+              window.innerHeight - 450
+          ) {
+            productID = Array.from(entry.target.children[0].children).filter(
+              e => e.id != ""
+            )[0]?.id;
+            idx = cardIDs.findIndex((e: string) => e == productID);
+            if (idx > maxIndex) {
+              maxIndex = idx;
+              element = entry.target;
+            }
+          }
+        });
+        if (element) {
+          if (idx > -1) {
+            this.setState({ count: idx + 1 });
+          }
+          if (window.scrollY < height) {
+            this.setState({ count: -1 });
+          }
+        } else if (
+          cards[cards.length - 1].getBoundingClientRect().bottom < height ||
+          window.scrollY < height
+        ) {
+          this.setState({ count: -1 });
+        }
+        observer.disconnect();
+      },
+      {
+        rootMargin: "-130px 0px -90px 0px"
+      }
+    );
+    cards.forEach(card => {
+      observer.observe(card);
+    });
+  };
+
+  updateMobileView = () => {
+    if (this.props.mobile) {
+      const cards = document.querySelectorAll(".collection-container");
+      const cardIDs: any = [];
+
+      cards.forEach(card => {
+        cardIDs.push(card.children[0].children[0]?.id);
+      });
+
+      const observer = new IntersectionObserver(
+        entries => {
+          let topMostPos = Infinity;
+          let leftMostPos = Infinity;
+          let leftMostElement: any;
+          entries.forEach((entry, index) => {
+            if (entry.isIntersecting && entry.intersectionRatio > 0.4) {
+              const y: number = entry.target.getBoundingClientRect().y;
+              const x: number = entry.target.getBoundingClientRect().x;
+              if (y < topMostPos) {
+                topMostPos = y;
+              }
+              if (x < leftMostPos) {
+                leftMostPos = x;
+                leftMostElement = entry.target;
+              }
+            }
+          });
+          if (leftMostPos != Infinity) {
+            const productID = leftMostElement.children[0].children[0]?.id;
+            // this.props.updateMobileView();
+            const top: number =
+              leftMostElement.getBoundingClientRect().top - 135;
+            window.scrollBy({ top: top, behavior: "smooth" });
+            if (productID == cardIDs[0]) this.setState({ count: -1 });
+          } else {
+            // this.props.updateMobileView();
+          }
+          observer.disconnect();
+        },
+        {
+          rootMargin: "-130px 0px -90px 0px"
+        }
+      );
+
+      cards.forEach(card => {
+        observer.observe(card);
+      });
+    }
+  };
 
   UNSAFE_componentWillReceiveProps = (nextProps: Props) => {
     if (this.props.currency != nextProps.currency) {
@@ -355,7 +515,7 @@ class CollectionSpecific extends React.Component<
             href={`${window.location.origin}${this.props.location.pathname}?${this.props.location.search}`}
           />
         )}
-        <section>
+        <section id="collection_banner">
           <div className={cs(bootstrap.row, styles.firstBlock)}>
             <div className={bootstrap.col12}>
               {widgetImages.map((widget: any) => {
@@ -383,7 +543,7 @@ class CollectionSpecific extends React.Component<
             </div>
           </div>
         </section>
-        <div className={cs(bootstrap.row, styles.padding)}>
+        <div className={cs(bootstrap.row, styles.padding)} id="collection_desc">
           <div
             className={cs(
               bootstrap.colMd12,
@@ -394,7 +554,7 @@ class CollectionSpecific extends React.Component<
             {description}
           </div>
         </div>
-        <div className={bootstrap.row}>
+        <div className={bootstrap.row} id="collection_long_desc">
           <div
             className={cs(
               bootstrap.col8,
@@ -421,8 +581,14 @@ class CollectionSpecific extends React.Component<
             {results.map((data: PLPProductItem, i: number) => {
               return (
                 <div
-                  className={cs(bootstrap.colMd4, bootstrap.col6)}
+                  className={cs(
+                    bootstrap.colMd4,
+                    bootstrap.col6,
+                    "collection-container"
+                  )}
                   key={data.id + "plpDiv"}
+                  id={i == 0 ? "first-item" : ""}
+                  onClick={() => this.updateMobileView()}
                 >
                   <PlpResultItem
                     page="CollectionSpecific"
@@ -448,6 +614,13 @@ class CollectionSpecific extends React.Component<
             user="goodearth"
             index="2"
             href={`${window.location.origin}${this.props.location.pathname}?${this.props.location.search}`}
+          />
+        )}
+        {mobile && this.state.count > -1 && this.state.showProductCounter && (
+          <ProductCounter
+            current={this.state.count}
+            total={results?.length}
+            id="collection-product-counter"
           />
         )}
       </div>

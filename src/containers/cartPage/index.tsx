@@ -107,7 +107,7 @@ class CartPage extends React.Component<Props, State> {
         item => item.product.childAttributes?.[0].sku
       );
       const userConsent = CookieService.getCookie("consent").split(",");
-      if (userConsent.includes(GA_CALLS) || true) {
+      if (userConsent.includes(GA_CALLS)) {
         dataLayer.push({
           "Event Category": "GA Ecommerce",
           "Event Action": "Cart Summary Page",
@@ -139,40 +139,40 @@ class CartPage extends React.Component<Props, State> {
         console.log(error);
       });
 
-    const items = this.props.cart.lineItems.map((line, ind) => {
-      const index = line?.product.categories
-        ? line?.product.categories.length - 1
-        : 0;
-      const category =
-        line?.product.categories && line?.product.categories[index]
-          ? line?.product.categories[index].replace(/\s/g, "")
-          : "";
-      const arr = category.split(">");
+    // const items = this.props.cart.lineItems.map((line, ind) => {
+    //   const index = line?.product.categories
+    //     ? line?.product.categories.length - 1
+    //     : 0;
+    //   const category =
+    //     line?.product.categories && line?.product.categories[index]
+    //       ? line?.product.categories[index].replace(/\s/g, "")
+    //       : "";
+    //   const arr = category.split(">");
 
-      return {
-        item_id: line?.product?.id, //Pass the product id
-        item_name: line?.product?.title, // Pass the product name
-        affiliation: line?.product?.title, // Pass the product name
-        coupon: "", // Pass the coupon if available
-        currency: this.props.currency, // Pass the currency code
-        discount: "", // Pass the discount amount
-        index: ind,
-        item_brand: "Goodearth",
-        item_category: arr[arr.length - 2],
-        item_category2: arr[arr.length - 1],
-        item_category3: "",
-        item_list_id: "",
-        item_list_name: "",
-        item_variant: "",
-        item_category4: "",
-        item_category5: line?.product?.collection,
-        price: line?.product?.priceRecords[this.props.currency],
-        quantity: line?.quantity
-      };
-    });
+    //   return {
+    //     item_id: line?.product?.id, //Pass the product id
+    //     item_name: line?.product?.title, // Pass the product name
+    //     affiliation: line?.product?.title, // Pass the product name
+    //     coupon: "", // Pass the coupon if available
+    //     currency: this.props.currency, // Pass the currency code
+    //     discount: "", // Pass the discount amount
+    //     index: ind,
+    //     item_brand: "Goodearth",
+    //     item_category: arr[arr.length - 2],
+    //     item_category2: arr[arr.length - 1],
+    //     item_category3: "",
+    //     item_list_id: "",
+    //     item_list_name: "",
+    //     item_variant: "",
+    //     item_category4: "",
+    //     item_category5: line?.product?.collection,
+    //     price: line?.product?.priceRecords[this.props.currency],
+    //     quantity: line?.quantity
+    //   };
+    // });
 
     const userConsent = CookieService.getCookie("consent").split(",");
-    if (userConsent.includes(GA_CALLS) || true) {
+    if (userConsent.includes(GA_CALLS)) {
       const items = this.props.cart.lineItems.map((line, ind) => {
         const index = line?.product.categories
           ? line?.product.categories.length - 1
@@ -223,7 +223,7 @@ class CartPage extends React.Component<Props, State> {
       });
     }
 
-    if (userConsent.includes(ANY_ADS) || true) {
+    if (userConsent.includes(ANY_ADS)) {
       Moengage.track_event("Page viewed", {
         "Page URL": this.props.location.pathname,
         "Page Name": "CartPageView"

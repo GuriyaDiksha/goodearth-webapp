@@ -35,3 +35,4 @@ declare const __IP_DATA_KEY__: string;
 declare const __MOENG__: string;
 declare const Vimeo: any;
 declare const __CAREERS_FORM__: string;
+declare const __EnableCrypto__: boolean;

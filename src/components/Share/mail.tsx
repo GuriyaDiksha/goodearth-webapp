@@ -11,7 +11,7 @@ const Mail: React.FC<Props> = ({ link, className }) => {
   return (
     <p>
       {/* <span className={globalStyles.gold}> */}
-      <div>
+      <>
         <img src={mail} className={styles.mailIcon} />
         <a
           target="_blank"
@@ -21,7 +21,7 @@ const Mail: React.FC<Props> = ({ link, className }) => {
         >
           Share via email
         </a>
-      </div>
+      </>
       {/* </span> */}
     </p>
     // <a

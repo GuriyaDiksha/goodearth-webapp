@@ -319,7 +319,7 @@ class Checkout extends React.Component<Props, State> {
       ? valid.checkoutGTM(2, this.props.currency, this.props.basket)
       : "";
     const userConsent = CookieService.getCookie("consent").split(",");
-    if (userConsent.includes(GA_CALLS) || true) {
+    if (userConsent.includes(GA_CALLS)) {
       dataLayer.push(function(this: any) {
         this.reset();
       });
@@ -337,7 +337,7 @@ class Checkout extends React.Component<Props, State> {
         "Page referrer url": CookieService.getCookie("prevUrl")
       });
     }
-    if (userConsent.includes(ANY_ADS) || true) {
+    if (userConsent.includes(ANY_ADS)) {
       Moengage.track_event("Page viewed", {
         "Page URL": this.props.location.pathname,
         "Page Name": "checkoutView"
@@ -420,7 +420,7 @@ class Checkout extends React.Component<Props, State> {
       if (!shippingData) {
         if (this.state.isShipping == false) {
           const userConsent = CookieService.getCookie("consent").split(",");
-          if (userConsent.includes(GA_CALLS) || true) {
+          if (userConsent.includes(GA_CALLS)) {
             dataLayer.push({
               "Event Category": "GA Ecommerce",
               "Event Action": "Checkout Step 2",
@@ -595,7 +595,7 @@ class Checkout extends React.Component<Props, State> {
           this.props.history
         )
         .then(data => {
-          if (userConsent.includes(ANY_ADS) || true) {
+          if (userConsent.includes(ANY_ADS)) {
             Moengage.track_event("Shipping Address Added", {
               "First Name": address.firstName,
               "Last Name": address.lastName,
@@ -727,7 +727,7 @@ class Checkout extends React.Component<Props, State> {
           .specifyBillingAddress(data)
           .then(() => {
             const userConsent = CookieService.getCookie("consent").split(",");
-            if (userConsent.includes(ANY_ADS) || true) {
+            if (userConsent.includes(ANY_ADS)) {
               Moengage.track_event("Billing Address Added", {
                 "First Name": billingAddress.firstName,
                 "Last Name": billingAddress.lastName,

@@ -97,7 +97,7 @@ const routes: RouteConfig = [
   },
   {
     path: ROUTES.GIFTCARD,
-    component: loadable(() => import("containers/giftcard")), // GiftCard,
+    component: loadable(() => import("containers/newGiftcard")), // GiftCard,
     action: initActionGiftcard,
     exact: true
   },
@@ -158,6 +158,12 @@ const routes: RouteConfig = [
   },
   {
     path: ROUTES.ERROR,
+    component: loadable(() => import("containers/error")),
+    action: async () => null,
+    exact: true
+  },
+  {
+    path: ROUTES.ERR404,
     component: loadable(() => import("containers/error")),
     action: async () => null,
     exact: true
@@ -259,7 +265,11 @@ const makerRoutes = [
   ROUTES.SABINASINGH,
   ROUTES.DEEPSHIKHA,
   ROUTES.EESHAAN,
-  ROUTES.GUEST
+  ROUTES.GUEST,
+  ROUTES.TASTINGROOM,
+  ROUTES.MIRAGE,
+  ROUTES.MIRAGESHOP,
+  ROUTES.MAGHREB
 ];
 
 makerRoutes.forEach(route => {

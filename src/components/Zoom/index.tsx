@@ -7,7 +7,8 @@ import React, {
   MouseEvent,
   useRef,
   useCallback,
-  useLayoutEffect
+  useLayoutEffect,
+  useEffect
 } from "react";
 import cs from "classnames";
 import { Props } from "./typings";
@@ -25,6 +26,13 @@ const Zoom: React.FC<Props> = ({
   alt
 }) => {
   const [currentIndex, setCurrentIndex] = useState(1);
+  const canUseDOM = !!(
+    typeof window !== "undefined" &&
+    typeof window.document !== "undefined" &&
+    typeof window.document.createElement !== "undefined"
+  );
+
+  const useIsomorphicLayoutEffect = canUseDOM ? useLayoutEffect : useEffect;
   const [style, setStyle] = useState({
     scale: 1.1,
     translateX: 0,
@@ -36,7 +44,7 @@ const Zoom: React.FC<Props> = ({
 
   const windowWidth = window.innerWidth;
   const windowHeight = window.innerHeight;
-  useLayoutEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     if (!mounted.current) {
       setCurrentIndex(startIndex);
       mounted.current = true;

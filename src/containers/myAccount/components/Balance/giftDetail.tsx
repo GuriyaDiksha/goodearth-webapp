@@ -63,12 +63,12 @@ const GiftCardItem = ({
               </span>
             </p>
             <p>
-              <span className={styles.op2}> Date of issue: </span>{" "}
-              <span className={styles.fontBold}> {createDate} </span>
+              <span className={styles.lineHead}> Date of issue: </span>{" "}
+              <span className={styles.line}> {createDate} </span>
             </p>
             <p>
-              <span className={styles.op2}> Date of expiry: </span>{" "}
-              <span className={styles.fontBold}> {expiryDate} </span>
+              <span className={styles.lineHead}> Date of expiry: </span>{" "}
+              <span className={styles.line}> {expiryDate} </span>
             </p>
             {conditionalRefresh && !isLoggedIn && (
               <span
@@ -112,14 +112,10 @@ const GiftCardItem = ({
                 </span>
               </p>
             )}
-            <p className={cl(globalStyles.cerise, globalStyles.voffset1)}>
+            <p className={cl(styles.balance)}>
               {" "}
-              Balance amount:{" "}
-              <span className={styles.fontBold}>
-                {" "}
-                {String.fromCharCode(...unicode)} {remValues}{" "}
-              </span>
-              | Gift Card INACTIVE |{" "}
+              Balance amount: {String.fromCharCode(...unicode)} {remValues} |
+              Gift Card INACTIVE |{" "}
               <Link
                 className={cl(
                   globalStyles.linkTextUnderline,
@@ -215,27 +211,23 @@ const GiftCardItem = ({
             </p>
           )}
           <p>
-            <span className={styles.op2}> Date of issue: </span>{" "}
-            <span className={styles.fontBold}> {createDate} </span>
+            <span className={styles.lineHead}> Date of issue: </span>{" "}
+            <span className={styles.line}> {createDate} </span>
           </p>
           <p>
-            <span className={styles.op2}> Date of expiry: </span>{" "}
-            <span className={styles.fontBold}> {expiryDate} </span>
+            <span className={styles.lineHead}> Date of expiry: </span>{" "}
+            <span className={styles.line}> {expiryDate} </span>
           </p>
           <p>
-            <span className={styles.op2}> Total value: </span>{" "}
-            <span className={styles.fontBold}>
+            <span className={styles.lineHead}> Total value: </span>{" "}
+            <span className={styles.line}>
               {" "}
               {String.fromCharCode(...unicode)} {fullValue}{" "}
             </span>
           </p>
-          <p className={cl(globalStyles.cerise, globalStyles.voffset1)}>
+          <p className={cl(styles.balance)}>
             {" "}
-            Balance amount:{" "}
-            <span className={styles.fontBold}>
-              {" "}
-              {String.fromCharCode(...unicode)} {remValues}{" "}
-            </span>
+            Balance amount: {String.fromCharCode(...unicode)} {remValues}{" "}
           </p>
           {conditionalRefresh && !isLoggedIn && (
             <span
