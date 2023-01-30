@@ -109,7 +109,7 @@ const AnnouncementBar: React.FC<Props> = ({
         ) : (
           data?.map((ele, index) => (
             <div
-              key={"msgtext"}
+              key={index}
               className={
                 data.length > 1 || !isBridalRegistryPage ? "" : styles.width100
               }
