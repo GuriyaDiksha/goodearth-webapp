@@ -296,14 +296,12 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
           );
         })}
         {/* Loyalty Points */}
-        {data.loyalityPointsRedeemed?.map((gccn: number, i: number) => {
+        {data.loyalityPointsRedeemed?.map((point: number, i: number) => {
           return (
             <div className={cs(styles.price, styles.price3, styles.discount)}>
               <span className={styles.label}>Loyalty Points</span>
               <span className={styles.value}>
-                {`(-)${currencyChar} ${parseFloat(
-                  item.loyalityPointsRedeemed
-                ).toFixed(2)}`}
+                {`(-)${currencyChar} ${parseFloat("" + point).toFixed(2)}`}
               </span>
             </div>
           );
