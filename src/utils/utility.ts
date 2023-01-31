@@ -10,6 +10,22 @@ const displayPriceWithCommas = (price: string | number, currency: Currency) => {
   return parseInt(price.toString()).toLocaleString(arg);
 };
 
+const displayPriceWithCommasFloat = (
+  price: string | number,
+  currency: Currency
+) => {
+  let arg = "";
+  if (currency == "INR") {
+    arg = "en-IN";
+  } else {
+    arg = "en-US";
+  }
+  return parseInt(price.toString()).toLocaleString(arg, {
+    maximumFractionDigits: 2,
+    minimumFractionDigits: 2
+  });
+};
+
 const makeid = (length: number) => {
   let result = "";
   const characters =
@@ -21,4 +37,4 @@ const makeid = (length: number) => {
   return result;
 };
 
-export { displayPriceWithCommas, makeid };
+export { displayPriceWithCommas, displayPriceWithCommasFloat, makeid };
