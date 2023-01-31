@@ -174,15 +174,15 @@ $banner-mobile-height:500px;
                         height: 390px;
                         width: 530px;
                         position: relative;
-                        img{
+                        div{
                             height: 100%;
                             width: 100%;
-                            object-fit: contain;
-                            margin: auto; 
-                            position: absolute;
-                            top: 50%;
-                            left: 50%;
-                            transform: translate(-50%, -50%);  
+                            overflow: hidden;
+                            img{
+                                height: 100%;
+                                object-fit: contain;
+                                margin: auto; 
+                            }
                         }
                     }
                 }
@@ -259,8 +259,10 @@ $banner-mobile-height:500px;
                         padding-left: 0px;
                         .img-container{
                             height: 264px;
-                            img{
-                                max-height: 100%;
+                            div{
+                                img{
+                                    max-height: 100%;
+                                }
                             }
                         }
                     }

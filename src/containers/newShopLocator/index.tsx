@@ -207,7 +207,9 @@ class ShopLocator extends Component<Props, State> {
                             className={styles.imgContainer}
                             key={`cafe_${i}`}
                           >
-                            <img key={`cafe_${i}`} src={item.image} />
+                            <div>
+                              <img key={`cafe_${i}`} src={item.image} />
+                            </div>
                           </div>
                         );
                       })}
