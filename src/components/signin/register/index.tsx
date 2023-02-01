@@ -452,6 +452,7 @@ class RegisterForm extends React.Component<Props, registerState> {
                 isEnglish: "Only alphabets are allowed"
               }}
               required
+              showLabel={true}
             />
           </div>
           <div>
@@ -533,6 +534,7 @@ class RegisterForm extends React.Component<Props, registerState> {
                 isMinAllowedDate: "Please enter valid date of birth",
                 isMaxAllowedDate: "Age should be at least 15 years"
               }}
+              showLabel={true}
             />
           </div>
           <div className={styles.countryCode}>
@@ -575,6 +577,7 @@ class RegisterForm extends React.Component<Props, registerState> {
                   ? e.preventDefault()
                   : null
               }
+              showLabel={true}
             />
           </div>
           <div>
