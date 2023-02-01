@@ -2,12 +2,6 @@ import { connect } from "react-redux";
 import mapDispatchToProps from "./mapper/actions";
 import { useLocation, withRouter } from "react-router";
 import React, { useState } from "react";
-import cs from "classnames";
-// import iconStyles from "../../styles/iconFonts.scss";
-import bootstrapStyles from "../../../styles/bootstrap/bootstrap-grid.scss";
-// import { LoginProps } from "./typings";
-// import * as Steps from "../constants";
-// import styles from "../styles.scss";
 import loadable from "@loadable/component";
 import Popup from "../popup/Popup";
 
@@ -47,20 +41,18 @@ const LoginForm: React.FC<{}> = props => {
               goToLogin={goLogin}
             />
           ) : (
-            <div style={{ marginTop: "40px" }}>
-              <MainLogin
-                showRegister={goToRegister}
-                nextStep={nextStep}
-                isBo={""}
-                isCerise={id == "cerise"}
-                // heading={"Welcome"}
-                // subHeading={
-                //   id == "cerise"
-                //     ? "Please enter your registered e-mail address to login to your Cerise account."
-                //     : "Enter your email address to register or sign in."
-                // }
-              />
-            </div>
+            <MainLogin
+              showRegister={goToRegister}
+              nextStep={nextStep}
+              isBo={""}
+              isCerise={id == "cerise"}
+              // heading={"Welcome"}
+              // subHeading={
+              //   id == "cerise"
+              //     ? "Please enter your registered e-mail address to login to your Cerise account."
+              //     : "Enter your email address to register or sign in."
+              // }
+            />
           )}
         </div>
       </div>

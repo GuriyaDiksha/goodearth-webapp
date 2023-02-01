@@ -121,24 +121,14 @@ input[type="checkbox"]:checked + label {
 
 .login-change {
   @include b5_10px_montserrat_charcoal();
-  border: 1px solid #eee;
-  padding: 15px;
-  padding-left: 8px;
-  top: 0px;
-  right: 5px;
-  width: 54px;
-  border-left: none;
-  border-right: none;
   position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 12px;
   cursor: pointer;
-  letter-spacing: 1px;
-  text-transform: none;
-  line-height: 15px;
-  text-align: left;
-  margin-bottom: 10px;
-  background-color: white;
   text-decoration: underline;
-  text-underline-offset: 2px;
+  text-underline-offset: 4px;
+  letter-spacing: 0.3px;
 }
 
 .password-validation {
@@ -283,8 +273,11 @@ span.error-msg {
 
 .error-msg {
   @include err_13px_lora_italic_cerise();
-  margin-top: 5px;
   line-height: 16px;
+  margin-top: 5px;
+  &.main-login-error{
+    margin-bottom: 20px; 
+  }
 }
 
 .login-form-subheading {

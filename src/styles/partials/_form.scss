@@ -27,10 +27,10 @@
 }
 
 .form-subheading {
-  font-size: 12px;
-  font-family: $font-Lato;
-  color: #666;
-  letter-spacing: 1px;
+  @include b4_12px_montserrat_charcoal();
+  letter-spacing: 0.36px;
+  margin-top: 10px;
+  margin-bottom: 48px;
 }
 
 .disabled-input {
@@ -88,6 +88,10 @@
         font-style: normal;
       }
       text-align: start;
+    }
+    &:disabled{
+      color: #9F9F9F;
+      background-color: #d8d8d826;
     }
   }
 }
@@ -320,9 +324,9 @@
     content: '';
     position: absolute;
     left: 0;
-    top: 5px;
-    width: 18px;
-    height: 18px;
+    top: 0;
+    width: 22px;
+    height: 22px;
     background-color: white;
     border: 1px solid $light-charcoal;
 
@@ -341,13 +345,12 @@
     content: '';
     display: block;
     width: 6px;
-    height: 10px;
+    height: 12px;
     border: solid $aqua;
     border-width: 0 2px 2px 0;
     position: absolute;
-    top: 8px;
-    left: 6px;
-    font-size: 18px;
+    top: 4px;
+    left: 8px;
     line-height: 0.8;
     transition: all .1s;
   }
