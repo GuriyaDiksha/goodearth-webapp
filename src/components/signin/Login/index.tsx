@@ -38,7 +38,7 @@ const LoginForm: React.FC<{}> = props => {
   const id = urlParams.get("loginpopup");
   return (
     <Popup>
-      <div className={cs(bootstrapStyles.col10, bootstrapStyles.offset1)}>
+      <div>
         <div>
           {isRegister ? (
             <CheckoutRegisterForm
@@ -47,17 +47,20 @@ const LoginForm: React.FC<{}> = props => {
               goToLogin={goLogin}
             />
           ) : (
-            <MainLogin
-              showRegister={goToRegister}
-              nextStep={nextStep}
-              isBo={""}
-              heading={"Welcome"}
-              subHeading={
-                id == "cerise"
-                  ? "Please enter your registered e-mail address to login to your Cerise account."
-                  : "Enter your email address to register or sign in."
-              }
-            />
+            <div style={{ marginTop: "40px" }}>
+              <MainLogin
+                showRegister={goToRegister}
+                nextStep={nextStep}
+                isBo={""}
+                isCerise={id == "cerise"}
+                // heading={"Welcome"}
+                // subHeading={
+                //   id == "cerise"
+                //     ? "Please enter your registered e-mail address to login to your Cerise account."
+                //     : "Enter your email address to register or sign in."
+                // }
+              />
+            </div>
           )}
         </div>
       </div>

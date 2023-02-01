@@ -50,12 +50,13 @@ const LoginForm: React.FC<{ redirectTo: string }> = ({ redirectTo }) => {
             showRegister={goToRegister}
             nextStep={nextStep}
             isBo={true}
-            heading={"Welcome"}
-            subHeading={
-              id == "cerise"
-                ? "Please enter your registered e-mail address to login to your Cerise account."
-                : "Please enter the New Password to Sign in!"
-            }
+            isCerise={id == "cerise"}
+            // heading={"Welcome"}
+            // subHeading={
+            //   id == "cerise"
+            //     ? "Please enter your registered e-mail address to login to your Cerise account."
+            //     : "Please enter the New Password to Sign in!"
+            // }
           />
         )}
       </div>

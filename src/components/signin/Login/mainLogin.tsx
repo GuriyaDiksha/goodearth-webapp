@@ -39,6 +39,8 @@ class MainLogin extends React.Component<Props, loginState> {
   constructor(props: Props) {
     super(props);
     this.state = {
+      heading: "",
+      subHeading: "",
       email: "",
       password: "",
       msgp: "",
@@ -94,7 +96,9 @@ class MainLogin extends React.Component<Props, loginState> {
                   showCurrentSection: "login",
                   msg: "",
                   highlight: false,
-                  successMsg: ""
+                  successMsg: "",
+                  heading: "Welcome Back!",
+                  subHeading: "Enter your password to sign in."
                 },
                 () => {
                   this.passwordInput.current &&
@@ -193,6 +197,12 @@ class MainLogin extends React.Component<Props, loginState> {
     // }
     // localStorage.removeItem("tempEmail");
     this.firstEmailInput.current?.focus();
+    this.setState({
+      heading: "Welcome",
+      subHeading: this.props.isCerise
+        ? "Please enter your registered e-mail address to login to your Cerise account."
+        : "Enter your email address to register or sign in."
+    });
   }
 
   componentDidUpdate() {
@@ -474,12 +484,13 @@ class MainLogin extends React.Component<Props, loginState> {
             <InputField
               value={this.state.email}
               placeholder={"Email"}
-              label={"Email"}
+              label={"Email ID*"}
               border={this.state.highlight}
               keyUp={e => this.handleKeyUp(e, "email")}
               handleChange={e => this.handleChange(e, "email")}
               error={this.state.msg}
               inputRef={this.firstEmailInput}
+              showLabel={true}
             />
           </div>
           <div>
@@ -492,8 +503,8 @@ class MainLogin extends React.Component<Props, loginState> {
               type="submit"
               className={
                 this.state.isLoginDisabled
-                  ? cs(globalStyles.ceriseBtn, globalStyles.disabledBtn)
-                  : globalStyles.ceriseBtn
+                  ? cs(globalStyles.charcoalBtn, globalStyles.disabledBtn)
+                  : globalStyles.charcoalBtn
               }
               value="continue"
               disabled={this.state.isLoginDisabled}
@@ -523,34 +534,29 @@ class MainLogin extends React.Component<Props, loginState> {
             <InputField
               value={this.state.email}
               placeholder={"Email"}
-              label={"Email"}
+              label={"Email*"}
               border={this.state.highlight}
               error={this.state.msg}
               inputRef={this.emailInput}
               disable={this.state.isPasswordDisabled}
               disablePassword={this.disablePassword}
+              showLabel={true}
             />
-            {this.props.isBo ? (
-              ""
-            ) : (
-              <p className={styles.loginChange} onClick={this.changeEmail}>
-                Change
-              </p>
-            )}
           </div>
           <div>
             <InputField
-              placeholder={"Password"}
+              placeholder={""}
               value={this.state.password}
               keyUp={e => this.handleKeyUp(e, "password")}
               handleChange={e => this.handleChange(e, "password")}
-              label={"Password"}
+              label={"Password*"}
               border={this.state.highlightp}
               inputRef={this.passwordInput}
               isPlaceholderVisible={this.state.isPasswordDisabled}
               error={this.state.msgp}
               type={this.state.showPassword ? "text" : "password"}
               className={inputStyles.password}
+              showLabel={true}
             />
             <span
               className={styles.togglePasswordBtn}
@@ -561,11 +567,7 @@ class MainLogin extends React.Component<Props, loginState> {
           </div>
           <div className={globalStyles.textCenter}>
             <p
-              className={cs(
-                styles.formSubheading,
-                globalStyles.voffset3,
-                globalStyles.pointer
-              )}
+              className={cs(styles.forgotPassword, globalStyles.pointer)}
               onClick={e => {
                 this.props.goForgotPassword(
                   e,
@@ -589,12 +591,26 @@ class MainLogin extends React.Component<Props, loginState> {
               type="submit"
               className={
                 this.state.isSecondStepLoginDisabled
-                  ? cs(globalStyles.ceriseBtn, globalStyles.disabledBtn)
-                  : globalStyles.ceriseBtn
+                  ? cs(globalStyles.charcoalBtn, globalStyles.disabledBtn)
+                  : globalStyles.charcoalBtn
               }
-              value="continue"
+              value="Login to my account"
               disabled={this.state.isSecondStepLoginDisabled}
             />
+            {this.props.isBo ? (
+              ""
+            ) : (
+              <input
+                type="submit"
+                className={cs(
+                  globalStyles.charcoalBtn,
+                  globalStyles.withWhiteBg,
+                  styles.changeEmailBtn
+                )}
+                value="Go Back"
+                onClick={this.changeEmail}
+              />
+            )}
           </div>
         </div>
       </form>
@@ -604,23 +620,6 @@ class MainLogin extends React.Component<Props, loginState> {
         <div className={globalStyles.textCenter}>
           <SocialLogin closeModel={this.context.closeModal} />
         </div>
-
-        {/* <div className={cs(styles.socialLoginText, styles.socialLoginFooter)}>
-          {" "}
-          Not a member?{" "}
-          <span
-            className={cs(globalStyles.cerise, globalStyles.pointer)}
-            onClick={e => {
-              this.props.goRegister(
-                e,
-                (this.emailInput.current && this.emailInput.current.value) || ""
-              );
-            }}
-          >
-            {" "}
-            SIGN UP{" "}
-          </span>
-        </div> */}
       </>
     );
 
@@ -658,8 +657,8 @@ class MainLogin extends React.Component<Props, loginState> {
                 </div>
               </div>
             )}
-            {this.props.heading && (
-              <div className={styles.formHeading}>{this.props.heading}</div>
+            {this.state.heading && (
+              <div className={styles.formHeading}>{this.state.heading}</div>
             )}
             {this.props.heading2 && (
               <>
@@ -667,8 +666,10 @@ class MainLogin extends React.Component<Props, loginState> {
                 <br />
               </>
             )}
-            <div className={styles.formSubheading}>{this.props.subHeading}</div>
-            <div className={cs(bootstrapStyles.col10, bootstrapStyles.offset1)}>
+            <div className={styles.loginFormSubheading}>
+              {this.state.subHeading}
+            </div>
+            <div>
               <div className={styles.loginForm}>{currentForm()}</div>
               {this.props.isBo ? "" : footer}
             </div>

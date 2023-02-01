@@ -1,5 +1,6 @@
 @import "../../styles/partials/form";
 @import "../../styles/partials/variables";
+@import "../../styles/partials/mixins";
 
 .toggle-password-btn {
   width: 26px;
@@ -45,10 +46,9 @@
 
 
 .form-heading {
-  font-size: 25px;
-  font-family: $font-Serif;
-  line-height: 50px;
-  margin-top: 30px;
+  @include h3_20px_lora_charcoal();
+  line-height: 25px;
+  letter-spacing: 0.4px;
 }
 
 .social-login-footer {
@@ -283,5 +283,27 @@ span.error-msg {
 
 .error-msg {
   @include err_13px_lora_italic_cerise();
-  letter-spacing: 0.5px;
+  margin-top: 5px;
+  line-height: 16px;
+}
+
+.login-form-subheading {
+  @include b4_12px_montserrat_charcoal();
+  letter-spacing: 0.36px;
+  margin-top: 10px;
+  margin-bottom: 48px;
+}
+
+
+.change-email-btn{
+  margin-top: 15px;
+}
+
+.forgot-password{
+  @include b5_10px_montserrat_charcoal_caps();
+  letter-spacing: 0.3px;
+  line-height: 18px;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  text-align: right;
 }
