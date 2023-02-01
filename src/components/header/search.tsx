@@ -258,6 +258,15 @@ class Search extends React.Component<Props, State> {
     return self.indexOf(value) === index;
   }
 
+  titleCase(str: string) {
+    const splitStr = str.toLowerCase().split(" ");
+    splitStr?.map((val, i) => {
+      splitStr[i] = val.charAt(0).toUpperCase() + val.substring(1);
+    });
+
+    return splitStr.join(" ");
+  }
+
   recentSearch(value: string | null) {
     const searchValue = value || this.state.searchValue;
     const searchArr = CookieService.getCookie("recentSearch")
@@ -269,7 +278,9 @@ class Search extends React.Component<Props, State> {
       CookieService.setCookie(
         "recentSearch",
         JSON.stringify(
-          [searchValue, ...searchArr].filter(this.onlyUnique).slice(0, 5)
+          [this.titleCase(searchValue), ...searchArr]
+            .filter(this.onlyUnique)
+            .slice(0, 5)
         )
       );
     }
@@ -764,6 +775,7 @@ class Search extends React.Component<Props, State> {
                             <Link
                               to={"/search/?q=" + ele}
                               onClick={() => {
+                                this.recentSearch(ele);
                                 this.props.hideSearch();
                               }}
                               key={ind}
