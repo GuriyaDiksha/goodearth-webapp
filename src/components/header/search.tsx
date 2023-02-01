@@ -787,7 +787,8 @@ class Search extends React.Component<Props, State> {
                                 iconStyles.icon,
                                 iconStyles.iconCross,
                                 styles.iconStyle,
-                                styles.iconSearchCross
+                                styles.iconSearchCross,
+                                styles.searchCross
                               )}
                               onClick={() => {
                                 this.setState({
