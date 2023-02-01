@@ -22,7 +22,7 @@ const Home: React.FC = () => {
       window.scrollTo(0, 0);
     }, 1000);
     const userConsent = CookieService.getCookie("consent").split(",");
-    if (userConsent.includes(GA_CALLS) || true) {
+    if (userConsent.includes(GA_CALLS)) {
       dataLayer.push(function(this: any) {
         this.reset();
       });
@@ -33,7 +33,7 @@ const Home: React.FC = () => {
         Page_Title: "virtual_homePage_view"
       });
     }
-    if (userConsent.includes(ANY_ADS) || true) {
+    if (userConsent.includes(ANY_ADS)) {
       Moengage.track_event("Page viewed", {
         "Page URL": location.pathname,
         "Page Name": "HomePageView"

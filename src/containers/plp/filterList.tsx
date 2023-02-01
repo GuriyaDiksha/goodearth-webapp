@@ -353,7 +353,7 @@ class FilterList extends React.Component<Props, State> {
       rangevalue: [value[0], value[1]]
     });
     const userConsent = CookieService.getCookie("consent").split(",");
-    if (userConsent.includes(GA_CALLS) || true) {
+    if (userConsent.includes(GA_CALLS)) {
       dataLayer.push({
         event: "Filter used",
         "Filter type": "Price",
@@ -494,7 +494,10 @@ class FilterList extends React.Component<Props, State> {
       const pageSize = 20;
       const urlParams = new URLSearchParams(this.props.history.location.search);
       const categoryShop = urlParams.get("category_shop");
-      const categoryShopL1 = urlParams.get("category_shop")?.split(">")[0];
+      const categoryShopL1 = urlParams
+        .get("category_shop")
+        ?.split(">")[1]
+        ?.trim();
       updateProduct(filterUrl + `&page_size=${pageSize}`, listdata).then(
         plpList => {
           changeLoader?.(false);
@@ -584,7 +587,10 @@ class FilterList extends React.Component<Props, State> {
     const filterUrl = "?" + url.split("?")[1];
     const urlParams = new URLSearchParams(history.location.search);
     const categoryShop = urlParams.get("category_shop");
-    const categoryShopL1 = urlParams.get("category_shop")?.split(">")[0];
+    const categoryShopL1 = urlParams
+      .get("category_shop")
+      ?.split(">")[1]
+      ?.trim();
     // const pageSize = mobile ? 10 : 20;
     const pageSize = 20;
     fetchPlpProducts(filterUrl + `&page_size=${pageSize}`).then(plpList => {
@@ -1306,7 +1312,7 @@ class FilterList extends React.Component<Props, State> {
       oldSelectedCategory: event.target.value
     });
     const userConsent = CookieService.getCookie("consent").split(",");
-    if (userConsent.includes(GA_CALLS) || true) {
+    if (userConsent.includes(GA_CALLS)) {
       dataLayer.push({
         event: "Filter used",
         "Filter type": "Category",
@@ -1399,7 +1405,7 @@ class FilterList extends React.Component<Props, State> {
       value: event.target.value
     };
     const userConsent = CookieService.getCookie("consent").split(",");
-    if (userConsent.includes(GA_CALLS) || true) {
+    if (userConsent.includes(GA_CALLS)) {
       dataLayer.push({
         event: "Filter used",
         "Filter type": "Color",
@@ -1523,7 +1529,7 @@ class FilterList extends React.Component<Props, State> {
       value: event.target.value
     };
     const userConsent = CookieService.getCookie("consent").split(",");
-    if (userConsent.includes(GA_CALLS) || true) {
+    if (userConsent.includes(GA_CALLS)) {
       dataLayer.push({
         event: "Filter used",
         "Filter type": "Size​",
@@ -2150,49 +2156,51 @@ class FilterList extends React.Component<Props, State> {
             </div>
           </li>
 
-          {/* <li>
-            <span
-              className={
-                this.state.activeindex == 4 && this.state.showmenulevel1
-                  ? cs(styles.menulevel1, styles.menulevel1Open)
-                  : styles.menulevel1
-              }
-              onClick={() => {
-                this.Clickmenulevel1(4);
-                this.handleAnimation(
-                  "material",
+          {this.props.facets?.currentMaterial?.length > 0 ? (
+            <li>
+              <span
+                className={
                   this.state.activeindex == 4 && this.state.showmenulevel1
-                );
-              }}
-            >
-              MATERIAL
-            </span>
-            <div
-              id="material"
-              className={
-                this.state.activeindex == 4 && this.state.showmenulevel1
-                  ? styles.colorhead
-                  : styles.hideDiv
-              }
-            >
-              <ul>
-                <span>
-                  {this.createMaterial(
-                    this.props.facets,
-                    this.props.filtered_facets
-                  )}
-                </span>
-                <div data-name="currentMaterial">
-                  <span
-                    onClick={e => this.clearFilter(e, "currentMaterial")}
-                    className={styles.plp_filter_sub}
-                  >
-                    Clear
+                    ? cs(styles.menulevel1, styles.menulevel1Open)
+                    : styles.menulevel1
+                }
+                onClick={() => {
+                  this.Clickmenulevel1(4);
+                  this.handleAnimation(
+                    "material",
+                    this.state.activeindex == 4 && this.state.showmenulevel1
+                  );
+                }}
+              >
+                MATERIAL
+              </span>
+              <div
+                id="material"
+                className={
+                  this.state.activeindex == 4 && this.state.showmenulevel1
+                    ? styles.colorhead
+                    : styles.hideDiv
+                }
+              >
+                <ul>
+                  <span>
+                    {this.createMaterial(
+                      this.props.facets,
+                      this.props.filtered_facets
+                    )}
                   </span>
-                </div>
-              </ul>
-            </div>
-          </li> */}
+                  <div data-name="currentMaterial">
+                    <span
+                      onClick={e => this.clearFilter(e, "currentMaterial")}
+                      className={styles.plp_filter_sub}
+                    >
+                      Clear
+                    </span>
+                  </div>
+                </ul>
+              </div>
+            </li>
+          ) : null}
           {this.props.facets.availableSize ? (
             this.props.facets.availableSize.length > 0 ? (
               <li>

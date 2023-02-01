@@ -2,7 +2,6 @@ import React, { ChangeEvent } from "react";
 import cs from "classnames";
 import { AppState } from "reducers/typings";
 import { connect, DispatchProp } from "react-redux";
-import MakerEnhance from "components/maker";
 
 import Formsy from "formsy-react";
 import FormSelect from "../../components/Formsy/FormSelect";
@@ -17,7 +16,7 @@ import { Link } from "react-router-dom";
 import { Basket } from "typings/basket";
 import { MESSAGE } from "constants/messages";
 
-function makeid(length: number) {
+const makeid = (length: number) => {
   let result = "";
   const characters =
     "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
@@ -26,7 +25,17 @@ function makeid(length: number) {
     result += characters.charAt(Math.floor(Math.random() * charactersLength));
   }
   return result;
-}
+};
+
+const displayPriceWithCommas = (price: string | number, currency: Currency) => {
+  let arg = "";
+  if (currency == "INR") {
+    arg = "en-IN";
+  } else {
+    arg = "en-US";
+  }
+  return parseInt(price.toString()).toLocaleString(arg);
+};
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -65,7 +74,6 @@ type State = {
   selectCountryErrorMsg: string;
   previewOpen: boolean;
   formDisabled: boolean;
-  maker: boolean;
   key: string;
 };
 
@@ -93,7 +101,7 @@ class NewGiftcard extends React.Component<Props, State> {
       recipientName: "",
       recipientEmail: "",
       confirmRecipientEmail: "",
-      message: "",
+      message: "Here is a gift for you!",
       senderName: "",
       englishandSpace: /^[a-zA-Z\s]+$/,
       subscribe: false,
@@ -102,7 +110,6 @@ class NewGiftcard extends React.Component<Props, State> {
       customValue: "",
       previewOpen: false,
       formDisabled: true,
-      maker: false,
       key: makeid(5)
     };
   }
@@ -394,13 +401,21 @@ class NewGiftcard extends React.Component<Props, State> {
           currency: newCurrency,
           selectedCountry: newCountry,
           selectCountryErrorMsg: "",
-          currencyCharCode: currencyCode[newCurrency]
+          currencyCharCode: currencyCode[newCurrency],
+          cardId: "",
+          cardValue: "",
+          customValue: "",
+          customValueErrorMsg: ""
         });
       } else {
         this.setState({
           currency: newCurrency,
           selectedCountry: "",
-          currencyCharCode: currencyCode[newCurrency]
+          currencyCharCode: currencyCode[newCurrency],
+          cardId: "",
+          cardValue: "",
+          customValue: "",
+          customValueErrorMsg: ""
         });
       }
     }
@@ -464,7 +479,6 @@ class NewGiftcard extends React.Component<Props, State> {
       currencyCharCode: currencyCode[this.props.currency]
     });
     util.pageViewGTM("GiftCard");
-    this.setState({ maker: true });
   }
 
   render(): React.ReactNode {
@@ -493,7 +507,6 @@ class NewGiftcard extends React.Component<Props, State> {
       customValue,
       previewOpen,
       formDisabled,
-      maker,
       key
     } = this.state;
     const list = Object.keys(countryData).map(key => {
@@ -510,360 +523,367 @@ class NewGiftcard extends React.Component<Props, State> {
         })}
         key={key}
       >
-        {maker && (
-          <MakerEnhance
-            user="goodearth"
-            index="1"
-            href={`${window.location.origin}${location.pathname}`}
-          />
-        )}
-        <div className={styles.container}>
-          <div className={styles.previewGc}>
-            <div className={styles.title}>Preview</div>
-            <div className={styles.imageContainer}>
-              <img src={selectedImage} />
-            </div>
-            <div className={styles.salutation}>
-              Dear {recipientName ? recipientName : `[Reciever's Name]`}
-            </div>
-            <div className={styles.staticMsg}>
-              You have recieved a Good Earth eGift card worth
-            </div>
-            <div className={styles.gcAmount}>
-              {String.fromCharCode(...currencyCharCode)}&nbsp;&nbsp;
-              {cardValue ? cardValue : customValue}
-            </div>
-            <div className={styles.senderName}>
-              From {senderName ? senderName : `[Sender's Name]`}
-            </div>
-            <div className={styles.theirMessage}>Their Message:</div>
-            <div className={styles.message}>{message}</div>
-            <div className={styles.theirMessage}>
-              Apply this code during checkout :
-            </div>
-            <div className={styles.dummyCode}>
-              <span>xxxxxx</span>
-            </div>
-            <div className={styles.note}>
-              Please Note: All our gift cards are valid for a period of 11
-              months from date of purchase.
-            </div>
-          </div>
-          <div className={styles.formGc}>
-            <div className={styles.formHeader}>E-Gift Card</div>
-            {/* 1. Card Design */}
-            <div className={styles.cardDesign}>
-              <div className={styles.sectionTitle}>Card Design</div>
-              <div className={styles.designsContainer}>
-                {giftImages.map((img, i) => {
-                  return (
-                    <div
-                      className={cs(styles.imgOptions, {
-                        [styles.selected]: img == selectedImage
-                      })}
-                      onClick={() => this.onImageClick(img)}
-                      key={`gift_${i}`}
-                    >
-                      <img src={img} />
-                    </div>
-                  );
-                })}
+        <div className={styles.banner}>
+          <div className={styles.bannerText}>The Art of Gifting</div>
+        </div>
+        <div className={styles.pageBody}>
+          <div className={styles.container}>
+            <div
+              className={cs(styles.previewGc, {
+                [styles.saleTimerPosition]: this.props.saleTimer
+              })}
+              ref={ele => (this.container = ele)}
+            >
+              <div className={styles.title}>Preview</div>
+              <div className={styles.imageContainer}>
+                <img src={selectedImage} />
               </div>
-            </div>
-            {/* 2. Shipping Destination */}
-            <div className={styles.shippingDestination}>
-              <div className={styles.sectionTitle}>Shipping Destination</div>
-              <div className={styles.selectGroup}>
-                <Formsy>
-                  <FormSelect
-                    required
-                    label=""
-                    value={selectedCountry}
-                    placeholder="Select Country"
-                    options={list}
-                    handleChange={this.onCountrySelect}
-                    name="country"
-                    validations={{
-                      isExisty: true
-                    }}
-                    validationErrors={{
-                      isExisty: "This field is required"
-                    }}
-                  />
-                </Formsy>
-                {selectCountryErrorMsg && (
-                  <div className={styles.errorMessage}>
-                    {selectCountryErrorMsg}
-                  </div>
-                )}
+              <div className={styles.salutation}>
+                Dear {recipientName ? recipientName : `[Reciever's Name]`}
+              </div>
+              <div className={styles.staticMsg}>
+                You have recieved a Good Earth eGift card worth
+              </div>
+              <div className={styles.gcAmount}>
+                {String.fromCharCode(...currencyCharCode)}&nbsp;&nbsp;
+                {+cardValue > 0
+                  ? displayPriceWithCommas(cardValue, currency)
+                  : +customValue > 0
+                  ? displayPriceWithCommas(customValue, currency)
+                  : ""}
+              </div>
+              <div className={styles.senderName}>
+                From {senderName ? senderName : `[Sender's Name]`}
+              </div>
+              <div className={styles.theirMessage}>Their Message:</div>
+              <div className={styles.message}>{message}</div>
+              <div className={styles.theirMessage}>
+                Apply this code during checkout :
+              </div>
+              <div className={styles.dummyCode}>
+                <span>xxxxxx</span>
               </div>
               <div className={styles.note}>
-                Please note: Gift cards can only be redeemed in the currency
-                they are bought in, so please choose the country based on your
-                recipient’s address
+                Please Note: All our gift cards are valid for a period of 11
+                months from date of purchase.
               </div>
             </div>
-            {/* 3. Card Value */}
-            <div className={styles.cardValue}>
-              <div className={styles.sectionTitle}>Card Value</div>
-              <div className={styles.pricesContainer}>
-                {productData.sort(this.compare).map((pro: any) => {
-                  return pro.sku != sku ? (
-                    <div
-                      key={pro.sku}
-                      onClick={(e: any) => {
-                        this.onCardValueClick(e);
-                      }}
-                      data-value={pro.priceRecords[currency]}
-                      className={cs({
-                        [styles.selected]: cardId == pro.id
-                      })}
-                      id={pro.id}
-                    >
-                      {String.fromCharCode(...currencyCharCode) +
-                        " " +
-                        pro.priceRecords[currency]}
-                    </div>
-                  ) : (
-                    ""
-                  );
-                })}
-              </div>
-              <div className={styles.sectionTitle}>
-                (or choose your own value)
-              </div>
-              {/* Custom Value Input */}
-              <form>
-                {productData.map((pro: any) => {
-                  return pro.sku == sku ? (
-                    <div className={styles.customValueInput} key={sku}>
-                      <input
-                        type="number"
-                        id={pro.id}
-                        placeholder="Enter Custom Value"
-                        onChange={this.onCustomValueChange}
-                        value={customValue}
-                        className={cs({
-                          [styles.aquaBorder]: customValue != ""
+            <div className={styles.formGc}>
+              <div className={styles.formHeader}>E-Gift Card</div>
+              {/* 1. Card Design */}
+              <div className={styles.cardDesign}>
+                <div className={styles.sectionTitle}>Card Design</div>
+                <div className={styles.designsContainer}>
+                  {giftImages.map((img, i) => {
+                    return (
+                      <div
+                        className={cs(styles.imgOptions, {
+                          [styles.selected]: img == selectedImage
                         })}
-                        onKeyPress={e => {
-                          const regex = /^[0-9]+$/;
-                          if (regex.test(e.key)) {
-                            this.onCustomValueChange(e);
-                          } else {
+                        onClick={() => this.onImageClick(img)}
+                        key={`gift_${i}`}
+                      >
+                        <img src={img} />
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+              {/* 2. Shipping Destination */}
+              <div className={styles.shippingDestination}>
+                <div className={styles.sectionTitle}>Shipping Destination</div>
+                <div className={styles.selectGroup}>
+                  <Formsy>
+                    <FormSelect
+                      required
+                      label=""
+                      value={selectedCountry}
+                      placeholder="Select Country"
+                      options={list}
+                      handleChange={this.onCountrySelect}
+                      name="country"
+                      validations={{
+                        isExisty: true
+                      }}
+                      validationErrors={{
+                        isExisty: "This field is required"
+                      }}
+                    />
+                  </Formsy>
+                  {selectCountryErrorMsg && (
+                    <div className={styles.errorMessage}>
+                      {selectCountryErrorMsg}
+                    </div>
+                  )}
+                </div>
+                <div className={styles.note}>
+                  Please note: Gift cards can only be redeemed in the currency
+                  they are bought in, so please choose the country based on your
+                  recipient’s address
+                </div>
+              </div>
+              {/* 3. Card Value */}
+              <div className={styles.cardValue}>
+                <div className={styles.sectionTitle}>Card Value</div>
+                <div className={styles.pricesContainer}>
+                  {productData.sort(this.compare).map((pro: any) => {
+                    return pro.sku != sku ? (
+                      <div
+                        key={pro.sku}
+                        onClick={(e: any) => {
+                          this.onCardValueClick(e);
+                        }}
+                        data-value={pro.priceRecords[currency]}
+                        className={cs({
+                          [styles.selected]: cardId == pro.id
+                        })}
+                        id={pro.id}
+                      >
+                        {String.fromCharCode(...currencyCharCode) +
+                          " " +
+                          displayPriceWithCommas(
+                            pro.priceRecords[currency],
+                            currency
+                          )}
+                      </div>
+                    ) : (
+                      ""
+                    );
+                  })}
+                </div>
+                <div className={styles.sectionTitle}>
+                  (or choose your own value)
+                </div>
+                {/* Custom Value Input */}
+                <form>
+                  {productData.map((pro: any) => {
+                    return pro.sku == sku ? (
+                      <div className={styles.customValueInput} key={sku}>
+                        <input
+                          type="number"
+                          id={pro.id}
+                          placeholder="Enter Custom Value"
+                          onChange={this.onCustomValueChange}
+                          value={customValue}
+                          className={cs({
+                            [styles.aquaBorder]: customValue != ""
+                          })}
+                          onKeyPress={e => {
+                            const regex = /^[0-9]+$/;
+                            if (regex.test(e.key)) {
+                              this.onCustomValueChange(e);
+                            } else {
+                              e.preventDefault();
+                              return false;
+                            }
+                          }}
+                          onPaste={e => {
                             e.preventDefault();
                             return false;
-                          }
-                        }}
-                        onPaste={e => {
-                          e.preventDefault();
-                          return false;
-                        }}
-                      />
-                      <div className={styles.curr}>
-                        {" "}
-                        {String.fromCharCode(...currencyCharCode)}{" "}
+                          }}
+                        />
+                        <div className={styles.curr}>
+                          {" "}
+                          {String.fromCharCode(...currencyCharCode)}{" "}
+                        </div>
                       </div>
+                    ) : (
+                      ""
+                    );
+                  })}
+                  {customValueErrorMsg && (
+                    <div className={styles.errorMessage}>
+                      {customValueErrorMsg}
                     </div>
-                  ) : (
-                    ""
-                  );
-                })}
-                {customValueErrorMsg && (
-                  <div className={styles.errorMessage}>
-                    {customValueErrorMsg}
-                  </div>
-                )}
-              </form>
-            </div>
-            {/* 4.E-Gift Card Details */}
-            <div className={styles.eGiftCardDetails}>
-              <div className={styles.sectionTitle}>E-GIFT CARD DETAILS</div>
-              <Formsy
-                onValid={() => {
-                  this.setState({
-                    formDisabled: false
-                  });
-                }}
-                onInvalid={() => {
-                  this.setState({
-                    formDisabled: true
-                  });
-                }}
-              >
-                <FormInput
-                  name="recipientName"
-                  placeholder={"Recipient's Name"}
-                  label={"Recipient's Name *"}
-                  value={recipientName}
-                  handleChange={this.onRecipientNameChange}
-                  keyPress={e => (e.key == "Enter" ? e.preventDefault() : "")}
-                  validations={{
-                    isEnglish: (values, value) => {
-                      if (value) {
-                        const bool = englishandSpace.test(value);
-                        return bool;
-                      } else return true;
-                    }
+                  )}
+                </form>
+              </div>
+              {/* 4.E-Gift Card Details */}
+              <div className={styles.eGiftCardDetails}>
+                <div className={styles.sectionTitle}>E-GIFT CARD DETAILS</div>
+                <Formsy
+                  onValid={() => {
+                    this.setState({
+                      formDisabled: false
+                    });
                   }}
-                  validationErrors={{
-                    isEnglish: "Only alphabets are allowed"
+                  onInvalid={() => {
+                    this.setState({
+                      formDisabled: true
+                    });
                   }}
-                  required
-                />
-                <FormInput
-                  name="recipientEmail"
-                  placeholder={"Recipient's Email"}
-                  label={"Recipient's Email *"}
-                  handleChange={this.onRecipientEmailChange}
-                  value={recipientEmail}
-                  keyPress={e => (e.key == "Enter" ? e.preventDefault() : "")}
-                  validations={{
-                    isEmail: true,
-                    maxLength: 75
-                  }}
-                  validationErrors={{
-                    isEmail: "Please enter a valid Email ID",
-                    maxLength:
-                      "You are allowed to enter upto 75 characters only"
-                  }}
-                  required
-                />
-                <FormInput
-                  name="recipientEmailConfirm"
-                  placeholder={"Confirm Recipient's Email"}
-                  label={"Confirm Recipient's Email *"}
-                  handleChange={this.onConfirmRecipientEmailChange}
-                  keyPress={e => (e.key == "Enter" ? e.preventDefault() : "")}
-                  value={confirmRecipientEmail}
-                  isDrop={true}
-                  isPaste={true}
-                  validations={{
-                    isEmail: true,
-                    maxLength: 75,
-                    equalsField: "recipientEmail"
-                  }}
-                  validationErrors={{
-                    isEmail: "Please enter a valid Email ID",
-                    maxLength:
-                      "You are allowed to enter upto 75 characters only",
-                    equalsField: "The Email ID entered doesn't match"
-                  }}
-                  required
-                />
-                <FormTextArea
-                  placeholder=""
-                  maxLength={248}
-                  name="message"
-                  rows={5}
-                  value={message}
-                  id="sender_msg"
-                  handleChange={e => {
-                    this.onMessageChange(e);
-                  }}
-                  required
-                  validations={{
-                    isEmpty: (values, value) => {
-                      return value?.trim() ? true : false;
-                    }
-                  }}
-                  validationErrors={{
-                    isEmpty: "Please enter your message"
-                  }}
-                ></FormTextArea>
-                <div className={cs(styles.limit)}>
-                  Character Limit:{" "}
-                  {248 - (message.trim() == "" ? 0 : message.length)} / 248
-                </div>
-                <FormInput
-                  name="senderName"
-                  placeholder={"Sender's Name"}
-                  label={"Sender's Name *"}
-                  value={senderName}
-                  handleChange={this.onSenderNameChange}
-                  keyPress={e => (e.key == "Enter" ? e.preventDefault() : "")}
-                  validations={{
-                    isEnglish: (values, value) => {
-                      if (value) {
-                        const bool = englishandSpace.test(value);
-                        return bool;
-                      } else return true;
-                    }
-                  }}
-                  validationErrors={{
-                    isEnglish: "Only alphabets are allowed"
-                  }}
-                  required
-                />
-                <div
-                  className={styles.subscribe}
-                  ref={ele => (this.container = ele)}
                 >
-                  <FormCheckbox
-                    value={subscribe || false}
-                    name="subscribe"
-                    disable={false}
-                    handleChange={(
-                      event: ChangeEvent<HTMLInputElement>
-                    ): void => {
-                      const checked = event.currentTarget.checked;
-                      if (checked) {
-                        this.setState({ subscribe: true });
-                      } else {
-                        this.setState({ subscribe: false });
+                  <FormInput
+                    name="recipientName"
+                    placeholder={"Recipient's Name"}
+                    label={"Recipient's Name *"}
+                    value={recipientName}
+                    handleChange={this.onRecipientNameChange}
+                    keyPress={e => (e.key == "Enter" ? e.preventDefault() : "")}
+                    validations={{
+                      isEnglish: (values, value) => {
+                        if (value) {
+                          const bool = englishandSpace.test(value);
+                          return bool;
+                        } else return true;
                       }
                     }}
-                    id="subscribe"
-                    label={[
-                      "I agree to the ",
-                      <Link
-                        key="terms"
-                        to="/customer-assistance/terms-conditions?id=giftcardpolicy"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        Terms and Conditions.
-                      </Link>,
-                      " To know more how we keep your data safe, refer to our ",
-                      <Link
-                        key="privacy"
-                        to="/customer-assistance/privacy-policy"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        Privacy Policy.
-                      </Link>
-                    ]}
-                    validations="isTrue"
+                    validationErrors={{
+                      isEnglish: "Only alphabets are allowed"
+                    }}
                     required
                   />
+                  <FormInput
+                    name="recipientEmail"
+                    placeholder={"Recipient's Email"}
+                    label={"Recipient's Email *"}
+                    handleChange={this.onRecipientEmailChange}
+                    value={recipientEmail}
+                    keyPress={e => (e.key == "Enter" ? e.preventDefault() : "")}
+                    validations={{
+                      isEmail: true,
+                      maxLength: 75
+                    }}
+                    validationErrors={{
+                      isEmail: "Please enter a valid Email ID",
+                      maxLength:
+                        "You are allowed to enter upto 75 characters only"
+                    }}
+                    required
+                  />
+                  <FormInput
+                    name="recipientEmailConfirm"
+                    placeholder={"Confirm Recipient's Email"}
+                    label={"Confirm Recipient's Email *"}
+                    handleChange={this.onConfirmRecipientEmailChange}
+                    keyPress={e => (e.key == "Enter" ? e.preventDefault() : "")}
+                    value={confirmRecipientEmail}
+                    isDrop={true}
+                    isPaste={true}
+                    validations={{
+                      isEmail: true,
+                      maxLength: 75,
+                      equalsField: "recipientEmail"
+                    }}
+                    validationErrors={{
+                      isEmail: "Please enter a valid Email ID",
+                      maxLength:
+                        "You are allowed to enter upto 75 characters only",
+                      equalsField: "The Email ID entered doesn't match"
+                    }}
+                    required
+                  />
+                  <FormTextArea
+                    placeholder=""
+                    maxLength={248}
+                    name="message"
+                    rows={5}
+                    value={message}
+                    id="sender_msg"
+                    handleChange={e => {
+                      this.onMessageChange(e);
+                    }}
+                    required
+                    validations={{
+                      isEmpty: (values, value) => {
+                        return value?.trim() ? true : false;
+                      }
+                    }}
+                    validationErrors={{
+                      isEmpty: "Please enter your message"
+                    }}
+                  ></FormTextArea>
+                  <div className={cs(styles.limit)}>
+                    Character Limit:{" "}
+                    {248 - (message.trim() == "" ? 0 : message.length)} / 248
+                  </div>
+                  <FormInput
+                    name="senderName"
+                    placeholder={"Sender's Name"}
+                    label={"Sender's Name *"}
+                    value={senderName}
+                    handleChange={this.onSenderNameChange}
+                    keyPress={e => (e.key == "Enter" ? e.preventDefault() : "")}
+                    validations={{
+                      isEnglish: (values, value) => {
+                        if (value) {
+                          const bool = englishandSpace.test(value);
+                          return bool;
+                        } else return true;
+                      }
+                    }}
+                    validationErrors={{
+                      isEnglish: "Only alphabets are allowed"
+                    }}
+                    required
+                  />
+                  <div className={styles.subscribe}>
+                    <FormCheckbox
+                      value={subscribe || false}
+                      name="subscribe"
+                      disable={false}
+                      handleChange={(
+                        event: ChangeEvent<HTMLInputElement>
+                      ): void => {
+                        const checked = event.currentTarget.checked;
+                        if (checked) {
+                          this.setState({ subscribe: true });
+                        } else {
+                          this.setState({ subscribe: false });
+                        }
+                      }}
+                      id="subscribe"
+                      label={[
+                        "I agree to the ",
+                        <Link
+                          key="terms"
+                          to="/customer-assistance/terms-conditions?id=giftcardpolicy"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          Terms and Conditions.
+                        </Link>,
+                        " To know more how we keep your data safe, refer to our ",
+                        <Link
+                          key="privacy"
+                          to="/customer-assistance/privacy-policy"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          Privacy Policy.
+                        </Link>
+                      ]}
+                      validations="isTrue"
+                      required
+                    />
+                  </div>
+                </Formsy>
+              </div>
+              {/* 5. Add to Bag */}
+              {!mobile && (
+                <div
+                  className={cs(styles.addToBag, {
+                    [styles.active]:
+                      !formDisabled && selectedCountry != "" && cardId != ""
+                  })}
+                  onClick={this.onSubmit}
+                >
+                  <a>ADD TO BAG</a>
                 </div>
-              </Formsy>
-            </div>
-            {/* 5. Add to Bag */}
-            {!mobile && (
-              <div
-                className={cs(styles.addToBag, {
-                  [styles.active]:
-                    !formDisabled && selectedCountry != "" && cardId != ""
-                })}
-                onClick={this.onSubmit}
-              >
-                <a>ADD TO BAG</a>
+              )}
+              {/* 6. Contact Us */}
+              <div className={styles.contactUs}>
+                <div className={styles.queriesTitle}>
+                  FOR QUERIES OR ASSISTANCE
+                </div>
+                <div className={styles.queriesInfo}>
+                  customercare@goodearth.in
+                </div>
+                <div className={styles.queriesInfo}>
+                  +91 95829 995555 / +91 95829 99888
+                </div>
+                <div className={styles.queriesInfo}>Mon- Sat | 9am-5pm IST</div>
               </div>
-            )}
-            {/* 6. Contact Us */}
-            <div className={styles.contactUs}>
-              <div className={styles.querriesTitle}>
-                FOR QUERRIES OR ASSISTANCE
-              </div>
-              <div className={styles.querriesInfo}>
-                customercare@goodearth.in
-              </div>
-              <div className={styles.querriesInfo}>
-                +91 95829 995555/ +91 95829 99888
-              </div>
-              <div className={styles.querriesInfo}>Mon- Sat | 9am-5pm IST</div>
             </div>
           </div>
         </div>
@@ -881,21 +901,19 @@ class NewGiftcard extends React.Component<Props, State> {
         )}
         {mobile && (
           <div
-            className={cs(
-              styles.addToBag,
-              {
-                [styles.active]:
-                  !formDisabled && selectedCountry != "" && cardId != ""
-              },
-              { [styles.previewOpen]: previewOpen }
-            )}
+            className={cs(styles.addToBag, {
+              [styles.active]:
+                !formDisabled && selectedCountry != "" && cardId != ""
+            })}
             onClick={this.onSubmit}
           >
             <a>ADD TO BAG</a>
           </div>
         )}
-        {previewOpen && (
-          <div className={styles.previewModal}>
+        {mobile && (
+          <div
+            className={cs(styles.previewModal, { [styles.open]: previewOpen })}
+          >
             <div
               className={styles.backToGcDetails}
               onClick={this.onBackToGcClick}

@@ -11,22 +11,27 @@ import { Consent } from "services/widget/typings";
 import { clone } from "lodash";
 import globalStyles from "../../styles/global.scss";
 import fontStyles from "styles/iconFonts.scss";
+import { OLD_COOKIE_SETTINGS } from "constants/cookieConsent";
 
 type Props = {
   hideCookies: any;
   acceptCookies: any;
   setConsent: any;
+  showCookiePref: boolean;
+  showCookiePrefs: any;
 };
 
 const CookiePolicy: React.FC<Props> = ({
   setConsent,
   acceptCookies,
-  hideCookies
+  hideCookies,
+  showCookiePref,
+  showCookiePrefs
 }) => {
   const [isPrefOpen, setIsPrefOpen] = useState(false);
   const [consents, setConsents] = useState<Consent[]>([]);
   const [regionName, setRegion] = useState<string>("");
-  const { region, widgetDetail, ip, country } = useSelector(
+  const { widgetDetail, ip, country } = useSelector(
     (state: AppState) => state.widget
   );
   const { email } = useSelector((state: AppState) => state.user);
@@ -38,6 +43,10 @@ const CookiePolicy: React.FC<Props> = ({
       document.body.classList.remove(globalStyles.noScroll);
     };
   }, []);
+
+  useEffect(() => {
+    setIsPrefOpen(showCookiePref);
+  }, [showCookiePref]);
 
   useEffect(() => {
     //setRegion("India");
@@ -54,13 +63,24 @@ const CookiePolicy: React.FC<Props> = ({
   }, [country]);
 
   useEffect(() => {
-    setConsents(widgetDetail?.consents || []);
+    const consent = widgetDetail?.consents || [];
+    if (CookieService.getCookie("consent") !== "") {
+      consent.map(e => {
+        if (CookieService.getCookie("consent")?.includes(e?.functionalities)) {
+          e.value = true;
+        } else {
+          e.value = false;
+        }
+      });
+    }
+
+    setConsents(consent || []);
   }, [widgetDetail]);
 
-  const changeValue = (checked: boolean, id: number) => {
+  const changeValue = (checked: boolean, id: string) => {
     const cloneConsent = clone(consents);
-    cloneConsent.map(e => {
-      if (Number(e.id) === id) {
+    cloneConsent.map((e, i) => {
+      if (`${e.id}${i}` === id) {
         e.value = checked;
       }
     });
@@ -73,19 +93,35 @@ const CookiePolicy: React.FC<Props> = ({
     //   .map((e: any) => e.functionalities)
     //   .join(",");
 
-    // CookieService.setCookie("consent", "GA-Calls,Any-Ads", 365); //Hardcoded consents
+    showCookiePrefs();
+    if (OLD_COOKIE_SETTINGS) {
+      CookieService.setCookie(
+        "consent",
+        "GA-Calls,Any-Ads,Search-History",
+        365
+      ); //Hardcoded consents
+    } else {
+      CookieService.setCookie(
+        "consent",
+        consents
+          .filter((e: any) => e.value === true)
+          .map((e: any) => e?.functionalities)
+          .join(","),
+        365
+      );
+      CookieService.setCookie("recentSearch", JSON.stringify([]));
 
-    WidgetService.postConsentDetail(store.dispatch, {
-      ip: ip || CookieService.getCookie("ip"),
-      consents: consents
-        .filter((e: any) => e.value === true)
-        .map((e: any) => e.name)
-        .join(","),
-      country: country || CookieService.getCookie("country"),
-      widget_name: regionName === "India" ? "INDIA" : "ROTW",
-      email: email || ""
-    });
-    setConsent();
+      WidgetService.postConsentDetail(store.dispatch, {
+        ip: ip || CookieService.getCookie("ip"),
+        consents: consents
+          .filter((e: any) => e.value === true)
+          .map((e: any) => e.functionalities)
+          .join(","),
+        country: country || CookieService.getCookie("country"),
+        widget_name: regionName === "India" ? "INDIA" : "ROTW",
+        email: email || ""
+      });
+    }
   };
 
   const acceptAll = () => {
@@ -111,8 +147,16 @@ const CookiePolicy: React.FC<Props> = ({
   };
 
   const hideCookie = () => {
-    // CookieService.setCookie("consent", "GA-Calls,Any-Ads", 365); //Hardcoded consents
+    setConsent(true);
+    if (OLD_COOKIE_SETTINGS) {
+      CookieService.setCookie(
+        "consent",
+        "GA-Calls,Any-Ads,Search-History",
+        365
+      ); //Hardcoded consents
+    }
     hideCookies();
+    showCookiePrefs();
   };
 
   return (
@@ -156,14 +200,14 @@ const CookiePolicy: React.FC<Props> = ({
                   <p className={styles.prefhead}>Manage Cookie Preferences</p>
                   <div className={styles.prefWrp}>
                     {consents?.map((ele, i) => (
-                      <div className={styles.prefBlock} key={i}>
+                      <div className={styles.prefBlock} key={ele?.id}>
                         <div className={styles.prefSubBlock}>
                           <p className={styles.prefQue}>{ele?.name}</p>
                           <p className={styles.prefAns}>{ele?.description}</p>
                         </div>
                         <div className={styles.prefToggleWrp}>
                           <ToggleSwitch
-                            id={ele?.id}
+                            id={`${ele?.id}${i}`}
                             checked={ele?.value}
                             changeValue={changeValue}
                             small={true}
@@ -209,7 +253,12 @@ const CookiePolicy: React.FC<Props> = ({
                   ></span>
                 )}
                 <h3>COOKIES & PRIVACY</h3>
-                <p style={{ textAlign: "center" }}>
+                <p
+                  style={{
+                    textAlign: "center",
+                    marginTop: OLD_COOKIE_SETTINGS ? "0px" : "15px"
+                  }}
+                >
                   This website uses cookies to ensure you get the best
                   experience on our website. Please read our&nbsp;
                   <Link to={"/customer-assistance/cookie-policy"}>
@@ -221,12 +270,14 @@ const CookiePolicy: React.FC<Props> = ({
                   </Link>
                 </p>
                 {/* {regionName !== "Europe" ? ( */}
-                <p
-                  className={styles.preferencesLink}
-                  onClick={() => setIsPrefOpen(true)}
-                >
-                  set my cookie preferences
-                </p>
+                {!OLD_COOKIE_SETTINGS ? (
+                  <p
+                    className={styles.preferencesLink}
+                    onClick={() => setIsPrefOpen(true)}
+                  >
+                    set my cookie preferences
+                  </p>
+                ) : null}
                 {/* ) : null} */}
                 <span
                   className={cs(styles.okBtn, isPrefOpen ? styles.euBtn : "")}

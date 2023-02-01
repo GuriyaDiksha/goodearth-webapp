@@ -137,7 +137,8 @@ export function productForBasketGa(data: Basket, currency: Currency) {
           brand: "Goodearth",
           category: category,
           quantity: prod.quantity,
-          variant: prod.product.childAttributes[0].size || ""
+          variant: prod.product.childAttributes[0].size || "",
+          dimension12: prod.product.childAttributes[0]?.color
         }
       );
     });
@@ -321,7 +322,7 @@ export function proceedTocheckout(data: Basket, currency: Currency) {
         }
       );
     });
-    if (userConsent.includes(GA_CALLS) || true) {
+    if (userConsent.includes(GA_CALLS)) {
       dataLayer.push({ ecommerce: null }); // Clear the previous ecommerce object.
       dataLayer.push({
         event: "begin_checkout",
@@ -330,7 +331,7 @@ export function proceedTocheckout(data: Basket, currency: Currency) {
         }
       });
     }
-    if (userConsent.includes(ANY_ADS) || true) {
+    if (userConsent.includes(ANY_ADS)) {
       Moengage.track_event("Proceed to checkout", {
         "Product id": skusid,
         "Product name": productname,
@@ -417,7 +418,7 @@ export function proceedForPayment(
         }
       );
     });
-    if (userConsent.includes(GA_CALLS) || true) {
+    if (userConsent.includes(GA_CALLS)) {
       dataLayer.push({ ecommerce: null }); // Clear the previous ecommerce object.
       dataLayer.push({
         event: "add_payment_info",
@@ -525,36 +526,54 @@ export function productImpression(
         }
         category = category.replace(/>/g, "/");
       }
-      let skus = "";
-      let variants = "";
-      let prices = "";
+      // let skus = "";
+      // let variants = "";
+      // let prices = "";
 
       prod.childAttributes.map((child: any) => {
-        skus += "," + child.sku;
-        variants += "," + child.size;
-        prices +=
-          "," +
-          (child.discountedPriceRecords
-            ? child.discountedPriceRecords[currency]
-            : child.priceRecords[currency]);
+        // skus += "," + child.sku;
+        // variants += "," + child.size;
+        // prices +=
+        //   "," +
+        //   (child.discountedPriceRecords
+        //     ? child.discountedPriceRecords[currency]
+        //     : child.priceRecords[currency]);
+
+        const childProduct = Object.assign(
+          {},
+          {
+            name: prod.title,
+            id: child.sku,
+            category: category,
+            list: listPath,
+            price: child.discountedPriceRecords
+              ? child.discountedPriceRecords[currency]
+              : child.priceRecords[currency],
+            brand: "Goodearth",
+            position: position + i + 1,
+            variant: child.size || "",
+            dimension12: child?.color
+          }
+        );
+        product.push(childProduct);
       });
-      skus = skus.slice(1);
-      variants = variants.slice(1);
-      prices = prices.slice(1);
-      const childProduct = Object.assign(
-        {},
-        {
-          name: prod.title,
-          id: skus,
-          category: category,
-          list: listPath,
-          price: prices,
-          brand: "Goodearth",
-          position: position + i + 1,
-          variant: variants || ""
-        }
-      );
-      product.push(childProduct);
+      // skus = skus.slice(1);
+      // variants = variants.slice(1);
+      // prices = prices.slice(1);
+      // const childProduct = Object.assign(
+      //   {},
+      //   {
+      //     name: prod.title,
+      //     id: skus,
+      //     category: category,
+      //     list: listPath,
+      //     price: prices,
+      //     brand: "Goodearth",
+      //     position: position + i + 1,
+      //     variant: variants || ""
+      //   }
+      // );
+      // product.push(childProduct);
     });
 
     const childAttr = data.results?.data.map((child: any, index: number) => {
@@ -576,22 +595,51 @@ export function productImpression(
         }
         category = category.replace(/>/g, "/");
       }
-      let skus = "";
-      let variants = "";
-      let prices = "";
+      // let skus = "";
+      // let variants = "";
+      // let prices = "";
 
       child.childAttributes.map((child: any) => {
-        skus += "," + child.sku;
-        variants += "," + child.size;
-        prices +=
-          "," +
-          (child.discountedPriceRecords
-            ? child.discountedPriceRecords[currency]
-            : child.priceRecords[currency]);
+        // skus += "," + child.sku;
+        // variants += "," + child.size;
+        // prices +=
+        //   "," +
+        //   (child.discountedPriceRecords
+        //     ? child.discountedPriceRecords[currency]
+        //     : child.priceRecords[currency]);
+
+        return Object.assign(
+          {},
+          {
+            item_id: child.sku, //Pass the product id
+            item_name: child.title,
+            affiliation: "",
+            coupon: "", // Pass the coupon if available
+            currency: currency, // Pass the currency code
+            discount: child.discountedPriceRecords
+              ? child.discountedPriceRecords[currency]
+              : child.priceRecords[currency], // Pass the discount amount
+            index: index,
+            item_brand: "goodearth",
+            item_category: categoryName,
+            item_category2: child.size,
+            item_category3: "",
+            item_list_id: "",
+            item_list_name: search,
+            item_variant: "",
+            item_category4: "",
+            item_category5: collectionName,
+            price: child.discountedPriceRecords
+              ? child.discountedPriceRecords[currency]
+              : child.priceRecords[currency],
+            quantity: 1,
+            dimension12: child?.color
+          }
+        );
       });
-      skus = skus.slice(1);
-      variants = variants.slice(1);
-      prices = prices.slice(1);
+      // skus = skus.slice(1);
+      // variants = variants.slice(1);
+      // prices = prices.slice(1);
       // const childProduct = Object.assign(
       //   {},
       //   {
@@ -605,35 +653,10 @@ export function productImpression(
       //     variant: variants || ""
       //   }
       // );
-      return Object.assign(
-        {},
-        {
-          item_id: skus, //Pass the product id
-          item_name: child.title,
-          affiliation: "",
-          coupon: "", // Pass the coupon if available
-          currency: currency, // Pass the currency code
-          discount: child.discountedPriceRecords
-            ? child.discountedPriceRecords[currency]
-            : child.priceRecords[currency], // Pass the discount amount
-          index: index,
-          item_brand: "goodearth",
-          item_category: categoryName,
-          item_category2: variants,
-          item_category3: "",
-          item_list_id: "",
-          item_list_name: search,
-          item_variant: "",
-          item_category4: "",
-          item_category5: collectionName,
-          price: child.priceRecords[currency],
-          quantity: 1
-        }
-      );
     });
 
     const userConsent = CookieService.getCookie("consent").split(",");
-    if (userConsent.includes(GA_CALLS) || true) {
+    if (userConsent.includes(GA_CALLS)) {
       dataLayer.push({ ecommerce: null });
       dataLayer.push({
         event: "productImpression",
@@ -650,7 +673,7 @@ export function productImpression(
         }
       });
     }
-    if (userConsent.includes(ANY_ADS) || true) {
+    if (userConsent.includes(ANY_ADS)) {
       Moengage.track_event("PLP views", {
         "Category Name": categoryName.trim(),
         "Sub Category Name": subcategoryname.trim(),
@@ -700,7 +723,7 @@ export function sliderProductImpression(
       product.push(childProduct);
     });
     const userConsent = CookieService.getCookie("consent").split(",");
-    if (userConsent.includes(GA_CALLS) || true) {
+    if (userConsent.includes(GA_CALLS)) {
       dataLayer.push({ ecommerce: null });
       dataLayer.push({
         event: "productImpression",
@@ -747,12 +770,13 @@ export function sliderProductClick(
           // price: child.priceRecords[currency],
           brand: "Goodearth",
           position: position + 1,
-          variant: prod.size || ""
+          variant: prod.size || "",
+          dimension12: prod?.color
         }
       )
     ];
     const userConsent = CookieService.getCookie("consent").split(",");
-    if (userConsent.includes(GA_CALLS) || true) {
+    if (userConsent.includes(GA_CALLS)) {
       dataLayer.push({
         event: "productClick",
         ecommerce: {
@@ -782,7 +806,7 @@ export function promotionImpression(data: any) {
       };
     });
     const userConsent = CookieService.getCookie("consent").split(",");
-    if (userConsent.includes(GA_CALLS) || true) {
+    if (userConsent.includes(GA_CALLS)) {
       dataLayer.push({
         event: "promotionImpression",
         ecommerce: {
@@ -817,9 +841,9 @@ export function PDP(data: any, currency: Currency) {
       subcategoryname = arr[arr.length - 1];
       category = category.replace(/>/g, "/");
     }
-    let skus = "";
-    let variants = "";
-    let prices = "";
+    // let skus = "";
+    // let variants = "";
+    // let prices = "";
     const len = data.categories.length;
     const categri = data.categories[len - 1];
     const l3Len = category.split(">").length;
@@ -870,36 +894,41 @@ export function PDP(data: any, currency: Currency) {
       discountPrice.push(+child.discountedPriceRecords[currency]);
       quantitys.push(child.stock);
       colors.push(child.color?.split("-")?.[1]);
-      skus += "," + child.sku;
-      variants += "," + child.size;
-      prices +=
-        "," +
-        (child.discountedPriceRecords
-          ? child.discountedPriceRecords[currency]
-          : child.priceRecords
-          ? child.priceRecords[currency]
-          : data.priceRecords[currency]);
-    });
-    skus = skus.slice(1);
-    variants = variants.slice(1);
-    prices = prices.slice(1);
-    const childProduct = Object.assign(
-      {},
-      {
-        name: data.title,
-        id: skus,
-        category: category,
-        price: prices,
-        brand: "Goodearth",
-        variant: variants || "",
-        dimension8: data.sliderImages?.some((key: any) => key.icon)
-          ? "View3d"
-          : "nonView3d"
-      }
-    );
-    products.push(childProduct);
+      // skus += "," + child.sku;
+      // variants += "," + child.size;
+      // prices +=
+      //   "," +
+      //   (child.discountedPriceRecords
+      //     ? child.discountedPriceRecords[currency]
+      //     : child.priceRecords
+      //     ? child.priceRecords[currency]
+      //     : data.priceRecords[currency]);
 
-    if (userConsent.includes(ANY_ADS) || true) {
+      const childProduct = Object.assign(
+        {},
+        {
+          name: data.title,
+          id: child.sku,
+          category: category,
+          price: child.discountedPriceRecords
+            ? child.discountedPriceRecords[currency]
+            : child.priceRecords
+            ? child.priceRecords[currency]
+            : data.priceRecords[currency],
+          brand: "Goodearth",
+          variant: child.size || "",
+          dimension8: data.sliderImages?.some((key: any) => key.icon)
+            ? "View3d"
+            : "nonView3d"
+        }
+      );
+      products.push(childProduct);
+    });
+    // skus = skus.slice(1);
+    // variants = variants.slice(1);
+    // prices = prices.slice(1);
+
+    if (userConsent.includes(ANY_ADS)) {
       Moengage.track_event("PDP View", {
         "Product id": skusid,
         "Product name": data.title,
@@ -917,26 +946,28 @@ export function PDP(data: any, currency: Currency) {
       });
     }
     const listPath = CookieService.getCookie("listPath") || "DirectLandingView";
-    dataLayer.push({ ecommerce: null }); // Clear the previous ecommerce object.
-    dataLayer.push({
-      event: "view_item",
-      ecommerce: {
-        items: childAttr
-      }
-    });
-    dataLayer.push({ ecommerce: null });
-    dataLayer.push({
-      event: "productDetailImpression",
-      ecommerce: {
-        currencyCode: currency,
+    if (userConsent.includes(GA_CALLS)) {
+      dataLayer.push({ ecommerce: null }); // Clear the previous ecommerce object.
+      dataLayer.push({
+        event: "view_item",
         ecommerce: {
-          detail: {
-            actionField: { list: listPath },
-            products
+          items: childAttr
+        }
+      });
+      dataLayer.push({ ecommerce: null });
+      dataLayer.push({
+        event: "productDetailImpression",
+        ecommerce: {
+          currencyCode: currency,
+          ecommerce: {
+            detail: {
+              actionField: { list: listPath },
+              products
+            }
           }
         }
-      }
-    });
+      });
+    }
   } catch (e) {
     console.log(e);
     console.log("PDP impression error");
@@ -965,38 +996,42 @@ export function collectionProductImpression(
           : "";
         category = category.replace(/>/g, "/");
       }
-      let skus = "";
-      let variants = "";
-      let prices = "";
+      // let skus = "";
+      // let variants = "";
+      // let prices = "";
       prod.childAttributes.map((child: any) => {
-        skus += "," + child.sku;
-        variants += "," + child.size;
-        prices +=
-          "," +
-          (child.discountedPriceRecords
-            ? child.discountedPriceRecords[currency]
-            : child.priceRecords[currency]);
+        // skus += "," + child.sku;
+        // variants += "," + child.size;
+        // prices +=
+        //   "," +
+        //   (child.discountedPriceRecords
+        //     ? child.discountedPriceRecords[currency]
+        //     : child.priceRecords[currency]);
+
+        const childProduct = Object.assign(
+          {},
+          {
+            name: prod.title,
+            id: child.sku,
+            category: category,
+            list: listPath,
+            price: child.discountedPriceRecords
+              ? child.discountedPriceRecords[currency]
+              : child.priceRecords[currency],
+            brand: "Goodearth",
+            position: position + i + 1,
+            variant: child.size || "",
+            dimension12: child?.color
+          }
+        );
+        product.push(childProduct);
       });
-      skus = skus.slice(1);
-      variants = variants.slice(1);
-      prices = prices.slice(1);
-      const childProduct = Object.assign(
-        {},
-        {
-          name: prod.title,
-          id: skus,
-          category: category,
-          list: listPath,
-          price: prices,
-          brand: "Goodearth",
-          position: position + i + 1,
-          variant: variants || ""
-        }
-      );
-      product.push(childProduct);
+      // skus = skus.slice(1);
+      // variants = variants.slice(1);
+      // prices = prices.slice(1);
     });
     const userConsent = CookieService.getCookie("consent").split(",");
-    if (userConsent.includes(GA_CALLS) || true) {
+    if (userConsent.includes(GA_CALLS)) {
       dataLayer.push({ ecommerce: null });
       dataLayer.push({
         event: "productImpression",
@@ -1033,38 +1068,42 @@ export function weRecommendProductImpression(
           : "";
         category = category.replace(/>/g, "/");
       }
-      let skus = "";
-      let variants = "";
-      let prices = "";
+      // let skus = "";
+      // let variants = "";
+      // let prices = "";
       prod.childAttributes.map((child: any) => {
-        skus += "," + child.sku;
-        variants += "," + child.size;
-        prices +=
-          "," +
-          (child.discountedPriceRecords
-            ? child.discountedPriceRecords[currency]
-            : child.priceRecords[currency]);
+        // skus += "," + child.sku;
+        // variants += "," + child.size;
+        // prices +=
+        //   "," +
+        //   (child.discountedPriceRecords
+        //     ? child.discountedPriceRecords[currency]
+        //     : child.priceRecords[currency]);
+
+        const childProduct = Object.assign(
+          {},
+          {
+            name: prod.title,
+            id: child.sku,
+            category: category,
+            list: listPath,
+            price: child.discountedPriceRecords
+              ? child.discountedPriceRecords[currency]
+              : child.priceRecords[currency],
+            brand: "Goodearth",
+            position: position + i + 1,
+            variant: child.size || "",
+            dimension12: child?.color
+          }
+        );
+        product.push(childProduct);
       });
-      skus = skus.slice(1);
-      variants = variants.slice(1);
-      prices = prices.slice(1);
-      const childProduct = Object.assign(
-        {},
-        {
-          name: prod.title,
-          id: skus,
-          category: category,
-          list: listPath,
-          price: prices,
-          brand: "Goodearth",
-          position: position + i + 1,
-          variant: variants || ""
-        }
-      );
-      product.push(childProduct);
+      // skus = skus.slice(1);
+      // variants = variants.slice(1);
+      // prices = prices.slice(1);
     });
     const userConsent = CookieService.getCookie("consent").split(",");
-    if (userConsent.includes(GA_CALLS) || true) {
+    if (userConsent.includes(GA_CALLS)) {
       dataLayer.push({ ecommerce: null });
       dataLayer.push({
         event: "productImpression",
@@ -1112,7 +1151,8 @@ export function plpProductClick(
             : child.priceRecords[currency],
           brand: "Goodearth",
           position: position + 1,
-          variant: child.size || ""
+          variant: child.size || "",
+          dimension12: child?.color
         }
       );
     });
@@ -1154,7 +1194,7 @@ export function plpProductClick(
     const listPath = `${list}`;
     CookieService.setCookie("listPath", listPath);
     const userConsent = CookieService.getCookie("consent").split(",");
-    if (userConsent.includes(GA_CALLS) || true) {
+    if (userConsent.includes(GA_CALLS)) {
       dataLayer.push({
         event: "productClick",
         ecommerce: {
@@ -1190,7 +1230,7 @@ export function promotionClick(data: any) {
       }
     ];
     const userConsent = CookieService.getCookie("consent").split(",");
-    if (userConsent.includes(GA_CALLS) || true) {
+    if (userConsent.includes(GA_CALLS)) {
       dataLayer.push({
         event: "promotionClick",
         ecommerce: {
@@ -1227,38 +1267,42 @@ export function MoreFromCollectionProductImpression(
           : "";
         category = category.replace(/>/g, "/");
       }
-      let skus = "";
-      let variants = "";
-      let prices = "";
+      // let skus = "";
+      // let variants = "";
+      // let prices = "";
       prod.childAttributes.map((child: any) => {
-        skus += "," + child.sku;
-        variants += "," + child.size;
-        prices +=
-          "," +
-          (child.discountedPriceRecords
-            ? child.discountedPriceRecords[currency]
-            : child.priceRecords[currency]);
+        // skus += "," + child.sku;
+        // variants += "," + child.size;
+        // prices +=
+        //   "," +
+        //   (child.discountedPriceRecords
+        //     ? child.discountedPriceRecords[currency]
+        //     : child.priceRecords[currency]);
+
+        const childProduct = Object.assign(
+          {},
+          {
+            name: prod.title,
+            id: child.sku,
+            category: category,
+            list: listPath,
+            price: child.discountedPriceRecords
+              ? child.discountedPriceRecords[currency]
+              : child.priceRecords[currency],
+            brand: "Goodearth",
+            position: position + i + 1,
+            variant: child.size || "",
+            dimension12: child?.color
+          }
+        );
+        product.push(childProduct);
       });
-      skus = skus.slice(1);
-      variants = variants.slice(1);
-      prices = prices.slice(1);
-      const childProduct = Object.assign(
-        {},
-        {
-          name: prod.title,
-          id: skus,
-          category: category,
-          list: listPath,
-          price: prices,
-          brand: "Goodearth",
-          position: position + i + 1,
-          variant: variants || ""
-        }
-      );
-      product.push(childProduct);
+      // skus = skus.slice(1);
+      // variants = variants.slice(1);
+      // prices = prices.slice(1);
     });
     const userConsent = CookieService.getCookie("consent").split(",");
-    if (userConsent.includes(GA_CALLS) || true) {
+    if (userConsent.includes(GA_CALLS)) {
       dataLayer.push({ ecommerce: null });
       dataLayer.push({
         event: "productImpression",
@@ -1303,14 +1347,15 @@ export function MoreFromCollectionProductClick(
         brand: "Goodearth",
         category: category,
         variant: child.size || "",
-        position: position
+        position: position,
+        dimension12: child?.color
       }
     );
   });
   const listPath = `${list}`;
   CookieService.setCookie("listPath", listPath);
   const userConsent = CookieService.getCookie("consent").split(",");
-  if (userConsent.includes(GA_CALLS) || true) {
+  if (userConsent.includes(GA_CALLS)) {
     dataLayer.push({
       event: "productClick",
       ecommerce: {
@@ -1327,7 +1372,7 @@ export function MoreFromCollectionProductClick(
 export function errorTracking(errorMessage: string[], url: string) {
   try {
     const userConsent = CookieService.getCookie("consent").split(",");
-    if (userConsent.includes(GA_CALLS) || true) {
+    if (userConsent.includes(GA_CALLS)) {
       dataLayer.push({
         event: "errorMessage",
         "Error Message": errorMessage,
@@ -1399,35 +1444,38 @@ export const checkoutGTM = (
       id: prod.product.childAttributes[0].sku
     };
   });
-  if (step == 1) {
-    dataLayer.push({
-      event: "initiate_checkout",
-      total_amount: basket.total,
-      currencyCode: currency,
-      total_item: basket.lineItems.length,
-      content_ids: totalId,
-      contents: fbproductData
-    });
-  }
-  if (step == 3) {
-    dataLayer.push({
-      event: "payment_info",
-      total_amount: basket.total,
-      currencyCode: currency,
-      total_item: basket.lineItems.length,
-      content_ids: totalId,
-      contents: fbproductData
-    });
-    dataLayer.push({ ecommerce: null }); // Clear the previous ecommerce object.
-    dataLayer.push({
-      event: "add_billing_info",
-      ecommerce: {
-        currency: currency, // Pass the currency code
-        value: basket.total,
-        coupon: "",
-        items: itemList
-      }
-    });
+  const userConsent = CookieService.getCookie("consent").split(",");
+  if (userConsent.includes(GA_CALLS)) {
+    if (step == 1) {
+      dataLayer.push({
+        event: "initiate_checkout",
+        total_amount: basket.total,
+        currencyCode: currency,
+        total_item: basket.lineItems.length,
+        content_ids: totalId,
+        contents: fbproductData
+      });
+    }
+    if (step == 3) {
+      dataLayer.push({
+        event: "payment_info",
+        total_amount: basket.total,
+        currencyCode: currency,
+        total_item: basket.lineItems.length,
+        content_ids: totalId,
+        contents: fbproductData
+      });
+      dataLayer.push({ ecommerce: null }); // Clear the previous ecommerce object.
+      dataLayer.push({
+        event: "add_billing_info",
+        ecommerce: {
+          currency: currency, // Pass the currency code
+          value: basket.total,
+          coupon: "",
+          items: itemList
+        }
+      });
+    }
   }
   // if(step == 4) {
   //   dataLayer.push({
@@ -1443,9 +1491,8 @@ export const checkoutGTM = (
   //   });
   // }
 
-  const userConsent = CookieService.getCookie("consent").split(",");
   if (paymentMethod) {
-    if (userConsent.includes(GA_CALLS) || true) {
+    if (userConsent.includes(GA_CALLS)) {
       dataLayer.push({
         event: "checkout",
         ecommerce: {
@@ -1459,7 +1506,7 @@ export const checkoutGTM = (
       });
     }
   } else {
-    if (userConsent.includes(GA_CALLS) || true) {
+    if (userConsent.includes(GA_CALLS)) {
       dataLayer.push({
         event: "checkout",
         ecommerce: {
@@ -1482,7 +1529,7 @@ export const headerClickGTM = (
 ) => {
   try {
     const userConsent = CookieService.getCookie("consent").split(",");
-    if (userConsent.includes(GA_CALLS) || true) {
+    if (userConsent.includes(GA_CALLS)) {
       dataLayer.push({
         event: "Header Click",
         clickType,
@@ -1503,7 +1550,7 @@ export const footerClickGTM = (
 ) => {
   try {
     const userConsent = CookieService.getCookie("consent").split(",");
-    if (userConsent.includes(GA_CALLS) || true) {
+    if (userConsent.includes(GA_CALLS)) {
       dataLayer.push({
         event: "Footer Click",
         clickType,
@@ -1544,7 +1591,7 @@ export const menuNavigationGTM = ({
 }) => {
   try {
     const userConsent = CookieService.getCookie("consent").split(",");
-    if (userConsent.includes(GA_CALLS) || true) {
+    if (userConsent.includes(GA_CALLS)) {
       dataLayer.push({
         event: "Menu Navigation",
         clickType: "Category",
@@ -1586,7 +1633,7 @@ export const megaMenuNavigationGTM = ({
   try {
     const userConsent = CookieService.getCookie("consent").split(",");
 
-    if (userConsent.includes(ANY_ADS) || true) {
+    if (userConsent.includes(ANY_ADS)) {
       if (l3) {
         Moengage.track_event("L1Clicked", {
           "Category Name": l3
@@ -1623,14 +1670,14 @@ export const megaMenuNavigationGTM = ({
         default:
           eventName = "";
       }
-      if (userConsent.includes(ANY_ADS) || true) {
+      if (userConsent.includes(ANY_ADS)) {
         Moengage.track_event(eventName, {
           "Category Name": l1
         });
       }
     }
 
-    if (userConsent.includes(GA_CALLS) || true) {
+    if (userConsent.includes(GA_CALLS)) {
       dataLayer.push({
         event: "Menu Navigation",
         clickType: "Category",
@@ -1694,7 +1741,7 @@ export const pageViewGTM = (Title: string) => {
     const userConsent = CookieService.getCookie("consent").split(",");
     const userInfo = JSON.parse(CookieService.getCookie("user") || "{}");
 
-    if (userConsent.includes(GA_CALLS) || true) {
+    if (userConsent.includes(GA_CALLS)) {
       dataLayer.push({
         event: "pageview",
         Email: userInfo.email ? sha256(userInfo.email) : "",
@@ -1740,7 +1787,7 @@ export const moveChatDown = () => {
 export const viewSelectionGTM = (clickType: "list" | "grid") => {
   try {
     const userConsent = CookieService.getCookie("consent").split(",");
-    if (userConsent.includes(GA_CALLS) || true) {
+    if (userConsent.includes(GA_CALLS)) {
       dataLayer.push({
         event: "View Selection",
         clickType
@@ -1754,7 +1801,7 @@ export const viewSelectionGTM = (clickType: "list" | "grid") => {
 export const sortGTM = (clickType: string) => {
   try {
     const userConsent = CookieService.getCookie("consent").split(",");
-    if (userConsent.includes(GA_CALLS) || true) {
+    if (userConsent.includes(GA_CALLS)) {
       dataLayer.push({
         event: "Sort",
         clickType,
@@ -1769,7 +1816,7 @@ export const sortGTM = (clickType: string) => {
 export const footerGTM = (clickType: string) => {
   try {
     const userConsent = CookieService.getCookie("consent").split(",");
-    if (userConsent.includes(GA_CALLS) || true) {
+    if (userConsent.includes(GA_CALLS)) {
       dataLayer.push({
         event: "Footer Navigation",
         clickType,
@@ -1784,7 +1831,7 @@ export const footerGTM = (clickType: string) => {
 export const announcementBarGTM = (clickText: string, clickUrl: string) => {
   try {
     const userConsent = CookieService.getCookie("consent").split(",");
-    if (userConsent.includes(GA_CALLS) || true) {
+    if (userConsent.includes(GA_CALLS)) {
       dataLayer.push({
         event: "Announcement Bar Click",
         clickText,

@@ -279,6 +279,7 @@ const StaticPage: React.FC<Props> = props => {
                           setCurrentSection={() => setCurrentSection(title)}
                           mobile={mobile}
                           fetchTerms={() => fetchTerms(href || "")}
+                          path={history?.location?.pathname}
                         />
                       </Route>
                     );
