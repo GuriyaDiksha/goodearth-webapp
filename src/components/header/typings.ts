@@ -128,6 +128,8 @@ export type AnnouncementBar = {
     ctaLabel: string;
     ctaBorderColor: string;
     bgColorcode: string;
+    DesktopPatternImage: string;
+    patternRepeat: boolean;
   }[];
 };
 

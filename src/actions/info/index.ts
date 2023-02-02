@@ -42,3 +42,6 @@ export const updateShowTimer = (showTimer: boolean) =>
 
 export const updateLoader = (isLoading: boolean) =>
   actionCreator("UPDATE_LOADER", isLoading);
+
+export const updateCookiePrefrence = (showCookie: boolean) =>
+  actionCreator("UPDATE_SHOW_COOKIE_PREF", showCookie);

@@ -67,7 +67,7 @@ const BaseLayout: React.FC = () => {
   useEffect(() => {
     if (getPWADisplayMode() == "standalone") {
       const userConsent = CookieService.getCookie("consent").split(",");
-      if (userConsent.includes(GA_CALLS) || true) {
+      if (userConsent.includes(GA_CALLS)) {
         dataLayer.push({
           event: "App Icon Click",
           page: location
@@ -106,7 +106,7 @@ const BaseLayout: React.FC = () => {
     const isHomePage = location.pathname == "/";
     if (isHomePage) {
       const userConsent = CookieService.getCookie("consent").split(",");
-      if (userConsent.includes(GA_CALLS) || true) {
+      if (userConsent.includes(GA_CALLS)) {
         dataLayer.push({
           "Event Category": "General Pages",
           "Event Action": "Home Page",
@@ -309,7 +309,7 @@ const BaseLayout: React.FC = () => {
                 LoginService.changeCurrency(dispatch, data).then(res => {
                   LoginService.reloadPage(
                     dispatch,
-                    res.currency,
+                    data?.currency,
                     customerGroup
                   );
                 });

@@ -26,7 +26,8 @@ import { Link } from "react-router-dom";
 import { updateModal } from "actions/modal";
 import Price from "components/Price";
 import ReactHtmlParser from "react-html-parser";
-import { GA_CALLS } from "constants/cookieConsent";
+import { GA_CALLS, SEARCH_HISTORY } from "constants/cookieConsent";
+import giftCardTile from "images/giftcard-tile.png";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -82,6 +83,7 @@ type State = {
   usefulLink: any[];
   trendingWords: any[];
   spellchecks: any[];
+  recentSearchs: any[];
 };
 class Search extends React.Component<Props, State> {
   constructor(props: Props) {
@@ -100,7 +102,8 @@ class Search extends React.Component<Props, State> {
       categories: [],
       usefulLink: [],
       trendingWords: [],
-      spellchecks: []
+      spellchecks: [],
+      recentSearchs: []
     };
   }
 
@@ -145,6 +148,11 @@ class Search extends React.Component<Props, State> {
         console.log(error);
       });
     document.addEventListener("mousedown", this.handleClickOutside);
+    this.setState({
+      recentSearchs: CookieService.getCookie("recentSearch")
+        ? JSON.parse(CookieService.getCookie("recentSearch"))
+        : []
+    });
   }
 
   componentDidUpdate() {
@@ -177,6 +185,11 @@ class Search extends React.Component<Props, State> {
   };
 
   UNSAFE_componentWillReceiveProps = (nextProps: Props) => {
+    this.setState({
+      recentSearchs: CookieService.getCookie("recentSearch")
+        ? JSON.parse(CookieService.getCookie("recentSearch"))
+        : []
+    });
     if (nextProps.location.pathname !== this.props.location.pathname) {
       this.props.toggle();
     }
@@ -218,13 +231,14 @@ class Search extends React.Component<Props, State> {
             brand: "Goodearth",
             category: category,
             variant: itemData.childAttributes?.[0].size || "",
-            position: indices
+            position: indices,
+            dimension12: child?.color
           }
         );
       }
     );
     const userConsent = CookieService.getCookie("consent").split(",");
-    if (userConsent.includes(GA_CALLS) || true) {
+    if (userConsent.includes(GA_CALLS)) {
       dataLayer.push({
         event: "productClick",
         ecommerce: {
@@ -242,6 +256,38 @@ class Search extends React.Component<Props, State> {
     this.props.history.push(data.url);
   }
 
+  onlyUnique(value: any, index: any, self: any) {
+    return self.indexOf(value) === index;
+  }
+
+  titleCase(str: string) {
+    const splitStr = str.toLowerCase().split(" ");
+    splitStr?.map((val, i) => {
+      splitStr[i] = val.charAt(0).toUpperCase() + val.substring(1);
+    });
+
+    return splitStr.join(" ");
+  }
+
+  recentSearch(value: string | null) {
+    const searchValue = value || this.state.searchValue;
+    const searchArr = CookieService.getCookie("recentSearch")
+      ? JSON.parse(CookieService.getCookie("recentSearch"))
+      : [];
+
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes(SEARCH_HISTORY)) {
+      CookieService.setCookie(
+        "recentSearch",
+        JSON.stringify(
+          [this.titleCase(searchValue), ...searchArr]
+            .filter(this.onlyUnique)
+            .slice(0, 5)
+        )
+      );
+    }
+  }
+
   onClickSearch = (event: any) => {
     if (this.state.searchValue.trim().length > 0) {
       this.props.history.push(
@@ -249,6 +295,7 @@ class Search extends React.Component<Props, State> {
       );
       // this.closeSearch();
       this.props.hideSearch();
+      this.recentSearch(null);
       return false;
     }
   };
@@ -278,6 +325,7 @@ class Search extends React.Component<Props, State> {
         // this.closeSearch();
         this.props.hideSearch();
         this.props.hideMenu();
+        this.recentSearch(event.target.value);
         return false;
       }
       this.setState({
@@ -394,7 +442,8 @@ class Search extends React.Component<Props, State> {
       productData,
       trendingWords,
       searchValue,
-      spellchecks
+      spellchecks,
+      recentSearchs
     } = this.state;
     const productsExist =
       collections.length > 0 ||
@@ -734,6 +783,68 @@ class Search extends React.Component<Props, State> {
                           </div>
                         </div>
                       )}
+                    {recentSearchs?.length &&
+                    this.state.searchValue.length == 0 ? (
+                      <div className={styles.recentWrp}>
+                        <div className={styles.recentWrpHead}>
+                          <p
+                            className={cs(
+                              styles.productHeading,
+                              globalStyles.marginB10
+                            )}
+                          >
+                            RECENT SEARCHES
+                          </p>
+                          <button
+                            onClick={() => {
+                              this.setState({ recentSearchs: [] });
+                              CookieService.setCookie(
+                                "recentSearch",
+                                JSON.stringify([])
+                              );
+                            }}
+                          >
+                            Clear All
+                          </button>
+                        </div>
+
+                        {recentSearchs?.map((ele, ind) => (
+                          <div className={styles.recentBlock}>
+                            <Link
+                              to={"/search/?q=" + ele}
+                              onClick={() => {
+                                this.recentSearch(ele);
+                                this.props.hideSearch();
+                              }}
+                              key={ind}
+                            >
+                              {ele}
+                            </Link>
+                            <i
+                              className={cs(
+                                iconStyles.icon,
+                                iconStyles.iconCross,
+                                styles.iconStyle,
+                                styles.iconSearchCross
+                              )}
+                              onClick={() => {
+                                this.setState({
+                                  recentSearchs: recentSearchs.filter(
+                                    e => e !== ele
+                                  )
+                                });
+                                CookieService.setCookie(
+                                  "recentSearch",
+                                  JSON.stringify(
+                                    recentSearchs.filter(e => e !== ele)
+                                  )
+                                );
+                              }}
+                            ></i>
+                          </div>
+                        ))}
+                      </div>
+                    ) : null}
                     {usefulLink.length > 0 && (
                       <div className={globalStyles.marginT30}>
                         <p
@@ -885,7 +996,6 @@ class Search extends React.Component<Props, State> {
                       {this.state.productData.length > 0
                         ? this.state.productData.map((data, i) => {
                             const isCombo = data.inStock;
-
                             let totalStock = (data.childAttributes as PartialChildProductAttributes[])?.reduce(
                               (
                                 total: number,
@@ -953,7 +1063,11 @@ class Search extends React.Component<Props, State> {
                                     // )}
                                   >
                                     <img
-                                      src={data.image}
+                                      src={
+                                        data.link == "/giftcard"
+                                          ? giftCardTile
+                                          : data.image
+                                      }
                                       onError={this.addDefaultSrc}
                                       alt={data.altText || data.title}
                                       className={styles.imageResultNew}
@@ -985,7 +1099,7 @@ class Search extends React.Component<Props, State> {
                                         : ReactHtmlParser(data.product)}
                                     </Link>
                                   </p>
-                                  {data?.productClass == "GiftCard"
+                                  {data?.link == "/giftcard"
                                     ? ""
                                     : !(
                                         data?.invisibleFields?.indexOf(
