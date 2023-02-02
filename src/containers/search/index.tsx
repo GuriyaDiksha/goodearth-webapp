@@ -675,7 +675,7 @@ class Search extends React.Component<
               className={
                 (data && this.state.searchText
                 ? data.length == 0 &&
-                  this.state.searchText.length > 2 &&
+                  this.state.searchText.length &&
                   this.state.filterCount < 1
                 : false)
                   ? " voffset5 row image-container search searchpage mobile-nosearch"
@@ -697,7 +697,7 @@ class Search extends React.Component<
                   )}
                 >
                   {(this.state.searchText ? (
-                    this.state.searchText.length > 1
+                    this.state.searchText.length
                   ) : (
                     false
                   )) ? (
