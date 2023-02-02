@@ -221,7 +221,6 @@ class Header extends React.Component<Props, State> {
       });
     }
     if (this.props.showTimer != nextProps.showTimer) {
-      debugger;
       this.onScroll(null, nextProps.showTimer);
     }
   }
@@ -277,7 +276,6 @@ class Header extends React.Component<Props, State> {
     if (window?.pageYOffset > sticky) {
       (header as HTMLElement).style.position = "fixed";
       (header as HTMLElement).style.marginBottom = "0px";
-
       if (secondaryHeader) {
         if (timer || this.props.showTimer) {
           (secondaryHeader as HTMLElement).style.top = "90px";
@@ -290,14 +288,17 @@ class Header extends React.Component<Props, State> {
       (header as HTMLElement).style.position = "relative";
       (header as HTMLElement).style.marginBottom = "-40px";
       if (secondaryHeader) {
-        if (timer || this.props.showTimer) {
+        const tim = timer !== undefined ? timer : this.props.showTimer;
+        if (tim) {
           (secondaryHeader as HTMLElement).style.top = "130px";
         } else {
           (secondaryHeader as HTMLElement).style.top = "90px";
         }
+
         (secondaryHeader as HTMLElement).style.transition = "all 0.5s linear";
       }
     }
+
     (header as HTMLElement).style.transition = "all 0.5s linear";
   };
 
