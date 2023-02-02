@@ -16,6 +16,7 @@ export type State = {
   showDeliveryInstruction: boolean;
   showPromo: boolean;
   isLoading: boolean;
+  showCookiePref: boolean;
 };
 
 export type InfoActions = ActionType<typeof Actions>;

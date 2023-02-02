@@ -353,7 +353,7 @@ class FilterList extends React.Component<Props, State> {
       rangevalue: [value[0], value[1]]
     });
     const userConsent = CookieService.getCookie("consent").split(",");
-    if (userConsent.includes(GA_CALLS) || true) {
+    if (userConsent.includes(GA_CALLS)) {
       dataLayer.push({
         event: "Filter used",
         "Filter type": "Price",
@@ -1306,7 +1306,7 @@ class FilterList extends React.Component<Props, State> {
       oldSelectedCategory: event.target.value
     });
     const userConsent = CookieService.getCookie("consent").split(",");
-    if (userConsent.includes(GA_CALLS) || true) {
+    if (userConsent.includes(GA_CALLS)) {
       dataLayer.push({
         event: "Filter used",
         "Filter type": "Category",
@@ -1399,7 +1399,7 @@ class FilterList extends React.Component<Props, State> {
       value: event.target.value
     };
     const userConsent = CookieService.getCookie("consent").split(",");
-    if (userConsent.includes(GA_CALLS) || true) {
+    if (userConsent.includes(GA_CALLS)) {
       dataLayer.push({
         event: "Filter used",
         "Filter type": "Color",
@@ -1523,7 +1523,7 @@ class FilterList extends React.Component<Props, State> {
       value: event.target.value
     };
     const userConsent = CookieService.getCookie("consent").split(",");
-    if (userConsent.includes(GA_CALLS) || true) {
+    if (userConsent.includes(GA_CALLS)) {
       dataLayer.push({
         event: "Filter used",
         "Filter type": "Size​",

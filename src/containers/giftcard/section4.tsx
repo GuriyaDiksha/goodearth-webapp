@@ -50,7 +50,7 @@ const Section4: React.FC<Section4Props> = props => {
       GiftcardService.addToGiftcard(dispatch, data)
         .then((res: any) => {
           const userConsent = CookieService.getCookie("consent").split(",");
-          if (userConsent.includes(GA_CALLS) || true) {
+          if (userConsent.includes(GA_CALLS)) {
             dataLayer.push({
               event: "card_add_to_cart",
               design: data.imageUrl,

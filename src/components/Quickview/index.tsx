@@ -84,7 +84,7 @@ class Quickview extends React.Component<Props, State> {
       const listPath = `Quickview`;
       CookieService.setCookie("listPath", listPath);
       const userConsent = CookieService.getCookie("consent").split(",");
-      if (userConsent.includes(GA_CALLS) || true) {
+      if (userConsent.includes(GA_CALLS)) {
         dataLayer.push({
           event: "productImpression",
           ecommerce: {
