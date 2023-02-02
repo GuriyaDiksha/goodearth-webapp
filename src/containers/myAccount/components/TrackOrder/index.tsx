@@ -102,13 +102,6 @@ class TrackOrder extends React.Component<Props, State> {
               valid.errorTracking([this.state.showerror], location.href);
             }
           );
-          // console.log(this.TrackOrderFormRef, this.TrackOrderFormRef.current)
-          this.TrackOrderFormRef.current?.updateInputsWithError(
-            {
-              orderNumber: err
-            },
-            true
-          );
         } else if (response.results[0]?.isOnlyGiftOrder) {
           const err =
             "E-gift card has been sent to the recipient's email address.";
@@ -120,12 +113,6 @@ class TrackOrder extends React.Component<Props, State> {
             () => {
               valid.errorTracking([this.state.showerror], location.href);
             }
-          );
-          this.TrackOrderFormRef.current?.updateInputsWithError(
-            {
-              orderNumber: err
-            },
-            true
           );
         } else if (response.count > 0) {
           this.props
@@ -142,12 +129,6 @@ class TrackOrder extends React.Component<Props, State> {
                   () => {
                     valid.errorTracking([this.state.showerror], location.href);
                   }
-                );
-                this.TrackOrderFormRef.current?.updateInputsWithError(
-                  {
-                    orderNumber: err
-                  },
-                  true
                 );
               } else {
                 this.setState({
@@ -171,12 +152,6 @@ class TrackOrder extends React.Component<Props, State> {
                 }
               );
               console.log(err);
-              this.TrackOrderFormRef.current?.updateInputsWithError(
-                {
-                  orderNumber: errmsg
-                },
-                true
-              );
             });
         }
       })
@@ -199,12 +174,6 @@ class TrackOrder extends React.Component<Props, State> {
               );
             }
           );
-          this.TrackOrderFormRef.current?.updateInputsWithError(
-            {
-              orderNumber: errorMsg
-            },
-            true
-          );
         } else {
           const errMsg =
             "Please retry in some time, unable to fetch order details at this time.";
@@ -216,12 +185,6 @@ class TrackOrder extends React.Component<Props, State> {
             () => {
               valid.errorTracking([this.state.showerror], location.href);
             }
-          );
-          this.TrackOrderFormRef.current?.updateInputsWithError(
-            {
-              orderNumber: errMsg
-            },
-            true
           );
           console.log(err);
         }
@@ -522,11 +485,11 @@ class TrackOrder extends React.Component<Props, State> {
                 />
               </div>
               <div>
-                {/* {this.state.showerror ? (
+                {this.state.showerror ? (
                   <p className={cs(styles.ctaError)}>{this.state.showerror}</p>
                 ) : (
                   ""
-                )} */}
+                )}
                 <input
                   type="submit"
                   disabled={!updateSubmit}

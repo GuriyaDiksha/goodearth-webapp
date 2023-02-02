@@ -1165,8 +1165,12 @@ input[type="text"]{
           @include b4_12px_montserrat_charcoal();
         }
         .data{
-          @include b4_12px_montserrat_semibold_charcoal();
+          @include b4_12px_montserrat_charcoal();
+          font-weight: $medium;
           text-transform: uppercase;
+          &.date{
+            text-transform: capitalize;
+          }
         }
       }
     }
@@ -1180,7 +1184,8 @@ input[type="text"]{
         margin-bottom: 6px;
       }
       .data{
-        @include b4_12px_montserrat_semibold_charcoal();
+        @include b4_12px_montserrat_charcoal();
+        font-weight: $medium;
         text-transform: uppercase;
       }
     }
@@ -1315,6 +1320,7 @@ input[type="text"]{
           @include b4_12px_montserrat_charcoal();
           line-height: 20px;
           letter-spacing: 0.5px;
+          margin-top: 10px;
         }
       }
     }
