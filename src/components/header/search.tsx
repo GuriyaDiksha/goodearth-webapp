@@ -82,6 +82,7 @@ type State = {
   categories: any[];
   usefulLink: any[];
   trendingWords: any[];
+  spellchecks: any[];
   recentSearchs: any[];
 };
 class Search extends React.Component<Props, State> {
@@ -101,6 +102,7 @@ class Search extends React.Component<Props, State> {
       categories: [],
       usefulLink: [],
       trendingWords: [],
+      spellchecks: [],
       recentSearchs: []
     };
   }
@@ -366,7 +368,8 @@ class Search extends React.Component<Props, State> {
           suggestions: [],
           categories: data.results?.categories || [],
           collections: data.results?.collections || [],
-          usefulLink: data.results?.useful_links || []
+          usefulLink: data.results?.useful_links || [],
+          spellchecks: data?.results?.spellchecks || []
         });
       })
       .catch(function(error) {
@@ -439,6 +442,7 @@ class Search extends React.Component<Props, State> {
       productData,
       trendingWords,
       searchValue,
+      spellchecks,
       recentSearchs
     } = this.state;
     const productsExist =
@@ -650,6 +654,40 @@ class Search extends React.Component<Props, State> {
                 )}
               >
                 <div className={cs(bootstrapStyles.row, styles.suggestionWrap)}>
+                  {spellchecks?.length ? (
+                    <div
+                      className={cs(
+                        globalStyles.textCenter,
+                        { [globalStyles.paddTop50]: !mobile },
+                        { [globalStyles.paddBottom50]: !mobile },
+                        { [globalStyles.paddTop10]: mobile },
+                        { [globalStyles.paddBottom10]: mobile },
+                        { [globalStyles.paddLeft70]: mobile },
+                        { [globalStyles.paddRight70]: mobile },
+                        styles.didYouMeanText
+                      )}
+                    >
+                      No results found for{" "}
+                      <span className={globalStyles.gold}>{searchValue}</span>.
+                      Showing results for&nbsp;
+                      {spellchecks?.map((e, i) => (
+                        <Link
+                          to={"/search/?q=" + e}
+                          onClick={(eve: any) => {
+                            this.props.history.push("/search/?q=" + e);
+                            this.props.hideSearch();
+                            e.preventDefault();
+                          }}
+                          key={i}
+                        >
+                          <span className={cs(globalStyles.gold)}>
+                            {e}
+                            {spellchecks.length === i + 1 ? null : ","}
+                          </span>
+                        </Link>
+                      ))}
+                    </div>
+                  ) : null}
                   {suggestionsExist && (
                     <div
                       className={cs(
