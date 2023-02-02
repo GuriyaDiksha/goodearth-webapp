@@ -401,7 +401,11 @@ const TrackDetails: React.FC<OrdersProps> = props => {
                     )}
                     <p className={styles.title}>{item.title}</p>
                     <p className={cs(styles.price)}>
-                      <span className={cs(styles.amountPaid)}>
+                      <span
+                        className={cs(styles.amountPaid, {
+                          [styles.gold]: isDiscount
+                        })}
+                      >
                         {`${charCurrency} ${amountPaid}`}
                       </span>
                       {isDiscount && (

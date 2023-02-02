@@ -92,41 +92,62 @@ class TrackOrder extends React.Component<Props, State> {
       .then((response: any) => {
         if (response.count == 0) {
           // resetForm();
+          const err = "Entered Order Number doesn't exist. Please try again.";
           this.setState(
             {
-              showerror:
-                "Entered Order Number doesn't exist. Please try again.",
+              showerror: err,
               loader: false
             },
             () => {
               valid.errorTracking([this.state.showerror], location.href);
             }
           );
+          // console.log(this.TrackOrderFormRef, this.TrackOrderFormRef.current)
+          this.TrackOrderFormRef.current?.updateInputsWithError(
+            {
+              orderNumber: err
+            },
+            true
+          );
         } else if (response.results[0]?.isOnlyGiftOrder) {
+          const err =
+            "E-gift card has been sent to the recipient's email address.";
           this.setState(
             {
-              showerror:
-                "E-gift card has been sent to the recipient's email address.",
+              showerror: err,
               loader: false
             },
             () => {
               valid.errorTracking([this.state.showerror], location.href);
             }
+          );
+          this.TrackOrderFormRef.current?.updateInputsWithError(
+            {
+              orderNumber: err
+            },
+            true
           );
         } else if (response.count > 0) {
           this.props
             .fetchCourierData(orderNumber)
             .then(data => {
               if (data == "error") {
+                const err =
+                  "Please retry in some time, unable to fetch order details at this time.";
                 this.setState(
                   {
-                    showerror:
-                      "Please retry in some time, unable to fetch order details at this time.",
+                    showerror: err,
                     loader: false
                   },
                   () => {
                     valid.errorTracking([this.state.showerror], location.href);
                   }
+                );
+                this.TrackOrderFormRef.current?.updateInputsWithError(
+                  {
+                    orderNumber: err
+                  },
+                  true
                 );
               } else {
                 this.setState({
@@ -138,10 +159,11 @@ class TrackOrder extends React.Component<Props, State> {
               }
             })
             .catch(err => {
+              const errmsg =
+                "Please retry in some time, unable to fetch order details at this time.";
               this.setState(
                 {
-                  showerror:
-                    "Please retry in some time, unable to fetch order details at this time.",
+                  showerror: errmsg,
                   loader: false
                 },
                 () => {
@@ -149,6 +171,12 @@ class TrackOrder extends React.Component<Props, State> {
                 }
               );
               console.log(err);
+              this.TrackOrderFormRef.current?.updateInputsWithError(
+                {
+                  orderNumber: errmsg
+                },
+                true
+              );
             });
         }
       })
@@ -171,16 +199,29 @@ class TrackOrder extends React.Component<Props, State> {
               );
             }
           );
+          this.TrackOrderFormRef.current?.updateInputsWithError(
+            {
+              orderNumber: errorMsg
+            },
+            true
+          );
         } else {
+          const errMsg =
+            "Please retry in some time, unable to fetch order details at this time.";
           this.setState(
             {
-              showerror:
-                "Please retry in some time, unable to fetch order details at this time.",
+              showerror: errMsg,
               loader: false
             },
             () => {
               valid.errorTracking([this.state.showerror], location.href);
             }
+          );
+          this.TrackOrderFormRef.current?.updateInputsWithError(
+            {
+              orderNumber: errMsg
+            },
+            true
           );
           console.log(err);
         }
@@ -481,11 +522,11 @@ class TrackOrder extends React.Component<Props, State> {
                 />
               </div>
               <div>
-                {this.state.showerror ? (
+                {/* {this.state.showerror ? (
                   <p className={cs(styles.ctaError)}>{this.state.showerror}</p>
                 ) : (
                   ""
-                )}
+                )} */}
                 <input
                   type="submit"
                   disabled={!updateSubmit}
