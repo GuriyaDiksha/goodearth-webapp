@@ -118,7 +118,7 @@ const MyProfile: React.FC<ProfileProps> = ({ setCurrentSection }) => {
     formData.dateOfBirth = formData.dateOfBirth
       ? moment(formData.dateOfBirth).format("YYYY-MM-DD")
       : "";
-    debugger;
+
     setProfileState({
       ...profileState,
       user,
@@ -344,7 +344,7 @@ const MyProfile: React.FC<ProfileProps> = ({ setCurrentSection }) => {
     dateOfBirth,
     subscribe
   } = data;
-  debugger;
+
   const formContent = (
     <div className={cs(styles.loginForm, globalStyles.voffset4)}>
       <div>
@@ -446,7 +446,6 @@ const MyProfile: React.FC<ProfileProps> = ({ setCurrentSection }) => {
             </div>
             <div>
               <div className="select-group text-left">
-                {console.log("countryOptions====", countryOptions)}
                 <FormSelect
                   required
                   label="Country"
