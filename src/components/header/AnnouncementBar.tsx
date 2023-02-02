@@ -28,6 +28,7 @@ const AnnouncementBar: React.FC<Props> = ({
     registrantName,
     coRegistrantName
   } = useSelector((state: AppState) => state.header.announcementData);
+  const { mobile } = useSelector((state: AppState) => state.device);
   const dispatch = useDispatch();
   // const [currentIndex, setCurrentIndex] = useState(0);
   // const [animation, setAnimation] = useState<null | NodeJS.Timeout>(null);
@@ -120,7 +121,9 @@ const AnnouncementBar: React.FC<Props> = ({
                   styles.announcementContainer
                 )}
                 style={{
-                  background: `url(${ele?.DesktopPatternImage}) ${
+                  background: `url(${
+                    mobile ? ele?.mobilePatternImage : ele?.DesktopPatternImage
+                  }) ${
                     isBridalActive || isBridalRegistryPage
                       ? bridalBgColorcode
                       : ele?.bgColorcode || bgColorcode
