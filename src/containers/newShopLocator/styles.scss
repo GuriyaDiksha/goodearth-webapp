@@ -136,6 +136,19 @@ $banner-mobile-height:500px;
                             margin-right: 25px;
                         }
                     }
+                    .phone-block{
+                        @include b4_12px_montserrat_charcoal();
+                        letter-spacing: 0.36px;
+                        margin-bottom: 35px;
+                        margin-top: 10px;
+                    }
+                    .shopper-title{
+                        @include b4_12px_montserrat_charcoal();
+                        letter-spacing: 0.36px;
+                        margin-bottom: 40px;
+                        font-weight: $medium;
+                        margin-bottom: 0px;
+                    }
                     .shopper-block{
                         display: flex;
                         @include b4_12px_montserrat_charcoal();
@@ -146,9 +159,6 @@ $banner-mobile-height:500px;
                             border-right: 1px solid #E5E5E5;
                             padding-right: 25px;
                             margin-right: 25px;
-                            .title{
-                                font-weight: $medium;
-                            }
                         }
                         .phone{
                             @include b4_12px_montserrat_charcoal();

@@ -153,39 +153,44 @@ class ShopLocator extends Component<Props, State> {
                       className={cs(styles.icon, styles.store)}
                       src={storeIcon}
                     />
-                    <div className={styles.name}>Khan Market</div>
-                    <div className={styles.location}>Delhi</div>
-                    <div className={styles.desc}>
-                      An urban haven of contemporary Indian design and lifestyle
-                      luxury in the midst of Delhi’s busiest marketplace.
-                      Meandering paths of discovery through a dynamically edited
-                      Good Earth Home universe and 2600 sq.ft. of Sustain
-                      apparel.
-                    </div>
-                    <div className={styles.openDays}>OPEN 7 DAYS A WEEK</div>
-                    <div className={styles.time}> 11:00 am - 8:00 pm IST</div>
+                    <div className={styles.name}>{data.place}</div>
+                    <div className={styles.location}>{data.city}</div>
+                    <div className={styles.desc}>{data.shopContent}</div>
+                    <div className={styles.openDays}>{data.opendays}</div>
+                    <div className={styles.time}>{data.time}</div>
                     <div className={styles.addressBlock}>
-                      <div className={styles.address}>
-                        Shop No.9 A.B.C. Ground 1st & 2nd Floor, Khan Market New
-                        Delhi - 110003
-                      </div>
+                      <div className={styles.address}>{data.address}</div>
                       <div className={styles.phone}>
-                        <p>+91-11-24647179</p>
-                        <p>+91-11-24647179</p>
-                        <p>+91-11-24647179</p>
+                        {data.tel1.map((item: any, i: number) => {
+                          return <p key={`tel1_${i}`}>{item}</p>;
+                        })}
                       </div>
                     </div>
-                    <div className={styles.shopperBlock}>
-                      <div className={styles.shopperName}>
-                        <div className={styles.title}>Personal Shopper</div>
-                        <p>Shikha(Home)</p>
-                        <p>Sadhna(Apparel)</p>
+                    {data.shopper_details.length > 0 && (
+                      <div className={styles.shopperTitle}>
+                        Personal Shopper
                       </div>
-                      <div className={styles.phone}>
-                        <p>+91-95825-59308</p>
-                        <p>+91-72919-11112</p>
+                    )}
+                    {data.shopper_details.length > 0 && (
+                      <div className={styles.shopperBlock}>
+                        <div className={styles.shopperName}>
+                          {data.shopper_details.map((item: any, i: number) => {
+                            return (
+                              <p key={`shopper_${i}`}>
+                                {item.name}({item.department})
+                              </p>
+                            );
+                          })}
+                        </div>
+                        <div className={styles.phone}>
+                          {data.shopper_details.map((item: any, i: number) => {
+                            return (
+                              <p key={`shopper_phone${i}`}>{item.phone}</p>
+                            );
+                          })}
+                        </div>
                       </div>
-                    </div>
+                    )}
                     <div className={styles.getDirections}>
                       <a
                         href={data.direction}
@@ -197,18 +202,15 @@ class ShopLocator extends Component<Props, State> {
                     </div>
                   </div>
                   <div className={styles.slider}>
-                    {/* <div className={styles.inner}>
-                        <img src={data.bannerShop[0].image} />
-                      </div> */}
                     <Slider {...settings}>
                       {data.bannerShop.map((item: any) => {
                         return (
                           <div
                             className={styles.imgContainer}
-                            key={`cafe_${i}`}
+                            key={`shope_image${i}`}
                           >
                             <div>
-                              <img key={`cafe_${i}`} src={item.image} />
+                              <img src={item.image} />
                             </div>
                           </div>
                         );
@@ -217,58 +219,68 @@ class ShopLocator extends Component<Props, State> {
                   </div>
                 </div>
                 {/* Cafe Block */}
-                <div className={styles.shopBlock}>
-                  <div className={styles.info}>
-                    <img
-                      className={cs(styles.icon, styles.store)}
-                      src={cafeIcon}
-                    />
-                    <div className={styles.name}>Latitude 28, Khan Market</div>
-                    <div className={styles.location}>Delhi</div>
-                    <div className={styles.desc}>
-                      ALatitude 28 Café and Wine Bar is it perfect place for a
-                      power lunch or an afternoon shopping date for a spot of
-                      tea with friends. Celebrity chef Ritu Dalmia’s wine paired
-                      menu is as delightful as it is dynamic. Café is open till
-                      11pm daily.
-                    </div>
-                    <div className={styles.openDays}>OPEN 7 DAYS A WEEK</div>
-                    <div className={styles.time}> 11:00 am - 8:00 pm IST</div>
-                    <div className={styles.addressBlock}>
-                      <div className={styles.address}>
-                        Shop No.9 A.B.C. Ground 1st & 2nd Floor, Khan Market New
-                        Delhi - 110003
+                {data.cafeHeading2 && (
+                  <div className={styles.shopBlock}>
+                    <div className={styles.info}>
+                      <img
+                        className={cs(styles.icon, styles.store)}
+                        src={cafeIcon}
+                      />
+                      <div className={styles.name}>
+                        {data.cafeHeading2}, {data.place}
                       </div>
-                      <div className={styles.phone}>
-                        <p>+91-11-24647179</p>
-                        <p>+91-11-24647179</p>
-                        <p>+91-11-24647179</p>
+                      <div className={styles.location}>{data.city}</div>
+                      <div className={styles.desc}>{data.cafeContent}</div>
+                      <div className={styles.openDays}>{data.cafeOpendays}</div>
+                      {data.cafeTime && (
+                        <div className={styles.time}>{data.cafeTime}</div>
+                      )}
+                      {data.cafeAddress ? (
+                        <div className={styles.addressBlock}>
+                          <div className={styles.address}>
+                            {data.cafeAddress}
+                          </div>
+                          <div className={styles.phone}>
+                            {data.cafeTel1.map((item: any, i: number) => {
+                              return <p key={`cafeTel1_${i}`}>{item}</p>;
+                            })}
+                          </div>
+                        </div>
+                      ) : (
+                        <div className={styles.phoneBlock}>
+                          {data.cafeTel1.map((item: any, i: number) => {
+                            return <p key={`cafeTel1_${i}`}>{item}</p>;
+                          })}
+                        </div>
+                      )}
+                      <div className={styles.getDirections}>
+                        <a
+                          href={data.cafeDirection}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          GET DIRECTIONS
+                        </a>
                       </div>
                     </div>
-                    <div className={styles.getDirections}>
-                      <a
-                        href={data.cafeDirection}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        GET DIRECTIONS
-                      </a>
-                    </div>
-                  </div>
-                  <div className={styles.slider}>
-                    {/* <Slider {...settings}>
-                        {
-                          data.bannerCafe.map((item: any) => {
-                            return(
-                              <div className={styles.imageContainer} key={`cafe_${i}`}>
-                                <img src={item.image}/>
+                    <div className={styles.slider}>
+                      <Slider {...settings}>
+                        {data.bannerCafe.map((item: any) => {
+                          return (
+                            <div
+                              className={styles.imgContainer}
+                              key={`cafe_${i}`}
+                            >
+                              <div>
+                                <img key={`cafe_${i}`} src={item.image} />
                               </div>
-                            )
-                          })
-                        }
-                      </Slider> */}
+                            </div>
+                          );
+                        })}
+                      </Slider>
+                    </div>
                   </div>
-                </div>
+                )}
               </div>
             );
           })}
