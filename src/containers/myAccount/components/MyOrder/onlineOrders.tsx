@@ -353,7 +353,7 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
                   >
                     <div className={styles.info}>
                       <div className={styles.row}>
-                        <div className={styles.data}>
+                        <div className={cs(styles.data, styles.date)}>
                           {moment(item.datePlaced).format("D MMM,YYYY")}
                         </div>
                       </div>
