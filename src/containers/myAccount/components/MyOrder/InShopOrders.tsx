@@ -8,12 +8,14 @@ import globalStyles from "styles/global.scss";
 import styles from "../styles.scss";
 import cs from "classnames";
 import { useDispatch } from "react-redux";
-import InShopOrderDetails from "./InShopOrderDetails";
+// import InShopOrderDetails from "./InShopOrderDetails";
+import noPlpImage from "images/noimageplp.png";
 import invoice from "../../../../images/invoice.svg";
 import invoiceDisabled from "../../../../images/invoiceDisabled.svg";
 
 const InShopOrder: React.FC<OrdersProps> = props => {
   const [data, setData] = useState<any>([]);
+  const [orderdata, setOrderData] = useState<any>({});
   const [allData, setAllData] = useState<any>([]);
   const [isOpenAddressIndex, setIsOpenAddressIndex] = useState(-1);
   const dispatch = useDispatch();
@@ -55,6 +57,18 @@ const InShopOrder: React.FC<OrdersProps> = props => {
   };
 
   const showDetails = (index: number, id: string): any => {
+    AccountService.fetchshopOrderDetails(dispatch, id)
+      .then((result: any) => {
+        if (result != "error") {
+          console.log(result);
+          setOrderData(result);
+        }
+        props.isLoading(false);
+      })
+      .catch(err => {
+        props.isLoading(false);
+        console.error("Axios Error: ", err);
+      });
     setIsOpenAddressIndex(index);
     setTimeout(() => {
       const orderElem = id && document.getElementById(id);
@@ -65,7 +79,80 @@ const InShopOrder: React.FC<OrdersProps> = props => {
   };
 
   const renderOrder = (item: any, index: number) => {
-    return <div></div>;
+    const html = [];
+    const shippingAddress = data.shipping_address;
+    const billingAddress = data.billing_address;
+    if (shippingAddress || billingAddress) {
+      html.push(
+        <div className={styles.addressBlock}>
+          {shippingAddress ? (
+            <div className={styles.address}>
+              <div className={styles.title}>shipping address</div>
+              <div className={cs(styles.row, styles.name)}>
+                PURCHASED (SHOP)
+              </div>
+              <div className={cs(styles.row, styles.name)}>ECOM</div>
+            </div>
+          ) : (
+            ""
+          )}
+          {billingAddress ? (
+            <div className={styles.address}>
+              <div className={styles.title}>billing address</div>
+              <div className={cs(styles.row, styles.name)}>
+                {billingAddress.firstName}
+                &nbsp; {billingAddress.lastName}
+              </div>
+              <div className={styles.row}>{billingAddress.line1}</div>
+              <div className={styles.row}>{billingAddress.line2}</div>
+              <div className={styles.row}>
+                {billingAddress.state},&nbsp;{billingAddress.postcode}
+              </div>
+              <div className={styles.row}>{billingAddress.countryName}</div>
+              <div className={cs(styles.row, styles.phoneNumber)}>
+                {billingAddress.phoneNumber}
+              </div>
+            </div>
+          ) : (
+            ""
+          )}
+        </div>
+      );
+    }
+    {
+      orderdata?.order_lines?.map((item: any) => {
+        const charCurrency = String.fromCharCode(
+          ...currencyCode["INR" as Currency]
+        );
+        html.push(
+          <div className={cs(styles.product)} key={item.sku}>
+            <div className={cs(styles.imageContainer)}>
+              <img src={noPlpImage} />
+            </div>
+            <div className={cs(styles.productInfo)}>
+              <p className={styles.title}>{item.title}</p>
+              <p className={cs(styles.price)}>
+                <span className={cs(styles.amountPaid)}>
+                  {`${charCurrency} ${item.price}`}
+                </span>
+              </p>
+            </div>
+          </div>
+        );
+      });
+    }
+
+    return html;
+  };
+
+  const closeDetails = (index: number, orderNum?: string) => {
+    setIsOpenAddressIndex(-1);
+    setTimeout(() => {
+      const orderElem = orderNum && document.getElementById(orderNum);
+      if (orderElem) {
+        orderElem.scrollIntoView({ block: "center", behavior: "smooth" });
+      }
+    }, 300);
   };
 
   const closeAddress = (data: any, index: number) => {
@@ -117,14 +204,17 @@ const InShopOrder: React.FC<OrdersProps> = props => {
             {/* Actions */}
             <div className={styles.actions}>
               <p className={styles.action}>
-                <a
-                  onClick={() =>
-                    isHide ? "" : showDetails(index, data.number)
-                  }
-                >
-                  {" "}
-                  view{" "}
-                </a>
+                {isOpenAddressIndex == index ? (
+                  <a onClick={() => closeDetails(index, data.number)}>close</a>
+                ) : (
+                  <a
+                    onClick={() =>
+                      isHide ? "" : showDetails(index, data.number)
+                    }
+                  >
+                    view
+                  </a>
+                )}
               </p>
               <p
                 className={cs(styles.action, {
@@ -171,16 +261,6 @@ const InShopOrder: React.FC<OrdersProps> = props => {
       </div>
     );
     return html;
-  };
-
-  const closeDetails = (index: number, orderNum?: string) => {
-    setIsOpenAddressIndex(-1);
-    setTimeout(() => {
-      const orderElem = orderNum && document.getElementById(orderNum);
-      if (orderElem) {
-        orderElem.scrollIntoView({ block: "center", behavior: "smooth" });
-      }
-    }, 300);
   };
 
   return (
