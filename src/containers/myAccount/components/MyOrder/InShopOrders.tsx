@@ -76,8 +76,8 @@ const InShopOrder: React.FC<OrdersProps> = props => {
     html.push(
       <div className={bootstrapStyles.col12}>
         <div className={styles.add} id={data.number}>
-          <address className={styles.orderBlock}>
-            <label className={styles.topLabel}>order # {data.number}</label>
+          <div className={styles.myOrderBlock}>
+            <label>order # {data.number}</label>
             <div className={bootstrapStyles.row}>
               <div className={bootstrapStyles.col8}>
                 <p>{moment(data.date_placed).format("D MMM,YYYY")}</p>
@@ -170,7 +170,7 @@ const InShopOrder: React.FC<OrdersProps> = props => {
                 </p>
               </div>
             </div>
-          </address>
+          </div>
         </div>
       </div>
     );
