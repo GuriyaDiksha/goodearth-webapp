@@ -1416,6 +1416,10 @@ input[type="text"]{
       &.disabled{
         color: #19191950;
         cursor: not-allowed;
+        *{
+          color: #19191950;
+          cursor: not-allowed;
+        }
       }
       &:hover{
         color: $gold;
