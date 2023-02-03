@@ -9,7 +9,7 @@ import storeIcon from "images/shopLocator/store.svg";
 import cafeIcon from "images/shopLocator/cafe.svg";
 import anarIcon from "images/shopLocator/anar.png";
 import Slider from "react-slick";
-import "./slick.css";
+import "./shoplocator-slick.css";
 
 // import rawData from "./data.json"
 
@@ -19,9 +19,7 @@ const settings = {
   speed: 500,
   slidesToShow: 1,
   slidesToScroll: 1,
-  arrows: true,
-  prevArrow: <div>prev</div>,
-  nextArrow: <div>next</div>
+  arrows: true
 };
 
 const mapStateToProps = (state: AppState) => {
@@ -58,6 +56,7 @@ class ShopLocator extends Component<Props, State> {
     this.setState({
       currentCity: data
     });
+    window.history.pushState("", "", data);
   };
 
   componentDidMount(): void {
@@ -93,7 +92,6 @@ class ShopLocator extends Component<Props, State> {
 
   render() {
     const { shopData, currentCity } = this.state;
-    console.log(shopData[currentCity]);
     return (
       <div
         className={cs(styles.pageContainer, {
