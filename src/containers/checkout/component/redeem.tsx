@@ -67,7 +67,7 @@ class Reedem extends React.Component<Props, RedeemState> {
         txtvalue: ""
       });
     } else if (
-      +value <= loyaltyData?.CustomerPointInformation?.AvailablePoint
+      +value <= loyaltyData?.CustomerPointInformation?.EligibleRedemptionPoints
       //  && value >= 0
     ) {
       this.setState({
@@ -78,7 +78,7 @@ class Reedem extends React.Component<Props, RedeemState> {
       this.setState({
         error:
           "You can redeem points upto " +
-          loyaltyData?.CustomerPointInformation?.AvailablePoint
+          loyaltyData?.CustomerPointInformation?.EligibleRedemptionPoints
       });
     }
   };
@@ -184,7 +184,10 @@ class Reedem extends React.Component<Props, RedeemState> {
                   ELIGIBLE FOR REDEMPTION:
                 </p>
                 <p className={styles.textMuted}>
-                  {loyaltyData?.CustomerPointInformation?.AvailablePoint}
+                  {
+                    loyaltyData?.CustomerPointInformation
+                      ?.EligibleRedemptionPoints
+                  }
                 </p>
               </div>
               <div
