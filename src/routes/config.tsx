@@ -122,7 +122,7 @@ const routes: RouteConfig = [
   },
   {
     path: ROUTES.SHOP,
-    component: loadable(() => import("containers/shopLocator")),
+    component: loadable(() => import("containers/newShopLocator")),
     action: initActionShop,
     exact: false
   },
@@ -266,7 +266,10 @@ const makerRoutes = [
   ROUTES.DEEPSHIKHA,
   ROUTES.EESHAAN,
   ROUTES.GUEST,
-  ROUTES.TASTINGROOM
+  ROUTES.TASTINGROOM,
+  ROUTES.MIRAGE,
+  ROUTES.MIRAGESHOP,
+  ROUTES.MAGHREB
 ];
 
 makerRoutes.forEach(route => {

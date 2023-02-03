@@ -1714,11 +1714,12 @@ ul.inner-menu-mobile {
 .announcement-container {
   display: flex;
   justify-content: center;
-  height: 100%;
+  height: 40px;
   align-items: center;
   padding: 14px 31px 14px 31px;
-  max-height: 40px;
-
+  z-index: 1;
+  position: relative;
+  
   @media (max-width:992px) {
     padding: 10px 28px 10px 28px;
   }
@@ -1878,7 +1879,10 @@ ul.inner-menu-mobile {
   margin-left: 17%;
   width: 100vw;
 }
-
+.didYouMeanText{
+  width: 100%;
+  @include b3_14px_montserrat_charcoal();
+}
 .icon-cross {
   font-size: 10px;
   margin: 9px 3px 0px 5px;
