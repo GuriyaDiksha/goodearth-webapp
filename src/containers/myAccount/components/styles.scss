@@ -1193,7 +1193,7 @@ input[type="text"]{
   .trail-track {
     width: 100%;
     margin: 30px 30px 0 30px;
-    padding: 25px 0 0 0;
+    padding: 30px 0 25px 0;
     border-top: 1px solid #E5E5E5;
     @media screen and (max-width: 992px){
       margin-left:10px;
@@ -1309,7 +1309,7 @@ input[type="text"]{
       .row {
         @include b4_12px_montserrat_charcoal();
         letter-spacing: 0.3px;
-        line-height: 16px;
+        line-height: 18px;
         text-align: left;
         &.name {
           @include b4_12px_montserrat_charcoal();
