@@ -199,7 +199,7 @@ class ShopLocator extends Component<Props, State> {
                       </a>
                     </div>
                   </div>
-                  <div className={styles.slider}>
+                  <div className={cs(styles.slider, "shopLocatorSlider")}>
                     <Slider {...settings}>
                       {data.bannerShop.map((item: any) => {
                         return (
@@ -261,7 +261,7 @@ class ShopLocator extends Component<Props, State> {
                         </a>
                       </div>
                     </div>
-                    <div className={styles.slider}>
+                    <div className={cs(styles.slider, "shopLocatorSlider")}>
                       <Slider {...settings}>
                         {data.bannerCafe.map((item: any) => {
                           return (
