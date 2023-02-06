@@ -22,7 +22,7 @@ import banner from "../../images/bannerBottom.jpg";
 import CollectionService from "services/collection";
 import { getProductIdFromSlug } from "utils/url";
 import ReactHtmlParser from "react-html-parser";
-import * as valid from "utils/validate";
+import { collectionProductImpression, pageViewGTM } from "utils/validate";
 import { Currency } from "typings/currency";
 import { POPUP } from "constants/components";
 import metaActionCollection from "./metaAction";
@@ -73,11 +73,7 @@ const mapDispatchToProps = (dispatch: Dispatch, params: any) => {
         console.log("Collection Error", error);
       });
       if (filterData) {
-        valid.collectionProductImpression(
-          filterData,
-          "CollectionSpecific",
-          currency
-        );
+        collectionProductImpression(filterData, "CollectionSpecific", currency);
         filterData.results = data.concat(filterData.results);
         dispatch(updateCollectionSpecificData({ ...filterData }));
       }
@@ -111,11 +107,7 @@ const mapDispatchToProps = (dispatch: Dispatch, params: any) => {
         console.log("Collection Error", error);
       });
       if (filterData) {
-        valid.collectionProductImpression(
-          filterData,
-          "CollectionSpecific",
-          currency
-        );
+        collectionProductImpression(filterData, "CollectionSpecific", currency);
         dispatch(updateCollectionSpecificData({ ...filterData }));
       }
     }
@@ -261,7 +253,7 @@ class CollectionSpecific extends React.Component<
       dataLayer.push(function(this: any) {
         this.reset();
       });
-      valid.pageViewGTM("CollectionSpecific");
+      pageViewGTM("CollectionSpecific");
     }
     // dataLayer.push({
     //   event: "CategoryLangingPageView",

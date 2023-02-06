@@ -7,7 +7,7 @@ import cs from "classnames";
 import { useLocation } from "react-router";
 import { AppState } from "reducers/typings";
 import { useSelector, useStore } from "react-redux";
-import * as util from "utils/validate";
+import { pageViewGTM } from "utils/validate";
 import CookieService from "services/cookie";
 import { GA_CALLS } from "constants/cookieConsent";
 import MetaService from "services/meta";
@@ -58,7 +58,7 @@ const MakerPage: React.FC = () => {
       default:
         page = "Home";
     }
-    util.pageViewGTM(page);
+    pageViewGTM(page);
     if (location.pathname == "/about-us") {
       const request = {
         page: "static",

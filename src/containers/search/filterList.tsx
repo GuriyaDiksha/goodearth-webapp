@@ -12,7 +12,7 @@ import "./slider.css";
 import { State, FilterProps } from "./typings";
 import { withRouter } from "react-router";
 import { RouteComponentProps } from "react-router-dom";
-import * as valid from "utils/validate";
+import { productImpression } from "utils/validate";
 import Loader from "components/Loader";
 import iconStyles from "../../styles/iconFonts.scss";
 import multiColour from "../../images/multiColour.svg";
@@ -725,7 +725,7 @@ class FilterList extends React.Component<Props, State> {
       updateProduct(filterUrl + `&page_size=${pageSize}`, listdata)
         .then(searchList => {
           changeLoader?.(false);
-          valid.productImpression(
+          productImpression(
             searchList,
             searchValue || "PLP",
             this.props.currency,
@@ -812,7 +812,7 @@ class FilterList extends React.Component<Props, State> {
     fetchSearchProducts(filterUrl + `&page_size=${pageSize}`)
       .then(searchList => {
         changeLoader?.(false);
-        valid.productImpression(
+        productImpression(
           searchList,
           searchValue || "PLP",
           this.props.currency

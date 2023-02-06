@@ -23,7 +23,7 @@ import { AppState } from "reducers/typings";
 import { Country } from "components/Formsy/CountryCode/typings";
 import AddressService from "services/address";
 import { updateCountryData } from "actions/address";
-import * as valid from "utils/validate";
+import { getErrorList, errorTracking } from "utils/validate";
 import BridalContext from "containers/myAccount/components/Bridal/context";
 import noPincodeCountryList from "./noPincodeCountryList";
 
@@ -200,12 +200,9 @@ const AddressForm: React.FC<Props> = props => {
         firstErrorField.scrollIntoView({ block: "center", behavior: "smooth" });
       }
       // for error Tracking
-      const errorList = valid.getErrorList(
-        globalStyles.errorMsg,
-        "address-form"
-      );
+      const errorList = getErrorList(globalStyles.errorMsg, "address-form");
       if (errorList && errorList.length) {
-        valid.errorTracking(errorList, location.href);
+        errorTracking(errorList, location.href);
       }
     }, 0);
   };

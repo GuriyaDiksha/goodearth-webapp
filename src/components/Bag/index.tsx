@@ -11,7 +11,7 @@ import { Dispatch } from "redux";
 import BasketService from "services/basket";
 import { connect } from "react-redux";
 import { AppState } from "reducers/typings";
-import * as util from "../../utils/validate";
+import { getPageType } from "../../utils/validate";
 import CookieService from "services/cookie";
 import { GA_CALLS } from "constants/cookieConsent";
 
@@ -59,7 +59,7 @@ class Bag extends React.Component<Props, State> {
           "Event Label": skuList.length > 0 ? skuList.join(",") : "",
           "Time Stamp": new Date().toISOString(),
           "Page Url": location.href,
-          "Page Type": util.getPageType(),
+          "Page Type": getPageType(),
           "Login Status": this.props.isLoggedIn ? "logged in" : "logged out",
           "Page referrer url": location.href
         });

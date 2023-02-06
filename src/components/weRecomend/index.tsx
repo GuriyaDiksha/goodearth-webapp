@@ -14,7 +14,7 @@ import { RecommendData, RecommenedSliderProps } from "./typings";
 import Slider from "react-slick";
 import WishlistButton from "components/WishlistButton";
 import LazyImage from "components/LazyImage";
-import * as valid from "utils/validate";
+import { weRecommendProductImpression } from "utils/validate";
 import CookieService from "../../services/cookie";
 import { GA_CALLS } from "constants/cookieConsent";
 
@@ -87,11 +87,7 @@ const WeRecommend: React.FC<RecommenedSliderProps> = (
   );
 
   useEffect(() => {
-    valid.weRecommendProductImpression(
-      recommendedProducts,
-      "WeRecommend",
-      currency
-    );
+    weRecommendProductImpression(recommendedProducts, "WeRecommend", currency);
   }, []);
 
   const items = withoutZeroPriceData?.map((item: any, i: number) => {

@@ -1,6 +1,6 @@
 import React, { Fragment } from "react";
 import cs from "classnames";
-import { connect, useStore } from "react-redux";
+import { connect } from "react-redux";
 import globalStyles from "styles/global.scss";
 import bootstrapStyles from "../../../../styles/bootstrap/bootstrap-grid.scss";
 import styles from "../styles.scss";
@@ -10,7 +10,7 @@ import GiftCardItem from "../Balance/giftDetail";
 import { AppState } from "reducers/typings";
 import FormInput from "components/Formsy/FormInput";
 import Formsy from "formsy-react";
-import * as valid from "utils/validate";
+import { getErrorList, errorTracking } from "utils/validate";
 import OtpCompActivateGC from "components/OtpComponent/OtpCompActivateGC";
 import Loader from "components/Loader";
 import { Link } from "react-router-dom";
@@ -68,7 +68,7 @@ class Giftcard extends React.Component<Props, GiftState> {
             error: "Please enter a valid Gift Card code"
           },
           () => {
-            valid.errorTracking([this.state.error], location.href);
+            errorTracking([this.state.error], location.href);
           }
         );
         this.ActivateGCForm.current?.updateInputsWithError({
@@ -111,7 +111,7 @@ class Giftcard extends React.Component<Props, GiftState> {
           error: "Please enter a valid Gift Card code"
         },
         () => {
-          valid.errorTracking([this.state.error], location.href);
+          errorTracking([this.state.error], location.href);
         }
       );
     } else {
@@ -165,12 +165,12 @@ class Giftcard extends React.Component<Props, GiftState> {
         firstErrorField.scrollIntoView({ block: "center", behavior: "smooth" });
       }
       // for error Tracking
-      const errorList = valid.getErrorList(
+      const errorList = getErrorList(
         globalStyles.errorMsg,
         "activate-giftcard-form"
       );
       if (errorList && errorList.length) {
-        valid.errorTracking(errorList, location.href);
+        errorTracking(errorList, location.href);
       }
     }, 0);
   };

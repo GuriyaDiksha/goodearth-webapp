@@ -13,10 +13,10 @@ import Loader from "components/Loader";
 import Reedem from "./redeem";
 // import { updateComponent, updateModal } from "actions/modal";
 import giftwrapIcon from "../../../images/gift-wrap-icon.svg";
-import * as valid from "utils/validate";
+import { errorTracking, showErrors } from "utils/validate";
 // import { POPUP } from "constants/components";
 import CookieService from "services/cookie";
-import * as util from "../../../utils/validate";
+import { proceedForPayment, getPageType } from "../../../utils/validate";
 import CheckoutService from "services/checkout";
 import { GA_CALLS, ANY_ADS } from "constants/cookieConsent";
 
@@ -127,7 +127,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
       }
       if (currency == "GBP" && !subscribegbp) {
         //setGbpError("Please agree to shipping & payment terms.");
-        valid.errorTracking(
+        errorTracking(
           ["Please agree to shipping & payment terms."],
           location.href
         );
@@ -149,24 +149,24 @@ const PaymentSection: React.FC<PaymentProps> = props => {
       checkout(data)
         .then((response: any) => {
           gtmPushPaymentTracking(paymentMode, paymentMethod);
-          util.proceedForPayment(basket, currency, paymentMethod);
+          proceedForPayment(basket, currency, paymentMethod);
           location.href = `${__API_HOST__ + response.paymentUrl}`;
           setIsLoading(false);
         })
         .catch((error: any) => {
-          let msg = valid.showErrors(error.response?.data.msg);
+          let msg = showErrors(error.response?.data.msg);
           const errorType = error.response?.data.errorType;
           if (errorType && errorType == "qty") {
             msg =
               "Some of the products in your cart have been updated/become unavailable. Please refresh before proceeding.";
           }
           setPaymentError(msg);
-          valid.errorTracking([msg], location.href);
+          errorTracking([msg], location.href);
           setIsLoading(false);
         });
     } else {
       setPaymentError("Please select a payment method");
-      valid.errorTracking(["Please select a payment method"], location.href);
+      errorTracking(["Please select a payment method"], location.href);
     }
   };
 
@@ -179,7 +179,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
         "Event Label": "Payment Option Page",
         "Time Stamp": new Date().toISOString(),
         "Page Url": location.href,
-        "Page Type": util.getPageType(),
+        "Page Type": getPageType(),
         "Login Status": isLoggedIn ? "logged in" : "logged out",
         "Page referrer url": CookieService.getCookie("prevUrl")
       });

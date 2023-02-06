@@ -28,7 +28,7 @@ import { WidgetImage } from "components/header/typings";
 import HeaderService from "services/headerFooter";
 import LoginService from "services/login";
 import { POPUP } from "constants/components";
-import * as util from "utils/validate";
+import { sortGTM, pageViewGTM } from "utils/validate";
 import CookieService from "../../services/cookie";
 import { GA_CALLS } from "constants/cookieConsent";
 
@@ -270,7 +270,7 @@ class Wishlist extends React.Component<Props, State> {
         break;
     }
     if (data) {
-      util.sortGTM(label || data);
+      sortGTM(label || data);
     }
     window.scrollTo(0, 0);
   };
@@ -313,7 +313,7 @@ class Wishlist extends React.Component<Props, State> {
       .catch(function(error) {
         console.log(error);
       });
-    util.pageViewGTM("Wishlist");
+    pageViewGTM("Wishlist");
   }
 
   componentWillUnmount() {

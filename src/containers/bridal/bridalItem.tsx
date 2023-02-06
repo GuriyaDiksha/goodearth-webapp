@@ -10,7 +10,7 @@ import styles from "./styles.scss";
 import globalStyles from "../../styles/global.scss";
 import cs from "classnames";
 import cartIcon from "../../images/bridal/icons_cartregistry-details.svg";
-import * as util from "../../utils/validate";
+import { showGrowlMessage } from "../../utils/validate";
 const mapStateToProps = (state: AppState) => {
   return {
     isSale: state.info.isSale,
@@ -30,7 +30,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
           bridalId,
           url
         );
-        util.showGrowlMessage(
+        showGrowlMessage(
           dispatch,
           "Item has been added to your bag!",
           3000,
@@ -42,7 +42,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
         if (typeof errorMessage != "string") {
           errorMessage = "Can't add to bag";
         }
-        util.showGrowlMessage(dispatch, errorMessage);
+        showGrowlMessage(dispatch, errorMessage);
       }
     }
   };

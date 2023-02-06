@@ -11,7 +11,7 @@ import "./slider.css";
 import { State, FilterProps } from "./typings";
 import { withRouter } from "react-router";
 import { RouteComponentProps } from "react-router-dom";
-import * as valid from "utils/validate";
+import { productImpression, moveChatUp } from "utils/validate";
 import bootstrap from "../../styles/bootstrap/bootstrap-grid.scss";
 import iconStyles from "styles/iconFonts.scss";
 
@@ -489,7 +489,7 @@ class CorporateFilter extends React.Component<Props, State> {
       updateProduct(filterUrl + `&page_size=${pageSize}`, listdata).then(
         plpList => {
           changeLoader?.(false);
-          valid.productImpression(
+          productImpression(
             plpList,
             categoryShop || "PLP",
             this.props.currency,
@@ -562,11 +562,7 @@ class CorporateFilter extends React.Component<Props, State> {
     const urlParams = new URLSearchParams(queryString);
     const categoryShop = urlParams.get("category_shop")?.split(">")[0];
     fetchPlpProducts(filterUrl + `&page_size=${pageSize}`).then(plpList => {
-      valid.productImpression(
-        plpList,
-        categoryShop || "PLP",
-        this.props.currency
-      );
+      productImpression(plpList, categoryShop || "PLP", this.props.currency);
       changeLoader?.(false);
       this.createList(plpList);
       this.props.updateFacets(this.getSortedFacets(plpList.results.facets));
@@ -604,7 +600,7 @@ class CorporateFilter extends React.Component<Props, State> {
   };
 
   // componentDidMount() {
-  //   valid.moveChatDown();
+  //   moveChatDown();
   //   window.addEventListener("scroll", this.handleScroll, { passive: true });
   //   this.props.updateScrollDown(false);
   //   this.unlisten = this.props.history.listen(this.stateChange);
@@ -720,7 +716,7 @@ class CorporateFilter extends React.Component<Props, State> {
   componentWillUnmount() {
     window.removeEventListener("scroll", this.handleScroll);
     // this.unlisten();
-    valid.moveChatUp();
+    moveChatUp();
   }
 
   getSortedFacets = (facets: any): any => {

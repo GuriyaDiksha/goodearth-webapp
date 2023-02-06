@@ -18,7 +18,7 @@ import HeaderService from "services/headerFooter";
 import { POPUP } from "constants/components";
 import BridalService from "services/bridal";
 import { updateNextUrl } from "actions/info";
-import * as util from "../../../utils/validate";
+import { showGrowlMessage } from "../../../utils/validate";
 
 const mapDispatchToProps = (dispatch: Dispatch) => {
   return {
@@ -90,7 +90,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
 
       MetaService.updateMeta(dispatch, cookies);
       BasketService.fetchBasket(dispatch);
-      util.showGrowlMessage(dispatch, MESSAGE.CURRENCY_CHANGED_SUCCESS, 7000);
+      showGrowlMessage(dispatch, MESSAGE.CURRENCY_CHANGED_SUCCESS, 7000);
     },
     showShipping: (remainingAmount: number, freeShippingApplicable: number) => {
       dispatch(

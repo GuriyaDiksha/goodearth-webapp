@@ -5,7 +5,7 @@ import globalStyles from "styles/global.scss";
 import styles from "../styles.scss";
 import cs from "classnames";
 import AddressService from "services/address";
-import * as Steps from "containers/checkout/constants";
+import { STEP_SHIPPING } from "containers/checkout/constants";
 import { useDispatch, useSelector } from "react-redux";
 import { AddressContext } from "components/Address/AddressMain/context";
 import { CheckoutAddressContext } from "containers/checkout/component/context";
@@ -722,7 +722,7 @@ const AddressItem: React.FC<Props> = props => {
                   addGAForShipping();
                 }}
               >
-                {activeStep == Steps.STEP_SHIPPING ? "SHIP" : "BILL"}
+                {activeStep == STEP_SHIPPING ? "SHIP" : "BILL"}
                 &nbsp;TO THIS ADDRESS {address.isTulsi ? "(FREE)" : ""}
               </div>
             )}

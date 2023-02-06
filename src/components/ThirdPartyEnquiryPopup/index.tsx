@@ -20,7 +20,7 @@ import FormTextArea from "components/Formsy/FormTextArea";
 import FormSelect from "components/Formsy/FormSelect";
 import { useSelector } from "react-redux";
 import { AppState } from "reducers/typings";
-import * as valid from "utils/validate";
+import { errorTracking, getErrorList } from "utils/validate";
 import { updateCountryData } from "actions/address";
 import { Country } from "components/Formsy/CountryCode/typings";
 
@@ -297,12 +297,12 @@ const CorporateEnquiryPopup: React.FC<Props> = ({
         firstErrorField.scrollIntoView({ block: "center", behavior: "smooth" });
       }
       // for error Tracking
-      const errorList = valid.getErrorList(
+      const errorList = getErrorList(
         globalStyles.errorMsg,
         "thirdparty-enquiry-form"
       );
       if (errorList && errorList.length) {
-        valid.errorTracking(errorList, location.href);
+        errorTracking(errorList, location.href);
       }
     }, 0);
   };

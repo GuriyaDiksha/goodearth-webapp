@@ -12,13 +12,12 @@ import LazyImage from "components/LazyImage";
 import CartSlider from "components/CartSlider";
 import { Link } from "react-router-dom";
 import { currencyCodes } from "constants/currency";
-import ModalStyles from "components/Modal/styles.scss";
 import bootstrap from "styles/bootstrap/bootstrap-grid.scss";
 import SizeSelector from "components/SizeSelector";
 import PdpQuantity from "components/quantity/pdpQuantity";
 import asset from "images/asset.svg";
 import { MESSAGE } from "constants/messages";
-import * as valid from "utils/validate";
+import { showGrowlMessage } from "utils/validate";
 import { updateComponent, updateModal } from "actions/modal";
 import { POPUP } from "constants/components";
 import PdpButton from "components/Button/pdpButton";
@@ -41,10 +40,10 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       return res;
     },
     showGrowlMessage: async () => {
-      valid.showGrowlMessage(dispatch, MESSAGE.ADD_TO_BAG_SUCCESS);
+      showGrowlMessage(dispatch, MESSAGE.ADD_TO_BAG_SUCCESS);
     },
     showerrorMessage: async (text: string) => {
-      valid.showGrowlMessage(dispatch, text);
+      showGrowlMessage(dispatch, text);
     },
     updateComponentModal: (
       component: string,

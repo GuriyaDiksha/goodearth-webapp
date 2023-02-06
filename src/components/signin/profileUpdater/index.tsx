@@ -16,7 +16,7 @@ import FormSelect from "components/Formsy/FormSelect";
 import FormCheckbox from "components/Formsy/FormCheckbox";
 import { Link } from "react-router-dom";
 import { Context } from "components/Modal/context";
-import * as valid from "utils/validate";
+import { getErrorList, decriptdata, errorTracking } from "utils/validate";
 import { Country } from "components/Formsy/CountryCode/typings";
 import LoginService from "services/login";
 import { updateCountryData } from "actions/address";
@@ -113,7 +113,7 @@ class ProfileUpdater extends React.Component<Props, State> {
             showerror: "Something went wrong, please try again"
           },
           () => {
-            valid.errorTracking([this.state.showerror], location.href);
+            errorTracking([this.state.showerror], location.href);
           }
         );
       });
@@ -275,7 +275,7 @@ class ProfileUpdater extends React.Component<Props, State> {
         window.scrollTo(0, 0);
       })
       .catch(error => {
-        const data = valid.decriptdata(error.response?.data);
+        const data = decriptdata(error.response?.data);
         if (data.error_message) {
           let errorMsg = data.error_message[0];
           if (errorMsg == "MaxRetries") {
@@ -287,7 +287,7 @@ class ProfileUpdater extends React.Component<Props, State> {
               showerror: errorMsg
             },
             () => {
-              valid.errorTracking([this.state.showerror], location.href);
+              errorTracking([this.state.showerror], location.href);
             }
           );
         } else if (error) {
@@ -296,7 +296,7 @@ class ProfileUpdater extends React.Component<Props, State> {
               showerror: "Something went Wrong"
             },
             () => {
-              valid.errorTracking([this.state.showerror], location.href);
+              errorTracking([this.state.showerror], location.href);
             }
           );
         }
@@ -311,7 +311,7 @@ class ProfileUpdater extends React.Component<Props, State> {
           showerror: "Please accept the terms & conditions"
         },
         () => {
-          valid.errorTracking([this.state.showerror], location.href);
+          errorTracking([this.state.showerror], location.href);
         }
       );
     }
@@ -324,12 +324,12 @@ class ProfileUpdater extends React.Component<Props, State> {
         firstErrorField.scrollIntoView({ block: "center", behavior: "smooth" });
       }
       // for error Tracking
-      const errorList = valid.getErrorList(
+      const errorList = getErrorList(
         globalStyles.errorMsg,
         "profile-updater-form"
       );
       if (errorList && errorList.length) {
-        valid.errorTracking(errorList, location.href);
+        errorTracking(errorList, location.href);
       }
     }, 0);
   };

@@ -17,10 +17,10 @@ import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import mapDispatchToProps from "./mapper/actions";
 import { genderOptions } from "constants/profile";
-import * as valid from "utils/validate";
+import { getErrorList, decriptdata, errorTracking } from "utils/validate";
 import { AppState } from "reducers/typings";
 import { Country } from "components/Formsy/CountryCode/typings";
-import * as util from "utils/validate";
+import { pageViewGTM } from "utils/validate";
 
 const mapStateToProps = (state: AppState) => {
   const isdList = state.address.countryData.map(list => {
@@ -88,7 +88,7 @@ class MyProfile extends React.Component<Props, State> {
       });
     this.props.fetchCountryData();
     this.changeCountryData(this.props.countryData);
-    util.pageViewGTM("MyAccount");
+    pageViewGTM("MyAccount");
   }
 
   UNSAFE_componentWillReceiveProps(nextProps: Props) {
@@ -173,7 +173,7 @@ class MyProfile extends React.Component<Props, State> {
         });
       })
       .catch(error => {
-        const errdata = valid.decriptdata(error.response?.data);
+        const errdata = decriptdata(error.response?.data);
         this.setState(
           {
             // disableButton: false
@@ -224,12 +224,9 @@ class MyProfile extends React.Component<Props, State> {
         firstErrorField.scrollIntoView({ block: "center", behavior: "smooth" });
       }
       // for error Tracking
-      const errorList = valid.getErrorList(
-        globalStyles.errorMsg,
-        "myprofile-form"
-      );
+      const errorList = getErrorList(globalStyles.errorMsg, "myprofile-form");
       if (errorList && errorList.length) {
-        valid.errorTracking(errorList, location.href);
+        errorTracking(errorList, location.href);
       }
     }, 0);
   };
