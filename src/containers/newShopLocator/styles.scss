@@ -282,3 +282,33 @@ $banner-mobile-height:500px;
         }
     }
 }
+
+.cafe-header{
+    position: relative;
+    padding-left: 60px;
+    .icon{
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        height: 30px;
+        width: 37px;
+    }
+    .name{
+        @include h3_20px_lora_charcoal();
+        letter-spacing: 0.4px;
+        line-height: 25px;
+        margin-bottom: 6px;
+    }
+}
+
+.cafe-accordion{
+    margin-bottom: 54px;
+}
+
+.accordion-section{
+    border-bottom: none;
+}
+
+.accordion-body{
+    width: 105%;
+}
