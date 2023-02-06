@@ -12,6 +12,7 @@ const Accordion: React.FC<Props> = memo(
     headerClassName,
     openHeaderClassName,
     mainBodyClassName,
+    mainBodyOpenClassName,
     bodyClassName,
     closedIconClassName = cs(styles.arrow, styles.close),
     openIconClassName = cs(styles.arrow, styles.open),
@@ -90,7 +91,8 @@ const Accordion: React.FC<Props> = memo(
                 {
                   [styles.emptyBody]: body?.toString().length == 0
                 },
-                mainBodyClassName
+                mainBodyClassName,
+                { [mainBodyOpenClassName || ""]: isOpen }
               )}
               ref={el => (bodyRef.current[i] = el)}
             >

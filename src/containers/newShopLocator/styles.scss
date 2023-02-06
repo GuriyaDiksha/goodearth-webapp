@@ -285,7 +285,8 @@ $banner-mobile-height:500px;
 
 .cafe-header{
     position: relative;
-    padding-left: 60px;
+    padding-left: 50px;
+    width: 100%;
     .icon{
         position: absolute;
         top: 0px;
@@ -299,6 +300,10 @@ $banner-mobile-height:500px;
         line-height: 25px;
         margin-bottom: 6px;
     }
+    .location{
+        @include b4_12px_montserrat_charcoal();
+        font-weight: $medium;
+    }
 }
 
 .cafe-accordion{
@@ -310,5 +315,19 @@ $banner-mobile-height:500px;
 }
 
 .accordion-body{
-    width: 105%;
+    @media screen and (min-width: 992px){
+        width: 105%;
+    }
+}
+
+.accordion-body-open{
+    @media screen and (max-width: 991px){
+        overflow: visible;
+    }
+}
+
+.arrow {
+    @include carret();
+    position: absolute;
+    right: 0px;
 }

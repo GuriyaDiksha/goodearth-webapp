@@ -140,6 +140,7 @@ class ShopLocator extends Component<Props, State> {
                     <div className={styles.name}>
                       {data.cafeHeading2}, {data.place}
                     </div>
+                    <div className={styles.location}>{data.city}</div>
                   </div>
                 ),
                 body: (
@@ -293,6 +294,9 @@ class ShopLocator extends Component<Props, State> {
                     className={styles.cafeAccordion}
                     sectionClassName={styles.accordionSection}
                     mainBodyClassName={styles.accordionBody}
+                    mainBodyOpenClassName={styles.accordionBodyOpen}
+                    closedIconClassName={cs(styles.arrow, styles.close)}
+                    openIconClassName={cs(styles.arrow, styles.open)}
                   />
                 )}
               </div>
