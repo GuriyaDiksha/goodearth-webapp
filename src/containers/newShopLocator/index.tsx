@@ -8,8 +8,10 @@ import styles from "./styles.scss";
 import storeIcon from "images/shopLocator/store.svg";
 import cafeIcon from "images/shopLocator/cafe.svg";
 import anarIcon from "images/shopLocator/anar.png";
-import Slider from "react-slick";
 import "./shoplocator-slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import "slick-carousel/slick/slick.css";
+import Slider from "react-slick";
 
 // import rawData from "./data.json"
 
