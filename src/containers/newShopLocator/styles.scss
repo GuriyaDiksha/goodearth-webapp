@@ -12,11 +12,11 @@ $banner-mobile-height:500px;
     }
     height: 100%;
     .banner{
-        height: 440px;
+        height: 438px;
         width: 100%;
         background: url("../../images/shopLocator/desktop_banner.png");
         .banner-text{
-            line-height: 440px;
+            line-height: 438px;
             font-family: $font-Lora;
             font-size: 30px;
             font-style: italic;
@@ -129,6 +129,7 @@ $banner-mobile-height:500px;
                         letter-spacing: 0.36px;
                         display: flex;
                         margin-bottom: 20px;
+                        overflow: auto;
                         .address{
                             width: 200px;
                             border-right: 1px solid #E5E5E5;
