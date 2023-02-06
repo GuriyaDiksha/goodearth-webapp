@@ -3,6 +3,8 @@ import Slider from "react-slick";
 import "./announcementBarSlider.css";
 import playBtn from "./../../images/play.svg";
 import pauseBtn from "./../../images/pause.svg";
+import "slick-carousel/slick/slick-theme.css";
+import "slick-carousel/slick/slick.css";
 
 type Props = {
   dots?: boolean;
