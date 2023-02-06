@@ -74,9 +74,11 @@ input[type="text"]{
     @include b3_14px_montserrat_light_charcoal();
     &:hover{
       cursor: pointer;
+      font-weight: $medium;
+      color: $gold;
     }
     &.active{
-      font-weight: $semibold;
+      font-weight: $medium;
       color: $gold;
     }
   }
@@ -356,7 +358,7 @@ input[type="text"]{
       text-transform: uppercase;
       font-size: 12px;
       letter-spacing: 1px;
-      font-weight: $semibold;
+      font-weight: $medium;
       &.add-checkout-actions {
         bottom: auto;
         position: absolute;
@@ -383,7 +385,7 @@ input[type="text"]{
       text-transform: uppercase;
       font-size: 12px;
       letter-spacing: 1px;
-      font-weight: $semibold;
+      font-weight: $medium;
       &.add-checkout-actions {
         bottom: auto;
         position: absolute;
@@ -416,18 +418,18 @@ input[type="text"]{
       }
       &.order-status{
         color: #4C4C4C;
-        font-weight: $semibold;
+        font-weight: $medium;
         .status {
           text-transform: uppercase;
         }
       }
       &.order-items{
         color: #4C4C4C;
-        font-weight: $semibold;
+        font-weight: $medium;
       }
       &.order-total{
         color: #4C4C4C;
-        font-weight: $semibold;
+        font-weight: $medium;
       }
     }
     .light {
@@ -979,7 +981,7 @@ input[type="text"]{
 
 .line{
   @include b4_12px_montserrat_charcoal();
-  font-weight: $semibold;
+  font-weight: $medium;
 }
 
 .view-tnc{
@@ -1163,8 +1165,12 @@ input[type="text"]{
           @include b4_12px_montserrat_charcoal();
         }
         .data{
-          @include b4_12px_montserrat_semibold_charcoal();
+          @include b4_12px_montserrat_charcoal();
+          font-weight: $medium;
           text-transform: uppercase;
+          &.date{
+            text-transform: capitalize;
+          }
         }
       }
     }
@@ -1178,7 +1184,8 @@ input[type="text"]{
         margin-bottom: 6px;
       }
       .data{
-        @include b4_12px_montserrat_semibold_charcoal();
+        @include b4_12px_montserrat_charcoal();
+        font-weight: $medium;
         text-transform: uppercase;
       }
     }
@@ -1261,7 +1268,7 @@ input[type="text"]{
         .date{
           font-family: $font-Montserrat;
           font-size: 12px;
-          font-weight: $semibold;
+          font-weight: $medium;
           letter-spacing: 0.5px;
           line-height: 20px;
           color: #191919;
@@ -1270,7 +1277,7 @@ input[type="text"]{
         .text {
           font-family: $font-Montserrat;
           font-size: 12px;
-          font-weight: $semibold;
+          font-weight: $medium;
           letter-spacing: 0.5px;
           line-height: 20px;
           color: #191919;
@@ -1300,7 +1307,7 @@ input[type="text"]{
         text-align: left;
       }
       .row {
-        @include b5_10px_montserrat_charcoal();
+        @include b4_12px_montserrat_charcoal();
         letter-spacing: 0.3px;
         line-height: 16px;
         text-align: left;
@@ -1313,6 +1320,7 @@ input[type="text"]{
           @include b4_12px_montserrat_charcoal();
           line-height: 20px;
           letter-spacing: 0.5px;
+          margin-top: 10px;
         }
       }
     }
@@ -1350,7 +1358,9 @@ input[type="text"]{
       .price {
         .amount-paid{
           @include b3_14px_montserrat_charcoal();
-          color: $gold;
+          &.gold{
+            color: $gold;
+          }
           text-transform: uppercase;
         }
         .original-price{
@@ -1381,7 +1391,7 @@ input[type="text"]{
       }
       &.total{
         border-top: 1px solid #e5e5e5;
-        font-weight: $semibold;
+        font-weight: $medium;
         line-height: 50px;
       }
       .label{
@@ -1406,6 +1416,10 @@ input[type="text"]{
       &.disabled{
         color: #19191950;
         cursor: not-allowed;
+        *{
+          color: #19191950;
+          cursor: not-allowed;
+        }
       }
       &:hover{
         color: $gold;

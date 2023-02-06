@@ -277,8 +277,8 @@ const MyAccount: React.FC<Props> = props => {
   );
   return (
     <div
-      className={cs(globalStyles.containerStart, {
-        [globalStyles.containerStartTimer]: showTimer
+      className={cs(styles.containerStart, {
+        [styles.containerStartTimer]: showTimer
       })}
     >
       <SecondaryHeader>
