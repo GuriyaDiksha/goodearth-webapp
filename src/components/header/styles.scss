@@ -1918,7 +1918,7 @@ ul.inner-menu-mobile {
   .recentWrpHead{
     display: flex;
     justify-content: space-between;
-    padding-bottom: 15px;
+    padding-bottom: 6px;
   }
   .recentBlock{
     display: flex;
@@ -1927,6 +1927,12 @@ ul.inner-menu-mobile {
 
     a{
       @include b4_12px_montserrat_light_charcoal();
+    }
+
+    .search-cross{
+      font-size: 20px;
+      color: #9F9F9F;
+      cursor: pointer;
     }
   }
 }

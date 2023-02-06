@@ -130,6 +130,7 @@ export type AnnouncementBar = {
     bgColorcode: string;
     DesktopPatternImage: string;
     patternRepeat: boolean;
+    mobilePatternImage: string;
   }[];
 };
 

@@ -217,7 +217,11 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
               )}
               <p className={styles.title}>{item.title}</p>
               <p className={cs(styles.price)}>
-                <span className={cs(styles.amountPaid)}>
+                <span
+                  className={cs(styles.amountPaid, {
+                    [styles.gold]: isDiscount
+                  })}
+                >
                   {`${charCurrency} ${amountPaid}`}
                 </span>
                 {isDiscount && (
@@ -309,7 +313,8 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
         {/* amount paid */}
         <div className={cs(styles.price, styles.total)}>
           <span className={styles.label}>
-            AMOUNT PAID<span className={styles.light}>Incl. Tax</span>
+            AMOUNT PAID
+            {/* <span className={styles.light}>Incl. Tax</span> */}
           </span>
           <span className={styles.value}>
             {`${currencyChar} ${parseFloat(item.totalInclTax).toFixed(2)}`}
@@ -348,7 +353,7 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
                   >
                     <div className={styles.info}>
                       <div className={styles.row}>
-                        <div className={styles.data}>
+                        <div className={cs(styles.data, styles.date)}>
                           {moment(item.datePlaced).format("D MMM,YYYY")}
                         </div>
                       </div>
