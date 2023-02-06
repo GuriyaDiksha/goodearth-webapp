@@ -13,8 +13,6 @@ import "slick-carousel/slick/slick-theme.css";
 import "slick-carousel/slick/slick.css";
 import Slider from "react-slick";
 
-// import rawData from "./data.json"
-
 const settings = {
   dots: true,
   infinite: false,
@@ -84,12 +82,6 @@ class ShopLocator extends Component<Props, State> {
       .catch((err: any) => {
         console.log(err);
       });
-    // console.log(rawData)
-    // this.setState({
-    //   shopData: rawData,
-    //   currentCity: Object.keys(rawData)[0],
-    //   currentCityData: rawData[Object.keys(rawData)[0]]
-    // })
   }
 
   render() {
