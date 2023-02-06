@@ -87,288 +87,288 @@ class TrackOrder extends React.Component<Props, State> {
   }
 
   sendTrackOrder(orderNumber: string, email: string) {
-    this.props
-      .fetchOrderBy(orderNumber, email)
-      .then((response: any) => {
-        if (response.count == 0) {
-          // resetForm();
-          const err = "Entered Order Number doesn't exist. Please try again.";
-          this.setState(
-            {
-              showerror: err,
-              loader: false
-            },
-            () => {
-              valid.errorTracking([this.state.showerror], location.href);
-            }
-          );
-        } else if (response.results[0]?.isOnlyGiftOrder) {
-          const err =
-            "E-gift card has been sent to the recipient's email address.";
-          this.setState(
-            {
-              showerror: err,
-              loader: false
-            },
-            () => {
-              valid.errorTracking([this.state.showerror], location.href);
-            }
-          );
-        } else if (response.count > 0) {
-          this.props
-            .fetchCourierData(orderNumber)
-            .then(data => {
-              if (data == "error") {
-                const err =
-                  "Please retry in some time, unable to fetch order details at this time.";
-                this.setState(
-                  {
-                    showerror: err,
-                    loader: false
-                  },
-                  () => {
-                    valid.errorTracking([this.state.showerror], location.href);
-                  }
-                );
-              } else {
-                this.setState({
-                  trackingData: data,
-                  orderData: response.results,
-                  showTracking: true,
-                  loader: false
-                });
-              }
-            })
-            .catch(err => {
-              const errmsg =
-                "Please retry in some time, unable to fetch order details at this time.";
-              this.setState(
-                {
-                  showerror: errmsg,
-                  loader: false
-                },
-                () => {
-                  valid.errorTracking([this.state.showerror], location.href);
-                }
-              );
-              console.log(err);
-            });
-        }
-      })
-      .catch(err => {
-        if (err.response.data.error_message) {
-          let errorMsg = err.response.data.error_message[0];
-          if (errorMsg == "MaxRetries") {
-            errorMsg =
-              "You have exceeded max attempts, please try after some time.";
-          }
-          this.setState(
-            {
-              showerror: errorMsg,
-              loader: false
-            },
-            () => {
-              valid.errorTracking(
-                [this.state.showerror as string],
-                location.href
-              );
-            }
-          );
-        } else {
-          const errMsg =
-            "Please retry in some time, unable to fetch order details at this time.";
-          this.setState(
-            {
-              showerror: errMsg,
-              loader: false
-            },
-            () => {
-              valid.errorTracking([this.state.showerror], location.href);
-            }
-          );
-          console.log(err);
-        }
-      });
+    // this.props
+    //   .fetchOrderBy(orderNumber, email)
+    //   .then((response: any) => {
+    //     if (response.count == 0) {
+    //       // resetForm();
+    //       const err = "Entered Order Number doesn't exist. Please try again.";
+    //       this.setState(
+    //         {
+    //           showerror: err,
+    //           loader: false
+    //         },
+    //         () => {
+    //           valid.errorTracking([this.state.showerror], location.href);
+    //         }
+    //       );
+    //     } else if (response.results[0]?.isOnlyGiftOrder) {
+    //       const err =
+    //         "E-gift card has been sent to the recipient's email address.";
+    //       this.setState(
+    //         {
+    //           showerror: err,
+    //           loader: false
+    //         },
+    //         () => {
+    //           valid.errorTracking([this.state.showerror], location.href);
+    //         }
+    //       );
+    //     } else if (response.count > 0) {
+    //       this.props
+    //         .fetchCourierData(orderNumber)
+    //         .then(data => {
+    //           if (data == "error") {
+    //             const err =
+    //               "Please retry in some time, unable to fetch order details at this time.";
+    //             this.setState(
+    //               {
+    //                 showerror: err,
+    //                 loader: false
+    //               },
+    //               () => {
+    //                 valid.errorTracking([this.state.showerror], location.href);
+    //               }
+    //             );
+    //           } else {
+    //             this.setState({
+    //               trackingData: data,
+    //               orderData: response.results,
+    //               showTracking: true,
+    //               loader: false
+    //             });
+    //           }
+    //         })
+    //         .catch(err => {
+    //           const errmsg =
+    //             "Please retry in some time, unable to fetch order details at this time.";
+    //           this.setState(
+    //             {
+    //               showerror: errmsg,
+    //               loader: false
+    //             },
+    //             () => {
+    //               valid.errorTracking([this.state.showerror], location.href);
+    //             }
+    //           );
+    //           console.log(err);
+    //         });
+    //     }
+    //   })
+    //   .catch(err => {
+    //     if (err.response.data.error_message) {
+    //       let errorMsg = err.response.data.error_message[0];
+    //       if (errorMsg == "MaxRetries") {
+    //         errorMsg =
+    //           "You have exceeded max attempts, please try after some time.";
+    //       }
+    //       this.setState(
+    //         {
+    //           showerror: errorMsg,
+    //           loader: false
+    //         },
+    //         () => {
+    //           valid.errorTracking(
+    //             [this.state.showerror as string],
+    //             location.href
+    //           );
+    //         }
+    //       );
+    //     } else {
+    //       const errMsg =
+    //         "Please retry in some time, unable to fetch order details at this time.";
+    //       this.setState(
+    //         {
+    //           showerror: errMsg,
+    //           loader: false
+    //         },
+    //         () => {
+    //           valid.errorTracking([this.state.showerror], location.href);
+    //         }
+    //       );
+    //       console.log(err);
+    //     }
+    //   });
 
     //--------Uncomment to get data for development-----------//
-    // this.setState({
-    //   trackingData: {
-    //     order_statuses: [
-    //       {
-    //         location: "",
-    //         date: "2022-09-06",
-    //         status: "Order Received"
-    //       },
-    //       {
-    //         location: "",
-    //         date: "2022-09-06",
-    //         status: "Ready to Pick"
-    //       },
-    //       {
-    //         location: "Hyderabad_Kukatpally_D (Telangana)",
-    //         date: "2022-09-18",
-    //         status: "Delivered"
-    //       },
-    //       {
-    //         location: "Hyderabad_Kukatpally_D (Telangana)",
-    //         date: "2022-09-17",
-    //         status: "Intransit"
-    //       },
-    //       {
-    //         location: "Faridabad_Mthurard_CP (Haryana)",
-    //         date: "2022-09-15",
-    //         status: "Shipped"
-    //       }
-    //     ]
-    //   },
-    //   orderData: [
-    //     {
-    //       number: "23625216866",
-    //       billingAddress: [
-    //         {
-    //           firstName: "Saumya",
-    //           lastName: "Wardhan",
-    //           line1:
-    //             "Flat No. 23, Unique Apartments, Sector-13, Rohini, New Delhi",
-    //           line2: "23, Unique Apartments",
-    //           line3: "saumyawardhan@goodearth.in",
-    //           line4: "North Delhi",
-    //           phoneNumber: "+2972867654",
-    //           postcode: "000000",
-    //           searchText:
-    //             "Saumya Wardhan Flat No. 23, Unique Apartments, Sector-13, Rohini, New Delhi 23, Unique Apartments saumyawardhan@goodearth.in North Delhi 000000",
-    //           state: "",
-    //           title: "",
-    //           countryName: "Aruba"
-    //         }
-    //       ],
-    //       lines: [
-    //         {
-    //           product: {
-    //             getAbsoluteUrl:
-    //               "/catalogue/abeer-subbooh-collared-cotton-kurta_21323/",
-    //             productClass: null,
-    //             pricerecords: {
-    //               SGD: 252,
-    //               AED: 685,
-    //               USD: 185,
-    //               INR: 9500,
-    //               GBP: 130
-    //             },
-    //             stockrecords: [
-    //               {
-    //                 partnerSku: "I00201646",
-    //                 product: 21324,
-    //                 numInStock: 0,
-    //                 numAllocated: 0,
-    //                 partner: 2
-    //               }
-    //             ],
-    //             collection: "",
-    //             details: "",
-    //             compncare: null,
-    //             sku: "I00201646",
-    //             isInWishlist: false,
-    //             id: 21324,
-    //             title: "",
-    //             structure: "child",
-    //             images: [
-    //               {
-    //                 id: 532985,
-    //                 productImage:
-    //                   "https://d3qn6cjsz7zlnp.cloudfront.net/media/images/product/Medium/I00201646-1603957028.jpg",
-    //                 caption: "",
-    //                 displayOrder: 0,
-    //                 dateCreated: "2021-05-24T12:02:12.280023Z",
-    //                 social: true,
-    //                 product: 21323,
-    //                 badgeImage: "",
-    //                 badgeImagePdp: "",
-    //                 icon: false,
-    //                 code: "",
-    //                 looks_tagged: false,
-    //                 type: "main"
-    //               }
-    //             ],
-    //             size: "S",
-    //             badgeType: "",
-    //             categories: [
-    //               "Apparel",
-    //               "Apparel > Sale",
-    //               "Apparel > Sustain Man",
-    //               "Apparel > Sustain Man > Kurtas"
-    //             ]
-    //           },
-    //           stockrecord: 25636,
-    //           quantity: 1,
-    //           priceCurrency: "USD",
-    //           priceExclTax: "185.00",
-    //           priceInclTax: "185.00",
-    //           priceInclTaxExclDiscounts: "185.00",
-    //           priceExclTaxExclDiscounts: "185.00",
-    //           order: 102138,
-    //           title: "Marrakech Subbooh Collared Cotton Kurta",
-    //           fillerMessage: "",
-    //           isEgiftCard: false,
-    //           egiftCardRecipient: "",
-    //           collection: "",
-    //           is3DView: false
-    //         }
-    //       ],
-    //       currency: "USD",
-    //       totalInclTax: "215",
-    //       totalExclTax: "215",
-    //       shippingInclTax: "30",
-    //       shippingExclTax: "30",
-    //       shippingAddress: [
-    //         {
-    //           firstName: "Saumya",
-    //           lastName: "Wardhan",
-    //           line1:
-    //             "Flat No. 23, Unique Apartments, Sector-13, Rohini, New Delhi",
-    //           line2: "23, Unique Apartments",
-    //           line3: "saumyawardhan@goodearth.in",
-    //           line4: "North Delhi",
-    //           phoneNumber: "+2972867654",
-    //           postcode: "000000",
-    //           searchText:
-    //             "Saumya Wardhan Flat No. 23, Unique Apartments, Sector-13, Rohini, New Delhi 23, Unique Apartments saumyawardhan@goodearth.in North Delhi 000000",
-    //           state: "",
-    //           title: "",
-    //           countryName: "Aruba",
-    //           isTulsi: false
-    //         }
-    //       ],
-    //       shippingMethod: "Weighted Shipping International",
-    //       shippingCode: "WSI",
-    //       status: "Being Processed",
-    //       guestEmail: "",
-    //       datePlaced: "2022-11-04T07:40:54.699258Z",
-    //       offerDiscounts: [],
-    //       paymentUrl:
-    //         "You need to implement a view named 'api-payment' which redirects to the payment provider and sets up the callbacks.",
-    //       voucherDiscounts: [],
-    //       isBridalOrder: false,
-    //       isOnlyGiftOrder: false,
-    //       registrantName: "",
-    //       coRegistrantName: "",
-    //       occasion: "",
-    //       pushToGA: false,
-    //       deliveryInstructions: "",
-    //       voucherCodeApplied: false,
-    //       voucherCodeAppliedName: [],
-    //       voucherCodeAppliedAmount: [],
-    //       loyalityPointsRedeemed: [],
-    //       giftVoucherRedeemed: [],
-    //       invoiceFileName: "",
-    //       paymentMethod: "PAYU",
-    //       transactionId: "30e18dcce87f4dd4ae91e02be",
-    //       orderSubTotal: 185
-    //     }
-    //   ],
-    //   showTracking: true,
-    //   loader: false
-    // });
+    this.setState({
+      trackingData: {
+        order_statuses: [
+          {
+            location: "",
+            date: "2022-09-06",
+            status: "Order Received"
+          },
+          {
+            location: "",
+            date: "2022-09-06",
+            status: "Ready to Pick"
+          },
+          {
+            location: "Hyderabad_Kukatpally_D (Telangana)",
+            date: "2022-09-18",
+            status: "Delivered"
+          },
+          {
+            location: "Hyderabad_Kukatpally_D (Telangana)",
+            date: "2022-09-17",
+            status: "Intransit"
+          },
+          {
+            location: "Faridabad_Mthurard_CP (Haryana)",
+            date: "2022-09-15",
+            status: "Shipped"
+          }
+        ]
+      },
+      orderData: [
+        {
+          number: "23625216866",
+          billingAddress: [
+            {
+              firstName: "Saumya",
+              lastName: "Wardhan",
+              line1:
+                "Flat No. 23, Unique Apartments, Sector-13, Rohini, New Delhi",
+              line2: "23, Unique Apartments",
+              line3: "saumyawardhan@goodearth.in",
+              line4: "North Delhi",
+              phoneNumber: "+2972867654",
+              postcode: "000000",
+              searchText:
+                "Saumya Wardhan Flat No. 23, Unique Apartments, Sector-13, Rohini, New Delhi 23, Unique Apartments saumyawardhan@goodearth.in North Delhi 000000",
+              state: "",
+              title: "",
+              countryName: "Aruba"
+            }
+          ],
+          lines: [
+            {
+              product: {
+                getAbsoluteUrl:
+                  "/catalogue/abeer-subbooh-collared-cotton-kurta_21323/",
+                productClass: null,
+                pricerecords: {
+                  SGD: 252,
+                  AED: 685,
+                  USD: 185,
+                  INR: 9500,
+                  GBP: 130
+                },
+                stockrecords: [
+                  {
+                    partnerSku: "I00201646",
+                    product: 21324,
+                    numInStock: 0,
+                    numAllocated: 0,
+                    partner: 2
+                  }
+                ],
+                collection: "",
+                details: "",
+                compncare: null,
+                sku: "I00201646",
+                isInWishlist: false,
+                id: 21324,
+                title: "",
+                structure: "child",
+                images: [
+                  {
+                    id: 532985,
+                    productImage:
+                      "https://d3qn6cjsz7zlnp.cloudfront.net/media/images/product/Medium/I00201646-1603957028.jpg",
+                    caption: "",
+                    displayOrder: 0,
+                    dateCreated: "2021-05-24T12:02:12.280023Z",
+                    social: true,
+                    product: 21323,
+                    badgeImage: "",
+                    badgeImagePdp: "",
+                    icon: false,
+                    code: "",
+                    looks_tagged: false,
+                    type: "main"
+                  }
+                ],
+                size: "S",
+                badgeType: "",
+                categories: [
+                  "Apparel",
+                  "Apparel > Sale",
+                  "Apparel > Sustain Man",
+                  "Apparel > Sustain Man > Kurtas"
+                ]
+              },
+              stockrecord: 25636,
+              quantity: 1,
+              priceCurrency: "USD",
+              priceExclTax: "185.00",
+              priceInclTax: "185.00",
+              priceInclTaxExclDiscounts: "185.00",
+              priceExclTaxExclDiscounts: "185.00",
+              order: 102138,
+              title: "Marrakech Subbooh Collared Cotton Kurta",
+              fillerMessage: "",
+              isEgiftCard: false,
+              egiftCardRecipient: "",
+              collection: "",
+              is3DView: false
+            }
+          ],
+          currency: "USD",
+          totalInclTax: "215",
+          totalExclTax: "215",
+          shippingInclTax: "30",
+          shippingExclTax: "30",
+          shippingAddress: [
+            {
+              firstName: "Saumya",
+              lastName: "Wardhan",
+              line1:
+                "Flat No. 23, Unique Apartments, Sector-13, Rohini, New Delhi",
+              line2: "23, Unique Apartments",
+              line3: "saumyawardhan@goodearth.in",
+              line4: "North Delhi",
+              phoneNumber: "+2972867654",
+              postcode: "000000",
+              searchText:
+                "Saumya Wardhan Flat No. 23, Unique Apartments, Sector-13, Rohini, New Delhi 23, Unique Apartments saumyawardhan@goodearth.in North Delhi 000000",
+              state: "",
+              title: "",
+              countryName: "Aruba",
+              isTulsi: false
+            }
+          ],
+          shippingMethod: "Weighted Shipping International",
+          shippingCode: "WSI",
+          status: "Being Processed",
+          guestEmail: "",
+          datePlaced: "2022-11-04T07:40:54.699258Z",
+          offerDiscounts: [],
+          paymentUrl:
+            "You need to implement a view named 'api-payment' which redirects to the payment provider and sets up the callbacks.",
+          voucherDiscounts: [],
+          isBridalOrder: false,
+          isOnlyGiftOrder: false,
+          registrantName: "",
+          coRegistrantName: "",
+          occasion: "",
+          pushToGA: false,
+          deliveryInstructions: "",
+          voucherCodeApplied: false,
+          voucherCodeAppliedName: [],
+          voucherCodeAppliedAmount: [],
+          loyalityPointsRedeemed: [],
+          giftVoucherRedeemed: [],
+          invoiceFileName: "",
+          paymentMethod: "PAYU",
+          transactionId: "30e18dcce87f4dd4ae91e02be",
+          orderSubTotal: 185
+        }
+      ],
+      showTracking: true,
+      loader: false
+    });
   }
 
   handleSubmit = (model: any, resetForm: any, updateInputsWithError: any) => {
