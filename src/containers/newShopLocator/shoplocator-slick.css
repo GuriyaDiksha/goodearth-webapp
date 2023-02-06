@@ -1,0 +1,33 @@
+.shopLocatorSlider, .slick-prev {
+    left: -30px;
+}
+
+.shopLocatorSlider .slick-next {
+    right: -20px;
+}
+
+.shopLocatorSlider .slick-prev:before {
+    content: url('../../images/shopLocatorPrev.svg');
+    display: block;
+    height: 30px;
+    width: 30px;
+}
+
+.shopLocatorSlider .slick-next:before {
+    content: url('../../images/shopLocatorNext.svg');
+    display: block;
+    height: 30px;
+    width: 30px;
+}
+
+.shopLocatorSlider .slick-prev.slick-disabled:before,.shopLocatorSlider .slick-next.slick-disabled:before {
+    opacity: unset;
+}
+
+.shopLocatorSlider .slick-dots li.slick-active button:before {
+    color: #7EAAA9;
+}
+
+.shopLocatorSlider .slick-dots li button:before{
+    font-size: 8px;
+}

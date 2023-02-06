@@ -8,8 +8,10 @@ import styles from "./styles.scss";
 import storeIcon from "images/shopLocator/store.svg";
 import cafeIcon from "images/shopLocator/cafe.svg";
 import anarIcon from "images/shopLocator/anar.png";
+import "./shoplocator-slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import "slick-carousel/slick/slick.css";
 import Slider from "react-slick";
-import "./slick.css";
 
 // import rawData from "./data.json"
 
@@ -19,9 +21,7 @@ const settings = {
   speed: 500,
   slidesToShow: 1,
   slidesToScroll: 1,
-  arrows: true,
-  prevArrow: <div>prev</div>,
-  nextArrow: <div>next</div>
+  arrows: true
 };
 
 const mapStateToProps = (state: AppState) => {
@@ -58,6 +58,7 @@ class ShopLocator extends Component<Props, State> {
     this.setState({
       currentCity: data
     });
+    window.history.pushState("", "", data);
   };
 
   componentDidMount(): void {
@@ -93,7 +94,6 @@ class ShopLocator extends Component<Props, State> {
 
   render() {
     const { shopData, currentCity } = this.state;
-    console.log(shopData[currentCity]);
     return (
       <div
         className={cs(styles.pageContainer, {
@@ -201,7 +201,7 @@ class ShopLocator extends Component<Props, State> {
                       </a>
                     </div>
                   </div>
-                  <div className={styles.slider}>
+                  <div className={cs(styles.slider, "shopLocatorSlider")}>
                     <Slider {...settings}>
                       {data.bannerShop.map((item: any) => {
                         return (
@@ -263,7 +263,7 @@ class ShopLocator extends Component<Props, State> {
                         </a>
                       </div>
                     </div>
-                    <div className={styles.slider}>
+                    <div className={cs(styles.slider, "shopLocatorSlider")}>
                       <Slider {...settings}>
                         {data.bannerCafe.map((item: any) => {
                           return (
