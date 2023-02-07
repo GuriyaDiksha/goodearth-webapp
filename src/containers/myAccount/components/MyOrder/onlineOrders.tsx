@@ -267,16 +267,14 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
           }
         )}
         {/* shipping and handling */}
-        {data.shippingInclTax > 0 && (
-          <div className={cs(styles.price, styles.price2)}>
-            <span className={styles.label}>SHIPPING & HANDLING</span>
-            <span className={styles.value}>
-              {`(+) ${currencyChar} ${parseFloat(item.shippingInclTax).toFixed(
-                2
-              )}`}
-            </span>
-          </div>
-        )}
+        <div className={cs(styles.price, styles.price2)}>
+          <span className={styles.label}>SHIPPING & HANDLING</span>
+          <span className={styles.value}>
+            {`(+) ${currencyChar} ${parseFloat(item.shippingInclTax).toFixed(
+              2
+            )}`}
+          </span>
+        </div>
         {/* voucher discounts */}
         {data.voucherDiscounts?.map((vd: any, i: number) => {
           return (
