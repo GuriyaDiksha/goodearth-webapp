@@ -12,6 +12,7 @@ import { useDispatch } from "react-redux";
 import noPlpImage from "images/noimageplp.png";
 import invoice from "../../../../images/invoice.svg";
 import invoiceDisabled from "../../../../images/invoiceDisabled.svg";
+import { displayPriceWithCommas } from "utils/utility";
 
 const InShopOrder: React.FC<OrdersProps> = props => {
   const [data, setData] = useState<any>([]);
@@ -133,7 +134,10 @@ const InShopOrder: React.FC<OrdersProps> = props => {
               <p className={styles.title}>{item.title}</p>
               <p className={cs(styles.price)}>
                 <span className={cs(styles.amountPaid)}>
-                  {`${charCurrency} ${item.price}`}
+                  {`${charCurrency} ${displayPriceWithCommas(
+                    item.price,
+                    "INR"
+                  )}`}
                 </span>
               </p>
             </div>
@@ -196,7 +200,7 @@ const InShopOrder: React.FC<OrdersProps> = props => {
                 <span className={styles.label}>Amount Paid</span>
                 <span className={styles.data}>
                   {String.fromCharCode(...currencyCode["INR" as Currency])}
-                  &nbsp;{data.total}
+                  &nbsp;{displayPriceWithCommas(data.total, "INR")}
                 </span>
               </div>
             </div>
