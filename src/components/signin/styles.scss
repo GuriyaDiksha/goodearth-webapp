@@ -259,8 +259,10 @@ span.error-msg {
 }
 
 .verify-heading {
-  font-family: $font-Lato;
-  font-size: 20px;
+  @include h3_20px_lora_charcoal();
+  letter-spacing: 0.4px;
+  line-height: 25px;
+  
 }
 .verify-para {
   font-size: 12px;
@@ -285,6 +287,10 @@ span.error-msg {
   letter-spacing: 0.36px;
   margin-top: 10px;
   margin-bottom: 48px;
+  padding: 0px 36px;
+  &.verify-otp{
+    margin-bottom: 36px;
+  }
 }
 
 
@@ -299,4 +305,34 @@ span.error-msg {
   text-decoration: underline;
   text-underline-offset: 4px;
   text-align: right;
+  margin-bottom: 40px;
+}
+
+div.verify-otp-container{
+  padding-top: 0px;
+  padding-bottom: 0px;
+  @media screen and (max-width: 500px){
+    padding-top: 0px;
+    padding-bottom: 0px;
+  }
+  .verify-otp-heading {
+    display: none;
+  }
+  .otp-timer{
+    padding-top: 40px;
+    padding-bottom: 0px;
+  }
+  .verify-otp-cta{
+    width: 100%;
+  }
+  .otp-policy{
+    padding-top: 0px;
+  }
+  .otp-attempt{
+    padding-top:13px;
+    padding-bottom:60px;
+  }
+  .social-login{
+    margin-bottom: 25px;
+  }
 }

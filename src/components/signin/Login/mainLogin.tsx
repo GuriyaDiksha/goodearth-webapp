@@ -134,11 +134,6 @@ class MainLogin extends React.Component<Props, loginState> {
           } else {
             localStorage.setItem("tempEmail", this.state.email);
             this.props.showRegister?.();
-            // this.setState({
-            //   highlight: true,
-            //   showCurrentSection:'register'
-            // });
-            // this.emailInput.current && this.emailInput.current.focus();
           }
         }
       }
@@ -619,7 +614,7 @@ class MainLogin extends React.Component<Props, loginState> {
     );
     const footer = (
       <>
-        <div className={globalStyles.textCenter}>
+        <div className={cs(globalStyles.textCenter, styles.socialLogin)}>
           <SocialLogin closeModel={this.context.closeModal} />
         </div>
       </>
@@ -642,6 +637,7 @@ class MainLogin extends React.Component<Props, loginState> {
             successMsg={this.state.usrWithNoOrder ? USR_WITH_NO_ORDER : ""}
             changeEmail={this.changeEmail}
             goLogin={this.goLogin}
+            socialLogin={footer}
           />
         ) : (
           <>
