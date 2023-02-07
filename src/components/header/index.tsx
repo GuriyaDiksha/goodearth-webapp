@@ -282,7 +282,7 @@ class Header extends React.Component<Props, State> {
         } else {
           (secondaryHeader as HTMLElement).style.top = "50px";
         }
-        (secondaryHeader as HTMLElement).style.transition = "all 0.5s linear";
+        // (secondaryHeader as HTMLElement).style.transition = "all 0.5s linear";
       }
     } else {
       (header as HTMLElement).style.position = "relative";
@@ -295,11 +295,11 @@ class Header extends React.Component<Props, State> {
           (secondaryHeader as HTMLElement).style.top = "90px";
         }
 
-        (secondaryHeader as HTMLElement).style.transition = "all 0.5s linear";
+        // (secondaryHeader as HTMLElement).style.transition = "all 0.5s linear";
       }
     }
 
-    (header as HTMLElement).style.transition = "all 0.5s linear";
+    (header as HTMLElement).style.transition = "all 0.5s ease-in-out";
   };
 
   componentWillUnmount() {

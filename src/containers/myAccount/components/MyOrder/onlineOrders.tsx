@@ -267,16 +267,14 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
           }
         )}
         {/* shipping and handling */}
-        {data.shippingInclTax > 0 && (
-          <div className={cs(styles.price, styles.price2)}>
-            <span className={styles.label}>SHIPPING & HANDLING</span>
-            <span className={styles.value}>
-              {`(+) ${currencyChar} ${parseFloat(item.shippingInclTax).toFixed(
-                2
-              )}`}
-            </span>
-          </div>
-        )}
+        <div className={cs(styles.price, styles.price2)}>
+          <span className={styles.label}>SHIPPING & HANDLING</span>
+          <span className={styles.value}>
+            {`(+) ${currencyChar} ${parseFloat(item.shippingInclTax).toFixed(
+              2
+            )}`}
+          </span>
+        </div>
         {/* voucher discounts */}
         {data.voucherDiscounts?.map((vd: any, i: number) => {
           return (
@@ -354,15 +352,15 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
                     <div className={styles.info}>
                       <div className={styles.row}>
                         <div className={cs(styles.data, styles.date)}>
-                          {moment(item.datePlaced).format("D MMM,YYYY")}
+                          {moment(item.datePlaced).format("D MMM, YYYY")}
                         </div>
                       </div>
                       <div className={styles.row}>
-                        <span className={styles.label}> Status: </span> &nbsp;{" "}
+                        <span className={styles.label}> Status: </span> &nbsp;
                         <span className={styles.data}>{item.status}</span>
                       </div>
                       <div className={styles.row}>
-                        <span className={styles.label}> Items: </span> &nbsp;{" "}
+                        <span className={styles.label}> Items: </span> &nbsp;
                         <span className={styles.data}>{item.itemCount}</span>
                       </div>
                     </div>

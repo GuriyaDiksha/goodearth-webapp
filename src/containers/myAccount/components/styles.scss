@@ -74,11 +74,11 @@ input[type="text"]{
     @include b3_14px_montserrat_light_charcoal();
     &:hover{
       cursor: pointer;
-      font-weight: $medium;
+      font-weight: $semibold;
       color: $gold;
     }
     &.active{
-      font-weight: $medium;
+      font-weight: $semibold;
       color: $gold;
     }
   }
@@ -358,7 +358,7 @@ input[type="text"]{
       text-transform: uppercase;
       font-size: 12px;
       letter-spacing: 1px;
-      font-weight: $medium;
+      font-weight: $semibold;
       &.add-checkout-actions {
         bottom: auto;
         position: absolute;
@@ -385,7 +385,7 @@ input[type="text"]{
       text-transform: uppercase;
       font-size: 12px;
       letter-spacing: 1px;
-      font-weight: $medium;
+      font-weight: $semibold;
       &.add-checkout-actions {
         bottom: auto;
         position: absolute;
@@ -418,18 +418,18 @@ input[type="text"]{
       }
       &.order-status{
         color: #4C4C4C;
-        font-weight: $medium;
+        font-weight: $semibold;
         .status {
           text-transform: uppercase;
         }
       }
       &.order-items{
         color: #4C4C4C;
-        font-weight: $medium;
+        font-weight: $semibold;
       }
       &.order-total{
         color: #4C4C4C;
-        font-weight: $medium;
+        font-weight: $semibold;
       }
     }
     .light {
@@ -627,7 +627,7 @@ input[type="text"]{
       }
       &.balance{
         @include b4_12px_montserrat_aqua();
-        font-weight: $medium;
+        font-weight: $semibold;
         letter-spacing: 0.5px;
         margin: 25px 0px 45px 0px;
       }
@@ -695,7 +695,7 @@ input[type="text"]{
 
 .back-track {
   @include b4_12px_montserrat_charcoal();
-  font-weight: $medium;
+  font-weight: $semibold;
   color: #9F9F9F;
   letter-spacing: 0.36px;
   text-transform: uppercase;
@@ -981,7 +981,7 @@ input[type="text"]{
 
 .line{
   @include b4_12px_montserrat_charcoal();
-  font-weight: $medium;
+  font-weight: $semibold;
 }
 
 .view-tnc{
@@ -1076,7 +1076,7 @@ input[type="text"]{
 
 .balance-section-head{
   @include b4_12px_montserrat_charcoal_caps();
-  font-weight: $medium;
+  font-weight: $semibold;
   letter-spacing: 0.5px;
   margin-left: 15px;
 }
@@ -1157,7 +1157,7 @@ input[type="text"]{
       padding: 30px;
     }
     .info{
-      width: 40%;
+      width: 45%;
       .row{
         text-align: left;
         margin-bottom: 6px;
@@ -1166,7 +1166,7 @@ input[type="text"]{
         }
         .data{
           @include b4_12px_montserrat_charcoal();
-          font-weight: $medium;
+          font-weight: $semibold;
           text-transform: uppercase;
           &.date{
             text-transform: capitalize;
@@ -1185,7 +1185,7 @@ input[type="text"]{
       }
       .data{
         @include b4_12px_montserrat_charcoal();
-        font-weight: $medium;
+        font-weight: $semibold;
         text-transform: uppercase;
       }
     }
@@ -1193,7 +1193,7 @@ input[type="text"]{
   .trail-track {
     width: 100%;
     margin: 30px 30px 0 30px;
-    padding: 25px 0 0 0;
+    padding: 30px 0 25px 0;
     border-top: 1px solid #E5E5E5;
     @media screen and (max-width: 992px){
       margin-left:10px;
@@ -1268,7 +1268,7 @@ input[type="text"]{
         .date{
           font-family: $font-Montserrat;
           font-size: 12px;
-          font-weight: $medium;
+          font-weight: $semibold;
           letter-spacing: 0.5px;
           line-height: 20px;
           color: #191919;
@@ -1277,7 +1277,7 @@ input[type="text"]{
         .text {
           font-family: $font-Montserrat;
           font-size: 12px;
-          font-weight: $medium;
+          font-weight: $semibold;
           letter-spacing: 0.5px;
           line-height: 20px;
           color: #191919;
@@ -1298,7 +1298,7 @@ input[type="text"]{
       .title{
         font-family: $font-Montserrat;
         font-size: 12px;
-        font-weight: $medium;
+        font-weight: $semibold;
         color: #9f9f9f;
         letter-spacing: 0.5px;
         text-transform: uppercase;
@@ -1309,11 +1309,11 @@ input[type="text"]{
       .row {
         @include b4_12px_montserrat_charcoal();
         letter-spacing: 0.3px;
-        line-height: 16px;
+        line-height: 18px;
         text-align: left;
         &.name {
           @include b4_12px_montserrat_charcoal();
-          font-weight: $medium;
+          font-weight: $semibold;
           line-height: 20px;
         }
         &.phone-number {
@@ -1391,7 +1391,7 @@ input[type="text"]{
       }
       &.total{
         border-top: 1px solid #e5e5e5;
-        font-weight: $medium;
+        font-weight: $semibold;
         line-height: 50px;
       }
       .label{
