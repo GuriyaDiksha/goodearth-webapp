@@ -467,7 +467,8 @@ const ProductDetails: React.FC<Props> = ({
         "Product Name": title,
         "Product ID": selectedSize?.id,
         dimension8: view3dValue,
-        Variant: size
+        Variant: size,
+        dimension12: selectedSize?.color
       });
       dataLayer.push({
         event: "addToCart",
@@ -483,7 +484,8 @@ const ProductDetails: React.FC<Props> = ({
                 category: category,
                 variant: selectedSize?.size || "",
                 quantity: quantity,
-                dimension8: view3dValue
+                dimension8: view3dValue,
+                dimension12: selectedSize?.color
               }
             ]
           }
@@ -512,7 +514,8 @@ const ProductDetails: React.FC<Props> = ({
               item_category4: l1,
               item_category5: collection,
               price: discountPrices || price,
-              quantity: quantity
+              quantity: quantity,
+              dimension12: selectedSize?.color
             }
           ]
         }

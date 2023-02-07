@@ -21,7 +21,7 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
     next: null
   });
   // const [hasShopped, setHasShopped] = useState(false);
-  const [isOpenAddressIndex, setIsOpenAddressIndex] = useState(-1);
+  const [isopenOrderIndex, setIsopenOrderIndex] = useState(-1);
   const dispatch = useDispatch();
   const history = useHistory();
 
@@ -61,6 +61,7 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
       props.hasShopped(false);
     };
   };
+
   useEffect(() => {
     fetchOrders();
   }, []);
@@ -77,10 +78,20 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
   };
 
   const showDetails = (index: number, id: string): any => {
-    AccountService.fetchOrderById(dispatch, id, props.email || "").then(
+    AccountService.fetchOrderBy(dispatch, id, props.email || "").then(
       (data: any) => {
-        setOrderdata(data);
-        setIsOpenAddressIndex(index);
+        const res = data.results?.[0];
+        if (res.voucherDiscounts?.length > 0) {
+          for (let i = 0; i < res.voucherDiscounts.length; i++) {
+            for (let j = 0; j < res.offerDiscounts.length; i++) {
+              if (res.voucherDiscounts[i].name == res.offerDiscounts[j].name) {
+                res.offerDiscounts.splice(i, 1);
+              }
+            }
+          }
+        }
+        setOrderdata(res);
+        setIsopenOrderIndex(index);
         setTimeout(() => {
           const orderElem = id && document.getElementById(id);
           if (orderElem) {
@@ -97,140 +108,8 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
     // props.setAccountPage(e);
   };
 
-  const closeAddress = (data: any, index: number) => {
-    // if(!data.lines) return false;
-    const html = [];
-    const orderData = new Date(data.datePlaced);
-    const todayDate = new Date();
-
-    // let totalItem = 0;
-    // for (let i = 0; i < data.lines?.length; i++) {
-    //   totalItem += data.lines[i].quantity;
-    // }
-    todayDate.setMonth(todayDate.getMonth() - 1);
-    // now today date is one month less
-    const isHide = orderData >= todayDate;
-    const shippingAddress = data.shippingAddress?.[0];
-    html.push(
-      <div className={bootstrapStyles.col12}>
-        <div className={styles.add} id={data.number}>
-          <address className={styles.orderBlock}>
-            <label className={styles.topLabel}>order # {data.number}</label>
-            <div className={bootstrapStyles.row}>
-              <div className={bootstrapStyles.col8}>
-                <p>{moment(data.datePlaced).format("D MMM,YYYY")}</p>
-                <p>
-                  <span className={styles.op2}> Status: </span> &nbsp;{" "}
-                  <span className={styles.orderStatus}>{data.status}</span>
-                </p>
-                <p>
-                  <span className={styles.op2}> Items: </span> &nbsp;{" "}
-                  {data.itemCount}
-                </p>
-              </div>
-              <div className={bootstrapStyles.col4}>
-                <p>
-                  <span className={styles.op2}>Amount Paid</span>
-                </p>
-                <p className={cs(styles.bold, styles.price)}>
-                  {String.fromCharCode(
-                    ...currencyCode[data.currency as Currency]
-                  )}
-                  &nbsp;{data.totalInclTax}
-                </p>
-              </div>
-            </div>
-            <div className={bootstrapStyles.row}>
-              <div className={bootstrapStyles.col8}>
-                <p className={styles.editView}>
-                  <a
-                    className={globalStyles.cerise}
-                    onClick={() => showDetails(index, data.number)}
-                  >
-                    {" "}
-                    view{" "}
-                  </a>
-                </p>
-              </div>
-              <div className={bootstrapStyles.col4}>
-                <p className={styles.editTrack}>
-                  {isHide && !shippingAddress?.isTulsi ? (
-                    <a
-                      className={globalStyles.cerise}
-                      onClick={e => {
-                        trackOrder(e);
-                      }}
-                      data-name="track"
-                      id={data.number}
-                    >
-                      {" "}
-                      TRACK ORDER{" "}
-                    </a>
-                  ) : (
-                    ""
-                  )}
-                </p>
-                {data?.status === "Delivered" ? (
-                  <p
-                    className={cs(
-                      styles.editTrack,
-                      data.invoiceFileName ? "" : styles.editTrackDisabled
-                    )}
-                  >
-                    <a
-                      className={cs(
-                        data.invoiceFileName
-                          ? globalStyles.cerise
-                          : globalStyles.ceriseDisabled
-                      )}
-                      onClick={e => {
-                        // const filename = data.invoiceFileName.split(
-                        //   "ge-invoice-test/"
-                        // )[1];
-                        const filename = `E-Invoice_Order No. ${data?.number}.pdf`;
-                        fetch(data.invoiceFileName).then(function(t) {
-                          return t.blob().then(b => {
-                            if (!data.invoiceFileName) {
-                              return false;
-                            }
-
-                            const a = document.createElement("a");
-                            a.href = URL.createObjectURL(b);
-                            a.setAttribute("download", filename);
-                            a.click();
-                          });
-                        });
-                      }}
-                      data-name="track"
-                      id={data.number}
-                    >
-                      <img
-                        alt="goodearth-logo"
-                        src={data?.invoiceFileName ? invoice : invoiceDisabled}
-                        style={{
-                          width: "20px",
-                          height: "15px",
-                          cursor: data?.invoiceFileName
-                            ? "pointer"
-                            : "not-allowed",
-                          marginLeft: "-8px"
-                        }}
-                      />{" "}
-                      INVOICE{" "}
-                    </a>
-                  </p>
-                ) : null}
-              </div>
-            </div>
-          </address>
-        </div>
-      </div>
-    );
-    return html;
-  };
-
   const closeDetails = (orderNum?: string) => {
-    setIsOpenAddressIndex(-1);
+    setIsopenOrderIndex(-1);
     setTimeout(() => {
       const orderElem = orderNum && document.getElementById(orderNum);
       if (orderElem) {
@@ -239,268 +118,339 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
     }, 300);
   };
 
-  const openAddress = (list: any, index: number) => {
+  const renderOrder = (item: any, index: number) => {
     const data: any = orderdata;
     const html = [],
       shippingAddress = data.shippingAddress[0],
-      billingAddress = data.billingAddress[0];
-    let totalItem = 0;
+      billingAddress = data.billingAddress[0],
+      priceCurrency = item.currency;
 
-    for (let i = 0; i < data.lines.length; i++) {
-      totalItem += data.lines[i].quantity;
-    }
+    const currencyChar = String.fromCharCode(
+      ...currencyCode[priceCurrency as Currency]
+    );
+
     html.push(
-      <div className={bootstrapStyles.col12}>
-        <div className={styles.add} id={data.number}>
-          <address
-            className={cs(styles.orderBlock, {
-              [styles.backgroundWhite]: index == isOpenAddressIndex
-            })}
-          >
-            <label className={styles.topLabel}>order # {data.number}</label>
-            <div className={styles.orderBlock}>
-              <div
-                className={cs(bootstrapStyles.col12, bootstrapStyles.colMd6)}
-              >
-                <p>{moment(list.datePlaced).format("D MMM,YYYY")}</p>
-                <p>
-                  <span className={styles.op2}>Status</span>: &nbsp;
-                  <span className={styles.orderStatus}>{data.status}</span>
-                </p>
-                <p>
-                  <span className={styles.op2}>Items</span>: &nbsp;{totalItem}
-                </p>
+      <div className={styles.addressBlock}>
+        {/* Shipping Address */}
+        {shippingAddress && (
+          <div className={styles.address}>
+            <div className={styles.title}>shipping address</div>
+            {data.isBridalOrder && (
+              <div className={styles.row}>
+                <span className={styles.bridalInfo}>
+                  {data.registrantName}
+                  &nbsp; & &nbsp;{data.coRegistrantName}
+                  {"'s "}
+                  {data.occasion} Registry
+                </span>
+                <span className={styles.bridalMessage}></span>
               </div>
-              <div
-                className={cs(bootstrapStyles.col12, bootstrapStyles.colMd6)}
-              >
-                <p>
-                  <span className={styles.op2}>Amount Paid</span>
-                </p>
-                <p>
-                  {String.fromCharCode(
-                    ...currencyCode[list.currency as Currency]
-                  )}{" "}
-                  &nbsp;{list.totalInclTax}
-                </p>
-              </div>
-              <p className={cs(styles.edit, styles.close1)}>
-                <a
-                  className={globalStyles.cerise}
-                  onClick={() => closeDetails(data.number)}
-                >
-                  {" "}
-                  close{" "}
-                </a>
-              </p>
+            )}
+            <div className={cs(styles.row, styles.name)}>
+              {shippingAddress.firstName}
+              &nbsp; {shippingAddress.lastName}
             </div>
-            <div className={cs(bootstrapStyles.row, styles.borderAdd)}>
-              <div
-                className={cs(bootstrapStyles.col12, bootstrapStyles.colMd6)}
-              >
-                {data.isBridalOrder ? (
-                  <div className={styles.add}>
-                    {shippingAddress ? (
-                      <address className={styles.address}>
-                        <label>shipping address</label>
-                        <p>
-                          {data.registrantName}
-                          &nbsp; & &nbsp;{data.coRegistrantName}
-                          {"'s "}
-                          {data.occasion} Registry
-                        </p>
-                        <p className={styles.light}>
-                          {" "}
-                          Address predefined by registrant{" "}
-                        </p>
-                      </address>
-                    ) : (
-                      ""
-                    )}
-                  </div>
-                ) : (
-                  <div className={styles.add}>
-                    {shippingAddress ? (
-                      <address className={styles.address}>
-                        <label>shipping address</label>
-                        <p>
-                          {shippingAddress.firstName}
-                          &nbsp; {shippingAddress.lastName}
-                          <br />
-                        </p>
-                        <p>
-                          {shippingAddress.line1}
-                          <br />
-                          {shippingAddress.line2}{" "}
-                          {shippingAddress.line2 && <br />}
-                          {shippingAddress.state}, {shippingAddress.postcode}{" "}
-                          <br />
-                          {shippingAddress.countryName}
-                          <br />
-                        </p>
-                        <p> {shippingAddress.phoneNumber}</p>
-                      </address>
-                    ) : (
-                      ""
-                    )}
-                  </div>
+            <div className={styles.row}>{shippingAddress.line1}</div>
+            <div className={styles.row}>{shippingAddress.line2}</div>
+            <div className={styles.row}>
+              {shippingAddress.state},&nbsp;{shippingAddress.postcode}
+            </div>
+            <div className={styles.row}>{shippingAddress.countryName}</div>
+            <div className={cs(styles.row, styles.phoneNumber)}>
+              {shippingAddress.phoneNumber}
+            </div>
+          </div>
+        )}
+        {/* Billing Address */}
+        {billingAddress && (
+          <div className={styles.address}>
+            <div className={styles.title}>billing address</div>
+            <div className={cs(styles.row, styles.name)}>
+              {billingAddress.firstName}
+              &nbsp; {billingAddress.lastName}
+            </div>
+            <div className={styles.row}>{billingAddress.line1}</div>
+            <div className={styles.row}>{billingAddress.line2}</div>
+            <div className={styles.row}>
+              {billingAddress.state},&nbsp;{billingAddress.postcode}
+            </div>
+            <div className={styles.row}>{billingAddress.countryName}</div>
+            <div className={cs(styles.row, styles.phoneNumber)}>
+              {billingAddress.phoneNumber}
+            </div>
+          </div>
+        )}
+      </div>
+    );
+
+    {
+      data?.lines.map((item: any) => {
+        const isDiscount =
+          +item.priceInclTax - +item.priceExclTaxExclDiscounts != 0;
+
+        const amountPaid =
+          +parseFloat(item.priceInclTax).toFixed(2) / +item.quantity;
+        const price =
+          +parseFloat(item.priceExclTaxExclDiscounts).toFixed(2) /
+          +item.quantity;
+
+        const charCurrency = String.fromCharCode(
+          ...currencyCode[item.priceCurrency as Currency]
+        );
+
+        html.push(
+          <div className={cs(styles.product)} key={item.product.id}>
+            <div className={cs(styles.imageContainer)}>
+              <img
+                src={
+                  item.product.images[0]
+                    ? item.product.images[0].productImage
+                    : ""
+                }
+              />
+            </div>
+            <div className={cs(styles.productInfo)}>
+              {item.product.collection && (
+                <p className={cs(styles.collection)}>
+                  {item.product.collection}
+                </p>
+              )}
+              <p className={styles.title}>{item.title}</p>
+              <p className={cs(styles.price)}>
+                <span
+                  className={cs(styles.amountPaid, {
+                    [styles.gold]: isDiscount
+                  })}
+                >
+                  {`${charCurrency} ${amountPaid}`}
+                </span>
+                {isDiscount && (
+                  <span className={styles.originalPrice}>
+                    {`${charCurrency} ${price}`}
+                  </span>
                 )}
-              </div>
-              <div
-                className={cs(bootstrapStyles.col12, bootstrapStyles.colMd6)}
-              >
-                <div className={styles.add}>
-                  {billingAddress ? (
-                    <address className={styles.address}>
-                      <label>billing address</label>
-                      <p>
-                        {billingAddress.firstName}
-                        &nbsp; {billingAddress.lastName}
-                        <br />
-                      </p>
-                      <p className={styles.light}>
-                        {billingAddress.line1}
-                        <br />
-                        {billingAddress.line2} {billingAddress.line2 && <br />}
-                        {billingAddress.state}, {billingAddress.postcode} <br />
-                        {billingAddress.countryName}
-                        <br />
-                      </p>
-                      <p> {billingAddress.phoneNumber}</p>
-                    </address>
-                  ) : (
-                    ""
-                  )}
+              </p>
+              {item.product.size && (
+                <div className={styles.size}>
+                  {`Size: ${item.product.size}`}
                 </div>
+              )}
+              <div className={styles.quantity}>{`Qty: ${item.quantity}`}</div>
+            </div>
+          </div>
+        );
+      });
+    }
+
+    html.push(
+      <div className={styles.prices}>
+        {/* Subtotal */}
+        <div className={cs(styles.price, styles.price1)}>
+          <span className={styles.label}>SUBTOTAL</span>
+          <span className={styles.value}>
+            {`${currencyChar} ${parseFloat(item.orderSubTotal).toFixed(2)}`}
+          </span>
+        </div>
+        {/* offer discounts */}
+        {data.offerDiscounts?.map(
+          (discount: { name: string; amount: string }, index: number) => {
+            return (
+              <div className={cs(styles.price, styles.price3, styles.discount)}>
+                <span className={styles.label}>{discount.name}</span>
+                <span className={styles.value}>
+                  {`(-)${currencyChar} ${parseFloat(discount.amount).toFixed(
+                    2
+                  )}`}
+                </span>
               </div>
+            );
+          }
+        )}
+        {/* shipping and handling */}
+        <div className={cs(styles.price, styles.price2)}>
+          <span className={styles.label}>SHIPPING & HANDLING</span>
+          <span className={styles.value}>
+            {`(+) ${currencyChar} ${parseFloat(item.shippingInclTax).toFixed(
+              2
+            )}`}
+          </span>
+        </div>
+        {/* voucher discounts */}
+        {data.voucherDiscounts?.map((vd: any, i: number) => {
+          return (
+            <div className={cs(styles.price, styles.price3, styles.discount)}>
+              <span className={styles.label}>{vd.name}</span>
+              <span className={styles.value}>
+                {`(-)${currencyChar} ${parseFloat(vd.amount).toFixed(2)}`}
+              </span>
             </div>
-            {data?.lines.map((item: any) => {
-              const isDiscount =
-                +item.priceInclTax - +item.priceExclTaxExclDiscounts != 0;
-              const price1 =
-                +parseFloat(item.priceInclTax).toFixed(2) / +item.quantity;
-              const price2 =
-                +parseFloat(item.priceExclTaxExclDiscounts).toFixed(2) /
-                +item.quantity;
-              const price3 =
-                +parseFloat(item.priceExclTaxExclDiscounts).toFixed(2) /
-                +item.quantity;
-              return (
-                <div
-                  className={cs(
-                    bootstrapStyles.row,
-                    styles.borderAdd,
-                    globalStyles.voffset4
-                  )}
-                  key={item.product.id}
-                >
-                  <div
-                    className={cs(bootstrapStyles.col5, bootstrapStyles.colMd3)}
-                  >
-                    <img
-                      src={
-                        item.product.images[0]
-                          ? item.product.images[0].productImage
-                          : ""
-                      }
-                      className={globalStyles.imgResponsive}
-                    />
-                  </div>
-                  <div
-                    className={cs(bootstrapStyles.col7, bootstrapStyles.colMd9)}
-                  >
-                    <div className={cs(styles.imageContent, styles.textLeft)}>
-                      <p className={cs(styles.productH, styles.itemPadding)}>
-                        {item.product.collection}
-                      </p>
-                      <p className={cs(styles.productN, styles.itemPadding)}>
-                        {item.title}
-                      </p>
-                      <p className={cs(styles.productN, styles.itemPadding)}>
-                        {isDiscount ? (
-                          <span className={styles.discountprice}>
-                            {String.fromCharCode(
-                              ...currencyCode[item.priceCurrency as Currency]
-                            )}
-                            {Number.isSafeInteger(+price1)
-                              ? price1
-                              : price1.toFixed(2) + ""}
-                            &nbsp;{" "}
-                          </span>
-                        ) : (
-                          ""
-                        )}
-                        {isDiscount ? (
-                          <span className={styles.strikeprice}>
-                            {String.fromCharCode(
-                              ...currencyCode[item.priceCurrency as Currency]
-                            )}
-                            {Number.isSafeInteger(+price2)
-                              ? price2
-                              : price2.toFixed(2) + ""}
-                            &nbsp;{" "}
-                          </span>
-                        ) : (
-                          <span
-                            className={cs(
-                              {
-                                [globalStyles.cerise]:
-                                  item.product.badgeType == "B_flat"
-                              },
-                              styles.price
-                            )}
-                          >
-                            {String.fromCharCode(
-                              ...currencyCode[item.priceCurrency as Currency]
-                            )}
-                            &nbsp;{" "}
-                            {Number.isSafeInteger(+price3)
-                              ? price3
-                              : price3.toFixed(2) + ""}
-                          </span>
-                        )}
-                      </p>
-                      {item.product.size ? (
-                        <div className={styles.plp_prod_quantity}>
-                          Size:&nbsp; {item.product.size}
-                        </div>
-                      ) : (
-                        ""
-                      )}
-                      <div className={styles.plp_prod_quantity}>
-                        Qty:&nbsp; {item.quantity}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              );
-            })}
-            <div className={cs(styles.edit, styles.close2)}>
-              <a
-                className={globalStyles.cerise}
-                onClick={() => closeDetails(data.number)}
-              >
-                {" "}
-                close{" "}
-              </a>
+          );
+        })}
+        {/* giftcard and credit note */}
+        {data.giftVoucherRedeemed?.map((gccn: number, i: number) => {
+          return (
+            <div className={cs(styles.price, styles.price3, styles.discount)}>
+              <span className={styles.label}>Gift Card/Credit Note</span>
+              <span className={styles.value}>
+                {`(-)${currencyChar} ${parseFloat("" + gccn).toFixed(2)}`}
+              </span>
             </div>
-          </address>
+          );
+        })}
+        {/* Loyalty Points */}
+        {data.loyalityPointsRedeemed?.map((point: number, i: number) => {
+          return (
+            <div className={cs(styles.price, styles.price3, styles.discount)}>
+              <span className={styles.label}>Loyalty Points</span>
+              <span className={styles.value}>
+                {`(-)${currencyChar} ${parseFloat("" + point).toFixed(2)}`}
+              </span>
+            </div>
+          );
+        })}
+        {/* amount paid */}
+        <div className={cs(styles.price, styles.total)}>
+          <span className={styles.label}>
+            AMOUNT PAID
+            {/* <span className={styles.light}>Incl. Tax</span> */}
+          </span>
+          <span className={styles.value}>
+            {`${currencyChar} ${parseFloat(item.totalInclTax).toFixed(2)}`}
+          </span>
         </div>
       </div>
     );
     return html;
   };
+
   return (
     <div>
       {data?.map((item: any, i: number) => {
+        const orderDate = new Date(item.datePlaced);
+        const todayDate = new Date();
+
+        todayDate.setMonth(todayDate.getMonth() - 1);
+        // now today date is one month less
+        const isHide = orderDate >= todayDate;
+
+        const shippingAddress = item.shippingAddress?.[0];
         return (
           <div
             className={cs(bootstrapStyles.row, globalStyles.voffset4)}
             key={item.number}
           >
-            {isOpenAddressIndex == i
-              ? openAddress(item, i)
-              : closeAddress(item, i)}
+            <div className={bootstrapStyles.col12}>
+              <div className={styles.add} id={item.number}>
+                <div className={styles.myOrderBlock}>
+                  <label>order # {item.number}</label>
+                  {/* Info */}
+                  <div
+                    className={cs(styles.orderData, {
+                      [styles.singleOrder]: isopenOrderIndex == i
+                    })}
+                  >
+                    <div className={styles.info}>
+                      <div className={styles.row}>
+                        <div className={cs(styles.data, styles.date)}>
+                          {moment(item.datePlaced).format("D MMM, YYYY")}
+                        </div>
+                      </div>
+                      <div className={styles.row}>
+                        <span className={styles.label}> Status: </span> &nbsp;
+                        <span className={styles.data}>{item.status}</span>
+                      </div>
+                      <div className={styles.row}>
+                        <span className={styles.label}> Items: </span> &nbsp;
+                        <span className={styles.data}>{item.itemCount}</span>
+                      </div>
+                    </div>
+                    <div className={styles.amountPaid}>
+                      <span className={styles.label}>Amount Paid</span>
+                      <span className={styles.data}>
+                        {String.fromCharCode(
+                          ...currencyCode[item.currency as Currency]
+                        )}
+                        &nbsp;{item.totalInclTax}
+                      </span>
+                    </div>
+                  </div>
+                  {isopenOrderIndex == i ? renderOrder(item, i) : null}
+                  {/* Actions */}
+                  <div className={styles.actions}>
+                    <p className={styles.action}>
+                      {isopenOrderIndex == i ? (
+                        <a onClick={() => closeDetails(item.number)}>close</a>
+                      ) : (
+                        <a onClick={() => showDetails(i, item.number)}>view</a>
+                      )}
+                    </p>
+                    <p className={styles.action}>
+                      {isHide && !shippingAddress?.isTulsi ? (
+                        <a
+                          onClick={e => {
+                            trackOrder(e);
+                          }}
+                          data-name="track"
+                          id={item.number}
+                        >
+                          {" "}
+                          TRACK ORDER{" "}
+                        </a>
+                      ) : (
+                        ""
+                      )}
+                    </p>
+                    {item?.status === "Delivered" ? (
+                      <p
+                        className={cs(
+                          styles.action,
+                          item.invoiceFileName ? "" : styles.disabled
+                        )}
+                      >
+                        <a
+                          onClick={e => {
+                            // const filename = data.invoiceFileName.split(
+                            //   "ge-invoice-test/"
+                            // )[1];
+                            const filename = `E-Invoice_Order No. ${item?.number}.pdf`;
+                            fetch(item.invoiceFileName).then(function(t) {
+                              return t.blob().then(b => {
+                                if (!item.invoiceFileName) {
+                                  return false;
+                                }
+
+                                const a = document.createElement("a");
+                                a.href = URL.createObjectURL(b);
+                                a.setAttribute("download", filename);
+                                a.click();
+                              });
+                            });
+                          }}
+                          data-name="track"
+                          id={item.number}
+                        >
+                          <img
+                            alt="goodearth-logo"
+                            src={
+                              item?.invoiceFileName ? invoice : invoiceDisabled
+                            }
+                            style={{
+                              width: "20px",
+                              height: "15px",
+                              cursor: item?.invoiceFileName
+                                ? "pointer"
+                                : "not-allowed",
+                              marginLeft: "-8px"
+                            }}
+                          />{" "}
+                          INVOICE{" "}
+                        </a>
+                      </p>
+                    ) : null}
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         );
       })}

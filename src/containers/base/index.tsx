@@ -309,7 +309,7 @@ const BaseLayout: React.FC = () => {
                 LoginService.changeCurrency(dispatch, data).then(res => {
                   LoginService.reloadPage(
                     dispatch,
-                    res.currency,
+                    data?.currency,
                     customerGroup
                   );
                 });
