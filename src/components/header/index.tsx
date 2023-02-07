@@ -272,12 +272,14 @@ class Header extends React.Component<Props, State> {
     const header = document.getElementById("myHeader");
     const sticky = (header as HTMLElement)?.offsetTop;
     const secondaryHeader = document.getElementById("secondaryHeader");
-
     if (window?.pageYOffset > sticky) {
       (header as HTMLElement).style.position = "fixed";
       (header as HTMLElement).style.marginBottom = "0px";
+
       if (secondaryHeader) {
-        if (timer || this.props.showTimer) {
+        const tim = timer !== undefined ? timer : this.props.showTimer;
+
+        if (tim) {
           (secondaryHeader as HTMLElement).style.top = "90px";
         } else {
           (secondaryHeader as HTMLElement).style.top = "50px";
@@ -290,16 +292,18 @@ class Header extends React.Component<Props, State> {
       if (secondaryHeader) {
         const tim = timer !== undefined ? timer : this.props.showTimer;
         if (tim) {
-          (secondaryHeader as HTMLElement).style.top = "130px";
+          (secondaryHeader as HTMLElement).style.top = `${130 -
+            window?.pageYOffset}px`;
         } else {
-          (secondaryHeader as HTMLElement).style.top = "90px";
+          (secondaryHeader as HTMLElement).style.top = `${90 -
+            window?.pageYOffset}px`;
         }
 
         // (secondaryHeader as HTMLElement).style.transition = "all 0.5s linear";
       }
     }
 
-    (header as HTMLElement).style.transition = "all 0.5s ease-in-out";
+    // (header as HTMLElement).style.transition = "all 0.5s ease-in-out";
   };
 
   componentWillUnmount() {
