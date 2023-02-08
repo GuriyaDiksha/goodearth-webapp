@@ -8,10 +8,12 @@ import styles from "./styles.scss";
 import storeIcon from "images/shopLocator/store.svg";
 import cafeIcon from "images/shopLocator/cafe.svg";
 import anarIcon from "images/shopLocator/anar.png";
+import "./shoplocator-slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import "slick-carousel/slick/slick.css";
 import Slider from "react-slick";
-import "./slick.css";
 
-// import rawData from "./data.json"
+import Accordion from "components/Accordion";
 
 const settings = {
   dots: true,
@@ -19,9 +21,7 @@ const settings = {
   speed: 500,
   slidesToShow: 1,
   slidesToScroll: 1,
-  arrows: true,
-  prevArrow: <div>prev</div>,
-  nextArrow: <div>next</div>
+  arrows: true
 };
 
 const mapStateToProps = (state: AppState) => {
@@ -58,6 +58,7 @@ class ShopLocator extends Component<Props, State> {
     this.setState({
       currentCity: data
     });
+    window.history.pushState("", "", data);
   };
 
   componentDidMount(): void {
@@ -83,17 +84,11 @@ class ShopLocator extends Component<Props, State> {
       .catch((err: any) => {
         console.log(err);
       });
-    // console.log(rawData)
-    // this.setState({
-    //   shopData: rawData,
-    //   currentCity: Object.keys(rawData)[0],
-    //   currentCityData: rawData[Object.keys(rawData)[0]]
-    // })
   }
 
   render() {
     const { shopData, currentCity } = this.state;
-    console.log(shopData[currentCity]);
+
     return (
       <div
         className={cs(styles.pageContainer, {
@@ -132,6 +127,80 @@ class ShopLocator extends Component<Props, State> {
           {shopData[currentCity]?.map((data: any, i: number) => {
             const len = shopData[currentCity]?.length;
             const showAnarBorder = len > 1 && i != len - 1;
+
+            // get accordion sections
+            const section = [
+              {
+                header: (
+                  <div className={styles.cafeHeader}>
+                    <img
+                      className={cs(styles.icon, styles.store)}
+                      src={cafeIcon}
+                    />
+                    <div className={styles.name}>
+                      {data.cafeHeading2}, {data.place}
+                    </div>
+                    <div className={styles.location}>{data.city}</div>
+                  </div>
+                ),
+                body: (
+                  <div className={styles.shopBlock}>
+                    <div className={styles.info}>
+                      <div className={styles.desc}>{data.cafeContent}</div>
+                      <div className={styles.openDays}>{data.cafeOpendays}</div>
+                      {data.cafeTime && (
+                        <div className={styles.time}>{data.cafeTime}</div>
+                      )}
+                      {data.cafeAddress ? (
+                        <div className={styles.addressBlock}>
+                          <div className={styles.address}>
+                            {data.cafeAddress}
+                          </div>
+                          <div className={styles.phone}>
+                            {data.cafeTel1.map((item: any, i: number) => {
+                              return <p key={`cafeTel1_${i}`}>{item}</p>;
+                            })}
+                          </div>
+                        </div>
+                      ) : (
+                        <div className={styles.phoneBlock}>
+                          {data.cafeTel1.map((item: any, i: number) => {
+                            return <p key={`cafeTel1_${i}`}>{item}</p>;
+                          })}
+                        </div>
+                      )}
+                      <div className={styles.getDirections}>
+                        <a
+                          href={data.cafeDirection}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          GET DIRECTIONS
+                        </a>
+                      </div>
+                    </div>
+                    <div className={cs(styles.slider, "shopLocatorSlider")}>
+                      <Slider {...settings}>
+                        {data.bannerCafe.map((item: any) => {
+                          return (
+                            <div
+                              className={styles.imgContainer}
+                              key={`cafe_${i}`}
+                            >
+                              <div>
+                                <img key={`cafe_${i}`} src={item.image} />
+                              </div>
+                            </div>
+                          );
+                        })}
+                      </Slider>
+                    </div>
+                  </div>
+                ),
+                id: "cafe",
+                alwaysOpen: false
+              }
+            ];
             return (
               <div
                 className={cs(styles.locationsContainer, {
@@ -201,7 +270,7 @@ class ShopLocator extends Component<Props, State> {
                       </a>
                     </div>
                   </div>
-                  <div className={styles.slider}>
+                  <div className={cs(styles.slider, "shopLocatorSlider")}>
                     <Slider {...settings}>
                       {data.bannerShop.map((item: any) => {
                         return (
@@ -220,66 +289,15 @@ class ShopLocator extends Component<Props, State> {
                 </div>
                 {/* Cafe Block */}
                 {data.cafeHeading2 && (
-                  <div className={styles.shopBlock}>
-                    <div className={styles.info}>
-                      <img
-                        className={cs(styles.icon, styles.store)}
-                        src={cafeIcon}
-                      />
-                      <div className={styles.name}>
-                        {data.cafeHeading2}, {data.place}
-                      </div>
-                      <div className={styles.location}>{data.city}</div>
-                      <div className={styles.desc}>{data.cafeContent}</div>
-                      <div className={styles.openDays}>{data.cafeOpendays}</div>
-                      {data.cafeTime && (
-                        <div className={styles.time}>{data.cafeTime}</div>
-                      )}
-                      {data.cafeAddress ? (
-                        <div className={styles.addressBlock}>
-                          <div className={styles.address}>
-                            {data.cafeAddress}
-                          </div>
-                          <div className={styles.phone}>
-                            {data.cafeTel1.map((item: any, i: number) => {
-                              return <p key={`cafeTel1_${i}`}>{item}</p>;
-                            })}
-                          </div>
-                        </div>
-                      ) : (
-                        <div className={styles.phoneBlock}>
-                          {data.cafeTel1.map((item: any, i: number) => {
-                            return <p key={`cafeTel1_${i}`}>{item}</p>;
-                          })}
-                        </div>
-                      )}
-                      <div className={styles.getDirections}>
-                        <a
-                          href={data.cafeDirection}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          GET DIRECTIONS
-                        </a>
-                      </div>
-                    </div>
-                    <div className={styles.slider}>
-                      <Slider {...settings}>
-                        {data.bannerCafe.map((item: any) => {
-                          return (
-                            <div
-                              className={styles.imgContainer}
-                              key={`cafe_${i}`}
-                            >
-                              <div>
-                                <img key={`cafe_${i}`} src={item.image} />
-                              </div>
-                            </div>
-                          );
-                        })}
-                      </Slider>
-                    </div>
-                  </div>
+                  <Accordion
+                    sections={section}
+                    className={styles.cafeAccordion}
+                    sectionClassName={styles.accordionSection}
+                    mainBodyClassName={styles.accordionBody}
+                    mainBodyOpenClassName={styles.accordionBodyOpen}
+                    closedIconClassName={cs(styles.arrow, styles.close)}
+                    openIconClassName={cs(styles.arrow, styles.open)}
+                  />
                 )}
               </div>
             );

@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import Slider from "react-slick";
 import "./announcementBarSlider.css";
 import playBtn from "./../../images/play.svg";
 import pauseBtn from "./../../images/pause.svg";
+import "slick-carousel/slick/slick-theme.css";
+import "slick-carousel/slick/slick.css";
 
 type Props = {
   dots?: boolean;
@@ -17,7 +19,9 @@ const AnnouncementBarSlider: React.FC<Props> = ({
   isBridalPage
 }) => {
   const [play, setPlay] = useState(true);
+  const sliderRef = useRef<Slider>(null);
 
+  console.log(play);
   const settings = {
     dots: true,
     arrows: false,
@@ -26,8 +30,17 @@ const AnnouncementBarSlider: React.FC<Props> = ({
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
-    autoplay: play,
+    autoplay: true,
     swipeToSlide: false
+  };
+
+  const setPauseBtn = () => {
+    if (play) {
+      sliderRef?.current?.slickPause();
+    } else {
+      sliderRef?.current?.slickPlay();
+    }
+    setPlay(!play);
   };
 
   return (
@@ -36,12 +49,14 @@ const AnnouncementBarSlider: React.FC<Props> = ({
         <div className="play-button">
           <img
             src={play ? pauseBtn : playBtn}
-            onClick={() => setPlay(!play)}
+            onClick={() => setPauseBtn()}
             width={17}
           />
         </div>
       ) : null}
-      <Slider {...settings}>{children}</Slider>
+      <Slider ref={sliderRef} {...settings}>
+        {children}
+      </Slider>
     </div>
   );
 };

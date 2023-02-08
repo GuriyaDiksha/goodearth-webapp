@@ -220,6 +220,9 @@ class Header extends React.Component<Props, State> {
         reloadAnnouncementBar: false
       });
     }
+    if (this.props.showTimer != nextProps.showTimer) {
+      this.onScroll(null, nextProps.showTimer);
+    }
   }
   componentDidUpdate(prevProps: Props) {
     if (
@@ -265,26 +268,38 @@ class Header extends React.Component<Props, State> {
   //   this.setState({ show: data.show });
   // }
 
-  onScroll = () => {
+  onScroll = (event: any, timer?: boolean) => {
     const header = document.getElementById("myHeader");
     const sticky = (header as HTMLElement)?.offsetTop;
     const secondaryHeader = document.getElementById("secondaryHeader");
 
     if (window?.pageYOffset > sticky) {
       (header as HTMLElement).style.position = "fixed";
-      if (this.props.showTimer) {
-        (secondaryHeader as HTMLElement).style.top = "90px";
-      } else {
-        (secondaryHeader as HTMLElement).style.top = "50px";
+      (header as HTMLElement).style.marginBottom = "0px";
+      if (secondaryHeader) {
+        if (timer || this.props.showTimer) {
+          (secondaryHeader as HTMLElement).style.top = "90px";
+        } else {
+          (secondaryHeader as HTMLElement).style.top = "50px";
+        }
+        // (secondaryHeader as HTMLElement).style.transition = "all 0.5s linear";
       }
     } else {
       (header as HTMLElement).style.position = "relative";
-      if (this.props.showTimer) {
-        (secondaryHeader as HTMLElement).style.top = "130px";
-      } else {
-        (secondaryHeader as HTMLElement).style.top = "90px";
+      (header as HTMLElement).style.marginBottom = "-40px";
+      if (secondaryHeader) {
+        const tim = timer !== undefined ? timer : this.props.showTimer;
+        if (tim) {
+          (secondaryHeader as HTMLElement).style.top = "130px";
+        } else {
+          (secondaryHeader as HTMLElement).style.top = "90px";
+        }
+
+        // (secondaryHeader as HTMLElement).style.transition = "all 0.5s linear";
       }
     }
+
+    (header as HTMLElement).style.transition = "all 0.5s ease-in-out";
   };
 
   componentWillUnmount() {

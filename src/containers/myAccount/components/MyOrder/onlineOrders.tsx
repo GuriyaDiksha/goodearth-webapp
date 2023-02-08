@@ -217,7 +217,11 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
               )}
               <p className={styles.title}>{item.title}</p>
               <p className={cs(styles.price)}>
-                <span className={cs(styles.amountPaid)}>
+                <span
+                  className={cs(styles.amountPaid, {
+                    [styles.gold]: isDiscount
+                  })}
+                >
                   {`${charCurrency} ${amountPaid}`}
                 </span>
                 {isDiscount && (
@@ -263,16 +267,14 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
           }
         )}
         {/* shipping and handling */}
-        {data.shippingInclTax > 0 && (
-          <div className={cs(styles.price, styles.price2)}>
-            <span className={styles.label}>SHIPPING & HANDLING</span>
-            <span className={styles.value}>
-              {`(+) ${currencyChar} ${parseFloat(item.shippingInclTax).toFixed(
-                2
-              )}`}
-            </span>
-          </div>
-        )}
+        <div className={cs(styles.price, styles.price2)}>
+          <span className={styles.label}>SHIPPING & HANDLING</span>
+          <span className={styles.value}>
+            {`(+) ${currencyChar} ${parseFloat(item.shippingInclTax).toFixed(
+              2
+            )}`}
+          </span>
+        </div>
         {/* voucher discounts */}
         {data.voucherDiscounts?.map((vd: any, i: number) => {
           return (
@@ -309,7 +311,8 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
         {/* amount paid */}
         <div className={cs(styles.price, styles.total)}>
           <span className={styles.label}>
-            AMOUNT PAID<span className={styles.light}>Incl. Tax</span>
+            AMOUNT PAID
+            {/* <span className={styles.light}>Incl. Tax</span> */}
           </span>
           <span className={styles.value}>
             {`${currencyChar} ${parseFloat(item.totalInclTax).toFixed(2)}`}
@@ -348,16 +351,16 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
                   >
                     <div className={styles.info}>
                       <div className={styles.row}>
-                        <div className={styles.data}>
-                          {moment(item.datePlaced).format("D MMM,YYYY")}
+                        <div className={cs(styles.data, styles.date)}>
+                          {moment(item.datePlaced).format("D MMM, YYYY")}
                         </div>
                       </div>
                       <div className={styles.row}>
-                        <span className={styles.label}> Status: </span> &nbsp;{" "}
+                        <span className={styles.label}> Status: </span> &nbsp;
                         <span className={styles.data}>{item.status}</span>
                       </div>
                       <div className={styles.row}>
-                        <span className={styles.label}> Items: </span> &nbsp;{" "}
+                        <span className={styles.label}> Items: </span> &nbsp;
                         <span className={styles.data}>{item.itemCount}</span>
                       </div>
                     </div>

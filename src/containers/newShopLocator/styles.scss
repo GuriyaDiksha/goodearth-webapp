@@ -12,11 +12,11 @@ $banner-mobile-height:500px;
     }
     height: 100%;
     .banner{
-        height: 440px;
+        height: 438px;
         width: 100%;
         background: url("../../images/shopLocator/desktop_banner.png");
         .banner-text{
-            line-height: 440px;
+            line-height: 438px;
             font-family: $font-Lora;
             font-size: 30px;
             font-style: italic;
@@ -129,6 +129,7 @@ $banner-mobile-height:500px;
                         letter-spacing: 0.36px;
                         display: flex;
                         margin-bottom: 20px;
+                        overflow: auto;
                         .address{
                             width: 200px;
                             border-right: 1px solid #E5E5E5;
@@ -280,4 +281,54 @@ $banner-mobile-height:500px;
             }
         }
     }
+}
+
+.cafe-header{
+    position: relative;
+    padding-left: 60px;
+    padding-right: 20px;
+    width: 100%;
+    .icon{
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        height: 30px;
+        width: 37px;
+    }
+    .name{
+        @include h3_20px_lora_charcoal();
+        letter-spacing: 0.4px;
+        line-height: 25px;
+        margin-bottom: 6px;
+    }
+    .location{
+        @include b4_12px_montserrat_charcoal();
+        font-weight: $medium;
+    }
+}
+
+.cafe-accordion{
+    margin-bottom: 54px;
+}
+
+.accordion-section{
+    border-bottom: none;
+}
+
+.accordion-body{
+    @media screen and (min-width: 992px){
+        width: 105%;
+    }
+}
+
+.accordion-body-open{
+    @media screen and (max-width: 991px){
+        overflow: visible;
+    }
+}
+
+.arrow {
+    @include carret();
+    position: absolute;
+    right: 0px;
 }
