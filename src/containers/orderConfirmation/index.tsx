@@ -172,7 +172,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
         });
         dataLayer.push({
           event: "customPurchaseSuccess",
-          "Transaction ID": result.transactionId,
+          "Transaction ID": result.number,
           Revenue: +result.totalInclTax,
           "Shipping Charges": +result.shippingInclTax,
           "Payment Method": result.paymentMethod,
@@ -195,7 +195,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
         dataLayer.push({
           event: "GA4_purchase",
           ecommerce: {
-            transaction_id: result.transactionId,
+            transaction_id: result.number,
             affiliation: productname, // Pass the product name
             value: +result.totalInclTax,
             tax: 0,
