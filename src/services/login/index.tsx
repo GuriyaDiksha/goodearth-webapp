@@ -101,7 +101,7 @@ export default {
     );
     util.showGrowlMessage(
       dispatch,
-      `${response.firstName}, ${LOGIN_SUCCESS}`,
+      `${LOGIN_SUCCESS} ${response.firstName}!`,
       5000
     );
     if (response.oldBasketHasItems) {
