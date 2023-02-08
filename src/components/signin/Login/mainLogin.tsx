@@ -91,23 +91,41 @@ class MainLogin extends React.Component<Props, loginState> {
         } else {
           if (data.emailExist) {
             if (data.passwordExist) {
-              this.setState(
-                {
-                  showCurrentSection: "login",
-                  msg: "",
-                  highlight: false,
-                  successMsg: "",
-                  heading: "Welcome Back!",
-                  subHeading: "Enter your password to sign in."
-                },
-                () => {
-                  this.passwordInput.current &&
-                    this.passwordInput.current.focus();
-                  this.passwordInput.current &&
-                    !this.props.isBo &&
-                    this.passwordInput.current.scrollIntoView(true);
-                }
-              );
+              if (this.props.source == "password-reset") {
+                this.setState(
+                  {
+                    showCurrentSection: "login",
+                    msg: "",
+                    highlight: false,
+                    successMsg: ""
+                  },
+                  () => {
+                    this.passwordInput.current &&
+                      this.passwordInput.current.focus();
+                    this.passwordInput.current &&
+                      !this.props.isBo &&
+                      this.passwordInput.current.scrollIntoView(true);
+                  }
+                );
+              } else {
+                this.setState(
+                  {
+                    showCurrentSection: "login",
+                    msg: "",
+                    highlight: false,
+                    successMsg: "",
+                    heading: "Welcome Back!",
+                    subHeading: "Enter your password to sign in."
+                  },
+                  () => {
+                    this.passwordInput.current &&
+                      this.passwordInput.current.focus();
+                    this.passwordInput.current &&
+                      !this.props.isBo &&
+                      this.passwordInput.current.scrollIntoView(true);
+                  }
+                );
+              }
             } else {
               const error = [
                 "Looks like you are signing in for the first time. ",
@@ -192,11 +210,14 @@ class MainLogin extends React.Component<Props, loginState> {
     // }
     // localStorage.removeItem("tempEmail");
     this.firstEmailInput.current?.focus();
+
+    const subHeading = this.props.isCerise
+      ? "Please enter your registered e-mail address to login to your Cerise account."
+      : "Enter your email address to register or sign in.";
+
     this.setState({
-      heading: "Welcome",
-      subHeading: this.props.isCerise
-        ? "Please enter your registered e-mail address to login to your Cerise account."
-        : "Enter your email address to register or sign in."
+      heading: this.props.heading || "Welcome",
+      subHeading: this.props.subHeading || subHeading
     });
   }
 

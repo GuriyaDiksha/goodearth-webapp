@@ -49,6 +49,7 @@
   @include h3_20px_lora_charcoal();
   line-height: 25px;
   letter-spacing: 0.4px;
+  text-align: center;
 }
 
 .social-login-footer {
@@ -288,6 +289,7 @@ span.error-msg {
   margin-top: 10px;
   margin-bottom: 48px;
   padding: 0px 36px;
+  text-align: center;
   &.verify-otp{
     margin-bottom: 36px;
   }

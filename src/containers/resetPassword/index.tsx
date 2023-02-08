@@ -26,12 +26,13 @@ type Props = {
 const ResetPassword: React.FC<Props> = props => {
   const {
     device: { mobile },
-    user: { isLoggedIn, customerGroup, email },
+    user: { isLoggedIn, customerGroup },
     currency,
     info: { showTimer }
   } = useSelector((state: AppState) => state);
   const ResetPasswordFormRef = useRef<Formsy>(null);
-  const [showPassword, setShowPassword] = useState(false);
+  const [showPassword1, setShowPassword1] = useState(false);
+  const [showPassword2, setShowPassword2] = useState(false);
   const [enableSubmit, setEnableSubmit] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [showLogin, setShowLogin] = useState(false);
@@ -144,26 +145,6 @@ const ResetPassword: React.FC<Props> = props => {
         resetForm();
         setShowLogin(true);
         localStorage.setItem("tempEmail", data.email);
-        // const { bridalCurrency, bridalId } = data;
-        // bridalId && CookieService.setCookie("bridalId", bridalId);
-        // bridalCurrency &&
-        //   CookieService.setCookie("bridalCurrency", bridalCurrency);
-        // valid.showGrowlMessage(dispatch, MESSAGE.ALL_SESSION_LOGOUT);
-        // let counter = 5;
-        // const timer = setInterval(function() {
-        //   if (counter < 0) {
-        //     history.push(data.redirectTo || "/");
-        //     clearInterval(timer);
-        //     localStorage.setItem("tempEmail", data.email);
-        //     data.redirectTo != "/order/checkout" &&
-        //       LoginService.showLogin(dispatch);
-        //   } else {
-        //     setErrorMessage(
-        //       data.message + " This page will redirect in " + counter + " sec."
-        //     );
-        //   }
-        //   counter--;
-        // }, 1000);
       })
       .catch((err: any) => {
         setErrorMessage(err.response.data.errorMessage);
@@ -175,6 +156,7 @@ const ResetPassword: React.FC<Props> = props => {
       <Formsy
         ref={ResetPasswordFormRef}
         onValid={() => setEnableSubmit(true)}
+        onInvalid={() => setEnableSubmit(false)}
         onValidSubmit={handleSubmit}
         onInvalidSubmit={handleInvalidSubmit}
       >
@@ -196,22 +178,34 @@ const ResetPassword: React.FC<Props> = props => {
               placeholder={"New Password"}
               label={"New Password"}
               keyPress={e => (e.key == "Enter" ? e.preventDefault() : "")}
-              type={showPassword ? "text" : "password"}
+              type={showPassword1 ? "text" : "password"}
               onFocus={() => {
                 setShowPassRules(true);
               }}
               blur={handleBlur}
               handleChange={handlePassValidation}
               validations={{
-                isValid: () => true
+                isValid: (values, value) => {
+                  return (
+                    value &&
+                    /[a-z]/.test(value) &&
+                    /[0-9]/.test(value) &&
+                    /[A-Z]/.test(value)
+                  );
+                }
+              }}
+              validationErrors={{
+                isValid:
+                  "Please verify that your password follows all rules displayed"
               }}
               required
+              showLabel={true}
             />
             <span
               className={myAccountComponentStyles.togglePasswordBtn}
-              onClick={() => setShowPassword(!showPassword)}
+              onClick={() => setShowPassword1(!showPassword1)}
             >
-              <img src={showPassword ? show : hide} />
+              <img src={showPassword1 ? show : hide} />
             </span>
           </div>
           <div
@@ -244,7 +238,7 @@ const ResetPassword: React.FC<Props> = props => {
               isDrop={true}
               isPaste={true}
               keyPress={e => (e.key == "Enter" ? e.preventDefault() : "")}
-              type={showPassword ? "text" : "password"}
+              type={showPassword2 ? "text" : "password"}
               validations={{
                 equalsField: "password1",
                 isValid: (values, value) => {
@@ -263,11 +257,18 @@ const ResetPassword: React.FC<Props> = props => {
                   "Please verify that your password follows all rules displayed"
               }}
               required
+              showLabel={true}
             />
+            <span
+              className={myAccountComponentStyles.togglePasswordBtn}
+              onClick={() => setShowPassword2(!showPassword2)}
+            >
+              <img src={showPassword2 ? show : hide} />
+            </span>
           </div>
           <div>
             {errorMessage ? (
-              <p className={cs(globalStyles.errorMsg, globalStyles.marginB10)}>
+              <p className={cs(styles.errorMsg, globalStyles.marginB10)}>
                 {errorMessage}
               </p>
             ) : (
@@ -278,10 +279,10 @@ const ResetPassword: React.FC<Props> = props => {
               disabled={!enableSubmit}
               className={
                 enableSubmit
-                  ? globalStyles.ceriseBtn
-                  : cs(globalStyles.disabledBtn, globalStyles.ceriseBtn)
+                  ? globalStyles.charcoalBtn
+                  : cs(globalStyles.disabledBtn, globalStyles.charcoalBtn)
               }
-              value="Save"
+              value="Set New Password"
             />
           </div>
         </div>
@@ -294,10 +295,8 @@ const ResetPassword: React.FC<Props> = props => {
         <Login redirectTo={redirectTo} />
       ) : (
         <div className={cs(styles.container)}>
-          <div className={myAccountComponentStyles.formHeading}>
-            Reset Password
-          </div>
-          <div className={myAccountComponentStyles.formSubheading}>
+          <div className={styles.formHeading}>Reset Password</div>
+          <div className={styles.formSubheading}>
             Please fill in the fields below
           </div>
           {formContent}

@@ -5,6 +5,9 @@ export type loginProps = {
   isBo?: string;
   heading2?: string;
   isCerise: boolean;
+  heading?: string;
+  subHeading?: string;
+  source?: string;
 };
 
 export type loginState = {

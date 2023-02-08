@@ -1,4 +1,5 @@
 @import "../../styles/partials/variables";
+@import "../../styles/partials/mixins";
 
 .password-validation {
     transition: opacity 0.2s, height 0.2s, margin 0.2s;
@@ -13,18 +14,21 @@
       margin-top: -10px !important;
     }
     p {
-      text-align: left;
-      font-size: 13px;
+      @include b4_12px_montserrat_charcoal();
       line-height: 20px;
+      letter-spacing: 0.36px;
+      text-align: left;
     }
     ul {
-      font-size: 13px;
+      font-family: $font-Montserrat;
+      font-size: 10px;
+      letter-spacing: 0.3px;
       display: flex;
       flex-wrap: wrap;
-      padding-top: 10px;
+      padding-top: 12px;
       li {
         flex: 50%;
-        line-height: 24px;
+        line-height: 20px;
         text-align: left;
         &::before {
           content: '';
@@ -56,24 +60,52 @@
   }
 
   .container-start{
-    margin-top: 50px;
+    margin-top: 130px;
     &.container-start-timer{
-      margin-top: 50px + $timer-height;
+      margin-top: 130px + $timer-height;
     }
   }
 
   .container {
     width: 100%;
-    padding: 0px 24px;
-    margin-left: unset
+    margin-left: unset;
+    text-align: center;
+    .form-heading{
+      @include h3_20px_lora_charcoal();
+      letter-spacing: 0.4px;
+      line-height: 25px;
+    }
+    .form-subheading{
+      @include b4_12px_montserrat_charcoal();
+      letter-spacing: 0.36px;
+      line-height: 20px;
+      margin-top: 10px;
+      margin-bottom: 52px;
+    }
   }
 
   .page-body{
     background: url('../../images/myAccountBg2.png') repeat;
     height: auto;
+    padding: 70px 0px;
+    @media screen and (max-width: 991px){
+      background: unset;
+      padding: unset;
+    }
     .form-container{
       width: 490px;
       padding: 60px 50px;
       background-color: #fff;
+      margin: 0px auto;
+      @media screen and (max-width: 991px){
+        width: 100%;
+        padding: 40px 24px;
+      }
     }
   }
+
+
+.error-msg {
+  @include err_13px_lora_italic_cerise();
+  text-align: left;
+}
