@@ -1,3 +1,4 @@
+@import "../../styles/partials/variables";
 
 .password-validation {
     transition: opacity 0.2s, height 0.2s, margin 0.2s;
@@ -51,5 +52,28 @@
           }
         }
       }
+    }
+  }
+
+  .container-start{
+    margin-top: 50px;
+    &.container-start-timer{
+      margin-top: 50px + $timer-height;
+    }
+  }
+
+  .container {
+    width: 100%;
+    padding: 0px 24px;
+    margin-left: unset
+  }
+
+  .page-body{
+    background: url('../../images/myAccountBg2.png') repeat;
+    height: auto;
+    .form-container{
+      width: 490px;
+      padding: 60px 50px;
+      background-color: #fff;
     }
   }

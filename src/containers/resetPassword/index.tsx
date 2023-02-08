@@ -10,8 +10,8 @@ import { useSelector, useDispatch } from "react-redux";
 import { AppState } from "reducers/typings";
 import Formsy from "formsy-react";
 import FormInput from "components/Formsy/FormInput";
-import show from "../../images/show.svg";
-import hide from "../../images/hide.svg";
+import show from "../../images/showPass.svg";
+import hide from "../../images/hidePass.svg";
 import { RouteComponentProps, withRouter, useHistory } from "react-router";
 import AccountService from "services/account";
 import * as valid from "utils/validate";
@@ -26,7 +26,7 @@ type Props = {
 const ResetPassword: React.FC<Props> = props => {
   const {
     device: { mobile },
-    user: { isLoggedIn, customerGroup },
+    user: { isLoggedIn, customerGroup, email },
     currency,
     info: { showTimer }
   } = useSelector((state: AppState) => state);
@@ -139,7 +139,6 @@ const ResetPassword: React.FC<Props> = props => {
       newPassword1: password1,
       newPassword2: password2
     };
-
     AccountService.confirmResetPassword(dispatch, formData)
       .then(data => {
         resetForm();
@@ -172,9 +171,7 @@ const ResetPassword: React.FC<Props> = props => {
   };
 
   const formContent = (
-    <div
-      className={cs(myAccountComponentStyles.loginForm, globalStyles.voffset4)}
-    >
+    <div className={cs(myAccountComponentStyles.loginForm)}>
       <Formsy
         ref={ResetPasswordFormRef}
         onValid={() => setEnableSubmit(true)}
@@ -185,6 +182,14 @@ const ResetPassword: React.FC<Props> = props => {
           className={myAccountComponentStyles.categorylabel}
           id="reset-password-form"
         >
+          {/* <div>
+            <FormInput
+              name="email"
+              value={email}
+              placeholder={"Email"}
+              label={"Email ID*"}
+            />
+          </div> */}
           <div>
             <FormInput
               name="password1"
@@ -288,14 +293,7 @@ const ResetPassword: React.FC<Props> = props => {
       {showLogin ? (
         <Login redirectTo={redirectTo} />
       ) : (
-        <div
-          className={cs(
-            bootstrapStyles.col10,
-            bootstrapStyles.offset1,
-            bootstrapStyles.colMd8,
-            bootstrapStyles.offsetMd2
-          )}
-        >
+        <div className={cs(styles.container)}>
           <div className={myAccountComponentStyles.formHeading}>
             Reset Password
           </div>
@@ -308,11 +306,10 @@ const ResetPassword: React.FC<Props> = props => {
     </div>
   );
 
-  const bgClass = cs(globalStyles.col12, myAccountStyles.bgProfile);
   return (
     <div
-      className={cs(globalStyles.containerStart, {
-        [globalStyles.containerStartTimer]: showTimer
+      className={cs(styles.containerStart, {
+        [styles.containerStartTimer]: showTimer
       })}
     >
       {!mobile && (
@@ -324,24 +321,8 @@ const ResetPassword: React.FC<Props> = props => {
           </div>
         </SecondaryHeader>
       )}
-      <div className={bootstrapStyles.row}>
-        <div className={bgClass}>
-          <div className={bootstrapStyles.row}>
-            <div
-              className={cs(
-                bootstrapStyles.colLg4,
-                bootstrapStyles.offsetLg4,
-                bootstrapStyles.col12,
-                globalStyles.textCenter,
-                { [myAccountStyles.accountFormBg]: !mobile },
-                { [myAccountStyles.accountFormBgMobile]: mobile }
-              )}
-            >
-              {mainContent}
-              {/* {notificationData ? <Growl text={this.state.notificationData} show={true}/> : ""} */}
-            </div>
-          </div>
-        </div>
+      <div className={styles.pageBody}>
+        <div className={styles.formContainer}>{mainContent}</div>
       </div>
     </div>
   );
