@@ -622,7 +622,7 @@ class MainLogin extends React.Component<Props, loginState> {
                 type="submit"
                 className={cs(
                   globalStyles.charcoalBtn,
-                  globalStyles.withWhiteBg,
+                  globalStyles.withWhiteBgNoHover,
                   styles.changeEmailBtn
                 )}
                 value="Go Back"

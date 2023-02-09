@@ -1032,7 +1032,7 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
               type="submit"
               className={cs(
                 globalStyles.charcoalBtn,
-                globalStyles.withWhiteBg,
+                globalStyles.withWhiteBgNoHover,
                 styles.changeEmailBtn
               )}
               value="Go Back"

@@ -281,6 +281,11 @@ font-weight: bold;
       background-color: #4c4c4c;
     }
   }
+  &.with-white-bg-no-hover{
+    color: #191919;
+    background-color: #fff;
+    border: 1px solid #191919;
+  }
   &.disabled-btn{
     background-color: #9f9f9f;
     color: #fff !important;
