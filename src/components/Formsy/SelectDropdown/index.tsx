@@ -63,6 +63,7 @@ const SelectDropdown: React.FC<Props &
             placeholder="Search"
             onChange={onSearchValueChange}
             value={searchValue}
+            autoFocus
           />
         </div>
       )}

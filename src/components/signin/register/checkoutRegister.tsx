@@ -257,24 +257,23 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
       });
   };
 
-  onCountrySelect = (country: string, defaultCountry?: string) => {
-    console.log(this.state);
+  onCountrySelect = (option: any, defaultCountry?: string) => {
     const { countryOptions } = this.state;
     if (countryOptions.length > 0) {
       const form = this.RegisterFormRef.current;
       let selectedCountry = "";
-      if (event) {
-        selectedCountry = country;
-        // setIsAddressChanged(true);
-        // setIsCountryChanged(true);
-        form &&
-          form.updateInputsWithValue(
-            {
-              state: ""
-            },
-            false
-          );
-      } else if (defaultCountry) {
+
+      selectedCountry = option.value;
+      // setIsAddressChanged(true);
+      // setIsCountryChanged(true);
+      form &&
+        form.updateInputsWithValue(
+          {
+            state: ""
+          },
+          false
+        );
+      if (defaultCountry) {
         selectedCountry = defaultCountry;
         // need to set defaultCountry explicitly
         if (form && selectedCountry) {
