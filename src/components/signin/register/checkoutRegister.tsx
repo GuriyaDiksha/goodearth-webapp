@@ -3,8 +3,8 @@ import cs from "classnames";
 import styles from "../styles.scss";
 import globalStyles from "styles/global.scss";
 import bootstrapStyles from "../../../styles/bootstrap/bootstrap-grid.scss";
-import show from "../../../images/show.svg";
-import hide from "../../../images/hide.svg";
+import show from "../../../images/showPass.svg";
+import hide from "../../../images/hidePass.svg";
 import { Context } from "components/Modal/context";
 import moment from "moment";
 import Formsy from "formsy-react";
@@ -593,6 +593,7 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
               }}
               keyPress={this.handleFirstNameKeyPress}
               required
+              showLabel={true}
             />
           </div>
           <div>
@@ -611,6 +612,7 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
               keyPress={e => (e.key == "Enter" ? e.preventDefault() : "")}
               inputRef={this.lastNameInput}
               required
+              showLabel={true}
             />
           </div>
           <div className={styles.userGenderPicker}>
@@ -622,6 +624,7 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
               options={genderOptions}
               disable={!this.state.showFields}
               className={this.state.showFields ? "" : styles.disabledInput}
+              showLabel={true}
             />
           </div>
           <div className={styles.calendarIconContainer}>
@@ -668,6 +671,7 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
                 isMinAllowedDate: "Please enter valid date of birth",
                 isMaxAllowedDate: "Age should be at least 15 years"
               }}
+              showLabel={true}
             />
           </div>
           <div>
@@ -686,6 +690,7 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
                   isExisty: "Please select your Country",
                   isEmptyString: isExistyError
                 }}
+                showLabel={true}
               />
               <span className="arrow"></span>
             </div>
@@ -707,6 +712,7 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
                     isExisty: isExistyError,
                     isEmptyString: isExistyError
                   }}
+                  showLabel={true}
                 />
               </div>
             </div>
@@ -734,6 +740,7 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
                 isCodeValid: "Required",
                 isValidCode: "Enter valid code"
               }}
+              showLabel={true}
             />
             <FormInput
               required
@@ -757,6 +764,7 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
                   ? e.preventDefault()
                   : null
               }
+              showLabel={true}
             />
           </div>
           <div>
@@ -877,6 +885,7 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
                   "Please verify that your password follows all rules displayed"
               }}
               required
+              showLabel={true}
             />
             <span
               className={styles.togglePasswordBtn}
@@ -942,6 +951,7 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
                   "Please verify that your password follows all rules displayed"
               }}
               required
+              showLabel={true}
             />
           </div>
 
@@ -1012,11 +1022,21 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
               type="submit"
               className={
                 this.state.disableButton || !this.state.showFields
-                  ? cs(globalStyles.disabledBtn, globalStyles.ceriseBtn)
-                  : globalStyles.ceriseBtn
+                  ? cs(globalStyles.disabledBtn, globalStyles.charcoalBtn)
+                  : globalStyles.charcoalBtn
               }
-              value="continue"
+              value="Create My Account & Proceed"
               disabled={this.state.disableButton || !this.state.showFields}
+            />
+            <input
+              type="submit"
+              className={cs(
+                globalStyles.charcoalBtn,
+                globalStyles.withWhiteBg,
+                styles.changeEmailBtn
+              )}
+              value="Go Back"
+              onClick={this.changeEmail}
             />
           </div>
         </div>

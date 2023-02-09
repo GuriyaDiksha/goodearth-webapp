@@ -277,6 +277,7 @@
     // text-transform: capitalize;
     &.country-code {
       display: flex;
+      justify-content: space-between;
       position: relative;
       margin: 35px 0 20px 0;
       flex-wrap: wrap;

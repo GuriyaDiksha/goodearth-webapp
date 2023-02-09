@@ -76,11 +76,13 @@ const FormSelect: React.FC<Props & InjectedProps<string | null>> = props => {
       </select>
       <label
         className={cs({
-          [globalStyles.hidden]: props.value
+          [globalStyles.hidden]: props.showLabel
+            ? false
+            : props.value
             ? false
             : labelClass
             ? false
-            : props.showLabel
+            : true
         })}
       >
         {props.label}
