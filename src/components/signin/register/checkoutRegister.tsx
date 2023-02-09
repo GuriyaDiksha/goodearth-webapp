@@ -26,6 +26,7 @@ import { Country } from "components/Formsy/CountryCode/typings";
 import EmailVerification from "../emailVerification";
 import CookieService from "services/cookie";
 import { GA_CALLS, ANY_ADS } from "constants/cookieConsent";
+import SelectDropdown from "components/Formsy/SelectDropdown";
 const mapStateToProps = (state: AppState) => {
   const isdList = state.address.countryData.map(list => {
     return list.isdCode;
@@ -256,16 +257,14 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
       });
   };
 
-  onCountrySelect = (
-    event: React.ChangeEvent<HTMLSelectElement> | null,
-    defaultCountry?: string
-  ) => {
+  onCountrySelect = (country: string, defaultCountry?: string) => {
+    console.log(this.state);
     const { countryOptions } = this.state;
     if (countryOptions.length > 0) {
       const form = this.RegisterFormRef.current;
       let selectedCountry = "";
       if (event) {
-        selectedCountry = event.currentTarget.value;
+        selectedCountry = country;
         // setIsAddressChanged(true);
         // setIsCountryChanged(true);
         form &&
@@ -301,6 +300,7 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
           code: isd
         });
       }
+
       this.setState({
         isIndia: value == "India",
         stateOptions: states
@@ -627,6 +627,16 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
               showLabel={true}
             />
           </div>
+          {/* <div className={styles.userGenderPicker}>
+            <SelectDropdown
+              required
+              name="gender"
+              label="Select Gender*"
+              placeholder="Select Gender*"
+              options={genderOptions}
+              allowFilter={true}
+            />
+          </div> */}
           <div className={styles.calendarIconContainer}>
             <FormInput
               name="dateOfBirth"
@@ -674,7 +684,7 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
               showLabel={true}
             />
           </div>
-          <div>
+          {/* <div>
             <div className="select-group text-left">
               <FormSelect
                 required
@@ -694,7 +704,24 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
               />
               <span className="arrow"></span>
             </div>
-          </div>
+          </div> */}
+          <SelectDropdown
+            required
+            name="country"
+            handleChange={this.onCountrySelect}
+            label="Country*"
+            placeholder="Select Country*"
+            validations={{
+              isExisty: true
+            }}
+            validationErrors={{
+              isExisty: "Please select your Country",
+              isEmptyString: isExistyError
+            }}
+            options={countryOptions}
+            allowFilter={true}
+          />
+
           {this.state.isIndia && (
             <div>
               <div className="select-group text-left">
