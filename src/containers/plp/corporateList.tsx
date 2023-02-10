@@ -465,7 +465,10 @@ class CorporateFilter extends React.Component<Props, State> {
     let currentRange: any = [];
     const queryString = this.props.location.search;
     const urlParams = new URLSearchParams(queryString);
-    const categoryShop = urlParams.get("category_shop")?.split(">")[0];
+    const categoryShop = urlParams
+      .get("category_shop")
+      ?.split(">")[1]
+      ?.trim();
     const {
       nextUrl,
       // mobile,
@@ -560,7 +563,10 @@ class CorporateFilter extends React.Component<Props, State> {
     const pageSize = 20;
     const queryString = this.props.location.search;
     const urlParams = new URLSearchParams(queryString);
-    const categoryShop = urlParams.get("category_shop")?.split(">")[0];
+    const categoryShop = urlParams
+      .get("category_shop")
+      ?.split(">")[1]
+      ?.trim();
     fetchPlpProducts(filterUrl + `&page_size=${pageSize}`).then(plpList => {
       valid.productImpression(
         plpList,

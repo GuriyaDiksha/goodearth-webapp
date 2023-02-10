@@ -130,6 +130,7 @@ class Header extends React.Component<Props, State> {
       this.props.location.pathname.includes("/bridal/") &&
       !this.props.location.pathname.includes("/account/");
     let bridalKey = "";
+    document.addEventListener("scroll", this.onScroll);
     if (isBridalPublicPage) {
       const pathArray = this.props.location.pathname.split("/");
       bridalKey = pathArray[pathArray.length - 1];
@@ -219,6 +220,9 @@ class Header extends React.Component<Props, State> {
         reloadAnnouncementBar: false
       });
     }
+    if (this.props.showTimer != nextProps.showTimer) {
+      this.onScroll(null, nextProps.showTimer);
+    }
   }
   componentDidUpdate(prevProps: Props) {
     if (
@@ -263,6 +267,48 @@ class Header extends React.Component<Props, State> {
   // mouseOut(data: { show: boolean }) {
   //   this.setState({ show: data.show });
   // }
+
+  onScroll = (event: any, timer?: boolean) => {
+    const header = document.getElementById("myHeader");
+    const sticky = (header as HTMLElement)?.offsetTop;
+    const secondaryHeader = document.getElementById("secondaryHeader");
+    if (window?.pageYOffset > sticky) {
+      (header as HTMLElement).style.position = "fixed";
+      (header as HTMLElement).style.marginBottom = "0px";
+
+      if (secondaryHeader) {
+        const tim = timer !== undefined ? timer : this.props.showTimer;
+
+        if (tim) {
+          (secondaryHeader as HTMLElement).style.top = "90px";
+        } else {
+          (secondaryHeader as HTMLElement).style.top = "50px";
+        }
+        // (secondaryHeader as HTMLElement).style.transition = "all 0.5s linear";
+      }
+    } else {
+      (header as HTMLElement).style.position = "relative";
+      (header as HTMLElement).style.marginBottom = "-40px";
+      if (secondaryHeader) {
+        const tim = timer !== undefined ? timer : this.props.showTimer;
+        if (tim) {
+          (secondaryHeader as HTMLElement).style.top = `${130 -
+            window?.pageYOffset}px`;
+        } else {
+          (secondaryHeader as HTMLElement).style.top = `${90 -
+            window?.pageYOffset}px`;
+        }
+
+        // (secondaryHeader as HTMLElement).style.transition = "all 0.5s linear";
+      }
+    }
+
+    // (header as HTMLElement).style.transition = "all 0.5s ease-in-out";
+  };
+
+  componentWillUnmount() {
+    document.removeEventListener("scroll", this.onScroll);
+  }
 
   showCurrency = () => {
     this.setState({
@@ -594,7 +640,7 @@ class Header extends React.Component<Props, State> {
       <div className="">
         {meta.h1Tag && (
           <h1
-            style={mobile ? { height: "45px", maxHeight: "45px" } : {}}
+            style={mobile ? { height: "0px", maxHeight: "0px" } : {}}
             className={styles.titleH1}
           >
             {meta.h1Tag}
@@ -692,18 +738,19 @@ class Header extends React.Component<Props, State> {
             crossOrigin="crossorigin"
           />
         </Helmet>
+        {this.state.reloadAnnouncementBar && (
+          <AnnouncementBar
+            clearBridalSession={this.clearBridalSession}
+            isBridalRegistryPage={isBridalRegistryPage}
+          />
+        )}
         <div
+          id="myHeader"
           className={cs(
             { [styles.headerIndex]: showMenu },
             styles.headerContainer
           )}
         >
-          {this.state.reloadAnnouncementBar && (
-            <AnnouncementBar
-              clearBridalSession={this.clearBridalSession}
-              isBridalRegistryPage={isBridalRegistryPage}
-            />
-          )}
           {!isBridalRegistryPage &&
             !isCeriseCustomer &&
             this.props.showTimer &&

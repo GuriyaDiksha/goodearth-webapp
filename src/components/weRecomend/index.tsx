@@ -58,7 +58,8 @@ const WeRecommend: React.FC<RecommenedSliderProps> = (
             brand: "Goodearth",
             category: category,
             variant: child.size || "",
-            position: i
+            position: i,
+            dimension12: child?.color
           }
         );
       });

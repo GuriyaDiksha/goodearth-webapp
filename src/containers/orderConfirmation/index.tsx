@@ -75,7 +75,8 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
         price: line.isEgiftCard
           ? +line.priceExclTax
           : line.product.pricerecords[result.currency],
-        quantity: line.quantity
+        quantity: line.quantity,
+        dimension12: line.product?.color
       };
     });
     const products = result.lines.map((line: any) => {
@@ -106,7 +107,8 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
         category: category,
         variant: line.product.size || "",
         quantity: line.quantity,
-        coupon: result.offerDisounts?.[0].name
+        coupon: result.offerDisounts?.[0].name,
+        dimension12: line.product?.color
       };
     });
     const categoryname2: string[] = [];

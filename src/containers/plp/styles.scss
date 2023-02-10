@@ -45,7 +45,7 @@
   margin-top: $header-height + $secondary-header-height;
 }
 .page-body-timer {
-  margin-top: $header-height + $timer-height;
+  margin-top: $header-height + $timer-height + 20px;
 }
 .page-body-tab {
   margin-top: $header-height;
@@ -968,7 +968,7 @@ p.corporate-sub-heading {
   padding: 10px 20px;
   background-color: white;
   position: fixed;
-  top: 80px;
+  top: 93px;
   z-index: 3;
   box-shadow: 0 8px 6px -6px #e6e6e6;
   display: flex;
@@ -979,10 +979,16 @@ p.corporate-sub-heading {
     top: 0px;
     transition: top 1.5s;
   }
+  &.top-height{
+    top: 54px;
+  }
 }
 
 .list-grid-bar-timer {
-  top: 80px + $timer-height;
+  top: 93px + $timer-height;
+  &.top-height{
+    top: 54px+ $timer-height;
+  }
 }
 .list-view-container {
   padding-left: 30px;
