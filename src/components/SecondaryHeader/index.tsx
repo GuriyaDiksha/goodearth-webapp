@@ -10,6 +10,7 @@ const SecondaryHeader: React.FC<SubheaderProps> = ({ children, classname }) => {
   const { showTimer } = useSelector((state: AppState) => state.info);
   return (
     <div
+      id="secondaryHeader"
       className={cs(
         styles.secondaryHeaderContainer,
         { [styles.secondaryHeaderContainerTimer]: showTimer },
