@@ -18,7 +18,7 @@ export const enum ROUTES {
   ResetPassword = "/password-reset/confirm/:uid/:token",
   STATIC = "/customer-assistance/",
   CHECKOUT = "/order/checkout",
-  SHOP = "/Cafe-Shop/:city/:shopname?",
+  SHOP = "/Cafe-Shop/:city?",
   ORDERCONFIRMATION = "/order/orderconfirmation/:oid",
   DESIGNJOURNAL = "/designjournal",
   DESIGNJOURNALBOOK = "/designjournalbook/",
@@ -60,7 +60,10 @@ export const enum ROUTES {
   EESHAAN = "/toast-eeshaan-kashyap",
   GUEST = "/be-my-guest-entertaining-guide",
   IFRAME = "/iframe-testing",
-  TASTINGROOM = "/high-tea-at-the-tasting-room"
+  TASTINGROOM = "/high-tea-at-the-tasting-room",
+  MIRAGESHOP = "/mirageshop",
+  MIRAGE = "/mirage",
+  MAGHREB = "/maghreb"
 }
 
 export type RouteConfig = RouteObject[];
