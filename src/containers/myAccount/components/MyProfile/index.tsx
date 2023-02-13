@@ -544,7 +544,10 @@ class MyProfile extends React.Component<Props, State> {
                   type="number"
                   label={"Contact Number"}
                   disable={phoneNumber ? true : false}
-                  className={cs({ [styles.disabledInput]: phoneNumber })}
+                  className={cs(
+                    { [styles.disabledInput]: phoneNumber },
+                    styles.contactNum
+                  )}
                   // validations={{
                   //   isPhoneValid: (values, value) => {
                   //     return !(value == "");
