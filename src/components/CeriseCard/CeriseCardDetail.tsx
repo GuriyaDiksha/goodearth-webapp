@@ -135,7 +135,8 @@ const CeriseCardDetail: React.FC<Props> = ({
           >
             <p>i</p>
             <span className={cs(styles.infoText, active ? styles.active : "")}>
-              {loyaltyPoints?.AdditionalSpend} additional spends needed to
+              {loyaltyPoints?.Note}
+              {/* {loyaltyPoints?.AdditionalSpend} additional spends needed to
               become a{" "}
               <a
                 href="/cerise"
@@ -145,8 +146,8 @@ const CeriseCardDetail: React.FC<Props> = ({
                   window?.open("/cerise", "_blank");
                 }}
               >
-                {loyaltyPoints?.NextUpgradeMembershipClub}
-              </a>
+                {loyaltyPoints?.NextUpgradeMembershipClub} */}
+              {/* </a> */}
               <span
                 className={cs(styles.close, {
                   [styles.goldColor]:

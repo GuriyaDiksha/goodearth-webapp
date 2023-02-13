@@ -12,6 +12,7 @@ export type LoyaltyPoints = {
   ExpiryDate: string;
   PointRate: string;
   PointValue: string;
+  Note: string;
   Currency: {
     symbol: string;
     currencycode: string;
