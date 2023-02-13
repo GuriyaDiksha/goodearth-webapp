@@ -344,3 +344,31 @@ div.verify-otp-container{
     margin-bottom: 25px;
   }
 }
+
+.isd-code{
+  height: 40px;
+  padding: 5px 10px;
+  border-bottom: 1px solid #d8d8d8;
+  cursor: pointer;
+  text-align: left;
+  @include b5_10px_montserrat_charcoal();
+  letter-spacing: 0.36px;
+  display: flex;
+  align-items: center;
+}
+
+img.country-code-search-icon{
+  width: 15px;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 10px;
+}
+
+input[type="text"].country-code-search-input{
+  padding-left: 30px;
+  height: 40px;
+  &:focus{
+    padding-left: 30px;
+  }
+}

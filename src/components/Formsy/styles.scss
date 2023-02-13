@@ -80,15 +80,16 @@ input[type="date"] {
   .filter{
     position: relative;
     padding: 0px;
-    img{
+    .search-icon{
       width: 20px;
       position: absolute;
       top: 50%;
       transform: translateY(-50%);
       left: 20px;
     }
-    input[type="text"]{
+    .search-field{
       padding-left: 50px;
+      border-bottom: none;
       &:focus{
         padding-left: 50px;
       }

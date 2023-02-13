@@ -66,7 +66,7 @@
     height: 50px;
     @include placeholder {
       @include b4_12px_montserrat_charcoal();
-      color: $formLabel;
+      color: #19191958;
       line-height: 20px;
       letter-spacing: 0.36px;
       font-style: normal;
@@ -85,7 +85,7 @@
       border-radius: 0;
       @include placeholder {
         @include b4_12px_montserrat_charcoal();
-        color: $formLabel;
+        color: #19191958;
         line-height: 20px;
         letter-spacing: 0.36px;
         font-style: normal;

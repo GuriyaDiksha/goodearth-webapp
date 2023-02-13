@@ -12,11 +12,15 @@ export type Props = {
   allowFilter: boolean;
   handleChange?: (event: any) => void;
   className?: string;
-  selectRef?: RefObject<HTMLSelectElement>;
+  inputRef?: RefObject<HTMLInputElement>;
   label?: string;
   placeholder?: string;
   disable?: boolean;
   // ref?: RefObject<typeof FormSelect>;
   blur?: (event: React.FocusEvent) => void;
   showLabel?: boolean;
+  optionsClass?: string;
+  searchContainerClass?: string;
+  searchInputClass?: string;
+  searchIconClass?: string;
 };

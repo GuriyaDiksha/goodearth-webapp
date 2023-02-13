@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { withFormsy } from "formsy-react";
 import { InjectedProps } from "formsy-react/dist/Wrapper";
 import styles from "../styles.scss";
@@ -24,10 +24,12 @@ const SelectDropdown: React.FC<Props &
 
   const onSearchValueChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchValue(e.target.value);
-    const main = props.options;
-    const filtered = main.filter(i =>
-      i.value.toLowerCase().includes(e.target.value.toLowerCase())
-    );
+    const filtered = props.options.filter(i => {
+      return (
+        i.value?.toLowerCase().includes(e.target.value.toLowerCase()) ||
+        i.label?.toLowerCase().includes(e.target.value.toLowerCase())
+      );
+    });
     setOptions(filtered);
   };
 
@@ -36,6 +38,28 @@ const SelectDropdown: React.FC<Props &
     if (!active) setSearchValue("");
   }, [active]);
 
+  const getDefaultError = useCallback(() => {
+    switch (props.name) {
+      case "gender":
+        return "Please select your Gender";
+      case "country":
+        return "Please select your Country";
+      case "state":
+        return "Please select your State";
+      case "preferredContact":
+        return "Please choose preferred mode of contact";
+      default:
+        return "Please Select option";
+    }
+  }, []);
+
+  const errorMessage =
+    props.errorMessage && !!props.disable
+      ? props.errorMessage
+      : !props.isPristine && !props.isValid && !props.disable
+      ? getDefaultError()
+      : "";
+
   return (
     <div className={cs(styles.dropdown, props.className)}>
       <input
@@ -43,8 +67,10 @@ const SelectDropdown: React.FC<Props &
         className={styles.textBox}
         placeholder={props.placeholder}
         value={value}
+        name={props.name}
         readOnly
         onClick={() => setActive(!active)}
+        ref={props.inputRef || null}
       />
       <label>{props.label}</label>
       <span
@@ -56,14 +82,24 @@ const SelectDropdown: React.FC<Props &
         )}
       ></span>
       {props.allowFilter && active && (
-        <div className={cs(styles.option, styles.filter)}>
-          <img src={searchIcon} />
+        <div
+          className={cs(
+            styles.option,
+            styles.filter,
+            props.searchContainerClass
+          )}
+        >
+          <img
+            src={searchIcon}
+            className={cs(props.searchIconClass || styles.searchIcon)}
+          />
           <input
             type="text"
             placeholder="Search"
             onChange={onSearchValueChange}
             value={searchValue}
             autoFocus
+            className={cs(props.searchInputClass || styles.searchField)}
           />
         </div>
       )}
@@ -71,7 +107,7 @@ const SelectDropdown: React.FC<Props &
         {options.map((option, i) => {
           return (
             <div
-              className={styles.option}
+              className={cs(props.optionsClass || styles.option)}
               onClick={e => onOptionClick(e, option)}
               key={`${props.name}_${i}`}
             >
@@ -80,6 +116,17 @@ const SelectDropdown: React.FC<Props &
           );
         })}
       </div>
+      {errorMessage && (
+        <p
+          className={cs(
+            styles.errorMsg,
+            globalStyles.txtnormal,
+            globalStyles.textLeft
+          )}
+        >
+          {errorMessage}
+        </p>
+      )}
     </div>
   );
 };
