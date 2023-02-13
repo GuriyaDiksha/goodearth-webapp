@@ -262,22 +262,26 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
       });
   };
 
-  onCountrySelect = (option: any, defaultCountry?: string) => {
+  onCountrySelect = (
+    event: React.ChangeEvent<HTMLSelectElement> | null,
+    defaultCountry?: string
+  ) => {
     const { countryOptions } = this.state;
     if (countryOptions.length > 0) {
       const form = this.RegisterFormRef.current;
       let selectedCountry = "";
-
-      selectedCountry = option.value;
-      form &&
-        form.updateInputsWithValue(
-          {
-            state: "",
-            country: selectedCountry
-          },
-          false
-        );
-      if (defaultCountry) {
+      if (event) {
+        selectedCountry = event.currentTarget.value;
+        // setIsAddressChanged(true);
+        // setIsCountryChanged(true);
+        form &&
+          form.updateInputsWithValue(
+            {
+              state: ""
+            },
+            false
+          );
+      } else if (defaultCountry) {
         selectedCountry = defaultCountry;
         // need to set defaultCountry explicitly
         if (form && selectedCountry) {
@@ -303,15 +307,61 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
           code: isd
         });
       }
-
       this.setState({
         isIndia: value == "India",
         stateOptions: states
       });
     }
-    const form = this.RegisterFormRef.current;
-    console.log(form?.getModel());
   };
+
+  // onCountrySelect = (option: any, defaultCountry?: string) => {
+  //   const { countryOptions } = this.state;
+  //   if (countryOptions.length > 0) {
+  //     const form = this.RegisterFormRef.current;
+  //     let selectedCountry = "";
+
+  //     selectedCountry = option.value;
+  //     form &&
+  //       form.updateInputsWithValue(
+  //         {
+  //           state: "",
+  //           country: selectedCountry
+  //         },
+  //         false
+  //       );
+  //     if (defaultCountry) {
+  //       selectedCountry = defaultCountry;
+  //       // need to set defaultCountry explicitly
+  //       if (form && selectedCountry) {
+  //         form.updateInputsWithValue({
+  //           country: selectedCountry
+  //         });
+  //       }
+  //     }
+
+  //     const { states, isd, value } = countryOptions.filter(
+  //       country => country.value == selectedCountry
+  //     )[0];
+
+  //     if (form) {
+  //       // reset state
+  //       const { state } = form.getModel();
+  //       if (state) {
+  //         form.updateInputsWithValue({
+  //           state: ""
+  //         });
+  //       }
+  //       form.updateInputsWithValue({
+  //         code: isd
+  //       });
+  //     }
+
+  //     this.setState({
+  //       isIndia: value == "India",
+  //       stateOptions: states
+  //     });
+  //   }
+  // };
 
   changeCountryData = (countryData: Country[]) => {
     const countryOptions = countryData.map(country => {
@@ -629,7 +679,7 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
               showLabel={true}
             />
           </div>
-          {/* <div className={styles.userGenderPicker}>
+          <div className={styles.userGenderPicker}>
             <FormSelect
               required
               name="gender"
@@ -640,8 +690,8 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
               className={this.state.showFields ? "" : styles.disabledInput}
               showLabel={true}
             />
-          </div> */}
-          <div className={styles.userGenderPicker}>
+          </div>
+          {/* <div className={styles.userGenderPicker}>
             <SelectDropdown
               required
               name="gender"
@@ -651,7 +701,7 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
               allowFilter={true}
               inputRef={this.genderRef}
             />
-          </div>
+          </div> */}
           <div className={styles.calendarIconContainer}>
             <FormInput
               name="dateOfBirth"
