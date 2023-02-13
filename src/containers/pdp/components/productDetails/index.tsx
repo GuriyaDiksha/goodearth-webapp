@@ -59,7 +59,7 @@ import { AppState } from "reducers/typings";
 import PdpCustomerCareInfo from "components/CustomerCareInfo/pdpCustomerCare";
 import { updateProduct } from "actions/product";
 import { updatefillerProduct, updateshowFiller } from "actions/filler";
-import * as valid from "utils/validate";
+import { showGrowlMessage, errorTracking } from "utils/validate";
 import { POPUP } from "constants/components";
 import asset from "images/asset.svg";
 import offer from "images/offer.svg";
@@ -526,10 +526,7 @@ const ProductDetails: React.FC<Props> = ({
   const addToBasket = () => {
     if (!selectedSize) {
       setSizeError("Please select a size to proceed");
-      valid.errorTracking(
-        ["Please select a size to proceed"],
-        window.location.href
-      );
+      errorTracking(["Please select a size to proceed"], window.location.href);
       showError();
     } else {
       setApiTrigger(true);
@@ -541,14 +538,14 @@ const ProductDetails: React.FC<Props> = ({
             setAddedToBag(false);
             closeModal ? closeModal() : null;
           }, 3000);
-          valid.showGrowlMessage(dispatch, MESSAGE.ADD_TO_BAG_SUCCESS);
+          showGrowlMessage(dispatch, MESSAGE.ADD_TO_BAG_SUCCESS);
           gtmPushAddToBag();
         })
         .catch(err => {
           setApiTrigger(false);
           if (typeof err.response.data != "object") {
-            valid.showGrowlMessage(dispatch, err.response.data);
-            valid.errorTracking([err.response.data], window.location.href);
+            showGrowlMessage(dispatch, err.response.data);
+            errorTracking([err.response.data], window.location.href);
           }
         });
     }
@@ -557,10 +554,7 @@ const ProductDetails: React.FC<Props> = ({
   const checkAvailability = () => {
     if (!selectedSize) {
       setSizeError("Please select a size to proceed");
-      valid.errorTracking(
-        ["Please select a size to proceed"],
-        window.location.href
-      );
+      errorTracking(["Please select a size to proceed"], window.location.href);
       showError();
     } else {
       setIsLoading(true);
@@ -572,8 +566,8 @@ const ProductDetails: React.FC<Props> = ({
         .catch(err => {
           setIsLoading(false);
           if (typeof err.response.data != "object") {
-            valid.showGrowlMessage(dispatch, err.response.data);
-            valid.errorTracking([err.response.data], window.location.href);
+            showGrowlMessage(dispatch, err.response.data);
+            errorTracking([err.response.data], window.location.href);
           }
         });
     }
@@ -595,7 +589,7 @@ const ProductDetails: React.FC<Props> = ({
       element.classList.contains(styles.active) ||
       (selectedSize && isRegistry[selectedSize.size])
     ) {
-      valid.showGrowlMessage(dispatch, MESSAGE.ADD_TO_REGISTRY_AGAIN);
+      showGrowlMessage(dispatch, MESSAGE.ADD_TO_REGISTRY_AGAIN);
       return false;
     }
     if (childAttributes[0].size) {
@@ -618,7 +612,7 @@ const ProductDetails: React.FC<Props> = ({
     formData["qtyRequested"] = quantity;
     BridalService.addToRegistry(dispatch, formData)
       .then(res => {
-        valid.showGrowlMessage(dispatch, MESSAGE.ADD_TO_REGISTRY_SUCCESS);
+        showGrowlMessage(dispatch, MESSAGE.ADD_TO_REGISTRY_SUCCESS);
         const registry = Object.assign({}, isRegistry);
         const userConsent = CookieService.getCookie("consent").split(",");
         if (userConsent.includes(GA_CALLS)) {
@@ -652,9 +646,9 @@ const ProductDetails: React.FC<Props> = ({
       .catch(err => {
         const message = err.response.data.message;
         if (message) {
-          valid.showGrowlMessage(dispatch, message);
+          showGrowlMessage(dispatch, message);
         } else {
-          valid.showGrowlMessage(dispatch, MESSAGE.ADD_TO_REGISTRY_FAIL);
+          showGrowlMessage(dispatch, MESSAGE.ADD_TO_REGISTRY_FAIL);
         }
       });
     event.stopPropagation();

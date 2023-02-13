@@ -15,7 +15,10 @@ import AddressService from "services/address";
 // import { updatePinCodeList } from "actions/address";
 import Loader from "components/Loader";
 import AddressSection from "containers/checkout/component/address";
-import * as Steps from "../../../containers/checkout/constants";
+import {
+  STEP_BILLING,
+  STEP_SHIPPING
+} from "../../../containers/checkout/constants";
 import RegistryAddress from "containers/myAccount/components/Bridal/RegistryAddress";
 import EditRegistryAddress from "../../../containers/myAccount/components/Bridal/EditRegistryAddress";
 import BridalContext from "containers/myAccount/components/Bridal/context";
@@ -401,7 +404,7 @@ const AddressMain: React.FC<Props> = props => {
           }}
         >
           <AddressSection
-            activeStep={Steps.STEP_SHIPPING}
+            activeStep={STEP_SHIPPING}
             mode={mode}
             isActive={props.isActive}
             selectedAddress={props.selectedAddress}
@@ -453,7 +456,7 @@ const AddressMain: React.FC<Props> = props => {
           }}
         >
           <AddressSection
-            activeStep={Steps.STEP_BILLING}
+            activeStep={STEP_BILLING}
             mode={mode}
             isActive={props.isActive}
             selectedAddress={props.selectedAddress}

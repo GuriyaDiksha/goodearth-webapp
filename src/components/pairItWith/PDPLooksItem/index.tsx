@@ -14,7 +14,7 @@ import globalStyles from "styles/global.scss";
 import LazyImage from "components/LazyImage";
 import { AppState } from "reducers/typings";
 import { useSelector } from "react-redux";
-import * as valid from "utils/validate";
+import { plpProductClick } from "utils/validate";
 import CookieService from "services/cookie";
 
 const PlpResultListViewItem: React.FC<PLPResultItemProps> = (
@@ -65,7 +65,7 @@ const PlpResultListViewItem: React.FC<PLPResultItemProps> = (
 
   const gtmProductClick = () => {
     CookieService.setCookie("listPath", page);
-    valid.plpProductClick(product, page, currency, position);
+    plpProductClick(product, page, currency, position);
   };
 
   const button = useMemo(() => {

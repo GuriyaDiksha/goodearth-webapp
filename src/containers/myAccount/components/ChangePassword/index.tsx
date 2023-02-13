@@ -6,7 +6,7 @@ import bootstrapStyles from "../../../../styles/bootstrap/bootstrap-grid.scss";
 import styles from "../styles.scss";
 import FormInput from "../../../../components/Formsy/FormInput";
 import Formsy from "formsy-react";
-import * as valid from "utils/validate";
+import { errorTracking } from "utils/validate";
 import show from "../../../../images/show.svg";
 import hide from "../../../../images/hide.svg";
 import { Link } from "react-router-dom";
@@ -86,7 +86,7 @@ const ChangePassword: React.FC<PasswordProps> = ({ setCurrentSection }) => {
         const errors = Object.entries(errorMessage).map(
           ([key, value]) => (value as string[])[0]
         );
-        valid.errorTracking(errors as string[], location.href);
+        errorTracking(errors as string[], location.href);
       });
   };
 

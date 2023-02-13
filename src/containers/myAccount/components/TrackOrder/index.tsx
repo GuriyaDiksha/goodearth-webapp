@@ -12,7 +12,7 @@ import mapDispatchToProps from "../MyOrder/mapper/actions";
 import { AppState } from "reducers/typings";
 import Loader from "components/Loader";
 import { withRouter, RouteComponentProps } from "react-router";
-import * as valid from "utils/validate";
+import { errorTracking } from "utils/validate";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -99,7 +99,7 @@ class TrackOrder extends React.Component<Props, State> {
               loader: false
             },
             () => {
-              valid.errorTracking([this.state.showerror], location.href);
+              errorTracking([this.state.showerror], location.href);
             }
           );
         } else if (response.results[0]?.isOnlyGiftOrder) {
@@ -111,7 +111,7 @@ class TrackOrder extends React.Component<Props, State> {
               loader: false
             },
             () => {
-              valid.errorTracking([this.state.showerror], location.href);
+              errorTracking([this.state.showerror], location.href);
             }
           );
         } else if (response.count > 0) {
@@ -127,7 +127,7 @@ class TrackOrder extends React.Component<Props, State> {
                     loader: false
                   },
                   () => {
-                    valid.errorTracking([this.state.showerror], location.href);
+                    errorTracking([this.state.showerror], location.href);
                   }
                 );
               } else {
@@ -148,7 +148,7 @@ class TrackOrder extends React.Component<Props, State> {
                   loader: false
                 },
                 () => {
-                  valid.errorTracking([this.state.showerror], location.href);
+                  errorTracking([this.state.showerror], location.href);
                 }
               );
               console.log(err);
@@ -168,10 +168,7 @@ class TrackOrder extends React.Component<Props, State> {
               loader: false
             },
             () => {
-              valid.errorTracking(
-                [this.state.showerror as string],
-                location.href
-              );
+              errorTracking([this.state.showerror as string], location.href);
             }
           );
         } else {
@@ -183,7 +180,7 @@ class TrackOrder extends React.Component<Props, State> {
               loader: false
             },
             () => {
-              valid.errorTracking([this.state.showerror], location.href);
+              errorTracking([this.state.showerror], location.href);
             }
           );
           console.log(err);

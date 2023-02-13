@@ -11,14 +11,17 @@ import "./slick.css";
 import { MoreCollectionSliderProps, MoreCollectionItem } from "./typings";
 import Slider from "react-slick";
 import LazyImage from "components/LazyImage";
-import * as valid from "utils/validate";
+import {
+  MoreFromCollectionProductImpression,
+  MoreFromCollectionProductClick
+} from "utils/validate";
 
 const MoreCollectionImage: React.FC<MoreCollectionSliderProps> = (
   props: MoreCollectionSliderProps
 ) => {
   const { data, setting, mobile, currency } = props;
   useEffect(() => {
-    valid.MoreFromCollectionProductImpression(
+    MoreFromCollectionProductImpression(
       data,
       "MoreFromCollection",
       currency || "INR"
@@ -53,7 +56,7 @@ const MoreCollectionImage: React.FC<MoreCollectionSliderProps> = (
                       to={item.url}
                       className={styles.link}
                       onClick={() =>
-                        valid.MoreFromCollectionProductClick(
+                        MoreFromCollectionProductClick(
                           item,
                           "MoreFromCollection",
                           currency || "INR",
@@ -74,7 +77,7 @@ const MoreCollectionImage: React.FC<MoreCollectionSliderProps> = (
                         <Link
                           to={item.url}
                           onClick={() =>
-                            valid.MoreFromCollectionProductClick(
+                            MoreFromCollectionProductClick(
                               item,
                               "MoreFromCollection",
                               currency || "INR",

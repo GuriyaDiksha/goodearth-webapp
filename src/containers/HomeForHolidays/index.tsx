@@ -5,7 +5,7 @@ import cs from "classnames";
 import Formsy from "formsy-react";
 import FormInput from "components/Formsy/FormInput";
 import Loader from "components/Loader";
-import * as valid from "utils/validate";
+import { errorTracking, getErrorList } from "utils/validate";
 import { useDispatch, useSelector } from "react-redux";
 import { AppState } from "reducers/typings";
 import secondaryHeaderStyles from "components/SecondaryHeader/styles.scss";
@@ -111,9 +111,9 @@ const NotificationForm: React.FC = () => {
         firstErrorField.scrollIntoView({ block: "center", behavior: "smooth" });
       }
       // for error Tracking
-      const errorList = valid.getErrorList(globalStyles.errorMsg, "job-form");
+      const errorList = getErrorList(globalStyles.errorMsg, "job-form");
       if (errorList && errorList.length) {
-        valid.errorTracking(errorList, location.pathname);
+        errorTracking(errorList, location.pathname);
       }
     }, 0);
   };

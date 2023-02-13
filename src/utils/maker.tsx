@@ -4,7 +4,7 @@ import BasketService from "../services/basket";
 import CookieService from "../services/cookie";
 import { updateModal } from "actions/modal";
 import { AppState } from "reducers/typings";
-import * as util from "./validate";
+import { showGrowlMessage } from "./validate";
 import LoginService from "services/login";
 
 const MakerUtils: React.FC = () => {
@@ -33,12 +33,12 @@ const MakerUtils: React.FC = () => {
 
         BasketService.addToBasket(dispatch, 0, quantity || 1, productSku)
           .then((res: any) => {
-            util.showGrowlMessage(dispatch, "Item has been added to your bag!");
+            showGrowlMessage(dispatch, "Item has been added to your bag!");
             BasketService.fetchBasket(dispatch);
           })
           .catch(error => {
             if (error.response.status == 406) {
-              util.showGrowlMessage(dispatch, error.response.data);
+              showGrowlMessage(dispatch, error.response.data);
             }
             console.log(error);
           });

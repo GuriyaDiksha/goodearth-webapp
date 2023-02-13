@@ -30,7 +30,7 @@ import { MESSAGE } from "constants/messages";
 import { Currency } from "typings/currency";
 import { currencyCodes } from "constants/currency";
 import { ProductID } from "typings/id";
-import * as util from "utils/validate";
+import { errorTracking, showGrowlMessage } from "utils/validate";
 import Loader from "components/Loader";
 import { AppState } from "reducers/typings";
 import CookieService from "../../services/cookie";
@@ -254,7 +254,7 @@ const NotifyMePopup: React.FC<Props> = ({
       setShowLoader(true);
       BasketService.addToBasket(dispatch, selectedSize.id, quantity)
         .then(() => {
-          util.showGrowlMessage(
+          showGrowlMessage(
             dispatch,
             MESSAGE.ADD_TO_BAG_SUCCESS,
             3000,
@@ -265,8 +265,8 @@ const NotifyMePopup: React.FC<Props> = ({
         })
         .catch(err => {
           if (typeof err.response.data != "object") {
-            util.showGrowlMessage(dispatch, err.response.data);
-            util.errorTracking([err.response.data], window.location.href);
+            showGrowlMessage(dispatch, err.response.data);
+            errorTracking([err.response.data], window.location.href);
           }
         })
         .finally(() => {
@@ -274,7 +274,7 @@ const NotifyMePopup: React.FC<Props> = ({
         });
     } else {
       // setSizeErrorMsg("Please select a Size to proceed");
-      util.errorTracking(["Please select a Size to proceed"], location.href);
+      errorTracking(["Please select a Size to proceed"], location.href);
     }
   };
 
@@ -283,7 +283,7 @@ const NotifyMePopup: React.FC<Props> = ({
     setMsg("");
     if (!valid) {
       setEmailError(message);
-      util.errorTracking([message], location.href);
+      errorTracking([message], location.href);
     } else {
       if (selectedSize) {
         const { successful, message } = await ProductService.notifyMe(
@@ -293,7 +293,7 @@ const NotifyMePopup: React.FC<Props> = ({
         );
         if (!successful) {
           setEmailError(message);
-          util.errorTracking([message], location.href);
+          errorTracking([message], location.href);
         } else {
           setMsg(message);
           // util.errorTracking([message], location.href);
@@ -301,7 +301,7 @@ const NotifyMePopup: React.FC<Props> = ({
         }
       } else {
         // setSizeErrorMsg("Please select a Size to proceed");
-        util.errorTracking(["Please select a Size to proceed"], location.href);
+        errorTracking(["Please select a Size to proceed"], location.href);
       }
     }
   };

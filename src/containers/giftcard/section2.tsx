@@ -18,7 +18,7 @@ import WishlistService from "services/wishlist";
 import { AppState } from "reducers/typings";
 import { Cookies } from "typings/cookies";
 import { MESSAGE } from "constants/messages";
-import * as valid from "utils/validate";
+import { errorTracking, showGrowlMessage } from "utils/validate";
 
 const Section2: React.FC<Section2Props> = ({
   productData,
@@ -124,7 +124,7 @@ const Section2: React.FC<Section2Props> = ({
     WishlistService.updateWishlist(dispatch);
     MetaService.updateMeta(dispatch, cookies);
     BasketService.fetchBasket(dispatch);
-    valid.showGrowlMessage(dispatch, MESSAGE.CURRENCY_CHANGED_SUCCESS, 7000);
+    showGrowlMessage(dispatch, MESSAGE.CURRENCY_CHANGED_SUCCESS, 7000);
   };
 
   const changeCurrency = (newCurrency: Currency) => {
@@ -235,7 +235,7 @@ const Section2: React.FC<Section2Props> = ({
         setNummsg(
           "Please enter a value or choose one of the default values from above"
         );
-        valid.errorTracking(
+        errorTracking(
           [
             "Please enter a value or choose one of the default values from above"
           ],
@@ -244,7 +244,7 @@ const Section2: React.FC<Section2Props> = ({
         return false;
       } else if (currValue(value).sta) {
         setNummsg(currValue(value).message);
-        valid.errorTracking([currValue(value).message], location.href);
+        errorTracking([currValue(value).message], location.href);
         return false;
       } else {
         data["productId"] = selectvalue;
@@ -257,7 +257,7 @@ const Section2: React.FC<Section2Props> = ({
         setNummsg(
           "Please enter a value or choose one of the default values from above"
         );
-        valid.errorTracking(
+        errorTracking(
           [
             "Please enter a value or choose one of the default values from above"
           ],

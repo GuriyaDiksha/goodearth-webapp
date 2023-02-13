@@ -13,7 +13,7 @@ import GiftcardService from "services/giftcard";
 import { updateBasket } from "actions/basket";
 import { Basket } from "typings/basket";
 import { MESSAGE } from "constants/messages";
-import * as valid from "utils/validate";
+import { showGrowlMessage, errorTracking } from "utils/validate";
 import { AppState } from "reducers/typings";
 import Loader from "components/Loader";
 import CookieService from "services/cookie";
@@ -80,7 +80,7 @@ const Section4: React.FC<Section4Props> = props => {
           }
           const basket: Basket = res.data;
           dispatch(updateBasket(basket));
-          valid.showGrowlMessage(dispatch, MESSAGE.ADD_TO_BAG_GIFTCARD_SUCCESS);
+          showGrowlMessage(dispatch, MESSAGE.ADD_TO_BAG_GIFTCARD_SUCCESS);
           next({}, "card");
         })
         .catch(error => {
@@ -89,17 +89,14 @@ const Section4: React.FC<Section4Props> = props => {
           }
           const errorMsg = error.response.data[0] || "Internal Server Error";
           setNummsg(errorMsg);
-          valid.errorTracking([errorMsg], location.href);
+          errorTracking([errorMsg], location.href);
         })
         .finally(() => {
           setIsLoading(false);
         });
     } else {
       setNummsg("Please accept the Terms & Conditions");
-      valid.errorTracking(
-        ["Please accept the Terms & Conditions"],
-        location.href
-      );
+      errorTracking(["Please accept the Terms & Conditions"], location.href);
     }
     // document.cookie = "giftcard_image=" + this.state.giftimages[this.state.selectindex] + "; expires=Sun, 15 Jul 2020 00:00:01 UTC; path=/";
     // this.props.next(this.state.giftimages[this.state.selectindex]);

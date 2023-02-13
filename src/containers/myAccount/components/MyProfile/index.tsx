@@ -13,11 +13,11 @@ import FormCheckbox from "components/Formsy/FormCheckbox";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { genderOptions } from "constants/profile";
-import * as valid from "utils/validate";
+import { getErrorList, decriptdata, errorTracking } from "utils/validate";
 import { AppState } from "reducers/typings";
 import { Country } from "components/Formsy/CountryCode/typings";
 import { pageViewGTM } from "utils/validate";
-import AccountServices from "services/account";
+import AccountService from "services/account";
 import LoginService from "services/login";
 import { updateCountryData } from "actions/address";
 
@@ -135,7 +135,7 @@ const MyProfile: React.FC<ProfileProps> = ({ setCurrentSection }) => {
 
   useEffect(() => {
     setCurrentSection();
-    AccountServices.fetchProfileData(dispatch)
+    AccountService.fetchProfileData(dispatch)
       .then(data => {
         setApiResponse(data);
       })
@@ -166,12 +166,9 @@ const MyProfile: React.FC<ProfileProps> = ({ setCurrentSection }) => {
         firstErrorField.scrollIntoView({ block: "center", behavior: "smooth" });
       }
       // for error Tracking
-      const errorList = valid.getErrorList(
-        globalStyles.errorMsg,
-        "myprofile-form"
-      );
+      const errorList = getErrorList(globalStyles.errorMsg, "myprofile-form");
       if (errorList && errorList.length) {
-        valid.errorTracking(errorList, location.href);
+        errorTracking(errorList, location.href);
       }
     }, 0);
   };
@@ -220,7 +217,7 @@ const MyProfile: React.FC<ProfileProps> = ({ setCurrentSection }) => {
       ...profileState,
       showerror: ""
     });
-    AccountServices.updateProfileData(dispatch, formData)
+    AccountService.updateProfileData(dispatch, formData)
       .then(data => {
         setApiResponse(data);
         setProfileState({
@@ -229,7 +226,7 @@ const MyProfile: React.FC<ProfileProps> = ({ setCurrentSection }) => {
         });
       })
       .catch(error => {
-        const errdata = valid.decriptdata(error.response?.data);
+        const errdata = decriptdata(error.response?.data);
         handleInvalidSubmit();
         Object.keys(errdata).map(data => {
           switch (data) {

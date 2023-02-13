@@ -10,7 +10,7 @@ import SocialLogin from "../socialLogin";
 import show from "../../../images/show.svg";
 import hide from "../../../images/hide.svg";
 import { Context } from "components/Modal/context";
-import * as valid from "utils/validate";
+import { checkBlank, checkMail, errorTracking } from "utils/validate";
 import { connect } from "react-redux";
 import { loginProps, loginState } from "./typings";
 import mapDispatchToProps from "./mapper/actions";
@@ -79,7 +79,7 @@ class CheckoutLoginForm extends React.Component<Props, loginState> {
               showerror: data.message
             },
             () => {
-              valid.errorTracking([this.state.showerror], location.href);
+              errorTracking([this.state.showerror], location.href);
             }
           );
         } else {
@@ -171,7 +171,7 @@ class CheckoutLoginForm extends React.Component<Props, loginState> {
               highlight: true
             },
             () => {
-              valid.errorTracking([this.state.msg as string], location.href);
+              errorTracking([this.state.msg as string], location.href);
             }
           );
         }
@@ -275,7 +275,7 @@ class CheckoutLoginForm extends React.Component<Props, loginState> {
                 highlight: true
               },
               () => {
-                valid.errorTracking(this.state.msg as string[], location.href);
+                errorTracking(this.state.msg as string[], location.href);
               }
             );
           } else if (
@@ -289,7 +289,7 @@ class CheckoutLoginForm extends React.Component<Props, loginState> {
                 // highlight: true
               },
               () => {
-                valid.errorTracking([this.state.showerror], location.href);
+                errorTracking([this.state.showerror], location.href);
               }
             );
           } else {
@@ -299,7 +299,7 @@ class CheckoutLoginForm extends React.Component<Props, loginState> {
                   "Looks like either your Email ID or Password were incorrect. Please try again."
               },
               () => {
-                valid.errorTracking([this.state.showerror], location.href);
+                errorTracking([this.state.showerror], location.href);
               }
             );
           }
@@ -364,7 +364,7 @@ class CheckoutLoginForm extends React.Component<Props, loginState> {
       if (event.key == "Enter") {
         // do nothing, handleSubmitEmail will run
       } else {
-        if (valid.checkBlank(this.state.email)) {
+        if (checkBlank(this.state.email)) {
           if (this.state.msg !== "Please enter your Email ID") {
             this.setState({
               msg: "Please enter your Email ID",
@@ -372,7 +372,7 @@ class CheckoutLoginForm extends React.Component<Props, loginState> {
               showerror: ""
             });
           }
-        } else if (!valid.checkMail(this.state.email)) {
+        } else if (!checkMail(this.state.email)) {
           if (this.state.msg !== "Please enter a valid Email ID") {
             this.setState({
               msg: "Please enter a valid Email ID",

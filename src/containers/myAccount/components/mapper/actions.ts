@@ -1,6 +1,6 @@
 import { Dispatch } from "redux";
 import AccountService from "services/account";
-import * as util from "utils/validate";
+import { showGrowlMessage } from "utils/validate";
 
 const mapDispatchToProps = (dispatch: Dispatch) => {
   return {
@@ -32,7 +32,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       return res;
     },
     showGCSuccess: (msg: string, timeout: number) => {
-      util.showGrowlMessage(dispatch, msg, timeout);
+      showGrowlMessage(dispatch, msg, timeout);
     }
   };
 };

@@ -97,7 +97,7 @@ const Giftcard: React.FC = () => {
         ...giftCardState,
         error: "Please enter a valid Gift Card code"
       });
-      errorTracking(["Please enter a valid Gift Card code"], location.href);
+      errorTracking([giftCardState?.error], location.href);
     } else {
       giftList.push(response);
       setGiftCardState({
