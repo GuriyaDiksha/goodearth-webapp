@@ -8,7 +8,7 @@ import Loader from "components/Loader";
 import SocialLogin from "../socialLogin";
 import Popup from "../popup/Popup";
 import FormContainer from "../formContainer";
-import * as valid from "utils/validate";
+import { checkMail, checkBlank, errorTracking } from "utils/validate";
 import { Context } from "components/Modal/context";
 import { ForgotPasswordState } from "./typings";
 import { connect } from "react-redux";
@@ -52,7 +52,7 @@ class ForgotPasswordForm extends React.Component<Props, ForgotPasswordState> {
           disableSelectedbox: false
         },
         () => {
-          valid.errorTracking([this.state.msg as string], location.href);
+          errorTracking([this.state.msg as string], location.href);
         }
       );
     } else {
@@ -103,7 +103,7 @@ class ForgotPasswordForm extends React.Component<Props, ForgotPasswordState> {
               successMsg: "",
               disableSelectedbox: false
             });
-            valid.errorTracking(
+            errorTracking(
               ["This account does not exist. Please Sign Up"],
               location.href
             );
@@ -121,7 +121,7 @@ class ForgotPasswordForm extends React.Component<Props, ForgotPasswordState> {
                 disableSelectedbox: false
               },
               () => {
-                valid.errorTracking([this.state.msg as string], location.href);
+                errorTracking([this.state.msg as string], location.href);
               }
             );
           } else {
@@ -132,7 +132,7 @@ class ForgotPasswordForm extends React.Component<Props, ForgotPasswordState> {
                 disableSelectedbox: false
               },
               () => {
-                valid.errorTracking([this.state.msg as string], location.href);
+                errorTracking([this.state.msg as string], location.href);
               }
             );
           }
@@ -167,12 +167,12 @@ class ForgotPasswordForm extends React.Component<Props, ForgotPasswordState> {
   }
 
   handleEmailBlur = (event: React.FocusEvent) => {
-    if (valid.checkBlank(this.state.email)) {
+    if (checkBlank(this.state.email)) {
       this.setState({
         msg: "Please enter your Email ID",
         err: true
       });
-    } else if (!valid.checkMail(this.state.email)) {
+    } else if (!checkMail(this.state.email)) {
       this.setState({
         msg: "Please enter a valid Email ID",
         err: true
@@ -182,12 +182,12 @@ class ForgotPasswordForm extends React.Component<Props, ForgotPasswordState> {
 
   onChange = (event: React.KeyboardEvent) => {
     if (event.keyCode !== 13) {
-      if (valid.checkBlank(this.state.email)) {
+      if (checkBlank(this.state.email)) {
         this.setState({
           msg: "Please enter your Email ID",
           err: true
         });
-      } else if (!valid.checkMail(this.state.email)) {
+      } else if (!checkMail(this.state.email)) {
         this.setState({
           msg: "Please enter a valid Email ID",
           err: true

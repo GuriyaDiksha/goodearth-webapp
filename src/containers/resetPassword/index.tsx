@@ -14,7 +14,7 @@ import show from "../../images/show.svg";
 import hide from "../../images/hide.svg";
 import { RouteComponentProps, withRouter, useHistory } from "react-router";
 import AccountService from "services/account";
-import * as valid from "utils/validate";
+import { errorTracking, getErrorList, pageViewGTM } from "utils/validate";
 import LoginService from "services/login";
 import Login from "./login";
 
@@ -57,7 +57,7 @@ const ResetPassword: React.FC<Props> = props => {
     if (isLoggedIn) {
       LoginService.logout(dispatch, currency, customerGroup);
     }
-    valid.pageViewGTM("ResetPassword");
+    pageViewGTM("ResetPassword");
     const searchParams = new URLSearchParams(history.location.search);
     setRedirectTo(searchParams.get("redirect_to") || "");
   }, []);
@@ -71,12 +71,12 @@ const ResetPassword: React.FC<Props> = props => {
         firstErrorField.scrollIntoView({ block: "center", behavior: "smooth" });
       }
       // for error Tracking
-      const errorList = valid.getErrorList(
+      const errorList = getErrorList(
         globalStyles.errorMsg,
         "reset-password-form"
       );
       if (errorList && errorList.length) {
-        valid.errorTracking(errorList, location.href);
+        errorTracking(errorList, location.href);
       }
     }, 0);
   };
@@ -149,7 +149,7 @@ const ResetPassword: React.FC<Props> = props => {
         // bridalId && CookieService.setCookie("bridalId", bridalId);
         // bridalCurrency &&
         //   CookieService.setCookie("bridalCurrency", bridalCurrency);
-        // valid.showGrowlMessage(dispatch, MESSAGE.ALL_SESSION_LOGOUT);
+        // showGrowlMessage(dispatch, MESSAGE.ALL_SESSION_LOGOUT);
         // let counter = 5;
         // const timer = setInterval(function() {
         //   if (counter < 0) {

@@ -1,122 +1,107 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useRef, useState } from "react";
 import cs from "classnames";
-import { connect, useStore } from "react-redux";
 import globalStyles from "styles/global.scss";
 import bootstrapStyles from "../../../../styles/bootstrap/bootstrap-grid.scss";
 import styles from "../styles.scss";
 import { GiftState } from "./typings";
-import mapDispatchToProps from "../mapper/actions";
 import GiftCardItem from "../Balance/giftDetail";
 import { AppState } from "reducers/typings";
 import FormInput from "components/Formsy/FormInput";
 import Formsy from "formsy-react";
-import * as valid from "utils/validate";
 import OtpCompActivateGC from "components/OtpComponent/OtpCompActivateGC";
 import Loader from "components/Loader";
 import { Link } from "react-router-dom";
 import ReactHtmlParser from "react-html-parser";
+import { useSelector, useDispatch } from "react-redux";
+import AccountServices from "services/account";
+import { showGrowlMessage, errorTracking, getErrorList } from "utils/validate";
 
-const mapStateToProps = (state: AppState) => {
-  return {
-    isLoggedIn: state.user.isLoggedIn,
-    user: state.user
-  };
-};
-type Props = ReturnType<typeof mapDispatchToProps> &
-  ReturnType<typeof mapStateToProps>;
+const Giftcard: React.FC = () => {
+  const { user } = useSelector((state: AppState) => state);
+  const [giftCardState, setGiftCardState] = useState<GiftState>({
+    txtvalue: "",
+    firstName: user?.isLoggedIn ? user?.firstName : "",
+    lastName: user?.isLoggedIn ? user?.lastName : "",
+    error: "",
+    newCardBox: true,
+    giftList: [],
+    showOTPValidationScreen: false,
+    isSuccess: false,
+    toggleResetOtpComponent: false,
+    disable: true,
+    conditionalRefresh: false,
+    showLocked: false,
+    showExpired: false,
+    showInactive: false,
+    showSendOtp: false,
+    isIndiaGC: false,
+    isProceedBtnDisabled: true,
+    isLoading: false
+  });
+  const dispatch = useDispatch();
+  const ActivateGCForm = useRef<Formsy | null>(null);
 
-class Giftcard extends React.Component<Props, GiftState> {
-  constructor(props: Props) {
-    super(props);
-    this.state = {
-      txtvalue: "",
-      firstName: this.props.isLoggedIn ? this.props.user.firstName : "",
-      lastName: this.props.isLoggedIn ? this.props.user.lastName : "",
-      error: "",
-      newCardBox: true,
-      giftList: [],
-      showOTPValidationScreen: false,
-      isSuccess: false,
-      toggleResetOtpComponent: false,
-      disable: true,
-      conditionalRefresh: false,
-      showLocked: false,
-      showExpired: false,
-      showInactive: false,
-      showSendOtp: false,
-      isIndiaGC: false,
-      isProceedBtnDisabled: true,
-      isLoading: false
-    };
-  }
-  ActivateGCForm = React.createRef<Formsy>();
-  toggleOtp = (value: boolean) => {
-    this.setState({
-      showOTPValidationScreen: value
-    });
+  const toggleOtp = (value: boolean) => {
+    setGiftCardState({ ...giftCardState, showOTPValidationScreen: value });
   };
 
-  gcBalance = () => {
-    const data: any = {
-      // code: this.state.txtvalue
-    };
-    this.props.balanceCheck(data).then((response: any) => {
-      const { giftList } = this.state;
-      if (response.currStatus == "Invalid-CN") {
-        this.setState(
-          {
-            error: "Please enter a valid Gift Card code"
-          },
-          () => {
-            valid.errorTracking([this.state.error], location.href);
-          }
-        );
-        this.ActivateGCForm.current?.updateInputsWithError({
-          giftCardCode: "Please enter a valid Gift Card code"
-        });
-      } else {
-        giftList.push(response);
-        this.setState({
-          giftList: giftList,
-          newCardBox: false
-          // txtvalue: ""
-        });
-      }
-    });
-  };
+  // const gcBalance = () => {
+  //   const data: any = {
+  //     // code: this.state.txtvalue
+  //   };
+  //   AccountServices.balanceCheck(dispatch,data).then((response: any) => {
+  //     const { giftList } =giftCardState;
+  //     if (response.currStatus == "Invalid-CN") {
+  //       setGiftCardState(
+  //         {...giftCardState,
+  //           error: "Please enter a valid Gift Card code"
+  //         })
+  //         errorTracking(["Please enter a valid Gift Card code"], location.href);
+  //       ActivateGCForm.current?.updateInputsWithError({
+  //         giftCardCode: "Please enter a valid Gift Card code"
+  //       });
+  //     } else {
+  //       giftList.push(response);
+  //       setGiftCardState({...giftCardState,
+  //         giftList: giftList,
+  //         newCardBox: false
+  //         // txtvalue: ""
+  //       });
+  //     }
+  //   });
+  // };
 
-  handleChange = (
+  const handleChange = (
     event: React.ChangeEvent<HTMLInputElement>,
     field: string
   ) => {
-    this.state.disable && this.setState({ disable: false });
+    const { disable } = giftCardState;
+    disable && setGiftCardState({ ...giftCardState, disable: false });
     const value = event.target.value;
     switch (field) {
       case "firstName":
-        this.setState({ firstName: value });
+        setGiftCardState({ ...giftCardState, firstName: value });
         break;
       case "lastName":
-        this.setState({ lastName: value });
+        setGiftCardState({ ...giftCardState, lastName: value });
         break;
       case "txtvalue":
-        this.setState({ txtvalue: value });
+        setGiftCardState({ ...giftCardState, txtvalue: value });
     }
   };
 
-  updateList = (response: any) => {
-    const { giftList } = this.state;
+  const updateList = (response: any) => {
+    const { giftList } = giftCardState;
     if (response.currStatus == "Invalid-CN") {
-      this.setState(
-        {
-          error: "Please enter a valid Gift Card code"
-        },
-        () => {
-          valid.errorTracking([this.state.error], location.href);
-        }
-      );
+      setGiftCardState({
+        ...giftCardState,
+        error: "Please enter a valid Gift Card code"
+      });
+      errorTracking([giftCardState?.error], location.href);
     } else {
       giftList.push(response);
-      this.setState({
+      setGiftCardState({
+        ...giftCardState,
         giftList: giftList,
         newCardBox: false,
         isSuccess: true
@@ -124,38 +109,38 @@ class Giftcard extends React.Component<Props, GiftState> {
       });
       //Show  Growl Messsage
       const msg = "Success. Gift Card Activated!";
-      this.props.showGCSuccess(msg, 7000);
+      showGrowlMessage(dispatch, msg, 7000);
       window.scrollTo(0, 0);
     }
   };
 
-  newGiftcard = () => {
+  const newGiftcard = () => {
     // implement page refresh here
-    this.setState(prevState => {
-      return {
-        toggleResetOtpComponent: !prevState.toggleResetOtpComponent,
-        showOTPValidationScreen: false,
-        newCardBox: true,
-        disable: true,
-        isSuccess: false,
-        giftList: [],
-        txtvalue: "",
-        showSendOtp: false
-      };
+    setGiftCardState({
+      ...giftCardState,
+      toggleResetOtpComponent: !giftCardState?.toggleResetOtpComponent,
+      showOTPValidationScreen: false,
+      newCardBox: true,
+      disable: true,
+      isSuccess: false,
+      giftList: [],
+      txtvalue: "",
+      showSendOtp: false
     });
     // this.props.history.push(this.props.history.location.pathname, {});
   };
-  onClose = (code: string) => {
-    let { giftList } = this.state;
+  const onClose = (code: string) => {
+    let { giftList } = giftCardState;
     giftList = giftList.filter(data => {
       return data.code != code;
     });
-    this.setState({
+    setGiftCardState({
+      ...giftCardState,
       giftList: giftList
     });
   };
 
-  scrollToErrors = () => {
+  const scrollToErrors = () => {
     setTimeout(() => {
       const firstErrorField = document.getElementsByClassName(
         globalStyles.errorBorder
@@ -165,21 +150,22 @@ class Giftcard extends React.Component<Props, GiftState> {
         firstErrorField.scrollIntoView({ block: "center", behavior: "smooth" });
       }
       // for error Tracking
-      const errorList = valid.getErrorList(
+      const errorList = getErrorList(
         globalStyles.errorMsg,
         "activate-giftcard-form"
       );
       if (errorList && errorList.length) {
-        valid.errorTracking(errorList, location.href);
+        errorTracking(errorList, location.href);
       }
     }, 0);
   };
-  updateError = (message: string) => {
+  const updateError = (message: string) => {
     if (message) {
-      this.setState({
+      setGiftCardState({
+        ...giftCardState,
         error: message
       });
-      this.ActivateGCForm.current?.updateInputsWithError({
+      ActivateGCForm.current?.updateInputsWithError({
         giftCardCode: message
       });
       const elem: any = document.getElementById("gift");
@@ -187,14 +173,14 @@ class Giftcard extends React.Component<Props, GiftState> {
     }
   };
 
-  errorOnBlur = (event: React.FocusEvent<Element>) => {
+  const errorOnBlur = (event: React.FocusEvent<Element>) => {
     const elem = event.currentTarget as HTMLInputElement;
     const value = elem.value;
     const name = elem.name;
 
     if (!value) {
-      this.ActivateGCForm.current &&
-        this.ActivateGCForm.current.updateInputsWithValue(
+      ActivateGCForm.current &&
+        ActivateGCForm.current.updateInputsWithValue(
           {
             [name]: ""
           },
@@ -203,13 +189,13 @@ class Giftcard extends React.Component<Props, GiftState> {
     }
   };
 
-  validateEmptyInputs = () => {
-    if (this.ActivateGCForm.current) {
+  const validateEmptyInputs = () => {
+    if (ActivateGCForm.current) {
       const {
         firstName,
         lastName,
         giftCardCode
-      } = this.ActivateGCForm.current.getModel();
+      } = ActivateGCForm.current.getModel();
       let values = {};
       if (!firstName) {
         values = { ...values, firstName: "" };
@@ -220,30 +206,33 @@ class Giftcard extends React.Component<Props, GiftState> {
       if (!giftCardCode) {
         values = { ...values, giftCardCode: "" };
       }
-      this.ActivateGCForm.current.updateInputsWithValue(values, true);
-      this.scrollToErrors();
+
+      ActivateGCForm.current.updateInputsWithValue(values, true);
+      scrollToErrors();
     }
   };
 
-  onGCFormSubmit = (model: any, resetForm: any, invalidateForm: any) => {
+  const onGCFormSubmit = (model: any, resetForm: any, invalidateForm: any) => {
     const { firstName, lastName, giftCardCode } = model;
     if (!firstName || !lastName || !giftCardCode) {
-      this.validateEmptyInputs();
+      validateEmptyInputs();
       return false;
     }
 
-    this.setState({
+    setGiftCardState({
+      ...giftCardState,
       isLoading: true
     });
-    this.props
-      .checkGiftCard(giftCardCode)
+
+    AccountServices.checkGiftCard(dispatch, giftCardCode)
       .then(res => {
-        this.setState({
+        setGiftCardState({
+          ...giftCardState,
           isLoading: false
         });
         if (res.currStatus == "Active" || res.currStatus == "Applied") {
-          this.ActivateGCForm.current &&
-            this.ActivateGCForm.current.updateInputsWithError(
+          ActivateGCForm.current &&
+            ActivateGCForm.current.updateInputsWithError(
               {
                 giftCardCode: [
                   <>
@@ -267,12 +256,14 @@ class Giftcard extends React.Component<Props, GiftState> {
         } else {
           if (res.type == "GIFT") {
             if (res.curr == "INR") {
-              this.setState({
+              setGiftCardState({
+                ...giftCardState,
                 isIndiaGC: true,
                 showSendOtp: true
               });
             } else {
-              this.setState({
+              setGiftCardState({
+                ...giftCardState,
                 isIndiaGC: false,
                 showSendOtp: true
               });
@@ -281,25 +272,30 @@ class Giftcard extends React.Component<Props, GiftState> {
         }
       })
       .catch(err => {
-        this.setState({
+        setGiftCardState({
+          ...giftCardState,
           isLoading: false
         });
         if (
           (err.response.status == 400 && err.response.data.status == false) ||
           err.response.status == 406
         ) {
-          this.ActivateGCForm.current &&
-            this.ActivateGCForm.current.updateInputsWithError({
-              giftCardCode: err.response.data.message
-                ? [ReactHtmlParser(err.response.data.message)]
-                : "Please enter a valid Gift Card code"
-            });
+          ActivateGCForm.current &&
+            ActivateGCForm.current.updateInputsWithError(
+              {
+                giftCardCode: err.response.data.message
+                  ? [ReactHtmlParser(err.response.data.message)]
+                  : "Please enter a valid Gift Card code"
+              },
+              true
+            );
         }
       });
   };
 
-  changeGiftCardCode = () => {
-    this.setState({
+  const changeGiftCardCode = () => {
+    setGiftCardState({
+      ...giftCardState,
       showSendOtp: false,
       txtvalue: ""
     });
@@ -307,175 +303,179 @@ class Giftcard extends React.Component<Props, GiftState> {
     elem && elem.focus();
   };
 
-  render() {
-    const { newCardBox, showOTPValidationScreen } = this.state;
-    const { isLoggedIn } = this.props;
-    // const { firstName, lastName, giftCardCode } = this.ActivateGCForm.current ? this.ActivateGCForm.current.getModel() : {
-    //   firstName: "",
-    //   lastName: "",
-    //   giftCardCode: ""
-    // }
-    const { firstName, lastName, txtvalue, isSuccess, isLoading } = this.state;
-    return (
-      <Fragment>
-        {/* {!newCardBox && isSuccess && (
-          <div className={cs(globalStyles.successMsg)}>
-            Success. Gift Card Code Activated.
-          </div>
-        )} */}
-        {newCardBox && (
-          <div>
-            <Formsy
-              ref={this.ActivateGCForm}
-              onValidSubmit={this.onGCFormSubmit}
-              onInvalidSubmit={this.scrollToErrors}
-              onChange={() => {
-                const disabled = this.state.isProceedBtnDisabled;
-                disabled &&
-                  this.setState({
-                    isProceedBtnDisabled: false
-                  });
-              }}
-            >
-              <div className={styles.categorylabel} id="activate-giftcard-form">
-                {showOTPValidationScreen ? (
-                  ""
-                ) : (
-                  <Fragment>
-                    <div>
-                      <FormInput
-                        name="firstName"
-                        placeholder="First Name"
-                        type="text"
-                        blur={e => this.errorOnBlur(e)}
-                        id="firstName"
-                        label={"First Name"}
-                        value={firstName}
-                        handleChange={e => this.handleChange(e, "firstName")}
-                        required
-                      />
-                    </div>
-                    <div>
-                      <FormInput
-                        name="lastName"
-                        placeholder="Last Name"
-                        type="text"
-                        label={"Last Name"}
-                        blur={e => this.errorOnBlur(e)}
-                        id="lastName"
-                        value={lastName}
-                        handleChange={e => this.handleChange(e, "lastName")}
-                        required
-                      />
-                    </div>
-                    <div>
-                      <FormInput
-                        name="giftCardCode"
-                        type="text"
-                        placeholder="Gift Card Code"
-                        label="Gift Card Code"
-                        blur={e => this.errorOnBlur(e)}
-                        id="gift"
-                        value={txtvalue}
-                        handleChange={e => this.handleChange(e, "txtvalue")}
-                        disable={this.state.showSendOtp}
-                        required
-                      />
-                      {this.state.showSendOtp && (
-                        <p
-                          className={styles.loginChange}
-                          onClick={this.changeGiftCardCode}
-                        >
-                          Change
-                        </p>
-                      )}
-                    </div>
-                    {!this.state.showSendOtp && (
-                      <div>
-                        <input
-                          type="submit"
-                          value="proceed"
-                          className={cs(styles.charcoalBtn, {
-                            [styles.disabledBtn]: this.state
-                              .isProceedBtnDisabled
-                          })}
-                          disabled={this.state.isProceedBtnDisabled}
-                        />
-                      </div>
-                    )}
-                  </Fragment>
-                )}
-              </div>
-            </Formsy>
-            {isLoading && <Loader />}
-          </div>
-        )}
-        {this.state.showSendOtp && (
-          <OtpCompActivateGC
-            disableSendOtpButton={this.state.disable}
-            toggleReset={this.state.toggleResetOtpComponent}
-            updateError={this.updateError}
-            txtvalue={txtvalue}
-            firstName={firstName}
-            lastName={lastName}
-            isIndiaGC={this.state.isIndiaGC}
-            toggleOtp={this.toggleOtp}
-            otpFor="activateGC"
-            email={isLoggedIn ? this.props.user.email : ""}
-            phoneNo={isLoggedIn ? this.props.user.phoneNumber : ""}
-            // validateInputs={this.ActivateGCForm.current ? this.ActivateGCForm.current.submit : () => null}
-            // validateInputs={this.scrollToErrors}
-            validateEmptyInputs={this.validateEmptyInputs}
-            key={200}
-            sendOtp={this.props.sendOtpGiftCard}
-            checkOtpBalance={this.props.checkOtpBalance}
-            activateGiftCard={this.props.activateGiftCard}
-            updateList={this.updateList}
-            newCardBox={this.state.newCardBox}
-            newGiftCard={this.newGiftcard}
-          />
-        )}
-        <div className={cs(bootstrapStyles.row, styles.giftDisplay)}>
-          {this.state.giftList.map((data, i) => {
-            return (
-              <GiftCardItem
-                isLoggedIn={isLoggedIn}
-                {...data}
-                viewOnly={true}
-                onClose={this.onClose}
-                key={i}
-                conditionalRefresh={this.state.conditionalRefresh}
-                // showLocked={this.state.showLocked}
-                // showExpired={this.state.showExpired}
-                // showInactive={this.state.showInactive}
-              />
-            );
-          })}
-          <div
-            className={cs(
-              styles.loginForm,
-              // { [globalStyles.voffset4]: newCardBox },
-              bootstrapStyles.col12
-            )}
-          >
-            {!newCardBox && (
-              <div
-                className={cs(
-                  styles.rtcinfo,
-                  globalStyles.pointer,
-                  globalStyles.textLeft,
-                  styles.charcoalBtn
-                )}
-                onClick={this.newGiftcard}
-              >
-                ACTIVATE ANOTHER GIFT CARD
-              </div>
-            )}
-          </div>
-        </div>
-      </Fragment>
-    );
-  }
-}
+  const sendOtpGiftcard = async (data: any) => {
+    return await AccountServices.sendOtpGiftcard(dispatch, data);
+  };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Giftcard);
+  const checkOtpBalance = async (data: any) => {
+    return await AccountServices.checkOtpBalance(dispatch, data);
+  };
+
+  const activateGiftCard = async (data: any) => {
+    return await AccountServices.activateGiftCard(dispatch, data);
+  };
+
+  const { isLoggedIn } = user;
+  const {
+    firstName,
+    lastName,
+    txtvalue,
+    newCardBox,
+    isLoading,
+    isProceedBtnDisabled,
+    showOTPValidationScreen,
+    showSendOtp,
+    conditionalRefresh,
+    giftList,
+    disable,
+    toggleResetOtpComponent,
+    isIndiaGC
+  } = giftCardState;
+
+  return (
+    <Fragment>
+      {newCardBox && (
+        <div>
+          <Formsy
+            ref={ActivateGCForm}
+            onValidSubmit={onGCFormSubmit}
+            onInvalidSubmit={scrollToErrors}
+            onChange={() => {
+              isProceedBtnDisabled &&
+                setGiftCardState({
+                  ...giftCardState,
+                  isProceedBtnDisabled: false
+                });
+            }}
+          >
+            <div className={styles.categorylabel} id="activate-giftcard-form">
+              {showOTPValidationScreen ? (
+                ""
+              ) : (
+                <Fragment>
+                  <div>
+                    <FormInput
+                      name="firstName"
+                      placeholder="First Name"
+                      type="text"
+                      blur={e => errorOnBlur(e)}
+                      id="firstName"
+                      label={"First Name"}
+                      value={firstName}
+                      handleChange={e => handleChange(e, "firstName")}
+                      required
+                    />
+                  </div>
+                  <div>
+                    <FormInput
+                      name="lastName"
+                      placeholder="Last Name"
+                      type="text"
+                      label={"Last Name"}
+                      blur={e => errorOnBlur(e)}
+                      id="lastName"
+                      value={lastName}
+                      handleChange={e => handleChange(e, "lastName")}
+                      required
+                    />
+                  </div>
+                  <div>
+                    <FormInput
+                      name="giftCardCode"
+                      type="text"
+                      placeholder="Gift Card Code"
+                      label="Gift Card Code"
+                      blur={e => errorOnBlur(e)}
+                      id="gift"
+                      value={txtvalue}
+                      handleChange={e => handleChange(e, "txtvalue")}
+                      disable={showSendOtp}
+                      required
+                    />
+                    {showSendOtp && (
+                      <p
+                        className={styles.loginChange}
+                        onClick={changeGiftCardCode}
+                      >
+                        Change
+                      </p>
+                    )}
+                  </div>
+                  {!showSendOtp && (
+                    <div>
+                      <input
+                        type="submit"
+                        value="proceed"
+                        className={cs(styles.charcoalBtn, {
+                          [styles.disabledBtn]: isProceedBtnDisabled
+                        })}
+                        disabled={isProceedBtnDisabled}
+                      />
+                    </div>
+                  )}
+                </Fragment>
+              )}
+            </div>
+          </Formsy>
+          {isLoading && <Loader />}
+        </div>
+      )}
+      {showSendOtp && (
+        <OtpCompActivateGC
+          disableSendOtpButton={disable}
+          toggleReset={toggleResetOtpComponent}
+          updateError={updateError}
+          txtvalue={txtvalue}
+          firstName={firstName}
+          lastName={lastName}
+          isIndiaGC={isIndiaGC}
+          toggleOtp={toggleOtp}
+          otpFor="activateGC"
+          email={isLoggedIn ? user.email : ""}
+          phoneNo={isLoggedIn ? user.phoneNumber : ""}
+          // validateInputs={this.ActivateGCForm.current ? this.ActivateGCForm.current.submit : () => null}
+          // validateInputs={this.scrollToErrors}
+          validateEmptyInputs={validateEmptyInputs}
+          key={200}
+          sendOtp={sendOtpGiftcard}
+          checkOtpBalance={checkOtpBalance}
+          activateGiftCard={activateGiftCard}
+          updateList={updateList}
+          newCardBox={newCardBox}
+          newGiftCard={newGiftcard}
+        />
+      )}
+      <div className={cs(bootstrapStyles.row, styles.giftDisplay)}>
+        {giftList.map((data, i) => {
+          return (
+            <GiftCardItem
+              isLoggedIn={isLoggedIn}
+              {...data}
+              viewOnly={true}
+              onClose={onClose}
+              key={i}
+              conditionalRefresh={conditionalRefresh}
+            />
+          );
+        })}
+        <div className={cs(styles.loginForm, bootstrapStyles.col12)}>
+          {!newCardBox && (
+            <div
+              className={cs(
+                styles.rtcinfo,
+                globalStyles.pointer,
+                globalStyles.textLeft,
+                styles.charcoalBtn
+              )}
+              onClick={newGiftcard}
+            >
+              ACTIVATE ANOTHER GIFT CARD
+            </div>
+          )}
+        </div>
+      </div>
+    </Fragment>
+  );
+};
+
+export default Giftcard;

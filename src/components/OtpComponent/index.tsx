@@ -9,7 +9,7 @@ import Formsy from "formsy-react";
 import { Link } from "react-router-dom";
 import FormCheckbox from "components/Formsy/FormCheckbox";
 import FormInput from "components/Formsy/FormInput";
-import * as valid from "utils/validate";
+import { errorTracking, decriptdata } from "utils/validate";
 import CustomerCareInfo from "components/CustomerCareInfo";
 import NewOtpComponent from "./NewOtpComponent";
 class OtpComponent extends React.Component<otpProps, otpState> {
@@ -100,7 +100,7 @@ class OtpComponent extends React.Component<otpProps, otpState> {
             "Please select at least one mode of communication for OTP verification of your gift card"
         },
         () => {
-          valid.errorTracking([this.state.msgt], location.href);
+          errorTracking([this.state.msgt], location.href);
         }
       );
       const errorElem = document.getElementById(
@@ -113,7 +113,7 @@ class OtpComponent extends React.Component<otpProps, otpState> {
             subscribeError: "Please accept the terms & conditions"
           },
           () => {
-            valid.errorTracking([this.state.subscribeError], location.href);
+            errorTracking([this.state.subscribeError], location.href);
           }
         );
       }
@@ -125,7 +125,7 @@ class OtpComponent extends React.Component<otpProps, otpState> {
           subscribeError: "Please accept the terms & conditions"
         },
         () => {
-          valid.errorTracking([this.state.subscribeError], location.href);
+          errorTracking([this.state.subscribeError], location.href);
         }
       );
       return false;
@@ -165,7 +165,7 @@ class OtpComponent extends React.Component<otpProps, otpState> {
           this.props.isCredit ? "Credit Note" : "Gift Card"
         } code`
       );
-      valid.errorTracking(
+      errorTracking(
         [
           `Please enter a valid ${
             this.props.isCredit ? "Credit Note" : "Gift Card"
@@ -188,7 +188,7 @@ class OtpComponent extends React.Component<otpProps, otpState> {
             "Please select at least one mode of communication for OTP verification of your gift card"
         },
         () => {
-          valid.errorTracking([this.state.msgt], location.href);
+          errorTracking([this.state.msgt], location.href);
         }
       );
       const errorElem = document.getElementById(
@@ -201,7 +201,7 @@ class OtpComponent extends React.Component<otpProps, otpState> {
             subscribeError: "Please accept the terms & conditions"
           },
           () => {
-            valid.errorTracking([this.state.subscribeError], location.href);
+            errorTracking([this.state.subscribeError], location.href);
           }
         );
       }
@@ -213,7 +213,7 @@ class OtpComponent extends React.Component<otpProps, otpState> {
           subscribeError: "Please accept the terms & conditions"
         },
         () => {
-          valid.errorTracking([this.state.subscribeError], location.href);
+          errorTracking([this.state.subscribeError], location.href);
         }
       );
       return false;
@@ -282,7 +282,7 @@ class OtpComponent extends React.Component<otpProps, otpState> {
                   }
                 },
                 () => {
-                  valid.errorTracking([this.state.showerror], location.href);
+                  errorTracking([this.state.showerror], location.href);
                 }
               );
             } else {
@@ -299,7 +299,7 @@ class OtpComponent extends React.Component<otpProps, otpState> {
             // }
           })
           .catch(error => {
-            const data = valid.decriptdata(error.response?.data);
+            const data = decriptdata(error.response?.data);
             this.setState({
               attempts: {
                 attempts: data?.attempts || 0,
@@ -319,7 +319,7 @@ class OtpComponent extends React.Component<otpProps, otpState> {
                   disable: true
                 },
                 () => {
-                  valid.errorTracking(
+                  errorTracking(
                     [this.state.showerror as string],
                     location.href
                   );
@@ -333,7 +333,7 @@ class OtpComponent extends React.Component<otpProps, otpState> {
                   disable: true
                 },
                 () => {
-                  valid.errorTracking([this.state.showerror], location.href);
+                  errorTracking([this.state.showerror], location.href);
                 }
               );
             }
@@ -356,7 +356,7 @@ class OtpComponent extends React.Component<otpProps, otpState> {
           this.props.toggleOtp(false);
         })
         .catch((error: any) => {
-          const data = valid.decriptdata(error.response?.data);
+          const data = decriptdata(error.response?.data);
           this.setState({
             attempts: {
               attempts: data?.attempts || 0,
@@ -376,10 +376,7 @@ class OtpComponent extends React.Component<otpProps, otpState> {
                 disable: true
               },
               () => {
-                valid.errorTracking(
-                  [this.state.showerror as string],
-                  location.href
-                );
+                errorTracking([this.state.showerror as string], location.href);
               }
             );
           } else {
@@ -390,7 +387,7 @@ class OtpComponent extends React.Component<otpProps, otpState> {
                 disable: true
               },
               () => {
-                valid.errorTracking([this.state.showerror], location.href);
+                errorTracking([this.state.showerror], location.href);
               }
             );
           }
@@ -496,7 +493,7 @@ class OtpComponent extends React.Component<otpProps, otpState> {
                 block: "center",
                 behavior: "smooth"
               });
-              valid.errorTracking([this.state.showerrorOtp], location.href);
+              errorTracking([this.state.showerrorOtp], location.href);
             }
           );
         } else if (data.currStatus == "Invalid-CN") {
@@ -505,7 +502,7 @@ class OtpComponent extends React.Component<otpProps, otpState> {
               this.props.isCredit ? "Credit Note" : "Gift Card"
             } code`
           );
-          valid.errorTracking(
+          errorTracking(
             [
               `Please enter a valid ${
                 this.props.isCredit ? "Credit Note" : "Gift Card"
@@ -529,7 +526,7 @@ class OtpComponent extends React.Component<otpProps, otpState> {
         }
       })
       .catch((error: any) => {
-        const { status, currStatus, message, email } = valid.decriptdata(
+        const { status, currStatus, message, email } = decriptdata(
           error.response.data
         );
         if (!status) {
@@ -541,10 +538,10 @@ class OtpComponent extends React.Component<otpProps, otpState> {
               errorMessage = message;
             }
             this.props.updateError(errorMessage);
-            valid.errorTracking([errorMessage], location.href);
+            errorTracking([errorMessage], location.href);
           } else if (currStatus == "Active" || currStatus == "Expired") {
             this.props.updateError(message);
-            valid.errorTracking([message], location.href);
+            errorTracking([message], location.href);
           } else if (email) {
             this.RegisterFormRef1.current?.updateInputsWithError({ email });
             const elem: any = document.getElementById("creditNoteEmail");
@@ -564,7 +561,7 @@ class OtpComponent extends React.Component<otpProps, otpState> {
                     block: "center",
                     behavior: "smooth"
                   });
-                  valid.errorTracking([this.state.showerrorOtp], location.href);
+                  errorTracking([this.state.showerrorOtp], location.href);
                 }
               );
             }

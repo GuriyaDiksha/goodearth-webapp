@@ -12,7 +12,7 @@ import globalStyles from "styles/global.scss";
 import LazyImage from "components/LazyImage";
 import { AppState } from "reducers/typings";
 import { useSelector } from "react-redux";
-import * as valid from "utils/validate";
+import { plpProductClick } from "utils/validate";
 import CookieService from "services/cookie";
 // import ButtonSmall from "components/ButtonSmall";
 import bootstrapStyles from "styles/bootstrap/bootstrap-grid.scss";
@@ -88,7 +88,7 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
 
   const gtmProductClick = () => {
     CookieService.setCookie("listPath", page);
-    valid.plpProductClick(product, page, currency, position);
+    plpProductClick(product, page, currency, position);
   };
 
   const getImageSrc = () => {

@@ -19,7 +19,7 @@ import { AccountMenuItem } from "./typings";
 import { AppState } from "reducers/typings";
 import SaleTncAug2020 from "./components/Static/saleTncAug2020";
 import StaticService from "services/static";
-import * as util from "utils/validate";
+import { pageViewGTM } from "utils/validate";
 import Cust from "./components/Static/cust";
 
 type Props = {
@@ -47,7 +47,7 @@ const StaticPage: React.FC<Props> = props => {
   useEffect(() => {
     bridalId = CookieService.getCookie("bridalId");
     window.scrollTo(0, 0);
-    util.pageViewGTM("Static");
+    pageViewGTM("Static");
   }, []);
 
   useEffect(() => {
@@ -241,7 +241,7 @@ const StaticPage: React.FC<Props> = props => {
                       <NavLink
                         key={item.label}
                         to={item.href}
-                        activeClassName={globalStyles.cerise}
+                        activeClassName={globalStyles.gold}
                       >
                         {item.label}
                       </NavLink>

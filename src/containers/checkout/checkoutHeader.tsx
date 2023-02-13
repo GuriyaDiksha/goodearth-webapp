@@ -24,7 +24,7 @@ import { Cookies } from "typings/cookies";
 import { MESSAGE } from "constants/messages";
 import fabicon from "images/favicon.ico";
 import { Basket } from "typings/basket";
-import * as util from "../../utils/validate";
+import { headerClickGTM, showGrowlMessage } from "../../utils/validate";
 import Api from "services/api";
 
 const mapStateToProps = (state: AppState) => {
@@ -84,10 +84,10 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       MetaService.updateMeta(dispatch, cookies);
       if (pathname.includes("/order/checkout")) {
         BasketService.fetchBasket(dispatch, "checkout", history, isLoggedIn);
-        util.showGrowlMessage(dispatch, MESSAGE.CURRENCY_CHANGED_SUCCESS, 7000);
+        showGrowlMessage(dispatch, MESSAGE.CURRENCY_CHANGED_SUCCESS, 7000);
       } else if (pathname.includes("/cart")) {
         BasketService.fetchBasket(dispatch, "cart");
-        util.showGrowlMessage(dispatch, MESSAGE.CURRENCY_CHANGED_SUCCESS, 7000);
+        showGrowlMessage(dispatch, MESSAGE.CURRENCY_CHANGED_SUCCESS, 7000);
       }
     },
     updateMeta: (
@@ -127,7 +127,7 @@ class CheckoutHeader extends React.Component<Props, { boId: string }> {
         // if (data.currency == "INR") {
         //   this.props.history.push("/maintenance");
         // }
-        util.headerClickGTM(
+        headerClickGTM(
           "Currency",
           "Top",
           this.props.mobile,
@@ -342,7 +342,7 @@ class CheckoutHeader extends React.Component<Props, { boId: string }> {
                 onClick={e => {
                   this.state.boId
                     ? e.preventDefault()
-                    : util.headerClickGTM(
+                    : headerClickGTM(
                         "Logo",
                         "Top",
                         this.props.mobile,

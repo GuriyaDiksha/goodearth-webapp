@@ -23,7 +23,7 @@ import { updateComponent, updateModal } from "actions/modal";
 import GiftcardItem from "components/plpResultItem/giftCard";
 import CookieService from "../../services/cookie";
 import { POPUP } from "constants/components";
-import * as util from "utils/validate";
+import { moveChatDown, moveChatUp, sortGTM, pageViewGTM } from "utils/validate";
 import SecondaryHeaderDropdown from "components/dropdown/secondaryHeaderDropdown";
 import { CategoryMenu } from "containers/plp/typings";
 import { GA_CALLS, ANY_ADS, SEARCH_HISTORY } from "constants/cookieConsent";
@@ -115,7 +115,7 @@ class Search extends React.Component<
     if (mobile) {
       this.child.clickCloseFilter();
     }
-    util.sortGTM(label || data);
+    sortGTM(label || data);
   };
 
   setFilterCount = (count: number) => {
@@ -153,7 +153,7 @@ class Search extends React.Component<
 
   componentDidMount() {
     const that = this;
-    util.moveChatDown();
+    moveChatDown();
     this.setState({
       searchMaker: true
     });
@@ -162,7 +162,7 @@ class Search extends React.Component<
       dataLayer.push(function(this: any) {
         this.reset();
       });
-      util.pageViewGTM("Search");
+      pageViewGTM("Search");
       dataLayer.push({
         event: "SearchView",
         PageURL: this.props.location.pathname,
@@ -203,7 +203,7 @@ class Search extends React.Component<
   }
 
   componentWillUnmount() {
-    util.moveChatUp();
+    moveChatUp();
     window.removeEventListener(
       "scroll",
       throttle(() => {
@@ -675,7 +675,7 @@ class Search extends React.Component<
               className={
                 (data && this.state.searchText
                 ? data.length == 0 &&
-                  this.state.searchText.length > 2 &&
+                  this.state.searchText.length &&
                   this.state.filterCount < 1
                 : false)
                   ? " voffset5 row image-container search searchpage mobile-nosearch"
@@ -697,7 +697,7 @@ class Search extends React.Component<
                   )}
                 >
                   {(this.state.searchText ? (
-                    this.state.searchText.length > 1
+                    this.state.searchText.length
                   ) : (
                     false
                   )) ? (
