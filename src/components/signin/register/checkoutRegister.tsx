@@ -26,6 +26,7 @@ import EmailVerification from "../emailVerification";
 import CookieService from "services/cookie";
 import { GA_CALLS, ANY_ADS } from "constants/cookieConsent";
 import SelectDropdown from "components/Formsy/SelectDropdown";
+import CountryCode from "components/Formsy/CountryCode";
 
 const mapStateToProps = (state: AppState) => {
   const isdList = state.address.countryData.map(list => {
@@ -162,103 +163,103 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
     this.setState({
       disableButton: true
     });
-    // this.props
-    //   .register(formData, "checkout", this.props.sortBy)
-    //   .then(data => {
-    //     const userConsent = CookieService.getCookie("consent").split(",");
+    this.props
+      .register(formData, "checkout", this.props.sortBy)
+      .then(data => {
+        const userConsent = CookieService.getCookie("consent").split(",");
 
-    //     if (userConsent.includes(ANY_ADS)) {
-    //       Moengage.track_event("Registered", {
-    //         "First Name": firstName,
-    //         "Last Name": lastName,
-    //         Country: country,
-    //         State: state,
-    //         Gender: gender,
-    //         "Date of birth": moment(dateOfBirth).format("YYYY-MM-DD"),
-    //         "Contact Number": code + phone
-    //       });
-    //       Moengage.add_first_name(firstName);
-    //       Moengage.add_last_name(lastName);
-    //       Moengage.add_email(email);
-    //       Moengage.add_mobile(code + phone);
-    //       Moengage.add_gender(gender);
-    //       Moengage.add_birthday(moment(dateOfBirth).format("YYYY-MM-DD"));
-    //       Moengage.add_unique_user_id(email);
-    //     }
-    //     this.gtmPushRegister();
-    //     // this.props.nextStep?.();
-    //     this.setState({
-    //       showEmailVerification: true,
-    //       email
-    //     });
-    //   })
-    //   .catch(error => {
-    //     const data = valid.decriptdata(error.response?.data);
-    //     this.setState(
-    //       {
-    //         disableButton: false
-    //       },
-    //       () => {
-    //         this.handleInvalidSubmit();
-    //       }
-    //     );
-    //     Object.keys(data).map(key => {
-    //       switch (key) {
-    //         case "firstName":
-    //         case "lastName":
-    //         case "password1":
-    //         case "password2":
-    //         case "gender":
-    //         case "dateOfBirth":
-    //           updateInputsWithError(
-    //             {
-    //               [key]: data[key][0]
-    //             },
-    //             true
-    //           );
-    //           break;
-    //         case "phoneNo":
-    //           updateInputsWithError(
-    //             {
-    //               phone: data[key][0]
-    //             },
-    //             true
-    //           );
-    //           break;
-    //         case "email":
-    //           if (data[key].length == 2) {
-    //             this.setState({
-    //               showerror:
-    //                 "This account already exists <a class='error' href=" +
-    //                 data[key][0] +
-    //                 "> please set a new password</a>"
-    //             });
-    //           } else {
-    //             this.setState({
-    //               showerror: ""
-    //             });
-    //             updateInputsWithError(
-    //               {
-    //                 email: data[key][0]
-    //               },
-    //               true
-    //             );
-    //           }
-    //           break;
-    //         default:
-    //           if (typeof data == "object") {
-    //             let errorMsg: string = data[key][0];
-    //             if (errorMsg == "MaxRetries") {
-    //               errorMsg =
-    //                 "You have exceeded max registration attempts, please try after some time";
-    //             }
-    //             this.setState({
-    //               showerror: errorMsg
-    //             });
-    //           }
-    //       }
-    //     });
-    //   });
+        if (userConsent.includes(ANY_ADS)) {
+          Moengage.track_event("Registered", {
+            "First Name": firstName,
+            "Last Name": lastName,
+            Country: country,
+            State: state,
+            Gender: gender,
+            "Date of birth": moment(dateOfBirth).format("YYYY-MM-DD"),
+            "Contact Number": code + phone
+          });
+          Moengage.add_first_name(firstName);
+          Moengage.add_last_name(lastName);
+          Moengage.add_email(email);
+          Moengage.add_mobile(code + phone);
+          Moengage.add_gender(gender);
+          Moengage.add_birthday(moment(dateOfBirth).format("YYYY-MM-DD"));
+          Moengage.add_unique_user_id(email);
+        }
+        this.gtmPushRegister();
+        // this.props.nextStep?.();
+        this.setState({
+          showEmailVerification: true,
+          email
+        });
+      })
+      .catch(error => {
+        const data = valid.decriptdata(error.response?.data);
+        this.setState(
+          {
+            disableButton: false
+          },
+          () => {
+            this.handleInvalidSubmit();
+          }
+        );
+        Object.keys(data).map(key => {
+          switch (key) {
+            case "firstName":
+            case "lastName":
+            case "password1":
+            case "password2":
+            case "gender":
+            case "dateOfBirth":
+              updateInputsWithError(
+                {
+                  [key]: data[key][0]
+                },
+                true
+              );
+              break;
+            case "phoneNo":
+              updateInputsWithError(
+                {
+                  phone: data[key][0]
+                },
+                true
+              );
+              break;
+            case "email":
+              if (data[key].length == 2) {
+                this.setState({
+                  showerror:
+                    "This account already exists <a class='error' href=" +
+                    data[key][0] +
+                    "> please set a new password</a>"
+                });
+              } else {
+                this.setState({
+                  showerror: ""
+                });
+                updateInputsWithError(
+                  {
+                    email: data[key][0]
+                  },
+                  true
+                );
+              }
+              break;
+            default:
+              if (typeof data == "object") {
+                let errorMsg: string = data[key][0];
+                if (errorMsg == "MaxRetries") {
+                  errorMsg =
+                    "You have exceeded max registration attempts, please try after some time";
+                }
+                this.setState({
+                  showerror: errorMsg
+                });
+              }
+          }
+        });
+      });
   };
 
   onCountrySelect = (option: any, defaultCountry?: string) => {
@@ -698,7 +699,7 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
               showLabel={true}
             />
           </div>
-          {/* <div>
+          <div>
             <div className="select-group text-left">
               <FormSelect
                 required
@@ -718,8 +719,8 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
               />
               <span className="arrow"></span>
             </div>
-          </div> */}
-          <SelectDropdown
+          </div>
+          {/* <SelectDropdown
             required
             name="country"
             handleChange={this.onCountrySelect}
@@ -735,7 +736,7 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
             options={countryOptions}
             allowFilter={true}
             inputRef={this.countryRef}
-          />
+          /> */}
 
           {this.state.isIndia && (
             <div>
@@ -760,7 +761,7 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
             </div>
           )}
           <div className={styles.countryCode}>
-            {/* <CountryCode
+            <CountryCode
               name="code"
               placeholder="Code"
               label="Country Code"
@@ -783,8 +784,8 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
                 isValidCode: "Enter valid code"
               }}
               showLabel={true}
-            /> */}
-            <SelectDropdown
+            />
+            {/* <SelectDropdown
               name="code"
               placeholder="Code"
               label="Country Code"
@@ -812,7 +813,7 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
               searchIconClass={styles.countryCodeSearchIcon}
               searchInputClass={styles.countryCodeSearchInput}
               inputRef={this.countryCodeRef}
-            />
+            /> */}
             <FormInput
               required
               name="phone"

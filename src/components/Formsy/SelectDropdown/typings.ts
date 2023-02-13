@@ -12,7 +12,7 @@ export type Props = {
   allowFilter: boolean;
   handleChange?: (event: any) => void;
   className?: string;
-  inputRef?: RefObject<HTMLInputElement>;
+  inputRef: RefObject<HTMLInputElement>;
   label?: string;
   placeholder?: string;
   disable?: boolean;
