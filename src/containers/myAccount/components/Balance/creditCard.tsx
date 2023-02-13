@@ -258,7 +258,13 @@ class CreditNote extends React.Component<Props, GiftState> {
                   ""
                 ) : (
                   <Fragment>
-                    <div className={cs(styles.flex, styles.vCenterBalance)}>
+                    <div
+                      className={cs(
+                        styles.flex,
+                        styles.vCenterBalance,
+                        styles.balanceInput
+                      )}
+                    >
                       <input
                         type="text"
                         autoComplete="off"

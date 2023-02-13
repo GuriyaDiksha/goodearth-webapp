@@ -1,0 +1,334 @@
+@import "../../styles/partials/variables";
+@import "../../styles/partials/mixins";
+
+$sale-timer-height:50px;
+$banner-desktop-height:440px;
+$banner-mobile-height:500px;
+
+.page-container{
+    margin-top: $header-height;
+    &.sale-timer-margin{
+        margin-top: $header-height+$sale-timer-height - 10px;
+    }
+    height: 100%;
+    .banner{
+        height: 438px;
+        width: 100%;
+        background: url("../../images/shopLocator/desktop_banner.png");
+        .banner-text{
+            line-height: 438px;
+            font-family: $font-Lora;
+            font-size: 30px;
+            font-style: italic;
+            color: #fff;
+            text-align: center;
+        }
+    }
+    .page-description{
+        height: 200px;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        .text{
+            text-align: center;
+            width: 512px;
+            @include b3_14px_montserrat_charcoal();
+            letter-spacing: 0.5px;
+        }
+    }
+    .header-box{
+        box-shadow: 0px 4px 6px #00000021;
+        .header {
+            height: 70px;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            column-gap: 53px;
+            .item {
+                width: 100px;
+                text-align: center;
+                @include b4_12px_medium_aqua_caps();
+                color: #9f9f9f;
+                line-height: 70px;
+                cursor: pointer;
+                &.active{
+                    color: $aqua-bold;
+                    border-bottom: 5px solid $aqua;
+                }
+            }
+        }
+    }
+    .page-body{
+        min-width: 992px;
+        width: 1106px;
+        margin: 77px auto 80px auto;
+        .locations-container{
+            position: relative;
+            &.border{
+                border-bottom: 2px solid #E5E5E5;
+                margin-bottom: 50px;
+            }
+            .anar{
+                height: 46px;
+                width: 43px;
+                position: absolute;
+                bottom: 0;
+                left: 50%;
+                transform: translate(-50%, 50%);
+                background-color: #fff;
+                padding: 10px;
+            }
+            .shop-block{
+                padding-bottom: 50px;
+                display: flex;
+                &.border{
+                    border-bottom: 1px solid #E5E5E5;
+                    margin-bottom: 50px;
+                }
+                .info{
+                    width: 531px;
+                    position: relative;
+                    padding-left: 60px;
+                    padding-right: 73px;
+                    .icon{
+                        position: absolute;
+                        top: 0px;
+                        left: 0px;
+                        height: 30px;
+                        width: 37px;
+                    }
+                    .name{
+                        @include h3_20px_lora_charcoal();
+                        letter-spacing: 0.4px;
+                        line-height: 25px;
+                        margin-bottom: 6px;
+                    }
+                    .location{
+                        @include b4_12px_montserrat_charcoal();
+                        font-weight: $medium;
+                        margin-bottom: 20px;
+                    }
+                    .desc{
+                        @include b4_12px_montserrat_charcoal();
+                        letter-spacing: 0.36px;
+                        margin-bottom: 40px;
+                    }
+                    .open-days{
+                        @include b5_10px_semibold_montserrat_charcoal();
+                        letter-spacing: 0.3px;
+                    }
+                    .time{
+                        @include b5_10px_montserrat_charcoal();
+                        letter-spacing: 0.3px;
+                        margin-bottom: 20px;
+                    }
+                    .address-block{
+                        @include b4_12px_montserrat_charcoal();
+                        letter-spacing: 0.36px;
+                        display: flex;
+                        margin-bottom: 20px;
+                        overflow: auto;
+                        .address{
+                            width: 200px;
+                            border-right: 1px solid #E5E5E5;
+                            padding-right: 25px;
+                            margin-right: 25px;
+                        }
+                    }
+                    .phone-block{
+                        @include b4_12px_montserrat_charcoal();
+                        letter-spacing: 0.36px;
+                        margin-bottom: 35px;
+                        margin-top: 10px;
+                    }
+                    .shopper-title{
+                        @include b4_12px_montserrat_charcoal();
+                        letter-spacing: 0.36px;
+                        margin-bottom: 40px;
+                        font-weight: $medium;
+                        margin-bottom: 0px;
+                    }
+                    .shopper-block{
+                        display: flex;
+                        @include b4_12px_montserrat_charcoal();
+                        letter-spacing: 0.36px;
+                        margin-bottom: 40px;
+                        .shopper-name{
+                            width: 200px;
+                            border-right: 1px solid #E5E5E5;
+                            padding-right: 25px;
+                            margin-right: 25px;
+                        }
+                        .phone{
+                            @include b4_12px_montserrat_charcoal();
+                            letter-spacing: 0.36px;
+                        }
+                    }
+                    .get-directions{
+                        a{
+                            @include b4_12px_montserrat_charcoal_caps();
+                            letter-spacing: 0.3px;
+                            text-decoration: underline;
+                            text-underline-offset: 3.5px;
+                            &:hover{
+                                color: #3C7979;
+                            }
+                        }
+                    }
+                } 
+                .slider {
+                    width: 575px;
+                    padding-left: 45px;
+                    .img-container{
+                        height: 390px;
+                        width: 530px;
+                        position: relative;
+                        div{
+                            height: 100%;
+                            width: 100%;
+                            overflow: hidden;
+                            img{
+                                height: 100%;
+                                object-fit: contain;
+                                margin: auto; 
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 991px){
+    .page-container{
+        .banner {
+            height: 500px;
+            background: url("../../images/shopLocator/mobile_banner.png");
+        }
+        .page-description{
+            padding: 0px 30px;
+            height: unset;
+            .text{
+                margin-top: 70px;
+                margin-bottom: 60px;
+            }
+        }
+        .header-box{
+            width: 100%;
+            position: relative;
+            overflow-x: auto;
+            overflow-y: hidden;
+            white-space: nowrap;
+            .header{
+                column-gap: 8px;
+                width: fit-content;
+                margin:auto;
+            }
+            &::-webkit-scrollbar{
+                display: none;
+            }
+        }
+        .page-body{
+            width: 100%;
+            min-width: unset;
+            .locations-container{
+                width: calc(100% - 48px);
+                margin-left: 24px;
+                margin-right: 24px;
+                &.border{
+                    border-bottom: 2px solid #E5E5E5;
+                    margin: 0px 24px 50px 24px;
+                }
+                .shop-block{
+                    flex-direction: column;
+                    row-gap: 40px;
+                    .info{
+                        width: 100%;
+                        padding-left: unset;
+                        padding-right: unset;
+                        .name, .location{
+                            padding-left: 60px;
+                        }
+                        .address-block{
+                            justify-content: space-between;
+                            .phone{
+                                text-align: right;
+                            }
+                        }
+                        .shopper-block{
+                            justify-content: space-between;
+                            .phone{
+                                text-align: right;
+                            }
+                        }
+                    }
+                    .slider{
+                        width: 100%;
+                        padding-left: 0px;
+                        .img-container{
+                            height: 264px;
+                            div{
+                                img{
+                                    max-height: 100%;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+.cafe-header{
+    position: relative;
+    padding-left: 60px;
+    padding-right: 20px;
+    width: 100%;
+    .icon{
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        height: 30px;
+        width: 37px;
+    }
+    .name{
+        @include h3_20px_lora_charcoal();
+        letter-spacing: 0.4px;
+        line-height: 25px;
+        margin-bottom: 6px;
+    }
+    .location{
+        @include b4_12px_montserrat_charcoal();
+        font-weight: $medium;
+    }
+}
+
+.cafe-accordion{
+    margin-bottom: 54px;
+}
+
+.accordion-section{
+    border-bottom: none;
+}
+
+.accordion-body{
+    @media screen and (min-width: 992px){
+        width: 105%;
+    }
+}
+
+.accordion-body-open{
+    @media screen and (max-width: 991px){
+        overflow: visible;
+    }
+}
+
+.arrow {
+    @include carret();
+    position: absolute;
+    right: 0px;
+}

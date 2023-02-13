@@ -70,6 +70,7 @@ import Accordion from "components/Accordion";
 import PdpSkeleton from "../pdpSkeleton";
 import { isEmpty } from "lodash";
 import { GA_CALLS, ANY_ADS } from "constants/cookieConsent";
+import { displayPriceWithCommas } from "utils/utility";
 
 const ProductDetails: React.FC<Props> = ({
   data: {
@@ -429,7 +430,7 @@ const ProductDetails: React.FC<Props> = ({
       : "nonView3d";
 
     const userConsent = CookieService.getCookie("consent").split(",");
-    if (userConsent.includes(ANY_ADS) || true) {
+    if (userConsent.includes(ANY_ADS)) {
       Moengage.track_event("add_to_cart", {
         "Product id": sku || childAttributes[0].sku,
         "Product name": title,
@@ -454,7 +455,7 @@ const ProductDetails: React.FC<Props> = ({
     }
     const size = selectedSize?.size || "";
     const search = CookieService.getCookie("search") || "";
-    if (userConsent.includes(GA_CALLS) || true) {
+    if (userConsent.includes(GA_CALLS)) {
       dataLayer.push({
         "Event Category": "GA Ecommerce",
         "Event Action": "Add to Cart",
@@ -466,7 +467,8 @@ const ProductDetails: React.FC<Props> = ({
         "Product Name": title,
         "Product ID": selectedSize?.id,
         dimension8: view3dValue,
-        Variant: size
+        Variant: size,
+        dimension12: selectedSize?.color
       });
       dataLayer.push({
         event: "addToCart",
@@ -482,7 +484,8 @@ const ProductDetails: React.FC<Props> = ({
                 category: category,
                 variant: selectedSize?.size || "",
                 quantity: quantity,
-                dimension8: view3dValue
+                dimension8: view3dValue,
+                dimension12: selectedSize?.color
               }
             ]
           }
@@ -511,7 +514,8 @@ const ProductDetails: React.FC<Props> = ({
               item_category4: l1,
               item_category5: collection,
               price: discountPrices || price,
-              quantity: quantity
+              quantity: quantity,
+              dimension12: selectedSize?.color
             }
           ]
         }
@@ -611,7 +615,7 @@ const ProductDetails: React.FC<Props> = ({
         showGrowlMessage(dispatch, MESSAGE.ADD_TO_REGISTRY_SUCCESS);
         const registry = Object.assign({}, isRegistry);
         const userConsent = CookieService.getCookie("consent").split(",");
-        if (userConsent.includes(GA_CALLS) || true) {
+        if (userConsent.includes(GA_CALLS)) {
           dataLayer.push({
             event: "registry",
             "Event Category": "Registry",
@@ -912,7 +916,7 @@ const ProductDetails: React.FC<Props> = ({
                     <span className={styles.discountedPrice}>
                       {String.fromCharCode(...currencyCodes[currency])}
                       &nbsp;
-                      {discountPrices}
+                      {displayPriceWithCommas(discountPrices, currency)}
                       <br />
                     </span>
                   ) : (
@@ -922,7 +926,7 @@ const ProductDetails: React.FC<Props> = ({
                     <span className={styles.oldPrice}>
                       {String.fromCharCode(...currencyCodes[currency])}
                       &nbsp;
-                      {price}
+                      {displayPriceWithCommas(price, currency)}
                     </span>
                   ) : (
                     <span
@@ -931,7 +935,7 @@ const ProductDetails: React.FC<Props> = ({
                       {" "}
                       {String.fromCharCode(...currencyCodes[currency])}
                       &nbsp;
-                      {price}
+                      {displayPriceWithCommas(price, currency)}
                     </span>
                   )}
                 </div>

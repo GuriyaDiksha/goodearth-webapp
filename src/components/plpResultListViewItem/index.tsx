@@ -79,7 +79,7 @@ const PlpResultListViewItem: React.FC<PLPResultItemProps> = (
     const l3Len = category.split(">").length;
     const l3 = category.split(">")[l3Len - 1];
     const userConsent = CookieService.getCookie("consent").split(",");
-    if (userConsent.includes(GA_CALLS) || true) {
+    if (userConsent.includes(GA_CALLS)) {
       dataLayer.push({
         "Event Category": "GA Ecommerce",
         "Event Action": "Product Click ",

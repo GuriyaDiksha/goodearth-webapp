@@ -111,7 +111,7 @@ class CartPage extends React.Component<Props, State> {
         item => item.product.childAttributes?.[0].sku
       );
       const userConsent = CookieService.getCookie("consent").split(",");
-      if (userConsent.includes(GA_CALLS) || true) {
+      if (userConsent.includes(GA_CALLS)) {
         dataLayer.push({
           "Event Category": "GA Ecommerce",
           "Event Action": "Cart Summary Page",
@@ -176,7 +176,7 @@ class CartPage extends React.Component<Props, State> {
     // });
 
     const userConsent = CookieService.getCookie("consent").split(",");
-    if (userConsent.includes(GA_CALLS) || true) {
+    if (userConsent.includes(GA_CALLS)) {
       const items = this.props.cart.lineItems.map((line, ind) => {
         const index = line?.product.categories
           ? line?.product.categories.length - 1
@@ -227,7 +227,7 @@ class CartPage extends React.Component<Props, State> {
       });
     }
 
-    if (userConsent.includes(ANY_ADS) || true) {
+    if (userConsent.includes(ANY_ADS)) {
       Moengage.track_event("Page viewed", {
         "Page URL": this.props.location.pathname,
         "Page Name": "CartPageView"

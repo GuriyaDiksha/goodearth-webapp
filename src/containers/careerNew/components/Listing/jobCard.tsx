@@ -51,7 +51,7 @@ const JobCard: React.FC<Props> = ({ job }) => {
               <img src={link} alt="link" />
             </button>
             <a
-              href={`mailto:`}
+              href={`mailto:?subject=I'd like to share a job link with you at Good earth&body=${__DOMAIN__}/careers/job/${id}`}
               target="_blank"
               rel="noopener noreferrer"
               className={listing.icon_wrp}

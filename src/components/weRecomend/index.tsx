@@ -58,12 +58,13 @@ const WeRecommend: React.FC<RecommenedSliderProps> = (
             brand: "Goodearth",
             category: category,
             variant: child.size || "",
-            position: i
+            position: i,
+            dimension12: child?.color
           }
         );
       });
       const userConsent = CookieService.getCookie("consent").split(",");
-      if (userConsent.includes(GA_CALLS) || true) {
+      if (userConsent.includes(GA_CALLS)) {
         dataLayer.push({
           event: "productClick",
           ecommerce: {

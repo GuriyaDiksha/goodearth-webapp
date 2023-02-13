@@ -21,6 +21,7 @@ export type Props = {
     pageTitle: string;
     accordionData: AccordionData[];
   }>;
+  path?: string;
 };
 export type State = {
   isActive: boolean;

@@ -82,6 +82,7 @@ class PLP extends React.Component<
     isThirdParty: boolean;
     count: number;
     showProductCounter: boolean;
+    header: string;
   }
 > {
   constructor(props: Props) {
@@ -104,7 +105,8 @@ class PLP extends React.Component<
         props.location.pathname.includes("corporate-gifting") ||
         props.location.search.includes("&src_type=cp"),
       isThirdParty: props.location.search.includes("&src_type=cp"),
-      showProductCounter: true
+      showProductCounter: true,
+      header: ""
     };
   }
   private child: any = FilterList;
@@ -124,7 +126,7 @@ class PLP extends React.Component<
   componentDidMount() {
     const that = this;
     const userConsent = CookieService.getCookie("consent").split(",");
-    if (userConsent.includes(GA_CALLS) || true) {
+    if (userConsent.includes(GA_CALLS)) {
       dataLayer.push(function(this: any) {
         this.reset();
       });
@@ -136,7 +138,7 @@ class PLP extends React.Component<
         Page_Title: "virtual_plp_view"
       });
     }
-    if (userConsent.includes(ANY_ADS) || true) {
+    if (userConsent.includes(ANY_ADS)) {
       Moengage.track_event("Page viewed", {
         "Page URL": this.props.location.pathname,
         "Page Name": "PlpView"
@@ -188,6 +190,9 @@ class PLP extends React.Component<
     window.removeEventListener(
       "scroll",
       throttle(() => {
+        const header =
+          document?.getElementById("myHeader")?.style.position || "";
+        this.setState({ header });
         this.setProductCount();
       }, 100)
     );
@@ -462,7 +467,7 @@ class PLP extends React.Component<
     const l1 = category?.split(">")[0];
 
     const userConsent = CookieService.getCookie("consent").split(",");
-    if (userConsent.includes(GA_CALLS) || true) {
+    if (userConsent.includes(GA_CALLS)) {
       dataLayer.push({
         "Event Category": "GA Ecommerce",
         "Event Action": "PLP ",
@@ -540,7 +545,7 @@ class PLP extends React.Component<
     const { plpMaker, corporoateGifting } = this.state;
     const queryString = this.props.location.search;
     const urlParams = new URLSearchParams(queryString);
-    const categoryShop = urlParams.get("category_shop")?.split(">")?.[0];
+    const categoryShop = urlParams.get("category_shop")?.split(">")?.[1];
 
     const items: CategoryMenu[] = [
       {
@@ -610,11 +615,13 @@ class PLP extends React.Component<
           <SecondaryHeader>
             <Fragment>
               <div className={cs(bootstrap.colMd7, bootstrap.offsetMd1)}>
-                <PlpBreadcrumbs
-                  levels={breadcrumb}
-                  className={cs(bootstrap.colMd12)}
-                  isViewAll={this.child.state?.isViewAll}
-                />
+                {categoryShop?.trim() !== "Souk" ? (
+                  <PlpBreadcrumbs
+                    levels={breadcrumb}
+                    className={cs(bootstrap.colMd12)}
+                    isViewAll={this.child.state?.isViewAll}
+                  />
+                ) : null}
               </div>
               <div className={cs(bootstrap.colMd3, styles.innerHeader)}>
                 <p className={styles.filterText}>Sort By: </p>
@@ -1053,7 +1060,9 @@ class PLP extends React.Component<
             <div
               className={cs(styles.listGridBar, {
                 [styles.listGridBarTimer]: this.props.showTimer,
-                [styles.hide]: this.props.scrollDown
+                [styles.hide]: this.props.scrollDown,
+                [styles.topHeight]:
+                  this.state.header === "fixed" && !this.props.scrollDown
               })}
             >
               <div

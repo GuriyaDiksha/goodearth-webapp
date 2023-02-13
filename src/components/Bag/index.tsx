@@ -14,6 +14,8 @@ import { AppState } from "reducers/typings";
 import { getPageType } from "../../utils/validate";
 import CookieService from "services/cookie";
 import { GA_CALLS } from "constants/cookieConsent";
+import { displayPriceWithCommasFloat } from "utils/utility";
+import { currency } from "reducers/currency";
 
 const mapDispatchToProps = (dispatch: Dispatch) => {
   return {
@@ -52,7 +54,7 @@ class Bag extends React.Component<Props, State> {
         item => item.product.childAttributes?.[0].sku
       );
       const userConsent = CookieService.getCookie("consent").split(",");
-      if (userConsent.includes(GA_CALLS) || true) {
+      if (userConsent.includes(GA_CALLS)) {
         dataLayer.push({
           "Event Category": "GA Ecommerce",
           "Event Action": "Cart Summary Page",
@@ -163,7 +165,10 @@ class Bag extends React.Component<Props, State> {
                   (-)
                   {String.fromCharCode(...currencyCodes[this.props.currency])}
                   &nbsp;
-                  {parseFloat(discountAmount.toString()).toFixed(2)}
+                  {displayPriceWithCommasFloat(
+                    discountAmount,
+                    this.props.currency
+                  )}
                 </h5>
               </div>
             </div>
@@ -182,7 +187,10 @@ class Bag extends React.Component<Props, State> {
               <h5 className={cs(styles.totalPrice, globalStyles.bold)}>
                 {String.fromCharCode(...currencyCodes[this.props.currency])}
                 &nbsp;
-                {parseFloat(this.props.cart.total.toString()).toFixed(2)}
+                {displayPriceWithCommasFloat(
+                  this.props.cart.total,
+                  this.props.currency
+                )}
               </h5>
               <p className={styles.subtext}>
                 *Excluding estimated cost of shipping

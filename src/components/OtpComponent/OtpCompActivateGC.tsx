@@ -223,11 +223,11 @@ class OtpCompActivateGC extends React.Component<otpProps, otpState> {
       return false;
     }
 
-    if (this.props.isIndiaGC) {
-      data["phoneNo"] = "+91" + phoneNo;
-    } else {
-      data["email"] = email;
-    }
+    // if (this.props.isIndiaGC) {
+    //   data["phoneNo"] = "+91" + phoneNo;
+    // } else {
+    data["email"] = email;
+    // }
     data["inputType"] = "GIFT";
     data["code"] = this.props.txtvalue;
     if (this.props.otpFor == "activateGC") {
@@ -235,7 +235,8 @@ class OtpCompActivateGC extends React.Component<otpProps, otpState> {
       data["lastName"] = this.props.lastName;
       // this.sendOtpApiCall(data);
     }
-    data["otpTo"] = this.props.isIndiaGC ? "phoneno" : "email";
+    // data["otpTo"] = this.props.isIndiaGC ? "phoneno" : "email";
+    data["otpTo"] = "email";
     this.sendOtpApiCall(data, false);
   };
 
@@ -667,24 +668,24 @@ class OtpCompActivateGC extends React.Component<otpProps, otpState> {
               : "GIFT CARD CODE"}
           </p>
           <p className={styles.line}>{this.props.txtvalue}</p>
-          {!this.props.isIndiaGC ? (
-            <p className={globalStyles.voffset2}>
-              <p
-                className={cs(
-                  globalStyles.op2,
-                  globalStyles.bold,
-                  styles.lineHead
-                )}
-              >
-                {" "}
-                OTP SENT TO EMAIL ADDRESS:
-              </p>{" "}
-              <p className={cs(styles.overflowEmail, styles.line)}>
-                {otpData.email}
-              </p>
+          {/* {!this.props.isIndiaGC ? ( */}
+          <p className={globalStyles.voffset2}>
+            <p
+              className={cs(
+                globalStyles.op2,
+                globalStyles.bold,
+                styles.lineHead
+              )}
+            >
+              {" "}
+              OTP SENT TO EMAIL ADDRESS:
+            </p>{" "}
+            <p className={cs(styles.overflowEmail, styles.line)}>
+              {otpData.email}
             </p>
-          ) : (
-            <p className={globalStyles.voffset2}>
+          </p>
+          {/* ) : ( */}
+          {/* <p className={globalStyles.voffset2}>
               <p
                 className={cs(
                   globalStyles.op2,
@@ -695,8 +696,8 @@ class OtpCompActivateGC extends React.Component<otpProps, otpState> {
                 OTP SMS SENT TO MOBILE NUMBER:
               </p>{" "}
               <p className={styles.line}>{otpData.phoneNo}</p>
-            </p>
-          )}
+            </p> */}
+          {/* )} */}
         </div>
         <hr />
         {(this.props.otpFor == "activateGC"
@@ -705,7 +706,8 @@ class OtpCompActivateGC extends React.Component<otpProps, otpState> {
             : false
           : true) && (
           <NewOtpComponent
-            otpSentVia={this.props.isIndiaGC ? "mobile number" : "email"}
+            // otpSentVia={this.props.isIndiaGC ? "mobile number" : "email"}
+            otpSentVia={"email"}
             resendOtp={this.resendOtp}
             verifyOtp={this.checkOtpValidation}
             errorMsg={this.state.showerror}
@@ -915,41 +917,50 @@ class OtpCompActivateGC extends React.Component<otpProps, otpState> {
               onValidSubmit={this.handleSubmit}
               onInvalidSubmit={this.handleInvalidSubmit}
             >
-              {!this.props.isIndiaGC && (
-                <li className={cs(styles.radiobtn1, styles.xradio)}>
-                  <FormInput
-                    name="email"
-                    placeholder={"Email*"}
-                    label={"Email*"}
-                    className={styles.relative}
-                    disable={this.props.isCredit}
-                    inputRef={this.emailInput}
-                    value={this.props.email ? this.props.email : ""}
-                    handleChange={e =>
-                      this.setState({ emailInput: e.target.value })
-                    }
-                    validations={
-                      !this.props.isIndiaGC
-                        ? {
-                            isEmail: true,
-                            maxLength: 75
-                          }
-                        : {}
-                    }
-                    validationErrors={{
-                      isEmail: "Please enter a valid Email ID",
-                      maxLength:
-                        "You are allowed to enter upto 75 characters only"
-                    }}
-                    required={
-                      this.props.isIndiaGC || this.props.isCredit
-                        ? "isFalse"
-                        : true
-                    }
-                  />
-                </li>
-              )}
-              {this.props.isIndiaGC && (
+              {/* {!this.props.isIndiaGC && ( */}
+              <li className={cs(styles.radiobtn1, styles.xradio)}>
+                <div className={styles.placeholderRadio}>
+                  <div className={styles.outer}></div>
+                  <div className={styles.inner}></div>
+                </div>
+                <FormInput
+                  name="email"
+                  placeholder={"Email*"}
+                  label={"Email*"}
+                  className={styles.relative}
+                  disable={this.props.isCredit}
+                  inputRef={this.emailInput}
+                  value={this.props.email ? this.props.email : ""}
+                  handleChange={e =>
+                    this.setState({ emailInput: e.target.value })
+                  }
+                  // validations={
+                  //   !this.props.isIndiaGC
+                  //     ? {
+                  //         isEmail: true,
+                  //         maxLength: 75
+                  //       }
+                  //     : {}
+                  // }
+                  validations={{
+                    isEmail: true,
+                    maxLength: 75
+                  }}
+                  validationErrors={{
+                    isEmail: "Please enter a valid Email ID",
+                    maxLength:
+                      "You are allowed to enter upto 75 characters only"
+                  }}
+                  // required={
+                  //   this.props.isIndiaGC || this.props.isCredit
+                  //     ? "isFalse"
+                  //     : true
+                  // }
+                  required={true}
+                />
+              </li>
+              {/* )} */}
+              {/* {this.props.isIndiaGC && (
                 <li
                   className={cs(
                     styles.countryCode,
@@ -1004,7 +1015,7 @@ class OtpCompActivateGC extends React.Component<otpProps, otpState> {
                     </p>
                   </div>
                 </li>
-              )}
+              )} */}
               <hr />
               <li className={styles.note}>
                 <div>Please Note:</div>
@@ -1019,7 +1030,7 @@ class OtpCompActivateGC extends React.Component<otpProps, otpState> {
               <li className={cs(styles.subscribe, styles.subscribeGc)}>
                 <FormCheckbox
                   value={false}
-                  id={"subscrib" + this.props.isCredit}
+                  id={"subscribe_" + this.props.isCredit}
                   name="terms"
                   disable={false}
                   inputRef={this.subscribeRef}
@@ -1065,7 +1076,7 @@ class OtpCompActivateGC extends React.Component<otpProps, otpState> {
                   className={cs(styles.charcoalBtn, {
                     [styles.disabledBtn]:
                       !this.subscribeRef.current?.checked ||
-                      (this.props.isIndiaGC && this.state.phoneInput == "") ||
+                      // (this.props.isIndiaGC && this.state.phoneInput == "") ||
                       (!this.props.isIndiaGC && this.state.emailInput == "") ||
                       (this.props.isCredit && this.state.emailInput == "")
                   })}

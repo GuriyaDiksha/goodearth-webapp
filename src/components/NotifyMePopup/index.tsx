@@ -170,7 +170,7 @@ const NotifyMePopup: React.FC<Props> = ({
       : "nonView3d";
     const userConsent = CookieService.getCookie("consent").split(",");
     const search = CookieService.getCookie("search") || "";
-    if (userConsent.includes(GA_CALLS) || true) {
+    if (userConsent.includes(GA_CALLS)) {
       dataLayer.push({
         "Event Category": "GA Ecommerce",
         "Event Action": "Add to Cart",
@@ -182,7 +182,8 @@ const NotifyMePopup: React.FC<Props> = ({
         "Product Name": title,
         "Product ID": selectedSize?.id,
         dimension8: view3dValue,
-        Variant: size
+        Variant: size,
+        dimension12: selectedSize?.color
       });
       dataLayer.push({
         event: "addToCart",
@@ -200,7 +201,8 @@ const NotifyMePopup: React.FC<Props> = ({
                 category: category,
                 variant: selectedSize?.size || childAttributes[0].size || "",
                 quantity: quantity,
-                dimension8: view3dValue
+                dimension8: view3dValue,
+                dimension12: selectedSize?.color
               }
             ]
           }
@@ -231,7 +233,8 @@ const NotifyMePopup: React.FC<Props> = ({
               price:
                 selectedSize?.discountedPriceRecords[currency] ||
                 selectedSize?.priceRecords[currency],
-              quantity: quantity
+              quantity: quantity,
+              dimension12: selectedSize?.color
             }
           ]
         }

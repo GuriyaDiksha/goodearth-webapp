@@ -55,14 +55,10 @@ const PastOrders: React.FC<Props> = (props: Props) => {
       setHasShopped(false);
     }
   };
-  const browseButton = (
-    <div className={styles.browseButton}>
+  const startShoppingButton = (
+    <div className={styles.startShoppingButton}>
       <Link to="/">
-        <input
-          type="button"
-          className={globalStyles.ceriseBtn}
-          value="Browse"
-        />
+        <input type="button" value="Start Shopping" />
       </Link>
     </div>
   );
@@ -70,7 +66,7 @@ const PastOrders: React.FC<Props> = (props: Props) => {
     <>
       <div className={styles.orderTabs}>
         <a
-          className={cs(styles.formSubheading, styles.orders, {
+          className={cs(styles.orderTab, {
             [styles.active]: hasShoppedOnlineitems
           })}
           onClick={switchToOnlineOrders}
@@ -79,7 +75,7 @@ const PastOrders: React.FC<Props> = (props: Props) => {
         </a>
         <span className={styles.hrLine}>|</span>
         <a
-          className={cs(styles.formSubheading, styles.orders, {
+          className={cs(styles.orderTab, {
             [styles.active]: hasShoppedAtStore
           })}
           onClick={switchToStoreOrders}
@@ -108,7 +104,7 @@ const PastOrders: React.FC<Props> = (props: Props) => {
             email={email}
             mobile={mobile}
           />
-          {!hasShopped && !isLoading && browseButton}
+          {!hasShopped && !isLoading && startShoppingButton}
         </>
       )}
       {hasShoppedAtStore && (
@@ -121,7 +117,7 @@ const PastOrders: React.FC<Props> = (props: Props) => {
             email={email}
             mobile={mobile}
           />
-          {!hasShopped && !isLoading && browseButton}
+          {!hasShopped && !isLoading && startShoppingButton}
         </>
       )}
     </>

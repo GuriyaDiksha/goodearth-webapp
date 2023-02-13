@@ -17,6 +17,10 @@ import { AppState } from "reducers/typings";
 import quantityStyles from "../quantity/styles.scss";
 import CookieService from "services/cookie";
 import { GA_CALLS, ANY_ADS } from "constants/cookieConsent";
+import {
+  displayPriceWithCommas,
+  displayPriceWithCommasFloat
+} from "utils/utility";
 
 const LineItems: React.FC<BasketItem> = memo(
   ({
@@ -91,7 +95,7 @@ const LineItems: React.FC<BasketItem> = memo(
       const categoryname = arr[arr.length - 2];
       const subcategoryname = arr[arr.length - 1];
       const userConsent = CookieService.getCookie("consent").split(",");
-      if (userConsent.includes(ANY_ADS) || true) {
+      if (userConsent.includes(ANY_ADS)) {
         Moengage.track_event("remove_from_cart", {
           "Product id": product.sku || product.childAttributes[0].sku,
           "Product name": product.title,
@@ -103,7 +107,7 @@ const LineItems: React.FC<BasketItem> = memo(
           "Sub Category Name": subcategoryname
         });
       }
-      if (userConsent.includes(GA_CALLS) || true) {
+      if (userConsent.includes(GA_CALLS)) {
         dataLayer.push({
           event: "removeFromCart",
           ecommerce: {
@@ -162,7 +166,7 @@ const LineItems: React.FC<BasketItem> = memo(
       if (subcategory) {
         subcategory = subcategory[subcategory.length - 1];
       }
-      if (userConsent.includes(GA_CALLS) || true) {
+      if (userConsent.includes(GA_CALLS)) {
         dataLayer.push({
           "Event Category": "GA Ecommerce",
           "Event Action": "Cart Removal",
@@ -259,7 +263,10 @@ const LineItems: React.FC<BasketItem> = memo(
                     <span className={styles.discountprice}>
                       {String.fromCharCode(...currencyCodes[currency])}
                       &nbsp;
-                      {discountedPriceRecords[currency]}
+                      {displayPriceWithCommas(
+                        discountedPriceRecords[currency],
+                        currency
+                      )}
                       &nbsp; &nbsp;
                     </span>
                   ) : (
@@ -269,7 +276,9 @@ const LineItems: React.FC<BasketItem> = memo(
                     <span className={styles.strikeprice}>
                       {String.fromCharCode(...currencyCodes[currency])}
                       &nbsp;
-                      {isGiftCard ? GCValue : price}
+                      {isGiftCard
+                        ? displayPriceWithCommas(GCValue, currency)
+                        : displayPriceWithCommas(price, currency)}
                     </span>
                   ) : (
                     <span
@@ -280,7 +289,9 @@ const LineItems: React.FC<BasketItem> = memo(
                       {" "}
                       {String.fromCharCode(...currencyCodes[currency])}
                       &nbsp;
-                      {isGiftCard ? GCValue : price}
+                      {isGiftCard
+                        ? displayPriceWithCommas(GCValue, currency)
+                        : displayPriceWithCommas(price, currency)}
                     </span>
                   )}
                 </div>
