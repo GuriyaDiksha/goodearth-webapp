@@ -736,7 +736,6 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
               }}
             />
             <FormInput
-              required
               name="phone"
               value=""
               placeholder={"Contact Number"}
