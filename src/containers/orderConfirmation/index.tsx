@@ -280,11 +280,6 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
   const shippingAddress = confirmData?.shippingAddress?.[0],
     billingAddress = confirmData?.billingAddress?.[0];
 
-  // let giftCardAmount = 0;
-  // for (let i = 0; i < confirmData.giftVoucherRedeemed?.length; i++) {
-  //   giftCardAmount += confirmData.giftVoucherRedeemed[i];
-  // }
-
   if (!confirmData?.number) {
     return <></>;
   }
@@ -352,126 +347,93 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
               )}
             >
               <div className={styles.add}>
-                <address>
+                <div className={styles.myOrderBlock}>
                   <label>order # {confirmData?.number}</label>
-                  <div className={cs(bootstrapStyles.row, styles.orderBlock)}>
-                    <div
-                      className={cs(
-                        bootstrapStyles.col12,
-                        bootstrapStyles.colMd6
-                      )}
-                    >
-                      <p>
-                        {moment(confirmData?.datePlaced).format("MMM D, YYYY")}
-                      </p>
+                  {/* Info */}
+                  <div className={cs(styles.orderData, styles.singleOrder)}>
+                    <div className={styles.info}>
+                      <div className={styles.row}>
+                        <div className={cs(styles.data)}>
+                          {moment(confirmData?.datePlaced).format(
+                            "MMM D, YYYY"
+                          )}
+                        </div>
+                      </div>
 
-                      <p>
-                        <span className={globalStyles.op3}> Items: </span>{" "}
-                        {totalItem}
-                      </p>
+                      <div className={styles.row}>
+                        <span className={styles.label}> Items: </span>{" "}
+                        <span className={styles.data}>{totalItem}</span>
+                      </div>
                     </div>
-                    <div
-                      className={cs(
-                        bootstrapStyles.col12,
-                        bootstrapStyles.colMd6
-                      )}
-                    >
-                      <p>
-                        <span className={globalStyles.op3}>Amount Paid</span>
-                      </p>
-
-                      <p>
+                    <div className={styles.amountPaid}>
+                      <span className={styles.label}>Amount Paid</span>
+                      <span className={styles.data}>
                         {String.fromCharCode(
                           ...currencyCode[confirmData?.currency as Currency]
                         )}
                         &nbsp;{" "}
                         {parseFloat(confirmData?.totalInclTax).toFixed(2)}
-                      </p>
+                      </span>
                     </div>
                   </div>
-
-                  <div className={cs(bootstrapStyles.row, styles.borderAdd)}>
-                    <div
-                      className={cs(
-                        bootstrapStyles.col12,
-                        bootstrapStyles.colMd6
-                      )}
-                    >
-                      <div className={styles.add}>
-                        {shippingAddress ? (
-                          <address>
-                            <label>shipping address</label>
-                            {confirmData?.isBridalOrder ? (
-                              <>
-                                <p>
-                                  {confirmData?.registrantName} &{" "}
-                                  {confirmData?.coRegistrantName}&#39;s <br />
-                                  {confirmData?.occasion} Registry
-                                </p>
-                                <p className={styles.light}>
-                                  {" "}
-                                  Address predefined by registrant
-                                </p>
-                              </>
-                            ) : (
-                              <>
-                                <p>
-                                  {shippingAddress.firstName}
-                                  &nbsp; {shippingAddress.lastName}
-                                  <br />
-                                </p>
-                                <p className={styles.light}>
-                                  {shippingAddress.line1}
-                                  <br />
-                                  {shippingAddress.line2}{" "}
-                                  {shippingAddress.line2 && <br />}
-                                  {shippingAddress.state},{" "}
-                                  {shippingAddress.postcode} <br />
-                                  {shippingAddress.countryName}
-                                  <br />
-                                </p>
-                                <p> {shippingAddress.phoneNumber}</p>
-                              </>
-                            )}
-                          </address>
-                        ) : (
-                          ""
+                  {/* Address    */}
+                  <div className={cs(styles.addressBlock)}>
+                    {shippingAddress && (
+                      <div className={styles.address}>
+                        <div className={styles.title}>shipping address</div>
+                        {confirmData?.isBridalOrder && (
+                          <div className={styles.row}>
+                            <span className={styles.bridalInfo}>
+                              {confirmData?.registrantName}
+                              &nbsp; & &nbsp;{confirmData?.coRegistrantName}
+                              {"'s "}
+                              {confirmData?.occasion} Registry
+                            </span>
+                            <span className={styles.bridalMessage}></span>
+                          </div>
                         )}
+                        <div className={cs(styles.row, styles.name)}>
+                          {shippingAddress.firstName}
+                          &nbsp; {shippingAddress.lastName}
+                        </div>
+                        <div className={styles.row}>
+                          {shippingAddress.line1}
+                        </div>
+                        <div className={styles.row}>
+                          {shippingAddress.line2}
+                        </div>
+                        <div className={styles.row}>
+                          {shippingAddress.state},&nbsp;
+                          {shippingAddress.postcode}
+                        </div>
+                        <div className={styles.row}>
+                          {shippingAddress.countryName}
+                        </div>
+                        <div className={cs(styles.row, styles.phoneNumber)}>
+                          {shippingAddress.phoneNumber}
+                        </div>
                       </div>
-                    </div>
-
-                    <div
-                      className={cs(
-                        bootstrapStyles.col12,
-                        bootstrapStyles.colMd6
-                      )}
-                    >
-                      <div className={styles.add}>
-                        {billingAddress ? (
-                          <address>
-                            <label>billing address</label>
-                            <p>
-                              {billingAddress.firstName}
-                              &nbsp; {billingAddress.lastName}
-                              <br />
-                            </p>
-                            <p className={styles.light}>
-                              {billingAddress.line1}
-                              <br />
-                              {billingAddress.line2}{" "}
-                              {billingAddress.line2 && <br />}
-                              {billingAddress.state}, {billingAddress.postcode}{" "}
-                              <br />
-                              {billingAddress.countryName}
-                              <br />
-                            </p>
-                            <p> {billingAddress.phoneNumber}</p>
-                          </address>
-                        ) : (
-                          ""
-                        )}
+                    )}
+                    {billingAddress && (
+                      <div className={styles.address}>
+                        <div className={styles.title}>billing address</div>
+                        <div className={cs(styles.row, styles.name)}>
+                          {billingAddress.firstName}
+                          &nbsp; {billingAddress.lastName}
+                        </div>
+                        <div className={styles.row}>{billingAddress.line1}</div>
+                        <div className={styles.row}>{billingAddress.line2}</div>
+                        <div className={styles.row}>
+                          {billingAddress.state},&nbsp;{billingAddress.postcode}
+                        </div>
+                        <div className={styles.row}>
+                          {billingAddress.countryName}
+                        </div>
+                        <div className={cs(styles.row, styles.phoneNumber)}>
+                          {billingAddress.phoneNumber}
+                        </div>
                       </div>
-                    </div>
+                    )}
                   </div>
                   {confirmData?.deliveryInstructions ? (
                     <div
@@ -505,6 +467,10 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                     const price3 =
                       +parseFloat(item.priceExclTaxExclDiscounts).toFixed(2) /
                       +item.quantity;
+
+                    const charCurrency = String.fromCharCode(
+                      ...currencyCode[item.priceCurrency as Currency]
+                    );
                     return (
                       <div
                         className={cs(
@@ -633,126 +599,13 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                       </div>
                     );
                   })}
-                </address>
-              </div>
-            </div>
-          </div>
-          <div className={cs(bootstrapStyles.row, styles.white)}>
-            <div className={cs(styles.priceSection)}>
-              <div className={cs(styles.subTotalSection)}>
-                <p>SUBTOTAL</p>
-                <p>
-                  {String.fromCharCode(
-                    ...currencyCode[confirmData.currency as Currency]
-                  )}
-                  &nbsp; {parseFloat(confirmData.orderSubTotal).toFixed(2)}
-                </p>
-              </div>
-              {/* Filter this key and remove vouchers */}
-              {confirmData?.offerDiscounts?.map(
-                (discount: { name: string; amount: string }, index: number) => (
-                  <div className={cs(styles.discountSection)} key={index}>
-                    <p>{discount.name}</p>
-                    <p>
-                      (-){" "}
-                      {String.fromCharCode(
-                        ...currencyCode[confirmData.currency as Currency]
-                      )}
-                      &nbsp; {parseFloat(discount.amount).toFixed(2)}
-                    </p>
-                  </div>
-                )
-              )}
-
-              <div className={cs(styles.discountSection)}>
-                <p>Shipping & Handling</p>
-                <p>
-                  (+){" "}
-                  {String.fromCharCode(
-                    ...currencyCode[confirmData.currency as Currency]
-                  )}
-                  &nbsp; {parseFloat(confirmData.shippingInclTax).toFixed(2)}
-                </p>
-              </div>
-
-              {confirmData.voucherDiscounts.map((vd: any, i: number) => (
-                <div
-                  className={cs(styles.discountSection)}
-                  key={`voucher_${i}`}
-                >
-                  <p>{vd.name}</p>
-                  <p>
-                    (-){" "}
-                    {String.fromCharCode(
-                      ...currencyCode[confirmData.currency as Currency]
-                    )}
-                    &nbsp; {parseFloat(vd.amount).toFixed(2)}
-                  </p>
                 </div>
-              ))}
-
-              {confirmData.giftVoucherRedeemed.map(
-                (gccn: number, i: number) => (
-                  <div className={cs(styles.discountSection)} key={`gccn_${i}`}>
-                    <p>Gift Card/Credit Note</p>
-                    <p>
-                      (-){" "}
-                      {String.fromCharCode(
-                        ...currencyCode[confirmData.currency as Currency]
-                      )}
-                      &nbsp; {parseFloat("" + gccn).toFixed(2)}
-                    </p>
-                  </div>
-                )
-              )}
-
-              {confirmData.loyalityPointsRedeemed.map(
-                (gccn: number, i: number) => (
-                  <div
-                    className={cs(styles.discountSection)}
-                    key={`loyalty_${i}`}
-                  >
-                    <p>Loyalty Points</p>
-                    <p>
-                      (-){" "}
-                      {String.fromCharCode(
-                        ...currencyCode[confirmData.currency as Currency]
-                      )}
-                      &nbsp;{" "}
-                      {parseFloat(confirmData.loyalityPointsRedeemed).toFixed(
-                        2
-                      )}
-                    </p>
-                  </div>
-                )
-              )}
-
-              <div className={cs(styles.subTotalSection)}>
-                <p>AMOUNT PAID</p>
-                <p>
-                  {String.fromCharCode(
-                    ...currencyCode[confirmData.currency as Currency]
-                  )}
-                  &nbsp; {parseFloat(confirmData.totalInclTax).toFixed(2)}
-                </p>
               </div>
             </div>
           </div>
-
           <div className={bootstrapStyles.row}>
-            <div
-              className={cs(
-                bootstrapStyles.col12,
-                bootstrapStyles.colMd8,
-                bootstrapStyles.offsetMd2,
-                styles.cta,
-                globalStyles.voffset2,
-                globalStyles.ceriseBtn
-              )}
-            >
-              <div className={globalStyles.ceriseBtn}>
-                <Link to={"/"}> continue shopping </Link>
-              </div>
+            <div className={styles.charcoalBtn}>
+              <Link to={"/"}> continue shopping </Link>
             </div>
           </div>
         </div>
