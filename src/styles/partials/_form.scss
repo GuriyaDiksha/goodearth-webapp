@@ -15,7 +15,7 @@
 
     @include placeholder {
       font-size:14px;
-      color: tint(#000,60%);
+      color: #19191958;
       font-style: normal;
       letter-spacing:1px;
       font-family: $font-Lato;
@@ -226,7 +226,7 @@
     .Dropdown-control {
       .Dropdown-placeholder{
         font-size: 14px;
-        color: #333;
+        color: #19191958;
         font-style: normal;
         letter-spacing: normal;
         font-family: $font-Lato;
@@ -264,7 +264,7 @@
           .Dropdown-control {
             .Dropdown-placeholder{
               font-size: 14px;
-              color: #333;
+              color: #19191958;
               font-style: normal;
               letter-spacing: normal;
               font-family: $font-Lato;
