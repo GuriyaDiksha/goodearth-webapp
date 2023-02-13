@@ -70,6 +70,7 @@ import Accordion from "components/Accordion";
 import PdpSkeleton from "../pdpSkeleton";
 import { isEmpty } from "lodash";
 import { GA_CALLS, ANY_ADS } from "constants/cookieConsent";
+import { displayPriceWithCommas } from "utils/utility";
 
 const ProductDetails: React.FC<Props> = ({
   data: {
@@ -921,7 +922,7 @@ const ProductDetails: React.FC<Props> = ({
                     <span className={styles.discountedPrice}>
                       {String.fromCharCode(...currencyCodes[currency])}
                       &nbsp;
-                      {discountPrices}
+                      {displayPriceWithCommas(discountPrices, currency)}
                       <br />
                     </span>
                   ) : (
@@ -931,7 +932,7 @@ const ProductDetails: React.FC<Props> = ({
                     <span className={styles.oldPrice}>
                       {String.fromCharCode(...currencyCodes[currency])}
                       &nbsp;
-                      {price}
+                      {displayPriceWithCommas(price, currency)}
                     </span>
                   ) : (
                     <span
@@ -940,7 +941,7 @@ const ProductDetails: React.FC<Props> = ({
                       {" "}
                       {String.fromCharCode(...currencyCodes[currency])}
                       &nbsp;
-                      {price}
+                      {displayPriceWithCommas(price, currency)}
                     </span>
                   )}
                 </div>
