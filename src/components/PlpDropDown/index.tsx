@@ -156,6 +156,7 @@ const PlpDropdownMenu = ({
         {/* headers when menu is open */}
         <div className={cs({ [styles.mobileFilterSortBg]: showmobileSort })}>
           <div
+            id="filter-menu-header"
             className={cs(
               styles.mobileFilterHeader,
               { [styles.mobileFilterHeaderTimer]: showTimer },
