@@ -210,6 +210,7 @@ class Header extends React.Component<Props, State> {
     });
     const config = { subtree: true, childList: true };
     observer.observe(document, config);
+    this.onScroll();
   }
 
   UNSAFE_componentWillReceiveProps(nextProps: Props) {
@@ -268,11 +269,14 @@ class Header extends React.Component<Props, State> {
   //   this.setState({ show: data.show });
   // }
 
-  onScroll = (event: any, timer?: boolean) => {
+  onScroll = (event?: any, timer?: boolean) => {
     const header = document.getElementById("myHeader");
     const sticky = (header as HTMLElement)?.offsetTop;
     const secondaryHeader = document.getElementById("secondaryHeader");
+    const filterMenu = document.getElementById("filter_by");
+    const filterMenuHeader = document.getElementById("filter-menu-header");
     if (window?.pageYOffset > sticky) {
+      // When announcement bar is hidden
       (header as HTMLElement).style.position = "fixed";
       (header as HTMLElement).style.marginBottom = "0px";
 
@@ -285,6 +289,24 @@ class Header extends React.Component<Props, State> {
           (secondaryHeader as HTMLElement).style.top = "50px";
         }
         // (secondaryHeader as HTMLElement).style.transition = "all 0.5s linear";
+      }
+      if (filterMenu) {
+        const tim = timer !== undefined ? timer : this.props.showTimer;
+
+        if (tim) {
+          (filterMenu as HTMLElement).style.top = "130px";
+        } else {
+          (filterMenu as HTMLElement).style.top = "100px";
+        }
+      }
+      if (filterMenuHeader) {
+        const tim = timer !== undefined ? timer : this.props.showTimer;
+
+        if (tim) {
+          (filterMenuHeader as HTMLElement).style.top = "90px";
+        } else {
+          (filterMenuHeader as HTMLElement).style.top = "50px";
+        }
       }
     } else {
       (header as HTMLElement).style.position = "relative";
@@ -300,6 +322,24 @@ class Header extends React.Component<Props, State> {
         }
 
         // (secondaryHeader as HTMLElement).style.transition = "all 0.5s linear";
+      }
+      if (filterMenu) {
+        const tim = timer !== undefined ? timer : this.props.showTimer;
+
+        if (tim) {
+          (filterMenu as HTMLElement).style.top = "180px";
+        } else {
+          (filterMenu as HTMLElement).style.top = "140px";
+        }
+      }
+      if (filterMenuHeader) {
+        const tim = timer !== undefined ? timer : this.props.showTimer;
+
+        if (tim) {
+          (filterMenuHeader as HTMLElement).style.top = "130px";
+        } else {
+          (filterMenuHeader as HTMLElement).style.top = "90px";
+        }
       }
     }
 

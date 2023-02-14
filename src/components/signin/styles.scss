@@ -121,10 +121,9 @@ input[type="checkbox"]:checked + label {
 
 .login-change {
   @include b5_10px_montserrat_charcoal();
-  border: 1px solid #eee;
   padding: 15px;
   padding-left: 8px;
-  top: 0px;
+  top: 1px;
   right: 5px;
   width: 54px;
   border-left: none;
