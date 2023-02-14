@@ -1,4 +1,4 @@
-import React, { useEffect, useState, Fragment } from "react";
+import React, { useEffect, useState } from "react";
 import bootstrapStyles from "../../styles/bootstrap/bootstrap-grid.scss";
 import globalStyles from "styles/global.scss";
 import cs from "classnames";
@@ -20,6 +20,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
     user: { email }
   } = useSelector((state: AppState) => state);
   const [confirmData, setConfirmData] = useState<any>({});
+  const [charCurrency, setCharCurrency] = useState<any>({});
   const dispatch = useDispatch();
 
   const fetchData = async () => {
@@ -251,6 +252,9 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
         }
       }
       setConfirmData(res);
+      setCharCurrency(
+        String.fromCharCode(...currencyCode[res.currency as Currency])
+      );
       gtmPushOrderConfirmation(response.results?.[0]);
     });
     const userConsent = CookieService.getCookie("consent").split(",");
@@ -458,154 +462,205 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                     // according bakwas by gaurav
                     const isdisCount =
                       +item.priceInclTax - +item.priceExclTaxExclDiscounts != 0;
-                    const price1 =
+                    const amountPaid =
                       +parseFloat(item.priceInclTax).toFixed(2) /
                       +item.quantity;
-                    const price2 =
-                      +parseFloat(item.priceExclTaxExclDiscounts).toFixed(2) /
-                      +item.quantity;
-                    const price3 =
+                    const price =
                       +parseFloat(item.priceExclTaxExclDiscounts).toFixed(2) /
                       +item.quantity;
 
-                    const charCurrency = String.fromCharCode(
-                      ...currencyCode[item.priceCurrency as Currency]
-                    );
                     return (
-                      <div
-                        className={cs(
-                          bootstrapStyles.row,
-                          globalStyles.voffset2,
-                          styles.borderAdd
-                        )}
-                        key={item.order}
-                      >
-                        <div
-                          className={cs(
-                            bootstrapStyles.col5,
-                            bootstrapStyles.colMd3
-                          )}
-                        >
+                      <div className={cs(styles.product)} key={item.order}>
+                        <div className={cs(styles.imageContainer)}>
                           <img
                             src={item.product.images?.[0]?.productImage}
                             className={globalStyles.imgResponsive}
                           />
                         </div>
                         <div
-                          className={cs(
-                            bootstrapStyles.col7,
-                            bootstrapStyles.colMd9,
-                            {
-                              [styles.gc]: item.product?.structure == "GiftCard"
-                            }
-                          )}
+                          className={cs(styles.productInfo, {
+                            [styles.gc]: item.product?.structure == "GiftCard"
+                          })}
                         >
-                          <div
-                            className={cs(
-                              bootstrapStyles.imageContent,
-                              globalStyles.textLeft
-                            )}
-                          >
-                            <p className={cs(styles.productH)}></p>
-                            <p className={cs(styles.productN)}>{item.title}</p>
-                            <p
-                              className={cs(styles.productN, globalStyles.flex)}
+                          <p className={cs(styles.title)}>{item.title}</p>
+                          <p className={cs(styles.price)}>
+                            <span
+                              className={cs(styles.amountPaid, {
+                                [styles.gold]: isdisCount
+                              })}
                             >
-                              {isdisCount ? (
-                                <span className={styles.discountprice}>
-                                  {String.fromCharCode(
-                                    ...currencyCode[
-                                      item.priceCurrency as Currency
-                                    ]
-                                  )}
-                                  {Number.isSafeInteger(+price1)
-                                    ? price1
-                                    : price1.toFixed(2) + ""}
-                                  &nbsp;{" "}
-                                </span>
-                              ) : (
-                                ""
-                              )}
-                              {isdisCount ? (
-                                <span className={styles.strikeprice}>
-                                  {String.fromCharCode(
-                                    ...currencyCode[
-                                      item.priceCurrency as Currency
-                                    ]
-                                  )}
-                                  {Number.isSafeInteger(+price2)
-                                    ? price2
-                                    : price2.toFixed(2) + ""}
-                                  &nbsp;{" "}
-                                </span>
-                              ) : (
-                                <span
-                                  className={cs(
-                                    {
-                                      [globalStyles.cerise]:
-                                        item.product.badgeType == "B_flat"
-                                    },
-                                    styles.price
-                                  )}
-                                >
-                                  {String.fromCharCode(
-                                    ...currencyCode[
-                                      item.priceCurrency as Currency
-                                    ]
-                                  )}
-                                  &nbsp;{" "}
-                                  {Number.isSafeInteger(+price3)
-                                    ? price3
-                                    : price3.toFixed(2) + ""}
-                                </span>
-                              )}
-                            </p>
-                            {item.product?.structure == "GiftCard" ? (
-                              ""
-                            ) : (
-                              <Fragment>
-                                <div
-                                  className={cs(
-                                    styles.smallSize,
-                                    globalStyles.voffset2
-                                  )}
-                                >
-                                  {item.product.size && (
-                                    <>Size:&nbsp; {item.product.size}</>
-                                  )}
-                                </div>
-                                <div className={styles.smallSize}>
-                                  Qty:&nbsp; {item.quantity}
-                                </div>
-                                {item.fillerMessage ? (
-                                  <div className={styles.filler}>
-                                    {`*${item.fillerMessage}`}
-                                  </div>
-                                ) : (
-                                  ""
-                                )}
-                              </Fragment>
+                              {`${charCurrency} ${amountPaid}`}
+                            </span>
+                            {isdisCount && (
+                              <span className={styles.originalPrice}>
+                                {`${charCurrency} ${price}`}
+                              </span>
                             )}
-                          </div>
+                          </p>
+                          {item.product.size && (
+                            <div className={styles.size}>
+                              {`Size: ${item.product.size}`}
+                            </div>
+                          )}
+                          <div
+                            className={styles.quantity}
+                          >{`Qty: ${item.quantity}`}</div>
                           {item.product?.structure == "GiftCard" && (
-                            <div className={globalStyles.textLeft}>
-                              <p className={styles.label}>Sent via Email:</p>
-                              <p className={styles.email}>
-                                {item.egiftCardRecipient}
-                              </p>
+                            <div
+                              className={cs(styles.quantity, styles.withData)}
+                            >
+                              Sent via Email:{" "}
+                              <span>{item.egiftCardRecipient}</span>
+                            </div>
+                          )}
+                          <div className={styles.size}>
+                            {`Item Code: ${item.product.sku}`}
+                          </div>
+                          {/* Estimated Delivery Time */}
+                          {item.product.productDeliveryDate && (
+                            <div
+                              className={cs(styles.quantity, styles.withData)}
+                            >
+                              Estimated Delivery Date:{" "}
+                              <span>{item.product.size}</span>
                             </div>
                           )}
                         </div>
                       </div>
                     );
                   })}
+                  <div className={styles.prices}>
+                    {/* Title */}
+                    <div className={cs(styles.price, styles.title)}>
+                      <span className={styles.label}>ORDER SUMMARY</span>
+                    </div>
+                    {/* Subtotal */}
+                    <div className={cs(styles.price, styles.line)}>
+                      <span className={styles.label}>SUBTOTAL</span>
+                      <span className={styles.value}>
+                        {`${charCurrency} ${parseFloat(
+                          confirmData.orderSubTotal
+                        ).toFixed(2)}`}
+                      </span>
+                    </div>
+                    {/* offer discounts */}
+                    {confirmData.offerDiscounts?.map(
+                      (
+                        discount: { name: string; amount: string },
+                        index: number
+                      ) => {
+                        return (
+                          <div
+                            className={cs(
+                              styles.price,
+                              styles.line,
+                              styles.discount
+                            )}
+                          >
+                            <span className={styles.label}>
+                              {discount.name}
+                            </span>
+                            <span className={styles.value}>
+                              {`(-)${charCurrency} ${parseFloat(
+                                discount.amount
+                              ).toFixed(2)}`}
+                            </span>
+                          </div>
+                        );
+                      }
+                    )}
+                    {/* shipping and handling */}
+                    <div className={cs(styles.price, styles.line)}>
+                      <span className={styles.label}>SHIPPING & HANDLING</span>
+                      <span className={styles.value}>
+                        {`(+) ${charCurrency} ${parseFloat(
+                          confirmData.shippingInclTax
+                        ).toFixed(2)}`}
+                      </span>
+                    </div>
+                    {/* voucher discounts */}
+                    {confirmData.voucherDiscounts?.map((vd: any, i: number) => {
+                      return (
+                        <div
+                          className={cs(
+                            styles.price,
+                            styles.line,
+                            styles.discount
+                          )}
+                        >
+                          <span className={styles.label}>{vd.name}</span>
+                          <span className={styles.value}>
+                            {`(-)${charCurrency} ${parseFloat(
+                              vd.amount
+                            ).toFixed(2)}`}
+                          </span>
+                        </div>
+                      );
+                    })}
+                    {/* giftcard and credit note */}
+                    {confirmData.giftVoucherRedeemed?.map(
+                      (gccn: number, i: number) => {
+                        return (
+                          <div
+                            className={cs(
+                              styles.price,
+                              styles.line,
+                              styles.discount
+                            )}
+                          >
+                            <span className={styles.label}>
+                              Gift Card/Credit Note
+                            </span>
+                            <span className={styles.value}>
+                              {`(-)${charCurrency} ${parseFloat(
+                                "" + gccn
+                              ).toFixed(2)}`}
+                            </span>
+                          </div>
+                        );
+                      }
+                    )}
+                    {/* Loyalty Points */}
+                    {confirmData.loyalityPointsRedeemed?.map(
+                      (point: number, i: number) => {
+                        return (
+                          <div
+                            className={cs(
+                              styles.price,
+                              styles.line,
+                              styles.discount
+                            )}
+                          >
+                            <span className={styles.label}>Loyalty Points</span>
+                            <span className={styles.value}>
+                              {`(-)${charCurrency} ${parseFloat(
+                                "" + point
+                              ).toFixed(2)}`}
+                            </span>
+                          </div>
+                        );
+                      }
+                    )}
+                    {/* amount paid */}
+                    <div className={cs(styles.price, styles.total)}>
+                      <span className={styles.label}>
+                        AMOUNT PAID
+                        {/* <span className={styles.light}>Incl. Tax</span> */}
+                      </span>
+                      <span className={styles.value}>
+                        {`${charCurrency} ${parseFloat(
+                          confirmData.totalInclTax
+                        ).toFixed(2)}`}
+                      </span>
+                    </div>
+                  </div>
+                  <div className={styles.continueShopping}>
+                    <div className={styles.charcoalBtn}>
+                      <Link to={"/"}> continue shopping </Link>
+                    </div>
+                  </div>
                 </div>
               </div>
-            </div>
-          </div>
-          <div className={bootstrapStyles.row}>
-            <div className={styles.charcoalBtn}>
-              <Link to={"/"}> continue shopping </Link>
             </div>
           </div>
         </div>
