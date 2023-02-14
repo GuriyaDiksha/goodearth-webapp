@@ -19,7 +19,8 @@ import { GA_CALLS, ANY_ADS } from "constants/cookieConsent";
 
 const orderConfirmation: React.FC<{ oid: string }> = props => {
   const {
-    user: { email }
+    user: { email },
+    device: { mobile }
   } = useSelector((state: AppState) => state);
   const [confirmData, setConfirmData] = useState<any>({});
   const [charCurrency, setCharCurrency] = useState<any>({});
@@ -291,14 +292,8 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
   }
   return (
     <div>
-      <div className={cs(bootstrapStyles.row, styles.subcHeader)}>
-        <div
-          className={cs(
-            bootstrapStyles.col12,
-            bootstrapStyles.colMd2,
-            styles.logoContainer
-          )}
-        >
+      <div className={cs(styles.subcHeader)}>
+        <div className={cs(styles.logoContainer)}>
           <Link to="/">
             <img
               src={logoImage}
@@ -313,12 +308,15 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
           <img src={lockImage} />
           <div className={styles.title}>{`CHECKOUT`}</div>
         </div>
-        <div className={styles.customerCare}>
-          <img src={callImage} />
-          <div
-            className={styles.phoneNumber}
-          >{`+91 9582 999 555 / +91 9582 999 888`}</div>
-        </div>
+
+        {!mobile && (
+          <div className={styles.customerCare}>
+            <img src={callImage} />
+            <div
+              className={styles.phoneNumber}
+            >{`+91 9582 999 555 / +91 9582 999 888`}</div>
+          </div>
+        )}
       </div>
 
       <div className={cs(bootstrapStyles.row, styles.bgProfile, styles.os)}>
@@ -677,6 +675,20 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
               </div>
             </div>
           </div>
+        </div>
+      </div>
+      <div className={cs(styles.subcFooter)}>
+        <div className={styles.checkoutTitle}>
+          {!mobile && <span className={styles.title}>CURRENCY: </span>}{" "}
+          <div
+            className={styles.title}
+          >{`${charCurrency} ${confirmData.currency}`}</div>
+        </div>
+        <div className={styles.customerCare}>
+          <img src={callImage} />
+          <div
+            className={styles.phoneNumber}
+          >{`+91 9582 999 555 / +91 9582 999 888`}</div>
         </div>
       </div>
     </div>
