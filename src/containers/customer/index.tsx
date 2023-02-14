@@ -115,6 +115,7 @@ const StaticPage: React.FC<Props> = props => {
           <div className={cs(styles.cSort, styles.subheaderAccount)}>
             <div className={cs(bootstrapStyles.col12, styles.productNumber)}>
               <div
+                id="sortHeaderCust"
                 className={cs(styles.cSortHeader, {
                   [styles.cSortHeaderTimer]: showTimer
                 })}

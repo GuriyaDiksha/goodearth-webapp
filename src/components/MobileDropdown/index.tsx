@@ -37,6 +37,7 @@ const MobileDropdownMenu = ({
         )}
       >
         <div
+          id="sortHeaderMobile"
           className={cs(styles.cSortHeader, {
             [styles.cSortHeaderTimer]: showTimer
           })}
