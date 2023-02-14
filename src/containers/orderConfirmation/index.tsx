@@ -313,8 +313,10 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
         <div
           className={cs(
             bootstrapStyles.col12,
-            bootstrapStyles.colMd6,
-            bootstrapStyles.offsetMd3,
+            bootstrapStyles.colLg6,
+            bootstrapStyles.offsetLg3,
+            bootstrapStyles.colMd8,
+            bootstrapStyles.offsetMd2,
             globalStyles.textCenter,
             styles.popupFormBg,
             styles.bgOrder
