@@ -61,7 +61,8 @@ const mapStateToProps = (state: AppState) => {
     showSizeChart: state.header.sizeChartData.show,
     mobileMenuOpenState: state.header.mobileMenuOpenState,
     filler: state.filler,
-    openModal: state.modal.openModal
+    openModal: state.modal.openModal,
+    scrollDown: state.info.scrollDown
   };
 };
 
@@ -272,31 +273,109 @@ class Header extends React.Component<Props, State> {
     const header = document.getElementById("myHeader");
     const sticky = (header as HTMLElement)?.offsetTop;
     const secondaryHeader = document.getElementById("secondaryHeader");
+    const sortHeader = document.getElementById("sortHeader");
+    const sortHeader2 = document.getElementById("sortHeaderCust");
+    const sortHeaderMobile = document.getElementById("sortHeaderMobile");
+    const gridList = document.getElementById("gridList");
+    const { scrollDown } = this.props;
+
     if (window?.pageYOffset > sticky) {
       (header as HTMLElement).style.position = "fixed";
       (header as HTMLElement).style.marginBottom = "0px";
+      const tim = timer !== undefined ? timer : this.props.showTimer;
+
+      if (gridList) {
+        if (scrollDown) {
+          (gridList as HTMLElement).style.top = "0px";
+          (gridList as HTMLElement).style.transition = "top 1.5s";
+        } else {
+          if (tim) {
+            (gridList as HTMLElement).style.top = "93px";
+          } else {
+            (gridList as HTMLElement).style.top = "53px";
+          }
+        }
+      }
 
       if (secondaryHeader) {
-        const tim = timer !== undefined ? timer : this.props.showTimer;
-
         if (tim) {
           (secondaryHeader as HTMLElement).style.top = "90px";
+          if (sortHeader) {
+            (sortHeader as HTMLElement).style.top = "90px";
+          }
+          if (sortHeader2) {
+            (sortHeader2 as HTMLElement).style.top = "90px";
+          }
+          if (sortHeaderMobile) {
+            (sortHeaderMobile as HTMLElement).style.top = "90px";
+          }
         } else {
           (secondaryHeader as HTMLElement).style.top = "50px";
+
+          if (sortHeader) {
+            (sortHeader as HTMLElement).style.top = "50px";
+          }
+          if (sortHeader2) {
+            (sortHeader2 as HTMLElement).style.top = "50px";
+          }
+          if (sortHeaderMobile) {
+            (sortHeaderMobile as HTMLElement).style.top = "50px";
+          }
         }
         // (secondaryHeader as HTMLElement).style.transition = "all 0.5s linear";
       }
     } else {
       (header as HTMLElement).style.position = "relative";
       (header as HTMLElement).style.marginBottom = "-40px";
+      const tim = timer !== undefined ? timer : this.props.showTimer;
+
+      if (gridList) {
+        if (scrollDown) {
+          (gridList as HTMLElement).style.top = "0px";
+          (gridList as HTMLElement).style.transition = "top 1.5s";
+        } else {
+          if (tim) {
+            (gridList as HTMLElement).style.top = `${133 -
+              window?.pageYOffset}px`;
+          } else {
+            (gridList as HTMLElement).style.top = `${93 -
+              window?.pageYOffset}px`;
+          }
+        }
+      }
+
       if (secondaryHeader) {
-        const tim = timer !== undefined ? timer : this.props.showTimer;
         if (tim) {
           (secondaryHeader as HTMLElement).style.top = `${130 -
             window?.pageYOffset}px`;
+
+          if (sortHeader) {
+            (sortHeader as HTMLElement).style.top = `${130 -
+              window?.pageYOffset}px`;
+          }
+          if (sortHeader2) {
+            (sortHeader2 as HTMLElement).style.top = `${130 -
+              window?.pageYOffset}px`;
+          }
+          if (sortHeaderMobile) {
+            (sortHeaderMobile as HTMLElement).style.top = `${130 -
+              window?.pageYOffset}px`;
+          }
         } else {
           (secondaryHeader as HTMLElement).style.top = `${90 -
             window?.pageYOffset}px`;
+          if (sortHeader) {
+            (sortHeader as HTMLElement).style.top = `${90 -
+              window?.pageYOffset}px`;
+          }
+          if (sortHeader2) {
+            (sortHeader2 as HTMLElement).style.top = `${90 -
+              window?.pageYOffset}px`;
+          }
+          if (sortHeaderMobile) {
+            (sortHeaderMobile as HTMLElement).style.top = `${90 -
+              window?.pageYOffset}px`;
+          }
         }
 
         // (secondaryHeader as HTMLElement).style.transition = "all 0.5s linear";
