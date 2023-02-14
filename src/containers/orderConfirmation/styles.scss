@@ -3,11 +3,43 @@
 
 .subc-header {
     margin-top:0;
+    background-color: #F9F5F8;
+    display: flex;
+    justify-content: space-between;
 }
 .logo-container {
     line-height: 49px;
     text-align: center;
 }
+.customer-care{
+    display: flex;
+    padding-right: 30px;
+    img {
+        width: 15px;
+    }
+    .phone-number {
+        @include b4_12px_montserrat_charcoal();
+        letter-spacing: 0.4px;
+        display: flex;
+        align-items: center;
+        margin-left: 10px;
+    }
+}
+
+.checkout-title{
+    display: flex;
+    img {
+        width: 15px;
+    }
+    .title {
+        @include b4_12px_montserrat_charcoal();
+        letter-spacing: 0.4px;
+        display: flex;
+        align-items: center;
+        margin-left: 10px;
+    }
+}
+
 .bg-profile {
     background: url(../../images/myAccountBg2.png) repeat;
     height: auto;

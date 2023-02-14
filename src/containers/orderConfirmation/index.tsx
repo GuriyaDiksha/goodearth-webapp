@@ -7,7 +7,9 @@ import { AppState } from "reducers/typings";
 import styles from "./styles.scss";
 import { Link } from "react-router-dom";
 import logoImage from "images/gelogoCerise.svg";
-import birdImage from "images/birdMotif.png";
+import flowerImage from "images/flower-motif.png";
+import lockImage from "images/lock.svg";
+import callImage from "images/call.svg";
 import AccountServices from "services/account";
 import { currencyCode, Currency } from "typings/currency";
 import moment from "moment";
@@ -307,6 +309,16 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
             />
           </Link>
         </div>
+        <div className={styles.checkoutTitle}>
+          <img src={lockImage} />
+          <div className={styles.title}>{`CHECKOUT`}</div>
+        </div>
+        <div className={styles.customerCare}>
+          <img src={callImage} />
+          <div
+            className={styles.phoneNumber}
+          >{`+91 9582 999 555 / +91 9582 999 888`}</div>
+        </div>
       </div>
 
       <div className={cs(bootstrapStyles.row, styles.bgProfile, styles.os)}>
@@ -323,7 +335,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
           )}
         >
           <div className={styles.motif}>
-            <img src={birdImage} width="120px" />
+            <img src={flowerImage} width="120px" />
           </div>
 
           <div className={bootstrapStyles.row}>
