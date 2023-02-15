@@ -150,6 +150,7 @@ const StaticPage: React.FC<Props> = props => {
                   className={cs(styles.mobileFilterHeader, {
                     [styles.mobileFilterHeaderTimer]: showTimer
                   })}
+                  id="filterHeader"
                 >
                   <div className={styles.filterCross}>
                     <span>
@@ -182,6 +183,7 @@ const StaticPage: React.FC<Props> = props => {
                       styles.mobileFilterMenu,
                       { [styles.mobileFilterMenuTimer]: showTimer }
                     )}
+                    id="mobileFilterMenu"
                   >
                     <ul className={styles.sort}>
                       {accountMenuItems.map(item => {

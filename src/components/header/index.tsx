@@ -278,6 +278,15 @@ class Header extends React.Component<Props, State> {
     const sortHeader2 = document.getElementById("sortHeaderCust");
     const sortHeaderMobile = document.getElementById("sortHeaderMobile");
     const gridList = document.getElementById("gridList");
+    const mobileFilter = document.getElementById("mobileFilter");
+    const filterHeader = document.getElementById("filterHeader");
+    const mobileFilterMenu = document.getElementById("mobileFilterMenu");
+    const dropdownFilterHeader = document.getElementById(
+      "dropdownFilterHeader"
+    );
+    const dropdownFilterHeaderMenu = document.getElementById(
+      "dropdownFilterHeaderMenu"
+    );
     const { scrollDown } = this.props;
 
     const filterMenu = document.getElementById("filter_by");
@@ -344,6 +353,46 @@ class Header extends React.Component<Props, State> {
           (filterMenuHeader as HTMLElement).style.top = "90px";
         } else {
           (filterMenuHeader as HTMLElement).style.top = "50px";
+        }
+      }
+
+      if (mobileFilter) {
+        if (tim) {
+          (mobileFilter as HTMLElement).style.top = "90px";
+        } else {
+          (mobileFilter as HTMLElement).style.top = "50px";
+        }
+      }
+
+      if (filterHeader) {
+        if (tim) {
+          (filterHeader as HTMLElement).style.top = "90px";
+        } else {
+          (filterHeader as HTMLElement).style.top = "50px";
+        }
+      }
+
+      if (mobileFilterMenu) {
+        if (tim) {
+          (mobileFilterMenu as HTMLElement).style.top = "130px";
+        } else {
+          (mobileFilterMenu as HTMLElement).style.top = "90px";
+        }
+      }
+
+      if (dropdownFilterHeader) {
+        if (tim) {
+          (dropdownFilterHeader as HTMLElement).style.top = "90px";
+        } else {
+          (dropdownFilterHeader as HTMLElement).style.top = "50px";
+        }
+      }
+
+      if (dropdownFilterHeaderMenu) {
+        if (tim) {
+          (dropdownFilterHeaderMenu as HTMLElement).style.top = "130px";
+        } else {
+          (dropdownFilterHeaderMenu as HTMLElement).style.top = "90px";
         }
       }
     } else {
@@ -418,6 +467,56 @@ class Header extends React.Component<Props, State> {
           (filterMenuHeader as HTMLElement).style.top = "130px";
         } else {
           (filterMenuHeader as HTMLElement).style.top = "90px";
+        }
+      }
+
+      if (mobileFilter) {
+        if (tim) {
+          (mobileFilter as HTMLElement).style.top = `${130 -
+            window?.pageYOffset}px`;
+        } else {
+          (mobileFilter as HTMLElement).style.top = `${90 -
+            window?.pageYOffset}px`;
+        }
+      }
+
+      if (filterHeader) {
+        if (tim) {
+          (filterHeader as HTMLElement).style.top = `${130 -
+            window?.pageYOffset}px`;
+        } else {
+          (filterHeader as HTMLElement).style.top = `${90 -
+            window?.pageYOffset}px`;
+        }
+      }
+
+      if (mobileFilterMenu) {
+        if (tim) {
+          (mobileFilterMenu as HTMLElement).style.top = `${170 -
+            window?.pageYOffset}px`;
+        } else {
+          (mobileFilterMenu as HTMLElement).style.top = `${130 -
+            window?.pageYOffset}px`;
+        }
+      }
+
+      if (dropdownFilterHeader) {
+        if (tim) {
+          (dropdownFilterHeader as HTMLElement).style.top = `${130 -
+            window?.pageYOffset}px`;
+        } else {
+          (dropdownFilterHeader as HTMLElement).style.top = `${90 -
+            window?.pageYOffset}px`;
+        }
+      }
+
+      if (dropdownFilterHeaderMenu) {
+        if (tim) {
+          (dropdownFilterHeaderMenu as HTMLElement).style.top = `${170 -
+            window?.pageYOffset}px`;
+        } else {
+          (dropdownFilterHeaderMenu as HTMLElement).style.top = `${130 -
+            window?.pageYOffset}px`;
         }
       }
     }

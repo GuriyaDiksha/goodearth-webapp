@@ -354,6 +354,7 @@ const MyAccount: React.FC<Props> = props => {
                   className={cs(globalStyles.row, globalStyles.minimumWidth)}
                 >
                   <div
+                    id="mobileFilter"
                     className={cs(
                       bootstrapStyles.col12,
                       styles.mobileFilterMenu,
