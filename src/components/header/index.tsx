@@ -298,7 +298,7 @@ class Header extends React.Component<Props, State> {
       const tim = timer !== undefined ? timer : this.props.showTimer;
 
       if (gridList) {
-        if (scrollDown) {
+        if (scrollDown && window?.pageYOffset != 0) {
           (gridList as HTMLElement).style.top = "0px";
           (gridList as HTMLElement).style.transition = "top 1.5s";
         } else {
@@ -401,7 +401,7 @@ class Header extends React.Component<Props, State> {
       const tim = timer !== undefined ? timer : this.props.showTimer;
 
       if (gridList) {
-        if (scrollDown) {
+        if (scrollDown && window?.pageYOffset != 0) {
           (gridList as HTMLElement).style.top = "0px";
           (gridList as HTMLElement).style.transition = "top 1.5s";
         } else {
