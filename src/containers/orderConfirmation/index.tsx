@@ -454,14 +454,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                     )}
                   </div>
                   {confirmData?.deliveryInstructions ? (
-                    <div
-                      className={cs(
-                        bootstrapStyles.row,
-                        globalStyles.voffset2,
-                        styles.borderAdd,
-                        styles.deliveryPadding
-                      )}
-                    >
+                    <div className={cs(styles.deliveryInstructions)}>
                       <div className={styles.add}>
                         <p className={styles.delivery}>DELIVERY INSTRUCTIONS</p>
                         <p className={styles.light}>
