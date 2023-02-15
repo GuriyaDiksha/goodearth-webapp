@@ -40,7 +40,8 @@
 }
 .header-container {
     position: relative;
-    top: $header-top;
+    margin-top: -40px;
+    top: 40px;
     z-index: 12;
     width: 100%;
     background-color: rgb(249, 248, 245);
