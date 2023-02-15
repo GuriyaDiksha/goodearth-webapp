@@ -357,7 +357,7 @@ const AddressItem: React.FC<Props> = props => {
             <div>
               {!(id === defaultAddress) && (
                 <div className={cs(styles.line, styles.makeDefaultCheckoutFix)}>
-                  Make default
+                  {!address.isTulsi && "Make default"}
                   {!address.isTulsi &&
                     props.currentCallBackComponent != "cerise" && (
                       <div
