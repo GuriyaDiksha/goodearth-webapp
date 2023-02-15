@@ -6,7 +6,7 @@ $banner-desktop-height:440px;
 $banner-mobile-height:500px;
 
 .page-container{
-    margin-top: $header-height;
+    margin-top: $header-height - 10px;
     &.sale-timer-margin{
         margin-top: $header-height+$sale-timer-height - 10px;
     }

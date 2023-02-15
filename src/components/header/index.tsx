@@ -295,7 +295,7 @@ class Header extends React.Component<Props, State> {
       }
     } else {
       (header as HTMLElement).style.position = "relative";
-      (header as HTMLElement).style.marginBottom = "-40px";
+      (header as HTMLElement).style.marginBottom = "0px";
       if (secondaryHeader) {
         const tim = timer !== undefined ? timer : this.props.showTimer;
         if (tim) {
