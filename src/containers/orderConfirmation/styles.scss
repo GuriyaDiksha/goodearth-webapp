@@ -3,13 +3,55 @@
 
 .subc-header {
     margin-top:0;
+    background-color: #F9F5F8;
+    display: flex;
+    justify-content: space-between;
+    padding: 0px 30px;
 }
+
+.subc-footer {
+    margin-top:0;
+    background-color: #F9F5F8;
+    display: flex;
+    justify-content: space-between;
+    padding: 0px 30px;
+    line-height: 49px;
+}
+
 .logo-container {
     line-height: 49px;
     text-align: center;
 }
+.customer-care{
+    display: flex;
+    img {
+        width: 15px;
+    }
+    .phone-number {
+        @include b4_12px_montserrat_charcoal();
+        letter-spacing: 0.4px;
+        display: flex;
+        align-items: center;
+        margin-left: 10px;
+    }
+}
+
+.checkout-title{
+    display: flex;
+    img {
+        width: 15px;
+    }
+    .title {
+        @include b4_12px_montserrat_charcoal();
+        letter-spacing: 0.4px;
+        display: flex;
+        align-items: center;
+        margin-left: 10px;
+    }
+}
+
 .bg-profile {
-    background: url(../../images/myaccountBg.jpg) repeat;
+    background: url(../../images/myAccountBg2.png) repeat;
     height: auto;
 }
 .popup-form-bg {
@@ -29,16 +71,14 @@
     
 } 
 .heading {
-    font-size: 25px;
-    font-family: $font-Serif;
-    line-height: 50px;
+    @include h3_20px_lora_charcoal();
     margin-top: 30px;
 }
 .sub-Heading {
-    font-size: 12px;
-    font-family: $font-Lato;
-    color: #666;
-    letter-spacing: 1px;
+    @include b3_14px_montserrat_charcoal();
+    @media screen and (max-width: 991px) {
+        padding: 0px 40px;
+    }
 }
 .add {
     address {
@@ -180,9 +220,8 @@
 
 }
 
-@media screen and (min-width: 992px) {
+
 .os {
-   
     padding: 30px 0 40px 0;
      .bg-order {
         .motif {
@@ -192,7 +231,6 @@
         top: -50px;
         }
 }
-} 
 .popup-form-bg {
     margin-top: 50px;
     margin-bottom: 50px;
@@ -235,4 +273,221 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+}
+
+.charcoal-btn{
+    background-color: #4C4C4C;
+    @include b3_14px_montserrat_white();
+    text-transform: uppercase;
+    letter-spacing: 0.42px;
+    line-height: 52px;
+    width: 100%;
+    text-align: center;
+    border: 1px solid #4C4C4C;
+    border-radius: 0;
+    cursor: pointer;
+}
+
+.my-order-block {
+    border: 1px solid #E5E5E5;
+    position: relative;
+    label {
+      background-color: #ffffff;
+      position: absolute;
+      top: 0;
+      left: 12px;
+      transform: translateY(-50%);
+      @include b4_12px_montserrat_charcoal_caps();
+      margin-bottom: unset;
+      padding: 0px 10px;
+    }
+    .order-data{
+      display: flex;
+      justify-content: space-between;
+      padding: 30px 30px 0px 30px;
+      &.single-order{
+        padding: 30px;
+      }
+      .info{
+        width: 45%;
+        .row{
+          text-align: left;
+          margin-bottom: 6px;
+          .label{
+            @include b4_12px_montserrat_charcoal();
+          }
+          .data{
+            @include b4_12px_montserrat_charcoal();
+            font-weight: $semibold;
+            text-transform: uppercase;
+            &.date{
+              text-transform: capitalize;
+            }
+          }
+        }
+      }
+      .amount-paid{
+        width: 40%;
+        display: flex;
+        flex-direction: column;
+        text-align: left;
+        .label{
+          @include b4_12px_montserrat_charcoal();
+          margin-bottom: 6px;
+        }
+        .data{
+          @include b4_12px_montserrat_charcoal();
+          font-weight: $semibold;
+          text-transform: uppercase;
+        }
+      }
+    }
+    .address-block {
+      display: flex;
+      justify-content: space-between;
+      border: 1px solid #E5E5E5;
+      border-left: none;
+      border-right: none;
+      margin: 0 30px;
+      padding: 30px 0;
+      @media screen and (max-width:991px){
+        flex-direction: column;
+      }
+      .address{
+        width: 40%;
+        @media screen and (max-width:991px){
+            margin-bottom: 30px;
+        }
+        .title{
+          font-family: $font-Montserrat;
+          font-size: 12px;
+          font-weight: $medium;
+          color: #9f9f9f;
+          letter-spacing: 0.5px;
+          text-transform: uppercase;
+          line-height: 20px;
+          margin-bottom: 15px;
+          text-align: left;
+        }
+        .row {
+          @include b4_12px_montserrat_charcoal();
+          font-weight: $light;
+          letter-spacing: 0.3px;
+          line-height: 18px;
+          text-align: left;
+          &.name {
+            @include b4_12px_montserrat_charcoal();
+            font-weight: $medium;
+            line-height: 20px;
+            padding-bottom: 10px
+          }
+          &.phone-number {
+            @include b4_12px_montserrat_charcoal();
+            line-height: 20px;
+            letter-spacing: 0.5px;
+            margin-top: 10px;
+          }
+        }
+      }
+    }
+    .product{
+      padding: 30px;
+      display: flex;
+      .image-container{
+        margin-right: 20px;
+        width: 90px;
+        img {
+          width: 100%;
+        }
+      }
+      .product-info{
+        text-align: left;
+        p{
+          margin-bottom: 10px;
+        }
+        .collection{
+          font-family: $font-Serif;
+          font-size: 12px;
+          letter-spacing: 2px;
+          text-transform: uppercase;
+          color: #999;
+          line-height: 16px;
+        }
+        .title{
+          font-family: $font-Lora;
+          font-size: 14px;
+          color: #191919;
+          letter-spacing: 0.28px;
+          line-height: 20px;
+        }
+        .price {
+          .amount-paid{
+            @include b3_14px_montserrat_charcoal();
+            &.gold{
+              color: $gold;
+            }
+            text-transform: uppercase;
+          }
+          .original-price{
+            @include b4_12px_montserrat_charcoal();
+            color: #9f9f9f;
+            text-decoration: line-through;
+            margin-left: 8px;
+          }
+        }
+        .size, .quantity{
+          @include b5_10px_montserrat_charcoal();
+          letter-spacing: 0.5px;
+          line-height: 20px;
+          &.with-data{
+            span{
+                font-weight: $medium;
+            }
+          }
+        }
+      }
+    }
+    .prices{
+      background-color: #f4f4f4;
+      padding: 30px;
+      .price{
+        display: flex;
+        justify-content: space-between;
+        line-height: 40px;
+        @include b4_12px_montserrat_charcoal_caps();
+        font-weight: $medium;
+        letter-spacing: 0.5px;
+        &.title{
+            font-weight: $regular;
+        }
+        &.discount{
+          color: $gold;
+        }
+        &.total{
+          font-weight: $semibold;
+          line-height: 50px;
+        }
+        &.line{
+            &:nth-child(2){
+                border-top: 1px solid #e5e5e5;
+                padding-top: 10px;
+            }
+            &:nth-last-child(2){
+                border-bottom: 1px solid #e5e5e5;
+                padding-bottom: 10px;
+            }
+        }
+        .label{
+          .light{
+            font-size: 9px;
+            font-weight: $regular;
+            text-transform: capitalize;
+            font-style: italic;
+          }
+        }
+      }
+    }
+    .continue-shopping{
+        padding: 20px 60px;
+    }
 }
