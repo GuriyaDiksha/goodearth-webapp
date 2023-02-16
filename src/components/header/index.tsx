@@ -287,6 +287,11 @@ class Header extends React.Component<Props, State> {
     const dropdownFilterHeaderMenu = document.getElementById(
       "dropdownFilterHeaderMenu"
     );
+    const shopLocatorDropdown = document.getElementById("shopLocatorDropdown");
+    const shopLocatorDropdownMenu = document.getElementById(
+      "shopLocatorDropdownMenu"
+    );
+    const ceriseHeader = document.getElementById("ceriseHeader");
     const { scrollDown } = this.props;
 
     const filterMenu = document.getElementById("filter_by");
@@ -392,6 +397,29 @@ class Header extends React.Component<Props, State> {
           (dropdownFilterHeaderMenu as HTMLElement).style.top = "130px";
         } else {
           (dropdownFilterHeaderMenu as HTMLElement).style.top = "90px";
+        }
+      }
+
+      if (shopLocatorDropdown) {
+        if (tim) {
+          (shopLocatorDropdown as HTMLElement).style.top = "90px";
+        } else {
+          (shopLocatorDropdown as HTMLElement).style.top = "50px";
+        }
+      }
+
+      if (shopLocatorDropdownMenu) {
+        if (tim) {
+          (shopLocatorDropdownMenu as HTMLElement).style.top = "92px";
+        } else {
+          (shopLocatorDropdownMenu as HTMLElement).style.top = "52px";
+        }
+      }
+      if (ceriseHeader) {
+        if (tim) {
+          (ceriseHeader as HTMLElement).style.top = "90px";
+        } else {
+          (ceriseHeader as HTMLElement).style.top = "50px";
         }
       }
     } else {
@@ -514,6 +542,36 @@ class Header extends React.Component<Props, State> {
             window?.pageYOffset}px`;
         } else {
           (dropdownFilterHeaderMenu as HTMLElement).style.top = `${130 -
+            window?.pageYOffset}px`;
+        }
+      }
+
+      if (shopLocatorDropdown) {
+        if (tim) {
+          (shopLocatorDropdown as HTMLElement).style.top = `${130 -
+            window?.pageYOffset}px`;
+        } else {
+          (shopLocatorDropdown as HTMLElement).style.top = `${90 -
+            window?.pageYOffset}px`;
+        }
+      }
+
+      if (shopLocatorDropdownMenu) {
+        if (tim) {
+          (shopLocatorDropdownMenu as HTMLElement).style.top = `${132 -
+            window?.pageYOffset}px`;
+        } else {
+          (shopLocatorDropdownMenu as HTMLElement).style.top = `${92 -
+            window?.pageYOffset}px`;
+        }
+      }
+
+      if (ceriseHeader) {
+        if (tim) {
+          (ceriseHeader as HTMLElement).style.top = `${130 -
+            window?.pageYOffset}px`;
+        } else {
+          (ceriseHeader as HTMLElement).style.top = `${90 -
             window?.pageYOffset}px`;
         }
       }

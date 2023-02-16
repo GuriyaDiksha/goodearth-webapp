@@ -980,6 +980,7 @@ p.corporate-sub-heading {
   // transition: top 0.5s;
   &.hide {
     top: 0px;
+    z-index: -1;
     // transition: top 1.5s;
   }
   &.top-height{
