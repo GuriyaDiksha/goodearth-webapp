@@ -137,6 +137,11 @@ const MyProfile: React.FC<ProfileProps> = ({ setCurrentSection }) => {
     setCurrentSection();
     AccountService.fetchProfileData(dispatch)
       .then(data => {
+        LoginService.fetchCountryData(dispatch).then(res => {
+          dispatch(updateCountryData(res));
+          changeCountryData(res);
+          pageViewGTM("MyAccount");
+        });
         setApiResponse(data);
       })
       .catch(err => {
@@ -145,11 +150,6 @@ const MyProfile: React.FC<ProfileProps> = ({ setCurrentSection }) => {
           showerror: "Something went wrong, please try again"
         });
       });
-    LoginService.fetchCountryData(dispatch).then(res => {
-      dispatch(updateCountryData(res));
-      changeCountryData(res);
-      pageViewGTM("MyAccount");
-    });
   }, []);
 
   useEffect(() => {
