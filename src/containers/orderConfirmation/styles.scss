@@ -286,6 +286,12 @@
     border: 1px solid #4C4C4C;
     border-radius: 0;
     cursor: pointer;
+    &:hover{
+      color: #191919;
+      background-color: #fff;
+      border: 1px solid #4C4C4C;
+    }
+
 }
 
 .my-order-block {
