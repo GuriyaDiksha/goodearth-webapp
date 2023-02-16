@@ -37,6 +37,7 @@ const MobileDropdownMenu = ({
         )}
       >
         <div
+          id="sortHeaderMobile"
           className={cs(styles.cSortHeader, {
             [styles.cSortHeaderTimer]: showTimer
           })}
@@ -62,12 +63,13 @@ const MobileDropdownMenu = ({
         )}
       >
         <div>
-          <div className={styles.mobileFilterHeader}>
+          <div id="dropdownFilterHeader" className={styles.mobileFilterHeader}>
             <span>Sort</span>
             <span onClick={onInsideClick}>X</span>
           </div>
           <div className={cs(bootstrap.row, styles.minimumWidth)}>
             <div
+              id="dropdownFilterHeaderMenu"
               className={cs(bootstrap.col12, styles.mobileFilterMenu, {
                 [styles.mobileFilterMenuTimer]: showTimer
               })}
