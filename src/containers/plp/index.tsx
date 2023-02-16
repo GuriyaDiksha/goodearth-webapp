@@ -825,7 +825,9 @@ class PLP extends React.Component<
               </div>
             ) : (
               <div
-                className={cs(styles.productNumber, styles.imageContainer, {})}
+                className={cs(styles.productNumber, styles.imageContainer, {
+                  [styles.prouctMobilePadding]: mobile
+                })}
               >
                 <span>
                   {count > 0

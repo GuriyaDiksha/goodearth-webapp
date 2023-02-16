@@ -300,7 +300,6 @@ class Header extends React.Component<Props, State> {
       if (gridList) {
         if (scrollDown && window?.pageYOffset != 0) {
           (gridList as HTMLElement).style.top = "0px";
-          (gridList as HTMLElement).style.transition = "top 1.5s";
         } else {
           if (tim) {
             (gridList as HTMLElement).style.top = "93px";
@@ -403,7 +402,6 @@ class Header extends React.Component<Props, State> {
       if (gridList) {
         if (scrollDown && window?.pageYOffset != 0) {
           (gridList as HTMLElement).style.top = "0px";
-          (gridList as HTMLElement).style.transition = "top 1.5s";
         } else {
           if (tim) {
             (gridList as HTMLElement).style.top = `${133 -
