@@ -448,6 +448,9 @@
           &.with-data{
             span{
                 font-weight: $medium;
+                &.edd{
+                  font-size: 11px;
+                }
             }
           }
         }
