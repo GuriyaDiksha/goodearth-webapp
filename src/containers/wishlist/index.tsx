@@ -4,7 +4,7 @@ import cs from "classnames";
 import iconStyles from "../../styles/iconFonts.scss";
 import createAbsoluteGrid from "react-absolute-grid";
 import SampleDisplay from "./display";
-import ReactDOM from "react-dom/client";
+import ReactDOM from "react-dom";
 import { currencyCodes } from "constants/currency";
 import { AppState } from "reducers/typings";
 import { Dispatch } from "redux";
@@ -33,7 +33,6 @@ import CookieService from "../../services/cookie";
 import { GA_CALLS } from "constants/cookieConsent";
 
 let AbsoluteGrid: any;
-let root: any = null;
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -214,9 +213,9 @@ class Wishlist extends React.Component<Props, State> {
   };
 
   onChangeFilter = (data?: string, label?: string) => {
-    // ReactDOM.unmountComponentAtNode(
-    //   document.getElementById("wishlist") as HTMLDivElement
-    // );
+    ReactDOM.unmountComponentAtNode(
+      document.getElementById("wishlist") as HTMLDivElement
+    );
     switch (data) {
       case "sequence":
         this.setState(
@@ -557,48 +556,42 @@ class Wishlist extends React.Component<Props, State> {
     }
   };
   myrender = (data: WishListGridItem[]) => {
-    const container = document.getElementById("wishlist");
-    if (!root && container) {
-      root = ReactDOM.createRoot(container as HTMLDivElement);
-    }
-
-    if (root) {
-      if (data.length > 0) {
-        if (this.props.mobile) {
-          root.render(
-            <AbsoluteGrid
-              items={data}
-              currency={this.props.currency}
-              dragEnabled={this.state.dragDrop}
-              onDragEnd={() => this.onDropWishlist()}
-              onDragMove={() => this.onDragWishlist()}
-              itemWidth={150}
-              itemHeight={340}
-              responsive={true}
-              onMove={debounce(this.onMoveDebounced, 40)}
-            />
-          );
-          window?.requestIdleCallback(this.updateStyle);
-        } else {
-          root.render(
-            <AbsoluteGrid
-              currency={this.props.currency}
-              items={data}
-              dragEnabled={this.state.dragDrop}
-              onDragEnd={() => this.onDropWishlist()}
-              onDragMove={() => this.onDragWishlist()}
-              itemWidth={280}
-              itemHeight={520}
-              responsive={true}
-              onMove={debounce(this.onMoveDebounced, 40)}
-              // callback={this.updateStyle}
-            />
-          );
-          window?.requestIdleCallback(this.updateStyle);
-        }
+    if (data.length > 0) {
+      if (this.props.mobile) {
+        ReactDOM.render(
+          <AbsoluteGrid
+            items={data}
+            currency={this.props.currency}
+            dragEnabled={this.state.dragDrop}
+            onDragEnd={() => this.onDropWishlist()}
+            onDragMove={() => this.onDragWishlist()}
+            itemWidth={150}
+            itemHeight={340}
+            responsive={true}
+            onMove={debounce(this.onMoveDebounced, 40)}
+          />,
+          document.getElementById("wishlist"),
+          this.updateStyle
+        );
       } else {
-        root.render(<></>);
+        ReactDOM.render(
+          <AbsoluteGrid
+            currency={this.props.currency}
+            items={data}
+            dragEnabled={this.state.dragDrop}
+            onDragEnd={() => this.onDropWishlist()}
+            onDragMove={() => this.onDragWishlist()}
+            itemWidth={280}
+            itemHeight={520}
+            responsive={true}
+            onMove={debounce(this.onMoveDebounced, 40)}
+          />,
+          document.getElementById("wishlist"),
+          this.updateStyle
+        );
       }
+    } else {
+      ReactDOM.render(<></>, document.getElementById("wishlist"));
     }
   };
 
@@ -631,9 +624,9 @@ class Wishlist extends React.Component<Props, State> {
   };
 
   setWishlistFilter = (data: { value: string; label: string }) => {
-    // ReactDOM.unmountComponentAtNode(
-    //   document.getElementById("wishlist") as HTMLDivElement
-    // );
+    ReactDOM.unmountComponentAtNode(
+      document.getElementById("wishlist") as HTMLDivElement
+    );
     switch (data.value) {
       case "sequence":
         this.setState(
