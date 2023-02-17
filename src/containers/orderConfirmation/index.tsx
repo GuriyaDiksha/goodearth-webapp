@@ -527,12 +527,14 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                             {`Item Code: ${item.product.sku}`}
                           </div>
                           {/* Estimated Delivery Time */}
-                          {item.product.productDeliveryDate && (
+                          {item.productDeliveryDate && (
                             <div
                               className={cs(styles.quantity, styles.withData)}
                             >
                               Estimated Delivery Date:{" "}
-                              <span>{item.productDeliveryDate}</span>
+                              <span className={styles.edd}>
+                                {item.productDeliveryDate}
+                              </span>
                             </div>
                           )}
                         </div>
