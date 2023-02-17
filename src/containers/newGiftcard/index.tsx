@@ -880,7 +880,7 @@ class NewGiftcard extends React.Component<Props, State> {
                   customercare@goodearth.in
                 </div>
                 <div className={styles.queriesInfo}>
-                  +91 95829 995555 / +91 95829 99888
+                  +91 95829 99555 / +91 95829 99888
                 </div>
                 <div className={styles.queriesInfo}>Mon- Sat | 9am-5pm IST</div>
               </div>
