@@ -45,6 +45,8 @@ type State = {
 };
 
 class ShopLocator extends Component<Props, State> {
+  play: any;
+  pause: any;
   constructor(props: any) {
     super(props);
     this.state = {
@@ -182,7 +184,10 @@ class ShopLocator extends Component<Props, State> {
                         </a>
                       </div>
                     </div>
-                    <div className={cs(styles.slider, "shopLocatorSlider")}>
+                    <div
+                      className={cs(styles.slider, "shopLocatorSlider")}
+                      id={`cafe_${i}`}
+                    >
                       <Slider {...settings}>
                         {data.bannerCafe.map((item: any) => {
                           return (
@@ -217,7 +222,7 @@ class ShopLocator extends Component<Props, State> {
                 {/* Shop Block */}
                 <div
                   className={cs(styles.shopBlock, {
-                    [styles.border]: data.cafeDirection
+                    [styles.border]: data.cafeHeading2
                   })}
                 >
                   <div className={styles.info}>
@@ -273,7 +278,10 @@ class ShopLocator extends Component<Props, State> {
                       </a>
                     </div>
                   </div>
-                  <div className={cs(styles.slider, "shopLocatorSlider")}>
+                  <div
+                    className={cs(styles.slider, "shopLocatorSlider")}
+                    id={`shop${i}`}
+                  >
                     <Slider {...settings}>
                       {data.bannerShop.map((item: any) => {
                         return (
