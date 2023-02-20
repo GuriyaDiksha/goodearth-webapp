@@ -88,6 +88,7 @@ class ShopLocator extends Component<Props, State> {
 
   render() {
     const { shopData, currentCity } = this.state;
+    const { saleTimer } = this.props;
 
     return (
       <div
@@ -106,7 +107,9 @@ class ShopLocator extends Component<Props, State> {
             et ea rebum. Stet clita kasd gubergren,.
           </div>
         </div>
-        <div className={styles.headerBox}>
+        <div
+          className={cs(styles.headerBox, { [styles.withTimer]: saleTimer })}
+        >
           <div className={styles.header}>
             {Object.keys(shopData).map((data: any, i: number) => {
               return (

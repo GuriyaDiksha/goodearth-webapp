@@ -39,6 +39,13 @@ $banner-mobile-height:500px;
     }
     .header-box{
         box-shadow: 0px 4px 6px #00000021;
+        background: #fff;
+        position: sticky;
+        top: 50px;
+        z-index: 1;
+        &.with-timer{
+            top: 50px + $sale-timer-height
+        }
         .header {
             height: 70px;
             width: 100%;
@@ -118,6 +125,7 @@ $banner-mobile-height:500px;
                     .open-days{
                         @include b5_10px_semibold_montserrat_charcoal();
                         letter-spacing: 0.3px;
+                        margin-bottom: 5px;
                     }
                     .time{
                         @include b5_10px_montserrat_charcoal();
