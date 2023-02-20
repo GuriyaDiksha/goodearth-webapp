@@ -469,7 +469,6 @@
       .price{
         display: flex;
         justify-content: space-between;
-        line-height: 40px;
         @include b4_12px_montserrat_charcoal_caps();
         font-weight: $medium;
         letter-spacing: 0.5px;
@@ -494,12 +493,16 @@
             }
         }
         .label{
-          .light{
-            font-size: 9px;
-            font-weight: $regular;
-            text-transform: capitalize;
-            font-style: italic;
-          }
+          text-align: left;
+          height: 40px;
+          display: flex;
+          align-items: center;
+        }
+        .value{
+          text-align: right;
+          height: 40px;
+          display: flex;
+          align-items: center;
         }
       }
     }
