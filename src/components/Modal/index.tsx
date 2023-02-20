@@ -66,9 +66,9 @@ class Modal extends React.Component<ModalProps> {
     if (elem && !elem.style.opacity) {
       elem.style.opacity = "1";
     }
-
+    console.log(elem);
     if (elem && this.props.classname == "slide-up-bottom-align") {
-      elem.style.maxHeight = 500 + "px";
+      elem.style.maxHeight = "600" + "px";
     }
   }
   render() {

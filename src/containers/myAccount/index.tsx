@@ -293,6 +293,7 @@ const MyAccount: React.FC<Props> = props => {
           <div className={cs(styles.cSort, styles.subheaderAccount)}>
             <div className={cs(bootstrapStyles.col12, styles.productNumber)}>
               <div
+                id="sortHeader"
                 className={cs(styles.cSortHeader, {
                   [styles.cSortHeaderTimer]: showTimer
                 })}
@@ -353,6 +354,7 @@ const MyAccount: React.FC<Props> = props => {
                   className={cs(globalStyles.row, globalStyles.minimumWidth)}
                 >
                   <div
+                    id="mobileFilter"
                     className={cs(
                       bootstrapStyles.col12,
                       styles.mobileFilterMenu,
