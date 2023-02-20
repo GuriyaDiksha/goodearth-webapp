@@ -205,6 +205,9 @@
       padding-left: 6px;
     }
 }
+.prouct-mobile-padding{
+  padding: 25px 0px 8px 0px;
+}
 
 .border {
     --myborder:2px solid #efeaea;
@@ -974,10 +977,11 @@ p.corporate-sub-heading {
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: top 0.5s;
+  // transition: top 0.5s;
   &.hide {
     top: 0px;
-    transition: top 1.5s;
+    z-index: -1;
+    // transition: top 1.5s;
   }
   &.top-height{
     top: 54px;

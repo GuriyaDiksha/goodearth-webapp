@@ -8,7 +8,7 @@
       .c-sort-header {
         position: fixed;
         background-color: #fff;
-        top: $header-height;
+        top: $main-header;
         line-height: 50px;
         width: 100%;
         left: 0;
@@ -17,7 +17,7 @@
         border-bottom: 1px solid tint(#000, 80%);
       }
       .c-sort-header-timer {
-        top: $header-height + $timer-height;
+        top: $main-header + $timer-height;
       }
       .mobile-filter-header {
         left: 0;
