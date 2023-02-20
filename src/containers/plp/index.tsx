@@ -832,7 +832,9 @@ class PLP extends React.Component<
               </div>
             ) : (
               <div
-                className={cs(styles.productNumber, styles.imageContainer, {})}
+                className={cs(styles.productNumber, styles.imageContainer, {
+                  [styles.prouctMobilePadding]: mobile
+                })}
               >
                 <span>
                   {count > 0
@@ -1058,11 +1060,10 @@ class PLP extends React.Component<
           </div>
           {mobile && !tablet && (
             <div
+              id="gridList"
               className={cs(styles.listGridBar, {
                 [styles.listGridBarTimer]: this.props.showTimer,
-                [styles.hide]: this.props.scrollDown,
-                [styles.topHeight]:
-                  this.state.header === "fixed" && !this.props.scrollDown
+                [styles.hide]: this.props.scrollDown
               })}
             >
               <div
