@@ -44,6 +44,7 @@ const ShopDropdownMenu = ({
           className={cs(styles.cSortHeader, {
             [styles.cSortHeaderTimer]: showTimer
           })}
+          id="shopLocatorDropdown"
         >
           {showCaret ? (
             <div className={styles.collectionHeader} onClick={onInsideClick}>
@@ -75,6 +76,7 @@ const ShopDropdownMenu = ({
               className={cs(bootstrap.col12, styles.mobileFilterMenu, {
                 [styles.mobileFilterMenuTimer]: showTimer
               })}
+              id="shopLocatorDropdownMenu"
             >
               <ul className={styles.sort}>
                 {list.map((data: any, i: number) => {

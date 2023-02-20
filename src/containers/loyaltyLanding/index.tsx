@@ -348,7 +348,7 @@ class LoyaltyLanding extends Component<Props, State> {
               [styles.loyaltyTimer]: this.props.showTimer
             })}
           >
-            <div className={styles.commonSubheader}>
+            <div id="ceriseHeader" className={styles.commonSubheader}>
               <div
                 className={cs(bootstrapStyles.col11, bootstrapStyles.offset1)}
               >

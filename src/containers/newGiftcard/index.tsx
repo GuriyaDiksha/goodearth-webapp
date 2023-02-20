@@ -37,7 +37,7 @@ type State = {
   productData: any;
   countryData: any;
   selectedCountry: string;
-  sku: string;
+  // sku: string;
   cardId: string;
   cardValue: string;
   customValue: string;
@@ -73,7 +73,7 @@ class NewGiftcard extends React.Component<Props, State> {
       productData: [],
       countryData: [],
       selectedCountry: "",
-      sku: "I00121125",
+      // sku: "I00121125",
       cardId: "",
       cardValue: "",
       currencyCharCode: [],
@@ -471,7 +471,7 @@ class NewGiftcard extends React.Component<Props, State> {
       productData,
       selectedCountry,
       currency,
-      sku,
+      // sku,
       cardId,
       cardValue,
       currencyCharCode,
@@ -607,7 +607,7 @@ class NewGiftcard extends React.Component<Props, State> {
                 <div className={styles.sectionTitle}>Card Value</div>
                 <div className={styles.pricesContainer}>
                   {productData.sort(this.compare).map((pro: any) => {
-                    return pro.sku != sku ? (
+                    return !pro.title.toLowerCase().includes("dynamic") ? (
                       <div
                         key={pro.sku}
                         onClick={(e: any) => {
@@ -637,8 +637,8 @@ class NewGiftcard extends React.Component<Props, State> {
                 {/* Custom Value Input */}
                 <form>
                   {productData.map((pro: any) => {
-                    return pro.sku == sku ? (
-                      <div className={styles.customValueInput} key={sku}>
+                    return pro.title.toLowerCase().includes("dynamic") ? (
+                      <div className={styles.customValueInput} key={pro.sku}>
                         <input
                           type="number"
                           id={pro.id}

@@ -115,6 +115,7 @@ const StaticPage: React.FC<Props> = props => {
           <div className={cs(styles.cSort, styles.subheaderAccount)}>
             <div className={cs(bootstrapStyles.col12, styles.productNumber)}>
               <div
+                id="sortHeaderCust"
                 className={cs(styles.cSortHeader, {
                   [styles.cSortHeaderTimer]: showTimer
                 })}
@@ -149,6 +150,7 @@ const StaticPage: React.FC<Props> = props => {
                   className={cs(styles.mobileFilterHeader, {
                     [styles.mobileFilterHeaderTimer]: showTimer
                   })}
+                  id="filterHeader"
                 >
                   <div className={styles.filterCross}>
                     <span>
@@ -181,6 +183,7 @@ const StaticPage: React.FC<Props> = props => {
                       styles.mobileFilterMenu,
                       { [styles.mobileFilterMenuTimer]: showTimer }
                     )}
+                    id="mobileFilterMenu"
                   >
                     <ul className={styles.sort}>
                       {accountMenuItems.map(item => {
