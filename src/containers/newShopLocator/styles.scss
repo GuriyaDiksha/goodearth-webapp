@@ -41,7 +41,7 @@ $banner-mobile-height:500px;
         box-shadow: 0px 4px 6px #00000021;
         background: #fff;
         position: sticky;
-        top: 50px;
+        top: 49px;
         z-index: 1;
         &.with-timer{
             top: 50px + $sale-timer-height
@@ -144,6 +144,11 @@ $banner-mobile-height:500px;
                             padding-right: 25px;
                             margin-right: 25px;
                         }
+                        .phone {
+                            a {
+                                color: #191919;
+                            }
+                        }
                     }
                     .phone-block{
                         @include b4_12px_montserrat_charcoal();
@@ -172,6 +177,9 @@ $banner-mobile-height:500px;
                         .phone{
                             @include b4_12px_montserrat_charcoal();
                             letter-spacing: 0.36px;
+                            a{
+                                color: #191919;
+                            }
                         }
                     }
                     .get-directions{
@@ -264,12 +272,18 @@ $banner-mobile-height:500px;
                             justify-content: space-between;
                             .phone{
                                 text-align: right;
+                                a {
+                                    color: #191919;
+                                }
                             }
                         }
                         .shopper-block{
                             justify-content: space-between;
                             .phone{
                                 text-align: right;
+                                a {
+                                    color: #191919; 
+                                }
                             }
                         }
                     }
