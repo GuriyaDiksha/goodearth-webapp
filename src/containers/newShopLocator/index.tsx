@@ -45,8 +45,6 @@ type State = {
 };
 
 class ShopLocator extends Component<Props, State> {
-  play: any;
-  pause: any;
   constructor(props: any) {
     super(props);
     this.state = {
@@ -103,10 +101,10 @@ class ShopLocator extends Component<Props, State> {
         </div>
         <div className={styles.pageDescription}>
           <div className={styles.text}>
-            Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
-            nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam
-            erat, sed diam voluptua. At vero eos et accusam et justo duo dolores
-            et ea rebum. Stet clita kasd gubergren,.
+            Our stores reflect inspirations from the city where they’re located,
+            telling tales of tradition, design, and culture through a uniquely
+            Good Earth lens. With signature playlists, custom service, and daily
+            incense rituals, we invite you into our world.
           </div>
         </div>
         <div
