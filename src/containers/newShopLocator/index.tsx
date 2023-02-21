@@ -161,14 +161,22 @@ class ShopLocator extends Component<Props, State> {
                           </div>
                           <div className={styles.phone}>
                             {data.cafeTel1.map((item: any, i: number) => {
-                              return <p key={`cafeTel1_${i}`}>{item}</p>;
+                              return (
+                                <p key={`cafeTel1_${i}`}>
+                                  <a href={`tel:${item}`}>{item}</a>
+                                </p>
+                              );
                             })}
                           </div>
                         </div>
                       ) : (
                         <div className={styles.phoneBlock}>
                           {data.cafeTel1.map((item: any, i: number) => {
-                            return <p key={`cafeTel1_${i}`}>{item}</p>;
+                            return (
+                              <p key={`cafeTel1_${i}`}>
+                                <a href={`tel:${item}`}>{item}</a>
+                              </p>
+                            );
                           })}
                         </div>
                       )}
@@ -237,7 +245,11 @@ class ShopLocator extends Component<Props, State> {
                       <div className={styles.address}>{data.address}</div>
                       <div className={styles.phone}>
                         {data.tel1.map((item: any, i: number) => {
-                          return <p key={`tel1_${i}`}>{item}</p>;
+                          return (
+                            <p key={`tel1_${i}`}>
+                              <a href={`tel:${item}`}>{item}</a>
+                            </p>
+                          );
                         })}
                       </div>
                     </div>
@@ -263,7 +275,9 @@ class ShopLocator extends Component<Props, State> {
                         <div className={styles.phone}>
                           {data.shopper_details.map((item: any, i: number) => {
                             return (
-                              <p key={`shopper_phone${i}`}>{item.phone}</p>
+                              <p key={`shopper_phone${i}`}>
+                                <a href={`tel:${item.phone}`}>{item.phone}</a>
+                              </p>
                             );
                           })}
                         </div>
