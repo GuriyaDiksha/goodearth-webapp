@@ -252,7 +252,10 @@ class ShopLocator extends Component<Props, State> {
                           {data.shopper_details.map((item: any, i: number) => {
                             return (
                               <p key={`shopper_${i}`}>
-                                {item.name}({item.department})
+                                {item.name}
+                                {item.deppartment
+                                  ? `(${item.deppartment})`
+                                  : null}
                               </p>
                             );
                           })}
