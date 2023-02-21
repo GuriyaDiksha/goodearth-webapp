@@ -88,6 +88,7 @@ class ShopLocator extends Component<Props, State> {
 
   render() {
     const { shopData, currentCity } = this.state;
+    const { saleTimer } = this.props;
 
     return (
       <div
@@ -100,13 +101,15 @@ class ShopLocator extends Component<Props, State> {
         </div>
         <div className={styles.pageDescription}>
           <div className={styles.text}>
-            Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
-            nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam
-            erat, sed diam voluptua. At vero eos et accusam et justo duo dolores
-            et ea rebum. Stet clita kasd gubergren,.
+            Our stores reflect inspirations from the city where they’re located,
+            telling tales of tradition, design, and culture through a uniquely
+            Good Earth lens. With signature playlists, custom service, and daily
+            incense rituals, we invite you into our world.
           </div>
         </div>
-        <div className={styles.headerBox}>
+        <div
+          className={cs(styles.headerBox, { [styles.withTimer]: saleTimer })}
+        >
           <div className={styles.header}>
             {Object.keys(shopData).map((data: any, i: number) => {
               return (
@@ -179,7 +182,10 @@ class ShopLocator extends Component<Props, State> {
                         </a>
                       </div>
                     </div>
-                    <div className={cs(styles.slider, "shopLocatorSlider")}>
+                    <div
+                      className={cs(styles.slider, "shopLocatorSlider")}
+                      id={`cafe_${i}`}
+                    >
                       <Slider {...settings}>
                         {data.bannerCafe.map((item: any) => {
                           return (
@@ -214,7 +220,7 @@ class ShopLocator extends Component<Props, State> {
                 {/* Shop Block */}
                 <div
                   className={cs(styles.shopBlock, {
-                    [styles.border]: data.cafeDirection
+                    [styles.border]: data.cafeHeading2
                   })}
                 >
                   <div className={styles.info}>
@@ -270,7 +276,10 @@ class ShopLocator extends Component<Props, State> {
                       </a>
                     </div>
                   </div>
-                  <div className={cs(styles.slider, "shopLocatorSlider")}>
+                  <div
+                    className={cs(styles.slider, "shopLocatorSlider")}
+                    id={`shop${i}`}
+                  >
                     <Slider {...settings}>
                       {data.bannerShop.map((item: any) => {
                         return (
