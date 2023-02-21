@@ -28,9 +28,9 @@ const ChangePassword: React.FC<PasswordProps> = ({ setCurrentSection }) => {
     passValidNum: false,
     showPassRules: false,
     shouldValidatePass: false,
-    showPassword: false,
-    showSuccess: false
+    showPassword: false
   });
+  const [showSuccess, setShowSuccess] = useState(false);
 
   useEffect(() => {
     setCurrentSection();
@@ -51,10 +51,11 @@ const ChangePassword: React.FC<PasswordProps> = ({ setCurrentSection }) => {
       .then(res => {
         if (res.success) {
           resetForm();
-          setAdditionalInfo({
-            ...additionalInfo,
-            showSuccess: true
-          });
+          // setAdditionalInfo({
+          //   ...additionalInfo,
+          //   showSuccess: true
+          // });
+          setShowSuccess(true);
           setTimeout(() => {
             window.location.replace(window.location.origin);
           }, 3000);
@@ -111,15 +112,11 @@ const ChangePassword: React.FC<PasswordProps> = ({ setCurrentSection }) => {
   };
 
   const handleBackClick = () => {
-    setAdditionalInfo({
-      ...additionalInfo,
-      showSuccess: false
-    });
+    setShowSuccess(false);
   };
 
   const {
     updatePassword,
-    showSuccess,
     showPassword,
     passValidLength,
     passValidLower,
