@@ -523,11 +523,13 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                               <span>{item.egiftCardRecipient}</span>
                             </div>
                           )}
-                          <div className={styles.size}>
-                            {`Item Code: ${item.product.sku}`}
-                          </div>
+                          {!item.isEgiftCard && (
+                            <div className={styles.size}>
+                              {`Item Code: ${item.product.sku}`}
+                            </div>
+                          )}
                           {/* Estimated Delivery Time */}
-                          {item.productDeliveryDate && (
+                          {item.productDeliveryDate && !item.isEgiftCard && (
                             <div
                               className={cs(styles.quantity, styles.withData)}
                             >
@@ -673,11 +675,13 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                       </span>
                     </div>
                   </div>
-                  <div className={styles.continueShopping}>
-                    <div className={styles.charcoalBtn}>
-                      <Link to={"/"}> continue shopping </Link>
+                  <Link to={"/"}>
+                    <div className={styles.continueShopping}>
+                      <div className={styles.charcoalBtn}>
+                        continue shopping
+                      </div>
                     </div>
-                  </div>
+                  </Link>
                 </div>
               </div>
             </div>
