@@ -19,6 +19,7 @@ import { AppState } from "reducers/typings";
 import { Cookies } from "typings/cookies";
 import { MESSAGE } from "constants/messages";
 import * as valid from "utils/validate";
+import { displayPriceWithCommas } from "utils/utility";
 
 const Section2: React.FC<Section2Props> = ({
   productData,
@@ -194,21 +195,29 @@ const Section2: React.FC<Section2Props> = ({
     const minString = (currency: string) => {
       return `Sorry, the minimum value of Gift Card is ${String.fromCharCode(
         ...currencyCode[currency]
-      )} ${
-        limitsList[currency].min
-      }. Please enter a value greater than or equal to ${String.fromCharCode(
+      )} ${displayPriceWithCommas(
+        limitsList[currency].min,
+        currency as Currency
+      )}. Please enter a value greater than or equal to ${String.fromCharCode(
         ...currencyCode[currency]
-      )} ${limitsList[currency].min}.`;
+      )} ${displayPriceWithCommas(
+        limitsList[currency].min,
+        currency as Currency
+      )}.`;
     };
 
     const maxString = (currency: string) => {
       return `Sorry, the maximum value of Gift card is ${String.fromCharCode(
         ...currencyCode[currency]
-      )} ${
-        limitsList[currency].max
-      }. Please enter a value less than or equal to ${String.fromCharCode(
+      )} ${displayPriceWithCommas(
+        limitsList[currency].max,
+        currency as Currency
+      )}. Please enter a value less than or equal to ${String.fromCharCode(
         ...currencyCode[currency]
-      )} ${limitsList[currency].max}.`;
+      )} ${displayPriceWithCommas(
+        limitsList[currency].max,
+        currency as Currency
+      )}.`;
     };
 
     if (+value < +limitsList[currency].min.replaceAll(",", "")) {
@@ -404,7 +413,10 @@ const Section2: React.FC<Section2Props> = ({
                     >
                       {String.fromCharCode(...code) +
                         " " +
-                        pro.priceRecords[currency]}
+                        displayPriceWithCommas(
+                          pro.priceRecords[currency],
+                          currency
+                        )}
                     </span>
                   ) : (
                     ""

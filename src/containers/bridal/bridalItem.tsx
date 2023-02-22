@@ -11,6 +11,7 @@ import globalStyles from "../../styles/global.scss";
 import cs from "classnames";
 import cartIcon from "../../images/bridal/icons_cartregistry-details.svg";
 import * as util from "../../utils/validate";
+import { displayPriceWithCommas } from "utils/utility";
 const mapStateToProps = (state: AppState) => {
   return {
     isSale: state.info.isSale,
@@ -163,16 +164,20 @@ class BridalItem extends React.Component<Props, State> {
                         <span className={styles.productPrice}>
                           <span className={styles.discountprice}>
                             {String.fromCharCode(...code)}{" "}
-                            {
+                            {displayPriceWithCommas(
                               this.props.bridalItem.discountedPrice[
                                 this.props.currency
-                              ]
-                            }
+                              ],
+                              this.props.currency
+                            )}
                           </span>
                           &nbsp;{" "}
                           <span className={styles.strikeprice}>
                             {String.fromCharCode(...code)}{" "}
-                            {this.props.bridalItem.price[this.props.currency]}
+                            {displayPriceWithCommas(
+                              this.props.bridalItem.price[this.props.currency],
+                              this.props.currency
+                            )}
                           </span>
                         </span>
                       ) : (
@@ -185,7 +190,10 @@ class BridalItem extends React.Component<Props, State> {
                           )}
                         >
                           {String.fromCharCode(...code)}{" "}
-                          {this.props.bridalItem.price[this.props.currency]}
+                          {displayPriceWithCommas(
+                            this.props.bridalItem.price[this.props.currency],
+                            this.props.currency
+                          )}
                         </span>
                       )}
                     </div>

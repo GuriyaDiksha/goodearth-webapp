@@ -18,6 +18,7 @@ import multiColour from "../../images/multiColour.svg";
 import bootstrap from "../../styles/bootstrap/bootstrap-grid.scss";
 import CookieService from "services/cookie";
 import { GA_CALLS } from "constants/cookieConsent";
+import { displayPriceWithCommas } from "utils/utility";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -2297,11 +2298,17 @@ class FilterList extends React.Component<Props, State> {
               )}
               <div className={styles.sliderText}>
                 <div className={styles.sliderBox}>
-                  {this.state.rangevalue[0]}
+                  {displayPriceWithCommas(
+                    this.state.rangevalue[0] || "",
+                    this.props.currency
+                  )}
                 </div>
 
                 <div className={styles.sliderBox}>
-                  {this.state.rangevalue[1]}
+                  {displayPriceWithCommas(
+                    this.state.rangevalue[1] || "",
+                    this.props.currency
+                  )}
                 </div>
               </div>
               <div data-name="price">

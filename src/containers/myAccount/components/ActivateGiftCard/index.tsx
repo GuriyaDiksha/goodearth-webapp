@@ -10,7 +10,6 @@ import Giftcard from "./activateGiftCard";
 // import CreditCard from "./creditCard";
 import { AppState } from "reducers/typings";
 import { Link } from "react-router-dom";
-import iconHowto from "images/giftCard/iconHowto.svg";
 
 const mapStateToProps = (state: AppState) => {
   return {
