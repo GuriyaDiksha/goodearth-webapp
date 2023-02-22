@@ -21,6 +21,7 @@ import { AddressData } from "components/Address/typings";
 import { checkBlank } from "utils/validate";
 import { CheckoutAddressContext } from "./context";
 import { Currency, currencyCode } from "typings/currency";
+import { displayPriceWithCommas } from "utils/utility";
 
 const AddressSection: React.FC<AddressProps & {
   mode: string;
@@ -409,10 +410,10 @@ const AddressSection: React.FC<AddressProps & {
         currency == "INR"
           ? `AS PER RBI GOVERNMENT REGULATIONS, PAN DETAILS ARE MANDATORY FOR TRANSACTIONS ABOVE ${String.fromCharCode(
               ...code
-            )} ${amountPrice[currency]}.`
+            )} ${displayPriceWithCommas(amountPrice[currency], currency)}.`
           : `AS PER RBI GOVERNMENT REGULATIONS, PASSPORT DETAILS ARE MANDATORY FOR TRANSACTIONS ABOVE ${String.fromCharCode(
               ...code
-            )} ${amountPrice[currency]}.`;
+            )} ${displayPriceWithCommas(amountPrice[currency], currency)}.`;
       const panText =
         currency == "INR" ? "PAN Card Number*" : " Passport Number*";
       return (

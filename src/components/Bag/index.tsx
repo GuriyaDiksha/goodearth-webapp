@@ -14,8 +14,10 @@ import { AppState } from "reducers/typings";
 import { getPageType } from "../../utils/validate";
 import CookieService from "services/cookie";
 import { GA_CALLS } from "constants/cookieConsent";
-import { displayPriceWithCommasFloat } from "utils/utility";
-import { currency } from "reducers/currency";
+import {
+  displayPriceWithCommas,
+  displayPriceWithCommasFloat
+} from "utils/utility";
 
 const mapDispatchToProps = (dispatch: Dispatch) => {
   return {
@@ -428,8 +430,11 @@ class Bag extends React.Component<Props, State> {
                 <br /> Select products worth{" "}
                 <span>
                   {String.fromCharCode(...currencyCodes[this.props.currency])}{" "}
-                  {this.props.cart.freeShippingApplicable -
-                    parseInt(this.props.cart.total.toString())}
+                  {displayPriceWithCommas(
+                    this.props.cart.freeShippingApplicable -
+                      parseInt(this.props.cart.total.toString()),
+                    this.props.currency
+                  )}
                 </span>{" "}
                 or more to your order to qualify.
               </div>

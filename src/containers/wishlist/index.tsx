@@ -31,6 +31,10 @@ import { POPUP } from "constants/components";
 import { sortGTM, pageViewGTM } from "utils/validate";
 import CookieService from "../../services/cookie";
 import { GA_CALLS } from "constants/cookieConsent";
+import {
+  displayPriceWithCommas,
+  displayPriceWithCommasFloat
+} from "utils/utility";
 
 let AbsoluteGrid: any;
 
@@ -535,8 +539,14 @@ class Wishlist extends React.Component<Props, State> {
           {String.fromCharCode(...currencyCodes[this.props.currency]) +
             " " +
             (Number.isSafeInteger(+this.state.totalPrice)
-              ? this.state.totalPrice
-              : this.state.totalPrice.toFixed(2) + "")}
+              ? displayPriceWithCommas(
+                  this.state.totalPrice,
+                  this.props.currency
+                )
+              : displayPriceWithCommasFloat(
+                  this.state.totalPrice,
+                  this.props.currency
+                ))}
         </span>
       </div>
     );
