@@ -322,7 +322,7 @@ span{
 .mobile-filter-header {
   width: 100%;
   position: fixed;
-  z-index: 1;
+  z-index: 13;
   background-color: #fff;
   padding: 15px 20px 4px 20px;
   top: $header-height;
@@ -354,14 +354,14 @@ span{
 .mobile-filter-menu {
   position: fixed;
   bottom: 0;
-  top: $main-header;
+  top: $main-header+10px;
   left: 0;
   z-index: 11;
   background-color: white;
-  -webkit-transition: all 0.5s linear;
-  -moz-transition: all 0.5s linear;
-  -o-transition: all 0.5s linear;
-  transition: all 0.5s linear;
+  // -webkit-transition: all 0.5s linear;
+  // -moz-transition: all 0.5s linear;
+  // -o-transition: all 0.5s linear;
+  // transition: all 0.5s linear;
   .number-div {
     width: 50%;
     text-align: center;

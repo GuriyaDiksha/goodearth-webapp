@@ -868,6 +868,7 @@ class Wishlist extends React.Component<Props, State> {
                     className={cs(styles.mobileFilterHeader, {
                       [styles.mobileFilterHeaderTimer]: this.props.showTimer
                     })}
+                    id="filterHeader"
                   >
                     <div className={styles.filterCross}>
                       <span>Saved Items</span>
@@ -886,6 +887,7 @@ class Wishlist extends React.Component<Props, State> {
                   </div>
                   <div className={bootstrapStyles.row}>
                     <div
+                      id="mobileFilterMenu"
                       className={cs(
                         bootstrapStyles.col12,
                         styles.mobileFilterMenu,
