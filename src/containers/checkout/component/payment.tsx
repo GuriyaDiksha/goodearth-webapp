@@ -429,12 +429,13 @@ const PaymentSection: React.FC<PaymentProps> = props => {
                   </div>
                 </div>
                 <hr className={styles.hr} />
-                <div className={globalStyles.flex}>
+                <div className={cs(globalStyles.flex, styles.disabled)}>
                   <div
                     className={cs(
                       styles.marginR10,
                       globalStyles.cerise,
-                      globalStyles.pointer
+                      globalStyles.pointer,
+                      styles.nonePointerEvent
                     )}
                     onClick={toggleInputReedem}
                   >
@@ -446,7 +447,8 @@ const PaymentSection: React.FC<PaymentProps> = props => {
                         globalStyles.c10LR,
                         styles.promoMargin,
                         globalStyles.cerise,
-                        globalStyles.pointer
+                        globalStyles.pointer,
+                        styles.nonePointerEvent
                       )}
                       onClick={toggleInputReedem}
                     >
@@ -454,6 +456,15 @@ const PaymentSection: React.FC<PaymentProps> = props => {
                     </div>
                     {isactiveredeem ? <Reedem /> : ""}
                   </div>
+                </div>
+                <div className={styles.redeemUnavailableMessageWrapper}>
+                  <p className={styles.redeemUnavailableMessage}>
+                    The Cerise server is currently under work and will be back
+                    soon. We regret the inconvenience caused. During this time,
+                    any points earned on the order will get reflected in your
+                    account once the server is back up. Unfortunately,
+                    redemption of loyalty points is not available currently.
+                  </p>
                 </div>
               </Fragment>
             )}

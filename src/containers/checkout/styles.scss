@@ -975,3 +975,25 @@ input[type="radio"] {
   font-size: 11px;
   margin-bottom: 10px;
 }
+
+
+// Temporary code to disabled the redeem points
+
+.none-pointer-event {
+  pointer-events: none;
+  color: #868686 !important;
+}
+.disabled {
+  cursor: not-allowed;
+}
+.redeem-unavailable-message-wrapper {
+  padding-top: 15px;
+
+  .redeem-unavailable-message {
+    @include b4_12px_lato();
+  }
+
+  @media screen and (max-width: 992px) {
+    padding-top: 8px;
+  }
+}

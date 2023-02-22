@@ -1126,6 +1126,12 @@ $list: $grey 92%, $white 8%;
   color: $charcoal19;
   text-transform: uppercase;
 }
+@mixin b4_12px_lato{
+  font-family: $font-Lato;
+  font-size: 12px;
+  font-weight: $medium;
+  color:$dark-gray;
+}
 
 @mixin b5_10px_montserrat_charcoal{
   font-family: $font-Montserrat;
