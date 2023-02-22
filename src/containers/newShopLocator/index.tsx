@@ -88,7 +88,7 @@ class ShopLocator extends Component<Props, State> {
 
   render() {
     const { shopData, currentCity } = this.state;
-    const { saleTimer } = this.props;
+    const { saleTimer, mobile } = this.props;
 
     return (
       <div
@@ -195,18 +195,26 @@ class ShopLocator extends Component<Props, State> {
                       id={`cafe_${i}`}
                     >
                       <Slider {...settings}>
-                        {data.bannerCafe.map((item: any) => {
-                          return (
-                            <div
-                              className={styles.imgContainer}
-                              key={`cafe_${i}`}
-                            >
-                              <div>
-                                <img key={`cafe_${i}`} src={item.image} />
+                        {data.bannerCafe
+                          .filter((e: any) => {
+                            if (mobile) {
+                              return e.imageType == 2 || e.imageType == 3;
+                            } else {
+                              return e.imageType == 1 || e.imageType == 3;
+                            }
+                          })
+                          .map((item: any) => {
+                            return (
+                              <div
+                                className={styles.imgContainer}
+                                key={`cafe_${i}`}
+                              >
+                                <div>
+                                  <img key={`cafe_${i}`} src={item.image} />
+                                </div>
                               </div>
-                            </div>
-                          );
-                        })}
+                            );
+                          })}
                       </Slider>
                     </div>
                   </div>
@@ -298,18 +306,26 @@ class ShopLocator extends Component<Props, State> {
                     id={`shop${i}`}
                   >
                     <Slider {...settings}>
-                      {data.bannerShop.map((item: any) => {
-                        return (
-                          <div
-                            className={styles.imgContainer}
-                            key={`shope_image${i}`}
-                          >
-                            <div>
-                              <img src={item.image} />
+                      {data.bannerShop
+                        .filter((e: any) => {
+                          if (mobile) {
+                            return e.imageType == 2 || e.imageType == 3;
+                          } else {
+                            return e.imageType == 1 || e.imageType == 3;
+                          }
+                        })
+                        .map((item: any) => {
+                          return (
+                            <div
+                              className={styles.imgContainer}
+                              key={`shope_image${i}`}
+                            >
+                              <div>
+                                <img src={item.image} />
+                              </div>
                             </div>
-                          </div>
-                        );
-                      })}
+                          );
+                        })}
                     </Slider>
                   </div>
                 </div>
