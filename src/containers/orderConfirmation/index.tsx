@@ -16,7 +16,10 @@ import moment from "moment";
 import { pageViewGTM } from "utils/validate";
 import CookieService from "services/cookie";
 import { GA_CALLS, ANY_ADS } from "constants/cookieConsent";
-import { displayPriceWithCommasFloat } from "utils/utility";
+import {
+  displayPriceWithCommas,
+  displayPriceWithCommasFloat
+} from "utils/utility";
 
 const orderConfirmation: React.FC<{ oid: string }> = props => {
   const {
@@ -496,11 +499,14 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                                 [styles.gold]: isdisCount
                               })}
                             >
-                              {`${charCurrency} ${amountPaid}`}
+                              {`${charCurrency} ${displayPriceWithCommas(
+                                amountPaid,
+                                confirmData.currency
+                              )}`}
                             </span>
                             {isdisCount && (
                               <span className={styles.originalPrice}>
-                                {`${charCurrency} ${displayPriceWithCommasFloat(
+                                {`${charCurrency} ${displayPriceWithCommas(
                                   price,
                                   confirmData.currency
                                 )}`}

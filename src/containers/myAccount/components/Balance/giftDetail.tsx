@@ -44,7 +44,7 @@ const GiftCardItem = ({
   } else if (currStatus == "Expired" && type == "CNI") {
     // showExpired = true;
   }
-
+  console.log(unicode, currCode);
   return (
     <div id="gc-balance-info">
       {status == "expired" && (
@@ -224,13 +224,13 @@ const GiftCardItem = ({
             <span className={styles.line}>
               {" "}
               {String.fromCharCode(...unicode)}{" "}
-              {displayPriceWithCommas(fullValue, unicode)}{" "}
+              {displayPriceWithCommas(fullValue, currCode as Currency)}{" "}
             </span>
           </p>
           <p className={cl(styles.balance)}>
             {" "}
             Balance amount: {String.fromCharCode(...unicode)}{" "}
-            {displayPriceWithCommas(remValues, unicode)}{" "}
+            {displayPriceWithCommas(remValues, currCode as Currency)}{" "}
           </p>
           {conditionalRefresh && !isLoggedIn && (
             <span
