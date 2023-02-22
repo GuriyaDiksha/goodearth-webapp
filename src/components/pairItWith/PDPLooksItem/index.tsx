@@ -16,6 +16,7 @@ import { AppState } from "reducers/typings";
 import { useSelector } from "react-redux";
 import { plpProductClick } from "utils/validate";
 import CookieService from "services/cookie";
+import { displayPriceWithCommas } from "utils/utility";
 
 const PlpResultListViewItem: React.FC<PLPResultItemProps> = (
   props: PLPResultItemProps
@@ -210,7 +211,10 @@ const PlpResultListViewItem: React.FC<PLPResultItemProps> = (
           {info.isSale && product.discount ? (
             <span className={styles.discountprice}>
               {String.fromCharCode(...code)}{" "}
-              {product.discountedPriceRecords[currency as Currency]}
+              {displayPriceWithCommas(
+                product.discountedPriceRecords[currency as Currency],
+                currency
+              )}
             </span>
           ) : (
             ""
@@ -219,7 +223,10 @@ const PlpResultListViewItem: React.FC<PLPResultItemProps> = (
             <span className={styles.strikeprice}>
               {" "}
               {String.fromCharCode(...code)}{" "}
-              {product.priceRecords[currency as Currency]}{" "}
+              {displayPriceWithCommas(
+                product.priceRecords[currency as Currency],
+                currency
+              )}{" "}
             </span>
           ) : (
             <span
@@ -228,7 +235,10 @@ const PlpResultListViewItem: React.FC<PLPResultItemProps> = (
               }
             >
               {String.fromCharCode(...code)}{" "}
-              {product.priceRecords[currency as Currency]}
+              {displayPriceWithCommas(
+                product.priceRecords[currency as Currency],
+                currency
+              )}
             </span>
           )}
         </p>

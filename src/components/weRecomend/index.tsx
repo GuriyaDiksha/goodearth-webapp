@@ -17,6 +17,7 @@ import LazyImage from "components/LazyImage";
 import { weRecommendProductImpression } from "utils/validate";
 import CookieService from "../../services/cookie";
 import { GA_CALLS } from "constants/cookieConsent";
+import { displayPriceWithCommas } from "utils/utility";
 
 const WeRecommend: React.FC<RecommenedSliderProps> = (
   props: RecommenedSliderProps
@@ -158,7 +159,10 @@ const WeRecommend: React.FC<RecommenedSliderProps> = (
               {isSale && item.discount ? (
                 <span className={styles.discountprice}>
                   {String.fromCharCode(...code)}{" "}
-                  {item.discountedPriceRecords[currency as Currency]}
+                  {displayPriceWithCommas(
+                    item.discountedPriceRecords[currency as Currency],
+                    currency
+                  )}
                 </span>
               ) : (
                 ""
@@ -167,7 +171,10 @@ const WeRecommend: React.FC<RecommenedSliderProps> = (
                 <span className={styles.strikeprice}>
                   {" "}
                   {String.fromCharCode(...code)}{" "}
-                  {item.pricerecords[currency as Currency]}{" "}
+                  {displayPriceWithCommas(
+                    item.pricerecords[currency as Currency],
+                    currency
+                  )}{" "}
                 </span>
               ) : (
                 <span
@@ -177,7 +184,10 @@ const WeRecommend: React.FC<RecommenedSliderProps> = (
                 >
                   {" "}
                   {String.fromCharCode(...code)}{" "}
-                  {item.pricerecords[currency as Currency]}{" "}
+                  {displayPriceWithCommas(
+                    item.pricerecords[currency as Currency],
+                    currency
+                  )}{" "}
                 </span>
               )}
             </p>

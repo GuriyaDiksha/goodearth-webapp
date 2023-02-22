@@ -35,6 +35,7 @@ import Loader from "components/Loader";
 import { AppState } from "reducers/typings";
 import CookieService from "../../services/cookie";
 import { GA_CALLS } from "constants/cookieConsent";
+import { displayPriceWithCommas } from "utils/utility";
 
 type Props = {
   basketLineId?: ProductID;
@@ -383,8 +384,11 @@ const NotifyMePopup: React.FC<Props> = ({
                 <span className={styles.discountprice}>
                   {String.fromCharCode(...currencyCodes[currency])}&nbsp;
                   {selectedSize
-                    ? selectedSize.discountedPriceRecords[currency]
-                    : discountedPrice}
+                    ? displayPriceWithCommas(
+                        selectedSize.discountedPriceRecords[currency],
+                        currency
+                      )
+                    : displayPriceWithCommas(discountedPrice || "", currency)}
                   &nbsp;{" "}
                 </span>
               ) : (
@@ -393,14 +397,24 @@ const NotifyMePopup: React.FC<Props> = ({
               {isSale && discount ? (
                 <span className={styles.strikeprice}>
                   {String.fromCharCode(...currencyCodes[currency])}&nbsp;
-                  {selectedSize ? selectedSize.priceRecords[currency] : price}
+                  {selectedSize
+                    ? displayPriceWithCommas(
+                        selectedSize.priceRecords[currency],
+                        currency
+                      )
+                    : displayPriceWithCommas(price, currency)}
                 </span>
               ) : (
                 <span
                   className={badgeType == "B_flat" ? globalStyles.cerise : ""}
                 >
                   {String.fromCharCode(...currencyCodes[currency])}&nbsp;
-                  {selectedSize ? selectedSize.priceRecords[currency] : price}
+                  {selectedSize
+                    ? displayPriceWithCommas(
+                        selectedSize.priceRecords[currency],
+                        currency
+                      )
+                    : displayPriceWithCommas(price, currency)}
                 </span>
               )}
             </p>

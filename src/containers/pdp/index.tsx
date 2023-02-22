@@ -678,7 +678,7 @@ class PDPContainer extends React.Component<Props, State> {
   };
 
   startImageAutoScroll = () => {
-    this.imageIntervalID = setInterval(this.nextImage, 7000);
+    // this.imageIntervalID = setInterval(this.nextImage, 7000);
   };
 
   resetAutoImageScroll = () => {

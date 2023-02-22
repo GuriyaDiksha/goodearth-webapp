@@ -28,6 +28,7 @@ import {
   PartialChildProductAttributes,
   ChildProductAttributes
 } from "typings/product";
+import { displayPriceWithCommas } from "utils/utility";
 
 const mapDispatchToProps = (dispatch: Dispatch) => {
   return {
@@ -211,7 +212,7 @@ class CushionBag extends React.Component<Props, State> {
                     <span className={styles.discountedPrice}>
                       {String.fromCharCode(...currencyCodes[currency])}
                       &nbsp;
-                      {discountPrices}
+                      {displayPriceWithCommas(discountPrices, currency)}
                       <br />
                     </span>
                   ) : (
@@ -221,7 +222,7 @@ class CushionBag extends React.Component<Props, State> {
                     <span className={styles.oldPrice}>
                       {String.fromCharCode(...currencyCodes[currency])}
                       &nbsp;
-                      {price}
+                      {displayPriceWithCommas(price, currency)}
                     </span>
                   ) : (
                     <span
@@ -232,7 +233,7 @@ class CushionBag extends React.Component<Props, State> {
                       {" "}
                       {String.fromCharCode(...currencyCodes[currency])}
                       &nbsp;
-                      {price}
+                      {displayPriceWithCommas(price, currency)}
                     </span>
                   )}
                 </div>
