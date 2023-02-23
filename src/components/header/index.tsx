@@ -61,7 +61,8 @@ const mapStateToProps = (state: AppState) => {
     showSizeChart: state.header.sizeChartData.show,
     mobileMenuOpenState: state.header.mobileMenuOpenState,
     filler: state.filler,
-    openModal: state.modal.openModal
+    openModal: state.modal.openModal,
+    scrollDown: state.info.scrollDown
   };
 };
 
@@ -130,6 +131,7 @@ class Header extends React.Component<Props, State> {
       this.props.location.pathname.includes("/bridal/") &&
       !this.props.location.pathname.includes("/account/");
     let bridalKey = "";
+    document.addEventListener("scroll", this.onScroll);
     if (isBridalPublicPage) {
       const pathArray = this.props.location.pathname.split("/");
       bridalKey = pathArray[pathArray.length - 1];
@@ -209,6 +211,7 @@ class Header extends React.Component<Props, State> {
     });
     const config = { subtree: true, childList: true };
     observer.observe(document, config);
+    this.onScroll();
   }
 
   UNSAFE_componentWillReceiveProps(nextProps: Props) {
@@ -218,6 +221,9 @@ class Header extends React.Component<Props, State> {
       this.setState({
         reloadAnnouncementBar: false
       });
+    }
+    if (this.props.showTimer != nextProps.showTimer) {
+      this.onScroll(null, nextProps.showTimer);
     }
   }
   componentDidUpdate(prevProps: Props) {
@@ -263,6 +269,320 @@ class Header extends React.Component<Props, State> {
   // mouseOut(data: { show: boolean }) {
   //   this.setState({ show: data.show });
   // }
+
+  onScroll = (event?: any, timer?: boolean) => {
+    const header = document.getElementById("myHeader");
+    const sticky = (header as HTMLElement)?.offsetTop;
+    const secondaryHeader = document.getElementById("secondaryHeader");
+    const sortHeader = document.getElementById("sortHeader");
+    const sortHeader2 = document.getElementById("sortHeaderCust");
+    const sortHeaderMobile = document.getElementById("sortHeaderMobile");
+    const gridList = document.getElementById("gridList");
+    const mobileFilter = document.getElementById("mobileFilter");
+    const filterHeader = document.getElementById("filterHeader");
+    const mobileFilterMenu = document.getElementById("mobileFilterMenu");
+    const dropdownFilterHeader = document.getElementById(
+      "dropdownFilterHeader"
+    );
+    const dropdownFilterHeaderMenu = document.getElementById(
+      "dropdownFilterHeaderMenu"
+    );
+    const shopLocatorDropdown = document.getElementById("shopLocatorDropdown");
+    const shopLocatorDropdownMenu = document.getElementById(
+      "shopLocatorDropdownMenu"
+    );
+    const ceriseHeader = document.getElementById("ceriseHeader");
+    const { scrollDown } = this.props;
+
+    const filterMenu = document.getElementById("filter_by");
+    const filterMenuHeader = document.getElementById("filter-menu-header");
+    if (window?.pageYOffset > sticky) {
+      // When announcement bar is hidden
+      (header as HTMLElement).style.position = "fixed";
+      (header as HTMLElement).style.marginBottom = "0px";
+      const tim = timer !== undefined ? timer : this.props.showTimer;
+
+      if (gridList) {
+        if (scrollDown && window?.pageYOffset != 0) {
+          (gridList as HTMLElement).style.top = "0px";
+        } else {
+          if (tim) {
+            (gridList as HTMLElement).style.top = "93px";
+          } else {
+            (gridList as HTMLElement).style.top = "53px";
+          }
+        }
+      }
+
+      if (secondaryHeader) {
+        if (tim) {
+          (secondaryHeader as HTMLElement).style.top = "90px";
+          if (sortHeader) {
+            (sortHeader as HTMLElement).style.top = "90px";
+          }
+          if (sortHeader2) {
+            (sortHeader2 as HTMLElement).style.top = "90px";
+          }
+          if (sortHeaderMobile) {
+            (sortHeaderMobile as HTMLElement).style.top = "90px";
+          }
+        } else {
+          (secondaryHeader as HTMLElement).style.top = "50px";
+
+          if (sortHeader) {
+            (sortHeader as HTMLElement).style.top = "50px";
+          }
+          if (sortHeader2) {
+            (sortHeader2 as HTMLElement).style.top = "50px";
+          }
+          if (sortHeaderMobile) {
+            (sortHeaderMobile as HTMLElement).style.top = "50px";
+          }
+        }
+        // (secondaryHeader as HTMLElement).style.transition = "all 0.5s linear";
+      }
+      if (filterMenu) {
+        const tim = timer !== undefined ? timer : this.props.showTimer;
+
+        if (tim) {
+          (filterMenu as HTMLElement).style.top = "130px";
+        } else {
+          (filterMenu as HTMLElement).style.top = "100px";
+        }
+      }
+      if (filterMenuHeader) {
+        const tim = timer !== undefined ? timer : this.props.showTimer;
+
+        if (tim) {
+          (filterMenuHeader as HTMLElement).style.top = "90px";
+        } else {
+          (filterMenuHeader as HTMLElement).style.top = "50px";
+        }
+      }
+
+      if (mobileFilter) {
+        if (tim) {
+          (mobileFilter as HTMLElement).style.top = "90px";
+        } else {
+          (mobileFilter as HTMLElement).style.top = "50px";
+        }
+      }
+
+      if (filterHeader) {
+        if (tim) {
+          (filterHeader as HTMLElement).style.top = "90px";
+        } else {
+          (filterHeader as HTMLElement).style.top = "50px";
+        }
+      }
+
+      if (mobileFilterMenu) {
+        if (tim) {
+          (mobileFilterMenu as HTMLElement).style.top = "130px";
+        } else {
+          (mobileFilterMenu as HTMLElement).style.top = "90px";
+        }
+      }
+
+      if (dropdownFilterHeader) {
+        if (tim) {
+          (dropdownFilterHeader as HTMLElement).style.top = "90px";
+        } else {
+          (dropdownFilterHeader as HTMLElement).style.top = "50px";
+        }
+      }
+
+      if (dropdownFilterHeaderMenu) {
+        if (tim) {
+          (dropdownFilterHeaderMenu as HTMLElement).style.top = "130px";
+        } else {
+          (dropdownFilterHeaderMenu as HTMLElement).style.top = "90px";
+        }
+      }
+
+      if (shopLocatorDropdown) {
+        if (tim) {
+          (shopLocatorDropdown as HTMLElement).style.top = "90px";
+        } else {
+          (shopLocatorDropdown as HTMLElement).style.top = "50px";
+        }
+      }
+
+      if (shopLocatorDropdownMenu) {
+        if (tim) {
+          (shopLocatorDropdownMenu as HTMLElement).style.top = "92px";
+        } else {
+          (shopLocatorDropdownMenu as HTMLElement).style.top = "52px";
+        }
+      }
+      if (ceriseHeader) {
+        if (tim) {
+          (ceriseHeader as HTMLElement).style.top = "90px";
+        } else {
+          (ceriseHeader as HTMLElement).style.top = "50px";
+        }
+      }
+    } else {
+      (header as HTMLElement).style.position = "relative";
+      (header as HTMLElement).style.marginBottom = "-40px";
+      const tim = timer !== undefined ? timer : this.props.showTimer;
+
+      if (gridList) {
+        if (scrollDown && window?.pageYOffset != 0) {
+          (gridList as HTMLElement).style.top = "0px";
+        } else {
+          if (tim) {
+            (gridList as HTMLElement).style.top = `${133 -
+              window?.pageYOffset}px`;
+          } else {
+            (gridList as HTMLElement).style.top = `${93 -
+              window?.pageYOffset}px`;
+          }
+        }
+      }
+
+      if (secondaryHeader) {
+        if (tim) {
+          (secondaryHeader as HTMLElement).style.top = `${130 -
+            window?.pageYOffset}px`;
+
+          if (sortHeader) {
+            (sortHeader as HTMLElement).style.top = `${130 -
+              window?.pageYOffset}px`;
+          }
+          if (sortHeader2) {
+            (sortHeader2 as HTMLElement).style.top = `${130 -
+              window?.pageYOffset}px`;
+          }
+          if (sortHeaderMobile) {
+            (sortHeaderMobile as HTMLElement).style.top = `${130 -
+              window?.pageYOffset}px`;
+          }
+        } else {
+          (secondaryHeader as HTMLElement).style.top = `${90 -
+            window?.pageYOffset}px`;
+          if (sortHeader) {
+            (sortHeader as HTMLElement).style.top = `${90 -
+              window?.pageYOffset}px`;
+          }
+          if (sortHeader2) {
+            (sortHeader2 as HTMLElement).style.top = `${90 -
+              window?.pageYOffset}px`;
+          }
+          if (sortHeaderMobile) {
+            (sortHeaderMobile as HTMLElement).style.top = `${90 -
+              window?.pageYOffset}px`;
+          }
+        }
+
+        // (secondaryHeader as HTMLElement).style.transition = "all 0.5s linear";
+      }
+      if (filterMenu) {
+        const tim = timer !== undefined ? timer : this.props.showTimer;
+
+        if (tim) {
+          (filterMenu as HTMLElement).style.top = "180px";
+        } else {
+          (filterMenu as HTMLElement).style.top = "140px";
+        }
+      }
+      if (filterMenuHeader) {
+        const tim = timer !== undefined ? timer : this.props.showTimer;
+
+        if (tim) {
+          (filterMenuHeader as HTMLElement).style.top = "130px";
+        } else {
+          (filterMenuHeader as HTMLElement).style.top = "90px";
+        }
+      }
+
+      if (mobileFilter) {
+        if (tim) {
+          (mobileFilter as HTMLElement).style.top = `${130 -
+            window?.pageYOffset}px`;
+        } else {
+          (mobileFilter as HTMLElement).style.top = `${90 -
+            window?.pageYOffset}px`;
+        }
+      }
+
+      if (filterHeader) {
+        if (tim) {
+          (filterHeader as HTMLElement).style.top = `${130 -
+            window?.pageYOffset}px`;
+        } else {
+          (filterHeader as HTMLElement).style.top = `${90 -
+            window?.pageYOffset}px`;
+        }
+      }
+
+      if (mobileFilterMenu) {
+        if (tim) {
+          (mobileFilterMenu as HTMLElement).style.top = `${170 -
+            window?.pageYOffset}px`;
+        } else {
+          (mobileFilterMenu as HTMLElement).style.top = `${130 -
+            window?.pageYOffset}px`;
+        }
+      }
+
+      if (dropdownFilterHeader) {
+        if (tim) {
+          (dropdownFilterHeader as HTMLElement).style.top = `${130 -
+            window?.pageYOffset}px`;
+        } else {
+          (dropdownFilterHeader as HTMLElement).style.top = `${90 -
+            window?.pageYOffset}px`;
+        }
+      }
+
+      if (dropdownFilterHeaderMenu) {
+        if (tim) {
+          (dropdownFilterHeaderMenu as HTMLElement).style.top = `${170 -
+            window?.pageYOffset}px`;
+        } else {
+          (dropdownFilterHeaderMenu as HTMLElement).style.top = `${130 -
+            window?.pageYOffset}px`;
+        }
+      }
+
+      if (shopLocatorDropdown) {
+        if (tim) {
+          (shopLocatorDropdown as HTMLElement).style.top = `${130 -
+            window?.pageYOffset}px`;
+        } else {
+          (shopLocatorDropdown as HTMLElement).style.top = `${90 -
+            window?.pageYOffset}px`;
+        }
+      }
+
+      if (shopLocatorDropdownMenu) {
+        if (tim) {
+          (shopLocatorDropdownMenu as HTMLElement).style.top = `${132 -
+            window?.pageYOffset}px`;
+        } else {
+          (shopLocatorDropdownMenu as HTMLElement).style.top = `${92 -
+            window?.pageYOffset}px`;
+        }
+      }
+
+      if (ceriseHeader) {
+        if (tim) {
+          (ceriseHeader as HTMLElement).style.top = `${130 -
+            window?.pageYOffset}px`;
+        } else {
+          (ceriseHeader as HTMLElement).style.top = `${90 -
+            window?.pageYOffset}px`;
+        }
+      }
+    }
+
+    // (header as HTMLElement).style.transition = "all 0.5s ease-in-out";
+  };
+
+  componentWillUnmount() {
+    document.removeEventListener("scroll", this.onScroll);
+  }
 
   showCurrency = () => {
     this.setState({
@@ -594,7 +914,7 @@ class Header extends React.Component<Props, State> {
       <div className="">
         {meta.h1Tag && (
           <h1
-            style={mobile ? { height: "45px", maxHeight: "45px" } : {}}
+            style={mobile ? { height: "0px", maxHeight: "0px" } : {}}
             className={styles.titleH1}
           >
             {meta.h1Tag}
@@ -692,18 +1012,19 @@ class Header extends React.Component<Props, State> {
             crossOrigin="crossorigin"
           />
         </Helmet>
+        {this.state.reloadAnnouncementBar && (
+          <AnnouncementBar
+            clearBridalSession={this.clearBridalSession}
+            isBridalRegistryPage={isBridalRegistryPage}
+          />
+        )}
         <div
+          id="myHeader"
           className={cs(
             { [styles.headerIndex]: showMenu },
             styles.headerContainer
           )}
         >
-          {this.state.reloadAnnouncementBar && (
-            <AnnouncementBar
-              clearBridalSession={this.clearBridalSession}
-              isBridalRegistryPage={isBridalRegistryPage}
-            />
-          )}
           {!isBridalRegistryPage &&
             !isCeriseCustomer &&
             this.props.showTimer &&

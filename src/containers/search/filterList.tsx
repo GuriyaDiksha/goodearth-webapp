@@ -30,7 +30,8 @@ const mapStateToProps = (state: AppState) => {
     nextUrl: state.searchList.data.next,
     listdata: state.searchList.data.results.data,
     customerGroup: state.user.customerGroup,
-    filtered_facets: state.searchList.data.results.filtered_facets
+    filtered_facets: state.searchList.data.results.filtered_facets,
+    showTimer: state.info.showTimer
   };
 };
 
@@ -831,6 +832,51 @@ class FilterList extends React.Component<Props, State> {
   componentDidMount() {
     window.addEventListener("scroll", this.handleScroll);
     this.unlisten = this.props.history.listen(this.stateChange);
+
+    const header = document.getElementById("myHeader");
+    const sticky = (header as HTMLElement)?.offsetTop;
+    const filterMenu = document.getElementById("filter_by");
+    const filterMenuHeader = document.getElementById("filter-menu-header");
+    const timer = this.props.showTimer;
+    if (window?.pageYOffset > sticky) {
+      if (filterMenu) {
+        const tim = timer !== undefined ? timer : this.props.showTimer;
+
+        if (tim) {
+          (filterMenu as HTMLElement).style.top = "130px";
+        } else {
+          (filterMenu as HTMLElement).style.top = "100px";
+        }
+      }
+      if (filterMenuHeader) {
+        const tim = timer !== undefined ? timer : this.props.showTimer;
+
+        if (tim) {
+          (filterMenuHeader as HTMLElement).style.top = "90px";
+        } else {
+          (filterMenuHeader as HTMLElement).style.top = "50px";
+        }
+      }
+    } else {
+      if (filterMenu) {
+        const tim = timer !== undefined ? timer : this.props.showTimer;
+
+        if (tim) {
+          (filterMenu as HTMLElement).style.top = "180px";
+        } else {
+          (filterMenu as HTMLElement).style.top = "140px";
+        }
+      }
+      if (filterMenuHeader) {
+        const tim = timer !== undefined ? timer : this.props.showTimer;
+
+        if (tim) {
+          (filterMenuHeader as HTMLElement).style.top = "130px";
+        } else {
+          (filterMenuHeader as HTMLElement).style.top = "90px";
+        }
+      }
+    }
   }
 
   UNSAFE_componentWillReceiveProps = (nextProps: Props) => {
@@ -2235,49 +2281,51 @@ class FilterList extends React.Component<Props, State> {
               </ul>
             </div>
           </li>
-          {/* <li>
-            <span
-              className={
-                this.state.activeindex == 4 && this.state.showmenulevel1
-                  ? cs(styles.menulevel1, styles.menulevel1Open)
-                  : styles.menulevel1
-              }
-              onClick={() => {
-                this.Clickmenulevel1(4);
-                this.handleAnimation(
-                  "material",
+          {this.props.facets?.currentMaterial?.length > 0 ? (
+            <li>
+              <span
+                className={
                   this.state.activeindex == 4 && this.state.showmenulevel1
-                );
-              }}
-            >
-              MATERIAL
-            </span>
-            <div
-              id="material"
-              className={
-                this.state.activeindex == 4 && this.state.showmenulevel1
-                  ? styles.colorhead
-                  : styles.hideDiv
-              }
-            >
-              <ul>
-                <span>
-                  {this.createMaterial(
-                    this.props.facets,
-                    this.props.filtered_facets
-                  )}
-                </span>
-                <div data-name="currentMaterial">
-                  <span
-                    onClick={e => this.clearFilter(e, "currentMaterial")}
-                    className={styles.plp_filter_sub}
-                  >
-                    Clear
+                    ? cs(styles.menulevel1, styles.menulevel1Open)
+                    : styles.menulevel1
+                }
+                onClick={() => {
+                  this.Clickmenulevel1(4);
+                  this.handleAnimation(
+                    "material",
+                    this.state.activeindex == 4 && this.state.showmenulevel1
+                  );
+                }}
+              >
+                MATERIAL
+              </span>
+              <div
+                id="material"
+                className={
+                  this.state.activeindex == 4 && this.state.showmenulevel1
+                    ? styles.colorhead
+                    : styles.hideDiv
+                }
+              >
+                <ul>
+                  <span>
+                    {this.createMaterial(
+                      this.props.facets,
+                      this.props.filtered_facets
+                    )}
                   </span>
-                </div>
-              </ul>
-            </div>
-          </li> */}
+                  <div data-name="currentMaterial">
+                    <span
+                      onClick={e => this.clearFilter(e, "currentMaterial")}
+                      className={styles.plp_filter_sub}
+                    >
+                      Clear
+                    </span>
+                  </div>
+                </ul>
+              </div>
+            </li>
+          ) : null}
           {this.props.facets.availableSize ? (
             this.props.facets.availableSize.length > 0 ? (
               <li>

@@ -75,6 +75,7 @@ class PLP extends React.Component<
     isThirdParty: boolean;
     count: number;
     showProductCounter: boolean;
+    header: string;
   }
 > {
   constructor(props: Props) {
@@ -97,7 +98,8 @@ class PLP extends React.Component<
         props.location.pathname.includes("corporate-gifting") ||
         props.location.search.includes("&src_type=cp"),
       isThirdParty: props.location.search.includes("&src_type=cp"),
-      showProductCounter: true
+      showProductCounter: true,
+      header: ""
     };
   }
   private child: any = FilterList;
@@ -181,6 +183,9 @@ class PLP extends React.Component<
     window.removeEventListener(
       "scroll",
       throttle(() => {
+        const header =
+          document?.getElementById("myHeader")?.style.position || "";
+        this.setState({ header });
         this.setProductCount();
       }, 100)
     );
@@ -533,7 +538,7 @@ class PLP extends React.Component<
     const { plpMaker, corporoateGifting } = this.state;
     const queryString = this.props.location.search;
     const urlParams = new URLSearchParams(queryString);
-    const categoryShop = urlParams.get("category_shop")?.split(">")?.[0];
+    const categoryShop = urlParams.get("category_shop")?.split(">")?.[1];
 
     const items: CategoryMenu[] = [
       {
@@ -603,11 +608,13 @@ class PLP extends React.Component<
           <SecondaryHeader>
             <Fragment>
               <div className={cs(bootstrap.colMd7, bootstrap.offsetMd1)}>
-                <PlpBreadcrumbs
-                  levels={breadcrumb}
-                  className={cs(bootstrap.colMd12)}
-                  isViewAll={this.child.state?.isViewAll}
-                />
+                {categoryShop?.trim() !== "Souk" ? (
+                  <PlpBreadcrumbs
+                    levels={breadcrumb}
+                    className={cs(bootstrap.colMd12)}
+                    isViewAll={this.child.state?.isViewAll}
+                  />
+                ) : null}
               </div>
               <div className={cs(bootstrap.colMd3, styles.innerHeader)}>
                 <p className={styles.filterText}>Sort By: </p>
@@ -818,7 +825,9 @@ class PLP extends React.Component<
               </div>
             ) : (
               <div
-                className={cs(styles.productNumber, styles.imageContainer, {})}
+                className={cs(styles.productNumber, styles.imageContainer, {
+                  [styles.prouctMobilePadding]: mobile
+                })}
               >
                 <span>
                   {count > 0
@@ -1044,6 +1053,7 @@ class PLP extends React.Component<
           </div>
           {mobile && !tablet && (
             <div
+              id="gridList"
               className={cs(styles.listGridBar, {
                 [styles.listGridBarTimer]: this.props.showTimer,
                 [styles.hide]: this.props.scrollDown

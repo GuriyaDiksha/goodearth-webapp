@@ -28,7 +28,8 @@ const mapStateToProps = (state: AppState) => {
     salestatus: state.info.isSale,
     location: state.router.location,
     scrollDown: state.info.scrollDown,
-    customerGroup: state.user.customerGroup
+    customerGroup: state.user.customerGroup,
+    showTimer: state.info.showTimer
   };
 };
 
@@ -465,7 +466,10 @@ class CorporateFilter extends React.Component<Props, State> {
     let currentRange: any = [];
     const queryString = this.props.location.search;
     const urlParams = new URLSearchParams(queryString);
-    const categoryShop = urlParams.get("category_shop")?.split(">")[0];
+    const categoryShop = urlParams
+      .get("category_shop")
+      ?.split(">")[1]
+      ?.trim();
     const {
       nextUrl,
       // mobile,
@@ -560,7 +564,10 @@ class CorporateFilter extends React.Component<Props, State> {
     const pageSize = 20;
     const queryString = this.props.location.search;
     const urlParams = new URLSearchParams(queryString);
-    const categoryShop = urlParams.get("category_shop")?.split(">")[0];
+    const categoryShop = urlParams
+      .get("category_shop")
+      ?.split(">")[1]
+      ?.trim();
     fetchPlpProducts(filterUrl + `&page_size=${pageSize}`).then(plpList => {
       valid.productImpression(
         plpList,
@@ -643,6 +650,51 @@ class CorporateFilter extends React.Component<Props, State> {
     });
     const config = { subtree: true, childList: true };
     observer.observe(document, config);
+
+    const header = document.getElementById("myHeader");
+    const sticky = (header as HTMLElement)?.offsetTop;
+    const filterMenu = document.getElementById("filter_by");
+    const filterMenuHeader = document.getElementById("filter-menu-header");
+    const timer = this.props.showTimer;
+    if (window?.pageYOffset > sticky) {
+      if (filterMenu) {
+        const tim = timer !== undefined ? timer : this.props.showTimer;
+
+        if (tim) {
+          (filterMenu as HTMLElement).style.top = "130px";
+        } else {
+          (filterMenu as HTMLElement).style.top = "100px";
+        }
+      }
+      if (filterMenuHeader) {
+        const tim = timer !== undefined ? timer : this.props.showTimer;
+
+        if (tim) {
+          (filterMenuHeader as HTMLElement).style.top = "90px";
+        } else {
+          (filterMenuHeader as HTMLElement).style.top = "50px";
+        }
+      }
+    } else {
+      if (filterMenu) {
+        const tim = timer !== undefined ? timer : this.props.showTimer;
+
+        if (tim) {
+          (filterMenu as HTMLElement).style.top = "180px";
+        } else {
+          (filterMenu as HTMLElement).style.top = "140px";
+        }
+      }
+      if (filterMenuHeader) {
+        const tim = timer !== undefined ? timer : this.props.showTimer;
+
+        if (tim) {
+          (filterMenuHeader as HTMLElement).style.top = "130px";
+        } else {
+          (filterMenuHeader as HTMLElement).style.top = "90px";
+        }
+      }
+    }
   }
 
   UNSAFE_componentWillReceiveProps = (nextProps: Props) => {

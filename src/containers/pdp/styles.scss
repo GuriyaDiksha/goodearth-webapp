@@ -13,7 +13,7 @@ $pdp-top: $header-height + $secondary-header-height;
 
 @media screen and (max-width: 992px){
     .pdp-container{
-        margin-top: $header-height - 40px;
+        margin-top: $main-header - 50px;
     }
 }
 
