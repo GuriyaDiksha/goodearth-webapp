@@ -78,7 +78,8 @@ const TransactionTable = ({ mobile }: Props) => {
       email,
       DateRangeFilter: "L3M",
       TransactionFilter: "ALL",
-      PageNumber: currentPage
+      PageNumber: currentPage,
+      PaginationFilter: 1
     });
   }, []);
 
@@ -91,7 +92,8 @@ const TransactionTable = ({ mobile }: Props) => {
       email,
       DateRangeFilter: isMonthFilter ? val : dropDownValue,
       TransactionFilter: dropDownValue2,
-      PageNumber: currentPage
+      PageNumber: currentPage,
+      PaginationFilter: 1
     });
   };
 
@@ -102,7 +104,8 @@ const TransactionTable = ({ mobile }: Props) => {
         email,
         DateRangeFilter: dropDownValue,
         TransactionFilter: dropDownValue2,
-        PageNumber: currentPage
+        PageNumber: currentPage,
+        PaginationFilter: 1
       });
     }
   };
@@ -350,38 +353,37 @@ const TransactionTable = ({ mobile }: Props) => {
                       { [globalStyles.greyColor]: ele?.Description === "NA" }
                     )}
                   >
-                    {`[${ele?.Description === "Point Redeemed" ? "-" : "+"}] ${
-                      ele?.Points
-                    }`}
+                    {ele?.Description !== "NA"
+                      ? `[${
+                          ele?.Description === "Point Redeemed" ? "-" : "+"
+                        }] ${ele?.Points}`
+                      : ele?.Points}
                   </p>
-                  {ele?.Description === "Point Earned" ||
-                  ele?.Description === "Point Redeemed" ? (
-                    <p
-                      className={cs(
-                        bootstrap.col1,
-                        styles.alignCenterText,
-                        styles.iconCarrot
-                      )}
-                    >
-                      <span
-                        className={
-                          openStateId["id"] === ind + "t" &&
-                          openStateId["state"]
-                            ? styles.active
-                            : ""
-                        }
-                        onClick={() => {
-                          setOpenStateId({
-                            id: ind + "t",
-                            state:
-                              openStateId["id"] === ind + "t"
-                                ? !openStateId["state"]
-                                : true
-                          });
-                        }}
-                      ></span>
-                    </p>
-                  ) : null}
+
+                  <p
+                    className={cs(
+                      bootstrap.col1,
+                      styles.alignCenterText,
+                      styles.iconCarrot
+                    )}
+                  >
+                    <span
+                      className={
+                        openStateId["id"] === ind + "t" && openStateId["state"]
+                          ? styles.active
+                          : ""
+                      }
+                      onClick={() => {
+                        setOpenStateId({
+                          id: ind + "t",
+                          state:
+                            openStateId["id"] === ind + "t"
+                              ? !openStateId["state"]
+                              : true
+                        });
+                      }}
+                    ></span>
+                  </p>
                 </div>
                 <div
                   className={cs(

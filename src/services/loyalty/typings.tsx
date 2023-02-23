@@ -16,4 +16,5 @@ export type TransactionPayload = {
   DateRangeFilter: string;
   TransactionFilter: string;
   PageNumber: number;
+  PaginationFilter?: number;
 };
