@@ -25,8 +25,8 @@ const MyProfile: React.FC<ProfileProps> = ({ setCurrentSection }) => {
   const {
     address: { countryData }
   } = useSelector((state: AppState) => state);
+  const [data, setData] = useState<Partial<ProfileResponse>>({});
   const [profileState, setProfileState] = useState<State>({
-    data: {},
     newsletter: false,
     uniqueId: "",
     abandonedCartNotification: false,
@@ -63,7 +63,7 @@ const MyProfile: React.FC<ProfileProps> = ({ setCurrentSection }) => {
     return list.isdCode;
   });
 
-  const changeCountryData = (countryData: Country[]) => {
+  const changeCountryData = (countryData: Country[], newData: any) => {
     const countryOptions = countryData.map(country => {
       const states = country.regionSet.map(state => {
         return Object.assign({}, state, {
@@ -82,9 +82,9 @@ const MyProfile: React.FC<ProfileProps> = ({ setCurrentSection }) => {
         }
       );
     });
-    const formdata = profileState.data;
+    const formdata = newData ? newData : data;
     // formdata.state = formdata.state;
-    if (countryOptions.length > 0 && formdata.country) {
+    if (countryOptions.length > 0 && formdata?.country) {
       countryOptions.map(con => {
         if (con.code2 == formdata.country) {
           formdata.country = con.value;
@@ -97,13 +97,16 @@ const MyProfile: React.FC<ProfileProps> = ({ setCurrentSection }) => {
       setProfileState({
         ...profileState,
         countryOptions: countryOptions,
-        data: formdata,
+        // data: formdata,
         isIndia: formdata.country == "India",
         stateOptions: states
       });
-      ProfileFormRef.current &&
-        ProfileFormRef.current.updateInputsWithValue(formdata);
+      // ProfileFormRef.current &&
+      //   ProfileFormRef.current.updateInputsWithValue(formdata);
     }
+    setData(formdata);
+    ProfileFormRef.current &&
+      ProfileFormRef.current.updateInputsWithValue(formdata);
   };
 
   const setApiResponse = (data: ProfileResponse) => {
@@ -124,13 +127,12 @@ const MyProfile: React.FC<ProfileProps> = ({ setCurrentSection }) => {
       user,
       uniqueId,
       abandonedCartNotification,
-      newsletter,
-      updateProfile: false,
-      data: data
+      newsletter
+      // data: data
     });
-    changeCountryData(countryData);
-    ProfileFormRef.current &&
-      ProfileFormRef.current.updateInputsWithValue(formData);
+    changeCountryData(countryData, data);
+    // ProfileFormRef.current &&
+    //   ProfileFormRef.current.updateInputsWithValue(formData);
   };
 
   useEffect(() => {
@@ -139,7 +141,7 @@ const MyProfile: React.FC<ProfileProps> = ({ setCurrentSection }) => {
       .then(data => {
         LoginService.fetchCountryData(dispatch).then(res => {
           dispatch(updateCountryData(res));
-          changeCountryData(res);
+          changeCountryData(res, data);
           pageViewGTM("MyAccount");
         });
         setApiResponse(data);
@@ -153,7 +155,7 @@ const MyProfile: React.FC<ProfileProps> = ({ setCurrentSection }) => {
   }, []);
 
   useEffect(() => {
-    changeCountryData(countryData);
+    changeCountryData(countryData, data);
   }, [countryData]);
 
   const handleInvalidSubmit = () => {
@@ -239,13 +241,13 @@ const MyProfile: React.FC<ProfileProps> = ({ setCurrentSection }) => {
             case "panPassportNumber":
               updateInputsWithError(
                 {
-                  [data]: data[data][0]
+                  [data]: errdata?.[data]?.[0]
                 },
                 true
               );
               break;
             case "error_message": {
-              let errorMsg = data[data][0];
+              let errorMsg = errdata?.[data]?.[0];
               if (errorMsg == "MaxRetries") {
                 errorMsg =
                   "You have exceeded max attempts, please try after some time.";
@@ -322,7 +324,7 @@ const MyProfile: React.FC<ProfileProps> = ({ setCurrentSection }) => {
 
   const {
     countryOptions,
-    data,
+    // data,
     minDate,
     maxDate,
     isIndia,
@@ -331,16 +333,6 @@ const MyProfile: React.FC<ProfileProps> = ({ setCurrentSection }) => {
     updateProfile
   } = profileState;
   const isExistyError = "This field is required";
-  const {
-    firstName,
-    lastName,
-    phoneCountryCode,
-    phoneNumber,
-    gender,
-    panPassportNumber,
-    dateOfBirth,
-    subscribe
-  } = data;
 
   const formContent = (
     <div className={cs(styles.loginForm, globalStyles.voffset4)}>
@@ -368,8 +360,8 @@ const MyProfile: React.FC<ProfileProps> = ({ setCurrentSection }) => {
                 keyPress={e => (e.key == " Enter" ? e.preventDefault() : "")}
                 required
                 handleChange={() => setUpdateProfile()}
-                disable={firstName ? true : false}
-                className={cs({ [styles.disabledInput]: firstName })}
+                disable={data?.firstName ? true : false}
+                className={cs({ [styles.disabledInput]: data?.firstName })}
               />
             </div>
             <div>
@@ -379,8 +371,8 @@ const MyProfile: React.FC<ProfileProps> = ({ setCurrentSection }) => {
                 label={"Last Name"}
                 keyPress={e => (e.key == " Enter" ? e.preventDefault() : "")}
                 handleChange={() => setUpdateProfile()}
-                disable={lastName ? true : false}
-                className={cs({ [styles.disabledInput]: lastName })}
+                disable={data?.lastName ? true : false}
+                className={cs({ [styles.disabledInput]: data?.lastName })}
               />
             </div>
             <div className={styles.userGenderPicker}>
@@ -388,12 +380,12 @@ const MyProfile: React.FC<ProfileProps> = ({ setCurrentSection }) => {
                 name="gender"
                 required
                 options={genderOptions}
-                value={gender || undefined}
+                value={data?.gender || undefined}
                 label="Select Gender"
                 placeholder="Select Gender"
                 handleChange={() => setUpdateProfile()}
-                disable={gender ? true : false}
-                className={cs({ [styles.disabledInput]: gender })}
+                disable={data?.gender ? true : false}
+                className={cs({ [styles.disabledInput]: data?.gender })}
               />
             </div>
             <div className={styles.calendarIconContainer}>
@@ -401,9 +393,9 @@ const MyProfile: React.FC<ProfileProps> = ({ setCurrentSection }) => {
                 name="dateOfBirth"
                 type="date"
                 handleChange={() => setUpdateProfile()}
-                value={dateOfBirth}
-                disable={dateOfBirth ? true : false}
-                className={cs({ [styles.disabledInput]: dateOfBirth })}
+                value={data?.dateOfBirth}
+                disable={data?.dateOfBirth ? true : false}
+                className={cs({ [styles.disabledInput]: data?.dateOfBirth })}
                 id="dateOfBirth"
                 placeholder="YYYY/MM/DD"
                 label="Date of Birth"
@@ -415,19 +407,19 @@ const MyProfile: React.FC<ProfileProps> = ({ setCurrentSection }) => {
                 ).format("YYYY-MM-DD")}
                 validations={{
                   isValidDate: (values, value) => {
-                    if (value && !dateOfBirth) {
+                    if (value && !data?.dateOfBirth) {
                       return moment(value).isValid();
                     } else return true;
                   },
                   isMinAllowedDate: (values, value) => {
-                    if (value && !dateOfBirth) {
+                    if (value && !data?.dateOfBirth) {
                       return (
                         new Date(value).getTime() > new Date(minDate).getTime()
                       );
                     } else return true;
                   },
                   isMaxAllowedDate: (values, value) => {
-                    if (value && !dateOfBirth) {
+                    if (value && !data?.dateOfBirth) {
                       return (
                         new Date(value).getTime() < new Date(maxDate).getTime()
                       );
@@ -446,7 +438,7 @@ const MyProfile: React.FC<ProfileProps> = ({ setCurrentSection }) => {
                 <FormSelect
                   required
                   label="Country"
-                  value={data.country}
+                  value={data?.country}
                   options={countryOptions}
                   handleChange={onCountrySelect}
                   placeholder="Select Country"
@@ -475,7 +467,7 @@ const MyProfile: React.FC<ProfileProps> = ({ setCurrentSection }) => {
                     label="State"
                     placeholder="Select State"
                     options={stateOptions}
-                    value={data.state}
+                    value={data?.state}
                     validations={{
                       isExisty: true
                     }}
@@ -499,7 +491,7 @@ const MyProfile: React.FC<ProfileProps> = ({ setCurrentSection }) => {
                 placeholder="Code"
                 label="Country Code"
                 value=""
-                disable={phoneCountryCode ? true : false}
+                disable={data?.phoneCountryCode ? true : false}
                 id="isd_code"
                 validations={{
                   isCodeValid: (values, value) => {
@@ -518,6 +510,9 @@ const MyProfile: React.FC<ProfileProps> = ({ setCurrentSection }) => {
                   isCodeValid: "Required",
                   isValidCode: "Enter valid code"
                 }}
+                className={cs({
+                  [styles.disabledInput]: data?.phoneCountryCode
+                })}
               />
 
               <FormInput
@@ -526,9 +521,9 @@ const MyProfile: React.FC<ProfileProps> = ({ setCurrentSection }) => {
                 handleChange={() => setUpdateProfile()}
                 type="number"
                 label={"Contact Number"}
-                disable={phoneNumber ? true : false}
+                disable={data?.phoneNumber ? true : false}
                 className={cs(
-                  { [styles.disabledInput]: phoneNumber },
+                  { [styles.disabledInput]: data?.phoneNumber },
                   styles.contactNum
                 )}
                 // validations={{
@@ -555,14 +550,16 @@ const MyProfile: React.FC<ProfileProps> = ({ setCurrentSection }) => {
                 placeholder={"Pan/Passport"}
                 label={"Pan/Passport"}
                 handleChange={() => setUpdateProfile()}
-                disable={panPassportNumber ? true : false}
-                className={cs({ [styles.disabledInput]: panPassportNumber })}
+                disable={data?.panPassportNumber ? true : false}
+                className={cs({
+                  [styles.disabledInput]: data?.panPassportNumber
+                })}
                 defaultClass={styles.inputDefault}
               />
             </div>
             <div className={styles.subscribe}>
               <FormCheckbox
-                value={subscribe || false}
+                value={data?.subscribe || false}
                 name="subscribe"
                 disable={false}
                 handleChange={() => setUpdateProfile()}
