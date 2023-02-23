@@ -234,7 +234,7 @@ $banner-mobile-height:500px;
         }
         .header-box{
             width: 100%;
-            position: relative;
+            position: sticky;
             overflow-x: auto;
             overflow-y: hidden;
             white-space: nowrap;
