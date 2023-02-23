@@ -1,5 +1,6 @@
 import React from "react";
-import { hydrate } from "react-dom";
+// import { hydrate } from "react-dom";
+import { hydrateRoot } from "react-dom/client";
 import { Provider } from "react-redux";
 import { ConnectedRouter } from "connected-react-router";
 import { configureStore } from "store/configure";
@@ -32,11 +33,9 @@ const application = (
 );
 
 window.onload = () => {
-  const root = document.getElementById("main");
-
-  // document.body.appendChild(modalContainer);
-  // document.body.appendChild(root);
-  hydrate(application, root);
+  // const root = document.getElementById("main");
+  const container = document.getElementById("main") || "";
+  hydrateRoot(container, application);
   const updatedDevice = getDevice(window.navigator.userAgent);
   const mobile = updatedDevice.mobile || window.innerWidth < 992;
   const orientation: "landscape" | "portrait" =
