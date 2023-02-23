@@ -24,7 +24,7 @@
 
 .cerise-card-left-wrp{
     // height: 100%;
-    background: $cerise;
+    background: #9f9f9f;
     padding: 30px;
     // width: 414px;
     flex: 0 0 50%;
@@ -211,4 +211,7 @@
 
 .gold-background{
     background-color: $gold;
+}
+.cerise-background{
+    background-color: $cerise;
 }

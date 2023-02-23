@@ -530,7 +530,7 @@ hr {
     .otp-error{
       @include error_msg_cerise();
       padding-top: 10px;
-      text-align: left;
+      text-align: center;
       letter-spacing: 0.5px;
     }
   }

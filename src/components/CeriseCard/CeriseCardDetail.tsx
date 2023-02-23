@@ -51,6 +51,8 @@ const CeriseCardDetail: React.FC<Props> = ({
       className={cs(styles.ceriseCardLeftWrp, styles.mobileWidth, {
         [styles.goldBackground]:
           loyaltyPoints?.MembershipClub === "Cerise Sitara",
+        [styles.ceriseBackground]:
+          loyaltyPoints?.MembershipClub === "Cerise Club",
         [styles.leftMaxWidth]: isViewDashboard
       })}
     >
