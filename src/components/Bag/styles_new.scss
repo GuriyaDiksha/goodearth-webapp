@@ -148,7 +148,7 @@
             cursor: pointer;
           }
           .wishlist-display {
-            div {
+            div { 
               cursor: pointer;
               @include b5_10px_montserrat_charcoal();
               text-decoration: underline;
