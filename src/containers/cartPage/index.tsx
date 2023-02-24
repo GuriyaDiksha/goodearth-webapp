@@ -24,6 +24,7 @@ import { updateComponent, updateModal } from "actions/modal";
 import { POPUP } from "constants/components";
 import CookieService from "services/cookie";
 import { GA_CALLS, ANY_ADS } from "constants/cookieConsent";
+import { currencyCode } from "typings/currency";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -33,7 +34,8 @@ const mapStateToProps = (state: AppState) => {
     cart: state.basket,
     isSale: state.info.isSale,
     location: state.router.location,
-    isLoggedIn: state.user.isLoggedIn
+    isLoggedIn: state.user.isLoggedIn,
+    wishlistData: state.wishlist.items
   };
 };
 
@@ -286,7 +288,9 @@ class CartPage extends React.Component<Props, State> {
       cart: { lineItems },
       currency,
       mobile,
-      tablet
+      tablet,
+      isLoggedIn,
+      wishlistData
     } = this.props;
 
     const emptyCartContent = (
@@ -294,7 +298,7 @@ class CartPage extends React.Component<Props, State> {
         {/* {this.renderMessage()} */}
         <div
           className={cs(
-            globalStyles.marginT40,
+            globalStyles.marginT50,
             globalStyles.textCenter,
             // bootstrap.colMd4,
             // bootstrap.offsetMd4,
@@ -334,7 +338,7 @@ class CartPage extends React.Component<Props, State> {
                       return (
                         <div
                           key={i}
-                          className={cs(bootstrap.colMd3, bootstrap.col6)}
+                          className={cs(bootstrap.colMd2, bootstrap.col6)}
                         >
                           <div className={styles.searchImageboxNew}>
                             <Link to={data.ctaUrl}>
@@ -364,6 +368,75 @@ class CartPage extends React.Component<Props, State> {
                   : ""}
               </div>
             </div>
+
+            {!isLoggedIn && (
+              <>
+                <h6 className={styles.wishlistHead}>From your Wishlist</h6>
+                <p className={styles.wishlistSubHead}>
+                  There’s more waiting for you in your Wishlist
+                </p>
+                <Link className={styles.viewAll} to="/wishlist">
+                  VIEW ALL
+                </Link>
+                <div className={cs(bootstrap.row, globalStyles.marginT20)}>
+                  <div
+                    className={cs(
+                      bootstrap.colMd12,
+                      bootstrap.col12,
+                      styles.noResultPadding,
+                      styles.checkheight,
+                      { [styles.checkheightMobile]: mobile }
+                    )}
+                  >
+                    {wishlistData.length > 0
+                      ? wishlistData?.slice(0, 4)?.map((data, i) => {
+                          return (
+                            <div
+                              key={i}
+                              className={cs(bootstrap.colMd2, bootstrap.col6)}
+                            >
+                              <div className={styles.searchImageboxNew}>
+                                <Link to={data.productUrl}>
+                                  <img
+                                    src={
+                                      data.productImage == ""
+                                        ? noImagePlp
+                                        : data.productImage
+                                    }
+                                    // onError={this.addDefaultSrc}
+                                    alt={data.productName}
+                                    className={styles.imageResultNew}
+                                  />
+                                </Link>
+                              </div>
+                              <div className={styles.imageContent}>
+                                {/* <p className={styles.searchImageTitle}>
+                                {data.productName}
+                              </p> */}
+                                <p className={styles.searchFeature}>
+                                  <Link to={data.productUrl}>
+                                    {data.productName}
+                                  </Link>
+                                </p>
+                                <p className={styles.searchFeature}>
+                                  <Link to={data.productUrl}>
+                                    {String.fromCharCode(
+                                      ...currencyCode[this.props.currency]
+                                    ) +
+                                      " " +
+                                      data.price[currency]}
+                                  </Link>
+                                </p>
+                              </div>
+                            </div>
+                          );
+                        })
+                      : ""}
+                  </div>
+                </div>
+              </>
+            )}
+
             {mobile || tablet ? (
               ""
             ) : (
@@ -466,12 +539,17 @@ class CartPage extends React.Component<Props, State> {
     return (
       <div className={cs(bootstrap.row, styles.pageBody)}>
         <div
-          className={cs(bootstrap.col12, bootstrap.colLg8, styles.bagContents)}
+          className={cs(bootstrap.col12, bootstrap.colLg9, styles.bagContents)}
         >
+          <div className={cs(styles.header)}>
+            <p>MY SHOPPING BAG (0)</p>
+          </div>
           {this.renderMessage()}
           {this.getItems()}
         </div>
-        <div className={cs(bootstrap.col12, bootstrap.colMd4)}>
+        <div
+          className={cs(bootstrap.col12, bootstrap.colMd3, globalStyles.padd0)}
+        >
           <OrderSummary
             mobile={this.props.mobile}
             currency={this.props.currency}

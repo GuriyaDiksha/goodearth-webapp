@@ -229,16 +229,16 @@ class CheckoutHeader extends React.Component<Props, { boId: string }> {
     if (this.props.location.pathname.indexOf("cart") > -1) {
       heading = (
         <span className={styles.vCenter}>
-          <span>
+          {/* <span>
             <i
               className={cs(iconStyles.icon, iconStyles.iconCart, styles.cart)}
             ></i>
-          </span>
-          {mobile ? (
+          </span> */}
+          {/* {mobile ? (
             <span className={styles.headLineheight}> BAG</span>
           ) : (
             <span className={styles.headLineheight}>SHOPPING BAG</span>
-          )}
+          )} */}
         </span>
       );
     }

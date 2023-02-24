@@ -93,7 +93,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
             )}
             {isSuspended && isSale && (
               <>
-                <p>
+                <p className={styles.summaryPadding}>
                   {" "}
                   All standard WHO guidelines and relevant precautionary
                   measures are in place, to ensure a safe and secure shopping
@@ -549,7 +549,8 @@ const OrderSummary: React.FC<OrderProps> = props => {
               : cs(styles.summaryPadding, globalStyles.hidden)
           }
         >
-          {getOrderItems()}
+          {/* {getOrderItems()} */}
+          <hr className={styles.hr} />
           <div className={cs(globalStyles.flex, globalStyles.gutterBetween)}>
             <span className={styles.subtotal}>SUBTOTAL</span>
             <span className={styles.subtotal}>
@@ -558,7 +559,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
             </span>
           </div>
           {getDiscount(basket.offerDiscounts)}
-          <hr className={styles.hr} />
+          {/* <hr className={styles.hr} /> */}
           <div
             className={cs(
               globalStyles.flex,
@@ -713,13 +714,16 @@ const OrderSummary: React.FC<OrderProps> = props => {
         </div>
         <div className={styles.justchk}>
           {getSummary()}
-          <div className={styles.summaryPadding}>
-            <hr className={styles.hr} />
+          <div>
+            <div className={cs(styles.summaryPadding)}>
+              <hr className={cs(styles.hr)} />
+            </div>
             <div
               className={cs(
                 globalStyles.flex,
                 globalStyles.gutterBetween,
-                styles.total
+                styles.total,
+                styles.summaryPadding
               )}
             >
               <span
@@ -760,7 +764,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
                   showSummary ? "" : cs({ [globalStyles.hidden]: mobile })
                 }
               >
-                <hr className={styles.hr} />
+                {/* <hr className={styles.hr} /> */}
                 <NavLink
                   key="cartCheckout"
                   to={canCheckout() ? "/order/checkout" : "#"}
@@ -769,12 +773,17 @@ const OrderSummary: React.FC<OrderProps> = props => {
                     onClick={chkshipping}
                     className={
                       canCheckout()
-                        ? cs(globalStyles.ceriseBtn, {
+                        ? cs(globalStyles.checkoutBtn, globalStyles.marginT50, {
                             [globalStyles.hidden]: mobile
                           })
-                        : cs(globalStyles.ceriseBtn, globalStyles.disabledBtn, {
-                            [globalStyles.hidden]: mobile
-                          })
+                        : cs(
+                            globalStyles.checkoutBtn,
+                            globalStyles.marginT50,
+                            globalStyles.disabledBtn,
+                            {
+                              [globalStyles.hidden]: mobile
+                            }
+                          )
                     }
                   >
                     PROCEED TO CHECKOUT
@@ -803,9 +812,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
                     globalStyles.voffset4
                   )}
                 >
-                  If you have promo code or a gift card code,
-                  <br />
-                  you can apply the same during payment.
+                  Promo Codes, Gift Cards & Credit Notes can applied at Checkout
                 </div>
                 <div className={styles.wishlist}>
                   <Link to="/wishlist" onClick={goToWishlist}>
