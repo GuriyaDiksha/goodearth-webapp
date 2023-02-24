@@ -88,6 +88,7 @@ class ShopLocator extends Component<Props, State> {
 
   render() {
     const { shopData, currentCity } = this.state;
+    const { saleTimer, mobile } = this.props;
 
     return (
       <div
@@ -100,13 +101,15 @@ class ShopLocator extends Component<Props, State> {
         </div>
         <div className={styles.pageDescription}>
           <div className={styles.text}>
-            Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
-            nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam
-            erat, sed diam voluptua. At vero eos et accusam et justo duo dolores
-            et ea rebum. Stet clita kasd gubergren,.
+            Our stores reflect inspirations from the city where they’re located,
+            telling tales of tradition, design, and culture through a uniquely
+            Good Earth lens. With signature playlists, custom service, and daily
+            incense rituals, we invite you into our world.
           </div>
         </div>
-        <div className={styles.headerBox}>
+        <div
+          className={cs(styles.headerBox, { [styles.withTimer]: saleTimer })}
+        >
           <div className={styles.header}>
             {Object.keys(shopData).map((data: any, i: number) => {
               return (
@@ -158,14 +161,22 @@ class ShopLocator extends Component<Props, State> {
                           </div>
                           <div className={styles.phone}>
                             {data.cafeTel1.map((item: any, i: number) => {
-                              return <p key={`cafeTel1_${i}`}>{item}</p>;
+                              return (
+                                <p key={`cafeTel1_${i}`}>
+                                  <a href={`tel:${item}`}>{item}</a>
+                                </p>
+                              );
                             })}
                           </div>
                         </div>
                       ) : (
                         <div className={styles.phoneBlock}>
                           {data.cafeTel1.map((item: any, i: number) => {
-                            return <p key={`cafeTel1_${i}`}>{item}</p>;
+                            return (
+                              <p key={`cafeTel1_${i}`}>
+                                <a href={`tel:${item}`}>{item}</a>
+                              </p>
+                            );
                           })}
                         </div>
                       )}
@@ -179,20 +190,31 @@ class ShopLocator extends Component<Props, State> {
                         </a>
                       </div>
                     </div>
-                    <div className={cs(styles.slider, "shopLocatorSlider")}>
+                    <div
+                      className={cs(styles.slider, "shopLocatorSlider")}
+                      id={`cafe_${i}`}
+                    >
                       <Slider {...settings}>
-                        {data.bannerCafe.map((item: any) => {
-                          return (
-                            <div
-                              className={styles.imgContainer}
-                              key={`cafe_${i}`}
-                            >
-                              <div>
-                                <img key={`cafe_${i}`} src={item.image} />
+                        {data.bannerCafe
+                          .filter((e: any) => {
+                            if (mobile) {
+                              return e.imageType == 2 || e.imageType == 3;
+                            } else {
+                              return e.imageType == 1 || e.imageType == 3;
+                            }
+                          })
+                          .map((item: any) => {
+                            return (
+                              <div
+                                className={styles.imgContainer}
+                                key={`cafe_${i}`}
+                              >
+                                <div>
+                                  <img key={`cafe_${i}`} src={item.image} />
+                                </div>
                               </div>
-                            </div>
-                          );
-                        })}
+                            );
+                          })}
                       </Slider>
                     </div>
                   </div>
@@ -214,7 +236,7 @@ class ShopLocator extends Component<Props, State> {
                 {/* Shop Block */}
                 <div
                   className={cs(styles.shopBlock, {
-                    [styles.border]: data.cafeDirection
+                    [styles.border]: data.cafeHeading2
                   })}
                 >
                   <div className={styles.info}>
@@ -231,7 +253,11 @@ class ShopLocator extends Component<Props, State> {
                       <div className={styles.address}>{data.address}</div>
                       <div className={styles.phone}>
                         {data.tel1.map((item: any, i: number) => {
-                          return <p key={`tel1_${i}`}>{item}</p>;
+                          return (
+                            <p key={`tel1_${i}`}>
+                              <a href={`tel:${item}`}>{item}</a>
+                            </p>
+                          );
                         })}
                       </div>
                     </div>
@@ -246,7 +272,10 @@ class ShopLocator extends Component<Props, State> {
                           {data.shopper_details.map((item: any, i: number) => {
                             return (
                               <p key={`shopper_${i}`}>
-                                {item.name}({item.department})
+                                {item.name}
+                                {item.deppartment
+                                  ? `(${item.deppartment})`
+                                  : null}
                               </p>
                             );
                           })}
@@ -254,7 +283,9 @@ class ShopLocator extends Component<Props, State> {
                         <div className={styles.phone}>
                           {data.shopper_details.map((item: any, i: number) => {
                             return (
-                              <p key={`shopper_phone${i}`}>{item.phone}</p>
+                              <p key={`shopper_phone${i}`}>
+                                <a href={`tel:${item.phone}`}>{item.phone}</a>
+                              </p>
                             );
                           })}
                         </div>
@@ -270,20 +301,31 @@ class ShopLocator extends Component<Props, State> {
                       </a>
                     </div>
                   </div>
-                  <div className={cs(styles.slider, "shopLocatorSlider")}>
+                  <div
+                    className={cs(styles.slider, "shopLocatorSlider")}
+                    id={`shop${i}`}
+                  >
                     <Slider {...settings}>
-                      {data.bannerShop.map((item: any) => {
-                        return (
-                          <div
-                            className={styles.imgContainer}
-                            key={`shope_image${i}`}
-                          >
-                            <div>
-                              <img src={item.image} />
+                      {data.bannerShop
+                        .filter((e: any) => {
+                          if (mobile) {
+                            return e.imageType == 2 || e.imageType == 3;
+                          } else {
+                            return e.imageType == 1 || e.imageType == 3;
+                          }
+                        })
+                        .map((item: any) => {
+                          return (
+                            <div
+                              className={styles.imgContainer}
+                              key={`shope_image${i}`}
+                            >
+                              <div>
+                                <img src={item.image} />
+                              </div>
                             </div>
-                          </div>
-                        );
-                      })}
+                          );
+                        })}
                     </Slider>
                   </div>
                 </div>
