@@ -15,27 +15,7 @@ import FormCheckbox from "components/Formsy/FormCheckbox";
 import { Link } from "react-router-dom";
 import { Basket } from "typings/basket";
 import { MESSAGE } from "constants/messages";
-
-const makeid = (length: number) => {
-  let result = "";
-  const characters =
-    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-  const charactersLength = characters.length;
-  for (let i = 0; i < length; i++) {
-    result += characters.charAt(Math.floor(Math.random() * charactersLength));
-  }
-  return result;
-};
-
-const displayPriceWithCommas = (price: string | number, currency: Currency) => {
-  let arg = "";
-  if (currency == "INR") {
-    arg = "en-IN";
-  } else {
-    arg = "en-US";
-  }
-  return parseInt(price.toString()).toLocaleString(arg);
-};
+import { displayPriceWithCommas, makeid } from "utils/utility";
 
 const mapStateToProps = (state: AppState) => {
   return {

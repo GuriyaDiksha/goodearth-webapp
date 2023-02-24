@@ -15,7 +15,7 @@ import weddingFloral from "../../images/bridal/wedding-floral.png";
 import bridalRing from "../../images/bridal/rings.svg";
 import iconStyles from "styles/iconFonts.scss";
 import { POPUP } from "constants/components";
-import * as util from "utils/validate";
+import { pageViewGTM } from "utils/validate";
 
 type RouteInfo = {
   id: string;
@@ -130,7 +130,7 @@ class BridalCheckout extends React.Component<Props, State> {
   };
 
   componentDidMount() {
-    util.pageViewGTM("BridalPublic");
+    pageViewGTM("BridalPublic");
     const cookieString =
       "intro=" + true + "; expires=Sat, 01 Jan 2050 00:00:01 UTC; path=/";
     document.cookie = cookieString;

@@ -43,6 +43,12 @@ input[type="text"]{
   }
 }
 
+.contact-num{
+  input{
+    height: 50px !important;
+  }
+}
+
 .form-heading-multi {
   line-height: 36px;
 }
@@ -1383,7 +1389,6 @@ input[type="text"]{
     .price{
       display: flex;
       justify-content: space-between;
-      line-height: 40px;
       @include b4_12px_montserrat_charcoal_caps();
       letter-spacing: 0.5px;
       &.discount{
@@ -1395,12 +1400,17 @@ input[type="text"]{
         line-height: 50px;
       }
       .label{
-        .light{
-          font-size: 9px;
-          font-weight: $regular;
-          text-transform: capitalize;
-          font-style: italic;
-        }
+        text-align: left;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        max-width: 60%;
+      }
+      .value{
+        text-align: right;
+        height: 40px;
+        display: flex;
+        align-items: center;
       }
     }
   }

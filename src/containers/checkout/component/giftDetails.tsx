@@ -5,6 +5,7 @@ import { GiftListProps } from "./typings";
 import { Currency, currencyCode } from "typings/currency";
 import globalStyles from "styles/global.scss";
 import iconStyles from "styles/iconFonts.scss";
+import { displayPriceWithCommas } from "utils/utility";
 
 const GiftCardItem = ({
   cardId,
@@ -113,7 +114,8 @@ const GiftCardItem = ({
             Balance:{" "}
             <span>
               {" "}
-              {String.fromCharCode(...unicode)} {remainingAmount}
+              {String.fromCharCode(...unicode)}{" "}
+              {displayPriceWithCommas(remainingAmount, currency)}
               {` expires on` + expiryDate}
             </span>
           </p>

@@ -29,7 +29,11 @@ import Slider, { Settings } from "react-slick";
 import LazyImage from "components/LazyImage";
 import { Dispatch } from "redux";
 import { connect } from "react-redux";
-import * as valid from "utils/validate";
+import {
+  pageViewGTM,
+  promotionClick,
+  promotionImpression
+} from "utils/validate";
 import CookieService from "services/cookie";
 import { GA_CALLS, ANY_ADS } from "constants/cookieConsent";
 
@@ -122,7 +126,7 @@ class CategoryLanding extends React.Component<
       dataLayer.push(function(this: any) {
         this.reset();
       });
-      valid.pageViewGTM("CategoryLanding");
+      pageViewGTM("CategoryLanding");
       dataLayer.push({
         event: "CategoryLandingView",
         PageURL: this.props.location.pathname,
@@ -145,7 +149,7 @@ class CategoryLanding extends React.Component<
 
   UNSAFE_componentWillReceiveProps(newprops: any) {
     if (this.props.location.pathname != newprops.pathname) {
-      valid.pageViewGTM("CategoryLanding");
+      pageViewGTM("CategoryLanding");
       this.setState({
         catLanding: false
       });
@@ -218,9 +222,7 @@ class CategoryLanding extends React.Component<
               ) : (
                 <Link
                   to={img.ctaUrl}
-                  onClick={() =>
-                    valid.promotionClick(Object.assign({}, data, img))
-                  }
+                  onClick={() => promotionClick(Object.assign({}, data, img))}
                 >
                   <img
                     src={img.image}
@@ -238,9 +240,7 @@ class CategoryLanding extends React.Component<
               >
                 <Link
                   to={img.ctaUrl}
-                  onClick={() =>
-                    valid.promotionClick(Object.assign({}, data, img))
-                  }
+                  onClick={() => promotionClick(Object.assign({}, data, img))}
                 >
                   {img.ctaText}
                 </Link>
@@ -252,7 +252,7 @@ class CategoryLanding extends React.Component<
     );
 
     if (html.length) {
-      valid.promotionImpression(data);
+      promotionImpression(data);
     }
     return html;
   }
@@ -293,7 +293,7 @@ class CategoryLanding extends React.Component<
                   <Link
                     to={widget.ctaUrl}
                     onClick={() =>
-                      valid.promotionClick(Object.assign({}, allData, widget))
+                      promotionClick(Object.assign({}, allData, widget))
                     }
                   >
                     <span>{widget.ctaText}</span>
@@ -324,7 +324,7 @@ class CategoryLanding extends React.Component<
                 <Link
                   to={widget.ctaUrl}
                   onClick={() =>
-                    valid.promotionClick(Object.assign({}, allData, widget))
+                    promotionClick(Object.assign({}, allData, widget))
                   }
                 >
                   <span>{widget.ctaText}</span>
@@ -338,7 +338,7 @@ class CategoryLanding extends React.Component<
       }
     });
     if (html.length) {
-      valid.promotionImpression(allData);
+      promotionImpression(allData);
     }
     return html;
   }
@@ -356,7 +356,7 @@ class CategoryLanding extends React.Component<
                   <Link
                     to={data[i].ctaUrl}
                     onClick={() =>
-                      valid.promotionClick(
+                      promotionClick(
                         Object.assign({}, this.props.editSection, data[i + 1])
                       )
                     }
@@ -400,7 +400,7 @@ class CategoryLanding extends React.Component<
                       <Link
                         to={data[i + 1].ctaUrl}
                         onClick={() =>
-                          valid.promotionClick(
+                          promotionClick(
                             Object.assign(
                               {},
                               this.props.editSection,
@@ -441,7 +441,7 @@ class CategoryLanding extends React.Component<
                     <Link
                       to={data[i - 1].ctaUrl}
                       onClick={() =>
-                        valid.promotionClick(
+                        promotionClick(
                           Object.assign({}, this.props.editSection, data[i - 1])
                         )
                       }
@@ -461,7 +461,7 @@ class CategoryLanding extends React.Component<
                   <Link
                     to={data[i].ctaUrl}
                     onClick={() =>
-                      valid.promotionClick(
+                      promotionClick(
                         Object.assign({}, this.props.editSection, data[i - 1])
                       )
                     }
@@ -480,7 +480,7 @@ class CategoryLanding extends React.Component<
       }
     }
     if (htmlblock1.length) {
-      valid.promotionImpression(this.props.editSection);
+      promotionImpression(this.props.editSection);
     }
     return htmlblock1;
   }
@@ -498,7 +498,7 @@ class CategoryLanding extends React.Component<
                       <Link
                         to={data.ctaUrl}
                         onClick={() =>
-                          valid.promotionClick(
+                          promotionClick(
                             Object.assign({}, this.props.editSection, data)
                           )
                         }
@@ -529,7 +529,7 @@ class CategoryLanding extends React.Component<
                         <Link
                           to={data.ctaUrl}
                           onClick={() =>
-                            valid.promotionClick(
+                            promotionClick(
                               Object.assign({}, this.props.editSection, data)
                             )
                           }
@@ -554,7 +554,7 @@ class CategoryLanding extends React.Component<
                         alt={data.title}
                         className={globalStyles.imgResponsive}
                         onClick={() =>
-                          valid.promotionClick(
+                          promotionClick(
                             Object.assign({}, this.props.editSection, data)
                           )
                         }
@@ -574,7 +574,7 @@ class CategoryLanding extends React.Component<
                         <Link
                           to={data.ctaUrl}
                           onClick={() =>
-                            valid.promotionClick(
+                            promotionClick(
                               Object.assign({}, this.props.editSection, data)
                             )
                           }
@@ -594,7 +594,7 @@ class CategoryLanding extends React.Component<
         : "";
     }
     if (html.length) {
-      valid.promotionImpression(this.props.editSection);
+      promotionImpression(this.props.editSection);
     }
     return html;
   }

@@ -13,7 +13,7 @@ import "./slick.css";
 import { PeopleRecommend, RecommenedSliderProps } from "./typings";
 import Slider from "react-slick";
 import WishlistButton from "components/WishlistButton";
-import * as valid from "utils/validate";
+import { sliderProductClick, sliderProductImpression } from "utils/validate";
 
 const WhatPeopleBuying: React.FC<RecommenedSliderProps> = (
   props: RecommenedSliderProps
@@ -25,7 +25,7 @@ const WhatPeopleBuying: React.FC<RecommenedSliderProps> = (
   }
 
   useEffect(() => {
-    valid.sliderProductImpression(data, "PeopleBuying", currency || "INR");
+    sliderProductImpression(data, "PeopleBuying", currency || "INR");
   }, []);
   const items = data?.map((item: PeopleRecommend, i: number) => {
     return (
@@ -69,7 +69,7 @@ const WhatPeopleBuying: React.FC<RecommenedSliderProps> = (
         <Link
           to={item.url}
           onClick={() =>
-            valid.sliderProductClick(item, "PeopleBuying", currency || "INR", i)
+            sliderProductClick(item, "PeopleBuying", currency || "INR", i)
           }
         >
           <img

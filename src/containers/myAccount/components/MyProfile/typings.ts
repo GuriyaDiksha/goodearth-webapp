@@ -37,7 +37,7 @@ export type ProfileResponse = {
   state: string;
 };
 export type State = {
-  data: Partial<ProfileResponse>;
+  // data: Partial<ProfileResponse>;
   newsletter: boolean;
   uniqueId: string;
   user: number;

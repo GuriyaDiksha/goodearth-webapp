@@ -7,7 +7,7 @@ import { updatePlpProduct } from "actions/product";
 import { PlpProps } from "containers/plp/typings";
 // utils
 import API from "utils/api";
-import * as valid from "utils/validate";
+import { productImpression } from "utils/validate";
 import { Currency } from "typings/currency";
 import { PlpTemplatesData } from "./typings";
 
@@ -34,7 +34,7 @@ export default {
     dispatch(newPlpList({ ...res }));
     dispatch(updatePlpProduct(res.results.data));
     if (typeof document != "undefined") {
-      valid.productImpression(res, listPath || "PLP", currency);
+      productImpression(res, listPath || "PLP", currency);
     }
     return res;
   },

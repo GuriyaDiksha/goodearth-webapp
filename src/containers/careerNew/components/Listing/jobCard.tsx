@@ -5,8 +5,8 @@ import link from "./../../../../images/careers/link.svg";
 import email from "./../../../../images/careers/email.svg";
 import linkedin from "./../../../../images/careers/LinkedINicon.svg";
 import fb from "./../../../../images/careers/FBicon.svg";
-import * as valid from "utils/validate";
-import { useSelector, useStore } from "react-redux";
+import { showGrowlMessage } from "utils/validate";
+import { useStore } from "react-redux";
 import { useHistory } from "react-router";
 import { copyToClipboard } from "utils/clipboard";
 import cs from "classnames";
@@ -42,7 +42,7 @@ const JobCard: React.FC<Props> = ({ job }) => {
               className={listing.icon_wrp}
               onClick={() => {
                 copyToClipboard(`${window.location.origin}/careers/job/${id}`);
-                valid.showGrowlMessage(
+                showGrowlMessage(
                   dispatch,
                   "The link of this job has been copied to clipboard!"
                 );

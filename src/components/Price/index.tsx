@@ -3,6 +3,7 @@ import { Props } from "./typings";
 import globalStyles from "styles/global.scss";
 import styles from "./styles.scss";
 import { Currency } from "typings/currency";
+import { displayPriceWithCommas } from "utils/utility";
 
 const Price: React.FC<Props> = ({ product, isSale, code, currency }) => {
   return (
@@ -10,7 +11,10 @@ const Price: React.FC<Props> = ({ product, isSale, code, currency }) => {
       {isSale && product.discount ? (
         <span className={styles.discountprice}>
           {String.fromCharCode(...code)}{" "}
-          {product.discountedPriceRecords[currency as Currency]}
+          {displayPriceWithCommas(
+            product.discountedPriceRecords[currency as Currency],
+            currency
+          )}
         </span>
       ) : (
         ""
@@ -19,14 +23,20 @@ const Price: React.FC<Props> = ({ product, isSale, code, currency }) => {
         <span className={styles.strikeprice}>
           {" "}
           {String.fromCharCode(...code)}{" "}
-          {product.priceRecords[currency as Currency]}{" "}
+          {displayPriceWithCommas(
+            product.priceRecords[currency as Currency],
+            currency
+          )}{" "}
         </span>
       ) : (
         <span
           className={product.badgeType == "B_flat" ? globalStyles.cerise : ""}
         >
           {String.fromCharCode(...code)}{" "}
-          {product.priceRecords[currency as Currency]}
+          {displayPriceWithCommas(
+            product.priceRecords[currency as Currency],
+            currency
+          )}
         </span>
       )}
     </p>

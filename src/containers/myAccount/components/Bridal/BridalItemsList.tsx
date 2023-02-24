@@ -13,6 +13,7 @@ import cartIcon from "../../../../images/bridal/icons_cartregistry-details.svg";
 // import { AppState } from "reducers/typings";
 import CookieService from "services/cookie";
 import { GA_CALLS } from "constants/cookieConsent";
+import { displayPriceWithCommas } from "utils/utility";
 type Props = {
   product: BridalItemData;
   mobile: boolean;
@@ -153,11 +154,19 @@ const BridalItemsList: React.FC<Props> = props => {
                     {discount ? (
                       <span className={styles.productPrice}>
                         <span className={styles.discountprice}>
-                          {getCurrency()} {discountedPrice[props.currency]}
+                          {getCurrency()}{" "}
+                          {displayPriceWithCommas(
+                            discountedPrice[props.currency],
+                            props.currency
+                          )}
                         </span>
                         &nbsp;{" "}
                         <span className={styles.strikeprice}>
-                          {getCurrency()} {price[props.currency]}
+                          {getCurrency()}{" "}
+                          {displayPriceWithCommas(
+                            price[props.currency],
+                            props.currency
+                          )}
                         </span>
                       </span>
                     ) : (
@@ -167,7 +176,11 @@ const BridalItemsList: React.FC<Props> = props => {
                           badgeType == "B_flat" ? globalStyles.cerise : ""
                         )}
                       >
-                        {getCurrency()} {price[props.currency]}
+                        {getCurrency()}{" "}
+                        {displayPriceWithCommas(
+                          price[props.currency],
+                          props.currency
+                        )}
                       </span>
                     )}
                   </div>

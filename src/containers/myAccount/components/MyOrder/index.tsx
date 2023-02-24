@@ -10,7 +10,7 @@ import styles from "../styles.scss";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { AppState } from "reducers/typings";
-import * as util from "utils/validate";
+import { pageViewGTM } from "utils/validate";
 
 type Props = {
   setCurrentSection: () => void;
@@ -38,7 +38,7 @@ const PastOrders: React.FC<Props> = (props: Props) => {
   };
 
   useEffect(() => {
-    util.pageViewGTM("MyAccount");
+    pageViewGTM("MyAccount");
   }, []);
 
   const isDataAvaliable = (data: boolean) => {

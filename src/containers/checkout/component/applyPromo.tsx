@@ -8,7 +8,7 @@ import { GiftState } from "./typings";
 import mapDispatchToProps from "../mapper/action";
 import PromoItem from "./promoDetails";
 import { AppState } from "reducers/typings";
-import * as valid from "utils/validate";
+import { errorTracking } from "utils/validate";
 import { RouteComponentProps, withRouter } from "react-router";
 const mapStateToProps = (state: AppState) => {
   return {
@@ -76,7 +76,7 @@ class ApplyPromo extends React.Component<Props, GiftState> {
               error: response.message
             },
             () => {
-              valid.errorTracking([this.state.error], location.href);
+              errorTracking([this.state.error], location.href);
             }
           );
         } else {
@@ -98,7 +98,7 @@ class ApplyPromo extends React.Component<Props, GiftState> {
             error: msg
           },
           () => {
-            valid.errorTracking([this.state.error], location.href);
+            errorTracking([this.state.error], location.href);
           }
         );
       });
@@ -139,7 +139,7 @@ class ApplyPromo extends React.Component<Props, GiftState> {
         error: "Please enter a valid code"
       },
       () => {
-        valid.errorTracking([this.state.error], location.href);
+        errorTracking([this.state.error], location.href);
       }
     );
     const elem: any = document.getElementById("gift");

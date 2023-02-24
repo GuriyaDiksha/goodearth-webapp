@@ -8,7 +8,7 @@ import globalStyles from "styles/global.scss";
 import Formsy from "formsy-react";
 import FormInput from "components/Formsy/FormInput";
 import Loader from "components/Loader";
-import * as valid from "utils/validate";
+import { errorTracking } from "utils/validate";
 import NewOtpComponent from "./NewOtpComponent";
 
 class OtpReedem extends React.Component<otpRedeemProps, otpState> {
@@ -65,7 +65,7 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
             "Please select at least one mode of communication for OTP verification of your gift card"
         },
         () => {
-          valid.errorTracking([this.state.msgt], location.href);
+          errorTracking([this.state.msgt], location.href);
         }
       );
       return false;
@@ -131,7 +131,7 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
                 }
               },
               () => {
-                valid.errorTracking([this.state.showerror], location.href);
+                errorTracking([this.state.showerror], location.href);
               }
             );
           } else {
@@ -155,7 +155,7 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
               }
             },
             () => {
-              valid.errorTracking([this.state.showerror], location.href);
+              errorTracking([this.state.showerror], location.href);
             }
           );
         })

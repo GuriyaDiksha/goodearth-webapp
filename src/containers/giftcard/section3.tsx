@@ -10,7 +10,7 @@ import FormInput from "../../components/Formsy/FormInput";
 import FormTextArea from "components/Formsy/FormTextArea";
 import { AppState } from "reducers/typings";
 // import { Currency, currencyCode } from "typings/currency";
-import * as valid from "utils/validate";
+import { getErrorList, errorTracking } from "utils/validate";
 
 const Section3: React.FC<Section3Props> = ({ next, data, goback, mobile }) => {
   const RegisterFormRef = React.useRef<Formsy>(null);
@@ -82,12 +82,12 @@ const Section3: React.FC<Section3Props> = ({ next, data, goback, mobile }) => {
         firstErrorField.scrollIntoView({ block: "center", behavior: "smooth" });
       }
       // for error Tracking
-      const errorList = valid.getErrorList(
+      const errorList = getErrorList(
         globalStyles.errorMsg,
         "giftcard-section3-form"
       );
       if (errorList && errorList.length) {
-        valid.errorTracking(errorList, location.href);
+        errorTracking(errorList, location.href);
       }
     }, 0);
   };

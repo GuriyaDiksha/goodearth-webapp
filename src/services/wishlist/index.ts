@@ -10,7 +10,7 @@ import { ApiResponse } from "typings/api";
 import BasketService from "services/basket";
 import { Basket } from "typings/basket";
 import { MESSAGE } from "constants/messages";
-import * as util from "../../utils/validate";
+import { showGrowlMessage } from "../../utils/validate";
 
 export default {
   updateWishlist: async function(dispatch: Dispatch, sortBy = "added_on") {
@@ -116,7 +116,7 @@ export default {
       res.basket.updatedRemovedItems &&
       res.basket.updatedRemovedItems.length > 0
     ) {
-      util.showGrowlMessage(
+      showGrowlMessage(
         dispatch,
         MESSAGE.PRODUCT_UNPUBLISHED,
         0,
@@ -125,7 +125,7 @@ export default {
       );
     }
     if (res.basket.unshippableRemove) {
-      util.showGrowlMessage(
+      showGrowlMessage(
         dispatch,
         MESSAGE.PRODUCT_UNSHIPPABLE_REMOVED,
         0,

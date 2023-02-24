@@ -17,7 +17,7 @@ import ShopDetail from "./shopDetails";
 import locIcon from "../../images/location-icon.svg";
 import iconStyles from "../../styles/iconFonts.scss";
 import { Link, withRouter, RouteComponentProps } from "react-router-dom";
-import * as util from "utils/validate";
+import { pageViewGTM } from "utils/validate";
 import debounce from "lodash/debounce";
 
 const mapStateToProps = (state: AppState) => {
@@ -62,7 +62,7 @@ class ShopLocator extends React.Component<
   };
 
   componentDidMount() {
-    util.pageViewGTM("ShopLocator");
+    pageViewGTM("ShopLocator");
     window.addEventListener("scroll", debounce(this.handleScroll, 100));
   }
 
@@ -128,7 +128,7 @@ class ShopLocator extends React.Component<
       const {
         device: { mobile }
       } = this.props;
-      // util.sortGTM(data);
+      // sortGTM(data);
       if (mobile) {
         // this.child.clickCloseFilter();
       } else {

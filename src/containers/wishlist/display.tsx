@@ -7,6 +7,7 @@ import styles from "./styles.scss";
 import iconStyles from "../../styles/iconFonts.scss";
 import globalStyles from "../../styles/global.scss";
 import cs from "classnames";
+import { displayPriceWithCommas } from "utils/utility";
 
 type Props = {
   grid: WishlistProps;
@@ -188,7 +189,12 @@ const SampleDisplay: React.FC<Props> = props => {
             {isSale && data.discount ? (
               <span className={styles.discountprice}>
                 {String.fromCharCode(...currencyCodes[currency])}&nbsp;{" "}
-                {data.discountedPrice ? data.discountedPrice[currency] : ""}{" "}
+                {data.discountedPrice
+                  ? displayPriceWithCommas(
+                      data.discountedPrice[currency],
+                      currency
+                    )
+                  : ""}{" "}
                 &nbsp;{" "}
               </span>
             ) : (
@@ -197,7 +203,7 @@ const SampleDisplay: React.FC<Props> = props => {
             {isSale && data.discount ? (
               <span className={styles.strikeprice}>
                 {String.fromCharCode(...currencyCodes[currency])}&nbsp;{" "}
-                {data.price[currency]}
+                {displayPriceWithCommas(data.price[currency], currency)}
               </span>
             ) : (
               <span
@@ -206,7 +212,7 @@ const SampleDisplay: React.FC<Props> = props => {
                 }
               >
                 {String.fromCharCode(...currencyCodes[currency])}&nbsp;{" "}
-                {data.price[currency]}
+                {displayPriceWithCommas(data.price[currency], currency)}
               </span>
             )}
           </p>
