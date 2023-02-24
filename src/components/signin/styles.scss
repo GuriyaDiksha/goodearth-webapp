@@ -1,5 +1,6 @@
 @import "../../styles/partials/form";
 @import "../../styles/partials/variables";
+@import "../../styles/partials/mixins";
 
 .toggle-password-btn {
   width: 26px;
@@ -45,10 +46,10 @@
 
 
 .form-heading {
-  font-size: 25px;
-  font-family: $font-Serif;
-  line-height: 50px;
-  margin-top: 30px;
+  @include h3_20px_lora_charcoal();
+  line-height: 25px;
+  letter-spacing: 0.4px;
+  text-align: center;
 }
 
 .social-login-footer {
@@ -121,23 +122,17 @@ input[type="checkbox"]:checked + label {
 
 .login-change {
   @include b5_10px_montserrat_charcoal();
-  padding: 15px;
-  padding-left: 8px;
-  top: 1px;
-  right: 5px;
-  width: 54px;
-  border-left: none;
-  border-right: none;
   position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 12px;
   cursor: pointer;
-  letter-spacing: 1px;
-  text-transform: none;
-  line-height: 15px;
-  text-align: left;
-  margin-bottom: 10px;
-  background-color: white;
   text-decoration: underline;
-  text-underline-offset: 2px;
+  text-underline-offset: 4px;
+  letter-spacing: 0.3px;
+  &:hover{
+    color: #3C7979;
+  }
 }
 
 .password-validation {
@@ -153,18 +148,21 @@ input[type="checkbox"]:checked + label {
     margin-top: -10px !important;
   }
   p {
-    text-align: left;
-    font-size: 13px;
+    @include b4_12px_montserrat_charcoal();
     line-height: 20px;
+    letter-spacing: 0.36px;
+    text-align: left;
   }
   ul {
-    font-size: 13px;
+    font-family: $font-Montserrat;
+    font-size: 10px;
+    letter-spacing: 0.3px;
     display: flex;
     flex-wrap: wrap;
-    padding-top: 10px;
+    padding-top: 12px;
     li {
       flex: 50%;
-      line-height: 24px;
+      line-height: 20px;
       text-align: left;
       &::before {
         content: '';
@@ -268,8 +266,10 @@ span.error-msg {
 }
 
 .verify-heading {
-  font-family: $font-Lato;
-  font-size: 20px;
+  @include h3_20px_lora_charcoal();
+  letter-spacing: 0.4px;
+  line-height: 25px;
+  
 }
 .verify-para {
   font-size: 12px;
@@ -282,5 +282,93 @@ span.error-msg {
 
 .error-msg {
   @include err_13px_lora_italic_cerise();
-  letter-spacing: 0.5px;
+  line-height: 16px;
+  margin-top: 5px;
+  &.main-login-error{
+    margin-bottom: 20px; 
+  }
+}
+
+.login-form-subheading {
+  @include b4_12px_montserrat_charcoal();
+  letter-spacing: 0.36px;
+  margin-top: 10px;
+  margin-bottom: 48px;
+  padding: 0px 36px;
+  text-align: center;
+  &.verify-otp{
+    margin-bottom: 36px;
+  }
+}
+
+
+.change-email-btn{
+  margin-top: 15px;
+}
+
+.forgot-password{
+  @include b5_10px_montserrat_charcoal_caps();
+  letter-spacing: 0.3px;
+  line-height: 18px;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  text-align: right;
+  margin-bottom: 40px;
+}
+
+div.verify-otp-container{
+  padding-top: 0px;
+  padding-bottom: 0px;
+  @media screen and (max-width: 500px){
+    padding-top: 0px;
+    padding-bottom: 0px;
+  }
+  .verify-otp-heading {
+    display: none;
+  }
+  .otp-timer{
+    padding-top: 40px;
+    padding-bottom: 0px;
+  }
+  .verify-otp-cta{
+    width: 100%;
+  }
+  .otp-policy{
+    padding-top: 0px;
+  }
+  .otp-attempt{
+    padding-top:13px;
+    padding-bottom:60px;
+  }
+  .social-login{
+    margin-bottom: 25px;
+  }
+}
+
+.isd-code{
+  height: 40px;
+  padding: 5px 10px;
+  border-bottom: 1px solid #d8d8d8;
+  cursor: pointer;
+  text-align: left;
+  @include b5_10px_montserrat_charcoal();
+  letter-spacing: 0.36px;
+  display: flex;
+  align-items: center;
+}
+
+img.country-code-search-icon{
+  width: 15px;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 10px;
+}
+
+input[type="text"].country-code-search-input{
+  padding-left: 30px;
+  height: 40px;
+  &:focus{
+    padding-left: 30px;
+  }
 }
