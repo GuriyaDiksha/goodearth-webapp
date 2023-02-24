@@ -1,0 +1,220 @@
+@import "../../styles/partials/variables";
+@import "../../styles/partials/mixins";
+
+.cart-padding {
+  padding-right: 15px;
+  padding-left: 15px;
+}
+.bag-backdrop {
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 12;
+  display: none;
+  position: fixed;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.bag-backdrop.active {
+  display: block;
+}
+
+@keyframes slideLeft {
+  from {
+    right: -100%;
+  }
+
+  to {
+    right: 0;
+  }
+}
+
+.bag {
+  top: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1000010;
+  width: 414px;
+  font-size: 16px;
+  line-height: 16px;
+  display: none;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  -webkit-flex-direction: column;
+  flex-direction: column;
+  position: fixed;
+  background-color: #f9f8f5;
+  animation-name: slideLeft;
+  animation-duration: 0.4s;
+
+  &.active {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    cursor: default;
+  }
+
+  .bag-header {
+    padding: 17px 28px;
+    background-color: $med-charcoal;
+    color: $white;
+
+    .heading {
+      font-family: $font-Montserrat;
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.39px;
+    }
+
+    .crossfont-size {
+      font-size: 14px;
+      font-weight: bold;
+      color: $white;
+    }
+  }
+
+  .free-shipping-info {
+    padding: 9px 16px;
+    gap: 7px;
+    align-items: center;
+    background: $gold-light;
+
+    .exclamation-font-size {
+      color: $white;
+      font-size: 12px;
+      font-weight: bold;
+    }
+    .text {
+      @include b5_10px_semibold_montserrat_charcoal();
+      letter-spacing: 0.6px;
+      color: $white;
+    }
+  }
+  .bag-contents {
+    background-color: $white;
+    padding: 0 29px;
+    flex-grow: 1;
+    overflow-y: auto;
+
+    .cart-item {
+      padding: 25px 0;
+      border-bottom: 0.5px solid $light-charcoal;
+
+      .row {
+        gap: 12px;
+        width: 100%;
+      }
+      .product-image {
+        width: 109px;
+      }
+
+      .product-details {
+        width: 100%;
+        max-width: calc(100% - 109px);
+        .productTitle {
+          a {
+            @include b2_14px_charcoal_lora();
+          }
+        }
+
+        .product-price {
+          @include b3_14px_montserrat_charcoal();
+          text-transform: uppercase;
+          padding-top: 19px;
+        }
+
+        .product-size {
+          padding-top: 15px;
+          @include b5_10px_montserrat_charcoal();
+        }
+        .product-color {
+          padding-top: 5px;
+          @include b5_10px_montserrat_charcoal();
+        }
+        .widgetQty {
+          margin-top: 15px;
+          display: block;
+        }
+
+        .product-actions {
+          padding-top: 18px;
+
+          .remove {
+            @include b5_10px_montserrat_charcoal();
+            text-decoration: underline;
+            cursor: pointer;
+          }
+          .wishlist-display {
+            div {
+              cursor: pointer;
+              @include b5_10px_montserrat_charcoal();
+              text-decoration: underline;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .bag-footer {
+    .order-summary-wrapper {
+      padding: 22px 24px;
+
+      .order-summary {
+        @include b4_12px_montserrat_charcoal_caps();
+        letter-spacing: 0.36px;
+        padding-bottom: 15px;
+        border-bottom: 0.5px solid $light-charcoal;
+      }
+      .sub-total-discount-wrapper {
+        padding: 15px 0;
+        border-bottom: 0.5px solid $light-charcoal;
+
+        .sub-total-price,
+        .discount-price {
+          @include b4_12px_medium_charcoal_caps();
+        }
+        .discount-wrapper {
+          padding-top: 15px;
+        }
+      }
+      .remove-out-of-stock {
+        padding-top: 19px;
+        @include b4_12px_montserrat_cerise_caps();
+        letter-spacing: 0.36px;
+        text-align: center;
+        font-style: normal;
+      }
+      .total-amount {
+        padding-top: 19px;
+
+        .totalPrice {
+          @include b4_12px_montserrat_semibold_charcoal();
+        }
+
+        .subtext {
+          padding-top: 5px;
+          @include b5_10px_montserrat_charcoal();
+        }
+      }
+    }
+    .bag-flex {
+      a {
+        display: block;
+        background-color: $aqua;
+        padding: 20px;
+        text-align: center;
+
+        &.out-of-stock {
+          background-color: $light-charcoal;
+        }
+        .view-bag {
+          @include b3_14px_montserrat_white();
+        }
+      }
+    }
+  }
+}
