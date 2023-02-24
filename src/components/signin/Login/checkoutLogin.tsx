@@ -109,7 +109,7 @@ class CheckoutLoginForm extends React.Component<Props, loginState> {
                 "Please ",
                 <span
                   className={cs(
-                    globalStyles.errorMsg,
+                    // globalStyles.errorMsg,
                     globalStyles.linkTextUnderline
                   )}
                   key={1}
