@@ -2424,14 +2424,14 @@ class FilterList extends React.Component<Props, State> {
               <div className={styles.sliderText}>
                 <div className={styles.sliderBox}>
                   {displayPriceWithCommas(
-                    this.state.rangevalue[0],
+                    this.state.rangevalue[0] || "",
                     this.props.currency
                   )}
                 </div>
 
                 <div className={styles.sliderBox}>
                   {displayPriceWithCommas(
-                    this.state.rangevalue[1],
+                    this.state.rangevalue[1] || "",
                     this.props.currency
                   )}
                 </div>
