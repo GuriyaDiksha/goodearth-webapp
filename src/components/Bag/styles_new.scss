@@ -103,6 +103,10 @@
       padding: 25px 0;
       border-bottom: 0.5px solid $light-charcoal;
 
+      .out-of-stock{
+        opacity: 0.3;
+      }
+
       .row {
         gap: 12px;
         width: 100%;
@@ -134,11 +138,17 @@
           padding-top: 5px;
           @include b5_10px_montserrat_charcoal();
         }
-        .widgetQty {
+        .widget-qty {
           margin-top: 15px;
           display: block;
         }
-
+        .stock-left-error {
+          position: static !important;
+          text-align: left;
+          top: 25px;
+          @include err_13px_lora_italic_cerise();
+          font-weight: normal;
+        }
         .product-actions {
           padding-top: 18px;
 
@@ -148,7 +158,7 @@
             cursor: pointer;
           }
           .wishlist-display {
-            div { 
+            div {
               cursor: pointer;
               @include b5_10px_montserrat_charcoal();
               text-decoration: underline;
@@ -157,6 +167,8 @@
         }
       }
     }
+
+   
   }
 
   .bag-footer {

@@ -49,7 +49,12 @@ class PdpQuantity extends React.Component<QuantityItem, State> {
     const value = this.props.currentValue;
     const props = this.props;
     const { disabled, source } = this.props;
-    const errorMsgClass = props.errorMsgClass || styles.errorMsg;
+    let errorMsgClass;
+    if (source == "bag") {
+      errorMsgClass = styles.bagErrorMsg;
+    } else {
+      errorMsgClass = props.errorMsgClass || styles.errorMsg;
+    }
     // const error = props.errorMsg ? props.errorMsg + " " + props.maxValue : "";
     // const error
 

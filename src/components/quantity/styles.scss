@@ -59,7 +59,12 @@
 .error-msg{
     @include error-msg();
 }
-
+.bag-error-msg{
+    @include error-msg();
+    font-size: 13px;
+    font-weight: normal;
+    color: $gold;
+}
 .pdp-error-msg{
     @include error-msg();
     text-align: center;
@@ -101,6 +106,7 @@
     border-width: 1px;
     margin-bottom: 10px;
     width: fit-content;
+    align-items: center;
 }
 .quantity-pdp
 {
