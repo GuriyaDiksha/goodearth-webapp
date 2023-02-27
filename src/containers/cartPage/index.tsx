@@ -75,17 +75,17 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     },
     moveToWishListMsg: (onUndoWishlistClick: any) => {
       const msg = (
-        <p>
-          Your item has been moved to saved items.&nbsp;
+        <div>
+          Your item has been moved to saved items.&nbsp;&nbsp;
           <span
-            className={cs(globalStyles.linkTextUnderline)}
-            onClick={() => onUndoWishlistClick}
+            className={cs(globalStyles.linkTextUnderline, globalStyles.pointer)}
+            onClick={() => onUndoWishlistClick()}
           >
             Undo
           </span>
-        </p>
+        </div>
       );
-      util.showGrowlMessage(dispatch, msg, 9000);
+      util.showGrowlMessage(dispatch, msg, 18000);
     }
   };
 };
@@ -559,7 +559,7 @@ class CartPage extends React.Component<Props, State> {
           <div className={cs(styles.header)}>
             <p>MY SHOPPING BAG ({this.props?.cart?.lineItems?.length})</p>
           </div>
-          {this.renderMessage()}
+          {/* {this.renderMessage()} */}
           {this.getItems()}
         </div>
         <div

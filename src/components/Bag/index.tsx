@@ -172,7 +172,7 @@ class Bag extends React.Component<Props, State> {
               {/* )} */}
             </div>
 
-            {!this.hasOutOfStockItems() && (
+            {this.hasOutOfStockItems() && (
               <div
                 className={cs(
                   globalStyles.errorMsg,
