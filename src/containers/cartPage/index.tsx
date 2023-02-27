@@ -1,4 +1,5 @@
 import React from "react";
+import { RouteComponentProps, withRouter } from "react-router-dom";
 // import { Link } from "react-router-dom";
 import initActionCollection from "./initAction";
 import cs from "classnames";
@@ -26,6 +27,7 @@ import { POPUP } from "constants/components";
 import CookieService from "services/cookie";
 import { GA_CALLS, ANY_ADS } from "constants/cookieConsent";
 import { updateNextUrl } from "actions/info";
+import { StaticContext } from "react-router";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -81,7 +83,8 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
   };
 };
 
-type Props = ReturnType<typeof mapStateToProps> &
+type Props = RouteComponentProps<{}, StaticContext, { from: string }> &
+  ReturnType<typeof mapStateToProps> &
   ReturnType<typeof mapDispatchToProps>;
 
 type State = {
@@ -108,6 +111,11 @@ class CartPage extends React.Component<Props, State> {
   }
 
   componentDidMount() {
+    if (this.props.history.location.state?.from == "checkout") {
+      if (!this.props.isLoggedIn) {
+        this.props.goLogin(undefined);
+      }
+    }
     util.pageViewGTM("Cart");
     try {
       const skuList = this.props.cart.lineItems.map(
@@ -495,5 +503,8 @@ class CartPage extends React.Component<Props, State> {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(CartPage);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withRouter(CartPage));
 export { initActionCollection };
