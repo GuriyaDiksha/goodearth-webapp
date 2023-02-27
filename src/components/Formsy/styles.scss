@@ -1,5 +1,4 @@
 @import "../../styles/partials/form";
-@import "../../styles/partials/mixins";
 
 .password {
     input {
@@ -15,10 +14,6 @@
     pointer-events: none;
     &.mright {
       right: 10px;
-    }
-    transition: transform 0.5s;
-    &.active{
-      transform: rotate(180deg);
     }
   }
 select {
@@ -48,51 +43,4 @@ input[type="date"] {
 .error-msg {
   @include err_13px_lora_italic_cerise();
   text-align: left;
-}
-
-.dropdown{
-  position: relative;
-  input[type="text"]{
-    cursor: pointer;
-  }
-  .options{
-    max-height: 202px;
-    border: 1px solid #D8D8D8;
-    position: absolute;
-    width: 100%;
-    background: white;
-    z-index: 1;
-    overflow: auto;
-    display: none;
-    &.active{
-      display: block;
-    }
-    .option{
-      height: 50px;
-      padding: 10px 20px;
-      cursor: pointer;
-      text-align: left;
-      @include b4_12px_montserrat_charcoal();
-      line-height: 30px;
-      letter-spacing: 0.36px;
-    }
-  }
-  .filter{
-    position: relative;
-    padding: 0px;
-    .search-icon{
-      width: 20px;
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      left: 20px;
-    }
-    .search-field{
-      padding-left: 50px;
-      border-bottom: none;
-      &:focus{
-        padding-left: 50px;
-      }
-    }
-  }
 }

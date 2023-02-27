@@ -1,6 +1,8 @@
 import React, { RefObject } from "react";
+import cs from "classnames";
 import styles from "../styles.scss";
 import globalStyles from "styles/global.scss";
+import bootstrapStyles from "../../../styles/bootstrap/bootstrap-grid.scss";
 import InputField from "../InputField";
 import Loader from "components/Loader";
 import SocialLogin from "../socialLogin";
@@ -12,7 +14,6 @@ import { ForgotPasswordState } from "./typings";
 import { connect } from "react-redux";
 import { mapDispatchToProps } from "./mapper/actions";
 import { RouteComponentProps, withRouter } from "react-router";
-import cs from "classnames";
 
 const mapStateToProps = () => {
   return {};
@@ -73,9 +74,6 @@ class ForgotPasswordForm extends React.Component<Props, ForgotPasswordState> {
             successMsg: data.success,
             disableSelectedbox: false
           });
-          this.props.showGrowlMessage(
-            "Password reset email has been sent. Please follow steps in email to proceed."
-          );
           const email = document.getElementById("email") as HTMLInputElement;
           email.disabled = true;
         })
@@ -209,9 +207,6 @@ class ForgotPasswordForm extends React.Component<Props, ForgotPasswordState> {
 
   render() {
     //const { goRegister } = this.props;
-
-    const { forgotSuccess } = this.state;
-
     const formContent = (
       <form onSubmit={this.handleSubmit}>
         <div className={styles.categorylabel}>
@@ -220,24 +215,20 @@ class ForgotPasswordForm extends React.Component<Props, ForgotPasswordState> {
               id="email"
               blur={this.handleEmailBlur}
               placeholder={"Email"}
-              label={"Email ID*"}
+              label={"Email"}
               value={this.state.email}
               keyUp={this.onChange}
               handleChange={this.handleChange}
               inputRef={this.emailInput}
               error={this.state.msg}
               border={this.state.err}
-              showLabel={true}
             />
           </div>
           <div>
             <input
               type="submit"
-              className={cs(globalStyles.charcoalBtn, {
-                [globalStyles.disabledBtn]: forgotSuccess
-              })}
-              disabled={forgotSuccess}
-              value={forgotSuccess ? "Email Sent!" : "reset password"}
+              className={globalStyles.ceriseBtn}
+              value="reset password"
             />
           </div>
         </div>
@@ -268,7 +259,7 @@ class ForgotPasswordForm extends React.Component<Props, ForgotPasswordState> {
 
     return (
       <Popup>
-        {/* {this.state.successMsg ? (
+        {this.state.successMsg ? (
           <div className={cs(bootstrapStyles.col10, bootstrapStyles.offset1)}>
             <div className={globalStyles.successMsg}>
               {this.state.successMsg}
@@ -276,7 +267,7 @@ class ForgotPasswordForm extends React.Component<Props, ForgotPasswordState> {
           </div>
         ) : (
           ""
-        )} */}
+        )}
         <FormContainer
           heading="Forgot Password"
           subheading="Enter your email address and click on reset password."

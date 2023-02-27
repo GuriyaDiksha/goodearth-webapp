@@ -15,7 +15,7 @@
 
     @include placeholder {
       font-size:14px;
-      color: #19191958;
+      color: tint(#000,60%);
       font-style: normal;
       letter-spacing:1px;
       font-family: $font-Lato;
@@ -27,13 +27,10 @@
 }
 
 .form-subheading {
-  @include b4_12px_montserrat_charcoal();
-  letter-spacing: 0.36px;
-  margin-top: 10px;
-  margin-bottom: 48px;
-  @media screen and (max-width:991px){
-    padding: 0px 36px;
-  }
+  font-size: 12px;
+  font-family: $font-Lato;
+  color: #666;
+  letter-spacing: 1px;
 }
 
 .disabled-input {
@@ -52,49 +49,42 @@
 .login-form {
   input[type="text"], input[type="password"], input[type="email"], input[type="number"], input[type="date"], select, textarea {
     background-color: #fff;
-    border: 1px solid #D8D8D8;
+    border: 1px solid #eee;
     width: 100%;
-    padding: 10px 20px;
+    padding: 10px;
+    font-size: 14px;
     line-height: 25px;
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
     border-radius: 0;
-    @include b4_12px_montserrat_charcoal();
-    line-height: 20px;
-    letter-spacing: 0.36px;
-    height: 50px;
     @include placeholder {
-      @include b4_12px_montserrat_charcoal();
-      color: #19191958;
-      line-height: 20px;
-      letter-spacing: 0.36px;
+      font-size: 14px;
+      color: $formLabel;
       font-style: normal;
+      letter-spacing: 1px;
+      font-family: $font-Lato;
     }
     text-align: start;
     &:active, &:focus {
       background-color: #fff;
-      border: 1px solid #d8d8d8;
+      border: 1px solid #eee;
       width: 100%;
-      padding: 10px 20px;
-      font-size: 12px;
-      line-height: 20px;
+      padding: 10px;
+      font-size: 14px;
+      line-height: 25px;
       -webkit-appearance: none;
       -moz-appearance: none;
       appearance: none;
       border-radius: 0;
       @include placeholder {
-        @include b4_12px_montserrat_charcoal();
-        color: #19191958;
-        line-height: 20px;
-        letter-spacing: 0.36px;
+        font-size: 14px;
+        color: tint(#000, 60%);
         font-style: normal;
+        letter-spacing: 1px;
+        font-family: $font-Lato;
       }
       text-align: start;
-    }
-    &:disabled{
-      color: #9F9F9F;
-      background-color: #d8d8d826;
     }
   }
 }
@@ -129,13 +119,12 @@
     position: absolute;
     top: -10px;
     left: 10px;
+    font-weight: 100;
+    font-size: 10px;
+    color: $formLabel;
+    letter-spacing: 0.5px;
     background-color: #fff;
     padding: 3px;
-    letter-spacing: 0.5px;
-    font-family: $font-Montserrat;
-    font-size: 9px;
-    font-weight: $light;
-    color: $charcoal19;
   }
   div.categorylabel > div {
     position: relative;
@@ -226,7 +215,7 @@
     .Dropdown-control {
       .Dropdown-placeholder{
         font-size: 14px;
-        color: #19191958;
+        color: #333;
         font-style: normal;
         letter-spacing: normal;
         font-family: $font-Lato;
@@ -264,7 +253,7 @@
           .Dropdown-control {
             .Dropdown-placeholder{
               font-size: 14px;
-              color: #19191958;
+              color: #333;
               font-style: normal;
               letter-spacing: normal;
               font-family: $font-Lato;
@@ -277,7 +266,6 @@
     // text-transform: capitalize;
     &.country-code {
       display: flex;
-      justify-content: space-between;
       position: relative;
       margin: 35px 0 20px 0;
       flex-wrap: wrap;
@@ -331,9 +319,9 @@
     content: '';
     position: absolute;
     left: 0;
-    top: 0;
-    width: 22px;
-    height: 22px;
+    top: 5px;
+    width: 18px;
+    height: 18px;
     background-color: white;
     border: 1px solid $light-charcoal;
 
@@ -352,12 +340,13 @@
     content: '';
     display: block;
     width: 6px;
-    height: 12px;
+    height: 10px;
     border: solid $aqua;
     border-width: 0 2px 2px 0;
     position: absolute;
-    top: 4px;
-    left: 8px;
+    top: 8px;
+    left: 6px;
+    font-size: 18px;
     line-height: 0.8;
     transition: all .1s;
   }

@@ -52,28 +52,38 @@ const Popup: React.FC<{ disableClose?: boolean }> = ({
             <div
               className={cs(styles.fixHead, bootstrapStyles.row, styles.row)}
             >
-              <div className={styles.header}>
+              <div
+                className={cs(
+                  bootstrapStyles.col10,
+                  styles.col12,
+                  bootstrapStyles.offset1,
+                  styles.popupHeader
+                )}
+              >
                 <img
                   alt="goodearth-logo"
                   src={geLogo}
                   className={cs(globalStyles.logo)}
                   style={{
-                    height: "70px"
+                    height: "70px",
+                    width: "111px"
                   }}
                 />
-                {!disableClose && (
-                  <button
-                    className={cs(
-                      styles.closePopup,
-                      iconStyles.icon,
-                      iconStyles.iconCross
-                    )}
-                    onClick={closePopup}
-                  ></button>
-                )}
               </div>
+              {!disableClose && (
+                <button
+                  className={cs(
+                    styles.closePopup,
+                    iconStyles.icon,
+                    iconStyles.iconCross
+                  )}
+                  onClick={closePopup}
+                ></button>
+              )}
             </div>
-            <div className={styles.childrenContainer}>{children}</div>
+            <div className={cs(bootstrapStyles.row, styles.row, styles.mTop72)}>
+              {children}
+            </div>
           </div>
         </div>
       </div>

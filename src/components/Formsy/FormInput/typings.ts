@@ -28,7 +28,6 @@ export type Props = {
   maxlength?: number;
   defaultClass?: string;
   onPaste?: (event: React.ClipboardEvent) => void;
-  showLabel?: boolean;
 };
 
 export type State = {

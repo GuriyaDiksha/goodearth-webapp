@@ -12,7 +12,6 @@ export type Props = {
   placeholder: string;
   value: string;
   handleChange?: (event: React.ChangeEvent) => void;
-  showLabel?: boolean;
 };
 
 export type Country = {
