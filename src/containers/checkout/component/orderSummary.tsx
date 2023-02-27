@@ -691,22 +691,22 @@ const OrderSummary: React.FC<OrderProps> = props => {
   } = props.basket;
   return (
     <div className={cs(globalStyles.col12, styles.fixOrdersummary)}>
-      {/* {totalWithoutShipping &&
+      {totalWithoutShipping &&
       totalWithoutShipping >= freeShippingThreshold &&
       totalWithoutShipping < freeShippingApplicable &&
-      shippable ? ( */}
-      <div className={cs(styles.freeShippingInfo, globalStyles.flex)}>
-        <img src={freeShippingInfoIcon} alt="free-shipping" />
-        <div className={styles.text}>
-          Add products worth{" "}
-          {String.fromCharCode(...currencyCode[props.currency])}{" "}
-          {freeShippingApplicable - parseInt(total.toString())} or more to
-          qualify for free shipping.
+      shippable ? (
+        <div className={cs(styles.freeShippingInfo, globalStyles.flex)}>
+          <img src={freeShippingInfoIcon} alt="free-shipping" />
+          <div className={styles.text}>
+            Add products worth{" "}
+            {String.fromCharCode(...currencyCode[props.currency])}{" "}
+            {freeShippingApplicable - parseInt(total.toString())} or more to
+            qualify for free shipping.
+          </div>
         </div>
-      </div>
-      {/* ) : (
+      ) : (
         ""
-      )} */}
+      )}
       <div className={styles.orderSummary}>
         {mobile && (
           <span

@@ -365,4 +365,7 @@
     margin-right: 5px;
     vertical-align: middle;
   }
+  span{
+    @include b3_14px_montserrat_charcoal();
+  }
 }

@@ -388,27 +388,27 @@ class Bag extends React.Component<Props, State> {
               ></i>
             </div>
           </div>
-          {/* {this.state.shipping &&
+          {this.state.shipping &&
           totalWithoutShipping &&
           totalWithoutShipping >= freeShippingThreshold &&
           totalWithoutShipping < freeShippingApplicable &&
-          this.props.cart.shippable ? ( */}
-          <div className={cs(styles.freeShippingInfo, globalStyles.flex)}>
-            <div>
-              <img src={freeShippingInfoIcon} alt="free-shipping" />
-            </div>
+          this.props.cart.shippable ? (
+            <div className={cs(styles.freeShippingInfo, globalStyles.flex)}>
+              <div>
+                <img src={freeShippingInfoIcon} alt="free-shipping" />
+              </div>
 
-            <div className={styles.text}>
-              Add products worth{" "}
-              {String.fromCharCode(...currencyCodes[this.props.currency])}{" "}
-              {this.props.cart.freeShippingApplicable -
-                parseInt(this.props.cart.total.toString())}{" "}
-              or more to qualify for free shipping.
+              <div className={styles.text}>
+                Add products worth{" "}
+                {String.fromCharCode(...currencyCodes[this.props.currency])}{" "}
+                {this.props.cart.freeShippingApplicable -
+                  parseInt(this.props.cart.total.toString())}{" "}
+                or more to qualify for free shipping.
+              </div>
             </div>
-          </div>
-          {/* ) : (
+          ) : (
             ""
-          )} */}
+          )}
           <div className={styles.bagContents}>{this.getItems()}</div>
           {this.getFooter()}
         </div>
