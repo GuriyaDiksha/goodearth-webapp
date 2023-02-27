@@ -6,7 +6,7 @@ import { CartProps, State } from "./typings";
 import iconStyles from "../../styles/iconFonts.scss";
 import globalStyles from "../../styles/global.scss";
 import LineItems from "./Item";
-import { NavLink, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { currencyCodes } from "constants/currency";
 import { Dispatch } from "redux";
 import BasketService from "services/basket";

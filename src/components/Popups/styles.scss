@@ -7,8 +7,8 @@
       // padding: 0 0 75px 0;
       background-color: #fff;
       // width: 35vw;
-      width: 430px;
-      min-height: 360px;
+      width: 460px;
+      min-height: 400px;
       .gc-tnc {
         height: auto;
         padding: 50px 0 30px 0;
@@ -50,6 +50,25 @@
         width: 60%;
         margin: 0 auto;
       }
+      .freeship-btn-width {
+        width: 80%;
+        margin: 0 auto;
+        background-color: $med-charcoal;
+        @include b3_14px_montserrat_white();
+
+        &:hover{
+          background-color: $white;
+          border: 1px solid $med-charcoal;
+          color: $med-charcoal !important;
+        }
+
+        a{
+          @include b3_14px_montserrat_white();
+          &:hover{
+            color: $med-charcoal !important;
+          }
+        }
+      }
       .cross {
         border-bottom: 1px solid #f2f2f2;
             text-align: right;
@@ -87,6 +106,15 @@
       }
   }
 
+  .mobile-popup{
+    position: fixed;
+    width: 100%;
+    top: 50%;
+    max-width: 400px;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
   @media (min-width: 992px) {
     .centerpage-desktop {
       position: fixed;
@@ -114,11 +142,14 @@
       overflow-x: hidden;
     }
     }
+    .free-shipping-head{
+      margin-bottom: 15px;
+      @include h3_20px_lora_charcoal();
+    }
     .free-shipping {
       padding: 0 45px;
-      color: tint(#000, 30%);
       letter-spacing: .5px;
-      font-size: 10px;
+      @include b4_12px_montserrat_medcharcoal();
       .cerise-btn {
         position: inherit;
         margin: 25px 0 20px 0;
@@ -133,7 +164,7 @@
         color: #000;
       }
       a {
-        color: $cerise !important;
+        // color: $cerise !important;
         &.link {
           font-size: 12px;
           letter-spacing: 1px;
@@ -176,13 +207,29 @@
   text-decoration: underline;
   cursor: pointer;
 }
+.link-text{
+  @include b4_12px_medium_charcoal_caps();
+  border-bottom: 1px solid $med-charcoal;
+  text-decoration: unset;
+  &:hover{
+    color: $aqua-text !important;
+    border-bottom: 1px solid $aqua-text;
+  }
+}
 .link {
-  color: $cerise;
-  font-size: 12px;
-  letter-spacing: 1px;
-  font-weight: bold;
-  text-transform: uppercase;
   margin: 25px 0;
+
+  a{
+    @include b4_12px_montserrat_charcoal_caps();
+    border-bottom: 1px solid $med-charcoal;
+    color: $med-charcoal !important;
+    &:hover{
+      color: $aqua-text !important;
+      border-bottom: 1px solid $aqua-text;
+    }
+
+  }
+ 
 }
 .login-form {
   div {
