@@ -453,6 +453,7 @@ display: inline-table;
   overflow: scroll;
   justify-content: start;
   flex-wrap: nowrap;
+  column-gap: 17px;
   &::-webkit-scrollbar {
     display: none;
   }
