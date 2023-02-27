@@ -8,7 +8,7 @@ import styles from "./styles.scss";
 import { Link } from "react-router-dom";
 import logoImage from "images/gelogoCerise.svg";
 import flowerImage from "images/flower-motif.png";
-import lockImage from "images/lock.svg";
+// import lockImage from "images/lock.svg";
 import callImage from "images/call.svg";
 import AccountServices from "services/account";
 import { currencyCode, Currency } from "typings/currency";
@@ -296,7 +296,8 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
   }
   return (
     <div>
-      <div className={cs(styles.subcHeader)}>
+      {/* new Header */}
+      {/* <div className={cs(styles.subcHeader)}>
         <div className={cs(styles.logoContainer)}>
           <Link to="/">
             <img
@@ -321,8 +322,30 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
             >{`+91 9582 999 555 / +91 9582 999 888`}</div>
           </div>
         )}
-      </div>
+      </div> */}
+      {/* ============================================================== */}
 
+      {/*  ============= OLD HEADER ===================================*/}
+      <div className={cs(bootstrapStyles.row, styles.subcHeader)}>
+        <div
+          className={cs(
+            bootstrapStyles.col12,
+            bootstrapStyles.colMd2,
+            styles.logoContainer
+          )}
+        >
+          <Link to="/">
+            <img
+              src={logoImage}
+              style={{
+                width: "111px",
+                cursor: "pointer"
+              }}
+            />
+          </Link>
+        </div>
+      </div>
+      {/* ==================================================================== */}
       <div className={cs(bootstrapStyles.row, styles.bgProfile, styles.os)}>
         <div
           className={cs(
