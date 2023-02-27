@@ -1421,7 +1421,7 @@ const getUniqueId = () => {
 };
 export const showGrowlMessage = (
   dispatch: Dispatch,
-  text: string,
+  text: string | Element,
   timeout = 3000,
   id?: string,
   params?: any

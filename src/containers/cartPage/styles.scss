@@ -71,33 +71,26 @@ hr {
   }
   .widget-qty {
     margin-top: 10px;
-    position: relative;
-    min-width: 120px;
-    display: inline-flex;
-    background-color: #f1f1f1;
-    border-radius: 10px;
-    padding: 2px 0;
-    font-size: 12px;
-    line-height: 12px;
+    display: block;
 
 
-    .input {
-      padding: 3px 12px;
-      -webkit-box-flex: 1;
-      -ms-flex-positive: 1;
-      -webkit-flex-grow: 1;
-      flex-grow: 1;
-      width: inherit;
-      text-align: center;
-      border-left: 1px solid #ffffff;
-      border-right: 1px solid #ffffff;
-    }
+    // .input {
+    //   padding: 3px 12px;
+    //   -webkit-box-flex: 1;
+    //   -ms-flex-positive: 1;
+    //   -webkit-flex-grow: 1;
+    //   flex-grow: 1;
+    //   width: inherit;
+    //   text-align: center;
+    //   border-left: 1px solid #ffffff;
+    //   border-right: 1px solid #ffffff;
+    // }
 
-    .plus-quantity, .minus-quantity {
-      font-size: 12px;
-      cursor: pointer;
-      padding: 3px 12px;
-    }
+    // .plus-quantity, .minus-quantity {
+    //   font-size: 12px;
+    //   cursor: pointer;
+    //   padding: 3px 12px;
+    // }
   }
 }
 .my-quantity{
@@ -599,4 +592,18 @@ display: inline-table;
     border-bottom: 1px solid $aqua;
     @include b3_14px_montserrat_aqua();
   }
+}
+
+.wishlist-display {
+  margin-top: 50px;
+  div { 
+    cursor: pointer;
+    @include b5_10px_montserrat_charcoal();
+    font-size: 10px !important;
+    text-decoration: underline;
+  }
+}
+
+.out-of-stock{
+    opacity: 0.3;
 }

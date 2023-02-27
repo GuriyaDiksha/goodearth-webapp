@@ -72,7 +72,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
       html.push();
     } else {
       html.push(
-        <div className={styles.padd}>
+        <div className={cs(styles.padd, styles.summaryPadding)}>
           <div>
             {isSuspended ? (
               ""
@@ -750,13 +750,29 @@ const OrderSummary: React.FC<OrderProps> = props => {
                 className={cs(
                   globalStyles.c10LR,
                   globalStyles.voffset2,
-                  globalStyles.marginB10
+                  globalStyles.marginB10,
+                  styles.summaryPadding
                 )}
               >
                 Custom Duties & Taxes are extra, can be upto 30% or more of
                 order value in some cases, depending upon local customs
                 assessment.
               </div>
+            )}
+
+            {hasOutOfStockItems() && (
+              <p
+                className={cs(
+                  globalStyles.textCenter,
+                  styles.textRemoveItems,
+                  globalStyles.colorPrimary
+                )}
+                onClick={onRemoveOutOfStockItemsClick}
+              >
+                <span className={styles.triggerRemoveItems}>
+                  REMOVE ALL OUT OF STOCK ITEMS TO PROCEED
+                </span>
+              </p>
             )}
             {page == "cart" && (
               <div
@@ -773,12 +789,12 @@ const OrderSummary: React.FC<OrderProps> = props => {
                     onClick={chkshipping}
                     className={
                       canCheckout()
-                        ? cs(globalStyles.checkoutBtn, globalStyles.marginT50, {
+                        ? cs(globalStyles.checkoutBtn, globalStyles.marginT30, {
                             [globalStyles.hidden]: mobile
                           })
                         : cs(
                             globalStyles.checkoutBtn,
-                            globalStyles.marginT50,
+                            globalStyles.marginT30,
                             globalStyles.disabledBtn,
                             {
                               [globalStyles.hidden]: mobile
@@ -789,22 +805,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
                     PROCEED TO CHECKOUT
                   </button>
                 </NavLink>
-                {hasOutOfStockItems() && (
-                  <p
-                    className={cs(
-                      globalStyles.textCenter,
-                      styles.textRemoveItems,
-                      globalStyles.colorPrimary
-                    )}
-                    onClick={onRemoveOutOfStockItemsClick}
-                  >
-                    Please&nbsp;
-                    <span className={styles.triggerRemoveItems}>
-                      REMOVE ALL ITEMS
-                    </span>
-                    &nbsp; which are out of stock to proceed
-                  </p>
-                )}
+
                 <div
                   className={cs(
                     globalStyles.textCenter,
