@@ -726,13 +726,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
                 styles.summaryPadding
               )}
             >
-              <span
-                className={cs(
-                  styles.subtotal,
-                  globalStyles.voffset2,
-                  styles.font
-                )}
-              >
+              <span className={cs(styles.subtotal, globalStyles.voffset2)}>
                 AMOUNT PAYABLE
               </span>
               <span className={cs(styles.grandTotal, globalStyles.voffset2)}>

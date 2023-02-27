@@ -94,7 +94,7 @@ hr {
   }
 }
 .my-quantity{
-  padding: 4px 7px;
+  padding: 7px 12px;
 }
 .cart-padding{
 padding-right: 15px;
@@ -557,6 +557,7 @@ display: inline-table;
   }
 }
 .stock-left {
+  margin-top: 10px;
   position: relative;
   text-align: center;
   top: 10px;
@@ -595,7 +596,7 @@ display: inline-table;
 }
 
 .wishlist-display {
-  margin-top: 50px;
+  margin-top: 30px;
   div { 
     cursor: pointer;
     @include b5_10px_montserrat_charcoal();
