@@ -19,11 +19,13 @@ import { ProductID } from "typings/id";
 import * as util from "../../utils/validate";
 import { WidgetImage } from "components/header/typings";
 import HeaderService from "services/headerFooter";
+import LoginService from "services/login";
 import noImagePlp from "../../images/noimageplp.png";
 import { updateComponent, updateModal } from "actions/modal";
 import { POPUP } from "constants/components";
 import CookieService from "services/cookie";
 import { GA_CALLS, ANY_ADS } from "constants/cookieConsent";
+import { updateNextUrl } from "actions/info";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -70,6 +72,11 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     openPopup: () => {
       dispatch(updateComponent(POPUP.MAKER, null));
       dispatch(updateModal(true));
+    },
+    goLogin: (event?: React.MouseEvent, nextUrl?: string) => {
+      LoginService.showLogin(dispatch);
+      nextUrl && dispatch(updateNextUrl(nextUrl));
+      event?.preventDefault();
     }
   };
 };
@@ -480,6 +487,7 @@ class CartPage extends React.Component<Props, State> {
             validbo={false}
             basket={this.props.cart}
             page="cart"
+            goLogin={this.props.goLogin}
           />
         </div>
       </div>
