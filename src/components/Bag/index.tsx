@@ -387,21 +387,35 @@ class Bag extends React.Component<Props, State> {
               ></i>
             </div>
           </div>
-          <div className={cs(styles.freeShippingInfo, globalStyles.flex)}>
-            <div>
-              <i
-                className={cs(
-                  iconStyles.icon,
-                  iconStyles.iconWishlist,
-                  styles.exclamationFontSize
-                )}
-              ></i>
-            </div>
-            <div className={styles.text}>
-              Add products worth ₹ 1300 or more to qualify for free shipping.
-            </div>
-          </div>
           {this.state.shipping &&
+          totalWithoutShipping &&
+          totalWithoutShipping >= freeShippingThreshold &&
+          totalWithoutShipping < freeShippingApplicable &&
+          this.props.cart.shippable ? (
+            <div className={cs(styles.freeShippingInfo, globalStyles.flex)}>
+              <div>
+                <i
+                  className={cs(
+                    iconStyles.icon,
+                    iconStyles.iconWishlist,
+                    styles.exclamationFontSize
+                  )}
+                ></i>
+              </div>
+
+              <div className={styles.text}>
+                Add products worth{" "}
+                {String.fromCharCode(...currencyCodes[this.props.currency])}{" "}
+                {this.props.cart.freeShippingApplicable -
+                  parseInt(this.props.cart.total.toString())}{" "}
+                or more to qualify for free shipping.
+              </div>
+            </div>
+          ) : (
+            ""
+          )}
+
+          {/* {this.state.shipping &&
           totalWithoutShipping &&
           totalWithoutShipping >= freeShippingThreshold &&
           totalWithoutShipping < freeShippingApplicable &&
@@ -424,7 +438,7 @@ class Bag extends React.Component<Props, State> {
             </div>
           ) : (
             ""
-          )}
+          )} */}
 
           <div className={styles.bagContents}>{this.getItems()}</div>
           {this.getFooter()}

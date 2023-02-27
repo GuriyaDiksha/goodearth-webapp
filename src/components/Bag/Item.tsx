@@ -18,6 +18,7 @@ import { AppState } from "reducers/typings";
 import quantityStyles from "../quantity/styles.scss";
 import CookieService from "services/cookie";
 import { GA_CALLS, ANY_ADS } from "constants/cookieConsent";
+import PdpQuantity from "components/quantity/pdpQuantity";
 
 const LineItems: React.FC<BasketItem> = memo(
   ({
@@ -45,6 +46,7 @@ const LineItems: React.FC<BasketItem> = memo(
     const { dispatch } = useStore();
     const [showError, setShowError] = useState(false);
     const [error, setError] = useState("");
+
     const handleChange = async (value: number) => {
       await BasketService.updateToBasket(dispatch, id, value)
         .then(res => {
@@ -220,7 +222,13 @@ const LineItems: React.FC<BasketItem> = memo(
         data-sku={product.childAttributes[0].sku}
       >
         <div className={cs(globalStyles.flex, styles.row)}>
-          <div className={styles.productImage}>
+          <div
+            className={cs(
+              styles.productImage,
+              product.stockRecords[0].numInStock < 1 && styles.outOfStock
+            )}
+          >
+            {/* <div className={cs(styles.productImage)}> */}
             <div className={globalStyles.relative}>
               <Link to={isGiftCard ? "#" : url} onClick={toggleBag}>
                 {salesBadgeImage && (
@@ -262,12 +270,22 @@ const LineItems: React.FC<BasketItem> = memo(
           <div className={styles.productDetails}>
             {/* <div className={styles.collectionName}>{collection}</div> */}
             <div className={cs(styles.name)}>
-              <div className={styles.productTitle}>
+              <div
+                className={cs(
+                  styles.productTitle,
+                  product.stockRecords[0].numInStock < 1 && styles.outOfStock
+                )}
+              >
                 <Link to={isGiftCard ? "#" : url} onClick={toggleBag}>
                   {title}
                 </Link>
               </div>
-              <div className={styles.productPrice}>
+              <div
+                className={cs(
+                  styles.productPrice,
+                  product.stockRecords[0].numInStock < 1 && styles.outOfStock
+                )}
+              >
                 {saleStatus && discount && discountedPriceRecords ? (
                   <span className={styles.discountprice}>
                     {String.fromCharCode(...currencyCodes[currency])}
@@ -295,14 +313,29 @@ const LineItems: React.FC<BasketItem> = memo(
                   </span>
                 )}
               </div>
-              <div className={styles.productSize}>
+              <div
+                className={cs(
+                  styles.productSize,
+                  product.stockRecords[0].numInStock < 1 && styles.outOfStock
+                )}
+              >
                 {getSize(product.attributes)}
               </div>
-              <div className={styles.productColor}>
+              <div
+                className={cs(
+                  styles.productColor,
+                  product.stockRecords[0].numInStock < 1 && styles.outOfStock
+                )}
+              >
                 {getColor(product.attributes)}
               </div>
-              <div className={cs(styles.widgetQty)}>
-                <Quantity
+              <div
+                className={cs(
+                  styles.widgetQty,
+                  product.stockRecords[0].numInStock < 1 && styles.outOfStock
+                )}
+              >
+                <PdpQuantity
                   source="bag"
                   key={id}
                   id={id}
@@ -316,9 +349,26 @@ const LineItems: React.FC<BasketItem> = memo(
                     product.stockRecords &&
                     product.stockRecords[0].numInStock < 1
                   }
-                  // errorMsg="Available qty in stock is"
                 />
               </div>
+              {product.stockRecords ? (
+                product.stockRecords[0].numInStock < 1 ? (
+                  <div
+                    className={cs(
+                      globalStyles.errorMsg,
+                      styles.stockLeftError,
+                      quantityStyles.errorMsg,
+                      quantityStyles.fontStyle
+                    )}
+                  >
+                    Out of stock
+                  </div>
+                ) : (
+                  ""
+                )
+              ) : (
+                ""
+              )}
               <div
                 className={cs(
                   styles.productActions,
@@ -333,14 +383,6 @@ const LineItems: React.FC<BasketItem> = memo(
                     styles.remove
                   )}
                 >
-                  {/* <i
-                  className={cs(
-                    iconStyles.icon,
-                    iconStyles.iconCrossNarrowBig,
-                    styles.crossiconItem
-                  )}
-                  onClick={deleteItem}
-                ></i> */}
                   <span onClick={deleteItem}>REMOVE</span>
                 </div>
                 {!bridalProfile && (
