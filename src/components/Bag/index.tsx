@@ -15,6 +15,7 @@ import { AppState } from "reducers/typings";
 import * as util from "../../utils/validate";
 import CookieService from "services/cookie";
 import { GA_CALLS } from "constants/cookieConsent";
+import freeShippingInfoIcon from "../../images/free_shipping_info.svg";
 
 const mapDispatchToProps = (dispatch: Dispatch) => {
   return {
@@ -387,59 +388,27 @@ class Bag extends React.Component<Props, State> {
               ></i>
             </div>
           </div>
-          {this.state.shipping &&
-          totalWithoutShipping &&
-          totalWithoutShipping >= freeShippingThreshold &&
-          totalWithoutShipping < freeShippingApplicable &&
-          this.props.cart.shippable ? (
-            <div className={cs(styles.freeShippingInfo, globalStyles.flex)}>
-              <div>
-                <i
-                  className={cs(
-                    iconStyles.icon,
-                    iconStyles.iconWishlist,
-                    styles.exclamationFontSize
-                  )}
-                ></i>
-              </div>
-
-              <div className={styles.text}>
-                Add products worth{" "}
-                {String.fromCharCode(...currencyCodes[this.props.currency])}{" "}
-                {this.props.cart.freeShippingApplicable -
-                  parseInt(this.props.cart.total.toString())}{" "}
-                or more to qualify for free shipping.
-              </div>
-            </div>
-          ) : (
-            ""
-          )}
-
           {/* {this.state.shipping &&
           totalWithoutShipping &&
           totalWithoutShipping >= freeShippingThreshold &&
           totalWithoutShipping < freeShippingApplicable &&
-          this.props.cart.shippable ? (
-            <div className={styles.cart}>
-              <div className={cs(styles.message, styles.noMargin)}>
-                You&apos; re a step away from{" "}
-                <span className={globalStyles.textUnderline}>
-                  free shipping
-                </span>
-                !
-                <br /> Select products worth{" "}
-                <span>
-                  {String.fromCharCode(...currencyCodes[this.props.currency])}{" "}
-                  {this.props.cart.freeShippingApplicable -
-                    parseInt(this.props.cart.total.toString())}
-                </span>{" "}
-                or more to your order to qualify.
-              </div>
+          this.props.cart.shippable ? ( */}
+          <div className={cs(styles.freeShippingInfo, globalStyles.flex)}>
+            <div>
+              <img src={freeShippingInfoIcon} alt="free-shipping" />
             </div>
-          ) : (
+
+            <div className={styles.text}>
+              Add products worth{" "}
+              {String.fromCharCode(...currencyCodes[this.props.currency])}{" "}
+              {this.props.cart.freeShippingApplicable -
+                parseInt(this.props.cart.total.toString())}{" "}
+              or more to qualify for free shipping.
+            </div>
+          </div>
+          {/* ) : (
             ""
           )} */}
-
           <div className={styles.bagContents}>{this.getItems()}</div>
           {this.getFooter()}
         </div>

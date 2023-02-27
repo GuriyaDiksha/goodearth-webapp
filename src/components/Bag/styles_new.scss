@@ -82,10 +82,10 @@
     align-items: center;
     background: $gold-light;
 
-    .exclamation-font-size {
-      color: $white;
-      font-size: 12px;
-      font-weight: bold;
+    img {
+      width: 13px;
+      height: 13px;
+      object-fit: contain;
     }
     .text {
       @include b5_10px_semibold_montserrat_charcoal();
