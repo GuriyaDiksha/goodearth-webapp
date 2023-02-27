@@ -99,7 +99,7 @@ export default {
       res.customerGroup ? res.customerGroup.toLowerCase() : "",
       365
     );
-    showGrowlMessage(dispatch, `${LOGIN_SUCCESS} ${response.firstName}!`, 5000);
+    showGrowlMessage(dispatch, `${response.firstName}, ${LOGIN_SUCCESS}`, 5000);
     if (response.oldBasketHasItems) {
       showGrowlMessage(dispatch, MESSAGE.PREVIOUS_BASKET, 0);
     }

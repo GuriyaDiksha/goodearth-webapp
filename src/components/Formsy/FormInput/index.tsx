@@ -116,7 +116,6 @@ const FormInput: React.FC<Props & InjectedProps<string | null>> = props => {
     : !props.isPristine && !props.isValid
     ? getRequiredErrorMessage(props.name)
     : "";
-
   return (
     <div className={props.className}>
       <input
@@ -160,13 +159,7 @@ const FormInput: React.FC<Props & InjectedProps<string | null>> = props => {
         onKeyDown={e => (props.keyDown ? props.keyDown(e) : null)}
       />
       <label
-        className={cs({
-          [globalStyles.hidden]: labelClass
-            ? false
-            : props.showLabel
-            ? false
-            : true
-        })}
+        className={labelClass || false ? "" : globalStyles.hidden}
         id={props.id}
       >
         {props.label || ""}

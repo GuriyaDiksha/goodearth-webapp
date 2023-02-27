@@ -37,7 +37,7 @@ const LoginForm: React.FC<{ redirectTo: string }> = ({ redirectTo }) => {
     window.scrollTo(0, 0);
   }, []);
   return (
-    <div className={cs(bootstrapStyles.col12)}>
+    <div className={cs(bootstrapStyles.col10, bootstrapStyles.offset1)}>
       <div>
         {isRegister ? (
           <CheckoutRegisterForm
@@ -50,14 +50,12 @@ const LoginForm: React.FC<{ redirectTo: string }> = ({ redirectTo }) => {
             showRegister={goToRegister}
             nextStep={nextStep}
             isBo={true}
-            isCerise={id == "cerise"}
             heading={"Welcome"}
             subHeading={
               id == "cerise"
                 ? "Please enter your registered e-mail address to login to your Cerise account."
                 : "Please enter the New Password to Sign in!"
             }
-            source="password-reset"
           />
         )}
       </div>

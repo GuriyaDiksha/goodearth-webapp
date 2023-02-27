@@ -429,7 +429,6 @@ class RegisterForm extends React.Component<Props, registerState> {
                 maxLength: "You are allowed to enter upto 75 characters only"
               }}
               required
-              disable={true}
             />
           </div>
           <div>
@@ -452,7 +451,6 @@ class RegisterForm extends React.Component<Props, registerState> {
                 isEnglish: "Only alphabets are allowed"
               }}
               required
-              showLabel={true}
             />
           </div>
           <div>
@@ -475,7 +473,6 @@ class RegisterForm extends React.Component<Props, registerState> {
                 isEnglish: "Only alphabets are allowed"
               }}
               required
-              showLabel={true}
             />
           </div>
           <div className={styles.userGenderPicker}>
@@ -487,7 +484,6 @@ class RegisterForm extends React.Component<Props, registerState> {
               disable={!this.state.showFields}
               className={this.state.showFields ? "" : styles.disabledInput}
               required
-              showLabel={true}
             />
           </div>
           <div className={styles.calendarIconContainer}>
@@ -534,7 +530,6 @@ class RegisterForm extends React.Component<Props, registerState> {
                 isMinAllowedDate: "Please enter valid date of birth",
                 isMaxAllowedDate: "Age should be at least 15 years"
               }}
-              showLabel={true}
             />
           </div>
           <div className={styles.countryCode}>
@@ -577,7 +572,6 @@ class RegisterForm extends React.Component<Props, registerState> {
                   ? e.preventDefault()
                   : null
               }
-              showLabel={true}
             />
           </div>
           <div>
