@@ -368,3 +368,13 @@
     @include b3_14px_montserrat_charcoal();
     color: $white;
 }
+
+.posFixed{
+  img{
+    width: 15px;
+    height: 19px;
+    object-fit: contain;
+    margin-right: 5px;
+    vertical-align: middle;
+  }
+}
