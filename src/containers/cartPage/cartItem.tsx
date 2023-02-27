@@ -422,34 +422,36 @@ const CartItems: React.FC<BasketItem> = memo(
                               {qtyErrorMsg}
                             </span>
                           )} */}
-                        <span
-                          className={cs(
-                            globalStyles.errorMsg,
-                            styles.stockLeft,
-                            {
-                              [styles.outOfStock]:
-                                stockRecords[0].numInStock < 1
-                            }
-                            // {
-                            //   [styles.stockLeftWithError]: qtyError
-                            // }
-                          )}
-                        >
-                          {saleStatus &&
-                            childAttributes[0].showStockThreshold &&
-                            childAttributes[0].stock > 0 &&
-                            `Only ${childAttributes[0].stock} Left!`}
-                          <br />
-                          {saleStatus &&
-                            childAttributes[0].showStockThreshold &&
-                            childAttributes[0].stock > 0 &&
-                            childAttributes[0].othersBasketCount > 0 &&
-                            ` *${childAttributes[0].othersBasketCount} other${
-                              childAttributes[0].othersBasketCount > 1
-                                ? "s"
-                                : ""
-                            } have this item in their bag.`}
-                        </span>
+                        {saleStatus && (
+                          <span
+                            className={cs(
+                              globalStyles.errorMsg,
+                              styles.stockLeft,
+                              {
+                                [styles.outOfStock]:
+                                  stockRecords[0].numInStock < 1
+                              }
+                              // {
+                              //   [styles.stockLeftWithError]: qtyError
+                              // }
+                            )}
+                          >
+                            {saleStatus &&
+                              childAttributes[0].showStockThreshold &&
+                              childAttributes[0].stock > 0 &&
+                              `Only ${childAttributes[0].stock} Left!`}
+                            <br />
+                            {saleStatus &&
+                              childAttributes[0].showStockThreshold &&
+                              childAttributes[0].stock > 0 &&
+                              childAttributes[0].othersBasketCount > 0 &&
+                              ` *${childAttributes[0].othersBasketCount} other${
+                                childAttributes[0].othersBasketCount > 1
+                                  ? "s"
+                                  : ""
+                              } have this item in their bag.`}
+                          </span>
+                        )}
                         {renderNotifyTrigger("info")}
                       </div>
                     </div>

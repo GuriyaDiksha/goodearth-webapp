@@ -92,9 +92,19 @@ hr {
     //   padding: 3px 12px;
     // }
   }
+
+  @media screen and (max-width:992px){
+    margin: 35px 30px;
+  }
 }
+@media screen and (max-width:992px){
+  .empty-cart{
+    margin: 35px 0px;
+  }
+}
+
 .my-quantity{
-  padding: 4px 7px;
+  padding: 7px 12px;
 }
 .cart-padding{
 padding-right: 15px;
@@ -439,6 +449,14 @@ display: inline-table;
 .checkheight-mobile {
   min-height: 300px;
   padding: 0;
+  width: 100%;
+  overflow: scroll;
+  justify-content: start;
+  flex-wrap: nowrap;
+  column-gap: 17px;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 .npf-msg {
@@ -557,6 +575,7 @@ display: inline-table;
   }
 }
 .stock-left {
+  margin-top: 10px;
   position: relative;
   text-align: center;
   top: 10px;
@@ -595,7 +614,7 @@ display: inline-table;
 }
 
 .wishlist-display {
-  margin-top: 50px;
+  margin-top: 30px;
   div { 
     cursor: pointer;
     @include b5_10px_montserrat_charcoal();

@@ -309,7 +309,7 @@ class CartPage extends React.Component<Props, State> {
     } = this.props;
 
     const emptyCartContent = (
-      <div className={styles.cart}>
+      <div className={cs(styles.cart, styles.emptyCart)}>
         {/* {this.renderMessage()} */}
         <div
           className={cs(
@@ -318,9 +318,8 @@ class CartPage extends React.Component<Props, State> {
             // bootstrap.colMd4,
             // bootstrap.offsetMd4,
             {
-              [bootstrap.col12]: !mobile,
-              [bootstrap.col10]: mobile,
-              [bootstrap.offset1]: mobile
+              [bootstrap.col10]: !mobile,
+              [bootstrap.col12]: mobile
             }
           )}
         >

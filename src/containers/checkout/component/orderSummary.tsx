@@ -16,6 +16,9 @@ import { POPUP } from "constants/components";
 import CookieService from "services/cookie";
 import { GA_CALLS } from "constants/cookieConsent";
 
+import checkoutIcon from "../../../images/checkout.svg";
+import freeShippingInfoIcon from "../../../images/free_shipping_info.svg";
+
 const OrderSummary: React.FC<OrderProps> = props => {
   const { mobile, basket, page, shippingAddress, salestatus, validbo } = props;
   const [showSummary, setShowSummary] = useState(mobile ? false : true);
@@ -72,7 +75,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
       html.push();
     } else {
       html.push(
-        <div className={cs(styles.padd, styles.summaryPadding)}>
+        <div className={cs(styles.summaryPadding, styles.padd)}>
           <div>
             {isSuspended ? (
               ""
@@ -693,16 +696,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
       totalWithoutShipping < freeShippingApplicable &&
       shippable ? (
         <div className={cs(styles.freeShippingInfo, globalStyles.flex)}>
-          <div>
-            <i
-              className={cs(
-                iconStyles.icon,
-                iconStyles.iconWishlist,
-                styles.exclamationFontSize
-              )}
-            ></i>
-          </div>
-
+          <img src={freeShippingInfoIcon} alt="free-shipping" />
           <div className={styles.text}>
             Add products worth{" "}
             {String.fromCharCode(...currencyCode[props.currency])}{" "}
@@ -758,13 +752,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
                 styles.summaryPadding
               )}
             >
-              <span
-                className={cs(
-                  styles.subtotal,
-                  globalStyles.voffset2,
-                  styles.font
-                )}
-              >
+              <span className={cs(styles.subtotal, globalStyles.voffset2)}>
                 AMOUNT PAYABLE
               </span>
               <span className={cs(styles.grandTotal, globalStyles.voffset2)}>
@@ -821,9 +809,14 @@ const OrderSummary: React.FC<OrderProps> = props => {
                     onClick={chkshipping}
                     className={
                       canCheckout()
-                        ? cs(globalStyles.checkoutBtn, globalStyles.marginT30, {
-                            [globalStyles.hidden]: mobile
-                          })
+                        ? cs(
+                            globalStyles.checkoutBtn,
+                            globalStyles.marginT30,
+                            {
+                              [globalStyles.hidden]: mobile
+                            },
+                            styles.checkoutBtn
+                          )
                         : cs(
                             globalStyles.checkoutBtn,
                             globalStyles.marginT30,
@@ -834,7 +827,8 @@ const OrderSummary: React.FC<OrderProps> = props => {
                           )
                     }
                   >
-                    PROCEED TO CHECKOUT
+                    <img src={checkoutIcon} alt="checkout-button" />
+                    <span>PROCEED TO CHECKOUT</span>
                   </button>
                 </NavLink>
 
@@ -890,7 +884,8 @@ const OrderSummary: React.FC<OrderProps> = props => {
                         )
                   }
                 >
-                  PROCEED TO CHECKOUT
+                  <img src={checkoutIcon} alt="checkout-button" />
+                  <span>PROCEED TO CHECKOUT</span>
                 </button>
               </NavLink>
             </div>
