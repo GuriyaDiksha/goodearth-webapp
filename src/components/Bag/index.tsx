@@ -1,5 +1,6 @@
 import React from "react";
-import styles from "./styles.scss";
+// import styles from "./styles.scss";
+import styles from "./styles_new.scss";
 import cs from "classnames";
 import { CartProps, State } from "./typings";
 import iconStyles from "../../styles/iconFonts.scss";
@@ -14,6 +15,7 @@ import { AppState } from "reducers/typings";
 import * as util from "../../utils/validate";
 import CookieService from "services/cookie";
 import { GA_CALLS } from "constants/cookieConsent";
+import freeShippingInfoIcon from "../../images/free_shipping_info.svg";
 
 const mapDispatchToProps = (dispatch: Dispatch) => {
   return {
@@ -131,59 +133,75 @@ class Bag extends React.Component<Props, State> {
         })
         .reduce((partialSum, a) => partialSum + a, 0);
 
+      console.log("CART VALUE", this.props.cart);
       return (
         <div className={styles.bagFooter}>
-          {this.hasOutOfStockItems() && (
-            <div
-              className={cs(
-                globalStyles.errorMsg,
-                globalStyles.lineHt10,
-                styles.containerCost,
-                globalStyles.linkTextUnderline
-              )}
-              onClick={this.removeOutOfStockItems}
-              style={{ display: "inline-block" }}
-            >
-              Remove all Items out of stock
-            </div>
-          )}
-          {discountAmount > 0 && (
-            <div
-              className={cs(
-                globalStyles.flex,
-                globalStyles.gutterBetween,
-                styles.containerCost
-              )}
-            >
-              <div className={cs(styles.totalPrice, globalStyles.bold)}>
-                Discount
-              </div>
-              <div className={globalStyles.textRight}>
-                <h5 className={cs(styles.totalPrice, globalStyles.bold)}>
-                  (-)
+          <div className={cs(styles.orderSummaryWrapper)}>
+            <div className={cs(styles.orderSummary)}>Order Summary</div>
+
+            <div className={styles.subTotalDiscountWrapper}>
+              <div
+                className={cs(globalStyles.flex, globalStyles.gutterBetween)}
+              >
+                <div className={cs(styles.subTotalPrice)}>SUBTOTAL</div>
+
+                <h5 className={cs(styles.subTotalPrice)}>
                   {String.fromCharCode(...currencyCodes[this.props.currency])}
                   &nbsp;
-                  {parseFloat(discountAmount.toString()).toFixed(2)}
+                  {parseFloat(this.props.cart.subTotal.toString()).toFixed(2)}
                 </h5>
               </div>
+              {/* {discountAmount > 0 && ( */}
+              <div
+                className={cs(
+                  globalStyles.flex,
+                  globalStyles.gutterBetween,
+                  styles.containerCost,
+                  styles.discountWrapper
+                )}
+              >
+                <div className={cs(styles.discountPrice)}>EMP Discount</div>
+                <div className={globalStyles.textRight}>
+                  <h5 className={cs(styles.discountPrice)}>
+                    (-)
+                    {String.fromCharCode(...currencyCodes[this.props.currency])}
+                    &nbsp;
+                    {parseFloat(discountAmount.toString()).toFixed(2)}
+                  </h5>
+                </div>
+              </div>
+              {/* )} */}
             </div>
-          )}
-          <div
-            className={cs(
-              globalStyles.flex,
-              globalStyles.gutterBetween,
-              styles.containerCost
+
+            {this.hasOutOfStockItems() && (
+              <div
+                className={cs(
+                  globalStyles.errorMsg,
+                  globalStyles.lineHt10,
+                  styles.containerCost,
+                  globalStyles.linkTextUnderline,
+                  styles.removeOutOfStock
+                )}
+                onClick={this.removeOutOfStockItems}
+              >
+                Remove all Items out of stock
+              </div>
             )}
-          >
-            <div className={cs(styles.totalPrice, globalStyles.bold)}>
-              TOTAL*
-            </div>
-            <div className={globalStyles.textRight}>
-              <h5 className={cs(styles.totalPrice, globalStyles.bold)}>
-                {String.fromCharCode(...currencyCodes[this.props.currency])}
-                &nbsp;
-                {parseFloat(this.props.cart.total.toString()).toFixed(2)}
-              </h5>
+
+            <div className={cs(styles.containerCost, styles.totalAmount)}>
+              <div
+                className={cs(globalStyles.flex, globalStyles.gutterBetween)}
+              >
+                <div className={cs(styles.totalPrice, globalStyles.bold)}>
+                  TOTAL*
+                </div>
+
+                <h5 className={cs(styles.totalPrice, globalStyles.bold)}>
+                  {String.fromCharCode(...currencyCodes[this.props.currency])}
+                  &nbsp;
+                  {parseFloat(this.props.cart.total.toString()).toFixed(2)}
+                </h5>
+              </div>
               <p className={styles.subtext}>
                 *Excluding estimated cost of shipping
               </p>
@@ -230,47 +248,13 @@ class Bag extends React.Component<Props, State> {
           </div>
           } */}
 
-          <div className={cs(globalStyles.flex, styles.bagFlex)}>
-            <div className={cs(styles.iconCart, globalStyles.pointer)}>
-              <Link to="/cart">
-                <div className={styles.innerDiv}>
-                  <div className={styles.cartIconDiv}>
-                    <i
-                      className={cs(
-                        iconStyles.icon,
-                        iconStyles.iconCart,
-                        globalStyles.cerise
-                      )}
-                    ></i>
-                  </div>
-                  <span className={styles.viewBag}>VIEW SHOPPING BAG</span>
-                </div>
-              </Link>
-            </div>
-            {this.canCheckout() ? (
-              <NavLink key="checkout" to="/order/checkout">
-                <button
-                  onClick={this.chkshipping}
-                  className={cs(globalStyles.ceriseBtn, {
-                    [globalStyles.disabledBtn]: !this.canCheckout()
-                  })}
-                >
-                  PROCEED TO CHECKOUT
-                </button>
-              </NavLink>
-            ) : (
-              <div>
-                <button
-                  disabled={!this.canCheckout()}
-                  className={cs(
-                    globalStyles.ceriseBtn,
-                    globalStyles.disabledBtn
-                  )}
-                >
-                  PROCEED TO CHECKOUT
-                </button>
-              </div>
-            )}
+          <div className={cs(styles.bagFlex)}>
+            <Link
+              to="/cart"
+              className={cs(this.hasOutOfStockItems() && styles.outOfStock)}
+            >
+              <span className={styles.viewBag}>REVIEW BAG & CHECKOUT</span>
+            </Link>
           </div>
         </div>
       );
@@ -388,9 +372,8 @@ class Bag extends React.Component<Props, State> {
               globalStyles.gutterBetween
             )}
           >
-            <div className={styles.heading}>Mini BAG</div>
-            <div className={styles.subtext}>
-              {this.props.cart ? this.getItemsCount() : "0"} item(s) in bag
+            <div className={styles.heading}>
+              Mini BAG ({this.props.cart ? this.getItemsCount() : "0"} ITEMS)
             </div>
             <div
               className={globalStyles.pointer}
@@ -410,26 +393,22 @@ class Bag extends React.Component<Props, State> {
           totalWithoutShipping >= freeShippingThreshold &&
           totalWithoutShipping < freeShippingApplicable &&
           this.props.cart.shippable ? (
-            <div className={styles.cart}>
-              <div className={cs(styles.message, styles.noMargin)}>
-                You&apos; re a step away from{" "}
-                <span className={globalStyles.textUnderline}>
-                  free shipping
-                </span>
-                !
-                <br /> Select products worth{" "}
-                <span>
-                  {String.fromCharCode(...currencyCodes[this.props.currency])}{" "}
-                  {this.props.cart.freeShippingApplicable -
-                    parseInt(this.props.cart.total.toString())}
-                </span>{" "}
-                or more to your order to qualify.
+            <div className={cs(styles.freeShippingInfo, globalStyles.flex)}>
+              <div>
+                <img src={freeShippingInfoIcon} alt="free-shipping" />
+              </div>
+
+              <div className={styles.text}>
+                Add products worth{" "}
+                {String.fromCharCode(...currencyCodes[this.props.currency])}{" "}
+                {this.props.cart.freeShippingApplicable -
+                  parseInt(this.props.cart.total.toString())}{" "}
+                or more to qualify for free shipping.
               </div>
             </div>
           ) : (
             ""
           )}
-
           <div className={styles.bagContents}>{this.getItems()}</div>
           {this.getFooter()}
         </div>

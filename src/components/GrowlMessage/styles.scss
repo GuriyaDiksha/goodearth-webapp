@@ -54,7 +54,8 @@
 }
 
 .visible {
-    right: 30px
+    right: 30px;
+    pointer-events: all;
 }
 .growl {
     position: relative;

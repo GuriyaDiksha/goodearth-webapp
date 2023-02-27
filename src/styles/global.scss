@@ -81,6 +81,12 @@ li {
 .padd-40{
   padding-top: 40px;
 }
+.padd-10{
+  padding-top: 10px;
+}
+.padd-0{
+  padding: 0px;
+}
 
 a {
   color: $cerise;
@@ -505,4 +511,24 @@ font-weight: bold;
   &.active {
     transform: translateY(0);
   }
+}
+
+.checkout-btn {
+  @include cerise-btn();
+  background-color: $aqua;
+  height: 60px;
+  color: $white !important;
+  &:hover {
+   color: $aqua;
+   border: 1px solid $aqua;
+  }
+  &:focus {
+    color: $aqua;
+    border: 1px solid $aqua;
+  }
+   
+  &.disabled-btn {
+   background-color:$light-charcoal;
+  }
+  
 }

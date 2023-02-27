@@ -56,8 +56,9 @@ export const PRODUCT_UNPUBLISHED = (items: string[]) => (
 );
 export const PRODUCT_UNSHIPPABLE_REMOVED = (items: string[]) => (
   <div style={{ textAlign: "left" }}>
-    Unfortunately, the below products are not shippable to the selected address
-    - your bag has been updated.
+    Some items from your bag were removed as they are out of stock/unavailable.
+    {/* Unfortunately, the below products are not shippable to the selected address
+    - your bag has been updated. */}
     <br />
     <br />
     <ul>{growlItemsList(items)}</ul>

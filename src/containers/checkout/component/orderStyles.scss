@@ -44,6 +44,25 @@
       position: sticky;
       position: -webkit-sticky;
       top: 30px;
+      padding: 0;
+
+      .free-shipping-info {
+        padding: 9px 16px;
+        gap: 7px;
+        align-items: center;
+        background: $gold-light;
+    
+        img {
+          width: 13px;
+          height: 13px;
+          object-fit: contain
+        }
+        .text {
+          @include b5_10px_semibold_montserrat_charcoal();
+          letter-spacing: 0.6px;
+          color: $white;
+        }
+      }
     }
     
     h3 {
@@ -109,11 +128,12 @@
         display: block;
       }
   
-      .subtotal {
-        font-size: 16px;
-      }
+      // .subtotal {
+      //   font-size: 16px;
+      // }
       .font {
-        font-size: 16px !important;
+        // font-size: 16px !important;
+        @include b4_12px_semibold_caps_charocal();
       }
       .btn-arrow {
         top: -15px;
@@ -174,10 +194,8 @@
     }
     
     .summary-title {
-      color: tint(#000, 40%);
-      font-size: 15px;
-      letter-spacing: 1px;
-      font-family: $font-Lato;
+     @include b4_12px_medium_medcharcoal_caps();
+     text-align: left;
     }
   
     .edit-cart {
@@ -203,10 +221,12 @@
     .product-qty,
     .product-size,
     .text-coupon {
+      margin: 30px 80px;
+      @include b5_10px_montserrat_charcoal();
       .bold {
         font-weight: bold;
       }
-      @include c10-L-R();
+      // @include c10-L-R();
       a {
         &:hover {
           text-decoration: underline;
@@ -215,10 +235,11 @@
     }
   
     .subtotal {
-      color: #000;
-      font-size: 14px;
+      // color: #000;
+      // font-size: 14px;
       // font-weight: 600;
-      font-family: $font-Lato;
+      // font-family: $font-Lato;
+      @include b4_12px_montserrat_medcharcoal();
     }
 
     .deliveryfont {
@@ -227,9 +248,10 @@
     }
   
     .grand-total {
-      font-size: 18px;
-      font-weight: 600;
-      font-family: $font-Lato;
+      // font-size: 18px;
+      // font-weight: 600;
+      // font-family: $font-Lato;
+      @include b4_12px_medium_medcharcoal_caps();
     }
 }
 
@@ -274,7 +296,7 @@
   margin-top: 15px;
   margin-bottom: 15px;
   border: 0;
-  border-top: 1px solid #eeeeee;
+  border-top:  0.5px solid #9F9F9F;
 }
 
 .text-muted {
@@ -304,13 +326,14 @@
 
 .text-remove-items {
   font-size: 14px;
-  margin-top: 10px;
+  margin-top: 30px;
   font-style: italic;
 
   .trigger-remove-items {
-    cursor: pointer;
+    cursor: pointer; 
     font-style: normal;
     text-decoration: underline;
+    @include b4_12px_montserrat_cerise_caps();
   }
 }
 .black {
@@ -323,6 +346,7 @@
   line-height: 20px;
   justify-content: center;
   text-transform: none;
+  padding-top: 10px;
 }
 
 .wrap {
@@ -332,4 +356,16 @@
 .wishlist-icon-order-summary {
   font-size: 22px;
   padding-right: 5px;
+}
+.checkoutBtn{
+  img{
+    width: 15px;
+    height: 19px;
+    object-fit: contain;
+    margin-right: 5px;
+    vertical-align: middle;
+  }
+  span{
+    @include b3_14px_montserrat_charcoal();
+  }
 }

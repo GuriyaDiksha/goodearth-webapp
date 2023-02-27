@@ -971,7 +971,7 @@ $list: $grey 92%, $white 8%;
 @mixin b4_12px_montserrat_medcharcoal{
   font-family: $font-Montserrat;
   font-size: 12px;
-  font-weight: $regular;
+  font-weight: $medium;
   color: $med-charcoal;
 }
 
@@ -1016,6 +1016,14 @@ $list: $grey 92%, $white 8%;
   font-size: 12px;
   font-weight: $regular;
   color: $aqua-text;
+  text-transform: uppercase;
+}
+
+@mixin b4_12px_montserrat_cerise_caps{
+  font-family: $font-Montserrat;
+  font-size: 12px;
+  font-weight: $regular;
+  color: $cerise;
   text-transform: uppercase;
 }
 
