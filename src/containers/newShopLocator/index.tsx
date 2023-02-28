@@ -97,7 +97,7 @@ class ShopLocator extends Component<Props, State> {
         })}
       >
         <div className={styles.banner}>
-          <div className={styles.bannerText}>Find us near you</div>
+          {/* <div className={styles.bannerText}>Find us near you</div> */}
         </div>
         <div className={styles.pageDescription}>
           <div className={styles.text}>
