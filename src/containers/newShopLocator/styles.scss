@@ -16,6 +16,7 @@ $banner-mobile-height:500px;
         width: 100%;
         background: url("../../images/shopLocator/desktop_banner.png");
         background-size: cover;
+        background-repeat: no-repeat;
         .banner-text{
             line-height: 438px;
             font-family: $font-Lora;
@@ -226,6 +227,10 @@ $banner-mobile-height:500px;
             height: 500px;
             background: url("../../images/shopLocator/mobile_banner.png");
             background-size: cover;
+            &.tablet-banner {
+                background: url("../../images/shopLocator/desktop_banner.png");
+                background-size: cover;
+            }
         }
         .page-description{
             padding: 0px 30px;
