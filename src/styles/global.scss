@@ -217,6 +217,12 @@ font-weight: bold;
   -webkit-justify-content: space-between;
   justify-content: space-between;
 }
+.gutter-between {
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  -webkit-justify-content: space-between;
+  justify-content: space-between;
+}
 
 .pointer {
   cursor: pointer;
@@ -531,4 +537,7 @@ font-weight: bold;
    background-color:$light-charcoal;
   }
   
+}
+.gap20{
+  gap: 20px;
 }

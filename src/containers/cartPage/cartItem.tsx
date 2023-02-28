@@ -306,12 +306,12 @@ const CartItems: React.FC<BasketItem> = memo(
     const isGiftCard = structure.toLowerCase() == "giftcard";
     return (
       <div className={cs(styles.cartItem, styles.gutter15, styles.cart)}>
-        <div className={bootstrap.row}>
+        <div className={cs(bootstrap.row)}>
           <div
             className={cs(
-              bootstrap.col5,
-              bootstrap.colMd4,
-              bootstrap.colLg2,
+              bootstrap.col4,
+              bootstrap.colSm2,
+              bootstrap.colLg3,
               styles.cartPadding,
               { [styles.outOfStock]: stockRecords[0].numInStock < 1 }
             )}
@@ -320,7 +320,7 @@ const CartItems: React.FC<BasketItem> = memo(
               <Link to={isGiftCard ? "#" : url}>
                 {salesBadgeImage && (
                   <div className={styles.badgePositionPlpMobile}>
-                    <img src={salesBadgeImage} />
+                    <img src={salesBadgeImage} alt="Sales Badge Image" />
                   </div>
                 )}
                 <div className={styles.cartRing}>
@@ -348,29 +348,69 @@ const CartItems: React.FC<BasketItem> = memo(
           </div>
           <div
             className={cs(
-              bootstrap.colLg8,
-              bootstrap.col5,
-              bootstrap.colMd6,
-              styles.cartPadding
+              bootstrap.colLg9,
+              bootstrap.colSm10,
+              bootstrap.col8,
+              globalStyles.gutter15
             )}
           >
-            <div className={styles.rowMain}>
+            <div className={cs(styles.rowMain, globalStyles.gutterBetween)}>
               <div className={cs(bootstrap.colLg6, bootstrap.col12)}>
                 <div className={cs(styles.section, styles.sectionInfo)}>
                   <div>
-                    <div
-                      className={cs(styles.collectionName, {
-                        [styles.outOfStock]: stockRecords[0].numInStock < 1
-                      })}
-                    >
-                      {collection}
-                    </div>
+                    {collection && (
+                      <div
+                        className={cs(styles.collectionName, {
+                          [styles.outOfStock]: stockRecords[0].numInStock < 1
+                        })}
+                      >
+                        {collection}
+                      </div>
+                    )}
                     <div
                       className={cs(styles.productName, {
                         [styles.outOfStock]: stockRecords[0].numInStock < 1
                       })}
                     >
                       <Link to={isGiftCard ? "#" : url}>{title}</Link>
+                    </div>
+                    <div
+                      className={cs(
+                        styles.productPrice,
+                        styles.productPriceMobile,
+                        {
+                          [styles.outOfStock]: stockRecords[0].numInStock < 1
+                        }
+                      )}
+                    >
+                      {saleStatus && discount && discountedPriceRecords ? (
+                        <span className={styles.discountprice}>
+                          {String.fromCharCode(...currencyCodes[currency])}
+                          &nbsp;
+                          {discountedPriceRecords[currency]}
+                          &nbsp;&nbsp;&nbsp;
+                        </span>
+                      ) : (
+                        ""
+                      )}
+                      {saleStatus && discount ? (
+                        <span className={styles.strikeprice}>
+                          {String.fromCharCode(...currencyCodes[currency])}
+                          &nbsp;
+                          {price}
+                        </span>
+                      ) : (
+                        <span
+                          className={
+                            badgeType == "B_flat" ? globalStyles.cerise : ""
+                          }
+                        >
+                          {" "}
+                          {String.fromCharCode(...currencyCodes[currency])}
+                          &nbsp;
+                          {structure == "GiftCard" ? GCValue : price}
+                        </span>
+                      )}
                     </div>
                     <div className={cs(styles.sizeQtyWrp)}>
                       <div
@@ -455,88 +495,118 @@ const CartItems: React.FC<BasketItem> = memo(
                         {renderNotifyTrigger("info")}
                       </div>
                     </div>
-                    <div
-                      className={cs(
-                        {
-                          [globalStyles.hiddenEye]: isGiftCard || bridalProfile
-                        },
-                        styles.wishlistDisplay
-                      )}
-                    >
-                      <WishlistButton
-                        source="cart"
-                        gtmListType="cart"
-                        title={title}
-                        childAttributes={childAttributes ? childAttributes : []}
-                        priceRecords={priceRecords}
-                        discountedPriceRecords={discountedPriceRecords}
-                        categories={categories}
-                        basketLineId={id}
-                        id={product.id}
-                        size={childAttributes[0].size || ""}
-                        showText={true}
-                        onMoveToWishlist={onMoveToWishlist}
-                        className="wishlist-font"
-                        inWishlist={inWishlist}
-                      />
-                      {renderNotifyTrigger("action")}
-                    </div>
+                  </div>
+                  <div
+                    className={cs(
+                      {
+                        [globalStyles.hiddenEye]: isGiftCard || bridalProfile
+                      },
+                      styles.wishlistDisplay,
+                      styles.disableMobile
+                    )}
+                  >
+                    <WishlistButton
+                      source="cart"
+                      gtmListType="cart"
+                      title={title}
+                      childAttributes={childAttributes ? childAttributes : []}
+                      priceRecords={priceRecords}
+                      discountedPriceRecords={discountedPriceRecords}
+                      categories={categories}
+                      basketLineId={id}
+                      id={product.id}
+                      size={childAttributes[0].size || ""}
+                      showText={true}
+                      onMoveToWishlist={onMoveToWishlist}
+                      className="wishlist-font"
+                      inWishlist={inWishlist}
+                    />
+                    {renderNotifyTrigger("action")}
                   </div>
                 </div>
               </div>
-            </div>
-          </div>
-          <div
-            className={cs(
-              bootstrap.colMd2,
-              bootstrap.col2,
-              globalStyles.textCenter,
-              styles.cartPadding
-            )}
-          >
-            <div
-              className={cs(styles.section, {
-                [styles.sectionMobile]: mobile || tablet
-              })}
-            >
               <div
-                className={cs(styles.productPrice, {
-                  [styles.extraWidth]: mobile && !tablet,
-                  [styles.outOfStock]: stockRecords[0].numInStock < 1
-                })}
-              >
-                {saleStatus && discount && discountedPriceRecords ? (
-                  <span className={styles.discountprice}>
-                    {String.fromCharCode(...currencyCodes[currency])}
-                    &nbsp;
-                    {discountedPriceRecords[currency]}
-                    &nbsp;&nbsp;&nbsp;
-                  </span>
-                ) : (
-                  ""
+                className={cs(
+                  bootstrap.colLg2,
+                  bootstrap.col12,
+                  globalStyles.textCenter,
+                  styles.cartPadding
                 )}
-                {saleStatus && discount ? (
-                  <span className={styles.strikeprice}>
-                    {String.fromCharCode(...currencyCodes[currency])}
-                    &nbsp;
-                    {price}
-                  </span>
-                ) : (
-                  <span
-                    className={badgeType == "B_flat" ? globalStyles.cerise : ""}
+              >
+                <div
+                  className={cs(styles.section, {
+                    [styles.sectionMobile]: mobile || tablet
+                  })}
+                >
+                  <div
+                    className={cs(styles.productPrice, {
+                      [styles.extraWidth]: mobile && !tablet,
+                      [styles.outOfStock]: stockRecords[0].numInStock < 1
+                    })}
                   >
-                    {" "}
-                    {String.fromCharCode(...currencyCodes[currency])}
-                    &nbsp;
-                    {structure == "GiftCard" ? GCValue : price}
-                  </span>
-                )}
-              </div>
-              <div
-                className={cs(styles.pointer, styles.remove)}
-                onClick={() => deleteItem()}
-              >
-                Remove
+                    {saleStatus && discount && discountedPriceRecords ? (
+                      <span className={styles.discountprice}>
+                        {String.fromCharCode(...currencyCodes[currency])}
+                        &nbsp;
+                        {discountedPriceRecords[currency]}
+                        &nbsp;&nbsp;&nbsp;
+                      </span>
+                    ) : (
+                      ""
+                    )}
+                    {saleStatus && discount ? (
+                      <span className={styles.strikeprice}>
+                        {String.fromCharCode(...currencyCodes[currency])}
+                        &nbsp;
+                        {price}
+                      </span>
+                    ) : (
+                      <span
+                        className={
+                          badgeType == "B_flat" ? globalStyles.cerise : ""
+                        }
+                      >
+                        {" "}
+                        {String.fromCharCode(...currencyCodes[currency])}
+                        &nbsp;
+                        {structure == "GiftCard" ? GCValue : price}
+                      </span>
+                    )}
+                  </div>
+                  <div
+                    className={cs(
+                      styles.enableMobile,
+                      {
+                        [globalStyles.hiddenEye]: isGiftCard || bridalProfile
+                      },
+                      styles.wishlistDisplay
+                    )}
+                  >
+                    <WishlistButton
+                      source="cart"
+                      gtmListType="cart"
+                      title={title}
+                      childAttributes={childAttributes ? childAttributes : []}
+                      priceRecords={priceRecords}
+                      discountedPriceRecords={discountedPriceRecords}
+                      categories={categories}
+                      basketLineId={id}
+                      id={product.id}
+                      size={childAttributes[0].size || ""}
+                      showText={true}
+                      onMoveToWishlist={onMoveToWishlist}
+                      className="wishlist-font"
+                      inWishlist={inWishlist}
+                    />
+                    {renderNotifyTrigger("action")}
+                  </div>
+                  <div
+                    className={cs(styles.pointer, styles.remove)}
+                    onClick={() => deleteItem()}
+                  >
+                    Remove
+                  </div>
+                </div>
               </div>
             </div>
           </div>
