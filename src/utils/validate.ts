@@ -959,11 +959,9 @@ export function PDP(data: any, currency: Currency) {
         event: "productDetailImpression",
         ecommerce: {
           currencyCode: currency,
-          ecommerce: {
-            detail: {
-              actionField: { list: listPath },
-              products
-            }
+          detail: {
+            actionField: { list: listPath },
+            products
           }
         }
       });
