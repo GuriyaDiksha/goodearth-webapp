@@ -12,11 +12,12 @@ $banner-mobile-height:500px;
     }
     height: 100%;
     .banner{
-        height: 438px;
+        height: 630px;
         width: 100%;
         background: url("../../images/shopLocator/desktop_banner.png");
         background-size: cover;
         background-repeat: no-repeat;
+        background-position: center;
         .banner-text{
             line-height: 438px;
             font-family: $font-Lora;
@@ -227,9 +228,14 @@ $banner-mobile-height:500px;
             height: 500px;
             background: url("../../images/shopLocator/mobile_banner.png");
             background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
             &.tablet-banner {
+                height: 438px;
                 background: url("../../images/shopLocator/desktop_banner.png");
                 background-size: cover;
+                background-repeat: no-repeat;
+                background-position: center;
             }
         }
         .page-description{
