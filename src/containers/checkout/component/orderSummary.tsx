@@ -543,7 +543,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
     if (basket.shippingCharge) {
       shippingCharge = basket.shippingCharge;
     }
-    if (basket.lineItems) {
+    if (basket.lineItems.length > 0) {
       return (
         <div
           className={
@@ -656,6 +656,26 @@ const OrderSummary: React.FC<OrderProps> = props => {
           {getCoupons()}
         </div>
       );
+    } else {
+      return (
+        <div
+          className={
+            showSummary
+              ? cs(styles.summaryPadding, styles.fixOrderItemsMobile)
+              : cs(styles.summaryPadding, globalStyles.hidden)
+          }
+        >
+          <hr className={styles.hr} />
+          <div className={cs(globalStyles.flex, globalStyles.gutterBetween)}>
+            <span className={styles.orderTotal}>TOTAL</span>
+            <span className={styles.orderTotal}>
+              {String.fromCharCode(...code)}{" "}
+              {parseFloat("" + basket.subTotalWithShipping).toFixed(2)}
+            </span>
+          </div>
+          {getCoupons()}
+        </div>
+      );
     }
     return null;
   };
@@ -723,7 +743,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
           </span>
         )}
         <div className={cs(styles.summaryPadding, styles.summaryHeader)}>
-          <h3 className={cs(globalStyles.textCenter, styles.summaryTitle)}>
+          <h3 className={cs(styles.summaryTitle)}>
             ORDER SUMMARY
             {page == "checkout" && !validbo ? (
               boId ? (
@@ -748,14 +768,16 @@ const OrderSummary: React.FC<OrderProps> = props => {
               className={cs(
                 globalStyles.flex,
                 globalStyles.gutterBetween,
-                styles.total,
-                styles.summaryPadding
+                styles.summaryPadding,
+                styles.grandTotalWrapper
               )}
             >
-              <span className={cs(styles.subtotal, globalStyles.voffset2)}>
+              <span className={cs(styles.grandTotal, globalStyles.voffset2)}>
                 AMOUNT PAYABLE
               </span>
-              <span className={cs(styles.grandTotal, globalStyles.voffset2)}>
+              <span
+                className={cs(styles.grandTotalAmount, globalStyles.voffset2)}
+              >
                 {String.fromCharCode(...code)}{" "}
                 {parseFloat("" + basket.total).toFixed(2)}
               </span>
@@ -823,7 +845,8 @@ const OrderSummary: React.FC<OrderProps> = props => {
                             globalStyles.disabledBtn,
                             {
                               [globalStyles.hidden]: mobile
-                            }
+                            },
+                            styles.checkoutBtn
                           )
                     }
                   >
@@ -839,9 +862,10 @@ const OrderSummary: React.FC<OrderProps> = props => {
                     globalStyles.voffset4
                   )}
                 >
-                  Promo Codes, Gift Cards & Credit Notes can applied at Checkout
+                  Promo Codes (if applicable), Gift Cards & Credit Notes can be
+                  applied at Checkout
                 </div>
-                <div className={styles.wishlist}>
+                {/* <div className={styles.wishlist}>
                   <Link to="/wishlist" onClick={goToWishlist}>
                     <span>
                       <i
@@ -858,7 +882,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
                       VIEW SAVED ITEMS
                     </span>
                   </Link>
-                </div>
+                </div> */}
               </div>
             )}
           </div>

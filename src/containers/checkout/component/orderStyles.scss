@@ -185,7 +185,7 @@
     }
   
     .summary-padding {
-      padding: 0 40px;
+      padding: 0 30px;
     }
     .fix-order-items {
       max-height: 220px;
@@ -196,6 +196,7 @@
     .summary-title {
      @include b4_12px_medium_medcharcoal_caps();
      text-align: left;
+     padding: 35px 0 10px 0;
     }
   
     .edit-cart {
@@ -241,17 +242,24 @@
       // font-family: $font-Lato;
       @include b4_12px_montserrat_medcharcoal();
     }
+    .order-total{
+      @include b4_12px_montserrat_medcharcoal();
+      color:$med-charcoal;
+    }
+    .grand-total-wrapper{
+      margin-bottom: 10px;
+    }
+    .grand-total{
+      @include b4_12px_montserrat_semibold_charcoal();
+    }
+    .grand-total-amount{
+      @include b4_12px_montserrat_semibold_charcoal();
+      color:$med-charcoal;
+    }
 
     .deliveryfont {
       font-size: 12px;
       font-family: $font-Lato;
-    }
-  
-    .grand-total {
-      // font-size: 18px;
-      // font-weight: 600;
-      // font-family: $font-Lato;
-      @include b4_12px_medium_medcharcoal_caps();
     }
 }
 
@@ -357,7 +365,7 @@
   font-size: 22px;
   padding-right: 5px;
 }
-.checkoutBtn{
+.checkout-btn{
   img{
     width: 15px;
     height: 19px;
