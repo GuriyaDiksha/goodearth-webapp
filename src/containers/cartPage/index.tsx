@@ -352,7 +352,7 @@ class CartPage extends React.Component<Props, State> {
                       return (
                         <div
                           key={i}
-                          className={cs(bootstrap.colMd2, bootstrap.col6)}
+                          className={cs(bootstrap.colLg2, bootstrap.col6)}
                         >
                           <div className={styles.searchImageboxNew}>
                             <Link to={data.ctaUrl}>
@@ -562,7 +562,7 @@ class CartPage extends React.Component<Props, State> {
           {this.getItems()}
         </div>
         <div
-          className={cs(bootstrap.col12, bootstrap.colMd3, globalStyles.padd0)}
+          className={cs(bootstrap.col12, bootstrap.colLg3, globalStyles.padd0)}
         >
           <OrderSummary
             mobile={this.props.mobile}
