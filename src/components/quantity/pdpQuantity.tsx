@@ -65,7 +65,8 @@ class PdpQuantity extends React.Component<QuantityItem, State> {
             className={cs(
               styles.minusQuantity,
               styles.quantityPdp,
-              props.class
+              props.class,
+              value === 1 ? styles.plusQuantityDisabled : ""
             )}
             onClick={(): void => {
               if (disabled || this.state.disableButton) {

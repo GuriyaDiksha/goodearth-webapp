@@ -1225,7 +1225,8 @@ class Header extends React.Component<Props, State> {
                           styles.topBagIconStyle
                         )}
                         onClick={(): void => {
-                          this.setShowBag(true);
+                          // this.setShowBag(true);
+                          this.props.history.push("/cart");
                           this.onBottomMenuClick("Cart");
                         }}
                       ></i>
