@@ -59,9 +59,11 @@ const MyProfile: React.FC<ProfileProps> = ({ setCurrentSection }) => {
   });
   const ProfileFormRef = useRef<Formsy | null>(null);
   const dispatch = useDispatch();
-  const isdList = countryData.map(list => {
-    return list.isdCode;
-  });
+  const [isdList, setIsdList] = useState(
+    countryData.map(list => {
+      return list.isdCode;
+    })
+  );
 
   const changeCountryData = (countryData: Country[], newData: any) => {
     const countryOptions = countryData.map(country => {
@@ -155,6 +157,11 @@ const MyProfile: React.FC<ProfileProps> = ({ setCurrentSection }) => {
   }, []);
 
   useEffect(() => {
+    setIsdList(
+      countryData.map(list => {
+        return list.isdCode;
+      })
+    );
     changeCountryData(countryData, data);
   }, [countryData]);
 
@@ -483,67 +490,71 @@ const MyProfile: React.FC<ProfileProps> = ({ setCurrentSection }) => {
                 </div>
               </div>
             )}
-            <div className={cs(styles.countryCode, styles.countryCodeProfile)}>
-              <CountryCode
-                // fetchCountryData={fetchCountryData}
-                handleChange={() => setUpdateProfile()}
-                name="phoneCountryCode"
-                placeholder="Code"
-                label="Country Code"
-                value=""
-                disable={data?.phoneCountryCode ? true : false}
-                id="isd_code"
-                validations={{
-                  isCodeValid: (values, value) => {
-                    return !(values.phoneNumber && value == "");
-                  },
-                  isValidCode: (values, value) => {
-                    // this.props
-                    if (value && isdList.length > 0) {
-                      return isdList.indexOf(value ? value : "") > -1;
-                    } else {
-                      return true;
+            {isdList?.length ? (
+              <div
+                className={cs(styles.countryCode, styles.countryCodeProfile)}
+              >
+                <CountryCode
+                  // fetchCountryData={fetchCountryData}
+                  handleChange={() => setUpdateProfile()}
+                  name="phoneCountryCode"
+                  placeholder="Code"
+                  label="Country Code"
+                  value=""
+                  disable={data?.phoneCountryCode ? true : false}
+                  id="isd_code"
+                  validations={{
+                    isCodeValid: (values, value) => {
+                      return !(values.phoneNumber && value == "");
+                    },
+                    isValidCode: (values, value) => {
+                      // this.props
+                      if (value && isdList.length > 0) {
+                        return isdList.indexOf(value ? value : "") > -1;
+                      } else {
+                        return true;
+                      }
                     }
-                  }
-                }}
-                validationErrors={{
-                  isCodeValid: "Required",
-                  isValidCode: "Enter valid code"
-                }}
-                className={cs({
-                  [styles.disabledInput]: data?.phoneCountryCode
-                })}
-              />
+                  }}
+                  validationErrors={{
+                    isCodeValid: "Required",
+                    isValidCode: "Enter valid code"
+                  }}
+                  className={cs({
+                    [styles.disabledInput]: data?.phoneCountryCode
+                  })}
+                />
 
-              <FormInput
-                name="phoneNumber"
-                placeholder={"Contact Number"}
-                handleChange={() => setUpdateProfile()}
-                type="number"
-                label={"Contact Number"}
-                disable={data?.phoneNumber ? true : false}
-                className={cs(
-                  { [styles.disabledInput]: data?.phoneNumber },
-                  styles.contactNum
-                )}
-                // validations={{
-                //   isPhoneValid: (values, value) => {
-                //     return !(value == "");
-                //   }
-                // }}
-                // validationErrors={{
-                //   isPhoneValid: "Please enter your Contact Number"
-                // }}
-                keyPress={e => (e.key == "Enter" ? e.preventDefault() : "")}
-                defaultClass={styles.inputDefault}
-                keyDown={e => (e.which === 69 ? e.preventDefault() : null)}
-                onPaste={e =>
-                  e?.clipboardData.getData("Text").match(/([e|E])/)
-                    ? e.preventDefault()
-                    : null
-                }
-              />
-            </div>
+                <FormInput
+                  name="phoneNumber"
+                  placeholder={"Contact Number"}
+                  handleChange={() => setUpdateProfile()}
+                  type="number"
+                  label={"Contact Number"}
+                  disable={data?.phoneNumber ? true : false}
+                  className={cs(
+                    { [styles.disabledInput]: data?.phoneNumber },
+                    styles.contactNum
+                  )}
+                  // validations={{
+                  //   isPhoneValid: (values, value) => {
+                  //     return !(value == "");
+                  //   }
+                  // }}
+                  // validationErrors={{
+                  //   isPhoneValid: "Please enter your Contact Number"
+                  // }}
+                  keyPress={e => (e.key == "Enter" ? e.preventDefault() : "")}
+                  defaultClass={styles.inputDefault}
+                  keyDown={e => (e.which === 69 ? e.preventDefault() : null)}
+                  onPaste={e =>
+                    e?.clipboardData.getData("Text").match(/([e|E])/)
+                      ? e.preventDefault()
+                      : null
+                  }
+                />
+              </div>
+            ) : null}
             <div>
               <FormInput
                 name="panPassportNumber"
