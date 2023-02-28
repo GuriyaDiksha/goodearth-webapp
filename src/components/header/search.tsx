@@ -28,6 +28,7 @@ import Price from "components/Price";
 import ReactHtmlParser from "react-html-parser";
 import { GA_CALLS, SEARCH_HISTORY } from "constants/cookieConsent";
 import giftCardTile from "images/giftcard-tile.png";
+import { debounce } from "lodash";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -174,7 +175,7 @@ class Search extends React.Component<Props, State> {
     this.props.toggle();
   };
 
-  handleChange = (e: any) => {
+  handleChange = debounce((e: any) => {
     // const regex = /^[A-Za-z0-9 ]+$/;
     // const key = String.fromCharCode(!e.charCode ? e.which : e.charCode);
     // if (!regex.test(key)) {
@@ -182,7 +183,7 @@ class Search extends React.Component<Props, State> {
     //   return false;
     // }
     this.setState({ searchValue: e.target.value });
-  };
+  }, 300);
 
   UNSAFE_componentWillReceiveProps = (nextProps: Props) => {
     this.setState({
@@ -316,7 +317,7 @@ class Search extends React.Component<Props, State> {
     }
   };
 
-  checkSearchValueUp = (event: any) => {
+  checkSearchValueUp = debounce((event: any) => {
     if (event.target.value.trim().length > 0) {
       if ((!event.charCode ? event.which : event.charCode) == 13) {
         this.props.history.push(
@@ -345,7 +346,7 @@ class Search extends React.Component<Props, State> {
       });
       CookieService.setCookie("search", event.target.value, 365);
     }
-  };
+  }, 300);
 
   getSearchDataApi = (name: string) => {
     const searchUrl = "/autocomplete?q=" + encodeURIComponent(name);
