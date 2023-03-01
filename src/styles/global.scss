@@ -112,6 +112,9 @@ a {
   text-align: right;
 }
 
+.margin-0 {
+  margin: 0;
+}
 .margin-t-20 {
   margin-top: 20px;
 }
@@ -523,12 +526,14 @@ font-weight: bold;
   @include cerise-btn();
   background-color: $aqua;
   height: 60px;
-  color: $white !important;
+  color: $white;
   &:hover {
+    background-color: $white;
    color: $aqua;
    border: 1px solid $aqua;
   }
   &:focus {
+    background-color: $white;
     color: $aqua;
     border: 1px solid $aqua;
   }

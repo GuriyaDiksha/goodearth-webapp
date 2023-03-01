@@ -34,9 +34,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
 
   const handleScroll = () => {
     const observerOptions = {
-      root: null,
-      rootMargin: "0px",
-      threshold: 0
+      rootMargin: "-130px 0px -170px 0px"
     };
     const interSectionCallBack = enteries => {
       setPreviewTriggerStatus(enteries[0].isIntersecting);
@@ -745,12 +743,11 @@ const OrderSummary: React.FC<OrderProps> = props => {
         ""
       )}
       {mobile && !previewTriggerStatus && (
-        <div
-          id="show-preview"
-          className={cs(styles.previewTrigger)}
-          onClick={onArrowButtonClick}
-        >
-          <div className={cs(styles.carretContainer)}>
+        <div id="show-preview" className={cs(styles.previewTrigger)}>
+          <div
+            className={cs(styles.carretContainer)}
+            onClick={onArrowButtonClick}
+          >
             <div className={cs(styles.carretUp)}></div>
           </div>
           <div className={styles.fixTotal}>
@@ -761,6 +758,20 @@ const OrderSummary: React.FC<OrderProps> = props => {
                 {parseFloat("" + basket.subTotalWithShipping).toFixed(2)}
               </span>
             </div>
+            {!hasOutOfStockItems() && (
+              <p
+                className={cs(
+                  globalStyles.textCenter,
+                  styles.textRemoveItems,
+                  globalStyles.colorPrimary
+                )}
+                onClick={onRemoveOutOfStockItemsClick}
+              >
+                <span className={styles.triggerRemoveItems}>
+                  REMOVE ALL OUT OF STOCK ITEMS TO PROCEED
+                </span>
+              </p>
+            )}
           </div>
         </div>
       )}
@@ -830,7 +841,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
               </div>
             )}
 
-            {hasOutOfStockItems() && (
+            {!hasOutOfStockItems() && (
               <p
                 className={cs(
                   globalStyles.textCenter,
@@ -925,9 +936,9 @@ const OrderSummary: React.FC<OrderProps> = props => {
                   onClick={chkshipping}
                   className={
                     canCheckout()
-                      ? cs(globalStyles.ceriseBtn, styles.posFixed)
+                      ? cs(globalStyles.checkoutBtn, styles.posFixed)
                       : cs(
-                          globalStyles.ceriseBtn,
+                          globalStyles.checkoutBtn,
                           globalStyles.disabled,
                           styles.posFixed
                         )
