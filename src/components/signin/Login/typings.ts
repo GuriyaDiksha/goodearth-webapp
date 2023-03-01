@@ -8,6 +8,7 @@ export type loginProps = {
   heading?: string;
   subHeading?: string;
   source?: string;
+  setIsSuccessMsg?: (arg: boolean) => void;
 };
 
 export type loginState = {

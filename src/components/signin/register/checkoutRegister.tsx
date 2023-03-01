@@ -25,7 +25,7 @@ import { Country } from "components/Formsy/CountryCode/typings";
 import EmailVerification from "../emailVerification";
 import CookieService from "services/cookie";
 import { GA_CALLS, ANY_ADS } from "constants/cookieConsent";
-import SelectDropdown from "components/Formsy/SelectDropdown";
+// import SelectDropdown from "components/Formsy/SelectDropdown";
 import CountryCode from "components/Formsy/CountryCode";
 
 const mapStateToProps = (state: AppState) => {
@@ -683,8 +683,8 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
             <FormSelect
               required
               name="gender"
-              label="Select Gender*"
-              placeholder="Select Gender*"
+              label="Gender*"
+              placeholder="Select Option*"
               options={genderOptions}
               disable={!this.state.showFields}
               className={this.state.showFields ? "" : styles.disabledInput}

@@ -32,30 +32,26 @@ const LoginForm: React.FC<{}> = props => {
   const id = urlParams.get("loginpopup");
   return (
     <Popup>
-      <div>
-        <div>
-          {isRegister ? (
-            <CheckoutRegisterForm
-              nextStep={nextStep}
-              changeEmail={changeEmail}
-              goToLogin={goLogin}
-            />
-          ) : (
-            <MainLogin
-              showRegister={goToRegister}
-              nextStep={nextStep}
-              isBo={""}
-              isCerise={id == "cerise"}
-              // heading={"Welcome"}
-              // subHeading={
-              //   id == "cerise"
-              //     ? "Please enter your registered e-mail address to login to your Cerise account."
-              //     : "Enter your email address to register or sign in."
-              // }
-            />
-          )}
-        </div>
-      </div>
+      {isRegister ? (
+        <CheckoutRegisterForm
+          nextStep={nextStep}
+          changeEmail={changeEmail}
+          goToLogin={goLogin}
+        />
+      ) : (
+        <MainLogin
+          showRegister={goToRegister}
+          nextStep={nextStep}
+          isBo={""}
+          isCerise={id == "cerise"}
+          // heading={"Welcome"}
+          // subHeading={
+          //   id == "cerise"
+          //     ? "Please enter your registered e-mail address to login to your Cerise account."
+          //     : "Enter your email address to register or sign in."
+          // }
+        />
+      )}
     </Popup>
   );
 };

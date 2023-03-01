@@ -277,13 +277,15 @@ class ForgotPasswordForm extends React.Component<Props, ForgotPasswordState> {
         ) : (
           ""
         )} */}
-        <FormContainer
-          heading="Forgot Password"
-          subheading="Enter your email address and click on reset password."
-          formContent={formContent}
-          footer={this.state.isBo ? undefined : footer}
-        />
-        {this.state.disableSelectedbox && <Loader />}
+        <div>
+          <FormContainer
+            heading="Forgot Password"
+            subheading="Enter your email address and click on reset password."
+            formContent={formContent}
+            footer={this.state.isBo ? undefined : footer}
+          />
+          {this.state.disableSelectedbox && <Loader />}
+        </div>
       </Popup>
     );
   }

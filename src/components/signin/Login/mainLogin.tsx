@@ -229,6 +229,11 @@ class MainLogin extends React.Component<Props, loginState> {
       });
     }
     localStorage.removeItem("tempEmail");
+    if (this.state.usrWithNoOrder) {
+      this.props.setIsSuccessMsg?.(true);
+    } else {
+      this.props.setIsSuccessMsg?.(false);
+    }
   }
 
   UNSAFE_componentWillReceiveProps() {
@@ -499,7 +504,7 @@ class MainLogin extends React.Component<Props, loginState> {
           <div>
             <InputField
               value={this.state.email}
-              placeholder={"Email"}
+              placeholder={"Email ID"}
               label={"Email ID*"}
               border={this.state.highlight}
               keyUp={e => this.handleKeyUp(e, "email")}
@@ -511,7 +516,9 @@ class MainLogin extends React.Component<Props, loginState> {
           </div>
           <div>
             {this.state.showerror ? (
-              <p className={styles.errorMsg}>{this.state.showerror}</p>
+              <p className={cs(styles.errorMsg, styles.mainLoginError)}>
+                {this.state.showerror}
+              </p>
             ) : (
               ""
             )}
@@ -549,8 +556,8 @@ class MainLogin extends React.Component<Props, loginState> {
           <div>
             <InputField
               value={this.state.email}
-              placeholder={"Email"}
-              label={"Email*"}
+              placeholder={"Email ID"}
+              label={"Email ID*"}
               border={this.state.highlight}
               error={this.state.msg}
               inputRef={this.emailInput}
@@ -658,7 +665,8 @@ class MainLogin extends React.Component<Props, loginState> {
             successMsg={this.state.usrWithNoOrder ? USR_WITH_NO_ORDER : ""}
             changeEmail={this.changeEmail}
             goLogin={this.goLogin}
-            socialLogin={footer}
+            // socialLogin={footer}
+            setIsSuccessMsg={this.props.setIsSuccessMsg}
           />
         ) : (
           <>
