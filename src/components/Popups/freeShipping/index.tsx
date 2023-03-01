@@ -23,6 +23,7 @@ const FreeShipping: React.FC<PopupProps> = props => {
   //   const [isLoading, setIsLoading] = useState(false);
   const { closeModal } = useContext(Context);
   const currency = useSelector((state: AppState) => state.currency);
+  const { mobile } = useSelector((state: AppState) => state.device);
   let amountINR = props.freeShippingApplicable.toString();
   if (amountINR.length > 3) {
     const amountArray = amountINR.split("");
@@ -37,7 +38,8 @@ const FreeShipping: React.FC<PopupProps> = props => {
           styles.sizeBlockPopup,
           styles.sizeBlockNotFixed,
           styles.centerpageDesktopFs,
-          globalStyles.textCenter
+          globalStyles.textCenter,
+          { [styles.mobilePopup]: mobile }
         )}
       >
         <div className={styles.cross} onClick={closeModal}>
@@ -51,21 +53,26 @@ const FreeShipping: React.FC<PopupProps> = props => {
           ></i>
         </div>
         <div className={cs(styles.gcTnc)}>
-          <div className={globalStyles.c22AI}>Free Shipping</div>
+          <div
+            className={cs(styles.freeShippingHead, {
+              [globalStyles.marginT30]: mobile
+            })}
+          >
+            Free Shipping
+          </div>
           {/* <div className={globalStyles.c10LR}> */}
           <div className={styles.freeShipping}>
             <div>
               You’re a step away from{" "}
               <span className={globalStyles.textUnderline}>free shipping!</span>
-            </div>
-            <div>
-              Select products worth{" "}
+              &nbsp;Select products worth{" "}
               <span>
                 {String.fromCharCode(...currencyCodes[currency])}{" "}
                 {props.remainingAmount}
               </span>{" "}
               or more to your order to qualify
             </div>
+
             <div className={globalStyles.voffset3}>
               {" "}
               <span>
@@ -78,14 +85,14 @@ const FreeShipping: React.FC<PopupProps> = props => {
               <NavLink
                 to="/customer-assistance/shipping-payment"
                 target="_blank"
-                className={styles.linkTextUnderline}
+                className={cs(styles.linkTextUnderline, styles.linkText)}
               >
                 Read Our Shipping & Returns Policy
               </NavLink>{" "}
             </div>
           </div>
         </div>
-        <div className={cs(globalStyles.ceriseBtn, styles.ceriseBtnWidth)}>
+        <div className={cs(globalStyles.ceriseBtn, styles.freeshipBtnWidth)}>
           <NavLink to="/" onClick={closeModal}>
             continue shopping
           </NavLink>

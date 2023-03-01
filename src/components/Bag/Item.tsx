@@ -4,21 +4,25 @@ import { Link } from "react-router-dom";
 // import styles from "./styles.scss";
 import styles from "./styles_new.scss";
 import { BasketItem } from "typings/basket";
-import bootstrap from "../../styles/bootstrap/bootstrap-grid.scss";
-import Quantity from "components/quantity";
+// import bootstrap from "../../styles/bootstrap/bootstrap-grid.scss";
+// import Quantity from "components/quantity";
 import "../../styles/override.css";
 import { currencyCodes } from "constants/currency";
 import WishlistButton from "components/WishlistButton";
 import globalStyles from "../../styles/global.scss";
-import iconStyles from "../../styles/iconFonts.scss";
+// import iconStyles from "../../styles/iconFonts.scss";
 import BasketService from "services/basket";
 import { useSelector, useStore } from "react-redux";
 import bridalRing from "../../images/bridal/rings.svg";
 import { AppState } from "reducers/typings";
 import quantityStyles from "../quantity/styles.scss";
 import CookieService from "services/cookie";
+import WishlistService from "services/wishlist";
 import { GA_CALLS, ANY_ADS } from "constants/cookieConsent";
 import PdpQuantity from "components/quantity/pdpQuantity";
+import { growlMessage } from "reducers/growlMessage";
+import { showGrowlMessage } from "utils/validate";
+import { updateBasket } from "actions/basket";
 
 const LineItems: React.FC<BasketItem> = memo(
   ({
@@ -62,6 +66,24 @@ const LineItems: React.FC<BasketItem> = memo(
           // setQtyError(true);
           throw err;
         });
+    };
+
+    const onMoveToWishlist = () => {
+      const msg = (
+        <div>
+          Your item has been moved to saved items.&nbsp;&nbsp;
+          <span
+            className={cs(globalStyles.linkTextUnderline, globalStyles.pointer)}
+            onClick={async () => {
+              const res = await WishlistService.undoMoveToWishlist(dispatch);
+              dispatch(updateBasket(res.basket));
+            }}
+          >
+            Undo
+          </span>
+        </div>
+      );
+      showGrowlMessage(dispatch, msg, 18000);
     };
 
     const {
@@ -404,6 +426,7 @@ const LineItems: React.FC<BasketItem> = memo(
                       id={product.id}
                       showText={true}
                       inWishlist={inWishlist}
+                      onMoveToWishlist={onMoveToWishlist}
                     />
                   </div>
                 )}

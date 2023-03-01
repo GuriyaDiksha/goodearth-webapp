@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import cs from "classnames";
 import globalStyles from "styles/global.scss";
 import styles from "./orderStyles.scss";
@@ -21,12 +21,33 @@ import freeShippingInfoIcon from "../../../images/free_shipping_info.svg";
 
 const OrderSummary: React.FC<OrderProps> = props => {
   const { mobile, basket, page, shippingAddress, salestatus, validbo } = props;
-  const [showSummary, setShowSummary] = useState(mobile ? false : true);
   const [isSuspended, setIsSuspended] = useState(true);
   const [fullText, setFullText] = useState(false);
   const [freeShipping] = useState(false);
   const dispatch = useDispatch();
   const { isLoggedIn } = useSelector((state: AppState) => state.user);
+
+  // Begin: Intersection Observer (Mobile)
+  const [previewTriggerStatus, setPreviewTriggerStatus] = useState(false);
+  const orderSummaryRef = useRef(null);
+  let observer: any;
+
+  const handleScroll = () => {
+    const observerOptions = {
+      rootMargin: "-130px 0px -170px 0px"
+    };
+    const interSectionCallBack = enteries => {
+      setPreviewTriggerStatus(enteries[0].isIntersecting);
+    };
+    observer = new IntersectionObserver(interSectionCallBack, observerOptions);
+    observer.observe(orderSummaryRef.current);
+  };
+  useEffect(() => {
+    handleScroll();
+    return () => observer.unobserve(orderSummaryRef.current);
+  }, []);
+  // End: Intersection Observer (Mobile)
+
   const { isSale, showDeliveryInstruction, deliveryText } = useSelector(
     (state: AppState) => state.info
   );
@@ -36,8 +57,14 @@ const OrderSummary: React.FC<OrderProps> = props => {
   }
   const code = currencyCode[currency as Currency];
   const onArrowButtonClick = () => {
-    setShowSummary(!showSummary);
     setIsSuspended(true);
+    // orderSummaryRef.current
+    if (orderSummaryRef) {
+      orderSummaryRef.current.scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+      });
+    }
   };
 
   const showDeliveryTimelines = true;
@@ -402,7 +429,6 @@ const OrderSummary: React.FC<OrderProps> = props => {
 
   useEffect(() => {
     if (mobile && hasOutOfStockItems()) {
-      setShowSummary(true);
       setTimeout(() => {
         document
           .getElementsByClassName(styles.textRemoveItems)[0]
@@ -547,15 +573,9 @@ const OrderSummary: React.FC<OrderProps> = props => {
     if (basket.shippingCharge) {
       shippingCharge = basket.shippingCharge;
     }
-    if (basket.lineItems) {
+    if (basket.lineItems.length > 0) {
       return (
-        <div
-          className={
-            showSummary
-              ? cs(styles.summaryPadding, styles.fixOrderItemsMobile)
-              : cs(styles.summaryPadding, globalStyles.hidden)
-          }
-        >
+        <div className={cs(styles.summaryPadding, styles.fixOrderItemsMobile)}>
           {/* {getOrderItems()} */}
           <hr className={styles.hr} />
           <div className={cs(globalStyles.flex, globalStyles.gutterBetween)}>
@@ -660,6 +680,20 @@ const OrderSummary: React.FC<OrderProps> = props => {
           {getCoupons()}
         </div>
       );
+    } else {
+      return (
+        <div className={cs(styles.summaryPadding, styles.fixOrderItemsMobile)}>
+          <hr className={styles.hr} />
+          <div className={cs(globalStyles.flex, globalStyles.gutterBetween)}>
+            <span className={styles.orderTotal}>TOTAL</span>
+            <span className={styles.orderTotal}>
+              {String.fromCharCode(...code)}{" "}
+              {parseFloat("" + basket.subTotalWithShipping).toFixed(2)}
+            </span>
+          </div>
+          {getCoupons()}
+        </div>
+      );
     }
     return null;
   };
@@ -693,6 +727,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
     shippable,
     total
   } = props.basket;
+
   return (
     <div className={cs(globalStyles.col12, styles.fixOrdersummary)}>
       {totalWithoutShipping &&
@@ -711,23 +746,46 @@ const OrderSummary: React.FC<OrderProps> = props => {
       ) : (
         ""
       )}
-      <div className={styles.orderSummary}>
-        {mobile && (
-          <span
-            className={cs(styles.btnArrow, globalStyles.colorPrimary)}
+      {mobile && !previewTriggerStatus && (
+        <div id="show-preview" className={cs(styles.previewTrigger)}>
+          <div
+            className={cs(styles.carretContainer)}
             onClick={onArrowButtonClick}
           >
-            <i
-              className={
-                showSummary
-                  ? cs(iconStyles.icon, iconStyles.icon_downarrowblack)
-                  : cs(iconStyles.icon, iconStyles.icon_uparrowblack)
-              }
-            ></i>
-          </span>
-        )}
+            <div className={cs(styles.carretUp)}></div>
+          </div>
+          <div className={styles.fixTotal}>
+            <div className={cs(globalStyles.flex, globalStyles.gutterBetween)}>
+              <span className={styles.total}>TOTAL</span>
+              <span className={styles.total}>
+                {String.fromCharCode(...code)}{" "}
+                {parseFloat("" + basket.subTotalWithShipping).toFixed(2)}
+              </span>
+            </div>
+            {!hasOutOfStockItems() && (
+              <p
+                className={cs(
+                  globalStyles.textCenter,
+                  styles.textRemoveItems,
+                  globalStyles.colorPrimary
+                )}
+                onClick={onRemoveOutOfStockItemsClick}
+              >
+                <span className={styles.triggerRemoveItems}>
+                  REMOVE ALL OUT OF STOCK ITEMS TO PROCEED
+                </span>
+              </p>
+            )}
+          </div>
+        </div>
+      )}
+      <div
+        className={styles.orderSummary}
+        ref={orderSummaryRef}
+        id="order-summary"
+      >
         <div className={cs(styles.summaryPadding, styles.summaryHeader)}>
-          <h3 className={cs(globalStyles.textCenter, styles.summaryTitle)}>
+          <h3 className={cs(styles.summaryTitle)}>
             ORDER SUMMARY
             {page == "checkout" && !validbo ? (
               boId ? (
@@ -742,6 +800,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
             )}
           </h3>
         </div>
+
         <div className={styles.justchk}>
           {getSummary()}
           <div>
@@ -752,14 +811,16 @@ const OrderSummary: React.FC<OrderProps> = props => {
               className={cs(
                 globalStyles.flex,
                 globalStyles.gutterBetween,
-                styles.total,
-                styles.summaryPadding
+                styles.summaryPadding,
+                styles.grandTotalWrapper
               )}
             >
-              <span className={cs(styles.subtotal, globalStyles.voffset2)}>
+              <span className={cs(styles.grandTotal, globalStyles.voffset2)}>
                 AMOUNT PAYABLE
               </span>
-              <span className={cs(styles.grandTotal, globalStyles.voffset2)}>
+              <span
+                className={cs(styles.grandTotalAmount, globalStyles.voffset2)}
+              >
                 {String.fromCharCode(...code)}{" "}
                 {parseFloat("" + basket.total).toFixed(2)}
               </span>
@@ -784,7 +845,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
               </div>
             )}
 
-            {hasOutOfStockItems() && (
+            {!hasOutOfStockItems() && (
               <p
                 className={cs(
                   globalStyles.textCenter,
@@ -799,11 +860,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
               </p>
             )}
             {page == "cart" && (
-              <div
-                className={
-                  showSummary ? "" : cs({ [globalStyles.hidden]: mobile })
-                }
-              >
+              <div>
                 {/* <hr className={styles.hr} /> */}
                 <NavLink
                   to={canCheckout() && isLoggedIn ? "/order/checkout" : "#"}
@@ -826,7 +883,8 @@ const OrderSummary: React.FC<OrderProps> = props => {
                             globalStyles.disabledBtn,
                             {
                               [globalStyles.hidden]: mobile
-                            }
+                            },
+                            styles.checkoutBtn
                           )
                     }
                   >
@@ -842,9 +900,10 @@ const OrderSummary: React.FC<OrderProps> = props => {
                     globalStyles.voffset4
                   )}
                 >
-                  Promo Codes, Gift Cards & Credit Notes can applied at Checkout
+                  Promo Codes (if applicable), Gift Cards & Credit Notes can be
+                  applied at Checkout
                 </div>
-                <div className={styles.wishlist}>
+                {/* <div className={styles.wishlist}>
                   <Link to="/wishlist" onClick={goToWishlist}>
                     <span>
                       <i
@@ -861,10 +920,11 @@ const OrderSummary: React.FC<OrderProps> = props => {
                       VIEW SAVED ITEMS
                     </span>
                   </Link>
-                </div>
+                </div> */}
               </div>
             )}
           </div>
+
           {page == "cart" && (
             <div
               className={cs(styles.summaryFooter, {
@@ -878,9 +938,9 @@ const OrderSummary: React.FC<OrderProps> = props => {
                   onClick={chkshipping}
                   className={
                     canCheckout()
-                      ? cs(globalStyles.ceriseBtn, styles.posFixed)
+                      ? cs(globalStyles.checkoutBtn, styles.posFixed)
                       : cs(
-                          globalStyles.ceriseBtn,
+                          globalStyles.checkoutBtn,
                           globalStyles.disabled,
                           styles.posFixed
                         )

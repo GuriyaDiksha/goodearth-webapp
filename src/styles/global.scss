@@ -112,6 +112,9 @@ a {
   text-align: right;
 }
 
+.margin-0 {
+  margin: 0;
+}
 .margin-t-20 {
   margin-top: 20px;
 }
@@ -212,6 +215,12 @@ font-weight: bold;
 }
 
 .flex.gutter-between {
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  -webkit-justify-content: space-between;
+  justify-content: space-between;
+}
+.gutter-between {
   -webkit-box-pack: justify;
   -ms-flex-pack: justify;
   -webkit-justify-content: space-between;
@@ -517,12 +526,14 @@ font-weight: bold;
   @include cerise-btn();
   background-color: $aqua;
   height: 60px;
-  color: $white !important;
+  color: $white;
   &:hover {
+    background-color: $white;
    color: $aqua;
    border: 1px solid $aqua;
   }
   &:focus {
+    background-color: $white;
     color: $aqua;
     border: 1px solid $aqua;
   }
@@ -531,4 +542,7 @@ font-weight: bold;
    background-color:$light-charcoal;
   }
   
+}
+.gap20{
+  gap: 20px;
 }
