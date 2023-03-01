@@ -190,9 +190,25 @@
     padding: 0 30px;
   }
   .fix-order-items {
-    max-height: 220px;
+    max-height: 360px;
     overflow-y: scroll;
+    border-top: 0.5px solid #9F9F9F;
+    border-bottom: 0.5px solid #9F9F9F;
     @include bottom-shadow();
+
+    &::-webkit-scrollbar {
+      // background-color:#fff;
+      width: 8px;
+    }
+    /* background of the scrollbar except button or resizer */
+    /* scrollbar itself */
+    &::-webkit-scrollbar-thumb {
+        background-color:#a6a6a6;
+        border-radius:5px;
+        border:2px solid #fff;
+    }
+    /* set button(top and bottom of the scrollbar) */
+    &::-webkit-scrollbar-button {display:none}
   }
 
   .summary-title {
@@ -200,7 +216,13 @@
     text-align: left;
     padding: 35px 0 10px 0;
   }
-
+  .product-wrp{
+    margin: 30px 10px;
+  }
+  .info-wrp{
+    margin: 5px 20px;
+}
+  }
   .edit-cart {
     float: right;
     color: $cerise;
@@ -210,21 +232,34 @@
   .collection-name {
     @include plp_coll_name_desktop();
   }
+  .product-img{
+    img{
+      width: 60px;
+      height: 90px;
+    }
+  }
 
   .product-name {
     flex: 2;
+    padding-bottom: 10px;
     @include plp_prod_name_desktop();
+    @include b4_12px_montserrat_charcoal();
   }
   .product-price {
     @include plp_prod_name_desktop();
-    text-align: right;
-    font-family: $font-Lato;
+    @include b3_14px_montserrat_gold();
+  }
+
+  .hr-product{
+    margin-top: 15px;
+    margin-bottom: 15px;
+    border: 0;
+    border-top: 0.5px solid #e2e2e2;
   }
 
   .product-qty,
   .product-size,
   .text-coupon {
-    margin: 30px 80px;
     @include b5_10px_montserrat_charcoal();
     .bold {
       font-weight: bold;
@@ -260,9 +295,15 @@
   }
 
   .deliveryfont {
-    font-size: 12px;
-    font-family: $font-Lato;
-  }
+    @include b4_12px_medium_medcharcoal_caps();
+    margin: 35px auto;
+    width: fit-content;
+    border-bottom: 1px solid $med-charcoal;
+    &:hover{
+      @include b4_12px_montserrat_aqua_caps();
+      border-bottom: 1px solid $aqua-text;
+    }
+  
 }
 
 .selected-stvalue {
@@ -300,6 +341,7 @@
   font-family: $font-Lato;
   color: #666;
   letter-spacing: 1px;
+  text-align: center;
 }
 
 .hr {
