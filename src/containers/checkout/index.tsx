@@ -42,6 +42,7 @@ import { POPUP } from "constants/components";
 import { Basket } from "typings/basket";
 import { Currency } from "typings/currency";
 import { GA_CALLS, ANY_ADS } from "constants/cookieConsent";
+import CheckoutBreadcrumb from "./component/CheckoutBreadcrumb";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -803,13 +804,11 @@ class Checkout extends React.Component<Props, State> {
         <div className={styles.checkout}>
           <div className={bootstrap.row}>
             <div
-              className={cs(
-                bootstrap.col12,
-                bootstrap.colLg8,
-                globalStyles.voffset5,
-                styles.pB100
-              )}
+              className={cs(bootstrap.col12, bootstrap.colLg8, styles.pB100)}
             >
+              {/* Breadcrumb */}
+              <CheckoutBreadcrumb />
+
               <LoginSection
                 isActive={this.isActiveStep(Steps.STEP_LOGIN)}
                 user={this.props.user}
