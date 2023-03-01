@@ -364,6 +364,7 @@
       .address{
         width: 40%;
         @media screen and (max-width:991px){
+            width: 100%;
             margin-bottom: 30px;
         }
         .title{
@@ -443,7 +444,7 @@
             text-transform: uppercase;
           }
           .original-price{
-            @include b4_12px_montserrat_charcoal();
+            @include b3_14px_montserrat_charcoal();
             color: #9f9f9f;
             text-decoration: line-through;
             margin-left: 8px;
