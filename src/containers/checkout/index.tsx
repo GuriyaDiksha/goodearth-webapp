@@ -2,6 +2,7 @@ import React from "react";
 // import Modal from "components/Modal";
 import { AppState } from "reducers/typings";
 import { connect } from "react-redux";
+import { useHistory } from "react-router-dom";
 // import iconStyles from "../../styles/iconFonts.scss";
 import * as Steps from "./constants";
 import styles from "./styles.scss";
@@ -159,6 +160,10 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     checkPinCodeShippable: async (pinCode: string) => {
       const res = await HeaderService.checkPinCodeShippable(dispatch, pinCode);
       return res;
+    },
+    goLogin: (event?: React.MouseEvent, nextUrl?: string) => {
+      LoginService.showLogin(dispatch);
+      event?.preventDefault();
     }
   };
 };
@@ -260,6 +265,13 @@ class Checkout extends React.Component<Props, State> {
     // const bridalId = CookieService.getCookie("bridalId");
     // const gaKey = CookieService.getCookie("_ga");
     // this.setState({ bridalId, gaKey });
+
+    if (document.referrer === "") {
+      if (!this.props.user.isLoggedIn) {
+        this.props.history.push("/cart", { from: "checkout" });
+      }
+    }
+
     valid.pageViewGTM("Checkout");
     const checkoutPopupCookie = CookieService.getCookie("checkoutinfopopup3");
     const queryString = this.props.location.search;

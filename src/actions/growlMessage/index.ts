@@ -1,7 +1,7 @@
 import { actionCreator } from "utils/actionCreator";
 
 export const showMessage = (
-  text: string | Element,
+  text: string | JSX.Element,
   timeout: number,
   id: string,
   params?: any

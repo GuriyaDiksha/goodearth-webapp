@@ -457,6 +457,10 @@ const OrderSummary: React.FC<OrderProps> = props => {
     document.cookie = cookieString;
   };
   const chkshipping = (event: any) => {
+    if (!isLoggedIn) {
+      props.goLogin?.(undefined, "/order/checkout");
+      return;
+    }
     const {
       totalWithoutShipping,
       freeShippingThreshold,
@@ -859,8 +863,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
               <div>
                 {/* <hr className={styles.hr} /> */}
                 <NavLink
-                  key="cartCheckout"
-                  to={canCheckout() ? "/order/checkout" : "#"}
+                  to={canCheckout() && isLoggedIn ? "/order/checkout" : "#"}
                 >
                   <button
                     onClick={chkshipping}
@@ -929,8 +932,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
               })}
             >
               <NavLink
-                key="cartCheckoutMobile"
-                to={canCheckout() ? "/order/checkout" : "#"}
+                to={canCheckout() && isLoggedIn ? "/order/checkout" : "#"}
               >
                 <button
                   onClick={chkshipping}

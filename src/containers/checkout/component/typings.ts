@@ -41,6 +41,7 @@ export type OrderProps = {
   shippingAddress: any;
   salestatus: boolean;
   validbo: boolean;
+  goLogin?: (event?: React.MouseEvent, nextUrl?: string) => void;
 };
 
 export type PromoProps = {

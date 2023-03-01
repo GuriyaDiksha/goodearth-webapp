@@ -1,4 +1,5 @@
 import React from "react";
+import { RouteComponentProps, withRouter } from "react-router-dom";
 // import { Link } from "react-router-dom";
 import initActionCollection from "./initAction";
 import cs from "classnames";
@@ -19,12 +20,15 @@ import { ProductID } from "typings/id";
 import * as util from "../../utils/validate";
 import { WidgetImage } from "components/header/typings";
 import HeaderService from "services/headerFooter";
+import LoginService from "services/login";
 import noImagePlp from "../../images/noimageplp.png";
 import { updateComponent, updateModal } from "actions/modal";
 import { POPUP } from "constants/components";
 import CookieService from "services/cookie";
 import { GA_CALLS, ANY_ADS } from "constants/cookieConsent";
 import { currencyCode } from "typings/currency";
+import { updateNextUrl } from "actions/info";
+import { StaticContext } from "react-router";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -86,11 +90,17 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
         </div>
       );
       util.showGrowlMessage(dispatch, msg, 18000);
+    },
+    goLogin: (event?: React.MouseEvent, nextUrl?: string) => {
+      LoginService.showLogin(dispatch);
+      nextUrl && dispatch(updateNextUrl(nextUrl));
+      event?.preventDefault();
     }
   };
 };
 
-type Props = ReturnType<typeof mapStateToProps> &
+type Props = RouteComponentProps<{}, StaticContext, { from: string }> &
+  ReturnType<typeof mapStateToProps> &
   ReturnType<typeof mapDispatchToProps>;
 
 type State = {
@@ -117,6 +127,11 @@ class CartPage extends React.Component<Props, State> {
   }
 
   componentDidMount() {
+    if (this.props.history.location.state?.from == "checkout") {
+      if (!this.props.isLoggedIn) {
+        this.props.goLogin(undefined);
+      }
+    }
     util.pageViewGTM("Cart");
     try {
       const skuList = this.props.cart.lineItems.map(
@@ -572,6 +587,7 @@ class CartPage extends React.Component<Props, State> {
             validbo={false}
             basket={this.props.cart}
             page="cart"
+            goLogin={this.props.goLogin}
           />
         </div>
       </div>
@@ -579,5 +595,8 @@ class CartPage extends React.Component<Props, State> {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(CartPage);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withRouter(CartPage));
 export { initActionCollection };
