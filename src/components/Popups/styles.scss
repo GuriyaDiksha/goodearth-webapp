@@ -174,11 +174,8 @@
       }
     }
     .free-instruction{
-      padding: 0 30px;
-      color: tint(#000, 30%);
-      letter-spacing: .5px;
-      font-size: 10px;
-      font-style: italic;
+      padding: 0 40px;
+   @include b6_9px_light_montserrat_charcoal();
       text-align: left;
       .cerise-btn {
         position: inherit;
@@ -779,15 +776,14 @@
 }
 
 .deliver-subheading {
-  font-family: $font-Lato;
-  letter-spacing: .5px;
-  font-size: 14px;
+  width: 64%;
+    text-align: left;
+    margin: 0px 30px;
+ @include b4_12px_montserrat_charcoal();
 }
 .free-delivery {
-  padding: 0px 30px;
-  color: #4d4d4d;
-  letter-spacing: .5px;
-  font-size: 10px;
+  padding: 0px 40px;
+  @include b5_10px_montserrat_charcoal();
 }
 
 .cerisepop {
@@ -1422,5 +1418,22 @@
         line-height: 15px;
       }
     }
+  }
+}
+
+.head-wrp{
+  display: flex;
+  justify-content: space-between;
+    margin: 15px 40px;
+    border-bottom: 1px solid #f2f2f2;
+    padding: 15px 0;
+  .delivery-head{
+    @include b4_12px_medium_charcoal_caps();
+  }
+  .delivery-icon{
+    width: unset;
+    position: relative;
+    padding: 0;
+    border-bottom: unset;
   }
 }

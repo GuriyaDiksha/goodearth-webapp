@@ -155,24 +155,21 @@ const OrderSummary: React.FC<OrderProps> = props => {
         {basket.lineItems.map(function(item, index) {
           return (
             <div key={index}>
-              <div className={globalStyles.voffset1}>
-                {/* <div
-                  className={cs(globalStyles.flex, globalStyles.gutterBetween)}
-                >
-                  <span className={styles.collectionName}>
-                    {item.product.collection}
-                  </span>
-                  <span></span>
-                </div> */}
-                <div
-                  className={cs(globalStyles.flex, globalStyles.gutterBetween)}
-                >
-                  <span className={styles.productName}>
-                    {item.product.title}
-                  </span>
+              <div
+                className={cs(
+                  globalStyles.voffset1,
+                  globalStyles.flex,
+                  styles.productWrp
+                )}
+              >
+                <div className={styles.productImg}>
+                  <img src={item?.product?.images?.[0]?.productImage} />
+                </div>
+                <div className={styles.infoWrp}>
+                  <div className={styles.productName}>{item.product.title}</div>
 
                   {salestatus && item.product.discount ? (
-                    <span className={styles.productPrice}>
+                    <div className={styles.productPrice}>
                       <span className={styles.discountprice}>
                         {String.fromCharCode(...code)}{" "}
                         {item.product.structure == "GiftCard"
@@ -192,9 +189,9 @@ const OrderSummary: React.FC<OrderProps> = props => {
                               item.product.priceRecords[currency].toString()
                             ).toFixed(2)}{" "}
                       </span>{" "}
-                    </span>
+                    </div>
                   ) : (
-                    <span
+                    <div
                       className={cs(styles.productPrice, {
                         [globalStyles.cerise]:
                           item.product.badgeType == "B_flat"
@@ -206,26 +203,30 @@ const OrderSummary: React.FC<OrderProps> = props => {
                         : parseFloat(
                             item.product.priceRecords[currency].toString()
                           ).toFixed(2)}
-                    </span>
+                    </div>
                   )}
+
+                  <span className={styles.productSize}>
+                    {getSize(item.product.attributes)}
+                  </span>
                 </div>
 
-                <div
+                {/* <div
                   className={cs(
                     globalStyles.flex,
                     globalStyles.gutterBetween,
                     globalStyles.voffset1
                   )}
                 >
-                  <span className={styles.productSize}>
-                    {getSize(item.product.attributes)}
-                  </span>
+                 
                   <span className={styles.productQty}>
                     <span>Qty: </span> {item.quantity}
                   </span>
-                </div>
+                </div> */}
               </div>
-              <hr className={styles.hr} />
+              {basket.lineItems?.length === index + 1 ? null : (
+                <hr className={styles.hrProduct} />
+              )}
             </div>
           );
         })}
@@ -576,8 +577,8 @@ const OrderSummary: React.FC<OrderProps> = props => {
     if (basket.lineItems.length > 0) {
       return (
         <div className={cs(styles.summaryPadding, styles.fixOrderItemsMobile)}>
-          {/* {getOrderItems()} */}
-          <hr className={styles.hr} />
+          {pathname === "/order/checkout" ? getOrderItems() : null}
+          {pathname === "/order/checkout" ? null : <hr className={styles.hr} />}
           <div className={cs(globalStyles.flex, globalStyles.gutterBetween)}>
             <span className={styles.subtotal}>SUBTOTAL</span>
             <span className={styles.subtotal}>
@@ -617,58 +618,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
               to {shippingAddress.state} - {shippingAddress.postCode}
             </div>
           )}
-          {page == "cart" ||
-          basket.isOnlyGiftCart ||
-          !showDeliveryInstruction ? (
-            ""
-          ) : (
-            <div
-              className={cs(
-                globalStyles.flex,
-                globalStyles.gutterBetween,
-                globalStyles.marginT20
-              )}
-            >
-              <span
-                className={cs(
-                  styles.deliveryfont,
-                  globalStyles.cerise,
-                  globalStyles.pointer
-                )}
-                onClick={openDeliveryBox}
-              >
-                {deliveryText.length == 0 ? "ADD" : "EDIT"} DELIVERY
-                INSTRUCTIONS
-              </span>
-              {/* <span className={styles.subtotal}>
-              (+) {String.fromCharCode(...code)}{" "}
-              {parseFloat(shippingCharge).toFixed(2)}
-            </span> */}
-            </div>
-          )}
-          {deliveryText.length == 0 ||
-          page == "cart" ||
-          basket.isOnlyGiftCart ||
-          salestatus ? (
-            ""
-          ) : (
-            <div className={cs(styles.deliveryDate, styles.wrap)}>
-              {fullText ? deliveryText : deliveryText.substr(0, 85)}
-              {deliveryText.length > 85 ? (
-                <span
-                  className={cs(globalStyles.cerise, globalStyles.pointer)}
-                  onClick={() => {
-                    setFullText(!fullText);
-                  }}
-                >
-                  {" "}
-                  [{fullText ? "-" : "+"}]
-                </span>
-              ) : (
-                ""
-              )}
-            </div>
-          )}
+
           <hr className={styles.hr} />
           <div className={cs(globalStyles.flex, globalStyles.gutterBetween)}>
             <span className={styles.subtotal}>TOTAL</span>
@@ -762,7 +712,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
                 {parseFloat("" + basket.subTotalWithShipping).toFixed(2)}
               </span>
             </div>
-            {!hasOutOfStockItems() && (
+            {hasOutOfStockItems() && (
               <p
                 className={cs(
                   globalStyles.textCenter,
@@ -786,14 +736,18 @@ const OrderSummary: React.FC<OrderProps> = props => {
       >
         <div className={cs(styles.summaryPadding, styles.summaryHeader)}>
           <h3 className={cs(styles.summaryTitle)}>
-            ORDER SUMMARY
+            ORDER SUMMARY{" "}
+            {pathname === "/order/checkout"
+              ? `(${basket.lineItems?.length})`
+              : null}
             {page == "checkout" && !validbo ? (
               boId ? (
                 ""
               ) : (
-                <Link className={styles.editCart} to={"/cart"}>
-                  EDIT BAG
-                </Link>
+                <></>
+                // <Link className={styles.editCart} to={"/cart"}>
+                //   EDIT BAG
+                // </Link>
               )
             ) : (
               ""
@@ -825,6 +779,59 @@ const OrderSummary: React.FC<OrderProps> = props => {
                 {parseFloat("" + basket.total).toFixed(2)}
               </span>
             </div>
+            {pathname === "/order/checkout" ? (
+              <div className={cs(styles.summaryPadding)}>
+                <hr className={cs(styles.hr)} />
+              </div>
+            ) : null}
+            {page == "cart" ||
+            basket.isOnlyGiftCart ||
+            !showDeliveryInstruction ? (
+              ""
+            ) : (
+              <div
+                className={cs(
+                  globalStyles.flex,
+                  globalStyles.gutterBetween,
+                  globalStyles.marginT20
+                )}
+              >
+                <span
+                  className={cs(styles.deliveryfont, globalStyles.pointer)}
+                  onClick={openDeliveryBox}
+                >
+                  {deliveryText.length == 0 ? "ADD" : "EDIT"} DELIVERY
+                  INSTRUCTIONS
+                </span>
+                {/* <span className={styles.subtotal}>
+              (+) {String.fromCharCode(...code)}{" "}
+              {parseFloat(shippingCharge).toFixed(2)}
+            </span> */}
+              </div>
+            )}
+            {deliveryText.length == 0 ||
+            page == "cart" ||
+            basket.isOnlyGiftCart ||
+            salestatus ? (
+              ""
+            ) : (
+              <div className={cs(styles.deliveryDate, styles.wrap)}>
+                {fullText ? deliveryText : deliveryText.substr(0, 85)}
+                {deliveryText.length > 85 ? (
+                  <span
+                    className={cs(globalStyles.cerise, globalStyles.pointer)}
+                    onClick={() => {
+                      setFullText(!fullText);
+                    }}
+                  >
+                    {" "}
+                    [{fullText ? "-" : "+"}]
+                  </span>
+                ) : (
+                  ""
+                )}
+              </div>
+            )}
             {!mobile && getDeliveryStatusMobile()}
             {currency == "INR" ? (
               ""
@@ -845,7 +852,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
               </div>
             )}
 
-            {!hasOutOfStockItems() && (
+            {hasOutOfStockItems() && (
               <p
                 className={cs(
                   globalStyles.textCenter,
