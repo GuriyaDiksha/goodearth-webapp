@@ -267,11 +267,11 @@ class Checkout extends React.Component<Props, State> {
     // const gaKey = CookieService.getCookie("_ga");
     // this.setState({ bridalId, gaKey });
 
-    if (document.referrer === "") {
-      if (!this.props.user.isLoggedIn) {
-        this.props.history.push("/cart", { from: "checkout" });
-      }
-    }
+    // if (document.referrer === "") {
+    //   if (!this.props.user.isLoggedIn) {
+    //     this.props.history.push("/cart", { from: "checkout" });
+    //   }
+    // }
 
     valid.pageViewGTM("Checkout");
     const checkoutPopupCookie = CookieService.getCookie("checkoutinfopopup3");
@@ -797,7 +797,6 @@ class Checkout extends React.Component<Props, State> {
     );
     return response;
   };
-
   render() {
     return (
       <div className={cs(bootstrap.containerFluid, styles.pageBody)}>
@@ -807,7 +806,7 @@ class Checkout extends React.Component<Props, State> {
               className={cs(bootstrap.col12, bootstrap.colLg8, styles.pB100)}
             >
               {/* Breadcrumb */}
-              <CheckoutBreadcrumb />
+              <CheckoutBreadcrumb active={this.state.activeStep} />
 
               <LoginSection
                 isActive={this.isActiveStep(Steps.STEP_LOGIN)}

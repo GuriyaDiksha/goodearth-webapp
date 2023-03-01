@@ -3,62 +3,61 @@
 @import "../../styles/partials/form";
 
 .header-container {
-    top: $header-top;
+  top: $header-top;
 }
 
 .header-container {
-    position: fixed;
-    top: $header-top;
-    z-index: 7;
-    width: 100%;
-    background-color: #F9F8F5;
-    height: $header-checkout;
-    box-shadow: 0px 3px 6px #00000029;
+  position: fixed;
+  top: $header-top;
+  z-index: 7;
+  width: 100%;
+  background-color: #f9f8f5;
+  height: $header-checkout;
+  box-shadow: 0px 3px 6px #00000029;
 
-    &.footer{
-      top: unset;
-      bottom: 0;
-      box-shadow: 0px -3px 8px #00000029;
-    }
+  &.footer {
+    top: unset;
+    bottom: 0;
+    box-shadow: 0px -3px 8px #00000029;
+  }
 }
 
 .logo-container {
-    line-height: 49px;
-    text-align: left;
-    padding-left: 35px; 
-  }
+  line-height: 49px;
+  text-align: left;
+  padding-left: 35px;
+}
 
-  .footer-curr{
-    line-height: 49px;
-    text-align: left;
-    padding-left: 35px; 
+.footer-curr {
+  line-height: 49px;
+  text-align: left;
+  padding-left: 35px;
   @include b4_12px_montserrat_charcoal_caps();
-  }
-
-  @media (max-width: 992px) {
-    .minimumWidth{
-      margin: 0px;
-    }
-  }
-
+}
 
 @media (max-width: 992px) {
-    .logo-container {
-        text-align: left;
-    }
+  .minimumWidth {
+    margin: 0px;
+  }
 }
 
-.icon-font{
-    font-size: 24px;
+@media (max-width: 992px) {
+  .logo-container {
+    text-align: left;
+  }
 }
 
-.icon-cross-font{
-    font-size: 16px;
+.icon-font {
+  font-size: 24px;
+}
+
+.icon-cross-font {
+  font-size: 16px;
 }
 
 .logo {
-    width: 111px;
-    cursor: pointer;
+  width: 111px;
+  cursor: pointer;
 }
 
 .logo-withoutcursor {
@@ -67,69 +66,68 @@
 }
 
 .icon-style-disabled {
-    opacity: .4;
-    text-decoration: none !important;
-    &:hover {
-      color: inherit !important;
-      cursor: default !important;
-    }
+  opacity: 0.4;
+  text-decoration: none !important;
+  &:hover {
+    color: inherit !important;
+    cursor: default !important;
+  }
 }
 
 .cerise {
-    color: $cerise !important;
+  color: $cerise !important;
 }
 
 // .menulist-overlap{
 //   margin-top: -6px;
 // }
 .side-menu-item {
-    margin: 6px 6px;
-    position: relative;
-    cursor: pointer; 
-    .inner-profile-container{
-      margin-top: 6px;
-    }
-    .badge {
-      position: absolute;
-      top: -5px;
-      right: 0;
-      left: 0;
-      min-width: 10px;
-      padding-top: 2px;
-      font-size: 12px;
-      font-weight: 700;
-      line-height: 1;
-      color: #969698;
-      text-align: center;
-      white-space: nowrap;
-      vertical-align: baseline;
-      border-radius: 10px;
-    }
-    .icon-style {
-      font-size: 22px;
-      margin: 6px;
-      &:hover {
+  margin: 6px 6px;
+  position: relative;
+  cursor: pointer;
+  .inner-profile-container {
+    margin-top: 6px;
+  }
+  .badge {
+    position: absolute;
+    top: -5px;
+    right: 0;
+    left: 0;
+    min-width: 10px;
+    padding-top: 2px;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1;
+    color: #969698;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: 10px;
+  }
+  .icon-style {
+    font-size: 22px;
+    margin: 6px;
+    &:hover {
+      color: $cerise;
+      + span {
         color: $cerise;
-        + span {
-          color: $cerise;
-        }
       }
     }
-    .adding {
-      right: -10px;
-      left: auto;
-      cursor: pointer;
-    }
   }
-  
+  .adding {
+    right: -10px;
+    left: auto;
+    cursor: pointer;
+  }
+}
+
 .side-menu-container {
-    float: right;
-    display: inline-flex;
-    margin-top: 2px;
-    .currency-menu{
-      margin-top: 8px;
-    }
-    
+  float: right;
+  display: inline-flex;
+  margin-top: 2px;
+  .currency-menu {
+    margin-top: 8px;
+  }
 }
 .main-menu {
   position: absolute;
@@ -144,10 +142,10 @@
     border-bottom: none;
     padding-left: 20px;
     line-height: 30px;
-    letter-spacing: .05em;
+    letter-spacing: 0.05em;
     a {
       @include menu-copy();
-      letter-spacing: .09em;
+      letter-spacing: 0.09em;
       &:hover {
         color: #000;
       }
@@ -189,7 +187,7 @@
 
   .menulevel1 {
     &:after {
-      content: '+';
+      content: "+";
       float: right;
       font-size: 25px;
       color: tint(#000, 50%);
@@ -197,14 +195,14 @@
   }
   .menulevel1-open {
     &:after {
-      content: '-';
+      content: "-";
     }
   }
   .menulevel2 {
     text-transform: uppercase;
 
     &:after {
-      content: '';
+      content: "";
       float: right;
       border: solid $cerise;
       font-weight: bold;
@@ -218,7 +216,6 @@
     }
   }
   .menulevel2-open {
-
     &:after {
       transform: rotate(313deg);
     }
@@ -241,7 +238,7 @@
   z-index: 10;
   position: absolute;
 }
-.hidden{
+.hidden {
   display: none;
 }
 .inner-menu {
@@ -265,13 +262,12 @@
     font-family: $font-Lato;
   }
   .closed {
-   @include b4_12px_montserrat_charcoal_caps();
+    @include b4_12px_montserrat_charcoal_caps();
   }
 }
 
-
 .op3 {
-  opacity: .4;
+  opacity: 0.4;
 }
 
 .selected-stvalue {
@@ -297,10 +293,10 @@
   margin-top: $header-checkout;
   margin-left: auto;
   margin-right: auto;
-    background-color: #f9f8f5;
+  background-color: #f9f8f5;
 }
 
-.head-lineheight{
+.head-lineheight {
   font-size: 14px;
   line-height: 40px;
   margin-top: 5px;
@@ -316,7 +312,7 @@
     object-fit: contain;
     margin-right: 5px;
     vertical-align: middle;
-    filter: invert(1) grayscale(9)
+    filter: invert(1) grayscale(9);
   }
 }
 .lock {
@@ -328,7 +324,7 @@
 
 .cart {
   font-size: 20px;
-  margin-right: 10px
+  margin-right: 10px;
 }
 
 .card {
@@ -458,7 +454,6 @@
   display: none;
 }
 
-
 .checkbox .indicator {
   top: 0;
   left: 0;
@@ -474,7 +469,7 @@
   left: 7px;
   width: 5px;
   height: 10px;
-  content: '';
+  content: "";
   display: none;
   position: absolute;
   -webkit-transform: rotate(45deg);
@@ -483,7 +478,7 @@
   border-width: 0 2px 2px 0;
 }
 
- .radio .indicator {
+.radio .indicator {
   top: 0px;
   left: 0px;
   width: 23px;
@@ -499,7 +494,7 @@
   left: 9px;
   width: 5px;
   height: 10px;
-  content: '';
+  content: "";
   display: none;
   position: absolute;
   -webkit-transform: rotate(45deg);
@@ -518,61 +513,61 @@
 /******* Popup ********/
 .size-block-popup {
   height: auto !important;
-    padding: 0 0 75px 0;
-    background-color: #fff;
-    width: 35vw;
-    .gc-tnc {
-      height: 100%;
+  padding: 0 0 75px 0;
+  background-color: #fff;
+  width: 35vw;
+  .gc-tnc {
+    height: 100%;
     padding-bottom: 30px;
     overflow-y: scroll;
-    }
-    p {
-      line-height: 20px;
+  }
+  p {
+    line-height: 20px;
     padding: 7px 57px;
     text-align: center;
     font-size: 12px;
-    }
-    .cerise-btn-width {
-      width: 60%;
-      margin: 0 auto;
-    }
-    .cross {
-      border-bottom: 1px solid #f2f2f2;
-          text-align: right;
-          padding: 15px;
-          cursor: pointer;
-          position: relative;
-          z-index: 10;
-          background-color: #fff;
-          width: 100%;
-      }
-    .cancel-btn {
+  }
+  .cerise-btn-width {
+    width: 60%;
+    margin: 0 auto;
+  }
+  .cross {
+    border-bottom: 1px solid #f2f2f2;
+    text-align: right;
+    padding: 15px;
+    cursor: pointer;
+    position: relative;
+    z-index: 10;
+    background-color: #fff;
+    width: 100%;
+  }
+  .cancel-btn {
     position: absolute;
     bottom: 25px;
     text-align: center;
     width: 100%;
     line-height: 40px;
-    
+
     a {
       color: #333333;
-    cursor: pointer;
-    text-decoration: underline;
-    font-size: 14px;
-    font-family: $font-Lato;
+      cursor: pointer;
+      text-decoration: underline;
+      font-size: 14px;
+      font-family: $font-Lato;
     }
-    }
+  }
 }
 
 /******* Popup ********/
 @media (min-width: 992px) {
-.centerpage-desktop {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  -webkit-transform: translate(-50%, -50%);
-  transform: translate(-50%, -50%);
-  //width: 100%;
-}
+  .centerpage-desktop {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    //width: 100%;
+  }
 }
 @media (max-width: 992px) {
   .centerpage-mobile {
@@ -587,12 +582,12 @@
     p {
       padding: 7px 10%;
     }
-}
+  }
   .margin-b-40 {
     margin-bottom: 40px;
   }
   .checkout {
-     padding-bottom: 180px;
+    padding-bottom: 180px;
     .order-summary {
       min-height: 0px;
     }
@@ -630,7 +625,6 @@
       }
     }
   }
-
 }
 
 .payment {
@@ -680,67 +674,64 @@
 }
 
 .radio-list {
-
   .container {
     width: 80px;
-  display: inline-block;
-  position: relative;
-  padding-left: 35px;
-  margin-bottom: 12px;
-  cursor: pointer;
-  font-size: 12px;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-}
+    display: inline-block;
+    position: relative;
+    padding-left: 35px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    font-size: 12px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
 
-/* Hide the browser's default radio button */
-.container input {
-  position: absolute;
-  opacity: 0;
-  cursor: pointer;
-}
+  /* Hide the browser's default radio button */
+  .container input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+  }
 
-/* Create a custom radio button */
-.checkmark {
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 15px;
-  width: 15px;
-  border: 1px solid #888;
-  border-radius: 50%;
-}
+  /* Create a custom radio button */
+  .checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 15px;
+    width: 15px;
+    border: 1px solid #888;
+    border-radius: 50%;
+  }
 
+  /* Create the indicator (the dot/circle - hidden when not checked) */
+  .checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+  }
 
-/* Create the indicator (the dot/circle - hidden when not checked) */
-.checkmark:after {
-  content: "";
-  position: absolute;
-  display: none;
-}
-
-/* Show the indicator (dot/circle) when checked */
-.container input:checked ~ .checkmark:after {
-  display: block;
-}
+  /* Show the indicator (dot/circle) when checked */
+  .container input:checked ~ .checkmark:after {
+    display: block;
+  }
   .txt-gst {
     position: absolute;
     left: 22px;
     top: 0;
   }
 
-/* Style the indicator (dot/circle) */
-.container .checkmark:after {
- 	top: 3px;
+  /* Style the indicator (dot/circle) */
+  .container .checkmark:after {
+    top: 3px;
     left: 3px;
     width: 7px;
     height: 7px;
     border-radius: 50%;
     background: #000;
-}
-
+  }
 
   [type="radio"]:not(:checked) {
     position: relative;
@@ -783,9 +774,9 @@
     }
     .address-form-checkbox {
       height: 2px;
-        div label {
-          left: 0px;
-          text-align: left;
+      div label {
+        left: 0px;
+        text-align: left;
       }
       div label div span span.indicator::after {
         top: -6px;
@@ -793,7 +784,12 @@
       }
     }
   }
-  input[type="text"], input[type="password"],input[type="email"], input[type="date"], select, textarea {
+  input[type="text"],
+  input[type="password"],
+  input[type="email"],
+  input[type="date"],
+  select,
+  textarea {
     background-color: #fff;
     border: 1px solid #eee;
     width: 100%;
@@ -806,14 +802,14 @@
     border-radius: 0;
 
     @include placeholder {
-      font-size:14px;
-      color: tint(#000,60%);
+      font-size: 14px;
+      color: tint(#000, 60%);
       font-style: normal;
-      letter-spacing:1px;
+      letter-spacing: 1px;
       font-family: $font-Lato;
     }
   }
-  input[type="text"].panError{
+  input[type="text"].panError {
     border: 1px solid $cerise;
   }
 }
@@ -823,7 +819,10 @@
   padding-top: 30px;
 }
 
-input[type="radio"]:not(:checked), input[type="radio"]:checked, [type="checkbox"]:not(:checked), [type="checkbox"]:checked {
+input[type="radio"]:not(:checked),
+input[type="radio"]:checked,
+[type="checkbox"]:not(:checked),
+[type="checkbox"]:checked {
   position: absolute;
   left: -9999px;
   display: inline-block;
@@ -848,10 +847,9 @@ input[type="radio"] {
   padding-bottom: 100px;
 }
 
-
 .bold {
-    font-weight: bold;
-    color: #000000;
+  font-weight: bold;
+  color: #000000;
 }
 .curr {
   text-align: center;
@@ -860,7 +858,7 @@ input[type="radio"] {
   text-align: right;
   padding-right: 35px;
   @include b4_12px_montserrat_charcoal();
-  .icon{
+  .icon {
     padding-right: 15px;
   }
   .mobile-num {
@@ -873,7 +871,7 @@ input[type="radio"] {
   //     color: $cerise;
   //   }
   // }
-  // span {    
+  // span {
   //   &:first-child{
   //     margin: 0 6px 0 0;
   //   }
@@ -882,8 +880,8 @@ input[type="radio"] {
 
 .disable-curr {
   text-align: right;
-  span {    
-    &:first-child{
+  span {
+    &:first-child {
       margin: 0 6px 0 0;
     }
   }
@@ -894,7 +892,7 @@ input[type="radio"] {
   :hover {
     color: #bbb !important;
   }
-  ul{
+  ul {
     z-index: 10;
     left: -15px;
     width: -webkit-max-content;
@@ -914,7 +912,7 @@ input[type="radio"] {
 }
 
 .checkout-header {
-  ul{
+  ul {
     z-index: 10;
     width: -webkit-max-content;
     width: -moz-max-content;
@@ -934,11 +932,11 @@ input[type="radio"] {
 
 .link {
   a {
-  color: $cerise;
-  text-decoration: underline;
+    color: $cerise;
+    text-decoration: underline;
   }
 }
-.gift-message{
+.gift-message {
   border: 0;
   padding: 20px;
   max-width: 100%;
@@ -949,10 +947,10 @@ input[type="radio"] {
 .font14 {
   font-size: 14px;
   color: #4d4d4d;
-  letter-spacing: .5px;
+  letter-spacing: 0.5px;
   font-size: 10px;
 }
-.gift-wrap-message{
+.gift-wrap-message {
   max-width: 430px;
 
   @media screen and (max-width: 600px) {
@@ -972,7 +970,7 @@ input[type="radio"] {
 
 .not-selected {
   color: #b3b3b3;
-  font:bold;
+  font: bold;
 }
 
 .margin50 {
@@ -1006,11 +1004,40 @@ input[type="radio"] {
   margin-bottom: 10px;
 }
 
-
 // Breadcrumb Styles
-.breadcrumb{
-  border-bottom: 1px solid #EAEAEA;
-}
-.breadcrumbWrapper{
-  padding:20px 0;
+.breadcrumb {
+  border-bottom: 1px solid #eaeaea;
+  .breadcrumbWrapper {
+    padding: 20px 0;
+    gap: 5px;
+    align-items: center;
+    .breadcrumb-item {
+      .text {
+        @include b5_10px_montserrat_charcoal();
+        letter-spacing: 0.3px;
+        opacity: 0.3;
+        color: $charcoal19;
+
+        &.login{
+          opacity: 1;
+          color: $aqua-semibold;
+        }
+        &.active {
+          opacity: 1;
+          text-decoration: underline;
+          color: $charcoal19;
+        }
+        &.visited {
+          opacity: 1;
+          color: $aqua-semibold;
+        }
+      }
+      span {
+        color: #707070;
+        padding-right: 5px;
+        font-size: 15px;
+        vertical-align: middle;
+      }
+    }
+  }
 }

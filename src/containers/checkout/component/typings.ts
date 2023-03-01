@@ -2,6 +2,9 @@ import { AddressData } from "components/Address/typings";
 import { Currency } from "typings/currency";
 import { Basket } from "typings/basket";
 
+export type BreadcrumbProps = {
+  active: string;
+};
 export type LoginProps = {
   isActive: boolean;
   user: any;
