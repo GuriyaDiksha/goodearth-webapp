@@ -244,7 +244,7 @@ const StaticPage: React.FC<Props> = props => {
                       <NavLink
                         key={item.label}
                         to={item.href}
-                        activeClassName={globalStyles.cerise}
+                        activeClassName={globalStyles.gold}
                       >
                         {item.label}
                       </NavLink>
