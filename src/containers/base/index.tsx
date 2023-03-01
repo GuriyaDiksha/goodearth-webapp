@@ -26,6 +26,7 @@ import cs from "classnames";
 import { POPUP } from "constants/components";
 import Loader from "components/Loader";
 import { GA_CALLS } from "constants/cookieConsent";
+import CheckoutFooter from "containers/checkout/checkoutFooter";
 // import { CUST } from "constants/util";
 // import * as _ from "lodash";
 const BaseLayout: React.FC = () => {
@@ -401,7 +402,7 @@ const BaseLayout: React.FC = () => {
           </Route>
         </Switch>
       </div>
-      {value && !(minimalPage || isCheckout) && <Footer />}
+      {value && !minimalPage && (isCheckout ? <CheckoutFooter /> : <Footer />)}
       <Modal />
     </Fragment>
   );

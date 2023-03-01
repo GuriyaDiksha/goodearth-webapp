@@ -5,12 +5,10 @@ import styles from "./styles.scss";
 import cs from "classnames";
 import GrowlMessage from "components/GrowlMessage";
 import bootstrap from "../../styles/bootstrap/bootstrap-grid.scss";
-import globalStyles from "../../styles/global.scss";
 import iconStyles from "../../styles/iconFonts.scss";
 import gelogoCerise from "../../images/gelogoCerise.svg";
 import { AppState } from "reducers/typings";
 import { connect } from "react-redux";
-// import { State } from "./typings";
 import LoginService from "services/login";
 import MetaService from "services/meta";
 import BasketService from "services/basket";
@@ -19,13 +17,13 @@ import { Dispatch } from "redux";
 import UserContext from "contexts/user";
 import { Currency } from "typings/currency";
 import { DropdownItem } from "components/dropdown/baseDropdownMenu/typings";
-import SelectableDropdownMenu from "../../components/dropdown/selectableDropdownMenu";
 import { Cookies } from "typings/cookies";
 import { MESSAGE } from "constants/messages";
 import fabicon from "images/favicon.ico";
 import { Basket } from "typings/basket";
 import * as util from "../../utils/validate";
 import Api from "services/api";
+import checkoutIcon from "./../../images/checkout.svg";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -247,19 +245,13 @@ class CheckoutHeader extends React.Component<Props, { boId: string }> {
       heading = (
         <span className={styles.vCenter}>
           <span>
-            <i
-              className={cs(
-                iconStyles.icon,
-                iconStyles.iconLockbtn,
-                styles.lock
-              )}
-            ></i>
+            <img src={checkoutIcon} alt="checkout-button" />
           </span>
-          {mobile ? (
-            <span className={styles.headLineheight}> CHECKOUT</span>
-          ) : (
+          {/* {mobile ? ( */}
+          <span className={styles.headLineheight}> CHECKOUT</span>
+          {/* ) : (
             <span className={styles.headLineheight}>SECURE CHECKOUT</span>
-          )}
+          )} */}
         </span>
       );
     }
@@ -363,15 +355,11 @@ class CheckoutHeader extends React.Component<Props, { boId: string }> {
               {heading}
             </div>
             <div
-              className={cs(
-                bootstrap.colMd2,
-                bootstrap.col3,
-                globalStyles.voffset2,
-                { [styles.curr]: !this.state.boId },
-                { [styles.disableCurr]: this.state.boId }
-              )}
+              className={cs(bootstrap.colMd3, bootstrap.col3, {
+                [styles.curr]: !this.state.boId
+              })}
             >
-              <SelectableDropdownMenu
+              {/* <SelectableDropdownMenu
                 id="currency-dropdown-checkout"
                 align={"left"}
                 items={items}
@@ -384,7 +372,21 @@ class CheckoutHeader extends React.Component<Props, { boId: string }> {
                 }
                 onChangeCurrency={this.changeCurrency}
                 disabled={this.state.boId ? true : false}
-              ></SelectableDropdownMenu>
+              ></SelectableDropdownMenu> */}
+              <i
+                className={cs(
+                  iconStyles.icon,
+                  iconStyles.iconPhone,
+                  styles.icon
+                )}
+              />
+              <a className={styles.mobileNum} href="tel:+919582999555">
+                +91 95829 99555
+              </a>{" "}
+              /{" "}
+              <a className={styles.mobileNum} href="tel:+919582999888">
+                +91 95829 99888
+              </a>
             </div>
           </div>
         </div>
