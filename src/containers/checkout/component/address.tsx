@@ -777,7 +777,31 @@ const AddressSection: React.FC<AddressProps & {
                   isLoggedIn &&
                     (props.activeStep == Steps.STEP_SHIPPING ||
                       (props.activeStep == Steps.STEP_BILLING &&
-                        !sameAsShipping)) && <div>{children}</div>}
+                        !sameAsShipping)) && (
+                      <>
+                        <div>{children}</div>
+                        <div>
+                          <div
+                            onClick={() =>
+                              onSelectAddress(
+                                addressList?.find(
+                                  val => val?.isDefaultForShipping === true
+                                )
+                              )
+                            }
+                          >
+                            test
+                          </div>
+
+                          {addressList.length > 1 &&
+                            mode == "list" &&
+                            (props.activeStep == Steps.STEP_SHIPPING ||
+                              (props.activeStep == Steps.STEP_BILLING &&
+                                !props.hidesameShipping)) &&
+                            renderActions(true)}
+                        </div>
+                      </>
+                    )}
 
                   {props.error ? (
                     <div
@@ -792,12 +816,6 @@ const AddressSection: React.FC<AddressProps & {
                     ""
                   )}
                 </div>
-                {addressList.length > 1 &&
-                  mode == "list" &&
-                  (props.activeStep == Steps.STEP_SHIPPING ||
-                    (props.activeStep == Steps.STEP_BILLING &&
-                      !props.hidesameShipping)) &&
-                  renderActions(true)}
               </>
             )}
             {props.activeStep == Steps.STEP_SHIPPING && !isActive && (

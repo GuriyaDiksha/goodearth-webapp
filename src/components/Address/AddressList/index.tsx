@@ -9,7 +9,6 @@ import { AddressContext } from "../AddressMain/context";
 import AddressItemBridal from "../AddressItemBridal";
 import { AppState } from "reducers/typings";
 import { useSelector } from "react-redux";
-import { CheckoutAddressContext } from "containers/checkout/component/context";
 
 type Props = {
   addressDataList: AddressData[];
@@ -25,7 +24,6 @@ const AddressList: React.FC<Props> = props => {
   const { bridalAddressId } = useSelector((state: AppState) => state.basket);
   const { addressDataList, isBridal } = props;
   const [defaultAddress, setDefaultAddress] = useState(`default_check_${0}`);
-  const { onSelectAddress } = useContext(CheckoutAddressContext);
 
   useEffect(() => {
     let addressData = addressDataList;
@@ -59,7 +57,7 @@ const AddressList: React.FC<Props> = props => {
     //   addressData = addressData.filter(data => data.id !== props.bridalId);
     // }
     setAddressData(addressData);
-  }, [addressDataList]);
+  }, []);
 
   // const [ addressDataList: addressData || [],
   const [isLoading] = useState(false);
@@ -186,7 +184,6 @@ const AddressList: React.FC<Props> = props => {
           })
         )}
       </div>
-      <div onClick={() => onSelectAddress(addressData[0])}>test</div>
       {isLoading && <Loader />}
     </div>
   );
