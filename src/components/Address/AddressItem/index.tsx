@@ -286,6 +286,7 @@ const AddressItem: React.FC<Props> = props => {
               bootstrapStyles.colSm6,
               bootstrapStyles.colMd6,
               globalStyles.voffset5,
+              styles.checkoutAddress,
               "address-container"
             )
           : cs(
@@ -301,6 +302,9 @@ const AddressItem: React.FC<Props> = props => {
         className={cs(
           styles.addressItemContainer,
           {
+            [styles.defaultAddress]: id === defaultAddress
+          },
+          {
             [styles.addressItemContainerCheckout]:
               currentCallBackComponent == "bridal" ||
               currentCallBackComponent == "bridal-edit"
@@ -311,10 +315,7 @@ const AddressItem: React.FC<Props> = props => {
           },
           {
             [styles.default]:
-              (id === defaultAddress &&
-                currentCallBackComponent == "account") ||
-              currentCallBackComponent == "checkout-shipping" ||
-              currentCallBackComponent == "checkout-billing"
+              id === defaultAddress && currentCallBackComponent == "account"
           },
           {
             [styles.isTulsi]: address.isTulsi
@@ -353,6 +354,7 @@ const AddressItem: React.FC<Props> = props => {
         >
           {/*=================== Name and Default ================= */}
           {currentCallBackComponent != "account" &&
+            currentCallBackComponent != "checkout-shipping" &&
             currentCallBackComponent != "checkout-billing" && (
               <div>
                 {!(id === defaultAddress) && (
@@ -392,6 +394,7 @@ const AddressItem: React.FC<Props> = props => {
             )}
 
           {currentCallBackComponent != "account" &&
+            currentCallBackComponent != "checkout-shipping" &&
             currentCallBackComponent != "checkout-billing" && (
               <div>
                 {id === defaultAddress && (
@@ -430,6 +433,7 @@ const AddressItem: React.FC<Props> = props => {
 
           {divOrText == "text" &&
             currentCallBackComponent != "account" &&
+            currentCallBackComponent != "checkout-shipping" &&
             currentCallBackComponent != "checkout-billing" && (
               <div className={cs(styles.lineHead, styles.checkoutFix)}>
                 {props.title}
@@ -439,8 +443,70 @@ const AddressItem: React.FC<Props> = props => {
               </div>
             )}
 
-          {(divOrText == "text" && currentCallBackComponent == "account") ||
-            (currentCallBackComponent == "checkout-billing" && (
+          {divOrText == "text" && currentCallBackComponent == "account" && (
+            <div className={styles.lineHead}>
+              {!address.isTulsi && props.currentCallBackComponent != "cerise" && (
+                <div
+                  className={styles.radio}
+                  id={id}
+                  onClick={() => {
+                    markAsDefault(address);
+                    setDefaultAddress(id);
+                  }}
+                >
+                  <input
+                    id={id}
+                    className={styles.defaultAddressCheckbox}
+                    checked={id === defaultAddress}
+                    name={id}
+                    type="radio"
+                    onChange={() => {
+                      markAsDefault(address);
+                      setDefaultAddress(id);
+                    }}
+                  />
+                  <span className={styles.checkmark}></span>
+                </div>
+              )}
+              {props.title}
+              {address.firstName}
+              &nbsp;
+              {address.lastName}
+              {!address.isTulsi && (
+                <div className={styles.defaultContainer}>
+                  <div
+                    className={cs(styles.defaultAddressDiv, {
+                      [styles.bridal]: address.isBridal
+                    })}
+                  >
+                    {address.isBridal && (
+                      <svg
+                        viewBox="-3 -3 46 46"
+                        width="60"
+                        height="60"
+                        preserveAspectRatio="xMidYMid meet"
+                        x="0"
+                        y="0"
+                        className={styles.ceriseBridalRings}
+                      >
+                        <use xlinkHref={`${bridalRing}#bridal-ring`}></use>
+                      </svg>
+                    )}
+                    {id === defaultAddress && (
+                      <div className={styles.defaultAddress}>
+                        Default Address
+                      </div>
+                    )}
+                    {/* {!address.isDefaultForShipping && (
+                      <div className={styles.line}>Make default</div>
+                    )} */}
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
+          {divOrText == "text" &&
+            currentCallBackComponent == "checkout-shipping" && (
               <div className={styles.lineHead}>
                 {!address.isTulsi &&
                   props.currentCallBackComponent != "cerise" && (
@@ -502,7 +568,71 @@ const AddressItem: React.FC<Props> = props => {
                   </div>
                 )}
               </div>
-            ))}
+            )}
+          {divOrText == "text" &&
+            currentCallBackComponent == "checkout-billing" && (
+              <div className={styles.lineHead}>
+                {!address.isTulsi &&
+                  props.currentCallBackComponent != "cerise" && (
+                    <div
+                      className={styles.radio}
+                      id={id}
+                      onClick={() => {
+                        markAsDefault(address);
+                        setDefaultAddress(id);
+                      }}
+                    >
+                      <input
+                        id={id}
+                        className={styles.defaultAddressCheckbox}
+                        checked={id === defaultAddress}
+                        name={id}
+                        type="radio"
+                        onChange={() => {
+                          markAsDefault(address);
+                          setDefaultAddress(id);
+                        }}
+                      />
+                      <span className={styles.checkmark}></span>
+                    </div>
+                  )}
+                {props.title}
+                {address.firstName}
+                &nbsp;
+                {address.lastName}
+                {!address.isTulsi && (
+                  <div className={styles.defaultContainer}>
+                    <div
+                      className={cs(styles.defaultAddressDiv, {
+                        [styles.bridal]: address.isBridal
+                      })}
+                    >
+                      {address.isBridal && (
+                        <svg
+                          viewBox="-3 -3 46 46"
+                          width="60"
+                          height="60"
+                          preserveAspectRatio="xMidYMid meet"
+                          x="0"
+                          y="0"
+                          className={styles.ceriseBridalRings}
+                        >
+                          <use xlinkHref={`${bridalRing}#bridal-ring`}></use>
+                        </svg>
+                      )}
+                      {id === defaultAddress && (
+                        <div className={styles.defaultAddress}>
+                          Default Address
+                        </div>
+                      )}
+                      {/* {!address.isDefaultForShipping && (
+                      <div className={styles.line}>Make default</div>
+                    )} */}
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
           {divOrText == "div" && (
             <div
               className={cs(styles.lineHead, {
@@ -513,7 +643,9 @@ const AddressItem: React.FC<Props> = props => {
                   currentCallBackComponent == "bridal-edit"
               })}
             >
+              l
               {(!address.isTulsi && currentCallBackComponent == "account") ||
+                currentCallBackComponent == "checkout-shipping" ||
                 (currentCallBackComponent == "checkout-billing" && (
                   <div
                     className={styles.radio}
@@ -583,8 +715,6 @@ const AddressItem: React.FC<Props> = props => {
               styles.addressLine,
               {
                 [styles.checkoutFix]:
-                  currentCallBackComponent == "checkout-shipping" ||
-                  currentCallBackComponent == "checkout-billing" ||
                   currentCallBackComponent == "bridal" ||
                   currentCallBackComponent == "bridal-edit"
               }
@@ -597,8 +727,6 @@ const AddressItem: React.FC<Props> = props => {
           <div
             className={cs(styles.line, styles.addressLine, {
               [styles.checkoutFix]:
-                currentCallBackComponent == "checkout-shipping" ||
-                currentCallBackComponent == "checkout-billing" ||
                 currentCallBackComponent == "bridal" ||
                 currentCallBackComponent == "bridal-edit"
             })}
@@ -610,8 +738,6 @@ const AddressItem: React.FC<Props> = props => {
           <div
             className={cs(styles.line, {
               [styles.checkoutFix]:
-                currentCallBackComponent == "checkout-shipping" ||
-                currentCallBackComponent == "checkout-billing" ||
                 currentCallBackComponent == "bridal" ||
                 currentCallBackComponent == "bridal-edit"
             })}
@@ -621,8 +747,6 @@ const AddressItem: React.FC<Props> = props => {
           <div
             className={cs(styles.line, styles.addressLine, {
               [styles.checkoutFix]:
-                currentCallBackComponent == "checkout-shipping" ||
-                currentCallBackComponent == "checkout-billing" ||
                 currentCallBackComponent == "bridal" ||
                 currentCallBackComponent == "bridal-edit"
             })}
@@ -637,8 +761,6 @@ const AddressItem: React.FC<Props> = props => {
           <div
             className={cs(styles.line, styles.addressLine, {
               [styles.checkoutFix]:
-                currentCallBackComponent == "checkout-shipping" ||
-                currentCallBackComponent == "checkout-billing" ||
                 currentCallBackComponent == "bridal" ||
                 currentCallBackComponent == "bridal-edit"
             })}
