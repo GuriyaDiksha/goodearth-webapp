@@ -780,26 +780,35 @@ const AddressSection: React.FC<AddressProps & {
                         !sameAsShipping)) && (
                       <>
                         <div>{children}</div>
-                        <div>
+                        {addressList.length > 1 && mode == "list" && (
                           <div
-                            onClick={() =>
-                              onSelectAddress(
-                                addressList?.find(
-                                  val => val?.isDefaultForShipping === true
-                                )
-                              )
-                            }
+                            className={cs(
+                              globalStyles.flex,
+                              globalStyles.gutterBetween,
+                              styles.checkoutAddressFooter
+                            )}
                           >
-                            test
-                          </div>
+                            <div
+                              onClick={() =>
+                                onSelectAddress(
+                                  addressList?.find(
+                                    val => val?.isDefaultForShipping === true
+                                  )
+                                )
+                              }
+                              className={styles.sendToAddress}
+                            >
+                              SHIP TO THIS ADDRESS
+                            </div>
 
-                          {addressList.length > 1 &&
-                            mode == "list" &&
-                            (props.activeStep == Steps.STEP_SHIPPING ||
-                              (props.activeStep == Steps.STEP_BILLING &&
-                                !props.hidesameShipping)) &&
-                            renderActions(true)}
-                        </div>
+                            {addressList.length > 1 &&
+                              mode == "list" &&
+                              (props.activeStep == Steps.STEP_SHIPPING ||
+                                (props.activeStep == Steps.STEP_BILLING &&
+                                  !props.hidesameShipping)) &&
+                              renderActions(false)}
+                          </div>
+                        )}
                       </>
                     )}
 

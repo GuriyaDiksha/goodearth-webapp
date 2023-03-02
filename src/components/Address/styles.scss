@@ -3,61 +3,61 @@
 @import "../../styles/partials/mixins";
 
 .back-btn-top {
-    position: absolute;
+  position: absolute;
+  top: 50px;
+  right: 40px;
+  text-transform: uppercase;
+  cursor: pointer;
+  z-index: 1;
+  &.back-btn-address {
     top: 50px;
-    right: 40px;
-    text-transform: uppercase;
-    cursor: pointer;
-    z-index: 1;
+    left: -65px;
+    text-align: left;
+  }
+  @media screen and (max-width: 992px) {
     &.back-btn-address {
-      top: 50px;
-      left: -65px;
-      text-align: left;
+      top: 24px;
+      right: 0;
     }
-    @media screen and (max-width: 992px) {
-      &.back-btn-address {
-        top: 24px;
-        right: 0;
-      }
-    }
+  }
 }
 
 .back-btn-center {
-    text-align: center;
-    &.back-btn-profile {
-        margin: 20px 0;
-    }
-    .back-btn {
-        text-transform: uppercase;
-        cursor: pointer;
-        z-index: 1;
-        margin-top: 20px;
-    }
+  text-align: center;
+  &.back-btn-profile {
+    margin: 20px 0;
+  }
+  .back-btn {
+    text-transform: uppercase;
+    cursor: pointer;
+    z-index: 1;
+    margin-top: 20px;
+  }
 }
 
 .back-address-form {
-    // position: relative;
-    // bottom: 35px;
-    // div {
-    //   width: 30%;
-    //   justify-self: end;
-    //   float: right;
-    // }
-    div {
-      right: -325px;
-      position: absolute;
-      bottom: 20px;
-    }
+  // position: relative;
+  // bottom: 35px;
+  // div {
+  //   width: 30%;
+  //   justify-self: end;
+  //   float: right;
+  // }
+  div {
+    right: -325px;
+    position: absolute;
+    bottom: 20px;
+  }
 }
 
 .address-item-container {
   position: relative;
   // min-height: 320px;
   border: 1px solid #eaeaea;
-  &.default{
+  &.default {
     border: 1px solid #4c4c4c;
   }
-  &.is-tulsi{
+  &.is-tulsi {
     border: 1px solid #8cb8aa;
   }
   .address-item {
@@ -66,14 +66,14 @@
     font-weight: 400;
     text-align: left;
     padding: 20px 20px 20px 40px;
-    &.checkout-fix{
+    &.checkout-fix {
       padding: 35px 25px 76px 25px;
     }
     flex-grow: 1;
     border: none;
     font-family: $font-Lato;
     .address-edit {
-      opacity: .25;
+      opacity: 0.25;
       cursor: default;
     }
     &.shipping-border {
@@ -105,7 +105,7 @@
       @include b4_12px_montserrat_charcoal();
       letter-spacing: 0.36px;
       line-height: 22px;
-      &.checkout-fix{
+      &.checkout-fix {
         font-size: 13px;
         font-family: $font-Lato;
         font-weight: 400;
@@ -126,7 +126,7 @@
         .line {
           color: #808080;
           font-size: 10px;
-          }
+        }
         div.default-address {
           @include b4_12px_montserrat_aqua();
           text-align: right;
@@ -163,7 +163,6 @@
             background-color: #fff;
           }
 
-
           input:checked ~ .checkmark {
             background-color: #fff;
           }
@@ -190,7 +189,6 @@
             background: #000;
           }
         }
-
       }
       .cerise-bridal-rings {
         background-color: #ab1e56;
@@ -212,26 +210,26 @@
       border: 1px solid #888;
       border-radius: 50%;
       padding: 20px 0;
-      &.checkout-fix{
+      &.checkout-fix {
         position: relative;
         left: 0px;
         margin-left: 10px;
       }
     }
 
-    input[type="radio"]:checked.default-address-checkbox{
-      &::after{
+    input[type="radio"]:checked.default-address-checkbox {
+      &::after {
         content: "";
         height: 8px;
         width: 8px;
         border-radius: 50%;
-        background-color: #548B8B;
+        background-color: #548b8b;
         position: absolute;
         top: 50%;
         right: 50%;
-        transform: translate(50%,-50%);
+        transform: translate(50%, -50%);
       }
-      &::before{
+      &::before {
         content: "";
         height: 16px;
         width: 16px;
@@ -243,8 +241,8 @@
         transform: translate(50%, -50%);
         border: 1px solid #54b8b8;
       }
-      &.checkout-fix{
-        &::after{
+      &.checkout-fix {
+        &::after {
           content: "";
           height: 8px;
           width: 8px;
@@ -253,9 +251,9 @@
           position: absolute;
           top: 50%;
           right: 50%;
-          transform: translate(50%,-50%);
+          transform: translate(50%, -50%);
         }
-        &::before{
+        &::before {
           content: "";
           height: 16px;
           width: 16px;
@@ -300,10 +298,10 @@
         cursor: pointer;
       }
     }
-    .phone-and-edit-container{
+    .phone-and-edit-container {
       display: flex;
       justify-content: space-between;
-      &.checkout-fix{
+      &.checkout-fix {
         display: unset;
       }
     }
@@ -339,7 +337,6 @@
     }
     .light {
       color: tint(#000, 50%);
-
     }
     label {
       position: absolute;
@@ -368,7 +365,9 @@
   min-height: 160px;
   .address-item {
     padding: 35px 25px 55px 25px;
-    .line-head,.address-line,.line {
+    .line-head,
+    .address-line,
+    .line {
       line-height: 22px;
     }
   }
@@ -406,16 +405,16 @@
 
   .line-head {
     @include b4_12px_montserrat_charcoal();
-    letter-spacing:  0.36px;
+    letter-spacing: 0.36px;
     // margin-top: 10px;
     word-wrap: break-word;
     display: flex;
     justify-content: space-between;
     margin-top: 10px;
-    .radio{
+    .radio {
       position: relative;
     }
-    &.checkout-fix{
+    &.checkout-fix {
       font-family: $font-Lato;
       font-size: 14px;
     }
@@ -428,13 +427,13 @@
       word-wrap: break-word;
       font-size: 12px;
     }
-    &.checkout-fix{
+    &.checkout-fix {
       font-size: 13px;
       font-family: $font-Lato;
       font-weight: 400;
       color: #808080;
     }
-    &.make-default-checkout-fix{
+    &.make-default-checkout-fix {
       font-family: $font-Lato;
       letter-spacing: 1px;
       font-size: 10px;
@@ -444,7 +443,7 @@
       justify-content: end;
       font-weight: 400;
     }
-    &.default-checkout-fix{
+    &.default-checkout-fix {
       font-family: $font-Lora;
       font-size: 12px;
       font-style: italic;
@@ -460,7 +459,7 @@
     margin: 0 10px;
     font-size: 12px;
     color: #eaeaea;
-    &.checkout-fix{
+    &.checkout-fix {
       font-size: 13px;
       font-family: $font-Lato;
       font-weight: 400;
@@ -477,13 +476,13 @@
       color: $aqua-bold;
       cursor: pointer;
     }
-    &.checkout-fix{
+    &.checkout-fix {
       font-size: 13px;
       font-family: $font-Lato;
       font-weight: 400;
       color: #191919;
       text-decoration: none;
-      &:hover{
+      &:hover {
         color: #191919;
         cursor: pointer;
       }
@@ -498,7 +497,7 @@
   display: flex;
   flex-wrap: wrap;
   flex-direction: column;
-  &.checkout-fix{
+  &.checkout-fix {
     flex-direction: row;
   }
 }
@@ -524,7 +523,7 @@
   display: -webkit-flex;
   display: flex;
 }
- .add-new-address{
+.add-new-address {
   @include b4_12px_montserrat_charcoal();
   text-transform: uppercase;
   letter-spacing: 0.36px;
@@ -532,34 +531,34 @@
   text-underline-offset: 2px;
   margin-top: 30px;
   cursor: pointer;
-  &:hover{
-    color: $aqua-bold
+  &:hover {
+    color: $aqua-bold;
   }
- }
+}
 
-.contact-msg{
+.contact-msg {
   @include b5_10px_montserrat_charcoal();
   margin-top: 5px;
   letter-spacing: 0.32px;
   text-align: left;
 }
 
-.charcoal-btn{
-  background-color: #4C4C4C;
+.charcoal-btn {
+  background-color: #4c4c4c;
   @include b3_14px_montserrat_white();
   text-transform: uppercase;
   letter-spacing: 0.42px;
   line-height: 52px;
   width: 100%;
   text-align: center;
-  border: 1px solid #4C4C4C;
+  border: 1px solid #4c4c4c;
   border-radius: 0;
   cursor: pointer;
-  &:hover{
+  &:hover {
     color: #191919;
     background-color: #fff;
   }
-  &.disabled-btn{
+  &.disabled-btn {
     color: #fff;
     background-color: #9f9f9f;
     border: 1px solid #9f9f9f;
@@ -570,24 +569,61 @@
   @include b4_12px_medium_light_charcoal();
 }
 
-.categorylabel{
-  input[type="text"], input[type="number"]{
+.categorylabel {
+  input[type="text"],
+  input[type="number"] {
     font-size: 12px !important;
-    &::placeholder{
+    &::placeholder {
       font-size: 12px;
     }
   }
-  select{
+  select {
     font-size: 12px !important;
   }
-  .address-form-checkbox{
-    input[type="checkbox"]:checked + label:after{
+  .address-form-checkbox {
+    input[type="checkbox"]:checked + label:after {
       top: 3px;
     }
   }
 }
 
-.country-code{
+.country-code {
   display: flex;
   justify-content: space-between;
+}
+
+.checkout-address {
+  .address-item-container {
+    border: 1px solid #eaeaea;
+
+    &.default-address {
+      border-color: $med-charcoal;
+    }
+  }
+  .default-address-checkbox {
+    height: 19px !important;
+    width: 19px !important;
+    border-color: $light-charcoal !important;
+
+    &:before {
+      height: 19px !important;
+      width: 19px !important;
+      border-color: $light-charcoal !important;
+    }
+    &:after {
+      height: 13px !important;
+      width: 13px !important;
+      background-color: $aqua !important;
+    }
+  }
+  .line-head {
+    @include b4_12px_montserrat_charcoal();
+    text-transform: capitalize;
+    .default-container {
+      @include b4_12px_montserrat_med_aqua();
+    }
+  }
+  .line {
+    @include b4_12px_montserrat_light_charcoal();
+  }
 }

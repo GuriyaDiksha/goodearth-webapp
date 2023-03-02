@@ -1018,7 +1018,7 @@ input[type="radio"] {
         opacity: 0.3;
         color: $charcoal19;
 
-        &.login{
+        &.login {
           opacity: 1;
           color: $aqua-semibold;
         }
@@ -1039,5 +1039,21 @@ input[type="radio"] {
         vertical-align: middle;
       }
     }
+  }
+}
+
+// Shipping & Billing Styles
+
+.checkout-address-footer {
+  padding-top: 25px;
+
+  .send-to-address {
+    @include b3_14px_montserrat_white();
+    letter-spacing: 0.42px;
+    padding: 21px 65px;
+    width: 100%;
+    max-width: 366px;
+    background-color: $med-charcoal;
+    text-align: center;
   }
 }
