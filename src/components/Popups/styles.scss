@@ -1440,3 +1440,167 @@
     border-bottom: unset;
   }
 }
+
+//====BillingGST popup======//
+
+.radio-list {
+  text-align: left;
+  margin: 0 40px;
+  .container {
+    width: 80px;
+    display: inline-block;
+    position: relative;
+    padding-left: 35px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    font-size: 12px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+
+  /* Hide the browser's default radio button */
+  .container input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+  }
+
+  /* Create a custom radio button */
+  .checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 20px;
+    width: 20px;
+    border: 1px solid #888;
+    border-radius: 50%;
+  }
+
+  /* Create the indicator (the dot/circle - hidden when not checked) */
+  .checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+  }
+
+  /* Show the indicator (dot/circle) when checked */
+  .container input:checked ~ .checkmark:after {
+    display: block;
+  }
+  .txt-gst {
+    position: absolute;
+    left: 30px;
+    top: 2px;
+    @include b4_12px_medium_charcoal_caps();
+  }
+
+  /* Style the indicator (dot/circle) */
+  .container .checkmark:after {
+    top: 2px;
+    left: 2px;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: $aqua;
+  }
+
+  [type="radio"]:not(:checked) {
+    position: relative;
+    left: auto;
+  }
+
+  [type="radio"]:checked {
+    position: relative;
+    left: auto;
+  }
+}
+
+.gst-title {
+  @include b4_12px_montserrat_charcoal();
+  margin-top: 15px;
+  margin-bottom: 10px;
+}
+.gst-desc {
+  @include b5_10px_montserrat_charcoal();
+  margin-bottom: 30px;
+}
+
+.form {
+  position: relative;
+  .form-label {
+    position: absolute;
+    top: -10px;
+    left: 60px;
+    font-weight: 100;
+    font-size: 10px;
+    color: tint(#000, 60%);
+    letter-spacing: 0.5px;
+    background-color: #fff;
+    padding: 3px;
+  }
+ 
+  div {
+  
+  input[type="text"],
+  input[type="password"],
+  input[type="email"],
+  input[type="date"],
+  select,
+  textarea {
+    background-color: #fff;
+    border: 1px solid #eee;
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+    line-height: 25px;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    border-radius: 0;
+
+    @include placeholder {
+      font-size: 14px;
+      color: tint(#000, 60%);
+      font-style: normal;
+      letter-spacing: 1px;
+      font-family: $font-Lato;
+    }
+  }
+  input[type="text"].panError {
+    border: 1px solid $cerise;
+  }
+}
+}
+
+.payment {
+  .gift-card {
+    .text-error {
+      text-transform: none;
+    }
+    .margin-rt {
+      margin: 2px 10px 0 0;
+    }
+    .form {
+      margin-top: 30px;
+    }
+  }
+
+
+  .input-container {
+    -webkit-box-flex: 1;
+    -ms-flex-positive: 1;
+    -webkit-flex-grow: 1;
+    flex-grow: 1;
+  }
+
+  input[type="text"].input {
+    width: 80%;
+    text-align: left;
+  }
+  input[type="text"].input2 {
+    width: 60%;
+    text-align: left;
+  }
+}

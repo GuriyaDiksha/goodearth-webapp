@@ -22,6 +22,8 @@ import * as valid from "utils/validate";
 import { CheckoutAddressContext } from "./context";
 import { Currency, currencyCode } from "typings/currency";
 import checkmarkCircle from "./../../../images/checkmarkCircle.svg";
+import { updateComponent, updateModal } from "actions/modal";
+import { POPUP } from "constants/components";
 
 const AddressSection: React.FC<AddressProps & {
   mode: string;
@@ -237,6 +239,7 @@ const AddressSection: React.FC<AddressProps & {
   };
 
   const onCouponChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    console.log("test ====", event.target.value);
     setGstText(event.target.value);
     setError("");
   };
@@ -247,28 +250,6 @@ const AddressSection: React.FC<AddressProps & {
 
   const togglepancard = () => {
     setPancardCheck(!pancardCheck);
-  };
-
-  const RadioButton = (props: { gstType: string }) => {
-    return (
-      <label className={styles.container}>
-        <input
-          type="radio"
-          name="editList"
-          defaultChecked={gstType == props.gstType}
-          value={props.gstType}
-          onChange={onChangeGst}
-        />
-        <span className={styles.checkmark}> </span>{" "}
-        <span className={styles.txtGst}>
-          {props.gstType == "UID" ? "UIN" : props.gstType}
-        </span>
-      </label>
-    );
-  };
-
-  const toggleGstInvoice = () => {
-    setGst(!gst);
   };
 
   const toggleSameAsShipping = () => {
@@ -385,6 +366,25 @@ const AddressSection: React.FC<AddressProps & {
     }
   };
 
+  const toggleGstInvoice = () => {
+    setGst(!gst);
+    dispatch(
+      updateComponent(
+        POPUP.BILLINGGST,
+        {
+          onSubmit: onSubmit,
+          onCouponChange: onCouponChange,
+          onChangeGst: onChangeGst,
+          gstType: gstType,
+          gstText: gstText,
+          error: error
+        },
+        true
+      )
+    );
+    dispatch(updateModal(true));
+  };
+
   const onKeyPress = (event: React.KeyboardEvent) => {
     if (event.key === "Enter") {
       onSubmit();
@@ -396,16 +396,6 @@ const AddressSection: React.FC<AddressProps & {
     onSubmit();
   };
 
-  const desc = {
-    GSTIN:
-      "Goods and Services Tax Identification Number (GSTIN) is a tax registration number. Every taxpayers is assigned a state-wise PAN-based 15 digit GSTIN.",
-    UID:
-      "Unique Identificatin Number (UIN) is a special class of GST registration for foreign diplomatic missions and embassies."
-  };
-  const title = {
-    GSTIN: "Goods and Services Tax Identification Number (GSTIN)",
-    UID: "Unique Identificatin Number (UIN)"
-  };
   const renderPancard = useMemo(() => {
     if (props.activeStep == Steps.STEP_BILLING) {
       const pass =
@@ -440,76 +430,9 @@ const AddressSection: React.FC<AddressProps & {
                   </span>
                 </div>
                 <div className={styles.formSubheading}>
-                  THIS IS A GST INVOICE
+                  I need a GST invoice
                 </div>
               </label>
-              {gst && (
-                <div
-                  className={cs(
-                    styles.input2,
-                    styles.formSubheading,
-                    globalStyles.voffset3
-                  )}
-                >
-                  <div className={styles.radioList}>
-                    <RadioButton key="GSTIN" gstType="GSTIN" />
-                    <RadioButton key="UID" gstType="UID" />
-                  </div>
-                  <div className={bootstrapStyles.row}>
-                    <div
-                      className={cs(
-                        styles.gstTitle,
-                        bootstrapStyles.col12,
-                        bootstrapStyles.colMd7
-                      )}
-                    >
-                      {title[gstType]}
-                    </div>
-                    <div
-                      className={cs(
-                        styles.gstDesc,
-                        bootstrapStyles.col12,
-                        bootstrapStyles.colMd7
-                      )}
-                    >
-                      {desc[gstType]}
-                    </div>
-                  </div>
-                  <div className={styles.form}>
-                    <div
-                      className={cs(
-                        styles.flex,
-                        styles.vCenter,
-                        globalStyles.voffset3,
-                        styles.payment
-                      )}
-                    >
-                      <input
-                        type="text"
-                        className={cs(styles.input, styles.marginR10)}
-                        onChange={onCouponChange}
-                        onKeyPress={onKeyPress}
-                        value={gstText}
-                      />
-                    </div>
-                    <label className={styles.formLabel}>
-                      {gstType == "GSTIN" ? "GST No.*" : "UIN No.*"}
-                    </label>
-                    {error ? (
-                      <span
-                        className={cs(
-                          globalStyles.errorMsg,
-                          globalStyles.wordCap
-                        )}
-                      >
-                        {error}
-                      </span>
-                    ) : (
-                      ""
-                    )}
-                  </div>
-                </div>
-              )}
             </div>
           ) : (
             ""
@@ -763,7 +686,6 @@ const AddressSection: React.FC<AddressProps & {
               {renderActions(false)}
               {renderSavedAddress()}
             </div>
-            {console.log("check===", children)}
             {isActive && (
               <>
                 <div>
