@@ -53,7 +53,7 @@ const Delivery: React.FC<PopupProps> = props => {
             ></i>
           </div>
         </div>
-        <div className={cs(globalStyles.paddT30, styles.gcTnc)}>
+        <div className={cs(globalStyles.paddT20, styles.gcTnc)}>
           {/* <div className={globalStyles.c10LR}> */}
           <div>
             <div className={styles.deliverSubheading}>
@@ -61,7 +61,7 @@ const Delivery: React.FC<PopupProps> = props => {
               {/* You’re a step away from{" "}
               <span className={styles.linkTextUnderline}>free shipping!</span> */}
             </div>
-            <div className={cs(globalStyles.voffset3)}>
+            <div className={cs(globalStyles.voffset3, globalStyles.marginLR40)}>
               <div>
                 <textarea
                   rows={5}
@@ -77,7 +77,7 @@ const Delivery: React.FC<PopupProps> = props => {
                     setTextarea(e.target.value);
                   }}
                 />
-                <div className={cs(styles.freeDelivery)}>
+                <div className={cs(styles.freeDelivery, globalStyles.textLeft)}>
                   Char Limit: {250 - textarea.length} / 250
                 </div>
               </div>
@@ -103,6 +103,7 @@ const Delivery: React.FC<PopupProps> = props => {
         <div
           className={cs(
             globalStyles.checkoutBtn,
+            styles.deliveryBtnWidth,
             styles.freeshipBtnWidth,
             styles.marginBottom
           )}

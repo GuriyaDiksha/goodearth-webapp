@@ -69,6 +69,10 @@
           }
         }
       }
+      .delivery-btn-width{
+        width: 85% !important;
+        line-height: 60px;
+      }
       .cross {
         border-bottom: 1px solid #f2f2f2;
             text-align: right;
@@ -778,11 +782,10 @@
 .deliver-subheading {
   width: 64%;
     text-align: left;
-    margin: 0px 30px;
+    margin: 0px 40px;
  @include b4_12px_montserrat_charcoal();
 }
 .free-delivery {
-  padding: 0px 40px;
   @include b5_10px_montserrat_charcoal();
 }
 

@@ -21,6 +21,7 @@ import { AddressData } from "components/Address/typings";
 import * as valid from "utils/validate";
 import { CheckoutAddressContext } from "./context";
 import { Currency, currencyCode } from "typings/currency";
+import checkmarkCircle from "./../../../images/checkmarkCircle.svg";
 
 const AddressSection: React.FC<AddressProps & {
   mode: string;
@@ -683,9 +684,17 @@ const AddressSection: React.FC<AddressProps & {
                 className={cs(
                   bootstrapStyles.col6,
                   bootstrapStyles.colMd6,
+                  globalStyles.flex,
                   styles.title
                 )}
               >
+                <img
+                  height={"18px"}
+                  className={globalStyles.marginR10}
+                  src={checkmarkCircle}
+                  alt="checkmarkdone"
+                />
+
                 <span className={cs({ [styles.closed]: !isActive })}>
                   {activeStep == Steps.STEP_SHIPPING
                     ? "SHIPPING DETAILS"
@@ -735,9 +744,16 @@ const AddressSection: React.FC<AddressProps & {
                 className={cs(
                   bootstrapStyles.col6,
                   bootstrapStyles.colMd6,
+                  globalStyles.flex,
                   styles.title
                 )}
               >
+                <img
+                  height={"18px"}
+                  className={globalStyles.marginR10}
+                  src={checkmarkCircle}
+                  alt="checkmarkdone"
+                />
                 <span className={cs({ [styles.closed]: !isActive })}>
                   {activeStep == Steps.STEP_SHIPPING
                     ? "SHIPPING DETAILS"
@@ -747,6 +763,7 @@ const AddressSection: React.FC<AddressProps & {
               {renderActions(false)}
               {renderSavedAddress()}
             </div>
+            {console.log("check===", children)}
             {isActive && (
               <>
                 <div>
