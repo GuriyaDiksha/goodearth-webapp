@@ -748,8 +748,8 @@ const AddressForm: React.FC<Props> = props => {
             </div>
           )}
           <div>
-            <div className="row">
-              <div className="col-xs-12">
+            <div className={cs(globalStyles.flex, styles.btnWrp)}>
+              <div>
                 {mode == "edit" ? (
                   <input
                     formNoValidate={true}
@@ -762,7 +762,14 @@ const AddressForm: React.FC<Props> = props => {
                       },
                       {
                         [styles.charcoalBtn]:
-                          currentCallBackComponent == "account"
+                          currentCallBackComponent == "account" ||
+                          currentCallBackComponent == "checkout-shipping" ||
+                          currentCallBackComponent == "checkout-billing"
+                      },
+                      {
+                        [styles.charcoalBtnWidth]:
+                          currentCallBackComponent == "checkout-shipping" ||
+                          currentCallBackComponent == "checkout-billing"
                       }
                     )}
                     disabled={!isAddressChanged}
@@ -774,17 +781,44 @@ const AddressForm: React.FC<Props> = props => {
                     value="Save Address"
                     className={cs(
                       globalStyles.ceriseBtn,
-                      {
-                        [styles.disabledBtn]: !isAddressChanged
-                      },
+                      // {
+                      //   [styles.disabledBtn]: !isAddressChanged
+                      // },
                       {
                         [styles.charcoalBtn]:
-                          currentCallBackComponent == "account"
+                          currentCallBackComponent == "account" ||
+                          currentCallBackComponent == "checkout-shipping" ||
+                          currentCallBackComponent == "checkout-billing"
+                      },
+                      {
+                        [styles.charcoalBtnWidth]:
+                          currentCallBackComponent == "checkout-shipping" ||
+                          currentCallBackComponent == "checkout-billing"
                       }
                     )}
                     disabled={!isAddressChanged}
                   />
                 )}
+              </div>
+              <div className="col-xs-6">
+                <div
+                  className={cs(
+                    {
+                      [styles.aquaBtn]:
+                        currentCallBackComponent == "account" ||
+                        currentCallBackComponent == "checkout-shipping" ||
+                        currentCallBackComponent == "checkout-billing"
+                    },
+                    {
+                      [styles.charcoalBtnWidth]:
+                        currentCallBackComponent == "checkout-shipping" ||
+                        currentCallBackComponent == "checkout-billing"
+                    }
+                  )}
+                  onClick={closeAddressForm}
+                >
+                  cancel
+                </div>
               </div>
             </div>
             {errorMessage ? (

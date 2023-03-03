@@ -24,40 +24,44 @@ const AddressList: React.FC<Props> = props => {
   const { bridalAddressId } = useSelector((state: AppState) => state.basket);
   const { addressDataList, isBridal } = props;
   const [defaultAddress, setDefaultAddress] = useState(`default_check_${0}`);
+  const [isRender, setIsRender] = useState(false);
 
   useEffect(() => {
-    let addressData = addressDataList;
-    if (
-      (activeStep == "BILLING" &&
-        props.currentCallBackComponent == "checkout-billing") ||
-      props.currentCallBackComponent == "account" ||
-      props.currentCallBackComponent == "bridal" ||
-      props.currentCallBackComponent == "bridal-edit"
-    ) {
-      if (addressData) {
-        addressData = addressData.filter(address => !address.isTulsi);
+    if (addressDataList.length > 0 && isRender === false) {
+      setIsRender(true);
+      let addressData = addressDataList;
+      if (
+        (activeStep == "BILLING" &&
+          props.currentCallBackComponent == "checkout-billing") ||
+        props.currentCallBackComponent == "account" ||
+        props.currentCallBackComponent == "bridal" ||
+        props.currentCallBackComponent == "bridal-edit"
+      ) {
+        if (addressData) {
+          addressData = addressData.filter(address => !address.isTulsi);
+          if (isBridal) {
+            addressData = addressData.filter(
+              address => address.id != bridalAddressId
+            );
+          }
+        }
+      }
+      if (
+        activeStep == "SHIPPING" &&
+        props.currentCallBackComponent == "checkout-shipping"
+      ) {
         if (isBridal) {
           addressData = addressData.filter(
-            address => address.id != bridalAddressId
+            address => address.isBridal && address.id == bridalAddressId
           );
         }
       }
+      // if (props.addressDataList && props.addressDataList.length > 0) {
+      //   addressData = addressData.filter(data => data.id !== props.bridalId);
+      // }
+      setAddressData(addressData);
     }
-    if (
-      activeStep == "SHIPPING" &&
-      props.currentCallBackComponent == "checkout-shipping"
-    ) {
-      if (isBridal) {
-        addressData = addressData.filter(
-          address => address.isBridal && address.id == bridalAddressId
-        );
-      }
-    }
-    // if (props.addressDataList && props.addressDataList.length > 0) {
-    //   addressData = addressData.filter(data => data.id !== props.bridalId);
-    // }
-    setAddressData(addressData);
-  }, []);
+  }, [addressDataList]);
 
   // const [ addressDataList: addressData || [],
   const [isLoading] = useState(false);

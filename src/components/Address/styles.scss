@@ -565,6 +565,24 @@
   }
 }
 
+.aqua-btn {
+  background-color: $white;
+  @include b3_14px_montserrat_white();
+  text-transform: uppercase;
+  letter-spacing: 0.42px;
+  line-height: 52px;
+  width: 100%;
+  text-align: center;
+  border: 1px solid $charcoal19;
+  border-radius: 0;
+  height: 100%;
+  cursor: pointer;
+  &:hover {
+    color: $aqua;
+    border: 1px solid $aqua;
+  }
+}
+
 .back-btn-font {
   @include b4_12px_medium_light_charcoal();
 }
@@ -629,4 +647,16 @@
   .address-phone-number{
     @include b4_12px_montserrat_charcoal();
   }
+}
+
+.btn-wrp{
+  justify-content: space-between;
+
+  div{
+    width: 100%;
+  }
+}
+
+.charcoal-btn-width{
+  width: 95%;
 }
