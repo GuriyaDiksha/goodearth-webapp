@@ -714,47 +714,7 @@ const AddressSection: React.FC<AddressProps & {
                         <div>{children}</div>
                         {addressList.length > 1 && mode == "list" && (
                           <>
-                            <div>
-                              <label
-                                className={cs(
-                                  styles.flex,
-                                  globalStyles.voffset3
-                                )}
-                              >
-                                <div className={globalStyles.marginR10}>
-                                  <span className={styles.checkbox}>
-                                    <input
-                                      type="checkbox"
-                                      onClick={() =>
-                                        setIsTermChecked(!isTermChecked)
-                                      }
-                                    />
-                                    <span
-                                      className={cs(styles.indicator, {
-                                        [styles.checked]: isTermChecked
-                                      })}
-                                    ></span>
-                                  </span>
-                                </div>
-                                <div
-                                  className={cs(
-                                    styles.formSubheading,
-                                    styles.checkBoxHeading
-                                  )}
-                                >
-                                  I agree to pay the additional applicable
-                                  duties and taxes directly to the shipping
-                                  agency at the time of the delivery. To know
-                                  more, referre to our{" "}
-                                  <span
-                                    onClick={() => openTermsPopup()}
-                                    className={globalStyles.linkTextUnderline}
-                                  >
-                                    Shipping & Payment terms.
-                                  </span>
-                                </div>
-                              </label>
-                            </div>
+                            <div></div>
                             <div
                               className={cs(
                                 globalStyles.flex,
@@ -762,17 +722,54 @@ const AddressSection: React.FC<AddressProps & {
                                 styles.checkoutAddressFooter
                               )}
                             >
-                              <div
-                                onClick={() =>
-                                  onSelectAddress(
-                                    addressList?.find(
-                                      val => val?.isDefaultForShipping === true
+                              <div>
+                                <label className={cs(styles.flex)}>
+                                  <div className={globalStyles.marginR10}>
+                                    <span className={styles.checkbox}>
+                                      <input
+                                        type="checkbox"
+                                        onClick={() =>
+                                          setIsTermChecked(!isTermChecked)
+                                        }
+                                      />
+                                      <span
+                                        className={cs(styles.indicator, {
+                                          [styles.checked]: isTermChecked
+                                        })}
+                                      ></span>
+                                    </span>
+                                  </div>
+                                  <div
+                                    className={cs(
+                                      styles.formSubheading,
+                                      styles.checkBoxHeading
+                                    )}
+                                  >
+                                    I agree to pay the additional applicable
+                                    duties and taxes directly to the shipping
+                                    agency at the time of the delivery. To know
+                                    more, referre to our{" "}
+                                    <span
+                                      onClick={() => openTermsPopup()}
+                                      className={globalStyles.linkTextUnderline}
+                                    >
+                                      Shipping & Payment terms.
+                                    </span>
+                                  </div>
+                                </label>
+                                <div
+                                  onClick={() =>
+                                    onSelectAddress(
+                                      addressList?.find(
+                                        val =>
+                                          val?.isDefaultForShipping === true
+                                      )
                                     )
-                                  )
-                                }
-                                className={styles.sendToAddress}
-                              >
-                                SHIP TO THIS ADDRESS
+                                  }
+                                  className={styles.sendToAddress}
+                                >
+                                  SHIP TO THIS ADDRESS
+                                </div>
                               </div>
 
                               {addressList.length > 1 &&
