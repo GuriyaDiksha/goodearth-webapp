@@ -176,7 +176,7 @@ const ResetPassword: React.FC<Props> = props => {
             <FormInput
               name="password1"
               placeholder={"New Password"}
-              label={"New Password"}
+              label={"New Password*"}
               keyPress={e => (e.key == "Enter" ? e.preventDefault() : "")}
               type={showPassword1 ? "text" : "password"}
               onFocus={() => {
@@ -234,7 +234,7 @@ const ResetPassword: React.FC<Props> = props => {
             <FormInput
               name="password2"
               placeholder={"Confirm Password"}
-              label={"Confirm Password"}
+              label={"Confirm Password*"}
               isDrop={true}
               isPaste={true}
               keyPress={e => (e.key == "Enter" ? e.preventDefault() : "")}

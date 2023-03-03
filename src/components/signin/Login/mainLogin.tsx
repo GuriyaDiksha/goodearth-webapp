@@ -329,7 +329,7 @@ class MainLogin extends React.Component<Props, loginState> {
             );
           } else if (
             err.response.data.error_message &&
-            err.response.data.error_message[0] == "MaxRetries"
+            err.response.data.error_message[0] == "Maximum attempts reached"
           ) {
             this.setState(
               {
