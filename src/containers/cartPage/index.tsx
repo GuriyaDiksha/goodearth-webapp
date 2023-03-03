@@ -127,7 +127,6 @@ class CartPage extends React.Component<Props, State> {
       console.log(err);
     }
     this.props.fetchBasket();
-    // this.props.changeModalState();
     const popupCookie = CookieService.getCookie("showCartPagePopup");
     if (popupCookie) {
       this.props.openPopup();
