@@ -70,13 +70,10 @@ const AddressSection: React.FC<AddressProps & {
 
   const [sameAsShipping, setSameAsShipping] = useState(sameShipping);
   const [gst, setGst] = useState(false);
-  const [gstText, setGstText] = useState("");
   const [pancardText, setPancardText] = useState(user.panPassport || "");
   const [pancardCheck, setPancardCheck] = useState(false);
   const [panError, setPanError] = useState("");
   const [panCheck, setPanCheck] = useState("");
-  const [gstType, setGstType] = useState("GSTIN");
-  const [error, setError] = useState("");
 
   const dispatch = useDispatch();
   useEffect(() => {
@@ -225,12 +222,12 @@ const AddressSection: React.FC<AddressProps & {
       // props.openAddressForm();
     }
   };
-  const onChangeGst = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setGstType(e.target.value);
-    setPanError("");
-    setError("");
-    setGstText("");
-  };
+  // const onChangeGst = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   setGstType(e.target.value);
+  //   setPanError("");
+  //   setError("");
+  //   setGstText("");
+  // };
 
   const onPanKeyPress = (event: React.KeyboardEvent) => {
     if (event.key === "Enter") {
@@ -238,11 +235,11 @@ const AddressSection: React.FC<AddressProps & {
     }
   };
 
-  const onCouponChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    console.log("test ====", event.target.value);
-    setGstText(event.target.value);
-    setError("");
-  };
+  // const onCouponChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  //   console.log("test ====", event.target.value);
+  //   setGstText(event.target.value);
+  //   setError("");
+  // };
 
   const onPanChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPancardText(event.target.value);
@@ -289,28 +286,8 @@ const AddressSection: React.FC<AddressProps & {
     return validate;
   };
 
-  const gstValidation = () => {
-    if (gstText.length > 0) {
-      if (gstText.length != 15 && gstType == "GSTIN") {
-        setError("Please enter a valid GST Number");
-        return false;
-      } else if (gstText.length != 15 && gstType == "UID") {
-        setError("Please enter a valid UIN Number");
-        return false;
-      } else {
-        setError("");
-        return true;
-      }
-    } else {
-      const text = gstType == "GSTIN" ? "GST" : "UIN";
-
-      setError("Please enter a " + text + " number");
-      return false;
-    }
-  };
-
   const removeErrorMessages = () => {
-    setError("");
+    // setError("");
     setPanError("");
     setPanCheck("");
   };
@@ -328,7 +305,11 @@ const AddressSection: React.FC<AddressProps & {
     }, 500);
   };
 
-  const onSubmit = (address?: AddressData) => {
+  const onSubmit = (
+    address?: AddressData,
+    gstText?: string,
+    gstType?: string
+  ) => {
     let validate = true;
     const addr = address || null;
     let numberObj: { gstNo?: string; gstType?: string; panPassportNo: string };
@@ -351,11 +332,11 @@ const AddressSection: React.FC<AddressProps & {
         validate = false;
       }
     }
-    if (gst && props.activeStep == Steps.STEP_BILLING) {
-      if (!gstValidation()) {
-        validate = false;
-      }
-    }
+    // if (gst && props.activeStep == Steps.STEP_BILLING) {
+    //   if (!gstValidation()) {
+    //     validate = false;
+    //   }
+    // }
     if (validate) {
       removeErrorMessages();
       props.finalizeAddress(addr, props.activeStep, numberObj);
@@ -367,17 +348,13 @@ const AddressSection: React.FC<AddressProps & {
   };
 
   const toggleGstInvoice = () => {
-    setGst(!gst);
+    setGst(true);
     dispatch(
       updateComponent(
         POPUP.BILLINGGST,
         {
           onSubmit: onSubmit,
-          onCouponChange: onCouponChange,
-          onChangeGst: onChangeGst,
-          gstType: gstType,
-          gstText: gstText,
-          error: error
+          setGst: setGst
         },
         true
       )
@@ -514,12 +491,9 @@ const AddressSection: React.FC<AddressProps & {
     }
   }, [
     gst,
-    gstText,
     panCheck,
     pancardCheck,
     panError,
-    error,
-    gstType,
     props.activeStep,
     basket.total,
     pancardText,

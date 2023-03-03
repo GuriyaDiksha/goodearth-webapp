@@ -1,13 +1,10 @@
-import React, { ChangeEvent, useContext, useEffect, useState } from "react";
+import React, { ChangeEvent, useContext, useState } from "react";
 import cs from "classnames";
-import bootstrapStyles from "../../../styles/bootstrap/bootstrap-grid.scss";
 import globalStyles from "styles/global.scss";
 import styles from "../styles.scss";
 import iconStyles from "styles/iconFonts.scss";
 import { Context } from "components/Modal/context";
 import { NavLink } from "react-router-dom";
-import { AppState } from "reducers/typings";
-import { useSelector } from "react-redux";
 
 const desc = {
   GSTIN:
@@ -21,25 +18,46 @@ const title = {
 };
 
 type PopupProps = {
-  onSubmit: () => any;
-  onCouponChange: (e: ChangeEvent<HTMLInputElement>) => any;
-  onChangeGst: (e: ChangeEvent<HTMLInputElement>) => any;
-  gstType: string;
-  gstText: string;
-  error: string;
+  onSubmit: (address: null, gstType: string, gstText: string) => any;
+  setGst: (data: boolean) => any;
 };
 
-const BillingGST: React.FC<PopupProps> = ({
-  onSubmit,
-  onCouponChange,
-  onChangeGst,
-  gstType,
-  gstText,
-  error
-}) => {
+const BillingGST: React.FC<PopupProps> = ({ onSubmit, setGst }) => {
   const { closeModal } = useContext(Context);
+  const [gstText, setGstText] = useState("");
+  const [gstType, setGstType] = useState("GSTIN");
+  const [error, setError] = useState("");
 
-  console.log("test 22===", gstText, gstType, error);
+  const onChangeGst = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setGstType(e.target.value);
+    setError("");
+    setGstText("");
+  };
+
+  const onCouponChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setGstText(event.target.value);
+    setError("");
+  };
+
+  const gstValidation = () => {
+    if (gstText.length > 0) {
+      if (gstText.length != 15 && gstType == "GSTIN") {
+        setError("Please enter a valid GST Number");
+        return false;
+      } else if (gstText.length != 15 && gstType == "UID") {
+        setError("Please enter a valid UIN Number");
+        return false;
+      } else {
+        setError("");
+        return true;
+      }
+    } else {
+      const text = gstType == "GSTIN" ? "GST" : "UIN";
+
+      setError("Please enter a " + text + " number");
+      return false;
+    }
+  };
 
   const RadioButton = (props: { gstType: string }) => {
     return (
@@ -59,13 +77,6 @@ const BillingGST: React.FC<PopupProps> = ({
     );
   };
 
-  const onKeyPress = (event: React.KeyboardEvent) => {
-    if (event.key === "Enter") {
-      onSubmit();
-      event.preventDefault();
-    }
-  };
-
   return (
     <div>
       <div
@@ -80,7 +91,10 @@ const BillingGST: React.FC<PopupProps> = ({
           <div className={styles.deliveryHead}>Billing Address</div>
           <div
             className={cs(styles.cross, styles.deliveryIcon)}
-            onClick={closeModal}
+            onClick={() => {
+              setGst(false);
+              closeModal();
+            }}
           >
             <i
               className={cs(
@@ -116,7 +130,6 @@ const BillingGST: React.FC<PopupProps> = ({
                 type="text"
                 className={cs(styles.input, styles.marginR10)}
                 onChange={e => onCouponChange(e)}
-                onKeyPress={e => onKeyPress(e)}
                 value={gstText}
               />
             </div>
@@ -124,7 +137,15 @@ const BillingGST: React.FC<PopupProps> = ({
               {gstType == "GSTIN" ? "GST No.*" : "UIN No.*"}
             </label>
             {error ? (
-              <span className={cs(globalStyles.errorMsg, globalStyles.wordCap)}>
+              <span
+                className={cs(
+                  globalStyles.errorMsg,
+                  globalStyles.wordCap,
+                  globalStyles.textLeft,
+                  globalStyles.flex,
+                  styles?.errorGst
+                )}
+              >
                 {error}
               </span>
             ) : (
@@ -144,8 +165,10 @@ const BillingGST: React.FC<PopupProps> = ({
             to="/"
             onClick={e => {
               e.preventDefault();
-              onSubmit();
-              closeModal();
+              if (gstValidation()) {
+                onSubmit(null, gstText, gstType);
+                closeModal();
+              }
             }}
           >
             SAVE & PROCEED
