@@ -17,6 +17,7 @@ import AccountService from "services/account";
 import * as valid from "utils/validate";
 import LoginService from "services/login";
 import Login from "./login";
+import { user } from "reducers/user";
 
 type Props = {
   uid: string;
@@ -26,11 +27,12 @@ type Props = {
 const ResetPassword: React.FC<Props> = props => {
   const {
     device: { mobile },
-    user: { isLoggedIn, customerGroup },
+    user: { isLoggedIn, customerGroup, email },
     currency,
     info: { showTimer }
   } = useSelector((state: AppState) => state);
   const ResetPasswordFormRef = useRef<Formsy>(null);
+  const [urlEmail, setUrlEmail] = useState("");
   const [showPassword1, setShowPassword1] = useState(false);
   const [showPassword2, setShowPassword2] = useState(false);
   const [enableSubmit, setEnableSubmit] = useState(false);
@@ -61,7 +63,13 @@ const ResetPassword: React.FC<Props> = props => {
     valid.pageViewGTM("ResetPassword");
     const searchParams = new URLSearchParams(history.location.search);
     setRedirectTo(searchParams.get("redirect_to") || "");
+    const emailFromURl = valid.decripttext(
+      searchParams.get("ei")?.replace(" ", "+") || "",
+      true
+    );
+    setUrlEmail(emailFromURl);
   }, []);
+
   const handleInvalidSubmit = () => {
     setTimeout(() => {
       const firstErrorField = document.getElementsByClassName(
@@ -164,14 +172,17 @@ const ResetPassword: React.FC<Props> = props => {
           className={myAccountComponentStyles.categorylabel}
           id="reset-password-form"
         >
-          {/* <div>
-            <FormInput
-              name="email"
-              value={email}
-              placeholder={"Email"}
-              label={"Email ID*"}
-            />
-          </div> */}
+          {urlEmail && (
+            <div>
+              <FormInput
+                name="email"
+                value={urlEmail}
+                placeholder={"Email ID"}
+                label={"Email ID*"}
+                disable
+              />
+            </div>
+          )}
           <div>
             <FormInput
               name="password1"

@@ -12,8 +12,8 @@ export type loginProps = {
 };
 
 export type loginState = {
-  heading: string;
-  subHeading: string;
+  heading?: string;
+  subHeading?: string;
   email: string | null;
   password: string | null;
   msg: string | (string | JSX.Element)[];

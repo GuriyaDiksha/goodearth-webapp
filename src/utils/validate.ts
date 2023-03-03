@@ -1669,8 +1669,9 @@ export const encrypttext = (message: string) => {
   return encrypted.toString();
 };
 
-export const decripttext = (encrypted: string) => {
-  if (typeof encrypted != "string" || !__EnableCrypto__) return encrypted;
+export const decripttext = (encrypted: string, force = false) => {
+  if (typeof encrypted != "string" || (!__EnableCrypto__ && !force))
+    return encrypted;
   let key = "AAAAAAAAAAAAAAAA"; //key used in Python
   key = CryptoJS.enc.Utf8.parse(key);
   const decrypted = CryptoJS.AES.decrypt(encrypted, key, {

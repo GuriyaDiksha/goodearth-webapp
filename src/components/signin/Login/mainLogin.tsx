@@ -600,8 +600,7 @@ class MainLogin extends React.Component<Props, loginState> {
                 );
               }}
             >
-              {" "}
-              FORGOT PASSWORD
+              <span>FORGOT PASSWORD</span>
             </p>
           </div>
           <div>

@@ -22,6 +22,7 @@ const Popup: React.FC<{ disableClose?: boolean }> = ({
     close();
   };
   const { popupBgUrl } = useSelector((state: AppState) => state.info);
+
   return (
     <div className={cs(bootstrapStyles.row, styles.row, styles.centerpage)}>
       <div

@@ -27,6 +27,7 @@ import CookieService from "services/cookie";
 import { GA_CALLS, ANY_ADS } from "constants/cookieConsent";
 // import SelectDropdown from "components/Formsy/SelectDropdown";
 import CountryCode from "components/Formsy/CountryCode";
+import FormContainer from "../formContainer";
 
 const mapStateToProps = (state: AppState) => {
   const isdList = state.address.countryData.map(list => {
@@ -621,8 +622,8 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
             <FormInput
               name="email"
               blur={this.verifyEmail}
-              placeholder={"Email*"}
-              label={"Email*"}
+              placeholder={"Email ID*"}
+              label={"Email ID*"}
               keyUp={this.onMailChange}
               keyPress={e => (e.key == "Enter" ? e.preventDefault() : "")}
               inputRef={this.emailInput}
@@ -1197,7 +1198,14 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
               </div>
             )}
             <div className={cs(bootstrapStyles.col12)}>
-              <div className={styles.loginForm}>{formContent}</div>
+              <div className={styles.loginForm}>
+                <FormContainer
+                  heading="Forgot Password"
+                  subheading="Enter your email address and click on reset password."
+                  formContent={formContent}
+                  footer={footer}
+                />
+              </div>
               {footer}
             </div>
           </>
