@@ -27,22 +27,19 @@
 }
 
 .form-subheading {
-  font-size: 12px;
-  font-family: $font-Lato;
-  color: #666;
-  letter-spacing: 1px;
+  @include b5_10px_montserrat_charcoal();
 }
 
 .disabled-input {
-  background-color: $disabled-input !important;
-  color: tint(#000, 50%);
+  background-color: $white !important;
+  color: tint($charcoal19, 50%);
   &input, input, select {
-  background-color: $disabled-input !important;
-  color: tint(#000, 50%);
+  background-color: $white !important;
+  color: tint($charcoal19, 50%);
   }
   .Dropdown-control {
-  background-color: $disabled-input !important;
-    color: tint(#000, 50%);
+  background-color: $white !important;
+    color: tint($charcoal19, 50%);
   }
 }
 

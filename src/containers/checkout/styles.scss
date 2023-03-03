@@ -462,19 +462,23 @@
   background: white;
   display: inline-block;
   border: 1px solid #666;
+
+  &.checked{
+    background-color: $aqua;
+  }
 }
 
 .checkbox .indicator::after {
-  bottom: 8px;
+  bottom: 11px;
   left: 7px;
-  width: 5px;
-  height: 10px;
+  width: 7px;
+  height: 13px;
   content: "";
   display: none;
   position: absolute;
   -webkit-transform: rotate(45deg);
   transform: rotate(45deg);
-  border: solid #ab1e56;
+  border: solid $white;
   border-width: 0 2px 2px 0;
 }
 
@@ -1087,4 +1091,10 @@ input[type="radio"] {
     letter-spacing: 0.3px;
     font-style: normal;
   }
+}
+
+.check-box-heading{
+  margin: auto 0;
+  width: 30%;
+  padding-top: 4px;
 }

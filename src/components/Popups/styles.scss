@@ -1608,3 +1608,7 @@
 .error-gst{
   margin: 10px 45px;
 }
+
+.desc{
+    @include b4_12px_montserrat_charcoal();
+}

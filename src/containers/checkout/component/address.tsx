@@ -74,6 +74,7 @@ const AddressSection: React.FC<AddressProps & {
   const [pancardCheck, setPancardCheck] = useState(false);
   const [panError, setPanError] = useState("");
   const [panCheck, setPanCheck] = useState("");
+  const [isTermChecked, setIsTermChecked] = useState(false);
 
   const dispatch = useDispatch();
   useEffect(() => {
@@ -398,12 +399,17 @@ const AddressSection: React.FC<AddressProps & {
     dispatch(updateModal(true));
   };
 
-  const onKeyPress = (event: React.KeyboardEvent) => {
-    if (event.key === "Enter") {
-      onSubmit();
-      event.preventDefault();
-    }
+  const openTermsPopup = () => {
+    dispatch(updateComponent(POPUP.SHIPPINGTERMS, null, true));
+    dispatch(updateModal(true));
   };
+
+  // const onKeyPress = (event: React.KeyboardEvent) => {
+  //   if (event.key === "Enter") {
+  //     onSubmit();
+  //     event.preventDefault();
+  //   }
+  // };
 
   const handleSaveAndReview = () => {
     onSubmit();
@@ -719,14 +725,33 @@ const AddressSection: React.FC<AddressProps & {
                                   <span className={styles.checkbox}>
                                     <input
                                       type="checkbox"
-                                      onChange={toggleGstInvoice}
-                                      checked={gst}
+                                      onClick={() =>
+                                        setIsTermChecked(!isTermChecked)
+                                      }
                                     />
-                                    <span className={styles.indicator}></span>
+                                    <span
+                                      className={cs(styles.indicator, {
+                                        [styles.checked]: isTermChecked
+                                      })}
+                                    ></span>
                                   </span>
                                 </div>
-                                <div className={styles.formSubheading}>
-                                  I need a GST invoice
+                                <div
+                                  className={cs(
+                                    styles.formSubheading,
+                                    styles.checkBoxHeading
+                                  )}
+                                >
+                                  I agree to pay the additional applicable
+                                  duties and taxes directly to the shipping
+                                  agency at the time of the delivery. To know
+                                  more, referre to our{" "}
+                                  <span
+                                    onClick={() => openTermsPopup()}
+                                    className={globalStyles.linkTextUnderline}
+                                  >
+                                    Shipping & Payment terms.
+                                  </span>
                                 </div>
                               </label>
                             </div>
