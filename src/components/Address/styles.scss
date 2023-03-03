@@ -626,4 +626,7 @@
   .line {
     @include b4_12px_montserrat_light_charcoal();
   }
+  .address-phone-number{
+    @include b4_12px_montserrat_charcoal();
+  }
 }

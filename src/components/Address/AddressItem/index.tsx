@@ -778,8 +778,6 @@ const AddressItem: React.FC<Props> = props => {
             <div
               className={cs(styles.addressPhoneNumber, {
                 [styles.checkoutFix]:
-                  currentCallBackComponent == "checkout-shipping" ||
-                  currentCallBackComponent == "checkout-billing" ||
                   currentCallBackComponent == "bridal" ||
                   currentCallBackComponent == "bridal-edit"
               })}

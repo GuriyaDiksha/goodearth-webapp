@@ -1055,5 +1055,36 @@ input[type="radio"] {
     max-width: 366px;
     background-color: $med-charcoal;
     text-align: center;
+    cursor: pointer;
+  }
+}
+.checkout-selected-value{
+  .name{
+    @include b4_12px_montserrat_charcoal();
+    letter-spacing: 0.36px;
+    text-transform: capitalize;
+  }
+  .editAddress{
+    @include b5_10px_montserrat_charcoal();
+    letter-spacing: 0.3px;
+    text-decoration: underline;
+    text-transform: uppercase;
+  }
+  .address-main{
+    padding-top: 5px;
+    .text{
+      @include b4_12px_montserrat_light_charcoal();
+      letter-spacing: 0.36px;
+    }
+  }
+  .phone{
+    @include b4_12px_montserrat_charcoal();
+    letter-spacing: 0.36px;
+    padding: 5px 0;
+  }
+  .contact-msg{
+    @include b5_10px_montserrat_charcoal();
+    letter-spacing: 0.3px;
+    font-style: normal;
   }
 }

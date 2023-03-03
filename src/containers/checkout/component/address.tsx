@@ -182,38 +182,74 @@ const AddressSection: React.FC<AddressProps & {
             bootstrapStyles.col12,
             bootstrapStyles.colMd6,
             styles.small,
-            styles.selectedStvalue
+            styles.selectedStvalue,
+            {
+              [styles.checkoutSelectedValue]:
+                currentCallBackComponent == "checkout-shipping"
+            }
           )}
         >
-          <div>
-            <span className={globalStyles.marginR10}>
-              {address.firstName} {address.lastName}
-            </span>
-            <span>Contact No. {address.phoneNumber}</span>
-          </div>
-          <div>
-            {address.line1}, {address.line2}
-          </div>
-          <div>
-            <span className={globalStyles.marginR10}>
-              {address.city} {address.postCode}, {address.state},{" "}
-              {address.countryName}
-            </span>
-            <span
-              className={cs(globalStyles.colorPrimary, globalStyles.pointer)}
-              onClick={handleStepEdit}
-            >
-              Edit
-            </span>
-          </div>
-          {currentCallBackComponent == "checkout-shipping" && (
+          {currentCallBackComponent == "checkout-shipping" ? (
             <>
-              <hr />
-              <p className={styles.contactMsg}>
-                <b>Note: </b>
-                {`${address.phoneCountryCode} ${address.phoneNumber} will be used for sending OTP during delivery.`}
-                <br /> Please ensure it is a mobile number.
+              <div
+                className={cs(globalStyles.flex, globalStyles.gutterBetween)}
+              >
+                <span className={cs(globalStyles.marginR10, styles.name)}>
+                  {address.firstName} {address.lastName}
+                </span>
+                <span
+                  className={cs(
+                    globalStyles.colorPrimary,
+                    globalStyles.pointer,
+                    styles.editAddress
+                  )}
+                  onClick={handleStepEdit}
+                >
+                  Edit
+                </span>
+              </div>
+              <div className={styles.addressMain}>
+                <div className={styles.text}>{address.line1},</div>
+                <div className={styles.text}>{address.line2},</div>
+                <div className={styles.text}>
+                  {address.city},{address.state}, {address.postCode},
+                </div>
+                <div className={styles.text}>{address.countryName}</div>
+              </div>
+              <p className={styles.phone}>
+                {address.phoneCountryCode} {address.phoneNumber}
               </p>
+              <p className={styles.contactMsg}>
+                Note:
+                {`${address.phoneCountryCode} ${address.phoneNumber} will be used for sending OTP during delivery. Please ensure it is a mobile number.`}
+              </p>
+            </>
+          ) : (
+            <>
+              <div>
+                <span className={globalStyles.marginR10}>
+                  {address.firstName} {address.lastName}
+                </span>
+                <span>Contact No. {address.phoneNumber}</span>
+              </div>
+              <div>
+                {address.line1}, {address.line2}
+              </div>
+              <div>
+                <span className={globalStyles.marginR10}>
+                  {address.city} {address.postCode}, {address.state},{" "}
+                  {address.countryName}
+                </span>
+                <span
+                  className={cs(
+                    globalStyles.colorPrimary,
+                    globalStyles.pointer
+                  )}
+                  onClick={handleStepEdit}
+                >
+                  Edit
+                </span>
+              </div>
             </>
           )}
         </div>
@@ -389,13 +425,7 @@ const AddressSection: React.FC<AddressProps & {
         <div>
           {currency == "INR" ? (
             <div>
-              <label
-                className={cs(
-                  styles.flex,
-                  styles.crossCenter,
-                  globalStyles.voffset3
-                )}
-              >
+              <label className={cs(styles.flex, globalStyles.voffset3)}>
                 <div className={globalStyles.marginR10}>
                   <span className={styles.checkbox}>
                     <input
@@ -507,7 +537,7 @@ const AddressSection: React.FC<AddressProps & {
     return (
       show && (
         <div className={cs(styles.payment, globalStyles.voffset4)}>
-          <label className={cs(styles.flex, styles.crossCenter)}>
+          <label className={cs(styles.flex)}>
             <div className={globalStyles.marginR10}>
               <span className={styles.checkbox}>
                 <input
@@ -572,8 +602,8 @@ const AddressSection: React.FC<AddressProps & {
           <div
             className={
               isActive
-                ? cs(styles.card, styles.cardOpen, styles.marginT20)
-                : cs(styles.card, styles.cardClosed, styles.marginT20)
+                ? cs(styles.card, styles.cardOpen, styles.marginT5)
+                : cs(styles.card, styles.cardClosed, styles.marginT5)
             }
           >
             <div className={bootstrapStyles.row}>
@@ -594,8 +624,8 @@ const AddressSection: React.FC<AddressProps & {
 
                 <span className={cs({ [styles.closed]: !isActive })}>
                   {activeStep == Steps.STEP_SHIPPING
-                    ? "SHIPPING DETAILS"
-                    : "BILLING DETAILS"}
+                    ? "SHIPPING ADDRESS"
+                    : "BILLING ADDRESS"}
                 </span>
               </div>
               {renderActions(false)}
@@ -632,8 +662,8 @@ const AddressSection: React.FC<AddressProps & {
           <div
             className={
               isActive
-                ? cs(styles.card, styles.cardOpen, styles.marginT20)
-                : cs(styles.card, styles.cardClosed, styles.marginT20)
+                ? cs(styles.card, styles.cardOpen, styles.marginT5)
+                : cs(styles.card, styles.cardClosed, styles.marginT5)
             }
           >
             <div className={bootstrapStyles.row}>
@@ -653,8 +683,8 @@ const AddressSection: React.FC<AddressProps & {
                 />
                 <span className={cs({ [styles.closed]: !isActive })}>
                   {activeStep == Steps.STEP_SHIPPING
-                    ? "SHIPPING DETAILS"
-                    : "BILLING DETAILS"}
+                    ? "SHIPPING ADDRESS"
+                    : "BILLING ADDRESS"}
                 </span>
               </div>
               {renderActions(false)}
@@ -677,33 +707,57 @@ const AddressSection: React.FC<AddressProps & {
                       <>
                         <div>{children}</div>
                         {addressList.length > 1 && mode == "list" && (
-                          <div
-                            className={cs(
-                              globalStyles.flex,
-                              globalStyles.gutterBetween,
-                              styles.checkoutAddressFooter
-                            )}
-                          >
-                            <div
-                              onClick={() =>
-                                onSelectAddress(
-                                  addressList?.find(
-                                    val => val?.isDefaultForShipping === true
-                                  )
-                                )
-                              }
-                              className={styles.sendToAddress}
-                            >
-                              SHIP TO THIS ADDRESS
+                          <>
+                            <div>
+                              <label
+                                className={cs(
+                                  styles.flex,
+                                  globalStyles.voffset3
+                                )}
+                              >
+                                <div className={globalStyles.marginR10}>
+                                  <span className={styles.checkbox}>
+                                    <input
+                                      type="checkbox"
+                                      onChange={toggleGstInvoice}
+                                      checked={gst}
+                                    />
+                                    <span className={styles.indicator}></span>
+                                  </span>
+                                </div>
+                                <div className={styles.formSubheading}>
+                                  I need a GST invoice
+                                </div>
+                              </label>
                             </div>
+                            <div
+                              className={cs(
+                                globalStyles.flex,
+                                globalStyles.gutterBetween,
+                                styles.checkoutAddressFooter
+                              )}
+                            >
+                              <div
+                                onClick={() =>
+                                  onSelectAddress(
+                                    addressList?.find(
+                                      val => val?.isDefaultForShipping === true
+                                    )
+                                  )
+                                }
+                                className={styles.sendToAddress}
+                              >
+                                SHIP TO THIS ADDRESS
+                              </div>
 
-                            {addressList.length > 1 &&
-                              mode == "list" &&
-                              (props.activeStep == Steps.STEP_SHIPPING ||
-                                (props.activeStep == Steps.STEP_BILLING &&
-                                  !props.hidesameShipping)) &&
-                              renderActions(false)}
-                          </div>
+                              {addressList.length > 1 &&
+                                mode == "list" &&
+                                (props.activeStep == Steps.STEP_SHIPPING ||
+                                  (props.activeStep == Steps.STEP_BILLING &&
+                                    !props.hidesameShipping)) &&
+                                renderActions(false)}
+                            </div>
+                          </>
                         )}
                       </>
                     )}
