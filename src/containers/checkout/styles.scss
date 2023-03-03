@@ -255,13 +255,19 @@
 .title {
   font-size: 14px;
   span {
-    color: #000;
+    color: $charcoal19;
+    opacity: 0.3;
     font-size: 14px;
-    font-weight: 900;
+    font-weight: 400;
     white-space: nowrap;
     font-family: $font-Lato;
   }
   .closed {
+    opacity: 1;
+    @include b4_12px_montserrat_charcoal_caps();
+  }
+  .iscompleted{
+    opacity: 1;
     @include b4_12px_montserrat_charcoal_caps();
   }
 }
@@ -1090,6 +1096,11 @@ input[type="radio"] {
     @include b5_10px_montserrat_charcoal();
     letter-spacing: 0.3px;
     font-style: normal;
+  }
+
+  .same-as-shipping-address{
+    @include b4_12px_montserrat_charcoal();
+    letter-spacing: 0.36px;
   }
 }
 

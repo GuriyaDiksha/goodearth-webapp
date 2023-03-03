@@ -611,6 +611,20 @@
 }
 
 .checkout-address {
+  .bridal{
+    grid-template-columns: unset !important;
+  }
+  .address-item{
+    overflow: hidden;
+    position: relative;
+  }
+  .cerise-bridal-rings{
+    border-radius: 0 0 0 50% !important;
+    position: absolute !important;
+    top: 0 !important;
+    right: 0;
+    z-index: 0;
+  }
   .address-item-container {
     border: 1px solid #eaeaea;
 

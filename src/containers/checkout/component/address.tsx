@@ -76,6 +76,10 @@ const AddressSection: React.FC<AddressProps & {
   const [panCheck, setPanCheck] = useState("");
   const [isTermChecked, setIsTermChecked] = useState(false);
 
+  const [shippingStatus, setShippingStatus] = useState(false);
+  const [billingStatus, setBillingStatus] = useState(false);
+  console.log(isActive, "Active Part");
+
   const dispatch = useDispatch();
   useEffect(() => {
     if (isLoggedIn && currentCallBackComponent == "checkout-shipping") {
@@ -145,9 +149,11 @@ const AddressSection: React.FC<AddressProps & {
   };
 
   const handleStepEdit = () => {
-    activeStep == Steps.STEP_SHIPPING
-      ? next(Steps.STEP_SHIPPING)
-      : next(Steps.STEP_BILLING);
+    activeStep == Steps.STEP_SHIPPING ? (
+      <>{next(Steps.STEP_SHIPPING)}</>
+    ) : (
+      next(Steps.STEP_BILLING)
+    );
   };
 
   const renderSavedAddress = function() {
@@ -186,7 +192,8 @@ const AddressSection: React.FC<AddressProps & {
             styles.selectedStvalue,
             {
               [styles.checkoutSelectedValue]:
-                currentCallBackComponent == "checkout-shipping"
+                currentCallBackComponent == "checkout-shipping" ||
+                currentCallBackComponent == "checkout-billing"
             }
           )}
         >
@@ -224,6 +231,62 @@ const AddressSection: React.FC<AddressProps & {
                 Note:
                 {`${address.phoneCountryCode} ${address.phoneNumber} will be used for sending OTP during delivery. Please ensure it is a mobile number.`}
               </p>
+            </>
+          ) : currentCallBackComponent == "checkout-billing" ? (
+            <>
+              {sameAsShipping ? (
+                <div
+                  className={cs(globalStyles.flex, globalStyles.gutterBetween)}
+                >
+                  <p className={styles.sameAsShippingAddress}>
+                    Same as Shipping Address
+                  </p>
+                  <span
+                    className={cs(
+                      globalStyles.colorPrimary,
+                      globalStyles.pointer,
+                      styles.editAddress
+                    )}
+                    onClick={handleStepEdit}
+                  >
+                    Edit
+                  </span>
+                </div>
+              ) : (
+                <>
+                  <div
+                    className={cs(
+                      globalStyles.flex,
+                      globalStyles.gutterBetween
+                    )}
+                  >
+                    <span className={cs(globalStyles.marginR10, styles.name)}>
+                      {address.firstName} {address.lastName}
+                    </span>
+                    <span
+                      className={cs(
+                        globalStyles.colorPrimary,
+                        globalStyles.pointer,
+                        styles.editAddress
+                      )}
+                      onClick={handleStepEdit}
+                    >
+                      Edit
+                    </span>
+                  </div>
+                  <div className={styles.addressMain}>
+                    <div className={styles.text}>{address.line1},</div>
+                    <div className={styles.text}>{address.line2},</div>
+                    <div className={styles.text}>
+                      {address.city},{address.state}, {address.postCode},
+                    </div>
+                    <div className={styles.text}>{address.countryName}</div>
+                  </div>
+                  <p className={styles.phone}>
+                    M: {address.phoneCountryCode} {address.phoneNumber}
+                  </p>
+                </>
+              )}
             </>
           ) : (
             <>
@@ -351,6 +414,7 @@ const AddressSection: React.FC<AddressProps & {
     const addr = address || null;
     let numberObj: { gstNo?: string; gstType?: string; panPassportNo: string };
     const amountPriceCheck = amountPrice[currency] <= basket.total;
+    console.log(pancardText, "pancardText");
 
     if (gst) {
       numberObj = Object.assign(
@@ -604,7 +668,7 @@ const AddressSection: React.FC<AddressProps & {
 
     if (isBridal && activeStep == Steps.STEP_SHIPPING) {
       html = (
-        <div className={globalStyles.marginT20}>
+        <div className={globalStyles.marginT5}>
           <div
             className={
               isActive
@@ -664,7 +728,7 @@ const AddressSection: React.FC<AddressProps & {
       );
     } else {
       return (
-        <div className={globalStyles.marginT20}>
+        <div className={globalStyles.marginT5}>
           <div
             className={
               isActive
@@ -681,12 +745,15 @@ const AddressSection: React.FC<AddressProps & {
                   styles.title
                 )}
               >
-                <img
-                  height={"18px"}
-                  className={globalStyles.marginR10}
-                  src={checkmarkCircle}
-                  alt="checkmarkdone"
-                />
+                {shippingStatus ||
+                  (billingStatus && (
+                    <img
+                      height={"18px"}
+                      className={globalStyles.marginR10}
+                      src={checkmarkCircle}
+                      alt="checkmarkdone"
+                    />
+                  ))}
                 <span className={cs({ [styles.closed]: !isActive })}>
                   {activeStep == Steps.STEP_SHIPPING
                     ? "SHIPPING ADDRESS"
@@ -768,7 +835,11 @@ const AddressSection: React.FC<AddressProps & {
                                   }
                                   className={styles.sendToAddress}
                                 >
-                                  SHIP TO THIS ADDRESS
+                                  {props.activeStep == Steps.STEP_SHIPPING
+                                    ? "SHIP TO THIS ADDRESS"
+                                    : props.activeStep == Steps.STEP_BILLING
+                                    ? "PROCEED TO PAYMENT"
+                                    : "SHIP TO THIS ADDRESS"}
                                 </div>
                               </div>
 
