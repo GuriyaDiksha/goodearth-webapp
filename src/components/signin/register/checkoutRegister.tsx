@@ -914,9 +914,11 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
                     /[0-9]/.test(value) &&
                     /[A-Z]/.test(value);
                   if (res) {
-                    this.setState({
-                      showPassRules: false
-                    });
+                    setTimeout(() => {
+                      this.setState({
+                        showPassRules: false
+                      });
+                    }, 100);
                   } else {
                     this.RegisterFormRef.current?.updateInputsWithError({
                       password1:
@@ -1200,8 +1202,8 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
             <div className={cs(bootstrapStyles.col12)}>
               <div className={styles.loginForm}>
                 <FormContainer
-                  heading="Forgot Password"
-                  subheading="Enter your email address and click on reset password."
+                  heading="Welcome"
+                  subheading="Register and create an account to continue."
                   formContent={formContent}
                   footer={footer}
                 />

@@ -93,19 +93,23 @@ class ForgotPasswordForm extends React.Component<Props, ForgotPasswordState> {
           // console.log("err: " + err.response.data.email[0]);
           if (err.response.data.isNewEmail) {
             const error = [
-              <span
-                className={globalStyles.linkTextUnderline}
-                key={2}
-                // onClick={e => {
-                //   this.props.goRegister(
-                //     e,
-                //     (this.emailInput.current &&
-                //       this.emailInput.current.value) ||
-                //       ""
-                //   );
-                // }}
-              >
-                Sign Up
+              <span key={"2"}>
+                This account does not exist. Please{" "}
+                <span
+                  className={globalStyles.linkTextUnderline}
+                  key={2}
+                  // onClick={e => {
+                  //   this.props.goRegister(
+                  //     e,
+                  //     (this.emailInput.current &&
+                  //       this.emailInput.current.value) ||
+                  //       ""
+                  //   );
+                  // }}
+                >
+                  Sign Up
+                </span>
+                .
               </span>
             ];
             this.setState({
