@@ -285,7 +285,8 @@ span.error-msg {
   line-height: 16px;
   margin-top: 5px;
   &.main-login-error{
-    margin-bottom: 20px; 
+    margin-bottom: 20px;
+    text-align: left;
   }
 }
 
@@ -294,7 +295,7 @@ span.error-msg {
   letter-spacing: 0.36px;
   margin-top: 10px;
   margin-bottom: 48px;
-  padding: 0px 36px;
+  padding: 0px 75px;
   text-align: center;
   &.verify-otp{
     margin-bottom: 36px;
@@ -314,6 +315,9 @@ span.error-msg {
   text-underline-offset: 4px;
   text-align: right;
   margin-bottom: 40px;
+  &:hover{
+    color: $aqua;
+  }
 }
 
 div.verify-otp-container{
@@ -371,4 +375,20 @@ input[type="text"].country-code-search-input{
   &:focus{
     padding-left: 30px;
   }
+}
+
+.success-msg {
+  background-color: #fff;
+  font-family: $font-Montserrat;
+  font-size: 10px;
+  font-weight: $semibold;
+  color: #3C7979;
+  letter-spacing: 0.3px;
+  line-height: 16px;
+  border-bottom: 1px solid #c1c1c1;
+  padding-bottom: 20px;
+  padding-top: 20px;
+  margin-bottom: 30px;
+  position: sticky;
+  top: 70px;
 }

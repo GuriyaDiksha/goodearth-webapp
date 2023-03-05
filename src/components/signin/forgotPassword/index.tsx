@@ -41,6 +41,8 @@ class ForgotPasswordForm extends React.Component<Props, ForgotPasswordState> {
 
   emailInput: RefObject<HTMLInputElement> = React.createRef();
 
+  // onSignupClick = () => {};
+
   handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
     if (!this.state.email) {
@@ -55,13 +57,21 @@ class ForgotPasswordForm extends React.Component<Props, ForgotPasswordState> {
         }
       );
     } else {
+      const { history } = this.props;
       const formData = new FormData();
+      let redirectTo = "";
       formData.append("email", this.state.email || "");
-      formData.append(
-        "redirectTo",
-        this.props.history.location.pathname +
-          this.props.history.location.search || "/"
-      );
+      const searchParams = new URLSearchParams(history.location.search);
+      // setRedirectTo(searchParams.get("redirect_to") || "");
+      const path = history.location.pathname;
+      if (path.split("/")[1] == "password-reset") {
+        redirectTo = searchParams.get("redirect_to") || "";
+      } else {
+        redirectTo =
+          this.props.history.location.pathname +
+            this.props.history.location.search || "/";
+      }
+      formData.append("redirectTo", redirectTo);
       this.setState({ disableSelectedbox: true });
       this.props
         .resetPassword(formData)
@@ -83,21 +93,24 @@ class ForgotPasswordForm extends React.Component<Props, ForgotPasswordState> {
           // console.log("err: " + err.response.data.email[0]);
           if (err.response.data.isNewEmail) {
             const error = [
-              "This account does not exist. Please Sign Up"
-              // <span
-              //   className={globalStyles.linkTextUnderline}
-              //   key={2}
-              //   onClick={e => {
-              //     // this.props.goRegister(
-              //     //   e,
-              //     //   (this.emailInput.current &&
-              //     //     this.emailInput.current.value) ||
-              //     //     ""
-              //     // );
-              //   }}
-              // >
-              //   Sign Up
-              // </span>
+              <span key={"2"}>
+                This account does not exist. Please{" "}
+                <span
+                  className={globalStyles.linkTextUnderline}
+                  key={2}
+                  onClick={e => {
+                    this.props.goRegister(
+                      e,
+                      (this.emailInput.current &&
+                        this.emailInput.current.value) ||
+                        ""
+                    );
+                  }}
+                >
+                  Sign Up
+                </span>
+                .
+              </span>
             ];
             this.setState({
               err: true,
@@ -277,13 +290,15 @@ class ForgotPasswordForm extends React.Component<Props, ForgotPasswordState> {
         ) : (
           ""
         )} */}
-        <FormContainer
-          heading="Forgot Password"
-          subheading="Enter your email address and click on reset password."
-          formContent={formContent}
-          footer={this.state.isBo ? undefined : footer}
-        />
-        {this.state.disableSelectedbox && <Loader />}
+        <div>
+          <FormContainer
+            heading="Forgot Password"
+            subheading="Enter your email address and click on reset password."
+            formContent={formContent}
+            footer={this.state.isBo ? undefined : footer}
+          />
+          {this.state.disableSelectedbox && <Loader />}
+        </div>
       </Popup>
     );
   }

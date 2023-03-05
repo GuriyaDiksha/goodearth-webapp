@@ -484,6 +484,9 @@ hr {
         cursor: pointer;
         letter-spacing: 0.5px;
         font-weight: $semibold;
+        &:hover{
+          color: #3C7979
+        }
       }
     }
   }

@@ -25,8 +25,9 @@ import { Country } from "components/Formsy/CountryCode/typings";
 import EmailVerification from "../emailVerification";
 import CookieService from "services/cookie";
 import { GA_CALLS, ANY_ADS } from "constants/cookieConsent";
-import SelectDropdown from "components/Formsy/SelectDropdown";
+// import SelectDropdown from "components/Formsy/SelectDropdown";
 import CountryCode from "components/Formsy/CountryCode";
+import FormContainer from "../formContainer";
 
 const mapStateToProps = (state: AppState) => {
   const isdList = state.address.countryData.map(list => {
@@ -618,8 +619,8 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
             <FormInput
               name="email"
               blur={this.verifyEmail}
-              placeholder={"Email*"}
-              label={"Email*"}
+              placeholder={"Email ID*"}
+              label={"Email ID*"}
               keyUp={this.onMailChange}
               keyPress={e => (e.key == "Enter" ? e.preventDefault() : "")}
               inputRef={this.emailInput}
@@ -680,8 +681,8 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
             <FormSelect
               required
               name="gender"
-              label="Select Gender*"
-              placeholder="Select Gender*"
+              label="Gender*"
+              placeholder="Select Option*"
               options={genderOptions}
               disable={!this.state.showFields}
               className={this.state.showFields ? "" : styles.disabledInput}
@@ -909,9 +910,11 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
                     /[0-9]/.test(value) &&
                     /[A-Z]/.test(value);
                   if (res) {
-                    this.setState({
-                      showPassRules: false
-                    });
+                    setTimeout(() => {
+                      this.setState({
+                        showPassRules: false
+                      });
+                    }, 100);
                   } else {
                     this.RegisterFormRef.current?.updateInputsWithError({
                       password1:
@@ -1193,7 +1196,14 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
               </div>
             )}
             <div className={cs(bootstrapStyles.col12)}>
-              <div className={styles.loginForm}>{formContent}</div>
+              <div className={styles.loginForm}>
+                <FormContainer
+                  heading="Welcome"
+                  subheading="Register and create an account to continue."
+                  formContent={formContent}
+                  footer={footer}
+                />
+              </div>
               {footer}
             </div>
           </>

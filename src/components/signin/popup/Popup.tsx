@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import cs from "classnames";
 import styles from "./styles.scss";
 import globalStyles from "styles/global.scss";
@@ -16,11 +16,13 @@ const Popup: React.FC<{ disableClose?: boolean }> = ({
 }) => {
   const dispatch = useDispatch();
   const close = useContext(Context).closeModal;
+  const [isSuccessMsg, setIsSuccessMsg] = useState(false);
   const closePopup = () => {
     dispatch(updateNextUrl(""));
     close();
   };
   const { popupBgUrl } = useSelector((state: AppState) => state.info);
+
   return (
     <div className={cs(bootstrapStyles.row, styles.row, styles.centerpage)}>
       <div
@@ -73,7 +75,16 @@ const Popup: React.FC<{ disableClose?: boolean }> = ({
                 )}
               </div>
             </div>
-            <div className={styles.childrenContainer}>{children}</div>
+            <div
+              className={cs(styles.childrenContainer, {
+                [styles.isSuccessMsg]: isSuccessMsg
+              })}
+              id="email-verification-container"
+            >
+              {React.cloneElement(children as React.ReactElement<any>, {
+                setIsSuccessMsg
+              })}
+            </div>
           </div>
         </div>
       </div>

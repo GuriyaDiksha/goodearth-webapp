@@ -415,8 +415,8 @@ class RegisterForm extends React.Component<Props, registerState> {
             <FormInput
               name="email"
               blur={this.verifyEmail}
-              placeholder={"Email*"}
-              label={"Email*"}
+              placeholder={"Email ID*"}
+              label={"Email ID*"}
               keyUp={this.onMailChange}
               keyPress={e => (e.key == "Enter" ? e.preventDefault() : "")}
               inputRef={this.emailInput}
@@ -737,22 +737,24 @@ class RegisterForm extends React.Component<Props, registerState> {
     );
     return (
       <Popup>
-        {this.state.successMsg ? (
-          <div className={cs(bootstrapStyles.col10, bootstrapStyles.offset1)}>
-            <div className={globalStyles.successMsg}>
-              {this.state.successMsg}
+        <div>
+          {this.state.successMsg ? (
+            <div className={cs(bootstrapStyles.col10, bootstrapStyles.offset1)}>
+              <div className={globalStyles.successMsg}>
+                {this.state.successMsg}
+              </div>
             </div>
-          </div>
-        ) : (
-          ""
-        )}
-        <FormContainer
-          heading="Welcome"
-          subheading="First time visiting? Enter your email address and password to join in."
-          formContent={formContent}
-          footer={footer}
-        />
-        {/* {this.state.disableSelectedbox && <Loader />} */}
+          ) : (
+            ""
+          )}
+          <FormContainer
+            heading="Welcome"
+            subheading="First time visiting? Enter your email address and password to join in."
+            formContent={formContent}
+            footer={footer}
+          />
+          {/* {this.state.disableSelectedbox && <Loader />} */}
+        </div>
       </Popup>
     );
   }

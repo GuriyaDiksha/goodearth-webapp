@@ -1,9 +1,8 @@
-import React, { useState, ReactNode } from "react";
+import React, { useState, ReactNode, useEffect } from "react";
 import cs from "classnames";
 // styles
 import styles from "../styles.scss";
 import globalStyles from "styles/global.scss";
-import bootstrapStyles from "../../../styles/bootstrap/bootstrap-grid.scss";
 // services
 import LoginService from "services/login";
 import { useDispatch } from "react-redux";
@@ -21,6 +20,7 @@ type Props = {
   changeEmail: (event: any) => void;
   goLogin: () => void;
   socialLogin?: ReactNode;
+  setIsSuccessMsg?: (arg: boolean) => void;
 };
 const EmailVerification: React.FC<Props> = ({
   successMsg,
@@ -40,6 +40,7 @@ const EmailVerification: React.FC<Props> = ({
     attempts: 0,
     maxAttemptsAllow: 5
   });
+  const headingref = React.useRef<null | HTMLDivElement>(null);
   const dispatch = useDispatch();
   // const timer = () => {
   //   setTimeRemaining(90);
@@ -151,6 +152,11 @@ const EmailVerification: React.FC<Props> = ({
     }
   };
 
+  useEffect(() => {
+    const ele = document.getElementById("email-verification-container");
+    ele?.scrollBy(0, ele.offsetTop);
+  }, []);
+
   const goBackCta = (
     <input
       type="submit"
@@ -167,17 +173,7 @@ const EmailVerification: React.FC<Props> = ({
   return (
     <div className={globalStyles.textCenter}>
       {successMsg ? (
-        <div className={cs(bootstrapStyles.col12)}>
-          <div
-            className={cs(
-              globalStyles.successMsg,
-              globalStyles.textCenter,
-              globalStyles.marginT20
-            )}
-          >
-            {successMsg}
-          </div>
-        </div>
+        <div className={cs(styles.successMsg)}>{successMsg}</div>
       ) : (
         ""
       )}

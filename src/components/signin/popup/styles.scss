@@ -24,6 +24,8 @@
       // position: fixed;
       // width: 33%;
       z-index: 2;
+      position: sticky;
+      top: 0;
       .header {
         margin: 0px 24px;
         height: 70px;
@@ -54,6 +56,7 @@
 .popup {
   overflow-y: auto !important;
   overflow-x: hidden !important;
+  position: relative;
 }
 
 .close-popup {
@@ -94,6 +97,8 @@
       // position: fixed;
       // width: 100%;
       z-index: 2;
+      position: sticky;
+      top: 0;
       .header {
         margin: 0px 24px;
         height: 70px;
@@ -137,4 +142,8 @@
 .children-container {
   padding: 0px 24px;
   margin-top: 40px;
+  position: relative;
+  &.is-success-msg{
+    margin-top: 0px;
+  }
 }

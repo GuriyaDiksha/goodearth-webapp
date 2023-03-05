@@ -8,11 +8,12 @@ export type loginProps = {
   heading?: string;
   subHeading?: string;
   source?: string;
+  setIsSuccessMsg?: (arg: boolean) => void;
 };
 
 export type loginState = {
-  heading: string;
-  subHeading: string;
+  heading?: string;
+  subHeading?: string;
   email: string | null;
   password: string | null;
   msg: string | (string | JSX.Element)[];
