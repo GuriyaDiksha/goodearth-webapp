@@ -1,7 +1,7 @@
 import { connect } from "react-redux";
 import mapDispatchToProps from "./mapper/actions";
 import { useLocation, withRouter } from "react-router";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import loadable from "@loadable/component";
 import Popup from "../popup/Popup";
 
@@ -9,8 +9,15 @@ const MainLogin = loadable(() => import("components/signin/Login/mainLogin"));
 const CheckoutRegisterForm = loadable(() =>
   import("components/signin/register/checkoutRegister")
 );
-const LoginForm: React.FC<{}> = props => {
+
+const LoginForm = (props: any) => {
   const [isRegister, setIsRegister] = useState(false);
+
+  useEffect(() => {
+    if (props.isRegister) {
+      setIsRegister(true);
+    }
+  }, []);
 
   const goToRegister = () => {
     setIsRegister(true);
@@ -30,6 +37,7 @@ const LoginForm: React.FC<{}> = props => {
   const { search } = useLocation();
   const urlParams = new URLSearchParams(search);
   const id = urlParams.get("loginpopup");
+
   return (
     <Popup>
       {isRegister ? (

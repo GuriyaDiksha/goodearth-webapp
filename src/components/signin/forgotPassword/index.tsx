@@ -98,14 +98,14 @@ class ForgotPasswordForm extends React.Component<Props, ForgotPasswordState> {
                 <span
                   className={globalStyles.linkTextUnderline}
                   key={2}
-                  // onClick={e => {
-                  //   this.props.goRegister(
-                  //     e,
-                  //     (this.emailInput.current &&
-                  //       this.emailInput.current.value) ||
-                  //       ""
-                  //   );
-                  // }}
+                  onClick={e => {
+                    this.props.goRegister(
+                      e,
+                      (this.emailInput.current &&
+                        this.emailInput.current.value) ||
+                        ""
+                    );
+                  }}
                 >
                   Sign Up
                 </span>

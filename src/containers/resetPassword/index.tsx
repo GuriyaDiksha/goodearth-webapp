@@ -17,7 +17,6 @@ import AccountService from "services/account";
 import * as valid from "utils/validate";
 import LoginService from "services/login";
 import Login from "./login";
-import { user } from "reducers/user";
 
 type Props = {
   uid: string;
