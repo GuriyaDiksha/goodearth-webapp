@@ -270,6 +270,11 @@
     opacity: 1;
     @include b4_12px_montserrat_charcoal_caps();
   }
+
+  @media screen and (max-width:991px) {
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eaeaea;
+  }
 }
 
 .op3 {
@@ -307,6 +312,10 @@
   line-height: 40px;
   margin-top: 5px;
   @include b4_12px_montserrat_charcoal();
+
+  @media screen and (max-width:991) {
+    line-height: 45px;
+  }
 }
 .v-center {
   line-height: $header-checkout;
@@ -1108,4 +1117,11 @@ input[type="radio"] {
   margin: auto 0;
   width: 30%;
   padding-top: 4px;
+}
+
+.justify-right{
+  justify-content: right;
+}
+.justify-center{
+  justify-content: center;
 }

@@ -226,7 +226,12 @@ class CheckoutHeader extends React.Component<Props, { boId: string }> {
     let heading = null;
     if (this.props.location.pathname.indexOf("cart") > -1) {
       heading = (
-        <span className={styles.vCenter}>
+        <span
+          className={cs({
+            [styles.vCenter]: !mobile,
+            [styles.justifyRight]: mobile
+          })}
+        >
           {/* <span>
             <i
               className={cs(iconStyles.icon, iconStyles.iconCart, styles.cart)}
@@ -243,7 +248,7 @@ class CheckoutHeader extends React.Component<Props, { boId: string }> {
 
     if (this.props.location.pathname.indexOf("checkout") > -1) {
       heading = (
-        <span className={styles.vCenter}>
+        <span className={cs(styles.vCenter, { [styles.justifyRight]: mobile })}>
           <span>
             <img src={checkoutIcon} alt="checkout-button" />
           </span>
@@ -351,15 +356,20 @@ class CheckoutHeader extends React.Component<Props, { boId: string }> {
                 />
               </Link>
             </div>
-            <div className={cs(bootstrap.col3, bootstrap.colMd7)}>
-              {heading}
-            </div>
             <div
-              className={cs(bootstrap.colMd3, bootstrap.col3, {
-                [styles.curr]: !this.state.boId
+              className={cs({ [bootstrap.col3]: !mobile }, bootstrap.colMd7, {
+                [bootstrap.col6]: mobile
               })}
             >
-              {/* <SelectableDropdownMenu
+              {heading}
+            </div>
+            {mobile ? null : (
+              <div
+                className={cs(bootstrap.colMd3, bootstrap.col3, {
+                  [styles.curr]: !this.state.boId
+                })}
+              >
+                {/* <SelectableDropdownMenu
                 id="currency-dropdown-checkout"
                 align={"left"}
                 items={items}
@@ -373,21 +383,22 @@ class CheckoutHeader extends React.Component<Props, { boId: string }> {
                 onChangeCurrency={this.changeCurrency}
                 disabled={this.state.boId ? true : false}
               ></SelectableDropdownMenu> */}
-              <i
-                className={cs(
-                  iconStyles.icon,
-                  iconStyles.iconPhone,
-                  styles.icon
-                )}
-              />
-              <a className={styles.mobileNum} href="tel:+919582999555">
-                +91 95829 99555
-              </a>{" "}
-              /{" "}
-              <a className={styles.mobileNum} href="tel:+919582999888">
-                +91 95829 99888
-              </a>
-            </div>
+                <i
+                  className={cs(
+                    iconStyles.icon,
+                    iconStyles.iconPhone,
+                    styles.icon
+                  )}
+                />
+                <a className={styles.mobileNum} href="tel:+919582999555">
+                  +91 95829 99555
+                </a>{" "}
+                /{" "}
+                <a className={styles.mobileNum} href="tel:+919582999888">
+                  +91 95829 99888
+                </a>
+              </div>
+            )}
           </div>
         </div>
         <GrowlMessage />

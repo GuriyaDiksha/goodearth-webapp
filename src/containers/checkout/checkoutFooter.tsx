@@ -41,28 +41,31 @@ class CheckoutFooter extends React.Component<Props, { boId: string }> {
   static contextType = UserContext;
 
   render() {
-    const { currency } = this.props;
+    const { currency, mobile } = this.props;
 
     return (
       <div>
         <div className={cs(styles.headerContainer, styles.footer)}>
           <div className={cs(bootstrap.row, styles.minimumWidth)}>
             <div
-              className={cs(
-                bootstrap.colMd2,
-                bootstrap.col5,
-                styles.footerCurr
-              )}
+              className={cs(bootstrap.colMd2, styles.footerCurr, {
+                [bootstrap.col5]: !mobile,
+                [bootstrap.col2]: mobile
+              })}
             >
-              currency: {currency}{" "}
+              {mobile ? currency : `currency: ${currency}`}
               {String.fromCharCode(...currencyCode[currency])}
             </div>
-            <div className={cs(bootstrap.col3, bootstrap.colMd7)}>
-              {/* {heading} */}
-            </div>
+            {mobile ? null : (
+              <div className={cs(bootstrap.col3, bootstrap.colMd7)}>
+                {/* {heading} */}
+              </div>
+            )}
             <div
-              className={cs(bootstrap.colMd3, bootstrap.col3, {
-                [styles.curr]: !this.state.boId
+              className={cs(bootstrap.colMd3, {
+                [styles.curr]: !this.state.boId,
+                [bootstrap.col3]: !mobile,
+                [bootstrap.col10]: mobile
               })}
             >
               <i

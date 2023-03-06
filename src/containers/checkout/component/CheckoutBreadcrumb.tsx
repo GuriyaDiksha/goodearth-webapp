@@ -3,15 +3,22 @@ import cs from "classnames";
 import styles from "../styles.scss";
 import globalStyles from "styles/global.scss";
 import fontStyles from "styles/iconFonts.scss";
-import bootstrapStyles from "../../../styles/bootstrap/bootstrap-grid.scss";
 import { BreadcrumbProps } from "./typings";
+import { useSelector } from "react-redux";
+import { AppState } from "reducers/typings";
 
 const CheckoutBreadcrumb: React.FC<BreadcrumbProps> = props => {
   const { active } = props;
+  const { mobile } = useSelector((state: AppState) => state.device);
+
   return (
     <div className={cs(styles.breadcrumb)}>
       <div className={cs(styles.card)}>
-        <div className={cs(styles.breadcrumbWrapper, globalStyles.flex)}>
+        <div
+          className={cs(styles.breadcrumbWrapper, globalStyles.flex, {
+            [styles.justifyCenter]: mobile
+          })}
+        >
           <div className={cs(styles.breadcrumbItem)}>
             <span className={cs(styles.text, styles.login)}>Login</span>
           </div>
