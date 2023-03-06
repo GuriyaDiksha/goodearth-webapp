@@ -10,8 +10,8 @@ import { useSelector, useDispatch } from "react-redux";
 import { AppState } from "reducers/typings";
 import Formsy from "formsy-react";
 import FormInput from "components/Formsy/FormInput";
-import show from "../../images/show.svg";
-import hide from "../../images/hide.svg";
+import show from "../../images/showPass.svg";
+import hide from "../../images/hidePass.svg";
 import { RouteComponentProps, withRouter, useHistory } from "react-router";
 import AccountService from "services/account";
 import { errorTracking, getErrorList, pageViewGTM } from "utils/validate";
@@ -26,12 +26,14 @@ type Props = {
 const ResetPassword: React.FC<Props> = props => {
   const {
     device: { mobile },
-    user: { isLoggedIn, customerGroup },
+    user: { isLoggedIn, customerGroup, email },
     currency,
     info: { showTimer }
   } = useSelector((state: AppState) => state);
   const ResetPasswordFormRef = useRef<Formsy>(null);
-  const [showPassword, setShowPassword] = useState(false);
+  const [urlEmail, setUrlEmail] = useState("");
+  const [showPassword1, setShowPassword1] = useState(false);
+  const [showPassword2, setShowPassword2] = useState(false);
   const [enableSubmit, setEnableSubmit] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [showLogin, setShowLogin] = useState(false);
@@ -60,7 +62,13 @@ const ResetPassword: React.FC<Props> = props => {
     pageViewGTM("ResetPassword");
     const searchParams = new URLSearchParams(history.location.search);
     setRedirectTo(searchParams.get("redirect_to") || "");
+    const emailFromURl = valid.decripttext(
+      searchParams.get("ei")?.replace(" ", "+") || "",
+      true
+    );
+    setUrlEmail(emailFromURl);
   }, []);
+
   const handleInvalidSubmit = () => {
     setTimeout(() => {
       const firstErrorField = document.getElementsByClassName(
@@ -139,32 +147,11 @@ const ResetPassword: React.FC<Props> = props => {
       newPassword1: password1,
       newPassword2: password2
     };
-
     AccountService.confirmResetPassword(dispatch, formData)
       .then(data => {
         resetForm();
         setShowLogin(true);
         localStorage.setItem("tempEmail", data.email);
-        // const { bridalCurrency, bridalId } = data;
-        // bridalId && CookieService.setCookie("bridalId", bridalId);
-        // bridalCurrency &&
-        //   CookieService.setCookie("bridalCurrency", bridalCurrency);
-        // showGrowlMessage(dispatch, MESSAGE.ALL_SESSION_LOGOUT);
-        // let counter = 5;
-        // const timer = setInterval(function() {
-        //   if (counter < 0) {
-        //     history.push(data.redirectTo || "/");
-        //     clearInterval(timer);
-        //     localStorage.setItem("tempEmail", data.email);
-        //     data.redirectTo != "/order/checkout" &&
-        //       LoginService.showLogin(dispatch);
-        //   } else {
-        //     setErrorMessage(
-        //       data.message + " This page will redirect in " + counter + " sec."
-        //     );
-        //   }
-        //   counter--;
-        // }, 1000);
       })
       .catch((err: any) => {
         setErrorMessage(err.response.data.errorMessage);
@@ -172,12 +159,11 @@ const ResetPassword: React.FC<Props> = props => {
   };
 
   const formContent = (
-    <div
-      className={cs(myAccountComponentStyles.loginForm, globalStyles.voffset4)}
-    >
+    <div className={cs(myAccountComponentStyles.loginForm)}>
       <Formsy
         ref={ResetPasswordFormRef}
         onValid={() => setEnableSubmit(true)}
+        onInvalid={() => setEnableSubmit(false)}
         onValidSubmit={handleSubmit}
         onInvalidSubmit={handleInvalidSubmit}
       >
@@ -185,28 +171,51 @@ const ResetPassword: React.FC<Props> = props => {
           className={myAccountComponentStyles.categorylabel}
           id="reset-password-form"
         >
+          {urlEmail && (
+            <div>
+              <FormInput
+                name="email"
+                value={urlEmail}
+                placeholder={"Email ID"}
+                label={"Email ID*"}
+                disable
+              />
+            </div>
+          )}
           <div>
             <FormInput
               name="password1"
               placeholder={"New Password"}
-              label={"New Password"}
+              label={"New Password*"}
               keyPress={e => (e.key == "Enter" ? e.preventDefault() : "")}
-              type={showPassword ? "text" : "password"}
+              type={showPassword1 ? "text" : "password"}
               onFocus={() => {
                 setShowPassRules(true);
               }}
               blur={handleBlur}
               handleChange={handlePassValidation}
               validations={{
-                isValid: () => true
+                isValid: (values, value) => {
+                  return (
+                    value &&
+                    /[a-z]/.test(value) &&
+                    /[0-9]/.test(value) &&
+                    /[A-Z]/.test(value)
+                  );
+                }
+              }}
+              validationErrors={{
+                isValid:
+                  "Please verify that your password follows all rules displayed"
               }}
               required
+              showLabel={true}
             />
             <span
               className={myAccountComponentStyles.togglePasswordBtn}
-              onClick={() => setShowPassword(!showPassword)}
+              onClick={() => setShowPassword1(!showPassword1)}
             >
-              <img src={showPassword ? show : hide} />
+              <img src={showPassword1 ? show : hide} />
             </span>
           </div>
           <div
@@ -235,11 +244,11 @@ const ResetPassword: React.FC<Props> = props => {
             <FormInput
               name="password2"
               placeholder={"Confirm Password"}
-              label={"Confirm Password"}
+              label={"Confirm Password*"}
               isDrop={true}
               isPaste={true}
               keyPress={e => (e.key == "Enter" ? e.preventDefault() : "")}
-              type={showPassword ? "text" : "password"}
+              type={showPassword2 ? "text" : "password"}
               validations={{
                 equalsField: "password1",
                 isValid: (values, value) => {
@@ -258,11 +267,18 @@ const ResetPassword: React.FC<Props> = props => {
                   "Please verify that your password follows all rules displayed"
               }}
               required
+              showLabel={true}
             />
+            <span
+              className={myAccountComponentStyles.togglePasswordBtn}
+              onClick={() => setShowPassword2(!showPassword2)}
+            >
+              <img src={showPassword2 ? show : hide} />
+            </span>
           </div>
           <div>
             {errorMessage ? (
-              <p className={cs(globalStyles.errorMsg, globalStyles.marginB10)}>
+              <p className={cs(styles.errorMsg, globalStyles.marginB10)}>
                 {errorMessage}
               </p>
             ) : (
@@ -273,10 +289,10 @@ const ResetPassword: React.FC<Props> = props => {
               disabled={!enableSubmit}
               className={
                 enableSubmit
-                  ? globalStyles.ceriseBtn
-                  : cs(globalStyles.disabledBtn, globalStyles.ceriseBtn)
+                  ? globalStyles.charcoalBtn
+                  : cs(globalStyles.disabledBtn, globalStyles.charcoalBtn)
               }
-              value="Save"
+              value="Set New Password"
             />
           </div>
         </div>
@@ -288,18 +304,9 @@ const ResetPassword: React.FC<Props> = props => {
       {showLogin ? (
         <Login redirectTo={redirectTo} />
       ) : (
-        <div
-          className={cs(
-            bootstrapStyles.col10,
-            bootstrapStyles.offset1,
-            bootstrapStyles.colMd8,
-            bootstrapStyles.offsetMd2
-          )}
-        >
-          <div className={myAccountComponentStyles.formHeading}>
-            Reset Password
-          </div>
-          <div className={myAccountComponentStyles.formSubheading}>
+        <div className={cs(styles.container)}>
+          <div className={styles.formHeading}>Reset Password</div>
+          <div className={styles.formSubheading}>
             Please fill in the fields below
           </div>
           {formContent}
@@ -308,11 +315,10 @@ const ResetPassword: React.FC<Props> = props => {
     </div>
   );
 
-  const bgClass = cs(globalStyles.col12, myAccountStyles.bgProfile);
   return (
     <div
-      className={cs(globalStyles.containerStart, {
-        [globalStyles.containerStartTimer]: showTimer
+      className={cs(styles.containerStart, {
+        [styles.containerStartTimer]: showTimer
       })}
     >
       {!mobile && (
@@ -324,24 +330,8 @@ const ResetPassword: React.FC<Props> = props => {
           </div>
         </SecondaryHeader>
       )}
-      <div className={bootstrapStyles.row}>
-        <div className={bgClass}>
-          <div className={bootstrapStyles.row}>
-            <div
-              className={cs(
-                bootstrapStyles.colLg4,
-                bootstrapStyles.offsetLg4,
-                bootstrapStyles.col12,
-                globalStyles.textCenter,
-                { [myAccountStyles.accountFormBg]: !mobile },
-                { [myAccountStyles.accountFormBgMobile]: mobile }
-              )}
-            >
-              {mainContent}
-              {/* {notificationData ? <Growl text={this.state.notificationData} show={true}/> : ""} */}
-            </div>
-          </div>
-        </div>
+      <div className={styles.pageBody}>
+        <div className={styles.formContainer}>{mainContent}</div>
       </div>
     </div>
   );

@@ -1,9 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, ReactNode, useEffect } from "react";
 import cs from "classnames";
 // styles
 import styles from "../styles.scss";
 import globalStyles from "styles/global.scss";
-import bootstrapStyles from "../../../styles/bootstrap/bootstrap-grid.scss";
 // services
 import LoginService from "services/login";
 import { useDispatch } from "react-redux";
@@ -20,12 +19,15 @@ type Props = {
   email: string;
   changeEmail: (event: any) => void;
   goLogin: () => void;
+  socialLogin?: ReactNode;
+  setIsSuccessMsg?: (arg: boolean) => void;
 };
 const EmailVerification: React.FC<Props> = ({
   successMsg,
   email,
   changeEmail,
-  goLogin
+  goLogin,
+  socialLogin
 }) => {
   const [isLoading, setIsLoading] = useState(false);
   // const [enableBtn, setEnableBtn] = useState(false);
@@ -38,6 +40,7 @@ const EmailVerification: React.FC<Props> = ({
     attempts: 0,
     maxAttemptsAllow: 5
   });
+  const headingref = React.useRef<null | HTMLDivElement>(null);
   const dispatch = useDispatch();
   // const timer = () => {
   //   setTimeRemaining(90);
@@ -148,49 +151,29 @@ const EmailVerification: React.FC<Props> = ({
       setIsLoading(false);
     }
   };
-  // const clearTimer = () => {
-  //   clearInterval(timerId);
-  //   setTimeRemaining(0);
-  //   setEnableBtn(true);
-  // };
 
-  // const changeOTP = (value: string) => {
-  //   setOtpValue(value);
-  //   setError("");
-  // };
-  // useEffect(() => {
-  //   if (timeRemaining <= 0) {
-  //     clearTimer();
-  //   }
-  // }, [timeRemaining, timerId]);
-  // +useEffect(() => {
-  //   timer();
-  //   const elem = document.getElementById("first-heading");
-  //   elem?.scrollIntoView({ block: "end", inline: "nearest" });
-  //   return () => {
-  //     clearTimer();
-  //   };
-  // }, []);
+  useEffect(() => {
+    const ele = document.getElementById("email-verification-container");
+    ele?.scrollBy(0, ele.offsetTop);
+  }, []);
 
-  // const secondsToMinutes = (seconds: number) => {
-  //   const minutes = Math.floor(seconds / 60);
-  //   seconds -= minutes * 60;
-  //   return minutes + ":" + seconds;
-  // };
+  const goBackCta = (
+    <input
+      type="submit"
+      className={cs(
+        globalStyles.charcoalBtn,
+        globalStyles.withWhiteBgNoHover,
+        styles.changeEmailBtn
+      )}
+      value="Go Back"
+      onClick={changeEmail}
+    />
+  );
+
   return (
     <div className={globalStyles.textCenter}>
       {successMsg ? (
-        <div className={cs(bootstrapStyles.col12)}>
-          <div
-            className={cs(
-              globalStyles.successMsg,
-              globalStyles.textCenter,
-              globalStyles.marginT20
-            )}
-          >
-            {successMsg}
-          </div>
-        </div>
+        <div className={cs(styles.successMsg)}>{successMsg}</div>
       ) : (
         ""
       )}
@@ -199,7 +182,10 @@ const EmailVerification: React.FC<Props> = ({
           className={cs(styles.formHeading, styles.verifyHeading)}
           id="first-heading"
         >
-          Verify Email
+          Verify Email to Login
+        </div>
+        <div className={cs(styles.loginFormSubheading, styles.verifyOtp)}>
+          Please verify your email ID by entering OTP sent to {email}
         </div>
         <NewOtpComponent
           otpSentVia={"email"}
@@ -210,70 +196,23 @@ const EmailVerification: React.FC<Props> = ({
           btnText={"Verify OTP"}
           startTimer={true}
           setAttempts={setAttempts}
+          headingClassName={styles.verifyOtpHeading}
+          containerClassName={styles.verifyOtpContainer}
+          timerClass={styles.otpTimer}
+          otpPolicyClass={styles.otpPolicy}
+          otpAttemptClass={styles.otpAttempt}
+          verifyCtaClass={styles.verifyOtpCta}
+          groupTimerAndAttempts={true}
+          goBackCta={!boId ? goBackCta : null}
+          socialLogin={socialLogin}
         />
-        {/* <div className={cs(styles.para, styles.verifyPara)}>
-          <p>
-            Please verify your email id by entering OTP sent to{" "}
-            <strong>{email}</strong>
-          </p>
-          <br />
-          <p className={styles.formSubheading}>
-            Remember to check spam folder.
-          </p>
-          <br />
-        </div>
-        <OtpBox error={!!error} otpValue={changeOTP} placeholder="Enter OTP" />
-        <div className={styles.timerContainer}>
-          <p
-            className={cs(styles.smallTxt, {
-              [globalStyles.hiddenEye]: timeRemaining == 0
-            })}
-          >
-            {secondsToMinutes(timeRemaining)}
-          </p>
-          <div
-            className={cs(styles.resendBtn, styles.smallTxt, {
-              [styles.resendBtnDisabled]: !enableBtn
-            })}
-            onClick={enableBtn ? sendOtp : () => null}
-          >
-            resend Otp
-          </div>
-        </div>
-        {error && (
-          <p className={cs(styles.loginErrMsg, styles.verifyErrMsg)}>{error}</p>
-        )}
-        <br />
-        {showCustCare && (
-          <>
-            <p className={styles.miniTxt}>
-              OTP still not received? Contact us:
-              <br />
-              <a href="tel:+919582999555">+91 95829 99555</a> /{" "}
-              <a href="tel:+919582999888">+91 95829 99888</a>
-              <br />
-              <a href="mailto:customercare@goodearth.in">
-                customercare@goodearth.in
-              </a>
-            </p>
-          </>
-        )}
-        <div
-          className={cs(globalStyles.ceriseBtn, styles.btn, {
-            [globalStyles.disabledBtn]: otpValue.length != 6
-          })}
-          onClick={otpValue.length == 6 ? verifyOtp : () => null}
-        >
-          Verify OTP
-        </div>
-        <br />*/}
-        {!boId && (
+        {/* {!boId && (
           <div className={styles.bigTxt} style={{ marginTop: "10px" }}>
             <div className={globalStyles.pointer} onClick={changeEmail}>
               &lt; Back{" "}
             </div>
           </div>
-        )}
+        )} */}
       </>
       {isLoading && <Loader />}
     </div>
