@@ -13,6 +13,7 @@ import { updateComponent, updateModal } from "actions/modal";
 import HeaderService from "services/headerFooter";
 import CookieService from "services/cookie";
 import { POPUP } from "constants/components";
+import { decriptdata } from "utils/validate";
 
 export default {
   fetchMeta: async function(
@@ -29,7 +30,8 @@ export default {
       //     Authorization: `Token ${cookies.tkn || ""}`
       // }
     );
-    return res;
+    const response = decriptdata(res);
+    return response;
   },
 
   updateMeta: async function(
