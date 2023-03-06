@@ -26,6 +26,7 @@ const AddressList: React.FC<Props> = props => {
   const [defaultAddress, setDefaultAddress] = useState(`default_check_${0}`);
 
   useEffect(() => {
+    console.log("called");
     let addressData = addressDataList;
     if (
       (activeStep == "BILLING" &&
@@ -57,7 +58,7 @@ const AddressList: React.FC<Props> = props => {
     //   addressData = addressData.filter(data => data.id !== props.bridalId);
     // }
     setAddressData(addressData);
-  }, []);
+  }, [addressDataList]);
 
   // const [ addressDataList: addressData || [],
   const [isLoading] = useState(false);
