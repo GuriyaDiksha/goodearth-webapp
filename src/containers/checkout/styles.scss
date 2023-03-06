@@ -886,9 +886,7 @@ input[type="radio"] {
 .checkout-header {
   ul{
     z-index: 10;
-    width: -webkit-max-content;
-    width: -moz-max-content;
-    width: max-content;
+    width: 100%;
     background-color: #fff;
     margin-bottom: 0;
     li {
