@@ -29,6 +29,10 @@ const OrderSummary: React.FC<OrderProps> = props => {
 
   // Begin: Intersection Observer (Mobile)
   const [previewTriggerStatus, setPreviewTriggerStatus] = useState(false);
+  const [checkoutOrderSummaryStatus, setCheckoutOrderSummaryStatus] = useState(
+    false
+  );
+
   const orderSummaryRef = useRef(null);
   let observer: any;
 
@@ -65,6 +69,10 @@ const OrderSummary: React.FC<OrderProps> = props => {
         block: "start"
       });
     }
+  };
+
+  const CheckoutOrderSummaryHandler = () => {
+    setCheckoutOrderSummaryStatus(!checkoutOrderSummaryStatus);
   };
 
   const showDeliveryTimelines = true;
@@ -579,53 +587,55 @@ const OrderSummary: React.FC<OrderProps> = props => {
         <div className={cs(styles.summaryPadding, styles.fixOrderItemsMobile)}>
           {pathname === "/order/checkout" ? getOrderItems() : null}
           {pathname === "/order/checkout" ? null : <hr className={styles.hr} />}
-          <div className={cs(globalStyles.flex, globalStyles.gutterBetween)}>
-            <span className={styles.subtotal}>SUBTOTAL</span>
-            <span className={styles.subtotal}>
-              {String.fromCharCode(...code)}{" "}
-              {parseFloat("" + basket.subTotal).toFixed(2)}
-            </span>
-          </div>
-          {getDiscount(basket.offerDiscounts)}
-          {/* <hr className={styles.hr} /> */}
-          <div
-            className={cs(
-              globalStyles.flex,
-              globalStyles.gutterBetween,
-              globalStyles.marginT20
-            )}
-          >
-            <span className={styles.subtotal}>ESTIMATED SHIPPING</span>
-            <span className={styles.subtotal}>
-              (+) {String.fromCharCode(...code)}{" "}
-              {parseFloat(shippingCharge).toFixed(2)}
-            </span>
-          </div>
-          {basket.finalDeliveryDate && showDeliveryTimelines && (
-            <div className={styles.deliveryDate}>
-              Estimated Delivery On or Before:{" "}
-              <span className={styles.black}>{basket.finalDeliveryDate}</span>
+          <div className={styles.summaryAmountWrapper}>
+            <div className={cs(globalStyles.flex, globalStyles.gutterBetween)}>
+              <span className={styles.subtotal}>SUBTOTAL</span>
+              <span className={styles.subtotal}>
+                {String.fromCharCode(...code)}{" "}
+                {parseFloat("" + basket.subTotal).toFixed(2)}
+              </span>
             </div>
-          )}
-          {shippingAddress?.state && (
+            {getDiscount(basket.offerDiscounts)}
+            {/* <hr className={styles.hr} /> */}
             <div
               className={cs(
-                styles.small,
-                styles.selectedStvalue,
-                globalStyles.marginT10
+                globalStyles.flex,
+                globalStyles.gutterBetween,
+                globalStyles.marginT20
               )}
             >
-              to {shippingAddress.state} - {shippingAddress.postCode}
+              <span className={styles.subtotal}>ESTIMATED SHIPPING</span>
+              <span className={styles.subtotal}>
+                (+) {String.fromCharCode(...code)}{" "}
+                {parseFloat(shippingCharge).toFixed(2)}
+              </span>
             </div>
-          )}
+            {basket.finalDeliveryDate && showDeliveryTimelines && (
+              <div className={styles.deliveryDate}>
+                Estimated Delivery On or Before:{" "}
+                <span className={styles.black}>{basket.finalDeliveryDate}</span>
+              </div>
+            )}
+            {shippingAddress?.state && (
+              <div
+                className={cs(
+                  styles.small,
+                  styles.selectedStvalue,
+                  globalStyles.marginT10
+                )}
+              >
+                to {shippingAddress.state} - {shippingAddress.postCode}
+              </div>
+            )}
 
-          <hr className={styles.hr} />
-          <div className={cs(globalStyles.flex, globalStyles.gutterBetween)}>
-            <span className={styles.subtotal}>TOTAL</span>
-            <span className={styles.subtotal}>
-              {String.fromCharCode(...code)}{" "}
-              {parseFloat("" + basket.subTotalWithShipping).toFixed(2)}
-            </span>
+            <hr className={styles.hr} />
+            <div className={cs(globalStyles.flex, globalStyles.gutterBetween)}>
+              <span className={styles.subtotal}>TOTAL</span>
+              <span className={styles.subtotal}>
+                {String.fromCharCode(...code)}{" "}
+                {parseFloat("" + basket.subTotalWithShipping).toFixed(2)}
+              </span>
+            </div>
           </div>
           {getCoupons()}
         </div>
@@ -679,11 +689,16 @@ const OrderSummary: React.FC<OrderProps> = props => {
   } = props.basket;
 
   return (
-    <div className={cs(globalStyles.col12, styles.fixOrdersummary)}>
+    <div
+      className={cs(globalStyles.col12, styles.fixOrdersummary, {
+        [styles.checkoutOrderSummary]: page == "checkout"
+      })}
+    >
       {totalWithoutShipping &&
       totalWithoutShipping >= freeShippingThreshold &&
       totalWithoutShipping < freeShippingApplicable &&
-      shippable ? (
+      shippable &&
+      page != "checkout" ? (
         <div className={cs(styles.freeShippingInfo, globalStyles.flex)}>
           <img src={freeShippingInfoIcon} alt="free-shipping" />
           <div className={styles.text}>
@@ -696,7 +711,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
       ) : (
         ""
       )}
-      {mobile && !previewTriggerStatus && (
+      {mobile && !previewTriggerStatus && page != "checkout" && (
         <div id="show-preview" className={cs(styles.previewTrigger)}>
           <div
             className={cs(styles.carretContainer)}
@@ -729,33 +744,43 @@ const OrderSummary: React.FC<OrderProps> = props => {
           </div>
         </div>
       )}
+      {mobile && page == "checkout" && (
+        <div
+          className={cs(styles.checkoutPreviewTrigger)}
+          onClick={CheckoutOrderSummaryHandler}
+        >
+          <div className={styles.fixTotal}>
+            <div className={cs(globalStyles.flex, globalStyles.gutterBetween)}>
+              <h3 className={cs(styles.summaryTitle)}>
+                ORDER SUMMARY{" "}
+                {pathname === "/order/checkout"
+                  ? `(${basket.lineItems?.length})`
+                  : null}
+              </h3>
+              <div className={styles.payableAmount}>
+                <span>Amount Payable:</span>
+                <span className={styles.totalAmount}>
+                  {String.fromCharCode(...code)}{" "}
+                  {parseFloat("" + basket.subTotalWithShipping).toFixed(2)}
+                </span>
+                <span className={cs(styles.carretDown)}></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
       <div
-        className={styles.orderSummary}
+        className={cs(
+          styles.orderSummary,
+          { [styles.checkoutOrder]: page == "checkout" },
+          { [styles.openSummary]: checkoutOrderSummaryStatus }
+        )}
         ref={orderSummaryRef}
         id="order-summary"
       >
-        <div className={cs(styles.summaryPadding, styles.summaryHeader)}>
-          <h3 className={cs(styles.summaryTitle)}>
-            ORDER SUMMARY{" "}
-            {pathname === "/order/checkout"
-              ? `(${basket.lineItems?.length})`
-              : null}
-            {page == "checkout" && !validbo ? (
-              boId ? (
-                ""
-              ) : (
-                <></>
-                // <Link className={styles.editCart} to={"/cart"}>
-                //   EDIT BAG
-                // </Link>
-              )
-            ) : (
-              ""
-            )}
-          </h3>
-        </div>
+        <div className={cs(styles.summaryPadding, styles.summaryHeader)}></div>
 
-        <div className={styles.justchk}>
+        <div className={cs(styles.justchk)}>
           {getSummary()}
           <div>
             <div className={cs(styles.summaryPadding)}>

@@ -802,6 +802,19 @@ class Checkout extends React.Component<Props, State> {
       <div className={cs(bootstrap.containerFluid, styles.pageBody)}>
         <div className={styles.checkout}>
           <div className={bootstrap.row}>
+            {this.props.mobile && (
+              <div className={cs(bootstrap.col12)}>
+                <OrderSummary
+                  mobile={this.props.mobile}
+                  currency={this.props.currency}
+                  shippingAddress={this.state.shippingAddress}
+                  salestatus={this.props.isSale}
+                  validbo={false}
+                  basket={this.props.basket}
+                  page="checkout"
+                />
+              </div>
+            )}
             <div
               className={cs(bootstrap.col12, bootstrap.colLg8, styles.pB100)}
             >
@@ -860,17 +873,19 @@ class Checkout extends React.Component<Props, State> {
                 currency={this.props.currency}
               />
             </div>
-            <div className={cs(bootstrap.col12, bootstrap.colMd4)}>
-              <OrderSummary
-                mobile={this.props.mobile}
-                currency={this.props.currency}
-                shippingAddress={this.state.shippingAddress}
-                salestatus={this.props.isSale}
-                validbo={false}
-                basket={this.props.basket}
-                page="checkout"
-              />
-            </div>
+            {!this.props.mobile && (
+              <div className={cs(bootstrap.col12, bootstrap.colMd4)}>
+                <OrderSummary
+                  mobile={this.props.mobile}
+                  currency={this.props.currency}
+                  shippingAddress={this.state.shippingAddress}
+                  salestatus={this.props.isSale}
+                  validbo={false}
+                  basket={this.props.basket}
+                  page="checkout"
+                />
+              </div>
+            )}
           </div>
         </div>
       </div>

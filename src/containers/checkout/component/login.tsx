@@ -57,6 +57,7 @@ const LoginSection: React.FC<LoginProps> = props => {
           )}
         >
           <img
+            height={"15px"}
             className={globalStyles.marginR10}
             src={checkmarkCircle}
             alt="checkmarkdone"

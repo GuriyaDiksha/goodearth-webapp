@@ -78,7 +78,22 @@ const AddressSection: React.FC<AddressProps & {
 
   const [shippingStatus, setShippingStatus] = useState(false);
   const [billingStatus, setBillingStatus] = useState(false);
-  console.log(isActive, "Active Part");
+
+  useEffect(() => {
+    if (activeStep == "SHIPPING") {
+      setShippingStatus(false);
+      setBillingStatus(false);
+    } else if (activeStep == "BILLING") {
+      setShippingStatus(true);
+      setBillingStatus(false);
+    }
+  }, [activeStep]);
+  console.log(activeStep, "Step Active");
+  console.log(shippingStatus, "Step Shipping");
+  console.log(billingStatus, "Step Billing");
+  // const activeStepHandler:string = () =>{
+
+  // }
 
   const dispatch = useDispatch();
   useEffect(() => {
@@ -483,7 +498,7 @@ const AddressSection: React.FC<AddressProps & {
     if (props.activeStep == Steps.STEP_BILLING) {
       const pass =
         currency == "INR"
-          ? `AS PER RBI GOVERNMENT REGULATIONS, PAN DETAILS ARE MANDATORY FOR TRANSACTIONS ABOVE ${String.fromCharCode(
+          ? `As per RBI government regulations, PAN details are mandatory for transaction above ${String.fromCharCode(
               ...code
             )} ${amountPrice[currency]}.`
           : `AS PER RBI GOVERNMENT REGULATIONS, PASSPORT DETAILS ARE MANDATORY FOR TRANSACTIONS ABOVE ${String.fromCharCode(
@@ -501,15 +516,20 @@ const AddressSection: React.FC<AddressProps & {
                     <input
                       type="checkbox"
                       onChange={toggleGstInvoice}
-                      checked={gst}
+                      // checked={gst}
                     />
-                    <span className={styles.indicator}></span>
+                    <span
+                      className={cs(styles.indicator, {
+                        [styles.checked]: gst
+                      })}
+                    ></span>
                   </span>
                 </div>
                 <div className={styles.formSubheading}>
                   I need a GST invoice
                 </div>
               </label>
+              <hr className={globalStyles.marginy24} />
             </div>
           ) : (
             ""
@@ -519,7 +539,7 @@ const AddressSection: React.FC<AddressProps & {
               className={cs(
                 styles.input2,
                 styles.formSubheading,
-                globalStyles.voffset5
+                globalStyles.voffset4
               )}
             >
               {pass}
@@ -528,7 +548,6 @@ const AddressSection: React.FC<AddressProps & {
                   <div
                     className={cs(
                       styles.flex,
-                      styles.vCenter,
                       globalStyles.voffset4,
                       styles.payment
                     )}
@@ -555,21 +574,15 @@ const AddressSection: React.FC<AddressProps & {
                   )}
                 </div>
               </div>
-              <label
-                className={cs(
-                  styles.flex,
-                  styles.crossCenter,
-                  globalStyles.voffset3
-                )}
-              >
+              <label className={cs(styles.flex, globalStyles.voffset3)}>
                 <div className={globalStyles.marginR10}>
                   <span className={styles.checkbox}>
-                    <input
-                      type="checkbox"
-                      onChange={togglepancard}
-                      checked={pancardCheck}
-                    />
-                    <span className={styles.indicator}></span>
+                    <input type="checkbox" onChange={togglepancard} />
+                    <span
+                      className={cs(styles.indicator, {
+                        [styles.checked]: pancardCheck
+                      })}
+                    ></span>
                   </span>
                 </div>
                 <div className={styles.formSubheading}>
@@ -585,7 +598,6 @@ const AddressSection: React.FC<AddressProps & {
           ) : (
             ""
           )}
-          <hr className={globalStyles.voffset4} />
         </div>
       );
     }
@@ -610,44 +622,19 @@ const AddressSection: React.FC<AddressProps & {
           <label className={cs(styles.flex)}>
             <div className={globalStyles.marginR10}>
               <span className={styles.checkbox}>
-                <input
-                  type="checkbox"
-                  onChange={toggleSameAsShipping}
-                  checked={sameAsShipping}
-                />
-                <span className={styles.indicator}></span>
+                <input type="checkbox" onChange={toggleSameAsShipping} />
+                <span
+                  className={cs(styles.indicator, {
+                    [styles.checked]: sameAsShipping
+                  })}
+                ></span>
               </span>
             </div>
             <div className={styles.formSubheading}>
               BILLING ADDRESS IS SAME AS SHIPPING ADDRESS
             </div>
           </label>
-          {sameAsShipping && (
-            <div className={bootstrapStyles.row}>
-              <div
-                className={cs(
-                  bootstrapStyles.col12,
-                  bootstrapStyles.colMd7,
-                  globalStyles.voffset4
-                )}
-              >
-                <button
-                  className={cs(globalStyles.ceriseBtn, globalStyles.marginT20)}
-                  type="submit"
-                  onClick={handleSaveAndReview}
-                >
-                  Proceed to Payment
-                </button>
-              </div>
-            </div>
-          )}
-          {!sameAsShipping && isLoggedIn && (
-            <div>
-              <div className={cs(styles.sameText, styles.formSubheading)}>
-                OR SELECT AN ADDRESS BELOW
-              </div>
-            </div>
-          )}
+          <hr className={globalStyles.marginy24} />
         </div>
       )
     );
@@ -689,7 +676,7 @@ const AddressSection: React.FC<AddressProps & {
                   height={"18px"}
                   className={globalStyles.marginR10}
                   src={checkmarkCircle}
-                  alt="checkmarkdone"
+                  alt="aa checkmarkdone"
                 />
 
                 <span className={cs({ [styles.closed]: !isActive })}>
@@ -745,15 +732,12 @@ const AddressSection: React.FC<AddressProps & {
                   styles.title
                 )}
               >
-                {shippingStatus ||
-                  (billingStatus && (
-                    <img
-                      height={"18px"}
-                      className={globalStyles.marginR10}
-                      src={checkmarkCircle}
-                      alt="checkmarkdone"
-                    />
-                  ))}
+                <img
+                  height={"15px"}
+                  className={globalStyles.marginR10}
+                  src={checkmarkCircle}
+                  alt="checkmarkdone"
+                />
                 <span className={cs({ [styles.closed]: !isActive })}>
                   {activeStep == Steps.STEP_SHIPPING
                     ? "SHIPPING ADDRESS"
@@ -766,12 +750,24 @@ const AddressSection: React.FC<AddressProps & {
             {isActive && (
               <>
                 <div>
-                  <div>{renderPancard}</div>
                   {props.activeStep == Steps.STEP_BILLING &&
                     props.hidesameShipping && (
-                      <div>{renderBillingCheckbox()}</div>
+                      <>
+                        <div>{renderBillingCheckbox()}</div>
+                        {!sameAsShipping && isLoggedIn && (
+                          <div>
+                            <div
+                              className={cs(
+                                styles.sameText,
+                                styles.formSubheading
+                              )}
+                            >
+                              OR SELECT AN ADDRESS BELOW
+                            </div>
+                          </div>
+                        )}
+                      </>
                     )}
-
                   {// logged in Shipping & billing
                   isLoggedIn &&
                     (props.activeStep == Steps.STEP_SHIPPING ||
@@ -789,60 +785,63 @@ const AddressSection: React.FC<AddressProps & {
                                 styles.checkoutAddressFooter
                               )}
                             >
-                              <div>
-                                <label className={cs(styles.flex)}>
-                                  <div className={globalStyles.marginR10}>
-                                    <span className={styles.checkbox}>
-                                      <input
-                                        type="checkbox"
-                                        onClick={() =>
-                                          setIsTermChecked(!isTermChecked)
-                                        }
-                                      />
-                                      <span
-                                        className={cs(styles.indicator, {
-                                          [styles.checked]: isTermChecked
-                                        })}
-                                      ></span>
-                                    </span>
-                                  </div>
-                                  <div
-                                    className={cs(
-                                      styles.formSubheading,
-                                      styles.checkBoxHeading
-                                    )}
-                                  >
-                                    I agree to pay the additional applicable
-                                    duties and taxes directly to the shipping
-                                    agency at the time of the delivery. To know
-                                    more, referre to our{" "}
-                                    <span
-                                      onClick={() => openTermsPopup()}
-                                      className={globalStyles.linkTextUnderline}
+                              {props.activeStep == Steps.STEP_SHIPPING && (
+                                <div>
+                                  <label className={cs(styles.flex)}>
+                                    <div className={globalStyles.marginR10}>
+                                      <span className={styles.checkbox}>
+                                        <input
+                                          type="checkbox"
+                                          onClick={() =>
+                                            setIsTermChecked(!isTermChecked)
+                                          }
+                                        />
+                                        <span
+                                          className={cs(styles.indicator, {
+                                            [styles.checked]: isTermChecked
+                                          })}
+                                        ></span>
+                                      </span>
+                                    </div>
+                                    <div
+                                      className={cs(
+                                        styles.formSubheading,
+                                        styles.checkBoxHeading
+                                      )}
                                     >
-                                      Shipping & Payment terms.
-                                    </span>
-                                  </div>
-                                </label>
-                                <div
-                                  onClick={() =>
-                                    onSelectAddress(
-                                      addressList?.find(
-                                        val =>
-                                          val?.isDefaultForShipping === true
+                                      I agree to pay the additional applicable
+                                      duties and taxes directly to the shipping
+                                      agency at the time of the delivery. To
+                                      know more, referre to our{" "}
+                                      <span
+                                        onClick={() => openTermsPopup()}
+                                        className={
+                                          globalStyles.linkTextUnderline
+                                        }
+                                      >
+                                        Shipping & Payment terms.
+                                      </span>
+                                    </div>
+                                  </label>
+                                  <div
+                                    onClick={() =>
+                                      onSelectAddress(
+                                        addressList?.find(
+                                          val =>
+                                            val?.isDefaultForShipping === true
+                                        )
                                       )
-                                    )
-                                  }
-                                  className={styles.sendToAddress}
-                                >
-                                  {props.activeStep == Steps.STEP_SHIPPING
-                                    ? "SHIP TO THIS ADDRESS"
-                                    : props.activeStep == Steps.STEP_BILLING
-                                    ? "PROCEED TO PAYMENT"
-                                    : "SHIP TO THIS ADDRESS"}
+                                    }
+                                    className={styles.sendToAddress}
+                                  >
+                                    {props.activeStep == Steps.STEP_SHIPPING
+                                      ? "SHIP TO THIS ADDRESS"
+                                      : props.activeStep == Steps.STEP_BILLING
+                                      ? "PROCEED TO PAYMENT"
+                                      : "SHIP TO THIS ADDRESS"}
+                                  </div>
                                 </div>
-                              </div>
-
+                              )}
                               {addressList.length > 1 &&
                                 mode == "list" &&
                                 (props.activeStep == Steps.STEP_SHIPPING ||
@@ -866,6 +865,27 @@ const AddressSection: React.FC<AddressProps & {
                     </div>
                   ) : (
                     ""
+                  )}
+                  <div>{renderPancard}</div>
+                  {props.activeStep == Steps.STEP_BILLING && (
+                    <div className={bootstrapStyles.row}>
+                      <div
+                        className={cs(
+                          bootstrapStyles.col12,
+                          bootstrapStyles.colMd7
+                        )}
+                      >
+                        <div
+                          className={cs(
+                            globalStyles.marginT20,
+                            styles.sendToPayment
+                          )}
+                          onClick={handleSaveAndReview}
+                        >
+                          Proceed to Payment
+                        </div>
+                      </div>
+                    </div>
                   )}
                 </div>
               </>

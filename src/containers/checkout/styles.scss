@@ -257,10 +257,7 @@
   span {
     color: $charcoal19;
     opacity: 0.3;
-    font-size: 14px;
-    font-weight: 400;
-    white-space: nowrap;
-    font-family: $font-Lato;
+    @include b4_12px_montserrat_charcoal_caps();
   }
   .closed {
     opacity: 1;
@@ -480,6 +477,7 @@
 
   &.checked{
     background-color: $aqua;
+    border-color: $aqua;
   }
 }
 
@@ -1075,7 +1073,19 @@ input[type="radio"] {
     background-color: $med-charcoal;
     text-align: center;
     cursor: pointer;
+    margin-top: 24px;
   }
+}
+.send-to-payment {
+  @include b3_14px_montserrat_white();
+  letter-spacing: 0.42px;
+  padding: 21px 65px;
+  width: 100%;
+  max-width: 366px;
+  background-color: $med-charcoal;
+  text-align: center;
+  cursor: pointer;
+  margin-top: 24px;
 }
 .checkout-selected-value{
   .name{
@@ -1115,8 +1125,8 @@ input[type="radio"] {
 
 .check-box-heading{
   margin: auto 0;
-  width: 30%;
-  padding-top: 4px;
+  width: auto;
+  @include b5_10px_montserrat_charcoal();
 }
 
 .justify-right{
@@ -1125,3 +1135,4 @@ input[type="radio"] {
 .justify-center{
   justify-content: center;
 }
+

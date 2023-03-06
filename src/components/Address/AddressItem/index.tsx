@@ -282,8 +282,7 @@ const AddressItem: React.FC<Props> = props => {
         currentCallBackComponent == "checkout-billing" ||
         currentCallBackComponent == "checkout-shipping"
           ? cs(
-              bootstrapStyles.col10,
-              bootstrapStyles.colSm6,
+              bootstrapStyles.col12,
               bootstrapStyles.colMd6,
               globalStyles.voffset5,
               styles.checkoutAddress,
