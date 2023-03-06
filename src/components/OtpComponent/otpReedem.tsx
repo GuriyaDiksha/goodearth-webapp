@@ -436,6 +436,13 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
     }
   };
 
+  checkIfValidIndianMobileNumber = (str: string | undefined) => {
+    // Regular expression to check if string is a Indian mobile number
+    const regexExp = /^[6-9]\d{9}$/gi;
+
+    return regexExp.test(str || "");
+  };
+
   render() {
     const { radioType, isLoading } = this.state;
     const {
@@ -508,7 +515,7 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
                 required={radioType != "email" ? "isFalse" : true}
               />
             </li>
-            {number ? (
+            {this.checkIfValidIndianMobileNumber(number?.toString()) ? (
               <li
                 className={cs(
                   styles.countryCode,
