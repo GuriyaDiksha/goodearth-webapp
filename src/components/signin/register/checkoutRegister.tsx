@@ -21,7 +21,7 @@ import { AppState } from "reducers/typings";
 import SocialLogin from "../socialLogin";
 import { RegisterProps } from "./typings";
 import { genderOptions } from "constants/profile";
-import * as valid from "utils/validate";
+import { errorTracking, decriptdata, getErrorList } from "utils/validate";
 import { Country } from "components/Formsy/CountryCode/typings";
 import EmailVerification from "../emailVerification";
 import CookieService from "services/cookie";
@@ -188,7 +188,7 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
         });
       })
       .catch(error => {
-        const data = valid.decriptdata(error.response?.data);
+        const data = decriptdata(error.response?.data);
         this.setState(
           {
             disableButton: false
@@ -355,12 +355,12 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
         elem.scrollIntoView({ block: "center", behavior: "smooth" });
       }
       // for error Tracking
-      const errorList = valid.getErrorList(
+      const errorList = getErrorList(
         globalStyles.errorMsg,
         "checkout-register-form"
       );
       if (errorList && errorList.length) {
-        valid.errorTracking(errorList, location.href);
+        errorTracking(errorList, location.href);
       }
     }, 0);
   };
@@ -392,7 +392,7 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
               },
               true
             );
-          valid.errorTracking(err.response.data.email[0], location.href);
+          errorTracking(err.response.data.email[0], location.href);
         } else if (err.response.data.error_message) {
           let errorMsg = err.response.data.error_message[0];
           if (errorMsg == "MaxRetries") {
@@ -404,10 +404,7 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
               showerror: errorMsg
             },
             () => {
-              valid.errorTracking(
-                [this.state.showerror as string],
-                location.href
-              );
+              errorTracking([this.state.showerror as string], location.href);
             }
           );
         }

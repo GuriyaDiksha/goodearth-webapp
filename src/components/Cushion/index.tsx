@@ -12,13 +12,12 @@ import LazyImage from "components/LazyImage";
 import CartSlider from "components/CartSlider";
 import { Link } from "react-router-dom";
 import { currencyCodes } from "constants/currency";
-import ModalStyles from "components/Modal/styles.scss";
 import bootstrap from "styles/bootstrap/bootstrap-grid.scss";
 import SizeSelector from "components/SizeSelector";
 import PdpQuantity from "components/quantity/pdpQuantity";
 import asset from "images/asset.svg";
 import { MESSAGE } from "constants/messages";
-import * as valid from "utils/validate";
+import { showGrowlMessage } from "utils/validate";
 import { updateComponent, updateModal } from "actions/modal";
 import { POPUP } from "constants/components";
 import PdpButton from "components/Button/pdpButton";
@@ -29,6 +28,7 @@ import {
   PartialChildProductAttributes,
   ChildProductAttributes
 } from "typings/product";
+import { displayPriceWithCommas } from "utils/utility";
 
 const mapDispatchToProps = (dispatch: Dispatch) => {
   return {
@@ -41,10 +41,10 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       return res;
     },
     showGrowlMessage: async () => {
-      valid.showGrowlMessage(dispatch, MESSAGE.ADD_TO_BAG_SUCCESS);
+      showGrowlMessage(dispatch, MESSAGE.ADD_TO_BAG_SUCCESS);
     },
     showerrorMessage: async (text: string) => {
-      valid.showGrowlMessage(dispatch, text);
+      showGrowlMessage(dispatch, text);
     },
     updateComponentModal: (
       component: string,
@@ -212,7 +212,7 @@ class CushionBag extends React.Component<Props, State> {
                     <span className={styles.discountedPrice}>
                       {String.fromCharCode(...currencyCodes[currency])}
                       &nbsp;
-                      {discountPrices}
+                      {displayPriceWithCommas(discountPrices, currency)}
                       <br />
                     </span>
                   ) : (
@@ -222,7 +222,7 @@ class CushionBag extends React.Component<Props, State> {
                     <span className={styles.oldPrice}>
                       {String.fromCharCode(...currencyCodes[currency])}
                       &nbsp;
-                      {price}
+                      {displayPriceWithCommas(price, currency)}
                     </span>
                   ) : (
                     <span
@@ -233,7 +233,7 @@ class CushionBag extends React.Component<Props, State> {
                       {" "}
                       {String.fromCharCode(...currencyCodes[currency])}
                       &nbsp;
-                      {price}
+                      {displayPriceWithCommas(price, currency)}
                     </span>
                   )}
                 </div>
