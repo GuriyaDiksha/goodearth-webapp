@@ -1205,7 +1205,7 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
                   heading="Welcome"
                   subheading="Register and create an account to continue."
                   formContent={formContent}
-                  footer={footer}
+                  // footer={footer}
                 />
               </div>
               {footer}
