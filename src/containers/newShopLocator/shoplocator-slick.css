@@ -31,3 +31,8 @@
 .shopLocatorSlider .slick-dots li button:before{
     font-size: 8px;
 }
+
+.shopLocatorSlider .slick-dots li {
+    margin: unset;
+    width: 16px;
+}

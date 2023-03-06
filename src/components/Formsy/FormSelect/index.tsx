@@ -33,6 +33,8 @@ const FormSelect: React.FC<Props & InjectedProps<string | null>> = props => {
         return "Please select your State";
       case "preferredContact":
         return "Please choose preferred mode of contact";
+      default:
+        return "Please Select option";
     }
   }, []);
 
@@ -76,7 +78,13 @@ const FormSelect: React.FC<Props & InjectedProps<string | null>> = props => {
       </select>
       <label
         className={cs({
-          [globalStyles.hidden]: props.value ? false : labelClass ? false : true
+          [globalStyles.hidden]: props.showLabel
+            ? false
+            : props.value
+            ? false
+            : labelClass
+            ? false
+            : true
         })}
       >
         {props.label}

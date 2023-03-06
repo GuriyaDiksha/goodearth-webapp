@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import cs from "classnames";
 import styles from "./styles.scss";
 import globalStyles from "styles/global.scss";
@@ -16,11 +16,13 @@ const Popup: React.FC<{ disableClose?: boolean }> = ({
 }) => {
   const dispatch = useDispatch();
   const close = useContext(Context).closeModal;
+  const [isSuccessMsg, setIsSuccessMsg] = useState(false);
   const closePopup = () => {
     dispatch(updateNextUrl(""));
     close();
   };
   const { popupBgUrl } = useSelector((state: AppState) => state.info);
+
   return (
     <div className={cs(bootstrapStyles.row, styles.row, styles.centerpage)}>
       <div
@@ -52,37 +54,36 @@ const Popup: React.FC<{ disableClose?: boolean }> = ({
             <div
               className={cs(styles.fixHead, bootstrapStyles.row, styles.row)}
             >
-              <div
-                className={cs(
-                  bootstrapStyles.col10,
-                  styles.col12,
-                  bootstrapStyles.offset1,
-                  styles.popupHeader
-                )}
-              >
+              <div className={styles.header}>
                 <img
                   alt="goodearth-logo"
                   src={geLogo}
                   className={cs(globalStyles.logo)}
                   style={{
-                    height: "70px",
-                    width: "111px"
+                    height: "70px"
                   }}
                 />
+                {!disableClose && (
+                  <button
+                    className={cs(
+                      styles.closePopup,
+                      iconStyles.icon,
+                      iconStyles.iconCross
+                    )}
+                    onClick={closePopup}
+                  ></button>
+                )}
               </div>
-              {!disableClose && (
-                <button
-                  className={cs(
-                    styles.closePopup,
-                    iconStyles.icon,
-                    iconStyles.iconCross
-                  )}
-                  onClick={closePopup}
-                ></button>
-              )}
             </div>
-            <div className={cs(bootstrapStyles.row, styles.row, styles.mTop72)}>
-              {children}
+            <div
+              className={cs(styles.childrenContainer, {
+                [styles.isSuccessMsg]: isSuccessMsg
+              })}
+              id="email-verification-container"
+            >
+              {React.cloneElement(children as React.ReactElement<any>, {
+                setIsSuccessMsg
+              })}
             </div>
           </div>
         </div>

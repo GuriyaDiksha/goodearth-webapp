@@ -332,6 +332,7 @@ class Search extends React.Component<Props, State> {
       this.setState({
         searchValue: event.target.value
       });
+
       this.getSearchDataApi(event.target.value);
       CookieService.setCookie("search", event.target.value, 365);
     } else {
@@ -348,7 +349,7 @@ class Search extends React.Component<Props, State> {
     }
   }, 300);
 
-  getSearchDataApi = (name: string) => {
+  getSearchDataApi = debounce((name: string) => {
     const searchUrl = "/autocomplete?q=" + encodeURIComponent(name);
     this.setState({
       url: searchUrl
@@ -376,7 +377,7 @@ class Search extends React.Component<Props, State> {
       .catch(function(error) {
         console.log(error);
       });
-  };
+  }, 200);
 
   mouseOverImage = (index: number) => {
     this.setState({
@@ -659,7 +660,7 @@ class Search extends React.Component<Props, State> {
                     <div
                       className={cs(
                         globalStyles.textCenter,
-                        { [globalStyles.paddTop50]: !mobile },
+                        { [globalStyles.paddTop30]: !mobile },
                         { [globalStyles.paddBottom50]: !mobile },
                         { [globalStyles.paddTop10]: mobile },
                         { [globalStyles.paddBottom10]: mobile },
