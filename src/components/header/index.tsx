@@ -726,16 +726,11 @@ class Header extends React.Component<Props, State> {
     ) {
       return false;
     }
-    this.setState(
-      {
-        showSearch: true,
-        // showSearch: true,
-        showMenu: false
-      },
-      () => {
-        console.log(this.state);
-      }
-    );
+    this.setState({
+      showSearch: true,
+      // showSearch: true,
+      showMenu: false
+    });
   };
 
   hideSearch = () => {

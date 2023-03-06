@@ -22,7 +22,7 @@ export default {
     bridalKey?: string
   ): Promise<MetaResponse> {
     // const payload = !bridalKey ? {} : { bridalKey };
-    const res: MetaResponse = await API.post(
+    const res: any = await API.post(
       dispatch,
       `${__API_HOST__ + `/myapi/auth/meta/`}`,
       {}
@@ -30,7 +30,10 @@ export default {
       //     Authorization: `Token ${cookies.tkn || ""}`
       // }
     );
-    const response = decriptdata(res);
+    const innerUser = decriptdata({ ...res.user });
+    delete res.user;
+    const response = { ...decriptdata({ ...res }) };
+    response.user = { ...innerUser };
     return response;
   },
 

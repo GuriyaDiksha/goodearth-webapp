@@ -26,7 +26,6 @@ const AddressList: React.FC<Props> = props => {
   const [defaultAddress, setDefaultAddress] = useState(`default_check_${0}`);
 
   useEffect(() => {
-    console.log("called");
     let addressData = addressDataList;
     if (
       (activeStep == "BILLING" &&
