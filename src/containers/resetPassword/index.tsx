@@ -33,7 +33,7 @@ const ResetPassword: React.FC<Props> = props => {
   const ResetPasswordFormRef = useRef<Formsy>(null);
   const [urlEmail, setUrlEmail] = useState("");
   const [showPassword1, setShowPassword1] = useState(false);
-  const [showPassword2, setShowPassword2] = useState(false);
+  // const [showPassword2, setShowPassword2] = useState(false);
   const [enableSubmit, setEnableSubmit] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [showLogin, setShowLogin] = useState(false);
@@ -248,7 +248,7 @@ const ResetPassword: React.FC<Props> = props => {
               isDrop={true}
               isPaste={true}
               keyPress={e => (e.key == "Enter" ? e.preventDefault() : "")}
-              type={showPassword2 ? "text" : "password"}
+              type={showPassword1 ? "text" : "password"}
               validations={{
                 equalsField: "password1",
                 isValid: (values, value) => {
@@ -269,12 +269,12 @@ const ResetPassword: React.FC<Props> = props => {
               required
               showLabel={true}
             />
-            <span
+            {/* <span
               className={myAccountComponentStyles.togglePasswordBtn}
               onClick={() => setShowPassword2(!showPassword2)}
             >
               <img src={showPassword2 ? show : hide} />
-            </span>
+            </span> */}
           </div>
           <div>
             {errorMessage ? (
