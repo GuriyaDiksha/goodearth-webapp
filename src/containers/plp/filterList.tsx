@@ -12,12 +12,13 @@ import "./slider.css";
 import { State, FilterProps } from "./typings";
 import { withRouter } from "react-router";
 import { RouteComponentProps } from "react-router-dom";
-import * as valid from "utils/validate";
+import { productImpression } from "utils/validate";
 import iconStyles from "../../styles/iconFonts.scss";
 import multiColour from "../../images/multiColour.svg";
 import bootstrap from "../../styles/bootstrap/bootstrap-grid.scss";
 import CookieService from "services/cookie";
 import { GA_CALLS } from "constants/cookieConsent";
+import { displayPriceWithCommas } from "utils/utility";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -502,7 +503,7 @@ class FilterList extends React.Component<Props, State> {
       updateProduct(filterUrl + `&page_size=${pageSize}`, listdata).then(
         plpList => {
           changeLoader?.(false);
-          valid.productImpression(
+          productImpression(
             plpList,
             categoryShopL1 || "PLP",
             this.props.currency,
@@ -595,11 +596,7 @@ class FilterList extends React.Component<Props, State> {
     // const pageSize = mobile ? 10 : 20;
     const pageSize = 20;
     fetchPlpProducts(filterUrl + `&page_size=${pageSize}`).then(plpList => {
-      valid.productImpression(
-        plpList,
-        categoryShopL1 || "PLP",
-        this.props.currency
-      );
+      productImpression(plpList, categoryShopL1 || "PLP", this.props.currency);
       changeLoader?.(false);
       this.createList(plpList, false);
       this.props.updateFacets(this.getSortedFacets(plpList.results.facets));
@@ -2343,11 +2340,17 @@ class FilterList extends React.Component<Props, State> {
               )}
               <div className={styles.sliderText}>
                 <div className={styles.sliderBox}>
-                  {this.state.rangevalue[0]}
+                  {displayPriceWithCommas(
+                    this.state.rangevalue[0] || "",
+                    this.props.currency
+                  )}
                 </div>
 
                 <div className={styles.sliderBox}>
-                  {this.state.rangevalue[1]}
+                  {displayPriceWithCommas(
+                    this.state.rangevalue[1] || "",
+                    this.props.currency
+                  )}
                 </div>
               </div>
               <div data-name="price">

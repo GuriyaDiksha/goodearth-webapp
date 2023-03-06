@@ -1,4 +1,4 @@
-import React, { useEffect, useState, Fragment } from "react";
+import React, { useEffect, useState } from "react";
 import bootstrapStyles from "../../styles/bootstrap/bootstrap-grid.scss";
 import globalStyles from "styles/global.scss";
 import cs from "classnames";
@@ -7,23 +7,30 @@ import { AppState } from "reducers/typings";
 import styles from "./styles.scss";
 import { Link } from "react-router-dom";
 import logoImage from "images/gelogoCerise.svg";
-import birdImage from "images/birdMotif.png";
+import flowerImage from "images/flower-motif.png";
+// import lockImage from "images/lock.svg";
+// import callImage from "images/call.svg";
 import AccountServices from "services/account";
 import { currencyCode, Currency } from "typings/currency";
 import moment from "moment";
-import * as util from "utils/validate";
+import { pageViewGTM } from "utils/validate";
 import CookieService from "services/cookie";
 import { GA_CALLS, ANY_ADS } from "constants/cookieConsent";
+import {
+  displayPriceWithCommas,
+  displayPriceWithCommasFloat
+} from "utils/utility";
 
 const orderConfirmation: React.FC<{ oid: string }> = props => {
   const {
     user: { email }
+    // device: { mobile }
   } = useSelector((state: AppState) => state);
   const [confirmData, setConfirmData] = useState<any>({});
+  const [charCurrency, setCharCurrency] = useState<any>({});
   const dispatch = useDispatch();
 
   const fetchData = async () => {
-    // debugger
     const data: any = await AccountServices.fetchOrderBy(
       dispatch,
       props.oid,
@@ -251,6 +258,9 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
         }
       }
       setConfirmData(res);
+      setCharCurrency(
+        String.fromCharCode(...currencyCode[res.currency as Currency])
+      );
       gtmPushOrderConfirmation(response.results?.[0]);
     });
     const userConsent = CookieService.getCookie("consent").split(",");
@@ -258,7 +268,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
       dataLayer.push(function(this: any) {
         this.reset();
       });
-      util.pageViewGTM("OrderConfirmation");
+      pageViewGTM("OrderConfirmation");
       dataLayer.push({
         event: "OrderConfirmationPageView",
         PageURL: location.pathname,
@@ -280,16 +290,41 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
   const shippingAddress = confirmData?.shippingAddress?.[0],
     billingAddress = confirmData?.billingAddress?.[0];
 
-  // let giftCardAmount = 0;
-  // for (let i = 0; i < confirmData.giftVoucherRedeemed?.length; i++) {
-  //   giftCardAmount += confirmData.giftVoucherRedeemed[i];
-  // }
-
   if (!confirmData?.number) {
     return <></>;
   }
   return (
     <div>
+      {/* new Header */}
+      {/* <div className={cs(styles.subcHeader)}>
+        <div className={cs(styles.logoContainer)}>
+          <Link to="/">
+            <img
+              src={logoImage}
+              style={{
+                width: "111px",
+                cursor: "pointer"
+              }}
+            />
+          </Link>
+        </div>
+        <div className={styles.checkoutTitle}>
+          <img src={lockImage} />
+          <div className={styles.title}>{`CHECKOUT`}</div>
+        </div>
+
+        {!mobile && (
+          <div className={styles.customerCare}>
+            <img src={callImage} />
+            <div
+              className={styles.phoneNumber}
+            >{`+91 9582 999 555 / +91 9582 999 888`}</div>
+          </div>
+        )}
+      </div> */}
+      {/* ============================================================== */}
+
+      {/*  ============= OLD HEADER ===================================*/}
       <div className={cs(bootstrapStyles.row, styles.subcHeader)}>
         <div
           className={cs(
@@ -309,20 +344,22 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
           </Link>
         </div>
       </div>
-
+      {/* ==================================================================== */}
       <div className={cs(bootstrapStyles.row, styles.bgProfile, styles.os)}>
         <div
           className={cs(
             bootstrapStyles.col12,
-            bootstrapStyles.colMd6,
-            bootstrapStyles.offsetMd3,
+            bootstrapStyles.colLg6,
+            bootstrapStyles.offsetLg3,
+            bootstrapStyles.colMd8,
+            bootstrapStyles.offsetMd2,
             globalStyles.textCenter,
             styles.popupFormBg,
             styles.bgOrder
           )}
         >
           <div className={styles.motif}>
-            <img src={birdImage} width="120px" />
+            <img src={flowerImage} width="120px" />
           </div>
 
           <div className={bootstrapStyles.row}>
@@ -352,136 +389,97 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
               )}
             >
               <div className={styles.add}>
-                <address>
+                <div className={styles.myOrderBlock}>
                   <label>order # {confirmData?.number}</label>
-                  <div className={cs(bootstrapStyles.row, styles.orderBlock)}>
-                    <div
-                      className={cs(
-                        bootstrapStyles.col12,
-                        bootstrapStyles.colMd6
-                      )}
-                    >
-                      <p>
-                        {moment(confirmData?.datePlaced).format("MMM D, YYYY")}
-                      </p>
+                  {/* Info */}
+                  <div className={cs(styles.orderData, styles.singleOrder)}>
+                    <div className={styles.info}>
+                      <div className={styles.row}>
+                        <div className={cs(styles.data)}>
+                          {moment(confirmData?.datePlaced).format(
+                            "MMM D, YYYY"
+                          )}
+                        </div>
+                      </div>
 
-                      <p>
-                        <span className={globalStyles.op3}> Items: </span>{" "}
-                        {totalItem}
-                      </p>
+                      <div className={styles.row}>
+                        <span className={styles.label}> Items: </span>{" "}
+                        <span className={styles.data}>{totalItem}</span>
+                      </div>
                     </div>
-                    <div
-                      className={cs(
-                        bootstrapStyles.col12,
-                        bootstrapStyles.colMd6
-                      )}
-                    >
-                      <p>
-                        <span className={globalStyles.op3}>Amount Paid</span>
-                      </p>
-
-                      <p>
-                        {String.fromCharCode(
-                          ...currencyCode[confirmData?.currency as Currency]
-                        )}
+                    <div className={styles.amountPaid}>
+                      <span className={styles.label}>Amount Paid</span>
+                      <span className={styles.data}>
+                        {charCurrency}
                         &nbsp;{" "}
-                        {parseFloat(confirmData?.totalInclTax).toFixed(2)}
-                      </p>
+                        {displayPriceWithCommasFloat(
+                          confirmData?.totalInclTax,
+                          confirmData?.currency
+                        )}
+                      </span>
                     </div>
                   </div>
-
-                  <div className={cs(bootstrapStyles.row, styles.borderAdd)}>
-                    <div
-                      className={cs(
-                        bootstrapStyles.col12,
-                        bootstrapStyles.colMd6
-                      )}
-                    >
-                      <div className={styles.add}>
-                        {shippingAddress ? (
-                          <address>
-                            <label>shipping address</label>
-                            {confirmData?.isBridalOrder ? (
-                              <>
-                                <p>
-                                  {confirmData?.registrantName} &{" "}
-                                  {confirmData?.coRegistrantName}&#39;s <br />
-                                  {confirmData?.occasion} Registry
-                                </p>
-                                <p className={styles.light}>
-                                  {" "}
-                                  Address predefined by registrant
-                                </p>
-                              </>
-                            ) : (
-                              <>
-                                <p>
-                                  {shippingAddress.firstName}
-                                  &nbsp; {shippingAddress.lastName}
-                                  <br />
-                                </p>
-                                <p className={styles.light}>
-                                  {shippingAddress.line1}
-                                  <br />
-                                  {shippingAddress.line2}{" "}
-                                  {shippingAddress.line2 && <br />}
-                                  {shippingAddress.state},{" "}
-                                  {shippingAddress.postcode} <br />
-                                  {shippingAddress.countryName}
-                                  <br />
-                                </p>
-                                <p> {shippingAddress.phoneNumber}</p>
-                              </>
-                            )}
-                          </address>
-                        ) : (
-                          ""
+                  {/* Address    */}
+                  <div className={cs(styles.addressBlock)}>
+                    {shippingAddress && (
+                      <div className={styles.address}>
+                        <div className={styles.title}>shipping address</div>
+                        {confirmData?.isBridalOrder && (
+                          <div className={styles.row}>
+                            <span className={styles.bridalInfo}>
+                              {confirmData?.registrantName}
+                              &nbsp; & &nbsp;{confirmData?.coRegistrantName}
+                              {"'s "}
+                              {confirmData?.occasion} Registry
+                            </span>
+                            <span className={styles.bridalMessage}></span>
+                          </div>
                         )}
+                        <div className={cs(styles.row, styles.name)}>
+                          {shippingAddress.firstName}
+                          &nbsp; {shippingAddress.lastName}
+                        </div>
+                        <div className={styles.row}>
+                          {shippingAddress.line1}
+                        </div>
+                        <div className={styles.row}>
+                          {shippingAddress.line2}
+                        </div>
+                        <div className={styles.row}>
+                          {shippingAddress.state},&nbsp;
+                          {shippingAddress.postcode}
+                        </div>
+                        <div className={styles.row}>
+                          {shippingAddress.countryName}
+                        </div>
+                        <div className={cs(styles.row, styles.phoneNumber)}>
+                          {shippingAddress.phoneNumber}
+                        </div>
                       </div>
-                    </div>
-
-                    <div
-                      className={cs(
-                        bootstrapStyles.col12,
-                        bootstrapStyles.colMd6
-                      )}
-                    >
-                      <div className={styles.add}>
-                        {billingAddress ? (
-                          <address>
-                            <label>billing address</label>
-                            <p>
-                              {billingAddress.firstName}
-                              &nbsp; {billingAddress.lastName}
-                              <br />
-                            </p>
-                            <p className={styles.light}>
-                              {billingAddress.line1}
-                              <br />
-                              {billingAddress.line2}{" "}
-                              {billingAddress.line2 && <br />}
-                              {billingAddress.state}, {billingAddress.postcode}{" "}
-                              <br />
-                              {billingAddress.countryName}
-                              <br />
-                            </p>
-                            <p> {billingAddress.phoneNumber}</p>
-                          </address>
-                        ) : (
-                          ""
-                        )}
+                    )}
+                    {billingAddress && (
+                      <div className={styles.address}>
+                        <div className={styles.title}>billing address</div>
+                        <div className={cs(styles.row, styles.name)}>
+                          {billingAddress.firstName}
+                          &nbsp; {billingAddress.lastName}
+                        </div>
+                        <div className={styles.row}>{billingAddress.line1}</div>
+                        <div className={styles.row}>{billingAddress.line2}</div>
+                        <div className={styles.row}>
+                          {billingAddress.state},&nbsp;{billingAddress.postcode}
+                        </div>
+                        <div className={styles.row}>
+                          {billingAddress.countryName}
+                        </div>
+                        <div className={cs(styles.row, styles.phoneNumber)}>
+                          {billingAddress.phoneNumber}
+                        </div>
                       </div>
-                    </div>
+                    )}
                   </div>
                   {confirmData?.deliveryInstructions ? (
-                    <div
-                      className={cs(
-                        bootstrapStyles.row,
-                        globalStyles.voffset2,
-                        styles.borderAdd,
-                        styles.deliveryPadding
-                      )}
-                    >
+                    <div className={cs(styles.deliveryInstructions)}>
                       <div className={styles.add}>
                         <p className={styles.delivery}>DELIVERY INSTRUCTIONS</p>
                         <p className={styles.light}>
@@ -496,267 +494,248 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                     // according bakwas by gaurav
                     const isdisCount =
                       +item.priceInclTax - +item.priceExclTaxExclDiscounts != 0;
-                    const price1 =
+                    const amountPaid =
                       +parseFloat(item.priceInclTax).toFixed(2) /
                       +item.quantity;
-                    const price2 =
+                    const price =
                       +parseFloat(item.priceExclTaxExclDiscounts).toFixed(2) /
                       +item.quantity;
-                    const price3 =
-                      +parseFloat(item.priceExclTaxExclDiscounts).toFixed(2) /
-                      +item.quantity;
+
                     return (
-                      <div
-                        className={cs(
-                          bootstrapStyles.row,
-                          globalStyles.voffset2,
-                          styles.borderAdd
-                        )}
-                        key={item.order}
-                      >
-                        <div
-                          className={cs(
-                            bootstrapStyles.col5,
-                            bootstrapStyles.colMd3
-                          )}
-                        >
+                      <div className={cs(styles.product)} key={item.order}>
+                        <div className={cs(styles.imageContainer)}>
                           <img
                             src={item.product.images?.[0]?.productImage}
                             className={globalStyles.imgResponsive}
                           />
                         </div>
                         <div
-                          className={cs(
-                            bootstrapStyles.col7,
-                            bootstrapStyles.colMd9,
-                            {
-                              [styles.gc]: item.product?.structure == "GiftCard"
-                            }
-                          )}
+                          className={cs(styles.productInfo, {
+                            [styles.gc]: item.product?.structure == "GiftCard"
+                          })}
                         >
-                          <div
-                            className={cs(
-                              bootstrapStyles.imageContent,
-                              globalStyles.textLeft
-                            )}
-                          >
-                            <p className={cs(styles.productH)}></p>
-                            <p className={cs(styles.productN)}>{item.title}</p>
-                            <p
-                              className={cs(styles.productN, globalStyles.flex)}
+                          <p className={cs(styles.title)}>{item.title}</p>
+                          <p className={cs(styles.price)}>
+                            <span
+                              className={cs(styles.amountPaid, {
+                                [styles.gold]: isdisCount
+                              })}
                             >
-                              {isdisCount ? (
-                                <span className={styles.discountprice}>
-                                  {String.fromCharCode(
-                                    ...currencyCode[
-                                      item.priceCurrency as Currency
-                                    ]
-                                  )}
-                                  {Number.isSafeInteger(+price1)
-                                    ? price1
-                                    : price1.toFixed(2) + ""}
-                                  &nbsp;{" "}
-                                </span>
-                              ) : (
-                                ""
-                              )}
-                              {isdisCount ? (
-                                <span className={styles.strikeprice}>
-                                  {String.fromCharCode(
-                                    ...currencyCode[
-                                      item.priceCurrency as Currency
-                                    ]
-                                  )}
-                                  {Number.isSafeInteger(+price2)
-                                    ? price2
-                                    : price2.toFixed(2) + ""}
-                                  &nbsp;{" "}
-                                </span>
-                              ) : (
-                                <span
-                                  className={cs(
-                                    {
-                                      [globalStyles.cerise]:
-                                        item.product.badgeType == "B_flat"
-                                    },
-                                    styles.price
-                                  )}
-                                >
-                                  {String.fromCharCode(
-                                    ...currencyCode[
-                                      item.priceCurrency as Currency
-                                    ]
-                                  )}
-                                  &nbsp;{" "}
-                                  {Number.isSafeInteger(+price3)
-                                    ? price3
-                                    : price3.toFixed(2) + ""}
-                                </span>
-                              )}
-                            </p>
-                            {item.product?.structure == "GiftCard" ? (
-                              ""
-                            ) : (
-                              <Fragment>
-                                <div
-                                  className={cs(
-                                    styles.smallSize,
-                                    globalStyles.voffset2
-                                  )}
-                                >
-                                  {item.product.size && (
-                                    <>Size:&nbsp; {item.product.size}</>
-                                  )}
-                                </div>
-                                <div className={styles.smallSize}>
-                                  Qty:&nbsp; {item.quantity}
-                                </div>
-                                {item.fillerMessage ? (
-                                  <div className={styles.filler}>
-                                    {`*${item.fillerMessage}`}
-                                  </div>
-                                ) : (
-                                  ""
-                                )}
-                              </Fragment>
+                              {`${charCurrency} ${displayPriceWithCommas(
+                                amountPaid,
+                                confirmData.currency
+                              )}`}
+                            </span>
+                            {isdisCount && (
+                              <span className={styles.originalPrice}>
+                                {`${charCurrency} ${displayPriceWithCommas(
+                                  price,
+                                  confirmData.currency
+                                )}`}
+                              </span>
                             )}
-                          </div>
+                          </p>
+                          {item.product.size && (
+                            <div className={styles.size}>
+                              {`Size: ${item.product.size}`}
+                            </div>
+                          )}
+                          <div
+                            className={styles.quantity}
+                          >{`Qty: ${item.quantity}`}</div>
                           {item.product?.structure == "GiftCard" && (
-                            <div className={globalStyles.textLeft}>
-                              <p className={styles.label}>Sent via Email:</p>
-                              <p className={styles.email}>
-                                {item.egiftCardRecipient}
-                              </p>
+                            <div
+                              className={cs(styles.quantity, styles.withData)}
+                            >
+                              Sent via Email:{" "}
+                              <span>{item.egiftCardRecipient}</span>
+                            </div>
+                          )}
+                          {!item.isEgiftCard && (
+                            <div className={styles.size}>
+                              {`Item Code: ${item.product.sku}`}
+                            </div>
+                          )}
+                          {/* Estimated Delivery Time */}
+                          {item.productDeliveryDate && !item.isEgiftCard && (
+                            <div
+                              className={cs(styles.quantity, styles.withData)}
+                            >
+                              Estimated Delivery Date:{" "}
+                              <span className={styles.edd}>
+                                {item.productDeliveryDate}
+                              </span>
                             </div>
                           )}
                         </div>
                       </div>
                     );
                   })}
-                </address>
-              </div>
-            </div>
-          </div>
-          <div className={cs(bootstrapStyles.row, styles.white)}>
-            <div className={cs(styles.priceSection)}>
-              <div className={cs(styles.subTotalSection)}>
-                <p>SUBTOTAL</p>
-                <p>
-                  {String.fromCharCode(
-                    ...currencyCode[confirmData.currency as Currency]
-                  )}
-                  &nbsp; {parseFloat(confirmData.orderSubTotal).toFixed(2)}
-                </p>
-              </div>
-              {/* Filter this key and remove vouchers */}
-              {confirmData?.offerDiscounts?.map(
-                (discount: { name: string; amount: string }, index: number) => (
-                  <div className={cs(styles.discountSection)} key={index}>
-                    <p>{discount.name}</p>
-                    <p>
-                      (-){" "}
-                      {String.fromCharCode(
-                        ...currencyCode[confirmData.currency as Currency]
-                      )}
-                      &nbsp; {parseFloat(discount.amount).toFixed(2)}
-                    </p>
-                  </div>
-                )
-              )}
-
-              <div className={cs(styles.discountSection)}>
-                <p>Shipping & Handling</p>
-                <p>
-                  (+){" "}
-                  {String.fromCharCode(
-                    ...currencyCode[confirmData.currency as Currency]
-                  )}
-                  &nbsp; {parseFloat(confirmData.shippingInclTax).toFixed(2)}
-                </p>
-              </div>
-
-              {confirmData.voucherDiscounts.map((vd: any, i: number) => (
-                <div
-                  className={cs(styles.discountSection)}
-                  key={`voucher_${i}`}
-                >
-                  <p>{vd.name}</p>
-                  <p>
-                    (-){" "}
-                    {String.fromCharCode(
-                      ...currencyCode[confirmData.currency as Currency]
+                  <div className={styles.prices}>
+                    {/* Title */}
+                    <div className={cs(styles.price, styles.title)}>
+                      <span className={styles.label}>ORDER SUMMARY</span>
+                    </div>
+                    {/* Subtotal */}
+                    <div className={cs(styles.price, styles.line)}>
+                      <span className={styles.label}>SUBTOTAL</span>
+                      <span className={styles.value}>
+                        {`${charCurrency} ${displayPriceWithCommasFloat(
+                          confirmData.orderSubTotal,
+                          confirmData.currency
+                        )}`}
+                      </span>
+                    </div>
+                    {/* offer discounts */}
+                    {confirmData.offerDiscounts?.map(
+                      (
+                        discount: { name: string; amount: string },
+                        index: number
+                      ) => {
+                        return (
+                          <div
+                            className={cs(
+                              styles.price,
+                              styles.line,
+                              styles.discount
+                            )}
+                          >
+                            <span className={styles.label}>
+                              {discount.name}
+                            </span>
+                            <span className={styles.value}>
+                              {`(-)${charCurrency} ${displayPriceWithCommasFloat(
+                                discount.amount,
+                                confirmData.currency
+                              )}`}
+                            </span>
+                          </div>
+                        );
+                      }
                     )}
-                    &nbsp; {parseFloat(vd.amount).toFixed(2)}
-                  </p>
+                    {/* shipping and handling */}
+                    <div className={cs(styles.price, styles.line)}>
+                      <span className={styles.label}>SHIPPING & HANDLING</span>
+                      <span className={styles.value}>
+                        {`(+) ${charCurrency} ${displayPriceWithCommasFloat(
+                          confirmData.shippingInclTax,
+                          confirmData.currency
+                        )}`}
+                      </span>
+                    </div>
+                    {/* voucher discounts */}
+                    {confirmData.voucherDiscounts?.map((vd: any, i: number) => {
+                      return (
+                        <div
+                          className={cs(
+                            styles.price,
+                            styles.line,
+                            styles.discount
+                          )}
+                        >
+                          <span className={styles.label}>{vd.name}</span>
+                          <span className={styles.value}>
+                            {`(-)${charCurrency} ${displayPriceWithCommasFloat(
+                              vd.amount,
+                              confirmData.currency
+                            )}`}
+                          </span>
+                        </div>
+                      );
+                    })}
+                    {/* giftcard and credit note */}
+                    {confirmData.giftVoucherRedeemed?.map(
+                      (gccn: number, i: number) => {
+                        return (
+                          <div
+                            className={cs(
+                              styles.price,
+                              styles.line,
+                              styles.discount
+                            )}
+                          >
+                            <span className={styles.label}>
+                              Gift Card/Credit Note
+                            </span>
+                            <span className={styles.value}>
+                              {`(-)${charCurrency} ${displayPriceWithCommasFloat(
+                                gccn,
+                                confirmData.currency
+                              )}`}
+                            </span>
+                          </div>
+                        );
+                      }
+                    )}
+                    {/* Loyalty Points */}
+                    {confirmData.loyalityPointsRedeemed?.map(
+                      (point: number, i: number) => {
+                        return (
+                          <div
+                            className={cs(
+                              styles.price,
+                              styles.line,
+                              styles.discount
+                            )}
+                          >
+                            <span className={styles.label}>Loyalty Points</span>
+                            <span className={styles.value}>
+                              {`(-)${charCurrency} ${displayPriceWithCommasFloat(
+                                "" + point,
+                                confirmData.currency
+                              )}`}
+                            </span>
+                          </div>
+                        );
+                      }
+                    )}
+                    {/* amount paid */}
+                    <div className={cs(styles.price, styles.total)}>
+                      <span className={styles.label}>
+                        AMOUNT PAID
+                        {/* <span className={styles.light}>Incl. Tax</span> */}
+                      </span>
+                      <span className={styles.value}>
+                        {`${charCurrency} ${displayPriceWithCommasFloat(
+                          confirmData.totalInclTax,
+                          confirmData.currency
+                        )}`}
+                      </span>
+                    </div>
+                  </div>
+                  <Link to={"/"}>
+                    <div className={styles.continueShopping}>
+                      <div className={styles.charcoalBtn}>
+                        continue shopping
+                      </div>
+                    </div>
+                  </Link>
                 </div>
-              ))}
-
-              {confirmData.giftVoucherRedeemed.map(
-                (gccn: number, i: number) => (
-                  <div className={cs(styles.discountSection)} key={`gccn_${i}`}>
-                    <p>Gift Card/Credit Note</p>
-                    <p>
-                      (-){" "}
-                      {String.fromCharCode(
-                        ...currencyCode[confirmData.currency as Currency]
-                      )}
-                      &nbsp; {parseFloat("" + gccn).toFixed(2)}
-                    </p>
-                  </div>
-                )
-              )}
-
-              {confirmData.loyalityPointsRedeemed.map(
-                (gccn: number, i: number) => (
-                  <div
-                    className={cs(styles.discountSection)}
-                    key={`loyalty_${i}`}
-                  >
-                    <p>Loyalty Points</p>
-                    <p>
-                      (-){" "}
-                      {String.fromCharCode(
-                        ...currencyCode[confirmData.currency as Currency]
-                      )}
-                      &nbsp;{" "}
-                      {parseFloat(confirmData.loyalityPointsRedeemed).toFixed(
-                        2
-                      )}
-                    </p>
-                  </div>
-                )
-              )}
-
-              <div className={cs(styles.subTotalSection)}>
-                <p>AMOUNT PAID</p>
-                <p>
-                  {String.fromCharCode(
-                    ...currencyCode[confirmData.currency as Currency]
-                  )}
-                  &nbsp; {parseFloat(confirmData.totalInclTax).toFixed(2)}
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <div className={bootstrapStyles.row}>
-            <div
-              className={cs(
-                bootstrapStyles.col12,
-                bootstrapStyles.colMd8,
-                bootstrapStyles.offsetMd2,
-                styles.cta,
-                globalStyles.voffset2,
-                globalStyles.ceriseBtn
-              )}
-            >
-              <div className={globalStyles.ceriseBtn}>
-                <Link to={"/"}> continue shopping </Link>
               </div>
             </div>
           </div>
         </div>
       </div>
+      {/* ============================ New FOOTER ==================================*/}
+      {/* <div className={cs(styles.subcFooter)}>
+        <div className={styles.checkoutTitle}>
+          {!mobile && <span className={styles.title}>CURRENCY: </span>}{" "}
+          <div
+            className={styles.title}
+          >{`${charCurrency} ${confirmData.currency}`}</div>
+        </div>
+        <div className={styles.customerCare}>
+          <img src={callImage} />
+          <div
+            className={styles.phoneNumber}
+          >{`+91 9582 999 555 / +91 9582 999 888`}</div>
+        </div>
+      </div> */}
+      {/* ================================================================= */}
+
+      {/* ========================= Old Footer ================================== */}
+
+      {/* ===================================================================== */}
     </div>
   );
 };

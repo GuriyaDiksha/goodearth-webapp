@@ -7,7 +7,7 @@ import bootstrapStyles from "../../styles/bootstrap/bootstrap-grid.scss";
 import SecondaryHeader from "components/SecondaryHeader";
 import { useSelector } from "react-redux";
 import { AppState } from "reducers/typings";
-import * as util from "utils/validate";
+import { pageViewGTM } from "utils/validate";
 
 const DesignJournal: React.FC = () => {
   const { mobile } = useSelector((state: AppState) => state.device);
@@ -69,7 +69,7 @@ const DesignJournal: React.FC = () => {
   };
 
   useEffect(() => {
-    util.pageViewGTM("DesignJournal");
+    pageViewGTM("DesignJournal");
     window.addEventListener("scroll", handleScroll);
     // ImageMap('img[usemap]');
     return () => {

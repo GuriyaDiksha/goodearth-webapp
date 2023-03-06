@@ -11,9 +11,13 @@ import { Dispatch } from "redux";
 import BasketService from "services/basket";
 import { connect } from "react-redux";
 import { AppState } from "reducers/typings";
-import * as util from "../../utils/validate";
+import { getPageType } from "../../utils/validate";
 import CookieService from "services/cookie";
 import { GA_CALLS } from "constants/cookieConsent";
+import {
+  displayPriceWithCommas,
+  displayPriceWithCommasFloat
+} from "utils/utility";
 
 const mapDispatchToProps = (dispatch: Dispatch) => {
   return {
@@ -59,7 +63,7 @@ class Bag extends React.Component<Props, State> {
           "Event Label": skuList.length > 0 ? skuList.join(",") : "",
           "Time Stamp": new Date().toISOString(),
           "Page Url": location.href,
-          "Page Type": util.getPageType(),
+          "Page Type": getPageType(),
           "Login Status": this.props.isLoggedIn ? "logged in" : "logged out",
           "Page referrer url": location.href
         });
@@ -163,7 +167,10 @@ class Bag extends React.Component<Props, State> {
                   (-)
                   {String.fromCharCode(...currencyCodes[this.props.currency])}
                   &nbsp;
-                  {parseFloat(discountAmount.toString()).toFixed(2)}
+                  {displayPriceWithCommasFloat(
+                    discountAmount,
+                    this.props.currency
+                  )}
                 </h5>
               </div>
             </div>
@@ -182,7 +189,10 @@ class Bag extends React.Component<Props, State> {
               <h5 className={cs(styles.totalPrice, globalStyles.bold)}>
                 {String.fromCharCode(...currencyCodes[this.props.currency])}
                 &nbsp;
-                {parseFloat(this.props.cart.total.toString()).toFixed(2)}
+                {displayPriceWithCommasFloat(
+                  this.props.cart.total,
+                  this.props.currency
+                )}
               </h5>
               <p className={styles.subtext}>
                 *Excluding estimated cost of shipping
@@ -420,8 +430,11 @@ class Bag extends React.Component<Props, State> {
                 <br /> Select products worth{" "}
                 <span>
                   {String.fromCharCode(...currencyCodes[this.props.currency])}{" "}
-                  {this.props.cart.freeShippingApplicable -
-                    parseInt(this.props.cart.total.toString())}
+                  {displayPriceWithCommas(
+                    this.props.cart.freeShippingApplicable -
+                      parseInt(this.props.cart.total.toString()),
+                    this.props.currency
+                  )}
                 </span>{" "}
                 or more to your order to qualify.
               </div>

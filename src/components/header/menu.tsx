@@ -6,7 +6,7 @@ import cs from "classnames";
 import { AppState } from "reducers/typings";
 import { connect } from "react-redux";
 import ReactHtmlParser from "react-html-parser";
-import * as util from "../../utils/validate";
+import { headerClickGTM } from "../../utils/validate";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -44,7 +44,7 @@ class MainMenu extends React.Component<Props, MenuState> {
 
   onHeaderMenuClick = (name: string) => {
     const { mobile, isLoggedIn } = this.props;
-    util.headerClickGTM("Main Menu", "Top", mobile, isLoggedIn);
+    headerClickGTM("Main Menu", "Top", mobile, isLoggedIn);
     // util.menuNavigationGTM(name, "", "", mobile, isLoggedIn);
   };
 

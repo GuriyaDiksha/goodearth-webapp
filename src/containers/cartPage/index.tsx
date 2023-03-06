@@ -16,7 +16,11 @@ import WishlistService from "services/wishlist";
 import { updateBasket } from "actions/basket";
 import BasketService from "services/basket";
 import { ProductID } from "typings/id";
-import * as util from "../../utils/validate";
+import {
+  showGrowlMessage,
+  pageViewGTM,
+  getPageType
+} from "../../utils/validate";
 import { WidgetImage } from "components/header/typings";
 import HeaderService from "services/headerFooter";
 import noImagePlp from "../../images/noimageplp.png";
@@ -40,7 +44,7 @@ const mapStateToProps = (state: AppState) => {
 const mapDispatchToProps = (dispatch: Dispatch) => {
   return {
     showNotify: (message: string) => {
-      util.showGrowlMessage(dispatch, message, 6000);
+      showGrowlMessage(dispatch, message, 6000);
     },
     undoMoveToWishlist: async () => {
       const res = await WishlistService.undoMoveToWishlist(dispatch);
@@ -101,7 +105,7 @@ class CartPage extends React.Component<Props, State> {
   }
 
   componentDidMount() {
-    util.pageViewGTM("Cart");
+    pageViewGTM("Cart");
     try {
       const skuList = this.props.cart.lineItems.map(
         item => item.product.childAttributes?.[0].sku
@@ -114,7 +118,7 @@ class CartPage extends React.Component<Props, State> {
           "Event Label": skuList.length > 0 ? skuList.join(",") : "",
           "Time Stamp": new Date().toISOString(),
           "Page Url": location.href,
-          "Page Type": util.getPageType(),
+          "Page Type": getPageType(),
           "Login Status": this.props.isLoggedIn ? "logged in" : "logged out",
           "Page referrer url": CookieService.getCookie("prevUrl") || ""
         });

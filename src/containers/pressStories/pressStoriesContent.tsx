@@ -19,7 +19,7 @@ import Formsy from "formsy-react";
 import FormInput from "components/Formsy/FormInput";
 import FormTextArea from "components/Formsy/FormTextArea";
 import iconStyles from "styles/iconFonts.scss";
-import * as valid from "utils/validate";
+import { errorTracking } from "utils/validate";
 import { AppState } from "reducers/typings";
 import { removeFroala } from "utils/validate";
 
@@ -137,7 +137,7 @@ class PressStoriesContent extends React.Component<
         defaultOption: { value: year, label: year }
       });
 
-      // valid.sortGTM(year);
+      // sortGTM(year);
       this.props.fetchPressStories(parseInt(year)).then(data => {
         this.props.updatePressStoriesData(data);
         const len = location.pathname.split("/").length;
@@ -168,10 +168,10 @@ class PressStoriesContent extends React.Component<
         if (typeof errorObj == "object") {
           updateInputsWithError(errorObj);
           const errors = Object.entries(errorObj).map(([key, value]) => value);
-          valid.errorTracking(errors as string[], location.href);
+          errorTracking(errors as string[], location.href);
         } else if (typeof errorObj == "string") {
           this.setState({ successmsg: errorObj });
-          valid.errorTracking([errorObj], location.href);
+          errorTracking([errorObj], location.href);
         }
         // console.log(error);
       });
@@ -319,6 +319,7 @@ class PressStoriesContent extends React.Component<
                 className={cs(styles.cSortHeader, {
                   [styles.cSortHeaderTimer]: this.props.showTimer
                 })}
+                id="pressSortHeader"
               >
                 {
                   <div

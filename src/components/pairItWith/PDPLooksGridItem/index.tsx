@@ -12,11 +12,12 @@ import globalStyles from "styles/global.scss";
 import LazyImage from "components/LazyImage";
 import { AppState } from "reducers/typings";
 import { useSelector } from "react-redux";
-import * as valid from "utils/validate";
+import { plpProductClick } from "utils/validate";
 import CookieService from "services/cookie";
 // import ButtonSmall from "components/ButtonSmall";
 import bootstrapStyles from "styles/bootstrap/bootstrap-grid.scss";
 import { PartialChildProductAttributes } from "typings/product";
+import { displayPriceWithCommas } from "utils/utility";
 
 const PlpResultItem: React.FC<PLPResultItemProps> = (
   props: PLPResultItemProps
@@ -88,7 +89,7 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
 
   const gtmProductClick = () => {
     CookieService.setCookie("listPath", page);
-    valid.plpProductClick(product, page, currency, position);
+    plpProductClick(product, page, currency, position);
   };
 
   const getImageSrc = () => {
@@ -235,7 +236,10 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
           {info.isSale && product.discount ? (
             <span className={styles.discountprice}>
               {String.fromCharCode(...code)}{" "}
-              {product.discountedPriceRecords[currency as Currency]}
+              {displayPriceWithCommas(
+                product.discountedPriceRecords[currency as Currency],
+                currency
+              )}
             </span>
           ) : (
             ""
@@ -244,7 +248,10 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
             <span className={styles.strikeprice}>
               {" "}
               {String.fromCharCode(...code)}{" "}
-              {product.priceRecords[currency as Currency]}{" "}
+              {displayPriceWithCommas(
+                product.priceRecords[currency as Currency],
+                currency
+              )}{" "}
             </span>
           ) : (
             <span
@@ -253,7 +260,10 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
               }
             >
               {String.fromCharCode(...code)}{" "}
-              {product.priceRecords[currency as Currency]}
+              {displayPriceWithCommas(
+                product.priceRecords[currency as Currency],
+                currency
+              )}
             </span>
           )}
         </p>

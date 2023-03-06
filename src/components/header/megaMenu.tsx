@@ -8,7 +8,11 @@ import globalStyles from "../../styles/global.scss";
 import { AppState } from "reducers/typings";
 import { connect } from "react-redux";
 import ReactHtmlParser from "react-html-parser";
-import * as util from "../../utils/validate";
+import {
+  megaMenuNavigationGTM,
+  getInnerText,
+  headerClickGTM
+} from "../../utils/validate";
 import { MegaMenuList } from "./megaMenulist";
 
 const mapStateToProps = (state: AppState) => {
@@ -53,9 +57,9 @@ class MegaMenu extends React.Component<Props, MenuState> {
     this.props.hideSearch();
     this.mouseLeave(index);
     const { mobile, isLoggedIn } = this.props;
-    util.headerClickGTM("Main Menu", "Top", mobile, isLoggedIn);
+    headerClickGTM("Main Menu", "Top", mobile, isLoggedIn);
     const obj = {
-      l1: util.getInnerText(name),
+      l1: getInnerText(name),
       l2: "",
       l3: "",
       clickUrl1: url,
@@ -69,7 +73,7 @@ class MegaMenu extends React.Component<Props, MenuState> {
       mobile: mobile,
       isLoggedIn: isLoggedIn
     };
-    util.megaMenuNavigationGTM(obj);
+    megaMenuNavigationGTM(obj);
   };
 
   render() {
@@ -87,8 +91,7 @@ class MegaMenu extends React.Component<Props, MenuState> {
         {data?.map((data: MegaMenuData, i: number) => {
           const highlightStories =
             data.text.toLowerCase() == "stories" ? true : false;
-          const highlightSale =
-            util.getInnerText(data.text.toLowerCase()) == "sale";
+          const highlightSale = getInnerText(data.text.toLowerCase()) == "sale";
           // const isGifting = data.text.toLowerCase() == "gifting" ? true : false;
           const isEmpty = data.columns[0]?.templates.length == 0;
           return (
