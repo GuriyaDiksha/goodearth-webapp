@@ -480,11 +480,25 @@
   &.checked {
     background-color: $aqua;
     border-color: $aqua;
+
+    &:after{
+      content: "";
+      bottom: 9px;
+      left: 7px;
+      width: 7px;
+      height: 13px;
+      display: block;
+      position: absolute;
+      -webkit-transform: rotate(45deg);
+      transform: rotate(45deg);
+      border: solid #fff;
+      border-width: 0 2px 2px 0;
+    }
   }
 }
 
 .checkbox .indicator::after {
-  bottom: 11px;
+  bottom: 9px;
   left: 7px;
   width: 7px;
   height: 13px;
@@ -613,8 +627,8 @@
     .card {
       margin-left: 5px;
       margin-right: 5px;
-      padding-left: 30px;
-      padding-right: 30px;
+      padding-left: 20px;
+      padding-right: 20px;
     }
 
     .card-sm {

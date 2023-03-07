@@ -43,50 +43,53 @@ class CheckoutFooter extends React.Component<Props, { boId: string }> {
   render() {
     const { currency, mobile } = this.props;
 
+    console.log("Props:", this.props.location.pathname);
     return (
-      <div>
-        <div className={cs(styles.headerContainer, styles.footer)}>
-          <div className={cs(bootstrap.row, styles.minimumWidth)}>
-            <div
-              className={cs(bootstrap.colMd2, styles.footerCurr, {
-                [bootstrap.col5]: !mobile,
-                [bootstrap.col2]: mobile
-              })}
-            >
-              {mobile ? currency : `currency: ${currency}`}
-              {String.fromCharCode(...currencyCode[currency])}
-            </div>
-            {mobile ? null : (
-              <div className={cs(bootstrap.col3, bootstrap.colMd7)}>
-                {/* {heading} */}
+      this.props.location.pathname == "/order/checkout" && (
+        <div>
+          <div className={cs(styles.headerContainer, styles.footer)}>
+            <div className={cs(bootstrap.row, styles.minimumWidth)}>
+              <div
+                className={cs(bootstrap.colMd2, styles.footerCurr, {
+                  [bootstrap.col5]: !mobile,
+                  [bootstrap.col2]: mobile
+                })}
+              >
+                {mobile ? currency : `currency: ${currency}`}
+                {String.fromCharCode(...currencyCode[currency])}
               </div>
-            )}
-            <div
-              className={cs(bootstrap.colMd3, {
-                [styles.curr]: !this.state.boId,
-                [bootstrap.col3]: !mobile,
-                [bootstrap.col10]: mobile
-              })}
-            >
-              <i
-                className={cs(
-                  iconStyles.icon,
-                  iconStyles.iconPhone,
-                  styles.icon
-                )}
-              />
-              <a className={styles.mobileNum} href="tel:+919582999555">
-                +91 95829 99555
-              </a>{" "}
-              /{" "}
-              <a className={styles.mobileNum} href="tel:+919582999888">
-                +91 95829 99888
-              </a>
+              {mobile ? null : (
+                <div className={cs(bootstrap.col3, bootstrap.colMd7)}>
+                  {/* {heading} */}
+                </div>
+              )}
+              <div
+                className={cs(bootstrap.colMd3, {
+                  [styles.curr]: !this.state.boId,
+                  [bootstrap.col3]: !mobile,
+                  [bootstrap.col10]: mobile
+                })}
+              >
+                <i
+                  className={cs(
+                    iconStyles.icon,
+                    iconStyles.iconPhone,
+                    styles.icon
+                  )}
+                />
+                <a className={styles.mobileNum} href="tel:+919582999555">
+                  +91 95829 99555
+                </a>{" "}
+                /{" "}
+                <a className={styles.mobileNum} href="tel:+919582999888">
+                  +91 95829 99888
+                </a>
+              </div>
             </div>
           </div>
+          <GrowlMessage />
         </div>
-        <GrowlMessage />
-      </div>
+      )
     );
   }
 }
