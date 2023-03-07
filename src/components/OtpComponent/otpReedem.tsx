@@ -53,7 +53,7 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
 
   handleSubmit = (model: any, resetForm: any, updateInputsWithError: any) => {
     this.setState({ showerrorOtp: "" });
-
+    this.props.setRedeemOtpError("Please enter OTP");
     // const radioElement: any = document.getElementsByName("redeem");
     // const elem = this.subscribeRef.current;
     // const { email, phoneNo } = model;
@@ -142,6 +142,7 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
               showerror: "",
               isLoading: false
             });
+            this.props.setRedeemOtpError("");
           }
         })
         .catch(err => {
@@ -323,6 +324,13 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
     return minutes + ":" + seconds;
   };
 
+  cancelOtpReq = () => {
+    const { removeRedeem, setIsactiveredeem, setRedeemOtpError } = this.props;
+    removeRedeem();
+    setIsactiveredeem(false);
+    setRedeemOtpError("");
+  };
+
   getValidationForOtp = () => {
     const { radioType } = this.state;
     return (
@@ -345,6 +353,7 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
           btnText={"Redeem Points"}
           startTimer={this.state.startTimer}
           setAttempts={this.changeAttepts}
+          cancelOtpReq={this.cancelOtpReq}
         />
         {/* {(this.props.otpFor == "activateGC"
           ? this.props.newCardBox == true

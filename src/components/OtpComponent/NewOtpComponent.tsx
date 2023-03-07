@@ -11,6 +11,7 @@ type Props = {
   btnText: string;
   startTimer: boolean;
   setAttempts: (x: any) => void;
+  cancelOtpReq?: () => void;
 };
 
 const NewOtpComponent: React.FC<Props> = ({
@@ -21,7 +22,8 @@ const NewOtpComponent: React.FC<Props> = ({
   attempts,
   btnText,
   startTimer,
-  setAttempts
+  setAttempts,
+  cancelOtpReq
 }) => {
   const [timeRemaining, setTimeRemaining] = useState(90);
   const [timerId, setTimerId] = useState<any>();
@@ -268,6 +270,9 @@ const NewOtpComponent: React.FC<Props> = ({
           </div>
         )}
       </p>
+      <p className={style.otpAttempt}>
+        Attempt: {attempts?.attempts}/{attempts?.maxAttemptsAllow}
+      </p>
       <button
         className={`${style.otpBtn} ${
           `${input?.otp1}${input?.otp2}${input?.otp3}${input?.otp4}${input?.otp5}${input?.otp6}`
@@ -283,9 +288,16 @@ const NewOtpComponent: React.FC<Props> = ({
       >
         {btnText}
       </button>
-      <p className={style.otpAttempt}>
-        Attempt: {attempts?.attempts}/{attempts?.maxAttemptsAllow}
-      </p>
+      {cancelOtpReq ? (
+        <div
+          className={cs(style.otpPolicy, style.otpRedeem)}
+          onClick={() => {
+            cancelOtpReq();
+          }}
+        >
+          I DON’T WISH TO REDEEM
+        </div>
+      ) : null}
       <a
         className={style.otpPolicy}
         href={`/customer-assistance/privacy-policy`}

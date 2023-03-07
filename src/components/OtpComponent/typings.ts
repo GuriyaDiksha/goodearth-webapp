@@ -72,6 +72,10 @@ export type otpRedeemProps = {
   history: any;
   validated: boolean;
   disableBtn: string;
+  removeRedeem: () => void;
+  redeemOtpError: string;
+  setRedeemOtpError: (val: string) => void;
+  setIsactiveredeem: (val: boolean) => void;
 };
 
 export type otpBoxProps = {

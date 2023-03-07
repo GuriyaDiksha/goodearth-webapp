@@ -19,7 +19,11 @@ const mapStateToProps = (state: AppState) => {
     loyalty: state.basket.loyalty
   };
 };
-type Props = ReturnType<typeof mapDispatchToProps> &
+type Props = {
+  redeemOtpError: string;
+  setRedeemOtpError: (val: string) => void;
+  setIsactiveredeem: (val: boolean) => void;
+} & ReturnType<typeof mapDispatchToProps> &
   ReturnType<typeof mapStateToProps> &
   RouteComponentProps;
 
@@ -275,6 +279,10 @@ class Reedem extends React.Component<Props, RedeemState> {
                   resendOtp={this.props.resendOtpRedeem}
                   validated={isValidated}
                   disableBtn={this.state.error}
+                  removeRedeem={this.removeRedeem}
+                  redeemOtpError={this.props.redeemOtpError}
+                  setRedeemOtpError={this.props.setRedeemOtpError}
+                  setIsactiveredeem={this.props.setIsactiveredeem}
                 />
               </div>
             </Fragment>

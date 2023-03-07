@@ -40,7 +40,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
   const [currentmethod, setCurrentmethod] = useState(data);
   const [isLoading, setIsLoading] = useState(false);
   const [textarea, setTextarea] = useState("");
-  // const [gbpError, setGbpError] = useState("");
+  const [redeemOtpError, setRedeemOtpError] = useState("");
   const [getMethods, setGetMethods] = useState<any[]>([]);
   const dispatch = useDispatch();
 
@@ -107,6 +107,13 @@ const PaymentSection: React.FC<PaymentProps> = props => {
   const onsubmit = () => {
     const isFree = +basket.total <= 0;
     const userConsent = CookieService.getCookie("consent").split(",");
+
+    if (redeemOtpError) {
+      setPaymentError(redeemOtpError);
+      return false;
+    } else {
+      setPaymentError("");
+    }
 
     if (currentmethod.mode || isFree) {
       const data: any = {
@@ -454,7 +461,15 @@ const PaymentSection: React.FC<PaymentProps> = props => {
                       >
                         REDEEM CERISE POINTS
                       </div>
-                      {isactiveredeem ? <Reedem /> : ""}
+                      {isactiveredeem ? (
+                        <Reedem
+                          redeemOtpError={redeemOtpError}
+                          setRedeemOtpError={setRedeemOtpError}
+                          setIsactiveredeem={setIsactiveredeem}
+                        />
+                      ) : (
+                        ""
+                      )}
                     </div>
                   </div>
                 </Fragment>
