@@ -32,8 +32,15 @@ export default {
     );
     const innerUser = decriptdata({ ...res.user });
     delete res.user;
+
+    const shipping = res.shippingData
+      ? decriptdata({ ...res.shippingData })
+      : null;
+    delete res.shippingData;
     const response = { ...decriptdata({ ...res }) };
     response.user = { ...innerUser };
+    response.shippingData = shipping;
+    console.log(response);
     return response;
   },
 
