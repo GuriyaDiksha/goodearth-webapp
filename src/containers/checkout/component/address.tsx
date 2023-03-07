@@ -202,7 +202,7 @@ const AddressSection: React.FC<AddressProps & {
         <div
           className={cs(
             bootstrapStyles.col12,
-            bootstrapStyles.colMd6,
+            bootstrapStyles.colLg6,
             styles.small,
             styles.selectedStvalue,
             {
@@ -676,7 +676,7 @@ const AddressSection: React.FC<AddressProps & {
                   height={"18px"}
                   className={globalStyles.marginR10}
                   src={checkmarkCircle}
-                  alt="aa checkmarkdone"
+                  alt="checkmarkdone"
                 />
 
                 <span className={cs({ [styles.closed]: !isActive })}>
@@ -732,19 +732,22 @@ const AddressSection: React.FC<AddressProps & {
                   styles.title
                 )}
               >
-                <img
-                  height={"15px"}
-                  className={globalStyles.marginR10}
-                  src={checkmarkCircle}
-                  alt="checkmarkdone"
-                />
-                <span className={cs({ [styles.closed]: !isActive })}>
-                  {activeStep == Steps.STEP_SHIPPING
-                    ? "SHIPPING ADDRESS"
-                    : "BILLING ADDRESS"}
-                </span>
+                <div>
+                  <img
+                    height={"15px"}
+                    className={globalStyles.marginR10}
+                    src={checkmarkCircle}
+                    alt="checkmarkdone"
+                  />
+                  <span className={cs({ [styles.closed]: !isActive })}>
+                    {activeStep == Steps.STEP_SHIPPING
+                      ? "SHIPPING ADDRESS"
+                      : "BILLING ADDRESS"}
+                  </span>
+                </div>
+                {mobile && renderActions(false)}
               </div>
-              {renderActions(false)}
+              {!mobile && renderActions(false)}
               {renderSavedAddress()}
             </div>
             {isActive && (
@@ -842,7 +845,8 @@ const AddressSection: React.FC<AddressProps & {
                                   </div>
                                 </div>
                               )}
-                              {addressList.length > 1 &&
+                              {!mobile &&
+                                addressList.length > 1 &&
                                 mode == "list" &&
                                 (props.activeStep == Steps.STEP_SHIPPING ||
                                   (props.activeStep == Steps.STEP_BILLING &&
@@ -872,7 +876,7 @@ const AddressSection: React.FC<AddressProps & {
                       <div
                         className={cs(
                           bootstrapStyles.col12,
-                          bootstrapStyles.colMd7
+                          bootstrapStyles.colLg7
                         )}
                       >
                         <div

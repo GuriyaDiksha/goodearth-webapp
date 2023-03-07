@@ -263,14 +263,16 @@
     opacity: 1;
     @include b4_12px_montserrat_charcoal_caps();
   }
-  .iscompleted{
+  .iscompleted {
     opacity: 1;
     @include b4_12px_montserrat_charcoal_caps();
   }
 
-  @media screen and (max-width:991px) {
+  @media screen and (max-width: 991px) {
     padding-bottom: 10px;
     border-bottom: 1px solid #eaeaea;
+    flex-basis: 100%;
+    max-width: 100%;
   }
 }
 
@@ -310,7 +312,7 @@
   margin-top: 5px;
   @include b4_12px_montserrat_charcoal();
 
-  @media screen and (max-width:991) {
+  @media screen and (max-width: 991) {
     line-height: 45px;
   }
 }
@@ -475,7 +477,7 @@
   display: inline-block;
   border: 1px solid #666;
 
-  &.checked{
+  &.checked {
     background-color: $aqua;
     border-color: $aqua;
   }
@@ -1024,7 +1026,7 @@ input[type="radio"] {
 // Breadcrumb Styles
 .breadcrumb {
   border-bottom: 1px solid #eaeaea;
-  .breadcrumbWrapper {
+  .breadcrumb-wrapper {
     padding: 20px 0;
     gap: 5px;
     align-items: center;
@@ -1056,6 +1058,14 @@ input[type="radio"] {
         vertical-align: middle;
       }
     }
+
+    @media (max-width: 992px) {
+      padding: 17px 0;
+    }
+  }
+
+  @media (max-width: 992px) {
+    margin-top: 48px;
   }
 }
 
@@ -1087,52 +1097,63 @@ input[type="radio"] {
   cursor: pointer;
   margin-top: 24px;
 }
-.checkout-selected-value{
-  .name{
+.checkout-selected-value {
+  .name {
     @include b4_12px_montserrat_charcoal();
     letter-spacing: 0.36px;
     text-transform: capitalize;
   }
-  .editAddress{
+  .editAddress {
     @include b5_10px_montserrat_charcoal();
     letter-spacing: 0.3px;
     text-decoration: underline;
     text-transform: uppercase;
   }
-  .address-main{
+  .address-main {
     padding-top: 5px;
-    .text{
+    .text {
       @include b4_12px_montserrat_light_charcoal();
       letter-spacing: 0.36px;
     }
   }
-  .phone{
+  .phone {
     @include b4_12px_montserrat_charcoal();
     letter-spacing: 0.36px;
     padding: 5px 0;
   }
-  .contact-msg{
+  .contact-msg {
     @include b5_10px_montserrat_charcoal();
     letter-spacing: 0.3px;
     font-style: normal;
   }
 
-  .same-as-shipping-address{
+  .same-as-shipping-address {
     @include b4_12px_montserrat_charcoal();
     letter-spacing: 0.36px;
   }
 }
 
-.check-box-heading{
+.check-box-heading {
   margin: auto 0;
   width: auto;
   @include b5_10px_montserrat_charcoal();
 }
 
-.justify-right{
+.justify-right {
   justify-content: right;
 }
-.justify-center{
+.justify-center {
   justify-content: center;
 }
 
+@media (max-width:992px){
+  .checkout-selected-value {
+    overflow: unset;
+
+    .editAddress {
+      position: relative;
+      top: -40px;
+      margin: 0;
+    }
+  }
+}

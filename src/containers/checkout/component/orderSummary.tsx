@@ -588,6 +588,11 @@ const OrderSummary: React.FC<OrderProps> = props => {
           {pathname === "/order/checkout" ? getOrderItems() : null}
           {pathname === "/order/checkout" ? null : <hr className={styles.hr} />}
           <div className={styles.summaryAmountWrapper}>
+            {mobile && page == "checkout" && (
+              <div className={styles.orderSummaryTitle}>
+                <span className={styles.text}>ORDER SUMMARY</span>
+              </div>
+            )}
             <div className={cs(globalStyles.flex, globalStyles.gutterBetween)}>
               <span className={styles.subtotal}>SUBTOTAL</span>
               <span className={styles.subtotal}>
@@ -782,10 +787,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
 
         <div className={cs(styles.justchk)}>
           {getSummary()}
-          <div>
-            <div className={cs(styles.summaryPadding)}>
-              <hr className={cs(styles.hr)} />
-            </div>
+          <div className={styles.finalAmountWrapper}>
             <div
               className={cs(
                 globalStyles.flex,
