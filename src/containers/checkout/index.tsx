@@ -477,7 +477,7 @@ class Checkout extends React.Component<Props, State> {
   };
 
   nextStep = (step: string) => {
-    debugger;
+    // debugger;
     this.setState({ activeStep: step, currentStep: Steps.STEP_ORDER[step] });
   };
 
