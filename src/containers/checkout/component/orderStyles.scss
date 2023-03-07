@@ -505,7 +505,7 @@ body:has(.open-summary) {
       background-color: $med-charcoal;
     }
     .fixTotal {
-      padding: 16px 30px;
+      padding: 16px 24px;
 
       .summary-title {
         @include b4_12px_montserrat_white();
@@ -516,8 +516,6 @@ body:has(.open-summary) {
         display: flex;
         align-items: center;
         gap: 5px;
-        .totalAmount {
-        }
         .carret-down {
           height: 9px;
           width: 9px;

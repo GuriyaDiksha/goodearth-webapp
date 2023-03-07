@@ -783,7 +783,30 @@ const OrderSummary: React.FC<OrderProps> = props => {
         ref={orderSummaryRef}
         id="order-summary"
       >
-        <div className={cs(styles.summaryPadding, styles.summaryHeader)}></div>
+        {mobile && page == "checkout" ? (
+          ""
+        ) : (
+          <div className={cs(styles.summaryPadding, styles.summaryHeader)}>
+            <h3 className={cs(styles.summaryTitle)}>
+              ORDER SUMMARY{" "}
+              {pathname === "/order/checkout"
+                ? `(${basket.lineItems?.length})`
+                : null}
+              {page == "checkout" && !validbo ? (
+                boId ? (
+                  ""
+                ) : (
+                  <></>
+                  // <Link className={styles.editCart} to={"/cart"}>
+                  //   EDIT BAG
+                  // </Link>
+                )
+              ) : (
+                ""
+              )}
+            </h3>
+          </div>
+        )}
 
         <div className={cs(styles.justchk)}>
           {getSummary()}

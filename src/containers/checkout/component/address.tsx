@@ -231,59 +231,34 @@ const AddressSection: React.FC<AddressProps & {
             </>
           ) : currentCallBackComponent == "checkout-billing" ? (
             <>
-              {sameAsShipping ? (
-                <div
-                  className={cs(globalStyles.flex, globalStyles.gutterBetween)}
+              <div
+                className={cs(globalStyles.flex, globalStyles.gutterBetween)}
+              >
+                <span className={cs(globalStyles.marginR10, styles.name)}>
+                  {address.firstName} {address.lastName}
+                </span>
+                <span
+                  className={cs(
+                    globalStyles.colorPrimary,
+                    globalStyles.pointer,
+                    styles.editAddress
+                  )}
+                  onClick={handleStepEdit}
                 >
-                  <p className={styles.sameAsShippingAddress}>
-                    Same as Shipping Address
-                  </p>
-                  <span
-                    className={cs(
-                      globalStyles.colorPrimary,
-                      globalStyles.pointer,
-                      styles.editAddress
-                    )}
-                    onClick={handleStepEdit}
-                  >
-                    Edit
-                  </span>
+                  Edit
+                </span>
+              </div>
+              <div className={styles.addressMain}>
+                <div className={styles.text}>{address.line1},</div>
+                <div className={styles.text}>{address.line2},</div>
+                <div className={styles.text}>
+                  {address.city},{address.state}, {address.postCode},
                 </div>
-              ) : (
-                <>
-                  <div
-                    className={cs(
-                      globalStyles.flex,
-                      globalStyles.gutterBetween
-                    )}
-                  >
-                    <span className={cs(globalStyles.marginR10, styles.name)}>
-                      {address.firstName} {address.lastName}
-                    </span>
-                    <span
-                      className={cs(
-                        globalStyles.colorPrimary,
-                        globalStyles.pointer,
-                        styles.editAddress
-                      )}
-                      onClick={handleStepEdit}
-                    >
-                      Edit
-                    </span>
-                  </div>
-                  <div className={styles.addressMain}>
-                    <div className={styles.text}>{address.line1},</div>
-                    <div className={styles.text}>{address.line2},</div>
-                    <div className={styles.text}>
-                      {address.city},{address.state}, {address.postCode},
-                    </div>
-                    <div className={styles.text}>{address.countryName}</div>
-                  </div>
-                  <p className={styles.phone}>
-                    M: {address.phoneCountryCode} {address.phoneNumber}
-                  </p>
-                </>
-              )}
+                <div className={styles.text}>{address.countryName}</div>
+              </div>
+              <p className={styles.phone}>
+                M: {address.phoneCountryCode} {address.phoneNumber}
+              </p>
             </>
           ) : (
             <>
@@ -623,7 +598,7 @@ const AddressSection: React.FC<AddressProps & {
   };
 
   const onSelectAddress = (address?: AddressData) => {
-    if (address) {
+    if (address && isTermChecked) {
       const isValid = isAddressValid(address);
       if (isValid) {
         onSubmit(address);
@@ -774,64 +749,62 @@ const AddressSection: React.FC<AddressProps & {
                                 styles.checkoutAddressFooter
                               )}
                             >
-                              {props.activeStep == Steps.STEP_SHIPPING && (
-                                <div>
-                                  <label className={cs(styles.flex)}>
-                                    <div className={globalStyles.marginR10}>
-                                      <span className={styles.checkbox}>
-                                        <input
-                                          type="checkbox"
-                                          onClick={() =>
-                                            setIsTermChecked(!isTermChecked)
-                                          }
-                                        />
-                                        <span
-                                          className={cs(styles.indicator, {
-                                            [styles.checked]: isTermChecked
-                                          })}
-                                        ></span>
-                                      </span>
-                                    </div>
-                                    <div
-                                      className={cs(
-                                        styles.formSubheading,
-                                        styles.checkBoxHeading
-                                      )}
-                                    >
-                                      I agree to pay the additional applicable
-                                      duties and taxes directly to the shipping
-                                      agency at the time of the delivery. To
-                                      know more, referre to our{" "}
-                                      <span
-                                        onClick={() => openTermsPopup()}
-                                        className={
-                                          globalStyles.linkTextUnderline
+                              {/* {props.activeStep == Steps.STEP_SHIPPING && ( */}
+                              <div>
+                                <label className={cs(styles.flex)}>
+                                  <div className={globalStyles.marginR10}>
+                                    <span className={styles.checkbox}>
+                                      <input
+                                        type="checkbox"
+                                        onClick={() =>
+                                          setIsTermChecked(!isTermChecked)
                                         }
-                                      >
-                                        Shipping & Payment terms.
-                                      </span>
-                                    </div>
-                                  </label>
-                                  <div
-                                    onClick={() => {
-                                      next(Steps.STEP_BILLING);
-                                      onSelectAddress(
-                                        addressList?.find(
-                                          val =>
-                                            val?.isDefaultForShipping === true
-                                        )
-                                      );
-                                    }}
-                                    className={styles.sendToAddress}
-                                  >
-                                    {props.activeStep == Steps.STEP_SHIPPING
-                                      ? "SHIP TO THIS ADDRESS"
-                                      : props.activeStep == Steps.STEP_BILLING
-                                      ? "PROCEED TO PAYMENT"
-                                      : "SHIP TO THIS ADDRESS"}
+                                      />
+                                      <span
+                                        className={cs(styles.indicator, {
+                                          [styles.checked]: isTermChecked
+                                        })}
+                                      ></span>
+                                    </span>
                                   </div>
+                                  <div
+                                    className={cs(
+                                      styles.formSubheading,
+                                      styles.checkBoxHeading
+                                    )}
+                                  >
+                                    I agree to pay the additional applicable
+                                    duties and taxes directly to the shipping
+                                    agency at the time of the delivery. To know
+                                    more, referre to our{" "}
+                                    <span
+                                      onClick={() => openTermsPopup()}
+                                      className={globalStyles.linkTextUnderline}
+                                    >
+                                      Shipping & Payment terms.
+                                    </span>
+                                  </div>
+                                </label>
+                                <div
+                                  onClick={() => {
+                                    next(Steps.STEP_BILLING);
+                                    onSelectAddress(
+                                      addressList?.find(
+                                        val =>
+                                          val?.isDefaultForShipping === true
+                                      )
+                                    );
+                                  }}
+                                  className={styles.sendToAddress}
+                                >
+                                  {props.activeStep == Steps.STEP_SHIPPING
+                                    ? "SHIP TO THIS ADDRESS"
+                                    : props.activeStep == Steps.STEP_BILLING
+                                    ? "PROCEED TO PAYMENT"
+                                    : "SHIP TO THIS ADDRESS"}
                                 </div>
-                              )}
+                              </div>
+                              {/* )} */}
                               {!mobile &&
                                 addressList.length > 1 &&
                                 mode == "list" &&
