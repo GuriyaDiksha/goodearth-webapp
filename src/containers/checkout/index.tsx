@@ -200,6 +200,7 @@ type State = {
   errorNotification: string;
   onlyOnetime: boolean;
   isShipping: boolean;
+  currentStep: number;
 };
 
 class Checkout extends React.Component<Props, State> {
@@ -240,9 +241,18 @@ class Checkout extends React.Component<Props, State> {
           ? true
           : false,
       onlyOnetime: true,
-      isShipping: false
+      isShipping: false,
+      currentStep: props.user.isLoggedIn
+        ? props.user.shippingData
+          ? Steps.STEP_ORDER[Steps.STEP_BILLING]
+          : Steps.STEP_ORDER[Steps.STEP_SHIPPING]
+        : Steps.STEP_ORDER[Steps.STEP_LOGIN]
     };
   }
+
+  setCurrentStep = (step: number) => {
+    this.setState({ currentStep: step });
+  };
   setInfoPopupCookie() {
     const cookieString =
       "checkoutinfopopup3=show; expires=Sat, 01 Jan 2050 00:00:01 UTC; path=/";
@@ -467,7 +477,8 @@ class Checkout extends React.Component<Props, State> {
   };
 
   nextStep = (step: string) => {
-    this.setState({ activeStep: step });
+    debugger;
+    this.setState({ activeStep: step, currentStep: Steps.STEP_ORDER[step] });
   };
 
   appendObjectToFormData(data: any, obj: AddressData, rootKey: any) {
@@ -842,6 +853,7 @@ class Checkout extends React.Component<Props, State> {
                 addresses={this.props.addresses}
                 error={this.state.shippingError}
                 errorNotification={this.state.errorNotification}
+                currentStep={this.state.currentStep}
               />
               <AddressMain
                 isActive={this.isActiveStep(Steps.STEP_BILLING)}
@@ -857,6 +869,7 @@ class Checkout extends React.Component<Props, State> {
                 addressType={Steps.STEP_BILLING}
                 addresses={this.props.addresses}
                 error={this.state.billingError}
+                currentStep={this.state.currentStep}
               />
               {this.props.showPromo && (
                 <PromoSection

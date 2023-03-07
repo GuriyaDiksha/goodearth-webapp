@@ -39,7 +39,8 @@ const AddressSection: React.FC<AddressProps & {
     isGoodearthShipping,
     hidesameShipping,
     next,
-    errorNotification
+    errorNotification,
+    currentStep
   } = props;
   const { isLoggedIn } = useContext(UserContext);
   const {
@@ -75,25 +76,6 @@ const AddressSection: React.FC<AddressProps & {
   const [panError, setPanError] = useState("");
   const [panCheck, setPanCheck] = useState("");
   const [isTermChecked, setIsTermChecked] = useState(false);
-
-  const [shippingStatus, setShippingStatus] = useState(false);
-  const [billingStatus, setBillingStatus] = useState(false);
-
-  useEffect(() => {
-    if (activeStep == "SHIPPING") {
-      setShippingStatus(false);
-      setBillingStatus(false);
-    } else if (activeStep == "BILLING") {
-      setShippingStatus(true);
-      setBillingStatus(false);
-    }
-  }, [activeStep]);
-  console.log(activeStep, "Step Active");
-  console.log(shippingStatus, "Step Shipping");
-  console.log(billingStatus, "Step Billing");
-  // const activeStepHandler:string = () =>{
-
-  // }
 
   const dispatch = useDispatch();
   useEffect(() => {
@@ -672,12 +654,14 @@ const AddressSection: React.FC<AddressProps & {
                   styles.title
                 )}
               >
-                <img
-                  height={"18px"}
-                  className={globalStyles.marginR10}
-                  src={checkmarkCircle}
-                  alt="checkmarkdone"
-                />
+                {Steps.STEP_ORDER[activeStep] < currentStep ? (
+                  <img
+                    height={"18px"}
+                    className={globalStyles.marginR10}
+                    src={checkmarkCircle}
+                    alt="checkmarkdone"
+                  />
+                ) : null}
 
                 <span className={cs({ [styles.closed]: !isActive })}>
                   {activeStep == Steps.STEP_SHIPPING
@@ -733,12 +717,14 @@ const AddressSection: React.FC<AddressProps & {
                 )}
               >
                 <div>
-                  <img
-                    height={"15px"}
-                    className={globalStyles.marginR10}
-                    src={checkmarkCircle}
-                    alt="checkmarkdone"
-                  />
+                  {Steps.STEP_ORDER[activeStep] < currentStep ? (
+                    <img
+                      height={"18px"}
+                      className={globalStyles.marginR10}
+                      src={checkmarkCircle}
+                      alt="checkmarkdone"
+                    />
+                  ) : null}
                   <span className={cs({ [styles.closed]: !isActive })}>
                     {activeStep == Steps.STEP_SHIPPING
                       ? "SHIPPING ADDRESS"
@@ -827,14 +813,15 @@ const AddressSection: React.FC<AddressProps & {
                                     </div>
                                   </label>
                                   <div
-                                    onClick={() =>
+                                    onClick={() => {
+                                      next(Steps.STEP_BILLING);
                                       onSelectAddress(
                                         addressList?.find(
                                           val =>
                                             val?.isDefaultForShipping === true
                                         )
-                                      )
-                                    }
+                                      );
+                                    }}
                                     className={styles.sendToAddress}
                                   >
                                     {props.activeStep == Steps.STEP_SHIPPING
@@ -884,7 +871,10 @@ const AddressSection: React.FC<AddressProps & {
                             globalStyles.marginT20,
                             styles.sendToPayment
                           )}
-                          onClick={handleSaveAndReview}
+                          onClick={() => {
+                            next(Steps.STEP_PAYMENT);
+                            handleSaveAndReview();
+                          }}
                         >
                           Proceed to Payment
                         </div>

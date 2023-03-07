@@ -429,6 +429,7 @@ const AddressMain: React.FC<Props> = props => {
             error={props.error}
             errorNotification={props.errorNotification}
             isBridal={bridal}
+            currentStep={props.currentStep}
           >
             {addressContent}
           </AddressSection>
@@ -481,6 +482,7 @@ const AddressMain: React.FC<Props> = props => {
             error={props.error}
             errorNotification={props.errorNotification}
             isBridal={bridal}
+            currentStep={props.currentStep}
           >
             {addressContent}
           </AddressSection>

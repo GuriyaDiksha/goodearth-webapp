@@ -34,6 +34,7 @@ export type AddressProps = {
   // user:
   error: string;
   errorNotification?: string;
+  currentStep: number;
 };
 
 export type OrderProps = {
