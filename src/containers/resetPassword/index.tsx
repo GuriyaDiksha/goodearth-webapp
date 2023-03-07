@@ -14,7 +14,12 @@ import show from "../../images/showPass.svg";
 import hide from "../../images/hidePass.svg";
 import { RouteComponentProps, withRouter, useHistory } from "react-router";
 import AccountService from "services/account";
-import { errorTracking, getErrorList, pageViewGTM } from "utils/validate";
+import {
+  errorTracking,
+  getErrorList,
+  pageViewGTM,
+  decripttext
+} from "utils/validate";
 import LoginService from "services/login";
 import Login from "./login";
 
@@ -62,7 +67,7 @@ const ResetPassword: React.FC<Props> = props => {
     pageViewGTM("ResetPassword");
     const searchParams = new URLSearchParams(history.location.search);
     setRedirectTo(searchParams.get("redirect_to") || "");
-    const emailFromURl = valid.decripttext(
+    const emailFromURl = decripttext(
       searchParams.get("ei")?.replace(" ", "+") || "",
       true
     );
