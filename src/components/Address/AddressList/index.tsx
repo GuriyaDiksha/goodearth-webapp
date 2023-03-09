@@ -57,7 +57,7 @@ const AddressList: React.FC<Props> = props => {
     //   addressData = addressData.filter(data => data.id !== props.bridalId);
     // }
     setAddressData(addressData);
-  }, []);
+  }, [addressDataList]);
 
   // const [ addressDataList: addressData || [],
   const [isLoading] = useState(false);
