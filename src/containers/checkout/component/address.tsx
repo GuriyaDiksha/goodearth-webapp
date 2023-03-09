@@ -76,6 +76,7 @@ const AddressSection: React.FC<AddressProps & {
   const [panError, setPanError] = useState("");
   const [panCheck, setPanCheck] = useState("");
   const [isTermChecked, setIsTermChecked] = useState(false);
+  const [termsErr, setTermsErr] = useState("");
 
   const dispatch = useDispatch();
   useEffect(() => {
@@ -155,7 +156,6 @@ const AddressSection: React.FC<AddressProps & {
 
   const renderSavedAddress = function() {
     const address = selectedAddress;
-
     if (!isActive && address && isBridal && activeStep == Steps.STEP_SHIPPING) {
       // saved address for bridal
       return (
@@ -413,6 +413,9 @@ const AddressSection: React.FC<AddressProps & {
     if (validate) {
       removeErrorMessages();
       props.finalizeAddress(addr, props.activeStep, numberObj);
+      if (activeStep === Steps.STEP_BILLING) {
+        next(Steps.STEP_PAYMENT);
+      }
       return validate;
     } else {
       showErrorMsg();
@@ -482,7 +485,9 @@ const AddressSection: React.FC<AddressProps & {
                     ></span>
                   </span>
                 </div>
-                <div className={styles.formSubheading}>
+                <div
+                  className={cs(styles.formSubheading, styles.checkBoxHeading)}
+                >
                   I need a GST invoice
                 </div>
               </label>
@@ -542,7 +547,9 @@ const AddressSection: React.FC<AddressProps & {
                     ></span>
                   </span>
                 </div>
-                <div className={styles.formSubheading}>
+                <div
+                  className={cs(styles.formSubheading, styles.checkBoxHeading)}
+                >
                   I CONFIRM THAT THE DATA I HAVE SHARED IS CORRECT
                 </div>
               </label>
@@ -587,7 +594,7 @@ const AddressSection: React.FC<AddressProps & {
                 ></span>
               </span>
             </div>
-            <div className={styles.formSubheading}>
+            <div className={cs(styles.formSubheading, styles.checkBoxHeading)}>
               BILLING ADDRESS IS SAME AS SHIPPING ADDRESS
             </div>
           </label>
@@ -598,13 +605,20 @@ const AddressSection: React.FC<AddressProps & {
   };
 
   const onSelectAddress = (address?: AddressData) => {
-    if (address && isTermChecked) {
+    if (activeStep === Steps.STEP_SHIPPING && !isTermChecked) {
+      setTermsErr("Please confirm to terms and conditions");
+      return false;
+    }
+    if (address) {
       const isValid = isAddressValid(address);
       if (isValid) {
         onSubmit(address);
       } else {
         openAddressForm(address);
       }
+    }
+    if (activeStep === Steps.STEP_SHIPPING) {
+      next(Steps.STEP_BILLING);
     }
   };
   const renderCheckoutAddress = () => {
@@ -785,9 +799,18 @@ const AddressSection: React.FC<AddressProps & {
                                     </span>
                                   </div>
                                 </label>
+                                {termsErr && (
+                                  <div
+                                    className={cs(
+                                      globalStyles.errorMsg,
+                                      globalStyles.marginL30
+                                    )}
+                                  >
+                                    {termsErr}
+                                  </div>
+                                )}
                                 <div
                                   onClick={() => {
-                                    next(Steps.STEP_BILLING);
                                     onSelectAddress(
                                       addressList?.find(
                                         val =>
@@ -845,7 +868,6 @@ const AddressSection: React.FC<AddressProps & {
                             styles.sendToPayment
                           )}
                           onClick={() => {
-                            next(Steps.STEP_PAYMENT);
                             handleSaveAndReview();
                           }}
                         >

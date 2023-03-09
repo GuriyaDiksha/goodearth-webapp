@@ -40,7 +40,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
     const observerOptions = {
       rootMargin: "-130px 0px -170px 0px"
     };
-    const interSectionCallBack = enteries => {
+    const interSectionCallBack = (enteries: any) => {
       setPreviewTriggerStatus(enteries[0].isIntersecting);
     };
     observer = new IntersectionObserver(interSectionCallBack, observerOptions);
@@ -48,7 +48,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
   };
   useEffect(() => {
     handleScroll();
-    return () => observer.unobserve(orderSummaryRef.current);
+    return () => observer?.unobserve(orderSummaryRef?.current);
   }, []);
   // End: Intersection Observer (Mobile)
 
@@ -63,7 +63,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
   const onArrowButtonClick = () => {
     setIsSuspended(true);
     // orderSummaryRef.current
-    if (orderSummaryRef) {
+    if (orderSummaryRef && orderSummaryRef?.current) {
       orderSummaryRef.current.scrollIntoView({
         behavior: "smooth",
         block: "start"

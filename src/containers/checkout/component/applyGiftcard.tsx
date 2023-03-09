@@ -34,7 +34,7 @@ class ApplyGiftcard extends React.Component<Props, GiftState> {
     this.state = {
       txtvalue: "",
       error: "",
-      newCardBox: props.giftList.length > 0 ? false : true,
+      newCardBox: true,
       toggleOtp: false,
       isActivated: false,
       cardType: "GIFTCARD"
@@ -98,7 +98,7 @@ class ApplyGiftcard extends React.Component<Props, GiftState> {
             });
           }
           this.setState({
-            newCardBox: false,
+            // newCardBox: false,
             txtvalue: "",
             error: ""
           });
@@ -118,7 +118,7 @@ class ApplyGiftcard extends React.Component<Props, GiftState> {
       );
     } else {
       this.setState({
-        newCardBox: false,
+        // newCardBox: false,
         txtvalue: ""
       });
     }
@@ -126,7 +126,7 @@ class ApplyGiftcard extends React.Component<Props, GiftState> {
 
   newGiftcard = () => {
     this.setState({
-      newCardBox: true
+      // newCardBox: true
     });
   };
   onClose = (code: string, type: string) => {
@@ -139,7 +139,7 @@ class ApplyGiftcard extends React.Component<Props, GiftState> {
       .removeGiftCard(data, this.props.history, this.props.user.isLoggedIn)
       .then(response => {
         this.setState({
-          newCardBox: true,
+          // newCardBox: true,
           error: ""
         });
       });
@@ -257,20 +257,15 @@ class ApplyGiftcard extends React.Component<Props, GiftState> {
                               : cs(styles.marginR10, styles.ht50)
                           }
                         />
-                      </div>
-
-                      <span
-                        className={cs(
-                          styles.colorPrimary,
-                          globalStyles.pointer,
-                          { [globalStyles.hidden]: !isLoggedIn }
-                        )}
-                      >
                         <span
-                          className={styles.arrowrightsmall}
+                          className={cs(styles.applyBtn, globalStyles.pointer, {
+                            [globalStyles.hidden]: !isLoggedIn
+                          })}
                           onClick={this.applyCard}
-                        ></span>
-                      </span>
+                        >
+                          Apply
+                        </span>
+                      </div>
                     </div>
                     {this.state.cardType == "GIFTCARD" ? (
                       <label>Gift Card Code</label>

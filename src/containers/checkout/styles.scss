@@ -519,21 +519,20 @@
   background: white;
   display: inline-block;
   border-radius: 50%;
-  border: 1px solid #666;
+  border: 1px solid $light-charcoal;
 }
 
 .radio .indicator::after {
-  bottom: 10px;
-  left: 9px;
-  width: 5px;
-  height: 10px;
-  content: "";
   display: none;
+  content: "";
+  height: 18px;
+  width: 18px;
+  border-radius: 50%;
+  background-color: $aqua;
   position: absolute;
-  -webkit-transform: rotate(45deg);
-  transform: rotate(45deg);
-  border: solid #ab1e56;
-  border-width: 0 2px 2px 0;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 .radio input:checked ~ .indicator::after {
   display: block;
@@ -974,7 +973,7 @@ input[type="radio"] {
   padding: 20px;
   max-width: 100%;
   background-color: #f9f8f5;
-  margin-top: 20px;
+  margin-top: 0px;
   width: 100%;
 }
 .font14 {
@@ -1110,6 +1109,14 @@ input[type="radio"] {
   text-align: center;
   cursor: pointer;
   margin-top: 24px;
+
+  span{
+    @include b4_12px_montserrat_white();
+  }
+
+  &:disabled{
+    background-color: #9F9F9F;
+  }
 }
 .checkout-selected-value {
   .name {
@@ -1151,6 +1158,15 @@ input[type="radio"] {
   margin: auto 0;
   width: auto;
   @include b5_10px_montserrat_charcoal();
+  a{
+    border-bottom: 1px solid $charcoal19;
+    color: $charcoal19;
+    text-decoration: none;
+    &:hover{
+      color: aqua;
+      border-bottom: 1px solid $aqua;
+    }
+  }
 }
 
 .justify-right {
@@ -1170,4 +1186,17 @@ input[type="radio"] {
       margin: 0;
     }
   }
+}
+
+.gift-img{
+  filter: invert(1) grayscale(9);
+  margin-top: -8px;
+}
+
+.margin-t5 {
+  margin-top: 5px;
+}
+
+.payment-title{
+  @include b4_12px_medium_light_charcoal();
 }

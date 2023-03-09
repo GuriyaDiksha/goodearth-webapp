@@ -19,6 +19,7 @@ import CookieService from "services/cookie";
 import * as util from "../../../utils/validate";
 import CheckoutService from "services/checkout";
 import { GA_CALLS, ANY_ADS } from "constants/cookieConsent";
+import { currencyCodes } from "constants/currency";
 
 const PaymentSection: React.FC<PaymentProps> = props => {
   const data: any = {};
@@ -292,12 +293,16 @@ const PaymentSection: React.FC<PaymentProps> = props => {
                   setGiftwrapprice(!giftwrap);
                 }}
               />
-              <span className={styles.indicator}></span>
+              <span
+                className={cs(styles.indicator, { [styles.checked]: giftwrap })}
+              ></span>
             </span>
           </div>
-          <div className={globalStyles.c10LR}>{"GIFT WRAP THIS ORDER"}</div>
-          <div>
-            <img src={giftwrapIcon} width="40px" />
+          <div className={cs(styles.formSubheading, styles.checkBoxHeading)}>
+            {"Gift Wrap This Order"}
+          </div>
+          <div className={styles.giftImg}>
+            <img src={giftwrapIcon} width="30px" />
           </div>
         </label>
       </div>
@@ -317,11 +322,15 @@ const PaymentSection: React.FC<PaymentProps> = props => {
                   setGiftwrapprice(!giftwrapprice);
                 }}
               />
-              <span className={styles.indicator}></span>
+              <span
+                className={cs(styles.indicator, {
+                  [styles.checked]: giftwrapprice
+                })}
+              ></span>
             </span>
           </div>
-          <div className={globalStyles.c10LR}>
-            {"PLEASE REMOVE PRICES FROM ALL ITEMS IN THIS SHIPMENT"}
+          <div className={cs(styles.formSubheading, styles.checkBoxHeading)}>
+            {"Please Remove Prices From All Items In This Shipment"}
           </div>
         </label>
       </div>
@@ -329,61 +338,62 @@ const PaymentSection: React.FC<PaymentProps> = props => {
   }, [giftwrapprice]);
 
   return (
-    <div
-      className={
-        isActive
-          ? cs(styles.card, styles.cardOpen, styles.marginT20)
-          : cs(styles.card, styles.cardClosed, styles.marginT20)
-      }
-    >
-      <div className={bootstrapStyles.row}>
-        <div
-          className={cs(
-            bootstrapStyles.col12,
-            bootstrapStyles.colMd6,
-            styles.title
-          )}
-        >
-          <span className={isActive ? "" : styles.closed}>
-            GIFTING & PAYMENT
-          </span>
+    <>
+      <div
+        className={
+          isActive
+            ? cs(styles.card, styles.cardOpen, styles.marginT5)
+            : cs(styles.card, styles.cardClosed, styles.marginT5)
+        }
+      >
+        <div className={bootstrapStyles.row}>
+          <div
+            className={cs(
+              bootstrapStyles.col12,
+              bootstrapStyles.colMd6,
+              styles.title
+            )}
+          >
+            <span className={isActive ? "" : styles.closed}>
+              GIFTING & PAYMENT
+            </span>
+          </div>
         </div>
-      </div>
-      {isActive && (
-        <Fragment>
-          {showGiftWrap && (
-            <>
-              {!basket.isOnlyGiftCart && giftWrapRender}
-              {giftwrap && !basket.isOnlyGiftCart && (
-                <div className={styles.giftWrapMessage}>
-                  <textarea
-                    rows={5}
-                    className={styles.giftMessage}
-                    value={textarea}
-                    placeholder={"add message (optional)"}
-                    autoComplete="new-password"
-                    onChange={(e: any) => {
-                      if (e.target.value.length <= 250) {
-                        setTextarea(e.target.value);
-                      } else if (e.target.value.length >= 250) {
-                        setTextarea(e.target.value.substring(0, 250));
-                      }
-                    }}
-                  />
-                  <div className={cs(globalStyles.textRight, styles.font14)}>
-                    Character Limit: {250 - textarea.length} / 250
+        {isActive && (
+          <Fragment>
+            {showGiftWrap && (
+              <>
+                {!basket.isOnlyGiftCart && giftWrapRender}
+                {giftwrap && !basket.isOnlyGiftCart && (
+                  <div className={styles.giftWrapMessage}>
+                    <textarea
+                      rows={5}
+                      className={styles.giftMessage}
+                      value={textarea}
+                      placeholder={"add message (optional)"}
+                      autoComplete="new-password"
+                      onChange={(e: any) => {
+                        if (e.target.value.length <= 250) {
+                          setTextarea(e.target.value);
+                        } else if (e.target.value.length >= 250) {
+                          setTextarea(e.target.value.substring(0, 250));
+                        }
+                      }}
+                    />
+                    <div className={cs(globalStyles.textLeft, styles.font14)}>
+                      Char Limit: {250 - textarea.length} / 250
+                    </div>
                   </div>
-                </div>
-              )}
-              {giftwrap && !basket.isOnlyGiftCart && giftShowPrice}
-              {!basket.isOnlyGiftCart && <hr className={styles.hr} />}
-            </>
-          )}
-          <div className={globalStyles.marginT20}>
-            {!basket.isOnlyGiftCart && (
-              <div className={globalStyles.flex}>
-                <hr className={styles.hr} />
-                <div
+                )}
+                {giftwrap && !basket.isOnlyGiftCart && giftShowPrice}
+                {!basket.isOnlyGiftCart && <hr className={styles.hr} />}
+              </>
+            )}
+            <div className={globalStyles.marginT20}>
+              {!basket.isOnlyGiftCart && (
+                <div className={globalStyles.flex}>
+                  <hr className={styles.hr} />
+                  {/* <div
                   className={cs(
                     styles.marginR10,
                     globalStyles.cerise,
@@ -392,74 +402,94 @@ const PaymentSection: React.FC<PaymentProps> = props => {
                   onClick={toggleInput}
                 >
                   {isactivepromo ? "-" : "+"}
-                </div>
-                <div className={styles.inputContainer}>
-                  <div
-                    className={cs(
-                      globalStyles.c10LR,
-                      styles.promoMargin,
-                      globalStyles.cerise,
-                      globalStyles.pointer
-                    )}
-                    onClick={toggleInput}
-                  >
-                    APPLY GIFT CARD CODE/ CREDIT NOTE
-                  </div>
-                  {isactivepromo ? <ApplyGiftcard /> : ""}
-                  {/* {renderInput()}
-                {renderCoupon()} */}
-                </div>
-              </div>
-            )}
-
-            {loyaltyData?.detail && currency == "INR" && (
-              <Fragment>
-                <hr className={styles.hr} />
-                <div className={bootstrapStyles.row}>
-                  <div
-                    className={cs(
-                      bootstrapStyles.col12,
-                      bootstrapStyles.colMd6,
-                      styles.title
-                    )}
-                  >
-                    <span className={isActive ? "" : styles.closed}>
-                      REDEEM CERISE POINTS
-                    </span>
-                  </div>
-                </div>
-                <hr className={styles.hr} />
-                <div className={globalStyles.flex}>
-                  <div
-                    className={cs(
-                      styles.marginR10,
-                      globalStyles.cerise,
-                      globalStyles.pointer
-                    )}
-                    onClick={toggleInputReedem}
-                  >
-                    {isactiveredeem ? "-" : "+"}
-                  </div>
+                </div> */}
                   <div className={styles.inputContainer}>
+                    <label
+                      className={cs(
+                        globalStyles.flex,
+                        globalStyles.crossCenter
+                      )}
+                    >
+                      <div className={styles.marginR10}>
+                        <span className={styles.checkbox}>
+                          <input
+                            type="radio"
+                            checked={isactivepromo}
+                            onClick={() => {
+                              toggleInput();
+                            }}
+                          />
+                          <span
+                            className={cs(styles.indicator, {
+                              [styles.checked]: isactivepromo
+                            })}
+                          ></span>
+                        </span>
+                      </div>
+                      <div
+                        className={cs(
+                          styles.formSubheading,
+                          styles.checkBoxHeading
+                        )}
+                      >
+                        {"Apply Gift Card Code/ Credit Note"}
+                      </div>
+                    </label>
+                    {isactivepromo ? <ApplyGiftcard /> : ""}
+                    {/* {renderInput()}
+                {renderCoupon()} */}
+                  </div>
+                </div>
+              )}
+
+              {loyaltyData?.detail && currency == "INR" && (
+                <Fragment>
+                  <hr className={styles.hr} />
+                  <div className={bootstrapStyles.row}>
                     <div
                       className={cs(
-                        globalStyles.c10LR,
-                        styles.promoMargin,
+                        bootstrapStyles.col12,
+                        bootstrapStyles.colMd6,
+                        styles.title
+                      )}
+                    >
+                      <span className={isActive ? "" : styles.closed}>
+                        REDEEM CERISE POINTS
+                      </span>
+                    </div>
+                  </div>
+                  <hr className={styles.hr} />
+                  <div className={globalStyles.flex}>
+                    <div
+                      className={cs(
+                        styles.marginR10,
                         globalStyles.cerise,
                         globalStyles.pointer
                       )}
                       onClick={toggleInputReedem}
                     >
-                      REDEEM CERISE POINTS
+                      {isactiveredeem ? "-" : "+"}
                     </div>
-                    {isactiveredeem ? <Reedem /> : ""}
+                    <div className={styles.inputContainer}>
+                      <div
+                        className={cs(
+                          globalStyles.c10LR,
+                          styles.promoMargin,
+                          globalStyles.cerise,
+                          globalStyles.pointer
+                        )}
+                        onClick={toggleInputReedem}
+                      >
+                        REDEEM CERISE POINTS
+                      </div>
+                      {isactiveredeem ? <Reedem /> : ""}
+                    </div>
                   </div>
-                </div>
-              </Fragment>
-            )}
+                </Fragment>
+              )}
 
-            {isPaymentNeeded && <hr className={styles.hr} />}
-            {isPaymentNeeded && (
+              {/* {isPaymentNeeded && <hr className={styles.hr} />} */}
+              {/* {isPaymentNeeded && (
               <div className={globalStyles.marginT30}>
                 <div className={styles.title}>SELECT YOUR MODE OF PAYMENT</div>
                 {getMethods.map(function(method, index) {
@@ -490,10 +520,10 @@ const PaymentSection: React.FC<PaymentProps> = props => {
                   );
                 })}
               </div>
-            )}
-          </div>
+            )} */}
+            </div>
 
-          <div
+            {/* <div
             className={cs(globalStyles.errorMsg, globalStyles.marginT20)}
             data-name="error-msg"
           >
@@ -535,8 +565,8 @@ const PaymentSection: React.FC<PaymentProps> = props => {
                 </Link>
               </label>
             </div>
-          </label>
-          {/* {currency == "GBP" && (
+          </label> */}
+            {/* {currency == "GBP" && (
             <label
               className={cs(
                 globalStyles.flex,
@@ -581,7 +611,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
           >
             {gbpError}
           </div> */}
-          {isLoading && <Loader />}
+            {/* {isLoading && <Loader />}
           <button
             className={cs(globalStyles.marginT10, globalStyles.ceriseBtn, {
               [globalStyles.disabledBtn]: isLoading
@@ -594,10 +624,122 @@ const PaymentSection: React.FC<PaymentProps> = props => {
                 ? "PROCEED TO PAYMENT GATEWAY"
                 : "PROCEED TO A SECURE PAYMENT GATEWAY"
               : "PLACE ORDER"}
-          </button>
-        </Fragment>
-      )}
-    </div>
+          </button> */}
+          </Fragment>
+        )}
+      </div>
+
+      <div
+        className={
+          isActive
+            ? cs(styles.card, styles.cardOpen, styles.marginT5)
+            : cs(styles.card, styles.cardClosed, styles.marginT5)
+        }
+      >
+        {isPaymentNeeded && (
+          <div className={globalStyles.marginT30}>
+            <div className={styles.title}>SELECT PAYMENT METHOD</div>
+            {getMethods.map(function(method, index) {
+              return (
+                <div className={globalStyles.marginT20} key={index}>
+                  <label
+                    className={cs(globalStyles.flex, globalStyles.crossCenter)}
+                  >
+                    <div className={styles.marginR10}>
+                      <span className={styles.radio}>
+                        <input
+                          type="radio"
+                          value={method.mode}
+                          checked={
+                            method.mode == currentmethod.mode ? true : false
+                          }
+                          onChange={event => onMethodChange(event, method)}
+                        />
+                        <span className={styles.indicator}></span>
+                      </span>
+                    </div>
+                    <div className={styles.paymentTitle}>{method.value}</div>
+                  </label>
+                </div>
+              );
+            })}
+
+            <div
+              className={cs(globalStyles.errorMsg, globalStyles.marginT20)}
+              data-name="error-msg"
+            >
+              {paymentError}
+            </div>
+            <div>
+              <hr className={styles.hr} />
+            </div>
+            <label
+              className={cs(
+                globalStyles.flex,
+                { [globalStyles.crossCenter]: !mobile },
+                globalStyles.voffset2
+              )}
+            >
+              <div className={styles.marginR10}>
+                <span className={styles.checkbox}>
+                  <input
+                    type="checkbox"
+                    id="subscribe"
+                    onChange={e => {
+                      onClickSubscribe(e);
+                    }}
+                    checked={subscribevalue}
+                  />
+                  <span
+                    className={cs(styles.indicator, {
+                      [styles.checked]: subscribevalue
+                    })}
+                  ></span>
+                </span>
+              </div>
+              <div className={globalStyles.c10LR}>
+                <label
+                  htmlFor="subscribe"
+                  className={cs(
+                    globalStyles.pointer,
+                    styles.linkCerise,
+                    styles.formSubheading,
+                    styles.checkBoxHeading
+                  )}
+                >
+                  I agree to receiving e-mails, newsletters, calls and text
+                  messages for service related information. To know more how we
+                  keep your data safe, refer to our{" "}
+                  <Link
+                    to="/customer-assistance/privacy-policy"
+                    target="_blank"
+                  >
+                    Privacy Policy
+                  </Link>
+                </label>
+              </div>
+            </label>
+          </div>
+        )}
+        {isLoading && <Loader />}
+        <button
+          className={cs(globalStyles.marginT10, styles.sendToPayment, {
+            [styles.disabledBtn]:
+              isLoading || Object.keys(currentmethod).length === 0
+          })}
+          onClick={onsubmit}
+          disabled={isLoading || Object.keys(currentmethod).length === 0}
+        >
+          <span>
+            Amount Payable:{" "}
+            {String.fromCharCode(...currencyCodes[props.currency])}{" "}
+            {parseFloat(basket?.total?.toString()).toFixed(2)}
+            <br />
+          </span>
+          {isPaymentNeeded ? "PROCEED TO PAYMENT" : "PLACE ORDER"}
+        </button>
+      </div>
+    </>
   );
 };
 

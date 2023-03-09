@@ -114,7 +114,7 @@ const GiftCardItem = ({
             <span>
               {" "}
               {String.fromCharCode(...unicode)} {remainingAmount}
-              {` expires on` + expiryDate}
+              {`| expired on:` + expiryDate}
             </span>
           </p>
         </div>
