@@ -263,6 +263,7 @@ span.error-msg {
   letter-spacing: 1px;
   text-align: left;
   line-height: 15px;
+
 }
 
 .verify-heading {
@@ -287,6 +288,11 @@ span.error-msg {
   &.main-login-error{
     margin-bottom: 20px;
     text-align: left;
+  }
+  u{
+    &:hover{
+      cursor: pointer;
+    }
   }
 }
 
