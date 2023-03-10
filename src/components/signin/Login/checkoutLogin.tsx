@@ -541,8 +541,8 @@ class CheckoutLoginForm extends React.Component<Props, loginState> {
               <img src={this.state.showPassword ? show : hide} />
             </span>
           </div>
-          <div className={globalStyles.textCenter}>
-            <p
+          <div className={globalStyles.textRight}>
+            <span
               className={cs(
                 styles.formSubheading,
                 globalStyles.voffset3,
@@ -559,7 +559,7 @@ class CheckoutLoginForm extends React.Component<Props, loginState> {
             >
               {" "}
               FORGOT PASSWORD
-            </p>
+            </span>
           </div>
           <div>
             {this.state.showerror ? (

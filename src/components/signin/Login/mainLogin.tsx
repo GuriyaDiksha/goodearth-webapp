@@ -572,8 +572,8 @@ class MainLogin extends React.Component<Props, loginState> {
               <img src={this.state.showPassword ? show : hide} />
             </span>
           </div>
-          <div className={globalStyles.textCenter}>
-            <p
+          <div className={globalStyles.textRight}>
+            <span
               className={cs(styles.forgotPassword, globalStyles.pointer)}
               onClick={e => {
                 this.props.goForgotPassword(
@@ -584,8 +584,8 @@ class MainLogin extends React.Component<Props, loginState> {
                 );
               }}
             >
-              <span>FORGOT PASSWORD</span>
-            </p>
+              FORGOT PASSWORD
+            </span>
           </div>
           <div>
             {this.state.showerror ? (
