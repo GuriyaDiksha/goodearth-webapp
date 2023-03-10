@@ -83,9 +83,7 @@ class ForgotPasswordForm extends React.Component<Props, ForgotPasswordState> {
             successMsg: data.success,
             disableSelectedbox: false
           });
-          this.props.showGrowlMessage(
-            "Password reset email has been sent. Please follow steps in email to proceed."
-          );
+          this.props.showGrowlMessage(data.success);
           const email = document.getElementById("email") as HTMLInputElement;
           email.disabled = true;
         })

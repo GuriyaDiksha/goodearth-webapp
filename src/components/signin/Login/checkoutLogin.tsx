@@ -107,16 +107,9 @@ class CheckoutLoginForm extends React.Component<Props, loginState> {
                 "Looks like you are signing in for the first time. ",
                 <br key={2} />,
                 "Please ",
-                <span
-                  className={cs(
-                    globalStyles.errorMsg,
-                    globalStyles.linkTextUnderline
-                  )}
-                  key={1}
-                  onClick={this.handleResetPassword}
-                >
+                <u key={1} onClick={this.handleResetPassword}>
                   set a new password
-                </span>,
+                </u>,
                 " to Login!"
               ];
               this.setState({
