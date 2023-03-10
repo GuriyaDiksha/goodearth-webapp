@@ -1071,7 +1071,7 @@ class PDPContainer extends React.Component<Props, State> {
         sliderImages: plpSliderImages
       },
       false,
-      ModalStyles.bottomAlign
+      undefined
     );
     changeModalState(true);
   };
