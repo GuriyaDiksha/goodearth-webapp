@@ -10,10 +10,11 @@ import ApplyPromo from "./applyPromo";
 import { useSelector } from "react-redux";
 import { AppState } from "reducers/typings";
 import { useHistory } from "react-router";
+import checkmarkCircle from "./../../../images/checkmarkCircle.svg";
 // import * as util from "utils/validate";
 
 const PromoSection: React.FC<PromoProps> = props => {
-  const { isActive, next, selectedAddress } = props;
+  const { isActive, next, selectedAddress, activeStep, currentStep } = props;
   const [isactivepromo, setIsactivepromo] = useState(false);
   const { basket, info } = useSelector((state: AppState) => state);
   const toggleInput = () => {
@@ -45,7 +46,7 @@ const PromoSection: React.FC<PromoProps> = props => {
       PromoChild.gcBalance();
     } else {
       // util.checkoutGTM(4, currency, basket);
-      next(Steps.STEP_PAYMENT);
+      // next(Steps.STEP_PAYMENT);
     }
   };
 
@@ -81,6 +82,14 @@ const PromoSection: React.FC<PromoProps> = props => {
             styles.title
           )}
         >
+          {Steps.STEP_ORDER[activeStep] < currentStep ? (
+            <img
+              height={"18px"}
+              className={globalStyles.marginR10}
+              src={checkmarkCircle}
+              alt="checkmarkdone"
+            />
+          ) : null}
           <span className={isActive ? "" : styles.closed}>PROMO CODE</span>
         </div>
 
@@ -94,12 +103,14 @@ const PromoSection: React.FC<PromoProps> = props => {
             onClick={onCurrentState}
           >
             <span className={styles.marginR10}>
-              <span className={styles.bold}>
+              <span className={styles.promoCode}>
                 {basket.voucherDiscounts[0]?.voucher?.code}
               </span>
-              {" PROMO CODE APPLIED"}
+              <span className={styles.promoCodeApplied}>
+                Promo Code Applied
+              </span>
             </span>
-            <span className={cs(globalStyles.cerise, globalStyles.pointer)}>
+            <span className={cs(globalStyles.pointer, styles.promoEdit)}>
               Edit
             </span>
           </div>
@@ -138,7 +149,7 @@ const PromoSection: React.FC<PromoProps> = props => {
             <div className={globalStyles.marginT20}>
               <hr className={styles.hr} />
               <div className={globalStyles.flex}>
-                <div
+                {/* <div
                   className={cs(
                     styles.marginR10,
                     globalStyles.cerise,
@@ -149,9 +160,9 @@ const PromoSection: React.FC<PromoProps> = props => {
                   }}
                 >
                   {isactivepromo ? "-" : "+"}
-                </div>
+                </div> */}
                 <div className={styles.inputContainer}>
-                  <div
+                  {/* <div
                     className={cs(
                       globalStyles.c10LR,
                       styles.promoMargin,
@@ -163,29 +174,60 @@ const PromoSection: React.FC<PromoProps> = props => {
                     }}
                   >
                     APPLY PROMO CODE
-                  </div>
+                  </div> */}
+                  <label
+                    className={cs(globalStyles.flex, globalStyles.crossCenter)}
+                  >
+                    <div className={styles.marginR10}>
+                      <span className={styles.checkbox}>
+                        <input
+                          type="radio"
+                          checked={isactivepromo}
+                          onClick={() => {
+                            basket.voucherDiscounts.length > 0
+                              ? ""
+                              : toggleInput();
+                          }}
+                        />
+                        <span
+                          className={cs(styles.indicator, {
+                            [styles.checked]: isactivepromo
+                          })}
+                        ></span>
+                      </span>
+                    </div>
+                    <div
+                      className={cs(
+                        styles.formSubheading,
+                        styles.checkBoxHeading
+                      )}
+                    >
+                      {"Apply Promo"}
+                    </div>
+                  </label>
                   {isactivepromo && (
                     <ApplyPromo
                       onRef={(el: any) => {
                         PromoChild = el;
                       }}
                       onNext={onNext}
+                      onsubmit={onsubmit}
                     />
                   )}
                   {/* {renderInput()}
                 {renderCoupon()} */}
                 </div>
               </div>
-              <hr className={styles.hr} />
+              {/* <hr className={styles.hr} /> */}
             </div>
           )}
 
-          <button
+          {/* <button
             className={cs(globalStyles.marginT40, globalStyles.ceriseBtn)}
             onClick={onsubmit}
           >
             PROCEED TO PAYMENT
-          </button>
+          </button> */}
         </Fragment>
       )}
     </div>

@@ -556,3 +556,19 @@
   width: 50%;
   margin-left: 10px;
 }
+
+.promo-input{
+  width: 60%;
+}
+
+.promo-apply-btn{
+  border: 1px solid $charcoal19;
+  background-color: $charcoal19;
+  height: 50px;
+  width: 118px;
+  @include b4_12px_montserrat_white();
+
+  &:hover{
+    color: $white;
+  }
+}

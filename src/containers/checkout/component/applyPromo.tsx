@@ -20,6 +20,7 @@ const mapStateToProps = (state: AppState) => {
 export type PromoProps = {
   onRef: any;
   onNext: () => void;
+  onsubmit: () => void;
 };
 type Props = ReturnType<typeof mapDispatchToProps> &
   ReturnType<typeof mapStateToProps> &
@@ -176,9 +177,14 @@ class ApplyPromo extends React.Component<Props, GiftState> {
               <div>
                 <Fragment>
                   <div
-                    className={cs(styles.flex, styles.vCenter, {
-                      [globalStyles.hidden]: !newCardBox
-                    })}
+                    className={cs(
+                      styles.flex,
+                      styles.vCenter,
+                      styles.promoInput,
+                      {
+                        [globalStyles.hidden]: !newCardBox
+                      }
+                    )}
                   >
                     <input
                       type="text"
@@ -189,11 +195,17 @@ class ApplyPromo extends React.Component<Props, GiftState> {
                       className={
                         this.state.error
                           ? cs(styles.marginR10, styles.err)
-                          : styles.marginR10
+                          : undefined
                       }
                     />
+                    <button
+                      className={styles.promoApplyBtn}
+                      onClick={() => this.props.onsubmit()}
+                    >
+                      Apply
+                    </button>
                   </div>
-                  <label>Promo Code</label>
+                  {/* <label>Promo Code</label> */}
                 </Fragment>
                 {this.state.error ? (
                   <p className={cs(globalStyles.errorMsg)}>

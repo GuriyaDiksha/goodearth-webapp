@@ -877,10 +877,15 @@ class Checkout extends React.Component<Props, State> {
                   user={this.props.user}
                   next={this.nextStep}
                   selectedAddress={this.state.billingAddress}
+                  activeStep={Steps.STEP_PROMO}
+                  currentStep={this.state.currentStep}
                 />
               )}
               <PaymentSection
-                isActive={this.isActiveStep(Steps.STEP_PAYMENT)}
+                isActive={
+                  this.isActiveStep(Steps.STEP_PAYMENT) ||
+                  this.isActiveStep(Steps.STEP_PROMO)
+                }
                 user={this.props.user}
                 checkout={this.finalOrder}
                 currency={this.props.currency}
