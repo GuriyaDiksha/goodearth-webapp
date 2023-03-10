@@ -41,4 +41,6 @@ export type RegisterProps = {
   nextStep?: () => void;
   changeEmail?: () => void;
   goToLogin: () => void;
+  isCheckout?: boolean;
+  setIsSuccessMsg?: (arg: boolean) => void;
 };
