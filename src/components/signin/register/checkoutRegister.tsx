@@ -103,6 +103,16 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
     this.changeCountryData(this.props.countryData);
   }
 
+  componentDidUpdate(
+    prevProps: Readonly<Props>,
+    prevState: Readonly<registerState>,
+    snapshot?: any
+  ): void {
+    if (this.state.successMsg) {
+      this.props.setIsSuccessMsg?.(true);
+    }
+  }
+
   UNSAFE_componentWillReceiveProps(nextProps: Props) {
     if (nextProps.countryData.length != this.props.countryData.length) {
       this.changeCountryData(nextProps.countryData);
@@ -866,7 +876,7 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
               inputRef={this.countryCodeRef}
             /> */}
             <FormInput
-              required
+              // required
               name="phone"
               value=""
               placeholder={"Contact Number"}
@@ -1143,30 +1153,47 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
             ) : (
               ""
             )}
-            <input
-              type="submit"
-              className={
-                this.state.disableButton || !this.state.showFields
-                  ? cs(globalStyles.disabledBtn, globalStyles.charcoalBtn)
-                  : globalStyles.charcoalBtn
-              }
-              value="Create My Account & Proceed"
-              disabled={this.state.disableButton || !this.state.showFields}
-            />
-            <input
-              type="submit"
-              className={cs(
-                globalStyles.charcoalBtn,
-                globalStyles.withWhiteBgNoHover,
-                styles.changeEmailBtn
-              )}
-              value="Go Back"
-              onClick={this.changeEmail}
-            />
+            {!this.props.isCheckout && (
+              <input
+                type="submit"
+                className={
+                  this.state.disableButton || !this.state.showFields
+                    ? cs(globalStyles.disabledBtn, globalStyles.charcoalBtn)
+                    : globalStyles.charcoalBtn
+                }
+                value="Create My Account & Proceed"
+                disabled={this.state.disableButton || !this.state.showFields}
+              />
+            )}
+            {!this.props.isCheckout && (
+              <input
+                type="submit"
+                className={cs(
+                  globalStyles.charcoalBtn,
+                  globalStyles.withWhiteBgNoHover,
+                  styles.changeEmailBtn
+                )}
+                value="Go Back"
+                onClick={this.changeEmail}
+              />
+            )}
+            {this.props.isCheckout && (
+              <input
+                type="submit"
+                className={
+                  this.state.disableButton || !this.state.showFields
+                    ? cs(globalStyles.disabledBtn, globalStyles.ceriseBtn)
+                    : globalStyles.ceriseBtn
+                }
+                value="Continue"
+                disabled={this.state.disableButton || !this.state.showFields}
+              />
+            )}
           </div>
         </div>
       </Formsy>
     );
+
     const footer = (
       <>
         <div className={globalStyles.textCenter}>
@@ -1187,23 +1214,41 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
             successMsg=""
             changeEmail={this.changeEmail}
             goLogin={this.props.goToLogin}
+            isCheckout={true}
           />
         ) : (
           <>
-            {this.state.successMsg && (
+            {this.state.successMsg && this.props.isCheckout && (
               <div
                 className={cs(bootstrapStyles.col10, bootstrapStyles.offset1)}
               >
-                <div className={globalStyles.successMsg}>
+                <div
+                  className={cs(styles.successMsg, {
+                    [styles.oldSuccessMsg]: this.props.isCheckout
+                  })}
+                >
                   {this.state.successMsg}
                 </div>
+              </div>
+            )}
+            {this.state.successMsg && !this.props.isCheckout && (
+              <div
+                className={cs(styles.successMsg, {
+                  [styles.oldSuccessMsg]: this.props.isCheckout
+                })}
+              >
+                {this.state.successMsg}
               </div>
             )}
             <div className={cs(bootstrapStyles.col12)}>
               <div className={styles.loginForm}>
                 <FormContainer
-                  heading="Welcome"
-                  subheading="Register and create an account to continue."
+                  heading={this.props.isCheckout ? "" : "Welcome"}
+                  subheading={
+                    this.props.isCheckout
+                      ? ""
+                      : "Register and create an account to continue."
+                  }
                   formContent={formContent}
                   // footer={footer}
                 />

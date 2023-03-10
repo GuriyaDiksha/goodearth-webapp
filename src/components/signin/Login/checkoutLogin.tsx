@@ -623,16 +623,14 @@ class CheckoutLoginForm extends React.Component<Props, loginState> {
             successMsg={this.state.usrWithNoOrder ? USR_WITH_NO_ORDER : ""}
             changeEmail={this.changeEmail}
             goLogin={this.goLogin}
+            isCheckout={true}
           />
         ) : (
           <>
             {this.state.successMsg && (
               <div className={cs(bootstrapStyles.col12)}>
                 <div
-                  className={cs(
-                    globalStyles.successMsg,
-                    globalStyles.textCenter
-                  )}
+                  className={cs(styles.oldSuccessMsg, globalStyles.textCenter)}
                 >
                   {this.state.successMsg}
                 </div>
