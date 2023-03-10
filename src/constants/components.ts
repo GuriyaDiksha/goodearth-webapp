@@ -65,6 +65,7 @@ const OrientationPopup = loadable(() =>
 
 const BillingGST = loadable(() => import("components/Popups/BillingGST"));
 const ShippingTerms = loadable(() => import("components/Popups/ShippingTerms"));
+const RedeemPopup = loadable(() => import("components/Popups/RedeemPopup"));
 
 export const popupComponents: { [x: string]: React.ComponentType<any> } = {
   currency: CurrencyPopup,
@@ -97,7 +98,8 @@ export const popupComponents: { [x: string]: React.ComponentType<any> } = {
   helloarPopup: HelloarPopup,
   orientationPopup: OrientationPopup,
   billingGST: BillingGST,
-  shippingTerms: ShippingTerms
+  shippingTerms: ShippingTerms,
+  redeemPopup: RedeemPopup
 };
 
 export const enum POPUP {
@@ -131,5 +133,6 @@ export const enum POPUP {
   HELLOARPOPUP = "helloarPopup",
   ORIENTATIONPOPUP = "orientationPopup",
   BILLINGGST = "billingGST",
-  SHIPPINGTERMS = "shippingTerms"
+  SHIPPINGTERMS = "shippingTerms",
+  REDEEMPOPUP = "redeemPopup"
 }

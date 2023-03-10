@@ -138,19 +138,25 @@ class Reedem extends React.Component<Props, RedeemState> {
           ) : (
             <Fragment>
               <div className={cs(styles.textLeft, globalStyles.voffset4)}>
-                <p className={cs(globalStyles.cerise, styles.redeemBold)}>
+                <p className={cs(styles.textLeft, styles.redeemBold)}>
                   {" "}
-                  CERISE POINTS BALANCE:
+                  Cerise Balance points
                 </p>
-                <p className={styles.textMuted}>
+                <p className={cs(styles.textLeft, styles.redeemPoints)}>
                   {loyaltyData?.customerPoints}
                 </p>
               </div>
               <div className={cs(styles.textLeft, globalStyles.voffset4)}>
-                <p className={cs(globalStyles.cerise, styles.redeemBold)}>
-                  ELIGIBLE FOR REDEMPTION:
+                <p className={cs(styles.textLeft, styles.redeemBold)}>
+                  Eligible for Redemption
                 </p>
-                <p className={styles.textMuted}>
+                <p
+                  className={cs(
+                    styles.textLeft,
+                    styles.redeemPoints,
+                    styles.aqua
+                  )}
+                >
                   {loyaltyData?.eligiblePoints}
                 </p>
               </div>
@@ -158,7 +164,7 @@ class Reedem extends React.Component<Props, RedeemState> {
                 className={cs(
                   styles.textLeft,
                   globalStyles.voffset4,
-                  styles.textMuted
+                  styles.pointsToRedeem
                 )}
               >
                 ENTER POINTS TO REDEEM
@@ -167,7 +173,7 @@ class Reedem extends React.Component<Props, RedeemState> {
                 className={cs(
                   styles.loginForm,
                   { [globalStyles.voffset4]: newCardBox },
-                  bootstrapStyles.colMd4
+                  bootstrapStyles.colMd12
                 )}
               >
                 <div
@@ -189,10 +195,10 @@ class Reedem extends React.Component<Props, RedeemState> {
                     }
                   />
                 </div>
-                <label>Redeem Points</label>
+                <label>Points</label>
 
                 {this.state.error ? (
-                  <p className={cs(globalStyles.errorMsg)}>
+                  <p className={cs(styles.textLeft, globalStyles.errorMsg)}>
                     {this.state.error}
                   </p>
                 ) : (

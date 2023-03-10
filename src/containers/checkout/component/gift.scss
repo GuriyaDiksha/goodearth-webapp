@@ -324,7 +324,7 @@
   flex-grow: 1;
 }
 .text-left{
-  text-align: left;
+  text-align: left !important;
 }
 .rtc {
   font-size: 12px;
@@ -451,12 +451,27 @@
   margin-left: 5px;
 }
 
+.redeem-points{
+  padding-top: 10px;
+  padding-bottom: 20px;
+  @include b4_12px_montserrat_medium_charcoal();
+
+  &.aqua{
+    color: $aqua;
+  }
+}
+
+.points-to-redeem{
+  padding-bottom: 10px;
+  @include b4_12px_montserrat_light_charcoal();
+}
+
 .txtup{
   @include b4_12px_semibold_caps_charocal();
 }
 
 .redeem-bold{
-  font-size: 12px;
+  @include b4_12px_montserrat_charcoal();
 }
 
 .close-font {

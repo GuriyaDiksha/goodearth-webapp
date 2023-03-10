@@ -20,6 +20,8 @@ import * as util from "../../../utils/validate";
 import CheckoutService from "services/checkout";
 import { GA_CALLS, ANY_ADS } from "constants/cookieConsent";
 import { currencyCodes } from "constants/currency";
+import { updateComponent, updateModal } from "actions/modal";
+import { POPUP } from "constants/components";
 
 const PaymentSection: React.FC<PaymentProps> = props => {
   const data: any = {};
@@ -49,7 +51,18 @@ const PaymentSection: React.FC<PaymentProps> = props => {
     setIsactivepromo(!isactivepromo);
   };
   const toggleInputReedem = () => {
-    setIsactiveredeem(!isactiveredeem);
+    setIsactiveredeem(true);
+
+    dispatch(
+      updateComponent(
+        POPUP.REDEEMPOPUP,
+        {
+          setIsactiveredeem: setIsactiveredeem
+        },
+        true
+      )
+    );
+    dispatch(updateModal(true));
   };
 
   const onClickSubscribe = (event: any) => {
@@ -346,6 +359,88 @@ const PaymentSection: React.FC<PaymentProps> = props => {
             : cs(styles.card, styles.cardClosed, styles.marginT5)
         }
       >
+        {loyaltyData?.detail && currency == "INR" && (
+          <Fragment>
+            <div className={bootstrapStyles.row}>
+              <div
+                className={cs(
+                  bootstrapStyles.col12,
+                  bootstrapStyles.colMd6,
+                  styles.title
+                )}
+              >
+                <span className={isActive ? "" : styles.closed}>
+                  CERISE LOYALTY POINTS
+                </span>
+              </div>
+            </div>
+            <hr className={styles.hr} />
+            <div className={globalStyles.flex}>
+              {/* <div
+                      className={cs(
+                        styles.marginR10,
+                        globalStyles.cerise,
+                        globalStyles.pointer
+                      )}
+                      onClick={toggleInputReedem}
+                    >
+                      {isactiveredeem ? "-" : "+"}
+                    </div> */}
+              <div className={styles.inputContainer}>
+                {/* <div
+                        className={cs(
+                          globalStyles.c10LR,
+                          styles.promoMargin,
+                          globalStyles.cerise,
+                          globalStyles.pointer
+                        )}
+                        onClick={toggleInputReedem}
+                      >
+                        REDEEM CERISE POINTS
+                      </div>
+                      {isactiveredeem ? <Reedem /> : ""}
+                    </div> */}
+                <label
+                  className={cs(globalStyles.flex, globalStyles.crossCenter)}
+                >
+                  <div className={styles.marginR10}>
+                    <span className={styles.checkbox}>
+                      <input
+                        type="radio"
+                        checked={isactiveredeem}
+                        onClick={() => {
+                          toggleInputReedem();
+                        }}
+                      />
+                      <span
+                        className={cs(styles.indicator, {
+                          [styles.checked]: isactiveredeem
+                        })}
+                      ></span>
+                    </span>
+                  </div>
+                  <div
+                    className={cs(
+                      styles.formSubheading,
+                      styles.checkBoxHeading
+                    )}
+                  >
+                    See my balance & redeem points
+                  </div>
+                </label>
+              </div>
+            </div>
+          </Fragment>
+        )}
+      </div>
+
+      <div
+        className={
+          isActive
+            ? cs(styles.card, styles.cardOpen, styles.marginT5)
+            : cs(styles.card, styles.cardClosed, styles.marginT5)
+        }
+      >
         <div className={bootstrapStyles.row}>
           <div
             className={cs(
@@ -440,52 +535,6 @@ const PaymentSection: React.FC<PaymentProps> = props => {
                 {renderCoupon()} */}
                   </div>
                 </div>
-              )}
-
-              {loyaltyData?.detail && currency == "INR" && (
-                <Fragment>
-                  <hr className={styles.hr} />
-                  <div className={bootstrapStyles.row}>
-                    <div
-                      className={cs(
-                        bootstrapStyles.col12,
-                        bootstrapStyles.colMd6,
-                        styles.title
-                      )}
-                    >
-                      <span className={isActive ? "" : styles.closed}>
-                        REDEEM CERISE POINTS
-                      </span>
-                    </div>
-                  </div>
-                  <hr className={styles.hr} />
-                  <div className={globalStyles.flex}>
-                    <div
-                      className={cs(
-                        styles.marginR10,
-                        globalStyles.cerise,
-                        globalStyles.pointer
-                      )}
-                      onClick={toggleInputReedem}
-                    >
-                      {isactiveredeem ? "-" : "+"}
-                    </div>
-                    <div className={styles.inputContainer}>
-                      <div
-                        className={cs(
-                          globalStyles.c10LR,
-                          styles.promoMargin,
-                          globalStyles.cerise,
-                          globalStyles.pointer
-                        )}
-                        onClick={toggleInputReedem}
-                      >
-                        REDEEM CERISE POINTS
-                      </div>
-                      {isactiveredeem ? <Reedem /> : ""}
-                    </div>
-                  </div>
-                </Fragment>
               )}
 
               {/* {isPaymentNeeded && <hr className={styles.hr} />} */}
