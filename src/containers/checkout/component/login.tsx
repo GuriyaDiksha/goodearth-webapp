@@ -61,6 +61,7 @@ const LoginSection: React.FC<LoginProps> = props => {
                   nextStep={nextStep}
                   changeEmail={changeEmail}
                   goToLogin={goLogin}
+                  isCheckout={true}
                 />
               ) : (
                 <CheckoutLoginForm

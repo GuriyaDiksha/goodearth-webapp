@@ -21,13 +21,15 @@ type Props = {
   goLogin: () => void;
   socialLogin?: ReactNode;
   setIsSuccessMsg?: (arg: boolean) => void;
+  isCheckout?: boolean;
 };
 const EmailVerification: React.FC<Props> = ({
   successMsg,
   email,
   changeEmail,
   goLogin,
-  socialLogin
+  socialLogin,
+  isCheckout
 }) => {
   const [isLoading, setIsLoading] = useState(false);
   // const [enableBtn, setEnableBtn] = useState(false);
@@ -40,7 +42,7 @@ const EmailVerification: React.FC<Props> = ({
     attempts: 0,
     maxAttemptsAllow: 5
   });
-  const headingref = React.useRef<null | HTMLDivElement>(null);
+  // const headingref = React.useRef<null | HTMLDivElement>(null);
   const dispatch = useDispatch();
   // const timer = () => {
   //   setTimeRemaining(90);
@@ -171,22 +173,40 @@ const EmailVerification: React.FC<Props> = ({
   );
 
   return (
-    <div className={globalStyles.textCenter}>
+    <div className={cs(globalStyles.textCenter, styles.emailVerifyContainer)}>
       {successMsg ? (
-        <div className={cs(styles.successMsg)}>{successMsg}</div>
+        <div
+          className={cs(styles.successMsg, {
+            [styles.oldSuccessMsg]: isCheckout
+          })}
+        >
+          {successMsg}
+        </div>
       ) : (
         ""
       )}
       <>
-        <div
-          className={cs(styles.formHeading, styles.verifyHeading)}
-          id="first-heading"
-        >
-          Verify Email to Login
-        </div>
-        <div className={cs(styles.loginFormSubheading, styles.verifyOtp)}>
-          Please verify your email ID by entering OTP sent to {email}
-        </div>
+        {!isCheckout && (
+          <div
+            className={cs(styles.formHeading, styles.verifyHeading)}
+            id="first-heading"
+          >
+            Verify Email to Login
+          </div>
+        )}
+        {!isCheckout && (
+          <div className={cs(styles.loginFormSubheading, styles.verifyOtp)}>
+            Please verify your email ID by entering OTP sent to {email}
+          </div>
+        )}
+        {isCheckout && (
+          <div className={styles.checkoutHeaderContainer}>
+            <div className={styles.header}>Verify Email</div>
+            <div className={styles.subHeader}>
+              OTP has been sent to you via your email. Please enter below:
+            </div>
+          </div>
+        )}
         <NewOtpComponent
           otpSentVia={"email"}
           resendOtp={sendOtp}
@@ -203,7 +223,7 @@ const EmailVerification: React.FC<Props> = ({
           otpAttemptClass={styles.otpAttempt}
           verifyCtaClass={styles.verifyOtpCta}
           groupTimerAndAttempts={true}
-          goBackCta={!boId ? goBackCta : null}
+          goBackCta={!isCheckout && !boId ? goBackCta : null}
           socialLogin={socialLogin}
         />
         {/* {!boId && (
