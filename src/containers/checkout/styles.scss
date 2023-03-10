@@ -1200,3 +1200,19 @@ input[type="radio"] {
 .payment-title{
   @include b4_12px_medium_light_charcoal();
 }
+
+.promo-code{
+  @include b4_12px_semibold_caps_charocal();
+  margin-right: 20px;
+}
+.promo-code-applied{
+  @include b4_12px_montserrat_charcoal();
+}
+
+.promo-edit{
+  @include b5_10px_montserrat_charcoal();
+  letter-spacing: 0.3px;
+  text-decoration: underline;
+  text-transform: uppercase;
+  float: right;
+}

@@ -53,6 +53,7 @@ const AddressSection: React.FC<AddressProps & {
   const { basket } = useSelector((state: AppState) => state);
   const { mobile } = useSelector((state: AppState) => state.device);
   const { addressList } = useSelector((state: AppState) => state.address);
+  const { showPromo } = useSelector((state: AppState) => state.info);
   const sameShipping =
     (props.activeStep == Steps.STEP_BILLING ? true : false) &&
     props.hidesameShipping &&
@@ -413,7 +414,7 @@ const AddressSection: React.FC<AddressProps & {
       removeErrorMessages();
       props.finalizeAddress(addr, props.activeStep, numberObj);
       if (activeStep === Steps.STEP_BILLING) {
-        next(Steps.STEP_PAYMENT);
+        next(showPromo ? Steps.STEP_PROMO : Steps.STEP_PAYMENT);
       }
       return validate;
     } else {

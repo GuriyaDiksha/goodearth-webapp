@@ -53,6 +53,8 @@ export type PromoProps = {
   user: any;
   next: (step: string) => void;
   selectedAddress: any;
+  activeStep: string;
+  currentStep: number;
 };
 
 export type PaymentProps = {
