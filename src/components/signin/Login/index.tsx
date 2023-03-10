@@ -12,6 +12,7 @@ const CheckoutRegisterForm = loadable(() =>
 
 const LoginForm = (props: any) => {
   const [isRegister, setIsRegister] = useState(false);
+  const [email, setEmail] = useState("");
 
   useEffect(() => {
     if (props.isRegister) {
@@ -45,6 +46,8 @@ const LoginForm = (props: any) => {
           nextStep={nextStep}
           changeEmail={changeEmail}
           goToLogin={goLogin}
+          setEmail={setEmail}
+          email={email}
         />
       ) : (
         <MainLogin
@@ -52,6 +55,8 @@ const LoginForm = (props: any) => {
           nextStep={nextStep}
           isBo={""}
           isCerise={id == "cerise"}
+          setEmail={setEmail}
+          email={email}
           // heading={"Welcome"}
           // subHeading={
           //   id == "cerise"
