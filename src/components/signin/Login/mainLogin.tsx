@@ -164,16 +164,7 @@ class MainLogin extends React.Component<Props, loginState> {
     this.props
       .resetPassword(formData)
       .then(data => {
-        this.setState(
-          {
-            highlight: false,
-            msg: "",
-            successMsg: data.success
-          },
-          () => {
-            this.props.setIsSuccessMsg?.(true);
-          }
-        );
+        this.props.showGrowlMessage(data.success);
       })
       .catch((err: any) => {
         if (err.response.data.email) {
