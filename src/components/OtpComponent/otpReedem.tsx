@@ -53,7 +53,6 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
 
   handleSubmit = (model: any, resetForm: any, updateInputsWithError: any) => {
     this.setState({ showerrorOtp: "" });
-    this.props.setRedeemOtpError("Please enter OTP");
     // const radioElement: any = document.getElementsByName("redeem");
     // const elem = this.subscribeRef.current;
     // const { email, phoneNo } = model;
@@ -134,6 +133,7 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
                 valid.errorTracking([this.state.showerror], location.href);
               }
             );
+            this.props.setRedeemOtpError("");
           } else {
             // this.props.updateList(data);
             this.setState({
@@ -142,7 +142,6 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
               showerror: "",
               isLoading: false
             });
-            this.props.setRedeemOtpError("");
           }
         })
         .catch(err => {
@@ -248,6 +247,7 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
           },
           () => {
             // this.timer();
+            this.props.setRedeemOtpError("Please enter OTP");
             this.props.toggleOtp(true);
           }
         );
