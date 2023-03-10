@@ -2,7 +2,6 @@ import React, { RefObject, Fragment } from "react";
 import cs from "classnames";
 import styles from "../styles.scss";
 import globalStyles from "styles/global.scss";
-import bootstrapStyles from "../../../styles/bootstrap/bootstrap-grid.scss";
 import inputStyles from "../../../components/Formsy/styles.scss";
 import InputField from "../InputField";
 import Loader from "components/Loader";
@@ -165,11 +164,16 @@ class MainLogin extends React.Component<Props, loginState> {
     this.props
       .resetPassword(formData)
       .then(data => {
-        this.setState({
-          highlight: false,
-          msg: "",
-          successMsg: data.success
-        });
+        this.setState(
+          {
+            highlight: false,
+            msg: "",
+            successMsg: data.success
+          },
+          () => {
+            this.props.setIsSuccessMsg?.(true);
+          }
+        );
       })
       .catch((err: any) => {
         if (err.response.data.email) {
@@ -379,18 +383,7 @@ class MainLogin extends React.Component<Props, loginState> {
           isSecondStepLoginDisabled: true
         });
       }
-    }
-    // else if (this.state.password && this.state.password.length < 6) {
-    //   if (
-    //     this.state.msgp !==
-    //     "Please enter at least 6 characters for the password"
-    //   )
-    //     this.setState({
-    //       msgp: "Please enter at least 6 characters for the password",
-    //       highlightp: true
-    //     });
-    // }
-    else {
+    } else {
       this.setState({
         msgp: "",
         highlightp: false
@@ -670,17 +663,8 @@ class MainLogin extends React.Component<Props, loginState> {
         ) : (
           <>
             {this.state.successMsg && (
-              <div
-                className={cs(bootstrapStyles.col10, bootstrapStyles.offset1)}
-              >
-                <div
-                  className={cs(
-                    globalStyles.successMsg,
-                    globalStyles.textCenter
-                  )}
-                >
-                  {this.state.successMsg}
-                </div>
+              <div className={cs(styles.successMsg, globalStyles.textCenter)}>
+                {this.state.successMsg}
               </div>
             )}
             {this.state.heading && (
