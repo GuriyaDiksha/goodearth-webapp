@@ -26,7 +26,7 @@ type Props = {
 const ResetPassword: React.FC<Props> = props => {
   const {
     device: { mobile },
-    user: { isLoggedIn, customerGroup, email },
+    user: { isLoggedIn, customerGroup },
     currency,
     info: { showTimer }
   } = useSelector((state: AppState) => state);

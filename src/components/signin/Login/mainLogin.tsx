@@ -307,6 +307,12 @@ class MainLogin extends React.Component<Props, loginState> {
           }
           // this.context.closeModal();
           this.props.nextStep?.();
+          // const history = this.props.history
+          // const path = history.location.pathname;
+          // if (path.split("/")[1] == "password-reset") {
+          //   const searchParams = new URLSearchParams(history.location.search);
+          //   history.push(searchParams.get("redirect_to") || "");
+          // }
         })
         .catch(err => {
           if (
@@ -436,6 +442,7 @@ class MainLogin extends React.Component<Props, loginState> {
     switch (type) {
       case "email": {
         this.disablePassword();
+        this.props.setEmail?.(event.target.value);
         this.setState({ email: event.currentTarget.value });
         break;
       }
@@ -487,7 +494,7 @@ class MainLogin extends React.Component<Props, loginState> {
         <div className={styles.categorylabel}>
           <div>
             <InputField
-              value={this.state.email}
+              value={this.state.email || this.props.email}
               placeholder={"Email ID"}
               label={"Email ID*"}
               border={this.state.highlight}
