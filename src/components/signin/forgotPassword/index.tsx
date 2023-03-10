@@ -33,7 +33,8 @@ class ForgotPasswordForm extends React.Component<Props, ForgotPasswordState> {
       successMsg: "",
       url: location.pathname + location.search,
       disableSelectedbox: false,
-      isBo: ""
+      isBo: "",
+      urlEmail: ""
     };
   }
 
@@ -62,7 +63,6 @@ class ForgotPasswordForm extends React.Component<Props, ForgotPasswordState> {
       let redirectTo = "";
       formData.append("email", this.state.email || "");
       const searchParams = new URLSearchParams(history.location.search);
-      // setRedirectTo(searchParams.get("redirect_to") || "");
       const path = history.location.pathname;
       if (path.split("/")[1] == "password-reset") {
         redirectTo = searchParams.get("redirect_to") || "";
@@ -83,9 +83,7 @@ class ForgotPasswordForm extends React.Component<Props, ForgotPasswordState> {
             successMsg: data.success,
             disableSelectedbox: false
           });
-          this.props.showGrowlMessage(
-            "Password reset email has been sent. Please follow steps in email to proceed."
-          );
+          this.props.showGrowlMessage(data.success);
           const email = document.getElementById("email") as HTMLInputElement;
           email.disabled = true;
         })
@@ -179,6 +177,15 @@ class ForgotPasswordForm extends React.Component<Props, ForgotPasswordState> {
     });
     localStorage.removeItem("tempEmail");
     localStorage.removeItem("isBo");
+
+    const searchParams = new URLSearchParams(
+      this.props.history.location.search
+    );
+    const emailFromURl = valid.decripttext(
+      searchParams.get("ei")?.replace(" ", "+") || "",
+      true
+    );
+    this.setState({ urlEmail: emailFromURl });
   }
 
   handleEmailBlur = (event: React.FocusEvent) => {
@@ -234,7 +241,7 @@ class ForgotPasswordForm extends React.Component<Props, ForgotPasswordState> {
               blur={this.handleEmailBlur}
               placeholder={"Email"}
               label={"Email ID*"}
-              value={this.state.email}
+              value={this.state.email || this.state.urlEmail}
               keyUp={this.onChange}
               handleChange={this.handleChange}
               inputRef={this.emailInput}

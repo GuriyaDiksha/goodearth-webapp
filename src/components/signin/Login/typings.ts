@@ -9,6 +9,8 @@ export type loginProps = {
   subHeading?: string;
   source?: string;
   setIsSuccessMsg?: (arg: boolean) => void;
+  setEmail?: (arg: string) => void;
+  email: string;
 };
 
 export type loginState = {
