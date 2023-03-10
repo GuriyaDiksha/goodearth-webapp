@@ -235,6 +235,12 @@ font-weight: bold;
   -webkit-justify-content: space-between;
   justify-content: space-between;
 }
+.flex-gutter-center {
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  -webkit-justify-content: center;
+  justify-content: center;
+}
 .gutter-between {
   -webkit-box-pack: justify;
   -ms-flex-pack: justify;

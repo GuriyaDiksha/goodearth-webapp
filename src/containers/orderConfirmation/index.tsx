@@ -7,7 +7,7 @@ import { AppState } from "reducers/typings";
 import styles from "./styles.scss";
 import { Link } from "react-router-dom";
 import logoImage from "images/gelogoCerise.svg";
-import birdImage from "images/birdMotif.png";
+import BanarasMotifImage from "../../images/banaras-motif.png";
 import AccountServices from "services/account";
 import { currencyCode, Currency } from "typings/currency";
 import moment from "moment";
@@ -314,7 +314,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
         <div
           className={cs(
             bootstrapStyles.col12,
-            bootstrapStyles.colMd6,
+            bootstrapStyles.colMd7,
             bootstrapStyles.offsetMd3,
             globalStyles.textCenter,
             styles.popupFormBg,
@@ -322,18 +322,13 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
           )}
         >
           <div className={styles.motif}>
-            <img src={birdImage} width="120px" />
+            <img src={BanarasMotifImage} width="106px" />
           </div>
 
-          <div className={bootstrapStyles.row}>
-            <div
-              className={cs(
-                bootstrapStyles.col10,
-                bootstrapStyles.offset1,
-                bootstrapStyles.colMd8,
-                bootstrapStyles.offsetMd2
-              )}
-            >
+          <div
+            className={cs(bootstrapStyles.row, globalStyles.flexGutterCenter)}
+          >
+            <div className={cs(bootstrapStyles.col10, bootstrapStyles.colMd8)}>
               <div className={styles.heading}>Order Confirmation</div>
               <div className={styles.subHeading}>
                 Congratulations, Your order has been placed.
@@ -345,24 +340,23 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
             <div
               className={cs(
                 bootstrapStyles.col10,
-                bootstrapStyles.offset1,
                 bootstrapStyles.colMd8,
-                bootstrapStyles.offsetMd2,
-                globalStyles.voffset5
+                styles.orderDetailsWrapper
               )}
             >
               <div className={styles.add}>
                 <address>
                   <label>order # {confirmData?.number}</label>
-                  <div className={cs(bootstrapStyles.row, styles.orderBlock)}>
-                    <div
-                      className={cs(
-                        bootstrapStyles.col12,
-                        bootstrapStyles.colMd6
-                      )}
-                    >
-                      <p>
-                        {moment(confirmData?.datePlaced).format("MMM D, YYYY")}
+                  <div
+                    className={cs(
+                      bootstrapStyles.row,
+                      styles.orderBlock,
+                      globalStyles.gutterBetween
+                    )}
+                  >
+                    <div>
+                      <p className={styles.orderDate}>
+                        {moment(confirmData?.datePlaced).format("D MMM, YYYY")}
                       </p>
 
                       <p>
@@ -370,12 +364,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                         {totalItem}
                       </p>
                     </div>
-                    <div
-                      className={cs(
-                        bootstrapStyles.col12,
-                        bootstrapStyles.colMd6
-                      )}
-                    >
+                    <div>
                       <p>
                         <span className={globalStyles.op3}>Amount Paid</span>
                       </p>
@@ -390,7 +379,13 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                     </div>
                   </div>
 
-                  <div className={cs(bootstrapStyles.row, styles.borderAdd)}>
+                  <div
+                    className={cs(
+                      bootstrapStyles.row,
+                      styles.borderAdd,
+                      styles.orderAddress
+                    )}
+                  >
                     <div
                       className={cs(
                         bootstrapStyles.col12,
@@ -425,12 +420,15 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                                   <br />
                                   {shippingAddress.line2}{" "}
                                   {shippingAddress.line2 && <br />}
-                                  {shippingAddress.state},{" "}
+                                  {shippingAddress.state} <br />
                                   {shippingAddress.postcode} <br />
                                   {shippingAddress.countryName}
                                   <br />
                                 </p>
-                                <p> {shippingAddress.phoneNumber}</p>
+                                <p className={styles.medium}>
+                                  {" "}
+                                  {shippingAddress.phoneNumber}
+                                </p>
                               </>
                             )}
                           </address>
@@ -460,12 +458,16 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                               <br />
                               {billingAddress.line2}{" "}
                               {billingAddress.line2 && <br />}
-                              {billingAddress.state}, {billingAddress.postcode}{" "}
+                              {billingAddress.state}
                               <br />
+                              {billingAddress.postcode} <br />
                               {billingAddress.countryName}
                               <br />
                             </p>
-                            <p> {billingAddress.phoneNumber}</p>
+                            <p className={styles.medium}>
+                              {" "}
+                              {billingAddress.phoneNumber}
+                            </p>
                           </address>
                         ) : (
                           ""
@@ -637,120 +639,133 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
               </div>
             </div>
           </div>
-          <div className={cs(bootstrapStyles.row, styles.white)}>
-            <div className={cs(styles.priceSection)}>
-              <div className={cs(styles.subTotalSection)}>
-                <p>SUBTOTAL</p>
-                <p>
-                  {String.fromCharCode(
-                    ...currencyCode[confirmData.currency as Currency]
-                  )}
-                  &nbsp; {parseFloat(confirmData.orderSubTotal).toFixed(2)}
-                </p>
-              </div>
-              {/* Filter this key and remove vouchers */}
-              {confirmData?.offerDiscounts?.map(
-                (discount: { name: string; amount: string }, index: number) => (
-                  <div className={cs(styles.discountSection)} key={index}>
-                    <p>{discount.name}</p>
-                    <p>
-                      (-){" "}
-                      {String.fromCharCode(
-                        ...currencyCode[confirmData.currency as Currency]
-                      )}
-                      &nbsp; {parseFloat(discount.amount).toFixed(2)}
-                    </p>
-                  </div>
-                )
+          <div
+            className={cs(
+              bootstrapStyles.row,
+              styles.white,
+              globalStyles.flexGutterCenter
+            )}
+          >
+            <div
+              className={cs(
+                bootstrapStyles.col10,
+                bootstrapStyles.colMd8,
+                styles.priceSectionWrapper
               )}
-
-              <div className={cs(styles.discountSection)}>
-                <p>Shipping & Handling</p>
-                <p>
-                  (+){" "}
-                  {String.fromCharCode(
-                    ...currencyCode[confirmData.currency as Currency]
-                  )}
-                  &nbsp; {parseFloat(confirmData.shippingInclTax).toFixed(2)}
-                </p>
-              </div>
-
-              {confirmData.voucherDiscounts.map((vd: any, i: number) => (
-                <div
-                  className={cs(styles.discountSection)}
-                  key={`voucher_${i}`}
-                >
-                  <p>{vd.name}</p>
+            >
+              <div className={cs(styles.priceSection)}>
+                <div className={cs(styles.subTotalSection)}>
+                  <p>SUBTOTAL</p>
                   <p>
-                    (-){" "}
                     {String.fromCharCode(
                       ...currencyCode[confirmData.currency as Currency]
                     )}
-                    &nbsp; {parseFloat(vd.amount).toFixed(2)}
+                    &nbsp; {parseFloat(confirmData.orderSubTotal).toFixed(2)}
                   </p>
                 </div>
-              ))}
+                {/* Filter this key and remove vouchers */}
+                {confirmData?.offerDiscounts?.map(
+                  (
+                    discount: { name: string; amount: string },
+                    index: number
+                  ) => (
+                    <div className={cs(styles.discountSection)} key={index}>
+                      <p>{discount.name}</p>
+                      <p>
+                        (-){" "}
+                        {String.fromCharCode(
+                          ...currencyCode[confirmData.currency as Currency]
+                        )}
+                        &nbsp; {parseFloat(discount.amount).toFixed(2)}
+                      </p>
+                    </div>
+                  )
+                )}
 
-              {confirmData.giftVoucherRedeemed.map(
-                (gccn: number, i: number) => (
-                  <div className={cs(styles.discountSection)} key={`gccn_${i}`}>
-                    <p>Gift Card/Credit Note</p>
-                    <p>
-                      (-){" "}
-                      {String.fromCharCode(
-                        ...currencyCode[confirmData.currency as Currency]
-                      )}
-                      &nbsp; {parseFloat("" + gccn).toFixed(2)}
-                    </p>
-                  </div>
-                )
-              )}
+                <div className={cs(styles.discountSection)}>
+                  <p>Shipping & Handling</p>
+                  <p>
+                    (+){" "}
+                    {String.fromCharCode(
+                      ...currencyCode[confirmData.currency as Currency]
+                    )}
+                    &nbsp; {parseFloat(confirmData.shippingInclTax).toFixed(2)}
+                  </p>
+                </div>
 
-              {confirmData.loyalityPointsRedeemed.map(
-                (gccn: number, i: number) => (
+                {confirmData.voucherDiscounts.map((vd: any, i: number) => (
                   <div
                     className={cs(styles.discountSection)}
-                    key={`loyalty_${i}`}
+                    key={`voucher_${i}`}
                   >
-                    <p>Loyalty Points</p>
+                    <p>{vd.name}</p>
                     <p>
                       (-){" "}
                       {String.fromCharCode(
                         ...currencyCode[confirmData.currency as Currency]
                       )}
-                      &nbsp;{" "}
-                      {parseFloat(confirmData.loyalityPointsRedeemed).toFixed(
-                        2
-                      )}
+                      &nbsp; {parseFloat(vd.amount).toFixed(2)}
                     </p>
                   </div>
-                )
-              )}
+                ))}
 
-              <div className={cs(styles.subTotalSection)}>
-                <p>AMOUNT PAID</p>
-                <p>
-                  {String.fromCharCode(
-                    ...currencyCode[confirmData.currency as Currency]
-                  )}
-                  &nbsp; {parseFloat(confirmData.totalInclTax).toFixed(2)}
-                </p>
+                {confirmData.giftVoucherRedeemed.map(
+                  (gccn: number, i: number) => (
+                    <div
+                      className={cs(styles.discountSection)}
+                      key={`gccn_${i}`}
+                    >
+                      <p>Gift Card/Credit Note</p>
+                      <p>
+                        (-){" "}
+                        {String.fromCharCode(
+                          ...currencyCode[confirmData.currency as Currency]
+                        )}
+                        &nbsp; {parseFloat("" + gccn).toFixed(2)}
+                      </p>
+                    </div>
+                  )
+                )}
+
+                {confirmData.loyalityPointsRedeemed.map(
+                  (gccn: number, i: number) => (
+                    <div
+                      className={cs(styles.discountSection)}
+                      key={`loyalty_${i}`}
+                    >
+                      <p>Loyalty Points</p>
+                      <p>
+                        (-){" "}
+                        {String.fromCharCode(
+                          ...currencyCode[confirmData.currency as Currency]
+                        )}
+                        &nbsp;{" "}
+                        {parseFloat(confirmData.loyalityPointsRedeemed).toFixed(
+                          2
+                        )}
+                      </p>
+                    </div>
+                  )
+                )}
+
+                <div className={cs(styles.totalSection)}>
+                  <p>AMOUNT PAID</p>
+                  <p>
+                    {String.fromCharCode(
+                      ...currencyCode[confirmData.currency as Currency]
+                    )}
+                    &nbsp; {parseFloat(confirmData.totalInclTax).toFixed(2)}
+                  </p>
+                </div>
               </div>
-            </div>
-          </div>
-
-          <div className={bootstrapStyles.row}>
-            <div
-              className={cs(
-                bootstrapStyles.col12,
-                bootstrapStyles.colMd8,
-                bootstrapStyles.offsetMd2,
-                styles.cta,
-                globalStyles.voffset2,
-                globalStyles.ceriseBtn
-              )}
-            >
-              <div className={globalStyles.ceriseBtn}>
+              <div
+                className={cs(
+                  bootstrapStyles.col12,
+                  bootstrapStyles.colMd8,
+                  styles.cta,
+                  globalStyles.ceriseBtn
+                )}
+              >
                 <Link to={"/"}> continue shopping </Link>
               </div>
             </div>

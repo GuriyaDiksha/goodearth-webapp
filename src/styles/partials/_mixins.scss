@@ -762,6 +762,11 @@ $list: $grey 92%, $white 8%;
   font-size: 20px;
   color: $charcoal19;
 }
+@mixin h3_20px_lora_medCharcoal{
+  font-family: $font-Lora;
+  font-size: 20px;
+  color: $med-charcoal;
+}
 
 @mixin h3_20px_lora_white{
   font-family: $font-Lora;
