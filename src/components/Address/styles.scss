@@ -2,6 +2,9 @@
 @import "../../styles/partials/variables";
 @import "../../styles/partials/mixins";
 
+body:has(.mobile){
+  overflow: hidden;
+}
 .back-btn-top {
   position: absolute;
   top: 50px;
@@ -611,14 +614,14 @@
 }
 
 .checkout-address {
-  .bridal{
+  .bridal {
     grid-template-columns: unset !important;
   }
-  .address-item{
+  .address-item {
     overflow: hidden;
     position: relative;
   }
-  .cerise-bridal-rings{
+  .cerise-bridal-rings {
     border-radius: 0 0 0 50% !important;
     position: absolute !important;
     top: 0 !important;
@@ -632,7 +635,7 @@
       border-color: $med-charcoal;
     }
   }
-  .checkbox{
+  .checkbox {
     display: block;
   }
   .default-address-checkbox {
@@ -661,19 +664,61 @@
   .line {
     @include b4_12px_montserrat_light_charcoal();
   }
-  .address-phone-number{
+  .address-phone-number {
     @include b4_12px_montserrat_charcoal();
   }
 }
 
-.btn-wrp{
+.btn-wrp {
   justify-content: space-between;
 
-  div{
+  div {
     width: 100%;
   }
 }
 
-.charcoal-btn-width{
+.charcoal-btn-width {
   width: 95%;
+}
+
+@media screen and (max-width: 992px) {
+  .checkout-mobile-popup {
+    background-color: #fff;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 9;
+    width: 100%;
+    height: 100%;
+    padding: 20px 20px 60px;
+    overflow-y: scroll;
+
+    .form-title-wrapper {
+      padding: 8px 0 20px;
+      margin: 0 !important;
+      align-items: center;
+      border-bottom: 0.5px solid #e2e2e2;
+
+      .form-title {
+        @include b5_10px_montserrat_charcoal_caps();
+      }
+      .form-close {
+        .iconCross {
+          font-size: 12px;
+          cursor: pointer;
+        }
+      }
+    }
+    .checkout-mobile-popup-button {
+      background-color: $white;
+      position: fixed !important;
+      bottom: 0;
+      width: 100%;
+      left: 0;
+      margin: 0 !important;
+      .charcoal-btn-width {
+        width: 100%;
+      }
+    }
+  }
 }

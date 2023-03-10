@@ -26,6 +26,7 @@ import { updateCountryData } from "actions/address";
 import * as valid from "utils/validate";
 import BridalContext from "containers/myAccount/components/Bridal/context";
 import noPincodeCountryList from "./noPincodeCountryList";
+import iconStyles from "styles/iconFonts.scss";
 
 type Props = {
   addressData?: AddressData;
@@ -61,6 +62,7 @@ const AddressForm: React.FC<Props> = props => {
     setIsLoading,
     currentCallBackComponent
   } = useContext(AddressContext);
+
   const [isIndia, setIsIndia] = useState(false);
   const [showPincode, setShowPincode] = useState(true);
   const [countryOptions, setCountryOptions] = useState<CountryOptions[]>([]);
@@ -429,7 +431,38 @@ const AddressForm: React.FC<Props> = props => {
         onValidSubmit={submitAddress}
         onInvalidSubmit={handleInvalidSubmit}
       >
-        <div className={styles.categorylabel} id="address-form">
+        <div
+          className={cs(styles.categorylabel, {
+            [styles.checkoutMobilePopup]:
+              (mobile && currentCallBackComponent == "checkout-shipping") ||
+              currentCallBackComponent == "checkout-billing"
+          })}
+          id="address-form"
+        >
+          {(currentCallBackComponent == "checkout-shipping" ||
+            currentCallBackComponent == "checkout-billing") &&
+            mobile && (
+              <div
+                className={cs(
+                  styles.formTitleWrapper,
+                  globalStyles.flex,
+                  globalStyles.gutterBetween
+                )}
+              >
+                <div className={styles.formTitle}>
+                  {mode == "edit" ? "Edit ADDRESS" : "ADD NEW ADDRESS"}
+                </div>
+                <div className={styles.formClose} onClick={closeAddressForm}>
+                  <i
+                    className={cs(
+                      iconStyles.icon,
+                      iconStyles.iconCrossNarrowBig,
+                      styles.iconCross
+                    )}
+                  ></i>
+                </div>
+              </div>
+            )}
           <div>
             <FormInput
               name="emailId"
@@ -747,7 +780,13 @@ const AddressForm: React.FC<Props> = props => {
               />
             </div>
           )}
-          <div>
+          <div
+            className={cs({
+              [styles.checkoutMobilePopupButton]:
+                currentCallBackComponent == "checkout-shipping" ||
+                currentCallBackComponent == "checkout-billing"
+            })}
+          >
             <div className={cs(globalStyles.flex, styles.btnWrp)}>
               <div>
                 {mode == "edit" ? (
