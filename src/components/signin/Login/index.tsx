@@ -47,7 +47,7 @@ const LoginForm = (props: any) => {
           changeEmail={changeEmail}
           goToLogin={goLogin}
           setEmail={setEmail}
-          email={email}
+          email={email || props.email}
         />
       ) : (
         <MainLogin
