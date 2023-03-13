@@ -474,6 +474,7 @@ const AddressSection: React.FC<AddressProps & {
         <div>
           {currency == "INR" ? (
             <div>
+              <hr className={globalStyles.marginy24} />
               <label className={cs(styles.flex, globalStyles.voffset3)}>
                 <div className={globalStyles.marginR10}>
                   <span className={styles.checkbox}>
@@ -495,7 +496,6 @@ const AddressSection: React.FC<AddressProps & {
                   I need a GST invoice
                 </div>
               </label>
-              <hr className={globalStyles.marginy24} />
             </div>
           ) : (
             ""
@@ -508,6 +508,7 @@ const AddressSection: React.FC<AddressProps & {
                 globalStyles.voffset4
               )}
             >
+              <hr className={globalStyles.marginy24} />
               {pass}
               <div>
                 <div className={styles.form}>
@@ -587,6 +588,7 @@ const AddressSection: React.FC<AddressProps & {
     return (
       show && (
         <div className={cs(styles.payment, globalStyles.voffset4)}>
+          <hr className={globalStyles.marginy24} />
           <label className={cs(styles.flex)}>
             <div className={globalStyles.marginR10}>
               <span className={styles.checkbox}>
@@ -602,7 +604,6 @@ const AddressSection: React.FC<AddressProps & {
               BILLING ADDRESS IS SAME AS SHIPPING ADDRESS
             </div>
           </label>
-          <hr className={globalStyles.marginy24} />
         </div>
       )
     );
@@ -732,7 +733,7 @@ const AddressSection: React.FC<AddressProps & {
             {isActive && (
               <>
                 <div>
-                  <div>{renderPancard}</div>
+                  {/* <div>{renderPancard}</div> */}
                   {props.activeStep == STEP_BILLING && props.hidesameShipping && (
                     <>
                       <div>{renderBillingCheckbox()}</div>
@@ -753,8 +754,8 @@ const AddressSection: React.FC<AddressProps & {
                   {// logged in Shipping & billing
                   isLoggedIn &&
                     (props.activeStep == STEP_SHIPPING ||
-                      props.activeStep == STEP_BILLING) &&
-                    !sameAsShipping && (
+                      (props.activeStep == STEP_BILLING &&
+                        !sameAsShipping)) && (
                       <>
                         <div>{children}</div>
                         {addressList.length > 1 && mode == "list" && (
@@ -846,7 +847,7 @@ const AddressSection: React.FC<AddressProps & {
                         )}
                       </>
                     )}
-                  {/* (props.activeStep == STEP_SHIPPING ||
+                  {/* { (props.activeStep == STEP_SHIPPING ||
                       (props.activeStep == STEP_BILLING &&
                         !sameAsShipping)) && <div>{children}</div>} */}
 

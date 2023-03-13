@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import cs from "classnames";
 import globalStyles from "styles/global.scss";
 import styles from "./orderStyles.scss";
@@ -27,6 +27,13 @@ const OrderSummary: React.FC<OrderProps> = props => {
   const [freeShipping] = useState(false);
   const dispatch = useDispatch();
   const { isLoggedIn } = useSelector((state: AppState) => state.user);
+  const canUseDOM = !!(
+    typeof window !== "undefined" &&
+    typeof window.document !== "undefined" &&
+    typeof window.document.createElement !== "undefined"
+  );
+
+  const useIsomorphicLayoutEffect = canUseDOM ? useLayoutEffect : useEffect;
 
   // Begin: Intersection Observer (Mobile)
   const [previewTriggerStatus, setPreviewTriggerStatus] = useState(false);
@@ -47,7 +54,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
     observer = new IntersectionObserver(interSectionCallBack, observerOptions);
     observer.observe(orderSummaryRef.current);
   };
-  useEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     handleScroll();
     return () => observer?.unobserve(orderSummaryRef?.current);
   }, []);
@@ -65,7 +72,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
     setIsSuspended(true);
     // orderSummaryRef.current
     if (orderSummaryRef && orderSummaryRef?.current) {
-      orderSummaryRef?.current?.scrollIntoView({
+      (orderSummaryRef?.current as HTMLDivElement)?.scrollIntoView({
         behavior: "smooth",
         block: "start"
       });

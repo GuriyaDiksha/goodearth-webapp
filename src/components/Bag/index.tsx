@@ -54,7 +54,7 @@ class Bag extends React.Component<Props, State> {
   componentDidMount = () => {
     document.body.classList.add(globalStyles.noScroll);
     try {
-      const skuList = this.props.cart.lineItems.map(
+      const skuList = this.props.cart.lineItems?.map(
         item => item.product.childAttributes?.[0].sku
       );
       const userConsent = CookieService.getCookie("consent").split(",");
@@ -106,7 +106,7 @@ class Bag extends React.Component<Props, State> {
       currency
     } = this.props;
 
-    const item = lineItems.map(item => {
+    const item = lineItems?.map(item => {
       return (
         <LineItems
           key={item.id}
@@ -131,13 +131,12 @@ class Bag extends React.Component<Props, State> {
 
   getFooter() {
     if (this.props.cart) {
-      const discountAmount = this.props.cart.offerDiscounts
-        .map(discount => {
+      const discountAmount = this.props.cart?.offerDiscounts
+        ?.map(discount => {
           return +discount.amount;
         })
         .reduce((partialSum, a) => partialSum + a, 0);
 
-      console.log("CART VALUE", this.props.cart);
       return (
         <div className={styles.bagFooter}>
           <div className={cs(styles.orderSummaryWrapper)}>
@@ -173,7 +172,10 @@ class Bag extends React.Component<Props, State> {
                     (-)
                     {String.fromCharCode(...currencyCodes[this.props.currency])}
                     &nbsp;
-                    {parseFloat(discountAmount.toString()).toFixed(2)}
+                    {displayPriceWithCommasFloat(
+                      discountAmount,
+                      this.props.currency
+                    )}
                   </h5>
                 </div>
               </div>
