@@ -8,7 +8,13 @@ export const mapDispatchToProps = (dispatch: Dispatch) => {
   return {
     goRegister: (event: React.MouseEvent, email: string) => {
       localStorage.setItem("tempEmail", email);
-      dispatch(updateComponent(POPUP.LOGINFORM, { isRegister: true }, true));
+      dispatch(
+        updateComponent(
+          POPUP.LOGINFORM,
+          { isRegister: true, email: email },
+          true
+        )
+      );
       dispatch(updateModal(true));
       event.preventDefault();
     },
