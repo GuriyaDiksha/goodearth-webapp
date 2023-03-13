@@ -5,7 +5,7 @@ import bootstrapStyles from "../../../styles/bootstrap/bootstrap-grid.scss";
 import globalStyles from "styles/global.scss";
 import styles from "../styles.scss";
 import { LoginProps } from "./typings";
-import * as Steps from "../constants";
+import { STEP_SHIPPING } from "../constants";
 import loadable from "@loadable/component";
 import checkmarkCircle from "./../../../images/checkmarkCircle.svg";
 
@@ -37,7 +37,7 @@ const LoginSection: React.FC<LoginProps> = props => {
     setIsRegister(false);
   };
   const nextStep = () => {
-    if (next) next(Steps.STEP_SHIPPING);
+    if (next) next(STEP_SHIPPING);
   };
   return (
     <div

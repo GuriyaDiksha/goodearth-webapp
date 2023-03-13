@@ -7,7 +7,7 @@ import { updateBasket } from "actions/basket";
 import API from "utils/api";
 import { ProductID } from "typings/id";
 import { MESSAGE } from "constants/messages";
-import * as util from "../../utils/validate";
+import { showGrowlMessage } from "../../utils/validate";
 
 export default {
   fetchBasket: async function(
@@ -33,7 +33,7 @@ export default {
       res.updatedRemovedItems &&
       res.updatedRemovedItems.length > 0
     ) {
-      util.showGrowlMessage(
+      showGrowlMessage(
         dispatch,
         MESSAGE.PRODUCT_UNPUBLISHED,
         0,
@@ -42,7 +42,7 @@ export default {
       );
     }
     if (res.unshippableRemove) {
-      util.showGrowlMessage(
+      showGrowlMessage(
         dispatch,
         MESSAGE.PRODUCT_UNSHIPPABLE_REMOVED,
         0,
@@ -99,7 +99,7 @@ export default {
       res.updatedRemovedItems &&
       res.updatedRemovedItems.length > 0
     ) {
-      util.showGrowlMessage(
+      showGrowlMessage(
         dispatch,
         MESSAGE.PRODUCT_UNPUBLISHED,
         0,
@@ -108,7 +108,7 @@ export default {
       );
     }
     if (res.unshippableRemove) {
-      util.showGrowlMessage(
+      showGrowlMessage(
         dispatch,
         MESSAGE.PRODUCT_UNSHIPPABLE_REMOVED,
         0,
@@ -138,7 +138,7 @@ export default {
       res.updatedRemovedItems &&
       res.updatedRemovedItems.length > 0
     ) {
-      util.showGrowlMessage(
+      showGrowlMessage(
         dispatch,
         MESSAGE.PRODUCT_UNPUBLISHED,
         0,
@@ -147,7 +147,7 @@ export default {
       );
     }
     if (res.unshippableRemove) {
-      util.showGrowlMessage(
+      showGrowlMessage(
         dispatch,
         MESSAGE.PRODUCT_UNSHIPPABLE_REMOVED,
         0,
@@ -170,7 +170,7 @@ export default {
       res.basket.updatedRemovedItems &&
       res.basket.updatedRemovedItems.length > 0
     ) {
-      util.showGrowlMessage(
+      showGrowlMessage(
         dispatch,
         MESSAGE.PRODUCT_UNPUBLISHED,
         0,
@@ -179,7 +179,7 @@ export default {
       );
     }
     if (res.basket.unshippableRemove) {
-      util.showGrowlMessage(
+      showGrowlMessage(
         dispatch,
         MESSAGE.PRODUCT_UNSHIPPABLE_REMOVED,
         0,

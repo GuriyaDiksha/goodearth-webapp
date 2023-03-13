@@ -6,6 +6,7 @@ import { Currency, currencyCode } from "typings/currency";
 import globalStyles from "styles/global.scss";
 import iconStyles from "styles/iconFonts.scss";
 import { Link } from "react-router-dom";
+import { displayPriceWithCommas } from "utils/utility";
 
 const GiftCardItem = ({
   currStatus,
@@ -43,7 +44,7 @@ const GiftCardItem = ({
   } else if (currStatus == "Expired" && type == "CNI") {
     // showExpired = true;
   }
-
+  console.log(unicode, currCode);
   return (
     <div id="gc-balance-info">
       {status == "expired" && (
@@ -222,12 +223,14 @@ const GiftCardItem = ({
             <span className={styles.lineHead}> Total value: </span>{" "}
             <span className={styles.line}>
               {" "}
-              {String.fromCharCode(...unicode)} {fullValue}{" "}
+              {String.fromCharCode(...unicode)}{" "}
+              {displayPriceWithCommas(fullValue, currCode as Currency)}{" "}
             </span>
           </p>
           <p className={cl(styles.balance)}>
             {" "}
-            Balance amount: {String.fromCharCode(...unicode)} {remValues}{" "}
+            Balance amount: {String.fromCharCode(...unicode)}{" "}
+            {displayPriceWithCommas(remValues, currCode as Currency)}{" "}
           </p>
           {conditionalRefresh && !isLoggedIn && (
             <span

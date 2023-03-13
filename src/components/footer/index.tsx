@@ -9,7 +9,7 @@ import { ShopLocator } from "./ShopLocator";
 import { AppState } from "reducers/typings";
 import { connect } from "react-redux";
 import CookieService from "services/cookie";
-import * as valid from "utils/validate";
+import { checkBlank, checkMail, showErrors, footerGTM } from "utils/validate";
 import { Dispatch } from "redux";
 import HeaderFooterService from "services/headerFooter";
 import { updateShowCookie, updateCookiePrefrence } from "actions/info";
@@ -232,14 +232,14 @@ class Footer extends React.Component<Props, FooterState> {
 
   myBlur = (e: any) => {
     let update = true;
-    if (valid.checkBlank(e.target.value)) {
+    if (checkBlank(e.target.value)) {
       this.setState({
         newsletterEmail: e.target.value,
         newsletterError: true,
         newsletterMessage: "Please enter your Email ID"
       });
       update = false;
-    } else if (!valid.checkMail(e.target.value)) {
+    } else if (!checkMail(e.target.value)) {
       this.setState({
         newsletterEmail: e.target.value,
         newsletterError: true,
@@ -274,11 +274,11 @@ class Footer extends React.Component<Props, FooterState> {
         .newsletterSignup(emailInput.value)
         .then(data => {
           if (data.status) {
-            const msg = valid.showErrors(data.message);
+            const msg = showErrors(data.message);
             // this.setState({newsletter_email: ""});
             this.setState({ newsletterError: false, newsletterMessage: msg });
           } else {
-            const msg = valid.showErrors(data.message);
+            const msg = showErrors(data.message);
             this.setState({ newsletterError: false, newsletterMessage: msg });
           }
         })
@@ -294,7 +294,7 @@ class Footer extends React.Component<Props, FooterState> {
               newsletterMessage: errorMsg
             });
           } else {
-            const msg = valid.showErrors(error.response.data.message);
+            const msg = showErrors(error.response.data.message);
             this.setState({ newsletterError: true, newsletterMessage: msg });
             // console.log(error);
           }
@@ -489,7 +489,7 @@ class Footer extends React.Component<Props, FooterState> {
                                       ) {
                                         window.scrollTo(0, 0);
                                       }
-                                      valid.footerGTM(list.name);
+                                      footerGTM(list.name);
                                     }}
                                   >
                                     {list.name}
@@ -548,9 +548,7 @@ class Footer extends React.Component<Props, FooterState> {
                                                   ) {
                                                     window.scrollTo(0, 0);
                                                   }
-                                                  valid.footerGTM(
-                                                    currentValue.text
-                                                  );
+                                                  footerGTM(currentValue.text);
                                                 }}
                                                 key={j}
                                                 style={{
@@ -571,9 +569,7 @@ class Footer extends React.Component<Props, FooterState> {
                                                   ) {
                                                     window.scrollTo(0, 0);
                                                   }
-                                                  valid.footerGTM(
-                                                    currentValue.text
-                                                  );
+                                                  footerGTM(currentValue.text);
                                                 }}
                                                 key={j}
                                                 style={{
@@ -589,9 +585,7 @@ class Footer extends React.Component<Props, FooterState> {
                                               target="_blank"
                                               rel="noopener noreferrer"
                                               onClick={() =>
-                                                valid.footerGTM(
-                                                  currentValue.text
-                                                )
+                                                footerGTM(currentValue.text)
                                               }
                                               key={j}
                                               style={{
@@ -768,7 +762,7 @@ class Footer extends React.Component<Props, FooterState> {
                                           ) {
                                             window.scrollTo(0, 0);
                                           }
-                                          valid.footerGTM(item.name);
+                                          footerGTM(item.name);
                                         }}
                                         style={{
                                           color:
@@ -897,7 +891,7 @@ class Footer extends React.Component<Props, FooterState> {
                                               ) {
                                                 window.scrollTo(0, 0);
                                               }
-                                              valid.footerGTM(child.text);
+                                              footerGTM(child.text);
                                             }}
                                           >
                                             {child.text}
@@ -920,7 +914,7 @@ class Footer extends React.Component<Props, FooterState> {
                                               ) {
                                                 window.scrollTo(0, 0);
                                               }
-                                              valid.footerGTM(child.text);
+                                              footerGTM(child.text);
                                             }}
                                             style={{
                                               color: this.state
@@ -968,9 +962,7 @@ class Footer extends React.Component<Props, FooterState> {
                                           href={child.newTabLink}
                                           target="_blank"
                                           rel="noopener noreferrer"
-                                          onClick={() =>
-                                            valid.footerGTM(child.text)
-                                          }
+                                          onClick={() => footerGTM(child.text)}
                                           style={{
                                             color: this.state
                                               .subheadingHoverArray[

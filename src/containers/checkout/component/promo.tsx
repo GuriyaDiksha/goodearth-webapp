@@ -5,7 +5,7 @@ import bootstrapStyles from "../../../styles/bootstrap/bootstrap-grid.scss";
 import globalStyles from "styles/global.scss";
 import styles from "../styles.scss";
 import { PromoProps } from "./typings";
-import * as Steps from "../constants";
+import { STEP_ORDER, STEP_PAYMENT, STEP_PROMO } from "../constants";
 import ApplyPromo from "./applyPromo";
 import { useSelector } from "react-redux";
 import { AppState } from "reducers/typings";
@@ -52,11 +52,11 @@ const PromoSection: React.FC<PromoProps> = props => {
 
   const onNext = () => {
     // util.checkoutGTM(4, currency, basket);
-    next(Steps.STEP_PAYMENT);
+    next(STEP_PAYMENT);
   };
 
   const onCurrentState = () => {
-    next(Steps.STEP_PROMO);
+    next(STEP_PROMO);
   };
 
   const partialSale = true;
@@ -82,7 +82,7 @@ const PromoSection: React.FC<PromoProps> = props => {
             styles.title
           )}
         >
-          {Steps.STEP_ORDER[activeStep] < currentStep ? (
+          {STEP_ORDER[activeStep] < currentStep ? (
             <img
               height={"18px"}
               className={globalStyles.marginR10}

@@ -2,12 +2,55 @@
 @import "../../styles/partials/mixins";
 
 .subc-header {
-  margin-top: 0;
+    margin-top:0;
+    background-color: #F9F5F8;
+    background-color: #fff;
+    display: flex;
+    justify-content: space-between;
+    padding: 0px 30px;
 }
+
+.subc-footer {
+    margin-top:0;
+    background-color: #F9F5F8;
+    display: flex;
+    justify-content: space-between;
+    padding: 0px 30px;
+    line-height: 49px;
+}
+
 .logo-container {
   line-height: 49px;
   text-align: center;
 }
+.customer-care{
+    display: flex;
+    img {
+        width: 15px;
+    }
+    .phone-number {
+        @include b4_12px_montserrat_charcoal();
+        letter-spacing: 0.4px;
+        display: flex;
+        align-items: center;
+        margin-left: 10px;
+    }
+}
+
+.checkout-title{
+    display: flex;
+    img {
+        width: 15px;
+    }
+    .title {
+        @include b4_12px_montserrat_charcoal();
+        letter-spacing: 0.4px;
+        display: flex;
+        align-items: center;
+        margin-left: 10px;
+    }
+}
+
 .bg-profile {
   background: url(../../images/order-confirmation-bg.png) repeat;
   height: auto;

@@ -1,4 +1,4 @@
-import React, { useEffect, useState, Fragment } from "react";
+import React, { useEffect, useState } from "react";
 import bootstrapStyles from "../../styles/bootstrap/bootstrap-grid.scss";
 import globalStyles from "styles/global.scss";
 import cs from "classnames";
@@ -11,19 +11,24 @@ import BanarasMotifImage from "../../images/banaras-motif.png";
 import AccountServices from "services/account";
 import { currencyCode, Currency } from "typings/currency";
 import moment from "moment";
-import * as util from "utils/validate";
+import { pageViewGTM } from "utils/validate";
 import CookieService from "services/cookie";
 import { GA_CALLS, ANY_ADS } from "constants/cookieConsent";
+import {
+  displayPriceWithCommas,
+  displayPriceWithCommasFloat
+} from "utils/utility";
 
 const orderConfirmation: React.FC<{ oid: string }> = props => {
   const {
     user: { email }
+    // device: { mobile }
   } = useSelector((state: AppState) => state);
   const [confirmData, setConfirmData] = useState<any>({});
+  const [charCurrency, setCharCurrency] = useState<any>({});
   const dispatch = useDispatch();
 
   const fetchData = async () => {
-    // debugger
     const data: any = await AccountServices.fetchOrderBy(
       dispatch,
       props.oid,
@@ -172,7 +177,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
         });
         dataLayer.push({
           event: "customPurchaseSuccess",
-          "Transaction ID": result.transactionId,
+          "Transaction ID": result.number,
           Revenue: +result.totalInclTax,
           "Shipping Charges": +result.shippingInclTax,
           "Payment Method": result.paymentMethod,
@@ -195,7 +200,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
         dataLayer.push({
           event: "GA4_purchase",
           ecommerce: {
-            transaction_id: result.transactionId,
+            transaction_id: result.number,
             affiliation: productname, // Pass the product name
             value: +result.totalInclTax,
             tax: 0,
@@ -251,6 +256,9 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
         }
       }
       setConfirmData(res);
+      setCharCurrency(
+        String.fromCharCode(...currencyCode[res.currency as Currency])
+      );
       gtmPushOrderConfirmation(response.results?.[0]);
     });
     const userConsent = CookieService.getCookie("consent").split(",");
@@ -258,7 +266,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
       dataLayer.push(function(this: any) {
         this.reset();
       });
-      util.pageViewGTM("OrderConfirmation");
+      pageViewGTM("OrderConfirmation");
       dataLayer.push({
         event: "OrderConfirmationPageView",
         PageURL: location.pathname,
@@ -280,16 +288,41 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
   const shippingAddress = confirmData?.shippingAddress?.[0],
     billingAddress = confirmData?.billingAddress?.[0];
 
-  // let giftCardAmount = 0;
-  // for (let i = 0; i < confirmData.giftVoucherRedeemed?.length; i++) {
-  //   giftCardAmount += confirmData.giftVoucherRedeemed[i];
-  // }
-
   if (!confirmData?.number) {
     return <></>;
   }
   return (
     <div>
+      {/* new Header */}
+      {/* <div className={cs(styles.subcHeader)}>
+        <div className={cs(styles.logoContainer)}>
+          <Link to="/">
+            <img
+              src={logoImage}
+              style={{
+                width: "111px",
+                cursor: "pointer"
+              }}
+            />
+          </Link>
+        </div>
+        <div className={styles.checkoutTitle}>
+          <img src={lockImage} />
+          <div className={styles.title}>{`CHECKOUT`}</div>
+        </div>
+
+        {!mobile && (
+          <div className={styles.customerCare}>
+            <img src={callImage} />
+            <div
+              className={styles.phoneNumber}
+            >{`+91 9582 999 555 / +91 9582 999 888`}</div>
+          </div>
+        )}
+      </div> */}
+      {/* ============================================================== */}
+
+      {/*  ============= OLD HEADER ===================================*/}
       <div className={cs(bootstrapStyles.row, styles.subcHeader)}>
         <div
           className={cs(
@@ -309,7 +342,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
           </Link>
         </div>
       </div>
-
+      {/* ==================================================================== */}
       <div className={cs(bootstrapStyles.row, styles.bgProfile, styles.os)}>
         <div
           className={cs(
@@ -345,7 +378,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
               )}
             >
               <div className={styles.add}>
-                <address>
+                <div className={styles.myOrderBlock}>
                   <label>order # {confirmData?.number}</label>
                   <div
                     className={cs(
@@ -359,10 +392,10 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                         {moment(confirmData?.datePlaced).format("D MMM, YYYY")}
                       </p>
 
-                      <p>
-                        <span className={globalStyles.op3}> Items: </span>{" "}
-                        {totalItem}
-                      </p>
+                      <div className={styles.row}>
+                        <span className={styles.label}> Items: </span>{" "}
+                        <span className={styles.data}>{totalItem}</span>
+                      </div>
                     </div>
                     <div>
                       <p>
@@ -374,7 +407,10 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                           ...currencyCode[confirmData?.currency as Currency]
                         )}
                         &nbsp;{" "}
-                        {parseFloat(confirmData?.totalInclTax).toFixed(2)}
+                        {displayPriceWithCommasFloat(
+                          confirmData?.totalInclTax,
+                          confirmData?.currency
+                        )}
                       </p>
                     </div>
                   </div>
@@ -435,6 +471,26 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                         ) : (
                           ""
                         )}
+                        <div className={cs(styles.row, styles.name)}>
+                          {shippingAddress.firstName}
+                          &nbsp; {shippingAddress.lastName}
+                        </div>
+                        <div className={styles.row}>
+                          {shippingAddress.line1}
+                        </div>
+                        <div className={styles.row}>
+                          {shippingAddress.line2}
+                        </div>
+                        <div className={styles.row}>
+                          {shippingAddress.state},&nbsp;
+                          {shippingAddress.postcode}
+                        </div>
+                        <div className={styles.row}>
+                          {shippingAddress.countryName}
+                        </div>
+                        <div className={cs(styles.row, styles.phoneNumber)}>
+                          {shippingAddress.phoneNumber}
+                        </div>
                       </div>
                     </div>
 
@@ -474,302 +530,261 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                         )}
                       </div>
                     </div>
-                  </div>
-                  {confirmData?.deliveryInstructions ? (
-                    <div
-                      className={cs(
-                        bootstrapStyles.row,
-                        globalStyles.voffset2,
-                        styles.borderAdd,
-                        styles.deliveryPadding
-                      )}
-                    >
-                      <div className={styles.add}>
-                        <p className={styles.delivery}>DELIVERY INSTRUCTIONS</p>
-                        <p className={styles.light}>
-                          {confirmData?.deliveryInstructions}
-                        </p>
-                      </div>
-                    </div>
-                  ) : (
-                    ""
-                  )}
-                  {confirmData?.lines?.map((item: any) => {
-                    // according bakwas by gaurav
-                    const isdisCount =
-                      +item.priceInclTax - +item.priceExclTaxExclDiscounts != 0;
-                    const price1 =
-                      +parseFloat(item.priceInclTax).toFixed(2) /
-                      +item.quantity;
-                    const price2 =
-                      +parseFloat(item.priceExclTaxExclDiscounts).toFixed(2) /
-                      +item.quantity;
-                    const price3 =
-                      +parseFloat(item.priceExclTaxExclDiscounts).toFixed(2) /
-                      +item.quantity;
-                    return (
-                      <div
-                        className={cs(
-                          bootstrapStyles.row,
-                          globalStyles.voffset2,
-                          styles.borderAdd
-                        )}
-                        key={item.order}
-                      >
-                        <div
-                          className={cs(
-                            bootstrapStyles.col5,
-                            bootstrapStyles.colMd3
-                          )}
-                        >
-                          <img
-                            src={item.product.images?.[0]?.productImage}
-                            className={globalStyles.imgResponsive}
-                          />
+                    {confirmData?.deliveryInstructions ? (
+                      <div className={cs(styles.deliveryInstructions)}>
+                        <div className={styles.add}>
+                          <p className={styles.delivery}>
+                            DELIVERY INSTRUCTIONS
+                          </p>
+                          <p className={styles.light}>
+                            {confirmData?.deliveryInstructions}
+                          </p>
                         </div>
-                        <div
-                          className={cs(
-                            bootstrapStyles.col7,
-                            bootstrapStyles.colMd9,
-                            {
-                              [styles.gc]: item.product?.structure == "GiftCard"
-                            }
-                          )}
-                        >
+                      </div>
+                    ) : (
+                      ""
+                    )}
+                    {confirmData?.lines?.map((item: any) => {
+                      // according bakwas by gaurav
+                      const isdisCount =
+                        +item.priceInclTax - +item.priceExclTaxExclDiscounts !=
+                        0;
+                      const amountPaid =
+                        +parseFloat(item.priceInclTax).toFixed(2) /
+                        +item.quantity;
+                      const price =
+                        +parseFloat(item.priceExclTaxExclDiscounts).toFixed(2) /
+                        +item.quantity;
+
+                      return (
+                        <div className={cs(styles.product)} key={item.order}>
+                          <div className={cs(styles.imageContainer)}>
+                            <img
+                              src={item.product.images?.[0]?.productImage}
+                              className={globalStyles.imgResponsive}
+                            />
+                          </div>
                           <div
-                            className={cs(
-                              bootstrapStyles.imageContent,
-                              globalStyles.textLeft
-                            )}
+                            className={cs(styles.productInfo, {
+                              [styles.gc]: item.product?.structure == "GiftCard"
+                            })}
                           >
-                            <p className={cs(styles.productH)}></p>
-                            <p className={cs(styles.productN)}>{item.title}</p>
-                            <p
-                              className={cs(styles.productN, globalStyles.flex)}
-                            >
-                              {isdisCount ? (
-                                <span className={styles.discountprice}>
-                                  {String.fromCharCode(
-                                    ...currencyCode[
-                                      item.priceCurrency as Currency
-                                    ]
-                                  )}
-                                  {Number.isSafeInteger(+price1)
-                                    ? price1
-                                    : price1.toFixed(2) + ""}
-                                  &nbsp;{" "}
-                                </span>
-                              ) : (
-                                ""
-                              )}
-                              {isdisCount ? (
-                                <span className={styles.strikeprice}>
-                                  {String.fromCharCode(
-                                    ...currencyCode[
-                                      item.priceCurrency as Currency
-                                    ]
-                                  )}
-                                  {Number.isSafeInteger(+price2)
-                                    ? price2
-                                    : price2.toFixed(2) + ""}
-                                  &nbsp;{" "}
-                                </span>
-                              ) : (
-                                <span
-                                  className={cs(
-                                    {
-                                      [globalStyles.cerise]:
-                                        item.product.badgeType == "B_flat"
-                                    },
-                                    styles.price
-                                  )}
-                                >
-                                  {String.fromCharCode(
-                                    ...currencyCode[
-                                      item.priceCurrency as Currency
-                                    ]
-                                  )}
-                                  &nbsp;{" "}
-                                  {Number.isSafeInteger(+price3)
-                                    ? price3
-                                    : price3.toFixed(2) + ""}
+                            <p className={cs(styles.title)}>{item.title}</p>
+                            <p className={cs(styles.price)}>
+                              <span
+                                className={cs(styles.amountPaid, {
+                                  [styles.gold]: isdisCount
+                                })}
+                              >
+                                {`${charCurrency} ${displayPriceWithCommas(
+                                  amountPaid,
+                                  confirmData.currency
+                                )}`}
+                              </span>
+                              {isdisCount && (
+                                <span className={styles.originalPrice}>
+                                  {`${charCurrency} ${displayPriceWithCommas(
+                                    price,
+                                    confirmData.currency
+                                  )}`}
                                 </span>
                               )}
                             </p>
-                            {item.product?.structure == "GiftCard" ? (
-                              ""
-                            ) : (
-                              <Fragment>
-                                <div
-                                  className={cs(
-                                    styles.smallSize,
-                                    globalStyles.voffset2
-                                  )}
-                                >
-                                  {item.product.size && (
-                                    <>Size:&nbsp; {item.product.size}</>
-                                  )}
-                                </div>
-                                <div className={styles.smallSize}>
-                                  Qty:&nbsp; {item.quantity}
-                                </div>
-                                {item.fillerMessage ? (
-                                  <div className={styles.filler}>
-                                    {`*${item.fillerMessage}`}
-                                  </div>
-                                ) : (
-                                  ""
-                                )}
-                              </Fragment>
+                            {item.product.size && (
+                              <div className={styles.size}>
+                                {`Size: ${item.product.size}`}
+                              </div>
+                            )}
+                            <div
+                              className={styles.quantity}
+                            >{`Qty: ${item.quantity}`}</div>
+                            {item.product?.structure == "GiftCard" && (
+                              <div
+                                className={cs(styles.quantity, styles.withData)}
+                              >
+                                Sent via Email:{" "}
+                                <span>{item.egiftCardRecipient}</span>
+                              </div>
+                            )}
+                            {!item.isEgiftCard && (
+                              <div className={styles.size}>
+                                {`Item Code: ${item.product.sku}`}
+                              </div>
+                            )}
+                            {/* Estimated Delivery Time */}
+                            {item.productDeliveryDate && !item.isEgiftCard && (
+                              <div
+                                className={cs(styles.quantity, styles.withData)}
+                              >
+                                Estimated Delivery Date:{" "}
+                                <span className={styles.edd}>
+                                  {item.productDeliveryDate}
+                                </span>
+                              </div>
                             )}
                           </div>
-                          {item.product?.structure == "GiftCard" && (
-                            <div className={globalStyles.textLeft}>
-                              <p className={styles.label}>Sent via Email:</p>
-                              <p className={styles.email}>
-                                {item.egiftCardRecipient}
-                              </p>
-                            </div>
-                          )}
                         </div>
-                      </div>
-                    );
-                  })}
-                </address>
-              </div>
-            </div>
-          </div>
-          <div
-            className={cs(
-              bootstrapStyles.row,
-              styles.white,
-              globalStyles.flexGutterCenter
-            )}
-          >
-            <div
-              className={cs(
-                bootstrapStyles.col10,
-                bootstrapStyles.colMd8,
-                styles.priceSectionWrapper
-              )}
-            >
-              <div className={cs(styles.priceSection)}>
-                <div className={cs(styles.subTotalSection)}>
-                  <p>SUBTOTAL</p>
-                  <p>
-                    {String.fromCharCode(
-                      ...currencyCode[confirmData.currency as Currency]
-                    )}
-                    &nbsp; {parseFloat(confirmData.orderSubTotal).toFixed(2)}
-                  </p>
-                </div>
-                {/* Filter this key and remove vouchers */}
-                {confirmData?.offerDiscounts?.map(
-                  (
-                    discount: { name: string; amount: string },
-                    index: number
-                  ) => (
-                    <div className={cs(styles.discountSection)} key={index}>
-                      <p>{discount.name}</p>
-                      <p>
-                        (-){" "}
-                        {String.fromCharCode(
-                          ...currencyCode[confirmData.currency as Currency]
-                        )}
-                        &nbsp; {parseFloat(discount.amount).toFixed(2)}
-                      </p>
-                    </div>
-                  )
-                )}
-
-                <div className={cs(styles.discountSection)}>
-                  <p>Shipping & Handling</p>
-                  <p>
-                    (+){" "}
-                    {String.fromCharCode(
-                      ...currencyCode[confirmData.currency as Currency]
-                    )}
-                    &nbsp; {parseFloat(confirmData.shippingInclTax).toFixed(2)}
-                  </p>
-                </div>
-
-                {confirmData.voucherDiscounts.map((vd: any, i: number) => (
-                  <div
-                    className={cs(styles.discountSection)}
-                    key={`voucher_${i}`}
-                  >
-                    <p>{vd.name}</p>
-                    <p>
-                      (-){" "}
-                      {String.fromCharCode(
-                        ...currencyCode[confirmData.currency as Currency]
-                      )}
-                      &nbsp; {parseFloat(vd.amount).toFixed(2)}
-                    </p>
+                      );
+                    })}
+                    {/* </address> */}
                   </div>
-                ))}
-
-                {confirmData.giftVoucherRedeemed.map(
-                  (gccn: number, i: number) => (
-                    <div
-                      className={cs(styles.discountSection)}
-                      key={`gccn_${i}`}
-                    >
-                      <p>Gift Card/Credit Note</p>
-                      <p>
-                        (-){" "}
-                        {String.fromCharCode(
-                          ...currencyCode[confirmData.currency as Currency]
-                        )}
-                        &nbsp; {parseFloat("" + gccn).toFixed(2)}
-                      </p>
-                    </div>
-                  )
-                )}
-
-                {confirmData.loyalityPointsRedeemed.map(
-                  (gccn: number, i: number) => (
-                    <div
-                      className={cs(styles.discountSection)}
-                      key={`loyalty_${i}`}
-                    >
-                      <p>Loyalty Points</p>
-                      <p>
-                        (-){" "}
-                        {String.fromCharCode(
-                          ...currencyCode[confirmData.currency as Currency]
-                        )}
-                        &nbsp;{" "}
-                        {parseFloat(confirmData.loyalityPointsRedeemed).toFixed(
-                          2
-                        )}
-                      </p>
-                    </div>
-                  )
-                )}
-
-                <div className={cs(styles.totalSection)}>
-                  <p>AMOUNT PAID</p>
-                  <p>
-                    {String.fromCharCode(
-                      ...currencyCode[confirmData.currency as Currency]
-                    )}
-                    &nbsp; {parseFloat(confirmData.totalInclTax).toFixed(2)}
-                  </p>
                 </div>
               </div>
               <div
                 className={cs(
-                  bootstrapStyles.col12,
-                  bootstrapStyles.colMd8,
-                  styles.cta,
-                  globalStyles.ceriseBtn
+                  bootstrapStyles.row,
+                  styles.white,
+                  globalStyles.flexGutterCenter
                 )}
               >
-                <Link to={"/"}> continue shopping </Link>
+                <div
+                  className={cs(
+                    bootstrapStyles.col10,
+                    bootstrapStyles.colMd8,
+                    styles.priceSectionWrapper
+                  )}
+                >
+                  <div className={cs(styles.priceSection)}>
+                    <div className={cs(styles.subTotalSection)}>
+                      <p>SUBTOTAL</p>
+                      <p>
+                        {String.fromCharCode(
+                          ...currencyCode[confirmData.currency as Currency]
+                        )}
+                        &nbsp;{" "}
+                        {parseFloat(confirmData.orderSubTotal).toFixed(2)}
+                      </p>
+                    </div>
+                    {/* Filter this key and remove vouchers */}
+                    {confirmData?.offerDiscounts?.map(
+                      (
+                        discount: { name: string; amount: string },
+                        index: number
+                      ) => (
+                        <div className={cs(styles.discountSection)} key={index}>
+                          <p>{discount.name}</p>
+                          <p>
+                            (-){" "}
+                            {String.fromCharCode(
+                              ...currencyCode[confirmData.currency as Currency]
+                            )}
+                            &nbsp; {parseFloat(discount.amount).toFixed(2)}
+                          </p>
+                        </div>
+                      )
+                    )}
+
+                    <div className={cs(styles.discountSection)}>
+                      <p>Shipping & Handling</p>
+                      <p>
+                        (+){" "}
+                        {String.fromCharCode(
+                          ...currencyCode[confirmData.currency as Currency]
+                        )}
+                        &nbsp;{" "}
+                        {parseFloat(confirmData.shippingInclTax).toFixed(2)}
+                      </p>
+                    </div>
+
+                    {confirmData.voucherDiscounts.map((vd: any, i: number) => (
+                      <div
+                        className={cs(styles.discountSection)}
+                        key={`voucher_${i}`}
+                      >
+                        <p>{vd.name}</p>
+                        <p>
+                          (-){" "}
+                          {String.fromCharCode(
+                            ...currencyCode[confirmData.currency as Currency]
+                          )}
+                          &nbsp; {parseFloat(vd.amount).toFixed(2)}
+                        </p>
+                      </div>
+                    ))}
+
+                    {confirmData.giftVoucherRedeemed.map(
+                      (gccn: number, i: number) => (
+                        <div
+                          className={cs(styles.discountSection)}
+                          key={`gccn_${i}`}
+                        >
+                          <p>Gift Card/Credit Note</p>
+                          <p>
+                            (-){" "}
+                            {String.fromCharCode(
+                              ...currencyCode[confirmData.currency as Currency]
+                            )}
+                            &nbsp; {parseFloat("" + gccn).toFixed(2)}
+                          </p>
+                        </div>
+                      )
+                    )}
+
+                    {confirmData.loyalityPointsRedeemed.map(
+                      (gccn: number, i: number) => (
+                        <div
+                          className={cs(styles.discountSection)}
+                          key={`loyalty_${i}`}
+                        >
+                          <p>Loyalty Points</p>
+                          <p>
+                            (-){" "}
+                            {String.fromCharCode(
+                              ...currencyCode[confirmData.currency as Currency]
+                            )}
+                            &nbsp;{" "}
+                            {parseFloat(
+                              confirmData.loyalityPointsRedeemed
+                            ).toFixed(2)}
+                          </p>
+                        </div>
+                      )
+                    )}
+
+                    <div className={cs(styles.totalSection)}>
+                      <p>AMOUNT PAID</p>
+                      <p>
+                        {String.fromCharCode(
+                          ...currencyCode[confirmData.currency as Currency]
+                        )}
+                        &nbsp; {parseFloat(confirmData.totalInclTax).toFixed(2)}
+                      </p>
+                    </div>
+                  </div>
+                  <div
+                    className={cs(
+                      bootstrapStyles.col12,
+                      bootstrapStyles.colMd8,
+                      styles.cta,
+                      globalStyles.ceriseBtn
+                    )}
+                  >
+                    <Link to={"/"}> continue shopping </Link>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
+          {/* ============================ New FOOTER ==================================*/}
+          {/* <div className={cs(styles.subcFooter)}>
+        <div className={styles.checkoutTitle}>
+          {!mobile && <span className={styles.title}>CURRENCY: </span>}{" "}
+          <div
+            className={styles.title}
+          >{`${charCurrency} ${confirmData.currency}`}</div>
+        </div>
+        <div className={styles.customerCare}>
+          <img src={callImage} />
+          <div
+            className={styles.phoneNumber}
+          >{`+91 9582 999 555 / +91 9582 999 888`}</div>
+        </div>
+      </div> */}
+          {/* ================================================================= */}
+
+          {/* ========================= Old Footer ================================== */}
+
+          {/* ===================================================================== */}
         </div>
       </div>
     </div>

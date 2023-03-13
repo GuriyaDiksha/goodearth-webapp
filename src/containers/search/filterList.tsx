@@ -12,11 +12,12 @@ import "./slider.css";
 import { State, FilterProps } from "./typings";
 import { withRouter } from "react-router";
 import { RouteComponentProps } from "react-router-dom";
-import * as valid from "utils/validate";
+import { productImpression } from "utils/validate";
 import Loader from "components/Loader";
 import iconStyles from "../../styles/iconFonts.scss";
 import multiColour from "../../images/multiColour.svg";
 import bootstrap from "../../styles/bootstrap/bootstrap-grid.scss";
+import { displayPriceWithCommas } from "utils/utility";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -726,7 +727,7 @@ class FilterList extends React.Component<Props, State> {
       updateProduct(filterUrl + `&page_size=${pageSize}`, listdata)
         .then(searchList => {
           changeLoader?.(false);
-          valid.productImpression(
+          productImpression(
             searchList,
             searchValue || "PLP",
             this.props.currency,
@@ -813,7 +814,7 @@ class FilterList extends React.Component<Props, State> {
     fetchSearchProducts(filterUrl + `&page_size=${pageSize}`)
       .then(searchList => {
         changeLoader?.(false);
-        valid.productImpression(
+        productImpression(
           searchList,
           searchValue || "PLP",
           this.props.currency
@@ -2422,11 +2423,17 @@ class FilterList extends React.Component<Props, State> {
               )}
               <div className={styles.sliderText}>
                 <div className={styles.sliderBox}>
-                  {this.state.rangevalue[0]}
+                  {displayPriceWithCommas(
+                    this.state.rangevalue[0] || "",
+                    this.props.currency
+                  )}
                 </div>
 
                 <div className={styles.sliderBox}>
-                  {this.state.rangevalue[1]}
+                  {displayPriceWithCommas(
+                    this.state.rangevalue[1] || "",
+                    this.props.currency
+                  )}
                 </div>
               </div>
               <div data-name="price">

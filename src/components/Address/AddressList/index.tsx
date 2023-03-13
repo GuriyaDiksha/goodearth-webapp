@@ -56,11 +56,17 @@ const AddressList: React.FC<Props> = props => {
           );
         }
       }
+
       // if (props.addressDataList && props.addressDataList.length > 0) {
       //   addressData = addressData.filter(data => data.id !== props.bridalId);
       // }
       setAddressData(addressData);
     }
+
+    // if (props.addressDataList && props.addressDataList.length > 0) {
+    //   addressData = addressData.filter(data => data.id !== props.bridalId);
+    // }
+    // setAddressData(addressData);
   }, [addressDataList]);
 
   // const [ addressDataList: addressData || [],

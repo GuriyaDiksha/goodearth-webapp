@@ -11,6 +11,7 @@ import { currencyCodes } from "constants/currency";
 import { useSelector } from "react-redux";
 import { AppState } from "reducers/typings";
 import { NavLink } from "react-router-dom";
+import { displayPriceWithCommas } from "utils/utility";
 
 type PopupProps = {
   remainingAmount: number;
@@ -68,7 +69,7 @@ const FreeShipping: React.FC<PopupProps> = props => {
               &nbsp;Select products worth{" "}
               <span>
                 {String.fromCharCode(...currencyCodes[currency])}{" "}
-                {props.remainingAmount}
+                {displayPriceWithCommas(props.remainingAmount, currency)}
               </span>{" "}
               or more to your order to qualify
             </div>

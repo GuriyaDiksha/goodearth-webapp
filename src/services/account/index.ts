@@ -10,7 +10,7 @@ import { resetMeta } from "actions/user";
 import MetaService from "services/meta";
 import WishlistService from "services/wishlist";
 import BasketService from "services/basket";
-import * as valid from "utils/validate";
+import { encryptdata, decriptdata } from "utils/validate";
 
 export default {
   fetchProfileData: async (dispatch: Dispatch) => {
@@ -18,18 +18,18 @@ export default {
       dispatch,
       `${__API_HOST__ + "/myapi/customer/profile"}`
     );
-    const response = valid.decriptdata(data);
+    const response = decriptdata(data);
     return response;
   },
   updateProfileData: async (dispatch: Dispatch, formData: FormData) => {
     const newdata = { ...formData };
-    const enc = valid.encryptdata(newdata);
+    const enc = encryptdata(newdata);
     const data = await API.post<ProfileResponse>(
       dispatch,
       `${__API_HOST__ + "/myapi/customer/update_profile/"}`,
       enc
     );
-    const response = valid.decriptdata(data);
+    const response = decriptdata(data);
     return response;
   },
   changePassword: async (dispatch: Dispatch, formData: FormData) => {
@@ -134,13 +134,13 @@ export default {
   },
   sendOtpBalance: async (dispatch: Dispatch, formData: FormData) => {
     const newdata = { ...formData };
-    const enc = valid.encryptdata(newdata);
+    const enc = encryptdata(newdata);
     const data = await API.post<BalanceProps>(
       dispatch,
       `${__API_HOST__ + "/myapi/giftcard/send_otp_for_anonymous_user/"}`,
       enc
     );
-    const response = valid.decriptdata(data);
+    const response = decriptdata(data);
     return response;
   },
   sendOtpRedeem: async (dispatch: Dispatch, formData: FormData) => {
@@ -173,13 +173,13 @@ export default {
   },
   sendOtpGiftcard: async (dispatch: Dispatch, formData: FormData) => {
     const olddata = { ...formData };
-    const enc = valid.encryptdata(olddata);
+    const enc = encryptdata(olddata);
     const data = await API.post<BalanceProps>(
       dispatch,
       `${__API_HOST__ + "/myapi/giftcard/send_giftcard_otp/"}`,
       enc
     );
-    const response = valid.decriptdata(data);
+    const response = decriptdata(data);
     const temp = {
       ...response,
       ...formData
@@ -188,14 +188,14 @@ export default {
   },
   checkOtpBalance: async (dispatch: Dispatch, formData: any) => {
     const olddata = { ...formData };
-    const enc = valid.encryptdata(olddata);
+    const enc = encryptdata(olddata);
     const data = await API.post<BalanceProps>(
       dispatch,
       `${__API_HOST__ +
         "/myapi/giftcard/giftcard_balance_check_for_anonymous_user/"}`,
       enc
     );
-    const response = valid.decriptdata(data);
+    const response = decriptdata(data);
     const temp = {
       ...response
     };
@@ -233,14 +233,14 @@ export default {
   },
   activateGiftCard: async (dispatch: Dispatch, formData: FormData) => {
     const olddata = { ...formData };
-    const enc = valid.encryptdata(olddata);
+    const enc = encryptdata(olddata);
     const data = await API.post<BalanceProps>(
       dispatch,
       `${__API_HOST__ + "/myapi/giftcard/giftcard_activate/"}`,
       enc
     );
 
-    const response = valid.decriptdata(data);
+    const response = decriptdata(data);
     const temp = {
       ...response
       // ...formData

@@ -13,17 +13,24 @@ import { AddressProps } from "./typings";
 import { updateAddressList } from "actions/address";
 import AddressService from "services/address";
 import { useDispatch, useSelector } from "react-redux";
-import * as Steps from "../constants";
+import {
+  STEP_BILLING,
+  STEP_ORDER,
+  STEP_PAYMENT,
+  STEP_PROMO,
+  STEP_SHIPPING
+} from "../constants";
 import UserContext from "contexts/user";
 import { AddressContext } from "components/Address/AddressMain/context";
 import { AppState } from "reducers/typings";
 import { AddressData } from "components/Address/typings";
-import * as valid from "utils/validate";
+import { checkBlank } from "utils/validate";
 import { CheckoutAddressContext } from "./context";
 import { Currency, currencyCode } from "typings/currency";
 import checkmarkCircle from "./../../../images/checkmarkCircle.svg";
 import { updateComponent, updateModal } from "actions/modal";
 import { POPUP } from "constants/components";
+import { displayPriceWithCommas } from "utils/utility";
 
 const AddressSection: React.FC<AddressProps & {
   mode: string;
@@ -55,7 +62,7 @@ const AddressSection: React.FC<AddressProps & {
   const { addressList } = useSelector((state: AppState) => state.address);
   const { showPromo } = useSelector((state: AppState) => state.info);
   const sameShipping =
-    (props.activeStep == Steps.STEP_BILLING ? true : false) &&
+    (props.activeStep == STEP_BILLING ? true : false) &&
     props.hidesameShipping &&
     !isGoodearthShipping &&
     !props.isBridal;
@@ -121,7 +128,7 @@ const AddressSection: React.FC<AddressProps & {
           : "[+] ADD NEW ADDRESS";
       const mobileText =
         mode == "new" || mode == "edit" ? "< BACK" : "[+] ADD ADDRESS";
-      if (isBridal && activeStep == Steps.STEP_SHIPPING) return "";
+      if (isBridal && activeStep == STEP_SHIPPING) return "";
       return (
         <div
           className={cs(
@@ -148,16 +155,13 @@ const AddressSection: React.FC<AddressProps & {
   };
 
   const handleStepEdit = () => {
-    activeStep == Steps.STEP_SHIPPING ? (
-      <>{next(Steps.STEP_SHIPPING)}</>
-    ) : (
-      next(Steps.STEP_BILLING)
-    );
+    activeStep == STEP_SHIPPING ? next(STEP_SHIPPING) : next(STEP_BILLING);
   };
 
   const renderSavedAddress = function() {
     const address = selectedAddress;
-    if (!isActive && address && isBridal && activeStep == Steps.STEP_SHIPPING) {
+
+    if (!isActive && address && isBridal && activeStep == STEP_SHIPPING) {
       // saved address for bridal
       return (
         <div
@@ -330,12 +334,12 @@ const AddressSection: React.FC<AddressProps & {
     let validate = false;
     if (
       pancardText.length == 10 ||
-      (currency != "INR" && !valid.checkBlank(pancardText))
+      (currency != "INR" && !checkBlank(pancardText))
     ) {
       setPanError("");
       setPanCheck("");
       validate = true;
-    } else if (valid.checkBlank(pancardText)) {
+    } else if (checkBlank(pancardText)) {
       setPanError(
         currency == "INR"
           ? "Please enter your PAN Number"
@@ -400,7 +404,7 @@ const AddressSection: React.FC<AddressProps & {
       );
     }
 
-    if (amountPriceCheck && props.activeStep == Steps.STEP_BILLING) {
+    if (amountPriceCheck && props.activeStep == STEP_BILLING) {
       if (!checkPancardValidation()) {
         validate = false;
       }
@@ -413,8 +417,8 @@ const AddressSection: React.FC<AddressProps & {
     if (validate) {
       removeErrorMessages();
       props.finalizeAddress(addr, props.activeStep, numberObj);
-      if (activeStep === Steps.STEP_BILLING) {
-        next(showPromo ? Steps.STEP_PROMO : Steps.STEP_PAYMENT);
+      if (activeStep === STEP_BILLING) {
+        next(showPromo ? STEP_PROMO : STEP_PAYMENT);
       }
       return validate;
     } else {
@@ -455,15 +459,15 @@ const AddressSection: React.FC<AddressProps & {
   };
 
   const renderPancard = useMemo(() => {
-    if (props.activeStep == Steps.STEP_BILLING) {
+    if (props.activeStep == STEP_BILLING) {
       const pass =
         currency == "INR"
           ? `As per RBI government regulations, PAN details are mandatory for transaction above ${String.fromCharCode(
               ...code
-            )} ${amountPrice[currency]}.`
+            )} ${displayPriceWithCommas(amountPrice[currency], currency)}.`
           : `AS PER RBI GOVERNMENT REGULATIONS, PASSPORT DETAILS ARE MANDATORY FOR TRANSACTIONS ABOVE ${String.fromCharCode(
               ...code
-            )} ${amountPrice[currency]}.`;
+            )} ${displayPriceWithCommas(amountPrice[currency], currency)}.`;
       const panText =
         currency == "INR" ? "PAN Card Number*" : " Passport Number*";
       return (
@@ -605,7 +609,7 @@ const AddressSection: React.FC<AddressProps & {
   };
 
   const onSelectAddress = (address?: AddressData) => {
-    if (activeStep === Steps.STEP_SHIPPING && !isTermChecked) {
+    if (activeStep === STEP_SHIPPING && !isTermChecked) {
       setTermsErr("Please confirm to terms and conditions");
       return false;
     }
@@ -617,14 +621,14 @@ const AddressSection: React.FC<AddressProps & {
         openAddressForm(address);
       }
     }
-    if (activeStep === Steps.STEP_SHIPPING) {
-      next(Steps.STEP_BILLING);
+    if (activeStep === STEP_SHIPPING) {
+      next(STEP_BILLING);
     }
   };
   const renderCheckoutAddress = () => {
     let html: ReactElement | null = null;
 
-    if (isBridal && activeStep == Steps.STEP_SHIPPING) {
+    if (isBridal && activeStep == STEP_SHIPPING) {
       html = (
         <div className={globalStyles.marginT5}>
           <div
@@ -643,7 +647,7 @@ const AddressSection: React.FC<AddressProps & {
                   styles.title
                 )}
               >
-                {Steps.STEP_ORDER[activeStep] < currentStep ? (
+                {STEP_ORDER[activeStep] < currentStep ? (
                   <img
                     height={"18px"}
                     className={globalStyles.marginR10}
@@ -653,9 +657,9 @@ const AddressSection: React.FC<AddressProps & {
                 ) : null}
 
                 <span className={cs({ [styles.closed]: !isActive })}>
-                  {activeStep == Steps.STEP_SHIPPING
-                    ? "SHIPPING ADDRESS"
-                    : "BILLING ADDRESS"}
+                  {activeStep == STEP_SHIPPING
+                    ? "SHIPPING DETAILS"
+                    : "BILLING DETAILS"}
                 </span>
               </div>
               {renderActions(false)}
@@ -706,7 +710,7 @@ const AddressSection: React.FC<AddressProps & {
                 )}
               >
                 <div>
-                  {Steps.STEP_ORDER[activeStep] < currentStep ? (
+                  {STEP_ORDER[activeStep] < currentStep ? (
                     <img
                       height={"18px"}
                       className={globalStyles.marginR10}
@@ -715,7 +719,7 @@ const AddressSection: React.FC<AddressProps & {
                     />
                   ) : null}
                   <span className={cs({ [styles.closed]: !isActive })}>
-                    {activeStep == Steps.STEP_SHIPPING
+                    {activeStep == STEP_SHIPPING
                       ? "SHIPPING ADDRESS"
                       : "BILLING ADDRESS"}
                   </span>
@@ -728,28 +732,28 @@ const AddressSection: React.FC<AddressProps & {
             {isActive && (
               <>
                 <div>
-                  {props.activeStep == Steps.STEP_BILLING &&
-                    props.hidesameShipping && (
-                      <>
-                        <div>{renderBillingCheckbox()}</div>
-                        {!sameAsShipping && isLoggedIn && (
-                          <div>
-                            <div
-                              className={cs(
-                                styles.sameText,
-                                styles.formSubheading
-                              )}
-                            >
-                              OR SELECT AN ADDRESS BELOW
-                            </div>
+                  <div>{renderPancard}</div>
+                  {props.activeStep == STEP_BILLING && props.hidesameShipping && (
+                    <>
+                      <div>{renderBillingCheckbox()}</div>
+                      {!sameAsShipping && isLoggedIn && (
+                        <div>
+                          <div
+                            className={cs(
+                              styles.sameText,
+                              styles.formSubheading
+                            )}
+                          >
+                            OR SELECT AN ADDRESS BELOW
                           </div>
-                        )}
-                      </>
-                    )}
+                        </div>
+                      )}
+                    </>
+                  )}
                   {// logged in Shipping & billing
                   isLoggedIn &&
-                    (props.activeStep == Steps.STEP_SHIPPING ||
-                      props.activeStep == Steps.STEP_BILLING) &&
+                    (props.activeStep == STEP_SHIPPING ||
+                      props.activeStep == STEP_BILLING) &&
                     !sameAsShipping && (
                       <>
                         <div>{children}</div>
@@ -763,7 +767,7 @@ const AddressSection: React.FC<AddressProps & {
                                 styles.checkoutAddressFooter
                               )}
                             >
-                              {props.activeStep == Steps.STEP_SHIPPING && (
+                              {props.activeStep == STEP_SHIPPING && (
                                 <div>
                                   <label className={cs(styles.flex)}>
                                     <div className={globalStyles.marginR10}>
@@ -822,9 +826,9 @@ const AddressSection: React.FC<AddressProps & {
                                     }}
                                     className={styles.sendToAddress}
                                   >
-                                    {props.activeStep == Steps.STEP_SHIPPING
+                                    {props.activeStep == STEP_SHIPPING
                                       ? "SHIP TO THIS ADDRESS"
-                                      : props.activeStep == Steps.STEP_BILLING
+                                      : props.activeStep == STEP_BILLING
                                       ? "PROCEED TO PAYMENT"
                                       : "SHIP TO THIS ADDRESS"}
                                   </div>
@@ -833,8 +837,8 @@ const AddressSection: React.FC<AddressProps & {
                               {!mobile &&
                                 addressList.length > 1 &&
                                 mode == "list" &&
-                                (props.activeStep == Steps.STEP_SHIPPING ||
-                                  (props.activeStep == Steps.STEP_BILLING &&
+                                (props.activeStep == STEP_SHIPPING ||
+                                  (props.activeStep == STEP_BILLING &&
                                     !props.hidesameShipping)) &&
                                 renderActions(false)}
                             </div>
@@ -842,6 +846,9 @@ const AddressSection: React.FC<AddressProps & {
                         )}
                       </>
                     )}
+                  {/* (props.activeStep == STEP_SHIPPING ||
+                      (props.activeStep == STEP_BILLING &&
+                        !sameAsShipping)) && <div>{children}</div>} */}
 
                   {props.error ? (
                     <div
@@ -856,7 +863,7 @@ const AddressSection: React.FC<AddressProps & {
                     ""
                   )}
                   <div>{renderPancard}</div>
-                  {props.activeStep == Steps.STEP_BILLING && (
+                  {props.activeStep == STEP_BILLING && (
                     <div className={bootstrapStyles.row}>
                       <div
                         className={cs(
@@ -884,9 +891,15 @@ const AddressSection: React.FC<AddressProps & {
                     </div>
                   )}
                 </div>
+                {addressList.length > 1 &&
+                  mode == "list" &&
+                  (props.activeStep == STEP_SHIPPING ||
+                    (props.activeStep == STEP_BILLING &&
+                      !props.hidesameShipping)) &&
+                  renderActions(true)}
               </>
             )}
-            {props.activeStep == Steps.STEP_SHIPPING && !isActive && (
+            {props.activeStep == STEP_SHIPPING && !isActive && (
               <div
                 className={cs(
                   { [globalStyles.errorMsg]: errorNotification },

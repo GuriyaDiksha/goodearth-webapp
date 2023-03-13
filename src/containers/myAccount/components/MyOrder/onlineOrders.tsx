@@ -11,6 +11,10 @@ import { useDispatch } from "react-redux";
 import { useHistory } from "react-router";
 import invoice from "../../../../images/invoice.svg";
 import invoiceDisabled from "../../../../images/invoiceDisabled.svg";
+import {
+  displayPriceWithCommas,
+  displayPriceWithCommasFloat
+} from "utils/utility";
 
 const OnlineOrders: React.FC<OrdersProps> = props => {
   const [data, setData] = useState<any[]>([]);
@@ -222,11 +226,17 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
                     [styles.gold]: isDiscount
                   })}
                 >
-                  {`${charCurrency} ${amountPaid}`}
+                  {`${charCurrency} ${displayPriceWithCommas(
+                    amountPaid,
+                    item.priceCurrency
+                  )}`}
                 </span>
                 {isDiscount && (
                   <span className={styles.originalPrice}>
-                    {`${charCurrency} ${price}`}
+                    {`${charCurrency} ${displayPriceWithCommas(
+                      price,
+                      item.priceCurrency
+                    )}`}
                   </span>
                 )}
               </p>
@@ -248,7 +258,10 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
         <div className={cs(styles.price, styles.price1)}>
           <span className={styles.label}>SUBTOTAL</span>
           <span className={styles.value}>
-            {`${currencyChar} ${parseFloat(item.orderSubTotal).toFixed(2)}`}
+            {`${currencyChar} ${displayPriceWithCommasFloat(
+              item.orderSubTotal,
+              item.priceCurrency
+            )}`}
           </span>
         </div>
         {/* offer discounts */}
@@ -258,8 +271,9 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
               <div className={cs(styles.price, styles.price3, styles.discount)}>
                 <span className={styles.label}>{discount.name}</span>
                 <span className={styles.value}>
-                  {`(-)${currencyChar} ${parseFloat(discount.amount).toFixed(
-                    2
+                  {`(-)${currencyChar} ${displayPriceWithCommasFloat(
+                    discount.amount,
+                    item.priceCurrency
                   )}`}
                 </span>
               </div>
@@ -270,8 +284,9 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
         <div className={cs(styles.price, styles.price2)}>
           <span className={styles.label}>SHIPPING & HANDLING</span>
           <span className={styles.value}>
-            {`(+) ${currencyChar} ${parseFloat(item.shippingInclTax).toFixed(
-              2
+            {`(+) ${currencyChar} ${displayPriceWithCommasFloat(
+              item.shippingInclTax,
+              item.priceCurrency
             )}`}
           </span>
         </div>
@@ -281,7 +296,10 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
             <div className={cs(styles.price, styles.price3, styles.discount)}>
               <span className={styles.label}>{vd.name}</span>
               <span className={styles.value}>
-                {`(-)${currencyChar} ${parseFloat(vd.amount).toFixed(2)}`}
+                {`(-)${currencyChar} ${displayPriceWithCommasFloat(
+                  vd.amount,
+                  item.priceCurrency
+                )}`}
               </span>
             </div>
           );
@@ -292,7 +310,10 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
             <div className={cs(styles.price, styles.price3, styles.discount)}>
               <span className={styles.label}>Gift Card/Credit Note</span>
               <span className={styles.value}>
-                {`(-)${currencyChar} ${parseFloat("" + gccn).toFixed(2)}`}
+                {`(-)${currencyChar} ${displayPriceWithCommas(
+                  gccn,
+                  item.priceCurrency
+                )}`}
               </span>
             </div>
           );
@@ -303,7 +324,10 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
             <div className={cs(styles.price, styles.price3, styles.discount)}>
               <span className={styles.label}>Loyalty Points</span>
               <span className={styles.value}>
-                {`(-)${currencyChar} ${parseFloat("" + point).toFixed(2)}`}
+                {`(-)${currencyChar} ${displayPriceWithCommasFloat(
+                  point,
+                  item.priceCurrency
+                )}`}
               </span>
             </div>
           );
@@ -315,7 +339,10 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
             {/* <span className={styles.light}>Incl. Tax</span> */}
           </span>
           <span className={styles.value}>
-            {`${currencyChar} ${parseFloat(item.totalInclTax).toFixed(2)}`}
+            {`${currencyChar} ${displayPriceWithCommasFloat(
+              item.totalInclTax,
+              item.priceCurrency
+            )}`}
           </span>
         </div>
       </div>
@@ -370,7 +397,11 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
                         {String.fromCharCode(
                           ...currencyCode[item.currency as Currency]
                         )}
-                        &nbsp;{item.totalInclTax}
+                        &nbsp;
+                        {displayPriceWithCommas(
+                          item.totalInclTax,
+                          item.currency
+                        )}
                       </span>
                     </div>
                   </div>

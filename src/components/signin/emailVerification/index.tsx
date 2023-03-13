@@ -13,7 +13,7 @@ import { showGrowlMessage } from "utils/validate";
 import { MESSAGE } from "constants/messages";
 import { useLocation } from "react-router";
 import NewOtpComponent from "components/OtpComponent/NewOtpComponent";
-import * as valid from "utils/validate";
+import { decriptdata } from "utils/validate";
 
 type Props = {
   successMsg: string;
@@ -78,7 +78,7 @@ const EmailVerification: React.FC<Props> = ({
         setError("Invalid OTP");
       }
     } catch (error) {
-      const data = valid.decriptdata(error.response?.data);
+      const data = decriptdata(error.response?.data);
       setAttempts({
         attempts: data?.attempts || 0,
         maxAttemptsAllow: data?.maxAttemptsAllow || 5

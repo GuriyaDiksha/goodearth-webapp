@@ -15,6 +15,7 @@ import { updateDeliveryText } from "actions/info";
 import { POPUP } from "constants/components";
 import CookieService from "services/cookie";
 import { GA_CALLS } from "constants/cookieConsent";
+import { displayPriceWithCommasFloat } from "utils/utility";
 
 import checkoutIcon from "../../../images/checkout.svg";
 import freeShippingInfoIcon from "../../../images/free_shipping_info.svg";
@@ -64,7 +65,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
     setIsSuspended(true);
     // orderSummaryRef.current
     if (orderSummaryRef && orderSummaryRef?.current) {
-      orderSummaryRef.current.scrollIntoView({
+      orderSummaryRef?.current?.scrollIntoView({
         behavior: "smooth",
         block: "start"
       });
@@ -181,21 +182,21 @@ const OrderSummary: React.FC<OrderProps> = props => {
                       <span className={styles.discountprice}>
                         {String.fromCharCode(...code)}{" "}
                         {item.product.structure == "GiftCard"
-                          ? parseFloat(item.GCValue.toString()).toFixed(2)
-                          : parseFloat(
-                              item.product.discountedPriceRecords[
-                                currency
-                              ].toString()
-                            ).toFixed(2)}
+                          ? displayPriceWithCommasFloat(item.GCValue, currency)
+                          : displayPriceWithCommasFloat(
+                              item.product.discountedPriceRecords[currency],
+                              currency
+                            )}
                       </span>
                       &nbsp; &nbsp;
                       <span className={styles.strikeprice}>
                         {String.fromCharCode(...code)}{" "}
                         {item.product.structure == "GiftCard"
-                          ? parseFloat(item.GCValue.toString()).toFixed(2)
-                          : parseFloat(
-                              item.product.priceRecords[currency].toString()
-                            ).toFixed(2)}{" "}
+                          ? displayPriceWithCommasFloat(item.GCValue, currency)
+                          : displayPriceWithCommasFloat(
+                              item.product.priceRecords[currency],
+                              currency
+                            )}{" "}
                       </span>{" "}
                     </div>
                   ) : (
@@ -207,10 +208,11 @@ const OrderSummary: React.FC<OrderProps> = props => {
                     >
                       {String.fromCharCode(...code)}{" "}
                       {item.product.structure == "GiftCard"
-                        ? parseFloat(item.GCValue.toString()).toFixed(2)
-                        : parseFloat(
-                            item.product.priceRecords[currency].toString()
-                          ).toFixed(2)}
+                        ? displayPriceWithCommasFloat(item.GCValue, currency)
+                        : displayPriceWithCommasFloat(
+                            item.product.priceRecords[currency],
+                            currency
+                          )}
                     </div>
                   )}
 
@@ -313,7 +315,8 @@ const OrderSummary: React.FC<OrderProps> = props => {
                 </span>
               </span>
               <span className={styles.subtotal}>
-                (-) {String.fromCharCode(...code)} {gift.amount}
+                (-) {String.fromCharCode(...code)}{" "}
+                {displayPriceWithCommasFloat(gift.amount, currency)}
               </span>
             </div>
           );
@@ -360,7 +363,8 @@ const OrderSummary: React.FC<OrderProps> = props => {
               </span>
             </span>
             <span className={styles.subtotal}>
-              (-) {String.fromCharCode(...code)} {gift.appliedAmount}
+              (-) {String.fromCharCode(...code)}{" "}
+              {displayPriceWithCommasFloat(gift.appliedAmount, currency)}
             </span>
           </div>
         );
@@ -403,7 +407,8 @@ const OrderSummary: React.FC<OrderProps> = props => {
             </span>
           </span>
           <span className={styles.subtotal}>
-            (-) {String.fromCharCode(...code)} {redeemDetails.points}
+            (-) {String.fromCharCode(...code)}{" "}
+            {displayPriceWithCommasFloat(redeemDetails.points, currency)}
           </span>
         </div>
       );
@@ -570,7 +575,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
             </span>
             <span className={styles.subtotal}>
               (-) {String.fromCharCode(...code)}{" "}
-              {parseFloat(discount.amount).toFixed(2)}
+              {displayPriceWithCommasFloat(discount.amount, currency)}
             </span>
           </div>
         ))
@@ -597,7 +602,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
               <span className={styles.subtotal}>SUBTOTAL</span>
               <span className={styles.subtotal}>
                 {String.fromCharCode(...code)}{" "}
-                {parseFloat("" + basket.subTotal).toFixed(2)}
+                {displayPriceWithCommasFloat(basket.subTotal, currency)}
               </span>
             </div>
             {getDiscount(basket.offerDiscounts)}
@@ -653,7 +658,10 @@ const OrderSummary: React.FC<OrderProps> = props => {
             <span className={styles.orderTotal}>TOTAL</span>
             <span className={styles.orderTotal}>
               {String.fromCharCode(...code)}{" "}
-              {parseFloat("" + basket.subTotalWithShipping).toFixed(2)}
+              {displayPriceWithCommasFloat(
+                basket.subTotalWithShipping,
+                currency
+              )}
             </span>
           </div>
           {getCoupons()}
@@ -826,7 +834,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
                 className={cs(styles.grandTotalAmount, globalStyles.voffset2)}
               >
                 {String.fromCharCode(...code)}{" "}
-                {parseFloat("" + basket.total).toFixed(2)}
+                {displayPriceWithCommasFloat(basket.total, currency)}
               </span>
             </div>
             {pathname === "/order/checkout" ? (
