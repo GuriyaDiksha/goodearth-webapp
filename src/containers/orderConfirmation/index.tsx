@@ -495,166 +495,180 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                   ) : (
                     ""
                   )}
-                  {confirmData?.lines?.map((item: any) => {
-                    // according bakwas by gaurav
-                    const isdisCount =
-                      +item.priceInclTax - +item.priceExclTaxExclDiscounts != 0;
-                    const price1 =
-                      +parseFloat(item.priceInclTax).toFixed(2) /
-                      +item.quantity;
-                    const price2 =
-                      +parseFloat(item.priceExclTaxExclDiscounts).toFixed(2) /
-                      +item.quantity;
-                    const price3 =
-                      +parseFloat(item.priceExclTaxExclDiscounts).toFixed(2) /
-                      +item.quantity;
+                  <div
+                    className={cs(
+                      bootstrapStyles.row,
+                      globalStyles.voffset2,
+                      styles.borderAdd,
+                      styles.gap20
+                    )}
+                    // key={item.order}
+                  >
+                    {confirmData?.lines?.map((item: any) => {
+                      // according bakwas by gaurav
+                      const isdisCount =
+                        +item.priceInclTax - +item.priceExclTaxExclDiscounts !=
+                        0;
+                      const price1 =
+                        +parseFloat(item.priceInclTax).toFixed(2) /
+                        +item.quantity;
+                      const price2 =
+                        +parseFloat(item.priceExclTaxExclDiscounts).toFixed(2) /
+                        +item.quantity;
+                      const price3 =
+                        +parseFloat(item.priceExclTaxExclDiscounts).toFixed(2) /
+                        +item.quantity;
 
-                    console.log(item, "confirmData");
-                    return (
-                      <div
-                        className={cs(
-                          bootstrapStyles.row,
-                          globalStyles.voffset2,
-                          styles.borderAdd,
-                          styles.gap20
-                        )}
-                        key={item.order}
-                      >
+                      console.log(item, "confirmData");
+                      return (
                         <div
                           className={cs(
-                            bootstrapStyles.col4,
-                            bootstrapStyles.colMd3
+                            bootstrapStyles.row,
+                            styles.gap20,
+                            styles.productItem
                           )}
-                        >
-                          <img
-                            src={item.product.images?.[0]?.productImage}
-                            className={globalStyles.imgResponsive}
-                          />
-                        </div>
-                        <div
-                          className={cs(
-                            bootstrapStyles.col7,
-                            bootstrapStyles.colMd8,
-                            {
-                              [styles.gc]: item.product?.structure == "GiftCard"
-                            }
-                          )}
+                          key={item.order}
                         >
                           <div
                             className={cs(
-                              bootstrapStyles.imageContent,
-                              globalStyles.textLeft
+                              bootstrapStyles.col4,
+                              bootstrapStyles.colMd3
                             )}
                           >
-                            {item.title && (
-                              <div className={cs(styles.productN)}>
-                                {item.title}
-                              </div>
+                            <img
+                              src={item.product.images?.[0]?.productImage}
+                              className={globalStyles.imgResponsive}
+                            />
+                          </div>
+                          <div
+                            className={cs(
+                              bootstrapStyles.col7,
+                              bootstrapStyles.colMd8,
+                              {
+                                [styles.gc]:
+                                  item.product?.structure == "GiftCard"
+                              }
                             )}
-                            {item.collection && (
-                              <div className={cs(styles.collectionTitle)}>
-                                {item.collection}
-                              </div>
-                            )}
-                            <p
-                              className={cs(styles.productN, globalStyles.flex)}
+                          >
+                            <div
+                              className={cs(
+                                bootstrapStyles.imageContent,
+                                globalStyles.textLeft
+                              )}
                             >
-                              {isdisCount ? (
-                                <span className={styles.discountprice}>
-                                  {String.fromCharCode(
-                                    ...currencyCode[
-                                      item.priceCurrency as Currency
-                                    ]
-                                  )}
-                                  {Number.isSafeInteger(+price1)
-                                    ? price1
-                                    : price1.toFixed(2) + ""}
-                                  &nbsp;{" "}
-                                </span>
-                              ) : (
-                                ""
+                              {item.title && (
+                                <div className={cs(styles.productN)}>
+                                  {item.title}
+                                </div>
                               )}
-                              {isdisCount ? (
-                                <span className={styles.strikeprice}>
-                                  {String.fromCharCode(
-                                    ...currencyCode[
-                                      item.priceCurrency as Currency
-                                    ]
-                                  )}
-                                  {Number.isSafeInteger(+price2)
-                                    ? price2
-                                    : price2.toFixed(2) + ""}
-                                  &nbsp;{" "}
-                                </span>
-                              ) : (
-                                <span
-                                  className={cs(
-                                    {
-                                      [globalStyles.cerise]:
-                                        item.product.badgeType == "B_flat"
-                                    },
-                                    styles.price
-                                  )}
-                                >
-                                  {String.fromCharCode(
-                                    ...currencyCode[
-                                      item.priceCurrency as Currency
-                                    ]
-                                  )}
-                                  &nbsp;{" "}
-                                  {Number.isSafeInteger(+price3)
-                                    ? price3
-                                    : price3.toFixed(2) + ""}
-                                </span>
+                              {item.collection && (
+                                <div className={cs(styles.collectionTitle)}>
+                                  {item.collection}
+                                </div>
                               )}
-                            </p>
-
-                            {item.product?.structure == "GiftCard" ? (
-                              ""
-                            ) : (
-                              <Fragment>
-                                <div
-                                  className={cs(
-                                    styles.productDetails,
-                                    globalStyles.voffset1
-                                  )}
-                                >
-                                  {item.product.size && (
-                                    <>Size:&nbsp; {item.product.size}</>
-                                  )}
-                                </div>
-                                <div className={styles.productDetails}>
-                                  Qty:&nbsp; {item.quantity}
-                                </div>
-                                <div className={styles.productDetails}>
-                                  Item Code: {item.product.sku}
-                                </div>
-                                <div className={styles.productDetails}>
-                                  Delivery Estimated:{" "}
-                                  <span>{item.productDeliveryDate}</span>
-                                </div>
-                                {item.fillerMessage ? (
-                                  <div className={styles.filler}>
-                                    {`*${item.fillerMessage}`}
-                                  </div>
+                              <p
+                                className={cs(
+                                  styles.productN,
+                                  globalStyles.flex
+                                )}
+                              >
+                                {isdisCount ? (
+                                  <span className={styles.discountprice}>
+                                    {String.fromCharCode(
+                                      ...currencyCode[
+                                        item.priceCurrency as Currency
+                                      ]
+                                    )}
+                                    {Number.isSafeInteger(+price1)
+                                      ? price1
+                                      : price1.toFixed(2) + ""}
+                                    &nbsp;{" "}
+                                  </span>
                                 ) : (
                                   ""
                                 )}
-                              </Fragment>
+                                {isdisCount ? (
+                                  <span className={styles.strikeprice}>
+                                    {String.fromCharCode(
+                                      ...currencyCode[
+                                        item.priceCurrency as Currency
+                                      ]
+                                    )}
+                                    {Number.isSafeInteger(+price2)
+                                      ? price2
+                                      : price2.toFixed(2) + ""}
+                                    &nbsp;{" "}
+                                  </span>
+                                ) : (
+                                  <span
+                                    className={cs(
+                                      {
+                                        [globalStyles.cerise]:
+                                          item.product.badgeType == "B_flat"
+                                      },
+                                      styles.price
+                                    )}
+                                  >
+                                    {String.fromCharCode(
+                                      ...currencyCode[
+                                        item.priceCurrency as Currency
+                                      ]
+                                    )}
+                                    &nbsp;{" "}
+                                    {Number.isSafeInteger(+price3)
+                                      ? price3
+                                      : price3.toFixed(2) + ""}
+                                  </span>
+                                )}
+                              </p>
+
+                              {item.product?.structure == "GiftCard" ? (
+                                ""
+                              ) : (
+                                <Fragment>
+                                  <div
+                                    className={cs(
+                                      styles.productDetails,
+                                      globalStyles.voffset1
+                                    )}
+                                  >
+                                    {item.product.size && (
+                                      <>Size:&nbsp; {item.product.size}</>
+                                    )}
+                                  </div>
+                                  <div className={styles.productDetails}>
+                                    Qty:&nbsp; {item.quantity}
+                                  </div>
+                                  <div className={styles.productDetails}>
+                                    Item Code: {item.product.sku}
+                                  </div>
+                                  <div className={styles.productDetails}>
+                                    Delivery Estimated:{" "}
+                                    <span>{item.productDeliveryDate}</span>
+                                  </div>
+                                  {item.fillerMessage ? (
+                                    <div className={styles.filler}>
+                                      {`*${item.fillerMessage}`}
+                                    </div>
+                                  ) : (
+                                    ""
+                                  )}
+                                </Fragment>
+                              )}
+                            </div>
+                            {item.product?.structure == "GiftCard" && (
+                              <div className={globalStyles.textLeft}>
+                                <p className={styles.label}>Sent via Email:</p>
+                                <p className={styles.email}>
+                                  {item.egiftCardRecipient}
+                                </p>
+                              </div>
                             )}
                           </div>
-                          {item.product?.structure == "GiftCard" && (
-                            <div className={globalStyles.textLeft}>
-                              <p className={styles.label}>Sent via Email:</p>
-                              <p className={styles.email}>
-                                {item.egiftCardRecipient}
-                              </p>
-                            </div>
-                          )}
                         </div>
-                      </div>
-                    );
-                  })}
+                      );
+                    })}
+                  </div>
                 </address>
               </div>
             </div>
