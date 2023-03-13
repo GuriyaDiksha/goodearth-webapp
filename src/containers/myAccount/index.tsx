@@ -20,6 +20,7 @@ import ChangePassword from "./components/ChangePassword";
 import { useSelector, useDispatch } from "react-redux";
 import { AccountMenuItem } from "./typings";
 import CheckBalance from "./components/Balance";
+import MyPreferences from "./components/myPreferences";
 import AddressMain from "components/Address/AddressMain";
 import Bridal from "./components/Bridal";
 import { AppState } from "reducers/typings";
@@ -245,6 +246,13 @@ const MyAccount: React.FC<Props> = props => {
       component: CheckBalance,
       title: "Check Balance",
       loggedInOnly: false
+    },
+    {
+      label: "My Preferences",
+      href: "/account/my-preferences",
+      component: MyPreferences,
+      title: "My Preferences",
+      loggedInOnly: true
     }
   );
 
