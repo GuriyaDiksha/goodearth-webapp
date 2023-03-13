@@ -219,7 +219,7 @@ class Wishlist extends React.Component<Props, State> {
   };
 
   onChangeFilter = (data?: string, label?: string) => {
-    this.root.unmount(document.getElementById("wishlist") as HTMLDivElement);
+    // this.root.unmount(document.getElementById("wishlist") as HTMLDivElement);
     switch (data) {
       case "sequence":
         this.setState(
@@ -568,6 +568,7 @@ class Wishlist extends React.Component<Props, State> {
     }
   };
   myrender = (data: WishListGridItem[]) => {
+    console.log(this.root);
     if (data.length > 0) {
       if (this.props.mobile) {
         this.root.render(
@@ -639,7 +640,7 @@ class Wishlist extends React.Component<Props, State> {
   };
 
   setWishlistFilter = (data: { value: string; label: string }) => {
-    this.root.unmount(document.getElementById("wishlist") as HTMLDivElement);
+    // this.root.unmount(document.getElementById("wishlist") as HTMLDivElement);
     switch (data.value) {
       case "sequence":
         this.setState(
