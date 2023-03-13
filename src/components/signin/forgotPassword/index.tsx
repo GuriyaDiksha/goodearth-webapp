@@ -6,7 +6,12 @@ import Loader from "components/Loader";
 import SocialLogin from "../socialLogin";
 import Popup from "../popup/Popup";
 import FormContainer from "../formContainer";
-import { checkMail, checkBlank, errorTracking } from "utils/validate";
+import {
+  checkMail,
+  checkBlank,
+  errorTracking,
+  decripttext
+} from "utils/validate";
 import { Context } from "components/Modal/context";
 import { ForgotPasswordState } from "./typings";
 import { connect } from "react-redux";
@@ -181,7 +186,7 @@ class ForgotPasswordForm extends React.Component<Props, ForgotPasswordState> {
     const searchParams = new URLSearchParams(
       this.props.history.location.search
     );
-    const emailFromURl = valid.decripttext(
+    const emailFromURl = decripttext(
       searchParams.get("ei")?.replace(" ", "+") || "",
       true
     );
