@@ -175,14 +175,6 @@ class ForgotPasswordForm extends React.Component<Props, ForgotPasswordState> {
       this.emailInput.current.focus();
     }
     const email = localStorage.getItem("tempEmail");
-    const isBo = localStorage.getItem("isBo") || "";
-    this.setState({
-      email: email,
-      isBo: isBo
-    });
-    localStorage.removeItem("tempEmail");
-    localStorage.removeItem("isBo");
-
     const searchParams = new URLSearchParams(
       this.props.history.location.search
     );
@@ -190,7 +182,13 @@ class ForgotPasswordForm extends React.Component<Props, ForgotPasswordState> {
       searchParams.get("ei")?.replace(" ", "+") || "",
       true
     );
-    this.setState({ urlEmail: emailFromURl });
+    const isBo = localStorage.getItem("isBo") || "";
+    this.setState({
+      email: emailFromURl || email,
+      isBo: isBo
+    });
+    localStorage.removeItem("tempEmail");
+    localStorage.removeItem("isBo");
   }
 
   handleEmailBlur = (event: React.FocusEvent) => {
@@ -229,7 +227,7 @@ class ForgotPasswordForm extends React.Component<Props, ForgotPasswordState> {
   };
 
   handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({ email: event.currentTarget.value });
+    this.setState({ email: event.target.value });
   };
 
   render() {
@@ -246,7 +244,7 @@ class ForgotPasswordForm extends React.Component<Props, ForgotPasswordState> {
               blur={this.handleEmailBlur}
               placeholder={"Email"}
               label={"Email ID*"}
-              value={this.state.email || this.state.urlEmail}
+              value={this.state.email}
               keyUp={this.onChange}
               handleChange={this.handleChange}
               inputRef={this.emailInput}
