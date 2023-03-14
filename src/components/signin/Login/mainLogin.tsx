@@ -476,6 +476,7 @@ class MainLogin extends React.Component<Props, loginState> {
       {
         showCurrentSection: "email",
         subHeading: "Enter your email address to register or sign in.",
+        heading: "Welcome",
         email: this.props.email,
         isLoginDisabled: false,
         showerror: "",
