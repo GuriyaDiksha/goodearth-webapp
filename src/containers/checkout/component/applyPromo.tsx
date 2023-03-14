@@ -22,7 +22,7 @@ export type PromoProps = {
   onNext: () => void;
   onsubmit: () => void;
 };
-type Props = ReturnType<typeof mapDispatchToProps> &
+type Props = { promoValue: string } & ReturnType<typeof mapDispatchToProps> &
   ReturnType<typeof mapStateToProps> &
   PromoProps &
   RouteComponentProps;
@@ -154,7 +154,7 @@ class ApplyPromo extends React.Component<Props, GiftState> {
     return (
       <Fragment>
         <div className={cs(bootstrapStyles.row, styles.giftDisplay)}>
-          {voucherDiscounts.map((data, i) => {
+          {/* {voucherDiscounts.map((data, i) => {
             return (
               <PromoItem
                 {...data.voucher}
@@ -165,59 +165,57 @@ class ApplyPromo extends React.Component<Props, GiftState> {
                 key={i}
               />
             );
-          })}
+          })} */}
           <div
             className={cs(
               styles.loginForm,
-              { [globalStyles.voffset4]: newCardBox },
+              { [globalStyles.voffset3]: newCardBox },
               bootstrapStyles.colMd7
             )}
           >
-            {voucherDiscounts.length == 0 ? (
-              <div>
-                <Fragment>
-                  <div
-                    className={cs(
-                      styles.flex,
-                      styles.vCenter,
-                      styles.promoInput,
-                      {
-                        [globalStyles.hidden]: !newCardBox
-                      }
-                    )}
+            {/* {voucherDiscounts.length == 0 ? ( */}
+            <div>
+              <Fragment>
+                <div
+                  className={cs(
+                    styles.flex,
+                    styles.vCenter,
+                    styles.promoInput,
+                    {
+                      [globalStyles.hidden]: !newCardBox
+                    }
+                  )}
+                >
+                  <input
+                    type="text"
+                    autoComplete="off"
+                    value={txtvalue}
+                    onChange={this.changeValue}
+                    id="gift"
+                    className={
+                      this.state.error
+                        ? cs(styles.marginR10, styles.err)
+                        : undefined
+                    }
+                  />
+                  <button
+                    className={styles.promoApplyBtn}
+                    onClick={() => this.props.onsubmit()}
                   >
-                    <input
-                      type="text"
-                      autoComplete="off"
-                      value={txtvalue}
-                      onChange={this.changeValue}
-                      id="gift"
-                      className={
-                        this.state.error
-                          ? cs(styles.marginR10, styles.err)
-                          : undefined
-                      }
-                    />
-                    <button
-                      className={styles.promoApplyBtn}
-                      onClick={() => this.props.onsubmit()}
-                    >
-                      Apply
-                    </button>
-                  </div>
-                  {/* <label>Promo Code</label> */}
-                </Fragment>
-                {this.state.error ? (
-                  <p className={cs(globalStyles.errorMsg)}>
-                    {this.state.error}
-                  </p>
-                ) : (
-                  ""
-                )}
-              </div>
-            ) : (
+                    Apply
+                  </button>
+                </div>
+                {/* <label>Promo Code</label> */}
+              </Fragment>
+              {this.state.error ? (
+                <p className={cs(globalStyles.errorMsg)}>{this.state.error}</p>
+              ) : (
+                ""
+              )}
+            </div>
+            {/* ) : (
               ""
-            )}
+            )} */}
           </div>
         </div>
       </Fragment>

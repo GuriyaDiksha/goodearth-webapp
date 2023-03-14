@@ -196,12 +196,7 @@ const PromoSection: React.FC<PromoProps> = props => {
                         ></span>
                       </span>
                     </div>
-                    <div
-                      className={cs(
-                        styles.formSubheading,
-                        styles.checkBoxHeading
-                      )}
-                    >
+                    <div className={cs(styles.formSubheading)}>
                       {"Apply Promo"}
                     </div>
                   </label>
@@ -212,6 +207,7 @@ const PromoSection: React.FC<PromoProps> = props => {
                       }}
                       onNext={onNext}
                       onsubmit={onsubmit}
+                      promoValue={basket.voucherDiscounts[0]?.voucher?.code}
                     />
                   )}
                   {/* {renderInput()}

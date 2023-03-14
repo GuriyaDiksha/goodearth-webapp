@@ -1,11 +1,13 @@
 import React from "react";
 import cl from "classnames";
+import cs from "classnames";
 import styles from "./gift.scss";
 import { GiftListProps } from "./typings";
 import { Currency, currencyCode } from "typings/currency";
 import globalStyles from "styles/global.scss";
 import iconStyles from "styles/iconFonts.scss";
 import { displayPriceWithCommas } from "utils/utility";
+import bootstrapStyles from "styles/bootstrap/bootstrap-grid.scss";
 
 const GiftCardItem = ({
   cardId,
@@ -36,7 +38,10 @@ const GiftCardItem = ({
     showExpired = true;
   }
   return (
-    <div id="gc-balance-info">
+    <div
+      id="gc-balance-info"
+      className={cs(bootstrapStyles.colMd7, styles.giftDetails)}
+    >
       {showExpired ? (
         <div>
           <div className={cl(styles.textLeft, styles.rtcinfo, styles.mTop0)}>
@@ -87,13 +92,13 @@ const GiftCardItem = ({
         </div>
       ) : (
         <div
-          className={cl(styles.textLeft, styles.rtcinfo, globalStyles.voffset3)}
+          className={cl(styles.textLeft, styles.rtcinfo, globalStyles.voffset4)}
         >
           <span className={styles.txtup}>{cardId} </span>
           <span className={styles.textMuted}>
             {cardType == "CREDITNOTE"
-              ? "CREDIT NOTE APPLIED"
-              : "GIFT CARD APPLIED"}
+              ? "Credit Note Applied"
+              : "Gift Card Applied"}
           </span>
           <span
             className={styles.cross}
@@ -109,14 +114,14 @@ const GiftCardItem = ({
               )}
             ></i>
           </span>
-          <p className={cl(globalStyles.cerise, globalStyles.errorMsg)}>
+          <p className={cl(styles.appliedMsg)}>
             {" "}
             Balance:{" "}
             <span>
               {" "}
               {String.fromCharCode(...unicode)}{" "}
               {displayPriceWithCommas(remainingAmount, currency)}
-              {`| expired on:` + expiryDate}
+              {` | Expired on:` + expiryDate}
             </span>
           </p>
         </div>

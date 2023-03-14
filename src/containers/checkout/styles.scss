@@ -718,6 +718,8 @@ hr {
   input[type="text"].input {
     width: 50%;
     text-align: left;
+    font-size: 12px;
+    padding: 17px 21px;
   }
   input[type="text"].input2 {
     width: 60%;
@@ -1177,7 +1179,7 @@ input[type="radio"] {
 .check-box-heading {
   margin: auto 0;
   width: auto;
-  @include b5_10px_montserrat_charcoal();
+  // @include b5_10px_montserrat_charcoal();
   a{
     border-bottom: 1px solid $charcoal19;
     color: $charcoal19;
@@ -1224,6 +1226,7 @@ input[type="radio"] {
 .promo-code{
   @include b4_12px_semibold_caps_charocal();
   margin-right: 20px;
+  opacity: 65%;
 }
 .redeem-points{
 @include b4_12px_montserrat_med_aqua();
@@ -1231,6 +1234,7 @@ margin-right: 20px;
 }
 .promo-code-applied{
   @include b4_12px_montserrat_charcoal();
+  opacity: 65%;
 }
 
 .promo-edit{
@@ -1239,4 +1243,10 @@ margin-right: 20px;
   text-decoration: underline;
   text-transform: uppercase;
   float: right;
+}
+.gst-invoise-no{
+  @include b5_10px_montserrat_charcoal();
+  opacity: 65%;
+  padding-top: 3px;
+  display:block;
 }

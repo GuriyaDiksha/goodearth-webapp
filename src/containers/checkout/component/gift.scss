@@ -55,7 +55,7 @@
 }
 
 .op2 {
-  opacity: .6;
+  opacity: 0.6;
 }
 .font-bold {
   font-weight: bold;
@@ -169,7 +169,6 @@
                 background: #000;
               }
             }
-
           }
           .cerise-bridal-rings {
             background-color: #ab1e56;
@@ -247,7 +246,6 @@
       }
     }
     .edit {
-
       bottom: 25px;
       position: absolute;
       text-transform: uppercase;
@@ -280,7 +278,6 @@
     }
     .light {
       color: tint(#000, 50%);
-
     }
     label {
       position: absolute;
@@ -300,17 +297,17 @@
   border-top: 1px solid tint(#000, 70%);
 }
 
-.plp_prod_quantity{
+.plp_prod_quantity {
   @include plp_prod_quantity();
 }
 
-.flex{
+.flex {
   display: -webkit-box;
   display: -ms-flexbox;
   display: -webkit-flex;
   display: flex;
 }
-.color-primary{
+.color-primary {
   margin: 2px 10px 0 5px;
   color: $cerise;
   font-size: 12px;
@@ -323,7 +320,7 @@
   -webkit-flex-grow: 1;
   flex-grow: 1;
 }
-.text-left{
+.text-left {
   text-align: left !important;
 }
 .rtc {
@@ -373,7 +370,7 @@
     border-bottom: 8px solid transparent;
     border-left: 8px solid #ab1e56;
   }
-  .apply-btn{
+  .apply-btn {
     border-bottom: 1px solid $med-charcoal;
     @include b5_10px_montserrat_light_charcoal();
     position: absolute;
@@ -383,21 +380,20 @@
     z-index: 2;
     cursor: pointer;
     transform: translate(-50%, 50%);
-    left: 66%;
+    right: 0;
     width: fit-content;
 
-    &:hover{
+    &:hover {
       border-bottom: 1px solid $aqua;
-       color: $aqua;
+      color: $aqua;
     }
 
-    @media screen and (max-width:991px) {
+    @media screen and (max-width: 991px) {
       left: unset;
       right: 0;
     }
-
   }
-  .margin-r-10{
+  .margin-r-10 {
     margin-right: 10px;
   }
   .ht-50 {
@@ -435,6 +431,16 @@
     }
   }
 }
+.gift-details {
+  .rtcinfo {
+    position: relative;
+  }
+  .cross {
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
+}
 
 .value12 {
   @include c10-L-R();
@@ -446,37 +452,38 @@
     cursor: pointer;
   }
 }
-.gift-display{
+.gift-display {
   display: block;
 }
 
 .text-muted {
   @include b4_12px_montserrat_charcoal_caps();
-  margin-right: 100px;
   margin-left: 5px;
+  text-transform: capitalize;
 }
 
-.redeem-points{
+.redeem-points {
   padding-top: 10px;
   padding-bottom: 20px;
   @include b4_12px_montserrat_medium_charcoal();
 
-  &.aqua{
+  &.aqua {
     color: $aqua;
   }
 }
 
-.points-to-redeem{
+.points-to-redeem {
   padding-bottom: 10px;
   @include b4_12px_montserrat_light_charcoal();
   text-transform: capitalize;
 }
 
-.txtup{
+.txtup {
   @include b4_12px_semibold_caps_charocal();
+  opacity: 65%;
 }
 
-.redeem-bold{
+.redeem-bold {
   @include b4_12px_montserrat_charcoal();
 }
 
@@ -488,50 +495,48 @@
 }
 
 .promo-icon {
-  font-size: 9px;
+  font-size: 12px;
   cursor: pointer;
 }
 
-
-
 .select-relativemobile {
-    width: 40%;
-    min-height: 50px;
-    z-index: 1;
-    cursor: pointer;
+  width: 40%;
+  min-height: 50px;
+  z-index: 1;
+  cursor: pointer;
+  border: 1px solid #eee;
+  // border-right: none;
+  span {
+    right: 12px;
+    color: rgba(51, 51, 51, 0.8);
+    line-height: 44px;
+  }
+  ul {
+    width: 100%;
+    margin-bottom: 0px;
     border: 1px solid #eee;
-    // border-right: none;
-    span{
-        right: 12px;
-        color: rgba(51,51,51,.8);
-        line-height: 44px;  
+    background-color: #fff;
+    li {
+      background-color: #fff;
+      box-sizing: border-box;
+      color: rgba(51, 51, 51, 0.8);
+      cursor: pointer;
+      display: block;
+      padding: 0px 13px;
+      text-align: left;
+      line-height: 31px;
+      font-size: 12px;
+      font-weight: 400;
     }
-    ul{
-        width: 100%;
-        margin-bottom: 0px;
-        border: 1px solid #eee;
-        background-color: #fff;
-        li{
-            background-color: #fff;
-            box-sizing: border-box;
-            color: rgba(51,51,51,.8);
-            cursor: pointer;
-            display: block;
-            padding: 0px 13px;
-            text-align: left;
-            line-height: 31px;
-            font-size: 12px;
-            font-weight: 400;
-        }      
-    }
-    li:hover{
-        background-color: #f2f2f2;
-        color: rgba(51,51,51,.8);
-    }
-    div:nth-child(2) {
-      top: 48px;
-      left: -1px;
-    }
+  }
+  li:hover {
+    background-color: #f2f2f2;
+    color: rgba(51, 51, 51, 0.8);
+  }
+  div:nth-child(2) {
+    top: 48px;
+    left: -1px;
+  }
 }
 
 .select-relative {
@@ -540,32 +545,32 @@
   z-index: 1;
   cursor: pointer;
   border: 1px solid #eee;
-  border-right: none;
-  span{
-      right: 12px;
-      color: rgba(51,51,51,.8);
-      line-height: 48px;
+  
+  span {
+    right: 12px;
+    color: rgba(51, 51, 51, 0.8);
+    line-height: 48px;
   }
-  ul{
-      width: 100%;
-      margin-bottom: 0px;
-      border: 1px solid #eee;
-      li{
-          background-color: #fff;
-          box-sizing: border-box;
-          color: rgba(51,51,51,.8);
-          cursor: pointer;
-          display: block;
-          padding: 0px 13px;
-          text-align: left;
-          line-height: 31px;
-          font-size: 12px;
-          font-weight: 400;
-      }      
+  ul {
+    width: 100%;
+    margin-bottom: 0px;
+    border: 1px solid #eee;
+    li {
+      background-color: #fff;
+      box-sizing: border-box;
+      color: rgba(51, 51, 51, 0.8);
+      cursor: pointer;
+      display: block;
+      padding: 0px 13px;
+      text-align: left;
+      line-height: 31px;
+      font-size: 12px;
+      font-weight: 400;
+    }
   }
-  li:hover{
-      background-color: #f2f2f2;
-      color: rgba(51,51,51,.8);
+  li:hover {
+    background-color: #f2f2f2;
+    color: rgba(51, 51, 51, 0.8);
   }
   div:nth-child(2) {
     top: 48px;
@@ -574,22 +579,30 @@
 }
 
 .gift-input {
-  width: 50%;
+  width: calc(100% - 118px);
   margin-left: 10px;
+  position: relative;
+
+  @media(max-width:992px){
+    width: 60%;
+  }
 }
 
-.promo-input{
-  width: 60%;
-}
 
-.promo-apply-btn{
-  border: 1px solid $charcoal19;
-  background-color: $charcoal19;
+.promo-apply-btn {
+  border: 1px solid $med-charcoal;
+  background-color: $med-charcoal;
   height: 50px;
-  width: 118px;
+  width: 100%;
+  padding: 17px 18px;
+  max-width: 118px;
   @include b4_12px_montserrat_white();
 
-  &:hover{
+  &:hover {
     color: $white;
   }
+}
+.applied-msg {
+  @include b5_10px_montserrat_charcoal();
+  padding-top: 5px;
 }

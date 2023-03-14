@@ -313,7 +313,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
               ></span>
             </span>
           </div>
-          <div className={cs(styles.formSubheading, styles.checkBoxHeading)}>
+          <div className={cs(styles.formSubheading)}>
             {"Gift Wrap This Order"}
           </div>
           <div className={styles.giftImg}>
@@ -535,12 +535,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
                           ></span>
                         </span>
                       </div>
-                      <div
-                        className={cs(
-                          styles.formSubheading,
-                          styles.checkBoxHeading
-                        )}
-                      >
+                      <div className={cs(styles.formSubheading)}>
                         {"Apply Gift Card Code/ Credit Note"}
                       </div>
                     </label>

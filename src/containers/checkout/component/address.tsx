@@ -470,6 +470,7 @@ const AddressSection: React.FC<AddressProps & {
             )} ${displayPriceWithCommas(amountPrice[currency], currency)}.`;
       const panText =
         currency == "INR" ? "PAN Card Number*" : " Passport Number*";
+
       return (
         <div>
           {currency == "INR" ? (
@@ -494,6 +495,7 @@ const AddressSection: React.FC<AddressProps & {
                   className={cs(styles.formSubheading, styles.checkBoxHeading)}
                 >
                   I need a GST invoice
+                  {gst && <label className={styles.gstInvoiseNo}>GSTIN:</label>}
                 </div>
               </label>
             </div>
@@ -515,7 +517,7 @@ const AddressSection: React.FC<AddressProps & {
                   <div
                     className={cs(
                       styles.flex,
-                      globalStyles.voffset4,
+                      globalStyles.voffset3,
                       styles.payment
                     )}
                   >
@@ -541,7 +543,7 @@ const AddressSection: React.FC<AddressProps & {
                   )}
                 </div>
               </div>
-              <label className={cs(styles.flex, globalStyles.voffset3)}>
+              <label className={cs(styles.flex, globalStyles.voffset4)}>
                 <div className={globalStyles.marginR10}>
                   <span className={styles.checkbox}>
                     <input type="checkbox" onChange={togglepancard} />
@@ -600,8 +602,8 @@ const AddressSection: React.FC<AddressProps & {
                 ></span>
               </span>
             </div>
-            <div className={cs(styles.formSubheading, styles.checkBoxHeading)}>
-              BILLING ADDRESS IS SAME AS SHIPPING ADDRESS
+            <div className={cs(styles.formSubheading)}>
+              Same as Shipping Address
             </div>
           </label>
         </div>
