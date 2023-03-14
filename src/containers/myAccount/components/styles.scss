@@ -1,5 +1,6 @@
 @import "../../../styles/partials/form";
 @import "../../../styles/partials/mixins";
+@import "../../../styles/partials/variables";
 
 input[type="text"]{
   height: 50px !important;
@@ -1434,6 +1435,29 @@ input[type="text"]{
       &:hover{
         color: $gold;
       }
+    }
+  }
+}
+
+.my-pref-container{
+  padding: 0px 18%;
+  .content{
+    @include b5_10px_montserrat_charcoal();
+    line-height: 16px;
+    letter-spacing: 0.3px;
+    text-align: left;
+    .whatsapp{
+      border-bottom: 1.5px solid $charcoal19;
+      margin-bottom: 25px;
+      padding-bottom: 25px;
+    }
+    .save-pref-btn{
+      margin-top: 25px;
+    }
+    a {
+      color: $charcoal19;
+      text-decoration: underline;
+      text-underline-offset: 2px;
     }
   }
 }
