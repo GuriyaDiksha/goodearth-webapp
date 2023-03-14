@@ -6,7 +6,12 @@ import Loader from "components/Loader";
 import SocialLogin from "../socialLogin";
 import Popup from "../popup/Popup";
 import FormContainer from "../formContainer";
-import { checkMail, checkBlank, errorTracking } from "utils/validate";
+import {
+  checkMail,
+  checkBlank,
+  errorTracking,
+  decripttext
+} from "utils/validate";
 import { Context } from "components/Modal/context";
 import { ForgotPasswordState } from "./typings";
 import { connect } from "react-redux";
@@ -170,22 +175,20 @@ class ForgotPasswordForm extends React.Component<Props, ForgotPasswordState> {
       this.emailInput.current.focus();
     }
     const email = localStorage.getItem("tempEmail");
+    const searchParams = new URLSearchParams(
+      this.props.history.location.search
+    );
+    const emailFromURl = decripttext(
+      searchParams.get("ei")?.replace(" ", "+") || "",
+      true
+    );
     const isBo = localStorage.getItem("isBo") || "";
     this.setState({
-      email: email,
+      email: emailFromURl || email,
       isBo: isBo
     });
     localStorage.removeItem("tempEmail");
     localStorage.removeItem("isBo");
-
-    const searchParams = new URLSearchParams(
-      this.props.history.location.search
-    );
-    const emailFromURl = valid.decripttext(
-      searchParams.get("ei")?.replace(" ", "+") || "",
-      true
-    );
-    this.setState({ urlEmail: emailFromURl });
   }
 
   handleEmailBlur = (event: React.FocusEvent) => {
@@ -224,7 +227,7 @@ class ForgotPasswordForm extends React.Component<Props, ForgotPasswordState> {
   };
 
   handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({ email: event.currentTarget.value });
+    this.setState({ email: event.target.value });
   };
 
   render() {
@@ -241,7 +244,7 @@ class ForgotPasswordForm extends React.Component<Props, ForgotPasswordState> {
               blur={this.handleEmailBlur}
               placeholder={"Email"}
               label={"Email ID*"}
-              value={this.state.email || this.state.urlEmail}
+              value={this.state.email}
               keyUp={this.onChange}
               handleChange={this.handleChange}
               inputRef={this.emailInput}
