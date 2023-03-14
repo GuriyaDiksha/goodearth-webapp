@@ -193,11 +193,11 @@ class MainLogin extends React.Component<Props, loginState> {
   };
 
   componentDidMount() {
-    const email = localStorage.getItem("tempEmail");
+    const email = this.props.email || localStorage.getItem("tempEmail");
     // const checkoutPopupCookie = CookieService.getCookie("checkoutinfopopup");
     if (email) {
       this.setState({ email, isLoginDisabled: false }, () => {
-        this.myBlur();
+        // this.myBlur();
       });
     }
     // if (checkoutPopupCookie == "show") {
@@ -233,7 +233,7 @@ class MainLogin extends React.Component<Props, loginState> {
 
   UNSAFE_componentWillReceiveProps() {
     const email = localStorage.getItem("tempEmail");
-    if (!this.state.email || email) {
+    if (!this.state.email || this.props.email || email) {
       if (email) {
         this.setState({ email, isLoginDisabled: false }, () => {
           this.myBlur();
@@ -475,8 +475,9 @@ class MainLogin extends React.Component<Props, loginState> {
     this.setState(
       {
         showCurrentSection: "email",
-        email: "",
-        isLoginDisabled: true,
+        subHeading: "Enter your email address to register or sign in.",
+        email: this.props.email,
+        isLoginDisabled: false,
         showerror: "",
         password: "",
         showEmailVerification: false,
