@@ -516,7 +516,7 @@ const CorporateEnquiryPopup: React.FC<Props> = ({
           <input
             type="submit"
             formNoValidate
-            className={globalStyles.ceriseBtn}
+            className={globalStyles.aquaBtn}
             value={submitted ? "close" : "submit"}
           />
         </div>
