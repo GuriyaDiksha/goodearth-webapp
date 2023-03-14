@@ -22,6 +22,7 @@ import { GA_CALLS, ANY_ADS } from "constants/cookieConsent";
 import { currencyCodes } from "constants/currency";
 import { updateComponent, updateModal } from "actions/modal";
 import { POPUP } from "constants/components";
+import checkmarkCircle from "./../../../images/checkmarkCircle.svg";
 
 const PaymentSection: React.FC<PaymentProps> = props => {
   const data: any = {};
@@ -29,7 +30,8 @@ const PaymentSection: React.FC<PaymentProps> = props => {
     basket,
     device: { mobile },
     info: { showGiftWrap },
-    user: { loyaltyData, isLoggedIn }
+    user: { loyaltyData, isLoggedIn },
+    basket: { loyalty }
   } = useSelector((state: AppState) => state);
   const { isActive, currency, checkout } = props;
   const [paymentError, setPaymentError] = useState("");
@@ -369,67 +371,79 @@ const PaymentSection: React.FC<PaymentProps> = props => {
                   styles.title
                 )}
               >
+                {loyalty?.[0]?.points && (
+                  <img
+                    height={"18px"}
+                    className={globalStyles.marginR10}
+                    src={checkmarkCircle}
+                    alt="checkmarkdone"
+                  />
+                )}
                 <span className={isActive ? "" : styles.closed}>
                   CERISE LOYALTY POINTS
                 </span>
               </div>
-            </div>
-            <hr className={styles.hr} />
-            <div className={globalStyles.flex}>
-              {/* <div
-                      className={cs(
-                        styles.marginR10,
-                        globalStyles.cerise,
-                        globalStyles.pointer
-                      )}
-                      onClick={toggleInputReedem}
-                    >
-                      {isactiveredeem ? "-" : "+"}
-                    </div> */}
-              <div className={styles.inputContainer}>
-                {/* <div
-                        className={cs(
-                          globalStyles.c10LR,
-                          styles.promoMargin,
-                          globalStyles.cerise,
-                          globalStyles.pointer
-                        )}
-                        onClick={toggleInputReedem}
-                      >
-                        REDEEM CERISE POINTS
-                      </div>
-                      {isactiveredeem ? <Reedem /> : ""}
-                    </div> */}
-                <label
-                  className={cs(globalStyles.flex, globalStyles.crossCenter)}
+
+              {loyalty?.[0]?.points && (
+                <div
+                  className={cs(
+                    styles.col12,
+                    bootstrapStyles.colMd6,
+                    styles.selectedStvalue
+                  )}
                 >
-                  <div className={styles.marginR10}>
-                    <span className={styles.checkbox}>
-                      <input
-                        type="radio"
-                        checked={isactiveredeem}
-                        onClick={() => {
-                          toggleInputReedem();
-                        }}
-                      />
-                      <span
-                        className={cs(styles.indicator, {
-                          [styles.checked]: isactiveredeem
-                        })}
-                      ></span>
+                  <span className={styles.marginR10}>
+                    <span className={styles.redeemPoints}>
+                      {loyalty?.[0]?.points} CERISE POINTS
                     </span>
-                  </div>
-                  <div
-                    className={cs(
-                      styles.formSubheading,
-                      styles.checkBoxHeading
-                    )}
-                  >
-                    See my balance & redeem points
-                  </div>
-                </label>
-              </div>
+                    <span className={styles.promoCodeApplied}>Redeemed</span>
+                  </span>
+                  <span className={cs(globalStyles.pointer, styles.promoEdit)}>
+                    REMOVE
+                  </span>
+                </div>
+              )}
             </div>
+            {loyalty?.[0]?.points ? null : (
+              <>
+                <hr className={styles.hr} />
+                <div className={globalStyles.flex}>
+                  <div className={styles.inputContainer}>
+                    <label
+                      className={cs(
+                        globalStyles.flex,
+                        globalStyles.crossCenter
+                      )}
+                    >
+                      <div className={styles.marginR10}>
+                        <span className={styles.checkbox}>
+                          <input
+                            type="radio"
+                            checked={isactiveredeem}
+                            onClick={() => {
+                              toggleInputReedem();
+                            }}
+                          />
+                          <span
+                            className={cs(styles.indicator, {
+                              [styles.checked]: isactiveredeem
+                            })}
+                          ></span>
+                        </span>
+                      </div>
+                      <div
+                        className={cs(
+                          styles.formSubheading,
+                          styles.checkBoxHeading
+                        )}
+                      >
+                        See my balance & redeem points
+                      </div>
+                    </label>
+                  </div>
+                </div>
+              </>
+            )}
           </Fragment>
         </div>
       )}

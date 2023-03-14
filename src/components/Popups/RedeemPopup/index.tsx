@@ -50,7 +50,7 @@ const RedeemPopup: React.FC<PopupProps> = ({ setIsactiveredeem }) => {
             globalStyles.marginLR40
           )}
         >
-          <Redeem />
+          <Redeem closeModal={closeModal} />
         </div>
       </div>
     </div>

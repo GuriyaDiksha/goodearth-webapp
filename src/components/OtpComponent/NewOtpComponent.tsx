@@ -11,6 +11,7 @@ type Props = {
   btnText: string;
   startTimer: boolean;
   setAttempts: (x: any) => void;
+  closeModal: () => void;
 };
 
 const NewOtpComponent: React.FC<Props> = ({
@@ -21,7 +22,8 @@ const NewOtpComponent: React.FC<Props> = ({
   attempts,
   btnText,
   startTimer,
-  setAttempts
+  setAttempts,
+  closeModal
 }) => {
   const [timeRemaining, setTimeRemaining] = useState(90);
   const [timerId, setTimerId] = useState<any>();
@@ -285,6 +287,12 @@ const NewOtpComponent: React.FC<Props> = ({
       <p className={style.otpAttempt}>
         Attempt: {attempts?.attempts}/{attempts?.maxAttemptsAllow}
       </p>
+      <div
+        className={cs(style.otpPolicy, style.cancelLink)}
+        onClick={() => closeModal()}
+      >
+        I don&apos;t wish to redeem
+      </div>
       <a
         className={style.otpPolicy}
         href={`/customer-assistance/privacy-policy`}

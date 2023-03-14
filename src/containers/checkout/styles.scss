@@ -1225,6 +1225,10 @@ input[type="radio"] {
   @include b4_12px_semibold_caps_charocal();
   margin-right: 20px;
 }
+.redeem-points{
+@include b4_12px_montserrat_med_aqua();
+margin-right: 20px;
+}
 .promo-code-applied{
   @include b4_12px_montserrat_charcoal();
 }

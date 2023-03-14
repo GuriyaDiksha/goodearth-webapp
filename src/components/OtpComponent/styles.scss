@@ -318,7 +318,7 @@
 }
 
 .otp-text{
-  @include b4_12px_montserrat_charcoal();
+  @include b4_12px_montserrat_light_charcoal();
   .aqua-bold{
     color: $aqua-bold;
     font-weight: $semibold;
@@ -577,12 +577,20 @@ hr {
 
   .otp-policy{
     @include b5_10px_montserrat_charcoal();
-    padding-top: 25px;
+    margin-top: 25px;
     border-bottom: 1px solid $charcoal19;
     letter-spacing: 0.5px;
+    cursor: pointer;
+
     &:hover{
       color: #3C7979 !important;
       border-bottom: 1px solid #3C7979 !important;
+    }
+
+    &.cancel-link{
+      width: fit-content;
+    margin: auto;
+    margin-top: 0px;
     }
 
   }
@@ -650,5 +658,12 @@ hr {
     border-radius: 100%;
     transform: translate(-50%, -50%);
     background-color: #191919;
+  }
+}
+
+.email-wrp{
+  @include b4_12px_montserrat_charcoal();
+  p{
+    text-align: left !important;
   }
 }

@@ -19,7 +19,7 @@ const mapStateToProps = (state: AppState) => {
     loyalty: state.basket.loyalty
   };
 };
-type Props = ReturnType<typeof mapDispatchToProps> &
+type Props = { closeModal: () => any } & ReturnType<typeof mapDispatchToProps> &
   ReturnType<typeof mapStateToProps> &
   RouteComponentProps;
 
@@ -193,7 +193,7 @@ class Reedem extends React.Component<Props, RedeemState> {
                   ""
                 )}
               </div>
-              <div className={bootstrapStyles.colMd8}>
+              <div className={bootstrapStyles.colMd12}>
                 <OtpReedem
                   updateError={this.updateError}
                   toggleOtp={this.toggleOtp}
@@ -207,6 +207,8 @@ class Reedem extends React.Component<Props, RedeemState> {
                   loyaltyData={loyaltyData}
                   points={this.state.txtvalue}
                   number={this.props.user.phoneNumber}
+                  removeRedeem={this.removeRedeem}
+                  closeModal={this.props.closeModal}
                 />
               </div>
             </Fragment>
