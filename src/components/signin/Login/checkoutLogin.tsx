@@ -537,7 +537,7 @@ class CheckoutLoginForm extends React.Component<Props, loginState> {
           <div className={globalStyles.textRight}>
             <span
               className={cs(
-                styles.formSubheading,
+                styles.checkoutForgotPass,
                 globalStyles.voffset3,
                 globalStyles.pointer
               )}
