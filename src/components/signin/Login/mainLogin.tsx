@@ -197,7 +197,7 @@ class MainLogin extends React.Component<Props, loginState> {
     // const checkoutPopupCookie = CookieService.getCookie("checkoutinfopopup");
     if (email) {
       this.setState({ email, isLoginDisabled: false }, () => {
-        this.myBlur();
+        // this.myBlur();
       });
     }
     // if (checkoutPopupCookie == "show") {
@@ -476,7 +476,7 @@ class MainLogin extends React.Component<Props, loginState> {
       {
         showCurrentSection: "email",
         subHeading: "Enter your email address to register or sign in.",
-        email: this.props.email || "",
+        email: this.props.email,
         isLoginDisabled: false,
         showerror: "",
         password: "",
