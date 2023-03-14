@@ -437,7 +437,13 @@ const AddressSection: React.FC<AddressProps & {
                     <span className={styles.indicator}></span>
                   </span>
                 </div>
-                <div className={styles.formSubheading}>
+                <div
+                  className={cs(
+                    globalStyles.marginT0,
+                    globalStyles.marginB0,
+                    styles.formSubheading
+                  )}
+                >
                   THIS IS A GST INVOICE
                 </div>
               </label>
@@ -619,7 +625,13 @@ const AddressSection: React.FC<AddressProps & {
                 <span className={styles.indicator}></span>
               </span>
             </div>
-            <div className={styles.formSubheading}>
+            <div
+              className={cs(
+                globalStyles.marginT0,
+                globalStyles.marginB0,
+                styles.formSubheading
+              )}
+            >
               BILLING ADDRESS IS SAME AS SHIPPING ADDRESS
             </div>
           </label>
