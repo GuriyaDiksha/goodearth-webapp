@@ -8,8 +8,8 @@ import styles from "./styles.scss";
 import { Link } from "react-router-dom";
 import logoImage from "images/gelogoCerise.svg";
 import flowerImage from "images/flower-motif.png";
-import lockImage from "images/lock.svg";
-import callImage from "images/call.svg";
+// import lockImage from "images/lock.svg";
+// import callImage from "images/call.svg";
 import AccountServices from "services/account";
 import { currencyCode, Currency } from "typings/currency";
 import moment from "moment";
@@ -23,15 +23,14 @@ import {
 
 const orderConfirmation: React.FC<{ oid: string }> = props => {
   const {
-    user: { email },
-    device: { mobile }
+    user: { email }
+    // device: { mobile }
   } = useSelector((state: AppState) => state);
   const [confirmData, setConfirmData] = useState<any>({});
   const [charCurrency, setCharCurrency] = useState<any>({});
   const dispatch = useDispatch();
 
   const fetchData = async () => {
-    // debugger
     const data: any = await AccountServices.fetchOrderBy(
       dispatch,
       props.oid,
@@ -296,7 +295,8 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
   }
   return (
     <div>
-      <div className={cs(styles.subcHeader)}>
+      {/* new Header */}
+      {/* <div className={cs(styles.subcHeader)}>
         <div className={cs(styles.logoContainer)}>
           <Link to="/">
             <img
@@ -321,8 +321,30 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
             >{`+91 9582 999 555 / +91 9582 999 888`}</div>
           </div>
         )}
-      </div>
+      </div> */}
+      {/* ============================================================== */}
 
+      {/*  ============= OLD HEADER ===================================*/}
+      <div className={cs(bootstrapStyles.row, styles.subcHeader)}>
+        <div
+          className={cs(
+            bootstrapStyles.col12,
+            bootstrapStyles.colMd2,
+            styles.logoContainer
+          )}
+        >
+          <Link to="/">
+            <img
+              src={logoImage}
+              style={{
+                width: "111px",
+                cursor: "pointer"
+              }}
+            />
+          </Link>
+        </div>
+      </div>
+      {/* ==================================================================== */}
       <div className={cs(bootstrapStyles.row, styles.bgProfile, styles.os)}>
         <div
           className={cs(
@@ -694,7 +716,8 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
           </div>
         </div>
       </div>
-      <div className={cs(styles.subcFooter)}>
+      {/* ============================ New FOOTER ==================================*/}
+      {/* <div className={cs(styles.subcFooter)}>
         <div className={styles.checkoutTitle}>
           {!mobile && <span className={styles.title}>CURRENCY: </span>}{" "}
           <div
@@ -707,7 +730,12 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
             className={styles.phoneNumber}
           >{`+91 9582 999 555 / +91 9582 999 888`}</div>
         </div>
-      </div>
+      </div> */}
+      {/* ================================================================= */}
+
+      {/* ========================= Old Footer ================================== */}
+
+      {/* ===================================================================== */}
     </div>
   );
 };

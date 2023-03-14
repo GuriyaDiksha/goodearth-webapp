@@ -142,7 +142,9 @@ class Search extends React.Component<
         productListId: plpProductId,
         source: "Search",
         corporatePDP:
-          ["Pero", "Souk", "Eka"].indexOf(selectItem[0]?.partner) > -1
+          ["Pero", "Souk", "Eka", "Object D Art"].indexOf(
+            selectItem[0]?.partner
+          ) > -1
             ? true
             : false
       },
@@ -657,8 +659,9 @@ class Search extends React.Component<
                         onClickQuickView={this.onClickQuickView}
                         loader={this.state.flag}
                         isCorporate={
-                          ["Pero", "Souk", "Eka"].indexOf(item.partner || "") >
-                          -1
+                          ["Pero", "Souk", "Eka", "Object D Art"].indexOf(
+                            item.partner || ""
+                          ) > -1
                             ? true
                             : false
                         }

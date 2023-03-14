@@ -303,6 +303,9 @@ class Header extends React.Component<Props, State> {
 
     const filterMenu = document.getElementById("filter_by");
     const filterMenuHeader = document.getElementById("filter-menu-header");
+
+    const pressSortHeader = document.getElementById("pressSortHeader");
+
     if (window?.pageYOffset > sticky) {
       // When announcement bar is hidden
       (header as HTMLElement).style.position = "fixed";
@@ -427,6 +430,14 @@ class Header extends React.Component<Props, State> {
           (ceriseHeader as HTMLElement).style.top = "90px";
         } else {
           (ceriseHeader as HTMLElement).style.top = "50px";
+        }
+      }
+
+      if (pressSortHeader) {
+        if (tim) {
+          (pressSortHeader as HTMLElement).style.top = "90px";
+        } else {
+          (pressSortHeader as HTMLElement).style.top = "50px";
         }
       }
     } else {
@@ -582,8 +593,16 @@ class Header extends React.Component<Props, State> {
             window?.pageYOffset}px`;
         }
       }
+      if (pressSortHeader) {
+        if (tim) {
+          (pressSortHeader as HTMLElement).style.top = `${130 -
+            window?.pageYOffset}px`;
+        } else {
+          (pressSortHeader as HTMLElement).style.top = `${90 -
+            window?.pageYOffset}px`;
+        }
+      }
     }
-
     // (header as HTMLElement).style.transition = "all 0.5s ease-in-out";
   };
 

@@ -4,6 +4,7 @@
 .subc-header {
     margin-top:0;
     background-color: #F9F5F8;
+    background-color: #fff;
     display: flex;
     justify-content: space-between;
     padding: 0px 30px;
@@ -363,6 +364,7 @@
       .address{
         width: 40%;
         @media screen and (max-width:991px){
+            width: 100%;
             margin-bottom: 30px;
         }
         .title{
@@ -442,7 +444,7 @@
             text-transform: uppercase;
           }
           .original-price{
-            @include b4_12px_montserrat_charcoal();
+            @include b3_14px_montserrat_charcoal();
             color: #9f9f9f;
             text-decoration: line-through;
             margin-left: 8px;
