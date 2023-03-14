@@ -271,6 +271,7 @@ class Header extends React.Component<Props, State> {
         this.props.fetchAnnouncement();
       }
     }
+    this.onScroll();
   }
 
   // mouseOut(data: { show: boolean }) {
