@@ -40,7 +40,6 @@ export default {
     const response = { ...decriptdata({ ...res }) };
     response.user = { ...innerUser };
     response.shippingData = shipping;
-    console.log(response);
     return response;
   },
 
