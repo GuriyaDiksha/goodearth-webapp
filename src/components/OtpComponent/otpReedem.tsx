@@ -418,16 +418,8 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
           )}
           id="gc-input"
         >
-          <li>
-            <hr />
-          </li>
           <li className={cs(globalStyles.textLeft, styles.otpText)}>
-            SEND{" "}
-            <span className={globalStyles.cerise}>
-              {" "}
-              ONE TIME PASSWORD (OTP){" "}
-            </span>
-            VIA:
+            Send one-time OTP to:
           </li>
           <Formsy
             ref={this.RegisterFormRef}

@@ -108,13 +108,7 @@ class Reedem extends React.Component<Props, RedeemState> {
       <Fragment>
         <div className={cs(bootstrapStyles.row, styles.giftDisplay)}>
           {points ? (
-            <div
-              className={cs(
-                styles.textLeft,
-                styles.rtcinfo,
-                globalStyles.voffset3
-              )}
-            >
+            <div className={cs(styles.textLeft, styles.rtcinfo)}>
               <span>{points} CERISE POINTS </span>
               <span className={styles.textMuted}>REDEEMED</span>
               <span
@@ -137,7 +131,7 @@ class Reedem extends React.Component<Props, RedeemState> {
             </div>
           ) : (
             <Fragment>
-              <div className={cs(styles.textLeft, globalStyles.voffset4)}>
+              <div className={cs(styles.textLeft)}>
                 <p className={cs(styles.textLeft, styles.redeemBold)}>
                   {" "}
                   Cerise Balance points
@@ -146,7 +140,7 @@ class Reedem extends React.Component<Props, RedeemState> {
                   {loyaltyData?.customerPoints}
                 </p>
               </div>
-              <div className={cs(styles.textLeft, globalStyles.voffset4)}>
+              <div className={cs(styles.textLeft)}>
                 <p className={cs(styles.textLeft, styles.redeemBold)}>
                   Eligible for Redemption
                 </p>
@@ -160,19 +154,13 @@ class Reedem extends React.Component<Props, RedeemState> {
                   {loyaltyData?.eligiblePoints}
                 </p>
               </div>
-              <div
-                className={cs(
-                  styles.textLeft,
-                  globalStyles.voffset4,
-                  styles.pointsToRedeem
-                )}
-              >
-                ENTER POINTS TO REDEEM
+              <div className={cs(styles.textLeft, styles.pointsToRedeem)}>
+                Enter points to redeem:
               </div>
               <div
                 className={cs(
                   styles.loginForm,
-                  { [globalStyles.voffset4]: newCardBox },
+                  { [globalStyles.voffset3]: newCardBox },
                   bootstrapStyles.colMd12
                 )}
               >
