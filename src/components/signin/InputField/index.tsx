@@ -76,9 +76,10 @@ const InputField: React.FC<Props> = props => {
         disabled={props.disable || false}
       />
       <label
-        className={
-          (labelClass && !props.disable) || false ? "" : globalStyles.hidden
-        }
+        // className={
+        //   (labelClass && !props.disable) || false ? "" : globalStyles.hidden
+        // }
+        className={cs({ [globalStyles.hidden]: !props.showLabel })}
         id={
           props.id ||
           Math.random()
