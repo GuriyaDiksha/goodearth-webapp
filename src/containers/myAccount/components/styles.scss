@@ -1446,6 +1446,13 @@ input[type="text"]{
     line-height: 16px;
     letter-spacing: 0.3px;
     text-align: left;
+    .checkbox-label{
+      @include b5_10px_montserrat_charcoal();
+      line-height: 22px;
+      letter-spacing: 0.3px;
+      text-align: left;
+      margin-bottom: 20px;
+    }
     .whatsapp{
       border-bottom: 1.5px solid $charcoal19;
       margin-bottom: 25px;
