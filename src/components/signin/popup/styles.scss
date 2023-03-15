@@ -7,8 +7,6 @@
     left: 50%;
     -webkit-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
-    width: 100%;
-
     button {
       background-color: $white;
       border-radius: 50%;
@@ -19,6 +17,7 @@
     margin-top: 50px;
     margin-bottom: 50px;
     min-height: 100%;
+
     .fix-head {
       background-color: $white;
       // position: fixed;
@@ -37,6 +36,10 @@
       overflow-y: scroll;
       overflow-x: hidden;
       height: 80vh !important;
+      height: 80vh !important;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 428px;
       @include scrollbar-default();
       &:hover {
         @include scrollbar();
@@ -46,6 +49,7 @@
   .popup-img {
     // background: url("../../../images/signInSavannah20.jpg");
     background-size: 100% 100%;
+    width:628px;
   }
 }
   
@@ -106,6 +110,9 @@
         width: 100%;
       }
     }
+    &.popup{
+      width: 100vw;
+    }
   }
   .row {
     margin-right: 0;
@@ -131,6 +138,11 @@
   .popup-img {
     height: 100%;
   }
+  .children-container{
+    max-width: 428px;
+    margin-left: auto;
+    margin-right: auto;
+  }
 }
 .mTop60 {
   margin-top: 60px;
@@ -146,4 +158,5 @@
   &.is-success-msg{
     margin-top: 0px;
   }
+
 }
