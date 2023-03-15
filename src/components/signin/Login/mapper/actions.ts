@@ -13,7 +13,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     ) => {
       localStorage.setItem("tempEmail", email);
       localStorage.setItem("isBo", boEmail || "");
-      LoginService.showForgotPassword(dispatch);
+      LoginService.showForgotPassword(dispatch, email);
       event.preventDefault();
     },
     goRegister: (event: React.MouseEvent, email: string) => {
