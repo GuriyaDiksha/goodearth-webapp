@@ -3,7 +3,6 @@ import cs from "classnames";
 import styles from "./styles.scss";
 import { otpProps, otpState } from "./typings";
 import globalStyles from "styles/global.scss";
-// import OtpBox from "./otpBox";
 import Formsy from "formsy-react";
 import { Link } from "react-router-dom";
 import FormCheckbox from "components/Formsy/FormCheckbox";
@@ -11,7 +10,6 @@ import FormInput from "components/Formsy/FormInput";
 import { errorTracking, decriptdata } from "utils/validate";
 import CustomerCareInfo from "components/CustomerCareInfo";
 import Loader from "components/Loader";
-// import ReactHtmlParser from "react-html-parser";
 import NewOtpComponent from "./NewOtpComponent";
 class OtpCompActivateGC extends React.Component<otpProps, otpState> {
   constructor(props: otpProps) {
@@ -161,7 +159,7 @@ class OtpCompActivateGC extends React.Component<otpProps, otpState> {
     //   ? document.getElementsByName("cca")
     //   : document.getElementsByName("gca");
     const elem = this.subscribeRef.current;
-    const { email, phoneNo } = model;
+    const { email } = model;
     const data: any = {};
     if (!this.props.txtvalue) {
       this.props.updateError(
