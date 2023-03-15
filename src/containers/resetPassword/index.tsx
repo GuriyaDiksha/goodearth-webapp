@@ -23,6 +23,7 @@ import {
 import LoginService from "services/login";
 import CookieService from "services/cookie";
 import Login from "./login";
+import header from "components/header";
 
 type Props = {
   uid: string;
@@ -64,6 +65,7 @@ const ResetPassword: React.FC<Props> = props => {
       noContentContainerElem.classList.remove(globalStyles.contentContainer);
     }
     if (userInfo.isLoggedIn) {
+      console.log("header");
       LoginService.logout(dispatch, currency, customerGroup);
     }
     pageViewGTM("ResetPassword");
