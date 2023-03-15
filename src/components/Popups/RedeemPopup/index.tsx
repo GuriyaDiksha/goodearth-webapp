@@ -21,7 +21,8 @@ const RedeemPopup: React.FC<PopupProps> = ({ setIsactiveredeem }) => {
           styles.sizeBlockPopup,
           styles.sizeBlockNotFixed,
           styles.centerpageDesktopFs,
-          globalStyles.textCenter
+          globalStyles.textCenter,
+          styles.cerisePopupMobile
         )}
       >
         <div className={styles.headWrp}>
@@ -50,7 +51,10 @@ const RedeemPopup: React.FC<PopupProps> = ({ setIsactiveredeem }) => {
             globalStyles.marginLR40
           )}
         >
-          <Redeem closeModal={closeModal} />
+          <Redeem
+            closeModal={closeModal}
+            setIsactiveredeem={setIsactiveredeem}
+          />
         </div>
       </div>
     </div>

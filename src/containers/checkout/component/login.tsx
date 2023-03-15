@@ -62,7 +62,7 @@ const LoginSection: React.FC<LoginProps> = props => {
             src={checkmarkCircle}
             alt="checkmarkdone"
           />
-          <p className={isActive ? "" : styles.closed}>LOGGED IN AS</p>
+          <p className={isActive ? "" : styles.iscompleted}>LOGGED IN AS</p>
           <div>
             {!isLoggedIn ? (
               isRegister ? (

@@ -79,6 +79,8 @@ const AddressSection: React.FC<AddressProps & {
 
   const [sameAsShipping, setSameAsShipping] = useState(sameShipping);
   const [gst, setGst] = useState(false);
+  const [gstNum, setGstNum] = useState("");
+  // let gstNum: any;
   const [pancardText, setPancardText] = useState(user.panPassport || "");
   const [pancardCheck, setPancardCheck] = useState(false);
   const [panError, setPanError] = useState("");
@@ -264,6 +266,7 @@ const AddressSection: React.FC<AddressProps & {
               <p className={styles.phone}>
                 M: {address.phoneCountryCode} {address.phoneNumber}
               </p>
+              {gstNum && <p className={styles.gstNo}>GSTIN: {gstNum}</p>}
             </>
           ) : (
             <>
@@ -382,6 +385,7 @@ const AddressSection: React.FC<AddressProps & {
     }, 500);
   };
 
+  // let numberObj: { gstNo?: string; gstType?: string; panPassportNo: string };
   const onSubmit = (
     address?: AddressData,
     gstText?: string,
@@ -391,6 +395,8 @@ const AddressSection: React.FC<AddressProps & {
     const addr = address || null;
     let numberObj: { gstNo?: string; gstType?: string; panPassportNo: string };
     const amountPriceCheck = amountPrice[currency] <= basket.total;
+
+    setGstNum(gstText);
 
     if (gst) {
       numberObj = Object.assign(
@@ -440,6 +446,7 @@ const AddressSection: React.FC<AddressProps & {
       )
     );
     dispatch(updateModal(true));
+    // console.log("test ====", event.target.value);
   };
 
   const openTermsPopup = () => {
@@ -486,7 +493,7 @@ const AddressSection: React.FC<AddressProps & {
                     />
                     <span
                       className={cs(styles.indicator, {
-                        [styles.checked]: gst
+                        [styles.checked]: gst && gstNum
                       })}
                     ></span>
                   </span>
@@ -495,7 +502,11 @@ const AddressSection: React.FC<AddressProps & {
                   className={cs(styles.formSubheading, styles.checkBoxHeading)}
                 >
                   I need a GST invoice
-                  {gst && <label className={styles.gstInvoiseNo}>GSTIN:</label>}
+                  {gstNum && (
+                    <label className={styles.gstInvoiseNo}>
+                      GSTIN: {gstNum}
+                    </label>
+                  )}
                 </div>
               </label>
             </div>
@@ -580,7 +591,8 @@ const AddressSection: React.FC<AddressProps & {
     props.activeStep,
     basket.total,
     pancardText,
-    currency
+    currency,
+    gstNum
   ]);
 
   const renderBillingCheckbox = function() {
@@ -721,7 +733,11 @@ const AddressSection: React.FC<AddressProps & {
                       alt="checkmarkdone"
                     />
                   ) : null}
-                  <span className={cs({ [styles.closed]: !isActive })}>
+                  <span
+                    className={cs({
+                      [styles.iscompleted]: STEP_ORDER[activeStep] < currentStep
+                    })}
+                  >
                     {activeStep == STEP_SHIPPING
                       ? "SHIPPING ADDRESS"
                       : "BILLING ADDRESS"}

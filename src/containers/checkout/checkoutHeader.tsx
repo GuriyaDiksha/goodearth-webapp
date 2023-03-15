@@ -246,7 +246,10 @@ class CheckoutHeader extends React.Component<Props, { boId: string }> {
       );
     }
 
-    if (this.props.location.pathname.indexOf("checkout") > -1) {
+    if (
+      this.props.location.pathname.indexOf("checkout") > -1 ||
+      this.props.location.pathname.indexOf("order/orderconfirmation") > -1
+    ) {
       heading = (
         <span className={cs(styles.vCenter, { [styles.justifyRight]: mobile })}>
           <span>
@@ -329,7 +332,7 @@ class CheckoutHeader extends React.Component<Props, { boId: string }> {
           <div className={cs(bootstrap.row, styles.minimumWidth)}>
             <div
               className={cs(
-                bootstrap.colMd2,
+                bootstrap.colMd3,
                 bootstrap.col5,
                 styles.logoContainer
               )}
@@ -357,7 +360,7 @@ class CheckoutHeader extends React.Component<Props, { boId: string }> {
               </Link>
             </div>
             <div
-              className={cs({ [bootstrap.col3]: !mobile }, bootstrap.colMd7, {
+              className={cs({ [bootstrap.col3]: !mobile }, bootstrap.colMd6, {
                 [bootstrap.col6]: mobile
               })}
             >

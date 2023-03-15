@@ -1612,3 +1612,14 @@
 .desc{
     @include b4_12px_montserrat_charcoal();
 }
+
+@media (max-width:992px){
+  .cerise-popup-mobile{
+    height: 100% !important;
+    overflow-y: auto;
+
+    .head-wrp{
+      margin-bottom: 5px;
+    }
+  }
+}

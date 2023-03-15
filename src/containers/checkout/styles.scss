@@ -265,11 +265,11 @@ hr {
   font-size: 14px;
   span {
     color: $charcoal19;
-    opacity: 0.3;
+    opacity: 1;
     @include b4_12px_montserrat_charcoal_caps();
   }
   .closed {
-    opacity: 1;
+    opacity: 0.3;
     @include b4_12px_montserrat_charcoal_caps();
   }
   .iscompleted {
@@ -1230,8 +1230,19 @@ input[type="radio"] {
 }
 .redeem-points{
 @include b4_12px_montserrat_med_aqua();
-margin-right: 20px;
+margin-right: 10px;
 }
+.cerise-points-wrapper{
+  display: flex;
+  justify-content: space-between;
+}
+.redeem-points-text{
+  @include b4_12px_montserrat_charcoal();
+  padding-top: 5px;
+  display: block;
+  max-width: 235px;
+}
+
 .promo-code-applied{
   @include b4_12px_montserrat_charcoal();
   opacity: 65%;
@@ -1249,4 +1260,9 @@ margin-right: 20px;
   opacity: 65%;
   padding-top: 3px;
   display:block;
+}
+.gst-no{
+  padding-top: 10px;
+  @include b5_10px_montserrat_charcoal();
+  opacity: 65%;
 }

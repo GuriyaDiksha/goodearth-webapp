@@ -70,6 +70,7 @@ export type otpRedeemProps = {
   history: any;
   closeModal: () => any;
   removeRedeem: () => any;
+  setIsactiveredeem: (data: boolean) => any;
 };
 
 export type otpBoxProps = {

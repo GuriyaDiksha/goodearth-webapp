@@ -667,3 +667,15 @@ hr {
     text-align: left !important;
   }
 }
+.send-otp-btn{
+  background-color: $med-charcoal;
+  border: 1px solid $med-charcoal;
+  @include b3_14px_montserrat_white();
+  padding: 19px 16px !important;
+  width: 100%;
+
+  &:hover{
+    background-color: $white;
+    color: $med-charcoal;
+  }
+}

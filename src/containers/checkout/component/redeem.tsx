@@ -19,7 +19,10 @@ const mapStateToProps = (state: AppState) => {
     loyalty: state.basket.loyalty
   };
 };
-type Props = { closeModal: () => any } & ReturnType<typeof mapDispatchToProps> &
+type Props = {
+  closeModal: () => any;
+  setIsactiveredeem: (data: boolean) => any;
+} & ReturnType<typeof mapDispatchToProps> &
   ReturnType<typeof mapStateToProps> &
   RouteComponentProps;
 
@@ -107,112 +110,89 @@ class Reedem extends React.Component<Props, RedeemState> {
     return (
       <Fragment>
         <div className={cs(bootstrapStyles.row, styles.giftDisplay)}>
-          {points ? (
-            <div className={cs(styles.textLeft, styles.rtcinfo)}>
-              <span>{points} CERISE POINTS </span>
-              <span className={styles.textMuted}>REDEEMED</span>
-              <span
-                className={styles.cross}
-                onClick={() => {
-                  this.removeRedeem();
-                }}
-              >
-                <i
-                  className={cs(
-                    iconStyles.icon,
-                    iconStyles.iconCrossNarrowBig,
-                    styles.closeFont
-                  )}
-                ></i>
-              </span>
-              <div className={globalStyles.errorMsg}>
-                You have successfully redeemed your Cerise points.
-              </div>
+          <Fragment>
+            <div className={cs(styles.textLeft)}>
+              <p className={cs(styles.textLeft, styles.redeemBold)}>
+                {" "}
+                Cerise Balance points
+              </p>
+              <p className={cs(styles.textLeft, styles.redeemPoints)}>
+                {loyaltyData?.customerPoints}
+              </p>
             </div>
-          ) : (
-            <Fragment>
-              <div className={cs(styles.textLeft)}>
-                <p className={cs(styles.textLeft, styles.redeemBold)}>
-                  {" "}
-                  Cerise Balance points
-                </p>
-                <p className={cs(styles.textLeft, styles.redeemPoints)}>
-                  {loyaltyData?.customerPoints}
-                </p>
-              </div>
-              <div className={cs(styles.textLeft)}>
-                <p className={cs(styles.textLeft, styles.redeemBold)}>
-                  Eligible for Redemption
-                </p>
-                <p
-                  className={cs(
-                    styles.textLeft,
-                    styles.redeemPoints,
-                    styles.aqua
-                  )}
-                >
-                  {loyaltyData?.eligiblePoints}
-                </p>
-              </div>
-              <div className={cs(styles.textLeft, styles.pointsToRedeem)}>
-                Enter points to redeem:
-              </div>
-              <div
+            <div className={cs(styles.textLeft)}>
+              <p className={cs(styles.textLeft, styles.redeemBold)}>
+                Eligible for Redemption
+              </p>
+              <p
                 className={cs(
-                  styles.loginForm,
-                  { [globalStyles.voffset3]: newCardBox },
-                  bootstrapStyles.colMd12
+                  styles.textLeft,
+                  styles.redeemPoints,
+                  styles.aqua
                 )}
               >
-                <div
-                  className={cs(styles.flex, styles.vCenter, {
-                    [globalStyles.hidden]: !newCardBox
-                  })}
-                >
-                  <input
-                    type="number"
-                    value={txtvalue}
-                    onKeyDown={evt => evt.key === "." && evt.preventDefault()}
-                    onChange={this.changeValue}
-                    id="redeem"
-                    min="0"
-                    className={
-                      this.state.error
-                        ? cs(styles.marginR10, styles.err)
-                        : styles.marginR10
-                    }
-                  />
-                </div>
-                <label>Points</label>
-
-                {this.state.error ? (
-                  <p className={cs(styles.textLeft, globalStyles.errorMsg)}>
-                    {this.state.error}
-                  </p>
-                ) : (
-                  ""
-                )}
-              </div>
-              <div className={bootstrapStyles.colMd12}>
-                <OtpReedem
-                  updateError={this.updateError}
-                  toggleOtp={this.toggleOtp}
-                  key={"reedem"}
-                  isLoggedIn={this.props.user.isLoggedIn}
-                  history={this.props.history}
-                  sendOtp={this.props.sendOtpRedeem}
-                  isCredit={true}
-                  checkOtpRedeem={this.props.checkOtpRedeem}
-                  updateList={this.updateList}
-                  loyaltyData={loyaltyData}
-                  points={this.state.txtvalue}
-                  number={this.props.user.phoneNumber}
-                  removeRedeem={this.removeRedeem}
-                  closeModal={this.props.closeModal}
+                {loyaltyData?.eligiblePoints}
+              </p>
+            </div>
+            <div className={cs(styles.textLeft, styles.pointsToRedeem)}>
+              Enter points to redeem:
+            </div>
+            <div
+              className={cs(
+                styles.loginForm,
+                { [globalStyles.voffset3]: newCardBox },
+                bootstrapStyles.colMd12
+              )}
+            >
+              <div
+                className={cs(styles.flex, styles.vCenter, {
+                  [globalStyles.hidden]: !newCardBox
+                })}
+              >
+                <input
+                  type="number"
+                  value={txtvalue}
+                  onKeyDown={evt => evt.key === "." && evt.preventDefault()}
+                  onChange={this.changeValue}
+                  id="redeem"
+                  min="0"
+                  className={
+                    this.state.error
+                      ? cs(styles.marginR10, styles.err)
+                      : styles.marginR10
+                  }
                 />
               </div>
-            </Fragment>
-          )}
+              <label>Points</label>
+
+              {this.state.error ? (
+                <p className={cs(styles.textLeft, globalStyles.errorMsg)}>
+                  {this.state.error}
+                </p>
+              ) : (
+                ""
+              )}
+            </div>
+            <div className={bootstrapStyles.colMd12}>
+              <OtpReedem
+                updateError={this.updateError}
+                toggleOtp={this.toggleOtp}
+                key={"reedem"}
+                isLoggedIn={this.props.user.isLoggedIn}
+                history={this.props.history}
+                sendOtp={this.props.sendOtpRedeem}
+                isCredit={true}
+                checkOtpRedeem={this.props.checkOtpRedeem}
+                updateList={this.updateList}
+                loyaltyData={loyaltyData}
+                points={this.state.txtvalue}
+                number={this.props.user.phoneNumber}
+                removeRedeem={this.removeRedeem}
+                closeModal={this.props.closeModal}
+                setIsactiveredeem={this.props.setIsactiveredeem}
+              />
+            </div>
+          </Fragment>
         </div>
       </Fragment>
     );

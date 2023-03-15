@@ -8,7 +8,7 @@ import { PaymentProps } from "./typings";
 import ApplyGiftcard from "./applyGiftcard";
 import { useSelector, useDispatch } from "react-redux";
 import { AppState } from "reducers/typings";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import Loader from "components/Loader";
 import Reedem from "./redeem";
 // import { updateComponent, updateModal } from "actions/modal";
@@ -17,12 +17,13 @@ import { errorTracking, showErrors } from "utils/validate";
 // import { POPUP } from "constants/components";
 import CookieService from "services/cookie";
 import { proceedForPayment, getPageType } from "../../../utils/validate";
-import CheckoutService from "services/checkout";
 import { GA_CALLS, ANY_ADS } from "constants/cookieConsent";
 import { currencyCodes } from "constants/currency";
 import { updateComponent, updateModal } from "actions/modal";
 import { POPUP } from "constants/components";
 import checkmarkCircle from "./../../../images/checkmarkCircle.svg";
+import CheckoutService from "services/checkout";
+import BasketService from "services/basket";
 
 const PaymentSection: React.FC<PaymentProps> = props => {
   const data: any = {};
@@ -33,6 +34,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
     user: { loyaltyData, isLoggedIn },
     basket: { loyalty }
   } = useSelector((state: AppState) => state);
+  const history = useHistory();
   const { isActive, currency, checkout } = props;
   const [paymentError, setPaymentError] = useState("");
   const [subscribevalue, setSubscribevalue] = useState(false);
@@ -65,6 +67,12 @@ const PaymentSection: React.FC<PaymentProps> = props => {
       )
     );
     dispatch(updateModal(true));
+  };
+
+  const removeRedeem = async (history: any, isLoggedIn: boolean) => {
+    const promo: any = await CheckoutService.removeRedeem(dispatch);
+    BasketService.fetchBasket(dispatch, "checkout", history, isLoggedIn);
+    return promo;
   };
 
   const onClickSubscribe = (event: any) => {
@@ -389,7 +397,8 @@ const PaymentSection: React.FC<PaymentProps> = props => {
                   className={cs(
                     styles.col12,
                     bootstrapStyles.colMd6,
-                    styles.selectedStvalue
+                    styles.selectedStvalue,
+                    styles.cerisePointsWrapper
                   )}
                 >
                   <span className={styles.marginR10}>
@@ -397,8 +406,14 @@ const PaymentSection: React.FC<PaymentProps> = props => {
                       {loyalty?.[0]?.points} CERISE POINTS
                     </span>
                     <span className={styles.promoCodeApplied}>Redeemed</span>
+                    <span className={styles.redeemPointsText}>
+                      You have successfully redeemed your Cerise Points
+                    </span>
                   </span>
-                  <span className={cs(globalStyles.pointer, styles.promoEdit)}>
+                  <span
+                    className={cs(globalStyles.pointer, styles.promoEdit)}
+                    onClick={() => removeRedeem(history, isLoggedIn)}
+                  >
                     REMOVE
                   </span>
                 </div>

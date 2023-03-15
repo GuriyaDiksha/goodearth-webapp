@@ -70,8 +70,8 @@ const PromoSection: React.FC<PromoProps> = props => {
     <div
       className={
         isActive
-          ? cs(styles.card, styles.cardOpen, styles.marginT20)
-          : cs(styles.card, styles.cardClosed, styles.marginT20)
+          ? cs(styles.card, styles.cardOpen, styles.marginT5)
+          : cs(styles.card, styles.cardClosed, styles.marginT5)
       }
     >
       <div className={bootstrapStyles.row}>

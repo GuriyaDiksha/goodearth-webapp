@@ -360,6 +360,7 @@ const BaseLayout: React.FC = () => {
 
   const isCheckout =
     pathname.indexOf("/checkout") > -1 ||
+    pathname.indexOf("order/orderconfirmation") > -1 ||
     pathname == "/cart" ||
     pathname == "/cart/";
   const confirmation = pathname.indexOf("order/orderconfirmation") > -1;
@@ -374,7 +375,7 @@ const BaseLayout: React.FC = () => {
       ? CookieService.getCookie("auth")
       : true;
 
-  const minimalPage = confirmation || backOrder || maintenance;
+  const minimalPage = backOrder || maintenance;
   return (
     <Fragment>
       {/* <Whatsapp /> */}

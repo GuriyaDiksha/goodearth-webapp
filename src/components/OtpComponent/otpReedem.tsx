@@ -10,6 +10,7 @@ import FormInput from "components/Formsy/FormInput";
 import Loader from "components/Loader";
 import { errorTracking } from "utils/validate";
 import NewOtpComponent from "./NewOtpComponent";
+import { debug } from "console";
 
 class OtpReedem extends React.Component<otpRedeemProps, otpState> {
   constructor(props: otpRedeemProps) {
@@ -55,7 +56,11 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
 
     // const radioElement: any = document.getElementsByName("redeem");
     // const elem = this.subscribeRef.current;
-    const { email, phoneNo } = model;
+    const {
+      loyaltyData: {
+        detail: { EmailId }
+      }
+    } = this.props;
     const data: any = {};
     // if (!radioElement[0].checked && !radioElement[1].checked) {
     //   this.setState(
@@ -79,11 +84,13 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
       this.RegisterFormRef1.current.submit();
       return false;
     }
-    if (this.state.radioType == "email") {
-      data["email"] = email;
-    } else {
-      data["phoneNo"] = "+91" + phoneNo;
+    // if (this.state.radioType == "email") {
+    if (EmailId) {
+      data["email"] = EmailId;
     }
+    // } else {
+    //   data["phoneNo"] = "+91" + phoneNo;
+    // }
     // data["inputType"] = "GIFT";
     data["points"] = this.props.points;
     // this.setState({ startTimer: true });
@@ -104,7 +111,7 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
       this.props.updateError(true);
       return false;
     }
-    if (!this.state.radioType || !this.state.otpData["points"]) {
+    if (!this.state.otpData["points"]) {
       return false;
     }
     const newData = otpData;
@@ -291,6 +298,7 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
   closePopup = () => {
     this.props.removeRedeem();
     this.props.closeModal();
+    this.props.setIsactiveredeem(false);
   };
 
   getValidationForOtp = () => {
@@ -552,7 +560,7 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
                 <input
                   type="submit"
                   // disabled={this.state.disable}
-                  className={globalStyles.ceriseBtn}
+                  className={styles.sendOtpBtn}
                   value="Send otp"
                 />
               </div>
