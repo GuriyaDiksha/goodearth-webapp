@@ -16,6 +16,7 @@ import { RouteComponentProps, withRouter, useHistory } from "react-router";
 import AccountService from "services/account";
 import * as valid from "utils/validate";
 import LoginService from "services/login";
+import CookieService from "services/cookie";
 import Login from "./login";
 
 type Props = {
@@ -48,6 +49,7 @@ const ResetPassword: React.FC<Props> = props => {
   const history = useHistory();
 
   useEffect(() => {
+    const userInfo = JSON.parse(CookieService.getCookie("user") || "{}");
     const noContentContainerElem = document.getElementById(
       "no-content"
     ) as HTMLDivElement;
@@ -56,7 +58,7 @@ const ResetPassword: React.FC<Props> = props => {
     ) {
       noContentContainerElem.classList.remove(globalStyles.contentContainer);
     }
-    if (isLoggedIn) {
+    if (userInfo.isLoggedIn) {
       LoginService.logout(dispatch, currency, customerGroup);
     }
     valid.pageViewGTM("ResetPassword");
