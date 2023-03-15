@@ -36,9 +36,10 @@ import * as valid from "utils/validate";
 export default {
   showForgotPassword: function(
     dispatch: Dispatch,
+    email?: string,
     event?: React.MouseEvent
   ): void {
-    dispatch(updateComponent(POPUP.FORGOTPASSWORDFORM, null, true));
+    dispatch(updateComponent(POPUP.FORGOTPASSWORDFORM, { email }, true));
     dispatch(updateModal(true));
   },
   showLogin: function(dispatch: Dispatch, event?: React.MouseEvent): void {
