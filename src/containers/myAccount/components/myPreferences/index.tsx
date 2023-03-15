@@ -8,6 +8,44 @@ import globalStyles from "styles/global.scss";
 import cs from "classnames";
 import Formsy from "formsy-react";
 
+const WhatsappSubscribe = (data: any, ref: any) => {
+  const [showPhone, setShowPhone] = useState(false);
+
+  useEffect(() => {
+    if (ref.current?.checked) {
+      setShowPhone(true);
+    }
+    console.log(ref.current?.checked);
+  }, [ref.current?.checked]);
+
+  return (
+    <div className={styles.whatsapp}>
+      <FormCheckbox
+        id="whatsappSubscribe"
+        name="whatsappSubscribe"
+        disable={false}
+        label={["Subscribe me for Whatsapp updates"]}
+        value={data.whatsappSubscribe}
+        labelClassName={styles.checkboxLabel}
+        inputRef={ref}
+      />
+      {showPhone && <div>Okay!!</div>}
+      By checking this, you agree to receiving Whatsapp messages for order &
+      profile related information. To know more how we keep your data safe,
+      refer to our &nbsp;
+      <Link
+        key="privacy"
+        to="/customer-assistance/privacy-policy"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        Privacy Policy
+      </Link>
+      .
+    </div>
+  );
+};
+
 const MyPreferences = () => {
   const [preferencesData, setPreferencesData] = useState<any>({});
   const whatsappCheckRef = useRef<HTMLInputElement>(null);
@@ -42,38 +80,16 @@ const MyPreferences = () => {
       </div>
       <Formsy onSubmit={onSubmit}>
         <div className={cs(styles.content, styles.categorylabel)}>
-          <FormCheckbox
-            id="whatsappSubscribe"
-            name="whatsappSubscribe"
-            disable={false}
-            label={["Subscribe me for Whatsapp updates"]}
-            value={preferencesData.whatsappSubscribe}
-            labelClassName={styles.checkboxLabel}
-            inputRef={whatsappCheckRef}
-          />
-          <div className={styles.whatsapp}>
-            By checking this, you agree to receiving Whatsapp messages for order
-            & profile related information. To know more how we keep your data
-            safe, refer to our &nbsp;
-            <Link
-              key="privacy"
-              to="/customer-assistance/privacy-policy"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Privacy Policy
-            </Link>
-            .
-          </div>
-          <FormCheckbox
-            id="subscribe"
-            name="subscribe"
-            disable={false}
-            label={["Subscribe me to Emailers & Newsletters"]}
-            value={preferencesData.subscribe}
-            labelClassName={styles.checkboxLabel}
-          />
+          {WhatsappSubscribe(preferencesData, whatsappCheckRef)}
           <div className={styles.subscribe}>
+            <FormCheckbox
+              id="subscribe"
+              name="subscribe"
+              disable={false}
+              label={["Subscribe me to Emailers & Newsletters"]}
+              value={preferencesData.subscribe}
+              labelClassName={styles.checkboxLabel}
+            />
             By checking this, you agree to receiving Whatsapp messages for order
             & profile related information. To know more how we keep your data
             safe, refer to our &nbsp;
