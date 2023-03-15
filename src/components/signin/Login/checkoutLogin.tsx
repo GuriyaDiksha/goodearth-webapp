@@ -190,7 +190,7 @@ class CheckoutLoginForm extends React.Component<Props, loginState> {
     const email = localStorage.getItem("tempEmail");
     if (email) {
       this.setState({ email, isLoginDisabled: false }, () => {
-        this.myBlur();
+        // this.myBlur();
       });
     }
     localStorage.removeItem("tempEmail");

@@ -37,6 +37,7 @@ const LoginSection: React.FC<LoginProps> = props => {
   const nextStep = () => {
     if (next) next(Steps.STEP_SHIPPING);
   };
+
   return (
     <div
       className={
