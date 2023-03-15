@@ -122,7 +122,7 @@ const routes: RouteConfig = [
   },
   {
     path: ROUTES.SHOP,
-    component: loadable(() => import("containers/shopLocator")),
+    component: loadable(() => import("containers/newShopLocator")),
     action: initActionShop,
     exact: false
   },

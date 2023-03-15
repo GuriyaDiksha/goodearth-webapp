@@ -20,6 +20,7 @@ import bridalRing from "../../images/bridal/rings.svg";
 import { AppState } from "reducers/typings";
 import CookieService from "services/cookie";
 import { GA_CALLS, ANY_ADS } from "constants/cookieConsent";
+import { displayPriceWithCommas } from "utils/utility";
 
 const CartItems: React.FC<BasketItem> = memo(
   ({
@@ -385,7 +386,10 @@ const CartItems: React.FC<BasketItem> = memo(
                       <span className={styles.discountprice}>
                         {String.fromCharCode(...currencyCodes[currency])}
                         &nbsp;
-                        {discountedPriceRecords[currency]}
+                        {displayPriceWithCommas(
+                          discountedPriceRecords[currency],
+                          currency
+                        )}
                         &nbsp;&nbsp;&nbsp;
                       </span>
                     ) : (
@@ -395,7 +399,7 @@ const CartItems: React.FC<BasketItem> = memo(
                       <span className={styles.strikeprice}>
                         {String.fromCharCode(...currencyCodes[currency])}
                         &nbsp;
-                        {price}
+                        {displayPriceWithCommas(price, currency)}
                       </span>
                     ) : (
                       <span
@@ -406,7 +410,9 @@ const CartItems: React.FC<BasketItem> = memo(
                         {" "}
                         {String.fromCharCode(...currencyCodes[currency])}
                         &nbsp;
-                        {structure == "GiftCard" ? GCValue : price}
+                        {structure == "GiftCard"
+                          ? displayPriceWithCommas(GCValue, currency)
+                          : displayPriceWithCommas(price, currency)}
                       </span>
                     )}
                   </div>

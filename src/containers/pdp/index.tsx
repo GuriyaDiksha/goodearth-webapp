@@ -31,7 +31,15 @@ import { HEADER_HEIGHT, SECONDARY_HEADER_HEIGHT } from "constants/heights";
 import zoom from "images/zoom.svg";
 // import mobile3d from "images/3d/3DButton.svg";
 import LazyImage from "components/LazyImage";
-import * as valid from "utils/validate";
+import {
+  moveChatUp,
+  PDP,
+  getPageType,
+  pageViewGTM,
+  moveChatDown,
+  MoreFromCollectionProductImpression,
+  viewSelectionGTM
+} from "utils/validate";
 import { POPUP } from "constants/components";
 import PairItWithSlider from "components/pairItWith";
 import ModalStyles from "components/Modal/styles.scss";
@@ -250,7 +258,7 @@ class PDPContainer extends React.Component<Props, State> {
         this.reset();
       });
 
-      valid.pageViewGTM("PDP");
+      pageViewGTM("PDP");
       dataLayer.push({
         event: "PdpView",
         PageURL: this.props.location.pathname,
@@ -300,16 +308,16 @@ class PDPContainer extends React.Component<Props, State> {
         "Product Name": data?.title,
         "Product ID": data?.id,
         Variant: variants,
-        "Page Type": valid.getPageType(),
+        "Page Type": getPageType(),
         "Page referrer url": CookieService.getCookie("prevUrl")
       });
     }
-    valid.PDP(data, currency);
+    PDP(data, currency);
 
-    valid.moveChatDown();
+    moveChatDown();
 
     if (data && data?.looksProducts && data?.looksProducts?.length >= 2) {
-      valid.MoreFromCollectionProductImpression(
+      MoreFromCollectionProductImpression(
         data.looksProducts,
         "ShopByLook",
         currency
@@ -389,7 +397,7 @@ class PDPContainer extends React.Component<Props, State> {
         this.setShowDock();
       }, 100)
     );
-    valid.moveChatUp();
+    moveChatUp();
 
     if (this.imageIntervalID) {
       clearInterval(this.imageIntervalID);
@@ -399,10 +407,10 @@ class PDPContainer extends React.Component<Props, State> {
   UNSAFE_componentWillReceiveProps(nextProps: Props) {
     const { data, currency } = nextProps;
     if (this.props?.id && this.props?.id != nextProps?.id) {
-      valid.pageViewGTM("PDP");
-      valid.PDP(nextProps?.data, this.props?.currency);
+      pageViewGTM("PDP");
+      PDP(nextProps?.data, this.props?.currency);
       if (data && data?.looksProducts && data?.looksProducts?.length >= 2) {
-        valid.MoreFromCollectionProductImpression(
+        MoreFromCollectionProductImpression(
           data.looksProducts,
           "ShopByLook",
           currency
@@ -422,9 +430,9 @@ class PDPContainer extends React.Component<Props, State> {
       !this.props?.data?.title &&
       nextProps?.data?.title
     ) {
-      valid.PDP(nextProps?.data, this.props?.currency);
+      PDP(nextProps?.data, this.props?.currency);
       if (data && data?.looksProducts && data?.looksProducts?.length >= 2) {
-        valid.MoreFromCollectionProductImpression(
+        MoreFromCollectionProductImpression(
           data.looksProducts,
           "ShopByLook",
           currency
@@ -432,9 +440,9 @@ class PDPContainer extends React.Component<Props, State> {
       }
     }
     if (!this.props?.data && nextProps.data?.title) {
-      valid.PDP(nextProps?.data, this.props?.currency);
+      PDP(nextProps?.data, this.props?.currency);
       if (data && data?.looksProducts && data.looksProducts?.length >= 2) {
-        valid.MoreFromCollectionProductImpression(
+        MoreFromCollectionProductImpression(
           data?.looksProducts,
           "ShopByLook",
           currency
@@ -670,7 +678,7 @@ class PDPContainer extends React.Component<Props, State> {
   };
 
   startImageAutoScroll = () => {
-    this.imageIntervalID = setInterval(this.nextImage, 7000);
+    // this.imageIntervalID = setInterval(this.nextImage, 7000);
   };
 
   resetAutoImageScroll = () => {
@@ -876,7 +884,7 @@ class PDPContainer extends React.Component<Props, State> {
     if (this.props.plpMobileView != plpMobileView) {
       this.props.updateMobileView(plpMobileView);
       CookieService.setCookie("plpMobileView", plpMobileView);
-      valid.viewSelectionGTM(plpMobileView);
+      viewSelectionGTM(plpMobileView);
     }
   };
 

@@ -4,7 +4,7 @@ import cs from "classnames";
 import bootstrapStyles from "../../../styles/bootstrap/bootstrap-grid.scss";
 import styles from "../styles.scss";
 import { LoginProps } from "./typings";
-import * as Steps from "../constants";
+import { STEP_SHIPPING } from "../constants";
 import loadable from "@loadable/component";
 
 const CheckoutLoginForm = loadable(() =>
@@ -35,7 +35,7 @@ const LoginSection: React.FC<LoginProps> = props => {
     setIsRegister(false);
   };
   const nextStep = () => {
-    if (next) next(Steps.STEP_SHIPPING);
+    if (next) next(STEP_SHIPPING);
   };
   return (
     <div

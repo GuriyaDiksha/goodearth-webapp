@@ -8,7 +8,7 @@ import styles from "./styles.scss";
 import globalStyles from "../../styles/global.scss";
 import cs from "classnames";
 import { Context } from "components/Modal/context";
-import * as util from "../../utils/validate";
+import { showGrowlMessage } from "../../utils/validate";
 
 type Props = {
   bridalItem: BridalItemData;
@@ -71,7 +71,7 @@ const BridalMobile: React.FC<Props> = ({ bridalItem, bridalId }) => {
       productUrl
     )
       .then(res => {
-        util.showGrowlMessage(
+        showGrowlMessage(
           dispatch,
           "Item has been added to your bag!",
           3000,
@@ -83,7 +83,7 @@ const BridalMobile: React.FC<Props> = ({ bridalItem, bridalId }) => {
         if (typeof errorMessage != "string") {
           errorMessage = "Can't add to bag";
         }
-        util.showGrowlMessage(dispatch, errorMessage);
+        showGrowlMessage(dispatch, errorMessage);
       });
     // closeMobile();
   };

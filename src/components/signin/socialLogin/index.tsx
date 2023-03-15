@@ -9,7 +9,7 @@ import GoogleLogin from "react-google-login";
 import LoginService from "services/login";
 import { useDispatch, useSelector } from "react-redux";
 import { props } from "./typings";
-import * as util from "../../../utils/validate";
+import { showGrowlMessage } from "../../../utils/validate";
 import { useHistory } from "react-router";
 import { AppState } from "reducers/typings";
 import CookieService from "services/cookie";
@@ -39,7 +39,7 @@ const SocialLogin: React.FC<props> = ({ closeModel }) => {
   //       })
   //       .catch(err => {
   //         const data = err.response?.data;
-  //         util.showGrowlMessage(dispatch, data?.non_field_errors?.[0], 6000);
+  //         showGrowlMessage(dispatch, data?.non_field_errors?.[0], 6000);
   //         closeModel();
   //         console.log("Cant Login due to ankur sir !!!!!!");
   //       });
@@ -82,7 +82,7 @@ const SocialLogin: React.FC<props> = ({ closeModel }) => {
         })
         .catch(err => {
           const data = err.response?.data;
-          util.showGrowlMessage(dispatch, data?.non_field_errors?.[0], 6000);
+          showGrowlMessage(dispatch, data?.non_field_errors?.[0], 6000);
           closeModel();
           console.log("Cant Login due to ankur sir !!!!!!");
         });

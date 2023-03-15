@@ -21,6 +21,7 @@ declare module "react-html-parser";
 declare module "maker-enhance";
 declare module "react-facebook-login/dist/facebook-login-render-props";
 declare module "react-circular-progressbar";
+declare module "crypto-js";
 
 declare const __API_HOST__: string;
 declare const __DOMAIN__: string;

@@ -30,6 +30,7 @@ import ImageWithSideSubheadingMobile from "./templates/ImageWithSideSubheadingMo
 import TitleHeadingMobile from "./templates/TitleHeadingMobile";
 import * as util from "../../utils/validate";
 import CeriseCard from "components/CeriseCard";
+import { headerClickGTM } from "../../utils/validate";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -857,12 +858,7 @@ class Mobilemenu extends React.Component<Props, MobileState> {
               {loginItem.type == "button" ? (
                 <span
                   onClick={() => {
-                    util.headerClickGTM(
-                      "Profile Item",
-                      "Top",
-                      true,
-                      isLoggedIn
-                    );
+                    headerClickGTM("Profile Item", "Top", true, isLoggedIn);
                   }}
                 >
                   {loginItem.label}
@@ -872,12 +868,7 @@ class Mobilemenu extends React.Component<Props, MobileState> {
                   key={loginItem.label}
                   to={loginItem.href as string}
                   onClick={() => {
-                    util.headerClickGTM(
-                      "Profile Item",
-                      "Top",
-                      true,
-                      isLoggedIn
-                    );
+                    headerClickGTM("Profile Item", "Top", true, isLoggedIn);
                   }}
                 >
                   {loginItem.label}
@@ -934,7 +925,7 @@ class Mobilemenu extends React.Component<Props, MobileState> {
               className={styles.wishlistLink}
               onClick={() => {
                 clickToggle();
-                util.headerClickGTM("Wishlist", "Top", true, isLoggedIn);
+                headerClickGTM("Wishlist", "Top", true, isLoggedIn);
               }}
             >
               {/* <i
@@ -986,7 +977,7 @@ class Mobilemenu extends React.Component<Props, MobileState> {
                     )}
                     onClick={() => {
                       changeCurrency(item.value);
-                      util.headerClickGTM("Currency", "Top", true, isLoggedIn);
+                      headerClickGTM("Currency", "Top", true, isLoggedIn);
                       clickToggle();
                     }}
                   >
@@ -1010,12 +1001,7 @@ class Mobilemenu extends React.Component<Props, MobileState> {
                   {item.type == "button" ? (
                     <span
                       onClick={() => {
-                        util.headerClickGTM(
-                          "Profile Item",
-                          "Top",
-                          true,
-                          isLoggedIn
-                        );
+                        headerClickGTM("Profile Item", "Top", true, isLoggedIn);
                       }}
                     >
                       {item.label}
@@ -1025,12 +1011,7 @@ class Mobilemenu extends React.Component<Props, MobileState> {
                       key={item.label}
                       to={item.href as string}
                       onClick={() => {
-                        util.headerClickGTM(
-                          "Profile Item",
-                          "Top",
-                          true,
-                          isLoggedIn
-                        );
+                        headerClickGTM("Profile Item", "Top", true, isLoggedIn);
                       }}
                     >
                       {item.label}
@@ -1051,12 +1032,7 @@ class Mobilemenu extends React.Component<Props, MobileState> {
                 {loginItem.type == "button" ? (
                   <span
                     onClick={() => {
-                      util.headerClickGTM(
-                        "Profile Item",
-                        "Top",
-                        true,
-                        isLoggedIn
-                      );
+                      headerClickGTM("Profile Item", "Top", true, isLoggedIn);
                     }}
                   >
                     {loginItem.label}
@@ -1066,12 +1042,7 @@ class Mobilemenu extends React.Component<Props, MobileState> {
                     key={loginItem.label}
                     to={loginItem.href as string}
                     onClick={() => {
-                      util.headerClickGTM(
-                        "Profile Item",
-                        "Top",
-                        true,
-                        isLoggedIn
-                      );
+                      headerClickGTM("Profile Item", "Top", true, isLoggedIn);
                     }}
                   >
                     {loginItem.label}
@@ -1231,7 +1202,7 @@ class Mobilemenu extends React.Component<Props, MobileState> {
         > */}
         {(this.props.currency === "INR" ||
           this.props.slab.toLowerCase() === "cerise" ||
-            this.props.slab.toLowerCase() === "cerise sitara") && (
+          this.props.slab.toLowerCase() === "cerise sitara") && (
           <CeriseCard clickToggle={clickToggle} />
         )}
         {/* </NavLink> */}

@@ -269,6 +269,9 @@
       position: relative;
       margin: 35px 0 20px 0;
       flex-wrap: wrap;
+      input{
+        height: 50px !important;
+      }
       // .contact-msg {
       //   font-style: italic;
       //   font-size: 12px;

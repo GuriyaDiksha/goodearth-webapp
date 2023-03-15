@@ -18,7 +18,7 @@ export const enum ROUTES {
   ResetPassword = "/password-reset/confirm/:uid/:token",
   STATIC = "/customer-assistance/",
   CHECKOUT = "/order/checkout",
-  SHOP = "/Cafe-Shop/:city/:shopname?",
+  SHOP = "/Cafe-Shop/:city?",
   ORDERCONFIRMATION = "/order/orderconfirmation/:oid",
   DESIGNJOURNAL = "/designjournal",
   DESIGNJOURNALBOOK = "/designjournalbook/",

@@ -21,7 +21,7 @@ import mapDispatchToProps from "./mapper/actions";
 import { connect } from "react-redux";
 import { checkMail } from "utils/validate";
 import { genderOptions } from "constants/profile";
-import * as valid from "utils/validate";
+import { getErrorList, errorTracking } from "utils/validate";
 import { AppState } from "reducers/typings";
 import CookieService from "services/cookie";
 import { GA_CALLS } from "constants/cookieConsent";
@@ -238,12 +238,12 @@ class RegisterForm extends React.Component<Props, registerState> {
         elem.scrollIntoView({ block: "center", behavior: "smooth" });
       }
       // for error Tracking
-      const errorList = valid.getErrorList(
+      const errorList = getErrorList(
         globalStyles.errorMsg,
         "popup-register-form"
       );
       if (errorList && errorList.length) {
-        valid.errorTracking(errorList, location.href);
+        errorTracking(errorList, location.href);
       }
     }, 0);
   };
