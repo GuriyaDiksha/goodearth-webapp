@@ -144,7 +144,8 @@ class MainLogin extends React.Component<Props, loginState> {
               ];
               this.setState({
                 msg: error,
-                highlight: true
+                highlight: true,
+                isLoginDisabled: true
               });
               this.emailInput.current && this.emailInput.current.focus();
             }
