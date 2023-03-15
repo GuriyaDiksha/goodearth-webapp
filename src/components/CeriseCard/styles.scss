@@ -33,6 +33,7 @@
     &.left-max-width{
         width: 414px;
         max-width: 414px;
+        height: 100%;
         @media only screen and (max-width: 992px) {
             width: 50%;
             max-width: 50%;
