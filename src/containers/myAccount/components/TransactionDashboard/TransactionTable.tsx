@@ -288,11 +288,10 @@ const TransactionTable = ({ mobile }: Props) => {
                       styles.alignCenterText,
                       styles.point,
                       {
-                        [globalStyles.ceriseBackground]:
-                          ele?.Description === "Point Redeemed"
+                        [globalStyles.ceriseBackground]: ele?.EntryType === "Dr"
                       },
                       {
-                        [globalStyles.greyBackground]: ele?.Description === "NA"
+                        [globalStyles.greyBackground]: ele?.EntryType === ""
                       }
                     )}
                   ></div>
@@ -347,16 +346,15 @@ const TransactionTable = ({ mobile }: Props) => {
                       styles.alignCenterText,
                       styles.colPoint,
                       {
-                        [globalStyles.cerise]:
-                          ele?.Description === "Point Redeemed"
+                        [globalStyles.cerise]: ele?.EntryType === "Dr"
                       },
-                      { [globalStyles.greyColor]: ele?.Description === "NA" }
+                      { [globalStyles.greyColor]: ele?.EntryType === "" }
                     )}
                   >
-                    {ele?.Description !== "NA"
-                      ? `[${
-                          ele?.Description === "Point Redeemed" ? "-" : "+"
-                        }] ${ele?.Points}`
+                    {ele?.EntryType !== ""
+                      ? `[${ele?.EntryType === "Dr" ? "-" : "+"}] ${
+                          ele?.Points
+                        }`
                       : ele?.Points}
                   </p>
 
@@ -396,7 +394,7 @@ const TransactionTable = ({ mobile }: Props) => {
                   )}
                 >
                   <>
-                    {ele?.Description === "Point Earned" || mobile ? (
+                    {ele?.EntryType === "Cr" || mobile ? (
                       <div className={styles.innerDetailsWrp}>
                         {mobile ? (
                           <div className={styles.innerDetails}>
@@ -404,7 +402,7 @@ const TransactionTable = ({ mobile }: Props) => {
                             <p className={styles.desc}>{ele?.DocumentDate}</p>
                           </div>
                         ) : null}
-                        {ele?.Description === "Point Earned" ? (
+                        {ele?.EntryType === "Cr" ? (
                           <div
                             style={{ textAlign: "right" }}
                             className={styles.innerDetails}

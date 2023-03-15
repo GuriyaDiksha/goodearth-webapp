@@ -42,8 +42,8 @@ class Reedem extends React.Component<Props, RedeemState> {
 
   componentDidMount(): void {
     if (
-      this.props.user?.loyaltyData?.CustomerPointInformation?.AvailablePoint ===
-      0
+      this.props.user?.loyaltyData?.CustomerPointInformation
+        ?.EligibleRedemptionPoints === 0
     ) {
       this.setState({ error: "You don't have points to redeem" });
     }
@@ -229,17 +229,17 @@ class Reedem extends React.Component<Props, RedeemState> {
                       {
                         [styles.disableInput]:
                           loyaltyData?.CustomerPointInformation
-                            ?.AvailablePoint === 0
+                            ?.EligibleRedemptionPoints === 0
                       }
                     )}
                     disabled={
-                      loyaltyData?.CustomerPointInformation?.AvailablePoint ===
-                      0
+                      loyaltyData?.CustomerPointInformation
+                        ?.EligibleRedemptionPoints === 0
                     }
                     style={{
                       cursor:
                         loyaltyData?.CustomerPointInformation
-                          ?.AvailablePoint === 0
+                          ?.EligibleRedemptionPoints === 0
                           ? "not-allowed"
                           : "inherit"
                     }}
@@ -252,7 +252,7 @@ class Reedem extends React.Component<Props, RedeemState> {
                     className={cs(globalStyles.errorMsg, {
                       [styles.disableInputMsg]:
                         loyaltyData?.CustomerPointInformation
-                          ?.AvailablePoint === 0
+                          ?.EligibleRedemptionPoints === 0
                     })}
                   >
                     {this.state.error}
