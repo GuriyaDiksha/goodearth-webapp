@@ -190,7 +190,7 @@ class CheckoutLoginForm extends React.Component<Props, loginState> {
     const email = localStorage.getItem("tempEmail");
     if (email) {
       this.setState({ email, isLoginDisabled: false }, () => {
-        // this.myBlur();
+        this.myBlur();
       });
     }
     localStorage.removeItem("tempEmail");
@@ -200,9 +200,9 @@ class CheckoutLoginForm extends React.Component<Props, loginState> {
     const email = localStorage.getItem("tempEmail");
     if (!this.state.email || email) {
       if (email) {
-        this.setState({ email, isLoginDisabled: false }, () => {
-          this.myBlur();
-        });
+        // this.setState({ email, isLoginDisabled: false }, () => {
+        //   // this.myBlur();
+        // });
       }
       // this.firstEmailInput.current?.focus();
       localStorage.removeItem("tempEmail");
