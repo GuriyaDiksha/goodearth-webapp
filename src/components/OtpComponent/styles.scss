@@ -477,12 +477,14 @@ hr {
     .otp-resend{
       font-weight: 400;
       span{
-        border-bottom: 1px solid $charcoal19;
         cursor: pointer;
         letter-spacing: 0.5px;
         font-weight: $semibold;
+        text-decoration: underline;
+        text-underline-offset: 4px;
         &:hover{
-          color: #3C7979
+          color: #3C7979;
+          text-decoration-color: #3c7979;
         }
       }
     }

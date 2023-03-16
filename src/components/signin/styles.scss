@@ -301,7 +301,7 @@ span.error-msg {
   letter-spacing: 0.36px;
   margin-top: 10px;
   margin-bottom: 48px;
-  padding: 0px 75px;
+  padding: 0px 50px;
   text-align: center;
   &.verify-otp{
     margin-bottom: 36px;
@@ -311,6 +311,7 @@ span.error-msg {
 
 .change-email-btn{
   margin-top: 15px;
+  margin-bottom: 15px;
 }
 
 .forgot-password{
@@ -337,7 +338,7 @@ div.verify-otp-container{
     display: none;
   }
   .otp-timer{
-    padding-top: 40px;
+    padding-top: 30px;
     padding-bottom: 0px;
   }
   .verify-otp-cta{
@@ -348,7 +349,6 @@ div.verify-otp-container{
   }
   .otp-attempt{
     padding-top:13px;
-    padding-bottom:60px;
   }
   .social-login{
     margin-bottom: 25px;
@@ -392,8 +392,7 @@ input[type="text"].country-code-search-input{
   letter-spacing: 0.3px;
   line-height: 16px;
   border-bottom: 1px solid #c1c1c1;
-  padding-bottom: 20px;
-  padding-top: 20px;
+  padding: 20px 25px;
   margin-bottom: 30px;
   position: sticky;
   top: 70px;
