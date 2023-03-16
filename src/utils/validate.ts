@@ -1716,7 +1716,6 @@ export const decripttext = (encrypted: string, force = false) => {
   if (typeof encrypted != "string" || (!__EnableCrypto__ && !force))
     return encrypted;
   let key = "AAAAAAAAAAAAAAAA"; //key used in Python
-  debugger;
   key = CryptoJS.enc.Utf8.parse(key);
   const decrypted = CryptoJS.AES.decrypt(encrypted, key, {
     mode: CryptoJS.mode.ECB

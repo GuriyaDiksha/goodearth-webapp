@@ -65,7 +65,6 @@ const ResetPassword: React.FC<Props> = props => {
       noContentContainerElem.classList.remove(globalStyles.contentContainer);
     }
     if (userInfo.isLoggedIn) {
-      console.log("header");
       LoginService.logout(dispatch, currency, customerGroup);
     }
     pageViewGTM("ResetPassword");
