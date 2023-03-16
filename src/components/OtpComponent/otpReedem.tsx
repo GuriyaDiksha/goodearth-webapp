@@ -45,6 +45,15 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
   phoneInput: RefObject<HTMLInputElement> = React.createRef();
   lastNameInput: RefObject<HTMLInputElement> = React.createRef();
 
+  UNSAFE_componentWillReceiveProps(nextProps: otpRedeemProps) {
+    if (
+      nextProps.redeemOtpError !== this.props.redeemOtpError ||
+      nextProps.redeemOtpError !== ""
+    ) {
+      this.setState({ showerror: nextProps.redeemOtpError });
+    }
+  }
+
   resetSection = () => {
     this.setState({
       showFields: false
@@ -133,7 +142,6 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
                 errorTracking([this.state.showerror], location.href);
               }
             );
-            this.props.setRedeemOtpError("");
           } else {
             // this.props.updateList(data);
             this.setState({
@@ -143,6 +151,7 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
               isLoading: false
             });
           }
+          this.props.setIsOTPSent(false);
         })
         .catch(err => {
           this.setState(
@@ -247,7 +256,7 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
           },
           () => {
             // this.timer();
-            this.props.setRedeemOtpError("Please enter OTP");
+            this.props.setIsOTPSent(true);
             this.props.toggleOtp(true);
           }
         );
@@ -325,10 +334,10 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
   };
 
   cancelOtpReq = () => {
-    const { removeRedeem, setIsactiveredeem, setRedeemOtpError } = this.props;
+    const { removeRedeem, setIsactiveredeem, setIsOTPSent } = this.props;
     removeRedeem();
     setIsactiveredeem(false);
-    setRedeemOtpError("");
+    setIsOTPSent(false);
   };
 
   getValidationForOtp = () => {
@@ -354,6 +363,7 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
           startTimer={this.state.startTimer}
           setAttempts={this.changeAttepts}
           cancelOtpReq={this.cancelOtpReq}
+          setRedeemOtpError={this.props.setRedeemOtpError}
         />
         {/* {(this.props.otpFor == "activateGC"
           ? this.props.newCardBox == true

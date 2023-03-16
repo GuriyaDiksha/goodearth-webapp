@@ -76,6 +76,8 @@ export type otpRedeemProps = {
   redeemOtpError: string;
   setRedeemOtpError: (val: string) => void;
   setIsactiveredeem: (val: boolean) => void;
+  isOTPSent: boolean;
+  setIsOTPSent: (val: boolean) => void;
 };
 
 export type otpBoxProps = {

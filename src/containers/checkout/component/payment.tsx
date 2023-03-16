@@ -13,7 +13,7 @@ import Loader from "components/Loader";
 import Reedem from "./redeem";
 // import { updateComponent, updateModal } from "actions/modal";
 import giftwrapIcon from "../../../images/gift-wrap-icon.svg";
-import { errorTracking, showErrors } from "utils/validate";
+import { errorTracking, scrollToGivenId, showErrors } from "utils/validate";
 // import { POPUP } from "constants/components";
 import CookieService from "services/cookie";
 import { proceedForPayment, getPageType } from "../../../utils/validate";
@@ -41,6 +41,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
   const [isLoading, setIsLoading] = useState(false);
   const [textarea, setTextarea] = useState("");
   const [redeemOtpError, setRedeemOtpError] = useState("");
+  const [isOTPSent, setIsOTPSent] = useState(false);
   const [getMethods, setGetMethods] = useState<any[]>([]);
   const dispatch = useDispatch();
 
@@ -108,11 +109,12 @@ const PaymentSection: React.FC<PaymentProps> = props => {
     const isFree = +basket.total <= 0;
     const userConsent = CookieService.getCookie("consent").split(",");
 
-    if (redeemOtpError) {
-      setPaymentError(redeemOtpError);
+    if (isOTPSent) {
+      scrollToGivenId("otp");
+      setRedeemOtpError("Please enter OTP");
       return false;
     } else {
-      setPaymentError("");
+      setRedeemOtpError("");
     }
 
     if (currentmethod.mode || isFree) {
@@ -464,8 +466,10 @@ const PaymentSection: React.FC<PaymentProps> = props => {
                       {isactiveredeem ? (
                         <Reedem
                           redeemOtpError={redeemOtpError}
-                          setRedeemOtpError={setRedeemOtpError}
                           setIsactiveredeem={setIsactiveredeem}
+                          setRedeemOtpError={setRedeemOtpError}
+                          isOTPSent={isOTPSent}
+                          setIsOTPSent={setIsOTPSent}
                         />
                       ) : (
                         ""

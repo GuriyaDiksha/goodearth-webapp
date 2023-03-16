@@ -23,6 +23,8 @@ type Props = {
   redeemOtpError: string;
   setRedeemOtpError: (val: string) => void;
   setIsactiveredeem: (val: boolean) => void;
+  isOTPSent: boolean;
+  setIsOTPSent: (val: boolean) => void;
 } & ReturnType<typeof mapDispatchToProps> &
   ReturnType<typeof mapStateToProps> &
   RouteComponentProps;
@@ -283,6 +285,8 @@ class Reedem extends React.Component<Props, RedeemState> {
                   redeemOtpError={this.props.redeemOtpError}
                   setRedeemOtpError={this.props.setRedeemOtpError}
                   setIsactiveredeem={this.props.setIsactiveredeem}
+                  isOTPSent={this.props.isOTPSent}
+                  setIsOTPSent={this.props.setIsOTPSent}
                 />
               </div>
             </Fragment>

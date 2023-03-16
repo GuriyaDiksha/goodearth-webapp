@@ -12,6 +12,7 @@ type Props = {
   startTimer: boolean;
   setAttempts: (x: any) => void;
   cancelOtpReq?: () => void;
+  setRedeemOtpError?: (x: string) => void;
 };
 
 const NewOtpComponent: React.FC<Props> = ({
@@ -23,7 +24,8 @@ const NewOtpComponent: React.FC<Props> = ({
   btnText,
   startTimer,
   setAttempts,
-  cancelOtpReq
+  cancelOtpReq,
+  setRedeemOtpError
 }) => {
   const [timeRemaining, setTimeRemaining] = useState(90);
   const [timerId, setTimerId] = useState<any>();
@@ -92,11 +94,14 @@ const NewOtpComponent: React.FC<Props> = ({
         otp6: ""
       });
       setError(errorMsg);
+      if (setRedeemOtpError) setRedeemOtpError("");
     }
   }, [errorMsg]);
 
   const resetTimer = () => {
     setError("");
+    if (setRedeemOtpError) setRedeemOtpError("");
+
     setInput({
       otp1: "",
       otp2: "",
@@ -124,6 +129,8 @@ const NewOtpComponent: React.FC<Props> = ({
         setInput({ ...input, [e.target.name]: e.target.value });
       }
       setError("");
+      if (setRedeemOtpError) setRedeemOtpError("");
+
       if (e.target.value !== "") {
         const ele =
           typeof document == "object" &&
@@ -155,6 +162,7 @@ const NewOtpComponent: React.FC<Props> = ({
         otp6: ""
       };
       setError("");
+      if (setRedeemOtpError) setRedeemOtpError("");
       arr.map((ele: number, i: number) => {
         newObj = { ...newObj, [`otp${i + 1}`]: ele };
       });
@@ -177,7 +185,7 @@ const NewOtpComponent: React.FC<Props> = ({
   };
 
   return (
-    <div className={style.otpWrp}>
+    <div className={style.otpWrp} id="otp">
       <p className={style.otpHeading}>
         OTP has been sent to you{otpSentVia && ` via your ${otpSentVia}`}.
         Please enter below:
