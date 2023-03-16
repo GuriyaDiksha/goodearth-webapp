@@ -23,7 +23,6 @@ import {
 import LoginService from "services/login";
 import CookieService from "services/cookie";
 import Login from "./login";
-import header from "components/header";
 
 type Props = {
   uid: string;
@@ -64,7 +63,7 @@ const ResetPassword: React.FC<Props> = props => {
     ) {
       noContentContainerElem.classList.remove(globalStyles.contentContainer);
     }
-    if (isLoggedIn) {
+    if (userInfo.isLoggedIn) {
       LoginService.logout(dispatch, currency, customerGroup);
     }
     pageViewGTM("ResetPassword");
@@ -75,7 +74,7 @@ const ResetPassword: React.FC<Props> = props => {
       true
     );
     setUrlEmail(emailFromURl);
-  }, [isLoggedIn]);
+  }, []);
 
   const handleInvalidSubmit = () => {
     setTimeout(() => {
