@@ -32,7 +32,6 @@ export default {
     );
     const innerUser = decriptdata({ ...res.user });
     delete res.user;
-
     const shipping = res.shippingData
       ? decriptdata({ ...res.shippingData })
       : null;

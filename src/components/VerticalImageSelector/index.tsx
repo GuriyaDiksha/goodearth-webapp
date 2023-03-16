@@ -10,7 +10,6 @@ import cs from "classnames";
 import { Props } from "./typings";
 import styles from "./styles.scss";
 import globalStyles from "styles/global.scss";
-import overlay from "images/3d/3Doverlay.svg";
 import Skeleton from "react-loading-skeleton";
 
 const VerticalImageSelector: React.FC<Props> = memo(

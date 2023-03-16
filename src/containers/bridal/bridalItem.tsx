@@ -11,7 +11,6 @@ import globalStyles from "../../styles/global.scss";
 import cs from "classnames";
 import cartIcon from "../../images/bridal/icons_cartregistry-details.svg";
 import { showGrowlMessage } from "../../utils/validate";
-import * as util from "../../utils/validate";
 import { displayPriceWithCommas } from "utils/utility";
 const mapStateToProps = (state: AppState) => {
   return {
