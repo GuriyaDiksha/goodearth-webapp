@@ -90,7 +90,7 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
   genderRef: RefObject<HTMLInputElement> = React.createRef();
 
   componentDidMount() {
-    const email = localStorage.getItem("tempEmail");
+    const email = localStorage.getItem("tempEmail") || this.props.email;
     if (email && this.emailInput.current) {
       this.RegisterFormRef.current &&
         this.RegisterFormRef.current.updateInputsWithValue({ email: email });

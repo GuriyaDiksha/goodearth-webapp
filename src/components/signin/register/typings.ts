@@ -43,4 +43,5 @@ export type RegisterProps = {
   goToLogin: () => void;
   isCheckout?: boolean;
   setIsSuccessMsg?: (arg: boolean) => void;
+  email: string;
 };
