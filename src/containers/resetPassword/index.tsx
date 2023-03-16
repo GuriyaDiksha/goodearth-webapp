@@ -64,7 +64,7 @@ const ResetPassword: React.FC<Props> = props => {
     ) {
       noContentContainerElem.classList.remove(globalStyles.contentContainer);
     }
-    if (isLoggedIn) {
+    if (userInfo.isLoggedIn) {
       LoginService.logout(dispatch, currency, customerGroup);
     }
     pageViewGTM("ResetPassword");
@@ -75,7 +75,7 @@ const ResetPassword: React.FC<Props> = props => {
       true
     );
     setUrlEmail(emailFromURl);
-  }, [isLoggedIn]);
+  }, []);
 
   const handleInvalidSubmit = () => {
     setTimeout(() => {
