@@ -329,7 +329,13 @@ class CheckoutHeader extends React.Component<Props, { boId: string }> {
           )}
         </Helmet>
         <div className={cs(styles.headerContainer)}>
-          <div className={cs(bootstrap.row, styles.minimumWidth)}>
+          <div
+            className={cs(
+              bootstrap.row,
+              styles.minimumWidth,
+              styles.justifyBetween
+            )}
+          >
             <div
               className={cs(
                 bootstrap.colMd3,

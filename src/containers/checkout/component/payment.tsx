@@ -1,4 +1,4 @@
-import React, { useState, Fragment, useEffect, useMemo } from "react";
+import React, { useState, Fragment, useEffect, useMemo, useRef } from "react";
 import cs from "classnames";
 // import iconStyles from "../../styles/iconFonts.scss";
 import bootstrapStyles from "../../../styles/bootstrap/bootstrap-grid.scss";
@@ -24,6 +24,7 @@ import { POPUP } from "constants/components";
 import checkmarkCircle from "./../../../images/checkmarkCircle.svg";
 import CheckoutService from "services/checkout";
 import BasketService from "services/basket";
+import OrderSummary from "./orderSummary";
 
 const PaymentSection: React.FC<PaymentProps> = props => {
   const data: any = {};
@@ -35,7 +36,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
     basket: { loyalty }
   } = useSelector((state: AppState) => state);
   const history = useHistory();
-  const { isActive, currency, checkout } = props;
+  const { isActive, currency, checkout, shippingAddress, salestatus } = props;
   const [paymentError, setPaymentError] = useState("");
   const [subscribevalue, setSubscribevalue] = useState(false);
   //  const [subscribegbp, setSubscribegbp] = useState(true);
@@ -49,7 +50,16 @@ const PaymentSection: React.FC<PaymentProps> = props => {
   const [textarea, setTextarea] = useState("");
   // const [gbpError, setGbpError] = useState("");
   const [getMethods, setGetMethods] = useState<any[]>([]);
+  const [checkoutMobileOrderSummary, setCheckoutMobileOrderSummary] = useState(
+    false
+  );
   const dispatch = useDispatch();
+
+  const PaymentButton = useRef(null);
+
+  // const CheckoutMobileOrderSummaryHandler= () =>{
+  //   setCheckoutMobileOrderSummary(!checkoutMobileOrderSummary)
+  // }
 
   const toggleInput = () => {
     setIsactivepromo(!isactivepromo);
@@ -703,119 +713,147 @@ const PaymentSection: React.FC<PaymentProps> = props => {
       </div>
 
       {isActive && (
-        <div
-          className={
-            isActive
-              ? cs(styles.card, styles.cardOpen, styles.marginT5)
-              : cs(styles.card, styles.cardClosed, styles.marginT5)
-          }
-        >
-          {isPaymentNeeded && (
-            <div className={globalStyles.marginT30}>
-              <div className={styles.title}>SELECT PAYMENT METHOD</div>
-              {getMethods.map(function(method, index) {
-                return (
-                  <div className={globalStyles.marginT20} key={index}>
+        <>
+          <div
+            className={
+              isActive
+                ? cs(styles.card, styles.cardOpen, styles.marginT5)
+                : cs(styles.card, styles.cardClosed, styles.marginT5)
+            }
+          >
+            {isPaymentNeeded && (
+              <div className={globalStyles.marginT30}>
+                <div className={styles.title}>SELECT PAYMENT METHOD</div>
+                {getMethods.map(function(method, index) {
+                  return (
+                    <div className={globalStyles.marginT20} key={index}>
+                      <label
+                        className={cs(
+                          globalStyles.flex,
+                          globalStyles.crossCenter
+                        )}
+                      >
+                        <div className={styles.marginR10}>
+                          <span className={styles.radio}>
+                            <input
+                              type="radio"
+                              value={method.mode}
+                              checked={
+                                method.mode == currentmethod.mode ? true : false
+                              }
+                              onChange={event => onMethodChange(event, method)}
+                            />
+                            <span className={styles.indicator}></span>
+                          </span>
+                        </div>
+                        <div className={styles.paymentTitle}>
+                          {method.value}
+                        </div>
+                      </label>
+                    </div>
+                  );
+                })}
+
+                <div
+                  className={cs(globalStyles.errorMsg, globalStyles.marginT20)}
+                  data-name="error-msg"
+                >
+                  {paymentError}
+                </div>
+                <div>
+                  <hr className={styles.hr} />
+                </div>
+                <label
+                  className={cs(
+                    globalStyles.flex,
+                    { [globalStyles.crossCenter]: !mobile },
+                    globalStyles.voffset2
+                  )}
+                >
+                  <div className={styles.marginR10}>
+                    <span className={styles.checkbox}>
+                      <input
+                        type="checkbox"
+                        id="subscribe"
+                        onChange={e => {
+                          onClickSubscribe(e);
+                        }}
+                        checked={subscribevalue}
+                      />
+                      <span
+                        className={cs(styles.indicator, {
+                          [styles.checked]: subscribevalue
+                        })}
+                      ></span>
+                    </span>
+                  </div>
+                  <div className={globalStyles.c10LR}>
                     <label
+                      htmlFor="subscribe"
                       className={cs(
-                        globalStyles.flex,
-                        globalStyles.crossCenter
+                        globalStyles.pointer,
+                        styles.linkCerise,
+                        styles.formSubheading,
+                        styles.checkBoxHeading
                       )}
                     >
-                      <div className={styles.marginR10}>
-                        <span className={styles.radio}>
-                          <input
-                            type="radio"
-                            value={method.mode}
-                            checked={
-                              method.mode == currentmethod.mode ? true : false
-                            }
-                            onChange={event => onMethodChange(event, method)}
-                          />
-                          <span className={styles.indicator}></span>
-                        </span>
-                      </div>
-                      <div className={styles.paymentTitle}>{method.value}</div>
+                      I agree to receiving e-mails, newsletters, calls and text
+                      messages for service related information. To know more how
+                      we keep your data safe, refer to our{" "}
+                      <Link
+                        to="/customer-assistance/privacy-policy"
+                        target="_blank"
+                      >
+                        Privacy Policy
+                      </Link>
                     </label>
                   </div>
-                );
-              })}
-
-              <div
-                className={cs(globalStyles.errorMsg, globalStyles.marginT20)}
-                data-name="error-msg"
-              >
-                {paymentError}
+                </label>
               </div>
-              <div>
-                <hr className={styles.hr} />
-              </div>
-              <label
+            )}
+            {isLoading && <Loader />}
+            {!checkoutMobileOrderSummary && (
+              <button
+                ref={PaymentButton}
                 className={cs(
-                  globalStyles.flex,
-                  { [globalStyles.crossCenter]: !mobile },
-                  globalStyles.voffset2
+                  globalStyles.marginT10,
+                  styles.sendToPayment,
+                  styles.proceedToPayment,
+                  {
+                    [styles.disabledBtn]:
+                      isLoading || Object.keys(currentmethod).length === 0
+                  }
                 )}
+                onClick={onsubmit}
+                disabled={isLoading || Object.keys(currentmethod).length === 0}
               >
-                <div className={styles.marginR10}>
-                  <span className={styles.checkbox}>
-                    <input
-                      type="checkbox"
-                      id="subscribe"
-                      onChange={e => {
-                        onClickSubscribe(e);
-                      }}
-                      checked={subscribevalue}
-                    />
-                    <span
-                      className={cs(styles.indicator, {
-                        [styles.checked]: subscribevalue
-                      })}
-                    ></span>
-                  </span>
-                </div>
-                <div className={globalStyles.c10LR}>
-                  <label
-                    htmlFor="subscribe"
-                    className={cs(
-                      globalStyles.pointer,
-                      styles.linkCerise,
-                      styles.formSubheading,
-                      styles.checkBoxHeading
-                    )}
-                  >
-                    I agree to receiving e-mails, newsletters, calls and text
-                    messages for service related information. To know more how
-                    we keep your data safe, refer to our{" "}
-                    <Link
-                      to="/customer-assistance/privacy-policy"
-                      target="_blank"
-                    >
-                      Privacy Policy
-                    </Link>
-                  </label>
-                </div>
-              </label>
-            </div>
+                <span>
+                  Amount Payable:{" "}
+                  {String.fromCharCode(...currencyCodes[props.currency])}{" "}
+                  {parseFloat(basket?.total?.toString()).toFixed(2)}
+                  <br />
+                </span>
+                {isPaymentNeeded ? "PROCEED TO PAYMENT" : "PLACE ORDER"}
+              </button>
+            )}
+          </div>
+          {mobile && (
+            <OrderSummary
+              mobile={mobile}
+              currency={currency}
+              shippingAddress={shippingAddress}
+              salestatus={salestatus}
+              validbo={false}
+              basket={basket}
+              page="checkoutMobileBottom"
+              setCheckoutMobileOrderSummary={setCheckoutMobileOrderSummary}
+              isLoading={isLoading}
+              currentmethod={currentmethod}
+              isPaymentNeeded={isPaymentNeeded}
+              onsubmit={onsubmit}
+            />
           )}
-          {isLoading && <Loader />}
-          <button
-            className={cs(globalStyles.marginT10, styles.sendToPayment, {
-              [styles.disabledBtn]:
-                isLoading || Object.keys(currentmethod).length === 0
-            })}
-            onClick={onsubmit}
-            disabled={isLoading || Object.keys(currentmethod).length === 0}
-          >
-            <span>
-              Amount Payable:{" "}
-              {String.fromCharCode(...currencyCodes[props.currency])}{" "}
-              {parseFloat(basket?.total?.toString()).toFixed(2)}
-              <br />
-            </span>
-            {isPaymentNeeded ? "PROCEED TO PAYMENT" : "PLACE ORDER"}
-          </button>
-        </div>
+        </>
       )}
     </>
   );

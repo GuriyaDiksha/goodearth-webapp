@@ -2,6 +2,7 @@ import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import cs from "classnames";
 import globalStyles from "styles/global.scss";
 import styles from "./orderStyles.scss";
+import paymentStyles from "../styles.scss";
 import { OrderProps } from "./typings";
 import { Currency, currencyCode } from "typings/currency";
 import { Link, useLocation, NavLink, useHistory } from "react-router-dom";
@@ -19,9 +20,23 @@ import { displayPriceWithCommasFloat } from "utils/utility";
 
 import checkoutIcon from "../../../images/checkout.svg";
 import freeShippingInfoIcon from "../../../images/free_shipping_info.svg";
+import { invalid } from "moment";
+import { currencyCodes } from "constants/currency";
 
 const OrderSummary: React.FC<OrderProps> = props => {
-  const { mobile, basket, page, shippingAddress, salestatus, validbo } = props;
+  const {
+    mobile,
+    basket,
+    page,
+    shippingAddress,
+    salestatus,
+    validbo,
+    setCheckoutMobileOrderSummary,
+    onsubmit,
+    isLoading,
+    currentmethod,
+    isPaymentNeeded
+  } = props;
   const [isSuspended, setIsSuspended] = useState(true);
   const [fullText, setFullText] = useState(false);
   const [freeShipping] = useState(false);
@@ -37,11 +52,13 @@ const OrderSummary: React.FC<OrderProps> = props => {
 
   // Begin: Intersection Observer (Mobile)
   const [previewTriggerStatus, setPreviewTriggerStatus] = useState(false);
+
   const [checkoutOrderSummaryStatus, setCheckoutOrderSummaryStatus] = useState(
     false
   );
 
   const orderSummaryRef = useRef(null);
+  const orderSummaryRefCheckout = useRef(null);
   let observer: any;
 
   const handleScroll = () => {
@@ -50,13 +67,18 @@ const OrderSummary: React.FC<OrderProps> = props => {
     };
     const interSectionCallBack = (enteries: any) => {
       setPreviewTriggerStatus(enteries[0].isIntersecting);
+      setCheckoutMobileOrderSummary(enteries[0].isIntersecting);
     };
     observer = new IntersectionObserver(interSectionCallBack, observerOptions);
-    observer.observe(orderSummaryRef.current);
+    observer.observe(orderSummaryRef.current, orderSummaryRefCheckout.current);
   };
   useIsomorphicLayoutEffect(() => {
     handleScroll();
-    return () => observer?.unobserve(orderSummaryRef?.current);
+    return () =>
+      observer?.unobserve(
+        orderSummaryRef?.current,
+        orderSummaryRefCheckout?.current
+      );
   }, []);
   // End: Intersection Observer (Mobile)
 
@@ -283,7 +305,9 @@ const OrderSummary: React.FC<OrderProps> = props => {
       if (couponDetails) {
         coupon = basket.voucherDiscounts.map((gift, index: number) => {
           const voucher = gift.voucher;
-          isline = true;
+          if (page != "checkoutMobileBottom") {
+            isline = true;
+          }
           return (
             <div
               className={cs(
@@ -597,7 +621,9 @@ const OrderSummary: React.FC<OrderProps> = props => {
     if (basket.lineItems.length > 0) {
       return (
         <div className={cs(styles.summaryPadding, styles.fixOrderItemsMobile)}>
-          {pathname === "/order/checkout" ? getOrderItems() : null}
+          {pathname === "/order/checkout" && page !== "checkoutMobileBottom"
+            ? getOrderItems()
+            : null}
           {pathname === "/order/checkout" ? null : <hr className={styles.hr} />}
           <div className={styles.summaryAmountWrapper}>
             {mobile && page == "checkout" && (
@@ -654,7 +680,9 @@ const OrderSummary: React.FC<OrderProps> = props => {
               </span>
             </div>
           </div>
-          {getCoupons()}
+          {pathname !== "/order/checkout" ||
+            (page == "checkoutMobileBottom" && getCoupons())}
+          {page == "checkoutMobileBottom" ? <hr className={styles.hr} /> : ""}
         </div>
       );
     } else {
@@ -710,15 +738,22 @@ const OrderSummary: React.FC<OrderProps> = props => {
 
   return (
     <div
-      className={cs(globalStyles.col12, styles.fixOrdersummary, {
-        [styles.checkoutOrderSummary]: page == "checkout"
-      })}
+      className={cs(
+        globalStyles.col12,
+        styles.fixOrdersummary,
+        {
+          [styles.checkoutOrderSummary]: page == "checkout"
+        },
+        { [styles.checkoutOrderSummaryMobile]: page === "checkoutMobileBottom" }
+      )}
+      ref={page === "checkoutMobileBottom" ? orderSummaryRefCheckout : null}
     >
       {totalWithoutShipping &&
       totalWithoutShipping >= freeShippingThreshold &&
       totalWithoutShipping < freeShippingApplicable &&
       shippable &&
-      page != "checkout" ? (
+      page != "checkout" &&
+      page != "checkoutMobileBottom" ? (
         <div className={cs(styles.freeShippingInfo, globalStyles.flex)}>
           <img src={freeShippingInfoIcon} alt="free-shipping" />
           <div className={styles.text}>
@@ -825,6 +860,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
 
         <div className={cs(styles.justchk)}>
           {getSummary()}
+
           <div className={styles.finalAmountWrapper}>
             <div
               className={cs(
@@ -851,7 +887,8 @@ const OrderSummary: React.FC<OrderProps> = props => {
             ) : null}
             {page == "cart" ||
             basket.isOnlyGiftCart ||
-            !showDeliveryInstruction ? (
+            !showDeliveryInstruction ||
+            page != "checkoutMobileBottom" ? (
               ""
             ) : (
               <div
@@ -1025,6 +1062,29 @@ const OrderSummary: React.FC<OrderProps> = props => {
             </div>
           )}
         </div>
+        {page == "checkoutMobileBottom" && (
+          <button
+            className={cs(
+              globalStyles.marginT10,
+              paymentStyles.sendToPayment,
+              styles.proceedToPayment,
+              {
+                [paymentStyles.disabledBtn]:
+                  isLoading || Object.keys(currentmethod).length === 0
+              }
+            )}
+            onClick={onsubmit}
+            disabled={isLoading || Object.keys(currentmethod).length === 0}
+          >
+            <span>
+              Amount Payable:{" "}
+              {String.fromCharCode(...currencyCodes[props.currency])}{" "}
+              {parseFloat(basket?.total?.toString()).toFixed(2)}
+              <br />
+            </span>
+            {isPaymentNeeded ? "PROCEED TO PAYMENT" : "PLACE ORDER"}
+          </button>
+        )}
       </div>
     </div>
   );

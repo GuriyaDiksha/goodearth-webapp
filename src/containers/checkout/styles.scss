@@ -13,6 +13,10 @@ hr {
 
 .header-container {
   top: $header-top;
+
+  @media(max-width:992px){
+    padding-right: 30px;
+  }
 }
 
 .header-container {
@@ -48,6 +52,10 @@ hr {
   .minimumWidth {
     margin: 0px;
   }
+}
+
+.justify-between{
+  justify-content: space-between;
 }
 
 @media (max-width: 992px) {
@@ -490,7 +498,7 @@ hr {
     background-color: $aqua;
     border-color: $aqua;
 
-    &:after{
+    &:after {
       content: "";
       bottom: 9px;
       left: 7px;
@@ -531,9 +539,9 @@ hr {
   border: 1px solid $light-charcoal;
   position: relative;
 
-  @media(max-width:992px){
+  @media (max-width: 992px) {
     width: 18px;
-  height: 18px;
+    height: 18px;
   }
 }
 
@@ -549,9 +557,9 @@ hr {
   left: 50%;
   transform: translate(-50%, -50%);
 
-  @media(max-width:992px){
+  @media (max-width: 992px) {
     width: 13px;
-  height: 13px;
+    height: 13px;
   }
 }
 .radio input:checked ~ .indicator::after {
@@ -675,6 +683,10 @@ hr {
         border: none;
         padding: 0;
       }
+    }
+
+    @media (max-width: 992px) {
+      padding-bottom: 110px;
     }
   }
 }
@@ -1112,7 +1124,7 @@ input[type="radio"] {
   .send-to-address {
     @include b3_14px_montserrat_white();
     letter-spacing: 0.42px;
-    padding: 21px 65px;
+    padding: 21px 40px;
     width: 100%;
     max-width: 366px;
     background-color: $med-charcoal;
@@ -1124,7 +1136,7 @@ input[type="radio"] {
 .send-to-payment {
   @include b3_14px_montserrat_white();
   letter-spacing: 0.42px;
-  padding: 21px 65px;
+  padding: 21px 40px;
   width: 100%;
   max-width: 366px;
   background-color: $med-charcoal;
@@ -1132,12 +1144,26 @@ input[type="radio"] {
   cursor: pointer;
   margin-top: 24px;
 
-  span{
+  span {
     @include b4_12px_montserrat_white();
   }
 
-  &:disabled{
-    background-color: #9F9F9F;
+  &:disabled {
+    background-color: #9f9f9f;
+    border-style: solid;
+    border-color: $light-charcoal;
+  }
+  &.proceed-to-payment {
+    padding: 9px 30px;
+
+    @media (max-width: 992px) {
+      width: 100%;
+      position: fixed;
+      bottom: 50px;
+      left: 0;
+      max-width: 100%;
+      z-index: 9;
+    }
   }
 }
 .checkout-selected-value {
@@ -1181,11 +1207,11 @@ input[type="radio"] {
   margin: auto 0;
   width: auto;
   // @include b5_10px_montserrat_charcoal();
-  a{
+  a {
     border-bottom: 1px solid $charcoal19;
     color: $charcoal19;
     text-decoration: none;
-    &:hover{
+    &:hover {
       color: aqua;
       border-bottom: 1px solid $aqua;
     }
@@ -1199,7 +1225,7 @@ input[type="radio"] {
   justify-content: center;
 }
 
-@media (max-width:992px){
+@media (max-width: 992px) {
   .checkout-selected-value {
     overflow: unset;
 
@@ -1211,7 +1237,7 @@ input[type="radio"] {
   }
 }
 
-.gift-img{
+.gift-img {
   filter: invert(1) grayscale(9);
   margin-top: -8px;
 }
@@ -1220,49 +1246,49 @@ input[type="radio"] {
   margin-top: 5px;
 }
 
-.payment-title{
+.payment-title {
   @include b4_12px_medium_light_charcoal();
 }
 
-.promo-code{
+.promo-code {
   @include b4_12px_semibold_caps_charocal();
   margin-right: 20px;
   opacity: 65%;
 }
-.redeem-points{
-@include b4_12px_montserrat_med_aqua();
-margin-right: 10px;
+.redeem-points {
+  @include b4_12px_montserrat_med_aqua();
+  margin-right: 10px;
 }
-.cerise-points-wrapper{
+.cerise-points-wrapper {
   display: flex;
   justify-content: space-between;
 }
-.redeem-points-text{
+.redeem-points-text {
   @include b4_12px_montserrat_charcoal();
   padding-top: 5px;
   display: block;
   max-width: 235px;
 }
 
-.promo-code-applied{
+.promo-code-applied {
   @include b4_12px_montserrat_charcoal();
   opacity: 65%;
 }
 
-.promo-edit{
+.promo-edit {
   @include b5_10px_montserrat_charcoal();
   letter-spacing: 0.3px;
   text-decoration: underline;
   text-transform: uppercase;
   float: right;
 }
-.gst-invoise-no{
+.gst-invoise-no {
   @include b5_10px_montserrat_charcoal();
   opacity: 65%;
   padding-top: 3px;
-  display:block;
+  display: block;
 }
-.gst-no{
+.gst-no {
   padding-top: 10px;
   @include b5_10px_montserrat_charcoal();
   opacity: 65%;

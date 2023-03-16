@@ -20,7 +20,12 @@ const PromoSection: React.FC<PromoProps> = props => {
   const { isActive, next, selectedAddress, activeStep, currentStep } = props;
   const [isactivepromo, setIsactivepromo] = useState(false);
   // const [isLoading, setIsLoading] = useState(false);
-  const { basket, info, isLoggedIn } = useSelector((state: AppState) => state);
+  const {
+    basket,
+    info,
+    user: { isLoggedIn },
+    device: { mobile }
+  } = useSelector((state: AppState) => state);
   const toggleInput = () => {
     setIsactivepromo(!isactivepromo);
   };
@@ -101,7 +106,8 @@ const PromoSection: React.FC<PromoProps> = props => {
             styles.title
           )}
         >
-          {STEP_ORDER[activeStep] < currentStep ? (
+          {STEP_ORDER[activeStep] < currentStep ||
+          basket.voucherDiscounts.length > 0 ? (
             <img
               height={"18px"}
               className={globalStyles.marginR10}
@@ -109,7 +115,9 @@ const PromoSection: React.FC<PromoProps> = props => {
               alt="checkmarkdone"
             />
           ) : null}
-          <span className={isActive ? "" : styles.closed}>PROMO CODE</span>
+          <span className={isActive || isactivepromo ? "" : styles.closed}>
+            PROMO CODE
+          </span>
         </div>
 
         {(!isActive || isactivepromo) && basket.voucherDiscounts.length > 0 && (
@@ -145,7 +153,7 @@ const PromoSection: React.FC<PromoProps> = props => {
         <Fragment>
           {!onlyGiftcard && (
             <div className={globalStyles.marginT20}>
-              <hr className={styles.hr} />
+              {!mobile && <hr className={styles.hr} />}
               <div className={globalStyles.flex}>
                 {/* <div
                   className={cs(
