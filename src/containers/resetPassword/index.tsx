@@ -21,7 +21,9 @@ import {
   decripttext
 } from "utils/validate";
 import LoginService from "services/login";
+import CookieService from "services/cookie";
 import Login from "./login";
+import header from "components/header";
 
 type Props = {
   uid: string;
@@ -53,6 +55,7 @@ const ResetPassword: React.FC<Props> = props => {
   const history = useHistory();
 
   useEffect(() => {
+    const userInfo = JSON.parse(CookieService.getCookie("user") || "{}");
     const noContentContainerElem = document.getElementById(
       "no-content"
     ) as HTMLDivElement;
@@ -61,7 +64,8 @@ const ResetPassword: React.FC<Props> = props => {
     ) {
       noContentContainerElem.classList.remove(globalStyles.contentContainer);
     }
-    if (isLoggedIn) {
+    if (userInfo.isLoggedIn) {
+      console.log("header");
       LoginService.logout(dispatch, currency, customerGroup);
     }
     pageViewGTM("ResetPassword");

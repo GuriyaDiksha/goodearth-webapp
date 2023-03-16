@@ -144,7 +144,8 @@ class MainLogin extends React.Component<Props, loginState> {
               ];
               this.setState({
                 msg: error,
-                highlight: true
+                highlight: true,
+                isLoginDisabled: true
               });
               this.emailInput.current && this.emailInput.current.focus();
             }
@@ -476,6 +477,7 @@ class MainLogin extends React.Component<Props, loginState> {
       {
         showCurrentSection: "email",
         subHeading: "Enter your email address to register or sign in.",
+        heading: "Welcome",
         email: this.props.email,
         isLoginDisabled: false,
         showerror: "",

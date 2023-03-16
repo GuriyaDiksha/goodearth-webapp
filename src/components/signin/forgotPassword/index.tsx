@@ -25,7 +25,9 @@ const mapStateToProps = () => {
 
 type Props = ReturnType<typeof mapStateToProps> &
   ReturnType<typeof mapDispatchToProps> &
-  RouteComponentProps;
+  RouteComponentProps & {
+    email?: string;
+  };
 
 class ForgotPasswordForm extends React.Component<Props, ForgotPasswordState> {
   constructor(props: Props) {
@@ -184,7 +186,7 @@ class ForgotPasswordForm extends React.Component<Props, ForgotPasswordState> {
     );
     const isBo = localStorage.getItem("isBo") || "";
     this.setState({
-      email: emailFromURl || email,
+      email: emailFromURl || email || this.props.email,
       isBo: isBo
     });
     localStorage.removeItem("tempEmail");

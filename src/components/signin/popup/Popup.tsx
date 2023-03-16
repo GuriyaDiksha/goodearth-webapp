@@ -25,32 +25,12 @@ const Popup: React.FC<{ disableClose?: boolean }> = ({
 
   return (
     <div className={cs(bootstrapStyles.row, styles.row, styles.centerpage)}>
-      <div
-        className={cs(
-          bootstrapStyles.colLg6,
-          bootstrapStyles.offsetLg3,
-          // bootstrapStyles.colMd8,
-          // bootstrapStyles.offsetMd2,
-          bootstrapStyles.col12,
-          styles.col12,
-          globalStyles.textCenter
-        )}
-      >
+      <div className={cs(globalStyles.textCenter)}>
         <div
           className={cs(bootstrapStyles.row, styles.row, styles.popupImg)}
           style={{ backgroundImage: `url(${popupBgUrl})` }}
         >
-          <div
-            className={cs(
-              bootstrapStyles.colLg8,
-              bootstrapStyles.offsetLg2,
-              bootstrapStyles.col12,
-              styles.col12,
-              globalStyles.textCenter,
-              styles.popupFormBg,
-              styles.popup
-            )}
-          >
+          <div className={cs(styles.popupFormBg, styles.popup)}>
             <div
               className={cs(styles.fixHead, bootstrapStyles.row, styles.row)}
             >

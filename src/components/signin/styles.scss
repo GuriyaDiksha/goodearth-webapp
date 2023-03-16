@@ -439,3 +439,13 @@ input[type="text"].country-code-search-input{
   border-bottom: none;
   margin-bottom: unset;
 }
+
+span.checkout-forgot-pass{
+  font-family: "Montserrat", "sans-serif";
+  font-size: 12px;
+  font-weight: 500;
+  color: #191919;
+  &:hover{
+    cursor: pointer;
+  }
+}
