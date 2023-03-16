@@ -1110,7 +1110,7 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
               required
             />
           </div>
-          <div className={styles.subscribe}>
+          <div className={cs(styles.subscribe, styles.newsletters)}>
             <FormCheckbox
               value={false}
               id="subscrib"
