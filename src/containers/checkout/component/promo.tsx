@@ -112,7 +112,7 @@ const PromoSection: React.FC<PromoProps> = props => {
           <span className={isActive ? "" : styles.closed}>PROMO CODE</span>
         </div>
 
-        {!isActive && basket.voucherDiscounts.length > 0 && (
+        {(!isActive || isactivepromo) && basket.voucherDiscounts.length > 0 && (
           <div
             className={cs(
               styles.col12,
@@ -141,7 +141,7 @@ const PromoSection: React.FC<PromoProps> = props => {
           </div>
         )}
       </div>
-      {isActive && (
+      {isActive && basket.voucherDiscounts.length <= 0 && (
         <Fragment>
           {!onlyGiftcard && (
             <div className={globalStyles.marginT20}>
