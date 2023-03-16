@@ -43,7 +43,6 @@ class CheckoutFooter extends React.Component<Props, { boId: string }> {
   render() {
     const { currency, mobile } = this.props;
 
-    console.log("Props:", this.props.location.pathname);
     if (this.props.location.pathname == "/order/checkout") {
       return (
         <div>

@@ -22,7 +22,7 @@ export type PromoProps = {
   onNext: () => void;
   onsubmit: () => void;
 };
-type Props = { promoValue: string } & ReturnType<typeof mapDispatchToProps> &
+type Props = {} & ReturnType<typeof mapDispatchToProps> &
   ReturnType<typeof mapStateToProps> &
   PromoProps &
   RouteComponentProps;
@@ -121,18 +121,6 @@ class ApplyPromo extends React.Component<Props, GiftState> {
       newCardBox: true
     });
   };
-  onClose = (code: string) => {
-    const data: any = {
-      cardId: code
-    };
-    this.props
-      .removePromo(data, this.props.history, this.props.isLoggedIn)
-      .then(response => {
-        this.setState({
-          newCardBox: true
-        });
-      });
-  };
 
   updateError = () => {
     this.setState(
@@ -154,18 +142,6 @@ class ApplyPromo extends React.Component<Props, GiftState> {
     return (
       <Fragment>
         <div className={cs(bootstrapStyles.row, styles.giftDisplay)}>
-          {/* {voucherDiscounts.map((data, i) => {
-            return (
-              <PromoItem
-                {...data.voucher}
-                onClose={this.onClose}
-                currency={currency}
-                type="crd"
-                currStatus={"sucess"}
-                key={i}
-              />
-            );
-          })} */}
           <div
             className={cs(
               styles.loginForm,
@@ -173,7 +149,6 @@ class ApplyPromo extends React.Component<Props, GiftState> {
               bootstrapStyles.colMd7
             )}
           >
-            {/* {voucherDiscounts.length == 0 ? ( */}
             <div>
               <Fragment>
                 <div
@@ -205,7 +180,6 @@ class ApplyPromo extends React.Component<Props, GiftState> {
                     Apply
                   </button>
                 </div>
-                {/* <label>Promo Code</label> */}
               </Fragment>
               {this.state.error ? (
                 <p className={cs(globalStyles.errorMsg)}>{this.state.error}</p>
@@ -213,9 +187,6 @@ class ApplyPromo extends React.Component<Props, GiftState> {
                 ""
               )}
             </div>
-            {/* ) : (
-              ""
-            )} */}
           </div>
         </div>
       </Fragment>

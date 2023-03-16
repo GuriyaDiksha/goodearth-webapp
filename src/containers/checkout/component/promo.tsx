@@ -7,19 +7,24 @@ import styles from "../styles.scss";
 import { PromoProps } from "./typings";
 import { STEP_ORDER, STEP_PAYMENT, STEP_PROMO } from "../constants";
 import ApplyPromo from "./applyPromo";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { AppState } from "reducers/typings";
 import { useHistory } from "react-router";
 import checkmarkCircle from "./../../../images/checkmarkCircle.svg";
+import CheckoutService from "services/checkout";
+import BasketService from "services/basket";
+import Loader from "components/Loader";
 // import * as util from "utils/validate";
 
 const PromoSection: React.FC<PromoProps> = props => {
   const { isActive, next, selectedAddress, activeStep, currentStep } = props;
   const [isactivepromo, setIsactivepromo] = useState(false);
-  const { basket, info } = useSelector((state: AppState) => state);
+  // const [isLoading, setIsLoading] = useState(false);
+  const { basket, info, isLoggedIn } = useSelector((state: AppState) => state);
   const toggleInput = () => {
     setIsactivepromo(!isactivepromo);
   };
+  const dispatch = useDispatch();
 
   let PromoChild: any = useRef<typeof ApplyPromo>(null);
   const history = useHistory();
@@ -48,6 +53,7 @@ const PromoSection: React.FC<PromoProps> = props => {
       // util.checkoutGTM(4, currency, basket);
       // next(Steps.STEP_PAYMENT);
     }
+    console.log(isLoading, "isLoading");
   };
 
   const onNext = () => {
@@ -66,6 +72,19 @@ const PromoSection: React.FC<PromoProps> = props => {
   const cardCss = onlyGiftcard
     ? globalStyles.cerise
     : globalStyles.pointer + " " + globalStyles.cerise;
+
+  const removePromo = async (data: FormData) => {
+    const response = await CheckoutService.removePromo(dispatch, data);
+    BasketService.fetchBasket(dispatch, "checkout", history, isLoggedIn);
+    return response;
+  };
+
+  const onPromoRemove = (id: string) => {
+    const data: any = {
+      cardId: id
+    };
+    removePromo(data);
+  };
   return (
     <div
       className={
@@ -93,7 +112,7 @@ const PromoSection: React.FC<PromoProps> = props => {
           <span className={isActive ? "" : styles.closed}>PROMO CODE</span>
         </div>
 
-        {!isActive && basket.voucherDiscounts.length > 0 ? (
+        {!isActive && basket.voucherDiscounts.length > 0 && (
           <div
             className={cs(
               styles.col12,
@@ -110,35 +129,14 @@ const PromoSection: React.FC<PromoProps> = props => {
                 Promo Code Applied
               </span>
             </span>
-            <span className={cs(globalStyles.pointer, styles.promoEdit)}>
-              Edit
-            </span>
-          </div>
-        ) : (
-          <div
-            className={cs(
-              styles.col12,
-              bootstrapStyles.colMd6,
-              styles.selectedStvalue
-            )}
-            onClick={() => {
-              onlyGiftcard || isSale ? "" : onCurrentState();
-            }}
-          >
             <span
-              className={cs(
-                isSale
-                  ? styles.notSelected
-                  : isActive || !selectedAddress
-                  ? globalStyles.hidden
-                  : cardCss
-              )}
+              className={cs(globalStyles.pointer, styles.promoEdit)}
+              onClick={() => {
+                onPromoRemove(basket.voucherDiscounts[0]?.voucher?.code);
+                setIsactivepromo(false);
+              }}
             >
-              {isSale
-                ? "Not Applicable during Sale"
-                : onlyGiftcard
-                ? "Not Applicable"
-                : " APPLY PROMO CODE"}
+              Edit
             </span>
           </div>
         )}
@@ -207,7 +205,6 @@ const PromoSection: React.FC<PromoProps> = props => {
                       }}
                       onNext={onNext}
                       onsubmit={onsubmit}
-                      promoValue={basket.voucherDiscounts[0]?.voucher?.code}
                     />
                   )}
                   {/* {renderInput()}

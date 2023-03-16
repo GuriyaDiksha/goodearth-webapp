@@ -109,6 +109,7 @@ export type GiftState = {
   toggleOtp: boolean;
   isActivated: boolean;
   cardType?: string;
+  isLoader?: boolean;
 };
 
 export type RedeemState = {
