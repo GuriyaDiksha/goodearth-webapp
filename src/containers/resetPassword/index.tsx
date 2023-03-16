@@ -14,7 +14,12 @@ import show from "../../images/showPass.svg";
 import hide from "../../images/hidePass.svg";
 import { RouteComponentProps, withRouter, useHistory } from "react-router";
 import AccountService from "services/account";
-import * as valid from "utils/validate";
+import {
+  errorTracking,
+  getErrorList,
+  pageViewGTM,
+  decripttext
+} from "utils/validate";
 import LoginService from "services/login";
 import CookieService from "services/cookie";
 import Login from "./login";
@@ -61,10 +66,10 @@ const ResetPassword: React.FC<Props> = props => {
     if (userInfo.isLoggedIn) {
       LoginService.logout(dispatch, currency, customerGroup);
     }
-    valid.pageViewGTM("ResetPassword");
+    pageViewGTM("ResetPassword");
     const searchParams = new URLSearchParams(history.location.search);
     setRedirectTo(searchParams.get("redirect_to") || "");
-    const emailFromURl = valid.decripttext(
+    const emailFromURl = decripttext(
       searchParams.get("ei")?.replace(" ", "+") || "",
       true
     );
@@ -81,12 +86,12 @@ const ResetPassword: React.FC<Props> = props => {
         firstErrorField.scrollIntoView({ block: "center", behavior: "smooth" });
       }
       // for error Tracking
-      const errorList = valid.getErrorList(
+      const errorList = getErrorList(
         globalStyles.errorMsg,
         "reset-password-form"
       );
       if (errorList && errorList.length) {
-        valid.errorTracking(errorList, location.href);
+        errorTracking(errorList, location.href);
       }
     }, 0);
   };
