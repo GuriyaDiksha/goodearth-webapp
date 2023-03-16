@@ -197,6 +197,7 @@ class CheckoutLoginForm extends React.Component<Props, loginState> {
   }
 
   UNSAFE_componentWillReceiveProps() {
+    console.log("Called");
     const email = localStorage.getItem("tempEmail");
     if (!this.state.email || email) {
       if (email) {
