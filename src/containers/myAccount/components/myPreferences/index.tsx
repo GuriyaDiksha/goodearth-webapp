@@ -62,31 +62,29 @@ const WhatsappSubscribe = (data: any, ref: any, isdList: any) => {
             }}
             showLabel={true}
           />
+          <FormInput
+            // required
+            name="phone"
+            value=""
+            placeholder={"Contact Number"}
+            type="number"
+            label={"Contact Number"}
+            validations={{
+              isExisty: true
+            }}
+            validationErrors={{
+              isExisty: "Please enter your Contact Number"
+            }}
+            keyPress={e => (e.key == "Enter" ? e.preventDefault() : "")}
+            keyDown={e => (e.which === 69 ? e.preventDefault() : null)}
+            onPaste={e =>
+              e?.clipboardData.getData("Text").match(/([e|E])/)
+                ? e.preventDefault()
+                : null
+            }
+            showLabel={true}
+          />
         </div>
-      )}
-      {checked && (
-        <FormInput
-          // required
-          name="phone"
-          value=""
-          placeholder={"Contact Number"}
-          type="number"
-          label={"Contact Number"}
-          validations={{
-            isExisty: true
-          }}
-          validationErrors={{
-            isExisty: "Please enter your Contact Number"
-          }}
-          keyPress={e => (e.key == "Enter" ? e.preventDefault() : "")}
-          keyDown={e => (e.which === 69 ? e.preventDefault() : null)}
-          onPaste={e =>
-            e?.clipboardData.getData("Text").match(/([e|E])/)
-              ? e.preventDefault()
-              : null
-          }
-          showLabel={true}
-        />
       )}
       By checking this, you agree to receiving Whatsapp messages for order &
       profile related information. To know more how we keep your data safe,
@@ -150,7 +148,7 @@ const MyPreferences = () => {
   };
 
   return (
-    <div className={styles.myPrefContainer}>
+    <div className={cs(styles.myPrefContainer, styles.loginForm)}>
       <div className={styles.formHeading}>My Preferences</div>
       <div className={styles.formSubheading}>
         Manage your communication preferences.
