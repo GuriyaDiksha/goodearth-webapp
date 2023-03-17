@@ -10,7 +10,7 @@ body:has(.open-summary) {
     display: block;
     background-color: #969696;
     mix-blend-mode: multiply;
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
   }
@@ -53,10 +53,11 @@ body:has(.open-summary) {
     font-size: 30px;
   }
   .fix-ordersummary {
-    position: sticky;
-    position: -webkit-sticky;
-    top: 30px;
+    position: fixed;
+    position: -webkit-fixed;
+    top: 50px;
     padding: 0;
+    width: fit-content;
 
     .free-shipping-info {
       padding: 9px 16px;
@@ -599,5 +600,9 @@ body:has(.open-summary) {
   .proceed-to-payment {
     max-width: 100%;
     padding: 9px 30px;
+  }
+  .deliveryfont{
+    color: $aqua-text;
+    margin: 10px auto 20px;
   }
 }

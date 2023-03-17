@@ -763,29 +763,29 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                     )
                   )}
 
-                  {/* {confirmData.loyalityPointsRedeemed.map(
-                    (gccn: number, i: number) => ( */}
-                  <div
-                    className={cs(
-                      styles.discountSection,
-                      styles.loyaltySection
-                    )}
-                    key={`loyalty_`}
-                  >
-                    <p>Loyalty Points</p>
-                    <p>
-                      (-){" "}
-                      {String.fromCharCode(
-                        ...currencyCode[confirmData.currency as Currency]
-                      )}
-                      &nbsp;{" "}
-                      {parseFloat(confirmData.loyalityPointsRedeemed).toFixed(
-                        2
-                      )}
-                    </p>
-                  </div>
-                  {/* )
-                  )} */}
+                  {confirmData.loyalityPointsRedeemed.map(
+                    (gccn: number, i: number) => (
+                      <div
+                        className={cs(
+                          styles.discountSection,
+                          styles.loyaltySection
+                        )}
+                        key={`loyalty_`}
+                      >
+                        <p>Loyalty Points</p>
+                        <p>
+                          (-){" "}
+                          {String.fromCharCode(
+                            ...currencyCode[confirmData.currency as Currency]
+                          )}
+                          &nbsp;{" "}
+                          {parseFloat(
+                            confirmData.loyalityPointsRedeemed
+                          ).toFixed(2)}
+                        </p>
+                      </div>
+                    )
+                  )}
                 </div>
                 <div className={cs(styles.totalSection)}>
                   <p>AMOUNT PAID</p>

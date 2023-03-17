@@ -722,6 +722,7 @@ const AddressSection: React.FC<AddressProps & {
                   bootstrapStyles.col6,
                   bootstrapStyles.colMd6,
                   globalStyles.flex,
+                  globalStyles.gutterBetween,
                   styles.title
                 )}
               >

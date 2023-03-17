@@ -948,7 +948,17 @@ const OrderSummary: React.FC<OrderProps> = props => {
                 salestatus ? (
                   ""
                 ) : (
-                  <div className={cs(styles.deliveryDate, styles.wrap)}>
+                  <div
+                    className={cs(
+                      styles.deliveryDate,
+                      globalStyles.marginB10,
+                      styles.wrap,
+                      {
+                        [globalStyles.textCenter]:
+                          page == "checkoutMobileBottom"
+                      }
+                    )}
+                  >
                     {fullText ? deliveryText : deliveryText.substr(0, 85)}
                     {deliveryText.length > 85 ? (
                       <span
