@@ -620,6 +620,7 @@ class Checkout extends React.Component<Props, State> {
               "Contact Number": address.phoneCountryCode + address.phoneNumber
             });
           }
+          console.log(address.country);
           if (address.country == "IN") {
             this.props
               .checkPinCodeShippable(address.postCode)
@@ -811,19 +812,6 @@ class Checkout extends React.Component<Props, State> {
       >
         <div className={styles.checkout}>
           <div className={bootstrap.row}>
-            {this.props.mobile && (
-              <div className={cs(bootstrap.col12)}>
-                <OrderSummary
-                  mobile={this.props.mobile}
-                  currency={this.props.currency}
-                  shippingAddress={this.state.shippingAddress}
-                  salestatus={this.props.isSale}
-                  validbo={false}
-                  basket={this.props.basket}
-                  page="checkout"
-                />
-              </div>
-            )}
             <div className={cs(bootstrap.col12, bootstrap.colLg8)}>
               {/* Breadcrumb */}
               <CheckoutBreadcrumb active={this.state.activeStep} />
@@ -889,19 +877,17 @@ class Checkout extends React.Component<Props, State> {
                 salestatus={this.props.isSale}
               />
             </div>
-            {!this.props.mobile && (
-              <div className={cs(bootstrap.col12, bootstrap.colMd4)}>
-                <OrderSummary
-                  mobile={this.props.mobile}
-                  currency={this.props.currency}
-                  shippingAddress={this.state.shippingAddress}
-                  salestatus={this.props.isSale}
-                  validbo={false}
-                  basket={this.props.basket}
-                  page="checkout"
-                />
-              </div>
-            )}
+            <div className={cs(bootstrap.col12, bootstrap.colMd4)}>
+              <OrderSummary
+                mobile={this.props.mobile}
+                currency={this.props.currency}
+                shippingAddress={this.state.shippingAddress}
+                salestatus={this.props.isSale}
+                validbo={false}
+                basket={this.props.basket}
+                page="checkout"
+              />
+            </div>
           </div>
         </div>
       </div>

@@ -861,7 +861,11 @@ const OrderSummary: React.FC<OrderProps> = props => {
         <div className={cs(styles.justchk)}>
           {getSummary()}
 
-          <div className={styles.finalAmountWrapper}>
+          <div
+            className={cs(styles.finalAmountWrapper, {
+              [styles.checkoutMobileBottom]: page == "checkoutMobileBottom"
+            })}
+          >
             <div
               className={cs(
                 globalStyles.flex,
@@ -885,73 +889,110 @@ const OrderSummary: React.FC<OrderProps> = props => {
                 <hr className={cs(styles.hr)} />
               </div>
             ) : null}
-            {page == "cart" ||
-            basket.isOnlyGiftCart ||
-            !showDeliveryInstruction ||
-            page != "checkoutMobileBottom" ? (
+
+            {page == "checkoutMobileBottom" && (
+              <button
+                className={cs(
+                  globalStyles.marginT10,
+                  paymentStyles.sendToPayment,
+                  styles.proceedToPayment,
+                  {
+                    [paymentStyles.disabledBtn]:
+                      isLoading || Object.keys(currentmethod).length === 0
+                  }
+                )}
+                onClick={onsubmit}
+                disabled={isLoading || Object.keys(currentmethod).length === 0}
+              >
+                <span>
+                  Amount Payable:{" "}
+                  {String.fromCharCode(...currencyCodes[props.currency])}{" "}
+                  {parseFloat(basket?.total?.toString()).toFixed(2)}
+                  <br />
+                </span>
+                {isPaymentNeeded ? "PROCEED TO PAYMENT" : "PLACE ORDER"}
+              </button>
+            )}
+            {page == "checkout" && mobile ? (
               ""
             ) : (
-              <div
-                className={cs(
-                  globalStyles.flex,
-                  globalStyles.gutterBetween,
-                  globalStyles.marginT20
-                )}
-              >
-                <span
-                  className={cs(styles.deliveryfont, globalStyles.pointer)}
-                  onClick={openDeliveryBox}
-                >
-                  {deliveryText.length == 0 ? "ADD" : "EDIT"} DELIVERY
-                  INSTRUCTIONS
-                </span>
-                {/* <span className={styles.subtotal}>
+              <>
+                {page == "cart" ||
+                basket.isOnlyGiftCart ||
+                !showDeliveryInstruction ? (
+                  ""
+                ) : (
+                  <div
+                    className={cs(
+                      globalStyles.flex,
+                      globalStyles.gutterBetween,
+                      globalStyles.marginT20
+                    )}
+                  >
+                    <span
+                      className={cs(styles.deliveryfont, globalStyles.pointer)}
+                      onClick={openDeliveryBox}
+                    >
+                      {deliveryText.length == 0 ? "ADD" : "EDIT"} DELIVERY
+                      INSTRUCTIONS
+                    </span>
+                    {/* <span className={styles.subtotal}>
               (+) {String.fromCharCode(...code)}{" "}
               {parseFloat(shippingCharge).toFixed(2)}
             </span> */}
-              </div>
-            )}
-            {deliveryText.length == 0 ||
-            page == "cart" ||
-            basket.isOnlyGiftCart ||
-            salestatus ? (
-              ""
-            ) : (
-              <div className={cs(styles.deliveryDate, styles.wrap)}>
-                {fullText ? deliveryText : deliveryText.substr(0, 85)}
-                {deliveryText.length > 85 ? (
-                  <span
-                    className={cs(globalStyles.cerise, globalStyles.pointer)}
-                    onClick={() => {
-                      setFullText(!fullText);
-                    }}
-                  >
-                    {" "}
-                    [{fullText ? "-" : "+"}]
-                  </span>
-                ) : (
+                  </div>
+                )}
+                {deliveryText.length == 0 ||
+                page == "cart" ||
+                basket.isOnlyGiftCart ||
+                salestatus ? (
                   ""
+                ) : (
+                  <div className={cs(styles.deliveryDate, styles.wrap)}>
+                    {fullText ? deliveryText : deliveryText.substr(0, 85)}
+                    {deliveryText.length > 85 ? (
+                      <span
+                        className={cs(
+                          globalStyles.cerise,
+                          globalStyles.pointer
+                        )}
+                        onClick={() => {
+                          setFullText(!fullText);
+                        }}
+                      >
+                        {" "}
+                        [{fullText ? "-" : "+"}]
+                      </span>
+                    ) : (
+                      ""
+                    )}
+                  </div>
                 )}
-              </div>
-            )}
-            {!mobile && getDeliveryStatusMobile()}
-            {currency == "INR" ? (
-              ""
-            ) : basket.shippable == false ? (
-              ""
-            ) : (
-              <div
-                className={cs(
-                  globalStyles.c10LR,
-                  globalStyles.voffset2,
-                  globalStyles.marginB10,
-                  styles.summaryPadding
+                {!mobile
+                  ? getDeliveryStatusMobile()
+                  : page == "checkoutMobileBottom"
+                  ? getDeliveryStatusMobile()
+                  : ""}
+                {currency == "INR" ? (
+                  ""
+                ) : basket.shippable == false ? (
+                  ""
+                ) : (
+                  <div
+                    className={cs(
+                      globalStyles.c10LR,
+                      globalStyles.voffset2,
+                      globalStyles.marginB10,
+                      globalStyles.textCenter,
+                      styles.summaryPadding
+                    )}
+                  >
+                    Custom Duties & Taxes are extra, can be upto 30% or more of
+                    order value in some cases, depending upon local customs
+                    assessment.
+                  </div>
                 )}
-              >
-                Custom Duties & Taxes are extra, can be upto 30% or more of
-                order value in some cases, depending upon local customs
-                assessment.
-              </div>
+              </>
             )}
 
             {hasOutOfStockItems() && (
@@ -1062,29 +1103,6 @@ const OrderSummary: React.FC<OrderProps> = props => {
             </div>
           )}
         </div>
-        {page == "checkoutMobileBottom" && (
-          <button
-            className={cs(
-              globalStyles.marginT10,
-              paymentStyles.sendToPayment,
-              styles.proceedToPayment,
-              {
-                [paymentStyles.disabledBtn]:
-                  isLoading || Object.keys(currentmethod).length === 0
-              }
-            )}
-            onClick={onsubmit}
-            disabled={isLoading || Object.keys(currentmethod).length === 0}
-          >
-            <span>
-              Amount Payable:{" "}
-              {String.fromCharCode(...currencyCodes[props.currency])}{" "}
-              {parseFloat(basket?.total?.toString()).toFixed(2)}
-              <br />
-            </span>
-            {isPaymentNeeded ? "PROCEED TO PAYMENT" : "PLACE ORDER"}
-          </button>
-        )}
       </div>
     </div>
   );

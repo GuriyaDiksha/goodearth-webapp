@@ -426,6 +426,7 @@ const AddressSection: React.FC<AddressProps & {
       if (activeStep === STEP_BILLING) {
         next(showPromo ? STEP_PROMO : STEP_PAYMENT);
       }
+      console.log(props.finalizeAddress, "finalizeAddress");
       return validate;
     } else {
       showErrorMsg();

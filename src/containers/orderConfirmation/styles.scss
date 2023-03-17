@@ -226,6 +226,10 @@
       @include b4_12px_montserrat_medium_charcoal();
       text-transform: uppercase;
     }
+    .loyalty-section{
+      color: $aqua-text;
+      padding-bottom: 25px;
+    }
 
     @media screen and (max-width: 767px) {
       padding: 30px 20px;

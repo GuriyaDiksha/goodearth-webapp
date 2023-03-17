@@ -536,6 +536,7 @@ body:has(.open-summary) {
     z-index: 9;
     max-width: 100%;
     padding: 0;
+    top: 50px;
 
     .checkout-order {
       position: absolute;
@@ -573,7 +574,7 @@ body:has(.open-summary) {
       padding: 0;
     }
     .grand-total-wrapper {
-      padding: 0 20px;
+      padding: 0 0px;
     }
     .fix-order-items {
       max-height: 300px !important;
@@ -591,6 +592,12 @@ body:has(.open-summary) {
   }
 }
 
-.proceed-to-payment{
-  max-width: 100%;
+.checkout-mobile-bottom {
+  .summary-padding{
+    padding: 0 20px;
+  }
+  .proceed-to-payment {
+    max-width: 100%;
+    padding: 9px 30px;
+  }
 }

@@ -519,7 +519,6 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                         +parseFloat(item.priceExclTaxExclDiscounts).toFixed(2) /
                         +item.quantity;
 
-                      console.log(item, "confirmData");
                       return (
                         <div
                           className={cs(
@@ -764,26 +763,29 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                     )
                   )}
 
-                  {confirmData.loyalityPointsRedeemed.map(
-                    (gccn: number, i: number) => (
-                      <div
-                        className={cs(styles.discountSection)}
-                        key={`loyalty_${i}`}
-                      >
-                        <p>Loyalty Points</p>
-                        <p>
-                          (-){" "}
-                          {String.fromCharCode(
-                            ...currencyCode[confirmData.currency as Currency]
-                          )}
-                          &nbsp;{" "}
-                          {parseFloat(
-                            confirmData.loyalityPointsRedeemed
-                          ).toFixed(2)}
-                        </p>
-                      </div>
-                    )
-                  )}
+                  {/* {confirmData.loyalityPointsRedeemed.map(
+                    (gccn: number, i: number) => ( */}
+                  <div
+                    className={cs(
+                      styles.discountSection,
+                      styles.loyaltySection
+                    )}
+                    key={`loyalty_`}
+                  >
+                    <p>Loyalty Points</p>
+                    <p>
+                      (-){" "}
+                      {String.fromCharCode(
+                        ...currencyCode[confirmData.currency as Currency]
+                      )}
+                      &nbsp;{" "}
+                      {parseFloat(confirmData.loyalityPointsRedeemed).toFixed(
+                        2
+                      )}
+                    </p>
+                  </div>
+                  {/* )
+                  )} */}
                 </div>
                 <div className={cs(styles.totalSection)}>
                   <p>AMOUNT PAID</p>
