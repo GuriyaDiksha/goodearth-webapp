@@ -58,7 +58,6 @@ const PromoSection: React.FC<PromoProps> = props => {
       // util.checkoutGTM(4, currency, basket);
       // next(Steps.STEP_PAYMENT);
     }
-    console.log(isLoading, "isLoading");
   };
 
   const onNext = () => {
