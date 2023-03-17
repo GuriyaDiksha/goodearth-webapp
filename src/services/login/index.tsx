@@ -377,6 +377,7 @@ export default {
     document.cookie = "userId=; expires=Thu, 01 Jan 1970 00:00:01 GMT; path=/";
     document.cookie = "email=; expires=Thu, 01 Jan 1970 00:00:01 GMT; path=/";
     document.cookie = "custGrp=; expires=THu, 01 Jan 1970 00:00:01 GMT; path=/";
+    document.cookie = "user=; expires=THu, 01 Jan 1970 00:00:01 GMT; path=/";
     // document.cookie =
     //   "cerisepopup=; expires=THu, 01 Jan 1970 00:00:01 GMT; path=/";
     dispatch(updateCookies({ tkn: "" }));
@@ -398,7 +399,7 @@ export default {
     dispatch(resetMeta(undefined));
     showGrowlMessage(
       dispatch,
-      MESSAGE.INVALID_SESSION_LOGOUT,
+      MESSAGE.LOGOUT_SUCCESS,
       5000,
       "INVALID_SESSION_LOGOUT"
     );
