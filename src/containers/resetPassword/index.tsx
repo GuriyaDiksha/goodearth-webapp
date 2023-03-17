@@ -20,9 +20,8 @@ import {
   pageViewGTM,
   decripttext
 } from "utils/validate";
-import LoginService from "services/login";
-import CookieService from "services/cookie";
 import Login from "./login";
+import LoginService from "services/login";
 
 type Props = {
   uid: string;
@@ -32,8 +31,8 @@ type Props = {
 const ResetPassword: React.FC<Props> = props => {
   const {
     device: { mobile },
-    // user: { isLoggedIn, customerGroup },
-    // currency,
+    user: { isLoggedIn, customerGroup },
+    currency,
     info: { showTimer }
   } = useSelector((state: AppState) => state);
   const ResetPasswordFormRef = useRef<Formsy>(null);
@@ -54,7 +53,6 @@ const ResetPassword: React.FC<Props> = props => {
   const history = useHistory();
 
   useEffect(() => {
-    const userInfo = JSON.parse(CookieService.getCookie("user") || "{}");
     const noContentContainerElem = document.getElementById(
       "no-content"
     ) as HTMLDivElement;
@@ -63,9 +61,7 @@ const ResetPassword: React.FC<Props> = props => {
     ) {
       noContentContainerElem.classList.remove(globalStyles.contentContainer);
     }
-    if (userInfo.isLoggedIn) {
-      LoginService.logoutClient(dispatch);
-    }
+    // LoginService.logout(dispatch, currency, customerGroup);
     pageViewGTM("ResetPassword");
     const searchParams = new URLSearchParams(history.location.search);
     setRedirectTo(searchParams.get("redirect_to") || "");
@@ -156,6 +152,9 @@ const ResetPassword: React.FC<Props> = props => {
     };
     AccountService.confirmResetPassword(dispatch, formData)
       .then(data => {
+        if (isLoggedIn) {
+          LoginService.logout(dispatch, currency, customerGroup);
+        }
         resetForm();
         setShowLogin(true);
         localStorage.setItem("tempEmail", data.email);
