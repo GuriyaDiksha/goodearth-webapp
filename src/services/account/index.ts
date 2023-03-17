@@ -219,19 +219,19 @@ export default {
       `${__API_HOST__}/myapi/auth/confirm_reset_password/`,
       formData
     );
-    // // do same as logout
-    // document.cookie = "atkn=; expires=Thu, 01 Jan 1970 00:00:01 GMT; path=/";
-    // document.cookie = "userId=; expires=Thu, 01 Jan 1970 00:00:01 GMT; path=/";
-    // document.cookie = "email=; expires=Thu, 01 Jan 1970 00:00:01 GMT; path=/";
-    // dispatch(updateCookies({ tkn: "" }));
-    // MetaService.updateMeta(dispatch, {}).catch(err => {
-    //   console.log(err);
-    // });
-    // WishlistService.resetWishlist(dispatch);
-    // BasketService.fetchBasket(dispatch).catch(err => {
-    //   console.log(err);
-    // });
-    // dispatch(resetMeta(undefined));
+    // do same as logout
+    document.cookie = "atkn=; expires=Thu, 01 Jan 1970 00:00:01 GMT; path=/";
+    document.cookie = "userId=; expires=Thu, 01 Jan 1970 00:00:01 GMT; path=/";
+    document.cookie = "email=; expires=Thu, 01 Jan 1970 00:00:01 GMT; path=/";
+    dispatch(updateCookies({ tkn: "" }));
+    MetaService.updateMeta(dispatch, {}).catch(err => {
+      console.log(err);
+    });
+    WishlistService.resetWishlist(dispatch);
+    BasketService.fetchBasket(dispatch).catch(err => {
+      console.log(err);
+    });
+    dispatch(resetMeta(undefined));
     return data;
   },
   activateGiftCard: async (dispatch: Dispatch, formData: FormData) => {
