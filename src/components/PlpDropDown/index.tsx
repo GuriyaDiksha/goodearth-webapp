@@ -199,7 +199,7 @@ const PlpDropdownMenu = ({
                 styles.iconSearchCross,
                 styles.crossIcon
               )}
-              onClick={onInsideClick}
+              onClick={onOutsideClick}
             ></i>
           </div>
           <div
@@ -217,7 +217,7 @@ const PlpDropdownMenu = ({
           >
             <span>{"Sort By"}</span>
 
-            <span onClick={onInsideClick} ref={ref}>
+            <span onClick={onOutsideClick} ref={ref}>
               X
             </span>
           </div>
