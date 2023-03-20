@@ -866,6 +866,9 @@ const OrderSummary: React.FC<OrderProps> = props => {
               [styles.checkoutMobileBottom]: page == "checkoutMobileBottom"
             })}
           >
+            <div className={cs(styles.summaryPadding)}>
+              <hr className={cs(styles.hr)} />
+            </div>
             <div
               className={cs(
                 globalStyles.flex,
