@@ -261,7 +261,8 @@ const CareerFilter: React.FC<Props> = ({
         className={cs(
           mobile ? bootstrap.col12 : bootstrap.col3,
           listing.career_list_wrp_left,
-          isFilterOpen ? listing.show : ""
+          isFilterOpen ? listing.show : "",
+          isFilterOpen ? listing.showFilter : ""
         )}
       >
         <ul>

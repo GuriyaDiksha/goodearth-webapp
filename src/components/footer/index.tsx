@@ -1114,11 +1114,16 @@ class Footer extends React.Component<Props, FooterState> {
           </div>
 
           <div
-            className={
+            className={cs(
               this.props.mobile
                 ? cs(styles.footerBottomMobile, bootstrap.colMd12)
-                : cs(styles.footerBottom, bootstrap.colMd12)
-            }
+                : cs(styles.footerBottom, bootstrap.colMd12),
+              {
+                [styles.filterOnBottom]: this.props.location.pathname.includes(
+                  "/careers/list"
+                )
+              }
+            )}
           >
             <div className={cs(bootstrap.row)}>
               <div className={cs(bootstrap.col12, globalStyles.textCenter)}>
