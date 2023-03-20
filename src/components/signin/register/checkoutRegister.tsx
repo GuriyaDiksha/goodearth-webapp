@@ -886,16 +886,19 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
               className={showFieldsClass}
               label={"Contact Number"}
               validations={{
-                // isExisty: true,
+                isExisty: true,
                 compulsory: (values, value) => {
                   if (values.whatsappSubscribe && value == "") {
-                    return "Please enter your contact number";
+                    return false;
+                  } else {
+                    return true;
                   }
                 }
               }}
-              // validationErrors={{
-              //   // isExisty: "Please enter your contact number"
-              // }}
+              validationErrors={{
+                isExisty: "Please enter your contact number",
+                compulsory: "Please enter your contact number"
+              }}
               keyPress={e => (e.key == "Enter" ? e.preventDefault() : "")}
               keyDown={e => (e.which === 69 ? e.preventDefault() : null)}
               onPaste={e =>
