@@ -1441,6 +1441,11 @@ input[type="text"]{
 
 .my-pref-container{
   padding: 0px 18%;
+  max-width: 600px;
+  margin: auto;
+  @media screen and (max-width: 991px){
+    padding: 0px 5%;
+  }
   .content{
     @include b5_10px_montserrat_charcoal();
     line-height: 16px;
@@ -1453,6 +1458,7 @@ input[type="text"]{
       text-align: left;
       margin-bottom: 10px;
       left: 0;
+      padding: 0px;
     }
     .whatsapp{
       border-bottom: 1.5px solid $charcoal19;
@@ -1461,6 +1467,9 @@ input[type="text"]{
       .country-code{
         margin: 15px 0px;
       }
+    }
+    .newsletters{
+      margin-top: 35px;
     }
     .save-pref-btn{
       margin-top: 25px;

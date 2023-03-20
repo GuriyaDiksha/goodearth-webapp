@@ -293,7 +293,7 @@ export default {
   ) => {
     const data: any = await API.post<PrefernecesProps>(
       dispatch,
-      `${__API_HOST__}/myapi/customer/profile_preferences`,
+      `${__API_HOST__}/myapi/customer/profile_preferences/`,
       {
         subscribe: postData.subscribe,
         whatsappNo: postData.whatsappNo,
