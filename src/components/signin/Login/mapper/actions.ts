@@ -2,6 +2,7 @@ import { updateNextUrl } from "actions/info";
 import { Dispatch } from "redux";
 import LoginService from "services/login";
 import { Currency } from "typings/currency";
+import { showGrowlMessage } from "utils/validate";
 
 const mapDispatchToProps = (dispatch: Dispatch) => {
   return {
@@ -12,7 +13,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     ) => {
       localStorage.setItem("tempEmail", email);
       localStorage.setItem("isBo", boEmail || "");
-      LoginService.showForgotPassword(dispatch);
+      LoginService.showForgotPassword(dispatch, email);
       event.preventDefault();
     },
     goRegister: (event: React.MouseEvent, email: string) => {
@@ -46,6 +47,9 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     },
     resetNextUrl: () => {
       dispatch(updateNextUrl(""));
+    },
+    showGrowlMessage: (msg: string) => {
+      showGrowlMessage(dispatch, msg);
     }
   };
 };

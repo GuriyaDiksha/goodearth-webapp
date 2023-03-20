@@ -26,7 +26,7 @@ import { POPUP } from "constants/components";
 import { moveChatDown, moveChatUp, sortGTM, pageViewGTM } from "utils/validate";
 import SecondaryHeaderDropdown from "components/dropdown/secondaryHeaderDropdown";
 import { CategoryMenu } from "containers/plp/typings";
-import { GA_CALLS, ANY_ADS, SEARCH_HISTORY } from "constants/cookieConsent";
+import { GA_CALLS, ANY_ADS } from "constants/cookieConsent";
 import ProductCounter from "components/ProductCounter";
 import { throttle } from "lodash";
 import ResetFiltersTile from "components/plpResultItem/resetFiltersTile";
