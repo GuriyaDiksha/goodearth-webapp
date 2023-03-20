@@ -1459,6 +1459,10 @@ input[type="text"]{
       margin-bottom: 10px;
       left: 0;
       padding: 0px;
+      img{
+        height: 12px;
+        margin-left: 5px;
+      }
     }
     .whatsapp{
       border-bottom: 1.5px solid $charcoal19;

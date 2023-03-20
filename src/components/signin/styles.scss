@@ -439,16 +439,3 @@ input[type="text"].country-code-search-input{
   border-bottom: none;
   margin-bottom: unset;
 }
-
-.login-form {
-  div.categorylabel > div {
-    &.subscribe{
-      label{
-        img {
-          height: 12px;
-          margin-left: 5px;
-        }
-      }
-    }
-  }
-}

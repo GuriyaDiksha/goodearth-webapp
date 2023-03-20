@@ -430,3 +430,16 @@ input[type="checkbox"]:checked + label {
     min-height: 47px; // for input type date in iOS
   }
 }
+
+.login-form {
+  div.categorylabel > div {
+    &.subscribe{
+      label{
+        img {
+          height: 12px;
+          margin-left: 5px;
+        }
+      }
+    }
+  }
+}
