@@ -786,7 +786,7 @@ class Header extends React.Component<Props, State> {
       showMenu: !this.state.showMenu,
       showSearch: false
     });
-    window.scrollTo(0, 0);
+    //window.scrollTo(0, 0);
   };
 
   gtmPushLogoClick = () => {
