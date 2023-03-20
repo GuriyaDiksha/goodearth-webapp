@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { ReactNode, useEffect, useRef, useState } from "react";
 import style from "./styles.scss";
 import cs from "classnames";
 
@@ -12,6 +12,15 @@ type Props = {
   startTimer: boolean;
   setAttempts: (x: any) => void;
   closeModal: () => void;
+  containerClassName?: string;
+  headingClassName?: string;
+  timerClass?: string;
+  verifyCtaClass?: string;
+  otpPolicyClass?: string;
+  groupTimerAndAttempts?: boolean;
+  goBackCta?: ReactNode;
+  socialLogin?: ReactNode;
+  otpAttemptClass?: string;
 };
 
 const NewOtpComponent: React.FC<Props> = ({
@@ -23,7 +32,16 @@ const NewOtpComponent: React.FC<Props> = ({
   btnText,
   startTimer,
   setAttempts,
-  closeModal
+  closeModal,
+  headingClassName,
+  containerClassName,
+  timerClass,
+  otpPolicyClass,
+  otpAttemptClass,
+  verifyCtaClass,
+  groupTimerAndAttempts,
+  goBackCta,
+  socialLogin
 }) => {
   const [timeRemaining, setTimeRemaining] = useState(90);
   const [timerId, setTimerId] = useState<any>();
@@ -177,8 +195,8 @@ const NewOtpComponent: React.FC<Props> = ({
   };
 
   return (
-    <div className={style.otpWrp}>
-      <p className={style.otpHeading}>
+    <div className={cs(containerClassName, style.otpWrp)}>
+      <p className={cs(headingClassName, style.otpHeading)}>
         OTP has been sent to you via your {otpSentVia}. Please enter below:
       </p>
       <div className={style.otpInputErr}>
@@ -259,7 +277,7 @@ const NewOtpComponent: React.FC<Props> = ({
         {error ? <p className={style.otpError}>{error}</p> : null}
       </div>
 
-      <p className={style.otpTimer}>
+      <p className={cs(style.otpTimer, timerClass)}>
         {timeRemaining ? (
           `Resend OTP code in: ${secondsToMinutes(timeRemaining)}s`
         ) : (
@@ -269,13 +287,21 @@ const NewOtpComponent: React.FC<Props> = ({
           </div>
         )}
       </p>
+      {groupTimerAndAttempts && (
+        <p className={cs(style.otpAttempt, otpAttemptClass)}>
+          Attempt: {attempts?.attempts}/{attempts?.maxAttemptsAllow}
+        </p>
+      )}
       <button
-        className={`${style.otpBtn} ${
-          `${input?.otp1}${input?.otp2}${input?.otp3}${input?.otp4}${input?.otp5}${input?.otp6}`
-            .length !== 6 || attempts?.maxAttemptsAllow === attempts?.attempts
-            ? style.disable
-            : ""
-        }`}
+        className={cs(
+          `${style.otpBtn} ${
+            `${input?.otp1}${input?.otp2}${input?.otp3}${input?.otp4}${input?.otp5}${input?.otp6}`
+              .length !== 6 || attempts?.maxAttemptsAllow === attempts?.attempts
+              ? style.disable
+              : ""
+          }`,
+          verifyCtaClass
+        )}
         onClick={() => sendOtp()}
         disabled={
           `${input?.otp1}${input?.otp2}${input?.otp3}${input?.otp4}${input?.otp5}${input?.otp6}`
@@ -293,8 +319,15 @@ const NewOtpComponent: React.FC<Props> = ({
       >
         I don&apos;t wish to redeem
       </div>
+      {!groupTimerAndAttempts && (
+        <p className={cs(style.otpAttempt, otpAttemptClass)}>
+          Attempt: {attempts?.attempts}/{attempts?.maxAttemptsAllow}
+        </p>
+      )}
+      {goBackCta}
+      {socialLogin}
       <a
-        className={style.otpPolicy}
+        className={cs(style.otpPolicy, otpPolicyClass)}
         href={`/customer-assistance/privacy-policy`}
         rel="noopener noreferrer"
         target="_blank"

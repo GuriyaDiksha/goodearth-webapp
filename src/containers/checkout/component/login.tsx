@@ -39,6 +39,7 @@ const LoginSection: React.FC<LoginProps> = props => {
   const nextStep = () => {
     if (next) next(STEP_SHIPPING);
   };
+
   return (
     <div
       className={
@@ -70,6 +71,7 @@ const LoginSection: React.FC<LoginProps> = props => {
                   nextStep={nextStep}
                   changeEmail={changeEmail}
                   goToLogin={goLogin}
+                  isCheckout={true}
                 />
               ) : (
                 <CheckoutLoginForm

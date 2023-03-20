@@ -120,7 +120,7 @@ const SocialLogin: React.FC<props> = ({ closeModel }) => {
           render={(renderProps: any) => (
             <img
               src={loginGoogle}
-              width="40px"
+              width="55px"
               className={styles.socialLogin}
               onClick={renderProps.onClick}
             />

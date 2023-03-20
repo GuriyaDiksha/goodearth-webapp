@@ -36,9 +36,10 @@ import { encryptdata, decriptdata, encrypttext } from "utils/validate";
 export default {
   showForgotPassword: function(
     dispatch: Dispatch,
+    email?: string,
     event?: React.MouseEvent
   ): void {
-    dispatch(updateComponent(POPUP.FORGOTPASSWORDFORM, null, true));
+    dispatch(updateComponent(POPUP.FORGOTPASSWORDFORM, { email }, true));
     dispatch(updateModal(true));
   },
   showLogin: function(dispatch: Dispatch, event?: React.MouseEvent): void {
@@ -99,7 +100,7 @@ export default {
       res.customerGroup ? res.customerGroup.toLowerCase() : "",
       365
     );
-    showGrowlMessage(dispatch, `${response.firstName}, ${LOGIN_SUCCESS}`, 5000);
+    showGrowlMessage(dispatch, `${LOGIN_SUCCESS} ${response.firstName}!`, 5000);
     if (response.oldBasketHasItems) {
       showGrowlMessage(dispatch, MESSAGE.PREVIOUS_BASKET, 0);
     }
@@ -397,7 +398,7 @@ export default {
     dispatch(resetMeta(undefined));
     showGrowlMessage(
       dispatch,
-      MESSAGE.INVALID_SESSION_LOGOUT,
+      MESSAGE.LOGOUT_SUCCESS,
       5000,
       "INVALID_SESSION_LOGOUT"
     );

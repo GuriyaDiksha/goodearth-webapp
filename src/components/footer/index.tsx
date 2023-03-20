@@ -17,7 +17,6 @@ import CookiePolicy from "./CookiePolicy";
 import MakerSmartNav from "containers/base/MakerSmartNav";
 import ReactHtmlParser from "react-html-parser";
 import { OLD_COOKIE_SETTINGS } from "constants/cookieConsent";
-import cookie from "services/cookie";
 
 const mapStateToProps = (state: AppState) => {
   return {
