@@ -7,6 +7,14 @@ const displayPriceWithCommas = (price: string | number, currency: Currency) => {
   } else {
     arg = "en-US";
   }
+  if (price.toString().includes("-")) {
+    const arr = price.toString().split("-");
+    const temp: any[] = [];
+    arr.map(e => {
+      temp.push(parseInt(e.toString()).toLocaleString(arg));
+    });
+    return temp.join(" - ");
+  }
   return parseInt(price.toString()).toLocaleString(arg);
 };
 
@@ -19,6 +27,14 @@ const displayPriceWithCommasFloat = (
     arg = "en-IN";
   } else {
     arg = "en-US";
+  }
+  if (price.toString().includes("-")) {
+    const arr = price.toString().split("-");
+    const temp: any[] = [];
+    arr.map(e => {
+      temp.push(parseInt(e.toString()).toLocaleString(arg));
+    });
+    return temp.join(" - ");
   }
   return parseInt(price.toString()).toLocaleString(arg, {
     maximumFractionDigits: 2,
