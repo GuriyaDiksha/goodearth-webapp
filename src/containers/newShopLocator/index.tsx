@@ -27,6 +27,7 @@ const settings = {
 const mapStateToProps = (state: AppState) => {
   return {
     mobile: state.device.mobile,
+    tablet: state.device.tablet,
     saleTimer: state.info.showTimer
   };
 };
@@ -88,7 +89,7 @@ class ShopLocator extends Component<Props, State> {
 
   render() {
     const { shopData, currentCity } = this.state;
-    const { saleTimer, mobile } = this.props;
+    const { saleTimer, mobile, tablet } = this.props;
 
     return (
       <div
@@ -96,8 +97,8 @@ class ShopLocator extends Component<Props, State> {
           [styles.saleTimerMargin]: this.props.saleTimer
         })}
       >
-        <div className={styles.banner}>
-          <div className={styles.bannerText}>Find us near you</div>
+        <div className={cs(styles.banner, { [styles.tabletBanner]: tablet })}>
+          {/* <div className={styles.bannerText}>Find us near you</div> */}
         </div>
         <div className={styles.pageDescription}>
           <div className={styles.text}>

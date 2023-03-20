@@ -22,7 +22,7 @@ import { updateAddressList } from "actions/address";
 import { updateUser } from "actions/user";
 import { POPUP } from "constants/components";
 import { useHistory } from "react-router";
-import * as util from "utils/validate";
+import { showGrowlMessage } from "utils/validate";
 import CookieService from "services/cookie";
 import { GA_CALLS } from "constants/cookieConsent";
 // import globalStyles from "styles/global.scss";
@@ -101,7 +101,7 @@ const Bridal: React.FC<Props> = props => {
         .then((data: any) => {
           // user.bridal.
           if (data.isBridalActive == false) {
-            util.showGrowlMessage(
+            showGrowlMessage(
               dispatch,
               `Sorry, Your registry ${data.registryName} has expired`,
               7000

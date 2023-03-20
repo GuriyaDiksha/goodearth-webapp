@@ -23,7 +23,14 @@ import PlpResultTabItem from "components/plpResultTabItem";
 import ModalStyles from "components/Modal/styles.scss";
 import { ChildProductAttributes, PLPProductItem } from "typings/product";
 import { POPUP } from "constants/components";
-import * as util from "utils/validate";
+import {
+  moveChatUp,
+  sortGTM,
+  pageViewGTM,
+  viewSelectionGTM,
+  getPageType,
+  moveChatDown
+} from "utils/validate";
 import { Link } from "react-router-dom";
 import CookieService from "services/cookie";
 import Banner from "./components/Banner";
@@ -113,7 +120,7 @@ class PLP extends React.Component<
       this.child.clickCloseFilter();
     }
     this.setState({ sortValue: data });
-    util.sortGTM(label || data);
+    sortGTM(label || data);
   };
 
   componentDidMount() {
@@ -124,7 +131,7 @@ class PLP extends React.Component<
         this.reset();
       });
 
-      util.pageViewGTM("PLP");
+      pageViewGTM("PLP");
       dataLayer.push({
         event: "PlpView",
         PageURL: this.props.location.pathname,
@@ -160,7 +167,7 @@ class PLP extends React.Component<
     this.setState({
       plpMaker: true
     });
-    util.moveChatDown();
+    moveChatDown();
     // const cards = document.querySelectorAll(".product-container");
     // if (cards.length > 0) {
     //   if (cards[0].getBoundingClientRect().y > 330) {
@@ -179,7 +186,7 @@ class PLP extends React.Component<
   }
 
   componentWillUnmount() {
-    util.moveChatUp();
+    moveChatUp();
     window.removeEventListener(
       "scroll",
       throttle(() => {
@@ -403,7 +410,7 @@ class PLP extends React.Component<
   updateMobileView = (plpMobileView: "list" | "grid") => {
     if (this.props.plpMobileView != plpMobileView) {
       CookieService.setCookie("plpMobileView", plpMobileView);
-      util.viewSelectionGTM(plpMobileView);
+      viewSelectionGTM(plpMobileView);
       const cards = document.querySelectorAll(".product-container");
       const cardIDs: any = [];
 
@@ -469,7 +476,7 @@ class PLP extends React.Component<
         "Login Status": this.props.isLoggedIn ? "logged in" : "logged out",
         "Time Stamp": new Date().toISOString(),
         "Page Url": location.href,
-        "Page Type": util.getPageType(),
+        "Page Type": getPageType(),
         "Page referrer url": CookieService.getCookie("prevUrl")
       });
     }
@@ -485,7 +492,7 @@ class PLP extends React.Component<
       this.plpViewGTM(nextProps);
     }
     if (this.props.location.pathname != nextProps.location.pathname) {
-      util.pageViewGTM("PLP");
+      pageViewGTM("PLP");
       this.plpViewGTM(nextProps);
       this.setState({
         plpMaker: false,

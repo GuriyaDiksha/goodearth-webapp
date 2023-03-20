@@ -11,7 +11,7 @@ import { specifyBillingAddressData } from "containers/checkout/typings";
 import { updateBasket } from "actions/basket";
 import CacheService from "services/cache";
 import { MESSAGE } from "constants/messages";
-import * as util from "../../utils/validate";
+import { showGrowlMessage } from "../../utils/validate";
 
 export default {
   fetchAddressList: async (dispatch: Dispatch) => {
@@ -95,7 +95,7 @@ export default {
       updatedRemovedItems &&
       updatedRemovedItems.length > 0
     ) {
-      util.showGrowlMessage(
+      showGrowlMessage(
         dispatch,
         MESSAGE.PRODUCT_UNPUBLISHED,
         0,
@@ -104,7 +104,7 @@ export default {
       );
     }
     if (unshippableRemove) {
-      util.showGrowlMessage(
+      showGrowlMessage(
         dispatch,
         MESSAGE.PRODUCT_UNSHIPPABLE_REMOVED,
         0,

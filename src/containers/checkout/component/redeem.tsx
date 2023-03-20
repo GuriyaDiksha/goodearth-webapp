@@ -9,7 +9,7 @@ import mapDispatchToProps from "../mapper/action";
 import iconStyles from "styles/iconFonts.scss";
 import { AppState } from "reducers/typings";
 import OtpReedem from "components/OtpComponent/otpReedem";
-import * as valid from "utils/validate";
+import { errorTracking } from "utils/validate";
 import { RouteComponentProps, withRouter } from "react-router";
 
 const mapStateToProps = (state: AppState) => {
@@ -71,7 +71,7 @@ class Reedem extends React.Component<Props, RedeemState> {
         error: "Please enter your Cerise Points"
       },
       () => {
-        valid.errorTracking([this.state.error], location.href);
+        errorTracking([this.state.error], location.href);
       }
     );
     const elem: any = document.getElementById("redeem");

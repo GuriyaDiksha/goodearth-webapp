@@ -13,7 +13,7 @@ import Section3 from "./section3";
 import Section4 from "./section4";
 import bootstrap from "../../styles/bootstrap/bootstrap-grid.scss";
 import mapDispatchToProps from "./mapper/actions";
-import * as util from "utils/validate";
+import { pageViewGTM } from "utils/validate";
 import CookieService from "services/cookie";
 import { GA_CALLS } from "constants/cookieConsent";
 
@@ -83,7 +83,7 @@ class GiftCard extends React.Component<
           selectedCountry: newCountry
         });
     });
-    util.pageViewGTM("GiftCard");
+    pageViewGTM("GiftCard");
   }
 
   UNSAFE_componentWillReceiveProps(nextProps: Props) {

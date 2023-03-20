@@ -23,7 +23,14 @@ import Search from "./search";
 import fabicon from "images/favicon.ico";
 import MakerUtils from "../../utils/maker";
 import BottomMenu from "./bottomMenu";
-import * as util from "../../utils/validate";
+import {
+  announcementBarGTM,
+  headerClickGTM,
+  footerClickGTM,
+  getInnerText,
+  megaMenuNavigationGTM,
+  menuNavigationGTM
+} from "../../utils/validate";
 const Bag = loadable(() => import("../Bag/index"));
 const StoreDetails = loadable(() => import("../StoreDetails/index"));
 const CushionBag = loadable(() => import("../Cushion"));
@@ -118,7 +125,7 @@ class Header extends React.Component<Props, State> {
     if (element) {
       element.addEventListener("click", event => {
         const elem = event.target as HTMLAnchorElement;
-        util.announcementBarGTM(
+        announcementBarGTM(
           elem.dataset.text || "",
           elem.getAttribute("href") || ""
         );
@@ -296,6 +303,9 @@ class Header extends React.Component<Props, State> {
 
     const filterMenu = document.getElementById("filter_by");
     const filterMenuHeader = document.getElementById("filter-menu-header");
+
+    const pressSortHeader = document.getElementById("pressSortHeader");
+
     if (window?.pageYOffset > sticky) {
       // When announcement bar is hidden
       (header as HTMLElement).style.position = "fixed";
@@ -420,6 +430,14 @@ class Header extends React.Component<Props, State> {
           (ceriseHeader as HTMLElement).style.top = "90px";
         } else {
           (ceriseHeader as HTMLElement).style.top = "50px";
+        }
+      }
+
+      if (pressSortHeader) {
+        if (tim) {
+          (pressSortHeader as HTMLElement).style.top = "90px";
+        } else {
+          (pressSortHeader as HTMLElement).style.top = "50px";
         }
       }
     } else {
@@ -575,8 +593,16 @@ class Header extends React.Component<Props, State> {
             window?.pageYOffset}px`;
         }
       }
+      if (pressSortHeader) {
+        if (tim) {
+          (pressSortHeader as HTMLElement).style.top = `${130 -
+            window?.pageYOffset}px`;
+        } else {
+          (pressSortHeader as HTMLElement).style.top = `${90 -
+            window?.pageYOffset}px`;
+        }
+      }
     }
-
     // (header as HTMLElement).style.transition = "all 0.5s ease-in-out";
   };
 
@@ -632,12 +658,7 @@ class Header extends React.Component<Props, State> {
   };
 
   onSideMenuClick = (clickType: string) => {
-    util.headerClickGTM(
-      clickType,
-      "Top",
-      this.props.mobile,
-      this.props.isLoggedIn
-    );
+    headerClickGTM(clickType, "Top", this.props.mobile, this.props.isLoggedIn);
   };
 
   onBottomMenuClick = (clickType: string) => {
@@ -647,7 +668,7 @@ class Header extends React.Component<Props, State> {
     //   this.props.mobile,
     //   this.props.isLoggedIn
     // );
-    util.footerClickGTM(clickType, "Bottom", this.props.isLoggedIn);
+    footerClickGTM(clickType, "Bottom", this.props.isLoggedIn);
   };
 
   gtmPushWishlistClick = () => {
@@ -672,10 +693,10 @@ class Header extends React.Component<Props, State> {
   }: {
     [x: string]: string;
   }) => {
-    util.menuNavigationGTM({
-      l1: util.getInnerText(l1) || "",
-      l2: util.getInnerText(l2) || "",
-      l3: util.getInnerText(l3) || "",
+    menuNavigationGTM({
+      l1: getInnerText(l1) || "",
+      l2: getInnerText(l2) || "",
+      l3: getInnerText(l3) || "",
       clickUrl1: clickUrl1 || "",
       clickUrl2: clickUrl2 || "",
       clickUrl3: clickUrl3 || "",
@@ -700,21 +721,21 @@ class Header extends React.Component<Props, State> {
     [x: string]: string;
   }) => {
     const obj = {
-      l1: util.getInnerText(l1) || "",
-      l2: util.getInnerText(l2) || "",
-      l3: util.getInnerText(l3) || "",
+      l1: getInnerText(l1) || "",
+      l2: getInnerText(l2) || "",
+      l3: getInnerText(l3) || "",
       clickUrl1: clickUrl1 || "",
       clickUrl2: clickUrl2 || "",
       clickUrl3: clickUrl3 || "",
       template: template || "",
       img2: img2 || "",
       img3: img3 || "",
-      cta: util.getInnerText(cta) || "",
+      cta: getInnerText(cta) || "",
       subHeading: subHeading || "",
       mobile: this.props.mobile || false,
       isLoggedIn: this.props.isLoggedIn || false
     };
-    util.megaMenuNavigationGTM(obj);
+    megaMenuNavigationGTM(obj);
   };
 
   showSearch = () => {
@@ -792,12 +813,7 @@ class Header extends React.Component<Props, State> {
 
   handleLogoClick = () => {
     this.gtmPushLogoClick();
-    util.headerClickGTM(
-      "Logo",
-      "Top",
-      this.props.mobile,
-      this.props.isLoggedIn
-    );
+    headerClickGTM("Logo", "Top", this.props.mobile, this.props.isLoggedIn);
     this.setState({
       showC: false,
       showMenu: false,
@@ -1068,12 +1084,7 @@ class Header extends React.Component<Props, State> {
                     }
                     onClick={() => {
                       this.clickToggle();
-                      util.headerClickGTM(
-                        "Mobile Menu",
-                        "Top",
-                        true,
-                        isLoggedIn
-                      );
+                      headerClickGTM("Mobile Menu", "Top", true, isLoggedIn);
                     }}
                   ></i>
                   <i

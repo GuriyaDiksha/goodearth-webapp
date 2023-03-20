@@ -17,6 +17,7 @@ import { AppState } from "reducers/typings";
 import quantityStyles from "../quantity/styles.scss";
 import CookieService from "services/cookie";
 import { GA_CALLS, ANY_ADS } from "constants/cookieConsent";
+import { displayPriceWithCommas } from "utils/utility";
 
 const LineItems: React.FC<BasketItem> = memo(
   ({
@@ -259,7 +260,10 @@ const LineItems: React.FC<BasketItem> = memo(
                     <span className={styles.discountprice}>
                       {String.fromCharCode(...currencyCodes[currency])}
                       &nbsp;
-                      {discountedPriceRecords[currency]}
+                      {displayPriceWithCommas(
+                        discountedPriceRecords[currency],
+                        currency
+                      )}
                       &nbsp; &nbsp;
                     </span>
                   ) : (
@@ -269,7 +273,9 @@ const LineItems: React.FC<BasketItem> = memo(
                     <span className={styles.strikeprice}>
                       {String.fromCharCode(...currencyCodes[currency])}
                       &nbsp;
-                      {isGiftCard ? GCValue : price}
+                      {isGiftCard
+                        ? displayPriceWithCommas(GCValue, currency)
+                        : displayPriceWithCommas(price, currency)}
                     </span>
                   ) : (
                     <span
@@ -280,7 +286,9 @@ const LineItems: React.FC<BasketItem> = memo(
                       {" "}
                       {String.fromCharCode(...currencyCodes[currency])}
                       &nbsp;
-                      {isGiftCard ? GCValue : price}
+                      {isGiftCard
+                        ? displayPriceWithCommas(GCValue, currency)
+                        : displayPriceWithCommas(price, currency)}
                     </span>
                   )}
                 </div>

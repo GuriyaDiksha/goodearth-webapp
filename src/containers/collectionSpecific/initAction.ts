@@ -6,7 +6,7 @@ import {
 } from "actions/collection";
 import { updatePartialProducts } from "actions/product";
 import { getProductIdFromSlug } from "utils/url";
-import * as valid from "utils/validate";
+import { collectionProductImpression } from "utils/validate";
 
 const initActionSpecific: InitAction = async (
   store,
@@ -32,7 +32,7 @@ const initActionSpecific: InitAction = async (
     const plpProduct: any = filterData && filterData.results;
 
     if (filterData) {
-      valid.collectionProductImpression(
+      collectionProductImpression(
         filterData,
         "CollectionSpecific",
         currency || "INR"
