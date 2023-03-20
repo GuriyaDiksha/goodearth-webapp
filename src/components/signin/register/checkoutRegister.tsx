@@ -28,6 +28,7 @@ import { GA_CALLS, ANY_ADS } from "constants/cookieConsent";
 // import SelectDropdown from "components/Formsy/SelectDropdown";
 import CountryCode from "components/Formsy/CountryCode";
 import FormContainer from "../formContainer";
+import WhatsappSubscribe from "components/WhatsappSubscribe";
 
 const mapStateToProps = (state: AppState) => {
   const isdList = state.address.countryData.map(list => {
@@ -88,6 +89,7 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
   countryRef: RefObject<HTMLInputElement> = React.createRef();
   countryCodeRef: RefObject<HTMLInputElement> = React.createRef();
   genderRef: RefObject<HTMLInputElement> = React.createRef();
+  whatsappCheckRef: RefObject<HTMLInputElement> = React.createRef();
 
   componentDidMount() {
     const email = localStorage.getItem("tempEmail");
@@ -143,9 +145,9 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
       state,
       phone,
       code,
-      terms
+      terms,
+      whatsappSubscribe
     } = model;
-
     const formData: any = {};
     formData["username"] = email;
     formData["email"] = email;
@@ -169,6 +171,7 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
       formData["phoneNo"] = phone;
       formData["phoneCountryCode"] = code;
     }
+    formData["whatsappSubscribe"] = whatsappSubscribe;
     formData["subscribe"] = terms;
 
     this.setState({
@@ -418,6 +421,7 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
         msgt: ""
       });
     }
+
     setTimeout(() => {
       const firstErrorField = document.getElementsByClassName(
         globalStyles.errorBorder
@@ -882,11 +886,16 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
               className={showFieldsClass}
               label={"Contact Number"}
               validations={{
-                isExisty: true
+                // isExisty: true,
+                compulsory: (values, value) => {
+                  if (values.whatsappSubscribe && value == "") {
+                    return "Please enter your contact number";
+                  }
+                }
               }}
-              validationErrors={{
-                isExisty: "Please enter your Contact Number"
-              }}
+              // validationErrors={{
+              //   // isExisty: "Please enter your contact number"
+              // }}
               keyPress={e => (e.key == "Enter" ? e.preventDefault() : "")}
               keyDown={e => (e.which === 69 ? e.preventDefault() : null)}
               onPaste={e =>
@@ -1086,7 +1095,14 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
               showLabel={true}
             />
           </div>
-
+          <div className={styles.subscribe}>
+            <WhatsappSubscribe
+              innerRef={this.whatsappCheckRef}
+              showTermsMessage={false}
+              showManageMsg={true}
+              showPhone={false}
+            />
+          </div>
           <div className={styles.subscribe}>
             <FormCheckbox
               value={false}

@@ -7,26 +7,35 @@ import FormInput from "components/Formsy/FormInput";
 import waIcon from "images/wa-icon.svg";
 
 type Props = {
-  data: any;
-  ref: any;
-  showPhone: boolean;
+  innerRef: any;
+  showTermsMessage?: boolean;
+  data?: any;
+  showPhone?: boolean;
+  showTooltip?: boolean;
+  showManageMsg?: boolean;
   isdList?: any;
 };
 
 const WhatsappSubscribe: React.FC<Props> = ({
   data,
-  ref,
-  showPhone,
-  isdList
+  innerRef,
+  showTermsMessage = true,
+  showPhone = true,
+  showManageMsg = false,
+  isdList,
+  showTooltip = false
 }) => {
   const [checked, setChecked] = useState(false);
   const [phone, setPhone] = useState("");
   const [code, setCode] = useState("");
+  const [showTip, setShowTip] = useState(false);
 
   useEffect(() => {
-    setChecked(data.whatsappSubscribe);
-    setCode(data.whatsappNoCountryCode);
-    setPhone(data.whatsappNo);
+    if (data) {
+      setChecked(data.whatsappSubscribe);
+      setCode(data.whatsappNoCountryCode);
+      setPhone(data.whatsappNo);
+    }
   }, [data]);
 
   const onCheckChange = (e: any) => {
@@ -40,25 +49,40 @@ const WhatsappSubscribe: React.FC<Props> = ({
   const onCodeChange = (e: any) => {
     setCode(e.target.value);
   };
-  const waIconStyle = {
-    height: "12px",
-    marginLeft: "5px"
-  };
+
+  const labelElements = [];
+
+  labelElements.push(<span key="1">Subscribe me for Whatsapp updates.</span>);
+  if (showTooltip) {
+    labelElements.push(
+      <img
+        key="2"
+        src={waIcon}
+        onClick={e => {
+          setShowTip(true);
+        }}
+      />
+    );
+  }
+  if (!showTooltip) {
+    labelElements.push(<img key="3" src={waIcon} />);
+  }
+  if (showManageMsg && checked) {
+    labelElements.push(
+      <div>Manage your preference from My Preference section under Profile</div>
+    );
+  }
+
   return (
     <div className={styles.whatsapp}>
       <FormCheckbox
         id="whatsappSubscribe"
         name="whatsappSubscribe"
         disable={false}
-        label={[
-          <span key="1">
-            Subscribe me for Whatsapp updates.
-            <img key="2" src={waIcon} style={waIconStyle} />
-          </span>
-        ]}
+        label={labelElements}
         value={checked}
         labelClassName={styles.checkboxLabel}
-        inputRef={ref}
+        inputRef={innerRef}
         handleChange={onCheckChange}
       />
       {checked && showPhone && (
@@ -113,18 +137,21 @@ const WhatsappSubscribe: React.FC<Props> = ({
           />
         </div>
       )}
-      By checking this, you agree to receiving Whatsapp messages for order &
-      profile related information. To know more how we keep your data safe,
-      refer to our &nbsp;
-      <Link
-        key="privacy"
-        to="/customer-assistance/privacy-policy"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        Privacy Policy
-      </Link>
-      .
+      {showTermsMessage &&
+        `By checking this, you agree to receiving Whatsapp messages for order &
+          profile related information. To know more how we keep your data safe,
+          refer to our
+          `}
+      {showTermsMessage && (
+        <Link
+          key="privacy"
+          to="/customer-assistance/privacy-policy"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Privacy Policy .
+        </Link>
+      )}
     </div>
   );
 };

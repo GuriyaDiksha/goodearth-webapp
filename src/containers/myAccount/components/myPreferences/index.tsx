@@ -72,7 +72,7 @@ const MyPreferences = () => {
         <div className={cs(styles.content, styles.categorylabel)}>
           <WhatsappSubscribe
             data={preferencesData}
-            ref={whatsappCheckRef}
+            innerRef={whatsappCheckRef}
             isdList={isdList}
             showPhone={true}
           />
