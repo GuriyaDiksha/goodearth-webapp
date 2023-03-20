@@ -56,6 +56,7 @@ import { Basket } from "typings/basket";
 import { Currency } from "typings/currency";
 import { GA_CALLS, ANY_ADS } from "constants/cookieConsent";
 import CheckoutBreadcrumb from "./component/CheckoutBreadcrumb";
+import Loader from "components/Loader";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -95,9 +96,13 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       );
       const userData = { ...user, shippingData: shippingAddress };
       dispatch(updateUser(userData));
+      // debugger
+      // isLoading(true);
       AddressService.fetchAddressList(dispatch).then(addressList => {
         dispatch(updateAddressList(addressList));
       });
+      // .finally(()=> isLoading(false));
+
       return data;
     },
     specifyBillingAddress: async (
@@ -598,7 +603,7 @@ class Checkout extends React.Component<Props, State> {
 
       const { bridal } = this.props.basket;
       const userConsent = CookieService.getCookie("consent").split(",");
-
+      this.setState({ isLoading: true });
       this.props
         .specifyShippingAddress(
           address.id,
@@ -620,7 +625,6 @@ class Checkout extends React.Component<Props, State> {
               "Contact Number": address.phoneCountryCode + address.phoneNumber
             });
           }
-          console.log(address.country);
           if (address.country == "IN") {
             this.props
               .checkPinCodeShippable(address.postCode)
@@ -704,7 +708,8 @@ class Checkout extends React.Component<Props, State> {
             });
             this.showErrorMsg();
           }
-        });
+        })
+        .finally(() => this.setState({ isLoading: false }));
     } else {
       let data: specifyBillingAddressData;
       const billingAddress = address ? address : this.state.shippingAddress;
@@ -737,6 +742,7 @@ class Checkout extends React.Component<Props, State> {
             data
           );
         }
+        this.setState({ isLoading: true });
         this.props
           .specifyBillingAddress(data)
           .then(() => {
@@ -777,7 +783,8 @@ class Checkout extends React.Component<Props, State> {
             });
             this.showErrorMsg();
             this.showErrorMsgs();
-          });
+          })
+          .finally(() => this.setState({ isLoading: false }));
       }
     }
   };
@@ -890,6 +897,7 @@ class Checkout extends React.Component<Props, State> {
             </div>
           </div>
         </div>
+        {this.state.isLoading && <Loader />}
       </div>
     );
   }

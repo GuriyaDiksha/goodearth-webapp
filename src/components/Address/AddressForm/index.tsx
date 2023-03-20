@@ -817,9 +817,9 @@ const AddressForm: React.FC<Props> = props => {
                     value="Save Address"
                     className={cs(
                       globalStyles.ceriseBtn,
-                      // {
-                      //   [styles.disabledBtn]: !isAddressChanged
-                      // },
+                      {
+                        [styles.disabledBtn]: !isAddressChanged
+                      },
                       {
                         [styles.charcoalBtn]:
                           currentCallBackComponent == "account" ||
