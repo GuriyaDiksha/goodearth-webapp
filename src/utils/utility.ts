@@ -32,10 +32,12 @@ const displayPriceWithCommasFloat = (
     .toString()
     .split("-")
     .map(e => {
-      arr.push(parseInt(e.toString()).toLocaleString(arg), {
-        maximumFractionDigits: 2,
-        minimumFractionDigits: 2
-      });
+      arr.push(
+        parseInt(e.toString()).toLocaleString(arg, {
+          maximumFractionDigits: 2,
+          minimumFractionDigits: 2
+        })
+      );
     });
   return arr.join(" - ");
 };
