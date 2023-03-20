@@ -7,15 +7,14 @@ const displayPriceWithCommas = (price: string | number, currency: Currency) => {
   } else {
     arg = "en-US";
   }
-  if (price.toString().includes("-")) {
-    const arr = price.toString().split("-");
-    const temp: any[] = [];
-    arr.map(e => {
-      temp.push(parseInt(e.toString()).toLocaleString(arg));
+  const arr: any[] = [];
+  price
+    .toString()
+    .split("-")
+    .map(e => {
+      arr.push(parseInt(e.toString()).toLocaleString(arg));
     });
-    return temp.join(" - ");
-  }
-  return parseInt(price.toString()).toLocaleString(arg);
+  return arr.join(" - ");
 };
 
 const displayPriceWithCommasFloat = (
@@ -28,18 +27,17 @@ const displayPriceWithCommasFloat = (
   } else {
     arg = "en-US";
   }
-  if (price.toString().includes("-")) {
-    const arr = price.toString().split("-");
-    const temp: any[] = [];
-    arr.map(e => {
-      temp.push(parseInt(e.toString()).toLocaleString(arg));
+  const arr: any[] = [];
+  price
+    .toString()
+    .split("-")
+    .map(e => {
+      arr.push(parseInt(e.toString()).toLocaleString(arg), {
+        maximumFractionDigits: 2,
+        minimumFractionDigits: 2
+      });
     });
-    return temp.join(" - ");
-  }
-  return parseInt(price.toString()).toLocaleString(arg, {
-    maximumFractionDigits: 2,
-    minimumFractionDigits: 2
-  });
+  return arr.join(" - ");
 };
 
 const makeid = (length: number) => {
