@@ -311,8 +311,8 @@ let config = [
                 __GTM_ID__:gtmId,
                 __IP_DATA_KEY__: ipDataKey,
                 __MOENG__:moeng,
-                __CAREERS_FORM__: careersForm
-
+                __CAREERS_FORM__: careersForm,
+                __EnableCrypto__:crypto
             }),
             new MiniCssExtractPlugin({
                 filename: `${fileNamePattern}.css`,

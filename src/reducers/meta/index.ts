@@ -5,6 +5,7 @@ const initialState: State = {
   description: "",
   titleTag: "",
   ogTitle: "",
+  title: "",
   ogUrl: "",
   ogImage: "",
   ogImageHeight: "",

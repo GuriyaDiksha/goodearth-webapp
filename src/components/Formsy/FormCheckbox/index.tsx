@@ -12,9 +12,19 @@ const FormCheckbox: React.FC<Props &
     },
     [props.handleChange]
   );
-  const { inputRef, name, disable, id, label, value } = props;
+  const {
+    inputRef,
+    name,
+    disable,
+    id,
+    label,
+    value,
+    labelClassName,
+    className,
+    inputClassName
+  } = props;
   return (
-    <>
+    <div className={className}>
       <input
         ref={inputRef}
         name={name}
@@ -23,9 +33,12 @@ const FormCheckbox: React.FC<Props &
         type="checkbox"
         id={id}
         checked={value || false}
+        className={inputClassName}
       />
-      <label htmlFor={id}>{label}</label>
-    </>
+      <label htmlFor={id} className={labelClassName}>
+        {label}
+      </label>
+    </div>
   );
 };
 export default withFormsy(FormCheckbox);
