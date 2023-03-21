@@ -171,6 +171,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
             )}
             {isSuspended && !isSale && (
               <>
+                {/* <hr className={styles.hr} /> */}
                 <p>
                   {" "}
                   All standard WHO guidelines and relevant precautionary
@@ -1060,7 +1061,8 @@ const OrderSummary: React.FC<OrderProps> = props => {
                   className={cs(
                     globalStyles.textCenter,
                     styles.textCoupon,
-                    globalStyles.voffset4
+                    globalStyles.voffset4,
+                    styles.summaryPadding
                   )}
                 >
                   Promo Codes (if applicable), Gift Cards & Credit Notes can be

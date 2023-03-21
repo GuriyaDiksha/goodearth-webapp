@@ -571,7 +571,7 @@ class CartPage extends React.Component<Props, State> {
     return (
       <div className={cs(bootstrap.row, styles.pageBody)}>
         <div
-          className={cs(bootstrap.col12, bootstrap.colLg9, styles.bagContents)}
+          className={cs(bootstrap.col12, bootstrap.colLg8, styles.bagContents)}
         >
           <div className={cs(styles.header)}>
             <p>MY SHOPPING BAG ({this.props?.cart?.lineItems?.length})</p>
@@ -580,7 +580,7 @@ class CartPage extends React.Component<Props, State> {
           {this.getItems()}
         </div>
         <div
-          className={cs(bootstrap.col12, bootstrap.colLg3, globalStyles.padd0)}
+          className={cs(bootstrap.col12, bootstrap.colLg4, globalStyles.padd0)}
         >
           <OrderSummary
             mobile={this.props.mobile}

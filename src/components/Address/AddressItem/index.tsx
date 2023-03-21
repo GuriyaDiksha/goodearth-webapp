@@ -707,64 +707,66 @@ const AddressItem: React.FC<Props> = props => {
             </div>
           )}
           {/* ========= Address ============= */}
-          <div
-            className={cs(
-              globalStyles.voffset2,
-              styles.line,
-              styles.addressLine,
-              {
+          <div className={cs(styles.addressWrapper)}>
+            <div
+              className={cs(
+                globalStyles.voffset2,
+                styles.line,
+                styles.addressLine,
+                {
+                  [styles.checkoutFix]:
+                    currentCallBackComponent == "bridal" ||
+                    currentCallBackComponent == "bridal-edit"
+                }
+              )}
+            >
+              {address.line1.length > addressLineOneWithSpace
+                ? address.line1.slice(0, addressLineOneWithSpace).concat("...")
+                : address.line1}
+            </div>
+            <div
+              className={cs(styles.line, styles.addressLine, {
                 [styles.checkoutFix]:
                   currentCallBackComponent == "bridal" ||
                   currentCallBackComponent == "bridal-edit"
-              }
-            )}
-          >
-            {address.line1.length > addressLineOneWithSpace
-              ? address.line1.slice(0, addressLineOneWithSpace).concat("...")
-              : address.line1}
-          </div>
-          <div
-            className={cs(styles.line, styles.addressLine, {
-              [styles.checkoutFix]:
-                currentCallBackComponent == "bridal" ||
-                currentCallBackComponent == "bridal-edit"
-            })}
-          >
-            {address.line2.length > addressLineTwoWithSpace
-              ? address.line2.slice(0, addressLineTwoWithSpace).concat("...")
-              : address.line2}
-          </div>
-          <div
-            className={cs(styles.line, {
-              [styles.checkoutFix]:
-                currentCallBackComponent == "bridal" ||
-                currentCallBackComponent == "bridal-edit"
-            })}
-          >
-            {address.city}
-          </div>
-          <div
-            className={cs(styles.line, styles.addressLine, {
-              [styles.checkoutFix]:
-                currentCallBackComponent == "bridal" ||
-                currentCallBackComponent == "bridal-edit"
-            })}
-          >
-            {address.state
-              ? address.state
-              : address.province
-              ? address.province
-              : ""}
-            , {address.postCode == "000000" ? "" : address.postCode}
-          </div>
-          <div
-            className={cs(styles.line, styles.addressLine, {
-              [styles.checkoutFix]:
-                currentCallBackComponent == "bridal" ||
-                currentCallBackComponent == "bridal-edit"
-            })}
-          >
-            {address.countryName}
+              })}
+            >
+              {address.line2.length > addressLineTwoWithSpace
+                ? address.line2.slice(0, addressLineTwoWithSpace).concat("...")
+                : address.line2}
+            </div>
+            <div
+              className={cs(styles.line, {
+                [styles.checkoutFix]:
+                  currentCallBackComponent == "bridal" ||
+                  currentCallBackComponent == "bridal-edit"
+              })}
+            >
+              {address.city}
+            </div>
+            <div
+              className={cs(styles.line, styles.addressLine, {
+                [styles.checkoutFix]:
+                  currentCallBackComponent == "bridal" ||
+                  currentCallBackComponent == "bridal-edit"
+              })}
+            >
+              {address.state
+                ? address.state
+                : address.province
+                ? address.province
+                : ""}
+              , {address.postCode == "000000" ? "" : address.postCode}
+            </div>
+            <div
+              className={cs(styles.line, styles.addressLine, {
+                [styles.checkoutFix]:
+                  currentCallBackComponent == "bridal" ||
+                  currentCallBackComponent == "bridal-edit"
+              })}
+            >
+              {address.countryName}
+            </div>
           </div>
           <div
             className={cs(styles.phoneAndEditContainer, {
