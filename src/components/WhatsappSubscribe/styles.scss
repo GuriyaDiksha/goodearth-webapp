@@ -33,7 +33,11 @@
 }
 
 .whatsapp {
-    &.flex-for-tooltip{
+    .flex-for-tooltip{
         display: flex;
+    }
+    .manage-msg{
+        padding-left: 35px;
+        top: -20px;
     }
 }

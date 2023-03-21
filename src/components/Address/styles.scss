@@ -594,3 +594,13 @@
   display: flex;
   justify-content: space-between;
 }
+
+.login-form{
+  .categorylabel{
+    .subscribe{
+      label[for="whatsappSubscribe"]{
+        left: 0px;
+      }
+    }
+  }
+}

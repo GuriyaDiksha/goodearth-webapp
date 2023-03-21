@@ -57,55 +57,47 @@ const WhatsappSubscribe: React.FC<Props> = ({
 
   labelElements.push(<span key="1">Subscribe me for Whatsapp updates.</span>);
 
-  // if (showTooltip) {
-  //   labelElements.push(
-  //     <img
-  //       key="2"
-  //       src={tooltipIcon}
-  //       onClick={e => {
-  //         setShowTip(true);
-  //       }}
-  //     />
-  //   );
-  // }
   if (!showTooltip) {
     labelElements.push(<img key="3" src={waIcon} />);
   }
 
-  if (showManageMsg && checked) {
-    labelElements.push(
-      <div>Manage your preference from My Preference section under Profile</div>
-    );
-  }
-
   return (
-    <div
-      className={cs(styles.whatsapp, styles2.whatsapp, {
-        [styles2.flexForTooltip]: showTooltip
-      })}
-    >
-      <FormCheckbox
-        id="whatsappSubscribe"
-        name="whatsappSubscribe"
-        disable={false}
-        label={labelElements}
-        value={checked}
-        labelClassName={styles.checkboxLabel}
-        inputRef={innerRef}
-        handleChange={onCheckChange}
-      />
-      {showTooltip && (
-        <div className={styles2.tooltip}>
-          <img
-            src={tooltipIcon}
-            onClick={() => {
-              setShowTip(!showTip);
-            }}
-          />
-          <div className={cs(styles2.tooltipMsg, { [styles2.show]: showTip })}>
-            By checking this, you agree to receiving Whatsapp messages for order
-            & profile related information
+    <div className={cs(styles.whatsapp, styles2.whatsapp)}>
+      <div
+        className={cs({
+          [styles2.flexForTooltip]: showTooltip
+        })}
+      >
+        <FormCheckbox
+          id="whatsappSubscribe"
+          name="whatsappSubscribe"
+          disable={false}
+          label={labelElements}
+          value={checked}
+          labelClassName={styles.checkboxLabel}
+          inputRef={innerRef}
+          handleChange={onCheckChange}
+        />
+        {showTooltip && (
+          <div className={styles2.tooltip}>
+            <img
+              src={tooltipIcon}
+              onClick={() => {
+                setShowTip(!showTip);
+              }}
+            />
+            <div
+              className={cs(styles2.tooltipMsg, { [styles2.show]: showTip })}
+            >
+              By checking this, you agree to receiving Whatsapp messages for
+              order & profile related information
+            </div>
           </div>
+        )}
+      </div>
+      {showManageMsg && checked && (
+        <div className={styles.manageMsg}>
+          Manage your preference from My Preference section under Profile
         </div>
       )}
       {checked && showPhone && (
