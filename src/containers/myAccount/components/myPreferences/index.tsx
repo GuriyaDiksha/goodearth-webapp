@@ -75,6 +75,9 @@ const MyPreferences = () => {
             innerRef={whatsappCheckRef}
             isdList={isdList}
             showPhone={true}
+            whatsappClass={styles.whatsapp}
+            countryCodeClass={styles.countryCode}
+            checkboxLabelClass={styles.checkboxLabel}
           />
           <div className={styles.newsletters}>
             <FormCheckbox

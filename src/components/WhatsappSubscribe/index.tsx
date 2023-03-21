@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import FormCheckbox from "components/Formsy/FormCheckbox";
-import styles from "../../containers/myAccount/components/styles.scss";
 import styles2 from "./styles.scss";
 import CountryCode from "components/Formsy/CountryCode";
 import FormInput from "components/Formsy/FormInput";
@@ -9,6 +9,8 @@ import waIcon from "images/wa-icon.svg";
 import tooltipIcon from "images/tooltip.svg";
 import tooltipOpenIcon from "images/tooltip-open.svg";
 import cs from "classnames";
+import { updateComponent, updateModal } from "actions/modal";
+import { POPUP } from "constants/components";
 
 type Props = {
   innerRef: any;
@@ -21,6 +23,9 @@ type Props = {
   showManageMsg?: boolean;
   isdList?: any;
   showPopupMsg?: boolean;
+  whatsappClass?: string;
+  countryCodeClass?: string;
+  checkboxLabelClass?: string;
 };
 
 const WhatsappSubscribe: React.FC<Props> = ({
@@ -33,8 +38,12 @@ const WhatsappSubscribe: React.FC<Props> = ({
   showTooltip = false,
   showPopupMsg = false,
   codeRef,
-  phoneRef
+  phoneRef,
+  whatsappClass,
+  countryCodeClass,
+  checkboxLabelClass
 }) => {
+  const dispatch = useDispatch();
   const [checked, setChecked] = useState(false);
   const [phone, setPhone] = useState("");
   const [code, setCode] = useState("");
@@ -60,8 +69,19 @@ const WhatsappSubscribe: React.FC<Props> = ({
     setCode(e.target.value);
   };
 
+  const closePopup = () => {
+    dispatch(updateModal(false));
+  };
+
   const openPopup = () => {
-    alert("open Save Preferences Popup");
+    dispatch(
+      updateComponent(
+        POPUP.WHATSAPP,
+        { data: data, isdList: isdList, closePopup },
+        true
+      )
+    );
+    dispatch(updateModal(true));
   };
 
   const labelElements = [];
@@ -93,7 +113,7 @@ const WhatsappSubscribe: React.FC<Props> = ({
 
   //all other cases
   return (
-    <div className={cs(styles.whatsapp, styles2.whatsapp)}>
+    <div className={cs(styles2.whatsapp, whatsappClass)}>
       <div
         className={cs({
           [styles2.flexForTooltip]: showTooltip
@@ -105,7 +125,7 @@ const WhatsappSubscribe: React.FC<Props> = ({
           disable={false}
           label={labelElements}
           value={checked}
-          labelClassName={styles.checkboxLabel}
+          labelClassName={checkboxLabelClass}
           inputRef={innerRef}
           handleChange={onCheckChange}
         />
@@ -132,7 +152,7 @@ const WhatsappSubscribe: React.FC<Props> = ({
         </div>
       )}
       {checked && showPhone && (
-        <div className={styles.countryCode}>
+        <div className={countryCodeClass}>
           <CountryCode
             name="whatsappNoCountryCode"
             placeholder="Code"

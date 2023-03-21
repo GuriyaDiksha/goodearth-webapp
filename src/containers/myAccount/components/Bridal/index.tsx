@@ -250,6 +250,7 @@ const Bridal: React.FC<Props> = props => {
       console.log(temp.input.value);
       console.log(whatsappRef.current?.checked);
       console.log(phoneRef.current?.value);
+      return;
       // setCurrentModule("created");
       setLastScreen("start");
       BridalService.saveBridalProfile(dispatch, formData)
