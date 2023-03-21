@@ -31,8 +31,6 @@ import checkmarkCircle from "./../../../images/checkmarkCircle.svg";
 import { updateComponent, updateModal } from "actions/modal";
 import { POPUP } from "constants/components";
 import { displayPriceWithCommas } from "utils/utility";
-import Loader from "components/Loader";
-import { debug } from "console";
 
 const AddressSection: React.FC<AddressProps & {
   mode: string;
@@ -62,7 +60,7 @@ const AddressSection: React.FC<AddressProps & {
   const { basket } = useSelector((state: AppState) => state);
   const { mobile } = useSelector((state: AppState) => state.device);
   const { addressList } = useSelector((state: AppState) => state.address);
-  const { showPromo } = useSelector((state: AppState) => state.info);
+  // const { showPromo } = useSelector((state: AppState) => state.info);
   const sameShipping =
     (props.activeStep == STEP_BILLING ? true : false) &&
     props.hidesameShipping &&
@@ -391,7 +389,7 @@ const AddressSection: React.FC<AddressProps & {
   // let numberObj: { gstNo?: string; gstType?: string; panPassportNo: string };
 
   const onSubmit = (
-    address?: AddressData,
+    address?: AddressData | undefined,
     gstText?: string,
     gstType?: string
   ) => {
@@ -399,9 +397,9 @@ const AddressSection: React.FC<AddressProps & {
     const addr = address || null;
     let numberObj: { gstNo?: string; gstType?: string; panPassportNo: string };
     const amountPriceCheck = amountPrice[currency] <= basket.total;
-    setGstNum(gstText);
+    setGstNum(gstText || gstNum);
 
-    if (gst) {
+    if (gstText || gstNum) {
       numberObj = Object.assign(
         {},
         { gstNo: gstText, gstType: gstType, panPassportNo: pancardText }
@@ -426,9 +424,9 @@ const AddressSection: React.FC<AddressProps & {
     if (validate) {
       removeErrorMessages();
       props.finalizeAddress(addr, props.activeStep, numberObj);
-      if (activeStep === STEP_BILLING) {
-        next(showPromo ? STEP_PROMO : STEP_PAYMENT);
-      }
+      // if (activeStep === STEP_BILLING) {
+      //   next(showPromo ? STEP_PROMO : STEP_PAYMENT);
+      // }
       return validate;
     } else {
       showErrorMsg();
@@ -452,7 +450,6 @@ const AddressSection: React.FC<AddressProps & {
     if (activeStep === STEP_SHIPPING) {
       next(STEP_BILLING);
     }
-    console.log(addressList, "address list");
     return true;
   };
   // const handleSaveAndReview = (address?: AddressData) => {
@@ -464,26 +461,24 @@ const AddressSection: React.FC<AddressProps & {
   //     ));
   //   }
   // };
-
-  const toggleGstInvoice = (address?: AddressData) => {
-    debugger;
-    console.log(addressList, "address list");
-    console.log(address, "address before");
-    setGst(true);
-    // onSelectAddress(address);
-    dispatch(
-      updateComponent(
-        POPUP.BILLINGGST,
-        {
-          onSubmit: onSubmit,
-          setGst: setGst,
-          address: address
-        },
-        true
-      )
-    );
-    dispatch(updateModal(true));
-    // console.log("test ====", event.target.value);
+  const toggleGstInvoice = () => {
+    setGst(!gst);
+    if (!gst) {
+      dispatch(
+        updateComponent(
+          POPUP.BILLINGGST,
+          {
+            onSubmit: onSubmit,
+            setGst: setGst,
+            gstNum: gstNum
+          },
+          true
+        )
+      );
+      dispatch(updateModal(true));
+    } else {
+      setGstNum("");
+    }
   };
 
   const openTermsPopup = () => {
@@ -522,11 +517,7 @@ const AddressSection: React.FC<AddressProps & {
                     <input
                       type="checkbox"
                       onChange={() => {
-                        toggleGstInvoice(
-                          addressList?.find(
-                            val => val?.isDefaultForShipping === true
-                          )
-                        );
+                        toggleGstInvoice();
                       }}
                       // checked={gst}
                     />
