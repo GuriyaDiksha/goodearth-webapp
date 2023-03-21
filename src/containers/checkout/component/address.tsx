@@ -31,8 +31,6 @@ import checkmarkCircle from "./../../../images/checkmarkCircle.svg";
 import { updateComponent, updateModal } from "actions/modal";
 import { POPUP } from "constants/components";
 import { displayPriceWithCommas } from "utils/utility";
-import Loader from "components/Loader";
-import { debug } from "console";
 
 const AddressSection: React.FC<AddressProps & {
   mode: string;
@@ -91,7 +89,6 @@ const AddressSection: React.FC<AddressProps & {
   const [termsErr, setTermsErr] = useState("");
 
   const dispatch = useDispatch();
-
   useEffect(() => {
     if (isLoggedIn && currentCallBackComponent == "checkout-shipping") {
       AddressService.fetchAddressList(dispatch).then(addressList => {
@@ -389,7 +386,6 @@ const AddressSection: React.FC<AddressProps & {
   };
 
   // let numberObj: { gstNo?: string; gstType?: string; panPassportNo: string };
-
   const onSubmit = (
     address?: AddressData,
     gstText?: string,
@@ -399,6 +395,7 @@ const AddressSection: React.FC<AddressProps & {
     const addr = address || null;
     let numberObj: { gstNo?: string; gstType?: string; panPassportNo: string };
     const amountPriceCheck = amountPrice[currency] <= basket.total;
+
     setGstNum(gstText);
 
     if (gst) {
@@ -435,49 +432,15 @@ const AddressSection: React.FC<AddressProps & {
       return validate;
     }
   };
-  const onSelectAddress = (address?: AddressData) => {
-    if (activeStep === STEP_SHIPPING && !isTermChecked) {
-      setTermsErr("Please confirm to terms and conditions");
-      return false;
-    }
-    setTermsErr("");
-    if (address) {
-      const isValid = isAddressValid(address);
-      if (isValid) {
-        onSubmit(address);
-      } else {
-        openAddressForm(address);
-      }
-    }
-    if (activeStep === STEP_SHIPPING) {
-      next(STEP_BILLING);
-    }
-    console.log(addressList, "address list");
-    return true;
-  };
-  // const handleSaveAndReview = (address?: AddressData) => {
-  //   debugger
-  //   // const selectedAddressRes: boolean = o
-  //   if (selectedAddressRes) {
-  //     onSubmit(onSelectAddress(
-  //       addressList?.find((val) => val?.isDefaultForShipping === true)
-  //     ));
-  //   }
-  // };
 
-  const toggleGstInvoice = (address?: AddressData) => {
-    debugger;
-    console.log(addressList, "address list");
-    console.log(address, "address before");
+  const toggleGstInvoice = () => {
     setGst(true);
-    // onSelectAddress(address);
     dispatch(
       updateComponent(
         POPUP.BILLINGGST,
         {
           onSubmit: onSubmit,
-          setGst: setGst,
-          address: address
+          setGst: setGst
         },
         true
       )
@@ -497,6 +460,10 @@ const AddressSection: React.FC<AddressProps & {
   //     event.preventDefault();
   //   }
   // };
+
+  const handleSaveAndReview = () => {
+    onSubmit();
+  };
 
   const renderPancard = useMemo(() => {
     if (props.activeStep == STEP_BILLING) {
@@ -521,13 +488,7 @@ const AddressSection: React.FC<AddressProps & {
                   <span className={styles.checkbox}>
                     <input
                       type="checkbox"
-                      onChange={() => {
-                        toggleGstInvoice(
-                          addressList?.find(
-                            val => val?.isDefaultForShipping === true
-                          )
-                        );
-                      }}
+                      onChange={toggleGstInvoice}
                       // checked={gst}
                     />
                     <span
@@ -662,6 +623,23 @@ const AddressSection: React.FC<AddressProps & {
     );
   };
 
+  const onSelectAddress = (address?: AddressData) => {
+    if (activeStep === STEP_SHIPPING && !isTermChecked) {
+      setTermsErr("Please confirm to terms and conditions");
+      return false;
+    }
+    if (address) {
+      const isValid = isAddressValid(address);
+      if (isValid) {
+        onSubmit(address);
+      } else {
+        openAddressForm(address);
+      }
+    }
+    if (activeStep === STEP_SHIPPING) {
+      next(STEP_BILLING);
+    }
+  };
   const renderCheckoutAddress = () => {
     let html: ReactElement | null = null;
 
@@ -919,11 +897,12 @@ const AddressSection: React.FC<AddressProps & {
                             styles.sendToPayment
                           )}
                           onClick={() => {
-                            onSelectAddress(
-                              addressList?.find(
-                                val => val?.isDefaultForShipping === true
-                              )
-                            );
+                            // onSelectAddress(
+                            //   addressList?.find(
+                            //     (val) => val?.isDefaultForShipping === true
+                            //   )
+                            // );
+                            handleSaveAndReview();
                           }}
                         >
                           Proceed to Payment

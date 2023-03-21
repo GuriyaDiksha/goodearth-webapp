@@ -20,10 +20,9 @@ const title = {
 type PopupProps = {
   onSubmit: (address: null, gstType: string, gstText: string) => any;
   setGst: (data: boolean) => any;
-  address: any;
 };
 
-const BillingGST: React.FC<PopupProps> = ({ onSubmit, setGst, address }) => {
+const BillingGST: React.FC<PopupProps> = ({ onSubmit, setGst }) => {
   const { closeModal } = useContext(Context);
   const [gstText, setGstText] = useState("");
   const [gstType, setGstType] = useState("GSTIN");
@@ -34,7 +33,7 @@ const BillingGST: React.FC<PopupProps> = ({ onSubmit, setGst, address }) => {
     setError("");
     setGstText("");
   };
-  console.log(address, "address...");
+
   const onCouponChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setGstText(event.target.value);
     setError("");
@@ -167,7 +166,7 @@ const BillingGST: React.FC<PopupProps> = ({ onSubmit, setGst, address }) => {
             onClick={e => {
               e.preventDefault();
               if (gstValidation()) {
-                onSubmit(address, gstText, gstType);
+                onSubmit(null, gstText, gstType);
                 closeModal();
               }
             }}
