@@ -173,6 +173,9 @@
       &.subs1 {
         margin-top: 50px;
       }
+      label[for="whatsappSubscribe"]{
+        left: 0;
+      }
       label {
         @include b5_10px_montserrat_charcoal();
         letter-spacing: 0.3px;

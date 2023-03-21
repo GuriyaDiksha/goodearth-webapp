@@ -930,6 +930,14 @@ input[type="text"]{
 .country-code{
   display: flex;
   justify-content: space-between;
+  >div {
+    width: 30%;
+    position: relative;
+    +div {
+      width: 65%;
+      position: relative;
+    }
+  }
 }
 
 .charcoal-btn{

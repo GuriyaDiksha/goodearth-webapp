@@ -96,7 +96,7 @@ const WhatsappSubscribe: React.FC<Props> = ({
         )}
       </div>
       {showManageMsg && checked && (
-        <div className={styles.manageMsg}>
+        <div className={styles2.manageMsg}>
           Manage your preference from My Preference section under Profile
         </div>
       )}

@@ -18,6 +18,7 @@ import MyAddress from "containers/myAccount/components/MyAddress";
 import { AddressContext } from "./context";
 import { Props, AddressModes } from "../typings";
 import AddressService from "services/address";
+import AccountService from "services/account";
 // import { updatePinCodeList } from "actions/address";
 import Loader from "components/Loader";
 import AddressSection from "containers/checkout/component/address";
@@ -43,6 +44,7 @@ const AddressMain: React.FC<Props> = props => {
   // showAddresses: true,
   // newAddressMode: false,
   // editMode: false
+  const [preferencesData, setPreferencesData] = useState<any>({});
   const [showDefaultAddressOnly] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const { addressList } = useSelector((state: AppState) => state.address);
@@ -75,6 +77,9 @@ const AddressMain: React.FC<Props> = props => {
           "Event Label": occasion
         });
       }
+      AccountService.fetchAccountPreferences(dispatch).then((data: any) => {
+        setPreferencesData(data);
+      });
     }
   }, []);
   const [mode, setMode] = useState<AddressModes>("list");
@@ -329,12 +334,13 @@ const AddressMain: React.FC<Props> = props => {
                 <div className={styles.categorylabel}>
                   <div className={styles.subscribe}>
                     <WhatsappSubscribe
+                      data={preferencesData}
                       innerRef={whatsappRef}
                       isdList={isdList}
                       showTermsMessage={false}
                       showTooltip={true}
                       showManageMsg={true}
-                      showPhone={false}
+                      showPhone={true}
                     />
                   </div>
                 </div>
