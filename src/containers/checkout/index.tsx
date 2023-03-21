@@ -884,7 +884,7 @@ class Checkout extends React.Component<Props, State> {
                 salestatus={this.props.isSale}
               />
             </div>
-            <div className={cs(bootstrap.col12, bootstrap.colMd4)}>
+            <div className={cs(bootstrap.col12, bootstrap.colLg4)}>
               <OrderSummary
                 mobile={this.props.mobile}
                 currency={this.props.currency}
