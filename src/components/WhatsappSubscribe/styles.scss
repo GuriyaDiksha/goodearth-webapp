@@ -41,3 +41,30 @@
     padding-left: 35px;
     top: -20px;
 }
+.show-popup-msg{
+    display: flex;
+    img {
+        height: 16px;
+        padding-top: 3px
+    }
+    .text {
+        .info{
+            @include b5_10px_montserrat_charcoal();
+            font-weight: $medium;
+            color: #548B8B;
+            letter-spacing: 0.3px;
+            line-height: 16px;
+        }
+        .cta {
+            @include b5_10px_montserrat_charcoal();
+            font-weight: $medium;
+            color: #548B8B;
+            letter-spacing: 0.3px;
+            line-height: 16px;
+            a {
+                text-decoration: underline;
+                text-underline-offset: 2px;
+            }
+        }
+    }
+}

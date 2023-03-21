@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useRef } from "react";
 import { AddressData } from "components/Address/typings";
 import { useSelector, useDispatch } from "react-redux";
 import { AppState } from "reducers/typings";
@@ -53,6 +53,9 @@ const Bridal: React.FC<Props> = props => {
   // const { mobile } = useSelector((state: AppState) => state.device);
   const { currency, user } = useSelector((state: AppState) => state);
   const dispatch = useDispatch();
+  const whatsappRef = useRef<HTMLInputElement>(null);
+  const codeRef = useRef<HTMLInputElement>(null);
+  const phoneRef = useRef<HTMLInputElement>(null);
   const getBridalProfileData = async () => {
     const data = await BridalService.fetchBridalProfile(
       dispatch,
@@ -243,6 +246,10 @@ const Bridal: React.FC<Props> = props => {
         currency,
         actionType: "create"
       };
+      const temp: any = codeRef.current;
+      console.log(temp.input.value);
+      console.log(whatsappRef.current?.checked);
+      console.log(phoneRef.current?.value);
       // setCurrentModule("created");
       setLastScreen("start");
       BridalService.saveBridalProfile(dispatch, formData)
@@ -308,6 +315,9 @@ const Bridal: React.FC<Props> = props => {
             error=""
             addresses={[]}
             createRegistry={createRegistry}
+            innerRef={whatsappRef}
+            codeRef={codeRef}
+            phoneRef={phoneRef}
           />
         );
       case "created":

@@ -59,7 +59,6 @@ const AddressMain: React.FC<Props> = props => {
   // const [ pincodeList, setPincodeList ] = useState([]);
   const [isdList, setIsdList] = useState<any>([]);
 
-  const whatsappRef = useRef();
   const {
     data: { userAddress, occasion }
   } = useContext(BridalContext);
@@ -335,12 +334,15 @@ const AddressMain: React.FC<Props> = props => {
                   <div className={styles.subscribe}>
                     <WhatsappSubscribe
                       data={preferencesData}
-                      innerRef={whatsappRef}
+                      innerRef={props.innerRef}
+                      phoneRef={props.phoneRef}
+                      codeRef={props.codeRef}
                       isdList={isdList}
                       showTermsMessage={false}
                       showTooltip={true}
                       showManageMsg={true}
                       showPhone={true}
+                      showPopupMsg={true}
                     />
                   </div>
                 </div>

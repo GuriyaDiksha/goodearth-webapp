@@ -7,16 +7,20 @@ import CountryCode from "components/Formsy/CountryCode";
 import FormInput from "components/Formsy/FormInput";
 import waIcon from "images/wa-icon.svg";
 import tooltipIcon from "images/tooltip.svg";
+import tooltipOpenIcon from "images/tooltip-open.svg";
 import cs from "classnames";
 
 type Props = {
   innerRef: any;
+  codeRef?: any;
+  phoneRef?: any;
   showTermsMessage?: boolean;
   data?: any;
   showPhone?: boolean;
   showTooltip?: boolean;
   showManageMsg?: boolean;
   isdList?: any;
+  showPopupMsg?: boolean;
 };
 
 const WhatsappSubscribe: React.FC<Props> = ({
@@ -26,7 +30,10 @@ const WhatsappSubscribe: React.FC<Props> = ({
   showPhone = true,
   showManageMsg = false,
   isdList,
-  showTooltip = false
+  showTooltip = false,
+  showPopupMsg = false,
+  codeRef,
+  phoneRef
 }) => {
   const [checked, setChecked] = useState(false);
   const [phone, setPhone] = useState("");
@@ -53,6 +60,10 @@ const WhatsappSubscribe: React.FC<Props> = ({
     setCode(e.target.value);
   };
 
+  const openPopup = () => {
+    alert("open Save Preferences Popup");
+  };
+
   const labelElements = [];
 
   labelElements.push(<span key="1">Subscribe me for Whatsapp updates.</span>);
@@ -61,6 +72,26 @@ const WhatsappSubscribe: React.FC<Props> = ({
     labelElements.push(<img key="3" src={waIcon} />);
   }
 
+  //If data already filled and popup msg needs to show
+  if (showPopupMsg && data.whatsappSubscribe) {
+    return (
+      <div className={styles2.showPopupMsg}>
+        <img src={waIcon} />
+        <div className={styles2.text}>
+          <div className={styles2.info}>
+            Whatsapp updates will be sent on {data.whatsappNoCountryCode}{" "}
+            {data.whatsappNo}.
+          </div>
+          <div className={styles2.cta}>
+            <a onClick={openPopup}>Click here</a> to update this number or
+            unsubscribe.
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  //all other cases
   return (
     <div className={cs(styles.whatsapp, styles2.whatsapp)}>
       <div
@@ -81,7 +112,7 @@ const WhatsappSubscribe: React.FC<Props> = ({
         {showTooltip && (
           <div className={styles2.tooltip}>
             <img
-              src={tooltipIcon}
+              src={showTip ? tooltipOpenIcon : tooltipIcon}
               onClick={() => {
                 setShowTip(!showTip);
               }}
@@ -126,6 +157,7 @@ const WhatsappSubscribe: React.FC<Props> = ({
               isValidCode: "Enter valid code"
             }}
             showLabel={true}
+            innerRef={codeRef}
           />
           <FormInput
             // required
@@ -149,6 +181,7 @@ const WhatsappSubscribe: React.FC<Props> = ({
             }
             handleChange={onPhoneChange}
             showLabel={true}
+            inputRef={phoneRef}
           />
         </div>
       )}
