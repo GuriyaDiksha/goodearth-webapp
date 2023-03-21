@@ -1,5 +1,4 @@
 export type otpState = {
-  disable: boolean;
   msgt: string;
   showFields: boolean;
   radioType: string;
@@ -69,6 +68,9 @@ export type otpRedeemProps = {
   number?: string;
   isLoggedIn: boolean;
   history: any;
+  closeModal: () => any;
+  removeRedeem: () => any;
+  setIsactiveredeem: (data: boolean) => any;
 };
 
 export type otpBoxProps = {

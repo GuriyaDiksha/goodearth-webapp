@@ -37,18 +37,23 @@ const Delivery: React.FC<PopupProps> = props => {
           globalStyles.textCenter
         )}
       >
-        <div className={styles.cross} onClick={closeModal}>
-          <i
-            className={cs(
-              iconStyles.icon,
-              iconStyles.iconCrossNarrowBig,
-              styles.icon,
-              styles.iconCross
-            )}
-          ></i>
+        <div className={styles.headWrp}>
+          <div className={styles.deliveryHead}>Delivery Instructions</div>
+          <div
+            className={cs(styles.cross, styles.deliveryIcon)}
+            onClick={closeModal}
+          >
+            <i
+              className={cs(
+                iconStyles.icon,
+                iconStyles.iconCrossNarrowBig,
+                styles.icon,
+                styles.iconCross
+              )}
+            ></i>
+          </div>
         </div>
-        <div className={cs(styles.gcTnc)}>
-          <div className={globalStyles.c22AI}>Delivery Instructions</div>
+        <div className={cs(globalStyles.paddT20, styles.gcTnc)}>
           {/* <div className={globalStyles.c10LR}> */}
           <div>
             <div className={styles.deliverSubheading}>
@@ -56,9 +61,7 @@ const Delivery: React.FC<PopupProps> = props => {
               {/* You’re a step away from{" "}
               <span className={styles.linkTextUnderline}>free shipping!</span> */}
             </div>
-            <div
-              className={cs(globalStyles.voffset3, styles.deliverSubheading)}
-            >
+            <div className={cs(globalStyles.voffset3, globalStyles.marginLR40)}>
               <div>
                 <textarea
                   rows={5}
@@ -74,14 +77,8 @@ const Delivery: React.FC<PopupProps> = props => {
                     setTextarea(e.target.value);
                   }}
                 />
-                <div
-                  className={cs(
-                    globalStyles.textRight,
-                    styles.font14,
-                    styles.freeDelivery
-                  )}
-                >
-                  Character Limit: {250 - textarea.length} / 250
+                <div className={cs(styles.freeDelivery, globalStyles.textLeft)}>
+                  Char Limit: {250 - textarea.length} / 250
                 </div>
               </div>
             </div>
@@ -105,8 +102,9 @@ const Delivery: React.FC<PopupProps> = props => {
         </div>
         <div
           className={cs(
-            globalStyles.ceriseBtn,
-            styles.ceriseBtnWidth,
+            globalStyles.checkoutBtn,
+            styles.deliveryBtnWidth,
+            styles.freeshipBtnWidth,
             styles.marginBottom
           )}
         >

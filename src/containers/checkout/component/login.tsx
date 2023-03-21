@@ -2,10 +2,12 @@ import React, { useState } from "react";
 import cs from "classnames";
 // import iconStyles from "../../styles/iconFonts.scss";
 import bootstrapStyles from "../../../styles/bootstrap/bootstrap-grid.scss";
+import globalStyles from "styles/global.scss";
 import styles from "../styles.scss";
 import { LoginProps } from "./typings";
-import * as Steps from "../constants";
+import { STEP_SHIPPING } from "../constants";
 import loadable from "@loadable/component";
+import checkmarkCircle from "./../../../images/checkmarkCircle.svg";
 
 const CheckoutLoginForm = loadable(() =>
   import("components/signin/Login/checkoutLogin")
@@ -35,8 +37,9 @@ const LoginSection: React.FC<LoginProps> = props => {
     setIsRegister(false);
   };
   const nextStep = () => {
-    if (next) next(Steps.STEP_SHIPPING);
+    if (next) next(STEP_SHIPPING);
   };
+
   return (
     <div
       className={
@@ -50,10 +53,17 @@ const LoginSection: React.FC<LoginProps> = props => {
           className={cs(
             bootstrapStyles.col12,
             bootstrapStyles.colMd6,
-            styles.title
+            styles.title,
+            globalStyles.flex
           )}
         >
-          <p className={isActive ? "" : styles.closed}>LOGIN / REGISTER</p>
+          <img
+            height={"15px"}
+            className={globalStyles.marginR10}
+            src={checkmarkCircle}
+            alt="checkmarkdone"
+          />
+          <p className={isActive ? "" : styles.iscompleted}>LOGGED IN AS</p>
           <div>
             {!isLoggedIn ? (
               isRegister ? (
@@ -61,6 +71,7 @@ const LoginSection: React.FC<LoginProps> = props => {
                   nextStep={nextStep}
                   changeEmail={changeEmail}
                   goToLogin={goLogin}
+                  isCheckout={true}
                 />
               ) : (
                 <CheckoutLoginForm

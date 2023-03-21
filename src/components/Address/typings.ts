@@ -60,5 +60,6 @@ export type Props = {
   // user:
   error: string;
   errorNotification?: string;
+  currentStep: number;
 };
 export type AddressModes = "new" | "edit" | "list";

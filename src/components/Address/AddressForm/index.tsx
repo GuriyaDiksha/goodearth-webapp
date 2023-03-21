@@ -23,9 +23,10 @@ import { AppState } from "reducers/typings";
 import { Country } from "components/Formsy/CountryCode/typings";
 import AddressService from "services/address";
 import { updateCountryData } from "actions/address";
-import * as valid from "utils/validate";
+import { getErrorList, errorTracking } from "utils/validate";
 import BridalContext from "containers/myAccount/components/Bridal/context";
 import noPincodeCountryList from "./noPincodeCountryList";
+import iconStyles from "styles/iconFonts.scss";
 
 type Props = {
   addressData?: AddressData;
@@ -61,6 +62,7 @@ const AddressForm: React.FC<Props> = props => {
     setIsLoading,
     currentCallBackComponent
   } = useContext(AddressContext);
+
   const [isIndia, setIsIndia] = useState(false);
   const [showPincode, setShowPincode] = useState(true);
   const [countryOptions, setCountryOptions] = useState<CountryOptions[]>([]);
@@ -200,12 +202,9 @@ const AddressForm: React.FC<Props> = props => {
         firstErrorField.scrollIntoView({ block: "center", behavior: "smooth" });
       }
       // for error Tracking
-      const errorList = valid.getErrorList(
-        globalStyles.errorMsg,
-        "address-form"
-      );
+      const errorList = getErrorList(globalStyles.errorMsg, "address-form");
       if (errorList && errorList.length) {
-        valid.errorTracking(errorList, location.href);
+        errorTracking(errorList, location.href);
       }
     }, 0);
   };
@@ -429,7 +428,38 @@ const AddressForm: React.FC<Props> = props => {
         onValidSubmit={submitAddress}
         onInvalidSubmit={handleInvalidSubmit}
       >
-        <div className={styles.categorylabel} id="address-form">
+        <div
+          className={cs(styles.categorylabel, {
+            [styles.checkoutMobilePopup]:
+              (mobile && currentCallBackComponent == "checkout-shipping") ||
+              currentCallBackComponent == "checkout-billing"
+          })}
+          id="address-form"
+        >
+          {(currentCallBackComponent == "checkout-shipping" ||
+            currentCallBackComponent == "checkout-billing") &&
+            mobile && (
+              <div
+                className={cs(
+                  styles.formTitleWrapper,
+                  globalStyles.flex,
+                  globalStyles.gutterBetween
+                )}
+              >
+                <div className={styles.formTitle}>
+                  {mode == "edit" ? "Edit ADDRESS" : "ADD NEW ADDRESS"}
+                </div>
+                <div className={styles.formClose} onClick={closeAddressForm}>
+                  <i
+                    className={cs(
+                      iconStyles.icon,
+                      iconStyles.iconCrossNarrowBig,
+                      styles.iconCross
+                    )}
+                  ></i>
+                </div>
+              </div>
+            )}
           <div>
             <FormInput
               name="emailId"
@@ -747,9 +777,15 @@ const AddressForm: React.FC<Props> = props => {
               />
             </div>
           )}
-          <div>
-            <div className="row">
-              <div className="col-xs-12">
+          <div
+            className={cs({
+              [styles.checkoutMobilePopupButton]:
+                currentCallBackComponent == "checkout-shipping" ||
+                currentCallBackComponent == "checkout-billing"
+            })}
+          >
+            <div className={cs(globalStyles.flex, styles.btnWrp)}>
+              <div>
                 {mode == "edit" ? (
                   <input
                     formNoValidate={true}
@@ -762,7 +798,14 @@ const AddressForm: React.FC<Props> = props => {
                       },
                       {
                         [styles.charcoalBtn]:
-                          currentCallBackComponent == "account"
+                          currentCallBackComponent == "account" ||
+                          currentCallBackComponent == "checkout-shipping" ||
+                          currentCallBackComponent == "checkout-billing"
+                      },
+                      {
+                        [styles.charcoalBtnWidth]:
+                          currentCallBackComponent == "checkout-shipping" ||
+                          currentCallBackComponent == "checkout-billing"
                       }
                     )}
                     disabled={!isAddressChanged}
@@ -779,12 +822,39 @@ const AddressForm: React.FC<Props> = props => {
                       },
                       {
                         [styles.charcoalBtn]:
-                          currentCallBackComponent == "account"
+                          currentCallBackComponent == "account" ||
+                          currentCallBackComponent == "checkout-shipping" ||
+                          currentCallBackComponent == "checkout-billing"
+                      },
+                      {
+                        [styles.charcoalBtnWidth]:
+                          currentCallBackComponent == "checkout-shipping" ||
+                          currentCallBackComponent == "checkout-billing"
                       }
                     )}
                     disabled={!isAddressChanged}
                   />
                 )}
+              </div>
+              <div className="col-xs-6">
+                <div
+                  className={cs(
+                    {
+                      [styles.aquaBtn]:
+                        currentCallBackComponent == "account" ||
+                        currentCallBackComponent == "checkout-shipping" ||
+                        currentCallBackComponent == "checkout-billing"
+                    },
+                    {
+                      [styles.charcoalBtnWidth]:
+                        currentCallBackComponent == "checkout-shipping" ||
+                        currentCallBackComponent == "checkout-billing"
+                    }
+                  )}
+                  onClick={closeAddressForm}
+                >
+                  cancel
+                </div>
               </div>
             </div>
             {errorMessage ? (

@@ -15,6 +15,8 @@ export type Props = {
   openHeaderClassName?: string;
   closedIconClassName?: string;
   openIconClassName?: string;
+  mainBodyClassName?: string;
+  mainBodyOpenClassName?: string;
   bodyClassName?: string;
   sectionClassName?: string;
   uniqueKey?: string;

@@ -5,20 +5,31 @@ import bootstrapStyles from "../../../styles/bootstrap/bootstrap-grid.scss";
 import globalStyles from "styles/global.scss";
 import styles from "../styles.scss";
 import { PromoProps } from "./typings";
-import * as Steps from "../constants";
+import { STEP_ORDER, STEP_PAYMENT, STEP_PROMO } from "../constants";
 import ApplyPromo from "./applyPromo";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { AppState } from "reducers/typings";
 import { useHistory } from "react-router";
+import checkmarkCircle from "./../../../images/checkmarkCircle.svg";
+import CheckoutService from "services/checkout";
+import BasketService from "services/basket";
+import Loader from "components/Loader";
 // import * as util from "utils/validate";
 
 const PromoSection: React.FC<PromoProps> = props => {
-  const { isActive, next, selectedAddress } = props;
+  const { isActive, next, selectedAddress, activeStep, currentStep } = props;
   const [isactivepromo, setIsactivepromo] = useState(false);
-  const { basket, info } = useSelector((state: AppState) => state);
+  // const [isLoading, setIsLoading] = useState(false);
+  const {
+    basket,
+    info,
+    user: { isLoggedIn },
+    device: { mobile }
+  } = useSelector((state: AppState) => state);
   const toggleInput = () => {
     setIsactivepromo(!isactivepromo);
   };
+  const dispatch = useDispatch();
 
   let PromoChild: any = useRef<typeof ApplyPromo>(null);
   const history = useHistory();
@@ -45,17 +56,17 @@ const PromoSection: React.FC<PromoProps> = props => {
       PromoChild.gcBalance();
     } else {
       // util.checkoutGTM(4, currency, basket);
-      next(Steps.STEP_PAYMENT);
+      // next(Steps.STEP_PAYMENT);
     }
   };
 
   const onNext = () => {
     // util.checkoutGTM(4, currency, basket);
-    next(Steps.STEP_PAYMENT);
+    next(STEP_PAYMENT);
   };
 
   const onCurrentState = () => {
-    next(Steps.STEP_PROMO);
+    next(STEP_PROMO);
   };
 
   const partialSale = true;
@@ -65,12 +76,25 @@ const PromoSection: React.FC<PromoProps> = props => {
   const cardCss = onlyGiftcard
     ? globalStyles.cerise
     : globalStyles.pointer + " " + globalStyles.cerise;
+
+  const removePromo = async (data: FormData) => {
+    const response = await CheckoutService.removePromo(dispatch, data);
+    BasketService.fetchBasket(dispatch, "checkout", history, isLoggedIn);
+    return response;
+  };
+
+  const onPromoRemove = (id: string) => {
+    const data: any = {
+      cardId: id
+    };
+    removePromo(data);
+  };
   return (
     <div
       className={
         isActive
-          ? cs(styles.card, styles.cardOpen, styles.marginT20)
-          : cs(styles.card, styles.cardClosed, styles.marginT20)
+          ? cs(styles.card, styles.cardOpen, styles.marginT5)
+          : cs(styles.card, styles.cardClosed, styles.marginT5)
       }
     >
       <div className={bootstrapStyles.row}>
@@ -81,10 +105,21 @@ const PromoSection: React.FC<PromoProps> = props => {
             styles.title
           )}
         >
-          <span className={isActive ? "" : styles.closed}>PROMO CODE</span>
+          {STEP_ORDER[activeStep] < currentStep ||
+          basket.voucherDiscounts.length > 0 ? (
+            <img
+              height={"18px"}
+              className={globalStyles.marginR10}
+              src={checkmarkCircle}
+              alt="checkmarkdone"
+            />
+          ) : null}
+          <span className={isActive || isactivepromo ? "" : styles.closed}>
+            PROMO CODE
+          </span>
         </div>
 
-        {!isActive && basket.voucherDiscounts.length > 0 ? (
+        {(!isActive || isactivepromo) && basket.voucherDiscounts.length > 0 && (
           <div
             className={cs(
               styles.col12,
@@ -94,51 +129,32 @@ const PromoSection: React.FC<PromoProps> = props => {
             onClick={onCurrentState}
           >
             <span className={styles.marginR10}>
-              <span className={styles.bold}>
+              <span className={styles.promoCode}>
                 {basket.voucherDiscounts[0]?.voucher?.code}
               </span>
-              {" PROMO CODE APPLIED"}
+              <span className={styles.promoCodeApplied}>
+                Promo Code Applied
+              </span>
             </span>
-            <span className={cs(globalStyles.cerise, globalStyles.pointer)}>
-              Edit
-            </span>
-          </div>
-        ) : (
-          <div
-            className={cs(
-              styles.col12,
-              bootstrapStyles.colMd6,
-              styles.selectedStvalue
-            )}
-            onClick={() => {
-              onlyGiftcard || isSale ? "" : onCurrentState();
-            }}
-          >
             <span
-              className={cs(
-                isSale
-                  ? styles.notSelected
-                  : isActive || !selectedAddress
-                  ? globalStyles.hidden
-                  : cardCss
-              )}
+              className={cs(globalStyles.pointer, styles.promoEdit)}
+              onClick={() => {
+                onPromoRemove(basket.voucherDiscounts[0]?.voucher?.code);
+                setIsactivepromo(false);
+              }}
             >
-              {isSale
-                ? "Not Applicable during Sale"
-                : onlyGiftcard
-                ? "Not Applicable"
-                : " APPLY PROMO CODE"}
+              Edit
             </span>
           </div>
         )}
       </div>
-      {isActive && (
+      {isActive && basket.voucherDiscounts.length <= 0 && (
         <Fragment>
           {!onlyGiftcard && (
             <div className={globalStyles.marginT20}>
-              <hr className={styles.hr} />
+              {!mobile && <hr className={styles.hr} />}
               <div className={globalStyles.flex}>
-                <div
+                {/* <div
                   className={cs(
                     styles.marginR10,
                     globalStyles.cerise,
@@ -149,9 +165,9 @@ const PromoSection: React.FC<PromoProps> = props => {
                   }}
                 >
                   {isactivepromo ? "-" : "+"}
-                </div>
+                </div> */}
                 <div className={styles.inputContainer}>
-                  <div
+                  {/* <div
                     className={cs(
                       globalStyles.c10LR,
                       styles.promoMargin,
@@ -163,29 +179,55 @@ const PromoSection: React.FC<PromoProps> = props => {
                     }}
                   >
                     APPLY PROMO CODE
-                  </div>
+                  </div> */}
+                  <label
+                    className={cs(globalStyles.flex, globalStyles.crossCenter)}
+                  >
+                    <div className={styles.marginR10}>
+                      <span className={styles.checkbox}>
+                        <input
+                          type="radio"
+                          checked={isactivepromo}
+                          onClick={() => {
+                            basket.voucherDiscounts.length > 0
+                              ? ""
+                              : toggleInput();
+                          }}
+                        />
+                        <span
+                          className={cs(styles.indicator, {
+                            [styles.checked]: isactivepromo
+                          })}
+                        ></span>
+                      </span>
+                    </div>
+                    <div className={cs(styles.formSubheading)}>
+                      {"Apply Promo"}
+                    </div>
+                  </label>
                   {isactivepromo && (
                     <ApplyPromo
                       onRef={(el: any) => {
                         PromoChild = el;
                       }}
                       onNext={onNext}
+                      onsubmit={onsubmit}
                     />
                   )}
                   {/* {renderInput()}
                 {renderCoupon()} */}
                 </div>
               </div>
-              <hr className={styles.hr} />
+              {/* <hr className={styles.hr} /> */}
             </div>
           )}
 
-          <button
+          {/* <button
             className={cs(globalStyles.marginT40, globalStyles.ceriseBtn)}
             onClick={onsubmit}
           >
             PROCEED TO PAYMENT
-          </button>
+          </button> */}
         </Fragment>
       )}
     </div>

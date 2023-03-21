@@ -13,14 +13,26 @@ import { AddressProps } from "./typings";
 import { updateAddressList } from "actions/address";
 import AddressService from "services/address";
 import { useDispatch, useSelector } from "react-redux";
-import * as Steps from "../constants";
+import {
+  STEP_BILLING,
+  STEP_ORDER,
+  STEP_PAYMENT,
+  STEP_PROMO,
+  STEP_SHIPPING
+} from "../constants";
 import UserContext from "contexts/user";
 import { AddressContext } from "components/Address/AddressMain/context";
 import { AppState } from "reducers/typings";
 import { AddressData } from "components/Address/typings";
-import * as valid from "utils/validate";
+import { checkBlank } from "utils/validate";
 import { CheckoutAddressContext } from "./context";
 import { Currency, currencyCode } from "typings/currency";
+import checkmarkCircle from "./../../../images/checkmarkCircle.svg";
+import { updateComponent, updateModal } from "actions/modal";
+import { POPUP } from "constants/components";
+import { displayPriceWithCommas } from "utils/utility";
+import Loader from "components/Loader";
+import { debug } from "console";
 
 const AddressSection: React.FC<AddressProps & {
   mode: string;
@@ -36,7 +48,8 @@ const AddressSection: React.FC<AddressProps & {
     isGoodearthShipping,
     hidesameShipping,
     next,
-    errorNotification
+    errorNotification,
+    currentStep
   } = props;
   const { isLoggedIn } = useContext(UserContext);
   const {
@@ -49,8 +62,9 @@ const AddressSection: React.FC<AddressProps & {
   const { basket } = useSelector((state: AppState) => state);
   const { mobile } = useSelector((state: AppState) => state.device);
   const { addressList } = useSelector((state: AppState) => state.address);
+  const { showPromo } = useSelector((state: AppState) => state.info);
   const sameShipping =
-    (props.activeStep == Steps.STEP_BILLING ? true : false) &&
+    (props.activeStep == STEP_BILLING ? true : false) &&
     props.hidesameShipping &&
     !isGoodearthShipping &&
     !props.isBridal;
@@ -67,15 +81,17 @@ const AddressSection: React.FC<AddressProps & {
 
   const [sameAsShipping, setSameAsShipping] = useState(sameShipping);
   const [gst, setGst] = useState(false);
-  const [gstText, setGstText] = useState("");
+  const [gstNum, setGstNum] = useState("");
+  // let gstNum: any;
   const [pancardText, setPancardText] = useState(user.panPassport || "");
   const [pancardCheck, setPancardCheck] = useState(false);
   const [panError, setPanError] = useState("");
   const [panCheck, setPanCheck] = useState("");
-  const [gstType, setGstType] = useState("GSTIN");
-  const [error, setError] = useState("");
+  const [isTermChecked, setIsTermChecked] = useState(false);
+  const [termsErr, setTermsErr] = useState("");
 
   const dispatch = useDispatch();
+
   useEffect(() => {
     if (isLoggedIn && currentCallBackComponent == "checkout-shipping") {
       AddressService.fetchAddressList(dispatch).then(addressList => {
@@ -117,7 +133,7 @@ const AddressSection: React.FC<AddressProps & {
           : "[+] ADD NEW ADDRESS";
       const mobileText =
         mode == "new" || mode == "edit" ? "< BACK" : "[+] ADD ADDRESS";
-      if (isBridal && activeStep == Steps.STEP_SHIPPING) return "";
+      if (isBridal && activeStep == STEP_SHIPPING) return "";
       return (
         <div
           className={cs(
@@ -144,15 +160,13 @@ const AddressSection: React.FC<AddressProps & {
   };
 
   const handleStepEdit = () => {
-    activeStep == Steps.STEP_SHIPPING
-      ? next(Steps.STEP_SHIPPING)
-      : next(Steps.STEP_BILLING);
+    activeStep == STEP_SHIPPING ? next(STEP_SHIPPING) : next(STEP_BILLING);
   };
 
   const renderSavedAddress = function() {
     const address = selectedAddress;
 
-    if (!isActive && address && isBridal && activeStep == Steps.STEP_SHIPPING) {
+    if (!isActive && address && isBridal && activeStep == STEP_SHIPPING) {
       // saved address for bridal
       return (
         <div
@@ -180,40 +194,109 @@ const AddressSection: React.FC<AddressProps & {
         <div
           className={cs(
             bootstrapStyles.col12,
-            bootstrapStyles.colMd6,
+            bootstrapStyles.colLg6,
             styles.small,
-            styles.selectedStvalue
+            styles.selectedStvalue,
+            {
+              [styles.checkoutSelectedValue]:
+                currentCallBackComponent == "checkout-shipping" ||
+                currentCallBackComponent == "checkout-billing"
+            }
           )}
         >
-          <div>
-            <span className={globalStyles.marginR10}>
-              {address.firstName} {address.lastName}
-            </span>
-            <span>Contact No. {address.phoneNumber}</span>
-          </div>
-          <div>
-            {address.line1}, {address.line2}
-          </div>
-          <div>
-            <span className={globalStyles.marginR10}>
-              {address.city} {address.postCode}, {address.state},{" "}
-              {address.countryName}
-            </span>
-            <span
-              className={cs(globalStyles.colorPrimary, globalStyles.pointer)}
-              onClick={handleStepEdit}
-            >
-              Edit
-            </span>
-          </div>
-          {currentCallBackComponent == "checkout-shipping" && (
+          {currentCallBackComponent == "checkout-shipping" ? (
             <>
-              <hr />
-              <p className={styles.contactMsg}>
-                <b>Note: </b>
-                {`${address.phoneCountryCode} ${address.phoneNumber} will be used for sending OTP during delivery.`}
-                <br /> Please ensure it is a mobile number.
+              <div
+                className={cs(globalStyles.flex, globalStyles.gutterBetween)}
+              >
+                <span className={cs(globalStyles.marginR10, styles.name)}>
+                  {address.firstName} {address.lastName}
+                </span>
+                <span
+                  className={cs(
+                    globalStyles.colorPrimary,
+                    globalStyles.pointer,
+                    styles.editAddress
+                  )}
+                  onClick={handleStepEdit}
+                >
+                  Edit
+                </span>
+              </div>
+              <div className={styles.addressMain}>
+                <div className={styles.text}>{address.line1},</div>
+                <div className={styles.text}>{address.line2},</div>
+                <div className={styles.text}>
+                  {address.city},{address.state}, {address.postCode},
+                </div>
+                <div className={styles.text}>{address.countryName}</div>
+              </div>
+              <p className={styles.phone}>
+                {address.phoneCountryCode} {address.phoneNumber}
               </p>
+              <p className={styles.contactMsg}>
+                Note:
+                {`${address.phoneCountryCode} ${address.phoneNumber} will be used for sending OTP during delivery. Please ensure it is a mobile number.`}
+              </p>
+            </>
+          ) : currentCallBackComponent == "checkout-billing" ? (
+            <>
+              <div
+                className={cs(globalStyles.flex, globalStyles.gutterBetween)}
+              >
+                <span className={cs(globalStyles.marginR10, styles.name)}>
+                  {address.firstName} {address.lastName}
+                </span>
+                <span
+                  className={cs(
+                    globalStyles.colorPrimary,
+                    globalStyles.pointer,
+                    styles.editAddress
+                  )}
+                  onClick={handleStepEdit}
+                >
+                  Edit
+                </span>
+              </div>
+              <div className={styles.addressMain}>
+                <div className={styles.text}>{address.line1},</div>
+                <div className={styles.text}>{address.line2},</div>
+                <div className={styles.text}>
+                  {address.city},{address.state}, {address.postCode},
+                </div>
+                <div className={styles.text}>{address.countryName}</div>
+              </div>
+              <p className={styles.phone}>
+                M: {address.phoneCountryCode} {address.phoneNumber}
+              </p>
+              {gstNum && <p className={styles.gstNo}>GSTIN: {gstNum}</p>}
+            </>
+          ) : (
+            <>
+              <div>
+                <span className={globalStyles.marginR10}>
+                  {address.firstName} {address.lastName}
+                </span>
+                <span>Contact No. {address.phoneNumber}</span>
+              </div>
+              <div>
+                {address.line1}, {address.line2}
+              </div>
+              <div>
+                <span className={globalStyles.marginR10}>
+                  {address.city} {address.postCode}, {address.state},{" "}
+                  {address.countryName}
+                </span>
+                <span
+                  className={cs(
+                    globalStyles.colorPrimary,
+                    globalStyles.pointer
+                  )}
+                  onClick={handleStepEdit}
+                >
+                  Edit
+                </span>
+              </div>
             </>
           )}
         </div>
@@ -222,12 +305,12 @@ const AddressSection: React.FC<AddressProps & {
       // props.openAddressForm();
     }
   };
-  const onChangeGst = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setGstType(e.target.value);
-    setPanError("");
-    setError("");
-    setGstText("");
-  };
+  // const onChangeGst = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   setGstType(e.target.value);
+  //   setPanError("");
+  //   setError("");
+  //   setGstText("");
+  // };
 
   const onPanKeyPress = (event: React.KeyboardEvent) => {
     if (event.key === "Enter") {
@@ -235,10 +318,11 @@ const AddressSection: React.FC<AddressProps & {
     }
   };
 
-  const onCouponChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setGstText(event.target.value);
-    setError("");
-  };
+  // const onCouponChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  //   console.log("test ====", event.target.value);
+  //   setGstText(event.target.value);
+  //   setError("");
+  // };
 
   const onPanChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPancardText(event.target.value);
@@ -246,28 +330,6 @@ const AddressSection: React.FC<AddressProps & {
 
   const togglepancard = () => {
     setPancardCheck(!pancardCheck);
-  };
-
-  const RadioButton = (props: { gstType: string }) => {
-    return (
-      <label className={styles.container}>
-        <input
-          type="radio"
-          name="editList"
-          defaultChecked={gstType == props.gstType}
-          value={props.gstType}
-          onChange={onChangeGst}
-        />
-        <span className={styles.checkmark}> </span>{" "}
-        <span className={styles.txtGst}>
-          {props.gstType == "UID" ? "UIN" : props.gstType}
-        </span>
-      </label>
-    );
-  };
-
-  const toggleGstInvoice = () => {
-    setGst(!gst);
   };
 
   const toggleSameAsShipping = () => {
@@ -278,12 +340,12 @@ const AddressSection: React.FC<AddressProps & {
     let validate = false;
     if (
       pancardText.length == 10 ||
-      (currency != "INR" && !valid.checkBlank(pancardText))
+      (currency != "INR" && !checkBlank(pancardText))
     ) {
       setPanError("");
       setPanCheck("");
       validate = true;
-    } else if (valid.checkBlank(pancardText)) {
+    } else if (checkBlank(pancardText)) {
       setPanError(
         currency == "INR"
           ? "Please enter your PAN Number"
@@ -307,28 +369,8 @@ const AddressSection: React.FC<AddressProps & {
     return validate;
   };
 
-  const gstValidation = () => {
-    if (gstText.length > 0) {
-      if (gstText.length != 15 && gstType == "GSTIN") {
-        setError("Please enter a valid GST Number");
-        return false;
-      } else if (gstText.length != 15 && gstType == "UID") {
-        setError("Please enter a valid UIN Number");
-        return false;
-      } else {
-        setError("");
-        return true;
-      }
-    } else {
-      const text = gstType == "GSTIN" ? "GST" : "UIN";
-
-      setError("Please enter a " + text + " number");
-      return false;
-    }
-  };
-
   const removeErrorMessages = () => {
-    setError("");
+    // setError("");
     setPanError("");
     setPanCheck("");
   };
@@ -346,11 +388,18 @@ const AddressSection: React.FC<AddressProps & {
     }, 500);
   };
 
-  const onSubmit = (address?: AddressData) => {
+  // let numberObj: { gstNo?: string; gstType?: string; panPassportNo: string };
+
+  const onSubmit = (
+    address?: AddressData,
+    gstText?: string,
+    gstType?: string
+  ) => {
     let validate = true;
     const addr = address || null;
     let numberObj: { gstNo?: string; gstType?: string; panPassportNo: string };
     const amountPriceCheck = amountPrice[currency] <= basket.total;
+    setGstNum(gstText);
 
     if (gst) {
       numberObj = Object.assign(
@@ -364,151 +413,141 @@ const AddressSection: React.FC<AddressProps & {
       );
     }
 
-    if (amountPriceCheck && props.activeStep == Steps.STEP_BILLING) {
+    if (amountPriceCheck && props.activeStep == STEP_BILLING) {
       if (!checkPancardValidation()) {
         validate = false;
       }
     }
-    if (gst && props.activeStep == Steps.STEP_BILLING) {
-      if (!gstValidation()) {
-        validate = false;
-      }
-    }
+    // if (gst && props.activeStep == Steps.STEP_BILLING) {
+    //   if (!gstValidation()) {
+    //     validate = false;
+    //   }
+    // }
     if (validate) {
       removeErrorMessages();
       props.finalizeAddress(addr, props.activeStep, numberObj);
+      if (activeStep === STEP_BILLING) {
+        next(showPromo ? STEP_PROMO : STEP_PAYMENT);
+      }
       return validate;
     } else {
       showErrorMsg();
       return validate;
     }
   };
-
-  const onKeyPress = (event: React.KeyboardEvent) => {
-    if (event.key === "Enter") {
-      onSubmit();
-      event.preventDefault();
+  const onSelectAddress = (address?: AddressData) => {
+    if (activeStep === STEP_SHIPPING && !isTermChecked) {
+      setTermsErr("Please confirm to terms and conditions");
+      return false;
     }
+    setTermsErr("");
+    if (address) {
+      const isValid = isAddressValid(address);
+      if (isValid) {
+        onSubmit(address);
+      } else {
+        openAddressForm(address);
+      }
+    }
+    if (activeStep === STEP_SHIPPING) {
+      next(STEP_BILLING);
+    }
+    console.log(addressList, "address list");
+    return true;
+  };
+  // const handleSaveAndReview = (address?: AddressData) => {
+  //   debugger
+  //   // const selectedAddressRes: boolean = o
+  //   if (selectedAddressRes) {
+  //     onSubmit(onSelectAddress(
+  //       addressList?.find((val) => val?.isDefaultForShipping === true)
+  //     ));
+  //   }
+  // };
+
+  const toggleGstInvoice = (address?: AddressData) => {
+    debugger;
+    console.log(addressList, "address list");
+    console.log(address, "address before");
+    setGst(true);
+    // onSelectAddress(address);
+    dispatch(
+      updateComponent(
+        POPUP.BILLINGGST,
+        {
+          onSubmit: onSubmit,
+          setGst: setGst,
+          address: address
+        },
+        true
+      )
+    );
+    dispatch(updateModal(true));
+    // console.log("test ====", event.target.value);
   };
 
-  const handleSaveAndReview = () => {
-    onSubmit();
+  const openTermsPopup = () => {
+    dispatch(updateComponent(POPUP.SHIPPINGTERMS, null, true));
+    dispatch(updateModal(true));
   };
 
-  const desc = {
-    GSTIN:
-      "Goods and Services Tax Identification Number (GSTIN) is a tax registration number. Every taxpayers is assigned a state-wise PAN-based 15 digit GSTIN.",
-    UID:
-      "Unique Identificatin Number (UIN) is a special class of GST registration for foreign diplomatic missions and embassies."
-  };
-  const title = {
-    GSTIN: "Goods and Services Tax Identification Number (GSTIN)",
-    UID: "Unique Identificatin Number (UIN)"
-  };
+  // const onKeyPress = (event: React.KeyboardEvent) => {
+  //   if (event.key === "Enter") {
+  //     onSubmit();
+  //     event.preventDefault();
+  //   }
+  // };
+
   const renderPancard = useMemo(() => {
-    if (props.activeStep == Steps.STEP_BILLING) {
+    if (props.activeStep == STEP_BILLING) {
       const pass =
         currency == "INR"
-          ? `AS PER RBI GOVERNMENT REGULATIONS, PAN DETAILS ARE MANDATORY FOR TRANSACTIONS ABOVE ${String.fromCharCode(
+          ? `As per RBI government regulations, PAN details are mandatory for transaction above ${String.fromCharCode(
               ...code
-            )} ${amountPrice[currency]}.`
+            )} ${displayPriceWithCommas(amountPrice[currency], currency)}.`
           : `AS PER RBI GOVERNMENT REGULATIONS, PASSPORT DETAILS ARE MANDATORY FOR TRANSACTIONS ABOVE ${String.fromCharCode(
               ...code
-            )} ${amountPrice[currency]}.`;
+            )} ${displayPriceWithCommas(amountPrice[currency], currency)}.`;
       const panText =
         currency == "INR" ? "PAN Card Number*" : " Passport Number*";
+
       return (
         <div>
           {currency == "INR" ? (
             <div>
-              <label
-                className={cs(
-                  styles.flex,
-                  styles.crossCenter,
-                  globalStyles.voffset3
-                )}
-              >
+              <hr className={globalStyles.marginy24} />
+              <label className={cs(styles.flex, globalStyles.voffset3)}>
                 <div className={globalStyles.marginR10}>
                   <span className={styles.checkbox}>
                     <input
                       type="checkbox"
-                      onChange={toggleGstInvoice}
-                      checked={gst}
+                      onChange={() => {
+                        toggleGstInvoice(
+                          addressList?.find(
+                            val => val?.isDefaultForShipping === true
+                          )
+                        );
+                      }}
+                      // checked={gst}
                     />
-                    <span className={styles.indicator}></span>
+                    <span
+                      className={cs(styles.indicator, {
+                        [styles.checked]: gst && gstNum
+                      })}
+                    ></span>
                   </span>
                 </div>
-                <div className={styles.formSubheading}>
-                  THIS IS A GST INVOICE
+                <div
+                  className={cs(styles.formSubheading, styles.checkBoxHeading)}
+                >
+                  I need a GST invoice
+                  {gstNum && (
+                    <label className={styles.gstInvoiseNo}>
+                      GSTIN: {gstNum}
+                    </label>
+                  )}
                 </div>
               </label>
-              {gst && (
-                <div
-                  className={cs(
-                    styles.input2,
-                    styles.formSubheading,
-                    globalStyles.voffset3
-                  )}
-                >
-                  <div className={styles.radioList}>
-                    <RadioButton key="GSTIN" gstType="GSTIN" />
-                    <RadioButton key="UID" gstType="UID" />
-                  </div>
-                  <div className={bootstrapStyles.row}>
-                    <div
-                      className={cs(
-                        styles.gstTitle,
-                        bootstrapStyles.col12,
-                        bootstrapStyles.colMd7
-                      )}
-                    >
-                      {title[gstType]}
-                    </div>
-                    <div
-                      className={cs(
-                        styles.gstDesc,
-                        bootstrapStyles.col12,
-                        bootstrapStyles.colMd7
-                      )}
-                    >
-                      {desc[gstType]}
-                    </div>
-                  </div>
-                  <div className={styles.form}>
-                    <div
-                      className={cs(
-                        styles.flex,
-                        styles.vCenter,
-                        globalStyles.voffset3,
-                        styles.payment
-                      )}
-                    >
-                      <input
-                        type="text"
-                        className={cs(styles.input, styles.marginR10)}
-                        onChange={onCouponChange}
-                        onKeyPress={onKeyPress}
-                        value={gstText}
-                      />
-                    </div>
-                    <label className={styles.formLabel}>
-                      {gstType == "GSTIN" ? "GST No.*" : "UIN No.*"}
-                    </label>
-                    {error ? (
-                      <span
-                        className={cs(
-                          globalStyles.errorMsg,
-                          globalStyles.wordCap
-                        )}
-                      >
-                        {error}
-                      </span>
-                    ) : (
-                      ""
-                    )}
-                  </div>
-                </div>
-              )}
             </div>
           ) : (
             ""
@@ -518,17 +557,17 @@ const AddressSection: React.FC<AddressProps & {
               className={cs(
                 styles.input2,
                 styles.formSubheading,
-                globalStyles.voffset5
+                globalStyles.voffset4
               )}
             >
+              <hr className={globalStyles.marginy24} />
               {pass}
               <div>
                 <div className={styles.form}>
                   <div
                     className={cs(
                       styles.flex,
-                      styles.vCenter,
-                      globalStyles.voffset4,
+                      globalStyles.voffset3,
                       styles.payment
                     )}
                   >
@@ -554,24 +593,20 @@ const AddressSection: React.FC<AddressProps & {
                   )}
                 </div>
               </div>
-              <label
-                className={cs(
-                  styles.flex,
-                  styles.crossCenter,
-                  globalStyles.voffset3
-                )}
-              >
+              <label className={cs(styles.flex, globalStyles.voffset4)}>
                 <div className={globalStyles.marginR10}>
                   <span className={styles.checkbox}>
-                    <input
-                      type="checkbox"
-                      onChange={togglepancard}
-                      checked={pancardCheck}
-                    />
-                    <span className={styles.indicator}></span>
+                    <input type="checkbox" onChange={togglepancard} />
+                    <span
+                      className={cs(styles.indicator, {
+                        [styles.checked]: pancardCheck
+                      })}
+                    ></span>
                   </span>
                 </div>
-                <div className={styles.formSubheading}>
+                <div
+                  className={cs(styles.formSubheading, styles.checkBoxHeading)}
+                >
                   I CONFIRM THAT THE DATA I HAVE SHARED IS CORRECT
                 </div>
               </label>
@@ -584,22 +619,19 @@ const AddressSection: React.FC<AddressProps & {
           ) : (
             ""
           )}
-          <hr className={globalStyles.voffset4} />
         </div>
       );
     }
   }, [
     gst,
-    gstText,
     panCheck,
     pancardCheck,
     panError,
-    error,
-    gstType,
     props.activeStep,
     basket.total,
     pancardText,
-    currency
+    currency,
+    gstNum
   ]);
 
   const renderBillingCheckbox = function() {
@@ -609,73 +641,38 @@ const AddressSection: React.FC<AddressProps & {
     return (
       show && (
         <div className={cs(styles.payment, globalStyles.voffset4)}>
-          <label className={cs(styles.flex, styles.crossCenter)}>
+          <hr className={globalStyles.marginy24} />
+          <label className={cs(styles.flex)}>
             <div className={globalStyles.marginR10}>
               <span className={styles.checkbox}>
-                <input
-                  type="checkbox"
-                  onChange={toggleSameAsShipping}
-                  checked={sameAsShipping}
-                />
-                <span className={styles.indicator}></span>
+                <input type="checkbox" onChange={toggleSameAsShipping} />
+                <span
+                  className={cs(styles.indicator, {
+                    [styles.checked]: sameAsShipping
+                  })}
+                ></span>
               </span>
             </div>
-            <div className={styles.formSubheading}>
-              BILLING ADDRESS IS SAME AS SHIPPING ADDRESS
+            <div className={cs(styles.formSubheading)}>
+              Same as Shipping Address
             </div>
           </label>
-          {sameAsShipping && (
-            <div className={bootstrapStyles.row}>
-              <div
-                className={cs(
-                  bootstrapStyles.col12,
-                  bootstrapStyles.colMd7,
-                  globalStyles.voffset4
-                )}
-              >
-                <button
-                  className={cs(globalStyles.ceriseBtn, globalStyles.marginT20)}
-                  type="submit"
-                  onClick={handleSaveAndReview}
-                >
-                  Proceed to Payment
-                </button>
-              </div>
-            </div>
-          )}
-          {!sameAsShipping && isLoggedIn && (
-            <div>
-              <div className={cs(styles.sameText, styles.formSubheading)}>
-                OR SELECT AN ADDRESS BELOW
-              </div>
-            </div>
-          )}
         </div>
       )
     );
   };
 
-  const onSelectAddress = (address?: AddressData) => {
-    if (address) {
-      const isValid = isAddressValid(address);
-      if (isValid) {
-        onSubmit(address);
-      } else {
-        openAddressForm(address);
-      }
-    }
-  };
   const renderCheckoutAddress = () => {
     let html: ReactElement | null = null;
 
-    if (isBridal && activeStep == Steps.STEP_SHIPPING) {
+    if (isBridal && activeStep == STEP_SHIPPING) {
       html = (
-        <div className={globalStyles.marginT20}>
+        <div className={globalStyles.marginT5}>
           <div
             className={
               isActive
-                ? cs(styles.card, styles.cardOpen, styles.marginT20)
-                : cs(styles.card, styles.cardClosed, styles.marginT20)
+                ? cs(styles.card, styles.cardOpen, styles.marginT5)
+                : cs(styles.card, styles.cardClosed, styles.marginT5)
             }
           >
             <div className={bootstrapStyles.row}>
@@ -683,11 +680,21 @@ const AddressSection: React.FC<AddressProps & {
                 className={cs(
                   bootstrapStyles.col6,
                   bootstrapStyles.colMd6,
+                  globalStyles.flex,
                   styles.title
                 )}
               >
+                {STEP_ORDER[activeStep] < currentStep ? (
+                  <img
+                    height={"18px"}
+                    className={globalStyles.marginR10}
+                    src={checkmarkCircle}
+                    alt="checkmarkdone"
+                  />
+                ) : null}
+
                 <span className={cs({ [styles.closed]: !isActive })}>
-                  {activeStep == Steps.STEP_SHIPPING
+                  {activeStep == STEP_SHIPPING
                     ? "SHIPPING DETAILS"
                     : "BILLING DETAILS"}
                 </span>
@@ -722,12 +729,12 @@ const AddressSection: React.FC<AddressProps & {
       );
     } else {
       return (
-        <div className={globalStyles.marginT20}>
+        <div className={globalStyles.marginT5}>
           <div
             className={
               isActive
-                ? cs(styles.card, styles.cardOpen, styles.marginT20)
-                : cs(styles.card, styles.cardClosed, styles.marginT20)
+                ? cs(styles.card, styles.cardOpen, styles.marginT5)
+                : cs(styles.card, styles.cardClosed, styles.marginT5)
             }
           >
             <div className={bootstrapStyles.row}>
@@ -735,32 +742,155 @@ const AddressSection: React.FC<AddressProps & {
                 className={cs(
                   bootstrapStyles.col6,
                   bootstrapStyles.colMd6,
+                  globalStyles.flex,
+                  globalStyles.gutterBetween,
                   styles.title
                 )}
               >
-                <span className={cs({ [styles.closed]: !isActive })}>
-                  {activeStep == Steps.STEP_SHIPPING
-                    ? "SHIPPING DETAILS"
-                    : "BILLING DETAILS"}
-                </span>
+                <div>
+                  {STEP_ORDER[activeStep] < currentStep ? (
+                    <img
+                      height={"18px"}
+                      className={globalStyles.marginR10}
+                      src={checkmarkCircle}
+                      alt="checkmarkdone"
+                    />
+                  ) : null}
+                  <span
+                    className={cs({
+                      [styles.iscompleted]: STEP_ORDER[activeStep] < currentStep
+                    })}
+                  >
+                    {activeStep == STEP_SHIPPING
+                      ? "SHIPPING ADDRESS"
+                      : "BILLING ADDRESS"}
+                  </span>
+                </div>
+                {mobile && renderActions(false)}
               </div>
-              {renderActions(false)}
+              {!mobile && renderActions(false)}
               {renderSavedAddress()}
             </div>
             {isActive && (
               <>
                 <div>
-                  <div>{renderPancard}</div>
-                  {props.activeStep == Steps.STEP_BILLING &&
-                    props.hidesameShipping && (
+                  {/* <div>{renderPancard}</div> */}
+                  {props.activeStep == STEP_BILLING && props.hidesameShipping && (
+                    <>
                       <div>{renderBillingCheckbox()}</div>
-                    )}
-
+                      {!sameAsShipping && isLoggedIn && (
+                        <div>
+                          <div
+                            className={cs(
+                              styles.sameText,
+                              styles.formSubheading
+                            )}
+                          >
+                            OR SELECT AN ADDRESS BELOW
+                          </div>
+                        </div>
+                      )}
+                    </>
+                  )}
                   {// logged in Shipping & billing
                   isLoggedIn &&
-                    (props.activeStep == Steps.STEP_SHIPPING ||
-                      (props.activeStep == Steps.STEP_BILLING &&
-                        !sameAsShipping)) && <div>{children}</div>}
+                    (props.activeStep == STEP_SHIPPING ||
+                      (props.activeStep == STEP_BILLING &&
+                        !sameAsShipping)) && (
+                      <>
+                        <div>{children}</div>
+                        {addressList.length > 1 && mode == "list" && (
+                          <>
+                            <div></div>
+                            <div
+                              className={cs(
+                                globalStyles.flex,
+                                globalStyles.gutterBetween,
+                                styles.checkoutAddressFooter
+                              )}
+                            >
+                              {props.activeStep == STEP_SHIPPING && (
+                                <div>
+                                  <label className={cs(styles.flex)}>
+                                    <div className={globalStyles.marginR10}>
+                                      <span className={styles.checkbox}>
+                                        <input
+                                          type="checkbox"
+                                          onClick={() =>
+                                            setIsTermChecked(!isTermChecked)
+                                          }
+                                        />
+                                        <span
+                                          className={cs(styles.indicator, {
+                                            [styles.checked]: isTermChecked
+                                          })}
+                                        ></span>
+                                      </span>
+                                    </div>
+                                    <div
+                                      className={cs(
+                                        styles.formSubheading,
+                                        styles.checkBoxHeading
+                                      )}
+                                    >
+                                      I agree to pay the additional applicable
+                                      duties and taxes directly to the shipping
+                                      agency at the time of the delivery. To
+                                      know more, referre to our{" "}
+                                      <span
+                                        onClick={() => openTermsPopup()}
+                                        className={
+                                          globalStyles.linkTextUnderline
+                                        }
+                                      >
+                                        Shipping & Payment terms.
+                                      </span>
+                                    </div>
+                                  </label>
+                                  {termsErr && (
+                                    <div
+                                      className={cs(
+                                        globalStyles.errorMsg,
+                                        globalStyles.marginL30
+                                      )}
+                                    >
+                                      {termsErr}
+                                    </div>
+                                  )}
+                                  <div
+                                    onClick={() => {
+                                      onSelectAddress(
+                                        addressList?.find(
+                                          val =>
+                                            val?.isDefaultForShipping === true
+                                        )
+                                      );
+                                    }}
+                                    className={styles.sendToAddress}
+                                  >
+                                    {props.activeStep == STEP_SHIPPING
+                                      ? "SHIP TO THIS ADDRESS"
+                                      : props.activeStep == STEP_BILLING
+                                      ? "PROCEED TO PAYMENT"
+                                      : "SHIP TO THIS ADDRESS"}
+                                  </div>
+                                </div>
+                              )}
+                              {!mobile &&
+                                addressList.length > 1 &&
+                                mode == "list" &&
+                                (props.activeStep == STEP_SHIPPING ||
+                                  (props.activeStep == STEP_BILLING &&
+                                    !props.hidesameShipping)) &&
+                                renderActions(false)}
+                            </div>
+                          </>
+                        )}
+                      </>
+                    )}
+                  {/* { (props.activeStep == STEP_SHIPPING ||
+                      (props.activeStep == STEP_BILLING &&
+                        !sameAsShipping)) && <div>{children}</div>} */}
 
                   {props.error ? (
                     <div
@@ -774,16 +904,43 @@ const AddressSection: React.FC<AddressProps & {
                   ) : (
                     ""
                   )}
+                  <div>{renderPancard}</div>
+                  {props.activeStep == STEP_BILLING && (
+                    <div className={bootstrapStyles.row}>
+                      <div
+                        className={cs(
+                          bootstrapStyles.col12,
+                          bootstrapStyles.colLg7
+                        )}
+                      >
+                        <div
+                          className={cs(
+                            globalStyles.marginT20,
+                            styles.sendToPayment
+                          )}
+                          onClick={() => {
+                            onSelectAddress(
+                              addressList?.find(
+                                val => val?.isDefaultForShipping === true
+                              )
+                            );
+                          }}
+                        >
+                          Proceed to Payment
+                        </div>
+                      </div>
+                    </div>
+                  )}
                 </div>
                 {addressList.length > 1 &&
                   mode == "list" &&
-                  (props.activeStep == Steps.STEP_SHIPPING ||
-                    (props.activeStep == Steps.STEP_BILLING &&
+                  (props.activeStep == STEP_SHIPPING ||
+                    (props.activeStep == STEP_BILLING &&
                       !props.hidesameShipping)) &&
                   renderActions(true)}
               </>
             )}
-            {props.activeStep == Steps.STEP_SHIPPING && !isActive && (
+            {props.activeStep == STEP_SHIPPING && !isActive && (
               <div
                 className={cs(
                   { [globalStyles.errorMsg]: errorNotification },

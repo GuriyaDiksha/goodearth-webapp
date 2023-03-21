@@ -8,7 +8,7 @@ import { GiftState } from "./typings";
 import mapDispatchToProps from "../mapper/action";
 import PromoItem from "./promoDetails";
 import { AppState } from "reducers/typings";
-import * as valid from "utils/validate";
+import { errorTracking } from "utils/validate";
 import { RouteComponentProps, withRouter } from "react-router";
 const mapStateToProps = (state: AppState) => {
   return {
@@ -20,8 +20,9 @@ const mapStateToProps = (state: AppState) => {
 export type PromoProps = {
   onRef: any;
   onNext: () => void;
+  onsubmit: () => void;
 };
-type Props = ReturnType<typeof mapDispatchToProps> &
+type Props = {} & ReturnType<typeof mapDispatchToProps> &
   ReturnType<typeof mapStateToProps> &
   PromoProps &
   RouteComponentProps;
@@ -76,7 +77,7 @@ class ApplyPromo extends React.Component<Props, GiftState> {
               error: response.message
             },
             () => {
-              valid.errorTracking([this.state.error], location.href);
+              errorTracking([this.state.error], location.href);
             }
           );
         } else {
@@ -98,7 +99,7 @@ class ApplyPromo extends React.Component<Props, GiftState> {
             error: msg
           },
           () => {
-            valid.errorTracking([this.state.error], location.href);
+            errorTracking([this.state.error], location.href);
           }
         );
       });
@@ -120,18 +121,6 @@ class ApplyPromo extends React.Component<Props, GiftState> {
       newCardBox: true
     });
   };
-  onClose = (code: string) => {
-    const data: any = {
-      cardId: code
-    };
-    this.props
-      .removePromo(data, this.props.history, this.props.isLoggedIn)
-      .then(response => {
-        this.setState({
-          newCardBox: true
-        });
-      });
-  };
 
   updateError = () => {
     this.setState(
@@ -139,7 +128,7 @@ class ApplyPromo extends React.Component<Props, GiftState> {
         error: "Please enter a valid code"
       },
       () => {
-        valid.errorTracking([this.state.error], location.href);
+        errorTracking([this.state.error], location.href);
       }
     );
     const elem: any = document.getElementById("gift");
@@ -153,59 +142,51 @@ class ApplyPromo extends React.Component<Props, GiftState> {
     return (
       <Fragment>
         <div className={cs(bootstrapStyles.row, styles.giftDisplay)}>
-          {voucherDiscounts.map((data, i) => {
-            return (
-              <PromoItem
-                {...data.voucher}
-                onClose={this.onClose}
-                currency={currency}
-                type="crd"
-                currStatus={"sucess"}
-                key={i}
-              />
-            );
-          })}
           <div
             className={cs(
               styles.loginForm,
-              { [globalStyles.voffset4]: newCardBox },
+              { [globalStyles.voffset3]: newCardBox },
               bootstrapStyles.colMd7
             )}
           >
-            {voucherDiscounts.length == 0 ? (
-              <div>
-                <Fragment>
-                  <div
-                    className={cs(styles.flex, styles.vCenter, {
+            <div>
+              <Fragment>
+                <div
+                  className={cs(
+                    styles.flex,
+                    styles.vCenter,
+                    styles.promoInput,
+                    {
                       [globalStyles.hidden]: !newCardBox
-                    })}
+                    }
+                  )}
+                >
+                  <input
+                    type="text"
+                    autoComplete="off"
+                    value={txtvalue}
+                    onChange={this.changeValue}
+                    id="gift"
+                    className={
+                      this.state.error
+                        ? cs(styles.marginR10, styles.err)
+                        : undefined
+                    }
+                  />
+                  <button
+                    className={styles.promoApplyBtn}
+                    onClick={() => this.props.onsubmit()}
                   >
-                    <input
-                      type="text"
-                      autoComplete="off"
-                      value={txtvalue}
-                      onChange={this.changeValue}
-                      id="gift"
-                      className={
-                        this.state.error
-                          ? cs(styles.marginR10, styles.err)
-                          : styles.marginR10
-                      }
-                    />
-                  </div>
-                  <label>Promo Code</label>
-                </Fragment>
-                {this.state.error ? (
-                  <p className={cs(globalStyles.errorMsg)}>
-                    {this.state.error}
-                  </p>
-                ) : (
-                  ""
-                )}
-              </div>
-            ) : (
-              ""
-            )}
+                    Apply
+                  </button>
+                </div>
+              </Fragment>
+              {this.state.error ? (
+                <p className={cs(globalStyles.errorMsg)}>{this.state.error}</p>
+              ) : (
+                ""
+              )}
+            </div>
           </div>
         </div>
       </Fragment>

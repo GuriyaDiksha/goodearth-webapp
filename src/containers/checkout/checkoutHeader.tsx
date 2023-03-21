@@ -5,12 +5,10 @@ import styles from "./styles.scss";
 import cs from "classnames";
 import GrowlMessage from "components/GrowlMessage";
 import bootstrap from "../../styles/bootstrap/bootstrap-grid.scss";
-import globalStyles from "../../styles/global.scss";
 import iconStyles from "../../styles/iconFonts.scss";
 import gelogoCerise from "../../images/gelogoCerise.svg";
 import { AppState } from "reducers/typings";
 import { connect } from "react-redux";
-// import { State } from "./typings";
 import LoginService from "services/login";
 import MetaService from "services/meta";
 import BasketService from "services/basket";
@@ -19,13 +17,13 @@ import { Dispatch } from "redux";
 import UserContext from "contexts/user";
 import { Currency } from "typings/currency";
 import { DropdownItem } from "components/dropdown/baseDropdownMenu/typings";
-import SelectableDropdownMenu from "../../components/dropdown/selectableDropdownMenu";
 import { Cookies } from "typings/cookies";
 import { MESSAGE } from "constants/messages";
 import fabicon from "images/favicon.ico";
 import { Basket } from "typings/basket";
-import * as util from "../../utils/validate";
+import { headerClickGTM, showGrowlMessage } from "../../utils/validate";
 import Api from "services/api";
+import checkoutIcon from "./../../images/checkout.svg";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -84,10 +82,10 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       MetaService.updateMeta(dispatch, cookies);
       if (pathname.includes("/order/checkout")) {
         BasketService.fetchBasket(dispatch, "checkout", history, isLoggedIn);
-        util.showGrowlMessage(dispatch, MESSAGE.CURRENCY_CHANGED_SUCCESS, 7000);
+        showGrowlMessage(dispatch, MESSAGE.CURRENCY_CHANGED_SUCCESS, 7000);
       } else if (pathname.includes("/cart")) {
         BasketService.fetchBasket(dispatch, "cart");
-        util.showGrowlMessage(dispatch, MESSAGE.CURRENCY_CHANGED_SUCCESS, 7000);
+        showGrowlMessage(dispatch, MESSAGE.CURRENCY_CHANGED_SUCCESS, 7000);
       }
     },
     updateMeta: (
@@ -127,7 +125,7 @@ class CheckoutHeader extends React.Component<Props, { boId: string }> {
         // if (data.currency == "INR") {
         //   this.props.history.push("/maintenance");
         // }
-        util.headerClickGTM(
+        headerClickGTM(
           "Currency",
           "Top",
           this.props.mobile,
@@ -228,7 +226,12 @@ class CheckoutHeader extends React.Component<Props, { boId: string }> {
     let heading = null;
     if (this.props.location.pathname.indexOf("cart") > -1) {
       heading = (
-        <span className={styles.vCenter}>
+        <span
+          className={cs({
+            [styles.vCenter]: !mobile,
+            [styles.justifyRight]: mobile
+          })}
+        >
           {/* <span>
             <i
               className={cs(iconStyles.icon, iconStyles.iconCart, styles.cart)}
@@ -243,23 +246,20 @@ class CheckoutHeader extends React.Component<Props, { boId: string }> {
       );
     }
 
-    if (this.props.location.pathname.indexOf("checkout") > -1) {
+    if (
+      this.props.location.pathname.indexOf("checkout") > -1 ||
+      this.props.location.pathname.indexOf("order/orderconfirmation") > -1
+    ) {
       heading = (
-        <span className={styles.vCenter}>
+        <span className={cs(styles.vCenter, { [styles.justifyRight]: mobile })}>
           <span>
-            <i
-              className={cs(
-                iconStyles.icon,
-                iconStyles.iconLockbtn,
-                styles.lock
-              )}
-            ></i>
+            <img src={checkoutIcon} alt="checkout-button" />
           </span>
-          {mobile ? (
-            <span className={styles.headLineheight}> CHECKOUT</span>
-          ) : (
+          {/* {mobile ? ( */}
+          <span className={styles.headLineheight}> CHECKOUT</span>
+          {/* ) : (
             <span className={styles.headLineheight}>SECURE CHECKOUT</span>
-          )}
+          )} */}
         </span>
       );
     }
@@ -329,10 +329,16 @@ class CheckoutHeader extends React.Component<Props, { boId: string }> {
           )}
         </Helmet>
         <div className={cs(styles.headerContainer)}>
-          <div className={cs(bootstrap.row, styles.minimumWidth)}>
+          <div
+            className={cs(
+              bootstrap.row,
+              styles.minimumWidth,
+              styles.justifyBetween
+            )}
+          >
             <div
               className={cs(
-                bootstrap.colMd2,
+                bootstrap.colMd3,
                 bootstrap.col5,
                 styles.logoContainer
               )}
@@ -342,7 +348,7 @@ class CheckoutHeader extends React.Component<Props, { boId: string }> {
                 onClick={e => {
                   this.state.boId
                     ? e.preventDefault()
-                    : util.headerClickGTM(
+                    : headerClickGTM(
                         "Logo",
                         "Top",
                         this.props.mobile,
@@ -359,19 +365,20 @@ class CheckoutHeader extends React.Component<Props, { boId: string }> {
                 />
               </Link>
             </div>
-            <div className={cs(bootstrap.col3, bootstrap.colMd7)}>
+            <div
+              className={cs({ [bootstrap.col3]: !mobile }, bootstrap.colMd6, {
+                [bootstrap.col6]: mobile
+              })}
+            >
               {heading}
             </div>
-            <div
-              className={cs(
-                bootstrap.colMd2,
-                bootstrap.col3,
-                globalStyles.voffset2,
-                { [styles.curr]: !this.state.boId },
-                { [styles.disableCurr]: this.state.boId }
-              )}
-            >
-              <SelectableDropdownMenu
+            {mobile ? null : (
+              <div
+                className={cs(bootstrap.colMd3, bootstrap.col3, {
+                  [styles.curr]: !this.state.boId
+                })}
+              >
+                {/* <SelectableDropdownMenu
                 id="currency-dropdown-checkout"
                 align={"left"}
                 items={items}
@@ -384,8 +391,23 @@ class CheckoutHeader extends React.Component<Props, { boId: string }> {
                 }
                 onChangeCurrency={this.changeCurrency}
                 disabled={this.state.boId ? true : false}
-              ></SelectableDropdownMenu>
-            </div>
+              ></SelectableDropdownMenu> */}
+                <i
+                  className={cs(
+                    iconStyles.icon,
+                    iconStyles.iconPhone,
+                    styles.icon
+                  )}
+                />
+                <a className={styles.mobileNum} href="tel:+919582999555">
+                  +91 95829 99555
+                </a>{" "}
+                /{" "}
+                <a className={styles.mobileNum} href="tel:+919582999888">
+                  +91 95829 99888
+                </a>
+              </div>
+            )}
           </div>
         </div>
         <GrowlMessage />

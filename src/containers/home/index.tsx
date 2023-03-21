@@ -5,7 +5,7 @@ import Section2 from "./section2";
 import Section3 from "./section3";
 import bootstrap from "../../styles/bootstrap/bootstrap-grid.scss";
 import cs from "classnames";
-import * as util from "utils/validate";
+import { pageViewGTM } from "utils/validate";
 import { useSelector } from "react-redux";
 import { AppState } from "reducers/typings";
 import CookieService from "services/cookie";
@@ -26,7 +26,7 @@ const Home: React.FC = () => {
       dataLayer.push(function(this: any) {
         this.reset();
       });
-      util.pageViewGTM("Home");
+      pageViewGTM("Home");
       dataLayer.push({
         event: "HomePageView",
         PageURL: location.pathname,

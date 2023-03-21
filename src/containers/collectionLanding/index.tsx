@@ -25,7 +25,7 @@ import {
 } from "actions/collection";
 import { getProductIdFromSlug } from "utils/url";
 import { RouteComponentProps, withRouter } from "react-router";
-import * as util from "utils/validate";
+import { pageViewGTM } from "utils/validate";
 import { GA_CALLS } from "constants/cookieConsent";
 
 const mapStateToProps = (state: AppState) => {
@@ -170,7 +170,7 @@ class CollectionLanding extends React.Component<
         },
         () => {
           window.scrollTo(0, 0);
-          // util.sortGTM(label || data);
+          // sortGTM(label || data);
         }
       );
     }
@@ -208,7 +208,7 @@ class CollectionLanding extends React.Component<
           return item.id == +id;
         });
       }
-      util.pageViewGTM("CollectionLanding");
+      pageViewGTM("CollectionLanding");
       this.setState({
         landingMaker: false,
         filterData: newvalue[0]?.value
@@ -234,7 +234,7 @@ class CollectionLanding extends React.Component<
         this.reset();
       });
     }
-    util.pageViewGTM("CollectionLanding");
+    pageViewGTM("CollectionLanding");
     // dataLayer.push({
     //   event: "CategoryLangingPageView",
     //   PageURL: this.props.location.pathname,

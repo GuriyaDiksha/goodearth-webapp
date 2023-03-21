@@ -8,4 +8,7 @@ export type Props = {
   handleChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
   label: (string | JSX.Element)[];
   value: boolean;
+  labelClassName?: string;
+  inputClassName?: string;
+  className?: string;
 };

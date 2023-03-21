@@ -2,6 +2,9 @@ import { AddressData } from "components/Address/typings";
 import { Currency } from "typings/currency";
 import { Basket } from "typings/basket";
 
+export type BreadcrumbProps = {
+  active: string;
+};
 export type LoginProps = {
   isActive: boolean;
   user: any;
@@ -31,6 +34,7 @@ export type AddressProps = {
   // user:
   error: string;
   errorNotification?: string;
+  currentStep: number;
 };
 
 export type OrderProps = {
@@ -42,6 +46,11 @@ export type OrderProps = {
   salestatus: boolean;
   validbo: boolean;
   goLogin?: (event?: React.MouseEvent, nextUrl?: string) => void;
+  setCheckoutMobileOrderSummary: (data: boolean) => void;
+  isLoading: any;
+  currentmethod: any;
+  isPaymentNeeded: any;
+  onsubmit: () => any;
 };
 
 export type PromoProps = {
@@ -49,12 +58,16 @@ export type PromoProps = {
   user: any;
   next: (step: string) => void;
   selectedAddress: any;
+  activeStep: string;
+  currentStep: number;
 };
 
 export type PaymentProps = {
   isActive: boolean;
   user: any;
   currency: Currency;
+  shippingAddress: any;
+  salestatus: boolean;
   checkout: (data: any) => any;
 };
 
@@ -103,6 +116,7 @@ export type GiftState = {
   toggleOtp: boolean;
   isActivated: boolean;
   cardType?: string;
+  isLoader?: boolean;
 };
 
 export type RedeemState = {

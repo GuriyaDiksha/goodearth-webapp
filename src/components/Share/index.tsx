@@ -10,7 +10,7 @@ import CopyLink from "./copyLink";
 // actions
 import globalStyles from "styles/global.scss";
 import styles from "./styles.scss";
-import * as util from "../../utils/validate";
+import { showGrowlMessage } from "../../utils/validate";
 import Whatsapp from "./whatsapp";
 
 const Share: React.FC<Props> = ({ link, mailText, mailSubject, mobile }) => {
@@ -21,7 +21,7 @@ const Share: React.FC<Props> = ({ link, mailText, mailSubject, mobile }) => {
 
   const store = useStore();
   const copyText = () => {
-    util.showGrowlMessage(
+    showGrowlMessage(
       store.dispatch,
       "The link of this product has been copied to clipboard!",
       3000,
