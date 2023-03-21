@@ -87,6 +87,7 @@ const AddressSection: React.FC<AddressProps & {
   const [panCheck, setPanCheck] = useState("");
   const [isTermChecked, setIsTermChecked] = useState(false);
   const [termsErr, setTermsErr] = useState("");
+  const [gstDetails, setGstDetails] = useState({ gstText: "", gstType: "" });
 
   const dispatch = useDispatch();
 
@@ -399,10 +400,18 @@ const AddressSection: React.FC<AddressProps & {
     const amountPriceCheck = amountPrice[currency] <= basket.total;
     setGstNum(gstText || gstNum);
 
+    debugger;
+    if (gstText) {
+      setGstDetails({ gstText: gstText, gstType: gstType });
+    }
     if (gstText || gstNum) {
       numberObj = Object.assign(
         {},
-        { gstNo: gstText, gstType: gstType, panPassportNo: pancardText }
+        {
+          gstNo: gstText || gstDetails?.gstText,
+          gstType: gstType || gstDetails?.gstType,
+          panPassportNo: pancardText
+        }
       );
     } else {
       numberObj = Object.assign(
@@ -452,15 +461,9 @@ const AddressSection: React.FC<AddressProps & {
     }
     return true;
   };
-  // const handleSaveAndReview = (address?: AddressData) => {
-  //   debugger
-  //   // const selectedAddressRes: boolean = o
-  //   if (selectedAddressRes) {
-  //     onSubmit(onSelectAddress(
-  //       addressList?.find((val) => val?.isDefaultForShipping === true)
-  //     ));
-  //   }
-  // };
+  const handleSaveAndReview = (address?: AddressData) => {
+    onSubmit(address);
+  };
   const toggleGstInvoice = () => {
     setGst(!gst);
     if (!gst) {
@@ -477,6 +480,7 @@ const AddressSection: React.FC<AddressProps & {
       );
       dispatch(updateModal(true));
     } else {
+      debugger;
       setGstNum("");
     }
   };
@@ -910,7 +914,7 @@ const AddressSection: React.FC<AddressProps & {
                             styles.sendToPayment
                           )}
                           onClick={() => {
-                            onSelectAddress(
+                            handleSaveAndReview(
                               addressList?.find(
                                 val => val?.isDefaultForShipping === true
                               )
