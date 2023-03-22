@@ -41,16 +41,16 @@ export type OrderProps = {
   mobile: boolean;
   currency: Currency;
   basket: Basket;
-  page: string;
-  shippingAddress: any;
-  salestatus: boolean;
-  validbo: boolean;
+  page?: string;
+  shippingAddress?: any;
+  salestatus?: boolean;
+  validbo?: boolean;
   goLogin?: (event?: React.MouseEvent, nextUrl?: string) => void;
-  setCheckoutMobileOrderSummary: (data: boolean) => void;
-  isLoading: any;
-  currentmethod: any;
-  isPaymentNeeded: any;
-  onsubmit: () => any;
+  setCheckoutMobileOrderSummary?: (data: boolean) => void;
+  isLoading?: any;
+  currentmethod?: any;
+  isPaymentNeeded?: any;
+  onsubmit?: () => any;
 };
 
 export type PromoProps = {

@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import cs from "classnames";
 import globalStyles from "styles/global.scss";
 import styles from "../styles.scss";
@@ -31,7 +31,7 @@ const BillingGST: React.FC<PopupProps> = ({ onSubmit, setGst, gstNum }) => {
   const [gstType, setGstType] = useState("GSTIN");
   const [error, setError] = useState("");
   const { addressList } = useSelector((state: AppState) => state.address);
-  const address =
+  const address: any =
     addressList?.find((val: any) => val?.isDefaultForShipping === true) ||
     undefined;
 
@@ -140,6 +140,7 @@ const BillingGST: React.FC<PopupProps> = ({ onSubmit, setGst, gstNum }) => {
                 className={cs(styles.input, styles.marginR10)}
                 onChange={e => onCouponChange(e)}
                 value={gstText}
+                aria-label="billing-gst"
               />
             </div>
             <label className={styles.formLabel}>

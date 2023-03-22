@@ -10,7 +10,6 @@ import { useSelector, useDispatch } from "react-redux";
 import { AppState } from "reducers/typings";
 import { Link, useHistory } from "react-router-dom";
 import Loader from "components/Loader";
-import Reedem from "./redeem";
 // import { updateComponent, updateModal } from "actions/modal";
 import giftwrapIcon from "../../../images/gift-wrap-icon.svg";
 import { errorTracking, showErrors } from "utils/validate";
@@ -56,10 +55,6 @@ const PaymentSection: React.FC<PaymentProps> = props => {
   const dispatch = useDispatch();
 
   const PaymentButton = useRef(null);
-
-  // const CheckoutMobileOrderSummaryHandler= () =>{
-  //   setCheckoutMobileOrderSummary(!checkoutMobileOrderSummary)
-  // }
 
   const toggleInput = () => {
     setIsactivepromo(!isactivepromo);
@@ -335,7 +330,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
             {"Gift Wrap This Order"}
           </div>
           <div className={styles.giftImg}>
-            <img src={giftwrapIcon} width="30px" />
+            <img src={giftwrapIcon} width="30px" alt="Giftwarp Icon" />
           </div>
         </label>
       </div>

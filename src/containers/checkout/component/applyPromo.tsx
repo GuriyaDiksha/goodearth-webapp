@@ -6,7 +6,6 @@ import bootstrapStyles from "styles/bootstrap/bootstrap-grid.scss";
 import styles from "./gift.scss";
 import { GiftState } from "./typings";
 import mapDispatchToProps from "../mapper/action";
-import PromoItem from "./promoDetails";
 import { AppState } from "reducers/typings";
 import { errorTracking } from "utils/validate";
 import { RouteComponentProps, withRouter } from "react-router";
@@ -138,7 +137,6 @@ class ApplyPromo extends React.Component<Props, GiftState> {
 
   render() {
     const { newCardBox, txtvalue } = this.state;
-    const { currency, voucherDiscounts } = this.props;
     return (
       <Fragment>
         <div className={cs(bootstrapStyles.row, styles.giftDisplay)}>
@@ -172,6 +170,7 @@ class ApplyPromo extends React.Component<Props, GiftState> {
                         ? cs(styles.marginR10, styles.err)
                         : undefined
                     }
+                    aria-label="Promocode"
                   />
                   <button
                     className={styles.promoApplyBtn}

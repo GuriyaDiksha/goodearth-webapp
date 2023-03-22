@@ -2,7 +2,6 @@ import React, { ChangeEvent } from "react";
 import cs from "classnames";
 import { AppState } from "reducers/typings";
 import { connect, DispatchProp } from "react-redux";
-
 import Formsy from "formsy-react";
 import FormSelect from "../../components/Formsy/FormSelect";
 import styles from "./styles.scss";
@@ -516,7 +515,7 @@ class NewGiftcard extends React.Component<Props, State> {
             >
               <div className={styles.title}>Preview</div>
               <div className={styles.imageContainer}>
-                <img src={selectedImage} />
+                <img src={selectedImage} alt="giftcard preview" />
               </div>
               <div className={styles.salutation}>
                 Dear {recipientName ? recipientName : `[Reciever's Name]`}
@@ -563,7 +562,7 @@ class NewGiftcard extends React.Component<Props, State> {
                         onClick={() => this.onImageClick(img)}
                         key={`gift_${i}`}
                       >
-                        <img src={img} />
+                        <img src={img} alt="giftcard-img" />
                       </div>
                     );
                   })}
@@ -905,7 +904,7 @@ class NewGiftcard extends React.Component<Props, State> {
             </div>
             <div className={styles.title}>Preview</div>
             <div className={styles.imageContainer}>
-              <img src={selectedImage} />
+              <img src={selectedImage} alt="giftcard preview" />
             </div>
             <div className={styles.salutation}>
               Dear {recipientName ? recipientName : `[Reciever's Name]`}

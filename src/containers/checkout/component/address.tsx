@@ -381,8 +381,6 @@ const AddressSection: React.FC<AddressProps & {
     }, 500);
   };
 
-  // let numberObj: { gstNo?: string; gstType?: string; panPassportNo: string };
-
   const onSubmit: any = (
     address?: AddressData | undefined,
     gstText?: string,
@@ -517,7 +515,6 @@ const AddressSection: React.FC<AddressProps & {
                       onChange={() => {
                         toggleGstInvoice();
                       }}
-                      // checked={gst}
                     />
                     <span
                       className={cs(styles.indicator, {

@@ -1,6 +1,5 @@
 import React, { useState, Fragment, useEffect, useRef } from "react";
 import cs from "classnames";
-// import iconStyles from "../../styles/iconFonts.scss";
 import bootstrapStyles from "../../../styles/bootstrap/bootstrap-grid.scss";
 import globalStyles from "styles/global.scss";
 import styles from "../styles.scss";
@@ -13,11 +12,9 @@ import { useHistory } from "react-router";
 import checkmarkCircle from "./../../../images/checkmarkCircle.svg";
 import CheckoutService from "services/checkout";
 import BasketService from "services/basket";
-import Loader from "components/Loader";
-// import * as util from "utils/validate";
 
 const PromoSection: React.FC<PromoProps> = props => {
-  const { isActive, next, selectedAddress, activeStep, currentStep } = props;
+  const { isActive, next, activeStep, currentStep } = props;
   const [isactivepromo, setIsactivepromo] = useState(false);
   // const [isLoading, setIsLoading] = useState(false);
   const {
@@ -69,13 +66,7 @@ const PromoSection: React.FC<PromoProps> = props => {
     next(STEP_PROMO);
   };
 
-  const partialSale = true;
-
-  const isSale = info.isSale && !partialSale;
   const onlyGiftcard = basket.isOnlyGiftCart || hideBoId;
-  const cardCss = onlyGiftcard
-    ? globalStyles.cerise
-    : globalStyles.pointer + " " + globalStyles.cerise;
 
   const removePromo = async (data: FormData) => {
     const response = await CheckoutService.removePromo(dispatch, data);
@@ -83,7 +74,7 @@ const PromoSection: React.FC<PromoProps> = props => {
     return response;
   };
 
-  const onPromoRemove = (id: string) => {
+  const onPromoRemove: any = (id: string) => {
     const data: any = {
       cardId: id
     };

@@ -20,13 +20,9 @@ import CookieService from "services/cookie";
 import WishlistService from "services/wishlist";
 import { GA_CALLS, ANY_ADS } from "constants/cookieConsent";
 import PdpQuantity from "components/quantity/pdpQuantity";
-import { growlMessage } from "reducers/growlMessage";
 import { showGrowlMessage } from "utils/validate";
 import { updateBasket } from "actions/basket";
-import {
-  displayPriceWithCommas,
-  displayPriceWithCommasFloat
-} from "utils/utility";
+import { displayPriceWithCommas } from "utils/utility";
 
 const LineItems: React.FC<BasketItem> = memo(
   ({

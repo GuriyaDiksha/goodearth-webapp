@@ -6,7 +6,6 @@ import bootstrapStyles from "styles/bootstrap/bootstrap-grid.scss";
 import styles from "./gift.scss";
 import { RedeemState } from "./typings";
 import mapDispatchToProps from "../mapper/action";
-import iconStyles from "styles/iconFonts.scss";
 import { AppState } from "reducers/typings";
 import OtpReedem from "components/OtpComponent/otpReedem";
 import { errorTracking } from "utils/validate";
@@ -161,6 +160,7 @@ class Reedem extends React.Component<Props, RedeemState> {
                       ? cs(styles.marginR10, styles.err)
                       : styles.marginR10
                   }
+                  aria-label="redeem-code"
                 />
               </div>
               <label>Points</label>

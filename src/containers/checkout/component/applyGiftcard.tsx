@@ -98,7 +98,6 @@ class ApplyGiftcard extends React.Component<Props, GiftState> {
             });
           }
           this.setState({
-            // newCardBox: false,
             txtvalue: "",
             error: ""
           });
@@ -118,16 +117,13 @@ class ApplyGiftcard extends React.Component<Props, GiftState> {
       );
     } else {
       this.setState({
-        // newCardBox: false,
         txtvalue: ""
       });
     }
   };
 
   newGiftcard = () => {
-    this.setState({
-      // newCardBox: true
-    });
+    this.setState({});
   };
   onClose = (code: string, type: string) => {
     // debugger
@@ -139,7 +135,6 @@ class ApplyGiftcard extends React.Component<Props, GiftState> {
       .removeGiftCard(data, this.props.history, this.props.user.isLoggedIn)
       .then(response => {
         this.setState({
-          // newCardBox: true,
           error: ""
         });
       });
@@ -174,8 +169,6 @@ class ApplyGiftcard extends React.Component<Props, GiftState> {
       user: { isLoggedIn },
       currency,
       giftList,
-      total,
-      addnewGiftcard,
       mobile
     } = this.props;
     const modeOptions = [
@@ -243,6 +236,7 @@ class ApplyGiftcard extends React.Component<Props, GiftState> {
                             ? cs(styles.marginR10, styles.ht50, styles.err)
                             : cs(styles.marginR10, styles.ht50)
                         }
+                        aria-label="giftcard code"
                       />
                       <span
                         className={cs(styles.applyBtn, globalStyles.pointer, {
