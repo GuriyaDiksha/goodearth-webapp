@@ -73,6 +73,7 @@ const WhatsappPopup: React.FC<Props> = props => {
                   className={cs(globalStyles.charcoalBtn, {
                     [globalStyles.disabledBtn]: disableBtn
                   })}
+                  disabled={disableBtn}
                 />
               </div>
             </Formsy>
