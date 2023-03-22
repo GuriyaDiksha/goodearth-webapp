@@ -12,6 +12,7 @@ import Formsy from "formsy-react";
 import { updateCountryData } from "actions/address";
 import { AppState } from "reducers/typings";
 import { showGrowlMessage } from "utils/validate";
+import { updatePreferenceData } from "actions/user";
 
 const MyPreferences = () => {
   const { countryData } = useSelector((state: AppState) => state.address);
@@ -33,6 +34,7 @@ const MyPreferences = () => {
     }
 
     AccountService.fetchAccountPreferences(dispatch).then((data: any) => {
+      dispatch(updatePreferenceData(data));
       setPreferencesData(data);
       setSubscribe(data.subscribe);
     });
