@@ -54,14 +54,19 @@ const MyPreferences = () => {
       whatsappNo,
       whatsappNoCountryCode
     } = model;
-    AccountService.updateAccountPreferences(dispatch, {
+    const input = {
       subscribe: subscribe,
       whatsappNo: whatsappNo,
       whatsappNoCountryCode: whatsappNoCountryCode,
       whatsappSubscribe: whatsappSubscribe
-    }).then((data: any) => {
-      showGrowlMessage(dispatch, "Your preferences have been updated!", 5000);
-    });
+    };
+
+    AccountService.updateAccountPreferences(dispatch, input).then(
+      (data: any) => {
+        dispatch(updatePreferenceData(input));
+        showGrowlMessage(dispatch, "Your preferences have been updated!", 5000);
+      }
+    );
   };
 
   return (
