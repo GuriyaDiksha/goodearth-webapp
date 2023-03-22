@@ -13,13 +13,7 @@ import { AddressProps } from "./typings";
 import { updateAddressList } from "actions/address";
 import AddressService from "services/address";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  STEP_BILLING,
-  STEP_ORDER,
-  STEP_PAYMENT,
-  STEP_PROMO,
-  STEP_SHIPPING
-} from "../constants";
+import { STEP_BILLING, STEP_ORDER, STEP_SHIPPING } from "../constants";
 import UserContext from "contexts/user";
 import { AddressContext } from "components/Address/AddressMain/context";
 import { AppState } from "reducers/typings";
@@ -389,7 +383,7 @@ const AddressSection: React.FC<AddressProps & {
 
   // let numberObj: { gstNo?: string; gstType?: string; panPassportNo: string };
 
-  const onSubmit = (
+  const onSubmit: any = (
     address?: AddressData | undefined,
     gstText?: string,
     gstType?: string
@@ -402,7 +396,7 @@ const AddressSection: React.FC<AddressProps & {
 
     debugger;
     if (gstText) {
-      setGstDetails({ gstText: gstText, gstType: gstType });
+      setGstDetails({ gstText: gstText, gstType: gstType || "" });
     }
     if (gstText || gstNum) {
       numberObj = Object.assign(
@@ -578,6 +572,7 @@ const AddressSection: React.FC<AddressProps & {
                       disabled={!!user.panPassport}
                       onKeyPress={onPanKeyPress}
                       value={pancardText}
+                      aria-label="Pancard"
                     />
                   </div>
                   <label className={styles.formLabel}>{panText}</label>

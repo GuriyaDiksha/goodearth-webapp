@@ -202,7 +202,10 @@ const OrderSummary: React.FC<OrderProps> = props => {
                 )}
               >
                 <div className={styles.productImg}>
-                  <img src={item?.product?.images?.[0]?.productImage} />
+                  <img
+                    src={item?.product?.images?.[0]?.productImage}
+                    alt="product image"
+                  />
                 </div>
                 <div className={styles.infoWrp}>
                   <div className={styles.productName}>{item.product.title}</div>
