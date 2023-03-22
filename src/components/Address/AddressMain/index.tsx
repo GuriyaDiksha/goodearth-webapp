@@ -343,6 +343,8 @@ const AddressMain: React.FC<Props> = props => {
                       showManageMsg={true}
                       showPhone={true}
                       showPopupMsg={true}
+                      whatsappClass={styles.whatsapp}
+                      countryCodeClass={styles.countryCode}
                     />
                   </div>
                 </div>
