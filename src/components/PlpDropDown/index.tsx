@@ -99,6 +99,13 @@ const PlpDropdownMenu = ({
     }
   }, [showmobileSort, menuOpen]);
 
+  useEffect(() => {
+    setOpenState(open || false);
+    if (!open) {
+      onOutsideClick();
+    }
+  }, [open]);
+
   return (
     <div
       className={cs(styles.cSort, bootstrap.col12, styles.filterSticky, {
