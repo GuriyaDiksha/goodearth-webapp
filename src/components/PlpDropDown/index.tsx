@@ -217,7 +217,7 @@ const PlpDropdownMenu = ({
           >
             <span>{"Sort By"}</span>
 
-            <span onClick={onOutsideClick} ref={ref}>
+            <span onClick={onOutsideClick} ref={showmobileSort ? ref : null}>
               X
             </span>
           </div>
