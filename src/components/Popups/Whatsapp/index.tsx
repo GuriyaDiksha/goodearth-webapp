@@ -9,7 +9,7 @@ import AccountService from "services/account";
 import { showGrowlMessage } from "utils/validate";
 import { updatePreferenceData } from "actions/user";
 import cs from "classnames";
-
+import { updateModal } from "actions/modal";
 type Props = {
   data: any;
   isdList: any;
@@ -40,6 +40,7 @@ const WhatsappPopup: React.FC<Props> = props => {
       dispatch(updatePreferenceData(data));
       setDisableBtn(true);
       showGrowlMessage(dispatch, "Your preferences have been updated!", 5000);
+      dispatch(updateModal(false));
     });
   };
 
