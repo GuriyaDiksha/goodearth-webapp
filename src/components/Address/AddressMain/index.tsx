@@ -1,10 +1,4 @@
-import React, {
-  useState,
-  useCallback,
-  useEffect,
-  useContext,
-  useRef
-} from "react";
+import React, { useState, useCallback, useEffect, useContext } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { AppState } from "reducers/typings";
 // import bootstrapStyles from "../../../../styles/bootstrap/bootstrap-grid.scss";
@@ -34,6 +28,7 @@ import CookieService from "services/cookie";
 import { GA_CALLS } from "constants/cookieConsent";
 import styles from "../styles.scss";
 import WhatsappSubscribe from "components/WhatsappSubscribe";
+import { updatePreferenceData } from "actions/user";
 import Formsy from "formsy-react";
 // import AddressDataList from "../../../../components/Address/AddressDataList.json";
 
@@ -44,7 +39,6 @@ const AddressMain: React.FC<Props> = props => {
   // showAddresses: true,
   // newAddressMode: false,
   // editMode: false
-  const [preferencesData, setPreferencesData] = useState<any>({});
   const [showDefaultAddressOnly] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const { addressList } = useSelector((state: AppState) => state.address);
@@ -53,6 +47,7 @@ const AddressMain: React.FC<Props> = props => {
     (state: AppState) => state.address
   );
   const { bridal } = useSelector((state: AppState) => state.basket);
+  const { user } = useSelector((state: AppState) => state);
   const [scrollPos, setScrollPos] = useState<null | number>(null);
   const [innerScrollPos, setInnerScrollPos] = useState<null | number>(null);
   // const { isLoggedIn } = useSelector((state: AppState) => state.user);
@@ -77,7 +72,7 @@ const AddressMain: React.FC<Props> = props => {
         });
       }
       AccountService.fetchAccountPreferences(dispatch).then((data: any) => {
-        setPreferencesData(data);
+        updatePreferenceData(data);
       });
     }
   }, []);
@@ -333,7 +328,7 @@ const AddressMain: React.FC<Props> = props => {
                 <div className={styles.categorylabel}>
                   <div className={styles.subscribe}>
                     <WhatsappSubscribe
-                      data={preferencesData}
+                      data={user.preferenceData}
                       innerRef={props.innerRef}
                       phoneRef={props.phoneRef}
                       codeRef={props.codeRef}

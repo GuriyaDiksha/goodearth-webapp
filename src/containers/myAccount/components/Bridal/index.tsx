@@ -247,9 +247,14 @@ const Bridal: React.FC<Props> = props => {
         actionType: "create"
       };
       const temp: any = codeRef.current;
-      console.log(temp.input.value);
-      console.log(whatsappRef.current?.checked);
-      console.log(phoneRef.current?.value);
+      console.log(
+        whatsappRef.current?.checked || user.preferenceData.whatsappSubscribe
+      );
+      console.log(phoneRef.current?.value || user.preferenceData.whatsappNo);
+      console.log(user.preferenceData.subscribe);
+      console.log(
+        temp ? temp.input.value : user.preferenceData.whatsappNoCountryCode
+      );
       return;
       // setCurrentModule("created");
       setLastScreen("start");

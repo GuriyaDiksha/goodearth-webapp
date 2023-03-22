@@ -7,6 +7,7 @@ import Formsy from "formsy-react";
 import crossIcon from "images/cross.svg";
 import AccountService from "services/account";
 import { showGrowlMessage } from "utils/validate";
+import { updatePreferenceData } from "actions/user";
 import cs from "classnames";
 
 type Props = {
@@ -29,12 +30,14 @@ const WhatsappPopup: React.FC<Props> = props => {
       whatsappNo,
       whatsappNoCountryCode
     } = model;
-    AccountService.updateAccountPreferences(dispatch, {
+    const data = {
       subscribe: subscribe,
       whatsappNo: whatsappNo,
       whatsappNoCountryCode: whatsappNoCountryCode,
       whatsappSubscribe: whatsappSubscribe
-    }).then((data: any) => {
+    };
+    AccountService.updateAccountPreferences(dispatch, data).then((res: any) => {
+      dispatch(updatePreferenceData(data));
       setDisableBtn(true);
       showGrowlMessage(dispatch, "Your preferences have been updated!", 5000);
     });

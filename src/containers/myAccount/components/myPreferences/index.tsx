@@ -16,8 +16,7 @@ import { updatePreferenceData } from "actions/user";
 
 const MyPreferences = () => {
   const { countryData } = useSelector((state: AppState) => state.address);
-
-  const [preferencesData, setPreferencesData] = useState<any>({});
+  const { user } = useSelector((state: AppState) => state);
   const [subscribe, setSubscribe] = useState(false);
   const [isdList, setIsdList] = useState<any>([]);
   const whatsappCheckRef = useRef<HTMLInputElement>(null);
@@ -35,7 +34,6 @@ const MyPreferences = () => {
 
     AccountService.fetchAccountPreferences(dispatch).then((data: any) => {
       dispatch(updatePreferenceData(data));
-      setPreferencesData(data);
       setSubscribe(data.subscribe);
     });
   }, []);
@@ -54,19 +52,17 @@ const MyPreferences = () => {
       whatsappNo,
       whatsappNoCountryCode
     } = model;
-    const input = {
+    const data = {
       subscribe: subscribe,
       whatsappNo: whatsappNo,
       whatsappNoCountryCode: whatsappNoCountryCode,
       whatsappSubscribe: whatsappSubscribe
     };
 
-    AccountService.updateAccountPreferences(dispatch, input).then(
-      (data: any) => {
-        dispatch(updatePreferenceData(input));
-        showGrowlMessage(dispatch, "Your preferences have been updated!", 5000);
-      }
-    );
+    AccountService.updateAccountPreferences(dispatch, data).then((res: any) => {
+      dispatch(updatePreferenceData(data));
+      showGrowlMessage(dispatch, "Your preferences have been updated!", 5000);
+    });
   };
 
   return (
@@ -78,7 +74,7 @@ const MyPreferences = () => {
       <Formsy onSubmit={onSubmit}>
         <div className={cs(styles.content, styles.categorylabel)}>
           <WhatsappSubscribe
-            data={preferencesData}
+            data={user.preferenceData}
             innerRef={whatsappCheckRef}
             isdList={isdList}
             showPhone={true}
