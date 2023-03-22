@@ -1,8 +1,13 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
+import { useDispatch } from "react-redux";
 import WhatsappSubscribe from "components/WhatsappSubscribe";
 import styles from "./styles.scss";
+import globalStyles from "styles/global.scss";
 import Formsy from "formsy-react";
 import crossIcon from "images/cross.svg";
+import AccountService from "services/account";
+import { showGrowlMessage } from "utils/validate";
+import cs from "classnames";
 
 type Props = {
   data: any;
@@ -11,7 +16,30 @@ type Props = {
 };
 
 const WhatsappPopup: React.FC<Props> = props => {
+  const dispatch = useDispatch();
+
+  const [disableBtn, setDisableBtn] = useState(false);
+
   const whatsappSubscribeRef = useRef<HTMLInputElement>();
+
+  const onSubmit = (model: any) => {
+    const {
+      subscribe,
+      whatsappSubscribe,
+      whatsappNo,
+      whatsappNoCountryCode
+    } = model;
+    AccountService.updateAccountPreferences(dispatch, {
+      subscribe: subscribe,
+      whatsappNo: whatsappNo,
+      whatsappNoCountryCode: whatsappNoCountryCode,
+      whatsappSubscribe: whatsappSubscribe
+    }).then((data: any) => {
+      setDisableBtn(true);
+      showGrowlMessage(dispatch, "Your preferences have been updated!", 5000);
+    });
+  };
+
   return (
     <div className={styles.outer}>
       <div className={styles.container}>
@@ -26,7 +54,7 @@ const WhatsappPopup: React.FC<Props> = props => {
         </div>
         <div className={styles.loginForm}>
           <div className={styles.categorylabel}>
-            <Formsy>
+            <Formsy onSubmit={onSubmit}>
               <WhatsappSubscribe
                 data={props.data}
                 innerRef={whatsappSubscribeRef}
@@ -35,6 +63,15 @@ const WhatsappPopup: React.FC<Props> = props => {
                 countryCodeClass={styles.countryCode}
                 checkboxLabelClass={styles.checkboxLabel}
               />
+              <div className={styles.savePrefBtn}>
+                <input
+                  type="submit"
+                  value="Save Preferences"
+                  className={cs(globalStyles.charcoalBtn, {
+                    [globalStyles.disabledBtn]: disableBtn
+                  })}
+                />
+              </div>
             </Formsy>
           </div>
         </div>

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import FormCheckbox from "components/Formsy/FormCheckbox";
-import styles2 from "./styles.scss";
+import styles from "./styles.scss";
 import CountryCode from "components/Formsy/CountryCode";
 import FormInput from "components/Formsy/FormInput";
 import waIcon from "images/wa-icon.svg";
@@ -95,14 +95,14 @@ const WhatsappSubscribe: React.FC<Props> = ({
   //If data already filled and popup msg needs to show
   if (showPopupMsg && data.whatsappSubscribe) {
     return (
-      <div className={styles2.showPopupMsg}>
+      <div className={styles.showPopupMsg}>
         <img src={waIcon} />
-        <div className={styles2.text}>
-          <div className={styles2.info}>
+        <div className={styles.text}>
+          <div className={styles.info}>
             Whatsapp updates will be sent on {data.whatsappNoCountryCode}{" "}
             {data.whatsappNo}.
           </div>
-          <div className={styles2.cta}>
+          <div className={styles.cta}>
             <a onClick={openPopup}>Click here</a> to update this number or
             unsubscribe.
           </div>
@@ -113,10 +113,10 @@ const WhatsappSubscribe: React.FC<Props> = ({
 
   //all other cases
   return (
-    <div className={cs(styles2.whatsapp, whatsappClass)}>
+    <div className={cs(styles.whatsapp, whatsappClass)}>
       <div
         className={cs({
-          [styles2.flexForTooltip]: showTooltip
+          [styles.flexForTooltip]: showTooltip
         })}
       >
         <FormCheckbox
@@ -130,16 +130,14 @@ const WhatsappSubscribe: React.FC<Props> = ({
           handleChange={onCheckChange}
         />
         {showTooltip && (
-          <div className={styles2.tooltip}>
+          <div className={styles.tooltip}>
             <img
               src={showTip ? tooltipOpenIcon : tooltipIcon}
               onClick={() => {
                 setShowTip(!showTip);
               }}
             />
-            <div
-              className={cs(styles2.tooltipMsg, { [styles2.show]: showTip })}
-            >
+            <div className={cs(styles.tooltipMsg, { [styles.show]: showTip })}>
               By checking this, you agree to receiving Whatsapp messages for
               order & profile related information
             </div>
@@ -147,7 +145,7 @@ const WhatsappSubscribe: React.FC<Props> = ({
         )}
       </div>
       {showManageMsg && checked && (
-        <div className={styles2.manageMsg}>
+        <div className={styles.manageMsg}>
           Manage your preference from My Preference section under Profile
         </div>
       )}

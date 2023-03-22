@@ -19,6 +19,7 @@
             position: absolute;
             right: 25px;
             top: 25px;
+            cursor: pointer;
         }
         .heading{
             font-family: $font-Lora;
@@ -37,11 +38,23 @@
     }
 }
 
+@media screen and (max-width: 991px) {
+    .outer{
+        top: unset;
+        left: unset;
+        transform: unset;   
+        bottom: 0;
+        .container{
+            width: 100%;
+        }
+    }
+}
+
 .login-form{
     .categorylabel{
         label[for="whatsappSubscribe"]{
             @include b5_10px_montserrat_charcoal();
-            line-height: 22px;
+            line-height: 16px;
             letter-spacing: 0.3px;
             text-align: left;
             margin-bottom: 10px;

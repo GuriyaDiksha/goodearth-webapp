@@ -48,6 +48,7 @@
         padding-top: 3px
     }
     .text {
+        margin-left: 10px;
         .info{
             @include b5_10px_montserrat_charcoal();
             font-weight: $medium;
