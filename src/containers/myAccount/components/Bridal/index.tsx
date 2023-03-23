@@ -25,6 +25,8 @@ import { useHistory } from "react-router";
 import { showGrowlMessage } from "utils/validate";
 import CookieService from "services/cookie";
 import { GA_CALLS } from "constants/cookieConsent";
+import AccountService from "services/account";
+import { updatePreferenceData } from "actions/user";
 // import globalStyles from "styles/global.scss";
 type Props = {
   bridalId: number;
@@ -76,6 +78,14 @@ const Bridal: React.FC<Props> = props => {
     }
     return data;
   };
+
+  useEffect(() => {
+    if (user.isLoggedIn) {
+      AccountService.fetchAccountPreferences(dispatch).then((data: any) => {
+        dispatch(updatePreferenceData(data));
+      });
+    }
+  }, [user.isLoggedIn]);
 
   // componentWillMount() {
   // if (props.bridalId != 0) {
@@ -239,24 +249,36 @@ const Bridal: React.FC<Props> = props => {
 
   const createRegistry = () => {
     const { userAddress, ...rest } = bridalDetails;
+    const waCheck = whatsappRef.current
+      ? whatsappRef.current.checked
+      : user.preferenceData.whatsappSubscribe;
+    const waNo = phoneRef.current
+      ? phoneRef.current.value
+      : user.preferenceData.whatsappNo;
+    const temp: any = codeRef.current;
+    const waCode = temp
+      ? temp.input.value
+      : user.preferenceData.whatsappNoCountryCode;
+
+    const preferenceData = {
+      whatsappSubscribe: waCheck,
+      whatsappNo: waNo,
+      whatsappNoCountryCode: waCode
+    };
     if (userAddress) {
       const formData = {
         userAddressId: userAddress.id,
         ...rest,
         currency,
-        actionType: "create"
+        actionType: "create",
+        ...preferenceData
       };
-      const temp: any = codeRef.current;
-      console.log(
-        whatsappRef.current?.checked || user.preferenceData.whatsappSubscribe
-      );
-      console.log(phoneRef.current?.value || user.preferenceData.whatsappNo);
-      console.log(user.preferenceData.subscribe);
-      console.log(
-        temp ? temp.input.value : user.preferenceData.whatsappNoCountryCode
-      );
-      return;
-      // setCurrentModule("created");
+
+      const userPreferenceObject = {
+        ...preferenceData,
+        subscribe: user.preferenceData.subscribe
+      };
+
       setLastScreen("start");
       BridalService.saveBridalProfile(dispatch, formData)
         .then(data => {
@@ -264,7 +286,8 @@ const Bridal: React.FC<Props> = props => {
             window.removeEventListener("beforeunload", confirmPopup);
             const updatedUser = Object.assign({}, user, {
               bridalId: data.bridalId,
-              bridalCurrency: currency
+              bridalCurrency: currency,
+              preferenceData: userPreferenceObject
             });
             const userConsent = CookieService.getCookie("consent").split(",");
             if (userConsent.includes(GA_CALLS)) {

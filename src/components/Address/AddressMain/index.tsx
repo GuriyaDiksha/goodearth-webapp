@@ -71,9 +71,6 @@ const AddressMain: React.FC<Props> = props => {
           "Event Label": occasion
         });
       }
-      AccountService.fetchAccountPreferences(dispatch).then((data: any) => {
-        updatePreferenceData(data);
-      });
     }
   }, []);
   const [mode, setMode] = useState<AddressModes>("list");
