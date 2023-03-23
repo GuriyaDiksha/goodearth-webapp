@@ -459,11 +459,11 @@ const PaymentSection: React.FC<PaymentProps> = props => {
                 </div>
                 <div className={styles.redeemUnavailableMessageWrapper}>
                   <p className={styles.redeemUnavailableMessage}>
-                    The Cerise server is currently under work and will be back
-                    soon. We regret the inconvenience caused. During this time,
-                    any points earned on the order will get reflected in your
-                    account once the server is back up. Unfortunately,
-                    redemption of loyalty points is not available currently.
+                    We are upgrading our Cerise program and will be back soon!
+                    You will continue to earn points for all transactions during
+                    this period and will reflect once the upgrade is complete.
+                    Please note that you will not be able to redeem any points
+                    during this time.
                   </p>
                 </div>
               </Fragment>
