@@ -154,11 +154,19 @@ const PaymentSection: React.FC<PaymentProps> = props => {
         return false;
       }
 
-      data["whatsappSubscribe"] = whatsappCheckRef.current?.checked;
-      data["whatsappNo"] = whatsappNoRef.current?.checked;
       const temp: any = whatsappCountryCodeRef.current;
       temp ? temp.input.value : preferenceData.whatsappNoCountryCode;
-      return;
+      data["whatsappSubscribe"] = whatsappCheckRef.current
+        ? whatsappCheckRef.current.checked
+        : preferenceData.whatsappSubscribe;
+
+      data["whatsappNo"] = whatsappNoRef.current
+        ? whatsappNoRef.current.value
+        : preferenceData.whatsappNo;
+
+      data["whatsappNoCountryCode"] = temp
+        ? temp.input.value
+        : preferenceData.whatsappNoCountryCode;
 
       setIsLoading(true);
       const paymentMode: string[] = [];
