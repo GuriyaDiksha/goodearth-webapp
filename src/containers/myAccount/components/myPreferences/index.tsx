@@ -52,6 +52,7 @@ const MyPreferences = () => {
       whatsappNo,
       whatsappNoCountryCode
     } = model;
+
     const data = {
       subscribe: subscribe,
       whatsappNo: whatsappNo,

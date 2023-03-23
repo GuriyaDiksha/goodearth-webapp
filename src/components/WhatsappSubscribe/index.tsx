@@ -149,8 +149,11 @@ const WhatsappSubscribe: React.FC<Props> = ({
           Manage your preference from My Preference section under Profile
         </div>
       )}
-      {checked && showPhone && (
-        <div className={countryCodeClass}>
+      {
+        <div
+          className={countryCodeClass}
+          style={!(checked && showPhone) ? { display: "none" } : {}}
+        >
           <CountryCode
             name="whatsappNoCountryCode"
             placeholder="Code"
@@ -202,7 +205,7 @@ const WhatsappSubscribe: React.FC<Props> = ({
             inputRef={phoneRef}
           />
         </div>
-      )}
+      }
       {showTermsMessage &&
         `By checking this, you agree to receiving Whatsapp messages for order &
           profile related information. To know more how we keep your data safe,
