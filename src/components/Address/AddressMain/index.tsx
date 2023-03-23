@@ -12,6 +12,7 @@ import MyAddress from "containers/myAccount/components/MyAddress";
 import { AddressContext } from "./context";
 import { Props, AddressModes } from "../typings";
 import AddressService from "services/address";
+import AccountService from "services/account";
 // import { updatePinCodeList } from "actions/address";
 import Loader from "components/Loader";
 import AddressSection from "containers/checkout/component/address";
@@ -26,6 +27,9 @@ import myAccountStyles from "containers/myAccount/styles.scss";
 import CookieService from "services/cookie";
 import { GA_CALLS } from "constants/cookieConsent";
 import styles from "../styles.scss";
+import WhatsappSubscribe from "components/WhatsappSubscribe";
+import { updatePreferenceData } from "actions/user";
+import Formsy from "formsy-react";
 // import AddressDataList from "../../../../components/Address/AddressDataList.json";
 
 // import AddressMainComponent from '../../components/common/address/addressMain';
@@ -39,12 +43,17 @@ const AddressMain: React.FC<Props> = props => {
   const [isLoading, setIsLoading] = useState(false);
   const { addressList } = useSelector((state: AppState) => state.address);
   const [editAddressData, setEditAddressData] = useState<AddressData>();
-  const { pinCodeData } = useSelector((state: AppState) => state.address);
+  const { pinCodeData, countryData } = useSelector(
+    (state: AppState) => state.address
+  );
   const { bridal } = useSelector((state: AppState) => state.basket);
+  const { user } = useSelector((state: AppState) => state);
   const [scrollPos, setScrollPos] = useState<null | number>(null);
   const [innerScrollPos, setInnerScrollPos] = useState<null | number>(null);
   // const { isLoggedIn } = useSelector((state: AppState) => state.user);
   // const [ pincodeList, setPincodeList ] = useState([]);
+  const [isdList, setIsdList] = useState<any>([]);
+
   const {
     data: { userAddress, occasion }
   } = useContext(BridalContext);
@@ -269,6 +278,14 @@ const AddressMain: React.FC<Props> = props => {
     [pinCodeData]
   );
   const { currentCallBackComponent } = props;
+
+  useEffect(() => {
+    const isdList = countryData.map(list => {
+      return list.isdCode;
+    });
+    setIsdList(isdList);
+  }, [countryData]);
+
   const addressContent = (
     <>
       {mode == "list" && (
@@ -301,6 +318,31 @@ const AddressMain: React.FC<Props> = props => {
               currentCallBackComponent
             )}
           />
+
+          {currentCallBackComponent == "bridal" && (
+            <div className={styles.loginForm}>
+              <Formsy>
+                <div className={styles.categorylabel}>
+                  <div className={styles.subscribe}>
+                    <WhatsappSubscribe
+                      data={user.preferenceData}
+                      innerRef={props.innerRef}
+                      phoneRef={props.phoneRef}
+                      codeRef={props.codeRef}
+                      isdList={isdList}
+                      showTermsMessage={false}
+                      showTooltip={true}
+                      showManageMsg={true}
+                      showPhone={true}
+                      showPopupMsg={true}
+                      whatsappClass={styles.whatsapp}
+                      countryCodeClass={styles.countryCode}
+                    />
+                  </div>
+                </div>
+              </Formsy>
+            </div>
+          )}
 
           {!showDefaultAddressOnly &&
             (currentCallBackComponent == "account" ||
