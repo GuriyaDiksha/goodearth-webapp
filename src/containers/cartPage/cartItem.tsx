@@ -211,7 +211,7 @@ const CartItems: React.FC<BasketItem> = memo(
         }
       });
       return size ? (
-        <div className={styles.sizeWrp}>
+        <div className={globalStyles.flex}>
           <div
             className={cs(styles.size, { [styles.inline]: mobile || tablet })}
           >
@@ -219,13 +219,37 @@ const CartItems: React.FC<BasketItem> = memo(
           </div>
           {(mobile || tablet) && " "}
           <div
-            className={cs(styles.productSize, {
+            className={cs({
               [styles.inline]: mobile || tablet
             })}
           >
             {size.value}
           </div>
         </div>
+      ) : (
+        ""
+      );
+    };
+
+    const getColor = (data: any) => {
+      const color = data.find(function(attribute: any) {
+        if (attribute.name == "Color") {
+          return attribute;
+        }
+      });
+      const colorName = () => {
+        let cName = color.value
+          .split("-")
+          .slice(1)
+          .join();
+        if (cName[cName.length - 1] == "s") {
+          cName = cName.slice(0, -1);
+        }
+        return cName;
+      };
+
+      return color ? (
+        <div className={styles.color}>Color: {colorName()}</div>
       ) : (
         ""
       );
@@ -420,6 +444,13 @@ const CartItems: React.FC<BasketItem> = memo(
                         })}
                       >
                         {getSize(attributes)}
+                      </div>
+                      <div
+                        className={cs(styles.productColor, {
+                          [styles.outOfStock]: stockRecords[0].numInStock < 1
+                        })}
+                      >
+                        {getColor(attributes)}
                       </div>
                       <div>
                         {/* <div className={styles.size}>QTY</div> */}

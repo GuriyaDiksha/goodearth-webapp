@@ -23,6 +23,7 @@ import PdpQuantity from "components/quantity/pdpQuantity";
 import { showGrowlMessage } from "utils/validate";
 import { updateBasket } from "actions/basket";
 import { displayPriceWithCommas } from "utils/utility";
+import { forEach } from "lodash";
 
 const LineItems: React.FC<BasketItem> = memo(
   ({
@@ -224,8 +225,19 @@ const LineItems: React.FC<BasketItem> = memo(
           return attribute;
         }
       });
+      const colorName = () => {
+        let cName = color.value
+          .split("-")
+          .slice(1)
+          .join();
+        if (cName[cName.length - 1] == "s") {
+          cName = cName.slice(0, -1);
+        }
+        return cName;
+      };
+
       return color ? (
-        <div className={styles.color}>Color: {size.valueOf}</div>
+        <div className={styles.color}>Color: {colorName()}</div>
       ) : (
         ""
       );

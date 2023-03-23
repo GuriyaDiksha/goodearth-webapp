@@ -336,7 +336,7 @@ class CartPage extends React.Component<Props, State> {
             // bootstrap.colMd4,
             // bootstrap.offsetMd4,
             {
-              [bootstrap.col10]: !mobile,
+              // [bootstrap.col10]: !mobile,
               [bootstrap.col12]: mobile
             }
           )}
@@ -370,7 +370,11 @@ class CartPage extends React.Component<Props, State> {
                       return (
                         <div
                           key={i}
-                          className={cs(bootstrap.colLg2, bootstrap.col6)}
+                          className={cs(
+                            bootstrap.colLg3,
+                            bootstrap.col6,
+                            styles.px10
+                          )}
                         >
                           <div className={styles.searchImageboxNew}>
                             <Link to={data.ctaUrl}>
@@ -407,9 +411,11 @@ class CartPage extends React.Component<Props, State> {
                 <p className={styles.wishlistSubHead}>
                   There’s more waiting for you in your Wishlist
                 </p>
-                <Link className={styles.viewAll} to="/wishlist">
-                  VIEW ALL
-                </Link>
+                {!mobile && (
+                  <Link className={styles.viewAll} to="/wishlist">
+                    VIEW ALL
+                  </Link>
+                )}
                 <div className={cs(bootstrap.row, globalStyles.marginT20)}>
                   <div
                     className={cs(
@@ -420,12 +426,16 @@ class CartPage extends React.Component<Props, State> {
                       { [styles.checkheightMobile]: mobile }
                     )}
                   >
-                    {wishlistData.length > 0
+                    {wishlistData.length > 0 && !mobile
                       ? wishlistData?.slice(0, 4)?.map((data, i) => {
                           return (
                             <div
                               key={i}
-                              className={cs(bootstrap.colMd2, bootstrap.col6)}
+                              className={cs(
+                                bootstrap.colLg3,
+                                bootstrap.col6,
+                                styles.px10
+                              )}
                             >
                               <div className={styles.searchImageboxNew}>
                                 <Link to={data.productUrl}>
@@ -463,7 +473,69 @@ class CartPage extends React.Component<Props, State> {
                             </div>
                           );
                         })
+                      : wishlistData.length > 4 && mobile
+                      ? wishlistData?.slice(0, 5)?.map((data, i) => {
+                          return (
+                            <div
+                              key={i}
+                              className={cs(bootstrap.colMd2, bootstrap.col6)}
+                            >
+                              <div
+                                className={cs(styles.searchImageboxNew, {
+                                  [styles.viewAllMobileWrapper]: i == 4
+                                })}
+                              >
+                                <Link
+                                  to={i < 4 ? data.productUrl : "/wishlist"}
+                                >
+                                  <img
+                                    src={
+                                      data.productImage == ""
+                                        ? noImagePlp
+                                        : data.productImage
+                                    }
+                                    // onError={this.addDefaultSrc}
+                                    alt={data.productName}
+                                    className={styles.imageResultNew}
+                                  />
+                                  {i == 4 && (
+                                    <span className={cs(styles.viewAllMobile)}>
+                                      VIEW ALL
+                                    </span>
+                                  )}
+                                </Link>
+                              </div>
+                              {i < 4 && (
+                                <div className={styles.imageContent}>
+                                  {/* <p className={styles.searchImageTitle}>
+                              {data.productName}
+                            </p> */}
+                                  <p className={styles.searchFeature}>
+                                    <Link to={data.productUrl}>
+                                      {data.productName}
+                                    </Link>
+                                  </p>
+                                  <p className={styles.searchFeature}>
+                                    <Link to={data.productUrl}>
+                                      {String.fromCharCode(
+                                        ...currencyCode[this.props.currency]
+                                      ) +
+                                        " " +
+                                        data.price[currency]}
+                                    </Link>
+                                  </p>
+                                </div>
+                              )}
+                            </div>
+                          );
+                        })
                       : ""}
+                    {/* {mobile && wishlistData.length > 0 && (
+                      <Link
+                        className={cs(styles.viewAllMobile)}
+                        to="/wishlist"
+                      ></Link>
+                    )} */}
                   </div>
                 </div>
               </>
