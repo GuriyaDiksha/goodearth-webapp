@@ -1105,6 +1105,7 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
               showManageMsg={true}
               showPhone={false}
               showTooltip={true}
+              onlyCheckbox={true}
             />
           </div>
           <div className={styles.subscribe}>

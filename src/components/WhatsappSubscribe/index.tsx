@@ -26,6 +26,7 @@ type Props = {
   whatsappClass?: string;
   countryCodeClass?: string;
   checkboxLabelClass?: string;
+  onlyCheckbox?: boolean;
 };
 
 const WhatsappSubscribe: React.FC<Props> = ({
@@ -41,7 +42,8 @@ const WhatsappSubscribe: React.FC<Props> = ({
   phoneRef,
   whatsappClass,
   countryCodeClass,
-  checkboxLabelClass
+  checkboxLabelClass,
+  onlyCheckbox = false
 }) => {
   const dispatch = useDispatch();
   const [checked, setChecked] = useState(false);
@@ -149,7 +151,7 @@ const WhatsappSubscribe: React.FC<Props> = ({
           Manage your preference from My Preference section under Profile
         </div>
       )}
-      {
+      {!onlyCheckbox && (
         <div
           className={countryCodeClass}
           style={!(checked && showPhone) ? { display: "none" } : {}}
@@ -205,7 +207,7 @@ const WhatsappSubscribe: React.FC<Props> = ({
             inputRef={phoneRef}
           />
         </div>
-      }
+      )}
       {showTermsMessage &&
         `By checking this, you agree to receiving Whatsapp messages for order &
           profile related information. To know more how we keep your data safe,
