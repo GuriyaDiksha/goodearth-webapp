@@ -179,7 +179,8 @@ class NewGiftcard extends React.Component<Props, State> {
             currencyCharCode: newCurrencyCode,
             cardId: "",
             cardValue: "",
-            customValue: ""
+            customValue: "",
+            customValueErrorMsg: ""
           });
         }
       }
