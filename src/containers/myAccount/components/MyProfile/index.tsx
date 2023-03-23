@@ -20,12 +20,14 @@ import { pageViewGTM } from "utils/validate";
 import AccountService from "services/account";
 import LoginService from "services/login";
 import { updateCountryData } from "actions/address";
+import WhatsappSubscribe from "components/WhatsappSubscribe";
 
 const MyProfile: React.FC<ProfileProps> = ({ setCurrentSection }) => {
   const {
     address: { countryData }
   } = useSelector((state: AppState) => state);
   const [data, setData] = useState<Partial<ProfileResponse>>({});
+  const whatsappSubscribeRef = useRef(false);
   const [profileState, setProfileState] = useState<State>({
     newsletter: false,
     uniqueId: "",
@@ -568,6 +570,7 @@ const MyProfile: React.FC<ProfileProps> = ({ setCurrentSection }) => {
                 defaultClass={styles.inputDefault}
               />
             </div>
+            {WhatsappSubscribe(data, whatsappSubscribeRef, false, isdList)}
             <div className={styles.subscribe}>
               <FormCheckbox
                 value={data?.subscribe || false}

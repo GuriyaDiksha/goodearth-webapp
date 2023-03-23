@@ -21,4 +21,5 @@ export type User = {
   customerGroup: string;
   country: string;
   state: string;
+  preferenceData: any;
 };
