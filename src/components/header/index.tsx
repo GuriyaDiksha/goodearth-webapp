@@ -388,9 +388,9 @@ class Header extends React.Component<Props, State> {
 
       if (mobileFilterMenu) {
         if (tim) {
-          (mobileFilterMenu as HTMLElement).style.top = "130px";
+          (mobileFilterMenu as HTMLElement).style.top = "140px";
         } else {
-          (mobileFilterMenu as HTMLElement).style.top = "90px";
+          (mobileFilterMenu as HTMLElement).style.top = "100px";
         }
       }
 
@@ -539,7 +539,7 @@ class Header extends React.Component<Props, State> {
           (mobileFilterMenu as HTMLElement).style.top = `${170 -
             window?.pageYOffset}px`;
         } else {
-          (mobileFilterMenu as HTMLElement).style.top = `${130 -
+          (mobileFilterMenu as HTMLElement).style.top = `${140 -
             window?.pageYOffset}px`;
         }
       }
@@ -745,16 +745,11 @@ class Header extends React.Component<Props, State> {
     ) {
       return false;
     }
-    this.setState(
-      {
-        showSearch: true,
-        // showSearch: true,
-        showMenu: false
-      },
-      () => {
-        console.log(this.state);
-      }
-    );
+    this.setState({
+      showSearch: true,
+      // showSearch: true,
+      showMenu: false
+    });
   };
 
   hideSearch = () => {

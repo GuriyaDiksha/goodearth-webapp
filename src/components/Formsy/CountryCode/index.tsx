@@ -123,6 +123,7 @@ const CountryCode: React.FC<Props & InjectedProps<string | null>> = props => {
         renderSuggestion={renderSuggestion}
         inputProps={inputProps}
         id={props.id}
+        ref={props.innerRef}
       />
       <span className={styles.arrow}></span>
       <label
