@@ -428,8 +428,9 @@ const PaymentSection: React.FC<PaymentProps> = props => {
                     </span>
                   </div>
                 </div>
-                <hr className={styles.hr} />
-                <div className={cs(globalStyles.flex, styles.disabled)}>
+                {/* //================Temporary commentetd==================// */}
+                {/* <hr className={styles.hr} /> */}
+                {/* <div className={cs(globalStyles.flex, styles.disabled)}>
                   <div
                     className={cs(
                       styles.marginR10,
@@ -456,7 +457,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
                     </div>
                     {isactiveredeem ? <Reedem /> : ""}
                   </div>
-                </div>
+                </div> */}
                 <div className={styles.redeemUnavailableMessageWrapper}>
                   <p className={styles.redeemUnavailableMessage}>
                     We are upgrading our Cerise program and will be back soon!

@@ -988,7 +988,7 @@ input[type="radio"] {
 }
 .redeem-unavailable-message-wrapper {
   padding-top: 15px;
-  width: 50%;
+  width: 80%;
 
   .redeem-unavailable-message {
     @include error_msg_cerise();
