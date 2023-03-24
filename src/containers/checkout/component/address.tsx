@@ -13,13 +13,7 @@ import { AddressProps } from "./typings";
 import { updateAddressList } from "actions/address";
 import AddressService from "services/address";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  STEP_BILLING,
-  STEP_ORDER,
-  STEP_PAYMENT,
-  STEP_PROMO,
-  STEP_SHIPPING
-} from "../constants";
+import { STEP_BILLING, STEP_ORDER, STEP_SHIPPING } from "../constants";
 import UserContext from "contexts/user";
 import { AddressContext } from "components/Address/AddressMain/context";
 import { AppState } from "reducers/typings";
@@ -31,8 +25,6 @@ import checkmarkCircle from "./../../../images/checkmarkCircle.svg";
 import { updateComponent, updateModal } from "actions/modal";
 import { POPUP } from "constants/components";
 import { displayPriceWithCommas } from "utils/utility";
-import Loader from "components/Loader";
-import { debug } from "console";
 
 const AddressSection: React.FC<AddressProps & {
   mode: string;
@@ -62,7 +54,7 @@ const AddressSection: React.FC<AddressProps & {
   const { basket } = useSelector((state: AppState) => state);
   const { mobile } = useSelector((state: AppState) => state.device);
   const { addressList } = useSelector((state: AppState) => state.address);
-  const { showPromo } = useSelector((state: AppState) => state.info);
+  // const { showPromo } = useSelector((state: AppState) => state.info);
   const sameShipping =
     (props.activeStep == STEP_BILLING ? true : false) &&
     props.hidesameShipping &&
@@ -89,6 +81,7 @@ const AddressSection: React.FC<AddressProps & {
   const [panCheck, setPanCheck] = useState("");
   const [isTermChecked, setIsTermChecked] = useState(false);
   const [termsErr, setTermsErr] = useState("");
+  const [gstDetails, setGstDetails] = useState({ gstText: "", gstType: "" });
 
   const dispatch = useDispatch();
 
@@ -388,10 +381,8 @@ const AddressSection: React.FC<AddressProps & {
     }, 500);
   };
 
-  // let numberObj: { gstNo?: string; gstType?: string; panPassportNo: string };
-
-  const onSubmit = (
-    address?: AddressData,
+  const onSubmit: any = (
+    address?: AddressData | undefined,
     gstText?: string,
     gstType?: string
   ) => {
@@ -399,12 +390,20 @@ const AddressSection: React.FC<AddressProps & {
     const addr = address || null;
     let numberObj: { gstNo?: string; gstType?: string; panPassportNo: string };
     const amountPriceCheck = amountPrice[currency] <= basket.total;
-    setGstNum(gstText);
+    setGstNum(gstText || gstNum);
 
-    if (gst) {
+    debugger;
+    if (gstText) {
+      setGstDetails({ gstText: gstText, gstType: gstType || "" });
+    }
+    if (gstText || gstNum) {
       numberObj = Object.assign(
         {},
-        { gstNo: gstText, gstType: gstType, panPassportNo: pancardText }
+        {
+          gstNo: gstText || gstDetails?.gstText,
+          gstType: gstType || gstDetails?.gstType,
+          panPassportNo: pancardText
+        }
       );
     } else {
       numberObj = Object.assign(
@@ -426,9 +425,9 @@ const AddressSection: React.FC<AddressProps & {
     if (validate) {
       removeErrorMessages();
       props.finalizeAddress(addr, props.activeStep, numberObj);
-      if (activeStep === STEP_BILLING) {
-        next(showPromo ? STEP_PROMO : STEP_PAYMENT);
-      }
+      // if (activeStep === STEP_BILLING) {
+      //   next(showPromo ? STEP_PROMO : STEP_PAYMENT);
+      // }
       return validate;
     } else {
       showErrorMsg();
@@ -452,38 +451,30 @@ const AddressSection: React.FC<AddressProps & {
     if (activeStep === STEP_SHIPPING) {
       next(STEP_BILLING);
     }
-    console.log(addressList, "address list");
     return true;
   };
-  // const handleSaveAndReview = (address?: AddressData) => {
-  //   debugger
-  //   // const selectedAddressRes: boolean = o
-  //   if (selectedAddressRes) {
-  //     onSubmit(onSelectAddress(
-  //       addressList?.find((val) => val?.isDefaultForShipping === true)
-  //     ));
-  //   }
-  // };
-
-  const toggleGstInvoice = (address?: AddressData) => {
-    debugger;
-    console.log(addressList, "address list");
-    console.log(address, "address before");
-    setGst(true);
-    // onSelectAddress(address);
-    dispatch(
-      updateComponent(
-        POPUP.BILLINGGST,
-        {
-          onSubmit: onSubmit,
-          setGst: setGst,
-          address: address
-        },
-        true
-      )
-    );
-    dispatch(updateModal(true));
-    // console.log("test ====", event.target.value);
+  const handleSaveAndReview = (address?: AddressData) => {
+    onSubmit(address);
+  };
+  const toggleGstInvoice = () => {
+    setGst(!gst);
+    if (!gst) {
+      dispatch(
+        updateComponent(
+          POPUP.BILLINGGST,
+          {
+            onSubmit: onSubmit,
+            setGst: setGst,
+            gstNum: gstNum
+          },
+          true
+        )
+      );
+      dispatch(updateModal(true));
+    } else {
+      debugger;
+      setGstNum("");
+    }
   };
 
   const openTermsPopup = () => {
@@ -522,13 +513,8 @@ const AddressSection: React.FC<AddressProps & {
                     <input
                       type="checkbox"
                       onChange={() => {
-                        toggleGstInvoice(
-                          addressList?.find(
-                            val => val?.isDefaultForShipping === true
-                          )
-                        );
+                        toggleGstInvoice();
                       }}
-                      // checked={gst}
                     />
                     <span
                       className={cs(styles.indicator, {
@@ -583,6 +569,7 @@ const AddressSection: React.FC<AddressProps & {
                       disabled={!!user.panPassport}
                       onKeyPress={onPanKeyPress}
                       value={pancardText}
+                      aria-label="Pancard"
                     />
                   </div>
                   <label className={styles.formLabel}>{panText}</label>
@@ -919,7 +906,7 @@ const AddressSection: React.FC<AddressProps & {
                             styles.sendToPayment
                           )}
                           onClick={() => {
-                            onSelectAddress(
+                            handleSaveAndReview(
                               addressList?.find(
                                 val => val?.isDefaultForShipping === true
                               )

@@ -5,7 +5,7 @@ import styles from "./orderStyles.scss";
 import paymentStyles from "../styles.scss";
 import { OrderProps } from "./typings";
 import { Currency, currencyCode } from "typings/currency";
-import { Link, useLocation, NavLink, useHistory } from "react-router-dom";
+import { useLocation, NavLink, useHistory } from "react-router-dom";
 import iconStyles from "styles/iconFonts.scss";
 import { useDispatch, useSelector } from "react-redux";
 import CheckoutService from "services/checkout";
@@ -17,11 +17,9 @@ import { POPUP } from "constants/components";
 import CookieService from "services/cookie";
 import { GA_CALLS } from "constants/cookieConsent";
 import { displayPriceWithCommasFloat } from "utils/utility";
-
+import { currencyCodes } from "constants/currency";
 import checkoutIcon from "../../../images/checkout.svg";
 import freeShippingInfoIcon from "../../../images/free_shipping_info.svg";
-import { invalid } from "moment";
-import { currencyCodes } from "constants/currency";
 
 const OrderSummary: React.FC<OrderProps> = props => {
   const {
@@ -67,10 +65,14 @@ const OrderSummary: React.FC<OrderProps> = props => {
     };
     const interSectionCallBack = (enteries: any) => {
       setPreviewTriggerStatus(enteries[0].isIntersecting);
-      setCheckoutMobileOrderSummary(enteries[0].isIntersecting);
+      setCheckoutMobileOrderSummary &&
+        setCheckoutMobileOrderSummary(enteries[0].isIntersecting);
     };
     observer = new IntersectionObserver(interSectionCallBack, observerOptions);
-    observer.observe(orderSummaryRef.current, orderSummaryRefCheckout.current);
+    observer.observe(
+      orderSummaryRef?.current,
+      orderSummaryRefCheckout?.current
+    );
   };
   useIsomorphicLayoutEffect(() => {
     handleScroll();
@@ -171,6 +173,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
             )}
             {isSuspended && !isSale && (
               <>
+                {/* <hr className={styles.hr} /> */}
                 <p>
                   {" "}
                   All standard WHO guidelines and relevant precautionary
@@ -201,7 +204,10 @@ const OrderSummary: React.FC<OrderProps> = props => {
                 )}
               >
                 <div className={styles.productImg}>
-                  <img src={item?.product?.images?.[0]?.productImage} />
+                  <img
+                    src={item?.product?.images?.[0]?.productImage}
+                    alt="product image"
+                  />
                 </div>
                 <div className={styles.infoWrp}>
                   <div className={styles.productName}>{item.product.title}</div>
@@ -547,17 +553,17 @@ const OrderSummary: React.FC<OrderProps> = props => {
     BasketService.removeOutOfStockItems(dispatch, "cart");
   };
 
-  const goToWishlist = (e: any) => {
-    const userConsent = CookieService.getCookie("consent").split(",");
-    if (userConsent.includes(GA_CALLS)) {
-      dataLayer.push({
-        event: "eventsToSend",
-        eventAction: "wishListClick",
-        eventCategory: "Click",
-        eventLabel: location.pathname
-      });
-    }
-  };
+  // const goToWishlist = (e: any) => {
+  //   const userConsent = CookieService.getCookie("consent").split(",");
+  //   if (userConsent.includes(GA_CALLS)) {
+  //     dataLayer.push({
+  //       event: "eventsToSend",1
+  //       eventAction: "wishListClick",
+  //       eventCategory: "Click",
+  //       eventLabel: location.pathname
+  //     });
+  //   }
+  // };
   const saveInstruction = (data: string) => {
     dispatch(updateDeliveryText(data));
     const userConsent = CookieService.getCookie("consent").split(",");
@@ -1060,7 +1066,8 @@ const OrderSummary: React.FC<OrderProps> = props => {
                   className={cs(
                     globalStyles.textCenter,
                     styles.textCoupon,
-                    globalStyles.voffset4
+                    globalStyles.voffset4,
+                    styles.summaryPadding
                   )}
                 >
                   Promo Codes (if applicable), Gift Cards & Credit Notes can be

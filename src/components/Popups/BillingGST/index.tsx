@@ -1,10 +1,12 @@
-import React, { ChangeEvent, useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import cs from "classnames";
 import globalStyles from "styles/global.scss";
 import styles from "../styles.scss";
 import iconStyles from "styles/iconFonts.scss";
 import { Context } from "components/Modal/context";
 import { NavLink } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { AppState } from "reducers/typings";
 
 const desc = {
   GSTIN:
@@ -20,21 +22,27 @@ const title = {
 type PopupProps = {
   onSubmit: (address: null, gstType: string, gstText: string) => any;
   setGst: (data: boolean) => any;
-  address: any;
+  gstNum: string;
 };
 
-const BillingGST: React.FC<PopupProps> = ({ onSubmit, setGst, address }) => {
+const BillingGST: React.FC<PopupProps> = ({ onSubmit, setGst, gstNum }) => {
   const { closeModal } = useContext(Context);
   const [gstText, setGstText] = useState("");
   const [gstType, setGstType] = useState("GSTIN");
   const [error, setError] = useState("");
+  const { addressList } = useSelector((state: AppState) => state.address);
+  const address: any =
+    addressList?.find((val: any) => val?.isDefaultForShipping === true) ||
+    undefined;
 
+  useEffect(() => {
+    setGstText(gstNum);
+  }, [gstNum]);
   const onChangeGst = (e: React.ChangeEvent<HTMLInputElement>) => {
     setGstType(e.target.value);
     setError("");
     setGstText("");
   };
-  console.log(address, "address...");
   const onCouponChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setGstText(event.target.value);
     setError("");
@@ -132,6 +140,7 @@ const BillingGST: React.FC<PopupProps> = ({ onSubmit, setGst, address }) => {
                 className={cs(styles.input, styles.marginR10)}
                 onChange={e => onCouponChange(e)}
                 value={gstText}
+                aria-label="billing-gst"
               />
             </div>
             <label className={styles.formLabel}>

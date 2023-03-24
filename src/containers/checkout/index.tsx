@@ -760,20 +760,29 @@ class Checkout extends React.Component<Props, State> {
                   billingAddress.phoneCountryCode + billingAddress.phoneNumber
               });
             }
-            this.setState({
-              billingAddress: billingAddress,
-              activeStep:
-                localStorage.getItem("validBo") ||
-                localStorage.getItem("isSale") ||
-                !this.props.showPromo
-                  ? // || this.props.isSale
-                    STEP_PAYMENT
-                  : STEP_PROMO,
-              billingError: "",
-              pancardNo: obj.panPassportNo,
-              gstNo: obj.gstNo || "",
-              gstType: obj.gstType || ""
-            });
+            this.setState(
+              {
+                billingAddress: billingAddress,
+                activeStep:
+                  localStorage.getItem("validBo") ||
+                  localStorage.getItem("isSale") ||
+                  !this.props.showPromo
+                    ? // || this.props.isSale
+                      STEP_PAYMENT
+                    : STEP_PROMO,
+                billingError: "",
+                pancardNo: obj.panPassportNo,
+                gstNo: obj.gstNo || "",
+                gstType: obj.gstType || ""
+              },
+              () => {
+                if (activeStep === STEP_BILLING) {
+                  this.nextStep(
+                    this.props.showPromo ? STEP_PROMO : STEP_PAYMENT
+                  );
+                }
+              }
+            );
             checkoutGTM(3, this.props.currency, this.props.basket);
           })
           .catch(err => {
@@ -884,7 +893,7 @@ class Checkout extends React.Component<Props, State> {
                 salestatus={this.props.isSale}
               />
             </div>
-            <div className={cs(bootstrap.col12, bootstrap.colMd4)}>
+            <div className={cs(bootstrap.col12, bootstrap.colLg4)}>
               <OrderSummary
                 mobile={this.props.mobile}
                 currency={this.props.currency}

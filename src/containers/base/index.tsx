@@ -360,9 +360,8 @@ const BaseLayout: React.FC = () => {
 
   const isCheckout =
     pathname.indexOf("/checkout") > -1 ||
-    pathname.indexOf("order/orderconfirmation") > -1 ||
-    pathname == "/cart" ||
-    pathname == "/cart/";
+    pathname.indexOf("order/orderconfirmation") > -1;
+  // || pathname == "/cart" || pathname == "/cart/";
   const confirmation = pathname.indexOf("order/orderconfirmation") > -1;
   const backOrder = pathname.indexOf("backend-order-error") > -1;
   const maintenance = pathname.indexOf("maintenance") > -1;
