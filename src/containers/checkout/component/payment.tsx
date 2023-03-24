@@ -461,9 +461,9 @@ const PaymentSection: React.FC<PaymentProps> = props => {
                   <p className={styles.redeemUnavailableMessage}>
                     We are upgrading our Cerise program and will be back soon!
                     You will continue to earn points for all transactions during
-                    this period and will reflect once the upgrade is complete.
-                    Please note that you will not be able to redeem any points
-                    during this time.
+                    this period - these will reflect once the upgrade is
+                    complete. Please note that you will not be able to redeem
+                    any points during this time.
                   </p>
                 </div>
               </Fragment>

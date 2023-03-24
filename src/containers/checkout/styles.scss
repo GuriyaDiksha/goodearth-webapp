@@ -988,12 +988,14 @@ input[type="radio"] {
 }
 .redeem-unavailable-message-wrapper {
   padding-top: 15px;
+  width: 50%;
 
   .redeem-unavailable-message {
-    @include b4_12px_lato();
+    @include error_msg_cerise();
   }
 
   @media screen and (max-width: 992px) {
     padding-top: 8px;
+    width: 100%;
   }
 }
