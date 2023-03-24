@@ -5,7 +5,7 @@ import mobileImg from "../../images/404mobile.jpg";
 import desktopMobile from "../../images/404desktop.jpg";
 import { AppState } from "reducers/typings";
 import { useSelector } from "react-redux";
-import * as util from "utils/validate";
+import { pageViewGTM } from "utils/validate";
 
 const ErrorPage: React.FC = () => {
   const history = useHistory();
@@ -19,7 +19,7 @@ const ErrorPage: React.FC = () => {
   const useIsomorphicLayoutEffect = canUseDOM ? useLayoutEffect : useEffect;
 
   useIsomorphicLayoutEffect(() => {
-    util.pageViewGTM("Error");
+    pageViewGTM("Error");
     setTimeout(() => {
       if (history.location.pathname === "/error-page") {
         history.push("/");

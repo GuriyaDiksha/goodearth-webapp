@@ -17,7 +17,7 @@ import HeaderService from "services/headerFooter";
 import { updatePopup } from "actions/popup";
 import { updateUser } from "actions/user";
 import { AnnouncementBar } from "components/header/typings";
-import * as util from "utils/validate";
+import { sanitizeContent } from "utils/validate";
 
 export default {
   fetchShopLocator: async function(dispatch: Dispatch) {
@@ -82,8 +82,8 @@ export default {
       }`
     );
     response.data.map(item => {
-      item.content = util.sanitizeContent(item.content);
-      item.ctaLabel = util.sanitizeContent(item.ctaLabel);
+      item.content = sanitizeContent(item.content);
+      item.ctaLabel = sanitizeContent(item.ctaLabel);
     });
     dispatch(updateAnnouncement(response));
   },

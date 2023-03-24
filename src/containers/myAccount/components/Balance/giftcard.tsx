@@ -9,7 +9,7 @@ import mapDispatchToProps from "./mapper/actions";
 import GiftCardItem from "./giftDetail";
 import { AppState } from "reducers/typings";
 import OtpComponent from "components/OtpComponent";
-import * as valid from "utils/validate";
+import { errorTracking } from "utils/validate";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -131,7 +131,7 @@ class Giftcard extends React.Component<Props, GiftState> {
                 error: message
               },
               () => {
-                valid.errorTracking([this.state.error], location.href);
+                errorTracking([this.state.error], location.href);
               }
             );
           } else {
@@ -149,7 +149,7 @@ class Giftcard extends React.Component<Props, GiftState> {
           error: "Please enter a valid Gift Card code"
         },
         () => {
-          valid.errorTracking([this.state.error], location.href);
+          errorTracking([this.state.error], location.href);
         }
       );
     } else if (

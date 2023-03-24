@@ -20,6 +20,7 @@ import globalStyles from "styles/global.scss";
 import bootstrapStyles from "../../styles/bootstrap/bootstrap-grid.scss";
 import SecondaryHeader from "components/SecondaryHeader";
 import { Link } from "react-router-dom";
+import { displayPriceWithCommas } from "utils/utility";
 
 type Props = {};
 
@@ -482,7 +483,11 @@ const DesignJournalBook: React.FC<Props> = props => {
                           </p>
                           <p className={styles.productN}>
                             {String.fromCharCode(...currencyCodes[currency])}
-                            &nbsp; {data.price[currency]}
+                            &nbsp;{" "}
+                            {displayPriceWithCommas(
+                              data.price[currency],
+                              currency
+                            )}
                           </p>
                         </div>
                       </div>
@@ -630,7 +635,11 @@ const DesignJournalBook: React.FC<Props> = props => {
                                   {String.fromCharCode(
                                     ...currencyCodes[currency]
                                   )}
-                                  &nbsp; {data.price[currency]}
+                                  &nbsp;{" "}
+                                  {displayPriceWithCommas(
+                                    data.price[currency],
+                                    currency
+                                  )}
                                 </p>
                               </div>
                             </div>
@@ -664,7 +673,11 @@ const DesignJournalBook: React.FC<Props> = props => {
                                 {String.fromCharCode(
                                   ...currencyCodes[currency]
                                 )}
-                                &nbsp; {data.price[currency]}{" "}
+                                &nbsp;{" "}
+                                {displayPriceWithCommas(
+                                  data.price[currency],
+                                  currency
+                                )}{" "}
                               </p>
                             </div>
                           </div>

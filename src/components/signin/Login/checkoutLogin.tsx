@@ -10,7 +10,7 @@ import SocialLogin from "../socialLogin";
 import show from "../../../images/show.svg";
 import hide from "../../../images/hide.svg";
 import { Context } from "components/Modal/context";
-import * as valid from "utils/validate";
+import { checkBlank, checkMail, errorTracking } from "utils/validate";
 import { connect } from "react-redux";
 import { loginProps, loginState } from "./typings";
 import mapDispatchToProps from "./mapper/actions";
@@ -79,7 +79,7 @@ class CheckoutLoginForm extends React.Component<Props, loginState> {
               showerror: data.message
             },
             () => {
-              valid.errorTracking([this.state.showerror], location.href);
+              errorTracking([this.state.showerror], location.href);
             }
           );
         } else {
@@ -107,16 +107,9 @@ class CheckoutLoginForm extends React.Component<Props, loginState> {
                 "Looks like you are signing in for the first time. ",
                 <br key={2} />,
                 "Please ",
-                <span
-                  className={cs(
-                    globalStyles.errorMsg,
-                    globalStyles.linkTextUnderline
-                  )}
-                  key={1}
-                  onClick={this.handleResetPassword}
-                >
+                <u key={1} onClick={this.handleResetPassword}>
                   set a new password
-                </span>,
+                </u>,
                 " to Login!"
               ];
               this.setState({
@@ -171,7 +164,7 @@ class CheckoutLoginForm extends React.Component<Props, loginState> {
               highlight: true
             },
             () => {
-              valid.errorTracking([this.state.msg as string], location.href);
+              errorTracking([this.state.msg as string], location.href);
             }
           );
         }
@@ -204,12 +197,13 @@ class CheckoutLoginForm extends React.Component<Props, loginState> {
   }
 
   UNSAFE_componentWillReceiveProps() {
+    console.log("Called");
     const email = localStorage.getItem("tempEmail");
     if (!this.state.email || email) {
       if (email) {
-        this.setState({ email, isLoginDisabled: false }, () => {
-          this.myBlur();
-        });
+        // this.setState({ email, isLoginDisabled: false }, () => {
+        //   // this.myBlur();
+        // });
       }
       // this.firstEmailInput.current?.focus();
       localStorage.removeItem("tempEmail");
@@ -275,7 +269,7 @@ class CheckoutLoginForm extends React.Component<Props, loginState> {
                 highlight: true
               },
               () => {
-                valid.errorTracking(this.state.msg as string[], location.href);
+                errorTracking(this.state.msg as string[], location.href);
               }
             );
           } else if (
@@ -289,7 +283,7 @@ class CheckoutLoginForm extends React.Component<Props, loginState> {
                 // highlight: true
               },
               () => {
-                valid.errorTracking([this.state.showerror], location.href);
+                errorTracking([this.state.showerror], location.href);
               }
             );
           } else {
@@ -299,7 +293,7 @@ class CheckoutLoginForm extends React.Component<Props, loginState> {
                   "Looks like either your Email ID or Password were incorrect. Please try again."
               },
               () => {
-                valid.errorTracking([this.state.showerror], location.href);
+                errorTracking([this.state.showerror], location.href);
               }
             );
           }
@@ -364,7 +358,7 @@ class CheckoutLoginForm extends React.Component<Props, loginState> {
       if (event.key == "Enter") {
         // do nothing, handleSubmitEmail will run
       } else {
-        if (valid.checkBlank(this.state.email)) {
+        if (checkBlank(this.state.email)) {
           if (this.state.msg !== "Please enter your Email ID") {
             this.setState({
               msg: "Please enter your Email ID",
@@ -372,7 +366,7 @@ class CheckoutLoginForm extends React.Component<Props, loginState> {
               showerror: ""
             });
           }
-        } else if (!valid.checkMail(this.state.email)) {
+        } else if (!checkMail(this.state.email)) {
           if (this.state.msg !== "Please enter a valid Email ID") {
             this.setState({
               msg: "Please enter a valid Email ID",
@@ -541,10 +535,10 @@ class CheckoutLoginForm extends React.Component<Props, loginState> {
               <img src={this.state.showPassword ? show : hide} />
             </span>
           </div>
-          <div className={globalStyles.textCenter}>
-            <p
+          <div className={globalStyles.textRight}>
+            <span
               className={cs(
-                styles.formSubheading,
+                styles.checkoutForgotPass,
                 globalStyles.voffset3,
                 globalStyles.pointer
               )}
@@ -559,7 +553,7 @@ class CheckoutLoginForm extends React.Component<Props, loginState> {
             >
               {" "}
               FORGOT PASSWORD
-            </p>
+            </span>
           </div>
           <div>
             {this.state.showerror ? (
@@ -623,16 +617,14 @@ class CheckoutLoginForm extends React.Component<Props, loginState> {
             successMsg={this.state.usrWithNoOrder ? USR_WITH_NO_ORDER : ""}
             changeEmail={this.changeEmail}
             goLogin={this.goLogin}
+            isCheckout={true}
           />
         ) : (
           <>
             {this.state.successMsg && (
               <div className={cs(bootstrapStyles.col12)}>
                 <div
-                  className={cs(
-                    globalStyles.successMsg,
-                    globalStyles.textCenter
-                  )}
+                  className={cs(styles.oldSuccessMsg, globalStyles.textCenter)}
                 >
                   {this.state.successMsg}
                 </div>

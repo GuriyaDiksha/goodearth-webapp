@@ -15,7 +15,7 @@ import { connect } from "react-redux";
 import CareerService from "services/career";
 import ReCAPTCHA from "react-google-recaptcha";
 import Loader from "components/Loader";
-import * as valid from "utils/validate";
+import { errorTracking, getErrorList } from "utils/validate";
 import ReactHtmlParser from "react-html-parser";
 import { updateCountryData } from "actions/address";
 import { AppState } from "reducers/typings";
@@ -169,10 +169,7 @@ class JobForm extends React.Component<Props, State> {
             fileSizeErrorMessage: "Upload limit is 10MB"
           },
           () => {
-            valid.errorTracking(
-              [this.state.fileSizeErrorMessage],
-              location.href
-            );
+            errorTracking([this.state.fileSizeErrorMessage], location.href);
           }
         );
         return;
@@ -214,9 +211,9 @@ class JobForm extends React.Component<Props, State> {
         firstErrorField.scrollIntoView({ block: "center", behavior: "smooth" });
       }
       // for error Tracking
-      const errorList = valid.getErrorList(globalStyles.errorMsg, "job-form");
+      const errorList = getErrorList(globalStyles.errorMsg, "job-form");
       if (errorList && errorList.length) {
-        valid.errorTracking(errorList, location.href);
+        errorTracking(errorList, location.href);
       }
     }, 0);
   };
@@ -300,7 +297,7 @@ class JobForm extends React.Component<Props, State> {
               isLoading: false
             },
             () => {
-              valid.errorTracking([this.state.successMessage], location.href);
+              errorTracking([this.state.successMessage], location.href);
             }
           );
         }

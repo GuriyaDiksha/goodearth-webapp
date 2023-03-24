@@ -21,7 +21,6 @@ const AnnouncementBarSlider: React.FC<Props> = ({
   const [play, setPlay] = useState(true);
   const sliderRef = useRef<Slider>(null);
 
-  console.log(play);
   const settings = {
     dots: true,
     arrows: false,

@@ -21,7 +21,7 @@ import mapDispatchToProps from "./mapper/actions";
 import { connect } from "react-redux";
 import { checkMail } from "utils/validate";
 import { genderOptions } from "constants/profile";
-import * as valid from "utils/validate";
+import { getErrorList, errorTracking } from "utils/validate";
 import { AppState } from "reducers/typings";
 import CookieService from "services/cookie";
 import { GA_CALLS } from "constants/cookieConsent";
@@ -238,12 +238,12 @@ class RegisterForm extends React.Component<Props, registerState> {
         elem.scrollIntoView({ block: "center", behavior: "smooth" });
       }
       // for error Tracking
-      const errorList = valid.getErrorList(
+      const errorList = getErrorList(
         globalStyles.errorMsg,
         "popup-register-form"
       );
       if (errorList && errorList.length) {
-        valid.errorTracking(errorList, location.href);
+        errorTracking(errorList, location.href);
       }
     }, 0);
   };
@@ -415,8 +415,8 @@ class RegisterForm extends React.Component<Props, registerState> {
             <FormInput
               name="email"
               blur={this.verifyEmail}
-              placeholder={"Email*"}
-              label={"Email*"}
+              placeholder={"Email ID*"}
+              label={"Email ID*"}
               keyUp={this.onMailChange}
               keyPress={e => (e.key == "Enter" ? e.preventDefault() : "")}
               inputRef={this.emailInput}
@@ -429,6 +429,7 @@ class RegisterForm extends React.Component<Props, registerState> {
                 maxLength: "You are allowed to enter upto 75 characters only"
               }}
               required
+              disable={true}
             />
           </div>
           <div>
@@ -451,6 +452,7 @@ class RegisterForm extends React.Component<Props, registerState> {
                 isEnglish: "Only alphabets are allowed"
               }}
               required
+              showLabel={true}
             />
           </div>
           <div>
@@ -473,6 +475,7 @@ class RegisterForm extends React.Component<Props, registerState> {
                 isEnglish: "Only alphabets are allowed"
               }}
               required
+              showLabel={true}
             />
           </div>
           <div className={styles.userGenderPicker}>
@@ -484,6 +487,7 @@ class RegisterForm extends React.Component<Props, registerState> {
               disable={!this.state.showFields}
               className={this.state.showFields ? "" : styles.disabledInput}
               required
+              showLabel={true}
             />
           </div>
           <div className={styles.calendarIconContainer}>
@@ -530,6 +534,7 @@ class RegisterForm extends React.Component<Props, registerState> {
                 isMinAllowedDate: "Please enter valid date of birth",
                 isMaxAllowedDate: "Age should be at least 15 years"
               }}
+              showLabel={true}
             />
           </div>
           <div className={styles.countryCode}>
@@ -572,6 +577,7 @@ class RegisterForm extends React.Component<Props, registerState> {
                   ? e.preventDefault()
                   : null
               }
+              showLabel={true}
             />
           </div>
           <div>
@@ -731,22 +737,24 @@ class RegisterForm extends React.Component<Props, registerState> {
     );
     return (
       <Popup>
-        {this.state.successMsg ? (
-          <div className={cs(bootstrapStyles.col10, bootstrapStyles.offset1)}>
-            <div className={globalStyles.successMsg}>
-              {this.state.successMsg}
+        <div>
+          {this.state.successMsg ? (
+            <div className={cs(bootstrapStyles.col10, bootstrapStyles.offset1)}>
+              <div className={globalStyles.successMsg}>
+                {this.state.successMsg}
+              </div>
             </div>
-          </div>
-        ) : (
-          ""
-        )}
-        <FormContainer
-          heading="Welcome"
-          subheading="First time visiting? Enter your email address and password to join in."
-          formContent={formContent}
-          footer={footer}
-        />
-        {/* {this.state.disableSelectedbox && <Loader />} */}
+          ) : (
+            ""
+          )}
+          <FormContainer
+            heading="Welcome"
+            subheading="First time visiting? Enter your email address and password to join in."
+            formContent={formContent}
+            footer={footer}
+          />
+          {/* {this.state.disableSelectedbox && <Loader />} */}
+        </div>
       </Popup>
     );
   }

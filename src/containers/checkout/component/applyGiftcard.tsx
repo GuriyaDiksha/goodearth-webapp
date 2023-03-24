@@ -9,7 +9,7 @@ import mapDispatchToProps from "../mapper/action";
 import GiftCardItem from "./giftDetails";
 import { AppState } from "reducers/typings";
 import { Link, RouteComponentProps, withRouter } from "react-router-dom";
-import * as valid from "utils/validate";
+import { errorTracking } from "utils/validate";
 import SelectableDropdownMenu from "components/dropdown/selectableDropdownMenu";
 import CookieService from "services/cookie";
 import { GA_CALLS } from "constants/cookieConsent";
@@ -72,7 +72,7 @@ class ApplyGiftcard extends React.Component<Props, GiftState> {
           isActivated: false
         },
         () => {
-          valid.errorTracking([this.state.error], location.href);
+          errorTracking([this.state.error], location.href);
         }
       );
       return false;
@@ -113,7 +113,7 @@ class ApplyGiftcard extends React.Component<Props, GiftState> {
           error: "Please enter a valid Gift Card code."
         },
         () => {
-          valid.errorTracking([this.state.error], location.href);
+          errorTracking([this.state.error], location.href);
         }
       );
     } else {
@@ -152,7 +152,7 @@ class ApplyGiftcard extends React.Component<Props, GiftState> {
         isActivated: activate ? true : false
       },
       () => {
-        valid.errorTracking([this.state.error], location.href);
+        errorTracking([this.state.error], location.href);
       }
     );
     const elem: any = document.getElementById("gift");

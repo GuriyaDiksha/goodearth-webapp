@@ -122,7 +122,7 @@ const routes: RouteConfig = [
   },
   {
     path: ROUTES.SHOP,
-    component: loadable(() => import("containers/shopLocator")),
+    component: loadable(() => import("containers/newShopLocator")),
     action: initActionShop,
     exact: false
   },
@@ -269,7 +269,8 @@ const makerRoutes = [
   ROUTES.TASTINGROOM,
   ROUTES.MIRAGE,
   ROUTES.MIRAGESHOP,
-  ROUTES.MAGHREB
+  ROUTES.MAGHREB,
+  ROUTES.TANGIER
 ];
 
 makerRoutes.forEach(route => {

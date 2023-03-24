@@ -14,7 +14,7 @@ import globalStyles from "styles/global.scss";
 import LazyImage from "components/LazyImage";
 import { AppState } from "reducers/typings";
 import { useSelector } from "react-redux";
-import * as valid from "utils/validate";
+import { getPageType, plpProductClick } from "utils/validate";
 import Button from "components/Button";
 import CookieService from "services/cookie";
 import Price from "components/Price";
@@ -60,7 +60,7 @@ const PlpResultTabItem: React.FC<PLPResultItemProps> = (
 
   const gtmProductClick = () => {
     CookieService.setCookie("listPath", page);
-    valid.plpProductClick(product, page, currency, position);
+    plpProductClick(product, page, currency, position);
     const len = product.categories.length;
     const category = product.categories[len - 1];
     const l3Len = category.split(">").length;
@@ -73,7 +73,7 @@ const PlpResultTabItem: React.FC<PLPResultItemProps> = (
         "Event Label": l3,
         "Time Stamp": new Date().toISOString(),
         "Page Url": location.href,
-        "Page Type": valid.getPageType(),
+        "Page Type": getPageType(),
         "Product Category": category.replace(/>/g, "-"),
         "Login Status": isLoggedIn ? "logged in" : "logged out",
         "Page referrer url": CookieService.getCookie("prevUrl"),
