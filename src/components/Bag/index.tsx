@@ -20,11 +20,19 @@ import {
   displayPriceWithCommas,
   displayPriceWithCommasFloat
 } from "utils/utility";
+import bootstrap from "../../styles/bootstrap/bootstrap-grid.scss";
+import HeaderService from "services/headerFooter";
+import noImagePlp from "../../images/noimageplp.png";
+import { currencyCode } from "typings/currency";
 
 const mapDispatchToProps = (dispatch: Dispatch) => {
   return {
     removeOutOfStockItems: async () => {
       const res = await BasketService.removeOutOfStockItems(dispatch);
+      return res;
+    },
+    fetchFeaturedContent: async () => {
+      const res = HeaderService.fetchSearchFeaturedContent(dispatch);
       return res;
     }
   };
@@ -33,7 +41,10 @@ const mapStateToProps = (state: AppState) => {
   return {
     isSale: state.info.isSale,
     customerGroup: state.user.customerGroup,
-    isLoggedIn: state.user.isLoggedIn
+    isLoggedIn: state.user.isLoggedIn,
+    mobile: state.device.mobile,
+    wishlistData: state.wishlist.items,
+    tablet: state.device.tablet
   };
 };
 type Props = CartProps &
@@ -47,7 +58,8 @@ class Bag extends React.Component<Props, State> {
       shipping: false,
       value: 1,
       freeShipping: false, // for all_free_shipping_india
-      isSuspended: true // for is_covid19
+      isSuspended: true, // for is_covid19
+      featureData: []
     };
   }
 
@@ -70,6 +82,17 @@ class Bag extends React.Component<Props, State> {
           "Page referrer url": location.href
         });
       }
+
+      this.props
+        .fetchFeaturedContent()
+        .then(data => {
+          this.setState({
+            featureData: data?.widgetImages
+          });
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
     } catch (err) {
       console.log(err);
     }
@@ -103,7 +126,11 @@ class Bag extends React.Component<Props, State> {
   getItems() {
     const {
       cart: { lineItems },
-      currency
+      currency,
+      mobile,
+      wishlistData,
+      isLoggedIn,
+      tablet
     } = this.props;
 
     const item = lineItems?.map(item => {
@@ -120,9 +147,161 @@ class Bag extends React.Component<Props, State> {
     return item.length > 0 ? (
       item
     ) : (
-      <p className={cs(globalStyles.marginT20, globalStyles.textCenter)}>
-        No items added to bag.
-      </p>
+      <div className={cs(styles.cart, styles.emptyCart)}>
+        {/* {this.renderMessage()} */}
+        <div
+          className={cs(
+            globalStyles.marginT50,
+            globalStyles.textCenter,
+            // bootstrap.colMd4,
+            // bootstrap.offsetMd4,
+            {
+              // [bootstrap.col10]: !mobile,
+              [bootstrap.col12]: mobile
+            }
+          )}
+        >
+          <div className={styles.emptyMsg}> Your bag is currently empty </div>
+          <div
+            className={cs(
+              bootstrap.colMd12,
+              styles.searchHeading,
+              { [styles.searchHeadingMobile]: mobile },
+              globalStyles.textCenter
+            )}
+          >
+            <h2 className={globalStyles.voffset5}>
+              Looking to discover some ideas?
+            </h2>
+          </div>
+          <div className={cs(bootstrap.col12, globalStyles.voffset3)}>
+            <div
+              className={cs(
+                bootstrap.row,
+                styles.noResultPadding,
+                styles.checkheight,
+                { [styles.checkheightMobile]: mobile },
+                styles.cartRow
+              )}
+            >
+              {this.state.featureData.length > 0
+                ? this.state.featureData.map((data, i) => {
+                    return (
+                      <div
+                        key={i}
+                        className={cs(
+                          bootstrap.colLg6,
+                          bootstrap.col6,
+                          styles.px10
+                        )}
+                      >
+                        <div className={styles.searchImageboxNew}>
+                          <Link to={data.ctaUrl}>
+                            <img
+                              src={
+                                data.ctaImage == "" ? noImagePlp : data.ctaImage
+                              }
+                              // onError={this.addDefaultSrc}
+                              alt={data.ctaText}
+                              className={styles.imageResultNew}
+                            />
+                          </Link>
+                        </div>
+                        <div className={styles.imageContent}>
+                          <p className={styles.searchImageTitle}>
+                            {data.ctaText}
+                          </p>
+                          <p className={styles.searchFeature}>
+                            <Link to={data.ctaUrl}>{data.title}</Link>
+                          </p>
+                        </div>
+                      </div>
+                    );
+                  })
+                : ""}
+            </div>
+
+            {isLoggedIn && wishlistData.length > 0 && (
+              <>
+                <h6 className={styles.wishlistHead}>From your Wishlist</h6>
+                <p className={styles.wishlistSubHead}>
+                  There’s more waiting for you in your Wishlist
+                </p>
+
+                <div className={cs(bootstrap.col12, globalStyles.marginT20)}>
+                  <div
+                    className={cs(
+                      bootstrap.row,
+                      styles.noResultPadding,
+                      styles.checkheight,
+                      { [styles.checkheightMobile]: mobile },
+                      styles.cartRow
+                    )}
+                  >
+                    {wishlistData.length > 0
+                      ? wishlistData?.slice(0, 5)?.map((data, i) => {
+                          return (
+                            <div
+                              key={i}
+                              className={cs(bootstrap.colLg6, bootstrap.col6)}
+                            >
+                              <div
+                                className={cs(styles.searchImageboxNew, {
+                                  [styles.viewAllMobileWrapper]: i == 4
+                                })}
+                              >
+                                <Link
+                                  to={i < 4 ? data.productUrl : "/wishlist"}
+                                >
+                                  <img
+                                    src={
+                                      data.productImage == ""
+                                        ? noImagePlp
+                                        : data.productImage
+                                    }
+                                    // onError={this.addDefaultSrc}
+                                    alt={data.productName}
+                                    className={styles.imageResultNew}
+                                  />
+                                  {i == 4 && (
+                                    <span className={cs(styles.viewAllMobile)}>
+                                      VIEW ALL
+                                    </span>
+                                  )}
+                                </Link>
+                              </div>
+                              {i < 4 && (
+                                <div className={styles.imageContent}>
+                                  {/* <p className={styles.searchImageTitle}>
+                              {data.productName}
+                            </p> */}
+                                  <p className={styles.searchFeature}>
+                                    <Link to={data.productUrl}>
+                                      {data.productName}
+                                    </Link>
+                                  </p>
+                                  <p className={styles.searchFeature}>
+                                    <Link to={data.productUrl}>
+                                      {String.fromCharCode(
+                                        ...currencyCode[this.props.currency]
+                                      ) +
+                                        " " +
+                                        data.price[currency]}
+                                    </Link>
+                                  </p>
+                                </div>
+                              )}
+                            </div>
+                          );
+                        })
+                      : ""}
+                  </div>
+                </div>
+              </>
+            )}
+          </div>
+        </div>
+      </div>
     );
   }
   removeOutOfStockItems = () => {
