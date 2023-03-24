@@ -56,6 +56,7 @@ body:has(.open-summary) {
     position: fixed;
     position: -webkit-fixed;
     top: 50px;
+    right: 0;
     padding: 0;
     width: fit-content;
 
@@ -186,6 +187,7 @@ body:has(.open-summary) {
 
 .order-summary {
   background-color: #f9f8f5;
+  padding-top: 15px;
   a {
     color: inherit;
   }
@@ -309,6 +311,10 @@ body:has(.open-summary) {
 .grand-total-amount {
   @include b4_12px_montserrat_semibold_charcoal();
   color: $med-charcoal;
+}
+.subtext {
+  padding-top: 5px;
+  @include b5_10px_montserrat_charcoal();
 }
 
 .deliveryfont {
@@ -435,6 +441,10 @@ body:has(.open-summary) {
   }
   @include b3_14px_montserrat_charcoal();
   color: $white;
+
+  &:hover{
+    background-color: transparent !important;
+  }
 }
 
 .posFixed {

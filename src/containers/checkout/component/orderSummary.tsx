@@ -696,7 +696,9 @@ const OrderSummary: React.FC<OrderProps> = props => {
         <div className={cs(styles.summaryPadding, styles.fixOrderItemsMobile)}>
           <hr className={styles.hr} />
           <div className={cs(globalStyles.flex, globalStyles.gutterBetween)}>
-            <span className={styles.orderTotal}>TOTAL</span>
+            <span className={styles.orderTotal}>
+              {basket.lineItems.length > 0 ? "TOTAL" : "ORDER TOTAL"}
+            </span>
             <span className={styles.orderTotal}>
               {String.fromCharCode(...code)}{" "}
               {displayPriceWithCommasFloat(
@@ -782,7 +784,13 @@ const OrderSummary: React.FC<OrderProps> = props => {
           </div>
           <div className={styles.fixTotal}>
             <div className={cs(globalStyles.flex, globalStyles.gutterBetween)}>
-              <span className={styles.total}>TOTAL</span>
+              <span>
+                <span className={styles.total}>TOTAL*</span>
+                <p className={styles.subtext}>
+                  {" "}
+                  *Excluding estimated cost of shipping{" "}
+                </p>
+              </span>
               <span className={styles.total}>
                 {String.fromCharCode(...code)}{" "}
                 {parseFloat("" + basket.subTotalWithShipping).toFixed(2)}
@@ -883,8 +891,13 @@ const OrderSummary: React.FC<OrderProps> = props => {
                 styles.grandTotalWrapper
               )}
             >
-              <span className={cs(styles.grandTotal, globalStyles.voffset2)}>
-                AMOUNT PAYABLE
+              <span>
+                <span className={cs(styles.grandTotal, globalStyles.voffset2)}>
+                  AMOUNT PAYABLE
+                </span>
+                <p className={styles.subtext}>
+                  *Excluding estimated cost of shipping
+                </p>
               </span>
               <span
                 className={cs(styles.grandTotalAmount, globalStyles.voffset2)}

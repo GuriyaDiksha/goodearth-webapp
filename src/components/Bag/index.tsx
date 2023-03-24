@@ -152,34 +152,38 @@ class Bag extends React.Component<Props, State> {
                   {String.fromCharCode(...currencyCodes[this.props.currency])}
                   &nbsp;
                   {displayPriceWithCommasFloat(
-                    discountAmount,
+                    this.props.cart.subTotal,
                     this.props.currency
                   )}
                 </h5>
               </div>
-              {/* {discountAmount > 0 && ( */}
-              <div
-                className={cs(
-                  globalStyles.flex,
-                  globalStyles.gutterBetween,
-                  styles.containerCost,
-                  styles.discountWrapper
-                )}
-              >
-                <div className={cs(styles.discountPrice)}>EMP Discount</div>
-                <div className={globalStyles.textRight}>
-                  <h5 className={cs(styles.discountPrice)}>
-                    (-)
-                    {String.fromCharCode(...currencyCodes[this.props.currency])}
-                    &nbsp;
-                    {displayPriceWithCommasFloat(
-                      discountAmount,
-                      this.props.currency
+              {this.props.isLoggedIn &&
+                this.props.currency == "INR" &&
+                this.props.customerGroup.includes("employee") && (
+                  <div
+                    className={cs(
+                      globalStyles.flex,
+                      globalStyles.gutterBetween,
+                      styles.containerCost,
+                      styles.discountWrapper
                     )}
-                  </h5>
-                </div>
-              </div>
-              {/* )} */}
+                  >
+                    <div className={cs(styles.discountPrice)}>EMP Discount</div>
+                    <div className={globalStyles.textRight}>
+                      <h5 className={cs(styles.discountPrice)}>
+                        (-)
+                        {String.fromCharCode(
+                          ...currencyCodes[this.props.currency]
+                        )}
+                        &nbsp;
+                        {displayPriceWithCommasFloat(
+                          discountAmount,
+                          this.props.currency
+                        )}
+                      </h5>
+                    </div>
+                  </div>
+                )}
             </div>
 
             {this.hasOutOfStockItems() && (

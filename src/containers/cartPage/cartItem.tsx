@@ -288,9 +288,9 @@ const CartItems: React.FC<BasketItem> = memo(
               <div
                 className={cs(
                   globalStyles.italic,
-                  globalStyles.bold,
                   globalStyles.c10LR,
-                  globalStyles.cerise
+                  globalStyles.cerise,
+                  styles.outOfStockError
                 )}
               >
                 Out of stock
@@ -380,7 +380,7 @@ const CartItems: React.FC<BasketItem> = memo(
             )}
           >
             <div className={cs(styles.rowMain, globalStyles.gutterBetween)}>
-              <div className={cs(bootstrap.colLg6, bootstrap.col12)}>
+              <div className={cs(bootstrap.colLg7, bootstrap.col12)}>
                 <div className={cs(styles.section, styles.sectionInfo)}>
                   <div>
                     {collection && (

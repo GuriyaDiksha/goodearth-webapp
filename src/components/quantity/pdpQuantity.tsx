@@ -50,7 +50,7 @@ class PdpQuantity extends React.Component<QuantityItem, State> {
     const props = this.props;
     const { disabled, source } = this.props;
     let errorMsgClass;
-    if (source == "bag") {
+    if (source == "bag" || source == "cartpage") {
       errorMsgClass = styles.bagErrorMsg;
     } else {
       errorMsgClass = props.errorMsgClass || styles.errorMsg;
