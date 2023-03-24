@@ -405,7 +405,7 @@ class CartPage extends React.Component<Props, State> {
               </div>
             </div>
 
-            {isLoggedIn && (
+            {isLoggedIn && wishlistData.length > 0 && (
               <>
                 <h6 className={styles.wishlistHead}>From your Wishlist</h6>
                 <p className={styles.wishlistSubHead}>
