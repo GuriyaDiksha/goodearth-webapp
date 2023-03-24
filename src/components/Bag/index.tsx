@@ -442,15 +442,16 @@ class Bag extends React.Component<Props, State> {
             </div>
           </div>
           } */}
-
-          <div className={cs(styles.bagFlex)}>
-            <Link
-              to="/cart"
-              className={cs(this.hasOutOfStockItems() && styles.outOfStock)}
-            >
-              <span className={styles.viewBag}>REVIEW BAG & CHECKOUT</span>
-            </Link>
-          </div>
+          {this.canCheckout() && (
+            <div className={cs(styles.bagFlex)}>
+              <Link
+                to="/cart"
+                className={cs(this.hasOutOfStockItems() && styles.outOfStock)}
+              >
+                <span className={styles.viewBag}>REVIEW BAG & CHECKOUT</span>
+              </Link>
+            </div>
+          )}
         </div>
       );
     }
@@ -508,6 +509,7 @@ class Bag extends React.Component<Props, State> {
     ) {
       return false;
     }
+    debugger;
     if (!this.props.cart.shippable && this.state.shipping == true) {
       this.setState({
         shipping: false
@@ -535,7 +537,6 @@ class Bag extends React.Component<Props, State> {
     }
     return true;
   };
-
   render() {
     const {
       totalWithoutShipping,
