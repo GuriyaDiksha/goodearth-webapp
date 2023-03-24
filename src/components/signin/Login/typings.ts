@@ -11,6 +11,7 @@ export type loginProps = {
   setIsSuccessMsg?: (arg: boolean) => void;
   setEmail?: (arg: string) => void;
   email: string;
+  boEmail?: string;
 };
 
 export type loginState = {
