@@ -5,6 +5,10 @@
   margin-top: $header-checkout;
   margin-left: auto;
   margin-right: auto;
+  position: relative;
+}
+.p-unset{
+  position: unset;
 }
 hr {
   margin-top: 15px;

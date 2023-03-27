@@ -48,37 +48,45 @@ body:has(.open-summary) {
   }
 }
 
-@media (min-width: 992px) {
-  .font30 {
-    font-size: 30px;
+.fix-ordersummary {
+  .free-shipping-info {
+    padding: 9px 16px;
+    gap: 7px;
+    align-items: center;
+    background: $gold-light;
+
+    img {
+      width: 13px;
+      height: 13px;
+      object-fit: contain;
+    }
+    .text {
+      @include b5_10px_semibold_montserrat_charcoal();
+      letter-spacing: 0.6px;
+      color: $white;
+    }
+
+    @media (max-width: 992px) {
+      position: absolute;
+      top: 0px;
+      left: 0;
+      width: 100%;
+    }
   }
+}
+@media (min-width: 992px) {
   .fix-ordersummary {
     position: fixed;
     position: -webkit-fixed;
     top: 0px;
     z-index: -1;
     padding: 90px 0 0;
+    background-color: #f9f8f5;
     width: fit-content;
-
-    .free-shipping-info {
-      padding: 9px 16px;
-      gap: 7px;
-      align-items: center;
-      background: $gold-light;
-
-      img {
-        width: 13px;
-        height: 13px;
-        object-fit: contain;
-      }
-      .text {
-        @include b5_10px_semibold_montserrat_charcoal();
-        letter-spacing: 0.6px;
-        color: $white;
-      }
-    }
   }
-
+  .font30 {
+    font-size: 30px;
+  }
   h3 {
     padding: 40px 0 20px 0;
   }
@@ -178,6 +186,7 @@ body:has(.open-summary) {
       bottom: 0;
       width: 100%;
       left: 0;
+      z-index: 9;
     }
   }
   // .order-summary {
@@ -407,7 +416,7 @@ body:has(.open-summary) {
     cursor: pointer;
     font-style: normal;
     border-bottom: 1px solid $cerise;
-        @include b4_12px_montserrat_cerise_caps();
+    @include b4_12px_montserrat_cerise_caps();
   }
 }
 .black {
@@ -462,6 +471,7 @@ body:has(.open-summary) {
     margin: 0 -6px;
     max-width: calc(100% + 12px);
     width: calc(100% + 12px);
+    position: unset;
 
     .order-summary {
       padding-bottom: 60px;
@@ -620,5 +630,10 @@ body:has(.open-summary) {
 .fix-ordersummary {
   &.hide-summary {
     display: none;
+  }
+}
+.order-summary {
+  .promocode-text {
+    padding: 0 65px;
   }
 }

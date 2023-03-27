@@ -620,6 +620,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
   };
 
   const getSummary = () => {
+    console.log(basket.lineItems, "aaaa");
     let shippingCharge: any = 0;
     if (basket.shippingCharge) {
       shippingCharge = basket.shippingCharge;
@@ -1090,7 +1091,8 @@ const OrderSummary: React.FC<OrderProps> = props => {
                     globalStyles.textCenter,
                     styles.textCoupon,
                     globalStyles.voffset4,
-                    styles.summaryPadding
+                    styles.summaryPadding,
+                    styles.promocodeText
                   )}
                 >
                   Promo Codes (if applicable), Gift Cards & Credit Notes can be
