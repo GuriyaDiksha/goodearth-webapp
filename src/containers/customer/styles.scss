@@ -1,6 +1,11 @@
 @import "../../styles/partials/variables";
 @import "../../styles/partials/mixins";
 @import "../../styles/partials/form";
+
+.container-start {
+  margin-top: 115px;
+}
+
 .heading {
   text-transform: uppercase;
   color: tint(#000, 40%);
