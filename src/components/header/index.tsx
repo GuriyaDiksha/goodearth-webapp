@@ -399,7 +399,7 @@ class Header extends React.Component<Props, State> {
         if (tim) {
           (dropdownFilterHeader as HTMLElement).style.top = "90px";
         } else {
-          (dropdownFilterHeader as HTMLElement).style.top = "50px";
+          (dropdownFilterHeader as HTMLElement).style.top = "60px";
         }
       }
 
@@ -407,7 +407,7 @@ class Header extends React.Component<Props, State> {
         if (tim) {
           (dropdownFilterHeaderMenu as HTMLElement).style.top = "130px";
         } else {
-          (dropdownFilterHeaderMenu as HTMLElement).style.top = "90px";
+          (dropdownFilterHeaderMenu as HTMLElement).style.top = "100px";
         }
       }
 
@@ -550,7 +550,7 @@ class Header extends React.Component<Props, State> {
           (dropdownFilterHeader as HTMLElement).style.top = `${130 -
             window?.pageYOffset}px`;
         } else {
-          (dropdownFilterHeader as HTMLElement).style.top = `${90 -
+          (dropdownFilterHeader as HTMLElement).style.top = `${100 -
             window?.pageYOffset}px`;
         }
       }
@@ -560,7 +560,7 @@ class Header extends React.Component<Props, State> {
           (dropdownFilterHeaderMenu as HTMLElement).style.top = `${170 -
             window?.pageYOffset}px`;
         } else {
-          (dropdownFilterHeaderMenu as HTMLElement).style.top = `${130 -
+          (dropdownFilterHeaderMenu as HTMLElement).style.top = `${145 -
             window?.pageYOffset}px`;
         }
       }
