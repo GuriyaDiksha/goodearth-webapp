@@ -509,7 +509,6 @@ class Bag extends React.Component<Props, State> {
     ) {
       return false;
     }
-    debugger;
     if (!this.props.cart.shippable && this.state.shipping == true) {
       this.setState({
         shipping: false

@@ -478,7 +478,11 @@ class CartPage extends React.Component<Props, State> {
                           return (
                             <div
                               key={i}
-                              className={cs(bootstrap.colMd2, bootstrap.col6)}
+                              className={cs(
+                                bootstrap.colLg6,
+                                bootstrap.col6,
+                                styles.px10
+                              )}
                             >
                               <div
                                 className={cs(styles.searchImageboxNew, {
@@ -554,6 +558,14 @@ class CartPage extends React.Component<Props, State> {
             )}
           </div>
         </div>
+
+        {mobile && (
+          <div className={styles.continueShoppingBtnWrapper}>
+            <Link to="/" className={styles.continueShoppingBtn}>
+              Continue Shopping
+            </Link>
+          </div>
+        )}
       </div>
     );
     const item = lineItems.map(item => {
@@ -651,6 +663,7 @@ class CartPage extends React.Component<Props, State> {
           {/* {this.renderMessage()} */}
           {this.getItems()}
         </div>
+
         <div
           className={cs(bootstrap.col12, bootstrap.colLg4, globalStyles.padd0)}
         >

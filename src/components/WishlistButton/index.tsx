@@ -265,7 +265,7 @@ const WishlistButton: React.FC<Props> = ({
             })}
             onClick={onClick}
           >
-            {addedToWishlist ? "REMOVE FROM SAVED ITEMS" : "SAVE FOR LATER"}
+            {addedToWishlist ? "SAVED TO LATER" : "SAVE FOR LATER"}
           </div>
         )}
       </div>

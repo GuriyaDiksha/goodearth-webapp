@@ -743,7 +743,6 @@ const OrderSummary: React.FC<OrderProps> = props => {
     shippable,
     total
   } = props.basket;
-
   return (
     <div
       className={cs(
@@ -752,7 +751,13 @@ const OrderSummary: React.FC<OrderProps> = props => {
         {
           [styles.checkoutOrderSummary]: page == "checkout"
         },
-        { [styles.checkoutOrderSummaryMobile]: page === "checkoutMobileBottom" }
+        {
+          [styles.checkoutOrderSummaryMobile]: page === "checkoutMobileBottom"
+        },
+        {
+          [styles.hideSummary]:
+            page == "cart" && mobile && basket.lineItems?.length == 0
+        }
       )}
       ref={page === "checkoutMobileBottom" ? orderSummaryRefCheckout : null}
     >
@@ -774,45 +779,50 @@ const OrderSummary: React.FC<OrderProps> = props => {
       ) : (
         ""
       )}
-      {mobile && !previewTriggerStatus && page != "checkout" && (
-        <div id="show-preview" className={cs(styles.previewTrigger)}>
-          <div
-            className={cs(styles.carretContainer)}
-            onClick={onArrowButtonClick}
-          >
-            <div className={cs(styles.carretUp)}></div>
-          </div>
-          <div className={styles.fixTotal}>
-            <div className={cs(globalStyles.flex, globalStyles.gutterBetween)}>
-              <span>
-                <span className={styles.total}>TOTAL*</span>
-                <p className={styles.subtext}>
-                  {" "}
-                  *Excluding estimated cost of shipping{" "}
-                </p>
-              </span>
-              <span className={styles.total}>
-                {String.fromCharCode(...code)}{" "}
-                {parseFloat("" + basket.subTotalWithShipping).toFixed(2)}
-              </span>
+      {mobile &&
+        !previewTriggerStatus &&
+        page != "checkout" &&
+        basket.lineItems?.length && (
+          <div id="show-preview" className={cs(styles.previewTrigger)}>
+            <div
+              className={cs(styles.carretContainer)}
+              onClick={onArrowButtonClick}
+            >
+              <div className={cs(styles.carretUp)}></div>
             </div>
-            {hasOutOfStockItems() && (
-              <p
-                className={cs(
-                  globalStyles.textCenter,
-                  styles.textRemoveItems,
-                  globalStyles.colorPrimary
-                )}
-                onClick={onRemoveOutOfStockItemsClick}
+            <div className={styles.fixTotal}>
+              <div
+                className={cs(globalStyles.flex, globalStyles.gutterBetween)}
               >
-                <span className={styles.triggerRemoveItems}>
-                  REMOVE ALL OUT OF STOCK ITEMS TO PROCEED
+                <span>
+                  <span className={styles.total}>TOTAL*</span>
+                  <p className={styles.subtext}>
+                    {" "}
+                    *Excluding estimated cost of shipping{" "}
+                  </p>
                 </span>
-              </p>
-            )}
+                <span className={styles.total}>
+                  {String.fromCharCode(...code)}{" "}
+                  {parseFloat("" + basket.subTotalWithShipping).toFixed(2)}
+                </span>
+              </div>
+              {hasOutOfStockItems() && (
+                <p
+                  className={cs(
+                    globalStyles.textCenter,
+                    styles.textRemoveItems,
+                    globalStyles.colorPrimary
+                  )}
+                  onClick={onRemoveOutOfStockItemsClick}
+                >
+                  <span className={styles.triggerRemoveItems}>
+                    REMOVE ALL OUT OF STOCK ITEMS TO PROCEED
+                  </span>
+                </p>
+              )}
+            </div>
           </div>
-        </div>
-      )}
+        )}
       {mobile && page == "checkout" && (
         <div
           className={cs(styles.checkoutPreviewTrigger)}
