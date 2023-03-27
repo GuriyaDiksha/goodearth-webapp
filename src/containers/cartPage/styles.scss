@@ -620,6 +620,10 @@ hr {
   p {
     @include b4_12px_montserrat_charcoal_caps();
     padding: 28px 45px;
+    
+    @media screen and (max-width:992px) {
+      text-align: center;
+    }
   }
 }
 

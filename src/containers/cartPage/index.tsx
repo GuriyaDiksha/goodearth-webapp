@@ -372,7 +372,7 @@ class CartPage extends React.Component<Props, State> {
                           key={i}
                           className={cs(
                             bootstrap.colLg3,
-                            bootstrap.col6,
+                            bootstrap.col5,
                             styles.px10
                           )}
                         >
@@ -433,7 +433,7 @@ class CartPage extends React.Component<Props, State> {
                               key={i}
                               className={cs(
                                 bootstrap.colLg3,
-                                bootstrap.col6,
+                                bootstrap.col5,
                                 styles.px10
                               )}
                             >

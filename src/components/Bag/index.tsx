@@ -190,8 +190,8 @@ class Bag extends React.Component<Props, State> {
                       <div
                         key={i}
                         className={cs(
-                          bootstrap.colLg6,
-                          bootstrap.col6,
+                          bootstrap.colLg5,
+                          bootstrap.col5,
                           styles.px10
                         )}
                       >
@@ -243,7 +243,7 @@ class Bag extends React.Component<Props, State> {
                           return (
                             <div
                               key={i}
-                              className={cs(bootstrap.colLg6, bootstrap.col6)}
+                              className={cs(bootstrap.colLg5, bootstrap.colLg5)}
                             >
                               <div
                                 className={cs(styles.searchImageboxNew, {
