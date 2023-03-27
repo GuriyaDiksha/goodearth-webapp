@@ -56,6 +56,7 @@ export type Records = {
   Points: string;
   Description: string;
   NetEligibleAmt: number;
+  EntryType: string;
 };
 
 export type Transaction = {

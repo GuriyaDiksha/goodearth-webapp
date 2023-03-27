@@ -12,6 +12,7 @@ const initialState: State = {
     ExpiryDate: "",
     PointRate: "",
     PointValue: "",
+    Note: "",
     Currency: {
       symbol: "",
       currencycode: "",

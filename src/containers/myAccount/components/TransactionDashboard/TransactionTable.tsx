@@ -34,7 +34,7 @@ const TransactionTable = ({ mobile }: Props) => {
     dropDownValue2: ""
   });
   const {
-    user: { email },
+    user: { slab, email, firstName, lastName },
     loyalty: {
       transaction: {
         records,
@@ -120,7 +120,7 @@ const TransactionTable = ({ mobile }: Props) => {
       .then(res => {
         const linkSource = `data:application/pdf;base64,${res}`;
         const downloadLink = document.createElement("a");
-        const fileName = `Transactions_${Date.now()}.pdf`;
+        const fileName = `${slab}_${firstName}${lastName}.pdf`;
         downloadLink.href = linkSource;
         downloadLink.download = fileName;
         downloadLink.click();
