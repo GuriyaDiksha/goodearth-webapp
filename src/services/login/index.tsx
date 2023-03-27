@@ -368,7 +368,11 @@ export default {
       });
       // HeaderService.fetchHomepageData(dispatch);
       dispatch(resetMeta(undefined));
-      showGrowlMessage(dispatch, MESSAGE.LOGOUT_SUCCESS, 5000);
+      if (source == "reset-pass") {
+        showGrowlMessage(dispatch, MESSAGE.INVALID_SESSION_LOGOUT, 5000);
+      } else {
+        showGrowlMessage(dispatch, MESSAGE.LOGOUT_SUCCESS, 5000);
+      }
       return res;
     }
   },

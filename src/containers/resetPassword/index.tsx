@@ -153,7 +153,7 @@ const ResetPassword: React.FC<Props> = props => {
     AccountService.confirmResetPassword(dispatch, formData)
       .then(data => {
         if (isLoggedIn) {
-          LoginService.logout(dispatch, currency, customerGroup);
+          LoginService.logout(dispatch, currency, customerGroup, "reset-pass");
         }
         resetForm();
         setShowLogin(true);
