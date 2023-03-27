@@ -370,28 +370,30 @@ const LineItems: React.FC<BasketItem> = memo(
               >
                 {getColor(product.attributes)}
               </div>
-              <div
-                className={cs(
-                  styles.widgetQty,
-                  product.stockRecords[0].numInStock < 1 && styles.outOfStock
-                )}
-              >
-                <PdpQuantity
-                  source="bag"
-                  key={id}
-                  id={id}
-                  currentValue={value}
-                  minValue={1}
-                  maxValue={1000}
-                  onChange={x => null}
-                  onUpdate={handleChange}
-                  class={styles.myQuantity}
-                  disabled={
-                    product.stockRecords &&
-                    product.stockRecords[0].numInStock < 1
-                  }
-                />
-              </div>
+              {!isGiftCard && (
+                <div
+                  className={cs(
+                    styles.widgetQty,
+                    product.stockRecords[0].numInStock < 1 && styles.outOfStock
+                  )}
+                >
+                  <PdpQuantity
+                    source="bag"
+                    key={id}
+                    id={id}
+                    currentValue={value}
+                    minValue={1}
+                    maxValue={1000}
+                    onChange={x => null}
+                    onUpdate={handleChange}
+                    class={styles.myQuantity}
+                    disabled={
+                      product.stockRecords &&
+                      product.stockRecords[0].numInStock < 1
+                    }
+                  />
+                </div>
+              )}
               {product.stockRecords ? (
                 product.stockRecords[0].numInStock < 1 ? (
                   <div
