@@ -406,8 +406,8 @@ body:has(.open-summary) {
   .trigger-remove-items {
     cursor: pointer;
     font-style: normal;
-    text-decoration: underline;
-    @include b4_12px_montserrat_cerise_caps();
+    border-bottom: 1px solid $cerise;
+        @include b4_12px_montserrat_cerise_caps();
   }
 }
 .black {

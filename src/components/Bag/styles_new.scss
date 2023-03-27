@@ -200,6 +200,10 @@
         letter-spacing: 0.36px;
         text-align: center;
         font-style: normal;
+        text-decoration: none !important;
+        border-bottom: 1px solid $cerise;
+        width: fit-content;
+        margin: auto;
       }
       .total-amount {
         padding-top: 19px;
