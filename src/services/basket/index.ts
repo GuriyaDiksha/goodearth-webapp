@@ -178,8 +178,7 @@ export default {
     //     res.basket.updatedRemovedItems
     //   );
     // }
-    // debugger;
-    if (res.message === "Success") {
+    if (res.basket?.unshippableRemove) {
       showGrowlMessage(
         dispatch,
         MESSAGE.PRODUCT_UNSHIPPABLE_REMOVED,

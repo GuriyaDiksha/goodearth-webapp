@@ -34,7 +34,8 @@ const LineItems: React.FC<BasketItem> = memo(
     product,
     saleStatus,
     toggleBag,
-    GCValue
+    GCValue,
+    GCMeta
   }) => {
     const [value, setValue] = useState(quantity | 0);
     // const [qtyError, setQtyError] = useState(false);
@@ -210,16 +211,24 @@ const LineItems: React.FC<BasketItem> = memo(
       });
     };
 
-    const getSize = (data: any) => {
+    const getSize = (data: any, GCMeta: any) => {
       const size = data.find(function(attribute: any) {
         if (attribute.name == "Size") {
           return attribute;
         }
       });
-      return size ? <div className={styles.size}>Size: {size.value}</div> : "";
+      return size || GCMeta ? (
+        <div className={styles.size}>
+          {" "}
+          {size ? "Size" : "Recipient&apos;s Name:"} {size?.value}
+          {GCMeta?.recipeint_name}
+        </div>
+      ) : (
+        ""
+      );
     };
 
-    const getColor = (data: any) => {
+    const getColor = (data: any, GCMeta: any) => {
       const color = data.find(function(attribute: any) {
         if (attribute.name == "Color") {
           return attribute;
@@ -236,8 +245,11 @@ const LineItems: React.FC<BasketItem> = memo(
         return cName;
       };
 
-      return color ? (
-        <div className={styles.color}>Color: {colorName()}</div>
+      return color || GCMeta ? (
+        <div className={styles.color}>
+          {color ? "Color:" : "Recipient&apos;s Email:"}{" "}
+          {color ? colorName() : GCMeta?.recipient_email}
+        </div>
       ) : (
         ""
       );
@@ -360,7 +372,7 @@ const LineItems: React.FC<BasketItem> = memo(
                   product.stockRecords[0].numInStock < 1 && styles.outOfStock
                 )}
               >
-                {getSize(product.attributes)}
+                {getSize(product.attributes, GCMeta)}
               </div>
               <div
                 className={cs(
@@ -368,15 +380,21 @@ const LineItems: React.FC<BasketItem> = memo(
                   product.stockRecords[0].numInStock < 1 && styles.outOfStock
                 )}
               >
-                {getColor(product.attributes)}
+                {getColor(product.attributes, GCMeta)}
               </div>
-              {!isGiftCard && (
-                <div
-                  className={cs(
-                    styles.widgetQty,
-                    product.stockRecords[0].numInStock < 1 && styles.outOfStock
-                  )}
-                >
+
+              <div
+                className={cs(
+                  styles.widgetQty,
+                  product.stockRecords[0].numInStock < 1 && styles.outOfStock
+                )}
+              >
+                {isGiftCard ? (
+                  <>
+                    <p className={cs(styles.gcTitle)}>Sender&apos;s Name:</p>
+                    <p className={styles.gcName}>{GCMeta?.sender_name}</p>
+                  </>
+                ) : (
                   <PdpQuantity
                     source="bag"
                     key={id}
@@ -392,8 +410,9 @@ const LineItems: React.FC<BasketItem> = memo(
                       product.stockRecords[0].numInStock < 1
                     }
                   />
-                </div>
-              )}
+                )}
+              </div>
+
               {product.stockRecords ? (
                 product.stockRecords[0].numInStock < 1 ? (
                   <div

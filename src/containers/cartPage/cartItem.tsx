@@ -35,7 +35,8 @@ const CartItems: React.FC<BasketItem> = memo(
     saleStatus,
     GCValue,
     onMoveToWishlist,
-    onNotifyCart
+    onNotifyCart,
+    GCMeta
   }) => {
     const [value, setValue] = useState(quantity | 0);
     const [qtyError, setQtyError] = useState(false);
@@ -204,18 +205,18 @@ const CartItems: React.FC<BasketItem> = memo(
       });
     };
 
-    const getSize = (data: any) => {
+    const getSize = (data: any, GCMeta: any) => {
       const size = data.find(function(attribute: any) {
         if (attribute.name == "Size") {
           return attribute;
         }
       });
-      return size ? (
+      return size || GCMeta ? (
         <div className={globalStyles.flex}>
           <div
             className={cs(styles.size, { [styles.inline]: mobile || tablet })}
           >
-            Size:{" "}
+            {size ? "Size" : "Recipient&apos;s Name:"}
           </div>
           {(mobile || tablet) && " "}
           <div
@@ -223,7 +224,8 @@ const CartItems: React.FC<BasketItem> = memo(
               [styles.inline]: mobile || tablet
             })}
           >
-            {size.value}
+            {size?.value}
+            {GCMeta?.recipeint_name}
           </div>
         </div>
       ) : (
@@ -231,7 +233,7 @@ const CartItems: React.FC<BasketItem> = memo(
       );
     };
 
-    const getColor = (data: any) => {
+    const getColor = (data: any, GCMeta: any) => {
       const color = data.find(function(attribute: any) {
         if (attribute.name == "Color") {
           return attribute;
@@ -248,8 +250,11 @@ const CartItems: React.FC<BasketItem> = memo(
         return cName;
       };
 
-      return color ? (
-        <div className={styles.color}>Color: {colorName()}</div>
+      return color || GCMeta ? (
+        <div className={styles.color}>
+          {color ? "Color:" : "Recipient&apos;s Email:"} :{" "}
+          {color ? colorName() : GCMeta?.recipient_email}
+        </div>
       ) : (
         ""
       );
@@ -443,14 +448,14 @@ const CartItems: React.FC<BasketItem> = memo(
                           [styles.outOfStock]: stockRecords[0].numInStock < 1
                         })}
                       >
-                        {getSize(attributes)}
+                        {getSize(attributes, GCMeta)}
                       </div>
                       <div
                         className={cs(styles.productColor, {
                           [styles.outOfStock]: stockRecords[0].numInStock < 1
                         })}
                       >
-                        {getColor(attributes)}
+                        {getColor(attributes, GCMeta)}
                       </div>
                       <div>
                         {/* <div className={styles.size}>QTY</div> */}
@@ -459,21 +464,37 @@ const CartItems: React.FC<BasketItem> = memo(
                             [styles.outOfStock]: stockRecords[0].numInStock < 1
                           })}
                         >
-                          <PdpQuantity
-                            source="cartpage"
-                            key={id}
-                            id={id}
-                            currentValue={value}
-                            minValue={1}
-                            maxValue={1000}
-                            onChange={x => null}
-                            onUpdate={handleChange}
-                            class="my-quantity"
-                            disabled={
-                              stockRecords && stockRecords[0].numInStock < 1
-                            }
-                            // errorMsg="Available qty in stock is"
-                          />
+                          {isGiftCard ? (
+                            <>
+                              <p
+                                className={cs(
+                                  styles.size,
+                                  globalStyles.marginT10
+                                )}
+                              >
+                                Sender&apos;s Name:
+                              </p>
+                              <p className={styles.gcName}>
+                                {GCMeta?.sender_name}
+                              </p>
+                            </>
+                          ) : (
+                            <PdpQuantity
+                              source="cartpage"
+                              key={id}
+                              id={id}
+                              currentValue={value}
+                              minValue={1}
+                              maxValue={1000}
+                              onChange={x => null}
+                              onUpdate={handleChange}
+                              class="my-quantity"
+                              disabled={
+                                stockRecords && stockRecords[0].numInStock < 1
+                              }
+                              // errorMsg="Available qty in stock is"
+                            />
+                          )}
                         </div>
                         {/* {qtyError &&
                           !(

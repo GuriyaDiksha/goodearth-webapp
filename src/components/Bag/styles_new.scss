@@ -431,3 +431,11 @@
       width: fit-content;
     }
   }}
+
+  .gc_name{
+    @include b4_12px_montserrat_charcoal();
+  }
+
+  .gc_title{
+    @include b5_10px_montserrat_charcoal();
+  }
