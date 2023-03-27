@@ -28,7 +28,7 @@ const MyProfile: React.FC<ProfileProps> = ({ setCurrentSection }) => {
     address: { countryData }
   } = useSelector((state: AppState) => state);
   const [data, setData] = useState<Partial<ProfileResponse>>({});
-  const { user } = useSelector((state: AppState) => state);
+  // const { user } = useSelector((state: AppState) => state);
   const whatsappSubscribeRef = useRef(false);
   const [profileState, setProfileState] = useState<State>({
     newsletter: false,

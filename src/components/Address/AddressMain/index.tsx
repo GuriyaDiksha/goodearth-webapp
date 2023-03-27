@@ -12,7 +12,6 @@ import MyAddress from "containers/myAccount/components/MyAddress";
 import { AddressContext } from "./context";
 import { Props, AddressModes } from "../typings";
 import AddressService from "services/address";
-import AccountService from "services/account";
 // import { updatePinCodeList } from "actions/address";
 import Loader from "components/Loader";
 import AddressSection from "containers/checkout/component/address";
@@ -28,7 +27,6 @@ import CookieService from "services/cookie";
 import { GA_CALLS } from "constants/cookieConsent";
 import styles from "../styles.scss";
 import WhatsappSubscribe from "components/WhatsappSubscribe";
-import { updatePreferenceData } from "actions/user";
 import Formsy from "formsy-react";
 // import AddressDataList from "../../../../components/Address/AddressDataList.json";
 

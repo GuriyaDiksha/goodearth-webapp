@@ -1,6 +1,12 @@
 import React, { useEffect, useRef } from "react";
 
-export default function MakerSmartNav({ id, inline }) {
+export default function MakerSmartNav({
+  id,
+  inline
+}: {
+  id: any;
+  inline: any;
+}) {
   if (!id) {
     return <></>;
   }
