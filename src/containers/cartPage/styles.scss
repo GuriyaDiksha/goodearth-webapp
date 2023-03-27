@@ -695,3 +695,24 @@ hr {
 .out-of-stock-error{
   padding-top: 10px;
 }
+
+.continue-shopping-btn-wrapper{
+  position: sticky;
+  width: 100%;
+  bottom: 0;
+  left: 0;
+  z-index: 99;
+
+  .continue-shopping-btn{
+    padding: 20px 30px;
+    background-color: $med-charcoal;
+    @include b3_14px_caps_white();
+    display: block;
+    text-align: center;
+
+    &:hover{
+      background-color: #fff;
+      color: $med-charcoal;
+    }
+  }
+}

@@ -55,8 +55,9 @@ body:has(.open-summary) {
   .fix-ordersummary {
     position: fixed;
     position: -webkit-fixed;
-    top: 50px;
-    padding: 0;
+    top: 0px;
+    z-index: -1;
+    padding: 90px 0 0;
     width: fit-content;
 
     .free-shipping-info {
@@ -82,7 +83,7 @@ body:has(.open-summary) {
     padding: 40px 0 20px 0;
   }
   .order-summary {
-    min-height: calc(100vh - 55px);
+    // min-height: calc(100vh - 55px);
     //padding: 25px 0;
   }
   .order-items {
@@ -441,7 +442,7 @@ body:has(.open-summary) {
   @include b3_14px_montserrat_charcoal();
   color: $white;
 
-  &:hover{
+  &:hover {
     background-color: transparent !important;
   }
 }
@@ -603,15 +604,21 @@ body:has(.open-summary) {
 }
 
 .checkout-mobile-bottom {
-  .summary-padding{
+  .summary-padding {
     padding: 0 20px;
   }
   .proceed-to-payment {
     max-width: 100%;
     padding: 9px 30px;
   }
-  .deliveryfont{
+  .deliveryfont {
     color: $aqua-text;
     margin: 10px auto 20px;
+  }
+}
+
+.fix-ordersummary {
+  &.hide-summary {
+    display: none;
   }
 }

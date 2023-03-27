@@ -419,15 +419,6 @@ const LineItems: React.FC<BasketItem> = memo(
                   globalStyles.gutterBetween
                 )}
               >
-                <div
-                  className={cs(
-                    styles.pointer,
-                    styles.textCenter,
-                    styles.remove
-                  )}
-                >
-                  <span onClick={deleteItem}>REMOVE</span>
-                </div>
                 {!bridalProfile && (
                   <div
                     className={cs(
@@ -451,6 +442,15 @@ const LineItems: React.FC<BasketItem> = memo(
                     />
                   </div>
                 )}
+                <div
+                  className={cs(
+                    styles.pointer,
+                    styles.textCenter,
+                    styles.remove
+                  )}
+                >
+                  <span onClick={deleteItem}>REMOVE</span>
+                </div>
               </div>
             </div>
           </div>

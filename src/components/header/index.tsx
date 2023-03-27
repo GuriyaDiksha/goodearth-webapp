@@ -1171,7 +1171,13 @@ class Header extends React.Component<Props, State> {
                   />
                 </div>
               )}
-              <div className={cs(bootstrap.colLg3, bootstrap.col3)}>
+              <div
+                className={cs(
+                  bootstrap.colLg3,
+                  bootstrap.col3,
+                  styles.sideMenuWrapper
+                )}
+              >
                 {!(mobile || tablet) && (
                   <SideMenu
                     onSideMenuClick={this.onSideMenuClick}
