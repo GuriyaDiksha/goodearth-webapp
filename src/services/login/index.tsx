@@ -402,7 +402,7 @@ export default {
     dispatch(resetMeta(undefined));
     showGrowlMessage(
       dispatch,
-      MESSAGE.LOGOUT_SUCCESS,
+      MESSAGE.INVALID_SESSION_LOGOUT,
       5000,
       "INVALID_SESSION_LOGOUT"
     );
