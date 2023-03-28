@@ -372,7 +372,7 @@ class CartPage extends React.Component<Props, State> {
                           key={i}
                           className={cs(
                             bootstrap.colLg3,
-                            bootstrap.col6,
+                            bootstrap.col5,
                             styles.px10
                           )}
                         >
@@ -405,7 +405,7 @@ class CartPage extends React.Component<Props, State> {
               </div>
             </div>
 
-            {isLoggedIn && (
+            {isLoggedIn && wishlistData.length > 0 && (
               <>
                 <h6 className={styles.wishlistHead}>From your Wishlist</h6>
                 <p className={styles.wishlistSubHead}>
@@ -433,7 +433,7 @@ class CartPage extends React.Component<Props, State> {
                               key={i}
                               className={cs(
                                 bootstrap.colLg3,
-                                bootstrap.col6,
+                                bootstrap.col5,
                                 styles.px10
                               )}
                             >
@@ -478,7 +478,11 @@ class CartPage extends React.Component<Props, State> {
                           return (
                             <div
                               key={i}
-                              className={cs(bootstrap.colMd2, bootstrap.col6)}
+                              className={cs(
+                                bootstrap.colLg6,
+                                bootstrap.col6,
+                                styles.px10
+                              )}
                             >
                               <div
                                 className={cs(styles.searchImageboxNew, {
@@ -554,6 +558,14 @@ class CartPage extends React.Component<Props, State> {
             )}
           </div>
         </div>
+
+        {mobile && (
+          <div className={styles.continueShoppingBtnWrapper}>
+            <Link to="/" className={styles.continueShoppingBtn}>
+              Continue Shopping
+            </Link>
+          </div>
+        )}
       </div>
     );
     const item = lineItems.map(item => {
@@ -643,7 +655,12 @@ class CartPage extends React.Component<Props, State> {
     return (
       <div className={cs(bootstrap.row, styles.pageBody)}>
         <div
-          className={cs(bootstrap.col12, bootstrap.colLg8, styles.bagContents)}
+          className={cs(
+            bootstrap.col12,
+            bootstrap.colLg8,
+            styles.bagContents,
+            styles.pUnset
+          )}
         >
           <div className={cs(styles.header)}>
             <p>MY SHOPPING BAG ({this.props?.cart?.lineItems?.length})</p>
@@ -651,8 +668,14 @@ class CartPage extends React.Component<Props, State> {
           {/* {this.renderMessage()} */}
           {this.getItems()}
         </div>
+
         <div
-          className={cs(bootstrap.col12, bootstrap.colLg4, globalStyles.padd0)}
+          className={cs(
+            bootstrap.col12,
+            bootstrap.colLg4,
+            globalStyles.padd0,
+            styles.pUnset
+          )}
         >
           <OrderSummary
             mobile={this.props.mobile}

@@ -1938,3 +1938,11 @@ ul.inner-menu-mobile {
     }
   }
 }
+
+.sideMenuWrapper{
+  @media(min-width:992px){
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: space-between;
+  }
+}
