@@ -620,7 +620,6 @@ const OrderSummary: React.FC<OrderProps> = props => {
   };
 
   const getSummary = () => {
-    console.log(basket.lineItems, "aaaa");
     let shippingCharge: any = 0;
     if (basket.shippingCharge) {
       shippingCharge = basket.shippingCharge;
@@ -1136,8 +1135,8 @@ const OrderSummary: React.FC<OrderProps> = props => {
                       ? cs(globalStyles.checkoutBtn, styles.posFixed)
                       : cs(
                           globalStyles.checkoutBtn,
-                          globalStyles.disabled,
-                          styles.posFixed
+                          styles.posFixed,
+                          globalStyles.disabledBtn
                         )
                   }
                 >

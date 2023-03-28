@@ -76,13 +76,15 @@ body:has(.open-summary) {
 }
 @media (min-width: 992px) {
   .fix-ordersummary {
-    position: fixed;
+    position: sticky;
     position: -webkit-fixed;
-    top: 0px;
-    z-index: -1;
-    padding: 90px 0 0;
+    top: 50px;
+    z-index: 5;
+    padding: 0 0 0;
     background-color: #f9f8f5;
     width: fit-content;
+    min-height: 100vh;
+    margin-top: -10px;
   }
   .font30 {
     font-size: 30px;
@@ -408,9 +410,9 @@ body:has(.open-summary) {
 }
 
 .text-remove-items {
-  font-size: 14px;
-  margin: 30px 10px;
+  margin: 30px 5px;
   font-style: italic;
+  letter-spacing: 0.36px;
 
   .trigger-remove-items {
     cursor: pointer;

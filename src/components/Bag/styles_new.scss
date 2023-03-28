@@ -128,6 +128,20 @@
           @include b3_14px_montserrat_charcoal();
           text-transform: uppercase;
           padding-top: 19px;
+
+          .discountprice {
+            color: $gold;
+            font-family: $font-Montserrat;
+            font-size: 14px;
+          }
+          
+          .strikeprice {
+            font-size: 10px;
+            text-decoration: line-through;
+            color: $light-charcoal;
+            font-family: $font-Montserrat;
+            vertical-align: middle;
+          }
         }
 
         .product-size {
@@ -155,14 +169,13 @@
 
           .remove {
             @include b5_10px_montserrat_charcoal();
-            text-decoration: underline;
+            border-bottom: 1px solid $charcoal19;
             cursor: pointer;
           }
           .wishlist-display {
             div {
               cursor: pointer;
               @include b5_10px_montserrat_charcoal();
-              text-decoration: underline;
             }
           }
         }
@@ -421,7 +434,7 @@
 }
 
 .wishlist-display {
-  margin-top: 30px;
+  
   div {
     div {
       cursor: pointer;
@@ -439,3 +452,13 @@
   .gc_title{
     @include b5_10px_montserrat_charcoal();
   }
+  .badge-position-plp-mobile {
+    position: relative;
+    z-index: 4;
+  img {
+    position: absolute;
+    width: 100%;
+    max-width: 52px;
+    top: 0px;
+  }
+}

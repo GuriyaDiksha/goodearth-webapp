@@ -532,17 +532,17 @@ const CartItems: React.FC<BasketItem> = memo(
                             {saleStatus &&
                               childAttributes[0].showStockThreshold &&
                               childAttributes[0].stock > 0 &&
-                              `Only ${childAttributes[0].stock} Left!`}
-                            <br />
-                            {saleStatus &&
-                              childAttributes[0].showStockThreshold &&
-                              childAttributes[0].stock > 0 &&
                               childAttributes[0].othersBasketCount > 0 &&
-                              ` *${childAttributes[0].othersBasketCount} other${
+                              `${childAttributes[0].othersBasketCount} other${
                                 childAttributes[0].othersBasketCount > 1
                                   ? "s"
                                   : ""
                               } have this item in their bag.`}
+                            <br />
+                            {saleStatus &&
+                              childAttributes[0].showStockThreshold &&
+                              childAttributes[0].stock > 0 &&
+                              `Only ${childAttributes[0].stock} Left!`}
                           </span>
                         )}
                         {renderNotifyTrigger("info")}
@@ -580,10 +580,9 @@ const CartItems: React.FC<BasketItem> = memo(
               </div>
               <div
                 className={cs(
-                  bootstrap.colLg2,
+                  bootstrap.colLg4,
                   bootstrap.col12,
-                  globalStyles.textCenter,
-                  styles.cartPadding
+                  globalStyles.textCenter
                 )}
               >
                 <div
