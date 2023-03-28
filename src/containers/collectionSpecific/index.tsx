@@ -30,6 +30,8 @@ import CookieService from "services/cookie";
 import { GA_CALLS } from "constants/cookieConsent";
 import ProductCounter from "components/ProductCounter";
 import { throttle } from "lodash";
+import Button from "components/Button";
+import Test from "./../../images/test.jpg";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -492,14 +494,14 @@ class CollectionSpecific extends React.Component<
           [styles.collectionContainerTimer]: showTimer
         })}
       >
-        {!mobile && (
+        {/* {!mobile && (
           <SecondaryHeader>
             <Breadcrumbs
               levels={breadcrumbs}
               className={cs(bootstrap.colMd7, bootstrap.offsetMd1)}
             />
           </SecondaryHeader>
-        )}
+        )} */}
         {specificMaker && (
           <MakerEnhance
             user="goodearth"
@@ -535,6 +537,7 @@ class CollectionSpecific extends React.Component<
             </div>
           </div>
         </section>
+        <div className={styles.goBack}>&lt; BACK TO ALL COLLECTIONS</div>
         <div className={cs(bootstrap.row, styles.padding)} id="collection_desc">
           <div
             className={cs(
@@ -599,6 +602,29 @@ class CollectionSpecific extends React.Component<
                 </div>
               );
             })}
+          </div>
+        </div>
+
+        <div className={styles.moreCollectionWrp}>
+          <h2>View More Collections</h2>
+          <div className={styles.moreCollectionImgsWrp}>
+            <div className={styles.moreCollectionImg}>
+              <img src={Test} alt="collection-img" />
+              <div className={styles.textWrp}>
+                <p className={styles.tag}>Fine Bone China</p>
+                <h3 className={styles.name}>Pomegranate & Roses Dining</h3>
+              </div>
+            </div>
+            <div className={styles.moreCollectionImg}>
+              <img src={Test} alt="collection-img" />
+              <div className={styles.textWrp}>
+                <p className={styles.tag}>Fine Bone China</p>
+                <h3 className={styles.name}>Pomegranate & Roses Dining</h3>
+              </div>
+            </div>
+          </div>
+          <div className={styles.btnWrp}>
+            <Button label={"ALL COLLECTIONS"} className={styles.button} />
           </div>
         </div>
         {specificMaker && (
