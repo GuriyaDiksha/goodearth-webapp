@@ -578,7 +578,7 @@ const MyProfile: React.FC<ProfileProps> = ({ setCurrentSection }) => {
                 defaultClass={styles.inputDefault}
               />
             </div>
-            {
+            {/* {
               <div className={styles.subscribe}>
                 <WhatsappSubscribe
                   innerRef={whatsappSubscribeRef}
@@ -589,7 +589,7 @@ const MyProfile: React.FC<ProfileProps> = ({ setCurrentSection }) => {
                   onlyCheckbox={true}
                 />
               </div>
-            }
+            } */}
             <div className={styles.subscribe}>
               <FormCheckbox
                 value={data?.subscribe || false}
