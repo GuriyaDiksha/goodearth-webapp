@@ -120,7 +120,10 @@ const TransactionTable = ({ mobile }: Props) => {
       .then(res => {
         const linkSource = `data:application/pdf;base64,${res}`;
         const downloadLink = document.createElement("a");
-        const fileName = `${slab}_${firstName}${lastName}.pdf`;
+        const fileName = `${slab.replace(
+          " ",
+          "_"
+        )}_${firstName}${lastName}.pdf`;
         downloadLink.href = linkSource;
         downloadLink.download = fileName;
         downloadLink.click();
