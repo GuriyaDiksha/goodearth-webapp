@@ -5,6 +5,10 @@
   padding-right: 15px;
   padding-left: 15px;
 }
+.px-10{
+  padding: 0 10px;
+  margin-bottom: 20px;
+}
 .bag-backdrop {
   top: 0;
   left: 0;
@@ -103,7 +107,7 @@
       padding: 25px 0;
       border-bottom: 0.5px solid $light-charcoal;
 
-      .out-of-stock{
+      .out-of-stock {
         opacity: 0.3;
       }
 
@@ -134,7 +138,7 @@
             font-family: $font-Montserrat;
             font-size: 14px;
           }
-          
+
           .strikeprice {
             font-size: 10px;
             text-decoration: line-through;
@@ -181,8 +185,6 @@
         }
       }
     }
-
-   
   }
 
   .bag-footer {
@@ -249,7 +251,6 @@
   }
 }
 
-
 .cart {
   // margin: 40px 130px;
   img {
@@ -272,12 +273,23 @@
   }
 }
 
-.cart-row{
+.cart-row {
   overflow-x: auto;
   flex-wrap: nowrap;
   overflow-y: hidden;
+  &::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.2);
+    background-color: #f5f5f5;
+    border-radius: 10px;
+  }
   &::-webkit-scrollbar {
-    display: none;
+    width: 10px;
+    height: 5px;
+    background-color: #f5f5f5;
+  }
+  &::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-color: $light-charcoal;
   }
 }
 
@@ -312,8 +324,8 @@
 }
 .image-content {
   text-align: center;
-  height: 110px;
-  margin-top: 15px;
+  height: auto;
+  margin: 15px 0;
   width: 100%;
 }
 
@@ -407,19 +419,19 @@
 .view-all-mobile-wrapper {
   position: relative;
 
-  &:after{
-    content: '';
+  &:after {
+    content: "";
     width: 100%;
     height: 100%;
     background-color: #f9f8f5;
     position: absolute;
     left: 0;
-    top:0;
+    top: 0;
     opacity: 0.8;
   }
   .view-all-mobile {
     position: absolute;
-    top:50%;
+    top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     z-index: 3;
@@ -434,7 +446,6 @@
 }
 
 .wishlist-display {
-  
   div {
     div {
       cursor: pointer;
@@ -443,18 +454,19 @@
       border-bottom: 1px solid #191919;
       width: fit-content;
     }
-  }}
-
-  .gc_name{
-    @include b4_12px_montserrat_charcoal();
   }
+}
 
-  .gc_title{
-    @include b5_10px_montserrat_charcoal();
-  }
-  .badge-position-plp-mobile {
-    position: relative;
-    z-index: 4;
+.gc_name {
+  @include b4_12px_montserrat_charcoal();
+}
+
+.gc_title {
+  @include b5_10px_montserrat_charcoal();
+}
+.badge-position-plp-mobile {
+  position: relative;
+  z-index: 4;
   img {
     position: absolute;
     width: 100%;
