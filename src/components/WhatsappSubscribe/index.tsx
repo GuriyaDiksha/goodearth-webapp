@@ -163,38 +163,15 @@ const WhatsappSubscribe: React.FC<Props> = ({
             value={code}
             handleChange={onCodeChange}
             id="isdcode"
-            validations={{
-              isCodeValid: (values, value) => {
-                return !(values.phone && value == "");
-              },
-              isValidCode: (values, value) => {
-                if (value && isdList.length > 0) {
-                  return isdList.indexOf(value ? value : "") > -1;
-                } else {
-                  return true;
-                }
-              }
-            }}
-            validationErrors={{
-              isCodeValid: "Required",
-              isValidCode: "Enter valid code"
-            }}
             showLabel={true}
             innerRef={codeRef}
           />
           <FormInput
-            // required
             name="whatsappNo"
             value={phone}
             placeholder={"Contact Number"}
             type="number"
             label={"Contact Number"}
-            validations={{
-              isExisty: true
-            }}
-            validationErrors={{
-              isExisty: "Please enter your Contact Number"
-            }}
             keyPress={e => (e.key == "Enter" ? e.preventDefault() : "")}
             keyDown={e => (e.which === 69 ? e.preventDefault() : null)}
             onPaste={e =>
