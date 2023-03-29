@@ -145,6 +145,7 @@ const MyProfile: React.FC<ProfileProps> = ({ setCurrentSection }) => {
           dispatch(updateCountryData(res));
           changeCountryData(res, data);
           pageViewGTM("MyAccount");
+          window.scrollTo(0, 0);
         });
         setApiResponse(data);
       })
