@@ -223,10 +223,6 @@ const PaymentSection: React.FC<PaymentProps> = props => {
     if (countryData.length == 0) {
       fetchCountryData();
     }
-
-    AccountServices.fetchAccountPreferences(dispatch).then((data: any) => {
-      dispatch(updatePreferenceData(data));
-    });
   }, []);
 
   useEffect(() => {
@@ -248,6 +244,14 @@ const PaymentSection: React.FC<PaymentProps> = props => {
         console.group(err);
       });
   }, [currency]);
+
+  useEffect(() => {
+    if (isActive) {
+      AccountServices.fetchAccountPreferences(dispatch).then((data: any) => {
+        dispatch(updatePreferenceData(data));
+      });
+    }
+  }, [isActive]);
 
   // const getMethods = useMemo(() => {
   //   let methods = [
