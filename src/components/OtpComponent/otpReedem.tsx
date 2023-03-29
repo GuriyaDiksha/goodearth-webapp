@@ -364,6 +364,7 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
           setAttempts={this.changeAttepts}
           cancelOtpReq={this.cancelOtpReq}
           setRedeemOtpError={this.props.setRedeemOtpError}
+          groupTimerAndAttempts={true}
         />
         {/* {(this.props.otpFor == "activateGC"
           ? this.props.newCardBox == true
@@ -632,8 +633,7 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
               />
             </div>
           </Formsy>
-          {this.state.isOtpSent ||
-          (this.props.validated !== undefined && !this.props.validated) ? (
+          {true ? (
             <div className={globalStyles.textCenter}>
               {this.getValidationForOtp()}
             </div>

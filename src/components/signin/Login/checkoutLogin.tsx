@@ -107,16 +107,9 @@ class CheckoutLoginForm extends React.Component<Props, loginState> {
                 "Looks like you are signing in for the first time. ",
                 <br key={2} />,
                 "Please ",
-                <span
-                  className={cs(
-                    // globalStyles.errorMsg,
-                    globalStyles.linkTextUnderline
-                  )}
-                  key={1}
-                  onClick={this.handleResetPassword}
-                >
+                <u key={1} onClick={this.handleResetPassword}>
                   set a new password
-                </span>,
+                </u>,
                 " to Login!"
               ];
               this.setState({
@@ -204,12 +197,13 @@ class CheckoutLoginForm extends React.Component<Props, loginState> {
   }
 
   UNSAFE_componentWillReceiveProps() {
+    console.log("Called");
     const email = localStorage.getItem("tempEmail");
     if (!this.state.email || email) {
       if (email) {
-        this.setState({ email, isLoginDisabled: false }, () => {
-          this.myBlur();
-        });
+        // this.setState({ email, isLoginDisabled: false }, () => {
+        //   // this.myBlur();
+        // });
       }
       // this.firstEmailInput.current?.focus();
       localStorage.removeItem("tempEmail");
@@ -541,10 +535,10 @@ class CheckoutLoginForm extends React.Component<Props, loginState> {
               <img src={this.state.showPassword ? show : hide} />
             </span>
           </div>
-          <div className={globalStyles.textCenter}>
-            <p
+          <div className={globalStyles.textRight}>
+            <span
               className={cs(
-                styles.formSubheading,
+                styles.checkoutForgotPass,
                 globalStyles.voffset3,
                 globalStyles.pointer
               )}
@@ -559,7 +553,7 @@ class CheckoutLoginForm extends React.Component<Props, loginState> {
             >
               {" "}
               FORGOT PASSWORD
-            </p>
+            </span>
           </div>
           <div>
             {this.state.showerror ? (
@@ -623,16 +617,14 @@ class CheckoutLoginForm extends React.Component<Props, loginState> {
             successMsg={this.state.usrWithNoOrder ? USR_WITH_NO_ORDER : ""}
             changeEmail={this.changeEmail}
             goLogin={this.goLogin}
+            isCheckout={true}
           />
         ) : (
           <>
             {this.state.successMsg && (
               <div className={cs(bootstrapStyles.col12)}>
                 <div
-                  className={cs(
-                    globalStyles.successMsg,
-                    globalStyles.textCenter
-                  )}
+                  className={cs(styles.oldSuccessMsg, globalStyles.textCenter)}
                 >
                   {this.state.successMsg}
                 </div>

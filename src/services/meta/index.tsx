@@ -13,6 +13,7 @@ import { updateComponent, updateModal } from "actions/modal";
 import HeaderService from "services/headerFooter";
 import CookieService from "services/cookie";
 import { POPUP } from "constants/components";
+import { decriptdata } from "utils/validate";
 
 export default {
   fetchMeta: async function(
@@ -21,7 +22,7 @@ export default {
     bridalKey?: string
   ): Promise<MetaResponse> {
     // const payload = !bridalKey ? {} : { bridalKey };
-    const res: MetaResponse = await API.post(
+    const res: any = await API.post(
       dispatch,
       `${__API_HOST__ + `/myapi/auth/meta/`}`,
       {}
@@ -29,7 +30,16 @@ export default {
       //     Authorization: `Token ${cookies.tkn || ""}`
       // }
     );
-    return res;
+    const innerUser = decriptdata({ ...res.user });
+    delete res.user;
+    const shipping = res.shippingData
+      ? decriptdata({ ...res.shippingData })
+      : null;
+    delete res.shippingData;
+    const response = { ...decriptdata({ ...res }) };
+    response.user = { ...innerUser };
+    response.shippingData = shipping;
+    return response;
   },
 
   updateMeta: async function(
