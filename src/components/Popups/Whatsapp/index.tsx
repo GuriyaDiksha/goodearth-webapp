@@ -19,29 +19,97 @@ type Props = {
 const WhatsappPopup: React.FC<Props> = props => {
   const dispatch = useDispatch();
 
-  const [disableBtn, setDisableBtn] = useState(false);
+  const [isDisabled, setIsDisabled] = useState(true);
+  const [numberValidation, setNumberValidation] = useState("");
+  const [codeValidation, setCodeValidation] = useState("");
 
   const whatsappSubscribeRef = useRef<HTMLInputElement>();
 
-  const onSubmit = (model: any) => {
-    const {
-      subscribe,
-      whatsappSubscribe,
-      whatsappNo,
-      whatsappNoCountryCode
-    } = model;
-    const data = {
-      subscribe: subscribe,
+  const onSubmit = (model: any, resetForm: any, updateInputsWithError: any) => {
+    const { whatsappSubscribe, whatsappNo, whatsappNoCountryCode } = model;
+
+    const formdata = {
+      subscribe: props.data.subscribe,
       whatsappNo: whatsappNo,
       whatsappNoCountryCode: whatsappNoCountryCode,
       whatsappSubscribe: whatsappSubscribe
     };
-    AccountService.updateAccountPreferences(dispatch, data).then((res: any) => {
-      dispatch(updatePreferenceData(data));
-      setDisableBtn(true);
-      showGrowlMessage(dispatch, "Your preferences have been updated!", 5000);
-      dispatch(updateModal(false));
-    });
+
+    AccountService.updateAccountPreferences(dispatch, formdata)
+      .then((res: any) => {
+        dispatch(updatePreferenceData(res));
+        setIsDisabled(true);
+        showGrowlMessage(dispatch, "Your preferences have been updated!", 5000);
+        dispatch(updateModal(false));
+      })
+      .catch((err: any) => {
+        console.log("here, ", err);
+        const data = err.response?.data;
+        Object.keys(data).map(key => {
+          switch (key) {
+            case "whatsappNo":
+              updateInputsWithError(
+                {
+                  [key]: data[key][0]
+                },
+                true
+              );
+              break;
+          }
+        });
+      });
+  };
+
+  const onFormChange = (model: any, isChanged: any) => {
+    //For Disabling Button
+    let objEqual = false;
+    const data = Object.assign({}, props.data);
+    delete data.subscribe;
+
+    const obj1Keys = Object.keys(model).sort();
+    const obj2Keys = Object.keys(data).sort();
+    if (obj1Keys.length !== obj2Keys.length) {
+    } else {
+      const areEqual = obj1Keys.every((key, index) => {
+        const objValue1 = model[key].toString();
+        const objValue2 = data[obj2Keys[index]].toString();
+        return objValue1 === objValue2;
+      });
+      if (areEqual) {
+        objEqual = true;
+      } else {
+        objEqual = false;
+      }
+    }
+
+    const { whatsappSubscribe, whatsappNoCountryCode, whatsappNo } = model;
+    if (whatsappSubscribe) {
+      if (whatsappNoCountryCode == "") {
+        setCodeValidation("Required");
+      } else {
+        const idx = props.isdList.indexOf(whatsappNoCountryCode);
+        if (idx > -1) {
+          setCodeValidation("");
+        } else {
+          setCodeValidation("Enter valid code");
+        }
+      }
+
+      if (whatsappNo == "") {
+        setNumberValidation("Please Enter your Contact Number");
+      } else {
+        setNumberValidation("");
+      }
+    } else {
+      setCodeValidation("");
+      setNumberValidation("");
+    }
+
+    if (objEqual || codeValidation != "" || numberValidation != "") {
+      setIsDisabled(true);
+    } else {
+      setIsDisabled(false);
+    }
   };
 
   return (
@@ -58,7 +126,14 @@ const WhatsappPopup: React.FC<Props> = props => {
         </div>
         <div className={styles.loginForm}>
           <div className={styles.categorylabel}>
-            <Formsy onSubmit={onSubmit}>
+            <Formsy
+              onSubmit={onSubmit}
+              onChange={onFormChange}
+              validationErrors={{
+                whatsappNoCountryCode: codeValidation,
+                whatsappNo: numberValidation
+              }}
+            >
               <WhatsappSubscribe
                 data={props.data}
                 innerRef={whatsappSubscribeRef}
@@ -72,9 +147,9 @@ const WhatsappPopup: React.FC<Props> = props => {
                   type="submit"
                   value="Save Preferences"
                   className={cs(globalStyles.charcoalBtn, {
-                    [globalStyles.disabledBtn]: disableBtn
+                    [globalStyles.disabledBtn]: isDisabled
                   })}
-                  disabled={disableBtn}
+                  disabled={isDisabled}
                 />
               </div>
             </Formsy>
