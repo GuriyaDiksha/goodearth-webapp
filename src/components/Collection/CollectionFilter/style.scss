@@ -20,6 +20,15 @@
     align-items: center;
     justify-content: center;
 
+    @media screen and (max-width:992px) {
+      overflow-y: auto;
+
+      &::-webkit-scrollbar {
+        display: none;
+      }
+      
+    }
+
     .collection-filter {
       @include b4_12px_montserrat_light_charcoal();
       padding: 10px 21px;
@@ -27,11 +36,20 @@
       background-color: $very-light-grey;
       cursor: pointer;
       transition: 0.3s;
+      display: flex;
+      gap: 10px;
+      justify-content: space-between;
 
       &:hover{
         color:#fff;
         background-color: $aqua;
       }
+
+      .active{
+        color:#fff;
+        background-color: $aqua;
+      }
+
     }
   }
 }

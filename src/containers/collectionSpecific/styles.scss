@@ -57,42 +57,6 @@
             display: block;
         }
 
-        .more-collection-img{
-            margin-right: 30px;
-            background-color: $white;
-            @media screen and (max-width:992px) {
-                margin-bottom: 50px;
-            }
-
-            @media screen and (max-width:992px) {
-                margin-right: 0;
-            }
-            img{
-                width: 500px;
-                height: 200px;
-                object-fit: cover;
-
-                @media screen and (max-width:992px) {
-                    width: 100%;
-                }
-            }
-
-            .text-wrp{
-                margin-left: 15px;
-                .tag{
-                    margin-top: 20px;
-                    border: 1px solid $aqua;
-                    width: 100px;
-                    text-align: center;
-                    @include b5_10px_montserrat_aqua();
-                }
-                .name{
-                    margin: 10px 0 20px 0;
-                    @include h3_20px_lora_charcoal();
-                }
-            }
-
-        }
     }
 
     .btn-wrp{
@@ -120,3 +84,16 @@
     margin: 40px 0 25px 8.3333%;
     @include b5_10px_montserrat_charcoal_caps();
 }
+
+.tag{
+    margin-top: 20px;
+    border: 1px solid $aqua;
+    width: fit-content;
+    text-align: center;
+    @include b5_10px_montserrat_aqua();
+}
+
+.sub-title{
+    margin-bottom: 15px;
+    @include b6_9px_light_montserrat_charcoal();
+  }

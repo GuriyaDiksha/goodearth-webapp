@@ -4,6 +4,7 @@ import styles from "./style.scss";
 import { useSelector } from "react-redux";
 import { AppState } from "reducers/typings";
 import { CollectionFilter } from "./typing";
+import iconStyles from "./../../../styles/iconFonts.scss";
 
 const CollectionFilter: React.FC<CollectionFilter> = props => {
   const { ActiveFilterHandler } = props;
@@ -29,7 +30,17 @@ const CollectionFilter: React.FC<CollectionFilter> = props => {
           value="Fine Bone China"
           onClick={e => ActiveFilterHandler("Fine Bone China")}
         >
-          Fine Bone China
+          <div>Fine Bone China</div>
+          <div className={styles.cross}>
+            <i
+              className={cs(
+                iconStyles.icon,
+                iconStyles.iconCrossNarrowBig,
+                styles.icon,
+                styles.iconCross
+              )}
+            ></i>
+          </div>
         </li>
         <li
           className={styles.collectionFilter}

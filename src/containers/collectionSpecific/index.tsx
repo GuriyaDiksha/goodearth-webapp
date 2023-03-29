@@ -32,6 +32,7 @@ import ProductCounter from "components/ProductCounter";
 import { throttle } from "lodash";
 import Button from "components/Button";
 import Test from "./../../images/test.jpg";
+import PlpCollectionItem from "components/Collection/PlpCollectionItem";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -538,6 +539,8 @@ class CollectionSpecific extends React.Component<
           </div>
         </section>
         <div className={styles.goBack}>&lt; BACK TO ALL COLLECTIONS</div>
+
+        <p className={styles.tag}>Fine Bone China</p>
         <div className={cs(bootstrap.row, styles.padding)} id="collection_desc">
           <div
             className={cs(
@@ -549,6 +552,10 @@ class CollectionSpecific extends React.Component<
             {description}
           </div>
         </div>
+
+        <p className={styles.subTitle}>
+          Dishwasher-safe | Handcrafted | 22 Karat Gold
+        </p>
         <div className={bootstrap.row} id="collection_long_desc">
           <div
             className={cs(
@@ -608,20 +615,8 @@ class CollectionSpecific extends React.Component<
         <div className={styles.moreCollectionWrp}>
           <h2>View More Collections</h2>
           <div className={styles.moreCollectionImgsWrp}>
-            <div className={styles.moreCollectionImg}>
-              <img src={Test} alt="collection-img" />
-              <div className={styles.textWrp}>
-                <p className={styles.tag}>Fine Bone China</p>
-                <h3 className={styles.name}>Pomegranate & Roses Dining</h3>
-              </div>
-            </div>
-            <div className={styles.moreCollectionImg}>
-              <img src={Test} alt="collection-img" />
-              <div className={styles.textWrp}>
-                <p className={styles.tag}>Fine Bone China</p>
-                <h3 className={styles.name}>Pomegranate & Roses Dining</h3>
-              </div>
-            </div>
+            <PlpCollectionItem />
+            <PlpCollectionItem />
           </div>
           <div className={styles.btnWrp}>
             <Button label={"ALL COLLECTIONS"} className={styles.button} />

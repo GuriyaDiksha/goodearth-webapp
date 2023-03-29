@@ -1,0 +1,53 @@
+@import "../../../styles/partials/variables";
+@import "../../../styles/partials/mixins";
+
+.collection-item-wrp{
+  display: flex;
+    margin-top: 50px;
+
+    @media screen and (max-width:992px) {
+      display: block;
+    }
+
+  .collection-item-content{
+    margin: 0 0 0 30px;
+    padding-top: 160px;
+
+    @media screen and (max-width:992px) {
+      padding-top: 30px;
+    }
+
+    .tag{
+      padding: 4px;
+      border: 1px solid $aqua;
+      width: fit-content;
+      text-align: center;
+      @include b5_10px_montserrat_aqua();
+    }
+    .title{
+      margin: 15px 0 15px 0;
+      @include h3_20px_lora_charcoal();
+    }
+
+    .sub-title{
+      margin-bottom: 15px;
+      @include b6_9px_light_montserrat_charcoal();
+    }
+
+    .description{
+      @include b4_12px_montserrat_charcoal();
+    }
+
+    .show-more{
+      margin-top: 30px;
+      width: fit-content;
+      border-bottom: 1px solid $med-charcoal;
+      @include b4_12px_medium_charcoal_caps();
+
+      &:hover{
+        border-bottom: 1px solid $aqua;
+        @include b4_12px_medium_aqua_caps();
+      }
+    }
+  }
+}
