@@ -28,12 +28,21 @@ const WhatsappPopup: React.FC<Props> = props => {
   const onSubmit = (model: any, resetForm: any, updateInputsWithError: any) => {
     const { whatsappSubscribe, whatsappNo, whatsappNoCountryCode } = model;
 
-    const formdata = {
+    let formdata = {
       subscribe: props.data.subscribe,
       whatsappNo: whatsappNo,
       whatsappNoCountryCode: whatsappNoCountryCode,
       whatsappSubscribe: whatsappSubscribe
     };
+
+    if (!whatsappSubscribe) {
+      formdata = {
+        subscribe: props.data.subscribe,
+        whatsappNo: props.data.whatsappNo,
+        whatsappNoCountryCode: props.data.whatsappNoCountryCode,
+        whatsappSubscribe: whatsappSubscribe
+      };
+    }
 
     AccountService.updateAccountPreferences(dispatch, formdata)
       .then((res: any) => {
