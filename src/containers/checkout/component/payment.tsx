@@ -58,7 +58,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
   const fetchCountryData = async () => {
     const data = await LoginService.fetchCountryData(dispatch);
     dispatch(updateCountryData(data));
-    const isdList = countryData.map(list => {
+    const isdList = data.map(list => {
       return list.isdCode;
     });
     setIsdList(isdList);
