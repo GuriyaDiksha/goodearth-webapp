@@ -1116,7 +1116,7 @@ class PLP extends React.Component<
             onChange={this.onchangeFilter}
             onStateChange={this.onChangeFilterState}
             showCaret={this.state.showmobileSort}
-            open={false}
+            open={this.state.mobileFilter}
             value={this.state.sortValue}
             key={"plpPageMobile"}
             sortedDiscount={facets.sortedDiscount}

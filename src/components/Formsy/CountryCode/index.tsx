@@ -104,7 +104,8 @@ const CountryCode: React.FC<Props & InjectedProps<string | null>> = props => {
     disabled: props.disable,
     autoComplete: "new-password",
     className: cls,
-    onBlur: props.blur
+    onBlur: props.blur,
+    name: props.name
   };
 
   return (
@@ -123,6 +124,7 @@ const CountryCode: React.FC<Props & InjectedProps<string | null>> = props => {
         renderSuggestion={renderSuggestion}
         inputProps={inputProps}
         id={props.id}
+        ref={props.innerRef}
       />
       <span className={styles.arrow}></span>
       <label

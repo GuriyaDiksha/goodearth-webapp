@@ -17,7 +17,8 @@ export const initialState: State = {
   loyaltyData: null,
   customerGroup: "",
   country: "",
-  state: ""
+  state: "",
+  preferenceData: {}
 };
 
 export const user = (state = initialState, action: UserActions): State => {
@@ -34,6 +35,12 @@ export const user = (state = initialState, action: UserActions): State => {
     case "RESET_META": {
       const state = initialState;
       return { ...state };
+    }
+
+    case "UPDATE_PREFERENCE_DATA": {
+      const newState = { ...state };
+      newState.preferenceData = action.payload;
+      return { ...newState };
     }
   }
 

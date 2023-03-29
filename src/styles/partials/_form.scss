@@ -173,6 +173,15 @@
       &.subs1 {
         margin-top: 50px;
       }
+      label[for="whatsappSubscribe"]{
+        left: 0;
+      }
+      label[for="subscribeemails"]{
+        left: 0;
+      }
+      label[for="subscrib"]{
+        left: 0;
+      }
       label {
         @include b5_10px_montserrat_charcoal();
         letter-spacing: 0.3px;
@@ -428,5 +437,18 @@ input[type="checkbox"]:checked + label {
   }
   input[type="date"] {
     min-height: 47px; // for input type date in iOS
+  }
+}
+
+.login-form {
+  div.categorylabel > div {
+    &.subscribe{
+      label{
+        img {
+          height: 12px;
+          margin-left: 5px;
+        }
+      }
+    }
   }
 }

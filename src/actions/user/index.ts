@@ -9,3 +9,6 @@ export const refreshPage = (data: string | undefined) =>
 
 export const resetMeta = (data: string | undefined) =>
   actionCreator("RESET_META", data);
+
+export const updatePreferenceData = (data: any) =>
+  actionCreator("UPDATE_PREFERENCE_DATA", data);

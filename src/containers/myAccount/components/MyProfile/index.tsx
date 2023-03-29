@@ -20,12 +20,16 @@ import { pageViewGTM } from "utils/validate";
 import AccountService from "services/account";
 import LoginService from "services/login";
 import { updateCountryData } from "actions/address";
+import WhatsappSubscribe from "components/WhatsappSubscribe";
+import { updatePreferenceData } from "actions/user";
 
 const MyProfile: React.FC<ProfileProps> = ({ setCurrentSection }) => {
   const {
     address: { countryData }
   } = useSelector((state: AppState) => state);
   const [data, setData] = useState<Partial<ProfileResponse>>({});
+  const { user } = useSelector((state: AppState) => state);
+  const whatsappSubscribeRef = useRef(false);
   const [profileState, setProfileState] = useState<State>({
     newsletter: false,
     uniqueId: "",
@@ -155,6 +159,10 @@ const MyProfile: React.FC<ProfileProps> = ({ setCurrentSection }) => {
           showerror: "Something went wrong, please try again"
         });
       });
+
+    AccountService.fetchAccountPreferences(dispatch).then((data: any) => {
+      dispatch(updatePreferenceData(data));
+    });
   }, []);
 
   useEffect(() => {
@@ -200,8 +208,10 @@ const MyProfile: React.FC<ProfileProps> = ({ setCurrentSection }) => {
       dateOfBirth,
       subscribe,
       country,
-      state
+      state,
+      whatsappSubscribe
     } = model;
+
     const formData: any = {};
     formData["firstName"] = firstName || "";
     formData["lastName"] = lastName || "";
@@ -222,7 +232,7 @@ const MyProfile: React.FC<ProfileProps> = ({ setCurrentSection }) => {
     if (countryCode == "IN") {
       formData["state"] = state || "";
     }
-
+    formData["whatsappSubscribe"] = whatsappSubscribe;
     setProfileState({
       ...profileState,
       showerror: ""
@@ -569,6 +579,18 @@ const MyProfile: React.FC<ProfileProps> = ({ setCurrentSection }) => {
                 defaultClass={styles.inputDefault}
               />
             </div>
+            {/* {
+              <div className={styles.subscribe}>
+                <WhatsappSubscribe
+                  innerRef={whatsappSubscribeRef}
+                  showTermsMessage={false}
+                  showManageMsg={true}
+                  showPhone={false}
+                  showTooltip={true}
+                  onlyCheckbox={true}
+                />
+              </div>
+            } */}
             <div className={styles.subscribe}>
               <FormCheckbox
                 value={data?.subscribe || false}

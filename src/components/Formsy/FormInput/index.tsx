@@ -105,6 +105,8 @@ const FormInput: React.FC<Props & InjectedProps<string | null>> = props => {
         return "Please enter your Address";
       case "publication":
         return "Please enter publication name";
+      case "whatsappNo":
+        return "";
       default:
         return "This field is required";
     }

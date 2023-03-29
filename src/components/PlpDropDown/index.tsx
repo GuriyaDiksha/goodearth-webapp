@@ -99,6 +99,13 @@ const PlpDropdownMenu = ({
     }
   }, [showmobileSort, menuOpen]);
 
+  useEffect(() => {
+    setOpenState(open || false);
+    if (!open) {
+      onOutsideClick();
+    }
+  }, [open]);
+
   return (
     <div
       className={cs(styles.cSort, bootstrap.col12, styles.filterSticky, {
@@ -199,7 +206,7 @@ const PlpDropdownMenu = ({
                 styles.iconSearchCross,
                 styles.crossIcon
               )}
-              onClick={onInsideClick}
+              onClick={onOutsideClick}
             ></i>
           </div>
           <div
@@ -217,7 +224,7 @@ const PlpDropdownMenu = ({
           >
             <span>{"Sort By"}</span>
 
-            <span onClick={onInsideClick} ref={ref}>
+            <span onClick={onOutsideClick} ref={showmobileSort ? ref : null}>
               X
             </span>
           </div>

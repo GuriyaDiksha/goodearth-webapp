@@ -297,6 +297,7 @@ class Checkout extends React.Component<Props, State> {
           } else if (data.email) {
             CookieService.setCookie("currency", data.currency, 365);
             CookieService.setCookie("currencypopup", "true", 365);
+            localStorage.setItem("tempEmail", data.email);
             this.setState({
               boEmail: data.email,
               boId: boId
