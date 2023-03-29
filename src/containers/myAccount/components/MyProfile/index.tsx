@@ -28,7 +28,7 @@ const MyProfile: React.FC<ProfileProps> = ({ setCurrentSection }) => {
     address: { countryData }
   } = useSelector((state: AppState) => state);
   const [data, setData] = useState<Partial<ProfileResponse>>({});
-  const { user } = useSelector((state: AppState) => state);
+  // const { user } = useSelector((state: AppState) => state);
   const whatsappSubscribeRef = useRef(false);
   const [profileState, setProfileState] = useState<State>({
     newsletter: false,
@@ -510,7 +510,7 @@ const MyProfile: React.FC<ProfileProps> = ({ setCurrentSection }) => {
                   name="phoneCountryCode"
                   placeholder="Code"
                   label="Country Code"
-                  value=""
+                  value={data.phoneCountryCode || ""}
                   disable={data?.phoneCountryCode ? true : false}
                   id="isd_code"
                   validations={{
@@ -546,6 +546,7 @@ const MyProfile: React.FC<ProfileProps> = ({ setCurrentSection }) => {
                     { [styles.disabledInput]: data?.phoneNumber },
                     styles.contactNum
                   )}
+                  value={data?.phoneNumber}
                   // validations={{
                   //   isPhoneValid: (values, value) => {
                   //     return !(value == "");
@@ -578,7 +579,7 @@ const MyProfile: React.FC<ProfileProps> = ({ setCurrentSection }) => {
                 defaultClass={styles.inputDefault}
               />
             </div>
-            {/* {
+            {
               <div className={styles.subscribe}>
                 <WhatsappSubscribe
                   innerRef={whatsappSubscribeRef}
@@ -589,7 +590,7 @@ const MyProfile: React.FC<ProfileProps> = ({ setCurrentSection }) => {
                   onlyCheckbox={true}
                 />
               </div>
-            } */}
+            }
             <div className={styles.subscribe}>
               <FormCheckbox
                 value={data?.subscribe || false}
