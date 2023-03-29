@@ -633,7 +633,8 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
               />
             </div>
           </Formsy>
-          {true ? (
+          {this.state.isOtpSent ||
+          (this.props.validated !== undefined && !this.props.validated) ? (
             <div className={globalStyles.textCenter}>
               {this.getValidationForOtp()}
             </div>
