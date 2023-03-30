@@ -172,7 +172,7 @@ class CheckoutLoginForm extends React.Component<Props, loginState> {
   };
 
   componentDidMount() {
-    const email = localStorage.getItem("tempEmail");
+    const email = localStorage.getItem("tempEmail") || this.props.isBo;
     // const checkoutPopupCookie = CookieService.getCookie("checkoutinfopopup");
     if (email) {
       this.setState({ email, isLoginDisabled: false }, () => {
@@ -186,18 +186,20 @@ class CheckoutLoginForm extends React.Component<Props, loginState> {
     this.firstEmailInput.current?.focus();
   }
 
-  componentDidUpdate() {
-    const email = localStorage.getItem("tempEmail");
-    if (email) {
-      this.setState({ email, isLoginDisabled: false }, () => {
-        this.myBlur();
-      });
+  componentDidUpdate(prevProps: any, prevState: any) {
+    const email = localStorage.getItem("tempEmail") || this.props.isBo;
+    if (prevProps.isBo != this.props.isBo) {
+      if (email) {
+        this.setState({ email: email, isLoginDisabled: false }, () => {
+          this.myBlur();
+        });
+      }
     }
+
     localStorage.removeItem("tempEmail");
   }
 
   UNSAFE_componentWillReceiveProps() {
-    console.log("Called");
     const email = localStorage.getItem("tempEmail");
     if (!this.state.email || email) {
       if (email) {
