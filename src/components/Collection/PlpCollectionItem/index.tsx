@@ -1,19 +1,28 @@
 import React from "react";
-import cs from "classnames";
+import { Link } from "react-router-dom";
 import styles from "./style.scss";
-import { useSelector } from "react-redux";
-import { AppState } from "reducers/typings";
-// import { CollectionItem } from "./typing";
-import CollectionImageSlider from "../CollectionImageSlider";
-import Test from "./../../../images/test.jpg";
+import { PlpCollectionItems } from "./typing";
 
-const PlpCollectionItem: React.FC = props => {
+const PlpCollectionItem: React.FC<PlpCollectionItems> = ({
+  collectionData,
+  key
+}) => {
+  const { sliderImages, tags, name, url } = collectionData;
+
   return (
-    <div className={styles.moreCollectionImg}>
-      <img src={Test} alt="collection-img" />
+    <div key={key} className={styles.moreCollectionImg}>
+      <Link to={url || "#"}>
+        <img src={sliderImages?.[0]} alt="collection-img" />
+      </Link>
       <div className={styles.textWrp}>
-        <p className={styles.tag}>Fine Bone China</p>
-        <h3 className={styles.name}>Pomegranate & Roses Dining</h3>
+        <div className={styles.tagWrp}>
+          {tags?.map((tag: string, i: number) => (
+            <p key={i} className={styles.tag}>
+              {tag}
+            </p>
+          ))}
+        </div>
+        <h3 className={styles.name}>{name}</h3>
       </div>
     </div>
   );

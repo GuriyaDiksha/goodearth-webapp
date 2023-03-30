@@ -31,8 +31,8 @@ import { GA_CALLS } from "constants/cookieConsent";
 import ProductCounter from "components/ProductCounter";
 import { throttle } from "lodash";
 import Button from "components/Button";
-import Test from "./../../images/test.jpg";
 import PlpCollectionItem from "components/Collection/PlpCollectionItem";
+import { RouteComponentProps, withRouter } from "react-router";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -43,7 +43,8 @@ const mapStateToProps = (state: AppState) => {
     mobile: state.device.mobile,
     location: state.router.location,
     sale: state.info.isSale,
-    showTimer: state.info.showTimer
+    showTimer: state.info.showTimer,
+    filteredCollectionData: state.collection.filteredCollectionData
   };
 };
 
@@ -118,8 +119,8 @@ const mapDispatchToProps = (dispatch: Dispatch, params: any) => {
 };
 
 type Props = ReturnType<typeof mapStateToProps> &
-  ReturnType<typeof mapDispatchToProps>;
-
+  ReturnType<typeof mapDispatchToProps> &
+  RouteComponentProps;
 class CollectionSpecific extends React.Component<
   Props,
   {
@@ -148,6 +149,9 @@ class CollectionSpecific extends React.Component<
   }
   pdpURL = "";
   listPath = "";
+  collectionId = (decodeURI(this.props.location.pathname)
+    .split("_")
+    .pop() as string).split("/")[0];
 
   onBeforeUnload = () => {
     const pdpProductScroll = JSON.stringify({
@@ -489,6 +493,17 @@ class CollectionSpecific extends React.Component<
     const { breadcrumbs, longDescription, results } = collectionSpecificData;
     const { widgetImages, description } = collectionSpecficBanner;
     const { specificMaker } = this.state;
+    const indexOfCurrent = this.props?.filteredCollectionData?.findIndex(
+      data => data.id === Number(this.collectionId)
+    );
+    console.log(
+      "check-====",
+      this.props?.filteredCollectionData.slice(
+        indexOfCurrent ? indexOfCurrent - 1 : 0,
+        indexOfCurrent + 2
+      ),
+      indexOfCurrent
+    );
     return (
       <div
         className={cs(styles.collectionContainer, {
@@ -538,7 +553,14 @@ class CollectionSpecific extends React.Component<
             </div>
           </div>
         </section>
-        <div className={styles.goBack}>&lt; BACK TO ALL COLLECTIONS</div>
+        <div
+          className={styles.goBack}
+          onClick={() => {
+            this.props?.history.goBack();
+          }}
+        >
+          &lt; BACK TO ALL COLLECTIONS
+        </div>
 
         <p className={styles.tag}>Fine Bone China</p>
         <div className={cs(bootstrap.row, styles.padding)} id="collection_desc">
@@ -615,11 +637,21 @@ class CollectionSpecific extends React.Component<
         <div className={styles.moreCollectionWrp}>
           <h2>View More Collections</h2>
           <div className={styles.moreCollectionImgsWrp}>
-            <PlpCollectionItem />
-            <PlpCollectionItem />
+            {this.props?.filteredCollectionData
+              ?.slice(
+                indexOfCurrent ? indexOfCurrent - 1 : 0,
+                indexOfCurrent + 2
+              )
+              ?.map((collection, i) => (
+                <PlpCollectionItem key={i} collectionData={collection} />
+              ))}
           </div>
           <div className={styles.btnWrp}>
-            <Button label={"ALL COLLECTIONS"} className={styles.button} />
+            <Button
+              label={"ALL COLLECTIONS"}
+              className={styles.button}
+              onClick={() => this.props.history.goBack()}
+            />
           </div>
         </div>
         {specificMaker && (
@@ -641,6 +673,11 @@ class CollectionSpecific extends React.Component<
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(CollectionSpecific);
+const CollectionSpecificWithRouter = withRouter(CollectionSpecific);
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(CollectionSpecificWithRouter);
 export { initActionSpecific };
 export { metaActionCollection };

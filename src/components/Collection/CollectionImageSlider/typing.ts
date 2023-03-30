@@ -1,5 +1,5 @@
 export interface CollectionImageSlider {
-  sliderImages: string[];
-  url: string;
-  name: string;
+  sliderImages: string[] | undefined;
+  url: string | undefined;
+  name: string | undefined;
 }

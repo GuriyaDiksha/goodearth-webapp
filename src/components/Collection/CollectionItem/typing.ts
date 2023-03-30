@@ -3,7 +3,7 @@ export interface Category {
   name: string;
 }
 
-export interface CollectionItem {
+export type CollectionItemType = {
   id: number;
   name: string;
   displayImage?: string | null;
@@ -15,8 +15,8 @@ export interface CollectionItem {
   header?: string;
   url?: string;
   tags: string[];
-}
+};
 export interface CollectionItems {
   key: number;
-  collectionData: CollectionItem[];
+  collectionData: CollectionItemType;
 }

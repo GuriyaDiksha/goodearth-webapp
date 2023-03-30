@@ -19,7 +19,6 @@
 
 .collection-name {
     @include h2_24px_lora_charcoal();
-    margin-top: 30px;
 }
 
 .collection-lowertext{
@@ -35,7 +34,7 @@
 
 .padding{
     padding-top: 10px;
-    padding-bottom: 20px;
+    padding-bottom: 10px;
 }
 
 //========view more collection section=======//
@@ -90,10 +89,13 @@
     border: 1px solid $aqua;
     width: fit-content;
     text-align: center;
+    margin: auto;
+    padding: 4px;
     @include b5_10px_montserrat_aqua();
 }
 
 .sub-title{
-    margin-bottom: 15px;
+    margin-bottom: 10px;
+    text-align: center;
     @include b6_9px_light_montserrat_charcoal();
   }

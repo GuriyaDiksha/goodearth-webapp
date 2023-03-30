@@ -17,13 +17,19 @@
       padding-top: 30px;
     }
 
-    .tag{
-      padding: 4px;
-      border: 1px solid $aqua;
-      width: fit-content;
-      text-align: center;
-      @include b5_10px_montserrat_aqua();
+    .tag-wrp{
+      display: flex;
+      gap: 5px;
+
+      .tag{
+        padding: 4px;
+        border: 1px solid $aqua;
+        width: fit-content;
+        text-align: center;
+        @include b5_10px_montserrat_aqua();
+      }
     }
+
     .title{
       margin: 15px 0 15px 0;
       @include h3_20px_lora_charcoal();

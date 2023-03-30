@@ -10,7 +10,7 @@ const CollectionItem: React.FC<CollectionItems> = ({ key, collectionData }) => {
     name,
     longDescription,
     sliderImages,
-    tags,
+    tags = ["tag1", "tag 2", "test tag 3"],
     shortDescription,
     url
   } = collectionData;
@@ -23,7 +23,7 @@ const CollectionItem: React.FC<CollectionItems> = ({ key, collectionData }) => {
         name={name}
       />
       <div className={styles.collectionItemContent}>
-        <div>
+        <div className={styles.tagWrp}>
           {tags?.map((tag: string, i: number) => (
             <p key={i} className={styles.tag}>
               {tag}
@@ -33,11 +33,12 @@ const CollectionItem: React.FC<CollectionItems> = ({ key, collectionData }) => {
         <h3 className={styles.title}>{name}</h3>
         <p className={styles.subTitle}>{ReactHtmlParser(shortDescription)}</p>
         <p className={styles.description}>
-          {ReactHtmlParser(
-            longDescription.length > 112
-              ? longDescription.slice(0, 112) + "..."
-              : longDescription
-          )}
+          {longDescription &&
+            ReactHtmlParser(
+              longDescription?.length > 112
+                ? longDescription?.slice(0, 112) + "..."
+                : longDescription
+            )}
         </p>
         <Link to={url || "#"} className={styles.showMore}>
           SHOW MORE

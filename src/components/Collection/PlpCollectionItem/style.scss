@@ -23,13 +23,20 @@
 
   .text-wrp{
       margin-left: 15px;
-      .tag{
-          margin-top: 20px;
+      margin-top: 15px;
+      .tag-wrp{
+        display: flex;
+        gap: 5px;
+  
+        .tag{
+          padding: 4px;
           border: 1px solid $aqua;
           width: fit-content;
           text-align: center;
           @include b5_10px_montserrat_aqua();
+        }
       }
+  
       .name{
           margin: 10px 0 20px 0;
           @include h3_20px_lora_charcoal();

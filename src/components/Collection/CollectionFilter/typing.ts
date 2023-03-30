@@ -1,3 +1,5 @@
 export interface CollectionFilter {
-  ActiveFilterHandler: (data: string) => void;
+  activeFilterHandler: (data: string) => void;
+  tags: string[];
+  activeFilterList: string[];
 }

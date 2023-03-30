@@ -6,8 +6,11 @@ import { AppState } from "reducers/typings";
 import { CollectionFilter } from "./typing";
 import iconStyles from "./../../../styles/iconFonts.scss";
 
-const CollectionFilter: React.FC<CollectionFilter> = props => {
-  const { ActiveFilterHandler } = props;
+const CollectionFilter: React.FC<CollectionFilter> = ({
+  tags,
+  activeFilterList,
+  activeFilterHandler
+}) => {
   const { showTimer } = useSelector((state: AppState) => state.info);
 
   return (
@@ -18,51 +21,30 @@ const CollectionFilter: React.FC<CollectionFilter> = props => {
       })}
     >
       <ul className={styles.collectionFilterWrapper}>
-        <li
-          className={styles.collectionFilter}
-          value="All Collections"
-          onClick={() => ActiveFilterHandler("All Collections")}
-        >
-          All Collections
-        </li>
-        <li
-          className={styles.collectionFilter}
-          value="Fine Bone China"
-          onClick={e => ActiveFilterHandler("Fine Bone China")}
-        >
-          <div>Fine Bone China</div>
-          <div className={styles.cross}>
-            <i
-              className={cs(
-                iconStyles.icon,
-                iconStyles.iconCrossNarrowBig,
-                styles.icon,
-                styles.iconCross
-              )}
-            ></i>
-          </div>
-        </li>
-        <li
-          className={styles.collectionFilter}
-          value="Porcelain"
-          onClick={e => ActiveFilterHandler("Porcelain")}
-        >
-          Porcelain
-        </li>
-        <li
-          className={styles.collectionFilter}
-          value="Stoneware"
-          onClick={e => ActiveFilterHandler("Stoneware")}
-        >
-          Stoneware
-        </li>
-        <li
-          className={styles.collectionFilter}
-          value="Metal"
-          onClick={e => ActiveFilterHandler("Metal")}
-        >
-          Metal
-        </li>
+        {tags?.map((tag, i) => (
+          <li
+            className={cs(styles.collectionFilter, {
+              [styles.active]: activeFilterList.includes(tag)
+            })}
+            value={tag}
+            onClick={e => activeFilterHandler(tag)}
+            key={i + "tag-filter"}
+          >
+            <div>{tag}</div>
+            {tag !== "All Collections" && activeFilterList.includes(tag) && (
+              <div className={styles.cross}>
+                <i
+                  className={cs(
+                    iconStyles.icon,
+                    iconStyles.iconCrossNarrowBig,
+                    styles.icon,
+                    styles.iconCross
+                  )}
+                ></i>
+              </div>
+            )}
+          </li>
+        ))}
       </ul>
     </div>
   );
