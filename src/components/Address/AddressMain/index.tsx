@@ -327,8 +327,6 @@ const AddressMain: React.FC<Props> = props => {
                     <WhatsappSubscribe
                       data={user.preferenceData}
                       innerRef={props.innerRef}
-                      phoneRef={props.phoneRef}
-                      codeRef={props.codeRef}
                       isdList={isdList}
                       showTermsMessage={false}
                       showTooltip={true}
