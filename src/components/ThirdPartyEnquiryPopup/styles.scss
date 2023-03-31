@@ -29,7 +29,7 @@
 }
 
 .heading {
-    @include c22-A-I();
+   @include h2_24px_lora_charcoal();
     line-height: 50px;
 }
 
@@ -38,7 +38,7 @@
 }
 
 .subheading {
-    @include c10-L-R();
+    @include b4_12px_montserrat_charcoal();
 }
 
 .close-btn {
@@ -193,7 +193,7 @@
     }
 
 .msg {
-    @include b4_12px_montserrat_charcoal();
+  @include b4_12px_montserrat_semibold_charcoal();
     text-align: left;
 }
 
@@ -223,12 +223,8 @@
   }
 }
 .select-size {
-    font-size: 12px;
-    color: black;
+    @include b4_12px_montserrat_semibold_charcoal();
     text-align: left;
-    font-style: italic;
-    // font-weight: bold;
-    font-weight: 600;
 }
 
 textarea[disabled] {
