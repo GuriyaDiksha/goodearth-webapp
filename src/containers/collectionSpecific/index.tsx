@@ -1,7 +1,5 @@
 import React from "react";
 import MakerEnhance from "maker-enhance";
-import SecondaryHeader from "components/SecondaryHeader";
-import Breadcrumbs from "components/Breadcrumbs";
 import { PLPProductItem } from "src/typings/product";
 import PlpResultItem from "components/plpResultItem";
 import initActionSpecific from "./initAction";
@@ -13,7 +11,8 @@ import styles from "./styles.scss";
 import globalStyles from "styles/global.scss";
 import {
   updateCollectionSpecificBanner,
-  updateCollectionSpecificData
+  updateCollectionSpecificData,
+  updateFilteredCollectionData
 } from "actions/collection";
 import { updateComponent, updateModal } from "actions/modal";
 import { updateQuickviewId } from "actions/quickview";
@@ -44,7 +43,8 @@ const mapStateToProps = (state: AppState) => {
     location: state.router.location,
     sale: state.info.isSale,
     showTimer: state.info.showTimer,
-    filteredCollectionData: state.collection.filteredCollectionData
+    filteredCollectionData: state.collection.filteredCollectionData,
+    collectionData: state.collection.result
   };
 };
 
@@ -114,6 +114,9 @@ const mapDispatchToProps = (dispatch: Dispatch, params: any) => {
         collectionProductImpression(filterData, "CollectionSpecific", currency);
         dispatch(updateCollectionSpecificData({ ...filterData }));
       }
+    },
+    updateCollection: async (data: any) => {
+      dispatch(updateFilteredCollectionData(data));
     }
   };
 };
@@ -255,6 +258,19 @@ class CollectionSpecific extends React.Component<
   componentDidMount() {
     const that = this;
     this.pdpURL = this.props.location.pathname;
+    const vars: { tags?: string } = {};
+    const re = /[?&]+([^=&]+)=([^&]*)/gi;
+    let match: any;
+
+    while ((match = re.exec(this.props.location.search))) {
+      vars[match[1]] = match[2];
+    }
+    if (vars?.tags) {
+      this.setCollectionData(
+        vars?.tags.split("|").map(e => e.replace(/%20/g, " "))
+      );
+    }
+
     const userConsent = CookieService.getCookie("consent").split(",");
     if (userConsent.includes(GA_CALLS)) {
       dataLayer.push(function(this: any) {
@@ -407,7 +423,40 @@ class CollectionSpecific extends React.Component<
     }
   };
 
+  multipleExist = (data: string[], filter: string[]) => {
+    return filter.some(value => {
+      return data.includes(value);
+    });
+  };
+
+  setCollectionData = (newData: string[]) => {
+    const { collectionData } = this.props;
+    if (newData?.includes("All Collections")) {
+      this.props.updateCollection([...collectionData]);
+    } else {
+      this.props.updateCollection(
+        collectionData.filter(collection =>
+          this.multipleExist(collection?.tags, newData)
+        )
+      );
+    }
+  };
+
   UNSAFE_componentWillReceiveProps = (nextProps: Props) => {
+    const vars: { tags?: string } = {};
+    const vars2: { tags?: string } = {};
+
+    const re = /[?&]+([^=&]+)=([^&]*)/gi;
+    let match: any;
+
+    while ((match = re.exec(this.props.location.search))) {
+      vars[match[1]] = match[2];
+    }
+
+    while ((match = re.exec(nextProps.location.search))) {
+      vars2[match[1]] = match[2];
+    }
+
     if (this.props.currency != nextProps.currency) {
       this.props.reloadCollectioSpecificData(nextProps.currency);
       this.setState({
@@ -418,6 +467,13 @@ class CollectionSpecific extends React.Component<
       if (!this.state.scrollView) {
         this.checkForProductScroll();
       }
+    }
+
+    if (vars?.tags && vars2?.tags && vars.tags !== vars2.tags) {
+      debugger;
+      this.setCollectionData(
+        vars2?.tags.split("|").map(e => e.replace(/%20/g, " "))
+      );
     }
   };
   handleScroll = () => {
@@ -496,13 +552,9 @@ class CollectionSpecific extends React.Component<
     const indexOfCurrent = this.props?.filteredCollectionData?.findIndex(
       data => data.id === Number(this.collectionId)
     );
-    console.log(
-      "check-====",
-      this.props?.filteredCollectionData.slice(
-        indexOfCurrent ? indexOfCurrent - 1 : 0,
-        indexOfCurrent + 2
-      ),
-      indexOfCurrent
+    const sliceData = this.props?.filteredCollectionData?.slice(
+      indexOfCurrent ? indexOfCurrent - 1 : indexOfCurrent + 1,
+      indexOfCurrent + 2
     );
     return (
       <div
@@ -634,26 +686,27 @@ class CollectionSpecific extends React.Component<
           </div>
         </div>
 
-        <div className={styles.moreCollectionWrp}>
-          <h2>View More Collections</h2>
-          <div className={styles.moreCollectionImgsWrp}>
-            {this.props?.filteredCollectionData
-              ?.slice(
-                indexOfCurrent ? indexOfCurrent - 1 : 0,
-                indexOfCurrent + 2
-              )
-              ?.map((collection, i) => (
-                <PlpCollectionItem key={i} collectionData={collection} />
-              ))}
+        {sliceData?.length ? (
+          <div className={styles.moreCollectionWrp}>
+            <h2>View More Collections</h2>
+            <div className={styles.moreCollectionImgsWrp}>
+              {sliceData?.map(
+                (collection, i) =>
+                  ((sliceData.length === 3 && i !== 1) ||
+                    sliceData.length < 3) && (
+                    <PlpCollectionItem key={i} collectionData={collection} />
+                  )
+              )}
+            </div>
+            <div className={styles.btnWrp}>
+              <Button
+                label={"ALL COLLECTIONS"}
+                className={styles.button}
+                onClick={() => this.props.history.goBack()}
+              />
+            </div>
           </div>
-          <div className={styles.btnWrp}>
-            <Button
-              label={"ALL COLLECTIONS"}
-              className={styles.button}
-              onClick={() => this.props.history.goBack()}
-            />
-          </div>
-        </div>
+        ) : null}
         {specificMaker && (
           <MakerEnhance
             user="goodearth"

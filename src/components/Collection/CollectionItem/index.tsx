@@ -3,7 +3,7 @@ import styles from "./style.scss";
 import { CollectionItems } from "./typing";
 import ReactHtmlParser from "react-html-parser";
 import CollectionImageSlider from "../CollectionImageSlider";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 const CollectionItem: React.FC<CollectionItems> = ({ key, collectionData }) => {
   const {
@@ -14,12 +14,21 @@ const CollectionItem: React.FC<CollectionItems> = ({ key, collectionData }) => {
     shortDescription,
     url
   } = collectionData;
+  const { search } = useLocation();
+
+  const vars: { tags?: string } = {};
+  const re = /[?&]+([^=&]+)=([^&]*)/gi;
+  let match;
+
+  while ((match = re.exec(search))) {
+    vars[match[1]] = match[2];
+  }
 
   return (
     <div className={styles.collectionItemWrp} key={key + "collection-item"}>
       <CollectionImageSlider
         sliderImages={sliderImages}
-        url={url}
+        url={url + "?tags=" + `${vars.tags || "All Collections"}`}
         name={name}
       />
       <div className={styles.collectionItemContent}>

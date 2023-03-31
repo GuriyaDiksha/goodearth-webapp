@@ -14,42 +14,6 @@ import {
   updateTagsData
 } from "actions/collection";
 
-const arr = [
-  {
-    id: 533,
-    name: "Guzargah",
-    displayImage: "",
-    subHeader: "",
-    shortDescription:
-      "<p>A winter collection of wool and silk apparel with vibrant embroidery to brighten up the season</p>",
-    longDescription: "test long for 3rd tag",
-    categoryName: [],
-    sliderImages: [
-      "https://d3qn6cjsz7zlnp.cloudfront.net/media/images/collection/Digvijay_Philosophy26248.jpg",
-      "https://d3qn6cjsz7zlnp.cloudfront.net/media/images/collection/Digvijay_Philosophy26161.jpg"
-    ],
-    header: "",
-    url: "/collection/women_guzargah_533/",
-    tags: ["tag1", "mera tag", "Test 3", "Test 2"]
-  },
-  {
-    id: 535,
-    name: "Sindhuri",
-    displayImage: "",
-    subHeader: "",
-    shortDescription: "Short Descrition 1234",
-    longDescription: "Long Descrition 1",
-    categoryName: [],
-    sliderImages: [
-      "https://d3qn6cjsz7zlnp.cloudfront.net/media/images/collection/Sindhuri_Mens_Wear_Catalog_shoot27582.jpg",
-      "https://d3qn6cjsz7zlnp.cloudfront.net/media/images/collection/Sindhuri_Mens_Wear_Catalog_shoot27416.jpg",
-      "https://d3qn6cjsz7zlnp.cloudfront.net/media/images/collection/Sindhuri_Mens_Wear_Catalog_shoot27517.jpg"
-    ],
-    header: "",
-    url: "/collection/women_sindhuri_535/",
-    tags: ["tag2", "Test 2"]
-  }
-];
 const CollectionLanding = () => {
   const [activeFilterList, setActiveFilterList] = useState<string[]>([
     "All Collections"
@@ -75,17 +39,9 @@ const CollectionLanding = () => {
     vars[match[1]] = match[2];
   }
 
-  useEffect(() => {
-    if (vars?.tags) {
-      setActiveFilterList(
-        vars.tags.split("|").map(e => e.replace(/%20/g, " "))
-      );
-    }
-  }, [vars?.tags]);
-
   const multipleExist = (data: string[], filter: string[]) => {
     return filter.some(value => {
-      return data.includes(value);
+      return data?.includes(value);
     });
   };
 
@@ -155,19 +111,43 @@ const CollectionLanding = () => {
     }
   };
 
+  const setCollectionData = (newData: string[]) => {
+    if (newData?.includes("All Collections")) {
+      setFilteredData([...result]);
+      dispatch(updateFilteredCollectionData([...result]));
+    } else {
+      setFilteredData(
+        result.filter(collection => multipleExist(collection?.tags, newData))
+      );
+      dispatch(
+        updateFilteredCollectionData(
+          result.filter(collection => multipleExist(collection?.tags, newData))
+        )
+      );
+    }
+  };
+
   useEffect(() => {
     if (!scrollView) {
       checkForProductScroll();
     }
   }, []);
   useEffect(() => {
-    setFilteredData([...arr]);
-    dispatch(updateFilteredCollectionData([...arr]));
+    setCollectionData(activeFilterList);
   }, [result]);
 
   useEffect(() => {
     fetchData();
   }, [location?.pathname, currency]);
+
+  useEffect(() => {
+    if (vars?.tags) {
+      setActiveFilterList(
+        vars.tags.split("|").map(e => e.replace(/%20/g, " "))
+      );
+      setCollectionData(vars.tags.split("|").map(e => e.replace(/%20/g, " ")));
+    }
+  }, [vars?.tags]);
 
   // Filter Tag Functionality
   const activeFilterHandler = (ele: string) => {
@@ -188,19 +168,7 @@ const CollectionLanding = () => {
     }
 
     setActiveFilterList([...newData]);
-    if (newData?.includes("All Collections")) {
-      setFilteredData([...arr]);
-      dispatch(updateFilteredCollectionData([...arr]));
-    } else {
-      setFilteredData(
-        arr.filter(collection => multipleExist(collection?.tags, newData))
-      );
-      dispatch(
-        updateFilteredCollectionData(
-          arr.filter(collection => multipleExist(collection?.tags, newData))
-        )
-      );
-    }
+    setCollectionData([...newData]);
 
     tagUrl = tagUrl + newData.join("|");
     history.replace(url + "?" + tagUrl);
