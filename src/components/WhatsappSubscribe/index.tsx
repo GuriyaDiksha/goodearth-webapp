@@ -56,6 +56,8 @@ const WhatsappSubscribe: React.FC<Props> = ({
   const [code, setCode] = useState("");
   const [showTip, setShowTip] = useState(false);
   const [updated, setUpdated] = useState(false);
+  const [numberError, setNumberError] = useState("");
+  const [codeError, setCodeError] = useState("");
 
   useEffect(() => {
     if (data) {
@@ -73,11 +75,33 @@ const WhatsappSubscribe: React.FC<Props> = ({
   };
 
   const onPhoneChange = (e: any) => {
-    setPhone(e.target.value);
+    const value = e.target.value;
+    if (checked) {
+      if (value == "") {
+        setNumberError("Please Enter your Contact Number");
+      } else {
+        setNumberError("");
+      }
+    }
+    setPhone(value);
   };
 
   const onCodeChange = (e: any) => {
-    setCode(e.target.value);
+    const value = e.target.value;
+    if (checked) {
+      if (value == "") {
+        setCodeError("Required");
+      } else {
+        const idx = isdList.indexOf(value);
+        if (idx > -1) {
+          setCodeError("");
+          setNumberError("");
+        } else {
+          setCodeError("Enter valid code");
+        }
+      }
+    }
+    setCode(value);
   };
 
   const closePopup = () => {
@@ -104,7 +128,9 @@ const WhatsappSubscribe: React.FC<Props> = ({
   }
 
   const submitPreferenceData = () => {
-    console.log(checked, phone, code);
+    if (codeError != "" || numberError != "") {
+      return;
+    }
     const subscribe = data.subscribe,
       whatsappSubscribe = checked,
       whatsappNo = phone,
@@ -134,19 +160,14 @@ const WhatsappSubscribe: React.FC<Props> = ({
       })
       .catch((err: any) => {
         const errdata = err.response?.data;
-        console.log(errdata);
-        // Object.keys(data).map(key => {
-        //   switch (key) {
-        //     case "whatsappNo":
-        //       updateInputsWithError(
-        //         {
-        //           [key]: data[key][0]
-        //         },
-        //         true
-        //       );
-        //       break;
-        //   }
-        // });
+
+        Object.keys(errdata).map(key => {
+          switch (key) {
+            case "whatsappNo":
+              setNumberError(errdata[key][0]);
+              break;
+          }
+        });
       });
   };
 
@@ -237,6 +258,7 @@ const WhatsappSubscribe: React.FC<Props> = ({
             id={uniqueKey}
             showLabel={true}
             innerRef={codeRef}
+            error={codeError}
           />
           <div className={styles.numberInput}>
             <FormInput
@@ -255,6 +277,7 @@ const WhatsappSubscribe: React.FC<Props> = ({
               handleChange={onPhoneChange}
               showLabel={true}
               inputRef={phoneRef}
+              error={numberError}
             />
             {allowUpdate && (
               <div className={styles.updateBtn} onClick={submitPreferenceData}>

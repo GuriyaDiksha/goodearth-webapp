@@ -42,7 +42,7 @@
         cursor: pointer;
         display: inline;
         position: absolute;
-        top: 50%;
+        top: 25px;
         right: 10px;
         transform: translateY(-50%);
     }
@@ -62,6 +62,9 @@
     &.manage-msg{
         padding-left: 30px;
         top: -18px;
+        .text{
+            margin-left: 0px;
+        }
     }
     img {
         height: 16px;

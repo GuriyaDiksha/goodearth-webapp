@@ -619,22 +619,33 @@
   }
 }
 
-.checkbox-label{
-  @include b5_10px_montserrat_charcoal();
-  line-height: 22px;
-  letter-spacing: 0.3px;
-  text-align: left;
-  margin-bottom: 10px;
-  left: 0;
-  padding: 0px;
-  img{
-      height: 12px;
-      margin-left: 5px;
-  }
-}
 .whatsapp{
   margin-bottom: 25px;
   .country-code{
       margin: 15px 0px;
+  }
+}
+.login-form{
+  .categorylabel{
+    .whatsapp{
+      margin-bottom: 25px;
+      .country-code{
+          margin: 15px 0px;
+      }
+      .checkbox-label{
+        @include b5_10px_montserrat_charcoal();
+        line-height: 22px;
+        letter-spacing: 0.3px;
+        text-align: left;
+        margin-bottom: 10px;
+        left: 0;
+        padding: 0px;
+        padding-left: 30px;
+        img{
+            height: 12px;
+            margin-left: 5px;
+        }
+      }
+    }
   }
 }

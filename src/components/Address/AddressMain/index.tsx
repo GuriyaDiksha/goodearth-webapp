@@ -333,6 +333,7 @@ const AddressMain: React.FC<Props> = props => {
                       showPhone={true}
                       whatsappClass={styles.whatsapp}
                       countryCodeClass={styles.countryCode}
+                      checkboxLabelClass={styles.checkboxLabel}
                       allowUpdate={true}
                       uniqueKey={makeid(5)}
                     />
