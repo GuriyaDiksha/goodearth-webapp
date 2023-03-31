@@ -25,6 +25,7 @@ import LoginService from "services/login";
 import { updateCountryData } from "actions/address";
 import WhatsappSubscribe from "components/WhatsappSubscribe";
 import Formsy from "formsy-react";
+import { makeid } from "utils/utility";
 
 const PaymentSection: React.FC<PaymentProps> = props => {
   const data: any = {};
@@ -545,9 +546,10 @@ const PaymentSection: React.FC<PaymentProps> = props => {
                     showTooltip={true}
                     showManageMsg={true}
                     showPhone={true}
-                    showPopupMsg={true}
                     whatsappClass={styles.whatsapp}
                     countryCodeClass={styles.countryCode}
+                    allowUpdate={true}
+                    uniqueKey={makeid(5)}
                   />
                 </div>
               </Formsy>

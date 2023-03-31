@@ -29,6 +29,7 @@ import { GA_CALLS, ANY_ADS } from "constants/cookieConsent";
 import CountryCode from "components/Formsy/CountryCode";
 import FormContainer from "../formContainer";
 import WhatsappSubscribe from "components/WhatsappSubscribe";
+import { makeid } from "utils/utility";
 
 const mapStateToProps = (state: AppState) => {
   const isdList = state.address.countryData.map(list => {
@@ -1100,12 +1101,14 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
           </div>
           <div className={styles.subscribe}>
             <WhatsappSubscribe
+              key="wa-register"
               innerRef={this.whatsappCheckRef}
               showTermsMessage={false}
               showManageMsg={true}
               showPhone={false}
               showTooltip={true}
               onlyCheckbox={true}
+              uniqueKey={makeid(5)}
             />
           </div>
           <div className={styles.subscribe}>
