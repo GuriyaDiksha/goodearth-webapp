@@ -35,6 +35,7 @@ export type registerState = {
   isIndia: boolean;
   showEmailVerification: boolean;
   email: string;
+  showTip: boolean;
 };
 
 export type RegisterProps = {
