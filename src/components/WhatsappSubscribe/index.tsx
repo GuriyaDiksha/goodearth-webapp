@@ -11,6 +11,9 @@ import tooltipOpenIcon from "images/tooltip-open.svg";
 import cs from "classnames";
 import { updateComponent, updateModal } from "actions/modal";
 import { POPUP } from "constants/components";
+import AccountService from "services/account";
+import { updatePreferenceData } from "actions/user";
+import { showGrowlMessage } from "utils/validate";
 
 type Props = {
   innerRef: any;
@@ -22,11 +25,12 @@ type Props = {
   showTooltip?: boolean;
   showManageMsg?: boolean;
   isdList?: any;
-  showPopupMsg?: boolean;
   whatsappClass?: string;
   countryCodeClass?: string;
   checkboxLabelClass?: string;
   onlyCheckbox?: boolean;
+  allowUpdate?: boolean;
+  uniqueKey: string;
 };
 
 const WhatsappSubscribe: React.FC<Props> = ({
@@ -37,25 +41,32 @@ const WhatsappSubscribe: React.FC<Props> = ({
   showManageMsg = false,
   isdList,
   showTooltip = false,
-  showPopupMsg = false,
   codeRef,
   phoneRef,
   whatsappClass,
   countryCodeClass,
   checkboxLabelClass,
-  onlyCheckbox = false
+  onlyCheckbox = false,
+  allowUpdate = false,
+  uniqueKey
 }) => {
   const dispatch = useDispatch();
   const [checked, setChecked] = useState(false);
   const [phone, setPhone] = useState("");
   const [code, setCode] = useState("");
   const [showTip, setShowTip] = useState(false);
+  const [updated, setUpdated] = useState(false);
+  const [numberError, setNumberError] = useState("");
+  const [codeError, setCodeError] = useState("");
 
   useEffect(() => {
     if (data) {
       setChecked(data.whatsappSubscribe);
       setCode(data.whatsappNoCountryCode);
       setPhone(data.whatsappNo);
+      if (!data.whatsappSubscribe) {
+        setUpdated(false);
+      }
     }
   }, [data]);
 
@@ -64,11 +75,33 @@ const WhatsappSubscribe: React.FC<Props> = ({
   };
 
   const onPhoneChange = (e: any) => {
-    setPhone(e.target.value);
+    const value = e.target.value;
+    if (checked) {
+      if (value == "") {
+        setNumberError("Please Enter your Contact Number");
+      } else {
+        setNumberError("");
+      }
+    }
+    setPhone(value);
   };
 
   const onCodeChange = (e: any) => {
-    setCode(e.target.value);
+    const value = e.target.value;
+    if (checked) {
+      if (value == "") {
+        setCodeError("Required");
+      } else {
+        const idx = isdList.indexOf(value);
+        if (idx > -1) {
+          setCodeError("");
+          setNumberError("");
+        } else {
+          setCodeError("Enter valid code");
+        }
+      }
+    }
+    setCode(value);
   };
 
   const closePopup = () => {
@@ -94,37 +127,83 @@ const WhatsappSubscribe: React.FC<Props> = ({
     labelElements.push(<img key="3" src={waIcon} />);
   }
 
-  //If data already filled and popup msg needs to show
-  if (showPopupMsg && data.whatsappSubscribe) {
-    return (
-      <div className={styles.showPopupMsg}>
-        <img src={waIcon} />
-        <div className={styles.text}>
-          <div className={styles.info}>
-            Whatsapp updates will be sent on {data.whatsappNoCountryCode}{" "}
-            {data.whatsappNo}.
-          </div>
-          <div className={styles.cta}>
-            <a onClick={openPopup}>Click here</a> to update this number or
-            unsubscribe.
+  const submitPreferenceData = () => {
+    if (codeError != "" || numberError != "") {
+      return;
+    }
+    const subscribe = data.subscribe,
+      whatsappSubscribe = checked,
+      whatsappNo = phone,
+      whatsappNoCountryCode = code;
+
+    let formdata = {
+      subscribe: subscribe,
+      whatsappNo: whatsappNo,
+      whatsappNoCountryCode: whatsappNoCountryCode,
+      whatsappSubscribe: whatsappSubscribe
+    };
+
+    if (!whatsappSubscribe) {
+      formdata = {
+        subscribe: subscribe,
+        whatsappNo: data.whatsappNo,
+        whatsappNoCountryCode: data.whatsappNoCountryCode,
+        whatsappSubscribe: whatsappSubscribe
+      };
+    }
+
+    AccountService.updateAccountPreferences(dispatch, formdata)
+      .then((res: any) => {
+        setUpdated(true);
+        dispatch(updatePreferenceData(res));
+        showGrowlMessage(dispatch, "Your preferences have been updated!", 5000);
+      })
+      .catch((err: any) => {
+        const errdata = err.response?.data;
+
+        Object.keys(errdata).map(key => {
+          switch (key) {
+            case "whatsappNo":
+              setNumberError(errdata[key][0]);
+              break;
+          }
+        });
+      });
+  };
+
+  //If update from component is allowed but user already subscribed
+  if (allowUpdate && !updated) {
+    if (data.whatsappSubscribe) {
+      return (
+        <div className={styles.showPopupMsg} key={uniqueKey}>
+          <img src={waIcon} />
+          <div className={styles.text}>
+            <div className={styles.info}>
+              Whatsapp updates will be sent on {data.whatsappNoCountryCode}{" "}
+              {data.whatsappNo}.
+            </div>
+            <div className={styles.cta}>
+              <a onClick={openPopup}>Click here</a> to update this number or
+              unsubscribe.
+            </div>
           </div>
         </div>
-      </div>
-    );
+      );
+    }
   }
 
   //all other cases
   return (
-    <div className={cs(styles.whatsapp, whatsappClass)}>
+    <div className={cs(styles.whatsapp, whatsappClass)} key={uniqueKey}>
       <div
         className={cs({
           [styles.flexForTooltip]: showTooltip
         })}
       >
         <FormCheckbox
-          id="whatsappSubscribe"
+          id={uniqueKey}
           name="whatsappSubscribe"
-          disable={false}
+          disable={allowUpdate && updated}
           label={labelElements}
           value={checked}
           labelClassName={checkboxLabelClass}
@@ -146,12 +225,26 @@ const WhatsappSubscribe: React.FC<Props> = ({
           </div>
         )}
       </div>
-      {showManageMsg && checked && (
+      {showManageMsg && checked && !updated && (
         <div className={styles.manageMsg}>
           Manage your preference from My Preference section under Profile
         </div>
       )}
-      {!onlyCheckbox && (
+      {allowUpdate && updated && (
+        <div className={cs(styles.showPopupMsg, styles.manageMsg)}>
+          <div className={styles.text}>
+            <div className={styles.info}>
+              Whatsapp updates will be sent on {data.whatsappNoCountryCode}{" "}
+              {data.whatsappNo}.
+            </div>
+            <div className={styles.cta}>
+              <a onClick={openPopup}>Click here</a> to update this number or
+              unsubscribe.
+            </div>
+          </div>
+        </div>
+      )}
+      {!onlyCheckbox && !updated && (
         <div
           className={countryCodeClass}
           style={!(checked && showPhone) ? { display: "none" } : {}}
@@ -162,27 +255,36 @@ const WhatsappSubscribe: React.FC<Props> = ({
             label="Country Code"
             value={code}
             handleChange={onCodeChange}
-            id="isdcode"
+            id={uniqueKey}
             showLabel={true}
             innerRef={codeRef}
+            error={codeError}
           />
-          <FormInput
-            name="whatsappNo"
-            value={phone}
-            placeholder={"Contact Number"}
-            type="number"
-            label={"Contact Number"}
-            keyPress={e => (e.key == "Enter" ? e.preventDefault() : "")}
-            keyDown={e => (e.which === 69 ? e.preventDefault() : null)}
-            onPaste={e =>
-              e?.clipboardData.getData("Text").match(/([e|E])/)
-                ? e.preventDefault()
-                : null
-            }
-            handleChange={onPhoneChange}
-            showLabel={true}
-            inputRef={phoneRef}
-          />
+          <div className={styles.numberInput}>
+            <FormInput
+              name="whatsappNo"
+              value={phone}
+              placeholder={"Contact Number"}
+              type="number"
+              label={"Contact Number"}
+              keyPress={e => (e.key == "Enter" ? e.preventDefault() : "")}
+              keyDown={e => (e.which === 69 ? e.preventDefault() : null)}
+              onPaste={e =>
+                e?.clipboardData.getData("Text").match(/([e|E])/)
+                  ? e.preventDefault()
+                  : null
+              }
+              handleChange={onPhoneChange}
+              showLabel={true}
+              inputRef={phoneRef}
+              error={numberError}
+            />
+            {allowUpdate && (
+              <div className={styles.updateBtn} onClick={submitPreferenceData}>
+                Update
+              </div>
+            )}
+          </div>
         </div>
       )}
       {showTermsMessage &&

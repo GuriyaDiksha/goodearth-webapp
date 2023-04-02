@@ -10,6 +10,7 @@ import { showGrowlMessage } from "utils/validate";
 import { updatePreferenceData } from "actions/user";
 import cs from "classnames";
 import { updateModal } from "actions/modal";
+import { makeid } from "utils/utility";
 type Props = {
   data: any;
   isdList: any;
@@ -144,6 +145,7 @@ const WhatsappPopup: React.FC<Props> = props => {
               }}
             >
               <WhatsappSubscribe
+                uniqueKey={makeid(5)}
                 data={props.data}
                 innerRef={whatsappSubscribeRef}
                 isdList={props.isdList}

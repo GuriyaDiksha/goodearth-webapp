@@ -12,7 +12,6 @@ import MyAddress from "containers/myAccount/components/MyAddress";
 import { AddressContext } from "./context";
 import { Props, AddressModes } from "../typings";
 import AddressService from "services/address";
-import AccountService from "services/account";
 // import { updatePinCodeList } from "actions/address";
 import Loader from "components/Loader";
 import AddressSection from "containers/checkout/component/address";
@@ -28,8 +27,8 @@ import CookieService from "services/cookie";
 import { GA_CALLS } from "constants/cookieConsent";
 import styles from "../styles.scss";
 import WhatsappSubscribe from "components/WhatsappSubscribe";
-import { updatePreferenceData } from "actions/user";
 import Formsy from "formsy-react";
+import { makeid } from "utils/utility";
 // import AddressDataList from "../../../../components/Address/AddressDataList.json";
 
 // import AddressMainComponent from '../../components/common/address/addressMain';
@@ -327,16 +326,16 @@ const AddressMain: React.FC<Props> = props => {
                     <WhatsappSubscribe
                       data={user.preferenceData}
                       innerRef={props.innerRef}
-                      phoneRef={props.phoneRef}
-                      codeRef={props.codeRef}
                       isdList={isdList}
                       showTermsMessage={false}
                       showTooltip={true}
                       showManageMsg={true}
                       showPhone={true}
-                      showPopupMsg={true}
                       whatsappClass={styles.whatsapp}
                       countryCodeClass={styles.countryCode}
+                      checkboxLabelClass={styles.checkboxLabel}
+                      allowUpdate={true}
+                      uniqueKey={makeid(5)}
                     />
                   </div>
                 </div>

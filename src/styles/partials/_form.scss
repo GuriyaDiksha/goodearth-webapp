@@ -443,6 +443,9 @@ input[type="checkbox"]:checked + label {
 .login-form {
   div.categorylabel > div {
     &.subscribe{
+      &.tooltip{
+        display: flex;
+      }
       label{
         img {
           height: 12px;
