@@ -56,8 +56,6 @@ const Bridal: React.FC<Props> = props => {
   const { currency, user } = useSelector((state: AppState) => state);
   const dispatch = useDispatch();
   const whatsappRef = useRef<HTMLInputElement>(null);
-  const codeRef = useRef<HTMLInputElement>(null);
-  const phoneRef = useRef<HTMLInputElement>(null);
   const getBridalProfileData = async () => {
     const data = await BridalService.fetchBridalProfile(
       dispatch,
@@ -249,34 +247,12 @@ const Bridal: React.FC<Props> = props => {
 
   const createRegistry = () => {
     const { userAddress, ...rest } = bridalDetails;
-    const waCheck = whatsappRef.current
-      ? whatsappRef.current.checked
-      : user.preferenceData.whatsappSubscribe;
-    const waNo = phoneRef.current
-      ? phoneRef.current.value
-      : user.preferenceData.whatsappNo;
-    const temp: any = codeRef.current;
-    const waCode = temp
-      ? temp.input.value
-      : user.preferenceData.whatsappNoCountryCode;
-
-    const preferenceData = {
-      whatsappSubscribe: waCheck,
-      whatsappNo: waNo,
-      whatsappNoCountryCode: waCode
-    };
     if (userAddress) {
       const formData = {
         userAddressId: userAddress.id,
         ...rest,
         currency,
-        actionType: "create",
-        ...preferenceData
-      };
-
-      const userPreferenceObject = {
-        ...preferenceData,
-        subscribe: user.preferenceData.subscribe
+        actionType: "create"
       };
 
       setLastScreen("start");
@@ -286,8 +262,7 @@ const Bridal: React.FC<Props> = props => {
             window.removeEventListener("beforeunload", confirmPopup);
             const updatedUser = Object.assign({}, user, {
               bridalId: data.bridalId,
-              bridalCurrency: currency,
-              preferenceData: userPreferenceObject
+              bridalCurrency: currency
             });
             const userConsent = CookieService.getCookie("consent").split(",");
             if (userConsent.includes(GA_CALLS)) {
@@ -345,8 +320,6 @@ const Bridal: React.FC<Props> = props => {
             addresses={[]}
             createRegistry={createRegistry}
             innerRef={whatsappRef}
-            codeRef={codeRef}
-            phoneRef={phoneRef}
           />
         );
       case "created":

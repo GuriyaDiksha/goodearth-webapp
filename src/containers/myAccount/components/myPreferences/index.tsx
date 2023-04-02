@@ -13,6 +13,7 @@ import { updateCountryData } from "actions/address";
 import { AppState } from "reducers/typings";
 import { showGrowlMessage } from "utils/validate";
 import { updatePreferenceData } from "actions/user";
+import { makeid } from "utils/utility";
 
 const MyPreferences = () => {
   const { countryData } = useSelector((state: AppState) => state.address);
@@ -166,6 +167,7 @@ const MyPreferences = () => {
             whatsappClass={styles.whatsapp}
             countryCodeClass={styles.countryCode}
             checkboxLabelClass={styles.checkboxLabel}
+            uniqueKey={makeid(5)}
           />
           <div className={styles.newsletters}>
             <FormCheckbox
@@ -176,9 +178,9 @@ const MyPreferences = () => {
               value={subscribe}
               labelClassName={styles.checkboxLabel}
             />
-            By checking this, you agree to receiving Whatsapp messages for order
-            & profile related information. To know more how we keep your data
-            safe, refer to our &nbsp;
+            By checking this, you agree to receiving e-mails, newsletters, calls
+            and text messages for service related information. To know more how
+            we keep your data safe, refer to our &nbsp;
             <Link
               key="privacy"
               to="/customer-assistance/privacy-policy"

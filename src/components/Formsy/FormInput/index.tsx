@@ -117,6 +117,8 @@ const FormInput: React.FC<Props & InjectedProps<string | null>> = props => {
     ? props.errorMessage
     : !props.isPristine && !props.isValid
     ? getRequiredErrorMessage(props.name)
+    : props.error
+    ? props.error
     : "";
 
   return (
