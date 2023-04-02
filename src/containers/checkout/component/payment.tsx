@@ -209,6 +209,11 @@ const PaymentSection: React.FC<PaymentProps> = props => {
 
     if (countryData.length == 0) {
       fetchCountryData();
+    } else {
+      const isdList = countryData.map(list => {
+        return list.isdCode;
+      });
+      setIsdList(isdList);
     }
   }, []);
 
