@@ -10,6 +10,7 @@ import { showGrowlMessage } from "utils/validate";
 import { updatePreferenceData } from "actions/user";
 import cs from "classnames";
 import { updateModal } from "actions/modal";
+import { makeid } from "utils/utility";
 type Props = {
   data: any;
   isdList: any;
@@ -28,12 +29,21 @@ const WhatsappPopup: React.FC<Props> = props => {
   const onSubmit = (model: any, resetForm: any, updateInputsWithError: any) => {
     const { whatsappSubscribe, whatsappNo, whatsappNoCountryCode } = model;
 
-    const formdata = {
+    let formdata = {
       subscribe: props.data.subscribe,
       whatsappNo: whatsappNo,
       whatsappNoCountryCode: whatsappNoCountryCode,
       whatsappSubscribe: whatsappSubscribe
     };
+
+    if (!whatsappSubscribe) {
+      formdata = {
+        subscribe: props.data.subscribe,
+        whatsappNo: props.data.whatsappNo,
+        whatsappNoCountryCode: props.data.whatsappNoCountryCode,
+        whatsappSubscribe: whatsappSubscribe
+      };
+    }
 
     AccountService.updateAccountPreferences(dispatch, formdata)
       .then((res: any) => {
@@ -135,6 +145,7 @@ const WhatsappPopup: React.FC<Props> = props => {
               }}
             >
               <WhatsappSubscribe
+                uniqueKey={makeid(5)}
                 data={props.data}
                 innerRef={whatsappSubscribeRef}
                 isdList={props.isdList}

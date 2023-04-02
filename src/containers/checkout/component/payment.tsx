@@ -25,6 +25,7 @@ import LoginService from "services/login";
 import { updateCountryData } from "actions/address";
 import WhatsappSubscribe from "components/WhatsappSubscribe";
 import Formsy from "formsy-react";
+import { makeid } from "utils/utility";
 
 const PaymentSection: React.FC<PaymentProps> = props => {
   const data: any = {};
@@ -153,20 +154,6 @@ const PaymentSection: React.FC<PaymentProps> = props => {
         );
         return false;
       }
-
-      const temp: any = whatsappCountryCodeRef.current;
-      temp ? temp.input.value : preferenceData.whatsappNoCountryCode;
-      data["whatsappSubscribe"] = whatsappCheckRef.current
-        ? whatsappCheckRef.current.checked
-        : preferenceData.whatsappSubscribe;
-
-      data["whatsappNo"] = whatsappNoRef.current
-        ? whatsappNoRef.current.value
-        : preferenceData.whatsappNo;
-
-      data["whatsappNoCountryCode"] = temp
-        ? temp.input.value
-        : preferenceData.whatsappNoCountryCode;
 
       setIsLoading(true);
       const paymentMode: string[] = [];
@@ -559,9 +546,11 @@ const PaymentSection: React.FC<PaymentProps> = props => {
                     showTooltip={true}
                     showManageMsg={true}
                     showPhone={true}
-                    showPopupMsg={true}
                     whatsappClass={styles.whatsapp}
                     countryCodeClass={styles.countryCode}
+                    checkboxLabelClass={styles.checkboxLabel}
+                    allowUpdate={true}
+                    uniqueKey={makeid(5)}
                   />
                 </div>
               </Formsy>

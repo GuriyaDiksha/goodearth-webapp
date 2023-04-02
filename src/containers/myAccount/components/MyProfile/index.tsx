@@ -22,6 +22,7 @@ import LoginService from "services/login";
 import { updateCountryData } from "actions/address";
 import WhatsappSubscribe from "components/WhatsappSubscribe";
 import { updatePreferenceData } from "actions/user";
+import { makeid } from "utils/utility";
 
 const MyProfile: React.FC<ProfileProps> = ({ setCurrentSection }) => {
   const {
@@ -583,6 +584,7 @@ const MyProfile: React.FC<ProfileProps> = ({ setCurrentSection }) => {
             {
               <div className={styles.subscribe}>
                 <WhatsappSubscribe
+                  uniqueKey={makeid(5)}
                   innerRef={whatsappSubscribeRef}
                   showTermsMessage={false}
                   showManageMsg={true}
