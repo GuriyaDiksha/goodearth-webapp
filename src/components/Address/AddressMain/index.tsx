@@ -29,6 +29,7 @@ import styles from "../styles.scss";
 import WhatsappSubscribe from "components/WhatsappSubscribe";
 import Formsy from "formsy-react";
 import { makeid } from "utils/utility";
+import { CONFIG } from "constants/util";
 // import AddressDataList from "../../../../components/Address/AddressDataList.json";
 
 // import AddressMainComponent from '../../components/common/address/addressMain';
@@ -318,30 +319,31 @@ const AddressMain: React.FC<Props> = props => {
             )}
           />
 
-          {currentCallBackComponent == "bridal" && (
-            <div className={styles.loginForm}>
-              <Formsy>
-                <div className={styles.categorylabel}>
-                  <div className={styles.subscribe}>
-                    <WhatsappSubscribe
-                      data={user.preferenceData}
-                      innerRef={props.innerRef}
-                      isdList={isdList}
-                      showTermsMessage={false}
-                      showTooltip={true}
-                      showManageMsg={true}
-                      showPhone={true}
-                      whatsappClass={styles.whatsapp}
-                      countryCodeClass={styles.countryCode}
-                      checkboxLabelClass={styles.checkboxLabel}
-                      allowUpdate={true}
-                      uniqueKey={makeid(5)}
-                    />
+          {currentCallBackComponent == "bridal" &&
+            CONFIG.WHATSAPP_SUBSCRIBE_ENABLED && (
+              <div className={styles.loginForm}>
+                <Formsy>
+                  <div className={styles.categorylabel}>
+                    <div className={styles.subscribe}>
+                      <WhatsappSubscribe
+                        data={user.preferenceData}
+                        innerRef={props.innerRef}
+                        isdList={isdList}
+                        showTermsMessage={false}
+                        showTooltip={true}
+                        showManageMsg={true}
+                        showPhone={true}
+                        whatsappClass={styles.whatsapp}
+                        countryCodeClass={styles.countryCode}
+                        checkboxLabelClass={styles.checkboxLabel}
+                        allowUpdate={true}
+                        uniqueKey={makeid(5)}
+                      />
+                    </div>
                   </div>
-                </div>
-              </Formsy>
-            </div>
-          )}
+                </Formsy>
+              </div>
+            )}
 
           {!showDefaultAddressOnly &&
             (currentCallBackComponent == "account" ||
