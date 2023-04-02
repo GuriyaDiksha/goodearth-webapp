@@ -29,6 +29,7 @@ import TrackOrder from "./components/TrackOrder";
 import AccountServices from "services/account";
 import CeriseClubMain from "./components/CeriseClub/ceriseClubMain";
 import profileIcon from "../../images/dock_profile.svg";
+import { CONFIG } from "constants/util";
 
 type Props = {
   isBridal: boolean;
@@ -246,15 +247,18 @@ const MyAccount: React.FC<Props> = props => {
       component: CheckBalance,
       title: "Check Balance",
       loggedInOnly: false
-    },
-    {
+    }
+  );
+
+  if (CONFIG.WHATSAPP_SUBSCRIBE_ENABLED) {
+    accountMenuItems.push({
       label: "My Preferences",
       href: "/account/my-preferences",
       component: MyPreferences,
       title: "My Preferences",
       loggedInOnly: true
-    }
-  );
+    });
+  }
 
   useEffect(() => {
     window.scrollTo(0, 0);
