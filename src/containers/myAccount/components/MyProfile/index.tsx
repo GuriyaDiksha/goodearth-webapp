@@ -23,6 +23,7 @@ import { updateCountryData } from "actions/address";
 import WhatsappSubscribe from "components/WhatsappSubscribe";
 import { updatePreferenceData } from "actions/user";
 import { makeid } from "utils/utility";
+import { CONFIG } from "constants/util";
 
 const MyProfile: React.FC<ProfileProps> = ({ setCurrentSection }) => {
   const {
@@ -581,7 +582,7 @@ const MyProfile: React.FC<ProfileProps> = ({ setCurrentSection }) => {
                 defaultClass={styles.inputDefault}
               />
             </div>
-            {
+            {CONFIG.WHATSAPP_SUBSCRIBE_ENABLED && (
               <div className={styles.subscribe}>
                 <WhatsappSubscribe
                   uniqueKey={makeid(5)}
@@ -593,7 +594,7 @@ const MyProfile: React.FC<ProfileProps> = ({ setCurrentSection }) => {
                   onlyCheckbox={true}
                 />
               </div>
-            }
+            )}
             <div className={styles.subscribe}>
               <FormCheckbox
                 value={data?.subscribe || false}

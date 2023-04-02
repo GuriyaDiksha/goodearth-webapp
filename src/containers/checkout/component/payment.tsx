@@ -26,6 +26,7 @@ import { updateCountryData } from "actions/address";
 import WhatsappSubscribe from "components/WhatsappSubscribe";
 import Formsy from "formsy-react";
 import { makeid } from "utils/utility";
+import { CONFIG } from "constants/util";
 
 const PaymentSection: React.FC<PaymentProps> = props => {
   const data: any = {};
@@ -540,26 +541,28 @@ const PaymentSection: React.FC<PaymentProps> = props => {
           </div>
           <div>
             <hr className={styles.hr} />
-            <div className={styles.loginForm}>
-              <Formsy>
-                <div className={styles.categorylabel}>
-                  <WhatsappSubscribe
-                    data={preferenceData}
-                    innerRef={whatsappCheckRef}
-                    isdList={isdList}
-                    showTermsMessage={false}
-                    showTooltip={true}
-                    showManageMsg={true}
-                    showPhone={true}
-                    whatsappClass={styles.whatsapp}
-                    countryCodeClass={styles.countryCode}
-                    checkboxLabelClass={styles.checkboxLabel}
-                    allowUpdate={true}
-                    uniqueKey={makeid(5)}
-                  />
-                </div>
-              </Formsy>
-            </div>
+            {CONFIG.WHATSAPP_SUBSCRIBE_ENABLED && (
+              <div className={styles.loginForm}>
+                <Formsy>
+                  <div className={styles.categorylabel}>
+                    <WhatsappSubscribe
+                      data={preferenceData}
+                      innerRef={whatsappCheckRef}
+                      isdList={isdList}
+                      showTermsMessage={false}
+                      showTooltip={true}
+                      showManageMsg={true}
+                      showPhone={true}
+                      whatsappClass={styles.whatsapp}
+                      countryCodeClass={styles.countryCode}
+                      checkboxLabelClass={styles.checkboxLabel}
+                      allowUpdate={true}
+                      uniqueKey={makeid(5)}
+                    />
+                  </div>
+                </Formsy>
+              </div>
+            )}
           </div>
           <label
             className={cs(
