@@ -108,6 +108,14 @@ const CountryCode: React.FC<Props & InjectedProps<string | null>> = props => {
     name: props.name
   };
 
+  const errorMessage = props.disable
+    ? ""
+    : props.error
+    ? props.error
+    : props.errorMessage
+    ? props.errorMessage
+    : "";
+
   return (
     <div
       onBlur={e => handleClickBlur(e)}
@@ -140,9 +148,7 @@ const CountryCode: React.FC<Props & InjectedProps<string | null>> = props => {
       >
         {props.label}
       </label>
-      {props.errorMessage && (
-        <p className={styles.errorMsg}>{props.errorMessage}</p>
-      )}
+      {errorMessage && <p className={styles.errorMsg}>{errorMessage}</p>}
       {props.value?.length > 0 ? (
         <span
           className={
