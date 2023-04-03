@@ -1,6 +1,9 @@
 @import "../../styles/partials/variables";
 @import "../../styles/partials/mixins";
 
+.main-footer-container{
+  max-width: 100%;
+}
 
 .footer-top {
   background-size: cover;
@@ -919,6 +922,12 @@
   padding-left: 3%;
   padding-right: 3%;
 }
+
+.footer-columns-container{
+  max-width: 120rem;
+  margin: 0 auto;
+}
+
 .ftrHeadingWhite2 {
   color: #fff;
 }

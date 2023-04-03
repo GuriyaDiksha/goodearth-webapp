@@ -338,7 +338,11 @@ class Footer extends React.Component<Props, FooterState> {
 
     return (
       <div
-        className={cs(bootstrap.containerFluid, globalStyles.minimumWidth)}
+        className={cs(
+          bootstrap.containerFluid,
+          globalStyles.minimumWidth,
+          styles.mainFooterContainer
+        )}
         ref={ele => (this.container = ele)}
       >
         <div id="footer-start" className={bootstrap.row}>
@@ -630,7 +634,13 @@ class Footer extends React.Component<Props, FooterState> {
                           )
                     }
                   >
-                    <div className={cs(bootstrap.row, styles.px3)}>
+                    <div
+                      className={cs(
+                        bootstrap.row,
+                        styles.px3,
+                        styles.footerColumnsContainer
+                      )}
+                    >
                       <div
                         className={cs(bootstrap.colMd3, bootstrap.px2)}
                         key={"first-column"}
