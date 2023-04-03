@@ -1118,11 +1118,7 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
                 <img
                   src={this.state.showTip ? tooltipOpenIcon : tooltipIcon}
                   onClick={() => {
-                    this.setState(prevState => {
-                      return {
-                        showTip: prevState.showTip
-                      };
-                    });
+                    this.setState({ showTip: !this.state.showTip });
                   }}
                 />
                 <div
