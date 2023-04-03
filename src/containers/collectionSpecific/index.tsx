@@ -549,6 +549,7 @@ class CollectionSpecific extends React.Component<
     const { breadcrumbs, longDescription, results } = collectionSpecificData;
     const { widgetImages, description } = collectionSpecficBanner;
     const { specificMaker } = this.state;
+    const tags = ["tag1", "tag 2", "test tag 3"];
     const indexOfCurrent = this.props?.filteredCollectionData?.findIndex(
       data => data.id === Number(this.collectionId)
     );
@@ -587,6 +588,7 @@ class CollectionSpecific extends React.Component<
                       key="mobile-collectionspecific-banner"
                       src={widget.image}
                       className={globalStyles.imgResponsive}
+                      alt="Collection Widget"
                     />
                   );
                 } else if (!mobile && widget.imageType == 1) {
@@ -595,13 +597,18 @@ class CollectionSpecific extends React.Component<
                       key="desktop-collectionspecific-banner"
                       src={widget.image}
                       className={globalStyles.imgResponsive}
+                      alt="Collection Banner"
                     />
                   );
                 }
               })}
             </div>
             <div className={bootstrap.col12}>
-              <img src={banner} className={globalStyles.imgResize} />
+              <img
+                src={banner}
+                className={globalStyles.imgResize}
+                alt="Collection Image"
+              />
             </div>
           </div>
         </section>
@@ -614,7 +621,13 @@ class CollectionSpecific extends React.Component<
           &lt; BACK TO ALL COLLECTIONS
         </div>
 
-        <p className={styles.tag}>Fine Bone China</p>
+        <div className={styles.tagWrp}>
+          {tags?.map((tag: string, i: number) => (
+            <p key={i} className={styles.tag}>
+              {tag}
+            </p>
+          ))}
+        </div>
         <div className={cs(bootstrap.row, styles.padding)} id="collection_desc">
           <div
             className={cs(

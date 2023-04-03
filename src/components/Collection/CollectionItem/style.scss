@@ -22,11 +22,12 @@
       gap: 5px;
 
       .tag{
-        padding: 4px;
+        padding: 4px 6px;
         border: 1px solid $aqua;
         width: fit-content;
         text-align: center;
         @include b5_10px_montserrat_aqua();
+        text-transform: capitalize;
       }
     }
 

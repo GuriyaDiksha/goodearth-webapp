@@ -2,7 +2,7 @@
 @import "../../../styles/partials/mixins";
 
 .collection-filter-page {
-  padding: 23px;
+  padding: 23px 0;
   box-shadow: 0px 3px 6px #0000000A;
   position: fixed;
   width: 100%;
@@ -19,9 +19,11 @@
     gap: 15px;
     align-items: center;
     justify-content: center;
+    padding: 0 23px;
 
     @media screen and (max-width:992px) {
-      overflow-y: auto;
+      overflow-x: auto;
+      justify-content: start;
 
       &::-webkit-scrollbar {
         display: none;
@@ -31,6 +33,7 @@
 
     .collection-filter {
       @include b4_12px_montserrat_light_charcoal();
+      text-transform: capitalize;
       padding: 10px 21px;
       border-radius: 22px;
       background-color: $very-light-grey;
@@ -39,6 +42,7 @@
       display: flex;
       gap: 10px;
       justify-content: space-between;
+      white-space: nowrap;
 
       &:hover{
         color:#fff;
@@ -50,6 +54,12 @@
         background-color: $aqua;
       }
 
+      .iconCross{
+        line-height: 1;
+        font-size: 9px;
+        color: #fff;
+        font-weight: 700;
+      }
     }
   }
 }
