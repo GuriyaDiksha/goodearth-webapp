@@ -55,7 +55,7 @@
 
 .enquire-error {
     @include b5_10px_montserrat_charcoal();
-    margin-bottom: 10px;
+    margin-bottom: 20px;
     text-align: left;
 }
 
@@ -212,7 +212,6 @@
     border: 1px solid #eee;
     width: 100%;
     padding: 10px;
-    font-size: 14px;
     line-height: 25px;
     -webkit-appearance: none;
     -moz-appearance: none;
@@ -220,6 +219,7 @@
     border-radius: 0;
     text-align: start;
     min-height: 50px;
+    @include b4_12px_montserrat_charcoal();
   }
 }
 .select-size {
