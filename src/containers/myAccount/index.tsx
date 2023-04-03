@@ -538,6 +538,7 @@ const MyAccount: React.FC<Props> = props => {
                     </Route>
                   );
                 } else {
+                  console.log(href, title);
                   return (
                     <Route key={label} exact path={href}>
                       <div className={bgClass}>
@@ -564,9 +565,9 @@ const MyAccount: React.FC<Props> = props => {
                               />
                             ) : (
                               <Component
-                                setCurrentSection={() =>
-                                  setCurrentSection(title)
-                                }
+                                setCurrentSection={() => {
+                                  setCurrentSection(title);
+                                }}
                                 currentCallBackComponent={
                                   currentCallBackComponent
                                 }

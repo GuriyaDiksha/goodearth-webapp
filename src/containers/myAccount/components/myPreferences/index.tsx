@@ -15,7 +15,11 @@ import { showGrowlMessage } from "utils/validate";
 import { updatePreferenceData } from "actions/user";
 import { makeid } from "utils/utility";
 
-const MyPreferences = () => {
+export type Props = {
+  setCurrentSection: () => void;
+};
+
+const MyPreferences: React.FC<Props> = props => {
   const { countryData } = useSelector((state: AppState) => state.address);
   const { user } = useSelector((state: AppState) => state);
   const [subscribe, setSubscribe] = useState(false);
@@ -25,6 +29,8 @@ const MyPreferences = () => {
   const [numberValidation, setNumberValidation] = useState("");
   const [codeValidation, setCodeValidation] = useState("");
   const dispatch = useDispatch();
+
+  props.setCurrentSection();
 
   const fetchCountryData = async () => {
     const data = await LoginService.fetchCountryData(dispatch);
