@@ -17,10 +17,7 @@ import { AppState } from "reducers/typings";
 import quantityStyles from "../quantity/styles.scss";
 import CookieService from "services/cookie";
 import { GA_CALLS, ANY_ADS } from "constants/cookieConsent";
-import {
-  displayPriceWithCommas,
-  displayPriceWithCommasFloat
-} from "utils/utility";
+import { displayPriceWithCommas } from "utils/utility";
 
 const LineItems: React.FC<BasketItem> = memo(
   ({

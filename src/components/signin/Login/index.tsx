@@ -1,13 +1,7 @@
 import { connect } from "react-redux";
 import mapDispatchToProps from "./mapper/actions";
 import { useLocation, withRouter } from "react-router";
-import React, { useState } from "react";
-import cs from "classnames";
-// import iconStyles from "../../styles/iconFonts.scss";
-import bootstrapStyles from "../../../styles/bootstrap/bootstrap-grid.scss";
-// import { LoginProps } from "./typings";
-// import * as Steps from "../constants";
-// import styles from "../styles.scss";
+import React, { useEffect, useState } from "react";
 import loadable from "@loadable/component";
 import Popup from "../popup/Popup";
 
@@ -15,8 +9,16 @@ const MainLogin = loadable(() => import("components/signin/Login/mainLogin"));
 const CheckoutRegisterForm = loadable(() =>
   import("components/signin/register/checkoutRegister")
 );
-const LoginForm: React.FC<{}> = props => {
+
+const LoginForm = (props: any) => {
   const [isRegister, setIsRegister] = useState(false);
+  const [email, setEmail] = useState("");
+
+  useEffect(() => {
+    if (props.isRegister) {
+      setIsRegister(true);
+    }
+  }, []);
 
   const goToRegister = () => {
     setIsRegister(true);
@@ -36,31 +38,33 @@ const LoginForm: React.FC<{}> = props => {
   const { search } = useLocation();
   const urlParams = new URLSearchParams(search);
   const id = urlParams.get("loginpopup");
+
   return (
     <Popup>
-      <div className={cs(bootstrapStyles.col10, bootstrapStyles.offset1)}>
-        <div>
-          {isRegister ? (
-            <CheckoutRegisterForm
-              nextStep={nextStep}
-              changeEmail={changeEmail}
-              goToLogin={goLogin}
-            />
-          ) : (
-            <MainLogin
-              showRegister={goToRegister}
-              nextStep={nextStep}
-              isBo={""}
-              heading={"Welcome"}
-              subHeading={
-                id == "cerise"
-                  ? "Please enter your registered e-mail address to login to your Cerise account."
-                  : "Enter your email address to register or sign in."
-              }
-            />
-          )}
-        </div>
-      </div>
+      {isRegister ? (
+        <CheckoutRegisterForm
+          nextStep={nextStep}
+          changeEmail={changeEmail}
+          goToLogin={goLogin}
+          setEmail={setEmail}
+          email={email || props.email}
+        />
+      ) : (
+        <MainLogin
+          showRegister={goToRegister}
+          nextStep={nextStep}
+          isBo={""}
+          isCerise={id == "cerise"}
+          setEmail={setEmail}
+          email={email}
+          // heading={"Welcome"}
+          // subHeading={
+          //   id == "cerise"
+          //     ? "Please enter your registered e-mail address to login to your Cerise account."
+          //     : "Enter your email address to register or sign in."
+          // }
+        />
+      )}
     </Popup>
   );
 };

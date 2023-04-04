@@ -3,12 +3,20 @@ export type loginProps = {
   showRegister?: () => void;
   nextStep?: () => void;
   isBo?: string;
-  subHeading: string;
-  heading: string;
   heading2?: string;
+  isCerise: boolean;
+  heading?: string;
+  subHeading?: string;
+  source?: string;
+  setIsSuccessMsg?: (arg: boolean) => void;
+  setEmail?: (arg: string) => void;
+  email: string;
+  boEmail?: string;
 };
 
 export type loginState = {
+  heading?: string;
+  subHeading?: string;
   email: string | null;
   password: string | null;
   msg: string | (string | JSX.Element)[];
