@@ -1,3 +1,4 @@
+import React from "react";
 import { Basket } from "typings/basket";
 
 export type AddressData = AddressFormData & {
@@ -60,5 +61,8 @@ export type Props = {
   // user:
   error: string;
   errorNotification?: string;
+  innerRef?: any;
+  codeRef?: React.Ref<any>;
+  phoneRef?: any;
 };
 export type AddressModes = "new" | "edit" | "list";
