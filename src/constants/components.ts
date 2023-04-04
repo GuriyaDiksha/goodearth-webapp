@@ -57,6 +57,7 @@ const MakerPopup = loadable(() => import("components/Popups/MakerPopup"));
 const ResendGcPopup = loadable(() => import("components/Popups/ResendGcPopup"));
 
 const VideoPopup = loadable(() => import("components/Popups/VideoPopup"));
+const WhatsappPopup = loadable(() => import("components/Popups/Whatsapp"));
 
 const HelloarPopup = loadable(() => import("components/Popups/HelloarPopup"));
 const OrientationPopup = loadable(() =>
@@ -92,7 +93,8 @@ export const popupComponents: { [x: string]: React.ComponentType<any> } = {
   resendGc: ResendGcPopup,
   videoPopup: VideoPopup,
   helloarPopup: HelloarPopup,
-  orientationPopup: OrientationPopup
+  orientationPopup: OrientationPopup,
+  whatsappPopup: WhatsappPopup
 };
 
 export const enum POPUP {
@@ -124,5 +126,6 @@ export const enum POPUP {
   RESENDGC = "resendGc",
   VIDEOPOPUP = "videoPopup",
   HELLOARPOPUP = "helloarPopup",
-  ORIENTATIONPOPUP = "orientationPopup"
+  ORIENTATIONPOPUP = "orientationPopup",
+  WHATSAPP = "whatsappPopup"
 }
