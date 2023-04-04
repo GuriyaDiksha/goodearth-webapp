@@ -646,6 +646,7 @@ $banner-mobile-height:180px;
             cursor: pointer;
             &.active{
                 background-color: #7EAAA9;
+                pointer-events: all;
             }
         }
     }
