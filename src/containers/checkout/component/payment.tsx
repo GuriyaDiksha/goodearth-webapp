@@ -240,9 +240,11 @@ const PaymentSection: React.FC<PaymentProps> = props => {
 
   useEffect(() => {
     if (isActive) {
-      AccountServices.fetchAccountPreferences(dispatch).then((data: any) => {
-        dispatch(updatePreferenceData(data));
-      });
+      if (CONFIG.WHATSAPP_SUBSCRIBE_ENABLED) {
+        AccountServices.fetchAccountPreferences(dispatch).then((data: any) => {
+          dispatch(updatePreferenceData(data));
+        });
+      }
     }
   }, [isActive]);
 
