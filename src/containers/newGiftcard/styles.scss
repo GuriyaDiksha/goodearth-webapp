@@ -470,7 +470,7 @@ $banner-mobile-height:180px;
             position: fixed;
             bottom: 60px;
             left: 0px;
-            height: calc(100vh - 60px);
+            height: calc(100% - 60px);
             background-color: #ffffff;
             width: 100%;
             z-index: 12;
@@ -479,7 +479,7 @@ $banner-mobile-height:180px;
             max-height: 0px;
             transition: max-height 1s;
             &.open{
-                max-height: calc(100vh - 60px);
+                max-height: calc(100% - 60px);
             }
             .back-to-gc-details{
                 position: sticky;
