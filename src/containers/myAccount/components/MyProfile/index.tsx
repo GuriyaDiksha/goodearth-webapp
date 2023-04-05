@@ -162,9 +162,11 @@ const MyProfile: React.FC<ProfileProps> = ({ setCurrentSection }) => {
         });
       });
 
-    AccountService.fetchAccountPreferences(dispatch).then((data: any) => {
-      dispatch(updatePreferenceData(data));
-    });
+    if (CONFIG.WHATSAPP_SUBSCRIBE_ENABLED) {
+      AccountService.fetchAccountPreferences(dispatch).then((data: any) => {
+        dispatch(updatePreferenceData(data));
+      });
+    }
   }, []);
 
   useEffect(() => {
