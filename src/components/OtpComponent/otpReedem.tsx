@@ -259,7 +259,7 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
             isLoading: false
           },
           () => {
-            valid.errorTracking([this.state.showerrorOtp], location.href);
+            errorTracking([this.state.showerrorOtp], location.href);
           }
         );
       });

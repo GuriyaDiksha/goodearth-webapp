@@ -179,7 +179,8 @@ class NewGiftcard extends React.Component<Props, State> {
             currencyCharCode: newCurrencyCode,
             cardId: "",
             cardValue: "",
-            customValue: ""
+            customValue: "",
+            customValueErrorMsg: ""
           });
         }
       }
@@ -857,10 +858,27 @@ class NewGiftcard extends React.Component<Props, State> {
                   FOR QUERIES OR ASSISTANCE
                 </div>
                 <div className={styles.queriesInfo}>
-                  customercare@goodearth.in
+                  <a
+                    href="mailto:customercare@goodearth.in"
+                    className={styles.queriesInfo}
+                  >
+                    customercare@goodearth.in
+                  </a>
                 </div>
                 <div className={styles.queriesInfo}>
-                  +91 95829 99555 / +91 95829 99888
+                  <a
+                    href="tel:(+91 95829 99555)"
+                    className={styles.queriesInfo}
+                  >
+                    +91 95829 99555
+                  </a>{" "}
+                  /{" "}
+                  <a
+                    href="tel:(+91 95829 99888)"
+                    className={styles.queriesInfo}
+                  >
+                    +91 95829 99888
+                  </a>
                 </div>
                 <div className={styles.queriesInfo}>Mon- Sat | 9am-5pm IST</div>
               </div>
