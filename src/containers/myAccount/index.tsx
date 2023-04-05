@@ -538,7 +538,6 @@ const MyAccount: React.FC<Props> = props => {
                     </Route>
                   );
                 } else {
-                  console.log(href, title);
                   return (
                     <Route key={label} exact path={href}>
                       <div className={bgClass}>
