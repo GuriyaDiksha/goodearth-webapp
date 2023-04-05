@@ -50,6 +50,8 @@ export type FooterDataProps = {
     footerSubHeadingHoverColor: string;
     sectionContent: string;
     sectionFontColor: string;
+    newsletterBgImage: string;
+    newsletterBgColor: string;
   };
   findUsOnData: {
     iconImage: string;

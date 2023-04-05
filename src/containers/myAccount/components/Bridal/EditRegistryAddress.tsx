@@ -12,6 +12,13 @@ const EditRegistryAddress: React.FC<{ children: React.ReactNode }> = ({
 }) => {
   const { mode } = useContext(AddressContext);
   const { setCurrentScreenValue } = useContext(BridalContext);
+
+  function scrollToTop() {
+    document.body.scrollTop = 0; // For Safari
+    document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+    setCurrentScreenValue("manageregistryfull");
+  }
+
   return (
     <div className={cs(bootstrapStyles.row, styles.spMobileVoffset6)}>
       <div
@@ -36,10 +43,7 @@ const EditRegistryAddress: React.FC<{ children: React.ReactNode }> = ({
             styles.letterSpacing1
           )}
         >
-          <span
-            className={globalStyles.pointer}
-            onClick={() => setCurrentScreenValue("manageregistryfull")}
-          >
+          <span className={globalStyles.pointer} onClick={() => scrollToTop()}>
             {ReactHtmlParser(
               mode == "edit" ? "" : "&lt; &nbsp;MANAGE REGISTRY"
             )}
@@ -57,10 +61,7 @@ const EditRegistryAddress: React.FC<{ children: React.ReactNode }> = ({
             styles.letterSpacing1
           )}
         >
-          <span
-            className={globalStyles.pointer}
-            onClick={() => setCurrentScreenValue("manageregistryfull")}
-          >
+          <span className={globalStyles.pointer} onClick={() => scrollToTop()}>
             {ReactHtmlParser(
               mode == "edit" ? "" : "&lt; &nbsp;MANAGE REGISTRY"
             )}
