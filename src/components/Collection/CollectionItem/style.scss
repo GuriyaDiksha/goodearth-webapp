@@ -4,6 +4,7 @@
 .collection-item-wrp{
   display: flex;
     margin-top: 50px;
+    align-items: flex-end;
 
     @media screen and (max-width:992px) {
       display: block;
@@ -11,10 +12,11 @@
 
   .collection-item-content{
     margin: 0 0 0 30px;
-    padding-top: 160px;
+    padding-bottom: 10px;
 
     @media screen and (max-width:992px) {
-      padding-top: 30px;
+      margin: 0;
+      padding: 30px 26px 15px;
     }
 
     .tag-wrp{

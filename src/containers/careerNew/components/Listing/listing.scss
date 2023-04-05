@@ -1,8 +1,12 @@
 @import "../../../../styles/partials/variables";
 @import "../../../../styles/partials/mixins";
 
+body:has(.show-filter){
+    overflow: hidden;
+}
+
 .career_list_main_wrp{
-    margin-top: 80px;
+    margin-top: 30px;
 
     .career_list_wrp{
         display: flex;
@@ -265,7 +269,7 @@
 
             @media screen and (max-width: 992px) {
                 position: fixed;
-                transform: translateY(300%);
+                transform: translateY(100%);
                 transition: all 0.3s ease-in;
                 top: 0; 
             }
@@ -275,12 +279,18 @@
            
 
             .show{
-                position: relative;
                 display: block;
                 width: 100%;
-                transition: all 0.3s ease-in;
+                transition: transform 0.3s ease-in;
                 opacity: 1;
                 transform: translateY(0);
+                position: fixed;
+                top: 95px;
+                left: 0;
+                min-height: unset;
+                max-height: calc(100% - 207px);
+                overflow-y: auto;
+                z-index: 9;
             }
 
             .hide{

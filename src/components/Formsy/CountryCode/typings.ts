@@ -13,6 +13,8 @@ export type Props = {
   value: string;
   handleChange?: (event: React.ChangeEvent) => void;
   showLabel?: boolean;
+  innerRef?: any;
+  name: string;
 };
 
 export type Country = {

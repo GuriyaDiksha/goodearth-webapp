@@ -25,7 +25,7 @@
 .header-container-menu {
   position: fixed;
   bottom: 0px;
-  z-index: 6;
+  z-index: 10;
   width: 100%;
   background-color: rgb(249, 248, 245);
   height: 60px;
@@ -42,7 +42,7 @@
     position: relative;
     margin-top: -40px;
     top: 40px;
-    z-index: 12;
+    z-index: 5;
     width: 100%;
     background-color: rgb(249, 248, 245);
     height: $header-height;
@@ -1872,7 +1872,8 @@ ul.inner-menu-mobile {
 }
 .trendingmobilePad {
   // padding-left: 19px;
-  margin-left: 5%;
+  // margin-left: 5%;
+  padding: 0% 5%;
   width: 100%;
 }
 .trendingdesktopPad {

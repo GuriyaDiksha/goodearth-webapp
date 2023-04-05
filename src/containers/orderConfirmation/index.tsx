@@ -435,26 +435,31 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                             <span className={styles.bridalMessage}></span>
                           </div>
                         )}
-                        <div className={cs(styles.row, styles.name)}>
-                          {shippingAddress.firstName}
-                          &nbsp; {shippingAddress.lastName}
-                        </div>
-                        <div className={styles.row}>
-                          {shippingAddress.line1}
-                        </div>
-                        <div className={styles.row}>
-                          {shippingAddress.line2}
-                        </div>
-                        <div className={styles.row}>
-                          {shippingAddress.state},&nbsp;
-                          {shippingAddress.postcode}
-                        </div>
-                        <div className={styles.row}>
-                          {shippingAddress.countryName}
-                        </div>
-                        <div className={cs(styles.row, styles.phoneNumber)}>
-                          {shippingAddress.phoneNumber}
-                        </div>
+                        {!confirmData?.isBridalOrder && (
+                          <React.Fragment>
+                            {" "}
+                            <div className={cs(styles.row, styles.name)}>
+                              {shippingAddress.firstName}
+                              &nbsp; {shippingAddress.lastName}
+                            </div>
+                            <div className={styles.row}>
+                              {shippingAddress.line1}
+                            </div>
+                            <div className={styles.row}>
+                              {shippingAddress.line2}
+                            </div>
+                            <div className={styles.row}>
+                              {shippingAddress.state},&nbsp;
+                              {shippingAddress.postcode}
+                            </div>
+                            <div className={styles.row}>
+                              {shippingAddress.countryName}
+                            </div>
+                            <div className={cs(styles.row, styles.phoneNumber)}>
+                              {shippingAddress.phoneNumber}
+                            </div>
+                          </React.Fragment>
+                        )}
                       </div>
                     )}
                     {billingAddress && (

@@ -322,7 +322,9 @@ class Footer extends React.Component<Props, FooterState> {
         footerHeadingHoverColor,
         footerSubHeadingHoverColor,
         sectionContent,
-        sectionFontColor
+        sectionFontColor,
+        newsletterBgImage,
+        newsletterBgColor
       },
       findUsOnData
     } = this.props.data;
@@ -351,12 +353,10 @@ class Footer extends React.Component<Props, FooterState> {
                   })
             } ${this.props.saleStatus ? cs(styles.footerTopSale20) : ""}`}
             style={{
-              backgroundImage: this.state.isInViewport
-                ? `url(${
-                    this.props.mobile
-                      ? footerImageSubsMobile
-                      : footerImageSubsDeskTop
-                  })`
+              background: this.state.isInViewport
+                ? newsletterBgImage
+                  ? `url(${newsletterBgImage})`
+                  : newsletterBgColor
                 : "none"
             }}
           >
@@ -1113,11 +1113,16 @@ class Footer extends React.Component<Props, FooterState> {
           </div>
 
           <div
-            className={
+            className={cs(
               this.props.mobile
                 ? cs(styles.footerBottomMobile, bootstrap.colMd12)
-                : cs(styles.footerBottom, bootstrap.colMd12)
-            }
+                : cs(styles.footerBottom, bootstrap.colMd12),
+              {
+                [styles.filterOnBottom]: this.props.location.pathname.includes(
+                  "/careers/list"
+                )
+              }
+            )}
           >
             <div className={cs(bootstrap.row)}>
               <div className={cs(bootstrap.col12, globalStyles.textCenter)}>

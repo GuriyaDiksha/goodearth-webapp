@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useRef } from "react";
 import { AddressData } from "components/Address/typings";
 import { useSelector, useDispatch } from "react-redux";
 import { AppState } from "reducers/typings";
@@ -25,6 +25,8 @@ import { useHistory } from "react-router";
 import { showGrowlMessage } from "utils/validate";
 import CookieService from "services/cookie";
 import { GA_CALLS } from "constants/cookieConsent";
+import AccountService from "services/account";
+import { updatePreferenceData } from "actions/user";
 // import globalStyles from "styles/global.scss";
 type Props = {
   bridalId: number;
@@ -53,6 +55,7 @@ const Bridal: React.FC<Props> = props => {
   // const { mobile } = useSelector((state: AppState) => state.device);
   const { currency, user } = useSelector((state: AppState) => state);
   const dispatch = useDispatch();
+  const whatsappRef = useRef<HTMLInputElement>(null);
   const getBridalProfileData = async () => {
     const data = await BridalService.fetchBridalProfile(
       dispatch,
@@ -73,6 +76,14 @@ const Bridal: React.FC<Props> = props => {
     }
     return data;
   };
+
+  useEffect(() => {
+    if (user.isLoggedIn) {
+      AccountService.fetchAccountPreferences(dispatch).then((data: any) => {
+        dispatch(updatePreferenceData(data));
+      });
+    }
+  }, [user.isLoggedIn]);
 
   // componentWillMount() {
   // if (props.bridalId != 0) {
@@ -243,7 +254,7 @@ const Bridal: React.FC<Props> = props => {
         currency,
         actionType: "create"
       };
-      // setCurrentModule("created");
+
       setLastScreen("start");
       BridalService.saveBridalProfile(dispatch, formData)
         .then(data => {
@@ -308,6 +319,7 @@ const Bridal: React.FC<Props> = props => {
             error=""
             addresses={[]}
             createRegistry={createRegistry}
+            innerRef={whatsappRef}
           />
         );
       case "created":
