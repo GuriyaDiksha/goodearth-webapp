@@ -1063,7 +1063,7 @@ class Header extends React.Component<Props, State> {
                 <div
                   className={cs(
                     bootstrap.col3,
-                    bootstrap.colLg2,
+                    bootstrap.colLg3,
                     styles.hamburger
                   )}
                 >
@@ -1104,7 +1104,7 @@ class Header extends React.Component<Props, State> {
               )}
               <div
                 className={cs(
-                  bootstrap.colLg2,
+                  bootstrap.colLg3,
                   bootstrap.col6,
                   styles.logoContainer
                 )}
@@ -1127,7 +1127,6 @@ class Header extends React.Component<Props, State> {
                   className={cs(
                     bootstrap.colLg6,
                     bootstrap.col3,
-                    bootstrap.offsetLg1,
                     globalStyles.static
                   )}
                 >
