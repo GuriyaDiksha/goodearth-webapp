@@ -27,40 +27,40 @@ const AddressList: React.FC<Props> = props => {
   const [isRender, setIsRender] = useState(false);
 
   useEffect(() => {
-    // if (addressDataList.length > 0 && isRender === false) {
-    //   setIsRender(true);
-    let addressData = addressDataList;
-    if (
-      (activeStep == "BILLING" &&
-        props.currentCallBackComponent == "checkout-billing") ||
-      props.currentCallBackComponent == "account" ||
-      props.currentCallBackComponent == "bridal" ||
-      props.currentCallBackComponent == "bridal-edit"
-    ) {
-      if (addressData) {
-        addressData = addressData.filter(address => !address.isTulsi);
+    if (addressDataList.length > 0 && isRender === false) {
+      setIsRender(true);
+      let addressData = addressDataList;
+      if (
+        (activeStep == "BILLING" &&
+          props.currentCallBackComponent == "checkout-billing") ||
+        props.currentCallBackComponent == "account" ||
+        props.currentCallBackComponent == "bridal" ||
+        props.currentCallBackComponent == "bridal-edit"
+      ) {
+        if (addressData) {
+          addressData = addressData.filter(address => !address.isTulsi);
+          if (isBridal) {
+            addressData = addressData.filter(
+              address => address.id != bridalAddressId
+            );
+          }
+        }
+      }
+      if (
+        activeStep == "SHIPPING" &&
+        props.currentCallBackComponent == "checkout-shipping"
+      ) {
         if (isBridal) {
           addressData = addressData.filter(
-            address => address.id != bridalAddressId
+            address => address.isBridal && address.id == bridalAddressId
           );
         }
       }
+      // if (props.addressDataList && props.addressDataList.length > 0) {
+      //   addressData = addressData.filter(data => data.id !== props.bridalId);
+      // }
+      setAddressData(addressData);
     }
-    if (
-      activeStep == "SHIPPING" &&
-      props.currentCallBackComponent == "checkout-shipping"
-    ) {
-      if (isBridal) {
-        addressData = addressData.filter(
-          address => address.isBridal && address.id == bridalAddressId
-        );
-      }
-    }
-    // if (props.addressDataList && props.addressDataList.length > 0) {
-    //   addressData = addressData.filter(data => data.id !== props.bridalId);
-    // }
-    setAddressData(addressData);
-    // }
   }, [addressDataList]);
 
   // const [ addressDataList: addressData || [],
@@ -173,24 +173,19 @@ const AddressList: React.FC<Props> = props => {
           addressData &&
           addressData.length > 0 &&
           Object.entries(addressData).length !== 0 &&
-          addressData
-            .sort((a, b) => {
-              if (a.id > b.id) return 1;
-              else return -1;
-            })
-            .map((data, i) => {
-              return (
-                <AddressItem
-                  key={data.id}
-                  addressData={data}
-                  index={i}
-                  isOnlyAddress={addressData.length === 1}
-                  showAddressInBridalUse={props.showAddressInBridalUse}
-                  defaultAddress={defaultAddress}
-                  setDefaultAddress={setDefaultAddress}
-                />
-              );
-            })
+          addressData.map((data, i) => {
+            return (
+              <AddressItem
+                key={data.id}
+                addressData={data}
+                index={i}
+                isOnlyAddress={addressData.length === 1}
+                showAddressInBridalUse={props.showAddressInBridalUse}
+                defaultAddress={defaultAddress}
+                setDefaultAddress={setDefaultAddress}
+              />
+            );
+          })
         )}
       </div>
       {isLoading && <Loader />}
