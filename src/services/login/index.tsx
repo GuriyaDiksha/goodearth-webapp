@@ -36,9 +36,10 @@ import { encryptdata, decriptdata, encrypttext } from "utils/validate";
 export default {
   showForgotPassword: function(
     dispatch: Dispatch,
+    email?: string,
     event?: React.MouseEvent
   ): void {
-    dispatch(updateComponent(POPUP.FORGOTPASSWORDFORM, null, true));
+    dispatch(updateComponent(POPUP.FORGOTPASSWORDFORM, { email }, true));
     dispatch(updateModal(true));
   },
   showLogin: function(dispatch: Dispatch, event?: React.MouseEvent): void {
@@ -367,7 +368,11 @@ export default {
       });
       // HeaderService.fetchHomepageData(dispatch);
       dispatch(resetMeta(undefined));
-      showGrowlMessage(dispatch, MESSAGE.LOGOUT_SUCCESS, 5000);
+      if (source == "reset-pass") {
+        showGrowlMessage(dispatch, MESSAGE.INVALID_SESSION_LOGOUT, 5000);
+      } else {
+        showGrowlMessage(dispatch, MESSAGE.LOGOUT_SUCCESS, 5000);
+      }
       return res;
     }
   },

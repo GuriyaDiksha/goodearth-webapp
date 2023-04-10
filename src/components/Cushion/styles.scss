@@ -53,6 +53,7 @@
     background-color: #fff;
     animation-name :slideLeft;
     animation-duration:0.4s;
+    z-index: 9999999;
   
     .heart {
       &.icon_heart-cerise-fill {

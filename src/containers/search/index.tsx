@@ -23,10 +23,10 @@ import { updateComponent, updateModal } from "actions/modal";
 import GiftcardItem from "components/plpResultItem/giftCard";
 import CookieService from "../../services/cookie";
 import { POPUP } from "constants/components";
-import { moveChatDown, moveChatUp, sortGTM, pageViewGTM } from "utils/validate";
+import * as util from "utils/validate";
 import SecondaryHeaderDropdown from "components/dropdown/secondaryHeaderDropdown";
 import { CategoryMenu } from "containers/plp/typings";
-import { GA_CALLS, ANY_ADS, SEARCH_HISTORY } from "constants/cookieConsent";
+import { GA_CALLS, ANY_ADS } from "constants/cookieConsent";
 import ProductCounter from "components/ProductCounter";
 import { throttle } from "lodash";
 import ResetFiltersTile from "components/plpResultItem/resetFiltersTile";
@@ -115,7 +115,7 @@ class Search extends React.Component<
     if (mobile) {
       this.child.clickCloseFilter();
     }
-    sortGTM(label || data);
+    util.sortGTM(label || data);
   };
 
   setFilterCount = (count: number) => {
@@ -142,7 +142,9 @@ class Search extends React.Component<
         productListId: plpProductId,
         source: "Search",
         corporatePDP:
-          ["Pero", "Souk", "Eka"].indexOf(selectItem[0]?.partner) > -1
+          ["Pero", "Souk", "Eka", "Object D Art"].indexOf(
+            selectItem[0]?.partner
+          ) > -1
             ? true
             : false
       },
@@ -153,7 +155,7 @@ class Search extends React.Component<
 
   componentDidMount() {
     const that = this;
-    moveChatDown();
+    util.moveChatDown();
     this.setState({
       searchMaker: true
     });
@@ -162,7 +164,7 @@ class Search extends React.Component<
       dataLayer.push(function(this: any) {
         this.reset();
       });
-      pageViewGTM("Search");
+      util.pageViewGTM("Search");
       dataLayer.push({
         event: "SearchView",
         PageURL: this.props.location.pathname,
@@ -203,7 +205,7 @@ class Search extends React.Component<
   }
 
   componentWillUnmount() {
-    moveChatUp();
+    util.moveChatUp();
     window.removeEventListener(
       "scroll",
       throttle(() => {
@@ -657,8 +659,9 @@ class Search extends React.Component<
                         onClickQuickView={this.onClickQuickView}
                         loader={this.state.flag}
                         isCorporate={
-                          ["Pero", "Souk", "Eka"].indexOf(item.partner || "") >
-                          -1
+                          ["Pero", "Souk", "Eka", "Object D Art"].indexOf(
+                            item.partner || ""
+                          ) > -1
                             ? true
                             : false
                         }

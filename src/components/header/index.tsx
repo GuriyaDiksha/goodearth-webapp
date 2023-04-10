@@ -271,6 +271,7 @@ class Header extends React.Component<Props, State> {
         this.props.fetchAnnouncement();
       }
     }
+    this.onScroll();
   }
 
   // mouseOut(data: { show: boolean }) {
@@ -303,6 +304,9 @@ class Header extends React.Component<Props, State> {
 
     const filterMenu = document.getElementById("filter_by");
     const filterMenuHeader = document.getElementById("filter-menu-header");
+
+    const pressSortHeader = document.getElementById("pressSortHeader");
+
     if (window?.pageYOffset > sticky) {
       // When announcement bar is hidden
       (header as HTMLElement).style.position = "fixed";
@@ -385,9 +389,9 @@ class Header extends React.Component<Props, State> {
 
       if (mobileFilterMenu) {
         if (tim) {
-          (mobileFilterMenu as HTMLElement).style.top = "130px";
+          (mobileFilterMenu as HTMLElement).style.top = "140px";
         } else {
-          (mobileFilterMenu as HTMLElement).style.top = "90px";
+          (mobileFilterMenu as HTMLElement).style.top = "100px";
         }
       }
 
@@ -395,7 +399,7 @@ class Header extends React.Component<Props, State> {
         if (tim) {
           (dropdownFilterHeader as HTMLElement).style.top = "90px";
         } else {
-          (dropdownFilterHeader as HTMLElement).style.top = "50px";
+          (dropdownFilterHeader as HTMLElement).style.top = "60px";
         }
       }
 
@@ -403,7 +407,7 @@ class Header extends React.Component<Props, State> {
         if (tim) {
           (dropdownFilterHeaderMenu as HTMLElement).style.top = "130px";
         } else {
-          (dropdownFilterHeaderMenu as HTMLElement).style.top = "90px";
+          (dropdownFilterHeaderMenu as HTMLElement).style.top = "100px";
         }
       }
 
@@ -427,6 +431,14 @@ class Header extends React.Component<Props, State> {
           (ceriseHeader as HTMLElement).style.top = "90px";
         } else {
           (ceriseHeader as HTMLElement).style.top = "50px";
+        }
+      }
+
+      if (pressSortHeader) {
+        if (tim) {
+          (pressSortHeader as HTMLElement).style.top = "90px";
+        } else {
+          (pressSortHeader as HTMLElement).style.top = "50px";
         }
       }
     } else {
@@ -528,7 +540,7 @@ class Header extends React.Component<Props, State> {
           (mobileFilterMenu as HTMLElement).style.top = `${170 -
             window?.pageYOffset}px`;
         } else {
-          (mobileFilterMenu as HTMLElement).style.top = `${130 -
+          (mobileFilterMenu as HTMLElement).style.top = `${140 -
             window?.pageYOffset}px`;
         }
       }
@@ -538,7 +550,7 @@ class Header extends React.Component<Props, State> {
           (dropdownFilterHeader as HTMLElement).style.top = `${130 -
             window?.pageYOffset}px`;
         } else {
-          (dropdownFilterHeader as HTMLElement).style.top = `${90 -
+          (dropdownFilterHeader as HTMLElement).style.top = `${100 -
             window?.pageYOffset}px`;
         }
       }
@@ -548,7 +560,7 @@ class Header extends React.Component<Props, State> {
           (dropdownFilterHeaderMenu as HTMLElement).style.top = `${170 -
             window?.pageYOffset}px`;
         } else {
-          (dropdownFilterHeaderMenu as HTMLElement).style.top = `${130 -
+          (dropdownFilterHeaderMenu as HTMLElement).style.top = `${145 -
             window?.pageYOffset}px`;
         }
       }
@@ -582,8 +594,16 @@ class Header extends React.Component<Props, State> {
             window?.pageYOffset}px`;
         }
       }
+      if (pressSortHeader) {
+        if (tim) {
+          (pressSortHeader as HTMLElement).style.top = `${130 -
+            window?.pageYOffset}px`;
+        } else {
+          (pressSortHeader as HTMLElement).style.top = `${90 -
+            window?.pageYOffset}px`;
+        }
+      }
     }
-
     // (header as HTMLElement).style.transition = "all 0.5s ease-in-out";
   };
 
@@ -726,16 +746,11 @@ class Header extends React.Component<Props, State> {
     ) {
       return false;
     }
-    this.setState(
-      {
-        showSearch: true,
-        // showSearch: true,
-        showMenu: false
-      },
-      () => {
-        console.log(this.state);
-      }
-    );
+    this.setState({
+      showSearch: true,
+      // showSearch: true,
+      showMenu: false
+    });
   };
 
   hideSearch = () => {
@@ -771,7 +786,7 @@ class Header extends React.Component<Props, State> {
       showMenu: !this.state.showMenu,
       showSearch: false
     });
-    window.scrollTo(0, 0);
+    //window.scrollTo(0, 0);
   };
 
   gtmPushLogoClick = () => {
@@ -1048,7 +1063,7 @@ class Header extends React.Component<Props, State> {
                 <div
                   className={cs(
                     bootstrap.col3,
-                    bootstrap.colLg2,
+                    bootstrap.colLg3,
                     styles.hamburger
                   )}
                 >
@@ -1089,7 +1104,7 @@ class Header extends React.Component<Props, State> {
               )}
               <div
                 className={cs(
-                  bootstrap.colLg2,
+                  bootstrap.colLg3,
                   bootstrap.col6,
                   styles.logoContainer
                 )}
@@ -1112,7 +1127,6 @@ class Header extends React.Component<Props, State> {
                   className={cs(
                     bootstrap.colLg6,
                     bootstrap.col3,
-                    bootstrap.offsetLg1,
                     globalStyles.static
                   )}
                 >

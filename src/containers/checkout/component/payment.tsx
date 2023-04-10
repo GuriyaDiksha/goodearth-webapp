@@ -1,4 +1,4 @@
-import React, { useState, Fragment, useEffect, useMemo } from "react";
+import React, { useState, Fragment, useEffect, useMemo, useRef } from "react";
 import cs from "classnames";
 // import iconStyles from "../../styles/iconFonts.scss";
 import bootstrapStyles from "../../../styles/bootstrap/bootstrap-grid.scss";
@@ -18,7 +18,15 @@ import { errorTracking, showErrors } from "utils/validate";
 import CookieService from "services/cookie";
 import { proceedForPayment, getPageType } from "../../../utils/validate";
 import CheckoutService from "services/checkout";
+import AccountServices from "services/account";
 import { GA_CALLS, ANY_ADS } from "constants/cookieConsent";
+import { updatePreferenceData } from "actions/user";
+import LoginService from "services/login";
+import { updateCountryData } from "actions/address";
+import WhatsappSubscribe from "components/WhatsappSubscribe";
+import Formsy from "formsy-react";
+import { makeid } from "utils/utility";
+import { CONFIG } from "constants/util";
 
 const PaymentSection: React.FC<PaymentProps> = props => {
   const data: any = {};
@@ -26,11 +34,13 @@ const PaymentSection: React.FC<PaymentProps> = props => {
     basket,
     device: { mobile },
     info: { showGiftWrap },
-    user: { loyaltyData, isLoggedIn }
+    user: { loyaltyData, isLoggedIn, preferenceData },
+    address: { countryData }
   } = useSelector((state: AppState) => state);
   const { isActive, currency, checkout } = props;
   const [paymentError, setPaymentError] = useState("");
   const [subscribevalue, setSubscribevalue] = useState(false);
+  const [isdList, setIsdList] = useState<any>([]);
   //  const [subscribegbp, setSubscribegbp] = useState(true);
   const [subscribegbp] = useState(true);
   const [isactivepromo, setIsactivepromo] = useState(false);
@@ -43,6 +53,18 @@ const PaymentSection: React.FC<PaymentProps> = props => {
   // const [gbpError, setGbpError] = useState("");
   const [getMethods, setGetMethods] = useState<any[]>([]);
   const dispatch = useDispatch();
+  const whatsappCheckRef = useRef<HTMLInputElement>();
+  const whatsappNoRef = useRef<HTMLInputElement>();
+  const whatsappCountryCodeRef = useRef<HTMLInputElement>();
+
+  const fetchCountryData = async () => {
+    const data = await LoginService.fetchCountryData(dispatch);
+    dispatch(updateCountryData(data));
+    const isdList = data.map(list => {
+      return list.isdCode;
+    });
+    setIsdList(isdList);
+  };
 
   const toggleInput = () => {
     setIsactivepromo(!isactivepromo);
@@ -133,6 +155,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
         );
         return false;
       }
+
       setIsLoading(true);
       const paymentMode: string[] = [];
       let paymentMethod = "";
@@ -184,6 +207,15 @@ const PaymentSection: React.FC<PaymentProps> = props => {
         "Page referrer url": CookieService.getCookie("prevUrl")
       });
     }
+
+    if (countryData.length == 0) {
+      fetchCountryData();
+    } else {
+      const isdList = countryData.map(list => {
+        return list.isdCode;
+      });
+      setIsdList(isdList);
+    }
   }, []);
 
   useEffect(() => {
@@ -205,6 +237,16 @@ const PaymentSection: React.FC<PaymentProps> = props => {
         console.group(err);
       });
   }, [currency]);
+
+  useEffect(() => {
+    if (isActive) {
+      if (CONFIG.WHATSAPP_SUBSCRIBE_ENABLED) {
+        AccountServices.fetchAccountPreferences(dispatch).then((data: any) => {
+          dispatch(updatePreferenceData(data));
+        });
+      }
+    }
+  }, [isActive]);
 
   // const getMethods = useMemo(() => {
   //   let methods = [
@@ -501,6 +543,28 @@ const PaymentSection: React.FC<PaymentProps> = props => {
           </div>
           <div>
             <hr className={styles.hr} />
+            {CONFIG.WHATSAPP_SUBSCRIBE_ENABLED && (
+              <div className={styles.loginForm}>
+                <Formsy>
+                  <div className={styles.categorylabel}>
+                    <WhatsappSubscribe
+                      data={preferenceData}
+                      innerRef={whatsappCheckRef}
+                      isdList={isdList}
+                      showTermsMessage={false}
+                      showTooltip={true}
+                      showManageMsg={true}
+                      showPhone={true}
+                      whatsappClass={styles.whatsapp}
+                      countryCodeClass={styles.countryCode}
+                      checkboxLabelClass={styles.checkboxLabel}
+                      allowUpdate={true}
+                      uniqueKey={makeid(5)}
+                    />
+                  </div>
+                </Formsy>
+              </div>
+            )}
           </div>
           <label
             className={cs(

@@ -18,3 +18,9 @@ export const updateCollectionSpecificData = (data: CollectionSpecificProps) =>
 export const updateCollectionSpecificBanner = (
   data: CollectionSpecificBannerProps
 ) => actionCreator("UPDATE_COLLECTION_BANNER_DATA", data);
+
+export const updateTagsData = (data: string[]) =>
+  actionCreator("UPDATE_TAGS_DATA", data);
+
+export const updateFilteredCollectionData = (data: CollectionItem[]) =>
+  actionCreator("UPDATE_FILTERED_COLLECTION_DATA", data);

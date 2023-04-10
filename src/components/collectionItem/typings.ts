@@ -16,6 +16,7 @@ export interface CollectionItem {
   sliderImages?: string[];
   header?: string;
   url?: string;
+  tags: string[];
 }
 
 export type CollectionDataProps = {

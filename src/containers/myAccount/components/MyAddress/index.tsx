@@ -4,8 +4,9 @@ import styles from "../styles.scss";
 import cs from "classnames";
 import { updateAddressList } from "actions/address";
 import AddressService from "services/address";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { pageViewGTM } from "utils/validate";
+import { AppState } from "reducers/typings";
 
 const MyAddress = (props: {
   mode: string;
@@ -13,9 +14,16 @@ const MyAddress = (props: {
   setCurrentSection: () => void;
 }) => {
   const { mode, children } = props;
+  const {
+    user: { isLoggedIn }
+  } = useSelector((state: AppState) => state);
   props.setCurrentSection();
   const dispatch = useDispatch();
   useEffect(() => {
+    if (!isLoggedIn) {
+      return;
+    }
+
     AddressService.fetchAddressList(dispatch).then(addressList => {
       dispatch(updateAddressList(addressList));
     });

@@ -6,7 +6,12 @@ import Loader from "components/Loader";
 import SocialLogin from "../socialLogin";
 import Popup from "../popup/Popup";
 import FormContainer from "../formContainer";
-import { checkMail, checkBlank, errorTracking } from "utils/validate";
+import {
+  checkMail,
+  checkBlank,
+  errorTracking,
+  decripttext
+} from "utils/validate";
 import { Context } from "components/Modal/context";
 import { ForgotPasswordState } from "./typings";
 import { connect } from "react-redux";
@@ -20,7 +25,9 @@ const mapStateToProps = () => {
 
 type Props = ReturnType<typeof mapStateToProps> &
   ReturnType<typeof mapDispatchToProps> &
-  RouteComponentProps;
+  RouteComponentProps & {
+    email?: string;
+  };
 
 class ForgotPasswordForm extends React.Component<Props, ForgotPasswordState> {
   constructor(props: Props) {
@@ -33,13 +40,16 @@ class ForgotPasswordForm extends React.Component<Props, ForgotPasswordState> {
       successMsg: "",
       url: location.pathname + location.search,
       disableSelectedbox: false,
-      isBo: ""
+      isBo: "",
+      urlEmail: ""
     };
   }
 
   static contextType = Context;
 
   emailInput: RefObject<HTMLInputElement> = React.createRef();
+
+  // onSignupClick = () => {};
 
   handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
@@ -55,13 +65,20 @@ class ForgotPasswordForm extends React.Component<Props, ForgotPasswordState> {
         }
       );
     } else {
+      const { history } = this.props;
       const formData = new FormData();
+      let redirectTo = "";
       formData.append("email", this.state.email || "");
-      formData.append(
-        "redirectTo",
-        this.props.history.location.pathname +
-          this.props.history.location.search || "/"
-      );
+      const searchParams = new URLSearchParams(history.location.search);
+      const path = history.location.pathname;
+      if (path.split("/")[1] == "password-reset") {
+        redirectTo = searchParams.get("redirect_to") || "";
+      } else {
+        redirectTo =
+          this.props.history.location.pathname +
+            this.props.history.location.search || "/";
+      }
+      formData.append("redirectTo", redirectTo);
       this.setState({ disableSelectedbox: true });
       this.props
         .resetPassword(formData)
@@ -73,9 +90,7 @@ class ForgotPasswordForm extends React.Component<Props, ForgotPasswordState> {
             successMsg: data.success,
             disableSelectedbox: false
           });
-          this.props.showGrowlMessage(
-            "Password reset email has been sent. Please follow steps in email to proceed."
-          );
+          this.props.showGrowlMessage(data.success);
           const email = document.getElementById("email") as HTMLInputElement;
           email.disabled = true;
         })
@@ -83,21 +98,24 @@ class ForgotPasswordForm extends React.Component<Props, ForgotPasswordState> {
           // console.log("err: " + err.response.data.email[0]);
           if (err.response.data.isNewEmail) {
             const error = [
-              "This account does not exist. Please Sign Up"
-              // <span
-              //   className={globalStyles.linkTextUnderline}
-              //   key={2}
-              //   onClick={e => {
-              //     // this.props.goRegister(
-              //     //   e,
-              //     //   (this.emailInput.current &&
-              //     //     this.emailInput.current.value) ||
-              //     //     ""
-              //     // );
-              //   }}
-              // >
-              //   Sign Up
-              // </span>
+              <span key={"2"}>
+                This account does not exist. Please{" "}
+                <span
+                  className={globalStyles.linkTextUnderline}
+                  key={2}
+                  onClick={e => {
+                    this.props.goRegister(
+                      e,
+                      (this.emailInput.current &&
+                        this.emailInput.current.value) ||
+                        ""
+                    );
+                  }}
+                >
+                  Sign Up
+                </span>
+                .
+              </span>
             ];
             this.setState({
               err: true,
@@ -159,9 +177,16 @@ class ForgotPasswordForm extends React.Component<Props, ForgotPasswordState> {
       this.emailInput.current.focus();
     }
     const email = localStorage.getItem("tempEmail");
+    const searchParams = new URLSearchParams(
+      this.props.history.location.search
+    );
+    const emailFromURl = decripttext(
+      searchParams.get("ei")?.replace(" ", "+") || "",
+      true
+    );
     const isBo = localStorage.getItem("isBo") || "";
     this.setState({
-      email: email,
+      email: emailFromURl || email || this.props.email,
       isBo: isBo
     });
     localStorage.removeItem("tempEmail");
@@ -204,7 +229,7 @@ class ForgotPasswordForm extends React.Component<Props, ForgotPasswordState> {
   };
 
   handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({ email: event.currentTarget.value });
+    this.setState({ email: event.target.value });
   };
 
   render() {
@@ -277,13 +302,15 @@ class ForgotPasswordForm extends React.Component<Props, ForgotPasswordState> {
         ) : (
           ""
         )} */}
-        <FormContainer
-          heading="Forgot Password"
-          subheading="Enter your email address and click on reset password."
-          formContent={formContent}
-          footer={this.state.isBo ? undefined : footer}
-        />
-        {this.state.disableSelectedbox && <Loader />}
+        <div>
+          <FormContainer
+            heading="Forgot Password"
+            subheading="Enter your email address and click on reset password."
+            formContent={formContent}
+            footer={this.state.isBo ? undefined : footer}
+          />
+          {this.state.disableSelectedbox && <Loader />}
+        </div>
       </Popup>
     );
   }

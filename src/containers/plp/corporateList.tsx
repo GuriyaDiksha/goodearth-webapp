@@ -142,6 +142,7 @@ class CorporateFilter extends React.Component<Props, State> {
                 cc[i] == "Souk" ||
                 cc[i] == "Pero" ||
                 cc[i] == "Eka" ||
+                cc[i] == "Object D Art" ||
                 cc[i] == "EkaaTest"
               ) {
                 this.haveCorporate = true;
@@ -1672,7 +1673,7 @@ class CorporateFilter extends React.Component<Props, State> {
 
   render() {
     const { mobile } = this.props;
-    const { filter } = this.state;
+    // const { filter } = this.state;
     // const productHtml = this.createProductType(
     //   this.props.facetObject.categoryObj,
     //   this.props.facets
@@ -1680,10 +1681,10 @@ class CorporateFilter extends React.Component<Props, State> {
     return (
       <Fragment>
         <ul id="inner_filter" className={styles.filterSideMenu}>
-          <li className={styles.filterElements}>
+          {/* <li className={styles.filterElements}>
             <span>Filtered By</span>
             <ul id="currentFilter">{this.renderFilterList(filter)}</ul>
-          </li>
+          </li> */}
           <li>
             <span
               className={

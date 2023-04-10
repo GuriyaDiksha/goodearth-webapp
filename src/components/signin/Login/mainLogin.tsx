@@ -2,7 +2,6 @@ import React, { RefObject, Fragment } from "react";
 import cs from "classnames";
 import styles from "../styles.scss";
 import globalStyles from "styles/global.scss";
-import bootstrapStyles from "../../../styles/bootstrap/bootstrap-grid.scss";
 import inputStyles from "../../../components/Formsy/styles.scss";
 import InputField from "../InputField";
 import Loader from "components/Loader";
@@ -145,7 +144,8 @@ class MainLogin extends React.Component<Props, loginState> {
               ];
               this.setState({
                 msg: error,
-                highlight: true
+                highlight: true,
+                isLoginDisabled: true
               });
               this.emailInput.current && this.emailInput.current.focus();
             }
@@ -165,11 +165,7 @@ class MainLogin extends React.Component<Props, loginState> {
     this.props
       .resetPassword(formData)
       .then(data => {
-        this.setState({
-          highlight: false,
-          msg: "",
-          successMsg: data.success
-        });
+        this.props.showGrowlMessage(data.success);
       })
       .catch((err: any) => {
         if (err.response.data.email) {
@@ -198,11 +194,11 @@ class MainLogin extends React.Component<Props, loginState> {
   };
 
   componentDidMount() {
-    const email = localStorage.getItem("tempEmail");
+    const email = this.props.email || localStorage.getItem("tempEmail");
     // const checkoutPopupCookie = CookieService.getCookie("checkoutinfopopup");
     if (email) {
       this.setState({ email, isLoginDisabled: false }, () => {
-        this.myBlur();
+        // this.myBlur();
       });
     }
     // if (checkoutPopupCookie == "show") {
@@ -229,11 +225,16 @@ class MainLogin extends React.Component<Props, loginState> {
       });
     }
     localStorage.removeItem("tempEmail");
+    if (this.state.usrWithNoOrder) {
+      this.props.setIsSuccessMsg?.(true);
+    } else {
+      this.props.setIsSuccessMsg?.(false);
+    }
   }
 
   UNSAFE_componentWillReceiveProps() {
     const email = localStorage.getItem("tempEmail");
-    if (!this.state.email || email) {
+    if (!this.state.email || this.props.email || email) {
       if (email) {
         this.setState({ email, isLoginDisabled: false }, () => {
           this.myBlur();
@@ -307,6 +308,12 @@ class MainLogin extends React.Component<Props, loginState> {
           }
           // this.context.closeModal();
           this.props.nextStep?.();
+          // const history = this.props.history
+          // const path = history.location.pathname;
+          // if (path.split("/")[1] == "password-reset") {
+          //   const searchParams = new URLSearchParams(history.location.search);
+          //   history.push(searchParams.get("redirect_to") || "");
+          // }
         })
         .catch(err => {
           if (
@@ -324,7 +331,7 @@ class MainLogin extends React.Component<Props, loginState> {
             );
           } else if (
             err.response.data.error_message &&
-            err.response.data.error_message[0] == "MaxRetries"
+            err.response.data.error_message[0] == "Maximum attempts reached"
           ) {
             this.setState(
               {
@@ -374,18 +381,7 @@ class MainLogin extends React.Component<Props, loginState> {
           isSecondStepLoginDisabled: true
         });
       }
-    }
-    // else if (this.state.password && this.state.password.length < 6) {
-    //   if (
-    //     this.state.msgp !==
-    //     "Please enter at least 6 characters for the password"
-    //   )
-    //     this.setState({
-    //       msgp: "Please enter at least 6 characters for the password",
-    //       highlightp: true
-    //     });
-    // }
-    else {
+    } else {
       this.setState({
         msgp: "",
         highlightp: false
@@ -447,6 +443,7 @@ class MainLogin extends React.Component<Props, loginState> {
     switch (type) {
       case "email": {
         this.disablePassword();
+        this.props.setEmail?.(event.target.value);
         this.setState({ email: event.currentTarget.value });
         break;
       }
@@ -479,8 +476,10 @@ class MainLogin extends React.Component<Props, loginState> {
     this.setState(
       {
         showCurrentSection: "email",
-        email: "",
-        isLoginDisabled: true,
+        subHeading: "Enter your email address to register or sign in.",
+        heading: "Welcome",
+        email: this.props.email,
+        isLoginDisabled: false,
         showerror: "",
         password: "",
         showEmailVerification: false,
@@ -498,8 +497,8 @@ class MainLogin extends React.Component<Props, loginState> {
         <div className={styles.categorylabel}>
           <div>
             <InputField
-              value={this.state.email}
-              placeholder={"Email"}
+              value={this.state.email || this.props.email}
+              placeholder={"Email ID"}
               label={"Email ID*"}
               border={this.state.highlight}
               keyUp={e => this.handleKeyUp(e, "email")}
@@ -511,7 +510,9 @@ class MainLogin extends React.Component<Props, loginState> {
           </div>
           <div>
             {this.state.showerror ? (
-              <p className={styles.errorMsg}>{this.state.showerror}</p>
+              <p className={cs(styles.errorMsg, styles.mainLoginError)}>
+                {this.state.showerror}
+              </p>
             ) : (
               ""
             )}
@@ -549,8 +550,8 @@ class MainLogin extends React.Component<Props, loginState> {
           <div>
             <InputField
               value={this.state.email}
-              placeholder={"Email"}
-              label={"Email*"}
+              placeholder={"Email ID"}
+              label={"Email ID*"}
               border={this.state.highlight}
               error={this.state.msg}
               inputRef={this.emailInput}
@@ -581,8 +582,8 @@ class MainLogin extends React.Component<Props, loginState> {
               <img src={this.state.showPassword ? show : hide} />
             </span>
           </div>
-          <div className={globalStyles.textCenter}>
-            <p
+          <div className={globalStyles.textRight}>
+            <span
               className={cs(styles.forgotPassword, globalStyles.pointer)}
               onClick={e => {
                 this.props.goForgotPassword(
@@ -593,9 +594,8 @@ class MainLogin extends React.Component<Props, loginState> {
                 );
               }}
             >
-              {" "}
               FORGOT PASSWORD
-            </p>
+            </span>
           </div>
           <div>
             {this.state.showerror ? (
@@ -658,22 +658,14 @@ class MainLogin extends React.Component<Props, loginState> {
             successMsg={this.state.usrWithNoOrder ? USR_WITH_NO_ORDER : ""}
             changeEmail={this.changeEmail}
             goLogin={this.goLogin}
-            socialLogin={footer}
+            // socialLogin={footer}
+            setIsSuccessMsg={this.props.setIsSuccessMsg}
           />
         ) : (
           <>
             {this.state.successMsg && (
-              <div
-                className={cs(bootstrapStyles.col10, bootstrapStyles.offset1)}
-              >
-                <div
-                  className={cs(
-                    globalStyles.successMsg,
-                    globalStyles.textCenter
-                  )}
-                >
-                  {this.state.successMsg}
-                </div>
+              <div className={cs(styles.successMsg, globalStyles.textCenter)}>
+                {this.state.successMsg}
               </div>
             )}
             {this.state.heading && (

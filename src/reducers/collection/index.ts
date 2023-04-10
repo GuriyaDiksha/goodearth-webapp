@@ -23,7 +23,9 @@ const initialState: CollectionState = {
     enabled: false,
     products: [],
     id: 0
-  }
+  },
+  tags: ["All Collections", "tag1", "tag 2", "test tag 3"],
+  filteredCollectionData: []
 };
 
 export const collection = (
@@ -54,6 +56,16 @@ export const collection = (
       const newState = { ...state };
       newState.collectionSpecficBanner = action.payload;
       return { ...newState };
+    }
+    case "UPDATE_TAGS_DATA": {
+      const newState = { ...state };
+      newState.tags = action.payload;
+      return newState;
+    }
+    case "UPDATE_FILTERED_COLLECTION_DATA": {
+      const newState = { ...state };
+      newState.filteredCollectionData = action.payload;
+      return newState;
     }
   }
   return state;

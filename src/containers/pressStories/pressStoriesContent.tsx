@@ -319,6 +319,7 @@ class PressStoriesContent extends React.Component<
                 className={cs(styles.cSortHeader, {
                   [styles.cSortHeaderTimer]: this.props.showTimer
                 })}
+                id="pressSortHeader"
               >
                 {
                   <div
