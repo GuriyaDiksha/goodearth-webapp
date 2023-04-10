@@ -263,12 +263,12 @@ const MyAccount: React.FC<Props> = props => {
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    const userInfo = JSON.parse(CookieService.getCookie("user") || "{}");
+    //const userInfo = JSON.parse(CookieService.getCookie("user") || "{}");
     if (
       accountMenuItems.filter(
         item => item.href == pathname && item.loggedInOnly
       ).length > 0 &&
-      !userInfo.isLoggedIn
+      !isLoggedIn
     ) {
       if (pathname == "/account/bridal") {
         LoginService.showLogin(dispatch);
