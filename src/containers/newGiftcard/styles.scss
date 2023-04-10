@@ -479,6 +479,7 @@ $banner-mobile-height:180px;
             max-height: 0px;
             transition: max-height 1s;
             &.open{
+                z-index: 9999999;
                 max-height: calc(100% - 60px);
             }
             .back-to-gc-details{
