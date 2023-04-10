@@ -111,7 +111,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
 
     if (isOTPSent) {
       scrollToGivenId("otp");
-      setRedeemOtpError("Please enter OTP");
+      setRedeemOtpError("Please redeem your points or cancel request.");
       return false;
     } else {
       setRedeemOtpError("");
