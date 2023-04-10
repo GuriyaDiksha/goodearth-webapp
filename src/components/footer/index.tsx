@@ -357,11 +357,10 @@ class Footer extends React.Component<Props, FooterState> {
                   })
             } ${this.props.saleStatus ? cs(styles.footerTopSale20) : ""}`}
             style={{
-              background: this.state.isInViewport
-                ? newsletterBgImage
-                  ? `url(${newsletterBgImage})`
-                  : newsletterBgColor
-                : "none"
+              backgroundImage: this.state.isInViewport
+                ? `url(${newsletterBgImage})`
+                : "none",
+              backgroundColor: `${newsletterBgColor}`
             }}
           >
             <div className={bootstrap.row}>
