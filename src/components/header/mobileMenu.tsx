@@ -1088,7 +1088,7 @@ class Mobilemenu extends React.Component<Props, MobileState> {
             </Link>
           </>
         </li> */}
-        <li
+        {/* <li
           key="stories"
           className={cs(
             this.props.location.pathname.indexOf("/bridal/") > 0 &&
@@ -1115,7 +1115,7 @@ class Mobilemenu extends React.Component<Props, MobileState> {
           >
             {ReactHtmlParser("stories")}
           </a>
-        </li>
+        </li> */}
       </ul>
     );
     const innerMenu = (

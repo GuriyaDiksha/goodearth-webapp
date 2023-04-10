@@ -27,7 +27,8 @@ import { CONFIG } from "constants/util";
 
 const MyProfile: React.FC<ProfileProps> = ({ setCurrentSection }) => {
   const {
-    address: { countryData }
+    address: { countryData },
+    user: { isLoggedIn }
   } = useSelector((state: AppState) => state);
   const [data, setData] = useState<Partial<ProfileResponse>>({});
   // const { user } = useSelector((state: AppState) => state);
@@ -144,6 +145,9 @@ const MyProfile: React.FC<ProfileProps> = ({ setCurrentSection }) => {
   };
 
   useEffect(() => {
+    if (!isLoggedIn) {
+      return;
+    }
     setCurrentSection();
     AccountService.fetchProfileData(dispatch)
       .then(data => {
@@ -162,9 +166,11 @@ const MyProfile: React.FC<ProfileProps> = ({ setCurrentSection }) => {
         });
       });
 
-    AccountService.fetchAccountPreferences(dispatch).then((data: any) => {
-      dispatch(updatePreferenceData(data));
-    });
+    if (CONFIG.WHATSAPP_SUBSCRIBE_ENABLED) {
+      AccountService.fetchAccountPreferences(dispatch).then((data: any) => {
+        dispatch(updatePreferenceData(data));
+      });
+    }
   }, []);
 
   useEffect(() => {
