@@ -64,10 +64,10 @@ const AddressList: React.FC<Props> = props => {
   }, [addressDataList]);
 
   useEffect(() => {
-    const stateIdList = addressData.filter(e => !e.isTulsi).map(e => e.id);
-    const storeIdList = addressDataList.filter(e => !e.isTulsi).map(e => e.id);
+    const stateIdList = addressData.map(e => e.id);
+    const storeIdList = addressDataList.map(e => e.id);
     const diff = stateIdList.filter(e => !storeIdList.includes(e));
-    const newStateList = addressData.filter(e => e.id != diff[0] && !e.isTulsi);
+    const newStateList = addressData.filter(e => e.id != diff[0]);
     setAddressData(newStateList);
   }, [addressDataList]);
 
