@@ -1114,6 +1114,12 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
                 ]}
                 required
               />
+              {this.whatsappCheckRef.current?.checked && (
+                <div className={styles.manageLine}>
+                  Manage your preference from My Prefernece section under
+                  Profile
+                </div>
+              )}
               <div className={styles.tooltip}>
                 <img
                   src={this.state.showTip ? tooltipOpenIcon : tooltipIcon}
