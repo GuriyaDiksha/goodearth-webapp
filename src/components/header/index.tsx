@@ -915,6 +915,7 @@ class Header extends React.Component<Props, State> {
     const isBridalRegistryPage =
       this.props.location.pathname.indexOf("/bridal/") > -1 &&
       !(this.props.location.pathname.indexOf("/account/") > -1);
+    const isHomePage = this.props.location.pathname.indexOf("/") > -1;
     const { showMenu } = this.state;
     const isCeriseCustomer = slab
       ? slab.toLowerCase() == "cerise" ||
@@ -1033,7 +1034,10 @@ class Header extends React.Component<Props, State> {
         <div
           id="myHeader"
           className={cs(
-            { [styles.headerIndex]: showMenu },
+            {
+              [styles.headerIndex]: showMenu,
+              [styles.headerIndexHome]: isHomePage
+            },
             styles.headerContainer
           )}
         >
