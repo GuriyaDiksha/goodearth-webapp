@@ -97,7 +97,10 @@ class Header extends React.Component<Props, State> {
         (this.props.location.pathname.includes("/catalogue/") &&
           !this.props.location.pathname.includes("/catalogue/category")) ||
         (this.props.location.pathname.includes("/bridal/") &&
-          !this.props.location.pathname.includes("/account/"))
+          !this.props.location.pathname.includes("/account/")),
+      isHomePage: this.props.location.pathname === "/",
+      isPlpPage:
+        this.props.location.pathname.indexOf("/catalogue/category") > -1
     };
   }
   static contextType = UserContext;
@@ -231,6 +234,13 @@ class Header extends React.Component<Props, State> {
     }
     if (this.props.showTimer != nextProps.showTimer) {
       this.onScroll(null, nextProps.showTimer);
+    }
+    if (this.props.location.pathname !== nextProps.location.pathname) {
+      this.setState({
+        isHomePage: nextProps.location.pathname === "/",
+        isPlpPage:
+          nextProps.location.pathname.indexOf("/catalogue/category") > -1
+      });
     }
   }
   componentDidUpdate(prevProps: Props) {
@@ -830,6 +840,7 @@ class Header extends React.Component<Props, State> {
   };
 
   render() {
+    const { isHomePage, isPlpPage } = this.state;
     const { isLoggedIn } = this.context;
     const {
       wishlistData,
@@ -915,7 +926,7 @@ class Header extends React.Component<Props, State> {
     const isBridalRegistryPage =
       this.props.location.pathname.indexOf("/bridal/") > -1 &&
       !(this.props.location.pathname.indexOf("/account/") > -1);
-    const isHomePage = this.props.location.pathname === "/";
+
     const { showMenu } = this.state;
     const isCeriseCustomer = slab
       ? slab.toLowerCase() == "cerise" ||
@@ -1036,7 +1047,8 @@ class Header extends React.Component<Props, State> {
           className={cs(
             {
               [styles.headerIndex]: showMenu,
-              [styles.headerIndexHome]: isHomePage
+              [styles.headerIndexHome]: isHomePage,
+              [styles.plpIndex]: isPlpPage
             },
             styles.headerContainer
           )}

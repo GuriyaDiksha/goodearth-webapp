@@ -44,11 +44,15 @@
 .index{
   z-index: 10 !important;
 }
+
+.plp-index{
+  z-index: 5 !important;
+}
 .header-container {
     position: relative;
     margin-top: -40px;
     top: 40px;
-    z-index: 5;
+    z-index: 12;
     width: 100%;
     background-color: rgb(249, 248, 245);
     height: $header-height;
