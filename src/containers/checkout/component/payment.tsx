@@ -25,6 +25,8 @@ import LoginService from "services/login";
 import { updateCountryData } from "actions/address";
 import WhatsappSubscribe from "components/WhatsappSubscribe";
 import Formsy from "formsy-react";
+import { makeid } from "utils/utility";
+import { CONFIG } from "constants/util";
 
 const PaymentSection: React.FC<PaymentProps> = props => {
   const data: any = {};
@@ -58,7 +60,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
   const fetchCountryData = async () => {
     const data = await LoginService.fetchCountryData(dispatch);
     dispatch(updateCountryData(data));
-    const isdList = countryData.map(list => {
+    const isdList = data.map(list => {
       return list.isdCode;
     });
     setIsdList(isdList);
@@ -154,20 +156,6 @@ const PaymentSection: React.FC<PaymentProps> = props => {
         return false;
       }
 
-      const temp: any = whatsappCountryCodeRef.current;
-      temp ? temp.input.value : preferenceData.whatsappNoCountryCode;
-      data["whatsappSubscribe"] = whatsappCheckRef.current
-        ? whatsappCheckRef.current.checked
-        : preferenceData.whatsappSubscribe;
-
-      data["whatsappNo"] = whatsappNoRef.current
-        ? whatsappNoRef.current.value
-        : preferenceData.whatsappNo;
-
-      data["whatsappNoCountryCode"] = temp
-        ? temp.input.value
-        : preferenceData.whatsappNoCountryCode;
-
       setIsLoading(true);
       const paymentMode: string[] = [];
       let paymentMethod = "";
@@ -222,11 +210,12 @@ const PaymentSection: React.FC<PaymentProps> = props => {
 
     if (countryData.length == 0) {
       fetchCountryData();
+    } else {
+      const isdList = countryData.map(list => {
+        return list.isdCode;
+      });
+      setIsdList(isdList);
     }
-
-    AccountServices.fetchAccountPreferences(dispatch).then((data: any) => {
-      dispatch(updatePreferenceData(data));
-    });
   }, []);
 
   useEffect(() => {
@@ -248,6 +237,16 @@ const PaymentSection: React.FC<PaymentProps> = props => {
         console.group(err);
       });
   }, [currency]);
+
+  useEffect(() => {
+    if (isActive) {
+      if (CONFIG.WHATSAPP_SUBSCRIBE_ENABLED) {
+        AccountServices.fetchAccountPreferences(dispatch).then((data: any) => {
+          dispatch(updatePreferenceData(data));
+        });
+      }
+    }
+  }, [isActive]);
 
   // const getMethods = useMemo(() => {
   //   let methods = [
@@ -544,24 +543,28 @@ const PaymentSection: React.FC<PaymentProps> = props => {
           </div>
           <div>
             <hr className={styles.hr} />
-            <div className={styles.loginForm}>
-              <Formsy>
-                <div className={styles.categorylabel}>
-                  <WhatsappSubscribe
-                    data={preferenceData}
-                    innerRef={whatsappCheckRef}
-                    isdList={isdList}
-                    showTermsMessage={false}
-                    showTooltip={true}
-                    showManageMsg={true}
-                    showPhone={true}
-                    showPopupMsg={true}
-                    whatsappClass={styles.whatsapp}
-                    countryCodeClass={styles.countryCode}
-                  />
-                </div>
-              </Formsy>
-            </div>
+            {CONFIG.WHATSAPP_SUBSCRIBE_ENABLED && (
+              <div className={styles.loginForm}>
+                <Formsy>
+                  <div className={styles.categorylabel}>
+                    <WhatsappSubscribe
+                      data={preferenceData}
+                      innerRef={whatsappCheckRef}
+                      isdList={isdList}
+                      showTermsMessage={false}
+                      showTooltip={true}
+                      showManageMsg={true}
+                      showPhone={true}
+                      whatsappClass={styles.whatsapp}
+                      countryCodeClass={styles.countryCode}
+                      checkboxLabelClass={styles.checkboxLabel}
+                      allowUpdate={true}
+                      uniqueKey={makeid(5)}
+                    />
+                  </div>
+                </Formsy>
+              </div>
+            )}
           </div>
           <label
             className={cs(

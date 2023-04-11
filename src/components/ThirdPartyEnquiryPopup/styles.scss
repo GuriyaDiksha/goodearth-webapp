@@ -29,7 +29,7 @@
 }
 
 .heading {
-    @include c22-A-I();
+   @include h2_24px_lora_charcoal();
     line-height: 50px;
 }
 
@@ -38,7 +38,7 @@
 }
 
 .subheading {
-    @include c10-L-R();
+    @include b4_12px_montserrat_charcoal();
 }
 
 .close-btn {
@@ -55,7 +55,7 @@
 
 .enquire-error {
     @include b5_10px_montserrat_charcoal();
-    margin-bottom: 10px;
+    margin-bottom: 20px;
     text-align: left;
 }
 
@@ -193,7 +193,7 @@
     }
 
 .msg {
-    @include b4_12px_montserrat_charcoal();
+  @include b4_12px_montserrat_semibold_charcoal();
     text-align: left;
 }
 
@@ -212,7 +212,6 @@
     border: 1px solid #eee;
     width: 100%;
     padding: 10px;
-    font-size: 14px;
     line-height: 25px;
     -webkit-appearance: none;
     -moz-appearance: none;
@@ -220,15 +219,12 @@
     border-radius: 0;
     text-align: start;
     min-height: 50px;
+    @include b4_12px_montserrat_charcoal();
   }
 }
 .select-size {
-    font-size: 12px;
-    color: black;
+    @include b4_12px_montserrat_semibold_charcoal();
     text-align: left;
-    font-style: italic;
-    // font-weight: bold;
-    font-weight: 600;
 }
 
 textarea[disabled] {

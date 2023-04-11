@@ -7,6 +7,7 @@
         height: 15px;
         position: absolute;
         top: -7px;
+        left: 0px;
         cursor: pointer;
         z-index: 1;
     }
@@ -32,17 +33,39 @@
     }
 }
 
+.number-input{
+    .update-btn{
+        @include b5_10px_montserrat_charcoal();
+        letter-spacing: 1px;
+        text-decoration: underline;
+        text-underline-offset: 4px;
+        cursor: pointer;
+        display: inline;
+        position: absolute;
+        top: 25px;
+        right: 10px;
+        transform: translateY(-50%);
+    }
+}
+
 .whatsapp {
     .flex-for-tooltip{
         display: flex;
     }
 }
 .manage-msg{
-    padding-left: 35px;
+    padding-left: 45px;
     top: -20px;
 }
 .show-popup-msg{
     display: flex;
+    &.manage-msg{
+        padding-left: 30px;
+        top: -18px;
+        .text{
+            margin-left: 0px;
+        }
+    }
     img {
         height: 16px;
         padding-top: 3px

@@ -34,7 +34,8 @@ const mapStateToProps = (state: AppState) => {
     scrollDown: state.info.scrollDown,
     customerGroup: state.user.customerGroup,
     filtered_facets: state.plplist.data.results.filtered_facets,
-    showTimer: state.info.showTimer
+    showTimer: state.info.showTimer,
+    mobileMenuOpenState: state.header.mobileMenuOpenState
   };
 };
 
@@ -691,7 +692,6 @@ class FilterList extends React.Component<Props, State> {
   UNSAFE_componentWillReceiveProps = (nextProps: Props) => {
     // const urlParams2 = new URLSearchParams(nextProps.history.location.search);
     // const categoryShop2 = urlParams2.get("category_shop")?.split(">")[1];
-
     const url = decodeURI(
       nextProps?.history.location.search.replace(/\+/g, " ")
     );
@@ -744,6 +744,10 @@ class FilterList extends React.Component<Props, State> {
         showProductFilter: false,
         showmenulevel1: false
       });
+    }
+
+    if (this.props.mobileMenuOpenState !== nextProps.mobileMenuOpenState) {
+      this.props.onChangeFilterState(false, false);
     }
   };
 
@@ -2367,7 +2371,7 @@ class FilterList extends React.Component<Props, State> {
         {mobile ? (
           <div className={cs(styles.filterButton, bootstrap.row)}>
             <div className={styles.numberDiv}>
-              <span>{this.state.totalItems + 1} Product found</span>
+              <span>{this.state.totalItems} Product found</span>
             </div>
             <div className={styles.applyButton} onClick={this.mobileApply}>
               <span>Apply</span>

@@ -147,13 +147,20 @@ const CookiePolicy: React.FC<Props> = ({
   };
 
   const hideCookie = () => {
-    setConsent(true);
+    //    setConsent(true);
     if (OLD_COOKIE_SETTINGS) {
       CookieService.setCookie(
         "consent",
         "GA-Calls,Any-Ads,Search-History",
         365
       ); //Hardcoded consents
+      setConsent(true);
+    } else {
+      const functionalities =
+        widgetDetail?.consents.find(e => e.name === "Necessary Cookies")
+          ?.functionalities || "Necessary,GA-Calls";
+      CookieService.setCookie("consent", functionalities, 365);
+      setConsent(functionalities);
     }
     hideCookies();
     showCookiePrefs();

@@ -22,13 +22,16 @@ import LoginService from "services/login";
 import { updateCountryData } from "actions/address";
 import WhatsappSubscribe from "components/WhatsappSubscribe";
 import { updatePreferenceData } from "actions/user";
+import { makeid } from "utils/utility";
+import { CONFIG } from "constants/util";
 
 const MyProfile: React.FC<ProfileProps> = ({ setCurrentSection }) => {
   const {
-    address: { countryData }
+    address: { countryData },
+    user: { isLoggedIn }
   } = useSelector((state: AppState) => state);
   const [data, setData] = useState<Partial<ProfileResponse>>({});
-  const { user } = useSelector((state: AppState) => state);
+  // const { user } = useSelector((state: AppState) => state);
   const whatsappSubscribeRef = useRef(false);
   const [profileState, setProfileState] = useState<State>({
     newsletter: false,
@@ -142,6 +145,9 @@ const MyProfile: React.FC<ProfileProps> = ({ setCurrentSection }) => {
   };
 
   useEffect(() => {
+    if (!isLoggedIn) {
+      return;
+    }
     setCurrentSection();
     AccountService.fetchProfileData(dispatch)
       .then(data => {
@@ -149,6 +155,7 @@ const MyProfile: React.FC<ProfileProps> = ({ setCurrentSection }) => {
           dispatch(updateCountryData(res));
           changeCountryData(res, data);
           pageViewGTM("MyAccount");
+          window.scrollTo(0, 0);
         });
         setApiResponse(data);
       })
@@ -159,9 +166,11 @@ const MyProfile: React.FC<ProfileProps> = ({ setCurrentSection }) => {
         });
       });
 
-    AccountService.fetchAccountPreferences(dispatch).then((data: any) => {
-      dispatch(updatePreferenceData(data));
-    });
+    if (CONFIG.WHATSAPP_SUBSCRIBE_ENABLED) {
+      AccountService.fetchAccountPreferences(dispatch).then((data: any) => {
+        dispatch(updatePreferenceData(data));
+      });
+    }
   }, []);
 
   useEffect(() => {
@@ -510,7 +519,7 @@ const MyProfile: React.FC<ProfileProps> = ({ setCurrentSection }) => {
                   name="phoneCountryCode"
                   placeholder="Code"
                   label="Country Code"
-                  value=""
+                  value={data.phoneCountryCode || ""}
                   disable={data?.phoneCountryCode ? true : false}
                   id="isd_code"
                   validations={{
@@ -546,6 +555,7 @@ const MyProfile: React.FC<ProfileProps> = ({ setCurrentSection }) => {
                     { [styles.disabledInput]: data?.phoneNumber },
                     styles.contactNum
                   )}
+                  value={data?.phoneNumber}
                   // validations={{
                   //   isPhoneValid: (values, value) => {
                   //     return !(value == "");
@@ -578,9 +588,10 @@ const MyProfile: React.FC<ProfileProps> = ({ setCurrentSection }) => {
                 defaultClass={styles.inputDefault}
               />
             </div>
-            {/* {
+            {CONFIG.WHATSAPP_SUBSCRIBE_ENABLED && (
               <div className={styles.subscribe}>
                 <WhatsappSubscribe
+                  uniqueKey={makeid(5)}
                   innerRef={whatsappSubscribeRef}
                   showTermsMessage={false}
                   showManageMsg={true}
@@ -589,7 +600,7 @@ const MyProfile: React.FC<ProfileProps> = ({ setCurrentSection }) => {
                   onlyCheckbox={true}
                 />
               </div>
-            } */}
+            )}
             <div className={styles.subscribe}>
               <FormCheckbox
                 value={data?.subscribe || false}

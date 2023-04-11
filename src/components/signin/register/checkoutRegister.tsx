@@ -28,7 +28,9 @@ import { GA_CALLS, ANY_ADS } from "constants/cookieConsent";
 // import SelectDropdown from "components/Formsy/SelectDropdown";
 import CountryCode from "components/Formsy/CountryCode";
 import FormContainer from "../formContainer";
-import WhatsappSubscribe from "components/WhatsappSubscribe";
+import tooltipIcon from "images/tooltip.svg";
+import tooltipOpenIcon from "images/tooltip-open.svg";
+import { CONFIG } from "constants/util";
 
 const mapStateToProps = (state: AppState) => {
   const isdList = state.address.countryData.map(list => {
@@ -76,7 +78,8 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
       stateOptions: [],
       isIndia: false,
       showEmailVerification: false,
-      email: ""
+      email: "",
+      showTip: false
     };
   }
   static contextType = Context;
@@ -1098,16 +1101,41 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
               showLabel={true}
             />
           </div>
-          <div className={styles.subscribe}>
-            <WhatsappSubscribe
-              innerRef={this.whatsappCheckRef}
-              showTermsMessage={false}
-              showManageMsg={true}
-              showPhone={false}
-              showTooltip={true}
-              onlyCheckbox={true}
-            />
-          </div>
+          {CONFIG.WHATSAPP_SUBSCRIBE_ENABLED && (
+            <div className={cs(styles.subscribe, styles.tooltip)}>
+              <FormCheckbox
+                value={false}
+                inputRef={this.whatsappCheckRef}
+                id="whatsappSubscribe"
+                name="whatsappSubscribe"
+                disable={false}
+                label={[
+                  <span key="1">Subscribe me for Whatsapp updates.</span>
+                ]}
+                required
+              />
+              <div className={styles.tooltip}>
+                <img
+                  src={this.state.showTip ? tooltipOpenIcon : tooltipIcon}
+                  onClick={() => {
+                    this.setState(prevState => {
+                      return {
+                        showTip: prevState.showTip
+                      };
+                    });
+                  }}
+                />
+                <div
+                  className={cs(styles.tooltipMsg, {
+                    [styles.show]: this.state.showTip
+                  })}
+                >
+                  By checking this, you agree to receiving Whatsapp messages for
+                  order & profile related information
+                </div>
+              </div>
+            </div>
+          )}
           <div className={styles.subscribe}>
             <FormCheckbox
               value={false}
