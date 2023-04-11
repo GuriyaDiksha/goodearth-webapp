@@ -4,5 +4,5 @@ export const CUST = {
 };
 
 export const CONFIG = {
-  WHATSAPP_SUBSCRIBE_ENABLED: false
+  WHATSAPP_SUBSCRIBE_ENABLED: true
 };
