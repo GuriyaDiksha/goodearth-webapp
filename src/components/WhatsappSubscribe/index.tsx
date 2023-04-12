@@ -35,6 +35,7 @@ type Props = {
   showSubscribe?: boolean;
   uniqueKey: string;
   newsletterClass?: string;
+  buttonClass?: string;
 };
 
 const WhatsappSubscribe: React.FC<Props> = ({
@@ -54,7 +55,8 @@ const WhatsappSubscribe: React.FC<Props> = ({
   allowUpdate = false,
   uniqueKey,
   showSubscribe = false,
-  newsletterClass
+  newsletterClass,
+  buttonClass
 }) => {
   const dispatch = useDispatch();
   const [checked, setChecked] = useState(false);
@@ -161,33 +163,19 @@ const WhatsappSubscribe: React.FC<Props> = ({
         Object.keys(errdata).map(key => {
           switch (key) {
             case "whatsappNo":
+              console.log(formRef.current?.updateInputsWithError);
+              formRef.current?.updateInputsWithError(
+                {
+                  [key]: errdata[key][0]
+                },
+                true
+              );
               setNumberError(errdata[key][0]);
               break;
           }
         });
       });
   };
-
-  //If update from component is allowed but user already subscribed
-  if (allowUpdate && !updated) {
-    if (data.whatsappSubscribe) {
-      return (
-        <div className={styles.showPopupMsg} key={uniqueKey}>
-          <img src={waIcon} />
-          <div className={styles.text}>
-            <div className={styles.info}>
-              Whatsapp updates will be sent on {data.whatsappNoCountryCode}{" "}
-              {data.whatsappNo}.
-            </div>
-            <div className={styles.cta}>
-              <a onClick={openPopup}>Click here</a> to update this number or
-              unsubscribe.
-            </div>
-          </div>
-        </div>
-      );
-    }
-  }
 
   const onFormChange = (model: any, isChanged: any) => {
     const {
@@ -268,10 +256,36 @@ const WhatsappSubscribe: React.FC<Props> = ({
       });
   };
 
+  //If update from component is allowed but user already subscribed
+  if (allowUpdate && !updated) {
+    if (data.whatsappSubscribe) {
+      return (
+        <div className={styles.showPopupMsg} key={uniqueKey}>
+          <img src={waIcon} />
+          <div className={styles.text}>
+            <div className={styles.info}>
+              Whatsapp updates will be sent on {data.whatsappNoCountryCode}{" "}
+              {data.whatsappNo}.
+            </div>
+            <div className={styles.cta}>
+              <a onClick={openPopup}>Click here</a> to update this number or
+              unsubscribe.
+            </div>
+          </div>
+        </div>
+      );
+    }
+  }
+
   //all other cases
   return (
-    <Formsy onSubmit={onSubmit} onChange={onFormChange} ref={formRef}>
-      <div className={cs(styles.whatsapp, whatsappClass)} key={uniqueKey}>
+    <Formsy
+      onSubmit={onSubmit}
+      onChange={onFormChange}
+      ref={formRef}
+      key={uniqueKey}
+    >
+      <div className={cs(styles.whatsapp, whatsappClass)}>
         <div
           className={cs({
             [styles.flexForTooltip]: showTooltip
@@ -363,6 +377,7 @@ const WhatsappSubscribe: React.FC<Props> = ({
                 isCodeValid: "Required",
                 isValidCode: "Enter valid code"
               }}
+              autocomplete="off"
               // handleChange={onCodeChange}
             />
             <div className={styles.numberInput}>
@@ -451,14 +466,18 @@ const WhatsappSubscribe: React.FC<Props> = ({
             .
           </div>
         )}
-        {!onlyCheckbox && (
+        {!(onlyCheckbox || allowUpdate) && (
           <div className={styles.savePrefBtn}>
             <input
               type="submit"
               value="Save Preferences"
-              className={cs(globalStyles.charcoalBtn, {
-                [globalStyles.disabledBtn]: isDisabled
-              })}
+              className={cs(
+                globalStyles.charcoalBtn,
+                {
+                  [globalStyles.disabledBtn]: isDisabled
+                },
+                buttonClass
+              )}
               disabled={isDisabled}
             />
           </div>
