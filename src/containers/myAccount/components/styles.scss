@@ -539,7 +539,7 @@ input[type="text"]{
   }
   input[type="text"], input[type="date"], input[type="password"], input[type="number"]{
     font-family: $font-Montserrat;
-    font-size: 12px;
+    font-size: 12px !important;
     font-weight: $regular;
     &::placeholder{
       font-family: $font-Montserrat;
