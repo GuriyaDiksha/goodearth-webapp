@@ -216,7 +216,7 @@ const AddressMain: React.FC<Props> = props => {
     return isValid;
   };
 
-  const markAsDefault = (addressData: AddressData) => {
+  const markAsDefault = (addressData: AddressData, addressId?: number) => {
     const { country } = addressData;
     const isValid = isAddressValid(addressData);
     if (isValid) {
@@ -253,7 +253,7 @@ const AddressMain: React.FC<Props> = props => {
         state
       };
 
-      AddressService.updateAddress(dispatch, formData, id)
+      AddressService.updateAddress(dispatch, formData, id, addressId)
         .catch(err => {
           const errData = err.response.data;
           console.log(errData);
