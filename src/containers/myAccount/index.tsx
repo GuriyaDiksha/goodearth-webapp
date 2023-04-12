@@ -566,9 +566,9 @@ const MyAccount: React.FC<Props> = props => {
                               />
                             ) : (
                               <Component
-                                setCurrentSection={() =>
-                                  setCurrentSection(title)
-                                }
+                                setCurrentSection={() => {
+                                  setCurrentSection(title);
+                                }}
                                 currentCallBackComponent={
                                   currentCallBackComponent
                                 }

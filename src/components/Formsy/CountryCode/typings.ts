@@ -15,6 +15,7 @@ export type Props = {
   showLabel?: boolean;
   innerRef?: any;
   name: string;
+  autocomplete?: string;
 };
 
 export type Country = {
