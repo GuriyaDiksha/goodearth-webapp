@@ -98,7 +98,6 @@ class Header extends React.Component<Props, State> {
           !this.props.location.pathname.includes("/catalogue/category")) ||
         (this.props.location.pathname.includes("/bridal/") &&
           !this.props.location.pathname.includes("/account/")),
-      isHomePage: this.props.location.pathname === "/",
       isPlpPage:
         this.props.location.pathname.indexOf("/catalogue/category") > -1
     };
@@ -237,7 +236,6 @@ class Header extends React.Component<Props, State> {
     }
     if (this.props.location.pathname !== nextProps.location.pathname) {
       this.setState({
-        isHomePage: nextProps.location.pathname === "/",
         isPlpPage:
           nextProps.location.pathname.indexOf("/catalogue/category") > -1
       });
@@ -840,7 +838,7 @@ class Header extends React.Component<Props, State> {
   };
 
   render() {
-    const { isHomePage, isPlpPage } = this.state;
+    const { isPlpPage } = this.state;
     const { isLoggedIn } = this.context;
     const {
       wishlistData,
@@ -1047,7 +1045,6 @@ class Header extends React.Component<Props, State> {
           className={cs(
             {
               [styles.headerIndex]: showMenu,
-              [styles.headerIndexHome]: isHomePage,
               [styles.plpIndex]: isPlpPage
             },
             styles.headerContainer

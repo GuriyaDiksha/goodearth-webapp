@@ -38,9 +38,9 @@
 .header-index {
   z-index: 1000009 !important;
 }
-.header-index-home {
-  z-index: 1000002 !important;
-}
+// .header-index-home {
+//   z-index: 1000002 !important;
+// }
 .index{
   z-index: 10 !important;
 }
@@ -979,6 +979,7 @@ a {
   overflow-x: hidden;
   -moz-appearance: none;
   appearance: none;
+  padding-bottom: 160px;
   // @include scrollbar-default();
   // &:hover {
   //   @include scrollbar();
