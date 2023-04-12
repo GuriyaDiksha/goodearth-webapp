@@ -9,7 +9,6 @@ import { AddressContext } from "../AddressMain/context";
 import AddressItemBridal from "../AddressItemBridal";
 import { AppState } from "reducers/typings";
 import { useSelector } from "react-redux";
-import { isEqual } from "lodash";
 
 type Props = {
   addressDataList: AddressData[];
@@ -21,20 +20,14 @@ type Props = {
 
 const AddressList: React.FC<Props> = props => {
   const { activeStep } = useContext(AddressContext);
-  const [addressData, setAddressData] = useState(props.addressDataList);
+  const [addressData, setAddressData] = useState<AddressData[]>([]);
   const { bridalAddressId } = useSelector((state: AppState) => state.basket);
   const { isLoggedIn, email } = useSelector((state: AppState) => state.user);
   const { addressDataList, isBridal } = props;
   const [defaultAddress, setDefaultAddress] = useState(`default_check_${0}`);
-  const [isRender, setIsRender] = useState(false);
 
   useEffect(() => {
-    if (
-      addressDataList.length > 0 &&
-      isRender === false &&
-      !isEqual(addressDataList, addressData)
-    ) {
-      setIsRender(true);
+    if (addressDataList.length > 0) {
       let addressDatas = addressDataList;
       if (
         (activeStep == "BILLING" &&
@@ -69,29 +62,27 @@ const AddressList: React.FC<Props> = props => {
     }
   }, [addressDataList, isLoggedIn, email]);
 
-  useEffect(() => {
-    if (!isRender) {
-      return;
-    }
-    let newStateList;
-    if (
-      activeStep == "SHIPPING" &&
-      props.currentCallBackComponent == "checkout-shipping"
-    ) {
-      const stateIdList = addressData.map(e => e.id);
-      const storeIdList = addressDataList.map(e => e.id);
-      const diff = stateIdList.filter(e => !storeIdList.includes(e));
-      newStateList = addressData.filter(e => e.id != diff[0]);
-    } else {
-      const stateIdList = addressData.filter(e => !e.isTulsi).map(e => e.id);
-      const storeIdList = addressDataList
-        .filter(e => !e.isTulsi)
-        .map(e => e.id);
-      const diff = stateIdList.filter(e => !storeIdList.includes(e));
-      newStateList = addressData.filter(e => e.id != diff[0] && !e.isTulsi);
-    }
-    setAddressData(newStateList);
-  }, [addressDataList]);
+  // useEffect(() => {
+
+  //   let newStateList;
+  //   if (
+  //     activeStep == "SHIPPING" &&
+  //     props.currentCallBackComponent == "checkout-shipping"
+  //   ) {
+  //     const stateIdList = addressData.map(e => e.id);
+  //     const storeIdList = addressDataList.map(e => e.id);
+  //     const diff = stateIdList.filter(e => !storeIdList.includes(e));
+  //     newStateList = addressData.filter(e => e.id != diff[0]);
+  //   } else {
+  //     const stateIdList = addressData.filter(e => !e.isTulsi).map(e => e.id);
+  //     const storeIdList = addressDataList
+  //       .filter(e => !e.isTulsi)
+  //       .map(e => e.id);
+  //     const diff = stateIdList.filter(e => !storeIdList.includes(e));
+  //     newStateList = addressData.filter(e => e.id != diff[0] && !e.isTulsi);
+  //   }
+  //   setAddressData(newStateList);
+  // }, [addressDataList]);
 
   // const [ addressDataList: addressData || [],
   const [isLoading] = useState(false);
