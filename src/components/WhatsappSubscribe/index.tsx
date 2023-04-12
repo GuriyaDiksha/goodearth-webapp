@@ -196,17 +196,18 @@ const WhatsappSubscribe: React.FC<Props> = ({
       whatsappNo,
       whatsappNoCountryCode
     } = model;
-
-    const prefData = data;
-    if (
-      whatsappSubscribe == prefData.whatsappSubscribe &&
-      whatsappNoCountryCode == prefData.whatsappNoCountryCode &&
-      whatsappNo == prefData.whatsappNo &&
-      subscribe == prefData.subscribe
-    ) {
-      setObjEqual(true);
-    } else {
-      setObjEqual(false);
+    if (data) {
+      const prefData = data;
+      if (
+        whatsappSubscribe == prefData.whatsappSubscribe &&
+        whatsappNoCountryCode == prefData.whatsappNoCountryCode &&
+        whatsappNo == prefData.whatsappNo &&
+        subscribe == prefData.subscribe
+      ) {
+        setObjEqual(true);
+      } else {
+        setObjEqual(false);
+      }
     }
   };
 
@@ -450,16 +451,18 @@ const WhatsappSubscribe: React.FC<Props> = ({
             .
           </div>
         )}
-        <div className={styles.savePrefBtn}>
-          <input
-            type="submit"
-            value="Save Preferences"
-            className={cs(globalStyles.charcoalBtn, {
-              [globalStyles.disabledBtn]: isDisabled
-            })}
-            disabled={isDisabled}
-          />
-        </div>
+        {!onlyCheckbox && (
+          <div className={styles.savePrefBtn}>
+            <input
+              type="submit"
+              value="Save Preferences"
+              className={cs(globalStyles.charcoalBtn, {
+                [globalStyles.disabledBtn]: isDisabled
+              })}
+              disabled={isDisabled}
+            />
+          </div>
+        )}
       </div>
     </Formsy>
   );
