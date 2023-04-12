@@ -62,29 +62,6 @@ const AddressList: React.FC<Props> = props => {
     }
   }, [addressDataList, isLoggedIn, email]);
 
-  // useEffect(() => {
-
-  //   let newStateList;
-  //   if (
-  //     activeStep == "SHIPPING" &&
-  //     props.currentCallBackComponent == "checkout-shipping"
-  //   ) {
-  //     const stateIdList = addressData.map(e => e.id);
-  //     const storeIdList = addressDataList.map(e => e.id);
-  //     const diff = stateIdList.filter(e => !storeIdList.includes(e));
-  //     newStateList = addressData.filter(e => e.id != diff[0]);
-  //   } else {
-  //     const stateIdList = addressData.filter(e => !e.isTulsi).map(e => e.id);
-  //     const storeIdList = addressDataList
-  //       .filter(e => !e.isTulsi)
-  //       .map(e => e.id);
-  //     const diff = stateIdList.filter(e => !storeIdList.includes(e));
-  //     newStateList = addressData.filter(e => e.id != diff[0] && !e.isTulsi);
-  //   }
-  //   setAddressData(newStateList);
-  // }, [addressDataList]);
-
-  // const [ addressDataList: addressData || [],
   const [isLoading] = useState(false);
 
   // componentWillReceiveProps(props) {
