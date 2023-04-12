@@ -21,6 +21,7 @@ import AccountService from "services/account";
 import LoginService from "services/login";
 import { updateCountryData } from "actions/address";
 import { updatePreferenceData } from "actions/user";
+import { CONFIG } from "constants/util";
 
 const MyProfile: React.FC<ProfileProps> = ({ setCurrentSection }) => {
   const {
