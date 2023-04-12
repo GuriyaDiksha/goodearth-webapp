@@ -103,16 +103,19 @@ const NewOtpComponent: React.FC<Props> = ({
 
   useEffect(() => {
     if (errorMsg) {
-      setInput({
-        otp1: "",
-        otp2: "",
-        otp3: "",
-        otp4: "",
-        otp5: "",
-        otp6: ""
-      });
       setError(errorMsg);
-      if (setRedeemOtpError) setRedeemOtpError("");
+      if (setRedeemOtpError) {
+        setRedeemOtpError("");
+      } else {
+        setInput({
+          otp1: "",
+          otp2: "",
+          otp3: "",
+          otp4: "",
+          otp5: "",
+          otp6: ""
+        });
+      }
     }
   }, [errorMsg]);
 
