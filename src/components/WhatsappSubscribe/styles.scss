@@ -47,7 +47,9 @@
         transform: translateY(-50%);
     }
 }
-
+.terms-msg{
+    margin-bottom: 25px;
+}
 .whatsapp {
     .flex-for-tooltip{
         display: flex;
@@ -92,4 +94,8 @@
             }
         }
     }
+}
+
+.save-pref-btn{
+    margin-top: 25px;
 }

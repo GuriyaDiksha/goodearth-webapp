@@ -64,7 +64,7 @@ const MyPreferences: React.FC<Props> = props => {
           newsletterClass={styles.newsletters}
           whatsappClass={styles.whatsapp}
           uniqueKey={makeid(5)}
-          showSubscribe={true}
+          showSubscribe={false}
         />
       </div>
     </div>
