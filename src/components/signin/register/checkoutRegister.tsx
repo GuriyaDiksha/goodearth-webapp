@@ -1124,7 +1124,7 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
               />
               {this.state.whatsappChecked && (
                 <div className={styles.manageLine}>
-                  Manage your preference from My Preference section under
+                  Manage your preference from My Preferences section under
                   Profile
                 </div>
               )}
