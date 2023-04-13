@@ -49,7 +49,7 @@ const CollectionLanding = () => {
     const id = getProductIdFromSlug(level1 || "");
     if (id) {
       const [tags, collectionData] = await Promise.all([
-        CollectionService.fetchTagData(dispatch).catch(err => {
+        CollectionService.fetchTagData(dispatch, +id).catch(err => {
           console.log("Collection Landing Error", err);
         }),
         CollectionService.fetchCollectionData(dispatch, +id).catch(err => {
