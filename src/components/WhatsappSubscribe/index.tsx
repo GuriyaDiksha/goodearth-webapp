@@ -218,7 +218,7 @@ const WhatsappSubscribe: React.FC<Props> = ({
     } = model;
 
     let reqData = {
-      subscribe: subscribe,
+      subscribe: subscribe || data.subscribe,
       whatsappNo: whatsappNo,
       whatsappNoCountryCode: whatsappNoCountryCode,
       whatsappSubscribe: whatsappSubscribe
@@ -226,7 +226,7 @@ const WhatsappSubscribe: React.FC<Props> = ({
 
     if (!whatsappSubscribe) {
       reqData = {
-        subscribe: subscribe,
+        subscribe: subscribe || data.subscribe,
         whatsappNo: data.whatsappNo,
         whatsappNoCountryCode: data.whatsappNoCountryCode,
         whatsappSubscribe: whatsappSubscribe
@@ -425,11 +425,13 @@ const WhatsappSubscribe: React.FC<Props> = ({
             </div>
           </div>
         )}
-        {showTermsMessage &&
-          `By checking this, you agree to receiving Whatsapp messages for order &
-          profile related information. To know more how we keep your data safe,
-          refer to our
-          `}
+        {showTermsMessage && (
+          <span className={styles.termsMsg}>
+            By checking this, you agree to receiving Whatsapp messages for order
+            & profile related information. To know more how we keep your data
+            safe, refer to our&nbsp;
+          </span>
+        )}
         {showTermsMessage && (
           <Link
             key="privacy"
