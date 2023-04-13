@@ -132,7 +132,8 @@ const PaymentSection: React.FC<PaymentProps> = props => {
     if (currentmethod.mode || isFree) {
       const data: any = {
         paymentMethod: isFree ? "FREE" : currentmethod.key,
-        paymentMode: currentmethod.mode
+        paymentMode: currentmethod.mode,
+        whatsappSubscribe: preferenceData?.whatsappSubscribe
       };
       if (userConsent.includes(ANY_ADS)) {
         Moengage.track_event("Mode of payment selected", {
