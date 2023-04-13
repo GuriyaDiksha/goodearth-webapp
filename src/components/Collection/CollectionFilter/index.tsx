@@ -21,7 +21,7 @@ const CollectionFilter: React.FC<CollectionFilter> = ({
       })}
     >
       <ul className={styles.collectionFilterWrapper}>
-        {tags?.map((tag, i) => (
+        {["All Collections", ...tags]?.map((tag, i) => (
           <li
             className={cs(styles.collectionFilter, {
               [styles.active]: activeFilterList.includes(tag)

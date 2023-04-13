@@ -49,7 +49,10 @@ const CollectionItem: React.FC<CollectionItems> = ({ key, collectionData }) => {
                 : longDescription
             )}
         </p>
-        <Link to={url || "#"} className={styles.showMore}>
+        <Link
+          to={url + "?tags=" + `${vars.tags || "All Collections"}` || "#"}
+          className={styles.showMore}
+        >
           SHOW MORE
         </Link>
       </div>
