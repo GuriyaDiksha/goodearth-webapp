@@ -64,7 +64,7 @@ const WhatsappSubscribe: React.FC<Props> = ({
   const [phone, setPhone] = useState("");
   const [code, setCode] = useState("");
   const [showTip, setShowTip] = useState(false);
-  const [updated, setUpdated] = useState(false);
+  // const [updated, setUpdated] = useState(false);
   const [numberError, setNumberError] = useState("");
   const [codeError, setCodeError] = useState("");
   const [isDisabled, setIsDisabled] = useState(false);
@@ -78,9 +78,9 @@ const WhatsappSubscribe: React.FC<Props> = ({
       setCode(data.whatsappNoCountryCode);
       setPhone(data.whatsappNo);
       setSubscribe(data.subscribe);
-      if (!data.whatsappSubscribe) {
-        setUpdated(false);
-      }
+      // if (!data.whatsappSubscribe) {
+      //   setUpdated(false);
+      // }
     }
   }, [data]);
 
@@ -155,7 +155,7 @@ const WhatsappSubscribe: React.FC<Props> = ({
 
     AccountService.updateAccountPreferences(dispatch, formdata)
       .then((res: any) => {
-        setUpdated(true);
+        // setUpdated(true);
         dispatch(updatePreferenceData(res));
         showGrowlMessage(dispatch, "Your preferences have been updated!", 5000);
       })
@@ -260,7 +260,7 @@ const WhatsappSubscribe: React.FC<Props> = ({
   };
 
   //If update from component is allowed but user already subscribed
-  if (allowUpdate && !updated) {
+  if (allowUpdate) {
     if (data.whatsappSubscribe) {
       return (
         <div className={styles.showPopupMsg} key={uniqueKey}>
@@ -297,12 +297,12 @@ const WhatsappSubscribe: React.FC<Props> = ({
           <FormCheckbox
             id={uniqueKey}
             name="whatsappSubscribe"
-            disable={allowUpdate && updated}
             label={labelElements}
             value={checked}
             labelClassName={checkboxLabelClass}
             handleChange={onCheckChange}
             inputRef={innerRef}
+            disable={false}
           />
           {showTooltip && (
             <div className={styles.tooltip}>
@@ -321,12 +321,12 @@ const WhatsappSubscribe: React.FC<Props> = ({
             </div>
           )}
         </div>
-        {showManageMsg && checked && !updated && (
+        {showManageMsg && checked && (
           <div className={styles.manageMsg}>
             Manage your preference from My Preference section under Profile
           </div>
         )}
-        {allowUpdate && updated && (
+        {/* {(allowUpdate && !checked) && (
           <div className={cs(styles.showPopupMsg, styles.manageMsg)}>
             <div className={styles.text}>
               <div className={styles.info}>
@@ -339,8 +339,8 @@ const WhatsappSubscribe: React.FC<Props> = ({
               </div>
             </div>
           </div>
-        )}
-        {!onlyCheckbox && !updated && (
+        )} */}
+        {!onlyCheckbox && (
           <div
             className={countryCodeClass}
             style={!(checked && showPhone) ? { display: "none" } : {}}
