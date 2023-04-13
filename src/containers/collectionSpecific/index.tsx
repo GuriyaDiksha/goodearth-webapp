@@ -470,7 +470,6 @@ class CollectionSpecific extends React.Component<
     }
 
     if (vars?.tags && vars2?.tags && vars.tags !== vars2.tags) {
-      debugger;
       this.setCollectionData(
         vars2?.tags.split("|").map(e => e.replace(/%20/g, " "))
       );
@@ -546,10 +545,15 @@ class CollectionSpecific extends React.Component<
       collectionSpecficBanner,
       showTimer
     } = this.props;
-    const { breadcrumbs, longDescription, results } = collectionSpecificData;
+    const {
+      breadcrumbs,
+      longDescription,
+      results,
+      tags,
+      shortDescription
+    } = collectionSpecificData;
     const { widgetImages, description } = collectionSpecficBanner;
     const { specificMaker } = this.state;
-    const tags = ["tag1", "tag 2", "test tag 3"];
     const indexOfCurrent = this.props?.filteredCollectionData?.findIndex(
       data => data.id === Number(this.collectionId)
     );
@@ -640,9 +644,7 @@ class CollectionSpecific extends React.Component<
           </div>
         </div>
 
-        <p className={styles.subTitle}>
-          Dishwasher-safe | Handcrafted | 22 Karat Gold
-        </p>
+        <p className={styles.subTitle}>{shortDescription}</p>
         <div className={bootstrap.row} id="collection_long_desc">
           <div
             className={cs(
