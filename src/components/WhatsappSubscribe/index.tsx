@@ -130,10 +130,12 @@ const WhatsappSubscribe: React.FC<Props> = ({
     if (codeError != "" || numberError != "") {
       return;
     }
+
     const subscribe = data.subscribe,
       whatsappSubscribe = checked,
       whatsappNo = phone,
-      whatsappNoCountryCode = code;
+      whatsappNoCountryCode = formRef.current?.getCurrentValues()
+        .whatsappNoCountryCode;
 
     let formdata = {
       subscribe: subscribe,
