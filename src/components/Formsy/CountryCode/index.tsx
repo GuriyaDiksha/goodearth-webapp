@@ -102,7 +102,7 @@ const CountryCode: React.FC<Props & InjectedProps<string | null>> = props => {
     value: props.value || "",
     onChange: onChange,
     disabled: props.disable,
-    autoComplete: "new-password",
+    autoComplete: props.autocomplete || "new-password",
     className: cls,
     onBlur: props.blur,
     name: props.name

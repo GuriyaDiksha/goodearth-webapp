@@ -79,7 +79,8 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
       isIndia: false,
       showEmailVerification: false,
       email: "",
-      showTip: false
+      showTip: false,
+      whatsappChecked: false
     };
   }
   static contextType = Context;
@@ -620,6 +621,12 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
     });
   };
 
+  onWhatsappCheckChange = (e: any) => {
+    this.setState({
+      whatsappChecked: e.target.checked
+    });
+  };
+
   render() {
     const showFieldsClass = this.state.showFields ? "" : styles.disabledInput;
     // const { goLogin } = this.props;
@@ -1112,17 +1119,20 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
                 label={[
                   <span key="1">Subscribe me for Whatsapp updates.</span>
                 ]}
+                handleChange={this.onWhatsappCheckChange}
                 required
               />
+              {this.state.whatsappChecked && (
+                <div className={styles.manageLine}>
+                  Manage your preference from My Prefernece section under
+                  Profile
+                </div>
+              )}
               <div className={styles.tooltip}>
                 <img
                   src={this.state.showTip ? tooltipOpenIcon : tooltipIcon}
                   onClick={() => {
-                    this.setState(prevState => {
-                      return {
-                        showTip: prevState.showTip
-                      };
-                    });
+                    this.setState({ showTip: !this.state.showTip });
                   }}
                 />
                 <div

@@ -20,9 +20,7 @@ import { pageViewGTM } from "utils/validate";
 import AccountService from "services/account";
 import LoginService from "services/login";
 import { updateCountryData } from "actions/address";
-import WhatsappSubscribe from "components/WhatsappSubscribe";
 import { updatePreferenceData } from "actions/user";
-import { makeid } from "utils/utility";
 import { CONFIG } from "constants/util";
 
 const MyProfile: React.FC<ProfileProps> = ({ setCurrentSection }) => {
@@ -30,9 +28,12 @@ const MyProfile: React.FC<ProfileProps> = ({ setCurrentSection }) => {
     address: { countryData },
     user: { isLoggedIn }
   } = useSelector((state: AppState) => state);
+
+  const {
+    user: { preferenceData }
+  } = useSelector((state: AppState) => state);
   const [data, setData] = useState<Partial<ProfileResponse>>({});
   // const { user } = useSelector((state: AppState) => state);
-  const whatsappSubscribeRef = useRef(false);
   const [profileState, setProfileState] = useState<State>({
     newsletter: false,
     uniqueId: "",
@@ -216,8 +217,7 @@ const MyProfile: React.FC<ProfileProps> = ({ setCurrentSection }) => {
       dateOfBirth,
       subscribe,
       country,
-      state,
-      whatsappSubscribe
+      state
     } = model;
 
     const formData: any = {};
@@ -240,7 +240,7 @@ const MyProfile: React.FC<ProfileProps> = ({ setCurrentSection }) => {
     if (countryCode == "IN") {
       formData["state"] = state || "";
     }
-    formData["whatsappSubscribe"] = whatsappSubscribe;
+    formData["whatsappSubscribe"] = preferenceData?.whatsappSubscribe;
     setProfileState({
       ...profileState,
       showerror: ""
@@ -588,19 +588,11 @@ const MyProfile: React.FC<ProfileProps> = ({ setCurrentSection }) => {
                 defaultClass={styles.inputDefault}
               />
             </div>
-            {CONFIG.WHATSAPP_SUBSCRIBE_ENABLED && (
-              <div className={styles.subscribe}>
-                <WhatsappSubscribe
-                  uniqueKey={makeid(5)}
-                  innerRef={whatsappSubscribeRef}
-                  showTermsMessage={false}
-                  showManageMsg={true}
-                  showPhone={false}
-                  showTooltip={true}
-                  onlyCheckbox={true}
-                />
+            {/* {CONFIG.WHATSAPP_SUBSCRIBE_ENABLED && (
+              <div style={{'display': 'none'}}>
+                <input type="text" name="whatsappSubscribe" value={preferenceData?.whatsappSubscribe} />
               </div>
-            )}
+            )} */}
             <div className={styles.subscribe}>
               <FormCheckbox
                 value={data?.subscribe || false}

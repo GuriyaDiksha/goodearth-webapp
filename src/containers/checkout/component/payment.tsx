@@ -24,7 +24,6 @@ import { updatePreferenceData } from "actions/user";
 import LoginService from "services/login";
 import { updateCountryData } from "actions/address";
 import WhatsappSubscribe from "components/WhatsappSubscribe";
-import Formsy from "formsy-react";
 import { makeid } from "utils/utility";
 import { CONFIG } from "constants/util";
 
@@ -133,7 +132,8 @@ const PaymentSection: React.FC<PaymentProps> = props => {
     if (currentmethod.mode || isFree) {
       const data: any = {
         paymentMethod: isFree ? "FREE" : currentmethod.key,
-        paymentMode: currentmethod.mode
+        paymentMode: currentmethod.mode,
+        whatsappSubscribe: preferenceData?.whatsappSubscribe
       };
       if (userConsent.includes(ANY_ADS)) {
         Moengage.track_event("Mode of payment selected", {
@@ -545,24 +545,22 @@ const PaymentSection: React.FC<PaymentProps> = props => {
             <hr className={styles.hr} />
             {CONFIG.WHATSAPP_SUBSCRIBE_ENABLED && (
               <div className={styles.loginForm}>
-                <Formsy>
-                  <div className={styles.categorylabel}>
-                    <WhatsappSubscribe
-                      data={preferenceData}
-                      innerRef={whatsappCheckRef}
-                      isdList={isdList}
-                      showTermsMessage={false}
-                      showTooltip={true}
-                      showManageMsg={true}
-                      showPhone={true}
-                      whatsappClass={styles.whatsapp}
-                      countryCodeClass={styles.countryCode}
-                      checkboxLabelClass={styles.checkboxLabel}
-                      allowUpdate={true}
-                      uniqueKey={makeid(5)}
-                    />
-                  </div>
-                </Formsy>
+                <div className={styles.categorylabel}>
+                  <WhatsappSubscribe
+                    data={preferenceData}
+                    innerRef={whatsappCheckRef}
+                    isdList={isdList}
+                    showTermsMessage={false}
+                    showTooltip={true}
+                    showManageMsg={true}
+                    showPhone={true}
+                    whatsappClass={styles.whatsapp}
+                    countryCodeClass={styles.countryCode}
+                    checkboxLabelClass={styles.checkboxLabel}
+                    allowUpdate={true}
+                    uniqueKey={makeid(5)}
+                  />
+                </div>
               </div>
             )}
           </div>

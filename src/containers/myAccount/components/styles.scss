@@ -539,7 +539,7 @@ input[type="text"]{
   }
   input[type="text"], input[type="date"], input[type="password"], input[type="number"]{
     font-family: $font-Montserrat;
-    font-size: 12px;
+    font-size: 12px !important;
     font-weight: $regular;
     &::placeholder{
       font-family: $font-Montserrat;
@@ -1473,7 +1473,6 @@ input[type="text"]{
       }
     }
     .whatsapp{
-      border-bottom: 1.5px solid $charcoal19;
       margin-bottom: 25px;
       padding-bottom: 25px;
       .country-code{
@@ -1481,7 +1480,10 @@ input[type="text"]{
       }
     }
     .newsletters{
-      margin-top: 35px;
+      padding-top: 30px;
+      margin-bottom: 30px;
+      border-top: 2px solid black;
+      margin-top: 25px;
     }
     .save-pref-btn{
       margin-top: 25px;

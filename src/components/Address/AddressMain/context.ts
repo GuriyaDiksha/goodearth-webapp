@@ -18,7 +18,7 @@ export const AddressContext = createContext({
   isAddressValid: (address: AddressData): boolean => {
     return true;
   },
-  markAsDefault: (x: AddressData) => {
+  markAsDefault: (x: AddressData, addressId?: number) => {
     return;
   },
   setIsLoading: (x: boolean) => {
