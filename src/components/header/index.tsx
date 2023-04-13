@@ -99,7 +99,8 @@ class Header extends React.Component<Props, State> {
         (this.props.location.pathname.includes("/bridal/") &&
           !this.props.location.pathname.includes("/account/")),
       isPlpPage:
-        this.props.location.pathname.indexOf("/catalogue/category") > -1
+        this.props.location.pathname.indexOf("/catalogue/category") > -1 ||
+        this.props.location.pathname.includes("/search/")
     };
   }
   static contextType = UserContext;
@@ -237,7 +238,8 @@ class Header extends React.Component<Props, State> {
     if (this.props.location.pathname !== nextProps.location.pathname) {
       this.setState({
         isPlpPage:
-          nextProps.location.pathname.indexOf("/catalogue/category") > -1
+          nextProps.location.pathname.indexOf("/catalogue/category") > -1 ||
+          nextProps.location.pathname.indexOf("/search/") > -1
       });
     }
   }
