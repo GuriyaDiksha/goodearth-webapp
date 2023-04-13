@@ -180,19 +180,14 @@ const WhatsappSubscribe: React.FC<Props> = ({
   };
 
   const onFormChange = (model: any, isChanged: any) => {
-    const {
-      whatsappSubscribe,
-      subscribe,
-      whatsappNo,
-      whatsappNoCountryCode
-    } = model;
+    //If show subscribe is enabled in future add case for subscribe checkbox
+    const { whatsappSubscribe, whatsappNo, whatsappNoCountryCode } = model;
     if (data) {
       const prefData = data;
       if (
         whatsappSubscribe == prefData.whatsappSubscribe &&
         whatsappNoCountryCode == prefData.whatsappNoCountryCode &&
-        whatsappNo == prefData.whatsappNo &&
-        subscribe == prefData.subscribe
+        whatsappNo == prefData.whatsappNo
       ) {
         setObjEqual(true);
       } else {
