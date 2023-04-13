@@ -71,10 +71,14 @@ export default {
     const data: CollectionItem[] = res.results;
     return data;
   },
-  fetchTagData: async (dispatch: Dispatch): Promise<string[]> => {
+  fetchTagData: async (
+    dispatch: Dispatch,
+    categoryId: number
+  ): Promise<string[]> => {
     const res: any = await API.get(
       dispatch,
-      `${__API_HOST__ + "/myapi/collection/collectiontags"}`
+      `${__API_HOST__ +
+        `/myapi/collection/collectiontags?category_id=${categoryId}`}`
     );
     const data: string[] = res.tags;
     return data;
