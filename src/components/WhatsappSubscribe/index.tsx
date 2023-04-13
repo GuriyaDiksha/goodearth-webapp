@@ -239,6 +239,7 @@ const WhatsappSubscribe: React.FC<Props> = ({
         dispatch(updatePreferenceData(res));
         showGrowlMessage(dispatch, "Your preferences have been updated!", 5000);
         setNumberError("");
+        dispatch(updateModal(false));
       })
       .catch((err: any) => {
         const errData = err.response?.data;
