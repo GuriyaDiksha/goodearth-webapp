@@ -1124,7 +1124,7 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
               />
               {this.state.whatsappChecked && (
                 <div className={styles.manageLine}>
-                  Manage your preference from My Prefernece section under
+                  Manage your preference from My Preference section under
                   Profile
                 </div>
               )}
@@ -1146,7 +1146,7 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
               </div>
             </div>
           )}
-          <div className={styles.subscribe}>
+          <div className={cs(styles.subscribe, styles.marginFix)}>
             <FormCheckbox
               value={false}
               inputRef={this.subscribeRef}
