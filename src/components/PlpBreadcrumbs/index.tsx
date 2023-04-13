@@ -14,9 +14,13 @@ const Breadcrumbs: React.FC<Props> = memo(
         breadcrumbs.push(
           <Fragment key={name}>
             <Link to={href}>{name}</Link>
-            <span className={styles.separator} key={`separator-${index}`}>
-              {separator}
-            </span>
+            {index != 0 ? (
+              <span className={styles.separator} key={`separator-${index}`}>
+                {separator}
+              </span>
+            ) : (
+              ""
+            )}
           </Fragment>
         );
       } else {
