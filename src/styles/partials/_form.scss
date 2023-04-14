@@ -446,6 +446,9 @@ input[type="checkbox"]:checked + label {
       &.tooltip{
         display: flex;
       }
+      &.margin-fix{
+        margin-top: 15px;
+      }
       label{
         img {
           height: 12px;

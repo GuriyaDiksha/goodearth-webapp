@@ -1681,10 +1681,10 @@ class CorporateFilter extends React.Component<Props, State> {
     return (
       <Fragment>
         <ul id="inner_filter" className={styles.filterSideMenu}>
-          <li className={styles.filterElements}>
+          {/* <li className={styles.filterElements}>
             <span>Filtered By</span>
             <ul id="currentFilter">{this.renderFilterList(filter)}</ul>
-          </li>
+          </li> */}
           <li>
             <span
               className={

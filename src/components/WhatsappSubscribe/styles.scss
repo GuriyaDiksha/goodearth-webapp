@@ -2,7 +2,7 @@
 @import "../../styles/partials/mixins";
 
 .tooltip {
-    margin-left: 15px;
+    margin-left: 5px;
     img {
         height: 15px;
         position: absolute;
@@ -47,14 +47,16 @@
         transform: translateY(-50%);
     }
 }
-
+.terms-msg{
+    margin-bottom: 25px;
+}
 .whatsapp {
     .flex-for-tooltip{
         display: flex;
     }
 }
 .manage-msg{
-    padding-left: 45px;
+    padding-left: 30px;
     top: -20px;
 }
 .show-popup-msg{
@@ -92,4 +94,8 @@
             }
         }
     }
+}
+
+.save-pref-btn{
+    margin-top: 25px;
 }
