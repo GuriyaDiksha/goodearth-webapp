@@ -108,6 +108,7 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
     this.emailInput.current && this.emailInput.current.focus();
     this.props.fetchCountryData();
     this.changeCountryData(this.props.countryData);
+    document.addEventListener("mousedown", this.handleClickOutside);
   }
 
   componentDidUpdate(
@@ -118,6 +119,10 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
     if (this.state.successMsg) {
       this.props.setIsSuccessMsg?.(true);
     }
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener("mousedown", this.handleClickOutside);
   }
 
   UNSAFE_componentWillReceiveProps(nextProps: Props) {
@@ -628,6 +633,19 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
     });
   };
 
+  impactRef = React.createRef<HTMLInputElement>();
+
+  handleClickOutside = (evt: any) => {
+    if (
+      this.impactRef.current &&
+      !this.impactRef.current.contains(evt.target)
+    ) {
+      this.setState({ showTip: false });
+      //Do what you want to handle in the callback
+      // this.props.closePopup(evt);
+    }
+  };
+
   render() {
     const showFieldsClass = this.state.showFields ? "" : styles.disabledInput;
     // const { goLogin } = this.props;
@@ -1133,7 +1151,7 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
                   Profile
                 </div>
               )}
-              <div className={styles.tooltip}>
+              <div className={styles.tooltip} ref={this.impactRef}>
                 <img
                   src={this.state.showTip ? tooltipOpenIcon : tooltipIcon}
                   onClick={() => {
