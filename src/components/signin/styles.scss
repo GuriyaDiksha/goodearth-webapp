@@ -472,6 +472,12 @@ input[type="text"].country-code-search-input{
           bottom: 23px;
           left: -9px;
       }
+      &.show-mobile{
+        display: block;
+        position: absolute;
+        bottom: 45px;
+        left: -100px;
+      }
   }
   .manage-line {
     position: absolute;

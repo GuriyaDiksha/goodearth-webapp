@@ -42,7 +42,8 @@ const mapStateToProps = (state: AppState) => {
     currency: state.currency,
     isdList: isdList,
     countryData: state.address.countryData,
-    sortBy: state.wishlist.sortBy
+    sortBy: state.wishlist.sortBy,
+    mobile: state.device.mobile
   };
 };
 
@@ -1141,7 +1142,8 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
                 />
                 <div
                   className={cs(styles.tooltipMsg, {
-                    [styles.show]: this.state.showTip
+                    [styles.show]: this.state.showTip && !this.props.mobile,
+                    [styles.showMobile]: this.state.showTip && this.props.mobile
                   })}
                 >
                   By checking this, you agree to receiving Whatsapp messages for
