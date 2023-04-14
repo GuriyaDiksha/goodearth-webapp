@@ -74,6 +74,9 @@
     }
     .text {
         margin-left: 10px;
+        &.oneline{
+            display: flex;
+        }
         .info{
             @include b5_10px_montserrat_charcoal();
             font-weight: $medium;

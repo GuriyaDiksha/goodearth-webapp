@@ -36,6 +36,7 @@ type Props = {
   uniqueKey: string;
   newsletterClass?: string;
   buttonClass?: string;
+  oneLineMessage?: boolean;
 };
 
 const WhatsappSubscribe: React.FC<Props> = ({
@@ -56,7 +57,8 @@ const WhatsappSubscribe: React.FC<Props> = ({
   uniqueKey,
   showSubscribe = false,
   newsletterClass,
-  buttonClass
+  buttonClass,
+  oneLineMessage = false
 }) => {
   const dispatch = useDispatch();
   const [checked, setChecked] = useState(false);
@@ -165,7 +167,6 @@ const WhatsappSubscribe: React.FC<Props> = ({
         Object.keys(errdata).map(key => {
           switch (key) {
             case "whatsappNo":
-              console.log(formRef.current?.updateInputsWithError);
               formRef.current?.updateInputsWithError(
                 {
                   [key]: errdata[key][0]
@@ -260,10 +261,12 @@ const WhatsappSubscribe: React.FC<Props> = ({
       return (
         <div className={styles.showPopupMsg} key={uniqueKey}>
           <img src={waIcon} />
-          <div className={styles.text}>
+          <div
+            className={cs(styles.text, { [styles.oneline]: oneLineMessage })}
+          >
             <div className={styles.info}>
               Whatsapp updates will be sent on {data.whatsappNoCountryCode}{" "}
-              {data.whatsappNo}.
+              {data.whatsappNo}.&nbsp;
             </div>
             <div className={styles.cta}>
               <a onClick={openPopup}>Click here</a> to update this number or

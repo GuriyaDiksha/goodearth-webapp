@@ -557,6 +557,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
                     checkboxLabelClass={styles.checkboxLabel}
                     allowUpdate={true}
                     uniqueKey={makeid(5)}
+                    oneLineMessage={true}
                   />
                 </div>
               </div>
