@@ -252,7 +252,8 @@ const Bridal: React.FC<Props> = props => {
         userAddressId: userAddress.id,
         ...rest,
         currency,
-        actionType: "create"
+        actionType: "create",
+        whatsappSubscribe: user.preferenceData.whatsappSubscribe
       };
 
       setLastScreen("start");

@@ -384,6 +384,7 @@
           letter-spacing: 0.3px;
           line-height: 18px;
           text-align: left;
+          word-wrap: break-word;
           &.name {
             @include b4_12px_montserrat_charcoal();
             font-weight: $medium;

@@ -491,7 +491,12 @@ span.checkout-forgot-pass{
           display: block;
           position: absolute;
           bottom: 23px;
-          left: 1px;
+          left: -9px;
       }
+  }
+  .manage-line {
+    position: absolute;
+    top: 10px;
+    left: 30px;
   }
 }
