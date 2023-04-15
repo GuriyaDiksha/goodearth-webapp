@@ -280,6 +280,8 @@ const WhatsappSubscribe: React.FC<Props> = ({
 
   //all other cases
   return (
+    // Improve this form by disabling enabling state using onValid and onInvalid
+    // codeError and numberError states can be removed
     <Formsy
       onSubmit={onSubmit}
       onChange={onFormChange}
@@ -356,10 +358,11 @@ const WhatsappSubscribe: React.FC<Props> = ({
                   const bool = !(values.whatsappNo && value == "");
                   if (!bool) {
                     setCodeError("Required");
+                    return false;
                   } else {
                     setCodeError("");
+                    return true;
                   }
-                  return bool;
                 },
                 isValidCode: (values, value) => {
                   let bool = true;
@@ -369,7 +372,9 @@ const WhatsappSubscribe: React.FC<Props> = ({
                   if (!bool) {
                     setCodeError("Enter valid code");
                   } else {
-                    setCodeError("");
+                    if (value.length > 0) {
+                      setCodeError("");
+                    }
                   }
                   return bool;
                 }
@@ -412,6 +417,7 @@ const WhatsappSubscribe: React.FC<Props> = ({
                 handleChange={onPhoneChange}
                 showLabel={true}
                 inputRef={phoneRef}
+                noErrOnPristine={true}
               />
               {allowUpdate && (
                 <div
@@ -464,9 +470,8 @@ const WhatsappSubscribe: React.FC<Props> = ({
               target="_blank"
               rel="noopener noreferrer"
             >
-              Privacy Policy
+              Privacy Policy .
             </Link>
-            .
           </div>
         )}
         {!(onlyCheckbox || allowUpdate) && (
