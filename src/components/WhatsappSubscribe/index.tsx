@@ -76,6 +76,23 @@ const WhatsappSubscribe: React.FC<Props> = ({
 
   const formRef = whatsappFormRef || useRef<Formsy>(null);
 
+  const impactRef = useRef<HTMLInputElement>(null);
+
+  const handleClickOutside = (evt: any) => {
+    if (impactRef.current && !impactRef.current.contains(evt.target)) {
+      setShowTip(false);
+      //Do what you want to handle in the callback
+      // this.props.closePopup(evt);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   useEffect(() => {
     if (data) {
       setChecked(data.whatsappSubscribe);
@@ -307,7 +324,7 @@ const WhatsappSubscribe: React.FC<Props> = ({
             disable={false}
           />
           {showTooltip && (
-            <div className={styles.tooltip}>
+            <div className={styles.tooltip} ref={impactRef}>
               <img
                 src={showTip ? tooltipOpenIcon : tooltipIcon}
                 onClick={() => {
