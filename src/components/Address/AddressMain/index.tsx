@@ -338,6 +338,7 @@ const AddressMain: React.FC<Props> = props => {
                         checkboxLabelClass={styles.checkboxLabel}
                         allowUpdate={true}
                         uniqueKey={makeid(5)}
+                        whatsappFormRef={props.whatsappFormRef}
                       />
                     </div>
                   </div>
