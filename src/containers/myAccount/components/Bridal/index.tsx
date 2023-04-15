@@ -27,6 +27,7 @@ import CookieService from "services/cookie";
 import { GA_CALLS } from "constants/cookieConsent";
 import AccountService from "services/account";
 import { updatePreferenceData } from "actions/user";
+import Formsy from "formsy-react";
 // import globalStyles from "styles/global.scss";
 type Props = {
   bridalId: number;
@@ -56,6 +57,7 @@ const Bridal: React.FC<Props> = props => {
   const { currency, user } = useSelector((state: AppState) => state);
   const dispatch = useDispatch();
   const whatsappRef = useRef<HTMLInputElement>(null);
+  const whatsappFormRef = useRef<Formsy>(null);
   const getBridalProfileData = async () => {
     const data = await BridalService.fetchBridalProfile(
       dispatch,
@@ -247,13 +249,30 @@ const Bridal: React.FC<Props> = props => {
 
   const createRegistry = () => {
     const { userAddress, ...rest } = bridalDetails;
+    const whatsappFormValues = whatsappFormRef.current?.getCurrentValues();
+    const whatsappSubscribe =
+      whatsappFormValues?.whatsappSubscribe ||
+      user.preferenceData?.whatsappSubscribe;
+    let whatsappNo =
+      whatsappFormValues?.whatsappNo || user.preferenceData?.whatsappNo;
+    let whatsappNoCountryCode =
+      whatsappFormValues?.whatsappNoCountryCode ||
+      user.preferenceData?.whatsappNoCountryCode;
+
+    if (!whatsappSubscribe) {
+      whatsappNo = user.preferenceData?.whatsappNo;
+      whatsappNoCountryCode = user.preferenceData?.whatsappNoCountryCode;
+    }
+
     if (userAddress) {
       const formData = {
         userAddressId: userAddress.id,
         ...rest,
         currency,
         actionType: "create",
-        whatsappSubscribe: user.preferenceData.whatsappSubscribe
+        whatsappSubscribe: whatsappSubscribe,
+        whatsappNo: whatsappNo,
+        whatsappNoCountryCode: whatsappNoCountryCode
       };
 
       setLastScreen("start");
@@ -290,6 +309,20 @@ const Bridal: React.FC<Props> = props => {
           //   }
           //   setRegistryCreateError(errorMsg);
           // }
+          const errData = err.response?.data;
+          Object.keys(errData).map(key => {
+            switch (key) {
+              case "whatsappNo":
+                whatsappFormRef.current?.updateInputsWithError(
+                  {
+                    [key]: errData[key][0]
+                  },
+                  true
+                );
+                // setNumberError(errData[key][0]);
+                break;
+            }
+          });
         });
     }
   };
@@ -321,6 +354,7 @@ const Bridal: React.FC<Props> = props => {
             addresses={[]}
             createRegistry={createRegistry}
             innerRef={whatsappRef}
+            whatsappFormRef={whatsappFormRef}
           />
         );
       case "created":

@@ -26,6 +26,7 @@ import { updateCountryData } from "actions/address";
 import WhatsappSubscribe from "components/WhatsappSubscribe";
 import { makeid } from "utils/utility";
 import { CONFIG } from "constants/util";
+import Formsy from "formsy-react";
 
 const PaymentSection: React.FC<PaymentProps> = props => {
   const data: any = {};
@@ -55,6 +56,8 @@ const PaymentSection: React.FC<PaymentProps> = props => {
   const whatsappCheckRef = useRef<HTMLInputElement>();
   const whatsappNoRef = useRef<HTMLInputElement>();
   const whatsappCountryCodeRef = useRef<HTMLInputElement>();
+
+  const whatsappFormRef = useRef<Formsy>(null);
 
   const fetchCountryData = async () => {
     const data = await LoginService.fetchCountryData(dispatch);
@@ -128,12 +131,28 @@ const PaymentSection: React.FC<PaymentProps> = props => {
   const onsubmit = () => {
     const isFree = +basket.total <= 0;
     const userConsent = CookieService.getCookie("consent").split(",");
+    const whatsappFormValues = whatsappFormRef.current?.getCurrentValues();
+    const whatsappSubscribe =
+      whatsappFormValues?.whatsappSubscribe ||
+      preferenceData?.whatsappSubscribe;
+    let whatsappNo =
+      whatsappFormValues?.whatsappNo || preferenceData?.whatsappNo;
+    let whatsappNoCountryCode =
+      whatsappFormValues?.whatsappNoCountryCode ||
+      preferenceData?.whatsappNoCountryCode;
+
+    if (!whatsappSubscribe) {
+      whatsappNo = preferenceData?.whatsappNo;
+      whatsappNoCountryCode = preferenceData?.whatsappNoCountryCode;
+    }
 
     if (currentmethod.mode || isFree) {
       const data: any = {
         paymentMethod: isFree ? "FREE" : currentmethod.key,
         paymentMode: currentmethod.mode,
-        whatsappSubscribe: preferenceData?.whatsappSubscribe
+        whatsappSubscribe: whatsappSubscribe,
+        whatsappNo: whatsappNo,
+        whatsappNoCountryCode: whatsappNoCountryCode
       };
       if (userConsent.includes(ANY_ADS)) {
         Moengage.track_event("Mode of payment selected", {
@@ -186,6 +205,21 @@ const PaymentSection: React.FC<PaymentProps> = props => {
           setPaymentError(msg);
           errorTracking([msg], location.href);
           setIsLoading(false);
+
+          const errData = error.response?.data;
+          Object.keys(errData).map(key => {
+            switch (key) {
+              case "whatsappNo":
+                whatsappFormRef.current?.updateInputsWithError(
+                  {
+                    [key]: errData[key][0]
+                  },
+                  true
+                );
+                // setNumberError(errData[key][0]);
+                break;
+            }
+          });
         });
     } else {
       setPaymentError("Please select a payment method");
@@ -559,6 +593,8 @@ const PaymentSection: React.FC<PaymentProps> = props => {
                     checkboxLabelClass={styles.checkboxLabel}
                     allowUpdate={true}
                     uniqueKey={makeid(5)}
+                    oneLineMessage={!mobile}
+                    whatsappFormRef={whatsappFormRef}
                   />
                 </div>
               </div>
