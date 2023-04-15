@@ -372,7 +372,7 @@ const WhatsappSubscribe: React.FC<Props> = ({
                   if (!bool) {
                     setCodeError("Enter valid code");
                   } else {
-                    if (value.length > 0) {
+                    if (value?.length > 0) {
                       setCodeError("");
                     }
                   }
@@ -444,7 +444,7 @@ const WhatsappSubscribe: React.FC<Props> = ({
             target="_blank"
             rel="noopener noreferrer"
           >
-            Privacy Policy .
+            Privacy Policy.
           </Link>
         )}
         {showSubscribe && (
