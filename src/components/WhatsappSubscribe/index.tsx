@@ -71,7 +71,7 @@ const WhatsappSubscribe: React.FC<Props> = ({
   // const [updated, setUpdated] = useState(false);
   const [numberError, setNumberError] = useState("");
   const [codeError, setCodeError] = useState("");
-  const [isDisabled, setIsDisabled] = useState(false);
+  const [isDisabled, setIsDisabled] = useState(true);
   const [objEqual, setObjEqual] = useState(true);
 
   const formRef = whatsappFormRef || useRef<Formsy>(null);
