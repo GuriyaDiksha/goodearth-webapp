@@ -131,14 +131,9 @@ const PaymentSection: React.FC<PaymentProps> = props => {
     const isFree = +basket.total <= 0;
     const userConsent = CookieService.getCookie("consent").split(",");
     const whatsappFormValues = whatsappFormRef.current?.getCurrentValues();
-    const whatsappSubscribe =
-      whatsappFormValues?.whatsappSubscribe ||
-      preferenceData?.whatsappSubscribe;
-    let whatsappNo =
-      whatsappFormValues?.whatsappNo || preferenceData?.whatsappNo;
-    let whatsappNoCountryCode =
-      whatsappFormValues?.whatsappNoCountryCode ||
-      preferenceData?.whatsappNoCountryCode;
+    const whatsappSubscribe = whatsappFormValues?.whatsappSubscribe;
+    let whatsappNo = whatsappFormValues?.whatsappNo;
+    let whatsappNoCountryCode = whatsappFormValues?.whatsappNoCountryCode;
 
     if (!whatsappSubscribe) {
       whatsappNo = preferenceData?.whatsappNo;
@@ -196,6 +191,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
           setIsLoading(false);
         })
         .catch((error: any) => {
+          setWhatsappNoErr("");
           let msg = showErrors(error.response?.data.msg);
           const errorType = error.response?.data.errorType;
           if (errorType && errorType == "qty") {
@@ -209,28 +205,41 @@ const PaymentSection: React.FC<PaymentProps> = props => {
           Object.keys(errData).map(key => {
             switch (key) {
               case "whatsappNo":
-                whatsappFormRef.current?.updateInputsWithError(
-                  {
-                    [key]: errData[key][0]
-                  },
-                  true
-                );
-                // setNumberError(errData[key][0]);
+                if (errData[key][0] == "This field may not be blank.") {
+                  setWhatsappNoErr("Please enter a Whatsapp Number");
+                }
+                // whatsappFormRef.current?.updateInputsWithError(
+                //   {
+                //     [key]: errData[key][0]
+                //   },
+                //   true
+                // );
+                // // setNumberError(errData[key][0]);
                 break;
               case "non_field_errors":
-                setWhatsappNoErr(errData[key][0]);
-                //This is not working
-                whatsappFormRef.current?.updateInputsWithError(
-                  {
-                    ["whatsappNo"]: errData[key][0]
-                  },
-                  true
-                );
+                // // Invalid Whatsapp number
+                setWhatsappNoErr("Please enter a valid Whatsapp Number");
+                // //This is not working
+                // whatsappFormRef.current?.updateInputsWithError(
+                //   {
+                //     ["whatsappNo"]: errData[key][0]
+                //   },
+                //   true
+                // );
                 break;
             }
           });
         });
     } else {
+      if (whatsappSubscribe) {
+        if (whatsappNo == "") {
+          setWhatsappNoErr("Please enter a Whatsapp Number");
+        } else {
+          setWhatsappNoErr("");
+        }
+      } else {
+        setWhatsappNoErr("");
+      }
       setPaymentError("Please select a payment method");
       errorTracking(["Please select a payment method"], location.href);
     }
