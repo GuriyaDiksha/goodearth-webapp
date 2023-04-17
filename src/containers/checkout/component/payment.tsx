@@ -131,16 +131,20 @@ const PaymentSection: React.FC<PaymentProps> = props => {
     const isFree = +basket.total <= 0;
     const userConsent = CookieService.getCookie("consent").split(",");
     const whatsappFormValues = whatsappFormRef.current?.getCurrentValues();
-    const whatsappSubscribe = whatsappFormValues?.whatsappSubscribe;
-    const whatsappNo = whatsappFormValues?.whatsappNo;
-    const whatsappNoCountryCode = whatsappFormValues?.whatsappNoCountryCode;
+    let whatsappSubscribe = whatsappFormValues?.whatsappSubscribe;
+    let whatsappNo = whatsappFormValues?.whatsappNo;
+    let whatsappNoCountryCode = whatsappFormValues?.whatsappNoCountryCode;
 
     // if (!whatsappSubscribe) {
     //   whatsappNo = preferenceData?.whatsappNo;
     //   whatsappNoCountryCode = preferenceData?.whatsappNoCountryCode;
     // }
-
     if (currentmethod.mode || isFree) {
+      if (!whatsappFormRef.current) {
+        whatsappSubscribe = preferenceData.whatsappSubscribe;
+        whatsappNo = preferenceData.whatsappNo;
+        whatsappNoCountryCode = preferenceData.whatsappNoCountryCode;
+      }
       const data: any = {
         paymentMethod: isFree ? "FREE" : currentmethod.key,
         paymentMode: currentmethod.mode,
