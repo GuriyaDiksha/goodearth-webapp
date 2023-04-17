@@ -43,6 +43,7 @@ const Bridal: React.FC<Props> = props => {
     userAddress: undefined,
     eventDate: ""
   });
+  const [whatsappNoErr, setWhatsappNoErr] = useState("");
   const [currentSection, setCurrentSection] = useState("create");
   const [currentScreenValue, setCurrentScreenValue] = useState("manage");
   const [bridalAddress, setBridalAddress] = useState<AddressData>();
@@ -308,13 +309,27 @@ const Bridal: React.FC<Props> = props => {
           Object.keys(errData).map(key => {
             switch (key) {
               case "whatsappNo":
-                whatsappFormRef.current?.updateInputsWithError(
-                  {
-                    [key]: errData[key][0]
-                  },
-                  true
-                );
-                // setNumberError(errData[key][0]);
+                if (errData[key][0] == "This field may not be blank.") {
+                  setWhatsappNoErr("Please enter a Whatsapp Number");
+                }
+                // whatsappFormRef.current?.updateInputsWithError(
+                //   {
+                //     [key]: errData[key][0]
+                //   },
+                //   true
+                // );
+                // // setNumberError(errData[key][0]);
+                break;
+              case "non_field_errors":
+                // // Invalid Whatsapp number
+                setWhatsappNoErr("Please enter a valid Whatsapp Number");
+                // //This is not working
+                // whatsappFormRef.current?.updateInputsWithError(
+                //   {
+                //     ["whatsappNo"]: errData[key][0]
+                //   },
+                //   true
+                // );
                 break;
             }
           });
@@ -350,6 +365,7 @@ const Bridal: React.FC<Props> = props => {
             createRegistry={createRegistry}
             innerRef={whatsappRef}
             whatsappFormRef={whatsappFormRef}
+            whatsappNoError={whatsappNoErr}
           />
         );
       case "created":

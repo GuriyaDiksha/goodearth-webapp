@@ -341,6 +341,9 @@ const AddressMain: React.FC<Props> = props => {
                         whatsappFormRef={props.whatsappFormRef}
                       />
                     </div>
+                    <div className={styles.whatsappNoErr}>
+                      {props.whatsappNoError}
+                    </div>
                   </div>
                 </Formsy>
               </div>
