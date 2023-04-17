@@ -251,11 +251,16 @@ const Bridal: React.FC<Props> = props => {
   const createRegistry = () => {
     const { userAddress, ...rest } = bridalDetails;
     const whatsappFormValues = whatsappFormRef.current?.getCurrentValues();
-    const whatsappSubscribe = whatsappFormValues?.whatsappSubscribe;
-    const whatsappNo = whatsappFormValues?.whatsappNo;
-    const whatsappNoCountryCode = whatsappFormValues?.whatsappNoCountryCode;
+    let whatsappSubscribe = whatsappFormValues?.whatsappSubscribe;
+    let whatsappNo = whatsappFormValues?.whatsappNo;
+    let whatsappNoCountryCode = whatsappFormValues?.whatsappNoCountryCode;
 
     if (userAddress) {
+      if (!whatsappFormRef.current) {
+        whatsappSubscribe = user.preferenceData.whatsappSubscribe;
+        whatsappNo = user.preferenceData.whatsappNo;
+        whatsappNoCountryCode = user.preferenceData.whatsappNoCountryCode;
+      }
       const formData: any = {
         userAddressId: userAddress.id,
         ...rest,
