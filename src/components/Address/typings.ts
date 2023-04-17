@@ -66,5 +66,6 @@ export type Props = {
   codeRef?: React.Ref<any>;
   phoneRef?: any;
   whatsappFormRef?: React.RefObject<Formsy>;
+  whatsappNoError?: string;
 };
 export type AddressModes = "new" | "edit" | "list";

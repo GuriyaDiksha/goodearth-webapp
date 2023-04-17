@@ -132,22 +132,24 @@ const PaymentSection: React.FC<PaymentProps> = props => {
     const userConsent = CookieService.getCookie("consent").split(",");
     const whatsappFormValues = whatsappFormRef.current?.getCurrentValues();
     const whatsappSubscribe = whatsappFormValues?.whatsappSubscribe;
-    let whatsappNo = whatsappFormValues?.whatsappNo;
-    let whatsappNoCountryCode = whatsappFormValues?.whatsappNoCountryCode;
+    const whatsappNo = whatsappFormValues?.whatsappNo;
+    const whatsappNoCountryCode = whatsappFormValues?.whatsappNoCountryCode;
 
-    if (!whatsappSubscribe) {
-      whatsappNo = preferenceData?.whatsappNo;
-      whatsappNoCountryCode = preferenceData?.whatsappNoCountryCode;
-    }
+    // if (!whatsappSubscribe) {
+    //   whatsappNo = preferenceData?.whatsappNo;
+    //   whatsappNoCountryCode = preferenceData?.whatsappNoCountryCode;
+    // }
 
     if (currentmethod.mode || isFree) {
       const data: any = {
         paymentMethod: isFree ? "FREE" : currentmethod.key,
         paymentMode: currentmethod.mode,
-        whatsappSubscribe: whatsappSubscribe,
-        whatsappNo: whatsappNo,
-        whatsappNoCountryCode: whatsappNoCountryCode
+        whatsappSubscribe: whatsappSubscribe
       };
+      if (whatsappSubscribe) {
+        data.whatsappNo = whatsappNo;
+        data.whatsappNoCountryCode = whatsappNoCountryCode;
+      }
       if (userConsent.includes(ANY_ADS)) {
         Moengage.track_event("Mode of payment selected", {
           "Payment Method": currentmethod.value,
