@@ -408,7 +408,6 @@ class TrackOrder extends React.Component<Props, State> {
   };
 
   loginForms = () => {
-    debugger;
     const { updateSubmit } = this.state;
     const {
       user: { email, isLoggedIn }
