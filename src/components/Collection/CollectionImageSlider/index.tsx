@@ -2,7 +2,7 @@ import React from "react";
 import "./style.css";
 import { CollectionImageSlider } from "./typing";
 import Slider from "react-slick";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 const CollectionImageSlider: React.FC<CollectionImageSlider> = ({
   sliderImages,
@@ -17,11 +17,27 @@ const CollectionImageSlider: React.FC<CollectionImageSlider> = ({
     slidesToScroll: 1
   };
 
+  const { search, pathname } = useLocation();
+
+  const vars: { tags?: string } = {};
+  const re = /[?&]+([^=&]+)=([^&]*)/gi;
+  let match;
+
+  while ((match = re.exec(search))) {
+    vars[match[1]] = match[2];
+  }
+
   const childern = (sliderImages as string[])?.map(
     (image: string, i: number) => {
       return (
         <div key={i} className={"imgWrp"}>
-          <Link to={url || "#"}>
+          <Link
+            to={{
+              pathname: url || "#",
+              search: "?tags=" + `${vars.tags || "All Collections"}`,
+              state: { prevPath: `${pathname}` }
+            }}
+          >
             <img
               src={image ? image : "/static/img/noimageplp.png"}
               alt={name}

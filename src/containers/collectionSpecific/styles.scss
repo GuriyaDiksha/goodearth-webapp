@@ -2,10 +2,10 @@
 @import "../../styles/partials/mixins";
 
 .collection-container {
-  margin-top: $main-header;
+  margin-top: $header-height;
 }
 .collection-container-timer {
-  margin-top: $main-header + $timer-height;
+  margin-top: $header-height + $timer-height;
 }
 
 @media screen and (max-width: 992px) {
@@ -79,6 +79,7 @@
 .go-back {
   cursor: pointer;
   margin: 40px 0 25px 8.3333%;
+  width: fit-content;
   @include b5_10px_montserrat_charcoal_caps();
 }
 

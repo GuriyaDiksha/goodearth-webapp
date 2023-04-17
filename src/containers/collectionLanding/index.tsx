@@ -154,7 +154,7 @@ const CollectionLanding = () => {
     let newData: string[] = [];
     const url = location.pathname;
     let tagUrl = "tags=";
-    if (ele === "All Collections" && !activeFilterList.includes(ele)) {
+    if (ele === "All Collections") {
       newData = [ele];
     } else if (activeFilterList.includes(ele) && ele !== "All Collections") {
       const newArr = activeFilterList?.filter(
