@@ -131,14 +131,9 @@ const PaymentSection: React.FC<PaymentProps> = props => {
     const isFree = +basket.total <= 0;
     const userConsent = CookieService.getCookie("consent").split(",");
     const whatsappFormValues = whatsappFormRef.current?.getCurrentValues();
-    const whatsappSubscribe =
-      whatsappFormValues?.whatsappSubscribe ||
-      preferenceData?.whatsappSubscribe;
-    let whatsappNo =
-      whatsappFormValues?.whatsappNo || preferenceData?.whatsappNo;
-    let whatsappNoCountryCode =
-      whatsappFormValues?.whatsappNoCountryCode ||
-      preferenceData?.whatsappNoCountryCode;
+    const whatsappSubscribe = whatsappFormValues?.whatsappSubscribe;
+    let whatsappNo = whatsappFormValues?.whatsappNo;
+    let whatsappNoCountryCode = whatsappFormValues?.whatsappNoCountryCode;
 
     if (!whatsappSubscribe) {
       whatsappNo = preferenceData?.whatsappNo;
