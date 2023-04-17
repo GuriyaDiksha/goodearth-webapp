@@ -39,6 +39,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
   } = useSelector((state: AppState) => state);
   const { isActive, currency, checkout } = props;
   const [paymentError, setPaymentError] = useState("");
+  const [whatsappNoErr, setWhatsappNoErr] = useState("");
   const [subscribevalue, setSubscribevalue] = useState(false);
   const [isdList, setIsdList] = useState<any>([]);
   //  const [subscribegbp, setSubscribegbp] = useState(true);
@@ -54,8 +55,6 @@ const PaymentSection: React.FC<PaymentProps> = props => {
   const [getMethods, setGetMethods] = useState<any[]>([]);
   const dispatch = useDispatch();
   const whatsappCheckRef = useRef<HTMLInputElement>();
-  const whatsappNoRef = useRef<HTMLInputElement>();
-  const whatsappCountryCodeRef = useRef<HTMLInputElement>();
 
   const whatsappFormRef = useRef<Formsy>(null);
 
@@ -188,6 +187,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
       if (basket.loyalty.length > 0) {
         paymentMode.push("Loyalty");
       }
+
       checkout(data)
         .then((response: any) => {
           gtmPushPaymentTracking(paymentMode, paymentMethod);
@@ -205,7 +205,6 @@ const PaymentSection: React.FC<PaymentProps> = props => {
           setPaymentError(msg);
           errorTracking([msg], location.href);
           setIsLoading(false);
-
           const errData = error.response?.data;
           Object.keys(errData).map(key => {
             switch (key) {
@@ -217,6 +216,16 @@ const PaymentSection: React.FC<PaymentProps> = props => {
                   true
                 );
                 // setNumberError(errData[key][0]);
+                break;
+              case "non_field_errors":
+                setWhatsappNoErr(errData[key][0]);
+                //This is not working
+                whatsappFormRef.current?.updateInputsWithError(
+                  {
+                    ["whatsappNo"]: errData[key][0]
+                  },
+                  true
+                );
                 break;
             }
           });
@@ -595,6 +604,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
                     whatsappFormRef={whatsappFormRef}
                   />
                 </div>
+                <div className={styles.whatsappNoErr}>{whatsappNoErr}</div>
               </div>
             )}
           </div>
