@@ -466,6 +466,9 @@ span.checkout-forgot-pass{
 }
 .tooltip {
   margin-left: 15px;
+  &.height-fix {
+    height: 50px;
+  }
   img {
       height: 15px;
       position: absolute;
@@ -492,6 +495,12 @@ span.checkout-forgot-pass{
           position: absolute;
           bottom: 23px;
           left: -9px;
+      }
+      &.show-mobile{
+        display: block;
+        position: absolute;
+        bottom: 45px;
+        left: -100px;
       }
   }
   .manage-line {
