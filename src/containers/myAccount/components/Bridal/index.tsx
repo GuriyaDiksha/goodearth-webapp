@@ -270,8 +270,8 @@ const Bridal: React.FC<Props> = props => {
       };
 
       if (whatsappSubscribe) {
-        (formData.whatsappNo = whatsappNo),
-          (formData.whatsappNoCountryCode = whatsappNoCountryCode);
+        formData.whatsappNo = whatsappNo;
+        formData.whatsappNoCountryCode = whatsappNoCountryCode;
       }
 
       setLastScreen("start");
