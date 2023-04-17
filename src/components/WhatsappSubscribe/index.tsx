@@ -214,15 +214,12 @@ const WhatsappSubscribe: React.FC<Props> = ({
         setObjEqual(false);
       }
     }
-  };
-
-  useEffect(() => {
     if (objEqual || codeError != "" || numberError != "") {
       setIsDisabled(true);
     } else {
       setIsDisabled(false);
     }
-  });
+  };
 
   const onSubmit = (model: any, resetForm: any, updateInputsWithError: any) => {
     const {
