@@ -92,7 +92,6 @@ const CookiePolicy: React.FC<Props> = ({
     //   .filter((e: any) => e.value === true)
     //   .map((e: any) => e.functionalities)
     //   .join(",");
-
     showCookiePrefs();
     if (OLD_COOKIE_SETTINGS) {
       CookieService.setCookie(
@@ -138,7 +137,8 @@ const CookiePolicy: React.FC<Props> = ({
 
   const savePref = () => {
     saveConsent(consents);
-    setIsPrefOpen(false);
+    acceptCookies();
+    // setIsPrefOpen(false);
   };
 
   const acceptAndContinue = () => {
