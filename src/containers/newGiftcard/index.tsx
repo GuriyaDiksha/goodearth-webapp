@@ -311,10 +311,14 @@ class NewGiftcard extends React.Component<Props, State> {
       senderName,
       customValue,
       formDisabled,
-      selectedCountry
+      selectedCountry,
+      customValueErrorMsg
     } = this.state;
 
     if (formDisabled || selectedCountry == "") {
+      return;
+    }
+    if (customValueErrorMsg.length > 0) {
       return;
     }
     this.setState({ formDisabled: true });
