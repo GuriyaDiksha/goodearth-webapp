@@ -1160,8 +1160,7 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
                 />
                 <div
                   className={cs(styles.tooltipMsg, {
-                    [styles.show]: this.state.showTip && !this.props.mobile,
-                    [styles.showMobile]: this.state.showTip && this.props.mobile
+                    [styles.show]: this.state.showTip
                   })}
                 >
                   By checking this, you agree to receiving Whatsapp messages for
