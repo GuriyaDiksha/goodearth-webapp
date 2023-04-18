@@ -283,7 +283,7 @@ export default {
   fetchAccountPreferences: async (dispatch: Dispatch) => {
     const data: any = await API.get<PrefernecesProps>(
       dispatch,
-      `${__API_HOST__}/myapi/customer/profile_preferences`
+      `${__API_HOST__}/myapi/customer/profile_preferences/`
     );
     return data;
   },
