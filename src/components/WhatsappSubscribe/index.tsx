@@ -219,7 +219,6 @@ const WhatsappSubscribe: React.FC<Props> = ({
     if (objEqual || codeError != "" || numberError != "") {
       setIsDisabled(true);
     } else {
-      console.log("Not Disabled");
       setIsDisabled(false);
     }
   };
@@ -228,7 +227,6 @@ const WhatsappSubscribe: React.FC<Props> = ({
     if (objEqual || codeError != "" || numberError != "") {
       setIsDisabled(true);
     } else {
-      console.log("Not Disabled effect");
       setIsDisabled(false);
     }
   }, [objEqual, numberError, codeError]);
@@ -400,7 +398,6 @@ const WhatsappSubscribe: React.FC<Props> = ({
                   if (!bool) {
                     setCodeError("Enter valid code");
                   } else {
-                    console.log(1);
                     if (value?.length > 0) {
                       setCodeError("");
                     }
