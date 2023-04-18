@@ -202,6 +202,7 @@ const WhatsappSubscribe: React.FC<Props> = ({
   const onFormChange = (model: any, isChanged: any) => {
     //If show subscribe is enabled in future add case for subscribe checkbox
     const { whatsappSubscribe, whatsappNo, whatsappNoCountryCode } = model;
+    console.log(model);
     if (data) {
       const prefData = data;
       if (
@@ -209,6 +210,7 @@ const WhatsappSubscribe: React.FC<Props> = ({
         whatsappNoCountryCode == prefData.whatsappNoCountryCode &&
         whatsappNo == prefData.whatsappNo
       ) {
+        console.log(true);
         setObjEqual(true);
       } else {
         setObjEqual(false);
@@ -217,9 +219,19 @@ const WhatsappSubscribe: React.FC<Props> = ({
     if (objEqual || codeError != "" || numberError != "") {
       setIsDisabled(true);
     } else {
+      console.log("Not Disabled");
       setIsDisabled(false);
     }
   };
+
+  useEffect(() => {
+    if (objEqual || codeError != "" || numberError != "") {
+      setIsDisabled(true);
+    } else {
+      console.log("Not Disabled effect");
+      setIsDisabled(false);
+    }
+  }, [objEqual, numberError, codeError]);
 
   const onSubmit = (model: any, resetForm: any, updateInputsWithError: any) => {
     const {
@@ -388,6 +400,7 @@ const WhatsappSubscribe: React.FC<Props> = ({
                   if (!bool) {
                     setCodeError("Enter valid code");
                   } else {
+                    console.log(1);
                     if (value?.length > 0) {
                       setCodeError("");
                     }
