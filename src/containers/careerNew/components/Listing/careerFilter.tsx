@@ -7,6 +7,7 @@ import { useSelector } from "react-redux";
 import { AppState } from "reducers/typings";
 import bootstrap from "../../../../styles/bootstrap/bootstrap-grid.scss";
 import iconStyles from "../../../../styles/iconFonts.scss";
+import globalStyles from "../../../../styles/global.scss";
 
 type Props = {
   facets: Facets;
@@ -382,7 +383,8 @@ const CareerFilter: React.FC<Props> = ({
               className={cs(
                 hideFilter["tags"]
                   ? listing.filter_label
-                  : listing.filter_label_open
+                  : listing.filter_label_open,
+                globalStyles.marginT10
               )}
               onClick={() =>
                 setHideFilter({ ...hideFilter, tags: !hideFilter["tags"] })
@@ -424,9 +426,7 @@ const CareerFilter: React.FC<Props> = ({
                       onChange={e => handleCheckbox(e, "tags")}
                       disabled={!tagLocFilter?.tag?.includes(ele?.name)}
                     />
-                    <label
-                      htmlFor={"tags_" + i}
-                    >{`${ele?.name} (${ele?.count})`}</label>
+                    <label htmlFor={"tags_" + i}>{ele?.name} </label>
                   </li>
                 ))}
                 {facets?.tags?.length > 4 ? (
@@ -448,7 +448,8 @@ const CareerFilter: React.FC<Props> = ({
               className={cs(
                 hideFilter["locs"]
                   ? listing.filter_label
-                  : listing.filter_label_open
+                  : listing.filter_label_open,
+                globalStyles.marginT10
               )}
               onClick={() =>
                 setHideFilter({ ...hideFilter, locs: !hideFilter["locs"] })
@@ -490,9 +491,7 @@ const CareerFilter: React.FC<Props> = ({
                       onChange={e => handleCheckbox(e, "locs")}
                       disabled={!tagLocFilter?.loc?.includes(ele?.name)}
                     />
-                    <label
-                      htmlFor={"locs_" + i}
-                    >{`${ele?.name} (${ele?.count})`}</label>
+                    <label htmlFor={"locs_" + i}>{ele?.name}</label>
                   </li>
                 ))}
                 {facets?.locs?.length > 4 ? (
