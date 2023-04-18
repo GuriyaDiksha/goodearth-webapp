@@ -15,6 +15,7 @@ import globalStyles from "./../../../../styles/global.scss";
 import Loader from "components/Loader";
 import moment from "moment";
 import { scrollToGivenId } from "utils/validate";
+import { Link } from "react-router-dom";
 
 type Props = {
   mobile: boolean;
@@ -361,30 +362,33 @@ const TransactionTable = ({ mobile }: Props) => {
                       : ele?.Points}
                   </p>
 
-                  <p
-                    className={cs(
-                      bootstrap.col1,
-                      styles.alignCenterText,
-                      styles.iconCarrot
-                    )}
-                  >
-                    <span
-                      className={
-                        openStateId["id"] === ind + "t" && openStateId["state"]
-                          ? styles.active
-                          : ""
-                      }
-                      onClick={() => {
-                        setOpenStateId({
-                          id: ind + "t",
-                          state:
-                            openStateId["id"] === ind + "t"
-                              ? !openStateId["state"]
-                              : true
-                        });
-                      }}
-                    ></span>
-                  </p>
+                  {ele?.Description !== "Welcome Bonus" && (
+                    <p
+                      className={cs(
+                        bootstrap.col1,
+                        styles.alignCenterText,
+                        styles.iconCarrot
+                      )}
+                    >
+                      <span
+                        className={
+                          openStateId["id"] === ind + "t" &&
+                          openStateId["state"]
+                            ? styles.active
+                            : ""
+                        }
+                        onClick={() => {
+                          setOpenStateId({
+                            id: ind + "t",
+                            state:
+                              openStateId["id"] === ind + "t"
+                                ? !openStateId["state"]
+                                : true
+                          });
+                        }}
+                      ></span>
+                    </p>
+                  )}
                 </div>
                 <div
                   className={cs(
@@ -459,6 +463,10 @@ const TransactionTable = ({ mobile }: Props) => {
               </div>
             </div>
           ))}
+        </div>
+
+        <div className={styles.orderLink}>
+          <Link to="/account/my-orders">View all Order details</Link>
         </div>
 
         {total_records > 10 && (

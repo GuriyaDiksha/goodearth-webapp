@@ -313,6 +313,21 @@
     text-align: center;
   } 
 
+.order-link{
+    float: left;
+    padding-top: 5px;
+    a{
+        border-bottom: 1px solid $charcoal19;
+        @include b4_12px_montserrat_charcoal_caps();
+    }
+
+    @media screen and (max-width:992px) {
+        float: unset;
+        text-align: center;
+    }
+    
+}  
+
 .pagination{
     display: flex;
     width: 20%;
