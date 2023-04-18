@@ -339,7 +339,7 @@ const AddressMain: React.FC<Props> = props => {
                         allowUpdate={true}
                         uniqueKey={makeid(5)}
                         whatsappFormRef={props.whatsappFormRef}
-                        whatsappNoError={props.whatsappNoError}
+                        whatsappNoErr={props.whatsappNoError}
                       />
                     </div>
                     {/* <div className={styles.whatsappNoErr}>
