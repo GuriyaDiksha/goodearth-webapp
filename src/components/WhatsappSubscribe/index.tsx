@@ -38,6 +38,7 @@ type Props = {
   buttonClass?: string;
   oneLineMessage?: boolean;
   whatsappFormRef?: React.RefObject<Formsy>;
+  whatsappNoErr?: string;
 };
 
 const WhatsappSubscribe: React.FC<Props> = ({
@@ -60,19 +61,21 @@ const WhatsappSubscribe: React.FC<Props> = ({
   newsletterClass,
   buttonClass,
   oneLineMessage = false,
-  whatsappFormRef
+  whatsappFormRef,
+  whatsappNoErr = ""
 }) => {
   const dispatch = useDispatch();
   const [checked, setChecked] = useState(false);
   const [subscribe, setSubscribe] = useState(false);
   const [phone, setPhone] = useState("");
-  const [code, setCode] = useState("");
+  const [code, setCode] = useState(data.whatsappNoCountryCode);
   const [showTip, setShowTip] = useState(false);
   // const [updated, setUpdated] = useState(false);
   const [numberError, setNumberError] = useState("");
   const [codeError, setCodeError] = useState("");
   const [isDisabled, setIsDisabled] = useState(true);
   const [objEqual, setObjEqual] = useState(true);
+  const [error, setError] = useState("");
 
   const formRef = whatsappFormRef || useRef<Formsy>(null);
 
@@ -94,14 +97,22 @@ const WhatsappSubscribe: React.FC<Props> = ({
   }, []);
 
   useEffect(() => {
+    setError(whatsappNoErr);
+  }, [whatsappNoErr]);
+
+  useEffect(() => {
     if (data) {
       setChecked(data.whatsappSubscribe);
-      setCode(data.whatsappNoCountryCode);
+
       setPhone(data.whatsappNo);
       setSubscribe(data.subscribe);
       // if (!data.whatsappSubscribe) {
       //   setUpdated(false);
       // }
+
+      if (data.whatsappNoCountryCode) {
+        setCode(data.whatsappNoCountryCode);
+      }
     }
   }, [data]);
 
@@ -221,6 +232,8 @@ const WhatsappSubscribe: React.FC<Props> = ({
     } else {
       setIsDisabled(false);
     }
+
+    setError("");
   };
 
   useEffect(() => {
@@ -517,6 +530,7 @@ const WhatsappSubscribe: React.FC<Props> = ({
           </div>
         )}
       </div>
+      {error && <div className={styles.whatsappNoErr}>{error}</div>}
     </Formsy>
   );
 };

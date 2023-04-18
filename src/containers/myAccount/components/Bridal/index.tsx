@@ -275,6 +275,7 @@ const Bridal: React.FC<Props> = props => {
       }
 
       setLastScreen("start");
+      setWhatsappNoErr("");
       BridalService.saveBridalProfile(dispatch, formData)
         .then(data => {
           if (data) {

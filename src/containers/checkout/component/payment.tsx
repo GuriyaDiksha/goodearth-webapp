@@ -134,7 +134,6 @@ const PaymentSection: React.FC<PaymentProps> = props => {
     let whatsappSubscribe = whatsappFormValues?.whatsappSubscribe;
     let whatsappNo = whatsappFormValues?.whatsappNo;
     let whatsappNoCountryCode = whatsappFormValues?.whatsappNoCountryCode;
-
     // if (!whatsappSubscribe) {
     //   whatsappNo = preferenceData?.whatsappNo;
     //   whatsappNoCountryCode = preferenceData?.whatsappNoCountryCode;
@@ -176,6 +175,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
       }
 
       setIsLoading(true);
+      setWhatsappNoErr("");
       const paymentMode: string[] = [];
       let paymentMethod = "";
       if (!isFree) {
@@ -619,9 +619,10 @@ const PaymentSection: React.FC<PaymentProps> = props => {
                     uniqueKey={makeid(5)}
                     oneLineMessage={!mobile}
                     whatsappFormRef={whatsappFormRef}
+                    whatsappNoErr={whatsappNoErr}
                   />
                 </div>
-                <div className={styles.whatsappNoErr}>{whatsappNoErr}</div>
+                {/* <div className={styles.whatsappNoErr}>{whatsappNoErr}</div> */}
               </div>
             )}
           </div>
