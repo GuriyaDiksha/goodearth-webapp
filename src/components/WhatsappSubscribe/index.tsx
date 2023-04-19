@@ -125,10 +125,10 @@ const WhatsappSubscribe: React.FC<Props> = ({
     setPhone(value);
   };
 
-  // const onCodeChange = (e: any) => {
-  //   const value = e.target.value;
-  //   setCode(value);
-  // };
+  const onCodeChange = (e: any, newValue?: string) => {
+    //const value = e.target.value;
+    setCode(newValue);
+  };
 
   const onSubscribeChange = (e: any) => {
     const value = e.target.checked;
@@ -423,7 +423,7 @@ const WhatsappSubscribe: React.FC<Props> = ({
                 isValidCode: "Enter valid code"
               }}
               autocomplete="off"
-              // handleChange={onCodeChange}
+              handleChange={onCodeChange}
             />
             <div className={styles.numberInput}>
               <FormInput
