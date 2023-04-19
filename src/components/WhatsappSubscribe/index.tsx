@@ -67,7 +67,7 @@ const WhatsappSubscribe: React.FC<Props> = ({
   const dispatch = useDispatch();
   const [checked, setChecked] = useState(false);
   const [subscribe, setSubscribe] = useState(false);
-  const [phone, setPhone] = useState("");
+  const [phone, setPhone] = useState(data.whatsappNo);
   const [code, setCode] = useState(data.whatsappNoCountryCode);
   const [showTip, setShowTip] = useState(false);
   // const [updated, setUpdated] = useState(false);
@@ -90,6 +90,7 @@ const WhatsappSubscribe: React.FC<Props> = ({
   };
 
   useEffect(() => {
+    setNumberError("");
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
@@ -97,19 +98,23 @@ const WhatsappSubscribe: React.FC<Props> = ({
   }, []);
 
   useEffect(() => {
-    setError(whatsappNoErr);
-  }, [whatsappNoErr]);
+    if (codeError || numberError) {
+      setError("");
+    } else {
+      setError(whatsappNoErr);
+    }
+  }, [whatsappNoErr, codeError, numberError]);
 
   useEffect(() => {
     if (data) {
       setChecked(data.whatsappSubscribe);
-
-      setPhone(data.whatsappNo);
       setSubscribe(data.subscribe);
       // if (!data.whatsappSubscribe) {
       //   setUpdated(false);
       // }
-
+      if (data.whatsappNo) {
+        setPhone(data.whatsappNo);
+      }
       if (data.whatsappNoCountryCode) {
         setCode(data.whatsappNoCountryCode);
       }
@@ -432,10 +437,10 @@ const WhatsappSubscribe: React.FC<Props> = ({
               validations={{
                 compulsory: (values, value) => {
                   if (values.whatsappSubscribe && value == "") {
-                    setNumberError("Please enter your contact number");
+                    //setNumberError("Please enter your contact number");
                     return false;
                   } else {
-                    setNumberError("");
+                    //setNumberError("");
                     return true;
                   }
                 }

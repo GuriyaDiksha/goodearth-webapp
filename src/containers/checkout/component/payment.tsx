@@ -208,6 +208,12 @@ const PaymentSection: React.FC<PaymentProps> = props => {
           errorTracking([msg], location.href);
           setIsLoading(false);
           const errData = error.response?.data;
+          if (
+            errData === "'whatsappNo'" ||
+            errData === "'whatsappNoCountryCode'"
+          ) {
+            setWhatsappNoErr("Please enter a Whatsapp Number");
+          }
           Object.keys(errData).map(key => {
             switch (key) {
               case "whatsappNo":
