@@ -178,7 +178,7 @@ const Bridal: React.FC<Props> = props => {
 
   const changeAddress = (newAddressId: number) => {
     getBridalProfileData()
-      .then(data => {
+      .then(_data => {
         AddressService.fetchAddressList(dispatch).then(data => {
           dispatch(updateAddressList(data));
           const items = data;
@@ -251,27 +251,31 @@ const Bridal: React.FC<Props> = props => {
   const createRegistry = () => {
     const { userAddress, ...rest } = bridalDetails;
     const whatsappFormValues = whatsappFormRef.current?.getCurrentValues();
-    const whatsappSubscribe = whatsappFormValues?.whatsappSubscribe;
+    let whatsappSubscribe = whatsappFormValues?.whatsappSubscribe;
     let whatsappNo = whatsappFormValues?.whatsappNo;
     let whatsappNoCountryCode = whatsappFormValues?.whatsappNoCountryCode;
 
-    if (!whatsappSubscribe) {
-      whatsappNo = user.preferenceData?.whatsappNo;
-      whatsappNoCountryCode = user.preferenceData?.whatsappNoCountryCode;
-    }
-
     if (userAddress) {
-      const formData = {
+      if (!whatsappFormRef.current) {
+        whatsappSubscribe = user.preferenceData.whatsappSubscribe;
+        whatsappNo = user.preferenceData.whatsappNo;
+        whatsappNoCountryCode = user.preferenceData.whatsappNoCountryCode;
+      }
+      const formData: any = {
         userAddressId: userAddress.id,
         ...rest,
         currency,
         actionType: "create",
-        whatsappSubscribe: whatsappSubscribe,
-        whatsappNo: whatsappNo,
-        whatsappNoCountryCode: whatsappNoCountryCode
+        whatsappSubscribe: whatsappSubscribe
       };
 
+      if (whatsappSubscribe) {
+        formData.whatsappNo = whatsappNo;
+        formData.whatsappNoCountryCode = whatsappNoCountryCode;
+      }
+
       setLastScreen("start");
+      setWhatsappNoErr("");
       BridalService.saveBridalProfile(dispatch, formData)
         .then(data => {
           if (data) {

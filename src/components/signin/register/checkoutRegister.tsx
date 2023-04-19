@@ -52,6 +52,9 @@ type Props = ReturnType<typeof mapStateToProps> &
   RegisterProps;
 
 class CheckoutRegisterForm extends React.Component<Props, registerState> {
+  public static defaultProps = {
+    isCheckout: false
+  };
   constructor(props: Props) {
     super(props);
     this.state = {
@@ -1127,7 +1130,7 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
               showLabel={true}
             />
           </div>
-          {CONFIG.WHATSAPP_SUBSCRIBE_ENABLED && (
+          {CONFIG.WHATSAPP_SUBSCRIBE_ENABLED && !this.props.isCheckout && (
             <div
               className={cs(styles.subscribe, styles.tooltip, {
                 [styles.heightFix]: this.state.whatsappChecked

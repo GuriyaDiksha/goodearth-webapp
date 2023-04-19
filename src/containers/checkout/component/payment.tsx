@@ -131,23 +131,28 @@ const PaymentSection: React.FC<PaymentProps> = props => {
     const isFree = +basket.total <= 0;
     const userConsent = CookieService.getCookie("consent").split(",");
     const whatsappFormValues = whatsappFormRef.current?.getCurrentValues();
-    const whatsappSubscribe = whatsappFormValues?.whatsappSubscribe;
+    let whatsappSubscribe = whatsappFormValues?.whatsappSubscribe;
     let whatsappNo = whatsappFormValues?.whatsappNo;
     let whatsappNoCountryCode = whatsappFormValues?.whatsappNoCountryCode;
-
-    if (!whatsappSubscribe) {
-      whatsappNo = preferenceData?.whatsappNo;
-      whatsappNoCountryCode = preferenceData?.whatsappNoCountryCode;
-    }
-
+    // if (!whatsappSubscribe) {
+    //   whatsappNo = preferenceData?.whatsappNo;
+    //   whatsappNoCountryCode = preferenceData?.whatsappNoCountryCode;
+    // }
     if (currentmethod.mode || isFree) {
+      if (!whatsappFormRef.current) {
+        whatsappSubscribe = preferenceData.whatsappSubscribe;
+        whatsappNo = preferenceData.whatsappNo;
+        whatsappNoCountryCode = preferenceData.whatsappNoCountryCode;
+      }
       const data: any = {
         paymentMethod: isFree ? "FREE" : currentmethod.key,
         paymentMode: currentmethod.mode,
-        whatsappSubscribe: whatsappSubscribe,
-        whatsappNo: whatsappNo,
-        whatsappNoCountryCode: whatsappNoCountryCode
+        whatsappSubscribe: whatsappSubscribe
       };
+      if (whatsappSubscribe) {
+        data.whatsappNo = whatsappNo;
+        data.whatsappNoCountryCode = whatsappNoCountryCode;
+      }
       if (userConsent.includes(ANY_ADS)) {
         Moengage.track_event("Mode of payment selected", {
           "Payment Method": currentmethod.value,
@@ -170,6 +175,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
       }
 
       setIsLoading(true);
+      setWhatsappNoErr("");
       const paymentMode: string[] = [];
       let paymentMethod = "";
       if (!isFree) {
@@ -610,12 +616,13 @@ const PaymentSection: React.FC<PaymentProps> = props => {
                     countryCodeClass={styles.countryCode}
                     checkboxLabelClass={styles.checkboxLabel}
                     allowUpdate={true}
-                    uniqueKey={makeid(5)}
+                    uniqueKey={"paymentid123"}
                     oneLineMessage={!mobile}
                     whatsappFormRef={whatsappFormRef}
+                    whatsappNoErr={whatsappNoErr}
                   />
                 </div>
-                <div className={styles.whatsappNoErr}>{whatsappNoErr}</div>
+                {/* <div className={styles.whatsappNoErr}>{whatsappNoErr}</div> */}
               </div>
             )}
           </div>
