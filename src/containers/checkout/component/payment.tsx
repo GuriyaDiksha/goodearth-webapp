@@ -614,7 +614,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
                     countryCodeClass={styles.countryCode}
                     checkboxLabelClass={styles.checkboxLabel}
                     allowUpdate={true}
-                    uniqueKey={makeid(5)}
+                    uniqueKey={"paymentid123"}
                     oneLineMessage={!mobile}
                     whatsappFormRef={whatsappFormRef}
                     whatsappNoErr={whatsappNoErr}
