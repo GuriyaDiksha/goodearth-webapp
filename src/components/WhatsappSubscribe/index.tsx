@@ -125,10 +125,10 @@ const WhatsappSubscribe: React.FC<Props> = ({
     setPhone(value);
   };
 
-  // const onCodeChange = (e: any) => {
-  //   const value = e.target.value;
-  //   setCode(value);
-  // };
+  const onCodeChange = (e: any, newValue?: string) => {
+    //const value = e.target.value;
+    setCode(newValue);
+  };
 
   const onSubscribeChange = (e: any) => {
     const value = e.target.checked;
@@ -213,7 +213,6 @@ const WhatsappSubscribe: React.FC<Props> = ({
   const onFormChange = (model: any, isChanged: any) => {
     //If show subscribe is enabled in future add case for subscribe checkbox
     const { whatsappSubscribe, whatsappNo, whatsappNoCountryCode } = model;
-    console.log(model);
     if (data) {
       const prefData = data;
       if (
@@ -414,7 +413,7 @@ const WhatsappSubscribe: React.FC<Props> = ({
               isValidCode: "Enter valid code"
             }}
             autocomplete="off"
-            // handleChange={onCodeChange}
+            handleChange={onCodeChange}
           />
           <div className={styles.numberInput}>
             <FormInput
