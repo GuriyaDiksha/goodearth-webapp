@@ -365,110 +365,93 @@ const WhatsappSubscribe: React.FC<Props> = ({
             Manage your preference from My Preference section under Profile
           </div>
         )}
-        {/* {(allowUpdate && !checked) && (
-          <div className={cs(styles.showPopupMsg, styles.manageMsg)}>
-            <div className={styles.text}>
-              <div className={styles.info}>
-                Whatsapp updates will be sent on {data.whatsappNoCountryCode}{" "}
-                {data.whatsappNo}.
-              </div>
-              <div className={styles.cta}>
-                <a onClick={openPopup}>Click here</a> to update this number or
-                unsubscribe.
-              </div>
-            </div>
-          </div>
-        )} */}
-        {!onlyCheckbox && (
-          <div
-            className={countryCodeClass}
-            style={!(checked && showPhone) ? { display: "none" } : {}}
-          >
-            <CountryCode
-              name="whatsappNoCountryCode"
-              placeholder="Code"
-              label="Country Code"
-              value={code}
-              id={uniqueKey}
-              showLabel={true}
-              innerRef={codeRef}
+        <div
+          className={countryCodeClass}
+          style={
+            !(checked && showPhone)
+              ? { display: "none" }
+              : !onlyCheckbox
+              ? {}
+              : { display: "none" }
+          }
+        >
+          <CountryCode
+            name="whatsappNoCountryCode"
+            placeholder="Code"
+            label="Country Code"
+            value={code}
+            id={uniqueKey}
+            showLabel={true}
+            innerRef={codeRef}
+            validations={{
+              isCodeValid: (values, value) => {
+                const bool = !(values.whatsappNo && value == "");
+                if (!bool) {
+                  setCodeError("Required");
+                  return false;
+                } else {
+                  setCodeError("");
+                  return true;
+                }
+              },
+              isValidCode: (values, value) => {
+                let bool = true;
+                if (value && isdList.length > 0) {
+                  bool = isdList.indexOf(value ? value : "") > -1;
+                }
+                if (!bool) {
+                  setCodeError("Enter valid code");
+                } else {
+                  if (value?.length > 0) {
+                    setCodeError("");
+                  }
+                }
+                return bool;
+              }
+            }}
+            validationErrors={{
+              isCodeValid: "Required",
+              isValidCode: "Enter valid code"
+            }}
+            autocomplete="off"
+            // handleChange={onCodeChange}
+          />
+          <div className={styles.numberInput}>
+            <FormInput
+              name="whatsappNo"
+              value={phone}
+              placeholder={"Contact Number"}
+              type="number"
+              label={"Contact Number"}
+              keyPress={e => (e.key == "Enter" ? e.preventDefault() : "")}
+              keyDown={e => (e.which === 69 ? e.preventDefault() : null)}
+              onPaste={e =>
+                e?.clipboardData.getData("Text").match(/([e|E])/)
+                  ? e.preventDefault()
+                  : null
+              }
               validations={{
-                isCodeValid: (values, value) => {
-                  const bool = !(values.whatsappNo && value == "");
-                  if (!bool) {
-                    setCodeError("Required");
+                compulsory: (values, value) => {
+                  if (values.whatsappSubscribe && value == "") {
+                    setNumberError("Please enter your contact number");
                     return false;
                   } else {
-                    setCodeError("");
+                    setNumberError("");
                     return true;
                   }
-                },
-                isValidCode: (values, value) => {
-                  let bool = true;
-                  if (value && isdList.length > 0) {
-                    bool = isdList.indexOf(value ? value : "") > -1;
-                  }
-                  if (!bool) {
-                    setCodeError("Enter valid code");
-                  } else {
-                    if (value?.length > 0) {
-                      setCodeError("");
-                    }
-                  }
-                  return bool;
                 }
               }}
               validationErrors={{
-                isCodeValid: "Required",
-                isValidCode: "Enter valid code"
+                compulsory: "Please enter your contact number"
               }}
-              autocomplete="off"
-              // handleChange={onCodeChange}
+              handleChange={onPhoneChange}
+              showLabel={true}
+              inputRef={phoneRef}
+              noErrOnPristine={true}
             />
-            <div className={styles.numberInput}>
-              <FormInput
-                name="whatsappNo"
-                value={phone}
-                placeholder={"Contact Number"}
-                type="number"
-                label={"Contact Number"}
-                keyPress={e => (e.key == "Enter" ? e.preventDefault() : "")}
-                keyDown={e => (e.which === 69 ? e.preventDefault() : null)}
-                onPaste={e =>
-                  e?.clipboardData.getData("Text").match(/([e|E])/)
-                    ? e.preventDefault()
-                    : null
-                }
-                validations={{
-                  compulsory: (values, value) => {
-                    if (values.whatsappSubscribe && value == "") {
-                      setNumberError("Please enter your contact number");
-                      return false;
-                    } else {
-                      setNumberError("");
-                      return true;
-                    }
-                  }
-                }}
-                validationErrors={{
-                  compulsory: "Please enter your contact number"
-                }}
-                handleChange={onPhoneChange}
-                showLabel={true}
-                inputRef={phoneRef}
-                noErrOnPristine={true}
-              />
-              {/* {allowUpdate && (
-                <div
-                  className={styles.updateBtn}
-                  onClick={submitPreferenceData}
-                >
-                  Update
-                </div>
-              )} */}
-            </div>
           </div>
-        )}
+        </div>
+
         {showTermsMessage && (
           <span className={styles.termsMsg}>
             By checking this, you agree to receiving Whatsapp messages for order
