@@ -284,6 +284,10 @@ $banner-mobile-height:500px;
                         }
                         .address-block{
                             justify-content: space-between;
+                            @media screen and (min-width: 768px){
+                                justify-content: unset;
+                                gap: 70px;
+                            }
                             .phone{
                                 text-align: right;
                                 a {
@@ -293,6 +297,10 @@ $banner-mobile-height:500px;
                         }
                         .shopper-block{
                             justify-content: space-between;
+                            @media screen and (min-width: 481px){
+                                justify-content: unset;
+                                gap: 70px;
+                            }
                             .phone{
                                 text-align: right;
                                 a {
