@@ -27,7 +27,7 @@ const WhatsappPopup: React.FC<Props> = props => {
         <div className={styles.loginForm}>
           <div className={styles.categorylabel}>
             <WhatsappSubscribe
-              uniqueKey={makeid(5)}
+              uniqueKey={"whatsappid123"}
               data={props.data}
               innerRef={whatsappSubscribeRef}
               isdList={props.isdList}
