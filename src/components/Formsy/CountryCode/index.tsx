@@ -71,7 +71,7 @@ const CountryCode: React.FC<Props & InjectedProps<string | null>> = props => {
   const onChange = (event: any, { newValue }: { newValue: string }) => {
     props.setValue(newValue);
     if (props.handleChange) {
-      props.handleChange(event);
+      props.handleChange(event, newValue);
     }
   };
 
