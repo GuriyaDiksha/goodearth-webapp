@@ -111,7 +111,7 @@ const FormInput: React.FC<Props & InjectedProps<string | null>> = props => {
         return "This field is required";
     }
   }, []);
-  const errorMessage = props.disable
+  let errorMessage = props.disable
     ? ""
     : props.errorMessage
     ? props.errorMessage
@@ -120,6 +120,12 @@ const FormInput: React.FC<Props & InjectedProps<string | null>> = props => {
     : props.error
     ? props.error
     : "";
+
+  if (props.noErrOnPristine) {
+    if (props.isPristine) {
+      errorMessage = "";
+    }
+  }
 
   return (
     <div className={props.className}>

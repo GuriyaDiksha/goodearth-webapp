@@ -1201,11 +1201,11 @@ $list: $grey 92%, $white 8%;
 // =================================
 
 @mixin err_13px_lora_italic_cerise{
-  font-family: $font-Lora;
-  font-size: 13px;
-  color: $cerise;
-  font-style: italic;
-  letter-spacing: 0.5px;
+  font-family: $font-Lora !important;
+  font-size: 13px !important;
+  color: $cerise !important;
+  font-style: italic !important;
+  letter-spacing: 0.5px !important;
 }
 
 @mixin search_text{
