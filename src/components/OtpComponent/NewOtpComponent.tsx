@@ -20,6 +20,7 @@ type Props = {
   goBackCta?: ReactNode;
   socialLogin?: ReactNode;
   otpAttemptClass?: string;
+  uniqueId: string;
 };
 
 const NewOtpComponent: React.FC<Props> = ({
@@ -39,18 +40,19 @@ const NewOtpComponent: React.FC<Props> = ({
   verifyCtaClass,
   groupTimerAndAttempts,
   goBackCta,
-  socialLogin
+  socialLogin,
+  uniqueId //made this component unique in dom
 }) => {
   const [timeRemaining, setTimeRemaining] = useState(90);
   const [timerId, setTimerId] = useState<any>();
   const [error, setError] = useState<(JSX.Element | string)[] | string>("");
   const [input, setInput] = useState({
-    otp1: "",
-    otp2: "",
-    otp3: "",
-    otp4: "",
-    otp5: "",
-    otp6: ""
+    [`${uniqueId}otp1`]: "",
+    [`${uniqueId}otp2`]: "",
+    [`${uniqueId}otp3`]: "",
+    [`${uniqueId}otp4`]: "",
+    [`${uniqueId}otp5`]: "",
+    [`${uniqueId}otp6`]: ""
   });
   const count = useRef(0);
 
@@ -100,12 +102,12 @@ const NewOtpComponent: React.FC<Props> = ({
   useEffect(() => {
     if (errorMsg) {
       setInput({
-        otp1: "",
-        otp2: "",
-        otp3: "",
-        otp4: "",
-        otp5: "",
-        otp6: ""
+        [`${uniqueId}otp1`]: "",
+        [`${uniqueId}otp2`]: "",
+        [`${uniqueId}otp3`]: "",
+        [`${uniqueId}otp4`]: "",
+        [`${uniqueId}otp5`]: "",
+        [`${uniqueId}otp6`]: ""
       });
       setError(errorMsg);
     }
@@ -114,12 +116,12 @@ const NewOtpComponent: React.FC<Props> = ({
   const resetTimer = () => {
     setError("");
     setInput({
-      otp1: "",
-      otp2: "",
-      otp3: "",
-      otp4: "",
-      otp5: "",
-      otp6: ""
+      [`${uniqueId}otp1`]: "",
+      [`${uniqueId}otp2`]: "",
+      [`${uniqueId}otp3`]: "",
+      [`${uniqueId}otp4`]: "",
+      [`${uniqueId}otp5`]: "",
+      [`${uniqueId}otp6`]: ""
     });
     setAttempts({
       attempts: 0,
@@ -134,7 +136,7 @@ const NewOtpComponent: React.FC<Props> = ({
     const max_chars = 2;
     if (e.target.value.length < max_chars) {
       if (count.current !== 0) {
-        setInput({ ...input, [`otp${count?.current}`]: "" });
+        setInput({ ...input, [`${uniqueId}otp${count?.current}`]: "" });
         count.current = 0;
       } else {
         setInput({ ...input, [e.target.name]: e.target.value });
@@ -143,7 +145,9 @@ const NewOtpComponent: React.FC<Props> = ({
       if (e.target.value !== "") {
         const ele =
           typeof document == "object" &&
-          document.getElementById(`otp${+e.target.id.match(/\d+/)[0] + 1}`);
+          document.getElementById(
+            `${uniqueId}otp${+e.target.id.match(/\d+/)[0] + 1}`
+          );
         if (ele) {
           ele.focus();
         }
@@ -153,7 +157,11 @@ const NewOtpComponent: React.FC<Props> = ({
 
   const sendOtp = () => {
     verifyOtp(
-      `${input?.otp1}${input?.otp2}${input?.otp3}${input?.otp4}${input?.otp5}${input?.otp6}`
+      `${input?.[`${uniqueId}otp1`]}${input?.[`${uniqueId}otp2`]}${
+        input?.[`${uniqueId}otp3`]
+      }${input?.[`${uniqueId}otp4`]}${input?.[`${uniqueId}otp5`]}${
+        input?.[`${uniqueId}otp6`]
+      }`
     );
   };
 
@@ -163,16 +171,16 @@ const NewOtpComponent: React.FC<Props> = ({
     } else {
       const arr = e?.clipboardData.getData("Text").split("");
       let newObj = {
-        otp1: "",
-        otp2: "",
-        otp3: "",
-        otp4: "",
-        otp5: "",
-        otp6: ""
+        [`${uniqueId}otp1`]: "",
+        [`${uniqueId}otp2`]: "",
+        [`${uniqueId}otp3`]: "",
+        [`${uniqueId}otp4`]: "",
+        [`${uniqueId}otp5`]: "",
+        [`${uniqueId}otp6`]: ""
       };
       setError("");
-      arr.map((ele: number, i: number) => {
-        newObj = { ...newObj, [`otp${i + 1}`]: ele };
+      arr.map((ele: string, i: number) => {
+        newObj = { ...newObj, [`${uniqueId}otp${i + 1}`]: ele };
       });
       setInput(newObj);
     }
@@ -182,7 +190,9 @@ const NewOtpComponent: React.FC<Props> = ({
     if (e.key === "Backspace") {
       const ele =
         typeof document == "object" &&
-        document.getElementById(`otp${+e.target.id.match(/\d+/)[0] - 1}`);
+        document.getElementById(
+          `${uniqueId}otp${+e.target.id.match(/\d+/)[0] - 1}`
+        );
       if (ele) {
         ele.focus();
         count.current = +e.target.id.match(/\d+/)[0];
@@ -193,7 +203,7 @@ const NewOtpComponent: React.FC<Props> = ({
   };
 
   return (
-    <div className={cs(containerClassName, style.otpWrp)}>
+    <div className={cs(containerClassName, style.otpWrp)} id={uniqueId}>
       <p className={cs(headingClassName, style.otpHeading)}>
         OTP has been sent to you via your {otpSentVia}. Please enter below:
       </p>
@@ -201,73 +211,73 @@ const NewOtpComponent: React.FC<Props> = ({
         <div className={style.otpInputWrp}>
           <input
             className={cs(style.otpInput, error ? style.error : "")}
-            value={input["otp1"]}
+            value={input[`${uniqueId}otp1`]}
             onChange={e => onOtpChange(e)}
             onPaste={e => onPasteOtp(e)}
             onKeyDown={e => handleKeyDown(e)}
-            id="otp1"
+            id={`${uniqueId}otp1`}
             type="number"
-            name="otp1"
+            name={`${uniqueId}otp1`}
             min={0}
             max={9}
           />
           <input
             className={cs(style.otpInput, error ? style.error : "")}
-            value={input["otp2"]}
+            value={input[`${uniqueId}otp2`]}
             onChange={e => onOtpChange(e)}
             onPaste={e => onPasteOtp(e)}
             onKeyDown={e => handleKeyDown(e)}
-            id="otp2"
+            id={`${uniqueId}otp2`}
             type="number"
-            name="otp2"
+            name={`${uniqueId}otp2`}
             min={0}
             max={9}
           />
           <input
             className={cs(style.otpInput, error ? style.error : "")}
-            value={input["otp3"]}
+            value={input[`${uniqueId}otp3`]}
             onChange={e => onOtpChange(e)}
             onPaste={e => onPasteOtp(e)}
             onKeyDown={e => handleKeyDown(e)}
-            id="otp3"
+            id={`${uniqueId}otp3`}
             type="number"
-            name="otp3"
+            name={`${uniqueId}otp3`}
             min={0}
             max={9}
           />
           <input
             className={cs(style.otpInput, error ? style.error : "")}
-            value={input["otp4"]}
+            value={input[`${uniqueId}otp4`]}
             onChange={e => onOtpChange(e)}
             onPaste={e => onPasteOtp(e)}
             onKeyDown={e => handleKeyDown(e)}
-            id="otp4"
+            id={`${uniqueId}otp4`}
             type="number"
-            name="otp4"
+            name={`${uniqueId}otp4`}
             min={0}
             max={9}
           />
           <input
             className={cs(style.otpInput, error ? style.error : "")}
-            value={input["otp5"]}
+            value={input[`${uniqueId}otp5`]}
             onChange={e => onOtpChange(e)}
             onPaste={e => onPasteOtp(e)}
             onKeyDown={e => handleKeyDown(e)}
-            id="otp5"
+            id={`${uniqueId}otp5`}
             type="number"
-            name="otp5"
+            name={`${uniqueId}otp5`}
             min={0}
             max={9}
           />
           <input
             className={cs(style.otpInput, error ? style.error : "")}
-            value={input["otp6"]}
+            value={input[`${uniqueId}otp6`]}
             onChange={e => onOtpChange(e)}
             onPaste={e => onPasteOtp(e)}
             onKeyDown={e => handleKeyDown(e)}
-            id="otp6"
+            id={`${uniqueId}otp6`}
             type="number"
-            name="otp6"
+            name={`${uniqueId}otp6`}
             min={0}
             max={9}
           />
@@ -293,8 +303,11 @@ const NewOtpComponent: React.FC<Props> = ({
       <button
         className={cs(
           `${style.otpBtn} ${
-            `${input?.otp1}${input?.otp2}${input?.otp3}${input?.otp4}${input?.otp5}${input?.otp6}`
-              .length !== 6 || attempts?.maxAttemptsAllow === attempts?.attempts
+            `${input?.[`${uniqueId}otp1`]}${input?.[`${uniqueId}otp2`]}${
+              input?.[`${uniqueId}otp3`]
+            }${input?.[`${uniqueId}otp4`]}${input?.[`${uniqueId}otp5`]}${
+              input?.[`${uniqueId}otp6`]
+            }`.length !== 6 || attempts?.maxAttemptsAllow === attempts?.attempts
               ? style.disable
               : ""
           }`,
@@ -302,8 +315,11 @@ const NewOtpComponent: React.FC<Props> = ({
         )}
         onClick={() => sendOtp()}
         disabled={
-          `${input?.otp1}${input?.otp2}${input?.otp3}${input?.otp4}${input?.otp5}${input?.otp6}`
-            .length !== 6 || attempts?.maxAttemptsAllow === attempts?.attempts
+          `${input?.[`${uniqueId}otp1`]}${input?.[`${uniqueId}otp2`]}${
+            input?.[`${uniqueId}otp3`]
+          }${input?.[`${uniqueId}otp4`]}${input?.[`${uniqueId}otp5`]}${
+            input?.[`${uniqueId}otp6`]
+          }`.length !== 6 || attempts?.maxAttemptsAllow === attempts?.attempts
         }
       >
         {btnText}

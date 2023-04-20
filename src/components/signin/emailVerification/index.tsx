@@ -225,6 +225,7 @@ const EmailVerification: React.FC<Props> = ({
           groupTimerAndAttempts={true}
           goBackCta={!isCheckout && !boId ? goBackCta : null}
           socialLogin={socialLogin}
+          uniqueId="emailverifyid"
         />
         {/* {!boId && (
           <div className={styles.bigTxt} style={{ marginTop: "10px" }}>
