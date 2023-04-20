@@ -128,11 +128,13 @@ const WhatsappSubscribe: React.FC<Props> = ({
   const onPhoneChange = (e: any) => {
     const value = e.target.value;
     setPhone(value);
+    setNumberError("");
   };
 
   const onCodeChange = (e: any, newValue?: string) => {
     //const value = e.target.value;
     setCode(newValue);
+    setNumberError("");
   };
 
   const onSubscribeChange = (e: any) => {
@@ -218,6 +220,7 @@ const WhatsappSubscribe: React.FC<Props> = ({
   const onFormChange = (model: any, isChanged: any) => {
     //If show subscribe is enabled in future add case for subscribe checkbox
     const { whatsappSubscribe, whatsappNo, whatsappNoCountryCode } = model;
+    let cloneObjEqual = objEqual;
     if (data) {
       const prefData = data;
       if (
@@ -225,13 +228,14 @@ const WhatsappSubscribe: React.FC<Props> = ({
         whatsappNoCountryCode == prefData.whatsappNoCountryCode &&
         whatsappNo == prefData.whatsappNo
       ) {
-        console.log(true);
+        cloneObjEqual = true;
         setObjEqual(true);
       } else {
+        cloneObjEqual = false;
         setObjEqual(false);
       }
     }
-    if (objEqual || codeError != "" || numberError != "") {
+    if (cloneObjEqual || codeError != "" || numberError != "") {
       setIsDisabled(true);
     } else {
       setIsDisabled(false);
@@ -379,47 +383,51 @@ const WhatsappSubscribe: React.FC<Props> = ({
               : { display: "none" }
           }
         >
-          <CountryCode
-            name="whatsappNoCountryCode"
-            placeholder="Code"
-            label="Country Code"
-            value={code}
-            id={uniqueKey}
-            showLabel={true}
-            innerRef={codeRef}
-            validations={{
-              isCodeValid: (values, value) => {
-                const bool = !(values.whatsappNo && value == "");
-                if (!bool) {
-                  setCodeError("Required");
-                  return false;
-                } else {
-                  setCodeError("");
-                  return true;
-                }
-              },
-              isValidCode: (values, value) => {
-                let bool = true;
-                if (value && isdList.length > 0) {
-                  bool = isdList.indexOf(value ? value : "") > -1;
-                }
-                if (!bool) {
-                  setCodeError("Enter valid code");
-                } else {
-                  if (value?.length > 0) {
+          {isdList?.length ? (
+            <CountryCode
+              name="whatsappNoCountryCode"
+              placeholder="Code"
+              label="Country Code"
+              value={code}
+              id={uniqueKey}
+              showLabel={true}
+              innerRef={codeRef}
+              validations={{
+                isCodeValid: (values, value) => {
+                  const bool = !(values.whatsappNo && value == "");
+                  if (!bool) {
+                    setCodeError("Required");
+                    return false;
+                  } else {
                     setCodeError("");
+                    return true;
                   }
+                },
+                isValidCode: (values, value) => {
+                  let bool = true;
+
+                  if (value && isdList.length > 0) {
+                    bool = isdList.indexOf(value ? value : "") > -1;
+                  }
+                  if (!bool) {
+                    setCodeError("Enter valid code");
+                  } else {
+                    if (value?.length > 0) {
+                      setCodeError("");
+                    }
+                  }
+                  return bool;
                 }
-                return bool;
-              }
-            }}
-            validationErrors={{
-              isCodeValid: "Required",
-              isValidCode: "Enter valid code"
-            }}
-            autocomplete="off"
-            handleChange={onCodeChange}
-          />
+              }}
+              validationErrors={{
+                isCodeValid: "Required",
+                isValidCode: "Enter valid code"
+              }}
+              autocomplete="off"
+              handleChange={onCodeChange}
+            />
+          ) : null}
+
           <div className={styles.numberInput}>
             <FormInput
               name="whatsappNo"
@@ -437,10 +445,10 @@ const WhatsappSubscribe: React.FC<Props> = ({
               validations={{
                 compulsory: (values, value) => {
                   if (values.whatsappSubscribe && value == "") {
-                    //setNumberError("Please enter your contact number");
+                    setNumberError("Please enter your contact number");
                     return false;
                   } else {
-                    //setNumberError("");
+                    setNumberError("");
                     return true;
                   }
                 }
