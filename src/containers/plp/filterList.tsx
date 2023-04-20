@@ -2371,7 +2371,7 @@ class FilterList extends React.Component<Props, State> {
         {mobile ? (
           <div className={cs(styles.filterButton, bootstrap.row)}>
             <div className={styles.numberDiv}>
-              <span>{this.state.totalItems + 1} Product found</span>
+              <span>{this.state.totalItems} Product found</span>
             </div>
             <div className={styles.applyButton} onClick={this.mobileApply}>
               <span>Apply</span>

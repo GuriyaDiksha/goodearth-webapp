@@ -58,6 +58,7 @@
 
 .error-msg{
     @include error-msg();
+    font-size: 14px
 }
 
 .pdp-error-msg{

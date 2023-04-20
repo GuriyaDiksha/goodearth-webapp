@@ -30,6 +30,10 @@ const MyPreferences: React.FC<Props> = props => {
   };
 
   useEffect(() => {
+    if (!user?.isLoggedIn) {
+      return;
+    }
+
     if (countryData.length == 0) {
       fetchCountryData();
     }

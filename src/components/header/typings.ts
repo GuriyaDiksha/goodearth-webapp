@@ -310,6 +310,7 @@ export interface State {
   showCartMobile: boolean;
   isLoading: boolean;
   reloadAnnouncementBar: boolean;
+  isPlpPage: boolean;
 }
 
 export interface MenuState {
