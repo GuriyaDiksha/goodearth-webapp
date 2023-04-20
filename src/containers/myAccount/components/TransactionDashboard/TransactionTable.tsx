@@ -465,7 +465,11 @@ const TransactionTable = ({ mobile }: Props) => {
           ))}
         </div>
 
-        <div className={styles.orderLink}>
+        <div
+          className={cs(styles.orderLink, {
+            [styles.floatLeft]: total_records > 10
+          })}
+        >
           <Link to="/account/my-orders">View all Order details</Link>
         </div>
 
