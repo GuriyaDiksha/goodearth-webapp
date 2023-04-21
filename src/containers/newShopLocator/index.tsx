@@ -87,12 +87,29 @@ class ShopLocator extends Component<Props, State> {
       });
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(prevProps: Props, prevState: State) {
     const city = window.location.href.split("/").pop();
     if (this.state.currentCity !== city) {
       this.setState({
         currentCity: city || ""
       });
+    }
+    if (
+      prevState.currentCity != "" &&
+      prevState.currentCity !== this.state.currentCity
+    ) {
+      const banner = document.getElementById("page-banner") as HTMLDivElement;
+      const description = document.getElementById(
+        "page-description"
+      ) as HTMLDivElement;
+      const mainHeaderHeight = document.getElementById(
+        "myHeader"
+      ) as HTMLDivElement;
+      const h1 = banner.clientHeight;
+      const h2 = description.clientHeight;
+      const h3 = mainHeaderHeight.clientHeight;
+      const total = h1 + h2 + h3;
+      window.scrollTo({ top: total, left: 0 });
     }
   }
   render() {
@@ -105,10 +122,13 @@ class ShopLocator extends Component<Props, State> {
           [styles.saleTimerMargin]: this.props.saleTimer
         })}
       >
-        <div className={cs(styles.banner, { [styles.tabletBanner]: tablet })}>
+        <div
+          className={cs(styles.banner, { [styles.tabletBanner]: tablet })}
+          id="page-banner"
+        >
           {/* <div className={styles.bannerText}>Find us near you</div> */}
         </div>
-        <div className={styles.pageDescription}>
+        <div className={styles.pageDescription} id="page-description">
           <div className={styles.text}>
             Our stores reflect inspirations from the city where they’re located,
             telling tales of tradition, design, and culture through a uniquely
@@ -118,6 +138,7 @@ class ShopLocator extends Component<Props, State> {
         </div>
         <div
           className={cs(styles.headerBox, { [styles.withTimer]: saleTimer })}
+          id="header-box"
         >
           <div className={styles.header}>
             {Object.keys(shopData).map((data: any, i: number) => {

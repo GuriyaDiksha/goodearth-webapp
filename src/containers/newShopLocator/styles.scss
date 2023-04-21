@@ -1,6 +1,10 @@
 @import "../../styles/partials/variables";
 @import "../../styles/partials/mixins";
 
+html {
+    scroll-behavior: smooth;
+}
+
 $sale-timer-height:40px;
 $banner-desktop-height:440px;
 $banner-mobile-height:500px;
