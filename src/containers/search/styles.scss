@@ -359,6 +359,7 @@
       }
       .disableColors{
         opacity: 0.5;
+        cursor: not-allowed;
       }
     }
     .materiallabel{
@@ -368,6 +369,7 @@
       }
       .disableColors{
         opacity: 0.5;
+        cursor: not-allowed;
       }
     }
   }
@@ -728,6 +730,7 @@ input[type="radio"]:checked, [type="checkbox"]:not(:checked),
     }
     .disableColors{
       opacity: 0.5;
+      cursor: not-allowed;
     }
   }
   .materiallabel{
@@ -737,6 +740,7 @@ input[type="radio"]:checked, [type="checkbox"]:not(:checked),
     }
     .disableColors{
       opacity: 0.5;
+      cursor: not-allowed;
     }
   }
 }
@@ -795,6 +799,7 @@ input[type="radio"]:checked, [type="checkbox"]:not(:checked),
       color: #E5E5E5 !important;
       border: 1px solid #E5E5E5;
       background: linear-gradient(to left top, #f9f8f5 47.75%, currentColor 50.5%, currentColor 49.5%, #f9f8f5 51.25%);
+      cursor: not-allowed;
       &:hover{
         border: 1px solid $aqua-bold;
       }
@@ -1045,4 +1050,9 @@ input[type="radio"]:checked, [type="checkbox"]:not(:checked),
     max-width: 100%;
     justify-content: center;
   }
+}
+
+.disable-type{
+  opacity: 0.5;
+  cursor: not-allowed !important;
 }
