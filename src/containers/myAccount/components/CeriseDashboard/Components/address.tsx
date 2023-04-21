@@ -43,7 +43,8 @@ const Address = () => {
               <p>{address?.[0]?.line1} </p>
               <p>
                 {" "}
-                {address?.[0]?.line2}, {address?.[0]?.city}
+                {address?.[0]?.line2}
+                {address?.[0]?.line2 && ","} {address?.[0]?.city}
               </p>
               <p>
                 {" "}
