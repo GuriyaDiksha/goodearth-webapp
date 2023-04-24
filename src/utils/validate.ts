@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import { GA_CALLS, ANY_ADS } from "constants/cookieConsent";
 import { sha256 } from "js-sha256";
 import CryptoJS from "crypto-js";
+import { isObject } from "lodash";
 // import { AppState } from "reducers/typings";
 // import { useSelector } from "react-redux";
 
@@ -1724,6 +1725,7 @@ export const decripttext = (encrypted: string, force = false) => {
 export const encryptdata = (data: any) => {
   for (const key in data) {
     if (typeof data[key] == "string") data[key] = encrypttext(data[key]);
+    if (isObject(data[key])) data[key] = encryptdata(data[key]);
   }
   return { ...data };
 };
@@ -1731,6 +1733,7 @@ export const encryptdata = (data: any) => {
 export const decriptdata = (data: any) => {
   for (const key in data) {
     if (typeof data[key] == "string") data[key] = decripttext(data[key]);
+    if (isObject(data[key])) data[key] = decriptdata(data[key]);
   }
   return { ...data };
 };
