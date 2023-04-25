@@ -600,7 +600,7 @@ class Bag extends React.Component<Props, State> {
                 {String.fromCharCode(...currencyCodes[this.props.currency])}{" "}
                 {displayPriceWithCommas(
                   this.props.cart.freeShippingApplicable -
-                    parseInt(this.props.cart.total.toString()),
+                    parseInt(totalWithoutShipping.toString()),
                   this.props.currency
                 )}
                 &nbsp;or more to qualify for free shipping.
