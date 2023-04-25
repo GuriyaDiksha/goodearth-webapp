@@ -1,5 +1,7 @@
 [
     "/auth/register/",
+    "/auth/login/",
+    "/auth/check_user_password/",
     "/auth/sociallogin/",
     "/giftcard/giftcard_activate/",
     "/giftcard/giftcard_balance_check_for_anonymous_user/",
