@@ -242,6 +242,7 @@
 
         &.out-of-stock {
           background-color: $light-charcoal;
+          cursor: not-allowed;
         }
         .view-bag {
           @include b3_14px_montserrat_white();

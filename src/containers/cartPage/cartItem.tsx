@@ -216,11 +216,11 @@ const CartItems: React.FC<BasketItem> = memo(
           <div
             className={cs(styles.size, { [styles.inline]: mobile || tablet })}
           >
-            {size ? "Size" : "Recipient&apos;s Name:"}
+            {size ? "Size: " : "Recipient's Name: "}
           </div>
           {(mobile || tablet) && " "}
           <div
-            className={cs(styles.productSize, styles.productSizeValue, {
+            className={cs({
               [styles.inline]: mobile || tablet
             })}
           >
@@ -252,7 +252,7 @@ const CartItems: React.FC<BasketItem> = memo(
 
       return color || GCMeta ? (
         <div className={styles.color}>
-          {color ? "Color:" : "Recipient&apos;s Email:"} :{" "}
+          {color ? "Color: " : "Recipient's Email: "}
           {color ? colorName() : GCMeta?.recipient_email}
         </div>
       ) : (

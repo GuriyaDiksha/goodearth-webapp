@@ -220,7 +220,7 @@ const LineItems: React.FC<BasketItem> = memo(
       return size || GCMeta ? (
         <div className={styles.size}>
           {" "}
-          {size ? "Size" : "Recipient&apos;s Name:"} {size?.value}
+          {size ? "Size: " : "Recipient's Name: "} {size?.value}
           {GCMeta?.recipeint_name}
         </div>
       ) : (
@@ -247,7 +247,7 @@ const LineItems: React.FC<BasketItem> = memo(
 
       return color || GCMeta ? (
         <div className={styles.color}>
-          {color ? "Color:" : "Recipient&apos;s Email:"}{" "}
+          {color ? "Color: " : "Recipient's Email: "}{" "}
           {color ? colorName() : GCMeta?.recipient_email}
         </div>
       ) : (
@@ -438,13 +438,13 @@ const LineItems: React.FC<BasketItem> = memo(
                   globalStyles.gutterBetween
                 )}
               >
-                {!bridalProfile && (
-                  <div
-                    className={cs(
-                      globalStyles.textCenter,
-                      styles.wishlistDisplay
-                    )}
-                  >
+                <div
+                  className={cs(
+                    globalStyles.textCenter,
+                    styles.wishlistDisplay
+                  )}
+                >
+                  {bridalProfile || isGiftCard ? null : (
                     <WishlistButton
                       gtmListType="MiniBag"
                       title={product.title}
@@ -459,8 +459,9 @@ const LineItems: React.FC<BasketItem> = memo(
                       inWishlist={inWishlist}
                       onMoveToWishlist={onMoveToWishlist}
                     />
-                  </div>
-                )}
+                  )}
+                </div>
+
                 <div
                   className={cs(
                     styles.pointer,

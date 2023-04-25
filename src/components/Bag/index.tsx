@@ -310,11 +310,11 @@ class Bag extends React.Component<Props, State> {
 
   getFooter() {
     if (this.props.cart) {
-      const discountAmount = this.props.cart?.offerDiscounts
-        ?.map(discount => {
-          return +discount.amount;
-        })
-        .reduce((partialSum, a) => partialSum + a, 0);
+      const discount =
+        this.props.cart?.offerDiscounts?.find(
+          discount => discount?.name === "EMP Discount"
+        ) || {};
+      //.reduce((partialSum, a) => partialSum + a, 0);
 
       return (
         <div className={styles.bagFooter}>
@@ -337,32 +337,34 @@ class Bag extends React.Component<Props, State> {
                 </h5>
               </div>
               {this.props.isLoggedIn &&
-                this.props.currency == "INR" &&
-                this.props.customerGroup.includes("employee") && (
-                  <div
-                    className={cs(
-                      globalStyles.flex,
-                      globalStyles.gutterBetween,
-                      styles.containerCost,
-                      styles.discountWrapper
-                    )}
-                  >
-                    <div className={cs(styles.discountPrice)}>EMP Discount</div>
-                    <div className={globalStyles.textRight}>
-                      <h5 className={cs(styles.discountPrice)}>
-                        (-)
-                        {String.fromCharCode(
-                          ...currencyCodes[this.props.currency]
-                        )}
-                        &nbsp;
-                        {displayPriceWithCommasFloat(
-                          discountAmount,
-                          this.props.currency
-                        )}
-                      </h5>
-                    </div>
+              this.props.currency == "INR" &&
+              Object?.entries(discount)?.length ? (
+                <div
+                  className={cs(
+                    globalStyles.flex,
+                    globalStyles.gutterBetween,
+                    styles.containerCost,
+                    styles.discountWrapper
+                  )}
+                >
+                  <div className={cs(styles.discountPrice)}>
+                    {discount?.name}
                   </div>
-                )}
+                  <div className={globalStyles.textRight}>
+                    <h5 className={cs(styles.discountPrice)}>
+                      (-)
+                      {String.fromCharCode(
+                        ...currencyCodes[this.props.currency]
+                      )}
+                      &nbsp;
+                      {displayPriceWithCommasFloat(
+                        discount?.amount,
+                        this.props.currency
+                      )}
+                    </h5>
+                  </div>
+                </div>
+              ) : null}
             </div>
 
             {this.hasOutOfStockItems() && (
@@ -504,7 +506,7 @@ class Bag extends React.Component<Props, State> {
     } = this.props.cart;
     if (
       !this.props.cart.lineItems ||
-      this.hasOutOfStockItems() ||
+      // this.hasOutOfStockItems() ||
       this.props.cart.lineItems.length == 0
     ) {
       return false;
@@ -601,7 +603,7 @@ class Bag extends React.Component<Props, State> {
                     parseInt(this.props.cart.total.toString()),
                   this.props.currency
                 )}
-                or more to qualify for free shipping.
+                &nbsp;or more to qualify for free shipping.
               </div>
             </div>
           ) : (

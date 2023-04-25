@@ -441,7 +441,7 @@ class CartPage extends React.Component<Props, State> {
                             </div>
                           );
                         })
-                      : wishlistData.length > 4 && mobile
+                      : mobile
                       ? wishlistData?.slice(0, 5)?.map((data, i) => {
                           return (
                             <div
@@ -622,7 +622,7 @@ class CartPage extends React.Component<Props, State> {
           )}
         >
           <div className={cs(styles.header)}>
-            <p>MY SHOPPING BAG ({this.props?.cart?.lineItems?.length})</p>
+            <p>MY SHOPPING BAG ({this.getItemsCount()})</p>
           </div>
           {/* {this.renderMessage()} */}
           {this.getItems()}
