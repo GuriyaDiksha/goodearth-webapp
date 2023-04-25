@@ -1673,7 +1673,7 @@ class CorporateFilter extends React.Component<Props, State> {
 
   render() {
     const { mobile } = this.props;
-    const { filter } = this.state;
+    // const { filter } = this.state;
     // const productHtml = this.createProductType(
     //   this.props.facetObject.categoryObj,
     //   this.props.facets

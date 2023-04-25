@@ -35,4 +35,5 @@ export type CollectionSpecificProps = {
   longDescription: string;
   results: PartialProductItem[];
   next: any;
+  tags: string[];
 };

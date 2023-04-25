@@ -97,7 +97,10 @@ class Header extends React.Component<Props, State> {
         (this.props.location.pathname.includes("/catalogue/") &&
           !this.props.location.pathname.includes("/catalogue/category")) ||
         (this.props.location.pathname.includes("/bridal/") &&
-          !this.props.location.pathname.includes("/account/"))
+          !this.props.location.pathname.includes("/account/")),
+      isPlpPage:
+        this.props.location.pathname.indexOf("/catalogue/category") > -1 ||
+        this.props.location.pathname.includes("/search/")
     };
   }
   static contextType = UserContext;
@@ -231,6 +234,13 @@ class Header extends React.Component<Props, State> {
     }
     if (this.props.showTimer != nextProps.showTimer) {
       this.onScroll(null, nextProps.showTimer);
+    }
+    if (this.props.location.pathname !== nextProps.location.pathname) {
+      this.setState({
+        isPlpPage:
+          nextProps.location.pathname.indexOf("/catalogue/category") > -1 ||
+          nextProps.location.pathname.indexOf("/search/") > -1
+      });
     }
   }
   componentDidUpdate(prevProps: Props) {
@@ -830,6 +840,7 @@ class Header extends React.Component<Props, State> {
   };
 
   render() {
+    const { isPlpPage } = this.state;
     const { isLoggedIn } = this.context;
     const {
       wishlistData,
@@ -915,6 +926,7 @@ class Header extends React.Component<Props, State> {
     const isBridalRegistryPage =
       this.props.location.pathname.indexOf("/bridal/") > -1 &&
       !(this.props.location.pathname.indexOf("/account/") > -1);
+
     const { showMenu } = this.state;
     const isCeriseCustomer = slab
       ? slab.toLowerCase() == "cerise" ||
@@ -1033,7 +1045,10 @@ class Header extends React.Component<Props, State> {
         <div
           id="myHeader"
           className={cs(
-            { [styles.headerIndex]: showMenu },
+            {
+              [styles.headerIndex]: showMenu,
+              [styles.plpIndex]: isPlpPage
+            },
             styles.headerContainer
           )}
         >

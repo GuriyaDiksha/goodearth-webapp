@@ -647,5 +647,9 @@
         }
       }
     }
+    .whatsapp-no-err{
+      @include err_13px_lora_italic_cerise();
+      text-align: left;
+    }
   }
 }

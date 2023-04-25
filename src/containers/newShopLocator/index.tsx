@@ -87,6 +87,14 @@ class ShopLocator extends Component<Props, State> {
       });
   }
 
+  componentDidUpdate() {
+    const city = window.location.href.split("/").pop();
+    if (this.state.currentCity !== city) {
+      this.setState({
+        currentCity: city || ""
+      });
+    }
+  }
   render() {
     const { shopData, currentCity } = this.state;
     const { saleTimer, mobile, tablet } = this.props;
@@ -140,6 +148,7 @@ class ShopLocator extends Component<Props, State> {
                     <img
                       className={cs(styles.icon, styles.store)}
                       src={cafeIcon}
+                      alt="Store Icon"
                     />
                     <div className={styles.name}>
                       {data.cafeHeading2}, {data.place}
@@ -211,7 +220,11 @@ class ShopLocator extends Component<Props, State> {
                                 key={`cafe_${i}`}
                               >
                                 <div>
-                                  <img key={`cafe_${i}`} src={item.image} />
+                                  <img
+                                    key={`cafe_${i}`}
+                                    src={item.image}
+                                    alt="cafe"
+                                  />
                                 </div>
                               </div>
                             );
@@ -232,7 +245,11 @@ class ShopLocator extends Component<Props, State> {
                 key={`${data.place}_${i}`}
               >
                 {showAnarBorder && (
-                  <img className={cs(styles.anar)} src={anarIcon} />
+                  <img
+                    className={cs(styles.anar)}
+                    src={anarIcon}
+                    alt="border"
+                  />
                 )}
                 {/* Shop Block */}
                 <div
@@ -244,6 +261,7 @@ class ShopLocator extends Component<Props, State> {
                     <img
                       className={cs(styles.icon, styles.store)}
                       src={storeIcon}
+                      alt="Store Icon"
                     />
                     <div className={styles.name}>{data.place}</div>
                     <div className={styles.location}>{data.city}</div>
@@ -322,7 +340,7 @@ class ShopLocator extends Component<Props, State> {
                               key={`shope_image${i}`}
                             >
                               <div>
-                                <img src={item.image} />
+                                <img src={item.image} alt="shope image" />
                               </div>
                             </div>
                           );

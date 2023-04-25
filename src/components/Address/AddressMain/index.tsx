@@ -337,9 +337,14 @@ const AddressMain: React.FC<Props> = props => {
                         countryCodeClass={styles.countryCode}
                         checkboxLabelClass={styles.checkboxLabel}
                         allowUpdate={true}
-                        uniqueKey={makeid(5)}
+                        uniqueKey={"addressid123"}
+                        whatsappFormRef={props.whatsappFormRef}
+                        whatsappNoErr={props.whatsappNoError}
                       />
                     </div>
+                    {/* <div className={styles.whatsappNoErr}>
+                      {props.whatsappNoError}
+                    </div> */}
                   </div>
                 </Formsy>
               </div>
