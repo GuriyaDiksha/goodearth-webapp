@@ -367,7 +367,7 @@ const AddressItem: React.FC<Props> = props => {
                           className={styles.radio}
                           id={id}
                           onClick={() => {
-                            markAsDefault(address);
+                            markAsDefault(address, address?.id);
                             setDefaultAddress(id);
                           }}
                         >
@@ -381,7 +381,7 @@ const AddressItem: React.FC<Props> = props => {
                             name={id}
                             type="radio"
                             onChange={() => {
-                              markAsDefault(address);
+                              markAsDefault(address, address?.id);
                               setDefaultAddress(id);
                             }}
                           />
@@ -405,7 +405,7 @@ const AddressItem: React.FC<Props> = props => {
                           className={styles.radio}
                           id={id}
                           onClick={() => {
-                            markAsDefault(address);
+                            markAsDefault(address, address?.id);
                             setDefaultAddress(id);
                           }}
                         >
@@ -419,7 +419,7 @@ const AddressItem: React.FC<Props> = props => {
                             name={id}
                             type="radio"
                             onChange={() => {
-                              markAsDefault(address);
+                              markAsDefault(address, address?.id);
                               setDefaultAddress(id);
                             }}
                           />
@@ -449,7 +449,7 @@ const AddressItem: React.FC<Props> = props => {
                   className={styles.radio}
                   id={id}
                   onClick={() => {
-                    markAsDefault(address);
+                    markAsDefault(address, address?.id);
                     setDefaultAddress(id);
                   }}
                 >
@@ -460,7 +460,7 @@ const AddressItem: React.FC<Props> = props => {
                     name={id}
                     type="radio"
                     onChange={() => {
-                      markAsDefault(address);
+                      markAsDefault(address, address?.id);
                       setDefaultAddress(id);
                     }}
                   />
@@ -650,7 +650,7 @@ const AddressItem: React.FC<Props> = props => {
                     className={styles.radio}
                     id={id}
                     onClick={() => {
-                      markAsDefault(address);
+                      markAsDefault(address, address?.id);
                       setDefaultAddress(id);
                     }}
                   >
@@ -661,7 +661,7 @@ const AddressItem: React.FC<Props> = props => {
                       name={id}
                       type="radio"
                       onChange={() => {
-                        markAsDefault(address);
+                        markAsDefault(address, address?.id);
                         setDefaultAddress(id);
                       }}
                     />

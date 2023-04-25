@@ -92,7 +92,6 @@ const CookiePolicy: React.FC<Props> = ({
     //   .filter((e: any) => e.value === true)
     //   .map((e: any) => e.functionalities)
     //   .join(",");
-
     showCookiePrefs();
     if (OLD_COOKIE_SETTINGS) {
       CookieService.setCookie(
@@ -138,7 +137,8 @@ const CookiePolicy: React.FC<Props> = ({
 
   const savePref = () => {
     saveConsent(consents);
-    setIsPrefOpen(false);
+    acceptCookies();
+    // setIsPrefOpen(false);
   };
 
   const acceptAndContinue = () => {
@@ -147,13 +147,23 @@ const CookiePolicy: React.FC<Props> = ({
   };
 
   const hideCookie = () => {
-    setConsent(true);
+    //    setConsent(true);
     if (OLD_COOKIE_SETTINGS) {
       CookieService.setCookie(
         "consent",
         "GA-Calls,Any-Ads,Search-History",
         365
       ); //Hardcoded consents
+      setConsent(true);
+    } else {
+      const functionalities = consents.find(
+        e =>
+          e.name === "Necessary Cookies" ||
+          e?.backend_name === "Necessary Cookies - IN"
+      );
+      // CookieService.setCookie("consent", functionalities, 365);
+      setConsent([functionalities]);
+      saveConsent([functionalities]);
     }
     hideCookies();
     showCookiePrefs();

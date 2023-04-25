@@ -20,16 +20,16 @@ type Props = {
 
 const AddressList: React.FC<Props> = props => {
   const { activeStep } = useContext(AddressContext);
-  const [addressData, setAddressData] = useState(props.addressDataList);
+  const [addressData, setAddressData] = useState<AddressData[]>([]);
   const { bridalAddressId } = useSelector((state: AppState) => state.basket);
+  const { isLoggedIn, email } = useSelector((state: AppState) => state.user);
   const { addressDataList, isBridal } = props;
   const [defaultAddress, setDefaultAddress] = useState(`default_check_${0}`);
   const [isRender, setIsRender] = useState(false);
 
   useEffect(() => {
-    if (addressDataList.length > 0 && isRender === false) {
-      setIsRender(true);
-      let addressData = addressDataList;
+    if (addressDataList.length > 0) {
+      let addressDatas = addressDataList;
       if (
         (activeStep == "BILLING" &&
           props.currentCallBackComponent == "checkout-billing") ||
@@ -37,10 +37,10 @@ const AddressList: React.FC<Props> = props => {
         props.currentCallBackComponent == "bridal" ||
         props.currentCallBackComponent == "bridal-edit"
       ) {
-        if (addressData) {
-          addressData = addressData.filter(address => !address.isTulsi);
+        if (addressDatas) {
+          addressDatas = addressDatas.filter(address => !address.isTulsi);
           if (isBridal) {
-            addressData = addressData.filter(
+            addressDatas = addressDatas.filter(
               address => address.id != bridalAddressId
             );
           }
@@ -51,25 +51,18 @@ const AddressList: React.FC<Props> = props => {
         props.currentCallBackComponent == "checkout-shipping"
       ) {
         if (isBridal) {
-          addressData = addressData.filter(
+          addressDatas = addressDatas.filter(
             address => address.isBridal && address.id == bridalAddressId
           );
         }
       }
-
       // if (props.addressDataList && props.addressDataList.length > 0) {
       //   addressData = addressData.filter(data => data.id !== props.bridalId);
       // }
-      setAddressData(addressData);
+      setAddressData(addressDatas);
     }
+  }, [addressDataList, isLoggedIn, email]);
 
-    // if (props.addressDataList && props.addressDataList.length > 0) {
-    //   addressData = addressData.filter(data => data.id !== props.bridalId);
-    // }
-    // setAddressData(addressData);
-  }, [addressDataList]);
-
-  // const [ addressDataList: addressData || [],
   const [isLoading] = useState(false);
 
   // componentWillReceiveProps(props) {

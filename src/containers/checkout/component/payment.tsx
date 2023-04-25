@@ -24,6 +24,14 @@ import checkmarkCircle from "./../../../images/checkmarkCircle.svg";
 import CheckoutService from "services/checkout";
 import BasketService from "services/basket";
 import OrderSummary from "./orderSummary";
+import AccountServices from "services/account";
+import { updatePreferenceData } from "actions/user";
+import LoginService from "services/login";
+import { updateCountryData } from "actions/address";
+import WhatsappSubscribe from "components/WhatsappSubscribe";
+import { makeid } from "utils/utility";
+import { CONFIG } from "constants/util";
+import Formsy from "formsy-react";
 
 const PaymentSection: React.FC<PaymentProps> = props => {
   const data: any = {};
@@ -31,13 +39,16 @@ const PaymentSection: React.FC<PaymentProps> = props => {
     basket,
     device: { mobile },
     info: { showGiftWrap },
-    user: { loyaltyData, isLoggedIn },
-    basket: { loyalty }
+    basket: { loyalty },
+    user: { loyaltyData, isLoggedIn, preferenceData },
+    address: { countryData }
   } = useSelector((state: AppState) => state);
   const history = useHistory();
   const { isActive, currency, checkout, shippingAddress, salestatus } = props;
   const [paymentError, setPaymentError] = useState("");
+  const [whatsappNoErr, setWhatsappNoErr] = useState("");
   const [subscribevalue, setSubscribevalue] = useState(false);
+  const [isdList, setIsdList] = useState<any>([]);
   //  const [subscribegbp, setSubscribegbp] = useState(true);
   const [subscribegbp] = useState(true);
   const [isactivepromo, setIsactivepromo] = useState(false);
@@ -53,6 +64,18 @@ const PaymentSection: React.FC<PaymentProps> = props => {
     false
   );
   const dispatch = useDispatch();
+  const whatsappCheckRef = useRef<HTMLInputElement>();
+
+  const whatsappFormRef = useRef<Formsy>(null);
+
+  const fetchCountryData = async () => {
+    const data = await LoginService.fetchCountryData(dispatch);
+    dispatch(updateCountryData(data));
+    const isdList = data.map(list => {
+      return list.isdCode;
+    });
+    setIsdList(isdList);
+  };
 
   const PaymentButton = useRef(null);
 
@@ -136,12 +159,29 @@ const PaymentSection: React.FC<PaymentProps> = props => {
   const onsubmit = () => {
     const isFree = +basket.total <= 0;
     const userConsent = CookieService.getCookie("consent").split(",");
-
+    const whatsappFormValues = whatsappFormRef.current?.getCurrentValues();
+    let whatsappSubscribe = whatsappFormValues?.whatsappSubscribe;
+    let whatsappNo = whatsappFormValues?.whatsappNo;
+    let whatsappNoCountryCode = whatsappFormValues?.whatsappNoCountryCode;
+    // if (!whatsappSubscribe) {
+    //   whatsappNo = preferenceData?.whatsappNo;
+    //   whatsappNoCountryCode = preferenceData?.whatsappNoCountryCode;
+    // }
     if (currentmethod.mode || isFree) {
+      if (!whatsappFormRef.current) {
+        whatsappSubscribe = preferenceData.whatsappSubscribe;
+        whatsappNo = preferenceData.whatsappNo;
+        whatsappNoCountryCode = preferenceData.whatsappNoCountryCode;
+      }
       const data: any = {
         paymentMethod: isFree ? "FREE" : currentmethod.key,
-        paymentMode: currentmethod.mode
+        paymentMode: currentmethod.mode,
+        whatsappSubscribe: whatsappSubscribe
       };
+      if (whatsappSubscribe) {
+        data.whatsappNo = whatsappNo;
+        data.whatsappNoCountryCode = whatsappNoCountryCode;
+      }
       if (userConsent.includes(ANY_ADS)) {
         Moengage.track_event("Mode of payment selected", {
           "Payment Method": currentmethod.value,
@@ -162,7 +202,9 @@ const PaymentSection: React.FC<PaymentProps> = props => {
         );
         return false;
       }
+
       setIsLoading(true);
+      setWhatsappNoErr("");
       const paymentMode: string[] = [];
       let paymentMethod = "";
       if (!isFree) {
@@ -175,6 +217,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
       if (basket.loyalty.length > 0) {
         paymentMode.push("Loyalty");
       }
+
       checkout(data)
         .then((response: any) => {
           gtmPushPaymentTracking(paymentMode, paymentMethod);
@@ -183,6 +226,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
           setIsLoading(false);
         })
         .catch((error: any) => {
+          setWhatsappNoErr("");
           let msg = showErrors(error.response?.data.msg);
           const errorType = error.response?.data.errorType;
           if (errorType && errorType == "qty") {
@@ -192,8 +236,51 @@ const PaymentSection: React.FC<PaymentProps> = props => {
           setPaymentError(msg);
           errorTracking([msg], location.href);
           setIsLoading(false);
+          const errData = error.response?.data;
+          if (
+            errData === "'whatsappNo'" ||
+            errData === "'whatsappNoCountryCode'"
+          ) {
+            setWhatsappNoErr("Please enter a Whatsapp Number");
+          }
+          Object.keys(errData).map(key => {
+            switch (key) {
+              case "whatsappNo":
+                if (errData[key][0] == "This field may not be blank.") {
+                  setWhatsappNoErr("Please enter a Whatsapp Number");
+                }
+                // whatsappFormRef.current?.updateInputsWithError(
+                //   {
+                //     [key]: errData[key][0]
+                //   },
+                //   true
+                // );
+                // // setNumberError(errData[key][0]);
+                break;
+              case "non_field_errors":
+                // // Invalid Whatsapp number
+                setWhatsappNoErr("Please enter a valid Whatsapp Number");
+                // //This is not working
+                // whatsappFormRef.current?.updateInputsWithError(
+                //   {
+                //     ["whatsappNo"]: errData[key][0]
+                //   },
+                //   true
+                // );
+                break;
+            }
+          });
         });
     } else {
+      if (whatsappSubscribe) {
+        if (whatsappNo == "") {
+          setWhatsappNoErr("Please enter a Whatsapp Number");
+        } else {
+          setWhatsappNoErr("");
+        }
+      } else {
+        setWhatsappNoErr("");
+      }
       setPaymentError("Please select a payment method");
       errorTracking(["Please select a payment method"], location.href);
     }
@@ -212,6 +299,15 @@ const PaymentSection: React.FC<PaymentProps> = props => {
         "Login Status": isLoggedIn ? "logged in" : "logged out",
         "Page referrer url": CookieService.getCookie("prevUrl")
       });
+    }
+
+    if (countryData.length == 0) {
+      fetchCountryData();
+    } else {
+      const isdList = countryData.map(list => {
+        return list.isdCode;
+      });
+      setIsdList(isdList);
     }
   }, []);
 
@@ -234,6 +330,16 @@ const PaymentSection: React.FC<PaymentProps> = props => {
         console.group(err);
       });
   }, [currency]);
+
+  useEffect(() => {
+    if (isActive) {
+      if (CONFIG.WHATSAPP_SUBSCRIBE_ENABLED) {
+        AccountServices.fetchAccountPreferences(dispatch).then((data: any) => {
+          dispatch(updatePreferenceData(data));
+        });
+      }
+    }
+  }, [isActive]);
 
   // const getMethods = useMemo(() => {
   //   let methods = [
@@ -609,6 +715,30 @@ const PaymentSection: React.FC<PaymentProps> = props => {
           </div>
           <div>
             <hr className={styles.hr} />
+            {CONFIG.WHATSAPP_SUBSCRIBE_ENABLED && (
+              <div className={styles.loginForm}>
+                <div className={styles.categorylabel}>
+                  <WhatsappSubscribe
+                    data={preferenceData}
+                    innerRef={whatsappCheckRef}
+                    isdList={isdList}
+                    showTermsMessage={false}
+                    showTooltip={true}
+                    showManageMsg={true}
+                    showPhone={true}
+                    whatsappClass={styles.whatsapp}
+                    countryCodeClass={styles.countryCode}
+                    checkboxLabelClass={styles.checkboxLabel}
+                    allowUpdate={true}
+                    uniqueKey={"paymentid123"}
+                    oneLineMessage={!mobile}
+                    whatsappFormRef={whatsappFormRef}
+                    whatsappNoErr={whatsappNoErr}
+                  />
+                </div>
+                {/* <div className={styles.whatsappNoErr}>{whatsappNoErr}</div> */}
+            {/*</div>
+            )}
           </div>
           <label
             className={cs(

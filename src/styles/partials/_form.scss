@@ -126,7 +126,7 @@
     top: -10px;
     left: 10px;
     background-color: #fff;
-    padding: 3px;
+    padding: 2px;
     letter-spacing: 0.5px;
     font-family: $font-Montserrat;
     font-size: 9px;
@@ -168,6 +168,15 @@
       margin: 30px 0 0 0;
       &.subs1 {
         margin-top: 50px;
+      }
+      label[for="whatsappSubscribe"]{
+        left: 0;
+      }
+      label[for="subscribeemails"]{
+        left: 0;
+      }
+      label[for="subscrib"]{
+        left: 0;
       }
       label {
         @include b5_10px_montserrat_charcoal();
@@ -424,5 +433,24 @@ input[type="checkbox"]:checked + label {
   }
   input[type="date"] {
     min-height: 47px; // for input type date in iOS
+  }
+}
+
+.login-form {
+  div.categorylabel > div {
+    &.subscribe{
+      &.tooltip{
+        display: flex;
+      }
+      &.margin-fix{
+        margin-top: 15px;
+      }
+      label{
+        img {
+          height: 12px;
+          margin-left: 5px;
+        }
+      }
+    }
   }
 }
