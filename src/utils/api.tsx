@@ -8,6 +8,7 @@ import LoginService from "services/login";
 import { updateComponent, updateModal } from "actions/modal";
 import { POPUP } from "constants/components";
 import configData from "./../config/list.json";
+import { updateLoader } from "actions/info";
 
 class API {
   static async get<T>(
@@ -89,7 +90,7 @@ class API {
           ) {
             requestHeaders["enc-dec"] = "eyJlbmFibGVDcnlwdG8iOiB0cnVlfQ==";
           }
-
+          dispatch(updateLoader(true));
           requestHeaders = {
             ...requestHeaders,
             ...options.headers
@@ -100,6 +101,7 @@ class API {
             headers: requestHeaders
           })
             .then(res => {
+              dispatch(updateLoader(false));
               if (cookies.sessionid != res.headers.sessionid) {
                 if (typeof document != "undefined") {
                   CookieService.setCookie(
@@ -117,7 +119,7 @@ class API {
               }
             })
             .catch(err => {
-              // debugger
+              dispatch(updateLoader(false));
               if (typeof document != "undefined") {
                 if (err.response.status == 401) {
                   LoginService.logoutClient(dispatch);
