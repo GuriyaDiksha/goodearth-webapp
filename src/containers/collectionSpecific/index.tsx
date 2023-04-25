@@ -134,6 +134,7 @@ class CollectionSpecific extends React.Component<
     scrollView: boolean;
     showProductCounter: boolean;
     count: number;
+    prevPath: string;
   }
 > {
   private scrollload = true;
@@ -147,7 +148,8 @@ class CollectionSpecific extends React.Component<
       shouldScroll: false,
       scrollView: false,
       showProductCounter: true,
-      count: -1
+      count: -1,
+      prevPath: ""
     };
   }
   pdpURL = "";
@@ -270,7 +272,12 @@ class CollectionSpecific extends React.Component<
         vars?.tags.split("|").map(e => e.replace(/%20/g, " "))
       );
     }
-
+    if (this.props.location?.state) {
+      this.setState({
+        prevPath:
+          this.props.location?.state?.prevPath + this.props?.location?.search
+      });
+    }
     const userConsent = CookieService.getCookie("consent").split(",");
     if (userConsent.includes(GA_CALLS)) {
       dataLayer.push(function(this: any) {
@@ -470,7 +477,6 @@ class CollectionSpecific extends React.Component<
     }
 
     if (vars?.tags && vars2?.tags && vars.tags !== vars2.tags) {
-      debugger;
       this.setCollectionData(
         vars2?.tags.split("|").map(e => e.replace(/%20/g, " "))
       );
@@ -546,17 +552,38 @@ class CollectionSpecific extends React.Component<
       collectionSpecficBanner,
       showTimer
     } = this.props;
-    const { breadcrumbs, longDescription, results } = collectionSpecificData;
+    const {
+      breadcrumbs,
+      longDescription,
+      results,
+      tags,
+      shortDescription
+    } = collectionSpecificData;
     const { widgetImages, description } = collectionSpecficBanner;
-    const { specificMaker } = this.state;
-    const tags = ["tag1", "tag 2", "test tag 3"];
+    const { specificMaker, prevPath } = this.state;
+    let sliceData = [];
     const indexOfCurrent = this.props?.filteredCollectionData?.findIndex(
       data => data.id === Number(this.collectionId)
     );
-    const sliceData = this.props?.filteredCollectionData?.slice(
+
+    sliceData = this.props?.filteredCollectionData?.slice(
       indexOfCurrent ? indexOfCurrent - 1 : indexOfCurrent + 1,
       indexOfCurrent + 2
     );
+
+    if (indexOfCurrent === 0 && this.props?.filteredCollectionData?.length) {
+      sliceData = [
+        this.props?.filteredCollectionData[
+          this.props?.filteredCollectionData?.length - 1
+        ],
+        ...sliceData
+      ]; //Added last data
+    } else if (
+      indexOfCurrent + 1 === this.props?.filteredCollectionData?.length &&
+      this.props?.filteredCollectionData?.length
+    ) {
+      sliceData = [...sliceData, this.props?.filteredCollectionData[0]]; //Added first data
+    }
     return (
       <div
         className={cs(styles.collectionContainer, {
@@ -615,7 +642,9 @@ class CollectionSpecific extends React.Component<
         <div
           className={styles.goBack}
           onClick={() => {
-            this.props?.history.goBack();
+            prevPath
+              ? this.props?.history.push(prevPath)
+              : this.props?.history.goBack();
           }}
         >
           &lt; BACK TO ALL COLLECTIONS
@@ -640,9 +669,7 @@ class CollectionSpecific extends React.Component<
           </div>
         </div>
 
-        <p className={styles.subTitle}>
-          Dishwasher-safe | Handcrafted | 22 Karat Gold
-        </p>
+        <p className={styles.subTitle}>{ReactHtmlParser(shortDescription)}</p>
         <div className={bootstrap.row} id="collection_long_desc">
           <div
             className={cs(
@@ -715,7 +742,11 @@ class CollectionSpecific extends React.Component<
               <Button
                 label={"ALL COLLECTIONS"}
                 className={styles.button}
-                onClick={() => this.props.history.goBack()}
+                onClick={() =>
+                  prevPath
+                    ? this.props?.history.push(prevPath)
+                    : this.props?.history.goBack()
+                }
               />
             </div>
           </div>

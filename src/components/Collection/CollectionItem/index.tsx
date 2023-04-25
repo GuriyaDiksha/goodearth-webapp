@@ -10,11 +10,12 @@ const CollectionItem: React.FC<CollectionItems> = ({ key, collectionData }) => {
     name,
     longDescription,
     sliderImages,
-    tags = ["tag1", "tag 2", "test tag 3"],
+    tags = [],
     shortDescription,
-    url
+    url,
+    id
   } = collectionData;
-  const { search } = useLocation();
+  const { search, pathname } = useLocation();
 
   const vars: { tags?: string } = {};
   const re = /[?&]+([^=&]+)=([^&]*)/gi;
@@ -25,10 +26,14 @@ const CollectionItem: React.FC<CollectionItems> = ({ key, collectionData }) => {
   }
 
   return (
-    <div className={styles.collectionItemWrp} key={key + "collection-item"}>
+    <div
+      className={styles.collectionItemWrp}
+      key={key + "collection-item"}
+      id={`${id}`}
+    >
       <CollectionImageSlider
         sliderImages={sliderImages}
-        url={url + "?tags=" + `${vars.tags || "All Collections"}`}
+        url={url}
         name={name}
       />
       <div className={styles.collectionItemContent}>
@@ -49,7 +54,14 @@ const CollectionItem: React.FC<CollectionItems> = ({ key, collectionData }) => {
                 : longDescription
             )}
         </p>
-        <Link to={url || "#"} className={styles.showMore}>
+        <Link
+          to={{
+            pathname: url || "#",
+            search: "?tags=" + `${vars.tags || "All Collections"}`,
+            state: { prevPath: `${pathname}` }
+          }}
+          className={styles.showMore}
+        >
           SHOW MORE
         </Link>
       </div>

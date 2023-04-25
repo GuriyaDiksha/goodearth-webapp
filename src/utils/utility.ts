@@ -33,7 +33,7 @@ const displayPriceWithCommasFloat = (
     .split("-")
     .map(e => {
       arr.push(
-        parseInt(e.toString()).toLocaleString(arg, {
+        parseFloat(e.toString()).toLocaleString(arg, {
           maximumFractionDigits: 2,
           minimumFractionDigits: 2
         })

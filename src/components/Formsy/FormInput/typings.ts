@@ -29,6 +29,7 @@ export type Props = {
   defaultClass?: string;
   onPaste?: (event: React.ClipboardEvent) => void;
   showLabel?: boolean;
+  noErrOnPristine?: boolean;
 };
 
 export type State = {

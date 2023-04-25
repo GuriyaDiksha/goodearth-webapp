@@ -36,6 +36,9 @@ type Props = {
   uniqueKey: string;
   newsletterClass?: string;
   buttonClass?: string;
+  oneLineMessage?: boolean;
+  whatsappFormRef?: React.RefObject<Formsy>;
+  whatsappNoErr?: string;
 };
 
 const WhatsappSubscribe: React.FC<Props> = ({
@@ -56,30 +59,64 @@ const WhatsappSubscribe: React.FC<Props> = ({
   uniqueKey,
   showSubscribe = false,
   newsletterClass,
-  buttonClass
+  buttonClass,
+  oneLineMessage = false,
+  whatsappFormRef,
+  whatsappNoErr = ""
 }) => {
   const dispatch = useDispatch();
   const [checked, setChecked] = useState(false);
   const [subscribe, setSubscribe] = useState(false);
-  const [phone, setPhone] = useState("");
-  const [code, setCode] = useState("");
+  const [phone, setPhone] = useState(data.whatsappNo);
+  const [code, setCode] = useState(data.whatsappNoCountryCode);
   const [showTip, setShowTip] = useState(false);
-  const [updated, setUpdated] = useState(false);
+  // const [updated, setUpdated] = useState(false);
   const [numberError, setNumberError] = useState("");
   const [codeError, setCodeError] = useState("");
-  const [isDisabled, setIsDisabled] = useState(false);
+  const [isDisabled, setIsDisabled] = useState(true);
   const [objEqual, setObjEqual] = useState(true);
+  const [error, setError] = useState("");
 
-  const formRef = useRef<Formsy>(null);
+  const formRef = whatsappFormRef || useRef<Formsy>(null);
+
+  const impactRef = useRef<HTMLInputElement>(null);
+
+  const handleClickOutside = (evt: any) => {
+    if (impactRef.current && !impactRef.current.contains(evt.target)) {
+      setShowTip(false);
+      //Do what you want to handle in the callback
+      // this.props.closePopup(evt);
+    }
+  };
+
+  useEffect(() => {
+    setNumberError("");
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (codeError || numberError) {
+      setError("");
+    } else {
+      setError(whatsappNoErr);
+    }
+  }, [whatsappNoErr, codeError, numberError]);
 
   useEffect(() => {
     if (data) {
       setChecked(data.whatsappSubscribe);
-      setCode(data.whatsappNoCountryCode);
-      setPhone(data.whatsappNo);
       setSubscribe(data.subscribe);
-      if (!data.whatsappSubscribe) {
-        setUpdated(false);
+      // if (!data.whatsappSubscribe) {
+      //   setUpdated(false);
+      // }
+      if (data.whatsappNo) {
+        setPhone(data.whatsappNo);
+      }
+      if (data.whatsappNoCountryCode) {
+        setCode(data.whatsappNoCountryCode);
       }
     }
   }, [data]);
@@ -91,12 +128,14 @@ const WhatsappSubscribe: React.FC<Props> = ({
   const onPhoneChange = (e: any) => {
     const value = e.target.value;
     setPhone(value);
+    setNumberError("");
   };
 
-  // const onCodeChange = (e: any) => {
-  //   const value = e.target.value;
-  //   setCode(value);
-  // };
+  const onCodeChange = (e: any, newValue?: string) => {
+    //const value = e.target.value;
+    setCode(newValue);
+    setNumberError("");
+  };
 
   const onSubscribeChange = (e: any) => {
     const value = e.target.checked;
@@ -126,79 +165,83 @@ const WhatsappSubscribe: React.FC<Props> = ({
     labelElements.push(<img key="3" src={waIcon} />);
   }
 
-  const submitPreferenceData = () => {
-    if (codeError != "" || numberError != "") {
-      return;
-    }
+  // const submitPreferenceData = () => {
+  //   if (codeError != "" || numberError != "") {
+  //     return;
+  //   }
 
-    const subscribe = data.subscribe,
-      whatsappSubscribe = checked,
-      whatsappNo = phone,
-      whatsappNoCountryCode = formRef.current?.getCurrentValues()
-        .whatsappNoCountryCode;
+  //   const subscribe = data.subscribe,
+  //     whatsappSubscribe = checked,
+  //     whatsappNo = phone,
+  //     whatsappNoCountryCode = formRef.current?.getCurrentValues()
+  //       .whatsappNoCountryCode;
 
-    let formdata = {
-      subscribe: subscribe,
-      whatsappNo: whatsappNo,
-      whatsappNoCountryCode: whatsappNoCountryCode,
-      whatsappSubscribe: whatsappSubscribe
-    };
+  //   let formdata = {
+  //     subscribe: subscribe,
+  //     whatsappNo: whatsappNo,
+  //     whatsappNoCountryCode: whatsappNoCountryCode,
+  //     whatsappSubscribe: whatsappSubscribe
+  //   };
 
-    if (!whatsappSubscribe) {
-      formdata = {
-        subscribe: subscribe,
-        whatsappNo: data.whatsappNo,
-        whatsappNoCountryCode: data.whatsappNoCountryCode,
-        whatsappSubscribe: whatsappSubscribe
-      };
-    }
+  //   if (!whatsappSubscribe) {
+  //     formdata = {
+  //       subscribe: subscribe,
+  //       whatsappNo: data.whatsappNo,
+  //       whatsappNoCountryCode: data.whatsappNoCountryCode,
+  //       whatsappSubscribe: whatsappSubscribe
+  //     };
+  //   }
 
-    AccountService.updateAccountPreferences(dispatch, formdata)
-      .then((res: any) => {
-        setUpdated(true);
-        dispatch(updatePreferenceData(res));
-        showGrowlMessage(dispatch, "Your preferences have been updated!", 5000);
-      })
-      .catch((err: any) => {
-        const errdata = err.response?.data;
+  //   AccountService.updateAccountPreferences(dispatch, formdata)
+  //     .then((res: any) => {
+  //       // setUpdated(true);
+  //       dispatch(updatePreferenceData(res));
+  //       showGrowlMessage(dispatch, "Your preferences have been updated!", 5000);
+  //     })
+  //     .catch((err: any) => {
+  //       const errdata = err.response?.data;
 
-        Object.keys(errdata).map(key => {
-          switch (key) {
-            case "whatsappNo":
-              console.log(formRef.current?.updateInputsWithError);
-              formRef.current?.updateInputsWithError(
-                {
-                  [key]: errdata[key][0]
-                },
-                true
-              );
-              setNumberError(errdata[key][0]);
-              break;
-          }
-        });
-      });
-  };
+  //       Object.keys(errdata).map(key => {
+  //         switch (key) {
+  //           case "whatsappNo":
+  //             formRef.current?.updateInputsWithError(
+  //               {
+  //                 [key]: errdata[key][0]
+  //               },
+  //               true
+  //             );
+  //             setNumberError(errdata[key][0]);
+  //             break;
+  //         }
+  //       });
+  //     });
+  // };
 
   const onFormChange = (model: any, isChanged: any) => {
-    const {
-      whatsappSubscribe,
-      subscribe,
-      whatsappNo,
-      whatsappNoCountryCode
-    } = model;
+    //If show subscribe is enabled in future add case for subscribe checkbox
+    const { whatsappSubscribe, whatsappNo, whatsappNoCountryCode } = model;
+    let cloneObjEqual = objEqual;
     if (data) {
       const prefData = data;
       if (
         whatsappSubscribe == prefData.whatsappSubscribe &&
         whatsappNoCountryCode == prefData.whatsappNoCountryCode &&
-        whatsappNo == prefData.whatsappNo &&
-        subscribe == prefData.subscribe
+        whatsappNo == prefData.whatsappNo
       ) {
+        cloneObjEqual = true;
         setObjEqual(true);
       } else {
+        cloneObjEqual = false;
         setObjEqual(false);
       }
     }
+    if (cloneObjEqual || codeError != "" || numberError != "") {
+      setIsDisabled(true);
+    } else {
+      setIsDisabled(false);
+    }
+
+    setError("");
   };
 
   useEffect(() => {
@@ -207,7 +250,7 @@ const WhatsappSubscribe: React.FC<Props> = ({
     } else {
       setIsDisabled(false);
     }
-  });
+  }, [objEqual, numberError, codeError]);
 
   const onSubmit = (model: any, resetForm: any, updateInputsWithError: any) => {
     const {
@@ -218,7 +261,7 @@ const WhatsappSubscribe: React.FC<Props> = ({
     } = model;
 
     let reqData = {
-      subscribe: subscribe,
+      subscribe: subscribe || data.subscribe,
       whatsappNo: whatsappNo,
       whatsappNoCountryCode: whatsappNoCountryCode,
       whatsappSubscribe: whatsappSubscribe
@@ -226,7 +269,7 @@ const WhatsappSubscribe: React.FC<Props> = ({
 
     if (!whatsappSubscribe) {
       reqData = {
-        subscribe: subscribe,
+        subscribe: subscribe || data.subscribe,
         whatsappNo: data.whatsappNo,
         whatsappNoCountryCode: data.whatsappNoCountryCode,
         whatsappSubscribe: whatsappSubscribe
@@ -239,6 +282,7 @@ const WhatsappSubscribe: React.FC<Props> = ({
         dispatch(updatePreferenceData(res));
         showGrowlMessage(dispatch, "Your preferences have been updated!", 5000);
         setNumberError("");
+        dispatch(updateModal(false));
       })
       .catch((err: any) => {
         const errData = err.response?.data;
@@ -259,15 +303,17 @@ const WhatsappSubscribe: React.FC<Props> = ({
   };
 
   //If update from component is allowed but user already subscribed
-  if (allowUpdate && !updated) {
+  if (allowUpdate) {
     if (data.whatsappSubscribe) {
       return (
         <div className={styles.showPopupMsg} key={uniqueKey}>
           <img src={waIcon} />
-          <div className={styles.text}>
+          <div
+            className={cs(styles.text, { [styles.oneline]: oneLineMessage })}
+          >
             <div className={styles.info}>
               Whatsapp updates will be sent on {data.whatsappNoCountryCode}{" "}
-              {data.whatsappNo}.
+              {data.whatsappNo}.&nbsp;
             </div>
             <div className={styles.cta}>
               <a onClick={openPopup}>Click here</a> to update this number or
@@ -281,6 +327,8 @@ const WhatsappSubscribe: React.FC<Props> = ({
 
   //all other cases
   return (
+    // Improve this form by disabling enabling state using onValid and onInvalid
+    // codeError and numberError states can be removed
     <Formsy
       onSubmit={onSubmit}
       onChange={onFormChange}
@@ -296,15 +344,15 @@ const WhatsappSubscribe: React.FC<Props> = ({
           <FormCheckbox
             id={uniqueKey}
             name="whatsappSubscribe"
-            disable={allowUpdate && updated}
             label={labelElements}
             value={checked}
             labelClassName={checkboxLabelClass}
             handleChange={onCheckChange}
             inputRef={innerRef}
+            disable={false}
           />
           {showTooltip && (
-            <div className={styles.tooltip}>
+            <div className={styles.tooltip} ref={impactRef}>
               <img
                 src={showTip ? tooltipOpenIcon : tooltipIcon}
                 onClick={() => {
@@ -320,30 +368,22 @@ const WhatsappSubscribe: React.FC<Props> = ({
             </div>
           )}
         </div>
-        {showManageMsg && checked && !updated && (
+        {showManageMsg && checked && (
           <div className={styles.manageMsg}>
             Manage your preference from My Preference section under Profile
           </div>
         )}
-        {allowUpdate && updated && (
-          <div className={cs(styles.showPopupMsg, styles.manageMsg)}>
-            <div className={styles.text}>
-              <div className={styles.info}>
-                Whatsapp updates will be sent on {data.whatsappNoCountryCode}{" "}
-                {data.whatsappNo}.
-              </div>
-              <div className={styles.cta}>
-                <a onClick={openPopup}>Click here</a> to update this number or
-                unsubscribe.
-              </div>
-            </div>
-          </div>
-        )}
-        {!onlyCheckbox && !updated && (
-          <div
-            className={countryCodeClass}
-            style={!(checked && showPhone) ? { display: "none" } : {}}
-          >
+        <div
+          className={countryCodeClass}
+          style={
+            !(checked && showPhone)
+              ? { display: "none" }
+              : !onlyCheckbox
+              ? {}
+              : { display: "none" }
+          }
+        >
+          {isdList?.length ? (
             <CountryCode
               name="whatsappNoCountryCode"
               placeholder="Code"
@@ -357,20 +397,24 @@ const WhatsappSubscribe: React.FC<Props> = ({
                   const bool = !(values.whatsappNo && value == "");
                   if (!bool) {
                     setCodeError("Required");
+                    return false;
                   } else {
                     setCodeError("");
+                    return true;
                   }
-                  return bool;
                 },
                 isValidCode: (values, value) => {
                   let bool = true;
+
                   if (value && isdList.length > 0) {
                     bool = isdList.indexOf(value ? value : "") > -1;
                   }
                   if (!bool) {
                     setCodeError("Enter valid code");
                   } else {
-                    setCodeError("");
+                    if (value?.length > 0) {
+                      setCodeError("");
+                    }
                   }
                   return bool;
                 }
@@ -380,56 +424,53 @@ const WhatsappSubscribe: React.FC<Props> = ({
                 isValidCode: "Enter valid code"
               }}
               autocomplete="off"
-              // handleChange={onCodeChange}
+              handleChange={onCodeChange}
             />
-            <div className={styles.numberInput}>
-              <FormInput
-                name="whatsappNo"
-                value={phone}
-                placeholder={"Contact Number"}
-                type="number"
-                label={"Contact Number"}
-                keyPress={e => (e.key == "Enter" ? e.preventDefault() : "")}
-                keyDown={e => (e.which === 69 ? e.preventDefault() : null)}
-                onPaste={e =>
-                  e?.clipboardData.getData("Text").match(/([e|E])/)
-                    ? e.preventDefault()
-                    : null
-                }
-                validations={{
-                  compulsory: (values, value) => {
-                    if (values.whatsappSubscribe && value == "") {
-                      setNumberError("Please enter your contact number");
-                      return false;
-                    } else {
-                      setNumberError("");
-                      return true;
-                    }
+          ) : null}
+
+          <div className={styles.numberInput}>
+            <FormInput
+              name="whatsappNo"
+              value={phone}
+              placeholder={"Contact Number"}
+              type="number"
+              label={"Contact Number"}
+              keyPress={e => (e.key == "Enter" ? e.preventDefault() : "")}
+              keyDown={e => (e.which === 69 ? e.preventDefault() : null)}
+              onPaste={e =>
+                e?.clipboardData.getData("Text").match(/([e|E])/)
+                  ? e.preventDefault()
+                  : null
+              }
+              validations={{
+                compulsory: (values, value) => {
+                  if (values.whatsappSubscribe && value == "") {
+                    setNumberError("Please enter your contact number");
+                    return false;
+                  } else {
+                    setNumberError("");
+                    return true;
                   }
-                }}
-                validationErrors={{
-                  compulsory: "Please enter your contact number"
-                }}
-                handleChange={onPhoneChange}
-                showLabel={true}
-                inputRef={phoneRef}
-              />
-              {allowUpdate && (
-                <div
-                  className={styles.updateBtn}
-                  onClick={submitPreferenceData}
-                >
-                  Update
-                </div>
-              )}
-            </div>
+                }
+              }}
+              validationErrors={{
+                compulsory: "Please enter your contact number"
+              }}
+              handleChange={onPhoneChange}
+              showLabel={true}
+              inputRef={phoneRef}
+              noErrOnPristine={true}
+            />
           </div>
+        </div>
+
+        {showTermsMessage && (
+          <span className={styles.termsMsg}>
+            By checking this, you agree to receiving Whatsapp messages for order
+            & profile related information. To know more how we keep your data
+            safe, refer to our&nbsp;
+          </span>
         )}
-        {showTermsMessage &&
-          `By checking this, you agree to receiving Whatsapp messages for order &
-          profile related information. To know more how we keep your data safe,
-          refer to our
-          `}
         {showTermsMessage && (
           <Link
             key="privacy"
@@ -437,7 +478,7 @@ const WhatsappSubscribe: React.FC<Props> = ({
             target="_blank"
             rel="noopener noreferrer"
           >
-            Privacy Policy .
+            Privacy Policy.
           </Link>
         )}
         {showSubscribe && (
@@ -463,9 +504,8 @@ const WhatsappSubscribe: React.FC<Props> = ({
               target="_blank"
               rel="noopener noreferrer"
             >
-              Privacy Policy
+              Privacy Policy .
             </Link>
-            .
           </div>
         )}
         {!(onlyCheckbox || allowUpdate) && (
@@ -485,6 +525,7 @@ const WhatsappSubscribe: React.FC<Props> = ({
           </div>
         )}
       </div>
+      {error && <div className={styles.whatsappNoErr}>{error}</div>}
     </Formsy>
   );
 };

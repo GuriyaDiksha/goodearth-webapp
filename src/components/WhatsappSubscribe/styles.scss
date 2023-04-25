@@ -22,6 +22,14 @@
         background-color: #fff;
         height: 80px;
         width: 146px;
+        @media screen and (max-width: 768px){
+            height: 95px;
+            width: 100px;
+            &.show{
+                bottom: 36px !important;
+                left: -36px !important;
+              }
+        }
         box-shadow: 0px 3px 6px #00000029;
         display: none;
         &.show{
@@ -47,14 +55,16 @@
         transform: translateY(-50%);
     }
 }
-
+.terms-msg{
+    margin-bottom: 25px;
+}
 .whatsapp {
     .flex-for-tooltip{
         display: flex;
     }
 }
 .manage-msg{
-    padding-left: 45px;
+    padding-left: 30px;
     top: -20px;
 }
 .show-popup-msg{
@@ -72,6 +82,9 @@
     }
     .text {
         margin-left: 10px;
+        &.oneline{
+            display: flex;
+        }
         .info{
             @include b5_10px_montserrat_charcoal();
             font-weight: $medium;
@@ -93,3 +106,10 @@
         }
     }
 }
+
+.save-pref-btn{
+    margin-top: 25px;
+}
+.whatsapp-no-err{
+    @include err_13px_lora_italic_cerise();
+  }

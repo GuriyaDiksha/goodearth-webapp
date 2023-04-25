@@ -9,7 +9,7 @@ const initActionCollection: InitAction = async (store, params) => {
   const dispatch = store.dispatch;
   if (id) {
     const [tags, collectionData] = await Promise.all([
-      CollectionService.fetchTagData(dispatch).catch(err => {
+      CollectionService.fetchTagData(dispatch, +params.id).catch(err => {
         console.log("Collection Landing Error", err);
       }),
       CollectionService.fetchCollectionData(dispatch, +params.id).catch(err => {

@@ -5,6 +5,7 @@ export type Consent = {
   value: boolean;
   is_editable: boolean;
   functionalities: string;
+  backend_name: string;
 };
 
 export type WidgetDetail = {

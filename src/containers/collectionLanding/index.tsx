@@ -49,7 +49,7 @@ const CollectionLanding = () => {
     const id = getProductIdFromSlug(level1 || "");
     if (id) {
       const [tags, collectionData] = await Promise.all([
-        CollectionService.fetchTagData(dispatch).catch(err => {
+        CollectionService.fetchTagData(dispatch, +id).catch(err => {
           console.log("Collection Landing Error", err);
         }),
         CollectionService.fetchCollectionData(dispatch, +id).catch(err => {
@@ -154,7 +154,7 @@ const CollectionLanding = () => {
     let newData: string[] = [];
     const url = location.pathname;
     let tagUrl = "tags=";
-    if (ele === "All Collections" && !activeFilterList.includes(ele)) {
+    if (ele === "All Collections") {
       newData = [ele];
     } else if (activeFilterList.includes(ele) && ele !== "All Collections") {
       const newArr = activeFilterList?.filter(

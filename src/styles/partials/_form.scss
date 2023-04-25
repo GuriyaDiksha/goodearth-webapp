@@ -130,7 +130,7 @@
     top: -10px;
     left: 10px;
     background-color: #fff;
-    padding: 3px;
+    padding: 2px;
     letter-spacing: 0.5px;
     font-family: $font-Montserrat;
     font-size: 9px;
@@ -445,6 +445,9 @@ input[type="checkbox"]:checked + label {
     &.subscribe{
       &.tooltip{
         display: flex;
+      }
+      &.margin-fix{
+        margin-top: 15px;
       }
       label{
         img {

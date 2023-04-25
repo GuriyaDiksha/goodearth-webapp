@@ -1067,11 +1067,11 @@ class FilterList extends React.Component<Props, State> {
             }
             onChange={this.handleClickMaterial}
             value={data?.[0]}
-            // disabled={
-            //   filtered_facets?.currentMaterial?.filter(
-            //     (e: string[]) => e[0] === data[0]
-            //   ).length === 0
-            // }
+            disabled={
+              filtered_facets?.currentMaterial?.filter(
+                (e: string[]) => e[0] === data[0]
+              ).length === 0
+            }
           />
           <label
             className={cs({
@@ -1090,11 +1090,16 @@ class FilterList extends React.Component<Props, State> {
     return html;
   };
 
-  createProductType = (categoryObj: any, categorydata: any) => {
+  createProductType = (
+    categoryObj: any,
+    categorydata: any,
+    filtered_facets: any
+  ) => {
     const html = [];
     this.productData = [];
     if (!categoryObj) return false;
     const { filter } = this.state;
+    const filteredProductType: any = [];
     Object.keys(categoryObj).map((data, i) => {
       categoryObj[data].map((nestedList: any, j: number) => {
         filter.categoryShop[data]
@@ -1103,6 +1108,18 @@ class FilterList extends React.Component<Props, State> {
                 (level4: any) => {
                   if (this.productData.indexOf(level4) == -1) {
                     this.productData.push(level4);
+                  }
+                }
+              )
+            : ""
+          : "";
+
+        filter.categoryShop[data]
+          ? filter.categoryShop[data][nestedList[1]]
+            ? filtered_facets.categoryProductTypeMapping[nestedList[1]]?.map(
+                (level4: any) => {
+                  if (filteredProductType.indexOf(level4) == -1) {
+                    filteredProductType.push(level4);
                   }
                 }
               )
@@ -1132,8 +1149,22 @@ class FilterList extends React.Component<Props, State> {
                         : false
                     }
                     value={"pb_" + level4}
+                    disabled={
+                      filteredProductType?.filter((e: string[]) => e === level4)
+                        .length === 0
+                    }
                   />
-                  <label htmlFor={"pb_" + level4}>{level4}</label>
+                  <label
+                    className={cs({
+                      [styles.disableType]:
+                        filteredProductType?.filter(
+                          (e: string[]) => e === level4
+                        ).length === 0
+                    })}
+                    htmlFor={"pb_" + level4}
+                  >
+                    {level4}
+                  </label>
                 </li>
               );
             })}
@@ -1145,7 +1176,7 @@ class FilterList extends React.Component<Props, State> {
     return html;
   };
 
-  createDiscountType = (availableDiscount: any) => {
+  createDiscountType = (availableDiscount: any, filtered_facets: any) => {
     const html = [];
     const { filter } = this.state;
     if (!availableDiscount) return false;
@@ -1177,8 +1208,23 @@ class FilterList extends React.Component<Props, State> {
                         : false
                     }
                     value={discount[1]}
+                    disabled={
+                      filtered_facets?.availableDiscount?.filter(
+                        (e: string[]) => e[0] === discount[0]
+                      ).length === 0
+                    }
                   />
-                  <label htmlFor={"disc_" + discount[0]}>{discount[1]}</label>
+                  <label
+                    className={cs({
+                      [styles.disableColors]:
+                        filtered_facets?.availableDiscount?.filter(
+                          (e: string[]) => e[0] === discount?.[0]
+                        ).length === 0
+                    })}
+                    htmlFor={"disc_" + discount[0]}
+                  >
+                    {discount[1]}
+                  </label>
                 </li>
               );
             })}
@@ -1549,11 +1595,11 @@ class FilterList extends React.Component<Props, State> {
               }
               onChange={this.handleClickColor}
               value={data[0]}
-              // disabled={
-              //   filtered_facets?.currentColor.filter(
-              //     (e: string[]) => e[0] === data[0]
-              //   ).length === 0
-              // }
+              disabled={
+                filtered_facets?.currentColor.filter(
+                  (e: string[]) => e[0] === data[0]
+                ).length === 0
+              }
             />
             <label
               className={
@@ -1583,11 +1629,11 @@ class FilterList extends React.Component<Props, State> {
               }
               onChange={this.handleClickColor}
               value={data[0]}
-              // disabled={
-              //   filtered_facets?.currentColor.filter(
-              //     (e: string[]) => e[0] === data[0]
-              //   ).length === 0
-              // }
+              disabled={
+                filtered_facets?.currentColor.filter(
+                  (e: string[]) => e[0] === data[0]
+                ).length === 0
+              }
             />
             <label
               className={
@@ -1944,11 +1990,11 @@ class FilterList extends React.Component<Props, State> {
             }
             onChange={this.handleClickSize}
             value={data[0]}
-            // disabled={
-            //   filtered_facets?.availableSize.filter(
-            //     (e: string[]) => e[0] === data[0]
-            //   ).length === 0
-            // }
+            disabled={
+              filtered_facets?.availableSize.filter(
+                (e: string[]) => e[0] === data[0]
+              ).length === 0
+            }
           />
           <li>
             <label
@@ -2173,7 +2219,8 @@ class FilterList extends React.Component<Props, State> {
                 }
               >
                 {this.createDiscountType(
-                  this.props.facets && this.props.facets.availableDiscount
+                  this.props.facets && this.props.facets.availableDiscount,
+                  this.props.filtered_facets
                 )}
                 <div data-name="availableDiscount">
                   <span
@@ -2221,7 +2268,8 @@ class FilterList extends React.Component<Props, State> {
             >
               {this.createProductType(
                 this.props.facetObject.categoryObj,
-                this.props.facets
+                this.props.facets,
+                this.props.filtered_facets
               )}
               <div data-name="productType">
                 <span
