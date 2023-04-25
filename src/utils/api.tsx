@@ -7,6 +7,7 @@ import CookieService from "services/cookie";
 import LoginService from "services/login";
 import { updateComponent, updateModal } from "actions/modal";
 import { POPUP } from "constants/components";
+import configData from "./../config/list.json";
 import { updateLoader } from "actions/info";
 
 class API {
@@ -82,6 +83,12 @@ class API {
           }
           if (cookies.sessionid) {
             requestHeaders["sessionid"] = cookies.sessionid;
+          }
+          if (
+            configData.some(a => options?.url?.includes(a)) &&
+            __EnableCrypto__
+          ) {
+            requestHeaders["enc-dec"] = "eyJlbmFibGVDcnlwdG8iOiB0cnVlfQ==";
           }
           dispatch(updateLoader(true));
           requestHeaders = {
