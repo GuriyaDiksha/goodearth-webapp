@@ -2,18 +2,18 @@
 @import "../../styles/partials/mixins";
 
 .collection-container {
-  margin-top: $header-height;
+  margin-top: 40px;
 }
 .collection-container-timer {
-  margin-top: $header-height + $timer-height;
+  margin-top: 40px + $timer-height;
 }
 
 @media screen and (max-width: 992px) {
   .collection-container {
-    margin-top: $header-height;
+    margin-top: 40px;
   }
   .collection-container-timer {
-    margin-top: $header-height + $timer-height;
+    margin-top: 40px + $timer-height;
   }
 }
 

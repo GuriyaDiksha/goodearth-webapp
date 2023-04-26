@@ -5,9 +5,9 @@ import { updateTagsData, updateCollectionData } from "actions/collection";
 import { getProductIdFromSlug } from "utils/url";
 
 const initActionCollection: InitAction = async (store, params) => {
-  const id = getProductIdFromSlug(params.level1);
+  // const id = getProductIdFromSlug(params.level1);
   const dispatch = store.dispatch;
-  if (id) {
+  if (params.id) {
     const [tags, collectionData] = await Promise.all([
       CollectionService.fetchTagData(dispatch, +params.id).catch(err => {
         console.log("Collection Landing Error", err);

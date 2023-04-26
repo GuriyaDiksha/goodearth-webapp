@@ -134,7 +134,6 @@ class CollectionSpecific extends React.Component<
     scrollView: boolean;
     showProductCounter: boolean;
     count: number;
-    prevPath: string;
   }
 > {
   private scrollload = true;
@@ -148,8 +147,7 @@ class CollectionSpecific extends React.Component<
       shouldScroll: false,
       scrollView: false,
       showProductCounter: true,
-      count: -1,
-      prevPath: ""
+      count: -1
     };
   }
   pdpURL = "";
@@ -260,24 +258,7 @@ class CollectionSpecific extends React.Component<
   componentDidMount() {
     const that = this;
     this.pdpURL = this.props.location.pathname;
-    const vars: { tags?: string } = {};
-    const re = /[?&]+([^=&]+)=([^&]*)/gi;
-    let match: any;
 
-    while ((match = re.exec(this.props.location.search))) {
-      vars[match[1]] = match[2];
-    }
-    if (vars?.tags) {
-      this.setCollectionData(
-        vars?.tags.split("|").map(e => e.replace(/%20/g, " "))
-      );
-    }
-    if (this.props.location?.state) {
-      this.setState({
-        prevPath:
-          this.props.location?.state?.prevPath + this.props?.location?.search
-      });
-    }
     const userConsent = CookieService.getCookie("consent").split(",");
     if (userConsent.includes(GA_CALLS)) {
       dataLayer.push(function(this: any) {
@@ -436,19 +417,6 @@ class CollectionSpecific extends React.Component<
     });
   };
 
-  setCollectionData = (newData: string[]) => {
-    const { collectionData } = this.props;
-    if (newData?.includes("All Collections")) {
-      this.props.updateCollection([...collectionData]);
-    } else {
-      this.props.updateCollection(
-        collectionData.filter(collection =>
-          this.multipleExist(collection?.tags, newData)
-        )
-      );
-    }
-  };
-
   UNSAFE_componentWillReceiveProps = (nextProps: Props) => {
     const vars: { tags?: string } = {};
     const vars2: { tags?: string } = {};
@@ -474,12 +442,6 @@ class CollectionSpecific extends React.Component<
       if (!this.state.scrollView) {
         this.checkForProductScroll();
       }
-    }
-
-    if (vars?.tags && vars2?.tags && vars.tags !== vars2.tags) {
-      this.setCollectionData(
-        vars2?.tags.split("|").map(e => e.replace(/%20/g, " "))
-      );
     }
   };
   handleScroll = () => {
@@ -553,37 +515,16 @@ class CollectionSpecific extends React.Component<
       showTimer
     } = this.props;
     const {
-      breadcrumbs,
+      view_more_collections,
+      all_collection_link,
       longDescription,
       results,
       tags,
       shortDescription
     } = collectionSpecificData;
-    const { widgetImages, description } = collectionSpecficBanner;
-    const { specificMaker, prevPath } = this.state;
-    let sliceData = [];
-    const indexOfCurrent = this.props?.filteredCollectionData?.findIndex(
-      data => data.id === Number(this.collectionId)
-    );
+    const { widgetImages, name } = collectionSpecficBanner;
+    const { specificMaker } = this.state;
 
-    sliceData = this.props?.filteredCollectionData?.slice(
-      indexOfCurrent ? indexOfCurrent - 1 : indexOfCurrent + 1,
-      indexOfCurrent + 2
-    );
-
-    if (indexOfCurrent === 0 && this.props?.filteredCollectionData?.length) {
-      sliceData = [
-        this.props?.filteredCollectionData[
-          this.props?.filteredCollectionData?.length - 1
-        ],
-        ...sliceData
-      ]; //Added last data
-    } else if (
-      indexOfCurrent + 1 === this.props?.filteredCollectionData?.length &&
-      this.props?.filteredCollectionData?.length
-    ) {
-      sliceData = [...sliceData, this.props?.filteredCollectionData[0]]; //Added first data
-    }
     return (
       <div
         className={cs(styles.collectionContainer, {
@@ -642,9 +583,7 @@ class CollectionSpecific extends React.Component<
         <div
           className={styles.goBack}
           onClick={() => {
-            prevPath
-              ? this.props?.history.push(prevPath)
-              : this.props?.history.goBack();
+            this.props?.history.push("/" + all_collection_link);
           }}
         >
           &lt; BACK TO ALL COLLECTIONS
@@ -665,7 +604,7 @@ class CollectionSpecific extends React.Component<
               styles.collectionName
             )}
           >
-            {description}
+            {name}
           </div>
         </div>
 
@@ -726,26 +665,20 @@ class CollectionSpecific extends React.Component<
           </div>
         </div>
 
-        {sliceData?.length ? (
+        {Object.entries(view_more_collections || {})?.length ? (
           <div className={styles.moreCollectionWrp}>
             <h2>View More Collections</h2>
             <div className={styles.moreCollectionImgsWrp}>
-              {sliceData?.map(
-                (collection, i) =>
-                  ((sliceData.length === 3 && i !== 1) ||
-                    sliceData.length < 3) && (
-                    <PlpCollectionItem key={i} collectionData={collection} />
-                  )
-              )}
+              {Object.entries(view_more_collections)?.map((collection, i) => (
+                <PlpCollectionItem key={i} collectionData={collection[1]} />
+              ))}
             </div>
             <div className={styles.btnWrp}>
               <Button
                 label={"ALL COLLECTIONS"}
                 className={styles.button}
                 onClick={() =>
-                  prevPath
-                    ? this.props?.history.push(prevPath)
-                    : this.props?.history.goBack()
+                  this.props?.history.push("/" + all_collection_link)
                 }
               />
             </div>
