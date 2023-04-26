@@ -3,7 +3,7 @@ import styles from "./style.scss";
 import { CollectionItems } from "./typing";
 import ReactHtmlParser from "react-html-parser";
 import CollectionImageSlider from "../CollectionImageSlider";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const CollectionItem: React.FC<CollectionItems> = ({ key, collectionData }) => {
   const {
@@ -15,15 +15,6 @@ const CollectionItem: React.FC<CollectionItems> = ({ key, collectionData }) => {
     url,
     id
   } = collectionData;
-  const { search, pathname } = useLocation();
-
-  const vars: { tags?: string } = {};
-  const re = /[?&]+([^=&]+)=([^&]*)/gi;
-  let match;
-
-  while ((match = re.exec(search))) {
-    vars[match[1]] = match[2];
-  }
 
   return (
     <div
@@ -44,7 +35,13 @@ const CollectionItem: React.FC<CollectionItems> = ({ key, collectionData }) => {
             </p>
           ))}
         </div>
-        <h3 className={styles.title}>{name}</h3>
+        <Link
+          to={{
+            pathname: url || "#"
+          }}
+        >
+          <h3 className={styles.title}>{name}</h3>
+        </Link>
         <p className={styles.subTitle}>{ReactHtmlParser(shortDescription)}</p>
         <p className={styles.description}>
           {longDescription &&
@@ -56,9 +53,7 @@ const CollectionItem: React.FC<CollectionItems> = ({ key, collectionData }) => {
         </p>
         <Link
           to={{
-            pathname: url || "#",
-            search: "?tags=" + `${vars.tags || "All Collections"}`,
-            state: { prevPath: `${pathname}` }
+            pathname: url || "#"
           }}
           className={styles.showMore}
         >

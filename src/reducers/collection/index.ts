@@ -13,7 +13,10 @@ const initialState: CollectionState = {
     shortDescription: "",
     longDescription: "",
     results: [],
-    next: 0
+    next: 0,
+    all_collection_link: "",
+    view_more_collections: [],
+    tags: []
   },
   collectionSpecficBanner: {
     name: "",
@@ -24,7 +27,7 @@ const initialState: CollectionState = {
     products: [],
     id: 0
   },
-  tags: ["All Collections", "tag1", "tag 2", "test tag 3"],
+  tags: [],
   filteredCollectionData: []
 };
 
