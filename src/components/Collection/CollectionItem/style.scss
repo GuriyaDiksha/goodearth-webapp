@@ -13,10 +13,12 @@
   .collection-item-content{
     margin: 0 0 0 30px;
     padding-bottom: 10px;
+    width: 30%;
 
     @media screen and (max-width:992px) {
       margin: 0;
       padding: 30px 26px 15px;
+      width: auto;
     }
 
     .tag-wrp{
