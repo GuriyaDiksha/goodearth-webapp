@@ -32,7 +32,6 @@ const CollectionLanding = () => {
   const vars: { tags?: string } = {};
   const re = /[?&]+([^=&]+)=([^]*)/gi;
   let match;
-  // console.log("check=",match,re.exec(search),search)
   while ((match = re.exec(search))) {
     vars[match[1]] = match[2];
   }

@@ -12,7 +12,6 @@ const CollectionFilter: React.FC<CollectionFilter> = ({
   activeFilterHandler
 }) => {
   const { showTimer } = useSelector((state: AppState) => state.info);
-  console.log("check===", activeFilterList);
   return (
     <div
       id="secondaryHeader"
