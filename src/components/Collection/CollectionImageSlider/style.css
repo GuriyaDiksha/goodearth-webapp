@@ -3,7 +3,7 @@
 }
 
 .imgWrp{
-    width: 100%;
+    width: 740px;
 }
 
 .imgWrp img{
@@ -62,6 +62,9 @@
     .collectionImageContainer{
         width: 100%;
     }   
+    .imgWrp{
+        width: 100%;
+    }
     .collectionImageContainer .slick-slider .slick-dots{
         position: absolute;
         content: "";
