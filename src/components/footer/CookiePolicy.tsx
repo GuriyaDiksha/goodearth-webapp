@@ -163,7 +163,8 @@ const CookiePolicy: React.FC<Props> = ({
       const functionalities = consents.find(
         e =>
           e.name === "Necessary Cookies" ||
-          e?.backend_name === "Necessary Cookies - IN"
+          e?.backend_name === "Necessary Cookies - IN" ||
+          e?.backend_name === "Necessary Cookies"
       );
       // CookieService.setCookie("consent", functionalities, 365);
       setConsent([functionalities]);
@@ -267,22 +268,43 @@ const CookiePolicy: React.FC<Props> = ({
                   ></span>
                 )}
                 <h3>COOKIES & PRIVACY</h3>
-                <p
-                  style={{
-                    textAlign: "center",
-                    marginTop: OLD_COOKIE_SETTINGS ? "0px" : "15px"
-                  }}
-                >
-                  This website uses cookies to ensure you get the best
-                  experience on our website. Please read our&nbsp;
-                  <Link to={"/customer-assistance/cookie-policy"}>
-                    Cookie Policy
-                  </Link>
-                  &nbsp; and{" "}
-                  <Link to={"/customer-assistance/privacy-policy"}>
-                    Privacy Policy.
-                  </Link>
-                </p>
+                {regionName === "India" ? (
+                  <p
+                    style={{
+                      textAlign: "center",
+                      marginTop: OLD_COOKIE_SETTINGS ? "0px" : "15px"
+                    }}
+                  >
+                    This website uses cookies to ensure you get the best
+                    experience on our website. Please read our&nbsp;
+                    <Link to={"/customer-assistance/cookie-policy"}>
+                      Cookie Policy
+                    </Link>
+                    &nbsp; and{" "}
+                    <Link to={"/customer-assistance/privacy-policy"}>
+                      Privacy Policy.
+                    </Link>
+                  </p>
+                ) : (
+                  <p
+                    style={{
+                      textAlign: "center",
+                      marginTop: OLD_COOKIE_SETTINGS ? "0px" : "15px"
+                    }}
+                  >
+                    By clicking “Accept All”, you agree to the storing of
+                    cookies on your device to enhance site navigation, analyze
+                    site usage, and assist in our marketing efforts. Please read
+                    our&nbsp;
+                    <Link to={"/customer-assistance/cookie-policy"}>
+                      Cookie Policy
+                    </Link>
+                    &nbsp; and{" "}
+                    <Link to={"/customer-assistance/privacy-policy"}>
+                      Privacy Policy.
+                    </Link>
+                  </p>
+                )}
                 {/* {regionName !== "Europe" ? ( */}
                 {!OLD_COOKIE_SETTINGS ? (
                   <p
