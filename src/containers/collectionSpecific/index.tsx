@@ -571,13 +571,15 @@ class CollectionSpecific extends React.Component<
                 }
               })}
             </div>
-            <div className={bootstrap.col12}>
-              <img
-                src={banner}
-                className={globalStyles.imgResize}
-                alt="Collection Image"
-              />
-            </div>
+            {widgetImages?.length ? (
+              <div className={bootstrap.col12}>
+                <img
+                  src={banner}
+                  className={globalStyles.imgResize}
+                  alt="Collection Image"
+                />
+              </div>
+            ) : null}
           </div>
         </section>
         <div
