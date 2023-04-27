@@ -299,13 +299,13 @@ class CartPage extends React.Component<Props, State> {
         {/* {this.renderMessage()} */}
         <div
           className={cs(
-            globalStyles.marginT50,
             globalStyles.textCenter,
             // bootstrap.colMd4,
             // bootstrap.offsetMd4,
             {
               // [bootstrap.col10]: !mobile,
-              [bootstrap.col12]: mobile
+              [bootstrap.col12]: mobile,
+              [globalStyles.marginT50]: !mobile
             }
           )}
         >
@@ -322,7 +322,13 @@ class CartPage extends React.Component<Props, State> {
               Looking to discover some ideas?
             </h2>
           </div>
-          <div className={cs(bootstrap.col12, globalStyles.voffset3)}>
+          <div
+            className={cs(globalStyles.voffset3, globalStyles.marginAuto, {
+              [bootstrap.col10]:
+                mobile && (!wishlistData.length || !isLoggedIn),
+              [bootstrap.col12]: isLoggedIn && wishlistData.length
+            })}
+          >
             <div className={bootstrap.row}>
               <div
                 className={cs(
@@ -330,7 +336,10 @@ class CartPage extends React.Component<Props, State> {
                   bootstrap.col12,
                   styles.noResultPadding,
                   styles.checkheight,
-                  { [styles.checkheightMobile]: mobile }
+                  {
+                    [styles.checkheightMobile]: mobile,
+                    [styles.wishlistWrap]: wishlistData.length && isLoggedIn
+                  }
                 )}
               >
                 {this.state.featureData.length > 0
@@ -338,11 +347,11 @@ class CartPage extends React.Component<Props, State> {
                       return (
                         <div
                           key={i}
-                          className={cs(
-                            bootstrap.colLg3,
-                            bootstrap.col5,
-                            styles.px10
-                          )}
+                          className={cs(bootstrap.colLg3, styles.px10, {
+                            [bootstrap.col5]: isLoggedIn && wishlistData.length,
+                            [bootstrap.col6]:
+                              mobile && (!wishlistData.length || !isLoggedIn)
+                          })}
                         >
                           <div className={styles.searchImageboxNew}>
                             <Link to={data.ctaUrl}>
@@ -358,7 +367,12 @@ class CartPage extends React.Component<Props, State> {
                               />
                             </Link>
                           </div>
-                          <div className={styles.imageContent}>
+                          <div
+                            className={cs(styles.imageContent, {
+                              [styles.mobileHeight]:
+                                mobile && (!wishlistData?.length || !isLoggedIn)
+                            })}
+                          >
                             <p className={styles.searchImageTitle}>
                               {data.ctaText}
                             </p>
@@ -391,6 +405,7 @@ class CartPage extends React.Component<Props, State> {
                       bootstrap.col12,
                       styles.noResultPadding,
                       styles.checkheight,
+                      styles.wishlistWrap,
                       { [styles.checkheightMobile]: mobile }
                     )}
                   >
@@ -441,7 +456,7 @@ class CartPage extends React.Component<Props, State> {
                             </div>
                           );
                         })
-                      : mobile
+                      : wishlistData.length > 0 && mobile
                       ? wishlistData?.slice(0, 5)?.map((data, i) => {
                           return (
                             <div
@@ -621,9 +636,11 @@ class CartPage extends React.Component<Props, State> {
             styles.pUnset
           )}
         >
-          <div className={cs(styles.header)}>
-            <p>MY SHOPPING BAG ({this.getItemsCount()})</p>
-          </div>
+          {this.getItemsCount() === 0 ? null : (
+            <div className={cs(styles.header)}>
+              <p>MY SHOPPING BAG ({this.getItemsCount()})</p>
+            </div>
+          )}
           {/* {this.renderMessage()} */}
           {this.getItems()}
         </div>

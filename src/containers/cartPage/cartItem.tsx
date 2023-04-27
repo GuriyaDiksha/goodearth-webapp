@@ -492,11 +492,12 @@ const CartItems: React.FC<BasketItem> = memo(
                               disabled={
                                 stockRecords && stockRecords[0].numInStock < 1
                               }
+
                               // errorMsg="Available qty in stock is"
                             />
                           )}
                         </div>
-                        {/* {qtyError &&
+                        {qtyError &&
                           !(
                             saleStatus &&
                             childAttributes[0].showStockThreshold &&
@@ -506,15 +507,16 @@ const CartItems: React.FC<BasketItem> = memo(
                             <span
                               className={cs(
                                 globalStyles.errorMsg,
-                                styles.stockLeft
-                                // {
-                                // [styles.stockLeftWithError]: qtyError
-                                // }
+                                styles.stockLeft,
+                                {
+                                  [styles.outOfStock]:
+                                    stockRecords[0].numInStock < 1
+                                }
                               )}
                             >
                               {qtyErrorMsg}
                             </span>
-                          )} */}
+                          )}
                         {saleStatus && (
                           <span
                             className={cs(

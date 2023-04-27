@@ -181,7 +181,8 @@ class Bag extends React.Component<Props, State> {
                 styles.noResultPadding,
                 styles.checkheight,
                 { [styles.checkheightMobile]: mobile },
-                styles.cartRow
+                styles.cartRow,
+                { [styles.wishlistWrap]: wishlistData.length && isLoggedIn }
               )}
             >
               {this.state.featureData.length > 0
@@ -189,11 +190,10 @@ class Bag extends React.Component<Props, State> {
                     return (
                       <div
                         key={i}
-                        className={cs(
-                          bootstrap.colLg5,
-                          bootstrap.col5,
-                          styles.px10
-                        )}
+                        className={cs(bootstrap.col5, styles.px10, {
+                          [bootstrap.col5]: isLoggedIn && wishlistData.length,
+                          [bootstrap.col6]: !wishlistData.length || !isLoggedIn
+                        })}
                       >
                         <div className={styles.searchImageboxNew}>
                           <Link to={data.ctaUrl}>
@@ -207,7 +207,12 @@ class Bag extends React.Component<Props, State> {
                             />
                           </Link>
                         </div>
-                        <div className={styles.imageContent}>
+                        <div
+                          className={cs(styles.imageContent, {
+                            [styles.mobileHeight]:
+                              !wishlistData?.length || !isLoggedIn
+                          })}
+                        >
                           <p className={styles.searchImageTitle}>
                             {data.ctaText}
                           </p>
@@ -308,14 +313,37 @@ class Bag extends React.Component<Props, State> {
     this.props.removeOutOfStockItems();
   };
 
+  getDiscount = (data: any) => {
+    return data.length > 0
+      ? data.map((discount: any, index: number) => (
+          <div
+            key={index}
+            className={cs(
+              globalStyles.flex,
+              globalStyles.gutterBetween,
+              styles.containerCost,
+              styles.discountWrapper
+            )}
+          >
+            <div className={cs(styles.discountPrice)}>{discount?.name}</div>
+            <div className={globalStyles.textRight}>
+              <h5 className={cs(styles.discountPrice)}>
+                (-)
+                {String.fromCharCode(...currencyCodes[this.props.currency])}
+                &nbsp;
+                {displayPriceWithCommasFloat(
+                  discount?.amount,
+                  this.props.currency
+                )}
+              </h5>
+            </div>
+          </div>
+        ))
+      : "";
+  };
+
   getFooter() {
     if (this.props.cart) {
-      const discount =
-        this.props.cart?.offerDiscounts?.find(
-          discount => discount?.name === "EMP Discount"
-        ) || {};
-      //.reduce((partialSum, a) => partialSum + a, 0);
-
       return (
         <div className={styles.bagFooter}>
           <div className={cs(styles.orderSummaryWrapper)}>
@@ -336,35 +364,8 @@ class Bag extends React.Component<Props, State> {
                   )}
                 </h5>
               </div>
-              {this.props.isLoggedIn &&
-              this.props.currency == "INR" &&
-              Object?.entries(discount)?.length ? (
-                <div
-                  className={cs(
-                    globalStyles.flex,
-                    globalStyles.gutterBetween,
-                    styles.containerCost,
-                    styles.discountWrapper
-                  )}
-                >
-                  <div className={cs(styles.discountPrice)}>
-                    {discount?.name}
-                  </div>
-                  <div className={globalStyles.textRight}>
-                    <h5 className={cs(styles.discountPrice)}>
-                      (-)
-                      {String.fromCharCode(
-                        ...currencyCodes[this.props.currency]
-                      )}
-                      &nbsp;
-                      {displayPriceWithCommasFloat(
-                        discount?.amount,
-                        this.props.currency
-                      )}
-                    </h5>
-                  </div>
-                </div>
-              ) : null}
+
+              {this.getDiscount(this.props.cart?.offerDiscounts)}
             </div>
 
             {this.hasOutOfStockItems() && (

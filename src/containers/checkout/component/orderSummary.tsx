@@ -653,7 +653,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
                 globalStyles.marginT20
               )}
             >
-              <span className={styles.subtotal}>ESTIMATED SHIPPING</span>
+              <span className={styles.subtotal}>SHIPPING</span>
               <span className={styles.subtotal}>
                 (+) {String.fromCharCode(...code)}{" "}
                 {parseFloat(shippingCharge).toFixed(2)}
