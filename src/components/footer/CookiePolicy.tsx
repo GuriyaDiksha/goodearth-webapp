@@ -163,7 +163,8 @@ const CookiePolicy: React.FC<Props> = ({
       const functionalities = consents.find(
         e =>
           e.name === "Necessary Cookies" ||
-          e?.backend_name === "Necessary Cookies - IN"
+          e?.backend_name === "Necessary Cookies - IN" ||
+          e?.backend_name === "Necessary Cookies"
       );
       // CookieService.setCookie("consent", functionalities, 365);
       setConsent([functionalities]);
