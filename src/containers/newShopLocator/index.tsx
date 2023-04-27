@@ -72,12 +72,29 @@ class ShopLocator extends Component<Props, State> {
           },
           () => {
             if (this.props.city) {
-              this.setState({ currentCity: this.props.city });
+              this.setState({ currentCity: this.props.city }, () => {
+                const ele = document.getElementById(
+                  this.props.city || ""
+                ) as HTMLDivElement;
+                if (ele) {
+                  ele?.focus();
+                }
+              });
             } else {
               // change this
-              this.setState({
-                currentCity: Object.keys(this.state.shopData)[0]
-              });
+              this.setState(
+                {
+                  currentCity: Object.keys(this.state.shopData)[0]
+                },
+                () => {
+                  const ele = document.getElementById(
+                    Object.keys(this.state.shopData)[0] || ""
+                  ) as HTMLDivElement;
+                  if (ele) {
+                    ele?.focus();
+                  }
+                }
+              );
             }
           }
         );
@@ -90,9 +107,17 @@ class ShopLocator extends Component<Props, State> {
   componentDidUpdate() {
     const city = window.location.href.split("/").pop();
     if (this.state.currentCity !== city) {
-      this.setState({
-        currentCity: city || ""
-      });
+      this.setState(
+        {
+          currentCity: city || ""
+        },
+        () => {
+          const ele = document.getElementById(city || "") as HTMLDivElement;
+          if (ele) {
+            ele?.focus();
+          }
+        }
+      );
     }
   }
   render() {
@@ -128,6 +153,8 @@ class ShopLocator extends Component<Props, State> {
                   })}
                   key={i}
                   onClick={() => this.onHeaderItemClick(data)}
+                  id={data}
+                  tabIndex={i}
                 >
                   {data}
                 </div>
