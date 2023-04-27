@@ -123,16 +123,20 @@ const CookiePolicy: React.FC<Props> = ({
     }
   };
 
-  const acceptAll = () => {
+  const acceptAll = (isQuick?: boolean) => {
     const cloneConsent = clone(consents);
     cloneConsent.map(e => {
       e.value = true;
     });
     setConsents(cloneConsent);
     saveConsent(cloneConsent);
-    setTimeout(() => {
+    if (isQuick) {
       acceptCookies();
-    }, 2000);
+    } else {
+      setTimeout(() => {
+        acceptCookies();
+      }, 2000);
+    }
   };
 
   const savePref = () => {
@@ -291,9 +295,13 @@ const CookiePolicy: React.FC<Props> = ({
                 {/* ) : null} */}
                 <span
                   className={cs(styles.okBtn, isPrefOpen ? styles.euBtn : "")}
-                  onClick={() => acceptAndContinue()}
+                  onClick={() => {
+                    regionName === "India"
+                      ? acceptAndContinue()
+                      : acceptAll(true);
+                  }}
                 >
-                  ACCEPT & CONTINUE
+                  {regionName === "India" ? "ACCEPT & CONTINUE" : "ACCEPT ALL"}
                 </span>
               </>
             )}
