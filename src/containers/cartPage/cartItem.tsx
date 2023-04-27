@@ -492,44 +492,23 @@ const CartItems: React.FC<BasketItem> = memo(
                               disabled={
                                 stockRecords && stockRecords[0].numInStock < 1
                               }
-
+                              isSaleErrorMsgOn={
+                                saleStatus &&
+                                childAttributes[0].showStockThreshold &&
+                                childAttributes[0].stock > 0 &&
+                                childAttributes[0].othersBasketCount > 0
+                              }
                               // errorMsg="Available qty in stock is"
                             />
                           )}
                         </div>
-                        {qtyError &&
-                          !(
-                            saleStatus &&
-                            childAttributes[0].showStockThreshold &&
-                            childAttributes[0].stock > 0 &&
-                            childAttributes[0].othersBasketCount > 0
-                          ) && (
-                            <span
-                              className={cs(
-                                globalStyles.errorMsg,
-                                styles.stockLeft,
-                                {
-                                  [styles.outOfStock]:
-                                    stockRecords[0].numInStock < 1
-                                }
-                              )}
-                            >
-                              {qtyErrorMsg}
-                            </span>
-                          )}
+
                         {saleStatus && (
                           <span
-                            className={cs(
-                              globalStyles.errorMsg,
-                              styles.stockLeft,
-                              {
-                                [styles.outOfStock]:
-                                  stockRecords[0].numInStock < 1
-                              }
-                              // {
-                              //   [styles.stockLeftWithError]: qtyError
-                              // }
-                            )}
+                            className={cs(styles.stockLeft, {
+                              [styles.outOfStock]:
+                                stockRecords[0].numInStock < 1
+                            })}
                           >
                             {saleStatus &&
                               childAttributes[0].showStockThreshold &&

@@ -628,7 +628,7 @@ hr {
   text-align: left;
   display: block;
   @include err_13px_lora_italic_cerise();
-  color:$gold;
+  color:$gold !important;
   letter-spacing: 0.26px;
   font-weight: normal;
 }

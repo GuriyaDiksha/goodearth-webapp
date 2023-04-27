@@ -48,7 +48,7 @@ class PdpQuantity extends React.Component<QuantityItem, State> {
   render() {
     const value = this.props.currentValue;
     const props = this.props;
-    const { disabled, source } = this.props;
+    const { disabled, source, isSaleErrorMsgOn } = this.props;
     let errorMsgClass;
     if (source == "bag" || source == "cartpage") {
       errorMsgClass = styles.bagErrorMsg;
@@ -135,7 +135,7 @@ class PdpQuantity extends React.Component<QuantityItem, State> {
             +
           </span>
         </div>
-        {this.state.showError ? (
+        {this.state.showError && !isSaleErrorMsgOn ? (
           <p className={cs(errorMsgClass, { [styles.left]: source == "pdp" })}>
             {this.state.showError ? this.state.errorMsg : ""}
           </p>

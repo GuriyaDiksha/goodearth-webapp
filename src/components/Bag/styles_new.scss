@@ -479,3 +479,19 @@
     top: 0px;
   }
 }
+
+.delivery-date {
+  @include b5_10px_montserrat_charcoal();
+  margin-left: 12px;
+}
+
+.stock-left {
+  margin-top: 7px;
+  position: relative;
+  text-align: left;
+  display: block;
+  @include err_13px_lora_italic_cerise();
+  color:$gold !important;
+  letter-spacing: 0.26px;
+  font-weight: normal;
+}
