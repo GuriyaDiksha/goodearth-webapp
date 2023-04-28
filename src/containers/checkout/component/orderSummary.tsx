@@ -205,7 +205,11 @@ const OrderSummary: React.FC<OrderProps> = props => {
               >
                 <div className={styles.productImg}>
                   <img
-                    src={item?.product?.images?.[0]?.productImage}
+                    src={
+                      item?.product.structure.toLowerCase() == "giftcard"
+                        ? item?.giftCardImage
+                        : item?.product?.images?.[0]?.productImage
+                    }
                     alt="product image"
                   />
                 </div>

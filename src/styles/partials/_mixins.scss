@@ -858,7 +858,7 @@ $list: $grey 92%, $white 8%;
 
 @mixin b3_14px_montserrat_white{
   font-family: $font-Montserrat;
-  font-size: 14px;
+  font-size: 14px !important;
   font-weight: $regular;
   color: $white;
 }
