@@ -520,7 +520,8 @@ class CollectionSpecific extends React.Component<
       longDescription,
       results,
       tags,
-      shortDescription
+      shortDescription,
+      category
     } = collectionSpecificData;
     const { widgetImages, name } = collectionSpecficBanner;
     const { specificMaker } = this.state;
@@ -606,7 +607,7 @@ class CollectionSpecific extends React.Component<
               styles.collectionName
             )}
           >
-            {name}
+            {name} {category}
           </div>
         </div>
 
