@@ -1,12 +1,16 @@
 [
-    "/auth/register/",
-    "/auth/login/",
-    "/auth/check_user_password/",
-    "/auth/sociallogin/",
-    "/giftcard/giftcard_activate/",
-    "/giftcard/giftcard_balance_check_for_anonymous_user/",
-    "/giftcard/send_giftcard_otp/",
-    "/giftcard/send_otp_for_anonymous_user/",
-    "/customer/update_profile/",
-    "/basket/change_currency/"
+    "/auth/register",
+    "/auth/login",
+    "/myapi/auth/meta",
+    "/auth/check_user_password",
+    "/auth/sociallogin",
+    "/giftcard/giftcard_activate",
+    "/giftcard/giftcard_balance_check_for_anonymous_user",
+    "/giftcard/send_giftcard_otp",
+    "/giftcard/send_otp_for_anonymous_user",
+    "/customer/update_profile",
+    "/basket/change_currency",
+    "/customer/verify_user_otp",
+    "/customer/profile",
+    "/customer/update_profile"
 ]
