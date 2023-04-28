@@ -277,7 +277,7 @@ body:has(.open-summary) {
 }
 .product-price {
   @include plp_prod_name_desktop();
-  @include b3_14px_montserrat_gold();
+  @include b3_14px_montserrat_charcoal();
 }
 
 .hr-product {
@@ -357,9 +357,7 @@ body:has(.open-summary) {
 }
 
 .discountprice {
-  color: $cerise;
-  font-family: $font-Lato;
-  font-size: 14px;
+  @include b3_14px_montserrat_gold();
 }
 .product-size {
   @include pdp_spec();
@@ -397,9 +395,7 @@ body:has(.open-summary) {
 }
 
 .discountprice {
-  color: #ab1e56;
-  font-family: $font-Lato;
-  font-size: 14px;
+@include b3_14px_montserrat_gold();
 }
 
 .strikeprice {

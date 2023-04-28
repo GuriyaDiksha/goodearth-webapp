@@ -911,7 +911,7 @@ const AddressSection: React.FC<AddressProps & {
                             );
                           }}
                         >
-                          Proceed to Payment
+                          PROCEED TO PAYMENT
                         </div>
                       </div>
                     </div>
