@@ -392,7 +392,6 @@ const AddressSection: React.FC<AddressProps & {
     const amountPriceCheck = amountPrice[currency] <= basket.total;
     setGstNum(gstText || gstNum);
 
-    debugger;
     if (gstText) {
       setGstDetails({ gstText: gstText, gstType: gstType || "" });
     }
@@ -472,7 +471,6 @@ const AddressSection: React.FC<AddressProps & {
       );
       dispatch(updateModal(true));
     } else {
-      debugger;
       setGstNum("");
     }
   };
@@ -786,7 +784,7 @@ const AddressSection: React.FC<AddressProps & {
                         !sameAsShipping)) && (
                       <>
                         <div>{children}</div>
-                        {addressList.length > 1 && mode == "list" && (
+                        {addressList.length && mode == "list" && (
                           <>
                             <div></div>
                             <div

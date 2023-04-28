@@ -550,7 +550,7 @@ body:has(.mobile) {
 }
 
 .contact-msg {
-  @include b5_10px_montserrat_charcoal();
+  @include b6_9px_light_montserrat_charcoal();
   margin-top: 5px;
   letter-spacing: 0.32px;
   text-align: left;
@@ -790,4 +790,10 @@ body:has(.mobile) {
       text-align: left;
     }
   }
+}
+
+.char-limit{
+float: right;
+margin-top: 5px;
+@include b6_9px_light_montserrat_charcoal();
 }
