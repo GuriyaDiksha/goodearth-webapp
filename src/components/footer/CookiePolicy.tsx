@@ -124,16 +124,20 @@ const CookiePolicy: React.FC<Props> = ({
     }
   };
 
-  const acceptAll = () => {
+  const acceptAll = (isQuick?: boolean) => {
     const cloneConsent = clone(consents);
     cloneConsent.map(e => {
       e.value = true;
     });
     setConsents(cloneConsent);
     saveConsent(cloneConsent);
-    setTimeout(() => {
+    if (isQuick) {
       acceptCookies();
-    }, 2000);
+    } else {
+      setTimeout(() => {
+        acceptCookies();
+      }, 2000);
+    }
   };
 
   const savePref = () => {
@@ -270,22 +274,43 @@ const CookiePolicy: React.FC<Props> = ({
                   ></span>
                 )}
                 <h3>COOKIES & PRIVACY</h3>
-                <p
-                  style={{
-                    textAlign: "center",
-                    marginTop: OLD_COOKIE_SETTINGS ? "0px" : "15px"
-                  }}
-                >
-                  This website uses cookies to ensure you get the best
-                  experience on our website. Please read our&nbsp;
-                  <Link to={"/customer-assistance/cookie-policy"}>
-                    Cookie Policy
-                  </Link>
-                  &nbsp; and{" "}
-                  <Link to={"/customer-assistance/privacy-policy"}>
-                    Privacy Policy.
-                  </Link>
-                </p>
+                {regionName === "India" ? (
+                  <p
+                    style={{
+                      textAlign: "center",
+                      marginTop: OLD_COOKIE_SETTINGS ? "0px" : "15px"
+                    }}
+                  >
+                    This website uses cookies to ensure you get the best
+                    experience on our website. Please read our&nbsp;
+                    <Link to={"/customer-assistance/cookie-policy"}>
+                      Cookie Policy
+                    </Link>
+                    &nbsp; and{" "}
+                    <Link to={"/customer-assistance/privacy-policy"}>
+                      Privacy Policy.
+                    </Link>
+                  </p>
+                ) : (
+                  <p
+                    style={{
+                      textAlign: "center",
+                      marginTop: OLD_COOKIE_SETTINGS ? "0px" : "15px"
+                    }}
+                  >
+                    By clicking “Accept All”, you agree to the storing of
+                    cookies on your device to enhance site navigation, analyze
+                    site usage, and assist in our marketing efforts. Please read
+                    our&nbsp;
+                    <Link to={"/customer-assistance/cookie-policy"}>
+                      Cookie Policy
+                    </Link>
+                    &nbsp; and{" "}
+                    <Link to={"/customer-assistance/privacy-policy"}>
+                      Privacy Policy.
+                    </Link>
+                  </p>
+                )}
                 {/* {regionName !== "Europe" ? ( */}
                 {!OLD_COOKIE_SETTINGS ? (
                   <p
@@ -298,9 +323,13 @@ const CookiePolicy: React.FC<Props> = ({
                 {/* ) : null} */}
                 <span
                   className={cs(styles.okBtn, isPrefOpen ? styles.euBtn : "")}
-                  onClick={() => acceptAndContinue()}
+                  onClick={() => {
+                    regionName === "India"
+                      ? acceptAndContinue()
+                      : acceptAll(true);
+                  }}
                 >
-                  ACCEPT & CONTINUE
+                  {regionName === "India" ? "ACCEPT & CONTINUE" : "ACCEPT ALL"}
                 </span>
               </>
             )}

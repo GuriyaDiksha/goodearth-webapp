@@ -466,6 +466,9 @@ span.checkout-forgot-pass{
 }
 .tooltip {
   margin-left: 15px;
+  &.height-fix {
+    height: 50px;
+  }
   img {
       height: 15px;
       position: absolute;
@@ -485,6 +488,14 @@ span.checkout-forgot-pass{
       background-color: #fff;
       height: 80px;
       width: 146px;
+      @media screen and (max-width: 768px){
+          height: 95px;
+          width: 100px;
+          &.show{
+            bottom: 36px !important;
+            left: -36px !important;
+          }
+      }
       box-shadow: 0px 3px 6px #00000029;
       display: none;
       &.show{
