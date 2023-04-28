@@ -39,4 +39,5 @@ export type CollectionSpecificProps = {
   tags: string[];
   all_collection_link: string;
   view_more_collections: CollectionItem[];
+  category: string;
 };

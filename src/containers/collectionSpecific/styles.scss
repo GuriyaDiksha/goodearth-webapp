@@ -23,8 +23,9 @@
 
 .collection-lowertext {
   @include b3_14px_montserrat_charcoal();
-  line-height: 27px;
+  line-height: 23px;
   letter-spacing: 0.5px;
+  margin-bottom: 70px;
 }
 .collection-block {
   margin-bottom: 35px;
