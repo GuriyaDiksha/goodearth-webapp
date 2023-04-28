@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import cs from "classnames";
 import styles from "./styles.scss";
 import ToggleSwitch from "components/Switch";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import CookieService from "services/cookie";
 import { AppState } from "reducers/typings";
 import { useSelector, useStore } from "react-redux";
@@ -36,6 +36,7 @@ const CookiePolicy: React.FC<Props> = ({
   );
   const { email } = useSelector((state: AppState) => state.user);
   const store = useStore();
+  const location = useLocation();
 
   useEffect(() => {
     document.body.classList.add(globalStyles.noScroll);
@@ -152,6 +153,11 @@ const CookiePolicy: React.FC<Props> = ({
 
   const hideCookie = () => {
     //    setConsent(true);
+    if (location?.pathname === "/customer-assistance/cookie-policy") {
+      hideCookies();
+      showCookiePrefs();
+      return;
+    }
     if (OLD_COOKIE_SETTINGS) {
       CookieService.setCookie(
         "consent",
@@ -162,7 +168,7 @@ const CookiePolicy: React.FC<Props> = ({
     } else {
       const functionalities = consents.find(
         e =>
-          e.name === "Necessary Cookies" ||
+          e?.name === "Necessary Cookies" ||
           e?.backend_name === "Necessary Cookies - IN" ||
           e?.backend_name === "Necessary Cookies"
       );
