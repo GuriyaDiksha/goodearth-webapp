@@ -617,8 +617,8 @@ class CollectionSpecific extends React.Component<
             className={cs(
               bootstrap.col8,
               bootstrap.offset2,
-              bootstrap.colMd6,
-              bootstrap.offsetMd3,
+              bootstrap.colMd4,
+              bootstrap.offsetMd4,
               styles.collectionLowertext,
               globalStyles.textCenter
             )}
