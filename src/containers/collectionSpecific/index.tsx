@@ -520,7 +520,8 @@ class CollectionSpecific extends React.Component<
       longDescription,
       results,
       tags,
-      shortDescription
+      shortDescription,
+      category
     } = collectionSpecificData;
     const { widgetImages, name } = collectionSpecficBanner;
     const { specificMaker } = this.state;
@@ -571,13 +572,15 @@ class CollectionSpecific extends React.Component<
                 }
               })}
             </div>
-            <div className={bootstrap.col12}>
-              <img
-                src={banner}
-                className={globalStyles.imgResize}
-                alt="Collection Image"
-              />
-            </div>
+            {widgetImages?.length ? (
+              <div className={bootstrap.col12}>
+                <img
+                  src={banner}
+                  className={globalStyles.imgResize}
+                  alt="Collection Image"
+                />
+              </div>
+            ) : null}
           </div>
         </section>
         <div
@@ -604,7 +607,7 @@ class CollectionSpecific extends React.Component<
               styles.collectionName
             )}
           >
-            {name}
+            {name} {category}
           </div>
         </div>
 
@@ -614,8 +617,8 @@ class CollectionSpecific extends React.Component<
             className={cs(
               bootstrap.col8,
               bootstrap.offset2,
-              bootstrap.colMd6,
-              bootstrap.offsetMd3,
+              bootstrap.colMd4,
+              bootstrap.offsetMd4,
               styles.collectionLowertext,
               globalStyles.textCenter
             )}

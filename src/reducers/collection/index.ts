@@ -16,7 +16,8 @@ const initialState: CollectionState = {
     next: 0,
     all_collection_link: "",
     view_more_collections: [],
-    tags: []
+    tags: [],
+    category: ""
   },
   collectionSpecficBanner: {
     name: "",

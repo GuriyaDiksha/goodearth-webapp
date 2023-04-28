@@ -59,6 +59,8 @@ const CollectionLanding = () => {
       if (collectionData) {
         dispatch(updateCollectionData(collectionData));
       }
+
+      window.scrollTo({ top: 0, behavior: "smooth" });
     }
   };
 

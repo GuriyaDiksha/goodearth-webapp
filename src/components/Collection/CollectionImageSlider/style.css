@@ -61,7 +61,7 @@
 @media screen and (max-width:992px) {
     .collectionImageContainer{
         width: 100%;
-    }   
+    }  
     .collectionImageContainer .slick-slider .slick-dots{
         position: absolute;
         content: "";
