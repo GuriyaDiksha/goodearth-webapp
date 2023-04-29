@@ -44,3 +44,10 @@ export type GiftState = {
   toggleResetOtpComponent: boolean;
   disable: boolean;
 };
+
+export type PrefernecesProps = {
+  subscribe: boolean;
+  whatsappNo: string;
+  whatsappNoCountryCode: string;
+  whatsappSubscribe: boolean;
+};

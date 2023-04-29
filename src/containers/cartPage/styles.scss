@@ -363,6 +363,13 @@ display: inline-table;
   font-size: 14px;
   font-family: $font-Lato;
 }
+.product-size-value{
+  @media screen and (max-width: 992px) {
+  max-width: 60%;
+  word-break: break-word;
+  vertical-align: top;
+  }
+}
 .crossicon-item {
   font-size: 12px;
   cursor: pointer;

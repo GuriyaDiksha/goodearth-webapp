@@ -11,7 +11,11 @@ export type Props = {
   disable?: boolean;
   placeholder: string;
   value: string;
-  handleChange?: (event: React.ChangeEvent) => void;
+  handleChange?: (event: React.ChangeEvent, newValue?: string) => void;
+  showLabel?: boolean;
+  innerRef?: any;
+  name: string;
+  autocomplete?: string;
 };
 
 export type Country = {

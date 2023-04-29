@@ -3,8 +3,8 @@ import cs from "classnames";
 import styles from "../styles.scss";
 import globalStyles from "styles/global.scss";
 import bootstrapStyles from "../../../styles/bootstrap/bootstrap-grid.scss";
-import show from "../../../images/show.svg";
-import hide from "../../../images/hide.svg";
+import show from "../../../images/showPass.svg";
+import hide from "../../../images/hidePass.svg";
 import { Context } from "components/Modal/context";
 import moment from "moment";
 import Formsy from "formsy-react";
@@ -12,7 +12,6 @@ import FormInput from "../../Formsy/FormInput";
 import FormSelect from "../../Formsy/FormSelect";
 import FormCheckbox from "../../Formsy/FormCheckbox";
 import { Link } from "react-router-dom";
-import CountryCode from "../../Formsy/CountryCode";
 import { registerState } from "./typings";
 import mapDispatchToProps from "./mapper/actions";
 import { connect } from "react-redux";
@@ -26,6 +25,13 @@ import { Country } from "components/Formsy/CountryCode/typings";
 import EmailVerification from "../emailVerification";
 import CookieService from "services/cookie";
 import { GA_CALLS, ANY_ADS } from "constants/cookieConsent";
+// import SelectDropdown from "components/Formsy/SelectDropdown";
+import CountryCode from "components/Formsy/CountryCode";
+import FormContainer from "../formContainer";
+import tooltipIcon from "images/tooltip.svg";
+import tooltipOpenIcon from "images/tooltip-open.svg";
+import { CONFIG } from "constants/util";
+
 const mapStateToProps = (state: AppState) => {
   const isdList = state.address.countryData.map(list => {
     return list.isdCode;
@@ -36,7 +42,8 @@ const mapStateToProps = (state: AppState) => {
     currency: state.currency,
     isdList: isdList,
     countryData: state.address.countryData,
-    sortBy: state.wishlist.sortBy
+    sortBy: state.wishlist.sortBy,
+    mobile: state.device.mobile
   };
 };
 
@@ -45,6 +52,9 @@ type Props = ReturnType<typeof mapStateToProps> &
   RegisterProps;
 
 class CheckoutRegisterForm extends React.Component<Props, registerState> {
+  public static defaultProps = {
+    isCheckout: false
+  };
   constructor(props: Props) {
     super(props);
     this.state = {
@@ -72,7 +82,9 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
       stateOptions: [],
       isIndia: false,
       showEmailVerification: false,
-      email: ""
+      email: "",
+      showTip: false,
+      whatsappChecked: false
     };
   }
   static contextType = Context;
@@ -82,9 +94,13 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
   subscribeRef: RefObject<HTMLInputElement> = React.createRef();
   firstNameInput: RefObject<HTMLInputElement> = React.createRef();
   lastNameInput: RefObject<HTMLInputElement> = React.createRef();
+  countryRef: RefObject<HTMLInputElement> = React.createRef();
+  countryCodeRef: RefObject<HTMLInputElement> = React.createRef();
+  genderRef: RefObject<HTMLInputElement> = React.createRef();
+  whatsappCheckRef: RefObject<HTMLInputElement> = React.createRef();
 
   componentDidMount() {
-    const email = localStorage.getItem("tempEmail");
+    const email = localStorage.getItem("tempEmail") || this.props.email;
     if (email && this.emailInput.current) {
       this.RegisterFormRef.current &&
         this.RegisterFormRef.current.updateInputsWithValue({ email: email });
@@ -95,6 +111,21 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
     this.emailInput.current && this.emailInput.current.focus();
     this.props.fetchCountryData();
     this.changeCountryData(this.props.countryData);
+    document.addEventListener("mousedown", this.handleClickOutside);
+  }
+
+  componentDidUpdate(
+    prevProps: Readonly<Props>,
+    prevState: Readonly<registerState>,
+    snapshot?: any
+  ): void {
+    if (this.state.successMsg) {
+      this.props.setIsSuccessMsg?.(true);
+    }
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener("mousedown", this.handleClickOutside);
   }
 
   UNSAFE_componentWillReceiveProps(nextProps: Props) {
@@ -127,7 +158,8 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
       state,
       phone,
       code,
-      terms
+      terms,
+      whatsappSubscribe
     } = model;
     const formData: any = {};
     formData["username"] = email;
@@ -152,6 +184,7 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
       formData["phoneNo"] = phone;
       formData["phoneCountryCode"] = code;
     }
+    formData["whatsappSubscribe"] = whatsappSubscribe;
     formData["subscribe"] = terms;
 
     this.setState({
@@ -308,6 +341,55 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
     }
   };
 
+  // onCountrySelect = (option: any, defaultCountry?: string) => {
+  //   const { countryOptions } = this.state;
+  //   if (countryOptions.length > 0) {
+  //     const form = this.RegisterFormRef.current;
+  //     let selectedCountry = "";
+
+  //     selectedCountry = option.value;
+  //     form &&
+  //       form.updateInputsWithValue(
+  //         {
+  //           state: "",
+  //           country: selectedCountry
+  //         },
+  //         false
+  //       );
+  //     if (defaultCountry) {
+  //       selectedCountry = defaultCountry;
+  //       // need to set defaultCountry explicitly
+  //       if (form && selectedCountry) {
+  //         form.updateInputsWithValue({
+  //           country: selectedCountry
+  //         });
+  //       }
+  //     }
+
+  //     const { states, isd, value } = countryOptions.filter(
+  //       country => country.value == selectedCountry
+  //     )[0];
+
+  //     if (form) {
+  //       // reset state
+  //       const { state } = form.getModel();
+  //       if (state) {
+  //         form.updateInputsWithValue({
+  //           state: ""
+  //         });
+  //       }
+  //       form.updateInputsWithValue({
+  //         code: isd
+  //       });
+  //     }
+
+  //     this.setState({
+  //       isIndia: value == "India",
+  //       stateOptions: states
+  //     });
+  //   }
+  // };
+
   changeCountryData = (countryData: Country[]) => {
     const countryOptions = countryData.map(country => {
       const states = country.regionSet.map(state => {
@@ -332,6 +414,15 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
     });
   };
 
+  getCountryCodeObject = () => {
+    const { countryOptions } = this.state;
+    const arr: any[] = [];
+    countryOptions.map(({ label, isd }: any) => {
+      arr.push({ label: `${label}(${isd})`, value: isd });
+    });
+    return arr;
+  };
+
   handleInvalidSubmit = () => {
     const elem = this.subscribeRef.current;
     if (elem && elem.checked == false) {
@@ -343,6 +434,7 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
         msgt: ""
       });
     }
+
     setTimeout(() => {
       const firstErrorField = document.getElementsByClassName(
         globalStyles.errorBorder
@@ -538,6 +630,25 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
     });
   };
 
+  onWhatsappCheckChange = (e: any) => {
+    this.setState({
+      whatsappChecked: e.target.checked
+    });
+  };
+
+  impactRef = React.createRef<HTMLInputElement>();
+
+  handleClickOutside = (evt: any) => {
+    if (
+      this.impactRef.current &&
+      !this.impactRef.current.contains(evt.target)
+    ) {
+      this.setState({ showTip: false });
+      //Do what you want to handle in the callback
+      // this.props.closePopup(evt);
+    }
+  };
+
   render() {
     const showFieldsClass = this.state.showFields ? "" : styles.disabledInput;
     // const { goLogin } = this.props;
@@ -554,8 +665,8 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
             <FormInput
               name="email"
               blur={this.verifyEmail}
-              placeholder={"Email*"}
-              label={"Email*"}
+              placeholder={"Email ID*"}
+              label={"Email ID*"}
               keyUp={this.onMailChange}
               keyPress={e => (e.key == "Enter" ? e.preventDefault() : "")}
               inputRef={this.emailInput}
@@ -590,6 +701,7 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
               }}
               keyPress={this.handleFirstNameKeyPress}
               required
+              showLabel={true}
             />
           </div>
           <div>
@@ -608,19 +720,32 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
               keyPress={e => (e.key == "Enter" ? e.preventDefault() : "")}
               inputRef={this.lastNameInput}
               required
+              showLabel={true}
             />
           </div>
           <div className={styles.userGenderPicker}>
             <FormSelect
               required
               name="gender"
-              label="Select Gender*"
-              placeholder="Select Gender*"
+              label="Gender*"
+              placeholder="Select Option*"
               options={genderOptions}
               disable={!this.state.showFields}
               className={this.state.showFields ? "" : styles.disabledInput}
+              showLabel={true}
             />
           </div>
+          {/* <div className={styles.userGenderPicker}>
+            <SelectDropdown
+              required
+              name="gender"
+              label="Select Gender*"
+              placeholder="Select Gender*"
+              options={genderOptions}
+              allowFilter={true}
+              inputRef={this.genderRef}
+            />
+          </div> */}
           <div className={styles.calendarIconContainer}>
             <FormInput
               name="dateOfBirth"
@@ -665,6 +790,7 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
                 isMinAllowedDate: "Please enter valid date of birth",
                 isMaxAllowedDate: "Age should be at least 15 years"
               }}
+              showLabel={true}
             />
           </div>
           <div>
@@ -683,10 +809,29 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
                   isExisty: "Please select your Country",
                   isEmptyString: isExistyError
                 }}
+                showLabel={true}
               />
               <span className="arrow"></span>
             </div>
           </div>
+          {/* <SelectDropdown
+            required
+            name="country"
+            handleChange={this.onCountrySelect}
+            label="Country*"
+            placeholder="Select Country*"
+            validations={{
+              isExisty: true
+            }}
+            validationErrors={{
+              isExisty: "Please select your Country",
+              isEmptyString: isExistyError
+            }}
+            options={countryOptions}
+            allowFilter={true}
+            inputRef={this.countryRef}
+          /> */}
+
           {this.state.isIndia && (
             <div>
               <div className="select-group text-left">
@@ -704,6 +849,7 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
                     isExisty: isExistyError,
                     isEmptyString: isExistyError
                   }}
+                  showLabel={true}
                 />
               </div>
             </div>
@@ -713,7 +859,31 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
               name="code"
               placeholder="Code"
               label="Country Code"
+              value=""
               id="isdcode"
+              validations={{
+                isCodeValid: (values, value) => {
+                  return !(values.phone && value == "");
+                },
+                isValidCode: (values, value) => {
+                  if (value && this.props.isdList.length > 0) {
+                    return this.props.isdList.indexOf(value ? value : "") > -1;
+                  } else {
+                    return true;
+                  }
+                }
+              }}
+              validationErrors={{
+                isCodeValid: "Required",
+                isValidCode: "Enter valid code"
+              }}
+              showLabel={true}
+            />
+            {/* <SelectDropdown
+              name="code"
+              placeholder="Code"
+              label="Country Code"
+              options={this.getCountryCodeObject()}
               value=""
               validations={{
                 isCodeValid: (values, value) => {
@@ -731,8 +901,15 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
                 isCodeValid: "Required",
                 isValidCode: "Enter valid code"
               }}
-            />
+              allowFilter={true}
+              showLabel={true}
+              optionsClass={styles.isdCode}
+              searchIconClass={styles.countryCodeSearchIcon}
+              searchInputClass={styles.countryCodeSearchInput}
+              inputRef={this.countryCodeRef}
+            /> */}
             <FormInput
+              // required
               name="phone"
               value=""
               placeholder={"Contact Number"}
@@ -741,10 +918,18 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
               className={showFieldsClass}
               label={"Contact Number"}
               validations={{
-                isExisty: true
+                isExisty: true,
+                compulsory: (values, value) => {
+                  if (values.whatsappSubscribe && value == "") {
+                    return false;
+                  } else {
+                    return true;
+                  }
+                }
               }}
               validationErrors={{
-                isExisty: "Please enter your Contact Number"
+                isExisty: "Please enter your contact number",
+                compulsory: "Please enter your contact number"
               }}
               keyPress={e => (e.key == "Enter" ? e.preventDefault() : "")}
               keyDown={e => (e.which === 69 ? e.preventDefault() : null)}
@@ -753,6 +938,7 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
                   ? e.preventDefault()
                   : null
               }
+              showLabel={true}
             />
           </div>
           <div>
@@ -779,9 +965,11 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
                     /[0-9]/.test(value) &&
                     /[A-Z]/.test(value);
                   if (res) {
-                    this.setState({
-                      showPassRules: false
-                    });
+                    setTimeout(() => {
+                      this.setState({
+                        showPassRules: false
+                      });
+                    }, 100);
                   } else {
                     this.RegisterFormRef.current?.updateInputsWithError({
                       password1:
@@ -873,6 +1061,7 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
                   "Please verify that your password follows all rules displayed"
               }}
               required
+              showLabel={true}
             />
             <span
               className={styles.togglePasswordBtn}
@@ -938,10 +1127,52 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
                   "Please verify that your password follows all rules displayed"
               }}
               required
+              showLabel={true}
             />
           </div>
-
-          <div className={styles.subscribe}>
+          {CONFIG.WHATSAPP_SUBSCRIBE_ENABLED && !this.props.isCheckout && (
+            <div
+              className={cs(styles.subscribe, styles.tooltip, {
+                [styles.heightFix]: this.state.whatsappChecked
+              })}
+            >
+              <FormCheckbox
+                value={false}
+                inputRef={this.whatsappCheckRef}
+                id="whatsappSubscribe"
+                name="whatsappSubscribe"
+                disable={false}
+                label={[
+                  <span key="1">Subscribe me for Whatsapp updates.</span>
+                ]}
+                handleChange={this.onWhatsappCheckChange}
+                required
+              />
+              {this.state.whatsappChecked && (
+                <div className={styles.manageLine}>
+                  Manage your preference from My Preferences section under
+                  Profile
+                </div>
+              )}
+              <div className={styles.tooltip} ref={this.impactRef}>
+                <img
+                  src={this.state.showTip ? tooltipOpenIcon : tooltipIcon}
+                  onClick={() => {
+                    this.setState({ showTip: !this.state.showTip });
+                  }}
+                />
+                <div
+                  className={cs(styles.tooltipMsg, {
+                    [styles.show]: this.state.showTip
+                  })}
+                >
+                  By checking this, you agree to receiving Whatsapp messages for
+                  order & profile related information
+                </div>
+              </div>
+            </div>
+          )}
+          <div className={cs(styles.subscribe, styles.marginFix)}>
             <FormCheckbox
               value={false}
               inputRef={this.subscribeRef}
@@ -964,7 +1195,7 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
               required
             />
           </div>
-          <div className={styles.subscribe}>
+          <div className={cs(styles.subscribe, styles.newsletters)}>
             <FormCheckbox
               value={false}
               id="subscrib"
@@ -1004,20 +1235,47 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
             ) : (
               ""
             )}
-            <input
-              type="submit"
-              className={
-                this.state.disableButton || !this.state.showFields
-                  ? cs(globalStyles.disabledBtn, globalStyles.ceriseBtn)
-                  : globalStyles.ceriseBtn
-              }
-              value="continue"
-              disabled={this.state.disableButton || !this.state.showFields}
-            />
+            {!this.props.isCheckout && (
+              <input
+                type="submit"
+                className={
+                  this.state.disableButton || !this.state.showFields
+                    ? cs(globalStyles.disabledBtn, globalStyles.charcoalBtn)
+                    : globalStyles.charcoalBtn
+                }
+                value="Create My Account & Proceed"
+                disabled={this.state.disableButton || !this.state.showFields}
+              />
+            )}
+            {!this.props.isCheckout && (
+              <input
+                type="submit"
+                className={cs(
+                  globalStyles.charcoalBtn,
+                  globalStyles.withWhiteBgNoHover,
+                  styles.changeEmailBtn
+                )}
+                value="Go Back"
+                onClick={this.changeEmail}
+              />
+            )}
+            {this.props.isCheckout && (
+              <input
+                type="submit"
+                className={
+                  this.state.disableButton || !this.state.showFields
+                    ? cs(globalStyles.disabledBtn, globalStyles.ceriseBtn)
+                    : globalStyles.ceriseBtn
+                }
+                value="Continue"
+                disabled={this.state.disableButton || !this.state.showFields}
+              />
+            )}
           </div>
         </div>
       </Formsy>
     );
+
     const footer = (
       <>
         <div className={globalStyles.textCenter}>
@@ -1038,20 +1296,45 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
             successMsg=""
             changeEmail={this.changeEmail}
             goLogin={this.props.goToLogin}
+            isCheckout={this.props.isCheckout}
           />
         ) : (
           <>
-            {this.state.successMsg && (
+            {this.state.successMsg && this.props.isCheckout && (
               <div
                 className={cs(bootstrapStyles.col10, bootstrapStyles.offset1)}
               >
-                <div className={globalStyles.successMsg}>
+                <div
+                  className={cs(styles.successMsg, {
+                    [styles.oldSuccessMsg]: this.props.isCheckout
+                  })}
+                >
                   {this.state.successMsg}
                 </div>
               </div>
             )}
+            {this.state.successMsg && !this.props.isCheckout && (
+              <div
+                className={cs(styles.successMsg, {
+                  [styles.oldSuccessMsg]: this.props.isCheckout
+                })}
+              >
+                {this.state.successMsg}
+              </div>
+            )}
             <div className={cs(bootstrapStyles.col12)}>
-              <div className={styles.loginForm}>{formContent}</div>
+              <div className={styles.loginForm}>
+                <FormContainer
+                  heading={this.props.isCheckout ? "" : "Welcome"}
+                  subheading={
+                    this.props.isCheckout
+                      ? ""
+                      : "Register and create an account to continue."
+                  }
+                  formContent={formContent}
+                  // footer={footer}
+                />
+              </div>
               {footer}
             </div>
           </>

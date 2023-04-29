@@ -17,4 +17,5 @@ export type Props = {
   disable?: boolean;
   // ref?: RefObject<typeof FormSelect>;
   blur?: (event: React.FocusEvent) => void;
+  showLabel?: boolean;
 };

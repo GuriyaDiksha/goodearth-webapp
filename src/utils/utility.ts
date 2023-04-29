@@ -7,7 +7,14 @@ const displayPriceWithCommas = (price: string | number, currency: Currency) => {
   } else {
     arg = "en-US";
   }
-  return parseInt(price.toString()).toLocaleString(arg);
+  const arr: any[] = [];
+  price
+    .toString()
+    .split("-")
+    .map(e => {
+      arr.push(parseInt(e.toString()).toLocaleString(arg));
+    });
+  return arr.join(" - ");
 };
 
 const displayPriceWithCommasFloat = (
@@ -20,10 +27,19 @@ const displayPriceWithCommasFloat = (
   } else {
     arg = "en-US";
   }
-  return parseInt(price.toString()).toLocaleString(arg, {
-    maximumFractionDigits: 2,
-    minimumFractionDigits: 2
-  });
+  const arr: any[] = [];
+  price
+    .toString()
+    .split("-")
+    .map(e => {
+      arr.push(
+        parseInt(e.toString()).toLocaleString(arg, {
+          maximumFractionDigits: 2,
+          minimumFractionDigits: 2
+        })
+      );
+    });
+  return arr.join(" - ");
 };
 
 const makeid = (length: number) => {

@@ -105,17 +105,28 @@ const FormInput: React.FC<Props & InjectedProps<string | null>> = props => {
         return "Please enter your Address";
       case "publication":
         return "Please enter publication name";
+      case "whatsappNo":
+        return "";
       default:
         return "This field is required";
     }
   }, []);
-  const errorMessage = props.disable
+  let errorMessage = props.disable
     ? ""
     : props.errorMessage
     ? props.errorMessage
     : !props.isPristine && !props.isValid
     ? getRequiredErrorMessage(props.name)
+    : props.error
+    ? props.error
     : "";
+
+  if (props.noErrOnPristine) {
+    if (props.isPristine) {
+      errorMessage = "";
+    }
+  }
+
   return (
     <div className={props.className}>
       <input
@@ -159,7 +170,13 @@ const FormInput: React.FC<Props & InjectedProps<string | null>> = props => {
         onKeyDown={e => (props.keyDown ? props.keyDown(e) : null)}
       />
       <label
-        className={labelClass || false ? "" : globalStyles.hidden}
+        className={cs({
+          [globalStyles.hidden]: labelClass
+            ? false
+            : props.showLabel
+            ? false
+            : true
+        })}
         id={props.id}
       >
         {props.label || ""}

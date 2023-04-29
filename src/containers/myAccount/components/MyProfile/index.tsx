@@ -20,12 +20,20 @@ import { pageViewGTM } from "utils/validate";
 import AccountService from "services/account";
 import LoginService from "services/login";
 import { updateCountryData } from "actions/address";
+import { updatePreferenceData } from "actions/user";
+import { CONFIG } from "constants/util";
 
 const MyProfile: React.FC<ProfileProps> = ({ setCurrentSection }) => {
   const {
-    address: { countryData }
+    address: { countryData },
+    user: { isLoggedIn }
+  } = useSelector((state: AppState) => state);
+
+  const {
+    user: { preferenceData }
   } = useSelector((state: AppState) => state);
   const [data, setData] = useState<Partial<ProfileResponse>>({});
+  // const { user } = useSelector((state: AppState) => state);
   const [profileState, setProfileState] = useState<State>({
     newsletter: false,
     uniqueId: "",
@@ -59,9 +67,11 @@ const MyProfile: React.FC<ProfileProps> = ({ setCurrentSection }) => {
   });
   const ProfileFormRef = useRef<Formsy | null>(null);
   const dispatch = useDispatch();
-  const isdList = countryData.map(list => {
-    return list.isdCode;
-  });
+  const [isdList, setIsdList] = useState(
+    countryData.map(list => {
+      return list.isdCode;
+    })
+  );
 
   const changeCountryData = (countryData: Country[], newData: any) => {
     const countryOptions = countryData.map(country => {
@@ -136,6 +146,9 @@ const MyProfile: React.FC<ProfileProps> = ({ setCurrentSection }) => {
   };
 
   useEffect(() => {
+    if (!isLoggedIn) {
+      return;
+    }
     setCurrentSection();
     AccountService.fetchProfileData(dispatch)
       .then(data => {
@@ -143,6 +156,7 @@ const MyProfile: React.FC<ProfileProps> = ({ setCurrentSection }) => {
           dispatch(updateCountryData(res));
           changeCountryData(res, data);
           pageViewGTM("MyAccount");
+          window.scrollTo(0, 0);
         });
         setApiResponse(data);
       })
@@ -152,9 +166,20 @@ const MyProfile: React.FC<ProfileProps> = ({ setCurrentSection }) => {
           showerror: "Something went wrong, please try again"
         });
       });
+
+    if (CONFIG.WHATSAPP_SUBSCRIBE_ENABLED) {
+      AccountService.fetchAccountPreferences(dispatch).then((data: any) => {
+        dispatch(updatePreferenceData(data));
+      });
+    }
   }, []);
 
   useEffect(() => {
+    setIsdList(
+      countryData.map(list => {
+        return list.isdCode;
+      })
+    );
     changeCountryData(countryData, data);
   }, [countryData]);
 
@@ -194,6 +219,7 @@ const MyProfile: React.FC<ProfileProps> = ({ setCurrentSection }) => {
       country,
       state
     } = model;
+
     const formData: any = {};
     formData["firstName"] = firstName || "";
     formData["lastName"] = lastName || "";
@@ -214,7 +240,7 @@ const MyProfile: React.FC<ProfileProps> = ({ setCurrentSection }) => {
     if (countryCode == "IN") {
       formData["state"] = state || "";
     }
-
+    formData["whatsappSubscribe"] = preferenceData?.whatsappSubscribe;
     setProfileState({
       ...profileState,
       showerror: ""
@@ -483,67 +509,72 @@ const MyProfile: React.FC<ProfileProps> = ({ setCurrentSection }) => {
                 </div>
               </div>
             )}
-            <div className={cs(styles.countryCode, styles.countryCodeProfile)}>
-              <CountryCode
-                // fetchCountryData={fetchCountryData}
-                handleChange={() => setUpdateProfile()}
-                name="phoneCountryCode"
-                placeholder="Code"
-                label="Country Code"
-                value=""
-                disable={data?.phoneCountryCode ? true : false}
-                id="isd_code"
-                validations={{
-                  isCodeValid: (values, value) => {
-                    return !(values.phoneNumber && value == "");
-                  },
-                  isValidCode: (values, value) => {
-                    // this.props
-                    if (value && isdList.length > 0) {
-                      return isdList.indexOf(value ? value : "") > -1;
-                    } else {
-                      return true;
+            {isdList?.length ? (
+              <div
+                className={cs(styles.countryCode, styles.countryCodeProfile)}
+              >
+                <CountryCode
+                  // fetchCountryData={fetchCountryData}
+                  handleChange={() => setUpdateProfile()}
+                  name="phoneCountryCode"
+                  placeholder="Code"
+                  label="Country Code"
+                  value={data.phoneCountryCode || ""}
+                  disable={data?.phoneCountryCode ? true : false}
+                  id="isd_code"
+                  validations={{
+                    isCodeValid: (values, value) => {
+                      return !(values.phoneNumber && value == "");
+                    },
+                    isValidCode: (values, value) => {
+                      // this.props
+                      if (value && isdList.length > 0) {
+                        return isdList.indexOf(value ? value : "") > -1;
+                      } else {
+                        return true;
+                      }
                     }
-                  }
-                }}
-                validationErrors={{
-                  isCodeValid: "Required",
-                  isValidCode: "Enter valid code"
-                }}
-                className={cs({
-                  [styles.disabledInput]: data?.phoneCountryCode
-                })}
-              />
+                  }}
+                  validationErrors={{
+                    isCodeValid: "Required",
+                    isValidCode: "Enter valid code"
+                  }}
+                  className={cs({
+                    [styles.disabledInput]: data?.phoneCountryCode
+                  })}
+                />
 
-              <FormInput
-                name="phoneNumber"
-                placeholder={"Contact Number"}
-                handleChange={() => setUpdateProfile()}
-                type="number"
-                label={"Contact Number"}
-                disable={data?.phoneNumber ? true : false}
-                className={cs(
-                  { [styles.disabledInput]: data?.phoneNumber },
-                  styles.contactNum
-                )}
-                // validations={{
-                //   isPhoneValid: (values, value) => {
-                //     return !(value == "");
-                //   }
-                // }}
-                // validationErrors={{
-                //   isPhoneValid: "Please enter your Contact Number"
-                // }}
-                keyPress={e => (e.key == "Enter" ? e.preventDefault() : "")}
-                defaultClass={styles.inputDefault}
-                keyDown={e => (e.which === 69 ? e.preventDefault() : null)}
-                onPaste={e =>
-                  e?.clipboardData.getData("Text").match(/([e|E])/)
-                    ? e.preventDefault()
-                    : null
-                }
-              />
-            </div>
+                <FormInput
+                  name="phoneNumber"
+                  placeholder={"Contact Number"}
+                  handleChange={() => setUpdateProfile()}
+                  type="number"
+                  label={"Contact Number"}
+                  disable={data?.phoneNumber ? true : false}
+                  className={cs(
+                    { [styles.disabledInput]: data?.phoneNumber },
+                    styles.contactNum
+                  )}
+                  value={data?.phoneNumber}
+                  // validations={{
+                  //   isPhoneValid: (values, value) => {
+                  //     return !(value == "");
+                  //   }
+                  // }}
+                  // validationErrors={{
+                  //   isPhoneValid: "Please enter your Contact Number"
+                  // }}
+                  keyPress={e => (e.key == "Enter" ? e.preventDefault() : "")}
+                  defaultClass={styles.inputDefault}
+                  keyDown={e => (e.which === 69 ? e.preventDefault() : null)}
+                  onPaste={e =>
+                    e?.clipboardData.getData("Text").match(/([e|E])/)
+                      ? e.preventDefault()
+                      : null
+                  }
+                />
+              </div>
+            ) : null}
             <div>
               <FormInput
                 name="panPassportNumber"
@@ -557,6 +588,11 @@ const MyProfile: React.FC<ProfileProps> = ({ setCurrentSection }) => {
                 defaultClass={styles.inputDefault}
               />
             </div>
+            {/* {CONFIG.WHATSAPP_SUBSCRIBE_ENABLED && (
+              <div style={{'display': 'none'}}>
+                <input type="text" name="whatsappSubscribe" value={preferenceData?.whatsappSubscribe} />
+              </div>
+            )} */}
             <div className={styles.subscribe}>
               <FormCheckbox
                 value={data?.subscribe || false}

@@ -50,7 +50,7 @@ class Bag extends React.Component<Props, State> {
   }
 
   componentDidMount = () => {
-    document.body.classList.add(globalStyles.noScroll);
+    document?.body?.classList?.add(globalStyles.noScroll);
     try {
       const skuList = this.props.cart.lineItems.map(
         item => item.product.childAttributes?.[0].sku

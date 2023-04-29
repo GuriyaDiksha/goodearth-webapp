@@ -1,10 +1,12 @@
 @import "../../../styles/partials/variables";
+@import "../../../styles/partials/mixins";
 
 .social-login-text {
-  font-size: 12px;
-  font-family: $font-Lato;
-  color: #666;
-  letter-spacing: 1px;
+  @include b4_12px_montserrat_medium_charcoal();
+  color: #9f9f9f;
+  letter-spacing: 0.36px;
+  line-height: 20px;
+  text-transform: uppercase;
 }
 
 .social-login {

@@ -35,10 +35,15 @@ export type registerState = {
   isIndia: boolean;
   showEmailVerification: boolean;
   email: string;
+  showTip: boolean;
+  whatsappChecked: boolean;
 };
 
 export type RegisterProps = {
   nextStep?: () => void;
   changeEmail?: () => void;
   goToLogin: () => void;
+  isCheckout?: boolean;
+  setIsSuccessMsg?: (arg: boolean) => void;
+  email: string;
 };

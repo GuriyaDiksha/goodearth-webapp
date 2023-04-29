@@ -221,7 +221,7 @@ class MegaMenu extends React.Component<Props, MenuState> {
             </Link>
           )}
         </li> */}
-        <li key="stories" className={cs(styles.menuItem, disbaleClass)}>
+        {/* <li key="stories" className={cs(styles.menuItem, disbaleClass)}>
           {isBridalRegistryPage ? (
             <span
               className={cs(
@@ -252,7 +252,7 @@ class MegaMenu extends React.Component<Props, MenuState> {
               {ReactHtmlParser("stories")}
             </a>
           )}
-        </li>
+        </li> */}
       </ul>
     );
   }

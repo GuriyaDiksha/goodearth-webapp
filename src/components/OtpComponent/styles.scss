@@ -480,9 +480,15 @@ hr {
     .otp-resend{
       font-weight: 400;
       span{
-        border-bottom: 1px solid $charcoal19;
         cursor: pointer;
         letter-spacing: 0.5px;
+        font-weight: $semibold;
+        text-decoration: underline;
+        text-underline-offset: 4px;
+        &:hover{
+          color: #3C7979;
+          text-decoration-color: #3c7979;
+        }
       }
     }
   }
@@ -509,6 +515,7 @@ hr {
         text-align: center !important;
         margin: 0 2px 0 3px;
         letter-spacing: 0.5px;
+        padding: 10px 18px;
         @include b1_16px_charcoal_montserrat();
         
         @media screen and (max-width: 500px) {
