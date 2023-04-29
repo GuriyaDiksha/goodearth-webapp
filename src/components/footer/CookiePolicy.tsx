@@ -92,7 +92,6 @@ const CookiePolicy: React.FC<Props> = ({
     //   .filter((e: any) => e.value === true)
     //   .map((e: any) => e.functionalities)
     //   .join(",");
-
     showCookiePrefs();
     if (OLD_COOKIE_SETTINGS) {
       CookieService.setCookie(
@@ -124,21 +123,26 @@ const CookiePolicy: React.FC<Props> = ({
     }
   };
 
-  const acceptAll = () => {
+  const acceptAll = (isQuick?: boolean) => {
     const cloneConsent = clone(consents);
     cloneConsent.map(e => {
       e.value = true;
     });
     setConsents(cloneConsent);
     saveConsent(cloneConsent);
-    setTimeout(() => {
+    if (isQuick) {
       acceptCookies();
-    }, 2000);
+    } else {
+      setTimeout(() => {
+        acceptCookies();
+      }, 2000);
+    }
   };
 
   const savePref = () => {
     saveConsent(consents);
-    setIsPrefOpen(false);
+    acceptCookies();
+    // setIsPrefOpen(false);
   };
 
   const acceptAndContinue = () => {
@@ -156,11 +160,14 @@ const CookiePolicy: React.FC<Props> = ({
       ); //Hardcoded consents
       setConsent(true);
     } else {
-      const functionalities =
-        widgetDetail?.consents.find(e => e.name === "Necessary Cookies")
-          ?.functionalities || "Necessary,GA-Calls";
-      CookieService.setCookie("consent", functionalities, 365);
-      setConsent(functionalities);
+      const functionalities = consents.find(
+        e =>
+          e.name === "Necessary Cookies" ||
+          e?.backend_name === "Necessary Cookies - IN"
+      );
+      // CookieService.setCookie("consent", functionalities, 365);
+      setConsent([functionalities]);
+      saveConsent([functionalities]);
     }
     hideCookies();
     showCookiePrefs();
@@ -288,9 +295,13 @@ const CookiePolicy: React.FC<Props> = ({
                 {/* ) : null} */}
                 <span
                   className={cs(styles.okBtn, isPrefOpen ? styles.euBtn : "")}
-                  onClick={() => acceptAndContinue()}
+                  onClick={() => {
+                    regionName === "India"
+                      ? acceptAndContinue()
+                      : acceptAll(true);
+                  }}
                 >
-                  ACCEPT & CONTINUE
+                  {regionName === "India" ? "ACCEPT & CONTINUE" : "ACCEPT ALL"}
                 </span>
               </>
             )}

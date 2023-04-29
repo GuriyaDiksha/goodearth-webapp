@@ -1,0 +1,66 @@
+@import "../../../styles/partials/variables";
+@import "../../../styles/partials/mixins";
+
+.collection-item-wrp{
+  display: flex;
+    margin-top: 60px;
+    align-items: flex-end;
+
+    @media screen and (max-width:992px) {
+      margin-top: 70px;
+      display: block;
+    }
+
+  .collection-item-content{
+    margin: 0 0 0 30px;
+    padding-bottom: 10px;
+    width: 30%;
+
+    @media screen and (max-width:992px) {
+      margin: 0;
+      padding: 30px 26px 15px;
+      width: auto;
+    }
+
+    .tag-wrp{
+      display: flex;
+      gap: 5px;
+
+      .tag{
+        padding: 4px 6px;
+        border: 1px solid $aqua;
+        width: fit-content;
+        text-align: center;
+        @include b5_10px_montserrat_aqua();
+        text-transform: capitalize;
+      }
+    }
+
+    .title{
+      margin: 15px 0 15px 0;
+      @include h3_20px_lora_charcoal();
+    }
+
+    .sub-title{
+      margin-bottom: 15px;
+      @include b6_9px_light_montserrat_charcoal();
+    }
+
+    .description{
+      @include b4_12px_montserrat_charcoal();
+      margin-bottom: 20px;
+      width: 85%;
+    }
+
+    .show-more{
+      width: fit-content;
+      border-bottom: 1px solid $med-charcoal;
+      @include b4_12px_medium_charcoal_caps();
+
+      &:hover{
+        border-bottom: 1px solid $aqua;
+        @include b4_12px_medium_aqua_caps();
+      }
+    }
+  }
+}

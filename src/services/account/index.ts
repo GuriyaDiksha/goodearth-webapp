@@ -8,11 +8,11 @@ import {
 } from "containers/myAccount/components/Balance/typings";
 import { ConfirmResetPasswordResponse } from "containers/resetPassword/typings";
 // import CookieService from "services/cookie";
-import { updateCookies } from "actions/cookies";
-import { resetMeta } from "actions/user";
-import MetaService from "services/meta";
-import WishlistService from "services/wishlist";
-import BasketService from "services/basket";
+// import { updateCookies } from "actions/cookies";
+// import { resetMeta } from "actions/user";
+// import MetaService from "services/meta";
+// import WishlistService from "services/wishlist";
+// import BasketService from "services/basket";
 import { encryptdata, decriptdata } from "utils/validate";
 
 export default {
@@ -283,7 +283,7 @@ export default {
   fetchAccountPreferences: async (dispatch: Dispatch) => {
     const data: any = await API.get<PrefernecesProps>(
       dispatch,
-      `${__API_HOST__}/myapi/customer/profile_preferences`
+      `${__API_HOST__}/myapi/customer/profile_preferences/`
     );
     return data;
   },

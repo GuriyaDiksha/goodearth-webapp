@@ -30,6 +30,10 @@ const MyPreferences: React.FC<Props> = props => {
   };
 
   useEffect(() => {
+    if (!user?.isLoggedIn) {
+      return;
+    }
+
     if (countryData.length == 0) {
       fetchCountryData();
     }
@@ -63,7 +67,7 @@ const MyPreferences: React.FC<Props> = props => {
           checkboxLabelClass={styles.checkboxLabel}
           newsletterClass={styles.newsletters}
           whatsappClass={styles.whatsapp}
-          uniqueKey={makeid(5)}
+          uniqueKey={"profileid123"}
           showSubscribe={false}
         />
       </div>
