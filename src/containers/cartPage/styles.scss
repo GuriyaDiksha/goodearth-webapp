@@ -381,6 +381,9 @@ display: inline-table;
   color: #808080;
   cursor: pointer;
   text-align: center;
+  @media screen and (max-width: 992px) {
+    text-align: left;
+  }
 }
 
 .discountprice {
