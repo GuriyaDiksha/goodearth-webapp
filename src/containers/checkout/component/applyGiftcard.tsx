@@ -245,7 +245,12 @@ class ApplyGiftcard extends React.Component<Props, GiftState> {
                           isExisty: true
                         }}
                       /> */}
-                      <div className={cs({ [styles.giftInput]: !mobile })}>
+                      <div
+                        className={cs(
+                          { [styles.giftInput]: !mobile },
+                          { [styles.giftMobileinput]: mobile }
+                        )}
+                      >
                         <input
                           type="text"
                           value={txtvalue}
