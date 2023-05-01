@@ -29,7 +29,7 @@ import TrackOrder from "./components/TrackOrder";
 import AccountServices from "services/account";
 import CeriseClubMain from "./components/CeriseClub/ceriseClubMain";
 import profileIcon from "../../images/dock_profile.svg";
-import CookieService from "services/cookie";
+// import CookieService from "services/cookie";
 import { CONFIG } from "constants/util";
 
 type Props = {
