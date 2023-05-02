@@ -13,6 +13,8 @@ export type CollectionState = {
   collectionSpecficdata: CollectionSpecificProps;
   collectionSpecficBanner: CollectionSpecificBannerProps;
   collectionIds: number[];
+  tags: string[];
+  filteredCollectionData: CollectionItem[];
 };
 
 export type DeviceActions = ActionType<typeof Actions>;

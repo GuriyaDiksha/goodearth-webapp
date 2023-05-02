@@ -539,8 +539,9 @@ input[type="text"]{
   }
   input[type="text"], input[type="date"], input[type="password"], input[type="number"]{
     font-family: $font-Montserrat;
-    font-size: 12px;
+    font-size: 12px !important;
     font-weight: $regular;
+    padding: 10px !important;
     &::placeholder{
       font-family: $font-Montserrat;
       font-size: 12px;
@@ -551,7 +552,8 @@ input[type="text"]{
       font-size: 12px;
     }
     &:focus{
-      font-size: 12px;
+      font-size: 12px !important;
+      padding: 10px !important;
     }
   }
   select{
@@ -795,7 +797,7 @@ input[type="text"]{
   line-height: 15px;
   text-align: left;
   margin-bottom: 10px;
-  background-color: white;
+  // background-color: white;
 }
 
 .password-validation {

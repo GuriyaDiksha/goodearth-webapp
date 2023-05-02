@@ -1,7 +1,5 @@
 import React from "react";
 import MakerEnhance from "maker-enhance";
-import SecondaryHeader from "components/SecondaryHeader";
-import Breadcrumbs from "components/Breadcrumbs";
 import { PLPProductItem } from "src/typings/product";
 import PlpResultItem from "components/plpResultItem";
 import initActionSpecific from "./initAction";
@@ -13,7 +11,8 @@ import styles from "./styles.scss";
 import globalStyles from "styles/global.scss";
 import {
   updateCollectionSpecificBanner,
-  updateCollectionSpecificData
+  updateCollectionSpecificData,
+  updateFilteredCollectionData
 } from "actions/collection";
 import { updateComponent, updateModal } from "actions/modal";
 import { updateQuickviewId } from "actions/quickview";
@@ -30,6 +29,9 @@ import CookieService from "services/cookie";
 import { GA_CALLS } from "constants/cookieConsent";
 import ProductCounter from "components/ProductCounter";
 import { throttle } from "lodash";
+import Button from "components/Button";
+import PlpCollectionItem from "components/Collection/PlpCollectionItem";
+import { RouteComponentProps, withRouter } from "react-router";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -40,7 +42,9 @@ const mapStateToProps = (state: AppState) => {
     mobile: state.device.mobile,
     location: state.router.location,
     sale: state.info.isSale,
-    showTimer: state.info.showTimer
+    showTimer: state.info.showTimer,
+    filteredCollectionData: state.collection.filteredCollectionData,
+    collectionData: state.collection.result
   };
 };
 
@@ -110,13 +114,16 @@ const mapDispatchToProps = (dispatch: Dispatch, params: any) => {
         collectionProductImpression(filterData, "CollectionSpecific", currency);
         dispatch(updateCollectionSpecificData({ ...filterData }));
       }
+    },
+    updateCollection: async (data: any) => {
+      dispatch(updateFilteredCollectionData(data));
     }
   };
 };
 
 type Props = ReturnType<typeof mapStateToProps> &
-  ReturnType<typeof mapDispatchToProps>;
-
+  ReturnType<typeof mapDispatchToProps> &
+  RouteComponentProps;
 class CollectionSpecific extends React.Component<
   Props,
   {
@@ -145,6 +152,9 @@ class CollectionSpecific extends React.Component<
   }
   pdpURL = "";
   listPath = "";
+  collectionId = (decodeURI(this.props.location.pathname)
+    .split("_")
+    .pop() as string).split("/")[0];
 
   onBeforeUnload = () => {
     const pdpProductScroll = JSON.stringify({
@@ -248,6 +258,7 @@ class CollectionSpecific extends React.Component<
   componentDidMount() {
     const that = this;
     this.pdpURL = this.props.location.pathname;
+
     const userConsent = CookieService.getCookie("consent").split(",");
     if (userConsent.includes(GA_CALLS)) {
       dataLayer.push(function(this: any) {
@@ -400,7 +411,27 @@ class CollectionSpecific extends React.Component<
     }
   };
 
+  multipleExist = (data: string[], filter: string[]) => {
+    return filter.some(value => {
+      return data.includes(value);
+    });
+  };
+
   UNSAFE_componentWillReceiveProps = (nextProps: Props) => {
+    const vars: { tags?: string } = {};
+    const vars2: { tags?: string } = {};
+
+    const re = /[?&]+([^=&]+)=([^&]*)/gi;
+    let match: any;
+
+    while ((match = re.exec(this.props.location.search))) {
+      vars[match[1]] = match[2];
+    }
+
+    while ((match = re.exec(nextProps.location.search))) {
+      vars2[match[1]] = match[2];
+    }
+
     if (this.props.currency != nextProps.currency) {
       this.props.reloadCollectioSpecificData(nextProps.currency);
       this.setState({
@@ -483,23 +514,32 @@ class CollectionSpecific extends React.Component<
       collectionSpecficBanner,
       showTimer
     } = this.props;
-    const { breadcrumbs, longDescription, results } = collectionSpecificData;
-    const { widgetImages, description } = collectionSpecficBanner;
+    const {
+      view_more_collections,
+      all_collection_link,
+      longDescription,
+      results,
+      tags,
+      shortDescription,
+      category
+    } = collectionSpecificData;
+    const { widgetImages, name } = collectionSpecficBanner;
     const { specificMaker } = this.state;
+
     return (
       <div
         className={cs(styles.collectionContainer, {
           [styles.collectionContainerTimer]: showTimer
         })}
       >
-        {!mobile && (
+        {/* {!mobile && (
           <SecondaryHeader>
             <Breadcrumbs
               levels={breadcrumbs}
               className={cs(bootstrap.colMd7, bootstrap.offsetMd1)}
             />
           </SecondaryHeader>
-        )}
+        )} */}
         {specificMaker && (
           <MakerEnhance
             user="goodearth"
@@ -517,6 +557,7 @@ class CollectionSpecific extends React.Component<
                       key="mobile-collectionspecific-banner"
                       src={widget.image}
                       className={globalStyles.imgResponsive}
+                      alt="Collection Widget"
                     />
                   );
                 } else if (!mobile && widget.imageType == 1) {
@@ -525,16 +566,39 @@ class CollectionSpecific extends React.Component<
                       key="desktop-collectionspecific-banner"
                       src={widget.image}
                       className={globalStyles.imgResponsive}
+                      alt="Collection Banner"
                     />
                   );
                 }
               })}
             </div>
-            <div className={bootstrap.col12}>
-              <img src={banner} className={globalStyles.imgResize} />
-            </div>
+            {widgetImages?.length ? (
+              <div className={bootstrap.col12}>
+                <img
+                  src={banner}
+                  className={globalStyles.imgResize}
+                  alt="Collection Image"
+                />
+              </div>
+            ) : null}
           </div>
         </section>
+        <div
+          className={styles.goBack}
+          onClick={() => {
+            this.props?.history.push("/" + all_collection_link);
+          }}
+        >
+          &lt; BACK TO ALL COLLECTIONS
+        </div>
+
+        <div className={styles.tagWrp}>
+          {tags?.map((tag: string, i: number) => (
+            <p key={i} className={styles.tag}>
+              {tag}
+            </p>
+          ))}
+        </div>
         <div className={cs(bootstrap.row, styles.padding)} id="collection_desc">
           <div
             className={cs(
@@ -543,16 +607,18 @@ class CollectionSpecific extends React.Component<
               styles.collectionName
             )}
           >
-            {description}
+            {name} {category}
           </div>
         </div>
+
+        <p className={styles.subTitle}>{ReactHtmlParser(shortDescription)}</p>
         <div className={bootstrap.row} id="collection_long_desc">
           <div
             className={cs(
               bootstrap.col8,
               bootstrap.offset2,
-              bootstrap.colMd6,
-              bootstrap.offsetMd3,
+              bootstrap.colMd4,
+              bootstrap.offsetMd4,
               styles.collectionLowertext,
               globalStyles.textCenter
             )}
@@ -601,6 +667,26 @@ class CollectionSpecific extends React.Component<
             })}
           </div>
         </div>
+
+        {Object.entries(view_more_collections || {})?.length ? (
+          <div className={styles.moreCollectionWrp}>
+            <h2>View More Collections</h2>
+            <div className={styles.moreCollectionImgsWrp}>
+              {Object.entries(view_more_collections)?.map((collection, i) => (
+                <PlpCollectionItem key={i} collectionData={collection[1]} />
+              ))}
+            </div>
+            <div className={styles.btnWrp}>
+              <Button
+                label={"ALL COLLECTIONS"}
+                className={styles.button}
+                onClick={() =>
+                  this.props?.history.push("/" + all_collection_link)
+                }
+              />
+            </div>
+          </div>
+        ) : null}
         {specificMaker && (
           <MakerEnhance
             user="goodearth"
@@ -620,6 +706,11 @@ class CollectionSpecific extends React.Component<
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(CollectionSpecific);
+const CollectionSpecificWithRouter = withRouter(CollectionSpecific);
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(CollectionSpecificWithRouter);
 export { initActionSpecific };
 export { metaActionCollection };

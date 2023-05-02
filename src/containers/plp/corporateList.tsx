@@ -1673,7 +1673,7 @@ class CorporateFilter extends React.Component<Props, State> {
 
   render() {
     const { mobile } = this.props;
-    const { filter } = this.state;
+    // const { filter } = this.state;
     // const productHtml = this.createProductType(
     //   this.props.facetObject.categoryObj,
     //   this.props.facets
@@ -1770,7 +1770,11 @@ class CorporateFilter extends React.Component<Props, State> {
         {mobile ? (
           <div className={cs(styles.filterButton, bootstrap.row)}>
             <div className={styles.numberDiv}>
-              <span>{this.state.totalItems} Product found</span>
+              <span>
+                {this.state.totalItems > 1
+                  ? this.state.totalItems + " products found"
+                  : this.state.totalItems + " product found"}
+              </span>
             </div>
             <div className={styles.applyButton} onClick={this.mobileApply}>
               <span>Apply</span>

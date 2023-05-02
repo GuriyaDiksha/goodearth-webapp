@@ -53,6 +53,7 @@ const LoginSection: React.FC<LoginProps> = props => {
             bootstrapStyles.colMd6,
             styles.title
           )}
+          id="checkout-emailverification"
         >
           <p className={isActive ? "" : styles.closed}>LOGIN / REGISTER</p>
           <div>

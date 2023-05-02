@@ -13,7 +13,8 @@ import { Link } from "react-router-dom";
 
 const mapStateToProps = (state: AppState) => {
   return {
-    isLoggedIn: state.user.isLoggedIn
+    isLoggedIn: state.user.isLoggedIn,
+    mobile: state.device.mobile
   };
 };
 type Props = PasswordProps &
@@ -61,10 +62,12 @@ class CheckBalance extends React.Component<Props, State> {
               >
                 <div className={bootstrapStyles.row}>
                   <div
-                    className={cs(
-                      bootstrapStyles.col10,
-                      bootstrapStyles.offset1
-                    )}
+                    className={cs({
+                      [bootstrapStyles.col12]: this.props.mobile,
+                      [bootstrapStyles.offset0]: this.props.mobile,
+                      [bootstrapStyles.col10]: !this.props.mobile,
+                      [bootstrapStyles.offset1]: !this.props.mobile
+                    })}
                   >
                     <div
                       className={cs(styles.balanceContainer, styles.marginFix)}
