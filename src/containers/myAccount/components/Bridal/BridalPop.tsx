@@ -98,14 +98,14 @@ const BridalPop: React.FC = () => {
                 Register’ icon provided on the right of the product description.
               </div>
             </div>
-            <div className="">
+            {/* <div className="">
               <img src={ipopM2} className={globalStyles.imgResponsive} />
               <div className={cs(globalStyles.c10LR, styles.txt)}>
                 To manage your Bridal Registry, select ‘Your Profile’ &gt;
                 ‘Bridal Registry’ &gt; ‘Manage Registry’ from the menu provided
                 in the dropdown.
               </div>
-            </div>
+            </div> */}
             <div className="">
               <img src={ipopM4} className={globalStyles.imgResponsive} />
               <div className={cs(globalStyles.c10LR, styles.txt)}>

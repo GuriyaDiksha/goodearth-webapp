@@ -2,7 +2,7 @@ import React, { useRef } from "react";
 import WhatsappSubscribe from "components/WhatsappSubscribe";
 import styles from "./styles.scss";
 import crossIcon from "images/cross.svg";
-import { makeid } from "utils/utility";
+// import { makeid } from "utils/utility";
 type Props = {
   data: any;
   isdList: any;
