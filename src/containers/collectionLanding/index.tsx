@@ -149,6 +149,13 @@ const CollectionLanding = () => {
     }
   }, [vars?.tags]);
 
+  useEffect(() => {
+    const ele = document.getElementById("All-Collections");
+    if (ele) {
+      ele?.focus();
+    }
+  }, [location.pathname]);
+
   // Filter Tag Functionality
   const activeFilterHandler = (ele: string) => {
     let newData: string[] = [];

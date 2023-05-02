@@ -29,7 +29,7 @@ const CollectionFilter: React.FC<CollectionFilter> = ({
             onClick={e => activeFilterHandler(tag)}
             key={i + "tag-filter"}
           >
-            <div>{tag}</div>
+            <div id={tag.replace(" ", "-")}>{tag}</div>
             {tag !== "All Collections" && activeFilterList.includes(tag) && (
               <div className={styles.cross}>
                 <i
