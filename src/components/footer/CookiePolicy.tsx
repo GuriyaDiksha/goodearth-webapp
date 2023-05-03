@@ -189,7 +189,8 @@ const CookiePolicy: React.FC<Props> = ({
               styles.cookieclass,
               isPrefOpen ? styles.eucookieclass : styles.noneu,
               // styles.eucookieclass,
-              isPrefOpen ? styles.euPref : ""
+              isPrefOpen ? styles.euPref : "",
+              { [styles.noneuPadding]: regionName !== "India" }
             )}
           >
             {isPrefOpen ? (
@@ -273,7 +274,13 @@ const CookiePolicy: React.FC<Props> = ({
                     }}
                   ></span>
                 )}
-                <h3>COOKIES & PRIVACY</h3>
+                <h3
+                  style={{
+                    marginTop: regionName !== "India" ? "20px" : "0px"
+                  }}
+                >
+                  COOKIES & PRIVACY
+                </h3>
                 {regionName === "India" ? (
                   <p
                     style={{
@@ -322,6 +329,9 @@ const CookiePolicy: React.FC<Props> = ({
                 ) : null}
                 {/* ) : null} */}
                 <span
+                  style={{
+                    marginBottom: regionName !== "India" ? "20px" : "0px"
+                  }}
                   className={cs(styles.okBtn, isPrefOpen ? styles.euBtn : "")}
                   onClick={() => {
                     regionName === "India"

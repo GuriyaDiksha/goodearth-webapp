@@ -19,7 +19,7 @@ const CollectionFilter: React.FC<CollectionFilter> = ({
         [styles.collectionFilterTimer]: showTimer
       })}
     >
-      <ul className={styles.collectionFilterWrapper}>
+      <ul id="tagList" className={styles.collectionFilterWrapper}>
         {["All Collections", ...tags]?.map((tag, i) => (
           <li
             className={cs(styles.collectionFilter, {
@@ -29,7 +29,7 @@ const CollectionFilter: React.FC<CollectionFilter> = ({
             onClick={e => activeFilterHandler(tag)}
             key={i + "tag-filter"}
           >
-            <div id={tag.replace(" ", "-")}>{tag}</div>
+            <div>{tag}</div>
             {tag !== "All Collections" && activeFilterList.includes(tag) && (
               <div className={styles.cross}>
                 <i
