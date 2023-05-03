@@ -151,7 +151,6 @@ const CollectionLanding = () => {
   useEffect(() => {
     const ele = document.getElementById("tagList");
     if (ele) {
-      debugger;
       ele.scrollLeft = 0;
     }
   }, [location.pathname]);
