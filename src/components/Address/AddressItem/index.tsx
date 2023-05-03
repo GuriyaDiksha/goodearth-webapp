@@ -42,7 +42,11 @@ const AddressItem: React.FC<Props> = props => {
     isAddressValid
   } = useContext(AddressContext);
   const { onSelectAddress } = useContext(CheckoutAddressContext);
-  const { currency, basket } = useSelector((state: AppState) => state);
+  const {
+    currency,
+    basket,
+    address: { shippingAddressId, billingAddressId }
+  } = useSelector((state: AppState) => state);
   const { defaultAddress, setDefaultAddress } = props;
 
   // const isDefaultAddress = () => {
@@ -511,21 +515,23 @@ const AddressItem: React.FC<Props> = props => {
                   props.currentCallBackComponent != "cerise" && (
                     <div
                       className={styles.radio}
-                      id={id}
+                      id={address.id.toString()}
                       onClick={() => {
                         markAsDefault(address, address?.id);
-                        setDefaultAddress(id);
+                        // setDefaultAddress(id);
                       }}
                     >
                       <input
-                        id={id}
+                        id={address.id.toString()}
                         className={styles.defaultAddressCheckbox}
-                        checked={id === defaultAddress}
-                        name={id}
+                        checked={
+                          address.id.toString() === shippingAddressId.toString()
+                        }
+                        name={address.id.toString()}
                         type="radio"
                         onChange={() => {
                           markAsDefault(address, address?.id);
-                          setDefaultAddress(id);
+                          //setDefaultAddress(id);
                         }}
                       />
                       <span className={styles.checkmark}></span>
@@ -575,21 +581,23 @@ const AddressItem: React.FC<Props> = props => {
                   props.currentCallBackComponent != "cerise" && (
                     <div
                       className={styles.radio}
-                      id={id}
+                      id={address.id.toString()}
                       onClick={() => {
                         markAsDefault(address, address?.id);
-                        setDefaultAddress(id);
+                        // setDefaultAddress(id);
                       }}
                     >
                       <input
-                        id={id}
+                        id={address.id.toString()}
                         className={styles.defaultAddressCheckbox}
-                        checked={id === defaultAddress}
-                        name={id}
+                        checked={
+                          address.id.toString() === billingAddressId.toString()
+                        }
+                        name={address.id.toString()}
                         type="radio"
                         onChange={() => {
                           markAsDefault(address, address?.id);
-                          setDefaultAddress(id);
+                          // setDefaultAddress(id);
                         }}
                       />
                       <span className={styles.checkmark}></span>
@@ -648,21 +656,40 @@ const AddressItem: React.FC<Props> = props => {
                 (currentCallBackComponent == "checkout-billing" && (
                   <div
                     className={styles.radio}
-                    id={id}
+                    id={
+                      currentCallBackComponent !== "checkout-billing"
+                        ? id
+                        : address.id.toString()
+                    }
                     onClick={() => {
                       markAsDefault(address, address?.id);
-                      setDefaultAddress(id);
+                      currentCallBackComponent !== "checkout-billing" &&
+                        setDefaultAddress(id);
                     }}
                   >
                     <input
-                      id={id}
+                      id={
+                        currentCallBackComponent !== "checkout-billing"
+                          ? id
+                          : address.id.toString()
+                      }
                       className={styles.defaultAddressCheckbox}
-                      checked={id === defaultAddress}
-                      name={id}
+                      checked={
+                        currentCallBackComponent !== "checkout-billing"
+                          ? id === defaultAddress
+                          : address.id.toString() ===
+                            shippingAddressId.toString()
+                      }
+                      name={
+                        currentCallBackComponent !== "checkout-billing"
+                          ? id
+                          : address.id.toString()
+                      }
                       type="radio"
                       onChange={() => {
                         markAsDefault(address, address?.id);
-                        setDefaultAddress(id);
+                        currentCallBackComponent !== "checkout-billing" &&
+                          setDefaultAddress(id);
                       }}
                     />
                     <span className={styles.checkmark}></span>

@@ -9,6 +9,8 @@ export type State = {
   pinCodeList: string[];
   pinCodeData: PinCodeData;
   countryData: Country[];
+  shippingAddressId: number;
+  billingAddressId: number;
 };
 
 export { Actions };

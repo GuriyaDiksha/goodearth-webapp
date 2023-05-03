@@ -30,6 +30,10 @@ import WhatsappSubscribe from "components/WhatsappSubscribe";
 import Formsy from "formsy-react";
 import { makeid } from "utils/utility";
 import { CONFIG } from "constants/util";
+import {
+  updateBillingAddressId,
+  updateShippingAddressId
+} from "actions/address";
 // import AddressDataList from "../../../../components/Address/AddressDataList.json";
 
 // import AddressMainComponent from '../../components/common/address/addressMain';
@@ -53,6 +57,7 @@ const AddressMain: React.FC<Props> = props => {
   // const { isLoggedIn } = useSelector((state: AppState) => state.user);
   // const [ pincodeList, setPincodeList ] = useState([]);
   const [isdList, setIsdList] = useState<any>([]);
+  const { currentCallBackComponent } = props;
 
   const {
     data: { userAddress, occasion }
@@ -253,14 +258,23 @@ const AddressMain: React.FC<Props> = props => {
         state
       };
 
-      AddressService.updateAddress(dispatch, formData, id, addressId)
-        .catch(err => {
-          const errData = err.response.data;
-          console.log(errData);
-        })
-        .finally(() => {
-          setIsLoading(false);
-        });
+      if (currentCallBackComponent === "checkout-shipping" && addressId) {
+        dispatch(updateShippingAddressId(addressId));
+        dispatch(updateBillingAddressId(addressId));
+        setIsLoading(false);
+      } else if (currentCallBackComponent === "checkout-billing" && addressId) {
+        dispatch(updateBillingAddressId(addressId));
+        setIsLoading(false);
+      } else {
+        AddressService.updateAddress(dispatch, formData, id, addressId)
+          .catch(err => {
+            const errData = err.response.data;
+            console.log(errData);
+          })
+          .finally(() => {
+            setIsLoading(false);
+          });
+      }
     } else {
       openAddressForm(addressData);
     }
@@ -277,7 +291,6 @@ const AddressMain: React.FC<Props> = props => {
     },
     [pinCodeData]
   );
-  const { currentCallBackComponent } = props;
 
   useEffect(() => {
     const isdList = countryData.map(list => {

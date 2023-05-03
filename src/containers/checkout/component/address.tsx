@@ -53,7 +53,9 @@ const AddressSection: React.FC<AddressProps & {
   const { currency, user } = useSelector((state: AppState) => state);
   const { basket } = useSelector((state: AppState) => state);
   const { mobile } = useSelector((state: AppState) => state.device);
-  const { addressList } = useSelector((state: AppState) => state.address);
+  const { addressList, shippingAddressId, billingAddressId } = useSelector(
+    (state: AppState) => state.address
+  );
   // const { showPromo } = useSelector((state: AppState) => state.info);
   const sameShipping =
     (props.activeStep == STEP_BILLING ? true : false) &&
@@ -845,9 +847,10 @@ const AddressSection: React.FC<AddressProps & {
                                   <div
                                     onClick={() => {
                                       onSelectAddress(
-                                        addressList?.find(
-                                          val =>
-                                            val?.isDefaultForShipping === true
+                                        addressList?.find(val =>
+                                          shippingAddressId !== 0
+                                            ? val?.id === shippingAddressId
+                                            : val?.isDefaultForShipping === true
                                         )
                                       );
                                     }}
@@ -905,8 +908,12 @@ const AddressSection: React.FC<AddressProps & {
                           )}
                           onClick={() => {
                             handleSaveAndReview(
-                              addressList?.find(
-                                val => val?.isDefaultForShipping === true
+                              addressList?.find(val =>
+                                shippingAddressId !== 0
+                                  ? sameAsShipping
+                                    ? val?.id === shippingAddressId
+                                    : val?.id === billingAddressId
+                                  : val?.isDefaultForShipping === true
                               )
                             );
                           }}

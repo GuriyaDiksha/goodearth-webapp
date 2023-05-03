@@ -26,3 +26,15 @@ export const updatePinCodeList = (
 export const updateCountryData = (countryData: Country[]) => {
   return actionCreator("UPDATE_COUNTRY_DATA", { countryData: countryData });
 };
+
+export const updateShippingAddressId = (shippingAddressId: number) => {
+  return actionCreator("UPDATE_SHIPPING_ADDRESS_ID", {
+    shippingAddressId
+  });
+};
+
+export const updateBillingAddressId = (billingAddressId: number) => {
+  return actionCreator("UPDATE_BILLING_ADDRESS_ID", {
+    billingAddressId
+  });
+};
