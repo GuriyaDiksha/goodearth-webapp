@@ -35,7 +35,8 @@ const mapStateToProps = (state: AppState) => {
     isSale: state.info.isSale,
     currency: state.currency,
     isLoggedIn: state.user.isLoggedIn,
-    currencyList: state.info.currencyList
+    currencyList: state.info.currencyList,
+    isLoading: state.info.isLoading
   };
 };
 type Props = MobileListProps &
@@ -930,6 +931,9 @@ class Mobilemenu extends React.Component<Props, MobileState> {
                       styles.lowerMenuCurrency
                     )}
                     onClick={() => {
+                      if (this.props.isLoading) {
+                        return false;
+                      }
                       changeCurrency(item.value);
                       headerClickGTM("Currency", "Top", true, isLoggedIn);
                       clickToggle();

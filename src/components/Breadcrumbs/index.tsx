@@ -6,6 +6,7 @@ import cs from "classnames";
 
 const PlpBreadcrumbs: React.FC<Props> = memo(
   ({ levels = [], separator = " > ", className }) => {
+    // debugger;
     const breadcrumbs: ReactNode[] = [];
 
     levels.map(({ name, url }, index) => {
