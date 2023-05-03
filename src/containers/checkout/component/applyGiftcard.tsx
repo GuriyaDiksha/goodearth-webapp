@@ -126,7 +126,6 @@ class ApplyGiftcard extends React.Component<Props, GiftState> {
     this.setState({});
   };
   onClose = (code: string, type: string) => {
-    // debugger
     const data: any = {
       cardId: code,
       type: type

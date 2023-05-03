@@ -11,6 +11,7 @@ export type State = {
   countryData: Country[];
   shippingAddressId: number;
   billingAddressId: number;
+  mode: "new" | "edit" | "list";
 };
 
 export { Actions };

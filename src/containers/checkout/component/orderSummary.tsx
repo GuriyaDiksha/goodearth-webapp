@@ -46,6 +46,8 @@ const OrderSummary: React.FC<OrderProps> = props => {
     typeof window.document.createElement !== "undefined"
   );
 
+  const { mode } = useSelector((state: AppState) => state.address);
+
   const useIsomorphicLayoutEffect = canUseDOM ? useLayoutEffect : useEffect;
 
   // Begin: Intersection Observer (Mobile)
@@ -512,22 +514,12 @@ const OrderSummary: React.FC<OrderProps> = props => {
     document.cookie = cookieString;
   };
   const chkshipping = (event: any) => {
-    if (!isLoggedIn) {
-      props.goLogin?.(undefined, "/order/checkout");
-      return;
-    }
     const {
       totalWithoutShipping,
       freeShippingThreshold,
       freeShippingApplicable,
       shippable
     } = basket;
-    if (page != "cart") {
-      return false;
-    }
-    if (isSuspended) {
-      resetInfoPopupCookie();
-    }
     if (
       !freeShipping &&
       totalWithoutShipping &&
@@ -550,6 +542,15 @@ const OrderSummary: React.FC<OrderProps> = props => {
       );
       dispatch(updateModal(true));
       event.preventDefault();
+    } else {
+      props.goLogin?.(undefined, "/order/checkout");
+      return;
+    }
+    if (page != "cart") {
+      return false;
+    }
+    if (isSuspended) {
+      resetInfoPopupCookie();
     }
   };
 
@@ -827,29 +828,44 @@ const OrderSummary: React.FC<OrderProps> = props => {
             </div>
           </div>
         )}
-      {mobile && page == "checkout" && (
+      {mobile && page == "checkout" && mode == "list" && (
         <div
           className={cs(styles.checkoutPreviewTrigger)}
           onClick={CheckoutOrderSummaryHandler}
         >
-          <div className={styles.fixTotal}>
-            <div className={cs(globalStyles.flex, globalStyles.gutterBetween)}>
-              <h3 className={cs(styles.summaryTitle)}>
-                ORDER SUMMARY{" "}
-                {pathname === "/order/checkout"
-                  ? `(${basket.lineItems?.length})`
-                  : null}
-              </h3>
-              <div className={styles.payableAmount}>
-                <span>Amount Payable:</span>
-                <span className={styles.totalAmount}>
-                  {String.fromCharCode(...code)}{" "}
-                  {parseFloat("" + basket.subTotalWithShipping).toFixed(2)}
-                </span>
-                <span className={cs(styles.carretDown)}></span>
+          {checkoutOrderSummaryStatus ? (
+            <div className={styles.fixTotal}>
+              <div
+                className={cs(globalStyles.flex, globalStyles.gutterBetween)}
+              >
+                <h3 className={cs(styles.summaryTitle)}>BACK TO CHECKOUT</h3>
+                <div className={styles.payableAmount}>
+                  <span className={cs(styles.carretUp)}></span>
+                </div>
               </div>
             </div>
-          </div>
+          ) : (
+            <div className={styles.fixTotal}>
+              <div
+                className={cs(globalStyles.flex, globalStyles.gutterBetween)}
+              >
+                <h3 className={cs(styles.summaryTitle)}>
+                  ORDER SUMMARY{" "}
+                  {pathname === "/order/checkout"
+                    ? `(${basket.lineItems?.length})`
+                    : null}
+                </h3>
+                <div className={styles.payableAmount}>
+                  <span>Amount Payable:</span>
+                  <span className={styles.totalAmount}>
+                    {String.fromCharCode(...code)}{" "}
+                    {parseFloat("" + basket.subTotalWithShipping).toFixed(2)}
+                  </span>
+                  <span className={cs(styles.carretDown)}></span>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       )}
       <div

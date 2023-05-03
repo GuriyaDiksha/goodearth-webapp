@@ -513,6 +513,14 @@ $banner-mobile-height:180px;
                         border-right: none;
                         border-bottom: none;
                     }
+                    .carret-up {
+                        height: 9px;
+                        width: 9px;
+                        transform: rotate(45deg);
+                        border: 1px solid black;
+                        border-right: none;
+                        border-bottom: none;
+                    }
                 }
             }
             .title {

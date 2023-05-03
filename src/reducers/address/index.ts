@@ -6,7 +6,8 @@ const initialState: State = {
   pinCodeData: {},
   countryData: [],
   shippingAddressId: 0,
-  billingAddressId: 0
+  billingAddressId: 0,
+  mode: "list"
 };
 export const address = (
   state = initialState,
@@ -56,6 +57,13 @@ export const address = (
         ...action.payload
       };
     }
+    case "UPDATE_ADDRESS_MODE": {
+      return {
+        ...state,
+        ...action.payload
+      };
+    }
+    default:
+      return state;
   }
-  return state;
 };

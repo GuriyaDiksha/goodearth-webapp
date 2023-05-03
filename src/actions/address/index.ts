@@ -1,7 +1,7 @@
 import { actionCreator } from "utils/actionCreator";
 import { AddressData } from "../../components/Address/typings";
 import { PinCodeData } from "components/Formsy/PinCode/typings";
-import { Country } from "components/Formsy/CountryCode/typings";
+import { AddressMode, Country } from "components/Formsy/CountryCode/typings";
 
 export const updateAddressList = (
   addressList: AddressData[],
@@ -37,4 +37,7 @@ export const updateBillingAddressId = (billingAddressId: number) => {
   return actionCreator("UPDATE_BILLING_ADDRESS_ID", {
     billingAddressId
   });
+};
+export const updateAddressMode = (mode: AddressMode) => {
+  return actionCreator("UPDATE_ADDRESS_MODE", { mode: mode });
 };
