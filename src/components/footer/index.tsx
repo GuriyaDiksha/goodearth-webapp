@@ -302,7 +302,7 @@ class Footer extends React.Component<Props, FooterState> {
   };
 
   acceptCookies = () => {
-    CookieService.setCookie("goodearth", "show", 365);
+    //CookieService.setCookie("goodearth", "show", 365);
     this.props.hideCookies();
   };
 
