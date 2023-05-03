@@ -5,8 +5,7 @@ import styles from "./styles.scss";
 import { useDispatch, useSelector } from "react-redux";
 import { AppState } from "reducers/typings";
 import { CollectionItemType } from "components/Collection/CollectionItem/typing";
-import { getProductIdFromSlug } from "utils/url";
-import { useHistory, useLocation } from "react-router";
+import { useHistory, useLocation, useParams } from "react-router";
 import CollectionService from "services/collection";
 import {
   updateCollectionData,
@@ -26,15 +25,13 @@ const CollectionLanding = () => {
     currency
   } = useSelector((state: AppState) => state);
   const dispatch = useDispatch();
+  const { id } = useParams<{ id: string }>();
   const { search } = useLocation();
-  const urlParams = new URLSearchParams(search);
-  const level1 = urlParams.get("level1");
   const history = useHistory();
 
   const vars: { tags?: string } = {};
-  const re = /[?&]+([^=&]+)=([^&]*)/gi;
+  const re = /[?&]+([^=&]+)=([^]*)/gi;
   let match;
-
   while ((match = re.exec(search))) {
     vars[match[1]] = match[2];
   }
@@ -46,7 +43,6 @@ const CollectionLanding = () => {
   };
 
   const fetchData = async () => {
-    const id = getProductIdFromSlug(level1 || "");
     if (id) {
       const [tags, collectionData] = await Promise.all([
         CollectionService.fetchTagData(dispatch, +id).catch(err => {
@@ -56,7 +52,6 @@ const CollectionLanding = () => {
           console.log("Collection Landing Error", err);
         })
       ]);
-
       if (tags) {
         dispatch(updateTagsData(tags));
       }
@@ -64,6 +59,8 @@ const CollectionLanding = () => {
       if (collectionData) {
         dispatch(updateCollectionData(collectionData));
       }
+
+      window.scrollTo({ top: 0, behavior: "smooth" });
     }
   };
 
@@ -138,7 +135,7 @@ const CollectionLanding = () => {
 
   useEffect(() => {
     fetchData();
-  }, [location?.pathname, currency]);
+  }, [currency]);
 
   useEffect(() => {
     if (vars?.tags) {
@@ -146,6 +143,9 @@ const CollectionLanding = () => {
         vars.tags.split("|").map(e => e.replace(/%20/g, " "))
       );
       setCollectionData(vars.tags.split("|").map(e => e.replace(/%20/g, " ")));
+    } else {
+      setActiveFilterList(["All Collections"]);
+      setActiveFilterList(["All Collections"]);
     }
   }, [vars?.tags]);
 

@@ -8,8 +8,7 @@
 
 .imgWrp img{
         width: 100%;
-        height: 400px;  
-        object-fit: cover;
+        height: auto; 
 }
 
 .collectionImageContainer .slick-slider .slick-dots{
@@ -62,7 +61,7 @@
 @media screen and (max-width:992px) {
     .collectionImageContainer{
         width: 100%;
-    }   
+    }  
     .collectionImageContainer .slick-slider .slick-dots{
         position: absolute;
         content: "";

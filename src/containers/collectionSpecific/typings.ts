@@ -1,4 +1,5 @@
 // import { Product, PartialProductItem } from "typings/product";
+import { CollectionItem } from "components/collectionItem/typings";
 import { PartialProductItem } from "src/typings/product";
 import { Breadcrumb } from "typings/navigation";
 
@@ -36,4 +37,7 @@ export type CollectionSpecificProps = {
   results: PartialProductItem[];
   next: any;
   tags: string[];
+  all_collection_link: string;
+  view_more_collections: CollectionItem[];
+  category: string;
 };

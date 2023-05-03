@@ -457,7 +457,7 @@
 
 
 .select-relativemobile {
-    width: 26vw;
+    width: 30vw;
     min-height: 50px;
     z-index: 1;
     cursor: pointer;
@@ -469,7 +469,7 @@
         line-height: 44px;  
     }
     ul{
-        width: 26vw;
+        width: 30vw;
         margin-bottom: 0px;
         border: 1px solid #eee;
         background-color: #fff;
@@ -539,3 +539,9 @@
 .gift-input {
   width: 60%;
 }
+
+.gift-mobileinput {
+  input[type='text']{
+    padding: 10px 0px;
+  }
+ }

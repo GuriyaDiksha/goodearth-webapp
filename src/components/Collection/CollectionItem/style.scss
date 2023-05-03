@@ -3,20 +3,23 @@
 
 .collection-item-wrp{
   display: flex;
-    margin-top: 50px;
+    margin-top: 60px;
     align-items: flex-end;
 
     @media screen and (max-width:992px) {
+      margin-top: 70px;
       display: block;
     }
 
   .collection-item-content{
     margin: 0 0 0 30px;
     padding-bottom: 10px;
+    width: 30%;
 
     @media screen and (max-width:992px) {
       margin: 0;
       padding: 30px 26px 15px;
+      width: auto;
     }
 
     .tag-wrp{
@@ -45,10 +48,11 @@
 
     .description{
       @include b4_12px_montserrat_charcoal();
+      margin-bottom: 20px;
+      width: 85%;
     }
 
     .show-more{
-      margin-top: 30px;
       width: fit-content;
       border-bottom: 1px solid $med-charcoal;
       @include b4_12px_medium_charcoal_caps();

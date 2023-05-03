@@ -2,18 +2,18 @@
 @import "../../styles/partials/mixins";
 
 .collection-container {
-  margin-top: $header-height;
+  margin-top: 40px;
 }
 .collection-container-timer {
-  margin-top: $header-height + $timer-height;
+  margin-top: 40px + $timer-height;
 }
 
 @media screen and (max-width: 992px) {
   .collection-container {
-    margin-top: $header-height;
+    margin-top: 40px;
   }
   .collection-container-timer {
-    margin-top: $header-height + $timer-height;
+    margin-top: 40px + $timer-height;
   }
 }
 
@@ -23,8 +23,9 @@
 
 .collection-lowertext {
   @include b3_14px_montserrat_charcoal();
-  line-height: 27px;
+  line-height: 23px;
   letter-spacing: 0.5px;
+  margin-bottom: 70px;
 }
 .collection-block {
   margin-bottom: 35px;
