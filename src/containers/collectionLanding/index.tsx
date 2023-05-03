@@ -145,14 +145,14 @@ const CollectionLanding = () => {
       setCollectionData(vars.tags.split("|").map(e => e.replace(/%20/g, " ")));
     } else {
       setActiveFilterList(["All Collections"]);
-      setActiveFilterList(["All Collections"]);
     }
   }, [vars?.tags]);
 
   useEffect(() => {
-    const ele = document.getElementById("All-Collections");
+    const ele = document.getElementById("tagList");
     if (ele) {
-      ele?.focus();
+      debugger;
+      ele.scrollLeft = 0;
     }
   }, [location.pathname]);
 
