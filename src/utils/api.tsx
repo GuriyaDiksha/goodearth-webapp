@@ -110,7 +110,6 @@ class API {
               }
             })
             .catch(err => {
-              // debugger
               if (typeof document != "undefined") {
                 if (err.response.status == 401) {
                   LoginService.logoutClient(dispatch);

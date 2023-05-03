@@ -1,7 +1,7 @@
 import { actionCreator } from "utils/actionCreator";
 import { AddressData } from "../../components/Address/typings";
 import { PinCodeData } from "components/Formsy/PinCode/typings";
-import { Country } from "components/Formsy/CountryCode/typings";
+import { AddressMode, Country } from "components/Formsy/CountryCode/typings";
 
 export const updateAddressList = (
   addressList: AddressData[],
@@ -25,4 +25,8 @@ export const updatePinCodeList = (
 
 export const updateCountryData = (countryData: Country[]) => {
   return actionCreator("UPDATE_COUNTRY_DATA", { countryData: countryData });
+};
+
+export const updateAddressMode = (mode: AddressMode) => {
+  return actionCreator("ADDRESS_MODE", { mode: mode });
 };

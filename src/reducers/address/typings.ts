@@ -9,6 +9,7 @@ export type State = {
   pinCodeList: string[];
   pinCodeData: PinCodeData;
   countryData: Country[];
+  mode: "new" | "edit" | "list";
 };
 
 export { Actions };

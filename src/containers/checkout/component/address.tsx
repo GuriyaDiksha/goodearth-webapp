@@ -31,7 +31,6 @@ const AddressSection: React.FC<AddressProps & {
   children: React.ReactNode;
 }> = props => {
   const {
-    mode,
     children,
     activeStep,
     isActive,
@@ -84,6 +83,8 @@ const AddressSection: React.FC<AddressProps & {
   const [gstDetails, setGstDetails] = useState({ gstText: "", gstType: "" });
 
   const dispatch = useDispatch();
+
+  const { mode } = useSelector((state: AppState) => state.address);
 
   useEffect(() => {
     if (isLoggedIn && currentCallBackComponent == "checkout-shipping") {
@@ -917,12 +918,12 @@ const AddressSection: React.FC<AddressProps & {
                     </div>
                   )}
                 </div>
-                {addressList.length > 1 &&
+                {/* {addressList.length > 1 &&
                   mode == "list" &&
                   (props.activeStep == STEP_SHIPPING ||
                     (props.activeStep == STEP_BILLING &&
                       !props.hidesameShipping)) &&
-                  renderActions(true)}
+                  renderActions(true)} */}
               </>
             )}
             {props.activeStep == STEP_SHIPPING && !isActive && (

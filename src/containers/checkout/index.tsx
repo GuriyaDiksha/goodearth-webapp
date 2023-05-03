@@ -96,7 +96,6 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       );
       const userData = { ...user, shippingData: shippingAddress };
       dispatch(updateUser(userData));
-      // debugger
       // isLoading(true);
       AddressService.fetchAddressList(dispatch).then(addressList => {
         dispatch(updateAddressList(addressList));
@@ -489,7 +488,6 @@ class Checkout extends React.Component<Props, State> {
   };
 
   nextStep = (step: string) => {
-    // debugger;
     this.setState({ activeStep: step, currentStep: STEP_ORDER[step] });
   };
 

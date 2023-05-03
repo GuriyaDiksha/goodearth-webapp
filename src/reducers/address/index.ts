@@ -4,7 +4,8 @@ const initialState: State = {
   addressList: [],
   pinCodeList: [],
   pinCodeData: {},
-  countryData: []
+  countryData: [],
+  mode: "list"
 };
 export const address = (
   state = initialState,
@@ -37,6 +38,12 @@ export const address = (
       };
     }
     case "UPDATE_COUNTRY_DATA": {
+      return {
+        ...state,
+        ...action.payload
+      };
+    }
+    case "ADDRESS_MODE": {
       return {
         ...state,
         ...action.payload

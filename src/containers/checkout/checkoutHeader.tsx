@@ -204,7 +204,6 @@ class CheckoutHeader extends React.Component<Props, { boId: string }> {
 
   // componentWillUnmount() {
   //   // show chat container
-  //   debugger
   //   const chatContainer = document.getElementById("mobile-chat-container");
   //   if (chatContainer) {
   //     chatContainer.style.removeProperty("display");

@@ -29,6 +29,8 @@ import styles from "../styles.scss";
 import WhatsappSubscribe from "components/WhatsappSubscribe";
 import Formsy from "formsy-react";
 import { makeid } from "utils/utility";
+import { updateAddressMode } from "actions/address";
+
 import { CONFIG } from "constants/util";
 // import AddressDataList from "../../../../components/Address/AddressDataList.json";
 
@@ -43,7 +45,7 @@ const AddressMain: React.FC<Props> = props => {
   const [isLoading, setIsLoading] = useState(false);
   const { addressList } = useSelector((state: AppState) => state.address);
   const [editAddressData, setEditAddressData] = useState<AddressData>();
-  const { pinCodeData, countryData } = useSelector(
+  const { pinCodeData, countryData, mode } = useSelector(
     (state: AppState) => state.address
   );
   const { bridal } = useSelector((state: AppState) => state.basket);
@@ -60,6 +62,9 @@ const AddressMain: React.FC<Props> = props => {
 
   const dispatch = useDispatch();
 
+  const setMode = (value: AddressModes) => {
+    dispatch(updateAddressMode(value));
+  };
   useEffect(() => {
     if (props.currentCallBackComponent == "bridal") {
       const userConsent = CookieService.getCookie("consent").split(",");
@@ -73,11 +78,13 @@ const AddressMain: React.FC<Props> = props => {
       }
     }
   }, []);
-  const [mode, setMode] = useState<AddressModes>("list");
+  // const [mode, setMode] = useState<AddressModes>("list");
 
   useEffect(() => {
     if (Object.keys(pinCodeData).length > 0) {
-      addressList.length == 0 ? setMode("new") : setMode("list");
+      addressList.length == 0
+        ? dispatch(updateAddressMode("new"))
+        : dispatch(updateAddressMode("list"));
     }
   }, [addressList.length, Object.keys(pinCodeData).length]);
 
@@ -158,7 +165,7 @@ const AddressMain: React.FC<Props> = props => {
     // }
     if (address) {
       setEditAddressData(address);
-      setMode("edit");
+      dispatch(updateAddressMode("edit"));
       setScrollPos(window.scrollY);
       const elem = document.getElementsByClassName(
         myAccountStyles.accountFormBgMobile
@@ -167,7 +174,7 @@ const AddressMain: React.FC<Props> = props => {
         setInnerScrollPos(elem.scrollTop);
       }
     } else {
-      setMode("new");
+      dispatch(updateAddressMode("new"));
       // setEditAddressData(null);
     }
   }, []);
@@ -267,7 +274,7 @@ const AddressMain: React.FC<Props> = props => {
   };
 
   const closeAddressForm = useCallback(() => {
-    setMode("list");
+    dispatch(updateAddressMode("list"));
     // window.scrollTo(0, 0);
   }, []);
 
