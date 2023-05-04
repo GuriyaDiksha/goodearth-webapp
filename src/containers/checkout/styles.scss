@@ -1296,7 +1296,15 @@ input[type="radio"] {
 div.form-subheading{
   padding: unset;
 }
-
+span.add-new-address {
+  @include b6_9px_montserrat_charcoal();
+  border-bottom: 1px solid $charcoal19;
+  padding-bottom: 3px;
+  &:hover {
+    color: $aqua;
+    border-bottom: 1px solid $aqua;
+  }
+}
 .country-code{
   display: flex;
   justify-content: space-between;

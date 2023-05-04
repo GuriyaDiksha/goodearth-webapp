@@ -165,7 +165,7 @@ const AddressSection: React.FC<AddressProps & {
           ? "< BACK TO SAVED ADDRESSES"
           : "[+] ADD NEW ADDRESS";
       const mobileText =
-        mode == "new" || mode == "edit" ? "< BACK" : "[+] ADD ADDRESS";
+        mode == "new" || mode == "edit" ? "< BACK" : "[+] ADD NEW ADDRESS";
       if (isBridal && activeStep == STEP_SHIPPING) return "";
       return (
         <div
@@ -181,11 +181,12 @@ const AddressSection: React.FC<AddressProps & {
             globalStyles.textRight
           )}
         >
-          <div
-            className={cs(styles.formSubheading, globalStyles.pointer)}
-            onClick={clickAction}
-          >
-            {mobile ? <span>{mobileText}</span> : <span>{fullText}</span>}
+          <div className={cs(globalStyles.pointer)} onClick={clickAction}>
+            {mobile ? (
+              <span className={cs(styles.addNewAddress)}>{mobileText}</span>
+            ) : (
+              <span className={cs(styles.addNewAddress)}>{fullText}</span>
+            )}
           </div>
         </div>
       );
@@ -932,6 +933,11 @@ const AddressSection: React.FC<AddressProps & {
                             </div>
                           </>
                         )}
+                        {!mobile &&
+                          addressList.length > 1 &&
+                          mode == "list" &&
+                          props.activeStep == STEP_BILLING && !sameAsShipping &&
+                          renderActions(true)}
                       </>
                     )}
                   {/* { (props.activeStep == STEP_SHIPPING ||
