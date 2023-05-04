@@ -259,10 +259,6 @@ class CheckoutLoginForm extends React.Component<Props, loginState> {
           this.gtmPushSignIn();
           // this.context.closeModal();
           // this.props.nextStep?.();
-
-          //TODO:
-          //if boid in url
-          //redirect to /order/checkout?boid=
         })
         .catch(err => {
           if (
