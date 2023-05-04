@@ -419,7 +419,13 @@ class Search extends React.Component<Props, State> {
                   {`${item.category.replace(">", "/")} `}{" "}
                 </p>
                 <p className={cs(styles.productN, styles.collectionN)}>
-                  <Link to={item.link}>
+                  <Link
+                    to={item.link}
+                    onClick={() => {
+                      // this.props.toggle();
+                      this.props.hideSearch();
+                    }}
+                  >
                     {" "}
                     {ReactHtmlParser(item.collection)}
                   </Link>
