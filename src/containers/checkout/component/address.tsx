@@ -498,7 +498,7 @@ const AddressSection: React.FC<AddressProps & {
   };
 
   useEffect(() => {
-    if (openModal) {
+    if (openModal && gst) {
       dispatch(
         updateComponent(
           POPUP.BILLINGGST,
@@ -507,7 +507,8 @@ const AddressSection: React.FC<AddressProps & {
             setGst: setGst,
             gstNum: gstNum,
             parentError: props.error,
-            isActive: isActive
+            isActive: isActive,
+            setGstNum: setGstNum
           },
           true
         )
@@ -524,8 +525,9 @@ const AddressSection: React.FC<AddressProps & {
             onSubmit: onSubmit,
             setGst: setGst,
             gstNum: gstNum,
-            parentError: props.error,
-            isActive: isActive
+            parentError: "",
+            isActive: isActive,
+            setGstNum: setGstNum
           },
           true
         )
@@ -687,7 +689,7 @@ const AddressSection: React.FC<AddressProps & {
     return (
       show && (
         <div className={cs(styles.payment, globalStyles.voffset4)}>
-          <hr className={globalStyles.marginy24} />
+          {!mobile && <hr className={globalStyles.marginy24} />}
           <label className={cs(styles.flex)}>
             <div className={globalStyles.marginR10}>
               <span className={styles.checkbox}>
@@ -944,7 +946,7 @@ const AddressSection: React.FC<AddressProps & {
                       (props.activeStep == STEP_BILLING &&
                         !sameAsShipping)) && <div>{children}</div>} */}
 
-                  {props.error && !openModal ? (
+                  {props.error && props.activeStep !== STEP_BILLING ? (
                     <div
                       className={cs(
                         globalStyles.errorMsg,
