@@ -626,6 +626,10 @@ class CartPage extends React.Component<Props, State> {
   }
 
   render() {
+    //TODO:
+    //if boid
+    //->if user logged in then logout and open login form
+    //->else login form
     return (
       <div className={cs(bootstrap.row, styles.pageBody)}>
         <div
