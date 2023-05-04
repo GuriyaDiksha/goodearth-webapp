@@ -147,6 +147,13 @@ const NewOtpComponent: React.FC<Props> = ({
         if (ele) {
           ele.focus();
         }
+      } else {
+        const ele =
+          typeof document == "object" &&
+          document.getElementById(`otp${+e.target.id.match(/\d+/)[0] - 1}`);
+        if (ele) {
+          ele.focus();
+        }
       }
     }
   };
@@ -184,7 +191,7 @@ const NewOtpComponent: React.FC<Props> = ({
         typeof document == "object" &&
         document.getElementById(`otp${+e.target.id.match(/\d+/)[0] - 1}`);
       if (ele) {
-        ele.focus();
+        // ele.focus();
         count.current = +e.target.id.match(/\d+/)[0];
       }
     } else if (e.which === 69) {
