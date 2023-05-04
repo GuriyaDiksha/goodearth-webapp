@@ -415,7 +415,7 @@ class Checkout extends React.Component<Props, State> {
           shippingAddress: shippingData || undefined,
           activeStep: STEP_BILLING
         });
-        this.props.updateShippingId(shippingData?.id || 0);
+        // this.props.updateShippingId(shippingData?.id || 0);
       }
       if (
         this.state.activeStep == STEP_BILLING &&
@@ -469,14 +469,14 @@ class Checkout extends React.Component<Props, State> {
           shippingAddress: undefined,
           isShipping: true
         });
-        this.props.updateShippingId(0);
-        this.props.updateBillingId(0);
+        // this.props.updateShippingId(0);
+        // this.props.updateBillingId(0);
       }
       if (shippingData !== this.state.shippingAddress) {
         this.setState({
           shippingAddress: shippingData || undefined
         });
-        this.props.updateShippingId(shippingData?.id || 0);
+        // this.props.updateShippingId(shippingData?.id || 0);
       }
       if (
         !this.state.isGoodearthShipping &&
@@ -494,7 +494,7 @@ class Checkout extends React.Component<Props, State> {
         shippingAddress: nextProps.user.shippingData || undefined,
         errorNotification: ""
       });
-      this.props.updateShippingId(nextProps.user.shippingData?.id || 0);
+      // this.props.updateShippingId(nextProps.user.shippingData?.id || 0);
     }
   }
 

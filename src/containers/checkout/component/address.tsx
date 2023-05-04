@@ -766,7 +766,7 @@ const AddressSection: React.FC<AddressProps & {
                   {props.activeStep == STEP_BILLING && props.hidesameShipping && (
                     <>
                       <div>{renderBillingCheckbox()}</div>
-                      {!sameAsShipping && isLoggedIn && (
+                      {!sameAsShipping && isLoggedIn && mode == "list" && (
                         <div>
                           <div
                             className={cs(
@@ -919,7 +919,9 @@ const AddressSection: React.FC<AddressProps & {
                             );
                           }}
                         >
-                          PROCEED TO PAYMENT
+                          {mobile
+                            ? "SELECT & PROCEED TO PAYMENT"
+                            : "PROCEED TO PAYMENT"}
                         </div>
                       </div>
                     </div>

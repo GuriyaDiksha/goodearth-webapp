@@ -128,6 +128,16 @@ const OrderSummary: React.FC<OrderProps> = props => {
     removePromo(data);
   };
 
+  // Update total qty of cart items and print it in order summary
+  const getItemsCount = () => {
+    let count = 0;
+    const items = basket.lineItems;
+    for (let i = 0; i < items.length; i++) {
+      count = count + items[i].quantity;
+    }
+    return count;
+  };
+
   const getSize = (data: any) => {
     const size = data.find(function(attribute: any) {
       if (attribute.name == "Size") {
@@ -543,8 +553,10 @@ const OrderSummary: React.FC<OrderProps> = props => {
       dispatch(updateModal(true));
       event.preventDefault();
     } else {
-      props.goLogin?.(undefined, "/order/checkout");
-      return;
+      if (!isLoggedIn) {
+        props.goLogin?.(undefined, "/order/checkout");
+        return;
+      }
     }
     if (page != "cart") {
       return false;
@@ -852,7 +864,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
                 <h3 className={cs(styles.summaryTitle)}>
                   ORDER SUMMARY{" "}
                   {pathname === "/order/checkout"
-                    ? `(${basket.lineItems?.length})`
+                    ? `(${getItemsCount()})`
                     : null}
                 </h3>
                 <div className={styles.payableAmount}>
@@ -883,9 +895,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
           <div className={cs(styles.summaryPadding, styles.summaryHeader)}>
             <h3 className={cs(styles.summaryTitle)}>
               ORDER SUMMARY{" "}
-              {pathname === "/order/checkout"
-                ? `(${basket.lineItems?.length})`
-                : null}
+              {pathname === "/order/checkout" ? `(${getItemsCount()})` : null}
               {page == "checkout" && !validbo ? (
                 boId ? (
                   ""
