@@ -93,6 +93,17 @@ const AddressMain: React.FC<Props> = props => {
     }
   }, [addressList.length, Object.keys(pinCodeData).length]);
 
+  // useEffect(()=>{
+  //   if(currentCallBackComponent === "checkout-shipping"){
+  //     debugger
+  //     dispatch(updateShippingAddressId(props.selectedAddress?.id || 0));
+  //   }
+  //   if(currentCallBackComponent === "checkout-billing"){
+  //     debugger
+  //     dispatch(updateBillingAddressId(props.selectedAddress?.id || 0));
+  //   }
+  // },[props.selectedAddress])
+
   // useEffect(() => {
   //   (addressList.length) && openAddressForm()
   // },[props.addresses])

@@ -10,7 +10,11 @@ import bootstrapStyles from "../../../styles/bootstrap/bootstrap-grid.scss";
 import globalStyles from "styles/global.scss";
 import styles from "../styles.scss";
 import { AddressProps } from "./typings";
-import { updateAddressList } from "actions/address";
+import {
+  updateAddressList,
+  updateBillingAddressId,
+  updateShippingAddressId
+} from "actions/address";
 import AddressService from "services/address";
 import { useDispatch, useSelector } from "react-redux";
 import { STEP_BILLING, STEP_ORDER, STEP_SHIPPING } from "../constants";
@@ -50,7 +54,10 @@ const AddressSection: React.FC<AddressProps & {
     currentCallBackComponent
   } = useContext(AddressContext);
   const { currency, user } = useSelector((state: AppState) => state);
-  const { basket } = useSelector((state: AppState) => state);
+  const {
+    basket,
+    modal: { openModal }
+  } = useSelector((state: AppState) => state);
   const { mobile } = useSelector((state: AppState) => state.device);
   const { addressList, shippingAddressId, billingAddressId } = useSelector(
     (state: AppState) => state.address
@@ -95,6 +102,36 @@ const AddressSection: React.FC<AddressProps & {
       });
     }
   }, [isLoggedIn]);
+
+  useEffect(() => {
+    if (currentCallBackComponent === "checkout-shipping") {
+      dispatch(
+        updateShippingAddressId(
+          props.selectedAddress?.id ||
+            addressList?.find(val => val?.isDefaultForShipping)?.id ||
+            0
+        )
+      );
+      if (sameAsShipping) {
+        dispatch(
+          updateBillingAddressId(
+            props.selectedAddress?.id ||
+              addressList?.find(val => val?.isDefaultForShipping)?.id ||
+              0
+          )
+        );
+      }
+    }
+    if (currentCallBackComponent === "checkout-billing") {
+      dispatch(
+        updateBillingAddressId(
+          props.selectedAddress?.id ||
+            addressList?.find(val => val?.isDefaultForShipping)?.id ||
+            0
+        )
+      );
+    }
+  }, [props.selectedAddress, addressList]);
   const openNewAddressForm = () => {
     setSameAsShipping(false);
     openAddressForm();
@@ -458,6 +495,24 @@ const AddressSection: React.FC<AddressProps & {
   const handleSaveAndReview = (address?: AddressData) => {
     onSubmit(address);
   };
+
+  useEffect(() => {
+    if (openModal) {
+      dispatch(
+        updateComponent(
+          POPUP.BILLINGGST,
+          {
+            onSubmit: onSubmit,
+            setGst: setGst,
+            gstNum: gstNum,
+            parentError: props.error,
+            isActive: isActive
+          },
+          true
+        )
+      );
+    }
+  }, [props.error, isActive]);
   const toggleGstInvoice = () => {
     setGst(!gst);
     if (!gst) {
@@ -467,7 +522,9 @@ const AddressSection: React.FC<AddressProps & {
           {
             onSubmit: onSubmit,
             setGst: setGst,
-            gstNum: gstNum
+            gstNum: gstNum,
+            parentError: props.error,
+            isActive: isActive
           },
           true
         )
@@ -881,7 +938,7 @@ const AddressSection: React.FC<AddressProps & {
                       (props.activeStep == STEP_BILLING &&
                         !sameAsShipping)) && <div>{children}</div>} */}
 
-                  {props.error ? (
+                  {props.error && !openModal ? (
                     <div
                       className={cs(
                         globalStyles.errorMsg,
