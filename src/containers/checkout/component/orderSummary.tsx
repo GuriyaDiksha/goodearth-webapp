@@ -165,7 +165,11 @@ const OrderSummary: React.FC<OrderProps> = props => {
             )}
             {isSuspended && isSale && (
               <>
-                <p className={styles.summaryPadding}>
+                <p
+                  className={cs(styles.summaryPadding, {
+                    [globalStyles.marginT20]: mobile
+                  })}
+                >
                   {" "}
                   All standard WHO guidelines and relevant precautionary
                   measures are in place, to ensure a safe and secure shopping
@@ -994,10 +998,11 @@ const OrderSummary: React.FC<OrderProps> = props => {
             </span> */}
                   </div>
                 )}
+
                 {deliveryText.length == 0 ||
                 page == "cart" ||
                 basket.isOnlyGiftCart ||
-                salestatus ? (
+                !showDeliveryInstruction ? (
                   ""
                 ) : (
                   <div

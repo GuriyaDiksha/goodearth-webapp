@@ -25,6 +25,7 @@ type PopupProps = {
   gstNum: string;
   parentError: string;
   isActive: boolean;
+  setGstNum: (data: string) => any;
 };
 
 const BillingGST: React.FC<PopupProps> = ({
@@ -32,7 +33,8 @@ const BillingGST: React.FC<PopupProps> = ({
   setGst,
   gstNum,
   parentError,
-  isActive
+  isActive,
+  setGstNum
 }) => {
   const { closeModal } = useContext(Context);
   const [gstText, setGstText] = useState("");
@@ -48,7 +50,9 @@ const BillingGST: React.FC<PopupProps> = ({
   }, [gstNum]);
 
   useEffect(() => {
+    setError(parentError);
     if (parentError === "" && !isActive) {
+      setError("");
       closeModal();
     }
   }, [parentError, isActive]);
@@ -117,6 +121,7 @@ const BillingGST: React.FC<PopupProps> = ({
             className={cs(styles.cross, styles.deliveryIcon)}
             onClick={() => {
               setGst(false);
+              setGstNum("");
               closeModal();
             }}
           >
@@ -161,7 +166,7 @@ const BillingGST: React.FC<PopupProps> = ({
             <label className={styles.formLabel}>
               {gstType == "GSTIN" ? "GST No.*" : "UIN No.*"}
             </label>
-            {error || parentError ? (
+            {error ? (
               <span
                 className={cs(
                   globalStyles.errorMsg,
@@ -171,7 +176,7 @@ const BillingGST: React.FC<PopupProps> = ({
                   styles?.errorGst
                 )}
               >
-                {error || parentError}
+                {error}
               </span>
             ) : (
               ""

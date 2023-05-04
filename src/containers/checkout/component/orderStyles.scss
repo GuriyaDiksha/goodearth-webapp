@@ -82,7 +82,7 @@ body:has(.open-summary) {
     z-index: 5;
     padding: 0 0 0;
     background-color: #f9f8f5;
-    width: fit-content;
+    width: 100%;
     min-height: 100vh;
     margin-top: -10px;
   }
@@ -432,6 +432,9 @@ body:has(.open-summary) {
 
 .wrap {
   word-wrap: break-word;
+  margin: 0px auto 35px auto;
+  text-align: center;
+  @include b5_10px_montserrat_charcoal();
 }
 
 .wishlist-icon-order-summary {
@@ -628,8 +631,7 @@ body:has(.open-summary) {
     padding: 9px 30px;
   }
   .deliveryfont {
-    color: $aqua-text;
-    margin: 10px auto 20px;
+    margin: 10px auto 0px;
   }
 }
 
