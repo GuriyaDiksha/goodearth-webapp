@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 import styles from "../styles.scss";
 import L3 from "./L3";
 import ReactHtmlParser from "react-html-parser";
-import { getInnerText } from "utils/validate";
+import { getInnerText, validURL } from "utils/validate";
 
 type Props = {
   data: MenuComponent;
@@ -42,23 +42,25 @@ const L2: React.FC<Props> = ({
       <div className={styles.blockL2}>
         {componentData.link ? (
           <>
-            <Link
-              className={styles.l2}
-              to={componentData.link}
-              target={componentData.openInNewTab ? "_blank" : ""}
-              onClick={() =>
-                onHeaderMegaMenuClick({
-                  l1,
-                  l2: componentData.text,
-                  clickUrl2: componentData.link,
-                  template: templateType
-                })
-              }
-            >
-              {ReactHtmlParser(componentData.text)}
-            </Link>
-            {componentData.src && (
+            {validURL(componentData.link) ? (
+              <a
+                className={styles.l2}
+                href={componentData.link}
+                target={componentData.openInNewTab ? "_blank" : ""}
+                onClick={() =>
+                  onHeaderMegaMenuClick({
+                    l1,
+                    l2: componentData.text,
+                    clickUrl2: componentData.link,
+                    template: templateType
+                  })
+                }
+              >
+                {ReactHtmlParser(componentData.text)}
+              </a>
+            ) : (
               <Link
+                className={styles.l2}
                 to={componentData.link}
                 target={componentData.openInNewTab ? "_blank" : ""}
                 onClick={() =>
@@ -66,21 +68,62 @@ const L2: React.FC<Props> = ({
                     l1,
                     l2: componentData.text,
                     clickUrl2: componentData.link,
-                    template: templateType,
-                    img2: componentData.src || ""
+                    template: templateType
                   })
                 }
               >
-                <LazyImage
-                  aspectRatio="1:1"
-                  shouldUpdateAspectRatio={true}
-                  isVisible={true}
-                  alt={getInnerText(componentData.text)}
-                  containerClassName={styles.img}
-                  src={componentData.src}
-                />
+                {ReactHtmlParser(componentData.text)}
               </Link>
             )}
+
+            {componentData.src &&
+              (validURL(componentData.link) ? (
+                <a
+                  href={componentData.link}
+                  target={componentData.openInNewTab ? "_blank" : ""}
+                  onClick={() =>
+                    onHeaderMegaMenuClick({
+                      l1,
+                      l2: componentData.text,
+                      clickUrl2: componentData.link,
+                      template: templateType,
+                      img2: componentData.src || ""
+                    })
+                  }
+                >
+                  <LazyImage
+                    aspectRatio="1:1"
+                    shouldUpdateAspectRatio={true}
+                    isVisible={true}
+                    alt={getInnerText(componentData.text)}
+                    containerClassName={styles.img}
+                    src={componentData.src}
+                  />
+                </a>
+              ) : (
+                <Link
+                  to={componentData.link}
+                  target={componentData.openInNewTab ? "_blank" : ""}
+                  onClick={() =>
+                    onHeaderMegaMenuClick({
+                      l1,
+                      l2: componentData.text,
+                      clickUrl2: componentData.link,
+                      template: templateType,
+                      img2: componentData.src || ""
+                    })
+                  }
+                >
+                  <LazyImage
+                    aspectRatio="1:1"
+                    shouldUpdateAspectRatio={true}
+                    isVisible={true}
+                    alt={getInnerText(componentData.text)}
+                    containerClassName={styles.img}
+                    src={componentData.src}
+                  />
+                </Link>
+              ))}
           </>
         ) : (
           <>
@@ -133,22 +176,41 @@ const L2: React.FC<Props> = ({
       )}
       <div className={styles.blockCta}>
         {componentData.link ? (
-          <Link
-            className={styles.cta}
-            to={componentData.link}
-            target={componentData.openInNewTab ? "_blank" : ""}
-            onClick={() =>
-              onHeaderMegaMenuClick({
-                l1,
-                l2: componentData.text,
-                clickUrl2: componentData.link,
-                template: templateType,
-                cta: componentData.ctaName
-              })
-            }
-          >
-            {ReactHtmlParser(componentData.ctaName)}
-          </Link>
+          validURL(componentData.link) ? (
+            <a
+              className={styles.cta}
+              href={componentData.link}
+              target={componentData.openInNewTab ? "_blank" : ""}
+              onClick={() =>
+                onHeaderMegaMenuClick({
+                  l1,
+                  l2: componentData.text,
+                  clickUrl2: componentData.link,
+                  template: templateType,
+                  cta: componentData.ctaName
+                })
+              }
+            >
+              {ReactHtmlParser(componentData.ctaName)}
+            </a>
+          ) : (
+            <Link
+              className={styles.cta}
+              to={componentData.link}
+              target={componentData.openInNewTab ? "_blank" : ""}
+              onClick={() =>
+                onHeaderMegaMenuClick({
+                  l1,
+                  l2: componentData.text,
+                  clickUrl2: componentData.link,
+                  template: templateType,
+                  cta: componentData.ctaName
+                })
+              }
+            >
+              {ReactHtmlParser(componentData.ctaName)}
+            </Link>
+          )
         ) : (
           <div
             className={styles.cta}
