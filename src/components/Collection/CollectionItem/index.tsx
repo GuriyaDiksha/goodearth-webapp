@@ -50,7 +50,11 @@ const CollectionItem: React.FC<CollectionItems> = ({ key, collectionData }) => {
           {longDescription &&
             ReactHtmlParser(
               longDescription?.length > 112
-                ? longDescription?.slice(0, 112) + "..."
+                ? longDescription?.slice(0, 112) +
+                    longDescription
+                      ?.slice(112, longDescription?.length)
+                      ?.split(" ")?.[0] +
+                    "..."
                 : longDescription
             )}
         </p>
