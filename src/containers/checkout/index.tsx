@@ -2,7 +2,6 @@ import React from "react";
 // import Modal from "components/Modal";
 import { AppState } from "reducers/typings";
 import { connect } from "react-redux";
-import { useHistory } from "react-router-dom";
 // import iconStyles from "../../styles/iconFonts.scss";
 import {
   STEP_BILLING,
@@ -28,11 +27,7 @@ import HeaderService from "services/headerFooter";
 import Api from "services/api";
 import { Dispatch } from "redux";
 import { specifyBillingAddressData } from "containers/checkout/typings";
-import {
-  updateAddressList,
-  updateBillingAddressId,
-  updateShippingAddressId
-} from "actions/address";
+import { updateAddressList } from "actions/address";
 import {
   showGrowlMessage,
   showErrors,
@@ -186,12 +181,6 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     goLogin: (event?: React.MouseEvent, nextUrl?: string) => {
       LoginService.showLogin(dispatch);
       event?.preventDefault();
-    },
-    updateShippingId: (addressId: number) => {
-      dispatch(updateShippingAddressId(addressId));
-    },
-    updateBillingId: (addressId: number) => {
-      dispatch(updateBillingAddressId(addressId));
     }
   };
 };
@@ -415,7 +404,6 @@ class Checkout extends React.Component<Props, State> {
           shippingAddress: shippingData || undefined,
           activeStep: STEP_BILLING
         });
-        this.props.updateShippingId(shippingData?.id || 0);
       }
       if (
         this.state.activeStep == STEP_BILLING &&
@@ -463,20 +451,18 @@ class Checkout extends React.Component<Props, State> {
             });
           }
         }
+
         this.setState({
           activeStep: STEP_SHIPPING,
           billingAddress: undefined,
           shippingAddress: undefined,
           isShipping: true
         });
-        this.props.updateShippingId(0);
-        this.props.updateBillingId(0);
       }
       if (shippingData !== this.state.shippingAddress) {
         this.setState({
           shippingAddress: shippingData || undefined
         });
-        this.props.updateShippingId(shippingData?.id || 0);
       }
       if (
         !this.state.isGoodearthShipping &&
@@ -494,7 +480,6 @@ class Checkout extends React.Component<Props, State> {
         shippingAddress: nextProps.user.shippingData || undefined,
         errorNotification: ""
       });
-      this.props.updateShippingId(nextProps.user.shippingData?.id || 0);
     }
   }
 
@@ -776,7 +761,6 @@ class Checkout extends React.Component<Props, State> {
                   billingAddress.phoneCountryCode + billingAddress.phoneNumber
               });
             }
-            this.props.updateBillingId(billingAddress?.id || 0);
             this.setState(
               {
                 billingAddress: billingAddress,
