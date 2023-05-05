@@ -315,9 +315,13 @@ class MainLogin extends React.Component<Props, loginState> {
           //   history.push(searchParams.get("redirect_to") || "");
           // }
 
-          //TODO:
-          //if boid in url
-          //redirect to /order/checkout?boid=
+          const boid = new URLSearchParams(
+            this.props.history.location.search
+          ).get("boid");
+
+          if (boid) {
+            this.props.history.push(`/order/checkout?boid=${boid}`);
+          }
         })
         .catch(err => {
           if (

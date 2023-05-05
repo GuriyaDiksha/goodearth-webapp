@@ -30,9 +30,10 @@ import { updateComponent, updateModal } from "actions/modal";
 import { POPUP } from "constants/components";
 import CookieService from "services/cookie";
 import { GA_CALLS, ANY_ADS } from "constants/cookieConsent";
-import { currencyCode } from "typings/currency";
+import { Currency, currencyCode } from "typings/currency";
 import { updateNextUrl } from "actions/info";
 import { StaticContext } from "react-router";
+import CheckoutService from "services/checkout";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -43,7 +44,8 @@ const mapStateToProps = (state: AppState) => {
     isSale: state.info.isSale,
     location: state.router.location,
     isLoggedIn: state.user.isLoggedIn,
-    wishlistData: state.wishlist.items
+    wishlistData: state.wishlist.items,
+    user: state.user
   };
 };
 
@@ -99,6 +101,17 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       LoginService.showLogin(dispatch);
       nextUrl && dispatch(updateNextUrl(nextUrl));
       event?.preventDefault();
+    },
+    getBoDetail: async (id: string) => {
+      return await CheckoutService.getBoDetail(dispatch, id);
+    },
+    logout: async (currency: Currency, customerGroup: string) => {
+      return await LoginService.logout(
+        dispatch,
+        currency,
+        customerGroup,
+        "cart"
+      );
     }
   };
 };
@@ -131,6 +144,45 @@ class CartPage extends React.Component<Props, State> {
   }
 
   componentDidMount() {
+    const queryString = this.props.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    const boId = urlParams.get("boid");
+    debugger;
+    if (boId) {
+      this.props
+        .getBoDetail(boId)
+        .then((data: any) => {
+          localStorage.setItem("tempEmail", data.email);
+          if (this.props.user.email && data.isLogin) {
+            CookieService.setCookie("currency", data.currency, 365);
+            CookieService.setCookie("currencypopup", "true", 365);
+            this.props
+              .logout(this.props.currency, this.props.user.customerGroup)
+              .then(res => {
+                localStorage.setItem("tempEmail", data.email);
+                this.props.goLogin(undefined);
+                // this.setState({
+                //   boEmail: data.email,
+                //   boId: boId
+                // });
+              });
+          } else if (data.email) {
+            CookieService.setCookie("currency", data.currency, 365);
+            CookieService.setCookie("currencypopup", "true", 365);
+            localStorage.setItem("tempEmail", data.email);
+            this.props.goLogin(undefined);
+            // this.setState({
+            //   boEmail: data.email,
+            //   boId: boId
+            // });
+          } else {
+            this.props.history.push("/backend-order-error");
+          }
+        })
+        .catch(error => {
+          this.props.history.push("/backend-order-error");
+        });
+    }
     if (this.props.history.location.state?.from == "checkout") {
       if (!this.props.isLoggedIn) {
         this.props.goLogin(undefined);
@@ -626,10 +678,6 @@ class CartPage extends React.Component<Props, State> {
   }
 
   render() {
-    //TODO:
-    //if boid
-    //->if user logged in then logout and open login form
-    //->else login form
     return (
       <div className={cs(bootstrap.row, styles.pageBody)}>
         <div
