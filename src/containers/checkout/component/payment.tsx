@@ -29,7 +29,7 @@ import { updatePreferenceData } from "actions/user";
 import LoginService from "services/login";
 import { updateCountryData } from "actions/address";
 import WhatsappSubscribe from "components/WhatsappSubscribe";
-import { makeid } from "utils/utility";
+// import { makeid } from "utils/utility";
 import { CONFIG } from "constants/util";
 import Formsy from "formsy-react";
 

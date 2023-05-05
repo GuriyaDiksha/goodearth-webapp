@@ -8,7 +8,7 @@ import cs from "classnames";
 import { updateCountryData } from "actions/address";
 import { AppState } from "reducers/typings";
 import { updatePreferenceData } from "actions/user";
-import { makeid } from "utils/utility";
+// import { makeid } from "utils/utility";
 
 export type Props = {
   setCurrentSection: () => void;
