@@ -173,7 +173,9 @@ class ApplyPromo extends React.Component<Props, GiftState> {
                     aria-label="Promocode"
                   />
                   <button
-                    className={styles.promoApplyBtn}
+                    className={cs(styles.promoApplyBtn, {
+                      [styles.emptyPromoValue]: txtvalue == ""
+                    })}
                     onClick={() => this.props.onsubmit()}
                   >
                     Apply

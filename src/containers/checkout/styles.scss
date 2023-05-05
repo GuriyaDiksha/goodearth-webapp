@@ -1144,6 +1144,9 @@ input[type="radio"] {
   @media (max-width: 992px) {
     padding: 21px 25px;
   }
+  &:hover {
+    color: $white;
+  }
   span {
     @include b4_12px_montserrat_white();
   }
@@ -1247,7 +1250,10 @@ input[type="radio"] {
 }
 
 .payment-title {
-  @include b4_12px_medium_light_charcoal();
+  @include b4_12px_montserrat_light_charcoal();
+  &.selected-value {
+    @include b4_12px_montserrat_charcoal();
+  }
 }
 
 .promo-code {

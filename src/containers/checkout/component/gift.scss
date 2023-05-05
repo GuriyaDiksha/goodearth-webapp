@@ -601,6 +601,10 @@
   &:hover {
     color: $white;
   }
+  &.empty-promo-value {
+    background-color: $light-charcoal;
+    border: none;
+  }
 }
 .applied-msg {
   @include b5_10px_montserrat_charcoal();

@@ -871,7 +871,12 @@ const PaymentSection: React.FC<PaymentProps> = props => {
                             <span className={styles.indicator}></span>
                           </span>
                         </div>
-                        <div className={styles.paymentTitle}>
+                        <div
+                          className={cs(styles.paymentTitle, {
+                            [styles.selectedValue]:
+                              method.mode == currentmethod.mode
+                          })}
+                        >
                           {method.value}
                         </div>
                       </label>
@@ -950,7 +955,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
                   }
                 )}
                 onClick={onsubmit}
-                disabled={isLoading || Object.keys(currentmethod).length === 0}
+                disabled={isLoading}
               >
                 <span>
                   Amount Payable:{" "}
