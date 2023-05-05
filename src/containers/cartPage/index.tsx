@@ -147,7 +147,6 @@ class CartPage extends React.Component<Props, State> {
     const queryString = this.props.location.search;
     const urlParams = new URLSearchParams(queryString);
     const boId = urlParams.get("boid");
-    debugger;
     if (boId) {
       this.props
         .getBoDetail(boId)

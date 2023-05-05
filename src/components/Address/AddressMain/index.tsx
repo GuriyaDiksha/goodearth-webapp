@@ -95,11 +95,9 @@ const AddressMain: React.FC<Props> = props => {
 
   // useEffect(()=>{
   //   if(currentCallBackComponent === "checkout-shipping"){
-  //     debugger
   //     dispatch(updateShippingAddressId(props.selectedAddress?.id || 0));
   //   }
   //   if(currentCallBackComponent === "checkout-billing"){
-  //     debugger
   //     dispatch(updateBillingAddressId(props.selectedAddress?.id || 0));
   //   }
   // },[props.selectedAddress])
