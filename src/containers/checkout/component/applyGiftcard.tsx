@@ -37,7 +37,7 @@ class ApplyGiftcard extends React.Component<Props, GiftState> {
       newCardBox: true,
       toggleOtp: false,
       isActivated: false,
-      cardType: "GIFTCARD"
+      cardType: "Select"
     };
   }
   private firstLoad = true;

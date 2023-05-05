@@ -457,9 +457,10 @@
 }
 
 .text-muted {
-  @include b4_12px_montserrat_charcoal_caps();
+  @include b4_12px_montserrat_light_charcoal();
   margin-left: 5px;
   text-transform: capitalize;
+  font-weight: $light !important;
 }
 
 .redeem-points {
@@ -599,6 +600,9 @@
   @include b4_12px_montserrat_white();
 
   &:hover {
+    color: $white;
+  }
+  &:focus {
     color: $white;
   }
 }

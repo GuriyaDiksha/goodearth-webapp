@@ -383,8 +383,7 @@ body:has(.open-summary) {
 }
 
 .text-muted {
-  color: #666;
-  font-size: 12px;
+  @include b5_10px_montserrat_charcoal();
 }
 
 .discount-font {
@@ -624,7 +623,7 @@ body:has(.open-summary) {
 
 .checkout-mobile-bottom {
   .summary-padding {
-    padding: 0 20px;
+    padding: 0 30px;
   }
   .proceed-to-payment {
     max-width: 100%;
