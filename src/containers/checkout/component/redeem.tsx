@@ -223,7 +223,11 @@ class Reedem extends React.Component<Props, RedeemState> {
               >
                 <input
                   type="number"
-                  value={txtvalue}
+                  value={
+                    loyaltyData?.eligiblePoints > 0
+                      ? txtvalue
+                      : loyaltyData?.eligiblePoints
+                  }
                   onKeyDown={evt => evt.key === "." && evt.preventDefault()}
                   onChange={this.changeValue}
                   id="redeem"
@@ -231,9 +235,10 @@ class Reedem extends React.Component<Props, RedeemState> {
                   className={
                     this.state.error
                       ? cs(styles.marginR10, styles.err)
-                      : styles.marginR10
+                      : cs(styles.marginR10, styles.redeemInput)
                   }
                   aria-label="redeem-code"
+                  disabled={loyaltyData?.eligiblePoints > 0 ? false : true}
                 />
               </div>
               <label>Points</label>
@@ -244,6 +249,12 @@ class Reedem extends React.Component<Props, RedeemState> {
                 </p>
               ) : (
                 ""
+              )}
+
+              {loyaltyData?.eligiblePoints < 0 && (
+                <p className={cs(styles.textLeft, styles.noEnoughPoint)}>
+                  You don&apos;t have points to redeem
+                </p>
               )}
             </div>
             <div className={bootstrapStyles.colMd12}>
