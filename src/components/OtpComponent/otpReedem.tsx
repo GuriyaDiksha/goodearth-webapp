@@ -324,6 +324,8 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
           startTimer={this.state.startTimer}
           setAttempts={this.changeAttepts}
           closeModal={this.closePopup}
+          headingClassName={globalStyles.textLeft}
+          containerClassName={styles.otpRedeemWrp}
         />
         {/* {(this.props.otpFor == "activateGC"
           ? this.props.newCardBox == true
@@ -540,14 +542,19 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
             </li> */}
             <li className={styles.emailWrp}>
               <p>Email ID: {detail?.EmailId}</p>
-              <p>Mobile No.: +91{number}</p>
+
+              {number ? <p>Mobile No.: +91{number}</p> : null}
             </li>
             {this.state.showerrorOtp && (
               <li className={styles.subscribe}>
                 <p
                   className={
                     this.state.showerrorOtp
-                      ? cs(globalStyles.errorMsg, globalStyles.wordCap)
+                      ? cs(
+                          globalStyles.errorMsg,
+                          globalStyles.wordCap,
+                          globalStyles.textLeft
+                        )
                       : globalStyles.hidden
                   }
                 >
@@ -561,7 +568,7 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
                   type="submit"
                   // disabled={this.state.disable}
                   className={styles.sendOtpBtn}
-                  value="Send otp"
+                  value="SEND OTP"
                 />
               </div>
             )}

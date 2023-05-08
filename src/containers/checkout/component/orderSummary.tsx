@@ -20,6 +20,7 @@ import { displayPriceWithCommasFloat } from "utils/utility";
 import { currencyCodes } from "constants/currency";
 import checkoutIcon from "../../../images/checkout.svg";
 import freeShippingInfoIcon from "../../../images/free_shipping_info.svg";
+import Loader from "components/Loader";
 
 const OrderSummary: React.FC<OrderProps> = props => {
   const {
@@ -31,10 +32,10 @@ const OrderSummary: React.FC<OrderProps> = props => {
     validbo,
     setCheckoutMobileOrderSummary,
     onsubmit,
-    isLoading,
     currentmethod,
     isPaymentNeeded
   } = props;
+  const [isLoading, setLoading] = useState(false);
   const [isSuspended, setIsSuspended] = useState(true);
   const [fullText, setFullText] = useState(false);
   const [freeShipping] = useState(false);
@@ -116,8 +117,10 @@ const OrderSummary: React.FC<OrderProps> = props => {
   const boId = urlParams.get("bo_id");
 
   const removePromo = async (data: FormData) => {
+    setLoading(true);
     const response = await CheckoutService.removePromo(dispatch, data);
     BasketService.fetchBasket(dispatch, "checkout", history, isLoggedIn);
+    setLoading(false);
     return response;
   };
 
@@ -301,14 +304,18 @@ const OrderSummary: React.FC<OrderProps> = props => {
   };
 
   const removeGiftCard = async (data: FormData) => {
+    setLoading(true);
     const response = await CheckoutService.removeGiftCard(dispatch, data);
     BasketService.fetchBasket(dispatch, "checkout", history, isLoggedIn);
+    setLoading(false);
     return response;
   };
 
   const removeRedeem = async () => {
+    setLoading(true);
     const response = await CheckoutService.removeRedeem(dispatch);
     BasketService.fetchBasket(dispatch, "checkout", history, isLoggedIn);
+    setLoading(false);
     return response;
   };
 
@@ -1182,6 +1189,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
           )}
         </div>
       </div>
+      {isLoading && <Loader />}
     </div>
   );
 };
