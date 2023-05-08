@@ -154,7 +154,9 @@ const NewOtpComponent: React.FC<Props> = ({
       } else {
         const ele =
           typeof document == "object" &&
-          document.getElementById(`otp${+e.target.id.match(/\d+/)[0] - 1}`);
+          document.getElementById(
+            `${uniqueId}otp${+e.target.id.match(/\d+/)[0] - 1}`
+          );
         if (ele) {
           ele.focus();
         }
