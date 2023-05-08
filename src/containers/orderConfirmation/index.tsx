@@ -526,14 +526,14 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                                 [styles.gold]: isdisCount
                               })}
                             >
-                              {`${charCurrency} ${displayPriceWithCommas(
+                              {`${charCurrency} ${displayPriceWithCommasFloat(
                                 amountPaid,
                                 confirmData.currency
                               )}`}
                             </span>
                             {isdisCount && (
                               <span className={styles.originalPrice}>
-                                {`${charCurrency} ${displayPriceWithCommas(
+                                {`${charCurrency} ${displayPriceWithCommasFloat(
                                   price,
                                   confirmData.currency
                                 )}`}
