@@ -75,6 +75,10 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
     //   return false;
     // }
 
+    if (this.props.loyaltyData?.eligiblePoints < 0) {
+      this.closePopup();
+      return false;
+    }
     if (!this.props.points) {
       this.props.updateError(true);
       return false;
@@ -315,7 +319,7 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
         ></div>
         <hr />
         <NewOtpComponent
-          otpSentVia={radioType == "number" ? "mobile number" : "email"}
+          otpSentVia={`Email ID${radioType == "number" ? " & Mobile No" : ""}`}
           resendOtp={this.resendOtp}
           verifyOtp={this.checkOtpValidation}
           errorMsg={this.state.showerror}
@@ -428,13 +432,16 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
           className={cs(
             styles.sendOtpForm,
             styles.loginForm,
-            styles.activategc
+            styles.activategc,
+            { [styles.goBackBtn]: this.props.loyaltyData?.eligiblePoints < 0 }
           )}
           id="gc-input"
         >
-          <li className={cs(globalStyles.textLeft, styles.otpText)}>
-            Send one-time OTP to:
-          </li>
+          {this.props.loyaltyData?.eligiblePoints > 0 && (
+            <li className={cs(globalStyles.textLeft, styles.otpText)}>
+              Send one-time OTP to:
+            </li>
+          )}
           <Formsy
             ref={this.RegisterFormRef}
             onValidSubmit={this.handleSubmit}
@@ -538,10 +545,12 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
                 <p className={cs(styles.errorMsg)}>{this.state.msgt}</p>
               </div>
             </li> */}
-            <li className={styles.emailWrp}>
-              <p>Email ID: {detail?.EmailId}</p>
-              <p>Mobile No.: +91{number}</p>
-            </li>
+            {this.props.loyaltyData?.eligiblePoints > 0 && (
+              <li className={styles.emailWrp}>
+                <p>Email ID: {detail?.EmailId}</p>
+                <p>Mobile No.: +91{number}</p>
+              </li>
+            )}
             {this.state.showerrorOtp && (
               <li className={styles.subscribe}>
                 <p
@@ -561,7 +570,11 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
                   type="submit"
                   // disabled={this.state.disable}
                   className={styles.sendOtpBtn}
-                  value="Send otp"
+                  value={`${
+                    this.props.loyaltyData?.eligiblePoints > 0
+                      ? "Send otp"
+                      : "GO BACK"
+                  }`}
                 />
               </div>
             )}

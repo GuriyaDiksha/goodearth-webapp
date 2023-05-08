@@ -297,6 +297,17 @@
       -webkit-appearance: none;
       margin: 0;
     }
+  &.go-back-btn {
+    padding-right: 10px;
+    @media screen and (max-width: 768px){
+      position: fixed;
+      bottom: 25px;
+      left: 0;
+      right: 0;
+      width: 90%;
+      margin: auto;
+    }
+  }
 }
 
 @media screen and (max-width: 992px) {
