@@ -1,11 +1,9 @@
-import { Settings } from "react-slick";
-
 export interface Category {
   id: number;
   name: string;
 }
 
-export interface CollectionItem {
+export type CollectionItemType = {
   id: number;
   name: string;
   displayImage?: string | null;
@@ -17,9 +15,8 @@ export interface CollectionItem {
   header?: string;
   url?: string;
   tags: string[];
-}
-
-export type CollectionDataProps = {
-  data: CollectionItem;
-  setting: Settings;
 };
+export interface CollectionItems {
+  key: number;
+  collectionData: CollectionItemType;
+}

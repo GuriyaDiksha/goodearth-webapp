@@ -576,7 +576,13 @@ const AddressSection: React.FC<AddressProps & {
                     <span className={styles.indicator}></span>
                   </span>
                 </div>
-                <div className={styles.formSubheading}>
+                <div
+                  className={cs(
+                    styles.formSubheading,
+                    globalStyles.marginB0,
+                    globalStyles.marginT0
+                  )}
+                >
                   I CONFIRM THAT THE DATA I HAVE SHARED IS CORRECT
                 </div>
               </label>
