@@ -16,10 +16,7 @@ import moment from "moment";
 import { pageViewGTM } from "utils/validate";
 import CookieService from "services/cookie";
 import { GA_CALLS, ANY_ADS } from "constants/cookieConsent";
-import {
-  displayPriceWithCommas,
-  displayPriceWithCommasFloat
-} from "utils/utility";
+import { displayPriceWithCommasFloat } from "utils/utility";
 
 const orderConfirmation: React.FC<{ oid: string }> = props => {
   const {
