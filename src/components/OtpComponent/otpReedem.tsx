@@ -10,7 +10,6 @@ import FormInput from "components/Formsy/FormInput";
 import Loader from "components/Loader";
 import { errorTracking } from "utils/validate";
 import NewOtpComponent from "./NewOtpComponent";
-import { debug } from "console";
 
 class OtpReedem extends React.Component<otpRedeemProps, otpState> {
   constructor(props: otpRedeemProps) {
@@ -328,6 +327,8 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
           startTimer={this.state.startTimer}
           setAttempts={this.changeAttepts}
           closeModal={this.closePopup}
+          headingClassName={globalStyles.textLeft}
+          containerClassName={styles.otpRedeemWrp}
         />
         {/* {(this.props.otpFor == "activateGC"
           ? this.props.newCardBox == true
@@ -548,7 +549,7 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
             {this.props.loyaltyData?.eligiblePoints > 0 && (
               <li className={styles.emailWrp}>
                 <p>Email ID: {detail?.EmailId}</p>
-                <p>Mobile No.: +91{number}</p>
+                {number ? <p>Mobile No.: +91{number}</p> : null}
               </li>
             )}
             {this.state.showerrorOtp && (
@@ -556,7 +557,11 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
                 <p
                   className={
                     this.state.showerrorOtp
-                      ? cs(globalStyles.errorMsg, globalStyles.wordCap)
+                      ? cs(
+                          globalStyles.errorMsg,
+                          globalStyles.wordCap,
+                          globalStyles.textLeft
+                        )
                       : globalStyles.hidden
                   }
                 >
@@ -572,7 +577,7 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
                   className={styles.sendOtpBtn}
                   value={`${
                     this.props.loyaltyData?.eligiblePoints > 0
-                      ? "Send otp"
+                      ? "SEND OTP"
                       : "GO BACK"
                   }`}
                 />

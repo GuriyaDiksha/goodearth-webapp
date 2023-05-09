@@ -310,14 +310,14 @@ const NewOtpComponent: React.FC<Props> = ({
       >
         {btnText}
       </button>
-      <p className={style.otpAttempt}>
+      {/* <p className={style.otpAttempt}>
         Attempt: {attempts?.attempts}/{attempts?.maxAttemptsAllow}
-      </p>
+      </p> */}
       <div
         className={cs(style.otpPolicy, style.cancelLink)}
         onClick={() => closeModal()}
       >
-        I don&apos;t wish to redeem
+        I DON&apos;T WISH TO REDEEM
       </div>
       {!groupTimerAndAttempts && (
         <p className={cs(style.otpAttempt, otpAttemptClass)}>

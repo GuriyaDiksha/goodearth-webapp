@@ -80,7 +80,11 @@ const PaymentSection: React.FC<PaymentProps> = props => {
   const PaymentButton = useRef(null);
 
   const toggleInput = () => {
-    setIsactivepromo(!isactivepromo);
+    if (basket.giftCards.length > 0) {
+      setIsactivepromo(true);
+    } else {
+      setIsactivepromo(!isactivepromo);
+    }
   };
   const toggleInputReedem = () => {
     setIsactiveredeem(true);
@@ -98,8 +102,10 @@ const PaymentSection: React.FC<PaymentProps> = props => {
   };
 
   const removeRedeem = async (history: any, isLoggedIn: boolean) => {
+    setIsLoading(true);
     const promo: any = await CheckoutService.removeRedeem(dispatch);
     BasketService.fetchBasket(dispatch, "checkout", history, isLoggedIn);
+    setIsLoading(false);
     return promo;
   };
 
@@ -314,9 +320,13 @@ const PaymentSection: React.FC<PaymentProps> = props => {
   useEffect(() => {
     if (basket.giftCards.length > 0) {
       setIsactivepromo(true);
+    } else {
+      setIsactivepromo(false);
     }
     if (basket.loyalty.length > 0) {
       setIsactiveredeem(true);
+    } else {
+      setIsactiveredeem(false);
     }
   }, [basket.giftCards, basket.loyalty]);
 
@@ -530,7 +540,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
                 </div>
               )}
             </div>
-            {loyalty?.[0]?.points ? null : (
+            {loyalty?.[0]?.points || !isActive ? null : (
               <>
                 <hr className={styles.hr} />
                 <div className={globalStyles.flex}>
@@ -892,6 +902,32 @@ const PaymentSection: React.FC<PaymentProps> = props => {
                 </div>
                 <div>
                   <hr className={styles.hr} />
+                  {CONFIG.WHATSAPP_SUBSCRIBE_ENABLED && (
+                    <div className={styles.loginForm}>
+                      <div className={styles.categorylabel}>
+                        <WhatsappSubscribe
+                          data={preferenceData}
+                          innerRef={whatsappCheckRef}
+                          isdList={isdList}
+                          showTermsMessage={false}
+                          showTooltip={true}
+                          showManageMsg={true}
+                          showPhone={true}
+                          whatsappClass={styles.whatsapp}
+                          countryCodeClass={styles.countryCode}
+                          checkboxLabelClass={styles.checkboxLabel}
+                          allowUpdate={true}
+                          uniqueKey={"paymentid123"}
+                          oneLineMessage={!mobile}
+                          whatsappFormRef={whatsappFormRef}
+                          whatsappNoErr={whatsappNoErr}
+                        />
+                      </div>
+                      <div className={styles.whatsappNoErr}>
+                        {whatsappNoErr}
+                      </div>
+                    </div>
+                  )}
                 </div>
                 <label
                   className={cs(

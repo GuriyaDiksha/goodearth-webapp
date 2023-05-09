@@ -1,10 +1,9 @@
-import React, { ChangeEvent, useContext, useState } from "react";
+import React, { useContext } from "react";
 import cs from "classnames";
 import globalStyles from "styles/global.scss";
 import styles from "../styles.scss";
 import iconStyles from "styles/iconFonts.scss";
 import { Context } from "components/Modal/context";
-import { NavLink } from "react-router-dom";
 import Redeem from "containers/checkout/component/redeem";
 
 type PopupProps = {
