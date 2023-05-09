@@ -88,7 +88,7 @@ export default {
       {
         email: encrypttext(email),
         password: encrypttext(password),
-        boId: boId
+        boId: boId ? encrypttext(boId) : boId
       }
     );
     const response = decriptdata(res);
