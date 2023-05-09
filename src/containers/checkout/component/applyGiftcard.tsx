@@ -26,8 +26,9 @@ const mapStateToProps = (state: AppState) => {
   };
 };
 type Props = ReturnType<typeof mapDispatchToProps> &
-  ReturnType<typeof mapStateToProps> &
-  RouteComponentProps;
+  ReturnType<typeof mapStateToProps> & {
+    onRef: any;
+  } & RouteComponentProps;
 
 class ApplyGiftcard extends React.Component<Props, GiftState> {
   constructor(props: Props) {
@@ -44,6 +45,19 @@ class ApplyGiftcard extends React.Component<Props, GiftState> {
   }
   private firstLoad = true;
   // ProfileFormRef: RefObject<Formsy> = React.createRef();
+
+  // PaymentFormRef: RefObject<Formsy> = React.createRef();
+  componentDidMount = () => {
+    if (this.props.onRef != null) {
+      this.props.onRef(this);
+    }
+  };
+
+  componentDidUpdate = (prevProps: Props) => {
+    if (this.props.onRef != null) {
+      this.props.onRef(this);
+    }
+  };
 
   UNSAFE_componentWillReceiveProps(nextProps: any) {
     if (nextProps.giftList.length > 0 && this.firstLoad) {

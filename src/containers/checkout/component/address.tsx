@@ -743,7 +743,11 @@ const AddressSection: React.FC<AddressProps & {
                   />
                 ) : null}
 
-                <span className={cs({ [styles.closed]: !isActive })}>
+                <span
+                  className={cs({
+                    [styles.iscompleted]: STEP_ORDER[activeStep] < currentStep
+                  })}
+                >
                   {activeStep == STEP_SHIPPING
                     ? "SHIPPING DETAILS"
                     : "BILLING DETAILS"}

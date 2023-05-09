@@ -43,6 +43,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
     user: { loyaltyData, isLoggedIn, preferenceData },
     address: { countryData }
   } = useSelector((state: AppState) => state);
+  let PaymentChild: any = useRef<typeof ApplyGiftcard>(null);
   const history = useHistory();
   const { isActive, currency, checkout, shippingAddress, salestatus } = props;
   const [paymentError, setPaymentError] = useState("");
@@ -80,11 +81,16 @@ const PaymentSection: React.FC<PaymentProps> = props => {
   const PaymentButton = useRef(null);
 
   const toggleInput = () => {
-    if (basket.giftCards.length > 0) {
-      setIsactivepromo(true);
-    } else {
-      setIsactivepromo(!isactivepromo);
+    if (basket.giftCards.length > 0 && isactivepromo) {
+      if (PaymentChild.onClose) {
+        {
+          basket?.giftCards?.map((giftcard, i) => {
+            PaymentChild.onClose(giftcard?.cardId, giftcard?.cardType);
+          });
+        }
+      }
     }
+    setIsactivepromo(!isactivepromo);
   };
   const toggleInputReedem = () => {
     setIsactiveredeem(true);
@@ -675,7 +681,15 @@ const PaymentSection: React.FC<PaymentProps> = props => {
                         {"Apply Gift Card Code/ Credit Note"}
                       </div>
                     </label>
-                    {isactivepromo ? <ApplyGiftcard /> : ""}
+                    {isactivepromo ? (
+                      <ApplyGiftcard
+                        onRef={(e1: any) => {
+                          PaymentChild = e1;
+                        }}
+                      />
+                    ) : (
+                      ""
+                    )}
                     {/* {renderInput()}
                 {renderCoupon()} */}
                   </div>
