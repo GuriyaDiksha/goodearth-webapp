@@ -475,9 +475,11 @@ const AddressSection: React.FC<AddressProps & {
     }
   };
   const onSelectAddress = (address?: AddressData) => {
-    if (activeStep === STEP_SHIPPING && !isTermChecked) {
-      setTermsErr("Please confirm to terms and conditions");
-      return false;
+    if (activeStep === STEP_SHIPPING) {
+      if (!isBridal && !isTermChecked) {
+        setTermsErr("Please confirm to terms and conditions");
+        return false;
+      }
     }
     setTermsErr("");
     if (address) {

@@ -278,7 +278,7 @@ const LineItems: React.FC<BasketItem> = memo(
                     <img src={salesBadgeImage} alt="sales-badge" />
                   </div>
                 )}
-                <div className={styles.cartRing}>
+                <div className={cs(styles.cartRing, styles.bridalIcon)}>
                   {bridalProfile && (
                     <svg
                       viewBox="-5 -5 50 50"
