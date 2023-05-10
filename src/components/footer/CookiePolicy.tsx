@@ -53,14 +53,16 @@ const CookiePolicy: React.FC<Props> = ({
     //setRegion("India");
     //Hardcoded region
     // WidgetService.getWidgetDetail(store.dispatch, "GLOBAL");
-    setRegion(country === "" ? CookieService.getCookie("country") : country);
-    WidgetService.getWidgetDetail(
-      store.dispatch,
-      (country === "" ? CookieService.getCookie("country") : country) ===
-        "India"
-        ? "INDIA"
-        : "ROTW"
-    );
+    if (country !== "" || CookieService.getCookie("country") !== "") {
+      setRegion(country === "" ? CookieService.getCookie("country") : country);
+      WidgetService.getWidgetDetail(
+        store.dispatch,
+        (country === "" ? CookieService.getCookie("country") : country) ===
+          "India"
+          ? "INDIA"
+          : "ROTW"
+      );
+    }
   }, [country]);
 
   useEffect(() => {
