@@ -1612,7 +1612,12 @@
 }
 
 .desc{
+  p{
+    word-wrap: break-word;
+    text-align: left;
     @include b4_12px_montserrat_charcoal();
+  }
+ 
 }
 
 @media (max-width:992px){
