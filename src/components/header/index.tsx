@@ -761,6 +761,7 @@ class Header extends React.Component<Props, State> {
       // showSearch: true,
       showMenu: false
     });
+    this.props.updateShowSearchPopup(true);
   };
 
   hideSearch = () => {
@@ -768,6 +769,7 @@ class Header extends React.Component<Props, State> {
       this.setState({
         showSearch: false
       });
+      this.props.updateShowSearchPopup(false);
     }
   };
   hideMenu = () => {
@@ -796,6 +798,7 @@ class Header extends React.Component<Props, State> {
       showMenu: !this.state.showMenu,
       showSearch: false
     });
+    this.props.updateShowSearchPopup(false);
     //window.scrollTo(0, 0);
   };
 
@@ -825,6 +828,7 @@ class Header extends React.Component<Props, State> {
       showMenu: false,
       showSearch: false
     });
+    this.props.updateShowSearchPopup(false);
     if (document.body.classList.contains(globalStyles.noScroll)) {
       document.body.classList.remove(globalStyles.noScroll);
     }
@@ -1068,6 +1072,7 @@ class Header extends React.Component<Props, State> {
                     showSearch: false,
                     showMenu: false
                   });
+                  this.props.updateShowSearchPopup(false);
                 }
               }}
             />

@@ -38,3 +38,6 @@ export const updateSizeChartSelected = (data: number | undefined) =>
 
 export const updateMobileMenuOpenState = (data: boolean) =>
   actionCreator("UPDATE_MOBILE_MENU_OPEN_STATE", data);
+
+export const updateShowSearchPopup = (data: boolean) =>
+  actionCreator("UPDATE_SHOW_SEARCH_POPUP", data);
