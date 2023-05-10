@@ -1341,7 +1341,11 @@ input[type="text"]{
         }
       }
     }
+    &.myorders-addressblock{
+      word-wrap: break-word;
+    }
   }
+  
   .product{
     padding: 30px;
     display: flex;

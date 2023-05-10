@@ -85,7 +85,7 @@ const InShopOrder: React.FC<OrdersProps> = props => {
     const billingAddress = data.billing_address;
     if (shippingAddress || billingAddress) {
       html.push(
-        <div className={styles.addressBlock}>
+        <div className={cs(styles.addressBlock, styles.myordersAddressblock)}>
           {shippingAddress ? (
             <div className={styles.address}>
               <div className={styles.title}>shipping address</div>
