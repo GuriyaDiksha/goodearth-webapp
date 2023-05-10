@@ -7,7 +7,8 @@ const initialState: State = {
   countryData: [],
   shippingAddressId: 0,
   billingAddressId: 0,
-  mode: "list"
+  mode: "list",
+  customDuties: { message: "" }
 };
 export const address = (
   state = initialState,
@@ -58,6 +59,12 @@ export const address = (
       };
     }
     case "UPDATE_ADDRESS_MODE": {
+      return {
+        ...state,
+        ...action.payload
+      };
+    }
+    case "UPDATE_CUSTOM_DUTIES": {
       return {
         ...state,
         ...action.payload

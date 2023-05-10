@@ -1,6 +1,10 @@
 import * as Actions from "actions/address";
 import { ActionType } from "typings/actionCreator";
-import { AddressData } from "../../components/Address/typings";
+import {
+  AddressData,
+  AddressModes,
+  CustomDuties
+} from "../../components/Address/typings";
 import { PinCodeData } from "../../components/Formsy/PinCode/typings";
 import { Country } from "components/Formsy/CountryCode/typings";
 
@@ -11,7 +15,8 @@ export type State = {
   countryData: Country[];
   shippingAddressId: number;
   billingAddressId: number;
-  mode: "new" | "edit" | "list";
+  mode: AddressModes;
+  customDuties: CustomDuties;
 };
 
 export { Actions };

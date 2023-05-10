@@ -71,3 +71,8 @@ export type Props = {
   whatsappNoError?: string;
 };
 export type AddressModes = "new" | "edit" | "list";
+
+export type CustomDuties = {
+  message: string;
+  popup_content?: string;
+};

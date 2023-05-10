@@ -28,7 +28,6 @@ import { GA_CALLS } from "constants/cookieConsent";
 import styles from "../styles.scss";
 import WhatsappSubscribe from "components/WhatsappSubscribe";
 import Formsy from "formsy-react";
-import { makeid } from "utils/utility";
 import { updateAddressMode } from "actions/address";
 
 import { CONFIG } from "constants/util";
@@ -36,9 +35,6 @@ import {
   updateBillingAddressId,
   updateShippingAddressId
 } from "actions/address";
-// import AddressDataList from "../../../../components/Address/AddressDataList.json";
-
-// import AddressMainComponent from '../../components/common/address/addressMain';
 
 const AddressMain: React.FC<Props> = props => {
   // data: [],

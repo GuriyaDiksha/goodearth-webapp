@@ -13,6 +13,7 @@ import { AddressProps } from "./typings";
 import {
   updateAddressList,
   updateBillingAddressId,
+  updateCustomDuties,
   updateShippingAddressId
 } from "actions/address";
 import AddressService from "services/address";
@@ -29,6 +30,7 @@ import checkmarkCircle from "./../../../images/checkmarkCircle.svg";
 import { updateComponent, updateModal } from "actions/modal";
 import { POPUP } from "constants/components";
 import { displayPriceWithCommas } from "utils/utility";
+import ReactHtmlParser from "react-html-parser";
 
 const AddressSection: React.FC<AddressProps & {
   mode: string;
@@ -59,9 +61,12 @@ const AddressSection: React.FC<AddressProps & {
     modal: { openModal }
   } = useSelector((state: AppState) => state);
   const { mobile } = useSelector((state: AppState) => state.device);
-  const { addressList, shippingAddressId, billingAddressId } = useSelector(
-    (state: AppState) => state.address
-  );
+  const {
+    addressList,
+    shippingAddressId,
+    billingAddressId,
+    customDuties
+  } = useSelector((state: AppState) => state.address);
   // const { showPromo } = useSelector((state: AppState) => state.info);
   const sameShipping =
     (props.activeStep == STEP_BILLING ? true : false) &&
@@ -155,6 +160,9 @@ const AddressSection: React.FC<AddressProps & {
     if (currency != "INR") {
       setGst(false);
     }
+    AddressService.fetchCustomDuties(dispatch, currency).then(res => {
+      dispatch(updateCustomDuties(res));
+    });
   }, [currency]);
   const renderActions = function(isBottom?: boolean) {
     if (isActive && isLoggedIn) {
@@ -541,7 +549,7 @@ const AddressSection: React.FC<AddressProps & {
   };
 
   const openTermsPopup = () => {
-    dispatch(updateComponent(POPUP.SHIPPINGTERMS, null, true));
+    dispatch(updateComponent(POPUP.SHIPPINGTERMS, { customDuties }, true));
     dispatch(updateModal(true));
   };
 
@@ -887,18 +895,17 @@ const AddressSection: React.FC<AddressProps & {
                                         styles.checkBoxHeading
                                       )}
                                     >
-                                      I agree to pay the additional applicable
-                                      duties and taxes directly to the shipping
-                                      agency at the time of the delivery. To
-                                      know more, referre to our{" "}
-                                      <span
-                                        onClick={() => openTermsPopup()}
-                                        className={
-                                          globalStyles.linkTextUnderline
-                                        }
-                                      >
-                                        Shipping & Payment terms.
-                                      </span>
+                                      {ReactHtmlParser(customDuties?.message)}
+                                      {customDuties?.popup_content && (
+                                        <span
+                                          onClick={() => openTermsPopup()}
+                                          className={
+                                            globalStyles.linkTextUnderline
+                                          }
+                                        >
+                                          Shipping & Payment terms.
+                                        </span>
+                                      )}
                                     </div>
                                   </label>
                                   {termsErr && (
