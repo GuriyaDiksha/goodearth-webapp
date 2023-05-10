@@ -1108,6 +1108,7 @@ const ProductDetails: React.FC<Props> = ({
                         { [bootstrap.colMd6]: mobile },
                         styles.label,
                         styles.quantity,
+                        styles.qtyLabel,
                         { [styles.mobileMargin]: mobile }
                       )}
                     >
@@ -1117,6 +1118,7 @@ const ProductDetails: React.FC<Props> = ({
                       className={cs(
                         bootstrap.col12,
                         bootstrap.colSm9,
+                        styles.qtyComponent,
                         { [bootstrap.colMd4]: mobile },
                         styles.widgetQty
                       )}

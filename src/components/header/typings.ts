@@ -63,7 +63,6 @@ export type MenuComponentImageData = {
   link: string;
   openInNewTab?: boolean;
   ctaName?: string;
-  openInNewTab?: boolean;
 };
 export interface MenuComponent {
   componentType: string;
