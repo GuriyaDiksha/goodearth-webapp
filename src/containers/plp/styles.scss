@@ -398,6 +398,7 @@
       }
       .disableColors{
         opacity: 0.5;
+        cursor: not-allowed;
       }
     }
     .materiallabel{
@@ -407,6 +408,7 @@
       }
       .disableColors{
         opacity: 0.5;
+        cursor: not-allowed;
       }}
     input[type="checkbox"]:not(:checked) + label{
       @include b4_12px_montserrat_light_charcoal();
@@ -767,6 +769,7 @@ input[type="radio"]:checked, [type="checkbox"]:not(:checked),
     }
     .disableColors{
       opacity: 0.5;
+      cursor: not-allowed;
     }
   }
   .materiallabel{
@@ -776,6 +779,7 @@ input[type="radio"]:checked, [type="checkbox"]:not(:checked),
     }
     .disableColors{
       opacity: 0.5;
+      cursor: not-allowed;
     }
   }
 }
@@ -819,6 +823,7 @@ input[type="radio"]:checked, [type="checkbox"]:not(:checked),
       color: #E5E5E5 !important;
       border: 1px solid #E5E5E5;
       background: linear-gradient(to left top, #f9f8f5 47.75%, currentColor 50.5%, currentColor 49.5%, #f9f8f5 51.25%);
+      cursor: not-allowed;
       &:hover{
         border: 1px solid $aqua-bold;
       }
@@ -1086,4 +1091,9 @@ p.corporate-sub-heading {
 
 .no-border{
   border: none !important;
+}
+
+.disable-type{
+  opacity: 0.5;
+  cursor: not-allowed !important;
 }
