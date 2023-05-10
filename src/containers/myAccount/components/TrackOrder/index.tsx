@@ -370,6 +370,11 @@ class TrackOrder extends React.Component<Props, State> {
 
   handleSubmit = (model: any, resetForm: any, updateInputsWithError: any) => {
     const { email, orderNumber } = model;
+    this.setState({
+      loader: true,
+      orderNumber: orderNumber,
+      myemail: email
+    });
     this.setState({ loader: true });
     this.sendTrackOrder(orderNumber, email);
   };

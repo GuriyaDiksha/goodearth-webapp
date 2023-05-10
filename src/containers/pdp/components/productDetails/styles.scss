@@ -381,3 +381,14 @@
     align-items: end;
     justify-content: center;
 }
+
+@media screen and (min-width: 1200px) and (max-width: 1400px) {
+    .qty-label{
+        flex: 0 0 33.33333%;
+        max-width: 33.33333%;
+    }
+    .qty-component{
+        flex: 0 0 66.66667%;
+        max-width: 66.66667%;
+    }
+}
