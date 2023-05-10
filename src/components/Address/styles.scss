@@ -439,6 +439,7 @@ body:has(.mobile) {
     &.address-line {
       word-wrap: break-word;
       font-size: 12px;
+      margin-top: 5px;
     }
     &.checkout-fix {
       font-size: 13px;
@@ -633,7 +634,12 @@ body:has(.mobile) {
   .address-item {
     overflow: hidden;
     position: relative;
+    .nickname-wrapper {
+      @include b4_12px_montserrat_med_aqua();
+      margin-top: 5px;
+    }
   }
+
   .address-item-container {
     border: 1px solid #eaeaea;
 

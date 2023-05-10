@@ -320,6 +320,7 @@ class MainLogin extends React.Component<Props, loginState> {
           ).get("bo_id");
 
           if (boid) {
+            debugger;
             this.props.history.push(`/order/checkout?bo_id=${boid}`);
           }
         })
