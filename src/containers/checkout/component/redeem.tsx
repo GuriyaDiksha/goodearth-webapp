@@ -10,6 +10,8 @@ import { AppState } from "reducers/typings";
 import OtpReedem from "components/OtpComponent/otpReedem";
 import { errorTracking } from "utils/validate";
 import { RouteComponentProps, withRouter } from "react-router";
+import tooltipIcon from "images/tooltip.svg";
+import tooltipOpenIcon from "images/tooltip-open.svg";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -33,7 +35,9 @@ class Reedem extends React.Component<Props, RedeemState> {
       error: "",
       newCardBox: true,
       toggleOtp: true,
-      isActivated: false
+      isActivated: false,
+      showTooltip: false,
+      showTooltipTwo: false
     };
   }
   // ProfileFormRef: RefObject<Formsy> = React.createRef();
@@ -101,8 +105,16 @@ class Reedem extends React.Component<Props, RedeemState> {
     this.props.removeRedeem(this.props.history, this.props.user.isLoggedIn);
   };
 
+  setShowTip = (value: boolean) => {
+    this.setState({ showTooltip: value });
+  };
+
+  setShowTipTwo = (value: boolean) => {
+    this.setState({ showTooltipTwo: value });
+  };
+
   render() {
-    const { newCardBox, txtvalue } = this.state;
+    const { newCardBox, txtvalue, showTooltip, showTooltipTwo } = this.state;
     const { loyalty } = this.props;
     const { loyaltyData } = this.props.user;
     const points = loyalty?.[0]?.points;
@@ -111,18 +123,79 @@ class Reedem extends React.Component<Props, RedeemState> {
         <div className={cs(bootstrapStyles.row, styles.giftDisplay)}>
           <Fragment>
             <div className={cs(styles.textLeft)}>
-              <p className={cs(styles.textLeft, styles.redeemBold)}>
-                {" "}
-                Cerise Balance points
-              </p>
+              <div className={cs(styles.tooltipWrp)}>
+                <p className={cs(styles.textLeft, styles.redeemBold)}>
+                  {" "}
+                  Cerise Balance points
+                </p>
+
+                <div className={styles.tooltip}>
+                  <img
+                    src={showTooltip ? tooltipOpenIcon : tooltipIcon}
+                    onClick={() => {
+                      this.setShowTip(!showTooltip);
+                    }}
+                  />
+                  <div
+                    className={cs(styles.tooltipMsg, {
+                      [styles.show]: showTooltip
+                    })}
+                  >
+                    This balance shows the total number of points you have in
+                    your Cerise account to redeem against purchases
+                    <br />
+                    <img
+                      src={showTooltip ? tooltipOpenIcon : tooltipIcon}
+                      onClick={() => {
+                        this.setShowTip(!showTooltip);
+                      }}
+                    />
+                  </div>
+                </div>
+              </div>
+
               <p className={cs(styles.textLeft, styles.redeemPoints)}>
                 {loyaltyData?.customerPoints}
               </p>
             </div>
             <div className={cs(styles.textLeft)}>
-              <p className={cs(styles.textLeft, styles.redeemBold)}>
-                Eligible for Redemption
-              </p>
+              <div className={cs(styles.tooltipWrp)}>
+                <p className={cs(styles.textLeft, styles.redeemBold)}>
+                  Eligible for Redemption
+                </p>
+                <div className={styles.tooltip}>
+                  <img
+                    src={showTooltipTwo ? tooltipOpenIcon : tooltipIcon}
+                    onClick={() => {
+                      this.setShowTipTwo(!showTooltipTwo);
+                    }}
+                  />
+                  <div
+                    className={cs(styles.tooltipMsg, {
+                      [styles.show]: showTooltipTwo,
+                      [styles.tipTwo]: showTooltipTwo
+                    })}
+                  >
+                    Redemption of points is applicable on select products. You
+                    can check redemption eligibility on the product page.
+                    <a
+                      href={"/customer-assistance/terms"}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      Read More
+                    </a>
+                    .
+                    <br />
+                    <img
+                      src={showTooltipTwo ? tooltipOpenIcon : tooltipIcon}
+                      onClick={() => {
+                        this.setShowTipTwo(!showTooltipTwo);
+                      }}
+                    />
+                  </div>
+                </div>
+              </div>
               <p
                 className={cs(
                   styles.textLeft,
@@ -150,7 +223,11 @@ class Reedem extends React.Component<Props, RedeemState> {
               >
                 <input
                   type="number"
-                  value={txtvalue}
+                  value={
+                    loyaltyData?.eligiblePoints > 0
+                      ? txtvalue
+                      : loyaltyData?.eligiblePoints
+                  }
                   onKeyDown={evt => evt.key === "." && evt.preventDefault()}
                   onChange={this.changeValue}
                   id="redeem"
@@ -158,9 +235,10 @@ class Reedem extends React.Component<Props, RedeemState> {
                   className={
                     this.state.error
                       ? cs(styles.marginR10, styles.err)
-                      : styles.marginR10
+                      : cs(styles.marginR10, styles.redeemInput)
                   }
                   aria-label="redeem-code"
+                  disabled={loyaltyData?.eligiblePoints > 0 ? false : true}
                 />
               </div>
               <label>Points</label>
@@ -171,6 +249,12 @@ class Reedem extends React.Component<Props, RedeemState> {
                 </p>
               ) : (
                 ""
+              )}
+
+              {loyaltyData?.eligiblePoints < 0 && (
+                <p className={cs(styles.textLeft, styles.noEnoughPoint)}>
+                  You don&apos;t have points to redeem
+                </p>
               )}
             </div>
             <div className={bootstrapStyles.colMd12}>

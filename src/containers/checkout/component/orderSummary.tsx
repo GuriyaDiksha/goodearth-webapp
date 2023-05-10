@@ -20,6 +20,7 @@ import { displayPriceWithCommasFloat } from "utils/utility";
 import { currencyCodes } from "constants/currency";
 import checkoutIcon from "../../../images/checkout.svg";
 import freeShippingInfoIcon from "../../../images/free_shipping_info.svg";
+import Loader from "components/Loader";
 
 const OrderSummary: React.FC<OrderProps> = props => {
   const {
@@ -31,10 +32,10 @@ const OrderSummary: React.FC<OrderProps> = props => {
     validbo,
     setCheckoutMobileOrderSummary,
     onsubmit,
-    isLoading,
     currentmethod,
     isPaymentNeeded
   } = props;
+  const [isLoading, setLoading] = useState(false);
   const [isSuspended, setIsSuspended] = useState(true);
   const [fullText, setFullText] = useState(false);
   const [freeShipping] = useState(false);
@@ -56,7 +57,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
   const [checkoutOrderSummaryStatus, setCheckoutOrderSummaryStatus] = useState(
     false
   );
-
+  const { pathname } = useLocation();
   const orderSummaryRef = useRef(null);
   const orderSummaryRefCheckout = useRef(null);
   let observer: any;
@@ -116,8 +117,10 @@ const OrderSummary: React.FC<OrderProps> = props => {
   const boId = urlParams.get("bo_id");
 
   const removePromo = async (data: FormData) => {
+    setLoading(true);
     const response = await CheckoutService.removePromo(dispatch, data);
     BasketService.fetchBasket(dispatch, "checkout", history, isLoggedIn);
+    setLoading(false);
     return response;
   };
 
@@ -301,14 +304,18 @@ const OrderSummary: React.FC<OrderProps> = props => {
   };
 
   const removeGiftCard = async (data: FormData) => {
+    setLoading(true);
     const response = await CheckoutService.removeGiftCard(dispatch, data);
     BasketService.fetchBasket(dispatch, "checkout", history, isLoggedIn);
+    setLoading(false);
     return response;
   };
 
   const removeRedeem = async () => {
+    setLoading(true);
     const response = await CheckoutService.removeRedeem(dispatch);
     BasketService.fetchBasket(dispatch, "checkout", history, isLoggedIn);
+    setLoading(false);
     return response;
   };
 
@@ -331,7 +338,10 @@ const OrderSummary: React.FC<OrderProps> = props => {
       if (couponDetails) {
         coupon = basket.voucherDiscounts.map((gift, index: number) => {
           const voucher = gift.voucher;
-          if (page != "checkoutMobileBottom") {
+          if (
+            page != "checkoutMobileBottom" ||
+            pathname !== "/order/checkout"
+          ) {
             isline = true;
           }
           return (
@@ -345,17 +355,17 @@ const OrderSummary: React.FC<OrderProps> = props => {
               key={"voucher" + index}
             >
               <span className={styles.subtotal}>
-                <span className={cs(globalStyles.marginR10, styles.subtotal)}>
+                <span className={cs(globalStyles.marginR5, styles.subtotal)}>
                   {voucher.code}
                 </span>
                 <span className={styles.textMuted}>
                   {" "}
-                  {"PROMO CODE APPLIED"}
+                  {"(Promo Code Applied)"}
                   {boId ? (
                     ""
                   ) : (
                     <span
-                      className={styles.cross}
+                      className={cs(globalStyles.marginL5, styles.cross)}
                       onClick={() => {
                         onPromoRemove(voucher.code);
                       }}
@@ -383,7 +393,6 @@ const OrderSummary: React.FC<OrderProps> = props => {
 
     if (basket.giftCards) {
       giftCard = basket.giftCards.map((gift, index: number) => {
-        isline = true;
         return (
           <div
             className={cs(
@@ -395,16 +404,16 @@ const OrderSummary: React.FC<OrderProps> = props => {
             key={index}
           >
             <span className={styles.subtotal}>
-              <span className={cs(globalStyles.marginR10, styles.subtotal)}>
+              <span className={cs(globalStyles.marginR5, styles.subtotal)}>
                 {gift.cardId}
               </span>
               <span className={styles.textMuted}>
                 {" "}
                 {gift.cardType == "CREDITNOTE"
-                  ? "CREDIT NOTE APPLIED"
-                  : "GIFT CODE APPLIED"}
+                  ? "(Credit Note Applied)"
+                  : "(Gift Code Applied)"}
                 <span
-                  className={styles.cross}
+                  className={cs(globalStyles.marginL5, styles.cross)}
                   onClick={() => {
                     onGiftCardRemove(gift.cardId, gift.cardType);
                   }}
@@ -429,7 +438,6 @@ const OrderSummary: React.FC<OrderProps> = props => {
     }
     const redeemDetails = basket.loyalty?.[0];
     if (redeemDetails) {
-      isline = true;
       loyalty = (
         <div
           className={cs(
@@ -441,14 +449,14 @@ const OrderSummary: React.FC<OrderProps> = props => {
           key={"redeems"}
         >
           <span className={styles.subtotal}>
-            <span className={cs(globalStyles.marginR10, styles.subtotal)}>
+            <span className={cs(globalStyles.marginR5, styles.subtotal)}>
               CERISE POINTS
             </span>
             <span className={styles.textMuted}>
               {" "}
-              {"REDEEMED"}
+              {"(Redeemed)"}
               <span
-                className={styles.cross}
+                className={cs(globalStyles.marginL5, styles.cross)}
                 onClick={() => {
                   removeRedeem();
                 }}
@@ -482,8 +490,6 @@ const OrderSummary: React.FC<OrderProps> = props => {
 
     //return null;
   };
-
-  const { pathname } = useLocation();
 
   const hasOutOfStockItems = () => {
     const items = basket.lineItems;
@@ -707,9 +713,9 @@ const OrderSummary: React.FC<OrderProps> = props => {
               </span>
             </div>
           </div>
-          {pathname !== "/order/checkout" ||
-            (page == "checkoutMobileBottom" && getCoupons())}
-          {page == "checkoutMobileBottom" ? <hr className={styles.hr} /> : ""}
+          {((pathname === "/order/checkout" && !mobile) ||
+            (page == "checkoutMobileBottom" && !checkoutOrderSummaryStatus)) &&
+            getCoupons()}
         </div>
       );
     } else {
@@ -728,7 +734,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
               )}
             </span>
           </div>
-          {getCoupons()}
+          {/* {getCoupons()} */}
         </div>
       );
     }
@@ -950,11 +956,11 @@ const OrderSummary: React.FC<OrderProps> = props => {
                 {displayPriceWithCommasFloat(basket.total, currency)}
               </span>
             </div>
-            {pathname === "/order/checkout" ? (
+            {/* {pathname === "/order/checkout" ? (
               <div className={cs(styles.summaryPadding)}>
                 <hr className={cs(styles.hr)} />
               </div>
-            ) : null}
+            ) : null} */}
 
             {page == "checkoutMobileBottom" && (
               <button
@@ -1183,6 +1189,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
           )}
         </div>
       </div>
+      {isLoading && <Loader />}
     </div>
   );
 };

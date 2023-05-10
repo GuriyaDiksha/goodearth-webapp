@@ -96,7 +96,8 @@ const LineItems: React.FC<BasketItem> = memo(
       inWishlist,
       attributes,
       childAttributes,
-      productDeliveryDate
+      productDeliveryDate,
+      groupedProductsCount
     } = product;
     const size =
       attributes.find(attribute => attribute.name == "Size")?.value || "";
@@ -278,7 +279,7 @@ const LineItems: React.FC<BasketItem> = memo(
                     <img src={salesBadgeImage} alt="sales-badge" />
                   </div>
                 )}
-                <div className={styles.cartRing}>
+                <div className={cs(styles.cartRing, styles.bridalIcon)}>
                   {bridalProfile && (
                     <svg
                       viewBox="-5 -5 50 50"
@@ -370,15 +371,16 @@ const LineItems: React.FC<BasketItem> = memo(
               >
                 {getSize(product.attributes, GCMeta)}
               </div>
-              <div
-                className={cs(
-                  styles.productColor,
-                  product.stockRecords[0].numInStock < 1 && styles.outOfStock
-                )}
-              >
-                {getColor(product.attributes, GCMeta)}
-              </div>
-
+              {groupedProductsCount > 0 && (
+                <div
+                  className={cs(
+                    styles.productColor,
+                    product.stockRecords[0].numInStock < 1 && styles.outOfStock
+                  )}
+                >
+                  {getColor(product.attributes, GCMeta)}
+                </div>
+              )}
               <div
                 className={cs(
                   styles.widgetQty,

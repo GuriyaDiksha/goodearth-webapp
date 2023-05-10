@@ -117,6 +117,13 @@
       }
       .product-image {
         width: 109px;
+        .bridal-icon {
+          position: absolute;
+          right: -10px;
+          bottom: -10px;
+          background: #fff;
+          border-radius: 50%;
+        }
       }
 
       .product-details {

@@ -113,7 +113,7 @@ a {
 }
 
 .text-left {
-  text-align: left;
+  text-align: left !important;
 }
 
 .text-right {
@@ -138,7 +138,12 @@ a {
 .margin-t-20 {
   margin-top: 20px;
 }
-
+.margin-r-5{
+  margin-right: 5px;
+}
+.margin-l-5{
+  margin-left: 5px;
+}
 .margin-r-10{
   margin-right: 10px;
 }

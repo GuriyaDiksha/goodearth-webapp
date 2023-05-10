@@ -65,7 +65,8 @@ const CartItems: React.FC<BasketItem> = memo(
       attributes,
       categories,
       sku,
-      plpSliderImages
+      plpSliderImages,
+      groupedProductsCount
     } = product;
     const showDeliveryTimelines = true;
     useEffect(() => {
@@ -450,13 +451,15 @@ const CartItems: React.FC<BasketItem> = memo(
                       >
                         {getSize(attributes, GCMeta)}
                       </div>
-                      <div
-                        className={cs(styles.productColor, {
-                          [styles.outOfStock]: stockRecords[0].numInStock < 1
-                        })}
-                      >
-                        {getColor(attributes, GCMeta)}
-                      </div>
+                      {groupedProductsCount > 0 && (
+                        <div
+                          className={cs(styles.productColor, {
+                            [styles.outOfStock]: stockRecords[0].numInStock < 1
+                          })}
+                        >
+                          {getColor(attributes, GCMeta)}
+                        </div>
+                      )}
                       <div>
                         {/* <div className={styles.size}>QTY</div> */}
                         <div

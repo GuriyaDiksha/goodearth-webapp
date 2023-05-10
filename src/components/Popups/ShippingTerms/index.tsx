@@ -4,8 +4,14 @@ import globalStyles from "styles/global.scss";
 import styles from "../styles.scss";
 import iconStyles from "styles/iconFonts.scss";
 import { Context } from "components/Modal/context";
+import { CustomDuties } from "components/Address/typings";
+import ReactHtmlParser from "react-html-parser";
 
-const ShippingTerms: React.FC = () => {
+type Props = {
+  customDuties: CustomDuties;
+};
+
+const ShippingTerms: React.FC<Props> = ({ customDuties }) => {
   const { closeModal } = useContext(Context);
 
   return (
@@ -40,10 +46,12 @@ const ShippingTerms: React.FC = () => {
           className={cs(
             globalStyles.paddT20,
             globalStyles.marginLR40,
-            styles.gcTnc
+            styles.gcTnc,
+            styles.desc
           )}
         >
-          <p className={styles.desc}>
+          {ReactHtmlParser(customDuties?.popup_content)}
+          {/* <p className={styles.desc}>
             Dutles & Taxes are not included in this order and will be charged
             over and above the shipping and handling charges paid at checkout.
           </p>
@@ -61,7 +69,7 @@ const ShippingTerms: React.FC = () => {
           <p className={styles.desc}>
             I agree to pay the additional applicable duties and taxes directly
             to the shipping agency at the time of order delivery.
-          </p>
+          </p> */}
         </div>
       </div>
     </div>

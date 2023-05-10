@@ -733,6 +733,12 @@ const AddressItem: React.FC<Props> = props => {
               )}
             </div>
           )}
+
+          {/* =========== Nickname ======== */}
+
+          <div className={cs(styles.nicknameWrapper)}>
+            {address?.addressType}
+          </div>
           {/* ========= Address ============= */}
           <div className={cs(styles.addressWrapper)}>
             <div

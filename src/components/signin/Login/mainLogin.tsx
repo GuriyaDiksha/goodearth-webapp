@@ -317,10 +317,10 @@ class MainLogin extends React.Component<Props, loginState> {
 
           const boid = new URLSearchParams(
             this.props.history.location.search
-          ).get("boid");
+          ).get("bo_id");
 
           if (boid) {
-            this.props.history.push(`/order/checkout?boid=${boid}`);
+            this.props.history.push(`/order/checkout?bo_id=${boid}`);
           }
         })
         .catch(err => {

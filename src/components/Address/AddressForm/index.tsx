@@ -365,7 +365,8 @@ const AddressForm: React.FC<Props> = props => {
         line1,
         line2,
         state,
-        province
+        province,
+        addressType
       } = addressData;
       // update stateOptions based on country
       onCountrySelect(null, countryName);
@@ -385,7 +386,8 @@ const AddressForm: React.FC<Props> = props => {
             line1,
             line2,
             state,
-            province
+            province,
+            addressType
           },
           true
         );
@@ -783,7 +785,7 @@ const AddressForm: React.FC<Props> = props => {
           <div>
             <FormInput
               id="nickname"
-              name="nickname"
+              name="addressType"
               label={"Address Nickname"}
               placeholder={"Address Nickname"}
               handleChange={e => handleCharLimit(e)}

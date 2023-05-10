@@ -68,6 +68,9 @@
       font-style: normal;
     }
     text-align: start;
+    &.redeem-input {
+      padding: 10px 20px;
+    }
     &:active, &:focus {
       background-color: #fff;
       border: 1px solid #d8d8d8;
@@ -92,6 +95,10 @@
       color: #9F9F9F;
       background-color: #d8d8d826;
     }
+  }
+  .no-enough-point {
+    @include b5_10px_montserrat_charcoal();
+    margin: 10px 0;
   }
 }
 .toggle-password-btn {
