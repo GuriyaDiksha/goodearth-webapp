@@ -153,11 +153,7 @@ class CartPage extends React.Component<Props, State> {
         .getBoDetail(boId)
         .then((data: any) => {
           localStorage.setItem("tempEmail", data.email);
-          if (
-            this.props.user.email &&
-            data.isLogin &&
-            this.props.user.email !== data.email
-          ) {
+          if (this.props.user.email && data.isLogin) {
             CookieService.setCookie("currency", data.currency, 365);
             CookieService.setCookie("currencypopup", "true", 365);
             this.props
@@ -170,18 +166,6 @@ class CartPage extends React.Component<Props, State> {
                 //   boId: boId
                 // });
               });
-          } else if (this.props.user.email === data.email) {
-            this.props
-              .logout(this.props.currency, this.props.user.customerGroup)
-              .then(res => {
-                localStorage.setItem("tempEmail", data.email);
-                this.props.goLogin(undefined);
-                // this.setState({
-                //   boEmail: data.email,
-                //   boId: boId
-                // });
-              });
-            // this.props.history.push(`/order/checkout/?bo_id=${boId}`);
           } else if (data.email) {
             CookieService.setCookie("currency", data.currency, 365);
             CookieService.setCookie("currencypopup", "true", 365);
