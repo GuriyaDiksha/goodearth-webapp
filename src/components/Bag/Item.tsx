@@ -217,8 +217,8 @@ const LineItems: React.FC<BasketItem> = memo(
       return size || GCMeta ? (
         <div className={styles.size}>
           {" "}
-          {size ? "Size: " : "Recipient's Name: "} {size?.value}
-          {GCMeta?.recipeint_name}
+          {size ? "Size: " : "Recipient's Name: "}{" "}
+          {size ? size?.value : GCMeta?.recipeint_name}
         </div>
       ) : (
         ""
@@ -242,7 +242,7 @@ const LineItems: React.FC<BasketItem> = memo(
         return cName;
       };
 
-      return color || GCMeta ? (
+      return (color && groupedProductsCount > 0) || GCMeta ? (
         <div className={styles.color}>
           {color ? "Color: " : "Recipient's Email: "}{" "}
           {color ? colorName() : GCMeta?.recipient_email}
@@ -371,16 +371,16 @@ const LineItems: React.FC<BasketItem> = memo(
               >
                 {getSize(product.attributes, GCMeta)}
               </div>
-              {groupedProductsCount > 0 && (
-                <div
-                  className={cs(
-                    styles.productColor,
-                    product.stockRecords[0].numInStock < 1 && styles.outOfStock
-                  )}
-                >
-                  {getColor(product.attributes, GCMeta)}
-                </div>
-              )}
+
+              <div
+                className={cs(
+                  styles.productColor,
+                  product.stockRecords[0].numInStock < 1 && styles.outOfStock
+                )}
+              >
+                {getColor(product.attributes, GCMeta)}
+              </div>
+
               <div
                 className={cs(
                   styles.widgetQty,
@@ -501,12 +501,12 @@ const LineItems: React.FC<BasketItem> = memo(
             </div>
           </div>
         </div>
-        {productDeliveryDate && (
+        {/* {productDeliveryDate && (
           <div className={cs(styles.deliveryDate, globalStyles.voffset3)}>
             Estimated Delivery:
             <span>{productDeliveryDate}</span>
           </div>
-        )}
+        )} */}
       </div>
     );
   }

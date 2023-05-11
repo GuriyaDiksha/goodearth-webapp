@@ -225,8 +225,7 @@ const CartItems: React.FC<BasketItem> = memo(
               [styles.inline]: mobile || tablet
             })}
           >
-            {size?.value}
-            {GCMeta?.recipeint_name}
+            {size ? size?.value : GCMeta?.recipeint_name}
           </div>
         </div>
       ) : (
@@ -251,7 +250,7 @@ const CartItems: React.FC<BasketItem> = memo(
         return cName;
       };
 
-      return color || GCMeta ? (
+      return (color && groupedProductsCount > 0) || GCMeta ? (
         <div className={styles.color}>
           {color ? "Color: " : "Recipient's Email: "}
           {color ? colorName() : GCMeta?.recipient_email}
@@ -451,15 +450,15 @@ const CartItems: React.FC<BasketItem> = memo(
                       >
                         {getSize(attributes, GCMeta)}
                       </div>
-                      {groupedProductsCount > 0 && (
-                        <div
-                          className={cs(styles.productColor, {
-                            [styles.outOfStock]: stockRecords[0].numInStock < 1
-                          })}
-                        >
-                          {getColor(attributes, GCMeta)}
-                        </div>
-                      )}
+
+                      <div
+                        className={cs(styles.productColor, {
+                          [styles.outOfStock]: stockRecords[0].numInStock < 1
+                        })}
+                      >
+                        {getColor(attributes, GCMeta)}
+                      </div>
+
                       <div>
                         {/* <div className={styles.size}>QTY</div> */}
                         <div

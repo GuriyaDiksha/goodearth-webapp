@@ -823,10 +823,10 @@ const OrderSummary: React.FC<OrderProps> = props => {
               >
                 <span>
                   <span className={styles.total}>TOTAL*</span>
-                  <p className={styles.subtext}>
+                  {/* <p className={styles.subtext}>
                     {" "}
                     *Excluding estimated cost of shipping{" "}
-                  </p>
+                  </p> */}
                 </span>
                 <span className={styles.total}>
                   {String.fromCharCode(...code)}{" "}
@@ -945,9 +945,9 @@ const OrderSummary: React.FC<OrderProps> = props => {
                 <span className={cs(styles.grandTotal, globalStyles.voffset2)}>
                   AMOUNT PAYABLE
                 </span>
-                <p className={styles.subtext}>
+                {/* <p className={styles.subtext}>
                   *Excluding estimated cost of shipping
-                </p>
+                </p> */}
               </span>
               <span
                 className={cs(styles.grandTotalAmount, globalStyles.voffset2)}

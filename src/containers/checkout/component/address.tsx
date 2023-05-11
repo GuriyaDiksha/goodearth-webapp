@@ -252,7 +252,8 @@ const AddressSection: React.FC<AddressProps & {
                 className={cs(globalStyles.flex, globalStyles.gutterBetween)}
               >
                 <span className={cs(globalStyles.marginR10, styles.name)}>
-                  {address.firstName} {address.lastName}
+                  {address.firstName} {address.lastName}{" "}
+                  {`(${address?.addressType})`}
                 </span>
                 <span
                   className={cs(
@@ -866,13 +867,18 @@ const AddressSection: React.FC<AddressProps & {
                             <div></div>
                             <div
                               className={cs(
-                                globalStyles.flex,
+                                bootstrapStyles.row,
                                 globalStyles.gutterBetween,
                                 styles.checkoutAddressFooter
                               )}
                             >
                               {props.activeStep == STEP_SHIPPING && (
-                                <div>
+                                <div
+                                  className={cs(
+                                    bootstrapStyles.col6,
+                                    bootstrapStyles.colMd6
+                                  )}
+                                >
                                   <label className={cs(styles.flex)}>
                                     <div className={globalStyles.marginR10}>
                                       <span className={styles.checkbox}>
@@ -896,7 +902,7 @@ const AddressSection: React.FC<AddressProps & {
                                       )}
                                     >
                                       {ReactHtmlParser(customDuties?.message)}
-                                      {customDuties?.popup_content && (
+                                      {/* {customDuties?.popup_content && (
                                         <span
                                           onClick={() => openTermsPopup()}
                                           className={
@@ -905,7 +911,7 @@ const AddressSection: React.FC<AddressProps & {
                                         >
                                           Shipping & Payment terms.
                                         </span>
-                                      )}
+                                      )} */}
                                     </div>
                                   </label>
                                   {termsErr && (
