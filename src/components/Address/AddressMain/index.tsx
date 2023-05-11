@@ -28,11 +28,13 @@ import { GA_CALLS } from "constants/cookieConsent";
 import styles from "../styles.scss";
 import WhatsappSubscribe from "components/WhatsappSubscribe";
 import Formsy from "formsy-react";
-import { makeid } from "utils/utility";
-import { CONFIG } from "constants/util";
-// import AddressDataList from "../../../../components/Address/AddressDataList.json";
+import { updateAddressMode } from "actions/address";
 
-// import AddressMainComponent from '../../components/common/address/addressMain';
+import { CONFIG } from "constants/util";
+import {
+  updateBillingAddressId,
+  updateShippingAddressId
+} from "actions/address";
 
 const AddressMain: React.FC<Props> = props => {
   // data: [],
@@ -43,7 +45,7 @@ const AddressMain: React.FC<Props> = props => {
   const [isLoading, setIsLoading] = useState(false);
   const { addressList } = useSelector((state: AppState) => state.address);
   const [editAddressData, setEditAddressData] = useState<AddressData>();
-  const { pinCodeData, countryData } = useSelector(
+  const { pinCodeData, countryData, mode } = useSelector(
     (state: AppState) => state.address
   );
   const { bridal } = useSelector((state: AppState) => state.basket);
@@ -53,6 +55,7 @@ const AddressMain: React.FC<Props> = props => {
   // const { isLoggedIn } = useSelector((state: AppState) => state.user);
   // const [ pincodeList, setPincodeList ] = useState([]);
   const [isdList, setIsdList] = useState<any>([]);
+  const { currentCallBackComponent } = props;
 
   const {
     data: { userAddress, occasion }
@@ -60,6 +63,9 @@ const AddressMain: React.FC<Props> = props => {
 
   const dispatch = useDispatch();
 
+  const setMode = (value: AddressModes) => {
+    dispatch(updateAddressMode(value));
+  };
   useEffect(() => {
     if (props.currentCallBackComponent == "bridal") {
       const userConsent = CookieService.getCookie("consent").split(",");
@@ -73,13 +79,24 @@ const AddressMain: React.FC<Props> = props => {
       }
     }
   }, []);
-  const [mode, setMode] = useState<AddressModes>("list");
+  // const [mode, setMode] = useState<AddressModes>("list");
 
   useEffect(() => {
     if (Object.keys(pinCodeData).length > 0) {
-      addressList.length == 0 ? setMode("new") : setMode("list");
+      addressList.length == 0
+        ? dispatch(updateAddressMode("new"))
+        : dispatch(updateAddressMode("list"));
     }
   }, [addressList.length, Object.keys(pinCodeData).length]);
+
+  // useEffect(()=>{
+  //   if(currentCallBackComponent === "checkout-shipping"){
+  //     dispatch(updateShippingAddressId(props.selectedAddress?.id || 0));
+  //   }
+  //   if(currentCallBackComponent === "checkout-billing"){
+  //     dispatch(updateBillingAddressId(props.selectedAddress?.id || 0));
+  //   }
+  // },[props.selectedAddress])
 
   // useEffect(() => {
   //   (addressList.length) && openAddressForm()
@@ -158,7 +175,7 @@ const AddressMain: React.FC<Props> = props => {
     // }
     if (address) {
       setEditAddressData(address);
-      setMode("edit");
+      dispatch(updateAddressMode("edit"));
       setScrollPos(window.scrollY);
       const elem = document.getElementsByClassName(
         myAccountStyles.accountFormBgMobile
@@ -167,7 +184,7 @@ const AddressMain: React.FC<Props> = props => {
         setInnerScrollPos(elem.scrollTop);
       }
     } else {
-      setMode("new");
+      dispatch(updateAddressMode("new"));
       // setEditAddressData(null);
     }
   }, []);
@@ -253,21 +270,30 @@ const AddressMain: React.FC<Props> = props => {
         state
       };
 
-      AddressService.updateAddress(dispatch, formData, id, addressId)
-        .catch(err => {
-          const errData = err.response.data;
-          console.log(errData);
-        })
-        .finally(() => {
-          setIsLoading(false);
-        });
+      if (currentCallBackComponent === "checkout-shipping" && addressId) {
+        dispatch(updateShippingAddressId(addressId));
+        dispatch(updateBillingAddressId(addressId));
+        setIsLoading(false);
+      } else if (currentCallBackComponent === "checkout-billing" && addressId) {
+        dispatch(updateBillingAddressId(addressId));
+        setIsLoading(false);
+      } else {
+        AddressService.updateAddress(dispatch, formData, id, addressId)
+          .catch(err => {
+            const errData = err.response.data;
+            console.log(errData);
+          })
+          .finally(() => {
+            setIsLoading(false);
+          });
+      }
     } else {
       openAddressForm(addressData);
     }
   };
 
   const closeAddressForm = useCallback(() => {
-    setMode("list");
+    dispatch(updateAddressMode("list"));
     // window.scrollTo(0, 0);
   }, []);
 
@@ -277,7 +303,6 @@ const AddressMain: React.FC<Props> = props => {
     },
     [pinCodeData]
   );
-  const { currentCallBackComponent } = props;
 
   useEffect(() => {
     const isdList = countryData.map(list => {

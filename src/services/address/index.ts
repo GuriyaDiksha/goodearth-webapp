@@ -3,6 +3,7 @@ import { Dispatch } from "redux";
 import {
   AddressData,
   AddressFormData,
+  CustomDuties,
   specifyShippingAddressResponse
 } from "components/Address/typings";
 import { PinCodeData } from "components/Formsy/PinCode/typings";
@@ -128,6 +129,14 @@ export default {
       dispatch,
       `${__API_HOST__}/myapi/address/specify_billing_address/`,
       specifyBillingAddressData
+    );
+    return data;
+  },
+  fetchCustomDuties: async (dispatch: Dispatch, currency: string) => {
+    const data = await API.post<CustomDuties>(
+      dispatch,
+      `${__API_HOST__}/myapi/shipping/custom_duties/`,
+      { currency }
     );
     return data;
   }

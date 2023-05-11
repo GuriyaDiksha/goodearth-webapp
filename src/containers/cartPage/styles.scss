@@ -494,8 +494,12 @@ hr {
   width: 100%;
   overflow: scroll;
   justify-content: start;
-  flex-wrap: nowrap;
+  // flex-wrap: nowrap;
   // column-gap: 17px;
+
+  &.wishlist-wrap{
+    flex-wrap: nowrap
+  }
   &::-webkit-scrollbar {
     display: none;
   }
@@ -624,7 +628,7 @@ hr {
   text-align: left;
   display: block;
   @include err_13px_lora_italic_cerise();
-  color:$gold;
+  color:$gold !important;
   letter-spacing: 0.26px;
   font-weight: normal;
 }
@@ -740,4 +744,8 @@ hr {
 
 .gc_name{
   @include b4_12px_montserrat_charcoal();
+}
+
+.mobile-height{
+  height: 50px !important;
 }

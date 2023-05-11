@@ -23,7 +23,6 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
   const dispatch = useDispatch();
 
   const fetchData = async () => {
-    // debugger
     const data: any = await AccountServices.fetchOrderBy(
       dispatch,
       props.oid,

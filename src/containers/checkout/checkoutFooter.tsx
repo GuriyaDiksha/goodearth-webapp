@@ -55,7 +55,9 @@ class CheckoutFooter extends React.Component<Props, { boId: string }> {
                 })}
               >
                 {mobile ? currency : `currency: ${currency}`}
-                {String.fromCharCode(...currencyCode[currency])}
+                {currency != "AED" && (
+                  <> {String.fromCharCode(...currencyCode[currency])}</>
+                )}
               </div>
               {mobile ? null : (
                 <div className={cs(bootstrap.col3, bootstrap.colMd7)}>
@@ -103,7 +105,9 @@ class CheckoutFooter extends React.Component<Props, { boId: string }> {
                 })}
               >
                 {mobile ? currency : `currency: ${currency}`}
-                {String.fromCharCode(...currencyCode[currency])}
+                {currency != "AED" && (
+                  <> {String.fromCharCode(...currencyCode[currency])}</>
+                )}
               </div>
               {mobile ? null : (
                 <div className={cs(bootstrap.col3, bootstrap.colMd7)}>

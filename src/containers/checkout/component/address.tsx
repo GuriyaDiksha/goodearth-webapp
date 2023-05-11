@@ -10,7 +10,12 @@ import bootstrapStyles from "../../../styles/bootstrap/bootstrap-grid.scss";
 import globalStyles from "styles/global.scss";
 import styles from "../styles.scss";
 import { AddressProps } from "./typings";
-import { updateAddressList } from "actions/address";
+import {
+  updateAddressList,
+  updateBillingAddressId,
+  updateCustomDuties,
+  updateShippingAddressId
+} from "actions/address";
 import AddressService from "services/address";
 import { useDispatch, useSelector } from "react-redux";
 import { STEP_BILLING, STEP_ORDER, STEP_SHIPPING } from "../constants";
@@ -25,13 +30,13 @@ import checkmarkCircle from "./../../../images/checkmarkCircle.svg";
 import { updateComponent, updateModal } from "actions/modal";
 import { POPUP } from "constants/components";
 import { displayPriceWithCommas } from "utils/utility";
+import ReactHtmlParser from "react-html-parser";
 
 const AddressSection: React.FC<AddressProps & {
   mode: string;
   children: React.ReactNode;
 }> = props => {
   const {
-    mode,
     children,
     activeStep,
     isActive,
@@ -51,9 +56,17 @@ const AddressSection: React.FC<AddressProps & {
     currentCallBackComponent
   } = useContext(AddressContext);
   const { currency, user } = useSelector((state: AppState) => state);
-  const { basket } = useSelector((state: AppState) => state);
+  const {
+    basket,
+    modal: { openModal }
+  } = useSelector((state: AppState) => state);
   const { mobile } = useSelector((state: AppState) => state.device);
-  const { addressList } = useSelector((state: AppState) => state.address);
+  const {
+    addressList,
+    shippingAddressId,
+    billingAddressId,
+    customDuties
+  } = useSelector((state: AppState) => state.address);
   // const { showPromo } = useSelector((state: AppState) => state.info);
   const sameShipping =
     (props.activeStep == STEP_BILLING ? true : false) &&
@@ -85,6 +98,8 @@ const AddressSection: React.FC<AddressProps & {
 
   const dispatch = useDispatch();
 
+  const { mode } = useSelector((state: AppState) => state.address);
+
   useEffect(() => {
     if (isLoggedIn && currentCallBackComponent == "checkout-shipping") {
       AddressService.fetchAddressList(dispatch).then(addressList => {
@@ -92,6 +107,36 @@ const AddressSection: React.FC<AddressProps & {
       });
     }
   }, [isLoggedIn]);
+
+  useEffect(() => {
+    if (currentCallBackComponent === "checkout-shipping") {
+      dispatch(
+        updateShippingAddressId(
+          props.selectedAddress?.id ||
+            addressList?.find(val => val?.isDefaultForShipping)?.id ||
+            0
+        )
+      );
+      if (sameAsShipping) {
+        dispatch(
+          updateBillingAddressId(
+            props.selectedAddress?.id ||
+              addressList?.find(val => val?.isDefaultForShipping)?.id ||
+              0
+          )
+        );
+      }
+    }
+    if (currentCallBackComponent === "checkout-billing") {
+      dispatch(
+        updateBillingAddressId(
+          props.selectedAddress?.id ||
+            addressList?.find(val => val?.isDefaultForShipping)?.id ||
+            0
+        )
+      );
+    }
+  }, [props.selectedAddress, addressList]);
   const openNewAddressForm = () => {
     setSameAsShipping(false);
     openAddressForm();
@@ -115,6 +160,9 @@ const AddressSection: React.FC<AddressProps & {
     if (currency != "INR") {
       setGst(false);
     }
+    AddressService.fetchCustomDuties(dispatch, currency).then(res => {
+      dispatch(updateCustomDuties(res));
+    });
   }, [currency]);
   const renderActions = function(isBottom?: boolean) {
     if (isActive && isLoggedIn) {
@@ -125,7 +173,7 @@ const AddressSection: React.FC<AddressProps & {
           ? "< BACK TO SAVED ADDRESSES"
           : "[+] ADD NEW ADDRESS";
       const mobileText =
-        mode == "new" || mode == "edit" ? "< BACK" : "[+] ADD ADDRESS";
+        mode == "new" || mode == "edit" ? "< BACK" : "[+] ADD NEW ADDRESS";
       if (isBridal && activeStep == STEP_SHIPPING) return "";
       return (
         <div
@@ -141,11 +189,12 @@ const AddressSection: React.FC<AddressProps & {
             globalStyles.textRight
           )}
         >
-          <div
-            className={cs(styles.formSubheading, globalStyles.pointer)}
-            onClick={clickAction}
-          >
-            {mobile ? <span>{mobileText}</span> : <span>{fullText}</span>}
+          <div className={cs(globalStyles.pointer)} onClick={clickAction}>
+            {mobile ? (
+              <span className={cs(styles.addNewAddress)}>{mobileText}</span>
+            ) : (
+              <span className={cs(styles.addNewAddress)}>{fullText}</span>
+            )}
           </div>
         </div>
       );
@@ -392,7 +441,6 @@ const AddressSection: React.FC<AddressProps & {
     const amountPriceCheck = amountPrice[currency] <= basket.total;
     setGstNum(gstText || gstNum);
 
-    debugger;
     if (gstText) {
       setGstDetails({ gstText: gstText, gstType: gstType || "" });
     }
@@ -435,9 +483,11 @@ const AddressSection: React.FC<AddressProps & {
     }
   };
   const onSelectAddress = (address?: AddressData) => {
-    if (activeStep === STEP_SHIPPING && !isTermChecked) {
-      setTermsErr("Please confirm to terms and conditions");
-      return false;
+    if (activeStep === STEP_SHIPPING) {
+      if (!isBridal && !isTermChecked) {
+        setTermsErr("Please confirm to terms and conditions");
+        return false;
+      }
     }
     setTermsErr("");
     if (address) {
@@ -456,6 +506,25 @@ const AddressSection: React.FC<AddressProps & {
   const handleSaveAndReview = (address?: AddressData) => {
     onSubmit(address);
   };
+
+  useEffect(() => {
+    if (openModal && gst) {
+      dispatch(
+        updateComponent(
+          POPUP.BILLINGGST,
+          {
+            onSubmit: onSubmit,
+            setGst: setGst,
+            gstNum: gstNum,
+            parentError: props.error,
+            isActive: isActive,
+            setGstNum: setGstNum
+          },
+          true
+        )
+      );
+    }
+  }, [props.error, isActive]);
   const toggleGstInvoice = () => {
     setGst(!gst);
     if (!gst) {
@@ -465,20 +534,22 @@ const AddressSection: React.FC<AddressProps & {
           {
             onSubmit: onSubmit,
             setGst: setGst,
-            gstNum: gstNum
+            gstNum: gstNum,
+            parentError: "",
+            isActive: isActive,
+            setGstNum: setGstNum
           },
           true
         )
       );
       dispatch(updateModal(true));
     } else {
-      debugger;
       setGstNum("");
     }
   };
 
   const openTermsPopup = () => {
-    dispatch(updateComponent(POPUP.SHIPPINGTERMS, null, true));
+    dispatch(updateComponent(POPUP.SHIPPINGTERMS, { customDuties }, true));
     dispatch(updateModal(true));
   };
 
@@ -628,7 +699,7 @@ const AddressSection: React.FC<AddressProps & {
     return (
       show && (
         <div className={cs(styles.payment, globalStyles.voffset4)}>
-          <hr className={globalStyles.marginy24} />
+          {!mobile && <hr className={globalStyles.marginy24} />}
           <label className={cs(styles.flex)}>
             <div className={globalStyles.marginR10}>
               <span className={styles.checkbox}>
@@ -680,7 +751,11 @@ const AddressSection: React.FC<AddressProps & {
                   />
                 ) : null}
 
-                <span className={cs({ [styles.closed]: !isActive })}>
+                <span
+                  className={cs({
+                    [styles.iscompleted]: STEP_ORDER[activeStep] < currentStep
+                  })}
+                >
                   {activeStep == STEP_SHIPPING
                     ? "SHIPPING DETAILS"
                     : "BILLING DETAILS"}
@@ -765,7 +840,7 @@ const AddressSection: React.FC<AddressProps & {
                   {props.activeStep == STEP_BILLING && props.hidesameShipping && (
                     <>
                       <div>{renderBillingCheckbox()}</div>
-                      {!sameAsShipping && isLoggedIn && (
+                      {!sameAsShipping && isLoggedIn && mode == "list" && (
                         <div>
                           <div
                             className={cs(
@@ -786,7 +861,7 @@ const AddressSection: React.FC<AddressProps & {
                         !sameAsShipping)) && (
                       <>
                         <div>{children}</div>
-                        {addressList.length > 1 && mode == "list" && (
+                        {addressList.length && mode == "list" && (
                           <>
                             <div></div>
                             <div
@@ -820,18 +895,17 @@ const AddressSection: React.FC<AddressProps & {
                                         styles.checkBoxHeading
                                       )}
                                     >
-                                      I agree to pay the additional applicable
-                                      duties and taxes directly to the shipping
-                                      agency at the time of the delivery. To
-                                      know more, referre to our{" "}
-                                      <span
-                                        onClick={() => openTermsPopup()}
-                                        className={
-                                          globalStyles.linkTextUnderline
-                                        }
-                                      >
-                                        Shipping & Payment terms.
-                                      </span>
+                                      {ReactHtmlParser(customDuties?.message)}
+                                      {customDuties?.popup_content && (
+                                        <span
+                                          onClick={() => openTermsPopup()}
+                                          className={
+                                            globalStyles.linkTextUnderline
+                                          }
+                                        >
+                                          Shipping & Payment terms.
+                                        </span>
+                                      )}
                                     </div>
                                   </label>
                                   {termsErr && (
@@ -847,9 +921,10 @@ const AddressSection: React.FC<AddressProps & {
                                   <div
                                     onClick={() => {
                                       onSelectAddress(
-                                        addressList?.find(
-                                          val =>
-                                            val?.isDefaultForShipping === true
+                                        addressList?.find(val =>
+                                          shippingAddressId !== 0
+                                            ? val?.id === shippingAddressId
+                                            : val?.isDefaultForShipping === true
                                         )
                                       );
                                     }}
@@ -873,13 +948,19 @@ const AddressSection: React.FC<AddressProps & {
                             </div>
                           </>
                         )}
+                        {!mobile &&
+                          addressList.length > 1 &&
+                          mode == "list" &&
+                          props.activeStep == STEP_BILLING &&
+                          !sameAsShipping &&
+                          renderActions(true)}
                       </>
                     )}
                   {/* { (props.activeStep == STEP_SHIPPING ||
                       (props.activeStep == STEP_BILLING &&
                         !sameAsShipping)) && <div>{children}</div>} */}
 
-                  {props.error ? (
+                  {props.error && props.activeStep !== STEP_BILLING ? (
                     <div
                       className={cs(
                         globalStyles.errorMsg,
@@ -907,24 +988,30 @@ const AddressSection: React.FC<AddressProps & {
                           )}
                           onClick={() => {
                             handleSaveAndReview(
-                              addressList?.find(
-                                val => val?.isDefaultForShipping === true
+                              addressList?.find(val =>
+                                shippingAddressId !== 0
+                                  ? sameAsShipping
+                                    ? val?.id === shippingAddressId
+                                    : val?.id === billingAddressId
+                                  : val?.isDefaultForShipping === true
                               )
                             );
                           }}
                         >
-                          Proceed to Payment
+                          {mobile
+                            ? "SELECT & PROCEED TO PAYMENT"
+                            : "PROCEED TO PAYMENT"}
                         </div>
                       </div>
                     </div>
                   )}
                 </div>
-                {addressList.length > 1 &&
+                {/* {addressList.length > 1 &&
                   mode == "list" &&
                   (props.activeStep == STEP_SHIPPING ||
                     (props.activeStep == STEP_BILLING &&
                       !props.hidesameShipping)) &&
-                  renderActions(true)}
+                  renderActions(true)} */}
               </>
             )}
             {props.activeStep == STEP_SHIPPING && !isActive && (

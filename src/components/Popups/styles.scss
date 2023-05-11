@@ -1607,10 +1607,17 @@
 
 .error-gst{
   margin: 10px 45px;
+  font-size: 13px !important;
+  font-weight: normal !important;
 }
 
 .desc{
+  p{
+    word-wrap: break-word;
+    text-align: left;
     @include b4_12px_montserrat_charcoal();
+  }
+ 
 }
 
 @media (max-width:992px){

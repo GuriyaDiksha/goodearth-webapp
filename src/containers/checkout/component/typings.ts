@@ -125,6 +125,8 @@ export type RedeemState = {
   newCardBox: boolean;
   toggleOtp: boolean;
   isActivated: boolean;
+  showTooltip: boolean;
+  showTooltipTwo: boolean;
 };
 
 // export type ReddemProps = {

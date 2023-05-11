@@ -65,7 +65,8 @@ const CartItems: React.FC<BasketItem> = memo(
       attributes,
       categories,
       sku,
-      plpSliderImages
+      plpSliderImages,
+      groupedProductsCount
     } = product;
     const showDeliveryTimelines = true;
     useEffect(() => {
@@ -216,11 +217,11 @@ const CartItems: React.FC<BasketItem> = memo(
           <div
             className={cs(styles.size, { [styles.inline]: mobile || tablet })}
           >
-            {size ? "Size" : "Recipient&apos;s Name:"}
+            {size ? "Size: " : "Recipient's Name: "}
           </div>
           {(mobile || tablet) && " "}
           <div
-            className={cs(styles.productSize, styles.productSizeValue, {
+            className={cs({
               [styles.inline]: mobile || tablet
             })}
           >
@@ -252,7 +253,7 @@ const CartItems: React.FC<BasketItem> = memo(
 
       return color || GCMeta ? (
         <div className={styles.color}>
-          {color ? "Color:" : "Recipient&apos;s Email:"} :{" "}
+          {color ? "Color: " : "Recipient's Email: "}
           {color ? colorName() : GCMeta?.recipient_email}
         </div>
       ) : (
@@ -450,13 +451,15 @@ const CartItems: React.FC<BasketItem> = memo(
                       >
                         {getSize(attributes, GCMeta)}
                       </div>
-                      <div
-                        className={cs(styles.productColor, {
-                          [styles.outOfStock]: stockRecords[0].numInStock < 1
-                        })}
-                      >
-                        {getColor(attributes, GCMeta)}
-                      </div>
+                      {groupedProductsCount > 0 && (
+                        <div
+                          className={cs(styles.productColor, {
+                            [styles.outOfStock]: stockRecords[0].numInStock < 1
+                          })}
+                        >
+                          {getColor(attributes, GCMeta)}
+                        </div>
+                      )}
                       <div>
                         {/* <div className={styles.size}>QTY</div> */}
                         <div
@@ -492,42 +495,23 @@ const CartItems: React.FC<BasketItem> = memo(
                               disabled={
                                 stockRecords && stockRecords[0].numInStock < 1
                               }
+                              isSaleErrorMsgOn={
+                                saleStatus &&
+                                childAttributes[0].showStockThreshold &&
+                                childAttributes[0].stock > 0 &&
+                                childAttributes[0].othersBasketCount > 0
+                              }
                               // errorMsg="Available qty in stock is"
                             />
                           )}
                         </div>
-                        {/* {qtyError &&
-                          !(
-                            saleStatus &&
-                            childAttributes[0].showStockThreshold &&
-                            childAttributes[0].stock > 0 &&
-                            childAttributes[0].othersBasketCount > 0
-                          ) && (
-                            <span
-                              className={cs(
-                                globalStyles.errorMsg,
-                                styles.stockLeft
-                                // {
-                                // [styles.stockLeftWithError]: qtyError
-                                // }
-                              )}
-                            >
-                              {qtyErrorMsg}
-                            </span>
-                          )} */}
+
                         {saleStatus && (
                           <span
-                            className={cs(
-                              globalStyles.errorMsg,
-                              styles.stockLeft,
-                              {
-                                [styles.outOfStock]:
-                                  stockRecords[0].numInStock < 1
-                              }
-                              // {
-                              //   [styles.stockLeftWithError]: qtyError
-                              // }
-                            )}
+                            className={cs(styles.stockLeft, {
+                              [styles.outOfStock]:
+                                stockRecords[0].numInStock < 1
+                            })}
                           >
                             {saleStatus &&
                               childAttributes[0].showStockThreshold &&

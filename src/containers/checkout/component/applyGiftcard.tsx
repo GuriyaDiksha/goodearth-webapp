@@ -13,6 +13,7 @@ import { errorTracking } from "utils/validate";
 import SelectableDropdownMenu from "components/dropdown/selectableDropdownMenu";
 import CookieService from "services/cookie";
 import { GA_CALLS } from "constants/cookieConsent";
+import Loader from "components/Loader";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -25,8 +26,9 @@ const mapStateToProps = (state: AppState) => {
   };
 };
 type Props = ReturnType<typeof mapDispatchToProps> &
-  ReturnType<typeof mapStateToProps> &
-  RouteComponentProps;
+  ReturnType<typeof mapStateToProps> & {
+    onRef: any;
+  } & RouteComponentProps;
 
 class ApplyGiftcard extends React.Component<Props, GiftState> {
   constructor(props: Props) {
@@ -37,11 +39,25 @@ class ApplyGiftcard extends React.Component<Props, GiftState> {
       newCardBox: true,
       toggleOtp: false,
       isActivated: false,
-      cardType: "GIFTCARD"
+      cardType: "Select",
+      isLoader: false
     };
   }
   private firstLoad = true;
   // ProfileFormRef: RefObject<Formsy> = React.createRef();
+
+  // PaymentFormRef: RefObject<Formsy> = React.createRef();
+  componentDidMount = () => {
+    if (this.props.onRef != null) {
+      this.props.onRef(this);
+    }
+  };
+
+  componentDidUpdate = (prevProps: Props) => {
+    if (this.props.onRef != null) {
+      this.props.onRef(this);
+    }
+  };
 
   UNSAFE_componentWillReceiveProps(nextProps: any) {
     if (nextProps.giftList.length > 0 && this.firstLoad) {
@@ -82,11 +98,14 @@ class ApplyGiftcard extends React.Component<Props, GiftState> {
       type: this.state.cardType
     };
 
+    this.setState({ isLoader: true });
+
     this.props
       .applyGiftCard(data, this.props.history, this.props.user.isLoggedIn)
       .then((response: any) => {
         if (response.status == false) {
           this.updateError(response.message, response.isNotActivated);
+          this.setState({ isLoader: false });
         } else {
           const userConsent = CookieService.getCookie("consent").split(",");
           if (userConsent.includes(GA_CALLS)) {
@@ -99,7 +118,8 @@ class ApplyGiftcard extends React.Component<Props, GiftState> {
           }
           this.setState({
             txtvalue: "",
-            error: ""
+            error: "",
+            isLoader: false
           });
         }
       });
@@ -126,16 +146,17 @@ class ApplyGiftcard extends React.Component<Props, GiftState> {
     this.setState({});
   };
   onClose = (code: string, type: string) => {
-    // debugger
     const data: any = {
       cardId: code,
       type: type
     };
+    this.setState({ isLoader: true });
     this.props
       .removeGiftCard(data, this.props.history, this.props.user.isLoggedIn)
       .then(response => {
         this.setState({
-          error: ""
+          error: "",
+          isLoader: false
         });
       });
   };
@@ -164,7 +185,7 @@ class ApplyGiftcard extends React.Component<Props, GiftState> {
   };
 
   render() {
-    const { newCardBox, txtvalue, toggleOtp } = this.state;
+    const { newCardBox, txtvalue, toggleOtp, isLoader } = this.state;
     const {
       user: { isLoggedIn },
       currency,
@@ -308,6 +329,7 @@ class ApplyGiftcard extends React.Component<Props, GiftState> {
             );
           })}
         </div>
+        {isLoader && <Loader />}
       </Fragment>
     );
   }

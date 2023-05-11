@@ -1,16 +1,12 @@
 import React, { memo, useState } from "react";
 import cs from "classnames";
 import { Link } from "react-router-dom";
-// import styles from "./styles.scss";
 import styles from "./styles_new.scss";
 import { BasketItem } from "typings/basket";
-// import bootstrap from "../../styles/bootstrap/bootstrap-grid.scss";
-// import Quantity from "components/quantity";
 import "../../styles/override.css";
 import { currencyCodes } from "constants/currency";
 import WishlistButton from "components/WishlistButton";
 import globalStyles from "../../styles/global.scss";
-// import iconStyles from "../../styles/iconFonts.scss";
 import BasketService from "services/basket";
 import { useSelector, useStore } from "react-redux";
 import bridalRing from "../../images/bridal/rings.svg";
@@ -23,7 +19,6 @@ import PdpQuantity from "components/quantity/pdpQuantity";
 import { showGrowlMessage } from "utils/validate";
 import { updateBasket } from "actions/basket";
 import { displayPriceWithCommas } from "utils/utility";
-import { forEach } from "lodash";
 
 const LineItems: React.FC<BasketItem> = memo(
   ({
@@ -100,7 +95,9 @@ const LineItems: React.FC<BasketItem> = memo(
       salesBadgeImage,
       inWishlist,
       attributes,
-      childAttributes
+      childAttributes,
+      productDeliveryDate,
+      groupedProductsCount
     } = product;
     const size =
       attributes.find(attribute => attribute.name == "Size")?.value || "";
@@ -220,7 +217,7 @@ const LineItems: React.FC<BasketItem> = memo(
       return size || GCMeta ? (
         <div className={styles.size}>
           {" "}
-          {size ? "Size" : "Recipient&apos;s Name:"} {size?.value}
+          {size ? "Size: " : "Recipient's Name: "} {size?.value}
           {GCMeta?.recipeint_name}
         </div>
       ) : (
@@ -247,7 +244,7 @@ const LineItems: React.FC<BasketItem> = memo(
 
       return color || GCMeta ? (
         <div className={styles.color}>
-          {color ? "Color:" : "Recipient&apos;s Email:"}{" "}
+          {color ? "Color: " : "Recipient's Email: "}{" "}
           {color ? colorName() : GCMeta?.recipient_email}
         </div>
       ) : (
@@ -282,7 +279,7 @@ const LineItems: React.FC<BasketItem> = memo(
                     <img src={salesBadgeImage} alt="sales-badge" />
                   </div>
                 )}
-                <div className={styles.cartRing}>
+                <div className={cs(styles.cartRing, styles.bridalIcon)}>
                   {bridalProfile && (
                     <svg
                       viewBox="-5 -5 50 50"
@@ -374,15 +371,16 @@ const LineItems: React.FC<BasketItem> = memo(
               >
                 {getSize(product.attributes, GCMeta)}
               </div>
-              <div
-                className={cs(
-                  styles.productColor,
-                  product.stockRecords[0].numInStock < 1 && styles.outOfStock
-                )}
-              >
-                {getColor(product.attributes, GCMeta)}
-              </div>
-
+              {groupedProductsCount > 0 && (
+                <div
+                  className={cs(
+                    styles.productColor,
+                    product.stockRecords[0].numInStock < 1 && styles.outOfStock
+                  )}
+                >
+                  {getColor(product.attributes, GCMeta)}
+                </div>
+              )}
               <div
                 className={cs(
                   styles.widgetQty,
@@ -409,9 +407,36 @@ const LineItems: React.FC<BasketItem> = memo(
                       product.stockRecords &&
                       product.stockRecords[0].numInStock < 1
                     }
+                    isSaleErrorMsgOn={
+                      saleStatus &&
+                      childAttributes[0].showStockThreshold &&
+                      childAttributes[0].stock > 0 &&
+                      childAttributes[0].othersBasketCount > 0
+                    }
                   />
                 )}
               </div>
+
+              {saleStatus && (
+                <span
+                  className={cs(styles.stockLeft, {
+                    [styles.outOfStock]: product.stockRecords[0].numInStock < 1
+                  })}
+                >
+                  {saleStatus &&
+                    childAttributes[0].showStockThreshold &&
+                    childAttributes[0].stock > 0 &&
+                    childAttributes[0].othersBasketCount > 0 &&
+                    `${childAttributes[0].othersBasketCount} other${
+                      childAttributes[0].othersBasketCount > 1 ? "s" : ""
+                    } have this item in their bag.`}
+                  {/* <br /> */}
+                  {saleStatus &&
+                    childAttributes[0].showStockThreshold &&
+                    childAttributes[0].stock > 0 &&
+                    `Only ${childAttributes[0].stock} Left!`}
+                </span>
+              )}
 
               {product.stockRecords ? (
                 product.stockRecords[0].numInStock < 1 ? (
@@ -431,6 +456,7 @@ const LineItems: React.FC<BasketItem> = memo(
               ) : (
                 ""
               )}
+
               <div
                 className={cs(
                   styles.productActions,
@@ -438,13 +464,13 @@ const LineItems: React.FC<BasketItem> = memo(
                   globalStyles.gutterBetween
                 )}
               >
-                {!bridalProfile && (
-                  <div
-                    className={cs(
-                      globalStyles.textCenter,
-                      styles.wishlistDisplay
-                    )}
-                  >
+                <div
+                  className={cs(
+                    globalStyles.textCenter,
+                    styles.wishlistDisplay
+                  )}
+                >
+                  {bridalProfile || isGiftCard ? null : (
                     <WishlistButton
                       gtmListType="MiniBag"
                       title={product.title}
@@ -459,8 +485,9 @@ const LineItems: React.FC<BasketItem> = memo(
                       inWishlist={inWishlist}
                       onMoveToWishlist={onMoveToWishlist}
                     />
-                  </div>
-                )}
+                  )}
+                </div>
+
                 <div
                   className={cs(
                     styles.pointer,
@@ -474,6 +501,12 @@ const LineItems: React.FC<BasketItem> = memo(
             </div>
           </div>
         </div>
+        {productDeliveryDate && (
+          <div className={cs(styles.deliveryDate, globalStyles.voffset3)}>
+            Estimated Delivery:
+            <span>{productDeliveryDate}</span>
+          </div>
+        )}
       </div>
     );
   }

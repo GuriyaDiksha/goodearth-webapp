@@ -82,7 +82,7 @@ body:has(.open-summary) {
     z-index: 5;
     padding: 0 0 0;
     background-color: #f9f8f5;
-    width: fit-content;
+    width: 100%;
     min-height: 100vh;
     margin-top: -10px;
   }
@@ -277,7 +277,7 @@ body:has(.open-summary) {
 }
 .product-price {
   @include plp_prod_name_desktop();
-  @include b3_14px_montserrat_gold();
+  @include b3_14px_montserrat_charcoal();
 }
 
 .hr-product {
@@ -357,9 +357,7 @@ body:has(.open-summary) {
 }
 
 .discountprice {
-  color: $cerise;
-  font-family: $font-Lato;
-  font-size: 14px;
+  @include b3_14px_montserrat_gold();
 }
 .product-size {
   @include pdp_spec();
@@ -385,8 +383,7 @@ body:has(.open-summary) {
 }
 
 .text-muted {
-  color: #666;
-  font-size: 12px;
+  @include b5_10px_montserrat_charcoal();
 }
 
 .discount-font {
@@ -397,9 +394,7 @@ body:has(.open-summary) {
 }
 
 .discountprice {
-  color: #ab1e56;
-  font-family: $font-Lato;
-  font-size: 14px;
+@include b3_14px_montserrat_gold();
 }
 
 .strikeprice {
@@ -436,6 +431,9 @@ body:has(.open-summary) {
 
 .wrap {
   word-wrap: break-word;
+  margin: 0px auto 35px auto;
+  text-align: center;
+  @include b5_10px_montserrat_charcoal();
 }
 
 .wishlist-icon-order-summary {
@@ -551,6 +549,14 @@ body:has(.open-summary) {
           top: -4px;
           cursor: pointer;
         }
+        .carret-up {
+          height: 9px;
+          width: 9px;
+          transform: rotate(45deg);
+          border: 1px solid #fff;
+          border-right: none;
+          border-bottom: none;
+        }
       }
     }
   }
@@ -610,22 +616,21 @@ body:has(.open-summary) {
     }
     .final-amount-wrapper {
       margin: 0 20px;
-      border-top: 0.5px solid $light-charcoal;
+      // border-top: 0.5px solid $light-charcoal;
     }
   }
 }
 
 .checkout-mobile-bottom {
   .summary-padding {
-    padding: 0 20px;
+    padding: 0 30px;
   }
   .proceed-to-payment {
     max-width: 100%;
     padding: 9px 30px;
   }
   .deliveryfont {
-    color: $aqua-text;
-    margin: 10px auto 20px;
+    margin: 10px auto 0px;
   }
 }
 

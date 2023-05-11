@@ -54,6 +54,7 @@ const AddressForm: React.FC<Props> = props => {
   const [isAddressChanged, setIsAddressChanged] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [isCountryChanged, setIsCountryChanged] = useState(false);
+  const [nickname, setNickname] = useState("");
   const dispatch = useDispatch();
   const {
     closeAddressForm,
@@ -364,7 +365,8 @@ const AddressForm: React.FC<Props> = props => {
         line1,
         line2,
         state,
-        province
+        province,
+        addressType
       } = addressData;
       // update stateOptions based on country
       onCountrySelect(null, countryName);
@@ -384,12 +386,18 @@ const AddressForm: React.FC<Props> = props => {
             line1,
             line2,
             state,
-            province
+            province,
+            addressType
           },
           true
         );
     }
   }, [addressData, countryOptions]);
+
+  const handleCharLimit = (e: any) => {
+    setNickname(e.target.value);
+    setIsAddressChanged(true);
+  };
   const bridalUser = { userId: 0 };
 
   return (
@@ -743,16 +751,22 @@ const AddressForm: React.FC<Props> = props => {
               type="number"
               required
               name="phoneNumber"
-              label={"Contact Number*"}
-              placeholder={"Contact Number*"}
+              label={currency === "INR" ? "Mobile Number*" : "Contact Number*"}
+              placeholder={
+                currency === "INR" ? "Mobile Number*" : "Contact Number*"
+              }
               handleChange={() => setIsAddressChanged(true)}
               validations={{
                 isExisty: true,
                 matchRegexp: /^[0-9\-/]+$/
               }}
               validationErrors={{
-                isExisty: "Please enter your Contact Number",
-                matchRegexp: "Please enter a valid Contact Number"
+                isExisty: `Please enter your ${
+                  currency === "INR" ? "Mobile Number" : "Contact Number"
+                }`,
+                matchRegexp: `Please enter a valid ${
+                  currency === "INR" ? "Mobile Number" : "Contact Number"
+                }`
               }}
               keyDown={e => (e.which === 69 ? e.preventDefault() : null)}
               onPaste={e =>
@@ -761,10 +775,35 @@ const AddressForm: React.FC<Props> = props => {
                   : null
               }
             />
-            <p key="contact-msg" className={styles.contactMsg}>
-              This number will be used for sending OTP during delivery.
+            {currency === "INR" && (
+              <p key="contact-msg" className={styles.contactMsg}>
+                This number will be used for sending OTP during delivery.
+              </p>
+            )}
+          </div>
+
+          <div>
+            <FormInput
+              id="nickname"
+              name="addressType"
+              label={"Address Nickname"}
+              placeholder={"Address Nickname"}
+              handleChange={e => handleCharLimit(e)}
+              validations={{
+                isWords: true,
+                maxLength: 30
+              }}
+              validationErrors={{
+                isWords: isAlphaError,
+                maxLength: "You cannot type in more than 30 characters"
+              }}
+              maxlength={29}
+            />
+            <p className={styles.charLimit}>
+              Char Limit: {30 - nickname?.length}/30
             </p>
           </div>
+
           {true && (
             <div className={styles.addressFormCheckbox}>
               <FormCheckbox

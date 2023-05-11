@@ -2,7 +2,6 @@ import React from "react";
 // import Modal from "components/Modal";
 import { AppState } from "reducers/typings";
 import { connect } from "react-redux";
-import { useHistory } from "react-router-dom";
 // import iconStyles from "../../styles/iconFonts.scss";
 import {
   STEP_BILLING,
@@ -96,7 +95,6 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       );
       const userData = { ...user, shippingData: shippingAddress };
       dispatch(updateUser(userData));
-      // debugger
       // isLoading(true);
       AddressService.fetchAddressList(dispatch).then(addressList => {
         dispatch(updateAddressList(addressList));
@@ -331,6 +329,10 @@ class Checkout extends React.Component<Props, State> {
         .catch(error => {
           this.props.history.push("/backend-order-error");
         });
+    } else {
+      if (!this.props.user.isLoggedIn) {
+        this.props.history.push("/cart");
+      }
     }
     if (this.state.isSuspended && checkoutPopupCookie !== "show") {
       // this.props.showPopup(this.setInfoPopupCookie);
@@ -453,6 +455,7 @@ class Checkout extends React.Component<Props, State> {
             });
           }
         }
+
         this.setState({
           activeStep: STEP_SHIPPING,
           billingAddress: undefined,
@@ -489,7 +492,6 @@ class Checkout extends React.Component<Props, State> {
   };
 
   nextStep = (step: string) => {
-    // debugger;
     this.setState({ activeStep: step, currentStep: STEP_ORDER[step] });
   };
 
@@ -655,6 +657,7 @@ class Checkout extends React.Component<Props, State> {
                     billingAddress: undefined,
                     activeStep: STEP_BILLING
                   });
+
                   checkoutGTM(2, this.props.currency, this.props.basket);
                   if (data.data.basket.pageReload) {
                     const data: any = {
@@ -684,6 +687,7 @@ class Checkout extends React.Component<Props, State> {
                 billingAddress: undefined,
                 activeStep: STEP_BILLING
               });
+
               checkoutGTM(2, this.props.currency, this.props.basket);
               if (data.data.basket.pageReload) {
                 const data: any = {

@@ -297,6 +297,17 @@
       -webkit-appearance: none;
       margin: 0;
     }
+  &.go-back-btn {
+    padding-right: 10px;
+    @media screen and (max-width: 768px){
+      position: fixed;
+      bottom: 25px;
+      left: 0;
+      right: 0;
+      width: 90%;
+      margin: auto;
+    }
+  }
 }
 
 @media screen and (max-width: 992px) {
@@ -540,7 +551,6 @@ hr {
     .otp-error{
       @include error_msg_cerise();
       padding-top: 10px;
-      text-align: left;
       letter-spacing: 0.5px;
     }
   }
@@ -578,7 +588,6 @@ hr {
   .otp-attempt{
     @include b6_9px_light_montserrat_charcoal();
     padding-top: 10px;
-    padding-bottom: 20px;
     letter-spacing: 0.5px;
   }
 
@@ -597,7 +606,7 @@ hr {
     &.cancel-link{
       width: fit-content;
     margin: auto;
-    margin-top: 0px;
+    margin-top: 10px;
     }
 
   }
@@ -685,4 +694,8 @@ hr {
     background-color: $white;
     color: $med-charcoal;
   }
+}
+
+.otp-redeem-wrp{
+padding: 0 !important;
 }

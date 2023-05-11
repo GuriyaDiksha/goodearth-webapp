@@ -30,9 +30,10 @@ import { updateComponent, updateModal } from "actions/modal";
 import { POPUP } from "constants/components";
 import CookieService from "services/cookie";
 import { GA_CALLS, ANY_ADS } from "constants/cookieConsent";
-import { currencyCode } from "typings/currency";
+import { Currency, currencyCode } from "typings/currency";
 import { updateNextUrl } from "actions/info";
 import { StaticContext } from "react-router";
+import CheckoutService from "services/checkout";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -43,7 +44,8 @@ const mapStateToProps = (state: AppState) => {
     isSale: state.info.isSale,
     location: state.router.location,
     isLoggedIn: state.user.isLoggedIn,
-    wishlistData: state.wishlist.items
+    wishlistData: state.wishlist.items,
+    user: state.user
   };
 };
 
@@ -99,6 +101,17 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       LoginService.showLogin(dispatch);
       nextUrl && dispatch(updateNextUrl(nextUrl));
       event?.preventDefault();
+    },
+    getBoDetail: async (id: string) => {
+      return await CheckoutService.getBoDetail(dispatch, id);
+    },
+    logout: async (currency: Currency, customerGroup: string) => {
+      return await LoginService.logout(
+        dispatch,
+        currency,
+        customerGroup,
+        "cart"
+      );
     }
   };
 };
@@ -131,6 +144,44 @@ class CartPage extends React.Component<Props, State> {
   }
 
   componentDidMount() {
+    const queryString = this.props.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    const boId = urlParams.get("bo_id");
+    if (boId) {
+      this.props
+        .getBoDetail(boId)
+        .then((data: any) => {
+          localStorage.setItem("tempEmail", data.email);
+          if (this.props.user.email && data.isLogin) {
+            CookieService.setCookie("currency", data.currency, 365);
+            CookieService.setCookie("currencypopup", "true", 365);
+            this.props
+              .logout(this.props.currency, this.props.user.customerGroup)
+              .then(res => {
+                localStorage.setItem("tempEmail", data.email);
+                this.props.goLogin(undefined);
+                // this.setState({
+                //   boEmail: data.email,
+                //   boId: boId
+                // });
+              });
+          } else if (data.email) {
+            CookieService.setCookie("currency", data.currency, 365);
+            CookieService.setCookie("currencypopup", "true", 365);
+            localStorage.setItem("tempEmail", data.email);
+            this.props.goLogin(undefined);
+            // this.setState({
+            //   boEmail: data.email,
+            //   boId: boId
+            // });
+          } else {
+            this.props.history.push("/backend-order-error");
+          }
+        })
+        .catch(error => {
+          this.props.history.push("/backend-order-error");
+        });
+    }
     if (this.props.history.location.state?.from == "checkout") {
       if (!this.props.isLoggedIn) {
         this.props.goLogin(undefined);
@@ -299,13 +350,13 @@ class CartPage extends React.Component<Props, State> {
         {/* {this.renderMessage()} */}
         <div
           className={cs(
-            globalStyles.marginT50,
             globalStyles.textCenter,
             // bootstrap.colMd4,
             // bootstrap.offsetMd4,
             {
               // [bootstrap.col10]: !mobile,
-              [bootstrap.col12]: mobile
+              [bootstrap.col12]: mobile,
+              [globalStyles.marginT50]: !mobile
             }
           )}
         >
@@ -322,7 +373,13 @@ class CartPage extends React.Component<Props, State> {
               Looking to discover some ideas?
             </h2>
           </div>
-          <div className={cs(bootstrap.col12, globalStyles.voffset3)}>
+          <div
+            className={cs(globalStyles.voffset3, globalStyles.marginAuto, {
+              [bootstrap.col10]:
+                mobile && (!wishlistData.length || !isLoggedIn),
+              [bootstrap.col12]: isLoggedIn && wishlistData.length
+            })}
+          >
             <div className={bootstrap.row}>
               <div
                 className={cs(
@@ -330,7 +387,10 @@ class CartPage extends React.Component<Props, State> {
                   bootstrap.col12,
                   styles.noResultPadding,
                   styles.checkheight,
-                  { [styles.checkheightMobile]: mobile }
+                  {
+                    [styles.checkheightMobile]: mobile,
+                    [styles.wishlistWrap]: wishlistData.length && isLoggedIn
+                  }
                 )}
               >
                 {this.state.featureData.length > 0
@@ -338,11 +398,11 @@ class CartPage extends React.Component<Props, State> {
                       return (
                         <div
                           key={i}
-                          className={cs(
-                            bootstrap.colLg3,
-                            bootstrap.col5,
-                            styles.px10
-                          )}
+                          className={cs(bootstrap.colLg3, styles.px10, {
+                            [bootstrap.col5]: isLoggedIn && wishlistData.length,
+                            [bootstrap.col6]:
+                              mobile && (!wishlistData.length || !isLoggedIn)
+                          })}
                         >
                           <div className={styles.searchImageboxNew}>
                             <Link to={data.ctaUrl}>
@@ -358,7 +418,12 @@ class CartPage extends React.Component<Props, State> {
                               />
                             </Link>
                           </div>
-                          <div className={styles.imageContent}>
+                          <div
+                            className={cs(styles.imageContent, {
+                              [styles.mobileHeight]:
+                                mobile && (!wishlistData?.length || !isLoggedIn)
+                            })}
+                          >
                             <p className={styles.searchImageTitle}>
                               {data.ctaText}
                             </p>
@@ -391,6 +456,7 @@ class CartPage extends React.Component<Props, State> {
                       bootstrap.col12,
                       styles.noResultPadding,
                       styles.checkheight,
+                      styles.wishlistWrap,
                       { [styles.checkheightMobile]: mobile }
                     )}
                   >
@@ -441,7 +507,7 @@ class CartPage extends React.Component<Props, State> {
                             </div>
                           );
                         })
-                      : wishlistData.length > 4 && mobile
+                      : wishlistData.length > 0 && mobile
                       ? wishlistData?.slice(0, 5)?.map((data, i) => {
                           return (
                             <div
@@ -611,10 +677,6 @@ class CartPage extends React.Component<Props, State> {
   }
 
   render() {
-    //TODO:
-    //if boid
-    //->if user logged in then logout and open login form
-    //->else login form
     return (
       <div className={cs(bootstrap.row, styles.pageBody)}>
         <div
@@ -625,9 +687,11 @@ class CartPage extends React.Component<Props, State> {
             styles.pUnset
           )}
         >
-          <div className={cs(styles.header)}>
-            <p>MY SHOPPING BAG ({this.props?.cart?.lineItems?.length})</p>
-          </div>
+          {this.getItemsCount() === 0 ? null : (
+            <div className={cs(styles.header)}>
+              <p>MY SHOPPING BAG ({this.getItemsCount()})</p>
+            </div>
+          )}
           {/* {this.renderMessage()} */}
           {this.getItems()}
         </div>

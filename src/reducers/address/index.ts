@@ -4,7 +4,11 @@ const initialState: State = {
   addressList: [],
   pinCodeList: [],
   pinCodeData: {},
-  countryData: []
+  countryData: [],
+  shippingAddressId: 0,
+  billingAddressId: 0,
+  mode: "list",
+  customDuties: { message: "" }
 };
 export const address = (
   state = initialState,
@@ -42,6 +46,31 @@ export const address = (
         ...action.payload
       };
     }
+    case "UPDATE_SHIPPING_ADDRESS_ID": {
+      return {
+        ...state,
+        ...action.payload
+      };
+    }
+    case "UPDATE_BILLING_ADDRESS_ID": {
+      return {
+        ...state,
+        ...action.payload
+      };
+    }
+    case "UPDATE_ADDRESS_MODE": {
+      return {
+        ...state,
+        ...action.payload
+      };
+    }
+    case "UPDATE_CUSTOM_DUTIES": {
+      return {
+        ...state,
+        ...action.payload
+      };
+    }
+    default:
+      return state;
   }
-  return state;
 };

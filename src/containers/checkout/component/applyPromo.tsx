@@ -20,6 +20,8 @@ export type PromoProps = {
   onRef: any;
   onNext: () => void;
   onsubmit: () => void;
+  promoVal: string;
+  setIsLoading: (a: boolean) => void;
 };
 type Props = {} & ReturnType<typeof mapDispatchToProps> &
   ReturnType<typeof mapStateToProps> &
@@ -42,6 +44,9 @@ class ApplyPromo extends React.Component<Props, GiftState> {
   componentDidMount = () => {
     if (this.props.onRef != null) {
       this.props.onRef(this);
+    }
+    if (this.props.promoVal) {
+      this.setState({ txtvalue: this.props.promoVal });
     }
   };
 
@@ -77,16 +82,18 @@ class ApplyPromo extends React.Component<Props, GiftState> {
             },
             () => {
               errorTracking([this.state.error], location.href);
+              this.props.setIsLoading(false);
             }
           );
         } else {
           this.setState(
             {
-              newCardBox: false,
-              txtvalue: ""
+              newCardBox: false
+              // txtvalue: ""
             },
             () => {
               this.props.onNext();
+              this.props.setIsLoading(false);
             }
           );
         }
@@ -99,20 +106,10 @@ class ApplyPromo extends React.Component<Props, GiftState> {
           },
           () => {
             errorTracking([this.state.error], location.href);
+            this.props.setIsLoading(false);
           }
         );
       });
-  };
-
-  gcBalanceOtp = (response: any) => {
-    if (response.status == false) {
-      this.updateError();
-    } else {
-      this.setState({
-        newCardBox: false,
-        txtvalue: ""
-      });
-    }
   };
 
   newGiftcard = () => {
@@ -173,7 +170,9 @@ class ApplyPromo extends React.Component<Props, GiftState> {
                     aria-label="Promocode"
                   />
                   <button
-                    className={styles.promoApplyBtn}
+                    className={cs(styles.promoApplyBtn, {
+                      [styles.emptyPromoValue]: txtvalue == ""
+                    })}
                     onClick={() => this.props.onsubmit()}
                   >
                     Apply
