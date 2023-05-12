@@ -288,6 +288,7 @@ class Checkout extends React.Component<Props, State> {
     });
     return item1 && item2;
   }
+
   componentDidMount() {
     // const bridalId = CookieService.getCookie("bridalId");
     // const gaKey = CookieService.getCookie("_ga");
@@ -297,41 +298,46 @@ class Checkout extends React.Component<Props, State> {
     const queryString = this.props.location.search;
     const urlParams = new URLSearchParams(queryString);
     const boId = urlParams.get("bo_id");
+
     if (boId) {
-      this.props
-        .getBoDetail(boId)
-        .then((data: any) => {
-          localStorage.setItem("tempEmail", data.email);
-          if (this.props.user.email && data.isLogin) {
-            CookieService.setCookie("currency", data.currency, 365);
-            CookieService.setCookie("currencypopup", "true", 365);
-            this.props
-              .logout(this.props.currency, this.props.user.customerGroup)
-              .then(res => {
-                localStorage.setItem("tempEmail", data.email);
-                this.setState({
-                  boEmail: data.email,
-                  boId: boId
-                });
-              });
-          } else if (data.email) {
-            CookieService.setCookie("currency", data.currency, 365);
-            CookieService.setCookie("currencypopup", "true", 365);
-            localStorage.setItem("tempEmail", data.email);
-            this.setState({
-              boEmail: data.email,
-              boId: boId
-            });
-          } else {
-            this.props.history.push("/backend-order-error");
-          }
-        })
-        .catch(error => {
-          this.props.history.push("/backend-order-error");
-        });
+      this.setState({
+        activeStep: STEP_BILLING,
+        currentStep: STEP_ORDER[STEP_BILLING]
+      });
+      // this.props
+      //   .getBoDetail(boId)
+      //   .then((data: any) => {
+      //     localStorage.setItem("tempEmail", data.email);
+      //     if (this.props.user.email && data.isLogin) {
+      //       CookieService.setCookie("currency", data.currency, 365);
+      //       CookieService.setCookie("currencypopup", "true", 365);
+      //       this.props
+      //         .logout(this.props.currency, this.props.user.customerGroup)
+      //         .then(res => {
+      //           localStorage.setItem("tempEmail", data.email);
+      //           this.setState({
+      //             boEmail: data.email,
+      //             boId: boId
+      //           });
+      //         });
+      //     } else if (data.email) {
+      //       CookieService.setCookie("currency", data.currency, 365);
+      //       CookieService.setCookie("currencypopup", "true", 365);
+      //       localStorage.setItem("tempEmail", data.email);
+      //       this.setState({
+      //         boEmail: data.email,
+      //         boId: boId
+      //       });
+      //     } else {
+      //       this.props.history.push("/backend-order-error");
+      //     }
+      //   })
+      //   .catch(error => {
+      //     this.props.history.push("/backend-order-error");
+      //   });
     } else {
       if (!this.props.user.isLoggedIn) {
-        this.props.history.push("/cart");
+        this.props.history.push("/cart", { from: "checkout" });
       }
     }
     if (this.state.isSuspended && checkoutPopupCookie !== "show") {

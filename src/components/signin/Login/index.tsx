@@ -1,9 +1,10 @@
-import { connect } from "react-redux";
+import { connect, useSelector } from "react-redux";
 import mapDispatchToProps from "./mapper/actions";
-import { useLocation, withRouter } from "react-router";
+import { useHistory, useLocation, withRouter } from "react-router";
 import React, { useEffect, useState } from "react";
 import loadable from "@loadable/component";
 import Popup from "../popup/Popup";
+import { AppState } from "reducers/typings";
 
 const MainLogin = loadable(() => import("components/signin/Login/mainLogin"));
 const CheckoutRegisterForm = loadable(() =>
@@ -13,6 +14,8 @@ const CheckoutRegisterForm = loadable(() =>
 const LoginForm = (props: any) => {
   const [isRegister, setIsRegister] = useState(false);
   const [email, setEmail] = useState("");
+  const history = useHistory();
+  const { nextUrl } = useSelector((state: AppState) => state.info);
 
   useEffect(() => {
     if (props.isRegister) {
@@ -34,6 +37,9 @@ const LoginForm = (props: any) => {
   };
   const nextStep = () => {
     // code for after login
+    if (nextUrl) {
+      history.push(nextUrl);
+    }
   };
   const { search } = useLocation();
   const urlParams = new URLSearchParams(search);

@@ -42,8 +42,12 @@ export default {
     dispatch(updateComponent(POPUP.FORGOTPASSWORDFORM, { email }, true));
     dispatch(updateModal(true));
   },
-  showLogin: function(dispatch: Dispatch, event?: React.MouseEvent): void {
-    dispatch(updateComponent(POPUP.LOGINFORM, null, true));
+  showLogin: function(
+    dispatch: Dispatch,
+    props?: { disableClose: boolean },
+    event?: React.MouseEvent
+  ): void {
+    dispatch(updateComponent(POPUP.LOGINFORM, props, true));
     dispatch(updateModal(true));
   },
   showRegister: function(dispatch: Dispatch, event?: React.MouseEvent): void {
