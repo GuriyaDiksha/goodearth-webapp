@@ -1051,7 +1051,8 @@ class Header extends React.Component<Props, State> {
           className={cs(
             {
               [styles.headerIndex]: showMenu,
-              [styles.plpIndex]: isPlpPage
+              [styles.plpIndex]: isPlpPage && !mobile,
+              [styles.plpIndexMobile]: isPlpPage && mobile
             },
             styles.headerContainer
           )}

@@ -46,6 +46,9 @@
 }
 
 .plp-index{
+  z-index: 5 !important; //Added for refine and sort
+}
+.plp-index-mobile{
   z-index: 4 !important; //Added for refine and sort
 }
 .header-container {
