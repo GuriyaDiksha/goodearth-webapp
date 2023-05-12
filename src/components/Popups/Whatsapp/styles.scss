@@ -1,0 +1,99 @@
+@import "../../../styles/partials/variables";
+@import "../../../styles/partials/mixins";
+@import "../../../styles/partials/form";
+
+.outer {
+    position: fixed;
+    top: 50%;
+    left:50%;
+    transform: translate((-50%, -50%));
+    .container {
+        width: 456px;
+        padding: 45px;
+        background: #fff;
+        position: relative;
+        img.cross{
+            height: 15px;
+            right: 0;
+            position: absolute;
+            right: 25px;
+            top: 25px;
+            cursor: pointer;
+        }
+        .heading{
+            font-family: $font-Lora;
+            font-size: 24px;
+            text-align: center;
+            letter-spacing: 0.48px;
+            line-height: 31px
+        }
+        .subheading {
+            @include b4_12px_montserrat_charcoal();
+            letter-spacing: 0.36px;
+            line-height: 20px;
+            text-align: center;
+            margin-bottom: 50px;
+        }
+    }
+}
+
+@media screen and (max-width: 991px) {
+    .outer{
+        top: unset;
+        left: unset;
+        transform: unset;   
+        bottom: 0;
+        .container{
+            width: 100%;
+        }
+    }
+}
+
+.login-form{
+    .categorylabel{
+        label[for="whatsappSubscribe"]{
+            @include b5_10px_montserrat_charcoal();
+            line-height: 16px;
+            letter-spacing: 0.3px;
+            text-align: left;
+            margin-bottom: 10px;
+            left: 0;
+            img{
+                height: 12px;
+                margin-left: 5px;
+            }
+        }
+        .country-code {
+            margin: 0px 0 20px 0px;
+        }
+        a{
+            color: $charcoal19;
+            text-decoration: underline;
+        }
+        .whatsapp{
+            .checkbox-label{
+                @include b5_10px_montserrat_charcoal();
+                line-height: 22px;
+                letter-spacing: 0.3px;
+                text-align: left;
+                margin-bottom: 10px;
+                left: 0;
+                padding: 0px;
+                padding-left: 30px;
+                img{
+                    height: 12px;
+                    margin-left: 5px;
+                }
+            }
+        }
+    }
+}
+
+.whatsapp{
+    .country-code{
+        margin: 15px 0px;
+    }
+    .button-class{
+        margin-top: 25px;
+    }
+}

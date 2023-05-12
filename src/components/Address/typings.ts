@@ -1,3 +1,5 @@
+import Formsy from "formsy-react";
+import React from "react";
 import { Basket } from "typings/basket";
 
 export type AddressData = AddressFormData & {
@@ -60,5 +62,10 @@ export type Props = {
   // user:
   error: string;
   errorNotification?: string;
+  innerRef?: any;
+  codeRef?: React.Ref<any>;
+  phoneRef?: any;
+  whatsappFormRef?: React.RefObject<Formsy>;
+  whatsappNoError?: string;
 };
 export type AddressModes = "new" | "edit" | "list";

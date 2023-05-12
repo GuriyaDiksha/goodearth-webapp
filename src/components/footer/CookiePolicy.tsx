@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import cs from "classnames";
 import styles from "./styles.scss";
 import ToggleSwitch from "components/Switch";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import CookieService from "services/cookie";
 import { AppState } from "reducers/typings";
 import { useSelector, useStore } from "react-redux";
@@ -36,6 +36,7 @@ const CookiePolicy: React.FC<Props> = ({
   );
   const { email } = useSelector((state: AppState) => state.user);
   const store = useStore();
+  const location = useLocation();
 
   useEffect(() => {
     document.body.classList.add(globalStyles.noScroll);
@@ -52,14 +53,16 @@ const CookiePolicy: React.FC<Props> = ({
     //setRegion("India");
     //Hardcoded region
     // WidgetService.getWidgetDetail(store.dispatch, "GLOBAL");
-    setRegion(country === "" ? CookieService.getCookie("country") : country);
-    WidgetService.getWidgetDetail(
-      store.dispatch,
-      (country === "" ? CookieService.getCookie("country") : country) ===
-        "India"
-        ? "INDIA"
-        : "ROTW"
-    );
+    if (country !== "" || CookieService.getCookie("country") !== "") {
+      setRegion(country === "" ? CookieService.getCookie("country") : country);
+      WidgetService.getWidgetDetail(
+        store.dispatch,
+        (country === "" ? CookieService.getCookie("country") : country) ===
+          "India"
+          ? "INDIA"
+          : "ROTW"
+      );
+    }
   }, [country]);
 
   useEffect(() => {
@@ -92,7 +95,6 @@ const CookiePolicy: React.FC<Props> = ({
     //   .filter((e: any) => e.value === true)
     //   .map((e: any) => e.functionalities)
     //   .join(",");
-
     showCookiePrefs();
     if (OLD_COOKIE_SETTINGS) {
       CookieService.setCookie(
@@ -124,21 +126,26 @@ const CookiePolicy: React.FC<Props> = ({
     }
   };
 
-  const acceptAll = () => {
+  const acceptAll = (isQuick?: boolean) => {
     const cloneConsent = clone(consents);
     cloneConsent.map(e => {
       e.value = true;
     });
     setConsents(cloneConsent);
     saveConsent(cloneConsent);
-    setTimeout(() => {
+    if (isQuick) {
       acceptCookies();
-    }, 2000);
+    } else {
+      setTimeout(() => {
+        acceptCookies();
+      }, 2000);
+    }
   };
 
   const savePref = () => {
     saveConsent(consents);
-    setIsPrefOpen(false);
+    acceptCookies();
+    // setIsPrefOpen(false);
   };
 
   const acceptAndContinue = () => {
@@ -147,13 +154,29 @@ const CookiePolicy: React.FC<Props> = ({
   };
 
   const hideCookie = () => {
-    setConsent(true);
+    //    setConsent(true);
+    if (location?.pathname === "/customer-assistance/cookie-policy") {
+      hideCookies();
+      showCookiePrefs();
+      return;
+    }
     if (OLD_COOKIE_SETTINGS) {
       CookieService.setCookie(
         "consent",
         "GA-Calls,Any-Ads,Search-History",
         365
       ); //Hardcoded consents
+      setConsent(true);
+    } else {
+      const functionalities = consents.find(
+        e =>
+          e?.name === "Necessary Cookies" ||
+          e?.backend_name === "Necessary Cookies - IN" ||
+          e?.backend_name === "Necessary Cookies"
+      );
+      // CookieService.setCookie("consent", functionalities, 365);
+      setConsent([functionalities]);
+      saveConsent([functionalities]);
     }
     hideCookies();
     showCookiePrefs();
@@ -168,7 +191,8 @@ const CookiePolicy: React.FC<Props> = ({
               styles.cookieclass,
               isPrefOpen ? styles.eucookieclass : styles.noneu,
               // styles.eucookieclass,
-              isPrefOpen ? styles.euPref : ""
+              isPrefOpen ? styles.euPref : "",
+              { [styles.noneuPadding]: regionName !== "India" }
             )}
           >
             {isPrefOpen ? (
@@ -252,23 +276,50 @@ const CookiePolicy: React.FC<Props> = ({
                     }}
                   ></span>
                 )}
-                <h3>COOKIES & PRIVACY</h3>
-                <p
+                <h3
                   style={{
-                    textAlign: "center",
-                    marginTop: OLD_COOKIE_SETTINGS ? "0px" : "15px"
+                    marginTop: regionName !== "India" ? "20px" : "0px"
                   }}
                 >
-                  This website uses cookies to ensure you get the best
-                  experience on our website. Please read our&nbsp;
-                  <Link to={"/customer-assistance/cookie-policy"}>
-                    Cookie Policy
-                  </Link>
-                  &nbsp; and{" "}
-                  <Link to={"/customer-assistance/privacy-policy"}>
-                    Privacy Policy.
-                  </Link>
-                </p>
+                  COOKIES & PRIVACY
+                </h3>
+                {regionName === "India" ? (
+                  <p
+                    style={{
+                      textAlign: "center",
+                      marginTop: OLD_COOKIE_SETTINGS ? "0px" : "15px"
+                    }}
+                  >
+                    This website uses cookies to ensure you get the best
+                    experience on our website. Please read our&nbsp;
+                    <Link to={"/customer-assistance/cookie-policy"}>
+                      Cookie Policy
+                    </Link>
+                    &nbsp; and{" "}
+                    <Link to={"/customer-assistance/privacy-policy"}>
+                      Privacy Policy.
+                    </Link>
+                  </p>
+                ) : (
+                  <p
+                    style={{
+                      textAlign: "center",
+                      marginTop: OLD_COOKIE_SETTINGS ? "0px" : "15px"
+                    }}
+                  >
+                    By clicking “Accept All”, you agree to the storing of
+                    cookies on your device to enhance site navigation, analyze
+                    site usage, and assist in our marketing efforts. Please read
+                    our&nbsp;
+                    <Link to={"/customer-assistance/cookie-policy"}>
+                      Cookie Policy
+                    </Link>
+                    &nbsp; and{" "}
+                    <Link to={"/customer-assistance/privacy-policy"}>
+                      Privacy Policy.
+                    </Link>
+                  </p>
+                )}
                 {/* {regionName !== "Europe" ? ( */}
                 {!OLD_COOKIE_SETTINGS ? (
                   <p
@@ -280,10 +331,17 @@ const CookiePolicy: React.FC<Props> = ({
                 ) : null}
                 {/* ) : null} */}
                 <span
+                  style={{
+                    marginBottom: regionName !== "India" ? "20px" : "0px"
+                  }}
                   className={cs(styles.okBtn, isPrefOpen ? styles.euBtn : "")}
-                  onClick={() => acceptAndContinue()}
+                  onClick={() => {
+                    regionName === "India"
+                      ? acceptAndContinue()
+                      : acceptAll(true);
+                  }}
                 >
-                  ACCEPT & CONTINUE
+                  {regionName === "India" ? "ACCEPT & CONTINUE" : "ACCEPT ALL"}
                 </span>
               </>
             )}

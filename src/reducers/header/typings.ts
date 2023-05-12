@@ -40,6 +40,7 @@ export type HeaderState = {
   storeData: StoreData;
   sizeChartData: SizeChartData;
   mobileMenuOpenState: boolean;
+  showSearchPopup: boolean;
 };
 
 export type HeaderActions = ActionType<typeof Actions>;

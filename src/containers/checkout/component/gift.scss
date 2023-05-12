@@ -465,7 +465,7 @@
 
 
 .select-relativemobile {
-    width: 73%;
+    width: 30vw;
     min-height: 50px;
     z-index: 1;
     cursor: pointer;
@@ -477,7 +477,7 @@
         line-height: 44px;  
     }
     ul{
-        width: 100%;
+        width: 30vw;
         margin-bottom: 0px;
         border: 1px solid #eee;
         background-color: #fff;
@@ -492,6 +492,7 @@
             line-height: 31px;
             font-size: 12px;
             font-weight: 400;
+            width:100%;
         }      
     }
     li:hover{
@@ -505,7 +506,7 @@
 }
 
 .select-relative {
-  width: 168px;
+  width: 10vw;
   min-height: 47px;
   z-index: 1;
   cursor: pointer;
@@ -517,7 +518,7 @@
       line-height: 48px;
   }
   ul{
-      width: 100%;
+      width: 10vw;
       margin-bottom: 0px;
       border: 1px solid #eee;
       li{
@@ -546,3 +547,9 @@
 .gift-input {
   width: 60%;
 }
+
+.gift-mobileinput {
+  input[type='text']{
+    padding: 10px 0px;
+  }
+ }

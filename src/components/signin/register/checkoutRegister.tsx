@@ -28,6 +28,9 @@ import { GA_CALLS, ANY_ADS } from "constants/cookieConsent";
 // import SelectDropdown from "components/Formsy/SelectDropdown";
 import CountryCode from "components/Formsy/CountryCode";
 import FormContainer from "../formContainer";
+import tooltipIcon from "images/tooltip.svg";
+import tooltipOpenIcon from "images/tooltip-open.svg";
+import { CONFIG } from "constants/util";
 
 const mapStateToProps = (state: AppState) => {
   const isdList = state.address.countryData.map(list => {
@@ -39,7 +42,8 @@ const mapStateToProps = (state: AppState) => {
     currency: state.currency,
     isdList: isdList,
     countryData: state.address.countryData,
-    sortBy: state.wishlist.sortBy
+    sortBy: state.wishlist.sortBy,
+    mobile: state.device.mobile
   };
 };
 
@@ -48,6 +52,9 @@ type Props = ReturnType<typeof mapStateToProps> &
   RegisterProps;
 
 class CheckoutRegisterForm extends React.Component<Props, registerState> {
+  public static defaultProps = {
+    isCheckout: false
+  };
   constructor(props: Props) {
     super(props);
     this.state = {
@@ -75,7 +82,9 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
       stateOptions: [],
       isIndia: false,
       showEmailVerification: false,
-      email: ""
+      email: "",
+      showTip: false,
+      whatsappChecked: false
     };
   }
   static contextType = Context;
@@ -88,6 +97,7 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
   countryRef: RefObject<HTMLInputElement> = React.createRef();
   countryCodeRef: RefObject<HTMLInputElement> = React.createRef();
   genderRef: RefObject<HTMLInputElement> = React.createRef();
+  whatsappCheckRef: RefObject<HTMLInputElement> = React.createRef();
 
   componentDidMount() {
     const email = localStorage.getItem("tempEmail") || this.props.email;
@@ -101,6 +111,7 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
     this.emailInput.current && this.emailInput.current.focus();
     this.props.fetchCountryData();
     this.changeCountryData(this.props.countryData);
+    document.addEventListener("mousedown", this.handleClickOutside);
   }
 
   componentDidUpdate(
@@ -111,6 +122,10 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
     if (this.state.successMsg) {
       this.props.setIsSuccessMsg?.(true);
     }
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener("mousedown", this.handleClickOutside);
   }
 
   UNSAFE_componentWillReceiveProps(nextProps: Props) {
@@ -143,9 +158,9 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
       state,
       phone,
       code,
-      terms
+      terms,
+      whatsappSubscribe
     } = model;
-
     const formData: any = {};
     formData["username"] = email;
     formData["email"] = email;
@@ -169,6 +184,7 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
       formData["phoneNo"] = phone;
       formData["phoneCountryCode"] = code;
     }
+    formData["whatsappSubscribe"] = whatsappSubscribe;
     formData["subscribe"] = terms;
 
     this.setState({
@@ -418,6 +434,7 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
         msgt: ""
       });
     }
+
     setTimeout(() => {
       const firstErrorField = document.getElementsByClassName(
         globalStyles.errorBorder
@@ -611,6 +628,25 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
         showPassword: !prevState.showPassword
       };
     });
+  };
+
+  onWhatsappCheckChange = (e: any) => {
+    this.setState({
+      whatsappChecked: e.target.checked
+    });
+  };
+
+  impactRef = React.createRef<HTMLInputElement>();
+
+  handleClickOutside = (evt: any) => {
+    if (
+      this.impactRef.current &&
+      !this.impactRef.current.contains(evt.target)
+    ) {
+      this.setState({ showTip: false });
+      //Do what you want to handle in the callback
+      // this.props.closePopup(evt);
+    }
   };
 
   render() {
@@ -882,10 +918,18 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
               className={showFieldsClass}
               label={"Contact Number"}
               validations={{
-                isExisty: true
+                isExisty: true,
+                compulsory: (values, value) => {
+                  if (values.whatsappSubscribe && value == "") {
+                    return false;
+                  } else {
+                    return true;
+                  }
+                }
               }}
               validationErrors={{
-                isExisty: "Please enter your Contact Number"
+                isExisty: "Please enter your contact number",
+                compulsory: "Please enter your contact number"
               }}
               keyPress={e => (e.key == "Enter" ? e.preventDefault() : "")}
               keyDown={e => (e.which === 69 ? e.preventDefault() : null)}
@@ -1086,8 +1130,49 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
               showLabel={true}
             />
           </div>
-
-          <div className={styles.subscribe}>
+          {CONFIG.WHATSAPP_SUBSCRIBE_ENABLED && !this.props.isCheckout && (
+            <div
+              className={cs(styles.subscribe, styles.tooltip, {
+                [styles.heightFix]: this.state.whatsappChecked
+              })}
+            >
+              <FormCheckbox
+                value={false}
+                inputRef={this.whatsappCheckRef}
+                id="whatsappSubscribe"
+                name="whatsappSubscribe"
+                disable={false}
+                label={[
+                  <span key="1">Subscribe me for Whatsapp updates.</span>
+                ]}
+                handleChange={this.onWhatsappCheckChange}
+                required
+              />
+              {this.state.whatsappChecked && (
+                <div className={styles.manageLine}>
+                  Manage your preference from My Preferences section under
+                  Profile
+                </div>
+              )}
+              <div className={styles.tooltip} ref={this.impactRef}>
+                <img
+                  src={this.state.showTip ? tooltipOpenIcon : tooltipIcon}
+                  onClick={() => {
+                    this.setState({ showTip: !this.state.showTip });
+                  }}
+                />
+                <div
+                  className={cs(styles.tooltipMsg, {
+                    [styles.show]: this.state.showTip
+                  })}
+                >
+                  By checking this, you agree to receiving Whatsapp messages for
+                  order & profile related information
+                </div>
+              </div>
+            </div>
+          )}
+          <div className={cs(styles.subscribe, styles.marginFix)}>
             <FormCheckbox
               value={false}
               inputRef={this.subscribeRef}

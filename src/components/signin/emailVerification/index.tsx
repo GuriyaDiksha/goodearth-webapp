@@ -157,6 +157,10 @@ const EmailVerification: React.FC<Props> = ({
   useEffect(() => {
     const ele = document.getElementById("email-verification-container");
     ele?.scrollBy(0, ele.offsetTop);
+    if (isCheckout) {
+      const newele = document.getElementById("checkout-emailverification");
+      newele?.scrollIntoView();
+    }
   }, []);
 
   const goBackCta = (
@@ -173,7 +177,10 @@ const EmailVerification: React.FC<Props> = ({
   );
 
   return (
-    <div className={cs(globalStyles.textCenter, styles.emailVerifyContainer)}>
+    <div
+      className={cs(globalStyles.textCenter, styles.emailVerifyContainer)}
+      id="myemail"
+    >
       {successMsg ? (
         <div
           className={cs(styles.successMsg, {

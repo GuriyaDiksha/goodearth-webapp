@@ -21,7 +21,9 @@ const initialState: FooterState = {
       footerHeadingHoverColor: "",
       footerSubHeadingHoverColor: "",
       sectionContent: "",
-      sectionFontColor: ""
+      sectionFontColor: "",
+      newsletterBgImage: "",
+      newsletterBgColor: ""
     },
     findUsOnData: []
   }

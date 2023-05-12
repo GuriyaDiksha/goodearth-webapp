@@ -341,7 +341,7 @@
         width: 30%;
         position: relative;
         + div {
-          width: 70%;
+          width: 65%;
           position: relative;
         }
       }
@@ -886,9 +886,7 @@ input[type="radio"] {
 .checkout-header {
   ul{
     z-index: 10;
-    width: -webkit-max-content;
-    width: -moz-max-content;
-    width: max-content;
+    width: 100%;
     background-color: #fff;
     margin-bottom: 0;
     li {
@@ -974,4 +972,67 @@ input[type="radio"] {
 .gst-desc {
   font-size: 11px;
   margin-bottom: 10px;
+}
+
+div.form-subheading{
+  padding: unset;
+}
+
+.country-code{
+  display: flex;
+  justify-content: space-between;
+}
+
+.login-form{
+  .categorylabel{
+      label[for="whatsappSubscribe"]{
+          @include b5_10px_montserrat_charcoal();
+          line-height: 16px;
+          letter-spacing: 0.3px;
+          text-align: left;
+          margin-bottom: 10px;
+          left: 0;
+          img{
+              height: 12px;
+              margin-left: 5px;
+          }
+      }
+      .country-code {
+          margin: 0px 0 20px 0px;
+      }
+      a{
+          color: $charcoal19;
+          text-decoration: underline;
+      }
+  }
+}
+
+.login-form{
+  margin-top: 30px;
+  .categorylabel{
+    .whatsapp{
+      margin-bottom: 25px;
+      .country-code{
+          margin: 0px 0px;
+      }
+      .checkbox-label{
+        @include b5_10px_montserrat_charcoal();
+        line-height: 22px;
+        letter-spacing: 0.3px;
+        text-align: left;
+        margin-bottom: 10px;
+        left: 0;
+        padding: 0px;
+        padding-left: 30px;
+        img{
+            height: 12px;
+            margin-left: 5px;
+        }
+      }
+    }
+  }
+}
+
+.whatsapp-no-err{
+  @include err_13px_lora_italic_cerise();
 }

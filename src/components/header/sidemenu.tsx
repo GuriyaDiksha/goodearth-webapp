@@ -134,6 +134,11 @@ class SideMenu extends React.Component<Props, State> {
           href: "/account/my-orders",
           type: "link"
         }
+        // {
+        //   label: "My Preferences",
+        //   href: "/account/my-preferences",
+        //   type: "link"
+        // }
       );
     profileItems.push(
       {

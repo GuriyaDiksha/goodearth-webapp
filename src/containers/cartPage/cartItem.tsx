@@ -218,7 +218,7 @@ const CartItems: React.FC<BasketItem> = memo(
           </div>
           {(mobile || tablet) && " "}
           <div
-            className={cs(styles.productSize, {
+            className={cs(styles.productSize, styles.productSizeValue, {
               [styles.inline]: mobile || tablet
             })}
           >
@@ -248,7 +248,7 @@ const CartItems: React.FC<BasketItem> = memo(
             sliderImages: plpSliderImages
           },
           false,
-          ModalStyles.bottomAlign
+          mobile ? ModalStyles.bottomAlign : undefined
         )
       );
       dispatch(updateModal(true));

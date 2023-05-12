@@ -302,7 +302,7 @@ class Footer extends React.Component<Props, FooterState> {
   };
 
   acceptCookies = () => {
-    CookieService.setCookie("goodearth", "show", 365);
+    //CookieService.setCookie("goodearth", "show", 365);
     this.props.hideCookies();
   };
 
@@ -322,7 +322,9 @@ class Footer extends React.Component<Props, FooterState> {
         footerHeadingHoverColor,
         footerSubHeadingHoverColor,
         sectionContent,
-        sectionFontColor
+        sectionFontColor,
+        newsletterBgImage,
+        newsletterBgColor
       },
       findUsOnData
     } = this.props.data;
@@ -338,7 +340,11 @@ class Footer extends React.Component<Props, FooterState> {
 
     return (
       <div
-        className={cs(bootstrap.containerFluid, globalStyles.minimumWidth)}
+        className={cs(
+          bootstrap.containerFluid,
+          globalStyles.minimumWidth,
+          styles.mainFooterContainer
+        )}
         ref={ele => (this.container = ele)}
       >
         <div id="footer-start" className={bootstrap.row}>
@@ -352,12 +358,9 @@ class Footer extends React.Component<Props, FooterState> {
             } ${this.props.saleStatus ? cs(styles.footerTopSale20) : ""}`}
             style={{
               backgroundImage: this.state.isInViewport
-                ? `url(${
-                    this.props.mobile
-                      ? footerImageSubsMobile
-                      : footerImageSubsDeskTop
-                  })`
-                : "none"
+                ? `url(${newsletterBgImage})`
+                : "none",
+              backgroundColor: `${newsletterBgColor}`
             }}
           >
             <div className={bootstrap.row}>
@@ -630,7 +633,13 @@ class Footer extends React.Component<Props, FooterState> {
                           )
                     }
                   >
-                    <div className={cs(bootstrap.row, styles.px3)}>
+                    <div
+                      className={cs(
+                        bootstrap.row,
+                        styles.px3,
+                        styles.footerColumnsContainer
+                      )}
+                    >
                       <div
                         className={cs(bootstrap.colMd3, bootstrap.px2)}
                         key={"first-column"}
@@ -1113,11 +1122,16 @@ class Footer extends React.Component<Props, FooterState> {
           </div>
 
           <div
-            className={
+            className={cs(
               this.props.mobile
                 ? cs(styles.footerBottomMobile, bootstrap.colMd12)
-                : cs(styles.footerBottom, bootstrap.colMd12)
-            }
+                : cs(styles.footerBottom, bootstrap.colMd12),
+              {
+                [styles.filterOnBottom]: this.props.location.pathname.includes(
+                  "/careers/list"
+                )
+              }
+            )}
           >
             <div className={cs(bootstrap.row)}>
               <div className={cs(bootstrap.col12, globalStyles.textCenter)}>

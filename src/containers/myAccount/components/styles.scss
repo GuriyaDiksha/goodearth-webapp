@@ -1,5 +1,6 @@
 @import "../../../styles/partials/form";
 @import "../../../styles/partials/mixins";
+@import "../../../styles/partials/variables";
 
 input[type="text"]{
   height: 50px !important;
@@ -538,8 +539,9 @@ input[type="text"]{
   }
   input[type="text"], input[type="date"], input[type="password"], input[type="number"]{
     font-family: $font-Montserrat;
-    font-size: 12px;
+    font-size: 12px !important;
     font-weight: $regular;
+    padding: 10px !important;
     &::placeholder{
       font-family: $font-Montserrat;
       font-size: 12px;
@@ -550,7 +552,8 @@ input[type="text"]{
       font-size: 12px;
     }
     &:focus{
-      font-size: 12px;
+      font-size: 12px !important;
+      padding: 10px !important;
     }
   }
   select{
@@ -794,7 +797,7 @@ input[type="text"]{
   line-height: 15px;
   text-align: left;
   margin-bottom: 10px;
-  background-color: white;
+  // background-color: white;
 }
 
 .password-validation {
@@ -929,6 +932,14 @@ input[type="text"]{
 .country-code{
   display: flex;
   justify-content: space-between;
+  >div {
+    width: 30%;
+    position: relative;
+    +div {
+      width: 65%;
+      position: relative;
+    }
+  }
 }
 
 .charcoal-btn{
@@ -1434,6 +1445,55 @@ input[type="text"]{
       &:hover{
         color: $gold;
       }
+    }
+  }
+}
+
+.my-pref-container{
+  padding: 0px 18%;
+  max-width: 600px;
+  margin: auto;
+  @media screen and (max-width: 991px){
+    padding: 0px 5%;
+  }
+  .content{
+    @include b5_10px_montserrat_charcoal();
+    line-height: 16px;
+    letter-spacing: 0.3px;
+    text-align: left;
+    .checkbox-label{
+      @include b5_10px_montserrat_charcoal();
+      line-height: 22px;
+      letter-spacing: 0.3px;
+      text-align: left;
+      margin-bottom: 10px;
+      left: 0;
+      padding: 0px;
+      img{
+        height: 12px;
+        margin-left: 5px;
+      }
+    }
+    .whatsapp{
+      margin-bottom: 25px;
+      padding-bottom: 25px;
+      .country-code{
+        margin: 15px 0px;
+      }
+    }
+    .newsletters{
+      padding-top: 30px;
+      margin-bottom: 30px;
+      border-top: 2px solid black;
+      margin-top: 25px;
+    }
+    .save-pref-btn{
+      margin-top: 25px;
+    }
+    a {
+      color: $charcoal19;
+      text-decoration: underline;
+      text-underline-offset: 2px;
     }
   }
 }

@@ -153,7 +153,7 @@ const ResetPassword: React.FC<Props> = props => {
     AccountService.confirmResetPassword(dispatch, formData)
       .then(data => {
         if (isLoggedIn) {
-          LoginService.logout(dispatch, currency, customerGroup);
+          LoginService.logout(dispatch, currency, customerGroup, "reset-pass");
         }
         resetForm();
         setShowLogin(true);
@@ -204,6 +204,8 @@ const ResetPassword: React.FC<Props> = props => {
                 isValid: (values, value) => {
                   return (
                     value &&
+                    value.length >= 6 &&
+                    value.length <= 20 &&
                     /[a-z]/.test(value) &&
                     /[0-9]/.test(value) &&
                     /[A-Z]/.test(value)
@@ -261,6 +263,8 @@ const ResetPassword: React.FC<Props> = props => {
                   return (
                     values.password2 &&
                     value &&
+                    value.length >= 6 &&
+                    value.length <= 20 &&
                     /[a-z]/.test(value) &&
                     /[0-9]/.test(value) &&
                     /[A-Z]/.test(value)

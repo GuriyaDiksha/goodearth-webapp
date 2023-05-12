@@ -20,6 +20,7 @@ import ChangePassword from "./components/ChangePassword";
 import { useSelector, useDispatch } from "react-redux";
 import { AccountMenuItem } from "./typings";
 import CheckBalance from "./components/Balance";
+import MyPreferences from "./components/myPreferences";
 import AddressMain from "components/Address/AddressMain";
 import Bridal from "./components/Bridal";
 import { AppState } from "reducers/typings";
@@ -30,7 +31,8 @@ import CeriseClubMain from "./components/CeriseClub/ceriseClubMain";
 import CeriseDashboard from "./components/CeriseDashboard";
 import TransactionDashboard from "./components/TransactionDashboard";
 import profileIcon from "../../images/dock_profile.svg";
-import CookieService from "services/cookie";
+// import CookieService from "services/cookie";
+import { CONFIG } from "constants/util";
 
 type Props = {
   isBridal: boolean;
@@ -260,14 +262,24 @@ const MyAccount: React.FC<Props> = props => {
     }
   );
 
+  if (CONFIG.WHATSAPP_SUBSCRIBE_ENABLED) {
+    accountMenuItems.push({
+      label: "My Preferences",
+      href: "/account/my-preferences",
+      component: MyPreferences,
+      title: "My Preferences",
+      loggedInOnly: true
+    });
+  }
+
   useEffect(() => {
     window.scrollTo(0, 0);
-    const userInfo = JSON.parse(CookieService.getCookie("user") || "{}");
+    //const userInfo = JSON.parse(CookieService.getCookie("user") || "{}");
     if (
       accountMenuItems.filter(
         item => item.href == pathname && item.loggedInOnly
       ).length > 0 &&
-      !userInfo.isLoggedIn
+      !isLoggedIn
     ) {
       if (pathname == "/account/bridal") {
         LoginService.showLogin(dispatch);

@@ -23,6 +23,20 @@ const CartSlider: React.FC<Props> = ({ dots = true, children, val }) => {
     cssEase: "ease-in-out"
   };
   const [counter, setCounter] = useState(1);
+  const [pagerWidth, setPagerWith] = useState(null);
+
+  const sliderRef: any = useRef();
+
+  useEffect(() => {
+    // const handleOnClick = (index:number) => {
+    const customPaging = sliderRef.current?.props.customPaging();
+    setPagerWith(customPaging.props.style);
+
+    if (val && val.value > -1) {
+      sliderRef.current ? sliderRef.current.slickGoTo(val.value) : "";
+    }
+  }, [val?.index]);
+
   const set = {
     customPaging: (index: number) => {
       let width = "0px";
@@ -45,16 +59,6 @@ const CartSlider: React.FC<Props> = ({ dots = true, children, val }) => {
       );
     }
   };
-
-  const sliderRef: any = useRef();
-
-  useEffect(() => {
-    // const handleOnClick = (index:number) => {
-    // sliderRef.current?.props.customPaging();
-    if (val && val.value > -1) {
-      sliderRef.current ? sliderRef.current.slickGoTo(val.value) : "";
-    }
-  }, [val?.index]);
   return (
     <div className={cs("mobile-slider", "pdp-slider")}>
       {Object.keys(children || {}).length > 0 && (

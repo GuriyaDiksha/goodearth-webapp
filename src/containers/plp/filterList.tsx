@@ -34,7 +34,8 @@ const mapStateToProps = (state: AppState) => {
     scrollDown: state.info.scrollDown,
     customerGroup: state.user.customerGroup,
     filtered_facets: state.plplist.data.results.filtered_facets,
-    showTimer: state.info.showTimer
+    showTimer: state.info.showTimer,
+    mobileMenuOpenState: state.header.mobileMenuOpenState
   };
 };
 
@@ -691,7 +692,6 @@ class FilterList extends React.Component<Props, State> {
   UNSAFE_componentWillReceiveProps = (nextProps: Props) => {
     // const urlParams2 = new URLSearchParams(nextProps.history.location.search);
     // const categoryShop2 = urlParams2.get("category_shop")?.split(">")[1];
-
     const url = decodeURI(
       nextProps?.history.location.search.replace(/\+/g, " ")
     );
@@ -744,6 +744,10 @@ class FilterList extends React.Component<Props, State> {
         showProductFilter: false,
         showmenulevel1: false
       });
+    }
+
+    if (this.props.mobileMenuOpenState !== nextProps.mobileMenuOpenState) {
+      this.props.onChangeFilterState(false, false);
     }
   };
 
@@ -968,11 +972,17 @@ class FilterList extends React.Component<Props, State> {
     event.stopPropagation();
   };
 
-  createProductType = (categoryObj: any, categorydata: any) => {
+  createProductType = (
+    categoryObj: any,
+    categorydata: any,
+    filtered_facets: any
+  ) => {
     const html = [];
     this.productData = [];
+    const filteredProductType: any = [];
     if (!categoryObj) return false;
     const { filter } = this.state;
+
     Object.keys(categoryObj).map((data, i) => {
       categoryObj[data].map((nestedList: any, j: number) => {
         filter.categoryShop[data]
@@ -986,8 +996,21 @@ class FilterList extends React.Component<Props, State> {
               )
             : ""
           : "";
+
+        filter.categoryShop[data]
+          ? filter.categoryShop[data][nestedList[1]]
+            ? filtered_facets.categoryProductTypeMapping[nestedList[1]]?.map(
+                (level4: any) => {
+                  if (filteredProductType.indexOf(level4) == -1) {
+                    filteredProductType.push(level4);
+                  }
+                }
+              )
+            : ""
+          : "";
       });
     });
+
     for (const prop in filter.productType) {
       if (this.productData.indexOf(prop.replace("pb_", "")) == -1) {
         filter.productType[prop] = false;
@@ -1010,8 +1033,22 @@ class FilterList extends React.Component<Props, State> {
                         : false
                     }
                     value={"pb_" + level4}
+                    disabled={
+                      filteredProductType?.filter((e: string[]) => e === level4)
+                        .length === 0
+                    }
                   />
-                  <label htmlFor={"pb_" + level4}>{level4}</label>
+                  <label
+                    className={cs({
+                      [styles.disableType]:
+                        filteredProductType?.filter(
+                          (e: string[]) => e === level4
+                        ).length === 0
+                    })}
+                    htmlFor={"pb_" + level4}
+                  >
+                    {level4}
+                  </label>
                 </li>
               );
             })}
@@ -1022,7 +1059,7 @@ class FilterList extends React.Component<Props, State> {
     return html;
   };
 
-  createDiscountType = (availableDiscount: any) => {
+  createDiscountType = (availableDiscount: any, filtered_facets: any) => {
     const html = [];
     const { filter } = this.state;
     if (!availableDiscount) return false;
@@ -1054,8 +1091,23 @@ class FilterList extends React.Component<Props, State> {
                         : false
                     }
                     value={discount[1]}
+                    disabled={
+                      filtered_facets?.availableDiscount?.filter(
+                        (e: string[]) => e[0] === discount[0]
+                      ).length === 0
+                    }
                   />
-                  <label htmlFor={"disc_" + discount[0]}>{discount[1]}</label>
+                  <label
+                    className={cs({
+                      [styles.disableType]:
+                        filtered_facets?.availableDiscount?.filter(
+                          (e: string[]) => e[0] === discount?.[0]
+                        ).length === 0
+                    })}
+                    htmlFor={"disc_" + discount[0]}
+                  >
+                    {discount[1]}
+                  </label>
                 </li>
               );
             })}
@@ -1084,11 +1136,11 @@ class FilterList extends React.Component<Props, State> {
             }
             onChange={this.handleClickMaterial}
             value={data?.[0]}
-            // disabled={
-            //   filtered_facets?.currentMaterial?.filter(
-            //     (e: string[]) => e[0] === data[0]
-            //   ).length === 0
-            // }
+            disabled={
+              filtered_facets?.currentMaterial?.filter(
+                (e: string[]) => e[0] === data[0]
+              ).length === 0
+            }
           />
           <label
             className={cs({
@@ -1503,11 +1555,11 @@ class FilterList extends React.Component<Props, State> {
               }
               onChange={this.handleClickColor}
               value={data[0]}
-              // disabled={
-              //   filtered_facets?.currentColor?.filter(
-              //     (e: string[]) => e[0] === data[0]
-              //   ).length === 0
-              // }
+              disabled={
+                filtered_facets?.currentColor?.filter(
+                  (e: string[]) => e[0] === data[0]
+                ).length === 0
+              }
             />
             <label
               className={
@@ -1537,11 +1589,11 @@ class FilterList extends React.Component<Props, State> {
               }
               onChange={this.handleClickColor}
               value={data[0]}
-              // disabled={
-              //   filtered_facets?.currentColor?.filter(
-              //     (e: string[]) => e[0] === data[0]
-              //   ).length === 0
-              // }
+              disabled={
+                filtered_facets?.currentColor?.filter(
+                  (e: string[]) => e[0] === data[0]
+                ).length === 0
+              }
             />
             <label
               className={cs(
@@ -1902,11 +1954,11 @@ class FilterList extends React.Component<Props, State> {
             }
             onChange={this.handleClickSize}
             value={data[0]}
-            // disabled={
-            //   filtered_facets?.availableSize?.filter(
-            //     (e: string[]) => e[0] === data[0]
-            //   ).length === 0
-            // }
+            disabled={
+              filtered_facets?.availableSize?.filter(
+                (e: string[]) => e[0] === data[0]
+              ).length === 0
+            }
           />
           <li>
             <label
@@ -2015,7 +2067,8 @@ class FilterList extends React.Component<Props, State> {
     const { filter } = this.state;
     const productHtml = this.createProductType(
       this.props.facetObject.categoryObj,
-      this.props.facets
+      this.props.facets,
+      this.props.filtered_facets
     );
     return (
       <Fragment>
@@ -2101,7 +2154,8 @@ class FilterList extends React.Component<Props, State> {
                 id="discount"
               >
                 {this.createDiscountType(
-                  this.props.facets && this.props.facets.availableDiscount
+                  this.props.facets && this.props.facets.availableDiscount,
+                  this.props.filtered_facets
                 )}
                 <div data-name="availableDiscount">
                   <span
@@ -2367,7 +2421,11 @@ class FilterList extends React.Component<Props, State> {
         {mobile ? (
           <div className={cs(styles.filterButton, bootstrap.row)}>
             <div className={styles.numberDiv}>
-              <span>{this.state.totalItems + 1} Product found</span>
+              <span>
+                {this.state.totalItems > 1
+                  ? this.state.totalItems + " products found"
+                  : this.state.totalItems + " product found"}
+              </span>
             </div>
             <div className={styles.applyButton} onClick={this.mobileApply}>
               <span>Apply</span>

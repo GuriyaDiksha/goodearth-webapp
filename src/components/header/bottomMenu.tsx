@@ -49,7 +49,8 @@ const BottomMenu: React.FC<Props> = ({
   reloadPage,
   cookies,
   user,
-  sortBy
+  sortBy,
+  showMenu
 }) => {
   const [isLoading, setIsLoading] = useState(false);
   const scrollDown = useSelector((state: AppState) => state.info.scrollDown);
@@ -57,6 +58,7 @@ const BottomMenu: React.FC<Props> = ({
   const isPLP =
     location.pathname.includes("/catalogue/category") ||
     location.pathname.includes("/search");
+  const isCareer = location.pathname.includes("/careers/list");
   const gtmPushWishlistClick = () => {
     const userConsent = CookieService.getCookie("consent").split(",");
     if (userConsent.includes(GA_CALLS)) {
@@ -114,7 +116,8 @@ const BottomMenu: React.FC<Props> = ({
   return (
     <div
       className={cs(styles.headerContainerMenu, {
-        [styles.hide]: isPLP && scrollDown
+        [styles.hide]: (isPLP && scrollDown) || isSearch || showMenu,
+        [styles.index]: isCareer
       })}
       // onClick={() => {
       // dataLayer.push({

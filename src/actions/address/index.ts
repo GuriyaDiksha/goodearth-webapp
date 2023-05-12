@@ -3,8 +3,14 @@ import { AddressData } from "../../components/Address/typings";
 import { PinCodeData } from "components/Formsy/PinCode/typings";
 import { Country } from "components/Formsy/CountryCode/typings";
 
-export const updateAddressList = (addressList: AddressData[]) => {
-  return actionCreator("UPDATE_ADDRESS_LIST", { addressList: addressList });
+export const updateAddressList = (
+  addressList: AddressData[],
+  addressId?: number
+) => {
+  return actionCreator("UPDATE_ADDRESS_LIST", {
+    addressList: addressList,
+    addressId: addressId
+  });
 };
 
 export const updatePinCodeList = (

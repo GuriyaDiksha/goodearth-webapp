@@ -97,7 +97,10 @@ class Header extends React.Component<Props, State> {
         (this.props.location.pathname.includes("/catalogue/") &&
           !this.props.location.pathname.includes("/catalogue/category")) ||
         (this.props.location.pathname.includes("/bridal/") &&
-          !this.props.location.pathname.includes("/account/"))
+          !this.props.location.pathname.includes("/account/")),
+      isPlpPage:
+        this.props.location.pathname.indexOf("/catalogue/category") > -1 ||
+        this.props.location.pathname.includes("/search/")
     };
   }
   static contextType = UserContext;
@@ -232,6 +235,13 @@ class Header extends React.Component<Props, State> {
     if (this.props.showTimer != nextProps.showTimer) {
       this.onScroll(null, nextProps.showTimer);
     }
+    if (this.props.location.pathname !== nextProps.location.pathname) {
+      this.setState({
+        isPlpPage:
+          nextProps.location.pathname.indexOf("/catalogue/category") > -1 ||
+          nextProps.location.pathname.indexOf("/search/") > -1
+      });
+    }
   }
   componentDidUpdate(prevProps: Props) {
     if (
@@ -271,6 +281,7 @@ class Header extends React.Component<Props, State> {
         this.props.fetchAnnouncement();
       }
     }
+    this.onScroll();
   }
 
   // mouseOut(data: { show: boolean }) {
@@ -388,9 +399,9 @@ class Header extends React.Component<Props, State> {
 
       if (mobileFilterMenu) {
         if (tim) {
-          (mobileFilterMenu as HTMLElement).style.top = "130px";
+          (mobileFilterMenu as HTMLElement).style.top = "140px";
         } else {
-          (mobileFilterMenu as HTMLElement).style.top = "90px";
+          (mobileFilterMenu as HTMLElement).style.top = "100px";
         }
       }
 
@@ -398,7 +409,7 @@ class Header extends React.Component<Props, State> {
         if (tim) {
           (dropdownFilterHeader as HTMLElement).style.top = "90px";
         } else {
-          (dropdownFilterHeader as HTMLElement).style.top = "50px";
+          (dropdownFilterHeader as HTMLElement).style.top = "60px";
         }
       }
 
@@ -406,7 +417,7 @@ class Header extends React.Component<Props, State> {
         if (tim) {
           (dropdownFilterHeaderMenu as HTMLElement).style.top = "130px";
         } else {
-          (dropdownFilterHeaderMenu as HTMLElement).style.top = "90px";
+          (dropdownFilterHeaderMenu as HTMLElement).style.top = "100px";
         }
       }
 
@@ -539,7 +550,7 @@ class Header extends React.Component<Props, State> {
           (mobileFilterMenu as HTMLElement).style.top = `${170 -
             window?.pageYOffset}px`;
         } else {
-          (mobileFilterMenu as HTMLElement).style.top = `${130 -
+          (mobileFilterMenu as HTMLElement).style.top = `${140 -
             window?.pageYOffset}px`;
         }
       }
@@ -549,7 +560,7 @@ class Header extends React.Component<Props, State> {
           (dropdownFilterHeader as HTMLElement).style.top = `${130 -
             window?.pageYOffset}px`;
         } else {
-          (dropdownFilterHeader as HTMLElement).style.top = `${90 -
+          (dropdownFilterHeader as HTMLElement).style.top = `${100 -
             window?.pageYOffset}px`;
         }
       }
@@ -559,7 +570,7 @@ class Header extends React.Component<Props, State> {
           (dropdownFilterHeaderMenu as HTMLElement).style.top = `${170 -
             window?.pageYOffset}px`;
         } else {
-          (dropdownFilterHeaderMenu as HTMLElement).style.top = `${130 -
+          (dropdownFilterHeaderMenu as HTMLElement).style.top = `${145 -
             window?.pageYOffset}px`;
         }
       }
@@ -745,16 +756,12 @@ class Header extends React.Component<Props, State> {
     ) {
       return false;
     }
-    this.setState(
-      {
-        showSearch: true,
-        // showSearch: true,
-        showMenu: false
-      },
-      () => {
-        console.log(this.state);
-      }
-    );
+    this.setState({
+      showSearch: true,
+      // showSearch: true,
+      showMenu: false
+    });
+    this.props.updateShowSearchPopup(true);
   };
 
   hideSearch = () => {
@@ -762,6 +769,7 @@ class Header extends React.Component<Props, State> {
       this.setState({
         showSearch: false
       });
+      this.props.updateShowSearchPopup(false);
     }
   };
   hideMenu = () => {
@@ -790,7 +798,8 @@ class Header extends React.Component<Props, State> {
       showMenu: !this.state.showMenu,
       showSearch: false
     });
-    window.scrollTo(0, 0);
+    this.props.updateShowSearchPopup(false);
+    //window.scrollTo(0, 0);
   };
 
   gtmPushLogoClick = () => {
@@ -819,6 +828,7 @@ class Header extends React.Component<Props, State> {
       showMenu: false,
       showSearch: false
     });
+    this.props.updateShowSearchPopup(false);
     if (document.body.classList.contains(globalStyles.noScroll)) {
       document.body.classList.remove(globalStyles.noScroll);
     }
@@ -834,6 +844,7 @@ class Header extends React.Component<Props, State> {
   };
 
   render() {
+    const { isPlpPage } = this.state;
     const { isLoggedIn } = this.context;
     const {
       wishlistData,
@@ -919,6 +930,7 @@ class Header extends React.Component<Props, State> {
     const isBridalRegistryPage =
       this.props.location.pathname.indexOf("/bridal/") > -1 &&
       !(this.props.location.pathname.indexOf("/account/") > -1);
+
     const { showMenu } = this.state;
     const isCeriseCustomer = slab
       ? slab.toLowerCase() == "cerise" ||
@@ -1037,7 +1049,11 @@ class Header extends React.Component<Props, State> {
         <div
           id="myHeader"
           className={cs(
-            { [styles.headerIndex]: showMenu },
+            {
+              [styles.headerIndex]: showMenu,
+              [styles.plpIndex]: isPlpPage && !mobile,
+              [styles.plpIndexMobile]: isPlpPage && mobile
+            },
             styles.headerContainer
           )}
         >
@@ -1057,6 +1073,7 @@ class Header extends React.Component<Props, State> {
                     showSearch: false,
                     showMenu: false
                   });
+                  this.props.updateShowSearchPopup(false);
                 }
               }}
             />
@@ -1067,7 +1084,7 @@ class Header extends React.Component<Props, State> {
                 <div
                   className={cs(
                     bootstrap.col3,
-                    bootstrap.colLg2,
+                    bootstrap.colLg3,
                     styles.hamburger
                   )}
                 >
@@ -1108,7 +1125,7 @@ class Header extends React.Component<Props, State> {
               )}
               <div
                 className={cs(
-                  bootstrap.colLg2,
+                  bootstrap.colLg3,
                   bootstrap.col6,
                   styles.logoContainer
                 )}
@@ -1131,7 +1148,6 @@ class Header extends React.Component<Props, State> {
                   className={cs(
                     bootstrap.colLg6,
                     bootstrap.col3,
-                    bootstrap.offsetLg1,
                     globalStyles.static
                   )}
                 >

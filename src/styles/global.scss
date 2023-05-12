@@ -282,6 +282,29 @@ font-weight: bold;
   border-left: 1px solid tint(#000, 96%);
 }
 
+.aqua-btn
+{
+  @include cerise-btn();
+    font-family: $font-Montserrat;
+    text-align: center;
+    font-size: 14px;
+    border: 2px $aquablue solid;
+    border-radius: 0;
+    width: 100%;
+    line-height: 52px;
+    letter-spacing: 0.42px;
+    background-color: $aquablue;
+    &:hover {
+        color: $aquablue;
+        background-color: white;
+        border: #719A9A;
+        border-style: solid;
+        border-width: 2px;
+    }
+    &:active {
+        color: #fff;
+    }
+  }
 .charcoal-btn {
   @include b3_14px_montserrat_charcoal();
   text-transform: uppercase;

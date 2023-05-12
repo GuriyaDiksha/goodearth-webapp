@@ -519,9 +519,9 @@ class PLP extends React.Component<
     }
   }
 
-  toggleSort = (state: boolean) => {
-    this.setState({ showProductCounter: state });
-  };
+  // toggleSort = (state: boolean) => {
+  //   this.setState({ showProductCounter: state });
+  // };
 
   render() {
     const {
@@ -1116,11 +1116,11 @@ class PLP extends React.Component<
             onChange={this.onchangeFilter}
             onStateChange={this.onChangeFilterState}
             showCaret={this.state.showmobileSort}
-            open={false}
+            open={this.state.mobileFilter}
             value={this.state.sortValue}
             key={"plpPageMobile"}
             sortedDiscount={facets.sortedDiscount}
-            toggleSort={this.toggleSort}
+            // toggleSort={this.toggleSort}
           />
         )}
         {mobile && this.state.count > -1 && this.state.showProductCounter && (
