@@ -141,13 +141,19 @@ const OrderSummary: React.FC<OrderProps> = props => {
     return count;
   };
 
-  const getSize = (data: any) => {
+  const getSizeAndQty = (data: any, qty: any) => {
     const size = data.find(function(attribute: any) {
       if (attribute.name == "Size") {
         return attribute;
       }
     });
-    return size ? <span>Size: {size.value}</span> : "";
+    return size ? (
+      <span>
+        Size: {size.value} | QTY: {qty}
+      </span>
+    ) : (
+      ""
+    );
   };
 
   const getDeliveryStatusMobile = () => {
@@ -275,7 +281,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
                   )}
 
                   <span className={styles.productSize}>
-                    {getSize(item.product.attributes)}
+                    {getSizeAndQty(item.product.attributes, item.quantity)}
                   </span>
                 </div>
 
@@ -1096,6 +1102,9 @@ const OrderSummary: React.FC<OrderProps> = props => {
               <div>
                 {/* <hr className={styles.hr} /> */}
                 <NavLink
+                  className={
+                    !canCheckout() ? cs(globalStyles.checkoutBtnDisabled) : ""
+                  }
                   to={canCheckout() && isLoggedIn ? "/order/checkout" : "#"}
                 >
                   <button
@@ -1120,6 +1129,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
                             styles.checkoutBtn
                           )
                     }
+                    disabled={canCheckout() ? false : true}
                   >
                     <img src={checkoutIcon} alt="checkout-button" />
                     <span>PROCEED TO CHECKOUT</span>
@@ -1167,6 +1177,9 @@ const OrderSummary: React.FC<OrderProps> = props => {
               })}
             >
               <NavLink
+                className={
+                  !canCheckout() ? cs(globalStyles.checkoutBtnDisabled) : ""
+                }
                 to={canCheckout() && isLoggedIn ? "/order/checkout" : "#"}
               >
                 <button
@@ -1180,6 +1193,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
                           globalStyles.disabledBtn
                         )
                   }
+                  disabled={canCheckout() ? false : true}
                 >
                   <img src={checkoutIcon} alt="checkout-button" />
                   <span>PROCEED TO CHECKOUT</span>

@@ -922,8 +922,10 @@ const AddressForm: React.FC<Props> = props => {
           </span>
         </div>
       )}
+      {/* no need of BACK TO SAVED ADDRESSES at bottom so putting false here temprary */}
       {isLoggedIn &&
         !mobile &&
+        false &&
         (currentCallBackComponent == "checkout-billing" ||
           currentCallBackComponent == "checkout-shipping") && (
           <div

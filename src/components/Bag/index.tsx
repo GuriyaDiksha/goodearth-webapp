@@ -418,7 +418,7 @@ class Bag extends React.Component<Props, State> {
           {this.canCheckout() ? (
             <div className={cs(styles.bagFlex)}>
               <Link
-                to="/cart"
+                to={!this.hasOutOfStockItems() ? "/cart" : ""}
                 className={cs(this.hasOutOfStockItems() && styles.outOfStock)}
               >
                 <span className={styles.viewBag}>REVIEW BAG & CHECKOUT</span>

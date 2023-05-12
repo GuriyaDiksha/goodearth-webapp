@@ -199,6 +199,9 @@ body:has(.open-summary) {
 .order-summary {
   background-color: #f9f8f5;
   padding-top: 15px;
+  @media (max-width: 992px) {
+    padding-top: 0px;
+  }
   a {
     color: inherit;
   }
@@ -416,7 +419,7 @@ body:has(.open-summary) {
     @include b4_12px_montserrat_cerise_caps();
   }
 }
-.black {
+.black { 
   color: black;
 }
 

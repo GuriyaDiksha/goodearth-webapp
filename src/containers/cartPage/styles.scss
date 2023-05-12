@@ -455,7 +455,10 @@ hr {
   // justify-content: center;
   // text-transform: none;
   @include b5_10px_montserrat_charcoal();
-  margin-left: 12px;
+  margin-left: 0px;
+  @media screen and (max-width: 992px) {
+    margin-left: 0;
+  }
 }
 .black {
   color: black;
