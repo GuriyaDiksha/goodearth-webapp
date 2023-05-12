@@ -518,6 +518,10 @@
 }
 @media screen and (max-width: 992px) {
   
+  .zindex {
+    // only for mobile for dropdown city
+    z-index: 10000000 !important;
+  }
   .footer {
     background-repeat: no-repeat;
   }
