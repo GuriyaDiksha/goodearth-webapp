@@ -71,11 +71,7 @@ const PromoSection: React.FC<PromoProps> = props => {
 
   const onsubmit = () => {
     setIsLoading(true);
-    if (
-      PromoChild.gcBalance &&
-      basket.voucherDiscounts.length == 0 &&
-      PromoChild.state.txtvalue
-    ) {
+    if (PromoChild.gcBalance && PromoChild.state.txtvalue) {
       setPromoVal(PromoChild.state.txtvalue);
       PromoChild.gcBalance();
     }

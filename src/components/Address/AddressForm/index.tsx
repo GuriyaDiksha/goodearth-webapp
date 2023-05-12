@@ -27,6 +27,7 @@ import { getErrorList, errorTracking } from "utils/validate";
 import BridalContext from "containers/myAccount/components/Bridal/context";
 import noPincodeCountryList from "./noPincodeCountryList";
 import iconStyles from "styles/iconFonts.scss";
+import { countryCurrencyCode } from "constants/currency";
 
 type Props = {
   addressData?: AddressData;
@@ -751,9 +752,19 @@ const AddressForm: React.FC<Props> = props => {
               type="number"
               required
               name="phoneNumber"
-              label={currency === "INR" ? "Mobile Number*" : "Contact Number*"}
+              label={
+                (addressData?.country
+                  ? countryCurrencyCode[addressData?.country]
+                  : currency) === "INR"
+                  ? "Mobile Number*"
+                  : "Contact Number*"
+              }
               placeholder={
-                currency === "INR" ? "Mobile Number*" : "Contact Number*"
+                (addressData?.country
+                  ? countryCurrencyCode[addressData?.country]
+                  : currency) === "INR"
+                  ? "Mobile Number*"
+                  : "Contact Number*"
               }
               handleChange={() => setIsAddressChanged(true)}
               validations={{
@@ -762,10 +773,18 @@ const AddressForm: React.FC<Props> = props => {
               }}
               validationErrors={{
                 isExisty: `Please enter your ${
-                  currency === "INR" ? "Mobile Number" : "Contact Number"
+                  (addressData?.country
+                    ? countryCurrencyCode[addressData?.country]
+                    : currency) === "INR"
+                    ? "Mobile Number"
+                    : "Contact Number"
                 }`,
                 matchRegexp: `Please enter a valid ${
-                  currency === "INR" ? "Mobile Number" : "Contact Number"
+                  (addressData?.country
+                    ? countryCurrencyCode[addressData?.country]
+                    : currency) === "INR"
+                    ? "Mobile Number"
+                    : "Contact Number"
                 }`
               }}
               keyDown={e => (e.which === 69 ? e.preventDefault() : null)}
@@ -775,7 +794,9 @@ const AddressForm: React.FC<Props> = props => {
                   : null
               }
             />
-            {currency === "INR" && (
+            {(addressData?.country
+              ? countryCurrencyCode[addressData?.country]
+              : currency) === "INR" && (
               <p key="contact-msg" className={styles.contactMsg}>
                 This number will be used for sending OTP during delivery.
               </p>

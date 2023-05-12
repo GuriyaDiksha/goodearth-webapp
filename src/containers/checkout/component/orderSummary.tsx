@@ -555,7 +555,8 @@ const OrderSummary: React.FC<OrderProps> = props => {
             remainingAmount:
               freeShippingApplicable -
               parseInt((basket.totalWithoutShipping || 0).toString()),
-            freeShippingApplicable
+            freeShippingApplicable,
+            goLogin: props.goLogin
           },
           true
         )
