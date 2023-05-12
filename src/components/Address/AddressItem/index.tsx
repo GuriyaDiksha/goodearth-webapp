@@ -644,57 +644,58 @@ const AddressItem: React.FC<Props> = props => {
             <div
               className={cs(styles.lineHead, {
                 [styles.checkoutFix]:
-                  currentCallBackComponent == "checkout-shipping" ||
-                  currentCallBackComponent == "checkout-billing" ||
+                  (currentCallBackComponent == "checkout-shipping" &&
+                    address.isTulsi) ||
+                  (currentCallBackComponent == "checkout-billing" &&
+                    address.isTulsi) ||
                   currentCallBackComponent == "bridal" ||
                   currentCallBackComponent == "bridal-edit"
               })}
             >
-              l
-              {(!address.isTulsi && currentCallBackComponent == "account") ||
-                currentCallBackComponent == "checkout-shipping" ||
-                (currentCallBackComponent == "checkout-billing" && (
-                  <div
-                    className={styles.radio}
+              {((!address.isTulsi &&
+                (currentCallBackComponent == "account" ||
+                  currentCallBackComponent == "checkout-shipping")) ||
+                currentCallBackComponent == "checkout-billing") && (
+                <div
+                  className={styles.radio}
+                  id={
+                    currentCallBackComponent !== "checkout-billing"
+                      ? id
+                      : address.id.toString()
+                  }
+                  onClick={() => {
+                    markAsDefault(address, address?.id);
+                    currentCallBackComponent !== "checkout-billing" &&
+                      setDefaultAddress(id);
+                  }}
+                >
+                  <input
                     id={
                       currentCallBackComponent !== "checkout-billing"
                         ? id
                         : address.id.toString()
                     }
-                    onClick={() => {
+                    className={styles.defaultAddressCheckbox}
+                    checked={
+                      currentCallBackComponent !== "checkout-billing"
+                        ? id === defaultAddress
+                        : address.id.toString() === shippingAddressId.toString()
+                    }
+                    name={
+                      currentCallBackComponent !== "checkout-billing"
+                        ? id
+                        : address.id.toString()
+                    }
+                    type="radio"
+                    onChange={() => {
                       markAsDefault(address, address?.id);
                       currentCallBackComponent !== "checkout-billing" &&
                         setDefaultAddress(id);
                     }}
-                  >
-                    <input
-                      id={
-                        currentCallBackComponent !== "checkout-billing"
-                          ? id
-                          : address.id.toString()
-                      }
-                      className={styles.defaultAddressCheckbox}
-                      checked={
-                        currentCallBackComponent !== "checkout-billing"
-                          ? id === defaultAddress
-                          : address.id.toString() ===
-                            shippingAddressId.toString()
-                      }
-                      name={
-                        currentCallBackComponent !== "checkout-billing"
-                          ? id
-                          : address.id.toString()
-                      }
-                      type="radio"
-                      onChange={() => {
-                        markAsDefault(address, address?.id);
-                        currentCallBackComponent !== "checkout-billing" &&
-                          setDefaultAddress(id);
-                      }}
-                    />
-                    <span className={styles.checkmark}></span>
-                  </div>
-                ))}
+                  />
+                  <span className={styles.checkmark}></span>
+                </div>
+              )}
               {props.title}
               {address.firstName}
               &nbsp;

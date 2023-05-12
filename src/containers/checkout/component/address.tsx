@@ -109,6 +109,10 @@ const AddressSection: React.FC<AddressProps & {
   }, [isLoggedIn]);
 
   useEffect(() => {
+    gstNum && setGstNum("");
+  }, [shippingAddressId, billingAddressId]);
+
+  useEffect(() => {
     if (currentCallBackComponent === "checkout-shipping") {
       dispatch(
         updateShippingAddressId(
@@ -117,24 +121,14 @@ const AddressSection: React.FC<AddressProps & {
             0
         )
       );
-      if (sameAsShipping) {
-        dispatch(
-          updateBillingAddressId(
-            props.selectedAddress?.id ||
-              addressList?.find(val => val?.isDefaultForShipping)?.id ||
-              0
-          )
-        );
-      }
     }
-    if (currentCallBackComponent === "checkout-billing") {
-      dispatch(
-        updateBillingAddressId(
-          props.selectedAddress?.id ||
-            addressList?.find(val => val?.isDefaultForShipping)?.id ||
-            0
-        )
-      );
+    if (
+      (currentCallBackComponent === "checkout-billing" ||
+        currentCallBackComponent === "checkout-shipping") &&
+      sameAsShipping &&
+      props.selectedAddress?.id
+    ) {
+      dispatch(updateBillingAddressId(props.selectedAddress?.id));
     }
   }, [props.selectedAddress, addressList]);
   const openNewAddressForm = () => {
@@ -519,7 +513,8 @@ const AddressSection: React.FC<AddressProps & {
             gstNum: gstNum,
             parentError: props.error,
             isActive: isActive,
-            setGstNum: setGstNum
+            setGstNum: setGstNum,
+            sameAsShipping: sameAsShipping
           },
           true
         )
@@ -538,7 +533,8 @@ const AddressSection: React.FC<AddressProps & {
             gstNum: gstNum,
             parentError: "",
             isActive: isActive,
-            setGstNum: setGstNum
+            setGstNum: setGstNum,
+            sameAsShipping: sameAsShipping
           },
           true
         )
