@@ -251,7 +251,8 @@ const AddressMain: React.FC<Props> = props => {
         isDefaultForBilling,
         line1,
         line2,
-        state
+        state,
+        addressType
       } = addressData;
 
       const formData: AddressFormData = {
@@ -267,7 +268,8 @@ const AddressMain: React.FC<Props> = props => {
         isDefaultForBilling,
         line1,
         line2,
-        state
+        state,
+        addressType
       };
 
       if (currentCallBackComponent === "checkout-shipping" && addressId) {

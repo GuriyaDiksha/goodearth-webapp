@@ -246,13 +246,37 @@
         background-color: $aqua;
         padding: 20px;
         text-align: center;
-
+        border: 1px solid $aqua;
+        @include b3_14px_montserrat_white();
+        &:hover{
+          background-color: $white !important;
+          @include b3_14px_montserrat_aqua();
+        }
         &.out-of-stock {
           background-color: $light-charcoal;
           cursor: not-allowed;
+          &:hover{
+            background-color: $light-charcoal !important;
+            cursor: not-allowed;
+            color: $white;
+          }
         }
-        .view-bag {
-          @include b3_14px_montserrat_white();
+        // .view-bag {
+        //   @include b3_14px_montserrat_white();
+        // }
+
+        
+      }
+    }
+    .continue{
+      a {
+        background-color: $med-charcoal !important;
+        @include b3_14px_montserrat_white();
+        border: 1px solid $med-charcoal;
+
+        &:hover{
+          background-color: $white !important;
+          @include b3_14px_montserrat_charcoal();
         }
       }
     }
@@ -489,7 +513,10 @@
 
 .delivery-date {
   @include b5_10px_montserrat_charcoal();
-  margin-left: 12px;
+  margin-left: 0px;
+  @media screen and (max-width: 992px) {
+    margin-left: 0;
+  }
 }
 
 .stock-left {

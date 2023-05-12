@@ -83,6 +83,11 @@ body:has(.mobile) {
     flex-grow: 1;
     border: none;
     font-family: $font-Lato;
+    .nickname-wrapper {
+      font-size: 12px;
+      font-weight: 300;
+      font-family: $font-Montserrat !important;
+    }
     .address-edit {
       opacity: 0.25;
       cursor: default;
@@ -637,6 +642,7 @@ body:has(.mobile) {
     .nickname-wrapper {
       @include b4_12px_montserrat_med_aqua();
       margin-top: 5px;
+      font-size: 11px;
     }
   }
 

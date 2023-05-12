@@ -1129,6 +1129,12 @@ input[type="radio"] {
     text-align: center;
     cursor: pointer;
     margin-top: 24px;
+    &:hover {
+      background: $white 0% 0% no-repeat padding-box;
+      border: 1px solid $med-charcoal;
+      opacity: 1;
+      color: $med-charcoal;
+    }
   }
 }
 .send-to-payment {

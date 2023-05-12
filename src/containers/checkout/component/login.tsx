@@ -64,7 +64,7 @@ const LoginSection: React.FC<LoginProps> = props => {
           />
           <p className={isActive ? "" : styles.iscompleted}>LOGGED IN AS</p>
           <div>
-            {!isLoggedIn ? (
+            {/* {!isLoggedIn ? (
               isRegister ? (
                 <CheckoutRegisterForm
                   nextStep={nextStep}
@@ -81,7 +81,7 @@ const LoginSection: React.FC<LoginProps> = props => {
               )
             ) : (
               ""
-            )}
+            )} */}
           </div>
         </div>
 

@@ -658,9 +658,17 @@ font-weight: bold;
   }
    
   &.disabled-btn {
-   background-color:$light-charcoal;
+    background-color:$light-charcoal;
+    &:hover {
+      background-color:$light-charcoal !important;
+      color: $white;
+      border: none;
+    }
   }
-  
+ 
+}
+.checkout-btn-disabled {
+  pointer-events: none;
 }
 .gap20{
   gap: 20px;

@@ -31,6 +31,7 @@ import { updateComponent, updateModal } from "actions/modal";
 import { POPUP } from "constants/components";
 import { displayPriceWithCommas } from "utils/utility";
 import ReactHtmlParser from "react-html-parser";
+import { countryCurrencyCode } from "constants/currency";
 
 const AddressSection: React.FC<AddressProps & {
   mode: string;
@@ -109,6 +110,24 @@ const AddressSection: React.FC<AddressProps & {
   }, [isLoggedIn]);
 
   useEffect(() => {
+    gstNum && setGstNum("");
+  }, [shippingAddressId, billingAddressId]);
+
+  useEffect(() => {
+    const data = addressList.find(val =>
+      shippingAddressId
+        ? val?.id === shippingAddressId
+        : val?.isDefaultForShipping
+    );
+    AddressService.fetchCustomDuties(
+      dispatch,
+      countryCurrencyCode[data?.country || "IN"]
+    ).then(res => {
+      dispatch(updateCustomDuties(res));
+    });
+  }, [shippingAddressId]);
+
+  useEffect(() => {
     if (currentCallBackComponent === "checkout-shipping") {
       dispatch(
         updateShippingAddressId(
@@ -117,24 +136,14 @@ const AddressSection: React.FC<AddressProps & {
             0
         )
       );
-      if (sameAsShipping) {
-        dispatch(
-          updateBillingAddressId(
-            props.selectedAddress?.id ||
-              addressList?.find(val => val?.isDefaultForShipping)?.id ||
-              0
-          )
-        );
-      }
     }
-    if (currentCallBackComponent === "checkout-billing") {
-      dispatch(
-        updateBillingAddressId(
-          props.selectedAddress?.id ||
-            addressList?.find(val => val?.isDefaultForShipping)?.id ||
-            0
-        )
-      );
+    if (
+      (currentCallBackComponent === "checkout-billing" ||
+        currentCallBackComponent === "checkout-shipping") &&
+      sameAsShipping &&
+      props.selectedAddress?.id
+    ) {
+      dispatch(updateBillingAddressId(props.selectedAddress?.id));
     }
   }, [props.selectedAddress, addressList]);
   const openNewAddressForm = () => {
@@ -160,10 +169,8 @@ const AddressSection: React.FC<AddressProps & {
     if (currency != "INR") {
       setGst(false);
     }
-    AddressService.fetchCustomDuties(dispatch, currency).then(res => {
-      dispatch(updateCustomDuties(res));
-    });
   }, [currency]);
+
   const renderActions = function(isBottom?: boolean) {
     if (isActive && isLoggedIn) {
       const clickAction =
@@ -252,7 +259,8 @@ const AddressSection: React.FC<AddressProps & {
                 className={cs(globalStyles.flex, globalStyles.gutterBetween)}
               >
                 <span className={cs(globalStyles.marginR10, styles.name)}>
-                  {address.firstName} {address.lastName}
+                  {address.firstName} {address.lastName}{" "}
+                  {`(${address?.addressType})`}
                 </span>
                 <span
                   className={cs(
@@ -276,10 +284,12 @@ const AddressSection: React.FC<AddressProps & {
               <p className={styles.phone}>
                 {address.phoneCountryCode} {address.phoneNumber}
               </p>
-              <p className={styles.contactMsg}>
-                Note:
-                {`${address.phoneCountryCode} ${address.phoneNumber} will be used for sending OTP during delivery. Please ensure it is a mobile number.`}
-              </p>
+              {currency === "INR" && (
+                <p className={styles.contactMsg}>
+                  Note:
+                  {`${address.phoneCountryCode} ${address.phoneNumber} will be used for sending OTP during delivery. Please ensure it is a mobile number.`}
+                </p>
+              )}
             </>
           ) : currentCallBackComponent == "checkout-billing" ? (
             <>
@@ -518,7 +528,8 @@ const AddressSection: React.FC<AddressProps & {
             gstNum: gstNum,
             parentError: props.error,
             isActive: isActive,
-            setGstNum: setGstNum
+            setGstNum: setGstNum,
+            sameAsShipping: sameAsShipping
           },
           true
         )
@@ -537,7 +548,8 @@ const AddressSection: React.FC<AddressProps & {
             gstNum: gstNum,
             parentError: "",
             isActive: isActive,
-            setGstNum: setGstNum
+            setGstNum: setGstNum,
+            sameAsShipping: sameAsShipping
           },
           true
         )
@@ -866,13 +878,18 @@ const AddressSection: React.FC<AddressProps & {
                             <div></div>
                             <div
                               className={cs(
-                                globalStyles.flex,
+                                bootstrapStyles.row,
                                 globalStyles.gutterBetween,
                                 styles.checkoutAddressFooter
                               )}
                             >
                               {props.activeStep == STEP_SHIPPING && (
-                                <div>
+                                <div
+                                  className={cs(
+                                    bootstrapStyles.col6,
+                                    bootstrapStyles.colMd6
+                                  )}
+                                >
                                   <label className={cs(styles.flex)}>
                                     <div className={globalStyles.marginR10}>
                                       <span className={styles.checkbox}>
@@ -896,7 +913,7 @@ const AddressSection: React.FC<AddressProps & {
                                       )}
                                     >
                                       {ReactHtmlParser(customDuties?.message)}
-                                      {customDuties?.popup_content && (
+                                      {/* {customDuties?.popup_content && (
                                         <span
                                           onClick={() => openTermsPopup()}
                                           className={
@@ -905,7 +922,7 @@ const AddressSection: React.FC<AddressProps & {
                                         >
                                           Shipping & Payment terms.
                                         </span>
-                                      )}
+                                      )} */}
                                     </div>
                                   </label>
                                   {termsErr && (

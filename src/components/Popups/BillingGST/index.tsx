@@ -26,6 +26,7 @@ type PopupProps = {
   parentError: string;
   isActive: boolean;
   setGstNum: (data: string) => any;
+  sameAsShipping: boolean;
 };
 
 const BillingGST: React.FC<PopupProps> = ({
@@ -34,16 +35,24 @@ const BillingGST: React.FC<PopupProps> = ({
   gstNum,
   parentError,
   isActive,
-  setGstNum
+  setGstNum,
+  sameAsShipping
 }) => {
   const { closeModal } = useContext(Context);
   const [gstText, setGstText] = useState("");
   const [gstType, setGstType] = useState("GSTIN");
   const [error, setError] = useState("");
-  const { addressList } = useSelector((state: AppState) => state.address);
+  const { addressList, shippingAddressId, billingAddressId } = useSelector(
+    (state: AppState) => state.address
+  );
   const address: any =
-    addressList?.find((val: any) => val?.isDefaultForShipping === true) ||
-    undefined;
+    addressList?.find((val: any) =>
+      shippingAddressId !== 0
+        ? sameAsShipping
+          ? val?.id === shippingAddressId
+          : val?.id === billingAddressId
+        : val?.isDefaultForShipping === true
+    ) || undefined;
 
   useEffect(() => {
     setGstText(gstNum);

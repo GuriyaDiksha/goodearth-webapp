@@ -97,8 +97,12 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       );
       showGrowlMessage(dispatch, msg, 18000);
     },
-    goLogin: (event?: React.MouseEvent, nextUrl?: string) => {
-      LoginService.showLogin(dispatch);
+    goLogin: (
+      event?: React.MouseEvent,
+      nextUrl?: string,
+      disableClose?: boolean
+    ) => {
+      LoginService.showLogin(dispatch, { disableClose: disableClose || false });
       nextUrl && dispatch(updateNextUrl(nextUrl));
       event?.preventDefault();
     },
@@ -159,7 +163,7 @@ class CartPage extends React.Component<Props, State> {
               .logout(this.props.currency, this.props.user.customerGroup)
               .then(res => {
                 localStorage.setItem("tempEmail", data.email);
-                this.props.goLogin(undefined);
+                this.props.goLogin(undefined, "", true);
                 // this.setState({
                 //   boEmail: data.email,
                 //   boId: boId
@@ -169,7 +173,7 @@ class CartPage extends React.Component<Props, State> {
             CookieService.setCookie("currency", data.currency, 365);
             CookieService.setCookie("currencypopup", "true", 365);
             localStorage.setItem("tempEmail", data.email);
-            this.props.goLogin(undefined);
+            this.props.goLogin(undefined, "", true);
             // this.setState({
             //   boEmail: data.email,
             //   boId: boId
@@ -182,6 +186,7 @@ class CartPage extends React.Component<Props, State> {
           this.props.history.push("/backend-order-error");
         });
     }
+
     if (this.props.history.location.state?.from == "checkout") {
       if (!this.props.isLoggedIn) {
         this.props.goLogin(undefined);

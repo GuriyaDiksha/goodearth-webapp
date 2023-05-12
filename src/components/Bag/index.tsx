@@ -233,14 +233,21 @@ class Bag extends React.Component<Props, State> {
                   There’s more waiting for you in your Wishlist
                 </p>
 
-                <div className={cs(bootstrap.col12, globalStyles.marginT20)}>
+                <div
+                  className={cs(
+                    bootstrap.col12,
+                    globalStyles.marginT20,
+                    globalStyles.marginB30
+                  )}
+                >
                   <div
                     className={cs(
                       bootstrap.row,
                       styles.noResultPadding,
                       styles.checkheight,
                       { [styles.checkheightMobile]: mobile },
-                      styles.cartRow
+                      styles.cartRow,
+                      styles.wishlistWrap
                     )}
                   >
                     {wishlistData.length > 0
@@ -248,7 +255,7 @@ class Bag extends React.Component<Props, State> {
                           return (
                             <div
                               key={i}
-                              className={cs(bootstrap.colLg5, bootstrap.colLg5)}
+                              className={cs(bootstrap.col5, styles.px10)}
                             >
                               <div
                                 className={cs(styles.searchImageboxNew, {
@@ -346,112 +353,81 @@ class Bag extends React.Component<Props, State> {
     if (this.props.cart) {
       return (
         <div className={styles.bagFooter}>
-          <div className={cs(styles.orderSummaryWrapper)}>
-            <div className={cs(styles.orderSummary)}>Order Summary</div>
+          {this.canCheckout() && (
+            <div className={cs(styles.orderSummaryWrapper)}>
+              <div className={cs(styles.orderSummary)}>Order Summary</div>
 
-            <div className={styles.subTotalDiscountWrapper}>
-              <div
-                className={cs(globalStyles.flex, globalStyles.gutterBetween)}
-              >
-                <div className={cs(styles.subTotalPrice)}>SUBTOTAL</div>
+              <div className={styles.subTotalDiscountWrapper}>
+                <div
+                  className={cs(globalStyles.flex, globalStyles.gutterBetween)}
+                >
+                  <div className={cs(styles.subTotalPrice)}>SUBTOTAL</div>
 
-                <h5 className={cs(styles.subTotalPrice)}>
-                  {String.fromCharCode(...currencyCodes[this.props.currency])}
-                  &nbsp;
-                  {displayPriceWithCommasFloat(
-                    this.props.cart.subTotal,
-                    this.props.currency
-                  )}
-                </h5>
-              </div>
-
-              {this.getDiscount(this.props.cart?.offerDiscounts)}
-            </div>
-
-            {this.hasOutOfStockItems() && (
-              <div
-                className={cs(
-                  globalStyles.errorMsg,
-                  globalStyles.lineHt10,
-                  styles.containerCost,
-                  globalStyles.linkTextUnderline,
-                  styles.removeOutOfStock
-                )}
-                onClick={this.removeOutOfStockItems}
-              >
-                Remove all Items out of stock
-              </div>
-            )}
-
-            <div className={cs(styles.containerCost, styles.totalAmount)}>
-              <div
-                className={cs(globalStyles.flex, globalStyles.gutterBetween)}
-              >
-                <div className={cs(styles.totalPrice, globalStyles.bold)}>
-                  TOTAL*
+                  <h5 className={cs(styles.subTotalPrice)}>
+                    {String.fromCharCode(...currencyCodes[this.props.currency])}
+                    &nbsp;
+                    {displayPriceWithCommasFloat(
+                      this.props.cart.subTotal,
+                      this.props.currency
+                    )}
+                  </h5>
                 </div>
 
-                <h5 className={cs(styles.totalPrice, globalStyles.bold)}>
-                  {String.fromCharCode(...currencyCodes[this.props.currency])}
-                  &nbsp;
-                  {displayPriceWithCommasFloat(
-                    this.props.cart.total,
-                    this.props.currency
-                  )}
-                </h5>
+                {this.getDiscount(this.props.cart?.offerDiscounts)}
               </div>
-              <p className={styles.subtext}>
-                *Excluding estimated cost of shipping
-              </p>
-            </div>
-          </div>
-          {/* {amount.name && (
-            <div
-              className={cs(
-                globalStyles.flex,
-                globalStyles.gutterBetween,
-                styles.containerCost
+
+              {this.hasOutOfStockItems() && (
+                <div
+                  className={cs(
+                    globalStyles.errorMsg,
+                    globalStyles.lineHt10,
+                    styles.containerCost,
+                    globalStyles.linkTextUnderline,
+                    styles.removeOutOfStock
+                  )}
+                  onClick={this.removeOutOfStockItems}
+                >
+                  Remove all Items out of stock
+                </div>
               )}
-            >
-              <div className={cs(styles.disPrice)}>EMP Discount</div>
-              <div className={globalStyles.textRight}>
-                <h5 className={cs(styles.disPrice, globalStyles.bold)}>
-                  (-)
-                  {String.fromCharCode(...currencyCodes[this.props.currency])}
-                  &nbsp;
-                  {parseFloat(amount.amount?.toString()).toFixed(2)}
-                </h5>
+
+              <div className={cs(styles.containerCost, styles.totalAmount)}>
+                <div
+                  className={cs(globalStyles.flex, globalStyles.gutterBetween)}
+                >
+                  <div className={cs(styles.totalPrice, globalStyles.bold)}>
+                    TOTAL*
+                  </div>
+
+                  <h5 className={cs(styles.totalPrice, globalStyles.bold)}>
+                    {String.fromCharCode(...currencyCodes[this.props.currency])}
+                    &nbsp;
+                    {displayPriceWithCommasFloat(
+                      this.props.cart.total,
+                      this.props.currency
+                    )}
+                  </h5>
+                </div>
+                <p className={styles.subtext}>
+                  *Excluding estimated cost of shipping
+                </p>
               </div>
             </div>
           )}
-          {amount.name && <div
-            className={cs(
-              globalStyles.flex,
-              globalStyles.gutterBetween,
-              styles.containerCost
-            )}
-          >
-            <div className={cs(styles.totalPrice, globalStyles.bold)}>
-              TOTAL
-            </div>
-            <div className={globalStyles.textRight}>
-              <h5 className={cs(styles.totalPrice, globalStyles.bold)}>
-                {String.fromCharCode(...currencyCodes[this.props.currency])}
-                &nbsp;
-                {parseFloat(
-                  this.props.cart.amountPayable?.toString() || ""
-                ).toFixed(2)}
-              </h5>
-            </div>
-          </div>
-          } */}
-          {this.canCheckout() && (
+
+          {this.canCheckout() ? (
             <div className={cs(styles.bagFlex)}>
               <Link
-                to="/cart"
+                to={!this.hasOutOfStockItems() ? "/cart" : ""}
                 className={cs(this.hasOutOfStockItems() && styles.outOfStock)}
               >
                 <span className={styles.viewBag}>REVIEW BAG & CHECKOUT</span>
+              </Link>
+            </div>
+          ) : (
+            <div className={cs(styles.bagFlex, styles.continue)}>
+              <Link to="/" className={cs()}>
+                <span className={styles.viewBag}>CONTINUE SHOPPING</span>
               </Link>
             </div>
           )}
@@ -496,10 +472,6 @@ class Bag extends React.Component<Props, State> {
   };
 
   canCheckout = () => {
-    // if (pathname.indexOf("checkout") > -1) {
-    //   return false;
-    // }
-    // this.amountLeft = 50000 - this.props.cart.subTotal;
     const {
       totalWithoutShipping,
       freeShippingThreshold,

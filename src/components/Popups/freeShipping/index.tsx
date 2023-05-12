@@ -16,6 +16,7 @@ import { displayPriceWithCommas } from "utils/utility";
 type PopupProps = {
   remainingAmount: number;
   freeShippingApplicable: number;
+  goLogin: (a: any, b: any) => {};
   // closeModal: (data?: any) => any;
   // acceptCondition: (data?: any) => any;
 };
@@ -25,6 +26,8 @@ const FreeShipping: React.FC<PopupProps> = props => {
   const { closeModal } = useContext(Context);
   const currency = useSelector((state: AppState) => state.currency);
   const { mobile } = useSelector((state: AppState) => state.device);
+  const { isLoggedIn } = useSelector((state: AppState) => state.user);
+
   let amountINR = props.freeShippingApplicable.toString();
   if (amountINR.length > 3) {
     const amountArray = amountINR.split("");
@@ -99,7 +102,17 @@ const FreeShipping: React.FC<PopupProps> = props => {
           </NavLink>
         </div>
         <div className={styles.link}>
-          <NavLink to="/order/checkout" onClick={closeModal}>
+          <NavLink
+            to="/order/checkout"
+            onClick={e => {
+              if (!isLoggedIn) {
+                e.preventDefault();
+                props.goLogin(undefined, "/order/checkout");
+              } else {
+                closeModal();
+              }
+            }}
+          >
             checkout anyway
           </NavLink>
         </div>
