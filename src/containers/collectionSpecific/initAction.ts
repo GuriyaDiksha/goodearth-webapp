@@ -27,6 +27,11 @@ const initActionSpecific: InitAction = async (
         error => {
           console.log(`Collection Error id=${id}`, error);
         }
+      ),
+      CollectionService.fetchCollectionSpecificTemplates(dispatch, id).catch(
+        error => {
+          console.log(`Collection Error id=${id}`, error);
+        }
       )
     ]);
     const plpProduct: any = filterData && filterData.results;
@@ -40,7 +45,7 @@ const initActionSpecific: InitAction = async (
       dispatch(updateCollectionSpecificData({ ...filterData }));
     }
     if (bannerData) {
-      dispatch(updateCollectionSpecificBanner({ ...bannerData }));
+      // dispatch(updateCollectionSpecificBanner({ ...bannerData }));
     }
     if (plpProduct) {
       dispatch(updatePartialProducts(plpProduct));

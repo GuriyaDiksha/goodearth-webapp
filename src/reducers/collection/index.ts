@@ -29,7 +29,11 @@ const initialState: CollectionState = {
     id: 0
   },
   tags: [],
-  filteredCollectionData: []
+  filteredCollectionData: [],
+  collectionTemplates: {
+    id: 0,
+    templates: []
+  }
 };
 
 export const collection = (
@@ -71,6 +75,12 @@ export const collection = (
       newState.filteredCollectionData = action.payload;
       return newState;
     }
+    case "UPDATE_COLLECTION_SPECIFIC_TEMPLATES": {
+      const newState = { ...state };
+      newState.collectionTemplates = action.payload;
+      return newState;
+    }
+    default:
+      return state;
   }
-  return state;
 };

@@ -1,11 +1,15 @@
 import { CollectionFilter } from "typings/collection";
-import { CollectionItem } from "components/collectionItem/typings";
+import {
+  CollectionItem,
+  CollectionTemplatesData
+} from "components/collectionItem/typings";
 import {
   CollectionSpecificProps,
   CollectionSpecificBannerProps
 } from "containers/collectionSpecific/typings";
 import API from "utils/api";
 import { Dispatch } from "redux";
+import { updateCollectionSpecificTemplates } from "actions/collection";
 
 export default {
   fetchCollectionMapping: async (
@@ -82,5 +86,18 @@ export default {
     );
     const data: string[] = res.tags;
     return data;
+  },
+  fetchCollectionSpecificTemplates: async function(
+    dispatch: Dispatch,
+    id: number
+  ) {
+    const res = await API.get<CollectionTemplatesData>(
+      dispatch,
+      `${__API_HOST__}/myapi/category/fetch_plp_templates/?collection_id=${encodeURIComponent(
+        id
+      )}`
+    );
+    dispatch(updateCollectionSpecificTemplates(res));
+    return res;
   }
 };
