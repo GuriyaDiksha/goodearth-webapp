@@ -175,7 +175,7 @@ class ApplyPromo extends React.Component<Props, GiftState> {
                     })}
                     onClick={() => this.props.onsubmit()}
                   >
-                    Apply
+                    APPLY
                   </button>
                 </div>
               </Fragment>

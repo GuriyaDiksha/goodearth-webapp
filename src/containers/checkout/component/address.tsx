@@ -508,7 +508,7 @@ const AddressSection: React.FC<AddressProps & {
   };
   const onSelectAddress = (address?: AddressData) => {
     if (activeStep === STEP_SHIPPING) {
-      if (!isBridal && !isTermChecked) {
+      if (!isBridal && customDuties?.visible && !isTermChecked) {
         setTermsErr("Please confirm to terms and conditions");
         return false;
       }
