@@ -73,8 +73,7 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
     //   );
     //   return false;
     // }
-
-    if (this.props.loyaltyData?.eligiblePoints < 0) {
+    if (this.props.loyaltyData?.eligiblePoints <= 0) {
       this.closePopup();
       return false;
     }
@@ -318,7 +317,7 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
         ></div>
         <hr />
         <NewOtpComponent
-          otpSentVia={`Email ID${radioType == "number" ? " & Mobile No" : ""}`}
+          otpSentVia={`Email ID${this.props.number ? " & Mobile No" : ""}`}
           resendOtp={this.resendOtp}
           verifyOtp={this.checkOtpValidation}
           errorMsg={this.state.showerror}
@@ -434,7 +433,7 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
             styles.sendOtpForm,
             styles.loginForm,
             styles.activategc,
-            { [styles.goBackBtn]: this.props.loyaltyData?.eligiblePoints < 0 }
+            { [styles.goBackBtn]: this.props.loyaltyData?.eligiblePoints <= 0 }
           )}
           id="gc-input"
         >

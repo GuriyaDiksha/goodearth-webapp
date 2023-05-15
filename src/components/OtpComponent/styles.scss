@@ -95,6 +95,7 @@
     }
 
 .login-form {
+  padding-right: 10px;
   .flex{
     display: flex;
     width: 100%;
@@ -689,7 +690,7 @@ hr {
   @include b3_14px_montserrat_white();
   padding: 19px 16px !important;
   width: 100%;
-
+  margin-top: 10px;
   &:hover{
     background-color: $white;
     color: $med-charcoal;

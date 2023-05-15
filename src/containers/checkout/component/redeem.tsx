@@ -251,7 +251,7 @@ class Reedem extends React.Component<Props, RedeemState> {
                 ""
               )}
 
-              {loyaltyData?.eligiblePoints < 0 && (
+              {loyaltyData?.eligiblePoints <= 0 && (
                 <p className={cs(styles.textLeft, styles.noEnoughPoint)}>
                   You don&apos;t have points to redeem
                 </p>

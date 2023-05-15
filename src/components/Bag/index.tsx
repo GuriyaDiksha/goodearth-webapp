@@ -420,6 +420,7 @@ class Bag extends React.Component<Props, State> {
               <Link
                 to={!this.hasOutOfStockItems() ? "/cart" : ""}
                 className={cs(this.hasOutOfStockItems() && styles.outOfStock)}
+                onClick={e => this.hasOutOfStockItems() && e.preventDefault()}
               >
                 <span className={styles.viewBag}>REVIEW BAG & CHECKOUT</span>
               </Link>

@@ -323,6 +323,13 @@ body:has(.mobile) {
         display: unset;
       }
     }
+    .free-shipping-text {
+      font-weight: 400;
+      color: $aqua-text;
+      margin-top: 5px;
+      letter-spacing: 0.5px;
+      font-size: 11px;
+    }
     .edit {
       text-transform: uppercase;
       font-size: 12px;

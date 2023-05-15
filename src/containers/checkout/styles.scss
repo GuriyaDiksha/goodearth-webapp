@@ -1129,6 +1129,7 @@ input[type="radio"] {
     text-align: center;
     cursor: pointer;
     margin-top: 24px;
+    border: 1px solid $med-charcoal;
     &:hover {
       background: $white 0% 0% no-repeat padding-box;
       border: 1px solid $med-charcoal;
@@ -1155,6 +1156,9 @@ input[type="radio"] {
     border: 1px solid $med-charcoal;
     opacity: 1;
     color: $med-charcoal;
+    span {
+      color: $med-charcoal;
+    }
   }
   span {
     @include b4_12px_montserrat_white();
@@ -1164,10 +1168,20 @@ input[type="radio"] {
     background-color: #9f9f9f;
     border-style: solid;
     border-color: $light-charcoal;
+    &:hover {
+      border: 2px solid $light-charcoal;
+      color: $white;
+      span {
+        color: $white;
+      }
+    }
   }
   &.proceed-to-payment {
     padding: 9px 30px;
-
+    border: none;
+    &:focus {
+      color: $white;
+    }
     @media (max-width: 992px) {
       width: 100%;
       position: fixed;
@@ -1175,6 +1189,10 @@ input[type="radio"] {
       left: 0;
       max-width: 100%;
       z-index: 9;
+    }
+    &:hover {
+      border: 1px solid $med-charcoal;
+      color: $med-charcoal;
     }
   }
 }
