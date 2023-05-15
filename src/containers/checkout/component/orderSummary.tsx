@@ -716,7 +716,10 @@ const OrderSummary: React.FC<OrderProps> = props => {
               <span className={styles.subtotal}>TOTAL</span>
               <span className={styles.subtotal}>
                 {String.fromCharCode(...code)}{" "}
-                {parseFloat("" + basket.subTotalWithShipping).toFixed(2)}
+                {displayPriceWithCommasFloat(
+                  basket.subTotalWithShipping,
+                  currency
+                )}
               </span>
             </div>
           </div>
@@ -976,12 +979,11 @@ const OrderSummary: React.FC<OrderProps> = props => {
                   paymentStyles.sendToPayment,
                   styles.proceedToPayment,
                   {
-                    [paymentStyles.disabledBtn]:
-                      isLoading || Object.keys(currentmethod).length === 0
+                    [paymentStyles.disabledBtn]: isLoading
                   }
                 )}
                 onClick={onsubmit}
-                disabled={isLoading || Object.keys(currentmethod).length === 0}
+                disabled={isLoading}
               >
                 <span>
                   Amount Payable:{" "}

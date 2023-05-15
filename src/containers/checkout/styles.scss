@@ -1181,6 +1181,10 @@ input[type="radio"] {
     letter-spacing: 0.36px;
     text-transform: capitalize;
   }
+  .address-type{
+    word-wrap: break-word;
+    width: 90%;
+  }
   .editAddress {
     @include b5_10px_montserrat_charcoal();
     letter-spacing: 0.3px;

@@ -97,12 +97,8 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       );
       showGrowlMessage(dispatch, msg, 18000);
     },
-    goLogin: (
-      event?: React.MouseEvent,
-      nextUrl?: string,
-      disableClose?: boolean
-    ) => {
-      LoginService.showLogin(dispatch, { disableClose: disableClose || false });
+    goLogin: (event?: React.MouseEvent, nextUrl?: string) => {
+      LoginService.showLogin(dispatch);
       nextUrl && dispatch(updateNextUrl(nextUrl));
       event?.preventDefault();
     },

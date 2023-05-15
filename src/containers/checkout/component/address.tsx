@@ -123,6 +123,7 @@ const AddressSection: React.FC<AddressProps & {
       dispatch,
       countryCurrencyCode[data?.country || "IN"]
     ).then(res => {
+      setIsTermChecked(customDuties?.visible || false);
       dispatch(updateCustomDuties(res));
     });
   }, [shippingAddressId]);
@@ -258,7 +259,13 @@ const AddressSection: React.FC<AddressProps & {
               <div
                 className={cs(globalStyles.flex, globalStyles.gutterBetween)}
               >
-                <span className={cs(globalStyles.marginR10, styles.name)}>
+                <span
+                  className={cs(
+                    globalStyles.marginR10,
+                    styles.name,
+                    styles.addressType
+                  )}
+                >
                   {address.firstName} {address.lastName}{" "}
                   {`(${address?.addressType})`}
                 </span>
@@ -296,8 +303,15 @@ const AddressSection: React.FC<AddressProps & {
               <div
                 className={cs(globalStyles.flex, globalStyles.gutterBetween)}
               >
-                <span className={cs(globalStyles.marginR10, styles.name)}>
-                  {address.firstName} {address.lastName}
+                <span
+                  className={cs(
+                    globalStyles.marginR10,
+                    styles.name,
+                    styles.addressType
+                  )}
+                >
+                  {address.firstName} {address.lastName}{" "}
+                  {`(${address?.addressType})`}
                 </span>
                 <span
                   className={cs(
@@ -873,7 +887,7 @@ const AddressSection: React.FC<AddressProps & {
                         !sameAsShipping)) && (
                       <>
                         <div>{children}</div>
-                        {addressList.length && mode == "list" && (
+                        {addressList.length && mode == "list" ? (
                           <>
                             <div></div>
                             <div
@@ -885,35 +899,38 @@ const AddressSection: React.FC<AddressProps & {
                             >
                               {props.activeStep == STEP_SHIPPING && (
                                 <div
-                                  className={cs(
-                                    bootstrapStyles.col6,
-                                    bootstrapStyles.colMd6
-                                  )}
+                                  className={cs({
+                                    [bootstrapStyles.col12]: mobile,
+                                    [bootstrapStyles.colMd12]: mobile,
+                                    [bootstrapStyles.col6]: !mobile,
+                                    [bootstrapStyles.colMd6]: !mobile
+                                  })}
                                 >
-                                  <label className={cs(styles.flex)}>
-                                    <div className={globalStyles.marginR10}>
-                                      <span className={styles.checkbox}>
-                                        <input
-                                          type="checkbox"
-                                          onClick={() =>
-                                            setIsTermChecked(!isTermChecked)
-                                          }
-                                        />
-                                        <span
-                                          className={cs(styles.indicator, {
-                                            [styles.checked]: isTermChecked
-                                          })}
-                                        ></span>
-                                      </span>
-                                    </div>
-                                    <div
-                                      className={cs(
-                                        styles.formSubheading,
-                                        styles.checkBoxHeading
-                                      )}
-                                    >
-                                      {ReactHtmlParser(customDuties?.message)}
-                                      {/* {customDuties?.popup_content && (
+                                  {customDuties?.visible && (
+                                    <label className={cs(styles.flex)}>
+                                      <div className={globalStyles.marginR10}>
+                                        <span className={styles.checkbox}>
+                                          <input
+                                            type="checkbox"
+                                            onClick={() =>
+                                              setIsTermChecked(!isTermChecked)
+                                            }
+                                          />
+                                          <span
+                                            className={cs(styles.indicator, {
+                                              [styles.checked]: isTermChecked
+                                            })}
+                                          ></span>
+                                        </span>
+                                      </div>
+                                      <div
+                                        className={cs(
+                                          styles.formSubheading,
+                                          styles.checkBoxHeading
+                                        )}
+                                      >
+                                        {ReactHtmlParser(customDuties?.message)}
+                                        {/* {customDuties?.popup_content && (
                                         <span
                                           onClick={() => openTermsPopup()}
                                           className={
@@ -923,8 +940,9 @@ const AddressSection: React.FC<AddressProps & {
                                           Shipping & Payment terms.
                                         </span>
                                       )} */}
-                                    </div>
-                                  </label>
+                                      </div>
+                                    </label>
+                                  )}
                                   {termsErr && (
                                     <div
                                       className={cs(
@@ -964,7 +982,7 @@ const AddressSection: React.FC<AddressProps & {
                                 renderActions(false)}
                             </div>
                           </>
-                        )}
+                        ) : null}
                         {!mobile &&
                           addressList.length > 1 &&
                           mode == "list" &&
