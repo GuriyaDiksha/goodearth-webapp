@@ -1151,7 +1151,10 @@ input[type="radio"] {
     padding: 21px 25px;
   }
   &:hover {
-    color: $white;
+    background: $white 0% 0% no-repeat padding-box;
+    border: 1px solid $med-charcoal;
+    opacity: 1;
+    color: $med-charcoal;
   }
   span {
     @include b4_12px_montserrat_white();
