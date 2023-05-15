@@ -917,6 +917,12 @@ const AddressItem: React.FC<Props> = props => {
                 &nbsp;TO THIS ADDRESS {address.isTulsi ? "(FREE)" : ""}
               </div>
             )}
+          {address.isTulsi &&
+            currentCallBackComponent == "checkout-shipping" && (
+              <div className={styles.freeShippingText}>
+                Free shipping for this address
+              </div>
+            )}
           {(currentCallBackComponent == "bridal" ||
             currentCallBackComponent == "bridal-edit") &&
             !address.isBridal && (

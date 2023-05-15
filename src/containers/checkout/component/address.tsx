@@ -845,12 +845,20 @@ const AddressSection: React.FC<AddressProps & {
                     />
                   ) : null}
                   <span
-                    className={cs({
-                      [styles.iscompleted]: STEP_ORDER[activeStep] < currentStep
-                    })}
+                    className={cs(
+                      {
+                        [styles.iscompleted]:
+                          STEP_ORDER[activeStep] < currentStep
+                      },
+                      isActive ? "" : styles.closed
+                    )}
                   >
                     {activeStep == STEP_SHIPPING
-                      ? "SHIPPING ADDRESS"
+                      ? mode == "edit"
+                        ? "EDIT ADDRESS"
+                        : "SHIPPING ADDRESS"
+                      : mode == "edit"
+                      ? "EDIT ADDRESS"
                       : "BILLING ADDRESS"}
                   </span>
                 </div>
