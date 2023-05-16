@@ -63,6 +63,8 @@ const PromoSection: React.FC<PromoProps> = props => {
   useEffect(() => {
     if (basket.voucherDiscounts.length === 0) {
       setIsEdit(true);
+      setPromoVal("");
+      setIsactivepromo(false);
     } else {
       setPromoVal(basket.voucherDiscounts[0]?.voucher?.code);
       setIsEdit(false);
@@ -109,8 +111,8 @@ const PromoSection: React.FC<PromoProps> = props => {
             styles.title
           )}
         >
-          {STEP_ORDER[activeStep] < currentStep ||
-          (basket.voucherDiscounts.length > 0 && !isEdit) ? (
+          {STEP_ORDER[activeStep] < currentStep &&
+          basket.voucherDiscounts.length > 0 && !isEdit ? (
             <img
               height={"18px"}
               className={globalStyles.marginR10}
@@ -150,7 +152,7 @@ const PromoSection: React.FC<PromoProps> = props => {
         )}
       </div>
 
-      {isActive && isEdit && (
+      {(isActive || isEdit) && (
         <Fragment>
           {!onlyGiftcard && (
             <div className={globalStyles.marginT20}>

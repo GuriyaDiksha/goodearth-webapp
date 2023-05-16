@@ -65,12 +65,12 @@ const AddressForm: React.FC<Props> = props => {
     currentCallBackComponent
   } = useContext(AddressContext);
 
-  const [isIndia, setIsIndia] = useState(false);
+  const { currency } = useSelector((state: AppState) => state);
+  const [isIndia, setIsIndia] = useState(currency === "INR");
   const [showPincode, setShowPincode] = useState(true);
   const [countryOptions, setCountryOptions] = useState<CountryOptions[]>([]);
   const [stateOptions, setStateOptions] = useState<StateOptions[]>([]);
   const { addressData } = props;
-  const { currency } = useSelector((state: AppState) => state);
   const { countryData, pinCodeData, addressList } = useSelector(
     (state: AppState) => state.address
   );
@@ -164,9 +164,11 @@ const AddressForm: React.FC<Props> = props => {
   const setDefaultCountry = () => {
     switch (currency) {
       case "INR":
+        setIsIndia(true);
         onCountrySelect(null, "India");
         break;
       case "GBP":
+        setIsIndia(false);
         onCountrySelect(null, "United Kingdom");
         break;
     }
@@ -215,7 +217,7 @@ const AddressForm: React.FC<Props> = props => {
     setErrorMessage("");
     setIsLoading(true);
     // prepare data
-    const { country, state, province } = model;
+    const { country, state, province, addressType } = model;
     let st = state;
     let pro = province;
     const countryCode = countryOptions.filter(
@@ -233,7 +235,8 @@ const AddressForm: React.FC<Props> = props => {
       state: st,
       province: pro,
       isDefaultForBilling: false,
-      country: countryCode
+      country: countryCode,
+      addressType: addressType || ""
     };
     if (mode == "new") {
       AddressService.addNewAddress(dispatch, formData)
@@ -388,7 +391,7 @@ const AddressForm: React.FC<Props> = props => {
             line2,
             state,
             province,
-            addressType
+            addressType: addressType || ""
           },
           true
         );
@@ -752,20 +755,8 @@ const AddressForm: React.FC<Props> = props => {
               type="number"
               required
               name="phoneNumber"
-              label={
-                (addressData?.country
-                  ? countryCurrencyCode[addressData?.country]
-                  : currency) === "INR"
-                  ? "Mobile Number*"
-                  : "Contact Number*"
-              }
-              placeholder={
-                (addressData?.country
-                  ? countryCurrencyCode[addressData?.country]
-                  : currency) === "INR"
-                  ? "Mobile Number*"
-                  : "Contact Number*"
-              }
+              label={isIndia ? "Mobile Number*" : "Contact Number*"}
+              placeholder={isIndia ? "Mobile Number*" : "Contact Number*"}
               handleChange={() => setIsAddressChanged(true)}
               validations={{
                 isExisty: true,
@@ -773,18 +764,10 @@ const AddressForm: React.FC<Props> = props => {
               }}
               validationErrors={{
                 isExisty: `Please enter your ${
-                  (addressData?.country
-                    ? countryCurrencyCode[addressData?.country]
-                    : currency) === "INR"
-                    ? "Mobile Number"
-                    : "Contact Number"
+                  isIndia ? "Mobile Number" : "Contact Number"
                 }`,
                 matchRegexp: `Please enter a valid ${
-                  (addressData?.country
-                    ? countryCurrencyCode[addressData?.country]
-                    : currency) === "INR"
-                    ? "Mobile Number"
-                    : "Contact Number"
+                  isIndia ? "Mobile Number" : "Contact Number"
                 }`
               }}
               keyDown={e => (e.which === 69 ? e.preventDefault() : null)}
@@ -794,9 +777,7 @@ const AddressForm: React.FC<Props> = props => {
                   : null
               }
             />
-            {(addressData?.country
-              ? countryCurrencyCode[addressData?.country]
-              : currency) === "INR" && (
+            {isIndia && (
               <p key="contact-msg" className={styles.contactMsg}>
                 This number will be used for sending OTP during delivery.
               </p>
@@ -805,7 +786,7 @@ const AddressForm: React.FC<Props> = props => {
 
           <div>
             <FormInput
-              id="nickname"
+              id="addressType"
               name="addressType"
               label={"Address Nickname"}
               placeholder={"Address Nickname"}

@@ -937,9 +937,9 @@ const PaymentSection: React.FC<PaymentProps> = props => {
                           whatsappNoErr={whatsappNoErr}
                         />
                       </div>
-                      <div className={styles.whatsappNoErr}>
+                      {/* <div className={styles.whatsappNoErr}>
                         {whatsappNoErr}
-                      </div>
+                      </div> */}
                     </div>
                   )}
                 </div>

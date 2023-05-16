@@ -44,7 +44,10 @@ const CheckoutBreadcrumb: React.FC<BreadcrumbProps> = props => {
               className={cs(fontStyles.iconArrowRight, fontStyles.icon)}
             ></span>
             <span
-              className={cs(styles.text, active === "PAYMENT" && styles.active)}
+              className={cs(
+                styles.text,
+                (active === "PAYMENT" || active === "PROMO") && styles.active
+              )}
             >
               Payment
             </span>

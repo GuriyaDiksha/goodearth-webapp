@@ -652,37 +652,42 @@ const AddressItem: React.FC<Props> = props => {
                   currentCallBackComponent == "bridal-edit"
               })}
             >
-              {((!address.isTulsi &&
-                (currentCallBackComponent == "account" ||
-                  currentCallBackComponent == "checkout-shipping")) ||
-                currentCallBackComponent == "checkout-billing") && (
+              {((!address.isTulsi && currentCallBackComponent == "account") ||
+                currentCallBackComponent == "checkout-shipping" ||
+                (!address.isTulsi &&
+                  currentCallBackComponent == "checkout-billing")) && (
                 <div
                   className={styles.radio}
                   id={
-                    currentCallBackComponent !== "checkout-billing"
+                    currentCallBackComponent !== "checkout-billing" &&
+                    currentCallBackComponent !== "checkout-shipping"
                       ? id
                       : address.id.toString()
                   }
                   onClick={() => {
                     markAsDefault(address, address?.id);
                     currentCallBackComponent !== "checkout-billing" &&
+                      currentCallBackComponent !== "checkout-shipping" &&
                       setDefaultAddress(id);
                   }}
                 >
                   <input
                     id={
-                      currentCallBackComponent !== "checkout-billing"
+                      currentCallBackComponent !== "checkout-billing" &&
+                      currentCallBackComponent !== "checkout-shipping"
                         ? id
                         : address.id.toString()
                     }
                     className={styles.defaultAddressCheckbox}
                     checked={
-                      currentCallBackComponent !== "checkout-billing"
+                      currentCallBackComponent !== "checkout-billing" &&
+                      currentCallBackComponent !== "checkout-shipping"
                         ? id === defaultAddress
                         : address.id.toString() === shippingAddressId.toString()
                     }
                     name={
-                      currentCallBackComponent !== "checkout-billing"
+                      currentCallBackComponent !== "checkout-billing" &&
+                      currentCallBackComponent !== "checkout-shipping"
                         ? id
                         : address.id.toString()
                     }
@@ -690,6 +695,7 @@ const AddressItem: React.FC<Props> = props => {
                     onChange={() => {
                       markAsDefault(address, address?.id);
                       currentCallBackComponent !== "checkout-billing" &&
+                        currentCallBackComponent !== "checkout-shipping" &&
                         setDefaultAddress(id);
                     }}
                   />
@@ -909,6 +915,12 @@ const AddressItem: React.FC<Props> = props => {
               >
                 {activeStep == STEP_SHIPPING ? "SHIP" : "BILL"}
                 &nbsp;TO THIS ADDRESS {address.isTulsi ? "(FREE)" : ""}
+              </div>
+            )}
+          {address.isTulsi &&
+            currentCallBackComponent == "checkout-shipping" && (
+              <div className={styles.freeShippingText}>
+                Free shipping for this address
               </div>
             )}
           {(currentCallBackComponent == "bridal" ||
