@@ -84,16 +84,15 @@ const PaymentSection: React.FC<PaymentProps> = props => {
     if (basket.giftCards.length > 0 && isactivepromo) {
       setIsLoading(true);
       if (PaymentChild.onClose) {
-        const data = await Promise.all(
-          basket?.giftCards?.map(async (giftcard, i) => {
-            const data: any = {
-              cardId: giftcard?.cardId,
-              type: giftcard?.cardType
-            };
-            return await CheckoutService.removeGiftCard(dispatch, data);
-          })
-        );
-        console.log("data", data);
+        for await (const giftcard of basket?.giftCards) {
+          const data: any = {
+            cardId: giftcard?.cardId,
+            type: giftcard?.cardType
+          };
+
+          await CheckoutService.removeGiftCard(dispatch, data);
+        }
+
         await BasketService.fetchBasket(
           dispatch,
           "checkout",
