@@ -80,14 +80,27 @@ const PaymentSection: React.FC<PaymentProps> = props => {
 
   const PaymentButton = useRef(null);
 
-  const toggleInput = () => {
+  const toggleInput = async () => {
     if (basket.giftCards.length > 0 && isactivepromo) {
+      setIsLoading(true);
       if (PaymentChild.onClose) {
-        {
-          basket?.giftCards?.map((giftcard, i) => {
-            PaymentChild.onClose(giftcard?.cardId, giftcard?.cardType);
-          });
-        }
+        const data = await Promise.all(
+          basket?.giftCards?.map(async (giftcard, i) => {
+            const data: any = {
+              cardId: giftcard?.cardId,
+              type: giftcard?.cardType
+            };
+            return await CheckoutService.removeGiftCard(dispatch, data);
+          })
+        );
+        console.log("data", data);
+        await BasketService.fetchBasket(
+          dispatch,
+          "checkout",
+          history,
+          isLoggedIn
+        );
+        setIsLoading(false);
       }
     }
     setIsactivepromo(!isactivepromo);

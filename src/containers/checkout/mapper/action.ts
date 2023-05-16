@@ -44,8 +44,14 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     ) => {
       const gift: any = await CheckoutService.removeGiftCard(dispatch, data);
       if (gift.status) {
-        BasketService.fetchBasket(dispatch, "checkout", history, isLoggedIn);
+        await BasketService.fetchBasket(
+          dispatch,
+          "checkout",
+          history,
+          isLoggedIn
+        );
       }
+      debugger;
       return gift;
     },
     removePromo: async (data: FormData, history: any, isLoggedIn: boolean) => {
