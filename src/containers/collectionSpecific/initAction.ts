@@ -45,7 +45,7 @@ const initActionSpecific: InitAction = async (
       dispatch(updateCollectionSpecificData({ ...filterData }));
     }
     if (bannerData) {
-      // dispatch(updateCollectionSpecificBanner({ ...bannerData }));
+      dispatch(updateCollectionSpecificBanner({ ...bannerData }));
     }
     if (plpProduct) {
       dispatch(updatePartialProducts(plpProduct));

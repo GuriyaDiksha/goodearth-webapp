@@ -128,6 +128,12 @@ const mapDispatchToProps = (dispatch: Dispatch, params: any) => {
         collectionProductImpression(filterData, "CollectionSpecific", currency);
         dispatch(updateCollectionSpecificData({ ...filterData }));
       }
+
+      CollectionService.fetchCollectionSpecificTemplates(dispatch, id).catch(
+        error => {
+          console.log(`Collection Error id=${id}`, error);
+        }
+      );
     },
     updateCollection: async (data: any) => {
       dispatch(updateFilteredCollectionData(data));
