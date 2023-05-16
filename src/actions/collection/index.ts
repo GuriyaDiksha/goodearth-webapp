@@ -28,6 +28,7 @@ export const updateTagsData = (data: string[]) =>
 export const updateFilteredCollectionData = (data: CollectionItem[]) =>
   actionCreator("UPDATE_FILTERED_COLLECTION_DATA", data);
 
+// Collection template banner update action
 export const updateCollectionSpecificTemplates = (
   data: CollectionTemplatesData
 ) => actionCreator("UPDATE_COLLECTION_SPECIFIC_TEMPLATES", data);

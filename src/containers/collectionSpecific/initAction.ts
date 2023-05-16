@@ -28,6 +28,7 @@ const initActionSpecific: InitAction = async (
           console.log(`Collection Error id=${id}`, error);
         }
       ),
+      // Collection specific template banner data fetch
       CollectionService.fetchCollectionSpecificTemplates(dispatch, id).catch(
         error => {
           console.log(`Collection Error id=${id}`, error);

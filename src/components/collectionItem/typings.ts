@@ -19,6 +19,7 @@ export interface CollectionItem {
   tags: string[];
 }
 
+// Collection template banner typescript initialization
 type CollectionTemplateType = "ProductBanner" | "Product" | "Banner";
 type mediaType = "image" | "video";
 

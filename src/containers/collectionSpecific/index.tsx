@@ -87,7 +87,7 @@ const mapDispatchToProps = (dispatch: Dispatch, params: any) => {
         dispatch(updateCollectionSpecificData({ ...filterData }));
       }
     },
-    //
+    // Collection specific template banner fetch data
     fetchCollectionSpecificTemplates: async (id: number) => {
       try {
         await CollectionService.fetchCollectionSpecificTemplates(dispatch, id);
@@ -128,7 +128,7 @@ const mapDispatchToProps = (dispatch: Dispatch, params: any) => {
         collectionProductImpression(filterData, "CollectionSpecific", currency);
         dispatch(updateCollectionSpecificData({ ...filterData }));
       }
-
+      // on reload collection specific template banner data update
       CollectionService.fetchCollectionSpecificTemplates(dispatch, id).catch(
         error => {
           console.log(`Collection Error id=${id}`, error);
@@ -546,6 +546,7 @@ class CollectionSpecific extends React.Component<
     const { widgetImages, name } = collectionSpecficBanner;
     const { specificMaker } = this.state;
 
+    // Collection specific template banner data initialization
     const showTemplates: any = {
       Banner: null,
       Product: null,
@@ -597,6 +598,8 @@ class CollectionSpecific extends React.Component<
         )}
         <section id="collection_banner">
           <div className={cs(bootstrap.row, styles.firstBlock)}>
+            {/* First check for widgetImages data if available then show that 
+             else collection specific banner section will show */}
             {widgetImages?.length ? (
               <>
                 <div className={bootstrap.col12}>
@@ -718,6 +721,7 @@ class CollectionSpecific extends React.Component<
             {results.map((data: PLPProductItem, i: number) => {
               return (
                 <React.Fragment key={data.id}>
+                  {/* Product(banner) section */}
                   {showTemplates["Product"] &&
                   results.length >= productTemplatePos &&
                   i == productTemplatePos - 1 ? (
@@ -730,7 +734,7 @@ class CollectionSpecific extends React.Component<
                   ) : (
                     ""
                   )}
-                  {/* check banner position */}
+                  {/* Product banner section */}
                   {showTemplates["ProductBanner"] &&
                   results.length >= productBannerTemplatePos &&
                   i == productBannerTemplatePos - 1 ? (

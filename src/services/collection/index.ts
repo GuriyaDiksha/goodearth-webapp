@@ -87,6 +87,7 @@ export default {
     const data: string[] = res.tags;
     return data;
   },
+  // Collection specific template banner data get api call
   fetchCollectionSpecificTemplates: async function(
     dispatch: Dispatch,
     id: number

@@ -75,6 +75,7 @@ export const collection = (
       newState.filteredCollectionData = action.payload;
       return newState;
     }
+    // Collection specific banner reducer
     case "UPDATE_COLLECTION_SPECIFIC_TEMPLATES": {
       const newState = { ...state };
       newState.collectionTemplates = action.payload;
