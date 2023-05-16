@@ -122,10 +122,20 @@ const AddressSection: React.FC<AddressProps & {
     AddressService.fetchCustomDuties(
       dispatch,
       countryCurrencyCode[data?.country || "IN"]
-    ).then(res => {
-      setIsTermChecked(customDuties?.visible || false);
-      dispatch(updateCustomDuties(res));
-    });
+    )
+      .then(res => {
+        setIsTermChecked(customDuties?.visible || false);
+        dispatch(updateCustomDuties(res));
+      })
+      .catch(e => {
+        setIsTermChecked(e?.response?.data?.visible || false);
+        dispatch(
+          updateCustomDuties({
+            visible: e?.response?.data?.visible,
+            message: ""
+          })
+        );
+      });
   }, [shippingAddressId]);
 
   useEffect(() => {
