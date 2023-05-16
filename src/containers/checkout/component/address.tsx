@@ -143,6 +143,7 @@ const AddressSection: React.FC<AddressProps & {
       dispatch(
         updateShippingAddressId(
           props.selectedAddress?.id ||
+            shippingAddressId ||
             addressList?.find(val => val?.isDefaultForShipping)?.id ||
             0
         )
@@ -155,6 +156,10 @@ const AddressSection: React.FC<AddressProps & {
       props.selectedAddress?.id
     ) {
       dispatch(updateBillingAddressId(props.selectedAddress?.id));
+    }
+
+    if (currentCallBackComponent === "checkout-billing" && !sameAsShipping) {
+      dispatch(updateBillingAddressId(billingAddressId));
     }
   }, [props.selectedAddress, addressList]);
   const openNewAddressForm = () => {
