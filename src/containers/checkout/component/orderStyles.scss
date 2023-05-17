@@ -362,12 +362,13 @@ body:has(.open-summary) {
 .discountprice {
   @include b3_14px_montserrat_gold();
 }
-.product-size {
-  @include pdp_spec();
-  line-height: 25px;
-  justify-content: center;
-  padding-right: 10px;
-}
+// Commenting bcs added at other place with parent
+// .product-size {
+//   @include pdp_spec();
+//   line-height: 25px;
+//   justify-content: center;
+//   padding-right: 10px;
+// }
 .padd {
   padding-top: 15px;
   padding-bottom: 15px;

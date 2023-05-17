@@ -62,9 +62,11 @@ const PromoSection: React.FC<PromoProps> = props => {
 
   useEffect(() => {
     if (basket.voucherDiscounts.length === 0) {
-      setIsEdit(true);
-      setPromoVal("");
+      if (STEP_ORDER[activeStep] < currentStep) {
+        setIsEdit(true);
+      }
       setIsactivepromo(false);
+      setPromoVal("");
     } else {
       setPromoVal(basket.voucherDiscounts[0]?.voucher?.code);
       setIsEdit(false);
@@ -112,7 +114,8 @@ const PromoSection: React.FC<PromoProps> = props => {
           )}
         >
           {STEP_ORDER[activeStep] < currentStep &&
-          basket.voucherDiscounts.length > 0 && !isEdit ? (
+          basket.voucherDiscounts.length > 0 &&
+          !isEdit ? (
             <img
               height={"18px"}
               className={globalStyles.marginR10}
@@ -120,7 +123,9 @@ const PromoSection: React.FC<PromoProps> = props => {
               alt="checkmarkdone"
             />
           ) : null}
-          <span className={isActive || isactivepromo ? "" : styles.closed}>
+          <span
+            className={isActive || isactivepromo || isEdit ? "" : styles.closed}
+          >
             PROMO CODE
           </span>
         </div>

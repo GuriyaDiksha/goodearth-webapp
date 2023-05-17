@@ -806,18 +806,19 @@ const AddressForm: React.FC<Props> = props => {
             </p>
           </div>
 
-          {true && (
-            <div className={styles.addressFormCheckbox}>
-              <FormCheckbox
-                name="isDefaultForShipping"
-                label={["Make Default Address"]}
-                value={false}
-                id="isShippingAddress"
-                disable={false}
-                handleChange={() => setIsAddressChanged(true)}
-              />
-            </div>
-          )}
+          <div className={styles.addressFormCheckbox}>
+            <FormCheckbox
+              name="isDefaultForShipping"
+              label={["Make Default Address"]}
+              value={false}
+              id="isShippingAddress"
+              disable={addressData?.isDefaultForShipping || false}
+              handleChange={() =>
+                !addressData?.isDefaultForShipping && setIsAddressChanged(true)
+              }
+            />
+          </div>
+
           <div
             className={cs({
               [styles.checkoutMobilePopupButton]:
