@@ -680,10 +680,13 @@ const AddressItem: React.FC<Props> = props => {
                     }
                     className={styles.defaultAddressCheckbox}
                     checked={
-                      currentCallBackComponent !== "checkout-billing" &&
-                      currentCallBackComponent !== "checkout-shipping"
-                        ? id === defaultAddress
-                        : address.id.toString() === shippingAddressId.toString()
+                      currentCallBackComponent == "checkout-billing" &&
+                      billingAddressId
+                        ? address.id.toString() === billingAddressId.toString()
+                        : currentCallBackComponent == "checkout-shipping" &&
+                          shippingAddressId
+                        ? address.id.toString() === shippingAddressId.toString()
+                        : id === defaultAddress
                     }
                     name={
                       currentCallBackComponent !== "checkout-billing" &&
@@ -727,7 +730,8 @@ const AddressItem: React.FC<Props> = props => {
                       </svg>
                     )}
                     {id === defaultAddress &&
-                      currentCallBackComponent == "account" && (
+                      (currentCallBackComponent == "account" ||
+                        currentCallBackComponent == "checkout-billing") && (
                         <div className={styles.defaultAddress}>
                           Default Address
                         </div>

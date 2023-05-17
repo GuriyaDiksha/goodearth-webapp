@@ -199,7 +199,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
             {isSuspended && !isSale && (
               <>
                 {/* <hr className={styles.hr} /> */}
-                <p>
+                <p className={cs(globalStyles.marginT20)}>
                   {" "}
                   All standard WHO guidelines and relevant precautionary
                   measures are in place, to ensure a safe and secure shopping
