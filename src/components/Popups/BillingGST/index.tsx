@@ -27,6 +27,7 @@ type PopupProps = {
   isActive: boolean;
   setGstNum: (data: string) => any;
   sameAsShipping: boolean;
+  setSameAsShipping: (data: boolean) => any;
 };
 
 const BillingGST: React.FC<PopupProps> = ({
@@ -36,7 +37,8 @@ const BillingGST: React.FC<PopupProps> = ({
   parentError,
   isActive,
   setGstNum,
-  sameAsShipping
+  sameAsShipping,
+  setSameAsShipping
 }) => {
   const { closeModal } = useContext(Context);
   const [gstText, setGstText] = useState("");
@@ -53,6 +55,9 @@ const BillingGST: React.FC<PopupProps> = ({
           : val?.id === billingAddressId
         : val?.isDefaultForShipping === true
     ) || undefined;
+
+  const msg =
+    "To be able to create a GST invoice, your billing address state must match the state registered with your GST no.";
 
   useEffect(() => {
     setGstText(gstNum);
@@ -112,6 +117,20 @@ const BillingGST: React.FC<PopupProps> = ({
         </span>
       </label>
     );
+  };
+
+  const handleSubmit = (e: any) => {
+    e.preventDefault();
+    if (gstValidation()) {
+      onSubmit(address, gstText, gstType);
+    }
+    if (error?.[0] === msg) {
+      setGst(false);
+      setGstNum("");
+      setError("");
+      setSameAsShipping(false);
+      closeModal();
+    }
   };
 
   return (
@@ -200,16 +219,8 @@ const BillingGST: React.FC<PopupProps> = ({
             styles.marginBottom
           )}
         >
-          <NavLink
-            to="/"
-            onClick={e => {
-              e.preventDefault();
-              if (gstValidation()) {
-                onSubmit(address, gstText, gstType);
-              }
-            }}
-          >
-            SAVE & PROCEED
+          <NavLink to="/" onClick={e => handleSubmit(e)}>
+            {error?.[0] === msg ? "EDIT BILLING ADDRESS" : "SAVE & PROCEED"}
           </NavLink>
         </div>
       </div>

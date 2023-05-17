@@ -1342,6 +1342,13 @@ span.add-new-address {
     color: $aqua;
     border-bottom: 1px solid $aqua;
   }
+  &.light-closed{
+    border-bottom: 1px solid $light-charcoal;
+}
+}
+.closed{
+    pointer-events: none;
+    opacity: 0.3;
 }
 .country-code{
   display: flex;

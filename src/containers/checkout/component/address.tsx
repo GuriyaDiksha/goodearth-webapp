@@ -187,13 +187,18 @@ const AddressSection: React.FC<AddressProps & {
     }
   }, [currency]);
 
-  const renderActions = function(isBottom?: boolean) {
-    if (isActive && isLoggedIn) {
+  const renderActions = function(
+    isBottom?: boolean,
+    isBillingDisable?: boolean
+  ) {
+    if ((isActive && isLoggedIn) || isBillingDisable) {
       const clickAction =
         mode == "list" ? openNewAddressForm : backToAddressList;
       const fullText =
         mode == "new" || mode == "edit"
-          ? "< BACK TO SAVED ADDRESSES"
+          ? isBillingDisable
+            ? "[+] ADD NEW ADDRESS"
+            : "< BACK TO SAVED ADDRESSES"
           : "[+] ADD NEW ADDRESS";
       const mobileText =
         mode == "new" || mode == "edit" ? "< BACK" : "[+] ADD NEW ADDRESS";
@@ -212,11 +217,23 @@ const AddressSection: React.FC<AddressProps & {
             globalStyles.textRight
           )}
         >
-          <div className={cs(globalStyles.pointer)} onClick={clickAction}>
+          <div
+            className={cs({
+              [styles.closed]: isBillingDisable,
+              [globalStyles.pointer]: !isBillingDisable
+            })}
+            onClick={clickAction}
+          >
             {mobile ? (
               <span className={cs(styles.addNewAddress)}>{mobileText}</span>
             ) : (
-              <span className={cs(styles.addNewAddress)}>{fullText}</span>
+              <span
+                className={cs(styles.addNewAddress, {
+                  [styles.lightClosed]: isBillingDisable
+                })}
+              >
+                {fullText}
+              </span>
             )}
           </div>
         </div>
@@ -558,7 +575,8 @@ const AddressSection: React.FC<AddressProps & {
             parentError: props.error,
             isActive: isActive,
             setGstNum: setGstNum,
-            sameAsShipping: sameAsShipping
+            sameAsShipping: sameAsShipping,
+            setSameAsShipping: setSameAsShipping
           },
           true
         )
@@ -578,7 +596,8 @@ const AddressSection: React.FC<AddressProps & {
             parentError: "",
             isActive: isActive,
             setGstNum: setGstNum,
-            sameAsShipping: sameAsShipping
+            sameAsShipping: sameAsShipping,
+            setSameAsShipping: setSameAsShipping
           },
           true
         )
@@ -589,10 +608,10 @@ const AddressSection: React.FC<AddressProps & {
     }
   };
 
-  const openTermsPopup = () => {
-    dispatch(updateComponent(POPUP.SHIPPINGTERMS, { customDuties }, true));
-    dispatch(updateModal(true));
-  };
+  // const openTermsPopup = () => {
+  //   dispatch(updateComponent(POPUP.SHIPPINGTERMS, { customDuties }, true));
+  //   dispatch(updateModal(true));
+  // };
 
   // const onKeyPress = (event: React.KeyboardEvent) => {
   //   if (event.key === "Enter") {
@@ -879,7 +898,8 @@ const AddressSection: React.FC<AddressProps & {
                 </div>
                 {mobile && renderActions(false)}
               </div>
-              {!mobile && renderActions(false)}
+              {!mobile &&
+                renderActions(false, activeStep == STEP_BILLING && !isActive)}
               {renderSavedAddress()}
             </div>
             {isActive && (
