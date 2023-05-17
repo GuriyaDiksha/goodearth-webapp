@@ -49,7 +49,8 @@ const BottomMenu: React.FC<Props> = ({
   reloadPage,
   cookies,
   user,
-  sortBy
+  sortBy,
+  showMenu
 }) => {
   const [isLoading, setIsLoading] = useState(false);
   const scrollDown = useSelector((state: AppState) => state.info.scrollDown);
@@ -115,7 +116,7 @@ const BottomMenu: React.FC<Props> = ({
   return (
     <div
       className={cs(styles.headerContainerMenu, {
-        [styles.hide]: isPLP && scrollDown,
+        [styles.hide]: (isPLP && scrollDown) || isSearch || showMenu,
         [styles.index]: isCareer
       })}
       // onClick={() => {

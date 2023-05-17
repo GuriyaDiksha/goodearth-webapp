@@ -19,7 +19,7 @@ const CollectionFilter: React.FC<CollectionFilter> = ({
         [styles.collectionFilterTimer]: showTimer
       })}
     >
-      <ul className={styles.collectionFilterWrapper}>
+      <ul id="tagList" className={styles.collectionFilterWrapper}>
         {["All Collections", ...tags]?.map((tag, i) => (
           <li
             className={cs(styles.collectionFilter, {

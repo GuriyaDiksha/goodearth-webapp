@@ -38,6 +38,11 @@ const PlpDropdownMenu = ({
   const { scrollDown, showTimer } = useSelector(
     (state: AppState) => state.info
   );
+  const { mobile } = useSelector((state: AppState) => state.device);
+
+  const { mobileMenuOpenState, showSearchPopup } = useSelector(
+    (state: AppState) => state.header
+  );
   const dispatch = useDispatch();
   const clickMobilefilter = (value: string) => {
     if (value == "Refine") {
@@ -109,7 +114,9 @@ const PlpDropdownMenu = ({
   return (
     <div
       className={cs(styles.cSort, bootstrap.col12, styles.filterSticky, {
-        [styles.hide]: scrollDown
+        [styles.hide]: scrollDown,
+        [styles.openMenuIndex]:
+          (mobileMenuOpenState || showSearchPopup) && mobile
       })}
     >
       <div

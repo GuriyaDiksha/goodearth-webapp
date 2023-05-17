@@ -572,7 +572,7 @@ class CollectionSpecific extends React.Component<
                 }
               })}
             </div>
-            {widgetImages?.length ? (
+            {/* {widgetImages?.length ? (
               <div className={bootstrap.col12}>
                 <img
                   src={banner}
@@ -580,7 +580,7 @@ class CollectionSpecific extends React.Component<
                   alt="Collection Image"
                 />
               </div>
-            ) : null}
+            ) : null} */}
           </div>
         </section>
         <div
