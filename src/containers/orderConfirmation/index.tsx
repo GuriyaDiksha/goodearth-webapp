@@ -435,7 +435,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                         ) : (
                           ""
                         )}
-                        {confirmData?.isBridalOrder && (
+                        {/* {confirmData?.isBridalOrder && (
                           <React.Fragment>
                             {" "}
                             <div className={cs(styles.row, styles.name)}>
@@ -459,7 +459,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                               {shippingAddress.phoneNumber}
                             </div>
                           </React.Fragment>
-                        )}
+                        )} */}
                       </div>
                     </div>
 
