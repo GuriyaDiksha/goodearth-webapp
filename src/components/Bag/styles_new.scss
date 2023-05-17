@@ -121,8 +121,13 @@
           position: absolute;
           right: -10px;
           bottom: -10px;
-          background: #fff;
           border-radius: 50%;
+
+          .cerise-bridal-rings {
+            background-color: $cerise;
+            fill: $white;
+            border-radius: 50%;
+          }
         }
       }
 

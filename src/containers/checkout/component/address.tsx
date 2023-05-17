@@ -282,7 +282,7 @@ const AddressSection: React.FC<AddressProps & {
                   )}
                 >
                   {address.firstName} {address.lastName}{" "}
-                  {`(${address?.addressType})`}
+                  {address?.addressType && `(${address?.addressType})`}
                 </span>
                 <span
                   className={cs(
@@ -326,7 +326,7 @@ const AddressSection: React.FC<AddressProps & {
                   )}
                 >
                   {address.firstName} {address.lastName}{" "}
-                  {`(${address?.addressType})`}
+                  {address?.addressType && `(${address?.addressType})`}
                 </span>
                 <span
                   className={cs(
@@ -889,18 +889,22 @@ const AddressSection: React.FC<AddressProps & {
                   {props.activeStep == STEP_BILLING && props.hidesameShipping && (
                     <>
                       <div>{renderBillingCheckbox()}</div>
-                      {!sameAsShipping && isLoggedIn && mode == "list" && (
-                        <div>
-                          <div
-                            className={cs(
-                              styles.sameText,
-                              styles.formSubheading
-                            )}
-                          >
-                            OR SELECT AN ADDRESS BELOW
+                      {!sameAsShipping &&
+                        isLoggedIn &&
+                        !props.isBridal &&
+                        !props.isGoodearthShipping &&
+                        mode == "list" && (
+                          <div>
+                            <div
+                              className={cs(
+                                styles.sameText,
+                                styles.formSubheading
+                              )}
+                            >
+                              OR SELECT AN ADDRESS BELOW
+                            </div>
                           </div>
-                        </div>
-                      )}
+                        )}
                     </>
                   )}
                   {// logged in Shipping & billing

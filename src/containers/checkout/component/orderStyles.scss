@@ -333,7 +333,7 @@ body:has(.open-summary) {
 
 .deliveryfont {
   @include b4_12px_medium_medcharcoal_caps();
-  margin: 35px auto;
+  margin: 35px auto 0 auto;
   width: fit-content;
   border-bottom: 1px solid $med-charcoal;
   &:hover {
@@ -435,8 +435,9 @@ body:has(.open-summary) {
 
 .wrap {
   word-wrap: break-word;
-  margin: 0px auto 35px auto;
+  margin: 0px auto;
   text-align: center;
+  padding-top: 0;
   @include b5_10px_montserrat_charcoal();
 }
 

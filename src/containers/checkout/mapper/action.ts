@@ -51,7 +51,6 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
           isLoggedIn
         );
       }
-      debugger;
       return gift;
     },
     removePromo: async (data: FormData, history: any, isLoggedIn: boolean) => {
