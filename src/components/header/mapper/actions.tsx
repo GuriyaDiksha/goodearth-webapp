@@ -9,6 +9,7 @@ import { MESSAGE } from "constants/messages";
 import { updateComponent, updateModal } from "actions/modal";
 import {
   updateMobileMenuOpenState,
+  updateShowSearchPopup,
   updateSizeChartShow,
   updateStoreState
 } from "actions/header";
@@ -154,6 +155,9 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     },
     closeInShopAvailability: () => {
       dispatch(updateStoreState(false));
+    },
+    updateShowSearchPopup: (state: boolean) => {
+      dispatch(updateShowSearchPopup(state));
     }
   };
 };
