@@ -12,5 +12,6 @@
     "/basket/change_currency",
     "/customer/verify_user_otp",
     "/customer/profile",
-    "/customer/update_profile"
+    "/customer/update_profile",
+    "/customer/send_user_otp"
 ]
