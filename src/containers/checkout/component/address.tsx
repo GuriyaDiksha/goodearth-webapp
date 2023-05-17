@@ -1031,7 +1031,7 @@ const AddressSection: React.FC<AddressProps & {
                     ""
                   )}
                   <div>{renderPancard}</div>
-                  {props.activeStep == STEP_BILLING && (
+                  {props.activeStep == STEP_BILLING && mode == "list" && (
                     <div className={bootstrapStyles.row}>
                       <div
                         className={cs(
