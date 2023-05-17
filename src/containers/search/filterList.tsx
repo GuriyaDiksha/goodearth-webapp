@@ -13,7 +13,7 @@ import { State, FilterProps } from "./typings";
 import { withRouter } from "react-router";
 import { RouteComponentProps } from "react-router-dom";
 import { productImpression } from "utils/validate";
-import Loader from "components/Loader";
+// import Loader from "components/Loader";
 import iconStyles from "../../styles/iconFonts.scss";
 import multiColour from "../../images/multiColour.svg";
 import bootstrap from "../../styles/bootstrap/bootstrap-grid.scss";
@@ -2136,7 +2136,7 @@ class FilterList extends React.Component<Props, State> {
 
     return (
       <Fragment>
-        {this.state.isLoading && <Loader />}
+        {/* {this.state.isLoading && <Loader />} */}
         <ul id="inner_filter" className={styles.filterSideMenu}>
           <li
             className={cs(styles.filterElements, {
