@@ -38,6 +38,19 @@
 .header-index {
   z-index: 1000009 !important;
 }
+// .header-index-home {
+//   z-index: 1000002 !important;
+// }
+.index{
+  z-index: 10 !important;
+}
+
+.plp-index{
+  z-index: 5 !important; //Added for refine and sort
+}
+.plp-index-mobile{
+  z-index: 4 !important; //Added for refine and sort
+}
 .header-container {
     position: relative;
     margin-top: -40px;
@@ -969,6 +982,7 @@ a {
   overflow-x: hidden;
   -moz-appearance: none;
   appearance: none;
+  padding-bottom: 160px;
   // @include scrollbar-default();
   // &:hover {
   //   @include scrollbar();
@@ -1106,7 +1120,7 @@ button {
   width: 207px;
   border: 0px;
   cursor: pointer;
-  margin-top: 6px;
+  margin-top: -6px;
   font-size: 14px;
   background-color: $med-charcoal;
   color: white;

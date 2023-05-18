@@ -55,6 +55,7 @@ const LoginSection: React.FC<LoginProps> = props => {
             styles.title,
             globalStyles.flex
           )}
+          id="checkout-emailverification"
         >
           <img
             height={"15px"}

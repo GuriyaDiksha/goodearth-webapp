@@ -72,12 +72,29 @@ class ShopLocator extends Component<Props, State> {
           },
           () => {
             if (this.props.city) {
-              this.setState({ currentCity: this.props.city });
+              this.setState({ currentCity: this.props.city }, () => {
+                const ele = document.getElementById(
+                  this.props.city || ""
+                ) as HTMLDivElement;
+                if (ele) {
+                  ele?.focus();
+                }
+              });
             } else {
               // change this
-              this.setState({
-                currentCity: Object.keys(this.state.shopData)[0]
-              });
+              this.setState(
+                {
+                  currentCity: Object.keys(this.state.shopData)[0]
+                },
+                () => {
+                  const ele = document.getElementById(
+                    Object.keys(this.state.shopData)[0] || ""
+                  ) as HTMLDivElement;
+                  if (ele) {
+                    ele?.focus();
+                  }
+                }
+              );
             }
           }
         );
@@ -87,6 +104,22 @@ class ShopLocator extends Component<Props, State> {
       });
   }
 
+  componentDidUpdate() {
+    const city = window.location.href.split("/").pop();
+    if (this.state.currentCity !== city) {
+      this.setState(
+        {
+          currentCity: city || ""
+        },
+        () => {
+          const ele = document.getElementById(city || "") as HTMLDivElement;
+          if (ele) {
+            ele?.focus();
+          }
+        }
+      );
+    }
+  }
   render() {
     const { shopData, currentCity } = this.state;
     const { saleTimer, mobile, tablet } = this.props;
@@ -120,6 +153,8 @@ class ShopLocator extends Component<Props, State> {
                   })}
                   key={i}
                   onClick={() => this.onHeaderItemClick(data)}
+                  id={data}
+                  tabIndex={i}
                 >
                   {data}
                 </div>
@@ -140,6 +175,7 @@ class ShopLocator extends Component<Props, State> {
                     <img
                       className={cs(styles.icon, styles.store)}
                       src={cafeIcon}
+                      alt="Store Icon"
                     />
                     <div className={styles.name}>
                       {data.cafeHeading2}, {data.place}
@@ -211,7 +247,11 @@ class ShopLocator extends Component<Props, State> {
                                 key={`cafe_${i}`}
                               >
                                 <div>
-                                  <img key={`cafe_${i}`} src={item.image} />
+                                  <img
+                                    key={`cafe_${i}`}
+                                    src={item.image}
+                                    alt="cafe"
+                                  />
                                 </div>
                               </div>
                             );
@@ -232,7 +272,11 @@ class ShopLocator extends Component<Props, State> {
                 key={`${data.place}_${i}`}
               >
                 {showAnarBorder && (
-                  <img className={cs(styles.anar)} src={anarIcon} />
+                  <img
+                    className={cs(styles.anar)}
+                    src={anarIcon}
+                    alt="border"
+                  />
                 )}
                 {/* Shop Block */}
                 <div
@@ -244,6 +288,7 @@ class ShopLocator extends Component<Props, State> {
                     <img
                       className={cs(styles.icon, styles.store)}
                       src={storeIcon}
+                      alt="Store Icon"
                     />
                     <div className={styles.name}>{data.place}</div>
                     <div className={styles.location}>{data.city}</div>
@@ -322,7 +367,7 @@ class ShopLocator extends Component<Props, State> {
                               key={`shope_image${i}`}
                             >
                               <div>
-                                <img src={item.image} />
+                                <img src={item.image} alt="shope image" />
                               </div>
                             </div>
                           );

@@ -32,7 +32,8 @@ const initialState: HeaderState = {
     selected: undefined,
     isCorporatePDP: false
   },
-  mobileMenuOpenState: false
+  mobileMenuOpenState: false,
+  showSearchPopup: false
 };
 
 export const header = (
@@ -95,6 +96,11 @@ export const header = (
     case "UPDATE_MOBILE_MENU_OPEN_STATE": {
       const newState = { ...state };
       newState.mobileMenuOpenState = action.payload;
+      return newState;
+    }
+    case "UPDATE_SHOW_SEARCH_POPUP": {
+      const newState = { ...state };
+      newState.showSearchPopup = action.payload;
       return newState;
     }
   }

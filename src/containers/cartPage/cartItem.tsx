@@ -278,7 +278,7 @@ const CartItems: React.FC<BasketItem> = memo(
             sliderImages: plpSliderImages
           },
           false,
-          ModalStyles.bottomAlign
+          mobile ? ModalStyles.bottomAlign : undefined
         )
       );
       dispatch(updateModal(true));

@@ -119,6 +119,10 @@
   padding-bottom: 55px;
   font-weight: 300;
   bottom: 15px;
+
+  &.filter-on-bottom{
+    padding-bottom: 100px;
+  }
 }
 
 .fix-bottom {
@@ -959,4 +963,8 @@
   letter-spacing: 0.5px;
 
   text-transform: uppercase;
+}
+
+.noneu-padding{
+padding: 30px 20px;
 }

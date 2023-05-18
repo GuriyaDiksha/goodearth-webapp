@@ -723,7 +723,12 @@ const AddressSection: React.FC<AddressProps & {
                   </span>
                 </div>
                 <div
-                  className={cs(styles.formSubheading, styles.checkBoxHeading)}
+                  className={cs(
+                    styles.formSubheading,
+                    globalStyles.marginB0,
+                    globalStyles.marginT0,
+                    styles.checkBoxHeading
+                  )}
                 >
                   I CONFIRM THAT THE DATA I HAVE SHARED IS CORRECT
                 </div>
