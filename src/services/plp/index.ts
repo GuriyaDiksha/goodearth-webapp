@@ -11,14 +11,21 @@ import { productImpression } from "utils/validate";
 import { Currency } from "typings/currency";
 import { PlpTemplatesData } from "./typings";
 
+const caches = {};
 export default {
   fetchPlpProducts: async function(dispatch: Dispatch, url: string) {
+    if (caches["fetch" + url]) {
+      dispatch(updateProduct({ ...caches[url] }));
+      dispatch(updatePlpProduct(caches[url].results.data));
+      return caches[url];
+    }
     const res = await API.get<PlpProps>(
       dispatch,
       `${__API_HOST__ + `/myapi/search/` + url}`
     );
     dispatch(updateProduct({ ...res }));
     dispatch(updatePlpProduct(res.results.data));
+    caches["fetch" + url] = res;
     return res;
   },
   onLoadPlpPage: async function(
@@ -27,6 +34,14 @@ export default {
     currency: Currency,
     listPath: string
   ) {
+    if (caches[url]) {
+      dispatch(newPlpList({ ...caches[url] }));
+      dispatch(updatePlpProduct(caches[url].results.data));
+      if (typeof document != "undefined") {
+        productImpression(caches[url], listPath || "PLP", currency);
+      }
+      return caches[url];
+    }
     const res = await API.get<PlpProps>(
       dispatch,
       `${__API_HOST__ + `/myapi/search/` + url}`
@@ -36,6 +51,7 @@ export default {
     if (typeof document != "undefined") {
       productImpression(res, listPath || "PLP", currency);
     }
+    caches[url] = res;
     return res;
   },
   updateProduct: async function(
