@@ -44,7 +44,7 @@ export const enum ROUTES {
   VIRTUAL = "/flowers-fragrance-anita-lal",
   SHOPPER = "/personal-shopper-form",
   INSTORE = "/instoreservices",
-  THANKYOU = "/thankyou",
+  THANKYOU = "/homepage",
   MUMTAZ = "/mumtaz-virtual-appointment",
   GCEMAIL = "/send-giftcard",
   AUTH = "/auth",
