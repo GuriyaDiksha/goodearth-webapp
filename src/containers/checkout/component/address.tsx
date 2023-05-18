@@ -904,7 +904,10 @@ const AddressSection: React.FC<AddressProps & {
                 {mobile && renderActions(false)}
               </div>
               {!mobile &&
-                renderActions(false, activeStep == STEP_BILLING && !isActive)}
+                renderActions(
+                  false,
+                  activeStep == STEP_BILLING && !isActive && !billingAddressId
+                )}
               {renderSavedAddress()}
             </div>
             {isActive && (
