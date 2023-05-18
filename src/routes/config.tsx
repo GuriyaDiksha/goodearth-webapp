@@ -270,7 +270,8 @@ const makerRoutes = [
   ROUTES.MIRAGE,
   ROUTES.MIRAGESHOP,
   ROUTES.MAGHREB,
-  ROUTES.TANGIER
+  ROUTES.TANGIER,
+  ROUTES.MAKERTEST
 ];
 
 makerRoutes.forEach(route => {
