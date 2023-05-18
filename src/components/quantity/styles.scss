@@ -59,6 +59,7 @@
 .error-msg{
     @include error-msg();
     font-size: 14px;
+    letter-spacing: 0px;
     font-weight: lighter !important;
 }
 
@@ -73,7 +74,7 @@
     color: $cerise;
     font-family: $font-Lora;
     font-size: 14px;
-    letter-spacing: 0.28px;
+    letter-spacing: 0px;
     font-style: italic;
     font-weight: normal;
     padding: 3px 0px 6px 0px;
@@ -83,6 +84,7 @@
         font-family: $font-Lato;
     }
 }
+
 
 .left {
     text-align: left;
