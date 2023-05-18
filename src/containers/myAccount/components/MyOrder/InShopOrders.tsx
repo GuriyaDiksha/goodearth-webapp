@@ -200,7 +200,10 @@ const InShopOrder: React.FC<OrdersProps> = props => {
                 <span className={styles.label}>Amount Paid</span>
                 <span className={styles.data}>
                   {String.fromCharCode(...currencyCode["INR" as Currency])}
-                  &nbsp;{displayPriceWithCommas(data.total, "INR")}
+                  &nbsp;
+                  {data.total > 0
+                    ? displayPriceWithCommas(data.total, "INR")
+                    : data.total}
                 </span>
               </div>
             </div>

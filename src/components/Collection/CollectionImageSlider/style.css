@@ -1,5 +1,7 @@
 .collectionImageContainer{
     width: 70%;
+    max-width: 70%;
+    min-width: 70%;
 }
 
 .imgWrp{
@@ -57,10 +59,62 @@
     content: unset;
 }
 
+.collectionImageContainer .slick-arrow {
+    background-color: transparent;
+    border-color: transparent;
+    color: transparent;
+  }
+  
+  .collectionImageContainer .slick-slider:hover .slick-arrow {
+    position: absolute;
+    height: 70px;
+    width: 50px;
+    border-radius: 0px;
+    top:50%;
+    display: block;
+    /* margin-top: -20px; */
+    z-index: 8;
+  }
+  
+  .collectionImageContainer .slick-arrow.slick-prev {
+    left: 0px;
+  }
+  .collectionImageContainer .slick-arrow.slick-next {
+    right: 0px;
+  }
+  
+  .collectionImageContainer .slick-slider .slick-arrow.slick-next::before, .collection-item .slick-slider .slick-arrow.slick-prev:before {
+    display: none;
+  }
+  
+  .collectionImageContainer .slick-slider:hover .slick-arrow.slick-next::before {
+    font-family: "goodearth";
+    color: #fff;
+    content: "\f102";
+    position: absolute;
+    top: 8px;
+    display: block;
+    font-size: 50px;
+    right: 0px;
+  }
+  .collectionImageContainer .slick-slider:hover .slick-arrow.slick-prev:before {
+    color: #fff;
+    font-family: "goodearth";
+    content: "\f101";
+    position: absolute;
+    top: 8px;
+    display: block;
+    font-size: 50px;
+    left: 0px;
+  }
+  
+
 
 @media screen and (max-width:992px) {
     .collectionImageContainer{
         width: 100%;
+        max-width: 100%;
+        min-width: 100%;
     }  
     .collectionImageContainer .slick-slider .slick-dots{
         position: absolute;
@@ -71,4 +125,7 @@
         padding-right: 0;
         text-align: center;
     }
+    .collectionImageContainer .slick-slider .slick-slider:hover .slick-arrow.slick-next::before, .collection-item .slick-slider .slick-slider:hover .slick-arrow.slick-prev:before {
+        display: none;
+      }
 }
