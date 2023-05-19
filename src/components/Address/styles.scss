@@ -655,6 +655,7 @@ body:has(.mobile) {
 
   .address-item-container {
     border: 1px solid #eaeaea;
+    height: 205px;
 
     &.default-address {
       border-color: $med-charcoal;

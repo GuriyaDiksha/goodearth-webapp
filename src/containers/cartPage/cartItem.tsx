@@ -432,7 +432,7 @@ const CartItems: React.FC<BasketItem> = memo(
                       ) : (
                         <span
                           className={
-                            badgeType == "B_flat" ? globalStyles.cerise : ""
+                            badgeType == "B_flat" ? globalStyles.gold : ""
                           }
                         >
                           {" "}
@@ -601,7 +601,7 @@ const CartItems: React.FC<BasketItem> = memo(
                     ) : (
                       <span
                         className={
-                          badgeType == "B_flat" ? globalStyles.cerise : ""
+                          badgeType == "B_flat" ? globalStyles.gold : ""
                         }
                       >
                         {" "}

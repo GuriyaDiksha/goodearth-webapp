@@ -420,14 +420,18 @@ class Bag extends React.Component<Props, State> {
               <Link
                 to={!this.hasOutOfStockItems() ? "/cart" : ""}
                 className={cs(this.hasOutOfStockItems() && styles.outOfStock)}
-                onClick={e => this.hasOutOfStockItems() && e.preventDefault()}
+                onClick={e =>
+                  this.hasOutOfStockItems()
+                    ? e.preventDefault()
+                    : this.props.toggleBag()
+                }
               >
                 <span className={styles.viewBag}>REVIEW BAG & CHECKOUT</span>
               </Link>
             </div>
           ) : (
             <div className={cs(styles.bagFlex, styles.continue)}>
-              <Link to="/" className={cs()}>
+              <Link to="/" onClick={e => this.props.toggleBag()}>
                 <span className={styles.viewBag}>CONTINUE SHOPPING</span>
               </Link>
             </div>
