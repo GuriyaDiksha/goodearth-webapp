@@ -114,7 +114,9 @@ export const ShopLocator: React.FC<ShopLocatorProps> = ({
         </div>
         <div
           className={
-            menuOpen ? cs(styles.shopDropdown) : cs(globalStyles.hidden)
+            menuOpen
+              ? cs(styles.shopDropdown, styles.zindex)
+              : cs(globalStyles.hidden)
           }
         >
           <ul>
