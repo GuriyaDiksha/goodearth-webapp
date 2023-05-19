@@ -136,7 +136,8 @@ class NewGiftcard extends React.Component<Props, State> {
       recipientName: "",
       recipientEmail: "",
       confirmRecipientEmail: "",
-      message: "",
+      // commenting bcz we don't want to remove default message
+      // message: "",
       senderName: "",
       subscribe: false,
       customValue: "",
