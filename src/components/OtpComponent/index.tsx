@@ -680,6 +680,7 @@ class OtpComponent extends React.Component<otpProps, otpState> {
             }
             startTimer={this.state.startTimer}
             setAttempts={this.changeAttepts}
+            uniqueId="otpcomponentid"
           />
           // <>
           //   {radioType == "number" ? (

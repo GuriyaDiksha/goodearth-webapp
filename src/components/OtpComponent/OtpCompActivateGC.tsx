@@ -717,6 +717,7 @@ class OtpCompActivateGC extends React.Component<otpProps, otpState> {
             }
             startTimer={this.state.startTimer}
             setAttempts={this.changeAttepts}
+            uniqueId="activategcid"
           />
           // <>
           //   {!this.state.otpLimitError && (
