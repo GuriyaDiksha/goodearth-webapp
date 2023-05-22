@@ -358,7 +358,9 @@ const AddressSection: React.FC<AddressProps & {
               </div>
               <div className={styles.addressMain}>
                 <div className={styles.text}>{address.line1},</div>
-                <div className={styles.text}>{address.line2},</div>
+                {address.line2 ? (
+                  <div className={styles.text}>{address.line2},</div>
+                ) : null}
                 <div className={styles.text}>
                   {address.city},{address.state}, {address.postCode},
                 </div>

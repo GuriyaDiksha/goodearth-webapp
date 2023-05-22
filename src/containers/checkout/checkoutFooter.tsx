@@ -88,7 +88,7 @@ class CheckoutFooter extends React.Component<Props, { boId: string }> {
               </div>
             </div>
           </div>
-          <GrowlMessage />
+          {/* <GrowlMessage /> */}
         </div>
       );
     } else if (
@@ -138,7 +138,7 @@ class CheckoutFooter extends React.Component<Props, { boId: string }> {
               </div>
             </div>
           </div>
-          <GrowlMessage />
+          {/* <GrowlMessage /> */}
         </div>
       );
     }

@@ -64,7 +64,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
 
   const handleScroll = () => {
     const observerOptions = {
-      rootMargin: "-130px 0px -170px 0px"
+      rootMargin: "-140px 0px -170px 0px"
     };
     const interSectionCallBack = (enteries: any) => {
       setPreviewTriggerStatus(enteries[0].isIntersecting);

@@ -259,6 +259,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
           }
           setPaymentError(msg);
           errorTracking([msg], location.href);
+          document.getElementById("payment-section")?.scrollIntoView();
           setIsLoading(false);
           const errData = error.response?.data;
           if (
@@ -307,6 +308,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
       }
       setPaymentError("Please select a payment method");
       errorTracking(["Please select a payment method"], location.href);
+      document.getElementById("payment-section")?.scrollIntoView();
     }
   };
 
@@ -602,61 +604,62 @@ const PaymentSection: React.FC<PaymentProps> = props => {
         </div>
       )}
 
-      <div
-        className={
-          isActive
-            ? cs(styles.card, styles.cardOpen, styles.marginT5)
-            : cs(styles.card, styles.cardClosed, styles.marginT5)
-        }
-      >
-        <div className={bootstrapStyles.row}>
-          <div
-            className={cs(
-              bootstrapStyles.col12,
-              bootstrapStyles.colMd6,
-              styles.title
-            )}
-          >
-            <span className={isActive ? "" : styles.closed}>
-              GIFTING & PAYMENT
-            </span>
+      {(!basket.isOnlyGiftCart || !isActive) && (
+        <div
+          className={
+            isActive
+              ? cs(styles.card, styles.cardOpen, styles.marginT5)
+              : cs(styles.card, styles.cardClosed, styles.marginT5)
+          }
+        >
+          <div className={bootstrapStyles.row}>
+            <div
+              className={cs(
+                bootstrapStyles.col12,
+                bootstrapStyles.colMd6,
+                styles.title
+              )}
+            >
+              <span className={isActive ? "" : styles.closed}>
+                GIFTING & PAYMENT
+              </span>
+            </div>
           </div>
-        </div>
-        {isActive && (
-          <Fragment>
-            {showGiftWrap && (
-              <>
-                {!basket.isOnlyGiftCart && giftWrapRender}
-                {giftwrap && !basket.isOnlyGiftCart && (
-                  <div className={styles.giftWrapMessage}>
-                    <textarea
-                      rows={5}
-                      className={styles.giftMessage}
-                      value={textarea}
-                      placeholder={"add message (optional)"}
-                      autoComplete="new-password"
-                      onChange={(e: any) => {
-                        if (e.target.value.length <= 250) {
-                          setTextarea(e.target.value);
-                        } else if (e.target.value.length >= 250) {
-                          setTextarea(e.target.value.substring(0, 250));
-                        }
-                      }}
-                    />
-                    <div className={cs(globalStyles.textLeft, styles.font14)}>
-                      Char Limit: {250 - textarea.length} / 250
+          {isActive && (
+            <Fragment>
+              {showGiftWrap && (
+                <>
+                  {!basket.isOnlyGiftCart && giftWrapRender}
+                  {giftwrap && !basket.isOnlyGiftCart && (
+                    <div className={styles.giftWrapMessage}>
+                      <textarea
+                        rows={5}
+                        className={styles.giftMessage}
+                        value={textarea}
+                        placeholder={"add message (optional)"}
+                        autoComplete="new-password"
+                        onChange={(e: any) => {
+                          if (e.target.value.length <= 250) {
+                            setTextarea(e.target.value);
+                          } else if (e.target.value.length >= 250) {
+                            setTextarea(e.target.value.substring(0, 250));
+                          }
+                        }}
+                      />
+                      <div className={cs(globalStyles.textLeft, styles.font14)}>
+                        Char Limit: {250 - textarea.length} / 250
+                      </div>
                     </div>
-                  </div>
-                )}
-                {giftwrap && !basket.isOnlyGiftCart && giftShowPrice}
-                {!basket.isOnlyGiftCart && <hr className={styles.hr} />}
-              </>
-            )}
-            <div className={globalStyles.marginT20}>
-              {!basket.isOnlyGiftCart && (
-                <div className={globalStyles.flex}>
-                  <hr className={styles.hr} />
-                  {/* <div
+                  )}
+                  {giftwrap && !basket.isOnlyGiftCart && giftShowPrice}
+                  {!basket.isOnlyGiftCart && <hr className={styles.hr} />}
+                </>
+              )}
+              <div className={globalStyles.marginT20}>
+                {!basket.isOnlyGiftCart && (
+                  <div className={globalStyles.flex}>
+                    <hr className={styles.hr} />
+                    {/* <div
                   className={cs(
                     styles.marginR10,
                     globalStyles.cerise,
@@ -666,50 +669,50 @@ const PaymentSection: React.FC<PaymentProps> = props => {
                 >
                   {isactivepromo ? "-" : "+"}
                 </div> */}
-                  <div className={styles.inputContainer}>
-                    <label
-                      className={cs(
-                        globalStyles.flex,
-                        globalStyles.crossCenter
+                    <div className={styles.inputContainer}>
+                      <label
+                        className={cs(
+                          globalStyles.flex,
+                          globalStyles.crossCenter
+                        )}
+                      >
+                        <div className={styles.marginR10}>
+                          <span className={styles.checkbox}>
+                            <input
+                              type="radio"
+                              checked={isactivepromo}
+                              onClick={() => {
+                                toggleInput();
+                              }}
+                            />
+                            <span
+                              className={cs(styles.indicator, {
+                                [styles.checked]: isactivepromo
+                              })}
+                            ></span>
+                          </span>
+                        </div>
+                        <div className={cs(styles.formSubheading)}>
+                          {"Apply Gift Card Code/ Credit Note"}
+                        </div>
+                      </label>
+                      {isactivepromo ? (
+                        <ApplyGiftcard
+                          onRef={(e1: any) => {
+                            PaymentChild = e1;
+                          }}
+                        />
+                      ) : (
+                        ""
                       )}
-                    >
-                      <div className={styles.marginR10}>
-                        <span className={styles.checkbox}>
-                          <input
-                            type="radio"
-                            checked={isactivepromo}
-                            onClick={() => {
-                              toggleInput();
-                            }}
-                          />
-                          <span
-                            className={cs(styles.indicator, {
-                              [styles.checked]: isactivepromo
-                            })}
-                          ></span>
-                        </span>
-                      </div>
-                      <div className={cs(styles.formSubheading)}>
-                        {"Apply Gift Card Code/ Credit Note"}
-                      </div>
-                    </label>
-                    {isactivepromo ? (
-                      <ApplyGiftcard
-                        onRef={(e1: any) => {
-                          PaymentChild = e1;
-                        }}
-                      />
-                    ) : (
-                      ""
-                    )}
-                    {/* {renderInput()}
+                      {/* {renderInput()}
                 {renderCoupon()} */}
+                    </div>
                   </div>
-                </div>
-              )}
+                )}
 
-              {/* {isPaymentNeeded && <hr className={styles.hr} />} */}
-              {/* {isPaymentNeeded && (
+                {/* {isPaymentNeeded && <hr className={styles.hr} />} */}
+                {/* {isPaymentNeeded && (
               <div className={globalStyles.marginT30}>
                 <div className={styles.title}>SELECT YOUR MODE OF PAYMENT</div>
                 {getMethods.map(function(method, index) {
@@ -741,9 +744,9 @@ const PaymentSection: React.FC<PaymentProps> = props => {
                 })}
               </div>
             )} */}
-            </div>
+              </div>
 
-            {/* <div
+              {/* <div
             className={cs(globalStyles.errorMsg, globalStyles.marginT20)}
             data-name="error-msg"
           >
@@ -773,7 +776,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
                   />
                 </div>
                 {/* <div className={styles.whatsappNoErr}>{whatsappNoErr}</div> */}
-            {/*</div>
+              {/*</div>
             )}
           </div>
           <label
@@ -810,7 +813,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
               </label>
             </div>
           </label> */}
-            {/* {currency == "GBP" && (
+              {/* {currency == "GBP" && (
             <label
               className={cs(
                 globalStyles.flex,
@@ -855,7 +858,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
           >
             {gbpError}
           </div> */}
-            {/* {isLoading && <Loader />}
+              {/* {isLoading && <Loader />}
           <button
             className={cs(globalStyles.marginT10, globalStyles.ceriseBtn, {
               [globalStyles.disabledBtn]: isLoading
@@ -869,9 +872,10 @@ const PaymentSection: React.FC<PaymentProps> = props => {
                 : "PROCEED TO A SECURE PAYMENT GATEWAY"
               : "PLACE ORDER"}
           </button> */}
-          </Fragment>
-        )}
-      </div>
+            </Fragment>
+          )}
+        </div>
+      )}
 
       {isActive && (
         <>
@@ -881,6 +885,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
                 ? cs(styles.card, styles.cardOpen, styles.marginT5)
                 : cs(styles.card, styles.cardClosed, styles.marginT5)
             }
+            id="payment-section"
           >
             {isPaymentNeeded && (
               <div className={globalStyles.marginT30}>
