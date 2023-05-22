@@ -102,6 +102,8 @@ const PromoSection: React.FC<PromoProps> = props => {
       className={
         isActive
           ? cs(styles.card, styles.cardOpen, styles.marginT5)
+          : mobile
+          ? styles.hidden
           : cs(styles.card, styles.cardClosed, styles.marginT5)
       }
     >

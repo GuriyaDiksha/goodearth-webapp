@@ -179,8 +179,9 @@
     }
     .free-instruction{
       padding: 0 40px;
-   @include b6_9px_light_montserrat_charcoal();
+      @include b6_9px_light_montserrat_charcoal();
       text-align: left;
+      color: $montserrat-light;
       .cerise-btn {
         position: inherit;
         margin: 25px 0 20px 0;
@@ -773,6 +774,7 @@
   max-width: 100%;
   background-color: #f9f8f5;
   font-size: 14px;
+  opacity: 0.7;
 }
 
 .margin-bottom {

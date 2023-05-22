@@ -70,7 +70,7 @@ const Delivery: React.FC<PopupProps> = props => {
                   value={textarea}
                   maxLength={250}
                   placeholder={
-                    "Type here. For example, Leave my parcel with the Gaurd"
+                    "Type here. For example, &#10; Leave my parcel with the Gaurd"
                   }
                   autoComplete="new-password"
                   onChange={(e: any) => {

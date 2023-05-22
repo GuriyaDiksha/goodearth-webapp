@@ -609,6 +609,8 @@ const PaymentSection: React.FC<PaymentProps> = props => {
           className={
             isActive
               ? cs(styles.card, styles.cardOpen, styles.marginT5)
+              : mobile
+              ? styles.hidden
               : cs(styles.card, styles.cardClosed, styles.marginT5)
           }
         >
@@ -991,7 +993,8 @@ const PaymentSection: React.FC<PaymentProps> = props => {
                         globalStyles.pointer,
                         styles.linkCerise,
                         styles.formSubheading,
-                        styles.checkBoxHeading
+                        styles.checkBoxHeading,
+                        styles.agreeTermsAndCondition
                       )}
                     >
                       I agree to receiving e-mails, newsletters, calls and text
