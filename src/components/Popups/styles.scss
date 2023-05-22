@@ -54,6 +54,7 @@
         width: 80%;
         margin: 0 auto;
         background-color: $med-charcoal;
+        letter-spacing: 0.5px;
         @include b3_14px_montserrat_white();
 
         &:hover{
@@ -147,12 +148,14 @@
     }
     }
     .free-shipping-head{
-      margin-bottom: 15px;
+      margin-bottom: 20px;
+      margin-top: 20px;
       @include h3_20px_lora_charcoal();
     }
     .free-shipping {
       padding: 0 45px;
       letter-spacing: .5px;
+      font-weight: $regular !important;
       @include b4_12px_montserrat_medcharcoal();
       .cerise-btn {
         position: inherit;
@@ -164,15 +167,13 @@
       }
     
       span {
-        font-weight: bold;
-        color: #000;
+        font-weight: $semibold;
       }
       a {
         // color: $cerise !important;
         &.link {
           font-size: 12px;
-          letter-spacing: 1px;
-          font-weight: bold;
+          letter-spacing: 0.3px;
           text-transform: uppercase;
         }
       }
@@ -210,7 +211,7 @@
   cursor: pointer;
 }
 .link-text{
-  @include b4_12px_medium_charcoal_caps();
+  @include b4_12px_medium_medcharcoal_caps();
   border-bottom: 1px solid $med-charcoal;
   text-decoration: unset;
   &:hover{

@@ -688,7 +688,7 @@ class CartPage extends React.Component<Props, State> {
             styles.pUnset
           )}
         >
-          {this.getItemsCount() === 0 ? null : (
+          {this.getItemsCount() === 0 || this.props.mobile ? null : (
             <div className={cs(styles.header)}>
               <p>MY SHOPPING BAG ({this.getItemsCount()})</p>
             </div>
