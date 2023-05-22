@@ -911,11 +911,9 @@ input[type="radio"] {
 }
 
 .selected-stvalue {
-  color: gray;
-  font-size: 12px;
-  line-height: 18px;
-  letter-spacing: 0.5px;
-  font-family: $font-Lato;
+  @include b4_12px_montserrat_regular_charcoal();
+  letter-spacing: 0.3px;
+  opacity: 0.65;
 }
 
 .p-b100 {

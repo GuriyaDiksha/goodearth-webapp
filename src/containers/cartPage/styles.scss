@@ -11,12 +11,17 @@
   position: unset;
 }
 hr {
-  margin-top: 15px;
-  margin-bottom: 15px;
+  margin-top: 40px;
+  margin-bottom: 40px;
   border: 0;
   border-top: 1px solid #eeeeee;
   box-sizing: content-box;
   height: 0;
+
+  @media screen and (max-width:992px) {
+    margin-top: 25px;
+    margin-bottom: 25px;
+  }
 }
 .px-10{
   padding-left: 10px;
@@ -63,10 +68,8 @@ hr {
     }
   }
   .size {
-    color: tint(#000, 20%);
-    font-family: $font-Lato;
-    font-size: 10px;
-    letter-spacing: 0.5px;
+    letter-spacing: 0.3px;
+    @include b5_10px_montserrat_light_charcoal();
   }
   .section {
     height: 100%;
@@ -355,9 +358,9 @@ hr {
   .bag-contents {
     padding: 25px 5px 35px 5px;
   }
-  .section {
-    padding: 0 0 20px 0;
-  }
+  // .section {
+  //   padding: 0 0 20px 0;
+  // }
 }
 
 .crossfont-size {
@@ -647,6 +650,7 @@ hr {
   height: 66px;
   width: 100%;
   background-color: #fff;
+  margin-bottom: 25px;
 
   p {
     @include b4_12px_montserrat_charcoal_caps();

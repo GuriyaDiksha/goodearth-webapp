@@ -425,12 +425,12 @@
 }
 
 @mixin error-msg {
-  font-size: 10px;
+  font-size: 13px;
   font-style: italic;
   color: $cerise;
-  font-weight: bold;
+  font-weight: 500;
   font-family: $font-Lora;
-  letter-spacing: 1px;
+  letter-spacing: 0.3px;
   // text-transform: lowercase;
   &::first-letter {
     text-transform: uppercase;
@@ -1144,6 +1144,13 @@ $list: $grey 92%, $white 8%;
   font-weight: $medium;
   color: $charcoal19;
   text-transform: uppercase;
+}
+
+@mixin b4_12px_montserrat_regular_charcoal{
+  font-family: $font-Montserrat;
+  font-size: 12px;
+  font-weight: $regular;
+  color: $charcoal19;
 }
 
 @mixin b5_10px_montserrat_charcoal{
