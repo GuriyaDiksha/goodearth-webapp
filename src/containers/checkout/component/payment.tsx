@@ -193,6 +193,13 @@ const PaymentSection: React.FC<PaymentProps> = props => {
         .then((response: any) => {
           gtmPushPaymentTracking(paymentMode, paymentMethod);
           proceedForPayment(basket, currency, paymentMethod);
+          dataLayer.push({
+            event: "Whatsapp_optin",
+            Location: "Checkout",
+            Checkbox: data.whatsappSubscribe
+              ? "Whatsapp Opt-in"
+              : "Whatsapp Opt-out"
+          });
           location.href = `${__API_HOST__ + response.paymentUrl}`;
           setIsLoading(false);
         })
