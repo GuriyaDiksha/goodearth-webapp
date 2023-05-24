@@ -59,7 +59,7 @@ body:has(.mobile) {
   border: 1px solid #eaeaea;
 
   .address-wrapper {
-    max-width: 70%;
+    max-width: 80%;
   }
   &.default {
     border: 1px solid #4c4c4c;
@@ -655,7 +655,7 @@ body:has(.mobile) {
 
   .address-item-container {
     border: 1px solid #eaeaea;
-    height: 220px;
+    height: 215px;
 
     &.default-address {
       border-color: $med-charcoal;

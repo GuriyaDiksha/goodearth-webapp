@@ -447,7 +447,9 @@ const PaymentSection: React.FC<PaymentProps> = props => {
     return (
       <div className={globalStyles.marginT20}>
         <label className={cs(globalStyles.flex, globalStyles.crossCenter)}>
-          <div className={styles.marginR10}>
+          <div
+            className={cs(styles.marginR10, globalStyles.giftWrapLineHeight)}
+          >
             <span className={styles.checkbox}>
               <input
                 type="radio"
@@ -1003,6 +1005,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
                       <Link
                         to="/customer-assistance/privacy-policy"
                         target="_blank"
+                        className="privacy-policy-agreement"
                       >
                         Privacy Policy
                       </Link>

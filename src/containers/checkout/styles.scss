@@ -325,6 +325,9 @@ hr {
   margin-top: 20px;
 }
 
+.gift-wrap-line-height {
+  line-height: 0px;
+}
 .page-body {
   margin-top: $header-checkout;
   margin-left: auto;
@@ -1164,12 +1167,12 @@ input[type="radio"] {
   text-align: center;
   cursor: pointer;
   margin-top: 24px;
+  border: 1px solid $med-charcoal;
   @media (max-width: 992px) {
     padding: 21px 25px;
   }
   &:hover {
     background: $white 0% 0% no-repeat padding-box;
-    border: 1px solid $med-charcoal;
     opacity: 1;
     color: $med-charcoal;
     span {
@@ -1292,8 +1295,8 @@ input[type="radio"] {
 }
 
 .gift-img {
-  filter: invert(1) grayscale(9);
-  margin-top: -8px;
+  filter: invert(0.3) grayscale(9);
+  margin-top: -3px;
 }
 
 .margin-t5 {
