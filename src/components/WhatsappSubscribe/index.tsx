@@ -425,6 +425,7 @@ const WhatsappSubscribe: React.FC<Props> = ({
               }}
               autocomplete="off"
               handleChange={onCodeChange}
+              hideArrow={true}
             />
           ) : null}
 
