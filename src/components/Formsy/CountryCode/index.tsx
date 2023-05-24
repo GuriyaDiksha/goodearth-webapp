@@ -134,7 +134,7 @@ const CountryCode: React.FC<Props & InjectedProps<string | null>> = props => {
         id={props.id}
         ref={props.innerRef}
       />
-      <span className={styles.arrow}></span>
+      {props?.hideArrow ? null : <span className={styles.arrow}></span>}
       <label
         className={cs({
           [globalStyles.hidden]: props.showLabel
