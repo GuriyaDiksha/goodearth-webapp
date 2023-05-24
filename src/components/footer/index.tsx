@@ -70,7 +70,8 @@ class Footer extends React.Component<Props, FooterState> {
       isInViewport: false,
       isConsentSave: false,
       headingHoverArray: [],
-      subheadingHoverArray: []
+      subheadingHoverArray: [],
+      smartNav: ["/", "/makertest", "/homepage"]
     };
   }
 
@@ -1142,11 +1143,16 @@ class Footer extends React.Component<Props, FooterState> {
             </div>
           </div>
         </div>
-        {(this.props.location.pathname == "/" ||
+        {(this.state.smartNav.indexOf(this.props.location.pathname) > -1 ||
           this.props.location.pathname.includes("/category_landing/") ||
           desktopPlp) &&
           this.props.currency == "INR" && (
-            <MakerSmartNav id="TDEHYqQNA" inline={false} />
+            <MakerSmartNav
+              id="TDEHYqQNA"
+              inline={
+                this.props.location.pathname == "/makertest" ? true : false
+              }
+            />
           )}
 
         {(OLD_COOKIE_SETTINGS

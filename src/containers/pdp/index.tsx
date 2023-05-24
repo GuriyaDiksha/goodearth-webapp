@@ -61,7 +61,7 @@ import PDPImagesContainer from "./components/PDPImagesContainer";
 // import activeList from "images/plpIcons/active_list.svg";
 // import inactiveList from "images/plpIcons/inactive_list.svg";
 // import Counter from "components/ProductCounter/counter";
-import { GA_CALLS, ANY_ADS } from "constants/cookieConsent";
+import { GA_CALLS } from "constants/cookieConsent";
 // import { product } from "reducers/product";
 import pdp_top from "images/3d/pdp_top.svg";
 import button_image from "images/3d/button_image.svg";
@@ -266,7 +266,7 @@ class PDPContainer extends React.Component<Props, State> {
       });
     }
 
-    if (userConsent.includes(ANY_ADS)) {
+    if (userConsent.includes(GA_CALLS)) {
       Moengage.track_event("Page viewed", {
         "Page URL": this.props.location.pathname,
         "Page Name": "PdpView"
