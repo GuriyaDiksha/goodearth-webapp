@@ -564,7 +564,11 @@ class Search extends React.Component<Props, State> {
                       <div className={styles.npfMsg}>
                         {"Sorry, we couldn't find any matching result for"}{" "}
                         &nbsp;
-                        <span>{this.state.searchValue}</span>
+                        <span>
+                          {decodeURIComponent(
+                            decodeURIComponent(this.state.searchValue)
+                          )}
+                        </span>
                       </div>
                     ) : (
                       ""
