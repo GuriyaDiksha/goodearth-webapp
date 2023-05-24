@@ -467,6 +467,9 @@ body:has(.open-summary) {
 
   &:hover {
     background-color: transparent !important;
+    img{
+      filter: invert(44%) sepia(100%) saturate(1093%) hue-rotate(132deg) brightness(85%) contrast(50%);
+    }
   }
 }
 

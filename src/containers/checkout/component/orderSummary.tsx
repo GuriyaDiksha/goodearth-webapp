@@ -21,7 +21,6 @@ import { currencyCodes } from "constants/currency";
 import checkoutIcon from "../../../images/checkout.svg";
 import freeShippingInfoIcon from "../../../images/free_shipping_info.svg";
 import Loader from "components/Loader";
-import aquaCheckoutIcon from "../../../images/aquaCheckout.svg";
 
 const OrderSummary: React.FC<OrderProps> = props => {
   const {
