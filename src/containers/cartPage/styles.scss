@@ -51,7 +51,7 @@ hr {
     }
   }
   .product-price {
-    @include b3_14px_montserrat_caps_charcoal();
+    @include b3_14px_montserrat_medium_charcoal();
   }
   .remove {
     @include b5_10px_montserrat_charcoal_caps();
@@ -145,6 +145,12 @@ hr {
   @media screen and (max-width: 992px) {
     padding-right: 0px;
     padding-left: 0px;
+  }
+}
+.desktop-img-size {
+  @media screen and (min-width: 1440px) {
+    flex: 0 0 18%;
+    max-width: 18%;
   }
 }
 .bag-backdrop {

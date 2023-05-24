@@ -301,9 +301,7 @@ const LineItems: React.FC<BasketItem> = memo(
                     isGiftCard
                       ? giftCardImage
                       : images && images.length > 0
-                      ? tablet
-                        ? images[0].productImage
-                        : images[0].productImage.replace("Medium", "Micro")
+                      ? images[0].productImage
                       : ""
                   }
                 />

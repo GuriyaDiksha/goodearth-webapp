@@ -305,7 +305,9 @@ const AddressItem: React.FC<Props> = props => {
         className={cs(
           styles.addressItemContainer,
           {
-            [styles.defaultAddress]: id === defaultAddress
+            [styles.defaultAddress]:
+              address.id.toString() === shippingAddressId.toString() &&
+              currentCallBackComponent == "checkout-shipping"
           },
           {
             [styles.addressItemContainerCheckout]:
@@ -318,7 +320,8 @@ const AddressItem: React.FC<Props> = props => {
           },
           {
             [styles.default]:
-              id === defaultAddress && currentCallBackComponent == "account"
+              address.id.toString() === shippingAddressId.toString() &&
+              currentCallBackComponent == "checkout-shipping"
           },
           {
             [styles.isTulsi]: address.isTulsi

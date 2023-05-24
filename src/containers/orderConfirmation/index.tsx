@@ -512,9 +512,9 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                       <div className={styles.add}>
                         <p className={styles.delivery}>DELIVERY INSTRUCTIONS</p>
                         {/* commenting as per requirement */}
-                        {/* <p className={styles.light}>
+                        <p className={styles.light}>
                           {confirmData?.deliveryInstructions}
-                        </p> */}
+                        </p>
                       </div>
                     </div>
                   ) : (

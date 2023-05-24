@@ -343,6 +343,7 @@ const CartItems: React.FC<BasketItem> = memo(
               bootstrap.colSm2,
               bootstrap.colLg3,
               styles.cartPadding,
+              styles.desktopImgSizesss,
               { [styles.outOfStock]: stockRecords[0].numInStock < 1 }
             )}
           >

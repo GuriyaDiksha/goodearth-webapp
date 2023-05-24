@@ -182,7 +182,8 @@ const OrderSummary: React.FC<OrderProps> = props => {
                 <br />
               </div>
             )}
-            {isSuspended && isSale && (
+            {/* commented as per requirement */}
+            {/* {isSuspended && isSale && (
               <>
                 <p
                   className={cs(styles.summaryPadding, {
@@ -195,10 +196,10 @@ const OrderSummary: React.FC<OrderProps> = props => {
                   experience for you.
                 </p>
               </>
-            )}
-            {isSuspended && !isSale && (
+            )} */}
+            {/* <hr className={styles.hr} /> */}
+            {/* {isSuspended && !isSale && (
               <>
-                {/* <hr className={styles.hr} /> */}
                 <p className={cs(globalStyles.marginT20)}>
                   {" "}
                   All standard WHO guidelines and relevant precautionary
@@ -206,7 +207,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
                   experience for you.
                 </p>
               </>
-            )}
+            )} */}
             {/* *Expected Delivery of Pichwai Art is 15 to 18 business days */}
           </div>
         </div>
@@ -820,7 +821,10 @@ const OrderSummary: React.FC<OrderProps> = props => {
         !previewTriggerStatus &&
         page != "checkout" &&
         basket.lineItems?.length && (
-          <div id="show-preview" className={cs(styles.previewTrigger)}>
+          <div
+            id="show-preview"
+            className={cs(styles.previewTrigger, styles.cartPageTotalBottom)}
+          >
             <div
               className={cs(styles.carretContainer)}
               onClick={onArrowButtonClick}
