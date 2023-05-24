@@ -370,7 +370,7 @@ class CartPage extends React.Component<Props, State> {
               globalStyles.textCenter
             )}
           >
-            <h2 className={globalStyles.voffset5}>
+            <h2 className={cs(globalStyles.voffset5, globalStyles.marginB10)}>
               Looking to discover some ideas?
             </h2>
           </div>

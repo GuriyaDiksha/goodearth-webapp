@@ -333,13 +333,15 @@ body:has(.open-summary) {
 }
 
 .deliveryfont {
-  @include b4_12px_medium_medcharcoal_caps();
+  @include b4_12px_montserrat_aqua_caps();
   margin: 35px auto 0 auto;
   width: fit-content;
-  border-bottom: 1px solid $med-charcoal;
+  border-bottom: 1px solid $aqua-text;
+
   &:hover {
-    @include b4_12px_montserrat_aqua_caps();
-    border-bottom: 1px solid $aqua-text;
+    @include b4_12px_medium_medcharcoal_caps();
+    border-bottom: 1px solid $med-charcoal;
+
   }
 }
 

@@ -1255,7 +1255,12 @@ class Header extends React.Component<Props, State> {
                           iconStyles.icon,
                           iconStyles.iconCart,
                           styles.iconStyle,
-                          styles.topBagIconStyle
+                          styles.topBagIconStyle,
+                          {
+                            [styles.cartGold]: this.props.location.pathname.includes(
+                              "/cart"
+                            )
+                          }
                         )}
                         onClick={(): void => {
                           // this.setShowBag(true);
@@ -1264,9 +1269,14 @@ class Header extends React.Component<Props, State> {
                         }}
                       ></i>
                       <span
-                        className={styles.topBadge}
+                        className={cs(styles.topBadge, {
+                          [styles.cartGold]: this.props.location.pathname.includes(
+                            "/cart"
+                          )
+                        })}
                         onClick={(): void => {
-                          this.setShowBag(true);
+                          this.props.history.push("/cart");
+                          this.onBottomMenuClick("Cart");
                         }}
                       >
                         {bagCount}

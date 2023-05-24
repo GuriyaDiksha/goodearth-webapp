@@ -405,9 +405,7 @@ hr {
 }
 
 .empty-msg {
-  font-size: 20px;
   font-style: italic;
-  color: tint(#000, 70%);
   letter-spacing: 1px;
   @include h6_16px_lora_charcoal();
 }
@@ -660,7 +658,7 @@ hr {
 
   p {
     @include b4_12px_montserrat_charcoal_caps();
-    padding: 28px 45px;
+    padding: 28px 45px 28px 14%;
     
     @media screen and (max-width:992px) {
       text-align: center;
@@ -669,6 +667,9 @@ hr {
 }
 
 .wishlist-head {
+  font-style: italic;
+    letter-spacing: 1px;
+    font-weight: 400;
   @include h6_16px_lora_charcoal();
 }
 .wishlist-sub-head {

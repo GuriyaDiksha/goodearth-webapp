@@ -1354,7 +1354,7 @@ div.form-subheading{
   padding: unset;
 }
 span.add-new-address {
-  @include b6_9px_montserrat_charcoal();
+  @include b5_10px_montserrat_charcoal_caps();
   border-bottom: 1px solid $charcoal19;
   padding-bottom: 3px;
   &:hover {
