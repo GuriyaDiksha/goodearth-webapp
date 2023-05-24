@@ -365,6 +365,7 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
           cancelOtpReq={this.cancelOtpReq}
           setRedeemOtpError={this.props.setRedeemOtpError}
           groupTimerAndAttempts={true}
+          uniqueId="otpredeemid"
         />
         {/* {(this.props.otpFor == "activateGC"
           ? this.props.newCardBox == true

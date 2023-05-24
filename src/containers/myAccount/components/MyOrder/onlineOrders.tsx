@@ -134,7 +134,7 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
     );
 
     html.push(
-      <div className={styles.addressBlock}>
+      <div className={cs(styles.addressBlock, styles.myordersAddressblock)}>
         {/* Shipping Address */}
         {shippingAddress && (
           <div className={styles.address}>
