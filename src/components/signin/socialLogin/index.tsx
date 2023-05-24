@@ -13,7 +13,7 @@ import { showGrowlMessage } from "../../../utils/validate";
 import { useHistory } from "react-router";
 import { AppState } from "reducers/typings";
 import CookieService from "services/cookie";
-import { ANY_ADS } from "constants/cookieConsent";
+import { GA_CALLS } from "constants/cookieConsent";
 
 const SocialLogin: React.FC<props> = ({ closeModel }) => {
   const dispatch = useDispatch();
