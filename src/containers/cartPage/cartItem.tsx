@@ -19,7 +19,7 @@ import { POPUP } from "constants/components";
 import bridalRing from "../../images/bridal/rings.svg";
 import { AppState } from "reducers/typings";
 import CookieService from "services/cookie";
-import { GA_CALLS, ANY_ADS } from "constants/cookieConsent";
+import { GA_CALLS } from "constants/cookieConsent";
 import { displayPriceWithCommas } from "utils/utility";
 
 const CartItems: React.FC<BasketItem> = memo(
@@ -101,7 +101,7 @@ const CartItems: React.FC<BasketItem> = memo(
         }
         const userConsent = CookieService.getCookie("consent").split(",");
 
-        if (userConsent.includes(ANY_ADS)) {
+        if (userConsent.includes(GA_CALLS)) {
           Moengage.track_event("remove_from_cart", {
             "Product id": sku || childAttributes[0].sku,
             "Product name": title,

@@ -345,7 +345,7 @@ export default {
       });
 
       const userConsent = CookieService.getCookie("consent").split(",");
-      if (userConsent.includes(ANY_ADS)) {
+      if (userConsent.includes(GA_CALLS)) {
         Moengage.destroy_session();
       }
       WishlistService.resetWishlist(dispatch);
