@@ -11,8 +11,8 @@
   position: unset;
 }
 hr {
-  margin-top: 40px;
-  margin-bottom: 40px;
+  margin-top: 30px;
+  margin-bottom: 30px;
   border: 0;
   border-top: 1px solid #eeeeee;
   box-sizing: content-box;
@@ -149,8 +149,8 @@ hr {
 }
 .desktop-img-size {
   @media screen and (min-width: 1440px) {
-    flex: 0 0 18%;
-    max-width: 18%;
+    flex: 0 0 15%;
+    max-width: 15%;
   }
 }
 .bag-backdrop {

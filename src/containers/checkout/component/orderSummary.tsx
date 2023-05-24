@@ -21,6 +21,7 @@ import { currencyCodes } from "constants/currency";
 import checkoutIcon from "../../../images/checkout.svg";
 import freeShippingInfoIcon from "../../../images/free_shipping_info.svg";
 import Loader from "components/Loader";
+import aquaCheckoutIcon from "../../../images/aquaCheckout.svg";
 
 const OrderSummary: React.FC<OrderProps> = props => {
   const {
@@ -267,8 +268,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
                   ) : (
                     <div
                       className={cs(styles.productPrice, {
-                        [globalStyles.cerise]:
-                          item.product.badgeType == "B_flat"
+                        [globalStyles.gold]: item.product.badgeType == "B_flat"
                       })}
                     >
                       {String.fromCharCode(...code)}{" "}

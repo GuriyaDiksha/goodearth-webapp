@@ -221,6 +221,12 @@ body:has(.open-summary) {
     padding: 0 30px;
     letter-spacing: 0px;
     @include b5_10px_montserrat_charcoal();
+    .delivery-date {
+      @include b5_10px_montserrat_charcoal();
+      padding-top: 15px;
+      line-height: 0px;
+      letter-spacing: 0.3px;
+    }
   }
   .fix-order-items {
     max-height: 360px;

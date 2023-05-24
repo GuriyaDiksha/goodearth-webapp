@@ -171,6 +171,9 @@
         .widget-qty {
           margin-top: 15px;
           display: block;
+          @media screen and (max-width: 992px) {
+            margin-bottom: 15px;
+          }
         }
         .stock-left-error {
           position: static !important;

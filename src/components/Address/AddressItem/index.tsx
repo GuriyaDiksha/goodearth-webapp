@@ -269,9 +269,9 @@ const AddressItem: React.FC<Props> = props => {
   const i = props.index;
   const id = `default_check_${i}`;
   const addressLineOneWithSpace =
-    address.line1.split("").indexOf(" ") > 0 ? 55 : 30;
+    address.line1.split("").indexOf(" ") > 0 ? 40 : 30;
   const addressLineTwoWithSpace =
-    address.line2.split("").indexOf(" ") > 0 ? 25 : 12;
+    address.line2.split("").indexOf(" ") > 0 ? 40 : 12;
   const divOrText =
     (address.firstName.length < 14 && address.lastName.length < 7) ||
     (address.firstName.length < 7 && address.lastName.length < 14)
@@ -306,8 +306,10 @@ const AddressItem: React.FC<Props> = props => {
           styles.addressItemContainer,
           {
             [styles.defaultAddress]:
-              address.id.toString() === shippingAddressId.toString() &&
               currentCallBackComponent == "checkout-shipping"
+                ? address.id.toString() === shippingAddressId.toString()
+                : currentCallBackComponent == "checkout-billing" &&
+                  address.id.toString() === billingAddressId.toString()
           },
           {
             [styles.addressItemContainerCheckout]:

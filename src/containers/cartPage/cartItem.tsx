@@ -343,7 +343,7 @@ const CartItems: React.FC<BasketItem> = memo(
               bootstrap.colSm2,
               bootstrap.colLg3,
               styles.cartPadding,
-              styles.desktopImgSizesss,
+              styles.desktopImgSize,
               { [styles.outOfStock]: stockRecords[0].numInStock < 1 }
             )}
           >
@@ -655,7 +655,8 @@ const CartItems: React.FC<BasketItem> = memo(
         {productDeliveryDate && showDeliveryTimelines && (
           <div
             className={cs(styles.deliveryDate, globalStyles.voffset3, {
-              [styles.extraWidth]: mobile && !tablet
+              [styles.extraWidth]: mobile && !tablet,
+              [styles.cartPadding]: !mobile
             })}
           >
             Estimated Delivery:
