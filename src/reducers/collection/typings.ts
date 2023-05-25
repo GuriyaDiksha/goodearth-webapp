@@ -1,7 +1,10 @@
 import * as Actions from "actions/collection";
 import { ActionType } from "typings/actionCreator";
 import { CollectionProps } from "containers/collectionLanding/typings";
-import { CollectionItem } from "components/collectionItem/typings";
+import {
+  CollectionItem,
+  CollectionTemplatesData
+} from "components/collectionItem/typings";
 import {
   CollectionSpecificProps,
   CollectionSpecificBannerProps
@@ -15,6 +18,8 @@ export type CollectionState = {
   collectionIds: number[];
   tags: string[];
   filteredCollectionData: CollectionItem[];
+  collectionMobileView: "list" | "grid";
+  collectionTemplates: CollectionTemplatesData;
 };
 
 export type DeviceActions = ActionType<typeof Actions>;
