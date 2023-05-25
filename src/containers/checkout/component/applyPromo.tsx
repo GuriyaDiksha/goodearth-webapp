@@ -165,7 +165,7 @@ class ApplyPromo extends React.Component<Props, GiftState> {
                     className={
                       this.state.error
                         ? cs(styles.marginR10, styles.err)
-                        : undefined
+                        : styles.promoInputBox
                     }
                     aria-label="Promocode"
                   />

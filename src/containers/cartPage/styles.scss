@@ -29,13 +29,17 @@ hr {
 }
 .cart {
   margin: 40px 130px;
-
   @media(max-width:1230px){
     margin: 30px 80px;
   }
-
+  @media screen and (min-width:1440px) {
+    margin: 0px 130px;
+  }
   img {
     max-width: 100%;
+    @media screen and (min-width:767px) and (max-width:1440px) {
+      max-width: 80%;
+    }
     // height: 164px;
   }
   .collection-name {
@@ -78,6 +82,9 @@ hr {
     @media screen and (min-width:1440px) {
       flex: 0 0 83.33333%;
       max-width: 83.33333%;
+    }
+    @media screen and (max-width: 992px) {
+      margin-left: 10px;
     }
   }
   .section {
@@ -159,8 +166,8 @@ hr {
 }
 .desktop-img-size {
   @media screen and (min-width: 1440px) {
-    flex: 0 0 15%;
-    max-width: 15%;
+    flex: 0 0 16%;
+    max-width: 16%;
   }
 }
 .bag-backdrop {
@@ -725,7 +732,7 @@ hr {
 }
 
 .wishlist-display {
-  margin-top: 30px;
+  // margin-top: 30px;
   div {
     div {
       cursor: pointer;

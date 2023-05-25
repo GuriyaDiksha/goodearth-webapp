@@ -353,7 +353,10 @@ body:has(.open-summary) {
 
 .selected-stvalue {
   margin-top: 10px;
-  color: #808080;
+  color: $charcoal19;
+  font-family: $font-Montserrat;
+  font-size: 10px;
+  letter-spacing: 0.3px;
 }
 .small {
   font-size: 12px;

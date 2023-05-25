@@ -32,6 +32,7 @@ import WhatsappSubscribe from "components/WhatsappSubscribe";
 // import { makeid } from "utils/utility";
 import { CONFIG } from "constants/util";
 import Formsy from "formsy-react";
+import { displayPriceWithCommasFloat } from "utils/utility";
 
 const PaymentSection: React.FC<PaymentProps> = props => {
   const data: any = {};
@@ -1033,7 +1034,11 @@ const PaymentSection: React.FC<PaymentProps> = props => {
                 <span>
                   Amount Payable:{" "}
                   {String.fromCharCode(...currencyCodes[props.currency])}{" "}
-                  {parseFloat(basket?.total?.toString()).toFixed(2)}
+                  {displayPriceWithCommasFloat(
+                    basket?.total?.toString(),
+                    currency
+                  )}
+                  {/* {parseFloat(basket?.total?.toString()).toFixed(2)} */}
                   <br />
                 </span>
                 {isPaymentNeeded ? "PROCEED TO PAYMENT" : "PLACE ORDER"}

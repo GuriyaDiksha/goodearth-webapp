@@ -454,8 +454,10 @@
 }
 .gift-display {
   display: block;
+  .promo-input-box {
+    padding-left: 20px !important;
+  }
 }
-
 .text-muted {
   @include b4_12px_montserrat_light_charcoal();
   margin-left: 5px;
