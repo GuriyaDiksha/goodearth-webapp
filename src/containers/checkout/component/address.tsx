@@ -1004,7 +1004,7 @@ const AddressSection: React.FC<AddressProps & {
                                       </div>
                                     </label>
                                   )}
-                                  {termsErr && (
+                                  {termsErr && customDuties?.visible && (
                                     <div
                                       className={cs(
                                         globalStyles.errorMsg,

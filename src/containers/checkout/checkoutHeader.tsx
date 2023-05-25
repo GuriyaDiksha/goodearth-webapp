@@ -252,7 +252,7 @@ class CheckoutHeader extends React.Component<Props, { boId: string }> {
       heading = (
         <span className={cs(styles.vCenter, { [styles.justifyRight]: mobile })}>
           <span>
-            <img src={checkoutIcon} alt="from-here-3 checkout-button" />
+            <img src={checkoutIcon} alt="checkout-button" />
           </span>
           {/* {mobile ? ( */}
           <span className={styles.headLineheight}> CHECKOUT</span>
