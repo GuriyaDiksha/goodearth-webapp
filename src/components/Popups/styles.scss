@@ -56,7 +56,10 @@
         background-color: $med-charcoal;
         letter-spacing: 0.5px;
         @include b3_14px_montserrat_white();
-
+        @media screen and (max-width:992px) {
+          width: 100% !important;
+          margin-bottom: 0 !important;
+        }
         &:hover{
           background-color: $white;
           border: 1px solid $med-charcoal;
@@ -65,6 +68,8 @@
 
         a{
           @include b3_14px_montserrat_white();
+          opacity: 0.7;
+          font-weight: 500;
           &:hover{
             color: $med-charcoal !important;
           }
@@ -73,6 +78,9 @@
       .delivery-btn-width{
         width: 85% !important;
         line-height: 60px;
+        @media screen and (max-width:992px) {
+          width: 100% !important;
+        } 
       }
       .cross {
         border-bottom: 1px solid #f2f2f2;
@@ -179,7 +187,7 @@
       }
     }
     .free-instruction{
-      padding: 0 40px;
+      padding: 0 24px;
       @include b6_9px_light_montserrat_charcoal();
       text-align: left;
       color: $montserrat-light;
@@ -776,6 +784,7 @@
   background-color: #f9f8f5;
   font-size: 14px;
   opacity: 0.7;
+  font-family: $font-Montserrat;
 }
 
 .margin-bottom {
@@ -785,7 +794,7 @@
 .deliver-subheading {
   width: 70%;
   text-align: left;
-  margin: 0px 40px;
+  margin: 0px 24px;
   @include b4_12px_montserrat_charcoal();
 }
 .free-delivery {
@@ -1430,7 +1439,7 @@
 .head-wrp{
   display: flex;
   justify-content: space-between;
-    margin: 0 40px 15px;
+    margin: 0 24px 15px;
     border-bottom: 1px solid #f2f2f2;
     padding: 25px 0 20px;
   .delivery-head{

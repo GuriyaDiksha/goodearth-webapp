@@ -1005,7 +1005,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
                       <Link
                         to="/customer-assistance/privacy-policy"
                         target="_blank"
-                        className="privacy-policy-agreement"
+                        className="privacyPolicyAgreement"
                       >
                         Privacy Policy
                       </Link>

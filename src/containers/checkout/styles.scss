@@ -1273,6 +1273,13 @@ input[type="radio"] {
 }
 .agree-terms-and-condition {
   letter-spacing: 0.3px;
+  a {
+    &:hover {
+      color: $charcoal19;
+      text-decoration: none;
+      border-bottom: 1px solid $charcoal19;
+    }
+  }
 }
 
 .justify-right {
