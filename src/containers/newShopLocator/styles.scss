@@ -60,6 +60,17 @@ $banner-mobile-height:500px;
             align-items: center;
             justify-content: center;
             column-gap: 53px;
+            .slider{
+                display:inline-block;
+                width:100px;
+                height:4px;
+                border-radius:3px;
+                background-color:$aqua;
+                position:absolute;
+                z-index:1200;
+                bottom:0;
+                transition:all .3s linear;
+            }
             .item {
                 width: 100px;
                 text-align: center;
@@ -69,7 +80,6 @@ $banner-mobile-height:500px;
                 cursor: pointer;
                 &.active{
                     color: $aqua-bold;
-                    border-bottom: 5px solid $aqua;
                 }
             }
         }
