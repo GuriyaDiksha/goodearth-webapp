@@ -342,9 +342,11 @@ const CartItems: React.FC<BasketItem> = memo(
               bootstrap.col4,
               bootstrap.colSm2,
               bootstrap.colLg3,
-              styles.cartPadding,
               styles.desktopImgSize,
-              { [styles.outOfStock]: stockRecords[0].numInStock < 1 }
+              {
+                [styles.outOfStock]: stockRecords[0].numInStock < 1,
+                [globalStyles.paddR30]: !mobile
+              }
             )}
           >
             <div className={globalStyles.relative}>
@@ -382,11 +384,11 @@ const CartItems: React.FC<BasketItem> = memo(
               bootstrap.colLg9,
               bootstrap.colSm10,
               bootstrap.col8,
-              globalStyles.gutter15
+              styles.desktopDivSize
             )}
           >
             <div className={cs(styles.rowMain, globalStyles.gutterBetween)}>
-              <div className={cs(bootstrap.colLg7, bootstrap.col12)}>
+              <div className={cs(bootstrap.colLg8, bootstrap.col12)}>
                 <div className={cs(styles.section, styles.sectionInfo)}>
                   <div>
                     {collection && (
@@ -566,7 +568,7 @@ const CartItems: React.FC<BasketItem> = memo(
                 className={cs(
                   bootstrap.colLg4,
                   bootstrap.col12,
-                  globalStyles.textCenter
+                  globalStyles.textRight
                 )}
               >
                 <div
@@ -641,11 +643,13 @@ const CartItems: React.FC<BasketItem> = memo(
                     />
                     {renderNotifyTrigger("action")}
                   </div>
-                  <div
-                    className={cs(styles.pointer, styles.remove)}
-                    onClick={() => deleteItem()}
-                  >
-                    Remove
+                  <div>
+                    <div
+                      className={cs(styles.pointer, styles.remove)}
+                      onClick={() => deleteItem()}
+                    >
+                      Remove
+                    </div>
                   </div>
                 </div>
               </div>
@@ -654,9 +658,8 @@ const CartItems: React.FC<BasketItem> = memo(
         </div>
         {productDeliveryDate && showDeliveryTimelines && (
           <div
-            className={cs(styles.deliveryDate, globalStyles.voffset3, {
-              [styles.extraWidth]: mobile && !tablet,
-              [styles.cartPadding]: !mobile
+            className={cs(styles.deliveryDate, globalStyles.marginT20, {
+              [styles.extraWidth]: mobile && !tablet
             })}
           >
             Estimated Delivery:

@@ -44,6 +44,7 @@ const LoginForm = (props: any) => {
   const { search } = useLocation();
   const urlParams = new URLSearchParams(search);
   const id = urlParams.get("loginpopup");
+  const boId = urlParams.get("bo_id");
 
   return (
     <Popup>
@@ -59,7 +60,7 @@ const LoginForm = (props: any) => {
         <MainLogin
           showRegister={goToRegister}
           nextStep={nextStep}
-          isBo={""}
+          isBo={boId}
           isCerise={id == "cerise"}
           setEmail={setEmail}
           email={email}

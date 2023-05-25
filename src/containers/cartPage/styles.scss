@@ -58,6 +58,8 @@ hr {
     border-bottom: 1px solid $charcoal19;
     cursor: pointer;
     margin: 0 auto;
+    width: fit-content;
+    float: right;
     &:hover {
       color: $aqua;
       border-bottom: 1px solid $aqua;
@@ -70,6 +72,13 @@ hr {
   .size {
     letter-spacing: 0.3px;
     @include b5_10px_montserrat_light_charcoal();
+  }
+
+  .desktop-div-size{
+    @media screen and (min-width:1440px) {
+      flex: 0 0 83.33333%;
+      max-width: 83.33333%;
+    }
   }
   .section {
     height: 100%;
@@ -85,6 +94,7 @@ hr {
   .section-mobile {
     height: auto;
     flex-direction: row;
+    margin-top: 15px;
 
     .product-price {
       display: none;

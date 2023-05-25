@@ -48,7 +48,14 @@
 .row-gap30 {
   row-gap: 30px;
 }
+
 .add {
+
+  &.bridal {
+    address {
+      min-height: auto;
+    }
+  }
   address {
     border: 1px solid #ccc;
     border-bottom: 0px;

@@ -392,7 +392,11 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                         bootstrapStyles.colMd6
                       )}
                     >
-                      <div className={styles.add}>
+                      <div
+                        className={cs(styles.add, {
+                          [styles.bridal]: confirmData?.isBridalOrder
+                        })}
+                      >
                         {shippingAddress ? (
                           <address>
                             <label>shipping address</label>
