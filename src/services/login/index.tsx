@@ -28,7 +28,7 @@ import { POPUP } from "constants/components";
 import { showGrowlMessage, checkoutGTM } from "../../utils/validate";
 import { Basket } from "typings/basket";
 import { updateRegion } from "actions/widget";
-import { ANY_ADS } from "constants/cookieConsent";
+import { GA_CALLS } from "constants/cookieConsent";
 import { encryptdata, decriptdata, encrypttext } from "utils/validate";
 // import { updateBasket } from "actions/basket";
 // import { CUST } from "constants/util";
