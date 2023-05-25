@@ -271,14 +271,24 @@ const makerRoutes = [
   ROUTES.MIRAGESHOP,
   ROUTES.MAGHREB,
   ROUTES.TANGIER,
-  ROUTES.MAKERTEST,
   ROUTES.ANINDIANSUMMER
 ];
+
+const makerSmartnav = [ROUTES.MAKERTEST];
 
 makerRoutes.forEach(route => {
   routes.push({
     path: route,
     component: loadable(() => import("containers/makerpage")),
+    action: async () => null,
+    exact: true
+  });
+});
+
+makerSmartnav.forEach(route => {
+  routes.push({
+    path: route,
+    component: loadable(() => import("containers/smartNav")),
     action: async () => null,
     exact: true
   });
