@@ -701,11 +701,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
             )}
             {shippingAddress?.state && (
               <div
-                className={cs(
-                  styles.small,
-                  styles.selectedStvalue,
-                  globalStyles.marginT10
-                )}
+                className={cs(styles.selectedStvalue, globalStyles.marginT10)}
               >
                 to {shippingAddress.state} - {shippingAddress.postCode}
               </div>
@@ -894,7 +890,11 @@ const OrderSummary: React.FC<OrderProps> = props => {
                   <span>Amount Payable:</span>
                   <span className={styles.totalAmount}>
                     {String.fromCharCode(...code)}{" "}
-                    {parseFloat("" + basket.subTotalWithShipping).toFixed(2)}
+                    {displayPriceWithCommasFloat(
+                      basket.subTotalWithShipping,
+                      currency
+                    )}
+                    {/* {parseFloat("" + basket.subTotalWithShipping).toFixed(2)} */}
                   </span>
                   <span className={cs(styles.carretDown)}></span>
                 </div>
@@ -991,7 +991,11 @@ const OrderSummary: React.FC<OrderProps> = props => {
                 <span>
                   Amount Payable:{" "}
                   {String.fromCharCode(...currencyCodes[props.currency])}{" "}
-                  {parseFloat(basket?.total?.toString()).toFixed(2)}
+                  {displayPriceWithCommasFloat(
+                    basket?.total?.toString(),
+                    currency
+                  )}
+                  {/* {parseFloat(basket?.total?.toString()).toFixed(2)} */}
                   <br />
                 </span>
                 {isPaymentNeeded ? "PROCEED TO PAYMENT" : "PLACE ORDER"}
