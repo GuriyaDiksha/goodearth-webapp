@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import FormCheckbox from "components/Formsy/FormCheckbox";
 import styles from "./styles.scss";
 import CountryCode from "components/Formsy/CountryCode";
@@ -76,9 +76,13 @@ const WhatsappSubscribe: React.FC<Props> = ({
   const [isDisabled, setIsDisabled] = useState(true);
   const [objEqual, setObjEqual] = useState(true);
   const [error, setError] = useState("");
-
+  const location = useLocation();
   const formRef = whatsappFormRef || useRef<Formsy>(null);
-
+  const locationtext = location.pathname.includes("/my-preferences")
+    ? "save_preferences"
+    : location.pathname.includes("/checkout")
+    ? "Checkout"
+    : "registry_popup";
   const impactRef = useRef<HTMLInputElement>(null);
 
   const handleClickOutside = (evt: any) => {
@@ -285,7 +289,7 @@ const WhatsappSubscribe: React.FC<Props> = ({
         dispatch(updateModal(false));
         dataLayer.push({
           event: "Whatsapp_optin",
-          Location: "Checkout_popup",
+          Location: locationtext,
           Checkbox: reqData.whatsappSubscribe
             ? "Whatsapp Opt-in"
             : "Whatsapp Opt-out"
