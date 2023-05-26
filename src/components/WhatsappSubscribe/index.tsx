@@ -283,6 +283,13 @@ const WhatsappSubscribe: React.FC<Props> = ({
         showGrowlMessage(dispatch, "Your preferences have been updated!", 5000);
         setNumberError("");
         dispatch(updateModal(false));
+        dataLayer.push({
+          event: "Whatsapp_optin",
+          Location: "Checkout_popup",
+          Checkbox: reqData.whatsappSubscribe
+            ? "Whatsapp Opt-in"
+            : "Whatsapp Opt-out"
+        });
       })
       .catch((err: any) => {
         const errData = err.response?.data;
