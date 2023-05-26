@@ -54,16 +54,8 @@ export const PRODUCT_UNPUBLISHED = (items: string[]) => (
     <ul>{growlItemsList(items)}</ul>
   </div>
 );
-export const PRODUCT_UNSHIPPABLE_REMOVED = (items: string[]) => (
-  <div style={{ textAlign: "left" }}>
-    Some items from your bag were removed as they are out of stock/unavailable.
-    {/* Unfortunately, the below products are not shippable to the selected address
-    - your bag has been updated. */}
-    <br />
-    <br />
-    <ul>{growlItemsList(items)}</ul>
-  </div>
-);
+export const PRODUCT_UNSHIPPABLE_REMOVED =
+  "Some items from your bag were removed as they are out of stock/unavailable.";
 export const ADD_TO_REGISTRY_SUCCESS = "Item has been added to your Registry";
 export const ADD_TO_REGISTRY_FAIL = "Can't add to bag";
 export const ADD_TO_REGISTRY_AGAIN = [

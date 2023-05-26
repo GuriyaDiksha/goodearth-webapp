@@ -179,13 +179,7 @@ export default {
     //   );
     // }
     if (res.message === "Success") {
-      showGrowlMessage(
-        dispatch,
-        MESSAGE.PRODUCT_UNSHIPPABLE_REMOVED,
-        3000,
-        undefined,
-        res.basket.unshippableProducts
-      );
+      showGrowlMessage(dispatch, MESSAGE.PRODUCT_UNSHIPPABLE_REMOVED, 3000);
     }
     dispatch(updateBasket(res.basket));
     return res;
