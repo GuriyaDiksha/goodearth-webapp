@@ -337,10 +337,7 @@
 }
 
 .empty-msg {
-  font-size: 20px;
-  font-style: italic;
-  color: tint(#000, 70%);
-  letter-spacing: 1px;
+  letter-spacing: 0.5px;
   @include h6_16px_lora_charcoal();
 }
 
@@ -368,7 +365,7 @@
 .image-content {
   text-align: center;
   height: auto;
-  margin: 15px 0;
+  margin: 5px 0;
   width: 100%;
 }
 
@@ -425,18 +422,18 @@
   right: 0;
 }
 .search-feature {
-  @include b3_14px_montserrat_caps_charcoal();
+  @include b4_12px_montserrat_charcoal_caps();
   // text-decoration: underline;
   cursor: pointer;
   text-align: center;
-  margin-top: 7px;
+  margin-top: 6px;
   // font-size: 12px;
   // font-weight: bold;
   a {
-    @include b3_14px_montserrat_caps_charcoal();
+    @include b4_12px_montserrat_charcoal_caps();
     // color: #ab1e56;
     // text-decoration: underline;
-    text-transform: capitalize;
+    // text-transform: capitalize;
   }
   // text-transform: uppercase;
   // letter-spacing: 1px;
@@ -444,6 +441,7 @@
 
 .wishlist-head {
   margin-top: 35px;
+  letter-spacing: 0.5px;
   @include h6_16px_lora_charcoal();
 }
 .wishlist-sub-head {

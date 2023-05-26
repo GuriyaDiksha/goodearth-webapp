@@ -361,19 +361,29 @@ class CartPage extends React.Component<Props, State> {
             }
           )}
         >
-          <div className={styles.emptyMsg}> Your bag is currently empty </div>
-          <div
-            className={cs(
-              bootstrap.colMd12,
-              styles.searchHeading,
-              { [styles.searchHeadingMobile]: mobile },
-              globalStyles.textCenter
-            )}
-          >
-            <h2 className={cs(globalStyles.voffset5, globalStyles.marginB10)}>
-              Looking to discover some ideas?
-            </h2>
-          </div>
+          {((mobile && (!isLoggedIn || wishlistData.length === 0)) ||
+            !mobile) && (
+            <>
+              <div className={styles.emptyMsg}>
+                {" "}
+                Your bag is currently empty{" "}
+              </div>
+              <div
+                className={cs(
+                  bootstrap.colMd12,
+                  styles.searchHeading,
+                  { [styles.searchHeadingMobile]: mobile },
+                  globalStyles.textCenter
+                )}
+              >
+                <h2
+                  className={cs(globalStyles.voffset5, globalStyles.marginB10)}
+                >
+                  Looking to discover some ideas?
+                </h2>
+              </div>
+            </>
+          )}
           <div
             className={cs(globalStyles.voffset3, globalStyles.marginAuto, {
               [bootstrap.col10]:
@@ -381,63 +391,61 @@ class CartPage extends React.Component<Props, State> {
               [bootstrap.col12]: isLoggedIn && wishlistData.length
             })}
           >
-            <div className={bootstrap.row}>
-              <div
-                className={cs(
-                  bootstrap.colMd12,
-                  bootstrap.col12,
-                  styles.noResultPadding,
-                  styles.checkheight,
-                  {
-                    [styles.checkheightMobile]: mobile,
-                    [styles.wishlistWrap]: wishlistData.length && isLoggedIn
-                  }
-                )}
-              >
-                {this.state.featureData.length > 0
-                  ? this.state.featureData.map((data, i) => {
-                      return (
-                        <div
-                          key={i}
-                          className={cs(bootstrap.colLg3, styles.px10, {
-                            [bootstrap.col5]: isLoggedIn && wishlistData.length,
-                            [bootstrap.col6]:
-                              mobile && (!wishlistData.length || !isLoggedIn)
-                          })}
-                        >
-                          <div className={styles.searchImageboxNew}>
-                            <Link to={data.ctaUrl}>
-                              <img
-                                src={
-                                  data.ctaImage == ""
-                                    ? noImagePlp
-                                    : data.ctaImage
-                                }
-                                // onError={this.addDefaultSrc}
-                                alt={data.ctaText}
-                                className={styles.imageResultNew}
-                              />
-                            </Link>
-                          </div>
+            {((mobile && (!isLoggedIn || wishlistData.length === 0)) ||
+              !mobile) && (
+              <div className={bootstrap.row}>
+                <div
+                  className={cs(
+                    bootstrap.colMd12,
+                    bootstrap.col12,
+                    styles.noResultPadding,
+                    styles.checkheight,
+                    {
+                      // [styles.checkheightMobile]: mobile,
+                      [styles.wishlistWrap]: wishlistData.length && isLoggedIn
+                    }
+                  )}
+                >
+                  {this.state.featureData.length > 0
+                    ? this.state.featureData.map((data, i) => {
+                        return (
                           <div
-                            className={cs(styles.imageContent, {
-                              [styles.mobileHeight]:
-                                mobile && (!wishlistData?.length || !isLoggedIn)
-                            })}
+                            key={i}
+                            className={cs(
+                              bootstrap.colLg3,
+                              styles.px10,
+                              bootstrap.col5
+                            )}
                           >
-                            <p className={styles.searchImageTitle}>
-                              {data.ctaText}
-                            </p>
-                            <p className={styles.searchFeature}>
-                              <Link to={data.ctaUrl}>{data.title}</Link>
-                            </p>
+                            <div className={styles.searchImageboxNew}>
+                              <Link to={data.ctaUrl}>
+                                <img
+                                  src={
+                                    data.ctaImage == ""
+                                      ? noImagePlp
+                                      : data.ctaImage
+                                  }
+                                  // onError={this.addDefaultSrc}
+                                  alt={data.ctaText}
+                                  className={styles.imageResultNew}
+                                />
+                              </Link>
+                            </div>
+                            <div className={cs(styles.imageContent)}>
+                              <p className={styles.searchImageTitle}>
+                                {data.ctaText}
+                              </p>
+                              <p className={styles.searchFeature}>
+                                <Link to={data.ctaUrl}>{data.title}</Link>
+                              </p>
+                            </div>
                           </div>
-                        </div>
-                      );
-                    })
-                  : ""}
+                        );
+                      })
+                    : ""}
+                </div>
               </div>
-            </div>
+            )}
 
             {isLoggedIn && wishlistData.length > 0 && (
               <>
@@ -450,15 +458,13 @@ class CartPage extends React.Component<Props, State> {
                     VIEW ALL
                   </Link>
                 )}
-                <div className={cs(bootstrap.row, globalStyles.marginT20)}>
+                <div className={cs(bootstrap.col12, globalStyles.marginT20)}>
                   <div
                     className={cs(
-                      bootstrap.colMd12,
-                      bootstrap.col12,
+                      bootstrap.row,
                       styles.noResultPadding,
-                      styles.checkheight,
                       styles.wishlistWrap,
-                      { [styles.checkheightMobile]: mobile }
+                      { [styles.checkheight]: !mobile }
                     )}
                   >
                     {wishlistData.length > 0 && !mobile
@@ -521,11 +527,16 @@ class CartPage extends React.Component<Props, State> {
                             >
                               <div
                                 className={cs(styles.searchImageboxNew, {
-                                  [styles.viewAllMobileWrapper]: i == 4
+                                  [styles.viewAllMobileWrapper]:
+                                    i === wishlistData.length - 1
                                 })}
                               >
                                 <Link
-                                  to={i < 4 ? data.productUrl : "/wishlist"}
+                                  to={
+                                    i === wishlistData.length - 1
+                                      ? data.productUrl
+                                      : "/wishlist"
+                                  }
                                 >
                                   <img
                                     src={
@@ -537,18 +548,15 @@ class CartPage extends React.Component<Props, State> {
                                     alt={data.productName}
                                     className={styles.imageResultNew}
                                   />
-                                  {i == 4 && (
+                                  {i === wishlistData.length - 1 && (
                                     <span className={cs(styles.viewAllMobile)}>
                                       VIEW ALL
                                     </span>
                                   )}
                                 </Link>
                               </div>
-                              {i < 4 && (
+                              {
                                 <div className={styles.imageContent}>
-                                  {/* <p className={styles.searchImageTitle}>
-                              {data.productName}
-                            </p> */}
                                   <p className={styles.searchFeature}>
                                     <Link to={data.productUrl}>
                                       {data.productName}
@@ -564,7 +572,7 @@ class CartPage extends React.Component<Props, State> {
                                     </Link>
                                   </p>
                                 </div>
-                              )}
+                              }
                             </div>
                           );
                         })

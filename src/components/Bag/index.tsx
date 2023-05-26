@@ -161,70 +161,78 @@ class Bag extends React.Component<Props, State> {
             }
           )}
         >
-          <div className={styles.emptyMsg}> Your bag is currently empty </div>
-          <div
-            className={cs(
-              bootstrap.colMd12,
-              styles.searchHeading,
-              { [styles.searchHeadingMobile]: mobile },
-              globalStyles.textCenter
-            )}
-          >
-            <h2 className={globalStyles.voffset5}>
-              Looking to discover some ideas?
-            </h2>
-          </div>
+          {(!isLoggedIn || !wishlistData.length) && (
+            <>
+              {" "}
+              <div className={styles.emptyMsg}>
+                {" "}
+                Your bag is currently empty{" "}
+              </div>
+              <div
+                className={cs(
+                  bootstrap.colMd12,
+                  styles.searchHeading,
+                  { [styles.searchHeadingMobile]: mobile },
+                  globalStyles.textCenter
+                )}
+              >
+                <h2 className={globalStyles.voffset5}>
+                  Looking to discover some ideas?
+                </h2>
+              </div>
+            </>
+          )}
           <div className={cs(bootstrap.col12, globalStyles.voffset3)}>
-            <div
-              className={cs(
-                bootstrap.row,
-                styles.noResultPadding,
-                styles.checkheight,
-                { [styles.checkheightMobile]: mobile },
-                styles.cartRow,
-                { [styles.wishlistWrap]: wishlistData.length && isLoggedIn }
-              )}
-            >
-              {this.state.featureData.length > 0
-                ? this.state.featureData.map((data, i) => {
-                    return (
-                      <div
-                        key={i}
-                        className={cs(bootstrap.col5, styles.px10, {
-                          [bootstrap.col5]: isLoggedIn && wishlistData.length,
-                          [bootstrap.col6]: !wishlistData.length || !isLoggedIn
-                        })}
-                      >
-                        <div className={styles.searchImageboxNew}>
-                          <Link to={data.ctaUrl}>
-                            <img
-                              src={
-                                data.ctaImage == "" ? noImagePlp : data.ctaImage
-                              }
-                              // onError={this.addDefaultSrc}
-                              alt={data.ctaText}
-                              className={styles.imageResultNew}
-                            />
-                          </Link>
-                        </div>
+            {(!isLoggedIn || wishlistData.length === 0) && (
+              <div
+                className={cs(
+                  bootstrap.row,
+                  styles.noResultPadding,
+                  styles.checkheight,
+                  { [styles.checkheightMobile]: mobile },
+                  styles.cartRow
+                )}
+              >
+                {this.state.featureData.length > 0
+                  ? this.state.featureData.map((data, i) => {
+                      return (
                         <div
-                          className={cs(styles.imageContent, {
-                            [styles.mobileHeight]:
-                              !wishlistData?.length || !isLoggedIn
-                          })}
+                          key={i}
+                          className={cs(bootstrap.col6, styles.px10)}
                         >
-                          <p className={styles.searchImageTitle}>
-                            {data.ctaText}
-                          </p>
-                          <p className={styles.searchFeature}>
-                            <Link to={data.ctaUrl}>{data.title}</Link>
-                          </p>
+                          <div className={styles.searchImageboxNew}>
+                            <Link to={data.ctaUrl}>
+                              <img
+                                src={
+                                  data.ctaImage == ""
+                                    ? noImagePlp
+                                    : data.ctaImage
+                                }
+                                // onError={this.addDefaultSrc}
+                                alt={data.ctaText}
+                                className={styles.imageResultNew}
+                              />
+                            </Link>
+                          </div>
+                          <div
+                            className={cs(
+                              styles.imageContent,
+                              styles.mobileHeight
+                            )}
+                          >
+                            <p className={styles.searchImageTitle}>
+                              {data.ctaText}
+                            </p>
+                            <p className={styles.searchFeature}>
+                              <Link to={data.ctaUrl}>{data.title}</Link>
+                            </p>
+                          </div>
                         </div>
-                      </div>
-                    );
-                  })
-                : ""}
-            </div>
+                      );
+                    })
+                  : ""}
+              </div>
+            )}
 
             {isLoggedIn && wishlistData.length > 0 && (
               <>
@@ -246,8 +254,7 @@ class Bag extends React.Component<Props, State> {
                       styles.noResultPadding,
                       styles.checkheight,
                       { [styles.checkheightMobile]: mobile },
-                      styles.cartRow,
-                      styles.wishlistWrap
+                      styles.cartRow
                     )}
                   >
                     {wishlistData.length > 0
@@ -255,15 +262,20 @@ class Bag extends React.Component<Props, State> {
                           return (
                             <div
                               key={i}
-                              className={cs(bootstrap.col5, styles.px10)}
+                              className={cs(bootstrap.col6, styles.px10)}
                             >
                               <div
                                 className={cs(styles.searchImageboxNew, {
-                                  [styles.viewAllMobileWrapper]: i == 4
+                                  [styles.viewAllMobileWrapper]:
+                                    i === wishlistData.length - 1
                                 })}
                               >
                                 <Link
-                                  to={i < 4 ? data.productUrl : "/wishlist"}
+                                  to={
+                                    i === wishlistData.length - 1
+                                      ? data.productUrl
+                                      : "/wishlist"
+                                  }
                                 >
                                   <img
                                     src={
@@ -275,15 +287,20 @@ class Bag extends React.Component<Props, State> {
                                     alt={data.productName}
                                     className={styles.imageResultNew}
                                   />
-                                  {i == 4 && (
+                                  {i === wishlistData.length - 1 && (
                                     <span className={cs(styles.viewAllMobile)}>
                                       VIEW ALL
                                     </span>
                                   )}
                                 </Link>
                               </div>
-                              {i < 4 && (
-                                <div className={styles.imageContent}>
+                              {
+                                <div
+                                  className={cs(
+                                    styles.imageContent,
+                                    styles.mobileHeight
+                                  )}
+                                >
                                   {/* <p className={styles.searchImageTitle}>
                               {data.productName}
                             </p> */}
@@ -302,7 +319,7 @@ class Bag extends React.Component<Props, State> {
                                     </Link>
                                   </p>
                                 </div>
-                              )}
+                              }
                             </div>
                           );
                         })
