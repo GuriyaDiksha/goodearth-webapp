@@ -270,11 +270,10 @@ const makerRoutes = [
   ROUTES.MIRAGE,
   ROUTES.MIRAGESHOP,
   ROUTES.MAGHREB,
-  ROUTES.TANGIER,
-  ROUTES.ANINDIANSUMMER
+  ROUTES.TANGIER
 ];
 
-const makerSmartnav = [ROUTES.MAKERTEST];
+const makerSmartnav = [ROUTES.MAKERTEST, ROUTES.ANINDIANSUMMER];
 
 makerRoutes.forEach(route => {
   routes.push({
