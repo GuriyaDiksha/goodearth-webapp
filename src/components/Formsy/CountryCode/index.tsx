@@ -149,7 +149,7 @@ const CountryCode: React.FC<Props & InjectedProps<string | null>> = props => {
         {props.label}
       </label>
       {errorMessage && <p className={styles.errorMsg}>{errorMessage}</p>}
-      {props.value?.length > 0 ? (
+      {props.value?.length > 0 && !props?.hideArrow ? (
         <span
           className={
             props.disable
