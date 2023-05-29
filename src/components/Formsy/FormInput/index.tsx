@@ -84,6 +84,8 @@ const FormInput: React.FC<Props & InjectedProps<string | null>> = props => {
         return "Plese enter registrant's name";
       case "coRegistrantName":
         return "Please enter co-registrant's name";
+      case "registryName":
+        return "Please enter registry name";
       case "recipientName":
         return "Please enter Recipient's Name";
       case "recipientEmailConfirm":
