@@ -43,6 +43,7 @@ const FreeShipping: React.FC<PopupProps> = props => {
           styles.sizeBlockNotFixed,
           styles.centerpageDesktopFs,
           globalStyles.textCenter,
+          styles.freeShippingPopup,
           { [styles.mobilePopup]: mobile }
         )}
       >

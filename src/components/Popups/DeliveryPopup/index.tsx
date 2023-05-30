@@ -62,7 +62,13 @@ const Delivery: React.FC<PopupProps> = props => {
               {/* You’re a step away from{" "}
               <span className={styles.linkTextUnderline}>free shipping!</span> */}
             </div>
-            <div className={cs(globalStyles.voffset3, globalStyles.marginLR24)}>
+            <div
+              className={cs(
+                globalStyles.voffset3,
+                globalStyles.marginLR24,
+                globalStyles.marginLR35
+              )}
+            >
               <div>
                 <textarea
                   rows={5}
@@ -71,7 +77,7 @@ const Delivery: React.FC<PopupProps> = props => {
                   value={textarea}
                   maxLength={250}
                   placeholder={
-                    "Type here. For example, Leave my parcel with the Gaurd"
+                    "Type here. For example,\n Leave my parcel with the Gaurd"
                   }
                   autoComplete="new-password"
                   onChange={(e: any) => {

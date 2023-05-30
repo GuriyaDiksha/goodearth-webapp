@@ -76,6 +76,10 @@ hr {
   .size {
     letter-spacing: 0.3px;
     @include b5_10px_montserrat_light_charcoal();
+    margin-right: 5px;
+  }
+  .color {
+    margin-right: 5px;
   }
 
   .desktop-div-size{
@@ -483,6 +487,9 @@ hr {
   margin-left: 0px;
   @media screen and (max-width: 992px) {
     margin-left: 0;
+  }
+  .expected-delivetry-date {
+    margin-left: 5px;
   }
 }
 .black {

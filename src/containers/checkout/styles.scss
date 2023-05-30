@@ -730,6 +730,9 @@ hr {
     width: 100%;
     background-color: #f9f8f5;
     font-size: 14px;
+    font-family: $font-Montserrat;
+    opacity: 0.8;
+    letter-spacing: 0.36px;
   }
 
   .input-container {
@@ -1026,6 +1029,10 @@ input[type="radio"] {
   background-color: #f9f8f5;
   margin-top: 0px;
   width: 100%;
+  font-family: $font-Montserrat;
+  opacity: 0.8;
+  letter-spacing: 0.36px;
+  
 }
 .font14 {
   font-size: 14px;
@@ -1040,6 +1047,12 @@ input[type="radio"] {
     width: 98%;
   }
 }
+
+.char-limit-text {
+  font-family: $font-Montserrat;
+  letter-spacing: 0;
+}
+
 .linkCerise {
   a {
     color: $cerise;
