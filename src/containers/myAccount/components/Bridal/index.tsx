@@ -292,6 +292,13 @@ const Bridal: React.FC<Props> = props => {
                 "Event Action": "Registry created",
                 "Event Label": formData.occasion
               });
+              dataLayer.push({
+                event: "Whatsapp_optin",
+                Location: "create_registry",
+                Checkbox: whatsappSubscribe
+                  ? "Whatsapp Opt-in"
+                  : "Whatsapp Opt-out"
+              });
             }
 
             dispatch(updateUser(updatedUser));
