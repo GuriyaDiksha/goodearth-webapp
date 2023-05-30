@@ -447,6 +447,14 @@ class Search extends React.Component<
     });
   };
 
+  decodeSearchString(value: string) {
+    try {
+      return decodeURIComponent(value);
+    } catch (e) {
+      return value;
+    }
+  }
+
   render() {
     const {
       device: { mobile },
@@ -707,9 +715,7 @@ class Search extends React.Component<
                     <div className={styles.npfMsg}>
                       {"Sorry, we couldn't find any matching result for"} &nbsp;
                       <span>
-                        {decodeURIComponent(
-                          decodeURIComponent(this.state.searchText)
-                        )}
+                        {this.decodeSearchString(this.state.searchText)}
                       </span>
                     </div>
                   ) : (
