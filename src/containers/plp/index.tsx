@@ -43,7 +43,7 @@ import inactiveGrid from "../../images/plpIcons/inactive_grid.svg";
 import activeList from "../../images/plpIcons/active_list.svg";
 import inactiveList from "../../images/plpIcons/inactive_list.svg";
 import { CategoryMenu } from "containers/categoryLanding/typings";
-import { GA_CALLS, ANY_ADS } from "constants/cookieConsent";
+import { GA_CALLS } from "constants/cookieConsent";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -138,7 +138,7 @@ class PLP extends React.Component<
         Page_Title: "virtual_plp_view"
       });
     }
-    if (userConsent.includes(ANY_ADS)) {
+    if (userConsent.includes(GA_CALLS)) {
       Moengage.track_event("Page viewed", {
         "Page URL": this.props.location.pathname,
         "Page Name": "PlpView"

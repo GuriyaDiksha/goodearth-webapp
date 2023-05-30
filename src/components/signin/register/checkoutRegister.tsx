@@ -24,7 +24,7 @@ import { errorTracking, decriptdata, getErrorList } from "utils/validate";
 import { Country } from "components/Formsy/CountryCode/typings";
 import EmailVerification from "../emailVerification";
 import CookieService from "services/cookie";
-import { GA_CALLS, ANY_ADS } from "constants/cookieConsent";
+import { GA_CALLS } from "constants/cookieConsent";
 // import SelectDropdown from "components/Formsy/SelectDropdown";
 import CountryCode from "components/Formsy/CountryCode";
 import FormContainer from "../formContainer";
@@ -195,7 +195,7 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
       .then(data => {
         const userConsent = CookieService.getCookie("consent").split(",");
 
-        if (userConsent.includes(ANY_ADS)) {
+        if (userConsent.includes(GA_CALLS)) {
           Moengage.track_event("Registered", {
             "First Name": firstName,
             "Last Name": lastName,

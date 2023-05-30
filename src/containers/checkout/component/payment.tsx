@@ -19,7 +19,7 @@ import CookieService from "services/cookie";
 import { proceedForPayment, getPageType } from "../../../utils/validate";
 import CheckoutService from "services/checkout";
 import AccountServices from "services/account";
-import { GA_CALLS, ANY_ADS } from "constants/cookieConsent";
+import { GA_CALLS } from "constants/cookieConsent";
 import { updatePreferenceData } from "actions/user";
 import LoginService from "services/login";
 import { updateCountryData } from "actions/address";
@@ -153,7 +153,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
         data.whatsappNo = whatsappNo;
         data.whatsappNoCountryCode = whatsappNoCountryCode;
       }
-      if (userConsent.includes(ANY_ADS)) {
+      if (userConsent.includes(GA_CALLS)) {
         Moengage.track_event("Mode of payment selected", {
           "Payment Method": currentmethod.value,
           Amount: +basket.total,
