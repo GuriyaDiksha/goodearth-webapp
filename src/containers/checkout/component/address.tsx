@@ -125,10 +125,12 @@ const AddressSection: React.FC<AddressProps & {
     )
       .then(res => {
         setIsTermChecked(customDuties?.visible || false);
+        setTermsErr("");
         dispatch(updateCustomDuties(res));
       })
       .catch(e => {
         setIsTermChecked(e?.response?.data?.visible || false);
+        setTermsErr("");
         dispatch(
           updateCustomDuties({
             visible: e?.response?.data?.visible,
@@ -143,7 +145,6 @@ const AddressSection: React.FC<AddressProps & {
       dispatch(
         updateShippingAddressId(
           props.selectedAddress?.id ||
-            shippingAddressId ||
             addressList?.find(val => val?.isDefaultForShipping)?.id ||
             0
         )
@@ -162,6 +163,7 @@ const AddressSection: React.FC<AddressProps & {
       dispatch(updateBillingAddressId(billingAddressId));
     }
   }, [props.selectedAddress, addressList]);
+
   const openNewAddressForm = () => {
     setSameAsShipping(false);
     openAddressForm();

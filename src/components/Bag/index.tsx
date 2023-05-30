@@ -258,71 +258,75 @@ class Bag extends React.Component<Props, State> {
                     )}
                   >
                     {wishlistData.length > 0
-                      ? wishlistData?.slice(0, 5)?.map((data, i) => {
-                          return (
-                            <div
-                              key={i}
-                              className={cs(bootstrap.col6, styles.px10)}
-                            >
+                      ? [...wishlistData?.slice(0, 5), wishlistData[0]]?.map(
+                          (data, i) => {
+                            return (
                               <div
-                                className={cs(styles.searchImageboxNew, {
-                                  [styles.viewAllMobileWrapper]:
-                                    i === wishlistData.length - 1
-                                })}
+                                key={i}
+                                className={cs(bootstrap.col6, styles.px10)}
                               >
-                                <Link
-                                  to={
-                                    i === wishlistData.length - 1
-                                      ? data.productUrl
-                                      : "/wishlist"
-                                  }
-                                >
-                                  <img
-                                    src={
-                                      data.productImage == ""
-                                        ? noImagePlp
-                                        : data.productImage
-                                    }
-                                    // onError={this.addDefaultSrc}
-                                    alt={data.productName}
-                                    className={styles.imageResultNew}
-                                  />
-                                  {i === wishlistData.length - 1 && (
-                                    <span className={cs(styles.viewAllMobile)}>
-                                      VIEW ALL
-                                    </span>
-                                  )}
-                                </Link>
-                              </div>
-                              {
                                 <div
-                                  className={cs(
-                                    styles.imageContent,
-                                    styles.mobileHeight
-                                  )}
+                                  className={cs(styles.searchImageboxNew, {
+                                    [styles.viewAllMobileWrapper]:
+                                      i === wishlistData.length
+                                  })}
                                 >
-                                  {/* <p className={styles.searchImageTitle}>
+                                  <Link
+                                    to={
+                                      i === wishlistData.length
+                                        ? data.productUrl
+                                        : "/wishlist"
+                                    }
+                                  >
+                                    <img
+                                      src={
+                                        data.productImage == ""
+                                          ? noImagePlp
+                                          : data.productImage
+                                      }
+                                      // onError={this.addDefaultSrc}
+                                      alt={data.productName}
+                                      className={styles.imageResultNew}
+                                    />
+                                    {i === wishlistData.length && (
+                                      <span
+                                        className={cs(styles.viewAllMobile)}
+                                      >
+                                        VIEW ALL
+                                      </span>
+                                    )}
+                                  </Link>
+                                </div>
+                                {
+                                  <div
+                                    className={cs(
+                                      styles.imageContent,
+                                      styles.mobileHeight
+                                    )}
+                                  >
+                                    {/* <p className={styles.searchImageTitle}>
                               {data.productName}
                             </p> */}
-                                  <p className={styles.searchFeature}>
-                                    <Link to={data.productUrl}>
-                                      {data.productName}
-                                    </Link>
-                                  </p>
-                                  <p className={styles.searchFeature}>
-                                    <Link to={data.productUrl}>
-                                      {String.fromCharCode(
-                                        ...currencyCode[this.props.currency]
-                                      ) +
-                                        " " +
-                                        data.price[currency]}
-                                    </Link>
-                                  </p>
-                                </div>
-                              }
-                            </div>
-                          );
-                        })
+                                    <p className={styles.searchFeature}>
+                                      <Link to={data.productUrl}>
+                                        {data.productName}
+                                      </Link>
+                                    </p>
+                                    <p className={styles.searchFeature}>
+                                      <Link to={data.productUrl}>
+                                        {String.fromCharCode(
+                                          ...currencyCode[this.props.currency]
+                                        ) +
+                                          " " +
+                                          data.price[currency]}
+                                      </Link>
+                                    </p>
+                                  </div>
+                                }
+                              </div>
+                            );
+                          }
+                        )
                       : ""}
                   </div>
                 </div>

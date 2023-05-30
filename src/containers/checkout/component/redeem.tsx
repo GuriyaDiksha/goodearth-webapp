@@ -42,6 +42,27 @@ class Reedem extends React.Component<Props, RedeemState> {
   }
   // ProfileFormRef: RefObject<Formsy> = React.createRef();
 
+  impactRef1 = React.createRef<HTMLInputElement>();
+  impactRef2 = React.createRef<HTMLInputElement>();
+
+  handleClickOutside = (evt: any) => {
+    if (
+      this.impactRef1.current &&
+      !this.impactRef1.current.contains(evt.target)
+    ) {
+      this.setState({ showTooltip: false });
+    }
+    if (
+      this.impactRef2.current &&
+      !this.impactRef2.current.contains(evt.target)
+    ) {
+      this.setState({ showTooltipTwo: false });
+    }
+  };
+
+  componentDidMount(): void {
+    document.addEventListener("mousedown", this.handleClickOutside);
+  }
   changeValue = (event: any) => {
     const { loyaltyData } = this.props.user;
     const value = event.target.value;
@@ -117,7 +138,7 @@ class Reedem extends React.Component<Props, RedeemState> {
     const { newCardBox, txtvalue, showTooltip, showTooltipTwo } = this.state;
     const { loyalty } = this.props;
     const { loyaltyData } = this.props.user;
-    const points = loyalty?.[0]?.points;
+    // const points = loyalty?.[0]?.points;
     return (
       <Fragment>
         <div className={cs(bootstrapStyles.row, styles.giftDisplay)}>
@@ -129,7 +150,7 @@ class Reedem extends React.Component<Props, RedeemState> {
                   Cerise Balance points
                 </p>
 
-                <div className={styles.tooltip}>
+                <div className={styles.tooltip} ref={this.impactRef1}>
                   <img
                     src={showTooltip ? tooltipOpenIcon : tooltipIcon}
                     onClick={() => {
@@ -158,7 +179,7 @@ class Reedem extends React.Component<Props, RedeemState> {
                 {loyaltyData?.customerPoints}
               </p>
             </div>
-            <div className={cs(styles.textLeft)}>
+            <div className={cs(styles.textLeft)} ref={this.impactRef2}>
               <div className={cs(styles.tooltipWrp)}>
                 <p className={cs(styles.textLeft, styles.redeemBold)}>
                   Eligible for Redemption

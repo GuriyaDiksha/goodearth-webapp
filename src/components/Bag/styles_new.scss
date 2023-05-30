@@ -218,6 +218,7 @@
 
         .sub-total-price,
         .discount-price {
+          font-size: 14px !important;
           @include b4_12px_medium_charcoal_caps();
         }
         .discount-wrapper {
@@ -422,7 +423,7 @@
   right: 0;
 }
 .search-feature {
-  @include b4_12px_montserrat_charcoal_caps();
+  @include b4_12px_montserrat_charcoal();
   // text-decoration: underline;
   cursor: pointer;
   text-align: center;
@@ -430,7 +431,7 @@
   // font-size: 12px;
   // font-weight: bold;
   a {
-    @include b4_12px_montserrat_charcoal_caps();
+    @include b4_12px_montserrat_charcoal();
     // color: #ab1e56;
     // text-decoration: underline;
     // text-transform: capitalize;
@@ -442,6 +443,7 @@
 .wishlist-head {
   margin-top: 35px;
   letter-spacing: 0.5px;
+  font-weight: 400;
   @include h6_16px_lora_charcoal();
 }
 .wishlist-sub-head {
