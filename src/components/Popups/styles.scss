@@ -119,6 +119,7 @@
       }
   }
 
+
   .mobile-popup{
     position: fixed;
     width: 100%;
@@ -143,6 +144,8 @@
       left: 50%;
       -webkit-transform: translate(-50%, -50%);
       transform: translate(-50%, -50%);
+      max-height: 725px;
+      overflow: scroll;
       //width: 100%;
     }
     .maker-popup-desktop {
@@ -191,6 +194,9 @@
       @include b6_9px_light_montserrat_charcoal();
       text-align: left;
       color: $montserrat-light;
+      @media screen and (min-width: 992px) {
+        padding: 0 35px;
+      }
       .cerise-btn {
         position: inherit;
         margin: 25px 0 20px 0;
@@ -214,6 +220,11 @@
         }
       }
     }
+.free-shipping-popup {
+  .gc-tnc {
+    padding: 50px 0 30px 0 !important;
+  }
+} 
 .link-text-underline {
   text-decoration: underline;
   cursor: pointer;
@@ -796,6 +807,9 @@
   text-align: left;
   margin: 0px 24px;
   @include b4_12px_montserrat_charcoal();
+  @media screen and (min-width: 992px) {
+    margin: 0px 35px;
+  }
 }
 .free-delivery {
   @include b5_10px_montserrat_charcoal();
@@ -1439,9 +1453,12 @@
 .head-wrp{
   display: flex;
   justify-content: space-between;
-    margin: 0 24px 15px;
-    border-bottom: 1px solid #f2f2f2;
-    padding: 25px 0 20px;
+  margin: 0 24px 15px;
+  border-bottom: 1px solid #f2f2f2;
+  padding: 25px 0 20px;
+  @media screen and (min-width: 992px) {
+    margin: 0 35px 15px;
+  }
   .delivery-head{
     @include b4_12px_medium_charcoal_caps();
   }

@@ -663,7 +663,9 @@ const CartItems: React.FC<BasketItem> = memo(
             })}
           >
             Estimated Delivery:
-            <span>{productDeliveryDate}</span>
+            <span className={styles.expectedDelivetryDate}>
+              {productDeliveryDate}
+            </span>
           </div>
         )}
         <hr className={styles.hr} />

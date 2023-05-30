@@ -101,7 +101,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
     if (orderSummaryRef && orderSummaryRef?.current) {
       (orderSummaryRef?.current as HTMLDivElement)?.scrollIntoView({
         behavior: "smooth",
-        block: "start"
+        block: "end"
       });
     }
   };
@@ -710,6 +710,10 @@ const OrderSummary: React.FC<OrderProps> = props => {
             <hr className={styles.hr} />
             <div className={cs(globalStyles.flex, globalStyles.gutterBetween)}>
               <span className={styles.subtotal}>TOTAL</span>
+              {console.log(
+                "basket.subTotalWithShipping",
+                basket.subTotalWithShipping
+              )}
               <span className={styles.subtotal}>
                 {String.fromCharCode(...code)}{" "}
                 {displayPriceWithCommasFloat(
@@ -719,7 +723,8 @@ const OrderSummary: React.FC<OrderProps> = props => {
               </span>
             </div>
           </div>
-          {((pathname === "/order/checkout" && !mobile) ||
+          {(((pathname === "/order/checkout" || pathname === "/cart") &&
+            !mobile) ||
             (page == "checkoutMobileBottom" && !checkoutOrderSummaryStatus)) &&
             getCoupons()}
         </div>
@@ -962,6 +967,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
                   *Excluding estimated cost of shipping
                 </p> */}
               </span>
+              {console.log("basket.total", basket.total)}
               <span
                 className={cs(styles.grandTotalAmount, globalStyles.voffset2)}
               >

@@ -154,16 +154,20 @@
     text-overflow: ellipsis;
     @include b2_14px_charcoal_lora();
 
-    .discountprice {
-      @include b3_14px_montserrat_charcoal();
-    }
-
-    .strikeprice {
-      @include b3_14px_montserrat_charcoal();
-      text-decoration: line-through;
-    }
     .price {
       @include b3_14px_montserrat_charcoal();
+    }
+    .discountprice {
+      color: $gold;
+      font-family: $font-Montserrat;
+      font-size: 14px;
+    }
+    .strikeprice {
+      font-size: 10px;
+      text-decoration: line-through;
+      color: $light-charcoal;
+      font-family: $font-Montserrat;
+      vertical-align: middle;
     }
   }
   .collection-title {

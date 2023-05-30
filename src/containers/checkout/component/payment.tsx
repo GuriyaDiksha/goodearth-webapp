@@ -449,7 +449,11 @@ const PaymentSection: React.FC<PaymentProps> = props => {
       <div className={globalStyles.marginT20}>
         <label className={cs(globalStyles.flex, globalStyles.crossCenter)}>
           <div
-            className={cs(styles.marginR10, globalStyles.giftWrapLineHeight)}
+            className={cs(
+              styles.marginR10,
+              globalStyles.giftWrapLineHeight,
+              globalStyles.marginT5
+            )}
           >
             <span className={styles.checkbox}>
               <input
@@ -480,7 +484,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
     return (
       <div className={globalStyles.marginT20}>
         <label className={cs(globalStyles.flex, globalStyles.crossCenter)}>
-          <div className={styles.marginR10}>
+          <div className={cs(styles.marginR10, globalStyles.marginT5)}>
             <span className={styles.checkbox}>
               <input
                 type="radio"
@@ -496,7 +500,13 @@ const PaymentSection: React.FC<PaymentProps> = props => {
               ></span>
             </span>
           </div>
-          <div className={cs(styles.formSubheading, styles.checkBoxHeading)}>
+          <div
+            className={cs(
+              styles.formSubheading,
+              styles.checkBoxHeading,
+              globalStyles.fontSize12
+            )}
+          >
             {"Please Remove Prices From All Items In This Shipment"}
           </div>
         </label>
@@ -641,7 +651,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
                         rows={5}
                         className={styles.giftMessage}
                         value={textarea}
-                        placeholder={"add message (optional)"}
+                        placeholder={"Add message (optional)"}
                         autoComplete="new-password"
                         onChange={(e: any) => {
                           if (e.target.value.length <= 250) {
@@ -651,8 +661,14 @@ const PaymentSection: React.FC<PaymentProps> = props => {
                           }
                         }}
                       />
-                      <div className={cs(globalStyles.textLeft, styles.font14)}>
-                        Char Limit: {250 - textarea.length} / 250
+                      <div
+                        className={cs(
+                          globalStyles.textLeft,
+                          styles.font14,
+                          styles.charLimitText
+                        )}
+                      >
+                        Char Limit: {250 - textarea.length}/250
                       </div>
                     </div>
                   )}

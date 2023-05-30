@@ -254,8 +254,17 @@ class ApplyGiftcard extends React.Component<Props, GiftState> {
                         id="gift"
                         className={
                           this.state.error
-                            ? cs(styles.marginR10, styles.ht50, styles.err)
-                            : cs(styles.marginR10, styles.ht50)
+                            ? cs(
+                                styles.marginR10,
+                                styles.ht50,
+                                styles.err,
+                                styles.giftCardCodeInput
+                              )
+                            : cs(
+                                styles.marginR10,
+                                styles.ht50,
+                                styles.giftCardCodeInput
+                              )
                         }
                         aria-label="giftcard code"
                       />

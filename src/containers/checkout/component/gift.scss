@@ -353,6 +353,9 @@
     border: 0;
     border-top: 1px solid #eeeeee;
   }
+  .gift-card-code-input {
+    padding: 10px 20px !important;
+  }
   .v-center {
     -webkit-box-align: center;
     -ms-flex-align: center;
@@ -590,7 +593,6 @@
     width: 60%;
   }
 }
-
 
 .promo-apply-btn {
   border: 1px solid $med-charcoal;
