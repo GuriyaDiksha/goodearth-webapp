@@ -82,7 +82,6 @@ class ApplyGiftcard extends React.Component<Props, GiftState> {
   };
 
   applyCard = () => {
-    debugger;
     if (!this.state.txtvalue) {
       this.setState(
         {
@@ -303,7 +302,6 @@ class ApplyGiftcard extends React.Component<Props, GiftState> {
                     )} */}
                 </Fragment>
               )}
-              {console.log("this.state.error", this.state.error)}
               {this.state.error ? (
                 <span className={cs(globalStyles.errorMsg)}>
                   {this.state.error}

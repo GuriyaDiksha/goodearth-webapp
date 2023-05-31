@@ -419,8 +419,6 @@ class Bag extends React.Component<Props, State> {
                   <div className={cs(styles.totalPrice, globalStyles.bold)}>
                     TOTAL*
                   </div>
-                  {console.log("order summary total", this.props.cart.total)}
-                  from-bag
                   <h5 className={cs(styles.totalPrice, globalStyles.bold)}>
                     {String.fromCharCode(...currencyCodes[this.props.currency])}
                     &nbsp;

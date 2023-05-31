@@ -968,7 +968,6 @@ const OrderSummary: React.FC<OrderProps> = props => {
                   *Excluding estimated cost of shipping
                 </p> */}
               </span>
-              {console.log("order summary total", basket.total)}
               <span
                 className={cs(styles.grandTotalAmount, globalStyles.voffset2)}
               >
