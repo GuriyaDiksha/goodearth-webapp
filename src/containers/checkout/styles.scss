@@ -1272,8 +1272,7 @@ input[type="radio"] {
 .check-box-heading {
   margin: auto 0;
   width: auto;
-  font-size: 10px;
-  // @include b5_10px_montserrat_charcoal();
+  @include b4_12px_montserrat_charcoal();
   a {
     border-bottom: 1px solid $charcoal19;
     color: $charcoal19;
