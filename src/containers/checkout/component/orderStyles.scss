@@ -337,10 +337,10 @@ body:has(.open-summary) {
   margin-bottom: 10px;
 }
 .grand-total {
-  @include b4_12px_montserrat_semibold_charcoal();
+  @include b4_14px_montserrat_semibold_charcoal();
 }
 .grand-total-amount {
-  @include b4_12px_montserrat_semibold_charcoal();
+  @include b4_14px_montserrat_semibold_charcoal();
   color: $med-charcoal;
 }
 .subtext {

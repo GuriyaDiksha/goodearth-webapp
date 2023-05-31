@@ -959,8 +959,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
                 styles.grandTotalWrapper
               )}
             >
-              from-order-summary
-              <span>
+              <span className={cs(globalStyles.voffset2)}>
                 <span className={cs(styles.grandTotal, globalStyles.voffset2)}>
                   AMOUNT PAYABLE
                 </span>

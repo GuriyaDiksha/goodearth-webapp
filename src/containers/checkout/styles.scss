@@ -1278,8 +1278,8 @@ input[type="radio"] {
     color: $charcoal19;
     text-decoration: none;
     &:hover {
-      color: aqua;
-      border-bottom: 1px solid $aqua;
+      color: $gold;
+      border-bottom: 1px solid $gold;
     }
   }
 }

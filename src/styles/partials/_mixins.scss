@@ -1019,7 +1019,12 @@ $list: $grey 92%, $white 8%;
   font-weight: $semibold;
   color: $charcoal19;
 }
-
+@mixin b4_14px_montserrat_semibold_charcoal{
+  font-family: $font-Montserrat;
+  font-size: 14px;
+  font-weight: $semibold;
+  color: $charcoal19;
+}
 @mixin b4_12px_montserrat_gold_caps{
   font-family: $font-Montserrat;
   font-size: 12px;
