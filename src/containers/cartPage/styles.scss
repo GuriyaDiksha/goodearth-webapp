@@ -35,6 +35,9 @@ hr {
   @media screen and (min-width:1440px) {
     margin: 0px 130px;
   }
+  @media screen and (min-width:1700px) {
+    margin: 0px 180px;
+  }
   img {
     max-width: 100%;
     @media screen and (min-width:767px) and (max-width:1440px) {
@@ -381,7 +384,7 @@ hr {
     width: 100%;
   }
   .bag-contents {
-    padding: 25px 5px 35px 5px;
+    padding: 5px 5px 35px 5px;
   }
   // .section {
   //   padding: 0 0 20px 0;
@@ -480,7 +483,7 @@ hr {
 .delivery-date {
   // @include pdp_spec();
   // @include c10-L-R();
-  // line-height: 20px;
+  // line-height: 1;
   // justify-content: center;
   // text-transform: none;
   @include b5_10px_montserrat_charcoal();

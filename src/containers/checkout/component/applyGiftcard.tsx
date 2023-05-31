@@ -40,7 +40,8 @@ class ApplyGiftcard extends React.Component<Props, GiftState> {
       toggleOtp: false,
       isActivated: false,
       cardType: "Select",
-      isLoader: false
+      isLoader: false,
+      isError: false
     };
   }
   private firstLoad = true;
@@ -91,6 +92,21 @@ class ApplyGiftcard extends React.Component<Props, GiftState> {
           errorTracking([this.state.error], location.href);
         }
       );
+      return false;
+    }
+    console;
+    if (this.state.cardType == "Select") {
+      this.setState(
+        {
+          error: "Please select a valid option",
+          isActivated: false,
+          isError: true
+        },
+        () => {
+          errorTracking([this.state.error], location.href);
+        }
+      );
+
       return false;
     }
     const data: any = {
@@ -222,11 +238,12 @@ class ApplyGiftcard extends React.Component<Props, GiftState> {
                     <SelectableDropdownMenu
                       id="giftcard_dropdown"
                       align="right"
-                      className={
+                      className={cs(
+                        { [globalStyles.errorBorder]: this.state.isError },
                         mobile
                           ? styles.selectRelativemobile
                           : styles.selectRelative
-                      }
+                      )}
                       items={modeOptions}
                       onChange={this.onchange}
                       showCaret={true}
