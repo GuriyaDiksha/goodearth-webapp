@@ -515,67 +515,71 @@ class CartPage extends React.Component<Props, State> {
                           );
                         })
                       : wishlistData.length > 0 && mobile
-                      ? wishlistData?.slice(0, 5)?.map((data, i) => {
-                          return (
-                            <div
-                              key={i}
-                              className={cs(
-                                bootstrap.colLg6,
-                                bootstrap.col6,
-                                styles.px10
-                              )}
-                            >
+                      ? [...wishlistData?.slice(0, 5), wishlistData[0]]?.map(
+                          (data, i) => {
+                            return (
                               <div
-                                className={cs(styles.searchImageboxNew, {
-                                  [styles.viewAllMobileWrapper]:
-                                    i === wishlistData.length - 1
-                                })}
+                                key={i}
+                                className={cs(
+                                  bootstrap.colLg6,
+                                  bootstrap.col6,
+                                  styles.px10
+                                )}
                               >
-                                <Link
-                                  to={
-                                    i === wishlistData.length - 1
-                                      ? data.productUrl
-                                      : "/wishlist"
-                                  }
+                                <div
+                                  className={cs(styles.searchImageboxNew, {
+                                    [styles.viewAllMobileWrapper]:
+                                      i === wishlistData.length
+                                  })}
                                 >
-                                  <img
-                                    src={
-                                      data.productImage == ""
-                                        ? noImagePlp
-                                        : data.productImage
+                                  <Link
+                                    to={
+                                      i === wishlistData.length
+                                        ? data.productUrl
+                                        : "/wishlist"
                                     }
-                                    // onError={this.addDefaultSrc}
-                                    alt={data.productName}
-                                    className={styles.imageResultNew}
-                                  />
-                                  {i === wishlistData.length - 1 && (
-                                    <span className={cs(styles.viewAllMobile)}>
-                                      VIEW ALL
-                                    </span>
-                                  )}
-                                </Link>
-                              </div>
-                              {
-                                <div className={styles.imageContent}>
-                                  <p className={styles.searchFeature}>
-                                    <Link to={data.productUrl}>
-                                      {data.productName}
-                                    </Link>
-                                  </p>
-                                  <p className={styles.searchFeature}>
-                                    <Link to={data.productUrl}>
-                                      {String.fromCharCode(
-                                        ...currencyCode[this.props.currency]
-                                      ) +
-                                        " " +
-                                        data.price[currency]}
-                                    </Link>
-                                  </p>
+                                  >
+                                    <img
+                                      src={
+                                        data.productImage == ""
+                                          ? noImagePlp
+                                          : data.productImage
+                                      }
+                                      // onError={this.addDefaultSrc}
+                                      alt={data.productName}
+                                      className={styles.imageResultNew}
+                                    />
+                                    {i === wishlistData.length && (
+                                      <span
+                                        className={cs(styles.viewAllMobile)}
+                                      >
+                                        VIEW ALL
+                                      </span>
+                                    )}
+                                  </Link>
                                 </div>
-                              }
-                            </div>
-                          );
-                        })
+                                {
+                                  <div className={styles.imageContent}>
+                                    <p className={styles.searchFeature}>
+                                      <Link to={data.productUrl}>
+                                        {data.productName}
+                                      </Link>
+                                    </p>
+                                    <p className={styles.searchFeature}>
+                                      <Link to={data.productUrl}>
+                                        {String.fromCharCode(
+                                          ...currencyCode[this.props.currency]
+                                        ) +
+                                          " " +
+                                          data.price[currency]}
+                                      </Link>
+                                    </p>
+                                  </div>
+                                }
+                              </div>
+                            );
+                          }
+                        )
                       : ""}
                     {/* {mobile && wishlistData.length > 0 && (
                       <Link

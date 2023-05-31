@@ -184,7 +184,7 @@ const PromoSection: React.FC<PromoProps> = props => {
                       </span>
                     </div>
                     <div className={cs(styles.formSubheading)}>
-                      {"Apply Promo"}
+                      {"Apply Promo Code"}
                     </div>
                   </label>
                   {isactivepromo && (

@@ -317,6 +317,7 @@ body:has(.open-summary) {
   // font-size: 14px;
   // font-weight: 600;
   // font-family: $font-Lato;
+  font-size: 14px !important;
   @include b4_12px_montserrat_medcharcoal();
 }
 .order-total {
