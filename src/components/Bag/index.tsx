@@ -415,7 +415,8 @@ class Bag extends React.Component<Props, State> {
                   <div className={cs(styles.totalPrice, globalStyles.bold)}>
                     TOTAL*
                   </div>
-
+                  {console.log("order summary total", this.props.cart.total)}
+                  from-bag
                   <h5 className={cs(styles.totalPrice, globalStyles.bold)}>
                     {String.fromCharCode(...currencyCodes[this.props.currency])}
                     &nbsp;
@@ -586,7 +587,7 @@ class Bag extends React.Component<Props, State> {
           totalWithoutShipping < freeShippingApplicable &&
           this.props.cart.shippable ? (
             <div className={cs(styles.freeShippingInfo, globalStyles.flex)}>
-              <div>
+              <div className={styles.freeShipImg}>
                 <img src={freeShippingInfoIcon} alt="free-shipping" />
               </div>
 

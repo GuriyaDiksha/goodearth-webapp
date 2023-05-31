@@ -643,7 +643,9 @@ const AddressSection: React.FC<AddressProps & {
             <div>
               <hr className={globalStyles.marginy24} />
               <label className={cs(styles.flex, globalStyles.voffset3)}>
-                <div className={globalStyles.marginR10}>
+                <div
+                  className={cs(globalStyles.marginR10, globalStyles.marginT5)}
+                >
                   <span className={styles.checkbox}>
                     <input
                       type="checkbox"
@@ -659,7 +661,11 @@ const AddressSection: React.FC<AddressProps & {
                   </span>
                 </div>
                 <div
-                  className={cs(styles.formSubheading, styles.checkBoxHeading)}
+                  className={cs(
+                    styles.formSubheading,
+                    styles.checkBoxHeading,
+                    styles.gstInvoiceText
+                  )}
                 >
                   I need a GST invoice
                   {gstNum && (

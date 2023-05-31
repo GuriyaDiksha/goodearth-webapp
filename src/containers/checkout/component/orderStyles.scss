@@ -205,7 +205,12 @@ body:has(.open-summary) {
   a {
     color: inherit;
   }
-
+  .summary-amount-wrapper {
+    hr {
+      margin-top: 20px;
+      margin-bottom: 20px;
+    }
+  }
   .remove {
     cursor: pointer;
     display: inline-block;
@@ -223,9 +228,13 @@ body:has(.open-summary) {
     @include b5_10px_montserrat_charcoal();
     .delivery-date {
       @include b5_10px_montserrat_charcoal();
-      padding-top: 15px;
-      line-height: 0px;
+      padding-top: 5px;
+      line-height: 1;
       letter-spacing: 0.3px;
+    }
+    hr {
+      margin-top: 20px;
+      margin-bottom: 20px;
     }
   }
   .fix-order-items {
@@ -255,7 +264,7 @@ body:has(.open-summary) {
   .summary-title {
     @include b4_12px_medium_medcharcoal_caps();
     text-align: left;
-    padding: 35px 0 10px 0;
+    padding: 35px 0 0 0;
   }
   .product-wrp {
     margin: 30px 10px;
@@ -352,7 +361,7 @@ body:has(.open-summary) {
 }
 
 .selected-stvalue {
-  margin-top: 10px;
+  margin-top: 5px;
   color: $charcoal19;
   font-family: $font-Montserrat;
   font-size: 10px;

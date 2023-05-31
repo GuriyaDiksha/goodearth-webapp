@@ -959,6 +959,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
                 styles.grandTotalWrapper
               )}
             >
+              from-order-summary
               <span>
                 <span className={cs(styles.grandTotal, globalStyles.voffset2)}>
                   AMOUNT PAYABLE
@@ -967,7 +968,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
                   *Excluding estimated cost of shipping
                 </p> */}
               </span>
-              {console.log("basket.total", basket.total)}
+              {console.log("order summary total", basket.total)}
               <span
                 className={cs(styles.grandTotalAmount, globalStyles.voffset2)}
               >
@@ -1129,7 +1130,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
                       canCheckout()
                         ? cs(
                             globalStyles.checkoutBtn,
-                            globalStyles.marginT30,
+                            globalStyles.marginT10,
                             {
                               [globalStyles.hidden]: mobile
                             },
@@ -1137,7 +1138,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
                           )
                         : cs(
                             globalStyles.checkoutBtn,
-                            globalStyles.marginT30,
+                            globalStyles.marginT10,
                             globalStyles.disabledBtn,
                             {
                               [globalStyles.hidden]: mobile
