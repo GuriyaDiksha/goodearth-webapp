@@ -105,7 +105,7 @@ class FilterList extends React.Component<Props, State> {
   createFilterfromUrl = () => {
     const vars: any = {};
     const { history } = this.props;
-    const url = decodeURI(history.location.search.replace(/\+/g, " "));
+    const url = decodeURIComponent(history.location.search.replace(/\+/g, " "));
     const { filter } = this.state;
 
     const re = /[?&]+([^=&]+)=([^&]*)/gi;
@@ -801,7 +801,7 @@ class FilterList extends React.Component<Props, State> {
     // this.setState({
     //     disableSelectedbox: true
     // });
-    const url = decodeURI(history.location.search);
+    const url = decodeURIComponent(history.location.search);
     const filterUrl = "?" + url.split("?")[1];
     const queryString = this.props.location.search;
     const urlParams = new URLSearchParams(queryString);

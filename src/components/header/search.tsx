@@ -826,7 +826,7 @@ class Search extends React.Component<Props, State> {
                         {recentSearchs?.map((ele, ind) => (
                           <div className={styles.recentBlock}>
                             <Link
-                              to={"/search/?q=" + ele}
+                              to={"/search/?q=" + encodeURIComponent(ele)}
                               onClick={() => {
                                 this.recentSearch(ele);
                                 this.props.hideSearch();
