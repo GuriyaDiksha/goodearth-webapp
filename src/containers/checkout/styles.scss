@@ -676,7 +676,7 @@ hr {
     }
 
     .selected-stvalue {
-      margin-top: 10px;
+      margin-top: 5px;
       color: #808080;
     }
 
@@ -1278,8 +1278,8 @@ input[type="radio"] {
     color: $charcoal19;
     text-decoration: none;
     &:hover {
-      color: aqua;
-      border-bottom: 1px solid $aqua;
+      color: $gold;
+      border-bottom: 1px solid $gold;
     }
   }
 }
@@ -1374,6 +1374,9 @@ input[type="radio"] {
 }
 div.form-subheading{
   padding: unset;
+}
+.gst-invoice-text {
+  font-size: 12px;
 }
 span.add-new-address {
   @include b5_10px_montserrat_charcoal_caps();

@@ -347,6 +347,7 @@ class SideMenu extends React.Component<Props, State> {
                   onClick={(): void => {
                     this.props.setShowBag(true);
                     this.props.onSideMenuClick("Cart");
+                    this.props.fetchBasketMinibag();
                   }}
                 ></i>
                 <span
@@ -358,6 +359,7 @@ class SideMenu extends React.Component<Props, State> {
                   onClick={(): void => {
                     this.props.setShowBag(true);
                     this.props.onSideMenuClick("Cart");
+                    this.props.fetchBasketMinibag();
                   }}
                 >
                   {bagCount}

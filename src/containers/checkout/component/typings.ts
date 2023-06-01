@@ -117,6 +117,7 @@ export type GiftState = {
   isActivated: boolean;
   cardType?: string;
   isLoader?: boolean;
+  isError?: boolean;
 };
 
 export type RedeemState = {
