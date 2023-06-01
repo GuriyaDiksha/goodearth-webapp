@@ -38,7 +38,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
   const data: any = {};
   const {
     basket,
-    device: { mobile },
+    device: { mobile, tablet },
     info: { showGiftWrap },
     basket: { loyalty },
     user: { loyaltyData, isLoggedIn, preferenceData },
@@ -970,7 +970,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
                           checkboxLabelClass={styles.checkboxLabel}
                           allowUpdate={true}
                           uniqueKey={"paymentid123"}
-                          oneLineMessage={!mobile}
+                          oneLineMessage={!mobile || tablet}
                           whatsappFormRef={whatsappFormRef}
                           whatsappNoErr={whatsappNoErr}
                         />

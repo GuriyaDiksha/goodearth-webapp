@@ -57,8 +57,7 @@ const Delivery: React.FC<PopupProps> = props => {
           {/* <div className={globalStyles.c10LR}> */}
           <div>
             <div className={styles.deliverSubheading}>
-              Please provide specific delivery instructions <br />
-              for this order.
+              Please provide specific delivery instructions for this order.
               {/* You’re a step away from{" "}
               <span className={styles.linkTextUnderline}>free shipping!</span> */}
             </div>
