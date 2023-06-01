@@ -15,7 +15,7 @@ import { currencyCode, Currency } from "typings/currency";
 import moment from "moment";
 import { pageViewGTM } from "utils/validate";
 import CookieService from "services/cookie";
-import { GA_CALLS, ANY_ADS } from "constants/cookieConsent";
+import { GA_CALLS } from "constants/cookieConsent";
 import { displayPriceWithCommasFloat } from "utils/utility";
 
 const orderConfirmation: React.FC<{ oid: string }> = props => {
@@ -220,7 +220,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
           "search=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/";
         document.cookie = cookieString;
       }
-      if (userConsent.includes(ANY_ADS)) {
+      if (userConsent.includes(GA_CALLS)) {
         Moengage.track_event("PurchasedOnline", {
           "Category Name": categoryname,
           "Sub category": subcategoryname,
@@ -272,7 +272,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
         Page_Title: "virtual_orderConfirmationPage_view"
       });
     }
-    if (userConsent.includes(ANY_ADS)) {
+    if (userConsent.includes(GA_CALLS)) {
       Moengage.track_event("Page viewed", {
         "Page URL": location.pathname,
         "Page Name": "OrderConfirmationPageView"

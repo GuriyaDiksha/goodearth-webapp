@@ -35,7 +35,7 @@ import {
   promotionImpression
 } from "utils/validate";
 import CookieService from "services/cookie";
-import { GA_CALLS, ANY_ADS } from "constants/cookieConsent";
+import { GA_CALLS } from "constants/cookieConsent";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -133,7 +133,7 @@ class CategoryLanding extends React.Component<
         Page_Title: "virtual_categoryLanding_view"
       });
     }
-    if (userConsent.includes(ANY_ADS)) {
+    if (userConsent.includes(GA_CALLS)) {
       Moengage.track_event("Page viewed", {
         "Page URL": this.props.location.pathname,
         "Page Name": "CategoryLandingView"
