@@ -21,7 +21,9 @@ const settings = {
   speed: 500,
   slidesToShow: 1,
   slidesToScroll: 1,
-  arrows: true
+  arrows: true,
+  autoplay: true,
+  autoplaySpeed: 3000
 };
 
 const mapStateToProps = (state: AppState) => {
@@ -56,6 +58,14 @@ class ShopLocator extends Component<Props, State> {
   }
 
   onHeaderItemClick = (data: any) => {
+    if (
+      document.getElementById("bottomSlide") &&
+      document.getElementById(data)
+    ) {
+      (document.getElementById("bottomSlide") as HTMLDivElement).style.left =
+        (document.getElementById(data) as HTMLDivElement).offsetLeft + "px";
+    }
+
     this.setState({
       currentCity: data
     });
@@ -78,6 +88,11 @@ class ShopLocator extends Component<Props, State> {
                 ) as HTMLDivElement;
                 if (ele) {
                   ele?.focus();
+                  if (document.getElementById("bottomSlide")) {
+                    (document.getElementById(
+                      "bottomSlide"
+                    ) as HTMLDivElement).style.left = ele.offsetLeft + "px";
+                  }
                 }
               });
             } else {
@@ -92,6 +107,11 @@ class ShopLocator extends Component<Props, State> {
                   ) as HTMLDivElement;
                   if (ele) {
                     ele?.focus();
+                    if (document.getElementById("bottomSlide")) {
+                      (document.getElementById(
+                        "bottomSlide"
+                      ) as HTMLDivElement).style.left = ele.offsetLeft + "px";
+                    }
                   }
                 }
               );
@@ -115,6 +135,11 @@ class ShopLocator extends Component<Props, State> {
           const ele = document.getElementById(city || "") as HTMLDivElement;
           if (ele) {
             ele?.focus();
+            if (document.getElementById("bottomSlide")) {
+              (document.getElementById(
+                "bottomSlide"
+              ) as HTMLDivElement).style.left = ele.offsetLeft + "px";
+            }
           }
         }
       );
@@ -166,6 +191,7 @@ class ShopLocator extends Component<Props, State> {
           id="header-box"
         >
           <div className={styles.header}>
+            <div id="bottomSlide" className={styles.slider}></div>
             {Object.keys(shopData).map((data: any, i: number) => {
               return (
                 <div

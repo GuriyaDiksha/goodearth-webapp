@@ -289,9 +289,13 @@ class NewGiftcard extends React.Component<Props, State> {
   };
 
   onMessageChange = (e: any) => {
-    this.setState({
-      message: e.target.value
-    });
+    if (e.target.value.length() > 248) {
+      return false;
+    } else {
+      this.setState({
+        message: e.target.value
+      });
+    }
   };
 
   onSenderNameChange = (e: any) => {
