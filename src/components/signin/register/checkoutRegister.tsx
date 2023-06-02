@@ -212,6 +212,13 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
           Moengage.add_gender(gender);
           Moengage.add_birthday(moment(dateOfBirth).format("YYYY-MM-DD"));
           Moengage.add_unique_user_id(email);
+          dataLayer.push({
+            event: "Whatsapp_optin",
+            Location: "sign_up",
+            Checkbox: formData.whatsappSubscribe
+              ? "Whatsapp Opt-in"
+              : "Whatsapp Opt-out"
+          });
         }
         this.gtmPushRegister();
         // this.props.nextStep?.();

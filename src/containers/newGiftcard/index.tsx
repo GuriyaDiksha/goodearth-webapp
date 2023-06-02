@@ -290,7 +290,7 @@ class NewGiftcard extends React.Component<Props, State> {
   };
 
   onMessageChange = (e: any) => {
-    if (e.target.value.length() > 248) {
+    if (e.target.value.length > 248) {
       return false;
     } else {
       this.setState({
