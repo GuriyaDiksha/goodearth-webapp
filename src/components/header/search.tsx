@@ -116,6 +116,8 @@ class Search extends React.Component<Props, State> {
   };
 
   handleClickOutside = (evt: any) => {
+    console.log("this.impactRef.current", this.impactRef.current);
+    console.log("this evt.target", evt.target);
     if (
       this.impactRef.current &&
       !this.impactRef.current.contains(evt.target)

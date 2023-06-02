@@ -33,7 +33,8 @@ const OrderSummary: React.FC<OrderProps> = props => {
     setCheckoutMobileOrderSummary,
     onsubmit,
     currentmethod,
-    isPaymentNeeded
+    isPaymentNeeded,
+    checkoutMobileOrderSummary
   } = props;
   const [isLoading, setLoading] = useState(false);
   const [isSuspended, setIsSuspended] = useState(true);
@@ -63,6 +64,10 @@ const OrderSummary: React.FC<OrderProps> = props => {
   const impactRef = useRef<HTMLDivElement>();
   let observer: any;
 
+  console.log(
+    "checkoutMobileOrderSummary ordersummary",
+    checkoutMobileOrderSummary
+  );
   const handleScroll = () => {
     const observerOptions = {
       rootMargin: "-140px 0px -170px 0px"
@@ -72,6 +77,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
       setCheckoutMobileOrderSummary &&
         setCheckoutMobileOrderSummary(enteries[0].isIntersecting);
     };
+
     observer = new IntersectionObserver(interSectionCallBack, observerOptions);
     observer.observe(
       orderSummaryRef?.current,
@@ -112,9 +118,9 @@ const OrderSummary: React.FC<OrderProps> = props => {
   };
 
   const handleClickOutside = (evt: any) => {
-    if (impactRef.current && impactRef.current.contains(evt.target)) {
+    if (impactRef.current && !impactRef.current.contains(evt.target)) {
       //Do what you want to handle in the callback
-      CheckoutOrderSummaryHandler();
+      setCheckoutOrderSummaryStatus(checkoutOrderSummaryStatus);
     }
   };
 
@@ -529,10 +535,10 @@ const OrderSummary: React.FC<OrderProps> = props => {
   }, [basket]);
 
   useEffect(() => {
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
+    // document.addEventListener("mousedown", handleClickOutside);
+    // return () => {
+    //   document.removeEventListener("mousedown", handleClickOutside);
+    // };
   }, []);
 
   const canCheckout = () => {
@@ -683,7 +689,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
           <div className={styles.summaryAmountWrapper}>
             {mobile && page == "checkout" && (
               <div className={styles.orderSummaryTitle}>
-                <span className={styles.text}>ORDER SUMMARY</span>
+                <span className={styles.text}>VIEW ORDER SUMMARY</span>
               </div>
             )}
             <div className={cs(globalStyles.flex, globalStyles.gutterBetween)}>
@@ -812,6 +818,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
             page == "cart" && mobile && basket.lineItems?.length == 0
         }
       )}
+      data-id="test"
       ref={page === "checkoutMobileBottom" ? orderSummaryRefCheckout : null}
     >
       {totalWithoutShipping &&
@@ -994,7 +1001,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
                 <hr className={cs(styles.hr)} />
               </div>
             ) : null} */}
-
+            sendToPayment-2
             {page == "checkoutMobileBottom" && (
               <button
                 className={cs(
@@ -1113,7 +1120,6 @@ const OrderSummary: React.FC<OrderProps> = props => {
                 )}
               </>
             )}
-
             {hasOutOfStockItems() && (
               <p
                 className={cs(
