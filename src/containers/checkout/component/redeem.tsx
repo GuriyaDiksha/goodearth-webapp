@@ -136,12 +136,18 @@ class Reedem extends React.Component<Props, RedeemState> {
 
   render() {
     const { newCardBox, txtvalue, showTooltip, showTooltipTwo } = this.state;
-    const { loyalty } = this.props;
+    // const { loyalty } = this.props;
     const { loyaltyData } = this.props.user;
     // const points = loyalty?.[0]?.points;
     return (
       <Fragment>
-        <div className={cs(bootstrapStyles.row, styles.giftDisplay)}>
+        <div
+          className={cs(
+            bootstrapStyles.row,
+            styles.giftDisplay,
+            globalStyles.marginT25
+          )}
+        >
           <Fragment>
             <div className={cs(styles.textLeft)}>
               <div className={cs(styles.tooltipWrp)}>

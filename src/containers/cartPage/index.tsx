@@ -690,6 +690,12 @@ class CartPage extends React.Component<Props, State> {
   }
 
   render() {
+    const {
+      totalWithoutShipping,
+      freeShippingThreshold,
+      freeShippingApplicable,
+      shippable
+    } = this.props.cart;
     return (
       <div className={cs(bootstrap.row, styles.pageBody)}>
         <div
@@ -697,7 +703,14 @@ class CartPage extends React.Component<Props, State> {
             bootstrap.col12,
             bootstrap.colLg8,
             styles.bagContents,
-            styles.pUnset
+            styles.pUnset,
+            {
+              [globalStyles.marginT10]:
+                totalWithoutShipping &&
+                totalWithoutShipping >= freeShippingThreshold &&
+                totalWithoutShipping < freeShippingApplicable &&
+                shippable
+            }
           )}
         >
           {this.getItemsCount() === 0 || this.props.mobile ? null : (
