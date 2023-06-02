@@ -60,6 +60,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
   const { pathname } = useLocation();
   const orderSummaryRef = useRef(null);
   const orderSummaryRefCheckout = useRef(null);
+  const impactRef = useRef<HTMLDivElement>();
   let observer: any;
 
   const handleScroll = () => {
@@ -108,6 +109,13 @@ const OrderSummary: React.FC<OrderProps> = props => {
 
   const CheckoutOrderSummaryHandler = () => {
     setCheckoutOrderSummaryStatus(!checkoutOrderSummaryStatus);
+  };
+
+  const handleClickOutside = (evt: any) => {
+    if (impactRef.current && impactRef.current.contains(evt.target)) {
+      //Do what you want to handle in the callback
+      CheckoutOrderSummaryHandler();
+    }
   };
 
   const showDeliveryTimelines = true;
@@ -520,6 +528,13 @@ const OrderSummary: React.FC<OrderProps> = props => {
     }
   }, [basket]);
 
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   const canCheckout = () => {
     if (pathname.indexOf("checkout") > -1) {
       return false;
@@ -914,7 +929,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
           { [styles.checkoutOrder]: page == "checkout" },
           { [styles.openSummary]: checkoutOrderSummaryStatus }
         )}
-        ref={orderSummaryRef}
+        ref={checkoutOrderSummaryStatus ? impactRef : orderSummaryRef}
         id="order-summary"
       >
         {mobile && page == "checkout" ? (

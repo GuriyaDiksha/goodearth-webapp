@@ -1168,6 +1168,14 @@ input[type="radio"] {
       opacity: 1;
       color: $med-charcoal;
     }
+    @media (max-width: 992px) {
+      left: 0;
+      position: fixed;
+      bottom: 0px;
+      width: 100%;
+      right: 0;
+      max-width: 100%;
+    }
   }
 }
 .send-to-payment {
@@ -1183,6 +1191,12 @@ input[type="radio"] {
   border: 1px solid $med-charcoal;
   @media (max-width: 992px) {
     padding: 21px 25px;
+    // left: 0;
+    // position: fixed;
+    // bottom: 0px;
+    // width: 100%;
+    // right: 0;
+    // max-width: 100%;
   }
   &:hover {
     background: $white 0% 0% no-repeat padding-box;
