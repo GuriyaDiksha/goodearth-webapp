@@ -244,6 +244,7 @@ body:has(.open-summary) {
     border-bottom: 0.5px solid #9f9f9f;
     @include bottom-shadow();
 
+
     &::-webkit-scrollbar {
       // background-color:#fff;
       width: 8px;
@@ -619,7 +620,23 @@ body:has(.open-summary) {
     .summary-amount-wrapper {
       padding: 20px;
       max-height: 160px;
-      overflow: auto;
+      overflow-y: scroll;
+      
+      &::-webkit-scrollbar {
+        // background-color:#fff;
+        width: 8px;
+      }
+      /* background of the scrollbar except button or resizer */
+      /* scrollbar itself */
+      &::-webkit-scrollbar-thumb {
+        background-color: #a6a6a6;
+        border-radius: 5px;
+        border: 2px solid #fff;
+      }
+      /* set button(top and bottom of the scrollbar) */
+      &::-webkit-scrollbar-button {
+        display: none;
+      }
 
       .order-summary-title {
         padding: 8px 0 20px;

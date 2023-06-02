@@ -62,7 +62,7 @@ body:has(.mobile) {
     max-width: 93%;
   }
   &.default {
-    border: 1px solid #4c4c4c;
+    border: 2px solid $aqua;
 
     .cerise-bridal-rings {
       top: 24px !important;
@@ -657,18 +657,18 @@ body:has(.mobile) {
   }
 
   .address-item-container {
-    border: 1px solid #eaeaea;
+    border: 2px solid #eaeaea;
     height: 220px;
 
     &.default-address {
-      border-color: $med-charcoal;
+      border-color: $aqua;
 
       .cerise-bridal-rings {
         top: 24px;
       }
     }
     &.default {
-      border: 1px solid $med-charcoal;
+      border: 2px solid $aqua;
     }
   }
   .checkbox {

@@ -15,6 +15,7 @@ const mapStateToProps = (state: AppState) => {
     currency: state.currency,
     customerGroup: state.user.customerGroup,
     mobile: state.device.mobile,
+    tablet: state.device.tablet,
     wishlistData: state.wishlist.items,
     cart: state.basket,
     message: state.message,
@@ -41,7 +42,7 @@ class CheckoutFooter extends React.Component<Props, { boId: string }> {
   static contextType = UserContext;
 
   render() {
-    const { currency, mobile } = this.props;
+    const { currency, mobile, tablet } = this.props;
 
     if (this.props.location.pathname == "/order/checkout") {
       return (
@@ -65,11 +66,14 @@ class CheckoutFooter extends React.Component<Props, { boId: string }> {
                 </div>
               )}
               <div
-                className={cs(bootstrap.colMd3, {
-                  [styles.curr]: !this.state.boId,
-                  [bootstrap.col3]: !mobile,
-                  [bootstrap.col10]: mobile
-                })}
+                className={cs(
+                  { [bootstrap.colMd3]: !tablet },
+                  {
+                    [styles.curr]: !this.state.boId,
+                    [bootstrap.col3]: !mobile && !tablet,
+                    [bootstrap.col10]: mobile || tablet
+                  }
+                )}
               >
                 <i
                   className={cs(
@@ -115,11 +119,14 @@ class CheckoutFooter extends React.Component<Props, { boId: string }> {
                 </div>
               )}
               <div
-                className={cs(bootstrap.colMd3, {
-                  [styles.curr]: !this.state.boId,
-                  [bootstrap.col3]: !mobile,
-                  [bootstrap.col10]: mobile
-                })}
+                className={cs(
+                  { [bootstrap.colMd3]: !tablet },
+                  {
+                    [styles.curr]: !this.state.boId,
+                    [bootstrap.col3]: !mobile && !tablet,
+                    [bootstrap.col10]: mobile || tablet
+                  }
+                )}
               >
                 <i
                   className={cs(

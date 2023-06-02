@@ -300,6 +300,12 @@ const AddressItem: React.FC<Props> = props => {
             )
       }
       id={`address-item-${address.id}`}
+      onClick={() => {
+        markAsDefault(address, address?.id);
+        currentCallBackComponent !== "checkout-billing" &&
+          currentCallBackComponent !== "checkout-shipping" &&
+          setDefaultAddress(id);
+      }}
     >
       <div
         className={cs(
