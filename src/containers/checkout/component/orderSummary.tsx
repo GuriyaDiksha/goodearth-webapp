@@ -118,9 +118,8 @@ const OrderSummary: React.FC<OrderProps> = props => {
   };
 
   const handleClickOutside = (evt: any) => {
-    if (impactRef.current && !impactRef.current.contains(evt.target)) {
-      //Do what you want to handle in the callback
-      setCheckoutOrderSummaryStatus(checkoutOrderSummaryStatus);
+    if (impactRef.current && impactRef.current.contains(evt.target)) {
+      CheckoutOrderSummaryHandler();
     }
   };
 
@@ -534,13 +533,6 @@ const OrderSummary: React.FC<OrderProps> = props => {
     }
   }, [basket]);
 
-  useEffect(() => {
-    // document.addEventListener("mousedown", handleClickOutside);
-    // return () => {
-    //   document.removeEventListener("mousedown", handleClickOutside);
-    // };
-  }, []);
-
   const canCheckout = () => {
     if (pathname.indexOf("checkout") > -1) {
       return false;
@@ -743,6 +735,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
                 )}
               </span>
             </div>
+            {/* <div>Prachi here</div> */}
           </div>
           {(((pathname === "/order/checkout" || pathname === "/cart") &&
             !mobile) ||
@@ -908,13 +901,13 @@ const OrderSummary: React.FC<OrderProps> = props => {
                 className={cs(globalStyles.flex, globalStyles.gutterBetween)}
               >
                 <h3 className={cs(styles.summaryTitle)}>
-                  ORDER SUMMARY{" "}
+                  VIEW ORDER DETAILS{" "}
                   {pathname === "/order/checkout"
                     ? `(${getItemsCount()})`
                     : null}
                 </h3>
                 <div className={styles.payableAmount}>
-                  <span>Amount Payable:</span>
+                  {/* <span>Amount Payable:</span> */}
                   <span className={styles.totalAmount}>
                     {String.fromCharCode(...code)}{" "}
                     {displayPriceWithCommasFloat(
@@ -930,6 +923,12 @@ const OrderSummary: React.FC<OrderProps> = props => {
           )}
         </div>
       )}
+      <div
+        className={cs(styles.orderSummaryOutside, {
+          [styles.closeSummary]: !checkoutOrderSummaryStatus
+        })}
+        onClick={CheckoutOrderSummaryHandler}
+      ></div>
       <div
         className={cs(
           styles.orderSummary,
@@ -965,6 +964,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
         <div className={cs(styles.justchk)}>
           {getSummary()}
 
+          {/* {!mobile && */}
           <div
             className={cs(styles.finalAmountWrapper, {
               [styles.checkoutMobileBottom]: page == "checkoutMobileBottom"
@@ -1205,6 +1205,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
               </div>
             )}
           </div>
+          {/* } */}
 
           {page == "cart" && (
             <div
