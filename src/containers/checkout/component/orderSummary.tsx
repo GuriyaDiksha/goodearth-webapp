@@ -735,7 +735,21 @@ const OrderSummary: React.FC<OrderProps> = props => {
                 )}
               </span>
             </div>
-            {/* <div>Prachi here</div> */}
+            <hr className={styles.hr} />
+            <div className={cs(globalStyles.flex, globalStyles.gutterBetween)}>
+              <span className={styles.subtotal}>AMOUNT PAYABLE</span>
+              {console.log(
+                "basket.subTotalWithShipping",
+                basket.subTotalWithShipping
+              )}
+              <span className={styles.subtotal}>
+                {String.fromCharCode(...code)}{" "}
+                {displayPriceWithCommasFloat(
+                  basket.subTotalWithShipping,
+                  currency
+                )}
+              </span>
+            </div>
           </div>
           {(((pathname === "/order/checkout" || pathname === "/cart") &&
             !mobile) ||
@@ -970,7 +984,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
               [styles.checkoutMobileBottom]: page == "checkoutMobileBottom"
             })}
           >
-            <div className={cs(styles.summaryPadding)}>
+            {/* <div className={cs(styles.summaryPadding)}>
               <hr className={cs(styles.hr)} />
             </div>
             <div
@@ -985,9 +999,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
                 <span className={cs(styles.grandTotal, globalStyles.voffset2)}>
                   AMOUNT PAYABLE
                 </span>
-                {/* <p className={styles.subtext}>
-                  *Excluding estimated cost of shipping
-                </p> */}
+               
               </span>
               <span
                 className={cs(styles.grandTotalAmount, globalStyles.voffset2)}
@@ -995,7 +1007,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
                 {String.fromCharCode(...code)}{" "}
                 {displayPriceWithCommasFloat(basket.total, currency)}
               </span>
-            </div>
+            </div> */}
             {/* {pathname === "/order/checkout" ? (
               <div className={cs(styles.summaryPadding)}>
                 <hr className={cs(styles.hr)} />
