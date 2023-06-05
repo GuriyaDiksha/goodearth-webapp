@@ -458,7 +458,13 @@ class CartPage extends React.Component<Props, State> {
                     VIEW ALL
                   </Link>
                 )}
-                <div className={cs(bootstrap.col12, globalStyles.marginT20)}>
+                <div
+                  className={cs(
+                    bootstrap.col12,
+                    globalStyles.marginT20,
+                    globalStyles.marginB20
+                  )}
+                >
                   <div
                     className={cs(
                       bootstrap.row,
@@ -535,8 +541,8 @@ class CartPage extends React.Component<Props, State> {
                                   <Link
                                     to={
                                       i === wishlistData.length
-                                        ? data.productUrl
-                                        : "/wishlist"
+                                        ? "/wishlist"
+                                        : data.productUrl
                                     }
                                   >
                                     <img
@@ -558,7 +564,7 @@ class CartPage extends React.Component<Props, State> {
                                     )}
                                   </Link>
                                 </div>
-                                {
+                                {i < wishlistData.length && (
                                   <div className={styles.imageContent}>
                                     <p className={styles.searchFeature}>
                                       <Link to={data.productUrl}>
@@ -575,7 +581,7 @@ class CartPage extends React.Component<Props, State> {
                                       </Link>
                                     </p>
                                   </div>
-                                }
+                                )}
                               </div>
                             );
                           }

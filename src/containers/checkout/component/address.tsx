@@ -104,8 +104,9 @@ const AddressSection: React.FC<AddressProps & {
 
   const handleScroll = () => {
     const interSectionCallBack = (enteries: any) => {
-      setCheckoutMobileOrderSummary &&
-        setCheckoutMobileOrderSummary(enteries[0].isIntersecting);
+      setCheckoutMobileOrderSummary(
+        enteries[enteries?.length - 1].isIntersecting
+      );
     };
     observer = new IntersectionObserver(interSectionCallBack);
     orderSummaryRef?.current && observer.observe(orderSummaryRef?.current);
@@ -113,12 +114,11 @@ const AddressSection: React.FC<AddressProps & {
 
   useIsomorphicLayoutEffect(() => {
     handleScroll();
-    return () =>
+    return () => {
       orderSummaryRef?.current && observer?.unobserve(orderSummaryRef?.current);
+    };
   }, [currentStep, activeStep]);
   // End: Intersection Observer (Mobile)
-
-  console.log("currentStep,activeStep", currentStep, activeStep);
 
   const code = currencyCode[currency as Currency];
 
@@ -1005,7 +1005,7 @@ const AddressSection: React.FC<AddressProps & {
                               )}
                             >
                               {props.activeStep == STEP_SHIPPING &&
-                                !checkoutMobileOrderSummary && (
+                                mobile && !checkoutMobileOrderSummary && (
                                   <div
                                     onClick={() => {
                                       onSelectAddress(
@@ -1082,7 +1082,8 @@ const AddressSection: React.FC<AddressProps & {
                                     </div>
                                   )}
                                   <div ref={orderSummaryRef}></div>
-                                  {checkoutMobileOrderSummary && (
+                                  {((checkoutMobileOrderSummary && mobile) ||
+                                    !mobile) && (
                                     <div
                                       onClick={() => {
                                         onSelectAddress(
@@ -1143,6 +1144,9 @@ const AddressSection: React.FC<AddressProps & {
                     ""
                   )}
                   <div>{renderPancard}</div>
+                  {props.activeStep == STEP_BILLING && mode == "list" && (
+                    <div ref={orderSummaryRef}></div>
+                  )}
                   {/* from-billing */}
                   {props.activeStep == STEP_BILLING && mode == "list" && (
                     <div className={bootstrapStyles.row}>
@@ -1176,6 +1180,36 @@ const AddressSection: React.FC<AddressProps & {
                       </div>
                     </div>
                   )}
+
+                  <div
+                    className={cs(
+                      bootstrapStyles.row,
+                      globalStyles.gutterBetween,
+                      styles.checkoutAddressFooter
+                    )}
+                  >
+                    {props.activeStep == STEP_BILLING &&
+                      mobile && !checkoutMobileOrderSummary && (
+                        <div
+                          onClick={() => {
+                            handleSaveAndReview(
+                              addressList?.find(val =>
+                                shippingAddressId !== 0
+                                  ? sameAsShipping
+                                    ? val?.id === shippingAddressId
+                                    : val?.id === billingAddressId
+                                  : val?.isDefaultForShipping === true
+                              )
+                            );
+                          }}
+                          className={cs(styles.sendToAddress)}
+                        >
+                          {mobile
+                            ? "SELECT & PROCEED TO PAYMENT"
+                            : "PROCEED TO PAYMENT"}
+                        </div>
+                      )}
+                  </div>
                 </div>
                 {/* {addressList.length > 1 &&
                   mode == "list" &&

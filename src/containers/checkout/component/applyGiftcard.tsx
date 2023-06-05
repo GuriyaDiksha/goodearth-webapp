@@ -82,6 +82,7 @@ class ApplyGiftcard extends React.Component<Props, GiftState> {
   };
 
   applyCard = () => {
+    this.setState({ error: "", isError: false });
     if (!this.state.txtvalue) {
       this.setState(
         {
@@ -94,7 +95,7 @@ class ApplyGiftcard extends React.Component<Props, GiftState> {
       );
       return false;
     }
-    console;
+
     if (this.state.cardType == "Select") {
       this.setState(
         {
@@ -196,7 +197,8 @@ class ApplyGiftcard extends React.Component<Props, GiftState> {
     // setModevalue(event.target.value);
     this.setState({
       cardType: value,
-      error: ""
+      error: "",
+      isError: false
     });
   };
 
@@ -270,7 +272,7 @@ class ApplyGiftcard extends React.Component<Props, GiftState> {
                         onChange={this.changeValue}
                         id="gift"
                         className={
-                          this.state.error
+                          this.state.error && !this.state.isError
                             ? cs(
                                 styles.marginR10,
                                 styles.ht50,

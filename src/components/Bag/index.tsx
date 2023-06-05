@@ -274,8 +274,8 @@ class Bag extends React.Component<Props, State> {
                                   <Link
                                     to={
                                       i === wishlistData.length
-                                        ? data.productUrl
-                                        : "/wishlist"
+                                        ? "/wishlist"
+                                        : data.productUrl
                                     }
                                   >
                                     <img
@@ -297,7 +297,7 @@ class Bag extends React.Component<Props, State> {
                                     )}
                                   </Link>
                                 </div>
-                                {
+                                {i < wishlistData.length && (
                                   <div
                                     className={cs(
                                       styles.imageContent,
@@ -322,7 +322,7 @@ class Bag extends React.Component<Props, State> {
                                       </Link>
                                     </p>
                                   </div>
-                                }
+                                )}
                               </div>
                             );
                           }

@@ -1001,7 +1001,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
                 <hr className={cs(styles.hr)} />
               </div>
             ) : null} */}
-            sendToPayment-2
+
             {page == "checkoutMobileBottom" && (
               <button
                 className={cs(
