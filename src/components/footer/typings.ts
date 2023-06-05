@@ -25,6 +25,7 @@ export type FooterState = {
   isConsentSave: boolean;
   headingHoverArray: boolean[];
   subheadingHoverArray: boolean[];
+  smartNav: string[];
 };
 
 export type ShopLocations = { label: string; value: string }[];
