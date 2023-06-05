@@ -376,7 +376,9 @@ class Bag extends React.Component<Props, State> {
         <div className={styles.bagFooter}>
           {this.canCheckout() && (
             <div className={cs(styles.orderSummaryWrapper)}>
-              <div className={cs(styles.orderSummary)}>Order Summary</div>
+              <div className={cs(styles.orderSummary)}>
+                test5 -- Order Summary
+              </div>
 
               <div className={styles.subTotalDiscountWrapper}>
                 <div

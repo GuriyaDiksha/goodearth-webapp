@@ -70,8 +70,6 @@ const PaymentSection: React.FC<PaymentProps> = props => {
 
   const whatsappFormRef = useRef<Formsy>(null);
 
-  console.log("checkoutMobileOrderSummary payment", checkoutMobileOrderSummary);
-
   const fetchCountryData = async () => {
     const data = await LoginService.fetchCountryData(dispatch);
     dispatch(updateCountryData(data));
@@ -1034,7 +1032,6 @@ const PaymentSection: React.FC<PaymentProps> = props => {
               </div>
             )}
             {isLoading && <Loader />}
-            sendToPayment-3
             {!checkoutMobileOrderSummary && (
               <button
                 ref={PaymentButton}
