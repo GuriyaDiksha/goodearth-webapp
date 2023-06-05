@@ -19,7 +19,7 @@ const ActivateGiftCard: React.FC<PasswordProps> = ({ setCurrentSection }) => {
         <div className={styles.formSubheading}>
           Enter your personal information to activate your gift card
         </div>
-        <div className={cs(styles.loginForm, globalStyles.voffset4)}>
+        <div className={cs(styles.loginForm, globalStyles.voffset2)}>
           <div
             className={cs(bootstrapStyles.row, styles.otpComponentContainer)}
           >
