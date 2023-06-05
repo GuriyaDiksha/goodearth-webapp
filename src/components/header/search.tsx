@@ -437,21 +437,6 @@ class Search extends React.Component<Props, State> {
       </div>
     );
   };
-  decodeSearchString(value: string) {
-    try {
-      return decodeURIComponent(value);
-    } catch (e) {
-      return value;
-    }
-  }
-
-  decodeSearchString(value: string) {
-    try {
-      return decodeURIComponent(value);
-    } catch (e) {
-      return value;
-    }
-  }
   render() {
     // const cur = "price" + this.props.currency.toLowerCase();
     // const originalCur = "original_price_" + this.props.currency.toLowerCase();
