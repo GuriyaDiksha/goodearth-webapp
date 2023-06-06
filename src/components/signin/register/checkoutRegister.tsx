@@ -1204,7 +1204,7 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
           </div>
           <div className={cs(styles.subscribe, styles.newsletters)}>
             <FormCheckbox
-              value={false}
+              value={this.props.currency == "INR" ? true : false}
               id="subscrib"
               name="terms"
               disable={!this.state.showFields}
