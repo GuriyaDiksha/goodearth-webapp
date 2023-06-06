@@ -402,7 +402,6 @@ const BaseLayout: React.FC = () => {
           </Route>
         </Switch>
       </div>
-      {console.log("minimalPage == value", minimalPage, value)}
       {value && !minimalPage && (isCheckout ? <CheckoutFooter /> : <Footer />)}
       <Modal />
     </Fragment>

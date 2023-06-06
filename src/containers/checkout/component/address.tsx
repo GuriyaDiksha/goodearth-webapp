@@ -104,6 +104,9 @@ const AddressSection: React.FC<AddressProps & {
 
   const handleScroll = () => {
     const interSectionCallBack = (enteries: any) => {
+      // console.log("enteries[enteries?.length - 1].isIntersecting",enteries[enteries?.length - 1].isIntersecting);
+      // console.log("checkoutMobileOrderSummary",checkoutMobileOrderSummary);
+
       setCheckoutMobileOrderSummary(
         enteries[enteries?.length - 1].isIntersecting
       );
@@ -1005,7 +1008,8 @@ const AddressSection: React.FC<AddressProps & {
                               )}
                             >
                               {props.activeStep == STEP_SHIPPING &&
-                                mobile && !checkoutMobileOrderSummary && (
+                                mobile &&
+                                !checkoutMobileOrderSummary && (
                                   <div
                                     onClick={() => {
                                       onSelectAddress(
@@ -1189,7 +1193,8 @@ const AddressSection: React.FC<AddressProps & {
                     )}
                   >
                     {props.activeStep == STEP_BILLING &&
-                      mobile && !checkoutMobileOrderSummary && (
+                      mobile &&
+                      !checkoutMobileOrderSummary && (
                         <div
                           onClick={() => {
                             handleSaveAndReview(

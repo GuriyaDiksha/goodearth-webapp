@@ -59,15 +59,11 @@ const OrderSummary: React.FC<OrderProps> = props => {
     false
   );
   const { pathname } = useLocation();
-  const orderSummaryRef = useRef(null);
+  const orderSummaryRef = useRef<HTMLDivElement>(null);
   const orderSummaryRefCheckout = useRef(null);
-  const impactRef = useRef<HTMLDivElement>();
+  const impactRef = useRef<HTMLDivElement>(null);
   let observer: any;
 
-  console.log(
-    "checkoutMobileOrderSummary ordersummary",
-    checkoutMobileOrderSummary
-  );
   const handleScroll = () => {
     const observerOptions = {
       rootMargin: "-140px 0px -170px 0px"
@@ -723,10 +719,6 @@ const OrderSummary: React.FC<OrderProps> = props => {
             <hr className={styles.hr} />
             <div className={cs(globalStyles.flex, globalStyles.gutterBetween)}>
               <span className={styles.subtotal}>TOTAL</span>
-              {console.log(
-                "basket.subTotalWithShipping",
-                basket.subTotalWithShipping
-              )}
               <span className={styles.subtotal}>
                 {String.fromCharCode(...code)}{" "}
                 {displayPriceWithCommasFloat(
@@ -738,16 +730,9 @@ const OrderSummary: React.FC<OrderProps> = props => {
             <hr className={styles.hr} />
             <div className={cs(globalStyles.flex, globalStyles.gutterBetween)}>
               <span className={styles.subtotal}>AMOUNT PAYABLE</span>
-              {console.log(
-                "basket.subTotalWithShipping",
-                basket.subTotalWithShipping
-              )}
               <span className={styles.subtotal}>
                 {String.fromCharCode(...code)}{" "}
-                {displayPriceWithCommasFloat(
-                  basket.subTotalWithShipping,
-                  currency
-                )}
+                {displayPriceWithCommasFloat(basket?.total, currency)}
               </span>
             </div>
           </div>
@@ -937,12 +922,14 @@ const OrderSummary: React.FC<OrderProps> = props => {
           )}
         </div>
       )}
-      <div
-        className={cs(styles.orderSummaryOutside, {
-          [styles.closeSummary]: !checkoutOrderSummaryStatus
-        })}
-        onClick={CheckoutOrderSummaryHandler}
-      ></div>
+      {mobile && (
+        <div
+          className={cs(styles.orderSummaryOutside, {
+            [styles.closeSummary]: !checkoutOrderSummaryStatus
+          })}
+          onClick={CheckoutOrderSummaryHandler}
+        ></div>
+      )}
       <div
         className={cs(
           styles.orderSummary,
