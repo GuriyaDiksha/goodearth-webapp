@@ -315,11 +315,15 @@ class ApplyGiftcard extends React.Component<Props, GiftState> {
                 <p
                   className={cs(
                     styles.activeUrl,
-                    globalStyles.cerise,
+                    globalStyles.charcoal,
                     globalStyles.voffset1
                   )}
                 >
-                  <Link to={"/account/giftcard-activation"}>
+                  <Link
+                    target="_blank"
+                    to={"/account/giftcard-activation"}
+                    className={globalStyles.charcoal}
+                  >
                     ACTIVATE GIFT CARD
                   </Link>
                 </p>
