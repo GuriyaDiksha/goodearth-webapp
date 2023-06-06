@@ -138,6 +138,9 @@ class API {
               } else {
                 reject(err);
               }
+            })
+            .finally(() => {
+              dispatch(updateLoader(false));
             });
         })
       );
