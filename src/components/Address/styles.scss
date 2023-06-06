@@ -91,6 +91,9 @@ body:has(.mobile) {
     .address-edit {
       opacity: 0.25;
       cursor: default;
+      &:hover{
+        cursor: default !important;
+      }
     }
     &.shipping-border {
       border: 2px solid #8cb8aa;
@@ -342,7 +345,7 @@ body:has(.mobile) {
       }
       cursor: pointer;
       a:hover {
-        cursor: pointer;
+        cursor: default;
       }
     }
     p {
@@ -500,7 +503,7 @@ body:has(.mobile) {
     @include b5_10px_montserrat_charcoal_caps();
     letter-spacing: 0.3px;
     text-decoration: underline;
-    text-underline-offset: 2px;
+    text-underline-offset: 3px;
     &:hover {
       color: $aqua-bold;
       cursor: pointer;
