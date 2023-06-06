@@ -163,7 +163,6 @@ class BridalItem extends React.Component<Props, State> {
                       {this.props.isSale && this.props.bridalItem.discount ? (
                         <span className={styles.productPrice}>
                           <span className={styles.discountprice}>
-                            {String.fromCharCode(...code)}{" "}
                             {displayPriceWithCommas(
                               this.props.bridalItem.discountedPrice[
                                 this.props.currency
@@ -173,7 +172,6 @@ class BridalItem extends React.Component<Props, State> {
                           </span>
                           &nbsp;{" "}
                           <span className={styles.strikeprice}>
-                            {String.fromCharCode(...code)}{" "}
                             {displayPriceWithCommas(
                               this.props.bridalItem.price[this.props.currency],
                               this.props.currency
@@ -189,7 +187,6 @@ class BridalItem extends React.Component<Props, State> {
                               : ""
                           )}
                         >
-                          {String.fromCharCode(...code)}{" "}
                           {displayPriceWithCommas(
                             this.props.bridalItem.price[this.props.currency],
                             this.props.currency

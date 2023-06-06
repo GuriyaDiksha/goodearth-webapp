@@ -165,8 +165,6 @@ class Bag extends React.Component<Props, State> {
               <div className={globalStyles.textRight}>
                 <h5 className={cs(styles.totalPrice, globalStyles.bold)}>
                   (-)
-                  {String.fromCharCode(...currencyCodes[this.props.currency])}
-                  &nbsp;
                   {displayPriceWithCommasFloat(
                     discountAmount,
                     this.props.currency
@@ -187,8 +185,6 @@ class Bag extends React.Component<Props, State> {
             </div>
             <div className={globalStyles.textRight}>
               <h5 className={cs(styles.totalPrice, globalStyles.bold)}>
-                {String.fromCharCode(...currencyCodes[this.props.currency])}
-                &nbsp;
                 {displayPriceWithCommasFloat(
                   this.props.cart.total,
                   this.props.currency
@@ -429,7 +425,6 @@ class Bag extends React.Component<Props, State> {
                 !
                 <br /> Select products worth{" "}
                 <span>
-                  {String.fromCharCode(...currencyCodes[this.props.currency])}{" "}
                   {displayPriceWithCommas(
                     this.props.cart.freeShippingApplicable -
                       parseInt(this.props.cart.total.toString()),

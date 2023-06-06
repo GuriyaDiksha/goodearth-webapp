@@ -222,14 +222,10 @@ const GiftCardItem = ({
           <p>
             <span className={styles.lineHead}> Total value: </span>{" "}
             <span className={styles.line}>
-              {" "}
-              {String.fromCharCode(...unicode)}{" "}
               {displayPriceWithCommas(fullValue, currCode as Currency)}{" "}
             </span>
           </p>
           <p className={cl(styles.balance)}>
-            {" "}
-            Balance amount: {String.fromCharCode(...unicode)}{" "}
             {displayPriceWithCommas(remValues, currCode as Currency)}{" "}
           </p>
           {conditionalRefresh && !isLoggedIn && (

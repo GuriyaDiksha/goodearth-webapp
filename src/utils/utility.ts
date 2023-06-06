@@ -1,25 +1,10 @@
 import { Currency } from "typings/currency";
+import { currencyCodes } from "constants/currency";
 
-const displayPriceWithCommas = (price: string | number, currency: Currency) => {
-  let arg = "";
-  if (currency == "INR") {
-    arg = "en-IN";
-  } else {
-    arg = "en-US";
-  }
-  const arr: any[] = [];
-  price
-    .toString()
-    .split("-")
-    .map(e => {
-      arr.push(parseInt(e.toString()).toLocaleString(arg));
-    });
-  return arr.join(" - ");
-};
-
-const displayPriceWithCommasFloat = (
+const displayPriceWithCommas = (
   price: string | number,
-  currency: Currency
+  currency: Currency,
+  with_symbol: boolean | (() => boolean) = true
 ) => {
   let arg = "";
   if (currency == "INR") {
@@ -27,6 +12,31 @@ const displayPriceWithCommasFloat = (
   } else {
     arg = "en-US";
   }
+  const currency_symbol = String.fromCharCode(...currencyCodes[currency]);
+  const arr: any[] = [];
+  price
+    .toString()
+    .split("-")
+    .map(e => {
+      arr.push(parseInt(e.toString()).toLocaleString(arg));
+    });
+  return with_symbol
+    ? currency_symbol + " " + arr.join(" - " + currency_symbol + " ")
+    : arr.join(" - ");
+};
+
+const displayPriceWithCommasFloat = (
+  price: string | number,
+  currency: Currency,
+  with_symbol: boolean | (() => boolean) = true
+) => {
+  let arg = "";
+  if (currency == "INR") {
+    arg = "en-IN";
+  } else {
+    arg = "en-US";
+  }
+  const currency_symbol = String.fromCharCode(...currencyCodes[currency]);
   const arr: any[] = [];
   price
     .toString()
@@ -39,7 +49,9 @@ const displayPriceWithCommasFloat = (
         })
       );
     });
-  return arr.join(" - ");
+  return with_symbol
+    ? currency_symbol + " " + arr.join(" - " + currency_symbol + " ")
+    : arr.join(" - ");
 };
 
 const makeid = (length: number) => {

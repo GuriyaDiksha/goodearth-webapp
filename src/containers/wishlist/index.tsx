@@ -538,17 +538,12 @@ class Wishlist extends React.Component<Props, State> {
             globalStyles.italic
           )}
         >
-          {String.fromCharCode(...currencyCodes[this.props.currency]) +
-            " " +
-            (Number.isSafeInteger(+this.state.totalPrice)
-              ? displayPriceWithCommas(
-                  this.state.totalPrice,
-                  this.props.currency
-                )
-              : displayPriceWithCommasFloat(
-                  this.state.totalPrice,
-                  this.props.currency
-                ))}
+          {Number.isSafeInteger(+this.state.totalPrice)
+            ? displayPriceWithCommas(this.state.totalPrice, this.props.currency)
+            : displayPriceWithCommasFloat(
+                this.state.totalPrice,
+                this.props.currency
+              )}
         </span>
       </div>
     );

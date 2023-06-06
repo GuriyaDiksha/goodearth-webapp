@@ -535,7 +535,7 @@ class NewGiftcard extends React.Component<Props, State> {
                 You have recieved a Good Earth eGift card worth
               </div>
               <div className={styles.gcAmount}>
-                {String.fromCharCode(...currencyCharCode)}&nbsp;&nbsp;
+                &nbsp;
                 {+cardValue > 0
                   ? displayPriceWithCommas(cardValue, currency)
                   : +customValue > 0
@@ -629,12 +629,10 @@ class NewGiftcard extends React.Component<Props, State> {
                         })}
                         id={pro.id}
                       >
-                        {String.fromCharCode(...currencyCharCode) +
-                          " " +
-                          displayPriceWithCommas(
-                            pro.priceRecords[currency],
-                            currency
-                          )}
+                        {displayPriceWithCommas(
+                          pro.priceRecords[currency],
+                          currency
+                        )}
                       </div>
                     ) : (
                       ""
