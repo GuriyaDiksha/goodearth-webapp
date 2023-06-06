@@ -85,44 +85,6 @@ const AddressSection: React.FC<AddressProps & {
     SGD: 3500
   };
 
-  const canUseDOM = !!(
-    typeof window !== "undefined" &&
-    typeof window.document !== "undefined" &&
-    typeof window.document.createElement !== "undefined"
-  );
-
-  const [checkoutMobileOrderSummary, setCheckoutMobileOrderSummary] = useState(
-    false
-  );
-
-  const useIsomorphicLayoutEffect = canUseDOM ? useLayoutEffect : useEffect;
-
-  // Begin: Intersection Observer (Mobile)
-
-  const orderSummaryRef = useRef(null);
-  let observer: any;
-
-  const handleScroll = () => {
-    const interSectionCallBack = (enteries: any) => {
-      // console.log("enteries[enteries?.length - 1].isIntersecting",enteries[enteries?.length - 1].isIntersecting);
-      // console.log("checkoutMobileOrderSummary",checkoutMobileOrderSummary);
-
-      setCheckoutMobileOrderSummary(
-        enteries[enteries?.length - 1].isIntersecting
-      );
-    };
-    observer = new IntersectionObserver(interSectionCallBack);
-    orderSummaryRef?.current && observer.observe(orderSummaryRef?.current);
-  };
-
-  useIsomorphicLayoutEffect(() => {
-    handleScroll();
-    return () => {
-      orderSummaryRef?.current && observer?.unobserve(orderSummaryRef?.current);
-    };
-  }, [currentStep, activeStep]);
-  // End: Intersection Observer (Mobile)
-
   const code = currencyCode[currency as Currency];
 
   const [sameAsShipping, setSameAsShipping] = useState(sameShipping);
@@ -140,6 +102,45 @@ const AddressSection: React.FC<AddressProps & {
   const dispatch = useDispatch();
 
   const { mode } = useSelector((state: AppState) => state.address);
+
+  const canUseDOM = !!(
+    typeof window !== "undefined" &&
+    typeof window.document !== "undefined" &&
+    typeof window.document.createElement !== "undefined"
+  );
+
+  const [checkoutMobileOrderSummary, setCheckoutMobileOrderSummary] = useState(
+    false
+  );
+
+  const useIsomorphicLayoutEffect = canUseDOM ? useLayoutEffect : useEffect;
+
+  // Begin: Intersection Observer (Mobile)
+
+  const orderSummaryRef = useRef(null);
+  const orderSummaryRef2 = useRef(null);
+  let observer: any;
+
+  const handleScroll = () => {
+    const interSectionCallBack = (enteries: any) => {
+      setCheckoutMobileOrderSummary(
+        enteries[enteries?.length - 1].isIntersecting
+      );
+    };
+    observer = new IntersectionObserver(interSectionCallBack);
+    orderSummaryRef?.current && observer.observe(orderSummaryRef?.current);
+    orderSummaryRef2?.current && observer.observe(orderSummaryRef2?.current);
+  };
+
+  useIsomorphicLayoutEffect(() => {
+    handleScroll();
+    return () => {
+      orderSummaryRef?.current && observer?.unobserve(orderSummaryRef?.current);
+      orderSummaryRef2?.current &&
+        observer?.unobserve(orderSummaryRef2?.current);
+    };
+  }, [currentStep, activeStep, sameAsShipping]);
+  // End: Intersection Observer (Mobile)
 
   useEffect(() => {
     if (isLoggedIn && currentCallBackComponent == "checkout-shipping") {
@@ -862,7 +863,7 @@ const AddressSection: React.FC<AddressProps & {
               >
                 {STEP_ORDER[activeStep] < currentStep ? (
                   <img
-                    height={"18px"}
+                    height={"15px"}
                     className={globalStyles.marginR10}
                     src={checkmarkCircle}
                     alt="checkmarkdone"
@@ -932,7 +933,7 @@ const AddressSection: React.FC<AddressProps & {
                 <div>
                   {STEP_ORDER[activeStep] < currentStep ? (
                     <img
-                      height={"18px"}
+                      height={"15px"}
                       className={globalStyles.marginR10}
                       src={checkmarkCircle}
                       alt="checkmarkdone"
@@ -1148,9 +1149,9 @@ const AddressSection: React.FC<AddressProps & {
                     ""
                   )}
                   <div>{renderPancard}</div>
-                  {props.activeStep == STEP_BILLING && mode == "list" && (
-                    <div ref={orderSummaryRef}></div>
-                  )}
+                  {props.activeStep == STEP_BILLING &&
+                    mode == "list" &&
+                    !sameAsShipping && <div ref={orderSummaryRef2}></div>}
                   {/* from-billing */}
                   {props.activeStep == STEP_BILLING && mode == "list" && (
                     <div className={bootstrapStyles.row}>
@@ -1193,6 +1194,8 @@ const AddressSection: React.FC<AddressProps & {
                     )}
                   >
                     {props.activeStep == STEP_BILLING &&
+                      mode == "list" &&
+                      !sameAsShipping &&
                       mobile &&
                       !checkoutMobileOrderSummary && (
                         <div

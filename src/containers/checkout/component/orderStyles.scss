@@ -242,7 +242,7 @@ body:has(.open-summary) {
     overflow-y: scroll;
     border-top: 0.5px solid #9f9f9f;
     border-bottom: 0.5px solid #9f9f9f;
-    @include bottom-shadow();
+    // @include bottom-shadow();
 
 
     &::-webkit-scrollbar {
@@ -460,7 +460,8 @@ body:has(.open-summary) {
   word-wrap: break-word;
   margin: 0px auto;
   text-align: center;
-  padding-top: 0;
+  letter-spacing: 0.5px;
+  padding-top: 5px;
   @include b5_10px_montserrat_charcoal();
 }
 
@@ -471,13 +472,17 @@ body:has(.open-summary) {
 .checkout-btn {
   img {
     width: 15px;
-    height: 19px;
+    height: 15px;
     object-fit: contain;
     margin-right: 5px;
     vertical-align: middle;
   }
+  span{
+    padding-top: 15px;
+  }
   @include b3_14px_montserrat_charcoal();
   color: $white;
+  letter-spacing: 0.5px;
 
   &:hover {
     background-color: transparent !important;

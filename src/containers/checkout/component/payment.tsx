@@ -535,7 +535,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
               >
                 {loyalty?.[0]?.points && (
                   <img
-                    height={"18px"}
+                    height={"15px"}
                     className={globalStyles.marginR10}
                     src={checkmarkCircle}
                     alt="checkmarkdone"
