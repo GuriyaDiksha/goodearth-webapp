@@ -250,7 +250,7 @@ const AddressSection: React.FC<AddressProps & {
         <div
           className={cs(
             {
-              [bootstrapStyles.col6]: !isBottom,
+              [bootstrapStyles.col5]: !isBottom,
               [bootstrapStyles.colMd6]: !isBottom,
               [bootstrapStyles.col12]: isBottom,
               [bootstrapStyles.colMd12]: isBottom,
@@ -262,18 +262,25 @@ const AddressSection: React.FC<AddressProps & {
         >
           <div
             className={cs({
-              [styles.closed]: isBillingDisable,
-              [globalStyles.pointer]: !isBillingDisable
+              [styles.closed]: isBillingDisable
             })}
-            onClick={clickAction}
           >
             {mobile ? (
-              <span className={cs(styles.addNewAddress)}>{mobileText}</span>
+              <span
+                className={cs(styles.addNewAddress, {
+                  [globalStyles.pointer]: !isBillingDisable
+                })}
+                onClick={clickAction}
+              >
+                {mobileText}
+              </span>
             ) : (
               <span
                 className={cs(styles.addNewAddress, {
-                  [styles.lightClosed]: isBillingDisable
+                  [styles.lightClosed]: isBillingDisable,
+                  [globalStyles.pointer]: !isBillingDisable
                 })}
+                onClick={clickAction}
               >
                 {fullText}
               </span>
@@ -589,6 +596,13 @@ const AddressSection: React.FC<AddressProps & {
     if (activeStep === STEP_SHIPPING) {
       if (!isBridal && customDuties?.visible && !isTermChecked) {
         setTermsErr("Please confirm to terms and conditions");
+        if (window.innerWidth < 768) {
+          const customErrorEle = document.querySelector("#termsAndCondition");
+          customErrorEle?.scrollIntoView({
+            block: "center",
+            behavior: "smooth"
+          });
+        }
         return false;
       }
     }
@@ -1041,7 +1055,10 @@ const AddressSection: React.FC<AddressProps & {
                                 >
                                   {customDuties?.visible && (
                                     <label className={cs(styles.flex)}>
-                                      <div className={globalStyles.marginR10}>
+                                      <div
+                                        className={globalStyles.marginR10}
+                                        id="termsAndCondition"
+                                      >
                                         <span className={styles.checkbox}>
                                           <input
                                             type="checkbox"
