@@ -155,7 +155,7 @@ const NewOtpComponent: React.FC<Props> = ({
         const ele =
           typeof document == "object" &&
           document.getElementById(
-            `${uniqueId}otp${+e.target.id.match(/\d+/)[0] - 1}`
+            `${uniqueId}otp${+e.target.id.match(/\d+/)[0]}`
           );
         if (ele) {
           ele.focus();
@@ -203,8 +203,8 @@ const NewOtpComponent: React.FC<Props> = ({
           `${uniqueId}otp${+e.target.id.match(/\d+/)[0] - 1}`
         );
       if (ele) {
-        // ele.focus();
         count.current = +e.target.id.match(/\d+/)[0];
+        ele?.focus();
       }
     } else if (e.which === 69) {
       e.preventDefault();
