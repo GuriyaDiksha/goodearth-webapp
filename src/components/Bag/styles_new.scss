@@ -260,7 +260,7 @@
         border: 1px solid $aqua;
         @include b3_14px_montserrat_white();
         &:hover{
-          background-color: $white !important;
+          background-color: transparent !important;
           @include b3_14px_montserrat_aqua();
         }
         &.out-of-stock {

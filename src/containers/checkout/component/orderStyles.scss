@@ -85,6 +85,9 @@ body:has(.open-summary) {
     width: 100%;
     min-height: 100vh;
     margin-top: -5px;
+    .order-summary {
+      padding-top: 0;
+    }
   }
   .font30 {
     font-size: 30px;
