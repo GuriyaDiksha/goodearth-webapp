@@ -14,7 +14,7 @@ input[type="text"]{
 .form-subheading{
   @include b4_12px_montserrat_charcoal();
   letter-spacing: 0.36px;
-  padding: 0px 150px;
+  padding: 0px 52px;
   line-height: 20px;
   margin-bottom: 10px;
   &.track-order{
@@ -53,6 +53,10 @@ input[type="text"]{
 
 .form-heading-multi {
   line-height: 36px;
+}
+
+.active-acc-subhead {
+  padding: 0px 150px;
 }
 
 .icon-signedin {
