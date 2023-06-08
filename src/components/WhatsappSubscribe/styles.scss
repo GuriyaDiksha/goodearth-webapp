@@ -16,7 +16,7 @@
         letter-spacing: 0.24px;
         line-height: 12px;
         font-weight: $light;
-        font-size: 8px;
+        font-size: 10px;
         border-radius: 5px;
         padding: 5px;
         background-color: #fff;
@@ -24,7 +24,7 @@
         width: 146px;
         @media screen and (max-width: 768px){
             height: 95px;
-            width: 100px;
+            width: 120px;
             &.show{
                 bottom: 36px !important;
                 left: -36px !important;

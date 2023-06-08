@@ -33,7 +33,8 @@ const OrderSummary: React.FC<OrderProps> = props => {
     setCheckoutMobileOrderSummary,
     onsubmit,
     currentmethod,
-    isPaymentNeeded
+    isPaymentNeeded,
+    checkoutMobileOrderSummary
   } = props;
   const [isLoading, setLoading] = useState(false);
   const [isSuspended, setIsSuspended] = useState(true);
@@ -58,9 +59,9 @@ const OrderSummary: React.FC<OrderProps> = props => {
     false
   );
   const { pathname } = useLocation();
-  const orderSummaryRef = useRef(null);
+  const orderSummaryRef = useRef<HTMLDivElement>(null);
   const orderSummaryRefCheckout = useRef(null);
-  const impactRef = useRef<HTMLDivElement>();
+  const impactRef = useRef<HTMLDivElement>(null);
   let observer: any;
 
   const handleScroll = () => {
@@ -72,6 +73,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
       setCheckoutMobileOrderSummary &&
         setCheckoutMobileOrderSummary(enteries[0].isIntersecting);
     };
+
     observer = new IntersectionObserver(interSectionCallBack, observerOptions);
     observer.observe(
       orderSummaryRef?.current,
@@ -113,7 +115,6 @@ const OrderSummary: React.FC<OrderProps> = props => {
 
   const handleClickOutside = (evt: any) => {
     if (impactRef.current && impactRef.current.contains(evt.target)) {
-      //Do what you want to handle in the callback
       CheckoutOrderSummaryHandler();
     }
   };
@@ -528,13 +529,6 @@ const OrderSummary: React.FC<OrderProps> = props => {
     }
   }, [basket]);
 
-  useEffect(() => {
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []);
-
   const canCheckout = () => {
     if (pathname.indexOf("checkout") > -1) {
       return false;
@@ -683,7 +677,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
           <div className={styles.summaryAmountWrapper}>
             {mobile && page == "checkout" && (
               <div className={styles.orderSummaryTitle}>
-                <span className={styles.text}>ORDER SUMMARY</span>
+                <span className={styles.text}>VIEW ORDER SUMMARY</span>
               </div>
             )}
             <div className={cs(globalStyles.flex, globalStyles.gutterBetween)}>
@@ -725,16 +719,20 @@ const OrderSummary: React.FC<OrderProps> = props => {
             <hr className={styles.hr} />
             <div className={cs(globalStyles.flex, globalStyles.gutterBetween)}>
               <span className={styles.subtotal}>TOTAL</span>
-              {console.log(
-                "basket.subTotalWithShipping",
-                basket.subTotalWithShipping
-              )}
               <span className={styles.subtotal}>
                 {String.fromCharCode(...code)}{" "}
                 {displayPriceWithCommasFloat(
                   basket.subTotalWithShipping,
                   currency
                 )}
+              </span>
+            </div>
+            <hr className={styles.hr} />
+            <div className={cs(globalStyles.flex, globalStyles.gutterBetween)}>
+              <span className={styles.subtotal}>AMOUNT PAYABLE</span>
+              <span className={styles.subtotal}>
+                {String.fromCharCode(...code)}{" "}
+                {displayPriceWithCommasFloat(basket?.total, currency)}
               </span>
             </div>
           </div>
@@ -812,6 +810,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
             page == "cart" && mobile && basket.lineItems?.length == 0
         }
       )}
+      data-id="test"
       ref={page === "checkoutMobileBottom" ? orderSummaryRefCheckout : null}
     >
       {totalWithoutShipping &&
@@ -901,13 +900,13 @@ const OrderSummary: React.FC<OrderProps> = props => {
                 className={cs(globalStyles.flex, globalStyles.gutterBetween)}
               >
                 <h3 className={cs(styles.summaryTitle)}>
-                  ORDER SUMMARY{" "}
+                  VIEW ORDER DETAILS{" "}
                   {pathname === "/order/checkout"
                     ? `(${getItemsCount()})`
                     : null}
                 </h3>
                 <div className={styles.payableAmount}>
-                  <span>Amount Payable:</span>
+                  {/* <span>Amount Payable:</span> */}
                   <span className={styles.totalAmount}>
                     {String.fromCharCode(...code)}{" "}
                     {displayPriceWithCommasFloat(
@@ -922,6 +921,14 @@ const OrderSummary: React.FC<OrderProps> = props => {
             </div>
           )}
         </div>
+      )}
+      {mobile && (
+        <div
+          className={cs(styles.orderSummaryOutside, {
+            [styles.closeSummary]: !checkoutOrderSummaryStatus
+          })}
+          onClick={CheckoutOrderSummaryHandler}
+        ></div>
       )}
       <div
         className={cs(
@@ -958,12 +965,13 @@ const OrderSummary: React.FC<OrderProps> = props => {
         <div className={cs(styles.justchk)}>
           {getSummary()}
 
+          {/* {!mobile && */}
           <div
             className={cs(styles.finalAmountWrapper, {
               [styles.checkoutMobileBottom]: page == "checkoutMobileBottom"
             })}
           >
-            <div className={cs(styles.summaryPadding)}>
+            {/* <div className={cs(styles.summaryPadding)}>
               <hr className={cs(styles.hr)} />
             </div>
             <div
@@ -978,9 +986,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
                 <span className={cs(styles.grandTotal, globalStyles.voffset2)}>
                   AMOUNT PAYABLE
                 </span>
-                {/* <p className={styles.subtext}>
-                  *Excluding estimated cost of shipping
-                </p> */}
+               
               </span>
               <span
                 className={cs(styles.grandTotalAmount, globalStyles.voffset2)}
@@ -988,7 +994,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
                 {String.fromCharCode(...code)}{" "}
                 {displayPriceWithCommasFloat(basket.total, currency)}
               </span>
-            </div>
+            </div> */}
             {/* {pathname === "/order/checkout" ? (
               <div className={cs(styles.summaryPadding)}>
                 <hr className={cs(styles.hr)} />
@@ -1113,7 +1119,6 @@ const OrderSummary: React.FC<OrderProps> = props => {
                 )}
               </>
             )}
-
             {hasOutOfStockItems() && (
               <p
                 className={cs(
@@ -1199,6 +1204,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
               </div>
             )}
           </div>
+          {/* } */}
 
           {page == "cart" && (
             <div

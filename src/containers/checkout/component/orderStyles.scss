@@ -207,8 +207,8 @@ body:has(.open-summary) {
   }
   .summary-amount-wrapper {
     hr {
-      margin-top: 20px;
-      margin-bottom: 20px;
+      margin-top: 20px !important;
+      margin-bottom: 20px !important;
     }
   }
   .remove {
@@ -242,7 +242,7 @@ body:has(.open-summary) {
     overflow-y: scroll;
     border-top: 0.5px solid #9f9f9f;
     border-bottom: 0.5px solid #9f9f9f;
-    @include bottom-shadow();
+    // @include bottom-shadow();
 
 
     &::-webkit-scrollbar {
@@ -460,7 +460,8 @@ body:has(.open-summary) {
   word-wrap: break-word;
   margin: 0px auto;
   text-align: center;
-  padding-top: 0;
+  letter-spacing: 0.5px;
+  padding-top: 5px;
   @include b5_10px_montserrat_charcoal();
 }
 
@@ -471,13 +472,17 @@ body:has(.open-summary) {
 .checkout-btn {
   img {
     width: 15px;
-    height: 19px;
+    height: 15px;
     object-fit: contain;
     margin-right: 5px;
     vertical-align: middle;
   }
+  span{
+    padding-top: 15px;
+  }
   @include b3_14px_montserrat_charcoal();
   color: $white;
+  letter-spacing: 0.5px;
 
   &:hover {
     background-color: transparent !important;
@@ -601,10 +606,24 @@ body:has(.open-summary) {
     padding: 0;
     top: 50px;
 
+    .order-summary-outside {
+      content: "";
+      width: 100%;
+      height: 100%;
+      display: block;
+      background-color: transparent;
+      mix-blend-mode: multiply;
+      position: fixed;
+      top: 0;
+      left: 0;
+    }
+    .close-summary {
+      height: 0;
+    }
     .checkout-order {
       position: absolute;
       width: 100%;
-      max-height: 565px;
+      max-height: 480px;
       top: 50px;
       left: 0;
       z-index: 99;
@@ -614,12 +633,12 @@ body:has(.open-summary) {
       transition: 0.5s;
     }
     .open-summary {
-      height: 80vh;
+      height: auto;
     }
 
     .summary-amount-wrapper {
       padding: 20px;
-      max-height: 160px;
+      max-height: 180px;
       overflow-y: scroll;
       
       &::-webkit-scrollbar {

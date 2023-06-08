@@ -31,9 +31,10 @@ import { POPUP } from "constants/components";
 import CookieService from "services/cookie";
 import { GA_CALLS, ANY_ADS } from "constants/cookieConsent";
 import { Currency, currencyCode } from "typings/currency";
-import { updateNextUrl } from "actions/info";
+import { updateLoader, updateNextUrl } from "actions/info";
 import { StaticContext } from "react-router";
 import CheckoutService from "services/checkout";
+import Loader from "components/Loader";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -45,7 +46,8 @@ const mapStateToProps = (state: AppState) => {
     location: state.router.location,
     isLoggedIn: state.user.isLoggedIn,
     wishlistData: state.wishlist.items,
-    user: state.user
+    user: state.user,
+    isLoading: state.info.isLoading
   };
 };
 
@@ -60,8 +62,8 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       // BasketService.fetchBasket(dispatch, true);
       return res;
     },
-    fetchBasket: () => {
-      BasketService.fetchBasket(dispatch, "cart");
+    fetchBasket: async () => {
+      return await BasketService.fetchBasket(dispatch, "cart");
     },
     deleteBasket: async (basketLineId: ProductID) => {
       const res = await BasketService.deleteBasket(
@@ -82,6 +84,9 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     openPopup: () => {
       dispatch(updateComponent(POPUP.MAKER, null));
       dispatch(updateModal(true));
+    },
+    showLoader: () => {
+      dispatch(updateLoader(true));
     },
     moveToWishListMsg: (onUndoWishlistClick: any) => {
       const msg = (
@@ -128,6 +133,7 @@ type State = {
   showUndoWishlist: boolean;
   showNotifyMessage: boolean;
   featureData: WidgetImage[];
+  newLoading: boolean;
 };
 class CartPage extends React.Component<Props, State> {
   constructor(props: Props) {
@@ -139,7 +145,8 @@ class CartPage extends React.Component<Props, State> {
       isSale: false,
       showUndoWishlist: false,
       showNotifyMessage: false,
-      featureData: []
+      featureData: [],
+      newLoading: true
     };
   }
 
@@ -209,7 +216,9 @@ class CartPage extends React.Component<Props, State> {
     } catch (err) {
       console.log(err);
     }
-    this.props.fetchBasket();
+    this.props.fetchBasket().finally(() => {
+      this.setState({ newLoading: false });
+    });
     const popupCookie = CookieService.getCookie("showCartPagePopup");
     if (popupCookie) {
       this.props.openPopup();
@@ -458,7 +467,13 @@ class CartPage extends React.Component<Props, State> {
                     VIEW ALL
                   </Link>
                 )}
-                <div className={cs(bootstrap.col12, globalStyles.marginT20)}>
+                <div
+                  className={cs(
+                    bootstrap.col12,
+                    globalStyles.marginT20,
+                    globalStyles.marginB20
+                  )}
+                >
                   <div
                     className={cs(
                       bootstrap.row,
@@ -535,8 +550,8 @@ class CartPage extends React.Component<Props, State> {
                                   <Link
                                     to={
                                       i === wishlistData.length
-                                        ? data.productUrl
-                                        : "/wishlist"
+                                        ? "/wishlist"
+                                        : data.productUrl
                                     }
                                   >
                                     <img
@@ -558,7 +573,7 @@ class CartPage extends React.Component<Props, State> {
                                     )}
                                   </Link>
                                 </div>
-                                {
+                                {i < wishlistData.length && (
                                   <div className={styles.imageContent}>
                                     <p className={styles.searchFeature}>
                                       <Link to={data.productUrl}>
@@ -575,7 +590,7 @@ class CartPage extends React.Component<Props, State> {
                                       </Link>
                                     </p>
                                   </div>
-                                }
+                                )}
                               </div>
                             );
                           }
@@ -690,6 +705,12 @@ class CartPage extends React.Component<Props, State> {
   }
 
   render() {
+    const {
+      totalWithoutShipping,
+      freeShippingThreshold,
+      freeShippingApplicable,
+      shippable
+    } = this.props.cart;
     return (
       <div className={cs(bootstrap.row, styles.pageBody)}>
         <div
@@ -697,7 +718,14 @@ class CartPage extends React.Component<Props, State> {
             bootstrap.col12,
             bootstrap.colLg8,
             styles.bagContents,
-            styles.pUnset
+            styles.pUnset,
+            {
+              [globalStyles.marginT10]:
+                totalWithoutShipping &&
+                totalWithoutShipping >= freeShippingThreshold &&
+                totalWithoutShipping < freeShippingApplicable &&
+                shippable
+            }
           )}
         >
           {this.getItemsCount() === 0 || this.props.mobile ? null : (
@@ -706,6 +734,7 @@ class CartPage extends React.Component<Props, State> {
             </div>
           )}
           {/* {this.renderMessage()} */}
+          {this.state.newLoading && <Loader />}
           {this.getItems()}
         </div>
 

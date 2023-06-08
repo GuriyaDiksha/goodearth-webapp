@@ -1176,6 +1176,11 @@ input[type="radio"] {
       right: 0;
       max-width: 100%;
     }
+    &.footer-send-to-address {
+      @media (max-width: 992px) {
+        position: relative;
+      }
+    }
   }
 }
 .send-to-payment {
@@ -1258,6 +1263,7 @@ input[type="radio"] {
     text-decoration: underline;
     text-transform: uppercase;
     margin: 0;
+    text-underline-offset: 3px;
   }
   .address-main {
     padding-top: 5px;

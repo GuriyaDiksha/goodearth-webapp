@@ -3,7 +3,9 @@ import React, {
   ReactElement,
   useContext,
   useState,
-  useMemo
+  useMemo,
+  useRef,
+  useLayoutEffect
 } from "react";
 import cs from "classnames";
 import bootstrapStyles from "../../../styles/bootstrap/bootstrap-grid.scss";
@@ -100,6 +102,45 @@ const AddressSection: React.FC<AddressProps & {
   const dispatch = useDispatch();
 
   const { mode } = useSelector((state: AppState) => state.address);
+
+  const canUseDOM = !!(
+    typeof window !== "undefined" &&
+    typeof window.document !== "undefined" &&
+    typeof window.document.createElement !== "undefined"
+  );
+
+  const [checkoutMobileOrderSummary, setCheckoutMobileOrderSummary] = useState(
+    false
+  );
+
+  const useIsomorphicLayoutEffect = canUseDOM ? useLayoutEffect : useEffect;
+
+  // Begin: Intersection Observer (Mobile)
+
+  const orderSummaryRef = useRef(null);
+  const orderSummaryRef2 = useRef(null);
+  let observer: any;
+
+  const handleScroll = () => {
+    const interSectionCallBack = (enteries: any) => {
+      setCheckoutMobileOrderSummary(
+        enteries[enteries?.length - 1].isIntersecting
+      );
+    };
+    observer = new IntersectionObserver(interSectionCallBack);
+    orderSummaryRef?.current && observer.observe(orderSummaryRef?.current);
+    orderSummaryRef2?.current && observer.observe(orderSummaryRef2?.current);
+  };
+
+  useIsomorphicLayoutEffect(() => {
+    handleScroll();
+    return () => {
+      orderSummaryRef?.current && observer?.unobserve(orderSummaryRef?.current);
+      orderSummaryRef2?.current &&
+        observer?.unobserve(orderSummaryRef2?.current);
+    };
+  }, [currentStep, activeStep, sameAsShipping]);
+  // End: Intersection Observer (Mobile)
 
   useEffect(() => {
     if (isLoggedIn && currentCallBackComponent == "checkout-shipping") {
@@ -209,7 +250,7 @@ const AddressSection: React.FC<AddressProps & {
         <div
           className={cs(
             {
-              [bootstrapStyles.col6]: !isBottom,
+              [bootstrapStyles.col5]: !isBottom,
               [bootstrapStyles.colMd6]: !isBottom,
               [bootstrapStyles.col12]: isBottom,
               [bootstrapStyles.colMd12]: isBottom,
@@ -221,18 +262,25 @@ const AddressSection: React.FC<AddressProps & {
         >
           <div
             className={cs({
-              [styles.closed]: isBillingDisable,
-              [globalStyles.pointer]: !isBillingDisable
+              [styles.closed]: isBillingDisable
             })}
-            onClick={clickAction}
           >
             {mobile ? (
-              <span className={cs(styles.addNewAddress)}>{mobileText}</span>
+              <span
+                className={cs(styles.addNewAddress, {
+                  [globalStyles.pointer]: !isBillingDisable
+                })}
+                onClick={clickAction}
+              >
+                {mobileText}
+              </span>
             ) : (
               <span
                 className={cs(styles.addNewAddress, {
-                  [styles.lightClosed]: isBillingDisable
+                  [styles.lightClosed]: isBillingDisable,
+                  [globalStyles.pointer]: !isBillingDisable
                 })}
+                onClick={clickAction}
               >
                 {fullText}
               </span>
@@ -548,6 +596,13 @@ const AddressSection: React.FC<AddressProps & {
     if (activeStep === STEP_SHIPPING) {
       if (!isBridal && customDuties?.visible && !isTermChecked) {
         setTermsErr("Please confirm to terms and conditions");
+        if (window.innerWidth < 768) {
+          const customErrorEle = document.querySelector("#termsAndCondition");
+          customErrorEle?.scrollIntoView({
+            block: "center",
+            behavior: "smooth"
+          });
+        }
         return false;
       }
     }
@@ -644,6 +699,7 @@ const AddressSection: React.FC<AddressProps & {
           {currency == "INR" ? (
             <div>
               <hr className={globalStyles.marginy24} />
+              {/* <div className="give reference"></div> */}
               <label className={cs(styles.flex, globalStyles.voffset3)}>
                 <div
                   className={cs(globalStyles.marginR10, globalStyles.marginT5)}
@@ -821,7 +877,7 @@ const AddressSection: React.FC<AddressProps & {
               >
                 {STEP_ORDER[activeStep] < currentStep ? (
                   <img
-                    height={"18px"}
+                    height={"15px"}
                     className={globalStyles.marginR10}
                     src={checkmarkCircle}
                     alt="checkmarkdone"
@@ -891,7 +947,7 @@ const AddressSection: React.FC<AddressProps & {
                 <div>
                   {STEP_ORDER[activeStep] < currentStep ? (
                     <img
-                      height={"18px"}
+                      height={"15px"}
                       className={globalStyles.marginR10}
                       src={checkmarkCircle}
                       alt="checkmarkdone"
@@ -966,6 +1022,28 @@ const AddressSection: React.FC<AddressProps & {
                                 styles.checkoutAddressFooter
                               )}
                             >
+                              {props.activeStep == STEP_SHIPPING &&
+                                mobile &&
+                                !checkoutMobileOrderSummary && (
+                                  <div
+                                    onClick={() => {
+                                      onSelectAddress(
+                                        addressList?.find(val =>
+                                          shippingAddressId !== 0
+                                            ? val?.id === shippingAddressId
+                                            : val?.isDefaultForShipping === true
+                                        )
+                                      );
+                                    }}
+                                    className={cs(styles.sendToAddress)}
+                                  >
+                                    {props.activeStep == STEP_SHIPPING
+                                      ? "SHIP TO THIS ADDRESS"
+                                      : props.activeStep == STEP_BILLING
+                                      ? "PROCEED TO PAYMENT"
+                                      : "SHIP TO THIS ADDRESS"}
+                                  </div>
+                                )}
                               {props.activeStep == STEP_SHIPPING && (
                                 <div
                                   className={cs({
@@ -977,7 +1055,10 @@ const AddressSection: React.FC<AddressProps & {
                                 >
                                   {customDuties?.visible && (
                                     <label className={cs(styles.flex)}>
-                                      <div className={globalStyles.marginR10}>
+                                      <div
+                                        className={globalStyles.marginR10}
+                                        id="termsAndCondition"
+                                      >
                                         <span className={styles.checkbox}>
                                           <input
                                             type="checkbox"
@@ -1022,24 +1103,32 @@ const AddressSection: React.FC<AddressProps & {
                                       {termsErr}
                                     </div>
                                   )}
-                                  <div
-                                    onClick={() => {
-                                      onSelectAddress(
-                                        addressList?.find(val =>
-                                          shippingAddressId !== 0
-                                            ? val?.id === shippingAddressId
-                                            : val?.isDefaultForShipping === true
-                                        )
-                                      );
-                                    }}
-                                    className={styles.sendToAddress}
-                                  >
-                                    {props.activeStep == STEP_SHIPPING
-                                      ? "SHIP TO THIS ADDRESS"
-                                      : props.activeStep == STEP_BILLING
-                                      ? "PROCEED TO PAYMENT"
-                                      : "SHIP TO THIS ADDRESS"}
-                                  </div>
+                                  <div ref={orderSummaryRef}></div>
+                                  {((checkoutMobileOrderSummary && mobile) ||
+                                    !mobile) && (
+                                    <div
+                                      onClick={() => {
+                                        onSelectAddress(
+                                          addressList?.find(val =>
+                                            shippingAddressId !== 0
+                                              ? val?.id === shippingAddressId
+                                              : val?.isDefaultForShipping ===
+                                                true
+                                          )
+                                        );
+                                      }}
+                                      className={cs(
+                                        styles.sendToAddress,
+                                        styles.footerSendToAddress
+                                      )}
+                                    >
+                                      {props.activeStep == STEP_SHIPPING
+                                        ? "SHIP TO THIS ADDRESS"
+                                        : props.activeStep == STEP_BILLING
+                                        ? "PROCEED TO PAYMENT"
+                                        : "SHIP TO THIS ADDRESS"}
+                                    </div>
+                                  )}
                                 </div>
                               )}
                               {!mobile &&
@@ -1077,6 +1166,10 @@ const AddressSection: React.FC<AddressProps & {
                     ""
                   )}
                   <div>{renderPancard}</div>
+                  {props.activeStep == STEP_BILLING &&
+                    mode == "list" &&
+                    !sameAsShipping && <div ref={orderSummaryRef2}></div>}
+                  {/* from-billing */}
                   {props.activeStep == STEP_BILLING && mode == "list" && (
                     <div className={bootstrapStyles.row}>
                       <div
@@ -1109,6 +1202,39 @@ const AddressSection: React.FC<AddressProps & {
                       </div>
                     </div>
                   )}
+
+                  <div
+                    className={cs(
+                      bootstrapStyles.row,
+                      globalStyles.gutterBetween,
+                      styles.checkoutAddressFooter
+                    )}
+                  >
+                    {props.activeStep == STEP_BILLING &&
+                      mode == "list" &&
+                      !sameAsShipping &&
+                      mobile &&
+                      !checkoutMobileOrderSummary && (
+                        <div
+                          onClick={() => {
+                            handleSaveAndReview(
+                              addressList?.find(val =>
+                                shippingAddressId !== 0
+                                  ? sameAsShipping
+                                    ? val?.id === shippingAddressId
+                                    : val?.id === billingAddressId
+                                  : val?.isDefaultForShipping === true
+                              )
+                            );
+                          }}
+                          className={cs(styles.sendToAddress)}
+                        >
+                          {mobile
+                            ? "SELECT & PROCEED TO PAYMENT"
+                            : "PROCEED TO PAYMENT"}
+                        </div>
+                      )}
+                  </div>
                 </div>
                 {/* {addressList.length > 1 &&
                   mode == "list" &&

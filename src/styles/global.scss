@@ -142,6 +142,9 @@ a {
 .margin-t-20 {
   margin-top: 20px;
 }
+.margin-t-25 {
+  margin-top: 25px;
+}
 .margin-r-5{
   margin-right: 5px;
 }
@@ -226,6 +229,9 @@ a {
 }
 .ceriseDisabled {
   color: tint(#000,80%) !important;
+}
+.charcoal {
+  color: $charcoal19;
 }
 .gold{
   color: $gold !important;

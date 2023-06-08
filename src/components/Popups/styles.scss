@@ -28,12 +28,12 @@
           line-height: 15px;
         }
       }
-      p {
-        line-height: 20px;
+     // p {
+        // line-height: 20px;
       // padding: 7px 57px;
-      text-align: center;
+      // text-align: center;
       // font-size: 12px;
-      }
+     /// }
       .cms-content {
         @include b4_12px_montserrat_charcoal();
         letter-spacing: 0.36px;
@@ -57,7 +57,7 @@
         letter-spacing: 0.5px;
         @include b3_14px_montserrat_white();
         @media screen and (max-width:992px) {
-          width: 100% !important;
+          width: 90% !important;
           margin-bottom: 0 !important;
         }
         &:hover{
@@ -145,7 +145,7 @@
       -webkit-transform: translate(-50%, -50%);
       transform: translate(-50%, -50%);
       max-height: 725px;
-      overflow: scroll;
+      overflow-y: auto;
       //width: 100%;
     }
     .maker-popup-desktop {
@@ -168,6 +168,9 @@
       letter-spacing: .5px;
       font-weight: $regular !important;
       @include b4_12px_montserrat_medcharcoal();
+      @media screen and (max-width: 992px) {
+        padding: 0 20px;
+      }
       .cerise-btn {
         position: inherit;
         margin: 25px 0 20px 0;

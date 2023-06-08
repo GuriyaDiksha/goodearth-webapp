@@ -119,7 +119,7 @@ const PromoSection: React.FC<PromoProps> = props => {
           basket.voucherDiscounts.length > 0 &&
           !isEdit ? (
             <img
-              height={"18px"}
+              height={"15px"}
               className={globalStyles.marginR10}
               src={checkmarkCircle}
               alt="checkmarkdone"

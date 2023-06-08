@@ -159,11 +159,11 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     updateShowSearchPopup: (state: boolean) => {
       dispatch(updateShowSearchPopup(state));
     },
-    fetchBasketMinibag: () => {
-      BasketService.fetchBasket(dispatch);
+    fetchBasketMinibag: async () => {
+      return await BasketService.fetchBasket(dispatch);
     },
     fetchBasketCartpage: async () => {
-      BasketService.fetchBasket(dispatch, "cart");
+      return await BasketService.fetchBasket(dispatch, "cart");
     }
   };
 };
