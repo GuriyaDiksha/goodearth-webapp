@@ -700,7 +700,13 @@ const AddressSection: React.FC<AddressProps & {
             <div>
               <hr className={globalStyles.marginy24} />
               {/* <div className="give reference"></div> */}
-              <label className={cs(styles.flex, globalStyles.voffset3)}>
+              <label
+                className={cs(
+                  styles.flex,
+                  globalStyles.voffset3,
+                  globalStyles.widthSet
+                )}
+              >
                 <div
                   className={cs(globalStyles.marginR10, globalStyles.marginT5)}
                 >
@@ -1054,7 +1060,12 @@ const AddressSection: React.FC<AddressProps & {
                                   })}
                                 >
                                   {customDuties?.visible && (
-                                    <label className={cs(styles.flex)}>
+                                    <label
+                                      className={cs(
+                                        styles.flex,
+                                        globalStyles.widthSet
+                                      )}
+                                    >
                                       <div
                                         className={globalStyles.marginR10}
                                         id="termsAndCondition"

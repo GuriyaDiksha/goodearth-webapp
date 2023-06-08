@@ -33,6 +33,9 @@ h1, h2, h3, h4 {
   font-weight: 400;
 }
 
+.width-set {
+  width: fit-content;
+}
 h2 {
   margin-bottom: 0;
 }
@@ -197,6 +200,7 @@ a {
   text-align: left;
   // height: 15px;
   line-height: 15px;
+  margin-top: 6px;
   &.word-cap {
     text-transform: none;
   }
@@ -311,6 +315,9 @@ font-weight: bold;
     color: tint(#000, 50%) !important;
     cursor: default;
     border: none;
+    &:hover {
+      background-color: $disabled-input;
+    }
   }
   a {
     font-weight: normal;

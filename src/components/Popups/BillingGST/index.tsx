@@ -185,7 +185,9 @@ const BillingGST: React.FC<PopupProps> = ({
             >
               <input
                 type="text"
-                className={cs(styles.input, styles.marginR10)}
+                className={cs(styles.input, styles.marginR10, {
+                  [styles.formGstError]: error
+                })}
                 onChange={e => onCouponChange(e)}
                 value={gstText}
                 aria-label="billing-gst"

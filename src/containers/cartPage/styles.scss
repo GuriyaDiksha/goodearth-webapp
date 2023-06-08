@@ -746,8 +746,12 @@ hr {
       cursor: pointer;
       @include b5_10px_montserrat_charcoal();
       font-size: 10px !important;
-      border-bottom: 1px solid #191919;
+      border-bottom: 0.5px solid $med-charcoal;
       width: fit-content;
+      &:hover {
+        color: #7EAACE;
+        border-bottom: 1px solid #7EAAA9;
+      }
     }
   }
 
