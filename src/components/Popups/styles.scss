@@ -55,6 +55,7 @@
         margin: 0 auto;
         background-color: $med-charcoal;
         letter-spacing: 0.5px;
+        border: 1px solid $med-charcoal;
         @include b3_14px_montserrat_white();
         @media screen and (max-width:992px) {
           width: 90% !important;
