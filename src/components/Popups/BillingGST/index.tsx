@@ -140,7 +140,8 @@ const BillingGST: React.FC<PopupProps> = ({
           styles.sizeBlockPopup,
           styles.sizeBlockNotFixed,
           styles.centerpageDesktopFs,
-          globalStyles.textCenter
+          globalStyles.textCenter,
+          styles.gstPopup
         )}
       >
         <div className={styles.headWrp}>
