@@ -437,7 +437,6 @@ class Search extends React.Component<Props, State> {
       </div>
     );
   };
-
   decodeSearchString(value: string) {
     try {
       return decodeURIComponent(value);
@@ -445,6 +444,7 @@ class Search extends React.Component<Props, State> {
       return value;
     }
   }
+
   render() {
     // const cur = "price" + this.props.currency.toLowerCase();
     // const originalCur = "original_price_" + this.props.currency.toLowerCase();
@@ -828,7 +828,7 @@ class Search extends React.Component<Props, State> {
                         {recentSearchs?.map((ele, ind) => (
                           <div className={styles.recentBlock}>
                             <Link
-                              to={"/search/?q=" + ele}
+                              to={"/search/?q=" + encodeURIComponent(ele)}
                               onClick={() => {
                                 this.recentSearch(ele);
                                 this.props.hideSearch();
