@@ -770,7 +770,7 @@ class NewGiftcard extends React.Component<Props, State> {
                     placeholder=""
                     maxLength={248}
                     name="message"
-                    rows={5}
+                    rows={6}
                     value={message}
                     id="sender_msg"
                     handleChange={e => {
