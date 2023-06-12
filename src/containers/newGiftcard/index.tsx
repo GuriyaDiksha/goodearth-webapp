@@ -137,7 +137,7 @@ class NewGiftcard extends React.Component<Props, State> {
       recipientEmail: "",
       confirmRecipientEmail: "",
       // commenting bcz we don't want to remove default message
-      // message: "",
+      message: "Here is a gift for you!",
       senderName: "",
       subscribe: false,
       customValue: "",
@@ -290,7 +290,7 @@ class NewGiftcard extends React.Component<Props, State> {
   };
 
   onMessageChange = (e: any) => {
-    if (e.target.value.length() > 248) {
+    if (e.target.value.length > 248) {
       return false;
     } else {
       this.setState({
@@ -535,7 +535,7 @@ class NewGiftcard extends React.Component<Props, State> {
                 You have recieved a Good Earth eGift card worth
               </div>
               <div className={styles.gcAmount}>
-                {String.fromCharCode(...currencyCharCode)}&nbsp;&nbsp;
+                &nbsp;
                 {+cardValue > 0
                   ? displayPriceWithCommas(cardValue, currency)
                   : +customValue > 0
@@ -629,12 +629,10 @@ class NewGiftcard extends React.Component<Props, State> {
                         })}
                         id={pro.id}
                       >
-                        {String.fromCharCode(...currencyCharCode) +
-                          " " +
-                          displayPriceWithCommas(
-                            pro.priceRecords[currency],
-                            currency
-                          )}
+                        {displayPriceWithCommas(
+                          pro.priceRecords[currency],
+                          currency
+                        )}
                       </div>
                     ) : (
                       ""

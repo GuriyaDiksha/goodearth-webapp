@@ -235,7 +235,6 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
         <p className={styles.productN}>
           {info.isSale && product.discount ? (
             <span className={styles.discountprice}>
-              {String.fromCharCode(...code)}{" "}
               {displayPriceWithCommas(
                 product.discountedPriceRecords[currency as Currency],
                 currency
@@ -247,7 +246,6 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
           {info.isSale && product.discount ? (
             <span className={styles.strikeprice}>
               {" "}
-              {String.fromCharCode(...code)}{" "}
               {displayPriceWithCommas(
                 product.priceRecords[currency as Currency],
                 currency
@@ -259,7 +257,6 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
                 product.badgeType == "B_flat" ? globalStyles.cerise : ""
               }
             >
-              {String.fromCharCode(...code)}{" "}
               {displayPriceWithCommas(
                 product.priceRecords[currency as Currency],
                 currency

@@ -10,7 +10,6 @@ const Price: React.FC<Props> = ({ product, isSale, code, currency }) => {
     <p className={styles.productN}>
       {isSale && product.discount ? (
         <span className={styles.discountprice}>
-          {String.fromCharCode(...code)}{" "}
           {displayPriceWithCommas(
             product.discountedPriceRecords[currency as Currency],
             currency
@@ -22,7 +21,6 @@ const Price: React.FC<Props> = ({ product, isSale, code, currency }) => {
       {isSale && product.discount ? (
         <span className={styles.strikeprice}>
           {" "}
-          {String.fromCharCode(...code)}{" "}
           {displayPriceWithCommas(
             product.priceRecords[currency as Currency],
             currency
@@ -32,7 +30,6 @@ const Price: React.FC<Props> = ({ product, isSale, code, currency }) => {
         <span
           className={product.badgeType == "B_flat" ? globalStyles.cerise : ""}
         >
-          {String.fromCharCode(...code)}{" "}
           {displayPriceWithCommas(
             product.priceRecords[currency as Currency],
             currency
