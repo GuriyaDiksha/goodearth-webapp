@@ -34,6 +34,7 @@ import { POPUP } from "constants/components";
 import { displayPriceWithCommas } from "utils/utility";
 import ReactHtmlParser from "react-html-parser";
 import { countryCurrencyCode } from "constants/currency";
+import ModalStyles from "components/Modal/styles.scss";
 
 const AddressSection: React.FC<AddressProps & {
   mode: string;
@@ -639,7 +640,9 @@ const AddressSection: React.FC<AddressProps & {
             sameAsShipping: sameAsShipping,
             setSameAsShipping: setSameAsShipping
           },
-          true
+          mobile ? false : true,
+          mobile ? ModalStyles.bottomAlignSlideUp : "",
+          mobile ? "slide-up-bottom-align" : ""
         )
       );
     }
@@ -660,7 +663,9 @@ const AddressSection: React.FC<AddressProps & {
             sameAsShipping: sameAsShipping,
             setSameAsShipping: setSameAsShipping
           },
-          true
+          mobile ? false : true,
+          mobile ? ModalStyles.bottomAlignSlideUp : "",
+          mobile ? "slide-up-bottom-align" : ""
         )
       );
       dispatch(updateModal(true));

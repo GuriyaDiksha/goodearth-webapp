@@ -14,7 +14,7 @@
         left: unset;
         transform: unset;
         bottom: 0px;
-        transition: bottom 0.5s ease; 
+        transition: max-height 0.5s;
       }
       .gc-tnc {
         height: auto;
@@ -479,6 +479,9 @@
   .centerpage-desktop-fs {
     position: fixed;
     bottom: 0;
+    width: 100%;
+  }
+  .centerpage-desktop-fs-width {
     width: 100%;
   }
   .size-block-not-fixed.form-block {

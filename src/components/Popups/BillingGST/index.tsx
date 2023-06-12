@@ -47,6 +47,7 @@ const BillingGST: React.FC<PopupProps> = ({
   const { addressList, shippingAddressId, billingAddressId } = useSelector(
     (state: AppState) => state.address
   );
+  const { mobile } = useSelector((state: AppState) => state.device);
   const address: any =
     addressList?.find((val: any) =>
       shippingAddressId !== 0
@@ -139,9 +140,11 @@ const BillingGST: React.FC<PopupProps> = ({
         className={cs(
           styles.sizeBlockPopup,
           styles.sizeBlockNotFixed,
-          styles.centerpageDesktopFs,
           globalStyles.textCenter,
-          styles.gstPopup
+          {
+            [styles.centerpageDesktopFsWidth]: mobile,
+            [styles.centerpageDesktopFs]: !mobile
+          }
         )}
       >
         <div className={styles.headWrp}>
