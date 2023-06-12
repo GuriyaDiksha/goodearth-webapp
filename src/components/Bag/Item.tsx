@@ -501,7 +501,7 @@ const LineItems: React.FC<BasketItem> = memo(
         </div>
         {/* {productDeliveryDate && (
           <div className={cs(styles.deliveryDate, globalStyles.voffset3)}>
-            Estimated Delivery:
+            Estimated delivery:
             <span>{productDeliveryDate}</span>
           </div>
         )} */}

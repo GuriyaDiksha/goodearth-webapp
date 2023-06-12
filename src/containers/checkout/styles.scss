@@ -1230,7 +1230,7 @@ input[type="radio"] {
   &.proceed-to-payment {
     padding: 9px 30px;
     border: 1px solid $med-charcoal;
-    &:focus {
+    &:focus,&:active {
       color: $white;
     }
     @media (max-width: 992px) {

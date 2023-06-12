@@ -9,6 +9,13 @@
       // width: 35vw;
       width: 460px;
       min-height: 400px;
+      &.gstPopup {
+        top: unset;
+        left: unset;
+        transform: unset;
+        bottom: 0px;
+        transition: max-height 0.5s;
+      }
       .gc-tnc {
         height: auto;
         padding: 0px 0 30px 0 !important;
@@ -55,6 +62,7 @@
         margin: 0 auto;
         background-color: $med-charcoal;
         letter-spacing: 0.5px;
+        border: 1px solid $med-charcoal;
         @include b3_14px_montserrat_white();
         @media screen and (max-width:992px) {
           width: 90% !important;
@@ -471,6 +479,9 @@
   .centerpage-desktop-fs {
     position: fixed;
     bottom: 0;
+    width: 100%;
+  }
+  .centerpage-desktop-fs-width {
     width: 100%;
   }
   .size-block-not-fixed.form-block {
@@ -1643,6 +1654,9 @@
   font-weight: normal !important;
 }
 
+.form-gst-error  {
+  border: 1px solid #ab1e56;
+}
 .desc{
   p{
     word-wrap: break-word;

@@ -66,7 +66,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
 
   const handleScroll = () => {
     const observerOptions = {
-      rootMargin: "-140px 0px -170px 0px"
+      rootMargin: "-120px 0px -120px 0px"
     };
     const interSectionCallBack = (enteries: any) => {
       setPreviewTriggerStatus(enteries[0].isIntersecting);
@@ -810,7 +810,6 @@ const OrderSummary: React.FC<OrderProps> = props => {
             page == "cart" && mobile && basket.lineItems?.length == 0
         }
       )}
-      data-id="test"
       ref={page === "checkoutMobileBottom" ? orderSummaryRefCheckout : null}
     >
       {totalWithoutShipping &&

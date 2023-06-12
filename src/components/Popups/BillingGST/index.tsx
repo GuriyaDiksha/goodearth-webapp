@@ -47,6 +47,7 @@ const BillingGST: React.FC<PopupProps> = ({
   const { addressList, shippingAddressId, billingAddressId } = useSelector(
     (state: AppState) => state.address
   );
+  const { mobile } = useSelector((state: AppState) => state.device);
   const address: any =
     addressList?.find((val: any) =>
       shippingAddressId !== 0
@@ -139,8 +140,11 @@ const BillingGST: React.FC<PopupProps> = ({
         className={cs(
           styles.sizeBlockPopup,
           styles.sizeBlockNotFixed,
-          styles.centerpageDesktopFs,
-          globalStyles.textCenter
+          globalStyles.textCenter,
+          {
+            [styles.centerpageDesktopFsWidth]: mobile,
+            [styles.centerpageDesktopFs]: !mobile
+          }
         )}
       >
         <div className={styles.headWrp}>
@@ -185,7 +189,9 @@ const BillingGST: React.FC<PopupProps> = ({
             >
               <input
                 type="text"
-                className={cs(styles.input, styles.marginR10)}
+                className={cs(styles.input, styles.marginR10, {
+                  [styles.formGstError]: error
+                })}
                 onChange={e => onCouponChange(e)}
                 value={gstText}
                 aria-label="billing-gst"
