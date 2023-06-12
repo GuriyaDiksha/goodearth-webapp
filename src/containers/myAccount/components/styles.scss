@@ -20,6 +20,13 @@ input[type="text"]{
     padding: 0px 100px
   }
 }
+.activategc-subheading{
+  width: 50%;
+  margin: 10px auto 30px auto;
+  @media screen  and (max-width: 992px){
+    width: 70%;
+  }
+}
 @media screen  and (max-width: 992px){
   .form-subheading{
     padding : 0px;
