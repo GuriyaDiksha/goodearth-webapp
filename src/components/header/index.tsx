@@ -1435,10 +1435,12 @@ class Header extends React.Component<Props, State> {
             currency={this.props.currency}
             active={this.state.showBag}
             toggleBag={(): void => {
-              this.props.fetchBasketCartpage().then(() => {
-                this.setState(prevState => {
-                  return { showBag: !prevState.showBag };
-                });
+              // if(!this.props.location.pathname.includes(
+              //   "/cart"
+              // )){
+              debugger;
+              this.setState(prevState => {
+                return { showBag: !prevState.showBag };
               });
             }}
           />

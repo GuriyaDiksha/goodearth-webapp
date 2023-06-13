@@ -190,7 +190,7 @@
 
           .remove {
             @include b5_10px_montserrat_charcoal();
-            border-bottom: 1px solid $charcoal19;
+            border-bottom:0.5px solid #4C4C4C;
             cursor: pointer;
           }
           .wishlist-display {

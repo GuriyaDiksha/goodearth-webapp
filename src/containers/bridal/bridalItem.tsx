@@ -308,7 +308,7 @@ class BridalItem extends React.Component<Props, State> {
                             globalStyles.voffset2
                           )}
                         >
-                          Estimated Delivery On or Before:{" "}
+                          Estimated delivery on or before:{" "}
                           <span className={styles.black}>
                             {" "}
                             {this.props.bridalItem.productDeliveryDate}

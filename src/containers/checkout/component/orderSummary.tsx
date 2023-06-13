@@ -5,7 +5,7 @@ import styles from "./orderStyles.scss";
 import paymentStyles from "../styles.scss";
 import { OrderProps } from "./typings";
 import { Currency, currencyCode } from "typings/currency";
-import { useLocation, NavLink, useHistory } from "react-router-dom";
+import { useLocation, NavLink, useHistory, Link } from "react-router-dom";
 import iconStyles from "styles/iconFonts.scss";
 import { useDispatch, useSelector } from "react-redux";
 import CheckoutService from "services/checkout";
@@ -678,6 +678,9 @@ const OrderSummary: React.FC<OrderProps> = props => {
             {mobile && page == "checkout" && (
               <div className={styles.orderSummaryTitle}>
                 <span className={styles.text}>VIEW ORDER SUMMARY</span>
+                <Link to="/cart" className={styles.textLink}>
+                  EDIT BAG
+                </Link>
               </div>
             )}
             <div className={cs(globalStyles.flex, globalStyles.gutterBetween)}>
@@ -704,7 +707,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
             </div>
             {basket.finalDeliveryDate && showDeliveryTimelines && (
               <div className={styles.deliveryDate}>
-                Estimated Delivery On or Before:{" "}
+                Estimated delivery on or before:{" "}
                 <span className={styles.black}>{basket.finalDeliveryDate}</span>
               </div>
             )}

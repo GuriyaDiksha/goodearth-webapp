@@ -62,7 +62,7 @@ hr {
   }
   .remove {
     @include b5_10px_montserrat_charcoal_caps();
-    border-bottom: 1px solid $charcoal19;
+    border-bottom: 0.5px solid #4C4C4C;
     cursor: pointer;
     margin: 0 auto;
     width: fit-content;
@@ -752,8 +752,8 @@ hr {
       border-bottom: 0.5px solid $med-charcoal;
       width: fit-content;
       &:hover {
-        color: #7EAACE;
-        border-bottom: 1px solid #7EAAA9;
+        color: $aqua;
+        border-bottom: 1px solid $aqua;
       }
     }
   }

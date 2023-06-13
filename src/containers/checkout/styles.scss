@@ -1162,6 +1162,7 @@ input[type="radio"] {
     cursor: pointer;
     margin-top: 24px;
     border: 1px solid $med-charcoal;
+    z-index: 1;
     &:hover {
       background: $white 0% 0% no-repeat padding-box;
       border: 1px solid $med-charcoal;

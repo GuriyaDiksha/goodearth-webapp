@@ -57,6 +57,7 @@ body:has(.mobile) {
   position: relative;
   // min-height: 320px;
   border: 1px solid #eaeaea;
+  cursor: pointer;
 
   .address-wrapper {
     max-width: 93%;
@@ -664,7 +665,7 @@ body:has(.mobile) {
 
   .address-item-container {
     border: 2px solid #eaeaea;
-    height: 220px;
+    height: 230px;
 
     &.default-address {
       border-color: $aqua;
