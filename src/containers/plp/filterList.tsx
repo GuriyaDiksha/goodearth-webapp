@@ -338,6 +338,7 @@ class FilterList extends React.Component<Props, State> {
     history.replace(mainurl + "?source=plp" + filterUrl, {});
     this.updateDataFromAPI(load);
   };
+
   onchangeRange = (value: any) => {
     if (value[0] == value[1]) return false;
     this.setState({
@@ -916,7 +917,7 @@ class FilterList extends React.Component<Props, State> {
     if (facets.categoryProductTypeMapping) {
       Object.keys(facets.categoryProductTypeMapping).map((level4: any) => {
         facets.categoryProductTypeMapping[level4].map((productBy: any) => {
-          if (!filter.productType["pb_" + productBy]) {
+          if (!("pb_" + productBy in filter.productType)) {
             filter.productType["pb_" + productBy] = false;
           }
         });
@@ -934,6 +935,33 @@ class FilterList extends React.Component<Props, State> {
           }
         );
       });
+    }
+
+    // Remove unwanted filters
+    const filterTypes = [
+      "currentColor",
+      "currentMaterial",
+      "availableSize",
+      "availableDiscount",
+      "productType"
+    ];
+    for (let i = 0; i < filterTypes.length; i++) {
+      const allOptions: any = [];
+      const filterBackup = structuredClone(filter[filterTypes[i]]);
+      if (filterTypes[i] in facets) {
+        for (let j = 0; j < facets[filterTypes[i]].length; j++) {
+          allOptions.push(facets[filterTypes[i]][j][0]);
+        }
+        if (allOptions.length > 0) {
+          Object.keys(filterBackup).map((filterObject: any, j: number) => {
+            console.log("Options", allOptions);
+            console.log("To delete", filterObject);
+            if (!allOptions.includes(filterObject)) {
+              delete filter[filterTypes[i]][filterObject];
+            }
+          });
+        }
+      }
     }
 
     this.handleAnimation(selectIndex + "l", false, true);
