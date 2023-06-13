@@ -21,7 +21,9 @@ const settings = {
   speed: 500,
   slidesToShow: 1,
   slidesToScroll: 1,
-  arrows: true
+  arrows: true,
+  autoplay: true,
+  autoplaySpeed: 3000
 };
 
 const mapStateToProps = (state: AppState) => {
@@ -56,6 +58,14 @@ class ShopLocator extends Component<Props, State> {
   }
 
   onHeaderItemClick = (data: any) => {
+    if (
+      document.getElementById("bottomSlide") &&
+      document.getElementById(data)
+    ) {
+      (document.getElementById("bottomSlide") as HTMLDivElement).style.left =
+        (document.getElementById(data) as HTMLDivElement).offsetLeft + "px";
+    }
+
     this.setState({
       currentCity: data
     });
@@ -78,6 +88,11 @@ class ShopLocator extends Component<Props, State> {
                 ) as HTMLDivElement;
                 if (ele) {
                   ele?.focus();
+                  if (document.getElementById("bottomSlide")) {
+                    (document.getElementById(
+                      "bottomSlide"
+                    ) as HTMLDivElement).style.left = ele.offsetLeft + "px";
+                  }
                 }
               });
             } else {
@@ -92,6 +107,11 @@ class ShopLocator extends Component<Props, State> {
                   ) as HTMLDivElement;
                   if (ele) {
                     ele?.focus();
+                    if (document.getElementById("bottomSlide")) {
+                      (document.getElementById(
+                        "bottomSlide"
+                      ) as HTMLDivElement).style.left = ele.offsetLeft + "px";
+                    }
                   }
                 }
               );
@@ -104,7 +124,7 @@ class ShopLocator extends Component<Props, State> {
       });
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(prevProps: Props, prevState: State) {
     const city = window.location.href.split("/").pop();
     if (this.state.currentCity !== city) {
       this.setState(
@@ -115,9 +135,31 @@ class ShopLocator extends Component<Props, State> {
           const ele = document.getElementById(city || "") as HTMLDivElement;
           if (ele) {
             ele?.focus();
+            if (document.getElementById("bottomSlide")) {
+              (document.getElementById(
+                "bottomSlide"
+              ) as HTMLDivElement).style.left = ele.offsetLeft + "px";
+            }
           }
         }
       );
+    }
+    if (
+      prevState.currentCity != "" &&
+      prevState.currentCity !== this.state.currentCity
+    ) {
+      const banner = document.getElementById("page-banner") as HTMLDivElement;
+      const description = document.getElementById(
+        "page-description"
+      ) as HTMLDivElement;
+      const mainHeaderHeight = document.getElementById(
+        "myHeader"
+      ) as HTMLDivElement;
+      const h1 = banner.clientHeight;
+      const h2 = description.clientHeight;
+      const h3 = mainHeaderHeight.clientHeight;
+      const total = h1 + h2 + h3;
+      window.scrollTo({ top: total, left: 0 });
     }
   }
   render() {
@@ -130,10 +172,13 @@ class ShopLocator extends Component<Props, State> {
           [styles.saleTimerMargin]: this.props.saleTimer
         })}
       >
-        <div className={cs(styles.banner, { [styles.tabletBanner]: tablet })}>
+        <div
+          className={cs(styles.banner, { [styles.tabletBanner]: tablet })}
+          id="page-banner"
+        >
           {/* <div className={styles.bannerText}>Find us near you</div> */}
         </div>
-        <div className={styles.pageDescription}>
+        <div className={styles.pageDescription} id="page-description">
           <div className={styles.text}>
             Our stores reflect inspirations from the city where they’re located,
             telling tales of tradition, design, and culture through a uniquely
@@ -143,8 +188,10 @@ class ShopLocator extends Component<Props, State> {
         </div>
         <div
           className={cs(styles.headerBox, { [styles.withTimer]: saleTimer })}
+          id="header-box"
         >
           <div className={styles.header}>
+            <div id="bottomSlide" className={styles.slider}></div>
             {Object.keys(shopData).map((data: any, i: number) => {
               return (
                 <div

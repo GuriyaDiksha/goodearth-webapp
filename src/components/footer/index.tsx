@@ -70,7 +70,8 @@ class Footer extends React.Component<Props, FooterState> {
       isInViewport: false,
       isConsentSave: false,
       headingHoverArray: [],
-      subheadingHoverArray: []
+      subheadingHoverArray: [],
+      smartNav: ["/", "/homepage"]
     };
   }
 
@@ -1142,7 +1143,7 @@ class Footer extends React.Component<Props, FooterState> {
             </div>
           </div>
         </div>
-        {(this.props.location.pathname == "/" ||
+        {(this.state.smartNav.indexOf(this.props.location.pathname) > -1 ||
           this.props.location.pathname.includes("/category_landing/") ||
           desktopPlp) &&
           this.props.currency == "INR" && (

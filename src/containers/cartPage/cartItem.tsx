@@ -4,23 +4,17 @@ import { Link } from "react-router-dom";
 import styles from "./styles.scss";
 import { BasketItem } from "typings/basket";
 import bootstrap from "../../styles/bootstrap/bootstrap-grid.scss";
-import Quantity from "components/quantity";
 import "../../styles/override.css";
 import { currencyCodes } from "constants/currency";
 import WishlistButton from "components/WishlistButton";
 import globalStyles from "../../styles/global.scss";
-// import iconStyles from "../../styles/iconFonts.scss";
 import BasketService from "services/basket";
 import { useSelector, useStore } from "react-redux";
-import { updateModal, updateComponent } from "actions/modal";
-import ModalStyles from "components/Modal/styles.scss";
-import { ChildProductAttributes } from "typings/product";
-import { POPUP } from "constants/components";
 import bridalRing from "../../images/bridal/rings.svg";
 import { AppState } from "reducers/typings";
 import CookieService from "services/cookie";
-import { GA_CALLS, ANY_ADS } from "constants/cookieConsent";
 import PdpQuantity from "components/quantity/pdpQuantity";
+import { GA_CALLS } from "constants/cookieConsent";
 import { displayPriceWithCommas } from "utils/utility";
 
 const CartItems: React.FC<BasketItem> = memo(
@@ -104,7 +98,7 @@ const CartItems: React.FC<BasketItem> = memo(
         }
         const userConsent = CookieService.getCookie("consent").split(",");
 
-        if (userConsent.includes(ANY_ADS)) {
+        if (userConsent.includes(GA_CALLS)) {
           Moengage.track_event("remove_from_cart", {
             "Product id": sku || childAttributes[0].sku,
             "Product name": title,
@@ -260,29 +254,29 @@ const CartItems: React.FC<BasketItem> = memo(
       );
     };
 
-    const showNotifyPopup = () => {
-      dispatch(
-        updateComponent(
-          POPUP.NOTIFYMEPOPUP,
-          {
-            basketLineId: id,
-            price: priceRecords[currency],
-            currency: currency,
-            title: title,
-            childAttributes: childAttributes as ChildProductAttributes[],
-            selectedIndex: 0,
-            discount: false,
-            onNotifyCart: onNotifyCart,
-            // changeSize:{changeSize},
-            list: "cart",
-            sliderImages: plpSliderImages
-          },
-          false,
-          mobile ? ModalStyles.bottomAlign : undefined
-        )
-      );
-      dispatch(updateModal(true));
-    };
+    // const showNotifyPopup = () => {
+    //   dispatch(
+    //     updateComponent(
+    //       POPUP.NOTIFYMEPOPUP,
+    //       {
+    //         basketLineId: id,
+    //         price: priceRecords[currency],
+    //         currency: currency,
+    //         title: title,
+    //         childAttributes: childAttributes as ChildProductAttributes[],
+    //         selectedIndex: 0,
+    //         discount: false,
+    //         onNotifyCart: onNotifyCart,
+    //         // changeSize:{changeSize},
+    //         list: "cart",
+    //         sliderImages: plpSliderImages
+    //       },
+    //       false,
+    //       mobile ? ModalStyles.bottomAlign : undefined
+    //     )
+    //   );
+    //   dispatch(updateModal(true));
+    // };
 
     const renderNotifyTrigger = (section: string) => {
       const isOutOfStock = stockRecords[0].numInStock < 1;

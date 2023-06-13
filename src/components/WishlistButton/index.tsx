@@ -22,7 +22,7 @@ import { AppState } from "reducers/typings";
 import { ChildProductAttributes } from "typings/product";
 import { updateLoader } from "actions/info";
 import CookieService from "../../services/cookie";
-import { GA_CALLS, ANY_ADS } from "constants/cookieConsent";
+import { GA_CALLS } from "constants/cookieConsent";
 
 const WishlistButton: React.FC<Props> = ({
   gtmListType,
@@ -69,7 +69,7 @@ const WishlistButton: React.FC<Props> = ({
         const child = childAttributes as ChildProductAttributes[];
         console.log(category, id, title, priceRecords);
         const userConsent = CookieService.getCookie("consent").split(",");
-        if (userConsent.includes(ANY_ADS)) {
+        if (userConsent.includes(GA_CALLS)) {
           if (addWishlist) {
             Moengage.track_event("add_to_wishlist", {
               "Product id": id,

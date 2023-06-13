@@ -18,7 +18,7 @@ import { RouteComponentProps, withRouter } from "react-router";
 import EmailVerification from "../emailVerification";
 import { USR_WITH_NO_ORDER } from "constants/messages";
 import CookieService from "services/cookie";
-import { GA_CALLS, ANY_ADS } from "constants/cookieConsent";
+import { GA_CALLS } from "constants/cookieConsent";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -279,7 +279,7 @@ class MainLogin extends React.Component<Props, loginState> {
         )
         .then(data => {
           this.gtmPushSignIn();
-          if (userConsent.includes(ANY_ADS)) {
+          if (userConsent.includes(GA_CALLS)) {
             Moengage.track_event("Login", {
               email: this.state.email
             });

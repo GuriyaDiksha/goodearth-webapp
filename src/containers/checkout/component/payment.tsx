@@ -1,6 +1,5 @@
 import React, { useState, Fragment, useEffect, useMemo, useRef } from "react";
 import cs from "classnames";
-// import iconStyles from "../../styles/iconFonts.scss";
 import bootstrapStyles from "../../../styles/bootstrap/bootstrap-grid.scss";
 import globalStyles from "styles/global.scss";
 import styles from "../styles.scss";
@@ -10,26 +9,23 @@ import { useSelector, useDispatch } from "react-redux";
 import { AppState } from "reducers/typings";
 import { Link, useHistory } from "react-router-dom";
 import Loader from "components/Loader";
-// import { updateComponent, updateModal } from "actions/modal";
 import giftwrapIcon from "../../../images/gift-wrap-icon.svg";
 import { errorTracking, showErrors } from "utils/validate";
-// import { POPUP } from "constants/components";
 import CookieService from "services/cookie";
 import { proceedForPayment, getPageType } from "../../../utils/validate";
-import { GA_CALLS, ANY_ADS } from "constants/cookieConsent";
 import { currencyCodes } from "constants/currency";
 import { updateComponent, updateModal } from "actions/modal";
 import { POPUP } from "constants/components";
 import checkmarkCircle from "./../../../images/checkmarkCircle.svg";
-import CheckoutService from "services/checkout";
 import BasketService from "services/basket";
 import OrderSummary from "./orderSummary";
+import CheckoutService from "services/checkout";
 import AccountServices from "services/account";
+import { GA_CALLS } from "constants/cookieConsent";
 import { updatePreferenceData } from "actions/user";
 import LoginService from "services/login";
 import { updateCountryData } from "actions/address";
 import WhatsappSubscribe from "components/WhatsappSubscribe";
-// import { makeid } from "utils/utility";
 import { CONFIG } from "constants/util";
 import Formsy from "formsy-react";
 import { displayPriceWithCommasFloat } from "utils/utility";
@@ -207,7 +203,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
         data.whatsappNo = whatsappNo;
         data.whatsappNoCountryCode = whatsappNoCountryCode;
       }
-      if (userConsent.includes(ANY_ADS)) {
+      if (userConsent.includes(GA_CALLS)) {
         Moengage.track_event("Mode of payment selected", {
           "Payment Method": currentmethod.value,
           Amount: +basket.total,
@@ -247,6 +243,13 @@ const PaymentSection: React.FC<PaymentProps> = props => {
         .then((response: any) => {
           gtmPushPaymentTracking(paymentMode, paymentMethod);
           proceedForPayment(basket, currency, paymentMethod);
+          dataLayer.push({
+            event: "Whatsapp_optin",
+            Location: "Checkout",
+            Checkbox: data.whatsappSubscribe
+              ? "Whatsapp Opt-in"
+              : "Whatsapp Opt-out"
+          });
           location.href = `${__API_HOST__ + response.paymentUrl}`;
           setIsLoading(false);
         })

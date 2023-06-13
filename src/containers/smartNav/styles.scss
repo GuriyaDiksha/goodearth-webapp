@@ -1,0 +1,10 @@
+@import "../../styles/partials/variables";
+
+$home-top: 40px;
+
+.maker-top{
+    margin-top: $home-top ;
+}
+.maker-top-timer {
+    margin-top: $home-top + $timer-height;
+}
