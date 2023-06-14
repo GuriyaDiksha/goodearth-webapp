@@ -2,7 +2,7 @@
 @import "../../styles/partials/variables";
 @import "../../styles/partials/mixins";
 
-$pdp-top: $header-height + $secondary-header-height;
+$pdp-top: $header-height;
 
 .pdp-container {
     margin-top: $header-height - 40px;;

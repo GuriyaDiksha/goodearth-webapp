@@ -145,9 +145,29 @@ class PDPContainer extends React.Component<Props, State> {
     const {
       updateComponentModal,
       changeModalState,
-      device: { mobile }
+      device: { mobile },
+      data,
+      corporatePDP,
+      selectedSizeId,
+      currency
     } = this.props;
     const images = this.getProductImagesData();
+
+    const selectedSize = data?.childAttributes?.filter(
+      item => item.id == selectedSizeId
+    )[0];
+
+    const price = corporatePDP
+      ? data.priceRecords[currency]
+      : selectedSize && selectedSize?.priceRecords
+      ? selectedSize?.priceRecords[currency]
+      : data?.priceRecords[currency];
+
+    const discountPrices =
+      selectedSize && selectedSize?.discountedPriceRecords
+        ? selectedSize?.discountedPriceRecords[currency]
+        : data?.discountedPriceRecords[currency];
+
     updateComponentModal(
       POPUP.ZOOM,
       {
@@ -155,7 +175,13 @@ class PDPContainer extends React.Component<Props, State> {
         startIndex: index,
         mobile: mobile,
         changeModalState: changeModalState,
-        alt: this.props?.data?.altText
+        alt: this.props?.data?.altText,
+        data,
+        buttoncall: this.returnPDPButton(),
+        showPrice:
+          data.invisibleFields && data.invisibleFields.indexOf("price") > -1,
+        price,
+        discountPrices
       },
       true
     );
@@ -1470,7 +1496,7 @@ class PDPContainer extends React.Component<Props, State> {
           <div className={cs(styles.breadcrumbsSection, bootstrap.row)}>
             <Breadcrumbs
               levels={breadcrumbs}
-              className={cs(bootstrap.colMd9)}
+              className={cs(bootstrap.colMd10)}
             />
           </div>
         )}
@@ -1522,7 +1548,7 @@ class PDPContainer extends React.Component<Props, State> {
           {!mobile && (
             <div
               className={cs(
-                bootstrap.colMd4,
+                bootstrap.colMd6,
                 bootstrap.dNone,
                 bootstrap.dMdBlock
               )}
@@ -1547,8 +1573,7 @@ class PDPContainer extends React.Component<Props, State> {
           <div
             className={cs(
               styles.detailsContainer,
-              bootstrap.colLg5,
-              bootstrap.col12,
+              bootstrap.colMd4,
               {
                 [globalStyles.pageStickyElement]: !mobile && detailStickyEnabled
               },
