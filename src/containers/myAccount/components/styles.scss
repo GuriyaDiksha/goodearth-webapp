@@ -16,7 +16,6 @@ input[type="text"]{
   letter-spacing: 0.36px;
   padding: 0px 52px;
   line-height: 20px;
-  margin-bottom: 10px;
   &.track-order{
     padding: 0px 100px
   }
@@ -58,6 +57,7 @@ input[type="text"]{
 .active-acc-subhead {
   width: 60%;
   margin: auto;
+  margin-bottom: 10px;
 }
 
 .icon-signedin {
