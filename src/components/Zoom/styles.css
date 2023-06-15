@@ -1,0 +1,20 @@
+
+.custom-range{
+    height: 100%;   
+  }
+
+  .custom-range .rc-slider-vertical .rc-slider-handle{
+    background-color: #9F9F9F !important; 
+    margin-left: -4px;
+    width: 10px;
+    height: 10px;  
+    border: none;     
+  }
+  .custom-range .rc-slider-vertical .rc-slider-handle:focus{
+    border: none;
+    box-shadow: none;
+  }
+  .custom-range .rc-slider-vertical .rc-slider-track {
+    background-color: #9F9F9F !important;
+    width: 3px;
+  }

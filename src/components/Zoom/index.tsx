@@ -6,6 +6,9 @@ import cs from "classnames";
 import iconStyles from "styles/iconFonts.scss";
 import { ProductImage } from "typings/image";
 import globalStyles from "styles/global.scss";
+import Slider from "rc-slider";
+import "rc-slider/assets/index.css";
+import "./styles.css";
 
 type Props = {
   code: string;
@@ -74,12 +77,14 @@ const Zoom: React.FC<Props> = ({
         </div>
 
         <div className={styles.middle}>
-          <img
-            id="pdpImage"
-            src={selectedImage.replace(/Micro|Large/i, "Medium")}
-            alt={alt}
-            className={globalStyles.imgResponsive}
-          />
+          <div className={styles.wrp}>
+            <img
+              id="pdpImage"
+              src={selectedImage.replace(/Micro|Large/i, "Medium")}
+              alt={alt}
+              className={globalStyles.imgResponsive}
+            />
+          </div>
         </div>
 
         <div className={styles.right}>
@@ -100,15 +105,18 @@ const Zoom: React.FC<Props> = ({
             >
               +
             </button>
-            <input
-              className={styles.range}
-              type="range"
-              min="1"
-              max="4"
-              step="0.1"
-              value={zoom}
-              onChange={e => setZoom(+e.target.value)}
-            ></input>
+
+            <div className="custom-range">
+              <Slider
+                min={1}
+                max={4}
+                step={0.1}
+                vertical={true}
+                value={zoom}
+                onChange={(value: number) => setZoom(+value)}
+              />
+            </div>
+
             <button
               className={styles.minus}
               onClick={() => zoom > 1 && setZoom(zoom - 0.5)}
