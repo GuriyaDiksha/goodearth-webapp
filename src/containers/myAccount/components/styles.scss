@@ -54,6 +54,12 @@ input[type="text"]{
   line-height: 36px;
 }
 
+.active-acc-subhead {
+  width: 60%;
+  margin: auto;
+  margin-bottom: 10px;
+}
+
 .icon-signedin {
   span {
     padding: 0 5px;
@@ -666,7 +672,7 @@ input[type="text"]{
 }
 .gift-display{
   display: block !important;
-  margin-bottom: 27px;
+  margin-bottom: 20px;
   margin-top: 30px;
   // padding-left: 20px;
 }
@@ -1466,7 +1472,7 @@ input[type="text"]{
     letter-spacing: 0.3px;
     text-align: left;
     .checkbox-label{
-      @include b5_10px_montserrat_charcoal();
+      @include b4_12px_montserrat_charcoal();
       line-height: 22px;
       letter-spacing: 0.3px;
       text-align: left;

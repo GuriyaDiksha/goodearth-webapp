@@ -32,6 +32,9 @@ import { throttle } from "lodash";
 import Button from "components/Button";
 import PlpCollectionItem from "components/Collection/PlpCollectionItem";
 import { RouteComponentProps, withRouter } from "react-router";
+import Product from "containers/plp/components/Product";
+import ProductBanner from "containers/plp/components/ProductBanner";
+import Banner from "containers/plp/components/Banner";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -44,7 +47,9 @@ const mapStateToProps = (state: AppState) => {
     sale: state.info.isSale,
     showTimer: state.info.showTimer,
     filteredCollectionData: state.collection.filteredCollectionData,
-    collectionData: state.collection.result
+    collectionData: state.collection.result,
+    collectionMobileView: state.collection.collectionMobileView,
+    collectionTemplates: state.collection.collectionTemplates
   };
 };
 
@@ -82,6 +87,15 @@ const mapDispatchToProps = (dispatch: Dispatch, params: any) => {
         dispatch(updateCollectionSpecificData({ ...filterData }));
       }
     },
+    // Collection specific template banner fetch data
+    fetchCollectionSpecificTemplates: async (id: number) => {
+      try {
+        await CollectionService.fetchCollectionSpecificTemplates(dispatch, id);
+      } catch (err) {
+        console.log("fetch Plp Templates error!! ", err);
+      }
+    },
+
     resetCollectionSpecificBanner: async () => {
       dispatch(
         updateCollectionSpecificBanner({
@@ -114,6 +128,12 @@ const mapDispatchToProps = (dispatch: Dispatch, params: any) => {
         collectionProductImpression(filterData, "CollectionSpecific", currency);
         dispatch(updateCollectionSpecificData({ ...filterData }));
       }
+      // on reload collection specific template banner data update
+      CollectionService.fetchCollectionSpecificTemplates(dispatch, id).catch(
+        error => {
+          console.log(`Collection Error id=${id}`, error);
+        }
+      );
     },
     updateCollection: async (data: any) => {
       dispatch(updateFilteredCollectionData(data));
@@ -520,11 +540,39 @@ class CollectionSpecific extends React.Component<
       longDescription,
       results,
       tags,
-      shortDescription,
-      category
+      shortDescription
     } = collectionSpecificData;
     const { widgetImages, name } = collectionSpecficBanner;
     const { specificMaker } = this.state;
+
+    // Collection specific template banner data initialization
+    const showTemplates: any = {
+      Banner: null,
+      Product: null,
+      ProductBanner: null
+    };
+
+    let productTemplatePos = -1;
+    let productBannerTemplatePos = -1;
+    if (this.props.collectionTemplates.templates.length > 0) {
+      this.props.collectionTemplates.templates.map(template => {
+        showTemplates[template.template] = template;
+      });
+      if (showTemplates["Product"]) {
+        productTemplatePos = parseInt(showTemplates["Product"].placement);
+      }
+      if (showTemplates["ProductBanner"]) {
+        productBannerTemplatePos = parseInt(
+          showTemplates["ProductBanner"].placement.split("-")[0]
+        );
+        if (
+          productTemplatePos > -1 &&
+          productBannerTemplatePos > productTemplatePos
+        ) {
+          productBannerTemplatePos--;
+        }
+      }
+    }
 
     return (
       <div
@@ -549,38 +597,71 @@ class CollectionSpecific extends React.Component<
         )}
         <section id="collection_banner">
           <div className={cs(bootstrap.row, styles.firstBlock)}>
-            <div className={bootstrap.col12}>
-              {widgetImages.map((widget: any) => {
-                if (mobile && widget.imageType == 2) {
-                  return (
-                    <img
-                      key="mobile-collectionspecific-banner"
-                      src={widget.image}
-                      className={globalStyles.imgResponsive}
-                      alt="Collection Widget"
-                    />
-                  );
-                } else if (!mobile && widget.imageType == 1) {
-                  return (
-                    <img
-                      key="desktop-collectionspecific-banner"
-                      src={widget.image}
-                      className={globalStyles.imgResponsive}
-                      alt="Collection Banner"
-                    />
-                  );
+            {/* First check for widgetImages data if available then show that 
+             else collection specific banner section will show */}
+            {widgetImages?.length ? (
+              <>
+                <div className={bootstrap.col12}>
+                  {widgetImages.map((widget: any) => {
+                    if (mobile && widget.imageType == 2) {
+                      return (
+                        <img
+                          key="mobile-collectionspecific-banner"
+                          src={widget.image}
+                          className={globalStyles.imgResponsive}
+                          alt="Collection Widget"
+                        />
+                      );
+                    } else if (!mobile && widget.imageType == 1) {
+                      return (
+                        <img
+                          key="desktop-collectionspecific-banner"
+                          src={widget.image}
+                          className={globalStyles.imgResponsive}
+                          alt="Collection Banner"
+                        />
+                      );
+                    }
+                  })}
+                </div>
+
+                <div className={bootstrap.col12}>
+                  <img
+                    src={banner}
+                    className={globalStyles.imgResize}
+                    alt="Collection Image"
+                  />
+                </div>
+              </>
+            ) : (
+              <div
+                className={
+                  mobile
+                    ? banner
+                      ? cs(
+                          bootstrap.row,
+                          styles.imageContainerMobileBanner,
+                          globalStyles.paddTop20
+                        )
+                      : cs(
+                          bootstrap.row,
+                          styles.imageContainerMobile,
+                          globalStyles.paddTop20
+                        )
+                    : cs(
+                        bootstrap.row,
+                        styles.imageContainer,
+                        styles.minHeight,
+                        globalStyles.paddTop20
+                      )
                 }
-              })}
-            </div>
-            {/* {widgetImages?.length ? (
-              <div className={bootstrap.col12}>
-                <img
-                  src={banner}
-                  className={globalStyles.imgResize}
-                  alt="Collection Image"
-                />
+                id="product_images"
+              >
+                {showTemplates.Banner && (
+                  <Banner data={showTemplates.Banner} mobile={mobile} />
+                )}
               </div>
-            ) : null} */}
+            )}
           </div>
         </section>
         <div
@@ -607,7 +688,7 @@ class CollectionSpecific extends React.Component<
               styles.collectionName
             )}
           >
-            {name} {category}
+            {name}
           </div>
         </div>
 
@@ -638,31 +719,57 @@ class CollectionSpecific extends React.Component<
           >
             {results.map((data: PLPProductItem, i: number) => {
               return (
-                <div
-                  className={cs(
-                    bootstrap.colMd4,
-                    bootstrap.col6,
-                    "collection-container"
+                <React.Fragment key={data.id}>
+                  {/* Product(banner) section */}
+                  {showTemplates["Product"] &&
+                  results.length >= productTemplatePos &&
+                  i == productTemplatePos - 1 ? (
+                    <Product
+                      key={`product-${i}`}
+                      data={showTemplates.Product}
+                      view={this.props.collectionMobileView}
+                      mobile={mobile}
+                    />
+                  ) : (
+                    ""
                   )}
-                  key={data.id + "plpDiv"}
-                  id={i == 0 ? "first-item" : ""}
-                  onClick={() => this.updateMobileView()}
-                >
-                  <PlpResultItem
-                    page="CollectionSpecific"
-                    position={i}
-                    product={data}
-                    addedToWishlist={false}
-                    currency={this.props.currency}
-                    key={data.id + "plpitem"}
-                    mobile={mobile}
-                    onClickQuickView={this.onClickQuickView}
-                    isCollection={true}
-                    loader={
-                      !this.scrollload && results.length > 0 ? true : false
-                    }
-                  />
-                </div>
+                  {/* Product banner section */}
+                  {showTemplates["ProductBanner"] &&
+                  results.length >= productBannerTemplatePos &&
+                  i == productBannerTemplatePos - 1 ? (
+                    <ProductBanner
+                      data={showTemplates.ProductBanner}
+                      mobile={mobile}
+                    />
+                  ) : (
+                    ""
+                  )}
+                  <div
+                    className={cs(
+                      bootstrap.colMd4,
+                      bootstrap.col6,
+                      "collection-container"
+                    )}
+                    key={data.id + "plpDiv"}
+                    id={i == 0 ? "first-item" : ""}
+                    onClick={() => this.updateMobileView()}
+                  >
+                    <PlpResultItem
+                      page="CollectionSpecific"
+                      position={i}
+                      product={data}
+                      addedToWishlist={false}
+                      currency={this.props.currency}
+                      key={data.id + "plpitem"}
+                      mobile={mobile}
+                      onClickQuickView={this.onClickQuickView}
+                      isCollection={true}
+                      loader={
+                        !this.scrollload && results.length > 0 ? true : false
+                      }
+                    />
+                  </div>
+                </React.Fragment>
               );
             })}
           </div>

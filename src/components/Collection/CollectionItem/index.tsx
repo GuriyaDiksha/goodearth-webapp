@@ -13,8 +13,7 @@ const CollectionItem: React.FC<CollectionItems> = ({ key, collectionData }) => {
     tags = [],
     shortDescription,
     url,
-    id,
-    categoryName
+    id
   } = collectionData;
 
   return (
@@ -41,9 +40,7 @@ const CollectionItem: React.FC<CollectionItems> = ({ key, collectionData }) => {
             pathname: url || "#"
           }}
         >
-          <h3 className={styles.title}>
-            {name} {categoryName?.[0]?.name}
-          </h3>
+          <h3 className={styles.title}>{name}</h3>
         </Link>
         <p className={styles.subTitle}>{ReactHtmlParser(shortDescription)}</p>
         <p className={styles.description}>
