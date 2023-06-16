@@ -858,9 +858,11 @@ const OrderSummary: React.FC<OrderProps> = props => {
                     *Excluding estimated cost of shipping{" "}
                   </p> */}
                 </span>
-                <span className={styles.total}>
-                  {String.fromCharCode(...code)}{" "}
-                  {parseFloat("" + basket.subTotalWithShipping).toFixed(2)}
+                <span>
+                  <span className={styles.total}>
+                    {String.fromCharCode(...code)}{" "}
+                    {parseFloat("" + basket.subTotalWithShipping).toFixed(2)}
+                  </span>
                 </span>
               </div>
               {hasOutOfStockItems() && (

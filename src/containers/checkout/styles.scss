@@ -1381,6 +1381,7 @@ input[type="radio"] {
   text-decoration: underline;
   text-transform: uppercase;
   float: right;
+  text-underline-offset: 3px;
 }
 .gst-invoise-no {
   @include b5_10px_montserrat_charcoal();

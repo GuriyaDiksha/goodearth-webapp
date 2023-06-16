@@ -83,33 +83,30 @@ class ApplyGiftcard extends React.Component<Props, GiftState> {
 
   applyCard = () => {
     this.setState({ error: "", isError: false });
-    if (!this.state.txtvalue) {
-      this.setState(
-        {
-          error: "Please enter a Code",
-          isActivated: false
-        },
-        () => {
-          errorTracking([this.state.error], location.href);
-        }
-      );
-      return false;
+
+    let errMsg = "";
+    if (this.state.cardType == "Select" && !this.state.txtvalue) {
+      errMsg = "Please select a valid option & enter a valid code";
+    } else if (this.state.cardType == "Select") {
+      errMsg = "Please select a valid option";
+    } else if (!this.state.txtvalue) {
+      errMsg = "Please enter a Code";
     }
 
-    if (this.state.cardType == "Select") {
+    if (errMsg) {
       this.setState(
         {
-          error: "Please select a valid option",
+          error: errMsg,
           isActivated: false,
-          isError: true
+          isError: this.state.cardType == "Select"
         },
         () => {
           errorTracking([this.state.error], location.href);
         }
       );
-
       return false;
     }
+
     const data: any = {
       cardId: this.state.txtvalue,
       type: this.state.cardType

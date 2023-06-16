@@ -1655,7 +1655,10 @@
 }
 
 .form-gst-error  {
-  border: 1px solid #ab1e56;
+  border: 1px solid #ab1e56 !important;
+}
+.gst-input{
+  font-family: $font-Montserrat;
 }
 .desc{
   p{

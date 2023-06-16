@@ -57,7 +57,8 @@ const AddressSection: React.FC<AddressProps & {
     openAddressForm,
     closeAddressForm,
     isAddressValid,
-    currentCallBackComponent
+    currentCallBackComponent,
+    setMode
   } = useContext(AddressContext);
   const { currency, user } = useSelector((state: AppState) => state);
   const {
@@ -294,6 +295,7 @@ const AddressSection: React.FC<AddressProps & {
 
   const handleStepEdit = () => {
     activeStep == STEP_SHIPPING ? next(STEP_SHIPPING) : next(STEP_BILLING);
+    setMode("list");
   };
 
   const renderSavedAddress = function() {

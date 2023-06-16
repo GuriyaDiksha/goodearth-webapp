@@ -551,7 +551,7 @@ body:has(.open-summary) {
     .fixTotal {
       padding: 16px 30px;
       .total {
-        @include b4_12px_montserrat_semibold_charcoal();
+        @include b4_14px_montserrat_semibold_charcoal();
         text-transform: uppercase;
       }
 

@@ -346,7 +346,6 @@ class SideMenu extends React.Component<Props, State> {
                   })}
                   onClick={(): void => {
                     if (!this.props.location.pathname.includes("/cart")) {
-                      debugger;
                       this.props.fetchBasketMinibag().then(() => {
                         this.props.setShowBag(true);
                         this.props.onSideMenuClick("Cart");
@@ -362,7 +361,6 @@ class SideMenu extends React.Component<Props, State> {
                   })}
                   onClick={(): void => {
                     if (!this.props.location.pathname.includes("/cart")) {
-                      debugger;
                       this.props.fetchBasketMinibag().then(() => {
                         this.props.setShowBag(true);
                         this.props.onSideMenuClick("Cart");
