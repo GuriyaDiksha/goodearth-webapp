@@ -103,12 +103,13 @@ class PdpQuantity extends React.Component<QuantityItem, State> {
               this.state.showError ? styles.plusQuantityDisabled : ""
             )}
             onClick={(): void => {
-              if (this.props.id == 0) {
-                this.setState({
-                  showError: true,
-                  errorMsg: `Please select a size to proceed`
-                });
-              }
+              // commenting this because we don't want to show select size error msg under qty box
+              // if (this.props.id == 0) {
+              //   this.setState({
+              //     showError: true,
+              //     errorMsg: `Please select a size to proceed`
+              //   });
+              // }
               if (disabled || this.state.disableButton) {
                 return;
               }

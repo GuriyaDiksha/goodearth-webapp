@@ -16,6 +16,7 @@ export type Props = {
   innerRef?: any;
   name: string;
   autocomplete?: string;
+  hideArrow?: boolean;
 };
 
 export type Country = {

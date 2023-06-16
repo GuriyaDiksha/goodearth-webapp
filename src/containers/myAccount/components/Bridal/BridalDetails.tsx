@@ -53,10 +53,15 @@ const BridalDetails: React.FC = () => {
       coRegistrantNameRef.current?.value.trim() == ""
         ? ""
         : coRegistrantNameRef.current?.value;
+    const registryName =
+      regName.current?.value.trim() == "" ? "" : regName.current?.value;
 
-    if (registrantName && coRegistrantName && !updateProfile) {
+    if (registrantName && coRegistrantName && registryName && !updateProfile) {
       setUpdateProfile(true);
-    } else if ((!registrantName || !coRegistrantName) && updateProfile) {
+    } else if (
+      (!registrantName || !coRegistrantName || !registryName) &&
+      updateProfile
+    ) {
       setUpdateProfile(false);
     }
   };
@@ -152,7 +157,8 @@ const BridalDetails: React.FC = () => {
                     <FormInput
                       name="registryName"
                       inputRef={regName}
-                      placeholder="Registry Name (optional)"
+                      placeholder="Registry Name"
+                      label={"Registry Name"}
                       validations={{
                         maxLength: 50,
                         isExisty: true
@@ -160,8 +166,9 @@ const BridalDetails: React.FC = () => {
                       validationErrors={{
                         maxLength: "You can not enter more than 50 characters"
                       }}
+                      required
                       value={data.registryName || ""}
-                      label={"Registry Name"}
+                      handleChange={handleChange}
                     />
                   </div>
                   <div>
