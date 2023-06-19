@@ -181,7 +181,7 @@ class ForgotPasswordForm extends React.Component<Props, ForgotPasswordState> {
       this.props.history.location.search
     );
     const emailFromURl = decripttext(
-      searchParams.get("ei")?.replace(" ", "+") || "",
+      searchParams.get("ei")?.replaceAll(" ", "+") || "",
       true
     );
     const isBo = localStorage.getItem("isBo") || "";
