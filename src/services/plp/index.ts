@@ -15,8 +15,8 @@ const caches = {};
 export default {
   fetchPlpProducts: async function(dispatch: Dispatch, url: string) {
     if (caches["fetch" + url]) {
-      dispatch(updateProduct({ ...caches[url] }));
-      dispatch(updatePlpProduct(caches[url].results.data));
+      dispatch(updateProduct({ ...caches["fetch" + url] }));
+      dispatch(updatePlpProduct(caches["fetch" + url].results.data));
       return caches[url];
     }
     const res = await API.get<PlpProps>(
