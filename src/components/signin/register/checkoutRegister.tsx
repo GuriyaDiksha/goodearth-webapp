@@ -24,7 +24,7 @@ import { errorTracking, decriptdata, getErrorList } from "utils/validate";
 import { Country } from "components/Formsy/CountryCode/typings";
 import EmailVerification from "../emailVerification";
 import CookieService from "services/cookie";
-import { GA_CALLS, ANY_ADS } from "constants/cookieConsent";
+import { GA_CALLS } from "constants/cookieConsent";
 // import SelectDropdown from "components/Formsy/SelectDropdown";
 import CountryCode from "components/Formsy/CountryCode";
 import FormContainer from "../formContainer";
@@ -195,7 +195,7 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
       .then(data => {
         const userConsent = CookieService.getCookie("consent").split(",");
 
-        if (userConsent.includes(ANY_ADS)) {
+        if (userConsent.includes(GA_CALLS)) {
           Moengage.track_event("Registered", {
             "First Name": firstName,
             "Last Name": lastName,
@@ -212,6 +212,13 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
           Moengage.add_gender(gender);
           Moengage.add_birthday(moment(dateOfBirth).format("YYYY-MM-DD"));
           Moengage.add_unique_user_id(email);
+          dataLayer.push({
+            event: "Whatsapp_optin",
+            Location: "sign_up",
+            Checkbox: formData.whatsappSubscribe
+              ? "Whatsapp Opt-in"
+              : "Whatsapp Opt-out"
+          });
         }
         this.gtmPushRegister();
         // this.props.nextStep?.();
@@ -1197,7 +1204,7 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
           </div>
           <div className={cs(styles.subscribe, styles.newsletters)}>
             <FormCheckbox
-              value={false}
+              value={this.props.currency == "INR" ? true : false}
               id="subscrib"
               name="terms"
               disable={!this.state.showFields}

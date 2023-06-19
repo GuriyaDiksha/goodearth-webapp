@@ -48,6 +48,7 @@ const BillingGST: React.FC<PopupProps> = ({
     (state: AppState) => state.address
   );
   const { mobile } = useSelector((state: AppState) => state.device);
+
   const address: any =
     addressList?.find((val: any) =>
       shippingAddressId !== 0
@@ -66,11 +67,11 @@ const BillingGST: React.FC<PopupProps> = ({
 
   useEffect(() => {
     setError(parentError);
-    if (parentError === "" && !isActive) {
+    if (parentError === "" && !isActive && gstNum) {
       setError("");
       closeModal();
     }
-  }, [parentError, isActive]);
+  }, [parentError, isActive, gstNum]);
 
   const onChangeGst = (e: React.ChangeEvent<HTMLInputElement>) => {
     setGstType(e.target.value);
@@ -189,7 +190,7 @@ const BillingGST: React.FC<PopupProps> = ({
             >
               <input
                 type="text"
-                className={cs(styles.input, styles.marginR10, {
+                className={cs(styles.input, styles.gstInput, styles.marginR10, {
                   [styles.formGstError]: error
                 })}
                 onChange={e => onCouponChange(e)}

@@ -57,6 +57,7 @@ body:has(.mobile) {
   position: relative;
   // min-height: 320px;
   border: 1px solid #eaeaea;
+  cursor: pointer;
 
   .address-wrapper {
     max-width: 93%;
@@ -346,7 +347,7 @@ body:has(.mobile) {
         // bottom: auto;
         // position: absolute;
       }
-      cursor: pointer;
+      cursor: default;
       a:hover {
         cursor: default;
       }
@@ -664,7 +665,7 @@ body:has(.mobile) {
 
   .address-item-container {
     border: 2px solid #eaeaea;
-    height: 220px;
+    height: 230px;
 
     &.default-address {
       border-color: $aqua;
@@ -803,7 +804,7 @@ body:has(.mobile) {
           margin: 15px 0px;
       }
       .checkbox-label{
-        @include b5_10px_montserrat_charcoal();
+        @include b4_12px_montserrat_charcoal();
         line-height: 22px;
         letter-spacing: 0.3px;
         text-align: left;

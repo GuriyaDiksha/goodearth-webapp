@@ -69,7 +69,7 @@ import { updateQuickviewId } from "../../../../actions/quickview";
 import Accordion from "components/Accordion";
 import PdpSkeleton from "../pdpSkeleton";
 import { isEmpty } from "lodash";
-import { GA_CALLS, ANY_ADS } from "constants/cookieConsent";
+import { GA_CALLS } from "constants/cookieConsent";
 import { displayPriceWithCommas } from "utils/utility";
 
 const ProductDetails: React.FC<Props> = ({
@@ -430,7 +430,7 @@ const ProductDetails: React.FC<Props> = ({
       : "nonView3d";
 
     const userConsent = CookieService.getCookie("consent").split(",");
-    if (userConsent.includes(ANY_ADS)) {
+    if (userConsent.includes(GA_CALLS)) {
       Moengage.track_event("add_to_cart", {
         "Product id": sku || childAttributes[0].sku,
         "Product name": title,

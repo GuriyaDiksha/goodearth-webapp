@@ -5,7 +5,7 @@ import { Dispatch } from "redux";
 import { showMessage } from "actions/growlMessage";
 import { DomUtils, parseDocument } from "htmlparser2";
 import { useEffect, useState } from "react";
-import { GA_CALLS, ANY_ADS } from "constants/cookieConsent";
+import { GA_CALLS } from "constants/cookieConsent";
 import { sha256 } from "js-sha256";
 import CryptoJS from "crypto-js";
 import { isObject } from "lodash";
@@ -332,7 +332,7 @@ export function proceedTocheckout(data: Basket, currency: Currency) {
         }
       });
     }
-    if (userConsent.includes(ANY_ADS)) {
+    if (userConsent.includes(GA_CALLS)) {
       Moengage.track_event("Proceed to checkout", {
         "Product id": skusid,
         "Product name": productname,
@@ -674,7 +674,7 @@ export function productImpression(
         }
       });
     }
-    if (userConsent.includes(ANY_ADS)) {
+    if (userConsent.includes(GA_CALLS)) {
       Moengage.track_event("PLP views", {
         "Category Name": categoryName.trim(),
         "Sub Category Name": subcategoryname.trim(),
@@ -929,7 +929,7 @@ export function PDP(data: any, currency: Currency) {
     // variants = variants.slice(1);
     // prices = prices.slice(1);
 
-    if (userConsent.includes(ANY_ADS)) {
+    if (userConsent.includes(GA_CALLS)) {
       Moengage.track_event("PDP View", {
         "Product id": skusid,
         "Product name": data.title,
@@ -1632,7 +1632,7 @@ export const megaMenuNavigationGTM = ({
   try {
     const userConsent = CookieService.getCookie("consent").split(",");
 
-    if (userConsent.includes(ANY_ADS)) {
+    if (userConsent.includes(GA_CALLS)) {
       if (l3) {
         Moengage.track_event("L1Clicked", {
           "Category Name": l3
@@ -1669,7 +1669,7 @@ export const megaMenuNavigationGTM = ({
         default:
           eventName = "";
       }
-      if (userConsent.includes(ANY_ADS)) {
+      if (userConsent.includes(GA_CALLS)) {
         Moengage.track_event(eventName, {
           "Category Name": l1
         });
@@ -1895,3 +1895,16 @@ export function getPageType() {
   }
   return pageType;
 }
+
+export const validURL = (str: string) => {
+  const pattern = new RegExp(
+    "^(https?:\\/\\/)?" + // protocol
+    "((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|" + // domain name
+    "((\\d{1,3}\\.){3}\\d{1,3}))" + // OR ip (v4) address
+    "(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*" + // port and path
+    "(\\?[;&a-z\\d%_.~+=-]*)?" + // query string
+      "(\\#[-a-z\\d_]*)?$",
+    "i"
+  ); // fragment locator
+  return !!pattern.test(str);
+};

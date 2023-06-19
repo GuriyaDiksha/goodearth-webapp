@@ -304,7 +304,7 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
   };
 
   getValidationForOtp = () => {
-    const { radioType } = this.state;
+    // const { radioType } = this.state;
     return (
       <div>
         <div
@@ -328,6 +328,7 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
           closeModal={this.closePopup}
           headingClassName={globalStyles.textLeft}
           containerClassName={styles.otpRedeemWrp}
+          uniqueId="otpredeemid"
         />
         {/* {(this.props.otpFor == "activateGC"
           ? this.props.newCardBox == true
@@ -420,7 +421,7 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
   };
 
   render() {
-    const { radioType, isLoading } = this.state;
+    const { isLoading } = this.state;
     const {
       loyaltyData: { detail },
       number

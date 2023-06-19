@@ -1032,13 +1032,25 @@ input[type="radio"] {
   font-family: $font-Montserrat;
   opacity: 0.8;
   letter-spacing: 0.36px;
+
+  &::placeholder {
+    font-family: $font-Montserrat !important;
+  }
+  &::-webkit-input-placeholder{
+    font-family: $font-Montserrat !important;
+  }
+ 
+  &::-moz-placeholder{
+    font-family: $font-Montserrat !important;
+  }
+  &::-ms-input-placeholder{
+    font-family: $font-Montserrat !important;
+  }
   
 }
 .font14 {
-  font-size: 14px;
-  color: #4d4d4d;
   letter-spacing: 0.5px;
-  font-size: 10px;
+  @include b5_10px_montserrat_charcoal();
 }
 .gift-wrap-message {
   max-width: 430px;
@@ -1162,6 +1174,7 @@ input[type="radio"] {
     cursor: pointer;
     margin-top: 24px;
     border: 1px solid $med-charcoal;
+    z-index: 1;
     &:hover {
       background: $white 0% 0% no-repeat padding-box;
       border: 1px solid $med-charcoal;
@@ -1380,6 +1393,7 @@ input[type="radio"] {
   text-decoration: underline;
   text-transform: uppercase;
   float: right;
+  text-underline-offset: 3px;
 }
 .gst-invoise-no {
   @include b5_10px_montserrat_charcoal();
@@ -1452,7 +1466,7 @@ span.add-new-address {
           margin: 0px 0px;
       }
       .checkbox-label{
-        @include b5_10px_montserrat_charcoal();
+        @include b4_12px_montserrat_charcoal();
         line-height: 22px;
         letter-spacing: 0.3px;
         text-align: left;

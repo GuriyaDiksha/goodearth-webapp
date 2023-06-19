@@ -14,7 +14,7 @@ import { AppState } from "reducers/typings";
 import quantityStyles from "../quantity/styles.scss";
 import CookieService from "services/cookie";
 import WishlistService from "services/wishlist";
-import { GA_CALLS, ANY_ADS } from "constants/cookieConsent";
+import { GA_CALLS } from "constants/cookieConsent";
 import PdpQuantity from "components/quantity/pdpQuantity";
 import { showGrowlMessage } from "utils/validate";
 import { updateBasket } from "actions/basket";
@@ -38,7 +38,6 @@ const LineItems: React.FC<BasketItem> = memo(
       basket: { currency }
     } = useSelector((state: AppState) => state);
     const {
-      device: { tablet },
       user: { isLoggedIn }
     } = useSelector((state: AppState) => state);
     if (!currency) {
@@ -96,7 +95,6 @@ const LineItems: React.FC<BasketItem> = memo(
       inWishlist,
       attributes,
       childAttributes,
-      productDeliveryDate,
       groupedProductsCount
     } = product;
     const size =
@@ -115,7 +113,7 @@ const LineItems: React.FC<BasketItem> = memo(
       const categoryname = arr[arr.length - 2];
       const subcategoryname = arr[arr.length - 1];
       const userConsent = CookieService.getCookie("consent").split(",");
-      if (userConsent.includes(ANY_ADS)) {
+      if (userConsent.includes(GA_CALLS)) {
         Moengage.track_event("remove_from_cart", {
           "Product id": product.sku || product.childAttributes[0].sku,
           "Product name": product.title,

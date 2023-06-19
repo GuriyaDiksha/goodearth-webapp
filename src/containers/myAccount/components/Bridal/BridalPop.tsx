@@ -9,12 +9,9 @@ import styles from "./styles.scss";
 import iconStyles from "styles/iconFonts.scss";
 // import "../../../../styles/myslick.css";
 import "./slick.css";
-// import bootstrapStyles from "../../../../styles/bootstrap/bootstrap-grid.scss";
 import globalStyles from "styles/global.scss";
 import cs from "classnames";
-// import * as mapper from "pages/myaccount/mappers/accountm"
 import ipopM3 from "../../../../images/bridal/ipops/mobile/ipopM3.png";
-import ipopM2 from "../../../../images/bridal/ipops/mobile/ipopM2.png";
 import ipopM4 from "../../../../images/bridal/ipops/mobile/ipopM4.jpg";
 import ipopM1 from "../../../../images/bridal/ipops/mobile/ipopM1.jpg";
 import ipop3 from "../../../../images/bridal/ipops/ipop3.png";

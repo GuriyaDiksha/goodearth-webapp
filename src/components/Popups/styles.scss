@@ -810,6 +810,20 @@
   font-size: 14px;
   opacity: 0.7;
   font-family: $font-Montserrat;
+
+  &::placeholder {
+    font-family: $font-Montserrat !important;
+  }
+  &::-webkit-input-placeholder{
+    font-family: $font-Montserrat !important;
+  }
+ 
+  &::-moz-placeholder{
+    font-family: $font-Montserrat !important;
+  }
+  &::-ms-input-placeholder{
+    font-family: $font-Montserrat !important;
+  }
 }
 
 .margin-bottom {
@@ -1655,7 +1669,10 @@
 }
 
 .form-gst-error  {
-  border: 1px solid #ab1e56;
+  border: 1px solid #ab1e56 !important;
+}
+.gst-input{
+  font-family: $font-Montserrat;
 }
 .desc{
   p{

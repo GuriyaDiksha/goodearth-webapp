@@ -44,7 +44,7 @@ export const enum ROUTES {
   VIRTUAL = "/flowers-fragrance-anita-lal",
   SHOPPER = "/personal-shopper-form",
   INSTORE = "/instoreservices",
-  THANKYOU = "/thankyou",
+  THANKYOU = "/homepage",
   MUMTAZ = "/mumtaz-virtual-appointment",
   GCEMAIL = "/send-giftcard",
   AUTH = "/auth",
@@ -64,7 +64,10 @@ export const enum ROUTES {
   MIRAGESHOP = "/mirageshop",
   MIRAGE = "/mirage",
   MAGHREB = "/tangier",
-  TANGIER = "/tangier/shop"
+  TANGIER = "/tangier/shop",
+  MAKERTEST = "/makertest",
+  ANINDIANSUMMER = "/anindiansummer",
+  TANGIERBYRICHARDHAMILTON = "/TangierbyRichardHamilton"
 }
 
 export type RouteConfig = RouteObject[];

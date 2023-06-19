@@ -115,7 +115,7 @@ const PromoSection: React.FC<PromoProps> = props => {
             styles.title
           )}
         >
-          {STEP_ORDER[activeStep] < currentStep &&
+          {STEP_ORDER[activeStep] <= currentStep &&
           basket.voucherDiscounts.length > 0 &&
           !isEdit ? (
             <img
@@ -159,7 +159,7 @@ const PromoSection: React.FC<PromoProps> = props => {
         )}
       </div>
 
-      {(isActive || isEdit) && (
+      {((isActive && basket.voucherDiscounts.length === 0) || isEdit) && (
         <Fragment>
           {!onlyGiftcard && (
             <div className={globalStyles.marginT20}>

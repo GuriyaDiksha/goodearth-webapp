@@ -415,12 +415,18 @@ class Search extends React.Component<Props, State> {
                 />
               </Link>
               <div className={styles.moreBlock}>
-                <p className={styles.title}>
+                {/* <p className={styles.title}>
                   {" "}
                   {`${item.category.replace(">", "/")} `}{" "}
-                </p>
+                </p> */}
                 <p className={cs(styles.productN, styles.collectionN)}>
-                  <Link to={item.link}>
+                  <Link
+                    to={item.link}
+                    onClick={() => {
+                      // this.props.toggle();
+                      this.props.hideSearch();
+                    }}
+                  >
                     {" "}
                     {ReactHtmlParser(item.collection)}
                   </Link>
@@ -432,6 +438,13 @@ class Search extends React.Component<Props, State> {
       </div>
     );
   };
+  decodeSearchString(value: string) {
+    try {
+      return decodeURIComponent(value);
+    } catch (e) {
+      return value;
+    }
+  }
 
   render() {
     // const cur = "price" + this.props.currency.toLowerCase();
@@ -559,7 +572,9 @@ class Search extends React.Component<Props, State> {
                       <div className={styles.npfMsg}>
                         {"Sorry, we couldn't find any matching result for"}{" "}
                         &nbsp;
-                        <span>{this.state.searchValue}</span>
+                        <span>
+                          {this.decodeSearchString(this.state.searchValue)}
+                        </span>
                       </div>
                     ) : (
                       ""
@@ -814,7 +829,7 @@ class Search extends React.Component<Props, State> {
                         {recentSearchs?.map((ele, ind) => (
                           <div className={styles.recentBlock}>
                             <Link
-                              to={"/search/?q=" + ele}
+                              to={"/search/?q=" + encodeURIComponent(ele)}
                               onClick={() => {
                                 this.recentSearch(ele);
                                 this.props.hideSearch();

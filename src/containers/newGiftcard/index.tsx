@@ -135,7 +135,8 @@ class NewGiftcard extends React.Component<Props, State> {
       recipientName: "",
       recipientEmail: "",
       confirmRecipientEmail: "",
-      message: "",
+      // commenting bcz we don't want to remove default message
+      message: "Here is a gift for you!",
       senderName: "",
       subscribe: false,
       customValue: "",
@@ -288,9 +289,16 @@ class NewGiftcard extends React.Component<Props, State> {
   };
 
   onMessageChange = (e: any) => {
-    this.setState({
-      message: e.target.value
-    });
+    if (e.target.value.length > 248) {
+      this.setState({
+        message: e.target.value.substr(0, 248)
+      });
+      return false;
+    } else {
+      this.setState({
+        message: e.target.value
+      });
+    }
   };
 
   onSenderNameChange = (e: any) => {
@@ -761,7 +769,7 @@ class NewGiftcard extends React.Component<Props, State> {
                     placeholder=""
                     maxLength={248}
                     name="message"
-                    rows={5}
+                    rows={6}
                     value={message}
                     id="sender_msg"
                     handleChange={e => {

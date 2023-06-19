@@ -40,9 +40,9 @@ hr {
   }
   img {
     max-width: 100%;
-    @media screen and (min-width:767px) and (max-width:1440px) {
-      max-width: 80%;
-    }
+    // @media screen and (min-width:767px) and (max-width:1440px) {
+    //   max-width: 80%;
+    // }
     // height: 164px;
   }
   .collection-name {
@@ -62,7 +62,7 @@ hr {
   }
   .remove {
     @include b5_10px_montserrat_charcoal_caps();
-    border-bottom: 1px solid $charcoal19;
+    border-bottom: 0.5px solid #4C4C4C;
     cursor: pointer;
     margin: 0 auto;
     width: fit-content;
@@ -170,6 +170,12 @@ hr {
   }
 }
 .desktop-img-size {
+
+  @media screen and (min-width: 992px) and (max-width: 1440px) {
+    flex: 0 0 20%;
+    max-width: 20%;
+  }
+
   @media screen and (min-width: 1440px) {
     flex: 0 0 16%;
     max-width: 16%;
@@ -752,8 +758,8 @@ hr {
       border-bottom: 0.5px solid $med-charcoal;
       width: fit-content;
       &:hover {
-        color: #7EAACE;
-        border-bottom: 1px solid #7EAAA9;
+        color: $aqua;
+        border-bottom: 1px solid $aqua;
       }
     }
   }

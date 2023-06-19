@@ -236,8 +236,8 @@ body:has(.open-summary) {
       letter-spacing: 0.3px;
     }
     hr {
-      margin-top: 20px;
-      margin-bottom: 20px;
+      margin-top: 20px !important;
+      margin-bottom: 20px !important;
     }
   }
   .fix-order-items {
@@ -330,6 +330,7 @@ body:has(.open-summary) {
   // font-size: 14px;
   // font-weight: 600;
   // font-family: $font-Lato;
+  line-height: 1;
   font-size: 14px !important;
   @include b4_12px_montserrat_medcharcoal();
 }
@@ -475,10 +476,11 @@ body:has(.open-summary) {
 .checkout-btn {
   img {
     width: 15px;
-    height: 15px;
+    height: 25px;
     object-fit: contain;
     margin-right: 5px;
     vertical-align: middle;
+    padding-bottom: 3px;
   }
   span{
     padding-top: 15px;
@@ -551,7 +553,7 @@ body:has(.open-summary) {
     .fixTotal {
       padding: 16px 30px;
       .total {
-        @include b4_12px_montserrat_semibold_charcoal();
+        @include b4_14px_montserrat_semibold_charcoal();
         text-transform: uppercase;
       }
 
@@ -664,9 +666,16 @@ body:has(.open-summary) {
         padding: 8px 0 20px;
         border-bottom: 0.5px solid $light-charcoal;
         margin-bottom: 20px;
+        display: flex;
+        justify-content: space-between;
         .text {
           @include b4_12px_montserrat_charcoal_caps();
           font-weight: 500;
+        }
+        .text-link {
+          @include b4_12px_montserrat_aqua();
+          font-weight: 500;
+          border-bottom: 1px solid $aqua;
         }
       }
     }

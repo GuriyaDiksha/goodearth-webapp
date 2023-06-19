@@ -85,7 +85,7 @@ class API {
             requestHeaders["sessionid"] = cookies.sessionid;
           }
           if (
-            configData.some(a => options?.url?.includes(a)) &&
+            configData.some((a: any) => options?.url?.includes(a)) &&
             __EnableCrypto__
           ) {
             requestHeaders["enc-dec"] = "eyJlbmFibGVDcnlwdG8iOiB0cnVlfQ==";

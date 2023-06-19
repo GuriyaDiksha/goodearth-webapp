@@ -98,11 +98,6 @@ const FreeShipping: React.FC<PopupProps> = props => {
           </div>
         </div>
         <div className={cs(globalStyles.ceriseBtn, styles.freeshipBtnWidth)}>
-          <NavLink to="/" onClick={closeModal}>
-            continue shopping
-          </NavLink>
-        </div>
-        <div className={styles.link}>
           <NavLink
             to="/order/checkout"
             onClick={e => {
@@ -115,6 +110,11 @@ const FreeShipping: React.FC<PopupProps> = props => {
             }}
           >
             checkout anyway
+          </NavLink>
+        </div>
+        <div className={styles.link}>
+          <NavLink to="/" onClick={closeModal}>
+            continue shopping
           </NavLink>
         </div>
       </div>

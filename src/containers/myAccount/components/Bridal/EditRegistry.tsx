@@ -168,10 +168,14 @@ const EditRegistry: React.FC<Props> = props => {
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const registrantName = registrantNameRef.current?.value;
     const coRegistrantName = coRegistrantNameRef.current?.value;
+    const registryName = regName.current?.value;
 
-    if (registrantName && coRegistrantName && !updateProfile) {
+    if (registrantName && coRegistrantName && registryName && !updateProfile) {
       setUpdateProfile(true);
-    } else if ((!registrantName || !coRegistrantName) && updateProfile) {
+    } else if (
+      (!registrantName || !coRegistrantName || !registryName) &&
+      updateProfile
+    ) {
       setUpdateProfile(false);
     }
   };
@@ -281,8 +285,9 @@ const EditRegistry: React.FC<Props> = props => {
                     <div>
                       <FormInput
                         name="registryName"
+                        placeholder="Registry Name"
+                        label={"Registry Name"}
                         inputRef={regName}
-                        placeholder="Registry Name (optional)"
                         validations={{
                           maxLength: 50,
                           isExisty: true
@@ -290,8 +295,8 @@ const EditRegistry: React.FC<Props> = props => {
                         validationErrors={{
                           maxLength: "You can not enter more than 50 characters"
                         }}
+                        required
                         value={props.bridalProfile?.registryName || ""}
-                        label={"Registry Name"}
                         handleChange={handleChange}
                       />
                     </div>

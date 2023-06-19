@@ -6,6 +6,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import styles from "../styles.scss";
 import ReactHtmlParser from "react-html-parser";
+import { validURL } from "utils/validate";
 
 type Props = {
   data: MenuComponent[];
@@ -44,22 +45,41 @@ const L3: React.FC<Props> = ({
           <div key={index} className={styles.block}>
             {" "}
             {componentData.link ? (
-              <Link
-                className={styles.l3}
-                to={componentData.link}
-                target={componentData.openInNewTab ? "_blank" : ""}
-                onClick={() =>
-                  onHeaderMegaMenuClick({
-                    l1,
-                    l2,
-                    l3: text,
-                    clickUrl3: componentData.link,
-                    template: templateType
-                  })
-                }
-              >
-                {ReactHtmlParser(text)}
-              </Link>
+              validURL(componentData.link) ? (
+                <a
+                  className={styles.l3}
+                  href={componentData.link}
+                  target={componentData.openInNewTab ? "_blank" : ""}
+                  onClick={() =>
+                    onHeaderMegaMenuClick({
+                      l1,
+                      l2,
+                      l3: text,
+                      clickUrl3: componentData.link,
+                      template: templateType
+                    })
+                  }
+                >
+                  {ReactHtmlParser(text)}
+                </a>
+              ) : (
+                <Link
+                  className={styles.l3}
+                  to={componentData.link}
+                  target={componentData.openInNewTab ? "_blank" : ""}
+                  onClick={() =>
+                    onHeaderMegaMenuClick({
+                      l1,
+                      l2,
+                      l3: text,
+                      clickUrl3: componentData.link,
+                      template: templateType
+                    })
+                  }
+                >
+                  {ReactHtmlParser(text)}
+                </Link>
+              )
             ) : (
               <div
                 className={styles.l3}
