@@ -966,7 +966,7 @@ $list: $grey 92%, $white 8%;
 
 @mixin b4_12px_montserrat_charcoal{
   font-family: $font-Montserrat;
-  font-size: 12px;
+  font-size: 12px !important;
   font-weight: $regular;
   color: $charcoal19;
 }
