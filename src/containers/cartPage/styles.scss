@@ -40,9 +40,9 @@ hr {
   }
   img {
     max-width: 100%;
-    @media screen and (min-width:767px) and (max-width:1440px) {
-      max-width: 80%;
-    }
+    // @media screen and (min-width:767px) and (max-width:1440px) {
+    //   max-width: 80%;
+    // }
     // height: 164px;
   }
   .collection-name {
@@ -170,6 +170,12 @@ hr {
   }
 }
 .desktop-img-size {
+
+  @media screen and (min-width: 992px) and (max-width: 1440px) {
+    flex: 0 0 20%;
+    max-width: 20%;
+  }
+
   @media screen and (min-width: 1440px) {
     flex: 0 0 16%;
     max-width: 16%;

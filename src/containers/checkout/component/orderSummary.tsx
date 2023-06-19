@@ -731,7 +731,13 @@ const OrderSummary: React.FC<OrderProps> = props => {
               </span>
             </div>
             <hr className={styles.hr} />
-            <div className={cs(globalStyles.flex, globalStyles.gutterBetween)}>
+            <div
+              className={cs(
+                globalStyles.flex,
+                globalStyles.gutterBetween,
+                globalStyles.marginB10
+              )}
+            >
               <span className={styles.subtotal}>AMOUNT PAYABLE</span>
               <span className={styles.subtotal}>
                 {String.fromCharCode(...code)}{" "}
