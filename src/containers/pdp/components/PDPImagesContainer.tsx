@@ -133,15 +133,28 @@ const PDPImagesContainer: React.FC<Props> = ({
                 { [styles.bottomRowImages]: index >= oddRowIndices[length] }
               )}
             >
-              <img
-                src={productImages[index].productImage.replace(
-                  /Micro|Large/i,
-                  "Medium"
-                )}
-                onClick={() => {
-                  onClick(index);
-                }}
-              />
+              {item?.media_type === "Image" ? (
+                <img
+                  src={productImages[index].productImage.replace(
+                    /Micro|Large/i,
+                    "Medium"
+                  )}
+                  onClick={() => {
+                    onClick(index);
+                  }}
+                />
+              ) : (
+                <video
+                  src={item?.vimeo_link}
+                  autoPlay
+                  loop
+                  controls
+                  preload="auto"
+                  onClick={() => {
+                    onClick(index);
+                  }}
+                />
+              )}
               {item.icon && viewIn3dBtn(item.code)}
               {item.shop_the_look && (
                 <div
