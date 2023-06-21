@@ -103,7 +103,9 @@
     background-color: $white;
     padding: 0 29px;
     flex-grow: 1;
-    overflow-y: auto;
+    overflow-y: scroll;
+
+    @include scrollbar();
 
     .cart-item {
       padding: 25px 0;

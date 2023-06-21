@@ -141,7 +141,7 @@ const AddressSection: React.FC<AddressProps & {
       orderSummaryRef2?.current &&
         observer?.unobserve(orderSummaryRef2?.current);
     };
-  }, [currentStep, activeStep, sameAsShipping]);
+  }, [currentStep, activeStep, sameAsShipping, mode]);
   // End: Intersection Observer (Mobile)
 
   useEffect(() => {

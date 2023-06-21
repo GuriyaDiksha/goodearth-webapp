@@ -577,7 +577,7 @@ body:has(.open-summary) {
         margin: 0;
       }
       .payableAmount {
-        @include b5_10px_montserrat_white();
+        @include b4_12px_montserrat_white();
         display: flex;
         align-items: center;
         gap: 5px;
