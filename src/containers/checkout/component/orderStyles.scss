@@ -240,6 +240,18 @@ body:has(.open-summary) {
       margin-bottom: 20px !important;
     }
   }
+  .summary-header{
+    display: flex;
+    justify-content: space-between;
+
+    a{
+      padding: 35px 0 0 0;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+      border-bottom: 1px solid $aqua;
+      @include b4_12px_montserrat_aqua();
+    }
+  }
   .fix-order-items {
     max-height: 360px;
     overflow-y: scroll;

@@ -16,7 +16,8 @@ import {
   updateAddressList,
   updateBillingAddressId,
   updateCustomDuties,
-  updateShippingAddressId
+  updateShippingAddressId,
+  updateSameAsShipping
 } from "actions/address";
 import AddressService from "services/address";
 import { useDispatch, useSelector } from "react-redux";
@@ -70,14 +71,15 @@ const AddressSection: React.FC<AddressProps & {
     addressList,
     shippingAddressId,
     billingAddressId,
-    customDuties
+    customDuties,
+    sameAsShipping
   } = useSelector((state: AppState) => state.address);
   // const { showPromo } = useSelector((state: AppState) => state.info);
-  const sameShipping =
-    (props.activeStep == STEP_BILLING ? true : false) &&
-    props.hidesameShipping &&
-    !isGoodearthShipping &&
-    !props.isBridal;
+  // const sameShipping =
+  //   (props.activeStep == STEP_BILLING ? true : false) &&
+  //   props.hidesameShipping &&
+  //   !isGoodearthShipping &&
+  //   !props.isBridal;
 
   const amountPrice = {
     INR: 200000,
@@ -89,7 +91,7 @@ const AddressSection: React.FC<AddressProps & {
 
   const code = currencyCode[currency as Currency];
 
-  const [sameAsShipping, setSameAsShipping] = useState(sameShipping);
+  // const [sameAsShipping, setSameAsShipping] = useState(sameShipping);
   const [gst, setGst] = useState(false);
   const [gstNum, setGstNum] = useState("");
   // let gstNum: any;
@@ -208,7 +210,7 @@ const AddressSection: React.FC<AddressProps & {
   }, [props.selectedAddress, addressList]);
 
   const openNewAddressForm = () => {
-    setSameAsShipping(false);
+    dispatch(updateSameAsShipping(false));
     openAddressForm();
   };
 
@@ -221,7 +223,11 @@ const AddressSection: React.FC<AddressProps & {
   }, [user.panPassport]);
 
   useEffect(() => {
-    setSameAsShipping(!isGoodearthShipping && hidesameShipping && !isBridal);
+    dispatch(
+      updateSameAsShipping(
+        !isGoodearthShipping && hidesameShipping && !isBridal
+      )
+    );
   }, [isGoodearthShipping, hidesameShipping, isBridal]);
 
   useEffect(() => {
@@ -488,7 +494,7 @@ const AddressSection: React.FC<AddressProps & {
   };
 
   const toggleSameAsShipping = () => {
-    setSameAsShipping(!sameAsShipping);
+    dispatch(updateSameAsShipping(!sameAsShipping));
   };
 
   const checkPancardValidation = () => {
@@ -640,7 +646,7 @@ const AddressSection: React.FC<AddressProps & {
             isActive: isActive,
             setGstNum: setGstNum,
             sameAsShipping: sameAsShipping,
-            setSameAsShipping: setSameAsShipping
+            setSameAsShipping: updateSameAsShipping
           },
           mobile ? false : true,
           mobile ? ModalStyles.bottomAlignSlideUp : "",
@@ -663,7 +669,7 @@ const AddressSection: React.FC<AddressProps & {
             isActive: isActive,
             setGstNum: setGstNum,
             sameAsShipping: sameAsShipping,
-            setSameAsShipping: setSameAsShipping
+            setSameAsShipping: updateSameAsShipping
           },
           mobile ? false : true,
           mobile ? ModalStyles.bottomAlignSlideUp : "",

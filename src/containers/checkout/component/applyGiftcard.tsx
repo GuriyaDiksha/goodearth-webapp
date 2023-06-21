@@ -37,11 +37,11 @@ class ApplyGiftcard extends React.Component<Props, GiftState> {
       txtvalue: "",
       error: "",
       newCardBox: true,
-      toggleOtp: false,
       isActivated: false,
       cardType: "Select",
       isLoader: false,
-      isError: false
+      isError: false,
+      isEmptyInput: false
     };
   }
   private firstLoad = true;
@@ -75,21 +75,16 @@ class ApplyGiftcard extends React.Component<Props, GiftState> {
     });
   };
 
-  toggleOtp = (value: boolean) => {
-    this.setState({
-      toggleOtp: value
-    });
-  };
-
   applyCard = () => {
-    this.setState({ error: "", isError: false });
+    const { cardType, txtvalue, error } = this.state;
+    this.setState({ error: "", isError: false, isEmptyInput: false });
 
     let errMsg = "";
-    if (this.state.cardType == "Select" && !this.state.txtvalue) {
+    if (cardType == "Select" && !txtvalue) {
       errMsg = "Please select a valid option & enter a valid code";
-    } else if (this.state.cardType == "Select") {
+    } else if (cardType == "Select") {
       errMsg = "Please select a valid option";
-    } else if (!this.state.txtvalue) {
+    } else if (!txtvalue) {
       errMsg = "Please enter a Code";
     }
 
@@ -98,18 +93,19 @@ class ApplyGiftcard extends React.Component<Props, GiftState> {
         {
           error: errMsg,
           isActivated: false,
-          isError: this.state.cardType == "Select"
+          isError: cardType == "Select",
+          isEmptyInput: !txtvalue
         },
         () => {
-          errorTracking([this.state.error], location.href);
+          errorTracking([error], location.href);
         }
       );
       return false;
     }
 
     const data: any = {
-      cardId: this.state.txtvalue,
-      type: this.state.cardType
+      cardId: txtvalue,
+      type: cardType
     };
 
     this.setState({ isLoader: true });
@@ -139,26 +135,6 @@ class ApplyGiftcard extends React.Component<Props, GiftState> {
       });
   };
 
-  gcBalanceOtp = (response: any) => {
-    if (response.status == false) {
-      this.setState(
-        {
-          error: "Please enter a valid Gift Card code."
-        },
-        () => {
-          errorTracking([this.state.error], location.href);
-        }
-      );
-    } else {
-      this.setState({
-        txtvalue: ""
-      });
-    }
-  };
-
-  newGiftcard = () => {
-    this.setState({});
-  };
   onClose = (code: string, type: string) => {
     const data: any = {
       cardId: code,
@@ -191,16 +167,25 @@ class ApplyGiftcard extends React.Component<Props, GiftState> {
   };
 
   onchange = (value: any) => {
-    // setModevalue(event.target.value);
     this.setState({
       cardType: value,
       error: "",
-      isError: false
+      isError: false,
+      isEmptyInput: false
     });
   };
 
   render() {
-    const { newCardBox, txtvalue, toggleOtp, isLoader } = this.state;
+    const {
+      newCardBox,
+      txtvalue,
+      isLoader,
+      error,
+      isActivated,
+      isEmptyInput,
+      isError,
+      cardType
+    } = this.state;
     const {
       user: { isLoggedIn },
       currency,
@@ -229,86 +214,64 @@ class ApplyGiftcard extends React.Component<Props, GiftState> {
           >
             {/* {newCardBox ? ( */}
             <div>
-              {toggleOtp ? (
-                ""
-              ) : (
-                <Fragment>
-                  <div className={cs(styles.flex, styles.vCenter)}>
-                    <SelectableDropdownMenu
-                      id="giftcard_dropdown"
-                      align="right"
-                      className={cs(
-                        { [globalStyles.errorBorder]: this.state.isError },
-                        mobile
-                          ? styles.selectRelativemobile
-                          : styles.selectRelative
-                      )}
-                      items={modeOptions}
-                      onChange={this.onchange}
-                      showCaret={true}
-                      value={this.state.cardType}
-                      key={"plpPage"}
-                    ></SelectableDropdownMenu>
-                    {/* <FormSelect
-                        required
-                        name="giftselect"
-                        label=""
-                        disable={false}
-                        
-                        options={modeOptions}
-                        handleChange={this.onchange}
-                        value={this.state.cardType}
-                        validations={{
-                          isExisty: true
-                        }}
-                      /> */}
-                    <div className={cs(styles.giftInput)}>
-                      <input
-                        type="text"
-                        value={txtvalue}
-                        onChange={this.changeValue}
-                        id="gift"
-                        className={
-                          this.state.error && !this.state.isError
-                            ? cs(
-                                styles.marginR10,
-                                styles.ht50,
-                                styles.err,
-                                styles.giftCardCodeInput
-                              )
-                            : cs(
-                                styles.marginR10,
-                                styles.ht50,
-                                styles.giftCardCodeInput
-                              )
-                        }
-                        aria-label="giftcard code"
-                      />
-                      <span
-                        className={cs(styles.applyBtn, globalStyles.pointer, {
-                          [globalStyles.hidden]: !isLoggedIn
-                        })}
-                        onClick={this.applyCard}
-                      >
-                        Apply
-                      </span>
-                    </div>
+              <Fragment>
+                <div className={cs(styles.flex, styles.vCenter)}>
+                  <SelectableDropdownMenu
+                    id="giftcard_dropdown"
+                    align="right"
+                    className={cs(
+                      { [globalStyles.errorBorder]: isError },
+                      mobile
+                        ? styles.selectRelativemobile
+                        : styles.selectRelative
+                    )}
+                    items={modeOptions}
+                    onChange={this.onchange}
+                    showCaret={true}
+                    value={cardType}
+                    key={"plpPage"}
+                  ></SelectableDropdownMenu>
+
+                  <div className={cs(styles.giftInput)}>
+                    <input
+                      type="text"
+                      value={txtvalue}
+                      onChange={this.changeValue}
+                      id="gift"
+                      className={
+                        (error && !isError) || isEmptyInput
+                          ? cs(
+                              styles.marginR10,
+                              styles.ht50,
+                              styles.err,
+                              styles.giftCardCodeInput
+                            )
+                          : cs(
+                              styles.marginR10,
+                              styles.ht50,
+                              styles.giftCardCodeInput
+                            )
+                      }
+                      aria-label="giftcard code"
+                    />
+                    <span
+                      className={cs(styles.applyBtn, globalStyles.pointer, {
+                        [globalStyles.hidden]: !isLoggedIn
+                      })}
+                      onClick={this.applyCard}
+                    >
+                      Apply
+                    </span>
                   </div>
-                  {/* {this.state.cardType == "GIFTCARD" ? (
-                      <label>Gift Card Code</label>
-                    ) : (
-                      <label>Credit Note</label>
-                    )} */}
-                </Fragment>
-              )}
-              {this.state.error ? (
-                <span className={cs(globalStyles.errorMsg)}>
-                  {this.state.error}
-                </span>
+                </div>
+              </Fragment>
+
+              {error ? (
+                <span className={cs(globalStyles.errorMsg)}>{error}</span>
               ) : (
                 ""
               )}
-              {this.state.isActivated && this.state.error ? (
+              {isActivated && error ? (
                 <p
                   className={cs(
                     styles.activeUrl,
@@ -328,21 +291,6 @@ class ApplyGiftcard extends React.Component<Props, GiftState> {
                 ""
               )}
             </div>
-            {/* ) : (
-              <div
-                className={cs(
-                  {
-                    [globalStyles.hidden]: +total <= 0 || +addnewGiftcard <= 0
-                  },
-                  styles.rtcinfo,
-                  globalStyles.pointer,
-                  globalStyles.textLeft
-                )}
-                onClick={this.newGiftcard}
-              >
-                [+] ADD ANOTHER GIFT CARD CODE / CREDIT NOTE
-              </div>
-            )} */}
           </div>
           {giftList.map((data, i) => {
             return (

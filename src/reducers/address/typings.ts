@@ -17,6 +17,7 @@ export type State = {
   billingAddressId: number;
   mode: AddressModes;
   customDuties: CustomDuties;
+  sameAsShipping: boolean;
 };
 
 export { Actions };
