@@ -5,7 +5,7 @@ import styles from "../styles.scss";
 import iconStyles from "styles/iconFonts.scss";
 import { Context } from "components/Modal/context";
 import { NavLink } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { AppState } from "reducers/typings";
 
 const desc = {
@@ -48,6 +48,7 @@ const BillingGST: React.FC<PopupProps> = ({
     (state: AppState) => state.address
   );
   const { mobile } = useSelector((state: AppState) => state.device);
+  const dispatch = useDispatch();
 
   const address: any =
     addressList?.find((val: any) =>
@@ -130,7 +131,7 @@ const BillingGST: React.FC<PopupProps> = ({
       setGst(false);
       setGstNum("");
       setError("");
-      setSameAsShipping(false);
+      dispatch(setSameAsShipping(false));
       closeModal();
     }
   };

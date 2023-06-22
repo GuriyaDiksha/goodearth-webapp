@@ -114,11 +114,12 @@ export type GiftState = {
   txtvalue: string;
   error: string;
   newCardBox: boolean;
-  toggleOtp: boolean;
+  toggleOtp?: boolean;
   isActivated: boolean;
   cardType?: string;
   isLoader?: boolean;
   isError?: boolean;
+  isEmptyInput?: boolean;
 };
 
 export type RedeemState = {

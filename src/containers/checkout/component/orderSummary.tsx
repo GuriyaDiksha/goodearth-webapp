@@ -83,6 +83,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
   useIsomorphicLayoutEffect(() => {
     handleScroll();
     return () =>
+      orderSummaryRef?.current &&
       observer?.unobserve(
         orderSummaryRef?.current,
         orderSummaryRefCheckout?.current
@@ -730,6 +731,11 @@ const OrderSummary: React.FC<OrderProps> = props => {
                 )}
               </span>
             </div>
+            {(((pathname === "/order/checkout" || pathname === "/cart") &&
+              !mobile) ||
+              (page == "checkoutMobileBottom" &&
+                !checkoutOrderSummaryStatus)) &&
+              getCoupons()}
             <hr className={styles.hr} />
             <div
               className={cs(
@@ -745,10 +751,6 @@ const OrderSummary: React.FC<OrderProps> = props => {
               </span>
             </div>
           </div>
-          {(((pathname === "/order/checkout" || pathname === "/cart") &&
-            !mobile) ||
-            (page == "checkoutMobileBottom" && !checkoutOrderSummaryStatus)) &&
-            getCoupons()}
         </div>
       );
     } else {
@@ -969,6 +971,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
                 ""
               )}
             </h3>
+            {pathname === "/order/checkout" && <Link to="/cart">EDIT BAG</Link>}
           </div>
         )}
 

@@ -240,6 +240,18 @@ body:has(.open-summary) {
       margin-bottom: 20px !important;
     }
   }
+  .summary-header{
+    display: flex;
+    justify-content: space-between;
+
+    a{
+      padding: 35px 0 0 0;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+      border-bottom: 1px solid $aqua;
+      @include b4_12px_montserrat_aqua();
+    }
+  }
   .fix-order-items {
     max-height: 360px;
     overflow-y: scroll;
@@ -577,7 +589,7 @@ body:has(.open-summary) {
         margin: 0;
       }
       .payableAmount {
-        @include b5_10px_montserrat_white();
+        @include b4_12px_montserrat_white();
         display: flex;
         align-items: center;
         gap: 5px;

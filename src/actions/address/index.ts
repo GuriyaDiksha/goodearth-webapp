@@ -45,3 +45,9 @@ export const updateAddressMode = (mode: AddressMode) => {
 export const updateCustomDuties = (customDuties: CustomDuties) => {
   return actionCreator("UPDATE_CUSTOM_DUTIES", { customDuties });
 };
+
+export const updateSameAsShipping = (sameAsShipping: boolean) => {
+  return actionCreator("UPDATE_SAME_AS_SHIPPING", {
+    sameAsShipping: sameAsShipping
+  });
+};

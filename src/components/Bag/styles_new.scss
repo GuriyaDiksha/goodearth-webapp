@@ -103,7 +103,9 @@
     background-color: $white;
     padding: 0 29px;
     flex-grow: 1;
-    overflow-y: auto;
+    overflow-y: scroll;
+
+    @include scrollbar();
 
     .cart-item {
       padding: 25px 0;
@@ -192,11 +194,18 @@
             @include b5_10px_montserrat_charcoal();
             border-bottom:0.5px solid #4C4C4C;
             cursor: pointer;
+            &:hover {
+              color: $aqua;
+              border-bottom: 1px solid $aqua;
+            }
           }
           .wishlist-display {
             div {
               cursor: pointer;
               @include b5_10px_montserrat_charcoal();
+              &:hover {
+                color: $aqua;
+              }
             }
           }
         }
@@ -500,8 +509,8 @@
       border-bottom: 0.5px solid $med-charcoal;
       width: fit-content;
       &:hover {
-        color: #7EAACE;
-        border-bottom: 1px solid #7EAAA9;
+        color: $aqua;
+        border-bottom: 1px solid $aqua;
       }
     }
   }

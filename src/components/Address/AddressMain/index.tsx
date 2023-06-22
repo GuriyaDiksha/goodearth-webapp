@@ -43,7 +43,9 @@ const AddressMain: React.FC<Props> = props => {
   // editMode: false
   const [showDefaultAddressOnly] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const { addressList } = useSelector((state: AppState) => state.address);
+  const { addressList, sameAsShipping } = useSelector(
+    (state: AppState) => state.address
+  );
   const [editAddressData, setEditAddressData] = useState<AddressData>();
   const { pinCodeData, countryData, mode } = useSelector(
     (state: AppState) => state.address
@@ -274,7 +276,10 @@ const AddressMain: React.FC<Props> = props => {
 
       if (currentCallBackComponent === "checkout-shipping" && addressId) {
         dispatch(updateShippingAddressId(addressId));
-        dispatch(updateBillingAddressId(addressId));
+        if (sameAsShipping) {
+          dispatch(updateBillingAddressId(addressId));
+        }
+
         setIsLoading(false);
       } else if (currentCallBackComponent === "checkout-billing" && addressId) {
         dispatch(updateBillingAddressId(addressId));
