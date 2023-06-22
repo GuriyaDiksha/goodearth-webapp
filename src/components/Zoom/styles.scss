@@ -32,6 +32,15 @@
           width: 70px;
           margin: 0 12px 10px 12px;
           opacity: 0.6;
+          position: relative;
+
+          .play{
+            position: absolute;
+            transform: translate(-50%, -50%);
+            top: 50%;
+            left: 50%;
+            width: 12px;
+          }
         }
         .selectd-img{
           opacity: 1;
@@ -62,6 +71,7 @@
             transform: translate(-50%, -50%);
             top: 50%;
             left: 50%;
+            width: 35px;
           }
         }
       }

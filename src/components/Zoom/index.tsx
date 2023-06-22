@@ -12,6 +12,8 @@ import "./styles.css";
 import ZoomImageSlider from "./ZoomImageSlider";
 import plus from "./../../icons/plus.svg";
 import minus from "./../../icons/minus.svg";
+import play from "./../../icons/playVideo.svg";
+import pause from "./../../icons/pauseVideo.svg";
 
 type Props = {
   code: string;
@@ -95,14 +97,38 @@ const Zoom: React.FC<Props> = ({
                     className={globalStyles.imgResponsive}
                   />
                 ) : (
-                  <video
-                    className={cs(globalStyles.imgResponsive)}
-                    src={selectedImage?.vimeo_link}
-                    autoPlay
-                    loop
-                    controls
-                    preload="auto"
-                  />
+                  <>
+                    <video
+                      className={cs(globalStyles.imgResponsive)}
+                      src={imgContent?.vimeo_link}
+                      autoPlay
+                      loop
+                      controls
+                      preload="auto"
+                    />
+                    {playVideo &&
+                    imgContent?.vimeo_link === selectedImage?.vimeo_link ? (
+                      <img
+                        src={pause}
+                        alt="pause"
+                        className={styles.play}
+                        onClick={() => {
+                          videoRef?.current?.pause();
+                          setPlayVideo(false);
+                        }}
+                      />
+                    ) : (
+                      <img
+                        src={play}
+                        alt="play"
+                        className={styles.play}
+                        onClick={() => {
+                          videoRef?.current?.play();
+                          setPlayVideo(true);
+                        }}
+                      />
+                    )}
+                  </>
                 )}
               </div>
             ))}
@@ -142,25 +168,25 @@ const Zoom: React.FC<Props> = ({
                     preload="auto"
                   />
                   {playVideo ? (
-                    <button
+                    <img
+                      src={pause}
+                      alt="pause"
                       className={styles.play}
                       onClick={() => {
                         videoRef?.current?.pause();
                         setPlayVideo(false);
                       }}
-                    >
-                      Pause
-                    </button>
+                    />
                   ) : (
-                    <button
+                    <img
+                      src={play}
+                      alt="play"
                       className={styles.play}
                       onClick={() => {
                         videoRef?.current?.play();
                         setPlayVideo(true);
                       }}
-                    >
-                      Play
-                    </button>
+                    />
                   )}
                 </>
               )}

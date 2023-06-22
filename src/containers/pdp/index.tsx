@@ -63,8 +63,9 @@ import PDPImagesContainer from "./components/PDPImagesContainer";
 // import Counter from "components/ProductCounter/counter";
 import { GA_CALLS } from "constants/cookieConsent";
 // import { product } from "reducers/product";
-import pdp_top from "images/3d/pdp_top.svg";
+// import pdp_top from "images/3d/pdp_top.svg";
 import button_image from "images/3d/button_image.svg";
+import Mobile360 from "./../../icons/360mobile.svg";
 
 const PDP_TOP_OFFSET = HEADER_HEIGHT + SECONDARY_HEADER_HEIGHT;
 const sidebarPosition = PDP_TOP_OFFSET + 23;
@@ -1420,7 +1421,7 @@ class PDPContainer extends React.Component<Props, State> {
                     </div>
                   ) : (
                     <img
-                      src={pdp_top}
+                      src={Mobile360}
                       className={cs({
                         [styles.mobileHelloicon]: mobile,
                         [styles.tabHelloicon]: tablet
