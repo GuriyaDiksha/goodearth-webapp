@@ -168,8 +168,8 @@ const Newsletters: React.FC = () => {
       )}
     >
       <h4>
-        Join our Community Make the most out of your Good Earth favourites. Sign
-        up to discover our latest collections, insider stories and expert tips.
+        Make the most out of your Good Earth favourites. Sign up to discover our
+        latest collections, insider stories and expert tips.
       </h4>
       <Formsy
         onValidSubmit={handleSubmit}
