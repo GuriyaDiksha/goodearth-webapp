@@ -18,6 +18,7 @@ const SelectDropdown: React.FC<Props &
     if (props.handleChange) {
       props.handleChange(option);
     }
+    debugger;
     setValue(option.value);
     setActive(false);
   };
