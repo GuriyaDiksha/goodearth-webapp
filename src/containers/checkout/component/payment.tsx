@@ -299,6 +299,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
   }, [basket.giftCards, basket.loyalty]);
 
   useEffect(() => {
+    setWhatsappNoErr("");
     CheckoutService.getPaymentList(dispatch)
       .then((res: any) => {
         // console.log(res.methods);
