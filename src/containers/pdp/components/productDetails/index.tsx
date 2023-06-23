@@ -900,7 +900,7 @@ const ProductDetails: React.FC<Props> = ({
               <div
                 className={cs(bootstrap.col8, bootstrap.colMd8, styles.title)}
               >
-                {productTitle}
+                {title}
                 <p>{shortDesc}</p>
               </div>
               {!(invisibleFields && invisibleFields.indexOf("price") > -1) && (
