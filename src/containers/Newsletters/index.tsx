@@ -267,7 +267,7 @@ const Newsletters: React.FC = () => {
                 to="/customer-assistance/privacy-policy"
                 target="_blank"
               >
-                Privacy Policy*
+                Privacy Policy.
               </Link>
             ]}
           </div>
