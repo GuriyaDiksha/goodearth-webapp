@@ -25,6 +25,7 @@ select {
   &.default {
     color: $formLabel;
     font-weight: 300;
+    border: 1px solid #ab1e56 !important;
   }
   &.black {
     color: black;
