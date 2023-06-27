@@ -102,12 +102,18 @@ const WhatsappSubscribe: React.FC<Props> = ({
   }, []);
 
   useEffect(() => {
-    if (codeError || numberError) {
-      setError("");
-    } else {
+    if (whatsappNoErr) {
       setError(whatsappNoErr);
+      setNumberError("");
+      setCodeError("");
     }
-  }, [whatsappNoErr, codeError, numberError]);
+  }, [whatsappNoErr]);
+
+  useEffect(() => {
+    if (!whatsappNoErr && (codeError || numberError)) {
+      setError("");
+    }
+  }, [codeError, numberError]);
 
   useEffect(() => {
     if (data) {
@@ -133,12 +139,14 @@ const WhatsappSubscribe: React.FC<Props> = ({
     const value = e.target.value;
     setPhone(value);
     setNumberError("");
+    setError("");
   };
 
   const onCodeChange = (e: any, newValue?: string) => {
     //const value = e.target.value;
     setCode(newValue);
     setNumberError("");
+    setError("");
   };
 
   const onSubscribeChange = (e: any) => {

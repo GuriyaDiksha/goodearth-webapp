@@ -1058,7 +1058,6 @@ class Header extends React.Component<Props, State> {
           )}
         >
           {!isBridalRegistryPage &&
-            !isCeriseCustomer &&
             this.props.showTimer &&
             this.props.timerData && <CountdownTimer />}
           {this.state.showSearch && (
