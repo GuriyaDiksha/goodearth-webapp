@@ -198,15 +198,9 @@
   h3 {
     @include b3_14px_montserrat_caps_charcoal();
     font-weight: 500;
-    // font-family: $font-Montserrat;
-    // color: $charcoal19;
-    // font-size: 12px;
     line-height: 30px;
-    // text-transform: capitalize;
-    // font-weight: bold;
     letter-spacing: 0.5px;
-    // padding: 10px 0 0 0;
-    // margin-bottom: -30px;
+    padding: 0 !important;
   }
   p {
     @include b4_12px_montserrat_charcoal();
@@ -358,7 +352,7 @@
       }
       .prefWrp{
         overflow-y: scroll;
-        height: 50%;
+        height: 42%;
         font-weight: 500;
 
         @media screen and (min-width: 700px) and (max-width: 992px) {
