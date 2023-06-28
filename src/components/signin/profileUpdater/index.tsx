@@ -487,7 +487,9 @@ class ProfileUpdater extends React.Component<Props, State> {
           </div>
           <div>
             {this.state.showerror ? (
-              <p className={styles.loginErrMsg}>{this.state.showerror}</p>
+              <p className={cs(styles.errorMsg, globalStyles.textLeft)}>
+                {this.state.showerror}
+              </p>
             ) : (
               ""
             )}
