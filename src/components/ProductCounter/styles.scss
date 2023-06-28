@@ -12,8 +12,8 @@ border-radius: 19px;
 box-shadow: 3px 3px 10px #00000029;
 opacity: 1;
 position:fixed;
-z-index: 4;
-    &.top-position{
+z-index: 3; //Prevented from coming it on menu drawer
+    &.top-position {
         top: 170px;
     }
     .counter {
