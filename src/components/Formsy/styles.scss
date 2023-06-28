@@ -25,13 +25,20 @@ select {
   &.default {
     color: $formLabel;
     font-weight: 300;
-    border: 1px solid #ab1e56 !important;
   }
   &.black {
     color: black;
   }
 }
-  
+.shipping-destination{
+  .select-group {
+      select{
+        &.default {
+          border: 1px solid #ab1e56 !important;
+        }
+      }
+    }
+  }
 
 input[type="date"] {
   &.default {
