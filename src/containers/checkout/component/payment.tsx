@@ -235,6 +235,12 @@ const PaymentSection: React.FC<PaymentProps> = props => {
                 // );
                 // // setNumberError(errData[key][0]);
                 break;
+              case "whatsappNoCountryCode":
+                if (errData[key][0] == "This field may not be blank.") {
+                  setWhatsappNoErr("Please enter a Whatsapp Number");
+                }
+
+                break;
               case "non_field_errors":
                 // // Invalid Whatsapp number
                 setWhatsappNoErr("Please enter a valid Whatsapp Number");
