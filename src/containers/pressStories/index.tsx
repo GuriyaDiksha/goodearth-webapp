@@ -24,7 +24,7 @@ const PressStories: React.FC = () => {
 
   const history = useHistory();
   const dispatch = useDispatch();
-  const { mobile } = useSelector((state: AppState) => state.device);
+  const { mobile, tablet } = useSelector((state: AppState) => state.device);
 
   useEffect(() => {
     pageViewGTM("PressStories");
@@ -96,6 +96,7 @@ const PressStories: React.FC = () => {
           key={parseInt(year)}
           year={parseInt(year)}
           updatePressStoriesData={updatePressStoriesData}
+          tablet={tablet}
         />
       );
     }

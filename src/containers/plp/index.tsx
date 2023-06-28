@@ -812,7 +812,11 @@ class PLP extends React.Component<
               id="product_images"
             >
               {showTemplates.Banner && (
-                <Banner data={showTemplates.Banner} mobile={mobile} />
+                <Banner
+                  data={showTemplates.Banner}
+                  mobile={mobile}
+                  tablet={tablet}
+                />
               )}
             </div>
 
