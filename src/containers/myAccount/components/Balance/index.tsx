@@ -48,7 +48,9 @@ class CheckBalance extends React.Component<Props, State> {
       <div className={bootstrapStyles.row}>
         <div className={bootstrapStyles.col12}>
           <div className={styles.formHeading}>Check Balance</div>
-          <div className={styles.formSubheading}>
+          <div
+            className={cs(styles.formSubheading, styles.activategcSubheading)}
+          >
             Check your gift card or credit note balance
           </div>
           <div className={cs(styles.loginForm, globalStyles.voffset4)}>
