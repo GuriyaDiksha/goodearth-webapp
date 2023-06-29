@@ -102,7 +102,9 @@ const ResetPassword: React.FC<Props> = props => {
         /[0-9]/.test(value) &&
         /[A-Z]/.test(value);
       if (res) {
-        setShowPassRules(false);
+        setTimeout(() => {
+          setShowPassRules(false);
+        }, 200);
       } else {
         ResetPasswordFormRef.current?.updateInputsWithError({
           password1:
