@@ -184,9 +184,6 @@ $banner-mobile-height:180px;
                             appearance: none;
                             border-radius: 0;
                             letter-spacing: 0.5px;
-                            &.default {
-                                border: 1px solid #ab1e56 !important;
-                              }
                         }
                         option {
                           @include b4_12px_montserrat_charcoal();
