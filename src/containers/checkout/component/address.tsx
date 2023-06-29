@@ -419,7 +419,7 @@ const AddressSection: React.FC<AddressProps & {
       return (
         <div>
           {currency == "INR" ? (
-            <div>
+            <div className={styles.widthFitContent}>
               <label
                 className={cs(
                   styles.flex,

@@ -380,10 +380,12 @@ const LineItems: React.FC<BasketItem> = memo(
               )}
               {showError &&
                 !(
-                  saleStatus &&
-                  childAttributes[0].showStockThreshold &&
-                  childAttributes[0].stock > 0 &&
-                  childAttributes[0].othersBasketCount > 0
+                  (
+                    saleStatus &&
+                    childAttributes[0].showStockThreshold &&
+                    childAttributes[0].stock > 0
+                  )
+                  //   childAttributes[0].othersBasketCount > 0
                 ) && (
                   <span
                     className={cs(

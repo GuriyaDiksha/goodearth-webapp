@@ -503,6 +503,8 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                       +parseFloat(item.priceExclTaxExclDiscounts).toFixed(2) /
                       +item.quantity;
 
+                    const isFlat = item?.product?.badgeType === "B_flat";
+
                     return (
                       <div className={cs(styles.product)} key={item.order}>
                         <div className={cs(styles.imageContainer)}>
@@ -520,7 +522,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                           <p className={cs(styles.price)}>
                             <span
                               className={cs(styles.amountPaid, {
-                                [styles.gold]: isdisCount
+                                [styles.gold]: isdisCount || isFlat
                               })}
                             >
                               {`${charCurrency} ${displayPriceWithCommasFloat(
