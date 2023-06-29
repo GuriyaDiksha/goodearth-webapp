@@ -25,14 +25,11 @@ select {
   &.default {
     color: $formLabel;
     font-weight: 300;
-    border: 1px solid #ab1e56 !important;
   }
   &.black {
     color: black;
   }
 }
-  
-
 input[type="date"] {
   &.default {
     color: $formLabel;
@@ -45,12 +42,10 @@ input[type="date"] {
     text-align: left;
   }
 }
-
 .error-msg {
   @include err_13px_lora_italic_cerise();
   text-align: left;
 }
-
 .dropdown{
   position: relative;
   input[type="text"]{
