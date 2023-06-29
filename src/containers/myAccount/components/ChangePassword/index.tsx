@@ -392,7 +392,11 @@ const ChangePassword: React.FC<PasswordProps> = ({ setCurrentSection }) => {
                     </div>
                     <div>
                       {showerror ? (
-                        <p className={styles.loginErrMsg}>{showerror}</p>
+                        <p
+                          className={cs(styles.errorMsg, globalStyles.textLeft)}
+                        >
+                          {showerror}
+                        </p>
                       ) : (
                         ""
                       )}

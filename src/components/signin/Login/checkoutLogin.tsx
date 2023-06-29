@@ -462,7 +462,9 @@ class CheckoutLoginForm extends React.Component<Props, loginState> {
           </div>
           <div>
             {this.state.showerror ? (
-              <p className={styles.loginErrMsg}>{this.state.showerror}</p>
+              <p className={cs(styles.errorMsg, globalStyles.textLeft)}>
+                {this.state.showerror}
+              </p>
             ) : (
               ""
             )}
@@ -559,7 +561,9 @@ class CheckoutLoginForm extends React.Component<Props, loginState> {
           </div>
           <div>
             {this.state.showerror ? (
-              <p className={styles.loginErrMsg}>{this.state.showerror}</p>
+              <p className={cs(styles.errorMsg, globalStyles.textLeft)}>
+                {this.state.showerror}
+              </p>
             ) : (
               ""
             )}
