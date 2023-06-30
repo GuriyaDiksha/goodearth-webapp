@@ -429,13 +429,12 @@
       position: fixed;
       bottom: 7px;
       padding-bottom: 30px;
-      left: 0;
   
       @media screen and (max-width: 767px) {
         margin-bottom: -6px;
         width: 100%;
         padding-bottom: 0px;
-
+        left: 0;
       }
 
       @media screen and (min-width: 768px) and (max-width: 992px) {
@@ -614,7 +613,7 @@
       padding: 5px 40px;
 
       @media screen and (max-width:992px) {
-        padding: 1px 40px;
+        padding: 1px 10px;
       }
     }
     .ok-btn{
