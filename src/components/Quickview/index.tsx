@@ -151,7 +151,7 @@ class Quickview extends React.Component<Props, State> {
     const {
       data,
       currency,
-      device: { mobile },
+      device: { mobile, tablet },
       updateComponentModal,
       changeModalState
     } = this.props;
@@ -170,6 +170,7 @@ class Quickview extends React.Component<Props, State> {
         updateComponentModal={updateComponentModal}
         changeModalState={changeModalState}
         source={this.props.source}
+        tablet={tablet}
       />
     );
   };
@@ -184,6 +185,7 @@ class Quickview extends React.Component<Props, State> {
       const newId = productListId[--index];
       fetchProductsDetails(newId);
     }
+    this.setState({ currentIndex: 0 });
   };
 
   render() {
