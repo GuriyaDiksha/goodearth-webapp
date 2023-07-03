@@ -384,6 +384,10 @@
   font-family: $font-Lato;
 }
 
+.width-fit-content{
+  width: fit-content;
+}
+
 .flex {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -591,7 +595,7 @@
     }
 
     .selected-stvalue {
-      margin-top: 10px;
+      // margin-top: 10px;
       color: #808080;
     }
 
@@ -976,6 +980,7 @@ input[type="radio"] {
 
 div.form-subheading{
   padding: unset;
+  cursor: pointer;
 }
 
 .country-code{
