@@ -127,7 +127,7 @@ body:has(.mobile) {
       line-height: 22px;
       &.checkout-fix {
         font-size: 13px;
-        font-family: $font-Lato;
+        font-family: $font-Montserrat;
         font-weight: 400;
         color: #191919;
       }
@@ -336,6 +336,7 @@ body:has(.mobile) {
       margin-top: 5px;
       letter-spacing: 0.5px;
       font-size: 11px;
+      font-family: $font-Montserrat;
     }
     .edit {
       text-transform: uppercase;
@@ -447,7 +448,7 @@ body:has(.mobile) {
       position: relative;
     }
     &.checkout-fix {
-      font-family: $font-Lato;
+      font-family: $font-Montserrat;
       font-size: 14px;
     }
   }
@@ -465,12 +466,12 @@ body:has(.mobile) {
     }
     &.checkout-fix {
       font-size: 13px;
-      font-family: $font-Lato;
+      font-family: $font-Montserrat;
       font-weight: 400;
       color: #808080;
     }
     &.make-default-checkout-fix {
-      font-family: $font-Lato;
+      font-family: $font-Montserrat;
       letter-spacing: 1px;
       font-size: 10px;
       font-style: italic;
@@ -480,7 +481,7 @@ body:has(.mobile) {
       font-weight: 400;
     }
     &.default-checkout-fix {
-      font-family: $font-Lora;
+      font-family: $font-Montserrat;
       font-size: 12px;
       font-style: italic;
       font-weight: 700;
@@ -497,7 +498,7 @@ body:has(.mobile) {
     color: #eaeaea;
     &.checkout-fix {
       font-size: 13px;
-      font-family: $font-Lato;
+      font-family: $font-Montserrat;
       font-weight: 400;
       color: #191919;
     }
@@ -514,7 +515,7 @@ body:has(.mobile) {
     }
     &.checkout-fix {
       font-size: 13px;
-      font-family: $font-Lato;
+      font-family: $font-Montserrat;
       font-weight: 400;
       color: #191919;
       text-decoration: none;

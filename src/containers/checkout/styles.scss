@@ -733,6 +733,7 @@ hr {
     font-family: $font-Montserrat;
     opacity: 0.8;
     letter-spacing: 0.36px;
+    font-size: 12px;
   }
 
   .input-container {
@@ -1032,6 +1033,7 @@ input[type="radio"] {
   font-family: $font-Montserrat;
   opacity: 0.8;
   letter-spacing: 0.36px;
+  font-size: 12px;
 
   &::placeholder {
     font-family: $font-Montserrat !important;

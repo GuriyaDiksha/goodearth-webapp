@@ -86,14 +86,14 @@
             display: flex;
         }
         .info{
-            @include b5_10px_montserrat_charcoal();
+            @include b4_12px_montserrat_charcoal();
             font-weight: $medium;
             color: #548B8B;
             letter-spacing: 0.3px;
             line-height: 16px;
         }
         .cta {
-            @include b5_10px_montserrat_charcoal();
+            @include b4_12px_montserrat_charcoal();
             font-weight: $medium;
             color: #548B8B;
             letter-spacing: 0.3px;
