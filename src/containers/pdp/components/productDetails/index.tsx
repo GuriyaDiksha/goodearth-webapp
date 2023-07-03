@@ -898,7 +898,11 @@ const ProductDetails: React.FC<Props> = ({
                 </div>
               )}
               <div
-                className={cs(bootstrap.col8, bootstrap.colMd8, styles.title)}
+                className={cs(
+                  isQuickview || mobile ? bootstrap.col6 : bootstrap.col7,
+                  isQuickview || mobile ? bootstrap.colMd6 : bootstrap.colMd7,
+                  styles.title
+                )}
               >
                 {productTitle}
                 <p>{shortDesc}</p>
@@ -906,8 +910,8 @@ const ProductDetails: React.FC<Props> = ({
               {!(invisibleFields && invisibleFields.indexOf("price") > -1) && (
                 <div
                   className={cs(
-                    bootstrap.col4,
-                    bootstrap.colMd4,
+                    isQuickview || mobile ? bootstrap.col6 : bootstrap.col5,
+                    isQuickview || mobile ? bootstrap.colMd6 : bootstrap.colMd5,
                     styles.priceContainer,
                     { [globalStyles.textCenter]: !mobile }
                   )}
