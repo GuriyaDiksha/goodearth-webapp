@@ -112,6 +112,32 @@ const ChangePassword: React.FC<PasswordProps> = ({ setCurrentSection }) => {
     setShowSuccess(false);
   };
 
+  const handlePassValidation = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const value = event.target.value;
+    if (value) {
+      value.length >= 6 && value.length <= 20
+        ? !passValidLength && setPassValidLength(true)
+        : passValidLength && setPassValidLength(false);
+
+      /[a-z]/.test(value)
+        ? !passValidLower && setPassValidLower(true)
+        : passValidLower && setPassValidLower(false);
+
+      /[0-9]/.test(value)
+        ? !passValidNum && setPassValidNum(true)
+        : passValidNum && setPassValidNum(false);
+
+      /[A-Z]/.test(value)
+        ? !passValidUpper && setPassValidUpper(true)
+        : passValidUpper && setPassValidUpper(false);
+    } else {
+      setPassValidLength(false);
+      setPassValidLower(false);
+      setPassValidUpper(false);
+      setPassValidNum(false);
+    }
+  };
+
   const { updatePassword, showerror } = additionalInfo;
   return (
     <div className={cs(bootstrapStyles.row, styles.loginForm)}>
@@ -211,43 +237,17 @@ const ChangePassword: React.FC<PasswordProps> = ({ setCurrentSection }) => {
                           }
                           setShouldValidatePass(true);
                         }}
+                        handleChange={handlePassValidation}
                         validations={{
                           isValid: (values, value) => {
-                            if (value) {
-                              const validLength = passValidLength;
-                              const validLower = passValidLower;
-                              const validUpper = passValidUpper;
-                              const validNum = passValidNum;
-
-                              value.length >= 6 && value.length <= 20
-                                ? !validLength && setPassValidLength(true)
-                                : validLength && setPassValidLength(false);
-
-                              /[a-z]/.test(value)
-                                ? !validLower && setPassValidLower(true)
-                                : validLower && setPassValidLower(false);
-
-                              /[0-9]/.test(value)
-                                ? !validNum && setPassValidNum(true)
-                                : validNum && setPassValidNum(false);
-
+                            return (
+                              value &&
+                              value.length >= 6 &&
+                              value.length <= 20 &&
+                              /[a-z]/.test(value) &&
+                              /[0-9]/.test(value) &&
                               /[A-Z]/.test(value)
-                                ? !validUpper && setPassValidUpper(true)
-                                : validUpper && setPassValidUpper(false);
-                            } else {
-                              setPassValidLength(false);
-                              setPassValidLower(false);
-                              setPassValidUpper(false);
-                              setPassValidNum(false);
-                            }
-                            return shouldValidatePass
-                              ? value &&
-                                  value.length >= 6 &&
-                                  value.length <= 20 &&
-                                  /[a-z]/.test(value) &&
-                                  /[0-9]/.test(value) &&
-                                  /[A-Z]/.test(value)
-                              : true;
+                            );
                           }
                         }}
                         validationErrors={{
