@@ -13,10 +13,14 @@ import { PlpTemplatesData } from "./typings";
 
 const caches = {};
 export default {
-  fetchPlpProducts: async function(dispatch: Dispatch, url: string) {
-    if (caches["fetch" + url]) {
-      dispatch(updateProduct({ ...caches["fetch" + url] }));
-      dispatch(updatePlpProduct(caches["fetch" + url].results.data));
+  fetchPlpProducts: async function(
+    dispatch: Dispatch,
+    url: string,
+    currency?: string
+  ) {
+    if (caches["fetch" + currency + url]) {
+      dispatch(updateProduct({ ...caches["fetch" + currency + url] }));
+      dispatch(updatePlpProduct(caches["fetch" + currency + url].results.data));
       return caches[url];
     }
     const res = await API.get<PlpProps>(
@@ -25,7 +29,7 @@ export default {
     );
     dispatch(updateProduct({ ...res }));
     dispatch(updatePlpProduct(res.results.data));
-    caches["fetch" + url] = res;
+    caches["fetch" + currency + url] = res;
     return res;
   },
   onLoadPlpPage: async function(

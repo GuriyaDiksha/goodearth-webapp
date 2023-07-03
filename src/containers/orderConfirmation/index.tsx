@@ -243,9 +243,9 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
       const res = response.results?.[0];
       if (res.voucherDiscounts?.length > 0) {
         for (let i = 0; i < res.voucherDiscounts.length; i++) {
-          for (let j = 0; j < res.offerDiscounts.length; i++) {
+          for (let j = 0; j < res.offerDiscounts.length; j++) {
             if (res.voucherDiscounts[i].name == res.offerDiscounts[j].name) {
-              res.offerDiscounts.splice(i, 1);
+              res.offerDiscounts.splice(j, 1);
             }
           }
         }
@@ -548,6 +548,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                       const price3 =
                         +parseFloat(item.priceExclTaxExclDiscounts).toFixed(2) /
                         +item.quantity;
+                      const isFlat = item?.product?.badgeType === "B_flat";
 
                       return (
                         <div
@@ -601,7 +602,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                                   globalStyles.flex
                                 )}
                               >
-                                {isdisCount ? (
+                                {isdisCount || isFlat ? (
                                   <span className={styles.discountprice}>
                                     {String.fromCharCode(
                                       ...currencyCode[

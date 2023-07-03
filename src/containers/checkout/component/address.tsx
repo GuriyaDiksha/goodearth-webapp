@@ -711,7 +711,9 @@ const AddressSection: React.FC<AddressProps & {
         <div>
           {currency == "INR" ? (
             <div>
-              <hr className={globalStyles.marginy24} />
+              <hr
+                className={cs(globalStyles.marginy24, styles.widthFitContent)}
+              />
               {/* <div className="give reference"></div> */}
               <label
                 className={cs(
@@ -850,9 +852,15 @@ const AddressSection: React.FC<AddressProps & {
 
     return (
       show && (
-        <div className={cs(styles.payment, globalStyles.voffset4)}>
+        <div
+          className={cs(
+            styles.payment,
+            globalStyles.voffset4,
+            styles.widthFitContent
+          )}
+        >
           {!mobile && <hr className={globalStyles.marginy24} />}
-          <label className={cs(styles.flex)}>
+          <label className={cs(styles.flex, styles.crossCenter)}>
             <div className={globalStyles.marginR10}>
               <span className={styles.checkbox}>
                 <input type="checkbox" onChange={toggleSameAsShipping} />

@@ -181,7 +181,7 @@ class ForgotPasswordForm extends React.Component<Props, ForgotPasswordState> {
       this.props.history.location.search
     );
     const emailFromURl = decripttext(
-      searchParams.get("ei")?.replace(" ", "+") || "",
+      searchParams.get("ei")?.replaceAll(" ", "+") || "",
       true
     );
     const isBo = localStorage.getItem("isBo") || "";
@@ -309,7 +309,7 @@ class ForgotPasswordForm extends React.Component<Props, ForgotPasswordState> {
             formContent={formContent}
             footer={this.state.isBo ? undefined : footer}
           />
-          {this.state.disableSelectedbox && <Loader />}
+          {/* {this.state.disableSelectedbox && <Loader />} */}
         </div>
       </Popup>
     );

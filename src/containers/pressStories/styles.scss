@@ -560,7 +560,7 @@
 .mobile-filter-header {
   width: 100%;
   position: fixed;
-  z-index: 1;
+  z-index: 13;
   background-color: #fff;
   padding: 15px 20px 4px 20px;
   top: $header-height;
@@ -706,4 +706,7 @@
     .summary-footer {
       margin-top: 15px;
     }
+  }
+  .border-remove{
+    border: none !important;
   }

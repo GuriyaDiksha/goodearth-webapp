@@ -14,8 +14,12 @@ const CheckoutRegisterForm = loadable(() =>
 const LoginForm = (props: any) => {
   const [isRegister, setIsRegister] = useState(false);
   const [email, setEmail] = useState("");
-  const history = useHistory();
   const { nextUrl } = useSelector((state: AppState) => state.info);
+  const history = useHistory();
+  const { search, pathname } = useLocation();
+  const urlParams = new URLSearchParams(search);
+  const id = urlParams.get("loginpopup");
+  const boId = urlParams.get("bo_id");
 
   useEffect(() => {
     if (props.isRegister) {
@@ -35,16 +39,17 @@ const LoginForm = (props: any) => {
   const goLogin = () => {
     setIsRegister(false);
   };
+
   const nextStep = () => {
     // code for after login
+    if (pathname.startsWith("/password-reset")) {
+      history.push("/");
+    }
+
     if (nextUrl) {
       history.push(nextUrl);
     }
   };
-  const { search } = useLocation();
-  const urlParams = new URLSearchParams(search);
-  const id = urlParams.get("loginpopup");
-  const boId = urlParams.get("bo_id");
 
   return (
     <Popup>
