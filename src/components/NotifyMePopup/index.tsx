@@ -28,7 +28,6 @@ import styles from "./styles.scss";
 import { ChildProductAttributes } from "typings/product";
 import { MESSAGE } from "constants/messages";
 import { Currency } from "typings/currency";
-import { currencyCodes } from "constants/currency";
 import { ProductID } from "typings/id";
 import { errorTracking, showGrowlMessage } from "utils/validate";
 import Loader from "components/Loader";
