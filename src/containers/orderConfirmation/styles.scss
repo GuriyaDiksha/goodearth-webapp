@@ -137,6 +137,7 @@
     .light {
         font-weight: $light;
         color: gray;
+        word-wrap: break-word;
     }
     .order-block {
         min-height: 80px !important;

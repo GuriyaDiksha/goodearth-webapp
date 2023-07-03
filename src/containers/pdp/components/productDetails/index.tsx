@@ -111,6 +111,7 @@ const ProductDetails: React.FC<Props> = ({
   data,
   corporatePDP,
   mobile,
+  tablet,
   currency,
   isQuickview,
   changeModalState,
@@ -1095,7 +1096,9 @@ const ProductDetails: React.FC<Props> = ({
               })}
             >
               <div
-                className={cs(bootstrap.col8, { [bootstrap.colMd12]: mobile })}
+                className={cs(bootstrap.col8, {
+                  [bootstrap.colMd12]: mobile && !tablet
+                })}
               >
                 {!(
                   invisibleFields && invisibleFields.indexOf("quantity") > -1

@@ -812,7 +812,11 @@ class PLP extends React.Component<
               id="product_images"
             >
               {showTemplates.Banner && (
-                <Banner data={showTemplates.Banner} mobile={mobile} />
+                <Banner
+                  data={showTemplates.Banner}
+                  mobile={mobile}
+                  tablet={tablet}
+                />
               )}
             </div>
 
@@ -1123,13 +1127,16 @@ class PLP extends React.Component<
             // toggleSort={this.toggleSort}
           />
         )}
-        {mobile && this.state.count > -1 && this.state.showProductCounter && (
-          <ProductCounter
-            current={this.state.count}
-            total={!this.state.corporoateGifting ? count + 1 : count}
-            id="plp-product-counter"
-          />
-        )}
+        {mobile &&
+          this.state.count > -1 &&
+          this.state.showProductCounter &&
+          count !== 0 && (
+            <ProductCounter
+              current={this.state.count}
+              total={!this.state.corporoateGifting ? count + 1 : count}
+              id="plp-product-counter"
+            />
+          )}
       </div>
     );
   }
