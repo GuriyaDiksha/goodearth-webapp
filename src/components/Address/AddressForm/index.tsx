@@ -23,10 +23,13 @@ import { AppState } from "reducers/typings";
 import { Country } from "components/Formsy/CountryCode/typings";
 import AddressService from "services/address";
 import { updateCountryData } from "actions/address";
-import { getErrorList, errorTracking } from "utils/validate";
+import {
+  getErrorList,
+  errorTracking,
+  closeKeyBoardMobile
+} from "utils/validate";
 import BridalContext from "containers/myAccount/components/Bridal/context";
 import noPincodeCountryList from "./noPincodeCountryList";
-
 type Props = {
   addressData?: AddressData;
   currentCallBackComponent: string;
@@ -797,16 +800,18 @@ const AddressForm: React.FC<Props> = props => {
         currentCallBackComponent !== "checkout-shipping" &&
         currentCallBackComponent !== "bridal") ||
         mobile) && (
-        <div
-          className={cs(styles.backBtnCenter, styles.backBtnProfile)}
-          onClick={closeAddressForm}
-        >
+        <div className={cs(styles.backBtnCenter, styles.backBtnProfile)}>
           <span
             className={cs(
               styles.backBtn,
               globalStyles.ointer,
               styles.addNewAddress
             )}
+            onClick={() => {
+              closeKeyBoardMobile().then(() => {
+                closeAddressForm();
+              });
+            }}
           >
             Cancel & Go Back
           </span>
