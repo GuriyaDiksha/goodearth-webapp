@@ -12,7 +12,7 @@ border-radius: 19px;
 box-shadow: 3px 3px 10px #00000029;
 opacity: 1;
 position:fixed;
-z-index: 4;
+z-index: 3; //changed for search popup 
     &.top-position{
         top: 170px;
     }

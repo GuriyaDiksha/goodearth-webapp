@@ -85,7 +85,7 @@ class ApplyGiftcard extends React.Component<Props, GiftState> {
     } else if (cardType == "Select") {
       errMsg = "Please select a valid option";
     } else if (!txtvalue) {
-      errMsg = "Please enter a Code";
+      errMsg = "Please enter a valid code";
     }
 
     if (errMsg) {

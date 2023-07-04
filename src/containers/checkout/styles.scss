@@ -439,6 +439,10 @@ hr {
   font-family: $font-Lato;
 }
 
+.width-fit-content{
+  width: fit-content;
+}
+
 .flex {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -676,7 +680,7 @@ hr {
     }
 
     .selected-stvalue {
-      margin-top: 5px;
+      // margin-top: 10px;
       color: #808080;
     }
 
@@ -733,6 +737,7 @@ hr {
     font-family: $font-Montserrat;
     opacity: 0.8;
     letter-spacing: 0.36px;
+    font-size: 12px;
   }
 
   .input-container {
@@ -1032,6 +1037,7 @@ input[type="radio"] {
   font-family: $font-Montserrat;
   opacity: 0.8;
   letter-spacing: 0.36px;
+  font-size: 12px;
 
   &::placeholder {
     font-family: $font-Montserrat !important;
@@ -1408,6 +1414,7 @@ input[type="radio"] {
 }
 div.form-subheading{
   padding: unset;
+  cursor: pointer;
 }
 .gst-invoice-text {
   font-size: 12px;

@@ -8,8 +8,9 @@ import itemStyles from "components/plpResultItem/styles.scss";
 type Props = {
   data: PlpTemplate;
   mobile: boolean;
+  tablet: boolean;
 };
-const Banner: React.FC<Props> = ({ data, mobile }) => {
+const Banner: React.FC<Props> = ({ data, mobile, tablet }) => {
   return (
     <>
       <div
@@ -38,7 +39,7 @@ const Banner: React.FC<Props> = ({ data, mobile }) => {
       </div>
       <div
         className={cs(
-          bootstrap.colMd4,
+          { [bootstrap.colMd4]: !tablet },
           bootstrap.col12,
           styles.setWidth,
           styles.btContent,

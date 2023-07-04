@@ -553,7 +553,7 @@ class CorporateFilter extends React.Component<Props, State> {
     }
   };
 
-  updateDataFromAPI = (onload?: string) => {
+  updateDataFromAPI = (onload?: string, currency?: string) => {
     const { mobile, fetchPlpProducts, history, changeLoader } = this.props;
     if (!onload && mobile) {
       return true;
@@ -569,12 +569,15 @@ class CorporateFilter extends React.Component<Props, State> {
       .get("category_shop")
       ?.split(">")[1]
       ?.trim();
-    fetchPlpProducts(filterUrl + `&page_size=${pageSize}`).then(plpList => {
-      productImpression(plpList, categoryShop || "PLP", this.props.currency);
-      changeLoader?.(false);
-      this.createList(plpList);
-      this.props.updateFacets(this.getSortedFacets(plpList.results.facets));
-    });
+
+    fetchPlpProducts(filterUrl + `&page_size=${pageSize}`, currency).then(
+      plpList => {
+        productImpression(plpList, categoryShop || "PLP", this.props.currency);
+        changeLoader?.(false);
+        this.createList(plpList);
+        this.props.updateFacets(this.getSortedFacets(plpList.results.facets));
+      }
+    );
   };
 
   stateChange = (location: any, action: any) => {
@@ -709,8 +712,8 @@ class CorporateFilter extends React.Component<Props, State> {
       this.props.customerGroup != nextProps.customerGroup
     ) {
       nextProps.mobile
-        ? this.updateDataFromAPI("load")
-        : this.updateDataFromAPI();
+        ? this.updateDataFromAPI("load", nextProps.currency)
+        : this.updateDataFromAPI(undefined, nextProps.currency);
     }
   };
 

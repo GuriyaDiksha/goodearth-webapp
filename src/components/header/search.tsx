@@ -349,7 +349,7 @@ class Search extends React.Component<Props, State> {
       });
       CookieService.setCookie("search", event.target.value, 365);
     }
-  }, 300);
+  }, 400);
 
   getSearchDataApi = debounce((name: string) => {
     const searchUrl = "/autocomplete?q=" + encodeURIComponent(name);

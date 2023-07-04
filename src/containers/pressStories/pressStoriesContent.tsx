@@ -31,6 +31,7 @@ type Props = {
   readMore: (url: string) => void;
   updatePressStoriesData: (data: PressStoriesResponse) => void;
   mobile: boolean;
+  tablet: boolean;
 };
 
 type State = {
@@ -278,7 +279,7 @@ class PressStoriesContent extends React.Component<
             <div
               className={cs(
                 bootstrapStyles.colMd7,
-                bootstrapStyles.offsetMd1,
+                { [bootstrapStyles.offsetMd1]: !this.props.tablet },
                 styles.header,
                 globalStyles.verticalMiddle
               )}
@@ -312,7 +313,11 @@ class PressStoriesContent extends React.Component<
               className={
                 this.state.isSortOpen
                   ? globalStyles.hidden
-                  : cs(bootstrapStyles.col12, styles.productNumber)
+                  : cs(
+                      bootstrapStyles.col12,
+                      styles.productNumber,
+                      styles.borderRemove
+                    )
               }
             >
               <div
@@ -348,6 +353,7 @@ class PressStoriesContent extends React.Component<
                   className={cs(styles.mobileFilterHeader, {
                     [styles.mobileFilterHeaderTimer]: this.props.showTimer
                   })}
+                  id="pressSortHeaderMenu"
                 >
                   <span>ARCHIVE</span>
                   <span onClick={this.onClickFilter.bind(this, true)}>
@@ -369,6 +375,7 @@ class PressStoriesContent extends React.Component<
                       styles.mobileFilterMenu,
                       { [styles.mobileFilterMenuTimer]: this.props.showTimer }
                     )}
+                    id="pressSortHeaderMenuDropdown"
                   >
                     <ul className={styles.sort}>
                       {this.props.options
