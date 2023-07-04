@@ -797,14 +797,16 @@ const AddressForm: React.FC<Props> = props => {
         currentCallBackComponent !== "checkout-shipping" &&
         currentCallBackComponent !== "bridal") ||
         mobile) && (
-        <div className={cs(styles.backBtnCenter, styles.backBtnProfile)}>
+        <div
+          className={cs(styles.backBtnCenter, styles.backBtnProfile)}
+          onClick={closeAddressForm}
+        >
           <span
             className={cs(
               styles.backBtn,
               globalStyles.ointer,
               styles.addNewAddress
             )}
-            onClick={closeAddressForm}
           >
             Cancel & Go Back
           </span>
