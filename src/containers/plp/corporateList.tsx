@@ -229,6 +229,13 @@ class CorporateFilter extends React.Component<Props, State> {
   createUrlfromFilter = (load?: any) => {
     const array = this.state.filter;
     const { history } = this.props;
+    const vars: any = {};
+    const url = decodeURI(history.location.search.replace(/\+/g, " "));
+    const re = /[?&]+([^=&]+)=([^&]*)/gi;
+    let match;
+    while ((match = re.exec(url))) {
+      vars[match[1]] = match[2];
+    }
     let filterUrl = "",
       categoryKey: any,
       mainurl: string | undefined = "",
@@ -262,16 +269,24 @@ class CorporateFilter extends React.Component<Props, State> {
             break;
           case "categoryShop":
             categoryKey = array[filterType][key];
-            Object.keys(categoryKey).map(data => {
-              if (categoryKey[data]) {
-                const orignalData = data;
-                data = encodeURIComponent(data).replace(/%20/g, "+");
-                categoryShopVars == ""
-                  ? (categoryShopVars = data)
-                  : (categoryShopVars += "|" + data);
-                mainurl = this.getMainUrl(orignalData);
+            if (Object.keys(categoryKey).length == 0) {
+              // Handling special case when products are attached to L1 only
+              if ("category_shop" in vars) {
+                categoryShopVars = vars["category_shop"];
               }
-            });
+            } else {
+              Object.keys(categoryKey).map(data => {
+                if (categoryKey[data]) {
+                  const orignalData = data;
+                  data = encodeURIComponent(data).replace(/%20/g, "+");
+                  categoryShopVars == ""
+                    ? (categoryShopVars = data)
+                    : (categoryShopVars += "|" + data);
+                  mainurl = this.getMainUrl(orignalData);
+                }
+              });
+            }
+            console.log(categoryShopVars);
             break;
           case "price":
             filterUrl += "&" + key + "=" + array[filterType][key];
