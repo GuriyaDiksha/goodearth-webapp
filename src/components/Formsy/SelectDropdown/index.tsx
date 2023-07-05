@@ -14,11 +14,14 @@ const SelectDropdown: React.FC<Props &
   const [value, setValue] = useState(props.value || "");
   const [searchValue, setSearchValue] = useState("");
 
+  useEffect(() => {
+    if (props?.value) setValue(props?.value);
+  }, [props?.value]);
+
   const onOptionClick = (e: any, option: any) => {
     if (props.handleChange) {
       props.handleChange(option);
     }
-    debugger;
     setValue(option.value);
     setActive(false);
   };
@@ -49,6 +52,10 @@ const SelectDropdown: React.FC<Props &
         return "Please select your State";
       case "preferredContact":
         return "Please choose preferred mode of contact";
+      case "code":
+        return "Please select code";
+      case "whatsappNoCountryCode":
+        return "Please select code";
       default:
         return "Please Select option";
     }
@@ -57,7 +64,7 @@ const SelectDropdown: React.FC<Props &
   const errorMessage =
     props.errorMessage && !!props.disable
       ? props.errorMessage
-      : !props.isPristine && !props.isValid && !props.disable
+      : value == "" && !props.isValid && !props?.disable
       ? getDefaultError()
       : "";
 
@@ -70,8 +77,9 @@ const SelectDropdown: React.FC<Props &
         value={value}
         name={props.name}
         readOnly
-        onClick={() => setActive(!active)}
+        onClick={() => !props.disable && setActive(!active)}
         ref={props.inputRef || null}
+        disabled={props.disable}
       />
       <label>{props.label}</label>
       <span

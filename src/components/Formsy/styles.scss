@@ -88,10 +88,10 @@ input[type="date"] {
       left: 20px;
     }
     .search-field{
-      padding-left: 50px;
+      padding-left: 50px !important;
       border-bottom: none;
       &:focus{
-        padding-left: 50px;
+        padding-left: 50px !important;
       }
     }
   }

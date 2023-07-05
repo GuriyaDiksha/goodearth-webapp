@@ -16,6 +16,7 @@ import { updatePreferenceData } from "actions/user";
 import { showGrowlMessage } from "utils/validate";
 import globalStyles from "../../styles/global.scss";
 import Formsy from "formsy-react";
+import SelectDropdown from "components/Formsy/SelectDropdown";
 
 type Props = {
   innerRef: any;
@@ -39,6 +40,7 @@ type Props = {
   oneLineMessage?: boolean;
   whatsappFormRef?: React.RefObject<Formsy>;
   whatsappNoErr?: string;
+  countryData?: any;
 };
 
 const WhatsappSubscribe: React.FC<Props> = ({
@@ -62,13 +64,14 @@ const WhatsappSubscribe: React.FC<Props> = ({
   buttonClass,
   oneLineMessage = false,
   whatsappFormRef,
-  whatsappNoErr = ""
+  whatsappNoErr = "",
+  countryData
 }) => {
   const dispatch = useDispatch();
   const [checked, setChecked] = useState(false);
   const [subscribe, setSubscribe] = useState(false);
   const [phone, setPhone] = useState(data.whatsappNo);
-  const [code, setCode] = useState(data.whatsappNoCountryCode);
+  const [code, setCode] = useState(data.whatsappNoCountryCode || "");
   const [showTip, setShowTip] = useState(false);
   // const [updated, setUpdated] = useState(false);
   const [numberError, setNumberError] = useState("");
@@ -336,6 +339,14 @@ const WhatsappSubscribe: React.FC<Props> = ({
     }
   }
 
+  const getCountryCodeObject = () => {
+    const arr: any[] = [];
+    countryData?.map(({ nameAscii, isdCode }: any) => {
+      arr.push({ label: `${nameAscii}(${isdCode})`, value: isdCode });
+    });
+    return arr;
+  };
+
   //all other cases
   return (
     // Improve this form by disabling enabling state using onValid and onInvalid
@@ -395,14 +406,56 @@ const WhatsappSubscribe: React.FC<Props> = ({
           }
         >
           {isdList?.length ? (
-            <CountryCode
+            // <CountryCode
+            //   name="whatsappNoCountryCode"
+            //   placeholder="Code"
+            //   label="Country Code"
+            //   value={code}
+            //   id={uniqueKey}
+            //   showLabel={true}
+            //   innerRef={codeRef}
+            //   validations={{
+            //     isCodeValid: (values, value) => {
+            //       const bool = !(values.whatsappNo && value == "");
+            //       if (!bool) {
+            //         setCodeError("Required");
+            //         return false;
+            //       } else {
+            //         setCodeError("");
+            //         return true;
+            //       }
+            //     },
+            //     isValidCode: (values, value) => {
+            //       let bool = true;
+
+            //       if (value && isdList.length > 0) {
+            //         bool = isdList.indexOf(value ? value : "") > -1;
+            //       }
+            //       if (!bool) {
+            //         setCodeError("Enter valid code");
+            //       } else {
+            //         if (value?.length > 0) {
+            //           setCodeError("");
+            //         }
+            //       }
+            //       return bool;
+            //     }
+            //   }}
+            //   validationErrors={{
+            //     isCodeValid: "Required",
+            //     isValidCode: "Enter valid code"
+            //   }}
+            //   autocomplete="off"
+            //   handleChange={onCodeChange}
+            //   hideArrow={true}
+            // />
+            <SelectDropdown
               name="whatsappNoCountryCode"
               placeholder="Code"
               label="Country Code"
+              options={getCountryCodeObject()}
               value={code}
-              id={uniqueKey}
-              showLabel={true}
-              innerRef={codeRef}
+              handleChange={onCodeChange}
               validations={{
                 isCodeValid: (values, value) => {
                   const bool = !(values.whatsappNo && value == "");
@@ -430,13 +483,12 @@ const WhatsappSubscribe: React.FC<Props> = ({
                   return bool;
                 }
               }}
-              validationErrors={{
-                isCodeValid: "Required",
-                isValidCode: "Enter valid code"
-              }}
-              autocomplete="off"
-              handleChange={onCodeChange}
-              hideArrow={true}
+              allowFilter={true}
+              showLabel={true}
+              optionsClass={styles.isdCode}
+              searchIconClass={styles.countryCodeSearchIcon}
+              searchInputClass={styles.countryCodeSearchInput}
+              inputRef={codeRef}
             />
           ) : null}
 
