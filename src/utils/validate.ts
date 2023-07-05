@@ -1913,12 +1913,13 @@ export const closeKeyBoardMobile = async () => {
   const field = document.createElement("input");
   field.setAttribute("type", "text");
   document.body.appendChild(field);
-
-  setTimeout(function() {
-    field.focus();
+  await new Promise((resolve, reject) =>
     setTimeout(function() {
-      field.setAttribute("style", "display:none;");
-      return true;
-    }, 50);
-  }, 50);
+      field.focus();
+      setTimeout(function() {
+        field.setAttribute("style", "display:none;");
+        resolve(true);
+      }, 100);
+    }, 100)
+  );
 };
