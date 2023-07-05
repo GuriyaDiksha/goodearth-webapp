@@ -1919,7 +1919,7 @@ export const closeKeyBoardMobile = async () => {
       setTimeout(function() {
         field.setAttribute("style", "display:none;");
         resolve(true);
-      }, 100);
-    }, 100)
+      }, 400);
+    }, 400)
   );
 };
