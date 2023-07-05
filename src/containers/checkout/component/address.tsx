@@ -619,14 +619,14 @@ const AddressSection: React.FC<AddressProps & {
 
     return (
       show && (
-        <div
-          className={cs(
-            styles.payment,
-            globalStyles.voffset4,
-            styles.widthFitContent
-          )}
-        >
-          <label className={cs(styles.flex, styles.crossCenter)}>
+        <div className={cs(styles.payment, globalStyles.voffset4)}>
+          <label
+            className={cs(
+              styles.flex,
+              styles.crossCenter,
+              styles.widthFitContent
+            )}
+          >
             <div className={globalStyles.marginR10}>
               <span className={styles.checkbox}>
                 <input
