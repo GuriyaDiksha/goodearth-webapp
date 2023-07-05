@@ -808,7 +808,9 @@ const AddressForm: React.FC<Props> = props => {
               styles.addNewAddress
             )}
             onClick={() => {
+              console.log("ok");
               closeKeyBoardMobile().then(() => {
+                console.log("hufhrofhr");
                 closeAddressForm();
               });
             }}
