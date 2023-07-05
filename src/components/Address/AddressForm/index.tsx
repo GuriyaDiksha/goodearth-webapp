@@ -807,12 +807,13 @@ const AddressForm: React.FC<Props> = props => {
               globalStyles.ointer,
               styles.addNewAddress
             )}
+            onTouchEnd={() => {
+              console.log("mobile touch");
+              closeAddressForm();
+            }}
             onClick={() => {
-              console.log("ok");
-              closeKeyBoardMobile().then(() => {
-                console.log("hufhrofhr");
-                closeAddressForm();
-              });
+              console.log("click start");
+              closeAddressForm();
             }}
           >
             Cancel & Go Back
