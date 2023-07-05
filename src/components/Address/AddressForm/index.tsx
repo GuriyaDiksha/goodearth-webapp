@@ -24,7 +24,11 @@ import { AppState } from "reducers/typings";
 import { Country } from "components/Formsy/CountryCode/typings";
 import AddressService from "services/address";
 import { updateCountryData } from "actions/address";
-import { getErrorList, errorTracking } from "utils/validate";
+import {
+  getErrorList,
+  errorTracking,
+  closeKeyBoardMobile
+} from "utils/validate";
 import BridalContext from "containers/myAccount/components/Bridal/context";
 import noPincodeCountryList from "./noPincodeCountryList";
 import SelectDropdown from "components/Formsy/SelectDropdown";
@@ -885,7 +889,11 @@ const AddressForm: React.FC<Props> = props => {
               globalStyles.ointer,
               styles.addNewAddress
             )}
-            onClick={closeAddressForm}
+            onClick={() => {
+              closeKeyBoardMobile().then(() => {
+                closeAddressForm();
+              });
+            }}
           >
             Cancel & Go Back
           </span>

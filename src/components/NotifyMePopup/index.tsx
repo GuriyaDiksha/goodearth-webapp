@@ -28,7 +28,6 @@ import styles from "./styles.scss";
 import { ChildProductAttributes } from "typings/product";
 import { MESSAGE } from "constants/messages";
 import { Currency } from "typings/currency";
-import { currencyCodes } from "constants/currency";
 import { ProductID } from "typings/id";
 import { errorTracking, showGrowlMessage } from "utils/validate";
 import Loader from "components/Loader";
@@ -382,7 +381,6 @@ const NotifyMePopup: React.FC<Props> = ({
             <p className={styles.productN}>
               {isSale && discount ? (
                 <span className={styles.discountprice}>
-                  {String.fromCharCode(...currencyCodes[currency])}&nbsp;
                   {selectedSize
                     ? displayPriceWithCommas(
                         selectedSize.discountedPriceRecords[currency],
@@ -396,7 +394,6 @@ const NotifyMePopup: React.FC<Props> = ({
               )}
               {isSale && discount ? (
                 <span className={styles.strikeprice}>
-                  {String.fromCharCode(...currencyCodes[currency])}&nbsp;
                   {selectedSize
                     ? displayPriceWithCommas(
                         selectedSize.priceRecords[currency],
@@ -408,7 +405,6 @@ const NotifyMePopup: React.FC<Props> = ({
                 <span
                   className={badgeType == "B_flat" ? globalStyles.cerise : ""}
                 >
-                  {String.fromCharCode(...currencyCodes[currency])}&nbsp;
                   {selectedSize
                     ? displayPriceWithCommas(
                         selectedSize.priceRecords[currency],
