@@ -6,7 +6,7 @@ import globalStyles from "styles/global.scss";
 import { ProfileProps, ProfileResponse, State } from "./typings";
 import FormInput from "../../../../components/Formsy/FormInput";
 import FormSelect from "../../../../components/Formsy/FormSelect";
-import CountryCode from "../../../../components/Formsy/CountryCode";
+// import CountryCode from "../../../../components/Formsy/CountryCode";
 import moment from "moment";
 import Formsy from "formsy-react";
 import FormCheckbox from "components/Formsy/FormCheckbox";
@@ -362,6 +362,17 @@ const MyProfile: React.FC<ProfileProps> = ({ setCurrentSection }) => {
   //   }
   // };
 
+  const onCountryCodeSelect = (option: any) => {
+    const form = ProfileFormRef.current;
+    const selectedCountryCode = option?.value;
+
+    form &&
+      form.updateInputsWithValue({
+        phoneCountryCode: selectedCountryCode
+      });
+    setUpdateProfile();
+  };
+
   const onCountrySelect = (option: any, defaultCountry?: string) => {
     if (countryOptions.length > 0) {
       const form = ProfileFormRef.current;
@@ -504,7 +515,6 @@ const MyProfile: React.FC<ProfileProps> = ({ setCurrentSection }) => {
                 validations={{
                   isValidDate: (values, value) => {
                     if (value && !data?.dateOfBirth) {
-                      debugger;
                       return moment(value).isValid();
                     } else return true;
                   },
@@ -662,7 +672,7 @@ const MyProfile: React.FC<ProfileProps> = ({ setCurrentSection }) => {
                   searchIconClass={styles.countryCodeSearchIcon}
                   searchInputClass={styles.countryCodeSearchInput}
                   inputRef={countryCodeRef}
-                  handleChange={() => setUpdateProfile()}
+                  handleChange={onCountryCodeSelect}
                 />
 
                 <FormInput

@@ -45,11 +45,11 @@ const SelectDropdown: React.FC<Props &
   const getDefaultError = useCallback(() => {
     switch (props.name) {
       case "gender":
-        return "Please select your Gender";
+        return "Please select your gender";
       case "country":
-        return "Please select your Country";
+        return "Please select your country";
       case "state":
-        return "Please select your State";
+        return "Please select your state";
       case "preferredContact":
         return "Please choose preferred mode of contact";
       case "code":
@@ -62,9 +62,9 @@ const SelectDropdown: React.FC<Props &
   }, []);
 
   const errorMessage =
-    props.errorMessage && !!props.disable
+    props.errorMessage && !props.disable
       ? props.errorMessage
-      : value == "" && !props.isValid && !props?.disable
+      : !props.isPristine && !props.isValid && !props?.disable
       ? getDefaultError()
       : "";
 

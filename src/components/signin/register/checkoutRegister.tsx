@@ -26,7 +26,7 @@ import EmailVerification from "../emailVerification";
 import CookieService from "services/cookie";
 import { GA_CALLS } from "constants/cookieConsent";
 import SelectDropdown from "components/Formsy/SelectDropdown";
-import CountryCode from "components/Formsy/CountryCode";
+// import CountryCode from "components/Formsy/CountryCode";
 import FormContainer from "../formContainer";
 import tooltipIcon from "images/tooltip.svg";
 import tooltipOpenIcon from "images/tooltip-open.svg";
@@ -103,7 +103,10 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
     const email = localStorage.getItem("tempEmail") || this.props.email;
     if (email && this.emailInput.current) {
       this.RegisterFormRef.current &&
-        this.RegisterFormRef.current.updateInputsWithValue({ email: email });
+        this.RegisterFormRef.current.updateInputsWithValue({
+          email: email,
+          code: ""
+        });
       this.firstNameInput.current?.focus();
       // this.emailInput.current.value = email;
     }
@@ -347,6 +350,16 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
   //     });
   //   }
   // };
+
+  onCountryCodeSelect = (option: any) => {
+    const form = this.RegisterFormRef.current;
+    const selectedCountryCode = option?.value;
+
+    form &&
+      form.updateInputsWithValue({
+        code: selectedCountryCode
+      });
+  };
 
   onCountrySelect = (option: any, defaultCountry?: string) => {
     const { countryOptions } = this.state;
@@ -831,8 +844,8 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
               isExisty: true
             }}
             validationErrors={{
-              isExisty: "Please select your Country"
-              // isEmptyString: isExistyError
+              isExisty: "Please select your Country",
+              isEmptyString: isExistyError
             }}
             options={countryOptions}
             allowFilter={true}
@@ -891,6 +904,7 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
               placeholder="Code"
               label="Country Code"
               options={this.getCountryCodeObject()}
+              handleChange={this.onCountryCodeSelect}
               value=""
               validations={{
                 isCodeValid: (values, value) => {

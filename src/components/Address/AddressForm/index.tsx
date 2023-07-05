@@ -9,7 +9,7 @@ import React, {
 import Formsy from "formsy-react";
 import FormInput from "../../../components/Formsy/FormInput";
 import FormSelect from "../../../components/Formsy/FormSelect";
-import CountryCode from "../../../components/Formsy/CountryCode";
+// import CountryCode from "../../../components/Formsy/CountryCode";
 import PinCode from "../../../components/Formsy/PinCode";
 import bootstrapStyles from "../../../styles/bootstrap/bootstrap-grid.scss";
 import globalStyles from "styles/global.scss";
@@ -83,6 +83,7 @@ const AddressForm: React.FC<Props> = props => {
   const { email, isLoggedIn } = useSelector((state: AppState) => state.user);
   const { mobile } = useSelector((state: AppState) => state.device);
   const countryRef: RefObject<HTMLInputElement> = useRef(null);
+  const countryCodeRef: RefObject<HTMLInputElement> = React.createRef();
 
   const isAddressPincodeValid = useCallback(
     (postCode: string, state: string): boolean => {
@@ -767,7 +768,7 @@ const AddressForm: React.FC<Props> = props => {
             />
           </div>
           <div className={styles.countryCode}>
-            <CountryCode
+            {/* <CountryCode
               id="isdcode"
               value=""
               disable={!!props.currentCallBackComponent}
@@ -789,6 +790,32 @@ const AddressForm: React.FC<Props> = props => {
                 isCodeValid: "Required",
                 isValidCode: "Enter valid code"
               }}
+            /> */}
+
+            <SelectDropdown
+              value=""
+              disable={!!props.currentCallBackComponent}
+              placeholder="Code"
+              name="phoneCountryCode"
+              validations={{
+                isCodeValid: (values, value) => {
+                  return !(values.phone && value == "");
+                },
+                isValidCode: (values, value) => {
+                  if (value && isdList.length > 0) {
+                    return isdList.indexOf(value ? value : "") > -1;
+                  } else {
+                    return true;
+                  }
+                }
+              }}
+              validationErrors={{
+                isCodeValid: "Required",
+                isValidCode: "Enter valid code"
+              }}
+              allowFilter={true}
+              options={[]}
+              inputRef={countryCodeRef}
             />
 
             <FormInput

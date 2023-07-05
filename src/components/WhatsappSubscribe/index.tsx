@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
 import FormCheckbox from "components/Formsy/FormCheckbox";
 import styles from "./styles.scss";
-import CountryCode from "components/Formsy/CountryCode";
+// import CountryCode from "components/Formsy/CountryCode";
 import FormInput from "components/Formsy/FormInput";
 import waIcon from "images/wa-icon.svg";
 import tooltipIcon from "images/tooltip.svg";
@@ -490,6 +490,10 @@ const WhatsappSubscribe: React.FC<Props> = ({
                   }
                   return bool;
                 }
+              }}
+              validationErrors={{
+                isCodeValid: "Required",
+                isValidCode: "Enter valid code"
               }}
               allowFilter={true}
               showLabel={true}
