@@ -66,6 +66,7 @@ import { GA_CALLS } from "constants/cookieConsent";
 // import pdp_top from "images/3d/pdp_top.svg";
 import button_image from "images/3d/button_image.svg";
 import Mobile360 from "./../../icons/360mobile.svg";
+import ReactPlayer from "react-player";
 
 const PDP_TOP_OFFSET = HEADER_HEIGHT + SECONDARY_HEADER_HEIGHT;
 const sidebarPosition = PDP_TOP_OFFSET + 23;
@@ -1394,16 +1395,37 @@ class PDPContainer extends React.Component<Props, State> {
     if (mobile || tablet) {
       if (images?.length > 0) {
         mobileSlides = images?.map(
-          ({ id, productImage, icon, code }, i: number) => {
+          (
+            { id, productImage, icon, code, vimeo_link, media_type, type },
+            i: number
+          ) => {
             return (
-              <div key={id} className={globalStyles.relative}>
-                <LazyImage
-                  alt={data?.altText || data?.title}
-                  aspectRatio="62:93"
-                  src={productImage.replace("/Micro/", "/Medium/")}
-                  className={globalStyles.imgResponsive}
-                  onClick={this.getMobileZoomListener(i)}
-                />
+              <div
+                key={id}
+                className={cs(globalStyles.relative, {
+                  [styles.videoDiv]: !(
+                    media_type === "Image" || type === "main"
+                  )
+                })}
+              >
+                {media_type === "Image" || type === "main" ? (
+                  <LazyImage
+                    alt={data?.altText || data?.title}
+                    aspectRatio="62:93"
+                    src={productImage?.replace("/Micro/", "/Medium/")}
+                    className={globalStyles.imgResponsive}
+                    onClick={this.getMobileZoomListener(i)}
+                  />
+                ) : (
+                  <ReactPlayer
+                    url={vimeo_link}
+                    playing={true}
+                    volume={1}
+                    muted={true}
+                    width={"100%"}
+                    height={"auto"}
+                  />
+                )}
                 {iconIndex > -1 ? (
                   icon ? (
                     // <div className={styles.mobile3d}>

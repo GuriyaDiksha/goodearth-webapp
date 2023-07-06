@@ -14,6 +14,7 @@ import plus from "./../../icons/plus.svg";
 import minus from "./../../icons/minus.svg";
 import play from "./../../icons/playVideo.svg";
 import pause from "./../../icons/pauseVideo.svg";
+import ReactPlayer from "react-player";
 
 type Props = {
   code: string;
@@ -87,9 +88,10 @@ const Zoom: React.FC<Props> = ({
                   setZoom(1);
                 }}
               >
-                {imgContent?.media_type === "Image" ? (
+                {imgContent?.media_type === "Image" ||
+                imgContent?.type === "main" ? (
                   <img
-                    src={imgContent.productImage.replace(
+                    src={imgContent.productImage?.replace(
                       /Micro|Large/i,
                       "Medium"
                     )}
@@ -98,13 +100,11 @@ const Zoom: React.FC<Props> = ({
                   />
                 ) : (
                   <>
-                    <video
-                      className={cs(globalStyles.imgResponsive)}
-                      src={imgContent?.vimeo_link}
-                      autoPlay
-                      loop
-                      controls
-                      preload="auto"
+                    <ReactPlayer
+                      url={imgContent?.vimeo_link}
+                      width={"100%"}
+                      height={"auto"}
+                      playing={playVideo}
                     />
                     {playVideo &&
                     imgContent?.vimeo_link === selectedImage?.vimeo_link ? (
@@ -113,7 +113,6 @@ const Zoom: React.FC<Props> = ({
                         alt="pause"
                         className={styles.play}
                         onClick={() => {
-                          videoRef?.current?.pause();
                           setPlayVideo(false);
                         }}
                       />
@@ -123,7 +122,6 @@ const Zoom: React.FC<Props> = ({
                         alt="play"
                         className={styles.play}
                         onClick={() => {
-                          videoRef?.current?.play();
                           setPlayVideo(true);
                         }}
                       />
@@ -142,13 +140,15 @@ const Zoom: React.FC<Props> = ({
               alt={alt}
               setSelectedMobileImageId={setSelectedMobileImageId}
               setZoom={setZoom}
+              setSelectedImage={setSelectedImage}
             />
           ) : (
             <div className={styles.wrp}>
-              {selectedImage?.media_type === "Image" ? (
+              {selectedImage?.media_type === "Image" ||
+              selectedImage?.type === "main" ? (
                 <img
                   id="pdpImage"
-                  src={selectedImage.productImage.replace(
+                  src={selectedImage.productImage?.replace(
                     /Micro|Large/i,
                     "Medium"
                   )}
@@ -157,15 +157,11 @@ const Zoom: React.FC<Props> = ({
                 />
               ) : (
                 <>
-                  <video
-                    ref={videoRef}
-                    id="pdpImage"
-                    className={cs(globalStyles.imgResponsive)}
-                    src={selectedImage?.vimeo_link}
-                    autoPlay
-                    loop
-                    controls
-                    preload="auto"
+                  <ReactPlayer
+                    url={selectedImage?.vimeo_link}
+                    playing={playVideo}
+                    width={"100%"}
+                    height={"auto"}
                   />
                   {playVideo ? (
                     <img
@@ -173,7 +169,7 @@ const Zoom: React.FC<Props> = ({
                       alt="pause"
                       className={styles.play}
                       onClick={() => {
-                        videoRef?.current?.pause();
+                        // videoRef?.current?.pause();
                         setPlayVideo(false);
                       }}
                     />
@@ -183,7 +179,7 @@ const Zoom: React.FC<Props> = ({
                       alt="play"
                       className={styles.play}
                       onClick={() => {
-                        videoRef?.current?.play();
+                        // videoRef?.current?.play();
                         setPlayVideo(true);
                       }}
                     />
@@ -205,7 +201,8 @@ const Zoom: React.FC<Props> = ({
               )}
             ></i>
           </div>
-          {selectedImage?.media_type === "Image" && (
+          {(selectedImage?.media_type === "Image" ||
+            selectedImage?.type === "main") && (
             <div className={styles.btnWrp}>
               <button
                 className={styles.plus}

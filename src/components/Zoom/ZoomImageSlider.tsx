@@ -2,19 +2,22 @@ import React from "react";
 import "./styles.css";
 import Slider from "react-slick";
 import { ProductImage } from "typings/image";
+import ReactPlayer from "react-player";
 
 type Props = {
   images: ProductImage[];
   alt: string;
   setSelectedMobileImageId: (id: string) => void;
   setZoom: (num: number) => void;
+  setSelectedImage: (imgcontent: any) => void;
 };
 
 const ZoomImageSlider: React.FC<Props> = ({
   images,
   alt,
   setSelectedMobileImageId,
-  setZoom
+  setZoom,
+  setSelectedImage
 }) => {
   const settings = {
     dots: true,
@@ -29,6 +32,7 @@ const ZoomImageSlider: React.FC<Props> = ({
       ) as HTMLDivElement).style.transform = `scale(${1})`;
       //Set current image zoom to 1
       setSelectedMobileImageId(`product${next}`);
+      setSelectedImage(images?.[next]);
       setZoom(1);
     }
   };
@@ -36,20 +40,21 @@ const ZoomImageSlider: React.FC<Props> = ({
   const childern = images?.map((imgContent, i: number) => {
     return (
       <div key={i} className={"imgWrp"}>
-        {imgContent?.media_type === "Image" ? (
+        {imgContent?.media_type === "Image" || imgContent?.type === "main" ? (
           <img
             id={`product${i}`}
-            src={imgContent.productImage.replace(/Micro|Large/i, "Large")}
+            src={imgContent?.productImage?.replace(/Micro|Large/i, "Large")}
             alt={alt}
           />
         ) : (
-          <video
+          <ReactPlayer
+            url={imgContent?.vimeo_link}
+            playing={true}
+            width={"100%"}
+            height={"auto"}
+            volume={1}
+            muted={true}
             id={`product${i}`}
-            src={imgContent?.vimeo_link}
-            autoPlay
-            loop
-            controls
-            preload="auto"
           />
         )}
       </div>

@@ -16,4 +16,5 @@ export interface ProductImage {
   looks_tagged?: boolean;
   vimeo_link?: string;
   media_type?: string;
+  type?: string;
 }

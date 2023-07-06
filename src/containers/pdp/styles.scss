@@ -97,6 +97,14 @@ $pdp-top: $header-height;
 
     .product-image{
         position: relative;
+        .product-video{
+            width: 100%;
+
+            div{
+                aspect-ratio: 4/7;
+            }
+            
+        }
         .view-in-btn{
             @include view_in_btn();
         }
@@ -481,4 +489,10 @@ input[type="time"]::-webkit-calendar-picker-indicator{
 
 .mobile-hello-ar-popup{
     height: 90%;
+}
+
+.video-div{
+    div{
+        aspect-ratio: 4/6;
+    }
 }
