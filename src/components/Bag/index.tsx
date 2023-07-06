@@ -18,6 +18,7 @@ import {
   displayPriceWithCommas,
   displayPriceWithCommasFloat
 } from "utils/utility";
+import Button from "components/Button";
 
 const mapDispatchToProps = (dispatch: Dispatch) => {
   return {
@@ -259,26 +260,22 @@ class Bag extends React.Component<Props, State> {
             </div>
             {this.canCheckout() ? (
               <NavLink key="checkout" to="/order/checkout">
-                <button
+                <Button
+                  className={styles.fullWidthBtn}
+                  label="PROCEED TO CHECKOUT"
+                  disabled={!this.canCheckout()}
+                  variant="largeAquaCta"
                   onClick={this.chkshipping}
-                  className={cs(globalStyles.ceriseBtn, {
-                    [globalStyles.disabledBtn]: !this.canCheckout()
-                  })}
-                >
-                  PROCEED TO CHECKOUT
-                </button>
+                />
               </NavLink>
             ) : (
               <div>
-                <button
+                <Button
+                  className={styles.fullWidthBtn}
+                  label="PROCEED TO CHECKOUT"
                   disabled={!this.canCheckout()}
-                  className={cs(
-                    globalStyles.ceriseBtn,
-                    globalStyles.disabledBtn
-                  )}
-                >
-                  PROCEED TO CHECKOUT
-                </button>
+                  variant="largeAquaCta"
+                />
               </div>
             )}
           </div>

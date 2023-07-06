@@ -549,19 +549,19 @@ hr {
   }
 
   .otp-btn{
-    width: 300px;
-    height: 60px;
-    background-color: #4C4C4C;
-    border: 1px solid #4C4C4C;
-    border-radius:0%;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    @include b3_14px_montserrat_white();
+    // width: 300px;
+    // height: 60px;
+    // background-color: #4C4C4C;
+    // border: 1px solid #4C4C4C;
+    // border-radius:0%;
+    // text-transform: uppercase;
+    // letter-spacing: 0.5px;
+    // @include b3_14px_montserrat_white();
 
-    &:hover{
-      background-color: $white;
-      @include b3_14px_montserrat_charcoal();
-    }
+    // &:hover{
+    //   background-color: $white;
+    //   @include b3_14px_montserrat_charcoal();
+    // }
 
   }
 

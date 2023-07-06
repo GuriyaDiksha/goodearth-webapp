@@ -1,6 +1,137 @@
 @import "../../styles/partials/variables";
 @import "../../styles/partials/mixins";
 
+.large-aqua-cta{
+    @include large_aqua_cta();
+    &:hover{
+        background-color: $white;
+        color: $aqua;
+    }
+    &:disabled{
+        @include disabled_cta();
+    }
+}
+
+.large-gold-cta{
+    @include large_gold_cta();
+    &:hover{
+        background-color: $white;
+        color: $gold;
+    }
+    &:disabled{
+        @include disabled_cta();
+    }
+}
+.large-med-charcoal-cta{
+    @include large_med_charcoal_cta();
+    &:hover{
+        background-color: $white;
+        color: $med-charcoal;
+    }
+    &:disabled{
+        @include disabled_cta();
+    }
+}
+.large-light-grey-cta{
+    @include large_light_grey_cta();
+    &:hover{
+        background-color: $white;
+        color: $light-grey;
+    }
+    &:disabled{
+        @include disabled_cta();
+    }
+}
+
+.medium-aqua-cta{
+    @include medium_aqua_cta();
+    &:hover{
+        background-color: $white;
+        color: $aqua;
+    }
+    &:disabled{
+        @include disabled_cta();
+    }
+}
+
+.medium-med-charcoal-cta{
+    @include medium_med_charcoal_cta();
+    &:hover{
+        background-color: $white !important;
+        color: $med-charcoal;
+    }
+    &:disabled{
+        @include disabled_cta();
+    }
+}
+.medium-light-grey-cta{
+    @include medium_light_grey_cta();
+    &:hover{
+        background-color: $white;
+        color: $light-grey;
+    }
+    &:disabled{
+        @include disabled_cta();
+    }
+}
+
+.small-aqua-cta{
+    @include small_aqua_cta();
+    &:hover{
+        background-color: $white;
+        color: $aqua;
+    }
+    &:disabled{
+        @include disabled_cta();
+    }
+}
+
+.small-med-charcoal-cta{
+    @include small_med_charcoal_cta();
+    &:hover{
+        background-color: $white;
+        color: $med-charcoal;
+    }
+    &:disabled{
+        @include disabled_cta();
+    }
+}
+.small-gold-cta{
+    @include small_gold_cta();
+    &:hover{
+        background-color: $white;
+        color: $gold;
+    }
+    &:disabled{
+        @include disabled_cta();
+    }
+}
+
+.outline-small-med-charcoal-cta{
+    @include outline_small_med_charcoal_cta();
+    &:hover{
+        border: 1px solid $aqua;
+        color: $aqua;
+    }
+    &:disabled{
+        @include disabled_cta();
+    }
+}
+
+.outline-extra-small-aqua-cta{
+    @include outline_extra_small_aqua_cta();
+    &:hover{
+        border: 1px solid $aqua;
+        color: $white;
+        background-color: aqua;
+    }
+    &:disabled{
+        @include disabled_cta();
+    }
+}
+
+
+
 .primary-button{
     font-family: $font-Lato;
     text-align: center;
@@ -17,32 +148,34 @@
         color: #fff;
     }
 }
-.pdp-primary-button
-{
-    font-family: $font-Montserrat;
-    text-align: center;
-    font-size: 14px;
-    border: 2px $aquablue solid;
-    border-radius: 0;
-    width: 100%;
-    line-height: 52px;
-    letter-spacing: 0.42px;
-    background-color: $aquablue;
-    &:hover {
-        color: $aquablue;
-        background-color: white;
-        border: #719A9A;
-        border-style: solid;
-        border-width: 2px;
-    }
-    &:active {
-        color: #fff;
-    }
-    &.notify-me-cta{
-        background-color: #9F9F9F;
-        border: 2px solid #9F9F9F;
-        &:hover{
-            color: white;
-        }
-    }
+.pdp-primary-button{
+        width: 100%;
 }
+// {
+//     font-family: $font-Montserrat;
+//     text-align: center;
+//     font-size: 14px;
+//     border: 2px $aquablue solid;
+//     border-radius: 0;
+//     width: 100%;
+//     line-height: 52px;
+//     letter-spacing: 0.42px;
+//     background-color: $aquablue;
+//     &:hover {
+//         color: $aquablue;
+//         background-color: white;
+//         border: #719A9A;
+//         border-style: solid;
+//         border-width: 2px;
+//     }
+//     &:active {
+//         color: #fff;
+//     }
+//     &.notify-me-cta{
+//         background-color: #9F9F9F;
+//         border: 2px solid #9F9F9F;
+//         &:hover{
+//             color: white;
+//         }
+//     }
+// }

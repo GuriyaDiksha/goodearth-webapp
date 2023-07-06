@@ -3,4 +3,17 @@ export type ButtonProps = {
   onClick?: (event: React.MouseEvent) => void;
   disabled?: boolean;
   className?: string;
+  variant:
+    | "largeAquaCta"
+    | "largeLightGreyCta"
+    | "largeMedCharcoalCta"
+    | "largeGoldCta"
+    | "mediumAquaCta"
+    | "mediumLightGreyCta"
+    | "mediumMedCharcoalCta"
+    | "smallAquaCta"
+    | "smallMedCharcoalCta"
+    | "smallGoldCta"
+    | "outlineSmallMedCharcoalCta"
+    | "outlineExtraSmallAquaCta";
 };

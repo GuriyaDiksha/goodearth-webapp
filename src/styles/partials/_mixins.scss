@@ -1252,3 +1252,120 @@ $list: $grey 92%, $white 8%;
   letter-spacing: 0.3px;
   font-style: italic;
 }
+
+//=====================Buttons=========================//
+
+@mixin disabled_cta{
+  background-color: $light-charcoal !important;
+  border: 1px solid $light-charcoal;
+  cursor: default;
+  @include b3_14px_caps_white();
+}
+
+@mixin large_cta{
+  width: 414px;
+  height: 58px;
+}
+
+@mixin medium_cta{
+  width: 300px;
+  height: 58px;
+}
+
+@mixin small_cta{
+  width: 207px;
+  height: 58px;
+}
+
+@mixin extra_small_cta{
+  width: 156px;
+  height: 58px;
+}
+
+@mixin large_aqua_cta{
+  @include large_cta();
+  background-color: $aqua;
+  border: 1px solid $aqua;
+  @include b3_14px_caps_white();
+}
+
+@mixin large_gold_cta{
+  @include large_cta();
+  background-color: $gold;
+  border: 1px solid $gold;
+  @include b3_14px_caps_white();
+}
+
+@mixin large_med_charcoal_cta{
+  @include large_cta();
+  background-color: $med-charcoal;
+  border: 1px solid $med-charcoal;
+  @include b3_14px_caps_white();
+}
+
+@mixin large_light_grey_cta{
+  @include large_cta();
+  background-color: $light-grey;
+  border: 1px solid $light-grey;
+  @include b3_14px_caps_white();
+}
+
+@mixin medium_aqua_cta{
+  @include medium_cta();
+  background-color: $aqua;
+  border: 1px solid $aqua;
+  @include b3_14px_caps_white();
+}
+
+@mixin medium_med_charcoal_cta{
+  @include medium_cta();
+  background-color: $med-charcoal !important;
+  border: 1px solid $med-charcoal;
+  @include b3_14px_caps_white();
+}
+
+@mixin medium_light_grey_cta{
+  @include medium_cta();
+  background-color: $light-grey;
+  border: 1px solid $light-grey;
+  @include b3_14px_caps_white();
+}
+
+@mixin small_aqua_cta{
+  @include small_cta();
+  background-color: $aqua;
+  border: 1px solid $aqua;
+  @include b3_14px_caps_white();
+}
+
+@mixin small_med_charcoal_cta{
+  @include small_cta();
+  background-color: $med-charcoal;
+  border: 1px solid $med-charcoal;
+  @include b3_14px_caps_white();
+}
+
+@mixin small_gold_cta{
+  @include small_cta();
+  background-color: $light-grey;
+  border: 1px solid $light-grey;
+  @include b3_14px_caps_white();
+}
+
+@mixin outline_small_med_charcoal_cta{
+  @include small_cta();
+  background-color: $white;
+  border: 1px solid $med-charcoal;
+  @include b3_14px_montserrat_caps_charcoal();
+}
+
+@mixin outline_extra_small_aqua_cta{
+  @include extra_small_cta();
+  background-color: $white;
+  border: 1px solid $aqua;
+  @include b3_14px_caps_aqua();
+}
+
+
+
+

@@ -1,6 +1,7 @@
 import React, { ReactNode, useEffect, useRef, useState } from "react";
 import style from "./styles.scss";
 import cs from "classnames";
+import Button from "components/Button";
 
 type Props = {
   errorMsg: (JSX.Element | string)[] | string;
@@ -326,19 +327,8 @@ const NewOtpComponent: React.FC<Props> = ({
           Attempt: {attempts?.attempts}/{attempts?.maxAttemptsAllow}
         </p>
       )}
-      <button
-        className={cs(
-          `${style.otpBtn} ${
-            `${input?.[`${uniqueId}otp1`]}${input?.[`${uniqueId}otp2`]}${
-              input?.[`${uniqueId}otp3`]
-            }${input?.[`${uniqueId}otp4`]}${input?.[`${uniqueId}otp5`]}${
-              input?.[`${uniqueId}otp6`]
-            }`.length !== 6 || attempts?.maxAttemptsAllow === attempts?.attempts
-              ? style.disable
-              : ""
-          }`,
-          verifyCtaClass
-        )}
+      <Button
+        className={cs(verifyCtaClass)}
         onClick={() => sendOtp()}
         disabled={
           `${input?.[`${uniqueId}otp1`]}${input?.[`${uniqueId}otp2`]}${
@@ -347,9 +337,10 @@ const NewOtpComponent: React.FC<Props> = ({
             input?.[`${uniqueId}otp6`]
           }`.length !== 6 || attempts?.maxAttemptsAllow === attempts?.attempts
         }
-      >
-        {btnText}
-      </button>
+        label={btnText}
+        variant="mediumMedCharcoalCta"
+      />
+
       {!groupTimerAndAttempts && (
         <p className={cs(style.otpAttempt, otpAttemptClass)}>
           Attempt: {attempts?.attempts}/{attempts?.maxAttemptsAllow}

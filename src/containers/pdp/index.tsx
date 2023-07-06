@@ -1374,7 +1374,7 @@ class PDPContainer extends React.Component<Props, State> {
                 <LazyImage
                   alt={data?.altText || data?.title}
                   aspectRatio="62:93"
-                  src={productImage.replace("/Micro/", "/Medium/")}
+                  src={productImage?.replace("/Micro/", "/Medium/")}
                   className={globalStyles.imgResponsive}
                   onClick={this.getMobileZoomListener(i)}
                 />
