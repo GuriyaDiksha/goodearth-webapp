@@ -1908,3 +1908,18 @@ export const validURL = (str: string) => {
   ); // fragment locator
   return !!pattern.test(str);
 };
+
+export const closeKeyBoardMobile = async () => {
+  const field = document.createElement("input");
+  field.setAttribute("type", "text");
+  document.body.appendChild(field);
+  await new Promise((resolve, reject) =>
+    setTimeout(function() {
+      field.focus();
+      setTimeout(function() {
+        field.setAttribute("style", "display:none;");
+        resolve(true);
+      }, 400);
+    }, 400)
+  );
+};

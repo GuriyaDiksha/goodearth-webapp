@@ -20,6 +20,13 @@ input[type="text"]{
     padding: 0px 100px
   }
 }
+.activategc-subheading{
+  width: 50%;
+  margin: 10px auto 30px auto;
+  @media screen  and (max-width: 992px){
+    width: 70%;
+  }
+}
 @media screen  and (max-width: 992px){
   .form-subheading{
     padding : 0px;
@@ -52,6 +59,12 @@ input[type="text"]{
 
 .form-heading-multi {
   line-height: 36px;
+}
+
+.active-acc-subhead {
+  width: 60%;
+  margin: auto;
+  margin-bottom: 10px;
 }
 
 .icon-signedin {
@@ -666,7 +679,7 @@ input[type="text"]{
 }
 .gift-display{
   display: block !important;
-  margin-bottom: 27px;
+  margin-bottom: 20px;
   margin-top: 30px;
   // padding-left: 20px;
 }
@@ -962,6 +975,7 @@ input[type="text"]{
     color: #fff;
     background-color: #9f9f9f;
     border: 1px solid #9f9f9f;
+    cursor: unset;
   }
 }
 
@@ -1466,7 +1480,7 @@ input[type="text"]{
     letter-spacing: 0.3px;
     text-align: left;
     .checkbox-label{
-      @include b5_10px_montserrat_charcoal();
+      @include b4_12px_montserrat_charcoal();
       line-height: 22px;
       letter-spacing: 0.3px;
       text-align: left;

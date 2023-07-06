@@ -210,8 +210,6 @@ class CushionBag extends React.Component<Props, State> {
                 >
                   {isSale && discount && discountedPriceRecords ? (
                     <span className={styles.discountedPrice}>
-                      {String.fromCharCode(...currencyCodes[currency])}
-                      &nbsp;
                       {displayPriceWithCommas(discountPrices, currency)}
                       <br />
                     </span>
@@ -220,8 +218,6 @@ class CushionBag extends React.Component<Props, State> {
                   )}
                   {isSale && discount ? (
                     <span className={styles.oldPrice}>
-                      {String.fromCharCode(...currencyCodes[currency])}
-                      &nbsp;
                       {displayPriceWithCommas(price, currency)}
                     </span>
                   ) : (
@@ -231,8 +227,6 @@ class CushionBag extends React.Component<Props, State> {
                       }
                     >
                       {" "}
-                      {String.fromCharCode(...currencyCodes[currency])}
-                      &nbsp;
                       {displayPriceWithCommas(price, currency)}
                     </span>
                   )}

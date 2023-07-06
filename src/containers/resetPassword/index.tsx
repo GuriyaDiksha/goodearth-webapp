@@ -66,7 +66,7 @@ const ResetPassword: React.FC<Props> = props => {
     const searchParams = new URLSearchParams(history.location.search);
     setRedirectTo(searchParams.get("redirect_to") || "");
     const emailFromURl = decripttext(
-      searchParams.get("ei")?.replace(" ", "+") || "",
+      searchParams.get("ei")?.replaceAll(" ", "+") || "",
       true
     );
     setUrlEmail(emailFromURl);

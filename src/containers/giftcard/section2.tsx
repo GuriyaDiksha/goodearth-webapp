@@ -193,28 +193,20 @@ const Section2: React.FC<Section2Props> = ({
     // =======================================================//
 
     const minString = (currency: string) => {
-      return `Sorry, the minimum value of Gift Card is ${String.fromCharCode(
-        ...currencyCode[currency]
-      )} ${displayPriceWithCommas(
+      return `Sorry, the minimum value of Gift Card is ${displayPriceWithCommas(
         limitsList[currency].min,
         currency as Currency
-      )}. Please enter a value greater than or equal to ${String.fromCharCode(
-        ...currencyCode[currency]
-      )} ${displayPriceWithCommas(
+      )}. Please enter a value greater than or equal to ${displayPriceWithCommas(
         limitsList[currency].min,
         currency as Currency
       )}.`;
     };
 
     const maxString = (currency: string) => {
-      return `Sorry, the maximum value of Gift card is ${String.fromCharCode(
-        ...currencyCode[currency]
-      )} ${displayPriceWithCommas(
+      return `Sorry, the maximum value of Gift card is ${displayPriceWithCommas(
         limitsList[currency].max,
         currency as Currency
-      )}. Please enter a value less than or equal to ${String.fromCharCode(
-        ...currencyCode[currency]
-      )} ${displayPriceWithCommas(
+      )}. Please enter a value less than or equal to ${displayPriceWithCommas(
         limitsList[currency].max,
         currency as Currency
       )}.`;
@@ -411,12 +403,10 @@ const Section2: React.FC<Section2Props> = ({
                       })}
                       id={pro.id}
                     >
-                      {String.fromCharCode(...code) +
-                        " " +
-                        displayPriceWithCommas(
-                          pro.priceRecords[currency],
-                          currency
-                        )}
+                      {displayPriceWithCommas(
+                        pro.priceRecords[currency],
+                        currency
+                      )}
                     </span>
                   ) : (
                     ""

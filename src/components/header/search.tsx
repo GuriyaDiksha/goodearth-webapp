@@ -444,7 +444,6 @@ class Search extends React.Component<Props, State> {
       return value;
     }
   }
-
   render() {
     // const cur = "price" + this.props.currency.toLowerCase();
     // const originalCur = "original_price_" + this.props.currency.toLowerCase();
@@ -571,7 +570,9 @@ class Search extends React.Component<Props, State> {
                       <div className={styles.npfMsg}>
                         {"Sorry, we couldn't find any matching result for"}{" "}
                         &nbsp;
-                        {this.decodeSearchString(this.state.searchValue)}
+                        <span>
+                          {this.decodeSearchString(this.state.searchValue)}
+                        </span>
                       </div>
                     ) : (
                       ""

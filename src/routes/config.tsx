@@ -223,6 +223,12 @@ const routes: RouteConfig = [
     exact: false
   },
   {
+    path: ROUTES.NEWSLETTERS,
+    component: loadable(() => import("containers/Newsletters")),
+    action: async () => null,
+    exact: true
+  },
+  {
     path: ROUTES.HFH,
     component: loadable(() => import("containers/HomeForHolidays")),
     action: async () => null,
