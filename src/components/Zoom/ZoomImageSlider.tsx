@@ -47,15 +47,18 @@ const ZoomImageSlider: React.FC<Props> = ({
             alt={alt}
           />
         ) : (
-          <ReactPlayer
-            url={imgContent?.vimeo_link}
-            playing={true}
-            width={"100%"}
-            height={"auto"}
-            volume={1}
-            muted={true}
-            id={`product${i}`}
-          />
+          <>
+            <div className={"overlayDiv"}></div>
+            <ReactPlayer
+              url={imgContent?.vimeo_link}
+              playing={true}
+              width={"100%"}
+              height={"auto"}
+              volume={1}
+              muted={true}
+              id={`product${i}`}
+            />
+          </>
         )}
       </div>
     );

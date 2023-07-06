@@ -496,3 +496,10 @@ input[type="time"]::-webkit-calendar-picker-indicator{
         aspect-ratio: 4/6;
     }
 }
+
+.overlay-div{
+    background: transparent;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}

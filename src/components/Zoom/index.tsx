@@ -100,6 +100,7 @@ const Zoom: React.FC<Props> = ({
                   />
                 ) : (
                   <>
+                    <div className={styles.overlayDiv}></div>
                     <ReactPlayer
                       url={imgContent?.vimeo_link}
                       width={"100%"}

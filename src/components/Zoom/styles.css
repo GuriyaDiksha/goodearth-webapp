@@ -33,6 +33,13 @@
 .imgWrp div{
   aspect-ratio: 4/7;
 }
+.imgWrp .overlayDiv{
+  background: transparent;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
 .zoomImageContainer .slick-slider, .zoomImageContainer .slick-slider .slick-list, .zoomImageContainer .slick-slider .slick-list .slick-track .slick-slide,
 .zoomImageContainer .slick-slider .slick-list .slick-track .slick-slide div{
   height: 100%;

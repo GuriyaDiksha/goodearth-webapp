@@ -151,6 +151,7 @@ const PDPImagesContainer: React.FC<Props> = ({
                     onClick(index);
                   }}
                 >
+                  <div className={styles.overlayDiv}></div>
                   <ReactPlayer
                     url={item?.vimeo_link}
                     volume={1}

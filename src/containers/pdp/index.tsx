@@ -1417,14 +1417,17 @@ class PDPContainer extends React.Component<Props, State> {
                     onClick={this.getMobileZoomListener(i)}
                   />
                 ) : (
-                  <ReactPlayer
-                    url={vimeo_link}
-                    playing={true}
-                    volume={1}
-                    muted={true}
-                    width={"100%"}
-                    height={"auto"}
-                  />
+                  <>
+                    <div className={styles.overlayDiv}></div>
+                    <ReactPlayer
+                      url={vimeo_link}
+                      playing={true}
+                      volume={1}
+                      muted={true}
+                      width={"100%"}
+                      height={"auto"}
+                    />
+                  </>
                 )}
                 {iconIndex > -1 ? (
                   icon ? (
