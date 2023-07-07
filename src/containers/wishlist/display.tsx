@@ -188,7 +188,6 @@ const SampleDisplay: React.FC<Props> = props => {
           <p className={styles.productN}>
             {isSale && data.discount ? (
               <span className={styles.discountprice}>
-                {String.fromCharCode(...currencyCodes[currency])}&nbsp;{" "}
                 {data.discountedPrice
                   ? displayPriceWithCommas(
                       data.discountedPrice[currency],
@@ -202,7 +201,6 @@ const SampleDisplay: React.FC<Props> = props => {
             )}
             {isSale && data.discount ? (
               <span className={styles.strikeprice}>
-                {String.fromCharCode(...currencyCodes[currency])}&nbsp;{" "}
                 {displayPriceWithCommas(data.price[currency], currency)}
               </span>
             ) : (
@@ -211,7 +209,6 @@ const SampleDisplay: React.FC<Props> = props => {
                   data.badgeType == "B_flat" ? globalStyles.cerise : ""
                 }
               >
-                {String.fromCharCode(...currencyCodes[currency])}&nbsp;{" "}
                 {displayPriceWithCommas(data.price[currency], currency)}
               </span>
             )}

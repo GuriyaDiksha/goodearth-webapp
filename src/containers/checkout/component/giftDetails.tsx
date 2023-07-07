@@ -114,7 +114,6 @@ const GiftCardItem = ({
             Balance:{" "}
             <span>
               {" "}
-              {String.fromCharCode(...unicode)}{" "}
               {displayPriceWithCommas(remainingAmount, currency)}
               {` expires on` + expiryDate}
             </span>

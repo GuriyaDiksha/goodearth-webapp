@@ -432,7 +432,7 @@ class TrackOrder extends React.Component<Props, State> {
                 <FormInput
                   name="orderNumber"
                   placeholder={"Order Number*"}
-                  label={"Order Number"}
+                  label={"Order Number*"}
                   value={this.state.orderNumber}
                   keyUp={e => {
                     if (e.key == "Enter") {

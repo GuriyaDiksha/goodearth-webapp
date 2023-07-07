@@ -147,7 +147,8 @@ const PaymentSection: React.FC<PaymentProps> = props => {
       const data: any = {
         paymentMethod: isFree ? "FREE" : currentmethod.key,
         paymentMode: currentmethod.mode,
-        whatsappSubscribe: whatsappSubscribe
+        whatsappSubscribe: whatsappSubscribe,
+        subscribe: subscribevalue
       };
       if (whatsappSubscribe) {
         data.whatsappNo = whatsappNo;
@@ -234,6 +235,12 @@ const PaymentSection: React.FC<PaymentProps> = props => {
                 //   true
                 // );
                 // // setNumberError(errData[key][0]);
+                break;
+              case "whatsappNoCountryCode":
+                if (errData[key][0] == "This field may not be blank.") {
+                  setWhatsappNoErr("Please enter a Whatsapp Number");
+                }
+
                 break;
               case "non_field_errors":
                 // // Invalid Whatsapp number
