@@ -23,7 +23,11 @@ import { AppState } from "reducers/typings";
 import { Country } from "components/Formsy/CountryCode/typings";
 import AddressService from "services/address";
 import { updateCountryData } from "actions/address";
-import { getErrorList, errorTracking } from "utils/validate";
+import {
+  getErrorList,
+  errorTracking,
+  closeKeyBoardMobile
+} from "utils/validate";
 import BridalContext from "containers/myAccount/components/Bridal/context";
 import noPincodeCountryList from "./noPincodeCountryList";
 import Button from "components/Button";
@@ -786,7 +790,14 @@ const AddressForm: React.FC<Props> = props => {
               globalStyles.ointer,
               styles.addNewAddress
             )}
-            onClick={closeAddressForm}
+            onTouchEnd={() => {
+              console.log("mobile touch");
+              closeAddressForm();
+            }}
+            onClick={() => {
+              console.log("click start");
+              closeAddressForm();
+            }}
           >
             Cancel & Go Back
           </span>
