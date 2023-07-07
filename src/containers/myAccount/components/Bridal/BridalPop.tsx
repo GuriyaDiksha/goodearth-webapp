@@ -18,6 +18,7 @@ import ipop3 from "../../../../images/bridal/ipops/ipop3.png";
 import ipop2 from "../../../../images/bridal/ipops/ipop2.png";
 import ipop1 from "../../../../images/bridal/ipops/ipop1.jpg";
 import { updateModal } from "actions/modal";
+import Button from "components/Button";
 
 const BridalPop: React.FC = () => {
   const { mobile } = useSelector((state: AppState) => state.device);
@@ -51,9 +52,7 @@ const BridalPop: React.FC = () => {
   const DesktopButton = () => (
     <div className="">
       <NavLink to="/" onClick={closeBridalPop}>
-        <button className={cs(globalStyles.ceriseBtn, styles.bridalPopBtn)}>
-          start adding to registry
-        </button>
+        <Button variant="mediumAquaCta" label="start adding to registry" />
       </NavLink>
     </div>
   );
@@ -82,9 +81,11 @@ const BridalPop: React.FC = () => {
           </div>
           <div className={styles.addBtn}>
             <NavLink to="/" onClick={closeBridalPop}>
-              <button className={globalStyles.ceriseBtn}>
-                start adding to registry
-              </button>
+              <Button
+                label="start adding to registry"
+                className={globalStyles.btnFullWidth}
+                variant="largeAquaCta"
+              />
             </NavLink>
           </div>
           <Slider {...settings} className="">

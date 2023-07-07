@@ -16,6 +16,7 @@ import { POPUP } from "constants/components";
 import CookieService from "services/cookie";
 import { GA_CALLS } from "constants/cookieConsent";
 import { displayPriceWithCommasFloat } from "utils/utility";
+import Button from "components/Button";
 
 const OrderSummary: React.FC<OrderProps> = props => {
   const { mobile, basket, page, shippingAddress, salestatus, validbo } = props;
@@ -772,20 +773,15 @@ const OrderSummary: React.FC<OrderProps> = props => {
                   key="cartCheckout"
                   to={canCheckout() ? "/order/checkout" : "#"}
                 >
-                  <button
+                  <Button
                     onClick={chkshipping}
-                    className={
-                      canCheckout()
-                        ? cs(globalStyles.ceriseBtn, {
-                            [globalStyles.hidden]: mobile
-                          })
-                        : cs(globalStyles.ceriseBtn, globalStyles.disabledBtn, {
-                            [globalStyles.hidden]: mobile
-                          })
-                    }
-                  >
-                    PROCEED TO CHECKOUT
-                  </button>
+                    className={cs(globalStyles.btnFullWidth, {
+                      [globalStyles.hidden]: mobile
+                    })}
+                    label="PROCEED TO CHECKOUT"
+                    variant="largeAquaCta"
+                    disabled={!canCheckout()}
+                  />
                 </NavLink>
                 {hasOutOfStockItems() && (
                   <p
@@ -845,20 +841,13 @@ const OrderSummary: React.FC<OrderProps> = props => {
                 key="cartCheckoutMobile"
                 to={canCheckout() ? "/order/checkout" : "#"}
               >
-                <button
+                <Button
                   onClick={chkshipping}
-                  className={
-                    canCheckout()
-                      ? cs(globalStyles.ceriseBtn, styles.posFixed)
-                      : cs(
-                          globalStyles.ceriseBtn,
-                          globalStyles.disabled,
-                          styles.posFixed
-                        )
-                  }
-                >
-                  PROCEED TO CHECKOUT
-                </button>
+                  className={cs(globalStyles.btnFullWidth, styles.posFixed)}
+                  label="PROCEED TO CHECKOUT"
+                  variant="largeAquaCta"
+                  disabled={!canCheckout()}
+                />
               </NavLink>
             </div>
           )}

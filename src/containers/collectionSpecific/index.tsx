@@ -791,8 +791,8 @@ class CollectionSpecific extends React.Component<
             </div>
             <div className={styles.btnWrp}>
               <Button
+                variant="smallAquaCta"
                 label={"ALL COLLECTIONS"}
-                className={styles.button}
                 onClick={() =>
                   this.props?.history.push("/" + all_collection_link)
                 }

@@ -3,6 +3,7 @@ export type ButtonProps = {
   onClick?: (event: React.MouseEvent) => void;
   disabled?: boolean;
   className?: string;
+  type?: "button" | "submit" | "reset";
   variant:
     | "largeAquaCta"
     | "largeLightGreyCta"

@@ -10,6 +10,7 @@ import ApplyPromo from "./applyPromo";
 import { useSelector } from "react-redux";
 import { AppState } from "reducers/typings";
 import { useHistory } from "react-router";
+import Button from "components/Button";
 // import * as util from "utils/validate";
 
 const PromoSection: React.FC<PromoProps> = props => {
@@ -180,12 +181,12 @@ const PromoSection: React.FC<PromoProps> = props => {
             </div>
           )}
 
-          <button
-            className={cs(globalStyles.marginT40, globalStyles.ceriseBtn)}
+          <Button
+            className={cs(globalStyles.marginT40, globalStyles.btnFullWidth)}
             onClick={onsubmit}
-          >
-            PROCEED TO PAYMENT
-          </button>
+            label="PROCEED TO PAYMENT"
+            variant="largeAquaCta"
+          />
         </Fragment>
       )}
     </div>

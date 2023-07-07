@@ -3,10 +3,11 @@
 
 .large-aqua-cta{
     @include large_aqua_cta();
-    &:hover{
+    &:hover , &:focus{
         background-color: $white;
         color: $aqua;
     }
+    
     &:disabled{
         @include disabled_cta();
     }

@@ -22,6 +22,7 @@ import { checkBlank } from "utils/validate";
 import { CheckoutAddressContext } from "./context";
 import { Currency, currencyCode } from "typings/currency";
 import { displayPriceWithCommas } from "utils/utility";
+import Button from "components/Button";
 
 const AddressSection: React.FC<AddressProps & {
   mode: string;
@@ -656,13 +657,16 @@ const AddressSection: React.FC<AddressProps & {
                   globalStyles.voffset4
                 )}
               >
-                <button
-                  className={cs(globalStyles.ceriseBtn, globalStyles.marginT20)}
+                <Button
+                  className={cs(
+                    globalStyles.btnFullWidth,
+                    globalStyles.marginT20
+                  )}
                   type="submit"
                   onClick={handleSaveAndReview}
-                >
-                  Proceed to Payment
-                </button>
+                  label="Proceed to Payment"
+                  variant="largeAquaCta"
+                />
               </div>
             </div>
           )}

@@ -8,9 +8,11 @@ const Button: React.FC<ButtonProps> = ({
   onClick,
   disabled,
   className,
-  variant
+  variant,
+  type
 }) => (
   <button
+    type={type}
     className={cs(className, styles[`${variant}`])}
     onClick={(event): void => {
       if (onClick) {

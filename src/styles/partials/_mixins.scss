@@ -1286,6 +1286,7 @@ $list: $grey 92%, $white 8%;
   @include large_cta();
   background-color: $aqua;
   border: 1px solid $aqua;
+  text-transform: uppercase;
   @include b3_14px_caps_white();
 }
 
@@ -1293,6 +1294,7 @@ $list: $grey 92%, $white 8%;
   @include large_cta();
   background-color: $gold;
   border: 1px solid $gold;
+  text-transform: uppercase;
   @include b3_14px_caps_white();
 }
 
@@ -1300,6 +1302,7 @@ $list: $grey 92%, $white 8%;
   @include large_cta();
   background-color: $med-charcoal;
   border: 1px solid $med-charcoal;
+  text-transform: uppercase;
   @include b3_14px_caps_white();
 }
 
@@ -1307,6 +1310,7 @@ $list: $grey 92%, $white 8%;
   @include large_cta();
   background-color: $light-grey;
   border: 1px solid $light-grey;
+  text-transform: uppercase;
   @include b3_14px_caps_white();
 }
 
@@ -1314,6 +1318,7 @@ $list: $grey 92%, $white 8%;
   @include medium_cta();
   background-color: $aqua;
   border: 1px solid $aqua;
+  text-transform: uppercase;
   @include b3_14px_caps_white();
 }
 
@@ -1321,6 +1326,7 @@ $list: $grey 92%, $white 8%;
   @include medium_cta();
   background-color: $med-charcoal !important;
   border: 1px solid $med-charcoal;
+  text-transform: uppercase;
   @include b3_14px_caps_white();
 }
 
@@ -1328,6 +1334,7 @@ $list: $grey 92%, $white 8%;
   @include medium_cta();
   background-color: $light-grey;
   border: 1px solid $light-grey;
+  text-transform: uppercase;
   @include b3_14px_caps_white();
 }
 
@@ -1335,6 +1342,7 @@ $list: $grey 92%, $white 8%;
   @include small_cta();
   background-color: $aqua;
   border: 1px solid $aqua;
+  text-transform: uppercase;
   @include b3_14px_caps_white();
 }
 
@@ -1342,6 +1350,7 @@ $list: $grey 92%, $white 8%;
   @include small_cta();
   background-color: $med-charcoal;
   border: 1px solid $med-charcoal;
+  text-transform: uppercase;
   @include b3_14px_caps_white();
 }
 
@@ -1349,6 +1358,7 @@ $list: $grey 92%, $white 8%;
   @include small_cta();
   background-color: $light-grey;
   border: 1px solid $light-grey;
+  text-transform: uppercase;
   @include b3_14px_caps_white();
 }
 
@@ -1356,6 +1366,7 @@ $list: $grey 92%, $white 8%;
   @include small_cta();
   background-color: $white;
   border: 1px solid $med-charcoal;
+  text-transform: uppercase;
   @include b3_14px_montserrat_caps_charcoal();
 }
 
@@ -1363,6 +1374,7 @@ $list: $grey 92%, $white 8%;
   @include extra_small_cta();
   background-color: $white;
   border: 1px solid $aqua;
+  text-transform: uppercase;
   @include b3_14px_caps_aqua();
 }
 
