@@ -346,13 +346,12 @@ const ChangePassword: React.FC<PasswordProps> = ({ setCurrentSection }) => {
                       ) : (
                         ""
                       )}
-                      <input
+                      <Button
                         type="submit"
                         disabled={!updatePassword}
-                        className={
-                          updatePassword ? styles.updateDetails : styles.updated
-                        }
-                        value={updatePassword ? "Update Details" : "Updated"}
+                        className={globalStyles.btnFullWidth}
+                        label={updatePassword ? "Update Details" : "Updated"}
+                        variant="largeMedCharcoalCta"
                       />
                     </div>
                   </div>

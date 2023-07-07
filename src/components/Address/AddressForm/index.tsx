@@ -26,6 +26,7 @@ import { updateCountryData } from "actions/address";
 import { getErrorList, errorTracking } from "utils/validate";
 import BridalContext from "containers/myAccount/components/Bridal/context";
 import noPincodeCountryList from "./noPincodeCountryList";
+import Button from "components/Button";
 
 type Props = {
   addressData?: AddressData;
@@ -748,38 +749,19 @@ const AddressForm: React.FC<Props> = props => {
             <div className="row">
               <div className="col-xs-12">
                 {mode == "edit" ? (
-                  <input
-                    formNoValidate={true}
+                  <Button
+                    variant="largeMedCharcoalCta"
                     type="submit"
-                    value={isAddressChanged ? "Update Address" : "Updated"}
-                    className={cs(
-                      globalStyles.ceriseBtn,
-                      {
-                        [globalStyles.disabledBtn]: !isAddressChanged
-                      },
-                      {
-                        [styles.charcoalBtn]:
-                          currentCallBackComponent == "account"
-                      }
-                    )}
+                    label={isAddressChanged ? "Update Address" : "Updated"}
+                    className={cs(globalStyles.btnFullWidth)}
                     disabled={!isAddressChanged}
                   />
                 ) : (
-                  <input
-                    formNoValidate={true}
+                  <Button
+                    variant="largeMedCharcoalCta"
                     type="submit"
-                    value="Save Address"
-                    className={cs(
-                      globalStyles.ceriseBtn,
-                      // {
-                      //   [styles.disabledBtn]: !isAddressChanged
-                      // },
-                      {
-                        [styles.charcoalBtn]:
-                          currentCallBackComponent == "account"
-                      }
-                    )}
-                    // disabled={!isAddressChanged}
+                    label={"save address"}
+                    className={cs(globalStyles.btnFullWidth)}
                   />
                 )}
               </div>

@@ -19,6 +19,7 @@ import EmailVerification from "../emailVerification";
 import { USR_WITH_NO_ORDER } from "constants/messages";
 import CookieService from "services/cookie";
 import { GA_CALLS } from "constants/cookieConsent";
+import Button from "components/Button";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -516,15 +517,12 @@ class MainLogin extends React.Component<Props, loginState> {
             ) : (
               ""
             )}
-            <input
+            <Button
               type="submit"
-              className={
-                this.state.isLoginDisabled
-                  ? cs(globalStyles.charcoalBtn, globalStyles.disabledBtn)
-                  : globalStyles.charcoalBtn
-              }
-              value="continue"
+              className={globalStyles.btnFullWidth}
+              label="continue"
               disabled={this.state.isLoginDisabled}
+              variant="largeMedCharcoalCta"
             />
           </div>
         </div>
@@ -605,28 +603,22 @@ class MainLogin extends React.Component<Props, loginState> {
             ) : (
               ""
             )}
-            <input
+            <Button
               type="submit"
-              className={
-                this.state.isSecondStepLoginDisabled
-                  ? cs(globalStyles.charcoalBtn, globalStyles.disabledBtn)
-                  : globalStyles.charcoalBtn
-              }
-              value="Login to my account"
+              className={globalStyles.btnFullWidth}
+              label="Login to my account"
               disabled={this.state.isSecondStepLoginDisabled}
+              variant="largeMedCharcoalCta"
             />
             {this.props.isBo ? (
               ""
             ) : (
-              <input
+              <Button
                 type="submit"
-                className={cs(
-                  globalStyles.charcoalBtn,
-                  globalStyles.withWhiteBgNoHover,
-                  styles.changeEmailBtn
-                )}
-                value="Go Back"
+                className={cs(globalStyles.btnFullWidth, styles.changeEmailBtn)}
+                label="Go Back"
                 onClick={this.changeEmail}
+                variant="outlineSmallMedCharcoalCta"
               />
             )}
           </div>

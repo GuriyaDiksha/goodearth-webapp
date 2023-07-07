@@ -16,6 +16,7 @@ import MakerEnhance from "components/maker";
 import { updateCountryData } from "actions/address";
 import FormSelect from "components/Formsy/FormSelect";
 import { Country } from "components/Formsy/CountryCode/typings";
+import Button from "components/Button";
 
 type StateOptions = {
   value: string;
@@ -274,17 +275,12 @@ const Newsletters: React.FC = () => {
           <p className={cs(styles.successMessage, styles.errorMsg)}>
             {successMsg}
           </p>
-          <input
+          <Button
             type="submit"
-            formNoValidate={true}
             disabled={!enableSubmit}
-            className={cs(
-              globalStyles.aquaBtn,
-              globalStyles.marginT10,
-              styles.jobApplicationSubmit,
-              { [globalStyles.disabledBtn]: !enableSubmit }
-            )}
-            value="Sign Up"
+            className={cs(globalStyles.btnFullWidth, globalStyles.marginT10)}
+            label="Sign Up"
+            variant="largeAquaCta"
           />
         </div>
       </Formsy>

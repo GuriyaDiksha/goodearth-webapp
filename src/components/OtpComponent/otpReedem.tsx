@@ -10,6 +10,7 @@ import FormInput from "components/Formsy/FormInput";
 import Loader from "components/Loader";
 import { errorTracking } from "utils/validate";
 import NewOtpComponent from "./NewOtpComponent";
+import Button from "components/Button";
 
 class OtpReedem extends React.Component<otpRedeemProps, otpState> {
   constructor(props: otpRedeemProps) {
@@ -549,15 +550,12 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
                 [globalStyles.voffset7]: !this.state.showerrorOtp
               })}
             >
-              <input
+              <Button
                 type="submit"
                 disabled={this.state.disable}
-                className={
-                  this.state.disable
-                    ? cs(globalStyles.ceriseBtn, globalStyles.disabledBtn)
-                    : globalStyles.ceriseBtn
-                }
-                value="Send otp"
+                className={globalStyles.btnFullWidth}
+                label="Send otp"
+                variant="largeAquaCta"
               />
             </div>
           </Formsy>

@@ -31,6 +31,7 @@ import FormContainer from "../formContainer";
 import tooltipIcon from "images/tooltip.svg";
 import tooltipOpenIcon from "images/tooltip-open.svg";
 import { CONFIG } from "constants/util";
+import Button from "components/Button";
 
 const mapStateToProps = (state: AppState) => {
   const isdList = state.address.countryData.map(list => {
@@ -1245,39 +1246,30 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
               ""
             )}
             {!this.props.isCheckout && (
-              <input
+              <Button
                 type="submit"
-                className={
-                  this.state.disableButton || !this.state.showFields
-                    ? cs(globalStyles.disabledBtn, globalStyles.charcoalBtn)
-                    : globalStyles.charcoalBtn
-                }
-                value="Create My Account & Proceed"
+                className={globalStyles.btnFullWidth}
+                label="Create My Account & Proceed"
                 disabled={this.state.disableButton || !this.state.showFields}
+                variant="largeMedCharcoalCta"
               />
             )}
             {!this.props.isCheckout && (
-              <input
+              <Button
                 type="submit"
-                className={cs(
-                  globalStyles.charcoalBtn,
-                  globalStyles.withWhiteBgNoHover,
-                  styles.changeEmailBtn
-                )}
-                value="Go Back"
+                className={cs(globalStyles.btnFullWidth, styles.changeEmailBtn)}
+                label="Go Back"
                 onClick={this.changeEmail}
+                variant="outlineSmallMedCharcoalCta"
               />
             )}
             {this.props.isCheckout && (
-              <input
+              <Button
                 type="submit"
-                className={
-                  this.state.disableButton || !this.state.showFields
-                    ? cs(globalStyles.disabledBtn, globalStyles.ceriseBtn)
-                    : globalStyles.ceriseBtn
-                }
-                value="Continue"
+                className={globalStyles.btnFullWidth}
+                label="Continue"
                 disabled={this.state.disableButton || !this.state.showFields}
+                variant="largeAquaCta"
               />
             )}
           </div>

@@ -20,6 +20,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import "../../../../styles/reactDatepicker.css";
 import { updateModal } from "actions/modal";
 import { BridalProfileData } from "./typings";
+import Button from "components/Button";
 
 type Props = {
   bridalProfile?: BridalProfileData;
@@ -301,13 +302,12 @@ const EditRegistry: React.FC<Props> = props => {
                       />
                     </div>
                     <div>
-                      <input
+                      <Button
                         type="submit"
                         disabled={!updateProfile}
-                        className={cs(globalStyles.ceriseBtn, {
-                          [globalStyles.disabledBtn]: !updateProfile
-                        })}
-                        value="SAVE"
+                        className={cs(globalStyles.btnFullWidth)}
+                        label="SAVE"
+                        variant="largeAquaCta"
                       />
                     </div>
                   </div>
