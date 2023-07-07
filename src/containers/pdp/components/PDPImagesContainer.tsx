@@ -134,7 +134,7 @@ const PDPImagesContainer: React.FC<Props> = ({
               )}
             >
               <img
-                src={productImages[index].productImage.replace(
+                src={productImages[index].productImage?.replace(
                   /Micro|Large/i,
                   "Medium"
                 )}
