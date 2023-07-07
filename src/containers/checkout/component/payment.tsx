@@ -147,7 +147,8 @@ const PaymentSection: React.FC<PaymentProps> = props => {
       const data: any = {
         paymentMethod: isFree ? "FREE" : currentmethod.key,
         paymentMode: currentmethod.mode,
-        whatsappSubscribe: whatsappSubscribe
+        whatsappSubscribe: whatsappSubscribe,
+        subscribe: subscribevalue
       };
       if (whatsappSubscribe) {
         data.whatsappNo = whatsappNo;
