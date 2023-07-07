@@ -34,10 +34,7 @@
 }
 .large-light-grey-cta{
     @include large_light_grey_cta();
-    &:hover{
-        background-color: $white;
-        color: $light-grey;
-    }
+   
     &:disabled{
         @include disabled_cta();
     }
@@ -66,10 +63,6 @@
 }
 .medium-light-grey-cta{
     @include medium_light_grey_cta();
-    &:hover{
-        background-color: $white;
-        color: $light-grey;
-    }
     &:disabled{
         @include disabled_cta();
     }
@@ -123,7 +116,7 @@
     &:hover{
         border: 1px solid $aqua;
         color: $white;
-        background-color: aqua;
+        background-color: $aqua;
     }
     &:disabled{
         @include disabled_cta();
