@@ -27,6 +27,7 @@ import WhatsappSubscribe from "components/WhatsappSubscribe";
 // import { makeid } from "utils/utility";
 import { CONFIG } from "constants/util";
 import Formsy from "formsy-react";
+import CheckboxWithLabel from "components/CheckboxWithLabel";
 
 const PaymentSection: React.FC<PaymentProps> = props => {
   const data: any = {};
@@ -654,32 +655,46 @@ const PaymentSection: React.FC<PaymentProps> = props => {
               globalStyles.voffset2
             )}
           >
-            <div className={styles.marginR10}>
+            {/* <div className={styles.marginR10}>
               <span className={styles.checkbox}>
                 <input
                   type="checkbox"
-                  id="subscribe"
-                  onChange={e => {
-                    onClickSubscribe(e);
-                  }}
-                  checked={subscribevalue}
-                />
-                <span className={styles.indicator}></span>
+                 
+                /> */}
+            <CheckboxWithLabel
+              id="subscribe"
+              onChange={e => {
+                onClickSubscribe(e);
+              }}
+              checked={subscribevalue}
+              label={[
+                <label
+                  key="subscribe"
+                  htmlFor="subscribe"
+                  className={cs(
+                    globalStyles.pointer,
+                    styles.linkCerise,
+                    globalStyles.marginT3
+                  )}
+                >
+                  I agree to receiving e-mails, newsletters, calls and text
+                  messages for service related information. To know more how we
+                  keep your data safe, refer to our{" "}
+                  <Link
+                    to="/customer-assistance/privacy-policy"
+                    target="_blank"
+                  >
+                    Privacy Policy
+                  </Link>
+                </label>
+              ]}
+            />
+            {/* <span className={styles.indicator}></span>
               </span>
             </div>
             <div className={globalStyles.c10LR}>
-              <label
-                htmlFor="subscribe"
-                className={cs(globalStyles.pointer, styles.linkCerise)}
-              >
-                I agree to receiving e-mails, newsletters, calls and text
-                messages for service related information. To know more how we
-                keep your data safe, refer to our{" "}
-                <Link to="/customer-assistance/privacy-policy" target="_blank">
-                  Privacy Policy
-                </Link>
-              </label>
-            </div>
+             */}
+            {/* </div> */}
           </label>
           {/* {currency == "GBP" && (
             <label

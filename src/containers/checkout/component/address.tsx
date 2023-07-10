@@ -22,6 +22,7 @@ import { checkBlank } from "utils/validate";
 import { CheckoutAddressContext } from "./context";
 import { Currency, currencyCode } from "typings/currency";
 import { displayPriceWithCommas } from "utils/utility";
+import CheckboxWithLabel from "components/CheckboxWithLabel";
 
 const AddressSection: React.FC<AddressProps & {
   mode: string;
@@ -429,17 +430,24 @@ const AddressSection: React.FC<AddressProps & {
                   globalStyles.voffset3
                 )}
               >
-                <div className={globalStyles.marginR10}>
-                  <span className={styles.checkbox}>
-                    <input
-                      type="checkbox"
-                      onChange={toggleGstInvoice}
-                      checked={gst}
-                    />
-                    <span className={styles.indicator}></span>
-                  </span>
-                </div>
-                <div
+                {/* <div className={globalStyles.marginR10}> */}
+                {/* <span className={styles.checkbox}> */}
+                <CheckboxWithLabel
+                  id="gst"
+                  onChange={toggleGstInvoice}
+                  checked={gst}
+                  label={[
+                    <label htmlFor={"gst"} key={"gst"}>
+                      <p className={globalStyles.marginT3}>
+                        THIS IS A GST INVOICE
+                      </p>
+                    </label>
+                  ]}
+                />
+                {/* <span className={styles.indicator}></span> */}
+                {/* </span> */}
+                {/* </div> */}
+                {/* <div
                   className={cs(
                     globalStyles.marginT0,
                     globalStyles.marginB0,
@@ -447,7 +455,7 @@ const AddressSection: React.FC<AddressProps & {
                   )}
                 >
                   THIS IS A GST INVOICE
-                </div>
+                </div> */}
               </label>
               {gst && (
                 <div
@@ -568,17 +576,25 @@ const AddressSection: React.FC<AddressProps & {
                   globalStyles.voffset3
                 )}
               >
-                <div className={globalStyles.marginR10}>
-                  <span className={styles.checkbox}>
-                    <input
-                      type="checkbox"
-                      onChange={togglepancard}
-                      checked={pancardCheck}
-                    />
-                    <span className={styles.indicator}></span>
+                {/* <div className={globalStyles.marginR10}>
+                  <span className={styles.checkbox}> */}
+                <CheckboxWithLabel
+                  id="pancard"
+                  onChange={togglepancard}
+                  checked={pancardCheck}
+                  label={[
+                    <label htmlFor={"pancard"} key={"pancard"}>
+                      <p className={globalStyles.marginT3}>
+                        {" "}
+                        I CONFIRM THAT THE DATA I HAVE SHARED IS CORRECT
+                      </p>
+                    </label>
+                  ]}
+                />
+                {/* <span className={styles.indicator}></span>
                   </span>
-                </div>
-                <div
+                </div> */}
+                {/* <div
                   className={cs(
                     styles.formSubheading,
                     globalStyles.marginB0,
@@ -586,7 +602,7 @@ const AddressSection: React.FC<AddressProps & {
                   )}
                 >
                   I CONFIRM THAT THE DATA I HAVE SHARED IS CORRECT
-                </div>
+                </div> */}
               </label>
               {panCheck ? (
                 <span className={globalStyles.errorMsg}>{panCheck}</span>
@@ -623,17 +639,26 @@ const AddressSection: React.FC<AddressProps & {
       show && (
         <div className={cs(styles.payment, globalStyles.voffset4)}>
           <label className={cs(styles.flex, styles.crossCenter)}>
-            <div className={globalStyles.marginR10}>
-              <span className={styles.checkbox}>
-                <input
-                  type="checkbox"
-                  onChange={toggleSameAsShipping}
-                  checked={sameAsShipping}
-                />
-                <span className={styles.indicator}></span>
+            {/* <div className={globalStyles.marginR10}>
+              <span className={styles.checkbox}> */}
+
+            <CheckboxWithLabel
+              id="sameAsShipping"
+              onChange={toggleSameAsShipping}
+              checked={sameAsShipping}
+              label={[
+                <label htmlFor={"sameAsShipping"} key={"sameAsShipping"}>
+                  <p className={globalStyles.marginT3}>
+                    {" "}
+                    BILLING ADDRESS IS SAME AS SHIPPING ADDRESS
+                  </p>
+                </label>
+              ]}
+            />
+            {/* <span className={styles.indicator}></span>
               </span>
-            </div>
-            <div
+            </div> */}
+            {/* <div
               className={cs(
                 globalStyles.marginT0,
                 globalStyles.marginB0,
@@ -641,7 +666,7 @@ const AddressSection: React.FC<AddressProps & {
               )}
             >
               BILLING ADDRESS IS SAME AS SHIPPING ADDRESS
-            </div>
+            </div> */}
           </label>
           {sameAsShipping && (
             <div className={bootstrapStyles.row}>

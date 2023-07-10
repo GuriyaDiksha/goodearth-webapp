@@ -1,0 +1,56 @@
+@import "../../styles/partials/variables";
+@import "../../styles/partials/mixins";
+
+.aqua_white_checkbox{
+    input[type="radio"]:not(:checked) + label:before,
+    input[type="radio"]:checked + label:before, [type="checkbox"]:not(:checked) + label:before,
+    input[type="checkbox"]:checked + label:before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 22px;
+        height: 22px;
+        background-color: $white;
+        border: 1px solid $aqua-boreder;
+    }
+
+    input[type="radio"]:not(:checked) + label,
+    input[type="radio"]:checked + label, [type="checkbox"]:not(:checked) + label,
+    input[type="checkbox"]:checked + label {
+        padding-left: 30px;
+    }
+
+    input[type="radio"]:not(:checked) + label:after,
+    input[type="radio"]:checked + label:after, [type="checkbox"]:not(:checked) + label:after,
+    input[type="checkbox"]:checked + label:after {
+      content: '';
+      display: block;
+      width: 6px;
+      height: 12px;
+      border: solid $aqua;
+      border-width: 0 2px 2px 0;
+      position: absolute;
+      top: 4px;
+      left: 8px;
+      line-height: 0.8;
+      transition: all .1s;
+    }
+    input[type="checkbox"]{
+      &:not(:checked) + label:before{
+        background-color: $white;
+      }
+      &:not(:checked) + label:after{
+        border: solid $white;
+        border-width: 0 2px 2px 0;
+      }
+      &:checked + label:before{
+        border-color: $aqua;
+        background-color: $aqua;
+      }
+      &:checked + label:after{
+        border: solid $white;
+        border-width: 0 2px 2px 0;
+      }
+    }
+}

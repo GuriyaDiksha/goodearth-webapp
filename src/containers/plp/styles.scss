@@ -334,7 +334,8 @@
 
   li {
     letter-spacing: 0.5px;
-    line-height: 40px;
+     line-height: 25px;
+    padding: 6px 0px;
     border-bottom: 1px solid tint(#000,90%);
     @include b4_12px_medium_gold_caps();
     li {
