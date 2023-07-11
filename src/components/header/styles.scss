@@ -485,6 +485,7 @@
     padding: 0;
     font-weight: normal;
     margin-bottom: 100px;
+    overflow: scroll;
   }
   li {
     @include b4_12px_montserrat_charcoal();
