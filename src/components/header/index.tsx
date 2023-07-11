@@ -38,7 +38,6 @@ const Mobilemenu = loadable(() => import("./mobileMenu"));
 import MegaMenu from "./megaMenu";
 import CountdownTimer from "./CountdownTimer";
 import AnnouncementBar from "./AnnouncementBar";
-import { CUST } from "constants/util";
 import Loader from "components/Loader";
 import Sizechart from "components/Sizechart";
 import CookieService from "services/cookie";
@@ -853,9 +852,7 @@ class Header extends React.Component<Props, State> {
       handleLogOut,
       location,
       mobile,
-      tablet,
-      slab,
-      customerGroup
+      tablet
     } = this.props;
     const wishlistCount = wishlistData.length;
     let bagCount = 0;
@@ -932,12 +929,12 @@ class Header extends React.Component<Props, State> {
       !(this.props.location.pathname.indexOf("/account/") > -1);
 
     const { showMenu } = this.state;
-    const isCeriseCustomer = slab
-      ? slab.toLowerCase() == "cerise" ||
-        slab.toLowerCase() == "cerise sitara" ||
-        customerGroup == CUST.CERISE ||
-        customerGroup == CUST.CERISE_SITARA
-      : false;
+    // const isCeriseCustomer = slab
+    //   ? slab.toLowerCase() == "cerise" ||
+    //     slab.toLowerCase() == "cerise sitara" ||
+    //     customerGroup == CUST.CERISE ||
+    //     customerGroup == CUST.CERISE_SITARA
+    //   : false;
     return (
       <div className="">
         {meta.h1Tag && (

@@ -6,7 +6,6 @@ import { BasketItem } from "typings/basket";
 import bootstrap from "../../styles/bootstrap/bootstrap-grid.scss";
 import Quantity from "components/quantity";
 import "../../styles/override.css";
-import { currencyCodes } from "constants/currency";
 import WishlistButton from "components/WishlistButton";
 import globalStyles from "../../styles/global.scss";
 import iconStyles from "../../styles/iconFonts.scss";

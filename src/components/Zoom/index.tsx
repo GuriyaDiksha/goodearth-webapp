@@ -1,4 +1,4 @@
-import React, { RefObject, useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import DockedPanel from "containers/pdp/docked";
 import { Product } from "typings/product";
 import styles from "./styles.scss";
@@ -47,10 +47,18 @@ const Zoom: React.FC<Props> = ({
     `product0`
   );
   const [playVideo, setPlayVideo] = useState(false);
-  const videoRef: RefObject<HTMLVideoElement> = useRef(null);
 
   const closeModal = () => {
     changeModalState(false);
+    if (mobile) {
+      (document.getElementById(
+        "modal-fullscreen"
+      ) as HTMLDivElement).style.height = "100%";
+      (document.getElementById(
+        "modal-fullscreen-container"
+      ) as HTMLDivElement).style.height = "100%";
+    }
+
     document.body.classList.remove(globalStyles.fixed);
   };
 
@@ -59,12 +67,35 @@ const Zoom: React.FC<Props> = ({
       (document.getElementById(
         selectedMobileImageId
       ) as HTMLDivElement).style.transform = `scale(${zoom})`;
+      (document.getElementById(selectedMobileImageId) as HTMLDivElement).style[
+        "-webkit-transform"
+      ] = `scale(${zoom})`;
+      (document.getElementById(selectedMobileImageId) as HTMLDivElement).style[
+        "-ms-transform"
+      ] = `scale(${zoom})`;
     } else {
       (document.getElementById(
         "pdpImage"
       ) as HTMLDivElement).style.transform = `scale(${zoom})`;
+      (document.getElementById("pdpImage") as HTMLDivElement).style[
+        "-webkit-transform"
+      ] = `scale(${zoom})`;
+      (document.getElementById("pdpImage") as HTMLDivElement).style[
+        "-ms-transform"
+      ] = `scale(${zoom})`;
     }
   }, [zoom]);
+
+  useEffect(() => {
+    if (document.getElementById("modal-fullscreen") as HTMLDivElement) {
+      (document.getElementById(
+        "modal-fullscreen"
+      ) as HTMLDivElement).style.height = "calc(100% - 55px)";
+      (document.getElementById(
+        "modal-fullscreen-container"
+      ) as HTMLDivElement).style.height = "calc(100% - 55px)";
+    }
+  }, [mobile]);
 
   return (
     <div
@@ -106,6 +137,7 @@ const Zoom: React.FC<Props> = ({
                       width={"100%"}
                       height={"auto"}
                       playing={playVideo}
+                      playsinline={true}
                     />
                     {playVideo &&
                     imgContent?.vimeo_link === selectedImage?.vimeo_link ? (
@@ -163,6 +195,7 @@ const Zoom: React.FC<Props> = ({
                     playing={playVideo}
                     width={"100%"}
                     height={"auto"}
+                    playsinline={true}
                   />
                   {playVideo ? (
                     <img

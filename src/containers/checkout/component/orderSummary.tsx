@@ -3,7 +3,6 @@ import cs from "classnames";
 import globalStyles from "styles/global.scss";
 import styles from "./orderStyles.scss";
 import { OrderProps } from "./typings";
-import { Currency, currencyCode } from "typings/currency";
 import { Link, useLocation, NavLink, useHistory } from "react-router-dom";
 import iconStyles from "styles/iconFonts.scss";
 import { useDispatch, useSelector } from "react-redux";
@@ -32,7 +31,6 @@ const OrderSummary: React.FC<OrderProps> = props => {
   if (!currency) {
     currency = "INR";
   }
-  const code = currencyCode[currency as Currency];
   const onArrowButtonClick = () => {
     setShowSummary(!showSummary);
     setIsSuspended(true);

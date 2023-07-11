@@ -1,5 +1,4 @@
 import { State, FillerActions } from "./typings";
-// import { mergePartialProducts } from "utils/store";
 import { PartialProductItem } from "typings/product";
 
 export const PRODUCT_INIT_STATE: PartialProductItem = {

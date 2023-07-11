@@ -8,10 +8,7 @@ import styles from "./styles.scss";
 import { Link } from "react-router-dom";
 import logoImage from "images/gelogoCerise.svg";
 import flowerImage from "images/flower-motif.png";
-// import lockImage from "images/lock.svg";
-// import callImage from "images/call.svg";
 import AccountServices from "services/account";
-import { currencyCode, Currency } from "typings/currency";
 import moment from "moment";
 import { pageViewGTM } from "utils/validate";
 import CookieService from "services/cookie";
@@ -21,10 +18,8 @@ import { displayPriceWithCommasFloat } from "utils/utility";
 const orderConfirmation: React.FC<{ oid: string }> = props => {
   const {
     user: { email }
-    // device: { mobile }
   } = useSelector((state: AppState) => state);
   const [confirmData, setConfirmData] = useState<any>({});
-  const [charCurrency, setCharCurrency] = useState<any>({});
   const dispatch = useDispatch();
 
   const fetchData = async () => {
@@ -255,9 +250,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
         }
       }
       setConfirmData(res);
-      setCharCurrency(
-        String.fromCharCode(...currencyCode[res.currency as Currency])
-      );
+
       gtmPushOrderConfirmation(response.results?.[0]);
     });
     const userConsent = CookieService.getCookie("consent").split(",");

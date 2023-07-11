@@ -1426,6 +1426,7 @@ class PDPContainer extends React.Component<Props, State> {
                       muted={true}
                       width={"100%"}
                       height={"auto"}
+                      playsinline={true}
                     />
                   </>
                 )}
