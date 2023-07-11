@@ -12,6 +12,7 @@ const CollectionFilter: React.FC<CollectionFilter> = ({
   activeFilterHandler
 }) => {
   const { showTimer } = useSelector((state: AppState) => state.info);
+
   return (
     <div
       id="secondaryHeader"
@@ -25,6 +26,7 @@ const CollectionFilter: React.FC<CollectionFilter> = ({
             className={cs(styles.collectionFilter, {
               [styles.active]: activeFilterList.includes(tag)
             })}
+            id={tag}
             value={tag}
             onClick={e => activeFilterHandler(tag)}
             key={i + "tag-filter"}

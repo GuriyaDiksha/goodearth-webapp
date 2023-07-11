@@ -609,7 +609,7 @@ class CollectionSpecific extends React.Component<
                           key="mobile-collectionspecific-banner"
                           src={widget.image}
                           className={globalStyles.imgResponsive}
-                          alt="Collection Widget"
+                          alt="Collection Widget aa"
                         />
                       );
                     } else if (!mobile && widget.imageType == 1) {
@@ -618,18 +618,17 @@ class CollectionSpecific extends React.Component<
                           key="desktop-collectionspecific-banner"
                           src={widget.image}
                           className={globalStyles.imgResponsive}
-                          alt="Collection Banner"
+                          alt="Collection Banner bb"
                         />
                       );
                     }
                   })}
                 </div>
-
                 <div className={bootstrap.col12}>
                   <img
                     src={banner}
                     className={globalStyles.imgResize}
-                    alt="Collection Image"
+                    alt="Collection Image "
                   />
                 </div>
               </>
@@ -638,24 +637,11 @@ class CollectionSpecific extends React.Component<
                 className={
                   mobile
                     ? banner
-                      ? cs(
-                          bootstrap.row,
-                          styles.imageContainerMobileBanner,
-                          globalStyles.paddTop20
-                        )
-                      : cs(
-                          bootstrap.row,
-                          styles.imageContainerMobile,
-                          globalStyles.paddTop20
-                        )
-                    : cs(
-                        bootstrap.row,
-                        styles.imageContainer,
-                        styles.minHeight,
-                        globalStyles.paddTop20
-                      )
+                      ? cs(bootstrap.row, styles.imageContainerMobileBanner)
+                      : cs(bootstrap.row, styles.imageContainerMobile)
+                    : cs(bootstrap.row, styles.imageContainer, styles.minHeight)
                 }
-                id="product_images"
+                id="product_images cc"
               >
                 {showTemplates.Banner && (
                   <Banner data={showTemplates.Banner} mobile={mobile} />

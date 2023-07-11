@@ -12,6 +12,7 @@ import {
   updateFilteredCollectionData,
   updateTagsData
 } from "actions/collection";
+import { replace } from "lodash";
 
 const CollectionLanding = () => {
   const [activeFilterList, setActiveFilterList] = useState<string[]>([
@@ -19,6 +20,7 @@ const CollectionLanding = () => {
   ]);
   const [scrollView, setScrollView] = useState(false);
   const [filteredData, setFilteredData] = useState<CollectionItemType[]>([]);
+  const [load, setLoad] = useState(true);
   const {
     collection: { result, tags },
     router: { location },
@@ -61,6 +63,7 @@ const CollectionLanding = () => {
       }
 
       window.scrollTo({ top: 0, behavior: "smooth" });
+      return await Promise.resolve(tags);
     }
   };
 
@@ -134,7 +137,21 @@ const CollectionLanding = () => {
   }, [result]);
 
   useEffect(() => {
-    fetchData();
+    fetchData()
+      .then((res: any) => {
+        const hasElems = res.some((item: string) =>
+          activeFilterList.includes(item)
+        );
+        //  console.log(activeFilterList);
+        // console.log(currency,load, hasElems, location,search, '-------------------------')
+        if (!hasElems && !load) {
+          // console.log(window.location);
+          setActiveFilterList(["All Collections"]);
+          history.replace({ pathname: location.pathname, search: "" });
+        }
+        setLoad(false);
+      })
+      .catch(() => console.log("error"));
   }, [currency]);
 
   useEffect(() => {
@@ -154,6 +171,23 @@ const CollectionLanding = () => {
       ele.scrollLeft = 0;
     }
   }, [location.pathname]);
+
+  // setLoad(true);
+  // console.log(activeFilterList[0]);
+  useEffect(() => {
+    const activeEle = document.getElementById(activeFilterList[0]);
+    // console.log(activeEle, load);
+    setTimeout(() => {
+      if (activeEle) {
+        console.log("active work....");
+        activeEle.scrollIntoView({
+          behavior: "smooth",
+          block: "nearest",
+          inline: "center"
+        });
+      }
+    }, 500);
+  }, [load]);
 
   // Filter Tag Functionality
   const activeFilterHandler = (ele: string) => {
