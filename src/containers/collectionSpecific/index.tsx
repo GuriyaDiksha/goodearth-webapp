@@ -609,7 +609,7 @@ class CollectionSpecific extends React.Component<
                           key="mobile-collectionspecific-banner"
                           src={widget.image}
                           className={globalStyles.imgResponsive}
-                          alt="Collection Widget aa"
+                          alt="Collection Widget"
                         />
                       );
                     } else if (!mobile && widget.imageType == 1) {
@@ -618,7 +618,7 @@ class CollectionSpecific extends React.Component<
                           key="desktop-collectionspecific-banner"
                           src={widget.image}
                           className={globalStyles.imgResponsive}
-                          alt="Collection Banner bb"
+                          alt="Collection Banner"
                         />
                       );
                     }
@@ -628,7 +628,7 @@ class CollectionSpecific extends React.Component<
                   <img
                     src={banner}
                     className={globalStyles.imgResize}
-                    alt="Collection Image "
+                    alt="Collection Image"
                   />
                 </div>
               </>
@@ -641,7 +641,7 @@ class CollectionSpecific extends React.Component<
                       : cs(bootstrap.row, styles.imageContainerMobile)
                     : cs(bootstrap.row, styles.imageContainer, styles.minHeight)
                 }
-                id="product_images cc"
+                id="product_images"
               >
                 {showTemplates.Banner && (
                   <Banner data={showTemplates.Banner} mobile={mobile} />

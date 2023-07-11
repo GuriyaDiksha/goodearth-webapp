@@ -12,7 +12,7 @@ import {
   updateFilteredCollectionData,
   updateTagsData
 } from "actions/collection";
-import { replace } from "lodash";
+// import { replace } from "lodash";
 
 const CollectionLanding = () => {
   const [activeFilterList, setActiveFilterList] = useState<string[]>([
@@ -142,10 +142,7 @@ const CollectionLanding = () => {
         const hasElems = res.some((item: string) =>
           activeFilterList.includes(item)
         );
-        //  console.log(activeFilterList);
-        // console.log(currency,load, hasElems, location,search, '-------------------------')
         if (!hasElems && !load) {
-          // console.log(window.location);
           setActiveFilterList(["All Collections"]);
           history.replace({ pathname: location.pathname, search: "" });
         }
@@ -173,13 +170,10 @@ const CollectionLanding = () => {
   }, [location.pathname]);
 
   // setLoad(true);
-  // console.log(activeFilterList[0]);
   useEffect(() => {
     const activeEle = document.getElementById(activeFilterList[0]);
-    // console.log(activeEle, load);
     setTimeout(() => {
       if (activeEle) {
-        console.log("active work....");
         activeEle.scrollIntoView({
           behavior: "smooth",
           block: "nearest",
