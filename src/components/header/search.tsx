@@ -465,7 +465,8 @@ class Search extends React.Component<Props, State> {
       categories.length > 0 ||
       usefulLink.length > 0 ||
       productData.length > 0 ||
-      (trendingWords.length > 0 && searchValue.length == 0);
+      (trendingWords.length > 0 && searchValue.length == 0) ||
+      (recentSearchs.length > 0 && searchValue.length == 0);
 
     return (
       <div
