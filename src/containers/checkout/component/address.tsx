@@ -714,7 +714,6 @@ const AddressSection: React.FC<AddressProps & {
               <hr
                 className={cs(globalStyles.marginy24, styles.widthFitContent)}
               />
-              {/* <div className="give reference"></div> */}
               <label
                 className={cs(
                   styles.flex,
