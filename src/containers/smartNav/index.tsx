@@ -115,9 +115,10 @@ const SmartNav: React.FC = () => {
         </div>
       </section> */}
       {mounted &&
-        (currency == "INR" || location.pathname == "/anindiansummer") && (
-          <MakerSmartNav id="M_kQ7IqUS" inline={true} />
-        )}
+        (currency == "INR" ||
+          ["/anindiansummer", "/artofentertaining"].includes(
+            location.pathname
+          )) && <MakerSmartNav id="M_kQ7IqUS" inline={true} />}
     </div>
   );
 };
