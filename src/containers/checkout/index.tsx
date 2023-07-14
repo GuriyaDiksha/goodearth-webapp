@@ -900,6 +900,7 @@ class Checkout extends React.Component<Props, State> {
                 currency={this.props.currency}
                 shippingAddress={this.state.shippingAddress}
                 salestatus={this.props.isSale}
+                gstNo={this.state.gstNo}
               />
             </div>
             <div className={cs(bootstrap.col12, bootstrap.colLg4)}>

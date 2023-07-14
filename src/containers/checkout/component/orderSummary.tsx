@@ -32,9 +32,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
     validbo,
     setCheckoutMobileOrderSummary,
     onsubmit,
-    currentmethod,
-    isPaymentNeeded,
-    checkoutMobileOrderSummary
+    isPaymentNeeded
   } = props;
   const [isLoading, setLoading] = useState(false);
   const [isSuspended, setIsSuspended] = useState(true);
@@ -615,6 +613,9 @@ const OrderSummary: React.FC<OrderProps> = props => {
       dataLayer.push({
         event: "Delivery Instruction",
         message: data
+      });
+      dataLayer.push({
+        event: "delivery_instruction"
       });
     }
   };

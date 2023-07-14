@@ -14,11 +14,11 @@ import moment from "moment";
 import * as util from "utils/validate";
 import CookieService from "services/cookie";
 import { GA_CALLS } from "constants/cookieConsent";
-import { displayPriceWithCommasFloat } from "utils/utility";
 
 const orderConfirmation: React.FC<{ oid: string }> = props => {
   const {
-    user: { email }
+    user: { email },
+    address: { billingAddressId, shippingAddressId, addressList }
   } = useSelector((state: AppState) => state);
   const [confirmData, setConfirmData] = useState<any>({});
   const dispatch = useDispatch();
@@ -237,7 +237,83 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
 
       AccountServices.setGaStatus(dispatch, formData);
     }
+
+    const productsData = result?.lines?.map((line: any, ind: any) => {
+      const index = line.product.categories
+        ? line.product.categories.length - 1
+        : 0;
+      let category =
+        line.product.categories && line.product.categories[index]
+          ? line.product.categories[index].replace(/\s/g, "")
+          : "";
+      const arr = category.split(">");
+      categoryname.push(arr[arr.length - 2]);
+      subcategoryname.push(arr[arr.length - 1]);
+      category = category.replace(/>/g, "/");
+      productid.push(line.product.sku);
+      productname.push(line.title);
+      productprice.push(line.product.pricerecords[result.currency as Currency]);
+      productquantity.push(+line.quantity);
+
+      return {
+        item_id: line.product.sku,
+        item_name: line.title,
+        affiliation: "Pass the affiliation of the product",
+        coupon: result.voucherDiscounts?.[0]?.voucher?.code, //Pass NA if not applicable at the moment
+        discount: result?.offerDiscounts?.[0].name,
+        index: ind,
+        item_brand: "Goodearth",
+        item_category: category,
+        item_category2: line.product.size || "",
+        item_category3: line.product.is3DView ? "View3d" : "nonView3d",
+        item_list_id: "Pass the list ID of the product ", //Pass NA if not applicable at the moment
+        item_list_name: "Pass the search term user had entered", //Pass NA if not applicable at the moment
+        item_variant: "Pass the variants selected", //Pass NA if not applicable at the moment
+        price: line.isEgiftCard
+          ? +line.priceExclTax
+          : line.product.pricerecords[result.currency as Currency],
+        quantity: line.quantity
+      };
+    });
+
+    const userConsent = CookieService.getCookie("consent").split(",");
+    const sameAsShipping = shippingAddressId === billingAddressId;
+    const defaultAddressId = addressList.filter(
+      address => address.isDefaultForShipping
+    )?.[0]?.id;
+
+    if (userConsent.includes(GA_CALLS)) {
+      dataLayer.push({
+        event: "purchase",
+        billing_address: sameAsShipping
+          ? "Same as Shipping Address"
+          : defaultAddressId === billingAddressId
+          ? "Default Address"
+          : "New Address", //'Pass "Same as Shipping Address" when users selects same as shipping address option OR pass "Default Address" when user selects the default address option OR Pass "Add New Address" when user selects add new address option',
+        shipping_address:
+          defaultAddressId === shippingAddressId
+            ? "Default Address"
+            : "New Address", //'Pass "New Address" when users adds completely new address OR pass "Default Address" when user selects the default address option OR Pass "Add New Address" when user selects add new address option',
+        // gst_invoice: gstNo ? "Yes" : "No" ,
+        // gift_wrap:giftwrap ? "Yes" : "No",
+        gift_card_code: result.giftCards?.[0]?.cardId,
+        whatsapp_subscribe:
+          "Pass Yes if user had selected whatsapp updates subscription checkox and No otheriwse",
+        delivery_instruction: result.deliveryInstructions ? "Yes" : "No", //Pass NA if not applicable the moment
+        ecommerce: {
+          transaction_id: result.transactionId,
+          currency: result.currency,
+          value: result.totalInclTax,
+          tax: 0,
+          shipping: result.shippingInclTax,
+          coupon: result.offerDisounts?.[0].name, //Pass NA if Not applicable at the moment
+          payment_type: result.paymentMethod,
+          items: productsData
+        }
+      });
+    }
   };
+
   useEffect(() => {
     fetchData().then(response => {
       const res = response.results?.[0];

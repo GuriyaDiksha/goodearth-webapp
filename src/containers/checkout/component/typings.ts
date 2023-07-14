@@ -70,6 +70,7 @@ export type PaymentProps = {
   shippingAddress: any;
   salestatus: boolean;
   checkout: (data: any) => any;
+  gstNo?: string;
 };
 
 export type PopupProps = {

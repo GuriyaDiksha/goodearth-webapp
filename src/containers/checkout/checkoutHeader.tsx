@@ -193,34 +193,18 @@ class CheckoutHeader extends React.Component<Props, { boId: string }> {
         1000,
         4
       );
-      // setTimeout(() => {
-      //   const chatContainer = document.getElementById("mobile-chat-container");
-      //   if (chatContainer && nextProps.location.pathname == "/order/checkout") {
-      //     chatContainer.style.display = "none";
-      //   }
-      // }, 1000);
     }
   }
 
-  // componentWillUnmount() {
-  //   // show chat container
-  //   const chatContainer = document.getElementById("mobile-chat-container");
-  //   if (chatContainer) {
-  //     chatContainer.style.removeProperty("display");
-  //   }
-  // }
+  phoneGaCalls = (e: any) => {
+    dataLayer.push({
+      event: "checkout_phone_num",
+      click_type: e.target.innerText
+    });
+  };
 
   render() {
-    const { meta, mobile, currency } = this.props;
-
-    const curryList = this.props.currencyList.map(data => {
-      // return data.currencyCode
-      return {
-        label: data.currencyCode + " " + data.currencySymbol,
-        value: data.currencyCode
-      };
-    });
-    const items: DropdownItem[] = curryList;
+    const { meta, mobile } = this.props;
 
     let heading = null;
     if (this.props.location.pathname.indexOf("cart") > -1) {
@@ -398,11 +382,19 @@ class CheckoutHeader extends React.Component<Props, { boId: string }> {
                     styles.icon
                   )}
                 />
-                <a className={styles.mobileNum} href="tel:+919582999555">
+                <a
+                  className={styles.mobileNum}
+                  href="tel:+919582999555"
+                  onClick={this.phoneGaCalls}
+                >
                   +91 95829 99555
                 </a>{" "}
                 /{" "}
-                <a className={styles.mobileNum} href="tel:+919582999888">
+                <a
+                  className={styles.mobileNum}
+                  href="tel:+919582999888"
+                  onClick={this.phoneGaCalls}
+                >
                   +91 95829 99888
                 </a>
               </div>

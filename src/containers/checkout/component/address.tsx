@@ -36,6 +36,8 @@ import { displayPriceWithCommas } from "utils/utility";
 import ReactHtmlParser from "react-html-parser";
 import { countryCurrencyCode } from "constants/currency";
 import ModalStyles from "components/Modal/styles.scss";
+import CookieService from "services/cookie";
+import { GA_CALLS } from "constants/cookieConsent";
 
 const AddressSection: React.FC<AddressProps & {
   mode: string;
@@ -582,6 +584,14 @@ const AddressSection: React.FC<AddressProps & {
     if (amountPriceCheck && props.activeStep == STEP_BILLING) {
       if (!checkPancardValidation()) {
         validate = false;
+      } else {
+        const userConsent = CookieService.getCookie("consent").split(",");
+        if (userConsent.includes(GA_CALLS)) {
+          dataLayer.push({
+            event: "verify_userid_type",
+            click_type: currency === "INR" ? "Pancard" : "Passport"
+          });
+        }
       }
     }
     // if (gst && props.activeStep == Steps.STEP_BILLING) {
@@ -732,6 +742,7 @@ const AddressSection: React.FC<AddressProps & {
                       }}
                     />
                     <span
+                      id="gst"
                       className={cs(styles.indicator, {
                         [styles.checked]: gst && gstNum
                       })}

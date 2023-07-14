@@ -27,7 +27,6 @@ import { getErrorList, errorTracking } from "utils/validate";
 import BridalContext from "containers/myAccount/components/Bridal/context";
 import noPincodeCountryList from "./noPincodeCountryList";
 import iconStyles from "styles/iconFonts.scss";
-import { countryCurrencyCode } from "constants/currency";
 
 type Props = {
   addressData?: AddressData;
