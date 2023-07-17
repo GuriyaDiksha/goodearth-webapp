@@ -792,7 +792,13 @@ class Checkout extends React.Component<Props, State> {
                 }
               }
             );
-            checkoutGTM(3, this.props.currency, this.props.basket);
+            checkoutGTM(
+              3,
+              this.props.currency,
+              this.props.basket,
+              "",
+              obj.gstNo
+            );
           })
           .catch(err => {
             this.setState({

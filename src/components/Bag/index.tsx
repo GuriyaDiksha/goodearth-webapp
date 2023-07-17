@@ -440,11 +440,22 @@ class Bag extends React.Component<Props, State> {
               <Link
                 to={!this.hasOutOfStockItems() ? "/cart" : ""}
                 className={cs(this.hasOutOfStockItems() && styles.outOfStock)}
-                onClick={e =>
+                onClick={e => {
                   this.hasOutOfStockItems()
                     ? e.preventDefault()
-                    : this.props.toggleBag()
-                }
+                    : this.props.toggleBag();
+                  const userConsent = CookieService.getCookie("consent").split(
+                    ","
+                  );
+                  if (
+                    !this.hasOutOfStockItems() &&
+                    userConsent.includes(GA_CALLS)
+                  ) {
+                    dataLayer.push({
+                      event: "review_bag_and_checkout"
+                    });
+                  }
+                }}
               >
                 <span className={styles.viewBag}>REVIEW BAG & CHECKOUT</span>
               </Link>

@@ -177,6 +177,13 @@ const AddressMain: React.FC<Props> = props => {
     // }
     if (address) {
       setEditAddressData(address);
+      dataLayer.push({
+        event: "edit_address",
+        click_type:
+          currentCallBackComponent === "checkout-shipping"
+            ? "Shipping"
+            : "Billing"
+      });
       dispatch(updateAddressMode("edit"));
       setScrollPos(window.scrollY);
       const elem = document.getElementsByClassName(

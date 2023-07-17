@@ -47,10 +47,14 @@ const LineItems: React.FC<BasketItem> = memo(
     const [showError, setShowError] = useState(false);
     const [error, setError] = useState("");
 
-    const handleChange = async (value: number) => {
-      await BasketService.updateToBasket(dispatch, id, value)
+    const handleChange = async (currentvalue: number) => {
+      await BasketService.updateToBasket(dispatch, id, currentvalue)
         .then(res => {
           setValue(value);
+          dataLayer.push({
+            event: "edit_mini_bag_interactions",
+            click_type: currentvalue > value ? "Quantity(+)" : "Quantity(-)"
+          });
         })
         .catch(err => {
           setShowError(true);
@@ -72,6 +76,10 @@ const LineItems: React.FC<BasketItem> = memo(
             className={cs(globalStyles.linkTextUnderline, globalStyles.pointer)}
             onClick={async () => {
               const res = await WishlistService.undoMoveToWishlist(dispatch);
+              dataLayer.push({
+                event: "edit_mini_bag_interactions",
+                click_type: "Save for later"
+              });
               dispatch(updateBasket(res.basket));
             }}
           >
@@ -126,6 +134,11 @@ const LineItems: React.FC<BasketItem> = memo(
         });
       }
       if (userConsent.includes(GA_CALLS)) {
+        dataLayer.push({
+          event: "edit_mini_bag_interactions",
+          click_type: "Remove"
+        });
+
         dataLayer.push({
           event: "removeFromCart",
           ecommerce: {

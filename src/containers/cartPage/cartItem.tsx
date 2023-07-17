@@ -67,10 +67,17 @@ const CartItems: React.FC<BasketItem> = memo(
       setValue(quantity);
     }, [quantity]);
 
-    const handleChange = async (value: number) => {
-      await BasketService.updateToBasket(dispatch, id, value, "cart")
+    const handleChange = async (currentvalue: number) => {
+      await BasketService.updateToBasket(dispatch, id, currentvalue, "cart")
         .then(res => {
-          setValue(value);
+          setValue(currentvalue);
+          const userConsent = CookieService.getCookie("consent").split(",");
+          if (userConsent.includes(GA_CALLS)) {
+            dataLayer.push({
+              event: "edit_bag_interactions",
+              click_type: currentvalue > value ? "Quantity(+)" : "Quantity(-)"
+            });
+          }
         })
         .catch(err => {
           setQtyError(true);
@@ -128,6 +135,10 @@ const CartItems: React.FC<BasketItem> = memo(
                 ]
               }
             }
+          });
+          dataLayer.push({
+            event: "edit_bag_interactions",
+            click_type: "Remove"
           });
         }
         const categoryList = product.categories

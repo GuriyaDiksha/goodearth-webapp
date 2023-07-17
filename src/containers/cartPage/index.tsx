@@ -94,7 +94,16 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
           Your item has been moved to saved items.&nbsp;&nbsp;
           <span
             className={cs(globalStyles.linkTextUnderline, globalStyles.pointer)}
-            onClick={() => onUndoWishlistClick()}
+            onClick={() => {
+              onUndoWishlistClick();
+              const userConsent = CookieService.getCookie("consent").split(",");
+              if (userConsent.includes(GA_CALLS)) {
+                dataLayer.push({
+                  event: "edit_mini_bag_interactions",
+                  click_type: "Save for later"
+                });
+              }
+            }}
           >
             Undo
           </span>
@@ -166,7 +175,7 @@ class CartPage extends React.Component<Props, State> {
               .logout(this.props.currency, this.props.user.customerGroup)
               .then(res => {
                 localStorage.setItem("tempEmail", data.email);
-                this.props.goLogin(undefined, "", true);
+                this.props.goLogin(undefined, "");
                 // this.setState({
                 //   boEmail: data.email,
                 //   boId: boId
@@ -176,11 +185,7 @@ class CartPage extends React.Component<Props, State> {
             CookieService.setCookie("currency", data.currency, 365);
             CookieService.setCookie("currencypopup", "true", 365);
             localStorage.setItem("tempEmail", data.email);
-            this.props.goLogin(undefined, "", true);
-            // this.setState({
-            //   boEmail: data.email,
-            //   boId: boId
-            // });
+            this.props.goLogin(undefined, "");
           } else {
             this.props.history.push("/backend-order-error");
           }
@@ -278,6 +283,7 @@ class CartPage extends React.Component<Props, State> {
       dataLayer.push({ ecommerce: null }); // Clear the previous ecommerce object.
       dataLayer.push({
         event: "view_cart",
+        previous_page_url: CookieService.getCookie("prevUrl"),
         ecommerce: {
           currency: this.props.currency, // Pass the currency code
           value: this.props.cart.total,

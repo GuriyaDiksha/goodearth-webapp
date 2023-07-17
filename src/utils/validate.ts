@@ -328,6 +328,9 @@ export function proceedTocheckout(data: Basket, currency: Currency) {
       dataLayer.push({
         event: "begin_checkout",
         ecommerce: {
+          currency: currency,
+          value: data.subTotalWithShipping,
+          coupon: "NA", //Pass NA if Not applicable at the moment
           items: childAttr
         }
       });
@@ -1436,7 +1439,8 @@ export const checkoutGTM = (
   step: number,
   currency: Currency,
   basket: Basket,
-  paymentMethod?: string
+  paymentMethod?: string,
+  gstNo?: string
 ) => {
   const productList = productForBasketGa(basket, currency);
   const itemList = dataForBilling(basket, currency);
@@ -1470,6 +1474,8 @@ export const checkoutGTM = (
       dataLayer.push({ ecommerce: null }); // Clear the previous ecommerce object.
       dataLayer.push({
         event: "add_billing_info",
+        gst_invoice: gstNo ? "YES" : "NO",
+        delivery_instruction: "Not", //Pass NA if not applicable the mome
         ecommerce: {
           currency: currency, // Pass the currency code
           value: basket.total,
