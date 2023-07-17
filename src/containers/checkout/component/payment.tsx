@@ -222,6 +222,11 @@ const PaymentSection: React.FC<PaymentProps> = props => {
         data["isGift"] = giftwrap;
         data["giftRemovePrice"] = giftwrapprice;
         data["giftMessage"] = textarea;
+        if (userConsent.includes(GA_CALLS)) {
+          dataLayer.push({
+            event: "gift_wrap"
+          });
+        }
       }
       if (currency == "GBP" && !subscribegbp) {
         //setGbpError("Please agree to shipping & payment terms.");
