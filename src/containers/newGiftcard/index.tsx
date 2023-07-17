@@ -141,7 +141,7 @@ class NewGiftcard extends React.Component<Props, State> {
       senderName: "",
       subscribe: false,
       customValue: "",
-      previewOpen: false,
+      //previewOpen: false,
       formDisabled: true,
       key: makeid(5)
     });
@@ -420,8 +420,9 @@ class NewGiftcard extends React.Component<Props, State> {
     entries.forEach((entry: IntersectionObserverEntry) => {
       if (ele) {
         if (
-          entry.intersectionRatio > 0 ||
-          entry.boundingClientRect.bottom < 130
+          // entry.intersectionRatio > 0 ||
+          // entry.boundingClientRect.bottom < 130 ||
+          entry.isIntersecting === true
         ) {
           ele.style.display = "none";
         } else {
@@ -431,13 +432,17 @@ class NewGiftcard extends React.Component<Props, State> {
     });
   };
 
-  componentDidMount() {
+  onScroll = () => {
     if (this.container) {
       this.observer = new IntersectionObserver(this.observerCallback, {
         rootMargin: "-130px 0px -110px 0px"
       });
       this.observer.observe(this.container);
     }
+  };
+
+  componentDidMount() {
+    document.addEventListener("scroll", this.onScroll);
 
     const { fetchCountryList, fetchProductList } = this.props;
     fetchProductList().then((data: any) => {
