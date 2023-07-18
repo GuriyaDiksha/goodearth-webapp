@@ -299,21 +299,13 @@ const PaymentSection: React.FC<PaymentProps> = props => {
         });
 
         const sameAsShipping = shippingAddress === billingAddressId;
-        const defaultAddressId = addressList.filter(
-          address => address.isDefaultForShipping
-        )?.[0]?.id;
 
         dataLayer.push({
           event: "add_payment_info",
           billing_address: sameAsShipping
             ? "Same as Shipping Address"
-            : defaultAddressId === billingAddressId
-            ? "Default Address"
-            : "New Address", //'Pass "Same as Shipping Address" when users selects same as shipping address option OR pass "Default Address" when user selects the default address option OR Pass "Add New Address" when user selects add new address option',
-          shipping_address:
-            defaultAddressId === shippingAddressId
-              ? "Default Address"
-              : "New Address", //'Pass "New Address" when users adds completely new address OR pass "Default Address" when user selects the default address option OR Pass "Add New Address" when user selects add new address option',
+            : billingAddressId,
+          shipping_address: shippingAddressId,
           gst_invoice: gstNo ? "Yes" : "No",
           gift_wrap: giftwrap ? "Yes" : "No",
           gift_card_code: basket.giftCards?.[0]?.cardId,

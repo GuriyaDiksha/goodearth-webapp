@@ -262,7 +262,7 @@ class MainLogin extends React.Component<Props, loginState> {
       dataLayer.push({
         event: "login",
         user_status: "logged in", //'Pass the user status ex. logged in OR guest',
-        login_method: "", //'Pass Email or Google as per user selection',
+        // login_method: "", //'Pass Email or Google as per user selection',
         user_id: data?.userId
       });
     }
