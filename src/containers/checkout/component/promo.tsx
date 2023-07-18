@@ -11,8 +11,10 @@ import { AppState } from "reducers/typings";
 import { useHistory } from "react-router";
 import checkmarkCircle from "./../../../images/checkmarkCircle.svg";
 import CheckoutService from "services/checkout";
+import CookieService from "services/cookie";
 import BasketService from "services/basket";
 import Loader from "components/Loader";
+import { GA_CALLS } from "constants/cookieConsent";
 
 const PromoSection: React.FC<PromoProps> = props => {
   const { isActive, next, activeStep, currentStep } = props;
@@ -39,9 +41,16 @@ const PromoSection: React.FC<PromoProps> = props => {
 
   const removePromo = async (data: FormData) => {
     setIsLoading(true);
+    const userConsent = CookieService.getCookie("consent").split(",");
     const response = await CheckoutService.removePromo(dispatch, data);
     BasketService.fetchBasket(dispatch, "checkout", history, isLoggedIn);
     setIsLoading(false);
+    if (userConsent.includes(GA_CALLS)) {
+      dataLayer.push({
+        event: "remove_promocode",
+        click_type: "Checkout Page"
+      });
+    }
     return response;
   };
 

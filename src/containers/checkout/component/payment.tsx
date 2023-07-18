@@ -29,20 +29,28 @@ import WhatsappSubscribe from "components/WhatsappSubscribe";
 import { CONFIG } from "constants/util";
 import Formsy from "formsy-react";
 import { displayPriceWithCommasFloat } from "utils/utility";
+import { Currency } from "typings/currency";
 
 const PaymentSection: React.FC<PaymentProps> = props => {
   const data: any = {};
   const {
     basket,
     device: { mobile, tablet },
-    info: { showGiftWrap },
+    info: { showGiftWrap, deliveryText },
     basket: { loyalty },
     user: { loyaltyData, isLoggedIn, preferenceData },
-    address: { countryData }
+    address: { countryData, addressList, shippingAddressId, billingAddressId }
   } = useSelector((state: AppState) => state);
   let PaymentChild: any = useRef<typeof ApplyGiftcard>(null);
   const history = useHistory();
-  const { isActive, currency, checkout, shippingAddress, salestatus } = props;
+  const {
+    isActive,
+    currency,
+    checkout,
+    shippingAddress,
+    salestatus,
+    gstNo
+  } = props;
   const [paymentError, setPaymentError] = useState("");
   const [whatsappNoErr, setWhatsappNoErr] = useState("");
   const [subscribevalue, setSubscribevalue] = useState(false);
@@ -214,6 +222,11 @@ const PaymentSection: React.FC<PaymentProps> = props => {
         data["isGift"] = giftwrap;
         data["giftRemovePrice"] = giftwrapprice;
         data["giftMessage"] = textarea;
+        if (userConsent.includes(GA_CALLS)) {
+          dataLayer.push({
+            event: "gift_wrap"
+          });
+        }
       }
       if (currency == "GBP" && !subscribegbp) {
         //setGbpError("Please agree to shipping & payment terms.");
@@ -237,6 +250,82 @@ const PaymentSection: React.FC<PaymentProps> = props => {
       }
       if (basket.loyalty.length > 0) {
         paymentMode.push("Loyalty");
+      }
+
+      if (userConsent.includes(GA_CALLS)) {
+        const categoryname: string[] = [];
+        const subcategoryname: string[] = [];
+        const productid: string[] = [];
+        const productname: string[] = [];
+        const productprice: string[] = [];
+        const productquantity: number[] = [];
+
+        const items = basket?.lineItems?.map((line: any, ind) => {
+          const index = line.product.categories
+            ? line.product.categories.length - 1
+            : 0;
+          let category =
+            line.product.categories && line.product.categories[index]
+              ? line.product.categories[index].replace(/\s/g, "")
+              : "";
+          const arr = category.split(">");
+          categoryname.push(arr[arr.length - 2]);
+          subcategoryname.push(arr[arr.length - 1]);
+          category = category.replace(/>/g, "/");
+          productid.push(line.product.sku);
+          productname.push(line.title);
+          productprice.push(line.product.pricerecords[currency as Currency]);
+          productquantity.push(+line.quantity);
+
+          return {
+            item_id: line.product.sku,
+            item_name: line.title,
+            affiliation: "Pass the affiliation of the product",
+            coupon: basket.voucherDiscounts?.[0]?.voucher?.code, //Pass NA if not applicable at the moment
+            discount: basket?.offerDiscounts?.[0].name,
+            index: ind,
+            item_brand: "Goodearth",
+            item_category: category,
+            item_category2: line.product.size || "",
+            item_category3: line.product.is3DView ? "View3d" : "nonView3d",
+            item_list_id: "Pass the list ID of the product ", //Pass NA if not applicable at the moment
+            item_list_name: "Pass the search term user had entered", //Pass NA if not applicable at the moment
+            item_variant: "Pass the variants selected", //Pass NA if not applicable at the moment
+            price: line.isEgiftCard
+              ? +line.priceExclTax
+              : line.product.pricerecords[currency as Currency],
+            quantity: line.quantity
+          };
+        });
+
+        const sameAsShipping = shippingAddress === billingAddressId;
+        const defaultAddressId = addressList.filter(
+          address => address.isDefaultForShipping
+        )?.[0]?.id;
+
+        dataLayer.push({
+          event: "add_payment_info",
+          billing_address: sameAsShipping
+            ? "Same as Shipping Address"
+            : defaultAddressId === billingAddressId
+            ? "Default Address"
+            : "New Address", //'Pass "Same as Shipping Address" when users selects same as shipping address option OR pass "Default Address" when user selects the default address option OR Pass "Add New Address" when user selects add new address option',
+          shipping_address:
+            defaultAddressId === shippingAddressId
+              ? "Default Address"
+              : "New Address", //'Pass "New Address" when users adds completely new address OR pass "Default Address" when user selects the default address option OR Pass "Add New Address" when user selects add new address option',
+          gst_invoice: gstNo ? "Yes" : "No",
+          gift_wrap: giftwrap ? "Yes" : "No",
+          gift_card_code: basket.giftCards?.[0]?.cardId,
+          delivery_instruction: deliveryText ? "Yes" : "No", //Pass NA if not applicable the moment
+          ecommerce: {
+            currency: currency,
+            value: +basket.total,
+            coupon: basket.voucherDiscounts?.[0]?.voucher?.code || "NA", //Pass NA if Not applicable at the moment
+            payment_type: currentmethod.value,
+            items: items
+          }
+        });
       }
 
       checkout(data)
