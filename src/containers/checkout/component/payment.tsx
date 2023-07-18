@@ -322,6 +322,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
       if (CONFIG.WHATSAPP_SUBSCRIBE_ENABLED) {
         AccountServices.fetchAccountPreferences(dispatch).then((data: any) => {
           dispatch(updatePreferenceData(data));
+          setSubscribevalue(data.subscribe);
         });
       }
     }
