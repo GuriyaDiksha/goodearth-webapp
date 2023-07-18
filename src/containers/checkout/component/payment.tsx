@@ -1008,7 +1008,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
             id="payment-section"
           >
             {isPaymentNeeded && (
-              <div className={globalStyles.marginT30}>
+              <div>
                 <div className={styles.title}>SELECT PAYMENT METHOD</div>
                 {getMethods.map(function(method, index) {
                   return (
