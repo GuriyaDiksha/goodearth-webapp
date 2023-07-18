@@ -26,12 +26,12 @@ const Product: React.FC<Props> = ({ data, view, mobile }) => {
         }
       )}
     >
-      {data.mediaType == "image" ? (
-        <img className={itemStyles.imageBoxnew} src={data.mediaUrl} />
+      {data?.mediaType == "image" ? (
+        <img className={itemStyles.imageBoxnew} src={data?.mediaUrl} />
       ) : (
         <video
           className={itemStyles.imageBoxnew}
-          src={data.mediaUrl}
+          src={data?.mediaUrl}
           autoPlay
           loop
           controls
