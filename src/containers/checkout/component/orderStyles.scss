@@ -250,6 +250,12 @@ body:has(.open-summary) {
       font-weight: 500;
       border-bottom: 1px solid $aqua;
       @include b4_12px_montserrat_aqua();
+     
+      @media screen and (max-width:992px) {
+        margin: 20px 0 15px 0 !important;
+        height: fit-content;
+      }
+     
     }
   }
   .fix-order-items {
@@ -478,6 +484,8 @@ body:has(.open-summary) {
   text-align: center;
   letter-spacing: 0.5px;
   padding-top: 5px;
+  padding-left: 30px;
+  padding-right: 30px;
   @include b5_10px_montserrat_charcoal();
 }
 
