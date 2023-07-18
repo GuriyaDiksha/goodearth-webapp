@@ -32,9 +32,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
     validbo,
     setCheckoutMobileOrderSummary,
     onsubmit,
-    currentmethod,
-    isPaymentNeeded,
-    checkoutMobileOrderSummary
+    isPaymentNeeded
   } = props;
   const [isLoading, setLoading] = useState(false);
   const [isSuspended, setIsSuspended] = useState(true);
@@ -114,11 +112,11 @@ const OrderSummary: React.FC<OrderProps> = props => {
     setCheckoutOrderSummaryStatus(!checkoutOrderSummaryStatus);
   };
 
-  const handleClickOutside = (evt: any) => {
-    if (impactRef.current && impactRef.current.contains(evt.target)) {
-      CheckoutOrderSummaryHandler();
-    }
-  };
+  // const handleClickOutside = (evt: any) => {
+  //   if (impactRef.current && impactRef.current.contains(evt.target)) {
+  //     CheckoutOrderSummaryHandler();
+  //   }
+  // };
 
   const showDeliveryTimelines = true;
   const history = useHistory();
@@ -127,10 +125,18 @@ const OrderSummary: React.FC<OrderProps> = props => {
   const boId = urlParams.get("bo_id");
 
   const removePromo = async (data: FormData) => {
+    const userConsent = CookieService.getCookie("consent").split(",");
     setLoading(true);
     const response = await CheckoutService.removePromo(dispatch, data);
     BasketService.fetchBasket(dispatch, "checkout", history, isLoggedIn);
     setLoading(false);
+
+    if (userConsent.includes(GA_CALLS)) {
+      dataLayer.push({
+        event: "remove_promocode",
+        click_type: pathname === "/cart" ? "Cart page" : "Checkout Page"
+      });
+    }
     return response;
   };
 
@@ -615,6 +621,9 @@ const OrderSummary: React.FC<OrderProps> = props => {
       dataLayer.push({
         event: "Delivery Instruction",
         message: data
+      });
+      dataLayer.push({
+        event: "delivery_instruction"
       });
     }
   };

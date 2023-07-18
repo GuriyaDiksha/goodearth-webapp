@@ -7,6 +7,8 @@ import { Context } from "components/Modal/context";
 import { NavLink } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { AppState } from "reducers/typings";
+import { GA_CALLS } from "constants/cookieConsent";
+import CookieService from "services/cookie";
 
 const desc = {
   GSTIN:
@@ -125,6 +127,14 @@ const BillingGST: React.FC<PopupProps> = ({
   const handleSubmit = (e: any) => {
     e.preventDefault();
     if (gstValidation()) {
+      const userConsent = CookieService.getCookie("consent").split(",");
+
+      if (userConsent.includes(GA_CALLS)) {
+        dataLayer.push({
+          event: "gst_invoice_popup",
+          click_type: gstType
+        });
+      }
       onSubmit(address, gstText, gstType);
     }
     if (error?.[0] === msg) {

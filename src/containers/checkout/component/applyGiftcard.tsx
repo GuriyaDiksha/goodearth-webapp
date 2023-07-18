@@ -125,6 +125,11 @@ class ApplyGiftcard extends React.Component<Props, GiftState> {
               eventCategory: "promoCoupons",
               eventLabel: data.cardId
             });
+            dataLayer.push({
+              event: "gift_card_or_credit_note",
+              click_type: cardType,
+              gift_card_code: data.cardId
+            });
           }
           this.setState({
             txtvalue: "",
