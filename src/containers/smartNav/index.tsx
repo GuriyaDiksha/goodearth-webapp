@@ -115,12 +115,17 @@ const SmartNav: React.FC = () => {
         </div>
       </section> */}
       {/* Inline will be showed in only specific currencies or if url matches one of the specific urls  */}
+      {/* Pass INR for INR and USD for rest of the currencies */}
       {mounted &&
         (["INR", "USD"].includes(currency) ||
           ["/anindiansummer", "/artofentertaining"].includes(
             location.pathname
           )) && (
-          <MakerSmartNav id="M_kQ7IqUS" inline={true} currency={currency} />
+          <MakerSmartNav
+            id="M_kQ7IqUS"
+            inline={true}
+            currency={currency == "INR" ? "INR" : "USD"}
+          />
         )}
     </div>
   );
