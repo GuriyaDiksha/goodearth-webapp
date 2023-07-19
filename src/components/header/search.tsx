@@ -444,7 +444,6 @@ class Search extends React.Component<Props, State> {
       return value;
     }
   }
-
   render() {
     // const cur = "price" + this.props.currency.toLowerCase();
     // const originalCur = "original_price_" + this.props.currency.toLowerCase();

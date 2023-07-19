@@ -27,6 +27,7 @@ const ProductCounter: React.FC<ProductCounterProps> = ({
       className={cs(styles.scrollDownUp, {
         [styles.topPosition]: showTimer && timerData
       })}
+      onClick={scrollToTop}
     >
       <div className={cs(styles.counter)}>
         <div
