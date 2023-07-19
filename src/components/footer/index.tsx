@@ -1147,7 +1147,11 @@ class Footer extends React.Component<Props, FooterState> {
           this.props.location.pathname.includes("/category_landing/") ||
           desktopPlp) &&
           this.props.currency == "INR" && (
-            <MakerSmartNav id="TDEHYqQNA" inline={false} />
+            <MakerSmartNav
+              id="TDEHYqQNA"
+              inline={false}
+              currency={this.props.currency}
+            />
           )}
 
         {(OLD_COOKIE_SETTINGS

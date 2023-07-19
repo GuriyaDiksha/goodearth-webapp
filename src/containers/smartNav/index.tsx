@@ -119,7 +119,9 @@ const SmartNav: React.FC = () => {
         (["INR", "USD"].includes(currency) ||
           ["/anindiansummer", "/artofentertaining"].includes(
             location.pathname
-          )) && <MakerSmartNav id="M_kQ7IqUS" inline={true} />}
+          )) && (
+          <MakerSmartNav id="M_kQ7IqUS" inline={true} currency={currency} />
+        )}
     </div>
   );
 };
