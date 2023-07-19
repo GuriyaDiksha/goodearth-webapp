@@ -220,7 +220,7 @@ class FilterList extends React.Component<Props, State> {
     return mainUrl;
   };
 
-  createUrlfromFilter = (load?: any) => {
+  createUrlfromFilter = (load?: any, currency?: string) => {
     const array = this.state.filter;
     const { history } = this.props;
     let filterUrl = "",
@@ -336,7 +336,7 @@ class FilterList extends React.Component<Props, State> {
       mainurl = history.location.pathname;
     }
     history.replace(mainurl + "?source=plp" + filterUrl, {});
-    this.updateDataFromAPI(load);
+    this.updateDataFromAPI(load, currency);
   };
 
   onchangeRange = (value: any) => {
@@ -574,7 +574,7 @@ class FilterList extends React.Component<Props, State> {
     }
   };
 
-  updateDataFromAPI = (onload?: string) => {
+  updateDataFromAPI = (onload?: string, currency?: string) => {
     const {
       mobile,
       fetchPlpProducts,
@@ -597,12 +597,18 @@ class FilterList extends React.Component<Props, State> {
       ?.trim();
     // const pageSize = mobile ? 10 : 20;
     const pageSize = 20;
-    fetchPlpProducts(filterUrl + `&page_size=${pageSize}`).then(plpList => {
-      productImpression(plpList, categoryShopL1 || "PLP", this.props.currency);
-      changeLoader?.(false);
-      this.createList(plpList, false);
-      this.props.updateFacets(this.getSortedFacets(plpList.results.facets));
-    });
+    fetchPlpProducts(filterUrl + `&page_size=${pageSize}`, currency).then(
+      plpList => {
+        productImpression(
+          plpList,
+          categoryShopL1 || "PLP",
+          this.props.currency
+        );
+        changeLoader?.(false);
+        this.createList(plpList, false);
+        this.props.updateFacets(this.getSortedFacets(plpList.results.facets));
+      }
+    );
     if (categoryShop) {
       fetchPlpTemplates(categoryShop);
     }
@@ -727,8 +733,10 @@ class FilterList extends React.Component<Props, State> {
           filter
         },
         () => {
-          this.createUrlfromFilter();
-          nextProps.mobile ? this.updateDataFromAPI("load") : "";
+          this.createUrlfromFilter(undefined, nextProps.currency);
+          nextProps.mobile
+            ? this.updateDataFromAPI("load", nextProps.currency)
+            : "";
         }
       );
     }

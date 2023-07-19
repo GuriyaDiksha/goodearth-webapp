@@ -837,7 +837,7 @@ class PDPContainer extends React.Component<Props, State> {
     const {
       data,
       currency,
-      device: { mobile },
+      device: { mobile, tablet },
       updateComponentModal,
       changeModalState,
       corporatePDP,
@@ -857,6 +857,7 @@ class PDPContainer extends React.Component<Props, State> {
         changeModalState={changeModalState}
         loading={meta.templateType == "" ? true : false}
         setPDPButton={this.getPDPButton}
+        tablet={tablet}
       />
     );
   };
