@@ -298,7 +298,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
           };
         });
 
-        const sameAsShipping = shippingAddress === billingAddressId;
+        const sameAsShipping = shippingAddressId === billingAddressId;
 
         dataLayer.push({
           event: "add_payment_info",

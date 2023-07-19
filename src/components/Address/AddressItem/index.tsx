@@ -207,12 +207,9 @@ const AddressItem: React.FC<Props> = props => {
       dataLayer.push({ ecommerce: null }); // Clear the previous ecommerce object.
       dataLayer.push({
         event: "add_shipping_info",
-        shipping_address:
-          'Pass "New Address" when users adds completely new address OR pass "Default Address" when user selects the default address option OR Pass "Add New Address" when user selects add new address option',
-        gst_invoice:
-          "Pass the Yes if user clicked on I need a GST invoice checkbox Pass No if not",
-        delivery_instruction:
-          "Pass Yes if user added delivery instruction  OR No if Not", //Pass NA if not applicable the moment
+        shipping_address: shippingAddressId,
+        gst_invoice: "",
+        delivery_instruction: "", //Pass NA if not applicable the moment
         ecommerce: {
           currency: currency, // Pass the currency code
           value: basket?.total,
