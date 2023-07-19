@@ -573,32 +573,37 @@ class PLP extends React.Component<
       });
     }
     const showTemplates: any = {
-      Banner: null,
-      Product: null,
-      ProductBanner: null
+      Banner: [],
+      Product: [],
+      ProductBanner: []
     };
 
-    let productTemplatePos = -1;
-    let productBannerTemplatePos = -1;
+    // let productTemplatePos = -1;
+    // let productBannerTemplatePos = -1;
     if (this.props.plpTemplates.templates.length > 0) {
       this.props.plpTemplates.templates.map(template => {
-        showTemplates[template.template] = template;
+        showTemplates[template.template] = [
+          ...showTemplates[template.template],
+          template
+        ];
+
+        // if (showTemplates["Product"]) {
+        //   productTemplatePos = parseInt(showTemplates["Product"].placement);
+        // }
+        // if (showTemplates["ProductBanner"]) {
+        //   productBannerTemplatePos = parseInt(
+        //     showTemplates["ProductBanner"].placement.split("-")[0]
+        //   );
+        //   if (
+        //     productTemplatePos > -1 &&
+        //     productBannerTemplatePos > productTemplatePos
+        //   ) {
+        //     productBannerTemplatePos--;
+        //   }
+        // }
       });
-      if (showTemplates["Product"]) {
-        productTemplatePos = parseInt(showTemplates["Product"].placement);
-      }
-      if (showTemplates["ProductBanner"]) {
-        productBannerTemplatePos = parseInt(
-          showTemplates["ProductBanner"].placement.split("-")[0]
-        );
-        if (
-          productTemplatePos > -1 &&
-          productBannerTemplatePos > productTemplatePos
-        ) {
-          productBannerTemplatePos--;
-        }
-      }
     }
+
     return (
       <div
         className={cs(
@@ -811,13 +816,13 @@ class PLP extends React.Component<
               }
               id="product_images"
             >
-              {showTemplates.Banner && (
+              {showTemplates.Banner?.length ? (
                 <Banner
-                  data={showTemplates.Banner}
+                  data={showTemplates.Banner?.[0]}
                   mobile={mobile}
                   tablet={tablet}
                 />
-              )}
+              ) : null}
             </div>
 
             {!mobile ? (
@@ -879,28 +884,39 @@ class PLP extends React.Component<
                 ? data.map((item, index) => {
                     return (
                       <React.Fragment key={index}>
-                        {showTemplates["Product"] &&
-                        data.length >= productTemplatePos &&
-                        index == productTemplatePos - 1 ? (
-                          <Product
-                            key={`product-${index}`}
-                            data={showTemplates.Product}
-                            view={this.props.plpMobileView}
-                            mobile={mobile}
-                          />
-                        ) : (
-                          ""
-                        )}
-                        {showTemplates["ProductBanner"] &&
-                        data.length >= productBannerTemplatePos &&
-                        index == productBannerTemplatePos - 1 ? (
-                          <ProductBanner
-                            data={showTemplates.ProductBanner}
-                            mobile={mobile}
-                          />
-                        ) : (
-                          ""
-                        )}
+                        {showTemplates["Product"]?.length
+                          ? showTemplates[
+                              "Product"
+                            ].map((template: any, ind: number) =>
+                              data.length >= parseInt(template.placement) &&
+                              index == parseInt(template.placement) - 1 ? (
+                                <Product
+                                  key={`product-${ind}`}
+                                  data={template}
+                                  view={this.props.plpMobileView}
+                                  mobile={mobile}
+                                />
+                              ) : null
+                            )
+                          : null}
+
+                        {showTemplates["ProductBanner"]?.length
+                          ? showTemplates[
+                              "ProductBanner"
+                            ].map((template: any, ind: number) =>
+                              data.length >=
+                                parseInt(template.placement.split("-")?.[0]) &&
+                              index ==
+                                parseInt(template.placement.split("-")?.[0]) -
+                                  1 ? (
+                                <ProductBanner
+                                  key={`product-${ind}`}
+                                  data={template}
+                                  mobile={mobile}
+                                />
+                              ) : null
+                            )
+                          : null}
                         <div
                           className={cs(
                             bootstrap.colLg4,
@@ -949,28 +965,39 @@ class PLP extends React.Component<
                 : data.map((item, index) => {
                     return (
                       <React.Fragment key={index}>
-                        {showTemplates["Product"] &&
-                        data.length >= productTemplatePos &&
-                        index == productTemplatePos - 1 ? (
-                          <Product
-                            key={`product-${index}`}
-                            data={showTemplates.Product}
-                            view={this.props.plpMobileView}
-                            mobile={mobile}
-                          />
-                        ) : (
-                          ""
-                        )}
-                        {showTemplates["ProductBanner"] &&
-                        data.length >= productBannerTemplatePos &&
-                        index == productBannerTemplatePos - 1 ? (
-                          <ProductBanner
-                            data={showTemplates.ProductBanner}
-                            mobile={mobile}
-                          />
-                        ) : (
-                          ""
-                        )}
+                        {showTemplates["Product"]?.length
+                          ? showTemplates[
+                              "Product"
+                            ].map((template: any, ind: number) =>
+                              data.length >= parseInt(template.placement) &&
+                              index == parseInt(template.placement) - 1 ? (
+                                <Product
+                                  key={`product-${ind}`}
+                                  data={template}
+                                  view={this.props.plpMobileView}
+                                  mobile={mobile}
+                                />
+                              ) : null
+                            )
+                          : null}
+
+                        {showTemplates["ProductBanner"]?.length
+                          ? showTemplates[
+                              "ProductBanner"
+                            ].map((template: any, ind: number) =>
+                              data.length >=
+                                parseInt(template.placement.split("-")?.[0]) &&
+                              index ==
+                                parseInt(template.placement.split("-")?.[0]) -
+                                  1 ? (
+                                <ProductBanner
+                                  key={`product-${ind}`}
+                                  data={template}
+                                  mobile={mobile}
+                                />
+                              ) : null
+                            )
+                          : null}
                         <div
                           className={cs(
                             bootstrap.colLg4,
