@@ -158,7 +158,6 @@ const WeRecommend: React.FC<RecommenedSliderProps> = (
             <p className={styles.productN}>
               {isSale && item.discount ? (
                 <span className={styles.discountprice}>
-                  {String.fromCharCode(...code)}{" "}
                   {displayPriceWithCommas(
                     item.discountedPriceRecords[currency as Currency],
                     currency
@@ -170,7 +169,6 @@ const WeRecommend: React.FC<RecommenedSliderProps> = (
               {isSale && item.discount ? (
                 <span className={styles.strikeprice}>
                   {" "}
-                  {String.fromCharCode(...code)}{" "}
                   {displayPriceWithCommas(
                     item.pricerecords[currency as Currency],
                     currency
@@ -183,7 +181,6 @@ const WeRecommend: React.FC<RecommenedSliderProps> = (
                   }
                 >
                   {" "}
-                  {String.fromCharCode(...code)}{" "}
                   {displayPriceWithCommas(
                     item.pricerecords[currency as Currency],
                     currency

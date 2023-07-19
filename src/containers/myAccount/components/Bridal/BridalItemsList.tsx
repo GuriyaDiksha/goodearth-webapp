@@ -154,7 +154,6 @@ const BridalItemsList: React.FC<Props> = props => {
                     {discount ? (
                       <span className={styles.productPrice}>
                         <span className={styles.discountprice}>
-                          {getCurrency()}{" "}
                           {displayPriceWithCommas(
                             discountedPrice[props.currency],
                             props.currency
@@ -162,7 +161,6 @@ const BridalItemsList: React.FC<Props> = props => {
                         </span>
                         &nbsp;{" "}
                         <span className={styles.strikeprice}>
-                          {getCurrency()}{" "}
                           {displayPriceWithCommas(
                             price[props.currency],
                             props.currency
@@ -176,7 +174,6 @@ const BridalItemsList: React.FC<Props> = props => {
                           badgeType == "B_flat" ? globalStyles.cerise : ""
                         )}
                       >
-                        {getCurrency()}{" "}
                         {displayPriceWithCommas(
                           price[props.currency],
                           props.currency

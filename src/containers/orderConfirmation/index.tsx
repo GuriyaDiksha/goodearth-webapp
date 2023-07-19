@@ -407,8 +407,6 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                     <div className={styles.amountPaid}>
                       <span className={styles.label}>Amount Paid</span>
                       <span className={styles.data}>
-                        {charCurrency}
-                        &nbsp;{" "}
                         {displayPriceWithCommasFloat(
                           confirmData?.totalInclTax,
                           confirmData?.currency
@@ -525,14 +523,14 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                                 [styles.gold]: isdisCount || isFlat
                               })}
                             >
-                              {`${charCurrency} ${displayPriceWithCommasFloat(
+                              {`${displayPriceWithCommasFloat(
                                 amountPaid,
                                 confirmData.currency
                               )}`}
                             </span>
                             {isdisCount && (
                               <span className={styles.originalPrice}>
-                                {`${charCurrency} ${displayPriceWithCommasFloat(
+                                {`${displayPriceWithCommasFloat(
                                   price,
                                   confirmData.currency
                                 )}`}
@@ -584,7 +582,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                     <div className={cs(styles.price, styles.line)}>
                       <span className={styles.label}>SUBTOTAL</span>
                       <span className={styles.value}>
-                        {`${charCurrency} ${displayPriceWithCommasFloat(
+                        {`${displayPriceWithCommasFloat(
                           confirmData.orderSubTotal,
                           confirmData.currency
                         )}`}
@@ -608,7 +606,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                               {discount.name}
                             </span>
                             <span className={styles.value}>
-                              {`(-)${charCurrency} ${displayPriceWithCommasFloat(
+                              {`(-)${displayPriceWithCommasFloat(
                                 discount.amount,
                                 confirmData.currency
                               )}`}
@@ -621,7 +619,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                     <div className={cs(styles.price, styles.line)}>
                       <span className={styles.label}>SHIPPING & HANDLING</span>
                       <span className={styles.value}>
-                        {`(+) ${charCurrency} ${displayPriceWithCommasFloat(
+                        {`(+)${displayPriceWithCommasFloat(
                           confirmData.shippingInclTax,
                           confirmData.currency
                         )}`}
@@ -639,7 +637,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                         >
                           <span className={styles.label}>{vd.name}</span>
                           <span className={styles.value}>
-                            {`(-)${charCurrency} ${displayPriceWithCommasFloat(
+                            {`(-)${displayPriceWithCommasFloat(
                               vd.amount,
                               confirmData.currency
                             )}`}
@@ -662,7 +660,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                               Gift Card/Credit Note
                             </span>
                             <span className={styles.value}>
-                              {`(-)${charCurrency} ${displayPriceWithCommasFloat(
+                              {`(-)${displayPriceWithCommasFloat(
                                 gccn,
                                 confirmData.currency
                               )}`}
@@ -684,7 +682,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                           >
                             <span className={styles.label}>Loyalty Points</span>
                             <span className={styles.value}>
-                              {`(-)${charCurrency} ${displayPriceWithCommasFloat(
+                              {`(-)${displayPriceWithCommasFloat(
                                 "" + point,
                                 confirmData.currency
                               )}`}
@@ -700,7 +698,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                         {/* <span className={styles.light}>Incl. Tax</span> */}
                       </span>
                       <span className={styles.value}>
-                        {`${charCurrency} ${displayPriceWithCommasFloat(
+                        {`${displayPriceWithCommasFloat(
                           confirmData.totalInclTax,
                           confirmData.currency
                         )}`}

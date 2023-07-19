@@ -58,7 +58,11 @@ import { useLocation, useHistory } from "react-router";
 import { AppState } from "reducers/typings";
 import PdpCustomerCareInfo from "components/CustomerCareInfo/pdpCustomerCare";
 import { updateProduct } from "actions/product";
-import { updatefillerProduct, updateshowFiller } from "actions/filler";
+import {
+  updatefillerProduct,
+  updateshowFiller,
+  updateButtonData
+} from "actions/filler";
 import { showGrowlMessage, errorTracking } from "utils/validate";
 import { POPUP } from "constants/components";
 import asset from "images/asset.svg";
@@ -747,6 +751,12 @@ const ProductDetails: React.FC<Props> = ({
       // setSizeerror(false);
     }
     setPDPButton?.(<PdpButton label={buttonText} onClick={action} />);
+    if (setPDPButton) {
+      dispatch(
+        updateButtonData(<PdpButton label={buttonText} onClick={action} />)
+      );
+    }
+
     return <PdpButton label={buttonText} onClick={action} />;
   }, [
     corporatePDP,
@@ -899,7 +909,11 @@ const ProductDetails: React.FC<Props> = ({
                 </div>
               )}
               <div
-                className={cs(bootstrap.col8, bootstrap.colMd8, styles.title)}
+                className={cs(
+                  isQuickview || mobile ? bootstrap.col6 : bootstrap.col7,
+                  isQuickview || mobile ? bootstrap.colMd6 : bootstrap.colMd7,
+                  styles.title
+                )}
               >
                 {title}
                 <p>{shortDesc}</p>
@@ -907,16 +921,14 @@ const ProductDetails: React.FC<Props> = ({
               {!(invisibleFields && invisibleFields.indexOf("price") > -1) && (
                 <div
                   className={cs(
-                    bootstrap.col4,
-                    bootstrap.colMd4,
+                    isQuickview || mobile ? bootstrap.col6 : bootstrap.col5,
+                    isQuickview || mobile ? bootstrap.colMd6 : bootstrap.colMd5,
                     styles.priceContainer,
                     { [globalStyles.textCenter]: !mobile }
                   )}
                 >
                   {info.isSale && discount && discountedPriceRecords ? (
                     <span className={styles.discountedPrice}>
-                      {String.fromCharCode(...currencyCodes[currency])}
-                      &nbsp;
                       {displayPriceWithCommas(discountPrices, currency)}
                       <br />
                     </span>
@@ -925,8 +937,6 @@ const ProductDetails: React.FC<Props> = ({
                   )}
                   {info.isSale && discount ? (
                     <span className={styles.oldPrice}>
-                      {String.fromCharCode(...currencyCodes[currency])}
-                      &nbsp;
                       {displayPriceWithCommas(price, currency)}
                     </span>
                   ) : (
@@ -934,8 +944,6 @@ const ProductDetails: React.FC<Props> = ({
                       className={badgeType == "B_flat" ? globalStyles.gold : ""}
                     >
                       {" "}
-                      {String.fromCharCode(...currencyCodes[currency])}
-                      &nbsp;
                       {displayPriceWithCommas(price, currency)}
                     </span>
                   )}

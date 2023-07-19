@@ -28,7 +28,10 @@ const DockedPanel: React.FC<Props> = ({
   mobile
 }) => {
   const { showTimer, isSale } = useSelector((state: AppState) => state.info);
-  const { currency } = useSelector((state: AppState) => state);
+  const {
+    currency,
+    filler: { button }
+  } = useSelector((state: AppState) => state);
 
   return (
     <div
@@ -74,7 +77,9 @@ const DockedPanel: React.FC<Props> = ({
           />
         )}
       </div>
-      {!mobile && <div className={cs(bootstrap.col2)}>{buttoncall}</div>}
+      {!mobile && (
+        <div className={cs(bootstrap.col2)}>{button ? button : buttoncall}</div>
+      )}
     </div>
   );
 };
