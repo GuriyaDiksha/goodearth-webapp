@@ -913,6 +913,7 @@ class PLP extends React.Component<
                                   key={`product-${ind}`}
                                   data={template}
                                   mobile={mobile}
+                                  view={this.props.plpMobileView}
                                 />
                               ) : null
                             )
@@ -994,6 +995,7 @@ class PLP extends React.Component<
                                   key={`product-${ind}`}
                                   data={template}
                                   mobile={mobile}
+                                  view={this.props.plpMobileView}
                                 />
                               ) : null
                             )

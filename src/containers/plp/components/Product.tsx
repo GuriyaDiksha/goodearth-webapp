@@ -22,7 +22,8 @@ const Product: React.FC<Props> = ({ data, view, mobile }) => {
         styles.setWidth,
         {
           [styles.templatePadding]: !mobile,
-          [styles.templatePaddingMobile]: mobile
+          [styles.templatePaddingMobile]: mobile,
+          [styles.templatePaddingList]: view == "list"
         }
       )}
     >
