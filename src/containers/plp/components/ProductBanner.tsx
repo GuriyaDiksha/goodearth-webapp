@@ -17,12 +17,12 @@ const ProductBanner: React.FC<Props> = ({ data, mobile }) => {
         [styles.templatePaddingMobile]: mobile
       })}
     >
-      {data.mediaType == "image" ? (
-        <img className={itemStyles.imageBoxnew} src={data.mediaUrl} />
+      {data?.mediaType == "image" ? (
+        <img className={itemStyles.imageBoxnew} src={data?.mediaUrl} />
       ) : (
         <video
           className={itemStyles.imageBoxnew}
-          src={data.mediaUrl}
+          src={data?.mediaUrl}
           autoPlay
           loop
           preload="auto"
