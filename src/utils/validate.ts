@@ -9,7 +9,7 @@ import { GA_CALLS } from "constants/cookieConsent";
 import { sha256 } from "js-sha256";
 import CryptoJS from "crypto-js";
 import { isObject } from "lodash";
-import store from "src/client";
+import store from "./../client";
 // import { AppState } from "reducers/typings";
 // import { useSelector } from "react-redux";
 
@@ -1474,7 +1474,7 @@ export const checkoutGTM = (
       });
       const {
         address: { billingAddressId }
-      } = store.getState();
+      } = store?.getState();
       dataLayer.push({ ecommerce: null }); // Clear the previous ecommerce object.
       dataLayer.push({
         event: "add_billing_info",

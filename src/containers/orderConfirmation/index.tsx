@@ -18,7 +18,7 @@ import { GA_CALLS } from "constants/cookieConsent";
 const orderConfirmation: React.FC<{ oid: string }> = props => {
   const {
     user: { email },
-    address: { billingAddressId, shippingAddressId, addressList }
+    address: { billingAddressId, shippingAddressId }
   } = useSelector((state: AppState) => state);
   const [confirmData, setConfirmData] = useState<any>({});
   const dispatch = useDispatch();
