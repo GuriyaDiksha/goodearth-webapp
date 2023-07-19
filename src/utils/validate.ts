@@ -9,7 +9,6 @@ import { GA_CALLS } from "constants/cookieConsent";
 import { sha256 } from "js-sha256";
 import CryptoJS from "crypto-js";
 import { isObject } from "lodash";
-import store from "./../client";
 // import { AppState } from "reducers/typings";
 // import { useSelector } from "react-redux";
 
@@ -1441,7 +1440,8 @@ export const checkoutGTM = (
   currency: Currency,
   basket: Basket,
   paymentMethod?: string,
-  gstNo?: string
+  gstNo?: string,
+  billingAddressId?: number
 ) => {
   const productList = productForBasketGa(basket, currency);
   const itemList = dataForBilling(basket, currency);
@@ -1472,9 +1472,7 @@ export const checkoutGTM = (
         content_ids: totalId,
         contents: fbproductData
       });
-      const {
-        address: { billingAddressId }
-      } = store?.getState();
+
       dataLayer.push({ ecommerce: null }); // Clear the previous ecommerce object.
       dataLayer.push({
         event: "add_billing_info",

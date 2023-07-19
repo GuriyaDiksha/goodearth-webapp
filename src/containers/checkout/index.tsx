@@ -68,7 +68,8 @@ const mapStateToProps = (state: AppState) => {
     isSale: state.info.isSale,
     deliveryText: state.info.deliveryText,
     showPromo: state.info.showPromo,
-    bridalId: state.user.bridalId
+    bridalId: state.user.bridalId,
+    billingAddressId: state.address.billingAddressId
   };
 };
 
@@ -797,7 +798,8 @@ class Checkout extends React.Component<Props, State> {
               this.props.currency,
               this.props.basket,
               "",
-              obj.gstNo
+              obj.gstNo,
+              this.props.billingAddressId
             );
           })
           .catch(err => {
