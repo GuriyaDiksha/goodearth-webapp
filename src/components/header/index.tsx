@@ -38,7 +38,7 @@ const Mobilemenu = loadable(() => import("./mobileMenu"));
 import MegaMenu from "./megaMenu";
 import CountdownTimer from "./CountdownTimer";
 import AnnouncementBar from "./AnnouncementBar";
-import { CUST } from "constants/util";
+// import { CUST } from "constants/util";
 import Loader from "components/Loader";
 import Sizechart from "components/Sizechart";
 import CookieService from "services/cookie";
@@ -893,9 +893,9 @@ class Header extends React.Component<Props, State> {
       handleLogOut,
       location,
       mobile,
-      tablet,
-      slab,
-      customerGroup
+      tablet
+      // slab,
+      // customerGroup
     } = this.props;
     const wishlistCount = wishlistData.length;
     let bagCount = 0;

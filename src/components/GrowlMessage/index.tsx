@@ -71,7 +71,7 @@ const Growl: React.FC<Props> = ({ text, id, timeout, params }) => {
   );
 };
 const GrowlMessage: React.FC = () => {
-  const growlMessages = useSelector((state: AppState) => state.message);
+  const growlMessages: [] = useSelector((state: AppState) => state.message);
   return (
     <div
       className={cs(styles.container, {
