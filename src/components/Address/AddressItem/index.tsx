@@ -27,8 +27,8 @@ type Props = {
   billingErrorMsg?: string;
   addressDataIdError?: number;
   userAddress?: any;
-  defaultAddress: string;
-  setDefaultAddress: (x: string) => void;
+  defaultAddress?: string;
+  setDefaultAddress?: (x: string) => void;
 };
 
 const AddressItem: React.FC<Props> = props => {
@@ -307,6 +307,7 @@ const AddressItem: React.FC<Props> = props => {
         markAsDefault(address, address?.id);
         currentCallBackComponent !== "checkout-billing" &&
           currentCallBackComponent !== "checkout-shipping" &&
+          setDefaultAddress &&
           setDefaultAddress(id);
       }}
     >
@@ -386,7 +387,7 @@ const AddressItem: React.FC<Props> = props => {
                           id={id}
                           onClick={() => {
                             markAsDefault(address, address?.id);
-                            setDefaultAddress(id);
+                            setDefaultAddress && setDefaultAddress(id);
                           }}
                         >
                           <input
@@ -400,7 +401,7 @@ const AddressItem: React.FC<Props> = props => {
                             type="radio"
                             onChange={() => {
                               markAsDefault(address, address?.id);
-                              setDefaultAddress(id);
+                              setDefaultAddress && setDefaultAddress(id);
                             }}
                           />
                         </div>
@@ -424,7 +425,7 @@ const AddressItem: React.FC<Props> = props => {
                           id={id}
                           onClick={() => {
                             markAsDefault(address, address?.id);
-                            setDefaultAddress(id);
+                            setDefaultAddress && setDefaultAddress(id);
                           }}
                         >
                           <input
@@ -438,7 +439,7 @@ const AddressItem: React.FC<Props> = props => {
                             type="radio"
                             onChange={() => {
                               markAsDefault(address, address?.id);
-                              setDefaultAddress(id);
+                              setDefaultAddress && setDefaultAddress(id);
                             }}
                           />
                         </div>
@@ -468,7 +469,7 @@ const AddressItem: React.FC<Props> = props => {
                   id={id}
                   onClick={() => {
                     markAsDefault(address, address?.id);
-                    setDefaultAddress(id);
+                    setDefaultAddress && setDefaultAddress(id);
                   }}
                 >
                   <input
@@ -479,7 +480,7 @@ const AddressItem: React.FC<Props> = props => {
                     type="radio"
                     onChange={() => {
                       markAsDefault(address, address?.id);
-                      setDefaultAddress(id);
+                      setDefaultAddress && setDefaultAddress(id);
                     }}
                   />
                   <span className={styles.checkmark}></span>
@@ -682,6 +683,7 @@ const AddressItem: React.FC<Props> = props => {
                     markAsDefault(address, address?.id);
                     currentCallBackComponent !== "checkout-billing" &&
                       currentCallBackComponent !== "checkout-shipping" &&
+                      setDefaultAddress &&
                       setDefaultAddress(id);
                   }}
                 >
@@ -713,6 +715,7 @@ const AddressItem: React.FC<Props> = props => {
                       markAsDefault(address, address?.id);
                       currentCallBackComponent !== "checkout-billing" &&
                         currentCallBackComponent !== "checkout-shipping" &&
+                        setDefaultAddress &&
                         setDefaultAddress(id);
                     }}
                   />

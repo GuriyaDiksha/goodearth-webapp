@@ -39,7 +39,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
     info: { showGiftWrap, deliveryText },
     basket: { loyalty },
     user: { loyaltyData, isLoggedIn, preferenceData },
-    address: { countryData, addressList, shippingAddressId, billingAddressId }
+    address: { countryData, shippingAddressId, billingAddressId }
   } = useSelector((state: AppState) => state);
   let PaymentChild: any = useRef<typeof ApplyGiftcard>(null);
   const history = useHistory();
@@ -274,7 +274,9 @@ const PaymentSection: React.FC<PaymentProps> = props => {
           category = category.replace(/>/g, "/");
           productid.push(line.product.sku);
           productname.push(line.title);
-          productprice.push(line.product.pricerecords[currency as Currency]);
+          productprice.push(
+            line?.product?.priceRecords?.[currency as Currency]
+          );
           productquantity.push(+line.quantity);
 
           return {
@@ -282,7 +284,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
             item_name: line.title,
             affiliation: "Pass the affiliation of the product",
             coupon: basket.voucherDiscounts?.[0]?.voucher?.code, //Pass NA if not applicable at the moment
-            discount: basket?.offerDiscounts?.[0].name,
+            discount: basket?.offerDiscounts?.[0]?.name,
             index: ind,
             item_brand: "Goodearth",
             item_category: category,
@@ -293,7 +295,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
             item_variant: "Pass the variants selected", //Pass NA if not applicable at the moment
             price: line.isEgiftCard
               ? +line.priceExclTax
-              : line.product.pricerecords[currency as Currency],
+              : line.product.priceRecords[currency as Currency],
             quantity: line.quantity
           };
         });

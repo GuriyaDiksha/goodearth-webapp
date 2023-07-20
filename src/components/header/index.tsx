@@ -972,12 +972,12 @@ class Header extends React.Component<Props, State> {
       !(this.props.location.pathname.indexOf("/account/") > -1);
 
     const { showMenu } = this.state;
-    const isCeriseCustomer = slab
-      ? slab.toLowerCase() == "cerise" ||
-        slab.toLowerCase() == "cerise sitara" ||
-        customerGroup == CUST.CERISE ||
-        customerGroup == CUST.CERISE_SITARA
-      : false;
+    // const isCeriseCustomer = slab
+    //   ? slab.toLowerCase() == "cerise" ||
+    //     slab.toLowerCase() == "cerise sitara" ||
+    //     customerGroup == CUST.CERISE ||
+    //     customerGroup == CUST.CERISE_SITARA
+    //   : false;
     return (
       <div className="">
         {meta.h1Tag && (

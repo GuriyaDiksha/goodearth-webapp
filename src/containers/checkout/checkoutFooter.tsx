@@ -2,7 +2,6 @@ import React from "react";
 import { RouteComponentProps, withRouter } from "react-router-dom";
 import styles from "./styles.scss";
 import cs from "classnames";
-import GrowlMessage from "components/GrowlMessage";
 import bootstrap from "../../styles/bootstrap/bootstrap-grid.scss";
 import iconStyles from "../../styles/iconFonts.scss";
 import { AppState } from "reducers/typings";

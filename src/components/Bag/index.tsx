@@ -1,5 +1,4 @@
 import React from "react";
-// import styles from "./styles.scss";
 import styles from "./styles_new.scss";
 import cs from "classnames";
 import { CartProps, State } from "./typings";
@@ -129,8 +128,7 @@ class Bag extends React.Component<Props, State> {
       currency,
       mobile,
       wishlistData,
-      isLoggedIn,
-      tablet
+      isLoggedIn
     } = this.props;
 
     const item = lineItems?.map(item => {

@@ -44,8 +44,8 @@ const LineItems: React.FC<BasketItem> = memo(
       currency = "INR";
     }
     const { dispatch } = useStore();
-    const [showError, setShowError] = useState(false);
-    const [error, setError] = useState("");
+    // const [showError, setShowError] = useState(false);
+    // const [error, setError] = useState("");
 
     const handleChange = async (currentvalue: number) => {
       await BasketService.updateToBasket(dispatch, id, currentvalue)
@@ -57,12 +57,12 @@ const LineItems: React.FC<BasketItem> = memo(
           });
         })
         .catch(err => {
-          setShowError(true);
-          setError(
-            `Only ${quantity} piece${
-              quantity > 1 ? "s" : ""
-            } available in stock`
-          );
+          // setShowError(true);
+          // setError(
+          //   `Only ${quantity} piece${
+          //     quantity > 1 ? "s" : ""
+          //   } available in stock`
+          // );
           // setQtyError(true);
           throw err;
         });
@@ -253,7 +253,8 @@ const LineItems: React.FC<BasketItem> = memo(
         return cName;
       };
 
-      return (color && groupedProductsCount > 0) || GCMeta ? (
+      return (color && groupedProductsCount && groupedProductsCount > 0) ||
+        GCMeta ? (
         <div className={styles.color}>
           {color ? "Color: " : "Recipient's Email: "}{" "}
           {color ? colorName() : GCMeta?.recipient_email}

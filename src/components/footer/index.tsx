@@ -315,8 +315,8 @@ class Footer extends React.Component<Props, FooterState> {
       footerImages: {
         footerImageDeskTop,
         footerImageMobile,
-        footerImageSubsDeskTop,
-        footerImageSubsMobile,
+        // footerImageSubsDeskTop,
+        // footerImageSubsMobile,
         footerBgColorMobile,
         footerHeadingFontColor,
         footerSubHeadingFontColor,

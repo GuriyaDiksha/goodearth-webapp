@@ -19,8 +19,8 @@ export default function MakerSmartNav({
   }.js`;
 
   useEffect(() => {
-    if (window.SmartNav && document.getElementById(elementId)) {
-      window.SmartNav.init();
+    if (window?.SmartNav && document.getElementById(elementId)) {
+      window?.SmartNav.init();
       return;
     }
 

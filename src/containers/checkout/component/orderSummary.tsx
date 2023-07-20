@@ -89,7 +89,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
   }, []);
   // End: Intersection Observer (Mobile)
 
-  const { isSale, showDeliveryInstruction, deliveryText } = useSelector(
+  const { showDeliveryInstruction, deliveryText } = useSelector(
     (state: AppState) => state.info
   );
   let { currency } = useSelector((state: AppState) => state.basket);
@@ -811,8 +811,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
     totalWithoutShipping,
     freeShippingThreshold,
     freeShippingApplicable,
-    shippable,
-    total
+    shippable
   } = props.basket;
   return (
     <div

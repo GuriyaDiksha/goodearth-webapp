@@ -16,7 +16,6 @@ import HeaderService from "services/headerFooter";
 import { Dispatch } from "redux";
 import UserContext from "contexts/user";
 import { Currency } from "typings/currency";
-import { DropdownItem } from "components/dropdown/baseDropdownMenu/typings";
 import { Cookies } from "typings/cookies";
 import { MESSAGE } from "constants/messages";
 import fabicon from "images/favicon.ico";

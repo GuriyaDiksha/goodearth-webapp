@@ -75,12 +75,12 @@ const GrowlMessage: React.FC = () => {
   return (
     <div
       className={cs(styles.container, {
-        [styles.visible]: growlMessages.length > 0
+        [styles.visible]: growlMessages?.length > 0
       })}
     >
       {growlMessages &&
-        growlMessages.length > 0 &&
-        growlMessages.map(growlMessage => {
+        growlMessages?.length > 0 &&
+        growlMessages?.map((growlMessage: any) => {
           return (
             <Growl
               key={growlMessage.id}
