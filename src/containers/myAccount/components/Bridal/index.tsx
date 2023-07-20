@@ -129,7 +129,7 @@ const Bridal: React.FC<Props> = props => {
         });
     }
 
-    if (user.isLoggedIn) {
+    if (!user.isLoggedIn) {
       LoginService.showLogin(dispatch);
       dispatch(updateNextUrl("/account/bridal"));
     }
