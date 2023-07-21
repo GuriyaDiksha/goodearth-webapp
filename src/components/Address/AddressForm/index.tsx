@@ -804,7 +804,7 @@ const AddressForm: React.FC<Props> = props => {
               Char Limit: {30 - nickname?.length}/30
             </p>
           </div>
-
+          {console.log("addressData===", addressData)}
           <div className={styles.addressFormCheckbox}>
             <FormCheckbox
               name="isDefaultForShipping"

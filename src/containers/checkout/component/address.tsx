@@ -1104,9 +1104,10 @@ const AddressSection: React.FC<AddressProps & {
                                         <span className={styles.checkbox}>
                                           <input
                                             type="checkbox"
-                                            onClick={() =>
-                                              setIsTermChecked(!isTermChecked)
-                                            }
+                                            onClick={() => {
+                                              setIsTermChecked(!isTermChecked);
+                                              setTermsErr("");
+                                            }}
                                           />
                                           <span
                                             className={cs(styles.indicator, {

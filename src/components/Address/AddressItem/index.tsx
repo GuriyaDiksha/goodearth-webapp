@@ -62,7 +62,8 @@ const AddressItem: React.FC<Props> = props => {
   const [deleteError, setDeleteError] = useState("");
   const address = props.addressData;
   // const [selectId, setSelectId ] = useState(data.userAddress?.id || '');
-  const deleteAddress = () => {
+  const deleteAddress = (event: any) => {
+    event.stopPropagation();
     setIsLoading(true);
     AddressService.deleteAddress(dispatch, address.id)
       .catch(err => {
@@ -748,7 +749,8 @@ const AddressItem: React.FC<Props> = props => {
                     )}
                     {id === defaultAddress &&
                       (currentCallBackComponent == "account" ||
-                        currentCallBackComponent == "checkout-billing") && (
+                        currentCallBackComponent == "checkout-billing" ||
+                        currentCallBackComponent == "checkout-shipping") && (
                         <div className={styles.defaultAddress}>
                           Default Address
                         </div>
@@ -871,11 +873,14 @@ const AddressItem: React.FC<Props> = props => {
                         currentCallBackComponent == "bridal-edit"
                     }
                   )}
-                  onClick={
-                    billingEditDisable
-                      ? () => false
-                      : () => openAddressForm(address)
-                  }
+                  onClick={event => {
+                    event.stopPropagation();
+                    if (billingEditDisable) {
+                      false;
+                    } else {
+                      openAddressForm(address);
+                    }
+                  }}
                 >
                   EDIT
                 </span>

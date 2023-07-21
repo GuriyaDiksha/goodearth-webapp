@@ -41,14 +41,14 @@
   max-height: 0;
   overflow: hidden;
   // display: none;
-  width: auto;
+  width: 100px;
   min-width: max-content;
   background: $grey;
   position: absolute;
   top: $dropdown-label-height;
 
   &.right {
-    right: 0px;
+    right: -1px;
   }
 
   &.left {

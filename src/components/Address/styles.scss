@@ -85,9 +85,10 @@ body:has(.mobile) {
     border: none;
     font-family: $font-Lato;
     .nickname-wrapper {
-      font-size: 12px;
-      font-weight: 300;
-      font-family: $font-Montserrat !important;
+      @include b4_12px_montserrat_med_aqua();
+      // font-size: 12px;
+      // font-weight: 300;
+      // font-family: $font-Montserrat !important;
     }
     .address-edit {
       opacity: 0.25;

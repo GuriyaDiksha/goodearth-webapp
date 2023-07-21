@@ -111,9 +111,9 @@ const PromoSection: React.FC<PromoProps> = props => {
       className={
         isActive
           ? cs(styles.card, styles.cardOpen, styles.marginT5)
-          : mobile
-          ? styles.hidden
-          : cs(styles.card, styles.cardClosed, styles.marginT5)
+          : // : mobile
+            // ? styles.hidden
+            cs(styles.card, styles.cardClosed, styles.marginT5)
       }
     >
       <div className={bootstrapStyles.row}>
@@ -139,6 +139,16 @@ const PromoSection: React.FC<PromoProps> = props => {
           >
             PROMO CODE
           </span>
+          {mobile && (
+            <span
+              className={cs(globalStyles.pointer, styles.promoEdit)}
+              onClick={() => {
+                onCurrentState();
+              }}
+            >
+              Edit
+            </span>
+          )}
         </div>
         {basket.voucherDiscounts.length > 0 && !isEdit && (
           <div
@@ -156,14 +166,16 @@ const PromoSection: React.FC<PromoProps> = props => {
                 Promo Code Applied
               </span>
             </span>
-            <span
-              className={cs(globalStyles.pointer, styles.promoEdit)}
-              onClick={() => {
-                onCurrentState();
-              }}
-            >
-              Edit
-            </span>
+            {!mobile && (
+              <span
+                className={cs(globalStyles.pointer, styles.promoEdit)}
+                onClick={() => {
+                  onCurrentState();
+                }}
+              >
+                Edit
+              </span>
+            )}
           </div>
         )}
       </div>

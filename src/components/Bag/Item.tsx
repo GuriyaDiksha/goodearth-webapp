@@ -50,7 +50,7 @@ const LineItems: React.FC<BasketItem> = memo(
     const handleChange = async (currentvalue: number) => {
       await BasketService.updateToBasket(dispatch, id, currentvalue)
         .then(res => {
-          setValue(value);
+          setValue(currentvalue);
           dataLayer.push({
             event: "edit_mini_bag_interactions",
             click_type: currentvalue > value ? "Quantity(+)" : "Quantity(-)"
