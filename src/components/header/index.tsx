@@ -1305,6 +1305,7 @@ class Header extends React.Component<Props, State> {
                           // this.setShowBag(true);
                           this.props.history.push("/cart");
                           this.onBottomMenuClick("Cart");
+                          this.clickToggle();
                         }}
                       ></i>
                       <span
@@ -1316,6 +1317,7 @@ class Header extends React.Component<Props, State> {
                         onClick={(): void => {
                           this.props.history.push("/cart");
                           this.onBottomMenuClick("Cart");
+                          this.clickToggle();
                         }}
                       >
                         {bagCount}

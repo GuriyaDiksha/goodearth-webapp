@@ -76,10 +76,6 @@ const LineItems: React.FC<BasketItem> = memo(
             className={cs(globalStyles.linkTextUnderline, globalStyles.pointer)}
             onClick={async () => {
               const res = await WishlistService.undoMoveToWishlist(dispatch);
-              dataLayer.push({
-                event: "edit_mini_bag_interactions",
-                click_type: "Save for later"
-              });
               dispatch(updateBasket(res.basket));
             }}
           >
@@ -87,6 +83,13 @@ const LineItems: React.FC<BasketItem> = memo(
           </span>
         </div>
       );
+      const userConsent = CookieService.getCookie("consent").split(",");
+      if (userConsent.includes(GA_CALLS)) {
+        dataLayer.push({
+          event: "edit_mini_bag_interactions",
+          click_type: "Save for later"
+        });
+      }
       showGrowlMessage(dispatch, msg, 18000);
     };
 

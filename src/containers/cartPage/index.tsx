@@ -96,19 +96,27 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
             className={cs(globalStyles.linkTextUnderline, globalStyles.pointer)}
             onClick={() => {
               onUndoWishlistClick();
-              const userConsent = CookieService.getCookie("consent").split(",");
-              if (userConsent.includes(GA_CALLS)) {
-                dataLayer.push({
-                  event: "edit_mini_bag_interactions",
-                  click_type: "Save for later"
-                });
-              }
+              // const userConsent = CookieService.getCookie("consent").split(",");
+              // if (userConsent.includes(GA_CALLS)) {
+              //   dataLayer.push({
+              //     event: "edit_mini_bag_interactions",
+              //     click_type: "Save for later"
+              //   });
+              // }
             }}
           >
             Undo
           </span>
         </div>
       );
+
+      const userConsent = CookieService.getCookie("consent").split(",");
+      if (userConsent.includes(GA_CALLS)) {
+        dataLayer.push({
+          event: "edit_mini_bag_interactions",
+          click_type: "Save for later"
+        });
+      }
       showGrowlMessage(dispatch, msg, 18000);
     },
     goLogin: (event?: React.MouseEvent, nextUrl?: string) => {

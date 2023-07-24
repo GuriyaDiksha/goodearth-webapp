@@ -303,7 +303,7 @@ export function proceedTocheckout(data: Basket, currency: Currency) {
           item_id: skus, //Pass the product id
           item_name: product.title,
           affiliation: "",
-          coupon: "", // Pass the coupon if available
+          coupon: "NA", // Pass the coupon if available
           currency: currency, // Pass the currency code
           discount: product.discountedPriceRecords
             ? product.discountedPriceRecords[currency]
@@ -312,11 +312,11 @@ export function proceedTocheckout(data: Basket, currency: Currency) {
           item_brand: "goodearth",
           item_category: categoryName,
           item_category2: variants,
-          item_category3: "",
-          item_list_id: "",
+          item_category3: "NA",
+          item_list_id: "NA",
           item_list_name: search,
-          item_variant: "",
-          item_category4: "",
+          item_variant: "NA",
+          item_category4: "NA",
           item_category5: collectionName,
           price: realPrice,
           quantity: 1

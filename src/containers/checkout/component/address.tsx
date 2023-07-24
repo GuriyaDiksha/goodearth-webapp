@@ -611,6 +611,58 @@ const AddressSection: React.FC<AddressProps & {
       return validate;
     }
   };
+
+  const addGAForShipping = (address: any) => {
+    const userConsent = CookieService.getCookie("consent").split(",");
+    const items = basket.lineItems.map((line, ind) => {
+      const index = line?.product.categories
+        ? line?.product.categories.length - 1
+        : 0;
+      const category =
+        line?.product.categories && line?.product.categories[index]
+          ? line?.product.categories[index].replace(/\s/g, "")
+          : "";
+      const arr = category.split(">");
+
+      return {
+        item_id: line?.product?.id, //Pass the product id
+        item_name: line?.product?.title, // Pass the product name
+        affiliation: line?.product?.title, // Pass the product name
+        coupon: "", // Pass the coupon if available
+        currency: currency, // Pass the currency code
+        discount: "", // Pass the discount amount
+        index: ind,
+        item_brand: "Goodearth",
+        item_category: arr[arr.length - 2],
+        item_category2: arr[arr.length - 1],
+        item_category3: "",
+        item_list_id: "",
+        item_list_name: "",
+        item_variant: "",
+        item_category4: "",
+        item_category5: line?.product?.collection,
+        price: line?.product?.priceRecords[currency],
+        quantity: line?.quantity
+      };
+    });
+
+    if (userConsent.includes(GA_CALLS)) {
+      dataLayer.push({ ecommerce: null }); // Clear the previous ecommerce object.
+      dataLayer.push({
+        event: "add_shipping_info",
+        shipping_address: shippingAddressId,
+        gst_invoice: "",
+        delivery_instruction: "", //Pass NA if not applicable the moment
+        ecommerce: {
+          currency: currency, // Pass the currency code
+          value: basket?.total,
+          coupon: "",
+          items: items
+        }
+      });
+    }
+  };
+
   const onSelectAddress = (address?: AddressData) => {
     if (activeStep === STEP_SHIPPING) {
       if (!isBridal && customDuties?.visible && !isTermChecked) {
@@ -635,6 +687,7 @@ const AddressSection: React.FC<AddressProps & {
       }
     }
     if (activeStep === STEP_SHIPPING) {
+      addGAForShipping(address);
       next(STEP_BILLING);
     }
     return true;
