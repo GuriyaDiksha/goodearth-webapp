@@ -141,7 +141,9 @@ const PromoSection: React.FC<PromoProps> = props => {
           </span>
           {mobile && (
             <span
-              className={cs(globalStyles.pointer, styles.promoEdit)}
+              className={cs(globalStyles.pointer, styles.promoEdit, {
+                [styles.closed]: !(isActive || isactivepromo || isEdit)
+              })}
               onClick={() => {
                 onCurrentState();
               }}

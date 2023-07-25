@@ -963,7 +963,11 @@ const OrderSummary: React.FC<OrderProps> = props => {
           ""
         ) : (
           <div className={cs(styles.summaryPadding, styles.summaryHeader)}>
-            <h3 className={cs(styles.summaryTitle)}>
+            <h3
+              className={cs(styles.summaryTitle, {
+                [styles.summaryTitleTwo]: pathname === "/cart"
+              })}
+            >
               ORDER SUMMARY{" "}
               {pathname === "/order/checkout" ? `(${getItemsCount()})` : null}
               {page == "checkout" && !validbo ? (
