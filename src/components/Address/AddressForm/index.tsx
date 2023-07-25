@@ -840,12 +840,14 @@ const AddressForm: React.FC<Props> = props => {
                         [styles.charcoalBtn]:
                           currentCallBackComponent == "account" ||
                           currentCallBackComponent == "checkout-shipping" ||
-                          currentCallBackComponent == "checkout-billing"
+                          currentCallBackComponent == "checkout-billing" ||
+                          currentCallBackComponent == "bridal-edit"
                       },
                       {
                         [styles.charcoalBtnWidth]:
                           currentCallBackComponent == "checkout-shipping" ||
-                          currentCallBackComponent == "checkout-billing"
+                          currentCallBackComponent == "checkout-billing" ||
+                          currentCallBackComponent == "bridal-edit"
                       }
                     )}
                     disabled={!isAddressChanged}
@@ -864,38 +866,43 @@ const AddressForm: React.FC<Props> = props => {
                         [styles.charcoalBtn]:
                           currentCallBackComponent == "account" ||
                           currentCallBackComponent == "checkout-shipping" ||
-                          currentCallBackComponent == "checkout-billing"
+                          currentCallBackComponent == "checkout-billing" ||
+                          currentCallBackComponent == "bridal"
                       },
                       {
                         [styles.charcoalBtnWidth]:
                           currentCallBackComponent == "checkout-shipping" ||
-                          currentCallBackComponent == "checkout-billing"
+                          currentCallBackComponent == "checkout-billing" ||
+                          currentCallBackComponent == "bridal"
                       }
                     )}
                     // disabled={!isAddressChanged}
                   />
                 )}
               </div>
-              <div className="col-xs-6">
-                <div
-                  className={cs(
-                    {
-                      [styles.aquaBtn]:
-                        currentCallBackComponent == "account" ||
-                        currentCallBackComponent == "checkout-shipping" ||
-                        currentCallBackComponent == "checkout-billing"
-                    },
-                    {
-                      [styles.charcoalBtnWidth]:
-                        currentCallBackComponent == "checkout-shipping" ||
-                        currentCallBackComponent == "checkout-billing"
-                    }
-                  )}
-                  onClick={closeAddressForm}
-                >
-                  cancel
-                </div>
-              </div>
+              {currentCallBackComponent !== "bridal-edit" &&
+                currentCallBackComponent !== "bridal" && (
+                  <div className="col-xs-6">
+                    <div
+                      className={cs(
+                        {
+                          [styles.aquaBtn]:
+                            currentCallBackComponent == "account" ||
+                            currentCallBackComponent == "checkout-shipping" ||
+                            currentCallBackComponent == "checkout-billing"
+                        },
+                        {
+                          [styles.charcoalBtnWidth]:
+                            currentCallBackComponent == "checkout-shipping" ||
+                            currentCallBackComponent == "checkout-billing"
+                        }
+                      )}
+                      onClick={closeAddressForm}
+                    >
+                      cancel
+                    </div>
+                  </div>
+                )}
             </div>
             {errorMessage ? (
               <p className={globalStyles.errorMsg}>{errorMessage}</p>

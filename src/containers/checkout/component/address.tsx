@@ -101,7 +101,7 @@ const AddressSection: React.FC<AddressProps & {
   const [pancardCheck, setPancardCheck] = useState(false);
   const [panError, setPanError] = useState("");
   const [panCheck, setPanCheck] = useState("");
-  const [isTermChecked, setIsTermChecked] = useState(false);
+  const [isTermChecked, setIsTermChecked] = useState(true);
   const [termsErr, setTermsErr] = useState("");
   const [gstDetails, setGstDetails] = useState({ gstText: "", gstType: "" });
 
@@ -168,10 +168,10 @@ const AddressSection: React.FC<AddressProps & {
     );
     AddressService.fetchCustomDuties(
       dispatch,
-      countryCurrencyCode[data?.country || "IN"]
+      countryCurrencyCode?.[data?.country || "IN"]
     )
       .then(res => {
-        setIsTermChecked(customDuties?.visible || false);
+        setIsTermChecked(customDuties?.visible || true);
         setTermsErr("");
         dispatch(updateCustomDuties(res));
       })

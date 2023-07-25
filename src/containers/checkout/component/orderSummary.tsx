@@ -433,7 +433,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
                 {" "}
                 {gift.cardType == "CREDITNOTE"
                   ? "(Credit Note Applied)"
-                  : "(Gift Code Applied)"}
+                  : !mobile && "(Gift Code Applied)"}
                 <span
                   className={cs(globalStyles.marginL5, styles.cross)}
                   onClick={() => {
@@ -448,6 +448,11 @@ const OrderSummary: React.FC<OrderProps> = props => {
                     )}
                   ></i>
                 </span>
+                {gift.cardType != "CREDITNOTE" && mobile && (
+                  <span className={styles.giftCreditCodeText}>
+                    (Gift Code Applied)
+                  </span>
+                )}
               </span>
             </span>
             <span className={styles.subtotal}>
