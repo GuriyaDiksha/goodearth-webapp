@@ -1305,7 +1305,9 @@ class Header extends React.Component<Props, State> {
                           // this.setShowBag(true);
                           this.props.history.push("/cart");
                           this.onBottomMenuClick("Cart");
-                          this.clickToggle();
+                          if (this.props.mobileMenuOpenState) {
+                            this.clickToggle();
+                          }
                         }}
                       ></i>
                       <span

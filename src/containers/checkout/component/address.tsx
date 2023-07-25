@@ -1019,9 +1019,9 @@ const AddressSection: React.FC<AddressProps & {
             className={
               isActive
                 ? cs(styles.card, styles.cardOpen, styles.marginT5)
-                : mobile && !(STEP_ORDER[activeStep] < currentStep)
-                ? styles.hidden
-                : cs(styles.card, styles.cardClosed, styles.marginT5)
+                : //: !(STEP_ORDER[activeStep] < currentStep)
+                  // styles.hidden
+                  cs(styles.card, styles.cardClosed, styles.marginT5)
             }
           >
             <div className={bootstrapStyles.row}>
@@ -1061,7 +1061,11 @@ const AddressSection: React.FC<AddressProps & {
                       : "BILLING ADDRESS"}
                   </span>
                 </div>
-                {mobile && renderActions(false)}
+                {mobile &&
+                  renderActions(
+                    false,
+                    activeStep == STEP_BILLING && !isActive && !billingAddressId
+                  )}
               </div>
               {!mobile &&
                 renderActions(
