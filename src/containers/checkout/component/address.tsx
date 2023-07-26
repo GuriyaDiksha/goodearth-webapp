@@ -166,25 +166,26 @@ const AddressSection: React.FC<AddressProps & {
         ? val?.id === shippingAddressId
         : val?.isDefaultForShipping
     );
-    AddressService.fetchCustomDuties(
-      dispatch,
-      countryCurrencyCode?.[data?.country || "IN"]
-    )
-      .then(res => {
-        setIsTermChecked(customDuties?.visible || true);
-        setTermsErr("");
-        dispatch(updateCustomDuties(res));
-      })
-      .catch(e => {
-        setIsTermChecked(e?.response?.data?.visible || false);
-        setTermsErr("");
-        dispatch(
-          updateCustomDuties({
-            visible: e?.response?.data?.visible,
-            message: ""
-          })
-        );
-      });
+    AddressService.fetchCustomDuties &&
+      AddressService.fetchCustomDuties(
+        dispatch,
+        countryCurrencyCode?.[data?.country || "IN"]
+      )
+        .then(res => {
+          setIsTermChecked(customDuties?.visible || true);
+          setTermsErr("");
+          dispatch(updateCustomDuties(res));
+        })
+        .catch(e => {
+          setIsTermChecked(e?.response?.data?.visible || false);
+          setTermsErr("");
+          dispatch(
+            updateCustomDuties({
+              visible: e?.response?.data?.visible,
+              message: ""
+            })
+          );
+        });
   }, [shippingAddressId]);
 
   useEffect(() => {
@@ -224,13 +225,14 @@ const AddressSection: React.FC<AddressProps & {
     setPancardText(user.panPassport || "");
   }, [user.panPassport]);
 
-  useEffect(() => {
-    dispatch(
-      updateSameAsShipping(
-        !isGoodearthShipping && hidesameShipping && !isBridal
-      )
-    );
-  }, [isGoodearthShipping, hidesameShipping, isBridal]);
+  // Commented because of Same as shipping issue
+  // useEffect(() => {
+  //   dispatch(
+  //     updateSameAsShipping(
+  //       !isGoodearthShipping && !isBridal
+  //     )
+  //   );
+  // }, [isGoodearthShipping, isBridal]);
 
   useEffect(() => {
     setPanError("");
@@ -1078,7 +1080,7 @@ const AddressSection: React.FC<AddressProps & {
               <>
                 <div>
                   {/* <div>{renderPancard}</div> */}
-                  {props.activeStep == STEP_BILLING && props.hidesameShipping && (
+                  {props.activeStep == STEP_BILLING && (
                     <>
                       <div>{renderBillingCheckbox()}</div>
                       {!sameAsShipping &&
@@ -1236,7 +1238,7 @@ const AddressSection: React.FC<AddressProps & {
                                 mode == "list" &&
                                 (props.activeStep == STEP_SHIPPING ||
                                   (props.activeStep == STEP_BILLING &&
-                                    !props.hidesameShipping)) &&
+                                    false)) &&
                                 renderActions(false)}
                             </div>
                           </>

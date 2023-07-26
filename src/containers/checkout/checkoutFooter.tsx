@@ -59,7 +59,7 @@ class CheckoutFooter extends React.Component<Props, { boId: string }> {
                   <> {String.fromCharCode(...currencyCode[currency])}</>
                 )}
               </div>
-              {mobile ? null : (
+              {mobile || !tablet ? null : (
                 <div className={cs(bootstrap.col3, bootstrap.colMd7)}>
                   {/* {heading} */}
                 </div>

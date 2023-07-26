@@ -88,7 +88,9 @@
   .border-add {
     border-top: 1px solid #e6e6e6;
     padding: 35px 20px 22px;
-
+    .add {
+      width: 100%;
+    }
     label {
       font-weight: bold;
       font-size: 14px;

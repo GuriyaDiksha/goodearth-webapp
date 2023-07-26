@@ -745,8 +745,8 @@ const OrderSummary: React.FC<OrderProps> = props => {
                 )}
               </span>
             </div>
-            {(((pathname === "/order/checkout" || pathname === "/cart") &&
-              !mobile) ||
+            {((pathname === "/order/checkout" && !mobile) ||
+              pathname === "/cart" ||
               (page == "checkoutMobileBottom" &&
                 !checkoutOrderSummaryStatus)) &&
               getCoupons()}
