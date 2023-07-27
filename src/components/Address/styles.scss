@@ -605,7 +605,7 @@ body:has(.mobile) {
 
 .aqua-btn {
   background-color: $white;
-  @include b3_14px_montserrat_white();
+  @include b3_14px_montserrat_charcoal();
   text-transform: uppercase;
   letter-spacing: 0.42px;
   line-height: 52px;
@@ -643,6 +643,10 @@ body:has(.mobile) {
     input[type="checkbox"]:checked + label:after {
       top: 3px;
     }
+
+    input[type="checkbox"]:checked:disabled + label {
+        cursor: not-allowed !important;
+    }
   }
 }
 
@@ -667,7 +671,7 @@ body:has(.mobile) {
 
   .address-item-container {
     border: 2px solid #eaeaea;
-    height: 230px;
+    height: 240px;
 
     &.default-address {
       border-color: $aqua;

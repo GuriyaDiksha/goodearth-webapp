@@ -373,6 +373,7 @@ const AddressForm: React.FC<Props> = props => {
       } = addressData;
       // update stateOptions based on country
       onCountrySelect(null, countryName);
+      setNickname(addressType || "");
 
       const form = AddressFormRef.current;
       form &&
@@ -394,6 +395,16 @@ const AddressForm: React.FC<Props> = props => {
           },
           true
         );
+
+      setTimeout(() => {
+        const firstErrorField = document.getElementsByClassName(
+          globalStyles.errorBorder
+        )[0] as HTMLDivElement;
+        if (firstErrorField) {
+          firstErrorField.focus();
+          // firstErrorField.scrollIntoView({ block: "start", behavior: "smooth" });
+        }
+      }, 500);
     }
   }, [addressData, countryOptions]);
 
@@ -798,10 +809,11 @@ const AddressForm: React.FC<Props> = props => {
                 isWords: isAlphaError,
                 maxLength: "You cannot type in more than 30 characters"
               }}
-              maxlength={29}
+              maxlength={30}
             />
             <p className={styles.charLimit}>
-              Char Limit: {30 - nickname?.length}/30
+              Char Limit:{" "}
+              {30 - nickname?.length >= 0 ? 30 - nickname?.length : 0}/30
             </p>
           </div>
           <div className={styles.addressFormCheckbox}>
@@ -883,7 +895,7 @@ const AddressForm: React.FC<Props> = props => {
               {currentCallBackComponent !== "bridal-edit" &&
                 currentCallBackComponent !== "bridal" && (
                   <div className="col-xs-6">
-                    <div
+                    <button
                       className={cs(
                         {
                           [styles.aquaBtn]:
@@ -900,7 +912,7 @@ const AddressForm: React.FC<Props> = props => {
                       onClick={closeAddressForm}
                     >
                       cancel
-                    </div>
+                    </button>
                   </div>
                 )}
             </div>

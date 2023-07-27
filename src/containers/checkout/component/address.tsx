@@ -917,15 +917,15 @@ const AddressSection: React.FC<AddressProps & {
 
     return (
       show && (
-        <div
-          className={cs(
-            styles.payment,
-            globalStyles.voffset4,
-            styles.widthFitContent
-          )}
-        >
+        <div className={cs(styles.payment, globalStyles.voffset4)}>
           {!mobile && <hr className={globalStyles.marginy24} />}
-          <label className={cs(styles.flex, styles.crossCenter)}>
+          <label
+            className={cs(
+              styles.flex,
+              styles.crossCenter,
+              styles.widthFitContent
+            )}
+          >
             <div className={globalStyles.marginR10}>
               <span className={styles.checkbox}>
                 <input type="checkbox" onChange={toggleSameAsShipping} />

@@ -59,19 +59,19 @@ class CheckoutFooter extends React.Component<Props, { boId: string }> {
                   <> {String.fromCharCode(...currencyCode[currency])}</>
                 )}
               </div>
-              {mobile || !tablet ? null : (
+              {/* {mobile || !tablet ? null : (
                 <div className={cs(bootstrap.col3, bootstrap.colMd7)}>
-                  {/* {heading} */}
                 </div>
-              )}
+              )} */}
               <div
                 className={cs(
-                  { [bootstrap.colMd3]: !tablet },
                   {
-                    [styles.curr]: !this.state.boId,
-                    [bootstrap.col3]: !mobile && !tablet,
-                    [bootstrap.col10]: mobile || tablet
-                  }
+                    // [bootstrap.colMd3]: !tablet,
+                    // [bootstrap.col3]: !mobile && !tablet,
+                    // [bootstrap.col10]: mobile || tablet
+                  },
+                  bootstrap.col10,
+                  styles.curr
                 )}
               >
                 <i
@@ -112,19 +112,20 @@ class CheckoutFooter extends React.Component<Props, { boId: string }> {
                   <> {String.fromCharCode(...currencyCode[currency])}</>
                 )}
               </div>
-              {mobile ? null : (
+              {/* {mobile ? null : (
                 <div className={cs(bootstrap.col3, bootstrap.colMd7)}>
-                  {/* {heading} */}
                 </div>
-              )}
+              )} */}
               <div
                 className={cs(
-                  { [bootstrap.colMd3]: !tablet },
-                  {
-                    [styles.curr]: !this.state.boId,
-                    [bootstrap.col3]: !mobile && !tablet,
-                    [bootstrap.col10]: mobile || tablet
-                  }
+                  // { [bootstrap.colMd3]: !tablet },
+                  styles.curr,
+                  bootstrap.col10
+                  // {
+                  // [styles.curr]: !this.state.boId,
+                  // [bootstrap.col3]: !mobile && !tablet,
+                  // [bootstrap.col10]: mobile || tablet
+                  // }
                 )}
               >
                 <i

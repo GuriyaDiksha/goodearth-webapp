@@ -356,9 +356,7 @@ class CheckoutHeader extends React.Component<Props, { boId: string }> {
             </div>
             {mobile ? null : (
               <div
-                className={cs(bootstrap.colMd3, bootstrap.col3, {
-                  [styles.curr]: !this.state.boId
-                })}
+                className={cs(bootstrap.colMd3, bootstrap.col3, styles.curr)}
               >
                 {/* <SelectableDropdownMenu
                 id="currency-dropdown-checkout"
