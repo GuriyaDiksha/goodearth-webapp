@@ -242,7 +242,7 @@ const EmailVerification: React.FC<Props> = ({
           </div>
         )} */}
       </>
-      {isLoading && <Loader />}
+      {/* {isLoading && <Loader />} */}
     </div>
   );
 };

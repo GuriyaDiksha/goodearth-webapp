@@ -1,249 +1,248 @@
-import React, {
-  useMemo,
-  useState,
-  MouseEventHandler,
-  // useEffect,
-  SyntheticEvent,
-  MouseEvent,
-  useRef,
-  useCallback,
-  useLayoutEffect,
-  useEffect
-} from "react";
-import cs from "classnames";
-import { Props } from "./typings";
-import globalStyles from "styles/global.scss";
+import React, { RefObject, useEffect, useRef, useState } from "react";
+import DockedPanel from "containers/pdp/docked";
+import { Product } from "typings/product";
 import styles from "./styles.scss";
-import bootstrap from "styles/bootstrap/bootstrap-grid.scss";
-import fontStyles from "styles/iconFonts.scss";
-import close from "./../../images/closeZoom.svg";
+import cs from "classnames";
+import iconStyles from "styles/iconFonts.scss";
+import { ProductImage } from "typings/image";
+import globalStyles from "styles/global.scss";
+import Slider from "rc-slider";
+import "rc-slider/assets/index.css";
+import "./styles.css";
+import ZoomImageSlider from "./ZoomImageSlider";
+import plus from "./../../icons/plus.svg";
+import minus from "./../../icons/minus.svg";
+import play from "./../../icons/playVideo.svg";
+import pause from "./../../icons/pauseVideo.svg";
+import ReactPlayer from "react-player";
+
+type Props = {
+  code: string;
+  data: Product;
+  showAddToBagMobile?: boolean;
+  buttoncall: any;
+  showPrice: boolean;
+  price: string | number;
+  discountPrices: string | number;
+  images: ProductImage[];
+  mobile?: boolean;
+  changeModalState?: any;
+  alt: string;
+};
 
 const Zoom: React.FC<Props> = ({
+  data,
+  buttoncall,
+  showPrice,
+  price,
+  discountPrices,
   images = [],
-  startIndex = 0,
   mobile = false,
   changeModalState = null,
   alt
 }) => {
-  const [currentIndex, setCurrentIndex] = useState(1);
-  const canUseDOM = !!(
-    typeof window !== "undefined" &&
-    typeof window.document !== "undefined" &&
-    typeof window.document.createElement !== "undefined"
+  const [selectedImage, setSelectedImage] = useState(images?.[0]);
+  const [zoom, setZoom] = useState(1);
+  const [selectedMobileImageId, setSelectedMobileImageId] = useState(
+    `product0`
   );
+  const [playVideo, setPlayVideo] = useState(false);
+  const videoRef: RefObject<HTMLVideoElement> = useRef(null);
 
-  const useIsomorphicLayoutEffect = canUseDOM ? useLayoutEffect : useEffect;
-  const [style, setStyle] = useState({
-    scale: 1.1,
-    translateX: 0,
-    translateY: 0,
-    left: 0,
-    top: 0
-  });
-  const mounted = useRef(false);
-
-  const windowWidth = window.innerWidth;
-  const windowHeight = window.innerHeight;
-  useIsomorphicLayoutEffect(() => {
-    if (!mounted.current) {
-      setCurrentIndex(startIndex);
-      mounted.current = true;
-    }
-  });
-
-  // useEffect(() => {
-  //   setStyle({
-  //     scale: 1.1,
-  //     translateX: 0,
-  //     translateY: 0,
-  //     left: 0,
-  //     top: 0
-  //   });
-  // }, [currentIndex]);
-
-  const [imageLoaded, setImageLoaded] = useState(false);
-
-  const onImageLoad = useCallback(
-    (event: SyntheticEvent<HTMLImageElement>) => {
-      const img = event.currentTarget;
-      const width = img.naturalWidth;
-      const height = img.naturalHeight;
-      const imageVisibleScaleRatio = windowWidth / width;
-      const imageVisibleWidth = windowWidth;
-      const imageVisibleHeight = height * imageVisibleScaleRatio;
-      let scale = 1.1;
-
-      if (windowHeight / imageVisibleHeight > scale) {
-        scale = windowHeight / imageVisibleHeight;
-      }
-      if (windowWidth / imageVisibleWidth > scale) {
-        scale = windowWidth / imageVisibleWidth;
-      }
-
-      const top = (windowHeight - imageVisibleHeight) / 2;
-      const left = (windowWidth - imageVisibleWidth) / 2;
-
-      setStyle({
-        scale,
-        translateX: 0,
-        translateY: 0,
-        left: left,
-        top: top
-      });
-
-      setImageLoaded(true);
-    },
-    [style, currentIndex]
-  );
-
-  const containerRef = useRef<HTMLDivElement>(null);
-  const imageRef = useRef<HTMLImageElement>(null);
-
-  const { productImage } = images[currentIndex] || {};
-  const src = productImage && productImage.replace(/Micro|Medium/i, "Large");
-
-  const { scale, translateX, translateY, left, top } = style;
-
-  const onImageClick: MouseEventHandler = event => {
-    const target = event.currentTarget;
-    const index = Number(target.getAttribute("data-index"));
-    setCurrentIndex(index);
-  };
   const closeModal = () => {
     changeModalState(false);
     document.body.classList.remove(globalStyles.fixed);
   };
 
-  const mouseMoveHandler = (e: MouseEvent) => {
-    const deltaX = windowWidth / 2 - e.clientX;
-    if (!containerRef.current) {
-      return;
+  useEffect(() => {
+    if (mobile) {
+      (document.getElementById(
+        selectedMobileImageId
+      ) as HTMLDivElement).style.transform = `scale(${zoom})`;
+    } else {
+      (document.getElementById(
+        "pdpImage"
+      ) as HTMLDivElement).style.transform = `scale(${zoom})`;
     }
-    const { width, height } = containerRef.current?.getBoundingClientRect();
-    const normalizedDeltaX =
-      ((deltaX * 2) / windowWidth) * Math.abs((windowWidth - width) / 2);
-    const translateX = normalizedDeltaX;
+  }, [zoom]);
 
-    const deltaY = windowHeight / 2 - e.clientY;
-    const normalizedDeltaY =
-      ((deltaY * 2) / windowHeight) * Math.abs((windowHeight - height) / 2);
-    const translateY = normalizedDeltaY;
-
-    setStyle({
-      ...style,
-      translateX,
-      translateY
-    });
-  };
-
-  const sidebar = useMemo(() => {
-    if (!mobile) {
-      return (
-        <div className={cs(bootstrap.colMd1, styles.sidebar)}>
-          {/* <button
-            className={cs(
-              fontStyles.icon,
-              fontStyles.iconCrossNarrowBig,
-              styles.closeBtn
-            )}
-            onClick={closeModal}
-          /> */}
-          <img src={close} className={styles.close} onClick={closeModal} />
-          {images.map(function(v, i) {
-            return (
-              <div
-                className={cs(styles.thumbnailContainer, {
-                  [styles.activeThumbnail]: i === currentIndex
-                })}
-                data-index={i}
-                onClick={onImageClick}
-                key={v.id}
-              >
-                <img
-                  alt={alt}
-                  className={globalStyles.imgResponsive}
-                  src={v.productImage}
-                />
-              </div>
-            );
-          })}
-        </div>
-      );
-    }
-  }, [images, currentIndex]);
-
-  const updateIndex = useCallback((value: number) => {
-    setCurrentIndex(currentIndex => currentIndex + value);
-  }, []);
-  const navigation = useMemo(() => {
-    return (
-      <div className={styles.navigationContainer}>
-        <button
-          className={cs(fontStyles.iconArrowLeft, fontStyles.icon, styles.prev)}
-          style={{ visibility: currentIndex > 0 ? "visible" : "hidden" }}
-          onClick={() => updateIndex(-1)}
-        />
-        <button
-          className={cs(
-            fontStyles.iconArrowRight,
-            fontStyles.icon,
-            styles.next
-          )}
-          style={{
-            visibility: currentIndex < images.length - 1 ? "visible" : "hidden"
-          }}
-          onClick={() => updateIndex(1)}
-        />
-      </div>
-    );
-  }, [images, currentIndex]);
   return (
     <div
-      className={styles.container}
-      onMouseMove={mobile ? undefined : mouseMoveHandler}
+      className={cs(styles.videoPopupContainer, styles.helloar, {
+        [styles.mobile]: mobile
+      })}
     >
-      {currentIndex !== undefined && (
-        <div
-          className={cs(styles.mainImageContainer, {
-            [styles.hidden]: !imageLoaded
-          })}
-          style={{
-            transform: `translateX(${translateX}px) translateY(${translateY}px) scale(${scale})`,
-            left: `${left}px`,
-            top: `${top}px`
-          }}
-          ref={containerRef}
-          onClick={closeModal}
-        >
-          <img
-            alt={alt}
-            src={src}
-            onLoad={onImageLoad}
-            className={globalStyles.imgResponsive}
-            ref={imageRef}
-          />
+      <div className={styles.body}>
+        {!mobile && (
+          <div className={styles.left}>
+            {images?.map(imgContent => (
+              <div
+                key={imgContent.id}
+                className={cs(styles.thumbnailImg, {
+                  [styles.selectdImg]:
+                    selectedImage?.productImage === imgContent?.productImage ||
+                    selectedImage?.vimeo_link === imgContent?.vimeo_link
+                })}
+                onClick={() => {
+                  setSelectedImage(imgContent);
+                  setZoom(1);
+                }}
+              >
+                {imgContent?.media_type === "Image" ||
+                imgContent?.type === "main" ? (
+                  <img
+                    src={imgContent.productImage?.replace(
+                      /Micro|Large/i,
+                      "Medium"
+                    )}
+                    alt={alt}
+                    className={globalStyles.imgResponsive}
+                  />
+                ) : (
+                  <>
+                    <div className={styles.overlayDiv}></div>
+                    <ReactPlayer
+                      url={imgContent?.vimeo_link}
+                      width={"100%"}
+                      height={"auto"}
+                      playing={playVideo}
+                    />
+                    {playVideo &&
+                    imgContent?.vimeo_link === selectedImage?.vimeo_link ? (
+                      <img
+                        src={pause}
+                        alt="pause"
+                        className={styles.play}
+                        onClick={() => {
+                          setPlayVideo(false);
+                        }}
+                      />
+                    ) : (
+                      <img
+                        src={play}
+                        alt="play"
+                        className={styles.play}
+                        onClick={() => {
+                          setPlayVideo(true);
+                        }}
+                      />
+                    )}
+                  </>
+                )}
+              </div>
+            ))}
+          </div>
+        )}
+
+        <div className={styles.middle}>
+          {mobile ? (
+            <ZoomImageSlider
+              images={images}
+              alt={alt}
+              setSelectedMobileImageId={setSelectedMobileImageId}
+              setZoom={setZoom}
+              setSelectedImage={setSelectedImage}
+            />
+          ) : (
+            <div className={styles.wrp}>
+              {selectedImage?.media_type === "Image" ||
+              selectedImage?.type === "main" ? (
+                <img
+                  id="pdpImage"
+                  src={selectedImage.productImage?.replace(
+                    /Micro|Large/i,
+                    "Medium"
+                  )}
+                  alt={alt}
+                  className={globalStyles.imgResponsive}
+                />
+              ) : (
+                <>
+                  <ReactPlayer
+                    url={selectedImage?.vimeo_link}
+                    playing={playVideo}
+                    width={"100%"}
+                    height={"auto"}
+                  />
+                  {playVideo ? (
+                    <img
+                      src={pause}
+                      alt="pause"
+                      className={styles.play}
+                      onClick={() => {
+                        // videoRef?.current?.pause();
+                        setPlayVideo(false);
+                      }}
+                    />
+                  ) : (
+                    <img
+                      src={play}
+                      alt="play"
+                      className={styles.play}
+                      onClick={() => {
+                        // videoRef?.current?.play();
+                        setPlayVideo(true);
+                      }}
+                    />
+                  )}
+                </>
+              )}
+            </div>
+          )}
         </div>
-      )}
-      {sidebar}
-      {mobile && (
-        // <button
-        //   className={cs(
-        //     fontStyles.icon,
-        //     fontStyles.iconCrossNarrowBig,
-        //     styles.closeBtn,
-        //     styles.mobile
-        //   )}
-        //   onClick={closeModal}
-        // />
-        <img
-          src={close}
-          className={cs(styles.close, styles.mobile)}
-          onClick={closeModal}
-          height={30}
-          width={30}
+
+        <div className={styles.right}>
+          <div className={styles.close} onClick={closeModal}>
+            <i
+              className={cs(
+                iconStyles.icon,
+                iconStyles.iconCrossNarrowBig,
+                styles.icon,
+                styles.iconCross
+              )}
+            ></i>
+          </div>
+          {(selectedImage?.media_type === "Image" ||
+            selectedImage?.type === "main") && (
+            <div className={styles.btnWrp}>
+              <button
+                className={styles.plus}
+                onClick={() => zoom < 4 && setZoom(zoom + 0.5)}
+              >
+                <img src={plus} alt={"incerment"} />
+              </button>
+
+              <div className="custom-range">
+                <Slider
+                  min={1}
+                  max={4}
+                  step={0.1}
+                  vertical={true}
+                  value={zoom}
+                  onChange={(value: number) => setZoom(+value)}
+                />
+              </div>
+
+              <button
+                className={styles.minus}
+                onClick={() => zoom > 1 && setZoom(zoom - 0.5)}
+              >
+                <img src={minus} alt={"incerment"} />
+              </button>
+            </div>
+          )}
+        </div>
+      </div>
+      <div className={cs(styles.footer, { [styles.mobileFooter]: mobile })}>
+        <DockedPanel
+          data={data}
+          buttoncall={buttoncall}
+          showPrice={showPrice}
+          price={price}
+          discountPrice={discountPrices}
+          mobile={mobile}
         />
-      )}
-      {mobile && navigation}
+      </div>
     </div>
   );
 };

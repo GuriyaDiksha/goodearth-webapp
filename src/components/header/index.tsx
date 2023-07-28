@@ -316,6 +316,10 @@ class Header extends React.Component<Props, State> {
     const filterMenuHeader = document.getElementById("filter-menu-header");
 
     const pressSortHeader = document.getElementById("pressSortHeader");
+    const pressSortHeaderMenu = document.getElementById("pressSortHeaderMenu");
+    const pressSortHeaderMenuDropdown = document.getElementById(
+      "pressSortHeaderMenuDropdown"
+    );
 
     if (window?.pageYOffset > sticky) {
       // When announcement bar is hidden
@@ -449,6 +453,22 @@ class Header extends React.Component<Props, State> {
           (pressSortHeader as HTMLElement).style.top = "90px";
         } else {
           (pressSortHeader as HTMLElement).style.top = "50px";
+        }
+      }
+
+      if (pressSortHeaderMenu) {
+        if (tim) {
+          (pressSortHeaderMenu as HTMLElement).style.top = "90px";
+        } else {
+          (pressSortHeaderMenu as HTMLElement).style.top = "50px";
+        }
+      }
+
+      if (pressSortHeaderMenuDropdown) {
+        if (tim) {
+          (pressSortHeaderMenuDropdown as HTMLElement).style.top = "138px";
+        } else {
+          (pressSortHeaderMenuDropdown as HTMLElement).style.top = "100px";
         }
       }
     } else {
@@ -610,6 +630,26 @@ class Header extends React.Component<Props, State> {
             window?.pageYOffset}px`;
         } else {
           (pressSortHeader as HTMLElement).style.top = `${90 -
+            window?.pageYOffset}px`;
+        }
+      }
+
+      if (pressSortHeaderMenu) {
+        if (tim) {
+          (pressSortHeaderMenu as HTMLElement).style.top = `${130 -
+            window?.pageYOffset}px`;
+        } else {
+          (pressSortHeaderMenu as HTMLElement).style.top = `${90 -
+            window?.pageYOffset}px`;
+        }
+      }
+
+      if (pressSortHeaderMenuDropdown) {
+        if (tim) {
+          (pressSortHeaderMenuDropdown as HTMLElement).style.top = `${180 -
+            window?.pageYOffset}px`;
+        } else {
+          (pressSortHeaderMenuDropdown as HTMLElement).style.top = `${140 -
             window?.pageYOffset}px`;
         }
       }

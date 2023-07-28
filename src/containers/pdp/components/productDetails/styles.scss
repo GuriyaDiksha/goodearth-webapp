@@ -29,11 +29,13 @@
 
     @include pdp_prod_title();
     font-family: $font-Montserrat;
-    font-size: 20px;
+    font-size: 16px;
     // font-weight: bold;
     line-height: 25px;
     text-align: right !important;
-    padding: 10px 0px;
+    padding: 0px;
+    letter-spacing: 0px;
+    font-weight: 500;
 }
 
 .discounted-price {
@@ -206,7 +208,8 @@
     .price-container{
         @include pdp_prod_title_mobile();
         font-family: $font-Montserrat;
-        font-size: 20px;
+        font-size: 16px;
+        font-weight: 500;
     }
 
     .spacer {

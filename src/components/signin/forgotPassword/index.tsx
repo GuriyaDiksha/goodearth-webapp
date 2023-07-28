@@ -309,7 +309,7 @@ class ForgotPasswordForm extends React.Component<Props, ForgotPasswordState> {
             formContent={formContent}
             footer={this.state.isBo ? undefined : footer}
           />
-          {this.state.disableSelectedbox && <Loader />}
+          {/* {this.state.disableSelectedbox && <Loader />} */}
         </div>
       </Popup>
     );

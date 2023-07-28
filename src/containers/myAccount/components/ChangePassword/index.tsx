@@ -21,16 +21,16 @@ const ChangePassword: React.FC<PasswordProps> = ({ setCurrentSection }) => {
 
   const [additionalInfo, setAdditionalInfo] = useState({
     showerror: "",
-    updatePassword: false,
-    passValidLength: false,
-    passValidUpper: false,
-    passValidLower: false,
-    passValidNum: false,
-    showPassRules: false,
-    shouldValidatePass: false,
-    showPassword: false
+    updatePassword: false
   });
   const [showSuccess, setShowSuccess] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showPassRules, setShowPassRules] = useState(false);
+  const [shouldValidatePass, setShouldValidatePass] = useState(false);
+  const [passValidLength, setPassValidLength] = useState(false);
+  const [passValidUpper, setPassValidUpper] = useState(false);
+  const [passValidLower, setPassValidLower] = useState(false);
+  const [passValidNum, setPassValidNum] = useState(false);
 
   useEffect(() => {
     setCurrentSection();
@@ -105,27 +105,40 @@ const ChangePassword: React.FC<PasswordProps> = ({ setCurrentSection }) => {
   };
 
   const togglePassword = () => {
-    setAdditionalInfo({
-      ...additionalInfo,
-      showPassword: !additionalInfo.showPassword
-    });
+    setShowPassword(!showPassword);
   };
 
   const handleBackClick = () => {
     setShowSuccess(false);
   };
 
-  const {
-    updatePassword,
-    showPassword,
-    passValidLength,
-    passValidLower,
-    passValidUpper,
-    passValidNum,
-    shouldValidatePass,
-    showPassRules,
-    showerror
-  } = additionalInfo;
+  const handlePassValidation = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const value = event.target.value;
+    if (value) {
+      value.length >= 6 && value.length <= 20
+        ? !passValidLength && setPassValidLength(true)
+        : passValidLength && setPassValidLength(false);
+
+      /[a-z]/.test(value)
+        ? !passValidLower && setPassValidLower(true)
+        : passValidLower && setPassValidLower(false);
+
+      /[0-9]/.test(value)
+        ? !passValidNum && setPassValidNum(true)
+        : passValidNum && setPassValidNum(false);
+
+      /[A-Z]/.test(value)
+        ? !passValidUpper && setPassValidUpper(true)
+        : passValidUpper && setPassValidUpper(false);
+    } else {
+      setPassValidLength(false);
+      setPassValidLower(false);
+      setPassValidUpper(false);
+      setPassValidNum(false);
+    }
+  };
+
+  const { updatePassword, showerror } = additionalInfo;
   return (
     <div className={cs(bootstrapStyles.row, styles.loginForm)}>
       <div
@@ -200,10 +213,7 @@ const ChangePassword: React.FC<PasswordProps> = ({ setCurrentSection }) => {
                         }
                         type={showPassword ? "text" : "password"}
                         onFocus={() => {
-                          setAdditionalInfo({
-                            ...additionalInfo,
-                            showPassRules: true
-                          });
+                          setShowPassRules(true);
                         }}
                         blur={() => {
                           const value =
@@ -217,10 +227,7 @@ const ChangePassword: React.FC<PasswordProps> = ({ setCurrentSection }) => {
                               /[0-9]/.test(value) &&
                               /[A-Z]/.test(value);
                             if (res) {
-                              setAdditionalInfo({
-                                ...additionalInfo,
-                                showPassRules: false
-                              });
+                              setShowPassRules(false);
                             } else {
                               ProfileFormRef?.current?.updateInputsWithError({
                                 newPassword:
@@ -228,83 +235,19 @@ const ChangePassword: React.FC<PasswordProps> = ({ setCurrentSection }) => {
                               });
                             }
                           }
-                          setAdditionalInfo({
-                            ...additionalInfo,
-                            shouldValidatePass: true
-                          });
+                          setShouldValidatePass(true);
                         }}
+                        handleChange={handlePassValidation}
                         validations={{
                           isValid: (values, value) => {
-                            if (value) {
-                              const validLength = passValidLength;
-                              const validLower = passValidLower;
-                              const validUpper = passValidUpper;
-                              const validNum = passValidNum;
-
-                              value.length >= 6 && value.length <= 20
-                                ? !validLength &&
-                                  setAdditionalInfo({
-                                    ...additionalInfo,
-                                    passValidLength: true
-                                  })
-                                : validLength &&
-                                  setAdditionalInfo({
-                                    ...additionalInfo,
-                                    passValidLength: false
-                                  });
-
-                              /[a-z]/.test(value)
-                                ? !validLower &&
-                                  setAdditionalInfo({
-                                    ...additionalInfo,
-                                    passValidLower: true
-                                  })
-                                : validLower &&
-                                  setAdditionalInfo({
-                                    ...additionalInfo,
-                                    passValidLower: false
-                                  });
-
-                              /[0-9]/.test(value)
-                                ? !validNum &&
-                                  setAdditionalInfo({
-                                    ...additionalInfo,
-                                    passValidNum: true
-                                  })
-                                : validNum &&
-                                  setAdditionalInfo({
-                                    ...additionalInfo,
-                                    passValidNum: false
-                                  });
-
+                            return (
+                              value &&
+                              value.length >= 6 &&
+                              value.length <= 20 &&
+                              /[a-z]/.test(value) &&
+                              /[0-9]/.test(value) &&
                               /[A-Z]/.test(value)
-                                ? !validUpper &&
-                                  setAdditionalInfo({
-                                    ...additionalInfo,
-                                    passValidUpper: true
-                                  })
-                                : validUpper &&
-                                  setAdditionalInfo({
-                                    ...additionalInfo,
-                                    passValidUpper: false
-                                  });
-                            } else {
-                              setAdditionalInfo({
-                                ...additionalInfo,
-                                passValidLength: false,
-                                passValidLower: false,
-                                passValidUpper: false,
-                                passValidNum: false
-                              });
-                            }
-                            return shouldValidatePass
-                              ? value &&
-                                  value.length >= 6 &&
-                                  value.length <= 20 &&
-                                  /[a-z]/.test(value) &&
-                                  /[0-9]/.test(value) &&
-                                  /[A-Z]/.test(value)
-                              : true;
+                            );
                           }
                         }}
                         validationErrors={{
@@ -317,7 +260,7 @@ const ChangePassword: React.FC<PasswordProps> = ({ setCurrentSection }) => {
                         className={styles.togglePasswordBtn}
                         onClick={togglePassword}
                       >
-                        <img src={showPassword ? show : hide} />
+                        <img src={showPassword ? hide : show} />
                       </span>
                     </div>
                     <div
@@ -392,7 +335,11 @@ const ChangePassword: React.FC<PasswordProps> = ({ setCurrentSection }) => {
                     </div>
                     <div>
                       {showerror ? (
-                        <p className={styles.loginErrMsg}>{showerror}</p>
+                        <p
+                          className={cs(styles.errorMsg, globalStyles.textLeft)}
+                        >
+                          {showerror}
+                        </p>
                       ) : (
                         ""
                       )}

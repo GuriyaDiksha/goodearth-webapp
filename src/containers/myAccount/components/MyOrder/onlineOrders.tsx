@@ -87,9 +87,9 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
         const res = data.results?.[0];
         if (res.voucherDiscounts?.length > 0) {
           for (let i = 0; i < res.voucherDiscounts.length; i++) {
-            for (let j = 0; j < res.offerDiscounts.length; i++) {
+            for (let j = 0; j < res.offerDiscounts.length; j++) {
               if (res.voucherDiscounts[i].name == res.offerDiscounts[j].name) {
-                res.offerDiscounts.splice(i, 1);
+                res.offerDiscounts.splice(j, 1);
               }
             }
           }
@@ -150,19 +150,43 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
                 <span className={styles.bridalMessage}></span>
               </div>
             )}
-            <div className={cs(styles.row, styles.name)}>
-              {shippingAddress.firstName}
-              &nbsp; {shippingAddress.lastName}
-            </div>
-            <div className={styles.row}>{shippingAddress.line1}</div>
-            <div className={styles.row}>{shippingAddress.line2}</div>
-            <div className={styles.row}>
-              {shippingAddress.state},&nbsp;{shippingAddress.postcode}
-            </div>
-            <div className={styles.row}>{shippingAddress.countryName}</div>
-            <div className={cs(styles.row, styles.phoneNumber)}>
-              {shippingAddress.phoneNumber}
-            </div>
+            {!data.isBridalOrder ? (
+              <div className={cs(styles.row, styles.name)}>
+                {shippingAddress.firstName}
+                &nbsp; {shippingAddress.lastName}
+              </div>
+            ) : (
+              ""
+            )}
+            {!data.isBridalOrder ? (
+              <div className={styles.row}>{shippingAddress.line1}</div>
+            ) : (
+              ""
+            )}
+            {!data.isBridalOrder ? (
+              <div className={styles.row}>{shippingAddress.line2}</div>
+            ) : (
+              ""
+            )}
+            {!data.isBridalOrder ? (
+              <div className={styles.row}>
+                {shippingAddress.state},&nbsp;{shippingAddress.postcode}
+              </div>
+            ) : (
+              ""
+            )}
+            {!data.isBridalOrder ? (
+              <div className={styles.row}>{shippingAddress.countryName}</div>
+            ) : (
+              ""
+            )}
+            {!data.isBridalOrder ? (
+              <div className={cs(styles.row, styles.phoneNumber)}>
+                {shippingAddress.phoneNumber}
+              </div>
+            ) : (
+              ""
+            )}
           </div>
         )}
         {/* Billing Address */}
