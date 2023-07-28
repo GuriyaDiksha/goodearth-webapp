@@ -74,6 +74,8 @@ const PaymentSection: React.FC<PaymentProps> = props => {
 
   const whatsappFormRef = useRef<Formsy>(null);
 
+  const prevGiftCardRef = useRef<any>(basket.giftCards);
+  const prevLoyaltytRef = useRef<any>(basket.loyalty);
   const fetchCountryData = async () => {
     const data = await LoginService.fetchCountryData(dispatch);
     dispatch(updateCountryData(data));
@@ -431,17 +433,26 @@ const PaymentSection: React.FC<PaymentProps> = props => {
   }, []);
 
   useEffect(() => {
-    if (basket.giftCards.length > 0) {
-      setIsactivepromo(true);
-    } else {
-      setIsactivepromo(false);
+    if (prevLoyaltytRef.current.length != basket.loyalty.length) {
+      if (basket.loyalty.length > 0) {
+        setIsactiveredeem(true);
+        prevLoyaltytRef.current = basket.loyalty;
+      } else {
+        setIsactiveredeem(false);
+      }
     }
-    if (basket.loyalty.length > 0) {
-      setIsactiveredeem(true);
-    } else {
-      setIsactiveredeem(false);
+  }, [basket.loyalty]);
+
+  useEffect(() => {
+    if (prevGiftCardRef.current.length != basket.giftCards.length) {
+      if (basket.giftCards.length > 0) {
+        setIsactivepromo(true);
+        prevGiftCardRef.current = basket.giftCards;
+      } else {
+        setIsactivepromo(false);
+      }
     }
-  }, [basket.giftCards, basket.loyalty]);
+  }, [basket.giftCards]);
 
   useEffect(() => {
     setWhatsappNoErr("");

@@ -64,7 +64,9 @@ const PromoSection: React.FC<PromoProps> = props => {
   const toggleInput = () => {
     if (isactivepromo) {
       setPromoVal("");
-      onPromoRemove(basket.voucherDiscounts[0]?.voucher?.code);
+      if (basket.voucherDiscounts[0]?.voucher?.code != undefined) {
+        onPromoRemove(basket.voucherDiscounts[0]?.voucher?.code);
+      }
     }
     setIsactivepromo(!isactivepromo);
   };
