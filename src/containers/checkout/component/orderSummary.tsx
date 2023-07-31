@@ -988,7 +988,9 @@ const OrderSummary: React.FC<OrderProps> = props => {
                 ""
               )}
             </h3>
-            {pathname === "/order/checkout" && <Link to="/cart">EDIT BAG</Link>}
+            {pathname === "/order/checkout" && !boId && (
+              <Link to="/cart">EDIT BAG</Link>
+            )}
           </div>
         )}
 

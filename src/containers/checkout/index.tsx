@@ -920,6 +920,7 @@ class Checkout extends React.Component<Props, State> {
                 validbo={false}
                 basket={this.props.basket}
                 page="checkout"
+                boId={this.state.boId}
               />
             </div>
           </div>
