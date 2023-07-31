@@ -52,6 +52,7 @@ export type OrderProps = {
   isPaymentNeeded?: any;
   onsubmit?: () => any;
   checkoutMobileOrderSummary?: boolean;
+  boId?: string;
 };
 
 export type PromoProps = {
