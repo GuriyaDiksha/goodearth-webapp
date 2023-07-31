@@ -301,8 +301,24 @@ class Checkout extends React.Component<Props, State> {
     if (boId) {
       this.setState({
         activeStep: STEP_BILLING,
-        currentStep: STEP_ORDER[STEP_BILLING]
+        currentStep: STEP_ORDER[STEP_BILLING],
+        boId: boId
       });
+      debugger;
+      if (
+        this.props.history.location.state?.from !== "cart" &&
+        this.props.user.isLoggedIn
+      ) {
+        this.props
+          .logout(this.props.currency, this.props.user.customerGroup)
+          .then(res => {
+            debugger;
+            this.props.history.push(`/cart?bo_id=${boId}`, {
+              from: "checkout"
+            });
+          });
+      }
+
       // this.props
       //   .getBoDetail(boId)
       //   .then((data: any) => {

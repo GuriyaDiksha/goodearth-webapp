@@ -1,10 +1,11 @@
-import { connect, useSelector } from "react-redux";
+import { connect, useDispatch, useSelector } from "react-redux";
 import mapDispatchToProps from "./mapper/actions";
 import { useHistory, useLocation, withRouter } from "react-router";
 import React, { useEffect, useState } from "react";
 import loadable from "@loadable/component";
 import Popup from "../popup/Popup";
 import { AppState } from "reducers/typings";
+import { updateNextUrl } from "actions/info";
 
 const MainLogin = loadable(() => import("components/signin/Login/mainLogin"));
 const CheckoutRegisterForm = loadable(() =>
@@ -20,6 +21,7 @@ const LoginForm = (props: any) => {
   const urlParams = new URLSearchParams(search);
   const id = urlParams.get("loginpopup");
   const boId = urlParams.get("bo_id");
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (props.isRegister) {
@@ -45,9 +47,14 @@ const LoginForm = (props: any) => {
     if (pathname.startsWith("/password-reset")) {
       history.push("/");
     }
-
+    debugger;
     if (nextUrl) {
-      history.push(nextUrl);
+      if (boId && nextUrl === "/order/checkout") {
+        props.history.push(`${nextUrl}?bo_id=${boId}`, { from: "cart" });
+      } else {
+        history.push(nextUrl);
+      }
+      dispatch(updateNextUrl(""));
     }
   };
 

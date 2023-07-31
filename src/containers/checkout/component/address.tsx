@@ -498,6 +498,9 @@ const AddressSection: React.FC<AddressProps & {
   };
 
   const toggleSameAsShipping = () => {
+    if (!sameAsShipping) {
+      dispatch(updateBillingAddressId(shippingAddressId));
+    }
     dispatch(updateSameAsShipping(!sameAsShipping));
   };
 
