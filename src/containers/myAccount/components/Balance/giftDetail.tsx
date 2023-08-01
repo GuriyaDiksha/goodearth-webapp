@@ -226,6 +226,7 @@ const GiftCardItem = ({
             </span>
           </p>
           <p className={cl(styles.balance)}>
+            Balance amount:{" "}
             {displayPriceWithCommas(remValues, currCode as Currency)}{" "}
           </p>
           {conditionalRefresh && !isLoggedIn && (
