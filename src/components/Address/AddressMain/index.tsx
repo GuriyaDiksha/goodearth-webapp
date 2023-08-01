@@ -28,7 +28,7 @@ import { GA_CALLS } from "constants/cookieConsent";
 import styles from "../styles.scss";
 import WhatsappSubscribe from "components/WhatsappSubscribe";
 import Formsy from "formsy-react";
-import { updateAddressMode } from "actions/address";
+import { updateAddressMode, updateSameAsShipping } from "actions/address";
 
 import { CONFIG } from "constants/util";
 import {
@@ -283,10 +283,14 @@ const AddressMain: React.FC<Props> = props => {
 
       if (currentCallBackComponent === "checkout-shipping" && addressId) {
         dispatch(updateShippingAddressId(addressId));
-        if (sameAsShipping) {
+        if (!props.isGoodearthShipping && !props.isBridal && sameAsShipping) {
           dispatch(updateBillingAddressId(addressId));
         }
-
+        dispatch(
+          updateSameAsShipping(
+            !props.isGoodearthShipping && !props.isBridal && sameAsShipping
+          )
+        );
         setIsLoading(false);
       } else if (currentCallBackComponent === "checkout-billing" && addressId) {
         dispatch(updateBillingAddressId(addressId));

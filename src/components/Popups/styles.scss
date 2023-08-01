@@ -69,9 +69,11 @@
           margin-bottom: 0 !important;
         }
         &:hover{
-          background-color: $white;
-          border: 1px solid $med-charcoal;
-          color: $med-charcoal !important;
+          @media screen and (min-width:992px) {
+            background-color: $white;
+            border: 1px solid $med-charcoal;
+            color: $med-charcoal !important; 
+          }
         }
 
         a{
@@ -79,7 +81,10 @@
           opacity: 0.7;
           font-weight: 500;
           &:hover{
-            color: $med-charcoal !important;
+            @media screen and (min-width:992px) {
+              color: $med-charcoal !important; 
+            }
+            
           }
         }
       }
@@ -233,7 +238,8 @@
     }
 .free-shipping-popup {
   .gc-tnc {
-    padding: 50px 0 30px 0 !important;
+    margin-top: 50px;
+    padding: 0px 0 30px 0 !important;
   }
 } 
 .link-text-underline {

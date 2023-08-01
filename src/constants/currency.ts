@@ -13,5 +13,6 @@ export const countryCurrencyCode = {
   US: "USD",
   GB: "GBP",
   AE: "AED",
-  SG: "SGD"
+  SG: "SGD",
+  AU: "USD"
 };

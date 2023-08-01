@@ -373,6 +373,7 @@ const AddressForm: React.FC<Props> = props => {
       } = addressData;
       // update stateOptions based on country
       onCountrySelect(null, countryName);
+      setNickname(addressType || "");
 
       const form = AddressFormRef.current;
       form &&
@@ -394,6 +395,16 @@ const AddressForm: React.FC<Props> = props => {
           },
           true
         );
+
+      setTimeout(() => {
+        const firstErrorField = document.getElementsByClassName(
+          globalStyles.errorBorder
+        )[0] as HTMLDivElement;
+        if (firstErrorField) {
+          firstErrorField.focus();
+          // firstErrorField.scrollIntoView({ block: "start", behavior: "smooth" });
+        }
+      }, 500);
     }
   }, [addressData, countryOptions]);
 
@@ -798,13 +809,13 @@ const AddressForm: React.FC<Props> = props => {
                 isWords: isAlphaError,
                 maxLength: "You cannot type in more than 30 characters"
               }}
-              maxlength={29}
+              maxlength={30}
             />
             <p className={styles.charLimit}>
-              Char Limit: {30 - nickname?.length}/30
+              Char Limit:{" "}
+              {30 - nickname?.length >= 0 ? 30 - nickname?.length : 0}/30
             </p>
           </div>
-
           <div className={styles.addressFormCheckbox}>
             <FormCheckbox
               name="isDefaultForShipping"
@@ -841,12 +852,14 @@ const AddressForm: React.FC<Props> = props => {
                         [styles.charcoalBtn]:
                           currentCallBackComponent == "account" ||
                           currentCallBackComponent == "checkout-shipping" ||
-                          currentCallBackComponent == "checkout-billing"
+                          currentCallBackComponent == "checkout-billing" ||
+                          currentCallBackComponent == "bridal-edit"
                       },
                       {
                         [styles.charcoalBtnWidth]:
                           currentCallBackComponent == "checkout-shipping" ||
-                          currentCallBackComponent == "checkout-billing"
+                          currentCallBackComponent == "checkout-billing" ||
+                          currentCallBackComponent == "bridal-edit"
                       }
                     )}
                     disabled={!isAddressChanged}
@@ -865,38 +878,43 @@ const AddressForm: React.FC<Props> = props => {
                         [styles.charcoalBtn]:
                           currentCallBackComponent == "account" ||
                           currentCallBackComponent == "checkout-shipping" ||
-                          currentCallBackComponent == "checkout-billing"
+                          currentCallBackComponent == "checkout-billing" ||
+                          currentCallBackComponent == "bridal"
                       },
                       {
                         [styles.charcoalBtnWidth]:
                           currentCallBackComponent == "checkout-shipping" ||
-                          currentCallBackComponent == "checkout-billing"
+                          currentCallBackComponent == "checkout-billing" ||
+                          currentCallBackComponent == "bridal"
                       }
                     )}
                     // disabled={!isAddressChanged}
                   />
                 )}
               </div>
-              <div className="col-xs-6">
-                <div
-                  className={cs(
-                    {
-                      [styles.aquaBtn]:
-                        currentCallBackComponent == "account" ||
-                        currentCallBackComponent == "checkout-shipping" ||
-                        currentCallBackComponent == "checkout-billing"
-                    },
-                    {
-                      [styles.charcoalBtnWidth]:
-                        currentCallBackComponent == "checkout-shipping" ||
-                        currentCallBackComponent == "checkout-billing"
-                    }
-                  )}
-                  onClick={closeAddressForm}
-                >
-                  cancel
-                </div>
-              </div>
+              {currentCallBackComponent !== "bridal-edit" &&
+                currentCallBackComponent !== "bridal" && (
+                  <div className="col-xs-6">
+                    <button
+                      className={cs(
+                        {
+                          [styles.aquaBtn]:
+                            currentCallBackComponent == "account" ||
+                            currentCallBackComponent == "checkout-shipping" ||
+                            currentCallBackComponent == "checkout-billing"
+                        },
+                        {
+                          [styles.charcoalBtnWidth]:
+                            currentCallBackComponent == "checkout-shipping" ||
+                            currentCallBackComponent == "checkout-billing"
+                        }
+                      )}
+                      onClick={closeAddressForm}
+                    >
+                      cancel
+                    </button>
+                  </div>
+                )}
             </div>
             {errorMessage ? (
               <p className={globalStyles.errorMsg}>{errorMessage}</p>

@@ -68,7 +68,8 @@ const mapStateToProps = (state: AppState) => {
     isSale: state.info.isSale,
     deliveryText: state.info.deliveryText,
     showPromo: state.info.showPromo,
-    bridalId: state.user.bridalId
+    bridalId: state.user.bridalId,
+    billingAddressId: state.address.billingAddressId
   };
 };
 
@@ -300,8 +301,24 @@ class Checkout extends React.Component<Props, State> {
     if (boId) {
       this.setState({
         activeStep: STEP_BILLING,
-        currentStep: STEP_ORDER[STEP_BILLING]
+        currentStep: STEP_ORDER[STEP_BILLING],
+        boId: boId
       });
+      debugger;
+      if (
+        this.props.history.location.state?.from !== "cart" &&
+        this.props.user.isLoggedIn
+      ) {
+        this.props
+          .logout(this.props.currency, this.props.user.customerGroup)
+          .then(res => {
+            debugger;
+            this.props.history.push(`/cart?bo_id=${boId}`, {
+              from: "checkout"
+            });
+          });
+      }
+
       // this.props
       //   .getBoDetail(boId)
       //   .then((data: any) => {
@@ -797,7 +814,8 @@ class Checkout extends React.Component<Props, State> {
               this.props.currency,
               this.props.basket,
               "",
-              obj.gstNo
+              obj.gstNo,
+              this.props.billingAddressId
             );
           })
           .catch(err => {
@@ -918,6 +936,7 @@ class Checkout extends React.Component<Props, State> {
                 validbo={false}
                 basket={this.props.basket}
                 page="checkout"
+                boId={this.state.boId}
               />
             </div>
           </div>

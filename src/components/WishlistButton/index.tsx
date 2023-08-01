@@ -244,7 +244,7 @@ const WishlistButton: React.FC<Props> = ({
                 {
                   [iconStyles.iconWishlistAdded]: addedToWishlist,
                   [iconStyles.iconWishlist]: !addedToWishlist,
-                  [styles.addedToWishlist]: addedToWishlist,
+                  [styles.addedToWishlist]: addedToWishlist && showText,
                   [styles.mobileWishlist]: mobile
                 }
               )}

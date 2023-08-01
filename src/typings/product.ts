@@ -32,7 +32,7 @@ export interface PLPProductItem {
   invisibleFields: string[];
   partner?: string;
   altText: string;
-  groupedProductsCount: number;
+  groupedProductsCount?: number;
 }
 
 export interface PartialProductItem extends PLPProductItem {

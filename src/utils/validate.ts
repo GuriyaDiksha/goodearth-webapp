@@ -9,7 +9,6 @@ import { GA_CALLS } from "constants/cookieConsent";
 import { sha256 } from "js-sha256";
 import CryptoJS from "crypto-js";
 import { isObject } from "lodash";
-import store from "./../client";
 // import { AppState } from "reducers/typings";
 // import { useSelector } from "react-redux";
 
@@ -304,7 +303,7 @@ export function proceedTocheckout(data: Basket, currency: Currency) {
           item_id: skus, //Pass the product id
           item_name: product.title,
           affiliation: "",
-          coupon: "", // Pass the coupon if available
+          coupon: "NA", // Pass the coupon if available
           currency: currency, // Pass the currency code
           discount: product.discountedPriceRecords
             ? product.discountedPriceRecords[currency]
@@ -313,11 +312,11 @@ export function proceedTocheckout(data: Basket, currency: Currency) {
           item_brand: "goodearth",
           item_category: categoryName,
           item_category2: variants,
-          item_category3: "",
-          item_list_id: "",
+          item_category3: "NA",
+          item_list_id: "NA",
           item_list_name: search,
-          item_variant: "",
-          item_category4: "",
+          item_variant: "NA",
+          item_category4: "NA",
           item_category5: collectionName,
           price: realPrice,
           quantity: 1
@@ -1441,7 +1440,8 @@ export const checkoutGTM = (
   currency: Currency,
   basket: Basket,
   paymentMethod?: string,
-  gstNo?: string
+  gstNo?: string,
+  billingAddressId?: number
 ) => {
   const productList = productForBasketGa(basket, currency);
   const itemList = dataForBilling(basket, currency);
@@ -1472,9 +1472,7 @@ export const checkoutGTM = (
         content_ids: totalId,
         contents: fbproductData
       });
-      const {
-        address: { billingAddressId }
-      } = store?.getState();
+
       dataLayer.push({ ecommerce: null }); // Clear the previous ecommerce object.
       dataLayer.push({
         event: "add_billing_info",

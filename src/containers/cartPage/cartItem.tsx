@@ -33,8 +33,8 @@ const CartItems: React.FC<BasketItem> = memo(
     GCMeta
   }) => {
     const [value, setValue] = useState(quantity | 0);
-    const [qtyError, setQtyError] = useState(false);
-    const [qtyErrorMsg, setQtyErrorMsg] = useState("");
+    // const [qtyError, setQtyError] = useState(false);
+    // const [qtyErrorMsg, setQtyErrorMsg] = useState("");
     const isLoggedIn = useSelector((state: AppState) => state.user.isLoggedIn);
     let { currency } = useSelector((state: AppState) => state.basket);
     if (!currency) {
@@ -59,7 +59,6 @@ const CartItems: React.FC<BasketItem> = memo(
       attributes,
       categories,
       sku,
-      plpSliderImages,
       groupedProductsCount
     } = product;
     const showDeliveryTimelines = true;
@@ -80,12 +79,12 @@ const CartItems: React.FC<BasketItem> = memo(
           }
         })
         .catch(err => {
-          setQtyError(true);
-          setQtyErrorMsg(
-            `Only ${quantity} piece${
-              quantity > 1 ? "s" : ""
-            } available in stock`
-          );
+          // setQtyError(true);
+          // setQtyErrorMsg(
+          //   `Only ${quantity} piece${
+          //     quantity > 1 ? "s" : ""
+          //   } available in stock`
+          // );
           throw err;
         });
     };
@@ -255,7 +254,8 @@ const CartItems: React.FC<BasketItem> = memo(
         return cName;
       };
 
-      return (color && groupedProductsCount > 0) || GCMeta ? (
+      return (color && groupedProductsCount && groupedProductsCount > 0) ||
+        GCMeta ? (
         <div className={styles.color}>
           {color ? "Color: " : "Recipient's Email: "}
           {color ? colorName() : GCMeta?.recipient_email}

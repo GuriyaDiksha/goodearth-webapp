@@ -96,19 +96,27 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
             className={cs(globalStyles.linkTextUnderline, globalStyles.pointer)}
             onClick={() => {
               onUndoWishlistClick();
-              const userConsent = CookieService.getCookie("consent").split(",");
-              if (userConsent.includes(GA_CALLS)) {
-                dataLayer.push({
-                  event: "edit_mini_bag_interactions",
-                  click_type: "Save for later"
-                });
-              }
+              // const userConsent = CookieService.getCookie("consent").split(",");
+              // if (userConsent.includes(GA_CALLS)) {
+              //   dataLayer.push({
+              //     event: "edit_mini_bag_interactions",
+              //     click_type: "Save for later"
+              //   });
+              // }
             }}
           >
             Undo
           </span>
         </div>
       );
+
+      const userConsent = CookieService.getCookie("consent").split(",");
+      if (userConsent.includes(GA_CALLS)) {
+        dataLayer.push({
+          event: "edit_mini_bag_interactions",
+          click_type: "Save for later"
+        });
+      }
       showGrowlMessage(dispatch, msg, 18000);
     },
     goLogin: (event?: React.MouseEvent, nextUrl?: string) => {
@@ -175,7 +183,7 @@ class CartPage extends React.Component<Props, State> {
               .logout(this.props.currency, this.props.user.customerGroup)
               .then(res => {
                 localStorage.setItem("tempEmail", data.email);
-                this.props.goLogin(undefined, "");
+                this.props.goLogin(undefined, "/order/checkout");
                 // this.setState({
                 //   boEmail: data.email,
                 //   boId: boId
@@ -185,7 +193,7 @@ class CartPage extends React.Component<Props, State> {
             CookieService.setCookie("currency", data.currency, 365);
             CookieService.setCookie("currencypopup", "true", 365);
             localStorage.setItem("tempEmail", data.email);
-            this.props.goLogin(undefined, "");
+            this.props.goLogin(undefined, "/order/checkout");
           } else {
             this.props.history.push("/backend-order-error");
           }
@@ -197,7 +205,7 @@ class CartPage extends React.Component<Props, State> {
 
     if (this.props.history.location.state?.from == "checkout") {
       if (!this.props.isLoggedIn) {
-        this.props.goLogin(undefined);
+        this.props.goLogin(undefined, "/order/checkout");
       }
     }
     pageViewGTM("Cart");

@@ -682,6 +682,7 @@ hr {
     .selected-stvalue {
       // margin-top: 10px;
       color: #808080;
+      padding-top: 10px
     }
 
     .payment {
@@ -1182,10 +1183,12 @@ input[type="radio"] {
     border: 1px solid $med-charcoal;
     z-index: 1;
     &:hover {
-      background: $white 0% 0% no-repeat padding-box;
-      border: 1px solid $med-charcoal;
-      opacity: 1;
-      color: $med-charcoal;
+      @media screen and (min-width:992px) {
+        background: $white 0% 0% no-repeat padding-box;
+        border: 1px solid $med-charcoal;
+        opacity: 1;
+        color: $med-charcoal; 
+      }
     }
     @media (max-width: 992px) {
       left: 0;

@@ -14,6 +14,7 @@ import moment from "moment";
 import * as util from "utils/validate";
 import CookieService from "services/cookie";
 import { GA_CALLS } from "constants/cookieConsent";
+import { displayPriceWithCommasFloat } from "utils/utility";
 
 const orderConfirmation: React.FC<{ oid: string }> = props => {
   const {
@@ -671,7 +672,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                               >
                                 {isdisCount || isFlat ? (
                                   <span className={styles.discountprice}>
-                                    {String.fromCharCode(
+                                    {/* {String.fromCharCode(
                                       ...currencyCode[
                                         item.priceCurrency as Currency
                                       ]
@@ -679,14 +680,19 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                                     {Number.isSafeInteger(+price1)
                                       ? price1
                                       : price1.toFixed(2) + ""}
-                                    &nbsp;{" "}
+                                    &nbsp;{" "} */}
+                                    {`${displayPriceWithCommasFloat(
+                                      price1,
+                                      confirmData.currency
+                                    )}`}
+                                    &nbsp;
                                   </span>
                                 ) : (
                                   ""
                                 )}
                                 {isdisCount ? (
                                   <span className={styles.strikeprice}>
-                                    {String.fromCharCode(
+                                    {/* {String.fromCharCode(
                                       ...currencyCode[
                                         item.priceCurrency as Currency
                                       ]
@@ -694,7 +700,12 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                                     {Number.isSafeInteger(+price2)
                                       ? price2
                                       : price2.toFixed(2) + ""}
-                                    &nbsp;{" "}
+                                    &nbsp;{" "} */}
+                                    {`${displayPriceWithCommasFloat(
+                                      price2,
+                                      confirmData.currency
+                                    )}`}
+                                    &nbsp;
                                   </span>
                                 ) : (
                                   <span
@@ -706,7 +717,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                                       styles.price
                                     )}
                                   >
-                                    {String.fromCharCode(
+                                    {/* {String.fromCharCode(
                                       ...currencyCode[
                                         item.priceCurrency as Currency
                                       ]
@@ -714,7 +725,11 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                                     &nbsp;{" "}
                                     {Number.isSafeInteger(+price3)
                                       ? price3
-                                      : price3.toFixed(2) + ""}
+                                      : price3.toFixed(2) + ""} */}
+                                    {`${displayPriceWithCommasFloat(
+                                      price3,
+                                      confirmData.currency
+                                    )}`}
                                   </span>
                                 )}
                               </p>

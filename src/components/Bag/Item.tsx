@@ -44,25 +44,25 @@ const LineItems: React.FC<BasketItem> = memo(
       currency = "INR";
     }
     const { dispatch } = useStore();
-    const [showError, setShowError] = useState(false);
-    const [error, setError] = useState("");
+    // const [showError, setShowError] = useState(false);
+    // const [error, setError] = useState("");
 
     const handleChange = async (currentvalue: number) => {
       await BasketService.updateToBasket(dispatch, id, currentvalue)
         .then(res => {
-          setValue(value);
+          setValue(currentvalue);
           dataLayer.push({
             event: "edit_mini_bag_interactions",
             click_type: currentvalue > value ? "Quantity(+)" : "Quantity(-)"
           });
         })
         .catch(err => {
-          setShowError(true);
-          setError(
-            `Only ${quantity} piece${
-              quantity > 1 ? "s" : ""
-            } available in stock`
-          );
+          // setShowError(true);
+          // setError(
+          //   `Only ${quantity} piece${
+          //     quantity > 1 ? "s" : ""
+          //   } available in stock`
+          // );
           // setQtyError(true);
           throw err;
         });
@@ -76,10 +76,6 @@ const LineItems: React.FC<BasketItem> = memo(
             className={cs(globalStyles.linkTextUnderline, globalStyles.pointer)}
             onClick={async () => {
               const res = await WishlistService.undoMoveToWishlist(dispatch);
-              dataLayer.push({
-                event: "edit_mini_bag_interactions",
-                click_type: "Save for later"
-              });
               dispatch(updateBasket(res.basket));
             }}
           >
@@ -87,6 +83,13 @@ const LineItems: React.FC<BasketItem> = memo(
           </span>
         </div>
       );
+      const userConsent = CookieService.getCookie("consent").split(",");
+      if (userConsent.includes(GA_CALLS)) {
+        dataLayer.push({
+          event: "edit_mini_bag_interactions",
+          click_type: "Save for later"
+        });
+      }
       showGrowlMessage(dispatch, msg, 18000);
     };
 
@@ -253,7 +256,8 @@ const LineItems: React.FC<BasketItem> = memo(
         return cName;
       };
 
-      return (color && groupedProductsCount > 0) || GCMeta ? (
+      return (color && groupedProductsCount && groupedProductsCount > 0) ||
+        GCMeta ? (
         <div className={styles.color}>
           {color ? "Color: " : "Recipient's Email: "}{" "}
           {color ? colorName() : GCMeta?.recipient_email}

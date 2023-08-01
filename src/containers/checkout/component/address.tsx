@@ -101,7 +101,7 @@ const AddressSection: React.FC<AddressProps & {
   const [pancardCheck, setPancardCheck] = useState(false);
   const [panError, setPanError] = useState("");
   const [panCheck, setPanCheck] = useState("");
-  const [isTermChecked, setIsTermChecked] = useState(false);
+  const [isTermChecked, setIsTermChecked] = useState(true);
   const [termsErr, setTermsErr] = useState("");
   const [gstDetails, setGstDetails] = useState({ gstText: "", gstType: "" });
 
@@ -166,25 +166,26 @@ const AddressSection: React.FC<AddressProps & {
         ? val?.id === shippingAddressId
         : val?.isDefaultForShipping
     );
-    AddressService.fetchCustomDuties(
-      dispatch,
-      countryCurrencyCode[data?.country || "IN"]
-    )
-      .then(res => {
-        setIsTermChecked(customDuties?.visible || false);
-        setTermsErr("");
-        dispatch(updateCustomDuties(res));
-      })
-      .catch(e => {
-        setIsTermChecked(e?.response?.data?.visible || false);
-        setTermsErr("");
-        dispatch(
-          updateCustomDuties({
-            visible: e?.response?.data?.visible,
-            message: ""
-          })
-        );
-      });
+    AddressService.fetchCustomDuties &&
+      AddressService.fetchCustomDuties(
+        dispatch,
+        countryCurrencyCode?.[data?.country || "IN"]
+      )
+        .then(res => {
+          setIsTermChecked(customDuties?.visible || true);
+          setTermsErr("");
+          dispatch(updateCustomDuties(res));
+        })
+        .catch(e => {
+          setIsTermChecked(e?.response?.data?.visible || false);
+          setTermsErr("");
+          dispatch(
+            updateCustomDuties({
+              visible: e?.response?.data?.visible,
+              message: ""
+            })
+          );
+        });
   }, [shippingAddressId]);
 
   useEffect(() => {
@@ -224,13 +225,14 @@ const AddressSection: React.FC<AddressProps & {
     setPancardText(user.panPassport || "");
   }, [user.panPassport]);
 
-  useEffect(() => {
-    dispatch(
-      updateSameAsShipping(
-        !isGoodearthShipping && hidesameShipping && !isBridal
-      )
-    );
-  }, [isGoodearthShipping, hidesameShipping, isBridal]);
+  // Commented because of Same as shipping issue
+  // useEffect(() => {
+  //   dispatch(
+  //     updateSameAsShipping(
+  //       !isGoodearthShipping && !isBridal
+  //     )
+  //   );
+  // }, [isGoodearthShipping, isBridal]);
 
   useEffect(() => {
     setPanError("");
@@ -496,6 +498,9 @@ const AddressSection: React.FC<AddressProps & {
   };
 
   const toggleSameAsShipping = () => {
+    if (!sameAsShipping) {
+      dispatch(updateBillingAddressId(shippingAddressId));
+    }
     dispatch(updateSameAsShipping(!sameAsShipping));
   };
 
@@ -611,6 +616,58 @@ const AddressSection: React.FC<AddressProps & {
       return validate;
     }
   };
+
+  const addGAForShipping = (address: any) => {
+    const userConsent = CookieService.getCookie("consent").split(",");
+    const items = basket.lineItems.map((line, ind) => {
+      const index = line?.product.categories
+        ? line?.product.categories.length - 1
+        : 0;
+      const category =
+        line?.product.categories && line?.product.categories[index]
+          ? line?.product.categories[index].replace(/\s/g, "")
+          : "";
+      const arr = category.split(">");
+
+      return {
+        item_id: line?.product?.id, //Pass the product id
+        item_name: line?.product?.title, // Pass the product name
+        affiliation: line?.product?.title, // Pass the product name
+        coupon: "", // Pass the coupon if available
+        currency: currency, // Pass the currency code
+        discount: "", // Pass the discount amount
+        index: ind,
+        item_brand: "Goodearth",
+        item_category: arr[arr.length - 2],
+        item_category2: arr[arr.length - 1],
+        item_category3: "",
+        item_list_id: "",
+        item_list_name: "",
+        item_variant: "",
+        item_category4: "",
+        item_category5: line?.product?.collection,
+        price: line?.product?.priceRecords[currency],
+        quantity: line?.quantity
+      };
+    });
+
+    if (userConsent.includes(GA_CALLS)) {
+      dataLayer.push({ ecommerce: null }); // Clear the previous ecommerce object.
+      dataLayer.push({
+        event: "add_shipping_info",
+        shipping_address: shippingAddressId,
+        gst_invoice: "",
+        delivery_instruction: "", //Pass NA if not applicable the moment
+        ecommerce: {
+          currency: currency, // Pass the currency code
+          value: basket?.total,
+          coupon: "",
+          items: items
+        }
+      });
+    }
+  };
+
   const onSelectAddress = (address?: AddressData) => {
     if (activeStep === STEP_SHIPPING) {
       if (!isBridal && customDuties?.visible && !isTermChecked) {
@@ -635,6 +692,7 @@ const AddressSection: React.FC<AddressProps & {
       }
     }
     if (activeStep === STEP_SHIPPING) {
+      addGAForShipping(address);
       next(STEP_BILLING);
     }
     return true;
@@ -862,15 +920,15 @@ const AddressSection: React.FC<AddressProps & {
 
     return (
       show && (
-        <div
-          className={cs(
-            styles.payment,
-            globalStyles.voffset4,
-            styles.widthFitContent
-          )}
-        >
+        <div className={cs(styles.payment, globalStyles.voffset4)}>
           {!mobile && <hr className={globalStyles.marginy24} />}
-          <label className={cs(styles.flex, styles.crossCenter)}>
+          <label
+            className={cs(
+              styles.flex,
+              styles.crossCenter,
+              styles.widthFitContent
+            )}
+          >
             <div className={globalStyles.marginR10}>
               <span className={styles.checkbox}>
                 <input type="checkbox" onChange={toggleSameAsShipping} />
@@ -966,9 +1024,9 @@ const AddressSection: React.FC<AddressProps & {
             className={
               isActive
                 ? cs(styles.card, styles.cardOpen, styles.marginT5)
-                : mobile && !(STEP_ORDER[activeStep] < currentStep)
-                ? styles.hidden
-                : cs(styles.card, styles.cardClosed, styles.marginT5)
+                : //: !(STEP_ORDER[activeStep] < currentStep)
+                  // styles.hidden
+                  cs(styles.card, styles.cardClosed, styles.marginT5)
             }
           >
             <div className={bootstrapStyles.row}>
@@ -1008,7 +1066,11 @@ const AddressSection: React.FC<AddressProps & {
                       : "BILLING ADDRESS"}
                   </span>
                 </div>
-                {mobile && renderActions(false)}
+                {mobile &&
+                  renderActions(
+                    false,
+                    activeStep == STEP_BILLING && !isActive && !billingAddressId
+                  )}
               </div>
               {!mobile &&
                 renderActions(
@@ -1021,7 +1083,7 @@ const AddressSection: React.FC<AddressProps & {
               <>
                 <div>
                   {/* <div>{renderPancard}</div> */}
-                  {props.activeStep == STEP_BILLING && props.hidesameShipping && (
+                  {props.activeStep == STEP_BILLING && (
                     <>
                       <div>{renderBillingCheckbox()}</div>
                       {!sameAsShipping &&
@@ -1104,9 +1166,10 @@ const AddressSection: React.FC<AddressProps & {
                                         <span className={styles.checkbox}>
                                           <input
                                             type="checkbox"
-                                            onClick={() =>
-                                              setIsTermChecked(!isTermChecked)
-                                            }
+                                            onClick={() => {
+                                              setIsTermChecked(!isTermChecked);
+                                              setTermsErr("");
+                                            }}
                                           />
                                           <span
                                             className={cs(styles.indicator, {
@@ -1178,7 +1241,7 @@ const AddressSection: React.FC<AddressProps & {
                                 mode == "list" &&
                                 (props.activeStep == STEP_SHIPPING ||
                                   (props.activeStep == STEP_BILLING &&
-                                    !props.hidesameShipping)) &&
+                                    false)) &&
                                 renderActions(false)}
                             </div>
                           </>

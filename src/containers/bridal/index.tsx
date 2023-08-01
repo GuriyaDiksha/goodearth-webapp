@@ -126,7 +126,7 @@ class BridalCheckout extends React.Component<Props, State> {
     if (this.isSuspended) {
       this.resetInfoPopupCookie();
     }
-    this.props.history.push("/order/checkout/");
+    this.props.history.push("/order/checkout");
   };
 
   componentDidMount() {

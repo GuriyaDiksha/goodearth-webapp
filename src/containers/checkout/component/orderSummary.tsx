@@ -89,7 +89,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
   }, []);
   // End: Intersection Observer (Mobile)
 
-  const { isSale, showDeliveryInstruction, deliveryText } = useSelector(
+  const { showDeliveryInstruction, deliveryText } = useSelector(
     (state: AppState) => state.info
   );
   let { currency } = useSelector((state: AppState) => state.basket);
@@ -433,7 +433,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
                 {" "}
                 {gift.cardType == "CREDITNOTE"
                   ? "(Credit Note Applied)"
-                  : "(Gift Code Applied)"}
+                  : !mobile && "(Gift Code Applied)"}
                 <span
                   className={cs(globalStyles.marginL5, styles.cross)}
                   onClick={() => {
@@ -448,6 +448,11 @@ const OrderSummary: React.FC<OrderProps> = props => {
                     )}
                   ></i>
                 </span>
+                {gift.cardType != "CREDITNOTE" && mobile && (
+                  <span className={styles.giftCreditCodeText}>
+                    (Gift Code Applied)
+                  </span>
+                )}
               </span>
             </span>
             <span className={styles.subtotal}>
@@ -740,8 +745,8 @@ const OrderSummary: React.FC<OrderProps> = props => {
                 )}
               </span>
             </div>
-            {(((pathname === "/order/checkout" || pathname === "/cart") &&
-              !mobile) ||
+            {((pathname === "/order/checkout" && !mobile) ||
+              pathname === "/cart" ||
               (page == "checkoutMobileBottom" &&
                 !checkoutOrderSummaryStatus)) &&
               getCoupons()}
@@ -811,8 +816,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
     totalWithoutShipping,
     freeShippingThreshold,
     freeShippingApplicable,
-    shippable,
-    total
+    shippable
   } = props.basket;
   return (
     <div
@@ -964,7 +968,11 @@ const OrderSummary: React.FC<OrderProps> = props => {
           ""
         ) : (
           <div className={cs(styles.summaryPadding, styles.summaryHeader)}>
-            <h3 className={cs(styles.summaryTitle)}>
+            <h3
+              className={cs(styles.summaryTitle, {
+                [styles.summaryTitleTwo]: pathname === "/cart"
+              })}
+            >
               ORDER SUMMARY{" "}
               {pathname === "/order/checkout" ? `(${getItemsCount()})` : null}
               {page == "checkout" && !validbo ? (
@@ -980,7 +988,9 @@ const OrderSummary: React.FC<OrderProps> = props => {
                 ""
               )}
             </h3>
-            {pathname === "/order/checkout" && <Link to="/cart">EDIT BAG</Link>}
+            {pathname === "/order/checkout" && !boId && (
+              <Link to="/cart">EDIT BAG</Link>
+            )}
           </div>
         )}
 
