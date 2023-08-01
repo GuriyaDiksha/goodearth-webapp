@@ -510,4 +510,19 @@ span.checkout-forgot-pass{
     top: 10px;
     left: 30px;
   }
+  .manage-line ~ .tooltip {
+    .tooltip-msg {
+      &.show {
+        bottom: 34px;
+        left: -10px;
+        @media screen and (max-width: 768px){
+          bottom: 50px !important;
+        }
+      }
+    } 
+    img {
+      top: -8px;
+      left: -10px;
+    }
+  }
 }
