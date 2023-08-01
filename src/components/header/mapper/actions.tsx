@@ -43,8 +43,9 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       if (!page?.includes("/wishlist")) {
         WishlistService.updateWishlist(dispatch, sortBy);
       }
-
-      BasketService.fetchBasket(dispatch);
+      if (!page?.includes("/cart") || !page?.includes("/order/checkout")) {
+        BasketService.fetchBasket(dispatch);
+      }
     },
     changeCurrency: async (data: { currency: Currency }) => {
       const response = await LoginService.changeCurrency(dispatch, data);

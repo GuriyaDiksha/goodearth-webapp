@@ -3,6 +3,7 @@ import API from "utils/api";
 import { ApiResponse } from "typings/api";
 import { updateBasket } from "actions/basket";
 import { Basket } from "typings/basket";
+import { updateShowShippingAddress } from "actions/info";
 
 export default {
   applyGiftCard: async function(dispatch: Dispatch, formData: any) {
@@ -75,6 +76,7 @@ export default {
       {}
     );
     dispatch(updateBasket(res));
+    dispatch(updateShowShippingAddress(true));
     return res;
   },
   getPaymentList: async function(dispatch: Dispatch) {

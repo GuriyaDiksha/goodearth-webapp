@@ -434,7 +434,11 @@ const AddressSection: React.FC<AddressProps & {
               <p className={styles.phone}>
                 M: {address.phoneCountryCode} {address.phoneNumber}
               </p>
-              {gstNum && <p className={styles.gstNo}>GSTIN: {gstNum}</p>}
+              {gstNum && (
+                <p className={styles.gstNo}>
+                  {gstDetails?.gstType}: {gstNum}
+                </p>
+              )}
             </>
           ) : (
             <>
@@ -498,10 +502,11 @@ const AddressSection: React.FC<AddressProps & {
   };
 
   const toggleSameAsShipping = () => {
+    dispatch(updateSameAsShipping(!sameAsShipping));
+
     if (!sameAsShipping) {
       dispatch(updateBillingAddressId(shippingAddressId));
     }
-    dispatch(updateSameAsShipping(!sameAsShipping));
   };
 
   const checkPancardValidation = () => {
@@ -713,7 +718,7 @@ const AddressSection: React.FC<AddressProps & {
             parentError: props.error,
             isActive: isActive,
             setGstNum: setGstNum,
-            sameAsShipping: sameAsShipping,
+            // sameAsShipping: sameAsShipping,
             setSameAsShipping: updateSameAsShipping
           },
           mobile ? false : true,
@@ -736,7 +741,7 @@ const AddressSection: React.FC<AddressProps & {
             parentError: "",
             isActive: isActive,
             setGstNum: setGstNum,
-            sameAsShipping: sameAsShipping,
+            // sameAsShipping: sameAsShipping,
             setSameAsShipping: updateSameAsShipping
           },
           mobile ? false : true,
@@ -817,7 +822,7 @@ const AddressSection: React.FC<AddressProps & {
                   I need a GST invoice
                   {gstNum && (
                     <label className={styles.gstInvoiseNo}>
-                      GSTIN: {gstNum}
+                      {gstDetails?.gstType}: {gstNum}
                     </label>
                   )}
                 </div>

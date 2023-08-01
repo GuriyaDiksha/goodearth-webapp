@@ -47,10 +47,14 @@ const LoginForm = (props: any) => {
     if (pathname.startsWith("/password-reset")) {
       history.push("/");
     }
-    debugger;
     if (nextUrl) {
       if (boId && nextUrl === "/order/checkout") {
-        props.history.push(`${nextUrl}?bo_id=${boId}`, { from: "cart" });
+        props.history.push({
+          pathname: nextUrl,
+          search: `?bo_id=${boId}`,
+          state: { from: "cart" }
+        });
+        localStorage.setItem("from", "cart");
       } else {
         history.push(nextUrl);
       }

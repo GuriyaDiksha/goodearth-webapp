@@ -54,6 +54,7 @@ import { Currency } from "typings/currency";
 import CheckoutBreadcrumb from "./component/CheckoutBreadcrumb";
 import Loader from "components/Loader";
 import { GA_CALLS } from "constants/cookieConsent";
+import { updateShowShippingAddress } from "actions/info";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -69,7 +70,8 @@ const mapStateToProps = (state: AppState) => {
     deliveryText: state.info.deliveryText,
     showPromo: state.info.showPromo,
     bridalId: state.user.bridalId,
-    billingAddressId: state.address.billingAddressId
+    billingAddressId: state.address.billingAddressId,
+    showShipping: state.info.showShipping
   };
 };
 
@@ -180,6 +182,9 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     goLogin: (event?: React.MouseEvent, nextUrl?: string) => {
       LoginService.showLogin(dispatch);
       event?.preventDefault();
+    },
+    showShippingAddress: () => {
+      dispatch(updateShowShippingAddress(false));
     }
   };
 };
@@ -304,21 +309,25 @@ class Checkout extends React.Component<Props, State> {
         currentStep: STEP_ORDER[STEP_BILLING],
         boId: boId
       });
-      debugger;
       if (
-        this.props.history.location.state?.from !== "cart" &&
+        localStorage.getItem("from") !== "cart" &&
         this.props.user.isLoggedIn
       ) {
+        localStorage.removeItem("from");
         this.props
           .logout(this.props.currency, this.props.user.customerGroup)
           .then(res => {
-            debugger;
-            this.props.history.push(`/cart?bo_id=${boId}`, {
+            this.props.history.push("/cart", {
               from: "checkout"
             });
           });
       }
 
+      if (!this.props.user.isLoggedIn) {
+        this.props.history.push("/cart", { from: "checkout" });
+      }
+
+      localStorage.removeItem("from");
       // this.props
       //   .getBoDetail(boId)
       //   .then((data: any) => {
@@ -505,6 +514,14 @@ class Checkout extends React.Component<Props, State> {
         shippingAddress: nextProps.user.shippingData || undefined,
         errorNotification: ""
       });
+    }
+
+    //
+    if (this.props.showShipping !== nextProps.showShipping) {
+      if (nextProps.showShipping) {
+        this.nextStep(STEP_SHIPPING);
+        this.props.showShippingAddress();
+      }
     }
   }
 

@@ -28,7 +28,7 @@ type PopupProps = {
   parentError: string;
   isActive: boolean;
   setGstNum: (data: string) => any;
-  sameAsShipping: boolean;
+  // sameAsShipping: boolean;
   setSameAsShipping: (data: boolean) => any;
 };
 
@@ -39,16 +39,19 @@ const BillingGST: React.FC<PopupProps> = ({
   parentError,
   isActive,
   setGstNum,
-  sameAsShipping,
+  // sameAsShipping,
   setSameAsShipping
 }) => {
   const { closeModal } = useContext(Context);
   const [gstText, setGstText] = useState("");
   const [gstType, setGstType] = useState("GSTIN");
   const [error, setError] = useState("");
-  const { addressList, shippingAddressId, billingAddressId } = useSelector(
-    (state: AppState) => state.address
-  );
+  const {
+    addressList,
+    shippingAddressId,
+    billingAddressId,
+    sameAsShipping
+  } = useSelector((state: AppState) => state.address);
   const { mobile } = useSelector((state: AppState) => state.device);
   const dispatch = useDispatch();
 
