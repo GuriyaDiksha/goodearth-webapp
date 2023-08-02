@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import moment from "moment";
 import { OrdersProps } from "./typings";
 import AccountService from "services/account";
-import { currencyCode, Currency } from "typings/currency";
 import bootstrapStyles from "../../../../styles/bootstrap/bootstrap-grid.scss";
 import globalStyles from "styles/global.scss";
 import styles from "../styles.scss";
@@ -126,12 +125,7 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
     const data: any = orderdata;
     const html = [],
       shippingAddress = data.shippingAddress[0],
-      billingAddress = data.billingAddress[0],
-      priceCurrency = item.currency;
-
-    const currencyChar = String.fromCharCode(
-      ...currencyCode[priceCurrency as Currency]
-    );
+      billingAddress = data.billingAddress[0];
 
     html.push(
       <div className={cs(styles.addressBlock, styles.myordersAddressblock)}>
@@ -221,10 +215,6 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
         const price =
           +parseFloat(item.priceExclTaxExclDiscounts).toFixed(2) /
           +item.quantity;
-
-        const charCurrency = String.fromCharCode(
-          ...currencyCode[item.priceCurrency as Currency]
-        );
 
         html.push(
           <div className={cs(styles.product)} key={item.product.id}>

@@ -126,12 +126,12 @@ const PDPImagesContainer: React.FC<Props> = ({
             <div
               key={`img_${index}`}
               className={cs(
-                styles.productImage,
+                styles.productImage
                 //For 3 Images
-                { [styles.thirdImage]: index == 2 && length == 3 },
+                // { [styles.thirdImage]: index == 2 && length == 3 },
                 //For 5 and 7 images
-                { [styles.topRowImages]: index < oddRowIndices[length] },
-                { [styles.bottomRowImages]: index >= oddRowIndices[length] }
+                //  { [styles.topRowImages]: index < oddRowIndices[length] },
+                // { [styles.bottomRowImages]: index >= oddRowIndices[length] }
               )}
               onClick={() => {
                 onClick(index);
@@ -159,6 +159,7 @@ const PDPImagesContainer: React.FC<Props> = ({
                     playing={true}
                     width={"100%"}
                     height={"auto"}
+                    playsinline={true}
                   />
                 </div>
               )}

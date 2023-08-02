@@ -11,7 +11,6 @@ import { AppState } from "reducers/typings";
 import LazyImage from "components/LazyImage";
 import CartSlider from "components/CartSlider";
 import { Link } from "react-router-dom";
-import { currencyCodes } from "constants/currency";
 import bootstrap from "styles/bootstrap/bootstrap-grid.scss";
 import SizeSelector from "components/SizeSelector";
 import PdpQuantity from "components/quantity/pdpQuantity";

@@ -57,6 +57,7 @@ const ZoomImageSlider: React.FC<Props> = ({
               volume={1}
               muted={true}
               id={`product${i}`}
+              playsinline={true}
             />
           </>
         )}
