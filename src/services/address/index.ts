@@ -8,7 +8,11 @@ import {
 } from "components/Address/typings";
 import { PinCodeData } from "components/Formsy/PinCode/typings";
 import { updateAddressList } from "actions/address";
-import { specifyBillingAddressData } from "containers/checkout/typings";
+import {
+  specifyBillingAddressData,
+  validateGSTData,
+  validateGSTDataResponse
+} from "containers/checkout/typings";
 import { updateBasket } from "actions/basket";
 import CacheService from "services/cache";
 import { MESSAGE } from "constants/messages";
@@ -137,6 +141,14 @@ export default {
       dispatch,
       `${__API_HOST__}/myapi/shipping/custom_duties/`,
       { currency }
+    );
+    return data;
+  },
+  validateGST: async (dispatch: Dispatch, validateGSTData: validateGSTData) => {
+    const data = await API.post<validateGSTDataResponse>(
+      dispatch,
+      `${__API_HOST__}/myapi/common/validate_gst/`,
+      validateGSTData
     );
     return data;
   }

@@ -49,8 +49,8 @@ const AddressSection: React.FC<AddressProps & {
     isActive,
     isBridal,
     selectedAddress,
-    isGoodearthShipping,
-    hidesameShipping,
+    // isGoodearthShipping,
+    // hidesameShipping,
     next,
     errorNotification,
     currentStep
@@ -65,8 +65,8 @@ const AddressSection: React.FC<AddressProps & {
   } = useContext(AddressContext);
   const { currency, user } = useSelector((state: AppState) => state);
   const {
-    basket,
-    modal: { openModal }
+    basket
+    // modal: { openModal }
   } = useSelector((state: AppState) => state);
   const { mobile } = useSelector((state: AppState) => state.device);
   const {
@@ -95,7 +95,7 @@ const AddressSection: React.FC<AddressProps & {
 
   // const [sameAsShipping, setSameAsShipping] = useState(sameShipping);
   const [gst, setGst] = useState(false);
-  const [gstNum, setGstNum] = useState("");
+  // const [gstNum, setGstNum] = useState("");
   // let gstNum: any;
   const [pancardText, setPancardText] = useState(user.panPassport || "");
   const [pancardCheck, setPancardCheck] = useState(false);
@@ -157,7 +157,7 @@ const AddressSection: React.FC<AddressProps & {
   }, [isLoggedIn]);
 
   useEffect(() => {
-    gstNum && setGstNum("");
+    setGstDetails({ gstText: "", gstType: "" });
   }, [shippingAddressId, billingAddressId]);
 
   useEffect(() => {
@@ -434,9 +434,9 @@ const AddressSection: React.FC<AddressProps & {
               <p className={styles.phone}>
                 M: {address.phoneCountryCode} {address.phoneNumber}
               </p>
-              {gstNum && (
+              {gstDetails?.gstText && (
                 <p className={styles.gstNo}>
-                  {gstDetails?.gstType}: {gstNum}
+                  {gstDetails?.gstType}: {gstDetails?.gstText}
                 </p>
               )}
             </>
@@ -560,27 +560,23 @@ const AddressSection: React.FC<AddressProps & {
       }
     }, 500);
   };
-
-  const onSubmit: any = (
-    address?: AddressData | undefined,
-    gstText?: string,
-    gstType?: string
-  ) => {
+  console.log("check===", gstDetails, gst);
+  const onSubmit: any = (address?: AddressData | undefined) => {
     let validate = true;
     const addr = address || null;
     let numberObj: { gstNo?: string; gstType?: string; panPassportNo: string };
     const amountPriceCheck = amountPrice[currency] <= basket.total;
-    setGstNum(gstText || gstNum);
+    // setGstNum(gstText || gstNum);
 
-    if (gstText) {
-      setGstDetails({ gstText: gstText, gstType: gstType || "" });
-    }
-    if (gstText || gstNum) {
+    // if (gstText) {
+    //   setGstDetails({ gstText: gstText, gstType: gstType || "" });
+    // }
+    if (gstDetails?.gstText) {
       numberObj = Object.assign(
         {},
         {
-          gstNo: gstText || gstDetails?.gstText,
-          gstType: gstType || gstDetails?.gstType,
+          gstNo: gstDetails?.gstText,
+          gstType: gstDetails?.gstType,
           panPassportNo: pancardText
         }
       );
@@ -706,28 +702,29 @@ const AddressSection: React.FC<AddressProps & {
     onSubmit(address);
   };
 
-  useEffect(() => {
-    if (openModal && gst) {
-      dispatch(
-        updateComponent(
-          POPUP.BILLINGGST,
-          {
-            onSubmit: onSubmit,
-            setGst: setGst,
-            gstNum: gstNum,
-            parentError: props.error,
-            isActive: isActive,
-            setGstNum: setGstNum,
-            // sameAsShipping: sameAsShipping,
-            setSameAsShipping: updateSameAsShipping
-          },
-          mobile ? false : true,
-          mobile ? ModalStyles.bottomAlignSlideUp : "",
-          mobile ? "slide-up-bottom-align" : ""
-        )
-      );
-    }
-  }, [props.error, isActive]);
+  // useEffect(() => {
+  //   if (openModal && gst) {
+  //     dispatch(
+  //       updateComponent(
+  //         POPUP.BILLINGGST,
+  //         {
+  //           onSubmit: onSubmit,
+  //           setGst: setGst,
+  //           gstNum: gstNum,
+  //           parentError: props.error,
+  //           isActive: isActive,
+  //           setGstNum: setGstNum,
+  //           // sameAsShipping: sameAsShipping,
+  //           setSameAsShipping: updateSameAsShipping,
+  //           setGstDetails:setGstDetails
+  //         },
+  //         mobile ? false : true,
+  //         mobile ? ModalStyles.bottomAlignSlideUp : "",
+  //         mobile ? "slide-up-bottom-align" : ""
+  //       )
+  //     );
+  //   }
+  // }, [props.error, isActive]);
   const toggleGstInvoice = () => {
     setGst(!gst);
     if (!gst) {
@@ -735,13 +732,8 @@ const AddressSection: React.FC<AddressProps & {
         updateComponent(
           POPUP.BILLINGGST,
           {
-            onSubmit: onSubmit,
             setGst: setGst,
-            gstNum: gstNum,
-            parentError: "",
-            isActive: isActive,
-            setGstNum: setGstNum,
-            // sameAsShipping: sameAsShipping,
+            setGstDetails: setGstDetails,
             setSameAsShipping: updateSameAsShipping
           },
           mobile ? false : true,
@@ -751,7 +743,7 @@ const AddressSection: React.FC<AddressProps & {
       );
       dispatch(updateModal(true));
     } else {
-      setGstNum("");
+      setGstDetails({ gstText: "", gstType: "" });
     }
   };
 
@@ -807,7 +799,7 @@ const AddressSection: React.FC<AddressProps & {
                     <span
                       id="gst"
                       className={cs(styles.indicator, {
-                        [styles.checked]: gst && gstNum
+                        [styles.checked]: gst && gstDetails?.gstText
                       })}
                     ></span>
                   </span>
@@ -820,9 +812,9 @@ const AddressSection: React.FC<AddressProps & {
                   )}
                 >
                   I need a GST invoice
-                  {gstNum && (
+                  {gstDetails?.gstText && (
                     <label className={styles.gstInvoiseNo}>
-                      {gstDetails?.gstType}: {gstNum}
+                      {gstDetails?.gstType}: {gstDetails?.gstText}
                     </label>
                   )}
                 </div>
@@ -916,7 +908,7 @@ const AddressSection: React.FC<AddressProps & {
     basket.total,
     pancardText,
     currency,
-    gstNum
+    gstDetails
   ]);
 
   const renderBillingCheckbox = function() {

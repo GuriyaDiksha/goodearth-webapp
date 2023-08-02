@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import cs from "classnames";
 import globalStyles from "styles/global.scss";
 import styles from "../styles.scss";
@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppState } from "reducers/typings";
 import { GA_CALLS } from "constants/cookieConsent";
 import CookieService from "services/cookie";
+import AddressService from "services/address";
 
 const desc = {
   GSTIN:
@@ -22,24 +23,14 @@ const title = {
 };
 
 type PopupProps = {
-  onSubmit: (address: null, gstType: string, gstText: string) => any;
   setGst: (data: boolean) => any;
-  gstNum: string;
-  parentError: string;
-  isActive: boolean;
-  setGstNum: (data: string) => any;
-  // sameAsShipping: boolean;
+  setGstDetails: (data: { gstText: string; gstType: string }) => any;
   setSameAsShipping: (data: boolean) => any;
 };
 
 const BillingGST: React.FC<PopupProps> = ({
-  onSubmit,
   setGst,
-  gstNum,
-  parentError,
-  isActive,
-  setGstNum,
-  // sameAsShipping,
+  setGstDetails,
   setSameAsShipping
 }) => {
   const { closeModal } = useContext(Context);
@@ -67,17 +58,17 @@ const BillingGST: React.FC<PopupProps> = ({
   const msg =
     "To be able to create a GST invoice, your billing address state must match the state registered with your GST no.";
 
-  useEffect(() => {
-    setGstText(gstNum);
-  }, [gstNum]);
+  // useEffect(() => {
+  //   setGstText(gstNum);
+  // }, [gstNum]);
 
-  useEffect(() => {
-    setError(parentError);
-    if (parentError === "" && !isActive && gstNum) {
-      setError("");
-      closeModal();
-    }
-  }, [parentError, isActive, gstNum]);
+  // useEffect(() => {
+  //   setError(parentError);
+  //   if (parentError === "" && !isActive && gstNum) {
+  //     setError("");
+  //     closeModal();
+  //   }
+  // }, [parentError, isActive, gstNum]);
 
   const onChangeGst = (e: React.ChangeEvent<HTMLInputElement>) => {
     setGstType(e.target.value);
@@ -129,23 +120,40 @@ const BillingGST: React.FC<PopupProps> = ({
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
-    if (gstValidation()) {
-      const userConsent = CookieService.getCookie("consent").split(",");
 
-      if (userConsent.includes(GA_CALLS)) {
-        dataLayer.push({
-          event: "gst_invoice_popup",
-          click_type: gstType
-        });
-      }
-      onSubmit(address, gstText, gstType);
-    }
-    if (error?.[0] === msg) {
+    if (error === msg) {
       setGst(false);
-      setGstNum("");
-      setError("");
       dispatch(setSameAsShipping(false));
+      setGstDetails({ gstText: "", gstType: "" });
       closeModal();
+    } else {
+      if (gstValidation()) {
+        const userConsent = CookieService.getCookie("consent").split(",");
+
+        if (userConsent.includes(GA_CALLS)) {
+          dataLayer.push({
+            event: "gst_invoice_popup",
+            click_type: gstType
+          });
+        }
+        AddressService.validateGST(dispatch, {
+          billingAddressId: address?.id,
+          gstNo: gstText,
+          gstType
+        })
+          .then(res => {
+            if (res?.is_validated) {
+              setGstDetails({ gstText, gstType });
+              setGst(true);
+              closeModal();
+            }
+          })
+          .catch(err => {
+            if (!err.response.data.status) {
+              setError(err.response.data?.message?.msg);
+            }
+          });
+      }
     }
   };
 
@@ -168,7 +176,8 @@ const BillingGST: React.FC<PopupProps> = ({
             className={cs(styles.cross, styles.deliveryIcon)}
             onClick={() => {
               setGst(false);
-              setGstNum("");
+              // setGstNum("");
+              setGstDetails({ gstText: "", gstType: "" });
               closeModal();
             }}
           >
@@ -241,7 +250,7 @@ const BillingGST: React.FC<PopupProps> = ({
           )}
         >
           <NavLink to="/" onClick={e => handleSubmit(e)}>
-            {error?.[0] === msg ? "EDIT BILLING ADDRESS" : "SAVE & PROCEED"}
+            {error === msg ? "EDIT BILLING ADDRESS" : "SAVE & PROCEED"}
           </NavLink>
         </div>
       </div>
