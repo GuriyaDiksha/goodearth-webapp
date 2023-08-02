@@ -209,13 +209,11 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
       data?.lines.map((item: any) => {
         const isDiscount =
           +item.priceInclTax - +item.priceExclTaxExclDiscounts != 0;
-
         const amountPaid =
           +parseFloat(item.priceInclTax).toFixed(2) / +item.quantity;
         const price =
           +parseFloat(item.priceExclTaxExclDiscounts).toFixed(2) /
           +item.quantity;
-
         html.push(
           <div className={cs(styles.product)} key={item.product.id}>
             <div className={cs(styles.imageContainer)}>
@@ -268,7 +266,7 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
           <span className={styles.value}>
             {`${displayPriceWithCommasFloat(
               item.orderSubTotal,
-              item.priceCurrency
+              item.currency
             )}`}
           </span>
         </div>
@@ -281,7 +279,7 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
                 <span className={styles.value}>
                   {`(-) ${displayPriceWithCommasFloat(
                     discount.amount,
-                    item.priceCurrency
+                    item.currency
                   )}`}
                 </span>
               </div>
@@ -294,7 +292,7 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
           <span className={styles.value}>
             {`(+) ${displayPriceWithCommasFloat(
               item.shippingInclTax,
-              item.priceCurrency
+              item.currency
             )}`}
           </span>
         </div>
@@ -304,10 +302,7 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
             <div className={cs(styles.price, styles.price3, styles.discount)}>
               <span className={styles.label}>{vd.name}</span>
               <span className={styles.value}>
-                {`(-) ${displayPriceWithCommasFloat(
-                  vd.amount,
-                  item.priceCurrency
-                )}`}
+                {`(-) ${displayPriceWithCommasFloat(vd.amount, item.currency)}`}
               </span>
             </div>
           );
@@ -318,7 +313,7 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
             <div className={cs(styles.price, styles.price3, styles.discount)}>
               <span className={styles.label}>Gift Card/Credit Note</span>
               <span className={styles.value}>
-                {`(-) ${displayPriceWithCommas(gccn, item.priceCurrency)}`}
+                {`(-) ${displayPriceWithCommas(gccn, item.currency)}`}
               </span>
             </div>
           );
@@ -329,10 +324,7 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
             <div className={cs(styles.price, styles.price3, styles.discount)}>
               <span className={styles.label}>Loyalty Points</span>
               <span className={styles.value}>
-                {`(-) ${displayPriceWithCommasFloat(
-                  point,
-                  item.priceCurrency
-                )}`}
+                {`(-) ${displayPriceWithCommasFloat(point, item.currency)}`}
               </span>
             </div>
           );
@@ -344,10 +336,7 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
             {/* <span className={styles.light}>Incl. Tax</span> */}
           </span>
           <span className={styles.value}>
-            {`${displayPriceWithCommasFloat(
-              item.totalInclTax,
-              item.priceCurrency
-            )}`}
+            {`${displayPriceWithCommasFloat(item.totalInclTax, item.currency)}`}
           </span>
         </div>
       </div>
