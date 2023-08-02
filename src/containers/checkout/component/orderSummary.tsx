@@ -674,7 +674,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
   //     event.preventDefault();
   //   }
   // };
-
+  // console.log(deliveryText, salestatus, fullText);
   return (
     <div className={cs(globalStyles.col12, styles.fixOrdersummary)}>
       <div className={styles.orderSummary}>
