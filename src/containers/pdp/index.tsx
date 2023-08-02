@@ -400,6 +400,27 @@ class PDPContainer extends React.Component<Props, State> {
     this.fetchMoreProductsFromCollection(this.props?.id);
 
     this.startImageAutoScroll();
+
+    window.addEventListener('scroll',(event) => {
+      var windowSize = window.outerWidth;
+      if (windowSize <= 992) {
+        const windowScroll = window.scrollY;
+        const scrollAfterDiv = document.getElementById("more_collection_div");
+        const dockedDiv = document.getElementById("docked_div");
+        if(scrollAfterDiv){
+          const topPos = scrollAfterDiv.offsetTop;
+          const height = scrollAfterDiv.offsetHeight;
+          const newtopPos = topPos - (height+110);
+          if(dockedDiv){
+            if(windowScroll >= (newtopPos) ){
+              dockedDiv.style.cssText = "position: absolute;bottom: -7%;";
+            }else{
+              dockedDiv.style.cssText = "position: fixed;bottom: 0;";
+            }
+          }
+        }
+      }
+    });
   }
 
   componentWillUnmount() {
@@ -1528,6 +1549,7 @@ class PDPContainer extends React.Component<Props, State> {
           </div>
         )}
         <div
+          id="product_detail_sec"
           className={cs(bootstrap.row, styles.productSection)}
           ref={this.containerRef}
         >
