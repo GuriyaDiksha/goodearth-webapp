@@ -20,7 +20,7 @@ import { AppState } from "reducers/typings";
 import SocialLogin from "../socialLogin";
 import { RegisterProps } from "./typings";
 import { genderOptions } from "constants/profile";
-import { errorTracking, decriptdata, getErrorList } from "utils/validate";
+import { errorTracking, getErrorList } from "utils/validate";
 import { Country } from "components/Formsy/CountryCode/typings";
 import EmailVerification from "../emailVerification";
 import CookieService from "services/cookie";
@@ -228,7 +228,7 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
         });
       })
       .catch(error => {
-        const data = decriptdata(error.response?.data);
+        const data = error.response?.data;
         this.setState(
           {
             disableButton: false
@@ -927,7 +927,7 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
               validations={{
                 isExisty: true,
                 compulsory: (values, value) => {
-                  if (values.whatsappSubscribe && value == "") {
+                  if (values?.whatsappSubscribe && value == "") {
                     return false;
                   } else {
                     return true;
@@ -1204,7 +1204,7 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
           </div>
           <div className={cs(styles.subscribe, styles.newsletters)}>
             <FormCheckbox
-              value={false}
+              value={this.props.currency == "INR" ? true : false}
               id="subscrib"
               name="terms"
               disable={!this.state.showFields}
@@ -1238,7 +1238,9 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
           </div> */}
           <div>
             {this.state.showerror ? (
-              <p className={styles.loginErrMsg}>{this.state.showerror}</p>
+              <p className={cs(styles.errorMsg, globalStyles.textLeft)}>
+                {this.state.showerror}
+              </p>
             ) : (
               ""
             )}

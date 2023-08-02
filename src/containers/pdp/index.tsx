@@ -63,8 +63,10 @@ import PDPImagesContainer from "./components/PDPImagesContainer";
 // import Counter from "components/ProductCounter/counter";
 import { GA_CALLS } from "constants/cookieConsent";
 // import { product } from "reducers/product";
-import pdp_top from "images/3d/pdp_top.svg";
+// import pdp_top from "images/3d/pdp_top.svg";
 import button_image from "images/3d/button_image.svg";
+import Mobile360 from "./../../icons/360mobile.svg";
+import ReactPlayer from "react-player";
 
 const PDP_TOP_OFFSET = HEADER_HEIGHT + SECONDARY_HEADER_HEIGHT;
 const sidebarPosition = PDP_TOP_OFFSET + 23;
@@ -145,9 +147,29 @@ class PDPContainer extends React.Component<Props, State> {
     const {
       updateComponentModal,
       changeModalState,
-      device: { mobile }
+      device: { mobile },
+      data,
+      corporatePDP,
+      selectedSizeId,
+      currency
     } = this.props;
     const images = this.getProductImagesData();
+
+    const selectedSize = data?.childAttributes?.filter(
+      item => item.id == selectedSizeId
+    )[0];
+
+    const price = corporatePDP
+      ? data.priceRecords[currency]
+      : selectedSize && selectedSize?.priceRecords
+      ? selectedSize?.priceRecords[currency]
+      : data?.priceRecords[currency];
+
+    const discountPrices =
+      selectedSize && selectedSize?.discountedPriceRecords
+        ? selectedSize?.discountedPriceRecords[currency]
+        : data?.discountedPriceRecords[currency];
+
     updateComponentModal(
       POPUP.ZOOM,
       {
@@ -155,7 +177,13 @@ class PDPContainer extends React.Component<Props, State> {
         startIndex: index,
         mobile: mobile,
         changeModalState: changeModalState,
-        alt: this.props?.data?.altText
+        alt: this.props?.data?.altText,
+        data,
+        buttoncall: this.returnPDPButton(),
+        showPrice:
+          data.invisibleFields && data.invisibleFields.indexOf("price") > -1,
+        price,
+        discountPrices
       },
       true
     );
@@ -809,7 +837,7 @@ class PDPContainer extends React.Component<Props, State> {
     const {
       data,
       currency,
-      device: { mobile },
+      device: { mobile, tablet },
       updateComponentModal,
       changeModalState,
       corporatePDP,
@@ -829,6 +857,7 @@ class PDPContainer extends React.Component<Props, State> {
         changeModalState={changeModalState}
         loading={meta.templateType == "" ? true : false}
         setPDPButton={this.getPDPButton}
+        tablet={tablet}
       />
     );
   };
@@ -1367,16 +1396,41 @@ class PDPContainer extends React.Component<Props, State> {
     if (mobile || tablet) {
       if (images?.length > 0) {
         mobileSlides = images?.map(
-          ({ id, productImage, icon, code }, i: number) => {
+          (
+            { id, productImage, icon, code, vimeo_link, media_type, type },
+            i: number
+          ) => {
             return (
-              <div key={id} className={globalStyles.relative}>
-                <LazyImage
-                  alt={data?.altText || data?.title}
-                  aspectRatio="62:93"
-                  src={productImage.replace("/Micro/", "/Medium/")}
-                  className={globalStyles.imgResponsive}
-                  onClick={this.getMobileZoomListener(i)}
-                />
+              <div
+                key={id}
+                className={cs(globalStyles.relative, {
+                  [styles.videoDiv]: !(
+                    media_type === "Image" || type === "main"
+                  )
+                })}
+              >
+                {media_type === "Image" || type === "main" ? (
+                  <LazyImage
+                    alt={data?.altText || data?.title}
+                    aspectRatio="62:93"
+                    src={productImage?.replace("/Micro/", "/Medium/")}
+                    className={globalStyles.imgResponsive}
+                    onClick={this.getMobileZoomListener(i)}
+                  />
+                ) : (
+                  <>
+                    <div className={styles.overlayDiv}></div>
+                    <ReactPlayer
+                      url={vimeo_link}
+                      playing={true}
+                      volume={1}
+                      muted={true}
+                      width={"100%"}
+                      height={"auto"}
+                      playsinline={true}
+                    />
+                  </>
+                )}
                 {iconIndex > -1 ? (
                   icon ? (
                     // <div className={styles.mobile3d}>
@@ -1394,7 +1448,7 @@ class PDPContainer extends React.Component<Props, State> {
                     </div>
                   ) : (
                     <img
-                      src={pdp_top}
+                      src={Mobile360}
                       className={cs({
                         [styles.mobileHelloicon]: mobile,
                         [styles.tabHelloicon]: tablet
@@ -1470,7 +1524,7 @@ class PDPContainer extends React.Component<Props, State> {
           <div className={cs(styles.breadcrumbsSection, bootstrap.row)}>
             <Breadcrumbs
               levels={breadcrumbs}
-              className={cs(bootstrap.colMd9)}
+              className={cs(bootstrap.colMd10)}
             />
           </div>
         )}
@@ -1522,7 +1576,7 @@ class PDPContainer extends React.Component<Props, State> {
           {!mobile && (
             <div
               className={cs(
-                bootstrap.colMd4,
+                bootstrap.colMd6,
                 bootstrap.dNone,
                 bootstrap.dMdBlock
               )}
@@ -1547,8 +1601,7 @@ class PDPContainer extends React.Component<Props, State> {
           <div
             className={cs(
               styles.detailsContainer,
-              bootstrap.colLg5,
-              bootstrap.col12,
+              bootstrap.colMd4,
               {
                 [globalStyles.pageStickyElement]: !mobile && detailStickyEnabled
               },

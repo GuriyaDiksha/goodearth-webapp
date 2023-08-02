@@ -5,6 +5,7 @@ import { ActionType } from "typings/actionCreator";
 export type State = {
   data: Product | PartialProductItem | PLPProductItem;
   show: boolean;
+  button: any;
 };
 
 export { Actions };

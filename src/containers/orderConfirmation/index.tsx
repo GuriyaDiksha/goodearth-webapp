@@ -8,10 +8,7 @@ import styles from "./styles.scss";
 import { Link } from "react-router-dom";
 import logoImage from "images/gelogoCerise.svg";
 import flowerImage from "images/flower-motif.png";
-// import lockImage from "images/lock.svg";
-// import callImage from "images/call.svg";
 import AccountServices from "services/account";
-import { currencyCode, Currency } from "typings/currency";
 import moment from "moment";
 import { pageViewGTM } from "utils/validate";
 import CookieService from "services/cookie";
@@ -21,10 +18,8 @@ import { displayPriceWithCommasFloat } from "utils/utility";
 const orderConfirmation: React.FC<{ oid: string }> = props => {
   const {
     user: { email }
-    // device: { mobile }
   } = useSelector((state: AppState) => state);
   const [confirmData, setConfirmData] = useState<any>({});
-  const [charCurrency, setCharCurrency] = useState<any>({});
   const dispatch = useDispatch();
 
   const fetchData = async () => {
@@ -247,17 +242,15 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
       const res = response.results?.[0];
       if (res.voucherDiscounts?.length > 0) {
         for (let i = 0; i < res.voucherDiscounts.length; i++) {
-          for (let j = 0; j < res.offerDiscounts.length; i++) {
+          for (let j = 0; j < res.offerDiscounts.length; j++) {
             if (res.voucherDiscounts[i].name == res.offerDiscounts[j].name) {
-              res.offerDiscounts.splice(i, 1);
+              res.offerDiscounts.splice(j, 1);
             }
           }
         }
       }
       setConfirmData(res);
-      setCharCurrency(
-        String.fromCharCode(...currencyCode[res.currency as Currency])
-      );
+
       gtmPushOrderConfirmation(response.results?.[0]);
     });
     const userConsent = CookieService.getCookie("consent").split(",");
@@ -407,8 +400,6 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                     <div className={styles.amountPaid}>
                       <span className={styles.label}>Amount Paid</span>
                       <span className={styles.data}>
-                        {charCurrency}
-                        &nbsp;{" "}
                         {displayPriceWithCommasFloat(
                           confirmData?.totalInclTax,
                           confirmData?.currency
@@ -503,6 +494,8 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                       +parseFloat(item.priceExclTaxExclDiscounts).toFixed(2) /
                       +item.quantity;
 
+                    const isFlat = item?.product?.badgeType === "B_flat";
+
                     return (
                       <div className={cs(styles.product)} key={item.order}>
                         <div className={cs(styles.imageContainer)}>
@@ -520,17 +513,17 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                           <p className={cs(styles.price)}>
                             <span
                               className={cs(styles.amountPaid, {
-                                [styles.gold]: isdisCount
+                                [styles.gold]: isdisCount || isFlat
                               })}
                             >
-                              {`${charCurrency} ${displayPriceWithCommasFloat(
+                              {`${displayPriceWithCommasFloat(
                                 amountPaid,
                                 confirmData.currency
                               )}`}
                             </span>
                             {isdisCount && (
                               <span className={styles.originalPrice}>
-                                {`${charCurrency} ${displayPriceWithCommasFloat(
+                                {`${displayPriceWithCommasFloat(
                                   price,
                                   confirmData.currency
                                 )}`}
@@ -582,7 +575,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                     <div className={cs(styles.price, styles.line)}>
                       <span className={styles.label}>SUBTOTAL</span>
                       <span className={styles.value}>
-                        {`${charCurrency} ${displayPriceWithCommasFloat(
+                        {`${displayPriceWithCommasFloat(
                           confirmData.orderSubTotal,
                           confirmData.currency
                         )}`}
@@ -606,7 +599,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                               {discount.name}
                             </span>
                             <span className={styles.value}>
-                              {`(-)${charCurrency} ${displayPriceWithCommasFloat(
+                              {`(-)${displayPriceWithCommasFloat(
                                 discount.amount,
                                 confirmData.currency
                               )}`}
@@ -619,7 +612,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                     <div className={cs(styles.price, styles.line)}>
                       <span className={styles.label}>SHIPPING & HANDLING</span>
                       <span className={styles.value}>
-                        {`(+) ${charCurrency} ${displayPriceWithCommasFloat(
+                        {`(+)${displayPriceWithCommasFloat(
                           confirmData.shippingInclTax,
                           confirmData.currency
                         )}`}
@@ -637,7 +630,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                         >
                           <span className={styles.label}>{vd.name}</span>
                           <span className={styles.value}>
-                            {`(-)${charCurrency} ${displayPriceWithCommasFloat(
+                            {`(-)${displayPriceWithCommasFloat(
                               vd.amount,
                               confirmData.currency
                             )}`}
@@ -660,7 +653,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                               Gift Card/Credit Note
                             </span>
                             <span className={styles.value}>
-                              {`(-)${charCurrency} ${displayPriceWithCommasFloat(
+                              {`(-)${displayPriceWithCommasFloat(
                                 gccn,
                                 confirmData.currency
                               )}`}
@@ -682,7 +675,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                           >
                             <span className={styles.label}>Loyalty Points</span>
                             <span className={styles.value}>
-                              {`(-)${charCurrency} ${displayPriceWithCommasFloat(
+                              {`(-)${displayPriceWithCommasFloat(
                                 "" + point,
                                 confirmData.currency
                               )}`}
@@ -698,7 +691,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                         {/* <span className={styles.light}>Incl. Tax</span> */}
                       </span>
                       <span className={styles.value}>
-                        {`${charCurrency} ${displayPriceWithCommasFloat(
+                        {`${displayPriceWithCommasFloat(
                           confirmData.totalInclTax,
                           confirmData.currency
                         )}`}

@@ -137,11 +137,11 @@ class NewGiftcard extends React.Component<Props, State> {
       recipientEmail: "",
       confirmRecipientEmail: "",
       // commenting bcz we don't want to remove default message
-      // message: "",
+      message: "Here is a gift for you!",
       senderName: "",
       subscribe: false,
       customValue: "",
-      previewOpen: false,
+      //previewOpen: false,
       formDisabled: true,
       key: makeid(5)
     });
@@ -291,6 +291,9 @@ class NewGiftcard extends React.Component<Props, State> {
 
   onMessageChange = (e: any) => {
     if (e.target.value.length > 248) {
+      this.setState({
+        message: e.target.value.substr(0, 248)
+      });
       return false;
     } else {
       this.setState({
@@ -417,8 +420,9 @@ class NewGiftcard extends React.Component<Props, State> {
     entries.forEach((entry: IntersectionObserverEntry) => {
       if (ele) {
         if (
-          entry.intersectionRatio > 0 ||
-          entry.boundingClientRect.bottom < 130
+          // entry.intersectionRatio > 0 ||
+          // entry.boundingClientRect.bottom < 130 ||
+          entry.isIntersecting === true
         ) {
           ele.style.display = "none";
         } else {
@@ -428,13 +432,17 @@ class NewGiftcard extends React.Component<Props, State> {
     });
   };
 
-  componentDidMount() {
+  onScroll = () => {
     if (this.container) {
       this.observer = new IntersectionObserver(this.observerCallback, {
         rootMargin: "-130px 0px -110px 0px"
       });
       this.observer.observe(this.container);
     }
+  };
+
+  componentDidMount() {
+    document.addEventListener("scroll", this.onScroll);
 
     const { fetchCountryList, fetchProductList } = this.props;
     fetchProductList().then((data: any) => {
@@ -535,7 +543,7 @@ class NewGiftcard extends React.Component<Props, State> {
                 You have recieved a Good Earth eGift card worth
               </div>
               <div className={styles.gcAmount}>
-                {String.fromCharCode(...currencyCharCode)}&nbsp;&nbsp;
+                &nbsp;
                 {+cardValue > 0
                   ? displayPriceWithCommas(cardValue, currency)
                   : +customValue > 0
@@ -629,12 +637,10 @@ class NewGiftcard extends React.Component<Props, State> {
                         })}
                         id={pro.id}
                       >
-                        {String.fromCharCode(...currencyCharCode) +
-                          " " +
-                          displayPriceWithCommas(
-                            pro.priceRecords[currency],
-                            currency
-                          )}
+                        {displayPriceWithCommas(
+                          pro.priceRecords[currency],
+                          currency
+                        )}
                       </div>
                     ) : (
                       ""
@@ -767,7 +773,7 @@ class NewGiftcard extends React.Component<Props, State> {
                     placeholder=""
                     maxLength={248}
                     name="message"
-                    rows={5}
+                    rows={6}
                     value={message}
                     id="sender_msg"
                     handleChange={e => {

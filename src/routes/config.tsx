@@ -223,6 +223,12 @@ const routes: RouteConfig = [
     exact: false
   },
   {
+    path: ROUTES.NEWSLETTERS,
+    component: loadable(() => import("containers/Newsletters")),
+    action: async () => null,
+    exact: true
+  },
+  {
     path: ROUTES.HFH,
     component: loadable(() => import("containers/HomeForHolidays")),
     action: async () => null,
@@ -270,10 +276,16 @@ const makerRoutes = [
   ROUTES.MIRAGE,
   ROUTES.MIRAGESHOP,
   ROUTES.MAGHREB,
-  ROUTES.TANGIER
+  ROUTES.TANGIER,
+  ROUTES.TANGIERBYRICHARDHAMILTON,
+  ROUTES.MATERIALCULTURE
 ];
 
-const makerSmartnav = [ROUTES.MAKERTEST, ROUTES.ANINDIANSUMMER];
+const makerSmartnav = [
+  ROUTES.MAKERTEST,
+  ROUTES.ANINDIANSUMMER,
+  ROUTES.ARTOFENTERTAINING
+];
 
 makerRoutes.forEach(route => {
   routes.push({

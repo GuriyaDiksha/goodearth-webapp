@@ -270,7 +270,7 @@
 //   letter-spacing: 0.5px;
 // }
 @mixin pdp_prod_title {
-  font-size: 24px;
+  font-size: 20px;
   color: $charcoal19;
   font-family: $font-Lora;
   letter-spacing: 0.48px;
@@ -343,7 +343,7 @@
 //   text-transform: capitalize;
 // }
 @mixin pdp_prod_title_mobile {
-  font-size: 24px;
+  font-size: 18px;
   font-family: $font-Lora;
   color: $charcoal19;
   text-transform: capitalize;

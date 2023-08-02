@@ -2,7 +2,6 @@ import React from "react";
 import cl from "classnames";
 import styles from "./gift.scss";
 import { GiftListProps } from "./typings";
-import { Currency, currencyCode } from "typings/currency";
 import globalStyles from "styles/global.scss";
 import iconStyles from "styles/iconFonts.scss";
 import { displayPriceWithCommas } from "utils/utility";
@@ -20,7 +19,6 @@ const GiftCardItem = ({
 }: GiftListProps): JSX.Element => {
   // let showLocked = false;
   let showExpired = false;
-  const unicode = currencyCode[currency as Currency];
   const conditionalRefresh = false;
   const deleteCard = (code: string) => {
     // setOpenState(!menuOpen);
@@ -114,7 +112,6 @@ const GiftCardItem = ({
             Balance:{" "}
             <span>
               {" "}
-              {String.fromCharCode(...unicode)}{" "}
               {displayPriceWithCommas(remainingAmount, currency)}
               {` expires on` + expiryDate}
             </span>

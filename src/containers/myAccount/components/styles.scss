@@ -14,11 +14,17 @@ input[type="text"]{
 .form-subheading{
   @include b4_12px_montserrat_charcoal();
   letter-spacing: 0.36px;
-  padding: 0px 150px;
+  padding: 0px 52px;
   line-height: 20px;
-  margin-bottom: 10px;
   &.track-order{
     padding: 0px 100px
+  }
+}
+.activategc-subheading{
+  width: 65%;
+  margin: 10px auto 30px auto;
+  @media screen  and (max-width: 992px){
+    width: 70%;
   }
 }
 @media screen  and (max-width: 992px){
@@ -53,6 +59,12 @@ input[type="text"]{
 
 .form-heading-multi {
   line-height: 36px;
+}
+
+.active-acc-subhead {
+  width: 60%;
+  margin: auto;
+  margin-bottom: 10px;
 }
 
 .icon-signedin {
@@ -281,7 +293,7 @@ input[type="text"]{
           background-color: #fff;
           border: 1px solid #888;
           border-radius: 50%;
-          padding: 20px 0;
+          // padding: 20px 0;
         }
       }
       min-height: 160px;
@@ -963,6 +975,7 @@ input[type="text"]{
     color: #fff;
     background-color: #9f9f9f;
     border: 1px solid #9f9f9f;
+    cursor: unset;
   }
 }
 

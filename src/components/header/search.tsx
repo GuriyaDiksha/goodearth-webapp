@@ -347,7 +347,7 @@ class Search extends React.Component<Props, State> {
       });
       CookieService.setCookie("search", event.target.value, 365);
     }
-  }, 300);
+  }, 400);
 
   getSearchDataApi = debounce((name: string) => {
     const searchUrl = "/autocomplete?q=" + encodeURIComponent(name);
@@ -444,7 +444,6 @@ class Search extends React.Component<Props, State> {
       return value;
     }
   }
-
   render() {
     // const cur = "price" + this.props.currency.toLowerCase();
     // const originalCur = "original_price_" + this.props.currency.toLowerCase();
@@ -465,7 +464,8 @@ class Search extends React.Component<Props, State> {
       categories.length > 0 ||
       usefulLink.length > 0 ||
       productData.length > 0 ||
-      (trendingWords.length > 0 && searchValue.length == 0);
+      (trendingWords.length > 0 && searchValue.length == 0) ||
+      (recentSearchs.length > 0 && searchValue.length == 0);
 
     return (
       <div

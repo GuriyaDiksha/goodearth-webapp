@@ -577,7 +577,9 @@ export function productImpression(
       // product.push(childProduct);
     });
 
-    const childAttr = data.results?.data.map((child: any, index: number) => {
+    const childAttr: any[] = [];
+
+    data.results?.data.map((child: any, index: number) => {
       let category = "";
 
       if (child.categories) {
@@ -600,7 +602,7 @@ export function productImpression(
       // let variants = "";
       // let prices = "";
 
-      child.childAttributes.map((child: any) => {
+      child.childAttributes.map((child1: any) => {
         // skus += "," + child.sku;
         // variants += "," + child.size;
         // prices +=
@@ -609,33 +611,35 @@ export function productImpression(
         //     ? child.discountedPriceRecords[currency]
         //     : child.priceRecords[currency]);
 
-        return Object.assign(
-          {},
-          {
-            item_id: child.sku, //Pass the product id
-            item_name: child.title,
-            affiliation: "",
-            coupon: "", // Pass the coupon if available
-            currency: currency, // Pass the currency code
-            discount: child.discountedPriceRecords
-              ? child.discountedPriceRecords[currency]
-              : child.priceRecords[currency], // Pass the discount amount
-            index: index,
-            item_brand: "goodearth",
-            item_category: categoryName,
-            item_category2: child.size,
-            item_category3: "",
-            item_list_id: "",
-            item_list_name: search,
-            item_variant: "",
-            item_category4: "",
-            item_category5: collectionName,
-            price: child.discountedPriceRecords
-              ? child.discountedPriceRecords[currency]
-              : child.priceRecords[currency],
-            quantity: 1,
-            dimension12: child?.color
-          }
+        childAttr.push(
+          Object.assign(
+            {},
+            {
+              item_id: child1.sku, //Pass the product id
+              item_name: child.title,
+              affiliation: "",
+              coupon: "", // Pass the coupon if available
+              currency: currency, // Pass the currency code
+              discount: child1.discountedPriceRecords
+                ? child1.discountedPriceRecords[currency]
+                : child1.priceRecords[currency], // Pass the discount amount
+              index: index,
+              item_brand: "goodearth",
+              item_category: categoryName,
+              item_category2: child1.size,
+              item_category3: "",
+              item_list_id: "",
+              item_list_name: search,
+              item_variant: "",
+              item_category4: "",
+              item_category5: collectionName,
+              price: child1.discountedPriceRecords
+                ? child1.discountedPriceRecords[currency]
+                : child1.priceRecords[currency],
+              quantity: 1,
+              dimension12: child1?.color
+            }
+          )
         );
       });
       // skus = skus.slice(1);
@@ -655,7 +659,6 @@ export function productImpression(
       //   }
       // );
     });
-
     const userConsent = CookieService.getCookie("consent").split(",");
     if (userConsent.includes(GA_CALLS)) {
       dataLayer.push({ ecommerce: null });
@@ -1907,4 +1910,19 @@ export const validURL = (str: string) => {
     "i"
   ); // fragment locator
   return !!pattern.test(str);
+};
+
+export const closeKeyBoardMobile = async () => {
+  const field = document.createElement("input");
+  field.setAttribute("type", "text");
+  document.body.appendChild(field);
+  await new Promise((resolve, reject) =>
+    setTimeout(function() {
+      field.focus();
+      setTimeout(function() {
+        field.setAttribute("style", "display:none;");
+        resolve(true);
+      }, 400);
+    }, 400)
+  );
 };

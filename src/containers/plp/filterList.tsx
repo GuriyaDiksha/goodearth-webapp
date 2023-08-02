@@ -220,7 +220,7 @@ class FilterList extends React.Component<Props, State> {
     return mainUrl;
   };
 
-  createUrlfromFilter = (load?: any) => {
+  createUrlfromFilter = (load?: any, currency?: string) => {
     const array = this.state.filter;
     const { history } = this.props;
     let filterUrl = "",
@@ -336,8 +336,9 @@ class FilterList extends React.Component<Props, State> {
       mainurl = history.location.pathname;
     }
     history.replace(mainurl + "?source=plp" + filterUrl, {});
-    this.updateDataFromAPI(load);
+    this.updateDataFromAPI(load, currency);
   };
+
   onchangeRange = (value: any) => {
     if (value[0] == value[1]) return false;
     this.setState({
@@ -573,7 +574,7 @@ class FilterList extends React.Component<Props, State> {
     }
   };
 
-  updateDataFromAPI = (onload?: string) => {
+  updateDataFromAPI = (onload?: string, currency?: string) => {
     const {
       mobile,
       fetchPlpProducts,
@@ -596,12 +597,18 @@ class FilterList extends React.Component<Props, State> {
       ?.trim();
     // const pageSize = mobile ? 10 : 20;
     const pageSize = 20;
-    fetchPlpProducts(filterUrl + `&page_size=${pageSize}`).then(plpList => {
-      productImpression(plpList, categoryShopL1 || "PLP", this.props.currency);
-      changeLoader?.(false);
-      this.createList(plpList, false);
-      this.props.updateFacets(this.getSortedFacets(plpList.results.facets));
-    });
+    fetchPlpProducts(filterUrl + `&page_size=${pageSize}`, currency).then(
+      plpList => {
+        productImpression(
+          plpList,
+          categoryShopL1 || "PLP",
+          this.props.currency
+        );
+        changeLoader?.(false);
+        this.createList(plpList, false);
+        this.props.updateFacets(this.getSortedFacets(plpList.results.facets));
+      }
+    );
     if (categoryShop) {
       fetchPlpTemplates(categoryShop);
     }
@@ -726,8 +733,10 @@ class FilterList extends React.Component<Props, State> {
           filter
         },
         () => {
-          this.createUrlfromFilter();
-          nextProps.mobile ? this.updateDataFromAPI("load") : "";
+          this.createUrlfromFilter(undefined, nextProps.currency);
+          nextProps.mobile
+            ? this.updateDataFromAPI("load", nextProps.currency)
+            : "";
         }
       );
     }
@@ -916,7 +925,7 @@ class FilterList extends React.Component<Props, State> {
     if (facets.categoryProductTypeMapping) {
       Object.keys(facets.categoryProductTypeMapping).map((level4: any) => {
         facets.categoryProductTypeMapping[level4].map((productBy: any) => {
-          if (!filter.productType["pb_" + productBy]) {
+          if (!("pb_" + productBy in filter.productType)) {
             filter.productType["pb_" + productBy] = false;
           }
         });
@@ -934,6 +943,33 @@ class FilterList extends React.Component<Props, State> {
           }
         );
       });
+    }
+
+    // Remove unwanted filters
+    const filterTypes = [
+      "currentColor",
+      "currentMaterial",
+      "availableSize",
+      "availableDiscount",
+      "productType"
+    ];
+    for (let i = 0; i < filterTypes.length; i++) {
+      const allOptions: any = [];
+      const filterBackup = structuredClone(filter[filterTypes[i]]);
+      if (filterTypes[i] in facets) {
+        for (let j = 0; j < facets[filterTypes[i]].length; j++) {
+          allOptions.push(facets[filterTypes[i]][j][0]);
+        }
+        if (allOptions.length > 0) {
+          Object.keys(filterBackup).map((filterObject: any, j: number) => {
+            console.log("Options", allOptions);
+            console.log("To delete", filterObject);
+            if (!allOptions.includes(filterObject)) {
+              delete filter[filterTypes[i]][filterObject];
+            }
+          });
+        }
+      }
     }
 
     this.handleAnimation(selectIndex + "l", false, true);
@@ -2396,14 +2432,16 @@ class FilterList extends React.Component<Props, State> {
                 <div className={styles.sliderBox}>
                   {displayPriceWithCommas(
                     this.state.rangevalue[0] || "",
-                    this.props.currency
+                    this.props.currency,
+                    false
                   )}
                 </div>
 
                 <div className={styles.sliderBox}>
                   {displayPriceWithCommas(
                     this.state.rangevalue[1] || "",
-                    this.props.currency
+                    this.props.currency,
+                    false
                   )}
                 </div>
               </div>

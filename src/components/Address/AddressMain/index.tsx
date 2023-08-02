@@ -28,7 +28,6 @@ import { GA_CALLS } from "constants/cookieConsent";
 import styles from "../styles.scss";
 import WhatsappSubscribe from "components/WhatsappSubscribe";
 import Formsy from "formsy-react";
-import { makeid } from "utils/utility";
 import { CONFIG } from "constants/util";
 // import AddressDataList from "../../../../components/Address/AddressDataList.json";
 
@@ -53,6 +52,7 @@ const AddressMain: React.FC<Props> = props => {
   // const { isLoggedIn } = useSelector((state: AppState) => state.user);
   // const [ pincodeList, setPincodeList ] = useState([]);
   const [isdList, setIsdList] = useState<any>([]);
+  const { currentCallBackComponent } = props;
 
   const {
     data: { userAddress, occasion }
@@ -268,7 +268,12 @@ const AddressMain: React.FC<Props> = props => {
 
   const closeAddressForm = useCallback(() => {
     setMode("list");
-    // window.scrollTo(0, 0);
+    if (
+      currentCallBackComponent == "account" ||
+      currentCallBackComponent == "bridal"
+    ) {
+      window.scrollTo(0, 0);
+    }
   }, []);
 
   const checkPinCode = useCallback(
@@ -277,7 +282,6 @@ const AddressMain: React.FC<Props> = props => {
     },
     [pinCodeData]
   );
-  const { currentCallBackComponent } = props;
 
   useEffect(() => {
     const isdList = countryData.map(list => {

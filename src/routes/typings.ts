@@ -66,7 +66,11 @@ export const enum ROUTES {
   MAGHREB = "/tangier",
   TANGIER = "/tangier/shop",
   MAKERTEST = "/makertest",
-  ANINDIANSUMMER = "/anindiansummer"
+  ANINDIANSUMMER = "/anindiansummer",
+  TANGIERBYRICHARDHAMILTON = "/TangierbyRichardHamilton",
+  NEWSLETTERS = "/newsletters",
+  ARTOFENTERTAINING = "/artofentertaining",
+  MATERIALCULTURE = "/materialculture"
 }
 
 export type RouteConfig = RouteObject[];

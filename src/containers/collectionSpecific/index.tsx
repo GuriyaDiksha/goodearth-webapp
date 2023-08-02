@@ -49,7 +49,8 @@ const mapStateToProps = (state: AppState) => {
     filteredCollectionData: state.collection.filteredCollectionData,
     collectionData: state.collection.result,
     collectionMobileView: state.collection.collectionMobileView,
-    collectionTemplates: state.collection.collectionTemplates
+    collectionTemplates: state.collection.collectionTemplates,
+    tablet: state.device.tablet
   };
 };
 
@@ -530,6 +531,7 @@ class CollectionSpecific extends React.Component<
   render() {
     const {
       mobile,
+      tablet,
       collectionSpecificData,
       collectionSpecficBanner,
       showTimer
@@ -658,7 +660,11 @@ class CollectionSpecific extends React.Component<
                 id="product_images"
               >
                 {showTemplates.Banner && (
-                  <Banner data={showTemplates.Banner} mobile={mobile} />
+                  <Banner
+                    data={showTemplates.Banner}
+                    mobile={mobile}
+                    tablet={tablet}
+                  />
                 )}
               </div>
             )}

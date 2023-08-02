@@ -28,8 +28,12 @@ const mapActionsToProps = (dispatch: Dispatch) => {
       );
       return data;
     },
-    fetchPlpProducts: async (filterUrl: string) => {
-      const data = await PlpService.fetchPlpProducts(dispatch, filterUrl);
+    fetchPlpProducts: async (filterUrl: string, currency?: string) => {
+      const data = await PlpService.fetchPlpProducts(
+        dispatch,
+        filterUrl,
+        currency
+      );
       return data;
     },
     fetchPlpTemplates: async (categoryShop: string) => {
