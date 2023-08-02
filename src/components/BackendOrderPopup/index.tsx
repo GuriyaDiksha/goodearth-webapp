@@ -56,7 +56,7 @@ const BackendPopup: React.FC<Props> = () => {
                 closeModal();
               }}
             >
-              {`NO, DON'T REMOVE THE DISCOUNT`}
+              {`NO, DON'T REMOVE`}
             </a>
           </div>
           <div className={cs(styles.ctxLight, globalStyles.pointer)}>

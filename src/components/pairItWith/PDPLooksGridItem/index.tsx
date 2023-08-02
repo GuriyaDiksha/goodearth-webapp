@@ -2,7 +2,7 @@ import React, { EventHandler, MouseEvent, useMemo } from "react";
 import { Link } from "react-router-dom";
 import { PLPResultItemProps } from "./typings.d";
 import styles from "./styles.scss";
-import { Currency, currencyCode } from "../../../typings/currency";
+import { Currency } from "../../../typings/currency";
 import cs from "classnames";
 import bootstyles from "../../../styles/bootstrap/bootstrap-grid.scss";
 // import { PartialChildProductAttributes } from "src/typings/product";
@@ -35,7 +35,6 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
     onEnquireClick,
     notifyMeClick
   } = props;
-  const code = currencyCode[currency as Currency];
   // const {} = useStore({state:App})
   // const [primaryimage, setPrimaryimage] = useState(true);
   const { info } = useSelector((state: AppState) => state);
