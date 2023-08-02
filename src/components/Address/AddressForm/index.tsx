@@ -23,11 +23,7 @@ import { AppState } from "reducers/typings";
 import { Country } from "components/Formsy/CountryCode/typings";
 import AddressService from "services/address";
 import { updateCountryData } from "actions/address";
-import {
-  getErrorList,
-  errorTracking,
-  closeKeyBoardMobile
-} from "utils/validate";
+import { getErrorList, errorTracking } from "utils/validate";
 import BridalContext from "containers/myAccount/components/Bridal/context";
 import noPincodeCountryList from "./noPincodeCountryList";
 type Props = {

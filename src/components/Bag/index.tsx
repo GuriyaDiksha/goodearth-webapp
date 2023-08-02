@@ -6,7 +6,6 @@ import iconStyles from "../../styles/iconFonts.scss";
 import globalStyles from "../../styles/global.scss";
 import LineItems from "./Item";
 import { NavLink, Link } from "react-router-dom";
-import { currencyCodes } from "constants/currency";
 import { Dispatch } from "redux";
 import BasketService from "services/basket";
 import { connect } from "react-redux";

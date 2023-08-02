@@ -41,7 +41,11 @@ const DockedPanel: React.FC<Props> = ({
         styles.dockContainer
       )}
     >
-      <div className={cs(bootstrap.col6, globalStyles.flex)}>
+      <div
+        className={cs(bootstrap.col6, globalStyles.flex, {
+          [bootstrap.col8]: mobile
+        })}
+      >
         {!mobile && (
           <div className={styles.imgcontainer}>
             <img

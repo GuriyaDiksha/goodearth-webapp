@@ -23,14 +23,14 @@ const CartSlider: React.FC<Props> = ({ dots = true, children, val }) => {
     cssEase: "ease-in-out"
   };
   const [counter, setCounter] = useState(1);
-  const [pagerWidth, setPagerWith] = useState(null);
+  // const [pagerWidth, setPagerWith] = useState(null);
 
   const sliderRef: any = useRef();
 
   useEffect(() => {
     // const handleOnClick = (index:number) => {
-    const customPaging = sliderRef.current?.props.customPaging();
-    setPagerWith(customPaging.props.style);
+    // const customPaging = sliderRef.current?.props.customPaging();
+    // setPagerWith(customPaging.props.style);
 
     if (val && val.value > -1) {
       sliderRef.current ? sliderRef.current.slickGoTo(val.value) : "";
