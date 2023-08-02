@@ -213,7 +213,9 @@ const AddressSection: React.FC<AddressProps & {
   }, [props.selectedAddress, addressList]);
 
   const openNewAddressForm = () => {
-    dispatch(updateSameAsShipping(false));
+    if (currentCallBackComponent === "checkout-billing") {
+      dispatch(updateSameAsShipping(false));
+    }
     openAddressForm();
   };
 
@@ -560,7 +562,6 @@ const AddressSection: React.FC<AddressProps & {
       }
     }, 500);
   };
-  console.log("check===", gstDetails, gst);
   const onSubmit: any = (address?: AddressData | undefined) => {
     let validate = true;
     const addr = address || null;
