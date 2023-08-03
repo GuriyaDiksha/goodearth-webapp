@@ -106,16 +106,17 @@ const PDPImagesContainer: React.FC<Props> = ({
       <div
         className={cs(
           styles.productImageContainer,
+          styles.oddImages
           //For Even Images
-          { [styles.even]: length % 2 == 0 },
+          // { [styles.even]: length % 2 == 0 },
           //For Three Images
-          {
-            [styles.threeImages]: length == 3
-          },
+          // {
+          //   [styles.threeImages]: length == 3
+          // },
           //For odd images other than 3
-          {
-            [styles.oddImages]: length != 3 && length != 1 && length % 2 == 1
-          }
+          // {
+          //   [styles.oddImages]: length != 3 && length != 1 && length % 2 == 1
+          // }
         )}
       >
         {productImages.map((item: any, index: number) => {
@@ -126,11 +127,12 @@ const PDPImagesContainer: React.FC<Props> = ({
             <div
               key={`img_${index}`}
               className={cs(
-                styles.productImage
+                styles.productImage,
+                styles.topRowImages
                 //For 3 Images
                 // { [styles.thirdImage]: index == 2 && length == 3 },
                 //For 5 and 7 images
-                //  { [styles.topRowImages]: index < oddRowIndices[length] },
+                // { [styles.topRowImages]: index != 2 && length == 3 },
                 // { [styles.bottomRowImages]: index >= oddRowIndices[length] }
               )}
               onClick={() => {

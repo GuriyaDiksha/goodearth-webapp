@@ -1601,9 +1601,11 @@ class PDPContainer extends React.Component<Props, State> {
           <div
             className={cs(
               styles.detailsContainer,
-              bootstrap.colMd4,
               {
-                [globalStyles.pageStickyElement]: !mobile && detailStickyEnabled
+                [globalStyles.pageStickyElement]:
+                  !mobile && detailStickyEnabled,
+                [bootstrap.col12]: tablet,
+                [bootstrap.colMd4]: !tablet
               },
               {
                 [globalStyles.paddTop20]: mobile

@@ -87,7 +87,10 @@ const Zoom: React.FC<Props> = ({
   }, [zoom]);
 
   useEffect(() => {
-    if (document.getElementById("modal-fullscreen") as HTMLDivElement) {
+    if (
+      (document.getElementById("modal-fullscreen") as HTMLDivElement) &&
+      mobile
+    ) {
       (document.getElementById(
         "modal-fullscreen"
       ) as HTMLDivElement).style.height = "calc(100% - 55px)";
