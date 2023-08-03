@@ -2,7 +2,7 @@ import React from "react";
 import "./styles.css";
 import Slider from "react-slick";
 import { ProductImage } from "typings/image";
-import ReactPlayer from "react-player";
+// import ReactPlayer from "react-player";
 
 type Props = {
   images: ProductImage[];
@@ -48,7 +48,7 @@ const ZoomImageSlider: React.FC<Props> = ({
           />
         ) : (
           <>
-            <div className={"overlayDiv"}></div>
+            {/* <div className={"overlayDiv"}></div>
             <ReactPlayer
               url={imgContent?.vimeo_link}
               playing={true}
@@ -58,6 +58,15 @@ const ZoomImageSlider: React.FC<Props> = ({
               muted={true}
               id={`product${i}`}
               playsinline={true}
+            /> */}
+            <video
+              id={`product${i}`}
+              src={imgContent?.video_link}
+              autoPlay
+              loop
+              preload="auto"
+              width={"100%"}
+              height={"auto"}
             />
           </>
         )}
