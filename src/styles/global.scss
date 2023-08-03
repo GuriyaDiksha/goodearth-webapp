@@ -680,14 +680,16 @@ font-weight: bold;
   height: 60px;
   color: $white;
   &:hover {
-    background-color: $white;
-   color: $aqua;
-   border: 1px solid $aqua;
+    @media screen and (min-width:992px) {
+    background-color: $white !important;
+    color: $aqua !important;
+    border: 1px solid $aqua !important;}
   }
   &:focus {
+    @media screen and (min-width:992px) {
     background-color: $white;
     color: $aqua;
-    border: 1px solid $aqua;
+    border: 1px solid $aqua;}
   }
    
   &.disabled-btn {

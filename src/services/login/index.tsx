@@ -454,8 +454,8 @@ export default {
     const {
       publishRemove,
       updatedRemovedItems,
-      unshippableRemove,
-      unshippableProducts
+      unshippableRemove
+      // unshippableProducts
     } = res;
     if (publishRemove) {
       showGrowlMessage(
@@ -472,7 +472,8 @@ export default {
         MESSAGE.PRODUCT_UNSHIPPABLE_REMOVED,
         0,
         undefined,
-        unshippableProducts
+        undefined
+        //unshippableProducts
       );
     }
     // dispatch(updateBasket(res));

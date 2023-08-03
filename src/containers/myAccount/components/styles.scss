@@ -960,9 +960,10 @@ input[type="text"]{
   border-radius: 0;
   cursor: pointer;
   &:hover{
+    @media screen and (min-width:992px) {
     color: #191919;
     background-color: #fff;
-    border: 1px solid #4C4C4C;
+    border: 1px solid #4C4C4C;}
   }
   &.disabled-btn{
     color: #fff;

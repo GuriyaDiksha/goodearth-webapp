@@ -593,8 +593,9 @@ body:has(.mobile) {
   border-radius: 0;
   cursor: pointer;
   &:hover {
+    @media screen and (min-width:992px) {
     color: #191919;
-    background-color: #fff;
+    background-color: #fff;}
   }
   &.disabled-btn {
     color: #fff;

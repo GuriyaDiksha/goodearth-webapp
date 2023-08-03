@@ -43,10 +43,10 @@ const Growl: React.FC<Props> = ({ text, id, timeout, params }) => {
 
   let renderText: any = text;
   if (text in Messages) {
-    renderText = Messages[text];
+    renderText = Messages?.[text];
   }
   if (params) {
-    renderText = Messages[text](params);
+    renderText = Messages?.[text](params);
   }
 
   return (

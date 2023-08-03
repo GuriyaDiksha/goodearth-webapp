@@ -592,10 +592,13 @@ class Bag extends React.Component<Props, State> {
               ></i>
             </div>
           </div>
+
           {this.state.shipping &&
-          totalWithoutShipping &&
-          totalWithoutShipping >= freeShippingThreshold &&
-          totalWithoutShipping < freeShippingApplicable &&
+          parseInt(totalWithoutShipping?.toString() || "") &&
+          parseInt(totalWithoutShipping?.toString() || "") >=
+            parseInt(freeShippingThreshold?.toString()) &&
+          parseInt(totalWithoutShipping?.toString() || "") <
+            parseInt(freeShippingApplicable?.toString()) &&
           this.props.cart.shippable ? (
             <div className={cs(styles.freeShippingInfo, globalStyles.flex)}>
               <div className={styles.freeShipImg}>
@@ -606,8 +609,8 @@ class Bag extends React.Component<Props, State> {
                 Add products worth{" "}
                 {String.fromCharCode(...currencyCodes[this.props.currency])}{" "}
                 {displayPriceWithCommas(
-                  this.props.cart.freeShippingApplicable -
-                    parseInt(totalWithoutShipping.toString()),
+                  parseInt(freeShippingApplicable?.toString()) -
+                    parseInt(totalWithoutShipping?.toString() || ""),
                   this.props.currency
                 )}
                 &nbsp;or more to qualify for free shipping.
