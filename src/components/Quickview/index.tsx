@@ -15,7 +15,7 @@ import mapDispatchToProps from "./initAction";
 import fontStyles from "styles/iconFonts.scss";
 import CookieService from "../../services/cookie";
 import { GA_CALLS } from "constants/cookieConsent";
-import ReactPlayer from "react-player";
+// import ReactPlayer from "react-player";
 
 const VerticalImageSelector = loadable(() =>
   import("components/VerticalImageSelector")
@@ -142,8 +142,8 @@ class Quickview extends React.Component<Props, State> {
             />
           ) : (
             <>
-              <div className={styles.overlayDiv}></div>
-              <ReactPlayer
+              {/* <div className={styles.overlayDiv}></div> */}
+              {/* <ReactPlayer
                 url={image?.vimeo_link}
                 playing={true}
                 volume={1}
@@ -151,6 +151,14 @@ class Quickview extends React.Component<Props, State> {
                 width={"100%"}
                 height={"auto"}
                 playsinline={true}
+              /> */}
+              <video
+                src={image?.video_link}
+                autoPlay
+                loop
+                preload="auto"
+                width={"90%"}
+                height={"auto"}
               />
             </>
           )}

@@ -97,14 +97,14 @@ $pdp-top: $header-height;
 
     .product-image{
         position: relative;
-        .product-video{
-            width: 100%;
+        // .product-video{
+        //     width: 100%;
 
-            div{
-                aspect-ratio: 4/7;
-            }
+        //     div{
+        //         aspect-ratio: 4/7;
+        //     }
             
-        }
+        // }
         .view-in-btn{
             @include view_in_btn();
         }
@@ -492,8 +492,8 @@ input[type="time"]::-webkit-calendar-picker-indicator{
 }
 
 .video-div{
-    div{
-        aspect-ratio: 4/6;
+    video{
+        max-height: 470px ;
     }
 }
 

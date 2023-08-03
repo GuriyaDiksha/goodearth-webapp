@@ -9,7 +9,7 @@ import { updateComponent, updateModal } from "actions/modal";
 import { POPUP } from "constants/components";
 import { Product } from "typings/product";
 import { Currency } from "typings/currency";
-import ReactPlayer from "react-player";
+// import ReactPlayer from "react-player";
 
 type Props = {
   productImages: any;
@@ -106,16 +106,17 @@ const PDPImagesContainer: React.FC<Props> = ({
       <div
         className={cs(
           styles.productImageContainer,
+          styles.oddImages
           //For Even Images
-          { [styles.even]: length % 2 == 0 },
+          // { [styles.even]: length % 2 == 0 },
           //For Three Images
-          {
-            [styles.threeImages]: length == 3
-          },
+          // {
+          //   [styles.threeImages]: length == 3
+          // },
           //For odd images other than 3
-          {
-            [styles.oddImages]: length != 3 && length != 1 && length % 2 == 1
-          }
+          // {
+          //   [styles.oddImages]: length != 3 && length != 1 && length % 2 == 1
+          // }
         )}
       >
         {productImages.map((item: any, index: number) => {
@@ -126,7 +127,8 @@ const PDPImagesContainer: React.FC<Props> = ({
             <div
               key={`img_${index}`}
               className={cs(
-                styles.productImage
+                styles.productImage,
+                styles.topRowImages
                 //For 3 Images
                 // { [styles.thirdImage]: index == 2 && length == 3 },
                 //For 5 and 7 images
@@ -145,23 +147,35 @@ const PDPImagesContainer: React.FC<Props> = ({
                   )}
                 />
               ) : (
-                <div
-                  className={styles.productVideo}
+                <video
+                  src={item?.video_link}
+                  autoPlay
+                  loop
+                  preload="auto"
                   onClick={() => {
                     onClick(index);
                   }}
-                >
-                  <div className={styles.overlayDiv}></div>
-                  <ReactPlayer
-                    url={item?.vimeo_link}
-                    volume={1}
-                    muted={true}
-                    playing={true}
-                    width={"100%"}
-                    height={"auto"}
-                    playsinline={true}
-                  />
-                </div>
+                  width={"100%"}
+                  height={"auto"}
+                />
+                // <div
+                //   className={styles.productVideo}
+                //   onClick={() => {
+                //     onClick(index);
+                //   }}
+                // >
+                //   <div className={styles.overlayDiv}></div>
+                //   <ReactPlayer
+                //     url={item?.vimeo_link}
+                //     volume={1}
+                //     muted={true}
+                //     playing={true}
+                //     width={"100%"}
+                //     height={"auto"}
+                //     playsinline={true}
+                //   />
+
+                // </div>
               )}
               {item.icon && viewIn3dBtn(item.code)}
               {item.shop_the_look && (
