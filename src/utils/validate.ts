@@ -310,13 +310,13 @@ export function proceedTocheckout(data: Basket, currency: Currency) {
             : product.priceRecords[currency], // Pass the discount amount
           index: index,
           item_brand: "goodearth",
-          item_category: categoryName,
-          item_category2: variants,
-          item_category3: "NA",
+          item_category2: product?.childAttributes[0]?.size,
+          item_category3: product.is3d ? "3d" : "non3d",
+          item_category4: product.is3d ? "YES" : "NO",
           item_list_id: "NA",
           item_list_name: search,
           item_variant: "NA",
-          item_category4: "NA",
+          item_category: categoryName,
           item_category5: collectionName,
           price: realPrice,
           quantity: 1

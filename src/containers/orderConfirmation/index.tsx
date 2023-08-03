@@ -266,7 +266,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
         item_brand: "Goodearth",
         item_category: category,
         item_category2: line.product.size || "",
-        item_category3: line.product.is3DView ? "View3d" : "nonView3d",
+        item_category3: line.product.is3DView ? "3d" : "non3d",
         item_list_id: "Pass the list ID of the product ", //Pass NA if not applicable at the moment
         item_list_name: "Pass the search term user had entered", //Pass NA if not applicable at the moment
         item_variant: "Pass the variants selected", //Pass NA if not applicable at the moment
