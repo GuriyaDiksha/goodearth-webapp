@@ -267,9 +267,9 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
         item_category: category,
         item_category2: line.product.size || "",
         item_category3: line.product.is3DView ? "3d" : "non3d",
-        item_list_id: "Pass the list ID of the product ", //Pass NA if not applicable at the moment
-        item_list_name: "Pass the search term user had entered", //Pass NA if not applicable at the moment
-        item_variant: "Pass the variants selected", //Pass NA if not applicable at the moment
+        item_list_id: "NA",
+        item_list_name: "NA",
+        item_variant: "NA",
         price: line.isEgiftCard
           ? +line.priceExclTax
           : line.product.pricerecords[result.currency as Currency],

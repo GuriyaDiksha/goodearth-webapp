@@ -285,16 +285,17 @@ const PaymentSection: React.FC<PaymentProps> = props => {
             item_id: line.product.sku,
             item_name: line.title,
             affiliation: "Pass the affiliation of the product",
-            coupon: basket.voucherDiscounts?.[0]?.voucher?.code, //Pass NA if not applicable at the moment
+            coupon: basket.voucherDiscounts?.[0]?.voucher?.code || "NA", //Pass NA if not applicable at the moment
             discount: basket?.offerDiscounts?.[0]?.name,
             index: ind,
             item_brand: "Goodearth",
             item_category: category,
-            item_category2: line.product.size || "",
-            item_category3: line.product.is3DView ? "View3d" : "nonView3d",
-            item_list_id: "Pass the list ID of the product ", //Pass NA if not applicable at the moment
-            item_list_name: "Pass the search term user had entered", //Pass NA if not applicable at the moment
-            item_variant: "Pass the variants selected", //Pass NA if not applicable at the moment
+            item_category2: line.product?.childAttributes[0]?.size,
+            item_category3: line.product.is3d ? "3d" : "non3d",
+            item_category4: line.product.is3d ? "YES" : "NO",
+            item_list_id: "NA",
+            item_list_name: "NA",
+            item_variant: "NA",
             price: line.isEgiftCard
               ? +line.priceExclTax
               : line.product.priceRecords[currency as Currency],
