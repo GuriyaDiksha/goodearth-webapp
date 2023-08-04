@@ -575,7 +575,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
             </span>
           </div>
           <div className={cs(styles.formSubheading)}>
-            {"Gift Wrap This Order"}
+            {"Gift wrap this order"}
           </div>
           <div className={styles.giftImg}>
             <img src={giftwrapIcon} width="30px" alt="Giftwarp Icon" />
@@ -612,7 +612,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
               globalStyles.fontSize12
             )}
           >
-            {"Please Remove Prices From All Items In This Shipment"}
+            {"Please remove prices from all items in this shipment"}
           </div>
         </label>
       </div>

@@ -19,7 +19,8 @@ import { displayPriceWithCommasFloat } from "utils/utility";
 const orderConfirmation: React.FC<{ oid: string }> = props => {
   const {
     user: { email },
-    address: { billingAddressId, shippingAddressId }
+    address: { billingAddressId, shippingAddressId },
+    info: { isSale }
   } = useSelector((state: AppState) => state);
   const [confirmData, setConfirmData] = useState<any>({});
   const dispatch = useDispatch();
@@ -754,10 +755,12 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                                   <div className={styles.productDetails}>
                                     Item Code: {item.product.sku}
                                   </div>
-                                  <div className={styles.productDetails}>
-                                    Delivery Estimated:{" "}
-                                    <span>{item.productDeliveryDate}</span>
-                                  </div>
+                                  {!isSale && (
+                                    <div className={styles.productDetails}>
+                                      Delivery Estimated:{" "}
+                                      <span>{item.productDeliveryDate}</span>
+                                    </div>
+                                  )}
                                   {item.fillerMessage ? (
                                     <div className={styles.filler}>
                                       {`*${item.fillerMessage}`}
@@ -830,7 +833,12 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                     )
                   )}
 
-                  <div className={cs(styles.discountSection)}>
+                  <div
+                    className={cs(
+                      styles.discountSection,
+                      styles.shippingSection
+                    )}
+                  >
                     <p>Shipping & Handling</p>
                     <p>
                       (+){" "}

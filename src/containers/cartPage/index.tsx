@@ -179,6 +179,7 @@ class CartPage extends React.Component<Props, State> {
           if (this.props.user.email && data.isLogin) {
             CookieService.setCookie("currency", data.currency, 365);
             CookieService.setCookie("currencypopup", "true", 365);
+            this.setState({ newLoading: false });
             this.props
               .logout(this.props.currency, this.props.user.customerGroup)
               .then(res => {
@@ -203,7 +204,7 @@ class CartPage extends React.Component<Props, State> {
         });
     }
 
-    if (this.props.history.location.state?.from == "checkout") {
+    if (this.props.history.location.state?.from == "checkout" && !boId) {
       if (!this.props.isLoggedIn) {
         this.props.goLogin(undefined, "/order/checkout");
       }

@@ -532,6 +532,16 @@ const OrderSummary: React.FC<OrderProps> = props => {
   };
 
   useEffect(() => {
+    if (mobile) {
+      if (checkoutOrderSummaryStatus) {
+        document.body.classList.add(globalStyles.noScroll);
+      } else {
+        document.body.classList.remove(globalStyles.noScroll);
+      }
+    }
+  }, [checkoutOrderSummaryStatus]);
+
+  useEffect(() => {
     if (mobile && hasOutOfStockItems()) {
       setTimeout(() => {
         document
@@ -1110,7 +1120,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
                     {deliveryText.length > 85 ? (
                       <span
                         className={cs(
-                          globalStyles.cerise,
+                          // globalStyles.cerise,
                           globalStyles.pointer
                         )}
                         onClick={() => {
@@ -1254,11 +1264,16 @@ const OrderSummary: React.FC<OrderProps> = props => {
                   onClick={chkshipping}
                   className={
                     canCheckout()
-                      ? cs(globalStyles.checkoutBtn, styles.posFixed)
+                      ? cs(
+                          globalStyles.checkoutBtn,
+                          styles.posFixed,
+                          styles.checkoutBtn
+                        )
                       : cs(
                           globalStyles.checkoutBtn,
                           styles.posFixed,
-                          globalStyles.disabledBtn
+                          globalStyles.disabledBtn,
+                          styles.checkoutBtn
                         )
                   }
                   disabled={canCheckout() ? false : true}

@@ -302,7 +302,6 @@ class Checkout extends React.Component<Props, State> {
     const queryString = this.props.location.search;
     const urlParams = new URLSearchParams(queryString);
     const boId = urlParams.get("bo_id");
-
     if (boId) {
       this.setState({
         activeStep: STEP_BILLING,
@@ -315,16 +314,23 @@ class Checkout extends React.Component<Props, State> {
       ) {
         localStorage.removeItem("from");
         this.props
-          .logout(this.props.currency, this.props.user.customerGroup)
-          .then(res => {
-            this.props.history.push("/cart", {
-              from: "checkout"
-            });
+          .getBoDetail(boId)
+          .then(() => {
+            this.props
+              .logout(this.props.currency, this.props.user.customerGroup)
+              .then(res => {
+                this.props.history.push(`/cart?bo_id=${boId}`, {
+                  from: "checkout"
+                });
+              });
+          })
+          .catch(error => {
+            this.props.history.push("/backend-order-error");
           });
       }
 
       if (!this.props.user.isLoggedIn) {
-        this.props.history.push("/cart", { from: "checkout" });
+        this.props.history.push(`/cart?bo_id=${boId}`, { from: "checkout" });
       }
 
       localStorage.removeItem("from");

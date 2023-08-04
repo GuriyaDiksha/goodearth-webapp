@@ -236,8 +236,11 @@
       display: flex;
       justify-content: space-between;
       padding: 10px 0px;
-      @include b4_12px_montserrat_medium_charcoal();
+      @include b4_12px_montserrat_med_aqua();
       text-transform: uppercase;
+    }
+    .shipping-section{
+      @include b4_12px_montserrat_gold();
     }
     .loyalty-section{
       color: $aqua-text;

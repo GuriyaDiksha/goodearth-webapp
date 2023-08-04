@@ -43,7 +43,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       if (!page?.includes("/wishlist")) {
         WishlistService.updateWishlist(dispatch, sortBy);
       }
-      if (!page?.includes("/cart") || !page?.includes("/order/checkout")) {
+      if (!page?.includes("/cart") && !page?.includes("/order/checkout")) {
         BasketService.fetchBasket(dispatch);
       }
     },
@@ -91,7 +91,9 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       // });
 
       MetaService.updateMeta(dispatch, cookies);
-      BasketService.fetchBasket(dispatch);
+      if (!page?.includes("/cart") && !page?.includes("/order/checkout")) {
+        BasketService.fetchBasket(dispatch);
+      }
       showGrowlMessage(dispatch, MESSAGE.CURRENCY_CHANGED_SUCCESS, 7000);
     },
     showShipping: (remainingAmount: number, freeShippingApplicable: number) => {

@@ -71,7 +71,7 @@ const Delivery: React.FC<PopupProps> = props => {
               <div>
                 <textarea
                   rows={5}
-                  cols={45}
+                  cols={100}
                   className={styles.deliverMessage}
                   value={textarea}
                   maxLength={250}
