@@ -84,7 +84,8 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
       showEmailVerification: false,
       email: "",
       showTip: false,
-      whatsappChecked: false
+      whatsappChecked: false,
+      selectedCountryCode: ""
     };
   }
   static contextType = Context;
@@ -885,6 +886,9 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
                 isValidCode: "Enter valid code"
               }}
               showLabel={true}
+              onCountrySelect={(value: any) => {
+                this.setState({ selectedCountryCode: value });
+              }}
             />
             {/* <SelectDropdown
               name="code"
@@ -1203,8 +1207,9 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
             />
           </div>
           <div className={cs(styles.subscribe, styles.newsletters)}>
+            {console.log("New value", this.state.selectedCountryCode)}
             <FormCheckbox
-              value={this.props.currency == "INR" ? true : false}
+              value={this.state.selectedCountryCode == "+91" ? true : false}
               id="subscrib"
               name="terms"
               disable={!this.state.showFields}
