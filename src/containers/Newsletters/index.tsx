@@ -163,7 +163,7 @@ const Newsletters: React.FC = () => {
     HeaderService.saveHFH(dispatch, formData)
       .then(data => {
         setSuccessMsg(
-          "Thank you. You have successfully signed-up to our newsletter. "
+          "Thank you. You have successfully signed-up to our newsletter."
         );
         resetForm();
         setEnableSubmit(false);
@@ -336,7 +336,14 @@ const Newsletters: React.FC = () => {
               </Link>
             ]}
           </div>
-          <p className={cs(styles.successMessage, styles.errorMsg)}>
+          <p
+            className={cs(
+              successMsg ==
+                "Thank you. You have successfully signed-up to our newsletter."
+                ? styles.successMessage
+                : styles.errorMsg
+            )}
+          >
             {successMsg}
           </p>
           <input

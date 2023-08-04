@@ -1198,6 +1198,13 @@ $list: $grey 92%, $white 8%;
   color: $cerise;
 }
 
+@mixin sucess_msg_cerise{
+  font-family: $font-Lora;
+  font-size: 13px;
+  font-style: italic;
+  color: $gold;
+}
+
 // =================================
 
 @mixin err_13px_lora_italic_cerise{
