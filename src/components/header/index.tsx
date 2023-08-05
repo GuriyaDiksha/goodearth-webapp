@@ -971,6 +971,8 @@ class Header extends React.Component<Props, State> {
       this.props.location.pathname.indexOf("/bridal/") > -1 &&
       !(this.props.location.pathname.indexOf("/account/") > -1);
 
+    const isCartPage = this.props.location.pathname.indexOf("/cart") > -1;
+
     const { showMenu } = this.state;
     // const isCeriseCustomer = slab
     //   ? slab.toLowerCase() == "cerise" ||
@@ -1319,7 +1321,9 @@ class Header extends React.Component<Props, State> {
                         onClick={(): void => {
                           this.props.history.push("/cart");
                           this.onBottomMenuClick("Cart");
-                          this.clickToggle();
+                          if (this.props.mobileMenuOpenState) {
+                            this.clickToggle();
+                          }
                         }}
                       >
                         {bagCount}
@@ -1442,7 +1446,7 @@ class Header extends React.Component<Props, State> {
               </div>
             </div>
           )} */}
-        {(mobile || tablet) && !isBridalRegistryPage && (
+        {(mobile || tablet) && !isBridalRegistryPage && !isCartPage && (
           <BottomMenu
             onBottomMenuClick={this.onBottomMenuClick}
             showBag={this.state.showBag}

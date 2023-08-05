@@ -651,7 +651,7 @@ display: flex;
       &.show{
           display: block;
           position: absolute;
-          top: 15px;
+          top: 23px;
           left: 173px;
           padding: 7px 12px;
 
@@ -674,6 +674,10 @@ display: flex;
           &.tip-two{
            top: 84px;
            left: 184px;
+           top: 72px;
+           left: 184px;
+           height: 100px;
+           padding: 8px 17px;
 
            @media screen and (max-width:992px) {
             top: 106px;

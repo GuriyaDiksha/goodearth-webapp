@@ -468,7 +468,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                         })}
                       >
                         {shippingAddress ? (
-                          <address>
+                          <address className={styles.shippingAddressWrp}>
                             <label>shipping address</label>
                             {confirmData?.isBridalOrder ? (
                               <>
@@ -545,7 +545,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                     >
                       <div className={styles.add}>
                         {billingAddress ? (
-                          <address>
+                          <address className={styles.billingAddressWrp}>
                             <label>billing address</label>
                             <p>
                               {billingAddress.firstName}

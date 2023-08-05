@@ -47,7 +47,8 @@ const mapStateToProps = (state: AppState) => {
     isLoggedIn: state.user.isLoggedIn,
     wishlistData: state.wishlist.items,
     user: state.user,
-    isLoading: state.info.isLoading
+    isLoading: state.info.isLoading,
+    showTimer: state.info.showTimer
   };
 };
 
@@ -725,8 +726,13 @@ class CartPage extends React.Component<Props, State> {
       freeShippingApplicable,
       shippable
     } = this.props.cart;
+    const { isSale, showTimer } = this.props;
     return (
-      <div className={cs(bootstrap.row, styles.pageBody)}>
+      <div
+        className={cs(bootstrap.row, styles.pageBody, {
+          [styles.timerHeight]: isSale && showTimer
+        })}
+      >
         <div
           className={cs(
             bootstrap.col12,

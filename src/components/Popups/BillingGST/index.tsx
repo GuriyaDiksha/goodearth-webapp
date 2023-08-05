@@ -55,8 +55,10 @@ const BillingGST: React.FC<PopupProps> = ({
         : val?.isDefaultForShipping === true
     ) || undefined;
 
-  const msg =
-    "To be able to create a GST invoice, your billing address state must match the state registered with your GST no.";
+  const msg = [
+    "To be able to create a GST invoice, your billing address state must match the state registered with your GST no.",
+    "GST can not apply for non Indian billing address."
+  ];
 
   // useEffect(() => {
   //   setGstText(gstNum);
@@ -121,7 +123,7 @@ const BillingGST: React.FC<PopupProps> = ({
   const handleSubmit = (e: any) => {
     e.preventDefault();
 
-    if (error === msg) {
+    if (msg.includes(error)) {
       setGst(false);
       dispatch(setSameAsShipping(false));
       setGstDetails({ gstText: "", gstType: "" });
@@ -250,7 +252,7 @@ const BillingGST: React.FC<PopupProps> = ({
           )}
         >
           <NavLink to="/" onClick={e => handleSubmit(e)}>
-            {error === msg ? "EDIT BILLING ADDRESS" : "SAVE & PROCEED"}
+            {msg.includes(error) ? "EDIT BILLING ADDRESS" : "SAVE & PROCEED"}
           </NavLink>
         </div>
       </div>

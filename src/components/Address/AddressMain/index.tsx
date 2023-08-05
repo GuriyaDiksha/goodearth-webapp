@@ -328,7 +328,7 @@ const AddressMain: React.FC<Props> = props => {
     });
     setIsdList(isdList);
   }, [countryData]);
-
+  console.log("check===", mode);
   const addressContent = (
     <>
       {mode == "list" && (

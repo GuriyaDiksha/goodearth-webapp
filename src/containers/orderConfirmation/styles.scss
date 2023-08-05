@@ -236,11 +236,11 @@
       display: flex;
       justify-content: space-between;
       padding: 10px 0px;
-      @include b4_12px_montserrat_med_aqua();
+      @include b4_12px_montserrat_gold();
       text-transform: uppercase;
     }
     .shipping-section{
-      @include b4_12px_montserrat_gold();
+      @include b4_12px_montserrat_medium_charcoal();
     }
     .loyalty-section{
       color: $aqua-text;
@@ -401,4 +401,20 @@
     border-top: 1px solid #e6e6e6;
     padding-top: 20px;
   }
+}
+
+.billing-address-wrp{
+  @media screen and (min-width:767px) {
+    float: right;
+  width: 70%;
+  }
+  
+}
+
+.shipping-address-wrp{
+  @media screen and (min-width:767px) {
+    float: left;
+  width: 70%;
+  }
+  
 }

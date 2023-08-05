@@ -151,7 +151,7 @@ const AddressList: React.FC<Props> = props => {
   //         props.manageAddressPostcode("edit", data);
   //     }
   // };
-
+  console.log("test===", addressData, activeStep);
   return (
     <div>
       <div

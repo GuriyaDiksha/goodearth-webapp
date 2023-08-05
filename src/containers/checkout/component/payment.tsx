@@ -431,6 +431,9 @@ const PaymentSection: React.FC<PaymentProps> = props => {
       });
       setIsdList(isdList);
     }
+    if (prevGiftCardRef.current.length) {
+      setIsactivepromo(true);
+    }
   }, []);
 
   useEffect(() => {

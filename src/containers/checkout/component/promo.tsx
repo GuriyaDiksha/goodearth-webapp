@@ -38,6 +38,7 @@ const PromoSection: React.FC<PromoProps> = props => {
       ? false
       : true
     : false;
+  const isBoId = urlParams.get("bo_id");
 
   const removePromo = async (data: FormData) => {
     setIsLoading(true);
@@ -141,10 +142,10 @@ const PromoSection: React.FC<PromoProps> = props => {
           >
             PROMO CODE
           </span>
-          {mobile && (
+          {mobile && !isBoId && (
             <span
               className={cs(globalStyles.pointer, styles.promoEdit, {
-                [styles.closed]: !(isActive || isactivepromo || isEdit)
+                [styles.hidden]: !(isActive || isactivepromo || isEdit)
               })}
               onClick={() => {
                 onCurrentState();
@@ -170,7 +171,7 @@ const PromoSection: React.FC<PromoProps> = props => {
                 Promo Code Applied
               </span>
             </span>
-            {!mobile && (
+            {!mobile && !isBoId && (
               <span
                 className={cs(globalStyles.pointer, styles.promoEdit)}
                 onClick={() => {

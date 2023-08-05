@@ -892,7 +892,11 @@ const OrderSummary: React.FC<OrderProps> = props => {
                 <span>
                   <span className={styles.total}>
                     {String.fromCharCode(...code)}{" "}
-                    {parseFloat("" + basket.subTotalWithShipping).toFixed(2)}
+                    {displayPriceWithCommasFloat(
+                      basket.subTotalWithShipping,
+                      currency
+                    )}
+                    {/* {parseFloat("" + basket.subTotalWithShipping).toFixed(2)} */}
                   </span>
                 </span>
               </div>

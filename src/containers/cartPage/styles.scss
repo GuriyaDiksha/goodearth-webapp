@@ -7,6 +7,10 @@
   margin-right: auto;
   position: relative;
 }
+
+.timer-height{
+  margin-top: 45px + $timer-height;
+}
 .p-unset{
   position: unset;
 }

@@ -1440,6 +1440,9 @@ span.add-new-address {
     pointer-events: none;
     opacity: 0.3;
 }
+.hidden{
+  display: none;
+}
 .country-code{
   display: flex;
   justify-content: space-between;

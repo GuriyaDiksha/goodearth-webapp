@@ -253,12 +253,16 @@ const AddressSection: React.FC<AddressProps & {
         mode == "list" ? openNewAddressForm : backToAddressList;
       const fullText =
         mode == "new" || mode == "edit"
-          ? isBillingDisable
-            ? "[+] ADD NEW ADDRESS"
-            : "< BACK TO SAVED ADDRESSES"
-          : "[+] ADD NEW ADDRESS";
+          ? "< BACK TO SAVED ADDRESSES"
+          : isBillingDisable
+          ? ""
+          : "[+] ADD NEW ADDRESS"; //if billing is disabled then do not show anything here
       const mobileText =
-        mode == "new" || mode == "edit" ? "< BACK" : "[+] ADD NEW ADDRESS";
+        mode == "new" || mode == "edit"
+          ? "< BACK"
+          : isBillingDisable
+          ? " "
+          : "[+] ADD NEW ADDRESS";
       if (isBridal && activeStep == STEP_SHIPPING) return "";
       return (
         <div
@@ -913,8 +917,8 @@ const AddressSection: React.FC<AddressProps & {
   ]);
 
   const renderBillingCheckbox = function() {
-    const show =
-      !props.isBridal && !props.isGoodearthShipping && mode == "list";
+    const show = !props.isGoodearthShipping && mode == "list";
+    // !props.isBridal && !props.isGoodearthShipping && mode == "list";
 
     return (
       show && (
@@ -1086,7 +1090,7 @@ const AddressSection: React.FC<AddressProps & {
                       <div>{renderBillingCheckbox()}</div>
                       {!sameAsShipping &&
                         isLoggedIn &&
-                        !props.isBridal &&
+                        // !props.isBridal &&
                         !props.isGoodearthShipping &&
                         mode == "list" && (
                           <div>
