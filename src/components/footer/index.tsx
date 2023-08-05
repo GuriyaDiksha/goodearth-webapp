@@ -1145,14 +1145,13 @@ class Footer extends React.Component<Props, FooterState> {
         </div>
         {(this.state.smartNav.indexOf(this.props.location.pathname) > -1 ||
           this.props.location.pathname.includes("/category_landing/") ||
-          desktopPlp) &&
-          this.props.currency == "INR" && (
-            <MakerSmartNav
-              id="TDEHYqQNA"
-              inline={false}
-              currency={this.props.currency}
-            />
-          )}
+          desktopPlp) && (
+          <MakerSmartNav
+            id="TDEHYqQNA"
+            inline={false}
+            currency={this.props.currency == "INR" ? "INR" : "USD"}
+          />
+        )}
 
         {(OLD_COOKIE_SETTINGS
           ? cookiCheck
