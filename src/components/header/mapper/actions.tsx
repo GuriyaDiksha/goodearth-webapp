@@ -91,9 +91,8 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       // });
 
       MetaService.updateMeta(dispatch, cookies);
-      if (!page?.includes("/cart") && !page?.includes("/order/checkout")) {
-        BasketService.fetchBasket(dispatch);
-      }
+      BasketService.fetchBasket(dispatch);
+
       showGrowlMessage(dispatch, MESSAGE.CURRENCY_CHANGED_SUCCESS, 7000);
     },
     showShipping: (remainingAmount: number, freeShippingApplicable: number) => {

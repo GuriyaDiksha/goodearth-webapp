@@ -308,6 +308,24 @@ class Checkout extends React.Component<Props, State> {
         currentStep: STEP_ORDER[STEP_BILLING],
         boId: boId
       });
+
+      if (
+        localStorage.getItem("from") === "cart" &&
+        this.props.user.isLoggedIn
+      ) {
+        debugger;
+        this.props
+          .getBoDetail(boId)
+          .then((data: any) => {
+            if (!data?.email && !data?.isLogin) {
+              this.props.history.push("/backend-order-error");
+            }
+          })
+          .catch(error => {
+            this.props.history.push("/backend-order-error");
+          });
+      }
+
       if (
         localStorage.getItem("from") !== "cart" &&
         this.props.user.isLoggedIn

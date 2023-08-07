@@ -172,6 +172,7 @@ class CartPage extends React.Component<Props, State> {
     const queryString = this.props.location.search;
     const urlParams = new URLSearchParams(queryString);
     const boId = urlParams.get("bo_id");
+
     if (boId) {
       this.props
         .getBoDetail(boId)
@@ -307,6 +308,13 @@ class CartPage extends React.Component<Props, State> {
         "Page Name": "CartPageView"
       });
     }
+
+    setTimeout(() => {
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+      });
+    }, 500);
   }
 
   onNotifyCart = (basketLineId: ProductID) => {
@@ -740,7 +748,7 @@ class CartPage extends React.Component<Props, State> {
             styles.bagContents,
             styles.pUnset,
             {
-              [globalStyles.marginT10]:
+              [globalStyles.marginT30]:
                 totalWithoutShipping &&
                 totalWithoutShipping >= freeShippingThreshold &&
                 totalWithoutShipping < freeShippingApplicable &&

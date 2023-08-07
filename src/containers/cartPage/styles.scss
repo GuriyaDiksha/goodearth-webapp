@@ -55,9 +55,9 @@ hr {
   .product-name {
     @include b2_14px_charcoal_lora();
     a {
-      color: #000;
+      @include b2_14px_charcoal_lora();
       &:hover {
-        color: $cerise;
+        @include b2_14px_charcoal_lora();
       }
     }
   }

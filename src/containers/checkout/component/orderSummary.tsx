@@ -703,9 +703,11 @@ const OrderSummary: React.FC<OrderProps> = props => {
             {mobile && page == "checkout" && (
               <div className={styles.orderSummaryTitle}>
                 <span className={styles.text}>VIEW ORDER SUMMARY</span>
-                <Link to="/cart" className={styles.textLink}>
-                  EDIT BAG
-                </Link>
+                {!boId && (
+                  <Link to="/cart" className={styles.textLink}>
+                    EDIT BAG
+                  </Link>
+                )}
               </div>
             )}
             <div className={cs(globalStyles.flex, globalStyles.gutterBetween)}>
@@ -949,7 +951,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
                   <span className={styles.totalAmount}>
                     {String.fromCharCode(...code)}{" "}
                     {displayPriceWithCommasFloat(
-                      basket.subTotalWithShipping,
+                      basket?.total?.toString(),
                       currency
                     )}
                     {/* {parseFloat("" + basket.subTotalWithShipping).toFixed(2)} */}

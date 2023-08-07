@@ -410,7 +410,7 @@ const CartItems: React.FC<BasketItem> = memo(
                         [styles.outOfStock]: stockRecords[0].numInStock < 1
                       })}
                     >
-                      {title}
+                      <Link to={isGiftCard ? "#" : url}>{title}</Link>
                     </div>
                     <div
                       className={cs(
