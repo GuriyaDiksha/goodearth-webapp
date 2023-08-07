@@ -273,6 +273,7 @@ const AddressSection: React.FC<AddressProps & {
           ? " "
           : "[+] ADD NEW ADDRESS";
       if (isBridal && activeStep == STEP_SHIPPING) return "";
+      if (isBillingDisable) return null;
       return (
         <div
           className={cs(

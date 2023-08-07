@@ -313,7 +313,6 @@ class Checkout extends React.Component<Props, State> {
         localStorage.getItem("from") === "cart" &&
         this.props.user.isLoggedIn
       ) {
-        debugger;
         this.props
           .getBoDetail(boId)
           .then((data: any) => {
