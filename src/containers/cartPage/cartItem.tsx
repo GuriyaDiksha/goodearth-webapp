@@ -425,7 +425,10 @@ const CartItems: React.FC<BasketItem> = memo(
                         <span className={styles.discountprice}>
                           {String.fromCharCode(...currencyCodes[currency])}
                           &nbsp;
-                          {discountedPriceRecords[currency]}
+                          {displayPriceWithCommas(
+                            discountedPriceRecords[currency],
+                            currency
+                          )}
                           &nbsp;&nbsp;&nbsp;
                         </span>
                       ) : (
@@ -435,7 +438,7 @@ const CartItems: React.FC<BasketItem> = memo(
                         <span className={styles.strikeprice}>
                           {String.fromCharCode(...currencyCodes[currency])}
                           &nbsp;
-                          {price}
+                          {displayPriceWithCommas(price, currency)}
                         </span>
                       ) : (
                         <span
@@ -446,7 +449,11 @@ const CartItems: React.FC<BasketItem> = memo(
                           {" "}
                           {String.fromCharCode(...currencyCodes[currency])}
                           &nbsp;
-                          {structure == "GiftCard" ? GCValue : price}
+                          {/* {structure == "GiftCard" ? GCValue : price} */}
+                          {displayPriceWithCommas(
+                            structure == "GiftCard" ? GCValue : price,
+                            currency
+                          )}
                         </span>
                       )}
                     </div>

@@ -53,6 +53,7 @@ export type OrderProps = {
   onsubmit?: () => any;
   checkoutMobileOrderSummary?: boolean;
   boId?: string;
+  tablet?: boolean;
 };
 
 export type PromoProps = {

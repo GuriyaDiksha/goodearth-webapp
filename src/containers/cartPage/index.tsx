@@ -776,6 +776,7 @@ class CartPage extends React.Component<Props, State> {
         >
           <OrderSummary
             mobile={this.props.mobile}
+            tablet={this.props.tablet}
             currency={this.props.currency}
             shippingAddress={{}}
             salestatus={this.props.isSale}

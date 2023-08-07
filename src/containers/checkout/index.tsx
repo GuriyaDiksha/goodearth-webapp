@@ -64,6 +64,7 @@ const mapStateToProps = (state: AppState) => {
     basket: state.basket,
     addresses: state.address.addressList,
     mobile: state.device.mobile,
+    tablet: state.device.tablet,
     currency: state.currency,
     cookies: state.cookies,
     isSale: state.info.isSale,
@@ -977,6 +978,7 @@ class Checkout extends React.Component<Props, State> {
                 basket={this.props.basket}
                 page="checkout"
                 boId={this.state.boId}
+                tablet={this.props.tablet}
               />
             </div>
           </div>

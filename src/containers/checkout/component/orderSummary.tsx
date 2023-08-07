@@ -32,7 +32,8 @@ const OrderSummary: React.FC<OrderProps> = props => {
     validbo,
     setCheckoutMobileOrderSummary,
     onsubmit,
-    isPaymentNeeded
+    isPaymentNeeded,
+    tablet
   } = props;
   const [isLoading, setLoading] = useState(false);
   const [isSuspended, setIsSuspended] = useState(true);
@@ -532,7 +533,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
   };
 
   useEffect(() => {
-    if (mobile) {
+    if (mobile || tablet) {
       if (checkoutOrderSummaryStatus) {
         document.body.classList.add(globalStyles.noScroll);
       } else {

@@ -1184,6 +1184,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
               isPaymentNeeded={isPaymentNeeded}
               onsubmit={onsubmit}
               checkoutMobileOrderSummary={checkoutMobileOrderSummary}
+              tablet={tablet}
             />
           )}
         </>
