@@ -54,7 +54,17 @@ export const PRODUCT_UNPUBLISHED = (items: string[]) => (
     <ul>{growlItemsList(items)}</ul>
   </div>
 );
-export const PRODUCT_UNSHIPPABLE_REMOVED =
+export const PRODUCT_UNSHIPPABLE_REMOVED = (items: string[]) => (
+  <div style={{ textAlign: "left" }}>
+    Unfortunately, the below products are not shippable to the selected address
+    - your bag has been updated.
+    <br />
+    <br />
+    <ul>{growlItemsList(items)}</ul>
+  </div>
+);
+
+export const PRODUCT_OUT_OF_STOCK_REMOVED =
   "Some items from your bag were removed as they are out of stock/unavailable.";
 export const ADD_TO_REGISTRY_SUCCESS = "Item has been added to your Registry";
 export const ADD_TO_REGISTRY_FAIL = "Can't add to bag";
@@ -97,7 +107,8 @@ export const Messages = {
   REGISTRY_OWNER_CHECKOUT: REGISTRY_OWNER_CHECKOUT,
   REGISTRY_MIXED_SHIPPING: REGISTRY_MIXED_SHIPPING,
   PREVIOUS_BASKET: PREVIOUS_BASKET,
-  VERIFY_SUCCESS: VERIFY_SUCCESS
+  VERIFY_SUCCESS: VERIFY_SUCCESS,
+  PRODUCT_OUT_OF_STOCK_REMOVED: PRODUCT_OUT_OF_STOCK_REMOVED
 };
 export enum MESSAGE {
   ADD_TO_BAG_SUCCESS = "ADD_TO_BAG_SUCCESS",
@@ -115,5 +126,6 @@ export enum MESSAGE {
   REGISTRY_OWNER_CHECKOUT = "REGISTRY_OWNER_CHECKOUT",
   REGISTRY_MIXED_SHIPPING = "REGISTRY_MIXED_SHIPPING",
   PREVIOUS_BASKET = "PREVIOUS_BASKET",
-  VERIFY_SUCCESS = "VERIFY_SUCCESS"
+  VERIFY_SUCCESS = "VERIFY_SUCCESS",
+  PRODUCT_OUT_OF_STOCK_REMOVED = "PRODUCT_OUT_OF_STOCK_REMOVED"
 }

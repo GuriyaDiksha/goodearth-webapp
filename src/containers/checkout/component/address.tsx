@@ -49,11 +49,12 @@ const AddressSection: React.FC<AddressProps & {
     isActive,
     isBridal,
     selectedAddress,
-    // isGoodearthShipping,
+    isGoodearthShipping,
     // hidesameShipping,
     next,
     errorNotification,
-    currentStep
+    currentStep,
+    error
   } = props;
   const { isLoggedIn } = useContext(UserContext);
   const {
@@ -90,7 +91,6 @@ const AddressSection: React.FC<AddressProps & {
     AED: 9300,
     SGD: 3500
   };
-
   const code = currencyCode[currency as Currency];
 
   // const [sameAsShipping, setSameAsShipping] = useState(sameShipping);
@@ -202,13 +202,22 @@ const AddressSection: React.FC<AddressProps & {
       (currentCallBackComponent === "checkout-billing" ||
         currentCallBackComponent === "checkout-shipping") &&
       sameAsShipping &&
+      !isBridal! &&
+      isGoodearthShipping &&
       props.selectedAddress?.id
     ) {
       dispatch(updateBillingAddressId(props.selectedAddress?.id));
     }
 
-    if (currentCallBackComponent === "checkout-billing" && !sameAsShipping) {
-      dispatch(updateBillingAddressId(billingAddressId));
+    if (
+      currentCallBackComponent === "checkout-billing" &&
+      (!sameAsShipping || isBridal || isGoodearthShipping)
+    ) {
+      if (isBridal || isGoodearthShipping) {
+        dispatch(updateBillingAddressId(0));
+      } else {
+        dispatch(updateBillingAddressId(billingAddressId));
+      }
     }
   }, [props.selectedAddress, addressList]);
 
@@ -917,7 +926,8 @@ const AddressSection: React.FC<AddressProps & {
   ]);
 
   const renderBillingCheckbox = function() {
-    const show = !props.isGoodearthShipping && mode == "list";
+    const show =
+      !props.isGoodearthShipping && mode == "list" && !props.isBridal;
     // !props.isBridal && !props.isGoodearthShipping && mode == "list";
 
     return (
@@ -1090,7 +1100,7 @@ const AddressSection: React.FC<AddressProps & {
                       <div>{renderBillingCheckbox()}</div>
                       {!sameAsShipping &&
                         isLoggedIn &&
-                        // !props.isBridal &&
+                        !props.isBridal &&
                         !props.isGoodearthShipping &&
                         mode == "list" && (
                           <div>
@@ -1110,7 +1120,9 @@ const AddressSection: React.FC<AddressProps & {
                   isLoggedIn &&
                     (props.activeStep == STEP_SHIPPING ||
                       (props.activeStep == STEP_BILLING &&
-                        !sameAsShipping)) && (
+                        (!sameAsShipping ||
+                          props.isBridal ||
+                          props.isGoodearthShipping))) && (
                       <>
                         <div>{children}</div>
                         {addressList.length && mode == "list" ? (
@@ -1273,6 +1285,9 @@ const AddressSection: React.FC<AddressProps & {
                     ""
                   )}
                   <div>{renderPancard}</div>
+                  {props.activeStep == STEP_BILLING && error && (
+                    <div className={globalStyles.errorMsg}>{error}</div>
+                  )}
                   {props.activeStep == STEP_BILLING &&
                     mode == "list" &&
                     !sameAsShipping && <div ref={orderSummaryRef2}></div>}
@@ -1294,7 +1309,9 @@ const AddressSection: React.FC<AddressProps & {
                             handleSaveAndReview(
                               addressList?.find(val =>
                                 shippingAddressId !== 0
-                                  ? sameAsShipping
+                                  ? sameAsShipping &&
+                                    !isBridal &&
+                                    !isGoodearthShipping
                                     ? val?.id === shippingAddressId
                                     : val?.id === billingAddressId
                                   : val?.isDefaultForShipping === true

@@ -178,9 +178,9 @@ export default {
     //     res.basket.updatedRemovedItems
     //   );
     // }
-    if (res.message === "Success") {
-      showGrowlMessage(dispatch, MESSAGE.PRODUCT_UNSHIPPABLE_REMOVED, 3000);
-    }
+    // if (res.message === "Success") {
+    //   showGrowlMessage(dispatch, MESSAGE.PRODUCT_OUT_OF_STOCK_REMOVED, 3000);
+    // }
     dispatch(updateBasket(res.basket));
     return res;
   }
