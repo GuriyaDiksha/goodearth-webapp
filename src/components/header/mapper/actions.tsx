@@ -20,6 +20,7 @@ import { POPUP } from "constants/components";
 import BridalService from "services/bridal";
 import { updateNextUrl } from "actions/info";
 import { showGrowlMessage } from "../../../utils/validate";
+import { updateAddressMode } from "actions/address";
 
 const mapDispatchToProps = (dispatch: Dispatch) => {
   return {
@@ -120,6 +121,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     },
     clearBridalSession: async () => {
       const res = await BridalService.clearBridalSession(dispatch);
+      dispatch(updateAddressMode("list"));
       return res;
     },
     reloadAfterBridal: (cookies: Cookies, source: string) => {

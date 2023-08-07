@@ -314,7 +314,7 @@ class CartPage extends React.Component<Props, State> {
         top: 0,
         behavior: "smooth"
       });
-    }, 500);
+    }, 800);
   }
 
   onNotifyCart = (basketLineId: ProductID) => {
@@ -749,6 +749,7 @@ class CartPage extends React.Component<Props, State> {
             styles.pUnset,
             {
               [globalStyles.marginT30]:
+                this.props.mobile &&
                 totalWithoutShipping &&
                 totalWithoutShipping >= freeShippingThreshold &&
                 totalWithoutShipping < freeShippingApplicable &&

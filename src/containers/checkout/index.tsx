@@ -547,6 +547,10 @@ class Checkout extends React.Component<Props, State> {
         this.props.showShippingAddress();
       }
     }
+
+    if (!nextProps.basket.bridal && nextProps.user.isLoggedIn) {
+      this.nextStep(STEP_SHIPPING);
+    }
   }
 
   isActiveStep = (step: string) => {

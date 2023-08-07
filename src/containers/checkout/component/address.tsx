@@ -1122,8 +1122,8 @@ const AddressSection: React.FC<AddressProps & {
                     (props.activeStep == STEP_SHIPPING ||
                       (props.activeStep == STEP_BILLING &&
                         (!sameAsShipping ||
-                          props.isBridal ||
-                          props.isGoodearthShipping))) && (
+                          isBridal ||
+                          isGoodearthShipping))) && (
                       <>
                         <div>{children}</div>
                         {addressList.length && mode == "list" ? (
