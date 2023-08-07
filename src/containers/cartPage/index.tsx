@@ -309,12 +309,12 @@ class CartPage extends React.Component<Props, State> {
       });
     }
 
-    setTimeout(() => {
-      window.scrollTo({
-        top: 0,
-        behavior: "smooth"
-      });
-    }, 800);
+    // setTimeout(() => {
+    //   window.scrollTo({
+    //     top: 0,
+    //     behavior: "smooth"
+    //   });
+    // }, 800);
   }
 
   onNotifyCart = (basketLineId: ProductID) => {

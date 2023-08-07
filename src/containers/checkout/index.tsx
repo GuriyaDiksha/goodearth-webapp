@@ -445,6 +445,10 @@ class Checkout extends React.Component<Props, State> {
           };
           getLoyaltyPoints(data);
         }
+        debugger;
+        if (!res.bridal && this.props.user.isLoggedIn) {
+          this.nextStep(STEP_SHIPPING);
+        }
       });
   }
 
@@ -546,10 +550,6 @@ class Checkout extends React.Component<Props, State> {
         this.nextStep(STEP_SHIPPING);
         this.props.showShippingAddress();
       }
-    }
-
-    if (!nextProps.basket.bridal && nextProps.user.isLoggedIn) {
-      this.nextStep(STEP_SHIPPING);
     }
   }
 
