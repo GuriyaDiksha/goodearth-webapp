@@ -729,7 +729,10 @@ const OrderSummary: React.FC<OrderProps> = props => {
               <span className={styles.subtotal}>SHIPPING</span>
               <span className={styles.subtotal}>
                 (+) {String.fromCharCode(...code)}{" "}
-                {parseFloat(shippingCharge).toFixed(2)}
+                {displayPriceWithCommasFloat(
+                  parseFloat(shippingCharge),
+                  currency
+                )}
               </span>
             </div>
             {basket.finalDeliveryDate && showDeliveryTimelines && (
