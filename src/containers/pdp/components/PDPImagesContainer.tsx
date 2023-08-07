@@ -82,6 +82,7 @@ const PDPImagesContainer: React.FC<Props> = ({
     }
 
     dispatch(updateModal(true));
+    e.stopPropagation();
   };
 
   const viewIn3dBtn = (code: string) => {
@@ -135,7 +136,7 @@ const PDPImagesContainer: React.FC<Props> = ({
                 // { [styles.topRowImages]: index != 2 && length == 3 },
                 // { [styles.bottomRowImages]: index >= oddRowIndices[length] }
               )}
-              onClick={() => {
+              onClick={e => {
                 onClick(index);
               }}
             >

@@ -56,6 +56,8 @@
         }
         .selectd-img{
           opacity: 1;
+          cursor: pointer;
+          border: 1px solid #888;
         }
       }
 
@@ -135,7 +137,7 @@
         }
 
         @media screen and (max-width:992px){
-          padding: 0 25px;
+          padding: 0 15px;
           position: absolute;
           background: white;
           opacity: 0.8;
@@ -198,3 +200,11 @@
       font-size: 20px;
      }
   }
+.thumbnail-container {
+    margin-bottom: 14px;
+    cursor: pointer;
+}
+
+.active-thumbnail {
+    border: 2px solid $white;
+}
