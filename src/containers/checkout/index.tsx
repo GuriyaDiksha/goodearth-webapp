@@ -25,7 +25,7 @@ import HeaderService from "services/headerFooter";
 import Api from "services/api";
 import { Dispatch } from "redux";
 import { specifyBillingAddressData } from "containers/checkout/typings";
-import { updateAddressList } from "actions/address";
+import { updateAddressList, updateAddressMode } from "actions/address";
 import {
   showGrowlMessage,
   showErrors,
@@ -186,6 +186,9 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     },
     showShippingAddress: () => {
       dispatch(updateShowShippingAddress(false));
+    },
+    updateMode: () => {
+      dispatch(updateAddressMode("list"));
     }
   };
 };
@@ -445,9 +448,26 @@ class Checkout extends React.Component<Props, State> {
           };
           getLoyaltyPoints(data);
         }
-        debugger;
         if (!res.bridal && this.props.user.isLoggedIn) {
-          this.nextStep(STEP_SHIPPING);
+          const {
+            user: { shippingData },
+            addresses
+          } = this.props;
+          if (
+            addresses.filter(val => val?.id === shippingData?.id).length === 0
+          ) {
+            this.setState(
+              {
+                shippingAddress: addresses.find(
+                  val => val?.isDefaultForShipping
+                )
+              },
+              () => {
+                this.nextStep(STEP_SHIPPING);
+                this.props.updateMode();
+              }
+            );
+          }
         }
       });
   }
@@ -460,7 +480,11 @@ class Checkout extends React.Component<Props, State> {
         (this.state.activeStep == STEP_SHIPPING ||
           this.state.activeStep == STEP_LOGIN) &&
         shippingData &&
-        shippingData?.id !== this.state.shippingAddress?.id
+        shippingData?.id !== this.state.shippingAddress?.id &&
+        ((nextProps.addresses.filter(val => val?.id === shippingData?.id)
+          .length !== 0 &&
+          !nextProps.basket.bridal) ||
+          nextProps.basket.bridal)
       ) {
         this.setState({
           shippingAddress: shippingData || undefined,
@@ -521,7 +545,13 @@ class Checkout extends React.Component<Props, State> {
           isShipping: true
         });
       }
-      if (shippingData !== this.state.shippingAddress) {
+      if (
+        shippingData !== this.state.shippingAddress &&
+        ((nextProps.addresses.filter(val => val?.id === shippingData?.id)
+          .length !== 0 &&
+          !nextProps.basket.bridal) ||
+          nextProps.basket.bridal)
+      ) {
         this.setState({
           shippingAddress: shippingData || undefined
         });
