@@ -59,7 +59,11 @@ const PromoSection: React.FC<PromoProps> = props => {
     const data: any = {
       cardId: id
     };
-    removePromo(data);
+    try {
+      removePromo(data);
+    } catch (e) {
+      setIsLoading(false);
+    }
   };
 
   const toggleInput = () => {

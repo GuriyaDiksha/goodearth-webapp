@@ -31,12 +31,16 @@ export default {
     return res;
   },
   removePromo: async function(dispatch: Dispatch, formData: any) {
-    const res = await API.post<ApiResponse>(
-      dispatch,
-      `${__API_HOST__ + "/giftcard/remove_voucher/"}`,
-      formData
-    );
-    return res;
+    try {
+      const res = await API.post<ApiResponse>(
+        dispatch,
+        `${__API_HOST__ + "/giftcard/remove_voucher/"}`,
+        formData
+      );
+      return res;
+    } catch (error) {
+      return error;
+    }
   },
   applyPromo: async function(dispatch: Dispatch, formData: any) {
     const res = await API.post<ApiResponse>(

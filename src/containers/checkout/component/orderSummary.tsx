@@ -145,7 +145,11 @@ const OrderSummary: React.FC<OrderProps> = props => {
     const data: any = {
       cardId: id
     };
-    removePromo(data);
+    try {
+      removePromo(data);
+    } catch (e) {
+      setLoading(false);
+    }
   };
 
   // Update total qty of cart items and print it in order summary
