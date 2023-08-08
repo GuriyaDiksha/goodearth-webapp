@@ -50,14 +50,14 @@ const Zoom: React.FC<Props> = ({
 
   const closeModal = () => {
     changeModalState(false);
-    if (mobile) {
-      (document.getElementById(
-        "modal-fullscreen"
-      ) as HTMLDivElement).style.height = "100%";
-      (document.getElementById(
-        "modal-fullscreen-container"
-      ) as HTMLDivElement).style.height = "100%";
-    }
+    // if (mobile) {
+    //   (document.getElementById(
+    //     "modal-fullscreen"
+    //   ) as HTMLDivElement).style.height = "100%";
+    //   (document.getElementById(
+    //     "modal-fullscreen-container"
+    //   ) as HTMLDivElement).style.height = "100%";
+    // }
 
     document.body.classList.remove(globalStyles.fixed);
   };
@@ -86,19 +86,19 @@ const Zoom: React.FC<Props> = ({
     }
   }, [zoom]);
 
-  useEffect(() => {
-    if (
-      (document.getElementById("modal-fullscreen") as HTMLDivElement) &&
-      mobile
-    ) {
-      (document.getElementById(
-        "modal-fullscreen"
-      ) as HTMLDivElement).style.height = "calc(100% - 55px)";
-      (document.getElementById(
-        "modal-fullscreen-container"
-      ) as HTMLDivElement).style.height = "calc(100% - 55px)";
-    }
-  }, [mobile]);
+  // useEffect(() => {
+  //   if (
+  //     (document.getElementById("modal-fullscreen") as HTMLDivElement) &&
+  //     mobile
+  //   ) {
+  //     (document.getElementById(
+  //       "modal-fullscreen"
+  //     ) as HTMLDivElement).style.height = "calc(100% - 55px)";
+  //     (document.getElementById(
+  //       "modal-fullscreen-container"
+  //     ) as HTMLDivElement).style.height = "calc(100% - 55px)";
+  //   }
+  // }, [mobile]);
 
   return (
     <div
@@ -277,6 +277,7 @@ const Zoom: React.FC<Props> = ({
           price={price}
           discountPrice={discountPrices}
           mobile={mobile}
+          hideAddToBag={true}
         />
       </div>
     </div>
