@@ -269,7 +269,7 @@ const Zoom: React.FC<Props> = ({
           )}
         </div>
       </div>
-      <div className={cs(styles.footer, { [styles.mobileFooter]: mobile })}>
+      {/* <div className={cs(styles.footer, { [styles.mobileFooter]: mobile })}>
         <DockedPanel
           data={data}
           buttoncall={buttoncall}
@@ -279,7 +279,7 @@ const Zoom: React.FC<Props> = ({
           mobile={mobile}
           hideAddToBag={true}
         />
-      </div>
+      </div> */}
     </div>
   );
 };
