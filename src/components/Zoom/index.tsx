@@ -114,8 +114,8 @@ const Zoom: React.FC<Props> = ({
                 key={imgContent.id}
                 className={cs(styles.thumbnailImg, {
                   [styles.selectdImg]:
-                    selectedImage?.productImage === imgContent?.productImage ||
-                    selectedImage?.vimeo_link === imgContent?.vimeo_link
+                    selectedImage?.productImage === imgContent?.productImage
+                  // selectedImage?.vimeo_link === imgContent?.vimeo_link
                 })}
                 onClick={() => {
                   setSelectedImage(imgContent);
