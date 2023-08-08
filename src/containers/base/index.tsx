@@ -74,6 +74,7 @@ const BaseLayout: React.FC = () => {
         });
       }
     }
+    console.log("pakistan jindabad");
   }, []);
   // useEffect(() => {
   // const chatContainer = document.getElementById("mobile-chat-container");
