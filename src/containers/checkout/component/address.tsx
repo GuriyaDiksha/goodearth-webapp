@@ -709,6 +709,9 @@ const AddressSection: React.FC<AddressProps & {
     }
     if (activeStep === STEP_SHIPPING) {
       addGAForShipping(address);
+      if (!isBridal || !isGoodearthShipping) {
+        dispatch(updateSameAsShipping(true));
+      }
       next(STEP_BILLING);
     }
     return true;
