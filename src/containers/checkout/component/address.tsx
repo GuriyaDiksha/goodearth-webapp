@@ -202,8 +202,8 @@ const AddressSection: React.FC<AddressProps & {
       (currentCallBackComponent === "checkout-billing" ||
         currentCallBackComponent === "checkout-shipping") &&
       sameAsShipping &&
-      !isBridal! &&
-      isGoodearthShipping &&
+      !isBridal &&
+      !isGoodearthShipping &&
       props.selectedAddress?.id
     ) {
       dispatch(updateBillingAddressId(props.selectedAddress?.id));

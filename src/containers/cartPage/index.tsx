@@ -734,11 +734,11 @@ class CartPage extends React.Component<Props, State> {
       freeShippingApplicable,
       shippable
     } = this.props.cart;
-    const { isSale, showTimer } = this.props;
+    const { showTimer } = this.props;
     return (
       <div
         className={cs(bootstrap.row, styles.pageBody, {
-          [styles.timerHeight]: isSale && showTimer
+          [styles.timerHeight]: showTimer
         })}
       >
         <div
