@@ -17,7 +17,6 @@ type Props = {
   price: string | number;
   discountPrice: string | number;
   mobile: boolean;
-  hideAddToBag?: boolean;
 };
 
 const DockedPanel: React.FC<Props> = ({
@@ -26,8 +25,7 @@ const DockedPanel: React.FC<Props> = ({
   showPrice,
   price,
   discountPrice,
-  mobile,
-  hideAddToBag
+  mobile
 }) => {
   const { showTimer, isSale } = useSelector((state: AppState) => state.info);
   const {
@@ -83,13 +81,9 @@ const DockedPanel: React.FC<Props> = ({
           />
         )}
       </div>
-      {hideAddToBag
-        ? null
-        : !mobile && (
-            <div className={cs(bootstrap.col2)}>
-              {button ? button : buttoncall}
-            </div>
-          )}
+      {!mobile && (
+        <div className={cs(bootstrap.col2)}>{button ? button : buttoncall}</div>
+      )}
     </div>
   );
 };
