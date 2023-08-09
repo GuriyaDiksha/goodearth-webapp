@@ -1233,7 +1233,8 @@ const OrderSummary: React.FC<OrderProps> = props => {
                     styles.textCoupon,
                     globalStyles.voffset4,
                     styles.summaryPadding,
-                    styles.promocodeText
+                    styles.promocodeText,
+                    { [globalStyles.marginB50]: mobile }
                   )}
                 >
                   Promo Codes (if applicable), Gift Cards & Credit Notes can be
