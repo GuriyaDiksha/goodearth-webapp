@@ -454,6 +454,7 @@ class Checkout extends React.Component<Props, State> {
             addresses
           } = this.props;
           if (
+            addresses?.length &&
             addresses.filter(val => val?.id === shippingData?.id).length === 0
           ) {
             this.setState(
