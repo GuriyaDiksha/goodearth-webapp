@@ -520,29 +520,34 @@ const CartItems: React.FC<BasketItem> = memo(
                           )}
                         </div>
 
-                        {saleStatus && (
-                          <span
-                            className={cs(styles.stockLeft, {
-                              [styles.outOfStock]:
-                                stockRecords[0].numInStock < 1
-                            })}
-                          >
-                            {saleStatus &&
-                              childAttributes[0].showStockThreshold &&
-                              childAttributes[0].stock > 0 &&
-                              childAttributes[0].othersBasketCount > 0 &&
-                              `${childAttributes[0].othersBasketCount} other${
-                                childAttributes[0].othersBasketCount > 1
-                                  ? "s"
-                                  : ""
-                              } have this item in their bag.`}
-                            <br />
-                            {saleStatus &&
-                              childAttributes[0].showStockThreshold &&
-                              childAttributes[0].stock > 0 &&
-                              `Only ${childAttributes[0].stock} Left!`}
-                          </span>
-                        )}
+                        {saleStatus &&
+                          ((childAttributes[0].showStockThreshold &&
+                            childAttributes[0].stock > 0 &&
+                            childAttributes[0].othersBasketCount > 0) ||
+                            (childAttributes[0].showStockThreshold &&
+                              childAttributes[0].stock > 0)) && (
+                            <span
+                              className={cs(styles.stockLeft, {
+                                [styles.outOfStock]:
+                                  stockRecords[0].numInStock < 1
+                              })}
+                            >
+                              {saleStatus &&
+                                childAttributes[0].showStockThreshold &&
+                                childAttributes[0].stock > 0 &&
+                                childAttributes[0].othersBasketCount > 0 &&
+                                `${childAttributes[0].othersBasketCount} other${
+                                  childAttributes[0].othersBasketCount > 1
+                                    ? "s"
+                                    : ""
+                                } have this item in their bag.`}
+                              <br />
+                              {saleStatus &&
+                                childAttributes[0].showStockThreshold &&
+                                childAttributes[0].stock > 0 &&
+                                `Only ${childAttributes[0].stock} Left!`}
+                            </span>
+                          )}
                         {renderNotifyTrigger("info")}
                       </div>
                     </div>
