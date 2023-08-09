@@ -1325,7 +1325,7 @@ class PDPContainer extends React.Component<Props, State> {
     );
   };
 
-  handleLooksClick = () => {
+  handleLooksClick = (e: any) => {
     const elem = document.getElementById("looks-section");
     if (elem) {
       const headerOffset = 130;
@@ -1333,6 +1333,7 @@ class PDPContainer extends React.Component<Props, State> {
       const offsetPos = elemPos - headerOffset;
       window.scroll({ top: offsetPos, behavior: "smooth" });
     }
+    e.stopPropagation();
   };
 
   getMobileZoomListener = (index: number) => {

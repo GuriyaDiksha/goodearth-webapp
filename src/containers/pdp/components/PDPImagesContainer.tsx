@@ -20,7 +20,7 @@ type Props = {
   currency?: Currency;
   corporatePDP?: boolean;
   buttoncall?: JSX.Element | null | undefined;
-  handleLooksClick: () => void;
+  handleLooksClick: (e: any) => void;
 };
 
 const PDPImagesContainer: React.FC<Props> = ({
@@ -171,7 +171,7 @@ const PDPImagesContainer: React.FC<Props> = ({
                 <div
                   id="looks-btn"
                   className={styles.looksBtn}
-                  onClick={handleLooksClick}
+                  onClick={e => handleLooksClick(e)}
                 >
                   shop the look
                 </div>
