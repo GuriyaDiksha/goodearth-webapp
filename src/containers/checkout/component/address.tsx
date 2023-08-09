@@ -139,13 +139,15 @@ const AddressSection: React.FC<AddressProps & {
   };
 
   useIsomorphicLayoutEffect(() => {
-    handleScroll();
+    document.addEventListener("scroll", handleScroll, true);
+
     return () => {
       orderSummaryRef?.current && observer?.unobserve(orderSummaryRef?.current);
       orderSummaryRef2?.current &&
         observer?.unobserve(orderSummaryRef2?.current);
+      document.removeEventListener("scroll", handleScroll, true);
     };
-  }, [currentStep, activeStep, sameAsShipping, mode]);
+  }, []);
   // End: Intersection Observer (Mobile)
 
   useEffect(() => {
@@ -1169,6 +1171,7 @@ const AddressSection: React.FC<AddressProps & {
                                     [bootstrapStyles.col6]: !mobile,
                                     [bootstrapStyles.colMd6]: !mobile
                                   })}
+                                  ref={orderSummaryRef}
                                 >
                                   {customDuties?.visible && (
                                     <label
@@ -1226,7 +1229,8 @@ const AddressSection: React.FC<AddressProps & {
                                       {termsErr}
                                     </div>
                                   )}
-                                  <div ref={orderSummaryRef}></div>
+                                  {/* ref for handling fixed button */}
+                                  {/* <div ref={orderSummaryRef}>&nbsp;</div> */}
                                   {((checkoutMobileOrderSummary && mobile) ||
                                     !mobile) && (
                                     <div
