@@ -448,7 +448,7 @@ class Checkout extends React.Component<Props, State> {
           };
           getLoyaltyPoints(data);
         }
-        if (!res.bridal && this.props.user.isLoggedIn) {
+        if (!res.bridal && this.props.user.isLoggedIn && !boId) {
           const {
             user: { shippingData },
             addresses
