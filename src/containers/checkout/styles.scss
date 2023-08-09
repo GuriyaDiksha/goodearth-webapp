@@ -1226,6 +1226,10 @@ input[type="radio"] {
     // max-width: 100%;
   }
   &:hover {
+    @media screen and (max-width:991px) {
+      @include b3_14px_montserrat_white();
+    }
+
     @media screen and (min-width:992px) {
     background: $white 0% 0% no-repeat padding-box;
     opacity: 1;
@@ -1234,6 +1238,10 @@ input[type="radio"] {
       color: $med-charcoal;
     }}
   }
+  &:focus {
+    @media screen and (max-width:991px) {
+      @include b3_14px_montserrat_white();
+    }}
   span {
     @include b4_12px_montserrat_white();
   }
