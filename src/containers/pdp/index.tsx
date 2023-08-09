@@ -487,13 +487,22 @@ class PDPContainer extends React.Component<Props, State> {
   }
 
   componentDidUpdate(props: Props) {
-    const { data } = this.props;
+    const {
+      data,
+      device: { mobile }
+    } = this.props;
     if (!data) {
       return;
     }
     const productImages = this.getProductImagesData();
     if (props?.data && props.data?.id !== data?.id) {
       document.removeEventListener("scroll", this.onScroll);
+      if (!this.state.showAddToBagMobile && mobile) {
+        this.setState({
+          showAddToBagMobile: true
+        });
+      }
+
       window.scrollTo({
         top: 0
       });
