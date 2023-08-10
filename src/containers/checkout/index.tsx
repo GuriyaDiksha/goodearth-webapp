@@ -25,7 +25,12 @@ import HeaderService from "services/headerFooter";
 import Api from "services/api";
 import { Dispatch } from "redux";
 import { specifyBillingAddressData } from "containers/checkout/typings";
-import { updateAddressList, updateAddressMode } from "actions/address";
+import {
+  updateAddressList,
+  updateAddressMode,
+  updateBillingAddressId,
+  updateShippingAddressId
+} from "actions/address";
 import {
   showGrowlMessage,
   showErrors,
@@ -453,6 +458,7 @@ class Checkout extends React.Component<Props, State> {
             user: { shippingData },
             addresses
           } = this.props;
+          const { isGoodearthShipping } = this.state;
           if (
             addresses?.length &&
             addresses.filter(val => val?.id === shippingData?.id).length === 0
@@ -461,7 +467,10 @@ class Checkout extends React.Component<Props, State> {
               {
                 shippingAddress: addresses.find(
                   val => val?.isDefaultForShipping
-                )
+                ),
+                billingAddress: isGoodearthShipping
+                  ? undefined
+                  : addresses.find(val => val?.isDefaultForShipping)
               },
               () => {
                 this.nextStep(STEP_SHIPPING);
@@ -474,6 +483,7 @@ class Checkout extends React.Component<Props, State> {
   }
 
   UNSAFE_componentWillReceiveProps(nextProps: Props) {
+    const { isGoodearthShipping } = this.state;
     if (nextProps.user.isLoggedIn) {
       const { shippingData } = nextProps.user;
 
@@ -482,13 +492,17 @@ class Checkout extends React.Component<Props, State> {
           this.state.activeStep == STEP_LOGIN) &&
         shippingData &&
         shippingData?.id !== this.state.shippingAddress?.id &&
-        ((nextProps.addresses.filter(val => val?.id === shippingData?.id)
+        ((nextProps.addresses.filter((val: any) => val?.id === shippingData?.id)
           .length !== 0 &&
           !nextProps.basket.bridal) ||
           nextProps.basket.bridal)
       ) {
         this.setState({
           shippingAddress: shippingData || undefined,
+          billingAddress:
+            isGoodearthShipping || nextProps.basket.bridal
+              ? undefined
+              : shippingData,
           activeStep: STEP_BILLING
         });
       }
@@ -541,8 +555,13 @@ class Checkout extends React.Component<Props, State> {
 
         this.setState({
           activeStep: STEP_SHIPPING,
-          billingAddress: undefined,
-          shippingAddress: undefined,
+          shippingAddress: nextProps.addresses.find(
+            val => val?.isDefaultForShipping
+          ),
+          billingAddress:
+            isGoodearthShipping || nextProps.basket.bridal
+              ? undefined
+              : nextProps.addresses.find(val => val?.isDefaultForShipping),
           isShipping: true
         });
       }
@@ -554,7 +573,11 @@ class Checkout extends React.Component<Props, State> {
           nextProps.basket.bridal)
       ) {
         this.setState({
-          shippingAddress: shippingData || undefined
+          shippingAddress: shippingData || undefined,
+          billingAddress:
+            isGoodearthShipping || nextProps.basket.bridal
+              ? undefined
+              : shippingData || undefined
         });
       }
       if (
@@ -568,9 +591,14 @@ class Checkout extends React.Component<Props, State> {
         this.props.fetchAddressBridal();
       }
     } else {
+      // this.props.updateShipping(nextProps.user.shippingData?.id || 0)
       this.setState({
         activeStep: STEP_LOGIN,
         shippingAddress: nextProps.user.shippingData || undefined,
+        billingAddress:
+          isGoodearthShipping || nextProps.basket.bridal
+            ? undefined
+            : nextProps.user.shippingData || undefined,
         errorNotification: ""
       });
     }
@@ -748,10 +776,12 @@ class Checkout extends React.Component<Props, State> {
                     ? address.isTulsi
                     : false;
                   this.setState({ isGoodearthShipping });
+
                   this.setState({
                     shippingCharge: data.data.basket.shippingCharge,
                     shippingAddress: address,
-                    billingAddress: undefined,
+                    billingAddress:
+                      isGoodearthShipping || bridal ? undefined : address,
                     activeStep: STEP_BILLING
                   });
 
@@ -778,10 +808,12 @@ class Checkout extends React.Component<Props, State> {
                 ? address.isTulsi
                 : false;
               this.setState({ isGoodearthShipping });
+
               this.setState({
                 shippingCharge: data.data.basket.shippingCharge,
                 shippingAddress: address,
-                billingAddress: undefined,
+                billingAddress:
+                  isGoodearthShipping || bridal ? undefined : address,
                 activeStep: STEP_BILLING
               });
 

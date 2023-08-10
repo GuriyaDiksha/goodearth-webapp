@@ -825,7 +825,7 @@ class Header extends React.Component<Props, State> {
     this.props.reloadAfterBridal(this.props.cookies, source);
   };
 
-  clickToggle = (onClickClose?: boolean) => {
+  clickToggle = () => {
     const isMobileMenuOpen = !this.state.showMenu;
     this.props.updateMobileMenuOpenState(!this.props.mobileMenuOpenState);
 
@@ -835,9 +835,9 @@ class Header extends React.Component<Props, State> {
       document.body.classList.remove(globalStyles.noScroll);
     }
 
-    if (onClickClose) {
-      document.body.classList.remove(globalStyles.noScroll);
-    }
+    // if (onClickClose) {
+    //   document.body.classList.remove(globalStyles.noScroll);
+    // }
 
     this.setState({
       showMenu: !this.state.showMenu,
@@ -1162,7 +1162,7 @@ class Header extends React.Component<Props, State> {
                         : styles.hidden
                     }
                     onClick={() => {
-                      this.clickToggle(true);
+                      this.clickToggle();
                     }}
                   ></i>
                 </div>

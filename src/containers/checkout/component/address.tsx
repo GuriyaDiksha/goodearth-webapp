@@ -104,6 +104,7 @@ const AddressSection: React.FC<AddressProps & {
   const [isTermChecked, setIsTermChecked] = useState(true);
   const [termsErr, setTermsErr] = useState("");
   const [gstDetails, setGstDetails] = useState({ gstText: "", gstType: "" });
+  const [billingError, setBillingError] = useState("");
 
   const dispatch = useDispatch();
 
@@ -159,6 +160,7 @@ const AddressSection: React.FC<AddressProps & {
   }, [isLoggedIn]);
 
   useEffect(() => {
+    setBillingError("");
     setGstDetails({ gstText: "", gstType: "" });
   }, [shippingAddressId, billingAddressId]);
 
@@ -190,38 +192,52 @@ const AddressSection: React.FC<AddressProps & {
         });
   }, [shippingAddressId]);
 
-  useEffect(() => {
-    if (currentCallBackComponent === "checkout-shipping") {
-      dispatch(
-        updateShippingAddressId(
-          props.selectedAddress?.id ||
-            addressList?.find(val => val?.isDefaultForShipping)?.id ||
-            0
-        )
-      );
-    }
-    if (
-      (currentCallBackComponent === "checkout-billing" ||
-        currentCallBackComponent === "checkout-shipping") &&
-      sameAsShipping &&
-      !isBridal &&
-      !isGoodearthShipping &&
-      props.selectedAddress?.id
-    ) {
-      dispatch(updateBillingAddressId(props.selectedAddress?.id));
-    }
+  // useEffect(() => {
 
-    if (
-      currentCallBackComponent === "checkout-billing" &&
-      (!sameAsShipping || isBridal || isGoodearthShipping)
-    ) {
-      if (isBridal || isGoodearthShipping) {
-        dispatch(updateBillingAddressId(0));
-      } else {
-        dispatch(updateBillingAddressId(billingAddressId));
-      }
+  //   if (currentCallBackComponent === "checkout-shipping") {
+  //     dispatch(
+  //       updateShippingAddressId(
+  //         props.selectedAddress?.id ||
+  //           addressList?.find(val => val?.isDefaultForShipping)?.id ||
+  //           0
+  //       )
+  //     );
+  //   }
+  //   if (
+  //     (currentCallBackComponent === "checkout-billing" ||
+  //       currentCallBackComponent === "checkout-shipping") &&
+  //     sameAsShipping &&
+  //     !isBridal &&
+  //     !isGoodearthShipping &&
+  //     props.selectedAddress?.id
+  //   ) {
+  //     debugger;
+  //     dispatch(updateBillingAddressId(props.selectedAddress?.id));
+  //   }
+
+  //   if (
+  //     currentCallBackComponent === "checkout-billing" &&
+  //     (!sameAsShipping || isBridal || isGoodearthShipping)
+  //   ) {
+  //     debugger;
+  //     if (isBridal || isGoodearthShipping) {
+  //       debugger;
+  //       dispatch(updateBillingAddressId(0));
+  //     } else {
+  //       dispatch(updateBillingAddressId(billingAddressId));
+  //     }
+  //   }
+
+  // }, [props.selectedAddress, addressList]);
+
+  useEffect(() => {
+    if (activeStep == STEP_BILLING && (!isBridal || !isGoodearthShipping)) {
+      dispatch(updateBillingAddressId(props.selectedAddress?.id || 0));
     }
-  }, [props.selectedAddress, addressList]);
+    if (activeStep === STEP_SHIPPING) {
+      dispatch(updateShippingAddressId(props.selectedAddress?.id || 0));
+    }
+  }, [props.selectedAddress, activeStep]);
 
   const openNewAddressForm = () => {
     if (currentCallBackComponent === "checkout-billing") {
@@ -328,7 +344,6 @@ const AddressSection: React.FC<AddressProps & {
 
   const renderSavedAddress = function() {
     const address = selectedAddress;
-
     if (!isActive && address && isBridal && activeStep == STEP_SHIPPING) {
       // saved address for bridal
       return (
@@ -588,6 +603,14 @@ const AddressSection: React.FC<AddressProps & {
     // if (gstText) {
     //   setGstDetails({ gstText: gstText, gstType: gstType || "" });
     // }
+    if (
+      billingAddressId === 0 &&
+      currentCallBackComponent === "checkout-billing"
+    ) {
+      setBillingError("Please select billing address");
+      return false;
+    }
+
     if (gstDetails?.gstText) {
       numberObj = Object.assign(
         {},
@@ -754,7 +777,9 @@ const AddressSection: React.FC<AddressProps & {
           {
             setGst: setGst,
             setGstDetails: setGstDetails,
-            setSameAsShipping: updateSameAsShipping
+            setSameAsShipping: updateSameAsShipping,
+            isGoodearthShipping: isGoodearthShipping,
+            isBridal: isBridal
           },
           mobile ? false : true,
           mobile ? ModalStyles.bottomAlignSlideUp : "",
@@ -1293,9 +1318,12 @@ const AddressSection: React.FC<AddressProps & {
                     ""
                   )}
                   <div>{renderPancard}</div>
-                  {props.activeStep == STEP_BILLING && error && (
-                    <div className={globalStyles.errorMsg}>{error}</div>
-                  )}
+                  {props.activeStep == STEP_BILLING &&
+                    (error || billingError) && (
+                      <div className={globalStyles.errorMsg}>
+                        {error || billingError}
+                      </div>
+                    )}
                   {props.activeStep == STEP_BILLING &&
                     mode == "list" &&
                     !sameAsShipping && <div ref={orderSummaryRef2}></div>}

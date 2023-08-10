@@ -26,38 +26,38 @@ type PopupProps = {
   setGst: (data: boolean) => any;
   setGstDetails: (data: { gstText: string; gstType: string }) => any;
   setSameAsShipping: (data: boolean) => any;
+  isBridal: boolean;
+  isGoodearthShipping: boolean;
 };
 
 const BillingGST: React.FC<PopupProps> = ({
   setGst,
   setGstDetails,
-  setSameAsShipping
+  setSameAsShipping,
+  isBridal,
+  isGoodearthShipping
 }) => {
   const { closeModal } = useContext(Context);
   const [gstText, setGstText] = useState("");
   const [gstType, setGstType] = useState("GSTIN");
   const [error, setError] = useState("");
-  const {
-    addressList,
-    shippingAddressId,
-    billingAddressId,
-    sameAsShipping
-  } = useSelector((state: AppState) => state.address);
+  const { billingAddressId } = useSelector((state: AppState) => state.address);
   const { mobile } = useSelector((state: AppState) => state.device);
   const dispatch = useDispatch();
 
-  const address: any =
-    addressList?.find((val: any) =>
-      shippingAddressId !== 0
-        ? sameAsShipping
-          ? val?.id === shippingAddressId
-          : val?.id === billingAddressId
-        : val?.isDefaultForShipping === true
-    ) || undefined;
+  // const address: any =
+  //   addressList?.find((val: any) =>
+  //     shippingAddressId !== 0
+  //       ? sameAsShipping && !isGoodearthShipping && !isGoodearthShipping
+  //         ? val?.id === shippingAddressId
+  //         : val?.id === billingAddressId
+  //       : val?.isDefaultForShipping === true
+  //   ) || undefined;
 
   const msg = [
     "To be able to create a GST invoice, your billing address state must match the state registered with your GST no.",
-    "GST can not apply for non Indian billing address."
+    "GST can not apply for non Indian billing address.",
+    "Please select billing address"
   ];
 
   // useEffect(() => {
@@ -129,6 +129,10 @@ const BillingGST: React.FC<PopupProps> = ({
       setGstDetails({ gstText: "", gstType: "" });
       closeModal();
     } else {
+      if (billingAddressId === 0) {
+        setError("Please select billing address");
+        return false;
+      }
       if (gstValidation()) {
         const userConsent = CookieService.getCookie("consent").split(",");
 
@@ -139,7 +143,7 @@ const BillingGST: React.FC<PopupProps> = ({
           });
         }
         AddressService.validateGST(dispatch, {
-          billingAddressId: address?.id,
+          billingAddressId: billingAddressId,
           gstNo: gstText,
           gstType
         })
