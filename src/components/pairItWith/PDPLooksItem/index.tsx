@@ -4,7 +4,7 @@ import { PLPResultItemProps } from "./typings";
 // import "../../../styles/myslick.css";
 // import "./slick.css";
 import styles from "./styles.scss";
-import { Currency, currencyCode } from "../../../typings/currency";
+import { Currency } from "../../../typings/currency";
 import cs from "classnames";
 import bootstrapStyles from "../../../styles/bootstrap/bootstrap-grid.scss";
 import { PartialChildProductAttributes } from "src/typings/product";
@@ -34,7 +34,6 @@ const PlpResultListViewItem: React.FC<PLPResultItemProps> = (
     onEnquireClick,
     notifyMeClick
   } = props;
-  const code = currencyCode[currency as Currency];
   // const {} = useStore({state:App})
   // const [primaryimage, setPrimaryimage] = useState(true);
   const { info } = useSelector((state: AppState) => state);
@@ -210,7 +209,6 @@ const PlpResultListViewItem: React.FC<PLPResultItemProps> = (
         <p className={styles.productN}>
           {info.isSale && product.discount ? (
             <span className={styles.discountprice}>
-              {String.fromCharCode(...code)}{" "}
               {displayPriceWithCommas(
                 product.discountedPriceRecords[currency as Currency],
                 currency
@@ -222,7 +220,6 @@ const PlpResultListViewItem: React.FC<PLPResultItemProps> = (
           {info.isSale && product.discount ? (
             <span className={styles.strikeprice}>
               {" "}
-              {String.fromCharCode(...code)}{" "}
               {displayPriceWithCommas(
                 product.priceRecords[currency as Currency],
                 currency
@@ -234,7 +231,6 @@ const PlpResultListViewItem: React.FC<PLPResultItemProps> = (
                 product.badgeType == "B_flat" ? globalStyles.cerise : ""
               }
             >
-              {String.fromCharCode(...code)}{" "}
               {displayPriceWithCommas(
                 product.priceRecords[currency as Currency],
                 currency

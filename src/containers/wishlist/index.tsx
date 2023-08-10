@@ -5,7 +5,6 @@ import iconStyles from "../../styles/iconFonts.scss";
 import createAbsoluteGrid from "react-absolute-grid";
 import SampleDisplay from "./display";
 import { createRoot } from "react-dom/client";
-import { currencyCodes } from "constants/currency";
 import { AppState } from "reducers/typings";
 import { Dispatch } from "redux";
 import Loader from "components/Loader";
@@ -538,17 +537,12 @@ class Wishlist extends React.Component<Props, State> {
             globalStyles.italic
           )}
         >
-          {String.fromCharCode(...currencyCodes[this.props.currency]) +
-            " " +
-            (Number.isSafeInteger(+this.state.totalPrice)
-              ? displayPriceWithCommas(
-                  this.state.totalPrice,
-                  this.props.currency
-                )
-              : displayPriceWithCommasFloat(
-                  this.state.totalPrice,
-                  this.props.currency
-                ))}
+          {Number.isSafeInteger(+this.state.totalPrice)
+            ? displayPriceWithCommas(this.state.totalPrice, this.props.currency)
+            : displayPriceWithCommasFloat(
+                this.state.totalPrice,
+                this.props.currency
+              )}
         </span>
       </div>
     );

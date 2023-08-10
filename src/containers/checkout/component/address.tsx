@@ -20,7 +20,6 @@ import { AppState } from "reducers/typings";
 import { AddressData } from "components/Address/typings";
 import { checkBlank } from "utils/validate";
 import { CheckoutAddressContext } from "./context";
-import { Currency, currencyCode } from "typings/currency";
 import { displayPriceWithCommas } from "utils/utility";
 
 const AddressSection: React.FC<AddressProps & {
@@ -63,8 +62,6 @@ const AddressSection: React.FC<AddressProps & {
     AED: 9300,
     SGD: 3500
   };
-
-  const code = currencyCode[currency as Currency];
 
   const [sameAsShipping, setSameAsShipping] = useState(sameShipping);
   const [gst, setGst] = useState(false);
@@ -408,12 +405,14 @@ const AddressSection: React.FC<AddressProps & {
     if (props.activeStep == STEP_BILLING) {
       const pass =
         currency == "INR"
-          ? `AS PER RBI GOVERNMENT REGULATIONS, PAN DETAILS ARE MANDATORY FOR TRANSACTIONS ABOVE ${String.fromCharCode(
-              ...code
-            )} ${displayPriceWithCommas(amountPrice[currency], currency)}.`
-          : `AS PER RBI GOVERNMENT REGULATIONS, PASSPORT DETAILS ARE MANDATORY FOR TRANSACTIONS ABOVE ${String.fromCharCode(
-              ...code
-            )} ${displayPriceWithCommas(amountPrice[currency], currency)}.`;
+          ? `AS PER RBI GOVERNMENT REGULATIONS, PAN DETAILS ARE MANDATORY FOR TRANSACTIONS ABOVE ${displayPriceWithCommas(
+              amountPrice[currency],
+              currency
+            )}.`
+          : `AS PER RBI GOVERNMENT REGULATIONS, PASSPORT DETAILS ARE MANDATORY FOR TRANSACTIONS ABOVE ${displayPriceWithCommas(
+              amountPrice[currency],
+              currency
+            )}.`;
       const panText =
         currency == "INR" ? "PAN Card Number*" : " Passport Number*";
       return (

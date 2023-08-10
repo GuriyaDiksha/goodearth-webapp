@@ -6,7 +6,6 @@ import { BasketItem } from "typings/basket";
 import bootstrap from "../../styles/bootstrap/bootstrap-grid.scss";
 import Quantity from "components/quantity";
 import "../../styles/override.css";
-import { currencyCodes } from "constants/currency";
 import WishlistButton from "components/WishlistButton";
 import globalStyles from "../../styles/global.scss";
 import iconStyles from "../../styles/iconFonts.scss";
@@ -258,8 +257,6 @@ const LineItems: React.FC<BasketItem> = memo(
                 <div className={styles.productPrice}>
                   {saleStatus && discount && discountedPriceRecords ? (
                     <span className={styles.discountprice}>
-                      {String.fromCharCode(...currencyCodes[currency])}
-                      &nbsp;
                       {displayPriceWithCommas(
                         discountedPriceRecords[currency],
                         currency
@@ -271,8 +268,6 @@ const LineItems: React.FC<BasketItem> = memo(
                   )}
                   {saleStatus && discount ? (
                     <span className={styles.strikeprice}>
-                      {String.fromCharCode(...currencyCodes[currency])}
-                      &nbsp;
                       {isGiftCard
                         ? displayPriceWithCommas(GCValue, currency)
                         : displayPriceWithCommas(price, currency)}
@@ -284,8 +279,6 @@ const LineItems: React.FC<BasketItem> = memo(
                       }
                     >
                       {" "}
-                      {String.fromCharCode(...currencyCodes[currency])}
-                      &nbsp;
                       {isGiftCard
                         ? displayPriceWithCommas(GCValue, currency)
                         : displayPriceWithCommas(price, currency)}

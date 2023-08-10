@@ -7,12 +7,14 @@ import cs from "classnames";
 const InputField: React.FC<Props> = props => {
   const [labelClass, setLabelClass] = useState(false);
   const [placeholder, setPlaceholder] = useState(props.placeholder || "");
+  const [readOnly, setReadOnly] = useState(true);
 
   const handleClick = (event: React.MouseEvent | React.FocusEvent) => {
     if (!labelClass || placeholder !== "") {
       setLabelClass(true);
       setPlaceholder("");
     }
+    setReadOnly(false);
   };
 
   const handleClickBlur = (event: React.FocusEvent) => {
@@ -21,6 +23,7 @@ const InputField: React.FC<Props> = props => {
       setPlaceholder("");
     }
     props.blur ? props.blur(event) : "";
+    setReadOnly(true);
   };
 
   useEffect(() => {
@@ -53,6 +56,7 @@ const InputField: React.FC<Props> = props => {
         onClick={e => handleClick(e)}
         onBlur={e => handleClickBlur(e)}
         onFocus={e => handleClick(e)}
+        readOnly={readOnly}
         onKeyPress={e => (props.keyPress ? props.keyPress(e) : null)}
         onKeyDown={e => (props.keyDown ? props.keyDown(e) : null)}
         onKeyUp={e => (props.keyUp ? props.keyUp(e) : null)}
