@@ -110,7 +110,7 @@ const Newsletters: React.FC = () => {
   ) => {
     setIsLoading(true);
     setSuccessMsg("");
-    HeaderService.saveHFH(dispatch, formData)
+    HeaderService.makeNewsletterSignupRequest(dispatch, formData)
       .then(data => {
         setSuccessMsg(
           "Thank you. You have successfully signed-up to our newsletter. "
@@ -138,11 +138,11 @@ const Newsletters: React.FC = () => {
     const formData = new FormData();
     const { email, firstName, lastName, country, city } = model;
     formData.append("email", email ? email.toString().toLowerCase() : "");
-    formData.append("firstName", firstName || "");
-    formData.append("lastName", lastName || "");
+    formData.append("first_name", firstName || "");
+    formData.append("last_name", lastName || "");
     formData.append("country", country || "");
     formData.append("city", city || "");
-    formData.append("status", "subscribed");
+    formData.append("source", "Newsletter Signup");
 
     return formData;
   };
