@@ -366,7 +366,7 @@ const AddressSection: React.FC<AddressProps & {
           </div>
         </div>
       );
-    } else if (!isActive && address) {
+    } else if (!isActive && address && STEP_ORDER[activeStep] < currentStep) {
       // saved address for not bridal
       return (
         <div
@@ -808,12 +808,14 @@ const AddressSection: React.FC<AddressProps & {
     if (props.activeStep == STEP_BILLING) {
       const pass =
         currency == "INR"
-          ? `As per RBI government regulations, PAN details are mandatory for transaction above ${String.fromCharCode(
-              ...code
-            )} ${displayPriceWithCommas(amountPrice[currency], currency)}.`
-          : `AS PER RBI GOVERNMENT REGULATIONS, PASSPORT DETAILS ARE MANDATORY FOR TRANSACTIONS ABOVE ${String.fromCharCode(
-              ...code
-            )} ${displayPriceWithCommas(amountPrice[currency], currency)}.`;
+          ? `As per RBI government regulations, PAN details are mandatory for transaction above ${displayPriceWithCommas(
+              amountPrice[currency],
+              currency
+            )}.`
+          : `AS PER RBI GOVERNMENT REGULATIONS, PASSPORT DETAILS ARE MANDATORY FOR TRANSACTIONS ABOVE ${displayPriceWithCommas(
+              amountPrice[currency],
+              currency
+            )}.`;
       const panText =
         currency == "INR" ? "PAN Card Number*" : " Passport Number*";
 

@@ -710,7 +710,6 @@ const OrderSummary: React.FC<OrderProps> = props => {
             <div className={cs(globalStyles.flex, globalStyles.gutterBetween)}>
               <span className={styles.subtotal}>SUBTOTAL</span>
               <span className={styles.subtotal}>
-                {String.fromCharCode(...currencyCodes[currency])}{" "}
                 {displayPriceWithCommasFloat(basket.subTotal, currency)}
               </span>
             </div>
