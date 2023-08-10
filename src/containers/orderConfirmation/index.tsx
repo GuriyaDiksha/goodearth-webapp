@@ -9,12 +9,12 @@ import { Link } from "react-router-dom";
 import logoImage from "images/gelogoCerise.svg";
 import BanarasMotifImage from "../../images/banaras-motif.png";
 import AccountServices from "services/account";
-import { currencyCode, Currency } from "typings/currency";
 import moment from "moment";
 import * as util from "utils/validate";
 import CookieService from "services/cookie";
 import { GA_CALLS } from "constants/cookieConsent";
 import { displayPriceWithCommasFloat } from "utils/utility";
+import { Currency, currencyCode } from "typings/currency";
 
 const orderConfirmation: React.FC<{ oid: string }> = props => {
   const {

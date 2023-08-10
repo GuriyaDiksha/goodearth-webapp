@@ -8,10 +8,12 @@ declare global {
 
 export default function MakerSmartNav({
   id,
-  inline
+  inline,
+  currency
 }: {
   id: any;
   inline: any;
+  currency: string;
 }) {
   if (!id) {
     return <></>;
@@ -46,7 +48,7 @@ export default function MakerSmartNav({
 
   return (
     <div ref={containerRef}>
-      <div id={elementId} data-config={id}></div>
+      <div id={elementId} data-config={id} data-currency={currency}></div>
       <script src={scriptSrc} defer={true} id={scriptId}></script>
     </div>
   );

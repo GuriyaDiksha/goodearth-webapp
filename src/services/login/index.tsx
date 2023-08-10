@@ -548,6 +548,10 @@ export default {
             CookieService.setCookie("country", "India", 365);
             resolve("error");
           }
+        })
+        .catch(error => {
+          resolve("error");
+          console.log(error);
         });
     });
     return response;

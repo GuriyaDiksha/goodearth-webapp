@@ -6,3 +6,6 @@ export const updatefillerProduct = (products: Product<PartialProductItem>) =>
 
 export const updateshowFiller = (value: boolean) =>
   actionCreator("UPDATE_FILLER", value);
+
+export const updateButtonData = (button: any) =>
+  actionCreator("UPDATE_BUTTON", button);

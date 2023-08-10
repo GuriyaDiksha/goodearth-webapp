@@ -29,7 +29,6 @@ import styles from "../styles.scss";
 import WhatsappSubscribe from "components/WhatsappSubscribe";
 import Formsy from "formsy-react";
 import { updateAddressMode, updateSameAsShipping } from "actions/address";
-
 import { CONFIG } from "constants/util";
 import {
   updateBillingAddressId,

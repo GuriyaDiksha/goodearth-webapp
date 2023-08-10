@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { currencyCode, Currency } from "typings/currency";
+import { Currency } from "typings/currency";
 import { BridalItemData } from "./typings";
 import BridalService from "services/bridal";
 import { useDispatch } from "react-redux";
@@ -35,9 +35,6 @@ const BridalItemsList: React.FC<Props> = props => {
     props.onMobileAdd(mobileAddIndex);
   };
 
-  const getCurrency = () => {
-    return String.fromCharCode(...currencyCode[props.currency]);
-  };
   const dispatch = useDispatch();
   const increaseState = () => {
     if (reqCurrent >= props.product.stock) {
@@ -154,7 +151,6 @@ const BridalItemsList: React.FC<Props> = props => {
                     {discount ? (
                       <span className={styles.productPrice}>
                         <span className={styles.discountprice}>
-                          {getCurrency()}{" "}
                           {displayPriceWithCommas(
                             discountedPrice[props.currency],
                             props.currency
@@ -162,7 +158,6 @@ const BridalItemsList: React.FC<Props> = props => {
                         </span>
                         &nbsp;{" "}
                         <span className={styles.strikeprice}>
-                          {getCurrency()}{" "}
                           {displayPriceWithCommas(
                             price[props.currency],
                             props.currency
@@ -176,7 +171,6 @@ const BridalItemsList: React.FC<Props> = props => {
                           badgeType == "B_flat" ? globalStyles.cerise : ""
                         )}
                       >
-                        {getCurrency()}{" "}
                         {displayPriceWithCommas(
                           price[props.currency],
                           props.currency

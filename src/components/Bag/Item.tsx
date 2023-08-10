@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 import styles from "./styles_new.scss";
 import { BasketItem } from "typings/basket";
 import "../../styles/override.css";
-import { currencyCodes } from "constants/currency";
 import WishlistButton from "components/WishlistButton";
 import globalStyles from "../../styles/global.scss";
 import BasketService from "services/basket";
@@ -19,6 +18,7 @@ import PdpQuantity from "components/quantity/pdpQuantity";
 import { showGrowlMessage } from "utils/validate";
 import { updateBasket } from "actions/basket";
 import { displayPriceWithCommas } from "utils/utility";
+import { currencyCodes } from "constants/currency";
 
 const LineItems: React.FC<BasketItem> = memo(
   ({

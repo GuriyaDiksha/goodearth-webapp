@@ -207,7 +207,8 @@ const PaymentSection: React.FC<PaymentProps> = props => {
       const data: any = {
         paymentMethod: isFree ? "FREE" : currentmethod.key,
         paymentMode: currentmethod.mode,
-        whatsappSubscribe: whatsappSubscribe
+        whatsappSubscribe: whatsappSubscribe,
+        subscribe: subscribevalue
       };
       if (whatsappSubscribe) {
         data.whatsappNo = whatsappNo;
@@ -475,6 +476,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
       if (CONFIG.WHATSAPP_SUBSCRIBE_ENABLED) {
         AccountServices.fetchAccountPreferences(dispatch).then((data: any) => {
           dispatch(updatePreferenceData(data));
+          setSubscribevalue(data.subscribe);
         });
       }
     }

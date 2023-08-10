@@ -936,7 +936,14 @@ const AddressForm: React.FC<Props> = props => {
               globalStyles.ointer,
               styles.addNewAddress
             )}
-            onClick={closeAddressForm}
+            onTouchEnd={() => {
+              console.log("mobile touch");
+              closeAddressForm();
+            }}
+            onClick={() => {
+              console.log("click start");
+              closeAddressForm();
+            }}
           >
             Cancel & Go Back
           </span>

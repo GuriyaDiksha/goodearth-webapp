@@ -280,7 +280,7 @@ class ShopLocator extends Component<Props, State> {
                     >
                       <Slider {...settings}>
                         {data.bannerCafe
-                          .filter((e: any) => {
+                          ?.filter((e: any) => {
                             if (mobile) {
                               return e.imageType == 2 || e.imageType == 3;
                             } else {

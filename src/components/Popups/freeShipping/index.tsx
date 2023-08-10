@@ -1,13 +1,9 @@
 import React, { useContext } from "react";
 import cs from "classnames";
-// import iconStyles from "../../styles/iconFonts.scss";
-// import bootstrapStyles from "../../../styles/bootstrap/bootstrap-grid.scss";
 import globalStyles from "styles/global.scss";
 import styles from "../styles.scss";
-// import { PopupProps } from "./typings";
 import iconStyles from "styles/iconFonts.scss";
 import { Context } from "components/Modal/context";
-import { currencyCodes } from "constants/currency";
 import { useSelector } from "react-redux";
 import { AppState } from "reducers/typings";
 import { NavLink } from "react-router-dom";
@@ -72,7 +68,6 @@ const FreeShipping: React.FC<PopupProps> = props => {
               <span className={globalStyles.textUnderline}>free shipping!</span>
               &nbsp;Select products worth{" "}
               <span>
-                {String.fromCharCode(...currencyCodes[currency])}{" "}
                 {displayPriceWithCommas(props.remainingAmount, currency)}
               </span>{" "}
               or more to your order to qualify

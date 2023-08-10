@@ -28,7 +28,6 @@ import { AppState } from "reducers/typings";
 import { AddressData } from "components/Address/typings";
 import { checkBlank } from "utils/validate";
 import { CheckoutAddressContext } from "./context";
-import { Currency, currencyCode } from "typings/currency";
 import checkmarkCircle from "./../../../images/checkmarkCircle.svg";
 import { updateComponent, updateModal } from "actions/modal";
 import { POPUP } from "constants/components";
