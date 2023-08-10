@@ -37,6 +37,7 @@ import { countryCurrencyCode } from "constants/currency";
 import ModalStyles from "components/Modal/styles.scss";
 import CookieService from "services/cookie";
 import { GA_CALLS } from "constants/cookieConsent";
+import { Currency, currencyCode } from "typings/currency";
 
 const AddressSection: React.FC<AddressProps & {
   mode: string;
