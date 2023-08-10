@@ -1,5 +1,4 @@
 import { State, FillerActions } from "./typings";
-// import { mergePartialProducts } from "utils/store";
 import { PartialProductItem } from "typings/product";
 
 export const PRODUCT_INIT_STATE: PartialProductItem = {
@@ -36,7 +35,8 @@ export const PRODUCT_INIT_STATE: PartialProductItem = {
 };
 const initialState: State = {
   data: PRODUCT_INIT_STATE,
-  show: false
+  show: false,
+  button: null
 };
 
 export const filler = (state = initialState, action: FillerActions): State => {
@@ -49,6 +49,11 @@ export const filler = (state = initialState, action: FillerActions): State => {
     case "UPDATE_FILLER": {
       const newState = { ...state };
       newState.show = action.payload;
+      return newState;
+    }
+    case "UPDATE_BUTTON": {
+      const newState = { ...state };
+      newState.button = action.payload;
       return newState;
     }
   }

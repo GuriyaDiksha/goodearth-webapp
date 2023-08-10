@@ -233,7 +233,7 @@ class ProfileUpdater extends React.Component<Props, State> {
   }
 
   chkTermsandC = (event: React.ChangeEvent): void => {
-    const elem = document.getElementById("subscribeemails") as HTMLInputElement;
+    const elem = document.getElementById("tnc") as HTMLInputElement;
     if (elem.checked == false) {
       this.setState({
         showerror: "Please accept the terms & conditions"
@@ -304,7 +304,7 @@ class ProfileUpdater extends React.Component<Props, State> {
   };
 
   handleInvalidSubmit = () => {
-    const elem = document.getElementById("subscribeemails") as HTMLInputElement;
+    const elem = document.getElementById("tnc") as HTMLInputElement;
     if (elem.checked == false) {
       this.setState(
         {
@@ -335,12 +335,7 @@ class ProfileUpdater extends React.Component<Props, State> {
   };
 
   render() {
-    const {
-      firstName,
-      lastName,
-      // subscribe,
-      gender
-    } = this.state.data;
+    const { firstName, lastName, subscribe, gender } = this.state.data;
     const isExistyError = "This field is required";
     const formContent = (
       <Formsy
@@ -448,14 +443,14 @@ class ProfileUpdater extends React.Component<Props, State> {
           <div className={styles.subscribe}>
             <FormCheckbox
               value={false}
-              id="subscribeemails"
-              name="subscribe"
+              id="tnc"
+              name="tnc"
               disable={false}
               handleChange={this.chkTermsandC}
               label={[
                 "I agree to the ",
                 <Link
-                  key="subscribe"
+                  key="tnc"
                   to="/customer-assistance/terms-conditions"
                   target="_blank"
                 >
@@ -469,9 +464,9 @@ class ProfileUpdater extends React.Component<Props, State> {
           </div>
           <div className={styles.subscribe}>
             <FormCheckbox
-              value={true}
+              value={subscribe || false}
               id="subscribe"
-              name="subscribe2"
+              name="subscribe"
               disable={false}
               label={[
                 "I agree to receiving e-mails, newsletters, calls and text messages for service related information. To know more how we keep your data safe, refer to our ",

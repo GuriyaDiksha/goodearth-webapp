@@ -26,7 +26,6 @@ import { updateCountryData } from "actions/address";
 import { getErrorList, errorTracking } from "utils/validate";
 import BridalContext from "containers/myAccount/components/Bridal/context";
 import noPincodeCountryList from "./noPincodeCountryList";
-
 type Props = {
   addressData?: AddressData;
   currentCallBackComponent: string;
@@ -804,7 +803,14 @@ const AddressForm: React.FC<Props> = props => {
               globalStyles.ointer,
               styles.addNewAddress
             )}
-            onClick={closeAddressForm}
+            onTouchEnd={() => {
+              console.log("mobile touch");
+              closeAddressForm();
+            }}
+            onClick={() => {
+              console.log("click start");
+              closeAddressForm();
+            }}
           >
             Cancel & Go Back
           </span>

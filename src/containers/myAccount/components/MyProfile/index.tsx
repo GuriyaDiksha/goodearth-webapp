@@ -13,7 +13,7 @@ import FormCheckbox from "components/Formsy/FormCheckbox";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { genderOptions } from "constants/profile";
-import { getErrorList, decriptdata, errorTracking } from "utils/validate";
+import { getErrorList, errorTracking } from "utils/validate";
 import { AppState } from "reducers/typings";
 import { Country } from "components/Formsy/CountryCode/typings";
 import { pageViewGTM } from "utils/validate";
