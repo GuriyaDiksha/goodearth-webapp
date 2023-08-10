@@ -1159,7 +1159,6 @@ const PaymentSection: React.FC<PaymentProps> = props => {
               >
                 <span>
                   Amount Payable:{" "}
-                  {String.fromCharCode(...currencyCodes[props.currency])}{" "}
                   {displayPriceWithCommasFloat(
                     basket?.total?.toString(),
                     currency
