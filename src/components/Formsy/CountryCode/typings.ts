@@ -31,3 +31,5 @@ export type Country = {
   ];
   isdCode?: string;
 };
+
+export type AddressMode = "new" | "edit" | "list";

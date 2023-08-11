@@ -189,7 +189,7 @@ const BridalMobile: React.FC<Props> = ({ bridalItem, bridalId }) => {
             )}
           >
             <div className={globalStyles.c10LR}>
-              Estimated Delivery On or Before:{" "}
+              Estimated delivery on or before:{" "}
               <span className={styles.black}>
                 {bridalItem.productDeliveryDate}{" "}
               </span>

@@ -4,3 +4,13 @@ export type specifyBillingAddressData = {
   gstType?: string;
   panPassportNo?: string;
 };
+
+export type validateGSTData = {
+  billingAddressId: number;
+  gstNo: string;
+  gstType: string;
+};
+
+export type validateGSTDataResponse = {
+  is_validated: boolean;
+};

@@ -258,14 +258,16 @@ const BottomMenu: React.FC<Props> = ({
                     styles.iconStyle
                   )}
                   onClick={(): void => {
-                    setShowBag(true);
+                    // setShowBag(true);
                     onBottomMenuClick?.("Cart");
+                    history.push("/cart");
                   }}
                 />
                 <span
                   className={styles.badge}
                   onClick={(): void => {
-                    setShowBag(true);
+                    //setShowBag(true);
+                    history.push("/cart");
                   }}
                 >
                   {bagCount}

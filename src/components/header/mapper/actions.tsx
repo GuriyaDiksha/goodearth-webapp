@@ -20,6 +20,7 @@ import { POPUP } from "constants/components";
 import BridalService from "services/bridal";
 import { updateNextUrl } from "actions/info";
 import { showGrowlMessage } from "../../../utils/validate";
+import { updateAddressMode } from "actions/address";
 
 const mapDispatchToProps = (dispatch: Dispatch) => {
   return {
@@ -43,8 +44,9 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       if (!page?.includes("/wishlist")) {
         WishlistService.updateWishlist(dispatch, sortBy);
       }
-
-      BasketService.fetchBasket(dispatch);
+      if (!page?.includes("/cart") && !page?.includes("/order/checkout")) {
+        BasketService.fetchBasket(dispatch);
+      }
     },
     changeCurrency: async (data: { currency: Currency }) => {
       const response = await LoginService.changeCurrency(dispatch, data);
@@ -91,6 +93,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
 
       MetaService.updateMeta(dispatch, cookies);
       BasketService.fetchBasket(dispatch);
+
       showGrowlMessage(dispatch, MESSAGE.CURRENCY_CHANGED_SUCCESS, 7000);
     },
     showShipping: (remainingAmount: number, freeShippingApplicable: number) => {
@@ -118,6 +121,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     },
     clearBridalSession: async () => {
       const res = await BridalService.clearBridalSession(dispatch);
+      dispatch(updateAddressMode("list"));
       return res;
     },
     reloadAfterBridal: (cookies: Cookies, source: string) => {
@@ -158,6 +162,12 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     },
     updateShowSearchPopup: (state: boolean) => {
       dispatch(updateShowSearchPopup(state));
+    },
+    fetchBasketMinibag: async () => {
+      return await BasketService.fetchBasket(dispatch);
+    },
+    fetchBasketCartpage: async () => {
+      return await BasketService.fetchBasket(dispatch, "cart");
     }
   };
 };

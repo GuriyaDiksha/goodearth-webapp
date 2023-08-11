@@ -45,3 +45,6 @@ export const updateLoader = (isLoading: boolean) =>
 
 export const updateCookiePrefrence = (showCookie: boolean) =>
   actionCreator("UPDATE_SHOW_COOKIE_PREF", showCookie);
+
+export const updateShowShippingAddress = (showShipping: boolean) =>
+  actionCreator("UPDATE_SHOW_SHIPPING_ADDESS", showShipping);

@@ -49,7 +49,6 @@ const EditRegistry: React.FC<Props> = props => {
   let pickerRef: any = null;
 
   const onChange = (date: Date) => {
-    debugger;
     if (date) {
       setDate(moment(date));
       setApiDate(moment(date));
@@ -67,7 +66,6 @@ const EditRegistry: React.FC<Props> = props => {
   const dispatch = useDispatch();
 
   const saveDate = () => {
-    debugger;
     const currentDate = moment(date).format("DD MMM, YYYY");
     const currentApiDate = moment(apiDate).format("DD-MM-YYYY");
     const data = {
@@ -174,7 +172,6 @@ const EditRegistry: React.FC<Props> = props => {
   const regName = useRef<HTMLInputElement>(null);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    debugger;
     // const registrantName = registrantNameRef.current?.value;
     // const coRegistrantName = coRegistrantNameRef.current?.value;
     // const registryName = regName.current?.value;
