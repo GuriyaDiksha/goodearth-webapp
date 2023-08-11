@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import DockedPanel from "containers/pdp/docked";
+import React, { useEffect, useState, MouseEvent } from "react";
+// import DockedPanel from "containers/pdp/docked";
 import { Product } from "typings/product";
 import styles from "./styles.scss";
 import cs from "classnames";
@@ -83,8 +83,55 @@ const Zoom: React.FC<Props> = ({
       (document.getElementById("pdpImage") as HTMLDivElement).style[
         "-ms-transform"
       ] = `scale(${zoom})`;
+      (document.getElementById(
+        "zoomWrapper"
+      ) as HTMLDivElement).style.transform = "unset";
     }
   }, [zoom]);
+
+  // ********************** zoom drag *************************
+  const [style, setStyle] = useState({
+    scale: 1,
+    panning: false,
+    pointX: 0,
+    pointY: 0,
+    start: { x: 0, y: 0 }
+  });
+
+  const { scale, panning, pointX, pointY, start } = style;
+  // const containerRef = useRef<HTMLDivElement>(null);
+  // const imageRef = useRef<HTMLImageElement>(null);
+
+  const mouseDownHandler = (e: MouseEvent) => {
+    e.preventDefault();
+    setStyle({
+      ...style,
+      start: { x: e.clientX - pointX, y: e.clientY - pointY },
+      panning: true
+    });
+  };
+  const mouseUpHandler = (e: MouseEvent) => {
+    e.preventDefault();
+    setStyle({
+      ...style,
+      panning: false
+    });
+  };
+
+  const mouseMoveHandler = (e: MouseEvent) => {
+    e.preventDefault();
+    if (!panning) {
+      return;
+    }
+    setStyle({
+      ...style,
+      // pointX: (e.clientX - start.x),
+      pointY: e.clientY - start.y
+    });
+    console.log("Point Y ==" + pointY);
+    console.log("Start Y ==" + start.y);
+  };
+  // ********************** End zoom drag *************************
 
   // useEffect(() => {
   //   if (
@@ -169,7 +216,12 @@ const Zoom: React.FC<Props> = ({
           </div>
         )}
 
-        <div className={styles.middle}>
+        <div
+          className={styles.middle}
+          onMouseDown={zoom > 1 ? mouseDownHandler : undefined}
+          onMouseUp={zoom > 1 ? mouseUpHandler : undefined}
+          onMouseMove={zoom > 1 ? mouseMoveHandler : undefined}
+        >
           {mobile ? (
             <ZoomImageSlider
               images={images}
@@ -179,7 +231,13 @@ const Zoom: React.FC<Props> = ({
               setSelectedImage={setSelectedImage}
             />
           ) : (
-            <div className={styles.wrp}>
+            <div
+              id="zoomWrapper"
+              className={styles.wrp}
+              style={{
+                transform: `translateX(${pointX}px) translateY(${pointY}px) scale(${scale})`
+              }}
+            >
               {selectedImage?.media_type === "Image" ||
               selectedImage?.type === "main" ? (
                 <img
