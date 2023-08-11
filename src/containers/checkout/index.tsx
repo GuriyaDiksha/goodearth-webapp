@@ -315,7 +315,8 @@ class Checkout extends React.Component<Props, State> {
       this.setState({
         activeStep: STEP_BILLING,
         currentStep: STEP_ORDER[STEP_BILLING],
-        boId: boId
+        boId: boId,
+        billingAddress: this.state.shippingAddress
       });
 
       if (
@@ -552,7 +553,6 @@ class Checkout extends React.Component<Props, State> {
             });
           }
         }
-
         this.setState({
           activeStep: STEP_SHIPPING,
           shippingAddress: nextProps.addresses.find(

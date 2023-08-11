@@ -233,6 +233,10 @@ const AddressSection: React.FC<AddressProps & {
   useEffect(() => {
     if (activeStep == STEP_BILLING && (!isBridal || !isGoodearthShipping)) {
       dispatch(updateBillingAddressId(props.selectedAddress?.id || 0));
+
+      if (sameAsShipping) {
+        dispatch(updateShippingAddressId(props.selectedAddress?.id || 0));
+      }
     }
     if (activeStep === STEP_SHIPPING) {
       dispatch(updateShippingAddressId(props.selectedAddress?.id || 0));
