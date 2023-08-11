@@ -30,6 +30,13 @@ import { GA_CALLS } from "constants/cookieConsent";
 import ProductCounter from "components/ProductCounter";
 import { throttle } from "lodash";
 import ResetFiltersTile from "components/plpResultItem/resetFiltersTile";
+import { viewSelectionGTM } from "utils/validate";
+import activeGrid from "../../images/plpIcons/active_grid.svg";
+import inactiveGrid from "../../images/plpIcons/inactive_grid.svg";
+import activeList from "../../images/plpIcons/active_list.svg";
+import inactiveList from "../../images/plpIcons/inactive_list.svg";
+import { updatePlpMobileView } from "actions/plp";
+// import mapDispatchToProps from "../../components/Modal/mapper/actions";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -40,7 +47,8 @@ const mapStateToProps = (state: AppState) => {
     currency: state.currency,
     device: state.device,
     showTimer: state.info.showTimer,
-    scrollDown: state.info.scrollDown
+    scrollDown: state.info.scrollDown,
+    plpMobileView: state.plplist.plpMobileView
   };
 };
 const mapDispatchToProps = (dispatch: Dispatch) => {
@@ -58,6 +66,9 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     },
     changeModalState: (data: boolean) => {
       dispatch(updateModal(data));
+    },
+    updateMobileView: (plpMobileView: "list" | "grid") => {
+      dispatch(updatePlpMobileView(plpMobileView));
     }
   };
 };
@@ -268,53 +279,57 @@ class Search extends React.Component<
     });
   };
 
-  updateMobileView = () => {
-    if (this.props.device.mobile) {
-      const cards = document.querySelectorAll(".search-container");
-      const cardIDs: any = [];
+  updateMobileView = (plpMobileView: "list" | "grid") => {
+    if (this.props.plpMobileView != plpMobileView) {
+      CookieService.setCookie("plpMobileView", plpMobileView);
+      viewSelectionGTM(plpMobileView);
+      if (this.props.device.mobile) {
+        const cards = document.querySelectorAll(".search-container");
+        const cardIDs: any = [];
 
-      cards.forEach(card => {
-        cardIDs.push(card.children[0].children[0]?.id);
-      });
+        cards.forEach(card => {
+          cardIDs.push(card.children[0].children[0]?.id);
+        });
 
-      const observer = new IntersectionObserver(
-        entries => {
-          let topMostPos = Infinity;
-          let leftMostPos = Infinity;
-          let leftMostElement: any;
-          entries.forEach((entry, index) => {
-            if (entry.isIntersecting && entry.intersectionRatio > 0.4) {
-              const y: number = entry.target.getBoundingClientRect().y;
-              const x: number = entry.target.getBoundingClientRect().x;
-              if (y < topMostPos) {
-                topMostPos = y;
+        const observer = new IntersectionObserver(
+          entries => {
+            let topMostPos = Infinity;
+            let leftMostPos = Infinity;
+            let leftMostElement: any;
+            entries.forEach((entry, index) => {
+              if (entry.isIntersecting && entry.intersectionRatio > 0.4) {
+                const y: number = entry.target.getBoundingClientRect().y;
+                const x: number = entry.target.getBoundingClientRect().x;
+                if (y < topMostPos) {
+                  topMostPos = y;
+                }
+                if (x < leftMostPos) {
+                  leftMostPos = x;
+                  leftMostElement = entry.target;
+                }
               }
-              if (x < leftMostPos) {
-                leftMostPos = x;
-                leftMostElement = entry.target;
-              }
+            });
+            if (leftMostPos != Infinity) {
+              const productID = leftMostElement.children[0].children[0]?.id;
+              console.log(this.props.scrollDown);
+              this.props.updateMobileView(plpMobileView);
+              const top: number =
+                leftMostElement.getBoundingClientRect().top - 135;
+              window.scrollBy({ top: top, behavior: "smooth" });
+              if (productID == cardIDs[0]) this.setState({ count: -1 });
+            } else {
+              this.props.updateMobileView(plpMobileView);
             }
-          });
-          if (leftMostPos != Infinity) {
-            const productID = leftMostElement.children[0].children[0]?.id;
-            // this.props.updateMobileView();
-            const top: number =
-              leftMostElement.getBoundingClientRect().top - 135;
-            window.scrollBy({ top: top, behavior: "smooth" });
-            if (productID == cardIDs[0]) this.setState({ count: -1 });
-          } else {
-            // this.props.updateMobileView();
+            observer.disconnect();
+          },
+          {
+            rootMargin: "-130px 0px -90px 0px"
           }
-          observer.disconnect();
-        },
-        {
-          rootMargin: "-130px 0px -90px 0px"
-        }
-      );
-
-      cards.forEach(card => {
-        observer.observe(card);
-      });
+        );
+        cards.forEach(card => {
+          observer.observe(card);
+        });
+      }
     }
   };
 
@@ -457,7 +472,7 @@ class Search extends React.Component<
 
   render() {
     const {
-      device: { mobile },
+      device: { mobile, tablet },
       currency,
       data: {
         results: { banner, data, facets },
@@ -579,6 +594,58 @@ class Search extends React.Component<
               filterCount={this.state.filterCount}
             />
           </div>
+          {/* Open GridList option code */}
+          {mobile && !tablet && (
+            <div
+              id="gridList"
+              className={cs(styles.listGridBar, {
+                [styles.listGridBarTimer]: this.props.showTimer,
+                [styles.hide]: this.props.scrollDown
+              })}
+            >
+              <div
+                className={styles.gridContainer}
+                onClick={() => this.updateMobileView("grid")}
+              >
+                <span
+                  className={cs(styles.gridSpan, {
+                    [styles.active]: this.props.plpMobileView == "grid"
+                  })}
+                >
+                  Grid
+                </span>
+                <img
+                  src={
+                    this.props.plpMobileView == "grid"
+                      ? activeGrid
+                      : inactiveGrid
+                  }
+                  className={cs(styles.gridIcon)}
+                />
+              </div>
+              <div
+                className={styles.listContainer}
+                onClick={() => this.updateMobileView("list")}
+              >
+                <img
+                  src={
+                    this.props.plpMobileView == "list"
+                      ? activeList
+                      : inactiveList
+                  }
+                  className={cs(styles.listIcon)}
+                />
+                <span
+                  className={cs(styles.listSpan, {
+                    [styles.active]: this.props.plpMobileView == "list"
+                  })}
+                >
+                  List
+                </span>
+              </div>
+            </div>
+          )}
+          {/* Close GridList option Code */}
           <div
             className={cs(
               { [globalStyles.hidden]: this.state.showmobileSort },
@@ -612,7 +679,7 @@ class Search extends React.Component<
               <div
                 className={cs(
                   styles.productNumber,
-                  globalStyles.marginT20,
+                  globalStyles.marginT40,
                   styles.imageContainer,
                   {
                     [styles.border]: mobile
@@ -642,15 +709,25 @@ class Search extends React.Component<
               {data.map((item, i) => {
                 return (
                   <div
-                    className={cs(
-                      bootstrap.colMd4,
-                      bootstrap.col6,
-                      styles.setWidth,
-                      "search-container"
-                    )}
+                    className={
+                      !mobile || this.props.plpMobileView == "grid"
+                        ? cs(
+                            bootstrap.colMd4,
+                            bootstrap.col6,
+                            styles.setWidth,
+                            "search-container"
+                          )
+                        : cs(
+                            bootstrap.colLg4,
+                            bootstrap.col12,
+                            styles.setWidth,
+                            styles.listViewContainer,
+                            "search-container"
+                          )
+                    }
                     key={item.id}
                     id={i == 0 ? "first-item" : ""}
-                    onClick={() => this.updateMobileView()}
+                    // onClick={() => this.updateMobileView()
                     // onClick={e => {
                     //   this.gtmPushSearchClick(e, item, i);
                     // }}
