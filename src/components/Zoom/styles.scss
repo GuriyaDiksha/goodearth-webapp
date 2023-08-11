@@ -43,9 +43,9 @@
             height: 100%;
           }
 
-          div{
-            aspect-ratio: 3/5;
-          }
+          // div{
+          //   aspect-ratio: 3/5;
+          // }
 
           .play{
             position: absolute;
@@ -74,17 +74,17 @@
           margin: auto;
           height: 100%;
 
-          div{
-            aspect-ratio: 5/15;
-          }
+          // div{
+          //   aspect-ratio: 5/15;
+          // }
 
           img,video{
             height: 100%;
             object-fit: contain;
           }
-          video{
-            width: 464px;
-          }
+          // video{
+          //   width: 464px;
+          // }
           .play{
             position: absolute;
             transform: translate(-50%, -50%);

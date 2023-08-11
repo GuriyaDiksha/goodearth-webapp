@@ -9,7 +9,7 @@ import { updateComponent, updateModal } from "actions/modal";
 import { POPUP } from "constants/components";
 import { Product } from "typings/product";
 import { Currency } from "typings/currency";
-import ReactPlayer from "react-player";
+// import ReactPlayer from "react-player";
 
 type Props = {
   productImages: any;
@@ -148,23 +148,35 @@ const PDPImagesContainer: React.FC<Props> = ({
                   )}
                 />
               ) : (
-                <div
-                  className={styles.productVideo}
+                <video
+                  src={item?.video_link}
+                  autoPlay
+                  loop
+                  preload="auto"
                   onClick={() => {
                     onClick(index);
                   }}
-                >
-                  <div className={styles.overlayDiv}></div>
-                  <ReactPlayer
-                    url={item?.vimeo_link}
-                    volume={1}
-                    muted={true}
-                    playing={true}
-                    width={"100%"}
-                    height={"auto"}
-                    playsinline={true}
-                  />
-                </div>
+                  width={"100%"}
+                  height={"auto"}
+                />
+                // <div
+                //   className={styles.productVideo}
+                //   onClick={() => {
+                //     onClick(index);
+                //   }}
+                // >
+                //   <div className={styles.overlayDiv}></div>
+                //   <ReactPlayer
+                //     url={item?.vimeo_link}
+                //     volume={1}
+                //     muted={true}
+                //     playing={true}
+                //     width={"100%"}
+                //     height={"auto"}
+                //     playsinline={true}
+                //   />
+
+                // </div>
               )}
               {item.icon && viewIn3dBtn(item.code)}
               {item.shop_the_look && (

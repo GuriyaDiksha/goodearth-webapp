@@ -626,7 +626,6 @@ class CollectionSpecific extends React.Component<
                     }
                   })}
                 </div>
-
                 <div className={bootstrap.col12}>
                   <img
                     src={banner}
@@ -640,22 +639,9 @@ class CollectionSpecific extends React.Component<
                 className={
                   mobile
                     ? banner
-                      ? cs(
-                          bootstrap.row,
-                          styles.imageContainerMobileBanner,
-                          globalStyles.paddTop20
-                        )
-                      : cs(
-                          bootstrap.row,
-                          styles.imageContainerMobile,
-                          globalStyles.paddTop20
-                        )
-                    : cs(
-                        bootstrap.row,
-                        styles.imageContainer,
-                        styles.minHeight,
-                        globalStyles.paddTop20
-                      )
+                      ? cs(bootstrap.row, styles.imageContainerMobileBanner)
+                      : cs(bootstrap.row, styles.imageContainerMobile)
+                    : cs(bootstrap.row, styles.imageContainer, styles.minHeight)
                 }
                 id="product_images"
               >

@@ -66,7 +66,7 @@ import { GA_CALLS } from "constants/cookieConsent";
 // import pdp_top from "images/3d/pdp_top.svg";
 import button_image from "images/3d/button_image.svg";
 import Mobile360 from "./../../icons/360mobile.svg";
-import ReactPlayer from "react-player";
+// import ReactPlayer from "react-player";
 
 const PDP_TOP_OFFSET = HEADER_HEIGHT + SECONDARY_HEADER_HEIGHT;
 const sidebarPosition = PDP_TOP_OFFSET + 23;
@@ -1398,7 +1398,7 @@ class PDPContainer extends React.Component<Props, State> {
       if (images?.length > 0) {
         mobileSlides = images?.map(
           (
-            { id, productImage, icon, code, vimeo_link, media_type, type },
+            { id, productImage, icon, code, video_link, media_type, type },
             i: number
           ) => {
             return (
@@ -1420,7 +1420,7 @@ class PDPContainer extends React.Component<Props, State> {
                   />
                 ) : (
                   <>
-                    <div className={styles.overlayDiv}></div>
+                    {/* <div className={styles.overlayDiv}></div>
                     <ReactPlayer
                       url={vimeo_link}
                       playing={true}
@@ -1429,6 +1429,15 @@ class PDPContainer extends React.Component<Props, State> {
                       width={"100%"}
                       height={"auto"}
                       playsinline={true}
+                    /> */}
+                    <video
+                      src={video_link}
+                      autoPlay
+                      loop
+                      preload="auto"
+                      width={"100%"}
+                      height={"auto"}
+                      onClick={this.getMobileZoomListener(i)}
                     />
                   </>
                 )}

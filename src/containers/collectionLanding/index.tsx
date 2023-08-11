@@ -12,6 +12,7 @@ import {
   updateFilteredCollectionData,
   updateTagsData
 } from "actions/collection";
+// import { replace } from "lodash";
 
 const CollectionLanding = () => {
   const [activeFilterList, setActiveFilterList] = useState<string[]>([
@@ -19,6 +20,7 @@ const CollectionLanding = () => {
   ]);
   const [scrollView, setScrollView] = useState(false);
   const [filteredData, setFilteredData] = useState<CollectionItemType[]>([]);
+  const [load, setLoad] = useState(true);
   const {
     collection: { result, tags },
     router: { location },
@@ -61,6 +63,7 @@ const CollectionLanding = () => {
       }
 
       window.scrollTo({ top: 0, behavior: "smooth" });
+      return await Promise.resolve(tags);
     }
   };
 
@@ -134,7 +137,18 @@ const CollectionLanding = () => {
   }, [result]);
 
   useEffect(() => {
-    fetchData();
+    fetchData()
+      .then((res: any) => {
+        const hasElems = res.some((item: string) =>
+          activeFilterList.includes(item)
+        );
+        if (!hasElems && !load) {
+          setActiveFilterList(["All Collections"]);
+          history.replace({ pathname: location.pathname, search: "" });
+        }
+        setLoad(false);
+      })
+      .catch(() => console.log("error"));
   }, [currency]);
 
   useEffect(() => {
@@ -154,6 +168,20 @@ const CollectionLanding = () => {
       ele.scrollLeft = 0;
     }
   }, [location.pathname]);
+
+  // setLoad(true);
+  useEffect(() => {
+    const activeEle = document.getElementById(activeFilterList[0]);
+    setTimeout(() => {
+      if (activeEle) {
+        activeEle.scrollIntoView({
+          behavior: "smooth",
+          block: "nearest",
+          inline: "center"
+        });
+      }
+    }, 500);
+  }, [load]);
 
   // Filter Tag Functionality
   const activeFilterHandler = (ele: string) => {
