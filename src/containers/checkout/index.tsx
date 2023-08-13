@@ -1012,7 +1012,7 @@ class Checkout extends React.Component<Props, State> {
                 error={this.state.billingError}
                 currentStep={this.state.currentStep}
               />
-              {this.props.showPromo && !this.props.basket.isOnlyGiftCart && (
+              {this.props.showPromo && this.props.basket.showCouponSection && (
                 <PromoSection
                   isActive={this.isActiveStep(STEP_PROMO)}
                   user={this.props.user}
