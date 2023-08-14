@@ -102,6 +102,7 @@ input[type="password"]{
 }
 .account-form-bg-mobile {
   // height: 100vh !important;
+  height: auto !important;
   overflow: scroll;
   z-index: 0;
   padding-bottom: 20px;
