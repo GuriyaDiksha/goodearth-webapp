@@ -1325,7 +1325,7 @@ class PDPContainer extends React.Component<Props, State> {
     );
   };
 
-  handleLooksClick = () => {
+  handleLooksClick = (e: any) => {
     const elem = document.getElementById("looks-section");
     if (elem) {
       const headerOffset = 130;
@@ -1333,6 +1333,7 @@ class PDPContainer extends React.Component<Props, State> {
       const offsetPos = elemPos - headerOffset;
       window.scroll({ top: offsetPos, behavior: "smooth" });
     }
+    e.stopPropagation();
   };
 
   getMobileZoomListener = (index: number) => {
@@ -1452,7 +1453,11 @@ class PDPContainer extends React.Component<Props, State> {
                       className={styles.viewInBtn}
                       onClick={(e: any) => this.onClickMobile3d(e, code)}
                     >
-                      <img className={styles.image} src={button_image} />
+                      <img
+                        className={styles.image}
+                        src={button_image}
+                        alt="product-img"
+                      />
                       <div className={styles.text}>VIEW IN 3D</div>
                     </div>
                   ) : (
@@ -1470,6 +1475,7 @@ class PDPContainer extends React.Component<Props, State> {
                           }
                         });
                       }}
+                      alt="product-img"
                     ></img>
                   )
                 ) : (
@@ -1488,7 +1494,7 @@ class PDPContainer extends React.Component<Props, State> {
                   className={styles.mobileZoomIcon}
                   onClick={this.getMobileZoomListener(i)}
                 >
-                  <img src={zoom}></img>
+                  <img src={zoom} alt="product-img"></img>
                 </div>
               </div>
             );
@@ -1610,9 +1616,11 @@ class PDPContainer extends React.Component<Props, State> {
           <div
             className={cs(
               styles.detailsContainer,
-              bootstrap.colMd4,
               {
-                [globalStyles.pageStickyElement]: !mobile && detailStickyEnabled
+                [globalStyles.pageStickyElement]:
+                  !mobile && detailStickyEnabled,
+                [bootstrap.col12]: tablet,
+                [bootstrap.colMd4]: !tablet
               },
               {
                 [globalStyles.paddTop20]: mobile

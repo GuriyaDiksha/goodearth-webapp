@@ -1,9 +1,11 @@
-import { connect } from "react-redux";
+import { connect, useDispatch, useSelector } from "react-redux";
 import mapDispatchToProps from "./mapper/actions";
 import { useHistory, useLocation, withRouter } from "react-router";
 import React, { useEffect, useState } from "react";
 import loadable from "@loadable/component";
 import Popup from "../popup/Popup";
+import { AppState } from "reducers/typings";
+import { updateNextUrl } from "actions/info";
 
 const MainLogin = loadable(() => import("components/signin/Login/mainLogin"));
 const CheckoutRegisterForm = loadable(() =>
@@ -13,6 +15,13 @@ const CheckoutRegisterForm = loadable(() =>
 const LoginForm = (props: any) => {
   const [isRegister, setIsRegister] = useState(false);
   const [email, setEmail] = useState("");
+  const { nextUrl } = useSelector((state: AppState) => state.info);
+  const history = useHistory();
+  const { search, pathname } = useLocation();
+  const urlParams = new URLSearchParams(search);
+  const id = urlParams.get("loginpopup");
+  const boId = urlParams.get("bo_id");
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (props.isRegister) {
@@ -33,15 +42,23 @@ const LoginForm = (props: any) => {
     setIsRegister(false);
   };
 
-  const history = useHistory();
-  const { search, pathname } = useLocation();
-  const urlParams = new URLSearchParams(search);
-  const id = urlParams.get("loginpopup");
-
   const nextStep = () => {
     // code for after login
     if (pathname.startsWith("/password-reset")) {
       history.push("/");
+    }
+    if (nextUrl) {
+      if (boId && nextUrl === "/order/checkout") {
+        props.history.push({
+          pathname: nextUrl,
+          search: `?bo_id=${boId}`,
+          state: { from: "cart" }
+        });
+        localStorage.setItem("from", "cart");
+      } else {
+        history.push(nextUrl);
+      }
+      dispatch(updateNextUrl(""));
     }
   };
 
@@ -59,7 +76,7 @@ const LoginForm = (props: any) => {
         <MainLogin
           showRegister={goToRegister}
           nextStep={nextStep}
-          isBo={""}
+          isBo={boId}
           isCerise={id == "cerise"}
           setEmail={setEmail}
           email={email}

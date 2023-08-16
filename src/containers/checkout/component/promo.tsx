@@ -1,24 +1,33 @@
 import React, { useState, Fragment, useEffect, useRef } from "react";
 import cs from "classnames";
-// import iconStyles from "../../styles/iconFonts.scss";
 import bootstrapStyles from "../../../styles/bootstrap/bootstrap-grid.scss";
 import globalStyles from "styles/global.scss";
 import styles from "../styles.scss";
 import { PromoProps } from "./typings";
-import { STEP_PAYMENT, STEP_PROMO } from "../constants";
+import { STEP_ORDER, STEP_PAYMENT, STEP_PROMO } from "../constants";
 import ApplyPromo from "./applyPromo";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { AppState } from "reducers/typings";
 import { useHistory } from "react-router";
-// import * as util from "utils/validate";
+import checkmarkCircle from "./../../../images/checkmarkCircle.svg";
+import CheckoutService from "services/checkout";
+import CookieService from "services/cookie";
+import BasketService from "services/basket";
+import Loader from "components/Loader";
+import { GA_CALLS } from "constants/cookieConsent";
 
 const PromoSection: React.FC<PromoProps> = props => {
-  const { isActive, next, selectedAddress } = props;
+  const { isActive, next, activeStep, currentStep } = props;
   const [isactivepromo, setIsactivepromo] = useState(false);
-  const { basket, info } = useSelector((state: AppState) => state);
-  const toggleInput = () => {
-    setIsactivepromo(!isactivepromo);
-  };
+  const [promoVal, setPromoVal] = useState("");
+  const [isEdit, setIsEdit] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const {
+    basket,
+    user: { isLoggedIn },
+    device: { mobile }
+  } = useSelector((state: AppState) => state);
+  const dispatch = useDispatch();
 
   let PromoChild: any = useRef<typeof ApplyPromo>(null);
   const history = useHistory();
@@ -29,24 +38,64 @@ const PromoSection: React.FC<PromoProps> = props => {
       ? false
       : true
     : false;
+  const isBoId = urlParams.get("bo_id");
+
+  const removePromo = async (data: FormData) => {
+    setIsLoading(true);
+    const userConsent = CookieService.getCookie("consent").split(",");
+    const response = await CheckoutService.removePromo(dispatch, data);
+    BasketService.fetchBasket(dispatch, "checkout", history, isLoggedIn);
+    setIsLoading(false);
+    if (userConsent.includes(GA_CALLS)) {
+      dataLayer.push({
+        event: "remove_promocode",
+        click_type: "Checkout Page"
+      });
+    }
+    return response;
+  };
+
+  const onPromoRemove: any = (id: string) => {
+    const data: any = {
+      cardId: id
+    };
+    try {
+      removePromo(data);
+    } catch (e) {
+      setIsLoading(false);
+    }
+  };
+
+  const toggleInput = () => {
+    if (isactivepromo) {
+      setPromoVal("");
+      if (basket.voucherDiscounts[0]?.voucher?.code != undefined) {
+        onPromoRemove(basket.voucherDiscounts[0]?.voucher?.code);
+      }
+    }
+    setIsactivepromo(!isactivepromo);
+  };
 
   useEffect(() => {
-    if (basket.voucherDiscounts.length > 0) {
-      setIsactivepromo(true);
+    if (basket.voucherDiscounts.length === 0) {
+      if (STEP_ORDER[activeStep] < currentStep) {
+        setIsEdit(true);
+      }
+      setIsactivepromo(false);
+      setPromoVal("");
+    } else {
+      setPromoVal(basket.voucherDiscounts[0]?.voucher?.code);
+      setIsEdit(false);
     }
   }, [basket.voucherDiscounts]);
 
   const onsubmit = () => {
-    if (
-      PromoChild.gcBalance &&
-      basket.voucherDiscounts.length == 0 &&
-      PromoChild.state.txtvalue
-    ) {
+    setIsLoading(true);
+    if (PromoChild.gcBalance && PromoChild.state.txtvalue) {
+      setPromoVal(PromoChild.state.txtvalue);
       PromoChild.gcBalance();
-    } else {
-      // util.checkoutGTM(4, currency, basket);
-      next(STEP_PAYMENT);
     }
+    setIsLoading(false);
   };
 
   const onNext = () => {
@@ -55,22 +104,23 @@ const PromoSection: React.FC<PromoProps> = props => {
   };
 
   const onCurrentState = () => {
+    if (basket.voucherDiscounts.length > 0) {
+      setIsactivepromo(true);
+    }
+    setIsEdit(true);
     next(STEP_PROMO);
   };
 
-  const partialSale = true;
-
-  const isSale = info.isSale && !partialSale;
   const onlyGiftcard = basket.isOnlyGiftCart || hideBoId;
-  const cardCss = onlyGiftcard
-    ? globalStyles.cerise
-    : globalStyles.pointer + " " + globalStyles.cerise;
+
   return (
     <div
       className={
         isActive
-          ? cs(styles.card, styles.cardOpen, styles.marginT20)
-          : cs(styles.card, styles.cardClosed, styles.marginT20)
+          ? cs(styles.card, styles.cardOpen, styles.marginT5)
+          : // : mobile
+            // ? styles.hidden
+            cs(styles.card, styles.cardClosed, styles.marginT5)
       }
     >
       <div className={bootstrapStyles.row}>
@@ -81,113 +131,110 @@ const PromoSection: React.FC<PromoProps> = props => {
             styles.title
           )}
         >
-          <span className={isActive ? "" : styles.closed}>PROMO CODE</span>
-        </div>
-
-        {!isActive && basket.voucherDiscounts.length > 0 ? (
-          <div
-            className={cs(
-              styles.col12,
-              bootstrapStyles.colMd6,
-              styles.selectedStvalue
-            )}
-            onClick={onCurrentState}
+          {STEP_ORDER[activeStep] <= currentStep &&
+          basket.voucherDiscounts.length > 0 &&
+          !isEdit ? (
+            <img
+              height={"15px"}
+              className={globalStyles.marginR10}
+              src={checkmarkCircle}
+              alt="checkmarkdone"
+            />
+          ) : null}
+          <span
+            className={isActive || isactivepromo || isEdit ? "" : styles.closed}
           >
-            <span className={styles.marginR10}>
-              <span className={styles.bold}>
-                {basket.voucherDiscounts[0]?.voucher?.code}
-              </span>
-              {" PROMO CODE APPLIED"}
-            </span>
-            <span className={cs(globalStyles.cerise, globalStyles.pointer)}>
+            PROMO CODE
+          </span>
+          {mobile && !isBoId && (
+            <span
+              className={cs(globalStyles.pointer, styles.promoEdit, {
+                [styles.hidden]: !(isActive || isactivepromo || isEdit)
+              })}
+              onClick={() => {
+                onCurrentState();
+              }}
+            >
               Edit
             </span>
-          </div>
-        ) : (
+          )}
+        </div>
+        {basket.voucherDiscounts.length > 0 && !isEdit && (
           <div
             className={cs(
               styles.col12,
               bootstrapStyles.colMd6,
               styles.selectedStvalue
             )}
-            onClick={() => {
-              onlyGiftcard || isSale ? "" : onCurrentState();
-            }}
           >
-            <span
-              className={cs(
-                isSale
-                  ? styles.notSelected
-                  : isActive || !selectedAddress
-                  ? globalStyles.hidden
-                  : cardCss
-              )}
-            >
-              {isSale
-                ? "Not Applicable during Sale"
-                : onlyGiftcard
-                ? "Not Applicable"
-                : " APPLY PROMO CODE"}
+            <span className={styles.marginR10}>
+              <span className={styles.promoCode}>
+                {basket.voucherDiscounts[0]?.voucher?.code}
+              </span>
+              <span className={styles.promoCodeApplied}>
+                Promo Code Applied
+              </span>
             </span>
+            {!mobile && !isBoId && (
+              <span
+                className={cs(globalStyles.pointer, styles.promoEdit)}
+                onClick={() => {
+                  onCurrentState();
+                }}
+              >
+                Edit
+              </span>
+            )}
           </div>
         )}
       </div>
-      {isActive && (
+
+      {((isActive && basket.voucherDiscounts.length === 0) || isEdit) && (
         <Fragment>
           {!onlyGiftcard && (
             <div className={globalStyles.marginT20}>
-              <hr className={styles.hr} />
+              {!mobile && <hr className={styles.hr} />}
               <div className={globalStyles.flex}>
-                <div
-                  className={cs(
-                    styles.marginR10,
-                    globalStyles.cerise,
-                    globalStyles.pointer
-                  )}
-                  onClick={() => {
-                    basket.voucherDiscounts.length > 0 ? "" : toggleInput();
-                  }}
-                >
-                  {isactivepromo ? "-" : "+"}
-                </div>
                 <div className={styles.inputContainer}>
-                  <div
-                    className={cs(
-                      globalStyles.c10LR,
-                      styles.promoMargin,
-                      globalStyles.cerise,
-                      globalStyles.pointer
-                    )}
-                    onClick={() => {
-                      basket.voucherDiscounts.length > 0 ? "" : toggleInput();
-                    }}
+                  <label
+                    className={cs(globalStyles.flex, globalStyles.crossCenter)}
                   >
-                    APPLY PROMO CODE
-                  </div>
+                    <div className={styles.marginR10}>
+                      <span className={styles.checkbox}>
+                        <input
+                          type="radio"
+                          checked={isactivepromo}
+                          onClick={() => toggleInput()}
+                        />
+                        <span
+                          className={cs(styles.indicator, {
+                            [styles.checked]: isactivepromo
+                          })}
+                        ></span>
+                      </span>
+                    </div>
+                    <div className={cs(styles.formSubheading)}>
+                      {"Apply Promo Code"}
+                    </div>
+                  </label>
                   {isactivepromo && (
                     <ApplyPromo
                       onRef={(el: any) => {
                         PromoChild = el;
                       }}
                       onNext={onNext}
+                      onsubmit={onsubmit}
+                      promoVal={promoVal}
+                      setIsLoading={setIsLoading}
                     />
                   )}
-                  {/* {renderInput()}
-                {renderCoupon()} */}
                 </div>
               </div>
-              <hr className={styles.hr} />
             </div>
           )}
-
-          <button
-            className={cs(globalStyles.marginT40, globalStyles.ceriseBtn)}
-            onClick={onsubmit}
-          >
-            PROCEED TO PAYMENT
-          </button>
         </Fragment>
       )}
+      {isLoading && <Loader />}
     </div>
   );
 };

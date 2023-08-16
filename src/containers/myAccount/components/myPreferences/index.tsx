@@ -8,6 +8,7 @@ import cs from "classnames";
 import { updateCountryData } from "actions/address";
 import { AppState } from "reducers/typings";
 import { updatePreferenceData } from "actions/user";
+import globalStyles from "styles/global.scss";
 // import { makeid } from "utils/utility";
 
 export type Props = {
@@ -53,7 +54,13 @@ const MyPreferences: React.FC<Props> = props => {
   return (
     <div className={cs(styles.myPrefContainer, styles.loginForm)}>
       <div className={styles.formHeading}>My Preferences</div>
-      <div className={styles.formSubheading}>
+      <div
+        className={cs(
+          styles.formSubheading,
+          globalStyles.marginT10,
+          globalStyles.marginB50
+        )}
+      >
         Manage your communication preferences.
       </div>
       <div className={cs(styles.content, styles.categorylabel)}>
@@ -69,6 +76,7 @@ const MyPreferences: React.FC<Props> = props => {
           whatsappClass={styles.whatsapp}
           uniqueKey={"profileid123"}
           showSubscribe={false}
+          countryData={countryData}
         />
       </div>
     </div>

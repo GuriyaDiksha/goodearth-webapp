@@ -14,6 +14,10 @@ const SelectDropdown: React.FC<Props &
   const [value, setValue] = useState(props.value || "");
   const [searchValue, setSearchValue] = useState("");
 
+  useEffect(() => {
+    if (props?.value) setValue(props?.value);
+  }, [props?.value]);
+
   const onOptionClick = (e: any, option: any) => {
     if (props.handleChange) {
       props.handleChange(option);
@@ -41,22 +45,26 @@ const SelectDropdown: React.FC<Props &
   const getDefaultError = useCallback(() => {
     switch (props.name) {
       case "gender":
-        return "Please select your Gender";
+        return "Please select your gender";
       case "country":
-        return "Please select your Country";
+        return "Please select your country";
       case "state":
-        return "Please select your State";
+        return "Please select your state";
       case "preferredContact":
         return "Please choose preferred mode of contact";
+      case "code":
+        return "Please select code";
+      case "whatsappNoCountryCode":
+        return "Please select code";
       default:
         return "Please Select option";
     }
   }, []);
 
   const errorMessage =
-    props.errorMessage && !!props.disable
+    props.errorMessage && !props.disable
       ? props.errorMessage
-      : !props.isPristine && !props.isValid && !props.disable
+      : !props.isPristine && !props.isValid && !props?.disable
       ? getDefaultError()
       : "";
 
@@ -69,8 +77,9 @@ const SelectDropdown: React.FC<Props &
         value={value}
         name={props.name}
         readOnly
-        onClick={() => setActive(!active)}
+        onClick={() => !props.disable && setActive(!active)}
         ref={props.inputRef || null}
+        disabled={props.disable}
       />
       <label>{props.label}</label>
       <span
