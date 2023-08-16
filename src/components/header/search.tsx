@@ -116,6 +116,8 @@ class Search extends React.Component<Props, State> {
   };
 
   handleClickOutside = (evt: any) => {
+    console.log("this.impactRef.current", this.impactRef.current);
+    console.log("this evt.target", evt.target);
     if (
       this.impactRef.current &&
       !this.impactRef.current.contains(evt.target)
@@ -347,7 +349,7 @@ class Search extends React.Component<Props, State> {
       });
       CookieService.setCookie("search", event.target.value, 365);
     }
-  }, 300);
+  }, 400);
 
   getSearchDataApi = debounce((name: string) => {
     const searchUrl = "/autocomplete?q=" + encodeURIComponent(name);
@@ -361,7 +363,6 @@ class Search extends React.Component<Props, State> {
         }&source=frontend`
       )
       .then(data => {
-        // debugger;
         productImpression(data, "SearchResults", this.props.currency);
         this.setState({
           productData: data.results?.products || [],
@@ -437,7 +438,13 @@ class Search extends React.Component<Props, State> {
       </div>
     );
   };
-
+  decodeSearchString(value: string) {
+    try {
+      return decodeURIComponent(value);
+    } catch (e) {
+      return value;
+    }
+  }
   render() {
     // const cur = "price" + this.props.currency.toLowerCase();
     // const originalCur = "original_price_" + this.props.currency.toLowerCase();
@@ -458,7 +465,8 @@ class Search extends React.Component<Props, State> {
       categories.length > 0 ||
       usefulLink.length > 0 ||
       productData.length > 0 ||
-      (trendingWords.length > 0 && searchValue.length == 0);
+      (trendingWords.length > 0 && searchValue.length == 0) ||
+      (recentSearchs.length > 0 && searchValue.length == 0);
 
     return (
       <div
@@ -564,7 +572,9 @@ class Search extends React.Component<Props, State> {
                       <div className={styles.npfMsg}>
                         {"Sorry, we couldn't find any matching result for"}{" "}
                         &nbsp;
-                        <span>{this.state.searchValue}</span>
+                        <span>
+                          {this.decodeSearchString(this.state.searchValue)}
+                        </span>
                       </div>
                     ) : (
                       ""
@@ -819,7 +829,7 @@ class Search extends React.Component<Props, State> {
                         {recentSearchs?.map((ele, ind) => (
                           <div className={styles.recentBlock}>
                             <Link
-                              to={"/search/?q=" + ele}
+                              to={"/search/?q=" + encodeURIComponent(ele)}
                               onClick={() => {
                                 this.recentSearch(ele);
                                 this.props.hideSearch();

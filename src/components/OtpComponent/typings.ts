@@ -1,5 +1,4 @@
 export type otpState = {
-  disable: boolean;
   msgt: string;
   showFields: boolean;
   radioType: string;
@@ -22,6 +21,7 @@ export type otpState = {
   };
   startTimer: boolean;
   isOtpSent?: boolean;
+  disable?: boolean;
 };
 
 export type otpProps = {
@@ -78,6 +78,7 @@ export type otpRedeemProps = {
   setIsactiveredeem: (val: boolean) => void;
   isOTPSent: boolean;
   setIsOTPSent: (val: boolean) => void;
+  closeModal: () => any;
 };
 
 export type otpBoxProps = {

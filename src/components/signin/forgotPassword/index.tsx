@@ -2,7 +2,6 @@ import React, { RefObject } from "react";
 import styles from "../styles.scss";
 import globalStyles from "styles/global.scss";
 import InputField from "../InputField";
-import Loader from "components/Loader";
 import SocialLogin from "../socialLogin";
 import Popup from "../popup/Popup";
 import FormContainer from "../formContainer";
@@ -181,7 +180,7 @@ class ForgotPasswordForm extends React.Component<Props, ForgotPasswordState> {
       this.props.history.location.search
     );
     const emailFromURl = decripttext(
-      searchParams.get("ei")?.replace(" ", "+") || "",
+      searchParams.get("ei")?.replaceAll(" ", "+") || "",
       true
     );
     const isBo = localStorage.getItem("isBo") || "";
@@ -309,7 +308,7 @@ class ForgotPasswordForm extends React.Component<Props, ForgotPasswordState> {
             formContent={formContent}
             footer={this.state.isBo ? undefined : footer}
           />
-          {this.state.disableSelectedbox && <Loader />}
+          {/* {this.state.disableSelectedbox && <Loader />} */}
         </div>
       </Popup>
     );

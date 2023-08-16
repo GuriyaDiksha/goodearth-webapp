@@ -48,8 +48,13 @@ class PdpQuantity extends React.Component<QuantityItem, State> {
   render() {
     const value = this.props.currentValue;
     const props = this.props;
-    const { disabled, source } = this.props;
-    const errorMsgClass = props.errorMsgClass || styles.errorMsg;
+    const { disabled, source, isSaleErrorMsgOn } = this.props;
+    let errorMsgClass;
+    if (source == "bag" || source == "cartpage") {
+      errorMsgClass = styles.bagErrorMsg;
+    } else {
+      errorMsgClass = props.errorMsgClass || styles.errorMsg;
+    }
     // const error = props.errorMsg ? props.errorMsg + " " + props.maxValue : "";
     // const error
 
@@ -60,7 +65,8 @@ class PdpQuantity extends React.Component<QuantityItem, State> {
             className={cs(
               styles.minusQuantity,
               styles.quantityPdp,
-              props.class
+              props.class,
+              value === 1 ? styles.plusQuantityDisabled : ""
             )}
             onClick={(): void => {
               if (disabled || this.state.disableButton) {
@@ -97,12 +103,13 @@ class PdpQuantity extends React.Component<QuantityItem, State> {
               this.state.showError ? styles.plusQuantityDisabled : ""
             )}
             onClick={(): void => {
-              if (this.props.id == 0) {
-                this.setState({
-                  showError: true,
-                  errorMsg: `Please select a size to proceed`
-                });
-              }
+              // commenting this because we don't want to show select size error msg under qty box
+              // if (this.props.id == 0) {
+              //   this.setState({
+              //     showError: true,
+              //     errorMsg: `Please select a size to proceed`
+              //   });
+              // }
               if (disabled || this.state.disableButton) {
                 return;
               }
@@ -129,7 +136,7 @@ class PdpQuantity extends React.Component<QuantityItem, State> {
             +
           </span>
         </div>
-        {this.state.showError ? (
+        {this.state.showError && !isSaleErrorMsgOn ? (
           <p className={cs(errorMsgClass, { [styles.left]: source == "pdp" })}>
             {this.state.showError ? this.state.errorMsg : ""}
           </p>

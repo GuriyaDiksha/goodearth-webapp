@@ -6,6 +6,7 @@ import {
 } from "./product";
 import { Currency } from "./currency";
 import { BalanceProps } from "containers/checkout/component/typings";
+import { type } from "os";
 // import { LineItems } from "components/Bag/typings";
 
 export type BasketStockRecord = {
@@ -77,6 +78,12 @@ export type Basket = {
   totalWithoutShipping?: number;
 };
 
+export type GCMetaType = {
+  recipeint_name: string;
+  recipient_email: string;
+  sender_name: string;
+};
+
 export interface BasketItem extends BasketLineItem {
   currency: Currency;
   saleStatus?: boolean;
@@ -85,4 +92,5 @@ export interface BasketItem extends BasketLineItem {
   mobile?: boolean;
   onNotifyCart?: (productId: ProductID) => void;
   tablet?: boolean;
+  GCMeta?: GCMetaType;
 }

@@ -29,7 +29,12 @@ const initialState: CollectionState = {
     id: 0
   },
   tags: [],
-  filteredCollectionData: []
+  filteredCollectionData: [],
+  collectionTemplates: {
+    id: 0,
+    templates: []
+  },
+  collectionMobileView: "grid"
 };
 
 export const collection = (
@@ -71,6 +76,13 @@ export const collection = (
       newState.filteredCollectionData = action.payload;
       return newState;
     }
+    // Collection specific banner reducer
+    case "UPDATE_COLLECTION_SPECIFIC_TEMPLATES": {
+      const newState = { ...state };
+      newState.collectionTemplates = action.payload;
+      return newState;
+    }
+    default:
+      return state;
   }
-  return state;
 };

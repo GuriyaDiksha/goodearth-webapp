@@ -5,7 +5,7 @@ import { Dispatch } from "redux";
 import { showMessage } from "actions/growlMessage";
 import { DomUtils, parseDocument } from "htmlparser2";
 import { useEffect, useState } from "react";
-import { GA_CALLS, ANY_ADS } from "constants/cookieConsent";
+import { GA_CALLS } from "constants/cookieConsent";
 import { sha256 } from "js-sha256";
 import CryptoJS from "crypto-js";
 import { isObject } from "lodash";
@@ -181,7 +181,7 @@ export function dataForBilling(data: Basket, currency: Currency) {
           item_id: prod.product.childAttributes[0].sku, //Pass the product id
           item_name: prod.product.title, // Pass the product name
           affiliation: prod.product.title, // Pass the product name
-          coupon: "", // Pass the coupon if available
+          coupon: "NA", // Pass the coupon if available
           currency: currency, // Pass the currency code
           discount: product.discountedPriceRecords
             ? product.discountedPriceRecords[currency]
@@ -189,12 +189,12 @@ export function dataForBilling(data: Basket, currency: Currency) {
           index: ind,
           item_brand: "Goodearth",
           item_category: categoryName,
-          item_category2: prod.product.childAttributes[0].size,
-          item_category3: "",
-          item_list_id: "",
-          item_list_name: search,
-          item_variant: "",
-          item_category4: "",
+          item_category2: prod.product?.childAttributes[0]?.size,
+          item_category3: prod.product.is3d ? "3d" : "non3d",
+          item_category4: prod.product.is3d ? "YES" : "NO",
+          item_list_id: "NA",
+          item_list_name: "NA",
+          item_variant: "NA",
           item_category5: collectionName,
           price: realPrice,
           quantity: prod.quantity
@@ -303,20 +303,20 @@ export function proceedTocheckout(data: Basket, currency: Currency) {
           item_id: skus, //Pass the product id
           item_name: product.title,
           affiliation: "",
-          coupon: "", // Pass the coupon if available
+          coupon: "NA", // Pass the coupon if available
           currency: currency, // Pass the currency code
           discount: product.discountedPriceRecords
             ? product.discountedPriceRecords[currency]
             : product.priceRecords[currency], // Pass the discount amount
           index: index,
           item_brand: "goodearth",
-          item_category: categoryName,
-          item_category2: variants,
-          item_category3: "",
-          item_list_id: "",
+          item_category2: product?.childAttributes[0]?.size,
+          item_category3: product.is3d ? "3d" : "non3d",
+          item_category4: product.is3d ? "YES" : "NO",
+          item_list_id: "NA",
           item_list_name: search,
-          item_variant: "",
-          item_category4: "",
+          item_variant: "NA",
+          item_category: categoryName,
           item_category5: collectionName,
           price: realPrice,
           quantity: 1
@@ -328,11 +328,14 @@ export function proceedTocheckout(data: Basket, currency: Currency) {
       dataLayer.push({
         event: "begin_checkout",
         ecommerce: {
+          currency: currency,
+          value: data.subTotalWithShipping,
+          coupon: "NA", //Pass NA if Not applicable at the moment
           items: childAttr
         }
       });
     }
-    if (userConsent.includes(ANY_ADS)) {
+    if (userConsent.includes(GA_CALLS)) {
       Moengage.track_event("Proceed to checkout", {
         "Product id": skusid,
         "Product name": productname,
@@ -399,7 +402,7 @@ export function proceedForPayment(
           item_id: skus, //Pass the product id
           item_name: product.title,
           affiliation: "",
-          coupon: "", // Pass the coupon if available
+          coupon: "NA", // Pass the coupon if available
           currency: currency, // Pass the currency code
           discount: product.discountedPriceRecords
             ? product.discountedPriceRecords[currency]
@@ -407,12 +410,12 @@ export function proceedForPayment(
           index: index,
           item_brand: "goodearth",
           item_category: categoryName,
-          item_category2: variants,
-          item_category3: "",
-          item_list_id: "",
-          item_list_name: search,
-          item_variant: "",
-          item_category4: "",
+          item_category2: product?.childAttributes[0]?.size,
+          item_category3: product.is3d ? "3d" : "non3d",
+          item_category4: product.is3d ? "YES" : "NO",
+          item_list_id: "NA",
+          item_list_name: "NA",
+          item_variant: "NA",
           item_category5: collectionName,
           price: product.priceRecords[currency],
           quantity: 1
@@ -595,7 +598,9 @@ export function productImpression(
       // product.push(childProduct);
     });
 
-    const childAttr = data.results?.data.map((child: any, index: number) => {
+    const childAttr: any[] = [];
+
+    data.results?.data.map((child: any, index: number) => {
       let category = "";
 
       if (child.categories) {
@@ -618,7 +623,7 @@ export function productImpression(
       // let variants = "";
       // let prices = "";
 
-      child.childAttributes.map((child: any) => {
+      child.childAttributes.map((child1: any) => {
         // skus += "," + child.sku;
         // variants += "," + child.size;
         // prices +=
@@ -627,33 +632,35 @@ export function productImpression(
         //     ? child.discountedPriceRecords[currency]
         //     : child.priceRecords[currency]);
 
-        return Object.assign(
-          {},
-          {
-            item_id: child.sku, //Pass the product id
-            item_name: child.title,
-            affiliation: "",
-            coupon: "", // Pass the coupon if available
-            currency: currency, // Pass the currency code
-            discount: child.discountedPriceRecords
-              ? child.discountedPriceRecords[currency]
-              : child.priceRecords[currency], // Pass the discount amount
-            index: index,
-            item_brand: "goodearth",
-            item_category: categoryName,
-            item_category2: child.size,
-            item_category3: "",
-            item_list_id: "",
-            item_list_name: search,
-            item_variant: "",
-            item_category4: "",
-            item_category5: collectionName,
-            price: child.discountedPriceRecords
-              ? child.discountedPriceRecords[currency]
-              : child.priceRecords[currency],
-            quantity: 1,
-            dimension12: child?.color
-          }
+        childAttr.push(
+          Object.assign(
+            {},
+            {
+              item_id: child1.sku, //Pass the product id
+              item_name: child.title,
+              affiliation: "",
+              coupon: "", // Pass the coupon if available
+              currency: currency, // Pass the currency code
+              discount: child1.discountedPriceRecords
+                ? child1.discountedPriceRecords[currency]
+                : child1.priceRecords[currency], // Pass the discount amount
+              index: index,
+              item_brand: "goodearth",
+              item_category: categoryName,
+              item_category2: child1.size,
+              item_category3: "",
+              item_list_id: "",
+              item_list_name: search,
+              item_variant: "",
+              item_category4: "",
+              item_category5: collectionName,
+              price: child1.discountedPriceRecords
+                ? child1.discountedPriceRecords[currency]
+                : child1.priceRecords[currency],
+              quantity: 1,
+              dimension12: child1?.color
+            }
+          )
         );
       });
       // skus = skus.slice(1);
@@ -673,7 +680,6 @@ export function productImpression(
       //   }
       // );
     });
-
     const userConsent = CookieService.getCookie("consent").split(",");
     if (userConsent.includes(GA_CALLS)) {
       dataLayer.push({ ecommerce: null });
@@ -692,7 +698,7 @@ export function productImpression(
         }
       });
     }
-    if (userConsent.includes(ANY_ADS)) {
+    if (userConsent.includes(GA_CALLS)) {
       Moengage.track_event("PLP views", {
         "Category Name": categoryName.trim(),
         "Sub Category Name": subcategoryname.trim(),
@@ -947,7 +953,7 @@ export function PDP(data: any, currency: Currency) {
     // variants = variants.slice(1);
     // prices = prices.slice(1);
 
-    if (userConsent.includes(ANY_ADS)) {
+    if (userConsent.includes(GA_CALLS)) {
       Moengage.track_event("PDP View", {
         "Product id": skusid,
         "Product name": data.title,
@@ -1438,7 +1444,7 @@ const getUniqueId = () => {
 };
 export const showGrowlMessage = (
   dispatch: Dispatch,
-  text: string,
+  text: string | JSX.Element,
   timeout = 3000,
   id?: string,
   params?: any
@@ -1451,7 +1457,9 @@ export const checkoutGTM = (
   step: number,
   currency: Currency,
   basket: Basket,
-  paymentMethod?: string
+  paymentMethod?: string,
+  gstNo?: string,
+  billingAddressId?: number
 ) => {
   const productList = productForBasketGa(basket, currency);
   const itemList = dataForBilling(basket, currency);
@@ -1482,9 +1490,13 @@ export const checkoutGTM = (
         content_ids: totalId,
         contents: fbproductData
       });
+
       dataLayer.push({ ecommerce: null }); // Clear the previous ecommerce object.
       dataLayer.push({
         event: "add_billing_info",
+        billing_address: billingAddressId,
+        gst_invoice: gstNo ? "YES" : "NO",
+        delivery_instruction: "Not", //Pass NA if not applicable the mome
         ecommerce: {
           currency: currency, // Pass the currency code
           value: basket.total,
@@ -1650,7 +1662,7 @@ export const megaMenuNavigationGTM = ({
   try {
     const userConsent = CookieService.getCookie("consent").split(",");
 
-    if (userConsent.includes(ANY_ADS)) {
+    if (userConsent.includes(GA_CALLS)) {
       if (l3) {
         Moengage.track_event("L1Clicked", {
           "Category Name": l3
@@ -1687,7 +1699,7 @@ export const megaMenuNavigationGTM = ({
         default:
           eventName = "";
       }
-      if (userConsent.includes(ANY_ADS)) {
+      if (userConsent.includes(GA_CALLS)) {
         Moengage.track_event(eventName, {
           "Category Name": l1
         });
@@ -1925,4 +1937,19 @@ export const validURL = (str: string) => {
     "i"
   ); // fragment locator
   return !!pattern.test(str);
+};
+
+export const closeKeyBoardMobile = async () => {
+  const field = document.createElement("input");
+  field.setAttribute("type", "text");
+  document.body.appendChild(field);
+  await new Promise((resolve, reject) =>
+    setTimeout(function() {
+      field.focus();
+      setTimeout(function() {
+        field.setAttribute("style", "display:none;");
+        resolve(true);
+      }, 400);
+    }, 400)
+  );
 };

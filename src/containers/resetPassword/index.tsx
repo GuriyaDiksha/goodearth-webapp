@@ -66,7 +66,7 @@ const ResetPassword: React.FC<Props> = props => {
     const searchParams = new URLSearchParams(history.location.search);
     setRedirectTo(searchParams.get("redirect_to") || "");
     const emailFromURl = decripttext(
-      searchParams.get("ei")?.replace(" ", "+") || "",
+      searchParams.get("ei")?.replaceAll(" ", "+") || "",
       true
     );
     setUrlEmail(emailFromURl);
@@ -102,7 +102,9 @@ const ResetPassword: React.FC<Props> = props => {
         /[0-9]/.test(value) &&
         /[A-Z]/.test(value);
       if (res) {
-        setShowPassRules(false);
+        setTimeout(() => {
+          setShowPassRules(false);
+        }, 200);
       } else {
         ResetPasswordFormRef.current?.updateInputsWithError({
           password1:

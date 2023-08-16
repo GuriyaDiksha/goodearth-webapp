@@ -150,7 +150,7 @@ const NewOtpComponent: React.FC<Props> = ({
     timer();
   };
 
-  const onOtpChange = (e: any) => {
+  const onOtpChange = (e: any, doMinusOne?: boolean) => {
     const max_chars = 2;
     if (e.target.value.length < max_chars) {
       if (count.current !== 0) {
@@ -162,16 +162,7 @@ const NewOtpComponent: React.FC<Props> = ({
       setError("");
       if (setRedeemOtpError) setRedeemOtpError("");
 
-      if (e.target.value !== "") {
-        const ele =
-          typeof document == "object" &&
-          document.getElementById(
-            `${uniqueId}otp${+e.target.id.match(/\d+/)[0] + 1}`
-          );
-        if (ele) {
-          ele.focus();
-        }
-      } else {
+      if (doMinusOne) {
         const ele =
           typeof document == "object" &&
           document.getElementById(
@@ -179,6 +170,26 @@ const NewOtpComponent: React.FC<Props> = ({
           );
         if (ele) {
           ele.focus();
+        }
+      } else {
+        if (e.target.value !== "") {
+          const ele =
+            typeof document == "object" &&
+            document.getElementById(
+              `${uniqueId}otp${+e.target.id.match(/\d+/)[0] + 1}`
+            );
+          if (ele) {
+            ele.focus();
+          }
+        } else {
+          const ele =
+            typeof document == "object" &&
+            document.getElementById(
+              `${uniqueId}otp${+e.target.id.match(/\d+/)[0]}`
+            );
+          if (ele) {
+            ele.focus();
+          }
         }
       }
     }
@@ -219,14 +230,19 @@ const NewOtpComponent: React.FC<Props> = ({
 
   const handleKeyDown = (e: any) => {
     if (e.key === "Backspace") {
-      const ele =
+      const ele: any =
         typeof document == "object" &&
         document.getElementById(
           `${uniqueId}otp${+e.target.id.match(/\d+/)[0] - 1}`
         );
       if (ele) {
-        // ele.focus();
         count.current = +e.target.id.match(/\d+/)[0];
+
+        if (ele?.value === "") {
+          onOtpChange(e, true);
+        } else {
+          ele?.focus();
+        }
       }
     } else if (e.which === 69) {
       e.preventDefault();

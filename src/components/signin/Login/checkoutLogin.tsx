@@ -19,7 +19,7 @@ import { RouteComponentProps, withRouter } from "react-router";
 import EmailVerification from "../emailVerification";
 import { USR_WITH_NO_ORDER } from "constants/messages";
 import CookieService from "services/cookie";
-import { GA_CALLS, ANY_ADS } from "constants/cookieConsent";
+import { GA_CALLS } from "constants/cookieConsent";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -245,7 +245,7 @@ class CheckoutLoginForm extends React.Component<Props, loginState> {
         .then((data: any) => {
           const userConsent = CookieService.getCookie("consent").split(",");
 
-          if (userConsent.includes(ANY_ADS)) {
+          if (userConsent.includes(GA_CALLS)) {
             Moengage.track_event("Login", {
               email: this.state.email
             });
@@ -462,7 +462,9 @@ class CheckoutLoginForm extends React.Component<Props, loginState> {
           </div>
           <div>
             {this.state.showerror ? (
-              <p className={styles.loginErrMsg}>{this.state.showerror}</p>
+              <p className={cs(styles.errorMsg, globalStyles.textLeft)}>
+                {this.state.showerror}
+              </p>
             ) : (
               ""
             )}
@@ -559,7 +561,9 @@ class CheckoutLoginForm extends React.Component<Props, loginState> {
           </div>
           <div>
             {this.state.showerror ? (
-              <p className={styles.loginErrMsg}>{this.state.showerror}</p>
+              <p className={cs(styles.errorMsg, globalStyles.textLeft)}>
+                {this.state.showerror}
+              </p>
             ) : (
               ""
             )}

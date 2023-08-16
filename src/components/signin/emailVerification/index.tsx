@@ -6,7 +6,7 @@ import globalStyles from "styles/global.scss";
 // services
 import LoginService from "services/login";
 import { useDispatch } from "react-redux";
-import Loader from "components/Loader";
+// import Loader from "components/Loader";
 // import OtpBox from "components/OtpComponent/otpBox";
 import { showGrowlMessage } from "utils/validate";
 import { MESSAGE } from "constants/messages";
@@ -31,7 +31,7 @@ const EmailVerification: React.FC<Props> = ({
   socialLogin,
   isCheckout
 }) => {
-  const [isLoading, setIsLoading] = useState(false);
+  // const [isLoading, setIsLoading] = useState(false);
   // const [enableBtn, setEnableBtn] = useState(false);
   // const [timeRemaining, setTimeRemaining] = useState(60);
   //const [showCustCare, setShowCustCare] = useState(false);
@@ -63,7 +63,7 @@ const EmailVerification: React.FC<Props> = ({
   const boId = urlParams.get("bo_id");
   const verifyOtp = async (otp: string) => {
     try {
-      setIsLoading(true);
+      // setIsLoading(true);
       setError("");
       const res = await LoginService.verifyUserOTP(dispatch, email, otp);
 
@@ -107,12 +107,12 @@ const EmailVerification: React.FC<Props> = ({
         setError(data?.message || "OTP Expired or Invalid OTP");
       }
     } finally {
-      setIsLoading(false);
+      // setIsLoading(false);
     }
   };
   const sendOtp = async () => {
     try {
-      setIsLoading(true);
+      // setIsLoading(true);
       setError("");
       const res = await LoginService.sendUserOTP(dispatch, email);
       if (res.otpSent) {
@@ -150,7 +150,7 @@ const EmailVerification: React.FC<Props> = ({
         // setShowCustCare(true);
       }
     } finally {
-      setIsLoading(false);
+      // setIsLoading(false);
     }
   };
 
@@ -242,7 +242,7 @@ const EmailVerification: React.FC<Props> = ({
           </div>
         )} */}
       </>
-      {isLoading && <Loader />}
+      {/* {isLoading && <Loader />} */}
     </div>
   );
 };

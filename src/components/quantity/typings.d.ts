@@ -14,6 +14,7 @@ export type QuantityItem = {
   source: string;
   inputClass?: string;
   errorMsgClass?: string;
+  isSaleErrorMsgOn?: boolean;
 };
 
 export interface State {

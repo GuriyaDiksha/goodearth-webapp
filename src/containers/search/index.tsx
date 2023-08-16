@@ -26,7 +26,7 @@ import { POPUP } from "constants/components";
 import * as util from "utils/validate";
 import SecondaryHeaderDropdown from "components/dropdown/secondaryHeaderDropdown";
 import { CategoryMenu } from "containers/plp/typings";
-import { GA_CALLS, ANY_ADS } from "constants/cookieConsent";
+import { GA_CALLS } from "constants/cookieConsent";
 import ProductCounter from "components/ProductCounter";
 import { throttle } from "lodash";
 import ResetFiltersTile from "components/plpResultItem/resetFiltersTile";
@@ -171,7 +171,7 @@ class Search extends React.Component<
         Page_Title: "virtual_search_view"
       });
     }
-    if (userConsent.includes(ANY_ADS)) {
+    if (userConsent.includes(GA_CALLS)) {
       Moengage.track_event("Page viewed", {
         "Page URL": this.props.location.pathname,
         "Page Name": "SearchView"
@@ -390,7 +390,7 @@ class Search extends React.Component<
             }
           });
         }
-        if (userConsent.includes(ANY_ADS)) {
+        if (userConsent.includes(GA_CALLS)) {
           Moengage.track_event("search", {
             keyword: product.name,
             "Search Suggestions Clicked": true,
@@ -446,6 +446,14 @@ class Search extends React.Component<
       flag: value
     });
   };
+
+  decodeSearchString(value: string) {
+    try {
+      return decodeURIComponent(value);
+    } catch (e) {
+      return value;
+    }
+  }
 
   render() {
     const {
@@ -706,7 +714,9 @@ class Search extends React.Component<
                   )) ? (
                     <div className={styles.npfMsg}>
                       {"Sorry, we couldn't find any matching result for"} &nbsp;
-                      <span>{this.state.searchText}</span>
+                      <span>
+                        {this.decodeSearchString(this.state.searchText)}
+                      </span>
                     </div>
                   ) : (
                     ""

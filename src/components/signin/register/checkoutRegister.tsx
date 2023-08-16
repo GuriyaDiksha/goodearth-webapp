@@ -20,11 +20,11 @@ import { AppState } from "reducers/typings";
 import SocialLogin from "../socialLogin";
 import { RegisterProps } from "./typings";
 import { genderOptions } from "constants/profile";
-import { errorTracking, decriptdata, getErrorList } from "utils/validate";
+import { errorTracking, getErrorList } from "utils/validate";
 import { Country } from "components/Formsy/CountryCode/typings";
 import EmailVerification from "../emailVerification";
 import CookieService from "services/cookie";
-import { GA_CALLS, ANY_ADS } from "constants/cookieConsent";
+import { GA_CALLS } from "constants/cookieConsent";
 // import SelectDropdown from "components/Formsy/SelectDropdown";
 import CountryCode from "components/Formsy/CountryCode";
 import FormContainer from "../formContainer";
@@ -195,7 +195,7 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
       .then(data => {
         const userConsent = CookieService.getCookie("consent").split(",");
 
-        if (userConsent.includes(ANY_ADS)) {
+        if (userConsent.includes(GA_CALLS)) {
           Moengage.track_event("Registered", {
             "First Name": firstName,
             "Last Name": lastName,
@@ -212,6 +212,23 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
           Moengage.add_gender(gender);
           Moengage.add_birthday(moment(dateOfBirth).format("YYYY-MM-DD"));
           Moengage.add_unique_user_id(email);
+          dataLayer.push({
+            event: "Whatsapp_optin",
+            Location: "sign_up",
+            Checkbox: formData.whatsappSubscribe
+              ? "Whatsapp Opt-in"
+              : "Whatsapp Opt-out"
+          });
+          dataLayer.push({
+            event: "newsletter_subscribe",
+            click_type: " Sign in"
+          });
+          dataLayer.push({
+            event: "sign_up",
+            user_status: "logged in", //'Pass the user status ex. logged in OR guest',
+            login_method: "", //Pass Email or Google as per user selection',
+            user_id: data?.userId
+          });
         }
         this.gtmPushRegister();
         // this.props.nextStep?.();
@@ -221,7 +238,7 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
         });
       })
       .catch(error => {
-        const data = decriptdata(error.response?.data);
+        const data = error.response?.data;
         this.setState(
           {
             disableButton: false
@@ -920,7 +937,7 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
               validations={{
                 isExisty: true,
                 compulsory: (values, value) => {
-                  if (values.whatsappSubscribe && value == "") {
+                  if (values?.whatsappSubscribe && value == "") {
                     return false;
                   } else {
                     return true;
@@ -1197,7 +1214,7 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
           </div>
           <div className={cs(styles.subscribe, styles.newsletters)}>
             <FormCheckbox
-              value={false}
+              value={this.props.currency == "INR" ? true : false}
               id="subscrib"
               name="terms"
               disable={!this.state.showFields}
@@ -1231,7 +1248,9 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
           </div> */}
           <div>
             {this.state.showerror ? (
-              <p className={styles.loginErrMsg}>{this.state.showerror}</p>
+              <p className={cs(styles.errorMsg, globalStyles.textLeft)}>
+                {this.state.showerror}
+              </p>
             ) : (
               ""
             )}

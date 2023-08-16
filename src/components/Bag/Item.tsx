@@ -1,23 +1,24 @@
 import React, { memo, useState } from "react";
 import cs from "classnames";
 import { Link } from "react-router-dom";
-import styles from "./styles.scss";
+import styles from "./styles_new.scss";
 import { BasketItem } from "typings/basket";
-import bootstrap from "../../styles/bootstrap/bootstrap-grid.scss";
-import Quantity from "components/quantity";
 import "../../styles/override.css";
-import { currencyCodes } from "constants/currency";
 import WishlistButton from "components/WishlistButton";
 import globalStyles from "../../styles/global.scss";
-import iconStyles from "../../styles/iconFonts.scss";
 import BasketService from "services/basket";
 import { useSelector, useStore } from "react-redux";
 import bridalRing from "../../images/bridal/rings.svg";
 import { AppState } from "reducers/typings";
 import quantityStyles from "../quantity/styles.scss";
 import CookieService from "services/cookie";
-import { GA_CALLS, ANY_ADS } from "constants/cookieConsent";
+import WishlistService from "services/wishlist";
+import { GA_CALLS } from "constants/cookieConsent";
+import PdpQuantity from "components/quantity/pdpQuantity";
+import { showGrowlMessage } from "utils/validate";
+import { updateBasket } from "actions/basket";
 import { displayPriceWithCommas } from "utils/utility";
+import { currencyCodes } from "constants/currency";
 
 const LineItems: React.FC<BasketItem> = memo(
   ({
@@ -28,7 +29,8 @@ const LineItems: React.FC<BasketItem> = memo(
     product,
     saleStatus,
     toggleBag,
-    GCValue
+    GCValue,
+    GCMeta
   }) => {
     const [value, setValue] = useState(quantity | 0);
     // const [qtyError, setQtyError] = useState(false);
@@ -36,30 +38,59 @@ const LineItems: React.FC<BasketItem> = memo(
       basket: { currency }
     } = useSelector((state: AppState) => state);
     const {
-      device: { tablet },
       user: { isLoggedIn }
     } = useSelector((state: AppState) => state);
     if (!currency) {
       currency = "INR";
     }
     const { dispatch } = useStore();
-    const [showError, setShowError] = useState(false);
-    const [error, setError] = useState("");
-    const handleChange = async (value: number) => {
-      await BasketService.updateToBasket(dispatch, id, value)
+    // const [showError, setShowError] = useState(false);
+    // const [error, setError] = useState("");
+
+    const handleChange = async (currentvalue: number) => {
+      await BasketService.updateToBasket(dispatch, id, currentvalue)
         .then(res => {
-          setValue(value);
+          setValue(currentvalue);
+          dataLayer.push({
+            event: "edit_mini_bag_interactions",
+            click_type: currentvalue > value ? "Quantity(+)" : "Quantity(-)"
+          });
         })
         .catch(err => {
-          setShowError(true);
-          setError(
-            `Only ${quantity} piece${
-              quantity > 1 ? "s" : ""
-            } available in stock`
-          );
+          // setShowError(true);
+          // setError(
+          //   `Only ${quantity} piece${
+          //     quantity > 1 ? "s" : ""
+          //   } available in stock`
+          // );
           // setQtyError(true);
           throw err;
         });
+    };
+
+    const onMoveToWishlist = () => {
+      const msg = (
+        <div>
+          Your item has been moved to saved items.&nbsp;&nbsp;
+          <span
+            className={cs(globalStyles.linkTextUnderline, globalStyles.pointer)}
+            onClick={async () => {
+              const res = await WishlistService.undoMoveToWishlist(dispatch);
+              dispatch(updateBasket(res.basket));
+            }}
+          >
+            Undo
+          </span>
+        </div>
+      );
+      const userConsent = CookieService.getCookie("consent").split(",");
+      if (userConsent.includes(GA_CALLS)) {
+        dataLayer.push({
+          event: "edit_mini_bag_interactions",
+          click_type: "Save for later"
+        });
+      }
+      showGrowlMessage(dispatch, msg, 18000);
     };
 
     const {
@@ -74,7 +105,8 @@ const LineItems: React.FC<BasketItem> = memo(
       salesBadgeImage,
       inWishlist,
       attributes,
-      childAttributes
+      childAttributes,
+      groupedProductsCount
     } = product;
     const size =
       attributes.find(attribute => attribute.name == "Size")?.value || "";
@@ -92,7 +124,7 @@ const LineItems: React.FC<BasketItem> = memo(
       const categoryname = arr[arr.length - 2];
       const subcategoryname = arr[arr.length - 1];
       const userConsent = CookieService.getCookie("consent").split(",");
-      if (userConsent.includes(ANY_ADS)) {
+      if (userConsent.includes(GA_CALLS)) {
         Moengage.track_event("remove_from_cart", {
           "Product id": product.sku || product.childAttributes[0].sku,
           "Product name": product.title,
@@ -105,6 +137,11 @@ const LineItems: React.FC<BasketItem> = memo(
         });
       }
       if (userConsent.includes(GA_CALLS)) {
+        dataLayer.push({
+          event: "edit_mini_bag_interactions",
+          click_type: "Remove"
+        });
+
         dataLayer.push({
           event: "removeFromCart",
           ecommerce: {
@@ -185,13 +222,49 @@ const LineItems: React.FC<BasketItem> = memo(
       });
     };
 
-    const getSize = (data: any) => {
+    const getSize = (data: any, GCMeta: any) => {
       const size = data.find(function(attribute: any) {
         if (attribute.name == "Size") {
           return attribute;
         }
       });
-      return size ? <div className={styles.size}>Size: {size.value}</div> : "";
+      return size || GCMeta ? (
+        <div className={styles.size}>
+          {" "}
+          {size ? "Size: " : "Recipient's Name: "}{" "}
+          {size ? size?.value : GCMeta?.recipeint_name}
+        </div>
+      ) : (
+        ""
+      );
+    };
+
+    const getColor = (data: any, GCMeta: any) => {
+      const color = data.find(function(attribute: any) {
+        if (attribute.name == "Color") {
+          return attribute;
+        }
+      });
+      const colorName = () => {
+        let cName = color.value
+          .split("-")
+          .slice(1)
+          .join();
+        if (cName[cName.length - 1] == "s") {
+          cName = cName.slice(0, -1);
+        }
+        return cName;
+      };
+
+      return (color && groupedProductsCount && groupedProductsCount > 0) ||
+        GCMeta ? (
+        <div className={styles.color}>
+          {color ? "Color: " : "Recipient's Email: "}{" "}
+          {color ? colorName() : GCMeta?.recipient_email}
+        </div>
+      ) : (
+        ""
+      );
     };
 
     const price = priceRecords[currency];
@@ -206,8 +279,14 @@ const LineItems: React.FC<BasketItem> = memo(
         })}
         data-sku={product.childAttributes[0].sku}
       >
-        <div className={bootstrap.row}>
-          <div className={cs(bootstrap.col4, styles.cartPadding)}>
+        <div className={cs(globalStyles.flex, styles.row)}>
+          <div
+            className={cs(
+              styles.productImage,
+              product.stockRecords[0].numInStock < 1 && styles.outOfStock
+            )}
+          >
+            {/* <div className={cs(styles.productImage)}> */}
             <div className={globalStyles.relative}>
               <Link to={isGiftCard ? "#" : url} onClick={toggleBag}>
                 {salesBadgeImage && (
@@ -215,7 +294,7 @@ const LineItems: React.FC<BasketItem> = memo(
                     <img src={salesBadgeImage} alt="sales-badge" />
                   </div>
                 )}
-                <div className={styles.cartRing}>
+                <div className={cs(styles.cartRing, styles.bridalIcon)}>
                   {bridalProfile && (
                     <svg
                       viewBox="-5 -5 50 50"
@@ -237,89 +316,91 @@ const LineItems: React.FC<BasketItem> = memo(
                     isGiftCard
                       ? giftCardImage
                       : images && images.length > 0
-                      ? tablet
-                        ? images[0].productImage
-                        : images[0].productImage.replace("Medium", "Micro")
+                      ? images[0].productImage
                       : ""
                   }
                 />
               </Link>
             </div>
           </div>
-          <div className={cs(bootstrap.col8, styles.cartPadding)}>
+          <div className={styles.productDetails}>
             {/* <div className={styles.collectionName}>{collection}</div> */}
-            <div className={bootstrap.row}>
-              <div className={cs(bootstrap.col10, styles.name)}>
-                <div>
-                  <Link to={isGiftCard ? "#" : url} onClick={toggleBag}>
-                    {title}
-                  </Link>
-                </div>
-                <div className={styles.productPrice}>
-                  {saleStatus && discount && discountedPriceRecords ? (
-                    <span className={styles.discountprice}>
-                      {String.fromCharCode(...currencyCodes[currency])}
-                      &nbsp;
-                      {displayPriceWithCommas(
-                        discountedPriceRecords[currency],
-                        currency
-                      )}
-                      &nbsp; &nbsp;
-                    </span>
-                  ) : (
-                    ""
-                  )}
-                  {saleStatus && discount ? (
-                    <span className={styles.strikeprice}>
-                      {String.fromCharCode(...currencyCodes[currency])}
-                      &nbsp;
-                      {isGiftCard
-                        ? displayPriceWithCommas(GCValue, currency)
-                        : displayPriceWithCommas(price, currency)}
-                    </span>
-                  ) : (
-                    <span
-                      className={
-                        badgeType == "B_flat" ? globalStyles.cerise : ""
-                      }
-                    >
-                      {" "}
-                      {String.fromCharCode(...currencyCodes[currency])}
-                      &nbsp;
-                      {isGiftCard
-                        ? displayPriceWithCommas(GCValue, currency)
-                        : displayPriceWithCommas(price, currency)}
-                    </span>
-                  )}
-                </div>
+            <div className={cs(styles.name)}>
+              <div
+                className={cs(
+                  styles.productTitle,
+                  product.stockRecords[0].numInStock < 1 && styles.outOfStock
+                )}
+              >
+                <Link to={isGiftCard ? "#" : url} onClick={toggleBag}>
+                  {title}
+                </Link>
               </div>
               <div
                 className={cs(
-                  bootstrap.col2,
-                  styles.pointer,
-                  styles.textCenter,
-                  styles.remove
+                  styles.productPrice,
+                  product.stockRecords[0].numInStock < 1 && styles.outOfStock
                 )}
               >
-                <i
-                  className={cs(
-                    iconStyles.icon,
-                    iconStyles.iconCrossNarrowBig,
-                    styles.crossiconItem
-                  )}
-                  onClick={deleteItem}
-                ></i>
+                {saleStatus && discount && discountedPriceRecords ? (
+                  <span className={styles.discountprice}>
+                    {displayPriceWithCommas(
+                      discountedPriceRecords[currency],
+                      currency
+                    )}
+                    &nbsp; &nbsp;
+                  </span>
+                ) : (
+                  ""
+                )}
+                {saleStatus && discount ? (
+                  <span className={styles.strikeprice}>
+                    {isGiftCard
+                      ? displayPriceWithCommas(GCValue, currency)
+                      : displayPriceWithCommas(price, currency)}
+                  </span>
+                ) : (
+                  <span
+                    className={badgeType == "B_flat" ? globalStyles.gold : ""}
+                  >
+                    {" "}
+                    {isGiftCard
+                      ? displayPriceWithCommas(GCValue, currency)
+                      : displayPriceWithCommas(price, currency)}
+                  </span>
+                )}
               </div>
-            </div>
-            <div
-              className={cs(bootstrap.row, styles.section, {
-                [globalStyles.hiddenEye]: isGiftCard
-              })}
-            >
-              <div className={bootstrap.col10}>
-                {getSize(product.attributes)}
-                <div className={cs(styles.widgetQty)}>
-                  <Quantity
+              <div
+                className={cs(
+                  styles.productSize,
+                  product.stockRecords[0].numInStock < 1 && styles.outOfStock
+                )}
+              >
+                {getSize(product.attributes, GCMeta)}
+              </div>
+
+              <div
+                className={cs(
+                  styles.productColor,
+                  product.stockRecords[0].numInStock < 1 && styles.outOfStock
+                )}
+              >
+                {getColor(product.attributes, GCMeta)}
+              </div>
+
+              <div
+                className={cs(
+                  styles.widgetQty,
+                  product.stockRecords[0].numInStock < 1 && styles.outOfStock
+                )}
+              >
+                {isGiftCard ? (
+                  <>
+                    <p className={cs(styles.gcTitle)}>Sender&apos;s Name:</p>
+                    <p className={styles.gcName}>{GCMeta?.sender_name}</p>
+                  </>
+                ) : (
+                  <PdpQuantity
                     source="bag"
                     key={id}
                     id={id}
@@ -333,39 +414,43 @@ const LineItems: React.FC<BasketItem> = memo(
                       product.stockRecords &&
                       product.stockRecords[0].numInStock < 1
                     }
-                    // errorMsg="Available qty in stock is"
+                    isSaleErrorMsgOn={
+                      saleStatus &&
+                      childAttributes[0].showStockThreshold &&
+                      childAttributes[0].stock > 0 &&
+                      childAttributes[0].othersBasketCount > 0
+                    }
                   />
-                </div>
+                )}
               </div>
-              {!bridalProfile && (
-                <div
-                  className={cs(
-                    bootstrap.col2,
-                    globalStyles.textCenter,
-                    styles.wishlistDisplay
-                  )}
+
+              {saleStatus && (
+                <span
+                  className={cs(styles.stockLeft, {
+                    [styles.outOfStock]: product.stockRecords[0].numInStock < 1
+                  })}
                 >
-                  <WishlistButton
-                    gtmListType="MiniBag"
-                    title={product.title}
-                    childAttributes={product.childAttributes}
-                    priceRecords={product.priceRecords}
-                    discountedPriceRecords={product.discountedPriceRecords}
-                    categories={product.categories}
-                    basketLineId={id}
-                    size={size}
-                    id={product.id}
-                    showText={false}
-                    inWishlist={inWishlist}
-                  />
-                </div>
+                  {saleStatus &&
+                    childAttributes[0].showStockThreshold &&
+                    childAttributes[0].stock > 0 &&
+                    childAttributes[0].othersBasketCount > 0 &&
+                    `${childAttributes[0].othersBasketCount} other${
+                      childAttributes[0].othersBasketCount > 1 ? "s" : ""
+                    } have this item in their bag.`}
+                  {/* <br /> */}
+                  {saleStatus &&
+                    childAttributes[0].showStockThreshold &&
+                    childAttributes[0].stock > 0 &&
+                    `Only ${childAttributes[0].stock} Left!`}
+                </span>
               )}
+
               {product.stockRecords ? (
                 product.stockRecords[0].numInStock < 1 ? (
                   <div
                     className={cs(
                       globalStyles.errorMsg,
-                      styles.stockLeft,
+                      styles.stockLeftError,
                       quantityStyles.errorMsg,
                       quantityStyles.fontStyle
                     )}
@@ -378,12 +463,14 @@ const LineItems: React.FC<BasketItem> = memo(
               ) : (
                 ""
               )}
-              {showError &&
+              {/* {showError &&
                 !(
-                  saleStatus &&
-                  childAttributes[0].showStockThreshold &&
-                  childAttributes[0].stock > 0 &&
-                  childAttributes[0].othersBasketCount > 0
+                  (
+                    saleStatus &&
+                    childAttributes[0].showStockThreshold &&
+                    childAttributes[0].stock > 0
+                  )
+                  //   childAttributes[0].othersBasketCount > 0
                 ) && (
                   <span
                     className={cs(
@@ -395,31 +482,58 @@ const LineItems: React.FC<BasketItem> = memo(
                   >
                     {error}
                   </span>
-                )}
+                )} */}
 
-              {saleStatus &&
-                childAttributes[0].showStockThreshold &&
-                childAttributes[0].stock > 0 && (
-                  <span
-                    className={cs(
-                      globalStyles.errorMsg,
-                      styles.stockLeft,
-                      quantityStyles.errorMsg,
-                      quantityStyles.fontStyle
-                    )}
-                  >
-                    {`Only ${childAttributes[0].stock} Left!`}
-                    {childAttributes[0].showStockThreshold &&
-                      childAttributes[0].stock > 0 &&
-                      childAttributes[0].othersBasketCount > 0 &&
-                      ` *${childAttributes[0].othersBasketCount} other${
-                        childAttributes[0].othersBasketCount > 1 ? "s" : ""
-                      } have this item in their bag`}
-                  </span>
+              <div
+                className={cs(
+                  styles.productActions,
+                  globalStyles.flex,
+                  globalStyles.gutterBetween
                 )}
+              >
+                <div
+                  className={cs(
+                    globalStyles.textCenter,
+                    styles.wishlistDisplay
+                  )}
+                >
+                  {bridalProfile || isGiftCard ? null : (
+                    <WishlistButton
+                      gtmListType="MiniBag"
+                      title={product.title}
+                      childAttributes={product.childAttributes}
+                      priceRecords={product.priceRecords}
+                      discountedPriceRecords={product.discountedPriceRecords}
+                      categories={product.categories}
+                      basketLineId={id}
+                      size={size}
+                      id={product.id}
+                      showText={true}
+                      inWishlist={inWishlist}
+                      onMoveToWishlist={onMoveToWishlist}
+                    />
+                  )}
+                </div>
+
+                <div
+                  className={cs(
+                    styles.pointer,
+                    styles.textCenter,
+                    styles.remove
+                  )}
+                >
+                  <span onClick={deleteItem}>REMOVE</span>
+                </div>
+              </div>
             </div>
           </div>
         </div>
+        {/* {productDeliveryDate && (
+          <div className={cs(styles.deliveryDate, globalStyles.voffset3)}>
+            Estimated delivery:
+            <span>{productDeliveryDate}</span>
+          </div>
+        )} */}
       </div>
     );
   }

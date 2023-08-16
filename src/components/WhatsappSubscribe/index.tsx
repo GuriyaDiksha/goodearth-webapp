@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import FormCheckbox from "components/Formsy/FormCheckbox";
 import styles from "./styles.scss";
 import CountryCode from "components/Formsy/CountryCode";
@@ -76,9 +76,13 @@ const WhatsappSubscribe: React.FC<Props> = ({
   const [isDisabled, setIsDisabled] = useState(true);
   const [objEqual, setObjEqual] = useState(true);
   const [error, setError] = useState("");
-
+  const location = useLocation();
   const formRef = whatsappFormRef || useRef<Formsy>(null);
-
+  const locationtext = location.pathname.includes("/my-preferences")
+    ? "save_preferences"
+    : location.pathname.includes("/checkout")
+    ? "Checkout"
+    : "registry_popup";
   const impactRef = useRef<HTMLInputElement>(null);
 
   const handleClickOutside = (evt: any) => {
@@ -98,12 +102,18 @@ const WhatsappSubscribe: React.FC<Props> = ({
   }, []);
 
   useEffect(() => {
-    if (codeError || numberError) {
-      setError("");
-    } else {
+    if (whatsappNoErr) {
       setError(whatsappNoErr);
+      setNumberError("");
+      setCodeError("");
     }
-  }, [whatsappNoErr, codeError, numberError]);
+  }, [whatsappNoErr]);
+
+  useEffect(() => {
+    if (!whatsappNoErr && (codeError || numberError)) {
+      setError("");
+    }
+  }, [codeError, numberError]);
 
   useEffect(() => {
     if (data) {
@@ -129,12 +139,14 @@ const WhatsappSubscribe: React.FC<Props> = ({
     const value = e.target.value;
     setPhone(value);
     setNumberError("");
+    setError("");
   };
 
   const onCodeChange = (e: any, newValue?: string) => {
     //const value = e.target.value;
     setCode(newValue);
     setNumberError("");
+    setError("");
   };
 
   const onSubscribeChange = (e: any) => {
@@ -283,6 +295,13 @@ const WhatsappSubscribe: React.FC<Props> = ({
         showGrowlMessage(dispatch, "Your preferences have been updated!", 5000);
         setNumberError("");
         dispatch(updateModal(false));
+        dataLayer.push({
+          event: "Whatsapp_optin",
+          Location: locationtext,
+          Checkbox: reqData.whatsappSubscribe
+            ? "Whatsapp Opt-in"
+            : "Whatsapp Opt-out"
+        });
       })
       .catch((err: any) => {
         const errData = err.response?.data;
@@ -425,6 +444,7 @@ const WhatsappSubscribe: React.FC<Props> = ({
               }}
               autocomplete="off"
               handleChange={onCodeChange}
+              hideArrow={true}
             />
           ) : null}
 

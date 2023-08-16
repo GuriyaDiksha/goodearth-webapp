@@ -7,6 +7,7 @@ export type Props = {
   currency: Currency;
   closeModal?: () => void;
   mobile: boolean;
+  tablet: boolean;
   wishlist: ProductID[];
   isQuickview?: boolean;
   changeModalState?: any;

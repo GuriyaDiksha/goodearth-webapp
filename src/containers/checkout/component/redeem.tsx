@@ -6,11 +6,12 @@ import bootstrapStyles from "styles/bootstrap/bootstrap-grid.scss";
 import styles from "./gift.scss";
 import { RedeemState } from "./typings";
 import mapDispatchToProps from "../mapper/action";
-import iconStyles from "styles/iconFonts.scss";
 import { AppState } from "reducers/typings";
 import OtpReedem from "components/OtpComponent/otpReedem";
 import { errorTracking } from "utils/validate";
 import { RouteComponentProps, withRouter } from "react-router";
+import tooltipIcon from "images/tooltip.svg";
+import tooltipOpenIcon from "images/tooltip-open.svg";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -25,6 +26,7 @@ type Props = {
   setIsactiveredeem: (val: boolean) => void;
   isOTPSent: boolean;
   setIsOTPSent: (val: boolean) => void;
+  closeModal: () => any;
 } & ReturnType<typeof mapDispatchToProps> &
   ReturnType<typeof mapStateToProps> &
   RouteComponentProps;
@@ -37,10 +39,30 @@ class Reedem extends React.Component<Props, RedeemState> {
       error: "",
       newCardBox: true,
       toggleOtp: true,
-      isActivated: false
+      isActivated: false,
+      showTooltip: false,
+      showTooltipTwo: false
     };
   }
   // ProfileFormRef: RefObject<Formsy> = React.createRef();
+
+  impactRef1 = React.createRef<HTMLInputElement>();
+  impactRef2 = React.createRef<HTMLInputElement>();
+
+  handleClickOutside = (evt: any) => {
+    if (
+      this.impactRef1.current &&
+      !this.impactRef1.current.contains(evt.target)
+    ) {
+      this.setState({ showTooltip: false });
+    }
+    if (
+      this.impactRef2.current &&
+      !this.impactRef2.current.contains(evt.target)
+    ) {
+      this.setState({ showTooltipTwo: false });
+    }
+  };
 
   componentDidMount(): void {
     if (
@@ -49,6 +71,8 @@ class Reedem extends React.Component<Props, RedeemState> {
     ) {
       this.setState({ error: "You don't have points to redeem" });
     }
+
+    document.addEventListener("mousedown", this.handleClickOutside);
   }
 
   UNSAFE_componentWillReceiveProps(
@@ -64,6 +88,7 @@ class Reedem extends React.Component<Props, RedeemState> {
       this.setState({ error: "You don't have points to redeem" });
     }
   }
+
   changeValue = (event: any) => {
     const { loyaltyData } = this.props.user;
     const value = event.target.value;
@@ -129,168 +154,193 @@ class Reedem extends React.Component<Props, RedeemState> {
     this.props.removeRedeem(this.props.history, this.props.user.isLoggedIn);
   };
 
-  // componentDidMount() {
-  //   const { loyalty } = this.props;
-  //   if (!loyalty?.[0]?.isValidated) {
-  //     this.removeRedeem();
-  //   }
-  // }
+  setShowTip = (value: boolean) => {
+    this.setState({ showTooltip: value });
+  };
+
+  setShowTipTwo = (value: boolean) => {
+    this.setState({ showTooltipTwo: value });
+  };
 
   render() {
-    const { newCardBox, txtvalue } = this.state;
+    const { newCardBox, txtvalue, showTooltip, showTooltipTwo } = this.state;
     const { loyalty } = this.props;
     const { loyaltyData } = this.props.user;
-    const points = loyalty?.[0]?.points;
     const isValidated = loyalty?.[0]?.isValidated;
 
     return (
       <Fragment>
-        <div className={cs(bootstrapStyles.row, styles.giftDisplay)}>
-          {points && isValidated ? (
-            <div
-              className={cs(
-                styles.textLeft,
-                styles.rtcinfo,
-                globalStyles.voffset3
-              )}
-            >
-              <span>{points} CERISE POINTS </span>
-              <span className={styles.textMuted}>REDEEMED</span>
-              <span
-                className={styles.cross}
-                onClick={() => {
-                  this.removeRedeem();
-                }}
-              >
-                <i
-                  className={cs(
-                    iconStyles.icon,
-                    iconStyles.iconCrossNarrowBig,
-                    styles.closeFont
-                  )}
-                ></i>
-              </span>
-              <div className={globalStyles.errorMsg}>
-                You have successfully redeemed your Cerise points.
-              </div>
-            </div>
-          ) : (
-            <Fragment>
-              <div className={cs(styles.textLeft, globalStyles.voffset4)}>
-                <p className={cs(globalStyles.cerise, styles.redeemBold)}>
+        <div
+          className={cs(
+            bootstrapStyles.row,
+            styles.giftDisplay,
+            globalStyles.marginT25
+          )}
+        >
+          <Fragment>
+            <div className={cs(styles.textLeft)}>
+              <div className={cs(styles.tooltipWrp)}>
+                <p className={cs(styles.textLeft, styles.redeemBold)}>
                   {" "}
-                  CERISE POINTS BALANCE:
+                  Cerise Balance points
                 </p>
-                <p className={styles.textMuted}>
-                  {loyaltyData?.CustomerPointInformation?.AvailablePoint}
-                </p>
-              </div>
-              <div className={cs(styles.textLeft, globalStyles.voffset4)}>
-                <p className={cs(globalStyles.cerise, styles.redeemBold)}>
-                  ELIGIBLE FOR REDEMPTION:
-                </p>
-                <p className={styles.textMuted}>
-                  {
-                    loyaltyData?.CustomerPointInformation
-                      ?.EligibleRedemptionPoints
-                  }
-                </p>
-              </div>
-              <div
-                className={cs(
-                  styles.textLeft,
-                  globalStyles.voffset4,
-                  styles.textMuted
-                )}
-              >
-                ENTER POINTS TO REDEEM
-              </div>
-              <div
-                className={cs(
-                  styles.loginForm,
-                  { [globalStyles.voffset4]: newCardBox },
-                  bootstrapStyles.colMd4
-                )}
-              >
-                <div
-                  className={cs(styles.flex, styles.vCenter, {
-                    [globalStyles.hidden]: !newCardBox
-                  })}
-                >
-                  <input
-                    type="number"
-                    value={txtvalue}
-                    onKeyDown={evt => evt.key === "." && evt.preventDefault()}
-                    onChange={this.changeValue}
-                    id="redeem"
-                    min="0"
-                    className={cs(
-                      this.state.error
-                        ? cs(styles.marginR10, styles.err)
-                        : styles.marginR10,
-                      {
-                        [styles.disableInput]:
-                          loyaltyData?.CustomerPointInformation
-                            ?.EligibleRedemptionPoints === 0
-                      }
-                    )}
-                    disabled={
-                      loyaltyData?.CustomerPointInformation
-                        ?.EligibleRedemptionPoints === 0
-                    }
-                    style={{
-                      cursor:
-                        loyaltyData?.CustomerPointInformation
-                          ?.EligibleRedemptionPoints === 0
-                          ? "not-allowed"
-                          : "inherit"
+
+                <div className={styles.tooltip} ref={this.impactRef1}>
+                  <img
+                    src={showTooltip ? tooltipOpenIcon : tooltipIcon}
+                    onClick={() => {
+                      this.setShowTip(!showTooltip);
                     }}
                   />
-                </div>
-                <label>Redeem Points</label>
-
-                {this.state.error ? (
-                  <p
-                    className={cs(globalStyles.errorMsg, {
-                      [styles.disableInputMsg]:
-                        loyaltyData?.CustomerPointInformation
-                          ?.EligibleRedemptionPoints === 0
+                  <div
+                    className={cs(styles.tooltipMsg, {
+                      [styles.show]: showTooltip
                     })}
                   >
-                    {this.state.error}
-                  </p>
-                ) : (
-                  ""
-                )}
+                    This balance shows the total number of points you have in
+                    your Cerise account to redeem against purchases
+                    <br />
+                    <img
+                      src={showTooltip ? tooltipOpenIcon : tooltipIcon}
+                      onClick={() => {
+                        this.setShowTip(!showTooltip);
+                      }}
+                    />
+                  </div>
+                </div>
               </div>
-              <div className={bootstrapStyles.colMd8}>
-                <OtpReedem
-                  updateError={this.updateError}
-                  toggleOtp={this.toggleOtp}
-                  key={"reedem"}
-                  isLoggedIn={this.props.user.isLoggedIn}
-                  history={this.props.history}
-                  sendOtp={this.props.sendOtpRedeem}
-                  isCredit={true}
-                  checkOtpRedeem={this.props.checkOtpRedeem}
-                  updateList={this.updateList}
-                  loyaltyData={loyaltyData}
-                  points={this.state.txtvalue || points}
-                  number={this.props.user.phoneNumber}
-                  email={this.props.user.email}
-                  resendOtp={this.props.resendOtpRedeem}
-                  validated={isValidated}
-                  disableBtn={this.state.error}
-                  removeRedeem={this.removeRedeem}
-                  redeemOtpError={this.props.redeemOtpError}
-                  setRedeemOtpError={this.props.setRedeemOtpError}
-                  setIsactiveredeem={this.props.setIsactiveredeem}
-                  isOTPSent={this.props.isOTPSent}
-                  setIsOTPSent={this.props.setIsOTPSent}
+
+              <p className={cs(styles.textLeft, styles.redeemPoints)}>
+                {loyaltyData?.customerPoints}
+              </p>
+            </div>
+            <div className={cs(styles.textLeft)} ref={this.impactRef2}>
+              <div className={cs(styles.tooltipWrp)}>
+                <p className={cs(styles.textLeft, styles.redeemBold)}>
+                  Eligible for Redemption
+                </p>
+                <div className={styles.tooltip}>
+                  <img
+                    src={showTooltipTwo ? tooltipOpenIcon : tooltipIcon}
+                    onClick={() => {
+                      this.setShowTipTwo(!showTooltipTwo);
+                    }}
+                  />
+                  <div
+                    className={cs(styles.tooltipMsg, {
+                      [styles.show]: showTooltipTwo,
+                      [styles.tipTwo]: showTooltipTwo
+                    })}
+                  >
+                    Redemption of points is applicable on select products. You
+                    can check redemption eligibility on the product page.
+                    <a
+                      href={"/customer-assistance/terms"}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      Read More
+                    </a>
+                    .
+                    <br />
+                    <img
+                      src={showTooltipTwo ? tooltipOpenIcon : tooltipIcon}
+                      onClick={() => {
+                        this.setShowTipTwo(!showTooltipTwo);
+                      }}
+                    />
+                  </div>
+                </div>
+              </div>
+              <p
+                className={cs(
+                  styles.textLeft,
+                  styles.redeemPoints,
+                  styles.aqua
+                )}
+              >
+                {loyaltyData?.eligiblePoints}
+              </p>
+            </div>
+            <div className={cs(styles.textLeft, styles.pointsToRedeem)}>
+              Enter points to redeem:
+            </div>
+            <div
+              className={cs(
+                styles.loginForm,
+                { [globalStyles.voffset3]: newCardBox },
+                bootstrapStyles.colMd12
+              )}
+            >
+              <div
+                className={cs(styles.flex, styles.vCenter, {
+                  [globalStyles.hidden]: !newCardBox
+                })}
+              >
+                <input
+                  type="number"
+                  value={
+                    loyaltyData?.eligiblePoints > 0
+                      ? txtvalue
+                      : loyaltyData?.eligiblePoints
+                  }
+                  onKeyDown={evt => evt.key === "." && evt.preventDefault()}
+                  onChange={this.changeValue}
+                  id="redeem"
+                  min="0"
+                  className={
+                    this.state.error
+                      ? cs(styles.marginR10, styles.err)
+                      : cs(styles.marginR10, styles.redeemInput)
+                  }
+                  aria-label="redeem-code"
+                  disabled={loyaltyData?.eligiblePoints > 0 ? false : true}
                 />
               </div>
-            </Fragment>
-          )}
+              <label>Points</label>
+
+              {this.state.error ? (
+                <p className={cs(styles.textLeft, globalStyles.errorMsg)}>
+                  {this.state.error}
+                </p>
+              ) : (
+                ""
+              )}
+
+              {loyaltyData?.eligiblePoints <= 0 && (
+                <p className={cs(styles.textLeft, styles.noEnoughPoint)}>
+                  You don&apos;t have points to redeem
+                </p>
+              )}
+            </div>
+            <div className={bootstrapStyles.colMd12}>
+              <OtpReedem
+                updateError={this.updateError}
+                toggleOtp={this.toggleOtp}
+                key={"reedem"}
+                isLoggedIn={this.props.user.isLoggedIn}
+                history={this.props.history}
+                sendOtp={this.props.sendOtpRedeem}
+                isCredit={true}
+                checkOtpRedeem={this.props.checkOtpRedeem}
+                updateList={this.updateList}
+                loyaltyData={loyaltyData}
+                points={this.state.txtvalue}
+                number={this.props.user.phoneNumber}
+                removeRedeem={this.removeRedeem}
+                closeModal={this.props.closeModal}
+                setIsactiveredeem={this.props.setIsactiveredeem}
+                email={this.props.user.email}
+                resendOtp={this.props.resendOtpRedeem}
+                validated={isValidated}
+                disableBtn={this.state.error}
+                redeemOtpError={this.props.redeemOtpError}
+                setRedeemOtpError={this.props.setRedeemOtpError}
+                isOTPSent={this.props.isOTPSent}
+                setIsOTPSent={this.props.setIsOTPSent}
+              />
+            </div>
+          </Fragment>
         </div>
       </Fragment>
     );

@@ -12,6 +12,10 @@ const CheckoutRegisterForm = loadable(() =>
 
 const LoginForm: React.FC<{ redirectTo: string }> = ({ redirectTo }) => {
   const [isRegister, setIsRegister] = useState(false);
+  const history = useHistory();
+
+  const urlParams = new URLSearchParams(history.location.search);
+  const id = urlParams.get("loginpopup");
 
   const goToRegister = () => {
     setIsRegister(true);
@@ -25,14 +29,18 @@ const LoginForm: React.FC<{ redirectTo: string }> = ({ redirectTo }) => {
   const goLogin = () => {
     setIsRegister(false);
   };
-  const history = useHistory();
+
   const nextStep = () => {
     // code for after login
-    history.push(redirectTo || "/");
+    // history.push(redirectTo || "/");
+    if (redirectTo.split("=")?.[1]) {
+      history.push(redirectTo || "");
+      localStorage.setItem("from", "cart");
+    } else {
+      history.push(redirectTo || "/");
+    }
   };
 
-  const urlParams = new URLSearchParams(history.location.search);
-  const id = urlParams.get("loginpopup");
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);

@@ -467,7 +467,7 @@ span.checkout-forgot-pass{
 .tooltip {
   margin-left: 15px;
   &.height-fix {
-    height: 50px;
+    height: 40px;
   }
   img {
       height: 15px;
@@ -489,11 +489,11 @@ span.checkout-forgot-pass{
       height: 80px;
       width: 146px;
       @media screen and (max-width: 768px){
-          height: 95px;
-          width: 100px;
+        height: 95px;
+        width: 117px;
           &.show{
-            bottom: 36px !important;
-            left: -36px !important;
+            bottom: 20px !important;
+            left: -10px !important;
           }
       }
       box-shadow: 0px 3px 6px #00000029;
@@ -501,7 +501,7 @@ span.checkout-forgot-pass{
       &.show{
           display: block;
           position: absolute;
-          bottom: 23px;
+          bottom: 20px;
           left: -9px;
       }
   }
@@ -509,5 +509,20 @@ span.checkout-forgot-pass{
     position: absolute;
     top: 10px;
     left: 30px;
+  }
+  .manage-line ~ .tooltip {
+    .tooltip-msg {
+      &.show {
+        bottom: 34px;
+        left: -10px;
+        @media screen and (max-width: 768px){
+          bottom: 50px !important;
+        }
+      }
+    } 
+    img {
+      top: -8px;
+      left: -10px;
+    }
   }
 }

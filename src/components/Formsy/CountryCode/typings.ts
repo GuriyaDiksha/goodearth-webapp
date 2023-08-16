@@ -16,6 +16,7 @@ export type Props = {
   innerRef?: any;
   name: string;
   autocomplete?: string;
+  hideArrow?: boolean;
 };
 
 export type Country = {
@@ -30,3 +31,5 @@ export type Country = {
   ];
   isdCode?: string;
 };
+
+export type AddressMode = "new" | "edit" | "list";

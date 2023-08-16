@@ -58,7 +58,11 @@ import { useLocation, useHistory } from "react-router";
 import { AppState } from "reducers/typings";
 import PdpCustomerCareInfo from "components/CustomerCareInfo/pdpCustomerCare";
 import { updateProduct } from "actions/product";
-import { updatefillerProduct, updateshowFiller } from "actions/filler";
+import {
+  updatefillerProduct,
+  updateshowFiller,
+  updateButtonData
+} from "actions/filler";
 import { showGrowlMessage, errorTracking } from "utils/validate";
 import { POPUP } from "constants/components";
 import asset from "images/asset.svg";
@@ -69,7 +73,7 @@ import { updateQuickviewId } from "../../../../actions/quickview";
 import Accordion from "components/Accordion";
 import PdpSkeleton from "../pdpSkeleton";
 import { isEmpty } from "lodash";
-import { GA_CALLS, ANY_ADS } from "constants/cookieConsent";
+import { GA_CALLS } from "constants/cookieConsent";
 import { displayPriceWithCommas } from "utils/utility";
 
 const ProductDetails: React.FC<Props> = ({
@@ -111,6 +115,7 @@ const ProductDetails: React.FC<Props> = ({
   data,
   corporatePDP,
   mobile,
+  tablet,
   currency,
   isQuickview,
   changeModalState,
@@ -430,7 +435,7 @@ const ProductDetails: React.FC<Props> = ({
       : "nonView3d";
 
     const userConsent = CookieService.getCookie("consent").split(",");
-    if (userConsent.includes(ANY_ADS)) {
+    if (userConsent.includes(GA_CALLS)) {
       Moengage.track_event("add_to_cart", {
         "Product id": sku || childAttributes[0].sku,
         "Product name": title,
@@ -746,6 +751,12 @@ const ProductDetails: React.FC<Props> = ({
       // setSizeerror(false);
     }
     setPDPButton?.(<PdpButton label={buttonText} onClick={action} />);
+    if (setPDPButton) {
+      dispatch(
+        updateButtonData(<PdpButton label={buttonText} onClick={action} />)
+      );
+    }
+
     return <PdpButton label={buttonText} onClick={action} />;
   }, [
     corporatePDP,
@@ -898,24 +909,26 @@ const ProductDetails: React.FC<Props> = ({
                 </div>
               )}
               <div
-                className={cs(bootstrap.col8, bootstrap.colMd8, styles.title)}
+                className={cs(
+                  isQuickview || mobile ? bootstrap.col7 : bootstrap.col7,
+                  isQuickview || mobile ? bootstrap.colMd7 : bootstrap.colMd7,
+                  styles.title
+                )}
               >
-                {productTitle}
+                {title}
                 <p>{shortDesc}</p>
               </div>
               {!(invisibleFields && invisibleFields.indexOf("price") > -1) && (
                 <div
                   className={cs(
-                    bootstrap.col4,
-                    bootstrap.colMd4,
+                    isQuickview || mobile ? bootstrap.col5 : bootstrap.col5,
+                    isQuickview || mobile ? bootstrap.colMd5 : bootstrap.colMd5,
                     styles.priceContainer,
                     { [globalStyles.textCenter]: !mobile }
                   )}
                 >
                   {info.isSale && discount && discountedPriceRecords ? (
                     <span className={styles.discountedPrice}>
-                      {String.fromCharCode(...currencyCodes[currency])}
-                      &nbsp;
                       {displayPriceWithCommas(discountPrices, currency)}
                       <br />
                     </span>
@@ -924,8 +937,6 @@ const ProductDetails: React.FC<Props> = ({
                   )}
                   {info.isSale && discount ? (
                     <span className={styles.oldPrice}>
-                      {String.fromCharCode(...currencyCodes[currency])}
-                      &nbsp;
                       {displayPriceWithCommas(price, currency)}
                     </span>
                   ) : (
@@ -933,8 +944,6 @@ const ProductDetails: React.FC<Props> = ({
                       className={badgeType == "B_flat" ? globalStyles.gold : ""}
                     >
                       {" "}
-                      {String.fromCharCode(...currencyCodes[currency])}
-                      &nbsp;
                       {displayPriceWithCommas(price, currency)}
                     </span>
                   )}
@@ -1095,7 +1104,9 @@ const ProductDetails: React.FC<Props> = ({
               })}
             >
               <div
-                className={cs(bootstrap.col8, { [bootstrap.colMd12]: mobile })}
+                className={cs(bootstrap.col8, {
+                  [bootstrap.colMd12]: mobile && !tablet
+                })}
               >
                 {!(
                   invisibleFields && invisibleFields.indexOf("quantity") > -1
