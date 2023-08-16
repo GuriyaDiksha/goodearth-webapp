@@ -20,7 +20,7 @@ type Props = {
   currency?: Currency;
   corporatePDP?: boolean;
   buttoncall?: JSX.Element | null | undefined;
-  handleLooksClick: () => void;
+  handleLooksClick: (e: any) => void;
 };
 
 const PDPImagesContainer: React.FC<Props> = ({
@@ -82,6 +82,7 @@ const PDPImagesContainer: React.FC<Props> = ({
     }
 
     dispatch(updateModal(true));
+    e.stopPropagation();
   };
 
   const viewIn3dBtn = (code: string) => {
@@ -132,10 +133,10 @@ const PDPImagesContainer: React.FC<Props> = ({
                 //For 3 Images
                 // { [styles.thirdImage]: index == 2 && length == 3 },
                 //For 5 and 7 images
-                //  { [styles.topRowImages]: index < oddRowIndices[length] },
+                // { [styles.topRowImages]: index != 2 && length == 3 },
                 // { [styles.bottomRowImages]: index >= oddRowIndices[length] }
               )}
-              onClick={() => {
+              onClick={e => {
                 onClick(index);
               }}
             >
@@ -182,7 +183,7 @@ const PDPImagesContainer: React.FC<Props> = ({
                 <div
                   id="looks-btn"
                   className={styles.looksBtn}
-                  onClick={handleLooksClick}
+                  onClick={e => handleLooksClick(e)}
                 >
                   shop the look
                 </div>

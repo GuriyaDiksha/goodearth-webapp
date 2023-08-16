@@ -914,8 +914,13 @@ class Mobilemenu extends React.Component<Props, MobileState> {
             onClick={showCurrency}
           >
             {" "}
-            change currency: {this.props.currency}(
-            {String.fromCharCode(...currencyCodes[this.props.currency])})
+            change currency: {this.props.currency}
+            {this.props.currency != "AED" && (
+              <>
+                {" "}
+                ({String.fromCharCode(...currencyCodes[this.props.currency])})
+              </>
+            )}
           </li>
           <li className={showC ? "" : styles.hidden}>
             <ul className={cs(styles.noMargin, styles.lowerMenuCurrencyList)}>

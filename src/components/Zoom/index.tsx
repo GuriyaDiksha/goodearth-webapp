@@ -1,5 +1,10 @@
-import React, { RefObject, useEffect, useRef, useState } from "react";
-import DockedPanel from "containers/pdp/docked";
+import React, {
+  RefObject,
+  useEffect,
+  useRef,
+  useState,
+  MouseEvent
+} from "react";
 import { Product } from "typings/product";
 import styles from "./styles.scss";
 import cs from "classnames";
@@ -14,7 +19,6 @@ import plus from "./../../icons/plus.svg";
 import minus from "./../../icons/minus.svg";
 import play from "./../../icons/playVideo.svg";
 import pause from "./../../icons/pauseVideo.svg";
-// import ReactPlayer from "react-player";
 
 type Props = {
   code: string;
@@ -52,14 +56,14 @@ const Zoom: React.FC<Props> = ({
 
   const closeModal = () => {
     changeModalState(false);
-    if (mobile) {
-      (document.getElementById(
-        "modal-fullscreen"
-      ) as HTMLDivElement).style.height = "100%";
-      (document.getElementById(
-        "modal-fullscreen-container"
-      ) as HTMLDivElement).style.height = "100%";
-    }
+    // if (mobile) {
+    //   (document.getElementById(
+    //     "modal-fullscreen"
+    //   ) as HTMLDivElement).style.height = "100%";
+    //   (document.getElementById(
+    //     "modal-fullscreen-container"
+    //   ) as HTMLDivElement).style.height = "100%";
+    // }
 
     document.body.classList.remove(globalStyles.fixed);
   };
@@ -78,33 +82,78 @@ const Zoom: React.FC<Props> = ({
         ) as HTMLDivElement).style["-ms-transform"] = `scale(${zoom})`;
       }
     } else {
-      if (document.getElementById("pdpImage") as HTMLDivElement) {
-        (document.getElementById(
-          "pdpImage"
-        ) as HTMLDivElement).style.transform = `scale(${zoom})`;
-        (document.getElementById("pdpImage") as HTMLDivElement).style[
-          "-webkit-transform"
-        ] = `scale(${zoom})`;
-        (document.getElementById("pdpImage") as HTMLDivElement).style[
-          "-ms-transform"
-        ] = `scale(${zoom})`;
-      }
+      (document.getElementById(
+        "pdpImage"
+      ) as HTMLDivElement).style.transform = `scale(${zoom})`;
+      (document.getElementById("pdpImage") as HTMLDivElement).style[
+        "-webkit-transform"
+      ] = `scale(${zoom})`;
+      (document.getElementById("pdpImage") as HTMLDivElement).style[
+        "-ms-transform"
+      ] = `scale(${zoom})`;
+      (document.getElementById(
+        "zoomWrapper"
+      ) as HTMLDivElement).style.transform = "unset";
     }
   }, [zoom]);
 
-  useEffect(() => {
-    if (
-      (document.getElementById("modal-fullscreen") as HTMLDivElement) &&
-      mobile
-    ) {
-      (document.getElementById(
-        "modal-fullscreen"
-      ) as HTMLDivElement).style.height = "calc(100% - 55px)";
-      (document.getElementById(
-        "modal-fullscreen-container"
-      ) as HTMLDivElement).style.height = "calc(100% - 55px)";
+  // ********************** zoom drag *************************
+  const [style, setStyle] = useState({
+    scale: 1,
+    panning: false,
+    pointX: 0,
+    pointY: 0,
+    start: { x: 0, y: 0 }
+  });
+
+  const { scale, panning, pointX, pointY, start } = style;
+  // const containerRef = useRef<HTMLDivElement>(null);
+  // const imageRef = useRef<HTMLImageElement>(null);
+
+  const mouseDownHandler = (e: MouseEvent) => {
+    e.preventDefault();
+    setStyle({
+      ...style,
+      start: { x: e.clientX - pointX, y: e.clientY - pointY },
+      panning: true
+    });
+  };
+  const mouseUpHandler = (e: MouseEvent) => {
+    e.preventDefault();
+    setStyle({
+      ...style,
+      panning: false
+    });
+  };
+
+  const mouseMoveHandler = (e: MouseEvent) => {
+    e.preventDefault();
+    if (!panning) {
+      return;
     }
-  }, [mobile]);
+    setStyle({
+      ...style,
+      // pointX: (e.clientX - start.x),
+      pointY: e.clientY - start.y
+    });
+    console.log("Point Y ==" + pointY);
+    console.log("Start Y ==" + start.y);
+  };
+  // ********************** End zoom drag *************************
+
+  // useEffect(() => {
+  //   if (
+  //     (document.getElementById("modal-fullscreen") as HTMLDivElement) &&
+  //     mobile
+  //   ) {
+  //     (document.getElementById(
+  //       "modal-fullscreen"
+  //     ) as HTMLDivElement).style.height = "calc(100% - 55px)";
+  //     (document.getElementById(
+  //       "modal-fullscreen-container"
+  //     ) as HTMLDivElement).style.height = "calc(100% - 55px)";
+  //   }
+  // }, [mobile]);
 
   return (
     <div
@@ -188,7 +237,12 @@ const Zoom: React.FC<Props> = ({
           </div>
         )}
 
-        <div className={styles.middle}>
+        <div
+          className={styles.middle}
+          onMouseDown={zoom > 1 ? mouseDownHandler : undefined}
+          onMouseUp={zoom > 1 ? mouseUpHandler : undefined}
+          onMouseMove={zoom > 1 ? mouseMoveHandler : undefined}
+        >
           {mobile ? (
             <ZoomImageSlider
               images={images}
@@ -198,7 +252,13 @@ const Zoom: React.FC<Props> = ({
               setSelectedImage={setSelectedImage}
             />
           ) : (
-            <div className={styles.wrp}>
+            <div
+              id="zoomWrapper"
+              className={styles.wrp}
+              style={{
+                transform: `translateX(${pointX}px) translateY(${pointY}px) scale(${scale})`
+              }}
+            >
               {selectedImage?.media_type === "Image" ||
               selectedImage?.type === "main" ? (
                 <img
@@ -299,7 +359,7 @@ const Zoom: React.FC<Props> = ({
           )}
         </div>
       </div>
-      <div className={cs(styles.footer, { [styles.mobileFooter]: mobile })}>
+      {/* <div className={cs(styles.footer, { [styles.mobileFooter]: mobile })}>
         <DockedPanel
           data={data}
           buttoncall={buttoncall}
@@ -307,8 +367,9 @@ const Zoom: React.FC<Props> = ({
           price={price}
           discountPrice={discountPrices}
           mobile={mobile}
+          hideAddToBag={true}
         />
-      </div>
+      </div> */}
     </div>
   );
 };

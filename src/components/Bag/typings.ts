@@ -1,6 +1,7 @@
 import { Currency } from "../../typings/currency";
 import { PLPProductItem } from "src/typings/product";
 import { Basket } from "typings/basket";
+import { WidgetImage } from "components/header/typings";
 export interface LineItems {
   id: number;
   quantity: null;
@@ -48,4 +49,5 @@ export interface State {
   value: number;
   freeShipping: boolean;
   isSuspended: boolean;
+  featureData: WidgetImage[];
 }
