@@ -779,6 +779,10 @@ class Search extends React.Component<Props, State> {
                                 <Link
                                   to={cat.link}
                                   onClick={(e: any) => {
+                                    localStorage.setItem(
+                                      "popularSearch",
+                                      cat?.name
+                                    );
                                     if (
                                       !cat.link &&
                                       this.searchBoxRef &&
@@ -874,6 +878,7 @@ class Search extends React.Component<Props, State> {
                                     recentSearchs.filter(e => e !== ele)
                                   )
                                 );
+                                localStorage.setItem("recentSearch", ele?.name);
                               }}
                             ></i>
                           </div>
