@@ -32,6 +32,7 @@ export interface PLPProductItem {
   invisibleFields: string[];
   partner?: string;
   altText: string;
+  groupedProductsCount?: number;
 }
 
 export interface PartialProductItem extends PLPProductItem {
@@ -120,6 +121,7 @@ export interface BasketProduct extends PartialProductItem {
   parent: ProductID;
   attributes: ProductAttributes[];
   productDeliveryDate: string;
+  is3d: boolean;
 }
 
 export interface GroupedProductItem {
