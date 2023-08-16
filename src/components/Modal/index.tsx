@@ -88,7 +88,10 @@ class Modal extends React.Component<ModalProps> {
           closeModal: this.closeModal
         }}
       >
-        <div className={cs(styles.container, classname)}>
+        <div
+          id="modal-fullscreen-container"
+          className={cs(styles.container, classname)}
+        >
           <div className={styles.backdrop} onClick={this.closeModal}></div>
           <div
             id="modal-fullscreen"

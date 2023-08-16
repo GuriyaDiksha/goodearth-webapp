@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { currencyCode, Currency } from "typings/currency";
+import { Currency } from "typings/currency";
 import { BridalItemData } from "./typings";
 import BridalService from "services/bridal";
 import { useDispatch } from "react-redux";
@@ -35,9 +35,6 @@ const BridalItemsList: React.FC<Props> = props => {
     props.onMobileAdd(mobileAddIndex);
   };
 
-  const getCurrency = () => {
-    return String.fromCharCode(...currencyCode[props.currency]);
-  };
   const dispatch = useDispatch();
   const increaseState = () => {
     if (reqCurrent >= props.product.stock) {

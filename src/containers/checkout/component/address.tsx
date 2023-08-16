@@ -20,7 +20,6 @@ import { AppState } from "reducers/typings";
 import { AddressData } from "components/Address/typings";
 import { checkBlank } from "utils/validate";
 import { CheckoutAddressContext } from "./context";
-import { Currency, currencyCode } from "typings/currency";
 import { displayPriceWithCommas } from "utils/utility";
 
 const AddressSection: React.FC<AddressProps & {
@@ -63,8 +62,6 @@ const AddressSection: React.FC<AddressProps & {
     AED: 9300,
     SGD: 3500
   };
-
-  const code = currencyCode[currency as Currency];
 
   const [sameAsShipping, setSameAsShipping] = useState(sameShipping);
   const [gst, setGst] = useState(false);
@@ -421,7 +418,7 @@ const AddressSection: React.FC<AddressProps & {
       return (
         <div>
           {currency == "INR" ? (
-            <div>
+            <div className={styles.widthFitContent}>
               <label
                 className={cs(
                   styles.flex,
@@ -622,7 +619,13 @@ const AddressSection: React.FC<AddressProps & {
     return (
       show && (
         <div className={cs(styles.payment, globalStyles.voffset4)}>
-          <label className={cs(styles.flex, styles.crossCenter)}>
+          <label
+            className={cs(
+              styles.flex,
+              styles.crossCenter,
+              styles.widthFitContent
+            )}
+          >
             <div className={globalStyles.marginR10}>
               <span className={styles.checkbox}>
                 <input

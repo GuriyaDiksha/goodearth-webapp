@@ -33,7 +33,8 @@ const initialState: CollectionState = {
   collectionTemplates: {
     id: 0,
     templates: []
-  }
+  },
+  collectionMobileView: "grid"
 };
 
 export const collection = (

@@ -12,7 +12,9 @@ const displayPriceWithCommas = (
   } else {
     arg = "en-US";
   }
-  const currency_symbol = String.fromCharCode(...currencyCodes[currency]);
+  const currency_symbol =
+    currencyCodes?.[currency]?.length &&
+    String.fromCharCode(...currencyCodes[currency]);
   const arr: any[] = [];
   price
     .toString()
@@ -36,7 +38,9 @@ const displayPriceWithCommasFloat = (
   } else {
     arg = "en-US";
   }
-  const currency_symbol = String.fromCharCode(...currencyCodes[currency]);
+  const currency_symbol =
+    currencyCodes?.[currency]?.length &&
+    String.fromCharCode(...currencyCodes[currency]);
   const arr: any[] = [];
   price
     .toString()

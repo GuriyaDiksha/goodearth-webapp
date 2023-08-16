@@ -501,7 +501,7 @@ span.checkout-forgot-pass{
       &.show{
           display: block;
           position: absolute;
-          bottom: 23px;
+          bottom: 20px;
           left: -9px;
       }
   }
@@ -509,5 +509,20 @@ span.checkout-forgot-pass{
     position: absolute;
     top: 10px;
     left: 30px;
+  }
+  .manage-line ~ .tooltip {
+    .tooltip-msg {
+      &.show {
+        bottom: 34px;
+        left: -10px;
+        @media screen and (max-width: 768px){
+          bottom: 50px !important;
+        }
+      }
+    } 
+    img {
+      top: -8px;
+      left: -10px;
+    }
   }
 }

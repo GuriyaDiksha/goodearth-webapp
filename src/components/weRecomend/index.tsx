@@ -9,7 +9,7 @@ import "slick-carousel/slick/slick-theme.css";
 import "../../styles/myslick.css";
 import "./slick.css";
 
-import { Currency, currencyCode } from "../../typings/currency";
+import { Currency } from "../../typings/currency";
 import { RecommendData, RecommenedSliderProps } from "./typings";
 import Slider from "react-slick";
 import WishlistButton from "components/WishlistButton";
@@ -31,7 +31,6 @@ const WeRecommend: React.FC<RecommenedSliderProps> = (
     isSale,
     corporatePDP
   } = props;
-  const code = currencyCode[currency as Currency];
   const [currentId, setCurrentId] = useState(-1);
   const gtmPushWeRecommendClick = (e: any, data: RecommendData, i: number) => {
     try {

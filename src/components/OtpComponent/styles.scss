@@ -542,6 +542,9 @@ hr {
       padding-top: 10px;
       text-align: left;
       letter-spacing: 0.5px;
+      @media screen and  (max-width:992px) {
+        text-align: center;
+      }
     }
   }
 

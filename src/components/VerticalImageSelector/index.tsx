@@ -11,6 +11,7 @@ import { Props } from "./typings";
 import styles from "./styles.scss";
 import globalStyles from "styles/global.scss";
 import Skeleton from "react-loading-skeleton";
+// import ReactPlayer from "react-player";
 
 const VerticalImageSelector: React.FC<Props> = memo(
   ({ images = [], activeIndex = 0, className, onImageClick, alt }) => {
@@ -29,7 +30,7 @@ const VerticalImageSelector: React.FC<Props> = memo(
     }, [activeIndex]);
 
     const imageNodes: ReactNode[] = images.map(
-      ({ productImage, id, icon }, index) => {
+      ({ productImage, id, icon, media_type, type, video_link }, index) => {
         return (
           <div
             key={id}
@@ -39,11 +40,35 @@ const VerticalImageSelector: React.FC<Props> = memo(
             })}
             onClick={onImageClick ? getClickHandler(index) : undefined}
           >
-            <img
-              alt={alt}
-              className={globalStyles.imgResponsive}
-              src={productImage}
-            ></img>
+            {media_type === "Image" || type === "main" ? (
+              <img
+                alt={alt}
+                className={globalStyles.imgResponsive}
+                src={productImage}
+              ></img>
+            ) : (
+              <>
+                {/* <div className={styles.overlayDiv}></div>
+                <ReactPlayer
+                  url={vimeo_link}
+                  playing={true}
+                  volume={1}
+                  muted={true}
+                  width={"100%"}
+                  height={"auto"}
+                  playsinline={true}
+                /> */}
+                <video
+                  src={video_link}
+                  autoPlay
+                  loop
+                  preload="auto"
+                  width={"100%"}
+                  height={"auto"}
+                />
+              </>
+            )}
+
             {/* {icon && <img src={overlay} className={styles.overlay}></img>} */}
           </div>
         );

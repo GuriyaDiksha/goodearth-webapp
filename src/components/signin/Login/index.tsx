@@ -1,6 +1,6 @@
 import { connect } from "react-redux";
 import mapDispatchToProps from "./mapper/actions";
-import { useLocation, withRouter } from "react-router";
+import { useHistory, useLocation, withRouter } from "react-router";
 import React, { useEffect, useState } from "react";
 import loadable from "@loadable/component";
 import Popup from "../popup/Popup";
@@ -32,12 +32,18 @@ const LoginForm = (props: any) => {
   const goLogin = () => {
     setIsRegister(false);
   };
-  const nextStep = () => {
-    // code for after login
-  };
-  const { search } = useLocation();
+
+  const history = useHistory();
+  const { search, pathname } = useLocation();
   const urlParams = new URLSearchParams(search);
   const id = urlParams.get("loginpopup");
+
+  const nextStep = () => {
+    // code for after login
+    if (pathname.startsWith("/password-reset")) {
+      history.push("/");
+    }
+  };
 
   return (
     <Popup>

@@ -6,7 +6,6 @@ import { BasketItem } from "typings/basket";
 import bootstrap from "../../styles/bootstrap/bootstrap-grid.scss";
 import Quantity from "components/quantity";
 import "../../styles/override.css";
-import { currencyCodes } from "constants/currency";
 import WishlistButton from "components/WishlistButton";
 import globalStyles from "../../styles/global.scss";
 import iconStyles from "../../styles/iconFonts.scss";
@@ -443,10 +442,12 @@ const CartItems: React.FC<BasketItem> = memo(
                     </div>
                     {qtyError &&
                       !(
-                        saleStatus &&
-                        childAttributes[0].showStockThreshold &&
-                        childAttributes[0].stock > 0 &&
-                        childAttributes[0].othersBasketCount > 0
+                        (
+                          saleStatus &&
+                          childAttributes[0].showStockThreshold &&
+                          childAttributes[0].stock > 0
+                        )
+                        // childAttributes[0].othersBasketCount > 0
                       ) && (
                         <span
                           className={cs(

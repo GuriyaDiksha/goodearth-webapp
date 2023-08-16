@@ -28,7 +28,6 @@ import { GA_CALLS } from "constants/cookieConsent";
 import styles from "../styles.scss";
 import WhatsappSubscribe from "components/WhatsappSubscribe";
 import Formsy from "formsy-react";
-import { makeid } from "utils/utility";
 import { CONFIG } from "constants/util";
 // import AddressDataList from "../../../../components/Address/AddressDataList.json";
 

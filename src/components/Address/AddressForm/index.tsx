@@ -24,11 +24,7 @@ import { AppState } from "reducers/typings";
 import { Country } from "components/Formsy/CountryCode/typings";
 import AddressService from "services/address";
 import { updateCountryData } from "actions/address";
-import {
-  getErrorList,
-  errorTracking,
-  closeKeyBoardMobile
-} from "utils/validate";
+import { getErrorList, errorTracking } from "utils/validate";
 import BridalContext from "containers/myAccount/components/Bridal/context";
 import noPincodeCountryList from "./noPincodeCountryList";
 import SelectDropdown from "components/Formsy/SelectDropdown";
@@ -883,15 +879,15 @@ const AddressForm: React.FC<Props> = props => {
                     value="Save Address"
                     className={cs(
                       globalStyles.ceriseBtn,
-                      {
-                        [styles.disabledBtn]: !isAddressChanged
-                      },
+                      // {
+                      //   [styles.disabledBtn]: !isAddressChanged
+                      // },
                       {
                         [styles.charcoalBtn]:
                           currentCallBackComponent == "account"
                       }
                     )}
-                    disabled={!isAddressChanged}
+                    // disabled={!isAddressChanged}
                   />
                 )}
               </div>
@@ -916,10 +912,13 @@ const AddressForm: React.FC<Props> = props => {
               globalStyles.ointer,
               styles.addNewAddress
             )}
+            onTouchEnd={() => {
+              console.log("mobile touch");
+              closeAddressForm();
+            }}
             onClick={() => {
-              closeKeyBoardMobile().then(() => {
-                closeAddressForm();
-              });
+              console.log("click start");
+              closeAddressForm();
             }}
           >
             Cancel & Go Back

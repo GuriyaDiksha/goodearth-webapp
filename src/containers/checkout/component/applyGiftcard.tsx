@@ -68,7 +68,7 @@ class ApplyGiftcard extends React.Component<Props, GiftState> {
     if (!this.state.txtvalue) {
       this.setState(
         {
-          error: "Please enter a Code",
+          error: "Please enter a code",
           isActivated: false
         },
         () => {
