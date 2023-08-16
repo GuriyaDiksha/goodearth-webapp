@@ -89,7 +89,7 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
     // }
 
     if (this.props.loyaltyData?.eligiblePoints <= 0) {
-      this.closePopup();
+      this.cancelOtpReq();
       return false;
     }
     if (!this.props.points) {
