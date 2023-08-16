@@ -62,7 +62,13 @@
     letter-spacing: 0px;
     font-weight: lighter !important;
 }
-
+.bag-error-msg{
+    @include error-msg();
+    font-size: 13px;
+    font-weight: normal;
+    color: $gold;
+    padding-top: 5px;
+}
 .pdp-error-msg{
     @include error-msg();
     text-align: center;
@@ -103,8 +109,8 @@
     border-radius: 12px;
     border-style: solid;
     border-width: 1px;
-    margin-bottom: 10px;
-    width: fit-content;
+    max-width: 131px;
+    align-items: center;
 }
 .quantity-pdp
 {
