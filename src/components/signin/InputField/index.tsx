@@ -63,13 +63,13 @@ const InputField: React.FC<Props> = props => {
               }
             : undefined
         }
-        onPaste={
-          props.isPaste
-            ? e => {
-                e.preventDefault();
-              }
-            : undefined
-        }
+        // onPaste={
+        //   props.isPaste
+        //     ? e => {
+        //         e.preventDefault();
+        //       }
+        //     : undefined
+        // }
         min={props.min || ""}
         max={props.max || ""}
         ref={props.inputRef || null}
