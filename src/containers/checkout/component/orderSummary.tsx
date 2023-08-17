@@ -17,10 +17,10 @@ import { POPUP } from "constants/components";
 import CookieService from "services/cookie";
 import { GA_CALLS } from "constants/cookieConsent";
 import { displayPriceWithCommasFloat } from "utils/utility";
-import { currencyCodes } from "constants/currency";
 import checkoutIcon from "../../../images/checkout.svg";
 import freeShippingInfoIcon from "../../../images/free_shipping_info.svg";
 import Loader from "components/Loader";
+import ModalStyles from "components/Modal/styles.scss";
 
 const OrderSummary: React.FC<OrderProps> = props => {
   const {
@@ -382,8 +382,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
                   {voucher.code}
                 </span>
                 <span className={styles.textMuted}>
-                  {" "}
-                  {"(Promo Code Applied)"}
+                  {!mobile && "(Promo Code Applied)"}
                   {boId ? (
                     ""
                   ) : (
@@ -400,6 +399,11 @@ const OrderSummary: React.FC<OrderProps> = props => {
                           styles.discountFont
                         )}
                       ></i>
+                      {mobile && (
+                        <span className={styles.giftCreditCodeText}>
+                          (Promo Code Applied)
+                        </span>
+                      )}
                     </span>
                   )}
                 </span>
@@ -431,9 +435,11 @@ const OrderSummary: React.FC<OrderProps> = props => {
               </span>
               <span className={styles.textMuted}>
                 {" "}
-                {gift.cardType == "CREDITNOTE"
-                  ? "(Credit Note Applied)"
-                  : !mobile && "(Gift Code Applied)"}
+                {!mobile
+                  ? gift.cardType == "CREDITNOTE"
+                    ? "(Credit Note Applied)"
+                    : "(Gift Code Applied)"
+                  : null}
                 <span
                   className={cs(globalStyles.marginL5, styles.cross)}
                   onClick={() => {
@@ -448,9 +454,11 @@ const OrderSummary: React.FC<OrderProps> = props => {
                     )}
                   ></i>
                 </span>
-                {gift.cardType != "CREDITNOTE" && mobile && (
+                {mobile && (
                   <span className={styles.giftCreditCodeText}>
-                    (Gift Code Applied)
+                    {gift.cardType == "CREDITNOTE"
+                      ? "(Credit Note Applied)"
+                      : "(Gift Code Applied)"}
                   </span>
                 )}
               </span>
@@ -593,7 +601,9 @@ const OrderSummary: React.FC<OrderProps> = props => {
             freeShippingApplicable,
             goLogin: props.goLogin
           },
-          true
+          mobile ? false : true,
+          mobile ? ModalStyles.bottomAlignSlideUp : "",
+          mobile ? "slide-up-bottom-align" : ""
         )
       );
       dispatch(updateModal(true));
@@ -732,7 +742,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
               </span>
             </div>
             {basket.finalDeliveryDate && showDeliveryTimelines && (
-              <div className={styles.deliveryDate}>
+              <div className={cs(styles.deliveryDate, styles.maxWidth)}>
                 Estimated delivery on or before:{" "}
                 <span className={styles.black}>{basket.finalDeliveryDate}</span>
               </div>
