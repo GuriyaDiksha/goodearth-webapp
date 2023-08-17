@@ -2,6 +2,9 @@
 @import "../../styles/partials/variables";
 @import "../../styles/partials/mixins";
 
+.categorylabel div:nth-child(4){
+  z-index: 1;
+}
 .back-btn-top {
     position: absolute;
     top: 50px;
