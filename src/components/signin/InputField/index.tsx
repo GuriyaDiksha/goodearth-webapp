@@ -52,6 +52,7 @@ const InputField: React.FC<Props> = props => {
         value={props.value || ""}
         placeholder={placeholder}
         onChange={e => props.handleChange?.(e)}
+        onPaste={e => props.handlePaste?.(e)}
         autoComplete="new-password"
         onClick={e => handleClick(e)}
         onBlur={e => handleClickBlur(e)}
@@ -68,13 +69,13 @@ const InputField: React.FC<Props> = props => {
               }
             : undefined
         }
-        onPaste={
-          props.isPaste
-            ? e => {
-                e.preventDefault();
-              }
-            : undefined
-        }
+        // onPaste={
+        //   props.isPaste
+        //     ? e => {
+        //         e.preventDefault();
+        //       }
+        //     : undefined
+        // }
         min={props.min || ""}
         max={props.max || ""}
         ref={props.inputRef || null}
