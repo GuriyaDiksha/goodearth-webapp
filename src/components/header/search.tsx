@@ -364,6 +364,23 @@ class Search extends React.Component<Props, State> {
       )
       .then(data => {
         productImpression(data, "SearchResults", this.props.currency);
+
+        const userConsent = CookieService.getCookie("consent").split(",");
+        if (userConsent.includes(GA_CALLS)) {
+          if (data.results?.products?.length) {
+            dataLayer.push({
+              event: "search_bar_results_found",
+              click_type: "Input",
+              search_term: name
+            });
+          } else {
+            dataLayer.push({
+              event: "search_bar_no_results_found",
+              click_type: "Input",
+              search_term: name
+            });
+          }
+        }
         this.setState({
           productData: data.results?.products || [],
           url: searchUrl,
@@ -763,6 +780,10 @@ class Search extends React.Component<Props, State> {
                                 <Link
                                   to={cat.link}
                                   onClick={(e: any) => {
+                                    localStorage.setItem(
+                                      "popularSearch",
+                                      cat?.name
+                                    );
                                     if (
                                       !cat.link &&
                                       this.searchBoxRef &&
@@ -858,6 +879,7 @@ class Search extends React.Component<Props, State> {
                                     recentSearchs.filter(e => e !== ele)
                                   )
                                 );
+                                localStorage.setItem("recentSearch", ele?.name);
                               }}
                             ></i>
                           </div>
