@@ -97,6 +97,7 @@ const Zoom: React.FC<Props> = ({
     pointY: 0,
     start: { x: 0, y: 0 }
   });
+  const [lastPointy, setLastPointy] = useState(0);
 
   const { scale, panning, pointX, pointY, start } = style;
   // const containerRef = useRef<HTMLDivElement>(null);
@@ -123,13 +124,30 @@ const Zoom: React.FC<Props> = ({
     if (!panning) {
       return;
     }
-    setStyle({
-      ...style,
-      // pointX: (e.clientX - start.x),
-      pointY: e.clientY - start.y
-    });
-    console.log("Point Y ==" + pointY);
-    console.log("Start Y ==" + start.y);
+    const img = document.getElementById("pdpImage");
+    if (!img) return;
+    const bounding = img.getBoundingClientRect();
+    const upOrDown = bounding.y >= lastPointy ? "up" : "down";
+
+    console.log(bounding.y, lastPointy, upOrDown);
+
+    if (upOrDown == "down" && bounding.bottom > img?.clientHeight) {
+      setStyle({
+        ...style,
+        // pointX: (e.clientX - start.x),
+        pointY: e.clientY - start.y
+      });
+    }
+    if (upOrDown == "up" && bounding.top < 0) {
+      setStyle({
+        ...style,
+        // pointX: (e.clientX - start.x),
+        pointY: e.clientY - start.y
+      });
+    }
+    setLastPointy(bounding.y);
+    // console.log(e);
+    // console.log("Start Y ==" + start.y,'  '+a?.clientHeight);
   };
   // ********************** End zoom drag *************************
 
