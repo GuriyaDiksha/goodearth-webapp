@@ -90,7 +90,6 @@ const LeftImage: React.FC<Props> = ({
                   <div
                     className={cs(
                       // globalStyles.c10LR,
-                      "aaaa",
                       styles.content,
                       styles.cmsContent,
                       styles.leftImageContent
