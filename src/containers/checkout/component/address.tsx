@@ -413,12 +413,16 @@ const AddressSection: React.FC<AddressProps & {
                 </span>
               </div>
               <div className={styles.addressMain}>
-                <div className={styles.text}>{address.line1},</div>
-                {address.line2 && (
-                  <div className={styles.text}>{address.line2},</div>
-                )}
                 <div className={styles.text}>
-                  {address.city},{address.state}, {address.postCode},
+                  {address.line1}
+                  {address.line2 && ","}
+                  {address.line2},
+                </div>
+                {/* {address.line2 && (
+                  <div className={styles.text}>{address.line2},</div>
+                )} */}
+                <div className={styles.text}>
+                  {address.city},{address.state} - {address.postCode},
                 </div>
                 <div className={styles.text}>{address.countryName}</div>
               </div>
@@ -459,12 +463,16 @@ const AddressSection: React.FC<AddressProps & {
                 </span>
               </div>
               <div className={styles.addressMain}>
-                <div className={styles.text}>{address.line1},</div>
-                {address.line2 ? (
-                  <div className={styles.text}>{address.line2},</div>
-                ) : null}
                 <div className={styles.text}>
-                  {address.city},{address.state}, {address.postCode},
+                  {address.line1}
+                  {address.line2 && ","}
+                  {address.line2},
+                </div>
+                {/* {address.line2 ? (
+                  <div className={styles.text}>{address.line2},</div>
+                ) : null} */}
+                <div className={styles.text}>
+                  {address.city},{address.state} - {address.postCode},
                 </div>
                 <div className={styles.text}>{address.countryName}</div>
               </div>
@@ -1045,6 +1053,37 @@ const AddressSection: React.FC<AddressProps & {
               <>
                 <div>
                   {children}
+                  {
+                    <div
+                      className={cs(
+                        bootstrapStyles.row,
+                        globalStyles.gutterBetween,
+                        styles.checkoutAddressFooter
+                      )}
+                    >
+                      <div
+                        onClick={() => {
+                          onSelectAddress(
+                            addressList?.find(val =>
+                              shippingAddressId !== 0
+                                ? val?.id === shippingAddressId
+                                : val?.isDefaultForShipping === true
+                            )
+                          );
+                        }}
+                        className={cs(
+                          styles.sendToAddress,
+                          styles.footerSendToAddress
+                        )}
+                      >
+                        {props.activeStep == STEP_SHIPPING
+                          ? "SHIP TO THIS ADDRESS"
+                          : props.activeStep == STEP_BILLING
+                          ? "PROCEED TO PAYMENT"
+                          : "SHIP TO THIS ADDRESS"}
+                      </div>
+                    </div>
+                  }
                   {props.error ? (
                     <div
                       className={cs(

@@ -168,7 +168,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
       }
     });
     return size ? (
-      <span>
+      <span className={globalStyles.marginT5}>
         Size: {size.value} | QTY: {qty}
       </span>
     ) : (
@@ -297,9 +297,37 @@ const OrderSummary: React.FC<OrderProps> = props => {
                     </div>
                   )}
 
-                  <span className={styles.productSize}>
+                  <span className={cs(styles.productSize)}>
                     {getSizeAndQty(item.product.attributes, item.quantity)}
                   </span>
+                  {item.product.structure == "GiftCard" && (
+                    <>
+                      <p
+                        className={cs(
+                          styles.productSize,
+                          globalStyles.marginT5
+                        )}
+                      >
+                        Recipient&apos;s Name: {item?.GCMeta?.recipeint_name}
+                      </p>
+                      <p
+                        className={cs(
+                          styles.productSize,
+                          globalStyles.marginT2
+                        )}
+                      >
+                        Recipient&apos;s Email: {item?.GCMeta?.recipient_email}
+                      </p>
+                      <p
+                        className={cs(
+                          styles.productSize,
+                          globalStyles.marginT2
+                        )}
+                      >
+                        Sender&apos;s Name: {item?.GCMeta?.sender_name}
+                      </p>
+                    </>
+                  )}
                 </div>
 
                 {/* <div
@@ -701,94 +729,99 @@ const OrderSummary: React.FC<OrderProps> = props => {
     }
     if (basket.lineItems.length > 0) {
       return (
-        <div className={cs(styles.summaryPadding, styles.fixOrderItemsMobile)}>
+        <div
+          className={cs(styles.summaryPadding, {
+            [styles.fixOrderItemsMobile]: checkoutOrderSummaryStatus
+          })}
+        >
           {pathname === "/order/checkout" && page !== "checkoutMobileBottom"
             ? getOrderItems()
             : null}
           {pathname === "/order/checkout" ? null : <hr className={styles.hr} />}
-          <div className={styles.summaryAmountWrapper}>
-            {mobile && page == "checkout" && (
-              <div className={styles.orderSummaryTitle}>
-                <span className={styles.text}>VIEW ORDER SUMMARY</span>
-                {!boId && (
-                  <Link to="/cart" className={styles.textLink}>
-                    EDIT BAG
-                  </Link>
-                )}
-              </div>
-            )}
-            <div className={cs(globalStyles.flex, globalStyles.gutterBetween)}>
-              <span className={styles.subtotal}>SUBTOTAL</span>
-              <span className={styles.subtotal}>
-                {displayPriceWithCommasFloat(basket.subTotal, currency)}
-              </span>
-            </div>
-            {getDiscount(basket.offerDiscounts)}
-            {/* <hr className={styles.hr} /> */}
-            <div
-              className={cs(
-                globalStyles.flex,
-                globalStyles.gutterBetween,
-                globalStyles.marginT20
-              )}
-            >
-              <span className={styles.subtotal}>SHIPPING</span>
-              <span className={styles.subtotal}>
-                (+)
-                {displayPriceWithCommasFloat(
-                  parseFloat(shippingCharge),
-                  currency
-                )}
-              </span>
-            </div>
-            {basket.finalDeliveryDate && showDeliveryTimelines && (
-              <div className={cs(styles.deliveryDate, styles.maxWidth)}>
-                Estimated delivery on or before:{" "}
-                <span className={styles.black}>{basket.finalDeliveryDate}</span>
-              </div>
-            )}
-            {shippingAddress?.state && (
+          {mobile && page == "checkout" ? null : (
+            <div className={styles.summaryAmountWrapper}>
               <div
-                className={cs(styles.selectedStvalue, globalStyles.marginT10)}
+                className={cs(globalStyles.flex, globalStyles.gutterBetween)}
               >
-                to {shippingAddress.state} - {shippingAddress.postCode}
+                <span className={styles.subtotal}>SUBTOTAL</span>
+                <span className={styles.subtotal}>
+                  {displayPriceWithCommasFloat(basket.subTotal, currency)}
+                </span>
               </div>
-            )}
-
-            <hr className={styles.hr} />
-            <div className={cs(globalStyles.flex, globalStyles.gutterBetween)}>
-              <span className={styles.subtotal}>TOTAL</span>
-              <span className={styles.subtotal}>
-                {displayPriceWithCommasFloat(
-                  basket.subTotalWithShipping,
-                  currency
+              {getDiscount(basket.offerDiscounts)}
+              <div
+                className={cs(
+                  globalStyles.flex,
+                  globalStyles.gutterBetween,
+                  globalStyles.marginT20
                 )}
-              </span>
-            </div>
-            {((pathname === "/order/checkout" && !mobile) ||
-              pathname === "/cart" ||
-              (page == "checkoutMobileBottom" &&
-                !checkoutOrderSummaryStatus)) &&
-              getCoupons()}
-            <hr className={styles.hr} />
-            <div
-              className={cs(
-                globalStyles.flex,
-                globalStyles.gutterBetween,
-                globalStyles.marginB10
+              >
+                <span className={styles.subtotal}>SHIPPING</span>
+                <span className={styles.subtotal}>
+                  (+)
+                  {displayPriceWithCommasFloat(
+                    parseFloat(shippingCharge),
+                    currency
+                  )}
+                </span>
+              </div>
+              {basket.finalDeliveryDate && showDeliveryTimelines && (
+                <div className={cs(styles.deliveryDate, styles.maxWidth)}>
+                  Estimated delivery on or before:{" "}
+                  <span className={styles.black}>
+                    {basket.finalDeliveryDate}
+                  </span>
+                </div>
               )}
-            >
-              <span className={styles.subtotal}>AMOUNT PAYABLE</span>
-              <span className={styles.subtotal}>
-                {displayPriceWithCommasFloat(basket?.total, currency)}
-              </span>
+              {shippingAddress?.state && (
+                <div
+                  className={cs(styles.selectedStvalue, globalStyles.marginT10)}
+                >
+                  to {shippingAddress.state} - {shippingAddress.postCode}
+                </div>
+              )}
+
+              <hr className={styles.hr} />
+              <div
+                className={cs(globalStyles.flex, globalStyles.gutterBetween)}
+              >
+                <span className={styles.subtotal}>TOTAL</span>
+                <span className={styles.subtotal}>
+                  {displayPriceWithCommasFloat(
+                    basket.subTotalWithShipping,
+                    currency
+                  )}
+                </span>
+              </div>
+              {((pathname === "/order/checkout" && !mobile) ||
+                pathname === "/cart" ||
+                (page == "checkoutMobileBottom" &&
+                  !checkoutOrderSummaryStatus)) &&
+                getCoupons()}
+              <hr className={styles.hr} />
+              <div
+                className={cs(
+                  globalStyles.flex,
+                  globalStyles.gutterBetween,
+                  globalStyles.marginB10
+                )}
+              >
+                <span className={styles.subtotal}>AMOUNT PAYABLE</span>
+                <span className={styles.subtotal}>
+                  {displayPriceWithCommasFloat(basket?.total, currency)}
+                </span>
+              </div>
             </div>
-          </div>
+          )}
         </div>
       );
     } else {
       return (
-        <div className={cs(styles.summaryPadding, styles.fixOrderItemsMobile)}>
+        <div
+          className={cs(styles.summaryPadding, {
+            [styles.fixOrderItemsMobile]: checkoutOrderSummaryStatus
+          })}
+        >
           <hr className={styles.hr} />
           <div className={cs(globalStyles.flex, globalStyles.gutterBetween)}>
             <span className={styles.orderTotal}>
@@ -937,6 +970,12 @@ const OrderSummary: React.FC<OrderProps> = props => {
               >
                 <h3 className={cs(styles.summaryTitle)}>BACK TO CHECKOUT</h3>
                 <div className={styles.payableAmount}>
+                  <span className={styles.totalAmount}>
+                    {displayPriceWithCommasFloat(
+                      basket?.total?.toString(),
+                      currency
+                    )}
+                  </span>
                   <span className={cs(styles.carretUp)}></span>
                 </div>
               </div>
@@ -947,19 +986,17 @@ const OrderSummary: React.FC<OrderProps> = props => {
                 className={cs(globalStyles.flex, globalStyles.gutterBetween)}
               >
                 <h3 className={cs(styles.summaryTitle)}>
-                  VIEW ORDER DETAILS{" "}
+                  VIEW ITEMS{" "}
                   {pathname === "/order/checkout"
                     ? `(${getItemsCount()})`
                     : null}
                 </h3>
                 <div className={styles.payableAmount}>
-                  {/* <span>Amount Payable:</span> */}
                   <span className={styles.totalAmount}>
                     {displayPriceWithCommasFloat(
                       basket?.total?.toString(),
                       currency
                     )}
-                    {/* {parseFloat("" + basket.subTotalWithShipping).toFixed(2)} */}
                   </span>
                   <span className={cs(styles.carretDown)}></span>
                 </div>
@@ -985,35 +1022,23 @@ const OrderSummary: React.FC<OrderProps> = props => {
         ref={checkoutOrderSummaryStatus ? impactRef : orderSummaryRef}
         id="order-summary"
       >
-        {mobile && page == "checkout" ? (
-          ""
-        ) : (
-          <div className={cs(styles.summaryPadding, styles.summaryHeader)}>
-            <h3
-              className={cs(styles.summaryTitle, {
-                [styles.summaryTitleTwo]: pathname === "/cart"
-              })}
-            >
-              ORDER SUMMARY{" "}
-              {pathname === "/order/checkout" ? `(${getItemsCount()})` : null}
-              {page == "checkout" && !validbo ? (
-                boId ? (
-                  ""
-                ) : (
-                  <></>
-                  // <Link className={styles.editCart} to={"/cart"}>
-                  //   EDIT BAG
-                  // </Link>
-                )
-              ) : (
-                ""
-              )}
-            </h3>
-            {pathname === "/order/checkout" && !boId && (
-              <Link to="/cart">EDIT BAG</Link>
-            )}
-          </div>
-        )}
+        <div
+          className={cs(styles.summaryPadding, styles.summaryHeader, {
+            [styles.marginLR30]: checkoutOrderSummaryStatus
+          })}
+        >
+          <h3
+            className={cs(styles.summaryTitle, {
+              [styles.summaryTitleTwo]: pathname === "/cart"
+            })}
+          >
+            {mobile && page == "checkout" ? "SHOPPING BAG" : "ORDER SUMMARY"}
+            {pathname === "/order/checkout" ? `(${getItemsCount()})` : null}
+          </h3>
+          {pathname === "/order/checkout" && !boId && (
+            <Link to="/cart">EDIT BAG</Link>
+          )}
+        </div>
 
         <div className={cs(styles.justchk)}>
           {getSummary()}

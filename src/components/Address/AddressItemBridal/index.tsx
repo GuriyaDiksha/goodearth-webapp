@@ -5,7 +5,7 @@ import globalStyles from "styles/global.scss";
 import styles from "../styles.scss";
 import cs from "classnames";
 import bridalRing from "../../../images/bridal/rings.svg";
-import { CheckoutAddressContext } from "containers/checkout/component/context";
+import { AddressContext } from "../AddressMain/context";
 
 type Props = {
   addressData: AddressData;
@@ -18,32 +18,34 @@ const AddressItemBridal: React.FC<Props> = ({
   addressType,
   title
 }) => {
-  const { onSelectAddress } = useContext(CheckoutAddressContext);
-
+  const { markAsDefault } = useContext(AddressContext);
   return (
     <div
       className={
         addressType !== "BILLING"
           ? cs(
-              bootstrapStyles.col10,
-              bootstrapStyles.col4,
-              bootstrapStyles.colMd4,
-              globalStyles.marginT20
+              bootstrapStyles.col12,
+              bootstrapStyles.colMd6,
+              globalStyles.voffset5,
+              styles.checkoutAddress,
+              "address-container"
             )
           : ""
       }
       id={`address-item-${addressData?.id}`}
+      onClick={() => markAsDefault(addressData, addressData?.id)}
     >
       {addressData && (
-        <div className={styles.addressWrap}>
-          <div className={styles.addressItem}>
-            <div
-              className={cs(
-                styles.addressInfo,
-                styles.bridal,
-                styles.addressInfoBridal
-              )}
-            >
+        <div className={cs(styles.addressItemContainer, styles.defaultAddress)}>
+          <div
+            className={cs(
+              styles.addressItem,
+              styles.addressItemCheckout,
+              styles.checkoutFix,
+              styles.checkoutHeightFix
+            )}
+          >
+            <div>
               {
                 <svg
                   viewBox="-3 -3 46 46"
@@ -57,7 +59,7 @@ const AddressItemBridal: React.FC<Props> = ({
                   <use xlinkHref={`${bridalRing}#bridal-ring`}></use>
                 </svg>
               }
-              <div className={styles.lineHead}>
+              <div className={cs(styles.lineHead, styles.checkoutFix)}>
                 {title}
                 {addressData.registrantName}&nbsp; &{" "}
                 {addressData.coRegistrantName}&#39;s {addressData.occasion}{" "}
@@ -69,7 +71,7 @@ const AddressItemBridal: React.FC<Props> = ({
               </div>
             </div>
           </div>
-          <div
+          {/* <div
             className={cs(
               styles.shipToThisBtn,
               globalStyles.ceriseBtn,
@@ -78,7 +80,7 @@ const AddressItemBridal: React.FC<Props> = ({
             onClick={() => onSelectAddress(addressData)}
           >
             SHIP&nbsp;TO THIS ADDRESS
-          </div>
+          </div> */}
         </div>
       )}
     </div>

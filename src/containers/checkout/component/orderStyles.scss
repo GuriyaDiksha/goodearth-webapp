@@ -113,9 +113,9 @@ body:has(.open-summary) {
   .checkout {
     padding-bottom: 180px;
   }
-  // .fix-order-items-mobile {
-  //   // overflow: scroll;
-  // }
+  .fix-order-items-mobile {
+    border-top: 0.5px solid #9f9f9f;
+  }
   // .summary-title {
   //  // margin-bottom: 15px;
   // }
@@ -669,6 +669,17 @@ body:has(.open-summary) {
     }
     .open-summary {
       height: auto;
+      background-color: $white;
+
+      .margin-l-r-30{
+        margin: 0 30px;
+        h3{
+          padding: 0px;
+        }
+        a{
+          padding: 0;
+        }
+      }
     }
 
     .summary-amount-wrapper {

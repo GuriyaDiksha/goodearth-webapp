@@ -577,11 +577,11 @@ const AddressItem: React.FC<Props> = props => {
                           <use xlinkHref={`${bridalRing}#bridal-ring`}></use>
                         </svg>
                       )}
-                      {id === defaultAddress && (
+                      {/* {id === defaultAddress && (
                         <div className={styles.defaultAddress}>
                           Default Address
                         </div>
-                      )}
+                      )} */}
                       {/* {!address.isDefaultForShipping && (
                       <div className={styles.line}>Make default</div>
                     )} */}
@@ -643,11 +643,11 @@ const AddressItem: React.FC<Props> = props => {
                           <use xlinkHref={`${bridalRing}#bridal-ring`}></use>
                         </svg>
                       )}
-                      {id === defaultAddress && (
+                      {/* {id === defaultAddress && (
                         <div className={styles.defaultAddress}>
                           Default Address
                         </div>
-                      )}
+                      )} */}
                       {/* {!address.isDefaultForShipping && (
                       <div className={styles.line}>Make default</div>
                     )} */}
@@ -748,9 +748,7 @@ const AddressItem: React.FC<Props> = props => {
                       </svg>
                     )}
                     {id === defaultAddress &&
-                      (currentCallBackComponent == "account" ||
-                        currentCallBackComponent == "checkout-billing" ||
-                        currentCallBackComponent == "checkout-shipping") && (
+                      currentCallBackComponent == "account" && (
                         <div className={styles.defaultAddress}>
                           Default Address
                         </div>

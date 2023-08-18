@@ -1310,9 +1310,10 @@ input[type="radio"] {
     padding: 5px 0;
   }
   .contact-msg {
-    @include b5_10px_montserrat_charcoal();
+    @include b5_10px_montserrat_aqua();
     letter-spacing: 0.3px;
     font-style: normal;
+    font-weight: $semibold;
   }
 
   .same-as-shipping-address {
