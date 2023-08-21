@@ -66,6 +66,9 @@
         background-color: transparent;
         right: 0;
         width: auto;
+        i::before{
+          font-weight: bold;
+       }
       }
       .cross-white-btn{
         color: $white !important;
@@ -523,6 +526,13 @@
   .cerise-btn80 {
     width: 80%;
     min-width: auto;
+    a{
+      width: 100%!important;
+      height: inherit;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
   }
 }
 
