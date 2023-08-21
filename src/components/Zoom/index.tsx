@@ -1,4 +1,4 @@
-import React, { useEffect, useState, MouseEvent } from "react";
+import React, { useEffect, useState } from "react";
 // import DockedPanel from "containers/pdp/docked";
 import { Product } from "typings/product";
 import styles from "./styles.scss";
@@ -9,12 +9,13 @@ import globalStyles from "styles/global.scss";
 import Slider from "rc-slider";
 import "rc-slider/assets/index.css";
 import "./styles.css";
-import ZoomImageSlider from "./ZoomImageSlider";
 import plus from "./../../icons/plus.svg";
 import minus from "./../../icons/minus.svg";
 import play from "./../../icons/playVideo.svg";
 import pause from "./../../icons/pauseVideo.svg";
 import ReactPlayer from "react-player";
+import throttle from "lodash/throttle";
+import { useMove, useDrag } from "@use-gesture/react";
 
 type Props = {
   code: string;
@@ -47,7 +48,7 @@ const Zoom: React.FC<Props> = ({
     `product0`
   );
   const [playVideo, setPlayVideo] = useState(false);
-
+  const [direction, setDirection] = useState("");
   const closeModal = () => {
     changeModalState(false);
     // if (mobile) {
@@ -65,12 +66,12 @@ const Zoom: React.FC<Props> = ({
   useEffect(() => {
     if (mobile) {
       (document.getElementById(
-        selectedMobileImageId
+        "pdpImageMobile"
       ) as HTMLDivElement).style.transform = `scale(${zoom})`;
-      (document.getElementById(selectedMobileImageId) as HTMLDivElement).style[
+      (document.getElementById("pdpImageMobile") as HTMLDivElement).style[
         "-webkit-transform"
       ] = `scale(${zoom})`;
-      (document.getElementById(selectedMobileImageId) as HTMLDivElement).style[
+      (document.getElementById("pdpImageMobile") as HTMLDivElement).style[
         "-ms-transform"
       ] = `scale(${zoom})`;
     } else {
@@ -97,73 +98,105 @@ const Zoom: React.FC<Props> = ({
     pointY: 0,
     start: { x: 0, y: 0 }
   });
-  const [lastPointy, setLastPointy] = useState(0);
 
   const { scale, panning, pointX, pointY, start } = style;
-  // const containerRef = useRef<HTMLDivElement>(null);
-  // const imageRef = useRef<HTMLImageElement>(null);
 
-  const mouseDownHandler = (e: MouseEvent) => {
-    e.preventDefault();
+  const mouseDownHandler = (e: any) => {
+    if (!mobile) e.preventDefault();
     setStyle({
       ...style,
-      start: { x: e.clientX - pointX, y: e.clientY - pointY },
       panning: true
     });
   };
-  const mouseUpHandler = (e: MouseEvent) => {
-    e.preventDefault();
+  const mouseUpHandler = (e: any) => {
+    if (mobile) e.preventDefault();
     setStyle({
       ...style,
       panning: false
     });
   };
 
-  const mouseMoveHandler = (e: MouseEvent) => {
-    e.preventDefault();
+  const bindMobile = useDrag(({ movement: [dx, dy] }) => {
+    // Determine the direction of touch movement
+
+    let direct = "";
+
+    if (Math.abs(dx) > Math.abs(dy)) {
+      direct = dx > 0 ? "right" : "left";
+    } else {
+      direct = dy > 0 ? "down" : "up";
+    }
+    console.log(direct);
+    setDirection(direct);
+  });
+
+  const bind = useMove(({ delta: [dx, dy] }) => {
+    // Determine the direction of mouse movement
+
+    let direct = "";
+
+    if (Math.abs(dx) > Math.abs(dy)) {
+      direct = dx > 0 ? "right" : "left";
+    } else {
+      direct = dy > 0 ? "down" : "up";
+    }
+    console.log(direct);
+    setDirection(direct);
+  });
+
+  // This is  Main function mousemove we are getting the value of image height and width and also getting
+  // current position after that calculating and panning the image
+
+  const mouseMoveHandler = throttle((e: any) => {
+    // if(e.preventDefault)e.preventDefault();
     if (!panning) {
       return;
     }
     const img = document.getElementById("pdpImage");
     if (!img) return;
+    const deltavalue = zoom > 2 ? 4 : 3;
     const bounding = img.getBoundingClientRect();
-    const upOrDown = bounding.y >= lastPointy ? "up" : "down";
-
-    console.log(bounding.y, lastPointy, upOrDown);
-
-    if (upOrDown == "down" && bounding.bottom > img?.clientHeight) {
+    if (direction == "up" && bounding.bottom >= img?.clientHeight) {
       setStyle({
         ...style,
         // pointX: (e.clientX - start.x),
-        pointY: e.clientY - start.y
+        pointY: pointY - deltavalue
       });
     }
-    if (upOrDown == "up" && bounding.top < 0) {
+
+    if (direction == "down" && bounding.top < 0) {
       setStyle({
         ...style,
         // pointX: (e.clientX - start.x),
-        pointY: e.clientY - start.y
+        pointY: pointY + deltavalue
       });
     }
-    setLastPointy(bounding.y);
-    // console.log(e);
-    // console.log("Start Y ==" + start.y,'  '+a?.clientHeight);
-  };
-  // ********************** End zoom drag *************************
+  }, 50);
 
-  // useEffect(() => {
-  //   if (
-  //     (document.getElementById("modal-fullscreen") as HTMLDivElement) &&
-  //     mobile
-  //   ) {
-  //     (document.getElementById(
-  //       "modal-fullscreen"
-  //     ) as HTMLDivElement).style.height = "calc(100% - 55px)";
-  //     (document.getElementById(
-  //       "modal-fullscreen-container"
-  //     ) as HTMLDivElement).style.height = "calc(100% - 55px)";
-  //   }
-  // }, [mobile]);
+  const mouseMoveHandlerMobile = throttle((e: any) => {
+    if (!panning) {
+      return;
+    }
+    const img = document.getElementById("pdpImageMobile");
+    if (!img) return;
+    const deltavalue = zoom > 2 ? 4 : 3;
+    const bounding = img.getBoundingClientRect();
+    if (direction == "up" && bounding.bottom >= img?.clientHeight) {
+      setStyle({
+        ...style,
+        // pointX: (e.clientX - start.x),
+        pointY: pointY - deltavalue
+      });
+    }
+
+    if (direction == "down" && bounding.top < 0) {
+      setStyle({
+        ...style,
+        // pointX: (e.clientX - start.x),
+        pointY: pointY + deltavalue
+      });
+    }
+  }, 50);
 
   return (
     <div
@@ -234,28 +267,35 @@ const Zoom: React.FC<Props> = ({
           </div>
         )}
 
-        <div
-          className={styles.middle}
-          onMouseDown={zoom > 1 ? mouseDownHandler : undefined}
-          onMouseUp={zoom > 1 ? mouseUpHandler : undefined}
-          onMouseMove={zoom > 1 ? mouseMoveHandler : undefined}
-        >
+        <div className={styles.middle}>
           {mobile ? (
-            <ZoomImageSlider
-              images={images}
-              alt={alt}
-              setSelectedMobileImageId={setSelectedMobileImageId}
-              setZoom={setZoom}
-              setSelectedImage={setSelectedImage}
-            />
+            <div className={"zoomImageContainer"}>
+              <div className={"imgWrp"}>
+                {selectedImage?.media_type === "Image" ||
+                selectedImage?.type === "main" ? (
+                  <img
+                    id="pdpImageMobile"
+                    src={selectedImage.productImage?.replace(
+                      /Micro|Large/i,
+                      "Medium"
+                    )}
+                    alt={alt}
+                    style={{
+                      transform: `translateX(${pointX}px) translateY(${pointY}px) scale(${zoom})`
+                    }}
+                    className={globalStyles.imgResponsive}
+                    onTouchStart={zoom > 1 ? mouseDownHandler : undefined}
+                    onTouchEnd={zoom > 1 ? mouseUpHandler : undefined}
+                    onTouchMove={zoom > 1 ? mouseMoveHandlerMobile : undefined}
+                    {...bindMobile()}
+                  />
+                ) : (
+                  ""
+                )}
+              </div>
+            </div>
           ) : (
-            <div
-              id="zoomWrapper"
-              className={styles.wrp}
-              style={{
-                transform: `translateX(${pointX}px) translateY(${pointY}px) scale(${scale})`
-              }}
-            >
+            <div id="zoomWrapper" className={styles.wrp}>
               {selectedImage?.media_type === "Image" ||
               selectedImage?.type === "main" ? (
                 <img
@@ -265,7 +305,14 @@ const Zoom: React.FC<Props> = ({
                     "Medium"
                   )}
                   alt={alt}
+                  style={{
+                    transform: `translateX(${pointX}px) translateY(${pointY}px) scale(${zoom})`
+                  }}
                   className={globalStyles.imgResponsive}
+                  onMouseDown={zoom > 1 ? mouseDownHandler : undefined}
+                  onMouseUp={zoom > 1 ? mouseUpHandler : undefined}
+                  onMouseMove={zoom > 1 ? mouseMoveHandler : undefined}
+                  {...bind()}
                 />
               ) : (
                 <>
@@ -361,3 +408,8 @@ const Zoom: React.FC<Props> = ({
 };
 
 export default Zoom;
+function useTouchMove(
+  arg0: ({ delta: [dx, dy] }: { delta: [any, any] }) => void
+) {
+  throw new Error("Function not implemented.");
+}

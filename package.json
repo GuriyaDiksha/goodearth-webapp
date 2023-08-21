@@ -54,6 +54,7 @@
     "@types/redux": "^3.6.0",
     "@typescript-eslint/eslint-plugin": "^2.13.0",
     "@typescript-eslint/parser": "^2.12.0",
+    "@use-gesture/react": "^10.2.27",
     "awesome-typescript-loader": "^5.2.1",
     "axios": "^0.19.2",
     "babel-loader": "^8.0.6",
