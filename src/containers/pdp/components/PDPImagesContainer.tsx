@@ -158,6 +158,7 @@ const PDPImagesContainer: React.FC<Props> = ({
                   }}
                   width={"100%"}
                   height={"auto"}
+                  muted
                 />
                 // <div
                 //   className={styles.productVideo}

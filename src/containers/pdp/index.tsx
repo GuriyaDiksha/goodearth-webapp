@@ -1438,6 +1438,7 @@ class PDPContainer extends React.Component<Props, State> {
                       width={"100%"}
                       height={"auto"}
                       onClick={this.getMobileZoomListener(i)}
+                      muted
                     />
                   </>
                 )}
