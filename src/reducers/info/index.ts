@@ -15,7 +15,8 @@ const initialState: State = {
   showDeliveryInstruction: false,
   showPromo: false,
   isLoading: false,
-  showCookiePref: false
+  showCookiePref: false,
+  showShipping: false //This will handle scenario of backend order with discounts
 };
 
 export const info = (state: State = initialState, action: InfoActions) => {
@@ -95,7 +96,12 @@ export const info = (state: State = initialState, action: InfoActions) => {
       newState.showCookiePref = action.payload;
       return newState;
     }
+    case "UPDATE_SHOW_SHIPPING_ADDESS": {
+      const newState = { ...state };
+      newState.showShipping = action.payload;
+      return newState;
+    }
+    default:
+      return state;
   }
-
-  return state;
 };

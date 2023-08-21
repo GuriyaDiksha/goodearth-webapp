@@ -34,7 +34,7 @@ const application = (
 
 window.onload = () => {
   // const root = document.getElementById("main");
-  const container = document.getElementById("main") || "";
+  const container = document.getElementById("main")!;
   hydrateRoot(container, application);
   const updatedDevice = getDevice(window.navigator.userAgent);
   const mobile = updatedDevice.mobile || window.innerWidth < 992;

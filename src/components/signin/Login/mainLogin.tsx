@@ -250,7 +250,7 @@ class MainLogin extends React.Component<Props, loginState> {
     this.myBlur(event);
   };
 
-  gtmPushSignIn = () => {
+  gtmPushSignIn = (data: any) => {
     const userConsent = CookieService.getCookie("consent").split(",");
     if (userConsent.includes(GA_CALLS)) {
       dataLayer.push({
@@ -258,6 +258,12 @@ class MainLogin extends React.Component<Props, loginState> {
         eventAction: "signIn",
         eventCategory: "formSubmission",
         eventLabel: location.pathname
+      });
+      dataLayer.push({
+        event: "login",
+        user_status: "logged in", //'Pass the user status ex. logged in OR guest',
+        // login_method: "", //'Pass Email or Google as per user selection',
+        user_id: data?.userId
       });
     }
   };
@@ -278,7 +284,7 @@ class MainLogin extends React.Component<Props, loginState> {
           this.props.sortBy
         )
         .then(data => {
-          this.gtmPushSignIn();
+          this.gtmPushSignIn(data);
           if (userConsent.includes(GA_CALLS)) {
             Moengage.track_event("Login", {
               email: this.state.email
@@ -314,6 +320,14 @@ class MainLogin extends React.Component<Props, loginState> {
           //   const searchParams = new URLSearchParams(history.location.search);
           //   history.push(searchParams.get("redirect_to") || "");
           // }
+
+          const boid = new URLSearchParams(
+            this.props.history.location.search
+          ).get("bo_id");
+
+          if (boid) {
+            this.props.history.push(`/order/checkout?bo_id=${boid}`);
+          }
         })
         .catch(err => {
           if (
