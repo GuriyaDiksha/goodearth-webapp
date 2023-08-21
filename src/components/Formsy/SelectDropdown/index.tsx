@@ -6,6 +6,7 @@ import globalStyles from "../../../styles/global.scss";
 import cs from "classnames";
 import { Props } from "./typings";
 import searchIcon from "../../../icons/search.svg";
+import useOutsideDetection from "hooks/useOutsideDetetion";
 
 const SelectDropdown: React.FC<Props &
   InjectedProps<string | null>> = props => {
@@ -13,6 +14,12 @@ const SelectDropdown: React.FC<Props &
   const [active, setActive] = useState(false);
   const [value, setValue] = useState(props.value || "");
   const [searchValue, setSearchValue] = useState("");
+
+  const onOutsideClick = (event: MouseEvent) => {
+    setActive(false);
+  };
+
+  const { ref } = useOutsideDetection<HTMLDivElement>(onOutsideClick);
 
   useEffect(() => {
     if (props?.value) setValue(props?.value);
@@ -30,8 +37,16 @@ const SelectDropdown: React.FC<Props &
     setSearchValue(e.target.value);
     const filtered = props.options.filter(i => {
       return (
-        i.value?.toLowerCase().includes(e.target.value.toLowerCase()) ||
-        i.label?.toLowerCase().includes(e.target.value.toLowerCase())
+        i.value?.toLowerCase().startsWith(e.target.value.toLowerCase()) ||
+        i.label?.toLowerCase().startsWith(e.target.value.toLowerCase()) ||
+        i.value
+          ?.split("(+")?.[1]
+          ?.toLowerCase()
+          .startsWith(e.target.value.toLowerCase()) ||
+        i.label
+          ?.split("(+")?.[1]
+          ?.toLowerCase()
+          .startsWith(e.target.value.toLowerCase())
       );
     });
     setOptions(filtered);
@@ -69,7 +84,7 @@ const SelectDropdown: React.FC<Props &
       : "";
 
   return (
-    <div className={cs(styles.dropdown, props.className)}>
+    <div className={cs(styles.dropdown, props.className)} ref={ref}>
       <input
         type="text"
         className={styles.textBox}
@@ -120,7 +135,12 @@ const SelectDropdown: React.FC<Props &
               onClick={e => onOptionClick(e, option)}
               key={`${props.name}_${i}`}
             >
-              {option.label}
+              {/* <div onClick={e => onOptionClick(e, option)}> */}
+              {option.label?.split("(")?.[0]}{" "}
+              {option.label?.split("(")?.[1]
+                ? "(" + option.label?.split("(")?.[1]
+                : null}
+              {/* </div> */}
             </div>
           );
         })}
