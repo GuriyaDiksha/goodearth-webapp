@@ -4,21 +4,15 @@ import { Link } from "react-router-dom";
 import styles from "./styles.scss";
 import { BasketItem } from "typings/basket";
 import bootstrap from "../../styles/bootstrap/bootstrap-grid.scss";
-import Quantity from "components/quantity";
 import "../../styles/override.css";
-import { currencyCodes } from "constants/currency";
 import WishlistButton from "components/WishlistButton";
 import globalStyles from "../../styles/global.scss";
-import iconStyles from "../../styles/iconFonts.scss";
 import BasketService from "services/basket";
 import { useSelector, useStore } from "react-redux";
-import { updateModal, updateComponent } from "actions/modal";
-import ModalStyles from "components/Modal/styles.scss";
-import { ChildProductAttributes } from "typings/product";
-import { POPUP } from "constants/components";
 import bridalRing from "../../images/bridal/rings.svg";
 import { AppState } from "reducers/typings";
 import CookieService from "services/cookie";
+import PdpQuantity from "components/quantity/pdpQuantity";
 import { GA_CALLS } from "constants/cookieConsent";
 import { displayPriceWithCommas } from "utils/utility";
 
@@ -34,11 +28,12 @@ const CartItems: React.FC<BasketItem> = memo(
     saleStatus,
     GCValue,
     onMoveToWishlist,
-    onNotifyCart
+    onNotifyCart,
+    GCMeta
   }) => {
     const [value, setValue] = useState(quantity | 0);
-    const [qtyError, setQtyError] = useState(false);
-    const [qtyErrorMsg, setQtyErrorMsg] = useState("");
+    // const [qtyError, setQtyError] = useState(false);
+    // const [qtyErrorMsg, setQtyErrorMsg] = useState("");
     const isLoggedIn = useSelector((state: AppState) => state.user.isLoggedIn);
     let { currency } = useSelector((state: AppState) => state.basket);
     if (!currency) {
@@ -63,25 +58,32 @@ const CartItems: React.FC<BasketItem> = memo(
       attributes,
       categories,
       sku,
-      plpSliderImages
+      groupedProductsCount
     } = product;
     const showDeliveryTimelines = true;
     useEffect(() => {
       setValue(quantity);
     }, [quantity]);
 
-    const handleChange = async (value: number) => {
-      await BasketService.updateToBasket(dispatch, id, value, "cart")
+    const handleChange = async (currentvalue: number) => {
+      await BasketService.updateToBasket(dispatch, id, currentvalue, "cart")
         .then(res => {
-          setValue(value);
+          setValue(currentvalue);
+          const userConsent = CookieService.getCookie("consent").split(",");
+          if (userConsent.includes(GA_CALLS)) {
+            dataLayer.push({
+              event: "edit_bag_interactions",
+              click_type: currentvalue > value ? "Quantity(+)" : "Quantity(-)"
+            });
+          }
         })
         .catch(err => {
-          setQtyError(true);
-          setQtyErrorMsg(
-            `Only ${quantity} piece${
-              quantity > 1 ? "s" : ""
-            } available in stock`
-          );
+          // setQtyError(true);
+          // setQtyErrorMsg(
+          //   `Only ${quantity} piece${
+          //     quantity > 1 ? "s" : ""
+          //   } available in stock`
+          // );
           throw err;
         });
     };
@@ -131,6 +133,10 @@ const CartItems: React.FC<BasketItem> = memo(
                 ]
               }
             }
+          });
+          dataLayer.push({
+            event: "edit_bag_interactions",
+            click_type: "Remove"
           });
         }
         const categoryList = product.categories
@@ -203,26 +209,26 @@ const CartItems: React.FC<BasketItem> = memo(
       });
     };
 
-    const getSize = (data: any) => {
+    const getSize = (data: any, GCMeta: any) => {
       const size = data.find(function(attribute: any) {
         if (attribute.name == "Size") {
           return attribute;
         }
       });
-      return size ? (
-        <div>
+      return size || GCMeta ? (
+        <div className={globalStyles.flex}>
           <div
             className={cs(styles.size, { [styles.inline]: mobile || tablet })}
           >
-            Size:{" "}
+            {size ? "Size: " : "Recipient's Name: "}
           </div>
           {(mobile || tablet) && " "}
           <div
-            className={cs(styles.productSize, styles.productSizeValue, {
+            className={cs({
               [styles.inline]: mobile || tablet
             })}
           >
-            {size.value}
+            {size ? size?.value : GCMeta?.recipeint_name}
           </div>
         </div>
       ) : (
@@ -230,29 +236,57 @@ const CartItems: React.FC<BasketItem> = memo(
       );
     };
 
-    const showNotifyPopup = () => {
-      dispatch(
-        updateComponent(
-          POPUP.NOTIFYMEPOPUP,
-          {
-            basketLineId: id,
-            price: priceRecords[currency],
-            currency: currency,
-            title: title,
-            childAttributes: childAttributes as ChildProductAttributes[],
-            selectedIndex: 0,
-            discount: false,
-            onNotifyCart: onNotifyCart,
-            // changeSize:{changeSize},
-            list: "cart",
-            sliderImages: plpSliderImages
-          },
-          false,
-          mobile ? ModalStyles.bottomAlign : undefined
-        )
+    const getColor = (data: any, GCMeta: any) => {
+      const color = data.find(function(attribute: any) {
+        if (attribute.name == "Color") {
+          return attribute;
+        }
+      });
+      const colorName = () => {
+        let cName = color.value
+          .split("-")
+          .slice(1)
+          .join();
+        if (cName[cName.length - 1] == "s") {
+          cName = cName.slice(0, -1);
+        }
+        return cName;
+      };
+
+      return (color && groupedProductsCount && groupedProductsCount > 0) ||
+        GCMeta ? (
+        <div className={styles.color}>
+          {color ? "Color: " : "Recipient's Email: "}
+          {color ? colorName() : GCMeta?.recipient_email}
+        </div>
+      ) : (
+        ""
       );
-      dispatch(updateModal(true));
     };
+
+    // const showNotifyPopup = () => {
+    //   dispatch(
+    //     updateComponent(
+    //       POPUP.NOTIFYMEPOPUP,
+    //       {
+    //         basketLineId: id,
+    //         price: priceRecords[currency],
+    //         currency: currency,
+    //         title: title,
+    //         childAttributes: childAttributes as ChildProductAttributes[],
+    //         selectedIndex: 0,
+    //         discount: false,
+    //         onNotifyCart: onNotifyCart,
+    //         // changeSize:{changeSize},
+    //         list: "cart",
+    //         sliderImages: plpSliderImages
+    //       },
+    //       false,
+    //       mobile ? ModalStyles.bottomAlign : undefined
+    //     )
+    //   );
+    //   dispatch(updateModal(true));
+    // };
 
     const renderNotifyTrigger = (section: string) => {
       const isOutOfStock = stockRecords[0].numInStock < 1;
@@ -263,35 +297,34 @@ const CartItems: React.FC<BasketItem> = memo(
               <div
                 className={cs(
                   globalStyles.italic,
-                  globalStyles.marginT10,
-                  globalStyles.bold,
                   globalStyles.c10LR,
-                  globalStyles.cerise
+                  globalStyles.cerise,
+                  styles.outOfStockError
                 )}
               >
                 Out of stock
               </div>
-              <div
+              {/* <div
                 className={cs(globalStyles.marginT10, styles.triggerNotify, {
                   [globalStyles.hidden]: !(mobile || tablet)
                 })}
                 onClick={showNotifyPopup}
               >
                 NOTIFY ME &#62;
-              </div>
+              </div> */}
             </div>
           );
         }
-        return (
-          <div
-            className={cs(globalStyles.marginT10, styles.triggerNotify, {
-              [globalStyles.hidden]: mobile || tablet
-            })}
-            onClick={showNotifyPopup}
-          >
-            NOTIFY ME &#62;
-          </div>
-        );
+        // return (
+        //   <div
+        //     className={cs(globalStyles.marginT10, styles.triggerNotify, {
+        //       [globalStyles.hidden]: mobile || tablet
+        //     })}
+        //     onClick={showNotifyPopup}
+        //   >
+        //     NOTIFY ME &#62;
+        //   </div>
+        // );
       }
 
       return null;
@@ -307,20 +340,24 @@ const CartItems: React.FC<BasketItem> = memo(
     const isGiftCard = structure.toLowerCase() == "giftcard";
     return (
       <div className={cs(styles.cartItem, styles.gutter15, styles.cart)}>
-        <div className={bootstrap.row}>
+        <div className={cs(bootstrap.row)}>
           <div
             className={cs(
-              bootstrap.col5,
-              bootstrap.colMd4,
-              bootstrap.colLg2,
-              styles.cartPadding
+              bootstrap.col4,
+              bootstrap.colSm2,
+              bootstrap.colLg3,
+              styles.desktopImgSize,
+              {
+                [styles.outOfStock]: stockRecords[0].numInStock < 1,
+                [globalStyles.paddR10]: !mobile
+              }
             )}
           >
             <div className={globalStyles.relative}>
               <Link to={isGiftCard ? "#" : url}>
                 {salesBadgeImage && (
                   <div className={styles.badgePositionPlpMobile}>
-                    <img src={salesBadgeImage} />
+                    <img src={salesBadgeImage} alt="Sales Badge Image" />
                   </div>
                 )}
                 <div className={styles.cartRing}>
@@ -348,44 +385,213 @@ const CartItems: React.FC<BasketItem> = memo(
           </div>
           <div
             className={cs(
-              bootstrap.colLg8,
-              bootstrap.col5,
-              bootstrap.colMd6,
-              styles.cartPadding
+              bootstrap.colLg9,
+              bootstrap.colSm10,
+              bootstrap.col8,
+              styles.desktopDivSize
             )}
           >
-            <div className={styles.rowMain}>
-              <div className={cs(bootstrap.colLg6, bootstrap.col12)}>
+            <div className={cs(styles.rowMain, globalStyles.gutterBetween)}>
+              <div className={cs(bootstrap.colLg8, bootstrap.col12)}>
                 <div className={cs(styles.section, styles.sectionInfo)}>
                   <div>
-                    <div className={styles.collectionName}>{collection}</div>
-                    <div className={styles.productName}>
-                      <Link to={isGiftCard ? "#" : url}>{title}</Link>
-                    </div>
-                    {productDeliveryDate && showDeliveryTimelines && (
+                    {collection && (
                       <div
-                        className={cs(
-                          styles.deliveryDate,
-                          globalStyles.voffset3,
-                          { [styles.extraWidth]: mobile && !tablet }
-                        )}
+                        className={cs(styles.collectionName, {
+                          [styles.outOfStock]: stockRecords[0].numInStock < 1
+                        })}
                       >
-                        Estimated Delivery On or Before: <br />
-                        <span className={styles.black}>
-                          {productDeliveryDate}
-                        </span>
+                        {collection}
                       </div>
                     )}
+                    <div
+                      className={cs(styles.productName, {
+                        [styles.outOfStock]: stockRecords[0].numInStock < 1
+                      })}
+                    >
+                      <Link to={isGiftCard ? "#" : url}>{title}</Link>
+                    </div>
+                    <div
+                      className={cs(
+                        styles.productPrice,
+                        styles.productPriceMobile,
+                        {
+                          [styles.outOfStock]: stockRecords[0].numInStock < 1
+                        }
+                      )}
+                    >
+                      {saleStatus && discount && discountedPriceRecords ? (
+                        <span className={styles.discountprice}>
+                          {displayPriceWithCommas(
+                            discountedPriceRecords[currency],
+                            currency
+                          )}
+                          &nbsp;&nbsp;&nbsp;
+                        </span>
+                      ) : (
+                        ""
+                      )}
+                      {saleStatus && discount ? (
+                        <span className={styles.strikeprice}>
+                          {displayPriceWithCommas(price, currency)}
+                        </span>
+                      ) : (
+                        <span
+                          className={
+                            badgeType == "B_flat" ? globalStyles.gold : ""
+                          }
+                        >
+                          {displayPriceWithCommas(
+                            structure == "GiftCard" ? GCValue : price,
+                            currency
+                          )}
+                        </span>
+                      )}
+                    </div>
+                    <div className={cs(styles.sizeQtyWrp)}>
+                      <div
+                        className={cs(styles.productSize, {
+                          [styles.outOfStock]: stockRecords[0].numInStock < 1
+                        })}
+                      >
+                        {getSize(attributes, GCMeta)}
+                      </div>
+
+                      <div
+                        className={cs(styles.productColor, {
+                          [styles.outOfStock]: stockRecords[0].numInStock < 1
+                        })}
+                      >
+                        {getColor(attributes, GCMeta)}
+                      </div>
+
+                      <div>
+                        {/* <div className={styles.size}>QTY</div> */}
+                        <div
+                          className={cs(styles.widgetQty, {
+                            [styles.outOfStock]: stockRecords[0].numInStock < 1
+                          })}
+                        >
+                          {isGiftCard ? (
+                            <>
+                              <p
+                                className={cs(
+                                  styles.size,
+                                  globalStyles.marginT10
+                                )}
+                              >
+                                Sender&apos;s Name:
+                              </p>
+                              <p className={styles.gcName}>
+                                {GCMeta?.sender_name}
+                              </p>
+                            </>
+                          ) : (
+                            <PdpQuantity
+                              source="cartpage"
+                              key={id}
+                              id={id}
+                              currentValue={value}
+                              minValue={1}
+                              maxValue={1000}
+                              onChange={x => null}
+                              onUpdate={handleChange}
+                              class="my-quantity"
+                              disabled={
+                                stockRecords && stockRecords[0].numInStock < 1
+                              }
+                              isSaleErrorMsgOn={
+                                saleStatus &&
+                                childAttributes[0].showStockThreshold &&
+                                childAttributes[0].stock > 0 &&
+                                childAttributes[0].othersBasketCount > 0
+                              }
+                              // errorMsg="Available qty in stock is"
+                            />
+                          )}
+                        </div>
+
+                        {saleStatus &&
+                          ((childAttributes[0].showStockThreshold &&
+                            childAttributes[0].stock > 0 &&
+                            childAttributes[0].othersBasketCount > 0) ||
+                            (childAttributes[0].showStockThreshold &&
+                              childAttributes[0].stock > 0)) && (
+                            <span
+                              className={cs(styles.stockLeft, {
+                                [styles.outOfStock]:
+                                  stockRecords[0].numInStock < 1
+                              })}
+                            >
+                              {saleStatus &&
+                                childAttributes[0].showStockThreshold &&
+                                childAttributes[0].stock > 0 &&
+                                childAttributes[0].othersBasketCount > 0 &&
+                                `${childAttributes[0].othersBasketCount} other${
+                                  childAttributes[0].othersBasketCount > 1
+                                    ? "s"
+                                    : ""
+                                } have this item in their bag.`}
+                              <br />
+                              {saleStatus &&
+                                childAttributes[0].showStockThreshold &&
+                                childAttributes[0].stock > 0 &&
+                                `Only ${childAttributes[0].stock} Left!`}
+                            </span>
+                          )}
+                        {renderNotifyTrigger("info")}
+                      </div>
+                    </div>
                   </div>
                   <div
+                    className={cs(
+                      {
+                        [globalStyles.hiddenEye]: isGiftCard || bridalProfile
+                      },
+                      styles.wishlistDisplay,
+                      styles.disableMobile
+                    )}
+                  >
+                    <WishlistButton
+                      source="cart"
+                      gtmListType="cart"
+                      title={title}
+                      childAttributes={childAttributes ? childAttributes : []}
+                      priceRecords={priceRecords}
+                      discountedPriceRecords={discountedPriceRecords}
+                      categories={categories}
+                      basketLineId={id}
+                      id={product.id}
+                      size={childAttributes[0].size || ""}
+                      showText={true}
+                      onMoveToWishlist={onMoveToWishlist}
+                      className="wishlist-font"
+                      inWishlist={inWishlist}
+                    />
+                    {renderNotifyTrigger("action")}
+                  </div>
+                </div>
+              </div>
+              <div
+                className={cs(
+                  bootstrap.colLg4,
+                  bootstrap.col12,
+                  globalStyles.textRight
+                )}
+              >
+                <div
+                  className={cs(styles.section, {
+                    [styles.sectionMobile]: mobile || tablet
+                  })}
+                >
+                  <div
                     className={cs(styles.productPrice, {
-                      [styles.extraWidth]: mobile && !tablet
+                      [styles.extraWidth]: mobile && !tablet,
+                      [styles.outOfStock]: stockRecords[0].numInStock < 1
                     })}
                   >
                     {saleStatus && discount && discountedPriceRecords ? (
                       <span className={styles.discountprice}>
-                        {String.fromCharCode(...currencyCodes[currency])}
-                        &nbsp;
                         {displayPriceWithCommas(
                           discountedPriceRecords[currency],
                           currency
@@ -397,154 +603,73 @@ const CartItems: React.FC<BasketItem> = memo(
                     )}
                     {saleStatus && discount ? (
                       <span className={styles.strikeprice}>
-                        {String.fromCharCode(...currencyCodes[currency])}
-                        &nbsp;
                         {displayPriceWithCommas(price, currency)}
                       </span>
                     ) : (
                       <span
                         className={
-                          badgeType == "B_flat" ? globalStyles.cerise : ""
+                          badgeType == "B_flat" ? globalStyles.gold : ""
                         }
                       >
                         {" "}
-                        {String.fromCharCode(...currencyCodes[currency])}
-                        &nbsp;
                         {structure == "GiftCard"
                           ? displayPriceWithCommas(GCValue, currency)
                           : displayPriceWithCommas(price, currency)}
                       </span>
                     )}
                   </div>
-                </div>
-              </div>
-              <div className={cs(bootstrap.colMd6, bootstrap.col12)}>
-                <div
-                  className={cs(styles.section, styles.sectionMiddle, {
-                    [globalStyles.hiddenEye]: isGiftCard,
-                    [styles.extraWidth]: mobile && !tablet
-                  })}
-                >
-                  <div className={styles.productSize}>
-                    {getSize(attributes)}
+                  <div
+                    className={cs(
+                      styles.enableMobile,
+                      {
+                        [globalStyles.hiddenEye]: isGiftCard || bridalProfile
+                      },
+                      styles.wishlistDisplay
+                    )}
+                  >
+                    <WishlistButton
+                      source="cart"
+                      gtmListType="cart"
+                      title={title}
+                      childAttributes={childAttributes ? childAttributes : []}
+                      priceRecords={priceRecords}
+                      discountedPriceRecords={discountedPriceRecords}
+                      categories={categories}
+                      basketLineId={id}
+                      id={product.id}
+                      size={childAttributes[0].size || ""}
+                      showText={true}
+                      onMoveToWishlist={onMoveToWishlist}
+                      className="wishlist-font"
+                      inWishlist={inWishlist}
+                    />
+                    {renderNotifyTrigger("action")}
                   </div>
                   <div>
-                    <div className={styles.size}>QTY</div>
-                    <div className={styles.widgetQty}>
-                      <Quantity
-                        source="cartpage"
-                        key={id}
-                        id={id}
-                        currentValue={value}
-                        minValue={1}
-                        maxValue={1000}
-                        onChange={x => null}
-                        onUpdate={handleChange}
-                        class="my-quantity"
-                        disabled={
-                          stockRecords && stockRecords[0].numInStock < 1
-                        }
-                        // errorMsg="Available qty in stock is"
-                      />
-                    </div>
-                    {qtyError &&
-                      !(
-                        (
-                          saleStatus &&
-                          childAttributes[0].showStockThreshold &&
-                          childAttributes[0].stock > 0
-                        )
-                        // childAttributes[0].othersBasketCount > 0
-                      ) && (
-                        <span
-                          className={cs(
-                            globalStyles.errorMsg,
-                            styles.stockLeft
-                            // {
-                            // [styles.stockLeftWithError]: qtyError
-                            // }
-                          )}
-                        >
-                          {qtyErrorMsg}
-                        </span>
-                      )}
-                    <span
-                      className={cs(
-                        globalStyles.errorMsg,
-                        styles.stockLeft
-                        // {
-                        //   [styles.stockLeftWithError]: qtyError
-                        // }
-                      )}
+                    <div
+                      className={cs(styles.pointer, styles.remove)}
+                      onClick={() => deleteItem()}
                     >
-                      {saleStatus &&
-                        childAttributes[0].showStockThreshold &&
-                        childAttributes[0].stock > 0 &&
-                        `Only ${childAttributes[0].stock} Left!`}
-                      <br />
-                      {saleStatus &&
-                        childAttributes[0].showStockThreshold &&
-                        childAttributes[0].stock > 0 &&
-                        childAttributes[0].othersBasketCount > 0 &&
-                        ` *${childAttributes[0].othersBasketCount} other${
-                          childAttributes[0].othersBasketCount > 1 ? "s" : ""
-                        } have this item in their bag.`}
-                    </span>
-                    {renderNotifyTrigger("info")}
+                      Remove
+                    </div>
                   </div>
                 </div>
-              </div>
-            </div>
-          </div>
-          <div
-            className={cs(
-              bootstrap.colMd2,
-              bootstrap.col2,
-              globalStyles.textCenter,
-              styles.cartPadding
-            )}
-          >
-            <div
-              className={cs(styles.section, {
-                [styles.sectionMobile]: mobile || tablet
-              })}
-            >
-              <div className={cs(styles.pointer, styles.remove)}>
-                <i
-                  className={cs(
-                    iconStyles.icon,
-                    iconStyles.iconCrossNarrowBig,
-                    styles.crossiconItem
-                  )}
-                  onClick={deleteItem}
-                ></i>
-              </div>
-              <div
-                className={cs({
-                  [globalStyles.hiddenEye]: isGiftCard || bridalProfile
-                })}
-              >
-                <WishlistButton
-                  source="cart"
-                  gtmListType="cart"
-                  title={title}
-                  childAttributes={childAttributes ? childAttributes : []}
-                  priceRecords={priceRecords}
-                  discountedPriceRecords={discountedPriceRecords}
-                  categories={categories}
-                  basketLineId={id}
-                  id={product.id}
-                  size={childAttributes[0].size || ""}
-                  showText={false}
-                  onMoveToWishlist={onMoveToWishlist}
-                  className="wishlist-font"
-                  inWishlist={inWishlist}
-                />
-                {renderNotifyTrigger("action")}
               </div>
             </div>
           </div>
         </div>
+        {productDeliveryDate && showDeliveryTimelines && (
+          <div
+            className={cs(styles.deliveryDate, globalStyles.marginT20, {
+              [styles.extraWidth]: mobile && !tablet
+            })}
+          >
+            Estimated delivery:
+            <span className={styles.expectedDelivetryDate}>
+              {productDeliveryDate}
+            </span>
+          </div>
+        )}
         <hr className={styles.hr} />
       </div>
     );

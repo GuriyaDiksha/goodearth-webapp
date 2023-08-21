@@ -90,6 +90,9 @@ input[type="password"]{
     }
   }
 }
+.active-acc-subhead {
+  padding: 0px 150px;
+}
 .account-form-bg {
   padding-bottom: 40px;
   margin-top: 50px;
@@ -98,7 +101,8 @@ input[type="password"]{
   background-color: white;
 }
 .account-form-bg-mobile {
-  height: 100vh !important;
+  // height: 100vh !important;
+  height: auto !important;
   overflow: scroll;
   z-index: 0;
   padding-bottom: 20px;

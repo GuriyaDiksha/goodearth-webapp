@@ -7,3 +7,12 @@ export const currencyCodes: { [key in Currency]: any } = {
   AED: [65, 69, 68],
   SGD: [83, 36]
 };
+
+export const countryCurrencyCode = {
+  IN: "INR",
+  US: "USD",
+  GB: "GBP",
+  AE: "AED",
+  SG: "SGD",
+  AU: "USD"
+};

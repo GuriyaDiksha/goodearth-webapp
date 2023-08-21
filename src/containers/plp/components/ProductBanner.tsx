@@ -8,13 +8,15 @@ import itemStyles from "components/plpResultItem/styles.scss";
 type Props = {
   data: PlpTemplate;
   mobile: boolean;
+  view?: "list" | "grid";
 };
-const ProductBanner: React.FC<Props> = ({ data, mobile }) => {
+const ProductBanner: React.FC<Props> = ({ data, mobile, view }) => {
   return (
     <div
       className={cs(bootstrap.colLg8, bootstrap.col12, styles.setWidth, {
         [styles.templatePadding]: !mobile,
-        [styles.templatePaddingMobile]: mobile
+        [styles.templatePaddingMobile]: mobile,
+        [styles.templatePaddingList]: view && view == "list"
       })}
     >
       {data?.mediaType == "image" ? (

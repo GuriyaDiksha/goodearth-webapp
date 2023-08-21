@@ -150,6 +150,12 @@ class PLP extends React.Component<
         if (this.props.mobile) {
           this.setProductCount();
         }
+        // plp filter scroll top
+        if (window.scrollY == 0) {
+          const filterDiv = document.getElementById("inner_filter");
+          // console.log(filterDiv);
+          filterDiv?.scrollTo(0, 0);
+        }
       }, 50)
     );
     if (this.props.device.mobile) {
@@ -913,6 +919,7 @@ class PLP extends React.Component<
                                   key={`product-${ind}`}
                                   data={template}
                                   mobile={mobile}
+                                  view={this.props.plpMobileView}
                                 />
                               ) : null
                             )
@@ -994,6 +1001,7 @@ class PLP extends React.Component<
                                   key={`product-${ind}`}
                                   data={template}
                                   mobile={mobile}
+                                  view={this.props.plpMobileView}
                                 />
                               ) : null
                             )

@@ -315,8 +315,8 @@ class Footer extends React.Component<Props, FooterState> {
       footerImages: {
         footerImageDeskTop,
         footerImageMobile,
-        footerImageSubsDeskTop,
-        footerImageSubsMobile,
+        // footerImageSubsDeskTop,
+        // footerImageSubsMobile,
         footerBgColorMobile,
         footerHeadingFontColor,
         footerSubHeadingFontColor,
@@ -1146,11 +1146,11 @@ class Footer extends React.Component<Props, FooterState> {
         {(this.state.smartNav.indexOf(this.props.location.pathname) > -1 ||
           this.props.location.pathname.includes("/category_landing/") ||
           desktopPlp) &&
-          this.props.currency == "INR" && (
+          ["INR", "USD"].includes(this.props.currency) && (
             <MakerSmartNav
               id="TDEHYqQNA"
               inline={false}
-              currency={this.props.currency}
+              currency={this.props.currency == "INR" ? "INR" : "USD"}
             />
           )}
 

@@ -35,8 +35,8 @@ export type registerState = {
   isIndia: boolean;
   showEmailVerification: boolean;
   email: string;
-  showTip: boolean;
-  whatsappChecked: boolean;
+  showTip?: boolean;
+  whatsappChecked?: boolean;
   selectedCountryCode: string;
 };
 

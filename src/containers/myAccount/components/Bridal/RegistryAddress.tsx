@@ -291,14 +291,25 @@ const RegistryAddress: React.FC<{ children: React.ReactNode }> = props => {
 
               globalStyles.pointer
             )}
-            onClick={() => {
-              openAddressForm();
-            }}
           >
             {mobile ? (
-              <span className={styles.addNewAddress}>+ ADD ADDRESS</span>
+              <span
+                className={styles.addNewAddress}
+                onClick={() => {
+                  openAddressForm();
+                }}
+              >
+                + ADD ADDRESS
+              </span>
             ) : (
-              <span className={styles.addNewAddress}>+ ADD NEW ADDRESS</span>
+              <span
+                className={styles.addNewAddress}
+                onClick={() => {
+                  openAddressForm();
+                }}
+              >
+                + ADD NEW ADDRESS
+              </span>
             )}
           </div>
         )}

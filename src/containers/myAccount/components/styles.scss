@@ -20,6 +20,13 @@ input[type="text"]{
     padding: 0px 100px
   }
 }
+.activategc-subheading{
+  width: 65%;
+  margin: 10px auto 30px auto;
+  @media screen  and (max-width: 992px){
+    width: 70%;
+  }
+}
 @media screen  and (max-width: 992px){
   .form-subheading{
     padding : 0px;
@@ -960,9 +967,10 @@ input[type="text"]{
   border-radius: 0;
   cursor: pointer;
   &:hover{
+    @media screen and (min-width:992px) {
     color: #191919;
     background-color: #fff;
-    border: 1px solid #4C4C4C;
+    border: 1px solid #4C4C4C;}
   }
   &.disabled-btn{
     color: #fff;
@@ -1506,5 +1514,33 @@ input[type="text"]{
       text-decoration: underline;
       text-underline-offset: 2px;
     }
+  }
+}
+
+.isd-code{
+  height: auto;
+  padding: 10px;
+  border-bottom: 1px solid #d8d8d8;
+  cursor: pointer;
+  text-align: left;
+  @include b5_10px_montserrat_charcoal();
+  letter-spacing: 0.36px;
+  display: flex;
+  align-items: center;
+}  
+
+img.country-code-search-icon{
+  width: 15px;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 10px;
+}
+
+input[type="text"].country-code-search-input{
+  padding-left: 30px !important;
+  height: 40px !important;
+  &:focus{
+    padding-left: 30px !important;
   }
 }

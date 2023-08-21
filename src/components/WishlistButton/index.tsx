@@ -231,30 +231,41 @@ const WishlistButton: React.FC<Props> = ({
   return (
     <>
       <div className={className}>
-        <div
-          style={parentWidth ? { width: "100%" } : {}}
-          className={cs(iconStyles.icon, styles.wishlistIcon, iconClassName, {
-            [iconStyles.iconWishlistAdded]: addedToWishlist,
-            [iconStyles.iconWishlist]: !addedToWishlist,
-            [styles.addedToWishlist]: addedToWishlist,
-            [styles.mobileWishlist]: mobile
-          })}
-          title={
-            basketLineId
-              ? addedToWishlist
-                ? "Remove from Saved Items"
-                : "Move to Saved Items"
-              : ""
-          }
-          onClick={onClick}
-        ></div>
+        {gtmListType == "cart" ||
+          (gtmListType == "MiniBag" ? (
+            ""
+          ) : (
+            <div
+              style={parentWidth ? { width: "100%" } : {}}
+              className={cs(
+                iconStyles.icon,
+                styles.wishlistIcon,
+                iconClassName,
+                {
+                  [iconStyles.iconWishlistAdded]: addedToWishlist,
+                  [iconStyles.iconWishlist]: !addedToWishlist,
+                  [styles.addedToWishlist]: addedToWishlist && showText,
+                  [styles.mobileWishlist]: mobile
+                }
+              )}
+              title={
+                basketLineId
+                  ? addedToWishlist
+                    ? "Remove from Saved Items"
+                    : "Move to Saved Items"
+                  : ""
+              }
+              onClick={onClick}
+            ></div>
+          ))}
         {showText && (
           <div
             className={cs(styles.label, {
               [styles.addedToWishlist]: addedToWishlist
             })}
+            onClick={onClick}
           >
-            {addedToWishlist ? "REMOVE FROM SAVED ITEMS" : "SAVE FOR LATER"}
+            {addedToWishlist ? "SAVED TO LATER" : "SAVE FOR LATER"}
           </div>
         )}
       </div>

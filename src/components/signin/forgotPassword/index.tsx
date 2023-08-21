@@ -2,7 +2,6 @@ import React, { RefObject } from "react";
 import styles from "../styles.scss";
 import globalStyles from "styles/global.scss";
 import InputField from "../InputField";
-import Loader from "components/Loader";
 import SocialLogin from "../socialLogin";
 import Popup from "../popup/Popup";
 import FormContainer from "../formContainer";

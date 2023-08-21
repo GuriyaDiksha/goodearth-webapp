@@ -538,9 +538,20 @@ export default {
           } else {
             // CookieService.setCookie("region", "INDIA", 365);
             // CookieService.setCookie("ip", data?.ip, 365);
+            dispatch(
+              updateRegion({
+                region: "India",
+                ip: "",
+                country: "India"
+              })
+            );
             CookieService.setCookie("country", "India", 365);
             resolve("error");
           }
+        })
+        .catch(error => {
+          resolve("error");
+          console.log(error);
         });
     });
     return response;
