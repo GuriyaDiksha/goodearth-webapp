@@ -126,7 +126,6 @@ const Zoom: React.FC<Props> = ({
     } else {
       direct = dy > 0 ? "down" : "up";
     }
-    console.log(direct);
     setDirection(direct);
   });
 
@@ -140,7 +139,6 @@ const Zoom: React.FC<Props> = ({
     } else {
       direct = dy > 0 ? "down" : "up";
     }
-    console.log(direct);
     setDirection(direct);
   });
 
@@ -154,13 +152,14 @@ const Zoom: React.FC<Props> = ({
     }
     const img = document.getElementById("pdpImage");
     if (!img) return;
-    const deltavalue = zoom > 2 ? 4 : 3;
+    const deltavaluey = zoom > 2 ? 4 : 3;
     const bounding = img.getBoundingClientRect();
+
     if (direction == "up" && bounding.bottom >= img?.clientHeight) {
       setStyle({
         ...style,
         // pointX: (e.clientX - start.x),
-        pointY: pointY - deltavalue
+        pointY: pointY - deltavaluey
       });
     }
 
@@ -168,7 +167,7 @@ const Zoom: React.FC<Props> = ({
       setStyle({
         ...style,
         // pointX: (e.clientX - start.x),
-        pointY: pointY + deltavalue
+        pointY: pointY + deltavaluey
       });
     }
   }, 50);
@@ -179,13 +178,14 @@ const Zoom: React.FC<Props> = ({
     }
     const img = document.getElementById("pdpImageMobile");
     if (!img) return;
-    const deltavalue = zoom > 2 ? 4 : 3;
+    const deltavalueY = zoom > 2 ? 4 : 3;
+    const deltavalueX = zoom > 2 ? 4 : 3;
     const bounding = img.getBoundingClientRect();
     if (direction == "up" && bounding.bottom >= img?.clientHeight) {
       setStyle({
         ...style,
         // pointX: (e.clientX - start.x),
-        pointY: pointY - deltavalue
+        pointY: pointY - deltavalueY
       });
     }
 
@@ -193,7 +193,23 @@ const Zoom: React.FC<Props> = ({
       setStyle({
         ...style,
         // pointX: (e.clientX - start.x),
-        pointY: pointY + deltavalue
+        pointY: pointY + deltavalueY
+      });
+    }
+
+    if (direction == "right" && bounding.left < 0) {
+      setStyle({
+        ...style,
+        // pointX: (e.clientX - start.x),
+        pointX: pointX + deltavalueX
+      });
+    }
+
+    if (direction == "left" && bounding.right - window.innerWidth > 0) {
+      setStyle({
+        ...style,
+        // pointX: (e.clientX - start.x),
+        pointX: pointX - deltavalueX
       });
     }
   }, 50);
