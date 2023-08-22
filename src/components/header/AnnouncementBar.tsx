@@ -132,7 +132,7 @@ const AnnouncementBar: React.FC<Props> = ({
               >
                 {/* Announcement Bar Content */}
                 <div className={styles.announcementContent}>
-                  {ele?.content ? (
+                  {ele?.announcementRedirection == "OPEN_A_NEW_PAGE" ? (
                     <a
                       href={ele?.announcementRedirectionUrl}
                       rel="noreferrer noopener"
