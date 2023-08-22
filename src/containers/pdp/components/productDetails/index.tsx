@@ -1242,6 +1242,7 @@ const ProductDetails: React.FC<Props> = ({
               ""
             )}
             <div
+              id="docked_div"
               className={cs(
                 bootstrap.row,
                 styles.spacer,
