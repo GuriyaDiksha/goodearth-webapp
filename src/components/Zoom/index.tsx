@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 // import DockedPanel from "containers/pdp/docked";
 import { Product } from "typings/product";
 import styles from "./styles.scss";
@@ -14,8 +14,11 @@ import minus from "./../../icons/minus.svg";
 import play from "./../../icons/playVideo.svg";
 import pause from "./../../icons/pauseVideo.svg";
 import ReactPlayer from "react-player";
-import throttle from "lodash/throttle";
-import { useMove, useDrag } from "@use-gesture/react";
+import {
+  TransformWrapper,
+  TransformComponent,
+  ReactZoomPanPinchRef
+} from "react-zoom-pan-pinch";
 
 type Props = {
   code: string;
@@ -44,175 +47,40 @@ const Zoom: React.FC<Props> = ({
 }) => {
   const [selectedImage, setSelectedImage] = useState(images?.[0]);
   const [zoom, setZoom] = useState(1);
-  const [selectedMobileImageId, setSelectedMobileImageId] = useState(
-    `product0`
-  );
+  const transformComponentRef = useRef<ReactZoomPanPinchRef | null>(null);
+  const transformComponentMobileRef = useRef<ReactZoomPanPinchRef | null>(null);
   const [playVideo, setPlayVideo] = useState(false);
-  const [direction, setDirection] = useState("");
+
   const closeModal = () => {
     changeModalState(false);
-    // if (mobile) {
-    //   (document.getElementById(
-    //     "modal-fullscreen"
-    //   ) as HTMLDivElement).style.height = "100%";
-    //   (document.getElementById(
-    //     "modal-fullscreen-container"
-    //   ) as HTMLDivElement).style.height = "100%";
-    // }
 
     document.body.classList.remove(globalStyles.fixed);
   };
 
-  useEffect(() => {
+  const setZoomcall = (value: any) => {
     if (mobile) {
-      (document.getElementById(
-        "pdpImageMobile"
-      ) as HTMLDivElement).style.transform = `scale(${zoom})`;
-      (document.getElementById("pdpImageMobile") as HTMLDivElement).style[
-        "-webkit-transform"
-      ] = `scale(${zoom})`;
-      (document.getElementById("pdpImageMobile") as HTMLDivElement).style[
-        "-ms-transform"
-      ] = `scale(${zoom})`;
+      if (value > zoom) {
+        transformComponentMobileRef.current
+          ? transformComponentMobileRef.current.zoomIn()
+          : "";
+      } else {
+        transformComponentMobileRef.current
+          ? transformComponentMobileRef.current.zoomOut()
+          : "";
+      }
     } else {
-      (document.getElementById(
-        "pdpImage"
-      ) as HTMLDivElement).style.transform = `scale(${zoom})`;
-      (document.getElementById("pdpImage") as HTMLDivElement).style[
-        "-webkit-transform"
-      ] = `scale(${zoom})`;
-      (document.getElementById("pdpImage") as HTMLDivElement).style[
-        "-ms-transform"
-      ] = `scale(${zoom})`;
-      (document.getElementById(
-        "zoomWrapper"
-      ) as HTMLDivElement).style.transform = "unset";
+      if (value > zoom) {
+        transformComponentRef.current
+          ? transformComponentRef.current.zoomIn()
+          : "";
+      } else {
+        transformComponentRef.current
+          ? transformComponentRef.current.zoomOut()
+          : "";
+      }
     }
-  }, [zoom]);
-
-  // ********************** zoom drag *************************
-  const [style, setStyle] = useState({
-    scale: 1,
-    panning: false,
-    pointX: 0,
-    pointY: 0,
-    start: { x: 0, y: 0 }
-  });
-
-  const { scale, panning, pointX, pointY, start } = style;
-
-  const mouseDownHandler = (e: any) => {
-    if (!mobile) e.preventDefault();
-    setStyle({
-      ...style,
-      panning: true
-    });
+    setZoom(value);
   };
-  const mouseUpHandler = (e: any) => {
-    if (mobile) e.preventDefault();
-    setStyle({
-      ...style,
-      panning: false
-    });
-  };
-
-  const bindMobile = useDrag(({ movement: [dx, dy] }) => {
-    // Determine the direction of touch movement
-
-    let direct = "";
-
-    if (Math.abs(dx) > Math.abs(dy)) {
-      direct = dx > 0 ? "right" : "left";
-    } else {
-      direct = dy > 0 ? "down" : "up";
-    }
-    setDirection(direct);
-  });
-
-  const bind = useMove(({ delta: [dx, dy] }) => {
-    // Determine the direction of mouse movement
-
-    let direct = "";
-
-    if (Math.abs(dx) > Math.abs(dy)) {
-      direct = dx > 0 ? "right" : "left";
-    } else {
-      direct = dy > 0 ? "down" : "up";
-    }
-    setDirection(direct);
-  });
-
-  // This is  Main function mousemove we are getting the value of image height and width and also getting
-  // current position after that calculating and panning the image
-
-  const mouseMoveHandler = throttle((e: any) => {
-    // if(e.preventDefault)e.preventDefault();
-    if (!panning) {
-      return;
-    }
-    const img = document.getElementById("pdpImage");
-    if (!img) return;
-    const deltavaluey = zoom > 2 ? 4 : 3;
-    const bounding = img.getBoundingClientRect();
-
-    if (direction == "up" && bounding.bottom >= img?.clientHeight) {
-      setStyle({
-        ...style,
-        // pointX: (e.clientX - start.x),
-        pointY: pointY - deltavaluey
-      });
-    }
-
-    if (direction == "down" && bounding.top < 0) {
-      setStyle({
-        ...style,
-        // pointX: (e.clientX - start.x),
-        pointY: pointY + deltavaluey
-      });
-    }
-  }, 50);
-
-  const mouseMoveHandlerMobile = throttle((e: any) => {
-    if (!panning) {
-      return;
-    }
-    const img = document.getElementById("pdpImageMobile");
-    if (!img) return;
-    const deltavalueY = zoom > 2 ? 4 : 3;
-    const deltavalueX = zoom > 2 ? 4 : 3;
-    const bounding = img.getBoundingClientRect();
-    if (direction == "up" && bounding.bottom >= img?.clientHeight) {
-      setStyle({
-        ...style,
-        // pointX: (e.clientX - start.x),
-        pointY: pointY - deltavalueY
-      });
-    }
-
-    if (direction == "down" && bounding.top < 0) {
-      setStyle({
-        ...style,
-        // pointX: (e.clientX - start.x),
-        pointY: pointY + deltavalueY
-      });
-    }
-
-    if (direction == "right" && bounding.left < 0) {
-      setStyle({
-        ...style,
-        // pointX: (e.clientX - start.x),
-        pointX: pointX + deltavalueX
-      });
-    }
-
-    if (direction == "left" && bounding.right - window.innerWidth > 0) {
-      setStyle({
-        ...style,
-        // pointX: (e.clientX - start.x),
-        pointX: pointX - deltavalueX
-      });
-    }
-  }, 50);
 
   return (
     <div
@@ -289,22 +157,26 @@ const Zoom: React.FC<Props> = ({
               <div className={"imgWrp"}>
                 {selectedImage?.media_type === "Image" ||
                 selectedImage?.type === "main" ? (
-                  <img
-                    id="pdpImageMobile"
-                    src={selectedImage.productImage?.replace(
-                      /Micro|Large/i,
-                      "Medium"
-                    )}
-                    alt={alt}
-                    style={{
-                      transform: `translateX(${pointX}px) translateY(${pointY}px) scale(${zoom})`
-                    }}
-                    className={globalStyles.imgResponsive}
-                    onTouchStart={zoom > 1 ? mouseDownHandler : undefined}
-                    onTouchEnd={zoom > 1 ? mouseUpHandler : undefined}
-                    onTouchMove={zoom > 1 ? mouseMoveHandlerMobile : undefined}
-                    {...bindMobile()}
-                  />
+                  <TransformWrapper
+                    initialPositionX={0}
+                    initialScale={zoom}
+                    initialPositionY={0}
+                    ref={transformComponentMobileRef}
+                    pinch={{ disabled: true }}
+                    wheel={{ disabled: true, touchPadDisabled: true }}
+                  >
+                    <TransformComponent>
+                      <img
+                        id="pdpImageMobile"
+                        src={selectedImage.productImage?.replace(
+                          /Micro|Medium/i,
+                          "Large"
+                        )}
+                        alt={alt}
+                        className={globalStyles.imgResponsive}
+                      />
+                    </TransformComponent>
+                  </TransformWrapper>
                 ) : (
                   ""
                 )}
@@ -314,22 +186,26 @@ const Zoom: React.FC<Props> = ({
             <div id="zoomWrapper" className={styles.wrp}>
               {selectedImage?.media_type === "Image" ||
               selectedImage?.type === "main" ? (
-                <img
-                  id="pdpImage"
-                  src={selectedImage.productImage?.replace(
-                    /Micro|Large/i,
-                    "Medium"
-                  )}
-                  alt={alt}
-                  style={{
-                    transform: `translateX(${pointX}px) translateY(${pointY}px) scale(${zoom})`
-                  }}
-                  className={globalStyles.imgResponsive}
-                  onMouseDown={zoom > 1 ? mouseDownHandler : undefined}
-                  onMouseUp={zoom > 1 ? mouseUpHandler : undefined}
-                  onMouseMove={zoom > 1 ? mouseMoveHandler : undefined}
-                  {...bind()}
-                />
+                <TransformWrapper
+                  initialPositionX={0}
+                  initialScale={zoom}
+                  initialPositionY={0}
+                  ref={transformComponentRef}
+                  pinch={{ disabled: true }}
+                  wheel={{ disabled: true, touchPadDisabled: true }}
+                >
+                  <TransformComponent>
+                    <img
+                      id="pdpImage"
+                      src={selectedImage.productImage?.replace(
+                        /Micro|Medium/i,
+                        "Large"
+                      )}
+                      alt={alt}
+                      className={globalStyles.imgResponsive}
+                    />
+                  </TransformComponent>
+                </TransformWrapper>
               ) : (
                 <>
                   <ReactPlayer
@@ -382,7 +258,7 @@ const Zoom: React.FC<Props> = ({
             <div className={styles.btnWrp}>
               <button
                 className={styles.plus}
-                onClick={() => zoom < 4 && setZoom(zoom + 0.5)}
+                onClick={() => zoom < 4 && setZoomcall(zoom + 0.5)}
               >
                 <img src={plus} alt={"incerment"} />
               </button>
@@ -394,13 +270,13 @@ const Zoom: React.FC<Props> = ({
                   step={0.1}
                   vertical={true}
                   value={zoom}
-                  onChange={(value: number) => setZoom(+value)}
+                  onChange={(value: number) => setZoomcall(+value)}
                 />
               </div>
 
               <button
                 className={styles.minus}
-                onClick={() => zoom > 1 && setZoom(zoom - 0.5)}
+                onClick={() => zoom > 1 && setZoomcall(zoom - 0.5)}
               >
                 <img src={minus} alt={"incerment"} />
               </button>
