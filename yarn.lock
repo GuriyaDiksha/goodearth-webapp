@@ -3256,18 +3256,6 @@
     semver "^6.3.0"
     tsutils "^3.17.1"
 
-"@use-gesture/core@10.2.27":
-  version "10.2.27"
-  resolved "https://registry.yarnpkg.com/@use-gesture/core/-/core-10.2.27.tgz#0f24b17c036cd828ba07e3451ff45e2df959c6f5"
-  integrity sha512-V4XV7hn9GAD2MYu8yBBVi5iuWBsAMfjPRMsEVzoTNGYH72tf0kFP+OKqGKc8YJFQIJx6yj+AOqxmEHOmx2/MEA==
-
-"@use-gesture/react@^10.2.27":
-  version "10.2.27"
-  resolved "https://registry.yarnpkg.com/@use-gesture/react/-/react-10.2.27.tgz#7fbd50d14449ec5bc49c9b6cfef8a2845f5e0608"
-  integrity sha512-7E5vnWCxeslWlxwZ8uKIcnUZVMTRMZ8cvSnLLKF1NkyNb3PnNiAzoXM4G1vTKJKRhgOTeI6wK1YsEpwo9ABV5w==
-  dependencies:
-    "@use-gesture/core" "10.2.27"
-
 "@webassemblyjs/ast@1.9.0":
   version "1.9.0"
   resolved "https://registry.yarnpkg.com/@webassemblyjs/ast/-/ast-1.9.0.tgz#bd850604b4042459a5a41cd7d338cbed695ed964"
@@ -3489,6 +3477,11 @@ add-dom-event-listener@^1.1.0:
   integrity sha512-WCxx1ixHT0GQU9hb0KI/mhgRQhnU+U3GvwY6ZvVjYq8rsihIGoaIOUbY0yMPBxLH5MDtr0kz3fisWGNcbWW7Jw==
   dependencies:
     object-assign "4.x"
+
+add@^2.0.6:
+  version "2.0.6"
+  resolved "https://registry.yarnpkg.com/add/-/add-2.0.6.tgz#248f0a9f6e5a528ef2295dbeec30532130ae2235"
+  integrity sha512-j5QzrmsokwWWp6kUcJQySpbG+xfOBqqKnup3OIk1pz+kB/80SLorZ9V8zHFLO92Lcd+hbvq8bT+zOGoPkmBV0Q==
 
 address@1.1.2, address@^1.0.1:
   version "1.1.2"
@@ -12824,6 +12817,11 @@ react-themeable@^1.1.0:
   dependencies:
     object-assign "^3.0.0"
 
+react-zoom-pan-pinch@^3.1.0:
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/react-zoom-pan-pinch/-/react-zoom-pan-pinch-3.1.0.tgz#d87a66fd22a97f5dd56b54076411a9dce1f448cd"
+  integrity sha512-a3LlP8QPgTikvteCNkZ3X6wIWC0lrg1geP5WkUJyx2MXXAhHQek3r17N1nT/esOiWGuPIECnsd9AGoK8jOeGcg==
+
 react@^16.8.3:
   version "16.13.1"
   resolved "https://registry.yarnpkg.com/react/-/react-16.13.1.tgz#2e818822f1a9743122c063d6410d85c1e3afe48e"
@@ -16017,6 +16015,11 @@ yargs@~3.10.0:
     cliui "^2.1.0"
     decamelize "^1.0.0"
     window-size "0.1.0"
+
+yarn@^1.22.19:
+  version "1.22.19"
+  resolved "https://registry.yarnpkg.com/yarn/-/yarn-1.22.19.tgz#4ba7fc5c6e704fce2066ecbfb0b0d8976fe62447"
+  integrity sha512-/0V5q0WbslqnwP91tirOvldvYISzaqhClxzyUKXYxs07yUILIs5jx/k6CFe8bvKSkds5w+eiOqta39Wk3WxdcQ==
 
 yauzl@^2.4.2:
   version "2.10.0"
