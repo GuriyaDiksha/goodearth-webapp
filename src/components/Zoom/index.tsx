@@ -300,8 +300,3 @@ const Zoom: React.FC<Props> = ({
 };
 
 export default Zoom;
-function useTouchMove(
-  arg0: ({ delta: [dx, dy] }: { delta: [any, any] }) => void
-) {
-  throw new Error("Function not implemented.");
-}
