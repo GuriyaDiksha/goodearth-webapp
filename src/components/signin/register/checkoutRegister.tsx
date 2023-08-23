@@ -85,7 +85,7 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
       email: "",
       showTip: false,
       whatsappChecked: false,
-      selectedCountryCode: ""
+      selectedCountry: ""
     };
   }
   static contextType = Context;
@@ -365,7 +365,6 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
   onCountryCodeSelect = (option: any) => {
     const form = this.RegisterFormRef.current;
     const selectedCountryCode = option?.value;
-    this.setState({ selectedCountryCode: selectedCountryCode });
 
     form &&
       form.updateInputsWithValue({
@@ -380,6 +379,7 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
       let selectedCountry = "";
 
       selectedCountry = option.value;
+      this.setState({ selectedCountry: selectedCountry });
       form &&
         form.updateInputsWithValue(
           {
@@ -1230,7 +1230,7 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
           </div>
           <div className={cs(styles.subscribe, styles.newsletters)}>
             <FormCheckbox
-              value={this.state.selectedCountryCode == "+91" ? true : false}
+              value={this.state.selectedCountry == "India" ? true : false}
               id="subscrib"
               name="terms"
               disable={!this.state.showFields}
