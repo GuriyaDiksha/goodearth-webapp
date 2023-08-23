@@ -659,13 +659,15 @@ class CollectionSpecific extends React.Component<
                 }
                 id="product_images"
               >
-                {showTemplates.Banner && (
-                  <Banner
-                    data={showTemplates.Banner}
-                    mobile={mobile}
-                    tablet={tablet}
-                  />
-                )}
+                <div className={styles.templateBanner}>
+                  {showTemplates.Banner && (
+                    <Banner
+                      data={showTemplates.Banner}
+                      mobile={mobile}
+                      tablet={tablet}
+                    />
+                  )}
+                </div>
               </div>
             )}
           </div>
