@@ -12,7 +12,6 @@ type Props = {
   startTimer: boolean;
   setAttempts: (x: any) => void;
   cancelOtpReq?: () => void;
-  setRedeemOtpError?: (x: string) => void;
   containerClassName?: string;
   headingClassName?: string;
   timerClass?: string;
@@ -35,7 +34,6 @@ const NewOtpComponent: React.FC<Props> = ({
   startTimer,
   setAttempts,
   cancelOtpReq,
-  setRedeemOtpError,
   headingClassName,
   containerClassName,
   timerClass,
@@ -114,24 +112,24 @@ const NewOtpComponent: React.FC<Props> = ({
         [`${uniqueId}otp6`]: ""
       });
       setError(errorMsg);
-      if (setRedeemOtpError) {
-        setRedeemOtpError("");
-      } else {
-        setInput({
-          otp1: "",
-          otp2: "",
-          otp3: "",
-          otp4: "",
-          otp5: "",
-          otp6: ""
-        });
-      }
+      // if (setRedeemOtpError) {
+      //   setRedeemOtpError("");
+      // } else {
+      // setInput({
+      //   otp1: "",
+      //   otp2: "",
+      //   otp3: "",
+      //   otp4: "",
+      //   otp5: "",
+      //   otp6: ""
+      // });
+      //}
     }
   }, [errorMsg]);
 
   const resetTimer = () => {
     setError("");
-    if (setRedeemOtpError) setRedeemOtpError("");
+    // if (setRedeemOtpError) setRedeemOtpError("");
 
     setInput({
       [`${uniqueId}otp1`]: "",
@@ -160,7 +158,7 @@ const NewOtpComponent: React.FC<Props> = ({
         setInput({ ...input, [e.target.name]: e.target.value });
       }
       setError("");
-      if (setRedeemOtpError) setRedeemOtpError("");
+      // if (setRedeemOtpError) setRedeemOtpError("");
 
       if (doMinusOne) {
         const ele =
@@ -219,7 +217,7 @@ const NewOtpComponent: React.FC<Props> = ({
         [`${uniqueId}otp6`]: ""
       };
       setError("");
-      if (setRedeemOtpError) setRedeemOtpError("");
+      // if (setRedeemOtpError) setRedeemOtpError("");
 
       arr.map((ele: string, i: number) => {
         newObj = { ...newObj, [`${uniqueId}otp${i + 1}`]: ele };

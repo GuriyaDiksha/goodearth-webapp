@@ -6,7 +6,6 @@ import {
 } from "./product";
 import { Currency } from "./currency";
 import { BalanceProps } from "containers/checkout/component/typings";
-import { type } from "os";
 // import { LineItems } from "components/Bag/typings";
 
 export type BasketStockRecord = {

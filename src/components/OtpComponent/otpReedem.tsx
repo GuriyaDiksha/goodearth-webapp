@@ -45,14 +45,14 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
   phoneInput: RefObject<HTMLInputElement> = React.createRef();
   lastNameInput: RefObject<HTMLInputElement> = React.createRef();
 
-  UNSAFE_componentWillReceiveProps(nextProps: otpRedeemProps) {
-    if (
-      nextProps.redeemOtpError !== this.props.redeemOtpError ||
-      nextProps.redeemOtpError !== ""
-    ) {
-      this.setState({ showerror: nextProps.redeemOtpError });
-    }
-  }
+  // UNSAFE_componentWillReceiveProps(nextProps: otpRedeemProps) {
+  //   if (
+  //     nextProps.redeemOtpError !== this.props.redeemOtpError ||
+  //     nextProps.redeemOtpError !== ""
+  //   ) {
+  //     this.setState({ showerror: nextProps.redeemOtpError });
+  //   }
+  // }
 
   resetSection = () => {
     this.setState({
@@ -68,11 +68,11 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
 
     // const radioElement: any = document.getElementsByName("redeem");
     // const elem = this.subscribeRef.current;
-    const {
-      loyaltyData: {
-        detail: { EmailId }
-      }
-    } = this.props;
+    // const {
+    //   loyaltyData: {
+    //     detail: { EmailId }
+    //   }
+    // } = this.props;
     const data: any = {};
     // if (!radioElement[0].checked && !radioElement[1].checked) {
     //   this.setState(
@@ -88,7 +88,7 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
     //   return false;
     // }
 
-    if (this.props.loyaltyData?.eligiblePoints <= 0) {
+    if (this.props.CustomerPointInformation?.EligibleRedemptionPoints <= 0) {
       this.cancelOtpReq();
       return false;
     }
@@ -386,7 +386,6 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
           startTimer={this.state.startTimer}
           setAttempts={this.changeAttepts}
           cancelOtpReq={this.cancelOtpReq}
-          setRedeemOtpError={this.props.setRedeemOtpError}
           groupTimerAndAttempts={true}
           headingClassName={globalStyles.textLeft}
           containerClassName={styles.otpRedeemWrp}
@@ -491,10 +490,7 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
 
   render() {
     const { isLoading } = this.state;
-    const {
-      loyaltyData: { detail },
-      number
-    } = this.props;
+    const { number } = this.props;
     // console.log(number);
     return (
       <Fragment>
@@ -503,11 +499,16 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
             styles.sendOtpForm,
             styles.loginForm,
             styles.activategc,
-            { [styles.goBackBtn]: this.props.loyaltyData?.eligiblePoints <= 0 }
+            {
+              [styles.goBackBtn]:
+                this.props.CustomerPointInformation?.EligibleRedemptionPoints <=
+                0
+            }
           )}
           id="gc-input"
         >
-          {this.props.loyaltyData?.eligiblePoints > 0 && (
+          {this.props.CustomerPointInformation?.EligibleRedemptionPoints >
+            0 && (
             <li className={cs(globalStyles.textLeft, styles.otpText)}>
               Send one-time OTP to:
             </li>
@@ -648,9 +649,10 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
                 </div>
                 <p className={cs(styles.errorMsg)}>{this.state.msgt}</p>
               </div> */}
-            {this.props.loyaltyData?.eligiblePoints > 0 && (
+            {this.props.CustomerPointInformation?.EligibleRedemptionPoints >
+              0 && (
               <li className={styles.emailWrp}>
-                <p>Email ID: {detail?.EmailId}</p>
+                <p>Email ID: {this.props?.email}</p>
                 {number ? <p>Mobile No.: +91{number}</p> : null}
               </li>
             )}
@@ -678,7 +680,8 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
                   // disabled={this.state.disable}
                   className={styles.sendOtpBtn}
                   value={`${
-                    this.props.loyaltyData?.eligiblePoints > 0
+                    this.props.CustomerPointInformation
+                      ?.EligibleRedemptionPoints > 0
                       ? "SEND OTP"
                       : "GO BACK"
                   }`}

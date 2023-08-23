@@ -65,8 +65,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
   const [currentmethod, setCurrentmethod] = useState(data);
   const [isLoading, setIsLoading] = useState(false);
   const [textarea, setTextarea] = useState("");
-  const [redeemOtpError, setRedeemOtpError] = useState("");
-  const [isOTPSent, setIsOTPSent] = useState(false);
+  // const [redeemOtpError, setRedeemOtpError] = useState("");
   const [getMethods, setGetMethods] = useState<any[]>([]);
   const [checkoutMobileOrderSummary, setCheckoutMobileOrderSummary] = useState(
     false
@@ -113,6 +112,15 @@ const PaymentSection: React.FC<PaymentProps> = props => {
     }
     setIsactivepromo(!isactivepromo);
   };
+
+  const removeRedeem = async () => {
+    setIsLoading(true);
+    const promo: any = await CheckoutService.removeRedeem(dispatch);
+    BasketService.fetchBasket(dispatch, "checkout", history, isLoggedIn);
+    setIsLoading(false);
+    return promo;
+  };
+
   const toggleInputReedem = () => {
     setIsactiveredeem(true);
 
@@ -120,20 +128,13 @@ const PaymentSection: React.FC<PaymentProps> = props => {
       updateComponent(
         POPUP.REDEEMPOPUP,
         {
-          setIsactiveredeem: setIsactiveredeem
+          setIsactiveredeem,
+          removeRedeem
         },
         true
       )
     );
     dispatch(updateModal(true));
-  };
-
-  const removeRedeem = async (history: any, isLoggedIn: boolean) => {
-    setIsLoading(true);
-    const promo: any = await CheckoutService.removeRedeem(dispatch);
-    BasketService.fetchBasket(dispatch, "checkout", history, isLoggedIn);
-    setIsLoading(false);
-    return promo;
   };
 
   const onClickSubscribe = (event: any) => {
@@ -193,13 +194,13 @@ const PaymentSection: React.FC<PaymentProps> = props => {
     const isFree = +basket.total <= 0;
     const userConsent = CookieService.getCookie("consent").split(",");
 
-    if (isOTPSent) {
-      scrollToGivenId("otp");
-      setRedeemOtpError("Please redeem your points or cancel request.");
-      return false;
-    } else {
-      setRedeemOtpError("");
-    }
+    // if (isOTPSent) {
+    //   scrollToGivenId("otp");
+    //   setRedeemOtpError("Please redeem your points or cancel request.");
+    //   return false;
+    // } else {
+    //   setRedeemOtpError("");
+    // }
 
     const whatsappFormValues = whatsappFormRef.current?.getCurrentValues();
     let whatsappSubscribe = whatsappFormValues?.whatsappSubscribe;
@@ -693,7 +694,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
                     </span>
                     <span
                       className={cs(globalStyles.pointer, styles.promoEdit)}
-                      onClick={() => removeRedeem(history, isLoggedIn)}
+                      onClick={() => removeRedeem()}
                     >
                       REMOVE
                     </span>

@@ -594,6 +594,7 @@ hr {
   .otp-attempt{
     @include b6_9px_light_montserrat_charcoal();
     padding-top: 10px;
+    padding-bottom: 10px;
     letter-spacing: 0.5px;
   }
 
@@ -604,7 +605,7 @@ hr {
     letter-spacing: 0.5px;
     cursor: pointer;
     &.otp-redeem{
-      margin: 0px auto 40px auto;
+      margin: 15px auto 15px auto;
       width: fit-content;
     }
 

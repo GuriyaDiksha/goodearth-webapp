@@ -65,7 +65,7 @@ export type otpRedeemProps = {
   lastName?: string;
   newCardBox?: boolean;
   email?: string;
-  loyaltyData: any;
+  CustomerPointInformation: any;
   points: number | string;
   number?: string;
   isLoggedIn: boolean;
@@ -73,8 +73,6 @@ export type otpRedeemProps = {
   validated: boolean;
   disableBtn: string;
   removeRedeem: () => void;
-  redeemOtpError: string;
-  setRedeemOtpError: (val: string) => void;
   setIsactiveredeem: (val: boolean) => void;
   isOTPSent: boolean;
   setIsOTPSent: (val: boolean) => void;
