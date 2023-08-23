@@ -102,11 +102,6 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       );
       const userData = { ...user, shippingData: shippingAddress };
       dispatch(updateUser(userData));
-      CheckoutService.getLoyaltyPoints(dispatch, { email: user?.email }).then(
-        loyalty => {
-          dispatch(updateUser({ loyaltyData: loyalty }));
-        }
-      );
       // isLoading(true);
       AddressService.fetchAddressList(dispatch).then(addressList => {
         dispatch(updateAddressList(addressList));
@@ -116,7 +111,8 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       return data;
     },
     specifyBillingAddress: async (
-      specifyBillingAddressData: specifyBillingAddressData
+      specifyBillingAddressData: specifyBillingAddressData,
+      user: User
     ) => {
       const data = await AddressService.specifyBillingAddress(
         dispatch,
@@ -125,6 +121,11 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       AddressService.fetchAddressList(dispatch).then(addressList => {
         dispatch(updateAddressList(addressList));
       });
+      CheckoutService.getLoyaltyPoints(dispatch, { email: user?.email }).then(
+        loyalty => {
+          dispatch(updateUser({ loyaltyData: loyalty }));
+        }
+      );
       return data;
     },
     fetchAddressBridal: async () => {
@@ -896,7 +897,7 @@ class Checkout extends React.Component<Props, State> {
         }
         this.setState({ isLoading: true });
         this.props
-          .specifyBillingAddress(data)
+          .specifyBillingAddress(data, this.props.user)
           .then(() => {
             const userConsent = CookieService.getCookie("consent").split(",");
             if (userConsent.includes(GA_CALLS)) {

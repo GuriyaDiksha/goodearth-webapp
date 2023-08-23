@@ -696,7 +696,7 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
             </div>
           ) : null}
         </div>
-        {isLoading && <Loader />}
+        {/* {isLoading && <Loader />} */}
       </Fragment>
     );
   }
