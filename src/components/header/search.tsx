@@ -765,15 +765,15 @@ class Search extends React.Component<Props, State> {
                                 <Link
                                   to={cat.link}
                                   onClick={(e: any) => {
-                                    localStorage.setItem(
-                                      "popularSearch",
-                                      cat?.name
-                                    );
                                     if (
                                       !cat.link &&
                                       this.searchBoxRef &&
                                       this.searchBoxRef.current
                                     ) {
+                                      localStorage.setItem(
+                                        "popularSearch",
+                                        cat?.name
+                                      );
                                       this.props.history.push(
                                         "/search/?q=" + cat.name
                                       );

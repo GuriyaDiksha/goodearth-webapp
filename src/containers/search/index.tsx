@@ -443,6 +443,7 @@ class Search extends React.Component<
     const recentSearch = localStorage.getItem("recentSearchValue");
     const popularSearch = localStorage.getItem("popularSearch");
     const inputValue = localStorage.getItem("inputValue");
+
     if (
       !isEqual(this.props?.data?.results?.data, nextProps?.data?.results?.data)
     ) {
@@ -463,7 +464,11 @@ class Search extends React.Component<
         } else {
           dataLayer.push({
             event: "search_bar_no_results_found",
-            click_type: recentSearch ? "Recent search" : "Popular search",
+            click_type: recentSearch
+              ? "Recent search"
+              : popularSearch
+              ? "Popular search"
+              : "Input",
             search_term: recentSearch || popularSearch || inputValue
           });
         }
