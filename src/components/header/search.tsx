@@ -293,6 +293,7 @@ class Search extends React.Component<Props, State> {
 
   onClickSearch = (event: any) => {
     if (this.state.searchValue.trim().length > 0) {
+      localStorage.setItem("inputValue", this.state.searchValue.trim());
       this.props.history.push(
         `/search/${this.state.url.split("/autocomplete")[1]}`
       );
@@ -322,6 +323,8 @@ class Search extends React.Component<Props, State> {
   checkSearchValueUp = debounce((event: any) => {
     if (event.target.value.trim().length > 0) {
       if ((!event.charCode ? event.which : event.charCode) == 13) {
+        localStorage.setItem("inputValue", this.state.searchValue.trim());
+
         this.props.history.push(
           "/search/?q=" + encodeURIComponent(event.target.value)
         );
@@ -365,22 +368,6 @@ class Search extends React.Component<Props, State> {
       .then(data => {
         productImpression(data, "SearchResults", this.props.currency);
 
-        const userConsent = CookieService.getCookie("consent").split(",");
-        if (userConsent.includes(GA_CALLS)) {
-          if (data.results?.products?.length) {
-            dataLayer.push({
-              event: "search_bar_results_found",
-              click_type: "Input",
-              search_term: name
-            });
-          } else {
-            dataLayer.push({
-              event: "search_bar_no_results_found",
-              click_type: "Input",
-              search_term: name
-            });
-          }
-        }
         this.setState({
           productData: data.results?.products || [],
           url: searchUrl,
@@ -852,6 +839,7 @@ class Search extends React.Component<Props, State> {
                             <Link
                               to={"/search/?q=" + encodeURIComponent(ele)}
                               onClick={() => {
+                                localStorage.setItem("recentSearchValue", ele);
                                 this.recentSearch(ele);
                                 this.props.hideSearch();
                               }}
@@ -879,7 +867,6 @@ class Search extends React.Component<Props, State> {
                                     recentSearchs.filter(e => e !== ele)
                                   )
                                 );
-                                localStorage.setItem("recentSearch", ele?.name);
                               }}
                             ></i>
                           </div>
