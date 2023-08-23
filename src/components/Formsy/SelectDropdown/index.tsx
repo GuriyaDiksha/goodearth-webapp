@@ -16,7 +16,9 @@ const SelectDropdown: React.FC<Props &
   const [searchValue, setSearchValue] = useState("");
 
   const onOutsideClick = (event: MouseEvent) => {
-    setActive(false);
+    if (active) {
+      setActive(false);
+    }
   };
 
   const { ref } = useOutsideDetection<HTMLDivElement>(onOutsideClick);

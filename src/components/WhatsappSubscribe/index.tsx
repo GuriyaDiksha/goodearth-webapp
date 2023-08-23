@@ -147,7 +147,7 @@ const WhatsappSubscribe: React.FC<Props> = ({
 
   const onCodeChange = (e: any, newValue?: string) => {
     //const value = e.target.value;
-    setCode(newValue);
+    setCode(e?.value);
     setNumberError("");
     setError("");
   };
@@ -165,7 +165,7 @@ const WhatsappSubscribe: React.FC<Props> = ({
     dispatch(
       updateComponent(
         POPUP.WHATSAPP,
-        { data: data, isdList: isdList, closePopup },
+        { data: data, isdList: isdList, closePopup, countryData },
         true
       )
     );

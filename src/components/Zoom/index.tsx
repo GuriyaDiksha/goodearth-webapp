@@ -5,7 +5,6 @@ import React, {
   useState,
   MouseEvent
 } from "react";
-import { Product } from "typings/product";
 import styles from "./styles.scss";
 import cs from "classnames";
 import iconStyles from "styles/iconFonts.scss";
@@ -21,31 +20,21 @@ import play from "./../../icons/playVideo.svg";
 import pause from "./../../icons/pauseVideo.svg";
 
 type Props = {
-  code: string;
-  data: Product;
-  showAddToBagMobile?: boolean;
-  buttoncall: any;
-  showPrice: boolean;
-  price: string | number;
-  discountPrices: string | number;
   images: ProductImage[];
   mobile?: boolean;
   changeModalState?: any;
   alt: string;
+  startIndex: number;
 };
 
 const Zoom: React.FC<Props> = ({
-  data,
-  buttoncall,
-  showPrice,
-  price,
-  discountPrices,
+  startIndex,
   images = [],
   mobile = false,
   changeModalState = null,
   alt
 }) => {
-  const [selectedImage, setSelectedImage] = useState(images?.[0]);
+  const [selectedImage, setSelectedImage] = useState(images?.[startIndex]);
   const [zoom, setZoom] = useState(1);
   const [selectedMobileImageId, setSelectedMobileImageId] = useState(
     `product0`
@@ -250,6 +239,8 @@ const Zoom: React.FC<Props> = ({
               setSelectedMobileImageId={setSelectedMobileImageId}
               setZoom={setZoom}
               setSelectedImage={setSelectedImage}
+              startIndex={startIndex}
+              selectedImage={selectedImage}
             />
           ) : (
             <div
