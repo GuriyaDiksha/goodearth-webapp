@@ -822,27 +822,6 @@ class FilterList extends React.Component<Props, State> {
           this.props.currency
         );
 
-        const userConsent = CookieService.getCookie("consent").split(",");
-        const recentSearch = localStorage.getItem("recentSearch");
-        const popularSearch = localStorage.getItem("popularSearch");
-
-        if (userConsent.includes(GA_CALLS) && (popularSearch || recentSearch)) {
-          if (searchList.results.data.length) {
-            dataLayer.push({
-              event: "search_bar_results_found",
-              click_type: recentSearch ? "Recent search" : "Popular search",
-              search_term: name
-            });
-          } else {
-            dataLayer.push({
-              event: "search_bar_no_results_found",
-              click_type: recentSearch ? "Recent search" : "Popular search",
-              search_term: name
-            });
-          }
-          localStorage.removeItem("recentSearch");
-          localStorage.removeItem("popularSearch");
-        }
         this.createList(searchList);
         this.props.updateFacets(
           this.getSortedFacets(searchList.results.facets)
