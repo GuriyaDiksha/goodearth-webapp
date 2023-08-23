@@ -438,29 +438,38 @@ class Search extends React.Component<
         sortValue: sort ? sort : "hc"
       });
     }
+
+    const userConsent = CookieService.getCookie("consent").split(",");
+    const recentSearch = localStorage.getItem("recentSearchValue");
+    const popularSearch = localStorage.getItem("popularSearch");
+    const inputValue = localStorage.getItem("inputValue");
     if (
       !isEqual(this.props?.data?.results?.data, nextProps?.data?.results?.data)
     ) {
-      const userConsent = CookieService.getCookie("consent").split(",");
-      const recentSearch = localStorage.getItem("recentSearch");
-      const popularSearch = localStorage.getItem("popularSearch");
-
-      if (userConsent.includes(GA_CALLS) && (popularSearch || recentSearch)) {
+      if (
+        userConsent.includes(GA_CALLS) &&
+        (popularSearch || recentSearch || inputValue)
+      ) {
         if (nextProps?.data?.results?.data?.length) {
           dataLayer.push({
             event: "search_bar_results_found",
-            click_type: recentSearch ? "Recent search" : "Popular search",
-            search_term: name
+            click_type: recentSearch
+              ? "Recent search"
+              : popularSearch
+              ? "Popular search"
+              : "Input",
+            search_term: recentSearch || popularSearch || inputValue
           });
         } else {
           dataLayer.push({
             event: "search_bar_no_results_found",
             click_type: recentSearch ? "Recent search" : "Popular search",
-            search_term: name
+            search_term: recentSearch || popularSearch || inputValue
           });
         }
-        localStorage.removeItem("recentSearch");
+        localStorage.removeItem("recentSearchValue");
         localStorage.removeItem("popularSearch");
+        localStorage.removeItem("inputValue");
       }
     }
   }
