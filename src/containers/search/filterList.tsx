@@ -18,6 +18,8 @@ import iconStyles from "../../styles/iconFonts.scss";
 import multiColour from "../../images/multiColour.svg";
 import bootstrap from "../../styles/bootstrap/bootstrap-grid.scss";
 import { displayPriceWithCommas } from "utils/utility";
+import { GA_CALLS } from "constants/cookieConsent";
+import CookieService from "../../services/cookie";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -819,6 +821,7 @@ class FilterList extends React.Component<Props, State> {
           searchValue || "PLP",
           this.props.currency
         );
+
         this.createList(searchList);
         this.props.updateFacets(
           this.getSortedFacets(searchList.results.facets)
