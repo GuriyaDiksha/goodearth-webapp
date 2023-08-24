@@ -46,13 +46,13 @@
 }
 
 .page-body{
-  margin-top: $header-height;
+  margin-top: $secondary-header-margin-top;
   .sub-header {
     height: 60px;
   }
 }
 .page-body-timer {
-  margin-top: $header-height + $timer-height;
+  margin-top: $secondary-header-margin-top + $timer-height;
 }
 
 @media screen and (min-width: 992px) {
@@ -64,10 +64,10 @@
 
 @media screen and (max-width: 992px) {
   .page-body{
-    margin-top: $header-height;
+    margin-top: $secondary-header-margin-top;
   }
   .page-body-timer {
-    margin-top: $header-height + $timer-height;
+    margin-top: $secondary-header-margin-top + $timer-height;
   }
   .image-container {
     margin-left: 20px;

@@ -102,7 +102,7 @@ const StaticPage: React.FC<Props> = props => {
   return (
     <div
       className={cs(styles.containerStart, {
-        [globalStyles.containerStartTimer]: showTimer
+        [styles.containerStartTimer]: showTimer
       })}
     >
       <SecondaryHeader>
