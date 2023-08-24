@@ -489,8 +489,13 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
   };
 
   render() {
-    const { isLoading } = this.state;
-    const { number } = this.props;
+    // const { isLoading } = this.state;
+    const {
+      number,
+      CustomerPointInformation: {
+        Currency: { currencycode }
+      }
+    } = this.props;
     // console.log(number);
     return (
       <Fragment>
@@ -653,7 +658,9 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
               0 && (
               <li className={styles.emailWrp}>
                 <p>Email ID: {this.props?.email}</p>
-                {number ? <p>Mobile No.: +91{number}</p> : null}
+                {number && currencycode === "INR" ? (
+                  <p>Mobile No.: +91{number}</p>
+                ) : null}
               </li>
             )}
             {this.state.showerrorOtp && (

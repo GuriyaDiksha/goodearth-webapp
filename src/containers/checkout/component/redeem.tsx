@@ -63,12 +63,12 @@ class Reedem extends React.Component<Props, RedeemState> {
   };
 
   componentDidMount(): void {
-    if (
-      this.props.user?.loyaltyData?.CustomerPointInformation
-        ?.EligibleRedemptionPoints === 0
-    ) {
-      this.setState({ error: "You don't have points to redeem" });
-    }
+    // if (
+    //   this.props.user?.loyaltyData?.CustomerPointInformation
+    //     ?.EligibleRedemptionPoints === 0
+    // ) {
+    //   this.setState({ error: "You don't have points to redeem" });
+    // }
 
     document.addEventListener("mousedown", this.handleClickOutside);
   }
@@ -77,14 +77,14 @@ class Reedem extends React.Component<Props, RedeemState> {
     nextProps: Readonly<Props>,
     nextContext: any
   ): void {
-    if (
-      this.props.user?.loyaltyData?.CustomerPointInformation?.AvailablePoint !==
-        nextProps.user?.loyaltyData?.CustomerPointInformation?.AvailablePoint &&
-      nextProps.user?.loyaltyData?.CustomerPointInformation?.AvailablePoint ===
-        0
-    ) {
-      this.setState({ error: "You don't have points to redeem" });
-    }
+    // if (
+    //   this.props.user?.loyaltyData?.CustomerPointInformation?.AvailablePoint !==
+    //     nextProps.user?.loyaltyData?.CustomerPointInformation?.AvailablePoint &&
+    //   nextProps.user?.loyaltyData?.CustomerPointInformation?.AvailablePoint ===
+    //     0
+    // ) {
+    //   this.setState({ error: "You don't have points to redeem" });
+    // }
   }
 
   changeValue = (event: any) => {
