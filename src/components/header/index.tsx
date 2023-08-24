@@ -296,6 +296,7 @@ class Header extends React.Component<Props, State> {
     const sortHeader2 = document.getElementById("sortHeaderCust");
     const sortHeaderMobile = document.getElementById("sortHeaderMobile");
     const gridList = document.getElementById("gridList");
+    const accountFilterHeader = document.getElementById("accountFilterHeader");
     const mobileFilter = document.getElementById("mobileFilter");
     const filterHeader = document.getElementById("filterHeader");
     const mobileFilterMenu = document.getElementById("mobileFilterMenu");
@@ -385,11 +386,19 @@ class Header extends React.Component<Props, State> {
         }
       }
 
+      if (accountFilterHeader) {
+        if (tim) {
+          (accountFilterHeader as HTMLElement).style.top = "90px";
+        } else {
+          (accountFilterHeader as HTMLElement).style.top = "50px";
+        }
+      }
+
       if (mobileFilter) {
         if (tim) {
-          (mobileFilter as HTMLElement).style.top = "90px";
+          (mobileFilter as HTMLElement).style.top = "140px";
         } else {
-          (mobileFilter as HTMLElement).style.top = "50px";
+          (mobileFilter as HTMLElement).style.top = "100px";
         }
       }
 
@@ -545,12 +554,22 @@ class Header extends React.Component<Props, State> {
         }
       }
 
-      if (mobileFilter) {
+      if (accountFilterHeader) {
         if (tim) {
-          (mobileFilter as HTMLElement).style.top = `${130 -
+          (accountFilterHeader as HTMLElement).style.top = `${130 -
             window?.pageYOffset}px`;
         } else {
-          (mobileFilter as HTMLElement).style.top = `${90 -
+          (accountFilterHeader as HTMLElement).style.top = `${90 -
+            window?.pageYOffset}px`;
+        }
+      }
+
+      if (mobileFilter) {
+        if (tim) {
+          (mobileFilter as HTMLElement).style.top = `${170 -
+            window?.pageYOffset}px`;
+        } else {
+          (mobileFilter as HTMLElement).style.top = `${140 -
             window?.pageYOffset}px`;
         }
       }

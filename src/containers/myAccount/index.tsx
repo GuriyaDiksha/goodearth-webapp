@@ -342,6 +342,7 @@ const MyAccount: React.FC<Props> = props => {
                   className={cs(styles.mobileFilterHeader, {
                     [styles.mobileFilterHeaderTimer]: showTimer
                   })}
+                  id="accountFilterHeader"
                 >
                   <div className={styles.filterCross}>
                     <span>
