@@ -29,6 +29,7 @@ const CollectionImageSlider: React.FC<CollectionImageSlider> = ({
             <img
               src={image ? image : "/static/img/noimageplp.png"}
               alt={name}
+              width="400"
             />
           </Link>
         </div>
