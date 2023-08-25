@@ -105,6 +105,11 @@ $pdp-top: $header-height;
         //     }
             
         // }
+
+        video{
+            object-fit: cover;
+            height: 100%;
+        }
         .view-in-btn{
             @include view_in_btn();
         }
@@ -492,8 +497,10 @@ input[type="time"]::-webkit-calendar-picker-indicator{
 }
 
 .video-div{
+    height: 100%;
     video{
-        max-height: 550px ;
+        object-fit: cover;
+        height: 100%;
     }
 }
 
