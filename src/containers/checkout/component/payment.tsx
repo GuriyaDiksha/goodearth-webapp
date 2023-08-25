@@ -641,7 +641,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
 
   return (
     <>
-      {(slab.toLowerCase() === "cerise" ||
+      {(slab.toLowerCase() === "cerise club" ||
         slab.toLowerCase() === "cerise sitara") &&
         loyaltyData?.CustomerPointInformation &&
         currency == "INR" && (

@@ -1210,7 +1210,7 @@ class Mobilemenu extends React.Component<Props, MobileState> {
           }}
         > */}
         {(this.props.currency === "INR" ||
-          this.props.slab.toLowerCase() === "cerise" ||
+          this.props.slab.toLowerCase() === "cerise club" ||
           this.props.slab.toLowerCase() === "cerise sitara") && (
           <CeriseCard clickToggle={clickToggle} />
         )}

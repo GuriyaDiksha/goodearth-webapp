@@ -32,7 +32,7 @@ const Rewards = () => {
     setBenefits(
       landing?.filter(
         e =>
-          (e.level?.includes("Club") && slab === "Cerise") ||
+          (e.level?.includes("Club") && slab === "Cerise Club") ||
           (e.level?.includes("Sitara") && slab === "Cerise Sitara")
       )
     );
@@ -68,7 +68,7 @@ const Rewards = () => {
       </div>
 
       <div className={styles.rewardsList}>
-        {(slab === "Cerise" ? benefits : benefits.slice(0, 4))?.map(
+        {(slab === "Cerise Club" ? benefits : benefits.slice(0, 4))?.map(
           (ele, ind) => (
             <div
               className={cs(styles.rewardRow, {

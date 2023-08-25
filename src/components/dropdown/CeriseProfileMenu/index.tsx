@@ -36,7 +36,8 @@ const CeriseProfileMenu = ({
       <div className={styles.ceriseCardMenuWrp}>
         {(currency === "INR" ||
           slab.toLowerCase() === "cerise" ||
-            slab.toLowerCase() === "cerise sitara") && (
+          slab.toLowerCase() === "cerise sitara" ||
+          slab.toLowerCase() === "cerise club") && (
           <div
           // onClick={e => {
           //   if ((e.target as HTMLInputElement)?.id === "dashboard") {

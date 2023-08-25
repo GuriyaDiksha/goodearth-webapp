@@ -218,7 +218,7 @@ const MyAccount: React.FC<Props> = props => {
   let ceriseClubAccess = false;
   if (slab) {
     ceriseClubAccess =
-      slab.toLowerCase() == "cerise" ||
+      slab.toLowerCase() == "cerise club" ||
       slab.toLowerCase() == "ff10" ||
       slab.toLowerCase() == "ff15" ||
       slab.toLowerCase() == "cerise sitara";
