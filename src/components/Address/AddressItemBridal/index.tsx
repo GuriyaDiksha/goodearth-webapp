@@ -82,7 +82,7 @@ const AddressItemBridal: React.FC<Props> = ({
                 className={cs(
                   globalStyles.marginT10,
                   globalStyles.marginB20,
-                  globalStyles.c10LR
+                  styles.bridalPredefined
                 )}
               >
                 Address predefined by registrant

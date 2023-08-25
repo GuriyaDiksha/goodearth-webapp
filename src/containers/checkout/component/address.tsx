@@ -38,6 +38,7 @@ import ModalStyles from "components/Modal/styles.scss";
 import CookieService from "services/cookie";
 import { GA_CALLS } from "constants/cookieConsent";
 import { Currency, currencyCode } from "typings/currency";
+import bridalRing from "../../../images/bridal/rings.svg";
 
 const AddressSection: React.FC<AddressProps & {
   mode: string;
@@ -359,15 +360,45 @@ const AddressSection: React.FC<AddressProps & {
             styles.selectedStvalue
           )}
         >
-          <div>
+          <div className={styles.bridalAddressTitleRing}>
             <span className={globalStyles.marginR10}>
               {address.registrantName} & {address.coRegistrantName}&#39;s &nbsp;
               {address.occasion} Registry
             </span>
+            <div className={cs(styles.defaultAddressDiv, styles.bridalAddress)}>
+              <svg
+                viewBox="0 5 40 40"
+                width="35"
+                height="35"
+                preserveAspectRatio="xMidYMid meet"
+                x="0"
+                y="0"
+                className={styles.ceriseBridalRings}
+              >
+                <use xlinkHref={`${bridalRing}#bridal-ring`}></use>
+              </svg>
+            </div>
           </div>
-          <div>
+          {/* <div>
             <span className={globalStyles.marginR10}>(Address predefined)</span>
+          </div> */}
+          <div className={styles.addressMain}>
+            <div className={styles.text}>
+              {address.line1}
+              {address.line2 && ","}
+              {address.line2},
+            </div>
+            {/* {address.line2 && (
+                  <div className={styles.text}>{address.line2},</div>
+                )} */}
+            <div className={styles.text}>
+              {address.city},{address.state} - {address.postCode},
+            </div>
+            <div className={styles.text}>{address.countryName}</div>
           </div>
+          <p className={styles.phone}>
+            {address.phoneCountryCode} {address.phoneNumber}
+          </p>
         </div>
       );
     } else if (!isActive && address && STEP_ORDER[activeStep] < currentStep) {
