@@ -291,7 +291,7 @@ const LineItems: React.FC<BasketItem> = memo(
               <Link to={isGiftCard ? "#" : url} onClick={toggleBag}>
                 {salesBadgeImage && (
                   <div className={styles.badgePositionPlpMobile}>
-                    <img src={salesBadgeImage} alt="sales-badge" />
+                    <img width="200" src={salesBadgeImage} alt="sales-badge" />
                   </div>
                 )}
                 <div className={cs(styles.cartRing, styles.bridalIcon)}>
@@ -312,6 +312,7 @@ const LineItems: React.FC<BasketItem> = memo(
                 <img
                   className={styles.productImage}
                   alt={product.altText || product.title}
+                  width="200"
                   src={
                     isGiftCard
                       ? giftCardImage
