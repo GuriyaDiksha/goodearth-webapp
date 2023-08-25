@@ -566,7 +566,7 @@ class Header extends React.Component<Props, State> {
 
       if (mobileFilter) {
         if (tim) {
-          (mobileFilter as HTMLElement).style.top = `${170 -
+          (mobileFilter as HTMLElement).style.top = `${180 -
             window?.pageYOffset}px`;
         } else {
           (mobileFilter as HTMLElement).style.top = `${140 -
@@ -586,7 +586,7 @@ class Header extends React.Component<Props, State> {
 
       if (mobileFilterMenu) {
         if (tim) {
-          (mobileFilterMenu as HTMLElement).style.top = `${170 -
+          (mobileFilterMenu as HTMLElement).style.top = `${180 -
             window?.pageYOffset}px`;
         } else {
           (mobileFilterMenu as HTMLElement).style.top = `${140 -
@@ -606,7 +606,7 @@ class Header extends React.Component<Props, State> {
 
       if (dropdownFilterHeaderMenu) {
         if (tim) {
-          (dropdownFilterHeaderMenu as HTMLElement).style.top = `${170 -
+          (dropdownFilterHeaderMenu as HTMLElement).style.top = `${180 -
             window?.pageYOffset}px`;
         } else {
           (dropdownFilterHeaderMenu as HTMLElement).style.top = `${145 -
