@@ -56,12 +56,13 @@ const PdpSlider: React.FC<Props> = memo(
             onClick={onImageClick ? getClickHandler(index) : undefined}
           >
             <img
+              width="400"
               alt={alt}
               className={globalStyles.imgResponsive}
               src={productImage.replace("/Micro/", "/Medium/")}
             ></img>
             {icon && iconcount == 1 && (
-              <img src={overlay} className={styles.overlay}></img>
+              <img src={overlay} className={styles.overlay} width="400"></img>
             )}
           </div>
         );
