@@ -105,11 +105,16 @@ $pdp-top: $header-height;
         //     }
             
         // }
-
-        video{
-            object-fit: cover;
-            height: 100%;
-        }
+            .video-wrp{
+                height: 100%;
+                width: 100%;
+                video{
+                    object-fit: cover;
+                    height: 100%;
+                    width: 100%
+                }
+            }
+       
         .view-in-btn{
             @include view_in_btn();
         }
@@ -498,10 +503,16 @@ input[type="time"]::-webkit-calendar-picker-indicator{
 
 .video-div{
     height: 100%;
-    video{
-        object-fit: cover;
+    .video-wrp{
         height: 100%;
+        width: 100%;
+        video{
+            object-fit: cover;
+            height: 100%;
+            width: 100%;
+        }
     }
+    
 }
 
 .overlay-div{
