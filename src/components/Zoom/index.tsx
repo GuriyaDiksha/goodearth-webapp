@@ -271,6 +271,7 @@ const Zoom: React.FC<Props> = ({
                     playsinline={true}
                   /> */}
                   <video
+                    id="pdpImage"
                     ref={videoRef}
                     src={selectedImage?.video_link}
                     autoPlay={false}
