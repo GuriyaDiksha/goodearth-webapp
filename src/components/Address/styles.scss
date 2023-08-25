@@ -837,3 +837,31 @@ float: right;
 margin-top: 5px;
 @include b6_9px_light_montserrat_charcoal();
 }
+
+.address-main {
+  padding-top: 5px;
+  .text {
+    @include b4_12px_montserrat_light_charcoal();
+    letter-spacing: 0.36px;
+  }
+}
+.phone {
+  @include b4_12px_montserrat_charcoal();
+  letter-spacing: 0.36px;
+  padding: 5px 0;
+}
+
+.bridal-address{
+  width: 30%;
+  text-align: right;
+}
+
+.title-width{
+  width: 70%;
+}
+
+.bridal-predefined{
+  @include b4_12px_montserrat_med_aqua();
+  font-size: 10px !important;
+  color: $aqua !important;
+}

@@ -41,46 +41,71 @@ const AddressItemBridal: React.FC<Props> = ({
             className={cs(
               styles.addressItem,
               styles.addressItemCheckout,
-              styles.checkoutFix,
               styles.checkoutHeightFix
             )}
           >
             <div>
-              {
-                <svg
-                  viewBox="-3 -3 46 46"
-                  width="60"
-                  height="60"
-                  preserveAspectRatio="xMidYMid meet"
-                  x="0"
-                  y="0"
-                  className={styles.ceriseBridalRings}
+              <div className={styles.lineHead}>
+                <div className={styles.radio}>
+                  <input
+                    className={styles.defaultAddressCheckbox}
+                    checked={true}
+                    type="radio"
+                  />
+                  <span className={styles.checkmark}></span>
+                </div>
+                <div className={cs(styles.lineHead, styles.titleWidth)}>
+                  {title}
+                  {addressData.registrantName}&nbsp; &{" "}
+                  {addressData.coRegistrantName}&#39;s {addressData.occasion}{" "}
+                  Registry
+                </div>
+
+                <div
+                  className={cs(styles.defaultAddressDiv, styles.bridalAddress)}
                 >
-                  <use xlinkHref={`${bridalRing}#bridal-ring`}></use>
-                </svg>
-              }
-              <div className={cs(styles.lineHead, styles.checkoutFix)}>
-                {title}
-                {addressData.registrantName}&nbsp; &{" "}
-                {addressData.coRegistrantName}&#39;s {addressData.occasion}{" "}
-                Registry
+                  <svg
+                    viewBox="0 5 40 40"
+                    width="35"
+                    height="35"
+                    preserveAspectRatio="xMidYMid meet"
+                    x="0"
+                    y="0"
+                    className={styles.ceriseBridalRings}
+                  >
+                    <use xlinkHref={`${bridalRing}#bridal-ring`}></use>
+                  </svg>
+                </div>
               </div>
 
-              <div className={cs(globalStyles.marginT20, globalStyles.c10LR)}>
+              <div
+                className={cs(
+                  globalStyles.marginT10,
+                  globalStyles.marginB20,
+                  globalStyles.c10LR
+                )}
+              >
                 Address predefined by registrant
               </div>
+
+              <div className={styles.addressMain}>
+                <div className={styles.text}>
+                  {addressData.line1}
+                  {addressData.line2 && ","}
+                  {addressData.line2},
+                </div>
+
+                <div className={styles.text}>
+                  {addressData.city},{addressData.state} -{" "}
+                  {addressData.postCode},
+                </div>
+                <div className={styles.text}>{addressData.countryName}</div>
+              </div>
+              <p className={styles.phone}>
+                {addressData.phoneCountryCode} {addressData.phoneNumber}
+              </p>
             </div>
           </div>
-          {/* <div
-            className={cs(
-              styles.shipToThisBtn,
-              globalStyles.ceriseBtn,
-              globalStyles.cursorPointer
-            )}
-            onClick={() => onSelectAddress(addressData)}
-          >
-            SHIP&nbsp;TO THIS ADDRESS
-          </div> */}
         </div>
       )}
     </div>
