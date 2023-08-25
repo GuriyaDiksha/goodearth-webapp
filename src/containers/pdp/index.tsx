@@ -401,20 +401,20 @@ class PDPContainer extends React.Component<Props, State> {
 
     this.startImageAutoScroll();
 
-    window.addEventListener('scroll',(event) => {
-      var windowSize = window.outerWidth;
+    window.addEventListener("scroll", event => {
+      const windowSize = window.outerWidth;
       if (windowSize <= 992) {
         const windowScroll = window.scrollY;
         const scrollAfterDiv = document.getElementById("more_collection_div");
         const dockedDiv = document.getElementById("docked_div");
-        if(scrollAfterDiv){
+        if (scrollAfterDiv) {
           const topPos = scrollAfterDiv.offsetTop;
           const height = scrollAfterDiv.offsetHeight;
-          const newtopPos = topPos - (height+110);
-          if(dockedDiv){
-            if(windowScroll >= (newtopPos) ){
+          const newtopPos = topPos - (height + 110);
+          if (dockedDiv) {
+            if (windowScroll >= newtopPos) {
               dockedDiv.style.cssText = "position: absolute;bottom: -7%;";
-            }else{
+            } else {
               dockedDiv.style.cssText = "position: fixed;bottom: 0;";
             }
           }
@@ -1451,7 +1451,7 @@ class PDPContainer extends React.Component<Props, State> {
                       height={"auto"}
                       playsinline={true}
                     /> */}
-                    <video
+                    {/* <video
                       src={video_link}
                       autoPlay
                       loop
@@ -1460,6 +1460,22 @@ class PDPContainer extends React.Component<Props, State> {
                       height={"auto"}
                       onClick={this.getMobileZoomListener(i)}
                       muted
+                    /> */}
+                    <div
+                      className={styles.videoWrp}
+                      onClick={this.getMobileZoomListener(i)}
+                      dangerouslySetInnerHTML={{
+                        __html: `
+                  <video
+                    loop
+                    muted
+                    autoplay
+                    playsinline
+                    preload="metadata"
+                  >
+                  <source src="${video_link}" />
+                  </video>`
+                      }}
                     />
                   </>
                 )}
