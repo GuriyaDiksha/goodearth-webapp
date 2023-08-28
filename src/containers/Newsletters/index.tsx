@@ -16,6 +16,7 @@ import MakerEnhance from "components/maker";
 import { updateCountryData } from "actions/address";
 import FormSelect from "components/Formsy/FormSelect";
 import { Country } from "components/Formsy/CountryCode/typings";
+import { currency } from "../../reducers/currency/index";
 
 type StateOptions = {
   value: string;
@@ -196,6 +197,7 @@ const Newsletters: React.FC = () => {
     return formData;
   };
 
+  const NewsFormRef = useRef<Formsy>(null);
   const handleSubmit = (
     model: any,
     resetForm: any,
@@ -206,6 +208,13 @@ const Newsletters: React.FC = () => {
     }
     const formData = prepareFormData(model);
     saveData(formData, resetForm, updateInputsWithError);
+    const form = NewsFormRef.current;
+    if (form) {
+      form.updateInputsWithValue({
+        country: ""
+      });
+    }
+    setCountryOptions(countryOptions);
   };
 
   const formContent = (
@@ -221,6 +230,7 @@ const Newsletters: React.FC = () => {
         latest collections, insider stories and expert tips.
       </h4>
       <Formsy
+        ref={NewsFormRef}
         onValidSubmit={handleSubmit}
         onInvalidSubmit={handleInvalidSubmit}
         onChange={handleChange}
