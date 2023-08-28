@@ -196,6 +196,7 @@ const Newsletters: React.FC = () => {
     return formData;
   };
 
+  const NewsFormRef = useRef<Formsy>(null);
   const handleSubmit = (
     model: any,
     resetForm: any,
@@ -206,6 +207,13 @@ const Newsletters: React.FC = () => {
     }
     const formData = prepareFormData(model);
     saveData(formData, resetForm, updateInputsWithError);
+    const form = NewsFormRef.current;
+    if (form) {
+      form.updateInputsWithValue({
+        country: ""
+      });
+    }
+    setCountryOptions(countryOptions);
   };
 
   const formContent = (
@@ -221,6 +229,7 @@ const Newsletters: React.FC = () => {
         latest collections, insider stories and expert tips.
       </h4>
       <Formsy
+        ref={NewsFormRef}
         onValidSubmit={handleSubmit}
         onInvalidSubmit={handleInvalidSubmit}
         onChange={handleChange}
