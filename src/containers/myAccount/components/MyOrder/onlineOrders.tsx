@@ -321,8 +321,11 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
         {/* Loyalty Points */}
         {data.loyalityPointsRedeemed?.map((point: number, i: number) => {
           return (
-            <div className={cs(styles.price, styles.price3, styles.discount)}>
-              <span className={styles.label}>Loyalty Points</span>
+            <div
+              className={cs(styles.price, styles.price3, styles.discount)}
+              key={i}
+            >
+              <span className={styles.label}>Cerise Points</span>
               <span className={styles.value}>
                 {`(-) ${displayPriceWithCommasFloat(point, item.currency)}`}
               </span>

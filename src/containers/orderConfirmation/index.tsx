@@ -870,7 +870,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                         )}
                         key={`loyalty_`}
                       >
-                        <p>Loyalty Points</p>
+                        <p>CERISE POINTS</p>
                         <p>
                           (-){" "}
                           {`${displayPriceWithCommasFloat(

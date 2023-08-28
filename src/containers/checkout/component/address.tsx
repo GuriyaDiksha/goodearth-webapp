@@ -460,7 +460,7 @@ const AddressSection: React.FC<AddressProps & {
               <p className={styles.phone}>
                 {address.phoneCountryCode} {address.phoneNumber}
               </p>
-              {currency === "INR" && (
+              {currency === "INR" && !isGoodearthShipping && (
                 <p className={styles.contactMsg}>
                   Note:
                   {`${address.phoneCountryCode} ${address.phoneNumber} will be used for sending OTP during delivery. Please ensure it is a mobile number.`}
