@@ -16,7 +16,6 @@ import MakerEnhance from "components/maker";
 import { updateCountryData } from "actions/address";
 import FormSelect from "components/Formsy/FormSelect";
 import { Country } from "components/Formsy/CountryCode/typings";
-import { currency } from "../../reducers/currency/index";
 
 type StateOptions = {
   value: string;
