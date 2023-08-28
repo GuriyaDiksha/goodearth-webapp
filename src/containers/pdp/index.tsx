@@ -405,20 +405,34 @@ class PDPContainer extends React.Component<Props, State> {
       const windowSize = window.outerWidth;
       if (windowSize <= 992) {
         const windowScroll = window.scrollY;
-        const scrollAfterDiv = document.getElementById("more_collection_div");
+        // const scrollAfterDiv = document.getElementById("more_collection_div");
         const dockedDiv = document.getElementById("docked_div");
+        const scrollAfterDiv = document.getElementById("product_detail_sec");
         if (scrollAfterDiv) {
-          const topPos = scrollAfterDiv.offsetTop;
-          const height = scrollAfterDiv.offsetHeight;
-          const newtopPos = topPos - (height + 110);
+          const rect = scrollAfterDiv.getBoundingClientRect();
+          const scrollBottom = rect.bottom;
+          // console.log("bottom---" +rect.bottom);
           if (dockedDiv) {
-            if (windowScroll >= newtopPos) {
-              dockedDiv.style.cssText = "position: absolute;bottom: -7%;";
+            if (windowScroll >= scrollBottom) {
+              dockedDiv.style.cssText = "position: absolute;bottom: -8%;";
             } else {
               dockedDiv.style.cssText = "position: fixed;bottom: 0;";
             }
           }
         }
+        // if (scrollAfterDiv) {
+        //   const topPos = scrollAfterDiv.offsetTop;
+        //   const height = scrollAfterDiv.offsetHeight;
+        //   const newtopPos = topPos - (height);
+        //   console.log(windowScroll+ "----" +newtopPos+ "----" +topPos)
+        //   if (dockedDiv) {
+        //     if (windowScroll >= newtopPos) {
+        //       dockedDiv.style.cssText = "position: absolute;bottom: -7%;";
+        //     } else {
+        //       dockedDiv.style.cssText = "position: fixed;bottom: 0;";
+        //     }
+        //   }
+        // }
       }
     });
   }
