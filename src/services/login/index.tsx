@@ -184,7 +184,7 @@ export default {
             if (!data.bridalProfile) item1 = true;
             if (data.bridalProfile) item2 = true;
           });
-          if (item1 && item2) {
+          if (item1 && item2 && source != "checkout") {
             showGrowlMessage(dispatch, MESSAGE.REGISTRY_MIXED_SHIPPING, 6000);
           }
         }
@@ -307,7 +307,7 @@ export default {
             if (!data.bridalProfile) item1 = true;
             if (data.bridalProfile) item2 = true;
           });
-          if (item1 && item2) {
+          if (item1 && item2 && source != "checkout") {
             showGrowlMessage(dispatch, MESSAGE.REGISTRY_MIXED_SHIPPING, 6000);
           }
         }
