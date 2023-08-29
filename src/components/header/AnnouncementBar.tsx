@@ -132,20 +132,14 @@ const AnnouncementBar: React.FC<Props> = ({
               >
                 {/* Announcement Bar Content */}
                 <div className={styles.announcementContent}>
-                  {ele?.content ? (
-                    ele?.announcementRedirectionUrl ? (
-                      <a
-                        href={ele?.announcementRedirectionUrl}
-                        rel="noreferrer noopener"
-                        target="_blank"
-                      >
-                        {ReactHtmlParser(ele?.content)}
-                      </a>
-                    ) : (
-                      <a className={styles.noUrl}>
-                        {ReactHtmlParser(ele?.content)}
-                      </a>
-                    )
+                  {ele?.announcementRedirection == "OPEN_A_NEW_PAGE" ? (
+                    <a
+                      href={ele?.announcementRedirectionUrl}
+                      rel="noreferrer noopener"
+                      target="_blank"
+                    >
+                      {ReactHtmlParser(ele?.content)}
+                    </a>
                   ) : ele?.announcementRedirection == "OPEN_A_POP_UP" ? (
                     <div
                       className={globalStyles.pointer}
