@@ -7,6 +7,7 @@ type Props = {
   data: any;
   isdList: any;
   closePopup: () => void;
+  countryData: any;
 };
 
 const WhatsappPopup: React.FC<Props> = props => {
@@ -35,6 +36,7 @@ const WhatsappPopup: React.FC<Props> = props => {
               buttonClass={styles.buttonClass}
               countryCodeClass={styles.countryCode}
               checkboxLabelClass={styles.checkboxLabel}
+              countryData={props.countryData}
             />
           </div>
         </div>

@@ -3,7 +3,11 @@
 @import "../../styles/partials/form";
 
 .container-start {
-  margin-top: 115px;
+  margin-top: 40px;
+}
+
+.container-start-timer {
+  margin-top: 80px;
 }
 
 .heading {
@@ -49,7 +53,7 @@
   background-color: white;
 }
 .account-form-bg-mobile {
-  // height: 100vh !important;
+  height: 100vh !important;
   overflow: scroll;
   z-index: 0;
   padding-bottom: 20px;

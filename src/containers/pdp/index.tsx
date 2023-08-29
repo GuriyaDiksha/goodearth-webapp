@@ -66,7 +66,7 @@ import { GA_CALLS } from "constants/cookieConsent";
 // import pdp_top from "images/3d/pdp_top.svg";
 import button_image from "images/3d/button_image.svg";
 import Mobile360 from "./../../icons/360mobile.svg";
-import ReactPlayer from "react-player";
+// import ReactPlayer from "react-player";
 
 const PDP_TOP_OFFSET = HEADER_HEIGHT + SECONDARY_HEADER_HEIGHT;
 const sidebarPosition = PDP_TOP_OFFSET + 23;
@@ -400,6 +400,41 @@ class PDPContainer extends React.Component<Props, State> {
     this.fetchMoreProductsFromCollection(this.props?.id);
 
     this.startImageAutoScroll();
+
+    window.addEventListener("scroll", event => {
+      const windowSize = window.outerWidth;
+      if (windowSize <= 992) {
+        const windowScroll = window.scrollY;
+        // const scrollAfterDiv = document.getElementById("more_collection_div");
+        const dockedDiv = document.getElementById("docked_div");
+        const scrollAfterDiv = document.getElementById("product_detail_sec");
+        if (scrollAfterDiv) {
+          const rect = scrollAfterDiv.getBoundingClientRect();
+          const scrollBottom = rect.bottom;
+          // console.log("bottom---" +rect.bottom);
+          if (dockedDiv) {
+            if (windowScroll >= scrollBottom) {
+              dockedDiv.style.cssText = "position: absolute;bottom: -8%;";
+            } else {
+              dockedDiv.style.cssText = "position: fixed;bottom: 0;";
+            }
+          }
+        }
+        // if (scrollAfterDiv) {
+        //   const topPos = scrollAfterDiv.offsetTop;
+        //   const height = scrollAfterDiv.offsetHeight;
+        //   const newtopPos = topPos - (height);
+        //   console.log(windowScroll+ "----" +newtopPos+ "----" +topPos)
+        //   if (dockedDiv) {
+        //     if (windowScroll >= newtopPos) {
+        //       dockedDiv.style.cssText = "position: absolute;bottom: -7%;";
+        //     } else {
+        //       dockedDiv.style.cssText = "position: fixed;bottom: 0;";
+        //     }
+        //   }
+        // }
+      }
+    });
   }
 
   componentWillUnmount() {
@@ -1398,7 +1433,7 @@ class PDPContainer extends React.Component<Props, State> {
       if (images?.length > 0) {
         mobileSlides = images?.map(
           (
-            { id, productImage, icon, code, vimeo_link, media_type, type },
+            { id, productImage, icon, code, video_link, media_type, type },
             i: number
           ) => {
             return (
@@ -1420,7 +1455,7 @@ class PDPContainer extends React.Component<Props, State> {
                   />
                 ) : (
                   <>
-                    <div className={styles.overlayDiv}></div>
+                    {/* <div className={styles.overlayDiv}></div>
                     <ReactPlayer
                       url={vimeo_link}
                       playing={true}
@@ -1429,6 +1464,32 @@ class PDPContainer extends React.Component<Props, State> {
                       width={"100%"}
                       height={"auto"}
                       playsinline={true}
+                    /> */}
+                    {/* <video
+                      src={video_link}
+                      autoPlay
+                      loop
+                      preload="auto"
+                      width={"100%"}
+                      height={"auto"}
+                      onClick={this.getMobileZoomListener(i)}
+                      muted
+                    /> */}
+                    <div
+                      className={styles.videoWrp}
+                      onClick={this.getMobileZoomListener(i)}
+                      dangerouslySetInnerHTML={{
+                        __html: `
+                  <video
+                    loop
+                    muted
+                    autoplay
+                    playsinline
+                    preload="metadata"
+                  >
+                  <source src="${video_link}" />
+                  </video>`
+                      }}
                     />
                   </>
                 )}
@@ -1535,6 +1596,7 @@ class PDPContainer extends React.Component<Props, State> {
           </div>
         )}
         <div
+          id="product_detail_sec"
           className={cs(bootstrap.row, styles.productSection)}
           ref={this.containerRef}
         >
