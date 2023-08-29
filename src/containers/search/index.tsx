@@ -28,7 +28,7 @@ import SecondaryHeaderDropdown from "components/dropdown/secondaryHeaderDropdown
 import { CategoryMenu } from "containers/plp/typings";
 import { GA_CALLS } from "constants/cookieConsent";
 import ProductCounter from "components/ProductCounter";
-import { throttle } from "lodash";
+import { isEqual, throttle } from "lodash";
 import ResetFiltersTile from "components/plpResultItem/resetFiltersTile";
 
 const mapStateToProps = (state: AppState) => {
@@ -431,13 +431,51 @@ class Search extends React.Component<
           this.onClickSearch();
         }
       );
-    } else {
     }
     const sort = urlParams.get("sort_by");
     if (sort !== this.state.sortValue) {
       this.setState({
         sortValue: sort ? sort : "hc"
       });
+    }
+
+    const userConsent = CookieService.getCookie("consent").split(",");
+    const recentSearch = localStorage.getItem("recentSearchValue");
+    const popularSearch = localStorage.getItem("popularSearch");
+    const inputValue = localStorage.getItem("inputValue");
+
+    if (
+      !isEqual(this.props?.data?.results?.data, nextProps?.data?.results?.data)
+    ) {
+      if (
+        userConsent.includes(GA_CALLS) &&
+        (popularSearch || recentSearch || inputValue)
+      ) {
+        if (nextProps?.data?.results?.data?.length) {
+          dataLayer.push({
+            event: "search_bar_results_found",
+            click_type: recentSearch
+              ? "Recent search"
+              : popularSearch
+              ? "Popular search"
+              : "Input",
+            search_term: recentSearch || popularSearch || inputValue
+          });
+        } else {
+          dataLayer.push({
+            event: "search_bar_no_results_found",
+            click_type: recentSearch
+              ? "Recent search"
+              : popularSearch
+              ? "Popular search"
+              : "Input",
+            search_term: recentSearch || popularSearch || inputValue
+          });
+        }
+        localStorage.removeItem("recentSearchValue");
+        localStorage.removeItem("popularSearch");
+        localStorage.removeItem("inputValue");
+      }
     }
   }
 
