@@ -9,7 +9,9 @@ const InputField: React.FC<Props> = props => {
   const [placeholder, setPlaceholder] = useState(props.placeholder || "");
   const [readOnly, setReadOnly] = useState(true);
 
-  const handleClick = (event: React.MouseEvent | React.FocusEvent) => {
+  const handleClick = (
+    event: React.MouseEvent | React.FocusEvent | React.TouchEvent
+  ) => {
     if (!labelClass || placeholder !== "") {
       setLabelClass(true);
       setPlaceholder("");
