@@ -249,7 +249,11 @@ const AddressForm: React.FC<Props> = props => {
             }
           }
           setIsLoading(false);
-          closeAddressForm();
+          closeAddressForm(
+            addressList?.[addressList?.length - 1]?.isTulsi
+              ? addressList?.[addressList?.length - 2]?.id
+              : addressList?.[addressList?.length - 1]?.id
+          );
         })
         .catch(err => {
           const errData = err.response.data;
@@ -287,7 +291,7 @@ const AddressForm: React.FC<Props> = props => {
           }
           setIsAddressChanged(false);
           setIsLoading(false);
-          closeAddressForm();
+          closeAddressForm(id);
         })
         .catch(err => {
           const errData = err.response.data;
@@ -439,7 +443,9 @@ const AddressForm: React.FC<Props> = props => {
               styles.backBtnAddress,
               styles.backBtnFont
             )}
-            onClick={closeAddressForm}
+            onClick={() =>
+              closeAddressForm(mode === "edit" ? addressData?.id : undefined)
+            }
           >
             &lt; back
           </div>
@@ -471,7 +477,14 @@ const AddressForm: React.FC<Props> = props => {
                 <div className={styles.formTitle}>
                   {mode == "edit" ? "Edit ADDRESS" : "ADD NEW ADDRESS"}
                 </div>
-                <div className={styles.formClose} onClick={closeAddressForm}>
+                <div
+                  className={styles.formClose}
+                  onClick={() =>
+                    closeAddressForm(
+                      mode === "edit" ? addressData?.id : undefined
+                    )
+                  }
+                >
                   <i
                     className={cs(
                       iconStyles.icon,
@@ -909,7 +922,11 @@ const AddressForm: React.FC<Props> = props => {
                             currentCallBackComponent == "checkout-billing"
                         }
                       )}
-                      onClick={closeAddressForm}
+                      onClick={() =>
+                        closeAddressForm(
+                          mode === "edit" ? addressData?.id : undefined
+                        )
+                      }
                     >
                       cancel
                     </button>
@@ -938,11 +955,11 @@ const AddressForm: React.FC<Props> = props => {
             )}
             onTouchEnd={() => {
               console.log("mobile touch");
-              closeAddressForm();
+              closeAddressForm(mode === "edit" ? addressData?.id : undefined);
             }}
             onClick={() => {
               console.log("click start");
-              closeAddressForm();
+              closeAddressForm(mode === "edit" ? addressData?.id : undefined);
             }}
           >
             Cancel & Go Back
@@ -962,7 +979,12 @@ const AddressForm: React.FC<Props> = props => {
               styles.backAddressForm
             )}
           >
-            <div className={globalStyles.pointer} onClick={closeAddressForm}>
+            <div
+              className={globalStyles.pointer}
+              onClick={() =>
+                closeAddressForm(mode === "edit" ? addressData?.id : undefined)
+              }
+            >
               {addressList
                 ? addressList.filter(data => !data.isBridal && !data.isTulsi)
                     .length > 0 || bridalUser.userId

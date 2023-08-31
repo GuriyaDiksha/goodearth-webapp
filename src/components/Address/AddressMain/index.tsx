@@ -309,9 +309,14 @@ const AddressMain: React.FC<Props> = props => {
     }
   };
 
-  const closeAddressForm = useCallback(() => {
+  const closeAddressForm = useCallback((addressId?: any) => {
     dispatch(updateAddressMode("list"));
     // window.scrollTo(0, 0);
+    setTimeout(() => {
+      document
+        .getElementById(`address-item-${addressId}`)
+        ?.scrollIntoView({ behavior: "smooth", block: "end", inline: "start" });
+    }, 300);
   }, []);
 
   const checkPinCode = useCallback(
