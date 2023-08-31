@@ -1,12 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Props } from "./typings";
 import styles from "./styles.scss";
 import cs from "classnames";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { AppState } from "reducers/typings";
-import { Link, useHistory } from "react-router-dom";
-import LoyaltyService from "services/loyalty";
-import { updateLoyaltyPoints } from "actions/loyalty";
+import { useHistory } from "react-router-dom";
 import moment from "moment";
 import { LoyaltyPoints } from "reducers/loyalty/typings";
 import iconStyles from "../../styles/iconFonts.scss";
@@ -28,23 +26,10 @@ const CeriseCardDetail: React.FC<Props> = ({
 }) => {
   const [active, setActive] = useState(false);
   const {
-    user: { slab, email, firstName, lastName, phoneNumber },
+    user: { email, firstName, lastName, phoneNumber },
     loyalty: { loyaltyPoints }
   }: StateData = useSelector((state: AppState) => state);
-  const dispatch = useDispatch();
   const history = useHistory();
-
-  useEffect(() => {
-    if (email && slab) {
-      LoyaltyService.getLoyaltyPoints(dispatch, { email })
-        .then(res => {
-          dispatch(updateLoyaltyPoints(res?.CustomerPointInformation));
-        })
-        .catch(e => {
-          console.log("error===", e);
-        });
-    }
-  }, [email, slab]);
 
   return (
     <div
@@ -171,7 +156,7 @@ const CeriseCardDetail: React.FC<Props> = ({
       </div>
       <p className={styles.footer}>
         {loyaltyPoints?.ExpiryPoints === 0
-          ? "No points to expire"
+          ? "No points to expire in 30 days"
           : `${loyaltyPoints?.ExpiryPoints} points are due to expire on
       ${moment(loyaltyPoints?.ExpiryDate, "DD/MM/YYYY").format(
         "Do MMMM YYYY"
