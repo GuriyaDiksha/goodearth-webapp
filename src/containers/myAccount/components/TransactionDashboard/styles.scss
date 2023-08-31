@@ -115,7 +115,7 @@
         @media screen and (max-width:992px) {
             position: fixed;
             bottom: 60px;
-            z-index: 99;
+            z-index: 5;//changed for bottom curency dropdown
             background: white;
             border: none;
             padding: 0;  

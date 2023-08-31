@@ -167,12 +167,11 @@ const OrderSummary: React.FC<OrderProps> = props => {
         return attribute;
       }
     });
-    return size ? (
+    return (
       <span>
-        Size: {size.value} | QTY: {qty}
+        {size && "Size : " + size.value} {size && qty && " | "}{" "}
+        {qty && "QTY : " + qty}
       </span>
-    ) : (
-      ""
     );
   };
 
