@@ -207,6 +207,7 @@ class Bag extends React.Component<Props, State> {
                                     : data.ctaImage
                                 }
                                 // onError={this.addDefaultSrc}
+                                width="200"
                                 alt={data.ctaText}
                                 className={styles.imageResultNew}
                               />
@@ -283,6 +284,7 @@ class Bag extends React.Component<Props, State> {
                                           : data.productImage
                                       }
                                       // onError={this.addDefaultSrc}
+                                      width="200"
                                       alt={data.productName}
                                       className={styles.imageResultNew}
                                     />
@@ -596,7 +598,11 @@ class Bag extends React.Component<Props, State> {
           this.props.cart.shippable ? (
             <div className={cs(styles.freeShippingInfo, globalStyles.flex)}>
               <div className={styles.freeShipImg}>
-                <img src={freeShippingInfoIcon} alt="free-shipping" />
+                <img
+                  src={freeShippingInfoIcon}
+                  alt="free-shipping"
+                  width="200"
+                />
               </div>
 
               <div className={styles.text}>

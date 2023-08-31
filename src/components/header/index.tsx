@@ -720,6 +720,13 @@ class Header extends React.Component<Props, State> {
   };
 
   onSideMenuClick = (clickType: string) => {
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes(GA_CALLS) && clickType === "Search") {
+      dataLayer.push({
+        event: "search_bar_click"
+      });
+    }
+
     headerClickGTM(clickType, "Top", this.props.mobile, this.props.isLoggedIn);
   };
 
@@ -730,6 +737,12 @@ class Header extends React.Component<Props, State> {
     //   this.props.mobile,
     //   this.props.isLoggedIn
     // );
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes(GA_CALLS) && clickType === "Search") {
+      dataLayer.push({
+        event: "search_bar_click"
+      });
+    }
     footerClickGTM(clickType, "Bottom", this.props.isLoggedIn);
   };
 

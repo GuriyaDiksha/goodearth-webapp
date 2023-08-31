@@ -819,6 +819,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
   //     event.preventDefault();
   //   }
   // };
+  // console.log(deliveryText, salestatus, fullText);
 
   const {
     totalWithoutShipping,
