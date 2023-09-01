@@ -451,7 +451,7 @@
   -webkit-transform: translate3d(0, 0, 0);
   -webkit-transition: transform 1s ease;
   transition: transform 1s ease;
-  height: calc(100vh - 90px);
+  height: 100dvh;
   overflow-y: scroll;
   background-color: $light-beige;
   overflow-x: hidden;

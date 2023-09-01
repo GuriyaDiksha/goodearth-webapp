@@ -320,18 +320,12 @@ class Header extends React.Component<Props, State> {
     const pressSortHeaderMenuDropdown = document.getElementById(
       "pressSortHeaderMenuDropdown"
     );
-    const sliderAnimateMobile = document.getElementById("sliderAnimateMobile");
 
     if (window?.pageYOffset > sticky) {
       // When announcement bar is hidden
       (header as HTMLElement).style.position = "fixed";
       (header as HTMLElement).style.marginBottom = "0px";
       const tim = timer !== undefined ? timer : this.props.showTimer;
-
-      if (sliderAnimateMobile && this.props.mobile) {
-        (sliderAnimateMobile as HTMLElement).style.height =
-          "calc(100vh - 50px)";
-      }
 
       if (gridList) {
         if (scrollDown && window?.pageYOffset != 0) {
@@ -481,11 +475,6 @@ class Header extends React.Component<Props, State> {
       (header as HTMLElement).style.position = "relative";
       (header as HTMLElement).style.marginBottom = "0px";
       const tim = timer !== undefined ? timer : this.props.showTimer;
-
-      if (sliderAnimateMobile && this.props.mobile) {
-        (sliderAnimateMobile as HTMLElement).style.height =
-          "calc(100vh - 90px)";
-      }
 
       if (gridList) {
         if (scrollDown && window?.pageYOffset != 0) {
@@ -1415,7 +1404,6 @@ class Header extends React.Component<Props, State> {
                         ? styles.menuSliderAnimate
                         : cs(styles.menuSlider, styles.mobileList)
                     }
-                    id="sliderAnimateMobile"
                   >
                     <Mobilemenu
                       onMobileMenuClick={this.onMenuClick}
