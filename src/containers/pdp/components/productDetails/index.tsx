@@ -1259,8 +1259,8 @@ const ProductDetails: React.FC<Props> = ({
                   [bootstrap.col8]: !corporatePDP,
                   [styles.addToBagBtnContainer]: mobile,
                   [bootstrap.colSm8]: !mobile,
-                  [bootstrap.colSm12]: corporatePDP && mobile,
-                  [globalStyles.hidden]: mobile && !showAddToBagMobile
+                  [bootstrap.colSm12]: corporatePDP && mobile
+                  // [globalStyles.hidden]: mobile && !showAddToBagMobile
                 })}
               >
                 {Pdpbutton}
