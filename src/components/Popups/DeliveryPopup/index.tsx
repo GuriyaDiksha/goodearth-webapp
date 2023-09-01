@@ -37,18 +37,23 @@ const Delivery: React.FC<PopupProps> = props => {
           globalStyles.textCenter
         )}
       >
-        <div className={styles.cross} onClick={closeModal}>
-          <i
-            className={cs(
-              iconStyles.icon,
-              iconStyles.iconCrossNarrowBig,
-              styles.icon,
-              styles.iconCross
-            )}
-          ></i>
+        <div className={styles.headWrp}>
+          <div className={styles.deliveryHead}>Delivery Instructions</div>
+          <div
+            className={cs(styles.cross, styles.deliveryIcon)}
+            onClick={closeModal}
+          >
+            <i
+              className={cs(
+                iconStyles.icon,
+                iconStyles.iconCrossNarrowBig,
+                styles.icon,
+                styles.iconCross
+              )}
+            ></i>
+          </div>
         </div>
-        <div className={cs(styles.gcTnc)}>
-          <div className={globalStyles.c22AI}>Delivery Instructions</div>
+        <div className={cs(globalStyles.paddT20, styles.gcTnc)}>
           {/* <div className={globalStyles.c10LR}> */}
           <div>
             <div className={styles.deliverSubheading}>
@@ -57,31 +62,29 @@ const Delivery: React.FC<PopupProps> = props => {
               <span className={styles.linkTextUnderline}>free shipping!</span> */}
             </div>
             <div
-              className={cs(globalStyles.voffset3, styles.deliverSubheading)}
+              className={cs(
+                globalStyles.voffset3,
+                globalStyles.marginLR24,
+                globalStyles.marginLR35
+              )}
             >
               <div>
                 <textarea
                   rows={5}
-                  cols={45}
+                  cols={100}
                   className={styles.deliverMessage}
                   value={textarea}
                   maxLength={250}
                   placeholder={
-                    "Type here. For example, Leave my parcel with the Gaurd"
+                    "Type here. For example,\n Leave my parcel with the Gaurd"
                   }
                   autoComplete="new-password"
                   onChange={(e: any) => {
                     setTextarea(e.target.value);
                   }}
                 />
-                <div
-                  className={cs(
-                    globalStyles.textRight,
-                    styles.font14,
-                    styles.freeDelivery
-                  )}
-                >
-                  Character Limit: {250 - textarea.length} / 250
+                <div className={cs(styles.freeDelivery, globalStyles.textLeft)}>
+                  Char Limit: {250 - textarea.length} / 250
                 </div>
               </div>
             </div>
@@ -105,8 +108,9 @@ const Delivery: React.FC<PopupProps> = props => {
         </div>
         <div
           className={cs(
-            globalStyles.ceriseBtn,
-            styles.ceriseBtnWidth,
+            globalStyles.checkoutBtn,
+            styles.deliveryBtnWidth,
+            styles.freeshipBtnWidth,
             styles.marginBottom
           )}
         >

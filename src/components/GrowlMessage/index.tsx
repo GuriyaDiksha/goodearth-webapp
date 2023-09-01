@@ -43,10 +43,10 @@ const Growl: React.FC<Props> = ({ text, id, timeout, params }) => {
 
   let renderText: any = text;
   if (text in Messages) {
-    renderText = Messages[text];
+    renderText = Messages?.[text];
   }
   if (params) {
-    renderText = Messages[text](params);
+    renderText = Messages?.[text](params);
   }
 
   return (
@@ -71,16 +71,16 @@ const Growl: React.FC<Props> = ({ text, id, timeout, params }) => {
   );
 };
 const GrowlMessage: React.FC = () => {
-  const growlMessages = useSelector((state: AppState) => state.message);
+  const growlMessages: [] = useSelector((state: AppState) => state.message);
   return (
     <div
       className={cs(styles.container, {
-        [styles.visible]: growlMessages.length > 0
+        [styles.visible]: growlMessages?.length > 0
       })}
     >
       {growlMessages &&
-        growlMessages.length > 0 &&
-        growlMessages.map(growlMessage => {
+        growlMessages?.length > 0 &&
+        growlMessages?.map((growlMessage: any) => {
           return (
             <Growl
               key={growlMessage.id}

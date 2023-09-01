@@ -9,6 +9,7 @@ import { Context } from "components/Modal/context";
 import { useDispatch, useSelector } from "react-redux";
 import { AppState } from "reducers/typings";
 import { updateNextUrl } from "actions/info";
+import { useLocation } from "react-router";
 
 const Popup: React.FC<{ disableClose?: boolean }> = ({
   disableClose,
@@ -17,6 +18,12 @@ const Popup: React.FC<{ disableClose?: boolean }> = ({
   const dispatch = useDispatch();
   const close = useContext(Context).closeModal;
   const [isSuccessMsg, setIsSuccessMsg] = useState(false);
+
+  const location = useLocation();
+  const queryString = location.search;
+  const urlParams = new URLSearchParams(queryString);
+  const boId = urlParams.get("bo_id");
+
   const closePopup = () => {
     dispatch(updateNextUrl(""));
     close();
@@ -43,7 +50,7 @@ const Popup: React.FC<{ disableClose?: boolean }> = ({
                     height: "70px"
                   }}
                 />
-                {!disableClose && (
+                {boId || disableClose ? null : (
                   <button
                     className={cs(
                       styles.closePopup,

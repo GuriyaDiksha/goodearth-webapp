@@ -1,5 +1,11 @@
-import React, { RefObject, useEffect, useRef, useState } from "react";
-import DockedPanel from "containers/pdp/docked";
+import React, {
+  RefObject,
+  useEffect,
+  useRef,
+  useState,
+  MouseEvent
+} from "react";
+// import DockedPanel from "containers/pdp/docked";
 import { Product } from "typings/product";
 import styles from "./styles.scss";
 import cs from "classnames";
@@ -9,102 +15,69 @@ import globalStyles from "styles/global.scss";
 import Slider from "rc-slider";
 import "rc-slider/assets/index.css";
 import "./styles.css";
-import ZoomImageSlider from "./ZoomImageSlider";
 import plus from "./../../icons/plus.svg";
 import minus from "./../../icons/minus.svg";
 import play from "./../../icons/playVideo.svg";
 import pause from "./../../icons/pauseVideo.svg";
-// import ReactPlayer from "react-player";
+import {
+  TransformWrapper,
+  TransformComponent,
+  ReactZoomPanPinchRef
+} from "react-zoom-pan-pinch";
 
 type Props = {
-  code: string;
-  data: Product;
-  showAddToBagMobile?: boolean;
-  buttoncall: any;
-  showPrice: boolean;
-  price: string | number;
-  discountPrices: string | number;
   images: ProductImage[];
   mobile?: boolean;
   changeModalState?: any;
   alt: string;
+  startIndex: number;
 };
 
 const Zoom: React.FC<Props> = ({
-  data,
-  buttoncall,
-  showPrice,
-  price,
-  discountPrices,
+  startIndex,
   images = [],
   mobile = false,
   changeModalState = null,
   alt
 }) => {
-  const [selectedImage, setSelectedImage] = useState(images?.[0]);
+  const [selectedImage, setSelectedImage] = useState(images?.[startIndex]);
   const [zoom, setZoom] = useState(1);
-  const [selectedMobileImageId, setSelectedMobileImageId] = useState(
-    `product0`
-  );
+  const transformComponentRef = useRef<ReactZoomPanPinchRef | null>(null);
+  const transformComponentMobileRef = useRef<ReactZoomPanPinchRef | null>(null);
   const [playVideo, setPlayVideo] = useState(false);
   const videoRef: RefObject<HTMLVideoElement> = useRef(null);
   const videoRef2: RefObject<HTMLVideoElement> = useRef(null);
 
   const closeModal = () => {
     changeModalState(false);
-    // if (mobile) {
-    //   (document.getElementById(
-    //     "modal-fullscreen"
-    //   ) as HTMLDivElement).style.height = "100%";
-    //   (document.getElementById(
-    //     "modal-fullscreen-container"
-    //   ) as HTMLDivElement).style.height = "100%";
-    // }
 
     document.body.classList.remove(globalStyles.fixed);
   };
 
-  useEffect(() => {
+  const setZoomcall = (value: any) => {
     if (mobile) {
-      if (document.getElementById(selectedMobileImageId) as HTMLDivElement) {
-        (document.getElementById(
-          selectedMobileImageId
-        ) as HTMLDivElement).style.transform = `scale(${zoom})`;
-        (document.getElementById(
-          selectedMobileImageId
-        ) as HTMLDivElement).style["-webkit-transform"] = `scale(${zoom})`;
-        (document.getElementById(
-          selectedMobileImageId
-        ) as HTMLDivElement).style["-ms-transform"] = `scale(${zoom})`;
+      if (value > zoom) {
+        transformComponentMobileRef.current
+          ? transformComponentMobileRef.current.zoomIn()
+          : "";
+      } else {
+        transformComponentMobileRef.current
+          ? transformComponentMobileRef.current.zoomOut()
+          : "";
       }
     } else {
-      if (document.getElementById("pdpImage") as HTMLDivElement) {
-        (document.getElementById(
-          "pdpImage"
-        ) as HTMLDivElement).style.transform = `scale(${zoom})`;
-        (document.getElementById("pdpImage") as HTMLDivElement).style[
-          "-webkit-transform"
-        ] = `scale(${zoom})`;
-        (document.getElementById("pdpImage") as HTMLDivElement).style[
-          "-ms-transform"
-        ] = `scale(${zoom})`;
+      if (value > zoom) {
+        transformComponentRef.current
+          ? transformComponentRef.current.zoomIn()
+          : "";
+      } else {
+        transformComponentRef.current
+          ? transformComponentRef.current.zoomOut()
+          : "";
       }
     }
-  }, [zoom]);
-
-  // useEffect(() => {
-  //   if (
-  //     (document.getElementById("modal-fullscreen") as HTMLDivElement) &&
-  //     mobile
-  //   ) {
-  //     (document.getElementById(
-  //       "modal-fullscreen"
-  //     ) as HTMLDivElement).style.height = "calc(100% - 55px)";
-  //     (document.getElementById(
-  //       "modal-fullscreen-container"
-  //     ) as HTMLDivElement).style.height = "calc(100% - 55px)";
-  //   }
-  // }, [mobile]);
+    setZoom(value);
+  };
 
   return (
     <div
@@ -190,26 +163,59 @@ const Zoom: React.FC<Props> = ({
 
         <div className={styles.middle}>
           {mobile ? (
-            <ZoomImageSlider
-              images={images}
-              alt={alt}
-              setSelectedMobileImageId={setSelectedMobileImageId}
-              setZoom={setZoom}
-              setSelectedImage={setSelectedImage}
-            />
+            <div className={"zoomImageContainer"}>
+              <div className={"imgWrp"}>
+                {selectedImage?.media_type === "Image" ||
+                selectedImage?.type === "main" ? (
+                  <TransformWrapper
+                    initialPositionX={0}
+                    initialScale={zoom}
+                    initialPositionY={0}
+                    ref={transformComponentMobileRef}
+                    pinch={{ disabled: true }}
+                    wheel={{ disabled: true, touchPadDisabled: true }}
+                  >
+                    <TransformComponent>
+                      <img
+                        id="pdpImageMobile"
+                        src={selectedImage.productImage?.replace(
+                          /Micro|Medium/i,
+                          "Large"
+                        )}
+                        alt={alt}
+                        className={globalStyles.imgResponsive}
+                      />
+                    </TransformComponent>
+                  </TransformWrapper>
+                ) : (
+                  ""
+                )}
+              </div>
+            </div>
           ) : (
-            <div className={styles.wrp}>
+            <div id="zoomWrapper" className={styles.wrp}>
               {selectedImage?.media_type === "Image" ||
               selectedImage?.type === "main" ? (
-                <img
-                  id="pdpImage"
-                  src={selectedImage.productImage?.replace(
-                    /Micro|Large/i,
-                    "Medium"
-                  )}
-                  alt={alt}
-                  className={globalStyles.imgResponsive}
-                />
+                <TransformWrapper
+                  initialPositionX={0}
+                  initialScale={zoom}
+                  initialPositionY={0}
+                  ref={transformComponentRef}
+                  pinch={{ disabled: true }}
+                  wheel={{ disabled: true, touchPadDisabled: true }}
+                >
+                  <TransformComponent>
+                    <img
+                      id="pdpImage"
+                      src={selectedImage.productImage?.replace(
+                        /Micro|Medium/i,
+                        "Large"
+                      )}
+                      alt={alt}
+                      className={globalStyles.imgResponsive}
+                    />
+                  </TransformComponent>
+                </TransformWrapper>
               ) : (
                 <>
                   {/* <ReactPlayer
@@ -220,6 +226,7 @@ const Zoom: React.FC<Props> = ({
                     playsinline={true}
                   /> */}
                   <video
+                    id="pdpImage"
                     ref={videoRef}
                     src={selectedImage?.video_link}
                     autoPlay={false}
@@ -273,7 +280,7 @@ const Zoom: React.FC<Props> = ({
             <div className={styles.btnWrp}>
               <button
                 className={styles.plus}
-                onClick={() => zoom < 4 && setZoom(zoom + 0.5)}
+                onClick={() => zoom < 4 && setZoomcall(zoom + 0.5)}
               >
                 <img src={plus} alt={"incerment"} />
               </button>
@@ -285,13 +292,13 @@ const Zoom: React.FC<Props> = ({
                   step={0.1}
                   vertical={true}
                   value={zoom}
-                  onChange={(value: number) => setZoom(+value)}
+                  onChange={(value: number) => setZoomcall(+value)}
                 />
               </div>
 
               <button
                 className={styles.minus}
-                onClick={() => zoom > 1 && setZoom(zoom - 0.5)}
+                onClick={() => zoom > 1 && setZoomcall(zoom - 0.5)}
               >
                 <img src={minus} alt={"incerment"} />
               </button>

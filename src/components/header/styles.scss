@@ -1713,6 +1713,9 @@ ul.inner-menu-mobile {
     }
   }
 }
+.no-url{
+  cursor: unset;
+}
 .announcement-cta-btn {
   font-family: $font-Montserrat;
   font-size: 10px;
@@ -1755,6 +1758,7 @@ ul.inner-menu-mobile {
     font-size: 21px;
     color: #444444;
     margin: inherit;
+    cursor: pointer;
   }
   .top-badge{
     position: absolute;
@@ -1771,9 +1775,9 @@ ul.inner-menu-mobile {
     white-space: nowrap;
     vertical-align: baseline;
     border-radius: 10px;
-    &:hover {
-      color: $cerise;
-    }
+    // &:hover {
+    //   color: $cerise;
+    // }
   }
 }
 
@@ -1951,5 +1955,13 @@ ul.inner-menu-mobile {
       color: #9F9F9F;
       cursor: pointer;
     }
+  }
+}
+
+.sideMenuWrapper{
+  @media(min-width:992px){
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: space-between;
   }
 }

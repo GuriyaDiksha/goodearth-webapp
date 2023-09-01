@@ -384,6 +384,7 @@ const Bridal: React.FC<Props> = props => {
             innerRef={whatsappRef}
             whatsappFormRef={whatsappFormRef}
             whatsappNoError={whatsappNoErr}
+            currentStep={0}
           />
         );
       case "created":
@@ -457,6 +458,7 @@ const Bridal: React.FC<Props> = props => {
             error=""
             addresses={[]}
             currentCallBackComponent="bridal-edit"
+            currentStep={0}
           />
         );
       // break;

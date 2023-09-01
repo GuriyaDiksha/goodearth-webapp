@@ -11,6 +11,7 @@ type Props = {
   btnText: string;
   startTimer: boolean;
   setAttempts: (x: any) => void;
+  closeModal?: () => void;
   containerClassName?: string;
   headingClassName?: string;
   timerClass?: string;
@@ -32,6 +33,7 @@ const NewOtpComponent: React.FC<Props> = ({
   btnText,
   startTimer,
   setAttempts,
+  closeModal,
   headingClassName,
   containerClassName,
   timerClass,
@@ -209,7 +211,7 @@ const NewOtpComponent: React.FC<Props> = ({
 
   const handleKeyDown = (e: any) => {
     if (e.key === "Backspace") {
-      const ele =
+      const ele: any =
         typeof document == "object" &&
         document.getElementById(
           `${uniqueId}otp${+e.target.id.match(/\d+/)[0] - 1}`
@@ -350,6 +352,17 @@ const NewOtpComponent: React.FC<Props> = ({
       >
         {btnText}
       </button>
+      {/* <p className={style.otpAttempt}>
+        Attempt: {attempts?.attempts}/{attempts?.maxAttemptsAllow}
+      </p> */}
+      {closeModal && (
+        <div
+          className={cs(style.otpPolicy, style.cancelLink)}
+          onClick={() => closeModal()}
+        >
+          I DON&apos;T WISH TO REDEEM
+        </div>
+      )}
       {!groupTimerAndAttempts && (
         <p className={cs(style.otpAttempt, otpAttemptClass)}>
           Attempt: {attempts?.attempts}/{attempts?.maxAttemptsAllow}

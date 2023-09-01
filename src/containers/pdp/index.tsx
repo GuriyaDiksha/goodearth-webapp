@@ -400,6 +400,41 @@ class PDPContainer extends React.Component<Props, State> {
     this.fetchMoreProductsFromCollection(this.props?.id);
 
     this.startImageAutoScroll();
+
+    window.addEventListener("scroll", event => {
+      const windowSize = window.outerWidth;
+      if (windowSize <= 992) {
+        const windowScroll = window.scrollY;
+        // const scrollAfterDiv = document.getElementById("more_collection_div");
+        const dockedDiv = document.getElementById("docked_div");
+        const scrollAfterDiv = document.getElementById("product_detail_sec");
+        if (scrollAfterDiv) {
+          const rect = scrollAfterDiv.getBoundingClientRect();
+          const scrollBottom = rect.bottom;
+          // console.log("bottom---" +rect.bottom);
+          if (dockedDiv) {
+            if (windowScroll >= scrollBottom) {
+              dockedDiv.style.cssText = "position: absolute;bottom: -8%;";
+            } else {
+              dockedDiv.style.cssText = "position: fixed;bottom: 0;";
+            }
+          }
+        }
+        // if (scrollAfterDiv) {
+        //   const topPos = scrollAfterDiv.offsetTop;
+        //   const height = scrollAfterDiv.offsetHeight;
+        //   const newtopPos = topPos - (height);
+        //   console.log(windowScroll+ "----" +newtopPos+ "----" +topPos)
+        //   if (dockedDiv) {
+        //     if (windowScroll >= newtopPos) {
+        //       dockedDiv.style.cssText = "position: absolute;bottom: -7%;";
+        //     } else {
+        //       dockedDiv.style.cssText = "position: fixed;bottom: 0;";
+        //     }
+        //   }
+        // }
+      }
+    });
   }
 
   componentWillUnmount() {
@@ -1430,7 +1465,7 @@ class PDPContainer extends React.Component<Props, State> {
                       height={"auto"}
                       playsinline={true}
                     /> */}
-                    <video
+                    {/* <video
                       src={video_link}
                       autoPlay
                       loop
@@ -1438,6 +1473,23 @@ class PDPContainer extends React.Component<Props, State> {
                       width={"100%"}
                       height={"auto"}
                       onClick={this.getMobileZoomListener(i)}
+                      muted
+                    /> */}
+                    <div
+                      className={styles.videoWrp}
+                      onClick={this.getMobileZoomListener(i)}
+                      dangerouslySetInnerHTML={{
+                        __html: `
+                  <video
+                    loop
+                    muted
+                    autoplay
+                    playsinline
+                    preload="metadata"
+                  >
+                  <source src="${video_link}" />
+                  </video>`
+                      }}
                     />
                   </>
                 )}
@@ -1453,7 +1505,11 @@ class PDPContainer extends React.Component<Props, State> {
                       className={styles.viewInBtn}
                       onClick={(e: any) => this.onClickMobile3d(e, code)}
                     >
-                      <img className={styles.image} src={button_image} />
+                      <img
+                        className={styles.image}
+                        src={button_image}
+                        alt="product-img"
+                      />
                       <div className={styles.text}>VIEW IN 3D</div>
                     </div>
                   ) : (
@@ -1471,6 +1527,7 @@ class PDPContainer extends React.Component<Props, State> {
                           }
                         });
                       }}
+                      alt="product-img"
                     ></img>
                   )
                 ) : (
@@ -1489,7 +1546,7 @@ class PDPContainer extends React.Component<Props, State> {
                   className={styles.mobileZoomIcon}
                   onClick={this.getMobileZoomListener(i)}
                 >
-                  <img src={zoom}></img>
+                  <img src={zoom} alt="product-img"></img>
                 </div>
               </div>
             );
@@ -1539,6 +1596,7 @@ class PDPContainer extends React.Component<Props, State> {
           </div>
         )}
         <div
+          id="product_detail_sec"
           className={cs(bootstrap.row, styles.productSection)}
           ref={this.containerRef}
         >

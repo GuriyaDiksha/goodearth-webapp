@@ -356,8 +356,8 @@ div.verify-otp-container{
 }
 
 .isd-code{
-  height: 40px;
-  padding: 5px 10px;
+  height: auto;
+  padding: 10px;
   border-bottom: 1px solid #d8d8d8;
   cursor: pointer;
   text-align: left;
@@ -489,11 +489,11 @@ span.checkout-forgot-pass{
       height: 80px;
       width: 146px;
       @media screen and (max-width: 768px){
-          height: 95px;
-          width: 100px;
+        height: 95px;
+        width: 117px;
           &.show{
-            bottom: 36px !important;
-            left: -36px !important;
+            bottom: 20px !important;
+            left: -10px !important;
           }
       }
       box-shadow: 0px 3px 6px #00000029;

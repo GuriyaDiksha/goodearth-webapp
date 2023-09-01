@@ -148,35 +148,33 @@ const PDPImagesContainer: React.FC<Props> = ({
                   )}
                 />
               ) : (
-                <video
-                  src={item?.video_link}
-                  autoPlay
-                  loop
-                  preload="auto"
-                  onClick={() => {
-                    onClick(index);
-                  }}
-                  width={"100%"}
-                  height={"auto"}
-                />
-                // <div
-                //   className={styles.productVideo}
+                // <video
+                //   src={item?.video_link}
+                //   autoPlay
+                //   loop
+                //   preload="auto"
                 //   onClick={() => {
                 //     onClick(index);
                 //   }}
-                // >
-                //   <div className={styles.overlayDiv}></div>
-                //   <ReactPlayer
-                //     url={item?.vimeo_link}
-                //     volume={1}
-                //     muted={true}
-                //     playing={true}
-                //     width={"100%"}
-                //     height={"auto"}
-                //     playsinline={true}
-                //   />
-
-                // </div>
+                //   width={"100%"}
+                //   height={"auto"}
+                //   muted
+                // />
+                <div
+                  className={styles.videoWrp}
+                  dangerouslySetInnerHTML={{
+                    __html: `
+                  <video
+                    loop
+                    muted
+                    autoplay
+                    playsinline
+                    preload="metadata"
+                  >
+                  <source src="${item?.video_link}" />
+                  </video>`
+                  }}
+                />
               )}
               {item.icon && viewIn3dBtn(item.code)}
               {item.shop_the_look && (

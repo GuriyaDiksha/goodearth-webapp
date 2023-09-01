@@ -151,7 +151,6 @@ const AddressList: React.FC<Props> = props => {
   //         props.manageAddressPostcode("edit", data);
   //     }
   // };
-
   return (
     <div>
       <div
