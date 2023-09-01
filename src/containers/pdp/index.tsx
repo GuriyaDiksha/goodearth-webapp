@@ -408,15 +408,24 @@ class PDPContainer extends React.Component<Props, State> {
         // const scrollAfterDiv = document.getElementById("more_collection_div");
         const dockedDiv = document.getElementById("docked_div");
         const scrollAfterDiv = document.getElementById("product_detail_sec");
+        const headerContainer = document.getElementById("header_container");
         if (scrollAfterDiv) {
           const rect = scrollAfterDiv.getBoundingClientRect();
           const scrollBottom = rect.bottom;
-          // console.log("bottom---" +rect.bottom);
+          // console.log("bottom---" +scrollBottom);
+          // console.log("y---" +rect.y);
+          // console.log("window---" +windowScroll);
           if (dockedDiv) {
             if (windowScroll >= scrollBottom) {
-              dockedDiv.style.cssText = "position: absolute;bottom: -8%;";
+              dockedDiv.style.cssText = "position: absolute;bottom: -9%;";
+              if (headerContainer) {
+                headerContainer.style.cssText = "z-index: 7";
+              }
             } else {
               dockedDiv.style.cssText = "position: fixed;bottom: 0;";
+              if (headerContainer) {
+                headerContainer.style.cssText = "z-index: 6";
+              }
             }
           }
         }

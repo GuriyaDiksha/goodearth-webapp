@@ -1294,8 +1294,8 @@ const ProductDetails: React.FC<Props> = ({
                 className={cs(bootstrap.col4, globalStyles.textCenter, {
                   [styles.wishlistText]: !mobile,
                   [styles.wishlistBtnContainer]: mobile,
-                  [globalStyles.voffset1]: mobile,
-                  [globalStyles.hidden]: corporatePDP || !showAddToBagMobile
+                  [globalStyles.voffset1]: mobile
+                  // [globalStyles.hidden]: corporatePDP || !showAddToBagMobile
                 })}
               >
                 <WishlistButtonpdp
