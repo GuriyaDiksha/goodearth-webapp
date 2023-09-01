@@ -1,6 +1,10 @@
 @import "../../styles/partials/form";
 @import "../../styles/partials/mixins";
 
+.autofill-input{
+  background: #E5E5E526 !important;
+  color: #9F9F9F !important;
+}
 .password {
     input {
         scroll-margin-top: 150px;

@@ -17,6 +17,7 @@ import CookiePolicy from "./CookiePolicy";
 import MakerSmartNav from "containers/base/MakerSmartNav";
 import ReactHtmlParser from "react-html-parser";
 import { OLD_COOKIE_SETTINGS } from "constants/cookieConsent";
+import NewsletterModal from "./NewsletterModal";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -69,11 +70,19 @@ class Footer extends React.Component<Props, FooterState> {
       newsletterError: false,
       isInViewport: false,
       isConsentSave: false,
+      // showNewsletterModal: false,
       headingHoverArray: [],
       subheadingHoverArray: [],
       smartNav: ["/", "/homepage"]
     };
   }
+
+  // toggleNewsModal = () => {
+  //   if (this.state.showNewsletterModal == true) {
+  //     this.setState({ showNewsletterModal: false });
+  //   }
+  //   localStorage.setItem("seenPopUp", 'true');
+  // };
 
   handleScroll = () => {
     if (this.state.hideImage == true) {
@@ -137,6 +146,7 @@ class Footer extends React.Component<Props, FooterState> {
   }
 
   componentDidMount() {
+    console.log("cpopup===" + this.props.showCookie);
     let headingLength = 0;
     let subHeadingLength = 0;
     this.props.data.footerList.map(e => {
@@ -161,6 +171,20 @@ class Footer extends React.Component<Props, FooterState> {
       }
     }
     this.setState({ isConsentSave: CookieService.getCookie("consent") !== "" });
+
+    // setTimeout(() => {
+    //   this.setState({ showNewsletterModal: true });
+    // }, 10000);
+
+    // getting value of "seenPopUp" key from localStorage
+    // let returningUser = localStorage.getItem("seenPopUp");
+    // if(returningUser){
+    //   alert("returning user");
+    //   console.log(returningUser);
+    //   this.setState({ showNewsletterModal: !returningUser });
+    //   console.log(!returningUser);
+    //   // debugger;
+    // }
   }
 
   componentDidUpdate(
@@ -308,6 +332,7 @@ class Footer extends React.Component<Props, FooterState> {
   };
 
   render() {
+    // const showNewsModal = this.state.showNewsletterModal;
     const desktopPlp =
       this.props.location.pathname.includes("/catalogue/category/") &&
       !this.props.mobile;
@@ -1166,6 +1191,19 @@ class Footer extends React.Component<Props, FooterState> {
             showCookiePref={this.props?.showCookiePref}
             showCookiePrefs={this.props?.showCookiePrefs}
           />
+        )}
+
+        {!this.props.showCookie ? (
+          <NewsletterModal
+            title={"Join our Community"}
+            subTitle={
+              "Make the most out of your Good Earth favourites. Sign up to discover our latest collections, insider stories and expert tips"
+            }
+            // isOpen={showNewsModal}
+            // onClose={this.toggleNewsModal}
+          />
+        ) : (
+          ""
         )}
       </div>
     );

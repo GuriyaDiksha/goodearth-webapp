@@ -23,6 +23,7 @@ export type FooterState = {
   newsletterError: boolean;
   isInViewport: boolean;
   isConsentSave: boolean;
+  // showNewsletterModal: boolean;
   headingHoverArray: boolean[];
   subheadingHoverArray: boolean[];
   smartNav: string[];
