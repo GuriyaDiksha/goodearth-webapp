@@ -335,7 +335,7 @@ class Footer extends React.Component<Props, FooterState> {
   acceptCookies = () => {
     //CookieService.setCookie("goodearth", "show", 365);
     this.props.hideCookies();
-    alert("accept cookies");
+    console.log("accept cookies");
     this.setState({ cookieHide: true });
   };
 
