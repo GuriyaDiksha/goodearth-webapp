@@ -131,13 +131,13 @@ const NewsletterModal: React.FC<Props> = ({
   };
 
   useEffect(() => {
-    // console.log("popup----" + displayPopUp);
+    console.log("popup----" + displayPopUp);
     setTimeout(() => {
       setDisplayPopUp(true);
       const returningUser = localStorage.getItem("seenPopUp");
-      //   console.log("IsUser----" + returningUser);
+      console.log("IsUser----" + returningUser);
       setDisplayPopUp(!returningUser);
-    }, 3000);
+    }, 5000);
   }, []);
 
   const saveData = (
@@ -168,7 +168,7 @@ const NewsletterModal: React.FC<Props> = ({
           //     newsletterModal.hidden = true;
           // }
           onClose();
-        }, 10000);
+        }, 3000);
         // setEnableSubmit(false);
       })
       .catch(err => {

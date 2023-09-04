@@ -1193,18 +1193,18 @@ class Footer extends React.Component<Props, FooterState> {
           />
         )}
 
-        {!this.props.showCookie ? (
-          <NewsletterModal
-            title={"Join our Community"}
-            subTitle={
-              "Make the most out of your Good Earth favourites. Sign up to discover our latest collections, insider stories and expert tips"
-            }
-            // isOpen={showNewsModal}
-            // onClose={this.toggleNewsModal}
-          />
-        ) : (
+        {/* {!this.props.showCookie ? ( */}
+        <NewsletterModal
+          title={"Join our Community"}
+          subTitle={
+            "Make the most out of your Good Earth favourites. Sign up to discover our latest collections, insider stories and expert tips"
+          }
+          // isOpen={showNewsModal}
+          // onClose={this.toggleNewsModal}
+        />
+        {/* ) : (
           ""
-        )}
+        )} */}
       </div>
     );
   }
