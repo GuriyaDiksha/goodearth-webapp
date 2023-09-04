@@ -71,6 +71,7 @@ class Footer extends React.Component<Props, FooterState> {
       isInViewport: false,
       isConsentSave: false,
       // showNewsletterModal: false,
+      cookieHide: false,
       headingHoverArray: [],
       subheadingHoverArray: [],
       smartNav: ["/", "/homepage"]
@@ -83,6 +84,12 @@ class Footer extends React.Component<Props, FooterState> {
   //   }
   //   localStorage.setItem("seenPopUp", 'true');
   // };
+
+  // cookieHide = () =>{
+  //   if (this.state.cookieHide == false) {
+  //     this.setState({ cookieHide: true });
+  //   }
+  // }
 
   handleScroll = () => {
     if (this.state.hideImage == true) {
@@ -146,7 +153,6 @@ class Footer extends React.Component<Props, FooterState> {
   }
 
   componentDidMount() {
-    console.log("cpopup===" + this.props.showCookie);
     let headingLength = 0;
     let subHeadingLength = 0;
     this.props.data.footerList.map(e => {
@@ -329,10 +335,15 @@ class Footer extends React.Component<Props, FooterState> {
   acceptCookies = () => {
     //CookieService.setCookie("goodearth", "show", 365);
     this.props.hideCookies();
+    alert("accept cookies");
+    this.setState({ cookieHide: true });
   };
 
   render() {
     // const showNewsModal = this.state.showNewsletterModal;
+    const cookieHide = this.state.cookieHide;
+    console.log("cookieStatus===" + cookieHide);
+    console.log("cpopup===" + this.props.showCookie);
     const desktopPlp =
       this.props.location.pathname.includes("/catalogue/category/") &&
       !this.props.mobile;
@@ -1193,18 +1204,18 @@ class Footer extends React.Component<Props, FooterState> {
           />
         )}
 
-        {/* {!this.props.showCookie ? ( */}
-        <NewsletterModal
-          title={"Join our Community"}
-          subTitle={
-            "Make the most out of your Good Earth favourites. Sign up to discover our latest collections, insider stories and expert tips"
-          }
-          // isOpen={showNewsModal}
-          // onClose={this.toggleNewsModal}
-        />
-        {/* ) : (
+        {!this.props.showCookie ? (
+          <NewsletterModal
+            title={"Join our Community"}
+            subTitle={
+              "Make the most out of your Good Earth favourites. Sign up to discover our latest collections, insider stories and expert tips"
+            }
+            // isOpen={showNewsModal}
+            // onClose={this.toggleNewsModal}
+          />
+        ) : (
           ""
-        )} */}
+        )}
       </div>
     );
   }

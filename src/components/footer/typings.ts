@@ -24,6 +24,7 @@ export type FooterState = {
   isInViewport: boolean;
   isConsentSave: boolean;
   // showNewsletterModal: boolean;
+  cookieHide: boolean;
   headingHoverArray: boolean[];
   subheadingHoverArray: boolean[];
   smartNav: string[];

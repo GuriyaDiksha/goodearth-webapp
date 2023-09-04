@@ -137,8 +137,21 @@ const NewsletterModal: React.FC<Props> = ({
       const returningUser = localStorage.getItem("seenPopUp");
       console.log("IsUser----" + returningUser);
       setDisplayPopUp(!returningUser);
-    }, 5000);
+      console.log("popupNew----" + displayPopUp);
+    }, 10000);
   }, []);
+
+  //  start close modal on ESC keyword
+  useEffect(() => {
+    const close = (e: any) => {
+      if (e.keyCode === 27) {
+        onClose();
+      }
+    };
+    window.addEventListener("keydown", close);
+    return () => window.removeEventListener("keydown", close);
+  }, []);
+  //  end close modal on ESC keyword
 
   const saveData = (
     formData: any,
