@@ -118,6 +118,7 @@ const SelectDropdown: React.FC<Props &
           <img
             src={searchIcon}
             className={cs(props.searchIconClass || styles.searchIcon)}
+            width="200"
           />
           <input
             type="text"
