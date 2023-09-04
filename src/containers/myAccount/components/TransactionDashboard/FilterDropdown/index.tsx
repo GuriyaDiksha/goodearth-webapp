@@ -3,9 +3,11 @@ import { SecondaryHeaderDropdownMenuProps } from "./typings";
 import cs from "classnames";
 import useOutsideDetection from "../../../../../hooks/useOutsideDetetion";
 import styles from "./styles.scss";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { AppState } from "reducers/typings";
 import Close from "./../../../../../icons/CloseButtonCharcoal.svg";
+import { updateIsLoyaltyFilterOpen } from "actions/info";
+import globalStyles from "../../../../../styles/global.scss";
 
 const FilterDropdown = ({
   id,
@@ -23,6 +25,16 @@ const FilterDropdown = ({
   const {
     device: { mobile }
   } = useSelector((state: AppState) => state);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (menuOpen) {
+      document.body.classList.add(globalStyles.noScroll);
+    } else {
+      document.body.classList.remove(globalStyles.noScroll);
+    }
+    dispatch(updateIsLoyaltyFilterOpen(menuOpen));
+  }, [menuOpen]);
 
   const onInsideClick = () => {
     setOpenState(!menuOpen);

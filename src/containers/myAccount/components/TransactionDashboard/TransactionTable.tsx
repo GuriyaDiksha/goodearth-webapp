@@ -44,7 +44,8 @@ const TransactionTable = ({ mobile }: Props) => {
         previouspage,
         total_records
       }
-    }
+    },
+    info: { isLoyaltyFilterOpen }
   } = useSelector((state: AppState) => state);
   const dispatch = useDispatch();
 
@@ -137,7 +138,11 @@ const TransactionTable = ({ mobile }: Props) => {
   return (
     <>
       <div className={styles.transactionTableBackground}>
-        <div className={styles.transactionTableHeader}>
+        <div
+          className={cs(styles.transactionTableHeader, {
+            [styles.transactionZindex]: isLoyaltyFilterOpen
+          })}
+        >
           {mobile ? null : <div className={styles.heading}>Filter by</div>}
           <FilterDropdown
             id="sort-filter"
