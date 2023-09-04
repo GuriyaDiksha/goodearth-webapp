@@ -7,6 +7,15 @@
 .collection-container-timer {
   margin-top: 40px + $timer-height;
 }
+.template-banner{
+  display: flex;
+  flex-wrap: wrap;
+  margin-right: -3px;
+  margin-left: -3px;
+}
+.template-banner div{
+  padding-bottom: 0!important;
+}
 
 @media screen and (max-width: 992px) {
   .collection-container {

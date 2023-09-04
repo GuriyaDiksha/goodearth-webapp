@@ -19,6 +19,7 @@ export type Props = {
   inputClass?: string;
   disablePassword?: () => void;
   handleChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  handlePaste?: (event: React.ClipboardEvent<HTMLInputElement>) => void;
   keyPress?: (event: React.KeyboardEvent) => void;
   keyUp?: (event: React.KeyboardEvent) => void;
   keyDown?: (event: React.KeyboardEvent) => void;

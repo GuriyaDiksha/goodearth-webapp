@@ -2,7 +2,7 @@ import React from "react";
 import "./styles.css";
 import Slider from "react-slick";
 import { ProductImage } from "typings/image";
-import ReactPlayer from "react-player";
+// import ReactPlayer from "react-player";
 
 type Props = {
   images: ProductImage[];
@@ -10,6 +10,8 @@ type Props = {
   setSelectedMobileImageId: (id: string) => void;
   setZoom: (num: number) => void;
   setSelectedImage: (imgcontent: any) => void;
+  startIndex: number;
+  selectedImage: ProductImage;
 };
 
 const ZoomImageSlider: React.FC<Props> = ({
@@ -17,9 +19,12 @@ const ZoomImageSlider: React.FC<Props> = ({
   alt,
   setSelectedMobileImageId,
   setZoom,
-  setSelectedImage
+  setSelectedImage,
+  startIndex,
+  selectedImage
 }) => {
   const settings = {
+    initialSlide: startIndex,
     dots: true,
     infinite: false,
     speed: 500,
@@ -48,16 +53,31 @@ const ZoomImageSlider: React.FC<Props> = ({
           />
         ) : (
           <>
-            <div className={"overlayDiv"}></div>
-            <ReactPlayer
-              url={imgContent?.vimeo_link}
-              playing={true}
+            {/* <video
+              id={`product${i}`}
+              src={imgContent?.video_link}
+              autoPlay
+              loop
+              preload="auto"
               width={"100%"}
               height={"auto"}
-              volume={1}
-              muted={true}
-              id={`product${i}`}
-              playsinline={true}
+              muted={selectedImage?.id !== imgContent?.id}
+            /> */}
+
+            <div
+              dangerouslySetInnerHTML={{
+                __html: `
+                  <video
+                   id="product${i}"
+                    loop
+                    muted = "${selectedImage?.id !== imgContent?.id}"
+                    autoplay
+                    playsinline
+                    preload="metadata"
+                  >
+                  <source src="${imgContent?.video_link}" />
+                  </video>`
+              }}
             />
           </>
         )}

@@ -50,7 +50,7 @@ type State = {
   englishandSpace: RegExp;
   subscribe: boolean;
   customValueErrorMsg: string;
-  selectCountryErrorMsg: string;
+  // selectCountryErrorMsg: string;
   previewOpen: boolean;
   formDisabled: boolean;
   key: string;
@@ -85,7 +85,7 @@ class NewGiftcard extends React.Component<Props, State> {
       englishandSpace: /^[a-zA-Z\s]+$/,
       subscribe: false,
       customValueErrorMsg: "",
-      selectCountryErrorMsg: "",
+      // selectCountryErrorMsg: "",
       customValue: "",
       previewOpen: false,
       formDisabled: true,
@@ -115,14 +115,14 @@ class NewGiftcard extends React.Component<Props, State> {
       this.setState({
         currency: newCurrency,
         selectedCountry: newCountry,
-        selectCountryErrorMsg: "",
+        // selectCountryErrorMsg: "",
         currencyCharCode: currencyCode[newCurrency]
       });
     } else {
       this.setState({
         currency: newCurrency,
         selectedCountry: "",
-        selectCountryErrorMsg: "Please select your Country",
+        // selectCountryErrorMsg: "Please select your Country",
         currencyCharCode: currencyCode[newCurrency]
       });
     }
@@ -161,8 +161,8 @@ class NewGiftcard extends React.Component<Props, State> {
 
     this.setState(
       {
-        selectedCountry: country,
-        selectCountryErrorMsg: ""
+        selectedCountry: country
+        // selectCountryErrorMsg: ""
       },
       () => {
         if (newCurrency != currency) {
@@ -392,7 +392,7 @@ class NewGiftcard extends React.Component<Props, State> {
         this.setState({
           currency: newCurrency,
           selectedCountry: newCountry,
-          selectCountryErrorMsg: "",
+          // selectCountryErrorMsg: "",
           currencyCharCode: currencyCode[newCurrency],
           cardId: "",
           cardValue: "",
@@ -463,9 +463,9 @@ class NewGiftcard extends React.Component<Props, State> {
       } else if (this.props.currency == "SGD") {
         newCountry = "Singapore";
       } else if (this.props.currency == "USD") {
-        this.setState({
-          selectCountryErrorMsg: "Please Select a Country"
-        });
+        // this.setState({
+        //   selectCountryErrorMsg: "Please Select a Country"
+        // });
       }
       newCountry &&
         this.setState({
@@ -500,7 +500,7 @@ class NewGiftcard extends React.Component<Props, State> {
       senderName,
       subscribe,
       customValueErrorMsg,
-      selectCountryErrorMsg,
+      // selectCountryErrorMsg,
       customValue,
       previewOpen,
       formDisabled,
@@ -605,13 +605,14 @@ class NewGiftcard extends React.Component<Props, State> {
                       validationErrors={{
                         isExisty: "This field is required"
                       }}
+                      errWithIsPristine={true}
                     />
                   </Formsy>
-                  {selectCountryErrorMsg && (
+                  {/* {selectCountryErrorMsg && (
                     <div className={styles.errorMessage}>
                       {selectCountryErrorMsg}
                     </div>
-                  )}
+                  )} */}
                 </div>
                 <div className={styles.note}>
                   Please note: Gift cards can only be redeemed in the currency

@@ -904,6 +904,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
                     oneLineMessage={!mobile}
                     whatsappFormRef={whatsappFormRef}
                     whatsappNoErr={whatsappNoErr}
+                    countryData={countryData}
                   />
                 </div>
                 {/* <div className={styles.whatsappNoErr}>{whatsappNoErr}</div> */}
@@ -1083,6 +1084,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
                           oneLineMessage={!mobile || tablet}
                           whatsappFormRef={whatsappFormRef}
                           whatsappNoErr={whatsappNoErr}
+                          countryData={countryData}
                         />
                       </div>
                       {/* <div className={styles.whatsappNoErr}>
