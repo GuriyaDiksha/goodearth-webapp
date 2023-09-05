@@ -34,9 +34,8 @@ const FilterDropdown = ({
       } else {
         document.body.classList.remove(globalStyles.noScroll);
       }
+      dispatch(updateIsLoyaltyFilterOpen(menuOpen));
     }
-
-    dispatch(updateIsLoyaltyFilterOpen(menuOpen));
   }, [menuOpen]);
 
   const onInsideClick = () => {
