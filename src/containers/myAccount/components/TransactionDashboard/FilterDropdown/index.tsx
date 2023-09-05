@@ -28,11 +28,14 @@ const FilterDropdown = ({
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (menuOpen) {
-      document.body.classList.add(globalStyles.noScroll);
-    } else {
-      document.body.classList.remove(globalStyles.noScroll);
+    if (mobile) {
+      if (menuOpen) {
+        document.body.classList.add(globalStyles.noScroll);
+      } else {
+        document.body.classList.remove(globalStyles.noScroll);
+      }
     }
+
     dispatch(updateIsLoyaltyFilterOpen(menuOpen));
   }, [menuOpen]);
 
