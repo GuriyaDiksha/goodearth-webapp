@@ -744,14 +744,35 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                                 </Fragment>
                               )}
                             </div>
-                            {item.product?.structure == "GiftCard" && (
+                            {item.product.structure == "GiftCard" && (
+                              <>
+                                <p
+                                  className={cs(
+                                    styles.productSize,
+                                    globalStyles.marginT5
+                                  )}
+                                >
+                                  Recipient&apos;s Name:{" "}
+                                  {item?.GcMeta?.recipeint_name}
+                                </p>
+                                <p className={cs(styles.productSize)}>
+                                  Recipient&apos;s Email:{" "}
+                                  {item?.GcMeta?.recipient_email}
+                                </p>
+                                <p className={cs(styles.productSize)}>
+                                  Sender&apos;s Name:{" "}
+                                  {item?.GcMeta?.sender_name}
+                                </p>
+                              </>
+                            )}
+                            {/* {item.product?.structure == "GiftCard" && (
                               <div className={globalStyles.textLeft}>
                                 <p className={styles.label}>Sent via Email:</p>
                                 <p className={styles.email}>
                                   {item.egiftCardRecipient}
                                 </p>
                               </div>
-                            )}
+                            )} */}
                           </div>
                         </div>
                       );
@@ -884,6 +905,15 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                       </div>
                     )
                   )}
+                </div>
+                <div className={cs(styles.totalSection, styles.totalWrp)}>
+                  <p>TOTAL</p>
+                  <p>
+                    {displayPriceWithCommasFloat(
+                      confirmData.subTotalWithShipping,
+                      confirmData.currency
+                    )}
+                  </p>
                 </div>
                 <div className={cs(styles.totalSection)}>
                   <p>AMOUNT PAID</p>
