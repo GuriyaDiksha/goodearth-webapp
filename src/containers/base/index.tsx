@@ -134,6 +134,7 @@ const BaseLayout: React.FC = () => {
   }, []);
 
   useEffect(() => {
+    console.log("tablet ===== ", tablet, orientation, mobile);
     if (tablet) {
       if (orientation == "landscape" && !mobile) {
         dispatch(updateComponent(POPUP.ORIENTATIONPOPUP, undefined, true));
