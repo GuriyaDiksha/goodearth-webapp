@@ -36,7 +36,10 @@ window.onload = () => {
   // const root = document.getElementById("main");
   const container = document.getElementById("main")!;
   hydrateRoot(container, application);
-  const updatedDevice = getDevice(window.navigator.userAgent);
+  const updatedDevice = getDevice(
+    window.navigator.userAgent,
+    window.navigator.maxTouchPoints
+  );
   const mobile = updatedDevice.mobile || window.innerWidth < 992;
   const orientation: "landscape" | "portrait" =
     window.innerWidth > window.innerHeight ? "landscape" : "portrait";
@@ -44,7 +47,10 @@ window.onload = () => {
   window.addEventListener(
     "resize",
     debounce(() => {
-      const updatedDevice = getDevice(window.navigator.userAgent);
+      const updatedDevice = getDevice(
+        window.navigator.userAgent,
+        window.navigator.maxTouchPoints
+      );
       const mobile = updatedDevice.mobile || window.innerWidth < 992;
       const orientation: "landscape" | "portrait" =
         window.innerWidth > window.innerHeight ? "landscape" : "portrait";
@@ -58,7 +64,10 @@ window.onload = () => {
   );
   window.addEventListener("orientationchange", () => {
     setTimeout(() => {
-      const updatedDevice = getDevice(window.navigator.userAgent);
+      const updatedDevice = getDevice(
+        window.navigator.userAgent,
+        window.navigator.maxTouchPoints
+      );
       const mobile = updatedDevice.mobile || window.innerWidth < 992;
       const orientation: "landscape" | "portrait" =
         window.innerWidth > window.innerHeight ? "landscape" : "portrait";
