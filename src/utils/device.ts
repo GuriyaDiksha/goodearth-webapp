@@ -5,7 +5,7 @@ export const getDevice = (userAgent: string) => {
     ) || (typeof window != "undefined" ? window.innerWidth < 992 : false);
   console.log(
     "check device ===",
-    userAgent.match(/iPad|tablet|kindle|playbook|silk/i)
+    userAgent.match(/iPad|tablet|kindle|playbook|silk|Macintosh/i)
   );
   const tablet =
     userAgent.match(/iPad|tablet|kindle|playbook|silk|Macintosh/i) !== null ||
