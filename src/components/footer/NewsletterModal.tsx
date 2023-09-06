@@ -131,13 +131,13 @@ const NewsletterModal: React.FC<Props> = ({
   };
 
   useEffect(() => {
-    console.log("popup----" + displayPopUp);
+    // console.log("popup----" + displayPopUp);
     setTimeout(() => {
       setDisplayPopUp(true);
       const returningUser = localStorage.getItem("seenPopUp");
       console.log("IsUser----" + returningUser);
       setDisplayPopUp(!returningUser);
-      console.log("popupNew----" + displayPopUp);
+      // console.log("popupNew----" + displayPopUp);
     }, 10000);
   }, []);
 
@@ -331,7 +331,7 @@ const NewsletterModal: React.FC<Props> = ({
       </Formsy>
     </div>
   );
-
+  console.log("display===" + displayPopUp);
   return displayPopUp ? (
     <div id="newsletter-modal-container" className={cs(styles.container)}>
       <div

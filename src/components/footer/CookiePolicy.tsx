@@ -12,7 +12,6 @@ import { clone } from "lodash";
 import globalStyles from "../../styles/global.scss";
 import fontStyles from "styles/iconFonts.scss";
 import { OLD_COOKIE_SETTINGS } from "constants/cookieConsent";
-import NewsletterModal from "./NewsletterModal";
 
 type Props = {
   hideCookies: any;
@@ -156,7 +155,7 @@ const CookiePolicy: React.FC<Props> = ({
 
   const hideCookie = () => {
     //    setConsent(true);
-    alert("hide function");
+    console.log("hide function");
     if (location?.pathname === "/customer-assistance/cookie-policy") {
       hideCookies();
       showCookiePrefs();
