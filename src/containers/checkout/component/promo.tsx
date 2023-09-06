@@ -111,7 +111,7 @@ const PromoSection: React.FC<PromoProps> = props => {
     next(STEP_PROMO);
   };
 
-  const onlyGiftcard = basket.isOnlyGiftCart || hideBoId;
+  const showPromo = basket.showCouponSection || !hideBoId;
 
   return (
     <div
@@ -191,7 +191,7 @@ const PromoSection: React.FC<PromoProps> = props => {
 
       {((isActive && basket.voucherDiscounts.length === 0) || isEdit) && (
         <Fragment>
-          {!onlyGiftcard && (
+          {showPromo && (
             <div className={globalStyles.marginT20}>
               {!mobile && <hr className={styles.hr} />}
               <div className={globalStyles.flex}>
