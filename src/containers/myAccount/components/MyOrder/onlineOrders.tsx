@@ -311,9 +311,16 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
         {data.giftVoucherRedeemed?.map((gccn: number, i: number) => {
           return (
             <div className={cs(styles.price, styles.price3, styles.discount)}>
-              <span className={styles.label}>Gift Card/Credit Note</span>
+              <span className={styles.label}>
+                {Object.keys(gccn)?.[0] === "GIFTCARD"
+                  ? "GIFT CARD"
+                  : "CREDIT NOTE"}
+              </span>
               <span className={styles.value}>
-                {`(-) ${displayPriceWithCommas(gccn, item.currency)}`}
+                {`(-) ${displayPriceWithCommas(
+                  Object.values(gccn)?.[0],
+                  item.currency
+                )}`}
               </span>
             </div>
           );
