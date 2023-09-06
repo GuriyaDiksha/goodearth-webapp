@@ -232,7 +232,7 @@ body:has(.open-summary) {
     .delivery-date {
       @include b5_10px_montserrat_charcoal();
       padding-top: 5px;
-      line-height: 1;
+      line-height: 4;
       letter-spacing: 0.3px;
     }
     hr {

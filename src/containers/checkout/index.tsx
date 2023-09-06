@@ -964,12 +964,19 @@ class Checkout extends React.Component<Props, State> {
     return (
       <div
         className={cs(bootstrap.containerFluid, styles.pageBody, {
-          [styles.pB100]: !this.props.mobile
+          // [styles.pB100]: !this.props.mobile
         })}
       >
         <div className={styles.checkout}>
           <div className={bootstrap.row}>
-            <div className={cs(bootstrap.col12, bootstrap.colLg8)}>
+            <div
+              className={cs(
+                bootstrap.col12,
+                bootstrap.colLg8,
+                globalStyles.bgWhite,
+                globalStyles.padd0
+              )}
+            >
               {/* Breadcrumb */}
               <CheckoutBreadcrumb active={this.state.activeStep} />
 
@@ -1033,9 +1040,17 @@ class Checkout extends React.Component<Props, State> {
                 shippingAddress={this.state.shippingAddress}
                 salestatus={this.props.isSale}
                 gstNo={this.state.gstNo}
+                activeStep={STEP_PROMO}
+                currentStep={this.state.currentStep}
               />
             </div>
-            <div className={cs(bootstrap.col12, bootstrap.colLg4)}>
+            <div
+              className={cs(
+                bootstrap.col12,
+                bootstrap.colLg4,
+                globalStyles.marginB20
+              )}
+            >
               <OrderSummary
                 mobile={this.props.mobile}
                 currency={this.props.currency}

@@ -120,7 +120,9 @@ const PromoSection: React.FC<PromoProps> = props => {
           ? cs(styles.card, styles.cardOpen, styles.marginT5)
           : // : mobile
             // ? styles.hidden
-            cs(styles.card, styles.cardClosed, styles.marginT5)
+            cs(styles.card, styles.cardClosed, styles.marginT5, {
+              [styles.bgWhite]: STEP_ORDER[activeStep] > currentStep
+            })
       }
     >
       <div className={bootstrapStyles.row}>

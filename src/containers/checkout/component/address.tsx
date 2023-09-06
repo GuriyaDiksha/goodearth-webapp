@@ -1046,7 +1046,9 @@ const AddressSection: React.FC<AddressProps & {
             className={
               isActive
                 ? cs(styles.card, styles.cardOpen, styles.marginT5)
-                : cs(styles.card, styles.cardClosed, styles.marginT5)
+                : cs(styles.card, styles.cardClosed, styles.marginT5, {
+                    [styles.bgWhite]: STEP_ORDER[activeStep] > currentStep
+                  })
             }
           >
             <div className={bootstrapStyles.row}>
@@ -1145,7 +1147,9 @@ const AddressSection: React.FC<AddressProps & {
                 ? cs(styles.card, styles.cardOpen, styles.marginT5)
                 : //: !(STEP_ORDER[activeStep] < currentStep)
                   // styles.hidden
-                  cs(styles.card, styles.cardClosed, styles.marginT5)
+                  cs(styles.card, styles.cardClosed, styles.marginT5, {
+                    [styles.bgWhite]: STEP_ORDER[activeStep] > currentStep
+                  })
             }
           >
             <div className={bootstrapStyles.row}>

@@ -281,9 +281,10 @@ hr {
 .title {
   font-size: 14px;
   span {
-    color: $charcoal19;
+    color: $charcoal19 !important;
     opacity: 1;
-    @include b4_12px_montserrat_charcoal_caps();
+    text-transform: uppercase;
+    @include b4_12px_montserrat_medcharcoal();
   }
   .closed {
     opacity: 0.3;
@@ -376,9 +377,25 @@ hr {
   background-color: #fff;
   padding-right: 100px;
   padding-left: 100px;
+
+  &.bg-grey{
+    background-color: $lightest-grey;
+  }
+  &.bg-white{
+    border-top:1px #D9D9D9 solid;
+    background-color: $white;
+
+    .title{
+      span{
+        text-transform: uppercase;
+        @include b4_12px_montserrat_medcharcoal();
+      }
+    }
+  }
 }
 
 .card-open {
+  border-top:1px #D9D9D9 solid;
   padding-top: 40px;
   padding-bottom: 40px;
   .review-block {
@@ -430,6 +447,7 @@ hr {
   &.text-style {
     text-transform: capitalize;
   }
+  background-color: $lightest-grey;
 }
 
 .small {
