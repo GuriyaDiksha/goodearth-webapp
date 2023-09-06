@@ -1,4 +1,4 @@
-export const getDevice = (userAgent: string, maxTouchPoints: number) => {
+export const getDevice = (userAgent: string) => {
   const mobile =
     /android|webos|iphone|ipod|blackberry|iemobile|opera mini/i.test(
       userAgent.toLowerCase()
@@ -8,7 +8,7 @@ export const getDevice = (userAgent: string, maxTouchPoints: number) => {
     userAgent.match(/iPad|tablet|kindle|playbook|silk/i)
   );
   const tablet =
-    userAgent.match(/iPad|tablet|kindle|playbook|silk/i) !== null ||
+    userAgent.match(/iPad|tablet|kindle|playbook|silk|Macintosh/i) !== null ||
     (userAgent.match(/android/i) !== null &&
       userAgent.match(/Mobile/i) == null);
 
