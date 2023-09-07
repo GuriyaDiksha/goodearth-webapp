@@ -166,32 +166,9 @@ const AddressSection: React.FC<AddressProps & {
   }, [shippingAddressId, billingAddressId]);
 
   useEffect(() => {
-    const data = addressList.find(val =>
-      shippingAddressId
-        ? val?.id === shippingAddressId
-        : val?.isDefaultForShipping
-    );
-    AddressService.fetchCustomDuties &&
-      AddressService.fetchCustomDuties(
-        dispatch,
-        countryCurrencyCode?.[data?.country || "IN"]
-      )
-        .then(res => {
-          setIsTermChecked(customDuties?.visible || true);
-          setTermsErr("");
-          dispatch(updateCustomDuties(res));
-        })
-        .catch(e => {
-          setIsTermChecked(e?.response?.data?.visible || false);
-          setTermsErr("");
-          dispatch(
-            updateCustomDuties({
-              visible: e?.response?.data?.visible,
-              message: ""
-            })
-          );
-        });
-  }, [shippingAddressId]);
+    setIsTermChecked(customDuties?.visible || true);
+    setTermsErr("");
+  }, [customDuties]);
 
   // useEffect(() => {
 
@@ -232,15 +209,25 @@ const AddressSection: React.FC<AddressProps & {
   // }, [props.selectedAddress, addressList]);
 
   useEffect(() => {
-    if (activeStep == STEP_BILLING && (!isBridal || !isGoodearthShipping)) {
+    console.log(currentStep);
+    if (
+      activeStep == STEP_BILLING &&
+      (!isBridal || !isGoodearthShipping) &&
+      props.selectedAddress &&
+      isActive
+    ) {
       dispatch(updateBillingAddressId(props.selectedAddress?.id || 0));
 
       if (sameAsShipping) {
         dispatch(updateShippingAddressId(props.selectedAddress?.id || 0));
       }
     }
-    if (activeStep === STEP_SHIPPING) {
+    if (activeStep === STEP_SHIPPING && props.selectedAddress && isActive) {
       dispatch(updateShippingAddressId(props.selectedAddress?.id || 0));
+      AddressService.fetchCustomDuties(
+        dispatch,
+        countryCurrencyCode?.[props.selectedAddress?.country || "IN"]
+      );
     }
   }, [props.selectedAddress, activeStep]);
 

@@ -7,7 +7,7 @@ import {
   specifyShippingAddressResponse
 } from "components/Address/typings";
 import { PinCodeData } from "components/Formsy/PinCode/typings";
-import { updateAddressList } from "actions/address";
+import { updateAddressList, updateCustomDuties } from "actions/address";
 import {
   specifyBillingAddressData,
   validateGSTData,
@@ -142,6 +142,7 @@ export default {
       `${__API_HOST__}/myapi/shipping/custom_duties/`,
       { currency }
     );
+    dispatch(updateCustomDuties(data));
     return data;
   },
   validateGST: async (dispatch: Dispatch, validateGSTData: validateGSTData) => {

@@ -412,7 +412,11 @@ const OrderSummary: React.FC<OrderProps> = props => {
                 <span className={styles.textMuted}>
                   {!mobile && "(Promo Code Applied)"}
                   {boId ? (
-                    ""
+                    mobile && (
+                      <span className={styles.giftCreditCodeText}>
+                        (Promo Code Applied)
+                      </span>
+                    )
                   ) : (
                     <span
                       className={cs(globalStyles.marginL5, styles.cross)}

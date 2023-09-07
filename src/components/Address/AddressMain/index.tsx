@@ -34,6 +34,7 @@ import {
   updateBillingAddressId,
   updateShippingAddressId
 } from "actions/address";
+import { countryCurrencyCode } from "constants/currency";
 
 const AddressMain: React.FC<Props> = props => {
   // data: [],
@@ -282,6 +283,10 @@ const AddressMain: React.FC<Props> = props => {
 
       if (currentCallBackComponent === "checkout-shipping" && addressId) {
         dispatch(updateShippingAddressId(addressId));
+        AddressService.fetchCustomDuties(
+          dispatch,
+          countryCurrencyCode?.[country || "IN"]
+        );
         if (!props.isGoodearthShipping && !props.isBridal && sameAsShipping) {
           dispatch(updateBillingAddressId(addressId));
         }

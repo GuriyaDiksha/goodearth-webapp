@@ -232,7 +232,7 @@ body:has(.open-summary) {
     .delivery-date {
       @include b5_10px_montserrat_charcoal();
       padding-top: 5px;
-      line-height: 4;
+      line-height: 1.5;
       letter-spacing: 0.3px;
     }
     hr {
@@ -287,10 +287,10 @@ body:has(.open-summary) {
     @include b4_12px_medium_medcharcoal_caps();
     text-align: left;
     padding: 35px 0 0 0;
-  }
+      }
   .summary-title-two{
     padding: 10px 0 0 0 !important;
-  }
+      }
   .product-wrp {
     margin: 30px 10px;
   }
