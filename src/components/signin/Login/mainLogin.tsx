@@ -545,6 +545,7 @@ class MainLogin extends React.Component<Props, loginState> {
               border={this.state.highlight}
               keyUp={e => this.handleKeyUp(e, "email")}
               handleChange={e => this.handleChange(e, "email")}
+              handlePaste={e => this.handlePaste(e, "email")}
               error={this.state.msg}
               inputRef={this.firstEmailInput}
               showLabel={true}
@@ -608,6 +609,7 @@ class MainLogin extends React.Component<Props, loginState> {
               value={this.state.password}
               keyUp={e => this.handleKeyUp(e, "password")}
               handleChange={e => this.handleChange(e, "password")}
+              handlePaste={e => this.handlePaste(e, "password")}
               label={"Password*"}
               border={this.state.highlightp}
               inputRef={this.passwordInput}
