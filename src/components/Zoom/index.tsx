@@ -187,12 +187,33 @@ const Zoom: React.FC<Props> = ({
                     </TransformComponent>
                   </TransformWrapper>
                 ) : (
-                  ""
+                  <div
+                    className={styles.videoWrpHeight}
+                    dangerouslySetInnerHTML={{
+                      __html: `
+                      <video
+                       id="pdpImageMobile"
+                        loop
+                        autoplay
+                        playsinline
+                        preload="metadata"
+                      >
+                      <source src="${selectedImage?.video_link}" />
+                      </video>`
+                    }}
+                  />
                 )}
               </div>
             </div>
           ) : (
-            <div id="zoomWrapper" className={styles.wrp}>
+            <div
+              id="zoomWrapper"
+              className={cs(styles.wrp, {
+                [styles.videoWrp]:
+                  selectedImage?.media_type !== "Image" &&
+                  selectedImage?.type !== "main"
+              })}
+            >
               {selectedImage?.media_type === "Image" ||
               selectedImage?.type === "main" ? (
                 <TransformWrapper
