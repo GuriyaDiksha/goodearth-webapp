@@ -633,56 +633,59 @@ class Search extends React.Component<
             />
           </div>
           {/* Open GridList option code */}
-          {mobile && !tablet && (
-            <div
-              id="gridList"
-              className={cs(styles.listGridBar, {
-                [styles.listGridBarTimer]: this.props.showTimer,
-                [styles.hide]: this.props.scrollDown
-              })}
-            >
-              <div
-                className={styles.gridContainer}
-                onClick={() => this.updateMobileView("grid")}
-              >
-                <span
-                  className={cs(styles.gridSpan, {
-                    [styles.active]: this.props.plpMobileView == "grid"
+          {count > 1
+            ? mobile &&
+              !tablet && (
+                <div
+                  id="gridList"
+                  className={cs(styles.listGridBar, {
+                    [styles.listGridBarTimer]: this.props.showTimer,
+                    [styles.hide]: this.props.scrollDown
                   })}
                 >
-                  Grid
-                </span>
-                <img
-                  src={
-                    this.props.plpMobileView == "grid"
-                      ? activeGrid
-                      : inactiveGrid
-                  }
-                  className={cs(styles.gridIcon)}
-                />
-              </div>
-              <div
-                className={styles.listContainer}
-                onClick={() => this.updateMobileView("list")}
-              >
-                <img
-                  src={
-                    this.props.plpMobileView == "list"
-                      ? activeList
-                      : inactiveList
-                  }
-                  className={cs(styles.listIcon)}
-                />
-                <span
-                  className={cs(styles.listSpan, {
-                    [styles.active]: this.props.plpMobileView == "list"
-                  })}
-                >
-                  List
-                </span>
-              </div>
-            </div>
-          )}
+                  <div
+                    className={styles.gridContainer}
+                    onClick={() => this.updateMobileView("grid")}
+                  >
+                    <span
+                      className={cs(styles.gridSpan, {
+                        [styles.active]: this.props.plpMobileView == "grid"
+                      })}
+                    >
+                      Grid
+                    </span>
+                    <img
+                      src={
+                        this.props.plpMobileView == "grid"
+                          ? activeGrid
+                          : inactiveGrid
+                      }
+                      className={cs(styles.gridIcon)}
+                    />
+                  </div>
+                  <div
+                    className={styles.listContainer}
+                    onClick={() => this.updateMobileView("list")}
+                  >
+                    <img
+                      src={
+                        this.props.plpMobileView == "list"
+                          ? activeList
+                          : inactiveList
+                      }
+                      className={cs(styles.listIcon)}
+                    />
+                    <span
+                      className={cs(styles.listSpan, {
+                        [styles.active]: this.props.plpMobileView == "list"
+                      })}
+                    >
+                      List
+                    </span>
+                  </div>
+                </div>
+              )
+            : ""}
           {/* Close GridList option Code */}
           <div
             className={cs(
