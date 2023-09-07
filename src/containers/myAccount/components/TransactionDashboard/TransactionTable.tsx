@@ -26,7 +26,7 @@ const TransactionTable = ({ mobile }: Props) => {
     id: string | number;
     state: boolean;
   }>({ id: 0, state: true });
-  const [dropDownValue, setDropdownValue] = useState("L3M");
+  const [dropDownValue, setDropdownValue] = useState("L12M");
   const [dropDownValue2, setDropdownValue2] = useState("ALL");
   const [currentPage, setCurrentPage] = useState(1);
   const [isLoading, setLoading] = useState(false);
@@ -78,7 +78,7 @@ const TransactionTable = ({ mobile }: Props) => {
   useEffect(() => {
     fetchTransaction({
       email,
-      DateRangeFilter: "L3M",
+      DateRangeFilter: "L12M",
       TransactionFilter: "ALL",
       PageNumber: currentPage,
       PaginationFilter: 1
