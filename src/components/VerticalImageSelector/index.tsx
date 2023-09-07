@@ -58,13 +58,21 @@ const VerticalImageSelector: React.FC<Props> = memo(
                   height={"auto"}
                   playsinline={true}
                 /> */}
-                <video
-                  src={video_link}
-                  autoPlay
-                  loop
-                  preload="auto"
-                  width={"100%"}
-                  height={"auto"}
+                <div
+                  dangerouslySetInnerHTML={{
+                    __html: `
+                      <video
+                       id="pdpImageMobile"
+                        loop
+                        autoplay
+                        playsinline
+                        preload="metadata"
+                        width="100%"
+                        height="auto"
+                      >
+                      <source src="${video_link}" />
+                      </video>`
+                  }}
                 />
               </>
             )}
