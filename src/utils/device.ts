@@ -8,9 +8,7 @@ export const getDevice = (userAgent: string) => {
     userAgent.match(/iPad|tablet|kindle|playbook|silk|Macintosh/i)
   );
   const tablet =
-    (userAgent.match(/iPad|tablet|kindle|playbook|silk|Macintosh/i) !== null &&
-      userAgent.includes("Mac") &&
-      "ontouchend" in document) ||
+    userAgent.match(/iPad|tablet|kindle|playbook|silk/i) !== null ||
     (userAgent.match(/android/i) !== null &&
       userAgent.match(/Mobile/i) == null);
 
