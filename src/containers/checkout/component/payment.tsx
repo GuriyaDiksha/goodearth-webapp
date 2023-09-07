@@ -326,6 +326,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
         });
       }
 
+      data["subscribe"] = subscribevalue; //Adding subscribe for main checkout API
       checkout(data)
         .then((response: any) => {
           gtmPushPaymentTracking(paymentMode, paymentMethod);
@@ -475,6 +476,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
     if (isActive) {
       if (CONFIG.WHATSAPP_SUBSCRIBE_ENABLED) {
         AccountServices.fetchAccountPreferences(dispatch).then((data: any) => {
+          setSubscribevalue(data.subscribe); // Initializing value
           dispatch(updatePreferenceData(data));
           setSubscribevalue(data.subscribe);
         });
