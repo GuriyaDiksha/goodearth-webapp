@@ -242,53 +242,53 @@ const AddressMain: React.FC<Props> = props => {
     return isValid;
   };
 
-  const markAsDefault = (addressData: AddressData, addressId?: number) => {
+  const markAsDefault = (addressData: AddressData) => {
     const { country } = addressData;
     const isValid = isAddressValid(addressData);
     if (isValid) {
       setIsLoading(true);
       // extract formData from address
-      const {
-        id,
-        emailId,
-        firstName,
-        lastName,
-        city,
-        postCode,
-        phoneCountryCode,
-        phoneNumber,
-        isDefaultForBilling,
-        line1,
-        line2,
-        state,
-        addressType
-      } = addressData;
+      // const {
+      //   id,
+      //   emailId,
+      //   firstName,
+      //   lastName,
+      //   city,
+      //   postCode,
+      //   phoneCountryCode,
+      //   phoneNumber,
+      //   isDefaultForBilling,
+      //   line1,
+      //   line2,
+      //   state,
+      //   addressType
+      // } = addressData;
 
-      const formData: AddressFormData = {
-        emailId,
-        firstName,
-        lastName,
-        city,
-        postCode,
-        country,
-        phoneCountryCode,
-        phoneNumber,
-        isDefaultForShipping: true,
-        isDefaultForBilling,
-        line1,
-        line2,
-        state,
-        addressType
-      };
+      // const formData: AddressFormData = {
+      //   emailId,
+      //   firstName,
+      //   lastName,
+      //   city,
+      //   postCode,
+      //   country,
+      //   phoneCountryCode,
+      //   phoneNumber,
+      //   isDefaultForShipping: true,
+      //   isDefaultForBilling,
+      //   line1,
+      //   line2,
+      //   state,
+      //   addressType
+      // };
 
-      if (currentCallBackComponent === "checkout-shipping" && addressId) {
-        dispatch(updateShippingAddressId(addressId));
+      if (currentCallBackComponent === "checkout-shipping") {
+        dispatch(updateShippingAddressId(addressData?.id));
         AddressService.fetchCustomDuties(
           dispatch,
           countryCurrencyCode?.[country || "IN"]
         );
-        if (!props.isGoodearthShipping && !props.isBridal && sameAsShipping) {
-          dispatch(updateBillingAddressId(addressId));
+        if (!props.isGoodearthShipping && !props.isBridal) {
+          dispatch(updateBillingAddressId(addressData?.id));
         }
         dispatch(
           updateSameAsShipping(
@@ -296,19 +296,20 @@ const AddressMain: React.FC<Props> = props => {
           )
         );
         setIsLoading(false);
-      } else if (currentCallBackComponent === "checkout-billing" && addressId) {
-        dispatch(updateBillingAddressId(addressId));
+      } else if (currentCallBackComponent === "checkout-billing") {
+        dispatch(updateBillingAddressId(addressData?.id));
         setIsLoading(false);
-      } else {
-        AddressService.updateAddress(dispatch, formData, id, addressId)
-          .catch(err => {
-            const errData = err.response.data;
-            console.log(errData);
-          })
-          .finally(() => {
-            setIsLoading(false);
-          });
       }
+      // else {
+      // AddressService.updateAddress(dispatch, formData, id, addressId)
+      //   .catch(err => {
+      //     const errData = err.response.data;
+      //     console.log(errData);
+      //   })
+      //   .finally(() => {
+      //     setIsLoading(false);
+      //   });
+      // }
     } else {
       openAddressForm(addressData);
     }

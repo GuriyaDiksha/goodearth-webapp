@@ -368,7 +368,7 @@ const AddressForm: React.FC<Props> = props => {
         countryName,
         phoneCountryCode,
         phoneNumber,
-        isDefaultForShipping,
+        // isDefaultForShipping,
         line1,
         line2,
         state,
@@ -390,7 +390,7 @@ const AddressForm: React.FC<Props> = props => {
             country: countryName,
             phoneCountryCode,
             phoneNumber,
-            isDefaultForShipping,
+            // isDefaultForShipping,
             line1,
             line2,
             state,
@@ -829,7 +829,7 @@ const AddressForm: React.FC<Props> = props => {
               {30 - nickname?.length >= 0 ? 30 - nickname?.length : 0}/30
             </p>
           </div>
-          <div className={styles.addressFormCheckbox}>
+          {/* <div className={styles.addressFormCheckbox}>
             <FormCheckbox
               name="isDefaultForShipping"
               label={["Make Default Address"]}
@@ -840,7 +840,7 @@ const AddressForm: React.FC<Props> = props => {
                 !addressData?.isDefaultForShipping && setIsAddressChanged(true)
               }
             />
-          </div>
+          </div> */}
 
           <div
             className={cs({

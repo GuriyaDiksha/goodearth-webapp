@@ -15,7 +15,7 @@ import { AddressProps } from "./typings";
 import {
   updateAddressList,
   updateBillingAddressId,
-  updateCustomDuties,
+  // updateCustomDuties,
   updateShippingAddressId,
   updateSameAsShipping
 } from "actions/address";
@@ -106,6 +106,7 @@ const AddressSection: React.FC<AddressProps & {
   const [termsErr, setTermsErr] = useState("");
   const [gstDetails, setGstDetails] = useState({ gstText: "", gstType: "" });
   const [billingError, setBillingError] = useState("");
+  const [shippingError, setShippingError] = useState("");
 
   const dispatch = useDispatch();
 
@@ -162,6 +163,7 @@ const AddressSection: React.FC<AddressProps & {
 
   useEffect(() => {
     setBillingError("");
+    setShippingError("");
     setGstDetails({ gstText: "", gstType: "" });
   }, [shippingAddressId, billingAddressId]);
 
@@ -752,6 +754,11 @@ const AddressSection: React.FC<AddressProps & {
         }
         return false;
       }
+
+      if (shippingAddressId === 0) {
+        setShippingError("Please select shipping address");
+        return false;
+      }
     }
     setTermsErr("");
     if (address) {
@@ -807,7 +814,7 @@ const AddressSection: React.FC<AddressProps & {
           {
             setGst: setGst,
             setGstDetails: setGstDetails,
-            setSameAsShipping: updateSameAsShipping,
+            // setSameAsShipping: updateSameAsShipping,
             isGoodearthShipping: isGoodearthShipping,
             isBridal: isBridal
           },
@@ -1087,7 +1094,8 @@ const AddressSection: React.FC<AddressProps & {
                             addressList?.find(val =>
                               shippingAddressId !== 0
                                 ? val?.id === shippingAddressId
-                                : val?.isDefaultForShipping === true
+                                : val?.[`isDefaultForShipping_${currency}`] ===
+                                  true
                             )
                           );
                         }}
@@ -1242,7 +1250,9 @@ const AddressSection: React.FC<AddressProps & {
                                         addressList?.find(val =>
                                           shippingAddressId !== 0
                                             ? val?.id === shippingAddressId
-                                            : val?.isDefaultForShipping === true
+                                            : val?.[
+                                                `isDefaultForShipping_${currency}`
+                                              ] === true
                                         )
                                       );
                                     }}
@@ -1321,6 +1331,11 @@ const AddressSection: React.FC<AddressProps & {
                                       {termsErr}
                                     </div>
                                   )}
+                                  {shippingError && (
+                                    <div className={globalStyles.errorMsg}>
+                                      {shippingError}
+                                    </div>
+                                  )}
                                   {/* ref for handling fixed button */}
                                   {/* <div ref={orderSummaryRef}>&nbsp;</div> */}
                                   {((checkoutMobileOrderSummary && mobile) ||
@@ -1331,8 +1346,9 @@ const AddressSection: React.FC<AddressProps & {
                                           addressList?.find(val =>
                                             shippingAddressId !== 0
                                               ? val?.id === shippingAddressId
-                                              : val?.isDefaultForShipping ===
-                                                true
+                                              : val?.[
+                                                  `isDefaultForShipping_${currency}`
+                                                ] === true
                                           )
                                         );
                                       }}
@@ -1417,7 +1433,9 @@ const AddressSection: React.FC<AddressProps & {
                                     !isGoodearthShipping
                                     ? val?.id === shippingAddressId
                                     : val?.id === billingAddressId
-                                  : val?.isDefaultForShipping === true
+                                  : val?.[
+                                      `isDefaultForShipping_${currency}`
+                                    ] === true
                               )
                             );
                           }}
@@ -1450,7 +1468,9 @@ const AddressSection: React.FC<AddressProps & {
                                   ? sameAsShipping
                                     ? val?.id === shippingAddressId
                                     : val?.id === billingAddressId
-                                  : val?.isDefaultForShipping === true
+                                  : val?.[
+                                      `isDefaultForShipping_${currency}`
+                                    ] === true
                               )
                             );
                           }}

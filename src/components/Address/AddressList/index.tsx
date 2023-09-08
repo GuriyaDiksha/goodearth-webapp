@@ -24,7 +24,7 @@ const AddressList: React.FC<Props> = props => {
   const { bridalAddressId } = useSelector((state: AppState) => state.basket);
   const { isLoggedIn, email } = useSelector((state: AppState) => state.user);
   const { addressDataList, isBridal } = props;
-  const [defaultAddress, setDefaultAddress] = useState(`default_check_${0}`);
+  const [defaultAddress, setDefaultAddress] = useState(``);
 
   useEffect(() => {
     if (addressDataList.length > 0) {

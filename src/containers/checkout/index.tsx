@@ -457,7 +457,8 @@ class Checkout extends React.Component<Props, State> {
         if (!res.bridal && this.props.user.isLoggedIn && !boId) {
           const {
             user: { shippingData },
-            addresses
+            addresses,
+            currency
           } = this.props;
           const { isGoodearthShipping } = this.state;
           if (
@@ -467,11 +468,13 @@ class Checkout extends React.Component<Props, State> {
             this.setState(
               {
                 shippingAddress: addresses.find(
-                  val => val?.isDefaultForShipping
+                  val => val?.[`isDefaultForShipping_${currency}`]
                 ),
                 billingAddress: isGoodearthShipping
                   ? undefined
-                  : addresses.find(val => val?.isDefaultForShipping)
+                  : addresses.find(
+                      val => val?.[`isDefaultForShipping_${currency}`]
+                    )
               },
               () => {
                 this.nextStep(STEP_SHIPPING);
@@ -556,12 +559,14 @@ class Checkout extends React.Component<Props, State> {
         this.setState({
           activeStep: STEP_SHIPPING,
           shippingAddress: nextProps.addresses.find(
-            val => val?.isDefaultForShipping
+            val => val?.[`isDefaultForShipping_${nextProps.currency}`]
           ),
           billingAddress:
             isGoodearthShipping || nextProps.basket.bridal
               ? undefined
-              : nextProps.addresses.find(val => val?.isDefaultForShipping),
+              : nextProps.addresses.find(
+                  val => val?.[`isDefaultForShipping_${nextProps.currency}`]
+                ),
           isShipping: true
         });
       }
@@ -628,7 +633,7 @@ class Checkout extends React.Component<Props, State> {
           "coRegistrantName",
           "isBridal",
           "countryName",
-          "isDefaultForShipping",
+          `isDefaultForShipping_${this.props.currency}`,
           "isDefaultForBilling",
           "occasion",
           "isEdit"
@@ -677,7 +682,10 @@ class Checkout extends React.Component<Props, State> {
           if (key == "city") {
             key = "line4";
           }
-          if (key == "isDefaultForShipping" || key == "isDefaultForBilling") {
+          if (
+            key == `isDefaultForShipping_${this.props.currency}` ||
+            key == "isDefaultForBilling"
+          ) {
             continue;
           }
           data[rootKey][key] = val;
