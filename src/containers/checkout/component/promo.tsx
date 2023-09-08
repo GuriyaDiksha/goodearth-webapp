@@ -148,7 +148,7 @@ const PromoSection: React.FC<PromoProps> = props => {
           >
             PROMO CODE
           </span>
-          {mobile && !isBoId && (
+          {basket.voucherDiscounts.length > 0 && !isEdit && mobile && !isBoId && (
             <span
               className={cs(globalStyles.pointer, styles.promoEdit, {
                 [styles.hidden]: !(isActive || isactivepromo || isEdit)

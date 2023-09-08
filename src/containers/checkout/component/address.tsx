@@ -17,7 +17,8 @@ import {
   updateBillingAddressId,
   // updateCustomDuties,
   updateShippingAddressId,
-  updateSameAsShipping
+  updateSameAsShipping,
+  updateCustomDuties
 } from "actions/address";
 import AddressService from "services/address";
 import { useDispatch, useSelector } from "react-redux";
@@ -211,7 +212,6 @@ const AddressSection: React.FC<AddressProps & {
   // }, [props.selectedAddress, addressList]);
 
   useEffect(() => {
-    console.log(currentStep);
     if (
       activeStep == STEP_BILLING &&
       (!isBridal || !isGoodearthShipping) &&
@@ -220,18 +220,30 @@ const AddressSection: React.FC<AddressProps & {
     ) {
       dispatch(updateBillingAddressId(props.selectedAddress?.id || 0));
 
-      if (sameAsShipping) {
+      if (
+        sameAsShipping &&
+        props.selectedAddress &&
+        props.selectedAddress?.[`isDefaultForShipping_${currency}`]
+      ) {
         dispatch(updateShippingAddressId(props.selectedAddress?.id || 0));
       }
     }
-    if (activeStep === STEP_SHIPPING && props.selectedAddress && isActive) {
+
+    if (activeStep === STEP_SHIPPING && isActive) {
       dispatch(updateShippingAddressId(props.selectedAddress?.id || 0));
-      AddressService.fetchCustomDuties(
-        dispatch,
-        countryCurrencyCode?.[props.selectedAddress?.country || "IN"]
-      );
+      dispatch(updateCustomDuties({ visible: false, message: "" }));
+
+      if (
+        props.selectedAddress &&
+        props.selectedAddress?.[`isDefaultForShipping_${currency}`]
+      ) {
+        AddressService.fetchCustomDuties(
+          dispatch,
+          countryCurrencyCode?.[props.selectedAddress?.country || "IN"]
+        );
+      }
     }
-  }, [props.selectedAddress, activeStep]);
+  }, [props.selectedAddress, activeStep, currency, isActive]);
 
   const openNewAddressForm = () => {
     if (currentCallBackComponent === "checkout-billing") {

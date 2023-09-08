@@ -234,6 +234,7 @@ const AddressForm: React.FC<Props> = props => {
       state: st,
       province: pro,
       isDefaultForBilling: false,
+      isDefaultForShipping: false,
       country: countryCode,
       addressType: addressType || ""
     };
@@ -368,7 +369,7 @@ const AddressForm: React.FC<Props> = props => {
         countryName,
         phoneCountryCode,
         phoneNumber,
-        // isDefaultForShipping,
+        //  isDefaultForShipping = false,
         line1,
         line2,
         state,
@@ -390,7 +391,7 @@ const AddressForm: React.FC<Props> = props => {
             country: countryName,
             phoneCountryCode,
             phoneNumber,
-            // isDefaultForShipping,
+            isDefaultForShipping: false,
             line1,
             line2,
             state,

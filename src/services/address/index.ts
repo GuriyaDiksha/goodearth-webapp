@@ -55,8 +55,7 @@ export default {
   updateAddress: async (
     dispatch: Dispatch,
     formData: AddressFormData,
-    id: number,
-    addressId?: number
+    id: number
   ) => {
     const data = await API.put<AddressData[]>(
       dispatch,
@@ -64,7 +63,7 @@ export default {
       formData
     );
 
-    dispatch(updateAddressList(data, addressId));
+    dispatch(updateAddressList(data));
     return data;
   },
   deleteAddress: async (dispatch: Dispatch, id: number) => {

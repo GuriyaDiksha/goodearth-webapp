@@ -675,14 +675,13 @@ body:has(.mobile) {
     height: 240px;
 
     &.default-address {
-      border-color: $aqua;
-
+      border-color: $med-charcoal;
       .cerise-bridal-rings {
         top: 24px;
       }
     }
     &.default {
-      border: 2px solid $aqua;
+      border: 1px solid $med-charcoal;
     }
   }
   .checkbox {

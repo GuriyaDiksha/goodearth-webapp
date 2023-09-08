@@ -24,7 +24,6 @@ const AddressList: React.FC<Props> = props => {
   const { bridalAddressId } = useSelector((state: AppState) => state.basket);
   const { isLoggedIn, email } = useSelector((state: AppState) => state.user);
   const { addressDataList, isBridal } = props;
-  const [defaultAddress, setDefaultAddress] = useState(``);
 
   useEffect(() => {
     if (addressDataList.length > 0) {
@@ -178,8 +177,6 @@ const AddressList: React.FC<Props> = props => {
                 index={i}
                 isOnlyAddress={addressData.length === 1}
                 showAddressInBridalUse={props.showAddressInBridalUse}
-                defaultAddress={defaultAddress}
-                setDefaultAddress={setDefaultAddress}
               />
             );
           })
