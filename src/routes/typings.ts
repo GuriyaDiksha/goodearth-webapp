@@ -72,7 +72,9 @@ export const enum ROUTES {
   ARTOFENTERTAINING = "/artofentertaining",
   MATERIALCULTURE = "/materialculture",
   VINITACHAITANYA = "/artofgifting-VinitaChaitanya",
-  VASUDHARAI = "/artofgifting-VasudhaRai"
+  VASUDHARAI = "/artofgifting-VasudhaRai",
+  BOSPORUSMETALDECOR = "/Bosporus_Metal_Decor",
+  ADDSQUILTS = "/adds-quilts"
 }
 
 export type RouteConfig = RouteObject[];
