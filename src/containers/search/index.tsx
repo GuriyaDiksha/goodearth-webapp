@@ -36,7 +36,9 @@ import inactiveGrid from "../../images/plpIcons/inactive_grid.svg";
 import activeList from "../../images/plpIcons/active_list.svg";
 import inactiveList from "../../images/plpIcons/inactive_list.svg";
 import { updatePlpMobileView } from "actions/plp";
-// import mapDispatchToProps from "../../components/Modal/mapper/actions";
+import PlpResultListViewItem from "components/plpResultListViewItem";
+import { ChildProductAttributes, PLPProductItem } from "typings/product";
+import ModalStyles from "components/Modal/styles.scss";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -46,6 +48,7 @@ const mapStateToProps = (state: AppState) => {
     location: state.router.location,
     currency: state.currency,
     device: state.device,
+    isSale: state.info.isSale,
     showTimer: state.info.showTimer,
     scrollDown: state.info.scrollDown,
     plpMobileView: state.plplist.plpMobileView
@@ -94,6 +97,7 @@ class Search extends React.Component<
     flag: boolean;
     count: number;
     showProductCounter: boolean;
+    corporoateGifting: boolean;
   }
 > {
   private child: any = FilterListSearch;
@@ -114,6 +118,9 @@ class Search extends React.Component<
       flag: false,
       featureData: [],
       count: -1,
+      corporoateGifting:
+        props.location.pathname.includes("corporate-gifting") ||
+        props.location.search.includes("&src_type=cp"),
       showProductCounter: true
     };
   }
@@ -134,6 +141,75 @@ class Search extends React.Component<
       this.setState({
         filterCount: count
       });
+  };
+
+  onEnquireClick = (id: number, partner?: string) => {
+    const { updateComponentModal, changeModalState } = this.props;
+    const mobile = this.props.device.mobile;
+    updateComponentModal(
+      // <CorporateEnquiryPopup id={id} quantity={quantity} />,
+      POPUP.THIRDPARTYENQUIRYPOPUP,
+      {
+        id,
+        partner: partner || ""
+      },
+      mobile ? true : false,
+      mobile ? ModalStyles.bottomAlign : undefined
+    );
+    changeModalState(true);
+  };
+
+  notifyMeClick = (product: PLPProductItem) => {
+    const {
+      categories,
+      collections,
+      priceRecords,
+      discountedPriceRecords,
+      childAttributes,
+      title,
+      discount,
+      badgeType,
+      plpSliderImages
+    } = product;
+    const selectedIndex = childAttributes?.length == 1 ? 0 : undefined;
+    const {
+      updateComponentModal,
+      changeModalState,
+      currency,
+      isSale
+    } = this.props;
+    // childAttributes?.map((v, i) => {
+    //   if (v.id === selectedSize?.id) {
+    //     selectedIndex = i;
+    //   }
+    // });
+    const index = categories.length - 1;
+    let category = categories[index]
+      ? categories[index].replace(/\s/g, "")
+      : "";
+    category = category.replace(/>/g, "/");
+    updateComponentModal(
+      POPUP.NOTIFYMEPOPUP,
+      {
+        collection: collections && collections.length > 0 ? collections[0] : "",
+        category: category,
+        price: priceRecords[currency],
+        currency: currency,
+        childAttributes: childAttributes as ChildProductAttributes[],
+        title: title,
+        selectedIndex: selectedIndex,
+        discount: discount,
+        badgeType: badgeType,
+        isSale: isSale,
+        discountedPrice: discountedPriceRecords[currency],
+        list: "plp",
+        sliderImages: plpSliderImages
+      },
+      false,
+      this.props.device.mobile ? ModalStyles.bottomAlignSlideUp : "",
+      this.props.device.mobile ? "slide-up-bottom-align" : ""
+    );
+    changeModalState(true);
   };
 
   onClickQuickView = (id: number) => {
@@ -692,7 +768,7 @@ class Search extends React.Component<
               { [globalStyles.hidden]: this.state.showmobileSort },
               { [globalStyles.paddTop80]: !this.state.showmobileSort },
               { [styles.spCat]: !this.state.showmobileSort },
-              bootstrap.colMd9,
+              bootstrap.colMd12,
               bootstrap.col12
             )}
           >
@@ -720,7 +796,7 @@ class Search extends React.Component<
               <div
                 className={cs(
                   styles.productNumber,
-                  globalStyles.marginT40,
+                  globalStyles.marginT20,
                   styles.imageContainer,
                   {
                     [styles.border]: mobile
@@ -753,7 +829,7 @@ class Search extends React.Component<
                     className={
                       !mobile || this.props.plpMobileView == "grid"
                         ? cs(
-                            bootstrap.colMd4,
+                            bootstrap.colLg4,
                             bootstrap.col6,
                             styles.setWidth,
                             "search-container"
@@ -774,25 +850,43 @@ class Search extends React.Component<
                     // }}
                   >
                     {item.productClass != "GiftCard" ? (
-                      <PlpResultItem
-                        page={searchValue}
-                        position={i}
-                        product={item}
-                        addedToWishlist={false}
-                        currency={currency}
-                        key={item.id}
-                        mobile={mobile}
-                        onClickQuickView={this.onClickQuickView}
-                        loader={this.state.flag}
-                        isCorporate={
-                          ["Pero", "Souk", "Eka", "Object D Art"].indexOf(
-                            item.partner || ""
-                          ) > -1
-                            ? true
-                            : false
-                        }
-                        isSearch={true}
-                      />
+                      !mobile || this.props.plpMobileView == "grid" ? (
+                        <PlpResultItem
+                          page={searchValue}
+                          position={i}
+                          product={item}
+                          addedToWishlist={false}
+                          currency={currency}
+                          key={item.id}
+                          mobile={mobile}
+                          onClickQuickView={this.onClickQuickView}
+                          loader={this.state.flag}
+                          isCorporate={
+                            ["Pero", "Souk", "Eka", "Object D Art"].indexOf(
+                              item.partner || ""
+                            ) > -1
+                              ? true
+                              : false
+                          }
+                          isSearch={true}
+                        />
+                      ) : (
+                        <PlpResultListViewItem
+                          page="PLP"
+                          position={i}
+                          product={item}
+                          addedToWishlist={false}
+                          currency={currency}
+                          key={item.id}
+                          mobile={mobile}
+                          isVisible={i < 3 ? true : undefined}
+                          onClickQuickView={this.onClickQuickView}
+                          isCorporate={this.state.corporoateGifting}
+                          notifyMeClick={this.notifyMeClick}
+                          onEnquireClick={this.onEnquireClick}
+                          loader={this.state.flag}
+                        />
+                      )
                     ) : (
                       <GiftcardItem isCorporateGifting={false} />
                     )}

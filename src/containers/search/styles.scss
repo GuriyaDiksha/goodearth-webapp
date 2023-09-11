@@ -46,7 +46,8 @@
 }
 
 .page-body{
-  margin-top: $main-header;
+  // margin-top: $main-header;
+  margin-top: 30px;
   .sub-header {
     height: 60px;
   }
@@ -177,9 +178,9 @@
     }
 }
 
-.border {
-    --myborder:2px solid #efeaea;
-}
+// .border {
+//     --myborder:2px solid #efeaea;
+// }
 
 
 .filter-sticky {
