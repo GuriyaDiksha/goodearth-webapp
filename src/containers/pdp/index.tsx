@@ -1690,8 +1690,8 @@ class PDPContainer extends React.Component<Props, State> {
               {
                 [globalStyles.pageStickyElement]:
                   !mobile && detailStickyEnabled,
-                [bootstrap.col12]: tablet,
-                [bootstrap.colMd4]: !tablet
+                [bootstrap.col12]: tablet || mobile,
+                [bootstrap.colMd4]: !tablet && !mobile
               },
               {
                 [globalStyles.paddTop20]: mobile

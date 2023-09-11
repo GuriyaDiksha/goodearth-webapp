@@ -20,6 +20,7 @@ const initialState: State = {
   loyalty: [],
   redirectToCart: "",
   isOnlyGiftCart: false,
+  showCouponSection: true,
   publishRemove: false,
   updated: false,
   addnewGiftcard: 0,
