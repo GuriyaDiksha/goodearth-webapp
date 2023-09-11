@@ -20,8 +20,6 @@ import crossIcon from "../../images/cross.svg";
 type Props = {
   title: string;
   subTitle: string;
-  //   isOpen: boolean;
-  //   onClose: () => void;
 };
 
 type StateOptions = {
@@ -39,20 +37,7 @@ type CountryOptions = {
   states: StateOptions[];
 };
 
-const NewsletterModal: React.FC<Props> = ({
-  title,
-  subTitle
-  //   isOpen,
-  //   onClose
-}) => {
-  //   const overlayRef = React.useRef(null);
-  // const handleOverlayClick = (e: React.MouseEvent<HTMLElement, MouseEvent>) =>{
-  //     console.log(e.target == overlayRef.current);
-  //    if(e.target == overlayRef.current){
-  //     console.log(e.target == overlayRef.current);
-  //      onClose();
-  //    }
-  // }
+const NewsletterModal: React.FC<Props> = ({ title, subTitle }) => {
   const {
     user: { isLoggedIn },
     user: { firstName },
@@ -211,30 +196,17 @@ const NewsletterModal: React.FC<Props> = ({
     return formData;
   };
 
-  // const NewsFormRef = useRef<Formsy>(null);
-  const handleSubmit = (
-    model: any,
-    // resetForm: any,
-    updateInputsWithError: any
-  ) => {
+  const handleSubmit = (model: any, updateInputsWithError: any) => {
     if (!enableSubmit) {
       return;
     }
     const formData = prepareFormData(model);
     saveData(formData, updateInputsWithError);
-    // const form = NewsFormRef.current;
-    // if (form) {
-    //   form.updateInputsWithValue({
-    //     country: ""
-    //   });
-    // }
-    // setCountryOptions(countryOptions);
   };
 
   const formContent = (
     <div className={cs(styles.jobApplication, styles.loginForm)}>
       <Formsy
-        // ref={NewsFormRef}
         onValidSubmit={handleSubmit}
         onInvalidSubmit={handleInvalidSubmit}
         onChange={handleChange}
@@ -261,8 +233,6 @@ const NewsletterModal: React.FC<Props> = ({
               }}
               handleChange={event => {
                 event.target.value;
-                //   ? setEnableSubmit(true)
-                //   : setEnableSubmit(false);
               }}
               validationErrors={{
                 maxLength: "Max limit reached.",

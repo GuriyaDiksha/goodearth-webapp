@@ -70,20 +70,11 @@ class Footer extends React.Component<Props, FooterState> {
       newsletterError: false,
       isInViewport: false,
       isConsentSave: false,
-      // showNewsletterModal: false,
-      // cookieHide: false,
       headingHoverArray: [],
       subheadingHoverArray: [],
       smartNav: ["/", "/homepage"]
     };
   }
-
-  // toggleNewsModal = () => {
-  //   if (this.state.showNewsletterModal == true) {
-  //     this.setState({ showNewsletterModal: false });
-  //   }
-  //   localStorage.setItem("seenPopUp", 'true');
-  // };
 
   handleScroll = () => {
     if (this.state.hideImage == true) {
@@ -171,20 +162,6 @@ class Footer extends React.Component<Props, FooterState> {
       }
     }
     this.setState({ isConsentSave: CookieService.getCookie("consent") !== "" });
-
-    // setTimeout(() => {
-    //   this.setState({ showNewsletterModal: true });
-    // }, 10000);
-
-    // getting value of "seenPopUp" key from localStorage
-    // let returningUser = localStorage.getItem("seenPopUp");
-    // if(returningUser){
-    //   alert("returning user");
-    //   console.log(returningUser);
-    //   this.setState({ showNewsletterModal: !returningUser });
-    //   console.log(!returningUser);
-    //   // debugger;
-    // }
   }
 
   componentDidUpdate(
@@ -329,13 +306,9 @@ class Footer extends React.Component<Props, FooterState> {
   acceptCookies = () => {
     //CookieService.setCookie("goodearth", "show", 365);
     this.props.hideCookies();
-    // this.setState({ cookieHide: true });
   };
 
   render() {
-    // const showNewsModal = this.state.showNewsletterModal;
-    // const cookieHide = this.state.cookieHide;
-    // console.log("cookieStatus===" + cookieHide);
     console.log("cpopup===" + this.props.showCookie);
     const desktopPlp =
       this.props.location.pathname.includes("/catalogue/category/") &&

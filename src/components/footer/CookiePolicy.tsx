@@ -155,7 +155,6 @@ const CookiePolicy: React.FC<Props> = ({
 
   const hideCookie = () => {
     //    setConsent(true);
-    console.log("hide function");
     if (location?.pathname === "/customer-assistance/cookie-policy") {
       hideCookies();
       showCookiePrefs();
