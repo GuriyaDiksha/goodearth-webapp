@@ -59,6 +59,7 @@ export type Basket = {
   loyalty: Points[];
   redirectToCart: string;
   isOnlyGiftCart: boolean;
+  showCouponSection: boolean;
   publishRemove: boolean;
   updated: boolean;
   addnewGiftcard: string | number;

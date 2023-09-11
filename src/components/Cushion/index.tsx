@@ -337,6 +337,7 @@ class CushionBag extends React.Component<Props, State> {
                 src={asset}
                 className={styles.cushionFiller}
                 alt="cushion-filler-icon"
+                width="200"
               />
               <div>
                 <Link

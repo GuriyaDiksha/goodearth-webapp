@@ -161,12 +161,12 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
     <div className={styles.plpMain}>
       {info.isSale && product.salesBadgeImage && (
         <div className={mobile ? styles.badgeImageMobile : styles.badgeImage}>
-          <img src={product.salesBadgeImage} />
+          <img src={product.salesBadgeImage} width="100" />
         </div>
       )}
       {product.justAddedBadge && !mobile && (
         <div className={styles.newBadgeImage}>
-          <img src={product.justAddedBadge} />
+          <img src={product.justAddedBadge} width="100" />
         </div>
       )}
       <div
@@ -289,7 +289,7 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
         {product.justAddedBadge && mobile && (
           <p className={styles.productN}>
             <span className={styles.mobileBadge}>
-              <img src={product.justAddedBadge} />
+              <img src={product.justAddedBadge} width="100" />
             </span>
           </p>
         )}
