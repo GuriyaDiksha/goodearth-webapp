@@ -297,7 +297,6 @@ class Footer extends React.Component<Props, FooterState> {
           } else {
             const msg = showErrors(error.response.data.message);
             this.setState({ newsletterError: true, newsletterMessage: msg });
-            // console.log(error);
           }
         });
     }
@@ -309,7 +308,6 @@ class Footer extends React.Component<Props, FooterState> {
   };
 
   render() {
-    console.log("cpopup===" + this.props.showCookie);
     const desktopPlp =
       this.props.location.pathname.includes("/catalogue/category/") &&
       !this.props.mobile;

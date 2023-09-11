@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import cs from "classnames";
 import styles from "./styles.scss";
 import Formsy from "formsy-react";
@@ -110,19 +110,15 @@ const NewsletterModal: React.FC<Props> = ({ title, subTitle }) => {
   };
 
   const onClose = () => {
-    // console.log("close");
     localStorage.setItem("seenPopUp", "true");
     setDisplayPopUp(false);
   };
 
   useEffect(() => {
-    // console.log("popup----" + displayPopUp);
     setTimeout(() => {
       setDisplayPopUp(true);
       const returningUser = localStorage.getItem("seenPopUp");
-      console.log("IsUser----" + returningUser);
       setDisplayPopUp(!returningUser);
-      // console.log("popupNew----" + displayPopUp);
     }, 10000);
   }, []);
 
@@ -138,17 +134,12 @@ const NewsletterModal: React.FC<Props> = ({ title, subTitle }) => {
   }, []);
   //  end close modal on ESC keyword
 
-  const saveData = (
-    formData: any,
-    // resetForm: any,
-    updateInputsWithError: any
-  ) => {
+  const saveData = (formData: any, updateInputsWithError: any) => {
     setIsLoading(false);
     setSuccessMsg("");
     HeaderService.saveHFH(dispatch, formData)
       .then(data => {
         setSuccessMsg("You have subscribed successfully.");
-        // resetForm();
         const subscribeCta = document.getElementById("subscribe-cta");
         if (subscribeCta) {
           subscribeCta.hidden = true;
@@ -161,13 +152,8 @@ const NewsletterModal: React.FC<Props> = ({ title, subTitle }) => {
           }
         }
         setTimeout(() => {
-          // var newsletterModal = document.getElementById("newsletter-modal-container");
-          // if(newsletterModal){
-          //     newsletterModal.hidden = true;
-          // }
           onClose();
         }, 3000);
-        // setEnableSubmit(false);
       })
       .catch(err => {
         const errors = err.response.data.errors;
@@ -301,7 +287,7 @@ const NewsletterModal: React.FC<Props> = ({ title, subTitle }) => {
       </Formsy>
     </div>
   );
-  console.log("display===" + displayPopUp);
+
   return displayPopUp ? (
     <div id="newsletter-modal-container" className={cs(styles.container)}>
       <div
