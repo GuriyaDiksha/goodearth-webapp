@@ -509,7 +509,7 @@ const AddressSection: React.FC<AddressProps & {
                 <div className={styles.text}>{address.countryName}</div>
               </div>
               <p className={styles.phone}>
-                M: {address.phoneCountryCode} {address.phoneNumber}
+                {address.phoneCountryCode} {address.phoneNumber}
               </p>
               {gstDetails?.gstText && (
                 <p className={styles.gstNo}>
@@ -767,7 +767,7 @@ const AddressSection: React.FC<AddressProps & {
         return false;
       }
 
-      if (shippingAddressId === 0) {
+      if (shippingAddressId === 0 && !isBridal) {
         setShippingError("Please select shipping address");
         return false;
       }
@@ -1107,7 +1107,9 @@ const AddressSection: React.FC<AddressProps & {
                               shippingAddressId !== 0
                                 ? val?.id === shippingAddressId
                                 : val?.[`isDefaultForShipping_${currency}`] ===
-                                  true
+                                    true ||
+                                  (isBridal &&
+                                    basket.bridalAddressId === val?.id)
                             )
                           );
                         }}
@@ -1264,7 +1266,10 @@ const AddressSection: React.FC<AddressProps & {
                                             ? val?.id === shippingAddressId
                                             : val?.[
                                                 `isDefaultForShipping_${currency}`
-                                              ] === true
+                                              ] === true ||
+                                              (isBridal &&
+                                                basket.bridalAddressId ===
+                                                  val?.id)
                                         )
                                       );
                                     }}
@@ -1360,7 +1365,10 @@ const AddressSection: React.FC<AddressProps & {
                                               ? val?.id === shippingAddressId
                                               : val?.[
                                                   `isDefaultForShipping_${currency}`
-                                                ] === true
+                                                ] === true ||
+                                                (isBridal &&
+                                                  basket.bridalAddressId ===
+                                                    val?.id)
                                           )
                                         );
                                       }}
