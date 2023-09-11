@@ -710,7 +710,7 @@ hr {
     
   }
   &:focus{
-    border: 1px solid $med-charcoal;
+    border: 1px solid $med-charcoal !important;
   }
 }
 
