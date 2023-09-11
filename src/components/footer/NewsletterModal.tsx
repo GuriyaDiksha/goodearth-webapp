@@ -290,9 +290,7 @@ const NewsletterModal: React.FC<Props> = ({ title, subTitle }) => {
 
   return displayPopUp ? (
     <div id="newsletter-modal-container" className={cs(styles.container)}>
-      <div
-        className={cs(styles.modalOverlay)} /*onClick={handleOverlayClick} */
-      ></div>
+      <div className={cs(styles.modalOverlay)}></div>
       <div className={cs(styles.newsletterModal)}>
         <div className={cs(styles.newsLeftImg)}>
           <img src={flower_left} className={cs(styles.flowerLeft)} />
