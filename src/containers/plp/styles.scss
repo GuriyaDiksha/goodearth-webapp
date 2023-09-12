@@ -1105,3 +1105,10 @@ p.corporate-sub-heading {
   opacity: 0.5;
   cursor: not-allowed !important;
 }
+
+.col-banner{
+  display: flex;
+  flex-wrap: wrap;
+  margin-right: -3px;
+  margin-left: -3px;
+}
