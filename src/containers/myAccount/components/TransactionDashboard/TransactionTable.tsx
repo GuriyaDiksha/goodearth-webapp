@@ -135,6 +135,21 @@ const TransactionTable = ({ mobile }: Props) => {
       });
   };
 
+  const handleAnimation = (id: string, isShow: boolean) => {
+    if (typeof document == "object" && document.getElementById(id)) {
+      if (isShow) {
+        (document.getElementById(
+          id
+        ) as HTMLElement).style.maxHeight = document.getElementById(id)
+          ?.scrollHeight
+          ? `${document.getElementById(id)?.scrollHeight}px`
+          : "max-content";
+      } else {
+        (document.getElementById(id) as HTMLElement).style.maxHeight = "0px";
+      }
+    }
+  };
+
   return (
     <>
       <div className={styles.transactionTableBackground}>
@@ -390,12 +405,19 @@ const TransactionTable = ({ mobile }: Props) => {
                                 ? !openStateId["state"]
                                 : true
                           });
+                          handleAnimation(
+                            ind + "t",
+                            openStateId["id"] === ind + "t"
+                              ? !openStateId["state"]
+                              : true
+                          );
                         }}
                       ></span>
                     </p>
                   )}
                 </div>
                 <div
+                  id={ind + "t"}
                   className={cs(
                     bootstrap.row,
                     styles.tableRow,
