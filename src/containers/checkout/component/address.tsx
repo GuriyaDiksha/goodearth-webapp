@@ -222,8 +222,8 @@ const AddressSection: React.FC<AddressProps & {
 
       if (
         sameAsShipping &&
-        props.selectedAddress &&
-        props.selectedAddress?.[`isDefaultForShipping_${currency}`]
+        props.selectedAddress
+        // props.selectedAddress?.[`isDefaultForShipping_${currency}`]
       ) {
         dispatch(updateShippingAddressId(props.selectedAddress?.id || 0));
       }
