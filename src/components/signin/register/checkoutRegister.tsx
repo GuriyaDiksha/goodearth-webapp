@@ -937,6 +937,7 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
               allowFilter={true}
               showLabel={true}
               optionsClass={styles.isdCode}
+              aquaClass={styles.aquaText}
               searchIconClass={styles.countryCodeSearchIcon}
               searchInputClass={styles.countryCodeSearchInput}
               inputRef={this.countryCodeRef}

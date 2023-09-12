@@ -498,6 +498,7 @@ const WhatsappSubscribe: React.FC<Props> = ({
               allowFilter={true}
               showLabel={true}
               optionsClass={styles.isdCode}
+              aquaClass={styles.aquaText}
               searchIconClass={styles.countryCodeSearchIcon}
               searchInputClass={styles.countryCodeSearchInput}
               inputRef={codeRef}

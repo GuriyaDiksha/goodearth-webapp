@@ -134,7 +134,17 @@ const SelectDropdown: React.FC<Props &
         {options.map((option, i) => {
           return (
             <div
-              className={cs(props.optionsClass || styles.option)}
+              className={cs(props.optionsClass || styles.option, {
+                [props.aquaClass || styles.aquaText]:
+                  (option.label?.split("(")?.[1]
+                    ? option.label
+                        ?.split("(")?.[1]
+                        ?.substring(
+                          0,
+                          option.label?.split("(")?.[1]?.length - 1
+                        )
+                    : option.label?.split("(")?.[0]) === value
+              })}
               onClick={e => onOptionClick(e, option)}
               key={`${props.name}_${i}`}
             >

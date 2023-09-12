@@ -673,6 +673,7 @@ const MyProfile: React.FC<ProfileProps> = ({ setCurrentSection }) => {
                   searchInputClass={styles.countryCodeSearchInput}
                   inputRef={countryCodeRef}
                   handleChange={onCountryCodeSelect}
+                  aquaClass={styles.aquaText}
                 />
 
                 <FormInput
