@@ -73,9 +73,9 @@ const FormSelect: React.FC<Props & InjectedProps<string | null>> = props => {
         disabled={props.disable}
         onFocus={() => setLabelClass(true)}
       >
-        <option selected value={props.placeholder} key={props.placeholder}>
-          {props.placeholder}
-        </option>
+        {!props.value && (
+          <option key={props.placeholder}>{props.placeholder}</option>
+        )}
         {options}
       </select>
       <label
@@ -91,11 +91,7 @@ const FormSelect: React.FC<Props & InjectedProps<string | null>> = props => {
       >
         {props.label}
       </label>
-      {errorMessage && (
-        <p id="select_error_msg" className={styles.errorMsg}>
-          {errorMessage}
-        </p>
-      )}
+      {errorMessage && <p className={styles.errorMsg}>{errorMessage}</p>}
       <span
         className={cs(
           { [styles.arrow]: true },

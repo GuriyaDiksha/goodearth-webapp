@@ -16,7 +16,6 @@ import MakerEnhance from "components/maker";
 import { updateCountryData } from "actions/address";
 import FormSelect from "components/Formsy/FormSelect";
 import { Country } from "components/Formsy/CountryCode/typings";
-import { values } from "lodash";
 
 type StateOptions = {
   value: string;
@@ -154,7 +153,6 @@ const Newsletters: React.FC = () => {
     }, 0);
   };
 
-  const NewsFormRef = useRef<Formsy>(null);
   const saveData = (
     formData: any,
     resetForm: any,
@@ -169,13 +167,6 @@ const Newsletters: React.FC = () => {
         );
         resetForm();
         setEnableSubmit(false);
-        const form = NewsFormRef.current;
-        if (form) {
-          form.updateInputsWithValue({
-            country: values
-          });
-        }
-        setCountryOptions(countryOptions);
       })
       .catch(err => {
         const errors = err.response.data.errors;
@@ -205,6 +196,7 @@ const Newsletters: React.FC = () => {
     return formData;
   };
 
+  const NewsFormRef = useRef<Formsy>(null);
   const handleSubmit = (
     model: any,
     resetForm: any,
@@ -215,6 +207,13 @@ const Newsletters: React.FC = () => {
     }
     const formData = prepareFormData(model);
     saveData(formData, resetForm, updateInputsWithError);
+    const form = NewsFormRef.current;
+    if (form) {
+      form.updateInputsWithValue({
+        country: ""
+      });
+    }
+    setCountryOptions(countryOptions);
   };
 
   const formContent = (
