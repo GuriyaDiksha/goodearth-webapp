@@ -362,7 +362,12 @@ const AddressSection: React.FC<AddressProps & {
           )}
         >
           <div className={styles.bridalAddressTitleRing}>
-            <span className={globalStyles.marginR10}>
+            <span
+              className={cs(
+                globalStyles.marginR10,
+                globalStyles.textCapitalize
+              )}
+            >
               {address.registrantName} & {address.coRegistrantName}&#39;s &nbsp;
               {address.occasion} Registry
             </span>

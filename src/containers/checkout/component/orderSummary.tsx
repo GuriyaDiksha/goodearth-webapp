@@ -302,28 +302,13 @@ const OrderSummary: React.FC<OrderProps> = props => {
                   </span>
                   {item.product.structure == "GiftCard" && (
                     <>
-                      <p
-                        className={cs(
-                          styles.productSize,
-                          globalStyles.marginT5
-                        )}
-                      >
+                      <p className={cs(styles.productSize)}>
                         Recipient&apos;s Name: {item?.GCMeta?.recipeint_name}
                       </p>
-                      <p
-                        className={cs(
-                          styles.productSize,
-                          globalStyles.marginT2
-                        )}
-                      >
+                      <p className={cs(styles.productSize)}>
                         Recipient&apos;s Email: {item?.GCMeta?.recipient_email}
                       </p>
-                      <p
-                        className={cs(
-                          styles.productSize,
-                          globalStyles.marginT2
-                        )}
-                      >
+                      <p className={cs(styles.productSize)}>
                         Sender&apos;s Name: {item?.GCMeta?.sender_name}
                       </p>
                     </>

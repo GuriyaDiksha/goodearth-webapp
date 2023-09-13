@@ -54,7 +54,13 @@ const AddressItemBridal: React.FC<Props> = ({
                   />
                   <span className={styles.checkmark}></span>
                 </div>
-                <div className={cs(styles.lineHead, styles.titleWidth)}>
+                <div
+                  className={cs(
+                    styles.lineHead,
+                    styles.titleWidth,
+                    globalStyles.textCapitalize
+                  )}
+                >
                   {title}
                   {addressData.registrantName}&nbsp; &{" "}
                   {addressData.coRegistrantName}&#39;s {addressData.occasion}{" "}

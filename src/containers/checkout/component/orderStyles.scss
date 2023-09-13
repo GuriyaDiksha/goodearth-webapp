@@ -328,6 +328,7 @@ body:has(.open-summary) {
 .product-price {
   @include plp_prod_name_desktop();
   @include b3_14px_montserrat_charcoal();
+  padding-bottom: 8px;
 }
 
 .hr-product {
@@ -341,6 +342,7 @@ body:has(.open-summary) {
 .product-size,
 .text-coupon {
   @include b5_10px_montserrat_charcoal();
+  line-height: 1.5;
   .bold {
     font-weight: bold;
   }

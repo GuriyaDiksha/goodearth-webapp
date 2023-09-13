@@ -668,7 +668,9 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                               <p
                                 className={cs(
                                   styles.productN,
-                                  globalStyles.flex
+                                  globalStyles.flex,
+                                  globalStyles.marginT10,
+                                  globalStyles.marginB10
                                 )}
                               >
                                 {isdisCount || isFlat ? (
@@ -712,12 +714,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                                 ""
                               ) : (
                                 <Fragment>
-                                  <div
-                                    className={cs(
-                                      styles.productDetails,
-                                      globalStyles.voffset1
-                                    )}
-                                  >
+                                  <div className={cs(styles.productDetails)}>
                                     {item.product.size && (
                                       <>Size:&nbsp; {item.product.size}</>
                                     )}
@@ -746,23 +743,18 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                             </div>
                             {item.product.structure == "GiftCard" && (
                               <>
-                                <p
-                                  className={cs(
-                                    styles.productSize,
-                                    globalStyles.marginT5
-                                  )}
-                                >
+                                <div className={cs(styles.productSize)}>
                                   Recipient&apos;s Name:{" "}
                                   {item?.GcMeta?.recipeint_name}
-                                </p>
-                                <p className={cs(styles.productSize)}>
+                                </div>
+                                <div className={cs(styles.productSize)}>
                                   Recipient&apos;s Email:{" "}
                                   {item?.GcMeta?.recipient_email}
-                                </p>
-                                <p className={cs(styles.productSize)}>
+                                </div>
+                                <div className={cs(styles.productSize)}>
                                   Sender&apos;s Name:{" "}
                                   {item?.GcMeta?.sender_name}
-                                </p>
+                                </div>
                               </>
                             )}
                             {/* {item.product?.structure == "GiftCard" && (
