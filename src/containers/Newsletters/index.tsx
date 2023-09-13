@@ -244,7 +244,7 @@ const Newsletters: React.FC = () => {
               placeholder="Name*"
               name="name"
               validations={{
-                maxLength: 60,
+                maxLength: 100,
                 isWords: true
               }}
               handleChange={event => {
