@@ -1046,7 +1046,11 @@ const AddressSection: React.FC<AddressProps & {
       )
     );
   };
-
+  const ctaText = addressList.length
+    ? shippingAddressId
+      ? "SHIP TO THIS ADDRESS"
+      : "SELECT AN ADDRESS"
+    : "ADD A NEW ADDRESS";
   const renderCheckoutAddress = () => {
     let html: ReactElement | null = null;
 
@@ -1124,10 +1128,10 @@ const AddressSection: React.FC<AddressProps & {
                         )}
                       >
                         {props.activeStep == STEP_SHIPPING
-                          ? "SHIP TO THIS ADDRESS"
+                          ? ctaText
                           : props.activeStep == STEP_BILLING
                           ? "PROCEED TO PAYMENT"
-                          : "SHIP TO THIS ADDRESS"}
+                          : ctaText}
                       </div>
                     </div>
                   }
@@ -1281,10 +1285,10 @@ const AddressSection: React.FC<AddressProps & {
                                     className={cs(styles.sendToAddress)}
                                   >
                                     {props.activeStep == STEP_SHIPPING
-                                      ? "SHIP TO THIS ADDRESS"
+                                      ? ctaText
                                       : props.activeStep == STEP_BILLING
                                       ? "PROCEED TO PAYMENT"
-                                      : "SHIP TO THIS ADDRESS"}
+                                      : ctaText}
                                   </div>
                                 )}
                               {props.activeStep == STEP_SHIPPING && (
@@ -1383,10 +1387,10 @@ const AddressSection: React.FC<AddressProps & {
                                       )}
                                     >
                                       {props.activeStep == STEP_SHIPPING
-                                        ? "SHIP TO THIS ADDRESS"
+                                        ? ctaText
                                         : props.activeStep == STEP_BILLING
                                         ? "PROCEED TO PAYMENT"
-                                        : "SHIP TO THIS ADDRESS"}
+                                        : ctaText}
                                     </div>
                                   )}
                                 </div>
