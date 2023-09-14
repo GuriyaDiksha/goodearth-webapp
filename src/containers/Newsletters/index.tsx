@@ -45,7 +45,7 @@ const Newsletters: React.FC = () => {
   const history = useHistory();
   const location = history.location;
   const { countryData } = useSelector((state: AppState) => state.address);
-
+  const isAlphaError = "Only alphabets are allowed";
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -162,10 +162,14 @@ const Newsletters: React.FC = () => {
     setSuccessMsg("");
     HeaderService.makeNewsletterSignupRequest(dispatch, formData)
       .then(data => {
-        setSuccessMsg(
-          "Thank you. You have successfully signed-up to our newsletter."
-        );
-        resetForm();
+        if (data.status) {
+          setSuccessMsg(
+            "Thank you. You have successfully signed-up to our newsletter."
+          );
+        } else {
+          setSuccessMsg("You have already signed up for our newsletters.");
+        }
+        // resetForm();
         setEnableSubmit(false);
       })
       .catch(err => {
@@ -196,7 +200,6 @@ const Newsletters: React.FC = () => {
     return formData;
   };
 
-  const NewsFormRef = useRef<Formsy>(null);
   const handleSubmit = (
     model: any,
     resetForm: any,
@@ -207,13 +210,6 @@ const Newsletters: React.FC = () => {
     }
     const formData = prepareFormData(model);
     saveData(formData, resetForm, updateInputsWithError);
-    const form = NewsFormRef.current;
-    if (form) {
-      form.updateInputsWithValue({
-        country: ""
-      });
-    }
-    setCountryOptions(countryOptions);
   };
 
   const formContent = (
@@ -229,7 +225,6 @@ const Newsletters: React.FC = () => {
         latest collections, insider stories and expert tips.
       </h4>
       <Formsy
-        ref={NewsFormRef}
         onValidSubmit={handleSubmit}
         onInvalidSubmit={handleInvalidSubmit}
         onChange={handleChange}
@@ -249,8 +244,8 @@ const Newsletters: React.FC = () => {
               placeholder="Name*"
               name="name"
               validations={{
-                maxLength: 60,
-                isAlpha: true
+                maxLength: 100,
+                isWords: true
               }}
               handleChange={event => {
                 event.target.value
@@ -259,7 +254,7 @@ const Newsletters: React.FC = () => {
               }}
               validationErrors={{
                 maxLength: "Max limit reached.",
-                isAlpha: "Only alphabets are allowed."
+                isWords: isAlphaError
               }}
             />
           </div>

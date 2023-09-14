@@ -69,9 +69,16 @@ input[type="date"] {
       padding: 10px 20px;
       cursor: pointer;
       text-align: left;
-      @include b4_12px_montserrat_charcoal();
+      @include b4_12px_montserrat_light_charcoal();
       line-height: 30px;
       letter-spacing: 0.36px;
+      font-size: 12px !important;
+      &:hover{
+        @include b4_12px_montserrat_charcoal();
+      }
+      &.aqua-text{
+        @include b4_12px_montserrat_aqua();
+      }
     }
   }
   .filter{
