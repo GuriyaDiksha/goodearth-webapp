@@ -768,7 +768,7 @@ class Search extends React.Component<
               { [globalStyles.hidden]: this.state.showmobileSort },
               { [globalStyles.paddTop80]: !this.state.showmobileSort },
               { [styles.spCat]: !this.state.showmobileSort },
-              bootstrap.colMd12,
+              bootstrap.colMd9,
               bootstrap.col12
             )}
           >
