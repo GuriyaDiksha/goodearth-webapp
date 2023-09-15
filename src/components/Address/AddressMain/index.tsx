@@ -287,12 +287,12 @@ const AddressMain: React.FC<Props> = props => {
           dispatch,
           countryCurrencyCode?.[country || "IN"]
         );
-        if (!props.isGoodearthShipping && !props.isBridal) {
+        if (!props.isGoodearthShipping && !bridal && sameAsShipping) {
           dispatch(updateBillingAddressId(addressData?.id));
         }
         dispatch(
           updateSameAsShipping(
-            !props.isGoodearthShipping && !props.isBridal && sameAsShipping
+            !props.isGoodearthShipping && !bridal && sameAsShipping
           )
         );
         setIsLoading(false);
@@ -342,7 +342,7 @@ const AddressMain: React.FC<Props> = props => {
     <>
       {mode == "list" && (
         <div>
-          {currentCallBackComponent !== "checkout-shipping" &&
+          {/* {currentCallBackComponent !== "checkout-shipping" &&
             currentCallBackComponent !== "checkout-billing" &&
             currentCallBackComponent !== "bridal-edit" &&
             currentCallBackComponent !== "bridal" && (
@@ -361,7 +361,7 @@ const AddressMain: React.FC<Props> = props => {
               >
                 + ADD NEW ADDRESS
               </div>
-            )}
+            )} */}
           <AddressList
             addressDataList={addressList}
             isBridal={bridal}
@@ -419,7 +419,7 @@ const AddressMain: React.FC<Props> = props => {
                       value={
                         currentCallBackComponent == "bridal"
                           ? "create registry"
-                          : "+ add a new address"
+                          : "add a new address"
                       }
                       onClick={() => {
                         if (

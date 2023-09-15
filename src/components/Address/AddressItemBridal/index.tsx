@@ -6,6 +6,8 @@ import styles from "../styles.scss";
 import cs from "classnames";
 import bridalRing from "../../../images/bridal/rings.svg";
 import { AddressContext } from "../AddressMain/context";
+import { useSelector } from "react-redux";
+import { AppState } from "reducers/typings";
 
 type Props = {
   addressData: AddressData;
@@ -19,6 +21,8 @@ const AddressItemBridal: React.FC<Props> = ({
   title
 }) => {
   const { markAsDefault } = useContext(AddressContext);
+  const { shippingAddressId } = useSelector((state: AppState) => state.address);
+
   return (
     <div
       className={
@@ -36,7 +40,11 @@ const AddressItemBridal: React.FC<Props> = ({
       onClick={() => markAsDefault(addressData, addressData?.id)}
     >
       {addressData && (
-        <div className={cs(styles.addressItemContainer, styles.defaultAddress)}>
+        <div
+          className={cs(styles.addressItemContainer, {
+            [styles.defaultAddress]: shippingAddressId === addressData?.id
+          })}
+        >
           <div
             className={cs(
               styles.addressItem,
@@ -49,7 +57,7 @@ const AddressItemBridal: React.FC<Props> = ({
                 <div className={styles.radio}>
                   <input
                     className={styles.defaultAddressCheckbox}
-                    checked={true}
+                    checked={shippingAddressId === addressData?.id}
                     type="radio"
                   />
                   <span className={styles.checkmark}></span>

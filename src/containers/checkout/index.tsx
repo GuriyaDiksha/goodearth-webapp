@@ -908,7 +908,8 @@ class Checkout extends React.Component<Props, State> {
                 activeStep:
                   localStorage.getItem("validBo") ||
                   localStorage.getItem("isSale") ||
-                  !this.props.showPromo
+                  (!this.props.showPromo &&
+                    this.props.basket.voucherDiscounts.length === 0)
                     ? // || this.props.isSale
                       STEP_PAYMENT
                     : STEP_PROMO,
@@ -920,7 +921,10 @@ class Checkout extends React.Component<Props, State> {
               () => {
                 if (activeStep === STEP_BILLING) {
                   this.nextStep(
-                    this.props.showPromo ? STEP_PROMO : STEP_PAYMENT
+                    this.props.showPromo &&
+                      this.props.basket.voucherDiscounts.length === 0
+                      ? STEP_PROMO
+                      : STEP_PAYMENT
                   );
                 }
               }

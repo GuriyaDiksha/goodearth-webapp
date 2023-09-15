@@ -243,7 +243,14 @@ const AddressSection: React.FC<AddressProps & {
         );
       }
     }
-  }, [props.selectedAddress, activeStep, currency, isActive]);
+  }, [
+    props.selectedAddress,
+    activeStep,
+    currency,
+    isActive,
+    isBridal,
+    isGoodearthShipping
+  ]);
 
   const openNewAddressForm = () => {
     if (currentCallBackComponent === "checkout-billing") {
@@ -281,7 +288,7 @@ const AddressSection: React.FC<AddressProps & {
     isBottom?: boolean,
     isBillingDisable?: boolean
   ) {
-    if ((isActive && isLoggedIn) || isBillingDisable) {
+    if (((isActive && isLoggedIn) || isBillingDisable) && addressList?.length) {
       const clickAction =
         mode == "list" ? openNewAddressForm : backToAddressList;
       const fullText =
@@ -772,7 +779,7 @@ const AddressSection: React.FC<AddressProps & {
         return false;
       }
 
-      if (shippingAddressId === 0 && !isBridal) {
+      if (shippingAddressId === 0) {
         setShippingError("Please select shipping address");
         return false;
       }
@@ -1046,11 +1053,18 @@ const AddressSection: React.FC<AddressProps & {
       )
     );
   };
-  const ctaText = addressList.length
-    ? shippingAddressId
-      ? "SHIP TO THIS ADDRESS"
-      : "SELECT AN ADDRESS"
-    : "ADD A NEW ADDRESS";
+
+  //CTA text of shipping and billing section
+  const ctaText =
+    ((!isBridal || !isGoodearthShipping) && addressList.length) ||
+    ((isBridal || isGoodearthShipping) && addressList.length > 1)
+      ? !!(activeStep == STEP_SHIPPING ? shippingAddressId : billingAddressId)
+        ? activeStep == STEP_SHIPPING
+          ? "SHIP TO THIS ADDRESS"
+          : "PROCEED TO PAYMENT"
+        : "SELECT AN ADDRESS"
+      : "ADD A NEW ADDRESS";
+
   const renderCheckoutAddress = () => {
     let html: ReactElement | null = null;
 
@@ -1101,12 +1115,23 @@ const AddressSection: React.FC<AddressProps & {
               <>
                 <div>
                   {children}
+                  {shippingError && (
+                    <div
+                      className={cs(
+                        globalStyles.errorMsg,
+                        globalStyles.paddT25
+                      )}
+                    >
+                      {shippingError}
+                    </div>
+                  )}
                   {
                     <div
                       className={cs(
                         bootstrapStyles.row,
                         globalStyles.gutterBetween,
-                        styles.checkoutAddressFooter
+                        styles.checkoutAddressFooter,
+                        globalStyles.paddT0
                       )}
                     >
                       <div
@@ -1127,11 +1152,7 @@ const AddressSection: React.FC<AddressProps & {
                           styles.footerSendToAddress
                         )}
                       >
-                        {props.activeStep == STEP_SHIPPING
-                          ? ctaText
-                          : props.activeStep == STEP_BILLING
-                          ? "PROCEED TO PAYMENT"
-                          : ctaText}
+                        {ctaText}
                       </div>
                     </div>
                   }
@@ -1254,6 +1275,26 @@ const AddressSection: React.FC<AddressProps & {
                           isGoodearthShipping))) && (
                       <>
                         <div>{children}</div>
+                        {addressList.length === 0 && mode == "list" && (
+                          <div
+                            className={cs(
+                              bootstrapStyles.row,
+                              globalStyles.gutterBetween,
+                              styles.checkoutAddressFooter,
+                              globalStyles.paddT0
+                            )}
+                          >
+                            <div
+                              onClick={() => openAddressForm()}
+                              className={cs(
+                                styles.sendToAddress,
+                                styles.footerSendToAddress
+                              )}
+                            >
+                              {ctaText}
+                            </div>
+                          </div>
+                        )}
                         {addressList.length && mode == "list" ? (
                           <>
                             <div></div>
@@ -1284,11 +1325,7 @@ const AddressSection: React.FC<AddressProps & {
                                     }}
                                     className={cs(styles.sendToAddress)}
                                   >
-                                    {props.activeStep == STEP_SHIPPING
-                                      ? ctaText
-                                      : props.activeStep == STEP_BILLING
-                                      ? "PROCEED TO PAYMENT"
-                                      : ctaText}
+                                    {ctaText}
                                   </div>
                                 )}
                               {props.activeStep == STEP_SHIPPING && (
@@ -1386,11 +1423,7 @@ const AddressSection: React.FC<AddressProps & {
                                         styles.footerSendToAddress
                                       )}
                                     >
-                                      {props.activeStep == STEP_SHIPPING
-                                        ? ctaText
-                                        : props.activeStep == STEP_BILLING
-                                        ? "PROCEED TO PAYMENT"
-                                        : ctaText}
+                                      {ctaText}
                                     </div>
                                   )}
                                 </div>
@@ -1454,24 +1487,26 @@ const AddressSection: React.FC<AddressProps & {
                             styles.sendToPayment
                           )}
                           onClick={() => {
-                            handleSaveAndReview(
-                              addressList?.find(val =>
-                                shippingAddressId !== 0
-                                  ? sameAsShipping &&
-                                    !isBridal &&
-                                    !isGoodearthShipping
-                                    ? val?.id === shippingAddressId
-                                    : val?.id === billingAddressId
-                                  : val?.[
-                                      `isDefaultForShipping_${currency}`
-                                    ] === true
-                              )
-                            );
+                            if (ctaText === "ADD A NEW ADDRESS") {
+                              openAddressForm();
+                            } else {
+                              handleSaveAndReview(
+                                addressList?.find(val =>
+                                  shippingAddressId !== 0
+                                    ? sameAsShipping &&
+                                      !isBridal &&
+                                      !isGoodearthShipping
+                                      ? val?.id === shippingAddressId
+                                      : val?.id === billingAddressId
+                                    : val?.[
+                                        `isDefaultForShipping_${currency}`
+                                      ] === true
+                                )
+                              );
+                            }
                           }}
                         >
-                          {mobile
-                            ? "SELECT & PROCEED TO PAYMENT"
-                            : "PROCEED TO PAYMENT"}
+                          {ctaText}
                         </div>
                       </div>
                     </div>
@@ -1491,23 +1526,25 @@ const AddressSection: React.FC<AddressProps & {
                       !checkoutMobileOrderSummary && (
                         <div
                           onClick={() => {
-                            handleSaveAndReview(
-                              addressList?.find(val =>
-                                shippingAddressId !== 0
-                                  ? sameAsShipping
-                                    ? val?.id === shippingAddressId
-                                    : val?.id === billingAddressId
-                                  : val?.[
-                                      `isDefaultForShipping_${currency}`
-                                    ] === true
-                              )
-                            );
+                            if (ctaText === "ADD A NEW ADDRESS") {
+                              openAddressForm();
+                            } else {
+                              handleSaveAndReview(
+                                addressList?.find(val =>
+                                  shippingAddressId !== 0
+                                    ? sameAsShipping
+                                      ? val?.id === shippingAddressId
+                                      : val?.id === billingAddressId
+                                    : val?.[
+                                        `isDefaultForShipping_${currency}`
+                                      ] === true
+                                )
+                              );
+                            }
                           }}
                           className={cs(styles.sendToAddress)}
                         >
-                          {mobile
-                            ? "SELECT & PROCEED TO PAYMENT"
-                            : "PROCEED TO PAYMENT"}
+                          {ctaText}
                         </div>
                       )}
                   </div>

@@ -144,42 +144,26 @@ const PromoSection: React.FC<PromoProps> = props => {
             />
           ) : null}
           <span
-            className={isActive || isactivepromo || isEdit ? "" : styles.closed}
+            className={
+              STEP_ORDER[activeStep] < currentStep ||
+              isActive ||
+              isactivepromo ||
+              isEdit
+                ? ""
+                : styles.closed
+            }
           >
             PROMO CODE
           </span>
-          {basket.voucherDiscounts.length > 0 && !isEdit && mobile && !isBoId && (
-            <span
-              className={cs(globalStyles.pointer, styles.promoEdit, {
-                [styles.hidden]: !(isActive || isactivepromo || isEdit)
-              })}
-              onClick={() => {
-                onCurrentState();
-              }}
-            >
-              Edit
-            </span>
-          )}
-        </div>
-        {basket.voucherDiscounts.length > 0 && !isEdit && (
-          <div
-            className={cs(
-              styles.col12,
-              bootstrapStyles.colMd6,
-              styles.selectedStvalue
-            )}
-          >
-            <span className={styles.marginR10}>
-              <span className={styles.promoCode}>
-                {basket.voucherDiscounts[0]?.voucher?.code}
-              </span>
-              <span className={styles.promoCodeApplied}>
-                Promo Code Applied
-              </span>
-            </span>
-            {!mobile && !isBoId && (
+          {STEP_ORDER[activeStep] <= currentStep &&
+            basket.voucherDiscounts.length > 0 &&
+            !isEdit &&
+            mobile &&
+            !isBoId && (
               <span
-                className={cs(globalStyles.pointer, styles.promoEdit)}
+                className={cs(globalStyles.pointer, styles.promoEdit, {
+                  // [styles.hidden]: !(isActive || isactivepromo)
+                })}
                 onClick={() => {
                   onCurrentState();
                 }}
@@ -187,8 +171,37 @@ const PromoSection: React.FC<PromoProps> = props => {
                 Edit
               </span>
             )}
-          </div>
-        )}
+        </div>
+        {STEP_ORDER[activeStep] <= currentStep &&
+          basket.voucherDiscounts.length > 0 &&
+          !isEdit && (
+            <div
+              className={cs(
+                styles.col12,
+                bootstrapStyles.colMd6,
+                styles.selectedStvalue
+              )}
+            >
+              <span className={styles.marginR10}>
+                <span className={styles.promoCode}>
+                  {basket.voucherDiscounts[0]?.voucher?.code}
+                </span>
+                <span className={styles.promoCodeApplied}>
+                  Promo Code Applied
+                </span>
+              </span>
+              {!mobile && !isBoId && (
+                <span
+                  className={cs(globalStyles.pointer, styles.promoEdit)}
+                  onClick={() => {
+                    onCurrentState();
+                  }}
+                >
+                  Edit
+                </span>
+              )}
+            </div>
+          )}
       </div>
 
       {((isActive && basket.voucherDiscounts.length === 0) || isEdit) && (
