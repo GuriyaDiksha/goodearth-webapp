@@ -7,6 +7,9 @@ const CurrencyPopup = loadable(() =>
 const BackendOrderPopup = loadable(() =>
   import("components/BackendOrderPopup/confirm")
 );
+const GCCheckoutPopup = loadable(() =>
+  import("components/LeaveGCCheckoutPage")
+);
 const PincodePopup = loadable(() => import("components/Popups/pincodePopup"));
 const FreeShipping = loadable(() => import("components/Popups/freeShipping"));
 const LoginForm = loadable(() => import("components/signin/Login"));
@@ -71,6 +74,7 @@ const RedeemPopup = loadable(() => import("components/Popups/RedeemPopup"));
 export const popupComponents: { [x: string]: React.ComponentType<any> } = {
   currency: CurrencyPopup,
   backendOrder: BackendOrderPopup,
+  gcCheckout: GCCheckoutPopup,
   freeShipping: FreeShipping,
   pincodePopup: PincodePopup,
   loginForm: LoginForm,
@@ -107,6 +111,7 @@ export const popupComponents: { [x: string]: React.ComponentType<any> } = {
 export const enum POPUP {
   CURRENCY = "currency",
   BACKENDORDER = "backendOrder",
+  GCCHECKOUT = "gcCheckout",
   FREESHIPPING = "freeShipping",
   PINCODEPOPUP = "pincodePopup",
   LOGINFORM = "loginForm",

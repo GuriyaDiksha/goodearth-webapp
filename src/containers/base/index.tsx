@@ -360,6 +360,7 @@ const BaseLayout: React.FC = () => {
 
   const isCheckout =
     pathname.indexOf("/checkout") > -1 ||
+    pathname.indexOf("/gc_checkout") > -1 ||
     pathname.indexOf("order/orderconfirmation") > -1;
   const isCart = pathname.indexOf("/cart") > -1;
   // || pathname == "/cart" || pathname == "/cart/";

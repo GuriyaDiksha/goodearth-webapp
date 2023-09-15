@@ -69,6 +69,7 @@ export type Props = {
   phoneRef?: any;
   whatsappFormRef?: React.RefObject<Formsy>;
   whatsappNoError?: string;
+  isGcCheckout?: boolean;
 };
 export type AddressModes = "new" | "edit" | "list";
 

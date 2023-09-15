@@ -9,7 +9,8 @@ import { Context } from "components/Modal/context";
 import { useDispatch, useSelector } from "react-redux";
 import { AppState } from "reducers/typings";
 import { updateNextUrl } from "actions/info";
-import { useLocation } from "react-router";
+import { useLocation, useHistory } from "react-router";
+import { Link } from "react-router-dom";
 
 const Popup: React.FC<{ disableClose?: boolean }> = ({
   disableClose,
@@ -23,6 +24,7 @@ const Popup: React.FC<{ disableClose?: boolean }> = ({
   const queryString = location.search;
   const urlParams = new URLSearchParams(queryString);
   const boId = urlParams.get("bo_id");
+  const history = useHistory();
 
   const closePopup = () => {
     dispatch(updateNextUrl(""));
@@ -42,15 +44,37 @@ const Popup: React.FC<{ disableClose?: boolean }> = ({
               className={cs(styles.fixHead, bootstrapStyles.row, styles.row)}
             >
               <div className={styles.header}>
-                <img
-                  alt="goodearth-logo"
-                  src={geLogo}
-                  className={cs(globalStyles.logo)}
-                  style={{
-                    height: "70px"
-                  }}
-                />
-                {boId || disableClose ? null : (
+                {/* Only login pop up on Giftcard page will have link in logo */}
+                {location.pathname == "/giftcard" ? (
+                  <Link
+                    to=""
+                    onClick={() => {
+                      closePopup();
+                      history.push("/");
+                    }}
+                  >
+                    <img
+                      alt="goodearth-logo"
+                      src={geLogo}
+                      className={cs(globalStyles.logo)}
+                      style={{
+                        height: "70px"
+                      }}
+                    />
+                  </Link>
+                ) : (
+                  <img
+                    alt="goodearth-logo"
+                    src={geLogo}
+                    className={cs(globalStyles.logo)}
+                    style={{
+                      height: "70px"
+                    }}
+                  />
+                )}
+                {boId ||
+                disableClose ||
+                location.pathname == "/giftcard" ? null : (
                   <button
                     className={cs(
                       styles.closePopup,

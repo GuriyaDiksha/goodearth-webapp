@@ -54,7 +54,8 @@ const AddressSection: React.FC<AddressProps & {
     next,
     errorNotification,
     currentStep,
-    error
+    error,
+    isGcCheckout
   } = props;
   const { isLoggedIn } = useContext(UserContext);
   const {
@@ -152,7 +153,11 @@ const AddressSection: React.FC<AddressProps & {
   // End: Intersection Observer (Mobile)
 
   useEffect(() => {
-    if (isLoggedIn && currentCallBackComponent == "checkout-shipping") {
+    if (
+      isLoggedIn &&
+      (currentCallBackComponent == "checkout-shipping" ||
+        (isGcCheckout && currentCallBackComponent == "checkout-billing"))
+    ) {
       AddressService.fetchAddressList(dispatch).then(addressList => {
         dispatch(updateAddressList(addressList));
       });
@@ -1130,7 +1135,9 @@ const AddressSection: React.FC<AddressProps & {
                   {/* <div>{renderPancard}</div> */}
                   {props.activeStep == STEP_BILLING && (
                     <>
-                      <div>{renderBillingCheckbox()}</div>
+                      {!props.isGcCheckout && (
+                        <div>{renderBillingCheckbox()}</div>
+                      )}
                       {!sameAsShipping &&
                         isLoggedIn &&
                         !props.isBridal &&
@@ -1155,7 +1162,8 @@ const AddressSection: React.FC<AddressProps & {
                       (props.activeStep == STEP_BILLING &&
                         (!sameAsShipping ||
                           isBridal ||
-                          isGoodearthShipping))) && (
+                          isGoodearthShipping ||
+                          props.isGcCheckout))) && (
                       <>
                         <div>{children}</div>
                         {addressList.length && mode == "list" ? (
@@ -1345,15 +1353,19 @@ const AddressSection: React.FC<AddressProps & {
                           )}
                           onClick={() => {
                             handleSaveAndReview(
-                              addressList?.find(val =>
-                                shippingAddressId !== 0
-                                  ? sameAsShipping &&
-                                    !isBridal &&
-                                    !isGoodearthShipping
-                                    ? val?.id === shippingAddressId
-                                    : val?.id === billingAddressId
-                                  : val?.isDefaultForShipping === true
-                              )
+                              !props.isGcCheckout
+                                ? addressList?.find(val =>
+                                    shippingAddressId !== 0
+                                      ? sameAsShipping &&
+                                        !isBridal &&
+                                        !isGoodearthShipping
+                                        ? val?.id === shippingAddressId
+                                        : val?.id === billingAddressId
+                                      : val?.isDefaultForShipping === true
+                                  )
+                                : addressList?.find(
+                                    val => val?.id === billingAddressId
+                                  )
                             );
                           }}
                         >

@@ -13,7 +13,7 @@ import giftwrapIcon from "../../../images/gift-wrap-icon.svg";
 import { errorTracking, showErrors } from "utils/validate";
 import CookieService from "services/cookie";
 import { proceedForPayment, getPageType } from "../../../utils/validate";
-import { currencyCodes } from "constants/currency";
+// import { currencyCodes } from "constants/currency";
 import { updateComponent, updateModal } from "actions/modal";
 import { POPUP } from "constants/components";
 import checkmarkCircle from "./../../../images/checkmarkCircle.svg";
@@ -49,7 +49,8 @@ const PaymentSection: React.FC<PaymentProps> = props => {
     checkout,
     shippingAddress,
     salestatus,
-    gstNo
+    gstNo,
+    isGcCheckout
   } = props;
   const [paymentError, setPaymentError] = useState("");
   const [whatsappNoErr, setWhatsappNoErr] = useState("");
@@ -626,7 +627,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
 
   return (
     <>
-      {loyaltyData?.detail && currency == "INR" && (
+      {loyaltyData?.detail && !isGcCheckout && currency == "INR" && (
         <div
           className={
             isActive
@@ -746,13 +747,13 @@ const PaymentSection: React.FC<PaymentProps> = props => {
               )}
             >
               <span className={isActive ? "" : styles.closed}>
-                GIFTING & PAYMENT
+                {isGcCheckout ? "PAYMENT" : "GIFTING & PAYMENT"}
               </span>
             </div>
           </div>
           {isActive && (
             <Fragment>
-              {showGiftWrap && (
+              {showGiftWrap && !isGcCheckout && (
                 <>
                   {!basket.isOnlyGiftCart && giftWrapRender}
                   {giftwrap && !basket.isOnlyGiftCart && (
@@ -787,7 +788,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
                 </>
               )}
               <div className={globalStyles.marginT20}>
-                {!basket.isOnlyGiftCart && (
+                {!basket.isOnlyGiftCart && !isGcCheckout && (
                   <div className={globalStyles.flex}>
                     <hr className={styles.hr} />
                     {/* <div
