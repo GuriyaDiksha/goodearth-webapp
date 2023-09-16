@@ -487,7 +487,7 @@ class NewGiftcard extends React.Component<Props, State> {
     util.pageViewGTM("GiftCard");
     // Show login pop up if not logged in and redirect to giftcard page
     if (!this.props.isLoggedIn) {
-      this.props.goLogin(undefined, "/order/giftcard");
+      this.props.goLogin(undefined, "/giftcard");
     }
   }
 
