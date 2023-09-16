@@ -467,7 +467,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                           [styles.bridal]: confirmData?.isBridalOrder
                         })}
                       >
-                        {shippingAddress ? (
+                        {shippingAddress && !confirmData.isOnlyGiftOrder ? (
                           <address className={styles.shippingAddressWrp}>
                             <label>shipping address</label>
                             {confirmData?.isBridalOrder ? (
