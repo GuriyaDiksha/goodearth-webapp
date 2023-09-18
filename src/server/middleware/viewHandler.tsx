@@ -1,7 +1,5 @@
 import Koa from "koa";
-import initAction from "actions/initAction";
 import { Store } from "redux";
-import ApiService from "services/api";
 import { getPushHeader } from "../utils/response";
 import { AppState } from "reducers/typings";
 import jsesc from "jsesc";
