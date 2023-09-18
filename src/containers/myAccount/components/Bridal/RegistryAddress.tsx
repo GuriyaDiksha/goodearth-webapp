@@ -69,6 +69,8 @@ const RegistryAddress: React.FC<{ children: React.ReactNode }> = props => {
     });
   }, []);
 
+  const { addressList } = useSelector((state: AppState) => state.address);
+
   // const manageAddress = (data, index) => {
 
   //     props.changeMode(data, state.data[index]);
@@ -228,7 +230,13 @@ const RegistryAddress: React.FC<{ children: React.ReactNode }> = props => {
 
                 globalStyles.pointer
               )}
-              onClick={closeAddressForm}
+              onClick={() =>
+                closeAddressForm(
+                  addressList?.[0]?.isBridal
+                    ? addressList?.[1]?.id
+                    : addressList?.[0]?.id
+                )
+              }
             >
               &lt; &nbsp;SAVED ADDRESSES
             </span>
@@ -380,7 +388,16 @@ const RegistryAddress: React.FC<{ children: React.ReactNode }> = props => {
               styles.letterSpacing1
             )}
           >
-            <span className={globalStyles.pointer} onClick={closeAddressForm}>
+            <span
+              className={globalStyles.pointer}
+              onClick={() =>
+                closeAddressForm(
+                  addressList?.[0]?.isBridal
+                    ? addressList?.[1]?.id
+                    : addressList?.[0]?.id
+                )
+              }
+            >
               {" "}
               &lt; &nbsp;SAVED ADDRESSES
             </span>

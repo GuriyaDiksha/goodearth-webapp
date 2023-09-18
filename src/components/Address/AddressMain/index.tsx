@@ -317,7 +317,6 @@ const AddressMain: React.FC<Props> = props => {
 
   const closeAddressForm = useCallback((addressId?: any) => {
     dispatch(updateAddressMode("list"));
-    // window.scrollTo(0, 0);
     setTimeout(() => {
       document
         .getElementById(`address-item-${addressId}`)

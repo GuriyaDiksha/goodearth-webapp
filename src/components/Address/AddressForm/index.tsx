@@ -851,7 +851,13 @@ const AddressForm: React.FC<Props> = props => {
             })}
           >
             <div className={cs(globalStyles.flex, styles.btnWrp)}>
-              <div>
+              <div
+                className={cs({
+                  [styles.fullWidth]:
+                    currentCallBackComponent == "bridal-edit" ||
+                    currentCallBackComponent == "bridal"
+                })}
+              >
                 {mode == "edit" ? (
                   <input
                     formNoValidate={true}

@@ -724,6 +724,10 @@ body:has(.mobile) {
   div {
     width: 49%;
   }
+
+  .full-width{
+    width: 100% !important;
+  }
 }
 
 .charcoal-btn-width {
