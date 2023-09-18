@@ -45,7 +45,6 @@ const Newsletters: React.FC = () => {
   const history = useHistory();
   const location = history.location;
   const { countryData } = useSelector((state: AppState) => state.address);
-  const isAlphaError = "Only alphabets are allowed";
 
   const dispatch = useDispatch();
 
@@ -250,8 +249,8 @@ const Newsletters: React.FC = () => {
               placeholder="Name*"
               name="name"
               validations={{
-                maxLength: 100,
-                isWords: true
+                maxLength: 60,
+                isAlpha: true
               }}
               handleChange={event => {
                 event.target.value
@@ -260,7 +259,7 @@ const Newsletters: React.FC = () => {
               }}
               validationErrors={{
                 maxLength: "Max limit reached.",
-                isWords: isAlphaError
+                isAlpha: "Only alphabets are allowed."
               }}
             />
           </div>
