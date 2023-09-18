@@ -1021,7 +1021,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
               [styles.summaryTitleTwo]: pathname === "/cart"
             })}
           >
-            {mobile && page == "checkout" ? "SHOPPING BAG" : "ORDER SUMMARY"}
+            {mobile && page == "checkout" ? "SHOPPING BAG " : "ORDER SUMMARY"}
             {pathname === "/order/checkout" ? `(${getItemsCount()})` : null}
           </h3>
           {pathname === "/order/checkout" && !boId && (
