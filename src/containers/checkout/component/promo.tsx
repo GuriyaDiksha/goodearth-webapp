@@ -144,9 +144,13 @@ const PromoSection: React.FC<PromoProps> = props => {
             />
           ) : null}
           <span
-            className={
+            className={cs(
+              {
+                [styles.iscompleted]:
+                  STEP_ORDER[activeStep] < currentStep && !isActive && !isEdit
+              },
               STEP_ORDER[activeStep] <= currentStep ? "" : styles.closed
-            }
+            )}
           >
             PROMO CODE
           </span>
