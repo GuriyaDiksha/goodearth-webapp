@@ -30,11 +30,7 @@ export type AddressFormData = {
   country: string;
   phoneCountryCode: string;
   phoneNumber: string;
-  isDefaultForShipping_AED: boolean;
-  isDefaultForShipping_GBP: boolean;
-  isDefaultForShipping_INR: boolean;
-  isDefaultForShipping_SGD: boolean;
-  isDefaultForShipping_USD: boolean;
+  isDefaultForShipping: boolean;
   isDefaultForBilling: boolean;
   line1: string;
   line2: string;
