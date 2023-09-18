@@ -25,8 +25,8 @@ import { Country } from "components/Formsy/CountryCode/typings";
 import EmailVerification from "../emailVerification";
 import CookieService from "services/cookie";
 import { GA_CALLS } from "constants/cookieConsent";
-// import SelectDropdown from "components/Formsy/SelectDropdown";
-import CountryCode from "components/Formsy/CountryCode";
+import SelectDropdown from "components/Formsy/SelectDropdown";
+// import CountryCode from "components/Formsy/CountryCode";
 import FormContainer from "../formContainer";
 import tooltipIcon from "images/tooltip.svg";
 import tooltipOpenIcon from "images/tooltip-open.svg";
@@ -84,7 +84,8 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
       showEmailVerification: false,
       email: "",
       showTip: false,
-      whatsappChecked: false
+      whatsappChecked: false,
+      selectedCountry: ""
     };
   }
   static contextType = Context;
@@ -103,7 +104,10 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
     const email = localStorage.getItem("tempEmail") || this.props.email;
     if (email && this.emailInput.current) {
       this.RegisterFormRef.current &&
-        this.RegisterFormRef.current.updateInputsWithValue({ email: email });
+        this.RegisterFormRef.current.updateInputsWithValue({
+          email: email,
+          code: ""
+        });
       this.firstNameInput.current?.focus();
       // this.emailInput.current.value = email;
     }
@@ -306,74 +310,26 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
       });
   };
 
-  onCountrySelect = (
-    event: React.ChangeEvent<HTMLSelectElement> | null,
-    defaultCountry?: string
-  ) => {
-    const { countryOptions } = this.state;
-    if (countryOptions.length > 0) {
-      const form = this.RegisterFormRef.current;
-      let selectedCountry = "";
-      if (event) {
-        selectedCountry = event.currentTarget.value;
-        // setIsAddressChanged(true);
-        // setIsCountryChanged(true);
-        form &&
-          form.updateInputsWithValue(
-            {
-              state: ""
-            },
-            false
-          );
-      } else if (defaultCountry) {
-        selectedCountry = defaultCountry;
-        // need to set defaultCountry explicitly
-        if (form && selectedCountry) {
-          form.updateInputsWithValue({
-            country: selectedCountry
-          });
-        }
-      }
-
-      const { states, isd, value } = countryOptions.filter(
-        country => country.value == selectedCountry
-      )[0];
-
-      if (form) {
-        // reset state
-        const { state } = form.getModel();
-        if (state) {
-          form.updateInputsWithValue({
-            state: ""
-          });
-        }
-        form.updateInputsWithValue({
-          code: isd
-        });
-      }
-      this.setState({
-        isIndia: value == "India",
-        stateOptions: states
-      });
-    }
-  };
-
-  // onCountrySelect = (option: any, defaultCountry?: string) => {
+  // onCountrySelect = (
+  //   event: React.ChangeEvent<HTMLSelectElement> | null,
+  //   defaultCountry?: string
+  // ) => {
   //   const { countryOptions } = this.state;
   //   if (countryOptions.length > 0) {
   //     const form = this.RegisterFormRef.current;
   //     let selectedCountry = "";
-
-  //     selectedCountry = option.value;
-  //     form &&
-  //       form.updateInputsWithValue(
-  //         {
-  //           state: "",
-  //           country: selectedCountry
-  //         },
-  //         false
-  //       );
-  //     if (defaultCountry) {
+  //     if (event) {
+  //       selectedCountry = event.currentTarget.value;
+  //       // setIsAddressChanged(true);
+  //       // setIsCountryChanged(true);
+  //       form &&
+  //         form.updateInputsWithValue(
+  //           {
+  //             state: ""
+  //           },
+  //           false
+  //         );
+  //     } else if (defaultCountry) {
   //       selectedCountry = defaultCountry;
   //       // need to set defaultCountry explicitly
   //       if (form && selectedCountry) {
@@ -399,13 +355,72 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
   //         code: isd
   //       });
   //     }
-
   //     this.setState({
   //       isIndia: value == "India",
   //       stateOptions: states
   //     });
   //   }
   // };
+
+  onCountryCodeSelect = (option: any) => {
+    const form = this.RegisterFormRef.current;
+    const selectedCountryCode = option?.value;
+
+    form &&
+      form.updateInputsWithValue({
+        code: selectedCountryCode
+      });
+  };
+
+  onCountrySelect = (option: any, defaultCountry?: string) => {
+    const { countryOptions } = this.state;
+    if (countryOptions.length > 0) {
+      const form = this.RegisterFormRef.current;
+      let selectedCountry = "";
+
+      selectedCountry = option.value;
+      this.setState({ selectedCountry: selectedCountry });
+      form &&
+        form.updateInputsWithValue(
+          {
+            state: "",
+            country: selectedCountry
+          },
+          false
+        );
+      if (defaultCountry) {
+        selectedCountry = defaultCountry;
+        // need to set defaultCountry explicitly
+        if (form && selectedCountry) {
+          form.updateInputsWithValue({
+            country: selectedCountry
+          });
+        }
+      }
+
+      const { states, isd, value } = countryOptions.filter(
+        country => country.value == selectedCountry
+      )[0];
+
+      if (form) {
+        // reset state
+        const { state } = form.getModel();
+        if (state) {
+          form.updateInputsWithValue({
+            state: ""
+          });
+        }
+        form.updateInputsWithValue({
+          code: isd
+        });
+      }
+
+      this.setState({
+        isIndia: value == "India",
+        stateOptions: states
+      });
+    }
+  };
 
   changeCountryData = (countryData: Country[]) => {
     const countryOptions = countryData.map(country => {
@@ -811,7 +826,7 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
             />
           </div>
           <div>
-            <div className="select-group text-left">
+            {/* <div className="select-group text-left">
               <FormSelect
                 required
                 label="Country*"
@@ -829,9 +844,9 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
                 showLabel={true}
               />
               <span className="arrow"></span>
-            </div>
+            </div> */}
           </div>
-          {/* <SelectDropdown
+          <SelectDropdown
             required
             name="country"
             handleChange={this.onCountrySelect}
@@ -847,7 +862,7 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
             options={countryOptions}
             allowFilter={true}
             inputRef={this.countryRef}
-          /> */}
+          />
 
           {this.state.isIndia && (
             <div>
@@ -872,7 +887,7 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
             </div>
           )}
           <div className={styles.countryCode}>
-            <CountryCode
+            {/* <CountryCode
               name="code"
               placeholder="Code"
               label="Country Code"
@@ -895,12 +910,13 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
                 isValidCode: "Enter valid code"
               }}
               showLabel={true}
-            />
-            {/* <SelectDropdown
+            /> */}
+            <SelectDropdown
               name="code"
               placeholder="Code"
               label="Country Code"
               options={this.getCountryCodeObject()}
+              handleChange={this.onCountryCodeSelect}
               value=""
               validations={{
                 isCodeValid: (values, value) => {
@@ -921,10 +937,11 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
               allowFilter={true}
               showLabel={true}
               optionsClass={styles.isdCode}
+              aquaClass={styles.aquaText}
               searchIconClass={styles.countryCodeSearchIcon}
               searchInputClass={styles.countryCodeSearchInput}
               inputRef={this.countryCodeRef}
-            /> */}
+            />
             <FormInput
               // required
               name="phone"
@@ -1214,7 +1231,7 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
           </div>
           <div className={cs(styles.subscribe, styles.newsletters)}>
             <FormCheckbox
-              value={this.props.currency == "INR" ? true : false}
+              value={this.state.selectedCountry == "India" ? true : false}
               id="subscrib"
               name="terms"
               disable={!this.state.showFields}

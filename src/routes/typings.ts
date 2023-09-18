@@ -48,7 +48,6 @@ export const enum ROUTES {
   MUMTAZ = "/mumtaz-virtual-appointment",
   GCEMAIL = "/send-giftcard",
   AUTH = "/auth",
-  HFH = "/Hfh2022-reminders",
   SITEMAP = "/sitemap",
   WORKSHOPS = "/workshops",
   ERROR404 = "/404",

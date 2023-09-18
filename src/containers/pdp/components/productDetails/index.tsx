@@ -1242,6 +1242,7 @@ const ProductDetails: React.FC<Props> = ({
               ""
             )}
             <div
+              id="docked_div"
               className={cs(
                 bootstrap.row,
                 styles.spacer,
@@ -1258,8 +1259,8 @@ const ProductDetails: React.FC<Props> = ({
                   [bootstrap.col8]: !corporatePDP,
                   [styles.addToBagBtnContainer]: mobile,
                   [bootstrap.colSm8]: !mobile,
-                  [bootstrap.colSm12]: corporatePDP && mobile,
-                  [globalStyles.hidden]: mobile && !showAddToBagMobile
+                  [bootstrap.colSm12]: corporatePDP && mobile
+                  // [globalStyles.hidden]: mobile && !showAddToBagMobile
                 })}
               >
                 {Pdpbutton}
@@ -1293,8 +1294,8 @@ const ProductDetails: React.FC<Props> = ({
                 className={cs(bootstrap.col4, globalStyles.textCenter, {
                   [styles.wishlistText]: !mobile,
                   [styles.wishlistBtnContainer]: mobile,
-                  [globalStyles.voffset1]: mobile,
-                  [globalStyles.hidden]: corporatePDP || !showAddToBagMobile
+                  [globalStyles.voffset1]: mobile
+                  // [globalStyles.hidden]: corporatePDP || !showAddToBagMobile
                 })}
               >
                 <WishlistButtonpdp

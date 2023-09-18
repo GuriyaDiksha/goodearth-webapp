@@ -23,3 +23,15 @@
 .pdp-slider .slick-next:hover {
     background-color: #fff;
 }
+
+.pdp-slider .slick-track{
+    display: flex !important;
+}
+
+.pdp-slider .slick-slide > div {
+    height: 100%;
+}
+
+.pdp-slider .slick-slide{
+    height: inherit;
+}

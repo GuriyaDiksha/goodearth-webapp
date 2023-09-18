@@ -197,6 +197,7 @@ const WeRecommend: React.FC<RecommenedSliderProps> = (
     <Fragment>
       {items.length > 0 && (
         <div
+          id="more_collection_div"
           className={cs(
             styles.recommendBg,
             bootstrapStyles.colMd12,
