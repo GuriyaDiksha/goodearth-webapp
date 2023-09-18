@@ -1,4 +1,10 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, {
+  RefObject,
+  useEffect,
+  useRef,
+  useState,
+  MouseEvent
+} from "react";
 // import DockedPanel from "containers/pdp/docked";
 import { Product } from "typings/product";
 import styles from "./styles.scss";
@@ -13,7 +19,6 @@ import plus from "./../../icons/plus.svg";
 import minus from "./../../icons/minus.svg";
 import play from "./../../icons/playVideo.svg";
 import pause from "./../../icons/pauseVideo.svg";
-import ReactPlayer from "react-player";
 import {
   TransformWrapper,
   TransformComponent,
@@ -21,35 +26,27 @@ import {
 } from "react-zoom-pan-pinch";
 
 type Props = {
-  code: string;
-  data: Product;
-  showAddToBagMobile?: boolean;
-  buttoncall: any;
-  showPrice: boolean;
-  price: string | number;
-  discountPrices: string | number;
   images: ProductImage[];
   mobile?: boolean;
   changeModalState?: any;
   alt: string;
+  startIndex: number;
 };
 
 const Zoom: React.FC<Props> = ({
-  data,
-  buttoncall,
-  showPrice,
-  price,
-  discountPrices,
+  startIndex,
   images = [],
   mobile = false,
   changeModalState = null,
   alt
 }) => {
-  const [selectedImage, setSelectedImage] = useState(images?.[0]);
+  const [selectedImage, setSelectedImage] = useState(images?.[startIndex]);
   const [zoom, setZoom] = useState(1);
   const transformComponentRef = useRef<ReactZoomPanPinchRef | null>(null);
   const transformComponentMobileRef = useRef<ReactZoomPanPinchRef | null>(null);
   const [playVideo, setPlayVideo] = useState(false);
+  const videoRef: RefObject<HTMLVideoElement> = useRef(null);
+  const videoRef2: RefObject<HTMLVideoElement> = useRef(null);
 
   const closeModal = () => {
     changeModalState(false);
@@ -97,7 +94,6 @@ const Zoom: React.FC<Props> = ({
                 className={cs(styles.thumbnailImg, {
                   [styles.selectdImg]:
                     selectedImage?.productImage === imgContent?.productImage
-                  // selectedImage?.vimeo_link === imgContent?.vimeo_link
                 })}
                 onClick={() => {
                   setSelectedImage(imgContent);
@@ -116,21 +112,32 @@ const Zoom: React.FC<Props> = ({
                   />
                 ) : (
                   <>
-                    <div className={styles.overlayDiv}></div>
+                    {/* <div className={styles.overlayDiv}></div>
                     <ReactPlayer
                       url={imgContent?.vimeo_link}
                       width={"100%"}
                       height={"auto"}
                       playing={playVideo}
                       playsinline={true}
+                    /> */}
+                    <video
+                      ref={videoRef2}
+                      src={imgContent?.video_link}
+                      autoPlay={false}
+                      loop
+                      preload="auto"
+                      width="100%"
+                      height="auto"
                     />
                     {playVideo &&
-                    imgContent?.vimeo_link === selectedImage?.vimeo_link ? (
+                    imgContent?.video_link === selectedImage?.video_link ? (
                       <img
                         src={pause}
                         alt="pause"
                         className={styles.play}
                         onClick={() => {
+                          videoRef?.current?.pause();
+                          videoRef2?.current?.pause();
                           setPlayVideo(false);
                         }}
                       />
@@ -140,6 +147,8 @@ const Zoom: React.FC<Props> = ({
                         alt="play"
                         className={styles.play}
                         onClick={() => {
+                          videoRef?.current?.play();
+                          videoRef2?.current?.play();
                           setPlayVideo(true);
                         }}
                       />
@@ -178,12 +187,33 @@ const Zoom: React.FC<Props> = ({
                     </TransformComponent>
                   </TransformWrapper>
                 ) : (
-                  ""
+                  <div
+                    className={styles.videoWrpHeight}
+                    dangerouslySetInnerHTML={{
+                      __html: `
+                      <video
+                       id="pdpImageMobile"
+                        loop
+                        autoplay
+                        playsinline
+                        preload="metadata"
+                      >
+                      <source src="${selectedImage?.video_link}" />
+                      </video>`
+                    }}
+                  />
                 )}
               </div>
             </div>
           ) : (
-            <div id="zoomWrapper" className={styles.wrp}>
+            <div
+              id="zoomWrapper"
+              className={cs(styles.wrp, {
+                [styles.videoWrp]:
+                  selectedImage?.media_type !== "Image" &&
+                  selectedImage?.type !== "main"
+              })}
+            >
               {selectedImage?.media_type === "Image" ||
               selectedImage?.type === "main" ? (
                 <TransformWrapper
@@ -208,12 +238,22 @@ const Zoom: React.FC<Props> = ({
                 </TransformWrapper>
               ) : (
                 <>
-                  <ReactPlayer
+                  {/* <ReactPlayer
                     url={selectedImage?.vimeo_link}
                     playing={playVideo}
                     width={"100%"}
                     height={"auto"}
                     playsinline={true}
+                  /> */}
+                  <video
+                    id="pdpImage"
+                    ref={videoRef}
+                    src={selectedImage?.video_link}
+                    autoPlay={false}
+                    loop
+                    preload="auto"
+                    width="100%"
+                    height="auto"
                   />
                   {playVideo ? (
                     <img
@@ -221,7 +261,8 @@ const Zoom: React.FC<Props> = ({
                       alt="pause"
                       className={styles.play}
                       onClick={() => {
-                        // videoRef?.current?.pause();
+                        videoRef?.current?.pause();
+                        videoRef2?.current?.pause();
                         setPlayVideo(false);
                       }}
                     />
@@ -231,7 +272,8 @@ const Zoom: React.FC<Props> = ({
                       alt="play"
                       className={styles.play}
                       onClick={() => {
-                        // videoRef?.current?.play();
+                        videoRef?.current?.play();
+                        videoRef2?.current?.play();
                         setPlayVideo(true);
                       }}
                     />

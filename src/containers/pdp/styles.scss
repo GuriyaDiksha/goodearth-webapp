@@ -97,14 +97,23 @@ $pdp-top: $header-height;
 
     .product-image{
         position: relative;
-        .product-video{
-            width: 100%;
+        // .product-video{
+        //     width: 100%;
 
-            div{
-                aspect-ratio: 4/7;
-            }
+        //     div{
+        //         aspect-ratio: 4/7;
+        //     }
             
-        }
+        // }
+            .video-wrp{
+                height: 100%;
+                width: 100%;
+                video{
+                    height: auto;
+                    width: 100%
+                }
+            }
+       
         .view-in-btn{
             @include view_in_btn();
         }
@@ -492,9 +501,16 @@ input[type="time"]::-webkit-calendar-picker-indicator{
 }
 
 .video-div{
-    div{
-        aspect-ratio: 4/6;
+    height: 100%;
+    .video-wrp{
+        height: 100%;
+        width: 100%;
+        video{
+            height: auto;
+            width: 100%;
+        }
     }
+    
 }
 
 .overlay-div{
