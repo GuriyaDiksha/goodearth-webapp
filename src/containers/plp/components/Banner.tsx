@@ -17,7 +17,7 @@ const Banner: React.FC<Props> = ({ data, mobile, tablet }) => {
   useEffect(() => {
     setTimeout(() => {
       setColbanner(true);
-    }, 600);
+    }, 800);
   }, []);
   return (
     <>
