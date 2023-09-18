@@ -138,23 +138,29 @@ const NewsletterModal: React.FC<Props> = ({ title, subTitle }) => {
   const saveData = (formData: any, updateInputsWithError: any) => {
     setIsLoading(false);
     setSuccessMsg("");
-    HeaderService.saveHFH(dispatch, formData)
+    HeaderService.makeNewsletterSignupRequest(dispatch, formData)
       .then(data => {
-        setSuccessMsg("You have subscribed successfully.");
-        const subscribeCta = document.getElementById("subscribe-cta");
-        if (subscribeCta) {
-          subscribeCta.hidden = true;
-        }
-        const input = document.querySelectorAll<HTMLElement>("#job-form input");
-        if (input) {
-          for (let i = 0; i < input.length; i++) {
-            input[i].style.color = "#9F9F9F";
-            input[i].style.backgroundColor = "#E5E5E526";
+        if (data.status) {
+          setSuccessMsg("You have subscribed successfully.");
+          const subscribeCta = document.getElementById("subscribe-cta");
+          if (subscribeCta) {
+            subscribeCta.hidden = true;
           }
+          const input = document.querySelectorAll<HTMLElement>(
+            "#job-form input"
+          );
+          if (input) {
+            for (let i = 0; i < input.length; i++) {
+              input[i].style.color = "#9F9F9F";
+              input[i].style.backgroundColor = "#E5E5E526";
+            }
+          }
+          setTimeout(() => {
+            onClose();
+          }, 3000);
+        } else {
+          setSuccessMsg("You have already subscribed.");
         }
-        setTimeout(() => {
-          onClose();
-        }, 3000);
       })
       .catch(err => {
         const errors = err.response.data.errors;
