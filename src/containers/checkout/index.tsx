@@ -468,13 +468,11 @@ class Checkout extends React.Component<Props, State> {
             this.setState(
               {
                 shippingAddress: addresses.find(
-                  val => val?.[`isDefaultForShipping_${currency}`]
+                  val => val?.isDefaultForShipping
                 ),
                 billingAddress: isGoodearthShipping
                   ? undefined
-                  : addresses.find(
-                      val => val?.[`isDefaultForShipping_${currency}`]
-                    )
+                  : addresses.find(val => val?.isDefaultForShipping)
               },
               () => {
                 this.nextStep(STEP_SHIPPING);
@@ -559,14 +557,12 @@ class Checkout extends React.Component<Props, State> {
         this.setState({
           activeStep: STEP_SHIPPING,
           shippingAddress: nextProps.addresses.find(
-            val => val?.[`isDefaultForShipping_${nextProps.currency}`]
+            val => val?.isDefaultForShipping
           ),
           billingAddress:
             isGoodearthShipping || nextProps.basket.bridal
               ? undefined
-              : nextProps.addresses.find(
-                  val => val?.[`isDefaultForShipping_${nextProps.currency}`]
-                ),
+              : nextProps.addresses.find(val => val?.isDefaultForShipping),
           isShipping: true
         });
       }
@@ -633,7 +629,7 @@ class Checkout extends React.Component<Props, State> {
           "coRegistrantName",
           "isBridal",
           "countryName",
-          `isDefaultForShipping_${this.props.currency}`,
+          "isDefaultForShipping",
           "isDefaultForBilling",
           "occasion",
           "isEdit"
@@ -682,10 +678,7 @@ class Checkout extends React.Component<Props, State> {
           if (key == "city") {
             key = "line4";
           }
-          if (
-            key == `isDefaultForShipping_${this.props.currency}` ||
-            key == "isDefaultForBilling"
-          ) {
+          if (key == "isDefaultForShipping" || key == "isDefaultForBilling") {
             continue;
           }
           data[rootKey][key] = val;

@@ -223,7 +223,7 @@ const AddressSection: React.FC<AddressProps & {
       if (
         sameAsShipping &&
         props.selectedAddress
-        // props.selectedAddress?.[`isDefaultForShipping_${currency}`]
+        // props.selectedAddress?.isDefaultForShipping]
       ) {
         dispatch(updateShippingAddressId(props.selectedAddress?.id || 0));
       }
@@ -235,7 +235,7 @@ const AddressSection: React.FC<AddressProps & {
 
       if (
         props.selectedAddress &&
-        props.selectedAddress?.[`isDefaultForShipping_${currency}`]
+        props.selectedAddress?.isDefaultForShipping
       ) {
         AddressService.fetchCustomDuties(
           dispatch,
@@ -1140,8 +1140,7 @@ const AddressSection: React.FC<AddressProps & {
                             addressList?.find(val =>
                               shippingAddressId !== 0
                                 ? val?.id === shippingAddressId
-                                : val?.[`isDefaultForShipping_${currency}`] ===
-                                    true ||
+                                : val?.isDefaultForShipping === true ||
                                   (isBridal &&
                                     basket.bridalAddressId === val?.id)
                             )
@@ -1314,9 +1313,8 @@ const AddressSection: React.FC<AddressProps & {
                                         addressList?.find(val =>
                                           shippingAddressId !== 0
                                             ? val?.id === shippingAddressId
-                                            : val?.[
-                                                `isDefaultForShipping_${currency}`
-                                              ] === true ||
+                                            : val?.isDefaultForShipping ===
+                                                true ||
                                               (isBridal &&
                                                 basket.bridalAddressId ===
                                                   val?.id)
@@ -1409,9 +1407,8 @@ const AddressSection: React.FC<AddressProps & {
                                           addressList?.find(val =>
                                             shippingAddressId !== 0
                                               ? val?.id === shippingAddressId
-                                              : val?.[
-                                                  `isDefaultForShipping_${currency}`
-                                                ] === true ||
+                                              : val?.isDefaultForShipping ===
+                                                  true ||
                                                 (isBridal &&
                                                   basket.bridalAddressId ===
                                                     val?.id)
@@ -1498,9 +1495,7 @@ const AddressSection: React.FC<AddressProps & {
                                       !isGoodearthShipping
                                       ? val?.id === shippingAddressId
                                       : val?.id === billingAddressId
-                                    : val?.[
-                                        `isDefaultForShipping_${currency}`
-                                      ] === true
+                                    : val?.isDefaultForShipping === true
                                 )
                               );
                             }
@@ -1535,9 +1530,7 @@ const AddressSection: React.FC<AddressProps & {
                                     ? sameAsShipping
                                       ? val?.id === shippingAddressId
                                       : val?.id === billingAddressId
-                                    : val?.[
-                                        `isDefaultForShipping_${currency}`
-                                      ] === true
+                                    : val?.isDefaultForShipping === true
                                 )
                               );
                             }
