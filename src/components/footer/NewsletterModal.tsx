@@ -51,6 +51,7 @@ const NewsletterModal: React.FC<Props> = ({ title, subTitle }) => {
   const { countryData } = useSelector((state: AppState) => state.address);
   const [isLoading, setIsLoading] = useState(false);
   const [displayPopUp, setDisplayPopUp] = useState(false);
+  const isAlphaError = "Only alphabets are allowed";
 
   const dispatch = useDispatch();
 
@@ -214,15 +215,15 @@ const NewsletterModal: React.FC<Props> = ({ title, subTitle }) => {
               placeholder="Name*"
               name="name"
               validations={{
-                maxLength: 60,
-                isAlpha: true
+                maxLength: 100,
+                isWords: true
               }}
               handleChange={event => {
                 event.target.value;
               }}
               validationErrors={{
                 maxLength: "Max limit reached.",
-                isAlpha: "Only alphabets are allowed."
+                isWords: isAlphaError
               }}
             />
           </div>
