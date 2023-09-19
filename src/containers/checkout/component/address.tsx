@@ -1055,15 +1055,28 @@ const AddressSection: React.FC<AddressProps & {
   };
 
   //CTA text of shipping and billing section
-  const ctaText =
+  let ctaText = "";
+
+  if (
     ((!isBridal || !isGoodearthShipping) && addressList.length) ||
     ((isBridal || isGoodearthShipping) && addressList.length > 1)
-      ? !!(activeStep == STEP_SHIPPING ? shippingAddressId : billingAddressId)
-        ? activeStep == STEP_SHIPPING
-          ? "SHIP TO THIS ADDRESS"
-          : "PROCEED TO PAYMENT"
-        : "SELECT AN ADDRESS"
-      : "ADD A NEW ADDRESS";
+  ) {
+    if (activeStep == STEP_SHIPPING) {
+      if (shippingAddressId) {
+        ctaText = "SHIP TO THIS ADDRESS";
+      } else {
+        ctaText = "SELECT AN ADDRESS";
+      }
+    } else {
+      if (billingAddressId) {
+        ctaText = "PROCEED TO PAYMENT";
+      } else {
+        ctaText = "SELECT AN ADDRESS";
+      }
+    }
+  } else {
+    ctaText = "ADD A NEW ADDRESS";
+  }
 
   const renderCheckoutAddress = () => {
     let html: ReactElement | null = null;
