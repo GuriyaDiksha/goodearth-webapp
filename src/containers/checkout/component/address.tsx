@@ -229,6 +229,11 @@ const AddressSection: React.FC<AddressProps & {
       }
     }
 
+    // Always keep billing address as 0 initially for bridal and goodearth shipping
+    if ((isBridal || isGoodearthShipping) && activeStep == STEP_BILLING) {
+      dispatch(updateBillingAddressId(0));
+    }
+
     if (activeStep === STEP_SHIPPING && isActive) {
       dispatch(updateShippingAddressId(props.selectedAddress?.id || 0));
       dispatch(updateCustomDuties({ visible: false, message: "" }));
