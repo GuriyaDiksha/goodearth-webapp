@@ -944,13 +944,22 @@
 }
 
 .error-msg{
-  font-size: 14px;
+  font-size: 10px;
+  line-height: 16px;
+  letter-spacing: 0.3px;
   color: $cerise;
   font-family: $font-Lora;
-  font-style: italic;
-  text-align: left;
+  text-align: center;
+  margin-bottom: 10px;
 }
-
+.success-message{
+  color: #548B8B;
+  font-size: 10px;
+  line-height: 16px;
+  letter-spacing: 0.3px;
+  font-family: $font-Montserrat;
+  text-align: center;
+}
 .subscribe-success{
   @include b5_10px_montserrat_white();
   font-weight: $semibold;
@@ -967,4 +976,152 @@
 
 .noneu-padding{
 padding: 30px 20px;
+}
+
+/* newsletter Modal css by GD */
+.newsletter-modal{
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  width: 380px;
+  min-height: 276px;
+  background-color: #fff;
+  z-index: 100;
+  padding: 30px 40px;
+  font-family: "LatoFont", "Helvetica", "Arial";
+  margin: 20px;
+  border: 1px solid #b3b3b3;
+  display: flex;
+}
+.job-form-fields input,
+.job-form-fields select{
+  background-color: #fff;
+  border: 1px solid #D8D8D8;
+  width: 100%;
+  padding: 10px;
+  line-height: 25px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  border-radius: 0;
+  font-family: "Montserrat","sans-serif";
+  font-size: 12px !important;
+  font-weight: 400;
+  color: #191919;
+  line-height: 20px;
+  letter-spacing: 0.36px;
+  height: 50px;
+  text-align: start;
+}
+.job-form-fields select{
+  padding: 10px;
+}
+.job-form-fields input:focus{
+  background-color: #fff;
+  border: 1px solid #d8d8d8;
+  width: 100%;
+  padding: 10px 10px;
+  font-size: 12px;
+  line-height: 20px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  border-radius: 0;
+  text-align: start;
+}
+.job-form-fields div div{
+  position: relative;
+  margin: 20px 0;
+}
+.job-form-fields label {
+  position: absolute;
+  top: -10px;
+  left: 10px;
+  background-color: #fff;
+  padding: 2px;
+  font-family: "Montserrat","sans-serif";
+  font-size: 9px;
+  letter-spacing: 0.54px;
+  line-height: 12px;
+  font-weight: 300;
+  color: #191919;
+}
+.subscribe-btn{
+  text-align: center;
+}
+.job-application-submit{
+  background: #4C4C4C!important;
+  color: #fff!important;
+  font-family: $font-Montserrat!important;
+  font-size: 14px!important;
+  line-height: 18px!important;
+  letter-spacing: 0.42px!important;
+  text-align: center!important;
+  max-width: 210px!important;
+  height: 50px!important;
+  margin: 0 auto!important;
+}
+.job-application-submit:hover{
+  color: #fff!important;
+  border: none!important;
+}
+.hide-sbc-cta{
+  display: none;
+}
+.modal-close-btn{
+  text-align: right;
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  border: none;
+  background: none;
+}
+.modal-header{  
+  margin-bottom: 40px;
+  text-align: center;
+  padding: 0 40px;
+}
+.modal-title{
+  font-family: $font-Lora;
+  font-size: 20px;
+  line-height: 25px;
+  letter-spacing: 0.4px;
+  color: $charcoal19;
+  margin-bottom: 10px;
+}
+.modal-sub-title{
+  font-family: $font-Montserrat;
+  font-size: 12px;
+  line-height: 20px;
+  letter-spacing: 0.36px;
+  color: $charcoal19;
+}
+.modal-overlay{
+  opacity: 0.5;
+  background: rgba(0, 0, 0, 0.4);
+}
+.news-left-img{
+  position: absolute;
+  left: 0px;
+  top: 0;
+}
+.flower-left{
+  width: 92px;
+}
+.news-right-img{
+  position: absolute;
+  right: 0px;
+  top: -4px;
+}
+.flower-right{
+  width: 130px;
+}
+.news-butterfly-img{
+  position: absolute;
+  right: 17%;
+  top: 12px;
+}
+.butterfly{
+  width: 25px;
+  height: 25px;
 }

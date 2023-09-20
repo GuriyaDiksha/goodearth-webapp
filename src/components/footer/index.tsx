@@ -17,6 +17,7 @@ import CookiePolicy from "./CookiePolicy";
 import MakerSmartNav from "containers/base/MakerSmartNav";
 import ReactHtmlParser from "react-html-parser";
 import { OLD_COOKIE_SETTINGS } from "constants/cookieConsent";
+import NewsletterModal from "./NewsletterModal";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -299,7 +300,6 @@ class Footer extends React.Component<Props, FooterState> {
           } else {
             const msg = showErrors(error.response.data.message);
             this.setState({ newsletterError: true, newsletterMessage: msg });
-            // console.log(error);
           }
         });
     }
@@ -1175,6 +1175,17 @@ class Footer extends React.Component<Props, FooterState> {
             showCookiePref={this.props?.showCookiePref}
             showCookiePrefs={this.props?.showCookiePrefs}
           />
+        )}
+
+        {!this.props.showCookie ? (
+          <NewsletterModal
+            title={"Join our Community"}
+            subTitle={
+              "Make the most out of your Good Earth favourites. Sign up to discover our latest collections, insider stories and expert tips"
+            }
+          />
+        ) : (
+          ""
         )}
       </div>
     );
