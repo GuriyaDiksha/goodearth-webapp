@@ -631,6 +631,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
     <>
       {loyaltyData?.detail && currency == "INR" && (
         <div
+          id="cerise-section"
           className={
             isActive
               ? cs(styles.card, styles.cardOpen, styles.marginT5)
@@ -732,6 +733,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
 
       {(!basket.isOnlyGiftCart || !isActive) && (
         <div
+          id="gifting-section"
           className={
             isActive
               ? cs(styles.card, styles.cardOpen, styles.marginT5)

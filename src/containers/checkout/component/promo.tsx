@@ -77,6 +77,10 @@ const PromoSection: React.FC<PromoProps> = props => {
   };
 
   useEffect(() => {
+    document.getElementById("promo-section")?.scrollIntoView();
+  }, []);
+
+  useEffect(() => {
     if (basket.voucherDiscounts.length === 0) {
       if (STEP_ORDER[activeStep] < currentStep) {
         setIsEdit(true);
@@ -115,6 +119,7 @@ const PromoSection: React.FC<PromoProps> = props => {
 
   return (
     <div
+      id="promo-section"
       className={
         isActive || isEdit
           ? cs(styles.card, styles.cardOpen, styles.marginT5)

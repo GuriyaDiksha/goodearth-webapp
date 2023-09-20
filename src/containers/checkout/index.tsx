@@ -926,6 +926,38 @@ class Checkout extends React.Component<Props, State> {
                       ? STEP_PROMO
                       : STEP_PAYMENT
                   );
+
+                  if (
+                    this.props.showPromo &&
+                    this.props.basket.voucherDiscounts.length === 0
+                  ) {
+                    document
+                      .getElementById("promo-section")
+                      ?.scrollIntoView({ block: "center", behavior: "smooth" });
+                  } else {
+                    if (document.getElementById("cerise-section")) {
+                      document
+                        .getElementById("cerise-section")
+                        ?.scrollIntoView({
+                          block: "center",
+                          behavior: "smooth"
+                        });
+                    } else if (document.getElementById("gifting-section")) {
+                      document
+                        .getElementById("gifting-section")
+                        ?.scrollIntoView({
+                          block: "center",
+                          behavior: "smooth"
+                        });
+                    } else {
+                      document
+                        .getElementById("payment-section")
+                        ?.scrollIntoView({
+                          block: "center",
+                          behavior: "smooth"
+                        });
+                    }
+                  }
                 }
               }
             );
