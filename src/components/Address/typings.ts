@@ -11,6 +11,7 @@ export type AddressData = AddressFormData & {
   occasion: string;
   isTulsi?: boolean;
   isBackendOrder?: boolean;
+  addressCurrency: string;
 };
 
 export type specifyShippingAddressResponse = {

@@ -461,18 +461,22 @@ class Checkout extends React.Component<Props, State> {
             currency
           } = this.props;
           const { isGoodearthShipping } = this.state;
+          const defaultAddresses = addresses.filter(
+            val => val.addressCurrency == currency
+          );
           if (
-            addresses?.length &&
-            addresses.filter(val => val?.id === shippingData?.id).length === 0
+            defaultAddresses?.length &&
+            defaultAddresses.filter(val => val?.id === shippingData?.id)
+              .length === 0
           ) {
             this.setState(
               {
-                shippingAddress: addresses.find(
+                shippingAddress: defaultAddresses.find(
                   val => val?.isDefaultForShipping
                 ),
                 billingAddress: isGoodearthShipping
                   ? undefined
-                  : addresses.find(val => val?.isDefaultForShipping)
+                  : defaultAddresses.find(val => val?.isDefaultForShipping)
               },
               () => {
                 this.nextStep(STEP_SHIPPING);
@@ -556,13 +560,15 @@ class Checkout extends React.Component<Props, State> {
         }
         this.setState({
           activeStep: STEP_SHIPPING,
-          shippingAddress: nextProps.addresses.find(
-            val => val?.isDefaultForShipping
-          ),
+          shippingAddress: nextProps.addresses
+            .filter(val => val.addressCurrency == this.props.currency)
+            .find(val => val?.isDefaultForShipping),
           billingAddress:
             isGoodearthShipping || nextProps.basket.bridal
               ? undefined
-              : nextProps.addresses.find(val => val?.isDefaultForShipping),
+              : nextProps.addresses
+                  .filter(val => val.addressCurrency == this.props.currency)
+                  .find(val => val?.isDefaultForShipping),
           isShipping: true
         });
       }
@@ -632,7 +638,8 @@ class Checkout extends React.Component<Props, State> {
           "isDefaultForShipping",
           "isDefaultForBilling",
           "occasion",
-          "isEdit"
+          "isEdit",
+          "addressCurrency"
         ].indexOf(key) == -1
       ) {
         if (Object.prototype.hasOwnProperty.call(obj, key)) {
