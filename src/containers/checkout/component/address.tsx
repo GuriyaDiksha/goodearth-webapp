@@ -1058,8 +1058,8 @@ const AddressSection: React.FC<AddressProps & {
   let ctaText = "";
 
   if (
-    ((!isBridal || !isGoodearthShipping) && addressList.length) ||
-    ((isBridal || isGoodearthShipping) && addressList.length > 1)
+    (!isBridal || !isGoodearthShipping || isBridal || isGoodearthShipping) &&
+    addressList.length
   ) {
     if (activeStep == STEP_SHIPPING) {
       if (shippingAddressId) {
