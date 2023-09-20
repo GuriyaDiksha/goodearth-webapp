@@ -651,6 +651,7 @@ class CollectionSpecific extends React.Component<
                       data={showTemplates.Banner}
                       mobile={mobile}
                       tablet={tablet}
+                      colbanner={false}
                     />
                   )}
                 </div>
