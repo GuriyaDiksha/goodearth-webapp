@@ -838,7 +838,7 @@ const AddressSection: React.FC<AddressProps & {
           {
             setGst: setGst,
             setGstDetails: setGstDetails,
-            // setSameAsShipping: updateSameAsShipping,
+            setSameAsShipping: updateSameAsShipping,
             isGoodearthShipping: isGoodearthShipping,
             isBridal: isBridal
           },
