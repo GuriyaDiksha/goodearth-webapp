@@ -1135,6 +1135,8 @@ input[type="radio"] {
 
   .redeem-unavailable-message {
     @include b4_12px_lato();
+    font-family: $font-Montserrat !important;
+    line-height: 1.5 !important;
   }
 
   @media screen and (max-width: 992px) {
