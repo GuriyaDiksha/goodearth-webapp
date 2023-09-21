@@ -167,7 +167,7 @@ class CeriseClubMain extends Component<Props, State> {
     let nextSlab;
     if (slab) {
       club =
-        slab.toLowerCase() == "cerise" || slab.toLowerCase() == "ff10"
+        slab.toLowerCase() == "cerise club" || slab.toLowerCase() == "ff10"
           ? "Cerise"
           : "Cerise Sitara";
       percentage =
@@ -175,7 +175,7 @@ class CeriseClubMain extends Component<Props, State> {
           ? PurchaseAmount / 5000
           : 100;
       nextSlab =
-        slab.toLowerCase() == "cerise" ? "Cerise Sitara" : "Cerise Sitara";
+        slab.toLowerCase() == "cerise club" ? "Cerise Club" : "Cerise Sitara";
     }
     const buttonText = this.state.addressAvailable
       ? "MANAGE ADDRESSES"

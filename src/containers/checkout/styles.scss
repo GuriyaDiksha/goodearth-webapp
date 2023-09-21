@@ -1130,11 +1130,11 @@ input[type="radio"] {
   cursor: not-allowed;
 }
 .redeem-unavailable-message-wrapper {
-  padding-top: 15px;
   width: 80%;
+  padding: 15px 3px 0 3px;
 
   .redeem-unavailable-message {
-    @include error_msg_cerise();
+    @include b4_12px_lato();
   }
 
   @media screen and (max-width: 992px) {
