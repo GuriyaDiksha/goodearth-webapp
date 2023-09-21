@@ -85,9 +85,9 @@ const AddressMain: React.FC<Props> = props => {
 
   useEffect(() => {
     if (Object.keys(pinCodeData).length > 0) {
-      addressList.length == 0
-        ? dispatch(updateAddressMode("new"))
-        : dispatch(updateAddressMode("list"));
+      // addressList.length == 0
+      //   ? dispatch(updateAddressMode("new"))
+      dispatch(updateAddressMode("list"));
     }
   }, [addressList.length, Object.keys(pinCodeData).length]);
 
@@ -318,9 +318,23 @@ const AddressMain: React.FC<Props> = props => {
   const closeAddressForm = useCallback((addressId?: any) => {
     dispatch(updateAddressMode("list"));
     setTimeout(() => {
-      document
-        .getElementById(`address-item-${addressId}`)
-        ?.scrollIntoView({ behavior: "smooth", block: "end", inline: "start" });
+      if (addressId) {
+        document
+          .getElementById(`address-item-${addressId}`)
+          ?.scrollIntoView({
+            behavior: "smooth",
+            block: "end",
+            inline: "start"
+          });
+      } else {
+        document
+          .getElementById(`addressData`)
+          ?.scrollIntoView({
+            behavior: "smooth",
+            block: "end",
+            inline: "start"
+          });
+      }
     }, 300);
   }, []);
 

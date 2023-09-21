@@ -784,14 +784,18 @@ class Checkout extends React.Component<Props, State> {
                     ? address.isTulsi
                     : false;
                   this.setState({ isGoodearthShipping });
-
-                  this.setState({
-                    shippingCharge: data.data.basket.shippingCharge,
-                    shippingAddress: address,
-                    billingAddress:
-                      isGoodearthShipping || bridal ? undefined : address,
-                    activeStep: STEP_BILLING
-                  });
+                  this.setState(
+                    {
+                      shippingCharge: data.data.basket.shippingCharge,
+                      shippingAddress: address,
+                      billingAddress:
+                        isGoodearthShipping || bridal ? undefined : address,
+                      activeStep: STEP_BILLING
+                    },
+                    () => {
+                      this.nextStep(STEP_BILLING);
+                    }
+                  );
 
                   checkoutGTM(2, this.props.currency, this.props.basket);
                   if (data.data.basket.pageReload) {
@@ -816,14 +820,18 @@ class Checkout extends React.Component<Props, State> {
                 ? address.isTulsi
                 : false;
               this.setState({ isGoodearthShipping });
-
-              this.setState({
-                shippingCharge: data.data.basket.shippingCharge,
-                shippingAddress: address,
-                billingAddress:
-                  isGoodearthShipping || bridal ? undefined : address,
-                activeStep: STEP_BILLING
-              });
+              this.setState(
+                {
+                  shippingCharge: data.data.basket.shippingCharge,
+                  shippingAddress: address,
+                  billingAddress:
+                    isGoodearthShipping || bridal ? undefined : address,
+                  activeStep: STEP_BILLING
+                },
+                () => {
+                  this.nextStep(STEP_BILLING);
+                }
+              );
 
               checkoutGTM(2, this.props.currency, this.props.basket);
               if (data.data.basket.pageReload) {

@@ -15,7 +15,6 @@ import { AddressProps } from "./typings";
 import {
   updateAddressList,
   updateBillingAddressId,
-  // updateCustomDuties,
   updateShippingAddressId,
   updateSameAsShipping,
   updateCustomDuties
@@ -38,7 +37,6 @@ import { countryCurrencyCode } from "constants/currency";
 import ModalStyles from "components/Modal/styles.scss";
 import CookieService from "services/cookie";
 import { GA_CALLS } from "constants/cookieConsent";
-import { Currency, currencyCode } from "typings/currency";
 import bridalRing from "../../../images/bridal/rings.svg";
 
 const AddressSection: React.FC<AddressProps & {
@@ -52,7 +50,6 @@ const AddressSection: React.FC<AddressProps & {
     isBridal,
     selectedAddress,
     isGoodearthShipping,
-    // hidesameShipping,
     next,
     errorNotification,
     currentStep,
@@ -67,10 +64,7 @@ const AddressSection: React.FC<AddressProps & {
     setMode
   } = useContext(AddressContext);
   const { currency, user } = useSelector((state: AppState) => state);
-  const {
-    basket
-    // modal: { openModal }
-  } = useSelector((state: AppState) => state);
+  const { basket } = useSelector((state: AppState) => state);
   const { mobile } = useSelector((state: AppState) => state.device);
   const {
     addressList,
@@ -93,12 +87,8 @@ const AddressSection: React.FC<AddressProps & {
     AED: 9300,
     SGD: 3500
   };
-  const code = currencyCode[currency as Currency];
 
-  // const [sameAsShipping, setSameAsShipping] = useState(sameShipping);
   const [gst, setGst] = useState(false);
-  // const [gstNum, setGstNum] = useState("");
-  // let gstNum: any;
   const [pancardText, setPancardText] = useState(user.panPassport || "");
   const [pancardCheck, setPancardCheck] = useState(false);
   const [panError, setPanError] = useState("");
@@ -173,44 +163,6 @@ const AddressSection: React.FC<AddressProps & {
     setTermsErr("");
   }, [customDuties]);
 
-  // useEffect(() => {
-
-  //   if (currentCallBackComponent === "checkout-shipping") {
-  //     dispatch(
-  //       updateShippingAddressId(
-  //         props.selectedAddress?.id ||
-  //           addressList?.find(val => val?.isDefaultForShipping)?.id ||
-  //           0
-  //       )
-  //     );
-  //   }
-  //   if (
-  //     (currentCallBackComponent === "checkout-billing" ||
-  //       currentCallBackComponent === "checkout-shipping") &&
-  //     sameAsShipping &&
-  //     !isBridal &&
-  //     !isGoodearthShipping &&
-  //     props.selectedAddress?.id
-  //   ) {
-  //     debugger;
-  //     dispatch(updateBillingAddressId(props.selectedAddress?.id));
-  //   }
-
-  //   if (
-  //     currentCallBackComponent === "checkout-billing" &&
-  //     (!sameAsShipping || isBridal || isGoodearthShipping)
-  //   ) {
-  //     debugger;
-  //     if (isBridal || isGoodearthShipping) {
-  //       debugger;
-  //       dispatch(updateBillingAddressId(0));
-  //     } else {
-  //       dispatch(updateBillingAddressId(billingAddressId));
-  //     }
-  //   }
-
-  // }, [props.selectedAddress, addressList]);
-
   useEffect(() => {
     if (
       activeStep == STEP_BILLING &&
@@ -272,15 +224,6 @@ const AddressSection: React.FC<AddressProps & {
     setPancardText(user.panPassport || "");
   }, [user.panPassport]);
 
-  // Commented because of Same as shipping issue
-  // useEffect(() => {
-  //   dispatch(
-  //     updateSameAsShipping(
-  //       !isGoodearthShipping && !isBridal
-  //     )
-  //   );
-  // }, [isGoodearthShipping, isBridal]);
-
   useEffect(() => {
     setPanError("");
     setPanCheck("");
@@ -296,20 +239,11 @@ const AddressSection: React.FC<AddressProps & {
     if (((isActive && isLoggedIn) || isBillingDisable) && addressList?.length) {
       const clickAction =
         mode == "list" ? openNewAddressForm : backToAddressList;
-      const fullText =
-        mode == "new" || mode == "edit"
-          ? "< BACK TO SAVED ADDRESSES"
-          : isBillingDisable
-          ? ""
-          : "[+] ADD NEW ADDRESS"; //if billing is disabled then do not show anything here
-      const mobileText =
-        mode == "new" || mode == "edit"
-          ? "< BACK"
-          : isBillingDisable
-          ? " "
-          : "[+] ADD NEW ADDRESS";
+      const fullText = isBillingDisable ? "" : "[+] ADD NEW ADDRESS"; //if billing is disabled then do not show anything here
+      const mobileText = isBillingDisable ? " " : "[+] ADD NEW ADDRESS";
       if (isBridal && activeStep == STEP_SHIPPING) return "";
       if (isBillingDisable) return null;
+      if (mode == "new" || mode == "edit") return null;
       return (
         <div
           className={cs(
@@ -397,18 +331,14 @@ const AddressSection: React.FC<AddressProps & {
               </svg>
             </div>
           </div>
-          {/* <div>
-            <span className={globalStyles.marginR10}>(Address predefined)</span>
-          </div> */}
+
           <div className={styles.addressMain}>
             <div className={styles.text}>
               {address.line1}
               {address.line2 && ","}
               {address.line2},
             </div>
-            {/* {address.line2 && (
-                  <div className={styles.text}>{address.line2},</div>
-                )} */}
+
             <div className={styles.text}>
               {address.city},{address.state} - {address.postCode},
             </div>
@@ -467,9 +397,7 @@ const AddressSection: React.FC<AddressProps & {
                   {address.line2 && ","}
                   {address.line2},
                 </div>
-                {/* {address.line2 && (
-                  <div className={styles.text}>{address.line2},</div>
-                )} */}
+
                 <div className={styles.text}>
                   {address.city},{address.state} - {address.postCode},
                 </div>
@@ -517,9 +445,7 @@ const AddressSection: React.FC<AddressProps & {
                   {address.line2 && ","}
                   {address.line2},
                 </div>
-                {/* {address.line2 ? (
-                  <div className={styles.text}>{address.line2},</div>
-                ) : null} */}
+
                 <div className={styles.text}>
                   {address.city},{address.state} - {address.postCode},
                 </div>
@@ -568,24 +494,12 @@ const AddressSection: React.FC<AddressProps & {
       // props.openAddressForm();
     }
   };
-  // const onChangeGst = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   setGstType(e.target.value);
-  //   setPanError("");
-  //   setError("");
-  //   setGstText("");
-  // };
 
   const onPanKeyPress = (event: React.KeyboardEvent) => {
     if (event.key === "Enter") {
       event.preventDefault();
     }
   };
-
-  // const onCouponChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-  //   console.log("test ====", event.target.value);
-  //   setGstText(event.target.value);
-  //   setError("");
-  // };
 
   const onPanChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPancardText(event.target.value);
@@ -803,7 +717,7 @@ const AddressSection: React.FC<AddressProps & {
       if (!isBridal || !isGoodearthShipping) {
         dispatch(updateSameAsShipping(true));
       }
-      next(STEP_BILLING);
+      // next(STEP_BILLING);
     }
     return true;
   };
@@ -811,29 +725,6 @@ const AddressSection: React.FC<AddressProps & {
     onSubmit(address);
   };
 
-  // useEffect(() => {
-  //   if (openModal && gst) {
-  //     dispatch(
-  //       updateComponent(
-  //         POPUP.BILLINGGST,
-  //         {
-  //           onSubmit: onSubmit,
-  //           setGst: setGst,
-  //           gstNum: gstNum,
-  //           parentError: props.error,
-  //           isActive: isActive,
-  //           setGstNum: setGstNum,
-  //           // sameAsShipping: sameAsShipping,
-  //           setSameAsShipping: updateSameAsShipping,
-  //           setGstDetails:setGstDetails
-  //         },
-  //         mobile ? false : true,
-  //         mobile ? ModalStyles.bottomAlignSlideUp : "",
-  //         mobile ? "slide-up-bottom-align" : ""
-  //       )
-  //     );
-  //   }
-  // }, [props.error, isActive]);
   const toggleGstInvoice = () => {
     setGst(!gst);
     if (!gst) {
@@ -857,18 +748,6 @@ const AddressSection: React.FC<AddressProps & {
       setGstDetails({ gstText: "", gstType: "" });
     }
   };
-
-  // const openTermsPopup = () => {
-  //   dispatch(updateComponent(POPUP.SHIPPINGTERMS, { customDuties }, true));
-  //   dispatch(updateModal(true));
-  // };
-
-  // const onKeyPress = (event: React.KeyboardEvent) => {
-  //   if (event.key === "Enter") {
-  //     onSubmit();
-  //     event.preventDefault();
-  //   }
-  // };
 
   const renderPancard = useMemo(() => {
     if (props.activeStep == STEP_BILLING) {
