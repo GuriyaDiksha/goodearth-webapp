@@ -115,6 +115,7 @@ const BottomMenu: React.FC<Props> = ({
 
   return (
     <div
+      id="header_container"
       className={cs(styles.headerContainerMenu, {
         [styles.hide]: (isPLP && scrollDown) || isSearch || showMenu,
         [styles.index]: isCareer

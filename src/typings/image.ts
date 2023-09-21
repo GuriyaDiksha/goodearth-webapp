@@ -14,7 +14,7 @@ export interface ProductImage {
   codeAll?: boolean;
   iconAll?: boolean;
   looks_tagged?: boolean;
-  vimeo_link?: string;
+  video_link?: string;
   media_type?: string;
   type?: string;
 }

@@ -355,6 +355,7 @@ font-weight: bold;
     line-height: 52px;
     letter-spacing: 0.42px;
     background-color: $aquablue;
+    padding: 0 6px!important;
     &:hover {
         color: $aquablue;
         background-color: white;
@@ -422,6 +423,13 @@ font-weight: bold;
   color: tint(#000, 50%);
   cursor: default !important;
   border: none;
+  &:hover {
+    color: tint(#000, 50%)  !important;
+    background-color: tint(#000, 95%);
+    border: none;
+    border-style: none;
+    border-width: unset;
+  }
 }
 
 .error-border {

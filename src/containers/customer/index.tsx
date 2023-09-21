@@ -102,7 +102,7 @@ const StaticPage: React.FC<Props> = props => {
   return (
     <div
       className={cs(styles.containerStart, {
-        [globalStyles.containerStartTimer]: showTimer
+        [styles.containerStartTimer]: showTimer
       })}
     >
       <SecondaryHeader>
@@ -262,9 +262,9 @@ const StaticPage: React.FC<Props> = props => {
                 bootstrapStyles.colMd10,
                 bootstrapStyles.offsetMd1,
                 bootstrapStyles.col10,
-                bootstrapStyles.offset1
+                bootstrapStyles.offset1,
                 // { [styles.accountFormBg]: !mobile },
-                // { [styles.accountFormBgMobile]: mobile }
+                { [globalStyles.marginT30]: mobile }
               )}
             >
               <Switch>

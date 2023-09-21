@@ -19,6 +19,7 @@
     }
     .l3 {
         text-transform: capitalize;
+        line-height: 24px;
         @include b4_12px_montserrat_charcoal();
             &:hover{
                 font-weight: $medium;
@@ -45,7 +46,8 @@
     .heading {
         display: block;
         border-bottom: none;
-        line-height: 18px;
+        // line-height: 18px;
+        line-height: 24px;
         @include b4_12px_montserrat_charcoal();
         &:hover{
             font-weight: $medium;
@@ -89,7 +91,8 @@
     .heading {
         display: block;
         border-bottom: none;
-        line-height: 18px;
+        // line-height: 18px;
+        line-height: 24px;
         @include b4_12px_montserrat_charcoal();
         &:hover{
             font-weight: $medium;
@@ -132,7 +135,8 @@
     .heading {
         display: block;
         border-bottom: none;
-        line-height: 18px;
+        // line-height: 18px;
+        line-height: 24px;
         @include b4_12px_montserrat_charcoal();
         strong{
             font-weight: $medium;
@@ -188,7 +192,8 @@
         }
         .heading {
             border-bottom: none;
-            line-height: 18px;
+            // line-height: 18px;
+            line-height: 24px;
             display: block;
             @include b4_12px_montserrat_charcoal();
         }
@@ -304,7 +309,8 @@
     }
     .heading {
         border-bottom: none;
-        line-height: 30px;
+        // line-height: 30px;
+        line-height: 24px;
         @include b4_12px_montserrat_charcoal();
         &:hover{
             font-weight: $medium;

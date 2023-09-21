@@ -7,7 +7,7 @@
   min-width: 100%;
 }
 .loyalty {
-  margin-top: $main-header;
+  margin-top: $secondary-header-margin-top;
     .paddlr-30 {
       padding: 0 30px;
     }
@@ -151,7 +151,7 @@
   
   }
   .loyalty-timer {
-    margin-top: $main-header + $timer-height;
+    margin-top: $secondary-header-margin-top + $timer-height;
   }
   .txt-footer {
     font-family: $font-Lato;

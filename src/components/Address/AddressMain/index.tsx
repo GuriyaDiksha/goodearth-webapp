@@ -319,21 +319,17 @@ const AddressMain: React.FC<Props> = props => {
     dispatch(updateAddressMode("list"));
     setTimeout(() => {
       if (addressId) {
-        document
-          .getElementById(`address-item-${addressId}`)
-          ?.scrollIntoView({
-            behavior: "smooth",
-            block: "end",
-            inline: "start"
-          });
+        document.getElementById(`address-item-${addressId}`)?.scrollIntoView({
+          behavior: "smooth",
+          block: "end",
+          inline: "start"
+        });
       } else {
-        document
-          .getElementById(`addressData`)
-          ?.scrollIntoView({
-            behavior: "smooth",
-            block: "end",
-            inline: "start"
-          });
+        document.getElementById(`addressData`)?.scrollIntoView({
+          behavior: "smooth",
+          block: "end",
+          inline: "start"
+        });
       }
     }, 300);
   }, []);
@@ -405,6 +401,7 @@ const AddressMain: React.FC<Props> = props => {
                         uniqueKey={"addressid123"}
                         whatsappFormRef={props.whatsappFormRef}
                         whatsappNoErr={props.whatsappNoError}
+                        countryData={countryData}
                       />
                     </div>
                     {/* <div className={styles.whatsappNoErr}>

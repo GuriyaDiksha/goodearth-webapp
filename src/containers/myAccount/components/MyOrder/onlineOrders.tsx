@@ -274,7 +274,10 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
         {data.offerDiscounts?.map(
           (discount: { name: string; amount: string }, index: number) => {
             return (
-              <div className={cs(styles.price, styles.price3, styles.discount)}>
+              <div
+                className={cs(styles.price, styles.price3, styles.discount)}
+                key={index}
+              >
                 <span className={styles.label}>{discount.name}</span>
                 <span className={styles.value}>
                   {`(-) ${displayPriceWithCommasFloat(
@@ -299,7 +302,10 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
         {/* voucher discounts */}
         {data.voucherDiscounts?.map((vd: any, i: number) => {
           return (
-            <div className={cs(styles.price, styles.price3, styles.discount)}>
+            <div
+              className={cs(styles.price, styles.price3, styles.discount)}
+              key={i}
+            >
               <span className={styles.label}>{vd.name}</span>
               <span className={styles.value}>
                 {`(-) ${displayPriceWithCommasFloat(vd.amount, item.currency)}`}

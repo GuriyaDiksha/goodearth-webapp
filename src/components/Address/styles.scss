@@ -649,6 +649,9 @@ body:has(.mobile) {
         cursor: not-allowed !important;
     }
   }
+  div:nth-child(4){
+    z-index: 1;
+  }
 }
 
 .country-code {
