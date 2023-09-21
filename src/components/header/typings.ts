@@ -63,7 +63,6 @@ export type MenuComponentImageData = {
   link: string;
   openInNewTab?: boolean;
   ctaName?: string;
-  openInNewTab?: boolean;
 };
 export interface MenuComponent {
   componentType: string;
@@ -310,6 +309,7 @@ export interface State {
   showCartMobile: boolean;
   isLoading: boolean;
   reloadAnnouncementBar: boolean;
+  isPlpPage: boolean;
 }
 
 export interface MenuState {

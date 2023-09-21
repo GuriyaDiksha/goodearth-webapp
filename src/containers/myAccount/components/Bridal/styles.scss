@@ -352,10 +352,11 @@
 
   .size-block-mobile {
     background-color: white;
+    height: calc(100vh - 50px) !important;
     &.ipops {
       width: 100%;
       height: 100%;
-      margin-top: 30px;
+      padding-top: 30px;
       .icon_cross {
         &:before {
           color: #fff;
@@ -366,6 +367,7 @@
       }
       img {
         height: 450px;
+        object-fit: contain;
       }
       .add-btn {
         position: fixed;
@@ -795,7 +797,7 @@
           background-color: #fff;
           border: 1px solid #888;
           border-radius: 50%;
-          padding: 20px 0;
+          // padding: 20px 0;
         }
       }
       min-height: 160px;
@@ -872,6 +874,7 @@
       line-height: 22px;
       font-weight: 400;
       text-transform: capitalize;
+      word-wrap: break-word;
       svg {
         vertical-align: text-bottom;
       }

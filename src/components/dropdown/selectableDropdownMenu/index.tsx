@@ -8,6 +8,8 @@ import {
   DropdownMenuItemProps,
   DropdownItem
 } from "../baseDropdownMenu/typings";
+import { useSelector } from "react-redux";
+import { AppState } from "reducers/typings";
 
 const DropdownMenu = ({
   align,
@@ -22,6 +24,7 @@ const DropdownMenu = ({
   id,
   direction
 }: SelectableDropdownMenuProps): JSX.Element => {
+  const { isLoading } = useSelector((state: AppState) => state.info);
   const [currentValue, setCurrentValue] = useState(value);
   const mounted = useRef(false);
 
@@ -33,6 +36,9 @@ const DropdownMenu = ({
     val: string | undefined,
     label: string | undefined
   ) => {
+    if (isLoading) {
+      return false;
+    }
     onChange ? onChange(val, label) : "";
     if (onChangeCurrency) {
       onChangeCurrency(val)

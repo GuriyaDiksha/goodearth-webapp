@@ -34,10 +34,10 @@ const mapStateToProps = (state: AppState) => {
 
 const mapDispatchToProps = (dispatch: Dispatch) => {
   return {
-    newsletterSignup: async (email: string) => {
+    newsletterSignup: async (formData: any) => {
       const res = await HeaderFooterService.makeNewsletterSignupRequest(
         dispatch,
-        email
+        formData
       );
       return res;
     },
@@ -70,7 +70,8 @@ class Footer extends React.Component<Props, FooterState> {
       isInViewport: false,
       isConsentSave: false,
       headingHoverArray: [],
-      subheadingHoverArray: []
+      subheadingHoverArray: [],
+      smartNav: ["/", "/homepage"]
     };
   }
 
@@ -269,8 +270,11 @@ class Footer extends React.Component<Props, FooterState> {
       "newsletter"
     ) as HTMLInputElement;
     if (emailInput) {
+      const SignUpformData = new FormData();
+      SignUpformData.append("email", emailInput.value);
+      SignUpformData.append("source", "Footer");
       this.props
-        .newsletterSignup(emailInput.value)
+        .newsletterSignup(SignUpformData)
         .then(data => {
           if (data.status) {
             const msg = showErrors(data.message);
@@ -302,7 +306,7 @@ class Footer extends React.Component<Props, FooterState> {
   };
 
   acceptCookies = () => {
-    CookieService.setCookie("goodearth", "show", 365);
+    //CookieService.setCookie("goodearth", "show", 365);
     this.props.hideCookies();
   };
 
@@ -314,15 +318,17 @@ class Footer extends React.Component<Props, FooterState> {
       footerImages: {
         footerImageDeskTop,
         footerImageMobile,
-        footerImageSubsDeskTop,
-        footerImageSubsMobile,
+        // footerImageSubsDeskTop,
+        // footerImageSubsMobile,
         footerBgColorMobile,
         footerHeadingFontColor,
         footerSubHeadingFontColor,
         footerHeadingHoverColor,
         footerSubHeadingHoverColor,
         sectionContent,
-        sectionFontColor
+        sectionFontColor,
+        newsletterBgImage,
+        newsletterBgColor
       },
       findUsOnData
     } = this.props.data;
@@ -338,7 +344,11 @@ class Footer extends React.Component<Props, FooterState> {
 
     return (
       <div
-        className={cs(bootstrap.containerFluid, globalStyles.minimumWidth)}
+        className={cs(
+          bootstrap.containerFluid,
+          globalStyles.minimumWidth,
+          styles.mainFooterContainer
+        )}
         ref={ele => (this.container = ele)}
       >
         <div id="footer-start" className={bootstrap.row}>
@@ -352,12 +362,9 @@ class Footer extends React.Component<Props, FooterState> {
             } ${this.props.saleStatus ? cs(styles.footerTopSale20) : ""}`}
             style={{
               backgroundImage: this.state.isInViewport
-                ? `url(${
-                    this.props.mobile
-                      ? footerImageSubsMobile
-                      : footerImageSubsDeskTop
-                  })`
-                : "none"
+                ? `url(${newsletterBgImage})`
+                : "none",
+              backgroundColor: `${newsletterBgColor}`
             }}
           >
             <div className={bootstrap.row}>
@@ -530,6 +537,7 @@ class Footer extends React.Component<Props, FooterState> {
                                                 styles.footerConnectIcon
                                               }
                                               src={currentValue.iconImage}
+                                              width="200"
                                             />
                                           )}
                                           {currentValue.link ? (
@@ -630,7 +638,13 @@ class Footer extends React.Component<Props, FooterState> {
                           )
                     }
                   >
-                    <div className={cs(bootstrap.row, styles.px3)}>
+                    <div
+                      className={cs(
+                        bootstrap.row,
+                        styles.px3,
+                        styles.footerColumnsContainer
+                      )}
+                    >
                       <div
                         className={cs(bootstrap.colMd3, bootstrap.px2)}
                         key={"first-column"}
@@ -657,6 +671,7 @@ class Footer extends React.Component<Props, FooterState> {
                                     <img
                                       src={iconImage}
                                       className={styles.findUsOnIcon}
+                                      width="200"
                                     />
                                   </a>
                                 );
@@ -701,6 +716,7 @@ class Footer extends React.Component<Props, FooterState> {
                                           ?.ctaImage
                                       : ""
                                   }
+                                  width="200"
                                   className={cs(styles.imgResponsive)}
                                 />{" "}
                               </a>
@@ -841,6 +857,7 @@ class Footer extends React.Component<Props, FooterState> {
                                         <img
                                           className={styles.footerConnectIcon}
                                           src={child.iconImage}
+                                          width="200"
                                         />
                                       )}
                                       {child.link ? (
@@ -1061,6 +1078,7 @@ class Footer extends React.Component<Props, FooterState> {
                                   <img
                                     src={iconImage}
                                     className={styles.findUsOnIcon}
+                                    width="200"
                                   />
                                 </a>
                               );
@@ -1095,6 +1113,7 @@ class Footer extends React.Component<Props, FooterState> {
                                     this.props.data.footerPlaylistData?.ctaImage
                                   }
                                   className={cs(globalStyles.width250)}
+                                  width="200"
                                 />{" "}
                               </a>
                             </div>
@@ -1113,11 +1132,16 @@ class Footer extends React.Component<Props, FooterState> {
           </div>
 
           <div
-            className={
+            className={cs(
               this.props.mobile
                 ? cs(styles.footerBottomMobile, bootstrap.colMd12)
-                : cs(styles.footerBottom, bootstrap.colMd12)
-            }
+                : cs(styles.footerBottom, bootstrap.colMd12),
+              {
+                [styles.filterOnBottom]: this.props.location.pathname.includes(
+                  "/careers/list"
+                )
+              }
+            )}
           >
             <div className={cs(bootstrap.row)}>
               <div className={cs(bootstrap.col12, globalStyles.textCenter)}>
@@ -1128,11 +1152,15 @@ class Footer extends React.Component<Props, FooterState> {
             </div>
           </div>
         </div>
-        {(this.props.location.pathname == "/" ||
+        {(this.state.smartNav.indexOf(this.props.location.pathname) > -1 ||
           this.props.location.pathname.includes("/category_landing/") ||
           desktopPlp) &&
-          this.props.currency == "INR" && (
-            <MakerSmartNav id="TDEHYqQNA" inline={false} />
+          ["INR", "USD"].includes(this.props.currency) && (
+            <MakerSmartNav
+              id="TDEHYqQNA"
+              inline={false}
+              currency={this.props.currency == "INR" ? "INR" : "USD"}
+            />
           )}
 
         {(OLD_COOKIE_SETTINGS

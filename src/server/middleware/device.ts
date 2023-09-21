@@ -7,6 +7,7 @@ export default async function device(
   next: Koa.Next
 ) {
   const userAgent = ctx.headers["user-agent"];
+
   const {
     mobile,
     tablet,

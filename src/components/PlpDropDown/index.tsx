@@ -4,7 +4,7 @@ import { MobileDropdownMenuProps } from "./typing";
 import styles from "./styles.scss";
 import bootstrap from "../../styles/bootstrap/bootstrap-grid.scss";
 import iconStyles from "../../styles/iconFonts.scss";
-// import useOutsideDetection from "../../../hooks/useOutsideDetetion";
+import useOutsideDetection from "./../../hooks/useOutsideDetetion";
 import globalStyles from "styles/global.scss";
 import { useSelector } from "react-redux";
 import { AppState } from "reducers/typings";
@@ -38,6 +38,11 @@ const PlpDropdownMenu = ({
   const { scrollDown, showTimer } = useSelector(
     (state: AppState) => state.info
   );
+  const { mobile } = useSelector((state: AppState) => state.device);
+
+  const { mobileMenuOpenState, showSearchPopup } = useSelector(
+    (state: AppState) => state.header
+  );
   const dispatch = useDispatch();
   const clickMobilefilter = (value: string) => {
     if (value == "Refine") {
@@ -62,6 +67,18 @@ const PlpDropdownMenu = ({
     toggleSort && toggleSort(true);
   };
 
+  const onOutsideClick = () => {
+    dispatch(updateScrollDown(false));
+    setOpenState(false);
+    setShowmobileSort(false);
+    setShowmobileFilterList(false);
+    setMobileFilter(false);
+    onStateChange(false);
+    toggleSort && toggleSort(true);
+  };
+
+  const { ref } = useOutsideDetection<HTMLDivElement>(onOutsideClick);
+
   useIsomorphicLayoutEffect(() => {
     if (showCaret) {
       onInsideClick();
@@ -71,6 +88,13 @@ const PlpDropdownMenu = ({
   useEffect(() => {
     setDisplayValue(value || displayValue);
   }, [value]);
+
+  useEffect(() => {
+    //Added for handling refine menu at the time of hamburger or serach click
+    if (mobileMenuOpenState || showSearchPopup) {
+      onOutsideClick();
+    }
+  }, [mobileMenuOpenState, showSearchPopup]);
 
   const onIClickSelected = (data: any) => {
     setDisplayValue(data.value);
@@ -87,10 +111,19 @@ const PlpDropdownMenu = ({
     }
   }, [showmobileSort, menuOpen]);
 
+  useEffect(() => {
+    setOpenState(open || false);
+    if (!open) {
+      onOutsideClick();
+    }
+  }, [open]);
+
   return (
     <div
       className={cs(styles.cSort, bootstrap.col12, styles.filterSticky, {
-        [styles.hide]: scrollDown
+        [styles.hide]: scrollDown,
+        [styles.openMenuIndex]:
+          (mobileMenuOpenState || showSearchPopup) && mobile
       })}
     >
       <div
@@ -187,7 +220,7 @@ const PlpDropdownMenu = ({
                 styles.iconSearchCross,
                 styles.crossIcon
               )}
-              onClick={onInsideClick}
+              onClick={onOutsideClick}
             ></i>
           </div>
           <div
@@ -205,7 +238,9 @@ const PlpDropdownMenu = ({
           >
             <span>{"Sort By"}</span>
 
-            <span onClick={onInsideClick}>X</span>
+            <span onClick={onOutsideClick} ref={showmobileSort ? ref : null}>
+              X
+            </span>
           </div>
           <div className={cs(bootstrap.row, styles.minimumWidth)}>
             <div

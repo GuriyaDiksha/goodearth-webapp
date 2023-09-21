@@ -1,6 +1,9 @@
 @import "../../styles/partials/variables";
 @import "../../styles/partials/mixins";
 
+.main-footer-container{
+  max-width: 100%;
+}
 
 .footer-top {
   background-size: cover;
@@ -19,11 +22,13 @@
   // width: 35px;
   height: 20px;
   margin-right: 20px;
+  width: 20px;
 }
 
 .footer-connect-icon {
   height: 16px;
   margin-right: 10px;
+  width: 16px;
 }
 
 .form-footer {
@@ -116,6 +121,10 @@
   padding-bottom: 55px;
   font-weight: 300;
   bottom: 15px;
+
+  &.filter-on-bottom{
+    padding-bottom: 100px;
+  }
 }
 
 .fix-bottom {
@@ -191,15 +200,9 @@
   h3 {
     @include b3_14px_montserrat_caps_charcoal();
     font-weight: 500;
-    // font-family: $font-Montserrat;
-    // color: $charcoal19;
-    // font-size: 12px;
     line-height: 30px;
-    // text-transform: capitalize;
-    // font-weight: bold;
     letter-spacing: 0.5px;
-    // padding: 10px 0 0 0;
-    // margin-bottom: -30px;
+    padding: 0 !important;
   }
   p {
     @include b4_12px_montserrat_charcoal();
@@ -351,7 +354,7 @@
       }
       .prefWrp{
         overflow-y: scroll;
-        height: 50%;
+        height: 42%;
         font-weight: 500;
 
         @media screen and (min-width: 700px) and (max-width: 992px) {
@@ -433,7 +436,7 @@
         margin-bottom: -6px;
         width: 100%;
         padding-bottom: 0px;
-
+        left: 0;
       }
 
       @media screen and (min-width: 768px) and (max-width: 992px) {
@@ -511,6 +514,10 @@
 }
 @media screen and (max-width: 992px) {
   
+  .zindex {
+    // only for mobile for dropdown city
+    z-index: 10000000 !important;
+  }
   .footer {
     background-repeat: no-repeat;
   }
@@ -608,7 +615,7 @@
       padding: 5px 40px;
 
       @media screen and (max-width:992px) {
-        padding: 1px 40px;
+        padding: 1px 10px;
       }
     }
     .ok-btn{
@@ -795,6 +802,7 @@
       font-weight: normal;
       overflow-y: scroll;
       z-index: 8;
+      margin-bottom: 0;
       .header{
         display: flex;
         align-items: center;
@@ -919,6 +927,12 @@
   padding-left: 3%;
   padding-right: 3%;
 }
+
+.footer-columns-container{
+  max-width: 120rem;
+  margin: 0 auto;
+}
+
 .ftrHeadingWhite2 {
   color: #fff;
 }
@@ -949,4 +963,8 @@
   letter-spacing: 0.5px;
 
   text-transform: uppercase;
+}
+
+.noneu-padding{
+padding: 30px 20px;
 }

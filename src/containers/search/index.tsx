@@ -23,12 +23,12 @@ import { updateComponent, updateModal } from "actions/modal";
 import GiftcardItem from "components/plpResultItem/giftCard";
 import CookieService from "../../services/cookie";
 import { POPUP } from "constants/components";
-import { moveChatDown, moveChatUp, sortGTM, pageViewGTM } from "utils/validate";
+import * as util from "utils/validate";
 import SecondaryHeaderDropdown from "components/dropdown/secondaryHeaderDropdown";
 import { CategoryMenu } from "containers/plp/typings";
-import { GA_CALLS, ANY_ADS } from "constants/cookieConsent";
+import { GA_CALLS } from "constants/cookieConsent";
 import ProductCounter from "components/ProductCounter";
-import { throttle } from "lodash";
+import { isEqual, throttle } from "lodash";
 import ResetFiltersTile from "components/plpResultItem/resetFiltersTile";
 
 const mapStateToProps = (state: AppState) => {
@@ -115,7 +115,7 @@ class Search extends React.Component<
     if (mobile) {
       this.child.clickCloseFilter();
     }
-    sortGTM(label || data);
+    util.sortGTM(label || data);
   };
 
   setFilterCount = (count: number) => {
@@ -155,7 +155,7 @@ class Search extends React.Component<
 
   componentDidMount() {
     const that = this;
-    moveChatDown();
+    util.moveChatDown();
     this.setState({
       searchMaker: true
     });
@@ -164,14 +164,14 @@ class Search extends React.Component<
       dataLayer.push(function(this: any) {
         this.reset();
       });
-      pageViewGTM("Search");
+      util.pageViewGTM("Search");
       dataLayer.push({
         event: "SearchView",
         PageURL: this.props.location.pathname,
         Page_Title: "virtual_search_view"
       });
     }
-    if (userConsent.includes(ANY_ADS)) {
+    if (userConsent.includes(GA_CALLS)) {
       Moengage.track_event("Page viewed", {
         "Page URL": this.props.location.pathname,
         "Page Name": "SearchView"
@@ -205,7 +205,7 @@ class Search extends React.Component<
   }
 
   componentWillUnmount() {
-    moveChatUp();
+    util.moveChatUp();
     window.removeEventListener(
       "scroll",
       throttle(() => {
@@ -390,7 +390,7 @@ class Search extends React.Component<
             }
           });
         }
-        if (userConsent.includes(ANY_ADS)) {
+        if (userConsent.includes(GA_CALLS)) {
           Moengage.track_event("search", {
             keyword: product.name,
             "Search Suggestions Clicked": true,
@@ -431,13 +431,51 @@ class Search extends React.Component<
           this.onClickSearch();
         }
       );
-    } else {
     }
     const sort = urlParams.get("sort_by");
     if (sort !== this.state.sortValue) {
       this.setState({
         sortValue: sort ? sort : "hc"
       });
+    }
+
+    const userConsent = CookieService.getCookie("consent").split(",");
+    const recentSearch = localStorage.getItem("recentSearchValue");
+    const popularSearch = localStorage.getItem("popularSearch");
+    const inputValue = localStorage.getItem("inputValue");
+
+    if (
+      !isEqual(this.props?.data?.results?.data, nextProps?.data?.results?.data)
+    ) {
+      if (
+        userConsent.includes(GA_CALLS) &&
+        (popularSearch || recentSearch || inputValue)
+      ) {
+        if (nextProps?.data?.results?.data?.length) {
+          dataLayer.push({
+            event: "search_bar_results_found",
+            click_type: recentSearch
+              ? "Recent search"
+              : popularSearch
+              ? "Popular search"
+              : "Input",
+            search_term: recentSearch || popularSearch || inputValue
+          });
+        } else {
+          dataLayer.push({
+            event: "search_bar_no_results_found",
+            click_type: recentSearch
+              ? "Recent search"
+              : popularSearch
+              ? "Popular search"
+              : "Input",
+            search_term: recentSearch || popularSearch || inputValue
+          });
+        }
+        localStorage.removeItem("recentSearchValue");
+        localStorage.removeItem("popularSearch");
+        localStorage.removeItem("inputValue");
+      }
     }
   }
 
@@ -446,6 +484,14 @@ class Search extends React.Component<
       flag: value
     });
   };
+
+  decodeSearchString(value: string) {
+    try {
+      return decodeURIComponent(value);
+    } catch (e) {
+      return value;
+    }
+  }
 
   render() {
     const {
@@ -706,7 +752,9 @@ class Search extends React.Component<
                   )) ? (
                     <div className={styles.npfMsg}>
                       {"Sorry, we couldn't find any matching result for"} &nbsp;
-                      <span>{this.state.searchText}</span>
+                      <span>
+                        {this.decodeSearchString(this.state.searchText)}
+                      </span>
                     </div>
                   ) : (
                     ""

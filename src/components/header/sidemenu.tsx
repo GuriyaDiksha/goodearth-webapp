@@ -126,6 +126,11 @@ class SideMenu extends React.Component<Props, State> {
           href: "/account/my-orders",
           type: "link"
         }
+        // {
+        //   label: "My Preferences",
+        //   href: "/account/my-preferences",
+        //   type: "link"
+        // }
       );
     profileItems.push(
       {
@@ -340,8 +345,12 @@ class SideMenu extends React.Component<Props, State> {
                     )
                   })}
                   onClick={(): void => {
-                    this.props.setShowBag(true);
-                    this.props.onSideMenuClick("Cart");
+                    if (!this.props.location.pathname.includes("/cart")) {
+                      this.props.fetchBasketMinibag().then(() => {
+                        this.props.setShowBag(true);
+                        this.props.onSideMenuClick("Cart");
+                      });
+                    }
                   }}
                 ></i>
                 <span
@@ -351,8 +360,12 @@ class SideMenu extends React.Component<Props, State> {
                     )
                   })}
                   onClick={(): void => {
-                    this.props.setShowBag(true);
-                    this.props.onSideMenuClick("Cart");
+                    if (!this.props.location.pathname.includes("/cart")) {
+                      this.props.fetchBasketMinibag().then(() => {
+                        this.props.setShowBag(true);
+                        this.props.onSideMenuClick("Cart");
+                      });
+                    }
                   }}
                 >
                   {bagCount}

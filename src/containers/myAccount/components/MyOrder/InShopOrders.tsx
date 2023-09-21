@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import moment from "moment";
 import { OrdersProps } from "./typings";
 import AccountService from "services/account";
-import { Currency, currencyCode } from "typings/currency";
 import bootstrapStyles from "../../../../styles/bootstrap/bootstrap-grid.scss";
 import globalStyles from "styles/global.scss";
 import styles from "../styles.scss";
@@ -85,7 +84,7 @@ const InShopOrder: React.FC<OrdersProps> = props => {
     const billingAddress = data.billing_address;
     if (shippingAddress || billingAddress) {
       html.push(
-        <div className={styles.addressBlock}>
+        <div className={cs(styles.addressBlock, styles.myordersAddressblock)}>
           {shippingAddress ? (
             <div className={styles.address}>
               <div className={styles.title}>shipping address</div>
@@ -122,9 +121,6 @@ const InShopOrder: React.FC<OrdersProps> = props => {
     }
     {
       orderdata?.order_lines?.map((item: any) => {
-        const charCurrency = String.fromCharCode(
-          ...currencyCode["INR" as Currency]
-        );
         html.push(
           <div className={cs(styles.product)} key={item.sku}>
             <div className={cs(styles.imageContainer)}>
@@ -134,10 +130,7 @@ const InShopOrder: React.FC<OrdersProps> = props => {
               <p className={styles.title}>{item.title}</p>
               <p className={cs(styles.price)}>
                 <span className={cs(styles.amountPaid)}>
-                  {`${charCurrency} ${displayPriceWithCommas(
-                    item.price,
-                    "INR"
-                  )}`}
+                  {`${displayPriceWithCommas(item.price, "INR")}`}
                 </span>
               </p>
             </div>
@@ -199,8 +192,9 @@ const InShopOrder: React.FC<OrdersProps> = props => {
               <div className={styles.amountPaid}>
                 <span className={styles.label}>Amount Paid</span>
                 <span className={styles.data}>
-                  {String.fromCharCode(...currencyCode["INR" as Currency])}
-                  &nbsp;{displayPriceWithCommas(data.total, "INR")}
+                  {data.total > 0
+                    ? displayPriceWithCommas(data.total, "INR")
+                    : data.total}
                 </span>
               </div>
             </div>

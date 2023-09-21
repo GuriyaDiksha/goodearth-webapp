@@ -11,7 +11,6 @@ import { AppState } from "reducers/typings";
 import LazyImage from "components/LazyImage";
 import CartSlider from "components/CartSlider";
 import { Link } from "react-router-dom";
-import { currencyCodes } from "constants/currency";
 import bootstrap from "styles/bootstrap/bootstrap-grid.scss";
 import SizeSelector from "components/SizeSelector";
 import PdpQuantity from "components/quantity/pdpQuantity";
@@ -210,8 +209,6 @@ class CushionBag extends React.Component<Props, State> {
                 >
                   {isSale && discount && discountedPriceRecords ? (
                     <span className={styles.discountedPrice}>
-                      {String.fromCharCode(...currencyCodes[currency])}
-                      &nbsp;
                       {displayPriceWithCommas(discountPrices, currency)}
                       <br />
                     </span>
@@ -220,8 +217,6 @@ class CushionBag extends React.Component<Props, State> {
                   )}
                   {isSale && discount ? (
                     <span className={styles.oldPrice}>
-                      {String.fromCharCode(...currencyCodes[currency])}
-                      &nbsp;
                       {displayPriceWithCommas(price, currency)}
                     </span>
                   ) : (
@@ -231,8 +226,6 @@ class CushionBag extends React.Component<Props, State> {
                       }
                     >
                       {" "}
-                      {String.fromCharCode(...currencyCodes[currency])}
-                      &nbsp;
                       {displayPriceWithCommas(price, currency)}
                     </span>
                   )}
@@ -344,6 +337,7 @@ class CushionBag extends React.Component<Props, State> {
                 src={asset}
                 className={styles.cushionFiller}
                 alt="cushion-filler-icon"
+                width="200"
               />
               <div>
                 <Link

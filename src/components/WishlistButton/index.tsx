@@ -22,7 +22,7 @@ import { AppState } from "reducers/typings";
 import { ChildProductAttributes } from "typings/product";
 import { updateLoader } from "actions/info";
 import CookieService from "../../services/cookie";
-import { GA_CALLS, ANY_ADS } from "constants/cookieConsent";
+import { GA_CALLS } from "constants/cookieConsent";
 
 const WishlistButton: React.FC<Props> = ({
   gtmListType,
@@ -69,7 +69,7 @@ const WishlistButton: React.FC<Props> = ({
         const child = childAttributes as ChildProductAttributes[];
         console.log(category, id, title, priceRecords);
         const userConsent = CookieService.getCookie("consent").split(",");
-        if (userConsent.includes(ANY_ADS)) {
+        if (userConsent.includes(GA_CALLS)) {
           if (addWishlist) {
             Moengage.track_event("add_to_wishlist", {
               "Product id": id,
@@ -231,30 +231,41 @@ const WishlistButton: React.FC<Props> = ({
   return (
     <>
       <div className={className}>
-        <div
-          style={parentWidth ? { width: "100%" } : {}}
-          className={cs(iconStyles.icon, styles.wishlistIcon, iconClassName, {
-            [iconStyles.iconWishlistAdded]: addedToWishlist,
-            [iconStyles.iconWishlist]: !addedToWishlist,
-            [styles.addedToWishlist]: addedToWishlist,
-            [styles.mobileWishlist]: mobile
-          })}
-          title={
-            basketLineId
-              ? addedToWishlist
-                ? "Remove from Saved Items"
-                : "Move to Saved Items"
-              : ""
-          }
-          onClick={onClick}
-        ></div>
+        {gtmListType == "cart" ||
+          (gtmListType == "MiniBag" ? (
+            ""
+          ) : (
+            <div
+              style={parentWidth ? { width: "100%" } : {}}
+              className={cs(
+                iconStyles.icon,
+                styles.wishlistIcon,
+                iconClassName,
+                {
+                  [iconStyles.iconWishlistAdded]: addedToWishlist,
+                  [iconStyles.iconWishlist]: !addedToWishlist,
+                  [styles.addedToWishlist]: addedToWishlist && showText,
+                  [styles.mobileWishlist]: mobile
+                }
+              )}
+              title={
+                basketLineId
+                  ? addedToWishlist
+                    ? "Remove from Saved Items"
+                    : "Move to Saved Items"
+                  : ""
+              }
+              onClick={onClick}
+            ></div>
+          ))}
         {showText && (
           <div
             className={cs(styles.label, {
               [styles.addedToWishlist]: addedToWishlist
             })}
+            onClick={onClick}
           >
-            {addedToWishlist ? "REMOVE FROM SAVED ITEMS" : "SAVE FOR LATER"}
+            {addedToWishlist ? "SAVED TO LATER" : "SAVE FOR LATER"}
           </div>
         )}
       </div>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import styles from "./styles.scss";
 import globalStyles from "../../styles/global.scss";
 import cs from "classnames";
@@ -32,11 +32,12 @@ type CountryOptions = {
   states: StateOptions[];
 };
 
-const NotificationForm: React.FC = () => {
+const Newsletters: React.FC = () => {
   const { mobile } = useSelector((state: AppState) => state.device);
   const { showTimer } = useSelector((state: AppState) => state.info);
-  const currency = useSelector((state: AppState) => state.currency);
   const [countryOptions, setCountryOptions] = useState<CountryOptions[]>([]);
+  const [stateOptions, setStateOptions] = useState<StateOptions[]>([]);
+  const [countrycode, setCountrycode] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [successMsg, setSuccessMsg] = useState("");
   const [enableSubmit, setEnableSubmit] = useState(false);
@@ -44,58 +45,92 @@ const NotificationForm: React.FC = () => {
   const history = useHistory();
   const location = history.location;
   const { countryData } = useSelector((state: AppState) => state.address);
-
+  const isAlphaError = "Only alphabets are allowed";
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (currency == "INR") {
-      history.push("/");
-    } else {
-      if (!countryData || countryData.length == 0) {
-        LoginService.fetchCountryData(dispatch).then(countryData => {
-          // changeCountryData(countryData);
-          dispatch(updateCountryData(countryData));
-        });
-      }
+    if (!countryData || countryData.length == 0) {
+      LoginService.fetchCountryData(dispatch).then(countryData => {
+        dispatch(updateCountryData(countryData));
+      });
     }
+
     setMaker(true);
   }, []);
 
-  const changeCountryData = (countryData: Country[]) => {
-    const countryOptions = countryData
-      .filter(c => {
-        return c.nameAscii !== "India";
-      })
-      .map(country => {
-        const states = country.regionSet.map(state => {
-          return Object.assign({}, state, {
-            value: state.nameAscii,
-            label: state.nameAscii
+  // *************** Open State option **************
+  const EnquiryFormRef = useRef<Formsy>(null);
+  const onCountrySelect = (
+    event: React.ChangeEvent<HTMLSelectElement> | null,
+    defaultCountry?: string
+  ) => {
+    if (countryOptions.length > 0) {
+      const form = EnquiryFormRef.current;
+      let selectedCountry = "";
+      if (event) {
+        selectedCountry = event.currentTarget.value;
+        form &&
+          form.updateInputsWithValue(
+            {
+              state: ""
+            },
+            false
+          );
+      } else if (defaultCountry) {
+        selectedCountry = defaultCountry;
+        // need to set defaultCountry explicitly
+        if (form && selectedCountry) {
+          form.updateInputsWithValue({
+            country: selectedCountry
           });
+        }
+      }
+
+      const { states, isd } = countryOptions.filter(
+        country => country.value == selectedCountry
+      )[0];
+
+      if (form) {
+        // reset state
+        const { state } = form.getModel();
+        if (state) {
+          form.updateInputsWithValue({
+            state: ""
+          });
+        }
+        setCountrycode(isd || "");
+      }
+      // setIsIndia(value == "India");
+      setStateOptions(states);
+    }
+  };
+  // *************** Closed State option **************
+
+  const changeCountryData = (countryData: Country[]) => {
+    const countryOptions = countryData.map(country => {
+      const states = country.regionSet.map(state => {
+        return Object.assign({}, state, {
+          value: state.nameAscii,
+          label: state.nameAscii
         });
-        return Object.assign(
-          {},
-          {
-            value: country.nameAscii,
-            label: country.nameAscii,
-            code2: country.code2,
-            isd: country.isdCode,
-            states: states
-          }
-        );
       });
+      return Object.assign(
+        {},
+        {
+          value: country.nameAscii,
+          label: country.nameAscii,
+          code2: country.code2,
+          isd: country.isdCode,
+          states: states
+        }
+      );
+    });
     setCountryOptions(countryOptions);
   };
 
   useEffect(() => {
     changeCountryData(countryData);
   }, [countryData]);
-
-  useEffect(() => {
-    if (currency == "INR") {
-      history.push("/");
-    }
-  }, [currency]);
 
   const handleInvalidSubmit = () => {
     if (!enableSubmit) {
@@ -125,12 +160,16 @@ const NotificationForm: React.FC = () => {
   ) => {
     setIsLoading(true);
     setSuccessMsg("");
-    HeaderService.saveHFH(dispatch, formData)
+    HeaderService.makeNewsletterSignupRequest(dispatch, formData)
       .then(data => {
-        setSuccessMsg(
-          "Thank for you signing up! You will receive a reminder when our Home For Holidays sale is live!"
-        );
-        resetForm();
+        if (data.status) {
+          setSuccessMsg(
+            "Thank you. You have successfully signed-up to our newsletter."
+          );
+        } else {
+          setSuccessMsg("You have already signed up for our newsletters.");
+        }
+        // resetForm();
         setEnableSubmit(false);
       })
       .catch(err => {
@@ -138,9 +177,7 @@ const NotificationForm: React.FC = () => {
         if (errors && typeof errors[0] == "string") {
           setSuccessMsg(errors[0]);
         } else {
-          setSuccessMsg(
-            "You have already signed up for reminder notifications for the Home For Holidays Sale."
-          );
+          setSuccessMsg("You have already signed up for our newsletters.");
         }
       })
       .finally(() => {
@@ -153,13 +190,12 @@ const NotificationForm: React.FC = () => {
   };
   const prepareFormData = (model: any) => {
     const formData = new FormData();
-    const { email, firstName, lastName, country, city } = model;
+    const { email, name, country, state } = model;
     formData.append("email", email ? email.toString().toLowerCase() : "");
-    formData.append("firstName", firstName || "");
-    formData.append("lastName", lastName || "");
+    formData.append("name", name || "");
     formData.append("country", country || "");
-    formData.append("city", city || "");
-    formData.append("status", "subscribed");
+    formData.append("state", state || "");
+    formData.append("source", "Newsletter Signup");
 
     return formData;
   };
@@ -185,8 +221,8 @@ const NotificationForm: React.FC = () => {
       )}
     >
       <h4>
-        Indulge in a season of merriment with your Good Earth favourites at upto
-        50% OFF. Sign up to get a reminder for our Home for the Holidays Sale.
+        Make the most out of your Good Earth favourites. Sign up to discover our
+        latest collections, insider stories and expert tips.
       </h4>
       <Formsy
         onValidSubmit={handleSubmit}
@@ -204,12 +240,12 @@ const NotificationForm: React.FC = () => {
           <div>
             <FormInput
               required
-              label="First Name*"
-              placeholder="First Name*"
-              name="firstName"
+              label="Name*"
+              placeholder="Name*"
+              name="name"
               validations={{
-                maxLength: 30,
-                isAlpha: true
+                maxLength: 100,
+                isWords: true
               }}
               handleChange={event => {
                 event.target.value
@@ -218,11 +254,11 @@ const NotificationForm: React.FC = () => {
               }}
               validationErrors={{
                 maxLength: "Max limit reached.",
-                isAlpha: "Only alphabets are allowed."
+                isWords: isAlphaError
               }}
             />
           </div>
-          <div>
+          {/* <div>
             <FormInput
               required
               name="lastName"
@@ -237,7 +273,7 @@ const NotificationForm: React.FC = () => {
                 isAlpha: "Only alphabets are allowed."
               }}
             />
-          </div>
+          </div> */}
           <div>
             <FormInput
               required
@@ -255,23 +291,31 @@ const NotificationForm: React.FC = () => {
           </div>
           <div className="select-group text-left">
             <FormSelect
-              label="Country"
+              required
+              label={"Country*"}
               options={countryOptions}
-              // handleChange={onCountrySelect}
-              placeholder="Select Country"
+              handleChange={onCountrySelect}
+              placeholder={"Select Country*"}
               name="country"
-              value=""
-              // validations={{
-              //   isExisty: true
-              // }}
-              // validationErrors={{
-              //   isExisty: "Please select your Country",
-              //   isEmptyString: isExistyError
-              // }}
+              validations={{
+                isExisty: true
+              }}
+              validationErrors={{
+                isExisty: "Please select your Country"
+              }}
             />
             <span className="arrow"></span>
           </div>
-          <div>
+          <div className="select-group text-left">
+            <FormSelect
+              name="state"
+              label={"State"}
+              placeholder={"Select State"}
+              options={stateOptions}
+              value=""
+            />
+          </div>
+          {/* <div>
             <FormInput
               name="city"
               label="City"
@@ -283,7 +327,7 @@ const NotificationForm: React.FC = () => {
                 maxLength: "Max limit reached."
               }}
             />
-          </div>
+          </div> */}
           <div className={styles.label}>
             {[
               "By signing up for alerts, you agree to receive e-mails, calls and text messages from Goodearth. To know more how we keep your data safe, refer to our ",
@@ -292,11 +336,18 @@ const NotificationForm: React.FC = () => {
                 to="/customer-assistance/privacy-policy"
                 target="_blank"
               >
-                Privacy Policy*
+                Privacy Policy.
               </Link>
             ]}
           </div>
-          <p className={cs(styles.successMessage, styles.errorMsg)}>
+          <p
+            className={cs(
+              successMsg ==
+                "Thank you. You have successfully signed-up to our newsletter."
+                ? styles.successMessage
+                : styles.errorMsg
+            )}
+          >
             {successMsg}
           </p>
           <input
@@ -304,7 +355,7 @@ const NotificationForm: React.FC = () => {
             formNoValidate={true}
             disabled={!enableSubmit}
             className={cs(
-              globalStyles.ceriseBtn,
+              globalStyles.aquaBtn,
               globalStyles.marginT10,
               styles.jobApplicationSubmit,
               { [globalStyles.disabledBtn]: !enableSubmit }
@@ -325,7 +376,6 @@ const NotificationForm: React.FC = () => {
               [styles.careersContentTimer]: showTimer
             })}
           >
-            {/* <div className={styles.careersImage}> */}
             {maker && (
               <MakerEnhance
                 user="goodearth"
@@ -333,7 +383,6 @@ const NotificationForm: React.FC = () => {
                 href={`${window.location.origin}${location.pathname}`}
               />
             )}
-            {/* </div> */}
           </div>
         }
         {formContent}
@@ -343,4 +392,4 @@ const NotificationForm: React.FC = () => {
   );
 };
 
-export default NotificationForm;
+export default Newsletters;

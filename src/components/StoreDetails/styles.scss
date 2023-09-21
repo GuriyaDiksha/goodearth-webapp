@@ -168,7 +168,7 @@
     display: -webkit-flex;
     display: flex;
     cursor: default;
-    margin-top: 30px;
+    // margin-top: 30px;
 }
 
 .message {
@@ -253,7 +253,7 @@
   input {
     width: 100%;
     background-color: #f9f8f5;
-    padding: 0 18px;
+    padding: 0 23px;
     line-height: 40px;
     font-size: 14px;
     text-align: start;
@@ -267,7 +267,7 @@
     color: black;
     position: absolute;
     top: 43%;
-    left: 0;
+    left: 5px;
   }
 }
 

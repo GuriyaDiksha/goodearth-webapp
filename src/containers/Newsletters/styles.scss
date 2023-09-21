@@ -66,9 +66,9 @@
         width: 55%;
         margin: 60px auto;
         h4 {
-            padding-top: 35px;
             font-size: 16px;
             text-align: center;
+            padding: 35px 60px 0 60px;
         }
         &.job-application-mobile {
             width: 90%;
@@ -101,7 +101,9 @@
     }
     
     .job-application-submit {
-        height: 50px;
+        // height: 50px;
+        height: auto!important;
+        padding: 0!important;
     }
     .resume-upload-section {
         display: grid;
@@ -208,7 +210,7 @@
     text-transform: none;
     line-height: 18px;
     a {
-        color: $cerise;
+        color: $aqua !important;
     }
 }
 .sub-text {
@@ -227,4 +229,8 @@
 
 .error-msg{
     @include error_msg_cerise();
+}
+
+.success-message{
+    @include sucess_msg_cerise();
 }

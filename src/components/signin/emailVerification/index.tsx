@@ -6,7 +6,7 @@ import globalStyles from "styles/global.scss";
 // services
 import LoginService from "services/login";
 import { useDispatch } from "react-redux";
-import Loader from "components/Loader";
+// import Loader from "components/Loader";
 // import OtpBox from "components/OtpComponent/otpBox";
 import { showGrowlMessage } from "utils/validate";
 import { MESSAGE } from "constants/messages";
@@ -31,7 +31,7 @@ const EmailVerification: React.FC<Props> = ({
   socialLogin,
   isCheckout
 }) => {
-  const [isLoading, setIsLoading] = useState(false);
+  // const [isLoading, setIsLoading] = useState(false);
   // const [enableBtn, setEnableBtn] = useState(false);
   // const [timeRemaining, setTimeRemaining] = useState(60);
   //const [showCustCare, setShowCustCare] = useState(false);
@@ -63,7 +63,7 @@ const EmailVerification: React.FC<Props> = ({
   const boId = urlParams.get("bo_id");
   const verifyOtp = async (otp: string) => {
     try {
-      setIsLoading(true);
+      // setIsLoading(true);
       setError("");
       const res = await LoginService.verifyUserOTP(dispatch, email, otp);
 
@@ -107,12 +107,12 @@ const EmailVerification: React.FC<Props> = ({
         setError(data?.message || "OTP Expired or Invalid OTP");
       }
     } finally {
-      setIsLoading(false);
+      // setIsLoading(false);
     }
   };
   const sendOtp = async () => {
     try {
-      setIsLoading(true);
+      // setIsLoading(true);
       setError("");
       const res = await LoginService.sendUserOTP(dispatch, email);
       if (res.otpSent) {
@@ -150,13 +150,17 @@ const EmailVerification: React.FC<Props> = ({
         // setShowCustCare(true);
       }
     } finally {
-      setIsLoading(false);
+      // setIsLoading(false);
     }
   };
 
   useEffect(() => {
     const ele = document.getElementById("email-verification-container");
     ele?.scrollBy(0, ele.offsetTop);
+    if (isCheckout) {
+      const newele = document.getElementById("checkout-emailverification");
+      newele?.scrollIntoView();
+    }
   }, []);
 
   const goBackCta = (
@@ -173,7 +177,10 @@ const EmailVerification: React.FC<Props> = ({
   );
 
   return (
-    <div className={cs(globalStyles.textCenter, styles.emailVerifyContainer)}>
+    <div
+      className={cs(globalStyles.textCenter, styles.emailVerifyContainer)}
+      id="myemail"
+    >
       {successMsg ? (
         <div
           className={cs(styles.successMsg, {
@@ -225,6 +232,7 @@ const EmailVerification: React.FC<Props> = ({
           groupTimerAndAttempts={true}
           goBackCta={!isCheckout && !boId ? goBackCta : null}
           socialLogin={socialLogin}
+          uniqueId="emailverifyid"
         />
         {/* {!boId && (
           <div className={styles.bigTxt} style={{ marginTop: "10px" }}>
@@ -234,7 +242,7 @@ const EmailVerification: React.FC<Props> = ({
           </div>
         )} */}
       </>
-      {isLoading && <Loader />}
+      {/* {isLoading && <Loader />} */}
     </div>
   );
 };

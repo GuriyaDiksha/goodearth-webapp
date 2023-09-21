@@ -1,6 +1,5 @@
-import React, { useState, Fragment, useEffect, useMemo } from "react";
+import React, { useState, Fragment, useEffect, useMemo, useRef } from "react";
 import cs from "classnames";
-// import iconStyles from "../../styles/iconFonts.scss";
 import bootstrapStyles from "../../../styles/bootstrap/bootstrap-grid.scss";
 import globalStyles from "styles/global.scss";
 import styles from "../styles.scss";
@@ -8,29 +7,54 @@ import { PaymentProps } from "./typings";
 import ApplyGiftcard from "./applyGiftcard";
 import { useSelector, useDispatch } from "react-redux";
 import { AppState } from "reducers/typings";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import Loader from "components/Loader";
-import Reedem from "./redeem";
-// import { updateComponent, updateModal } from "actions/modal";
 import giftwrapIcon from "../../../images/gift-wrap-icon.svg";
 import { errorTracking, showErrors } from "utils/validate";
-// import { POPUP } from "constants/components";
 import CookieService from "services/cookie";
 import { proceedForPayment, getPageType } from "../../../utils/validate";
+import { currencyCodes } from "constants/currency";
+import { updateComponent, updateModal } from "actions/modal";
+import { POPUP } from "constants/components";
+import checkmarkCircle from "./../../../images/checkmarkCircle.svg";
+import BasketService from "services/basket";
+import OrderSummary from "./orderSummary";
 import CheckoutService from "services/checkout";
-import { GA_CALLS, ANY_ADS } from "constants/cookieConsent";
+import AccountServices from "services/account";
+import { GA_CALLS } from "constants/cookieConsent";
+import { updatePreferenceData } from "actions/user";
+import LoginService from "services/login";
+import { updateCountryData } from "actions/address";
+import WhatsappSubscribe from "components/WhatsappSubscribe";
+import { CONFIG } from "constants/util";
+import Formsy from "formsy-react";
+import { displayPriceWithCommasFloat } from "utils/utility";
+import { Currency } from "typings/currency";
 
 const PaymentSection: React.FC<PaymentProps> = props => {
   const data: any = {};
   const {
     basket,
-    device: { mobile },
-    info: { showGiftWrap },
-    user: { loyaltyData, isLoggedIn }
+    device: { mobile, tablet },
+    info: { showGiftWrap, deliveryText },
+    basket: { loyalty },
+    user: { loyaltyData, isLoggedIn, preferenceData },
+    address: { countryData, shippingAddressId, billingAddressId }
   } = useSelector((state: AppState) => state);
-  const { isActive, currency, checkout } = props;
+  let PaymentChild: any = useRef<typeof ApplyGiftcard>(null);
+  const history = useHistory();
+  const {
+    isActive,
+    currency,
+    checkout,
+    shippingAddress,
+    salestatus,
+    gstNo
+  } = props;
   const [paymentError, setPaymentError] = useState("");
+  const [whatsappNoErr, setWhatsappNoErr] = useState("");
   const [subscribevalue, setSubscribevalue] = useState(false);
+  const [isdList, setIsdList] = useState<any>([]);
   //  const [subscribegbp, setSubscribegbp] = useState(true);
   const [subscribegbp] = useState(true);
   const [isactivepromo, setIsactivepromo] = useState(false);
@@ -42,13 +66,72 @@ const PaymentSection: React.FC<PaymentProps> = props => {
   const [textarea, setTextarea] = useState("");
   // const [gbpError, setGbpError] = useState("");
   const [getMethods, setGetMethods] = useState<any[]>([]);
+  const [checkoutMobileOrderSummary, setCheckoutMobileOrderSummary] = useState(
+    false
+  );
   const dispatch = useDispatch();
+  const whatsappCheckRef = useRef<HTMLInputElement>();
 
-  const toggleInput = () => {
+  const whatsappFormRef = useRef<Formsy>(null);
+
+  const prevGiftCardRef = useRef<any>(basket.giftCards);
+  const prevLoyaltytRef = useRef<any>(basket.loyalty);
+  const fetchCountryData = async () => {
+    const data = await LoginService.fetchCountryData(dispatch);
+    dispatch(updateCountryData(data));
+    const isdList = data.map(list => {
+      return list.isdCode;
+    });
+    setIsdList(isdList);
+  };
+
+  const PaymentButton = useRef(null);
+
+  const toggleInput = async () => {
+    if (basket.giftCards.length > 0 && isactivepromo) {
+      setIsLoading(true);
+      if (PaymentChild.onClose) {
+        for await (const giftcard of basket?.giftCards) {
+          const data: any = {
+            cardId: giftcard?.cardId,
+            type: giftcard?.cardType
+          };
+
+          await CheckoutService.removeGiftCard(dispatch, data);
+        }
+
+        await BasketService.fetchBasket(
+          dispatch,
+          "checkout",
+          history,
+          isLoggedIn
+        );
+        setIsLoading(false);
+      }
+    }
     setIsactivepromo(!isactivepromo);
   };
   const toggleInputReedem = () => {
-    setIsactiveredeem(!isactiveredeem);
+    setIsactiveredeem(true);
+
+    dispatch(
+      updateComponent(
+        POPUP.REDEEMPOPUP,
+        {
+          setIsactiveredeem: setIsactiveredeem
+        },
+        true
+      )
+    );
+    dispatch(updateModal(true));
+  };
+
+  const removeRedeem = async (history: any, isLoggedIn: boolean) => {
+    setIsLoading(true);
+    const promo: any = await CheckoutService.removeRedeem(dispatch);
+    BasketService.fetchBasket(dispatch, "checkout", history, isLoggedIn);
+    setIsLoading(false);
+    return promo;
   };
 
   const onClickSubscribe = (event: any) => {
@@ -107,13 +190,31 @@ const PaymentSection: React.FC<PaymentProps> = props => {
   const onsubmit = () => {
     const isFree = +basket.total <= 0;
     const userConsent = CookieService.getCookie("consent").split(",");
-
+    const whatsappFormValues = whatsappFormRef.current?.getCurrentValues();
+    let whatsappSubscribe = whatsappFormValues?.whatsappSubscribe;
+    let whatsappNo = whatsappFormValues?.whatsappNo;
+    let whatsappNoCountryCode = whatsappFormValues?.whatsappNoCountryCode;
+    // if (!whatsappSubscribe) {
+    //   whatsappNo = preferenceData?.whatsappNo;
+    //   whatsappNoCountryCode = preferenceData?.whatsappNoCountryCode;
+    // }
     if (currentmethod.mode || isFree) {
+      if (!whatsappFormRef.current) {
+        whatsappSubscribe = preferenceData.whatsappSubscribe;
+        whatsappNo = preferenceData.whatsappNo;
+        whatsappNoCountryCode = preferenceData.whatsappNoCountryCode;
+      }
       const data: any = {
         paymentMethod: isFree ? "FREE" : currentmethod.key,
-        paymentMode: currentmethod.mode
+        paymentMode: currentmethod.mode,
+        whatsappSubscribe: whatsappSubscribe,
+        subscribe: subscribevalue
       };
-      if (userConsent.includes(ANY_ADS)) {
+      if (whatsappSubscribe) {
+        data.whatsappNo = whatsappNo;
+        data.whatsappNoCountryCode = whatsappNoCountryCode;
+      }
+      if (userConsent.includes(GA_CALLS)) {
         Moengage.track_event("Mode of payment selected", {
           "Payment Method": currentmethod.value,
           Amount: +basket.total,
@@ -124,6 +225,11 @@ const PaymentSection: React.FC<PaymentProps> = props => {
         data["isGift"] = giftwrap;
         data["giftRemovePrice"] = giftwrapprice;
         data["giftMessage"] = textarea;
+        if (userConsent.includes(GA_CALLS)) {
+          dataLayer.push({
+            event: "gift_wrap"
+          });
+        }
       }
       if (currency == "GBP" && !subscribegbp) {
         //setGbpError("Please agree to shipping & payment terms.");
@@ -133,7 +239,9 @@ const PaymentSection: React.FC<PaymentProps> = props => {
         );
         return false;
       }
+
       setIsLoading(true);
+      setWhatsappNoErr("");
       const paymentMode: string[] = [];
       let paymentMethod = "";
       if (!isFree) {
@@ -146,14 +254,95 @@ const PaymentSection: React.FC<PaymentProps> = props => {
       if (basket.loyalty.length > 0) {
         paymentMode.push("Loyalty");
       }
+
+      if (userConsent.includes(GA_CALLS)) {
+        const categoryname: string[] = [];
+        const subcategoryname: string[] = [];
+        const productid: string[] = [];
+        const productname: string[] = [];
+        const productprice: string[] = [];
+        const productquantity: number[] = [];
+
+        const items = basket?.lineItems?.map((line: any, ind) => {
+          const index = line.product.categories
+            ? line.product.categories.length - 1
+            : 0;
+          let category =
+            line.product.categories && line.product.categories[index]
+              ? line.product.categories[index].replace(/\s/g, "")
+              : "";
+          const arr = category.split(">");
+          categoryname.push(arr[arr.length - 2]);
+          subcategoryname.push(arr[arr.length - 1]);
+          category = category.replace(/>/g, "/");
+          productid.push(line.product.sku);
+          productname.push(line.title);
+          productprice.push(
+            line?.product?.priceRecords?.[currency as Currency]
+          );
+          productquantity.push(+line.quantity);
+
+          return {
+            item_id: line.product.sku,
+            item_name: line.title,
+            affiliation: "Pass the affiliation of the product",
+            coupon: basket.voucherDiscounts?.[0]?.voucher?.code || "NA", //Pass NA if not applicable at the moment
+            discount: basket?.offerDiscounts?.[0]?.name,
+            index: ind,
+            item_brand: "Goodearth",
+            item_category: category,
+            item_category2: line.product?.childAttributes[0]?.size,
+            item_category3: line.product.is3d ? "3d" : "non3d",
+            item_category4: line.product.is3d ? "YES" : "NO",
+            item_list_id: "NA",
+            item_list_name: "NA",
+            item_variant: "NA",
+            price: line.isEgiftCard
+              ? +line.priceExclTax
+              : line.product.priceRecords[currency as Currency],
+            quantity: line.quantity
+          };
+        });
+
+        const sameAsShipping = shippingAddressId === billingAddressId;
+
+        dataLayer.push({
+          event: "add_payment_info",
+          billing_address: sameAsShipping
+            ? "Same as Shipping Address"
+            : billingAddressId,
+          shipping_address: shippingAddressId,
+          gst_invoice: gstNo ? "Yes" : "No",
+          gift_wrap: giftwrap ? "Yes" : "No",
+          gift_card_code: basket.giftCards?.[0]?.cardId,
+          delivery_instruction: deliveryText ? "Yes" : "No", //Pass NA if not applicable the moment
+          ecommerce: {
+            currency: currency,
+            value: +basket.total,
+            coupon: basket.voucherDiscounts?.[0]?.voucher?.code || "NA", //Pass NA if Not applicable at the moment
+            payment_type: currentmethod.value,
+            items: items
+          }
+        });
+      }
+
+      data["subscribe"] = subscribevalue; //Adding subscribe for main checkout API
       checkout(data)
         .then((response: any) => {
           gtmPushPaymentTracking(paymentMode, paymentMethod);
           proceedForPayment(basket, currency, paymentMethod);
+          dataLayer.push({
+            event: "Whatsapp_optin",
+            Location: "Checkout",
+            Checkbox: data.whatsappSubscribe
+              ? "Whatsapp Opt-in"
+              : "Whatsapp Opt-out"
+          });
           location.href = `${__API_HOST__ + response.paymentUrl}`;
           setIsLoading(false);
         })
         .catch((error: any) => {
+          setWhatsappNoErr("");
           let msg = showErrors(error.response?.data.msg);
           const errorType = error.response?.data.errorType;
           if (errorType && errorType == "qty") {
@@ -162,11 +351,62 @@ const PaymentSection: React.FC<PaymentProps> = props => {
           }
           setPaymentError(msg);
           errorTracking([msg], location.href);
+          document.getElementById("payment-section")?.scrollIntoView();
           setIsLoading(false);
+          const errData = error.response?.data;
+          if (
+            errData === "'whatsappNo'" ||
+            errData === "'whatsappNoCountryCode'"
+          ) {
+            setWhatsappNoErr("Please enter a Whatsapp Number");
+          }
+          Object.keys(errData).map(key => {
+            switch (key) {
+              case "whatsappNo":
+                if (errData[key][0] == "This field may not be blank.") {
+                  setWhatsappNoErr("Please enter a Whatsapp Number");
+                }
+                // whatsappFormRef.current?.updateInputsWithError(
+                //   {
+                //     [key]: errData[key][0]
+                //   },
+                //   true
+                // );
+                // // setNumberError(errData[key][0]);
+                break;
+              case "whatsappNoCountryCode":
+                if (errData[key][0] == "This field may not be blank.") {
+                  setWhatsappNoErr("Please enter a Whatsapp Number");
+                }
+
+                break;
+              case "non_field_errors":
+                // // Invalid Whatsapp number
+                setWhatsappNoErr("Please enter a valid Whatsapp Number");
+                // //This is not working
+                // whatsappFormRef.current?.updateInputsWithError(
+                //   {
+                //     ["whatsappNo"]: errData[key][0]
+                //   },
+                //   true
+                // );
+                break;
+            }
+          });
         });
     } else {
+      if (whatsappSubscribe) {
+        if (whatsappNo == "") {
+          setWhatsappNoErr("Please enter a Whatsapp Number");
+        } else {
+          setWhatsappNoErr("");
+        }
+      } else {
+        setWhatsappNoErr("");
+      }
       setPaymentError("Please select a payment method");
       errorTracking(["Please select a payment method"], location.href);
+      document.getElementById("payment-section")?.scrollIntoView();
     }
   };
 
@@ -184,18 +424,44 @@ const PaymentSection: React.FC<PaymentProps> = props => {
         "Page referrer url": CookieService.getCookie("prevUrl")
       });
     }
+
+    if (countryData.length == 0) {
+      fetchCountryData();
+    } else {
+      const isdList = countryData.map(list => {
+        return list.isdCode;
+      });
+      setIsdList(isdList);
+    }
+    if (prevGiftCardRef.current.length) {
+      setIsactivepromo(true);
+    }
   }, []);
 
   useEffect(() => {
-    if (basket.giftCards.length > 0) {
-      setIsactivepromo(true);
+    if (prevLoyaltytRef.current.length != basket.loyalty.length) {
+      if (basket.loyalty.length > 0) {
+        setIsactiveredeem(true);
+        prevLoyaltytRef.current = basket.loyalty;
+      } else {
+        setIsactiveredeem(false);
+      }
     }
-    if (basket.loyalty.length > 0) {
-      setIsactiveredeem(true);
-    }
-  }, [basket.giftCards, basket.loyalty]);
+  }, [basket.loyalty]);
 
   useEffect(() => {
+    if (prevGiftCardRef.current.length != basket.giftCards.length) {
+      if (basket.giftCards.length > 0) {
+        setIsactivepromo(true);
+        prevGiftCardRef.current = basket.giftCards;
+      } else {
+        setIsactivepromo(false);
+      }
+    }
+  }, [basket.giftCards]);
+
+  useEffect(() => {
+    setWhatsappNoErr("");
     CheckoutService.getPaymentList(dispatch)
       .then((res: any) => {
         // console.log(res.methods);
@@ -205,6 +471,18 @@ const PaymentSection: React.FC<PaymentProps> = props => {
         console.group(err);
       });
   }, [currency]);
+
+  useEffect(() => {
+    if (isActive) {
+      if (CONFIG.WHATSAPP_SUBSCRIBE_ENABLED) {
+        AccountServices.fetchAccountPreferences(dispatch).then((data: any) => {
+          setSubscribevalue(data.subscribe); // Initializing value
+          dispatch(updatePreferenceData(data));
+          setSubscribevalue(data.subscribe);
+        });
+      }
+    }
+  }, [isActive]);
 
   // const getMethods = useMemo(() => {
   //   let methods = [
@@ -282,7 +560,13 @@ const PaymentSection: React.FC<PaymentProps> = props => {
     return (
       <div className={globalStyles.marginT20}>
         <label className={cs(globalStyles.flex, globalStyles.crossCenter)}>
-          <div className={styles.marginR10}>
+          <div
+            className={cs(
+              styles.marginR10,
+              globalStyles.giftWrapLineHeight,
+              globalStyles.marginT5
+            )}
+          >
             <span className={styles.checkbox}>
               <input
                 type="radio"
@@ -292,12 +576,16 @@ const PaymentSection: React.FC<PaymentProps> = props => {
                   setGiftwrapprice(!giftwrap);
                 }}
               />
-              <span className={styles.indicator}></span>
+              <span
+                className={cs(styles.indicator, { [styles.checked]: giftwrap })}
+              ></span>
             </span>
           </div>
-          <div className={globalStyles.c10LR}>{"GIFT WRAP THIS ORDER"}</div>
-          <div>
-            <img src={giftwrapIcon} width="40px" />
+          <div className={cs(styles.formSubheading)}>
+            {"Gift wrap this order"}
+          </div>
+          <div className={styles.giftImg}>
+            <img src={giftwrapIcon} width="30px" alt="Giftwarp Icon" />
           </div>
         </label>
       </div>
@@ -308,7 +596,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
     return (
       <div className={globalStyles.marginT20}>
         <label className={cs(globalStyles.flex, globalStyles.crossCenter)}>
-          <div className={styles.marginR10}>
+          <div className={cs(styles.marginR10, globalStyles.marginT5)}>
             <span className={styles.checkbox}>
               <input
                 type="radio"
@@ -317,11 +605,21 @@ const PaymentSection: React.FC<PaymentProps> = props => {
                   setGiftwrapprice(!giftwrapprice);
                 }}
               />
-              <span className={styles.indicator}></span>
+              <span
+                className={cs(styles.indicator, {
+                  [styles.checked]: giftwrapprice
+                })}
+              ></span>
             </span>
           </div>
-          <div className={globalStyles.c10LR}>
-            {"PLEASE REMOVE PRICES FROM ALL ITEMS IN THIS SHIPMENT"}
+          <div
+            className={cs(
+              styles.formSubheading,
+              styles.checkBoxHeading,
+              globalStyles.fontSize12
+            )}
+          >
+            {"Please remove prices from all items in this shipment"}
           </div>
         </label>
       </div>
@@ -329,149 +627,226 @@ const PaymentSection: React.FC<PaymentProps> = props => {
   }, [giftwrapprice]);
 
   return (
-    <div
-      className={
-        isActive
-          ? cs(styles.card, styles.cardOpen, styles.marginT20)
-          : cs(styles.card, styles.cardClosed, styles.marginT20)
-      }
-    >
-      <div className={bootstrapStyles.row}>
+    <>
+      {loyaltyData?.detail && currency == "INR" && (
         <div
-          className={cs(
-            bootstrapStyles.col12,
-            bootstrapStyles.colMd6,
-            styles.title
-          )}
+          className={
+            isActive
+              ? cs(styles.card, styles.cardOpen, styles.marginT5)
+              : cs(styles.card, styles.cardClosed, styles.marginT5)
+          }
         >
-          <span className={isActive ? "" : styles.closed}>
-            GIFTING & PAYMENT
-          </span>
-        </div>
-      </div>
-      {isActive && (
-        <Fragment>
-          {showGiftWrap && (
-            <>
-              {!basket.isOnlyGiftCart && giftWrapRender}
-              {giftwrap && !basket.isOnlyGiftCart && (
-                <div className={styles.giftWrapMessage}>
-                  <textarea
-                    rows={5}
-                    className={styles.giftMessage}
-                    value={textarea}
-                    placeholder={"add message (optional)"}
-                    autoComplete="new-password"
-                    onChange={(e: any) => {
-                      if (e.target.value.length <= 250) {
-                        setTextarea(e.target.value);
-                      } else if (e.target.value.length >= 250) {
-                        setTextarea(e.target.value.substring(0, 250));
-                      }
-                    }}
+          <Fragment>
+            <div className={bootstrapStyles.row}>
+              <div
+                className={cs(
+                  bootstrapStyles.col12,
+                  bootstrapStyles.colMd6,
+                  styles.title
+                )}
+              >
+                {loyalty?.[0]?.points && (
+                  <img
+                    height={"15px"}
+                    className={globalStyles.marginR10}
+                    src={checkmarkCircle}
+                    alt="checkmarkdone"
                   />
-                  <div className={cs(globalStyles.textRight, styles.font14)}>
-                    Character Limit: {250 - textarea.length} / 250
-                  </div>
-                </div>
-              )}
-              {giftwrap && !basket.isOnlyGiftCart && giftShowPrice}
-              {!basket.isOnlyGiftCart && <hr className={styles.hr} />}
-            </>
-          )}
-          <div className={globalStyles.marginT20}>
-            {!basket.isOnlyGiftCart && (
-              <div className={globalStyles.flex}>
-                <hr className={styles.hr} />
+                )}
+                <span className={isActive ? "" : styles.closed}>
+                  CERISE LOYALTY POINTS
+                </span>
+              </div>
+
+              <div className={styles.redeemUnavailableMessageWrapper}>
+                <p className={styles.redeemUnavailableMessage}>
+                  We are upgrading our Cerise program and will be back soon! You
+                  will continue to earn points for all transactions during this
+                  period - these will reflect once the upgrade is complete.
+                  Please note that you will not be able to redeem any points
+                  during this time.
+                </p>
+              </div>
+              {/* Temporary commented code for downtime */}
+              {/* {loyalty?.[0]?.points && (
                 <div
                   className={cs(
-                    styles.marginR10,
-                    globalStyles.cerise,
-                    globalStyles.pointer
+                    styles.col12,
+                    bootstrapStyles.colMd6,
+                    styles.selectedStvalue,
+                    styles.cerisePointsWrapper
                   )}
-                  onClick={toggleInput}
                 >
-                  {isactivepromo ? "-" : "+"}
-                </div>
-                <div className={styles.inputContainer}>
-                  <div
-                    className={cs(
-                      globalStyles.c10LR,
-                      styles.promoMargin,
-                      globalStyles.cerise,
-                      globalStyles.pointer
-                    )}
-                    onClick={toggleInput}
-                  >
-                    APPLY GIFT CARD CODE/ CREDIT NOTE
-                  </div>
-                  {isactivepromo ? <ApplyGiftcard /> : ""}
-                  {/* {renderInput()}
-                {renderCoupon()} */}
-                </div>
-              </div>
-            )}
-
-            {loyaltyData?.detail && currency == "INR" && (
-              <Fragment>
-                <hr className={styles.hr} />
-                <div className={bootstrapStyles.row}>
-                  <div
-                    className={cs(
-                      bootstrapStyles.col12,
-                      bootstrapStyles.colMd6,
-                      styles.title
-                    )}
-                  >
-                    <span className={isActive ? "" : styles.closed}>
-                      REDEEM CERISE POINTS
+                  <span className={styles.marginR10}>
+                    <span className={styles.redeemPoints}>
+                      {loyalty?.[0]?.points} CERISE POINTS
                     </span>
-                  </div>
-                </div>
-                {/* //================Temporary commentetd==================// */}
-                {/* <hr className={styles.hr} /> */}
-                {/* <div className={cs(globalStyles.flex, styles.disabled)}>
-                  <div
-                    className={cs(
-                      styles.marginR10,
-                      globalStyles.cerise,
-                      globalStyles.pointer,
-                      styles.nonePointerEvent
-                    )}
-                    onClick={toggleInputReedem}
+                    <span className={styles.promoCodeApplied}>Redeemed</span>
+                    <span className={styles.redeemPointsText}>
+                      You have successfully redeemed your Cerise Points
+                    </span>
+                  </span>
+                  <span
+                    className={cs(globalStyles.pointer, styles.promoEdit)}
+                    onClick={() => removeRedeem(history, isLoggedIn)}
                   >
-                    {isactiveredeem ? "-" : "+"}
-                  </div>
-                  <div className={styles.inputContainer}>
-                    <div
-                      className={cs(
-                        globalStyles.c10LR,
-                        styles.promoMargin,
-                        globalStyles.cerise,
-                        globalStyles.pointer,
-                        styles.nonePointerEvent
-                      )}
-                      onClick={toggleInputReedem}
-                    >
-                      REDEEM CERISE POINTS
-                    </div>
-                    {isactiveredeem ? <Reedem /> : ""}
-                  </div>
-                </div> */}
-                <div className={styles.redeemUnavailableMessageWrapper}>
-                  <p className={styles.redeemUnavailableMessage}>
-                    We are upgrading our Cerise program and will be back soon!
-                    You will continue to earn points for all transactions during
-                    this period - these will reflect once the upgrade is
-                    complete. Please note that you will not be able to redeem
-                    any points during this time.
-                  </p>
+                    REMOVE
+                  </span>
                 </div>
-              </Fragment>
-            )}
+              )} */}
+            </div>
+            {/* Temporary commented code for downtime */}
 
-            {isPaymentNeeded && <hr className={styles.hr} />}
-            {isPaymentNeeded && (
+            {/* {loyalty?.[0]?.points || !isActive ? null : (
+              <>
+                <hr className={styles.hr} />
+                <div className={globalStyles.flex}>
+                  <div className={styles.inputContainer}>
+                    <label
+                      className={cs(
+                        globalStyles.flex,
+                        globalStyles.crossCenter
+                      )}
+                    >
+                      <div className={styles.marginR10}>
+                        <span className={styles.checkbox}>
+                          <input
+                            type="radio"
+                            checked={isactiveredeem}
+                            onClick={() => {
+                              toggleInputReedem();
+                            }}
+                          />
+                          <span
+                            className={cs(styles.indicator, {
+                              [styles.checked]: isactiveredeem
+                            })}
+                          ></span>
+                        </span>
+                      </div>
+                      <div
+                        className={cs(
+                          styles.formSubheading,
+                          styles.checkBoxHeading
+                        )}
+                      >
+                        See my balance & redeem points
+                      </div>
+                    </label>
+                  </div>
+                </div>
+              </>
+            )} */}
+          </Fragment>
+        </div>
+      )}
+
+      {(!basket.isOnlyGiftCart || !isActive) && (
+        <div
+          className={
+            isActive
+              ? cs(styles.card, styles.cardOpen, styles.marginT5)
+              : mobile
+              ? styles.hidden
+              : cs(styles.card, styles.cardClosed, styles.marginT5)
+          }
+        >
+          <div className={bootstrapStyles.row}>
+            <div
+              className={cs(
+                bootstrapStyles.col12,
+                bootstrapStyles.colMd6,
+                styles.title
+              )}
+            >
+              <span className={isActive ? "" : styles.closed}>
+                GIFTING & PAYMENT
+              </span>
+            </div>
+          </div>
+          {isActive && (
+            <Fragment>
+              {showGiftWrap && (
+                <>
+                  {!basket.isOnlyGiftCart && giftWrapRender}
+                  {giftwrap && !basket.isOnlyGiftCart && (
+                    <div className={styles.giftWrapMessage}>
+                      <textarea
+                        rows={5}
+                        className={styles.giftMessage}
+                        value={textarea}
+                        placeholder={"Add message (optional)"}
+                        autoComplete="new-password"
+                        onChange={(e: any) => {
+                          if (e.target.value.length <= 250) {
+                            setTextarea(e.target.value);
+                          } else if (e.target.value.length >= 250) {
+                            setTextarea(e.target.value.substring(0, 250));
+                          }
+                        }}
+                      />
+                      <div
+                        className={cs(
+                          globalStyles.textLeft,
+                          styles.font14,
+                          styles.charLimitText
+                        )}
+                      >
+                        Char Limit: {250 - textarea.length}/250
+                      </div>
+                    </div>
+                  )}
+                  {giftwrap && !basket.isOnlyGiftCart && giftShowPrice}
+                  {!basket.isOnlyGiftCart && <hr className={styles.hr} />}
+                </>
+              )}
+              <div className={globalStyles.marginT20}>
+                {!basket.isOnlyGiftCart && (
+                  <div className={globalStyles.flex}>
+                    <hr className={styles.hr} />
+
+                    <div className={styles.inputContainer}>
+                      <label
+                        className={cs(
+                          globalStyles.flex,
+                          globalStyles.crossCenter
+                        )}
+                      >
+                        <div className={styles.marginR10}>
+                          <span className={styles.checkbox}>
+                            <input
+                              type="radio"
+                              checked={isactivepromo}
+                              onClick={() => {
+                                toggleInput();
+                              }}
+                            />
+                            <span
+                              className={cs(styles.indicator, {
+                                [styles.checked]: isactivepromo
+                              })}
+                            ></span>
+                          </span>
+                        </div>
+                        <div className={cs(styles.formSubheading)}>
+                          {"Apply Gift Card Code/ Credit Note"}
+                        </div>
+                      </label>
+                      {isactivepromo ? (
+                        <ApplyGiftcard
+                          onRef={(e1: any) => {
+                            PaymentChild = e1;
+                          }}
+                        />
+                      ) : (
+                        ""
+                      )}
+                    </div>
+                  </div>
+                )}
+
+                {/* {isPaymentNeeded && <hr className={styles.hr} />} */}
+                {/* {isPaymentNeeded && (
               <div className={globalStyles.marginT30}>
                 <div className={styles.title}>SELECT YOUR MODE OF PAYMENT</div>
                 {getMethods.map(function(method, index) {
@@ -502,10 +877,10 @@ const PaymentSection: React.FC<PaymentProps> = props => {
                   );
                 })}
               </div>
-            )}
-          </div>
+            )} */}
+              </div>
 
-          <div
+              {/* <div
             className={cs(globalStyles.errorMsg, globalStyles.marginT20)}
             data-name="error-msg"
           >
@@ -513,6 +888,31 @@ const PaymentSection: React.FC<PaymentProps> = props => {
           </div>
           <div>
             <hr className={styles.hr} />
+            {CONFIG.WHATSAPP_SUBSCRIBE_ENABLED && (
+              <div className={styles.loginForm}>
+                <div className={styles.categorylabel}>
+                  <WhatsappSubscribe
+                    data={preferenceData}
+                    innerRef={whatsappCheckRef}
+                    isdList={isdList}
+                    showTermsMessage={false}
+                    showTooltip={true}
+                    showManageMsg={true}
+                    showPhone={true}
+                    whatsappClass={styles.whatsapp}
+                    countryCodeClass={styles.countryCode}
+                    checkboxLabelClass={styles.checkboxLabel}
+                    allowUpdate={true}
+                    uniqueKey={"paymentid123"}
+                    oneLineMessage={!mobile}
+                    whatsappFormRef={whatsappFormRef}
+                    whatsappNoErr={whatsappNoErr}
+                    countryData={countryData}
+                  />
+                </div>
+                {/* <div className={styles.whatsappNoErr}>{whatsappNoErr}</div> */}
+              {/*</div>
+            )}
           </div>
           <label
             className={cs(
@@ -547,8 +947,8 @@ const PaymentSection: React.FC<PaymentProps> = props => {
                 </Link>
               </label>
             </div>
-          </label>
-          {/* {currency == "GBP" && (
+          </label> */}
+              {/* {currency == "GBP" && (
             <label
               className={cs(
                 globalStyles.flex,
@@ -593,7 +993,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
           >
             {gbpError}
           </div> */}
-          {isLoading && <Loader />}
+              {/* {isLoading && <Loader />}
           <button
             className={cs(globalStyles.marginT10, globalStyles.ceriseBtn, {
               [globalStyles.disabledBtn]: isLoading
@@ -606,10 +1006,196 @@ const PaymentSection: React.FC<PaymentProps> = props => {
                 ? "PROCEED TO PAYMENT GATEWAY"
                 : "PROCEED TO A SECURE PAYMENT GATEWAY"
               : "PLACE ORDER"}
-          </button>
-        </Fragment>
+          </button> */}
+            </Fragment>
+          )}
+        </div>
       )}
-    </div>
+
+      {isActive && (
+        <>
+          <div
+            className={
+              isActive
+                ? cs(styles.card, styles.cardOpen, styles.marginT5)
+                : cs(styles.card, styles.cardClosed, styles.marginT5)
+            }
+            id="payment-section"
+          >
+            {isPaymentNeeded && (
+              <div>
+                <div className={styles.title}>SELECT PAYMENT METHOD</div>
+                {getMethods.map(function(method, index) {
+                  return (
+                    <div className={globalStyles.marginT20} key={index}>
+                      <label
+                        className={cs(
+                          globalStyles.flex,
+                          globalStyles.crossCenter
+                        )}
+                      >
+                        <div className={styles.marginR10}>
+                          <span className={styles.radio}>
+                            <input
+                              type="radio"
+                              value={method.mode}
+                              checked={
+                                method.mode == currentmethod.mode ? true : false
+                              }
+                              onChange={event => onMethodChange(event, method)}
+                            />
+                            <span className={styles.indicator}></span>
+                          </span>
+                        </div>
+                        <div
+                          className={cs(styles.paymentTitle, {
+                            [styles.selectedValue]:
+                              method.mode == currentmethod.mode
+                          })}
+                        >
+                          {method.value}
+                        </div>
+                      </label>
+                    </div>
+                  );
+                })}
+
+                <div
+                  className={cs(globalStyles.errorMsg, globalStyles.marginT20)}
+                  data-name="error-msg"
+                >
+                  {paymentError}
+                </div>
+                <div>
+                  <hr className={styles.hr} />
+                  {CONFIG.WHATSAPP_SUBSCRIBE_ENABLED && (
+                    <div className={styles.loginForm}>
+                      <div className={styles.categorylabel}>
+                        <WhatsappSubscribe
+                          data={preferenceData}
+                          innerRef={whatsappCheckRef}
+                          isdList={isdList}
+                          showTermsMessage={false}
+                          showTooltip={true}
+                          showManageMsg={true}
+                          showPhone={true}
+                          whatsappClass={styles.whatsapp}
+                          countryCodeClass={styles.countryCode}
+                          checkboxLabelClass={styles.checkboxLabel}
+                          allowUpdate={true}
+                          uniqueKey={"paymentid123"}
+                          oneLineMessage={!mobile || tablet}
+                          whatsappFormRef={whatsappFormRef}
+                          whatsappNoErr={whatsappNoErr}
+                          countryData={countryData}
+                        />
+                      </div>
+                      {/* <div className={styles.whatsappNoErr}>
+                        {whatsappNoErr}
+                      </div> */}
+                    </div>
+                  )}
+                </div>
+                <label
+                  className={cs(
+                    globalStyles.flex,
+                    { [globalStyles.crossCenter]: !mobile },
+                    globalStyles.voffset2
+                  )}
+                >
+                  <div className={styles.marginR10}>
+                    <span className={styles.checkbox}>
+                      <input
+                        type="checkbox"
+                        id="subscribe"
+                        onChange={e => {
+                          onClickSubscribe(e);
+                        }}
+                        checked={subscribevalue}
+                      />
+                      <span
+                        className={cs(styles.indicator, {
+                          [styles.checked]: subscribevalue
+                        })}
+                      ></span>
+                    </span>
+                  </div>
+                  <div className={globalStyles.c10LR}>
+                    <label
+                      htmlFor="subscribe"
+                      className={cs(
+                        globalStyles.pointer,
+                        styles.linkCerise,
+                        styles.formSubheading,
+                        styles.checkBoxHeading,
+                        styles.agreeTermsAndCondition
+                      )}
+                    >
+                      I agree to receiving e-mails, newsletters, calls and text
+                      messages for service related information. To know more how
+                      we keep your data safe, refer to our{" "}
+                      <Link
+                        to="/customer-assistance/privacy-policy"
+                        target="_blank"
+                        className="privacyPolicyAgreement"
+                      >
+                        Privacy Policy
+                      </Link>
+                    </label>
+                  </div>
+                </label>
+              </div>
+            )}
+            {isLoading && <Loader />}
+            {!checkoutMobileOrderSummary && (
+              <button
+                ref={PaymentButton}
+                className={cs(
+                  globalStyles.marginT10,
+                  styles.sendToPayment,
+                  styles.proceedToPayment,
+                  {
+                    [styles.disabledBtn]:
+                      isLoading || Object.keys(currentmethod).length === 0
+                  }
+                )}
+                onClick={onsubmit}
+                disabled={isLoading}
+              >
+                <span>
+                  Amount Payable:{" "}
+                  {displayPriceWithCommasFloat(
+                    basket?.total?.toString(),
+                    currency
+                  )}
+                  {/* {parseFloat(basket?.total?.toString()).toFixed(2)} */}
+                  <br />
+                </span>
+                {isPaymentNeeded ? "PROCEED TO PAYMENT" : "PLACE ORDER"}
+              </button>
+            )}
+          </div>
+          {mobile && (
+            <OrderSummary
+              mobile={mobile}
+              currency={currency}
+              shippingAddress={shippingAddress}
+              salestatus={salestatus}
+              validbo={false}
+              basket={basket}
+              page="checkoutMobileBottom"
+              setCheckoutMobileOrderSummary={setCheckoutMobileOrderSummary}
+              isLoading={isLoading}
+              currentmethod={currentmethod}
+              isPaymentNeeded={isPaymentNeeded}
+              onsubmit={onsubmit}
+              checkoutMobileOrderSummary={checkoutMobileOrderSummary}
+              tablet={tablet}
+            />
+          )}
+        </>
+      )}
+    </>
   );
 };
 

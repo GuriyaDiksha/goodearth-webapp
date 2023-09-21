@@ -67,6 +67,7 @@
       position: sticky;
       top: 0;
       z-index: 1;
+      left: 0;
   
       .heading {
         font-family: $font-Lato;
@@ -171,7 +172,7 @@
     display: -webkit-flex;
     display: flex;
     cursor: default;
-    margin-top: 30px;
+    // margin-top: 30px;
     overflow-y: auto;
     overflow-x: hidden;
     &.hide-scroll {

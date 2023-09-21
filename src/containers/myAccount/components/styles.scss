@@ -1,5 +1,6 @@
 @import "../../../styles/partials/form";
 @import "../../../styles/partials/mixins";
+@import "../../../styles/partials/variables";
 
 input[type="text"]{
   height: 50px !important;
@@ -17,6 +18,13 @@ input[type="text"]{
   line-height: 20px;
   &.track-order{
     padding: 0px 100px
+  }
+}
+.activategc-subheading{
+  width: 65%;
+  margin: 10px auto 30px auto;
+  @media screen  and (max-width: 992px){
+    width: 70%;
   }
 }
 @media screen  and (max-width: 992px){
@@ -51,6 +59,12 @@ input[type="text"]{
 
 .form-heading-multi {
   line-height: 36px;
+}
+
+.active-acc-subhead {
+  width: 60%;
+  margin: auto;
+  margin-bottom: 10px;
 }
 
 .icon-signedin {
@@ -279,7 +293,7 @@ input[type="text"]{
           background-color: #fff;
           border: 1px solid #888;
           border-radius: 50%;
-          padding: 20px 0;
+          // padding: 20px 0;
         }
       }
       min-height: 160px;
@@ -538,8 +552,9 @@ input[type="text"]{
   }
   input[type="text"], input[type="date"], input[type="password"], input[type="number"]{
     font-family: $font-Montserrat;
-    font-size: 12px;
+    font-size: 12px !important;
     font-weight: $regular;
+    padding: 10px !important;
     &::placeholder{
       font-family: $font-Montserrat;
       font-size: 12px;
@@ -550,7 +565,8 @@ input[type="text"]{
       font-size: 12px;
     }
     &:focus{
-      font-size: 12px;
+      font-size: 12px !important;
+      padding: 10px !important;
     }
   }
   select{
@@ -663,7 +679,7 @@ input[type="text"]{
 }
 .gift-display{
   display: block !important;
-  margin-bottom: 27px;
+  margin-bottom: 20px;
   margin-top: 30px;
   // padding-left: 20px;
 }
@@ -794,7 +810,7 @@ input[type="text"]{
   line-height: 15px;
   text-align: left;
   margin-bottom: 10px;
-  background-color: white;
+  // background-color: white;
 }
 
 .password-validation {
@@ -929,6 +945,14 @@ input[type="text"]{
 .country-code{
   display: flex;
   justify-content: space-between;
+  >div {
+    width: 30%;
+    position: relative;
+    +div {
+      width: 65%;
+      position: relative;
+    }
+  }
 }
 
 .charcoal-btn{
@@ -943,14 +967,16 @@ input[type="text"]{
   border-radius: 0;
   cursor: pointer;
   &:hover{
+    @media screen and (min-width:992px) {
     color: #191919;
     background-color: #fff;
-    border: 1px solid #4C4C4C;
+    border: 1px solid #4C4C4C;}
   }
   &.disabled-btn{
     color: #fff;
     background-color: #9f9f9f;
     border: 1px solid #9f9f9f;
+    cursor: unset;
   }
 }
 
@@ -1330,7 +1356,11 @@ input[type="text"]{
         }
       }
     }
+    &.myorders-addressblock{
+      word-wrap: break-word;
+    }
   }
+  
   .product{
     padding: 30px;
     display: flex;
@@ -1435,5 +1465,90 @@ input[type="text"]{
         color: $gold;
       }
     }
+  }
+}
+
+.my-pref-container{
+  padding: 0px 18%;
+  max-width: 600px;
+  margin: auto;
+  @media screen and (max-width: 991px){
+    padding: 0px 5%;
+  }
+  .content{
+    @include b5_10px_montserrat_charcoal();
+    line-height: 16px;
+    letter-spacing: 0.3px;
+    text-align: left;
+    .checkbox-label{
+      @include b4_12px_montserrat_charcoal();
+      line-height: 22px;
+      letter-spacing: 0.3px;
+      text-align: left;
+      margin-bottom: 10px;
+      left: 0;
+      padding: 0px;
+      img{
+        height: 12px;
+        margin-left: 5px;
+      }
+    }
+    .whatsapp{
+      margin-bottom: 25px;
+      padding-bottom: 25px;
+      .country-code{
+        margin: 15px 0px;
+      }
+    }
+    .newsletters{
+      padding-top: 30px;
+      margin-bottom: 30px;
+      border-top: 2px solid black;
+      margin-top: 25px;
+    }
+    .save-pref-btn{
+      margin-top: 25px;
+    }
+    a {
+      color: $charcoal19;
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+  }
+}
+
+.isd-code{
+  height: auto;
+  padding: 10px;
+  border-bottom: 1px solid #d8d8d8;
+  cursor: pointer;
+  text-align: left;
+  @include b5_10px_montserrat_light_charcoal();
+  letter-spacing: 0.36px;
+  display: flex;
+  align-items: center;
+  font-weight: 300 !important;
+  &:hover{
+    font-weight: 400 !important;
+    @include b5_10px_montserrat_charcoal();
+  }
+  &.aqua-text{
+    @include b5_10px_montserrat_aqua();
+  }
+}  
+
+img.country-code-search-icon{
+  width: 15px;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 10px;
+}
+
+input[type="text"].country-code-search-input{
+  padding-left: 30px !important;
+  height: 40px !important;
+  &:focus{
+    padding-left: 30px !important;
   }
 }

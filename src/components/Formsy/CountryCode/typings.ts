@@ -11,8 +11,13 @@ export type Props = {
   disable?: boolean;
   placeholder: string;
   value: string;
-  handleChange?: (event: React.ChangeEvent) => void;
+  handleChange?: (event: React.ChangeEvent, newValue?: string) => void;
   showLabel?: boolean;
+  innerRef?: any;
+  name: string;
+  autocomplete?: string;
+  hideArrow?: boolean;
+  onCountrySelect: (value: any) => void;
 };
 
 export type Country = {
@@ -27,3 +32,5 @@ export type Country = {
   ];
   isdCode?: string;
 };
+
+export type AddressMode = "new" | "edit" | "list";

@@ -26,9 +26,14 @@ import myAccountStyles from "containers/myAccount/styles.scss";
 import CookieService from "services/cookie";
 import { GA_CALLS } from "constants/cookieConsent";
 import styles from "../styles.scss";
-// import AddressDataList from "../../../../components/Address/AddressDataList.json";
-
-// import AddressMainComponent from '../../components/common/address/addressMain';
+import WhatsappSubscribe from "components/WhatsappSubscribe";
+import Formsy from "formsy-react";
+import { updateAddressMode, updateSameAsShipping } from "actions/address";
+import { CONFIG } from "constants/util";
+import {
+  updateBillingAddressId,
+  updateShippingAddressId
+} from "actions/address";
 
 const AddressMain: React.FC<Props> = props => {
   // data: [],
@@ -37,20 +42,31 @@ const AddressMain: React.FC<Props> = props => {
   // editMode: false
   const [showDefaultAddressOnly] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const { addressList } = useSelector((state: AppState) => state.address);
+  const { addressList, sameAsShipping } = useSelector(
+    (state: AppState) => state.address
+  );
   const [editAddressData, setEditAddressData] = useState<AddressData>();
-  const { pinCodeData } = useSelector((state: AppState) => state.address);
+  const { pinCodeData, countryData, mode } = useSelector(
+    (state: AppState) => state.address
+  );
   const { bridal } = useSelector((state: AppState) => state.basket);
+  const { user } = useSelector((state: AppState) => state);
   const [scrollPos, setScrollPos] = useState<null | number>(null);
   const [innerScrollPos, setInnerScrollPos] = useState<null | number>(null);
   // const { isLoggedIn } = useSelector((state: AppState) => state.user);
   // const [ pincodeList, setPincodeList ] = useState([]);
+  const [isdList, setIsdList] = useState<any>([]);
+  const { currentCallBackComponent } = props;
+
   const {
     data: { userAddress, occasion }
   } = useContext(BridalContext);
 
   const dispatch = useDispatch();
 
+  const setMode = (value: AddressModes) => {
+    dispatch(updateAddressMode(value));
+  };
   useEffect(() => {
     if (props.currentCallBackComponent == "bridal") {
       const userConsent = CookieService.getCookie("consent").split(",");
@@ -64,13 +80,24 @@ const AddressMain: React.FC<Props> = props => {
       }
     }
   }, []);
-  const [mode, setMode] = useState<AddressModes>("list");
+  // const [mode, setMode] = useState<AddressModes>("list");
 
   useEffect(() => {
     if (Object.keys(pinCodeData).length > 0) {
-      addressList.length == 0 ? setMode("new") : setMode("list");
+      addressList.length == 0
+        ? dispatch(updateAddressMode("new"))
+        : dispatch(updateAddressMode("list"));
     }
   }, [addressList.length, Object.keys(pinCodeData).length]);
+
+  // useEffect(()=>{
+  //   if(currentCallBackComponent === "checkout-shipping"){
+  //     dispatch(updateShippingAddressId(props.selectedAddress?.id || 0));
+  //   }
+  //   if(currentCallBackComponent === "checkout-billing"){
+  //     dispatch(updateBillingAddressId(props.selectedAddress?.id || 0));
+  //   }
+  // },[props.selectedAddress])
 
   // useEffect(() => {
   //   (addressList.length) && openAddressForm()
@@ -149,7 +176,14 @@ const AddressMain: React.FC<Props> = props => {
     // }
     if (address) {
       setEditAddressData(address);
-      setMode("edit");
+      dataLayer.push({
+        event: "edit_address",
+        click_type:
+          currentCallBackComponent === "checkout-shipping"
+            ? "Shipping"
+            : "Billing"
+      });
+      dispatch(updateAddressMode("edit"));
       setScrollPos(window.scrollY);
       const elem = document.getElementsByClassName(
         myAccountStyles.accountFormBgMobile
@@ -158,7 +192,7 @@ const AddressMain: React.FC<Props> = props => {
         setInnerScrollPos(elem.scrollTop);
       }
     } else {
-      setMode("new");
+      dispatch(updateAddressMode("new"));
       // setEditAddressData(null);
     }
   }, []);
@@ -207,7 +241,7 @@ const AddressMain: React.FC<Props> = props => {
     return isValid;
   };
 
-  const markAsDefault = (addressData: AddressData) => {
+  const markAsDefault = (addressData: AddressData, addressId?: number) => {
     const { country } = addressData;
     const isValid = isAddressValid(addressData);
     if (isValid) {
@@ -225,7 +259,8 @@ const AddressMain: React.FC<Props> = props => {
         isDefaultForBilling,
         line1,
         line2,
-        state
+        state,
+        addressType
       } = addressData;
 
       const formData: AddressFormData = {
@@ -241,24 +276,41 @@ const AddressMain: React.FC<Props> = props => {
         isDefaultForBilling,
         line1,
         line2,
-        state
+        state,
+        addressType
       };
 
-      AddressService.updateAddress(dispatch, formData, id)
-        .catch(err => {
-          const errData = err.response.data;
-          console.log(errData);
-        })
-        .finally(() => {
-          setIsLoading(false);
-        });
+      if (currentCallBackComponent === "checkout-shipping" && addressId) {
+        dispatch(updateShippingAddressId(addressId));
+        if (!props.isGoodearthShipping && !props.isBridal && sameAsShipping) {
+          dispatch(updateBillingAddressId(addressId));
+        }
+        dispatch(
+          updateSameAsShipping(
+            !props.isGoodearthShipping && !props.isBridal && sameAsShipping
+          )
+        );
+        setIsLoading(false);
+      } else if (currentCallBackComponent === "checkout-billing" && addressId) {
+        dispatch(updateBillingAddressId(addressId));
+        setIsLoading(false);
+      } else {
+        AddressService.updateAddress(dispatch, formData, id, addressId)
+          .catch(err => {
+            const errData = err.response.data;
+            console.log(errData);
+          })
+          .finally(() => {
+            setIsLoading(false);
+          });
+      }
     } else {
       openAddressForm(addressData);
     }
   };
 
   const closeAddressForm = useCallback(() => {
-    setMode("list");
+    dispatch(updateAddressMode("list"));
     // window.scrollTo(0, 0);
   }, []);
 
@@ -268,7 +320,13 @@ const AddressMain: React.FC<Props> = props => {
     },
     [pinCodeData]
   );
-  const { currentCallBackComponent } = props;
+
+  useEffect(() => {
+    const isdList = countryData.map(list => {
+      return list.isdCode;
+    });
+    setIsdList(isdList);
+  }, [countryData]);
   const addressContent = (
     <>
       {mode == "list" && (
@@ -301,6 +359,38 @@ const AddressMain: React.FC<Props> = props => {
               currentCallBackComponent
             )}
           />
+
+          {currentCallBackComponent == "bridal" &&
+            CONFIG.WHATSAPP_SUBSCRIBE_ENABLED && (
+              <div className={styles.loginForm}>
+                <Formsy>
+                  <div className={styles.categorylabel}>
+                    <div className={styles.subscribe}>
+                      <WhatsappSubscribe
+                        data={user.preferenceData}
+                        innerRef={props.innerRef}
+                        isdList={isdList}
+                        showTermsMessage={false}
+                        showTooltip={true}
+                        showManageMsg={true}
+                        showPhone={true}
+                        whatsappClass={styles.whatsapp}
+                        countryCodeClass={styles.countryCode}
+                        checkboxLabelClass={styles.checkboxLabel}
+                        allowUpdate={true}
+                        uniqueKey={"addressid123"}
+                        whatsappFormRef={props.whatsappFormRef}
+                        whatsappNoErr={props.whatsappNoError}
+                        countryData={countryData}
+                      />
+                    </div>
+                    {/* <div className={styles.whatsappNoErr}>
+                      {props.whatsappNoError}
+                    </div> */}
+                  </div>
+                </Formsy>
+              </div>
+            )}
 
           {!showDefaultAddressOnly &&
             (currentCallBackComponent == "account" ||
@@ -432,6 +522,7 @@ const AddressMain: React.FC<Props> = props => {
             error={props.error}
             errorNotification={props.errorNotification}
             isBridal={bridal}
+            currentStep={props.currentStep}
           >
             {addressContent}
           </AddressSection>
@@ -484,6 +575,7 @@ const AddressMain: React.FC<Props> = props => {
             error={props.error}
             errorNotification={props.errorNotification}
             isBridal={bridal}
+            currentStep={props.currentStep}
           >
             {addressContent}
           </AddressSection>

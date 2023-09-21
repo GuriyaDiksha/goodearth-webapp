@@ -143,7 +143,7 @@ class Cust extends React.Component<
           {this.props?.path === "/customer-assistance/cookie-policy" &&
           !OLD_COOKIE_SETTINGS ? (
             <div className={styles.cookie} onClick={() => this.showPref()}>
-              MANAGE COOKIE PREFRENCES
+              MANAGE COOKIE PREFERENCES
             </div>
           ) : null}
         </div>

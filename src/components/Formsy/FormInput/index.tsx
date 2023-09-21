@@ -84,6 +84,8 @@ const FormInput: React.FC<Props & InjectedProps<string | null>> = props => {
         return "Plese enter registrant's name";
       case "coRegistrantName":
         return "Please enter co-registrant's name";
+      case "registryName":
+        return "Please enter registry name";
       case "recipientName":
         return "Please enter Recipient's Name";
       case "recipientEmailConfirm":
@@ -105,17 +107,27 @@ const FormInput: React.FC<Props & InjectedProps<string | null>> = props => {
         return "Please enter your Address";
       case "publication":
         return "Please enter publication name";
+      case "whatsappNo":
+        return "";
       default:
         return "This field is required";
     }
   }, []);
-  const errorMessage = props.disable
+  let errorMessage = props.disable
     ? ""
     : props.errorMessage
     ? props.errorMessage
     : !props.isPristine && !props.isValid
     ? getRequiredErrorMessage(props.name)
+    : props.error
+    ? props.error
     : "";
+
+  if (props.noErrOnPristine) {
+    if (props.isPristine) {
+      errorMessage = "";
+    }
+  }
 
   return (
     <div className={props.className}>

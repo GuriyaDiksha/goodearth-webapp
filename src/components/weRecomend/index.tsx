@@ -9,7 +9,7 @@ import "slick-carousel/slick/slick-theme.css";
 import "../../styles/myslick.css";
 import "./slick.css";
 
-import { Currency, currencyCode } from "../../typings/currency";
+import { Currency } from "../../typings/currency";
 import { RecommendData, RecommenedSliderProps } from "./typings";
 import Slider from "react-slick";
 import WishlistButton from "components/WishlistButton";
@@ -31,7 +31,6 @@ const WeRecommend: React.FC<RecommenedSliderProps> = (
     isSale,
     corporatePDP
   } = props;
-  const code = currencyCode[currency as Currency];
   const [currentId, setCurrentId] = useState(-1);
   const gtmPushWeRecommendClick = (e: any, data: RecommendData, i: number) => {
     try {
@@ -158,7 +157,6 @@ const WeRecommend: React.FC<RecommenedSliderProps> = (
             <p className={styles.productN}>
               {isSale && item.discount ? (
                 <span className={styles.discountprice}>
-                  {String.fromCharCode(...code)}{" "}
                   {displayPriceWithCommas(
                     item.discountedPriceRecords[currency as Currency],
                     currency
@@ -170,7 +168,6 @@ const WeRecommend: React.FC<RecommenedSliderProps> = (
               {isSale && item.discount ? (
                 <span className={styles.strikeprice}>
                   {" "}
-                  {String.fromCharCode(...code)}{" "}
                   {displayPriceWithCommas(
                     item.pricerecords[currency as Currency],
                     currency
@@ -183,7 +180,6 @@ const WeRecommend: React.FC<RecommenedSliderProps> = (
                   }
                 >
                   {" "}
-                  {String.fromCharCode(...code)}{" "}
                   {displayPriceWithCommas(
                     item.pricerecords[currency as Currency],
                     currency
@@ -201,6 +197,7 @@ const WeRecommend: React.FC<RecommenedSliderProps> = (
     <Fragment>
       {items.length > 0 && (
         <div
+          id="more_collection_div"
           className={cs(
             styles.recommendBg,
             bootstrapStyles.colMd12,

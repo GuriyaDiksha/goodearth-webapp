@@ -1,6 +1,10 @@
 @import "../../styles/partials/variables";
 @import "../../styles/partials/mixins";
 
+html {
+    scroll-behavior: smooth;
+}
+
 $sale-timer-height:40px;
 $banner-desktop-height:440px;
 $banner-mobile-height:500px;
@@ -56,6 +60,17 @@ $banner-mobile-height:500px;
             align-items: center;
             justify-content: center;
             column-gap: 53px;
+            .slider{
+                display:inline-block;
+                width:100px;
+                height:4px;
+                border-radius:3px;
+                background-color:$aqua;
+                position:absolute;
+                z-index:1200;
+                bottom:0;
+                transition:all .3s linear;
+            }
             .item {
                 width: 100px;
                 text-align: center;
@@ -65,7 +80,6 @@ $banner-mobile-height:500px;
                 cursor: pointer;
                 &.active{
                     color: $aqua-bold;
-                    border-bottom: 5px solid $aqua;
                 }
             }
         }
@@ -142,7 +156,7 @@ $banner-mobile-height:500px;
                         margin-bottom: 20px;
                         overflow: auto;
                         .address{
-                            width: 200px;
+                            width: 180px;
                             border-right: 1px solid #E5E5E5;
                             padding-right: 25px;
                             margin-right: 25px;
@@ -172,7 +186,7 @@ $banner-mobile-height:500px;
                         letter-spacing: 0.36px;
                         margin-bottom: 40px;
                         .shopper-name{
-                            width: 200px;
+                            width: 180px;
                             border-right: 1px solid #E5E5E5;
                             padding-right: 25px;
                             margin-right: 25px;
@@ -284,8 +298,12 @@ $banner-mobile-height:500px;
                         }
                         .address-block{
                             justify-content: space-between;
+                            @media screen and (min-width: 768px){
+                                justify-content: unset;
+                                gap: 70px;
+                            }
                             .phone{
-                                text-align: right;
+                                text-align: left;
                                 a {
                                     color: #191919;
                                 }
@@ -293,6 +311,10 @@ $banner-mobile-height:500px;
                         }
                         .shopper-block{
                             justify-content: space-between;
+                            @media screen and (min-width: 481px){
+                                justify-content: unset;
+                                gap: 70px;
+                            }
                             .phone{
                                 text-align: right;
                                 a {

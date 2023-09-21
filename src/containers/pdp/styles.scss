@@ -2,7 +2,7 @@
 @import "../../styles/partials/variables";
 @import "../../styles/partials/mixins";
 
-$pdp-top: $header-height + $secondary-header-height;
+$pdp-top: $header-height;
 
 .pdp-container {
     margin-top: $header-height - 40px;;
@@ -97,6 +97,23 @@ $pdp-top: $header-height + $secondary-header-height;
 
     .product-image{
         position: relative;
+        // .product-video{
+        //     width: 100%;
+
+        //     div{
+        //         aspect-ratio: 4/7;
+        //     }
+            
+        // }
+            .video-wrp{
+                height: 100%;
+                width: 100%;
+                video{
+                    height: auto;
+                    width: 100%
+                }
+            }
+       
         .view-in-btn{
             @include view_in_btn();
         }
@@ -349,6 +366,7 @@ input[type="time"]::-webkit-calendar-picker-indicator{
     bottom: 10px;
     left: 10px;
     width: 50px;
+    filter: drop-shadow(1px 1px 10px #909090);
 }
 .tab-helloicon {
     width: 70px;
@@ -480,4 +498,24 @@ input[type="time"]::-webkit-calendar-picker-indicator{
 
 .mobile-hello-ar-popup{
     height: 90%;
+}
+
+.video-div{
+    height: 100%;
+    .video-wrp{
+        height: 100%;
+        width: 100%;
+        video{
+            height: auto;
+            width: 100%;
+        }
+    }
+    
+}
+
+.overlay-div{
+    background: transparent;
+    position: absolute;
+    width: 100%;
+    height: 100%;
 }

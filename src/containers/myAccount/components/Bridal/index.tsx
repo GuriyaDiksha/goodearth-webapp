@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useRef } from "react";
 import { AddressData } from "components/Address/typings";
 import { useSelector, useDispatch } from "react-redux";
 import { AppState } from "reducers/typings";
@@ -25,6 +25,11 @@ import { useHistory } from "react-router";
 import { showGrowlMessage } from "utils/validate";
 import CookieService from "services/cookie";
 import { GA_CALLS } from "constants/cookieConsent";
+import AccountService from "services/account";
+import LoginService from "services/login";
+import { updatePreferenceData } from "actions/user";
+import Formsy from "formsy-react";
+import { updateNextUrl } from "actions/info";
 // import globalStyles from "styles/global.scss";
 type Props = {
   bridalId: number;
@@ -40,6 +45,7 @@ const Bridal: React.FC<Props> = props => {
     userAddress: undefined,
     eventDate: ""
   });
+  const [whatsappNoErr, setWhatsappNoErr] = useState("");
   const [currentSection, setCurrentSection] = useState("create");
   const [currentScreenValue, setCurrentScreenValue] = useState("manage");
   const [bridalAddress, setBridalAddress] = useState<AddressData>();
@@ -53,6 +59,8 @@ const Bridal: React.FC<Props> = props => {
   // const { mobile } = useSelector((state: AppState) => state.device);
   const { currency, user } = useSelector((state: AppState) => state);
   const dispatch = useDispatch();
+  const whatsappRef = useRef<HTMLInputElement>(null);
+  const whatsappFormRef = useRef<Formsy>(null);
   const getBridalProfileData = async () => {
     const data = await BridalService.fetchBridalProfile(
       dispatch,
@@ -73,6 +81,14 @@ const Bridal: React.FC<Props> = props => {
     }
     return data;
   };
+
+  useEffect(() => {
+    if (user.isLoggedIn) {
+      AccountService.fetchAccountPreferences(dispatch).then((data: any) => {
+        dispatch(updatePreferenceData(data));
+      });
+    }
+  }, [user.isLoggedIn]);
 
   // componentWillMount() {
   // if (props.bridalId != 0) {
@@ -111,6 +127,11 @@ const Bridal: React.FC<Props> = props => {
         .catch(err => {
           console.log(err);
         });
+    }
+
+    if (!user.isLoggedIn) {
+      LoginService.showLogin(dispatch);
+      dispatch(updateNextUrl("/account/bridal"));
     }
 
     return () => {
@@ -164,7 +185,7 @@ const Bridal: React.FC<Props> = props => {
 
   const changeAddress = (newAddressId: number) => {
     getBridalProfileData()
-      .then(data => {
+      .then(_data => {
         AddressService.fetchAddressList(dispatch).then(data => {
           dispatch(updateAddressList(data));
           const items = data;
@@ -236,15 +257,32 @@ const Bridal: React.FC<Props> = props => {
 
   const createRegistry = () => {
     const { userAddress, ...rest } = bridalDetails;
+    const whatsappFormValues = whatsappFormRef.current?.getCurrentValues();
+    let whatsappSubscribe = whatsappFormValues?.whatsappSubscribe;
+    let whatsappNo = whatsappFormValues?.whatsappNo;
+    let whatsappNoCountryCode = whatsappFormValues?.whatsappNoCountryCode;
+
     if (userAddress) {
-      const formData = {
+      if (!whatsappFormRef.current) {
+        whatsappSubscribe = user.preferenceData.whatsappSubscribe;
+        whatsappNo = user.preferenceData.whatsappNo;
+        whatsappNoCountryCode = user.preferenceData.whatsappNoCountryCode;
+      }
+      const formData: any = {
         userAddressId: userAddress.id,
         ...rest,
         currency,
-        actionType: "create"
+        actionType: "create",
+        whatsappSubscribe: whatsappSubscribe
       };
-      // setCurrentModule("created");
+
+      if (whatsappSubscribe) {
+        formData.whatsappNo = whatsappNo;
+        formData.whatsappNoCountryCode = whatsappNoCountryCode;
+      }
+
       setLastScreen("start");
+      setWhatsappNoErr("");
       BridalService.saveBridalProfile(dispatch, formData)
         .then(data => {
           if (data) {
@@ -260,6 +298,13 @@ const Bridal: React.FC<Props> = props => {
                 "Event Category": "Registry",
                 "Event Action": "Registry created",
                 "Event Label": formData.occasion
+              });
+              dataLayer.push({
+                event: "Whatsapp_optin",
+                Location: "create_registry",
+                Checkbox: whatsappSubscribe
+                  ? "Whatsapp Opt-in"
+                  : "Whatsapp Opt-out"
               });
             }
 
@@ -278,6 +323,34 @@ const Bridal: React.FC<Props> = props => {
           //   }
           //   setRegistryCreateError(errorMsg);
           // }
+          const errData = err.response?.data;
+          Object.keys(errData).map(key => {
+            switch (key) {
+              case "whatsappNo":
+                if (errData[key][0] == "This field may not be blank.") {
+                  setWhatsappNoErr("Please enter a Whatsapp Number");
+                }
+                // whatsappFormRef.current?.updateInputsWithError(
+                //   {
+                //     [key]: errData[key][0]
+                //   },
+                //   true
+                // );
+                // // setNumberError(errData[key][0]);
+                break;
+              case "non_field_errors":
+                // // Invalid Whatsapp number
+                setWhatsappNoErr("Please enter a valid Whatsapp Number");
+                // //This is not working
+                // whatsappFormRef.current?.updateInputsWithError(
+                //   {
+                //     ["whatsappNo"]: errData[key][0]
+                //   },
+                //   true
+                // );
+                break;
+            }
+          });
         });
     }
   };
@@ -308,6 +381,10 @@ const Bridal: React.FC<Props> = props => {
             error=""
             addresses={[]}
             createRegistry={createRegistry}
+            innerRef={whatsappRef}
+            whatsappFormRef={whatsappFormRef}
+            whatsappNoError={whatsappNoErr}
+            currentStep={0}
           />
         );
       case "created":
@@ -381,6 +458,7 @@ const Bridal: React.FC<Props> = props => {
             error=""
             addresses={[]}
             currentCallBackComponent="bridal-edit"
+            currentStep={0}
           />
         );
       // break;

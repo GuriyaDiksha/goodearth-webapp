@@ -51,7 +51,7 @@ const TrackDetails: React.FC<OrdersProps> = props => {
   const readyTopick = (data: any, text: string, status: number) => {
     const html = [];
     const mydata = data.filter((a: any) => {
-      return a.status == "Ready to Pick";
+      return a.status?.toLowerCase() == "Ready to Pick".toLowerCase();
     });
     if (status == 2) {
       // const date = moment(new Date());

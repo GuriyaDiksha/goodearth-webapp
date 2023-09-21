@@ -356,15 +356,23 @@ div.verify-otp-container{
 }
 
 .isd-code{
-  height: 40px;
-  padding: 5px 10px;
+  height: auto;
+  padding: 10px;
   border-bottom: 1px solid #d8d8d8;
   cursor: pointer;
   text-align: left;
-  @include b5_10px_montserrat_charcoal();
+  @include b5_10px_montserrat_light_charcoal();
   letter-spacing: 0.36px;
   display: flex;
   align-items: center;
+  font-weight: 300 !important;
+  &:hover{
+    @include b5_10px_montserrat_charcoal();
+    font-weight: 400 !important;
+  }
+  &.aqua-text{
+    @include b5_10px_montserrat_aqua();
+  }
 }
 
 img.country-code-search-icon{
@@ -461,6 +469,68 @@ span.checkout-forgot-pass{
           top: 9px;
         }
       }
+    }
+  }
+}
+.tooltip {
+  margin-left: 15px;
+  &.height-fix {
+    height: 40px;
+  }
+  img {
+      height: 15px;
+      position: absolute;
+      top: -7px;
+      left: -10px;
+      cursor: pointer;
+      z-index: 1;
+  }
+  .tooltip-msg{
+      @include b5_10px_montserrat_charcoal();
+      letter-spacing: 0.24px;
+      line-height: 12px;
+      font-weight: $light;
+      font-size: 8px;
+      border-radius: 5px;
+      padding: 5px;
+      background-color: #fff;
+      height: 80px;
+      width: 146px;
+      @media screen and (max-width: 768px){
+        height: 95px;
+        width: 117px;
+          &.show{
+            bottom: 20px !important;
+            left: -10px !important;
+          }
+      }
+      box-shadow: 0px 3px 6px #00000029;
+      display: none;
+      &.show{
+          display: block;
+          position: absolute;
+          bottom: 20px;
+          left: -9px;
+      }
+  }
+  .manage-line {
+    position: absolute;
+    top: 10px;
+    left: 30px;
+  }
+  .manage-line ~ .tooltip {
+    .tooltip-msg {
+      &.show {
+        bottom: 34px;
+        left: -10px;
+        @media screen and (max-width: 768px){
+          bottom: 50px !important;
+        }
+      }
+    } 
+    img {
+      top: -8px;
+      left: -10px;
     }
   }
 }

@@ -25,6 +25,7 @@ export type FooterState = {
   isConsentSave: boolean;
   headingHoverArray: boolean[];
   subheadingHoverArray: boolean[];
+  smartNav: string[];
 };
 
 export type ShopLocations = { label: string; value: string }[];
@@ -50,6 +51,8 @@ export type FooterDataProps = {
     footerSubHeadingHoverColor: string;
     sectionContent: string;
     sectionFontColor: string;
+    newsletterBgImage: string;
+    newsletterBgColor: string;
   };
   findUsOnData: {
     iconImage: string;

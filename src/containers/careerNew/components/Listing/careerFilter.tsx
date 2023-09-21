@@ -7,6 +7,7 @@ import { useSelector } from "react-redux";
 import { AppState } from "reducers/typings";
 import bootstrap from "../../../../styles/bootstrap/bootstrap-grid.scss";
 import iconStyles from "../../../../styles/iconFonts.scss";
+import globalStyles from "../../../../styles/global.scss";
 
 type Props = {
   facets: Facets;
@@ -127,10 +128,6 @@ const CareerFilter: React.FC<Props> = ({
     const { depts, tags, locs }: Facets = facets;
 
     if (selectedDept?.length && depts?.length && tags?.length && locs?.length) {
-      // setDepts(depts.slice(0, 4));
-      // setTags(tags.slice(0, 4));
-      // setLocs(locs.slice(0, 4));
-
       selectFilter("depts", showMore["depts"]);
       selectFilter("tags", false);
       selectFilter("locs", false);
@@ -190,12 +187,7 @@ const CareerFilter: React.FC<Props> = ({
     } else {
       if (e.target.name === "View All") {
         const newArr = facets[key].map((e: any) => e?.name || e.title);
-        if (key === "depts") {
-          // newDeptList = [
-          //   ...new Set(newDeptList.filter(el => !newArr.includes(el)))
-          // ];
-          // setSelectedDept(newDeptList);
-        } else {
+        if (key !== "depts") {
           newList = [...new Set(newList.filter(el => !newArr.includes(el)))];
           setSelectedFilters(newList);
         }
@@ -261,7 +253,8 @@ const CareerFilter: React.FC<Props> = ({
         className={cs(
           mobile ? bootstrap.col12 : bootstrap.col3,
           listing.career_list_wrp_left,
-          isFilterOpen ? listing.show : ""
+          isFilterOpen ? listing.show : "",
+          isFilterOpen ? listing.showFilter : ""
         )}
       >
         <ul>
@@ -269,7 +262,8 @@ const CareerFilter: React.FC<Props> = ({
             className={cs(
               listing.filter_li,
               selectedFilters?.length === 0 ||
-                selectedFilters.length === tags.length + locs.length
+                selectedFilters.length ===
+                  facets?.tags.length + facets?.locs.length
                 ? listing.filter_li_hide
                 : ""
             )}
@@ -277,20 +271,8 @@ const CareerFilter: React.FC<Props> = ({
             <div
               className={cs(
                 listing.firstFilter,
-                mobile
-                  ? listing.filter_applied
-                  : // : hideFilter["appliedFilters"]
-                    //? listing.filter_label
-                    listing.filter_label_open
+                mobile ? listing.filter_applied : listing.filter_label_open
               )}
-              // onClick={() => {
-              //   mobile
-              //     ? setIsFilterOpen(!isFilterOpen)
-              //     : setHideFilter({
-              //         ...hideFilter,
-              //         appliedFilters: !hideFilter.appliedFilters
-              //       });
-              // }}
             >
               Filters Applied
               {mobile ? (
@@ -306,7 +288,7 @@ const CareerFilter: React.FC<Props> = ({
                 ></i>
               ) : null}
             </div>
-            {/* <hr className={listing.filter_label_underline} /> */}
+
             <div
               className={cs(
                 listing.filters_wrp,
@@ -352,7 +334,7 @@ const CareerFilter: React.FC<Props> = ({
             >
               By Department{" "}
             </div>
-            {/* <hr className={listing.filter_label_underline} /> */}
+
             <div
               className={cs(
                 listing.filters_wrp,
@@ -402,7 +384,8 @@ const CareerFilter: React.FC<Props> = ({
               className={cs(
                 hideFilter["tags"]
                   ? listing.filter_label
-                  : listing.filter_label_open
+                  : listing.filter_label_open,
+                globalStyles.marginT10
               )}
               onClick={() =>
                 setHideFilter({ ...hideFilter, tags: !hideFilter["tags"] })
@@ -410,7 +393,7 @@ const CareerFilter: React.FC<Props> = ({
             >
               By Tags
             </div>
-            {/* <hr className={listing.filter_label_underline} /> */}
+
             <div
               className={cs(
                 listing.filters_wrp,
@@ -418,19 +401,12 @@ const CareerFilter: React.FC<Props> = ({
               )}
             >
               <ul>
-                <li
-                // className={
-                //   tagLocFilter?.tag?.length === tags?.length
-                //     ? ""
-                //     : listing.disable_label
-                // }
-                >
+                <li>
                   <input
                     id="tag_all"
                     type="checkbox"
                     name="View All"
                     onClick={e => handleCheckbox(e, "tags")}
-                    // disabled={tagLocFilter?.tag?.length !== tags?.length}
                   />
                   <label htmlFor={"tag_all"}>{`View All`}</label>
                 </li>
@@ -451,9 +427,7 @@ const CareerFilter: React.FC<Props> = ({
                       onChange={e => handleCheckbox(e, "tags")}
                       disabled={!tagLocFilter?.tag?.includes(ele?.name)}
                     />
-                    <label
-                      htmlFor={"tags_" + i}
-                    >{`${ele?.name} (${ele?.count})`}</label>
+                    <label htmlFor={"tags_" + i}>{ele?.name} </label>
                   </li>
                 ))}
                 {facets?.tags?.length > 4 ? (
@@ -475,7 +449,8 @@ const CareerFilter: React.FC<Props> = ({
               className={cs(
                 hideFilter["locs"]
                   ? listing.filter_label
-                  : listing.filter_label_open
+                  : listing.filter_label_open,
+                globalStyles.marginT10
               )}
               onClick={() =>
                 setHideFilter({ ...hideFilter, locs: !hideFilter["locs"] })
@@ -483,7 +458,7 @@ const CareerFilter: React.FC<Props> = ({
             >
               By Location
             </div>
-            {/* <hr className={listing.filter_label_underline} /> */}
+
             <div
               className={cs(
                 listing.filters_wrp,
@@ -491,23 +466,13 @@ const CareerFilter: React.FC<Props> = ({
               )}
             >
               <ul>
-                <li
-                // className={
-                //   tagLocFilter?.loc?.length === locs?.length
-                //     ? ""
-                //     : listing.disable_label
-                // }
-                >
+                <li>
                   <input
                     id="loc_all"
                     type="checkbox"
                     name="View All"
                     onClick={e => handleCheckbox(e, "locs")}
-                    // disabled={tagLocFilter?.loc?.length !== locs?.length}
                   />
-                  {/* <label htmlFor={"loc_all"}>{`View All (${facets?.locs
-                    ?.map(e => e.count)
-                    .reduce((partialSum, a) => partialSum + a, 0)})`}</label> */}
                   <label htmlFor={"loc_all"}>{`View All`}</label>
                 </li>
                 {locs?.map((ele, i) => (
@@ -527,9 +492,7 @@ const CareerFilter: React.FC<Props> = ({
                       onChange={e => handleCheckbox(e, "locs")}
                       disabled={!tagLocFilter?.loc?.includes(ele?.name)}
                     />
-                    <label
-                      htmlFor={"locs_" + i}
-                    >{`${ele?.name} (${ele?.count})`}</label>
+                    <label htmlFor={"locs_" + i}>{ele?.name}</label>
                   </li>
                 ))}
                 {facets?.locs?.length > 4 ? (

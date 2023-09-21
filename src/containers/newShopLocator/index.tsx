@@ -21,7 +21,9 @@ const settings = {
   speed: 500,
   slidesToShow: 1,
   slidesToScroll: 1,
-  arrows: true
+  arrows: true,
+  autoplay: true,
+  autoplaySpeed: 3000
 };
 
 const mapStateToProps = (state: AppState) => {
@@ -56,6 +58,14 @@ class ShopLocator extends Component<Props, State> {
   }
 
   onHeaderItemClick = (data: any) => {
+    if (
+      document.getElementById("bottomSlide") &&
+      document.getElementById(data)
+    ) {
+      (document.getElementById("bottomSlide") as HTMLDivElement).style.left =
+        (document.getElementById(data) as HTMLDivElement).offsetLeft + "px";
+    }
+
     this.setState({
       currentCity: data
     });
@@ -72,12 +82,39 @@ class ShopLocator extends Component<Props, State> {
           },
           () => {
             if (this.props.city) {
-              this.setState({ currentCity: this.props.city });
+              this.setState({ currentCity: this.props.city }, () => {
+                const ele = document.getElementById(
+                  this.props.city || ""
+                ) as HTMLDivElement;
+                if (ele) {
+                  ele?.focus();
+                  if (document.getElementById("bottomSlide")) {
+                    (document.getElementById(
+                      "bottomSlide"
+                    ) as HTMLDivElement).style.left = ele.offsetLeft + "px";
+                  }
+                }
+              });
             } else {
               // change this
-              this.setState({
-                currentCity: Object.keys(this.state.shopData)[0]
-              });
+              this.setState(
+                {
+                  currentCity: Object.keys(this.state.shopData)[0]
+                },
+                () => {
+                  const ele = document.getElementById(
+                    Object.keys(this.state.shopData)[0] || ""
+                  ) as HTMLDivElement;
+                  if (ele) {
+                    ele?.focus();
+                    if (document.getElementById("bottomSlide")) {
+                      (document.getElementById(
+                        "bottomSlide"
+                      ) as HTMLDivElement).style.left = ele.offsetLeft + "px";
+                    }
+                  }
+                }
+              );
             }
           }
         );
@@ -87,6 +124,44 @@ class ShopLocator extends Component<Props, State> {
       });
   }
 
+  componentDidUpdate(prevProps: Props, prevState: State) {
+    const city = window.location.href.split("/").pop();
+    if (this.state.currentCity !== city) {
+      this.setState(
+        {
+          currentCity: city || ""
+        },
+        () => {
+          const ele = document.getElementById(city || "") as HTMLDivElement;
+          if (ele) {
+            ele?.focus();
+            if (document.getElementById("bottomSlide")) {
+              (document.getElementById(
+                "bottomSlide"
+              ) as HTMLDivElement).style.left = ele.offsetLeft + "px";
+            }
+          }
+        }
+      );
+    }
+    if (
+      prevState.currentCity != "" &&
+      prevState.currentCity !== this.state.currentCity
+    ) {
+      const banner = document.getElementById("page-banner") as HTMLDivElement;
+      const description = document.getElementById(
+        "page-description"
+      ) as HTMLDivElement;
+      const mainHeaderHeight = document.getElementById(
+        "myHeader"
+      ) as HTMLDivElement;
+      const h1 = banner.clientHeight;
+      const h2 = description.clientHeight;
+      const h3 = mainHeaderHeight.clientHeight;
+      const total = h1 + h2 + h3;
+      window.scrollTo({ top: total, left: 0 });
+    }
+  }
   render() {
     const { shopData, currentCity } = this.state;
     const { saleTimer, mobile, tablet } = this.props;
@@ -97,10 +172,13 @@ class ShopLocator extends Component<Props, State> {
           [styles.saleTimerMargin]: this.props.saleTimer
         })}
       >
-        <div className={cs(styles.banner, { [styles.tabletBanner]: tablet })}>
+        <div
+          className={cs(styles.banner, { [styles.tabletBanner]: tablet })}
+          id="page-banner"
+        >
           {/* <div className={styles.bannerText}>Find us near you</div> */}
         </div>
-        <div className={styles.pageDescription}>
+        <div className={styles.pageDescription} id="page-description">
           <div className={styles.text}>
             Our stores reflect inspirations from the city where they’re located,
             telling tales of tradition, design, and culture through a uniquely
@@ -110,8 +188,10 @@ class ShopLocator extends Component<Props, State> {
         </div>
         <div
           className={cs(styles.headerBox, { [styles.withTimer]: saleTimer })}
+          id="header-box"
         >
           <div className={styles.header}>
+            <div id="bottomSlide" className={styles.slider}></div>
             {Object.keys(shopData).map((data: any, i: number) => {
               return (
                 <div
@@ -120,6 +200,8 @@ class ShopLocator extends Component<Props, State> {
                   })}
                   key={i}
                   onClick={() => this.onHeaderItemClick(data)}
+                  id={data}
+                  tabIndex={i}
                 >
                   {data}
                 </div>
@@ -140,6 +222,7 @@ class ShopLocator extends Component<Props, State> {
                     <img
                       className={cs(styles.icon, styles.store)}
                       src={cafeIcon}
+                      alt="Store Icon"
                     />
                     <div className={styles.name}>
                       {data.cafeHeading2}, {data.place}
@@ -196,26 +279,31 @@ class ShopLocator extends Component<Props, State> {
                       id={`cafe_${i}`}
                     >
                       <Slider {...settings}>
-                        {data.bannerCafe
-                          .filter((e: any) => {
-                            if (mobile) {
-                              return e.imageType == 2 || e.imageType == 3;
-                            } else {
-                              return e.imageType == 1 || e.imageType == 3;
-                            }
-                          })
-                          .map((item: any) => {
-                            return (
-                              <div
-                                className={styles.imgContainer}
-                                key={`cafe_${i}`}
-                              >
-                                <div>
-                                  <img key={`cafe_${i}`} src={item.image} />
+                        {data?.bannerCafe?.length &&
+                          data?.bannerCafe
+                            ?.filter((e: any) => {
+                              if (mobile) {
+                                return e.imageType == 2 || e.imageType == 3;
+                              } else {
+                                return e.imageType == 1 || e.imageType == 3;
+                              }
+                            })
+                            .map((item: any) => {
+                              return (
+                                <div
+                                  className={styles.imgContainer}
+                                  key={`cafe_${i}`}
+                                >
+                                  <div>
+                                    <img
+                                      key={`cafe_${i}`}
+                                      src={item.image}
+                                      alt="cafe"
+                                    />
+                                  </div>
                                 </div>
-                              </div>
-                            );
-                          })}
+                              );
+                            })}
                       </Slider>
                     </div>
                   </div>
@@ -232,7 +320,11 @@ class ShopLocator extends Component<Props, State> {
                 key={`${data.place}_${i}`}
               >
                 {showAnarBorder && (
-                  <img className={cs(styles.anar)} src={anarIcon} />
+                  <img
+                    className={cs(styles.anar)}
+                    src={anarIcon}
+                    alt="border"
+                  />
                 )}
                 {/* Shop Block */}
                 <div
@@ -244,6 +336,7 @@ class ShopLocator extends Component<Props, State> {
                     <img
                       className={cs(styles.icon, styles.store)}
                       src={storeIcon}
+                      alt="Store Icon"
                     />
                     <div className={styles.name}>{data.place}</div>
                     <div className={styles.location}>{data.city}</div>
@@ -307,8 +400,8 @@ class ShopLocator extends Component<Props, State> {
                     id={`shop${i}`}
                   >
                     <Slider {...settings}>
-                      {data.bannerShop
-                        .filter((e: any) => {
+                      {data?.bannerShop
+                        ?.filter((e: any) => {
                           if (mobile) {
                             return e.imageType == 2 || e.imageType == 3;
                           } else {
@@ -322,7 +415,7 @@ class ShopLocator extends Component<Props, State> {
                               key={`shope_image${i}`}
                             >
                               <div>
-                                <img src={item.image} />
+                                <img src={item.image} alt="shope image" />
                               </div>
                             </div>
                           );

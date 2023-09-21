@@ -42,16 +42,16 @@
 }
 
 .page-body{
-  margin-top: $header-height + $secondary-header-height;
+  margin-top: $secondary-header-margin-top;// $header-height + $secondary-header-height;
 }
 .page-body-timer {
-  margin-top: $header-height + $timer-height + 20px;
+  margin-top: $secondary-header-margin-top + $timer-height;
 }
 .page-body-tab {
-  margin-top: $header-height;
+  margin-top: $secondary-header-margin-top;
 }
 .page-body-tab-timer {
-  margin-top: $header-height + $timer-height;
+  margin-top:$secondary-header-margin-top + $timer-height;
 }
 @media screen and (min-width: 992px) {
   .sp-cat {
@@ -67,16 +67,16 @@
 }
 @media screen and (max-width: 992px) {
   .page-body{
-    margin-top: $header-height ;
+    margin-top:$secondary-header-margin-top-mobile;
   }
   .page-body-timer {
-    margin-top: $header-height + $timer-height;
+    margin-top: $secondary-header-margin-top-mobile + $timer-height;
   }
   .page-body-tab {
-    margin-top: $header-height;
+    margin-top: $secondary-header-margin-top-mobile;
   }
   .page-body-tab-timer {
-    margin-top: $header-height + $timer-height;
+    margin-top: $secondary-header-margin-top-mobile + $timer-height;
   }
   .imageContainerMobile {
     margin-left: 0;
@@ -353,7 +353,10 @@
           text-overflow: ellipsis;
           display: block;
         }
-
+        .disableColors {
+          opacity: 0.5;
+          cursor: not-allowed;
+        }
       }
 
     }
@@ -398,6 +401,7 @@
       }
       .disableColors{
         opacity: 0.5;
+        cursor: not-allowed;
       }
     }
     .materiallabel{
@@ -407,6 +411,7 @@
       }
       .disableColors{
         opacity: 0.5;
+        cursor: not-allowed;
       }}
     input[type="checkbox"]:not(:checked) + label{
       @include b4_12px_montserrat_light_charcoal();
@@ -767,6 +772,7 @@ input[type="radio"]:checked, [type="checkbox"]:not(:checked),
     }
     .disableColors{
       opacity: 0.5;
+      cursor: not-allowed;
     }
   }
   .materiallabel{
@@ -776,6 +782,7 @@ input[type="radio"]:checked, [type="checkbox"]:not(:checked),
     }
     .disableColors{
       opacity: 0.5;
+      cursor: not-allowed;
     }
   }
 }
@@ -819,6 +826,7 @@ input[type="radio"]:checked, [type="checkbox"]:not(:checked),
       color: #E5E5E5 !important;
       border: 1px solid #E5E5E5;
       background: linear-gradient(to left top, #f9f8f5 47.75%, currentColor 50.5%, currentColor 49.5%, #f9f8f5 51.25%);
+      cursor: not-allowed;
       &:hover{
         border: 1px solid $aqua-bold;
       }
@@ -1038,6 +1046,11 @@ p.corporate-sub-heading {
   padding-bottom: 50px !important;
 }
 
+.template-padding-list {
+  padding-left: 30px;
+  padding-right: 30px;
+}
+
 .list-grid-bar {
   span{
     font-size: 12px;
@@ -1086,4 +1099,9 @@ p.corporate-sub-heading {
 
 .no-border{
   border: none !important;
+}
+
+.disable-type{
+  opacity: 0.5;
+  cursor: not-allowed !important;
 }

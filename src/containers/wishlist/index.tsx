@@ -4,8 +4,7 @@ import cs from "classnames";
 import iconStyles from "../../styles/iconFonts.scss";
 import createAbsoluteGrid from "react-absolute-grid";
 import SampleDisplay from "./display";
-import ReactDOM from "react-dom";
-import { currencyCodes } from "constants/currency";
+import { createRoot } from "react-dom/client";
 import { AppState } from "reducers/typings";
 import { Dispatch } from "redux";
 import Loader from "components/Loader";
@@ -164,6 +163,8 @@ type State = {
 class Wishlist extends React.Component<Props, State> {
   dragFlag: boolean;
   impression: boolean;
+  container: any;
+  root: any;
   constructor(props: Props) {
     super(props);
     this.state = {
@@ -217,9 +218,7 @@ class Wishlist extends React.Component<Props, State> {
   };
 
   onChangeFilter = (data?: string, label?: string) => {
-    ReactDOM.unmountComponentAtNode(
-      document.getElementById("wishlist") as HTMLDivElement
-    );
+    // this.root.unmount(document.getElementById("wishlist") as HTMLDivElement);
     switch (data) {
       case "sequence":
         this.setState(
@@ -302,6 +301,8 @@ class Wishlist extends React.Component<Props, State> {
   };
 
   componentDidMount() {
+    this.container = document.getElementById("wishlist");
+    this.root = createRoot(this.container);
     window.addEventListener("resize", debounce(this.updateStyle, 100));
     setTimeout(() => {
       window.scrollTo(0, 0);
@@ -536,17 +537,12 @@ class Wishlist extends React.Component<Props, State> {
             globalStyles.italic
           )}
         >
-          {String.fromCharCode(...currencyCodes[this.props.currency]) +
-            " " +
-            (Number.isSafeInteger(+this.state.totalPrice)
-              ? displayPriceWithCommas(
-                  this.state.totalPrice,
-                  this.props.currency
-                )
-              : displayPriceWithCommasFloat(
-                  this.state.totalPrice,
-                  this.props.currency
-                ))}
+          {Number.isSafeInteger(+this.state.totalPrice)
+            ? displayPriceWithCommas(this.state.totalPrice, this.props.currency)
+            : displayPriceWithCommasFloat(
+                this.state.totalPrice,
+                this.props.currency
+              )}
         </span>
       </div>
     );
@@ -566,9 +562,10 @@ class Wishlist extends React.Component<Props, State> {
     }
   };
   myrender = (data: WishListGridItem[]) => {
+    console.log(this.root);
     if (data.length > 0) {
       if (this.props.mobile) {
-        ReactDOM.render(
+        this.root.render(
           <AbsoluteGrid
             items={data}
             currency={this.props.currency}
@@ -579,12 +576,12 @@ class Wishlist extends React.Component<Props, State> {
             itemHeight={340}
             responsive={true}
             onMove={debounce(this.onMoveDebounced, 40)}
-          />,
-          document.getElementById("wishlist"),
-          this.updateStyle
+          />
+          // document.getElementById("wishlist"),
+          // this.updateStyle
         );
       } else {
-        ReactDOM.render(
+        this.root.render(
           <AbsoluteGrid
             currency={this.props.currency}
             items={data}
@@ -595,13 +592,16 @@ class Wishlist extends React.Component<Props, State> {
             itemHeight={520}
             responsive={true}
             onMove={debounce(this.onMoveDebounced, 40)}
-          />,
-          document.getElementById("wishlist"),
-          this.updateStyle
+          />
+          // document.getElementById("wishlist"),
+          // this.updateStyle
         );
       }
     } else {
-      ReactDOM.render(<></>, document.getElementById("wishlist"));
+      this.root.render(
+        <></>
+        // , document.getElementById("wishlist")
+      );
     }
   };
 
@@ -634,9 +634,7 @@ class Wishlist extends React.Component<Props, State> {
   };
 
   setWishlistFilter = (data: { value: string; label: string }) => {
-    ReactDOM.unmountComponentAtNode(
-      document.getElementById("wishlist") as HTMLDivElement
-    );
+    // this.root.unmount(document.getElementById("wishlist") as HTMLDivElement);
     switch (data.value) {
       case "sequence":
         this.setState(
@@ -878,6 +876,7 @@ class Wishlist extends React.Component<Props, State> {
                     className={cs(styles.mobileFilterHeader, {
                       [styles.mobileFilterHeaderTimer]: this.props.showTimer
                     })}
+                    id="filterHeader"
                   >
                     <div className={styles.filterCross}>
                       <span>Saved Items</span>
@@ -896,6 +895,7 @@ class Wishlist extends React.Component<Props, State> {
                   </div>
                   <div className={bootstrapStyles.row}>
                     <div
+                      id="mobileFilterMenu"
                       className={cs(
                         bootstrapStyles.col12,
                         styles.mobileFilterMenu,

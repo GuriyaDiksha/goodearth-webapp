@@ -2,7 +2,6 @@ import React, { ChangeEvent } from "react";
 import cs from "classnames";
 import { AppState } from "reducers/typings";
 import { connect, DispatchProp } from "react-redux";
-
 import Formsy from "formsy-react";
 import FormSelect from "../../components/Formsy/FormSelect";
 import styles from "./styles.scss";
@@ -51,7 +50,7 @@ type State = {
   englishandSpace: RegExp;
   subscribe: boolean;
   customValueErrorMsg: string;
-  selectCountryErrorMsg: string;
+  // selectCountryErrorMsg: string;
   previewOpen: boolean;
   formDisabled: boolean;
   key: string;
@@ -86,7 +85,7 @@ class NewGiftcard extends React.Component<Props, State> {
       englishandSpace: /^[a-zA-Z\s]+$/,
       subscribe: false,
       customValueErrorMsg: "",
-      selectCountryErrorMsg: "",
+      // selectCountryErrorMsg: "",
       customValue: "",
       previewOpen: false,
       formDisabled: true,
@@ -116,14 +115,14 @@ class NewGiftcard extends React.Component<Props, State> {
       this.setState({
         currency: newCurrency,
         selectedCountry: newCountry,
-        selectCountryErrorMsg: "",
+        // selectCountryErrorMsg: "",
         currencyCharCode: currencyCode[newCurrency]
       });
     } else {
       this.setState({
         currency: newCurrency,
         selectedCountry: "",
-        selectCountryErrorMsg: "Please select your Country",
+        // selectCountryErrorMsg: "Please select your Country",
         currencyCharCode: currencyCode[newCurrency]
       });
     }
@@ -136,11 +135,12 @@ class NewGiftcard extends React.Component<Props, State> {
       recipientName: "",
       recipientEmail: "",
       confirmRecipientEmail: "",
-      message: "",
+      // commenting bcz we don't want to remove default message
+      message: "Here is a gift for you!",
       senderName: "",
       subscribe: false,
       customValue: "",
-      previewOpen: false,
+      //previewOpen: false,
       formDisabled: true,
       key: makeid(5)
     });
@@ -161,8 +161,8 @@ class NewGiftcard extends React.Component<Props, State> {
 
     this.setState(
       {
-        selectedCountry: country,
-        selectCountryErrorMsg: ""
+        selectedCountry: country
+        // selectCountryErrorMsg: ""
       },
       () => {
         if (newCurrency != currency) {
@@ -179,7 +179,8 @@ class NewGiftcard extends React.Component<Props, State> {
             currencyCharCode: newCurrencyCode,
             cardId: "",
             cardValue: "",
-            customValue: ""
+            customValue: "",
+            customValueErrorMsg: ""
           });
         }
       }
@@ -288,9 +289,16 @@ class NewGiftcard extends React.Component<Props, State> {
   };
 
   onMessageChange = (e: any) => {
-    this.setState({
-      message: e.target.value
-    });
+    if (e.target.value.length > 248) {
+      this.setState({
+        message: e.target.value.substr(0, 248)
+      });
+      return false;
+    } else {
+      this.setState({
+        message: e.target.value
+      });
+    }
   };
 
   onSenderNameChange = (e: any) => {
@@ -310,10 +318,14 @@ class NewGiftcard extends React.Component<Props, State> {
       senderName,
       customValue,
       formDisabled,
-      selectedCountry
+      selectedCountry,
+      customValueErrorMsg
     } = this.state;
 
     if (formDisabled || selectedCountry == "") {
+      return;
+    }
+    if (customValueErrorMsg.length > 0) {
       return;
     }
     this.setState({ formDisabled: true });
@@ -380,7 +392,7 @@ class NewGiftcard extends React.Component<Props, State> {
         this.setState({
           currency: newCurrency,
           selectedCountry: newCountry,
-          selectCountryErrorMsg: "",
+          // selectCountryErrorMsg: "",
           currencyCharCode: currencyCode[newCurrency],
           cardId: "",
           cardValue: "",
@@ -407,8 +419,9 @@ class NewGiftcard extends React.Component<Props, State> {
     entries.forEach((entry: IntersectionObserverEntry) => {
       if (ele) {
         if (
-          entry.intersectionRatio > 0 ||
-          entry.boundingClientRect.bottom < 130
+          // entry.intersectionRatio > 0 ||
+          // entry.boundingClientRect.bottom < 130 ||
+          entry.isIntersecting === true
         ) {
           ele.style.display = "none";
         } else {
@@ -418,13 +431,17 @@ class NewGiftcard extends React.Component<Props, State> {
     });
   };
 
-  componentDidMount() {
+  onScroll = () => {
     if (this.container) {
       this.observer = new IntersectionObserver(this.observerCallback, {
         rootMargin: "-130px 0px -110px 0px"
       });
       this.observer.observe(this.container);
     }
+  };
+
+  componentDidMount() {
+    document.addEventListener("scroll", this.onScroll);
 
     const { fetchCountryList, fetchProductList } = this.props;
     fetchProductList().then((data: any) => {
@@ -446,9 +463,9 @@ class NewGiftcard extends React.Component<Props, State> {
       } else if (this.props.currency == "SGD") {
         newCountry = "Singapore";
       } else if (this.props.currency == "USD") {
-        this.setState({
-          selectCountryErrorMsg: "Please Select a Country"
-        });
+        // this.setState({
+        //   selectCountryErrorMsg: "Please Select a Country"
+        // });
       }
       newCountry &&
         this.setState({
@@ -483,7 +500,7 @@ class NewGiftcard extends React.Component<Props, State> {
       senderName,
       subscribe,
       customValueErrorMsg,
-      selectCountryErrorMsg,
+      // selectCountryErrorMsg,
       customValue,
       previewOpen,
       formDisabled,
@@ -516,7 +533,7 @@ class NewGiftcard extends React.Component<Props, State> {
             >
               <div className={styles.title}>Preview</div>
               <div className={styles.imageContainer}>
-                <img src={selectedImage} />
+                <img src={selectedImage} alt="giftcard preview" />
               </div>
               <div className={styles.salutation}>
                 Dear {recipientName ? recipientName : `[Reciever's Name]`}
@@ -525,7 +542,7 @@ class NewGiftcard extends React.Component<Props, State> {
                 You have recieved a Good Earth eGift card worth
               </div>
               <div className={styles.gcAmount}>
-                {String.fromCharCode(...currencyCharCode)}&nbsp;&nbsp;
+                &nbsp;
                 {+cardValue > 0
                   ? displayPriceWithCommas(cardValue, currency)
                   : +customValue > 0
@@ -563,7 +580,7 @@ class NewGiftcard extends React.Component<Props, State> {
                         onClick={() => this.onImageClick(img)}
                         key={`gift_${i}`}
                       >
-                        <img src={img} />
+                        <img src={img} alt="giftcard-img" />
                       </div>
                     );
                   })}
@@ -588,13 +605,14 @@ class NewGiftcard extends React.Component<Props, State> {
                       validationErrors={{
                         isExisty: "This field is required"
                       }}
+                      errWithIsPristine={true}
                     />
                   </Formsy>
-                  {selectCountryErrorMsg && (
+                  {/* {selectCountryErrorMsg && (
                     <div className={styles.errorMessage}>
                       {selectCountryErrorMsg}
                     </div>
-                  )}
+                  )} */}
                 </div>
                 <div className={styles.note}>
                   Please note: Gift cards can only be redeemed in the currency
@@ -619,12 +637,10 @@ class NewGiftcard extends React.Component<Props, State> {
                         })}
                         id={pro.id}
                       >
-                        {String.fromCharCode(...currencyCharCode) +
-                          " " +
-                          displayPriceWithCommas(
-                            pro.priceRecords[currency],
-                            currency
-                          )}
+                        {displayPriceWithCommas(
+                          pro.priceRecords[currency],
+                          currency
+                        )}
                       </div>
                     ) : (
                       ""
@@ -757,7 +773,7 @@ class NewGiftcard extends React.Component<Props, State> {
                     placeholder=""
                     maxLength={248}
                     name="message"
-                    rows={5}
+                    rows={6}
                     value={message}
                     id="sender_msg"
                     handleChange={e => {
@@ -857,10 +873,27 @@ class NewGiftcard extends React.Component<Props, State> {
                   FOR QUERIES OR ASSISTANCE
                 </div>
                 <div className={styles.queriesInfo}>
-                  customercare@goodearth.in
+                  <a
+                    href="mailto:customercare@goodearth.in"
+                    className={styles.queriesInfo}
+                  >
+                    customercare@goodearth.in
+                  </a>
                 </div>
                 <div className={styles.queriesInfo}>
-                  +91 95829 99555 / +91 95829 99888
+                  <a
+                    href="tel:(+91 95829 99555)"
+                    className={styles.queriesInfo}
+                  >
+                    +91 95829 99555
+                  </a>{" "}
+                  /{" "}
+                  <a
+                    href="tel:(+91 95829 99888)"
+                    className={styles.queriesInfo}
+                  >
+                    +91 95829 99888
+                  </a>
                 </div>
                 <div className={styles.queriesInfo}>Mon- Sat | 9am-5pm IST</div>
               </div>
@@ -905,7 +938,7 @@ class NewGiftcard extends React.Component<Props, State> {
             </div>
             <div className={styles.title}>Preview</div>
             <div className={styles.imageContainer}>
-              <img src={selectedImage} />
+              <img src={selectedImage} alt="giftcard preview" />
             </div>
             <div className={styles.salutation}>
               Dear {recipientName ? recipientName : `[Reciever's Name]`}

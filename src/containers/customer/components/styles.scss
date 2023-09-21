@@ -74,6 +74,7 @@ ol {
   font-weight: 600 ;
   padding: 20px 40px 20px 0px;
   cursor: pointer;
+  width: fit-content;
 }
 
 }
@@ -290,7 +291,7 @@ ol {
           background-color: #fff;
           border: 1px solid #888;
           border-radius: 50%;
-          padding: 20px 0;
+          // padding: 20px 0;
         }
       }
       min-height: 160px;

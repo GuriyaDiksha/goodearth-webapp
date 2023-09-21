@@ -20,14 +20,17 @@ import { AppState } from "reducers/typings";
 import SocialLogin from "../socialLogin";
 import { RegisterProps } from "./typings";
 import { genderOptions } from "constants/profile";
-import { errorTracking, decriptdata, getErrorList } from "utils/validate";
+import { errorTracking, getErrorList } from "utils/validate";
 import { Country } from "components/Formsy/CountryCode/typings";
 import EmailVerification from "../emailVerification";
 import CookieService from "services/cookie";
-import { GA_CALLS, ANY_ADS } from "constants/cookieConsent";
-// import SelectDropdown from "components/Formsy/SelectDropdown";
-import CountryCode from "components/Formsy/CountryCode";
+import { GA_CALLS } from "constants/cookieConsent";
+import SelectDropdown from "components/Formsy/SelectDropdown";
+// import CountryCode from "components/Formsy/CountryCode";
 import FormContainer from "../formContainer";
+import tooltipIcon from "images/tooltip.svg";
+import tooltipOpenIcon from "images/tooltip-open.svg";
+import { CONFIG } from "constants/util";
 
 const mapStateToProps = (state: AppState) => {
   const isdList = state.address.countryData.map(list => {
@@ -39,7 +42,8 @@ const mapStateToProps = (state: AppState) => {
     currency: state.currency,
     isdList: isdList,
     countryData: state.address.countryData,
-    sortBy: state.wishlist.sortBy
+    sortBy: state.wishlist.sortBy,
+    mobile: state.device.mobile
   };
 };
 
@@ -48,6 +52,9 @@ type Props = ReturnType<typeof mapStateToProps> &
   RegisterProps;
 
 class CheckoutRegisterForm extends React.Component<Props, registerState> {
+  public static defaultProps = {
+    isCheckout: false
+  };
   constructor(props: Props) {
     super(props);
     this.state = {
@@ -75,7 +82,10 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
       stateOptions: [],
       isIndia: false,
       showEmailVerification: false,
-      email: ""
+      email: "",
+      showTip: false,
+      whatsappChecked: false,
+      selectedCountry: ""
     };
   }
   static contextType = Context;
@@ -88,12 +98,16 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
   countryRef: RefObject<HTMLInputElement> = React.createRef();
   countryCodeRef: RefObject<HTMLInputElement> = React.createRef();
   genderRef: RefObject<HTMLInputElement> = React.createRef();
+  whatsappCheckRef: RefObject<HTMLInputElement> = React.createRef();
 
   componentDidMount() {
     const email = localStorage.getItem("tempEmail") || this.props.email;
     if (email && this.emailInput.current) {
       this.RegisterFormRef.current &&
-        this.RegisterFormRef.current.updateInputsWithValue({ email: email });
+        this.RegisterFormRef.current.updateInputsWithValue({
+          email: email,
+          code: ""
+        });
       this.firstNameInput.current?.focus();
       // this.emailInput.current.value = email;
     }
@@ -101,6 +115,7 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
     this.emailInput.current && this.emailInput.current.focus();
     this.props.fetchCountryData();
     this.changeCountryData(this.props.countryData);
+    document.addEventListener("mousedown", this.handleClickOutside);
   }
 
   componentDidUpdate(
@@ -111,6 +126,10 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
     if (this.state.successMsg) {
       this.props.setIsSuccessMsg?.(true);
     }
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener("mousedown", this.handleClickOutside);
   }
 
   UNSAFE_componentWillReceiveProps(nextProps: Props) {
@@ -143,9 +162,9 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
       state,
       phone,
       code,
-      terms
+      terms,
+      whatsappSubscribe
     } = model;
-
     const formData: any = {};
     formData["username"] = email;
     formData["email"] = email;
@@ -169,6 +188,7 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
       formData["phoneNo"] = phone;
       formData["phoneCountryCode"] = code;
     }
+    formData["whatsappSubscribe"] = whatsappSubscribe;
     formData["subscribe"] = terms;
 
     this.setState({
@@ -179,7 +199,7 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
       .then(data => {
         const userConsent = CookieService.getCookie("consent").split(",");
 
-        if (userConsent.includes(ANY_ADS)) {
+        if (userConsent.includes(GA_CALLS)) {
           Moengage.track_event("Registered", {
             "First Name": firstName,
             "Last Name": lastName,
@@ -196,6 +216,23 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
           Moengage.add_gender(gender);
           Moengage.add_birthday(moment(dateOfBirth).format("YYYY-MM-DD"));
           Moengage.add_unique_user_id(email);
+          dataLayer.push({
+            event: "Whatsapp_optin",
+            Location: "sign_up",
+            Checkbox: formData.whatsappSubscribe
+              ? "Whatsapp Opt-in"
+              : "Whatsapp Opt-out"
+          });
+          dataLayer.push({
+            event: "newsletter_subscribe",
+            click_type: " Sign in"
+          });
+          dataLayer.push({
+            event: "sign_up",
+            user_status: "logged in", //'Pass the user status ex. logged in OR guest',
+            login_method: "", //Pass Email or Google as per user selection',
+            user_id: data?.userId
+          });
         }
         this.gtmPushRegister();
         // this.props.nextStep?.();
@@ -205,7 +242,7 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
         });
       })
       .catch(error => {
-        const data = decriptdata(error.response?.data);
+        const data = error.response?.data;
         this.setState(
           {
             disableButton: false
@@ -273,74 +310,26 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
       });
   };
 
-  onCountrySelect = (
-    event: React.ChangeEvent<HTMLSelectElement> | null,
-    defaultCountry?: string
-  ) => {
-    const { countryOptions } = this.state;
-    if (countryOptions.length > 0) {
-      const form = this.RegisterFormRef.current;
-      let selectedCountry = "";
-      if (event) {
-        selectedCountry = event.currentTarget.value;
-        // setIsAddressChanged(true);
-        // setIsCountryChanged(true);
-        form &&
-          form.updateInputsWithValue(
-            {
-              state: ""
-            },
-            false
-          );
-      } else if (defaultCountry) {
-        selectedCountry = defaultCountry;
-        // need to set defaultCountry explicitly
-        if (form && selectedCountry) {
-          form.updateInputsWithValue({
-            country: selectedCountry
-          });
-        }
-      }
-
-      const { states, isd, value } = countryOptions.filter(
-        country => country.value == selectedCountry
-      )[0];
-
-      if (form) {
-        // reset state
-        const { state } = form.getModel();
-        if (state) {
-          form.updateInputsWithValue({
-            state: ""
-          });
-        }
-        form.updateInputsWithValue({
-          code: isd
-        });
-      }
-      this.setState({
-        isIndia: value == "India",
-        stateOptions: states
-      });
-    }
-  };
-
-  // onCountrySelect = (option: any, defaultCountry?: string) => {
+  // onCountrySelect = (
+  //   event: React.ChangeEvent<HTMLSelectElement> | null,
+  //   defaultCountry?: string
+  // ) => {
   //   const { countryOptions } = this.state;
   //   if (countryOptions.length > 0) {
   //     const form = this.RegisterFormRef.current;
   //     let selectedCountry = "";
-
-  //     selectedCountry = option.value;
-  //     form &&
-  //       form.updateInputsWithValue(
-  //         {
-  //           state: "",
-  //           country: selectedCountry
-  //         },
-  //         false
-  //       );
-  //     if (defaultCountry) {
+  //     if (event) {
+  //       selectedCountry = event.currentTarget.value;
+  //       // setIsAddressChanged(true);
+  //       // setIsCountryChanged(true);
+  //       form &&
+  //         form.updateInputsWithValue(
+  //           {
+  //             state: ""
+  //           },
+  //           false
+  //         );
+  //     } else if (defaultCountry) {
   //       selectedCountry = defaultCountry;
   //       // need to set defaultCountry explicitly
   //       if (form && selectedCountry) {
@@ -366,13 +355,72 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
   //         code: isd
   //       });
   //     }
-
   //     this.setState({
   //       isIndia: value == "India",
   //       stateOptions: states
   //     });
   //   }
   // };
+
+  onCountryCodeSelect = (option: any) => {
+    const form = this.RegisterFormRef.current;
+    const selectedCountryCode = option?.value;
+
+    form &&
+      form.updateInputsWithValue({
+        code: selectedCountryCode
+      });
+  };
+
+  onCountrySelect = (option: any, defaultCountry?: string) => {
+    const { countryOptions } = this.state;
+    if (countryOptions.length > 0) {
+      const form = this.RegisterFormRef.current;
+      let selectedCountry = "";
+
+      selectedCountry = option.value;
+      this.setState({ selectedCountry: selectedCountry });
+      form &&
+        form.updateInputsWithValue(
+          {
+            state: "",
+            country: selectedCountry
+          },
+          false
+        );
+      if (defaultCountry) {
+        selectedCountry = defaultCountry;
+        // need to set defaultCountry explicitly
+        if (form && selectedCountry) {
+          form.updateInputsWithValue({
+            country: selectedCountry
+          });
+        }
+      }
+
+      const { states, isd, value } = countryOptions.filter(
+        country => country.value == selectedCountry
+      )[0];
+
+      if (form) {
+        // reset state
+        const { state } = form.getModel();
+        if (state) {
+          form.updateInputsWithValue({
+            state: ""
+          });
+        }
+        form.updateInputsWithValue({
+          code: isd
+        });
+      }
+
+      this.setState({
+        isIndia: value == "India",
+        stateOptions: states
+      });
+    }
+  };
 
   changeCountryData = (countryData: Country[]) => {
     const countryOptions = countryData.map(country => {
@@ -418,6 +466,7 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
         msgt: ""
       });
     }
+
     setTimeout(() => {
       const firstErrorField = document.getElementsByClassName(
         globalStyles.errorBorder
@@ -613,6 +662,25 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
     });
   };
 
+  onWhatsappCheckChange = (e: any) => {
+    this.setState({
+      whatsappChecked: e.target.checked
+    });
+  };
+
+  impactRef = React.createRef<HTMLInputElement>();
+
+  handleClickOutside = (evt: any) => {
+    if (
+      this.impactRef.current &&
+      !this.impactRef.current.contains(evt.target)
+    ) {
+      this.setState({ showTip: false });
+      //Do what you want to handle in the callback
+      // this.props.closePopup(evt);
+    }
+  };
+
   render() {
     const showFieldsClass = this.state.showFields ? "" : styles.disabledInput;
     // const { goLogin } = this.props;
@@ -758,7 +826,7 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
             />
           </div>
           <div>
-            <div className="select-group text-left">
+            {/* <div className="select-group text-left">
               <FormSelect
                 required
                 label="Country*"
@@ -776,9 +844,9 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
                 showLabel={true}
               />
               <span className="arrow"></span>
-            </div>
+            </div> */}
           </div>
-          {/* <SelectDropdown
+          <SelectDropdown
             required
             name="country"
             handleChange={this.onCountrySelect}
@@ -794,7 +862,7 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
             options={countryOptions}
             allowFilter={true}
             inputRef={this.countryRef}
-          /> */}
+          />
 
           {this.state.isIndia && (
             <div>
@@ -819,7 +887,7 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
             </div>
           )}
           <div className={styles.countryCode}>
-            <CountryCode
+            {/* <CountryCode
               name="code"
               placeholder="Code"
               label="Country Code"
@@ -842,12 +910,13 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
                 isValidCode: "Enter valid code"
               }}
               showLabel={true}
-            />
-            {/* <SelectDropdown
+            /> */}
+            <SelectDropdown
               name="code"
               placeholder="Code"
               label="Country Code"
               options={this.getCountryCodeObject()}
+              handleChange={this.onCountryCodeSelect}
               value=""
               validations={{
                 isCodeValid: (values, value) => {
@@ -868,10 +937,11 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
               allowFilter={true}
               showLabel={true}
               optionsClass={styles.isdCode}
+              aquaClass={styles.aquaText}
               searchIconClass={styles.countryCodeSearchIcon}
               searchInputClass={styles.countryCodeSearchInput}
               inputRef={this.countryCodeRef}
-            /> */}
+            />
             <FormInput
               // required
               name="phone"
@@ -882,10 +952,18 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
               className={showFieldsClass}
               label={"Contact Number"}
               validations={{
-                isExisty: true
+                isExisty: true,
+                compulsory: (values, value) => {
+                  if (values?.whatsappSubscribe && value == "") {
+                    return false;
+                  } else {
+                    return true;
+                  }
+                }
               }}
               validationErrors={{
-                isExisty: "Please enter your Contact Number"
+                isExisty: "Please enter your contact number",
+                compulsory: "Please enter your contact number"
               }}
               keyPress={e => (e.key == "Enter" ? e.preventDefault() : "")}
               keyDown={e => (e.which === 69 ? e.preventDefault() : null)}
@@ -1086,8 +1164,49 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
               showLabel={true}
             />
           </div>
-
-          <div className={styles.subscribe}>
+          {CONFIG.WHATSAPP_SUBSCRIBE_ENABLED && !this.props.isCheckout && (
+            <div
+              className={cs(styles.subscribe, styles.tooltip, {
+                [styles.heightFix]: this.state.whatsappChecked
+              })}
+            >
+              <FormCheckbox
+                value={false}
+                inputRef={this.whatsappCheckRef}
+                id="whatsappSubscribe"
+                name="whatsappSubscribe"
+                disable={false}
+                label={[
+                  <span key="1">Subscribe me for Whatsapp updates.</span>
+                ]}
+                handleChange={this.onWhatsappCheckChange}
+                required
+              />
+              {this.state.whatsappChecked && (
+                <div className={styles.manageLine}>
+                  Manage your preference from My Preferences section under
+                  Profile
+                </div>
+              )}
+              <div className={styles.tooltip} ref={this.impactRef}>
+                <img
+                  src={this.state.showTip ? tooltipOpenIcon : tooltipIcon}
+                  onClick={() => {
+                    this.setState({ showTip: !this.state.showTip });
+                  }}
+                />
+                <div
+                  className={cs(styles.tooltipMsg, {
+                    [styles.show]: this.state.showTip
+                  })}
+                >
+                  By checking this, you agree to receiving Whatsapp messages for
+                  order & profile related information
+                </div>
+              </div>
+            </div>
+          )}
+          <div className={cs(styles.subscribe, styles.marginFix)}>
             <FormCheckbox
               value={false}
               inputRef={this.subscribeRef}
@@ -1112,7 +1231,7 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
           </div>
           <div className={cs(styles.subscribe, styles.newsletters)}>
             <FormCheckbox
-              value={false}
+              value={this.state.selectedCountry == "India" ? true : false}
               id="subscrib"
               name="terms"
               disable={!this.state.showFields}
@@ -1146,7 +1265,9 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
           </div> */}
           <div>
             {this.state.showerror ? (
-              <p className={styles.loginErrMsg}>{this.state.showerror}</p>
+              <p className={cs(styles.errorMsg, globalStyles.textLeft)}>
+                {this.state.showerror}
+              </p>
             ) : (
               ""
             )}

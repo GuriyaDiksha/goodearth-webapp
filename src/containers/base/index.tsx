@@ -26,6 +26,7 @@ import cs from "classnames";
 import { POPUP } from "constants/components";
 import Loader from "components/Loader";
 import { GA_CALLS } from "constants/cookieConsent";
+import CheckoutFooter from "containers/checkout/checkoutFooter";
 // import { CUST } from "constants/util";
 // import * as _ from "lodash";
 const BaseLayout: React.FC = () => {
@@ -133,8 +134,9 @@ const BaseLayout: React.FC = () => {
   }, []);
 
   useEffect(() => {
+    console.log("tablet ===== ", tablet, orientation, mobile);
     if (tablet) {
-      if (orientation == "landscape" && !mobile) {
+      if (orientation == "landscape") {
         dispatch(updateComponent(POPUP.ORIENTATIONPOPUP, undefined, true));
         dispatch(updateModal(true));
       } else if (
@@ -359,9 +361,10 @@ const BaseLayout: React.FC = () => {
 
   const isCheckout =
     pathname.indexOf("/checkout") > -1 ||
-    pathname == "/cart" ||
-    pathname == "/cart/";
-  const confirmation = pathname.indexOf("order/orderconfirmation") > -1;
+    pathname.indexOf("order/orderconfirmation") > -1;
+  const isCart = pathname.indexOf("/cart") > -1;
+  // || pathname == "/cart" || pathname == "/cart/";
+  // const confirmation = pathname.indexOf("order/orderconfirmation") > -1;
   const backOrder = pathname.indexOf("backend-order-error") > -1;
   const maintenance = pathname.indexOf("maintenance") > -1;
   const value =
@@ -373,7 +376,7 @@ const BaseLayout: React.FC = () => {
       ? CookieService.getCookie("auth")
       : true;
 
-  const minimalPage = confirmation || backOrder || maintenance;
+  const minimalPage = backOrder || maintenance;
   return (
     <Fragment>
       {/* <Whatsapp /> */}
@@ -401,7 +404,9 @@ const BaseLayout: React.FC = () => {
           </Route>
         </Switch>
       </div>
-      {value && !(minimalPage || isCheckout) && <Footer />}
+      {value &&
+        !minimalPage &&
+        (isCheckout ? <CheckoutFooter /> : !isCart && <Footer />)}
       <Modal />
     </Fragment>
   );

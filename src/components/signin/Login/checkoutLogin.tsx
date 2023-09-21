@@ -19,7 +19,7 @@ import { RouteComponentProps, withRouter } from "react-router";
 import EmailVerification from "../emailVerification";
 import { USR_WITH_NO_ORDER } from "constants/messages";
 import CookieService from "services/cookie";
-import { GA_CALLS, ANY_ADS } from "constants/cookieConsent";
+import { GA_CALLS } from "constants/cookieConsent";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -172,7 +172,7 @@ class CheckoutLoginForm extends React.Component<Props, loginState> {
   };
 
   componentDidMount() {
-    const email = localStorage.getItem("tempEmail");
+    const email = localStorage.getItem("tempEmail") || this.props.isBo;
     // const checkoutPopupCookie = CookieService.getCookie("checkoutinfopopup");
     if (email) {
       this.setState({ email, isLoginDisabled: false }, () => {
@@ -186,18 +186,20 @@ class CheckoutLoginForm extends React.Component<Props, loginState> {
     this.firstEmailInput.current?.focus();
   }
 
-  componentDidUpdate() {
-    const email = localStorage.getItem("tempEmail");
-    if (email) {
-      this.setState({ email, isLoginDisabled: false }, () => {
-        this.myBlur();
-      });
+  componentDidUpdate(prevProps: any, prevState: any) {
+    const email = localStorage.getItem("tempEmail") || this.props.isBo;
+    if (prevProps.isBo != this.props.isBo) {
+      if (email) {
+        this.setState({ email: email, isLoginDisabled: false }, () => {
+          this.myBlur();
+        });
+      }
     }
+
     localStorage.removeItem("tempEmail");
   }
 
   UNSAFE_componentWillReceiveProps() {
-    console.log("Called");
     const email = localStorage.getItem("tempEmail");
     if (!this.state.email || email) {
       if (email) {
@@ -243,7 +245,7 @@ class CheckoutLoginForm extends React.Component<Props, loginState> {
         .then((data: any) => {
           const userConsent = CookieService.getCookie("consent").split(",");
 
-          if (userConsent.includes(ANY_ADS)) {
+          if (userConsent.includes(GA_CALLS)) {
             Moengage.track_event("Login", {
               email: this.state.email
             });
@@ -460,7 +462,9 @@ class CheckoutLoginForm extends React.Component<Props, loginState> {
           </div>
           <div>
             {this.state.showerror ? (
-              <p className={styles.loginErrMsg}>{this.state.showerror}</p>
+              <p className={cs(styles.errorMsg, globalStyles.textLeft)}>
+                {this.state.showerror}
+              </p>
             ) : (
               ""
             )}
@@ -557,7 +561,9 @@ class CheckoutLoginForm extends React.Component<Props, loginState> {
           </div>
           <div>
             {this.state.showerror ? (
-              <p className={styles.loginErrMsg}>{this.state.showerror}</p>
+              <p className={cs(styles.errorMsg, globalStyles.textLeft)}>
+                {this.state.showerror}
+              </p>
             ) : (
               ""
             )}

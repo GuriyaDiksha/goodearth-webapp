@@ -13,7 +13,11 @@ const initialState: CollectionState = {
     shortDescription: "",
     longDescription: "",
     results: [],
-    next: 0
+    next: 0,
+    all_collection_link: "",
+    view_more_collections: [],
+    tags: [],
+    category: ""
   },
   collectionSpecficBanner: {
     name: "",
@@ -23,7 +27,14 @@ const initialState: CollectionState = {
     enabled: false,
     products: [],
     id: 0
-  }
+  },
+  tags: [],
+  filteredCollectionData: [],
+  collectionTemplates: {
+    id: 0,
+    templates: []
+  },
+  collectionMobileView: "grid"
 };
 
 export const collection = (
@@ -55,6 +66,23 @@ export const collection = (
       newState.collectionSpecficBanner = action.payload;
       return { ...newState };
     }
+    case "UPDATE_TAGS_DATA": {
+      const newState = { ...state };
+      newState.tags = action.payload;
+      return newState;
+    }
+    case "UPDATE_FILTERED_COLLECTION_DATA": {
+      const newState = { ...state };
+      newState.filteredCollectionData = action.payload;
+      return newState;
+    }
+    // Collection specific banner reducer
+    case "UPDATE_COLLECTION_SPECIFIC_TEMPLATES": {
+      const newState = { ...state };
+      newState.collectionTemplates = action.payload;
+      return newState;
+    }
+    default:
+      return state;
   }
-  return state;
 };

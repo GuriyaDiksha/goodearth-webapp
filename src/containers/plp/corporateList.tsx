@@ -229,6 +229,13 @@ class CorporateFilter extends React.Component<Props, State> {
   createUrlfromFilter = (load?: any) => {
     const array = this.state.filter;
     const { history } = this.props;
+    const vars: any = {};
+    const url = decodeURI(history.location.search.replace(/\+/g, " "));
+    const re = /[?&]+([^=&]+)=([^&]*)/gi;
+    let match;
+    while ((match = re.exec(url))) {
+      vars[match[1]] = match[2];
+    }
     let filterUrl = "",
       categoryKey: any,
       mainurl: string | undefined = "",
@@ -262,16 +269,24 @@ class CorporateFilter extends React.Component<Props, State> {
             break;
           case "categoryShop":
             categoryKey = array[filterType][key];
-            Object.keys(categoryKey).map(data => {
-              if (categoryKey[data]) {
-                const orignalData = data;
-                data = encodeURIComponent(data).replace(/%20/g, "+");
-                categoryShopVars == ""
-                  ? (categoryShopVars = data)
-                  : (categoryShopVars += "|" + data);
-                mainurl = this.getMainUrl(orignalData);
+            if (Object.keys(categoryKey).length == 0) {
+              // Handling special case when products are attached to L1 only
+              if ("category_shop" in vars) {
+                categoryShopVars = vars["category_shop"];
               }
-            });
+            } else {
+              Object.keys(categoryKey).map(data => {
+                if (categoryKey[data]) {
+                  const orignalData = data;
+                  data = encodeURIComponent(data).replace(/%20/g, "+");
+                  categoryShopVars == ""
+                    ? (categoryShopVars = data)
+                    : (categoryShopVars += "|" + data);
+                  mainurl = this.getMainUrl(orignalData);
+                }
+              });
+            }
+            console.log(categoryShopVars);
             break;
           case "price":
             filterUrl += "&" + key + "=" + array[filterType][key];
@@ -553,7 +568,7 @@ class CorporateFilter extends React.Component<Props, State> {
     }
   };
 
-  updateDataFromAPI = (onload?: string) => {
+  updateDataFromAPI = (onload?: string, currency?: string) => {
     const { mobile, fetchPlpProducts, history, changeLoader } = this.props;
     if (!onload && mobile) {
       return true;
@@ -569,12 +584,15 @@ class CorporateFilter extends React.Component<Props, State> {
       .get("category_shop")
       ?.split(">")[1]
       ?.trim();
-    fetchPlpProducts(filterUrl + `&page_size=${pageSize}`).then(plpList => {
-      productImpression(plpList, categoryShop || "PLP", this.props.currency);
-      changeLoader?.(false);
-      this.createList(plpList);
-      this.props.updateFacets(this.getSortedFacets(plpList.results.facets));
-    });
+
+    fetchPlpProducts(filterUrl + `&page_size=${pageSize}`, currency).then(
+      plpList => {
+        productImpression(plpList, categoryShop || "PLP", this.props.currency);
+        changeLoader?.(false);
+        this.createList(plpList);
+        this.props.updateFacets(this.getSortedFacets(plpList.results.facets));
+      }
+    );
   };
 
   stateChange = (location: any, action: any) => {
@@ -709,8 +727,8 @@ class CorporateFilter extends React.Component<Props, State> {
       this.props.customerGroup != nextProps.customerGroup
     ) {
       nextProps.mobile
-        ? this.updateDataFromAPI("load")
-        : this.updateDataFromAPI();
+        ? this.updateDataFromAPI("load", nextProps.currency)
+        : this.updateDataFromAPI(undefined, nextProps.currency);
     }
   };
 
@@ -1673,7 +1691,7 @@ class CorporateFilter extends React.Component<Props, State> {
 
   render() {
     const { mobile } = this.props;
-    const { filter } = this.state;
+    // const { filter } = this.state;
     // const productHtml = this.createProductType(
     //   this.props.facetObject.categoryObj,
     //   this.props.facets
@@ -1681,10 +1699,10 @@ class CorporateFilter extends React.Component<Props, State> {
     return (
       <Fragment>
         <ul id="inner_filter" className={styles.filterSideMenu}>
-          <li className={styles.filterElements}>
+          {/* <li className={styles.filterElements}>
             <span>Filtered By</span>
             <ul id="currentFilter">{this.renderFilterList(filter)}</ul>
-          </li>
+          </li> */}
           <li>
             <span
               className={
@@ -1770,7 +1788,11 @@ class CorporateFilter extends React.Component<Props, State> {
         {mobile ? (
           <div className={cs(styles.filterButton, bootstrap.row)}>
             <div className={styles.numberDiv}>
-              <span>{this.state.totalItems} Product found</span>
+              <span>
+                {this.state.totalItems > 1
+                  ? this.state.totalItems + " products found"
+                  : this.state.totalItems + " product found"}
+              </span>
             </div>
             <div className={styles.applyButton} onClick={this.mobileApply}>
               <span>Apply</span>

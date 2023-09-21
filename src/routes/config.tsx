@@ -223,8 +223,8 @@ const routes: RouteConfig = [
     exact: false
   },
   {
-    path: ROUTES.HFH,
-    component: loadable(() => import("containers/HomeForHolidays")),
+    path: ROUTES.NEWSLETTERS,
+    component: loadable(() => import("containers/Newsletters")),
     action: async () => null,
     exact: true
   },
@@ -270,13 +270,34 @@ const makerRoutes = [
   ROUTES.MIRAGE,
   ROUTES.MIRAGESHOP,
   ROUTES.MAGHREB,
-  ROUTES.TANGIER
+  ROUTES.TANGIER,
+  ROUTES.TANGIERBYRICHARDHAMILTON,
+  ROUTES.MATERIALCULTURE,
+  ROUTES.VINITACHAITANYA,
+  ROUTES.VASUDHARAI,
+  ROUTES.BOSPORUSMETALDECOR,
+  ROUTES.TELLINGSTORIES
+];
+
+const makerSmartnav = [
+  ROUTES.MAKERTEST,
+  ROUTES.ANINDIANSUMMER,
+  ROUTES.ARTOFENTERTAINING
 ];
 
 makerRoutes.forEach(route => {
   routes.push({
     path: route,
     component: loadable(() => import("containers/makerpage")),
+    action: async () => null,
+    exact: true
+  });
+});
+
+makerSmartnav.forEach(route => {
+  routes.push({
+    path: route,
+    component: loadable(() => import("containers/smartNav")),
     action: async () => null,
     exact: true
   });

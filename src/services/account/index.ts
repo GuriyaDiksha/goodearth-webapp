@@ -2,14 +2,17 @@ import API from "utils/api";
 import { Dispatch } from "redux";
 import { ProfileResponse } from "containers/myAccount/components/MyProfile/typings";
 import { MyOrdersResponse } from "containers/myAccount/components/MyOrder/typings";
-import { BalanceProps } from "containers/myAccount/components/Balance/typings";
+import {
+  BalanceProps,
+  PrefernecesProps
+} from "containers/myAccount/components/Balance/typings";
 import { ConfirmResetPasswordResponse } from "containers/resetPassword/typings";
 // import CookieService from "services/cookie";
-import { updateCookies } from "actions/cookies";
-import { resetMeta } from "actions/user";
-import MetaService from "services/meta";
-import WishlistService from "services/wishlist";
-import BasketService from "services/basket";
+// import { updateCookies } from "actions/cookies";
+// import { resetMeta } from "actions/user";
+// import MetaService from "services/meta";
+// import WishlistService from "services/wishlist";
+// import BasketService from "services/basket";
 import { encryptdata, decriptdata } from "utils/validate";
 
 export default {
@@ -276,5 +279,28 @@ export default {
         });
     });
     return courier;
+  },
+  fetchAccountPreferences: async (dispatch: Dispatch) => {
+    const data: any = await API.get<PrefernecesProps>(
+      dispatch,
+      `${__API_HOST__}/myapi/customer/profile_preferences/`
+    );
+    return data;
+  },
+  updateAccountPreferences: async (
+    dispatch: Dispatch,
+    postData: PrefernecesProps
+  ) => {
+    const data: any = await API.post<PrefernecesProps>(
+      dispatch,
+      `${__API_HOST__}/myapi/customer/profile_preferences/`,
+      {
+        subscribe: postData.subscribe,
+        whatsappNo: postData.whatsappNo,
+        whatsappNoCountryCode: postData.whatsappNoCountryCode,
+        whatsappSubscribe: postData.whatsappSubscribe
+      }
+    );
+    return data;
   }
 };

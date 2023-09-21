@@ -18,7 +18,7 @@ import { RouteComponentProps, withRouter } from "react-router";
 import EmailVerification from "../emailVerification";
 import { USR_WITH_NO_ORDER } from "constants/messages";
 import CookieService from "services/cookie";
-import { GA_CALLS, ANY_ADS } from "constants/cookieConsent";
+import { GA_CALLS } from "constants/cookieConsent";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -250,7 +250,7 @@ class MainLogin extends React.Component<Props, loginState> {
     this.myBlur(event);
   };
 
-  gtmPushSignIn = () => {
+  gtmPushSignIn = (data: any) => {
     const userConsent = CookieService.getCookie("consent").split(",");
     if (userConsent.includes(GA_CALLS)) {
       dataLayer.push({
@@ -258,6 +258,12 @@ class MainLogin extends React.Component<Props, loginState> {
         eventAction: "signIn",
         eventCategory: "formSubmission",
         eventLabel: location.pathname
+      });
+      dataLayer.push({
+        event: "login",
+        user_status: "logged in", //'Pass the user status ex. logged in OR guest',
+        // login_method: "", //'Pass Email or Google as per user selection',
+        user_id: data?.userId
       });
     }
   };
@@ -278,8 +284,8 @@ class MainLogin extends React.Component<Props, loginState> {
           this.props.sortBy
         )
         .then(data => {
-          this.gtmPushSignIn();
-          if (userConsent.includes(ANY_ADS)) {
+          this.gtmPushSignIn(data);
+          if (userConsent.includes(GA_CALLS)) {
             Moengage.track_event("Login", {
               email: this.state.email
             });
@@ -314,6 +320,14 @@ class MainLogin extends React.Component<Props, loginState> {
           //   const searchParams = new URLSearchParams(history.location.search);
           //   history.push(searchParams.get("redirect_to") || "");
           // }
+
+          const boid = new URLSearchParams(
+            this.props.history.location.search
+          ).get("bo_id");
+
+          if (boid) {
+            this.props.history.push(`/order/checkout?bo_id=${boid}`);
+          }
         })
         .catch(err => {
           if (
@@ -454,6 +468,34 @@ class MainLogin extends React.Component<Props, loginState> {
     }
   }
 
+  handlePaste(event: React.ClipboardEvent<HTMLInputElement>, type: string) {
+    switch (type) {
+      case "email": {
+        this.disablePassword();
+        const pasteTxt = event.clipboardData.getData("text");
+        if (!checkMail(pasteTxt)) {
+          if (this.state.msg !== "Please enter a valid Email ID") {
+            this.setState({
+              msg: "Please enter a valid Email ID",
+              highlight: true,
+              showerror: ""
+            });
+          }
+        } else {
+          this.setState({
+            showerror: "",
+            isLoginDisabled: false
+          });
+        }
+        break;
+      }
+      case "password": {
+        this.setState({ password: event.currentTarget.value });
+        break;
+      }
+    }
+  }
+
   disablePassword() {
     if (!this.state.isPasswordDisabled) {
       this.setState({
@@ -503,6 +545,7 @@ class MainLogin extends React.Component<Props, loginState> {
               border={this.state.highlight}
               keyUp={e => this.handleKeyUp(e, "email")}
               handleChange={e => this.handleChange(e, "email")}
+              handlePaste={e => this.handlePaste(e, "email")}
               error={this.state.msg}
               inputRef={this.firstEmailInput}
               showLabel={true}
@@ -566,6 +609,7 @@ class MainLogin extends React.Component<Props, loginState> {
               value={this.state.password}
               keyUp={e => this.handleKeyUp(e, "password")}
               handleChange={e => this.handleChange(e, "password")}
+              handlePaste={e => this.handlePaste(e, "password")}
               label={"Password*"}
               border={this.state.highlightp}
               inputRef={this.passwordInput}

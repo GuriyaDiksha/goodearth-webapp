@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import cs from "classnames";
 import { MobileDropdownMenuProps } from "./typing";
 import styles from "./styles.scss";
@@ -18,6 +18,11 @@ const MobileDropdownMenu = ({
   const [menuOpen, setOpenState] = useState(open || false);
   const [displayValue, setDisplayValue] = useState(value || "");
   const { showTimer } = useSelector((state: AppState) => state.info);
+
+  useEffect(() => {
+    setDisplayValue(value || "");
+  }, [value]);
+
   const onInsideClick = () => {
     setOpenState(!menuOpen);
   };

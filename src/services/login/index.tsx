@@ -28,7 +28,7 @@ import { POPUP } from "constants/components";
 import { showGrowlMessage, checkoutGTM } from "../../utils/validate";
 import { Basket } from "typings/basket";
 import { updateRegion } from "actions/widget";
-import { ANY_ADS } from "constants/cookieConsent";
+import { GA_CALLS } from "constants/cookieConsent";
 import { encryptdata, decriptdata, encrypttext } from "utils/validate";
 // import { updateBasket } from "actions/basket";
 // import { CUST } from "constants/util";
@@ -88,7 +88,7 @@ export default {
       {
         email: encrypttext(email),
         password: encrypttext(password),
-        boId: boId
+        boId: boId ? encrypttext(boId) : boId
       }
     );
     const response = decriptdata(res);
@@ -345,7 +345,7 @@ export default {
       });
 
       const userConsent = CookieService.getCookie("consent").split(",");
-      if (userConsent.includes(ANY_ADS)) {
+      if (userConsent.includes(GA_CALLS)) {
         Moengage.destroy_session();
       }
       WishlistService.resetWishlist(dispatch);
@@ -368,7 +368,11 @@ export default {
       });
       // HeaderService.fetchHomepageData(dispatch);
       dispatch(resetMeta(undefined));
-      showGrowlMessage(dispatch, MESSAGE.LOGOUT_SUCCESS, 5000);
+      if (source == "reset-pass") {
+        showGrowlMessage(dispatch, MESSAGE.INVALID_SESSION_LOGOUT, 5000);
+      } else {
+        showGrowlMessage(dispatch, MESSAGE.LOGOUT_SUCCESS, 5000);
+      }
       return res;
     }
   },
@@ -398,7 +402,7 @@ export default {
     dispatch(resetMeta(undefined));
     showGrowlMessage(
       dispatch,
-      MESSAGE.LOGOUT_SUCCESS,
+      MESSAGE.INVALID_SESSION_LOGOUT,
       5000,
       "INVALID_SESSION_LOGOUT"
     );
@@ -534,9 +538,20 @@ export default {
           } else {
             // CookieService.setCookie("region", "INDIA", 365);
             // CookieService.setCookie("ip", data?.ip, 365);
+            dispatch(
+              updateRegion({
+                region: "India",
+                ip: "",
+                country: "India"
+              })
+            );
             CookieService.setCookie("country", "India", 365);
             resolve("error");
           }
+        })
+        .catch(error => {
+          resolve("error");
+          console.log(error);
         });
     });
     return response;

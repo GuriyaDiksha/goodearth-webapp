@@ -32,7 +32,11 @@ const ColorSelector: React.FC<Props> = ({ products, onClick }) => {
           })}
           onClick={onClick}
         >
-          <img src={productImage} className={styles.imgResponsive} />
+          <img
+            src={productImage}
+            className={styles.imgResponsive}
+            width="200"
+          />
           {/* <div className={styles.text}>{colorName}</div> */}
         </Link>
       );

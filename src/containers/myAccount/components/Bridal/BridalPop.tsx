@@ -9,12 +9,9 @@ import styles from "./styles.scss";
 import iconStyles from "styles/iconFonts.scss";
 // import "../../../../styles/myslick.css";
 import "./slick.css";
-// import bootstrapStyles from "../../../../styles/bootstrap/bootstrap-grid.scss";
 import globalStyles from "styles/global.scss";
 import cs from "classnames";
-// import * as mapper from "pages/myaccount/mappers/accountm"
 import ipopM3 from "../../../../images/bridal/ipops/mobile/ipopM3.png";
-import ipopM2 from "../../../../images/bridal/ipops/mobile/ipopM2.png";
 import ipopM4 from "../../../../images/bridal/ipops/mobile/ipopM4.jpg";
 import ipopM1 from "../../../../images/bridal/ipops/mobile/ipopM1.jpg";
 import ipop3 from "../../../../images/bridal/ipops/ipop3.png";
@@ -98,14 +95,14 @@ const BridalPop: React.FC = () => {
                 Register’ icon provided on the right of the product description.
               </div>
             </div>
-            <div className="">
+            {/* <div className="">
               <img src={ipopM2} className={globalStyles.imgResponsive} />
               <div className={cs(globalStyles.c10LR, styles.txt)}>
                 To manage your Bridal Registry, select ‘Your Profile’ &gt;
                 ‘Bridal Registry’ &gt; ‘Manage Registry’ from the menu provided
                 in the dropdown.
               </div>
-            </div>
+            </div> */}
             <div className="">
               <img src={ipopM4} className={globalStyles.imgResponsive} />
               <div className={cs(globalStyles.c10LR, styles.txt)}>

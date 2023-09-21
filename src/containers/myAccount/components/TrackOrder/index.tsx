@@ -370,6 +370,11 @@ class TrackOrder extends React.Component<Props, State> {
 
   handleSubmit = (model: any, resetForm: any, updateInputsWithError: any) => {
     const { email, orderNumber } = model;
+    this.setState({
+      loader: true,
+      orderNumber: orderNumber,
+      myemail: email
+    });
     this.setState({ loader: true });
     this.sendTrackOrder(orderNumber, email);
   };
@@ -427,7 +432,7 @@ class TrackOrder extends React.Component<Props, State> {
                 <FormInput
                   name="orderNumber"
                   placeholder={"Order Number*"}
-                  label={"Order Number"}
+                  label={"Order Number*"}
                   value={this.state.orderNumber}
                   keyUp={e => {
                     if (e.key == "Enter") {

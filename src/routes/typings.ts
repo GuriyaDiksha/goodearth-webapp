@@ -44,11 +44,10 @@ export const enum ROUTES {
   VIRTUAL = "/flowers-fragrance-anita-lal",
   SHOPPER = "/personal-shopper-form",
   INSTORE = "/instoreservices",
-  THANKYOU = "/thankyou",
+  THANKYOU = "/homepage",
   MUMTAZ = "/mumtaz-virtual-appointment",
   GCEMAIL = "/send-giftcard",
   AUTH = "/auth",
-  HFH = "/Hfh2022-reminders",
   SITEMAP = "/sitemap",
   WORKSHOPS = "/workshops",
   ERROR404 = "/404",
@@ -64,7 +63,17 @@ export const enum ROUTES {
   MIRAGESHOP = "/mirageshop",
   MIRAGE = "/mirage",
   MAGHREB = "/tangier",
-  TANGIER = "/tangier/shop"
+  TANGIER = "/tangier/shop",
+  MAKERTEST = "/makertest",
+  ANINDIANSUMMER = "/anindiansummer",
+  TANGIERBYRICHARDHAMILTON = "/TangierbyRichardHamilton",
+  NEWSLETTERS = "/newsletters",
+  ARTOFENTERTAINING = "/artofentertaining",
+  MATERIALCULTURE = "/materialculture",
+  VINITACHAITANYA = "/artofgifting-VinitaChaitanya",
+  VASUDHARAI = "/artofgifting-VasudhaRai",
+  BOSPORUSMETALDECOR = "/Bosporus_Metal_Decor",
+  TELLINGSTORIES = "/telling-stories-through-textiles"
 }
 
 export type RouteConfig = RouteObject[];

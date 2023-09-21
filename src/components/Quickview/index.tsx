@@ -15,6 +15,7 @@ import mapDispatchToProps from "./initAction";
 import fontStyles from "styles/iconFonts.scss";
 import CookieService from "../../services/cookie";
 import { GA_CALLS } from "constants/cookieConsent";
+// import ReactPlayer from "react-player";
 
 const VerticalImageSelector = loadable(() =>
   import("components/VerticalImageSelector")
@@ -131,12 +132,36 @@ class Quickview extends React.Component<Props, State> {
           key={image.id}
           id={`img-${image.id}`}
         >
-          <PdpImage
-            alt={this.props.data.altText || this.props.data.title}
-            {...image}
-            index={index}
-            onClick={this.onImageClick}
-          />
+          {" "}
+          {image?.media_type === "Image" || image?.type === "main" ? (
+            <PdpImage
+              alt={this.props.data.altText || this.props.data.title}
+              {...image}
+              index={index}
+              onClick={this.onImageClick}
+            />
+          ) : (
+            <>
+              {/* <div className={styles.overlayDiv}></div> */}
+              {/* <ReactPlayer
+                url={image?.vimeo_link}
+                playing={true}
+                volume={1}
+                muted={true}
+                width={"100%"}
+                height={"auto"}
+                playsinline={true}
+              /> */}
+              <video
+                src={image?.video_link}
+                autoPlay
+                loop
+                preload="auto"
+                width={"90%"}
+                height={"auto"}
+              />
+            </>
+          )}
         </div>
       );
   };
@@ -151,7 +176,7 @@ class Quickview extends React.Component<Props, State> {
     const {
       data,
       currency,
-      device: { mobile },
+      device: { mobile, tablet },
       updateComponentModal,
       changeModalState
     } = this.props;
@@ -170,6 +195,7 @@ class Quickview extends React.Component<Props, State> {
         updateComponentModal={updateComponentModal}
         changeModalState={changeModalState}
         source={this.props.source}
+        tablet={tablet}
       />
     );
   };
@@ -184,6 +210,7 @@ class Quickview extends React.Component<Props, State> {
       const newId = productListId[--index];
       fetchProductsDetails(newId);
     }
+    this.setState({ currentIndex: 0 });
   };
 
   render() {

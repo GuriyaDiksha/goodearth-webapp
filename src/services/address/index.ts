@@ -3,11 +3,16 @@ import { Dispatch } from "redux";
 import {
   AddressData,
   AddressFormData,
+  CustomDuties,
   specifyShippingAddressResponse
 } from "components/Address/typings";
 import { PinCodeData } from "components/Formsy/PinCode/typings";
 import { updateAddressList } from "actions/address";
-import { specifyBillingAddressData } from "containers/checkout/typings";
+import {
+  specifyBillingAddressData,
+  validateGSTData,
+  validateGSTDataResponse
+} from "containers/checkout/typings";
 import { updateBasket } from "actions/basket";
 import CacheService from "services/cache";
 import { MESSAGE } from "constants/messages";
@@ -50,14 +55,16 @@ export default {
   updateAddress: async (
     dispatch: Dispatch,
     formData: AddressFormData,
-    id: number
+    id: number,
+    addressId?: number
   ) => {
     const data = await API.put<AddressData[]>(
       dispatch,
       `${__API_HOST__}/myapi/address/update_address/${id}`,
       formData
     );
-    dispatch(updateAddressList(data));
+
+    dispatch(updateAddressList(data, addressId));
     return data;
   },
   deleteAddress: async (dispatch: Dispatch, id: number) => {
@@ -126,6 +133,22 @@ export default {
       dispatch,
       `${__API_HOST__}/myapi/address/specify_billing_address/`,
       specifyBillingAddressData
+    );
+    return data;
+  },
+  fetchCustomDuties: async (dispatch: Dispatch, currency: string) => {
+    const data = await API.post<CustomDuties>(
+      dispatch,
+      `${__API_HOST__}/myapi/shipping/custom_duties/`,
+      { currency }
+    );
+    return data;
+  },
+  validateGST: async (dispatch: Dispatch, validateGSTData: validateGSTData) => {
+    const data = await API.post<validateGSTDataResponse>(
+      dispatch,
+      `${__API_HOST__}/myapi/common/validate_gst/`,
+      validateGSTData
     );
     return data;
   }

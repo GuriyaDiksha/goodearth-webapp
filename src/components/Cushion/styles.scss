@@ -53,6 +53,7 @@
     background-color: #fff;
     animation-name :slideLeft;
     animation-duration:0.4s;
+    z-index: 88888;
   
     .heart {
       &.icon_heart-cerise-fill {
@@ -440,7 +441,7 @@
   font-size: 14px;
   font-style: normal;
   font-weight:normal;
-  letter-spacing: 0.28px;
+  letter-spacing: 0px;
 }
 
 .bridal-ring {

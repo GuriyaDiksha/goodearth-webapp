@@ -35,7 +35,8 @@ const mapStateToProps = (state: AppState) => {
     isSale: state.info.isSale,
     currency: state.currency,
     isLoggedIn: state.user.isLoggedIn,
-    currencyList: state.info.currencyList
+    currencyList: state.info.currencyList,
+    isLoading: state.info.isLoading
   };
 };
 type Props = MobileListProps &
@@ -913,8 +914,13 @@ class Mobilemenu extends React.Component<Props, MobileState> {
             onClick={showCurrency}
           >
             {" "}
-            change currency: {this.props.currency}(
-            {String.fromCharCode(...currencyCodes[this.props.currency])})
+            change currency: {this.props.currency}
+            {this.props.currency != "AED" && (
+              <>
+                {" "}
+                ({String.fromCharCode(...currencyCodes[this.props.currency])})
+              </>
+            )}
           </li>
           <li className={showC ? "" : styles.hidden}>
             <ul className={cs(styles.noMargin, styles.lowerMenuCurrencyList)}>
@@ -930,6 +936,9 @@ class Mobilemenu extends React.Component<Props, MobileState> {
                       styles.lowerMenuCurrency
                     )}
                     onClick={() => {
+                      if (this.props.isLoading) {
+                        return false;
+                      }
                       changeCurrency(item.value);
                       headerClickGTM("Currency", "Top", true, isLoggedIn);
                       clickToggle();
@@ -1088,7 +1097,7 @@ class Mobilemenu extends React.Component<Props, MobileState> {
             </Link>
           </>
         </li> */}
-        <li
+        {/* <li
           key="stories"
           className={cs(
             this.props.location.pathname.indexOf("/bridal/") > 0 &&
@@ -1115,7 +1124,7 @@ class Mobilemenu extends React.Component<Props, MobileState> {
           >
             {ReactHtmlParser("stories")}
           </a>
-        </li>
+        </li> */}
       </ul>
     );
     const innerMenu = (
