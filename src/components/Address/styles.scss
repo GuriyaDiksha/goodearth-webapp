@@ -726,6 +726,10 @@ body:has(.mobile) {
 
   div {
     width: 49%;
+
+    @media screen and (max-width:992px) {
+      width: 50%;
+    }
   }
 
   .full-width{
