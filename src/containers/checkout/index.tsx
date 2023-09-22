@@ -740,6 +740,8 @@ class Checkout extends React.Component<Props, State> {
       // }
 
       const { bridal } = this.props.basket;
+      const { boId } = this.state;
+
       const userConsent = CookieService.getCookie("consent").split(",");
       this.setState({ isLoading: true });
       this.props
@@ -749,7 +751,7 @@ class Checkout extends React.Component<Props, State> {
           this.props.user,
           bridal,
           this.props.history,
-          this.state.boId
+          boId
         )
         .then(data => {
           if (userConsent.includes(GA_CALLS)) {
