@@ -92,13 +92,15 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       shippingAddress: AddressData,
       user: User,
       isBridal = false,
-      history: any
+      history: any,
+      boId: string
     ) => {
       const data = await AddressService.specifyShippingAddress(
         dispatch,
         shippingAddressId,
         isBridal,
-        history
+        history,
+        boId
       );
       const userData = { ...user, shippingData: shippingAddress };
       dispatch(updateUser(userData));
@@ -746,7 +748,8 @@ class Checkout extends React.Component<Props, State> {
           address,
           this.props.user,
           bridal,
-          this.props.history
+          this.props.history,
+          this.state.boId
         )
         .then(data => {
           if (userConsent.includes(GA_CALLS)) {

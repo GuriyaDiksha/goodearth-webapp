@@ -164,14 +164,12 @@ const AddressSection: React.FC<AddressProps & {
   }, [customDuties]);
 
   useEffect(() => {
-    debugger;
     if (
       activeStep == STEP_BILLING &&
       (!isBridal || !isGoodearthShipping) &&
       props.selectedAddress &&
       isActive
     ) {
-      debugger;
       dispatch(updateBillingAddressId(props.selectedAddress?.id || 0));
 
       if (
@@ -189,7 +187,6 @@ const AddressSection: React.FC<AddressProps & {
     }
 
     if (activeStep === STEP_SHIPPING && isActive) {
-      debugger;
       dispatch(updateShippingAddressId(props.selectedAddress?.id || 0));
       dispatch(updateCustomDuties({ visible: false, message: "" }));
 

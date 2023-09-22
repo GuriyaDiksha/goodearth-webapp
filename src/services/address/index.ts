@@ -79,14 +79,15 @@ export default {
     dispatch: Dispatch,
     id: number,
     isBridal: boolean,
-    history: any
+    history: any,
+    boId?: string
   ) => {
     const data = await API.post<specifyShippingAddressResponse>(
       dispatch,
       `${__API_HOST__}/myapi/address/specify_shipping_address/?source=checkout${
         isBridal ? "&isBridal=true" : ""
       }`,
-      { shippingAddressId: id }
+      { shippingAddressId: id, boId }
     );
     const {
       publishRemove,
