@@ -58,6 +58,8 @@ const AddressList: React.FC<Props> = props => {
       //   addressData = addressData.filter(data => data.id !== props.bridalId);
       // }
       setAddressData(addressDatas);
+    } else {
+      setAddressData(addressDataList);
     }
   }, [addressDataList, isLoggedIn, email]);
 

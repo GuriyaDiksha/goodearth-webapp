@@ -164,12 +164,14 @@ const AddressSection: React.FC<AddressProps & {
   }, [customDuties]);
 
   useEffect(() => {
+    debugger;
     if (
       activeStep == STEP_BILLING &&
       (!isBridal || !isGoodearthShipping) &&
       props.selectedAddress &&
       isActive
     ) {
+      debugger;
       dispatch(updateBillingAddressId(props.selectedAddress?.id || 0));
 
       if (
@@ -187,13 +189,11 @@ const AddressSection: React.FC<AddressProps & {
     }
 
     if (activeStep === STEP_SHIPPING && isActive) {
+      debugger;
       dispatch(updateShippingAddressId(props.selectedAddress?.id || 0));
       dispatch(updateCustomDuties({ visible: false, message: "" }));
 
-      if (
-        props.selectedAddress &&
-        props.selectedAddress?.isDefaultForShipping
-      ) {
+      if (props.selectedAddress && props.selectedAddress?.id) {
         AddressService.fetchCustomDuties(
           dispatch,
           countryCurrencyCode?.[props.selectedAddress?.country || "IN"]
@@ -244,6 +244,12 @@ const AddressSection: React.FC<AddressProps & {
       if (isBridal && activeStep == STEP_SHIPPING) return "";
       if (isBillingDisable) return null;
       if (mode == "new" || mode == "edit") return null;
+      if (
+        activeStep == STEP_BILLING &&
+        (isBridal || isGoodearthShipping) &&
+        addressList.length <= 1
+      )
+        return null;
       return (
         <div
           className={cs(
@@ -941,10 +947,7 @@ const AddressSection: React.FC<AddressProps & {
   //CTA text of shipping and billing section
   let ctaText = "";
 
-  if (
-    (!isBridal && !isGoodearthShipping && addressList.length) ||
-    ((isBridal || isGoodearthShipping) && addressList.length > 1)
-  ) {
+  if (addressList.length) {
     if (activeStep == STEP_SHIPPING) {
       if (shippingAddressId) {
         ctaText = "SHIP TO THIS ADDRESS";
@@ -952,10 +955,17 @@ const AddressSection: React.FC<AddressProps & {
         ctaText = "SELECT AN ADDRESS";
       }
     } else {
-      if (billingAddressId) {
-        ctaText = "PROCEED TO PAYMENT";
+      if (
+        ((isBridal || isGoodearthShipping) && addressList.length > 1) ||
+        (!isBridal && !isGoodearthShipping)
+      ) {
+        if (billingAddressId) {
+          ctaText = "PROCEED TO PAYMENT";
+        } else {
+          ctaText = "SELECT AN ADDRESS";
+        }
       } else {
-        ctaText = "SELECT AN ADDRESS";
+        ctaText = "ADD A NEW ADDRESS";
       }
     }
   } else {

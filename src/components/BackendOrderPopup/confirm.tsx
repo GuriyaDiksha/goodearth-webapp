@@ -1,11 +1,13 @@
 import React, { useContext } from "react";
-import { useStore } from "react-redux";
+import { useSelector, useStore } from "react-redux";
 import cs from "classnames";
 import CheckoutService from "services/checkout";
 import globalStyles from "styles/global.scss";
 import styles from "./styles.scss";
 import { Context } from "components/Modal/context";
 import iconStyles from "styles/iconFonts.scss";
+import { updateShippingAddressId } from "actions/address";
+import { AppState } from "reducers/typings";
 
 type Props = {};
 
@@ -13,6 +15,8 @@ const BackendPopupConfirm: React.FC<Props> = () => {
   const { dispatch } = useStore();
 
   const { closeModal } = useContext(Context);
+
+  const { shippingData } = useSelector((state: AppState) => state.user);
 
   const clearBoBasket = async () => {
     CheckoutService.clearBoBasket(dispatch)
@@ -22,6 +26,11 @@ const BackendPopupConfirm: React.FC<Props> = () => {
       .catch(e => {
         console.log(e);
       });
+  };
+
+  const saveOldAddressOnClose = () => {
+    dispatch(updateShippingAddressId(shippingData?.id || 0));
+    closeModal();
   };
 
   return (
@@ -35,7 +44,7 @@ const BackendPopupConfirm: React.FC<Props> = () => {
           globalStyles.textCenter
         )}
       >
-        <div className={styles.cross} onClick={closeModal}>
+        <div className={styles.cross} onClick={saveOldAddressOnClose}>
           <i
             className={cs(
               iconStyles.icon,
@@ -55,7 +64,7 @@ const BackendPopupConfirm: React.FC<Props> = () => {
           <div className={cs(globalStyles.ceriseBtn, styles.ceriseBtn70)}>
             <a
               onClick={() => {
-                closeModal();
+                saveOldAddressOnClose();
               }}
             >
               {`NO, DON'T REMOVE`}

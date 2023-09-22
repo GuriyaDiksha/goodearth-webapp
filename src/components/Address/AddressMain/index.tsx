@@ -325,10 +325,9 @@ const AddressMain: React.FC<Props> = props => {
           inline: "start"
         });
       } else {
-        document.getElementById(`addressData`)?.scrollIntoView({
-          behavior: "smooth",
-          block: "end",
-          inline: "start"
+        window.scrollTo({
+          top: 0,
+          behavior: "smooth"
         });
       }
     }, 300);
