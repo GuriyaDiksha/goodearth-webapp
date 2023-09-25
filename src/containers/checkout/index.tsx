@@ -105,7 +105,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       const userData = { ...user, shippingData: shippingAddress };
       dispatch(updateUser(userData));
       // isLoading(true);
-      AddressService.fetchAddressList(dispatch).then(addressList => {
+      AddressService.fetchAddressList(dispatch, boId).then(addressList => {
         dispatch(updateAddressList(addressList));
       });
       // .finally(()=> isLoading(false));
@@ -113,19 +113,20 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       return data;
     },
     specifyBillingAddress: async (
-      specifyBillingAddressData: specifyBillingAddressData
+      specifyBillingAddressData: specifyBillingAddressData,
+      boId: string
     ) => {
       const data = await AddressService.specifyBillingAddress(
         dispatch,
         specifyBillingAddressData
       );
-      AddressService.fetchAddressList(dispatch).then(addressList => {
+      AddressService.fetchAddressList(dispatch, boId).then(addressList => {
         dispatch(updateAddressList(addressList));
       });
       return data;
     },
-    fetchAddressBridal: async () => {
-      const addressList = await AddressService.fetchAddressList(dispatch);
+    fetchAddressBridal: async (boId: string) => {
+      const addressList = await AddressService.fetchAddressList(dispatch, boId);
       dispatch(updateAddressList(addressList));
       return addressList;
     },
@@ -597,7 +598,7 @@ class Checkout extends React.Component<Props, State> {
         this.setState({ isGoodearthShipping: true });
       }
       if (!nextProps.basket.bridal && this.props.basket.bridal) {
-        this.props.fetchAddressBridal();
+        this.props.fetchAddressBridal(this?.state?.boId);
       }
     } else {
       // this.props.updateShipping(nextProps.user.shippingData?.id || 0)
@@ -899,7 +900,7 @@ class Checkout extends React.Component<Props, State> {
         }
         this.setState({ isLoading: true });
         this.props
-          .specifyBillingAddress(data)
+          .specifyBillingAddress(data, this?.state?.boId)
           .then(() => {
             const userConsent = CookieService.getCookie("consent").split(",");
             if (userConsent.includes(GA_CALLS)) {

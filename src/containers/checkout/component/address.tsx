@@ -38,6 +38,7 @@ import ModalStyles from "components/Modal/styles.scss";
 import CookieService from "services/cookie";
 import { GA_CALLS } from "constants/cookieConsent";
 import bridalRing from "../../../images/bridal/rings.svg";
+import { useLocation } from "react-router";
 
 const AddressSection: React.FC<AddressProps & {
   mode: string;
@@ -100,6 +101,7 @@ const AddressSection: React.FC<AddressProps & {
   const [shippingError, setShippingError] = useState("");
 
   const dispatch = useDispatch();
+  const location = useLocation();
 
   const { mode } = useSelector((state: AppState) => state.address);
 
@@ -145,8 +147,11 @@ const AddressSection: React.FC<AddressProps & {
   // End: Intersection Observer (Mobile)
 
   useEffect(() => {
+    const queryString = location.search;
+    const urlParams = new URLSearchParams(queryString);
+    const boId = urlParams.get("bo_id") || undefined;
     if (isLoggedIn && currentCallBackComponent == "checkout-shipping") {
-      AddressService.fetchAddressList(dispatch).then(addressList => {
+      AddressService.fetchAddressList(dispatch, boId).then(addressList => {
         dispatch(updateAddressList(addressList));
       });
     }
