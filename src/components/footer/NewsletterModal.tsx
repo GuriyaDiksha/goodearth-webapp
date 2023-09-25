@@ -94,7 +94,7 @@ const NewsletterModal: React.FC<Props> = ({ title, subTitle }) => {
     }
     setSuccessMsg("");
     setTimeout(() => {
-      const firstErrorField = document.getElementsByClassName(
+      const firstErrorField = document?.getElementsByClassName(
         globalStyles.errorBorder
       )[0] as HTMLInputElement | HTMLSelectElement;
       if (firstErrorField) {
@@ -112,7 +112,7 @@ const NewsletterModal: React.FC<Props> = ({ title, subTitle }) => {
   const onClose = () => {
     localStorage.setItem("seenPopUp", "true");
     setDisplayPopUp(false);
-    document.body.classList.remove(globalStyles.noScroll);
+    document?.body.classList.remove(globalStyles.noScroll);
   };
 
   useEffect(() => {
@@ -125,7 +125,7 @@ const NewsletterModal: React.FC<Props> = ({ title, subTitle }) => {
           const returningUser = localStorage.getItem("seenPopUp");
           setDisplayPopUp(!returningUser);
           !returningUser
-            ? document.body.classList.add(globalStyles.noScroll)
+            ? document?.body.classList.add(globalStyles.noScroll)
             : "";
         }
       });
@@ -154,11 +154,11 @@ const NewsletterModal: React.FC<Props> = ({ title, subTitle }) => {
       .then(data => {
         if (data.status) {
           setSuccessMsg("You have subscribed successfully.");
-          const subscribeCta = document.getElementById("subscribe-cta");
+          const subscribeCta = document?.getElementById("subscribe-cta");
           if (subscribeCta) {
             subscribeCta.hidden = true;
           }
-          const input = document.querySelectorAll<HTMLElement>(
+          const input = document?.querySelectorAll<HTMLElement>(
             "#job-form input"
           );
           if (input) {
