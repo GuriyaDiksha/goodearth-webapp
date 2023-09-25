@@ -52,7 +52,6 @@ const NewsletterModal: React.FC<Props> = ({ title, subTitle }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [displayPopUp, setDisplayPopUp] = useState(false);
   const isAlphaError = "Only alphabets are allowed";
-
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -113,14 +112,28 @@ const NewsletterModal: React.FC<Props> = ({ title, subTitle }) => {
   const onClose = () => {
     localStorage.setItem("seenPopUp", "true");
     setDisplayPopUp(false);
+    document.body.classList.remove(globalStyles.noScroll);
   };
 
   useEffect(() => {
-    setTimeout(() => {
-      setDisplayPopUp(true);
-      const returningUser = localStorage.getItem("seenPopUp");
-      setDisplayPopUp(!returningUser);
-    }, 10000);
+    HeaderService.checkSignup(dispatch, email).then(res => {
+      // debugger
+      if (email && res.already_signedup) {
+        setDisplayPopUp(false);
+      } else {
+        const timer = setTimeout(() => {
+          setDisplayPopUp(true);
+          const returningUser = localStorage.getItem("seenPopUp");
+          setDisplayPopUp(!returningUser);
+          !returningUser
+            ? document.body.classList.add(globalStyles.noScroll)
+            : "";
+        }, 10000);
+        return () => clearTimeout(timer);
+      }
+      // console.log("signedup ===" +email +"-->>" +res.already_signedup);
+      // console.log("popup ==" +displayPopUp);
+    });
   }, []);
 
   //  start close modal on ESC keyword

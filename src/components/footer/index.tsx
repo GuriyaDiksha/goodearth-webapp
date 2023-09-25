@@ -1177,15 +1177,16 @@ class Footer extends React.Component<Props, FooterState> {
           />
         )}
 
-        {!this.props.showCookie ? (
+        {!(OLD_COOKIE_SETTINGS
+          ? cookiCheck
+          : (cookiCheck && !this.state.isConsentSave) ||
+            this.props?.showCookiePref) && (
           <NewsletterModal
             title={"Join our Community"}
             subTitle={
               "Make the most out of your Good Earth favourites. Sign up to discover our latest collections, insider stories and expert tips"
             }
           />
-        ) : (
-          ""
         )}
       </div>
     );
