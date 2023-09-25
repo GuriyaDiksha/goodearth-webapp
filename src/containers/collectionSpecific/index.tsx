@@ -800,7 +800,7 @@ class CollectionSpecific extends React.Component<
           <ProductCounter
             current={this.state.count}
             // total={results?.length}
-            total={this.props.collectionSpecificData.count}
+            total={this.props.collectionSpecificData?.count}
             id="collection-product-counter"
           />
         )}
