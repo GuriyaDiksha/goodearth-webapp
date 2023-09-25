@@ -116,25 +116,22 @@ const NewsletterModal: React.FC<Props> = ({ title, subTitle }) => {
   };
 
   useEffect(() => {
-    HeaderService.checkSignup(dispatch, email).then(res => {
-      // debugger
-      if (email && res.already_signedup) {
-        setDisplayPopUp(false);
-      } else {
-        const timer = setTimeout(() => {
+    const timer = setTimeout(() => {
+      HeaderService.checkSignup(dispatch, email).then((res: any) => {
+        if (email && res.already_signedup) {
+          setDisplayPopUp(false);
+        } else {
           setDisplayPopUp(true);
           const returningUser = localStorage.getItem("seenPopUp");
           setDisplayPopUp(!returningUser);
           !returningUser
             ? document.body.classList.add(globalStyles.noScroll)
             : "";
-        }, 10000);
-        return () => clearTimeout(timer);
-      }
-      // console.log("signedup ===" +email +"-->>" +res.already_signedup);
-      // console.log("popup ==" +displayPopUp);
-    });
-  }, []);
+        }
+      });
+    }, 10000);
+    return () => clearTimeout(timer);
+  }, [location.pathname]);
 
   //  start close modal on ESC keyword
   useEffect(() => {
