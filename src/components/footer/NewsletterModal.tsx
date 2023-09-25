@@ -143,8 +143,10 @@ const NewsletterModal: React.FC<Props> = ({ title, subTitle }) => {
         onClose();
       }
     };
-    window.addEventListener("keydown", close);
-    return () => window.removeEventListener("keydown", close);
+    if (typeof window != "undefined") {
+      window.addEventListener("keydown", close);
+      return () => window.removeEventListener("keydown", close);
+    }
   }, []);
   //  end close modal on ESC keyword
 
