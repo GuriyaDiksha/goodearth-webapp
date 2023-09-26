@@ -54,7 +54,7 @@ const CollectionFilter: React.FC<CollectionFilter> = ({
             key={i + "tag-filter"}
           >
             <div>{tag}</div>
-            {tag !== "All Collections" && activeFilters.includes(tag) && (
+            {tag !== "All Collections" && activeFilterList.includes(tag) && (
               <div className={styles.cross}>
                 <i
                   className={cs(
