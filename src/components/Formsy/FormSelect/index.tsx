@@ -72,8 +72,7 @@ const FormSelect: React.FC<Props & InjectedProps<string | null>> = props => {
           { [styles.default]: !props.value },
           { [styles.black]: props.value },
           { [styles.disabledInput]: props.disable },
-          { [globalStyles.pointer]: !props.disable },
-          isLoggedIn ? styles.autofillInput : ""
+          { [globalStyles.pointer]: !props.disable }
         )}
         disabled={props.disable}
         onFocus={() => setLabelClass(true)}
