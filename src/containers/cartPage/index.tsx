@@ -279,7 +279,8 @@ class CartPage extends React.Component<Props, State> {
           item_variant: "NA",
           item_category5: line?.product?.collection,
           price: line?.product?.priceRecords[this.props.currency],
-          quantity: line?.quantity
+          quantity: line?.quantity,
+          collection_category: line?.product?.collections?.join("|")
         };
       });
       dataLayer.push(function(this: any) {

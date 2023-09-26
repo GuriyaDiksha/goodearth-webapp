@@ -54,6 +54,7 @@ type Props = {
   sortBy?: string;
   list?: string;
   sliderImages: { icon: boolean }[];
+  collections: string[];
 };
 
 const NotifyMePopup: React.FC<Props> = ({
@@ -73,7 +74,8 @@ const NotifyMePopup: React.FC<Props> = ({
   badgeType,
   sortBy,
   list,
-  sliderImages
+  sliderImages,
+  collections
 }) => {
   const { dispatch } = useStore();
 
@@ -228,13 +230,15 @@ const NotifyMePopup: React.FC<Props> = ({
               item_list_id: "", //pass the item list id
               item_list_name: search, //pass the item list name ex.search results
               item_variant: selectedSize?.size || "",
-              item_category4: l1, //pass the L1
+              // item_category4: l1, //pass the L1,
+              item_category4: "NA",
               item_category5: collection,
               price:
                 selectedSize?.discountedPriceRecords[currency] ||
                 selectedSize?.priceRecords[currency],
               quantity: quantity,
-              dimension12: selectedSize?.color
+              dimension12: selectedSize?.color,
+              collection_category: collections?.join("|")
             }
           ]
         }
