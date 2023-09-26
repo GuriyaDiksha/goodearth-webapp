@@ -70,7 +70,6 @@ const Newsletters: React.FC = () => {
   // *************** Open State option **************
   const EnquiryFormRef = useRef<Formsy>(null);
   const onCountrySelect = (option: any, defaultCountry?: string) => {
-    // debugger
     if (countryOptions.length > 0) {
       const form = EnquiryFormRef.current;
       let selectedCountry = "";
@@ -80,12 +79,13 @@ const Newsletters: React.FC = () => {
           form.updateInputsWithValue(
             {
               state: "",
+              province: "",
               country: selectedCountry
             },
             false
           );
-        setEnableSubmit(true);
       }
+
       if (defaultCountry) {
         selectedCountry = defaultCountry;
         // need to set defaultCountry explicitly
@@ -96,115 +96,31 @@ const Newsletters: React.FC = () => {
         }
       }
 
-      const { states, isd } = countryOptions.filter(
+      const { states, isd, value } = countryOptions.filter(
         country => country.value == selectedCountry
       )[0];
 
       if (form) {
         // reset state
-        const { state } = form.getModel();
+        const { state, province } = form.getModel();
         if (state) {
           form.updateInputsWithValue({
             state: ""
           });
         }
-        setCountrycode(isd || "");
+        if (province) {
+          form.updateInputsWithValue({
+            province: ""
+          });
+        }
+        form.updateInputsWithValue({
+          countrycode: isd
+        });
       }
-      // setIsIndia(true);
       setStateOptions(states);
+      setEnableSubmit(true);
     }
   };
-
-  const setDefaultCountry = () => {
-    switch (currency) {
-      case "INR":
-        setIsIndia(true);
-        onCountrySelect(null, "");
-        break;
-      case "GBP":
-        setIsIndia(false);
-        onCountrySelect(null, "");
-        break;
-    }
-  };
-
-  useEffect(() => {
-    countryOptions.length > 0 && setDefaultCountry();
-  }, [countryOptions]);
-
-  // const onCountrySelect = (option: any, defaultCountry?: string) => {
-  //   debugger
-  //   if (countryOptions.length > 0) {
-  //     const form = EnquiryFormRef.current;
-  //     let selectedCountry = "";
-  //     if (option?.value) {
-  //       selectedCountry = option?.value;
-  //       // setIsAddressChanged(true);
-  //       // setIsCountryChanged(true);
-  //       form &&
-  //         form.updateInputsWithValue(
-  //           {
-  //             state: ""
-  //             // country: selectedCountry
-  //           },
-  //           false
-  //         );
-  //     } else if (defaultCountry) {
-  //       selectedCountry = defaultCountry;
-  //       // need to set defaultCountry explicitly
-  //       if (form && selectedCountry) {
-  //         form.updateInputsWithValue({
-  //           country: selectedCountry
-  //         });
-  //       }
-  //     }
-
-  //     const { states, isd, value } = countryOptions.filter(
-  //       country => country.value == selectedCountry
-  //     )[0];
-
-  //     // if (noPincodeCountryList.includes(selectedCountry)) {
-  //     //   setShowPincode(false);
-  //     // } else {
-  //     //   setShowPincode(true);
-  //     // }
-
-  //     // if (form) {
-  //     //   // reset state
-  //     //   const { state, province } = form.getModel();
-  //     //   if (state) {
-  //     //     form.updateInputsWithValue({
-  //     //       state: ""
-  //     //     });
-  //     //   }
-  //     //   if (province) {
-  //     //     form.updateInputsWithValue({
-  //     //       province: ""
-  //     //     });
-  //     //   }
-  //     //   form.updateInputsWithValue({
-  //     //     phoneCountryCode: isd
-  //     //   });
-  //     // }
-
-  //     if (form) {
-  //       // reset state
-  //       const { state } = form.getModel();
-  //       if (state) {
-  //         form.updateInputsWithValue({
-  //           state: ""
-  //         });
-  //       }
-  //       form.updateInputsWithValue({
-  //         countrycode: isd
-  //       });
-  //       setCountrycode(isd || "");
-  //     }
-  //     // setIsIndia(value == "India");
-  //     setStateOptions(states);
-  //   }
-  // };
-
   // *************** Closed State option **************
 
   const changeCountryData = (countryData: Country[]) => {
@@ -329,7 +245,7 @@ const Newsletters: React.FC = () => {
         onValidSubmit={handleSubmit}
         onInvalidSubmit={handleInvalidSubmit}
         ref={EnquiryFormRef}
-        // onChange={handleChange}
+        onChange={handleChange}
       >
         <div
           className={cs(
@@ -360,22 +276,6 @@ const Newsletters: React.FC = () => {
               }}
             />
           </div>
-          {/* <div>
-            <FormInput
-              required
-              name="lastName"
-              label="Last Name*"
-              placeholder="Last Name*"
-              validations={{
-                maxLength: 30,
-                isAlpha: true
-              }}
-              validationErrors={{
-                maxLength: "Max limit reached.",
-                isAlpha: "Only alphabets are allowed."
-              }}
-            />
-          </div> */}
           <div>
             <FormInput
               required
@@ -434,19 +334,6 @@ const Newsletters: React.FC = () => {
               value=""
             />
           </div>
-          {/* <div>
-            <FormInput
-              name="city"
-              label="City"
-              placeholder="City"
-              validations={{
-                maxLength: 50
-              }}
-              validationErrors={{
-                maxLength: "Max limit reached."
-              }}
-            />
-          </div> */}
           <div className={styles.label}>
             {[
               "By signing up for alerts, you agree to receive e-mails, calls and text messages from Goodearth. To know more how we keep your data safe, refer to our ",
