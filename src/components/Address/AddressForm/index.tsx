@@ -771,8 +771,8 @@ const AddressForm: React.FC<Props> = props => {
             <FormInput
               required
               name="line1"
-              label={"Address Line 1*"}
-              placeholder={"Address Line 1*"}
+              label={"House no / Floor / Building / Area*"}
+              placeholder={"House no / Floor / Building / Area*"}
               handleChange={() => setIsAddressChanged(true)}
               maxlength={75}
               validations={{
@@ -788,8 +788,8 @@ const AddressForm: React.FC<Props> = props => {
           <div>
             <FormInput
               name="line2"
-              label="Address Line 2"
-              placeholder="Address Line 2"
+              label="Nearby landmark (optional)"
+              placeholder="Nearby landmark (optional)"
               handleChange={() => setIsAddressChanged(true)}
               maxlength={75}
               validations={{
