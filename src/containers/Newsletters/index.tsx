@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, RefObject } from "react";
 import styles from "./styles.scss";
 import globalStyles from "../../styles/global.scss";
 import cs from "classnames";
@@ -16,6 +16,7 @@ import MakerEnhance from "components/maker";
 import { updateCountryData } from "actions/address";
 import FormSelect from "components/Formsy/FormSelect";
 import { Country } from "components/Formsy/CountryCode/typings";
+import SelectDropdown from "components/Formsy/SelectDropdown";
 
 type StateOptions = {
   value: string;
@@ -45,7 +46,13 @@ const Newsletters: React.FC = () => {
   const history = useHistory();
   const location = history.location;
   const { countryData } = useSelector((state: AppState) => state.address);
+  const countryRef: RefObject<HTMLInputElement> = useRef(null);
   const isAlphaError = "Only alphabets are allowed";
+  const isExistyError = "This field is required";
+  // const [isAddressChanged, setIsAddressChanged] = useState(false);
+  // const [isCountryChanged, setIsCountryChanged] = useState(false);
+  const { currency } = useSelector((state: AppState) => state);
+  const [isIndia, setIsIndia] = useState(currency === "INR");
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -54,29 +61,32 @@ const Newsletters: React.FC = () => {
         dispatch(updateCountryData(countryData));
       });
     }
-
     setMaker(true);
+    const firstField = document.getElementById("first-field") as HTMLDivElement;
+    firstField && firstField.focus();
+    setIsLoading(false);
   }, []);
 
   // *************** Open State option **************
   const EnquiryFormRef = useRef<Formsy>(null);
-  const onCountrySelect = (
-    event: React.ChangeEvent<HTMLSelectElement> | null,
-    defaultCountry?: string
-  ) => {
+  const onCountrySelect = (option: any, defaultCountry?: string) => {
+    // debugger
     if (countryOptions.length > 0) {
       const form = EnquiryFormRef.current;
       let selectedCountry = "";
-      if (event) {
-        selectedCountry = event.currentTarget.value;
+      if (option?.value) {
+        selectedCountry = option?.value;
         form &&
           form.updateInputsWithValue(
             {
-              state: ""
+              state: "",
+              country: selectedCountry
             },
             false
           );
-      } else if (defaultCountry) {
+        setEnableSubmit(true);
+      }
+      if (defaultCountry) {
         selectedCountry = defaultCountry;
         // need to set defaultCountry explicitly
         if (form && selectedCountry) {
@@ -100,10 +110,101 @@ const Newsletters: React.FC = () => {
         }
         setCountrycode(isd || "");
       }
-      // setIsIndia(value == "India");
+      // setIsIndia(true);
       setStateOptions(states);
     }
   };
+
+  const setDefaultCountry = () => {
+    switch (currency) {
+      case "INR":
+        setIsIndia(true);
+        onCountrySelect(null, "");
+        break;
+      case "GBP":
+        setIsIndia(false);
+        onCountrySelect(null, "");
+        break;
+    }
+  };
+
+  useEffect(() => {
+    countryOptions.length > 0 && setDefaultCountry();
+  }, [countryOptions]);
+
+  // const onCountrySelect = (option: any, defaultCountry?: string) => {
+  //   debugger
+  //   if (countryOptions.length > 0) {
+  //     const form = EnquiryFormRef.current;
+  //     let selectedCountry = "";
+  //     if (option?.value) {
+  //       selectedCountry = option?.value;
+  //       // setIsAddressChanged(true);
+  //       // setIsCountryChanged(true);
+  //       form &&
+  //         form.updateInputsWithValue(
+  //           {
+  //             state: ""
+  //             // country: selectedCountry
+  //           },
+  //           false
+  //         );
+  //     } else if (defaultCountry) {
+  //       selectedCountry = defaultCountry;
+  //       // need to set defaultCountry explicitly
+  //       if (form && selectedCountry) {
+  //         form.updateInputsWithValue({
+  //           country: selectedCountry
+  //         });
+  //       }
+  //     }
+
+  //     const { states, isd, value } = countryOptions.filter(
+  //       country => country.value == selectedCountry
+  //     )[0];
+
+  //     // if (noPincodeCountryList.includes(selectedCountry)) {
+  //     //   setShowPincode(false);
+  //     // } else {
+  //     //   setShowPincode(true);
+  //     // }
+
+  //     // if (form) {
+  //     //   // reset state
+  //     //   const { state, province } = form.getModel();
+  //     //   if (state) {
+  //     //     form.updateInputsWithValue({
+  //     //       state: ""
+  //     //     });
+  //     //   }
+  //     //   if (province) {
+  //     //     form.updateInputsWithValue({
+  //     //       province: ""
+  //     //     });
+  //     //   }
+  //     //   form.updateInputsWithValue({
+  //     //     phoneCountryCode: isd
+  //     //   });
+  //     // }
+
+  //     if (form) {
+  //       // reset state
+  //       const { state } = form.getModel();
+  //       if (state) {
+  //         form.updateInputsWithValue({
+  //           state: ""
+  //         });
+  //       }
+  //       form.updateInputsWithValue({
+  //         countrycode: isd
+  //       });
+  //       setCountrycode(isd || "");
+  //     }
+  //     // setIsIndia(value == "India");
+  //     setStateOptions(states);
+  //   }
+  // };
+
   // *************** Closed State option **************
 
   const changeCountryData = (countryData: Country[]) => {
@@ -227,7 +328,8 @@ const Newsletters: React.FC = () => {
       <Formsy
         onValidSubmit={handleSubmit}
         onInvalidSubmit={handleInvalidSubmit}
-        onChange={handleChange}
+        ref={EnquiryFormRef}
+        // onChange={handleChange}
       >
         <div
           className={cs(
@@ -290,7 +392,7 @@ const Newsletters: React.FC = () => {
             />
           </div>
           <div className="select-group text-left">
-            <FormSelect
+            {/* <FormSelect
               required
               label={"Country*"}
               options={countryOptions}
@@ -304,7 +406,24 @@ const Newsletters: React.FC = () => {
                 isExisty: "Please select your Country"
               }}
             />
-            <span className="arrow"></span>
+            <span className="arrow"></span> */}
+            <SelectDropdown
+              required
+              label={"Country*"}
+              options={countryOptions}
+              handleChange={onCountrySelect}
+              placeholder="Select Country*"
+              name="country"
+              validations={{
+                isExisty: true
+              }}
+              validationErrors={{
+                isExisty: "Please select your Country",
+                isEmptyString: isExistyError
+              }}
+              allowFilter={true}
+              inputRef={countryRef}
+            />
           </div>
           <div className="select-group text-left">
             <FormSelect
