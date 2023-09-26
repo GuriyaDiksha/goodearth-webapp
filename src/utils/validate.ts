@@ -693,6 +693,44 @@ export function productImpression(
   }
 }
 
+export const gaEventsForSearch = (data: any) => {
+  const userConsent = CookieService.getCookie("consent").split(",");
+  const recentSearch = localStorage.getItem("recentSearchValue");
+  const popularSearch = localStorage.getItem("popularSearch");
+  const inputValue = localStorage.getItem("inputValue");
+
+  if (
+    userConsent.includes(GA_CALLS) &&
+    (popularSearch || recentSearch || inputValue)
+  ) {
+    debugger;
+    if (data?.results?.data?.length) {
+      dataLayer.push({
+        event: "search_bar_results_found",
+        click_type: recentSearch
+          ? "Recent search"
+          : popularSearch
+          ? "Popular search"
+          : "Input",
+        search_term: recentSearch || popularSearch || inputValue
+      });
+    } else {
+      dataLayer.push({
+        event: "search_bar_no_results_found",
+        click_type: recentSearch
+          ? "Recent search"
+          : popularSearch
+          ? "Popular search"
+          : "Input",
+        search_term: recentSearch || popularSearch || inputValue
+      });
+    }
+    localStorage.removeItem("recentSearchValue");
+    localStorage.removeItem("popularSearch");
+    localStorage.removeItem("inputValue");
+  }
+};
+
 export function sliderProductImpression(
   data: any,
   list: any,
