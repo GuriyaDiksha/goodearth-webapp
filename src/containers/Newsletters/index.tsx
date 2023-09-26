@@ -79,7 +79,6 @@ const Newsletters: React.FC = () => {
           form.updateInputsWithValue(
             {
               state: "",
-              province: "",
               country: selectedCountry
             },
             false
@@ -102,19 +101,15 @@ const Newsletters: React.FC = () => {
 
       if (form) {
         // reset state
-        const { state, province } = form.getModel();
+        const { state } = form.getModel();
         if (state) {
           form.updateInputsWithValue({
             state: ""
           });
         }
-        if (province) {
-          form.updateInputsWithValue({
-            province: ""
-          });
-        }
         form.updateInputsWithValue({
-          countrycode: isd
+          countrycode: isd,
+          country: selectedCountry
         });
       }
       setStateOptions(states);
@@ -292,21 +287,6 @@ const Newsletters: React.FC = () => {
             />
           </div>
           <div className="select-group text-left">
-            {/* <FormSelect
-              required
-              label={"Country*"}
-              options={countryOptions}
-              handleChange={onCountrySelect}
-              placeholder={"Select Country*"}
-              name="country"
-              validations={{
-                isExisty: true
-              }}
-              validationErrors={{
-                isExisty: "Please select your Country"
-              }}
-            />
-            <span className="arrow"></span> */}
             <SelectDropdown
               required
               label={"Country*"}
