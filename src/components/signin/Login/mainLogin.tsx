@@ -209,10 +209,16 @@ class MainLogin extends React.Component<Props, loginState> {
 
     const subHeading = this.props.isCerise
       ? "Please enter your registered e-mail address to login to your Cerise account."
+      : ["/cart", "/order/checkout"].includes(location.pathname)
+      ? "Please enter your email to proceed."
       : "Enter your email address to register or sign in.";
 
     this.setState({
-      heading: this.props.heading || "Welcome",
+      heading: this.props.heading
+        ? this.props.heading
+        : ["/cart", "/order/checkout"].includes(location.pathname)
+        ? "Continue to Checkout"
+        : "Welcome",
       subHeading: this.props.subHeading || subHeading
     });
   }
