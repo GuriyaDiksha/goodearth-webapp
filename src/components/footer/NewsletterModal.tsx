@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef, RefObject } from "react";
 import cs from "classnames";
 import styles from "./styles.scss";
 import Formsy from "formsy-react";
 import FormInput from "components/Formsy/FormInput";
-import FormSelect from "components/Formsy/FormSelect";
 import { Country } from "components/Formsy/CountryCode/typings";
 import { useDispatch, useSelector } from "react-redux";
 import { AppState } from "reducers/typings";
@@ -16,6 +15,9 @@ import flower_left from "../../images/news_flower_left.png";
 import butterfly from "../../images/news_bf_img.png";
 import flower_right from "../../images/news_flower_right.png";
 import crossIcon from "../../images/cross.svg";
+import SelectDropdown from "../Formsy/SelectDropdown";
+import CountryCode from "components/Formsy/CountryCode";
+import { countryCurrencyCode } from "constants/currency";
 
 type Props = {
   title: string;
@@ -41,9 +43,16 @@ const NewsletterModal: React.FC<Props> = ({ title, subTitle }) => {
   const {
     user: { isLoggedIn },
     user: { firstName },
-    user: { country },
-    user: { email }
+    user: { email },
+    user: { country }
   } = useSelector((state: AppState) => state);
+
+  // const Prefieldcountry = useEffect(() => {
+  //   setTimeout(() => {
+  //     const preCount = country;
+  //     alert(preCount);
+  //   },1000)
+  // }, []);
 
   const [countryOptions, setCountryOptions] = useState<CountryOptions[]>([]);
   const [successMsg, setSuccessMsg] = useState("");
@@ -52,6 +61,8 @@ const NewsletterModal: React.FC<Props> = ({ title, subTitle }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [displayPopUp, setDisplayPopUp] = useState(false);
   const isAlphaError = "Only alphabets are allowed";
+  const isExistyError = "This field is required";
+  const countryRef: RefObject<HTMLInputElement> = useRef(null);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -61,6 +72,48 @@ const NewsletterModal: React.FC<Props> = ({ title, subTitle }) => {
       });
     }
   }, []);
+
+  const EnquiryFormRef = useRef<Formsy>(null);
+  const onCountrySelect = (option: any, defaultCountry?: string) => {
+    if (countryOptions.length > 0) {
+      const form = EnquiryFormRef.current;
+      let selectedCountry = "";
+      if (option?.value) {
+        selectedCountry = option?.value;
+        form &&
+          form.updateInputsWithValue(
+            {
+              state: "",
+              country: selectedCountry
+            },
+            false
+          );
+      }
+
+      if (defaultCountry) {
+        selectedCountry = defaultCountry;
+        // need to set defaultCountry explicitly
+        if (form && selectedCountry) {
+          form.updateInputsWithValue({
+            country: selectedCountry
+          });
+        }
+      }
+
+      const { states, isd, value } = countryOptions.filter(
+        country => country.value == selectedCountry
+      )[0];
+
+      if (form) {
+        // reset state
+        form.updateInputsWithValue({
+          countrycode: isd,
+          country: selectedCountry
+        });
+      }
+      setEnableSubmit(true);
+    }
+  };
 
   const changeCountryData = (countryData: Country[]) => {
     const countryOptions = countryData.map(country => {
@@ -116,12 +169,21 @@ const NewsletterModal: React.FC<Props> = ({ title, subTitle }) => {
   };
 
   useEffect(() => {
+    // debugger
     const timer = setTimeout(() => {
       HeaderService.checkSignup(dispatch, email).then((res: any) => {
         if (email && res.already_signedup) {
           setDisplayPopUp(false);
         } else {
           setDisplayPopUp(true);
+          // const focus = document?.getElementById('email_input_field input');
+          // focus?.blur();
+          // focus?.classList.add("test");
+          // if (JSON.stringify(focus) != "null") {
+          //   alert("exist");
+          // } else {
+          //   alert("not exist");
+          // }
           const returningUser = localStorage.getItem("seenPopUp");
           setDisplayPopUp(!returningUser);
           !returningUser
@@ -215,6 +277,7 @@ const NewsletterModal: React.FC<Props> = ({ title, subTitle }) => {
         onValidSubmit={handleSubmit}
         onInvalidSubmit={handleInvalidSubmit}
         onChange={handleChange}
+        ref={EnquiryFormRef}
       >
         <div
           className={cs(
@@ -224,7 +287,7 @@ const NewsletterModal: React.FC<Props> = ({ title, subTitle }) => {
           )}
           id="job-form"
         >
-          <div>
+          <div className={cs(styles.formField)}>
             <FormInput
               required
               label="Name*"
@@ -245,7 +308,7 @@ const NewsletterModal: React.FC<Props> = ({ title, subTitle }) => {
               }}
             />
           </div>
-          <div>
+          <div className={cs(styles.formField)}>
             <FormInput
               required
               name="email"
@@ -261,22 +324,42 @@ const NewsletterModal: React.FC<Props> = ({ title, subTitle }) => {
               }}
             />
           </div>
-          <div className="select-group text-left">
-            <FormSelect
-              required
-              label={"Country*"}
-              options={countryOptions}
-              placeholder={"Select Country*"}
-              value={isLoggedIn ? country : ""}
-              name="country"
-              validations={{
-                isExisty: true
-              }}
-              validationErrors={{
-                isExisty: "Please select your Country"
-              }}
-            />
-            <span className="arrow"></span>
+          <div className={cs(styles.formField)}>
+            <div className="select-group text-left">
+              {/* <FormSelect
+                required
+                label={"Country*"}
+                options={countryOptions}
+                placeholder={"Select Country*"}
+                value={isLoggedIn ? country : ""}
+                name="country"
+                validations={{
+                  isExisty: true
+                }}
+                validationErrors={{
+                  isExisty: "Please select your Country"
+                }}
+              />
+              <span className="arrow"></span> */}
+              <SelectDropdown
+                required
+                label={"Country*"}
+                options={countryOptions}
+                handleChange={onCountrySelect}
+                placeholder="Select Country*"
+                value={isLoggedIn ? country : ""}
+                name="country"
+                validations={{
+                  isExisty: true
+                }}
+                validationErrors={{
+                  isExisty: "Please select your Country",
+                  isEmptyString: isExistyError
+                }}
+                allowFilter={true}
+                inputRef={countryRef}
+              />
+            </div>
           </div>
           <p
             className={cs(
