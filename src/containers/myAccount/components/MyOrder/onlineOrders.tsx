@@ -142,6 +142,7 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
                   {data.occasion} Registry
                 </span>
                 <span className={styles.bridalMessage}></span>
+                <span>Address predefined by registrant</span>
               </div>
             )}
             {!data.isBridalOrder ? (
