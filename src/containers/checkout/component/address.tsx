@@ -158,9 +158,11 @@ const AddressSection: React.FC<AddressProps & {
       (currentCallBackComponent == "checkout-shipping" ||
         (isGcCheckout && currentCallBackComponent == "checkout-billing"))
     ) {
-      AddressService.fetchAddressList(dispatch).then(addressList => {
-        dispatch(updateAddressList(addressList));
-      });
+      AddressService.fetchAddressList(dispatch, isGcCheckout).then(
+        addressList => {
+          dispatch(updateAddressList(addressList));
+        }
+      );
     }
   }, [isLoggedIn]);
 

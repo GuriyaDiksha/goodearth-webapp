@@ -100,9 +100,11 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       const userData = { ...user, shippingData: shippingAddress };
       dispatch(updateUser(userData));
       // isLoading(true);
-      AddressService.fetchAddressList(dispatch).then(addressList => {
-        dispatch(updateAddressList(addressList));
-      });
+      AddressService.fetchAddressList(dispatch, isGcCheckout).then(
+        addressList => {
+          dispatch(updateAddressList(addressList));
+        }
+      );
       // .finally(()=> isLoading(false));
 
       return data;
@@ -114,13 +116,18 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
         dispatch,
         specifyBillingAddressData
       );
-      AddressService.fetchAddressList(dispatch).then(addressList => {
-        dispatch(updateAddressList(addressList));
-      });
+      AddressService.fetchAddressList(dispatch, isGcCheckout).then(
+        addressList => {
+          dispatch(updateAddressList(addressList));
+        }
+      );
       return data;
     },
     fetchAddressBridal: async () => {
-      const addressList = await AddressService.fetchAddressList(dispatch);
+      const addressList = await AddressService.fetchAddressList(
+        dispatch,
+        isGcCheckout
+      );
       dispatch(updateAddressList(addressList));
       return addressList;
     },
@@ -334,13 +341,14 @@ class Checkout extends React.Component<Props, State> {
     const isGcCheckout = this.props.location.pathname.endsWith("gc_checkout");
     this.unlisten = this.props.history.block((location, action) => {
       // false means stop navigation
-      console.log("openGCExitModal:", localStorage.getItem("openGCExitModal"));
-      if (localStorage.getItem("openGCExitModal") === "true") {
-        // Do nothing
-      } else {
-        localStorage.setItem("openGCExitModal", "true");
-        this.props.showExitPopup(location, action);
-        return false;
+      if (isGcCheckout) {
+        if (localStorage.getItem("openGCExitModal") === "true") {
+          // Do nothing
+        } else {
+          localStorage.setItem("openGCExitModal", "true");
+          this.props.showExitPopup(location, action);
+          return false;
+        }
       }
     });
     if (boId) {
