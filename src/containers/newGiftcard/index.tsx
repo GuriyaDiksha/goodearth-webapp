@@ -932,7 +932,7 @@ class NewGiftcard extends React.Component<Props, State> {
             })}
             onClick={this.onSubmit}
           >
-            <a>ADD TO BAG</a>
+            <a>BUY NOW</a>
           </div>
         )}
         {mobile && (
