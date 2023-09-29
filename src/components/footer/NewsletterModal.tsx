@@ -16,8 +16,7 @@ import butterfly from "../../images/news_bf_img.png";
 import flower_right from "../../images/news_flower_right.png";
 import crossIcon from "../../images/cross.svg";
 import SelectDropdown from "../Formsy/SelectDropdown";
-import CountryCode from "components/Formsy/CountryCode";
-import { countryCurrencyCode } from "constants/currency";
+import AccountService from "services/account";
 
 type Props = {
   title: string;
@@ -43,16 +42,8 @@ const NewsletterModal: React.FC<Props> = ({ title, subTitle }) => {
   const {
     user: { isLoggedIn },
     user: { firstName },
-    user: { email },
-    user: { country }
+    user: { email }
   } = useSelector((state: AppState) => state);
-
-  // const Prefieldcountry = useEffect(() => {
-  //   setTimeout(() => {
-  //     const preCount = country;
-  //     alert(preCount);
-  //   },1000)
-  // }, []);
 
   const [countryOptions, setCountryOptions] = useState<CountryOptions[]>([]);
   const [successMsg, setSuccessMsg] = useState("");
@@ -63,7 +54,21 @@ const NewsletterModal: React.FC<Props> = ({ title, subTitle }) => {
   const isAlphaError = "Only alphabets are allowed";
   const isExistyError = "This field is required";
   const countryRef: RefObject<HTMLInputElement> = useRef(null);
+  const [usercountry, setUsercountry] = useState("");
   const dispatch = useDispatch();
+
+  // fetch country is user is already logged in
+  useEffect(() => {
+    isLoggedIn
+      ? AccountService.fetchProfileData(dispatch)
+          .then(data => {
+            setUsercountry(data.country_name);
+          })
+          .catch(err => {
+            console.log(err);
+          })
+      : "";
+  }, []);
 
   useEffect(() => {
     if (!countryData || countryData.length == 0) {
@@ -172,18 +177,13 @@ const NewsletterModal: React.FC<Props> = ({ title, subTitle }) => {
     // debugger
     const timer = setTimeout(() => {
       HeaderService.checkSignup(dispatch, email).then((res: any) => {
+        // debugger
+        // console.log(email);
+        // console.log(res.already_signedup);
         if (email && res.already_signedup) {
           setDisplayPopUp(false);
         } else {
           setDisplayPopUp(true);
-          // const focus = document?.getElementById('email_input_field input');
-          // focus?.blur();
-          // focus?.classList.add("test");
-          // if (JSON.stringify(focus) != "null") {
-          //   alert("exist");
-          // } else {
-          //   alert("not exist");
-          // }
           const returningUser = localStorage.getItem("seenPopUp");
           setDisplayPopUp(!returningUser);
           !returningUser
@@ -192,8 +192,16 @@ const NewsletterModal: React.FC<Props> = ({ title, subTitle }) => {
         }
       });
     }, 10000);
+    console.log(email);
     return () => clearTimeout(timer);
   }, [location.pathname]);
+
+  useEffect(() => {
+    setTimeout(() => {
+      const focus = document?.getElementById("first_input");
+      focus?.focus();
+    }, 11000);
+  }, []);
 
   //  start close modal on ESC keyword
   useEffect(() => {
@@ -289,6 +297,7 @@ const NewsletterModal: React.FC<Props> = ({ title, subTitle }) => {
         >
           <div className={cs(styles.formField)}>
             <FormInput
+              id="first_input"
               required
               label="Name*"
               className="input-field"
@@ -347,7 +356,7 @@ const NewsletterModal: React.FC<Props> = ({ title, subTitle }) => {
                 options={countryOptions}
                 handleChange={onCountrySelect}
                 placeholder="Select Country*"
-                value={isLoggedIn ? country : ""}
+                value={isLoggedIn ? usercountry : ""}
                 name="country"
                 validations={{
                   isExisty: true
