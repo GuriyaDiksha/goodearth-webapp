@@ -162,34 +162,47 @@ const NewsletterModal: React.FC<Props> = ({ title, subTitle }) => {
 
   // fetch country is user is already logged in
   useEffect(() => {
-    isLoggedIn
-      ? AccountService.fetchProfileData(dispatch)
-          .then(data => {
-            setUsercountry(data.country_name);
-          })
-          .catch(err => {
-            console.log(err);
-          })
-      : "";
+    if (isLoggedIn) {
+      AccountService.fetchProfileData(dispatch)
+        .then(data => {
+          setUsercountry(data.country_name);
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    }
   }, [isLoggedIn]);
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      HeaderService.checkSignup(dispatch, email).then((res: any) => {
-        if (res.already_signedup) {
-          setDisplayPopUp(false);
+      if (email) {
+        HeaderService.checkSignup(dispatch, email).then((res: any) => {
+          if (res.already_signedup) {
+            setDisplayPopUp(false);
+          } else {
+            setDisplayPopUp(true);
+            const returningUser = localStorage.getItem("seenPopUp");
+            setDisplayPopUp(!returningUser);
+            if (returningUser) {
+              document?.body.classList.add(globalStyles.noScroll);
+            } else {
+              document?.body.classList.remove(globalStyles.noScroll);
+            }
+          }
+        });
+      } else {
+        setDisplayPopUp(true);
+        const returningUser = localStorage.getItem("seenPopUp");
+        setDisplayPopUp(!returningUser);
+        if (returningUser) {
+          document?.body.classList.add(globalStyles.noScroll);
         } else {
-          setDisplayPopUp(true);
-          const returningUser = localStorage.getItem("seenPopUp");
-          setDisplayPopUp(!returningUser);
-          !returningUser
-            ? document?.body.classList.add(globalStyles.noScroll)
-            : "";
+          document?.body.classList.remove(globalStyles.noScroll);
         }
-      });
+      }
     }, 10000);
     return () => clearTimeout(timer);
-  }, [location.pathname, email]);
+  }, [location.pathname, email ? email : ""]);
 
   useEffect(() => {
     setTimeout(() => {
