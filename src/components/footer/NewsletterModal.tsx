@@ -57,19 +57,6 @@ const NewsletterModal: React.FC<Props> = ({ title, subTitle }) => {
   const [usercountry, setUsercountry] = useState("");
   const dispatch = useDispatch();
 
-  // fetch country is user is already logged in
-  useEffect(() => {
-    isLoggedIn
-      ? AccountService.fetchProfileData(dispatch)
-          .then(data => {
-            setUsercountry(data.country_name);
-          })
-          .catch(err => {
-            console.log(err);
-          })
-      : "";
-  }, []);
-
   useEffect(() => {
     if (!countryData || countryData.length == 0) {
       LoginService.fetchCountryData(dispatch).then(countryData => {
@@ -173,10 +160,23 @@ const NewsletterModal: React.FC<Props> = ({ title, subTitle }) => {
     document?.body.classList.remove(globalStyles.noScroll);
   };
 
+  // fetch country is user is already logged in
+  useEffect(() => {
+    isLoggedIn
+      ? AccountService.fetchProfileData(dispatch)
+          .then(data => {
+            setUsercountry(data.country_name);
+          })
+          .catch(err => {
+            console.log(err);
+          })
+      : "";
+  }, [isLoggedIn]);
+
   useEffect(() => {
     const timer = setTimeout(() => {
       HeaderService.checkSignup(dispatch, email).then((res: any) => {
-        if (email && res.already_signedup) {
+        if (res.already_signedup) {
           setDisplayPopUp(false);
         } else {
           setDisplayPopUp(true);
@@ -189,7 +189,7 @@ const NewsletterModal: React.FC<Props> = ({ title, subTitle }) => {
       });
     }, 10000);
     return () => clearTimeout(timer);
-  }, [location.pathname]);
+  }, [location.pathname, email]);
 
   useEffect(() => {
     setTimeout(() => {
