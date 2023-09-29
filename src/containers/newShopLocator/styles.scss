@@ -49,7 +49,7 @@ $banner-mobile-height:500px;
         background: #fff;
         position: sticky;
         top: 49px;
-        z-index: 1;
+        z-index: 6;
         &.with-timer{
             top: 50px + $sale-timer-height
         }
