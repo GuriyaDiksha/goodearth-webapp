@@ -1182,9 +1182,9 @@ class Footer extends React.Component<Props, FooterState> {
           : (cookiCheck && !this.state.isConsentSave) ||
             this.props?.showCookiePref) && (
           <NewsletterModal
-            title={"Join our Community"}
+            title={"Find Out First!"}
             subTitle={
-              "Make the most out of your Good Earth favourites. Sign up to discover our latest collections, insider stories and expert tips"
+              "Be the first to know about new launches and the latest updates from the brand, delivered straight to your inbox!"
             }
           />
         )}

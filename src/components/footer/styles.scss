@@ -1029,7 +1029,7 @@ padding: 30px 20px;
   border-radius: 0;
   text-align: start;
 }
-.job-form-fields div div{
+.job-form-fields .form-field{
   position: relative;
   margin: 20px 0;
 }
@@ -1124,4 +1124,17 @@ padding: 30px 20px;
 .butterfly{
   width: 25px;
   height: 25px;
+}
+@media(max-width:992px){
+  .newsletter-modal{
+    margin: 0 auto;
+    border: 0;
+    width: 100%;
+    display: block;
+  }
+}
+@media(min-width:767px) and(max-width:992px){
+  .news-butterfly-img{
+    right: 33%;
+  }
 }
