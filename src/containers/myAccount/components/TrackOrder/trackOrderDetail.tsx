@@ -329,23 +329,48 @@ const TrackDetails: React.FC<OrdersProps> = props => {
                         {data.occasion} Registry
                       </span>
                       <span className={styles.bridalMessage}></span>
+                      <span>Address predefined by registrant</span>
                     </div>
                   )}
-                  <div className={cs(styles.row, styles.name)}>
-                    {shippingAddress.firstName}
-                    &nbsp; {shippingAddress.lastName}
-                  </div>
-                  <div className={styles.row}>{shippingAddress.line1}</div>
-                  <div className={styles.row}>{shippingAddress.line2}</div>
-                  <div className={styles.row}>
-                    {shippingAddress.state},&nbsp;{shippingAddress.postcode}
-                  </div>
-                  <div className={styles.row}>
-                    {shippingAddress.countryName}
-                  </div>
-                  <div className={cs(styles.row, styles.phoneNumber)}>
-                    {shippingAddress.phoneNumber}
-                  </div>
+                  {!data.isBridalOrder ? (
+                    <div className={cs(styles.row, styles.name)}>
+                      {shippingAddress.firstName}
+                      &nbsp; {shippingAddress.lastName}
+                    </div>
+                  ) : (
+                    ""
+                  )}
+                  {!data.isBridalOrder ? (
+                    <div className={styles.row}>{shippingAddress.line1}</div>
+                  ) : (
+                    ""
+                  )}
+                  {!data.isBridalOrder ? (
+                    <div className={styles.row}>{shippingAddress.line2}</div>
+                  ) : (
+                    ""
+                  )}
+                  {!data.isBridalOrder ? (
+                    <div className={styles.row}>
+                      {shippingAddress.state},&nbsp;{shippingAddress.postcode}
+                    </div>
+                  ) : (
+                    ""
+                  )}
+                  {!data.isBridalOrder ? (
+                    <div className={styles.row}>
+                      {shippingAddress.countryName}
+                    </div>
+                  ) : (
+                    ""
+                  )}
+                  {!data.isBridalOrder ? (
+                    <div className={cs(styles.row, styles.phoneNumber)}>
+                      {shippingAddress.phoneNumber}
+                    </div>
+                  ) : (
+                    ""
+                  )}
                 </div>
               )}
               {/* Billing Address */}
