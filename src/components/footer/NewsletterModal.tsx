@@ -174,12 +174,8 @@ const NewsletterModal: React.FC<Props> = ({ title, subTitle }) => {
   };
 
   useEffect(() => {
-    // debugger
     const timer = setTimeout(() => {
       HeaderService.checkSignup(dispatch, email).then((res: any) => {
-        // debugger
-        // console.log(email);
-        // console.log(res.already_signedup);
         if (email && res.already_signedup) {
           setDisplayPopUp(false);
         } else {
@@ -192,7 +188,6 @@ const NewsletterModal: React.FC<Props> = ({ title, subTitle }) => {
         }
       });
     }, 10000);
-    console.log(email);
     return () => clearTimeout(timer);
   }, [location.pathname]);
 
