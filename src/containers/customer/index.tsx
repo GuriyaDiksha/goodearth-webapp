@@ -95,7 +95,10 @@ const StaticPage: React.FC<Props> = props => {
   let bgClass = cs(globalStyles.colMd10, globalStyles.col12);
   bgClass +=
     slab && path == "/account/cerise"
-      ? slab.toLowerCase() == "cerise" || slab.toLowerCase() == "ff10"
+      ? slab.toLowerCase() == "cerise" ||
+        slab.toLowerCase() == "cerise sitara" ||
+        slab.toLowerCase() == "cerise club" ||
+        slab.toLowerCase() == "ff10"
         ? cs(styles.ceriseClub, styles.ceriseLoyalty)
         : cs(styles.ceriseSitaraClub, styles.ceriseLoyalty)
       : "";
