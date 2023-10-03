@@ -33,11 +33,13 @@ import customerCare from "../../images/loyalty/points/customerCare.svg";
 import SecondaryHeader from "components/SecondaryHeader";
 import { connect } from "react-redux";
 import RewardItem from "./rewardItem";
+import MakerEnhance from "components/maker";
 
 const mapStateToProps = (state: AppState) => {
   return {
     mobile: state.device.mobile,
-    showTimer: state.info.showTimer
+    showTimer: state.info.showTimer,
+    location: state.router.location
   };
 };
 
@@ -57,6 +59,7 @@ type State = {
   showBlockLess2: boolean;
   showBlockMore1: boolean;
   showBlockMore2: boolean;
+  landingMaker: boolean;
 };
 
 class LoyaltyLanding extends Component<Props, State> {
@@ -75,7 +78,8 @@ class LoyaltyLanding extends Component<Props, State> {
       showBlockLess1: false,
       showBlockLess2: false,
       showBlockMore1: false,
-      showBlockMore2: false
+      showBlockMore2: false,
+      landingMaker: false
     };
     this.checkInView = this.checkInView.bind(this);
     this.scroll = this.scroll.bind(this);
@@ -135,6 +139,9 @@ class LoyaltyLanding extends Component<Props, State> {
 
   componentDidMount() {
     window.addEventListener("scroll", this.scroll);
+    this.setState({
+      landingMaker: true
+    });
   }
 
   componentWillUnmount() {
@@ -355,7 +362,16 @@ class LoyaltyLanding extends Component<Props, State> {
                 <span className={styles.heading}> cerise club</span>
               </div>
             </div>
-            <div
+            {this.state.landingMaker ? (
+              <MakerEnhance
+                user="goodearth"
+                index="1"
+                href={`${window.location.origin}${this.props.location.pathname}?${this.props.location.search}`}
+              />
+            ) : (
+              ""
+            )}
+            {/* <div
               className={cs(
                 bootstrapStyles.row,
                 styles.paddTop80,
@@ -370,7 +386,7 @@ class LoyaltyLanding extends Component<Props, State> {
                 )}
               >
                 <img src={ceriseMainlogo} className={styles.imgLoyalty} />
-                {/* <div
+                <div
                   className={cs(
                     styles.txtNormal,
                     styles.txtBold,
@@ -379,18 +395,18 @@ class LoyaltyLanding extends Component<Props, State> {
                 >
                   {" "}
                   FROM OUR HEARTS TO YOUR HOME
-                </div> */}
+                </div>
                 <div className={cs(styles.txtNormal, globalStyles.voffset4)}>
                   {" "}
                   A bespoke experience for our loyal customers who share our
                   vision of celebrating Indian craftsmanship and sustainability.
                 </div>
-                {/* <div className={cs(styles.txtNormal, globalStyles.voffset2)}>
+                <div className={cs(styles.txtNormal, globalStyles.voffset2)}>
                   We are delighted to welcome you to Cerise Program as an
                   extended member of the Good Earth family to become a part of
                   our world and give us an opportunity to get to know you
                   better.
-                </div> */}
+                </div>
                 <div className={cs(bootstrapStyles.row, styles.basic)}>
                   <div
                     className={cs(
@@ -418,7 +434,7 @@ class LoyaltyLanding extends Component<Props, State> {
                             Earn upto 15% of your purchase value as
                             Cerise&nbsp;Points.
                           </div>
-                          {/* <a
+                          <a
                         href="javascript:void(0);"
                         className={
                           this.state.readMore1 ? "" : globalStyles.hidden
@@ -426,7 +442,7 @@ class LoyaltyLanding extends Component<Props, State> {
                         onClick={this.showBlockMore1.bind(this)}
                       >
                         Read More
-                      </a> */}
+                      </a>
                           <div
                             className={
                               this.state.showblock1
@@ -458,7 +474,7 @@ class LoyaltyLanding extends Component<Props, State> {
                             Redeem your accrued Cerise&nbsp;Points on all
                             purchases.
                           </div>
-                          {/* <a
+                          <a
                         href="javascript:void(0);"
                         className={
                           this.state.readMore2 ? "" : globalStyles.hidden
@@ -466,7 +482,7 @@ class LoyaltyLanding extends Component<Props, State> {
                         onClick={this.showBlockMore2.bind(this)}
                       >
                         Read More
-                      </a> */}
+                      </a>
                           <div
                             className={
                               this.state.showblock2
@@ -622,7 +638,7 @@ class LoyaltyLanding extends Component<Props, State> {
                 <img src={butterfly} className={styles.btfly} />
                 <img src={flower6} className={styles.imgResponsive} />
               </div>
-            </div>
+            </div> */}
           </div>
         ) : (
           <div
@@ -630,7 +646,34 @@ class LoyaltyLanding extends Component<Props, State> {
               [styles.loyaltyTimer]: this.props.showTimer
             })}
           >
-            <div className="">
+            <SecondaryHeader>
+              <div
+                className={cs(
+                  bootstrapStyles.colMd12,
+                  bootstrapStyles.offsetMd1,
+                  bootstrapStyles.col11,
+                  bootstrapStyles.offset1,
+                  styles.header,
+                  globalStyles.verticalMiddle
+                )}
+              >
+                <div>
+                  <span className={styles.heading}>Cerise Club</span>
+                </div>
+              </div>
+            </SecondaryHeader>
+            {this.state.landingMaker ? (
+              <MakerEnhance
+                user="goodearth"
+                index="1"
+                href={`${window.location.origin}${this.props.location.pathname}?${this.props.location.search}`}
+              />
+            ) : (
+              ""
+            )}
+
+            {/* ******* Commented for now ******* */}
+            {/* <div className="">
               <div
                 className={cs(
                   styles.bgAnimation,
@@ -690,7 +733,7 @@ class LoyaltyLanding extends Component<Props, State> {
               >
                 <img src={flower4} className={styles.imgResponsive} />
               </div>
-            </div>
+            </div> */}
             {/* <div className={styles.commonSubheader}>
               <div
                 className={cs(bootstrapStyles.col11, bootstrapStyles.offset1)}
@@ -698,23 +741,8 @@ class LoyaltyLanding extends Component<Props, State> {
                 <span className={styles.heading}> cerise program</span>
               </div>
             </div> */}
-            <SecondaryHeader>
-              <div
-                className={cs(
-                  bootstrapStyles.colMd12,
-                  bootstrapStyles.offsetMd1,
-                  bootstrapStyles.col11,
-                  bootstrapStyles.offset1,
-                  styles.header,
-                  globalStyles.verticalMiddle
-                )}
-              >
-                <div>
-                  <span className={styles.heading}>Cerise Club</span>
-                </div>
-              </div>
-            </SecondaryHeader>
-            <div
+
+            {/* <div
               className={cs(
                 bootstrapStyles.row,
                 styles.paddTop80,
@@ -762,7 +790,7 @@ class LoyaltyLanding extends Component<Props, State> {
                         Earn upto 15% of your purchase value as
                         Cerise&nbsp;Points.
                       </div>
-                      {/* <a
+                      <a
                         href="javascript:void(0);"
                         className={
                           this.state.readMore1 ? "" : globalStyles.hidden
@@ -770,7 +798,7 @@ class LoyaltyLanding extends Component<Props, State> {
                         onClick={this.showBlockMore1.bind(this)}
                       >
                         Read More
-                      </a> */}
+                      </a>
                       <div
                         className={
                           this.state.showblock1
@@ -798,7 +826,7 @@ class LoyaltyLanding extends Component<Props, State> {
                         {" "}
                         Redeem your accrued Cerise&nbsp;Points on all purchases.
                       </div>
-                      {/* <a
+                      <a
                         href="javascript:void(0);"
                         className={
                           this.state.readMore2 ? "" : globalStyles.hidden
@@ -806,7 +834,7 @@ class LoyaltyLanding extends Component<Props, State> {
                         onClick={this.showBlockMore2.bind(this)}
                       >
                         Read More
-                      </a> */}
+                      </a>
                       <div
                         className={
                           this.state.showblock2
@@ -857,8 +885,8 @@ class LoyaltyLanding extends Component<Props, State> {
                   member.
                 </div>
               </div>
-            </div>
-            <div className={cs(bootstrapStyles.row, styles.basic)}>
+            </div> */}
+            {/* <div className={cs(bootstrapStyles.row, styles.basic)}>
               <div
                 className={cs(
                   bootstrapStyles.col12,
@@ -893,7 +921,7 @@ class LoyaltyLanding extends Component<Props, State> {
                   </div>
                 </div>
               </div>
-            </div>
+            </div> */}
           </div>
         )}
       </div>

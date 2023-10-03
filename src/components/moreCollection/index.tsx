@@ -30,7 +30,7 @@ const MoreCollectionImage: React.FC<MoreCollectionSliderProps> = (
 
   return (
     <div
-      id="more_collection_div" 
+      id="more_collection_div"
       className={cs(bootstrapStyles.colMd12, "more-collection", {
         "mobile-slider": mobile
       })}
