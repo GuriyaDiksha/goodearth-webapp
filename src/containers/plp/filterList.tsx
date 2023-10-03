@@ -267,13 +267,20 @@ class FilterList extends React.Component<Props, State> {
             break;
           case "categoryShop":
             categoryKey = array[filterType][key];
+            let l2Selected = false;
             Object.keys(categoryKey).map(data => {
-              if (categoryKey[data]) {
+              if (categoryKey[data] && !l2Selected) {
                 const orignalData = data;
                 data = encodeURIComponent(data).replace(/%20/g, "+");
-                categoryShopVars == ""
-                  ? (categoryShopVars = data)
-                  : (categoryShopVars += "|" + data);
+                if ((data.match(/%3E/g) || []).length == 1) {
+                  // Break loop if l2 is selected. No need to add l3s now.
+                  categoryShopVars = data;
+                  l2Selected = true;
+                } else {
+                  categoryShopVars == ""
+                    ? (categoryShopVars = data)
+                    : (categoryShopVars += "|" + data);
+                }
                 mainurl = this.getMainUrl(orignalData);
               }
             });
