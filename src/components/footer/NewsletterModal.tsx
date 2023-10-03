@@ -183,7 +183,7 @@ const NewsletterModal: React.FC<Props> = ({ title, subTitle }) => {
             setDisplayPopUp(true);
             const returningUser = localStorage.getItem("seenPopUp");
             setDisplayPopUp(!returningUser);
-            if (returningUser) {
+            if (!returningUser) {
               document?.body.classList.add(globalStyles.noScroll);
             } else {
               document?.body.classList.remove(globalStyles.noScroll);
@@ -194,7 +194,7 @@ const NewsletterModal: React.FC<Props> = ({ title, subTitle }) => {
         setDisplayPopUp(true);
         const returningUser = localStorage.getItem("seenPopUp");
         setDisplayPopUp(!returningUser);
-        if (returningUser) {
+        if (!returningUser) {
           document?.body.classList.add(globalStyles.noScroll);
         } else {
           document?.body.classList.remove(globalStyles.noScroll);
