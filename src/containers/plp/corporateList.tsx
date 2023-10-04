@@ -625,47 +625,22 @@ class CorporateFilter extends React.Component<Props, State> {
     }
   };
 
-  // componentDidMount() {
-  //   moveChatDown();
-  //   window.addEventListener("scroll", this.handleScroll, { passive: true });
-  //   this.props.updateScrollDown(false);
-  //   this.unlisten = this.props.history.listen(this.stateChange);
-  // }
-
   componentDidMount() {
-    const that = this;
+    this.unlisten = this.props.history.listen(this.stateChange);
     window.addEventListener("scroll", this.handleScroll, { passive: true });
     this.props.updateScrollDown(false);
-    // this.unlisten = this.props.history.listen(this.stateChange);
-    let previousUrl = "";
-    let previousCategory = "";
-    const observer = new MutationObserver(function(mutations) {
-      if (location.href !== previousUrl) {
-        previousUrl = location.href;
-        const pathnameArr = location.pathname.split("/");
-        const currentCategory = pathnameArr.filter(
-          i => i != "" && i != "catalogue" && i != "category"
-        )[0];
-        if (previousCategory != currentCategory) {
-          previousCategory = currentCategory;
-          that.setState({
-            filter: {
-              currentColor: {},
-              availableSize: {},
-              categoryShop: {},
-              price: {},
-              currency: {},
-              sortBy: {},
-              productType: {},
-              availableDiscount: {}
-            }
-          });
-        }
+    this.setState({
+      filter: {
+        currentColor: {},
+        availableSize: {},
+        categoryShop: {},
+        price: {},
+        currency: {},
+        sortBy: {},
+        productType: {},
+        availableDiscount: {}
       }
     });
-    const config = { subtree: true, childList: true };
-    observer.observe(document, config);
-
     const header = document.getElementById("myHeader");
     const sticky = (header as HTMLElement)?.offsetTop;
     const filterMenu = document.getElementById("filter_by");
@@ -786,7 +761,7 @@ class CorporateFilter extends React.Component<Props, State> {
 
   componentWillUnmount() {
     window.removeEventListener("scroll", this.handleScroll);
-    // this.unlisten();
+    this.unlisten();
     moveChatUp();
   }
 
