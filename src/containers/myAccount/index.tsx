@@ -183,13 +183,13 @@ const MyAccount: React.FC<Props> = props => {
       title: "Profile",
       loggedInOnly: true
     },
-    {
-      label: "Change Password",
-      href: "/account/password",
-      component: ChangePassword,
-      title: "password",
-      loggedInOnly: true
-    },
+    // {
+    //   label: "Change Password", //Removed from workflow
+    //   href: "/account/password",
+    //   component: ChangePassword,
+    //   title: "password",
+    //   loggedInOnly: true
+    // },
     {
       label: "Addresses",
       href: "/account/address",

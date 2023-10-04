@@ -603,7 +603,7 @@ class MainLogin extends React.Component<Props, loginState> {
               showLabel={true}
             />
           </div>
-          <div>
+          {/* <div>
             <InputField
               placeholder={""}
               value={this.state.password}
@@ -640,7 +640,7 @@ class MainLogin extends React.Component<Props, loginState> {
             >
               FORGOT PASSWORD
             </span>
-          </div>
+          </div> */}
           <div>
             {this.state.showerror ? (
               <p className={cs(styles.errorMsg, styles.mainLoginError)}>
@@ -686,12 +686,12 @@ class MainLogin extends React.Component<Props, loginState> {
     );
 
     const currentForm = () => {
-      const { showCurrentSection } = this.state;
-      if (showCurrentSection == "email") {
-        return this.emailForm();
-      } else if (showCurrentSection == "login") {
-        return formContent;
-      }
+      // const { showCurrentSection } = this.state;
+      // if (showCurrentSection == "email") {
+      return this.emailForm();
+      // } else if (showCurrentSection == "login") {
+      //   return formContent;
+      // }
     };
 
     return (
