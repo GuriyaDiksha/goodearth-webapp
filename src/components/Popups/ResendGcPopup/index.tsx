@@ -39,7 +39,9 @@ const ResendGcPopup: React.FC<PopupProps> = props => {
             )}
           ></i>
         </div>
-        <div className={cs(styles.gcTnc, styles.sideMargin)}>
+        <div
+          className={cs(globalStyles.paddT30, styles.gcTnc, styles.sideMargin)}
+        >
           <img src={resendEmail} className={styles.iconResend} />
           <div className={globalStyles.c10LR}>
             <p>
