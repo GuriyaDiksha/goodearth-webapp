@@ -513,6 +513,15 @@ input[type="time"]::-webkit-calendar-picker-indicator{
     
 }
 
+.container {
+    position: relative;
+    width: 100%;
+}
+
+.lazy-image {
+    width: 100%;
+}
+
 .overlay-div{
     background: transparent;
     position: absolute;
