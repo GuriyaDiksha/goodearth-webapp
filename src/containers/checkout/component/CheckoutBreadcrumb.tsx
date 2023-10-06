@@ -13,7 +13,7 @@ const CheckoutBreadcrumb: React.FC<BreadcrumbProps> = props => {
 
   return (
     <div className={cs(styles.breadcrumb)}>
-      <div className={cs(styles.card, styles.bgGrey)}>
+      <div className={cs(styles.card)}>
         <div
           className={cs(styles.breadcrumbWrapper, globalStyles.flex, {
             [styles.justifyCenter]: mobile

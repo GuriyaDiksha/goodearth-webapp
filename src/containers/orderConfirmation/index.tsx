@@ -902,7 +902,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                     )
                   )}
                 </div>
-                <div className={cs(styles.totalSection, styles.totalWrp)}>
+                {/* <div className={cs(styles.totalSection, styles.totalWrp)}>
                   <p>TOTAL</p>
                   <p>
                     {displayPriceWithCommasFloat(
@@ -910,7 +910,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                       confirmData.currency
                     )}
                   </p>
-                </div>
+                </div> */}
                 <div className={cs(styles.totalSection)}>
                   <p>AMOUNT PAID</p>
                   <p>

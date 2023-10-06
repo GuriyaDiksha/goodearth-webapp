@@ -1157,7 +1157,7 @@ input[type="radio"] {
 
 // Breadcrumb Styles
 .breadcrumb {
-  border-bottom: 1px solid #eaeaea;
+  // border-bottom: 1px solid #eaeaea;
   .breadcrumb-wrapper {
     padding: 20px 0;
     gap: 5px;
@@ -1209,7 +1209,7 @@ input[type="radio"] {
   .send-to-address {
     @include b3_14px_montserrat_white();
     letter-spacing: 0.42px;
-    padding: 21px 40px;
+    padding: 20px 40px;
     width: 100%;
     max-width: 366px;
     background-color: $med-charcoal;
