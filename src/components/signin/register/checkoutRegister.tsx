@@ -3,8 +3,8 @@ import cs from "classnames";
 import styles from "../styles.scss";
 import globalStyles from "styles/global.scss";
 import bootstrapStyles from "../../../styles/bootstrap/bootstrap-grid.scss";
-import show from "../../../images/showPass.svg";
-import hide from "../../../images/hidePass.svg";
+// import show from "../../../images/showPass.svg";
+// import hide from "../../../images/hidePass.svg";
 import { Context } from "components/Modal/context";
 import moment from "moment";
 import Formsy from "formsy-react";
@@ -1334,6 +1334,7 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
             changeEmail={this.changeEmail}
             goLogin={this.props.goToLogin}
             isCheckout={this.props.isCheckout}
+            currency={this.props.currency}
           />
         ) : (
           <>
