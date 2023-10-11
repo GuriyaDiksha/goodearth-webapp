@@ -218,7 +218,11 @@ const CollectionLanding = () => {
 
       <div className={styles.itemList}>
         {filteredData?.map((collectionData, i) => (
-          <CollectionItem key={i} collectionData={collectionData} />
+          <CollectionItem
+            key={i}
+            collectionData={collectionData}
+            activeFilterHandler={activeFilterHandler}
+          />
         ))}
       </div>
     </div>
