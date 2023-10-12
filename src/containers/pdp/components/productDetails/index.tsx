@@ -927,6 +927,9 @@ const ProductDetails: React.FC<Props> = ({
                     { [globalStyles.textCenter]: !mobile }
                   )}
                 >
+                  {currency === "INR" && (
+                    <span className={styles.mrp}>MRP</span>
+                  )}
                   {info.isSale && discount && discountedPriceRecords ? (
                     <span className={styles.discountedPrice}>
                       {displayPriceWithCommas(discountPrices, currency)}
