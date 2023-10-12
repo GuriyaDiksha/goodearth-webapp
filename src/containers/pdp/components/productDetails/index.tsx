@@ -928,7 +928,7 @@ const ProductDetails: React.FC<Props> = ({
                   )}
                 >
                   {currency === "INR" && (
-                    <span className={styles.mrp}>MRP</span>
+                    <span className={styles.mrp}>MRP.</span>
                   )}
                   {info.isSale && discount && discountedPriceRecords ? (
                     <span className={styles.discountedPrice}>
