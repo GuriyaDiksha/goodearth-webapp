@@ -227,12 +227,12 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
             event: "newsletter_subscribe",
             click_type: " Sign in"
           });
-          dataLayer.push({
-            event: "sign_up",
-            user_status: "logged in", //'Pass the user status ex. logged in OR guest',
-            login_method: "", //Pass Email or Google as per user selection',
-            user_id: data?.userId
-          });
+          // dataLayer.push({
+          //   event: "sign_up",
+          //   user_status: "logged in", //'Pass the user status ex. logged in OR guest',
+          //   login_method: "", //Pass Email or Google as per user selection',
+          //   user_id: data?.userId
+          // });
         }
         this.gtmPushRegister();
         // this.props.nextStep?.();

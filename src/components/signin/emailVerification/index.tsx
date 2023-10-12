@@ -13,6 +13,8 @@ import { MESSAGE } from "constants/messages";
 import { useLocation } from "react-router";
 import NewOtpComponent from "components/OtpComponent/NewOtpComponent";
 import { decriptdata } from "utils/validate";
+import { GA_CALLS } from "constants/cookieConsent";
+import CookieService from "services/cookie";
 
 type Props = {
   successMsg: string;
@@ -68,6 +70,16 @@ const EmailVerification: React.FC<Props> = ({
       const res = await LoginService.verifyUserOTP(dispatch, email, otp);
 
       if (res.success) {
+        const userConsent = CookieService.getCookie("consent").split(",");
+
+        if (userConsent.includes(GA_CALLS)) {
+          dataLayer.push({
+            event: "sign_up",
+            user_status: "logged in", //'Pass the user status ex. logged in OR guest',
+            login_method: "", //Pass Email or Google as per user selection',
+            user_id: "NA" // data?.userId
+          });
+        }
         showGrowlMessage(
           dispatch,
           MESSAGE.VERIFY_SUCCESS,
