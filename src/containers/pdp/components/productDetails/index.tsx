@@ -947,6 +947,9 @@ const ProductDetails: React.FC<Props> = ({
                       {displayPriceWithCommas(price, currency)}
                     </span>
                   )}
+                  {currency === "INR" && (
+                    <p className={styles.incTax}>(Incl. of all taxes)</p>
+                  )}
                 </div>
               )}
             </div>
