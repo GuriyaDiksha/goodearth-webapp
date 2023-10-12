@@ -51,6 +51,14 @@
     font-family: $font-Montserrat;
 }
 
+.inc-tax{
+    font-family: $font-Montserrat;
+    font-weight: $regular;
+    font-size: 8px;
+    line-height: 15px;
+    color: $charcoal19;
+}
+
 .label {
     @include pdp_label();
 
