@@ -17,6 +17,7 @@ const SelectedPrice: React.FC<Props> = ({
 }) => {
   return (
     <p className={cs(styles.productN)}>
+      {currency === "INR" && <span className={styles.mrp}>MRP</span>}
       {isSale && discount ? (
         <span className={cs(styles.discountprice, className)}>
           {displayPriceWithCommas(discountPrice, currency)}
