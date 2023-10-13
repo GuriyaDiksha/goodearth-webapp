@@ -1443,11 +1443,15 @@ class FilterList extends React.Component<Props, State> {
       oldSelectedCategory: event.target.value
     });
     const userConsent = CookieService.getCookie("consent").split(",");
+    const val =
+      event.target.id.split(">")?.[2] !== undefined
+        ? ` -${event.target.id.split(">")?.[2]}`
+        : "";
     if (userConsent.includes(GA_CALLS)) {
       dataLayer.push({
         event: "Filter used",
         "Filter type": "Category",
-        "Filter value": event.target.value
+        "Filter value": event.target.value + val
       });
     }
 
@@ -1560,6 +1564,15 @@ class FilterList extends React.Component<Props, State> {
     this.setState({
       filter: filter
     });
+
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes(GA_CALLS)) {
+      dataLayer.push({
+        event: "Filter used",
+        "Filter type": "Material",
+        "Filter value": event.target.value
+      });
+    }
     this.createUrlfromFilter();
     event.stopPropagation();
   };
