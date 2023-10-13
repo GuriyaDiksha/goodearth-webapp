@@ -444,6 +444,7 @@ class PLP extends React.Component<
           });
           if (leftMostPos != Infinity) {
             const productID = leftMostElement.children[0].children[0]?.id;
+            console.log(this.props);
             this.props.updateMobileView(plpMobileView);
             const top: number =
               leftMostElement.getBoundingClientRect().top - 135;
@@ -462,7 +463,9 @@ class PLP extends React.Component<
       cards.forEach(card => {
         observer.observe(card);
       });
+      // debugger
     }
+    // debugger
   };
 
   plpViewGTM(newdata: any) {

@@ -1155,6 +1155,31 @@ input[type="radio"] {
   margin-bottom: 10px;
 }
 
+
+// Temporary code to disabled the redeem points
+
+.none-pointer-event {
+  pointer-events: none;
+  color: #868686 !important;
+}
+.disabled {
+  cursor: not-allowed;
+}
+.redeem-unavailable-message-wrapper {
+  width: 80%;
+  padding: 15px 3px 0 3px;
+
+  .redeem-unavailable-message {
+    @include b4_12px_lato();
+    font-family: $font-Montserrat !important;
+    line-height: 1.5 !important;
+  }
+
+  @media screen and (max-width: 992px) {
+    padding-top: 8px;
+    width: 100%;
+  }
+}
 // Breadcrumb Styles
 .breadcrumb {
   // border-bottom: 1px solid #eaeaea;

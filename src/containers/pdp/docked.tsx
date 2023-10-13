@@ -80,6 +80,9 @@ const DockedPanel: React.FC<Props> = ({
             className={styles.bottomDockPrice}
           />
         )}
+        {currency === "INR" && (
+          <p className={styles.incTax}>(Incl. of all taxes)</p>
+        )}
       </div>
       {!mobile && (
         <div className={cs(bootstrap.col2)}>{button ? button : buttoncall}</div>

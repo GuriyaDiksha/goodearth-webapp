@@ -39,7 +39,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
     device: { mobile, tablet },
     info: { showGiftWrap, deliveryText },
     basket: { loyalty },
-    user: { loyaltyData, isLoggedIn, preferenceData },
+    user: { loyaltyData, isLoggedIn, preferenceData, slab },
     address: { countryData, shippingAddressId, billingAddressId }
   } = useSelector((state: AppState) => state);
   let PaymentChild: any = useRef<typeof ApplyGiftcard>(null);
@@ -631,38 +631,53 @@ const PaymentSection: React.FC<PaymentProps> = props => {
 
   return (
     <>
-      {loyaltyData?.detail && currency == "INR" && (
-        <div
-          id="cerise-section"
-          className={
-            isActive
-              ? cs(styles.card, styles.cardOpen, styles.marginT5)
-              : cs(styles.card, styles.cardClosed, styles.marginT5)
-          }
-        >
-          <Fragment>
-            <div className={bootstrapStyles.row}>
-              <div
-                className={cs(
-                  bootstrapStyles.col12,
-                  bootstrapStyles.colMd6,
-                  styles.title
-                )}
-              >
-                {loyalty?.[0]?.points && (
-                  <img
-                    height={"15px"}
-                    className={globalStyles.marginR10}
-                    src={checkmarkCircle}
-                    alt="checkmarkdone"
-                  />
-                )}
-                <span className={isActive ? "" : styles.closed}>
-                  CERISE LOYALTY POINTS
-                </span>
-              </div>
+      {["cerise", "cerise club", "cerise sitara"].includes(
+        slab.toLowerCase()
+      ) &&
+        currency == "INR" && (
+          <div
+            id="cerise-section"
+            className={
+              isActive
+                ? cs(styles.card, styles.cardOpen, styles.marginT5)
+                : cs(styles.card, styles.cardClosed, styles.marginT5)
+            }
+          >
+            <Fragment>
+              <div className={bootstrapStyles.row}>
+                <div
+                  className={cs(
+                    bootstrapStyles.col12,
+                    bootstrapStyles.colMd6,
+                    styles.title
+                  )}
+                >
+                  {loyalty?.[0]?.points && (
+                    <img
+                      height={"15px"}
+                      className={globalStyles.marginR10}
+                      src={checkmarkCircle}
+                      alt="checkmarkdone"
+                    />
+                  )}
+                  <span className={isActive ? "" : styles.closed}>
+                    CERISE LOYALTY POINTS
+                  </span>
+                </div>
 
-              {loyalty?.[0]?.points && (
+                {isActive && (
+                  <div className={styles.redeemUnavailableMessageWrapper}>
+                    <p className={styles.redeemUnavailableMessage}>
+                      We are upgrading our Cerise program and will be back soon!
+                      You will continue to earn points for all transactions
+                      during this period - these will reflect once the upgrade
+                      is complete. Please note that you will not be able to
+                      redeem any points during this time.
+                    </p>
+                  </div>
+                )}
+                {/* Temporary commented code for downtime */}
+                {/* {loyalty?.[0]?.points && (
                 <div
                   className={cs(
                     styles.col12,
@@ -687,9 +702,11 @@ const PaymentSection: React.FC<PaymentProps> = props => {
                     REMOVE
                   </span>
                 </div>
-              )}
-            </div>
-            {loyalty?.[0]?.points || !isActive ? null : (
+              )} */}
+              </div>
+              {/* Temporary commented code for downtime */}
+
+              {/* {loyalty?.[0]?.points || !isActive ? null : (
               <>
                 <hr className={styles.hr} />
                 <div className={globalStyles.flex}>
@@ -728,10 +745,10 @@ const PaymentSection: React.FC<PaymentProps> = props => {
                   </div>
                 </div>
               </>
-            )}
-          </Fragment>
-        </div>
-      )}
+            )} */}
+            </Fragment>
+          </div>
+        )}
 
       {(!basket.isOnlyGiftCart || !isActive) && (
         <div
@@ -799,16 +816,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
                 {!basket.isOnlyGiftCart && (
                   <div className={globalStyles.flex}>
                     <hr className={styles.hr} />
-                    {/* <div
-                  className={cs(
-                    styles.marginR10,
-                    globalStyles.cerise,
-                    globalStyles.pointer
-                  )}
-                  onClick={toggleInput}
-                >
-                  {isactivepromo ? "-" : "+"}
-                </div> */}
+
                     <div className={styles.inputContainer}>
                       <label
                         className={cs(
@@ -845,8 +853,6 @@ const PaymentSection: React.FC<PaymentProps> = props => {
                       ) : (
                         ""
                       )}
-                      {/* {renderInput()}
-                {renderCoupon()} */}
                     </div>
                   </div>
                 )}

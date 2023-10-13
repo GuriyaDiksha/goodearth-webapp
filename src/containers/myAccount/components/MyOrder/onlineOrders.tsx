@@ -142,6 +142,7 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
                   {data.occasion} Registry
                 </span>
                 <span className={styles.bridalMessage}></span>
+                <span>Address predefined by registrant</span>
               </div>
             )}
             {!data.isBridalOrder ? (
@@ -316,12 +317,11 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
         {/* giftcard and credit note */}
         {data.giftVoucherRedeemed?.map((gccn: number, i: number) => {
           return (
-            <div className={cs(styles.price, styles.price3, styles.discount)}>
-              <span className={styles.label}>
-                {Object.keys(gccn)?.[0] === "GIFTCARD"
-                  ? "GIFT CARD"
-                  : "CREDIT NOTE"}
-              </span>
+            <div
+              className={cs(styles.price, styles.price3, styles.discount)}
+              key={i}
+            >
+              <span className={styles.label}>{Object.keys(gccn)?.[0]}</span>
               <span className={styles.value}>
                 {`(-) ${displayPriceWithCommas(
                   Object.values(gccn)?.[0],
