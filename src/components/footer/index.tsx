@@ -17,6 +17,7 @@ import CookiePolicy from "./CookiePolicy";
 import MakerSmartNav from "containers/base/MakerSmartNav";
 import ReactHtmlParser from "react-html-parser";
 import { OLD_COOKIE_SETTINGS } from "constants/cookieConsent";
+import NewsletterModal from "./NewsletterModal";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -299,7 +300,6 @@ class Footer extends React.Component<Props, FooterState> {
           } else {
             const msg = showErrors(error.response.data.message);
             this.setState({ newsletterError: true, newsletterMessage: msg });
-            // console.log(error);
           }
         });
     }
@@ -1174,6 +1174,18 @@ class Footer extends React.Component<Props, FooterState> {
             setConsent={this.setConsent}
             showCookiePref={this.props?.showCookiePref}
             showCookiePrefs={this.props?.showCookiePrefs}
+          />
+        )}
+
+        {!(OLD_COOKIE_SETTINGS
+          ? cookiCheck
+          : (cookiCheck && !this.state.isConsentSave) ||
+            this.props?.showCookiePref) && (
+          <NewsletterModal
+            title={"Find Out First!"}
+            subTitle={
+              "Be the first to know about new launches and the latest updates from the brand, delivered straight to your inbox!"
+            }
           />
         )}
       </div>

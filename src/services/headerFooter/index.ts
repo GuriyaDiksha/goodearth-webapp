@@ -92,6 +92,15 @@ export default {
     );
     return res;
   },
+
+  checkSignup: async (dispatch: Dispatch, email: string) => {
+    const res = await API.get<{ already_signedup: boolean }>(
+      dispatch,
+      `${__API_HOST__}/myapi/newsletter/check_signup/?email=${email}`
+    );
+    return res;
+  },
+
   fetchSearchFeaturedContent: async (dispatch: Dispatch) => {
     const res = await API.get<SearchFeaturedData>(
       dispatch,
