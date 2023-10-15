@@ -29,6 +29,7 @@ type Props = {
   userAddress?: any;
   defaultAddress?: string;
   setDefaultAddress?: (x: string) => void;
+  isGcCheckout?: boolean;
 };
 
 const AddressItem: React.FC<Props> = props => {
@@ -277,8 +278,7 @@ const AddressItem: React.FC<Props> = props => {
   const addressLineTwoWithSpace =
     address.line2.split("").indexOf(" ") > 0 ? 40 : 12;
   const divOrText =
-    (address.firstName.length < 14 && address.lastName.length < 7) ||
-    (address.firstName.length < 7 && address.lastName.length < 14)
+    (address.firstName.length + address.lastName.length < 21)
       ? "text"
       : "div";
   const billingEditDisable =
@@ -305,16 +305,19 @@ const AddressItem: React.FC<Props> = props => {
       }
       id={`address-item-${address.id}`}
       onClick={() => {
-        markAsDefault(address, address?.id);
-        currentCallBackComponent !== "checkout-billing" &&
+        if (!(props.isGcCheckout && currency != address.currency)) {
+          markAsDefault(address, address?.id);
+          currentCallBackComponent !== "checkout-billing" &&
           currentCallBackComponent !== "checkout-shipping" &&
           setDefaultAddress &&
           setDefaultAddress(id);
+        }
       }}
     >
       <div
         className={cs(
           styles.addressItemContainer,
+          (props.isGcCheckout && currency != address.currency) ? styles.fadedContainer : "",
           {
             [styles.defaultAddress]:
               currentCallBackComponent == "checkout-shipping"
@@ -860,7 +863,7 @@ const AddressItem: React.FC<Props> = props => {
                 address.isTulsi ||
                 address.isBackendOrder ||
                 props.currentCallBackComponent == "cerise"
-              ) && (
+              ) && !(props.isGcCheckout && currency != address.currency) && (
                 <span
                   className={cs(
                     styles.action,

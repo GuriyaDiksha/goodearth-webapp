@@ -1,0 +1,81 @@
+import React, { useContext } from "react";
+import cs from "classnames";
+import globalStyles from "styles/global.scss";
+import styles from "../styles.scss";
+import iconStyles from "styles/iconFonts.scss";
+import { Context } from "components/Modal/context";
+import { useSelector } from "react-redux";
+import { AppState } from "reducers/typings";
+import { useHistory } from "react-router";
+
+type PopupProps = {
+  location: any;
+  action: any;
+  history: any;
+  // closeModal: (data?: any) => any;
+  // acceptCondition: (data?: any) => any;
+};
+
+const exitGCCheckout: React.FC<PopupProps> = props => {
+  //   const [isLoading, setIsLoading] = useState(false);
+  const { closeModal } = useContext(Context);
+  const history = useHistory();
+  //const currency = useSelector((state: AppState) => state.currency);
+  const { mobile } = useSelector((state: AppState) => state.device);
+
+  return (
+    <div>
+      <div
+        className={cs(
+          styles.sizeBlockPopup,
+          styles.sizeBlockNotFixed,
+          styles.centerpageDesktopFs,
+          globalStyles.textCenter,
+          styles.freeShippingPopup,
+          styles.customHeight,
+          { [styles.mobilePopup]: mobile }
+        )}
+      >
+        <div className={cs(styles.gcTnc)}>
+          <div
+            className={cs(styles.freeShippingHead, {
+              [globalStyles.marginT30]: mobile
+            })}
+          >
+            Are you sure you want to exit this page?
+          </div>
+          {/* <div className={globalStyles.c10LR}> */}
+          <div className={styles.freeShipping}>
+            <div>Leaving this page will cancel your gift card checkout and remove the gift card from your cart.</div>
+          </div>
+        </div>
+        <div className={cs(globalStyles.ceriseBtn, styles.freeshipBtnWidth)}>
+          <a onClick={() => {
+                closeModal();
+                localStorage.setItem("openGCExitModal", "false");
+              }}>
+            NO, CONTINUE WITH CHECKOUT
+          </a>
+        </div>
+        <div className={cs(styles.link, styles.linkDecor)}>
+          <p onClick={() => {
+                closeModal();
+                if (props.action == "PUSH") {
+                  history.push(props.location.pathname);
+                } else if (props.action == "REPLACE") {
+                  history.replace(props.location.pathname);
+                } else if (props.action == "POP") {
+                  history.goBack();
+                }
+                localStorage.setItem("openGCExitModal", "false");
+              }}
+            >
+              YES, CANCEL GIFT CARD CHECKOUT
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default exitGCCheckout;

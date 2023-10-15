@@ -973,10 +973,19 @@ class Checkout extends React.Component<Props, State> {
             );
           })
           .catch(err => {
-            this.setState({
-              billingError:
-                showErrors(err.response.data) || err.response.data.msg || ""
-            });
+            if (isGcCheckout && this.props.basket.lineItems.length == 0) {
+              this.setState({
+                billingError:
+                  showErrors("There are no items in your cart.")
+              });
+            }
+            else {
+              this.setState({
+                billingError:
+                  showErrors(err.response.data) || err.response.data.msg || ""
+              });
+            }
+            
             this.showErrorMsg();
             this.showErrorMsgs();
           })
