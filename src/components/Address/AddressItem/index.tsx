@@ -390,8 +390,10 @@ const AddressItem: React.FC<Props> = props => {
                           className={styles.radio}
                           id={id}
                           onClick={() => {
-                            markAsDefault(address, address?.id);
-                            setDefaultAddress && setDefaultAddress(id);
+                            if (!(props.isGcCheckout && currency != address.currency)) {
+                              markAsDefault(address, address?.id);
+                              setDefaultAddress && setDefaultAddress(id);
+                            }                        
                           }}
                         >
                           <input
@@ -404,8 +406,10 @@ const AddressItem: React.FC<Props> = props => {
                             name={id}
                             type="radio"
                             onChange={() => {
-                              markAsDefault(address, address?.id);
-                              setDefaultAddress && setDefaultAddress(id);
+                              if (!(props.isGcCheckout && currency != address.currency)) {
+                                markAsDefault(address, address?.id);
+                                setDefaultAddress && setDefaultAddress(id);
+                              }
                             }}
                           />
                         </div>
@@ -428,8 +432,10 @@ const AddressItem: React.FC<Props> = props => {
                           className={styles.radio}
                           id={id}
                           onClick={() => {
-                            markAsDefault(address, address?.id);
-                            setDefaultAddress && setDefaultAddress(id);
+                            if (!(props.isGcCheckout && currency != address.currency)) {
+                              markAsDefault(address, address?.id);
+                              setDefaultAddress && setDefaultAddress(id);
+                            }
                           }}
                         >
                           <input
@@ -442,8 +448,10 @@ const AddressItem: React.FC<Props> = props => {
                             name={id}
                             type="radio"
                             onChange={() => {
-                              markAsDefault(address, address?.id);
-                              setDefaultAddress && setDefaultAddress(id);
+                              if (!(props.isGcCheckout && currency != address.currency)) {
+                                markAsDefault(address, address?.id);
+                                setDefaultAddress && setDefaultAddress(id);
+                              }
                             }}
                           />
                         </div>
@@ -472,8 +480,10 @@ const AddressItem: React.FC<Props> = props => {
                   className={styles.radio}
                   id={id}
                   onClick={() => {
-                    markAsDefault(address, address?.id);
-                    setDefaultAddress && setDefaultAddress(id);
+                    if (!(props.isGcCheckout && currency != address.currency)) {
+                      markAsDefault(address, address?.id);
+                      setDefaultAddress && setDefaultAddress(id);
+                    }
                   }}
                 >
                   <input
@@ -483,8 +493,10 @@ const AddressItem: React.FC<Props> = props => {
                     name={id}
                     type="radio"
                     onChange={() => {
-                      markAsDefault(address, address?.id);
-                      setDefaultAddress && setDefaultAddress(id);
+                      if (!(props.isGcCheckout && currency != address.currency)) {
+                        markAsDefault(address, address?.id);
+                        setDefaultAddress && setDefaultAddress(id);
+                      }
                     }}
                   />
                   <span className={styles.checkmark}></span>
@@ -602,8 +614,10 @@ const AddressItem: React.FC<Props> = props => {
                       className={styles.radio}
                       id={address.id.toString()}
                       onClick={() => {
-                        markAsDefault(address, address?.id);
-                        // setDefaultAddress(id);
+                        if (!(props.isGcCheckout && currency != address.currency)) {
+                          markAsDefault(address, address?.id);
+                          // setDefaultAddress(id);
+                        }
                       }}
                     >
                       <input
@@ -615,8 +629,10 @@ const AddressItem: React.FC<Props> = props => {
                         name={address.id.toString()}
                         type="radio"
                         onChange={() => {
-                          markAsDefault(address, address?.id);
-                          // setDefaultAddress(id);
+                          if (!(props.isGcCheckout && currency != address.currency)) {
+                            markAsDefault(address, address?.id);
+                            // setDefaultAddress(id);
+                          }
                         }}
                       />
                       <span className={styles.checkmark}></span>
@@ -684,11 +700,13 @@ const AddressItem: React.FC<Props> = props => {
                       : address.id.toString()
                   }
                   onClick={() => {
-                    markAsDefault(address, address?.id);
-                    currentCallBackComponent !== "checkout-billing" &&
-                      currentCallBackComponent !== "checkout-shipping" &&
-                      setDefaultAddress &&
-                      setDefaultAddress(id);
+                    if (!(props.isGcCheckout && currency != address.currency)) {
+                      markAsDefault(address, address?.id);
+                      currentCallBackComponent !== "checkout-billing" &&
+                        currentCallBackComponent !== "checkout-shipping" &&
+                        setDefaultAddress &&
+                        setDefaultAddress(id);
+                    }
                   }}
                 >
                   <input
@@ -716,11 +734,13 @@ const AddressItem: React.FC<Props> = props => {
                     }
                     type="radio"
                     onChange={() => {
-                      markAsDefault(address, address?.id);
-                      currentCallBackComponent !== "checkout-billing" &&
-                        currentCallBackComponent !== "checkout-shipping" &&
-                        setDefaultAddress &&
-                        setDefaultAddress(id);
+                      if (!(props.isGcCheckout && currency != address.currency)) {
+                        markAsDefault(address, address?.id);
+                        currentCallBackComponent !== "checkout-billing" &&
+                          currentCallBackComponent !== "checkout-shipping" &&
+                          setDefaultAddress &&
+                          setDefaultAddress(id);
+                      }
                     }}
                   />
                   <span className={styles.checkmark}></span>
