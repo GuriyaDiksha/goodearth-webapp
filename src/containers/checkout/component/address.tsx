@@ -1124,17 +1124,17 @@ const AddressSection: React.FC<AddressProps & {
                     activeStep == STEP_BILLING && !isActive && !billingAddressId
                   )}
               </div>
+              {!mobile &&
+                renderActions(
+                  false,
+                  activeStep == STEP_BILLING && !isActive && !billingAddressId
+                )}
               {isGcCheckout && 
                 <p className={cs(
                   globalStyles.errorMsg
                 )}>
                   Please select or add an address that matches the currency of your Gift Card.
                 </p>}
-              {!mobile &&
-                renderActions(
-                  false,
-                  activeStep == STEP_BILLING && !isActive && !billingAddressId
-                )}
               {renderSavedAddress()}
             </div>
             {isActive && (
