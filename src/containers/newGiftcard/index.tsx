@@ -782,6 +782,7 @@ class NewGiftcard extends React.Component<Props, State> {
                     required
                   />
                   <FormTextArea
+                    additionalErrorClass={styles.leftFloat}
                     placeholder=""
                     maxLength={248}
                     name="message"
