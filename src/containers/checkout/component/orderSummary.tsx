@@ -712,15 +712,16 @@ const OrderSummary: React.FC<OrderProps> = props => {
                 )}
               </div>
             )}
-            <div className={cs(globalStyles.flex, globalStyles.gutterBetween)}>
+            {/* Do not show subtotal and shipping section in GC Checkout */}
+            {!(pathname == "/order/gc_checkout") && <div className={cs(globalStyles.flex, globalStyles.gutterBetween)}>
               <span className={styles.subtotal}>SUBTOTAL</span>
               <span className={styles.subtotal}>
                 {displayPriceWithCommasFloat(basket.subTotal, currency)}
               </span>
-            </div>
+            </div>}
             {getDiscount(basket.offerDiscounts)}
             {/* <hr className={styles.hr} /> */}
-            <div
+            {!(pathname == "/order/gc_checkout") && <div
               className={cs(
                 globalStyles.flex,
                 globalStyles.gutterBetween,
@@ -735,14 +736,14 @@ const OrderSummary: React.FC<OrderProps> = props => {
                   currency
                 )}
               </span>
-            </div>
+            </div>}
             {basket.finalDeliveryDate && showDeliveryTimelines && (
               <div className={styles.deliveryDate}>
                 Estimated delivery on or before:{" "}
                 <span className={styles.black}>{basket.finalDeliveryDate}</span>
               </div>
             )}
-            {shippingAddress?.state && (
+            {!(pathname == "/order/gc_checkout") && shippingAddress?.state && (
               <div
                 className={cs(styles.selectedStvalue, globalStyles.marginT10)}
               >
@@ -750,7 +751,8 @@ const OrderSummary: React.FC<OrderProps> = props => {
               </div>
             )}
 
-            <hr className={styles.hr} />
+            {!(pathname == "/order/gc_checkout") && <hr className={styles.hr} />}
+            
             <div className={cs(globalStyles.flex, globalStyles.gutterBetween)}>
               <span className={styles.subtotal}>TOTAL</span>
               <span className={styles.subtotal}>

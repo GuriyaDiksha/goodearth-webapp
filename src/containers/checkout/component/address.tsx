@@ -421,7 +421,7 @@ const AddressSection: React.FC<AddressProps & {
                   <div className={styles.text}>{address.line2},</div>
                 )}
                 <div className={styles.text}>
-                  {address.city},{address.state}, {address.postCode},
+                  {address.city}, {address.state}, {address.postCode},
                 </div>
                 <div className={styles.text}>{address.countryName}</div>
               </div>
@@ -467,7 +467,7 @@ const AddressSection: React.FC<AddressProps & {
                   <div className={styles.text}>{address.line2},</div>
                 ) : null}
                 <div className={styles.text}>
-                  {address.city},{address.state}, {address.postCode},
+                  {address.city}, {address.state}, {address.postCode},
                 </div>
                 <div className={styles.text}>{address.countryName}</div>
               </div>
@@ -1133,7 +1133,8 @@ const AddressSection: React.FC<AddressProps & {
               {isGcCheckout && props.currentStep == STEP_ORDER[STEP_BILLING] && 
                 <p className={cs(
                   globalStyles.errorMsg,
-                  styles.marginT20
+                  styles.marginT20,
+                  styles.customError
                 )}>
                   Please select or add an address that matches the currency of your Gift Card.
                 </p>}
