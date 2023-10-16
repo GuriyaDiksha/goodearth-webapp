@@ -214,7 +214,6 @@ const MyAccount: React.FC<Props> = props => {
     }
   ];
   let ceriseClubAccess = false;
-  debugger;
 
   if (slab) {
     ceriseClubAccess =
