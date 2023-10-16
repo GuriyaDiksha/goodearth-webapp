@@ -683,7 +683,7 @@ const AddressSection: React.FC<AddressProps & {
         discount: "", // Pass the discount amount
         index: ind,
         item_brand: "Goodearth",
-        item_category: arr[arr.length - 2],
+        item_category: category?.split(">")?.join("|"),
         item_category2: line.product?.childAttributes[0]?.size,
         item_category3: line.product.is3d ? "3d" : "non3d",
         item_category4: line.product.is3d ? "YES" : "NO",

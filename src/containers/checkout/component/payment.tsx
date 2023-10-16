@@ -290,7 +290,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
             discount: basket?.offerDiscounts?.[0]?.name,
             index: ind,
             item_brand: "Goodearth",
-            item_category: category,
+            item_category: category?.split(">")?.join("|"),
             item_category2: line.product?.childAttributes[0]?.size,
             item_category3: line.product.is3d ? "3d" : "non3d",
             item_category4: line.product.is3d ? "YES" : "NO",

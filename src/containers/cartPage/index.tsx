@@ -260,7 +260,7 @@ class CartPage extends React.Component<Props, State> {
           line?.product.categories && line?.product.categories[index]
             ? line?.product.categories[index].replace(/\s/g, "")
             : "";
-        const arr = category.split(">");
+        // const arr = category.split(">");
         return {
           item_id: line?.product?.id, //Pass the product id
           item_name: line?.product?.title, // Pass the product name
@@ -270,7 +270,7 @@ class CartPage extends React.Component<Props, State> {
           discount: "", // Pass the discount amount
           index: ind,
           item_brand: "Goodearth",
-          item_category: arr[arr.length - 2],
+          item_category: category?.split(">")?.join("|"),
           item_category2: line.product?.childAttributes[0]?.size,
           item_category3: line.product.is3d ? "3d" : "non3d",
           item_category4: line.product.is3d ? "YES" : "NO",

@@ -110,7 +110,8 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
         variant: line.product.size || "",
         quantity: line.quantity,
         coupon: result.offerDisounts?.[0].name,
-        dimension12: line.product?.color
+        dimension12: line.product?.color,
+        item_category: category?.split(">")?.join("|")
       };
     });
     const categoryname2: string[] = [];
@@ -265,7 +266,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
         discount: result?.offerDiscounts?.[0].name,
         index: ind,
         item_brand: "Goodearth",
-        item_category: category,
+        item_category: category?.split(">")?.join("|"),
         item_category2: line.product.size || "",
         item_category3: line.product.is3DView ? "3d" : "non3d",
         item_list_id: "NA",

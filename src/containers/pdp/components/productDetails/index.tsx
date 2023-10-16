@@ -510,7 +510,7 @@ const ProductDetails: React.FC<Props> = ({
               discount: discount, // Pass the discount amount
               index: "",
               item_brand: "Goodearth",
-              item_category: category,
+              item_category: category?.split(">")?.join("|"),
               item_category2: selectedSize?.size, //pass the item category2 ex.Size
               item_category3: category3, //pass the product type 3d or non 3d
               item_list_id: "", //pass the item list id
