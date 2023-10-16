@@ -748,6 +748,7 @@ const AddressSection: React.FC<AddressProps & {
     }
     return true;
   };
+
   const handleSaveAndReview = (address?: AddressData) => {
     onSubmit(address);
   };
@@ -1129,9 +1130,10 @@ const AddressSection: React.FC<AddressProps & {
                   false,
                   activeStep == STEP_BILLING && !isActive && !billingAddressId
                 )}
-              {isGcCheckout && 
+              {isGcCheckout && props.currentStep == STEP_ORDER[STEP_BILLING] && 
                 <p className={cs(
-                  globalStyles.errorMsg
+                  globalStyles.errorMsg,
+                  styles.marginT20
                 )}>
                   Please select or add an address that matches the currency of your Gift Card.
                 </p>}

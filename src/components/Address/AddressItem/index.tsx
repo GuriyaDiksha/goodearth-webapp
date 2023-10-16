@@ -292,14 +292,14 @@ const AddressItem: React.FC<Props> = props => {
           ? cs(
               bootstrapStyles.col12,
               bootstrapStyles.colMd6,
-              globalStyles.voffset5,
+              globalStyles.voffset3v1,
               styles.checkoutAddress,
               "address-container"
             )
           : cs(
               bootstrapStyles.col12,
               // bootstrapStyles.colMd12,
-              globalStyles.voffset5,
+              globalStyles.voffset3v1,
               "address-container"
             )
       }
