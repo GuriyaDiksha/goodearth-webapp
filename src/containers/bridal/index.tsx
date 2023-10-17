@@ -16,6 +16,7 @@ import bridalRing from "../../images/bridal/rings.svg";
 import iconStyles from "styles/iconFonts.scss";
 import { POPUP } from "constants/components";
 import { pageViewGTM } from "utils/validate";
+import gift_icon from "../../images/registery/addedReg.svg";
 
 type RouteInfo = {
   id: string;
@@ -195,6 +196,7 @@ class BridalCheckout extends React.Component<Props, State> {
     const {
       registrantName,
       coRegistrantName,
+      registryName,
       occasion,
       eventDate,
       bridalId
@@ -236,15 +238,15 @@ class BridalCheckout extends React.Component<Props, State> {
                 </span>
               )}
               <div className={styles.summaryPadding}>
-                <h3
-                  className={cs(globalStyles.textCenter, styles.summaryTitle)}
-                >
-                  REGISTRY DETAILS
+                <h3 className={cs(styles.summaryTitle)}>
+                  {/* REGISTRY DETAILS  */}
+                  {registrantName}&#39;s {registryName}
+                  <img src={gift_icon} width="25" alt="gift_reg_icon" />
                 </h3>
               </div>
-              <div className={cs(styles.summaryPadding, styles.txtup)}>
+              <div className={cs(styles.summaryPadding, styles.txtCap)}>
                 <hr className="hr" />
-                {registrantName}&nbsp; & &nbsp;{coRegistrantName}
+                {registrantName}&nbsp;& &nbsp;{coRegistrantName}
               </div>
 
               <div className="">
@@ -260,8 +262,11 @@ class BridalCheckout extends React.Component<Props, State> {
                       <span
                         className={cs(styles.subtotal, globalStyles.voffset2)}
                       >
-                        <span className={globalStyles.op2}> Event:</span>{" "}
-                        <span className={styles.txtCap}> {occasion} </span>{" "}
+                        <span className={cs(globalStyles.op2, styles.label)}>
+                          Occasion:
+                        </span>
+                        &nbsp;&nbsp;
+                        <span className={styles.txtCap}>{occasion} </span>{" "}
                       </span>
                     </div>
                     <div
@@ -273,8 +278,11 @@ class BridalCheckout extends React.Component<Props, State> {
                       <span
                         className={cs(styles.subtotal, globalStyles.voffset2)}
                       >
-                        <span className={globalStyles.op2}>Wedding Date:</span>{" "}
-                        {eventDate}
+                        <span className={cs(globalStyles.op2, styles.label)}>
+                          Special Occasion Date:
+                        </span>
+                        &nbsp;&nbsp;
+                        <span className={styles.txtCap}>{eventDate}</span>
                       </span>
                     </div>
                   </div>
@@ -299,10 +307,14 @@ class BridalCheckout extends React.Component<Props, State> {
                                 globalStyles.voffset2
                               )}
                             >
-                              <span className={globalStyles.op2}> Event:</span>{" "}
+                              <span
+                                className={cs(globalStyles.op2, styles.label)}
+                              >
+                                Occasion:
+                              </span>
+                              &nbsp;&nbsp;
                               <span className={styles.txtCap}>
-                                {" "}
-                                {occasion}{" "}
+                                {occasion}
                               </span>{" "}
                             </span>
                           </div>
@@ -319,39 +331,77 @@ class BridalCheckout extends React.Component<Props, State> {
                                 globalStyles.voffset2
                               )}
                             >
-                              <span className={globalStyles.op2}>
-                                Wedding Date:
-                              </span>{" "}
-                              {eventDate}
+                              <span
+                                className={cs(globalStyles.op2, styles.label)}
+                              >
+                                Special Occasion Date:
+                              </span>
+                              &nbsp;&nbsp;
+                              <span className={styles.txtCap}>{eventDate}</span>
                             </span>
                           </div>
                         </div>
                       )}
                       <hr className="hr" />
-                      <div
-                        className={cs(styles.textCoupon, globalStyles.voffset4)}
-                      >
-                        To purchase an item, please select the quantity and
-                        click <span className="bold"> ADD TO BAG.</span>
+                      <div className={styles.bridalSidebarFooter}>
+                        <div
+                          className={cs(
+                            styles.textCoupon,
+                            globalStyles.voffset4
+                          )}
+                        >
+                          {/* To purchase an item, please select the quantity and
+                          click <span className="bold"> ADD TO BAG.</span> */}
+                          To purchase an item, please select the quantity and
+                          click ADD TO BAG. <br />
+                          <br />
+                          <br />
+                          Please ensure you add the items from this public link
+                          only to contribute towards this Bridal Registry.
+                        </div>
+                        {/* <div
+                          className={cs(
+                            styles.textCoupon,
+                            globalStyles.voffset2,
+                            globalStyles.cerise,
+                            globalStyles.bold
+                          )}
+                        >
+                          Please ensure you add the items from this public link
+                          only to contribute towards this Bridal Registry.
+                        </div> */}
+                        <div
+                          className={cs(
+                            styles.textCoupon,
+                            globalStyles.voffset4
+                          )}
+                        >
+                          {/* If you need any assistance, talk to our representative
+                          on: */}
+                          For any assistance, enquiries or feedback, please
+                          reach out to us on: <br />
+                          <a href="tel: +91 9582999555">
+                            +91 9582 999 555
+                          </a> /{" "}
+                          <a href="tel: +91 9582999888">+91 9582 999 888</a>{" "}
+                          Monday through Saturday 9:00 am - 5:00 pm IST{" "}
+                          <a href="mailto:customercare@goodearth.in">
+                            customercare@goodearth.in
+                          </a>
+                        </div>
+                        <div
+                          className={cs(globalStyles.voffset4, styles.tcUrl)}
+                        >
+                          <a
+                            href="https://www.goodearth.in/customer-assistance/terms-conditions"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            Gifting Registry Terms & Conditions
+                          </a>
+                        </div>
                       </div>
-                      <div
-                        className={cs(
-                          styles.textCoupon,
-                          globalStyles.voffset2,
-                          globalStyles.cerise,
-                          globalStyles.bold
-                        )}
-                      >
-                        Please ensure you add the items from this public link
-                        only to contribute towards this Bridal Registry.
-                      </div>
-                      <div
-                        className={cs(styles.textCoupon, globalStyles.voffset2)}
-                      >
-                        If you need any assistance, talk to our representative
-                        on:
-                      </div>
-                      <div
+                      {/* <div
                         className={cs(styles.textCoupon, globalStyles.voffset2)}
                       >
                         <a
@@ -388,7 +438,8 @@ class BridalCheckout extends React.Component<Props, State> {
                         >
                           Returns & Exchanges
                         </a>
-                      </div>
+                      </div> */}
+
                       {!mobile && (
                         <div
                           className={cs(

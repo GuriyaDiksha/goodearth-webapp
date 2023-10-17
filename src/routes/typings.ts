@@ -30,6 +30,7 @@ export const enum ROUTES {
   CORPORATEGIFTING = "/corporate-gifts-catalogue",
   GIFTINGLANDING = "/gifting",
   BRIDAL = "/the-good-earth-registry",
+  REGISTERY = "/gift-registery",
   LOYALTYLANDING = "/cerise",
   ERROR = "/error-page",
   ERR404 = "/404",

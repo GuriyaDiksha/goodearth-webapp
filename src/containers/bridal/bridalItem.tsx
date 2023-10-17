@@ -69,7 +69,7 @@ class BridalItem extends React.Component<Props, State> {
   state: State = {
     qtyCurrent: 1,
     buttonStatus: false,
-    btnDisable: globalStyles.ceriseBtn,
+    btnDisable: globalStyles.aquaBtn,
     btnContent: "ADD TO BAG",
     err: ""
   };
@@ -78,19 +78,19 @@ class BridalItem extends React.Component<Props, State> {
     if (!this.props.bridalItem.productAvailable) {
       this.setState({
         buttonStatus: true,
-        btnDisable: cs(globalStyles.ceriseBtn, globalStyles.disabledBtn),
+        btnDisable: cs(globalStyles.aquaBtn, globalStyles.disabledBtn),
         btnContent: "NOT AVAILABLE"
       });
     } else if (this.props.bridalItem.qtyRemaining == 0) {
       this.setState({
         buttonStatus: true,
-        btnDisable: cs(globalStyles.ceriseBtn, globalStyles.disabledBtn),
+        btnDisable: cs(globalStyles.aquaBtn, globalStyles.disabledBtn),
         btnContent: "Fulfilled"
       });
     } else if (this.props.bridalItem.stock == 0) {
       this.setState({
         buttonStatus: true,
-        btnDisable: cs(globalStyles.ceriseBtn, globalStyles.disabledBtn),
+        btnDisable: cs(globalStyles.aquaBtn, globalStyles.disabledBtn),
         btnContent: "Out Of Stock"
       });
     }
@@ -193,13 +193,13 @@ class BridalItem extends React.Component<Props, State> {
                         </span>
                       )}
                     </div>
-                    <div className={styles.smallfont}>
-                      SIZE: {this.props.bridalItem.size}
-                    </div>
-                    <div
-                      className={cs(styles.smallfont, globalStyles.voffset1)}
-                    >
-                      SKU: {this.props.bridalItem.sku}
+                    <div className={styles.sizeSku}>
+                      <div className={styles.smallfont}>
+                        SIZE: {this.props.bridalItem.size}
+                      </div>
+                      <div className={cs(styles.smallfont)}>
+                        SKU: {this.props.bridalItem.sku}
+                      </div>
                     </div>
                     {mobile && (
                       <div
@@ -215,30 +215,10 @@ class BridalItem extends React.Component<Props, State> {
                   <div className={cs(bootstrap.col12, bootstrap.colMd6)}>
                     <div className={cs(styles.section, styles.sectionMiddle)}>
                       <div className="">
-                        <div className={styles.textMuted}>REQUESTED</div>
-                        <div
-                          className={cs(
-                            globalStyles.textCenter,
-                            globalStyles.c10LR
-                          )}
-                        >
-                          {this.props.bridalItem.qtyRequested}
-                        </div>
-                      </div>
-                      <div className="">
-                        <div className={styles.textMuted}>REMAINING</div>
-                        <div
-                          className={cs(
-                            globalStyles.textCenter,
-                            globalStyles.c10LR
-                          )}
-                        >
-                          {this.props.bridalItem.qtyRemaining}
-                        </div>
-                      </div>
-                      <div className="">
                         {this.props.bridalItem.productAvailable && (
-                          <div className={styles.textMuted}>QTY</div>
+                          <div className={styles.textMuted}>
+                            Quantity required
+                          </div>
                         )}
                         {this.props.bridalItem.productAvailable && (
                           <div className={styles.widgetQty}>
@@ -259,7 +239,7 @@ class BridalItem extends React.Component<Props, State> {
                             </span>
                           </div>
                         )}
-                        <div className={styles.h15}>
+                        <div className={styles.h10}>
                           {this.state.err ? (
                             <div
                               className={cs(
@@ -272,6 +252,32 @@ class BridalItem extends React.Component<Props, State> {
                           ) : (
                             ""
                           )}
+                        </div>
+                      </div>
+                      <div className={globalStyles.voffset3}>
+                        <div className={styles.textMuted}>Quantity Bought</div>
+                        <div
+                          className={cs(
+                            globalStyles.textCenter,
+                            globalStyles.c10LR,
+                            globalStyles.voffset1
+                          )}
+                        >
+                          {this.props.bridalItem.qtyRequested}
+                        </div>
+                      </div>
+                      <div className={globalStyles.voffset3}>
+                        <div className={styles.textMuted}>
+                          Quantity Remaining
+                        </div>
+                        <div
+                          className={cs(
+                            globalStyles.textCenter,
+                            globalStyles.c10LR,
+                            globalStyles.voffset1
+                          )}
+                        >
+                          {this.props.bridalItem.qtyRemaining}
                         </div>
                       </div>
                     </div>

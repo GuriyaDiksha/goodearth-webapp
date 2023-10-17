@@ -178,12 +178,29 @@ const BridalItemsList: React.FC<Props> = props => {
                       </span>
                     )}
                   </div>
-                  <div className={cs(styles.smallfont, globalStyles.voffset2)}>
-                    SIZE: {size}
+                  <div className={cs(styles.sizeSku)}>
+                    <div className={cs(styles.smallfont)}>SIZE: {size}</div>
+                    <div className={cs(styles.smallfont)}>SKU: {sku}</div>
                   </div>
-                  <div className={cs(styles.smallfont, globalStyles.voffset1)}>
-                    SKU: {sku}
-                  </div>
+                  {qtyBought ? (
+                    ""
+                  ) : (
+                    <div
+                      title="Remove"
+                      className={styles.bridalItemRemove}
+                      onClick={deleteItem}
+                    >
+                      <span>REMOVE</span>
+                      {/* <i
+                          className={cs(
+                            iconStyles.icon,
+                            iconStyles.iconCrossNarrowBig,
+                            styles.icon,
+                            styles.iconCross
+                          )}
+                        ></i> */}
+                    </div>
+                  )}
                   {props.mobile && (
                     <div
                       className={cs(globalStyles.voffset3)}
@@ -200,7 +217,7 @@ const BridalItemsList: React.FC<Props> = props => {
                 >
                   <div className={cs(styles.section, styles.sectionMiddle)}>
                     <div className="">
-                      <div className={styles.textMuted}>QTY REQUESTED</div>
+                      <div className={styles.textMuted}>Quantity required</div>
                       <div className={styles.widgetQty}>
                         <span className={styles.btnQty} onClick={decreaseState}>
                           -
@@ -220,22 +237,24 @@ const BridalItemsList: React.FC<Props> = props => {
                       </div>
                     </div>
                     <div className={globalStyles.voffset3}>
-                      <div className={styles.textMuted}>QTY BOUGHT</div>
+                      <div className={styles.textMuted}>Quantity Bought</div>
                       <div
                         className={cs(
                           globalStyles.textCenter,
-                          globalStyles.c10LR
+                          globalStyles.c10LR,
+                          globalStyles.voffset1
                         )}
                       >
                         {qtyBought}
                       </div>
                     </div>
                     <div className={globalStyles.voffset3}>
-                      <div className={styles.textMuted}>QTY REMAINING</div>
+                      <div className={styles.textMuted}>Quantity Remaining</div>
                       <div
                         className={cs(
                           globalStyles.textCenter,
-                          globalStyles.c10LR
+                          globalStyles.c10LR,
+                          globalStyles.voffset1
                         )}
                       >
                         {qtyRemaining}
@@ -246,26 +265,7 @@ const BridalItemsList: React.FC<Props> = props => {
               )}
             </div>
           </div>
-          {qtyBought ? (
-            ""
-          ) : (
-            <div
-              title="Remove"
-              className={styles.bridalItemRemove}
-              onClick={deleteItem}
-            >
-              <i
-                className={cs(
-                  iconStyles.icon,
-                  iconStyles.iconCrossNarrowBig,
-                  styles.icon,
-                  styles.iconCross
-                )}
-              ></i>
-            </div>
-          )}
         </div>
-        <hr />
       </div>
     </div>
   );

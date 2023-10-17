@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Context } from "components/Modal/context.ts";
+// import { Context } from "components/Modal/context.ts";
+import { Context } from "components/Modal/context";
 import cs from "classnames";
 import globalStyles from "../../../../styles/global.scss";
 import styles from "./styles.scss";
@@ -7,9 +8,12 @@ import bootstrapStyles from "../../../../styles/bootstrap/bootstrap-grid.scss";
 import iconStyles from "../../../../styles/iconFonts.scss";
 import { AppState } from "reducers/typings";
 import { useSelector } from "react-redux";
-import iconWhatsApp from "../../../../images/bridal/icons_whatsapp.svg";
-import iconEmail from "../../../../images/bridal/icons_email.svg";
+// import iconWhatsApp from "../../../../images/bridal/icons_whatsapp.svg";
+// import iconEmail from "../../../../images/bridal/icons_email.svg";
 import { BridalProfileData } from "./typings";
+import gift_icon from "../../../../images/registery/gift_icon.svg";
+import iconWhatsApp from "../../../../images/whatsapp_new.svg";
+import iconEmail from "../../../../images/mail.svg";
 // import { BridalDetailsType } from './typings';
 // import Modal from '../../components/common/popup/Modal';
 // import InputField from 'components/common/signin/inputField'
@@ -23,7 +27,7 @@ type Props = {
 };
 
 const ShareLink: React.FC<Props> = props => {
-  const [txt, setTxt] = useState("copy");
+  const [txt, setTxt] = useState("COPY MESSAGE");
   const { mobile } = useSelector((state: AppState) => state.device);
   const copyLink = (event: React.MouseEvent) => {
     const copyText = document.getElementById("myInput") as HTMLInputElement;
@@ -101,31 +105,41 @@ const ShareLink: React.FC<Props> = props => {
       </div>
 
       <div className={bootstrapStyles.row}>
-        <div className={cs(bootstrapStyles.col8, bootstrapStyles.offset2)}>
+        <div className={cs(bootstrapStyles.col10, bootstrapStyles.offset1)}>
           <div className={styles.loginForm}>
             <div className="section cart">
-              <div className={globalStyles.voffset7}>
+              <div className={globalStyles.voffset6}>
+                <div className={cs(styles.giftIcon)}>
+                  <img src={gift_icon} width="50px" height="50px" />
+                </div>
                 <h2>Share Registry Link</h2>
               </div>
               <div className={cs(globalStyles.voffset3, styles.shareTxtBox)}>
-                <input type="text" value={props.shareUrl} id="myInput" />
-                <span className={styles.copylink} onClick={copyLink}>
-                  <a>{txt}</a>
+                <span>
+                  Hi, I have made a registry for my <br />
+                  occasion on Good Earth. Check it out!
                 </span>
+                <br />
+                <input type="text" value={props.shareUrl} id="myInput" />
+                <div className={cs(styles.copylink)} onClick={copyLink}>
+                  <a>{txt}</a>
+                </div>
               </div>
 
-              <div className={cs(globalStyles.voffset3, globalStyles.c10LR)}>
-                OR
+              <div className={cs(globalStyles.voffset3, styles.shareVia)}>
+                Or share via
               </div>
 
-              <div className={globalStyles.voffset3}>
+              <div className={cs(globalStyles.voffset3, styles.shareFlexDiv)}>
                 <a
                   id="whatsappShare"
                   data-action="share/whatsapp/share"
                   rel="noopener noreferrer"
                   target="_blank"
                 >
-                  <img src={iconWhatsApp} width="50" />
+                  <div className={styles.shareIcon}>
+                    <img src={iconWhatsApp} width="35" alt="wa_icon" />
+                  </div>
                 </a>
                 <a
                   id="mailShare"
@@ -133,7 +147,9 @@ const ShareLink: React.FC<Props> = props => {
                   rel="noopener noreferrer"
                   target="_blank"
                 >
-                  <img src={iconEmail} width="50" />
+                  <div className={styles.shareIcon}>
+                    <img src={iconEmail} width="33" alt="mail_icon" />
+                  </div>
                 </a>
               </div>
             </div>

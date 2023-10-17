@@ -149,7 +149,6 @@ const ManageRegistryFull: React.FC<Props> = ({
 
   const changeRData = (data: string) => {
     // setShowPopup(true);
-
     openEditRegistryPopup(data);
   };
 

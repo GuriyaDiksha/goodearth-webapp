@@ -66,7 +66,17 @@ export const PRODUCT_UNSHIPPABLE_REMOVED = (items: string[]) => (
 
 export const PRODUCT_OUT_OF_STOCK_REMOVED =
   "Some items from your bag were removed as they are out of stock/unavailable.";
-export const ADD_TO_REGISTRY_SUCCESS = "Item has been added to your Registry";
+// export const ADD_TO_REGISTRY_SUCCESS = "Item has been added to your Registry";
+export const ADD_TO_REGISTRY_SUCCESS = [
+  "This product has been added to your registry. Click here to ",
+  <Link
+    to="/account/bridal"
+    key="bridal"
+    style={{ textDecoration: "underline", pointerEvents: "all" }}
+  >
+    VIEW REGISTRY
+  </Link>
+];
 export const ADD_TO_REGISTRY_FAIL = "Can't add to bag";
 export const ADD_TO_REGISTRY_AGAIN = [
   "To modify or edit items in your registry please ",

@@ -75,6 +75,8 @@ import PdpSkeleton from "../pdpSkeleton";
 import { isEmpty } from "lodash";
 import { GA_CALLS } from "constants/cookieConsent";
 import { displayPriceWithCommas } from "utils/utility";
+import addReg from "../../../../images/registery/addReg.svg";
+import addedReg from "../../../../images/registery/addedReg.svg";
 
 const ProductDetails: React.FC<Props> = ({
   data: {
@@ -1149,7 +1151,7 @@ const ProductDetails: React.FC<Props> = ({
                   </div>
                 )}
               </div>
-              {bridalId !== 0 && bridalCurrency == currency && !corporatePDP && (
+              {/* {bridalId !== 0 && bridalCurrency == currency && !corporatePDP && (
                 <div
                   className={cs(
                     bootstrap.col4,
@@ -1180,7 +1182,7 @@ const ProductDetails: React.FC<Props> = ({
                       : "add to registry"}
                   </p>
                 </div>
-              )}
+              )} */}
             </div>
             {badgeMessage && !isQuickview ? (
               <div
@@ -1333,12 +1335,47 @@ const ProductDetails: React.FC<Props> = ({
                 ""
               )}
             </div>
+
+            {bridalId !== 0 && bridalCurrency == currency && !corporatePDP && (
+              <div
+                className={cs(
+                  // bootstrap.col4,
+                  // globalStyles.textCenter,
+                  styles.bridalSection
+                )}
+                onClick={addToRegistry}
+              >
+                <div
+                  className={cs(
+                    iconStyles.icon,
+                    iconStyles.iconRing,
+                    styles.bridalRing,
+                    {
+                      [styles.active]:
+                        selectedSize && isRegistry[selectedSize.size]
+                    }
+                  )}
+                >
+                  {selectedSize && isRegistry[selectedSize.size] ? (
+                    <img src={addedReg} width="20px" height="20px"></img>
+                  ) : (
+                    <img src={addReg} width="20px" height="20px"></img>
+                  )}
+                </div>
+                <p className={cs(styles.label)}>
+                  {selectedSize && isRegistry[selectedSize.size]
+                    ? "added to registry"
+                    : "add to registry"}
+                </p>
+              </div>
+            )}
+
             {!isQuickview && (
               <div
                 className={cs(
                   bootstrap.col12,
                   bootstrap.colMd9,
-                  globalStyles.voffset3,
+                  globalStyles.voffset2,
                   styles.padding
                 )}
               >

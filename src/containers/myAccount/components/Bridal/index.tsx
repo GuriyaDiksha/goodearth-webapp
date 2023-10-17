@@ -3,6 +3,7 @@ import { AddressData } from "components/Address/typings";
 import { useSelector, useDispatch } from "react-redux";
 import { AppState } from "reducers/typings";
 import CreateRegistry from "./CreateRegistry";
+import CreateRegistryNew from "./CreateRegisteryNew";
 import DateSelect from "./DateSelect";
 import BridalDetails from "./BridalDetails";
 import AddressMain from "components/Address/AddressMain";
@@ -30,7 +31,9 @@ import LoginService from "services/login";
 import { updatePreferenceData } from "actions/user";
 import Formsy from "formsy-react";
 import { updateNextUrl } from "actions/info";
+import NewManageRegistry from "./NewManageRegistry";
 // import globalStyles from "styles/global.scss";
+import EditRegistryDetails from "./EditRegistryDetails";
 type Props = {
   bridalId: number;
 };
@@ -50,6 +53,11 @@ const Bridal: React.FC<Props> = props => {
   const [currentScreenValue, setCurrentScreenValue] = useState("manage");
   const [bridalAddress, setBridalAddress] = useState<AddressData>();
   const [bridalProfile, setBridalProfile] = useState<BridalProfileData>();
+  const bridalProfileData = bridalProfile as BridalProfileData;
+  const [registryName, setRegistryName] = useState("");
+  const [coRegistrantName, setCoRegistrantName] = useState("");
+  const [registrantName, setRegistrantName] = useState("");
+  const [currentEventDate, setCurrentEventDate] = useState("");
   // const [ registryCreateError, setRegistryCreateError ] = useState("");
   // const [ showPopup, setShowPopup ] = useState(false);
   const [shareLink, setShareLink] = useState("");
@@ -222,11 +230,7 @@ const Bridal: React.FC<Props> = props => {
       switch (section) {
         case "create":
           newBridalDetails["occasion"] = occasion ? occasion : "";
-          break;
-        case "date":
           newBridalDetails["eventDate"] = eventDate ? eventDate : "";
-          break;
-        case "details":
           newBridalDetails["registrantName"] = registrantName
             ? registrantName
             : "";
@@ -235,6 +239,18 @@ const Bridal: React.FC<Props> = props => {
             : "";
           newBridalDetails["registryName"] = registryName ? registryName : "";
           break;
+        // case "date":
+        //   newBridalDetails["eventDate"] = eventDate ? eventDate : "";
+        //   break;
+        // case "details":
+        //   newBridalDetails["registrantName"] = registrantName
+        //     ? registrantName
+        //     : "";
+        //   newBridalDetails["coRegistrantName"] = coRegistrantName
+        //     ? coRegistrantName
+        //     : "";
+        //   newBridalDetails["registryName"] = registryName ? registryName : "";
+        //   break;
         case "address":
           if (userAddress) {
             const isValid =
@@ -367,11 +383,11 @@ const Bridal: React.FC<Props> = props => {
   const setSelectedSection = () => {
     switch (currentSection) {
       case "create":
-        return <CreateRegistry />;
-      case "date":
-        return <DateSelect />;
-      case "details":
-        return <BridalDetails />;
+        return <CreateRegistryNew />;
+      // case "date":
+      //   return <DateSelect />;
+      // case "details":
+      //   return <BridalDetails />;
       case "address":
         return (
           <AddressMain
@@ -389,7 +405,16 @@ const Bridal: React.FC<Props> = props => {
         );
       case "created":
         return (
-          <RegistryCreated errorMessage="" openBridalPop={openBridalPop} />
+          // <RegistryCreated errorMessage="" openBridalPop={openBridalPop} />
+          <NewManageRegistry
+            openShareLinkPopup={openShareLinkPopup}
+            key={1}
+            // showManageRegistry={showManageRegistry}
+            showManageAddressComponent={showManageAddressComponent}
+            editRegistryForm={() =>
+              setCurrentScreenValue("editregisterydetails")
+            }
+          />
         );
       default:
     }
@@ -404,11 +429,25 @@ const Bridal: React.FC<Props> = props => {
       setBridalProfile(res[0]);
       setShareLink(`${__DOMAIN__}/${res[0].shareLink}`);
       changeAddress(data.addressId);
-      setCurrentScreenValue("manageregistryfull");
+      // setCurrentScreenValue("manageregistryfull");
+      setCurrentScreenValue("manage");
     });
   };
 
   const currentScreen = () => {
+    const changeName = (data: {
+      registrantName: string;
+      coRegistrantName: string;
+      registryName: string;
+    }) => {
+      setRegistrantName(data.registrantName);
+      setCoRegistrantName(data.coRegistrantName);
+      setRegistryName(data.registryName);
+    };
+
+    const changeDate = (date: string) => {
+      setCurrentEventDate(date);
+    };
     switch (currentScreenValue) {
       case "manage": {
         // const addressData = bridalAddress;
@@ -419,10 +458,21 @@ const Bridal: React.FC<Props> = props => {
             Object.keys(bridalProfile).length
           ) {
             return (
-              <ManageRegistry
+              // <ManageRegistry
+              //   openShareLinkPopup={openShareLinkPopup}
+              //   showManageAddressComponent={() =>
+              //     setCurrentScreenValue("editRegistryAddress")
+              //   }
+              //   showRegistryFull={() =>
+              //     setCurrentScreenValue("manageregistryfull")
+              //   }
+              // />
+              <NewManageRegistry
                 openShareLinkPopup={openShareLinkPopup}
-                showRegistryFull={() =>
-                  setCurrentScreenValue("manageregistryfull")
+                key={1}
+                showManageAddressComponent={showManageAddressComponent}
+                editRegistryForm={() =>
+                  setCurrentScreenValue("editregisterydetails")
                 }
               />
             );
@@ -448,6 +498,20 @@ const Bridal: React.FC<Props> = props => {
             );
           }
         }
+        break;
+      }
+      case "editregisterydetails": {
+        return (
+          <EditRegistryDetails
+            bridalProfile={bridalProfile}
+            bridalId={bridalProfileData ? bridalProfileData.bridalId : 0}
+            // bridalId= {props.bridalId}
+            eventDate={currentEventDate}
+            changeName={changeName}
+            changeDate={changeDate}
+            showManageRegistry={showManageRegistry}
+          />
+        );
         break;
       }
       case "editRegistryAddress":

@@ -1965,3 +1965,15 @@ ul.inner-menu-mobile {
     justify-content: space-between;
   }
 }
+.flex-div{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: inherit;
+  font-family: $font-Montserrat;
+  font-size: 10px;
+  line-height: 13px;
+  letter-spacing: 0.6px;
+  font-weight: 600;
+  text-transform: capitalize;
+}

@@ -115,6 +115,7 @@ export type AnnouncementBar = {
   isBridalActive: boolean;
   registrantName?: string;
   coRegistrantName?: string;
+  registryName?: string;
   data: {
     label: string;
     content: string;

@@ -33,6 +33,7 @@ import { CONFIG } from "constants/util";
 import {
   updateBillingAddressId,
   updateShippingAddressId
+  // updateBridalAddressId
 } from "actions/address";
 
 const AddressMain: React.FC<Props> = props => {
@@ -294,7 +295,12 @@ const AddressMain: React.FC<Props> = props => {
       } else if (currentCallBackComponent === "checkout-billing" && addressId) {
         dispatch(updateBillingAddressId(addressId));
         setIsLoading(false);
-      } else {
+      }
+      // else if (currentCallBackComponent === "bridal" && addressId) {
+      //   dispatch(updateBridalAddressId(addressId));
+      //   setIsLoading(false);
+      // }
+      else {
         AddressService.updateAddress(dispatch, formData, id, addressId)
           .catch(err => {
             const errData = err.response.data;

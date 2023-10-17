@@ -176,7 +176,7 @@
   
 @mixin plp_prod_name_desktop {
     font-size: 14px;
-    font-family: $font-Lato;
+    font-family: $font-Lora;
 }
 
 @mixin plp_prod_quantity {
@@ -351,9 +351,11 @@
 
 @mixin plp_prod_name_desktop {
   font-size: 14px;
-  font-family: $font-Lato;
-  color: #000;
+  font-family: $font-Lora;
+  color: #191919;
   text-transform: capitalize;
+  line-height: 22px;
+  letter-spacing: 0.28px;
 }
 
 @mixin plp_prod_price_desktop {

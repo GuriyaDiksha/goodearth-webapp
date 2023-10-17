@@ -552,6 +552,7 @@ const MyAccount: React.FC<Props> = props => {
                               bootstrapStyles.col12,
                               globalStyles.textCenter,
                               { [styles.accountFormBg]: !mobile },
+                              // {[styles.bridalFormBg]: bridalId != 0},
                               { [styles.accountFormBgMobile]: mobile }
                             )}
                           >

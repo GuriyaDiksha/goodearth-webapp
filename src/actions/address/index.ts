@@ -38,6 +38,13 @@ export const updateBillingAddressId = (billingAddressId: number) => {
     billingAddressId
   });
 };
+
+// export const updateBridalAddressId = (bridalAddressId: number) => {
+//   return actionCreator("UPDATE_BRIDAL_ADDRESS_ID", {
+//     bridalAddressId
+//   });
+// };
+
 export const updateAddressMode = (mode: AddressMode) => {
   return actionCreator("UPDATE_ADDRESS_MODE", { mode: mode });
 };

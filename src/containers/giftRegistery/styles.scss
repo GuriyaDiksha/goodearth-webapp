@@ -1,0 +1,209 @@
+@import "../../styles/partials/variables";
+@import "../../styles/partials/mixins";
+
+.registery-container{
+    width: 100%;
+}
+.registery-banner{
+    position: relative;
+    margin-bottom: 70px;
+}
+.banner-content{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #fff;
+    text-align: center;
+}
+.banner-heading{
+    font-family: $font-Lora;
+    font-size: 30px;
+    line-height: 39px;
+    font-style: italic;
+}
+.banner-sub-heading{
+    font-family: $font-Montserrat;
+    font-size: 14px;
+    line-height: 22px;
+    letter-spacing: 0.42px;
+}
+.gift-icon{
+    position: absolute;
+    bottom: -5%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #B59C77;
+    border-radius: 100%;
+    width: 80px;
+    height: 80px;
+}
+.gift-icon img{
+    width: 60px;
+    height: 60px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+.built-registery{
+    text-align: center;
+    max-width: 640px;
+    margin: 0 auto;
+    color: #191919;
+    padding: 0 30px;
+    margin-bottom: 60px;
+}
+.built-heading{
+    font-family: $font-Lora;
+    font-size: 24px;
+    line-height: 31px;
+    letter-spacing: 0.48px;
+    color: #191919;
+    text-align: center;
+    margin-bottom: 30px;
+}
+.built-content{
+    font-family: $font-Montserrat;
+    font-size: 12px;
+    line-height: 20px;
+    letter-spacing: 0.36px;
+}
+.registery-button{
+    margin-top: 60px;
+}
+.reg-btn{
+    width: 100%;
+    max-width: 365px;
+    margin: 0 auto;
+    margin: 0 auto;
+    height: 58px;
+    color: #fff;
+    background: #191919;
+    border: none;
+    font-family: $font-Montserrat;
+    font-size: 14px;
+}
+.reg-btn:hover{
+    color: #fff;
+}
+.four-grid{
+    max-width: 900px;
+    margin: 0 auto;
+    margin-bottom: 60px;
+    text-align: center;
+    background: #E5E5E5;
+    padding: 40px;
+}
+.grid{
+    padding: 0;
+}
+.grid-block{
+    padding: 20px;
+}
+.grid-icon img{
+    width: 80px;
+    height: 100px;
+    text-align: center;
+}
+.grid-heading{
+    font-family: $font-Montserrat;
+    font-size: 14px;
+    line-height: 18px;
+    letter-spacing: 0.42px;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+}
+.grid-content{
+    font-family: $font-Montserrat;
+    font-size: 12px;
+    line-height: 20px;
+    letter-spacing: 0.36px;
+}
+.need-assistance{
+    background: #F9F8F5;
+    text-align: center;
+    padding: 60px 30px;
+}
+.assistance-heading{
+    font-family: $font-Montserrat;
+    font-size: 14px;
+    line-height: 18px;
+    letter-spacing: 0.42px;
+    text-transform: uppercase;
+    color: #191919;
+}
+.assistance-content{
+    font-family: $font-Montserrat;
+    font-size: 12px;
+    line-height: 20px;
+    letter-spacing: 0.36px;
+    color: #191919;
+    margin: 25px 0;
+}
+.assistance-link{
+    font-family: $font-Montserrat;
+    font-size: 10px;
+    line-height: 16px;
+    letter-spacing: 0.3px;
+    color: #191919;
+}
+.assistance-link a{
+    color: #000;
+    text-decoration: underline;
+    text-underline-offset: 0.5em;
+}
+.slider-wrapper{
+    margin-bottom: 40px;
+}
+.slider-heading{
+    font-family: $font-Lora;
+    font-size: 24px;
+    line-height: 31px;
+    letter-spacing: 0.48px;
+    color: #191919;
+    text-align: center;
+    margin-bottom: 30px;
+}
+.registery-dock-div{
+    text-align: center; 
+    padding: 15px 0;
+    position: fixed;
+    bottom: 0;
+    z-index: 1;
+    width: 100%;
+    background: #fff;
+    box-shadow: -10px -15px 10px -15px;
+    margin-left: -3px;
+}
+// ************* Responsive css ***************
+@media(max-width:991px){
+    .registery-dock-div{
+        bottom: 11%;
+    }
+    .four-grid{
+        padding: 20px 40px;
+    }
+    .grid-block{
+        border-bottom: 1px solid #d8d8d8;
+        padding: 0 0 25px 0;
+        max-width: 250px;
+        margin: 0 auto;
+    }
+    .grid4{
+        border-bottom: unset;
+    }
+}
+@media(min-width:992px){
+    .grid-block{
+        padding: 20px 40px 30px;
+    }
+    .grid1{
+        border-right: 1px solid #d8d8d8;
+        border-bottom: 1px solid #d8d8d8;
+    }
+    .grid4{
+        border-left: 1px solid #d8d8d8;
+        border-top: 1px solid #d8d8d8;
+    }
+}

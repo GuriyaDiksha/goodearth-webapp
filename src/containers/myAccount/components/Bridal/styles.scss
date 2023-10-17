@@ -101,8 +101,10 @@
     }
 }
 .letter-spacing1 {
-    letter-spacing: 1px;
-    font-size: 14px;
+    font-size: 12px;
+    color: #9F9F9F;
+    line-height: 20px;
+    letter-spacing: 0.26px;
 }
 
 .add {
@@ -123,9 +125,9 @@
             font-size: 14px;
         }
         }
-      border-color: #e6e6e6;
+      border-color: #fff!important;
     }
-    border: 1px solid #ccc;
+    border: 1px solid #fff;
     }
 }
 
@@ -146,18 +148,33 @@
   }
 
   .back-gc {
-    line-height: 50px;
+    text-align: left;
+    line-height: auto;
     font-size: 12px;
-    color: #000;
+    color: #9F9F9F;
     text-transform: none;
     letter-spacing: 1px;
     &:hover {
-      text-decoration: underline;
+      // text-decoration: underline;
       cursor: pointer;
     }
     a {
       cursor: pointer;
-      color: #000;
+      font-size: 12px;
+      color: #9F9F9F;
+      letter-spacing: 0.36px;
+      line-height: 20px;
+      i{
+        transform: rotate(135deg);
+        -webkit-transform: rotate(135deg);
+        border: solid #9F9F9F;
+        border-width: 0 1px 1px 0;
+        display: inline-block;
+        padding: 3px;
+      }
+      span{
+        padding-left: 3px;
+      }
     }
   }
   .gc-form {
@@ -201,13 +218,61 @@
   }
   .login-form {
     .share-txt-box {
-      position: relative;
-      width: 100%;
-      border: 1px solid tint(#000, 90%);
-      text-align: left;
+      // position: relative;
+      // width: 100%;
+      // border: 1px solid tint(#000, 90%);
+      // text-align: left;
+      font-family: $font-Montserrat;
+      font-size: 12px;
+      line-height: 20px;
+      letter-spacing: 0.36px;
+      color: #191919;
+      background-color: #F2F2F2;
+      padding: 20px;
+      margin: 25px 0;
       input[type="text"] {
         border: none;
         width: 74%;
+        background: transparent;
+        padding: 0;
+        height: auto!important;
+        margin-bottom: 15px;
+      }
+      .copylink{
+        position: unset!important;
+        text-decoration: underline;
+        text-underline-offset: 0.4em;
+        color: #4C4C4C;
+        font-weight: normal;
+        a{
+          color: #4C4C4C;
+        }
+      }
+    }
+    .share-via{
+      font-family: $font-Montserrat;
+      color: #191919;
+      font-size: 12px;
+      line-height: 20px;
+      letter-spacing: 0.36px;
+    }
+    .share-flex-div{
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      .share-icon {
+        width: 50px;
+        height: 50px;
+        border: 1px solid #707070;
+        border-radius: 50%;
+        margin-right: 15px;
+        position: relative;
+        img{
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+        }
       }
     }
   }
@@ -675,7 +740,7 @@
     &.address-checkout {
       padding: 35px 25px 90px 25px;
     }
-    padding: 35px 25px 55px 25px;
+    // padding: 35px 25px 55px 25px;
     font-weight: 300;
     address {
       border: none;
@@ -792,8 +857,8 @@
         .default-address-checkbox {
           position: relative;
           left: 95%;
-          height: 15px;
-          width: 15px;
+          height: 19px;
+          width: 19px;
           background-color: #fff;
           border: 1px solid #888;
           border-radius: 50%;
@@ -870,8 +935,9 @@
       }
     }
     p {
-      font-size: 14px;
-      line-height: 22px;
+      font-size: 12px;
+      line-height: 20px;
+      letter-spacing: 0.36px;
       font-weight: 400;
       text-transform: capitalize;
       word-wrap: break-word;
@@ -890,7 +956,6 @@
     }
     .light {
       color: tint(#000, 50%);
-
     }
     label {
       position: absolute;
@@ -908,11 +973,13 @@
 
 .size-block-bridal {
   h2 {
-    font-size: 23px;
-    font-family: "Baskerville","Amiri","Serif";
-    color: #333;
-    line-height: 60px;
+    font-size: 20px;
+    font-family: $font-Lora;
+    line-height: 25px;
+    letter-spacing: 0.4px;
+    color: #191919;
     text-transform: capitalize;
+    margin-bottom: 5px;
   }
   width: 30%;
   //min-height: 360px;
@@ -928,8 +995,11 @@
     }
   }
   &.ht {
-    min-height: 330px;
-    height: 50vh;
+    // min-height: 330px;
+    // height: 50vh;
+    min-width: 450px;
+    height: auto;
+    padding-bottom: 30px;
   }
   .btn {
     @include cerise-btn();
@@ -1199,6 +1269,7 @@ margin-bottom: 50px !important;
   background-color: #fff;
   padding: 20px 0;
   position: relative;
+  border-bottom: 1px solid #eeeeee;
 }
 
 .bridal-public {
@@ -1213,6 +1284,14 @@ margin-bottom: 50px !important;
   }
   .smallfont {
     font-size: 10px;
+  }
+  .size-sku{
+    font-family: $font-Montserrat;
+    font-size: 10px;
+    line-height: 19px;
+    letter-spacing: 0.3px;
+    color: #191919;
+    margin: 15px 0;
   }
   .cart-block {
     margin: 30px 0 100px 0;
@@ -1284,12 +1363,14 @@ margin-bottom: 50px !important;
   }
 
   .text-muted {
-    color: #808080;
+    font-family: $font-Montserrat;
+    color: #191919;
     font-size: 10px;
+    line-height: 10px;
+    letter-spacing: 0.3px;
     font-style: normal;
     font-variant: normal;
     font-weight: normal;
-    letter-spacing: 1px;
   }
 
   .row-main {
@@ -1325,6 +1406,7 @@ margin-bottom: 50px !important;
 
   .collection-name {
     @include plp_coll_name_desktop();
+    display: none;
   }
 
   .product-name {
@@ -1337,10 +1419,9 @@ margin-bottom: 50px !important;
   }
 
   .product-price {
-    margin-top: 0;
-    margin-bottom: 10px;
     @include plp_prod_name_desktop();
-    font-family: "AmiriFont", "Baskerville", "Garamond";
+    font-family: $font-Montserrat;
+    margin-top: 15px;
   }
 
   .icon {
@@ -1357,10 +1438,6 @@ margin-bottom: 50px !important;
     font-size: 12px;
     font-weight: bold;
   }
-  .product-price {
-    margin-top: 5px;
-  }
-
   .size {
     color: #333333;
     font-family: $font-Lato;
@@ -1381,17 +1458,22 @@ margin-bottom: 50px !important;
   }
 
   .widget-qty {
+    // min-width: 120px;
+    // background-color: #f1f1f1;
+    // border-radius: 10px;
+    // padding: 2px 0;
     margin-top: 10px;
-    min-width: 120px;
     display: -webkit-inline-box;
     display: -ms-inline-flexbox;
     display: -webkit-inline-flex;
     display: inline-flex;
-    background-color: #f1f1f1;
-    border-radius: 10px;
-    padding: 2px 0;
     font-size: 12px;
     line-height: 12px;
+    background-color: unset;
+    border: 1px solid #d8d8d8;
+    border-radius: 15px;
+    min-width: 130px;
+    padding: 8px 0;
 
     .qty {
       padding: 5px 12px;
@@ -1432,13 +1514,21 @@ margin-bottom: 50px !important;
   flex-wrap: nowrap;
 }
 .bridal-item-remove {
-  position: absolute;
-  right: 0;
-  top: 0;
+  // position: absolute;
+  // right: 0;
+  // top: 0;
+  span{
+    @include plp_prod_name_desktop();
+    font-size: 12px;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    text-decoration: underline;
+    text-underline-offset: 0.4em;
+  }
 }
 .form-heading {
-  text-align: center;
-  margin-top: 20px;
+  text-align: left;
+  margin-top: 30px;
 }
 
 .bridal-cross {
@@ -1465,3 +1555,322 @@ margin-bottom: 50px !important;
     color: $aqua-bold
   }
 }
+// adding bridale css by GD **************
+.gift-icon{
+  text-align: center;
+  margin-top: 30px;
+}
+.gift-icon-address{
+  text-align: center;
+}
+.gift-icon img{
+  width: 50px;
+  height: 50px;
+}
+.back-head{
+  position: relative;
+  margin-top: 50px;
+}
+.back-btn-top{
+  text-align: left;
+  font-family: $font-Montserrat;
+  font-size: 12px;
+  line-height: 20px;
+  letter-spacing: 0.36px;
+  color: #9F9F9F;
+  position: absolute;
+  cursor: pointer;
+}
+.registry-form-heading{
+    @include h3_20px_lora_charcoal();
+    line-height: 25px;
+    letter-spacing: 0.4px;
+    margin: 20px 0;
+}
+.registry-form-subheading{
+    font-family: $font-Montserrat;
+    font-size: 12px;
+    line-height: 20px;
+    letter-spacing: 0.36px;
+    color: #191919;
+    margin-bottom: 65px;
+    margin-top: -10px;
+}
+.GoBackCta{
+  font-family: $font-Montserrat;
+  font-size: 12px;
+  line-height: 20px;
+  letter-spacing: 0.36px;
+  color: #191919;
+  text-align: center;
+  text-decoration: underline;
+  text-underline-offset: 0.4em;
+  cursor: pointer;
+}
+.registery-form-content{
+  padding-bottom: 40px;
+  border-bottom: 1px solid #E5E5E5;
+}
+.registery-form{
+  margin-top: 40px;
+  text-align: left;
+}
+.reg-form-heading{
+    font-family: $font-Montserrat;
+    font-size: 12px;
+    line-height: 20px;
+    letter-spacing: 0.36px;
+    color: #191919;
+    text-transform: uppercase;
+    text-align: left;
+    margin-bottom: 20px;
+}
+.reg-form-label{
+    font-family: $font-Montserrat;
+    font-size: 9px!important;
+    line-height: 12px;
+    letter-spacing: 0.54px;
+    color: #191919;
+    margin-bottom: 20px;
+    clear: both;
+}
+.reg-form-radio-btn{
+  margin-bottom: 30px;
+}
+.radio-btn .radio-list{
+  position: relative!important;
+  width: 50%;
+  float: left;
+  margin-bottom: 20px;
+}
+.radio-btn li{
+  position: relative!important;
+  top: 0px;
+  left: 22px;
+}
+.radio-btn .last-li-child{
+  margin-bottom: 30px;
+  top: -23px;
+  left: 5px;
+}
+.radio-btn .check-mark{
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 14px;
+  width: 14px;
+  border: 1px solid #d8d8d8;
+  border-radius: 50%;
+}
+.active .check-mark:before{
+  // border: 1px solid #B59C77;
+  // background: #B59C77;
+  content: "";
+  height: 16px;
+  width: 16px;
+  border-radius: 50%;
+  background-color: white;
+  position: absolute;
+  top: 50%;
+  right: 50%;
+  transform: translate(50%, -50%);
+  border: 1px solid #54b8b8;
+}
+.active .check-mark:after{
+  content: "";
+  height: 8px;
+  width: 8px;
+  border-radius: 50%;
+  background-color: #548b8b;
+  position: absolute;
+  top: 50%;
+  right: 50%;
+  transform: translate(50%, -50%);
+}
+.radio-btn input{
+  position: absolute!important;
+  left: 0!important;
+  top:2px;
+}
+.radio-btn label{
+  padding-left: 20px!important;
+}
+.radio-btn label:before{
+  content: unset!important;
+}
+.radio-btn input[name="other"],
+.radio-btn input[name="other"]:focus{
+  height: auto!important;
+  border: none!important;
+  border-bottom: 1px solid #d8d8d8!important;
+  background: transparent;
+  margin-left: 20px;
+  padding: 0 0 2px 0;
+  width: 90%;
+  font-size: 10px!important;
+  font-weight: 400;
+}
+.radio-div{
+  clear: both;
+  margin-bottom: 20px;
+}
+.reg-form-label input,
+.date-picker input{
+    width: 100%;
+    font-family: "Montserrat", "sans-serif";
+    font-size: 12px !important;
+    line-height: 12px;
+    letter-spacing: 0.54px;
+    padding: 0 10px;
+    color: #191919;
+    border: 1px solid #D8D8D8;
+}
+.reg-form-label input:focus{
+  border: 1px solid #D8D8D8!important;
+}
+.reg-form-label label{
+  position: absolute;
+  top: -5px;
+  left: 15px;
+  background: #fff;
+  padding: 0 5px;
+}
+.date-picker{
+  position: relative;
+  margin-bottom: 40px;
+}
+.cal-icon{
+  position: absolute!important;
+  top: 7px;
+  right: 10px;
+}
+.date-picker div[aria-disabled="true"]{
+  color: #ccc!important;
+}
+.registery-address-header{
+  border-bottom: 1px solid #d8d8d8;
+}
+.reg-address-heading{
+  width: 100%;
+}
+// .reg-shipping,
+// .reg-add-address{
+//   width: 50%;
+//   float: left;
+//   text-align: left;
+// }
+.flex-header{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 5px 0;
+}
+.topRegisteryName{
+  font-family: $font-Lora;
+  font-size: 16px;
+  line-height: 20px;
+  color: #191919;
+}
+.edit-link{
+  font-family: $font-Montserrat;
+  font-size: 10px;
+  line-height: 18px;
+  letter-spacing: 0.2px;
+  color: #191919;
+  text-decoration: underline;
+  text-underline-offset: 0.4em;
+}
+.manage-label{
+  font-family: $font-Montserrat;
+  font-size: 12px;
+  line-height: 20px;
+  letter-spacing: 0.36px;
+}
+.manage-value{
+  font-family: $font-Montserrat;
+  font-size: 12px;
+  line-height: 20px;
+  letter-spacing: 0.36px;
+}
+.detail-field p,
+.shipping-address p.manage-label{
+  margin-bottom: 12px;
+}
+.shareBtn button{
+  width: 200px;
+  height: 50px;
+  color: #fff;
+  background: #7EAAA9;
+  border: 1px solid #7EAAA9;
+  margin: 15px 0 5px 0;
+}
+.full-name,
+.phone-no{
+  font-family: $font-Montserrat;
+  margin: 5px 0;
+}
+.address-detail{
+  font-family: $font-Montserrat;
+  font-size: 10px!important;
+  line-height: 16px!important;
+  letter-spacing: 0.3px!important;
+}
+.no-bridal-item{
+  padding: 75px 0 90px 0;
+  text-align: center;
+}
+.no-bridal-item-heading{
+  font-family: $font-Lora;
+  font-size: 16px;
+  line-height: 24px;
+  color: #191919;
+  margin-bottom: 15px;
+}
+.no-bridal-item-content{
+  font-family: $font-Montserrat;
+  font-size: 12px;
+  line-height: 20px;
+  letter-spacing: 0.36px;
+  color: #191919;
+}
+.need-assistance{
+  background: #F9F8F5;
+  text-align: center;
+  padding: 60px 30px;
+  width: 100%;
+}
+.assistance-heading{
+  font-family: $font-Montserrat;
+  font-size: 14px;
+  line-height: 18px;
+  letter-spacing: 0.42px;
+  text-transform: uppercase;
+  color: #191919;
+}
+.assistance-content{
+  font-family: $font-Montserrat;
+  font-size: 12px;
+  line-height: 20px;
+  letter-spacing: 0.36px;
+  color: #191919;
+  margin: 25px 0;
+}
+.assistance-link{
+  font-family: $font-Montserrat;
+  font-size: 10px;
+  line-height: 16px;
+  letter-spacing: 0.3px;
+  color: #191919;
+}
+.assistance-link a{
+  color: #000;
+  text-decoration: underline;
+  text-underline-offset: 0.5em;
+}
+#edit-rdetails-form{
+  input[name="occasion"]{
+    background: #E5E5E526 !important;
+  }
+}
+
+

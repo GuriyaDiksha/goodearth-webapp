@@ -77,6 +77,7 @@
         // height: 100vh;
         position: sticky;
         position: -webkit-sticky;
+        margin-top: -10px;
       }
     }
     .cart-container {
@@ -139,10 +140,17 @@
     }
   
     .summary-title {
-      color: tint(#000, 40%);
-      font-size: 15px;
-      letter-spacing: 1px;
-      font-family: $font-Lato;
+      // color: tint(#000, 40%);
+      // font-size: 15px;
+      // letter-spacing: 1px;
+      // font-family: $font-Lato;
+      font-family: $font-Lora;
+      font-size: 16px;
+      line-height: 24px;
+      color: #191919;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
     }
   
     .edit-cart {
@@ -157,14 +165,41 @@
   
     .product-name {
       flex: 2;
-      @include plp_prod_name_desktop();
+      // @include plp_prod_name_desktop();
+      font-size: 14px;
+      font-family: "Lora", serif;
+      color: #191919;
+      text-transform: capitalize;
+      line-height: 22px;
+      letter-spacing: 0.28px;
     }
     .product-price {
-      @include plp_prod_name_desktop();
-      text-align: right;
-      font-family: "AmiriFont", "Baskerville", "Garamond";
+      // @include plp_prod_name_desktop();
+      // text-align: right;
+      // font-family: "AmiriFont", "Baskerville", "Garamond";
+      font-family: $font-Montserrat;
+      font-size: 14px;
+      line-height: 21px;
+      letter-spacing: 0.42px;
+      color: #191919;
+      text-transform: capitalize;
+      margin-top: 15px;
     }
-  
+    
+    .bridal-sidebar-footer,
+    .bridal-sidebar-footer a{
+      @include b5_10px_montserrat_charcoal_caps();
+      text-transform: unset;
+      line-height: 16px;
+      letter-spacing: 0.3px;
+    }
+    .bridal-sidebar-footer a{
+      font-size: 12px;
+    }
+    .tc-url a{
+      text-decoration: underline;
+      text-underline-offset: 0.4em;
+    }
     .product-qty,
     .product-size,
     .text-coupon {
@@ -223,8 +258,15 @@
     text-transform: uppercase;
   }
 
-  .txt-cap {
+  .txt-cap,
+  .label {
+    @include b4_12px_medium_charcoal_caps();
     text-transform: capitalize;
+    line-height: 20px;
+    letter-spacing: 0.36px;
+  }
+  .label{
+    font-weight: 400;
   }
 
   .bag-contents {
@@ -270,16 +312,6 @@
       .icon_heart-cerise-fill {
         font-size: 22px;
       }
-      /*.icon_cross-narrow-big {
-        font-size: 12px;
-        font-weight: bold;
-      }*/
-
-      .product-price {
-        margin-top: 10px;
-        font-family: "AmiriFont", "Baskerville", "Garamond";
-      }
-
       .size {
         color: tint(#000, 20%);
         font-family: $font-Lato;
@@ -390,12 +422,14 @@
   }
 
   .text-muted {
-    color: #808080;
+    font-family: $font-Montserrat;
+    color: #191919;
     font-size: 10px;
+    line-height: 10px;
+    letter-spacing: 0.3px;
     font-style: normal;
     font-variant: normal;
     font-weight: normal;
-    letter-spacing: 1px;
   }
 
   @media (max-width: 992px) {
@@ -855,10 +889,17 @@
     }
   
     .product-price {
-      margin-top: 0;
-      margin-bottom: 10px;
-      @include plp_prod_name_desktop();
-      font-family: "AmiriFont", "Baskerville", "Garamond";
+      // margin-top: 0;
+      // margin-bottom: 10px;
+      // @include plp_prod_name_desktop();
+      // font-family: "AmiriFont", "Baskerville", "Garamond";
+      font-family: $font-Montserrat;
+      font-size: 14px;
+      line-height: 21px;
+      letter-spacing: 0.42px;
+      color: #191919;
+      text-transform: capitalize;
+      margin-top: 15px;
     }
   
     .icon {
@@ -869,10 +910,6 @@
     .icon_cross-narrow-big {
       font-size: 12px;
       font-weight: bold;
-    }
-  
-    .product-price {
-      margin-top: 5px;
     }
   
     .size {
@@ -896,17 +933,18 @@
   
     .widget-qty {
       margin-top: 10px;
-      min-width: 120px;
       display: -webkit-inline-box;
       display: -ms-inline-flexbox;
       display: -webkit-inline-flex;
       display: inline-flex;
-      background-color: #f1f1f1;
-      border-radius: 10px;
-      padding: 2px 0;
       font-size: 12px;
       line-height: 12px;
-  
+      background-color: unset;
+      border: 1px solid #d8d8d8;
+      border-radius: 15px;
+      min-width: 130px;
+      padding: 8px 0;
+      
       .qty {
         padding: 5px 12px;
         -webkit-box-flex: 1;
@@ -945,8 +983,8 @@
     display: inline-block !important;
   }
 
-.h15 {
-  height: 15px;
+.h10 {
+  height: 10px;
 }
 
 .bridal-ring {
@@ -959,7 +997,14 @@
   position: relative;
   top: -10px;
 }
-.black
-{
+.black{
   color : black;
+}
+.size-sku{
+  font-family: "Montserrat", "sans-serif";
+  font-size: 10px;
+  line-height: 19px;
+  letter-spacing: 0.3px;
+  color: #191919;
+  margin: 15px 0;
 }

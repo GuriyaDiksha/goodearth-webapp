@@ -99,28 +99,36 @@
 }
 
 .bridal-ring {
-    background-color: #b3b3b3;
-    border-radius: 50%;
-    color: #fff;
+    // background-color: #b3b3b3;
+    // border-radius: 50%;
+    // color: #fff;
     cursor: pointer;
-    line-height: 50px;
-    width: 50px;
-    height: 50px;
+    // line-height: 50px;
+    // width: 50px;
+    // height: 50px;
 
-    &::before {
-        font-size: 38px;
-        line-height: 50px;
-    }
-    &.active {
-        background-color: $cerise;
-        border: 1px solid $cerise;
-    }
+    // &::before {
+    //     font-size: 38px;
+    //     line-height: 50px;
+    // }
+    // &.active {
+    //     background-color: $cerise;
+    //     border: 1px solid $cerise;
+    // }
 }
 
 .bridal-section {
+    display: flex;
+    align-items: center;
+    margin-top: 40px;
     .label {
-        color: #000;
-        margin-top: 5px;
+        color: #9C7D50;
+        font-family: $font-Montserrat;
+        font-size: 12px;
+        line-height: 20px;
+        letter-spacing: 0.36px;
+        padding-left: 6px;
+        cursor: pointer;
     }
 }
 

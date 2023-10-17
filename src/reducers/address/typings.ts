@@ -13,6 +13,7 @@ export type State = {
   pinCodeList: string[];
   pinCodeData: PinCodeData;
   countryData: Country[];
+  // bridalAddressId: number;
   shippingAddressId: number;
   billingAddressId: number;
   mode: AddressModes;
