@@ -147,7 +147,7 @@ class PDPContainer extends React.Component<Props, State> {
     const {
       updateComponentModal,
       changeModalState,
-      device: { mobile },
+      device: { mobile, tablet },
       data,
       corporatePDP,
       selectedSizeId,
@@ -183,7 +183,8 @@ class PDPContainer extends React.Component<Props, State> {
         showPrice:
           data.invisibleFields && data.invisibleFields.indexOf("price") > -1,
         price,
-        discountPrices
+        discountPrices,
+        tablet
       },
       true
     );

@@ -1,11 +1,4 @@
-import React, {
-  RefObject,
-  useEffect,
-  useRef,
-  useState,
-  MouseEvent
-} from "react";
-// import DockedPanel from "containers/pdp/docked";
+import React, { RefObject, useEffect, useRef, useState } from "react";
 import { Product } from "typings/product";
 import styles from "./styles.scss";
 import cs from "classnames";
@@ -24,6 +17,7 @@ import {
   TransformComponent,
   ReactZoomPanPinchRef
 } from "react-zoom-pan-pinch";
+import DockedPanel from "containers/pdp/docked";
 
 type Props = {
   images: ProductImage[];
@@ -31,6 +25,12 @@ type Props = {
   changeModalState?: any;
   alt: string;
   startIndex: number;
+  data: Product;
+  buttoncall: any;
+  showPrice: boolean;
+  price: string | number;
+  discountPrices: string | number;
+  tablet: boolean;
 };
 
 const Zoom: React.FC<Props> = ({
@@ -38,7 +38,13 @@ const Zoom: React.FC<Props> = ({
   images = [],
   mobile = false,
   changeModalState = null,
-  alt
+  alt,
+  data,
+  buttoncall,
+  showPrice,
+  price,
+  discountPrices,
+  tablet = false
 }) => {
   const [selectedImage, setSelectedImage] = useState(images?.[startIndex]);
   const [zoom, setZoom] = useState(1);
@@ -48,8 +54,39 @@ const Zoom: React.FC<Props> = ({
   const videoRef: RefObject<HTMLVideoElement> = useRef(null);
   const videoRef2: RefObject<HTMLVideoElement> = useRef(null);
 
+  useEffect(() => {
+    if (
+      typeof document == "object" &&
+      (document?.getElementById("modal-fullscreen") as HTMLElement) &&
+      mobile
+    ) {
+      (document.getElementById(
+        "modal-fullscreen"
+      ) as HTMLElement).style.height = "calc(100% - 55px)";
+    }
+    if (document?.getElementById("modal-fullscreen-container") && mobile) {
+      (document.getElementById(
+        "modal-fullscreen-container"
+      ) as HTMLElement).style.height = "calc(100% - 55px)";
+    }
+  }, []);
+
   const closeModal = () => {
     changeModalState(false);
+    if (
+      typeof document == "object" &&
+      (document?.getElementById("modal-fullscreen") as HTMLElement) &&
+      mobile
+    ) {
+      (document.getElementById(
+        "modal-fullscreen"
+      ) as HTMLElement).style.height = "calc(100% - 55px)";
+    }
+    if (document?.getElementById("modal-fullscreen-container") && mobile) {
+      (document.getElementById(
+        "modal-fullscreen-container"
+      ) as HTMLElement).style.height = "calc(100% - 55px)";
+    }
 
     document.body.classList.remove(globalStyles.fixed);
   };
@@ -91,6 +128,7 @@ const Zoom: React.FC<Props> = ({
 
   return (
     <div
+      id="zoomPopup"
       className={cs(styles.videoPopupContainer, styles.helloar, {
         [styles.mobile]: mobile
       })}
@@ -312,38 +350,43 @@ const Zoom: React.FC<Props> = ({
               )}
             ></i>
           </div>
-          {(selectedImage?.media_type === "Image" ||
-            selectedImage?.type === "main") && (
-            <div className={styles.btnWrp}>
-              <button
-                className={styles.plus}
-                onClick={() => zoom < 4 && setZoomcall(zoom + 0.5)}
-              >
-                <img src={plus} alt={"incerment"} />
-              </button>
+          {!mobile &&
+            (selectedImage?.media_type === "Image" ||
+              selectedImage?.type === "main") && (
+              <div className={styles.btnWrp}>
+                <button
+                  className={styles.plus}
+                  onClick={() => zoom < 4 && setZoomcall(zoom + 0.5)}
+                >
+                  <img src={plus} alt={"incerment"} />
+                </button>
 
-              <div className="custom-range">
-                <Slider
-                  min={1}
-                  max={4}
-                  step={0.1}
-                  vertical={true}
-                  value={zoom}
-                  onChange={(value: number) => setZoomcall(+value)}
-                />
+                <div className="custom-range">
+                  <Slider
+                    min={1}
+                    max={4}
+                    step={0.1}
+                    vertical={true}
+                    value={zoom}
+                    onChange={(value: number) => setZoomcall(+value)}
+                  />
+                </div>
+
+                <button
+                  className={styles.minus}
+                  onClick={() => zoom > 1 && setZoomcall(zoom - 0.5)}
+                >
+                  <img src={minus} alt={"incerment"} />
+                </button>
               </div>
-
-              <button
-                className={styles.minus}
-                onClick={() => zoom > 1 && setZoomcall(zoom - 0.5)}
-              >
-                <img src={minus} alt={"incerment"} />
-              </button>
-            </div>
-          )}
+            )}
         </div>
       </div>
-      {/* <div className={cs(styles.footer, { [styles.mobileFooter]: mobile })}>
+      <div
+        className={cs(styles.footer, {
+          [styles.mobileFooter]: mobile || tablet
+        })}
+      >
         <DockedPanel
           data={data}
           buttoncall={buttoncall}
@@ -351,9 +394,8 @@ const Zoom: React.FC<Props> = ({
           price={price}
           discountPrice={discountPrices}
           mobile={mobile}
-          hideAddToBag={true}
         />
-      </div> */}
+      </div>
     </div>
   );
 };

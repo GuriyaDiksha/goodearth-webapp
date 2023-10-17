@@ -528,11 +528,35 @@ const ProductDetails: React.FC<Props> = ({
     }
   };
 
+  //For closing zoom popup
+  const closeZoomModal = () => {
+    if (document?.getElementById("zoomPopup") as HTMLElement) {
+      changeModalState(false);
+      if (
+        typeof document == "object" &&
+        (document?.getElementById("modal-fullscreen") as HTMLElement) &&
+        mobile
+      ) {
+        (document.getElementById(
+          "modal-fullscreen"
+        ) as HTMLElement).style.height = "calc(100% - 55px)";
+      }
+      if (document?.getElementById("modal-fullscreen-container") && mobile) {
+        (document.getElementById(
+          "modal-fullscreen-container"
+        ) as HTMLElement).style.height = "calc(100% - 55px)";
+      }
+
+      document.body.classList.remove(globalStyles.fixed);
+    }
+  };
+
   const addToBasket = () => {
     if (!selectedSize) {
       setSizeError("Please select a size to proceed");
       errorTracking(["Please select a size to proceed"], window.location.href);
       showError();
+      closeZoomModal();
     } else {
       setApiTrigger(true);
       BasketService.addToBasket(dispatch, selectedSize.id, quantity)
@@ -545,8 +569,10 @@ const ProductDetails: React.FC<Props> = ({
           }, 3000);
           showGrowlMessage(dispatch, MESSAGE.ADD_TO_BAG_SUCCESS);
           gtmPushAddToBag();
+          closeZoomModal();
         })
         .catch(err => {
+          closeZoomModal();
           setApiTrigger(false);
           if (typeof err.response.data != "object") {
             showGrowlMessage(dispatch, err.response.data);
@@ -663,6 +689,8 @@ const ProductDetails: React.FC<Props> = ({
     const selectdata = childAttributes.filter(data => {
       return data.size == selectedSize?.size;
     })[0];
+    closeZoomModal();
+
     updateComponentModal(
       // <CorporateEnquiryPopup id={id} quantity={quantity} />,
       POPUP.THIRDPARTYENQUIRYPOPUP,
@@ -691,6 +719,9 @@ const ProductDetails: React.FC<Props> = ({
       ? categories[index].replace(/\s/g, "")
       : "";
     category = category.replace(/>/g, "/");
+
+    closeZoomModal();
+
     updateComponentModal(
       POPUP.NOTIFYMEPOPUP,
       {
@@ -724,6 +755,7 @@ const ProductDetails: React.FC<Props> = ({
 
   const sizeSelectClick = () => {
     // setSizeerror(true);
+    closeZoomModal();
     setSizeError("Please select a size to proceed");
     showError();
   };
