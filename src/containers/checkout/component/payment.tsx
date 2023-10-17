@@ -1066,7 +1066,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
                 <div>
                   <hr className={styles.hr} />
                   {CONFIG.WHATSAPP_SUBSCRIBE_ENABLED && (
-                    <div className={styles.loginForm}>
+                    <div className={cs(styles.loginForm, styles.customCheckout)}>
                       <div className={styles.categorylabel}>
                         <WhatsappSubscribe
                           data={preferenceData}
