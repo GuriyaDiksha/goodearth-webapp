@@ -57,7 +57,7 @@ const exitGCCheckout: React.FC<PopupProps> = props => {
             NO, CONTINUE WITH CHECKOUT
           </a>
         </div>
-        <div className={cs(styles.link, styles.linkDecor)}>
+        <div className={cs(styles.link, styles.linkDecor, styles.gcCheckout)}>
           <p onClick={() => {
                 closeModal();
                 if (props.action == "PUSH") {
