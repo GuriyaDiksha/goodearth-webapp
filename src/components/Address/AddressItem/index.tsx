@@ -282,7 +282,7 @@ const AddressItem: React.FC<Props> = props => {
       ? "text"
       : "div";
   const billingEditDisable =
-    activeStep == "BILLING" && shippingData && address.id == shippingData.id;
+    activeStep == "BILLING" && shippingData && address.id == shippingData.id && !props.isGcCheckout;
 
   return (
     <div
