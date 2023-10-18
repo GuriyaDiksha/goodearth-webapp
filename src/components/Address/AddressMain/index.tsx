@@ -436,6 +436,7 @@ const AddressMain: React.FC<Props> = props => {
           currentCallBackComponent={currentCallBackComponent}
           saveAddress={() => null}
           openAddressList={() => null}
+          isGcCheckout={props.isGcCheckout}
         ></AddressForm>
       )}
       {mode == "edit" && (
@@ -444,6 +445,7 @@ const AddressMain: React.FC<Props> = props => {
           currentCallBackComponent={currentCallBackComponent}
           saveAddress={() => null}
           openAddressList={() => null}
+          isGcCheckout={props.isGcCheckout}
         ></AddressForm>
       )}
       {isLoading && <Loader />}
