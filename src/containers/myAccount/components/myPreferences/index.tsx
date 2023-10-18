@@ -76,6 +76,7 @@ const MyPreferences: React.FC<Props> = props => {
           whatsappClass={styles.whatsapp}
           uniqueKey={"profileid123"}
           showSubscribe={false}
+          countryData={countryData}
         />
       </div>
     </div>

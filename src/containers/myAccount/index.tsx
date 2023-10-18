@@ -45,9 +45,11 @@ type Props = {
 const MyAccount: React.FC<Props> = props => {
   const { bridalId } = useSelector((state: AppState) => state.user);
   const [accountListing, setAccountListing] = useState(false);
-  const [slab, setSlab] = useState("");
+  // const [slab, setSlab] = useState("");
   const { mobile } = useSelector((state: AppState) => state.device);
-  const { isLoggedIn, email } = useSelector((state: AppState) => state.user);
+  const { isLoggedIn, email, slab } = useSelector(
+    (state: AppState) => state.user
+  );
   const { showTimer } = useSelector((state: AppState) => state.info);
   // const [ isCeriseClubMember, setIsCeriseClubMember ] = useState(false);
 
@@ -149,7 +151,7 @@ const MyAccount: React.FC<Props> = props => {
         if (data.is_success) {
           // const isCeriseClubMember = data.message.Slab == "CERISE" || data.message.Slab == "CERISE SITARA" || data.message.Slab == "FF10" || data.message.Slab == "FF15"
           const responseSlab = data.message.Slab;
-          setSlab(responseSlab);
+          // setSlab(responseSlab);
           // setIsCeriseClubMember(isCeriseClubMember);
           // const slab = responseSlab.toLowerCase() == "cerise" || responseSlab.toLowerCase() == "cerise sitara";
           // this.props.updateCeriseClubAccess(slab);
@@ -212,9 +214,12 @@ const MyAccount: React.FC<Props> = props => {
     }
   ];
   let ceriseClubAccess = false;
+  debugger;
+
   if (slab) {
     ceriseClubAccess =
       slab.toLowerCase() == "cerise" ||
+      slab.toLowerCase() == "cerise club" ||
       slab.toLowerCase() == "ff10" ||
       slab.toLowerCase() == "ff15" ||
       slab.toLowerCase() == "cerise sitara";
@@ -284,7 +289,10 @@ const MyAccount: React.FC<Props> = props => {
     styles.bgProfile,
 
     slab && pathname == "/account/cerise"
-      ? slab.toLowerCase() == "cerise" || slab.toLowerCase() == "ff10"
+      ? slab.toLowerCase() == "cerise" ||
+        slab.toLowerCase() == "cerise sitara" ||
+        slab.toLowerCase() == "cerise club" ||
+        slab.toLowerCase() == "ff10"
         ? cs(styles.ceriseClub, loyaltyStyles.ceriseLoyalty)
         : cs(styles.ceriseSitaraClub, loyaltyStyles.ceriseLoyalty)
       : ""
@@ -342,6 +350,7 @@ const MyAccount: React.FC<Props> = props => {
                   className={cs(styles.mobileFilterHeader, {
                     [styles.mobileFilterHeaderTimer]: showTimer
                   })}
+                  id="accountFilterHeader"
                 >
                   <div className={styles.filterCross}>
                     <span>

@@ -1156,6 +1156,12 @@ $list: $grey 92%, $white 8%;
   color: $charcoal19;
   text-transform: uppercase;
 }
+@mixin b4_12px_lato{
+  font-family: $font-Lato;
+  font-size: 12px;
+  font-weight: $medium;
+  color:$dark-gray;
+}
 
 @mixin b4_12px_montserrat_regular_charcoal{
   font-family: $font-Montserrat;
@@ -1233,6 +1239,13 @@ $list: $grey 92%, $white 8%;
   font-size: 13px;
   font-style: italic;
   color: $cerise;
+}
+
+@mixin sucess_msg_cerise{
+  font-family: $font-Lora;
+  font-size: 13px;
+  font-style: italic;
+  color: $gold;
 }
 
 // =================================

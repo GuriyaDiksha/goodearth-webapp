@@ -97,14 +97,23 @@ $pdp-top: $header-height;
 
     .product-image{
         position: relative;
-        .product-video{
-            width: 100%;
+        // .product-video{
+        //     width: 100%;
 
-            div{
-                aspect-ratio: 4/7;
-            }
+        //     div{
+        //         aspect-ratio: 4/7;
+        //     }
             
-        }
+        // }
+            .video-wrp{
+                height: 100%;
+                width: 100%;
+                video{
+                    height: auto;
+                    width: 100%
+                }
+            }
+       
         .view-in-btn{
             @include view_in_btn();
         }
@@ -492,9 +501,25 @@ input[type="time"]::-webkit-calendar-picker-indicator{
 }
 
 .video-div{
-    div{
-        aspect-ratio: 4/6;
+    height: 100%;
+    .video-wrp{
+        height: 100%;
+        width: 100%;
+        video{
+            height: auto;
+            width: 100%;
+        }
     }
+    
+}
+
+.container {
+    position: relative;
+    width: 100%;
+}
+
+.lazy-image {
+    width: 100%;
 }
 
 .overlay-div{
@@ -502,4 +527,14 @@ input[type="time"]::-webkit-calendar-picker-indicator{
     position: absolute;
     width: 100%;
     height: 100%;
+}
+
+.inc-tax{
+    font-family: $font-Montserrat;
+    font-weight: $regular;
+    font-size: 8px;
+    line-height: 5px;
+    color: $charcoal19;
+    text-align: right;
+    text-transform: initial;
 }

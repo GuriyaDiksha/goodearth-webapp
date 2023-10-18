@@ -848,11 +848,11 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                         className={cs(styles.discountSection)}
                         key={`gccn_${i}`}
                       >
-                        <p>Gift Card/Credit Note</p>
+                        <p>{Object.keys(gccn)?.[0]}</p>
                         <p>
                           (-){" "}
                           {`${displayPriceWithCommasFloat(
-                            parseFloat("" + gccn),
+                            parseFloat("" + Object.values(gccn)?.[0]),
                             confirmData.currency
                           )}`}
                           {/* {parseFloat("" + gccn).toFixed(2)} */}

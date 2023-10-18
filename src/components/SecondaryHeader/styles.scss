@@ -4,7 +4,7 @@
 .secondary-header-container {
     box-shadow: 0 8px 6px -6px tint(#000, 90%);
     height: $secondary-header-height;
-    position: fixed;
+    position: sticky;
     width: 100%;
     z-index: 4;
     background-color: $white;

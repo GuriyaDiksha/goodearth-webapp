@@ -618,8 +618,15 @@
     // margin-bottom: 20px;
   }
   .cerise-btn80 {
-    width: 80%;
+    width: 50%;
     min-width: auto;
+    a{
+      width: 100%!important;
+      height: inherit;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
   }
 }
 

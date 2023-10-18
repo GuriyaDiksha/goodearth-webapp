@@ -235,12 +235,6 @@ const routes: RouteConfig = [
     exact: true
   },
   {
-    path: ROUTES.HFH,
-    component: loadable(() => import("containers/HomeForHolidays")),
-    action: async () => null,
-    exact: true
-  },
-  {
     path: ROUTES.SITEMAP,
     component: loadable(() => import("containers/Sitemap")),
     action: async () => null,
@@ -286,7 +280,9 @@ const makerRoutes = [
   ROUTES.TANGIERBYRICHARDHAMILTON,
   ROUTES.MATERIALCULTURE,
   ROUTES.VINITACHAITANYA,
-  ROUTES.VASUDHARAI
+  ROUTES.VASUDHARAI,
+  ROUTES.BOSPORUSMETALDECOR,
+  ROUTES.TELLINGSTORIES
 ];
 
 const makerSmartnav = [

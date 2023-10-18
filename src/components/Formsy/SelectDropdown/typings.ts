@@ -20,6 +20,7 @@ export type Props = {
   blur?: (event: React.FocusEvent) => void;
   showLabel?: boolean;
   optionsClass?: string;
+  aquaClass?: string;
   searchContainerClass?: string;
   searchInputClass?: string;
   searchIconClass?: string;

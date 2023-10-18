@@ -16,7 +16,7 @@ const PlpCollectionItem: React.FC<PlpCollectionItems> = ({
           pathname: url || "#"
         }}
       >
-        <img src={sliderImages?.[0]} alt="collection-img" />
+        <img src={sliderImages?.[0]} alt="collection-img" width="200" />
       </Link>
       <div className={styles.textWrp}>
         <div className={styles.tagWrp}>
