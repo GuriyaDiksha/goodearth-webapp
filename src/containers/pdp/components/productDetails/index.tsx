@@ -110,7 +110,8 @@ const ProductDetails: React.FC<Props> = ({
     badgeMessage,
     fillerProduct,
     shortDesc,
-    sliderImages
+    sliderImages,
+    collections
   },
   data,
   corporatePDP,
@@ -516,11 +517,13 @@ const ProductDetails: React.FC<Props> = ({
               item_list_id: "", //pass the item list id
               item_list_name: search, //pass the item list name ex.search results
               item_variant: selectedSize?.size || "",
-              item_category4: l1,
+              // item_category4: l1,
+              item_category4: "NA",
               item_category5: collection,
               price: discountPrices || price,
               quantity: quantity,
-              dimension12: selectedSize?.color
+              dimension12: selectedSize?.color,
+              collection_category: collections?.join("|")
             }
           ]
         }
@@ -706,7 +709,8 @@ const ProductDetails: React.FC<Props> = ({
         isSale: info.isSale,
         discountedPrice: discountPrices,
         list: isQuickview ? "quickview" : "pdp",
-        sliderImages: sliderImages
+        sliderImages: sliderImages,
+        collections: collections
       },
       false,
       mobile ? ModalStyles.bottomAlignSlideUp : "",
@@ -927,6 +931,9 @@ const ProductDetails: React.FC<Props> = ({
                     { [globalStyles.textCenter]: !mobile }
                   )}
                 >
+                  {currency === "INR" && (
+                    <span className={styles.mrp}>MRP.</span>
+                  )}
                   {info.isSale && discount && discountedPriceRecords ? (
                     <span className={styles.discountedPrice}>
                       {displayPriceWithCommas(discountPrices, currency)}
@@ -946,6 +953,9 @@ const ProductDetails: React.FC<Props> = ({
                       {" "}
                       {displayPriceWithCommas(price, currency)}
                     </span>
+                  )}
+                  {currency === "INR" && (
+                    <p className={styles.incTax}>(Incl. of all taxes)</p>
                   )}
                 </div>
               )}

@@ -200,7 +200,8 @@ const AddressItem: React.FC<Props> = props => {
         item_variant: "NA",
         item_category5: line?.product?.collection,
         price: line?.product?.priceRecords[currency],
-        quantity: line?.quantity
+        quantity: line?.quantity,
+        collection_category: line?.product?.collections?.join("|")
       };
     });
 

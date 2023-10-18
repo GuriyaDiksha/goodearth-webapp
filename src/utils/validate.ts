@@ -197,7 +197,8 @@ export function dataForBilling(data: Basket, currency: Currency) {
           item_variant: "NA",
           item_category5: collectionName,
           price: realPrice,
-          quantity: prod.quantity
+          quantity: prod.quantity,
+          collection_category: product?.collections?.join("|")
         }
       );
     });
@@ -319,7 +320,8 @@ export function proceedTocheckout(data: Basket, currency: Currency) {
           item_category: category?.split(">")?.join("|"),
           item_category5: collectionName,
           price: realPrice,
-          quantity: 1
+          quantity: 1,
+          collection_category: product?.collections?.join("|")
         }
       );
     });
@@ -418,7 +420,8 @@ export function proceedForPayment(
           item_variant: "NA",
           item_category5: collectionName,
           price: product.priceRecords[currency],
-          quantity: 1
+          quantity: 1,
+          collection_category: product?.collections?.join("|")
         }
       );
     });
@@ -597,7 +600,7 @@ export function productImpression(
           child.collections &&
           child.collections.length > 0
         ) {
-          collectionName = child.collections[0];
+          collectionName = child.collections?.join("|");
         }
         category = category.replace(/>/g, "/");
       }
@@ -637,8 +640,9 @@ export function productImpression(
               item_list_id: "",
               item_list_name: search,
               item_variant: "",
-              item_category4: "",
+              item_category4: "NA",
               item_category5: collectionName,
+              collection_category: collectionName,
               price: child1.discountedPriceRecords
                 ? child1.discountedPriceRecords[currency]
                 : child1.priceRecords[currency],
@@ -695,6 +699,44 @@ export function productImpression(
     console.log("Impression error");
   }
 }
+
+export const gaEventsForSearch = (data: any) => {
+  const userConsent = CookieService.getCookie("consent").split(",");
+  const recentSearch = localStorage.getItem("recentSearchValue");
+  const popularSearch = localStorage.getItem("popularSearch");
+  const inputValue = localStorage.getItem("inputValue");
+
+  if (
+    userConsent.includes(GA_CALLS) &&
+    (popularSearch || recentSearch || inputValue)
+  ) {
+    debugger;
+    if (data?.results?.data?.length) {
+      dataLayer.push({
+        event: "search_bar_results_found",
+        click_type: recentSearch
+          ? "Recent search"
+          : popularSearch
+          ? "Popular search"
+          : "Input",
+        search_term: recentSearch || popularSearch || inputValue
+      });
+    } else {
+      dataLayer.push({
+        event: "search_bar_no_results_found",
+        click_type: recentSearch
+          ? "Recent search"
+          : popularSearch
+          ? "Popular search"
+          : "Input",
+        search_term: recentSearch || popularSearch || inputValue
+      });
+    }
+    localStorage.removeItem("recentSearchValue");
+    localStorage.removeItem("popularSearch");
+    localStorage.removeItem("inputValue");
+  }
+};
 
 export function sliderProductImpression(
   data: any,
@@ -894,6 +936,7 @@ export function PDP(data: any, currency: Currency) {
           item_variant: child.color,
           item_category4: l1,
           item_category5: data.collection,
+          collection_category: data.collections?.join("|"),
           price: child.priceRecords[currency],
           quantity: 1
         }
@@ -1198,6 +1241,7 @@ export function plpProductClick(
           item_variant: child.color,
           item_category4: l1,
           item_category5: data.collection,
+          collection_category: data.collections?.join("|"),
           price: child.priceRecords[currency],
           quantity: 1
         }

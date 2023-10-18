@@ -111,7 +111,8 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
         quantity: line.quantity,
         coupon: result.offerDisounts?.[0].name,
         dimension12: line.product?.color,
-        item_category: category?.split(">")?.join("|")
+        item_category: category?.split(">")?.join("|"),
+        collection_category: line?.product?.collections?.join("|")
       };
     });
     const categoryname2: string[] = [];
@@ -269,13 +270,15 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
         item_category: category?.split(">")?.join("|"),
         item_category2: line.product.size || "",
         item_category3: line.product.is3DView ? "3d" : "non3d",
+        item_category4: "NA",
         item_list_id: "NA",
         item_list_name: "NA",
         item_variant: "NA",
         price: line.isEgiftCard
           ? +line.priceExclTax
           : line.product.pricerecords[result.currency as Currency],
-        quantity: line.quantity
+        quantity: line.quantity,
+        collection_category: line?.product?.collections?.join("|")
       };
     });
 
@@ -849,11 +852,11 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                         className={cs(styles.discountSection)}
                         key={`gccn_${i}`}
                       >
-                        <p>Gift Card/Credit Note</p>
+                        <p>{Object.keys(gccn)?.[0]}</p>
                         <p>
                           (-){" "}
                           {`${displayPriceWithCommasFloat(
-                            parseFloat("" + gccn),
+                            parseFloat("" + Object.values(gccn)?.[0]),
                             confirmData.currency
                           )}`}
                           {/* {parseFloat("" + gccn).toFixed(2)} */}

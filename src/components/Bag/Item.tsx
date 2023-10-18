@@ -181,10 +181,12 @@ const LineItems: React.FC<BasketItem> = memo(
                 item_list_id: "",
                 item_list_name: "",
                 item_variant: "",
-                item_category4: product.categories[0],
+                // item_category4: product.categories[0],
+                item_category4: "NA",
                 item_category5: product.collection,
                 price: price,
-                quantity: quantity
+                quantity: quantity,
+                collection_category: product?.collections?.join("|")
               }
             ]
           }

@@ -300,7 +300,8 @@ const PaymentSection: React.FC<PaymentProps> = props => {
             price: line.isEgiftCard
               ? +line.priceExclTax
               : line.product.priceRecords[currency as Currency],
-            quantity: line.quantity
+            quantity: line.quantity,
+            collection_category: line?.product?.collections?.join("|")
           };
         });
 
