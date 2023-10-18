@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import cs from "classnames";
 import globalStyles from "styles/global.scss";
 import styles from "../styles.scss";
-import iconStyles from "styles/iconFonts.scss";
+//import iconStyles from "styles/iconFonts.scss";
 import { Context } from "components/Modal/context";
 import { useSelector } from "react-redux";
 import { AppState } from "reducers/typings";
@@ -46,31 +46,37 @@ const exitGCCheckout: React.FC<PopupProps> = props => {
           </div>
           {/* <div className={globalStyles.c10LR}> */}
           <div className={styles.freeShipping}>
-            <div>Leaving this page will cancel your gift card checkout and remove the gift card from your cart.</div>
+            <div>
+              Leaving this page will cancel your gift card checkout and remove
+              the gift card from your cart.
+            </div>
           </div>
         </div>
         <div className={cs(globalStyles.ceriseBtn, styles.freeshipBtnWidth)}>
-          <a onClick={() => {
-                closeModal();
-                localStorage.setItem("openGCExitModal", "false");
-              }}>
+          <a
+            onClick={() => {
+              closeModal();
+              localStorage.setItem("openGCExitModal", "false");
+            }}
+          >
             NO, CONTINUE WITH CHECKOUT
           </a>
         </div>
         <div className={cs(styles.link, styles.linkDecor, styles.gcCheckout)}>
-          <p onClick={() => {
-                closeModal();
-                if (props.action == "PUSH") {
-                  history.push(props.location.pathname);
-                } else if (props.action == "REPLACE") {
-                  history.replace(props.location.pathname);
-                } else if (props.action == "POP") {
-                  history.goBack();
-                }
-                localStorage.setItem("openGCExitModal", "false");
-              }}
-            >
-              YES, CANCEL GIFT CARD CHECKOUT
+          <p
+            onClick={() => {
+              closeModal();
+              if (props.action == "PUSH") {
+                history.push(props.location.pathname);
+              } else if (props.action == "REPLACE") {
+                history.replace(props.location.pathname);
+              } else if (props.action == "POP") {
+                history.replace(props.location.pathname);
+              }
+              localStorage.setItem("openGCExitModal", "false");
+            }}
+          >
+            YES, CANCEL GIFT CARD CHECKOUT
           </p>
         </div>
       </div>
