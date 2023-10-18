@@ -631,7 +631,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
     <>
       {["cerise", "cerise club", "cerise sitara"].includes(
         slab.toLowerCase()
-      ) &&
+      ) && !isGcCheckout &&
         currency == "INR" && (
           <div
             className={
@@ -674,7 +674,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
                   </div>
                 )}
                 {/* Temporary commented code for downtime */}
-                {/* {loyalty?.[0]?.points && (
+                {/* {loyalty?.[0]?.points && !isGcCheckout && currency == "INR" && (
                 <div
                   className={cs(
                     styles.col12,
