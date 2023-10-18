@@ -3,9 +3,9 @@
 .product-n{
   margin: 5px 0;
   width: 100%;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  white-space: pre-wrap;
+//   overflow: hidden;
+//   text-overflow: ellipsis;
   text-align: right;
   a {
       font-size: 14px;
