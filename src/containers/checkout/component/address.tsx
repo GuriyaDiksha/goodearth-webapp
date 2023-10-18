@@ -831,9 +831,9 @@ const AddressSection: React.FC<AddressProps & {
         <div>
           {currency == "INR" ? (
             <div>
-              <hr
+              {/* <hr
                 className={cs(globalStyles.marginy24, styles.widthFitContent)}
-              />
+              /> */}
               <label
                 className={cs(
                   styles.flex,
