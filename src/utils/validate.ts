@@ -188,7 +188,7 @@ export function dataForBilling(data: Basket, currency: Currency) {
             : product.priceRecords[currency], // Pass the discount amount
           index: ind,
           item_brand: "Goodearth",
-          item_category: categoryName,
+          item_category: category?.split(">")?.join("|"),
           item_category2: prod.product?.childAttributes[0]?.size,
           item_category3: prod.product.is3d ? "3d" : "non3d",
           item_category4: prod.product.is3d ? "YES" : "NO",
@@ -317,7 +317,7 @@ export function proceedTocheckout(data: Basket, currency: Currency) {
           item_list_id: "NA",
           item_list_name: search,
           item_variant: "NA",
-          item_category: categoryName,
+          item_category: category?.split(">")?.join("|"),
           item_category5: collectionName,
           price: realPrice,
           quantity: 1,
@@ -363,7 +363,7 @@ export function proceedForPayment(
     const userConsent = CookieService.getCookie("consent").split(",");
     let categoryName = "";
     let collectionName = "";
-    const search = CookieService.getCookie("search") || "";
+    // const search = CookieService.getCookie("search") || "";
     const childAttr = data.lineItems.map((child: any, index: number) => {
       let category = "";
       const { product } = child;
@@ -411,7 +411,7 @@ export function proceedForPayment(
             : product.priceRecords[currency], // Pass the discount amount
           index: index,
           item_brand: "goodearth",
-          item_category: categoryName,
+          item_category: category?.split(">")?.join("|"),
           item_category2: product?.childAttributes[0]?.size,
           item_category3: product.is3d ? "3d" : "non3d",
           item_category4: product.is3d ? "YES" : "NO",
@@ -607,6 +607,9 @@ export function productImpression(
       // let skus = "";
       // let variants = "";
       // let prices = "";
+      const sizes = child.childAttributes
+        ?.map((ele: any) => ele.size)
+        ?.join("|");
 
       child.childAttributes.map((child1: any) => {
         // skus += "," + child.sku;
@@ -631,8 +634,8 @@ export function productImpression(
                 : child1.priceRecords[currency], // Pass the discount amount
               index: index,
               item_brand: "goodearth",
-              item_category: categoryName,
-              item_category2: child1.size,
+              item_category: category?.split(">")?.join("|"),
+              item_category2: sizes,
               item_category3: "",
               item_list_id: "",
               item_list_name: search,
@@ -896,7 +899,7 @@ export function PDP(data: any, currency: Currency) {
     const len = data.categories.length;
     const categri = data.categories[len - 1];
     const l3Len = category.split(">").length;
-    const cat = categri.split(">")[l3Len - 1];
+    // const cat = categri.split(">")[l3Len - 1];
     const l1 = categri.split(">")[0];
 
     const skusid: any = [];
@@ -907,6 +910,8 @@ export function PDP(data: any, currency: Currency) {
     const colors: any = [];
     const userConsent = CookieService.getCookie("consent").split(",");
     const search = CookieService.getCookie("search") || "";
+    const sizes = data.childAttributes?.map((ele: any) => ele.size)?.join("|");
+
     const childAttr = data?.childAttributes.map((child: any, index: number) => {
       return Object.assign(
         {},
@@ -921,8 +926,8 @@ export function PDP(data: any, currency: Currency) {
             : child.priceRecords[currency], // Pass the discount amount
           index: index,
           item_brand: "goodearth",
-          item_category: cat,
-          item_category2: child.size,
+          item_category: category?.split(">")?.join("|"),
+          item_category2: sizes,
           item_category3: data.sliderImages?.some((key: any) => key.icon)
             ? "3d"
             : "non 3d",
@@ -1206,10 +1211,12 @@ export function plpProductClick(
     });
     const len = data.categories.length;
     const categri = data.categories[len - 1];
-    const l3Len = category.split(">").length;
-    const cat = categri.split(">")[l3Len - 1];
+    // const l3Len = category.split(">").length;
+    // const cat = categri.split(">")[l3Len - 1];
     const l1 = categri.split(">")[0];
     const search = CookieService.getCookie("search") || "";
+    const sizes = data.childAttributes?.map((ele: any) => ele.size)?.join("|");
+
     const childAttr = data?.childAttributes.map((child: any, index: number) => {
       return Object.assign(
         {},
@@ -1224,8 +1231,8 @@ export function plpProductClick(
             : child.priceRecords[currency], // Pass the discount amount
           index: index,
           item_brand: "goodearth",
-          item_category: cat,
-          item_category2: child.size,
+          item_category: category?.split(">")?.join("|"),
+          item_category2: sizes,
           item_category3: data.sliderImages?.some((key: any) => key.icon)
             ? "3d"
             : "non 3d",

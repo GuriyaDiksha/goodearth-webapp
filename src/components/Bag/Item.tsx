@@ -175,7 +175,7 @@ const LineItems: React.FC<BasketItem> = memo(
                 discount: childAttributes[0]?.discountedPriceRecords[currency], // Pass the discount amount
                 index: "",
                 item_brand: "goodearth",
-                item_category: categoryname,
+                item_category: category?.split(">")?.join("|"),
                 item_category2: size,
                 item_category3: "",
                 item_list_id: "",
