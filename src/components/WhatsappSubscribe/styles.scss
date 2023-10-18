@@ -110,9 +110,13 @@
 .save-pref-btn{
     margin-top: 25px;
 }
+
 .whatsapp-no-err{
     @include err_13px_lora_italic_cerise();
-  }
+
+.whatsapp-checkout {
+    margin-bottom: 0px !important;
+}
 
   .isd-code{
     height: auto;

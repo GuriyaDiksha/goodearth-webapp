@@ -54,7 +54,8 @@ const AddressSection: React.FC<AddressProps & {
     next,
     errorNotification,
     currentStep,
-    error
+    error,
+    isGcCheckout
   } = props;
   const { isLoggedIn } = useContext(UserContext);
   const {
@@ -152,10 +153,16 @@ const AddressSection: React.FC<AddressProps & {
   // End: Intersection Observer (Mobile)
 
   useEffect(() => {
-    if (isLoggedIn && currentCallBackComponent == "checkout-shipping") {
-      AddressService.fetchAddressList(dispatch).then(addressList => {
-        dispatch(updateAddressList(addressList));
-      });
+    if (
+      isLoggedIn &&
+      (currentCallBackComponent == "checkout-shipping" ||
+        (isGcCheckout && currentCallBackComponent == "checkout-billing"))
+    ) {
+      AddressService.fetchAddressList(dispatch, isGcCheckout).then(
+        addressList => {
+          dispatch(updateAddressList(addressList));
+        }
+      );
     }
   }, [isLoggedIn]);
 
@@ -418,7 +425,7 @@ const AddressSection: React.FC<AddressProps & {
                   <div className={styles.text}>{address.line2},</div>
                 )}
                 <div className={styles.text}>
-                  {address.city},{address.state}, {address.postCode},
+                  {address.city}, {address.state}, {address.postCode},
                 </div>
                 <div className={styles.text}>{address.countryName}</div>
               </div>
@@ -464,7 +471,7 @@ const AddressSection: React.FC<AddressProps & {
                   <div className={styles.text}>{address.line2},</div>
                 ) : null}
                 <div className={styles.text}>
-                  {address.city},{address.state}, {address.postCode},
+                  {address.city}, {address.state}, {address.postCode},
                 </div>
                 <div className={styles.text}>{address.countryName}</div>
               </div>
@@ -745,6 +752,7 @@ const AddressSection: React.FC<AddressProps & {
     }
     return true;
   };
+
   const handleSaveAndReview = (address?: AddressData) => {
     onSubmit(address);
   };
@@ -827,9 +835,9 @@ const AddressSection: React.FC<AddressProps & {
         <div>
           {currency == "INR" ? (
             <div>
-              <hr
+              {/* <hr
                 className={cs(globalStyles.marginy24, styles.widthFitContent)}
-              />
+              /> */}
               <label
                 className={cs(
                   styles.flex,
@@ -1126,6 +1134,14 @@ const AddressSection: React.FC<AddressProps & {
                   false,
                   activeStep == STEP_BILLING && !isActive && !billingAddressId
                 )}
+              {isGcCheckout && props.currentStep == STEP_ORDER[STEP_BILLING] && 
+                <p className={cs(
+                  globalStyles.errorMsg,
+                  styles.marginT20,
+                  styles.customError
+                )}>
+                  Please select or add an address that matches the currency of your Gift Card.
+                </p>}
               {renderSavedAddress()}
             </div>
             {isActive && (
@@ -1134,11 +1150,14 @@ const AddressSection: React.FC<AddressProps & {
                   {/* <div>{renderPancard}</div> */}
                   {props.activeStep == STEP_BILLING && (
                     <>
-                      <div>{renderBillingCheckbox()}</div>
+                      {!props.isGcCheckout && (
+                        <div>{renderBillingCheckbox()}</div>
+                      )}
                       {!sameAsShipping &&
                         isLoggedIn &&
                         !props.isBridal &&
-                        !props.isGoodearthShipping &&
+                        !props.isGoodearthShipping && 
+                        !props.isGcCheckout &&
                         mode == "list" && (
                           <div>
                             <div
@@ -1159,7 +1178,8 @@ const AddressSection: React.FC<AddressProps & {
                       (props.activeStep == STEP_BILLING &&
                         (!sameAsShipping ||
                           isBridal ||
-                          isGoodearthShipping))) && (
+                          isGoodearthShipping ||
+                          props.isGcCheckout))) && (
                       <>
                         <div>{children}</div>
                         {addressList.length && mode == "list" ? (
@@ -1349,15 +1369,19 @@ const AddressSection: React.FC<AddressProps & {
                           )}
                           onClick={() => {
                             handleSaveAndReview(
-                              addressList?.find(val =>
-                                shippingAddressId !== 0
-                                  ? sameAsShipping &&
-                                    !isBridal &&
-                                    !isGoodearthShipping
-                                    ? val?.id === shippingAddressId
-                                    : val?.id === billingAddressId
-                                  : val?.isDefaultForShipping === true
-                              )
+                              !props.isGcCheckout
+                                ? addressList?.find(val =>
+                                    shippingAddressId !== 0
+                                      ? sameAsShipping &&
+                                        !isBridal &&
+                                        !isGoodearthShipping
+                                        ? val?.id === shippingAddressId
+                                        : val?.id === billingAddressId
+                                      : val?.isDefaultForShipping === true
+                                  )
+                                : addressList?.find(
+                                    val => val?.id === billingAddressId
+                                  )
                             );
                           }}
                         >

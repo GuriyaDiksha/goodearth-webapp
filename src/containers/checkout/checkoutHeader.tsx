@@ -79,7 +79,10 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       //   console.log("Homepage API ERROR ==== " + err);
       // });
       MetaService.updateMeta(dispatch, cookies);
-      if (pathname.includes("/order/checkout")) {
+      if (
+        pathname.includes("/order/checkout") ||
+        pathname.includes("/order/gc_checkout")
+      ) {
         BasketService.fetchBasket(dispatch, "checkout", history, isLoggedIn);
         showGrowlMessage(dispatch, MESSAGE.CURRENCY_CHANGED_SUCCESS, 7000);
       } else if (pathname.includes("/cart")) {
