@@ -121,6 +121,12 @@ const routes: RouteConfig = [
     exact: true
   },
   {
+    path: ROUTES.GCCHECKOUT,
+    component: loadable(() => import("containers/checkout")),
+    action: initActionCheckout,
+    exact: true
+  },
+  {
     path: ROUTES.SHOP,
     component: loadable(() => import("containers/newShopLocator")),
     action: initActionShop,

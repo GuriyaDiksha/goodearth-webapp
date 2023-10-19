@@ -365,7 +365,7 @@ const WhatsappSubscribe: React.FC<Props> = ({
       ref={formRef}
       key={uniqueKey}
     >
-      <div className={cs(styles.whatsapp, whatsappClass)}>
+      <div className={cs(styles.whatsapp, whatsappClass, styles.whatsappCheckout)}>
         <div
           className={cs({
             [styles.flexForTooltip]: showTooltip
