@@ -216,8 +216,11 @@ const MyAccount: React.FC<Props> = props => {
     }
   ];
   let ceriseClubAccess = false;
+  debugger;
+
   if (slab) {
     ceriseClubAccess =
+      slab.toLowerCase() == "cerise" ||
       slab.toLowerCase() == "cerise club" ||
       slab.toLowerCase() == "ff10" ||
       slab.toLowerCase() == "ff15" ||
@@ -295,7 +298,10 @@ const MyAccount: React.FC<Props> = props => {
     styles.bgProfile,
 
     slab && pathname == "/account/cerise"
-      ? slab.toLowerCase() == "cerise" || slab.toLowerCase() == "ff10"
+      ? slab.toLowerCase() == "cerise" ||
+        slab.toLowerCase() == "cerise sitara" ||
+        slab.toLowerCase() == "cerise club" ||
+        slab.toLowerCase() == "ff10"
         ? cs(styles.ceriseClub, loyaltyStyles.ceriseDashboardContainer)
         : cs(styles.ceriseSitaraClub, loyaltyStyles.ceriseDashboardContainer)
       : "",
@@ -365,6 +371,7 @@ const MyAccount: React.FC<Props> = props => {
                   className={cs(styles.mobileFilterHeader, {
                     [styles.mobileFilterHeaderTimer]: showTimer
                   })}
+                  id="accountFilterHeader"
                 >
                   <div className={styles.filterCross}>
                     <span>

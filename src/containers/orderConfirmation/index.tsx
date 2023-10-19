@@ -456,18 +456,18 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                       styles.rowGap30
                     )}
                   >
-                    <div
-                      className={cs(
-                        bootstrapStyles.col12,
-                        bootstrapStyles.colMd6
-                      )}
-                    >
+                    {shippingAddress && !confirmData.isOnlyGiftOrder && (
                       <div
-                        className={cs(styles.add, {
-                          [styles.bridal]: confirmData?.isBridalOrder
-                        })}
+                        className={cs(
+                          bootstrapStyles.col12,
+                          bootstrapStyles.colMd6
+                        )}
                       >
-                        {shippingAddress ? (
+                        <div
+                          className={cs(styles.add, {
+                            [styles.bridal]: confirmData?.isBridalOrder
+                          })}
+                        >
                           <address className={styles.shippingAddressWrp}>
                             <label>shipping address</label>
                             {confirmData?.isBridalOrder ? (
@@ -506,10 +506,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                               </>
                             )}
                           </address>
-                        ) : (
-                          ""
-                        )}
-                        {/* {confirmData?.isBridalOrder && (
+                          {/* {confirmData?.isBridalOrder && (
                           <React.Fragment>
                             {" "}
                             <div className={cs(styles.row, styles.name)}>
@@ -534,13 +531,15 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                             </div>
                           </React.Fragment>
                         )} */}
+                        </div>
                       </div>
-                    </div>
+                    )}
 
                     <div
                       className={cs(
                         bootstrapStyles.col12,
-                        bootstrapStyles.colMd6
+                        bootstrapStyles.colMd6,
+                        confirmData.isOnlyGiftOrder ? styles.onlyGiftOrder : ""
                       )}
                     >
                       <div className={styles.add}>
@@ -777,53 +776,64 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
             >
               <div className={cs(styles.priceSection)}>
                 <div className={styles.orderSummaryTitle}>Order Summary</div>
-                <div className={styles.subTotalSectionWrapper}>
-                  <div className={cs(styles.subTotalSection)}>
-                    <p>SUBTOTAL</p>
-                    <p>
-                      {`${displayPriceWithCommasFloat(
-                        parseFloat(confirmData.orderSubTotal),
-                        confirmData.currency
-                      )}`}
-                      {/* {parseFloat(confirmData.orderSubTotal).toFixed(2)} */}
-                    </p>
-                  </div>
+                <div
+                  className={
+                    !confirmData.isOnlyGiftOrder
+                      ? styles.subTotalSectionWrapper
+                      : ""
+                  }
+                >
+                  {!confirmData.isOnlyGiftOrder && (
+                    <div className={cs(styles.subTotalSection)}>
+                      <p>SUBTOTAL</p>
+                      <p>
+                        {`${displayPriceWithCommasFloat(
+                          parseFloat(confirmData.orderSubTotal),
+                          confirmData.currency
+                        )}`}
+                        {/* {parseFloat(confirmData.orderSubTotal).toFixed(2)} */}
+                      </p>
+                    </div>
+                  )}
                   {/* Filter this key and remove vouchers */}
                   {confirmData?.offerDiscounts?.map(
                     (
                       discount: { name: string; amount: string },
                       index: number
-                    ) => (
-                      <div className={cs(styles.discountSection)} key={index}>
-                        <p>{discount.name}</p>
-                        <p>
-                          (-){" "}
-                          {`${displayPriceWithCommasFloat(
-                            parseFloat(discount.amount),
-                            confirmData.currency
-                          )}`}
-                          {/* {parseFloat(discount.amount).toFixed(2)} */}
-                        </p>
-                      </div>
-                    )
+                    ) =>
+                      !confirmData.isOnlyGiftOrder && (
+                        <div className={cs(styles.discountSection)} key={index}>
+                          <p>{discount.name}</p>
+                          <p>
+                            (-){" "}
+                            {`${displayPriceWithCommasFloat(
+                              parseFloat(discount.amount),
+                              confirmData.currency
+                            )}`}
+                            {/* {parseFloat(discount.amount).toFixed(2)} */}
+                          </p>
+                        </div>
+                      )
                   )}
 
-                  <div
-                    className={cs(
-                      styles.discountSection,
-                      styles.shippingSection
-                    )}
-                  >
-                    <p>Shipping & Handling</p>
-                    <p>
-                      (+){" "}
-                      {`${displayPriceWithCommasFloat(
-                        parseFloat(confirmData.shippingInclTax),
-                        confirmData.currency
-                      )}`}
-                      {/* {parseFloat(confirmData.shippingInclTax).toFixed(2)} */}
-                    </p>
-                  </div>
+                  {!confirmData.isOnlyGiftOrder && (
+                    <div
+                      className={cs(
+                        styles.discountSection,
+                        styles.shippingSection
+                      )}
+                    >
+                      <p>Shipping & Handling</p>
+                      <p>
+                        (+){" "}
+                        {`${displayPriceWithCommasFloat(
+                          parseFloat(confirmData.shippingInclTax),
+                          confirmData.currency
+                        )}`}
+                        {/* {parseFloat(confirmData.shippingInclTax).toFixed(2)} */}
+                      </p>
+                    </div>
+                  )}
 
                   {confirmData.voucherDiscounts.map((vd: any, i: number) => (
                     <div
@@ -848,11 +858,11 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                         className={cs(styles.discountSection)}
                         key={`gccn_${i}`}
                       >
-                        <p>Gift Card/Credit Note</p>
+                        <p>{Object.keys(gccn)?.[0]}</p>
                         <p>
                           (-){" "}
                           {`${displayPriceWithCommasFloat(
-                            parseFloat("" + gccn),
+                            parseFloat("" + Object.values(gccn)?.[0]),
                             confirmData.currency
                           )}`}
                           {/* {parseFloat("" + gccn).toFixed(2)} */}

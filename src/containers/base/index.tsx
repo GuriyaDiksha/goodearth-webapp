@@ -134,8 +134,9 @@ const BaseLayout: React.FC = () => {
   }, []);
 
   useEffect(() => {
+    console.log("tablet ===== ", tablet, orientation, mobile);
     if (tablet) {
-      if (orientation == "landscape" && !mobile) {
+      if (orientation == "landscape") {
         dispatch(updateComponent(POPUP.ORIENTATIONPOPUP, undefined, true));
         dispatch(updateModal(true));
       } else if (
@@ -360,6 +361,7 @@ const BaseLayout: React.FC = () => {
 
   const isCheckout =
     pathname.indexOf("/checkout") > -1 ||
+    pathname.indexOf("/gc_checkout") > -1 ||
     pathname.indexOf("order/orderconfirmation") > -1;
   const isCart = pathname.indexOf("/cart") > -1;
   // || pathname == "/cart" || pathname == "/cart/";

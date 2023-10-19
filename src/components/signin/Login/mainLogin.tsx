@@ -468,6 +468,34 @@ class MainLogin extends React.Component<Props, loginState> {
     }
   }
 
+  handlePaste(event: React.ClipboardEvent<HTMLInputElement>, type: string) {
+    switch (type) {
+      case "email": {
+        this.disablePassword();
+        const pasteTxt = event.clipboardData.getData("text");
+        if (!checkMail(pasteTxt)) {
+          if (this.state.msg !== "Please enter a valid Email ID") {
+            this.setState({
+              msg: "Please enter a valid Email ID",
+              highlight: true,
+              showerror: ""
+            });
+          }
+        } else {
+          this.setState({
+            showerror: "",
+            isLoginDisabled: false
+          });
+        }
+        break;
+      }
+      case "password": {
+        this.setState({ password: event.currentTarget.value });
+        break;
+      }
+    }
+  }
+
   disablePassword() {
     if (!this.state.isPasswordDisabled) {
       this.setState({
@@ -517,6 +545,7 @@ class MainLogin extends React.Component<Props, loginState> {
               border={this.state.highlight}
               keyUp={e => this.handleKeyUp(e, "email")}
               handleChange={e => this.handleChange(e, "email")}
+              handlePaste={e => this.handlePaste(e, "email")}
               error={this.state.msg}
               inputRef={this.firstEmailInput}
               showLabel={true}
@@ -580,6 +609,7 @@ class MainLogin extends React.Component<Props, loginState> {
               value={this.state.password}
               keyUp={e => this.handleKeyUp(e, "password")}
               handleChange={e => this.handleChange(e, "password")}
+              handlePaste={e => this.handlePaste(e, "password")}
               label={"Password*"}
               border={this.state.highlightp}
               inputRef={this.passwordInput}

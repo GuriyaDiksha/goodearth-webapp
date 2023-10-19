@@ -927,6 +927,9 @@ const ProductDetails: React.FC<Props> = ({
                     { [globalStyles.textCenter]: !mobile }
                   )}
                 >
+                  {currency === "INR" && (
+                    <span className={styles.mrp}>MRP.</span>
+                  )}
                   {info.isSale && discount && discountedPriceRecords ? (
                     <span className={styles.discountedPrice}>
                       {displayPriceWithCommas(discountPrices, currency)}
@@ -946,6 +949,9 @@ const ProductDetails: React.FC<Props> = ({
                       {" "}
                       {displayPriceWithCommas(price, currency)}
                     </span>
+                  )}
+                  {currency === "INR" && (
+                    <p className={styles.incTax}>(Incl. of all taxes)</p>
                   )}
                 </div>
               )}
@@ -1242,6 +1248,7 @@ const ProductDetails: React.FC<Props> = ({
               ""
             )}
             <div
+              id="docked_div"
               className={cs(
                 bootstrap.row,
                 styles.spacer,
@@ -1258,8 +1265,8 @@ const ProductDetails: React.FC<Props> = ({
                   [bootstrap.col8]: !corporatePDP,
                   [styles.addToBagBtnContainer]: mobile,
                   [bootstrap.colSm8]: !mobile,
-                  [bootstrap.colSm12]: corporatePDP && mobile,
-                  [globalStyles.hidden]: mobile && !showAddToBagMobile
+                  [bootstrap.colSm12]: corporatePDP && mobile
+                  // [globalStyles.hidden]: mobile && !showAddToBagMobile
                 })}
               >
                 {Pdpbutton}
@@ -1294,7 +1301,9 @@ const ProductDetails: React.FC<Props> = ({
                   [styles.wishlistText]: !mobile,
                   [styles.wishlistBtnContainer]: mobile,
                   [globalStyles.voffset1]: mobile,
-                  [globalStyles.hidden]: corporatePDP || !showAddToBagMobile
+                  [globalStyles.hidden]:
+                    partner == "Souk" || partner == "Object D Art"
+                  // [globalStyles.hidden]: corporatePDP || !showAddToBagMobile
                 })}
               >
                 <WishlistButtonpdp

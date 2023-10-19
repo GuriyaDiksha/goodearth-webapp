@@ -11,11 +11,11 @@ input[type="password"]{
 }
 
 .container-start-timer{
-  margin-top: 90px;
+  margin-top: 80px !important;
 }
 
 .container-start{
-  margin-top: 90px;
+  margin-top: 40px;
 }
 
 .heading {
@@ -105,6 +105,7 @@ input[type="password"]{
 }
 .account-form-bg-mobile {
   // height: 100vh !important;
+  height: auto !important;
   overflow: scroll;
   z-index: 0;
   padding-bottom: 20px;

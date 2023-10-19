@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { RefObject, useEffect, useRef, useState } from "react";
 import cs from "classnames";
 import bootstrapStyles from "../../../../styles/bootstrap/bootstrap-grid.scss";
 import styles from "../styles.scss";
@@ -6,7 +6,7 @@ import globalStyles from "styles/global.scss";
 import { ProfileProps, ProfileResponse, State } from "./typings";
 import FormInput from "../../../../components/Formsy/FormInput";
 import FormSelect from "../../../../components/Formsy/FormSelect";
-import CountryCode from "../../../../components/Formsy/CountryCode";
+// import CountryCode from "../../../../components/Formsy/CountryCode";
 import moment from "moment";
 import Formsy from "formsy-react";
 import FormCheckbox from "components/Formsy/FormCheckbox";
@@ -22,6 +22,7 @@ import LoginService from "services/login";
 import { updateCountryData } from "actions/address";
 import { updatePreferenceData } from "actions/user";
 import { CONFIG } from "constants/util";
+import SelectDropdown from "components/Formsy/SelectDropdown";
 
 const MyProfile: React.FC<ProfileProps> = ({ setCurrentSection }) => {
   const {
@@ -33,7 +34,9 @@ const MyProfile: React.FC<ProfileProps> = ({ setCurrentSection }) => {
     user: { preferenceData }
   } = useSelector((state: AppState) => state);
   const [data, setData] = useState<Partial<ProfileResponse>>({});
-  // const { user } = useSelector((state: AppState) => state);
+  const countryRef: RefObject<HTMLInputElement> = useRef(null);
+  const countryCodeRef: RefObject<HTMLInputElement> = React.createRef();
+
   const [profileState, setProfileState] = useState<State>({
     newsletter: false,
     uniqueId: "",
@@ -289,32 +292,106 @@ const MyProfile: React.FC<ProfileProps> = ({ setCurrentSection }) => {
       });
   };
 
+  const {
+    countryOptions,
+    // data,
+    minDate,
+    maxDate,
+    isIndia,
+    stateOptions,
+    showerror,
+    updateProfile
+  } = profileState;
+
   const setUpdateProfile = () => {
     if (!profileState.updateProfile) {
       setProfileState({ ...profileState, updateProfile: true });
     }
   };
 
-  const onCountrySelect = (
-    event: React.ChangeEvent<HTMLSelectElement> | null,
-    defaultCountry?: string
-  ) => {
-    const { countryOptions } = profileState;
+  // const onCountrySelect = (
+  //   event: React.ChangeEvent<HTMLSelectElement> | null,
+  //   defaultCountry?: string
+  // ) => {
+  //   const { countryOptions } = profileState;
+  //   if (countryOptions.length > 0) {
+  //     const form = ProfileFormRef.current;
+  //     let selectedCountry = "";
+  //     if (event) {
+  //       selectedCountry = event.currentTarget.value;
+  //       // setIsAddressChanged(true);
+  //       // setIsCountryChanged(true);
+  //       form &&
+  //         form.updateInputsWithValue(
+  //           {
+  //             state: ""
+  //           },
+  //           false
+  //         );
+  //     } else if (defaultCountry) {
+  //       selectedCountry = defaultCountry;
+  //       // need to set defaultCountry explicitly
+  //       if (form && selectedCountry) {
+  //         form.updateInputsWithValue({
+  //           country: selectedCountry
+  //         });
+  //       }
+  //     }
+
+  //     const { states, isd, value } = countryOptions.filter(
+  //       country => country.value == selectedCountry
+  //     )[0];
+
+  //     if (form) {
+  //       // reset state
+  //       const { state } = form.getModel();
+  //       if (state) {
+  //         form.updateInputsWithValue({
+  //           state: ""
+  //         });
+  //       }
+  //       form.updateInputsWithValue({
+  //         code: isd
+  //       });
+  //     }
+  //     setProfileState({
+  //       ...profileState,
+  //       isIndia: value == "India",
+  //       stateOptions: states
+  //     });
+  //   }
+  // };
+
+  const onCountryCodeSelect = (option: any) => {
+    const form = ProfileFormRef.current;
+    const selectedCountryCode = option?.value;
+
+    form &&
+      form.updateInputsWithValue({
+        phoneCountryCode: selectedCountryCode
+      });
+    setUpdateProfile();
+  };
+
+  const onCountrySelect = (option: any, defaultCountry?: string) => {
     if (countryOptions.length > 0) {
       const form = ProfileFormRef.current;
       let selectedCountry = "";
-      if (event) {
-        selectedCountry = event.currentTarget.value;
-        // setIsAddressChanged(true);
-        // setIsCountryChanged(true);
+      if (option?.value) {
+        selectedCountry = option?.value;
+
         form &&
           form.updateInputsWithValue(
             {
-              state: ""
+              state: "",
+              province: "",
+              country: selectedCountry
             },
             false
           );
-      } else if (defaultCountry) {
+      }
+
+      if (defaultCountry) {
         selectedCountry = defaultCountry;
         // need to set defaultCountry explicitly
         if (form && selectedCountry) {
@@ -330,16 +407,22 @@ const MyProfile: React.FC<ProfileProps> = ({ setCurrentSection }) => {
 
       if (form) {
         // reset state
-        const { state } = form.getModel();
+        const { state, province } = form.getModel();
         if (state) {
           form.updateInputsWithValue({
             state: ""
           });
         }
+        if (province) {
+          form.updateInputsWithValue({
+            province: ""
+          });
+        }
         form.updateInputsWithValue({
-          code: isd
+          phoneCountryCode: isd
         });
       }
+
       setProfileState({
         ...profileState,
         isIndia: value == "India",
@@ -348,16 +431,14 @@ const MyProfile: React.FC<ProfileProps> = ({ setCurrentSection }) => {
     }
   };
 
-  const {
-    countryOptions,
-    // data,
-    minDate,
-    maxDate,
-    isIndia,
-    stateOptions,
-    showerror,
-    updateProfile
-  } = profileState;
+  const getCountryCodeObject = () => {
+    const arr: any[] = [];
+    countryOptions.map(({ label, isd }: any) => {
+      arr.push({ label: `${label}(${isd})`, value: isd });
+    });
+    return arr;
+  };
+
   const isExistyError = "This field is required";
 
   const formContent = (
@@ -461,7 +542,7 @@ const MyProfile: React.FC<ProfileProps> = ({ setCurrentSection }) => {
             </div>
             <div>
               <div className="select-group text-left">
-                <FormSelect
+                {/* <FormSelect
                   required
                   label="Country"
                   value={data?.country}
@@ -481,7 +562,26 @@ const MyProfile: React.FC<ProfileProps> = ({ setCurrentSection }) => {
                     [styles.disabledInput]: countryOptions.length > 0
                   })}
                 />
-                <span className="arrow"></span>
+                <span className="arrow"></span> */}
+                <SelectDropdown
+                  required
+                  name="country"
+                  handleChange={onCountrySelect}
+                  label="Country*"
+                  placeholder="Select Country*"
+                  value={data?.country}
+                  validations={{
+                    isExisty: true
+                  }}
+                  validationErrors={{
+                    isExisty: "Please select your Country",
+                    isEmptyString: isExistyError
+                  }}
+                  options={countryOptions}
+                  allowFilter={true}
+                  inputRef={countryRef}
+                  disable={countryOptions.length > 0 ? true : false}
+                />
               </div>
             </div>
             {isIndia && (
@@ -513,7 +613,7 @@ const MyProfile: React.FC<ProfileProps> = ({ setCurrentSection }) => {
               <div
                 className={cs(styles.countryCode, styles.countryCodeProfile)}
               >
-                <CountryCode
+                {/* <CountryCode
                   // fetchCountryData={fetchCountryData}
                   handleChange={() => setUpdateProfile()}
                   name="phoneCountryCode"
@@ -542,6 +642,38 @@ const MyProfile: React.FC<ProfileProps> = ({ setCurrentSection }) => {
                   className={cs({
                     [styles.disabledInput]: data?.phoneCountryCode
                   })}
+                /> */}
+                <SelectDropdown
+                  name="phoneCountryCode"
+                  placeholder="Code"
+                  label="Country Code"
+                  options={getCountryCodeObject()}
+                  value={data.phoneCountryCode || ""}
+                  disable={data?.phoneCountryCode ? true : false}
+                  validations={{
+                    isCodeValid: (values, value) => {
+                      return !(values.phoneNumber && value == "");
+                    },
+                    isValidCode: (values, value) => {
+                      if (value && isdList.length > 0) {
+                        return isdList.indexOf(value ? value : "") > -1;
+                      } else {
+                        return true;
+                      }
+                    }
+                  }}
+                  validationErrors={{
+                    isCodeValid: "Required",
+                    isValidCode: "Enter valid code"
+                  }}
+                  allowFilter={true}
+                  showLabel={true}
+                  optionsClass={styles.isdCode}
+                  searchIconClass={styles.countryCodeSearchIcon}
+                  searchInputClass={styles.countryCodeSearchInput}
+                  inputRef={countryCodeRef}
+                  handleChange={onCountryCodeSelect}
+                  aquaClass={styles.aquaText}
                 />
 
                 <FormInput

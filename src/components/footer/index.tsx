@@ -34,10 +34,10 @@ const mapStateToProps = (state: AppState) => {
 
 const mapDispatchToProps = (dispatch: Dispatch) => {
   return {
-    newsletterSignup: async (email: string) => {
+    newsletterSignup: async (formData: any) => {
       const res = await HeaderFooterService.makeNewsletterSignupRequest(
         dispatch,
-        email
+        formData
       );
       return res;
     },
@@ -270,8 +270,11 @@ class Footer extends React.Component<Props, FooterState> {
       "newsletter"
     ) as HTMLInputElement;
     if (emailInput) {
+      const SignUpformData = new FormData();
+      SignUpformData.append("email", emailInput.value);
+      SignUpformData.append("source", "Footer");
       this.props
-        .newsletterSignup(emailInput.value)
+        .newsletterSignup(SignUpformData)
         .then(data => {
           if (data.status) {
             const msg = showErrors(data.message);

@@ -142,6 +142,7 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
                   {data.occasion} Registry
                 </span>
                 <span className={styles.bridalMessage}></span>
+                <span>Address predefined by registrant</span>
               </div>
             )}
             {!data.isBridalOrder ? (
@@ -274,7 +275,10 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
         {data.offerDiscounts?.map(
           (discount: { name: string; amount: string }, index: number) => {
             return (
-              <div className={cs(styles.price, styles.price3, styles.discount)}>
+              <div
+                className={cs(styles.price, styles.price3, styles.discount)}
+                key={index}
+              >
                 <span className={styles.label}>{discount.name}</span>
                 <span className={styles.value}>
                   {`(-) ${displayPriceWithCommasFloat(
@@ -299,7 +303,10 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
         {/* voucher discounts */}
         {data.voucherDiscounts?.map((vd: any, i: number) => {
           return (
-            <div className={cs(styles.price, styles.price3, styles.discount)}>
+            <div
+              className={cs(styles.price, styles.price3, styles.discount)}
+              key={i}
+            >
               <span className={styles.label}>{vd.name}</span>
               <span className={styles.value}>
                 {`(-) ${displayPriceWithCommasFloat(vd.amount, item.currency)}`}
@@ -310,10 +317,16 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
         {/* giftcard and credit note */}
         {data.giftVoucherRedeemed?.map((gccn: number, i: number) => {
           return (
-            <div className={cs(styles.price, styles.price3, styles.discount)}>
-              <span className={styles.label}>Gift Card/Credit Note</span>
+            <div
+              className={cs(styles.price, styles.price3, styles.discount)}
+              key={i}
+            >
+              <span className={styles.label}>{Object.keys(gccn)?.[0]}</span>
               <span className={styles.value}>
-                {`(-) ${displayPriceWithCommas(gccn, item.currency)}`}
+                {`(-) ${displayPriceWithCommas(
+                  Object.values(gccn)?.[0],
+                  item.currency
+                )}`}
               </span>
             </div>
           );
@@ -321,7 +334,10 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
         {/* Loyalty Points */}
         {data.loyalityPointsRedeemed?.map((point: number, i: number) => {
           return (
-            <div className={cs(styles.price, styles.price3, styles.discount)}>
+            <div
+              className={cs(styles.price, styles.price3, styles.discount)}
+              key={i}
+            >
               <span className={styles.label}>Loyalty Points</span>
               <span className={styles.value}>
                 {`(-) ${displayPriceWithCommasFloat(point, item.currency)}`}

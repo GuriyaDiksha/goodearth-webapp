@@ -31,6 +31,7 @@
 
 .plpMain{
     position: relative;
+    padding: 0 30px 30px 30px;
     .combodiv{
         display: flex;
     }
@@ -217,6 +218,7 @@
 
 .actions {
     margin: 5px 0;
+    padding-top: 5px;
     display: flex;
     align-items: center;
     justify-content: center;

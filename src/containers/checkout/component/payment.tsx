@@ -14,7 +14,7 @@ import { errorTracking, scrollToGivenId, showErrors } from "utils/validate";
 // import { POPUP } from "constants/components";
 import CookieService from "services/cookie";
 import { proceedForPayment, getPageType } from "../../../utils/validate";
-import { currencyCodes } from "constants/currency";
+// import { currencyCodes } from "constants/currency";
 import { updateComponent, updateModal } from "actions/modal";
 import { POPUP } from "constants/components";
 import checkmarkCircle from "./../../../images/checkmarkCircle.svg";
@@ -50,7 +50,8 @@ const PaymentSection: React.FC<PaymentProps> = props => {
     checkout,
     shippingAddress,
     salestatus,
-    gstNo
+    gstNo,
+    isGcCheckout
   } = props;
   const [paymentError, setPaymentError] = useState("");
   const [whatsappNoErr, setWhatsappNoErr] = useState("");
@@ -338,6 +339,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
         });
       }
 
+      data["subscribe"] = subscribevalue; //Adding subscribe for main checkout API
       checkout(data)
         .then((response: any) => {
           gtmPushPaymentTracking(paymentMode, paymentMethod);
@@ -490,6 +492,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
     if (isActive) {
       if (CONFIG.WHATSAPP_SUBSCRIBE_ENABLED) {
         AccountServices.fetchAccountPreferences(dispatch).then((data: any) => {
+          setSubscribevalue(data.subscribe); // Initializing value
           dispatch(updatePreferenceData(data));
           setSubscribevalue(data.subscribe);
         });
@@ -764,13 +767,13 @@ const PaymentSection: React.FC<PaymentProps> = props => {
               )}
             >
               <span className={isActive ? "" : styles.closed}>
-                GIFTING & PAYMENT
+                {isGcCheckout ? "PAYMENT" : "GIFTING & PAYMENT"}
               </span>
             </div>
           </div>
           {isActive && (
             <Fragment>
-              {showGiftWrap && (
+              {showGiftWrap && !isGcCheckout && (
                 <>
                   {!basket.isOnlyGiftCart && giftWrapRender}
                   {giftwrap && !basket.isOnlyGiftCart && (
@@ -805,19 +808,10 @@ const PaymentSection: React.FC<PaymentProps> = props => {
                 </>
               )}
               <div className={globalStyles.marginT20}>
-                {!basket.isOnlyGiftCart && (
+                {!basket.isOnlyGiftCart && !isGcCheckout && (
                   <div className={globalStyles.flex}>
                     <hr className={styles.hr} />
-                    {/* <div
-                  className={cs(
-                    styles.marginR10,
-                    globalStyles.cerise,
-                    globalStyles.pointer
-                  )}
-                  onClick={toggleInput}
-                >
-                  {isactivepromo ? "-" : "+"}
-                </div> */}
+
                     <div className={styles.inputContainer}>
                       <label
                         className={cs(
@@ -854,8 +848,6 @@ const PaymentSection: React.FC<PaymentProps> = props => {
                       ) : (
                         ""
                       )}
-                      {/* {renderInput()}
-                {renderCoupon()} */}
                     </div>
                   </div>
                 )}
@@ -922,6 +914,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
                     oneLineMessage={!mobile}
                     whatsappFormRef={whatsappFormRef}
                     whatsappNoErr={whatsappNoErr}
+                    countryData={countryData}
                   />
                 </div>
                 {/* <div className={styles.whatsappNoErr}>{whatsappNoErr}</div> */}
@@ -1083,7 +1076,9 @@ const PaymentSection: React.FC<PaymentProps> = props => {
                 <div>
                   <hr className={styles.hr} />
                   {CONFIG.WHATSAPP_SUBSCRIBE_ENABLED && (
-                    <div className={styles.loginForm}>
+                    <div
+                      className={cs(styles.loginForm, styles.customCheckout)}
+                    >
                       <div className={styles.categorylabel}>
                         <WhatsappSubscribe
                           data={preferenceData}
@@ -1101,6 +1096,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
                           oneLineMessage={!mobile || tablet}
                           whatsappFormRef={whatsappFormRef}
                           whatsappNoErr={whatsappNoErr}
+                          countryData={countryData}
                         />
                       </div>
                       {/* <div className={styles.whatsappNoErr}>

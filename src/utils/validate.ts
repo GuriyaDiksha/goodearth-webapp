@@ -1916,7 +1916,10 @@ export function getPageType() {
     pageType = "Collection Landing";
   } else if (isCollectionListing) {
     pageType = "Collection Listing";
-  } else if (location.pathname.includes("/order/checkout")) {
+  } else if (
+    location.pathname.includes("/order/checkout") ||
+    location.pathname.includes("/order/gc_checkout")
+  ) {
     pageType = "Checkout";
   } else if (location.pathname.includes("/order/orderconfirmation")) {
     pageType = "Order Confirmation";

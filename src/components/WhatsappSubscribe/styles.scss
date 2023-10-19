@@ -110,6 +110,47 @@
 .save-pref-btn{
     margin-top: 25px;
 }
+
 .whatsapp-no-err{
     @include err_13px_lora_italic_cerise();
+}
+
+.whatsapp-checkout {
+    margin-bottom: 0px !important;
+}
+
+  .isd-code{
+    height: auto;
+    padding: 10px;
+    border-bottom: 1px solid #d8d8d8;
+    cursor: pointer;
+    text-align: left;
+    @include b5_10px_montserrat_light_charcoal();
+    letter-spacing: 0.36px;
+    display: flex;
+    align-items: center;
+    font-weight: 300 !important;
+    &:hover{
+        font-weight: 400 !important;
+        @include b5_10px_montserrat_charcoal();
+      }
+      &.aqua-text{
+        @include b5_10px_montserrat_aqua();
+      }
+  }  
+
+  img.country-code-search-icon{
+    width: 15px;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 10px;
+  }
+  
+  input[type="text"].country-code-search-input{
+    padding-left: 30px !important;
+    height: 40px !important;
+    &:focus{
+      padding-left: 30px !important;
+    }
   }

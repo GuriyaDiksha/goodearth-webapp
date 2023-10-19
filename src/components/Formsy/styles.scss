@@ -25,6 +25,7 @@ select {
   &.default {
     color: $formLabel;
     font-weight: 300;
+    // border: 1px solid #ab1e56 !important;
   }
   &.black {
     color: black;
@@ -68,9 +69,16 @@ input[type="date"] {
       padding: 10px 20px;
       cursor: pointer;
       text-align: left;
-      @include b4_12px_montserrat_charcoal();
+      @include b4_12px_montserrat_light_charcoal();
       line-height: 30px;
       letter-spacing: 0.36px;
+      font-size: 12px !important;
+      &:hover{
+        @include b4_12px_montserrat_charcoal();
+      }
+      &.aqua-text{
+        @include b4_12px_montserrat_aqua();
+      }
     }
   }
   .filter{
@@ -84,10 +92,10 @@ input[type="date"] {
       left: 20px;
     }
     .search-field{
-      padding-left: 50px;
+      padding-left: 50px !important;
       border-bottom: none;
       &:focus{
-        padding-left: 50px;
+        padding-left: 50px !important;
       }
     }
   }

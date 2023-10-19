@@ -70,6 +70,7 @@ const CountryCode: React.FC<Props & InjectedProps<string | null>> = props => {
 
   const onChange = (event: any, { newValue }: { newValue: string }) => {
     props.setValue(newValue);
+    props.onCountrySelect(newValue);
     if (props.handleChange) {
       props.handleChange(event, newValue);
     }
