@@ -500,29 +500,30 @@ const ProductDetails: React.FC<Props> = ({
       dataLayer.push({ ecommerce: null }); // Clear the previous ecommerce object.
       dataLayer.push({
         event: "add_to_cart",
+        previous_page_url: CookieService.getCookie("prevUrl"),
         ecommerce: {
           items: [
             {
               item_id: setSelectedSKU(), //Pass the product id
               item_name: title, // Pass the product name
               affiliation: title, // Pass the product name
-              coupon: "", // Pass the coupon if available
+              coupon: "NA", // Pass the coupon if available
               currency: currency, // Pass the currency code
               discount: discount, // Pass the discount amount
-              index: "",
+              index: "Na",
               item_brand: "Goodearth",
               item_category: category?.split(">")?.join("|"),
               item_category2: selectedSize?.size, //pass the item category2 ex.Size
               item_category3: category3, //pass the product type 3d or non 3d
-              item_list_id: "", //pass the item list id
-              item_list_name: search, //pass the item list name ex.search results
+              item_list_id: "NA", //pass the item list id
+              item_list_name: search ? search : "NA", //pass the item list name ex.search results
               item_variant: selectedSize?.size || "",
               // item_category4: l1,
               item_category4: "NA",
-              item_category5: collection,
+              // item_category5: collection,
               price: discountPrices || price,
               quantity: quantity,
-              dimension12: selectedSize?.color,
+              // dimension12: selectedSize?.color,
               collection_category: collections?.join("|")
             }
           ]

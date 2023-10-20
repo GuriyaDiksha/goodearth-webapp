@@ -251,6 +251,8 @@ class CartPage extends React.Component<Props, State> {
       });
 
     const userConsent = CookieService.getCookie("consent").split(",");
+    const search = CookieService.getCookie("search") || "";
+
     if (userConsent.includes(GA_CALLS)) {
       const items = this.props.cart.lineItems.map((line, ind) => {
         const index = line?.product.categories
@@ -267,17 +269,17 @@ class CartPage extends React.Component<Props, State> {
           affiliation: line?.product?.title, // Pass the product name
           coupon: "NA", // Pass the coupon if available
           currency: this.props.currency, // Pass the currency code
-          discount: "", // Pass the discount amount
+          discount: "NA", // Pass the discount amount
           index: ind,
           item_brand: "Goodearth",
-          item_category: category?.split(">")?.join("|"),
+          item_category: category?.split(">")?.join("/"),
           item_category2: line.product?.childAttributes[0]?.size,
           item_category3: line.product.is3d ? "3d" : "non3d",
           item_category4: line.product.is3d ? "YES" : "NO",
           item_list_id: "NA",
-          item_list_name: "NA",
+          item_list_name: search ? search : "NA",
           item_variant: "NA",
-          item_category5: line?.product?.collection,
+          // item_category5: line?.product?.collection,
           price: line?.product?.priceRecords[this.props.currency],
           quantity: line?.quantity,
           collection_category: line?.product?.collections?.join("|")

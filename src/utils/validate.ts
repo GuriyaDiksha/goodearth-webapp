@@ -188,14 +188,14 @@ export function dataForBilling(data: Basket, currency: Currency) {
             : product.priceRecords[currency], // Pass the discount amount
           index: ind,
           item_brand: "Goodearth",
-          item_category: category?.split(">")?.join("|"),
+          item_category: category?.split(">")?.join("/"),
           item_category2: prod.product?.childAttributes[0]?.size,
           item_category3: prod.product.is3d ? "3d" : "non3d",
           item_category4: prod.product.is3d ? "YES" : "NO",
           item_list_id: "NA",
           item_list_name: "NA",
           item_variant: "NA",
-          item_category5: collectionName,
+          // item_category5: collectionName,
           price: realPrice,
           quantity: prod.quantity,
           collection_category: product?.collections?.join("|")
@@ -303,22 +303,22 @@ export function proceedTocheckout(data: Basket, currency: Currency) {
         {
           item_id: skus, //Pass the product id
           item_name: product.title,
-          affiliation: "",
+          affiliation: "NA",
           coupon: "NA", // Pass the coupon if available
           currency: currency, // Pass the currency code
           discount: product.discountedPriceRecords
             ? product.discountedPriceRecords[currency]
-            : product.priceRecords[currency], // Pass the discount amount
+            : "NA", // Pass the discount amount
           index: index,
           item_brand: "goodearth",
           item_category2: product?.childAttributes[0]?.size,
           item_category3: product.is3d ? "3d" : "non3d",
           item_category4: product.is3d ? "YES" : "NO",
           item_list_id: "NA",
-          item_list_name: search,
+          item_list_name: search ? search : "NA",
           item_variant: "NA",
-          item_category: category?.split(">")?.join("|"),
-          item_category5: collectionName,
+          item_category: category?.split(">")?.join("/"),
+          // item_category5: collectionName,
           price: realPrice,
           quantity: 1,
           collection_category: product?.collections?.join("|")
@@ -329,6 +329,7 @@ export function proceedTocheckout(data: Basket, currency: Currency) {
       dataLayer.push({ ecommerce: null }); // Clear the previous ecommerce object.
       dataLayer.push({
         event: "begin_checkout",
+        previous_page_url: CookieService.getCookie("prevUrl"),
         ecommerce: {
           currency: currency,
           value: data.subTotalWithShipping,
@@ -403,12 +404,12 @@ export function proceedForPayment(
         {
           item_id: skus, //Pass the product id
           item_name: product.title,
-          affiliation: "",
+          affiliation: "NA",
           coupon: "NA", // Pass the coupon if available
           currency: currency, // Pass the currency code
           discount: product.discountedPriceRecords
             ? product.discountedPriceRecords[currency]
-            : product.priceRecords[currency], // Pass the discount amount
+            : "NA", // Pass the discount amount
           index: index,
           item_brand: "goodearth",
           item_category: category?.split(">")?.join("|"),
@@ -418,7 +419,7 @@ export function proceedForPayment(
           item_list_id: "NA",
           item_list_name: "NA",
           item_variant: "NA",
-          item_category5: collectionName,
+          // item_category5: collectionName,
           price: product.priceRecords[currency],
           quantity: 1,
           collection_category: product?.collections?.join("|")
@@ -429,10 +430,11 @@ export function proceedForPayment(
       dataLayer.push({ ecommerce: null }); // Clear the previous ecommerce object.
       dataLayer.push({
         event: "add_payment_info",
+        previous_page_url: CookieService.getCookie("prevUrl"),
         ecommerce: {
           currency: currency, // Pass the currency code
           value: data.total,
-          coupon: "", // Pass the coupon if available
+          coupon: "NA", // Pass the coupon if available
           payment_type: paymentMethod,
           items: childAttr
         }
@@ -918,12 +920,12 @@ export function PDP(data: any, currency: Currency) {
         {
           item_id: child.sku, //Pass the product id
           item_name: data.title,
-          affiliation: "",
-          coupon: "", // Pass the coupon if available
+          affiliation: "NA",
+          coupon: "NA", // Pass the coupon if available
           currency: currency, // Pass the currency code
           discount: child.discountedPriceRecords
             ? child.discountedPriceRecords[currency]
-            : child.priceRecords[currency], // Pass the discount amount
+            : "NA", // Pass the discount amount
           index: index,
           item_brand: "goodearth",
           item_category: category?.split(">")?.join("|"),
@@ -931,11 +933,11 @@ export function PDP(data: any, currency: Currency) {
           item_category3: data.sliderImages?.some((key: any) => key.icon)
             ? "3d"
             : "non 3d",
-          item_list_id: "",
+          item_list_id: "NA",
           item_list_name: search,
           item_variant: child.color,
           item_category4: l1,
-          item_category5: data.collection,
+          // item_category5: data.collection,
           collection_category: data.collections?.join("|"),
           price: child.priceRecords[currency],
           quantity: 1
@@ -1005,6 +1007,7 @@ export function PDP(data: any, currency: Currency) {
       dataLayer.push({ ecommerce: null }); // Clear the previous ecommerce object.
       dataLayer.push({
         event: "view_item",
+        previous_page_url: CookieService.getCookie("prevUrl"),
         ecommerce: {
           items: childAttr
         }
@@ -1223,12 +1226,12 @@ export function plpProductClick(
         {
           item_id: child.sku, //Pass the product id
           item_name: data.title,
-          affiliation: "",
-          coupon: "", // Pass the coupon if available
+          affiliation: "NA",
+          coupon: "NA", // Pass the coupon if available
           currency: currency, // Pass the currency code
           discount: child.discountedPriceRecords
             ? child.discountedPriceRecords[currency]
-            : child.priceRecords[currency], // Pass the discount amount
+            : "NA", // Pass the discount amount
           index: index,
           item_brand: "goodearth",
           item_category: category?.split(">")?.join("|"),
@@ -1236,11 +1239,11 @@ export function plpProductClick(
           item_category3: data.sliderImages?.some((key: any) => key.icon)
             ? "3d"
             : "non 3d",
-          item_list_id: "",
-          item_list_name: search,
+          item_list_id: "NA",
+          item_list_name: search ? search : "NA",
           item_variant: child.color,
           item_category4: l1,
-          item_category5: data.collection,
+          // item_category5: data.collection,
           collection_category: data.collections?.join("|"),
           price: child.priceRecords[currency],
           quantity: 1
@@ -1527,13 +1530,14 @@ export const checkoutGTM = (
       dataLayer.push({ ecommerce: null }); // Clear the previous ecommerce object.
       dataLayer.push({
         event: "add_billing_info",
+        previous_page_url: CookieService.getCookie("prevUrl"),
         billing_address: billingAddressId,
         gst_invoice: gstNo ? "YES" : "NO",
         delivery_instruction: "Not", //Pass NA if not applicable the mome
         ecommerce: {
           currency: currency, // Pass the currency code
           value: basket.total,
-          coupon: "",
+          coupon: "NA",
           items: itemList
         }
       });

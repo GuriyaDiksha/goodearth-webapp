@@ -285,9 +285,9 @@ const PaymentSection: React.FC<PaymentProps> = props => {
           return {
             item_id: line.product.sku,
             item_name: line.title,
-            affiliation: "Pass the affiliation of the product",
+            affiliation: "NA",
             coupon: basket.voucherDiscounts?.[0]?.voucher?.code || "NA", //Pass NA if not applicable at the moment
-            discount: basket?.offerDiscounts?.[0]?.name,
+            discount: basket?.offerDiscounts?.[0]?.amount,
             index: ind,
             item_brand: "Goodearth",
             item_category: category?.split(">")?.join("|"),
@@ -309,6 +309,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
 
         dataLayer.push({
           event: "add_payment_info",
+          previous_page_url: CookieService.getCookie("prevUrl"),
           billing_address: sameAsShipping
             ? "Same as Shipping Address"
             : billingAddressId,

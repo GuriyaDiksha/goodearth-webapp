@@ -186,19 +186,19 @@ const AddressItem: React.FC<Props> = props => {
         item_id: line?.product?.id, //Pass the product id
         item_name: line?.product?.title, // Pass the product name
         affiliation: line?.product?.title, // Pass the product name
-        coupon: "", // Pass the coupon if available
+        coupon: "NA", // Pass the coupon if available
         currency: currency, // Pass the currency code
-        discount: "", // Pass the discount amount
+        discount: "NA", // Pass the discount amount
         index: ind,
         item_brand: "Goodearth",
-        item_category: category?.split(">")?.join("|"),
+        item_category: category?.split(">")?.join("/"),
         item_category2: line.product?.childAttributes[0]?.size,
         item_category3: line.product.is3d ? "3d" : "non3d",
         item_category4: line.product.is3d ? "YES" : "NO",
         item_list_id: "NA",
         item_list_name: "NA",
         item_variant: "NA",
-        item_category5: line?.product?.collection,
+        // item_category5: line?.product?.collection,
         price: line?.product?.priceRecords[currency],
         quantity: line?.quantity,
         collection_category: line?.product?.collections?.join("|")
@@ -209,13 +209,14 @@ const AddressItem: React.FC<Props> = props => {
       dataLayer.push({ ecommerce: null }); // Clear the previous ecommerce object.
       dataLayer.push({
         event: "add_shipping_info",
+        previous_page_url: CookieService.getCookie("prevUrl"),
         shipping_address: shippingAddressId,
-        gst_invoice: "",
-        delivery_instruction: "", //Pass NA if not applicable the moment
+        gst_invoice: "NA",
+        delivery_instruction: "NA", //Pass NA if not applicable the moment
         ecommerce: {
           currency: currency, // Pass the currency code
           value: basket?.total,
-          coupon: "",
+          coupon: "NA",
           items: items
         }
       });
