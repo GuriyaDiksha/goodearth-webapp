@@ -124,6 +124,8 @@ const LineItems: React.FC<BasketItem> = memo(
       const categoryname = arr[arr.length - 2];
       const subcategoryname = arr[arr.length - 1];
       const userConsent = CookieService.getCookie("consent").split(",");
+      const search = CookieService.getCookie("search") || "";
+
       if (userConsent.includes(GA_CALLS)) {
         Moengage.track_event("remove_from_cart", {
           "Product id": product.sku || product.childAttributes[0].sku,
@@ -164,26 +166,27 @@ const LineItems: React.FC<BasketItem> = memo(
         dataLayer.push({ ecommerce: null }); // Clear the previous ecommerce object.
         dataLayer.push({
           event: "remove_from_cart",
+          previous_page_url: CookieService.getCookie("prevUrl"),
           ecommerce: {
             items: [
               {
                 item_id: product.sku || product.childAttributes[0].sku,
                 item_name: product.title,
                 affiliation: product.title,
-                coupon: "", // Pass the coupon if available
+                coupon: "NA", // Pass the coupon if available
                 currency: currency, // Pass the currency code
                 discount: childAttributes[0]?.discountedPriceRecords[currency], // Pass the discount amount
-                index: "",
+                index: "NA",
                 item_brand: "goodearth",
                 item_category: category?.split(">")?.join("|"),
                 item_category2: size,
-                item_category3: "",
-                item_list_id: "",
-                item_list_name: "",
-                item_variant: "",
+                item_category3: "NA",
+                item_list_id: "NA",
+                item_list_name: search ? search : "NA",
+                item_variant: "NA",
                 // item_category4: product.categories[0],
                 item_category4: "NA",
-                item_category5: product.collection,
+                // item_category5: product.collection,
                 price: price,
                 quantity: quantity,
                 collection_category: product?.collections?.join("|")
