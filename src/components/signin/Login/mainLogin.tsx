@@ -321,13 +321,13 @@ class MainLogin extends React.Component<Props, loginState> {
           //   history.push(searchParams.get("redirect_to") || "");
           // }
 
-          const boid = new URLSearchParams(
-            this.props.history.location.search
-          ).get("bo_id");
+          // const boid = new URLSearchParams(
+          //   this.props.history.location.search
+          // ).get("bo_id");
 
-          if (boid) {
-            this.props.history.push(`/order/checkout?bo_id=${boid}`);
-          }
+          // if (boid) {
+          //   this.props.history.push(`/order/checkout?bo_id=${boid}`);
+          // }
         })
         .catch(err => {
           if (

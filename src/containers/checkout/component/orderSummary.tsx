@@ -120,9 +120,9 @@ const OrderSummary: React.FC<OrderProps> = props => {
 
   const showDeliveryTimelines = true;
   const history = useHistory();
-  const queryString = history.location.search;
-  const urlParams = new URLSearchParams(queryString);
-  const boId = urlParams.get("bo_id");
+  // const queryString = history.location.search;
+  // const urlParams = new URLSearchParams(queryString);
+  // const boId = urlParams.get("bo_id");
 
   const removePromo = async (data: FormData) => {
     const userConsent = CookieService.getCookie("consent").split(",");
@@ -384,9 +384,10 @@ const OrderSummary: React.FC<OrderProps> = props => {
                 <span className={styles.textMuted}>
                   {" "}
                   {"(Promo Code Applied)"}
-                  {boId ? (
-                    ""
-                  ) : (
+                  {
+                    // boId ? (
+                    //   ""
+                    // ) :
                     <span
                       className={cs(globalStyles.marginL5, styles.cross)}
                       onClick={() => {
@@ -401,7 +402,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
                         )}
                       ></i>
                     </span>
-                  )}
+                  }
                 </span>
               </span>
               <span className={styles.subtotal}>
@@ -705,7 +706,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
             {mobile && page == "checkout" && (
               <div className={styles.orderSummaryTitle}>
                 <span className={styles.text}>VIEW ORDER SUMMARY</span>
-                {pathname == "/order/checkout" && !boId && (
+                {pathname == "/order/checkout" && (
                   <Link to="/cart" className={styles.textLink}>
                     EDIT BAG
                   </Link>
@@ -713,30 +714,36 @@ const OrderSummary: React.FC<OrderProps> = props => {
               </div>
             )}
             {/* Do not show subtotal and shipping section in GC Checkout */}
-            {!(pathname == "/order/gc_checkout") && <div className={cs(globalStyles.flex, globalStyles.gutterBetween)}>
-              <span className={styles.subtotal}>SUBTOTAL</span>
-              <span className={styles.subtotal}>
-                {displayPriceWithCommasFloat(basket.subTotal, currency)}
-              </span>
-            </div>}
+            {!(pathname == "/order/gc_checkout") && (
+              <div
+                className={cs(globalStyles.flex, globalStyles.gutterBetween)}
+              >
+                <span className={styles.subtotal}>SUBTOTAL</span>
+                <span className={styles.subtotal}>
+                  {displayPriceWithCommasFloat(basket.subTotal, currency)}
+                </span>
+              </div>
+            )}
             {getDiscount(basket.offerDiscounts)}
             {/* <hr className={styles.hr} /> */}
-            {!(pathname == "/order/gc_checkout") && <div
-              className={cs(
-                globalStyles.flex,
-                globalStyles.gutterBetween,
-                globalStyles.marginT20
-              )}
-            >
-              <span className={styles.subtotal}>SHIPPING</span>
-              <span className={styles.subtotal}>
-                (+)
-                {displayPriceWithCommasFloat(
-                  parseFloat(shippingCharge),
-                  currency
+            {!(pathname == "/order/gc_checkout") && (
+              <div
+                className={cs(
+                  globalStyles.flex,
+                  globalStyles.gutterBetween,
+                  globalStyles.marginT20
                 )}
-              </span>
-            </div>}
+              >
+                <span className={styles.subtotal}>SHIPPING</span>
+                <span className={styles.subtotal}>
+                  (+)
+                  {displayPriceWithCommasFloat(
+                    parseFloat(shippingCharge),
+                    currency
+                  )}
+                </span>
+              </div>
+            )}
             {basket.finalDeliveryDate && showDeliveryTimelines && (
               <div className={styles.deliveryDate}>
                 Estimated delivery on or before:{" "}
@@ -751,8 +758,10 @@ const OrderSummary: React.FC<OrderProps> = props => {
               </div>
             )}
 
-            {!(pathname == "/order/gc_checkout") && <hr className={styles.hr} />}
-            
+            {!(pathname == "/order/gc_checkout") && (
+              <hr className={styles.hr} />
+            )}
+
             <div className={cs(globalStyles.flex, globalStyles.gutterBetween)}>
               <span className={styles.subtotal}>TOTAL</span>
               <span className={styles.subtotal}>
@@ -997,21 +1006,18 @@ const OrderSummary: React.FC<OrderProps> = props => {
                 ? `(${getItemsCount()})`
                 : null}
               {page == "checkout" && !validbo ? (
-                boId ? (
-                  ""
-                ) : (
-                  <></>
-                  // <Link className={styles.editCart} to={"/cart"}>
-                  //   EDIT BAG
-                  // </Link>
-                )
+                // boId ? (
+                //   ""
+                // ) :
+                <></>
               ) : (
+                // <Link className={styles.editCart} to={"/cart"}>
+                //   EDIT BAG
+                // </Link>
                 ""
               )}
             </h3>
-            {pathname == "/order/checkout" && !boId && (
-              <Link to="/cart">EDIT BAG</Link>
-            )}
+            {pathname == "/order/checkout" && <Link to="/cart">EDIT BAG</Link>}
           </div>
         )}
 

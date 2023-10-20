@@ -231,7 +231,7 @@ const BaseLayout: React.FC = () => {
     const isBridalBasket = CookieService.getCookie("isBridal");
     const queryString = location.search;
     const urlParams = new URLSearchParams(queryString);
-    const boId = urlParams.get("bo_id");
+    // const boId = urlParams.get("bo_id");
     const isHomePage = location.pathname == "/";
 
     const loginPopup = urlParams.get("loginpopup");
@@ -276,7 +276,7 @@ const BaseLayout: React.FC = () => {
     if (
       !currencyPopup &&
       (!isBridalBasket || isBridalBasket == "no") &&
-      !boId &&
+      // !boId &&
       !location.pathname.includes("/order/orderconfirmation/") &&
       !location.pathname.includes("/bridal/") &&
       !announcementData.isBridalActive

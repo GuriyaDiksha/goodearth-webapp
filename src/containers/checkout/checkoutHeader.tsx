@@ -105,15 +105,15 @@ type Props = ReturnType<typeof mapStateToProps> &
   ReturnType<typeof mapDispatchToProps> &
   RouteComponentProps;
 
-class CheckoutHeader extends React.Component<Props, { boId: string }> {
+class CheckoutHeader extends React.Component<Props> {
   constructor(props: Props) {
     super(props);
-    const queryString = props.location.search;
-    const urlParams = new URLSearchParams(queryString);
-    const boId = urlParams.get("bo_id") || "";
-    this.state = {
-      boId: boId
-    };
+    // const queryString = props.location.search;
+    // const urlParams = new URLSearchParams(queryString);
+    // const boId = urlParams.get("bo_id") || "";
+    // this.state = {
+    //   boId: boId
+    // };
   }
   static contextType = UserContext;
 
@@ -331,20 +331,18 @@ class CheckoutHeader extends React.Component<Props, { boId: string }> {
               <Link
                 to="/"
                 onClick={e => {
-                  this.state.boId
-                    ? e.preventDefault()
-                    : headerClickGTM(
-                        "Logo",
-                        "Top",
-                        this.props.mobile,
-                        this.props.isLoggedIn
-                      );
+                  // this.state.boId
+                  //   ? e.preventDefault()
+                  headerClickGTM(
+                    "Logo",
+                    "Top",
+                    this.props.mobile,
+                    this.props.isLoggedIn
+                  );
                 }}
               >
                 <img
-                  className={
-                    this.state.boId ? styles.logoWithoutcursor : styles.logo
-                  }
+                  className={styles.logo}
                   alt="goodearth-logo"
                   src={gelogoCerise}
                 />
