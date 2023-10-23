@@ -39,6 +39,7 @@
       left: 2%;
       top: 5%;
       color: black;
+      cursor: pointer;
       .icon-class {
         color: $aqua;
       }
@@ -50,6 +51,7 @@
     }
   }
   input {
+    cursor: pointer;
     font-size: 12px !important;
     width: 100%;
     outline: none;
