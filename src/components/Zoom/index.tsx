@@ -89,6 +89,13 @@ const Zoom: React.FC<Props> = ({
     setZoom(event.instance.transformState.scale);
   };
 
+  const onPan = (ref: any, e: any) => {
+    ref.zoomIn();
+  };
+  const onPinch = (ref: any, e: any) => {
+    ref.zoomOut();
+  };
+
   return (
     <div
       className={cs(styles.videoPopupContainer, styles.helloar, {
@@ -185,8 +192,10 @@ const Zoom: React.FC<Props> = ({
                     initialPositionY={0}
                     ref={transformComponentMobileRef}
                     // pinch={{ disabled: true }}
-                    wheel={{ disabled: true, touchPadDisabled: true }}
+                    doubleClick={{ disabled: true }}
                     onTransformed={e => handleScaleChange(e)}
+                    onPinching={(ref, e) => onPinch(ref, e)}
+                    onPanning={(ref, e) => onPan(ref, e)}
                   >
                     <TransformComponent>
                       <img
@@ -238,8 +247,11 @@ const Zoom: React.FC<Props> = ({
                   initialPositionY={0}
                   ref={transformComponentRef}
                   // pinch={{ disabled: true }}
-                  wheel={{ disabled: true, touchPadDisabled: true }}
+                  // wheel={{ disabled: true, touchPadDisabled: true }}
+                  doubleClick={{ disabled: true }}
                   onTransformed={e => handleScaleChange(e)}
+                  onPinching={(ref, e) => onPinch(ref, e)}
+                  onPanning={(ref, e) => onPan(ref, e)}
                 >
                   <TransformComponent>
                     <img
