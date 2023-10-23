@@ -647,6 +647,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
       {(slab.toLowerCase() === "cerise club" ||
         slab.toLowerCase() === "cerise sitara") &&
         loyaltyData?.CustomerPointInformation &&
+        !isGcCheckout &&
         currency == "INR" && (
           <div
             className={
