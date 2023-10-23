@@ -1155,6 +1155,14 @@ const PaymentSection: React.FC<PaymentProps> = props => {
                 </label>
               </div>
             )}
+            {paymentError && !isPaymentNeeded && (
+              <div
+                className={cs(globalStyles.errorMsg, globalStyles.marginT20)}
+                data-name="error-msg"
+              >
+                {paymentError}
+              </div>
+            )}
             {isLoading && <Loader />}
             {!checkoutMobileOrderSummary && (
               <button

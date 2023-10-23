@@ -973,10 +973,10 @@ class Header extends React.Component<Props, State> {
       },
 
       {
-        label: "Check gift card Balance",
+        label: "Check Balance",
         href: "/account/check-balance",
         type: "link",
-        value: "Check Gift Card Balance"
+        value: "Check Balance"
       }
       // {
       //   label: "Cerise Program",
