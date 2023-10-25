@@ -646,28 +646,28 @@ export function productImpression(
             {
               item_id: child1.sku, //Pass the product id
               item_name: child.title,
-              affiliation: "",
-              coupon: "", // Pass the coupon if available
+              affiliation: "NA",
+              coupon: "NA", // Pass the coupon if available
               currency: currency, // Pass the currency code
               discount: child1.discountedPriceRecords
                 ? child1.discountedPriceRecords[currency]
-                : child1.priceRecords[currency], // Pass the discount amount
+                : "NA", // Pass the discount amount
               index: index,
               item_brand: "goodearth",
               item_category: category?.split(">")?.join("|"),
               item_category2: sizes,
-              item_category3: "",
-              item_list_id: "",
-              item_list_name: search,
-              item_variant: "",
+              item_category3: "NA",
+              item_list_id: "NA",
+              item_list_name: search ? search : "NA",
+              item_variant: "NA",
               item_category4: "NA",
-              item_category5: collectionName,
-              collection_category: collectionName,
+              // item_category5: collectionName,
+              collection_category: child?.collections?.join("|"),
               price: child1.discountedPriceRecords
                 ? child1.discountedPriceRecords[currency]
                 : child1.priceRecords[currency],
-              quantity: 1,
-              dimension12: child1?.color
+              quantity: 1
+              // dimension12: child1?.color
             }
           )
         );
@@ -702,6 +702,7 @@ export function productImpression(
       dataLayer.push({ ecommerce: null }); // Clear the previous ecommerce object.
       dataLayer.push({
         event: "view_item_list",
+        previous_page_url: CookieService.getCookie("prevUrl"),
         ecommerce: {
           items: childAttr
         }
@@ -730,7 +731,6 @@ export const gaEventsForSearch = (data: any) => {
     userConsent.includes(GA_CALLS) &&
     (popularSearch || recentSearch || inputValue)
   ) {
-    debugger;
     if (data?.results?.data?.length) {
       dataLayer.push({
         event: "search_bar_results_found",
