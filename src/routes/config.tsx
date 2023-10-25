@@ -121,6 +121,12 @@ const routes: RouteConfig = [
     exact: true
   },
   {
+    path: ROUTES.GCCHECKOUT,
+    component: loadable(() => import("containers/checkout")),
+    action: initActionCheckout,
+    exact: true
+  },
+  {
     path: ROUTES.SHOP,
     component: loadable(() => import("containers/newShopLocator")),
     action: initActionShop,
@@ -276,7 +282,8 @@ const makerRoutes = [
   ROUTES.VINITACHAITANYA,
   ROUTES.VASUDHARAI,
   ROUTES.BOSPORUSMETALDECOR,
-  ROUTES.TELLINGSTORIES
+  ROUTES.TELLINGSTORIES,
+  ROUTES.VIRTUALSHOPPINGSALON
 ];
 
 const makerSmartnav = [

@@ -501,6 +501,24 @@ export function scrollToId() {
   }, 1000);
 }
 
+export function scrollToGivenId(id: string) {
+  setTimeout(() => {
+    if (id) {
+      const element = document.getElementById(id);
+      if (element) {
+        element.scrollIntoView();
+        const headerHeight = 50;
+        const secondaryHeaderHeight = 48;
+        const announcementBarHeight = 30;
+        window.scrollBy(
+          0,
+          -(headerHeight + secondaryHeaderHeight + announcementBarHeight)
+        );
+      }
+    }
+  }, 500);
+}
+
 export function productImpression(
   data: any,
   list: any,
@@ -1953,7 +1971,10 @@ export function getPageType() {
     pageType = "Collection Landing";
   } else if (isCollectionListing) {
     pageType = "Collection Listing";
-  } else if (location.pathname.includes("/order/checkout")) {
+  } else if (
+    location.pathname.includes("/order/checkout") ||
+    location.pathname.includes("/order/gc_checkout")
+  ) {
     pageType = "Checkout";
   } else if (location.pathname.includes("/order/orderconfirmation")) {
     pageType = "Order Confirmation";
