@@ -285,7 +285,8 @@ class PLP extends React.Component<
         isSale: isSale,
         discountedPrice: discountedPriceRecords[currency],
         list: "plp",
-        sliderImages: plpSliderImages
+        sliderImages: plpSliderImages,
+        collections: collections
       },
       false,
       this.props.device.mobile ? ModalStyles.bottomAlignSlideUp : "",

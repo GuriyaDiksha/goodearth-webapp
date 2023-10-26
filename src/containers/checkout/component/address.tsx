@@ -687,19 +687,20 @@ const AddressSection: React.FC<AddressProps & {
         affiliation: line?.product?.title, // Pass the product name
         coupon: "NA", // Pass the coupon if available
         currency: currency, // Pass the currency code
-        discount: "", // Pass the discount amount
+        discount: "NA", // Pass the discount amount
         index: ind,
         item_brand: "Goodearth",
-        item_category: arr[arr.length - 2],
+        item_category: category?.split(">")?.join("/"),
         item_category2: line.product?.childAttributes[0]?.size,
         item_category3: line.product.is3d ? "3d" : "non3d",
         item_category4: line.product.is3d ? "YES" : "NO",
         item_list_id: "NA",
         item_list_name: "NA",
         item_variant: "NA",
-        item_category5: line?.product?.collection,
+        // item_category5: line?.product?.collection,
         price: line?.product?.priceRecords[currency],
-        quantity: line?.quantity
+        quantity: line?.quantity,
+        collection_category: line?.product?.collections?.join("|")
       };
     });
 
@@ -707,13 +708,14 @@ const AddressSection: React.FC<AddressProps & {
       dataLayer.push({ ecommerce: null }); // Clear the previous ecommerce object.
       dataLayer.push({
         event: "add_shipping_info",
+        previous_page_url: CookieService.getCookie("prevUrl"),
         shipping_address: shippingAddressId,
-        gst_invoice: "",
-        delivery_instruction: "", //Pass NA if not applicable the moment
+        gst_invoice: "NA",
+        delivery_instruction: "NA", //Pass NA if not applicable the moment
         ecommerce: {
           currency: currency, // Pass the currency code
           value: basket?.total,
-          coupon: "",
+          coupon: "NA",
           items: items
         }
       });
@@ -1134,14 +1136,19 @@ const AddressSection: React.FC<AddressProps & {
                   false,
                   activeStep == STEP_BILLING && !isActive && !billingAddressId
                 )}
-              {isGcCheckout && props.currentStep == STEP_ORDER[STEP_BILLING] && 
-                <p className={cs(
-                  globalStyles.errorMsg,
-                  styles.marginT20,
-                  styles.customError
-                )}>
-                  Please select or add an address that matches the currency of your Gift Card.
-                </p>}
+              {isGcCheckout &&
+                props.currentStep == STEP_ORDER[STEP_BILLING] && (
+                  <p
+                    className={cs(
+                      globalStyles.errorMsg,
+                      styles.marginT20,
+                      styles.customError
+                    )}
+                  >
+                    Please select or add an address that matches the currency of
+                    your Gift Card.
+                  </p>
+                )}
               {renderSavedAddress()}
             </div>
             {isActive && (
@@ -1156,7 +1163,7 @@ const AddressSection: React.FC<AddressProps & {
                       {!sameAsShipping &&
                         isLoggedIn &&
                         !props.isBridal &&
-                        !props.isGoodearthShipping && 
+                        !props.isGoodearthShipping &&
                         !props.isGcCheckout &&
                         mode == "list" && (
                           <div>

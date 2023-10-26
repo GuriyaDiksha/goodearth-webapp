@@ -21,8 +21,10 @@ const mapStateToProps = (state: AppState) => {
   };
 };
 type Props = {
+  setIsactiveredeem: (val: boolean) => void;
+  isOTPSent: boolean;
+  setIsOTPSent: (val: boolean) => void;
   closeModal: () => any;
-  setIsactiveredeem: (data: boolean) => any;
 } & ReturnType<typeof mapDispatchToProps> &
   ReturnType<typeof mapStateToProps> &
   RouteComponentProps;
@@ -61,8 +63,30 @@ class Reedem extends React.Component<Props, RedeemState> {
   };
 
   componentDidMount(): void {
+    // if (
+    //   this.props.user?.loyaltyData?.CustomerPointInformation
+    //     ?.EligibleRedemptionPoints === 0
+    // ) {
+    //   this.setState({ error: "You don't have points to redeem" });
+    // }
+
     document.addEventListener("mousedown", this.handleClickOutside);
   }
+
+  UNSAFE_componentWillReceiveProps(
+    nextProps: Readonly<Props>,
+    nextContext: any
+  ): void {
+    // if (
+    //   this.props.user?.loyaltyData?.CustomerPointInformation?.AvailablePoint !==
+    //     nextProps.user?.loyaltyData?.CustomerPointInformation?.AvailablePoint &&
+    //   nextProps.user?.loyaltyData?.CustomerPointInformation?.AvailablePoint ===
+    //     0
+    // ) {
+    //   this.setState({ error: "You don't have points to redeem" });
+    // }
+  }
+
   changeValue = (event: any) => {
     const { loyaltyData } = this.props.user;
     const value = event.target.value;
@@ -72,7 +96,7 @@ class Reedem extends React.Component<Props, RedeemState> {
         txtvalue: ""
       });
     } else if (
-      +value <= loyaltyData?.eligiblePoints
+      +value <= loyaltyData?.CustomerPointInformation?.EligibleRedemptionPoints
       //  && value >= 0
     ) {
       this.setState({
@@ -81,7 +105,9 @@ class Reedem extends React.Component<Props, RedeemState> {
       });
     } else {
       this.setState({
-        error: "You can redeem points upto " + loyaltyData?.eligiblePoints
+        error:
+          "You can redeem points upto " +
+          loyaltyData?.CustomerPointInformation?.EligibleRedemptionPoints
       });
     }
   };
@@ -136,9 +162,10 @@ class Reedem extends React.Component<Props, RedeemState> {
 
   render() {
     const { newCardBox, txtvalue, showTooltip, showTooltipTwo } = this.state;
-    // const { loyalty } = this.props;
+    const { loyalty } = this.props;
     const { loyaltyData } = this.props.user;
-    // const points = loyalty?.[0]?.points;
+    const isValidated = loyalty?.[0]?.isValidated;
+
     return (
       <Fragment>
         <div
@@ -182,7 +209,7 @@ class Reedem extends React.Component<Props, RedeemState> {
               </div>
 
               <p className={cs(styles.textLeft, styles.redeemPoints)}>
-                {loyaltyData?.customerPoints}
+                {loyaltyData?.CustomerPointInformation?.AvailablePoint}
               </p>
             </div>
             <div className={cs(styles.textLeft)} ref={this.impactRef2}>
@@ -230,7 +257,10 @@ class Reedem extends React.Component<Props, RedeemState> {
                   styles.aqua
                 )}
               >
-                {loyaltyData?.eligiblePoints}
+                {
+                  loyaltyData?.CustomerPointInformation
+                    ?.EligibleRedemptionPoints
+                }
               </p>
             </div>
             <div className={cs(styles.textLeft, styles.pointsToRedeem)}>
@@ -251,9 +281,11 @@ class Reedem extends React.Component<Props, RedeemState> {
                 <input
                   type="number"
                   value={
-                    loyaltyData?.eligiblePoints > 0
+                    loyaltyData?.CustomerPointInformation
+                      ?.EligibleRedemptionPoints > 0
                       ? txtvalue
-                      : loyaltyData?.eligiblePoints
+                      : loyaltyData?.CustomerPointInformation
+                          ?.EligibleRedemptionPoints
                   }
                   onKeyDown={evt => evt.key === "." && evt.preventDefault()}
                   onChange={this.changeValue}
@@ -265,7 +297,12 @@ class Reedem extends React.Component<Props, RedeemState> {
                       : cs(styles.marginR10, styles.redeemInput)
                   }
                   aria-label="redeem-code"
-                  disabled={loyaltyData?.eligiblePoints > 0 ? false : true}
+                  disabled={
+                    loyaltyData?.CustomerPointInformation
+                      ?.EligibleRedemptionPoints > 0
+                      ? false
+                      : true
+                  }
                 />
               </div>
               <label>Points</label>
@@ -278,7 +315,8 @@ class Reedem extends React.Component<Props, RedeemState> {
                 ""
               )}
 
-              {loyaltyData?.eligiblePoints <= 0 && (
+              {loyaltyData?.CustomerPointInformation
+                ?.EligibleRedemptionPoints <= 0 && (
                 <p className={cs(styles.textLeft, styles.noEnoughPoint)}>
                   You don&apos;t have points to redeem
                 </p>
@@ -295,12 +333,18 @@ class Reedem extends React.Component<Props, RedeemState> {
                 isCredit={true}
                 checkOtpRedeem={this.props.checkOtpRedeem}
                 updateList={this.updateList}
-                loyaltyData={loyaltyData}
+                CustomerPointInformation={loyaltyData?.CustomerPointInformation}
                 points={this.state.txtvalue}
                 number={this.props.user.phoneNumber}
                 removeRedeem={this.removeRedeem}
                 closeModal={this.props.closeModal}
                 setIsactiveredeem={this.props.setIsactiveredeem}
+                email={this.props.user.email}
+                resendOtp={this.props.resendOtpRedeem}
+                validated={isValidated}
+                disableBtn={this.state.error}
+                isOTPSent={this.props.isOTPSent}
+                setIsOTPSent={this.props.setIsOTPSent}
               />
             </div>
           </Fragment>
