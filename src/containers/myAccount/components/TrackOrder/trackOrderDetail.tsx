@@ -404,9 +404,9 @@ const TrackDetails: React.FC<OrdersProps> = props => {
                 +parseFloat(item.priceExclTaxExclDiscounts).toFixed(2) /
                 +item.quantity;
 
-              const charCurrency = String.fromCharCode(
-                ...currencyCode[item.priceCurrency as Currency]
-              );
+              // const charCurrency = String.fromCharCode(
+              //   ...currencyCode[item.priceCurrency as Currency]
+              // );
 
               return (
                 <div className={cs(styles.product)} key={item.product.id}>
@@ -432,14 +432,14 @@ const TrackDetails: React.FC<OrdersProps> = props => {
                           [styles.gold]: isDiscount
                         })}
                       >
-                        {`${charCurrency} ${displayPriceWithCommasFloat(
+                        {`${displayPriceWithCommasFloat(
                           amountPaid,
                           item.priceCurrency
                         )}`}
                       </span>
                       {isDiscount && (
                         <span className={styles.originalPrice}>
-                          {`${charCurrency} ${displayPriceWithCommasFloat(
+                          {`${displayPriceWithCommasFloat(
                             price,
                             item.priceCurrency
                           )}`}

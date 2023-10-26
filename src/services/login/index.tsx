@@ -448,39 +448,43 @@ export default {
     dispatch: Dispatch,
     formData: { currency: Currency }
   ) {
-    const res: any = await API.post<Basket>(
-      dispatch,
-      `${__API_HOST__ + "/myapi/basket/change_currency/"}`,
-      formData
-    );
-    CookieService.setCookie("currency", formData.currency, 365);
-    dispatch(updateCurrency(formData.currency));
-    const {
-      publishRemove,
-      updatedRemovedItems,
-      unshippableRemove,
-      unshippableProducts
-    } = res;
-    if (publishRemove) {
-      showGrowlMessage(
+    try {
+      const res: any = await API.post<Basket>(
         dispatch,
-        MESSAGE.PRODUCT_UNPUBLISHED,
-        0,
-        undefined,
-        updatedRemovedItems
+        `${__API_HOST__ + "/myapi/basket/change_currency/"}`,
+        formData
       );
-    }
-    if (unshippableRemove) {
-      showGrowlMessage(
-        dispatch,
-        MESSAGE.PRODUCT_UNSHIPPABLE_REMOVED,
-        0,
-        undefined,
+      CookieService.setCookie("currency", formData.currency, 365);
+      dispatch(updateCurrency(formData.currency));
+      const {
+        publishRemove,
+        updatedRemovedItems,
+        unshippableRemove,
         unshippableProducts
-      );
+      } = res;
+      if (publishRemove) {
+        showGrowlMessage(
+          dispatch,
+          MESSAGE.PRODUCT_UNPUBLISHED,
+          0,
+          undefined,
+          updatedRemovedItems
+        );
+      }
+      if (unshippableRemove) {
+        showGrowlMessage(
+          dispatch,
+          MESSAGE.PRODUCT_UNSHIPPABLE_REMOVED,
+          0,
+          undefined,
+          unshippableProducts
+        );
+      }
+      return res;
+    } catch (err) {
+      console.log("Announcment API Error", err);
+      throw err;
     }
-    // dispatch(updateBasket(res));
-    return res;
   },
   reloadPage: (
     dispatch: Dispatch,
