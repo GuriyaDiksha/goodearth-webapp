@@ -651,6 +651,7 @@ class CollectionSpecific extends React.Component<
                       data={showTemplates.Banner}
                       mobile={mobile}
                       tablet={tablet}
+                      colbanner={false}
                     />
                   )}
                 </div>
@@ -798,7 +799,8 @@ class CollectionSpecific extends React.Component<
         {mobile && this.state.count > -1 && this.state.showProductCounter && (
           <ProductCounter
             current={this.state.count}
-            total={results?.length}
+            // total={results?.length}
+            total={this.props.collectionSpecificData?.count}
             id="collection-product-counter"
           />
         )}

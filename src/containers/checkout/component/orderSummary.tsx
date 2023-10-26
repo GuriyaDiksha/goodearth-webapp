@@ -167,12 +167,11 @@ const OrderSummary: React.FC<OrderProps> = props => {
         return attribute;
       }
     });
-    return size ? (
+    return (
       <span>
-        Size: {size.value} | QTY: {qty}
+        {size && "Size : " + size.value} {size && qty && " | "}{" "}
+        {qty && "QTY : " + qty}
       </span>
-    ) : (
-      ""
     );
   };
 
@@ -463,7 +462,8 @@ const OrderSummary: React.FC<OrderProps> = props => {
       });
     }
     const redeemDetails = basket.loyalty?.[0];
-    if (redeemDetails) {
+    if (redeemDetails && redeemDetails?.isValidated) {
+      isline = true;
       loyalty = (
         <div
           className={cs(
@@ -589,7 +589,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
           {
             remainingAmount:
               freeShippingApplicable -
-              parseInt((basket.totalWithoutShipping || 0).toString()),
+              parseInt((basket.totalWithoutShipping || 0)?.toString()),
             freeShippingApplicable,
             goLogin: props.goLogin
           },
@@ -713,30 +713,36 @@ const OrderSummary: React.FC<OrderProps> = props => {
               </div>
             )}
             {/* Do not show subtotal and shipping section in GC Checkout */}
-            {!(pathname == "/order/gc_checkout") && <div className={cs(globalStyles.flex, globalStyles.gutterBetween)}>
-              <span className={styles.subtotal}>SUBTOTAL</span>
-              <span className={styles.subtotal}>
-                {displayPriceWithCommasFloat(basket.subTotal, currency)}
-              </span>
-            </div>}
+            {!(pathname == "/order/gc_checkout") && (
+              <div
+                className={cs(globalStyles.flex, globalStyles.gutterBetween)}
+              >
+                <span className={styles.subtotal}>SUBTOTAL</span>
+                <span className={styles.subtotal}>
+                  {displayPriceWithCommasFloat(basket.subTotal, currency)}
+                </span>
+              </div>
+            )}
             {getDiscount(basket.offerDiscounts)}
             {/* <hr className={styles.hr} /> */}
-            {!(pathname == "/order/gc_checkout") && <div
-              className={cs(
-                globalStyles.flex,
-                globalStyles.gutterBetween,
-                globalStyles.marginT20
-              )}
-            >
-              <span className={styles.subtotal}>SHIPPING</span>
-              <span className={styles.subtotal}>
-                (+)
-                {displayPriceWithCommasFloat(
-                  parseFloat(shippingCharge),
-                  currency
+            {!(pathname == "/order/gc_checkout") && (
+              <div
+                className={cs(
+                  globalStyles.flex,
+                  globalStyles.gutterBetween,
+                  globalStyles.marginT20
                 )}
-              </span>
-            </div>}
+              >
+                <span className={styles.subtotal}>SHIPPING</span>
+                <span className={styles.subtotal}>
+                  (+)
+                  {displayPriceWithCommasFloat(
+                    parseFloat(shippingCharge),
+                    currency
+                  )}
+                </span>
+              </div>
+            )}
             {basket.finalDeliveryDate && showDeliveryTimelines && (
               <div className={styles.deliveryDate}>
                 Estimated delivery on or before:{" "}
@@ -751,8 +757,10 @@ const OrderSummary: React.FC<OrderProps> = props => {
               </div>
             )}
 
-            {!(pathname == "/order/gc_checkout") && <hr className={styles.hr} />}
-            
+            {!(pathname == "/order/gc_checkout") && (
+              <hr className={styles.hr} />
+            )}
+
             <div className={cs(globalStyles.flex, globalStyles.gutterBetween)}>
               <span className={styles.subtotal}>TOTAL</span>
               <span className={styles.subtotal}>

@@ -170,7 +170,7 @@
       }
       &.subscribe {
         text-align: left;
-        margin: 75px 0 0 0;
+        // margin: 75px 0 0 0;
         &.subscribe-gc {
           margin: 35px 0 0 0;
         }
@@ -553,6 +553,7 @@ hr {
     .otp-error{
       @include error_msg_cerise();
       padding-top: 10px;
+      text-align: center;
       letter-spacing: 0.5px;
       @media screen and  (max-width:992px) {
         text-align: center;
@@ -593,6 +594,7 @@ hr {
   .otp-attempt{
     @include b6_9px_light_montserrat_charcoal();
     padding-top: 10px;
+    padding-bottom: 10px;
     letter-spacing: 0.5px;
   }
 
@@ -602,6 +604,10 @@ hr {
     border-bottom: 1px solid $charcoal19;
     letter-spacing: 0.5px;
     cursor: pointer;
+    &.otp-redeem{
+      margin: 15px auto 15px auto;
+      width: fit-content;
+    }
 
     &:hover{
       color: #3C7979 !important;
@@ -697,8 +703,14 @@ hr {
   padding: 19px 16px !important;
   width: 100%;
   &:hover{
-    background-color: $white;
+    @media screen and (min-width:992px) {
+      background-color: $white;
     color: $med-charcoal;
+    }
+    
+  }
+  &:focus{
+    border: 1px solid $med-charcoal !important;
   }
 }
 

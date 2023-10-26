@@ -1152,7 +1152,8 @@ class PDPContainer extends React.Component<Props, State> {
         isSale: isSale,
         discountedPrice: discountedPriceRecords[currency],
         list: "pdp",
-        sliderImages: plpSliderImages
+        sliderImages: plpSliderImages,
+        collections: collections
       },
       false,
       undefined

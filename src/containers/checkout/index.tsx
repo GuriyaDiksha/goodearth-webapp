@@ -110,7 +110,8 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       return data;
     },
     specifyBillingAddress: async (
-      specifyBillingAddressData: specifyBillingAddressData
+      specifyBillingAddressData: specifyBillingAddressData,
+      user: User
     ) => {
       const data = await AddressService.specifyBillingAddress(
         dispatch,
@@ -119,6 +120,11 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       AddressService.fetchAddressList(dispatch, isGcCheckout).then(
         addressList => {
           dispatch(updateAddressList(addressList));
+        }
+      );
+      CheckoutService.getLoyaltyPoints(dispatch, { email: user?.email }).then(
+        loyalty => {
+          dispatch(updateUser({ loyaltyData: loyalty }));
         }
       );
       return data;
@@ -193,6 +199,11 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     checkPinCodeShippable: async (pinCode: string) => {
       const res = await HeaderService.checkPinCodeShippable(dispatch, pinCode);
       return res;
+    },
+    removeRedeem: async (isLoggedIn: boolean) => {
+      const response = await CheckoutService.removeRedeem(dispatch);
+      BasketService.fetchBasket(dispatch, "checkout", history, isLoggedIn);
+      return response;
     },
     goLogin: (event?: React.MouseEvent, nextUrl?: string) => {
       LoginService.showLogin(dispatch);
@@ -338,6 +349,7 @@ class Checkout extends React.Component<Props, State> {
     const queryString = this.props.location.search;
     const urlParams = new URLSearchParams(queryString);
     const boId = urlParams.get("bo_id");
+
     const isGcCheckout = this.props.location.pathname.endsWith("gc_checkout");
     this.unlisten = this.props.history.block((location, action) => {
       // false means stop navigation
@@ -485,6 +497,13 @@ class Checkout extends React.Component<Props, State> {
         if (this.checkToMessage(res)) {
           this.props.showNotify(REGISTRY_MIXED_SHIPPING);
         }
+        // if (
+        //   res?.loyalty?.length &&
+        //   !(res?.loyalty?.[0]?.isValidated === true)
+        // ) {
+        this.props.removeRedeem(this.props.user.isLoggedIn);
+        // }
+
         proceedTocheckout(res, this.props.currency);
         checkoutGTM(1, this.props.currency, res);
         // code for call loyalty point api only one time
@@ -924,7 +943,7 @@ class Checkout extends React.Component<Props, State> {
         }
         this.setState({ isLoading: true });
         this.props
-          .specifyBillingAddress(data)
+          .specifyBillingAddress(data, this.props.user)
           .then(() => {
             const userConsent = CookieService.getCookie("consent").split(",");
             if (userConsent.includes(GA_CALLS)) {
@@ -975,17 +994,15 @@ class Checkout extends React.Component<Props, State> {
           .catch(err => {
             if (isGcCheckout && this.props.basket.lineItems.length == 0) {
               this.setState({
-                billingError:
-                  showErrors("There are no items in your cart.")
+                billingError: showErrors("There are no items in your cart.")
               });
-            }
-            else {
+            } else {
               this.setState({
                 billingError:
                   showErrors(err.response.data) || err.response.data.msg || ""
               });
             }
-            
+
             this.showErrorMsg();
             this.showErrorMsgs();
           })

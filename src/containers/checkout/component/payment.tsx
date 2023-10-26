@@ -10,7 +10,8 @@ import { AppState } from "reducers/typings";
 import { Link, useHistory } from "react-router-dom";
 import Loader from "components/Loader";
 import giftwrapIcon from "../../../images/gift-wrap-icon.svg";
-import { errorTracking, showErrors } from "utils/validate";
+import { errorTracking, scrollToGivenId, showErrors } from "utils/validate";
+// import { POPUP } from "constants/components";
 import CookieService from "services/cookie";
 import { proceedForPayment, getPageType } from "../../../utils/validate";
 // import { currencyCodes } from "constants/currency";
@@ -65,7 +66,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
   const [currentmethod, setCurrentmethod] = useState(data);
   const [isLoading, setIsLoading] = useState(false);
   const [textarea, setTextarea] = useState("");
-  // const [gbpError, setGbpError] = useState("");
+  // const [redeemOtpError, setRedeemOtpError] = useState("");
   const [getMethods, setGetMethods] = useState<any[]>([]);
   const [checkoutMobileOrderSummary, setCheckoutMobileOrderSummary] = useState(
     false
@@ -112,6 +113,15 @@ const PaymentSection: React.FC<PaymentProps> = props => {
     }
     setIsactivepromo(!isactivepromo);
   };
+
+  const removeRedeem = async () => {
+    setIsLoading(true);
+    const promo: any = await CheckoutService.removeRedeem(dispatch);
+    BasketService.fetchBasket(dispatch, "checkout", history, isLoggedIn);
+    setIsLoading(false);
+    return promo;
+  };
+
   const toggleInputReedem = () => {
     setIsactiveredeem(true);
 
@@ -119,20 +129,13 @@ const PaymentSection: React.FC<PaymentProps> = props => {
       updateComponent(
         POPUP.REDEEMPOPUP,
         {
-          setIsactiveredeem: setIsactiveredeem
+          setIsactiveredeem,
+          removeRedeem
         },
         true
       )
     );
     dispatch(updateModal(true));
-  };
-
-  const removeRedeem = async (history: any, isLoggedIn: boolean) => {
-    setIsLoading(true);
-    const promo: any = await CheckoutService.removeRedeem(dispatch);
-    BasketService.fetchBasket(dispatch, "checkout", history, isLoggedIn);
-    setIsLoading(false);
-    return promo;
   };
 
   const onClickSubscribe = (event: any) => {
@@ -191,6 +194,15 @@ const PaymentSection: React.FC<PaymentProps> = props => {
   const onsubmit = () => {
     const isFree = +basket.total <= 0;
     const userConsent = CookieService.getCookie("consent").split(",");
+
+    // if (isOTPSent) {
+    //   scrollToGivenId("otp");
+    //   setRedeemOtpError("Please redeem your points or cancel request.");
+    //   return false;
+    // } else {
+    //   setRedeemOtpError("");
+    // }
+
     const whatsappFormValues = whatsappFormRef.current?.getCurrentValues();
     let whatsappSubscribe = whatsappFormValues?.whatsappSubscribe;
     let whatsappNo = whatsappFormValues?.whatsappNo;
@@ -286,12 +298,12 @@ const PaymentSection: React.FC<PaymentProps> = props => {
           return {
             item_id: line.product.sku,
             item_name: line.title,
-            affiliation: "Pass the affiliation of the product",
+            affiliation: "NA",
             coupon: basket.voucherDiscounts?.[0]?.voucher?.code || "NA", //Pass NA if not applicable at the moment
-            discount: basket?.offerDiscounts?.[0]?.name,
+            discount: basket?.offerDiscounts?.[0]?.amount,
             index: ind,
             item_brand: "Goodearth",
-            item_category: category,
+            item_category: category?.split(">")?.join("|"),
             item_category2: line.product?.childAttributes[0]?.size,
             item_category3: line.product.is3d ? "3d" : "non3d",
             item_category4: line.product.is3d ? "YES" : "NO",
@@ -301,7 +313,8 @@ const PaymentSection: React.FC<PaymentProps> = props => {
             price: line.isEgiftCard
               ? +line.priceExclTax
               : line.product.priceRecords[currency as Currency],
-            quantity: line.quantity
+            quantity: line.quantity,
+            collection_category: line?.product?.collections?.join("|")
           };
         });
 
@@ -309,6 +322,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
 
         dataLayer.push({
           event: "add_payment_info",
+          previous_page_url: CookieService.getCookie("prevUrl"),
           billing_address: sameAsShipping
             ? "Same as Shipping Address"
             : billingAddressId,
@@ -441,13 +455,16 @@ const PaymentSection: React.FC<PaymentProps> = props => {
 
   useEffect(() => {
     if (prevLoyaltytRef.current.length != basket.loyalty.length) {
-      if (basket.loyalty.length > 0) {
+      if (basket.loyalty.length > 0 && basket.loyalty[0].isValidated) {
         setIsactiveredeem(true);
         prevLoyaltytRef.current = basket.loyalty;
       } else {
         setIsactiveredeem(false);
       }
     }
+    // if (basket.loyalty.length > 0 && basket.loyalty[0].isValidated) {
+    //   setIsactiveredeem(true);
+    // }
   }, [basket.loyalty]);
 
   useEffect(() => {
@@ -629,9 +646,10 @@ const PaymentSection: React.FC<PaymentProps> = props => {
 
   return (
     <>
-      {["cerise", "cerise club", "cerise sitara"].includes(
-        slab.toLowerCase()
-      ) && !isGcCheckout &&
+      {(slab.toLowerCase() === "cerise club" ||
+        slab.toLowerCase() === "cerise sitara") &&
+        loyaltyData?.CustomerPointInformation &&
+        !isGcCheckout &&
         currency == "INR" && (
           <div
             className={
@@ -662,87 +680,73 @@ const PaymentSection: React.FC<PaymentProps> = props => {
                   </span>
                 </div>
 
-                {isActive && (
-                  <div className={styles.redeemUnavailableMessageWrapper}>
-                    <p className={styles.redeemUnavailableMessage}>
-                      We are upgrading our Cerise program and will be back soon!
-                      You will continue to earn points for all transactions
-                      during this period - these will reflect once the upgrade
-                      is complete. Please note that you will not be able to
-                      redeem any points during this time.
-                    </p>
+                {loyalty?.[0]?.points && (
+                  <div
+                    className={cs(
+                      styles.col12,
+                      bootstrapStyles.colMd6,
+                      styles.selectedStvalue,
+                      styles.cerisePointsWrapper
+                    )}
+                  >
+                    <span className={styles.marginR10}>
+                      <span className={styles.redeemPoints}>
+                        {loyalty?.[0]?.points} CERISE POINTS
+                      </span>
+                      <span className={styles.promoCodeApplied}>Redeemed</span>
+                      <span className={styles.redeemPointsText}>
+                        You have successfully redeemed your Cerise Points
+                      </span>
+                    </span>
+                    <span
+                      className={cs(globalStyles.pointer, styles.promoEdit)}
+                      onClick={() => removeRedeem()}
+                    >
+                      REMOVE
+                    </span>
                   </div>
                 )}
-                {/* Temporary commented code for downtime */}
-                {/* {loyalty?.[0]?.points && !isGcCheckout && currency == "INR" && (
-                <div
-                  className={cs(
-                    styles.col12,
-                    bootstrapStyles.colMd6,
-                    styles.selectedStvalue,
-                    styles.cerisePointsWrapper
-                  )}
-                >
-                  <span className={styles.marginR10}>
-                    <span className={styles.redeemPoints}>
-                      {loyalty?.[0]?.points} CERISE POINTS
-                    </span>
-                    <span className={styles.promoCodeApplied}>Redeemed</span>
-                    <span className={styles.redeemPointsText}>
-                      You have successfully redeemed your Cerise Points
-                    </span>
-                  </span>
-                  <span
-                    className={cs(globalStyles.pointer, styles.promoEdit)}
-                    onClick={() => removeRedeem(history, isLoggedIn)}
-                  >
-                    REMOVE
-                  </span>
-                </div>
-              )} */}
               </div>
-              {/* Temporary commented code for downtime */}
-
-              {/* {loyalty?.[0]?.points || !isActive ? null : (
-              <>
-                <hr className={styles.hr} />
-                <div className={globalStyles.flex}>
-                  <div className={styles.inputContainer}>
-                    <label
-                      className={cs(
-                        globalStyles.flex,
-                        globalStyles.crossCenter
-                      )}
-                    >
-                      <div className={styles.marginR10}>
-                        <span className={styles.checkbox}>
-                          <input
-                            type="radio"
-                            checked={isactiveredeem}
-                            onClick={() => {
-                              toggleInputReedem();
-                            }}
-                          />
-                          <span
-                            className={cs(styles.indicator, {
-                              [styles.checked]: isactiveredeem
-                            })}
-                          ></span>
-                        </span>
-                      </div>
-                      <div
+              {loyalty?.[0]?.points || !isActive ? null : (
+                <>
+                  <hr className={styles.hr} />
+                  <div className={globalStyles.flex}>
+                    <div className={styles.inputContainer}>
+                      <label
                         className={cs(
-                          styles.formSubheading,
-                          styles.checkBoxHeading
+                          globalStyles.flex,
+                          globalStyles.crossCenter
                         )}
                       >
-                        See my balance & redeem points
-                      </div>
-                    </label>
+                        <div className={styles.marginR10}>
+                          <span className={styles.checkbox}>
+                            <input
+                              type="radio"
+                              checked={isactiveredeem}
+                              onClick={() => {
+                                toggleInputReedem();
+                              }}
+                            />
+                            <span
+                              className={cs(styles.indicator, {
+                                [styles.checked]: isactiveredeem
+                              })}
+                            ></span>
+                          </span>
+                        </div>
+                        <div
+                          className={cs(
+                            styles.formSubheading,
+                            styles.checkBoxHeading
+                          )}
+                        >
+                          See my balance & redeem points
+                        </div>
+                      </label>
+                    </div>
                   </div>
-                </div>
-              </>
-            )} */}
+                </>
+              )}
             </Fragment>
           </div>
         )}
@@ -1075,7 +1079,9 @@ const PaymentSection: React.FC<PaymentProps> = props => {
                 <div>
                   <hr className={styles.hr} />
                   {CONFIG.WHATSAPP_SUBSCRIBE_ENABLED && (
-                    <div className={cs(styles.loginForm, styles.customCheckout)}>
+                    <div
+                      className={cs(styles.loginForm, styles.customCheckout)}
+                    >
                       <div className={styles.categorylabel}>
                         <WhatsappSubscribe
                           data={preferenceData}
@@ -1150,6 +1156,14 @@ const PaymentSection: React.FC<PaymentProps> = props => {
                     </label>
                   </div>
                 </label>
+              </div>
+            )}
+            {paymentError && !isPaymentNeeded && (
+              <div
+                className={cs(globalStyles.errorMsg, globalStyles.marginT20)}
+                data-name="error-msg"
+              >
+                {paymentError}
               </div>
             )}
             {isLoading && <Loader />}
