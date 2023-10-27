@@ -149,6 +149,12 @@ const BaseDropdownMenu = ({
         className={cl(
           styles.menu,
           { [styles.checkout]: id == "currency-dropdown-checkout" },
+          { [styles.rightProfile]: id === "profile-dropdown" },
+          {
+            [styles.topPos]:
+              id === "sort-dropdown-wishlist" ||
+              id === "filter-dropdown-pressstories"
+          },
           styles[align],
           { [styles.openUp]: direction == "up" }
         )}

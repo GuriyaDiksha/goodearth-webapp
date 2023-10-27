@@ -7,6 +7,7 @@ import { newSearchList, updateProduct } from "actions/search";
 import { PlpProps } from "containers/search/typings";
 // utils
 import API from "utils/api";
+import { gaEventsForSearch } from "utils/validate";
 
 export default {
   fetchSearchProducts: async function(dispatch: Dispatch, url: string) {
@@ -25,6 +26,7 @@ export default {
     );
     dispatch(newSearchList({ ...res }));
     // dispatch(updatePlpProduct(res.results.data));
+    gaEventsForSearch(res);
     return res;
   },
   updateProduct: async function(
