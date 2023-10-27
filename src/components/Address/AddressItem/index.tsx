@@ -210,7 +210,6 @@ const AddressItem: React.FC<Props> = props => {
       dataLayer.push({ ecommerce: null }); // Clear the previous ecommerce object.
       dataLayer.push({
         event: "add_shipping_info",
-        // bridal_address: bridalAddressId,
         shipping_address: shippingAddressId,
         gst_invoice: "",
         delivery_instruction: "", //Pass NA if not applicable the moment
