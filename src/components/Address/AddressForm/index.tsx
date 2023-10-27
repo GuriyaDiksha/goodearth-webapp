@@ -516,7 +516,7 @@ const AddressForm: React.FC<Props> = props => {
         onInvalidSubmit={handleInvalidSubmit}
       >
         <div
-          className={cs(styles.categorylabel, {
+          className={cs(globalStyles.voffset6, styles.categorylabel, {
             [styles.checkoutMobilePopup]:
               (mobile && currentCallBackComponent == "checkout-shipping") ||
               currentCallBackComponent == "checkout-billing"

@@ -412,9 +412,8 @@ class PDPContainer extends React.Component<Props, State> {
         if (scrollAfterDiv) {
           const rect = scrollAfterDiv.getBoundingClientRect();
           const scrollBottom = rect.bottom;
-          // console.log("bottom---" +scrollBottom);
-          // console.log("y---" +rect.y);
-          // console.log("window---" +windowScroll);
+          console.log("bottom---" + scrollBottom);
+          console.log("window---" + windowScroll);
           if (dockedDiv) {
             if (windowScroll >= scrollBottom) {
               dockedDiv.style.cssText = "position: absolute;bottom: -9%;";

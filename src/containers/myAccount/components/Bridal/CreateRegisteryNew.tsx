@@ -3,7 +3,8 @@ import React, {
   useContext,
   useEffect,
   createRef,
-  useRef
+  useRef,
+  useCallback
 } from "react";
 // import {render} from 'react-dom';
 // import * as mapper from "mappers/header"
@@ -40,7 +41,6 @@ const CreateRegistryNew: React.FC = () => {
     data.registryName ? data.registryName : ""
   );
   const [active, setActive] = useState(false);
-  const [firstActive, setFirstActive] = useState(true);
   const [updateProfile, setUpdateProfile] = useState(
     data.coRegistrantName && data.registrantName && data.eventDate
       ? true
@@ -57,7 +57,6 @@ const CreateRegistryNew: React.FC = () => {
   const setRegistry = (data: string) => {
     setSelectId(data);
     setActive(false);
-    setFirstActive(false);
     if (document.activeElement === otherRef.current) {
       setActive(true);
     } else {
@@ -109,7 +108,7 @@ const CreateRegistryNew: React.FC = () => {
     const { registrantName, coRegistrantName, registryName } = model;
     if (!updateProfile) return false;
     setCurrentModuleData("create", {
-      occasion: selectId,
+      occasion: selectId ? selectId : "wedding",
       eventDate: moment(date).format("YYYY-MM-DD"),
       registrantName: registrantName,
       coRegistrantName: coRegistrantName,
@@ -215,7 +214,7 @@ const CreateRegistryNew: React.FC = () => {
                       }}
                       data-value="Wedding"
                       className={cs(styles.radioList, {
-                        [styles.active]: firstActive || selectId == "wedding"
+                        [styles.active]: selectId == "" || selectId == "wedding"
                       })}
                     >
                       <span className={cs(styles.checkMark)}></span>
@@ -357,7 +356,7 @@ const CreateRegistryNew: React.FC = () => {
                   <input
                     type="submit"
                     disabled={!updateProfile}
-                    className={cs(globalStyles.ceriseBtn, {
+                    className={cs(globalStyles.charcoalBtn, {
                       [globalStyles.disabledBtn]: !updateProfile
                     })}
                     value="PROCEED"

@@ -90,7 +90,7 @@ const BridalMobileProductUpdate: React.FC<Props> = props => {
                 )}
               >
                 <div className={globalStyles.voffset4}>
-                  <div className={styles.textMuted}>QTY REQUESTED</div>
+                  <div className={styles.textMuted}>Quantity Required</div>
                   <div className={styles.widgetQty}>
                     <span className={styles.btnQty} onClick={decreaseState}>
                       -
@@ -121,17 +121,25 @@ const BridalMobileProductUpdate: React.FC<Props> = props => {
                   </div>
                 </div>
                 <div className={globalStyles.voffset4}>
-                  <div className={styles.textMuted}>QTY BOUGHT</div>
+                  <div className={styles.textMuted}>Quantity Bought</div>
                   <div
-                    className={cs(globalStyles.textCenter, globalStyles.c10LR)}
+                    className={cs(
+                      globalStyles.textCenter,
+                      globalStyles.c10LR,
+                      globalStyles.voffset1
+                    )}
                   >
                     {props.itemData.qtyBought}
                   </div>
                 </div>
                 <div className={globalStyles.voffset4}>
-                  <div className={styles.textMuted}>QTY REMAINING</div>
+                  <div className={styles.textMuted}>Quantity Remaining</div>
                   <div
-                    className={cs(globalStyles.textCenter, globalStyles.c10LR)}
+                    className={cs(
+                      globalStyles.textCenter,
+                      globalStyles.c10LR,
+                      globalStyles.voffset1
+                    )}
                   >
                     {currentQty - props.itemData.qtyBought}
                   </div>
@@ -151,12 +159,12 @@ const BridalMobileProductUpdate: React.FC<Props> = props => {
             <div
               className={
                 btnDisable
-                  ? cs(globalStyles.ceriseBtn, globalStyles.disabledBtn)
-                  : globalStyles.ceriseBtn
+                  ? cs(globalStyles.aquaBtn, globalStyles.disabledBtn)
+                  : globalStyles.aquaBtn
               }
               onClick={save}
             >
-              save
+              UPDATE DETAILS
             </div>
           </div>
         </div>

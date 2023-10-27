@@ -218,31 +218,37 @@ const RegistryAddress: React.FC<{ children: React.ReactNode }> = props => {
       {(mode == "new" || mode == "edit") &&
         currentCallBackComponent == "bridal" && (
           <div
-            className={cs(
-              globalStyles.textLeft,
-
-              globalStyles.voffset4,
-
-              styles.letterSpacing1
-            )}
+            className={cs(styles.backBtnTop, bootstrapStyles.offsetMd1)}
+            onClick={closeAddressForm}
           >
-            <span
-              className={cs(
-                bootstrapStyles.col10,
-
-                bootstrapStyles.offset1,
-
-                bootstrapStyles.colMd8,
-
-                bootstrapStyles.offsetMd2,
-
-                globalStyles.pointer
-              )}
-              onClick={closeAddressForm}
-            >
-              &lt; &nbsp;SAVED ADDRESSES
-            </span>
+            &lt; &nbsp;SAVED A
           </div>
+          // <div
+          //   className={cs(
+          //     globalStyles.textLeft,
+
+          //     globalStyles.voffset4,
+
+          //     styles.letterSpacing1
+          //   )}
+          // >
+          //   <span
+          //     className={cs(
+          //       bootstrapStyles.col10,
+
+          //       bootstrapStyles.offset1,
+
+          //       bootstrapStyles.colMd10,
+
+          //       bootstrapStyles.offsetMd2,
+
+          //       globalStyles.pointer
+          //     )}
+          //     onClick={closeAddressForm}
+          //   >
+          //     &lt; &nbsp;BACK
+          //   </span>
+          // </div>
         )}
 
       <div
@@ -262,7 +268,9 @@ const RegistryAddress: React.FC<{ children: React.ReactNode }> = props => {
           }
         )}
       >
-        <div className={cs(styles.flexHeader)}>
+        <div
+          className={cs(isBridal && mode == "list" ? styles.flexHeader : "")}
+        >
           <div className={cs(styles.regShipping)}>
             {isBridal && mode == "list" && (
               <div className={cs(styles.gcHead, globalStyles.voffset4)}>
@@ -286,8 +294,22 @@ const RegistryAddress: React.FC<{ children: React.ReactNode }> = props => {
             )}
 
             {(mode == "edit" || mode == "new") && isBridal && (
-              <div className={cs(globalStyles.textCenter, globalStyles.c22AI)}>
-                Manage Shipping Address
+              <div className={globalStyles.voffset5}>
+                {/* <div className={cs(styles.backBtnTop)} onClick={closeAddressForm}>
+                  &lt; &nbsp;BACK
+                </div> */}
+                <div
+                  className={cs(
+                    globalStyles.textCenter,
+                    globalStyles.c22AI,
+                    styles.registryFormHeading
+                  )}
+                >
+                  Manage Shipping Address
+                </div>
+                <div className={styles.registryFormSubheading}>
+                  Add multiple billing and shipping addresses.
+                </div>
               </div>
             )}
 
@@ -396,7 +418,8 @@ const RegistryAddress: React.FC<{ children: React.ReactNode }> = props => {
 
               globalStyles.voffset4,
 
-              styles.letterSpacing1
+              styles.letterSpacing1,
+              styles.posUnset
             )}
           >
             <span className={globalStyles.pointer} onClick={closeAddressForm}>

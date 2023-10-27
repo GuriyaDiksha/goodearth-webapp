@@ -60,12 +60,12 @@ export const address = (
         ...action.payload
       };
     }
-    case "UPDATE_BRIDAL_ADDRESS_ID": {
-      return {
-        ...state,
-        ...action.payload
-      };
-    }
+    // case "UPDATE_BRIDAL_ADDRESS_ID": {
+    //   return {
+    //     ...state,
+    //     ...action.payload
+    //   };
+    // }
     case "UPDATE_ADDRESS_MODE": {
       return {
         ...state,

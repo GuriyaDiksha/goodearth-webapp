@@ -14,6 +14,7 @@ import { AppState } from "reducers/typings";
 import bridalRing from "../../../images/bridal/rings.svg";
 import CookieService from "services/cookie";
 import { GA_CALLS } from "constants/cookieConsent";
+import moment from "moment";
 
 type Props = {
   addressData: AddressData;
@@ -32,6 +33,7 @@ type Props = {
 };
 
 const AddressItem: React.FC<Props> = props => {
+  const currentDate = moment().format("DD/MM/YYYY");
   const dispatch = useDispatch();
   const {
     openAddressForm,
@@ -485,41 +487,43 @@ const AddressItem: React.FC<Props> = props => {
               <div className={cs(styles.lineHead, styles.checkoutFix)}>
                 {props.title}
                 {(currentCallBackComponent == "bridal" ||
-                  currentCallBackComponent == "bridal-edit") &&
-                  !(props.showAddressInBridalUse && address.isBridal) && (
-                    <div className={cs(styles.radio, "bridalRadio")}>
-                      <input
-                        id={address.id.toString()}
-                        className={styles.defaultAddressCheckbox}
-                        // checked={
-                        //     address.id.toString() === bridalAddressId.toString()
-                        // }
-                        name={id}
-                        type="radio"
-                        onClick={() => {
-                          if (
-                            !(props.showAddressInBridalUse && address.isBridal)
-                          ) {
-                            if (address.id != userAddress?.id) {
-                              onSelectBridalAddress(address);
-                              const firstErrorField = document.getElementById(
-                                "address_button"
-                              ) as HTMLDivElement;
-                              if (firstErrorField) {
-                                firstErrorField.focus();
-                                firstErrorField.scrollIntoView({
-                                  block: "center",
-                                  behavior: "smooth"
-                                });
-                              }
-                              window.scrollTo(0, 0);
+                  currentCallBackComponent == "bridal-edit") && (
+                  // !(props.showAddressInBridalUse && address.isBridal) &&
+                  <div className={cs(styles.radio, "bridalRadio")}>
+                    <input
+                      id={address.id.toString()}
+                      className={styles.defaultAddressCheckbox}
+                      checked={
+                        props.showAddressInBridalUse && address.isBridal
+                          ? true
+                          : false
+                      }
+                      name={id}
+                      type="radio"
+                      onClick={() => {
+                        if (
+                          !(props.showAddressInBridalUse && address.isBridal)
+                        ) {
+                          if (address.id != userAddress?.id) {
+                            onSelectBridalAddress(address);
+                            const firstErrorField = document.getElementById(
+                              "address_button"
+                            ) as HTMLDivElement;
+                            if (firstErrorField) {
+                              firstErrorField.focus();
+                              firstErrorField.scrollIntoView({
+                                block: "center",
+                                behavior: "smooth"
+                              });
                             }
+                            window.scrollTo(0, 0);
                           }
-                        }}
-                      />
-                      <span className={styles.checkmark}></span>
-                    </div>
-                  )}
+                        }
+                      }}
+                    />
+                    <span className={styles.checkmark}></span>
+                  </div>
+                )}
                 <div className="useName">
                   {address.firstName}
                   &nbsp;
@@ -791,41 +795,41 @@ const AddressItem: React.FC<Props> = props => {
                 </div>
               )}
               {(currentCallBackComponent == "bridal" ||
-                currentCallBackComponent == "bridal-edit") &&
-                !(props.showAddressInBridalUse && address.isBridal) && (
-                  <div className={cs(styles.radio, "bridalRadio")}>
-                    <input
-                      id={address.id.toString()}
-                      className={styles.defaultAddressCheckbox}
-                      // checked={
-                      //   address.id.toString() === bridalAddressId.toString()
-                      // }
-                      name={id}
-                      type="radio"
-                      onClick={() => {
-                        if (
-                          !(props.showAddressInBridalUse && address.isBridal)
-                        ) {
-                          if (address.id != userAddress?.id) {
-                            onSelectBridalAddress(address);
-                            const firstErrorField = document.getElementById(
-                              "address_button"
-                            ) as HTMLDivElement;
-                            if (firstErrorField) {
-                              firstErrorField.focus();
-                              firstErrorField.scrollIntoView({
-                                block: "center",
-                                behavior: "smooth"
-                              });
-                            }
-                            window.scrollTo(0, 0);
+                currentCallBackComponent == "bridal-edit") && (
+                // !(props.showAddressInBridalUse && address.isBridal) &&
+                <div className={cs(styles.radio, "bridalRadio")}>
+                  <input
+                    id={address.id.toString()}
+                    className={styles.defaultAddressCheckbox}
+                    checked={
+                      props.showAddressInBridalUse && address.isBridal
+                        ? true
+                        : false
+                    }
+                    name={id}
+                    type="radio"
+                    onClick={() => {
+                      if (!(props.showAddressInBridalUse && address.isBridal)) {
+                        if (address.id != userAddress?.id) {
+                          onSelectBridalAddress(address);
+                          const firstErrorField = document.getElementById(
+                            "address_button"
+                          ) as HTMLDivElement;
+                          if (firstErrorField) {
+                            firstErrorField.focus();
+                            firstErrorField.scrollIntoView({
+                              block: "center",
+                              behavior: "smooth"
+                            });
                           }
+                          window.scrollTo(0, 0);
                         }
-                      }}
-                    />
-                    <span className={styles.checkmark}></span>
-                  </div>
-                )}
+                      }
+                    }}
+                  />
+                  <span className={styles.checkmark}></span>
+                </div>
+              )}
               {props.title}
               {address.firstName}
               &nbsp;
@@ -1088,7 +1092,7 @@ const AddressItem: React.FC<Props> = props => {
                 USE THIS ADDRESS
               </div>
             )} */}
-          {(currentCallBackComponent == "bridal" ||
+          {/* {(currentCallBackComponent == "bridal" ||
             currentCallBackComponent == "bridal-edit") &&
             address.isBridal && (
               <div
@@ -1101,9 +1105,17 @@ const AddressItem: React.FC<Props> = props => {
               >
                 ADDRESS IN USE
               </div>
-            )}
+            )} */}
         </div>
       </div>
+      {props.showAddressInBridalUse && address.isBridal ? (
+        <div className={styles.bridalEditAddressMsg}>
+          All orders placed before {currentDate} will be shipped to the older
+          address.
+        </div>
+      ) : (
+        ""
+      )}
       {/* {props.shippingErrorMsg && address.id == props.addressDataIdError && (
         <div className={globalStyles.errorMsg}>{props.shippingErrorMsg}</div>
       )}

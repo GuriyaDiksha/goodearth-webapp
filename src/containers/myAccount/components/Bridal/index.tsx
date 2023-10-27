@@ -163,10 +163,10 @@ const Bridal: React.FC<Props> = props => {
     }
   }, [props.bridalId]);
 
-  const openBridalPop = () => {
-    dispatch(updateComponent(POPUP.BRIDALPOP, null, true));
-    dispatch(updateModal(true));
-  };
+  // const openBridalPop = () => {
+  //   dispatch(updateComponent(POPUP.BRIDALPOP, null, true));
+  //   dispatch(updateModal(true));
+  // };
 
   const openShareLinkPopup = () => {
     if (shareLink) {
@@ -199,6 +199,7 @@ const Bridal: React.FC<Props> = props => {
           const items = data;
           for (let i = 0; i < items.length; i++) {
             if (items[i].id == newAddressId) {
+              alert(items);
               setBridalAddress(items[i]);
               break;
             }
@@ -296,7 +297,6 @@ const Bridal: React.FC<Props> = props => {
         formData.whatsappNo = whatsappNo;
         formData.whatsappNoCountryCode = whatsappNoCountryCode;
       }
-
       setLastScreen("start");
       setWhatsappNoErr("");
       BridalService.saveBridalProfile(dispatch, formData)
@@ -326,6 +326,8 @@ const Bridal: React.FC<Props> = props => {
 
             dispatch(updateUser(updatedUser));
             setCurrentModule("created");
+            // alert("editdetails====" +currentScreenValue);
+            // setCurrentScreenValue("createdNew");
           }
         })
         .catch(err => {
@@ -376,11 +378,40 @@ const Bridal: React.FC<Props> = props => {
     setCurrentScreenValue("manage");
   };
 
+  const showEditRegistryDetails = () => {
+    setCurrentScreenValue("editRegistryDetails");
+  };
+
   const showManageAddressComponent = () => {
     setCurrentScreenValue("editRegistryAddress");
   };
 
+  const showCreatedRegistryModule = () => {
+    getBridalProfileData();
+    setCurrentModule("created");
+  };
+  const showEditRegistryDetailsModule = () => {
+    setCurrentModule("editRegistryDetailsModule");
+  };
+
+  const showEditRegistryAddressModule = () => {
+    setCurrentModule("editRegistryAddressModule");
+  };
+
   const setSelectedSection = () => {
+    const changeName = (data: {
+      registrantName: string;
+      coRegistrantName: string;
+      registryName: string;
+    }) => {
+      setRegistrantName(data.registrantName);
+      setCoRegistrantName(data.coRegistrantName);
+      setRegistryName(data.registryName);
+    };
+
+    const changeDate = (date: string) => {
+      setCurrentEventDate(date);
+    };
     switch (currentSection) {
       case "create":
         return <CreateRegistryNew />;
@@ -397,6 +428,7 @@ const Bridal: React.FC<Props> = props => {
             error=""
             addresses={[]}
             createRegistry={createRegistry}
+            // createRegistry={showManageRegistry1}
             innerRef={whatsappRef}
             whatsappFormRef={whatsappFormRef}
             whatsappNoError={whatsappNoErr}
@@ -404,19 +436,49 @@ const Bridal: React.FC<Props> = props => {
           />
         );
       case "created":
+        // return (
+        //   <RegistryCreated errorMessage="" openBridalPop={openBridalPop} />
+        // );
+        if (bridalAddress && bridalProfile) {
+          if (
+            Object.keys(bridalAddress).length &&
+            Object.keys(bridalProfile).length
+          ) {
+            return (
+              <NewManageRegistry
+                openShareLinkPopup={openShareLinkPopup}
+                key={1}
+                showManageAddressComponent={showEditRegistryAddressModule}
+                editRegistryForm={showEditRegistryDetailsModule}
+              />
+            );
+          }
+        }
+      case "editRegistryDetailsModule":
         return (
-          // <RegistryCreated errorMessage="" openBridalPop={openBridalPop} />
-          <NewManageRegistry
-            openShareLinkPopup={openShareLinkPopup}
-            key={1}
-            // showManageRegistry={showManageRegistry}
-            showManageAddressComponent={showManageAddressComponent}
-            editRegistryForm={() =>
-              setCurrentScreenValue("editregisterydetails")
-            }
+          <EditRegistryDetails
+            bridalProfile={bridalProfile}
+            bridalId={bridalProfileData ? bridalProfileData.bridalId : 0}
+            eventDate={currentEventDate}
+            changeName={changeName}
+            changeDate={changeDate}
+            showManageRegistry={showCreatedRegistryModule}
+          />
+        );
+      case "editRegistryAddressModule":
+        return (
+          <AddressMain
+            isBridal={true}
+            addressType={"SHIPPING"}
+            error=""
+            addresses={[]}
+            currentCallBackComponent="bridal-edit"
+            currentStep={0}
+            editRegistryAddress={showCreatedRegistryModule}
           />
         );
       default:
+        break;
     }
   };
 
@@ -430,7 +492,7 @@ const Bridal: React.FC<Props> = props => {
       setShareLink(`${__DOMAIN__}/${res[0].shareLink}`);
       changeAddress(data.addressId);
       // setCurrentScreenValue("manageregistryfull");
-      setCurrentScreenValue("manage");
+      // setCurrentScreenValue("manage");
     });
   };
 
@@ -471,9 +533,7 @@ const Bridal: React.FC<Props> = props => {
                 openShareLinkPopup={openShareLinkPopup}
                 key={1}
                 showManageAddressComponent={showManageAddressComponent}
-                editRegistryForm={() =>
-                  setCurrentScreenValue("editregisterydetails")
-                }
+                editRegistryForm={showEditRegistryDetails}
               />
             );
           }
@@ -500,7 +560,7 @@ const Bridal: React.FC<Props> = props => {
         }
         break;
       }
-      case "editregisterydetails": {
+      case "editRegistryDetails": {
         return (
           <EditRegistryDetails
             bridalProfile={bridalProfile}
@@ -523,6 +583,7 @@ const Bridal: React.FC<Props> = props => {
             addresses={[]}
             currentCallBackComponent="bridal-edit"
             currentStep={0}
+            editRegistryAddress={showManageRegistry}
           />
         );
       // break;

@@ -15,12 +15,10 @@ import organize from "../../images/registery/organize.svg";
 import RegisterySlider from "./components/registerySlider";
 import { useSelector } from "react-redux";
 import RegisteryDockcta from "./components/registeryDockCTA";
+import { Props } from "./typings";
 
-type Props = {
-  mobile: boolean;
-};
-
-const Registery: React.FC<Props> = ({ mobile }) => {
+const Registery: React.FC<Props> = ({ mobileFaq }) => {
+  const { mobile } = useSelector((state: AppState) => state.device);
   const { isLoggedIn, bridalId } = useSelector((state: AppState) => state.user);
   return (
     <div>
@@ -163,7 +161,7 @@ const Registery: React.FC<Props> = ({ mobile }) => {
             </div>
 
             <div className="faq">
-              <RegisteryFAQ mobile={mobile} />
+              <RegisteryFAQ mobile={mobileFaq} />
             </div>
 
             <div className={cs(styles.needAssistance)}>

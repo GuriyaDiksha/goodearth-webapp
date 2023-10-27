@@ -105,6 +105,10 @@
     color: #9F9F9F;
     line-height: 20px;
     letter-spacing: 0.26px;
+    position: absolute;
+}
+.pos-unset{
+  position: unset;
 }
 
 .add {
@@ -1421,6 +1425,8 @@ margin-bottom: 50px !important;
   .product-price {
     @include plp_prod_name_desktop();
     font-family: $font-Montserrat;
+    line-height: 21px;
+    letter-spacing: 0.42px;
     margin-top: 15px;
   }
 
@@ -1517,14 +1523,15 @@ margin-bottom: 50px !important;
   // position: absolute;
   // right: 0;
   // top: 0;
-  span{
-    @include plp_prod_name_desktop();
-    font-size: 12px;
-    letter-spacing: 0.5px;
-    cursor: pointer;
-    text-decoration: underline;
-    text-underline-offset: 0.4em;
-  }
+  font-family: $font-Montserrat;
+  font-size: 10px;
+  line-height: 16px;
+  letter-spacing: 0.3px;
+  color: #191919;
+  cursor: pointer;
+  text-transform: uppercase;
+  text-decoration: underline;
+  text-underline-offset: 0.4em;
 }
 .form-heading {
   text-align: left;
@@ -1593,7 +1600,7 @@ margin-bottom: 50px !important;
     line-height: 20px;
     letter-spacing: 0.36px;
     color: #191919;
-    margin-bottom: 65px;
+    // margin-bottom: 65px;
     margin-top: -10px;
 }
 .GoBackCta{
@@ -1872,5 +1879,26 @@ margin-bottom: 50px !important;
     background: #E5E5E526 !important;
   }
 }
-
+.mob-flex-div{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 15px;
+}
+.mob-qty-remaining,
+.mob-qty-status{
+  font-family: $font-Montserrat;
+  font-size: 10px;
+  line-height: 16px;
+  letter-spacing: 0.3px;
+  color: #191919;
+}
+.mob-qty-status{
+  text-transform: uppercase;
+  text-decoration: underline;
+  text-underline-offset: 0.4em;
+}
+.m_40{
+  margin-bottom: -40px;
+}
 

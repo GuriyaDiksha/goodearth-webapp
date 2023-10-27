@@ -16,7 +16,8 @@ import bridalRing from "../../images/bridal/rings.svg";
 import iconStyles from "styles/iconFonts.scss";
 import { POPUP } from "constants/components";
 import { pageViewGTM } from "utils/validate";
-import gift_icon from "../../images/registery/addedReg.svg";
+import addedReg from "../../images/registery/addedReg.svg";
+import gift_icon from "../../images/registery/gift_icon.svg";
 
 type RouteInfo = {
   id: string;
@@ -130,6 +131,16 @@ class BridalCheckout extends React.Component<Props, State> {
     this.props.history.push("/order/checkout");
   };
 
+  redirectCart = () => {
+    if (!this.canCheckoutRegistry()) {
+      return false;
+    }
+    if (this.isSuspended) {
+      this.resetInfoPopupCookie();
+    }
+    this.props.history.push("/cart");
+  };
+
   componentDidMount() {
     pageViewGTM("BridalPublic");
     const cookieString =
@@ -155,6 +166,32 @@ class BridalCheckout extends React.Component<Props, State> {
     setTimeout(() => {
       window.scrollTo(0, 0);
     }, 1000);
+
+    setTimeout(() => {
+      document.addEventListener("scroll", this.handleScroll);
+    }, 1000);
+  }
+
+  // componentWillUnmount(){
+  //   document.removeEventListener('scroll', this.handleScroll);
+  // }
+
+  handleScroll() {
+    const window_top = window.scrollY;
+    const sticky = document.getElementById("sticky");
+    const stickyAnchor = document.getElementById("footer-start");
+    const topPos = stickyAnchor?.offsetTop;
+    // const rect = stickyAnchor?.getBoundingClientRect();
+    // const topPos = rect?.top;
+    // const bottomPos = rect?.bottom;
+    // console.log("window==" +(window_top+window.innerHeight) + "bottom==" +bottomPos + "top==" +topPos)
+    if (topPos) {
+      if (window_top + window.innerHeight >= topPos) {
+        sticky?.classList.remove(styles.stick);
+      } else {
+        sticky?.classList.add(styles.stick);
+      }
+    }
   }
 
   getItemsCount() {
@@ -241,7 +278,7 @@ class BridalCheckout extends React.Component<Props, State> {
                 <h3 className={cs(styles.summaryTitle)}>
                   {/* REGISTRY DETAILS  */}
                   {registrantName}&#39;s {registryName}
-                  <img src={gift_icon} width="25" alt="gift_reg_icon" />
+                  <img src={addedReg} width="25" alt="gift_reg_icon" />
                 </h3>
               </div>
               <div className={cs(styles.summaryPadding, styles.txtCap)}>
@@ -347,13 +384,13 @@ class BridalCheckout extends React.Component<Props, State> {
                         <div
                           className={cs(
                             styles.textCoupon,
-                            globalStyles.voffset4
+                            globalStyles.voffset3
                           )}
                         >
                           {/* To purchase an item, please select the quantity and
                           click <span className="bold"> ADD TO BAG.</span> */}
                           To purchase an item, please select the quantity and
-                          click ADD TO BAG. <br />
+                          click ADD TO BAG.
                           <br />
                           <br />
                           Please ensure you add the items from this public link
@@ -373,7 +410,7 @@ class BridalCheckout extends React.Component<Props, State> {
                         <div
                           className={cs(
                             styles.textCoupon,
-                            globalStyles.voffset4
+                            globalStyles.voffset3
                           )}
                         >
                           {/* If you need any assistance, talk to our representative
@@ -390,7 +427,7 @@ class BridalCheckout extends React.Component<Props, State> {
                           </a>
                         </div>
                         <div
-                          className={cs(globalStyles.voffset4, styles.tcUrl)}
+                          className={cs(globalStyles.voffset3, styles.tcUrl)}
                         >
                           <a
                             href="https://www.goodearth.in/customer-assistance/terms-conditions"
@@ -459,15 +496,15 @@ class BridalCheckout extends React.Component<Props, State> {
                         disabled={this.canCheckoutRegistry() ? false : true}
                         className={
                           this.canCheckoutRegistry()
-                            ? cs(globalStyles.ceriseBtn)
+                            ? cs(globalStyles.aquaBtn)
                             : cs(
-                                globalStyles.ceriseBtn,
-                                globalStyles.disabled,
+                                globalStyles.aquaBtn,
+                                globalStyles.disabledBtn,
                                 styles.disabledBtn
                               )
                         }
-                        value="PROCEED TO CHECKOUT"
-                        onClick={this.redirectCheckout}
+                        value="REVIEW BAG & CHECKOUT >"
+                        onClick={this.redirectCart}
                       />
                     </div>
                   )}
@@ -476,6 +513,7 @@ class BridalCheckout extends React.Component<Props, State> {
             </div>
           </div>
           <div
+            id="bridal_items_container"
             className={cs(bootstrap.col12, bootstrap.colMd9, styles.cartBlock)}
           >
             {this.state.bridalProfile.bridalId
@@ -500,7 +538,7 @@ class BridalCheckout extends React.Component<Props, State> {
                     globalStyles.textCenter
                   )}
                 >
-                  <svg
+                  {/* <svg
                     viewBox="-3 -3 46 46"
                     width="100"
                     height="100"
@@ -510,42 +548,55 @@ class BridalCheckout extends React.Component<Props, State> {
                     className={styles.bridalRing}
                   >
                     <use xlinkHref={`${bridalRing}#bridal-ring`}></use>
-                  </svg>
+                  </svg> */}
+                  <img src={gift_icon} width="40" alt="gift-icon" />
                 </div>
                 <div
                   className={cs(
-                    globalStyles.voffset4,
+                    globalStyles.voffset3,
                     styles.textCoupon,
+                    styles.endedEvent,
                     globalStyles.textCenter,
                     globalStyles.bold
                   )}
                 >
-                  Sorry, the event has ended.
+                  {/* Sorry, the event has ended. */}
+                  Looks like the event has ended.
                 </div>
               </>
             )}
             {!mobile && (
-              <div
-                className={cs(
-                  globalStyles.voffset4,
-                  styles.cart,
-                  styles.cartContainer
-                )}
-              >
-                <div className={cs(styles.cartItem, globalStyles.gutter15)}>
-                  <input
-                    type="button"
-                    disabled={this.canCheckoutRegistry() ? false : true}
-                    className={
-                      this.canCheckoutRegistry()
-                        ? cs(globalStyles.ceriseBtn)
-                        : cs(globalStyles.ceriseBtn, globalStyles.disabled)
-                    }
-                    value="PROCEED TO CHECKOUT"
-                    onClick={this.redirectCheckout}
-                  />
+              <>
+                <div
+                  id="sticky"
+                  className={cs(
+                    globalStyles.voffset4,
+                    styles.cart,
+                    styles.cartContainer,
+                    styles.fixedDiv,
+                    styles.stick
+                  )}
+                >
+                  <div className={cs(styles.cartItem, globalStyles.gutter15)}>
+                    <input
+                      type="button"
+                      disabled={this.canCheckoutRegistry() ? false : true}
+                      className={
+                        this.canCheckoutRegistry()
+                          ? cs(globalStyles.aquaBtn, styles.reviewBag)
+                          : cs(
+                              globalStyles.aquaBtn,
+                              globalStyles.disabledBtn,
+                              styles.reviewBag
+                            )
+                      }
+                      value="REVIEW BAG & CHECKOUT >"
+                      onClick={this.redirectCart}
+                    />
+                  </div>
                 </div>
-              </div>
+                {/* <div id="sticky_anchor"></div> */}
+              </>
             )}
           </div>
         </div>

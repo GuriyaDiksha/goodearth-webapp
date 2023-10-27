@@ -20,7 +20,7 @@ type Props = {
   editRegistryForm: () => void;
 };
 
-const NewManageRegistry: React.FC<Props> = ({
+const RegistryCreatedNew: React.FC<Props> = ({
   showManageAddressComponent,
   openShareLinkPopup,
   editRegistryForm
@@ -351,4 +351,4 @@ const NewManageRegistry: React.FC<Props> = ({
     </div>
   );
 };
-export default NewManageRegistry;
+export default RegistryCreatedNew;

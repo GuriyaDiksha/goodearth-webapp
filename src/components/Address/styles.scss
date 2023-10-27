@@ -101,7 +101,8 @@ body:has(.mobile) {
       border: 2px solid #8cb8aa;
       padding: 35px 25px 110px 25px;
     }
-    &.diabled-border {
+    &.diabled-border,
+    &.address-in-use {
       // border: 2px solid $cerise;
       padding: 30px 30px 30px 40px;
       border: 2px solid #7EAAA9;
@@ -115,14 +116,14 @@ body:has(.mobile) {
       line-height: 50px;
     }
     .address-in-use {
-      background-color: #868484;
-      line-height: 50px;
-      width: 100%;
-      text-align: center;
-      font-size: 12px;
-      border: none;
-      color: white !important;
-      letter-spacing: 2px;
+      // background-color: #868484;
+      // line-height: 50px;
+      // width: 100%;
+      // text-align: center;
+      // font-size: 12px;
+      // border: none;
+      // color: white !important;
+      // letter-spacing: 2px;
     }
     div.address-phone-number {
       @include b4_12px_montserrat_charcoal();
@@ -544,15 +545,15 @@ body:has(.mobile) {
   }
 }
 
-.address-item-container {
-  .address-item.address-in-use {
-    position: absolute;
-    background-color: #ccc;
-    height: 100%;
-    width: 100%;
-    cursor: unset!important;
-  }
-}
+// .address-item-container {
+//   .address-item.address-in-use {
+//     position: absolute;
+//     background-color: #ccc;
+//     height: 100%;
+//     width: 100%;
+//     cursor: unset!important;
+//   }
+// }
 
 .address-wrap {
   height: 100%;
@@ -696,7 +697,7 @@ body:has(.mobile) {
   .checkbox {
     display: block;
   }
-  .default-address-checkbox {
+  .default-address-checkbox{
     height: 19px !important;
     width: 19px !important;
     border-color: $light-charcoal !important;
@@ -846,7 +847,7 @@ margin-top: 5px;
 @include b6_9px_light_montserrat_charcoal();
 }
 div > .address-in-use {
-  cursor: unset;
+  cursor: unset!important;
 }
 .diabled-border input:before{
   content: "";
@@ -870,4 +871,12 @@ div > .address-in-use {
   top: 50%;
   right: 50%;
   transform: translate(50%, -50%);
+}
+// .edit-registery-details-wa{
+//   margin-bottom:0!important;
+// }
+.bridal-edit-address-msg{
+  @include error-msg();
+  margin-top: 10px;
+  text-align: left;
 }

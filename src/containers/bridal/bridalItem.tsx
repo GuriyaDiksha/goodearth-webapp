@@ -147,7 +147,13 @@ class BridalItem extends React.Component<Props, State> {
             <div className={cs(bootstrap.col5, bootstrap.colMd7)}>
               <div className={styles.rowMain}>
                 <div className={cs(bootstrap.col12, bootstrap.colMd6)}>
-                  <div className={cs(styles.section, styles.sectionInfo)}>
+                  <div
+                    className={cs(
+                      styles.section,
+                      styles.sectionInfo,
+                      mobile ? styles.mobPaddingZero : ""
+                    )}
+                  >
                     <div>
                       <div className={styles.collectionName}>
                         {this.props.bridalItem.collection}
@@ -202,12 +208,20 @@ class BridalItem extends React.Component<Props, State> {
                       </div>
                     </div>
                     {mobile && (
-                      <div
-                        className={globalStyles.voffset3}
-                        onClick={this.mobileAddToBag}
-                      >
-                        <img src={cartIcon} width="40" height="40" />
-                      </div>
+                      <>
+                        {/* <div
+                          className={cs(styles.mobQtyRemaining)}
+                        >
+                          <span>Quantity Remaining: {this.props.bridalItem.qtyRemaining}</span>
+                        </div> */}
+                        <div
+                          className={cs(styles.mobQtyStatus)}
+                          onClick={this.mobileAddToBag}
+                        >
+                          {/* <img src={cartIcon} width="40" height="40" /> */}
+                          <span>QUANTITY & STATUS</span>
+                        </div>
+                      </>
                     )}
                   </div>
                 </div>

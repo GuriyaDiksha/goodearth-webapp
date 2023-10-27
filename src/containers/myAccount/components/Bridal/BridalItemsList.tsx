@@ -182,33 +182,41 @@ const BridalItemsList: React.FC<Props> = props => {
                     <div className={cs(styles.smallfont)}>SIZE: {size}</div>
                     <div className={cs(styles.smallfont)}>SKU: {sku}</div>
                   </div>
-                  {qtyBought ? (
-                    ""
-                  ) : (
-                    <div
-                      title="Remove"
-                      className={styles.bridalItemRemove}
-                      onClick={deleteItem}
-                    >
-                      <span>REMOVE</span>
-                      {/* <i
-                          className={cs(
-                            iconStyles.icon,
-                            iconStyles.iconCrossNarrowBig,
-                            styles.icon,
-                            styles.iconCross
-                          )}
-                        ></i> */}
-                    </div>
-                  )}
                   {props.mobile && (
-                    <div
-                      className={cs(globalStyles.voffset3)}
-                      onClick={mobileAddToBag}
-                    >
-                      <img src={cartIcon} width="40" height="40" />
+                    <div className={cs(styles.mobQtyRemaining)}>
+                      <span>Quantity Remaining: {qtyRemaining}</span>
                     </div>
                   )}
+                  <div className={props.mobile ? styles.mobFlexDiv : ""}>
+                    {qtyBought ? (
+                      ""
+                    ) : (
+                      <div
+                        title="Remove"
+                        className={styles.bridalItemRemove}
+                        onClick={deleteItem}
+                      >
+                        <span>REMOVE</span>
+                        {/* <i
+                            className={cs(
+                              iconStyles.icon,
+                              iconStyles.iconCrossNarrowBig,
+                              styles.icon,
+                              styles.iconCross
+                            )}
+                          ></i> */}
+                      </div>
+                    )}
+                    {props.mobile && (
+                      <div
+                        className={cs(styles.mobQtyStatus)}
+                        onClick={mobileAddToBag}
+                      >
+                        {/* <img src={cartIcon} width="40" height="40" /> */}
+                        <span>QUANTITY & STATUS</span>
+                      </div>
+                    )}
+                  </div>
                 </div>
               </div>
               {!props.mobile && (
@@ -217,7 +225,7 @@ const BridalItemsList: React.FC<Props> = props => {
                 >
                   <div className={cs(styles.section, styles.sectionMiddle)}>
                     <div className="">
-                      <div className={styles.textMuted}>Quantity required</div>
+                      <div className={styles.textMuted}>Quantity Required</div>
                       <div className={styles.widgetQty}>
                         <span className={styles.btnQty} onClick={decreaseState}>
                           -

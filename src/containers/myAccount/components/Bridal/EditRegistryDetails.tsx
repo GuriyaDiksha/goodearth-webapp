@@ -29,13 +29,14 @@ type Props = {
 
 const EditRegistryDetails: React.FC<Props> = props => {
   const dispatch = useDispatch();
-  const { setCurrentScreenValue } = useContext(BridalContext);
+  const { setCurrentScreenValue, setCurrentModule } = useContext(BridalContext);
   const [updateProfile, setUpdateProfile] = useState(false);
 
   function scrollToTop() {
     document.body.scrollTop = 0; // For Safari
     document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
     setCurrentScreenValue("manage");
+    setCurrentModule("created");
   }
 
   const BridalNameFormRef = useRef<Formsy>(null);
@@ -104,7 +105,7 @@ const EditRegistryDetails: React.FC<Props> = props => {
       >
         <div className={cs(styles.backHead)}>
           <div className={cs(styles.backBtnTop)} onClick={() => scrollToTop()}>
-            &lt; &nbsp; BACK
+            &lt; &nbsp;BACK
           </div>
           <div className={cs(styles.registryFormHeading)}>
             Edit Registry Details
@@ -113,7 +114,10 @@ const EditRegistryDetails: React.FC<Props> = props => {
         <div className={cs(styles.registryFormSubheading)}>
           Manage & edit your Registry details
         </div>
-        <div id="edit-rdetails-form" className={styles.loginForm}>
+        <div
+          id="edit-rdetails-form"
+          className={cs(styles.loginForm, globalStyles.voffset6)}
+        >
           <div>
             <Formsy
               ref={BridalNameFormRef}
