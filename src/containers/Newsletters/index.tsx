@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, RefObject } from "react";
 import styles from "./styles.scss";
 import globalStyles from "../../styles/global.scss";
 import cs from "classnames";
@@ -16,6 +16,7 @@ import MakerEnhance from "components/maker";
 import { updateCountryData } from "actions/address";
 import FormSelect from "components/Formsy/FormSelect";
 import { Country } from "components/Formsy/CountryCode/typings";
+import SelectDropdown from "components/Formsy/SelectDropdown";
 
 type StateOptions = {
   value: string;
@@ -45,7 +46,13 @@ const Newsletters: React.FC = () => {
   const history = useHistory();
   const location = history.location;
   const { countryData } = useSelector((state: AppState) => state.address);
+  const countryRef: RefObject<HTMLInputElement> = useRef(null);
   const isAlphaError = "Only alphabets are allowed";
+  const isExistyError = "This field is required";
+  // const [isAddressChanged, setIsAddressChanged] = useState(false);
+  // const [isCountryChanged, setIsCountryChanged] = useState(false);
+  const { currency } = useSelector((state: AppState) => state);
+  const [isIndia, setIsIndia] = useState(currency === "INR");
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -54,29 +61,31 @@ const Newsletters: React.FC = () => {
         dispatch(updateCountryData(countryData));
       });
     }
-
     setMaker(true);
+    const firstField = document.getElementById("first-field") as HTMLDivElement;
+    firstField && firstField.focus();
+    setIsLoading(false);
   }, []);
 
   // *************** Open State option **************
   const EnquiryFormRef = useRef<Formsy>(null);
-  const onCountrySelect = (
-    event: React.ChangeEvent<HTMLSelectElement> | null,
-    defaultCountry?: string
-  ) => {
+  const onCountrySelect = (option: any, defaultCountry?: string) => {
     if (countryOptions.length > 0) {
       const form = EnquiryFormRef.current;
       let selectedCountry = "";
-      if (event) {
-        selectedCountry = event.currentTarget.value;
+      if (option?.value) {
+        selectedCountry = option?.value;
         form &&
           form.updateInputsWithValue(
             {
-              state: ""
+              state: "",
+              country: selectedCountry
             },
             false
           );
-      } else if (defaultCountry) {
+      }
+
+      if (defaultCountry) {
         selectedCountry = defaultCountry;
         // need to set defaultCountry explicitly
         if (form && selectedCountry) {
@@ -86,7 +95,7 @@ const Newsletters: React.FC = () => {
         }
       }
 
-      const { states, isd } = countryOptions.filter(
+      const { states, isd, value } = countryOptions.filter(
         country => country.value == selectedCountry
       )[0];
 
@@ -98,10 +107,13 @@ const Newsletters: React.FC = () => {
             state: ""
           });
         }
-        setCountrycode(isd || "");
+        form.updateInputsWithValue({
+          countrycode: isd,
+          country: selectedCountry
+        });
       }
-      // setIsIndia(value == "India");
       setStateOptions(states);
+      setEnableSubmit(true);
     }
   };
   // *************** Closed State option **************
@@ -227,6 +239,7 @@ const Newsletters: React.FC = () => {
       <Formsy
         onValidSubmit={handleSubmit}
         onInvalidSubmit={handleInvalidSubmit}
+        ref={EnquiryFormRef}
         onChange={handleChange}
       >
         <div
@@ -258,22 +271,6 @@ const Newsletters: React.FC = () => {
               }}
             />
           </div>
-          {/* <div>
-            <FormInput
-              required
-              name="lastName"
-              label="Last Name*"
-              placeholder="Last Name*"
-              validations={{
-                maxLength: 30,
-                isAlpha: true
-              }}
-              validationErrors={{
-                maxLength: "Max limit reached.",
-                isAlpha: "Only alphabets are allowed."
-              }}
-            />
-          </div> */}
           <div>
             <FormInput
               required
@@ -290,21 +287,23 @@ const Newsletters: React.FC = () => {
             />
           </div>
           <div className="select-group text-left">
-            <FormSelect
+            <SelectDropdown
               required
               label={"Country*"}
               options={countryOptions}
               handleChange={onCountrySelect}
-              placeholder={"Select Country*"}
+              placeholder="Select Country*"
               name="country"
               validations={{
                 isExisty: true
               }}
               validationErrors={{
-                isExisty: "Please select your Country"
+                isExisty: "Please select your Country",
+                isEmptyString: isExistyError
               }}
+              allowFilter={true}
+              inputRef={countryRef}
             />
-            <span className="arrow"></span>
           </div>
           <div className="select-group text-left">
             <FormSelect
@@ -315,19 +314,6 @@ const Newsletters: React.FC = () => {
               value=""
             />
           </div>
-          {/* <div>
-            <FormInput
-              name="city"
-              label="City"
-              placeholder="City"
-              validations={{
-                maxLength: 50
-              }}
-              validationErrors={{
-                maxLength: "Max limit reached."
-              }}
-            />
-          </div> */}
           <div className={styles.label}>
             {[
               "By signing up for alerts, you agree to receive e-mails, calls and text messages from Goodearth. To know more how we keep your data safe, refer to our ",
