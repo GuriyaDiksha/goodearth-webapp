@@ -34,11 +34,19 @@ const CeriseCard: React.FC<Props> = ({ clickToggle, showInnerMenu }) => {
   }, [email, slab]);
 
   return (
-    <div className={cs(styles.ceriseCardLeftContainer)}>
+    <div
+      className={cs(styles.ceriseCardLeftContainer, {
+        [styles.showInnerMenu]: showInnerMenu
+      })}
+    >
       {slab.toLowerCase() === "cerise" ||
       slab.toLowerCase() === "cerise sitara" ||
       slab.toLowerCase() === "cerise club" ? (
-        <CeriseCardDetail isViewDashboard={true} clickToggle={clickToggle} />
+        <CeriseCardDetail
+          isViewDashboard={true}
+          clickToggle={clickToggle}
+          showInnerMenu={showInnerMenu}
+        />
       ) : (
         <Link
           to="/cerise"
