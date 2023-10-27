@@ -64,7 +64,7 @@ export default {
       if (
         typeof document != "undefined" &&
         user.email &&
-        (!user.gender || !user.country)
+        (!user.gender || !user.country || !user.lastName || !user.firstName)
       ) {
         dispatch(updateComponent(POPUP.PROFILEUPDATER, null, true));
         dispatch(updateModal(true));
