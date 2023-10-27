@@ -17,6 +17,7 @@ import CookiePolicy from "./CookiePolicy";
 import MakerSmartNav from "containers/base/MakerSmartNav";
 import ReactHtmlParser from "react-html-parser";
 import { OLD_COOKIE_SETTINGS } from "constants/cookieConsent";
+// import NewsletterModal from "./NewsletterModal";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -34,10 +35,10 @@ const mapStateToProps = (state: AppState) => {
 
 const mapDispatchToProps = (dispatch: Dispatch) => {
   return {
-    newsletterSignup: async (email: string) => {
+    newsletterSignup: async (formData: any) => {
       const res = await HeaderFooterService.makeNewsletterSignupRequest(
         dispatch,
-        email
+        formData
       );
       return res;
     },
@@ -270,8 +271,11 @@ class Footer extends React.Component<Props, FooterState> {
       "newsletter"
     ) as HTMLInputElement;
     if (emailInput) {
+      const SignUpformData = new FormData();
+      SignUpformData.append("email", emailInput.value);
+      SignUpformData.append("source", "Footer");
       this.props
-        .newsletterSignup(emailInput.value)
+        .newsletterSignup(SignUpformData)
         .then(data => {
           if (data.status) {
             const msg = showErrors(data.message);
@@ -296,7 +300,6 @@ class Footer extends React.Component<Props, FooterState> {
           } else {
             const msg = showErrors(error.response.data.message);
             this.setState({ newsletterError: true, newsletterMessage: msg });
-            // console.log(error);
           }
         });
     }
@@ -315,8 +318,8 @@ class Footer extends React.Component<Props, FooterState> {
       footerImages: {
         footerImageDeskTop,
         footerImageMobile,
-        footerImageSubsDeskTop,
-        footerImageSubsMobile,
+        // footerImageSubsDeskTop,
+        // footerImageSubsMobile,
         footerBgColorMobile,
         footerHeadingFontColor,
         footerSubHeadingFontColor,
@@ -534,6 +537,7 @@ class Footer extends React.Component<Props, FooterState> {
                                                 styles.footerConnectIcon
                                               }
                                               src={currentValue.iconImage}
+                                              width="200"
                                             />
                                           )}
                                           {currentValue.link ? (
@@ -667,6 +671,7 @@ class Footer extends React.Component<Props, FooterState> {
                                     <img
                                       src={iconImage}
                                       className={styles.findUsOnIcon}
+                                      width="200"
                                     />
                                   </a>
                                 );
@@ -711,6 +716,7 @@ class Footer extends React.Component<Props, FooterState> {
                                           ?.ctaImage
                                       : ""
                                   }
+                                  width="200"
                                   className={cs(styles.imgResponsive)}
                                 />{" "}
                               </a>
@@ -851,6 +857,7 @@ class Footer extends React.Component<Props, FooterState> {
                                         <img
                                           className={styles.footerConnectIcon}
                                           src={child.iconImage}
+                                          width="200"
                                         />
                                       )}
                                       {child.link ? (
@@ -1071,6 +1078,7 @@ class Footer extends React.Component<Props, FooterState> {
                                   <img
                                     src={iconImage}
                                     className={styles.findUsOnIcon}
+                                    width="200"
                                   />
                                 </a>
                               );
@@ -1105,6 +1113,7 @@ class Footer extends React.Component<Props, FooterState> {
                                     this.props.data.footerPlaylistData?.ctaImage
                                   }
                                   className={cs(globalStyles.width250)}
+                                  width="200"
                                 />{" "}
                               </a>
                             </div>
@@ -1146,8 +1155,12 @@ class Footer extends React.Component<Props, FooterState> {
         {(this.state.smartNav.indexOf(this.props.location.pathname) > -1 ||
           this.props.location.pathname.includes("/category_landing/") ||
           desktopPlp) &&
-          this.props.currency == "INR" && (
-            <MakerSmartNav id="TDEHYqQNA" inline={false} />
+          ["INR", "USD"].includes(this.props.currency) && (
+            <MakerSmartNav
+              id="TDEHYqQNA"
+              inline={false}
+              currency={this.props.currency == "INR" ? "INR" : "USD"}
+            />
           )}
 
         {(OLD_COOKIE_SETTINGS
@@ -1163,6 +1176,19 @@ class Footer extends React.Component<Props, FooterState> {
             showCookiePrefs={this.props?.showCookiePrefs}
           />
         )}
+
+        {/* DO NOT REMOVE THIS CODE : Commented this code as per product requirement */}
+        {/* {!(OLD_COOKIE_SETTINGS
+          ? cookiCheck
+          : (cookiCheck && !this.state.isConsentSave) ||
+            this.props?.showCookiePref) && (
+          <NewsletterModal
+            title={"Find Out First!"}
+            subTitle={
+              "Be the first to know about new launches and the latest updates from the brand, delivered straight to your inbox!"
+            }
+          />
+        )} */}
       </div>
     );
   }

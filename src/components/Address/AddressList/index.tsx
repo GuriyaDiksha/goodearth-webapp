@@ -16,6 +16,7 @@ type Props = {
   isBridal?: boolean;
   bridalId?: number;
   showAddressInBridalUse?: boolean;
+  isGcCheckout?: boolean;
 };
 
 const AddressList: React.FC<Props> = props => {
@@ -151,7 +152,6 @@ const AddressList: React.FC<Props> = props => {
   //         props.manageAddressPostcode("edit", data);
   //     }
   // };
-
   return (
     <div>
       <div
@@ -181,6 +181,7 @@ const AddressList: React.FC<Props> = props => {
                 showAddressInBridalUse={props.showAddressInBridalUse}
                 defaultAddress={defaultAddress}
                 setDefaultAddress={setDefaultAddress}
+                isGcCheckout={props.isGcCheckout}
               />
             );
           })

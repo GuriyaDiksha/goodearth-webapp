@@ -89,6 +89,13 @@ const PlpDropdownMenu = ({
     setDisplayValue(value || displayValue);
   }, [value]);
 
+  useEffect(() => {
+    //Added for handling refine menu at the time of hamburger or serach click
+    if (mobileMenuOpenState || showSearchPopup) {
+      onOutsideClick();
+    }
+  }, [mobileMenuOpenState, showSearchPopup]);
+
   const onIClickSelected = (data: any) => {
     setDisplayValue(data.value);
     setOpenState(false);

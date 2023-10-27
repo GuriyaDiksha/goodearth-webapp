@@ -365,8 +365,9 @@ $banner-mobile-height:180px;
                         .limit{
                             @include b5_10px_montserrat_charcoal();
                             letter-spacing: 0.5px;
-                            margin-top: 0px;
+                            margin-top: 3px;
                             text-align: right;
+                            float: right;
                         }
                     }
                 }
@@ -514,6 +515,14 @@ $banner-mobile-height:180px;
                         border-right: none;
                         border-bottom: none;
                     }
+                    .carret-up {
+                        height: 9px;
+                        width: 9px;
+                        transform: rotate(45deg);
+                        border: 1px solid black;
+                        border-right: none;
+                        border-bottom: none;
+                    }
                 }
             }
             .title {
@@ -655,4 +664,8 @@ $banner-mobile-height:180px;
 
 .error-message{
     @include err_13px_lora_italic_cerise();
+}
+
+.left-float {
+    float: left;
 }

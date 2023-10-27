@@ -704,25 +704,27 @@ class OtpCompActivateGC extends React.Component<otpProps, otpState> {
             ? true
             : false
           : true) && (
-          <NewOtpComponent
-            // otpSentVia={this.props.isIndiaGC ? "mobile number" : "email"}
-            otpSentVia={"email"}
-            resendOtp={this.resendOtp}
-            verifyOtp={this.checkOtpValidation}
-            errorMsg={this.state.showerror}
-            attempts={this.state.attempts}
-            btnText={
-              this.props.otpFor == "activateGC"
-                ? "Activate Gift Card"
-                : "Check Balance"
-            }
-            startTimer={this.state.startTimer}
-            setAttempts={this.changeAttepts}
-            uniqueId="activategcid"
-            containerClassName={styles.otpWrapperGc}
-          />
+          <>
+            <NewOtpComponent
+              // otpSentVia={this.props.isIndiaGC ? "mobile number" : "email"}
+              otpSentVia={"email"}
+              resendOtp={this.resendOtp}
+              verifyOtp={this.checkOtpValidation}
+              errorMsg={this.state.showerror}
+              attempts={this.state.attempts}
+              btnText={
+                this.props.otpFor == "activateGC"
+                  ? "Activate Gift Card"
+                  : "Check Balance"
+              }
+              startTimer={this.state.startTimer}
+              setAttempts={this.changeAttepts}
+              uniqueId="activategcid"
+              containerClassName={styles.otpWrapperGc}
+            />
+            <hr />
+          </>
         )}
-        <hr />
       </div>
     );
   };

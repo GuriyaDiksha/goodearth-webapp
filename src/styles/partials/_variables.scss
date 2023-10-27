@@ -24,7 +24,8 @@ $very-light-grey: #EFEFEF;
 $aquablue: #8AB1B0;
 
 // Dropdown menu
-$dropdown-label-height: 32px;
+$dropdown-label-line-height: 24px;
+$dropdown-label-height: 33px;
 
 // Heights
 $header-height: 50px;
@@ -37,6 +38,8 @@ $footer-top:0px;
 $header-checkout: 50px;
 $grid-view-bar: 50px;
 $timer-height: 40px;
+$secondary-header-margin-top:40px;
+$secondary-header-margin-top-mobile:50px;
 
 // ================= UI Kit Colors ============================ //
 $aqua-text: #548B8B;
@@ -48,14 +51,16 @@ $light-beige: #F9F8F5;
 $med-charcoal: #4C4C4C;
 $light-charcoal: #9F9F9F;
 $lightest-charcoal: #D8D8D8;
+$dark-gray: #4A4A4A;
 
 // Secondary Palette
 $aqua: #7EAAA9;
 $aqua-bold: #548B8B;
+$aqua-semibold: #3C7979;
 $aqua-light: #D0E0E0;
 $cerise-light: #C6507F;
 $gold-light: #B59C77;
-
+$montserrat-light: #303030;
 // ================= Font Weights ============================ //
 $light: 300;
 $regular: 400;

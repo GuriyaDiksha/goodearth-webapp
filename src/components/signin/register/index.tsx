@@ -15,7 +15,7 @@ import FormInput from "../../Formsy/FormInput";
 import FormSelect from "../../Formsy/FormSelect";
 import FormCheckbox from "../../Formsy/FormCheckbox";
 import { Link } from "react-router-dom";
-import CountryCode from "../../Formsy/CountryCode";
+// import CountryCode from "../../Formsy/CountryCode";
 import { registerState } from "./typings";
 import mapDispatchToProps from "./mapper/actions";
 import { connect } from "react-redux";
@@ -26,6 +26,7 @@ import { AppState } from "reducers/typings";
 import CookieService from "services/cookie";
 import { GA_CALLS } from "constants/cookieConsent";
 import Button from "components/Button";
+import SelectDropdown from "components/Formsy/SelectDropdown";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -74,6 +75,7 @@ class RegisterForm extends React.Component<Props, registerState> {
   subscribeRef: RefObject<HTMLInputElement> = React.createRef();
   firstNameInput: RefObject<HTMLInputElement> = React.createRef();
   lastNameInput: RefObject<HTMLInputElement> = React.createRef();
+  countryCodeRef: RefObject<HTMLInputElement> = React.createRef();
 
   componentDidMount() {
     const email = localStorage.getItem("tempEmail");
@@ -401,6 +403,25 @@ class RegisterForm extends React.Component<Props, registerState> {
     });
   };
 
+  getCountryCodeObject = () => {
+    const { countryOptions } = this.state;
+    const arr: any[] = [];
+    countryOptions.map(({ label, isd }: any) => {
+      arr.push({ label: `${label}(${isd})`, value: isd });
+    });
+    return arr;
+  };
+
+  onCountryCodeSelect = (option: any) => {
+    const form = this.RegisterFormRef.current;
+    const selectedCountryCode = option?.value;
+
+    form &&
+      form.updateInputsWithValue({
+        code: selectedCountryCode
+      });
+  };
+
   render() {
     const showFieldsClass = this.state.showFields ? "" : styles.disabledInput;
     const { goLogin } = this.props;
@@ -539,7 +560,7 @@ class RegisterForm extends React.Component<Props, registerState> {
             />
           </div>
           <div className={styles.countryCode}>
-            <CountryCode
+            {/* <CountryCode
               name="code"
               placeholder="Code"
               label="Country Code"
@@ -554,6 +575,30 @@ class RegisterForm extends React.Component<Props, registerState> {
               validationErrors={{
                 isCodeValid: "Required"
               }}
+            /> */}
+            <SelectDropdown
+              name="code"
+              placeholder="Code"
+              label="Country Code"
+              options={this.getCountryCodeObject()}
+              value={""}
+              disable={!this.state.showFields}
+              validations={{
+                isCodeValid: (values, value) => {
+                  return !(values.phone && value == "");
+                }
+              }}
+              validationErrors={{
+                isCodeValid: "Required"
+              }}
+              allowFilter={true}
+              showLabel={true}
+              optionsClass={styles.isdCode}
+              aquaClass={styles.aquaText}
+              searchIconClass={styles.countryCodeSearchIcon}
+              searchInputClass={styles.countryCodeSearchInput}
+              inputRef={this.countryCodeRef}
+              handleChange={this.onCountryCodeSelect}
             />
             <FormInput
               name="phone"

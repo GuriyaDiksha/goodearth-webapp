@@ -669,7 +669,9 @@ class OtpComponent extends React.Component<otpProps, otpState> {
             : false
           : true) && (
           <NewOtpComponent
-            otpSentVia={radioType == "number" ? "mobile number" : "email"}
+            otpSentVia={`Email ID${
+              radioType == "number" ? " & Mobile No" : ""
+            }`}
             resendOtp={this.resendOtp}
             verifyOtp={this.checkOtpValidation}
             errorMsg={this.state.showerror}

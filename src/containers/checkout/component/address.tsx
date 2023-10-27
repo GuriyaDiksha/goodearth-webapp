@@ -3,59 +3,88 @@ import React, {
   ReactElement,
   useContext,
   useState,
-  useMemo
+  useMemo,
+  useRef,
+  useLayoutEffect
 } from "react";
 import cs from "classnames";
 import bootstrapStyles from "../../../styles/bootstrap/bootstrap-grid.scss";
 import globalStyles from "styles/global.scss";
 import styles from "../styles.scss";
 import { AddressProps } from "./typings";
-import { updateAddressList } from "actions/address";
+import {
+  updateAddressList,
+  updateBillingAddressId,
+  updateCustomDuties,
+  updateShippingAddressId,
+  updateSameAsShipping
+} from "actions/address";
 import AddressService from "services/address";
 import { useDispatch, useSelector } from "react-redux";
-import { STEP_BILLING, STEP_SHIPPING } from "../constants";
+import { STEP_BILLING, STEP_ORDER, STEP_SHIPPING } from "../constants";
 import UserContext from "contexts/user";
 import { AddressContext } from "components/Address/AddressMain/context";
 import { AppState } from "reducers/typings";
 import { AddressData } from "components/Address/typings";
 import { checkBlank } from "utils/validate";
 import { CheckoutAddressContext } from "./context";
-import { Currency, currencyCode } from "typings/currency";
+import checkmarkCircle from "./../../../images/checkmarkCircle.svg";
+import { updateComponent, updateModal } from "actions/modal";
+import { POPUP } from "constants/components";
 import { displayPriceWithCommas } from "utils/utility";
 import Button from "components/Button";
+import ReactHtmlParser from "react-html-parser";
+import { countryCurrencyCode } from "constants/currency";
+import ModalStyles from "components/Modal/styles.scss";
+import CookieService from "services/cookie";
+import { GA_CALLS } from "constants/cookieConsent";
+import { Currency, currencyCode } from "typings/currency";
 
 const AddressSection: React.FC<AddressProps & {
   mode: string;
   children: React.ReactNode;
 }> = props => {
   const {
-    mode,
     children,
     activeStep,
     isActive,
     isBridal,
     selectedAddress,
     isGoodearthShipping,
-    hidesameShipping,
+    // hidesameShipping,
     next,
-    errorNotification
+    errorNotification,
+    currentStep,
+    error,
+    isGcCheckout
   } = props;
   const { isLoggedIn } = useContext(UserContext);
   const {
     openAddressForm,
     closeAddressForm,
     isAddressValid,
-    currentCallBackComponent
+    currentCallBackComponent,
+    setMode
   } = useContext(AddressContext);
   const { currency, user } = useSelector((state: AppState) => state);
-  const { basket } = useSelector((state: AppState) => state);
+  const {
+    basket
+    // modal: { openModal }
+  } = useSelector((state: AppState) => state);
   const { mobile } = useSelector((state: AppState) => state.device);
-  const { addressList } = useSelector((state: AppState) => state.address);
-  const sameShipping =
-    (props.activeStep == STEP_BILLING ? true : false) &&
-    props.hidesameShipping &&
-    !isGoodearthShipping &&
-    !props.isBridal;
+  const {
+    addressList,
+    shippingAddressId,
+    billingAddressId,
+    customDuties,
+    sameAsShipping
+  } = useSelector((state: AppState) => state.address);
+  // const { showPromo } = useSelector((state: AppState) => state.info);
+  // const sameShipping =
+  //   (props.activeStep == STEP_BILLING ? true : false) &&
+  //   props.hidesameShipping &&
+  //   !isGoodearthShipping &&
+  //   !props.isBridal;
 
   const amountPrice = {
     INR: 200000,
@@ -64,29 +93,168 @@ const AddressSection: React.FC<AddressProps & {
     AED: 9300,
     SGD: 3500
   };
-
   const code = currencyCode[currency as Currency];
 
-  const [sameAsShipping, setSameAsShipping] = useState(sameShipping);
+  // const [sameAsShipping, setSameAsShipping] = useState(sameShipping);
   const [gst, setGst] = useState(false);
-  const [gstText, setGstText] = useState("");
+  // const [gstNum, setGstNum] = useState("");
+  // let gstNum: any;
   const [pancardText, setPancardText] = useState(user.panPassport || "");
   const [pancardCheck, setPancardCheck] = useState(false);
   const [panError, setPanError] = useState("");
   const [panCheck, setPanCheck] = useState("");
-  const [gstType, setGstType] = useState("GSTIN");
-  const [error, setError] = useState("");
+  const [isTermChecked, setIsTermChecked] = useState(true);
+  const [termsErr, setTermsErr] = useState("");
+  const [gstDetails, setGstDetails] = useState({ gstText: "", gstType: "" });
+  const [billingError, setBillingError] = useState("");
 
   const dispatch = useDispatch();
+
+  const { mode } = useSelector((state: AppState) => state.address);
+
+  const canUseDOM = !!(
+    typeof window !== "undefined" &&
+    typeof window.document !== "undefined" &&
+    typeof window.document.createElement !== "undefined"
+  );
+
+  const [checkoutMobileOrderSummary, setCheckoutMobileOrderSummary] = useState(
+    false
+  );
+
+  const useIsomorphicLayoutEffect = canUseDOM ? useLayoutEffect : useEffect;
+
+  // Begin: Intersection Observer (Mobile)
+
+  const orderSummaryRef = useRef(null);
+  const orderSummaryRef2 = useRef(null);
+  let observer: any;
+
+  const handleScroll = () => {
+    const interSectionCallBack = (enteries: any) => {
+      setCheckoutMobileOrderSummary(
+        enteries[enteries?.length - 1].isIntersecting
+      );
+    };
+    observer = new IntersectionObserver(interSectionCallBack);
+    orderSummaryRef?.current && observer.observe(orderSummaryRef?.current);
+    orderSummaryRef2?.current && observer.observe(orderSummaryRef2?.current);
+  };
+
+  useIsomorphicLayoutEffect(() => {
+    document.addEventListener("scroll", handleScroll, true);
+
+    return () => {
+      orderSummaryRef?.current && observer?.unobserve(orderSummaryRef?.current);
+      orderSummaryRef2?.current &&
+        observer?.unobserve(orderSummaryRef2?.current);
+      document.removeEventListener("scroll", handleScroll, true);
+    };
+  }, []);
+  // End: Intersection Observer (Mobile)
+
   useEffect(() => {
-    if (isLoggedIn && currentCallBackComponent == "checkout-shipping") {
-      AddressService.fetchAddressList(dispatch).then(addressList => {
-        dispatch(updateAddressList(addressList));
-      });
+    if (
+      isLoggedIn &&
+      (currentCallBackComponent == "checkout-shipping" ||
+        (isGcCheckout && currentCallBackComponent == "checkout-billing"))
+    ) {
+      AddressService.fetchAddressList(dispatch, isGcCheckout).then(
+        addressList => {
+          dispatch(updateAddressList(addressList));
+        }
+      );
     }
   }, [isLoggedIn]);
+
+  useEffect(() => {
+    setBillingError("");
+    setGstDetails({ gstText: "", gstType: "" });
+  }, [shippingAddressId, billingAddressId]);
+
+  useEffect(() => {
+    const data = addressList.find(val =>
+      shippingAddressId
+        ? val?.id === shippingAddressId
+        : val?.isDefaultForShipping
+    );
+    AddressService.fetchCustomDuties &&
+      AddressService.fetchCustomDuties(
+        dispatch,
+        countryCurrencyCode?.[data?.country || "IN"]
+      )
+        .then(res => {
+          setIsTermChecked(customDuties?.visible || true);
+          setTermsErr("");
+          dispatch(updateCustomDuties(res));
+        })
+        .catch(e => {
+          setIsTermChecked(e?.response?.data?.visible || false);
+          setTermsErr("");
+          dispatch(
+            updateCustomDuties({
+              visible: e?.response?.data?.visible,
+              message: ""
+            })
+          );
+        });
+  }, [shippingAddressId]);
+
+  // useEffect(() => {
+
+  //   if (currentCallBackComponent === "checkout-shipping") {
+  //     dispatch(
+  //       updateShippingAddressId(
+  //         props.selectedAddress?.id ||
+  //           addressList?.find(val => val?.isDefaultForShipping)?.id ||
+  //           0
+  //       )
+  //     );
+  //   }
+  //   if (
+  //     (currentCallBackComponent === "checkout-billing" ||
+  //       currentCallBackComponent === "checkout-shipping") &&
+  //     sameAsShipping &&
+  //     !isBridal &&
+  //     !isGoodearthShipping &&
+  //     props.selectedAddress?.id
+  //   ) {
+  //     debugger;
+  //     dispatch(updateBillingAddressId(props.selectedAddress?.id));
+  //   }
+
+  //   if (
+  //     currentCallBackComponent === "checkout-billing" &&
+  //     (!sameAsShipping || isBridal || isGoodearthShipping)
+  //   ) {
+  //     debugger;
+  //     if (isBridal || isGoodearthShipping) {
+  //       debugger;
+  //       dispatch(updateBillingAddressId(0));
+  //     } else {
+  //       dispatch(updateBillingAddressId(billingAddressId));
+  //     }
+  //   }
+
+  // }, [props.selectedAddress, addressList]);
+
+  useEffect(() => {
+    if (activeStep == STEP_BILLING && (!isBridal || !isGoodearthShipping)) {
+      dispatch(updateBillingAddressId(props.selectedAddress?.id || 0));
+
+      if (sameAsShipping) {
+        dispatch(updateShippingAddressId(props.selectedAddress?.id || 0));
+      }
+    }
+    if (activeStep === STEP_SHIPPING) {
+      dispatch(updateShippingAddressId(props.selectedAddress?.id || 0));
+    }
+  }, [props.selectedAddress, activeStep]);
+
   const openNewAddressForm = () => {
-    setSameAsShipping(false);
+    if (currentCallBackComponent === "checkout-billing") {
+      dispatch(updateSameAsShipping(false));
+    }
     openAddressForm();
   };
 
@@ -98,9 +266,14 @@ const AddressSection: React.FC<AddressProps & {
     setPancardText(user.panPassport || "");
   }, [user.panPassport]);
 
-  useEffect(() => {
-    setSameAsShipping(!isGoodearthShipping && hidesameShipping && !isBridal);
-  }, [isGoodearthShipping, hidesameShipping, isBridal]);
+  // Commented because of Same as shipping issue
+  // useEffect(() => {
+  //   dispatch(
+  //     updateSameAsShipping(
+  //       !isGoodearthShipping && !isBridal
+  //     )
+  //   );
+  // }, [isGoodearthShipping, isBridal]);
 
   useEffect(() => {
     setPanError("");
@@ -109,22 +282,33 @@ const AddressSection: React.FC<AddressProps & {
       setGst(false);
     }
   }, [currency]);
-  const renderActions = function(isBottom?: boolean) {
-    if (isActive && isLoggedIn) {
+
+  const renderActions = function(
+    isBottom?: boolean,
+    isBillingDisable?: boolean
+  ) {
+    if ((isActive && isLoggedIn) || isBillingDisable) {
       const clickAction =
         mode == "list" ? openNewAddressForm : backToAddressList;
       const fullText =
         mode == "new" || mode == "edit"
           ? "< BACK TO SAVED ADDRESSES"
-          : "[+] ADD NEW ADDRESS";
+          : isBillingDisable
+          ? ""
+          : "[+] ADD NEW ADDRESS"; //if billing is disabled then do not show anything here
       const mobileText =
-        mode == "new" || mode == "edit" ? "< BACK" : "[+] ADD ADDRESS";
+        mode == "new" || mode == "edit"
+          ? "< BACK"
+          : isBillingDisable
+          ? " "
+          : "[+] ADD NEW ADDRESS";
       if (isBridal && activeStep == STEP_SHIPPING) return "";
+      if (isBillingDisable) return null;
       return (
         <div
           className={cs(
             {
-              [bootstrapStyles.col6]: !isBottom,
+              [bootstrapStyles.col5]: !isBottom,
               [bootstrapStyles.colMd6]: !isBottom,
               [bootstrapStyles.col12]: isBottom,
               [bootstrapStyles.colMd12]: isBottom,
@@ -135,10 +319,30 @@ const AddressSection: React.FC<AddressProps & {
           )}
         >
           <div
-            className={cs(styles.formSubheading, globalStyles.pointer)}
-            onClick={clickAction}
+            className={cs({
+              [styles.closed]: isBillingDisable
+            })}
           >
-            {mobile ? <span>{mobileText}</span> : <span>{fullText}</span>}
+            {mobile ? (
+              <span
+                className={cs(styles.addNewAddress, {
+                  [globalStyles.pointer]: !isBillingDisable
+                })}
+                onClick={clickAction}
+              >
+                {mobileText}
+              </span>
+            ) : (
+              <span
+                className={cs(styles.addNewAddress, {
+                  [styles.lightClosed]: isBillingDisable,
+                  [globalStyles.pointer]: !isBillingDisable
+                })}
+                onClick={clickAction}
+              >
+                {fullText}
+              </span>
+            )}
           </div>
         </div>
       );
@@ -147,11 +351,11 @@ const AddressSection: React.FC<AddressProps & {
 
   const handleStepEdit = () => {
     activeStep == STEP_SHIPPING ? next(STEP_SHIPPING) : next(STEP_BILLING);
+    setMode("list");
   };
 
   const renderSavedAddress = function() {
     const address = selectedAddress;
-
     if (!isActive && address && isBridal && activeStep == STEP_SHIPPING) {
       // saved address for bridal
       return (
@@ -174,46 +378,139 @@ const AddressSection: React.FC<AddressProps & {
           </div>
         </div>
       );
-    } else if (!isActive && address) {
+    } else if (!isActive && address && STEP_ORDER[activeStep] < currentStep) {
       // saved address for not bridal
       return (
         <div
           className={cs(
             bootstrapStyles.col12,
-            bootstrapStyles.colMd6,
+            bootstrapStyles.colLg6,
             styles.small,
-            styles.selectedStvalue
+            styles.selectedStvalue,
+            {
+              [styles.checkoutSelectedValue]:
+                currentCallBackComponent == "checkout-shipping" ||
+                currentCallBackComponent == "checkout-billing"
+            }
           )}
         >
-          <div>
-            <span className={globalStyles.marginR10}>
-              {address.firstName} {address.lastName}
-            </span>
-            <span>Contact No. {address.phoneNumber}</span>
-          </div>
-          <div>
-            {address.line1}, {address.line2}
-          </div>
-          <div>
-            <span className={globalStyles.marginR10}>
-              {address.city} {address.postCode}, {address.state},{" "}
-              {address.countryName}
-            </span>
-            <span
-              className={cs(globalStyles.colorPrimary, globalStyles.pointer)}
-              onClick={handleStepEdit}
-            >
-              Edit
-            </span>
-          </div>
-          {currentCallBackComponent == "checkout-shipping" && (
+          {currentCallBackComponent == "checkout-shipping" ? (
             <>
-              <hr />
-              <p className={styles.contactMsg}>
-                <b>Note: </b>
-                {`${address.phoneCountryCode} ${address.phoneNumber} will be used for sending OTP during delivery.`}
-                <br /> Please ensure it is a mobile number.
+              <div
+                className={cs(globalStyles.flex, globalStyles.gutterBetween)}
+              >
+                <span
+                  className={cs(
+                    globalStyles.marginR10,
+                    styles.name,
+                    styles.addressType
+                  )}
+                >
+                  {address.firstName} {address.lastName}{" "}
+                  {address?.addressType && `(${address?.addressType})`}
+                </span>
+                <span
+                  className={cs(
+                    globalStyles.colorPrimary,
+                    globalStyles.pointer,
+                    styles.editAddress
+                  )}
+                  onClick={handleStepEdit}
+                >
+                  Edit
+                </span>
+              </div>
+              <div className={styles.addressMain}>
+                <div className={styles.text}>{address.line1},</div>
+                {address.line2 && (
+                  <div className={styles.text}>{address.line2},</div>
+                )}
+                <div className={styles.text}>
+                  {address.city}, {address.state}, {address.postCode},
+                </div>
+                <div className={styles.text}>{address.countryName}</div>
+              </div>
+              <p className={styles.phone}>
+                {address.phoneCountryCode} {address.phoneNumber}
               </p>
+              {currency === "INR" && (
+                <p className={styles.contactMsg}>
+                  Note:
+                  {`${address.phoneCountryCode} ${address.phoneNumber} will be used for sending OTP during delivery. Please ensure it is a mobile number.`}
+                </p>
+              )}
+            </>
+          ) : currentCallBackComponent == "checkout-billing" ? (
+            <>
+              <div
+                className={cs(globalStyles.flex, globalStyles.gutterBetween)}
+              >
+                <span
+                  className={cs(
+                    globalStyles.marginR10,
+                    styles.name,
+                    styles.addressType
+                  )}
+                >
+                  {address.firstName} {address.lastName}{" "}
+                  {address?.addressType && `(${address?.addressType})`}
+                </span>
+                <span
+                  className={cs(
+                    globalStyles.colorPrimary,
+                    globalStyles.pointer,
+                    styles.editAddress
+                  )}
+                  onClick={handleStepEdit}
+                >
+                  Edit
+                </span>
+              </div>
+              <div className={styles.addressMain}>
+                <div className={styles.text}>{address.line1},</div>
+                {address.line2 ? (
+                  <div className={styles.text}>{address.line2},</div>
+                ) : null}
+                <div className={styles.text}>
+                  {address.city}, {address.state}, {address.postCode},
+                </div>
+                <div className={styles.text}>{address.countryName}</div>
+              </div>
+              <p className={styles.phone}>
+                M: {address.phoneCountryCode} {address.phoneNumber}
+              </p>
+              {gstDetails?.gstText && (
+                <p className={styles.gstNo}>
+                  {gstDetails?.gstType}: {gstDetails?.gstText}
+                </p>
+              )}
+            </>
+          ) : (
+            <>
+              <div>
+                <span className={globalStyles.marginR10}>
+                  {address.firstName} {address.lastName}
+                </span>
+                <span>Contact No. {address.phoneNumber}</span>
+              </div>
+              <div>
+                {address.line1}, {address.line2}
+              </div>
+              <div>
+                <span className={globalStyles.marginR10}>
+                  {address.city} {address.postCode}, {address.state},{" "}
+                  {address.countryName}
+                </span>
+                <span
+                  className={cs(
+                    globalStyles.colorPrimary,
+                    globalStyles.pointer
+                  )}
+                  onClick={handleStepEdit}
+                >
+                  Edit
+                </span>
+              </div>
             </>
           )}
         </div>
@@ -222,12 +519,12 @@ const AddressSection: React.FC<AddressProps & {
       // props.openAddressForm();
     }
   };
-  const onChangeGst = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setGstType(e.target.value);
-    setPanError("");
-    setError("");
-    setGstText("");
-  };
+  // const onChangeGst = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   setGstType(e.target.value);
+  //   setPanError("");
+  //   setError("");
+  //   setGstText("");
+  // };
 
   const onPanKeyPress = (event: React.KeyboardEvent) => {
     if (event.key === "Enter") {
@@ -235,10 +532,11 @@ const AddressSection: React.FC<AddressProps & {
     }
   };
 
-  const onCouponChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setGstText(event.target.value);
-    setError("");
-  };
+  // const onCouponChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  //   console.log("test ====", event.target.value);
+  //   setGstText(event.target.value);
+  //   setError("");
+  // };
 
   const onPanChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPancardText(event.target.value);
@@ -248,30 +546,12 @@ const AddressSection: React.FC<AddressProps & {
     setPancardCheck(!pancardCheck);
   };
 
-  const RadioButton = (props: { gstType: string }) => {
-    return (
-      <label className={styles.container}>
-        <input
-          type="radio"
-          name="editList"
-          defaultChecked={gstType == props.gstType}
-          value={props.gstType}
-          onChange={onChangeGst}
-        />
-        <span className={styles.checkmark}> </span>{" "}
-        <span className={styles.txtGst}>
-          {props.gstType == "UID" ? "UIN" : props.gstType}
-        </span>
-      </label>
-    );
-  };
-
-  const toggleGstInvoice = () => {
-    setGst(!gst);
-  };
-
   const toggleSameAsShipping = () => {
-    setSameAsShipping(!sameAsShipping);
+    dispatch(updateSameAsShipping(!sameAsShipping));
+
+    if (!sameAsShipping) {
+      dispatch(updateBillingAddressId(shippingAddressId));
+    }
   };
 
   const checkPancardValidation = () => {
@@ -307,28 +587,8 @@ const AddressSection: React.FC<AddressProps & {
     return validate;
   };
 
-  const gstValidation = () => {
-    if (gstText.length > 0) {
-      if (gstText.length != 15 && gstType == "GSTIN") {
-        setError("Please enter a valid GST Number");
-        return false;
-      } else if (gstText.length != 15 && gstType == "UID") {
-        setError("Please enter a valid UIN Number");
-        return false;
-      } else {
-        setError("");
-        return true;
-      }
-    } else {
-      const text = gstType == "GSTIN" ? "GST" : "UIN";
-
-      setError("Please enter a " + text + " number");
-      return false;
-    }
-  };
-
   const removeErrorMessages = () => {
-    setError("");
+    // setError("");
     setPanError("");
     setPanCheck("");
   };
@@ -345,17 +605,32 @@ const AddressSection: React.FC<AddressProps & {
       }
     }, 500);
   };
-
-  const onSubmit = (address?: AddressData) => {
+  const onSubmit: any = (address?: AddressData | undefined) => {
     let validate = true;
     const addr = address || null;
     let numberObj: { gstNo?: string; gstType?: string; panPassportNo: string };
     const amountPriceCheck = amountPrice[currency] <= basket.total;
+    // setGstNum(gstText || gstNum);
 
-    if (gst) {
+    // if (gstText) {
+    //   setGstDetails({ gstText: gstText, gstType: gstType || "" });
+    // }
+    if (
+      billingAddressId === 0 &&
+      currentCallBackComponent === "checkout-billing"
+    ) {
+      setBillingError("Please select billing address");
+      return false;
+    }
+
+    if (gstDetails?.gstText) {
       numberObj = Object.assign(
         {},
-        { gstNo: gstText, gstType: gstType, panPassportNo: pancardText }
+        {
+          gstNo: gstDetails?.gstText,
+          gstType: gstDetails?.gstType,
+          panPassportNo: pancardText
+        }
       );
     } else {
       numberObj = Object.assign(
@@ -367,16 +642,27 @@ const AddressSection: React.FC<AddressProps & {
     if (amountPriceCheck && props.activeStep == STEP_BILLING) {
       if (!checkPancardValidation()) {
         validate = false;
+      } else {
+        const userConsent = CookieService.getCookie("consent").split(",");
+        if (userConsent.includes(GA_CALLS)) {
+          dataLayer.push({
+            event: "verify_userid_type",
+            click_type: currency === "INR" ? "Pancard" : "Passport"
+          });
+        }
       }
     }
-    if (gst && props.activeStep == STEP_BILLING) {
-      if (!gstValidation()) {
-        validate = false;
-      }
-    }
+    // if (gst && props.activeStep == Steps.STEP_BILLING) {
+    //   if (!gstValidation()) {
+    //     validate = false;
+    //   }
+    // }
     if (validate) {
       removeErrorMessages();
       props.finalizeAddress(addr, props.activeStep, numberObj);
+      // if (activeStep === STEP_BILLING) {
+      //   next(showPromo ? STEP_PROMO : STEP_PAYMENT);
+      // }
       return validate;
     } else {
       showErrorMsg();
@@ -384,32 +670,160 @@ const AddressSection: React.FC<AddressProps & {
     }
   };
 
-  const onKeyPress = (event: React.KeyboardEvent) => {
-    if (event.key === "Enter") {
-      onSubmit();
-      event.preventDefault();
+  const addGAForShipping = (address: any) => {
+    const userConsent = CookieService.getCookie("consent").split(",");
+    const items = basket.lineItems.map((line, ind) => {
+      const index = line?.product.categories
+        ? line?.product.categories.length - 1
+        : 0;
+      const category =
+        line?.product.categories && line?.product.categories[index]
+          ? line?.product.categories[index].replace(/\s/g, "")
+          : "";
+      const arr = category.split(">");
+
+      return {
+        item_id: line?.product?.id, //Pass the product id
+        item_name: line?.product?.title, // Pass the product name
+        affiliation: line?.product?.title, // Pass the product name
+        coupon: "NA", // Pass the coupon if available
+        currency: currency, // Pass the currency code
+        discount: "NA", // Pass the discount amount
+        index: ind,
+        item_brand: "Goodearth",
+        item_category: category?.split(">")?.join("/"),
+        item_category2: line.product?.childAttributes[0]?.size,
+        item_category3: line.product.is3d ? "3d" : "non3d",
+        item_category4: line.product.is3d ? "YES" : "NO",
+        item_list_id: "NA",
+        item_list_name: "NA",
+        item_variant: "NA",
+        // item_category5: line?.product?.collection,
+        price: line?.product?.priceRecords[currency],
+        quantity: line?.quantity,
+        collection_category: line?.product?.collections?.join("|")
+      };
+    });
+
+    if (userConsent.includes(GA_CALLS)) {
+      dataLayer.push({ ecommerce: null }); // Clear the previous ecommerce object.
+      dataLayer.push({
+        event: "add_shipping_info",
+        previous_page_url: CookieService.getCookie("prevUrl"),
+        shipping_address: shippingAddressId,
+        gst_invoice: "NA",
+        delivery_instruction: "NA", //Pass NA if not applicable the moment
+        ecommerce: {
+          currency: currency, // Pass the currency code
+          value: basket?.total,
+          coupon: "NA",
+          items: items
+        }
+      });
     }
   };
 
-  const handleSaveAndReview = () => {
-    onSubmit();
+  const onSelectAddress = (address?: AddressData) => {
+    if (activeStep === STEP_SHIPPING) {
+      if (!isBridal && customDuties?.visible && !isTermChecked) {
+        setTermsErr("Please confirm to terms and conditions");
+        if (window.innerWidth < 768) {
+          const customErrorEle = document.querySelector("#termsAndCondition");
+          customErrorEle?.scrollIntoView({
+            block: "center",
+            behavior: "smooth"
+          });
+        }
+        return false;
+      }
+    }
+    setTermsErr("");
+    if (address) {
+      const isValid = isAddressValid(address);
+      if (isValid) {
+        onSubmit(address);
+      } else {
+        openAddressForm(address);
+      }
+    }
+    if (activeStep === STEP_SHIPPING) {
+      addGAForShipping(address);
+      if (!isBridal || !isGoodearthShipping) {
+        dispatch(updateSameAsShipping(true));
+      }
+      next(STEP_BILLING);
+    }
+    return true;
   };
 
-  const desc = {
-    GSTIN:
-      "Goods and Services Tax Identification Number (GSTIN) is a tax registration number. Every taxpayers is assigned a state-wise PAN-based 15 digit GSTIN.",
-    UID:
-      "Unique Identificatin Number (UIN) is a special class of GST registration for foreign diplomatic missions and embassies."
+  const handleSaveAndReview = (address?: AddressData) => {
+    onSubmit(address);
   };
-  const title = {
-    GSTIN: "Goods and Services Tax Identification Number (GSTIN)",
-    UID: "Unique Identificatin Number (UIN)"
+
+  // useEffect(() => {
+  //   if (openModal && gst) {
+  //     dispatch(
+  //       updateComponent(
+  //         POPUP.BILLINGGST,
+  //         {
+  //           onSubmit: onSubmit,
+  //           setGst: setGst,
+  //           gstNum: gstNum,
+  //           parentError: props.error,
+  //           isActive: isActive,
+  //           setGstNum: setGstNum,
+  //           // sameAsShipping: sameAsShipping,
+  //           setSameAsShipping: updateSameAsShipping,
+  //           setGstDetails:setGstDetails
+  //         },
+  //         mobile ? false : true,
+  //         mobile ? ModalStyles.bottomAlignSlideUp : "",
+  //         mobile ? "slide-up-bottom-align" : ""
+  //       )
+  //     );
+  //   }
+  // }, [props.error, isActive]);
+  const toggleGstInvoice = () => {
+    setGst(!gst);
+    if (!gst) {
+      dispatch(
+        updateComponent(
+          POPUP.BILLINGGST,
+          {
+            setGst: setGst,
+            setGstDetails: setGstDetails,
+            setSameAsShipping: updateSameAsShipping,
+            isGoodearthShipping: isGoodearthShipping,
+            isBridal: isBridal
+          },
+          mobile ? false : true,
+          mobile ? ModalStyles.bottomAlignSlideUp : "",
+          mobile ? "slide-up-bottom-align" : ""
+        )
+      );
+      dispatch(updateModal(true));
+    } else {
+      setGstDetails({ gstText: "", gstType: "" });
+    }
   };
+
+  // const openTermsPopup = () => {
+  //   dispatch(updateComponent(POPUP.SHIPPINGTERMS, { customDuties }, true));
+  //   dispatch(updateModal(true));
+  // };
+
+  // const onKeyPress = (event: React.KeyboardEvent) => {
+  //   if (event.key === "Enter") {
+  //     onSubmit();
+  //     event.preventDefault();
+  //   }
+  // };
+
   const renderPancard = useMemo(() => {
     if (props.activeStep == STEP_BILLING) {
       const pass =
         currency == "INR"
-          ? `AS PER RBI GOVERNMENT REGULATIONS, PAN DETAILS ARE MANDATORY FOR TRANSACTIONS ABOVE ${displayPriceWithCommas(
+          ? `As per RBI government regulations, PAN details are mandatory for transaction above ${displayPriceWithCommas(
               amountPrice[currency],
               currency
             )}.`
@@ -419,104 +833,54 @@ const AddressSection: React.FC<AddressProps & {
             )}.`;
       const panText =
         currency == "INR" ? "PAN Card Number*" : " Passport Number*";
+
       return (
         <div>
           {currency == "INR" ? (
-            <div className={styles.widthFitContent}>
+            <div>
+              {/* <hr
+                className={cs(globalStyles.marginy24, styles.widthFitContent)}
+              /> */}
               <label
                 className={cs(
                   styles.flex,
-                  styles.crossCenter,
-                  globalStyles.voffset3
+                  globalStyles.voffset3,
+                  globalStyles.widthSet
                 )}
               >
-                <div className={globalStyles.marginR10}>
+                <div
+                  className={cs(globalStyles.marginR10, globalStyles.marginT5)}
+                >
                   <span className={styles.checkbox}>
                     <input
                       type="checkbox"
-                      onChange={toggleGstInvoice}
-                      checked={gst}
+                      onChange={() => {
+                        toggleGstInvoice();
+                      }}
                     />
-                    <span className={styles.indicator}></span>
+                    <span
+                      id="gst"
+                      className={cs(styles.indicator, {
+                        [styles.checked]: gst && gstDetails?.gstText
+                      })}
+                    ></span>
                   </span>
                 </div>
                 <div
                   className={cs(
-                    globalStyles.marginT0,
-                    globalStyles.marginB0,
-                    styles.formSubheading
+                    styles.formSubheading,
+                    styles.checkBoxHeading,
+                    styles.gstInvoiceText
                   )}
                 >
-                  THIS IS A GST INVOICE
+                  I need a GST invoice
+                  {gstDetails?.gstText && (
+                    <label className={styles.gstInvoiseNo}>
+                      {gstDetails?.gstType}: {gstDetails?.gstText}
+                    </label>
+                  )}
                 </div>
               </label>
-              {gst && (
-                <div
-                  className={cs(
-                    styles.input2,
-                    styles.formSubheading,
-                    globalStyles.voffset3
-                  )}
-                >
-                  <div className={styles.radioList}>
-                    <RadioButton key="GSTIN" gstType="GSTIN" />
-                    <RadioButton key="UID" gstType="UID" />
-                  </div>
-                  <div className={bootstrapStyles.row}>
-                    <div
-                      className={cs(
-                        styles.gstTitle,
-                        bootstrapStyles.col12,
-                        bootstrapStyles.colMd7
-                      )}
-                    >
-                      {title[gstType]}
-                    </div>
-                    <div
-                      className={cs(
-                        styles.gstDesc,
-                        bootstrapStyles.col12,
-                        bootstrapStyles.colMd7
-                      )}
-                    >
-                      {desc[gstType]}
-                    </div>
-                  </div>
-                  <div className={styles.form}>
-                    <div
-                      className={cs(
-                        styles.flex,
-                        styles.vCenter,
-                        globalStyles.voffset3,
-                        styles.payment
-                      )}
-                    >
-                      <input
-                        type="text"
-                        className={cs(styles.input, styles.marginR10)}
-                        onChange={onCouponChange}
-                        onKeyPress={onKeyPress}
-                        value={gstText}
-                      />
-                    </div>
-                    <label className={styles.formLabel}>
-                      {gstType == "GSTIN" ? "GST No.*" : "UIN No.*"}
-                    </label>
-                    {error ? (
-                      <span
-                        className={cs(
-                          globalStyles.errorMsg,
-                          globalStyles.wordCap
-                        )}
-                      >
-                        {error}
-                      </span>
-                    ) : (
-                      ""
-                    )}
-                  </div>
-                </div>
-              )}
             </div>
           ) : (
             ""
@@ -526,17 +890,17 @@ const AddressSection: React.FC<AddressProps & {
               className={cs(
                 styles.input2,
                 styles.formSubheading,
-                globalStyles.voffset5
+                globalStyles.voffset4
               )}
             >
+              <hr className={globalStyles.marginy24} />
               {pass}
               <div>
                 <div className={styles.form}>
                   <div
                     className={cs(
                       styles.flex,
-                      styles.vCenter,
-                      globalStyles.voffset4,
+                      globalStyles.voffset3,
                       styles.payment
                     )}
                   >
@@ -552,6 +916,7 @@ const AddressSection: React.FC<AddressProps & {
                       disabled={!!user.panPassport}
                       onKeyPress={onPanKeyPress}
                       value={pancardText}
+                      aria-label="Pancard"
                     />
                   </div>
                   <label className={styles.formLabel}>{panText}</label>
@@ -562,28 +927,23 @@ const AddressSection: React.FC<AddressProps & {
                   )}
                 </div>
               </div>
-              <label
-                className={cs(
-                  styles.flex,
-                  styles.crossCenter,
-                  globalStyles.voffset3
-                )}
-              >
+              <label className={cs(styles.flex, globalStyles.voffset4)}>
                 <div className={globalStyles.marginR10}>
                   <span className={styles.checkbox}>
-                    <input
-                      type="checkbox"
-                      onChange={togglepancard}
-                      checked={pancardCheck}
-                    />
-                    <span className={styles.indicator}></span>
+                    <input type="checkbox" onChange={togglepancard} />
+                    <span
+                      className={cs(styles.indicator, {
+                        [styles.checked]: pancardCheck
+                      })}
+                    ></span>
                   </span>
                 </div>
                 <div
                   className={cs(
                     styles.formSubheading,
                     globalStyles.marginB0,
-                    globalStyles.marginT0
+                    globalStyles.marginT0,
+                    styles.checkBoxHeading
                   )}
                 >
                   I CONFIRM THAT THE DATA I HAVE SHARED IS CORRECT
@@ -598,31 +958,30 @@ const AddressSection: React.FC<AddressProps & {
           ) : (
             ""
           )}
-          <hr className={globalStyles.voffset4} />
         </div>
       );
     }
   }, [
     gst,
-    gstText,
     panCheck,
     pancardCheck,
     panError,
-    error,
-    gstType,
     props.activeStep,
     basket.total,
     pancardText,
-    currency
+    currency,
+    gstDetails
   ]);
 
   const renderBillingCheckbox = function() {
     const show =
-      !props.isBridal && !props.isGoodearthShipping && mode == "list";
+      !props.isGoodearthShipping && mode == "list" && !props.isBridal;
+    // !props.isBridal && !props.isGoodearthShipping && mode == "list";
 
     return (
       show && (
         <div className={cs(styles.payment, globalStyles.voffset4)}>
+          {!mobile && <hr className={globalStyles.marginy24} />}
           <label
             className={cs(
               styles.flex,
@@ -632,79 +991,34 @@ const AddressSection: React.FC<AddressProps & {
           >
             <div className={globalStyles.marginR10}>
               <span className={styles.checkbox}>
-                <input
-                  type="checkbox"
-                  onChange={toggleSameAsShipping}
-                  checked={sameAsShipping}
-                />
-                <span className={styles.indicator}></span>
+                <input type="checkbox" onChange={toggleSameAsShipping} />
+                <span
+                  className={cs(styles.indicator, {
+                    [styles.checked]: sameAsShipping
+                  })}
+                ></span>
               </span>
             </div>
-            <div
-              className={cs(
-                globalStyles.marginT0,
-                globalStyles.marginB0,
-                styles.formSubheading
-              )}
-            >
-              BILLING ADDRESS IS SAME AS SHIPPING ADDRESS
+            <div className={cs(styles.formSubheading)}>
+              Same as Shipping Address
             </div>
           </label>
-          {sameAsShipping && (
-            <div className={bootstrapStyles.row}>
-              <div
-                className={cs(
-                  bootstrapStyles.col12,
-                  bootstrapStyles.colMd7,
-                  globalStyles.voffset4
-                )}
-              >
-                <Button
-                  className={cs(
-                    globalStyles.btnFullWidth,
-                    globalStyles.marginT20
-                  )}
-                  type="submit"
-                  onClick={handleSaveAndReview}
-                  label="Proceed to Payment"
-                  variant="largeAquaCta"
-                />
-              </div>
-            </div>
-          )}
-          {!sameAsShipping && isLoggedIn && (
-            <div>
-              <div className={cs(styles.sameText, styles.formSubheading)}>
-                OR SELECT AN ADDRESS BELOW
-              </div>
-            </div>
-          )}
         </div>
       )
     );
   };
 
-  const onSelectAddress = (address?: AddressData) => {
-    if (address) {
-      const isValid = isAddressValid(address);
-      if (isValid) {
-        onSubmit(address);
-      } else {
-        openAddressForm(address);
-      }
-    }
-  };
   const renderCheckoutAddress = () => {
     let html: ReactElement | null = null;
 
     if (isBridal && activeStep == STEP_SHIPPING) {
       html = (
-        <div className={globalStyles.marginT20}>
+        <div className={globalStyles.marginT5}>
           <div
             className={
               isActive
-                ? cs(styles.card, styles.cardOpen, styles.marginT20)
-                : cs(styles.card, styles.cardClosed, styles.marginT20)
+                ? cs(styles.card, styles.cardOpen, styles.marginT5)
+                : cs(styles.card, styles.cardClosed, styles.marginT5)
             }
           >
             <div className={bootstrapStyles.row}>
@@ -712,10 +1026,24 @@ const AddressSection: React.FC<AddressProps & {
                 className={cs(
                   bootstrapStyles.col6,
                   bootstrapStyles.colMd6,
+                  globalStyles.flex,
                   styles.title
                 )}
               >
-                <span className={cs({ [styles.closed]: !isActive })}>
+                {STEP_ORDER[activeStep] < currentStep ? (
+                  <img
+                    height={"15px"}
+                    className={globalStyles.marginR10}
+                    src={checkmarkCircle}
+                    alt="checkmarkdone"
+                  />
+                ) : null}
+
+                <span
+                  className={cs({
+                    [styles.iscompleted]: STEP_ORDER[activeStep] < currentStep
+                  })}
+                >
                   {activeStep == STEP_SHIPPING
                     ? "SHIPPING DETAILS"
                     : "BILLING DETAILS"}
@@ -751,12 +1079,14 @@ const AddressSection: React.FC<AddressProps & {
       );
     } else {
       return (
-        <div className={globalStyles.marginT20}>
+        <div className={globalStyles.marginT5}>
           <div
             className={
               isActive
-                ? cs(styles.card, styles.cardOpen, styles.marginT20)
-                : cs(styles.card, styles.cardClosed, styles.marginT20)
+                ? cs(styles.card, styles.cardOpen, styles.marginT5)
+                : //: !(STEP_ORDER[activeStep] < currentStep)
+                  // styles.hidden
+                  cs(styles.card, styles.cardClosed, styles.marginT5)
             }
           >
             <div className={bootstrapStyles.row}>
@@ -764,34 +1094,252 @@ const AddressSection: React.FC<AddressProps & {
                 className={cs(
                   bootstrapStyles.col6,
                   bootstrapStyles.colMd6,
+                  globalStyles.flex,
+                  globalStyles.gutterBetween,
                   styles.title
                 )}
               >
-                <span className={cs({ [styles.closed]: !isActive })}>
-                  {activeStep == STEP_SHIPPING
-                    ? "SHIPPING DETAILS"
-                    : "BILLING DETAILS"}
-                </span>
+                <div>
+                  {STEP_ORDER[activeStep] < currentStep ? (
+                    <img
+                      height={"15px"}
+                      className={globalStyles.marginR10}
+                      src={checkmarkCircle}
+                      alt="checkmarkdone"
+                    />
+                  ) : null}
+                  <span
+                    className={cs(
+                      {
+                        [styles.iscompleted]:
+                          STEP_ORDER[activeStep] < currentStep
+                      },
+                      isActive ? "" : styles.closed
+                    )}
+                  >
+                    {activeStep == STEP_SHIPPING
+                      ? mode == "edit"
+                        ? "EDIT ADDRESS"
+                        : "SHIPPING ADDRESS"
+                      : mode == "edit"
+                      ? "EDIT ADDRESS"
+                      : "BILLING ADDRESS"}
+                  </span>
+                </div>
+                {mobile &&
+                  renderActions(
+                    false,
+                    activeStep == STEP_BILLING && !isActive && !billingAddressId
+                  )}
               </div>
-              {renderActions(false)}
+              {!mobile &&
+                renderActions(
+                  false,
+                  activeStep == STEP_BILLING && !isActive && !billingAddressId
+                )}
+              {isGcCheckout &&
+                props.currentStep == STEP_ORDER[STEP_BILLING] && (
+                  <p
+                    className={cs(
+                      globalStyles.errorMsg,
+                      styles.marginT20,
+                      styles.customError
+                    )}
+                  >
+                    Please select or add an address that matches the currency of
+                    your Gift Card.
+                  </p>
+                )}
               {renderSavedAddress()}
             </div>
             {isActive && (
               <>
                 <div>
-                  <div>{renderPancard}</div>
-                  {props.activeStep == STEP_BILLING &&
-                    props.hidesameShipping && (
-                      <div>{renderBillingCheckbox()}</div>
-                    )}
-
+                  {/* <div>{renderPancard}</div> */}
+                  {props.activeStep == STEP_BILLING && (
+                    <>
+                      {!props.isGcCheckout && (
+                        <div>{renderBillingCheckbox()}</div>
+                      )}
+                      {!sameAsShipping &&
+                        isLoggedIn &&
+                        !props.isBridal &&
+                        !props.isGoodearthShipping &&
+                        !props.isGcCheckout &&
+                        mode == "list" && (
+                          <div>
+                            <div
+                              className={cs(
+                                styles.sameText,
+                                styles.formSubheading
+                              )}
+                            >
+                              OR SELECT AN ADDRESS BELOW
+                            </div>
+                          </div>
+                        )}
+                    </>
+                  )}
                   {// logged in Shipping & billing
                   isLoggedIn &&
                     (props.activeStep == STEP_SHIPPING ||
                       (props.activeStep == STEP_BILLING &&
-                        !sameAsShipping)) && <div>{children}</div>}
+                        (!sameAsShipping ||
+                          isBridal ||
+                          isGoodearthShipping ||
+                          props.isGcCheckout))) && (
+                      <>
+                        <div>{children}</div>
+                        {addressList.length && mode == "list" ? (
+                          <>
+                            <div></div>
+                            <div
+                              className={cs(
+                                bootstrapStyles.row,
+                                globalStyles.gutterBetween,
+                                styles.checkoutAddressFooter
+                              )}
+                            >
+                              {props.activeStep == STEP_SHIPPING &&
+                                mobile &&
+                                !checkoutMobileOrderSummary && (
+                                  <div
+                                    onClick={() => {
+                                      onSelectAddress(
+                                        addressList?.find(val =>
+                                          shippingAddressId !== 0
+                                            ? val?.id === shippingAddressId
+                                            : val?.isDefaultForShipping === true
+                                        )
+                                      );
+                                    }}
+                                    className={cs(styles.sendToAddress)}
+                                  >
+                                    {props.activeStep == STEP_SHIPPING
+                                      ? "SHIP TO THIS ADDRESS"
+                                      : props.activeStep == STEP_BILLING
+                                      ? "PROCEED TO PAYMENT"
+                                      : "SHIP TO THIS ADDRESS"}
+                                  </div>
+                                )}
+                              {props.activeStep == STEP_SHIPPING && (
+                                <div
+                                  className={cs({
+                                    [bootstrapStyles.col12]: mobile,
+                                    [bootstrapStyles.colMd12]: mobile,
+                                    [bootstrapStyles.col6]: !mobile,
+                                    [bootstrapStyles.colMd6]: !mobile
+                                  })}
+                                  ref={orderSummaryRef}
+                                >
+                                  {customDuties?.visible && (
+                                    <label
+                                      className={cs(
+                                        styles.flex,
+                                        globalStyles.widthSet
+                                      )}
+                                    >
+                                      <div
+                                        className={globalStyles.marginR10}
+                                        id="termsAndCondition"
+                                      >
+                                        <span className={styles.checkbox}>
+                                          <input
+                                            type="checkbox"
+                                            onClick={() => {
+                                              setIsTermChecked(!isTermChecked);
+                                              setTermsErr("");
+                                            }}
+                                          />
+                                          <span
+                                            className={cs(styles.indicator, {
+                                              [styles.checked]: isTermChecked
+                                            })}
+                                          ></span>
+                                        </span>
+                                      </div>
+                                      <div
+                                        className={cs(
+                                          styles.formSubheading,
+                                          styles.checkBoxHeading
+                                        )}
+                                      >
+                                        {ReactHtmlParser(customDuties?.message)}
+                                        {/* {customDuties?.popup_content && (
+                                        <span
+                                          onClick={() => openTermsPopup()}
+                                          className={
+                                            globalStyles.linkTextUnderline
+                                          }
+                                        >
+                                          Shipping & Payment terms.
+                                        </span>
+                                      )} */}
+                                      </div>
+                                    </label>
+                                  )}
+                                  {termsErr && customDuties?.visible && (
+                                    <div
+                                      className={cs(
+                                        globalStyles.errorMsg,
+                                        globalStyles.marginL30
+                                      )}
+                                    >
+                                      {termsErr}
+                                    </div>
+                                  )}
+                                  {/* ref for handling fixed button */}
+                                  {/* <div ref={orderSummaryRef}>&nbsp;</div> */}
+                                  {((checkoutMobileOrderSummary && mobile) ||
+                                    !mobile) && (
+                                    <div
+                                      onClick={() => {
+                                        onSelectAddress(
+                                          addressList?.find(val =>
+                                            shippingAddressId !== 0
+                                              ? val?.id === shippingAddressId
+                                              : val?.isDefaultForShipping ===
+                                                true
+                                          )
+                                        );
+                                      }}
+                                      className={cs(
+                                        styles.sendToAddress,
+                                        styles.footerSendToAddress
+                                      )}
+                                    >
+                                      {props.activeStep == STEP_SHIPPING
+                                        ? "SHIP TO THIS ADDRESS"
+                                        : props.activeStep == STEP_BILLING
+                                        ? "PROCEED TO PAYMENT"
+                                        : "SHIP TO THIS ADDRESS"}
+                                    </div>
+                                  )}
+                                </div>
+                              )}
+                              {!mobile &&
+                                addressList.length > 1 &&
+                                mode == "list" &&
+                                (props.activeStep == STEP_SHIPPING ||
+                                  (props.activeStep == STEP_BILLING &&
+                                    false)) &&
+                                renderActions(false)}
+                            </div>
+                          </>
+                        ) : null}
+                        {!mobile &&
+                          addressList.length > 1 &&
+                          mode == "list" &&
+                          props.activeStep == STEP_BILLING &&
+                          !sameAsShipping &&
+                          renderActions(true)}
+                      </>
+                    )}
+                  {/* { (props.activeStep == STEP_SHIPPING ||
+                      (props.activeStep == STEP_BILLING &&
+                        !sameAsShipping)) && <div>{children}</div>} */}
 
-                  {props.error ? (
+                  {props.error && props.activeStep !== STEP_BILLING ? (
                     <div
                       className={cs(
                         globalStyles.errorMsg,
@@ -803,13 +1351,95 @@ const AddressSection: React.FC<AddressProps & {
                   ) : (
                     ""
                   )}
+                  <div>{renderPancard}</div>
+                  {props.activeStep == STEP_BILLING &&
+                    (error || billingError) && (
+                      <div className={globalStyles.errorMsg}>
+                        {error || billingError}
+                      </div>
+                    )}
+                  {props.activeStep == STEP_BILLING &&
+                    mode == "list" &&
+                    !sameAsShipping && <div ref={orderSummaryRef2}></div>}
+                  {/* from-billing */}
+                  {props.activeStep == STEP_BILLING && mode == "list" && (
+                    <div className={bootstrapStyles.row}>
+                      <div
+                        className={cs(
+                          bootstrapStyles.col12,
+                          bootstrapStyles.colLg7
+                        )}
+                      >
+                        <div
+                          className={cs(
+                            globalStyles.marginT20,
+                            styles.sendToPayment
+                          )}
+                          onClick={() => {
+                            handleSaveAndReview(
+                              !props.isGcCheckout
+                                ? addressList?.find(val =>
+                                    shippingAddressId !== 0
+                                      ? sameAsShipping &&
+                                        !isBridal &&
+                                        !isGoodearthShipping
+                                        ? val?.id === shippingAddressId
+                                        : val?.id === billingAddressId
+                                      : val?.isDefaultForShipping === true
+                                  )
+                                : addressList?.find(
+                                    val => val?.id === billingAddressId
+                                  )
+                            );
+                          }}
+                        >
+                          {mobile
+                            ? "SELECT & PROCEED TO PAYMENT"
+                            : "PROCEED TO PAYMENT"}
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  <div
+                    className={cs(
+                      bootstrapStyles.row,
+                      globalStyles.gutterBetween,
+                      styles.checkoutAddressFooter
+                    )}
+                  >
+                    {props.activeStep == STEP_BILLING &&
+                      mode == "list" &&
+                      !sameAsShipping &&
+                      mobile &&
+                      !checkoutMobileOrderSummary && (
+                        <div
+                          onClick={() => {
+                            handleSaveAndReview(
+                              addressList?.find(val =>
+                                shippingAddressId !== 0
+                                  ? sameAsShipping
+                                    ? val?.id === shippingAddressId
+                                    : val?.id === billingAddressId
+                                  : val?.isDefaultForShipping === true
+                              )
+                            );
+                          }}
+                          className={cs(styles.sendToAddress)}
+                        >
+                          {mobile
+                            ? "SELECT & PROCEED TO PAYMENT"
+                            : "PROCEED TO PAYMENT"}
+                        </div>
+                      )}
+                  </div>
                 </div>
-                {addressList.length > 1 &&
+                {/* {addressList.length > 1 &&
                   mode == "list" &&
                   (props.activeStep == STEP_SHIPPING ||
                     (props.activeStep == STEP_BILLING &&
                       !props.hidesameShipping)) &&
-                  renderActions(true)}
+                  renderActions(true)} */}
               </>
             )}
             {props.activeStep == STEP_SHIPPING && !isActive && (

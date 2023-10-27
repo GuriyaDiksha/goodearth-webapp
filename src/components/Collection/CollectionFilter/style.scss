@@ -4,7 +4,7 @@
 .collection-filter-page {
   padding: 23px 0;
   box-shadow: 0px 3px 6px #0000000A;
-  position: fixed;
+  position: sticky;
   width: 100%;
   z-index: 9;
   background-color: $white;

@@ -144,10 +144,10 @@ span{
     &.discountprice {
         color: $gold;
         font-family: $font-Lato;
-        font-size: 20px;
+        font-size: 16px;
       }
       &.strikeprice {
-        font-size: 20px;
+        font-size: 16px;
         text-decoration: line-through;
         color: #9F9F9F !important;
         font-family: $font-Lato;
@@ -179,7 +179,7 @@ span{
         display: flex;
         justify-content: space-between;
         .details-container{
-            width: 60%
+            width: 58%
         }
     }
     .size-container {

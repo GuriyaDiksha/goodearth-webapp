@@ -3,6 +3,7 @@ import API from "utils/api";
 import { ApiResponse } from "typings/api";
 import { updateBasket } from "actions/basket";
 import { Basket } from "typings/basket";
+import { updateShowShippingAddress } from "actions/info";
 
 export default {
   applyGiftCard: async function(dispatch: Dispatch, formData: any) {
@@ -24,18 +25,22 @@ export default {
   removeRedeem: async function(dispatch: Dispatch) {
     const res = await API.post<ApiResponse>(
       dispatch,
-      `${__API_HOST__ + "/mobiquest/remove_loyalty_points/"}`,
+      `${__API_HOST__ + "/imast/redemption_request_cancel/"}`,
       {}
     );
     return res;
   },
   removePromo: async function(dispatch: Dispatch, formData: any) {
-    const res = await API.post<ApiResponse>(
-      dispatch,
-      `${__API_HOST__ + "/giftcard/remove_voucher/"}`,
-      formData
-    );
-    return res;
+    try {
+      const res = await API.post<ApiResponse>(
+        dispatch,
+        `${__API_HOST__ + "/giftcard/remove_voucher/"}`,
+        formData
+      );
+      return res;
+    } catch (error) {
+      return error;
+    }
   },
   applyPromo: async function(dispatch: Dispatch, formData: any) {
     const res = await API.post<ApiResponse>(
@@ -56,7 +61,7 @@ export default {
   getLoyaltyPoints: async function(dispatch: Dispatch, formData: any) {
     const res = await API.post<ApiResponse>(
       dispatch,
-      `${__API_HOST__ + "/mobiquest/loyalty_points_and_history/"}`,
+      `${__API_HOST__ + "/imast/loyalty_user_points/"}`,
       formData
     );
     return res;
@@ -75,6 +80,7 @@ export default {
       {}
     );
     dispatch(updateBasket(res));
+    dispatch(updateShowShippingAddress(true));
     return res;
   },
   getPaymentList: async function(dispatch: Dispatch) {

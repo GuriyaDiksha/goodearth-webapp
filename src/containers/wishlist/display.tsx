@@ -1,5 +1,4 @@
 import React from "react";
-import { currencyCodes } from "constants/currency";
 import { WishListGridItem } from "typings/wishlist";
 import { Props as WishlistProps } from "./index";
 import { Currency } from "typings/currency";

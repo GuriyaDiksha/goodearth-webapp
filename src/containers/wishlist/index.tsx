@@ -5,7 +5,6 @@ import iconStyles from "../../styles/iconFonts.scss";
 import createAbsoluteGrid from "react-absolute-grid";
 import SampleDisplay from "./display";
 import { createRoot } from "react-dom/client";
-import { currencyCodes } from "constants/currency";
 import { AppState } from "reducers/typings";
 import { Dispatch } from "redux";
 import Loader from "components/Loader";
@@ -130,7 +129,8 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
             discount: item.discount,
             badgeType: item.badgeType,
             list: "wishlist",
-            sliderImages: []
+            sliderImages: [],
+            collections: item?.collection
           },
           false,
           mobile ? ModalStyles.bottomAlignSlideUp : "",

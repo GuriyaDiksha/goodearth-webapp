@@ -464,7 +464,6 @@ const Giftcard: React.FC = () => {
               className={cs(
                 styles.rtcinfo,
                 globalStyles.pointer,
-                globalStyles.textLeft,
                 styles.charcoalBtn
               )}
               onClick={newGiftcard}

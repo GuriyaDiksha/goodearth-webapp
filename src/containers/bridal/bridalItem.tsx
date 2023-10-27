@@ -4,7 +4,7 @@ import { BridalItemData } from "containers/myAccount/components/Bridal/typings";
 import { Dispatch } from "redux";
 import BasketService from "../../services/basket";
 import { connect } from "react-redux";
-import { Currency, currencyCode } from "typings/currency";
+import { Currency } from "typings/currency";
 import bootstrap from "styles/bootstrap/bootstrap-grid.scss";
 import styles from "./styles.scss";
 import globalStyles from "../../styles/global.scss";
@@ -129,7 +129,6 @@ class BridalItem extends React.Component<Props, State> {
   };
 
   render() {
-    const code = currencyCode[this.props.currency as Currency];
     const { mobile } = this.props;
     return (
       <div className={cs(styles.cart, styles.cartContainer)}>
@@ -307,7 +306,7 @@ class BridalItem extends React.Component<Props, State> {
                             globalStyles.voffset2
                           )}
                         >
-                          Estimated Delivery On or Before:{" "}
+                          Estimated delivery on or before:{" "}
                           <span className={styles.black}>
                             {" "}
                             {this.props.bridalItem.productDeliveryDate}

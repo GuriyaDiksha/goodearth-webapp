@@ -279,30 +279,31 @@ class ShopLocator extends Component<Props, State> {
                       id={`cafe_${i}`}
                     >
                       <Slider {...settings}>
-                        {data.bannerCafe
-                          .filter((e: any) => {
-                            if (mobile) {
-                              return e.imageType == 2 || e.imageType == 3;
-                            } else {
-                              return e.imageType == 1 || e.imageType == 3;
-                            }
-                          })
-                          .map((item: any) => {
-                            return (
-                              <div
-                                className={styles.imgContainer}
-                                key={`cafe_${i}`}
-                              >
-                                <div>
-                                  <img
-                                    key={`cafe_${i}`}
-                                    src={item.image}
-                                    alt="cafe"
-                                  />
+                        {data?.bannerCafe?.length &&
+                          data?.bannerCafe
+                            ?.filter((e: any) => {
+                              if (mobile) {
+                                return e.imageType == 2 || e.imageType == 3;
+                              } else {
+                                return e.imageType == 1 || e.imageType == 3;
+                              }
+                            })
+                            .map((item: any) => {
+                              return (
+                                <div
+                                  className={styles.imgContainer}
+                                  key={`cafe_${i}`}
+                                >
+                                  <div>
+                                    <img
+                                      key={`cafe_${i}`}
+                                      src={item.image}
+                                      alt="cafe"
+                                    />
+                                  </div>
                                 </div>
-                              </div>
-                            );
-                          })}
+                              );
+                            })}
                       </Slider>
                     </div>
                   </div>
@@ -399,8 +400,8 @@ class ShopLocator extends Component<Props, State> {
                     id={`shop${i}`}
                   >
                     <Slider {...settings}>
-                      {data.bannerShop
-                        .filter((e: any) => {
+                      {data?.bannerShop
+                        ?.filter((e: any) => {
                           if (mobile) {
                             return e.imageType == 2 || e.imageType == 3;
                           } else {

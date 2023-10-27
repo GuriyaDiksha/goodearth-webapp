@@ -165,28 +165,22 @@ export default {
       }`,
       null
     );
-    if (
-      (res.basket.updated || res.basket.publishRemove) &&
-      res.basket.updatedRemovedItems &&
-      res.basket.updatedRemovedItems.length > 0
-    ) {
-      showGrowlMessage(
-        dispatch,
-        MESSAGE.PRODUCT_UNPUBLISHED,
-        0,
-        undefined,
-        res.basket.updatedRemovedItems
-      );
-    }
-    if (res.basket.unshippableRemove) {
-      showGrowlMessage(
-        dispatch,
-        MESSAGE.PRODUCT_UNSHIPPABLE_REMOVED,
-        0,
-        undefined,
-        res.basket.unshippableProducts
-      );
-    }
+    // if (
+    //   (res.basket.updated || res.basket.publishRemove) &&
+    //   res.basket.updatedRemovedItems &&
+    //   res.basket.updatedRemovedItems.length > 0
+    // ) {
+    //   showGrowlMessage(
+    //     dispatch,
+    //     MESSAGE.PRODUCT_UNPUBLISHED,
+    //     0,
+    //     undefined,
+    //     res.basket.updatedRemovedItems
+    //   );
+    // }
+    // if (res.message === "Success") {
+    //   showGrowlMessage(dispatch, MESSAGE.PRODUCT_OUT_OF_STOCK_REMOVED, 3000);
+    // }
     dispatch(updateBasket(res.basket));
     return res;
   }

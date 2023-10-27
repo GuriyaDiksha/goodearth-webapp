@@ -16,7 +16,7 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
   constructor(props: otpRedeemProps) {
     super(props);
     this.state = {
-      disable: true,
+      disable: false,
       msgt: "",
       showFields: false,
       radioType: "",
@@ -46,6 +46,15 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
   phoneInput: RefObject<HTMLInputElement> = React.createRef();
   lastNameInput: RefObject<HTMLInputElement> = React.createRef();
 
+  // UNSAFE_componentWillReceiveProps(nextProps: otpRedeemProps) {
+  //   if (
+  //     nextProps.redeemOtpError !== this.props.redeemOtpError ||
+  //     nextProps.redeemOtpError !== ""
+  //   ) {
+  //     this.setState({ showerror: nextProps.redeemOtpError });
+  //   }
+  // }
+
   resetSection = () => {
     this.setState({
       showFields: false
@@ -54,24 +63,36 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
 
   handleSubmit = (model: any, resetForm: any, updateInputsWithError: any) => {
     this.setState({ showerrorOtp: "" });
-
-    const radioElement: any = document.getElementsByName("redeem");
+    // const radioElement: any = document.getElementsByName("redeem");
     // const elem = this.subscribeRef.current;
-    const { email, phoneNo } = model;
+    // const { email, phoneNo } = model;
+
+    // const radioElement: any = document.getElementsByName("redeem");
+    // const elem = this.subscribeRef.current;
+    // const {
+    //   loyaltyData: {
+    //     detail: { EmailId }
+    //   }
+    // } = this.props;
     const data: any = {};
-    if (!radioElement[0].checked && !radioElement[1].checked) {
-      this.setState(
-        {
-          msgt:
-            "Please select at least one mode of communication for OTP verification of your gift card"
-        },
-        () => {
-          errorTracking([this.state.msgt], location.href);
-        }
-      );
+    // if (!radioElement[0].checked && !radioElement[1].checked) {
+    //   this.setState(
+    //     {
+    //       msgt:
+    //         "Please select at least one mode of communication for OTP verification of your gift card"
+    //     },
+    //     () => {
+    //       valid.errorTracking([this.state.msgt], location.href);
+    //       errorTracking([this.state.msgt], location.href);
+    //     }
+    //   );
+    //   return false;
+    // }
+
+    if (this.props.CustomerPointInformation?.EligibleRedemptionPoints <= 0) {
+      this.cancelOtpReq();
       return false;
     }
-
     if (!this.props.points) {
       this.props.updateError(true);
       return false;
@@ -81,11 +102,14 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
       this.RegisterFormRef1.current.submit();
       return false;
     }
-    if (this.state.radioType == "email") {
-      data["email"] = email;
-    } else {
-      data["phoneNo"] = "+91" + phoneNo;
-    }
+    // if (this.state.radioType == "email") {
+    //   data["email"] = email;
+    // if (EmailId) {
+    //   data["email"] = EmailId;
+    // }
+    // } else {
+    //   data["phoneNo"] = "+91" + phoneNo;
+    // }
     // data["inputType"] = "GIFT";
     data["points"] = this.props.points;
     // this.setState({ startTimer: true });
@@ -95,8 +119,8 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
   onClickRadio = (event: any) => {
     this.setState({
       radioType: event.target.value,
-      msgt: "",
-      disable: false
+      msgt: ""
+      // disable: false
     });
   };
 
@@ -106,9 +130,9 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
       this.props.updateError(true);
       return false;
     }
-    if (!this.state.radioType || !this.state.otpData["points"]) {
-      return false;
-    }
+    // if (!this.state.otpData["points"]) {
+    //   return false;
+    // }
     const newData = otpData;
     newData["otp"] = value;
 
@@ -135,6 +159,7 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
                 errorTracking([this.state.showerror], location.href);
               }
             );
+            this.props.closeModal();
           } else {
             // this.props.updateList(data);
             this.setState({
@@ -144,6 +169,7 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
               isLoading: false
             });
           }
+          this.props.setIsOTPSent(false);
         })
         .catch(err => {
           this.setState(
@@ -242,6 +268,50 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
           {
             toggleOtp: true,
             otpData: formData,
+            // disable: true,
+            isLoading: false,
+            isOtpSent: true
+          },
+          () => {
+            // this.timer();
+            this.props.setIsOTPSent(true);
+            this.props.toggleOtp(true);
+          }
+        );
+        // }
+      })
+      .catch((error: any) => {
+        this.setState(
+          {
+            showerrorOtp: error.response.data.message,
+            isLoading: false
+          },
+          () => {
+            errorTracking([this.state.showerrorOtp], location.href);
+          }
+        );
+      });
+  };
+
+  resendOtp = () => {
+    if (!this.props.points) {
+      this.props.updateError(true);
+      return false;
+    }
+    // this.clearTimer();
+    this.setState({
+      showerror: ""
+    });
+    // this.sendOtpApiCall(this.state.otpData);
+    this.setState({
+      isLoading: true
+    });
+    this.props
+      .resendOtp(this.props.points)
+      .then((data: any) => {
+        this.setState(
+          {
+            toggleOtp: true,
             disable: true,
             isLoading: false,
             isOtpSent: true
@@ -266,14 +336,6 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
       });
   };
 
-  resendOtp = () => {
-    // this.clearTimer();
-    this.setState({
-      showerror: ""
-    });
-    this.sendOtpApiCall(this.state.otpData);
-  };
-
   changeAttepts = (value: any) => {
     this.setState({ attempts: value });
   };
@@ -289,8 +351,21 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
     return minutes + ":" + seconds;
   };
 
+  cancelOtpReq = () => {
+    const { removeRedeem, setIsactiveredeem, setIsOTPSent } = this.props;
+    removeRedeem();
+    setIsactiveredeem(false);
+    this.props.closeModal();
+    setIsOTPSent(false);
+  };
+  // closePopup = () => {
+  //   this.props.removeRedeem();
+  //   this.props.closeModal();
+  //   this.props.setIsactiveredeem(false);
+  // };
+
   getValidationForOtp = () => {
-    const { radioType } = this.state;
+    // const { radioType } = this.state;
     return (
       <div>
         <div
@@ -303,7 +378,7 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
         ></div>
         <hr />
         <NewOtpComponent
-          otpSentVia={radioType == "number" ? "mobile number" : "email"}
+          otpSentVia={`Email ID${this.props.number ? " & Mobile No" : ""}`}
           resendOtp={this.resendOtp}
           verifyOtp={this.checkOtpValidation}
           errorMsg={this.state.showerror}
@@ -311,6 +386,10 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
           btnText={"Redeem Points"}
           startTimer={this.state.startTimer}
           setAttempts={this.changeAttepts}
+          cancelOtpReq={this.cancelOtpReq}
+          groupTimerAndAttempts={true}
+          headingClassName={globalStyles.textLeft}
+          containerClassName={styles.otpRedeemWrp}
           uniqueId="otpredeemid"
         />
         {/* {(this.props.otpFor == "activateGC"
@@ -403,11 +482,20 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
     }
   };
 
+  checkIfValidIndianMobileNumber = (str: string | undefined) => {
+    // Regular expression to check if string is a Indian mobile number
+    const regexExp = /^[6-9]\d{9}$/gi;
+
+    return regexExp.test(str || "");
+  };
+
   render() {
-    const { radioType, isLoading } = this.state;
+    // const { isLoading } = this.state;
     const {
-      loyaltyData: { detail },
-      number
+      number,
+      CustomerPointInformation: {
+        Currency: { currencycode }
+      }
     } = this.props;
     // console.log(number);
     return (
@@ -416,27 +504,27 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
           className={cs(
             styles.sendOtpForm,
             styles.loginForm,
-            styles.activategc
+            styles.activategc,
+            {
+              [styles.goBackBtn]:
+                this.props.CustomerPointInformation?.EligibleRedemptionPoints <=
+                0
+            }
           )}
           id="gc-input"
         >
-          <li>
-            <hr />
-          </li>
-          <li className={cs(globalStyles.textLeft, styles.otpText)}>
-            SEND{" "}
-            <span className={globalStyles.cerise}>
-              {" "}
-              ONE TIME PASSWORD (OTP){" "}
-            </span>
-            VIA:
-          </li>
+          {this.props.CustomerPointInformation?.EligibleRedemptionPoints >
+            0 && (
+            <li className={cs(globalStyles.textLeft, styles.otpText)}>
+              Send one-time OTP to:
+            </li>
+          )}
           <Formsy
             ref={this.RegisterFormRef}
             onValidSubmit={this.handleSubmit}
             onInvalidSubmit={this.handleInvalidSubmit}
           >
-            <li className={cs(styles.radiobtn1, styles.xradio)}>
+            {/* <li className={cs(styles.radiobtn1, styles.xradio)}>
               <label className={styles.radio1}>
                 <input
                   type="radio"
@@ -447,18 +535,18 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
                   }}
                 />
                 <span className={styles.checkmark}></span>
-              </label>
-              <FormInput
+              </label> */}
+            {/* <FormInput
                 name="email"
                 placeholder={"Email*"}
                 label={"Email*"}
                 className={cs(
-                  { [styles.disableInput]: detail?.EmailId },
+                  { [styles.disableInput]: email },
                   styles.relative
                 )}
-                disable={detail?.EmailId ? true : false}
+                disable={email ? true : false}
                 inputRef={this.emailInput}
-                value={detail ? detail.EmailId : ""}
+                value={email ? email : ""}
                 validations={
                   radioType == "email"
                     ? {
@@ -473,15 +561,16 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
                 }}
                 required={radioType != "email" ? "isFalse" : true}
               />
-            </li>
-            <li
-              className={cs(
-                styles.countryCode,
-                // styles.countryCodeGc,
-                styles.xradio
-              )}
-            >
-              <label className={styles.radio1}>
+            </li> */}
+            {/* {this.checkIfValidIndianMobileNumber(number?.toString()) ? (
+              <li
+                className={cs(
+                  styles.countryCode,
+                  styles.countryCodeGc,
+                  styles.xradio
+                )}
+              > */}
+            {/* <label className={styles.radio1}>
                 <input
                   type="radio"
                   name={"redeem"}
@@ -491,18 +580,51 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
                   }}
                 />
                 <span className={styles.checkmark}></span>
-              </label>
-              <div className={styles.flex}>
-                <div className={styles.countryCode}>
-                  <input
-                    type="text"
-                    value="+91"
-                    placeholder="Code"
-                    disabled={true}
-                    className={styles.codeInput}
-                  />
-                </div>
-                <div className={styles.contactNumber}>
+              </label> */}
+            {/* <div className={styles.flex}>
+                  <div className={styles.countryCode}>
+                    <input
+                      type="text"
+                      value="+91"
+                      placeholder="Code"
+                      disabled={true}
+                      className={styles.codeInput}
+                    />
+                  </div>
+                  <div className={styles.contactNumber}>
+                    <FormInput
+                      name="phoneNo"
+                      value={number ? number : ""}
+                      disable={number ? true : false}
+                      className={cs({ [styles.disableInput]: number })}
+                      inputRef={this.phoneInput}
+                      placeholder={"Contact Number"}
+                      type="number"
+                      label={"Contact Number"}
+                      validations={
+                        radioType == "number"
+                          ? {
+                              isLength: 10
+                            }
+                          : {}
+                      }
+                      validationErrors={{
+                        isLength: "Phone Number should be 10 digit"
+                      }}
+                      required={radioType != "number" ? "isFalse" : true}
+                      keyDown={e =>
+                        e.which === 69 ? e.preventDefault() : null
+                      }
+                      onPaste={e =>
+                        e?.clipboardData.getData("Text").match(/([e|E])/)
+                          ? e.preventDefault()
+                          : null
+                      }
+                    />
+                  </div>
+                  <p className={cs(styles.errorMsg)}>{this.state.msgt}</p>
+                </div> */}
+            {/* <div className={styles.contactNumber}>
                   <FormInput
                     name="phoneNo"
                     value={number ? number : ""}
@@ -532,40 +654,57 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
                   />
                 </div>
                 <p className={cs(styles.errorMsg)}>{this.state.msgt}</p>
+              </div> */}
+            {this.props.CustomerPointInformation?.EligibleRedemptionPoints >
+              0 && (
+              <li className={styles.emailWrp}>
+                <p>Email ID: {this.props?.email}</p>
+                {number && currencycode === "INR" ? (
+                  <p>Mobile No.: +91{number}</p>
+                ) : null}
+              </li>
+            )}
+            {this.state.showerrorOtp && (
+              <li className={styles.subscribe}>
+                <p
+                  className={
+                    this.state.showerrorOtp
+                      ? cs(
+                          globalStyles.errorMsg,
+                          globalStyles.wordCap,
+                          globalStyles.textLeft
+                        )
+                      : globalStyles.hidden
+                  }
+                >
+                  {this.state.showerrorOtp}
+                </p>
+              </li>
+            )}
+            {!this.state.isOtpSent && (
+              <div>
+                <input
+                  type="submit"
+                  // disabled={this.state.disable}
+                  className={styles.sendOtpBtn}
+                  value={`${
+                    this.props.CustomerPointInformation
+                      ?.EligibleRedemptionPoints > 0
+                      ? "SEND OTP"
+                      : "GO BACK"
+                  }`}
+                />
               </div>
-            </li>
-            <li className={styles.subscribe}>
-              <p
-                className={
-                  this.state.showerrorOtp
-                    ? cs(globalStyles.errorMsg, globalStyles.wordCap)
-                    : globalStyles.hidden
-                }
-              >
-                {this.state.showerrorOtp}
-              </p>
-            </li>
-            <div
-              className={cs({
-                [globalStyles.voffset7]: !this.state.showerrorOtp
-              })}
-            >
-              <Button
-                type="submit"
-                disabled={this.state.disable}
-                className={globalStyles.btnFullWidth}
-                label="Send otp"
-                variant="largeAquaCta"
-              />
-            </div>
+            )}
           </Formsy>
-          {this.state.isOtpSent ? (
+          {this.state.isOtpSent ||
+          (this.props.validated !== undefined && !this.props.validated) ? (
             <div className={globalStyles.textCenter}>
               {this.getValidationForOtp()}
             </div>
           ) : null}
         </div>
-        {isLoading && <Loader />}
+        {/* {isLoading && <Loader />} */}
       </Fragment>
     );
   }

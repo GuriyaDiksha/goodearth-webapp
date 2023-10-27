@@ -81,6 +81,10 @@ export default {
     const queryString = location.search;
     const urlParams = new URLSearchParams(queryString);
     const boId = urlParams.get("bo_id");
+    console.log("source:", source);
+    if (location.pathname == "/giftcard") {
+      source = "giftcard";
+    }
 
     const res = await API.post<loginResponse>(
       dispatch,
@@ -538,6 +542,13 @@ export default {
           } else {
             // CookieService.setCookie("region", "INDIA", 365);
             // CookieService.setCookie("ip", data?.ip, 365);
+            dispatch(
+              updateRegion({
+                region: "India",
+                ip: "",
+                country: "India"
+              })
+            );
             CookieService.setCookie("country", "India", 365);
             resolve("error");
           }

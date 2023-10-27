@@ -7,7 +7,9 @@
 }
 
 .shopLocatorSlider .slick-prev:before {
-    content: url('../../images/shopLocatorPrev.svg');
+    /* content: url('../../images/shopLocatorPrev.svg'); */
+    content: url('../../images/shopLocatorNext.svg');
+    transform: rotate(180deg);	
     display: block;
     height: 30px;
     width: 30px;

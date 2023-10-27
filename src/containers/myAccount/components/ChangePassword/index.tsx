@@ -27,7 +27,7 @@ const ChangePassword: React.FC<PasswordProps> = ({ setCurrentSection }) => {
   const [showSuccess, setShowSuccess] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showPassRules, setShowPassRules] = useState(false);
-  const [shouldValidatePass, setShouldValidatePass] = useState(false);
+  // const [shouldValidatePass, setShouldValidatePass] = useState(false);
   const [passValidLength, setPassValidLength] = useState(false);
   const [passValidUpper, setPassValidUpper] = useState(false);
   const [passValidLower, setPassValidLower] = useState(false);
@@ -238,7 +238,7 @@ const ChangePassword: React.FC<PasswordProps> = ({ setCurrentSection }) => {
                               });
                             }
                           }
-                          setShouldValidatePass(true);
+                          // setShouldValidatePass(true);
                         }}
                         handleChange={handlePassValidation}
                         validations={{

@@ -27,24 +27,19 @@
 }
 
 .form-subheading {
+  // @include b5_10px_montserrat_charcoal();
   @include b4_12px_montserrat_charcoal();
-  letter-spacing: 0.36px;
-  margin-top: 10px;
-  margin-bottom: 48px;
-  @media screen and (max-width:991px){
-    padding: 0px 36px;
-  }
 }
 
 .disabled-input {
-  background-color: $disabled-input !important;
+  background-color: $white !important;
   color: tint(#000, 50%);
   &input, input, select {
-  background-color: $disabled-input !important;
+  background-color: $white !important;
   color: tint(#000, 50%);
   }
   .Dropdown-control {
-  background-color: $disabled-input !important;
+  background-color: $white !important;
     color: tint(#000, 50%);
   }
 }
@@ -54,7 +49,7 @@
     background-color: #fff;
     border: 1px solid #D8D8D8;
     width: 100%;
-    padding: 10px 20px;
+    padding: 10px;
     line-height: 25px;
     -webkit-appearance: none;
     -moz-appearance: none;
@@ -72,11 +67,14 @@
       font-style: normal;
     }
     text-align: start;
+    &.redeem-input {
+      padding: 10px 10px !important;
+    }
     &:active, &:focus {
       background-color: #fff;
       border: 1px solid #d8d8d8;
       width: 100%;
-      padding: 10px 20px;
+      padding: 10px 10px;//fixed for all textbox
       font-size: 12px;
       line-height: 20px;
       -webkit-appearance: none;
@@ -97,6 +95,10 @@
       // background-color: #d8d8d826; 
       background-color: #f9f9f9;
     }
+  }
+  .no-enough-point {
+    @include b5_10px_montserrat_charcoal();
+    margin: 10px 0;
   }
 }
 .toggle-password-btn {

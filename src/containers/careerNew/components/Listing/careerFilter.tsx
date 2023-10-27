@@ -156,6 +156,12 @@ const CareerFilter: React.FC<Props> = ({
     clearFilter();
   }, [reset]);
 
+  useEffect(() => {
+    if (isFilterOpen) {
+      window.scrollTo(0, 0);
+    }
+  }, [isFilterOpen]);
+
   const toggle = (key: string) => {
     selectFilter(key, !showMore[key]);
     setShowMore({ ...showMore, [key]: !showMore[key] });

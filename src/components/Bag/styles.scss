@@ -342,7 +342,8 @@
     z-index: 4;
   img {
     position: absolute;
-    width: 60%;
+    width: 100%;
+    max-width: 52px;
     top: 0px;
   }
 }

@@ -6,6 +6,7 @@ import bootstrapStyles from "../../../../styles/bootstrap/bootstrap-grid.scss";
 import globalStyles from "styles/global.scss";
 import styles from "../styles.scss";
 import cs from "classnames";
+import { displayPriceWithCommasFloat } from "utils/utility";
 
 const TrackDetails: React.FC<OrdersProps> = props => {
   const [data] = useState(props.orderData || []);
@@ -329,23 +330,48 @@ const TrackDetails: React.FC<OrdersProps> = props => {
                         {data.occasion} Registry
                       </span>
                       <span className={styles.bridalMessage}></span>
+                      <span>Address predefined by registrant</span>
                     </div>
                   )}
-                  <div className={cs(styles.row, styles.name)}>
-                    {shippingAddress.firstName}
-                    &nbsp; {shippingAddress.lastName}
-                  </div>
-                  <div className={styles.row}>{shippingAddress.line1}</div>
-                  <div className={styles.row}>{shippingAddress.line2}</div>
-                  <div className={styles.row}>
-                    {shippingAddress.state},&nbsp;{shippingAddress.postcode}
-                  </div>
-                  <div className={styles.row}>
-                    {shippingAddress.countryName}
-                  </div>
-                  <div className={cs(styles.row, styles.phoneNumber)}>
-                    {shippingAddress.phoneNumber}
-                  </div>
+                  {!data.isBridalOrder ? (
+                    <div className={cs(styles.row, styles.name)}>
+                      {shippingAddress.firstName}
+                      &nbsp; {shippingAddress.lastName}
+                    </div>
+                  ) : (
+                    ""
+                  )}
+                  {!data.isBridalOrder ? (
+                    <div className={styles.row}>{shippingAddress.line1}</div>
+                  ) : (
+                    ""
+                  )}
+                  {!data.isBridalOrder ? (
+                    <div className={styles.row}>{shippingAddress.line2}</div>
+                  ) : (
+                    ""
+                  )}
+                  {!data.isBridalOrder ? (
+                    <div className={styles.row}>
+                      {shippingAddress.state},&nbsp;{shippingAddress.postcode}
+                    </div>
+                  ) : (
+                    ""
+                  )}
+                  {!data.isBridalOrder ? (
+                    <div className={styles.row}>
+                      {shippingAddress.countryName}
+                    </div>
+                  ) : (
+                    ""
+                  )}
+                  {!data.isBridalOrder ? (
+                    <div className={cs(styles.row, styles.phoneNumber)}>
+                      {shippingAddress.phoneNumber}
+                    </div>
+                  ) : (
+                    ""
+                  )}
                 </div>
               )}
               {/* Billing Address */}
@@ -406,11 +432,17 @@ const TrackDetails: React.FC<OrdersProps> = props => {
                           [styles.gold]: isDiscount
                         })}
                       >
-                        {`${charCurrency} ${amountPaid}`}
+                        {`${charCurrency} ${displayPriceWithCommasFloat(
+                          amountPaid,
+                          item.priceCurrency
+                        )}`}
                       </span>
                       {isDiscount && (
                         <span className={styles.originalPrice}>
-                          {`${charCurrency} ${price}`}
+                          {`${charCurrency} ${displayPriceWithCommasFloat(
+                            price,
+                            item.priceCurrency
+                          )}`}
                         </span>
                       )}
                     </p>

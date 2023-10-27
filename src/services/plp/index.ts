@@ -21,7 +21,7 @@ export default {
     if (caches["fetch" + currency + url]) {
       dispatch(updateProduct({ ...caches["fetch" + currency + url] }));
       dispatch(updatePlpProduct(caches["fetch" + currency + url].results.data));
-      return caches[url];
+      return caches["fetch" + currency + url];
     }
     const res = await API.get<PlpProps>(
       dispatch,

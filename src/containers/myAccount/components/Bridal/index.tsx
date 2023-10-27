@@ -26,8 +26,10 @@ import { showGrowlMessage } from "utils/validate";
 import CookieService from "services/cookie";
 import { GA_CALLS } from "constants/cookieConsent";
 import AccountService from "services/account";
+import LoginService from "services/login";
 import { updatePreferenceData } from "actions/user";
 import Formsy from "formsy-react";
+import { updateNextUrl } from "actions/info";
 // import globalStyles from "styles/global.scss";
 type Props = {
   bridalId: number;
@@ -125,6 +127,11 @@ const Bridal: React.FC<Props> = props => {
         .catch(err => {
           console.log(err);
         });
+    }
+
+    if (!user.isLoggedIn) {
+      LoginService.showLogin(dispatch);
+      dispatch(updateNextUrl("/account/bridal"));
     }
 
     return () => {
@@ -377,6 +384,7 @@ const Bridal: React.FC<Props> = props => {
             innerRef={whatsappRef}
             whatsappFormRef={whatsappFormRef}
             whatsappNoError={whatsappNoErr}
+            currentStep={0}
           />
         );
       case "created":
@@ -450,6 +458,7 @@ const Bridal: React.FC<Props> = props => {
             error=""
             addresses={[]}
             currentCallBackComponent="bridal-edit"
+            currentStep={0}
           />
         );
       // break;

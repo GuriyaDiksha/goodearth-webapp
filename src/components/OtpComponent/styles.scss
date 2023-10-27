@@ -95,6 +95,7 @@
     }
 
 .login-form {
+  padding-right: 10px;
   .flex{
     display: flex;
     width: 100%;
@@ -151,7 +152,7 @@
     }
     li {
       position: relative;
-      margin: 35px 0;
+      margin: 30px 0;
       &.notify {
         width: 70%;
         margin: 0 auto;
@@ -169,7 +170,7 @@
       }
       &.subscribe {
         text-align: left;
-        margin: 75px 0 0 0;
+        // margin: 75px 0 0 0;
         &.subscribe-gc {
           margin: 35px 0 0 0;
         }
@@ -297,6 +298,17 @@
       -webkit-appearance: none;
       margin: 0;
     }
+  &.go-back-btn {
+    padding-right: 10px;
+    @media screen and (max-width: 768px){
+      position: fixed;
+      bottom: 25px;
+      left: 0;
+      right: 0;
+      width: 90%;
+      margin: auto;
+    }
+  }
 }
 
 @media screen and (max-width: 992px) {
@@ -318,7 +330,8 @@
 }
 
 .otp-text{
-  @include b4_12px_montserrat_charcoal();
+  margin: 30px 0 10px 0 !important;
+  @include b4_12px_montserrat_light_charcoal();
   .aqua-bold{
     color: $aqua-bold;
     font-weight: $semibold;
@@ -475,7 +488,7 @@ hr {
 
   .otp-timer{
     @include b4_12px_montserrat_light_charcoal();
-    padding: 20px 0px 30px 0;
+    padding: 20px 0px 20px 0;
     letter-spacing: 0.5px;
     .otp-resend{
       font-weight: 400;
@@ -540,7 +553,7 @@ hr {
     .otp-error{
       @include error_msg_cerise();
       padding-top: 10px;
-      text-align: left;
+      text-align: center;
       letter-spacing: 0.5px;
       @media screen and  (max-width:992px) {
         text-align: center;
@@ -581,18 +594,30 @@ hr {
   .otp-attempt{
     @include b6_9px_light_montserrat_charcoal();
     padding-top: 10px;
-    padding-bottom: 20px;
+    padding-bottom: 10px;
     letter-spacing: 0.5px;
   }
 
   .otp-policy{
     @include b5_10px_montserrat_charcoal();
-    padding-top: 25px;
+    margin-top: 25px;
     border-bottom: 1px solid $charcoal19;
     letter-spacing: 0.5px;
+    cursor: pointer;
+    &.otp-redeem{
+      margin: 15px auto 15px auto;
+      width: fit-content;
+    }
+
     &:hover{
       color: #3C7979 !important;
       border-bottom: 1px solid #3C7979 !important;
+    }
+
+    &.cancel-link{
+      width: fit-content;
+    margin: auto;
+    margin-top: 10px;
     }
 
   }
@@ -663,6 +688,35 @@ hr {
   }
 }
 
+.email-wrp{
+  margin: 0px 0 30px 0 !important;
+  @include b4_12px_montserrat_charcoal();
+  p{
+    text-align: left !important;
+    margin-top: 10px !important;
+  }
+}
+.send-otp-btn{
+  background-color: $med-charcoal;
+  border: 1px solid $med-charcoal;
+  @include b3_14px_montserrat_white();
+  padding: 19px 16px !important;
+  width: 100%;
+  &:hover{
+    @media screen and (min-width:992px) {
+      background-color: $white;
+    color: $med-charcoal;
+    }
+    
+  }
+  &:focus{
+    border: 1px solid $med-charcoal !important;
+  }
+}
+
+.otp-redeem-wrp{
+padding: 0 !important;
+}
 .otp-wrapper-gc{
   padding: 30px 0px 10px 0px;
 }

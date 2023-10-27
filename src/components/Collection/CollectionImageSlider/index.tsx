@@ -7,7 +7,8 @@ import { Link } from "react-router-dom";
 const CollectionImageSlider: React.FC<CollectionImageSlider> = ({
   sliderImages,
   url,
-  name
+  name,
+  onClickGaEvents
 }) => {
   const settings = {
     dots: true,
@@ -25,10 +26,12 @@ const CollectionImageSlider: React.FC<CollectionImageSlider> = ({
             to={{
               pathname: url || "#"
             }}
+            onClick={() => onClickGaEvents()}
           >
             <img
               src={image ? image : "/static/img/noimageplp.png"}
               alt={name}
+              width="400"
             />
           </Link>
         </div>

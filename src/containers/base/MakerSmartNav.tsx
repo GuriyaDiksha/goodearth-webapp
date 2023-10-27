@@ -1,17 +1,25 @@
 import React, { useEffect, useRef } from "react";
 
+declare global {
+  interface Window {
+    SmartNav?: any;
+  }
+}
+
 export default function MakerSmartNav({
   id,
-  inline
+  inline,
+  currency
 }: {
   id: any;
   inline: any;
+  currency: string;
 }) {
   if (!id) {
     return <></>;
   }
 
-  const containerRef = useRef(null);
+  const containerRef = useRef<HTMLDivElement>(null);
   const elementId = `maker-smartnav${inline ? "-inline" : ""}`;
   const scriptId = `ssr-maker-smartnav${inline ? "-inline" : ""}`;
   const scriptSrc = `https://showside.maker.co/smartnav-v2${
@@ -19,8 +27,8 @@ export default function MakerSmartNav({
   }.js`;
 
   useEffect(() => {
-    if (window.SmartNav && document.getElementById(elementId)) {
-      window.SmartNav.init();
+    if (window?.SmartNav && document.getElementById(elementId)) {
+      window?.SmartNav.init();
       return;
     }
 
@@ -40,7 +48,7 @@ export default function MakerSmartNav({
 
   return (
     <div ref={containerRef}>
-      <div id={elementId} data-config={id}></div>
+      <div id={elementId} data-config={id} data-currency={currency}></div>
       <script src={scriptSrc} defer={true} id={scriptId}></script>
     </div>
   );

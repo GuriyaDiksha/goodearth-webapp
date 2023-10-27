@@ -41,7 +41,11 @@ const DockedPanel: React.FC<Props> = ({
         styles.dockContainer
       )}
     >
-      <div className={cs(bootstrap.col6, globalStyles.flex)}>
+      <div
+        className={cs(bootstrap.col6, globalStyles.flex, {
+          [bootstrap.col8]: mobile
+        })}
+      >
         {!mobile && (
           <div className={styles.imgcontainer}>
             <img
@@ -75,6 +79,9 @@ const DockedPanel: React.FC<Props> = ({
             badgeType={data.badgeType}
             className={styles.bottomDockPrice}
           />
+        )}
+        {currency === "INR" && (
+          <p className={styles.incTax}>(Incl. of all taxes)</p>
         )}
       </div>
       {!mobile && (

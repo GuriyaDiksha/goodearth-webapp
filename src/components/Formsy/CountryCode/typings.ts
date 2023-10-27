@@ -17,6 +17,7 @@ export type Props = {
   name: string;
   autocomplete?: string;
   hideArrow?: boolean;
+  onCountrySelect: (value: any) => void;
 };
 
 export type Country = {
@@ -31,3 +32,5 @@ export type Country = {
   ];
   isdCode?: string;
 };
+
+export type AddressMode = "new" | "edit" | "list";
