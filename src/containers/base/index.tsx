@@ -134,7 +134,6 @@ const BaseLayout: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    console.log("tablet ===== ", tablet, orientation, mobile);
     if (tablet) {
       if (orientation == "landscape") {
         dispatch(updateComponent(POPUP.ORIENTATIONPOPUP, undefined, true));
@@ -159,7 +158,7 @@ const BaseLayout: React.FC = () => {
         //Check for on  which page
         if (
           popup?.pageRules === "ANY_PAGE" ||
-          (popup?.pageRules === "SPECIFIC_PAGE" && pageUrl === pathname)
+          (popup?.pageRules === "SPECIFIC_PAGE" && popup?.pageUrl === pathname)
         ) {
           //Check for session
           let show = currentPopup[0].session == false;
@@ -177,14 +176,14 @@ const BaseLayout: React.FC = () => {
 
           //Check for when to show
 
-          if (popup.whenToShow === "AFTER_SECONDS") {
+          if (popup?.whenToShow === "AFTER_SECONDS") {
             show = false;
             setTimeout(() => {
               show = true;
               dispatch(updateComponent(POPUP.CMSPOPUP, currentPopup[0], true));
               dispatch(updateModal(true));
             }, popup?.timeInSeconds || 0 * 1000);
-          } else if (popup.whenToShow === "AFTER_SCROLL" && isShow) {
+          } else if (popup?.whenToShow === "AFTER_SCROLL" && isShow) {
             show = isShow;
           }
 
