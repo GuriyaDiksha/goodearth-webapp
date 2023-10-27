@@ -11,6 +11,7 @@ export type AddressData = AddressFormData & {
   occasion: string;
   isTulsi?: boolean;
   isBackendOrder?: boolean;
+  currency: string;
 };
 
 export type specifyShippingAddressResponse = {
@@ -70,6 +71,7 @@ export type Props = {
   phoneRef?: any;
   whatsappFormRef?: React.RefObject<Formsy>;
   whatsappNoError?: string;
+  isGcCheckout?: boolean;
 };
 export type AddressModes = "new" | "edit" | "list";
 

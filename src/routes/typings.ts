@@ -18,6 +18,7 @@ export const enum ROUTES {
   ResetPassword = "/password-reset/confirm/:uid/:token",
   STATIC = "/customer-assistance/",
   CHECKOUT = "/order/checkout",
+  GCCHECKOUT = "/order/gc_checkout",
   SHOP = "/Cafe-Shop/:city?",
   ORDERCONFIRMATION = "/order/orderconfirmation/:oid",
   DESIGNJOURNAL = "/designjournal",
@@ -74,7 +75,8 @@ export const enum ROUTES {
   VINITACHAITANYA = "/artofgifting-VinitaChaitanya",
   VASUDHARAI = "/artofgifting-VasudhaRai",
   BOSPORUSMETALDECOR = "/Bosporus_Metal_Decor",
-  TELLINGSTORIES = "/telling-stories-through-textiles"
+  TELLINGSTORIES = "/telling-stories-through-textiles",
+  VIRTUALSHOPPINGSALON = "/virtual-shopping-salon"
 }
 
 export type RouteConfig = RouteObject[];

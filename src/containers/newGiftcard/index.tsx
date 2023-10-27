@@ -15,6 +15,7 @@ import { Link } from "react-router-dom";
 import { Basket } from "typings/basket";
 import { MESSAGE } from "constants/messages";
 import { displayPriceWithCommas, makeid } from "utils/utility";
+import { RouteComponentProps, withRouter } from "react-router-dom";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -22,13 +23,15 @@ const mapStateToProps = (state: AppState) => {
     device: state.device,
     saleTimer: state.info.showTimer,
     cookies: state.cookies,
-    customerGroup: state.user.customerGroup
+    customerGroup: state.user.customerGroup,
+    isLoggedIn: state.user.isLoggedIn
   };
 };
 
 type Props = ReturnType<typeof mapStateToProps> &
   ReturnType<typeof mapDispatchToProps> &
-  DispatchProp;
+  DispatchProp &
+  RouteComponentProps;
 
 type State = {
   giftImages: string[];
@@ -350,6 +353,12 @@ class NewGiftcard extends React.Component<Props, State> {
         const basket: Basket = res.data;
         this.props.updateBasket(basket);
         this.props.showGrowlMessage(MESSAGE.ADD_TO_BAG_GIFTCARD_SUCCESS);
+        if (!this.props.isLoggedIn) {
+          this.props.goLogin(undefined, "/order/gc_checkout");
+        } else {
+          // Redirect to gc_checkout page
+          this.props.history.push("/order/gc_checkout");
+        }
       })
       .catch(error => {
         this.props.showGrowlMessage(
@@ -476,6 +485,10 @@ class NewGiftcard extends React.Component<Props, State> {
       currencyCharCode: currencyCode[this.props.currency]
     });
     util.pageViewGTM("GiftCard");
+    // Show login pop up if not logged in and redirect to giftcard page
+    if (!this.props.isLoggedIn) {
+      this.props.goLogin(undefined, "/giftcard");
+    }
   }
 
   render(): React.ReactNode {
@@ -770,6 +783,7 @@ class NewGiftcard extends React.Component<Props, State> {
                     required
                   />
                   <FormTextArea
+                    additionalErrorClass={styles.leftFloat}
                     placeholder=""
                     maxLength={248}
                     name="message"
@@ -864,7 +878,7 @@ class NewGiftcard extends React.Component<Props, State> {
                   })}
                   onClick={this.onSubmit}
                 >
-                  <a>ADD TO BAG</a>
+                  <a>BUY NOW</a>
                 </div>
               )}
               {/* 6. Contact Us */}
@@ -920,7 +934,7 @@ class NewGiftcard extends React.Component<Props, State> {
             })}
             onClick={this.onSubmit}
           >
-            <a>ADD TO BAG</a>
+            <a>BUY NOW</a>
           </div>
         )}
         {mobile && (
@@ -972,4 +986,5 @@ class NewGiftcard extends React.Component<Props, State> {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(NewGiftcard);
+const gift = withRouter(NewGiftcard);
+export default connect(mapStateToProps, mapDispatchToProps)(gift);

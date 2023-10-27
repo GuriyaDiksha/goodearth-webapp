@@ -455,7 +455,8 @@ class CushionBag extends React.Component<Props, State> {
         title,
         discount,
         badgeType,
-        discountedPriceRecords
+        discountedPriceRecords,
+        collections
       }
     } = this.props.filler;
     const { currency } = this.props;
@@ -492,7 +493,8 @@ class CushionBag extends React.Component<Props, State> {
         isSale: this.props.isSale,
         discountedPrice: discountPrices,
         list: "pdp",
-        sliderImages: data.plpSliderImages
+        sliderImages: data.plpSliderImages,
+        collections: collections
       },
       false
       // ModalStyles.bottomAlign

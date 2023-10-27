@@ -16,6 +16,7 @@ import { withRouter, RouteComponentProps } from "react-router-dom";
 import AddressItem from "components/Address/AddressItem";
 import { updateAddressList } from "actions/address";
 import { updateMicroUrl } from "actions/info";
+import ceriseMainlogo from "../../../../images/loyalty/ceriseMainlogo.svg";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -166,7 +167,7 @@ class CeriseClubMain extends Component<Props, State> {
     let nextSlab;
     if (slab) {
       club =
-        slab.toLowerCase() == "cerise" || slab.toLowerCase() == "ff10"
+        slab.toLowerCase() == "cerise club" || slab.toLowerCase() == "ff10"
           ? "Cerise"
           : "Cerise Sitara";
       percentage =
@@ -174,7 +175,7 @@ class CeriseClubMain extends Component<Props, State> {
           ? PurchaseAmount / 5000
           : 100;
       nextSlab =
-        slab.toLowerCase() == "cerise" ? "Cerise Sitara" : "Cerise Sitara";
+        slab.toLowerCase() == "cerise club" ? "Cerise Club" : "Cerise Sitara";
     }
     const buttonText = this.state.addressAvailable
       ? "MANAGE ADDRESSES"
@@ -190,9 +191,10 @@ class CeriseClubMain extends Component<Props, State> {
     const defaultAddressList = this.props.addressList.filter(
       address => address.isDefaultForShipping
     );
+    // console.log('test')
     return (
       <div className={cs(styles.ceriseClubMain, bootstrapStyles.col12)}>
-        <div className={styles.ceriseMain}>
+        {/* <div className={styles.ceriseMain}>
           <div className={styles.ceriseHeader}>
             <div className={styles.customerCeriseInfo}>
               <div className={styles.customerWelcome}>
@@ -389,6 +391,23 @@ class CeriseClubMain extends Component<Props, State> {
                 onClick={this.manageAddress}
                 value={buttonText}
               />
+            </div>
+          </div>
+        </div> */}
+        <div className={styles.ceriseMain}>
+          <div className={styles.ceriseLogoWrapper}>
+            <img
+              src={ceriseMainlogo}
+              alt="cerise-logo"
+              className={styles.ceriseLogo}
+            ></img>
+          </div>
+          <div className={styles.ceriseContentWrapper}>
+            <div className={styles.cerisePreTitle}>
+              <p>Cerise is going through a maintenance upgrade!</p>
+            </div>
+            <div className={styles.ceriseTitle}>
+              <h3>We will be back soon.</h3>
             </div>
           </div>
         </div>

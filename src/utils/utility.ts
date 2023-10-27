@@ -3,8 +3,8 @@ import { currencyCodes } from "constants/currency";
 
 const displayPriceWithCommas = (
   price: string | number,
-  currency: Currency,
-  with_symbol: boolean | (() => boolean) = true
+  currency: Currency
+  // with_symbol: boolean | (() => boolean) = true
 ) => {
   let arg = "";
   if (currency == "INR") {
@@ -22,15 +22,23 @@ const displayPriceWithCommas = (
     .map(e => {
       arr.push(parseInt(e.toString()).toLocaleString(arg));
     });
-  return with_symbol
-    ? currency_symbol + " " + arr.join(" - " + currency_symbol + " ")
-    : arr.join(" - ");
+  // return with_symbol
+  //   ? currency_symbol + " " + arr.join(" - " + currency_symbol + " ")
+  //   : arr.join(" - ");
+  try {
+    return parseInt(price.toString()) < 0
+      ? currency_symbol + " " + parseInt(price.toString()).toLocaleString(arg)
+      : currency_symbol + " " + arr.join(" - ");
+  } catch (err) {
+    console.log("err" + err);
+    return "";
+  }
 };
 
 const displayPriceWithCommasFloat = (
   price: string | number,
-  currency: Currency,
-  with_symbol: boolean | (() => boolean) = true
+  currency: Currency
+  // with_symbol: boolean | (() => boolean) = true
 ) => {
   let arg = "";
   if (currency == "INR") {
@@ -53,9 +61,17 @@ const displayPriceWithCommasFloat = (
         })
       );
     });
-  return with_symbol
-    ? currency_symbol + " " + arr.join(" - " + currency_symbol + " ")
-    : arr.join(" - ");
+  // return with_symbol
+  //   ? currency_symbol + " " + arr.join(" - " + currency_symbol + " ")
+  //   : arr.join(" - ");
+  try {
+    return parseInt(price.toString()) < 0
+      ? currency_symbol + " " + parseInt(price.toString()).toLocaleString(arg)
+      : currency_symbol + " " + arr.join(" - ");
+  } catch (err) {
+    console.log("err" + err);
+    return "";
+  }
 };
 
 const makeid = (length: number) => {

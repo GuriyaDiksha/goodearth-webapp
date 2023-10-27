@@ -3,6 +3,7 @@ export type specifyBillingAddressData = {
   gstNo?: string;
   gstType?: string;
   panPassportNo?: string;
+  source: string;
 };
 
 export type validateGSTData = {
