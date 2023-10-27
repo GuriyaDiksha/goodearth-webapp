@@ -57,6 +57,7 @@ body:has(.mobile) {
   position: relative;
   // min-height: 320px;
   border: 1px solid #eaeaea;
+  cursor: pointer;
 
   .address-wrapper {
     max-width: 93%;
@@ -76,8 +77,7 @@ body:has(.mobile) {
     // height: 308px;
     font-weight: 400;
     text-align: left;
-    padding: 35px 20px 20px 40px;
-    cursor: pointer;
+    padding: 20px 20px 20px 40px;
     &.checkout-fix {
       padding: 35px 25px 76px 25px;
     }
@@ -101,12 +101,9 @@ body:has(.mobile) {
       border: 2px solid #8cb8aa;
       padding: 35px 25px 110px 25px;
     }
-    &.diabled-border,
-    &.address-in-use {
-      // border: 2px solid $cerise;
-      padding: 30px 30px 30px 40px;
-      border: 2px solid #7EAAA9;
-      min-height: 260px;
+    &.diabled-border {
+      border: 2px solid $cerise;
+      padding: 35px 25px 84px 25px;
     }
     .ship-to-this-btn {
       position: absolute;
@@ -116,14 +113,14 @@ body:has(.mobile) {
       line-height: 50px;
     }
     .address-in-use {
-      // background-color: #868484;
-      // line-height: 50px;
-      // width: 100%;
-      // text-align: center;
-      // font-size: 12px;
-      // border: none;
-      // color: white !important;
-      // letter-spacing: 2px;
+      background-color: #868484;
+      line-height: 50px;
+      width: 100%;
+      text-align: center;
+      font-size: 12px;
+      border: none;
+      color: white !important;
+      letter-spacing: 2px;
     }
     div.address-phone-number {
       @include b4_12px_montserrat_charcoal();
@@ -409,9 +406,8 @@ body:has(.mobile) {
     }
   }
 }
-.address-item-container-bridal {
-  // min-height: 360px;
-  min-height: 260px;
+.address-item-container-checkout {
+  min-height: 360px;
   border: 1px solid #eaeaea;
 }
 
@@ -539,21 +535,19 @@ body:has(.mobile) {
   display: flex;
   flex-wrap: wrap;
   flex-direction: column;
-  clear: both;
   &.checkout-fix {
     flex-direction: row;
   }
 }
 
-// .address-item-container {
-//   .address-item.address-in-use {
-//     position: absolute;
-//     background-color: #ccc;
-//     height: 100%;
-//     width: 100%;
-//     cursor: unset!important;
-//   }
-// }
+.address-item-container {
+  .address-item.address-in-use {
+    position: absolute;
+    background-color: #ccc;
+    height: 100%;
+    width: 100%;
+  }
+}
 
 .address-wrap {
   height: 100%;
@@ -697,7 +691,7 @@ body:has(.mobile) {
   .checkbox {
     display: block;
   }
-  .default-address-checkbox{
+  .default-address-checkbox {
     height: 19px !important;
     width: 19px !important;
     border-color: $light-charcoal !important;
@@ -845,38 +839,4 @@ body:has(.mobile) {
 float: right;
 margin-top: 5px;
 @include b6_9px_light_montserrat_charcoal();
-}
-div > .address-in-use {
-  cursor: unset!important;
-}
-.diabled-border input:before{
-  content: "";
-  height: 16px;
-  width: 16px;
-  border-radius: 50%;
-  background-color: white;
-  position: absolute;
-  top: 50%;
-  right: 50%;
-  transform: translate(50%, -50%);
-  border: 1px solid #54b8b8;
-}
-.diabled-border input:after{
-  content: "";
-  height: 8px;
-  width: 8px;
-  border-radius: 50%;
-  background-color: #548b8b;
-  position: absolute;
-  top: 50%;
-  right: 50%;
-  transform: translate(50%, -50%);
-}
-// .edit-registery-details-wa{
-//   margin-bottom:0!important;
-// }
-.bridal-edit-address-msg{
-  @include error-msg();
-  margin-top: 10px;
-  text-align: left;
 }
