@@ -239,11 +239,17 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
                     [styles.gold]: isDiscount
                   })}
                 >
-                  {`${displayPriceWithCommas(amountPaid, item.priceCurrency)}`}
+                  {`${displayPriceWithCommasFloat(
+                    amountPaid,
+                    item.priceCurrency
+                  )}`}
                 </span>
                 {isDiscount && (
                   <span className={styles.originalPrice}>
-                    {`${displayPriceWithCommas(price, item.priceCurrency)}`}
+                    {`${displayPriceWithCommasFloat(
+                      price,
+                      item.priceCurrency
+                    )}`}
                   </span>
                 )}
               </p>
@@ -404,7 +410,7 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
                     <div className={styles.amountPaid}>
                       <span className={styles.label}>Amount Paid</span>
                       <span className={styles.data}>
-                        {displayPriceWithCommas(
+                        {displayPriceWithCommasFloat(
                           item.totalInclTax,
                           item.currency
                         )}
