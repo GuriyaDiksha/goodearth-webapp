@@ -9,9 +9,13 @@ import cs from "classnames";
 import { Link } from "react-router-dom";
 
 type StateData = { user: { slab: string; email: string } };
-type Props = { clickToggle?: any; isMobileMenu?: boolean };
+type Props = {
+  clickToggle?: any;
+  isMobileMenu?: boolean;
+  showInnerMenu?: boolean;
+};
 
-const CeriseCard: React.FC<Props> = ({ clickToggle }) => {
+const CeriseCard: React.FC<Props> = ({ clickToggle, showInnerMenu }) => {
   const {
     user: { slab, email }
   }: StateData = useSelector((state: AppState) => state);
