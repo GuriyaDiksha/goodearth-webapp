@@ -9,9 +9,13 @@ import cs from "classnames";
 import { Link } from "react-router-dom";
 
 type StateData = { user: { slab: string; email: string } };
-type Props = { clickToggle?: any; isMobileMenu?: boolean };
+type Props = {
+  clickToggle?: any;
+  isMobileMenu?: boolean;
+  showInnerMenu?: boolean;
+};
 
-const CeriseCard: React.FC<Props> = ({ clickToggle }) => {
+const CeriseCard: React.FC<Props> = ({ clickToggle, showInnerMenu }) => {
   const {
     user: { slab, email }
   }: StateData = useSelector((state: AppState) => state);
@@ -30,11 +34,19 @@ const CeriseCard: React.FC<Props> = ({ clickToggle }) => {
   }, [email, slab]);
 
   return (
-    <div className={cs(styles.ceriseCardLeftContainer)}>
+    <div
+      className={cs(styles.ceriseCardLeftContainer, {
+        [styles.showInnerMenu]: showInnerMenu
+      })}
+    >
       {slab.toLowerCase() === "cerise" ||
       slab.toLowerCase() === "cerise sitara" ||
       slab.toLowerCase() === "cerise club" ? (
-        <CeriseCardDetail isViewDashboard={true} clickToggle={clickToggle} />
+        <CeriseCardDetail
+          isViewDashboard={true}
+          clickToggle={clickToggle}
+          showInnerMenu={showInnerMenu}
+        />
       ) : (
         <Link
           to="/cerise"
