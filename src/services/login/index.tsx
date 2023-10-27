@@ -448,12 +448,13 @@ export default {
     dispatch: Dispatch,
     formData: { currency: Currency }
   ) {
-    try {
-      const res: any = await API.post<Basket>(
-        dispatch,
-        `${__API_HOST__ + "/myapi/basket/change_currency/"}`,
-        formData
-      );
+    const res: any = await API.post<Basket>(
+      dispatch,
+      `${__API_HOST__ + "/myapi/basket/change_currency/"}`,
+      formData
+    );
+    // res will be object only when API gives 200 response
+    if (typeof res === "object" && res !== null) {
       CookieService.setCookie("currency", formData.currency, 365);
       dispatch(updateCurrency(formData.currency));
       const {
@@ -480,11 +481,10 @@ export default {
           unshippableProducts
         );
       }
-      return res;
-    } catch (err) {
-      console.log("Announcment API Error", err);
-      throw err;
+    } else {
+      console.log("Change currency API error: ", res);
     }
+    return res;
   },
   reloadPage: (
     dispatch: Dispatch,
@@ -493,17 +493,17 @@ export default {
   ) => {
     HeaderService.fetchHeaderDetails(dispatch, currency, customerGroup).catch(
       err => {
-        console.log("FOOTER API ERROR ==== " + err);
+        console.log("Fetch header API ERROR ==== " + err);
       }
     );
     HeaderService.fetchFooterDetails(dispatch).catch(err => {
-      console.log("FOOTER API ERROR ==== " + err);
+      console.log("Fetch footer API ERROR ==== " + err);
     });
     // HeaderService.fetchHomepageData(dispatch).catch(err => {
     //   console.log("Homepage API ERROR ==== " + err);
     // });
     Api.getAnnouncement(dispatch).catch(err => {
-      console.log("FOOTER API ERROR ==== " + err);
+      console.log("Get announcement API ERROR ==== " + err);
     });
     Api.getSalesStatus(dispatch).catch(err => {
       console.log("Sale status API error === " + err);
