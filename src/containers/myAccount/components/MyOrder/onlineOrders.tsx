@@ -130,7 +130,7 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
     html.push(
       <div className={cs(styles.addressBlock, styles.myordersAddressblock)}>
         {/* Shipping Address */}
-        {shippingAddress && (
+        {shippingAddress && !data?.isOnlyGiftOrder && (
           <div className={styles.address}>
             <div className={styles.title}>shipping address</div>
             {data.isBridalOrder && (
@@ -262,40 +262,54 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
     html.push(
       <div className={styles.prices}>
         {/* Subtotal */}
-        <div className={cs(styles.price, styles.price1)}>
-          <span className={styles.label}>SUBTOTAL</span>
-          <span className={styles.value}>
-            {`${displayPriceWithCommasFloat(
-              item.orderSubTotal,
-              item.currency
-            )}`}
-          </span>
-        </div>
-        {/* offer discounts */}
-        {data.offerDiscounts?.map(
-          (discount: { name: string; amount: string }, index: number) => {
-            return (
-              <div
-                className={cs(styles.price, styles.price3, styles.discount)}
-                key={index}
-              >
-                <span className={styles.label}>{discount.name}</span>
-                <span className={styles.value}>
-                  {`(-) ${displayPriceWithCommasFloat(
-                    discount.amount,
-                    item.currency
-                  )}`}
-                </span>
-              </div>
-            );
-          }
+        {!item?.isOnlyGiftOrder && (
+          <div className={cs(styles.price, styles.price1)}>
+            <span className={styles.label}>SUBTOTAL</span>
+            <span className={styles.value}>
+              {`${displayPriceWithCommasFloat(
+                item.orderSubTotal,
+                item.currency
+              )}`}
+            </span>
+          </div>
         )}
+        {/* offer discounts */}
+        {!item?.isOnlyGiftOrder &&
+          data.offerDiscounts?.map(
+            (discount: { name: string; amount: string }, index: number) => {
+              return (
+                <div
+                  className={cs(styles.price, styles.price3, styles.discount)}
+                  key={index}
+                >
+                  <span className={styles.label}>{discount.name}</span>
+                  <span className={styles.value}>
+                    {`(-) ${displayPriceWithCommasFloat(
+                      discount.amount,
+                      item.currency
+                    )}`}
+                  </span>
+                </div>
+              );
+            }
+          )}
         {/* shipping and handling */}
+        {!item?.isOnlyGiftOrder && (
+          <div className={cs(styles.price, styles.price2)}>
+            <span className={styles.label}>SHIPPING & HANDLING</span>
+            <span className={styles.value}>
+              {`(+) ${displayPriceWithCommasFloat(
+                item.shippingInclTax,
+                item.currency
+              )}`}
+            </span>
+          </div>
+        )}
         <div className={cs(styles.price, styles.price2)}>
-          <span className={styles.label}>SHIPPING & HANDLING</span>
+          <span className={styles.label}>TOTAL</span>
           <span className={styles.value}>
             {`(+) ${displayPriceWithCommasFloat(
-              item.shippingInclTax,
+              item?.subTotalWithShipping || 0,
               item.currency
             )}`}
           </span>
