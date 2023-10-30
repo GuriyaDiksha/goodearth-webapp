@@ -873,7 +873,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
             Add products worth{" "}
             {String.fromCharCode(...currencyCode[props.currency])}{" "}
             {freeShippingApplicable - parseInt(totalWithoutShipping.toString())}{" "}
-            or more to qualify for free shipping.
+            or more to qualify for free shipping. Limited time only!
           </div>
         </div>
       ) : (

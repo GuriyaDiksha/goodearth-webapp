@@ -59,7 +59,7 @@ const initAction: any = async (
         // console.log(data);
       })
       .catch(err => {
-        console.log("FOOTER API ERROR ==== " + err);
+        console.log("ANNOUNCMENT API ERROR ==== " + err);
       }),
     ApiService.getCurrency(store.dispatch, bridalKey).catch(err => {
       console.log("CURRENCY API ERROR ==== " + err);

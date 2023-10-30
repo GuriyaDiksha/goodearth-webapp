@@ -538,9 +538,9 @@
     height: auto !important;
     min-height: 360px;
     width: 100%;
-    p {
-      padding: 7px 10%;
-    }
+    // p {
+    //   padding: 7px 10%;
+    // }
 }
 .maker-popup-mobile {
   height: 100% !important;
@@ -1473,12 +1473,12 @@
   // }
   .gc-tnc{
     padding: 30px 0 30px 0 !important;
-    img{
-      background-color: #E5E5E5;
-    }
-    .heading {
-      margin-bottom: 20px;
-    }
+    // img{
+    //   background-color: #E5E5E5;
+    // }
+    // .heading {
+    //   margin-bottom: 20px;
+    // }
     .popup-cta{
       width: 70%;
       font-size: 14px;
@@ -1486,7 +1486,7 @@
       color: $white;
       background: $aqua-bold;
       letter-spacing: 0.42px;
-      margin-bottom: 20px;
+      //margin-bottom: 20px;
       a {
         p {
           padding: 0px;
