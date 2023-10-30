@@ -22,7 +22,8 @@ type StateData = {
 
 const CeriseCardDetail: React.FC<Props> = ({
   isViewDashboard,
-  clickToggle
+  clickToggle,
+  showInnerMenu
 }) => {
   const [active, setActive] = useState(false);
   const {
@@ -38,7 +39,8 @@ const CeriseCardDetail: React.FC<Props> = ({
           loyaltyPoints?.MembershipClub === "Cerise Sitara",
         [styles.ceriseBackground]:
           loyaltyPoints?.MembershipClub === "Cerise Club",
-        [styles.leftMaxWidth]: isViewDashboard
+        [styles.leftMaxWidth]: isViewDashboard,
+        [styles.showInnerMenu]: showInnerMenu
       })}
     >
       <div className={styles.header}>
