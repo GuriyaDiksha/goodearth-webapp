@@ -1,0 +1,25 @@
+@import "../../../styles/partials/variables";
+@import "../../../styles/partials/mixins";
+
+.cerise-card-menu-wrp {
+    display: flex;
+    max-width: 630px;
+    background: #f9f8f4;
+
+    .cerise-card-menu{
+        margin:25px;
+        li{
+            margin-top: 30px;
+            a,span{
+            @include b4_12px_montserrat_charcoal();
+
+            &:hover{
+                color: $gold !important;
+            }
+        }
+        &:nth-child(1) {
+            margin-top: 0px;
+        }
+        }
+    }
+}

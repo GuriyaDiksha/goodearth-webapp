@@ -12,14 +12,12 @@ import "./slider.css";
 import { State, FilterProps } from "./typings";
 import { withRouter } from "react-router";
 import { RouteComponentProps } from "react-router-dom";
-import { productImpression } from "utils/validate";
+import { gaEventsForSearch, productImpression } from "utils/validate";
 // import Loader from "components/Loader";
 import iconStyles from "../../styles/iconFonts.scss";
 import multiColour from "../../images/multiColour.svg";
 import bootstrap from "../../styles/bootstrap/bootstrap-grid.scss";
 import { displayPriceWithCommas } from "utils/utility";
-import { GA_CALLS } from "constants/cookieConsent";
-import CookieService from "../../services/cookie";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -816,6 +814,7 @@ class FilterList extends React.Component<Props, State> {
     fetchSearchProducts(filterUrl + `&page_size=${pageSize}`)
       .then(searchList => {
         changeLoader?.(false);
+        gaEventsForSearch(searchList);
         productImpression(
           searchList,
           searchValue || "PLP",

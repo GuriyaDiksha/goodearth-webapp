@@ -65,6 +65,10 @@ const Zoom: React.FC<Props> = ({
           ? transformComponentMobileRef.current.zoomOut()
           : "";
       }
+      setZoom(
+        transformComponentMobileRef?.current?.instance?.transformState?.scale ||
+          1
+      );
     } else {
       if (value > zoom) {
         transformComponentRef.current
@@ -75,8 +79,14 @@ const Zoom: React.FC<Props> = ({
           ? transformComponentRef.current.zoomOut()
           : "";
       }
+      setZoom(
+        transformComponentRef?.current?.instance?.transformState?.scale || 1
+      );
     }
-    setZoom(value);
+  };
+
+  const handleScaleChange = (event: any) => {
+    setZoom(event.instance.transformState.scale);
   };
 
   return (
@@ -97,6 +107,7 @@ const Zoom: React.FC<Props> = ({
                 })}
                 onClick={() => {
                   setSelectedImage(imgContent);
+                  transformComponentRef?.current?.setTransform(0, 0, 1);
                   setZoom(1);
                 }}
               >
@@ -167,12 +178,15 @@ const Zoom: React.FC<Props> = ({
                 {selectedImage?.media_type === "Image" ||
                 selectedImage?.type === "main" ? (
                   <TransformWrapper
+                    minScale={1}
+                    maxScale={4}
                     initialPositionX={0}
                     initialScale={zoom}
                     initialPositionY={0}
                     ref={transformComponentMobileRef}
-                    pinch={{ disabled: true }}
+                    // pinch={{ disabled: true }}
                     wheel={{ disabled: true, touchPadDisabled: true }}
+                    onTransformed={e => handleScaleChange(e)}
                   >
                     <TransformComponent>
                       <img
@@ -217,12 +231,15 @@ const Zoom: React.FC<Props> = ({
               {selectedImage?.media_type === "Image" ||
               selectedImage?.type === "main" ? (
                 <TransformWrapper
+                  minScale={1}
+                  maxScale={4}
                   initialPositionX={0}
                   initialScale={zoom}
                   initialPositionY={0}
                   ref={transformComponentRef}
-                  pinch={{ disabled: true }}
+                  // pinch={{ disabled: true }}
                   wheel={{ disabled: true, touchPadDisabled: true }}
+                  onTransformed={e => handleScaleChange(e)}
                 >
                   <TransformComponent>
                     <img

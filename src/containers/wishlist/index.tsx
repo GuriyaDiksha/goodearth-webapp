@@ -129,7 +129,8 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
             discount: item.discount,
             badgeType: item.badgeType,
             list: "wishlist",
-            sliderImages: []
+            sliderImages: [],
+            collections: item?.collection
           },
           false,
           mobile ? ModalStyles.bottomAlignSlideUp : "",

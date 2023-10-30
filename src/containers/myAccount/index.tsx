@@ -11,7 +11,7 @@ import LoginService from "services/login";
 import globalStyles from "../../styles/global.scss";
 import styles from "./styles.scss";
 import bootstrapStyles from "../../styles/bootstrap/bootstrap-grid.scss";
-import loyaltyStyles from "./components/CeriseClub/styles.scss";
+import loyaltyStyles from "./components/CeriseDashboard/styles.scss";
 import cs from "classnames";
 import iconStyles from "styles/iconFonts.scss";
 import MyProfile from "./components/MyProfile";
@@ -28,6 +28,8 @@ import ActivateGiftCard from "./components/ActivateGiftCard";
 import TrackOrder from "./components/TrackOrder";
 import AccountServices from "services/account";
 import CeriseClubMain from "./components/CeriseClub/ceriseClubMain";
+import CeriseDashboard from "./components/CeriseDashboard";
+import TransactionDashboard from "./components/TransactionDashboard";
 import profileIcon from "../../images/dock_profile.svg";
 // import CookieService from "services/cookie";
 import { CONFIG } from "constants/util";
@@ -142,25 +144,25 @@ const MyAccount: React.FC<Props> = props => {
   const history = useHistory();
   const dispatch = useDispatch();
 
-  const getLoyaltyTransactions = () => {
-    const formData = new FormData();
-    formData.append("email", email);
-    formData.append("phoneno", "");
-    AccountServices.getLoyaltyTransactions(dispatch, formData)
-      .then((data: any) => {
-        if (data.is_success) {
-          // const isCeriseClubMember = data.message.Slab == "CERISE" || data.message.Slab == "CERISE SITARA" || data.message.Slab == "FF10" || data.message.Slab == "FF15"
-          const responseSlab = data.message.Slab;
-          // setSlab(responseSlab);
-          // setIsCeriseClubMember(isCeriseClubMember);
-          // const slab = responseSlab.toLowerCase() == "cerise" || responseSlab.toLowerCase() == "cerise sitara";
-          // this.props.updateCeriseClubAccess(slab);
-        }
-      })
-      .catch(err => {
-        console.log(err);
-      });
-  };
+  // const getLoyaltyTransactions = () => {
+  //   const formData = new FormData();
+  //   formData.append("email", email);
+  //   formData.append("phoneno", "");
+  // AccountServices.getLoyaltyTransactions(dispatch, formData)
+  //   .then((data: any) => {
+  //     if (data.is_success) {
+  // const isCeriseClubMember = data.message.Slab == "CERISE" || data.message.Slab == "CERISE SITARA" || data.message.Slab == "FF10" || data.message.Slab == "FF15"
+  // const responseSlab = data.message.Slab;
+  // setSlab(responseSlab);
+  // setIsCeriseClubMember(isCeriseClubMember);
+  // const slab = responseSlab.toLowerCase() == "cerise" || responseSlab.toLowerCase() == "cerise sitara";
+  // this.props.updateCeriseClubAccess(slab);
+  //   }
+  // })
+  // .catch(err => {
+  //   console.log(err);
+  // });
+  // };
 
   useEffect(() => {
     const noContentContainerElem = document.getElementById(
@@ -171,7 +173,7 @@ const MyAccount: React.FC<Props> = props => {
     ) {
       noContentContainerElem.classList.remove(globalStyles.contentContainer);
     }
-    getLoyaltyTransactions();
+    // getLoyaltyTransactions();
     // window.scrollTo(0, 0);
   }, []);
 
@@ -228,10 +230,17 @@ const MyAccount: React.FC<Props> = props => {
     accountMenuItems.push({
       label: "Cerise",
       href: "/account/cerise",
-      component: CeriseClubMain,
+      component: CeriseDashboard,
       title: "Cerise",
       loggedInOnly: true
     });
+  accountMenuItems.push({
+    label: "",
+    href: "/account/cerise/transaction",
+    component: TransactionDashboard,
+    title: "",
+    loggedInOnly: true
+  });
   accountMenuItems.push(
     {
       label: "Good Earth Registry",
@@ -293,8 +302,11 @@ const MyAccount: React.FC<Props> = props => {
         slab.toLowerCase() == "cerise sitara" ||
         slab.toLowerCase() == "cerise club" ||
         slab.toLowerCase() == "ff10"
-        ? cs(styles.ceriseClub, loyaltyStyles.ceriseLoyalty)
-        : cs(styles.ceriseSitaraClub, loyaltyStyles.ceriseLoyalty)
+        ? cs(styles.ceriseClub, loyaltyStyles.ceriseDashboardContainer)
+        : cs(styles.ceriseSitaraClub, loyaltyStyles.ceriseDashboardContainer)
+      : "",
+    slab && pathname == "/account/cerise/transaction"
+      ? cs(styles.ceriseSitaraClub, loyaltyStyles.ceriseDashboardContainer)
       : ""
   );
   return (
@@ -306,7 +318,13 @@ const MyAccount: React.FC<Props> = props => {
       <SecondaryHeader>
         <div className={cs(bootstrapStyles.colMd11, bootstrapStyles.offsetMd1)}>
           <span className={cs(styles.heading, globalStyles.verticalMiddle)}>
-            <img className={styles.icon} src={profileIcon} /> My Account
+            {history?.location?.pathname ===
+            "/account/cerise/transaction" ? null : (
+              <img className={styles.icon} src={profileIcon} />
+            )}{" "}
+            {history?.location?.pathname === "/account/cerise/transaction"
+              ? "Cerise"
+              : "My Account"}
           </span>
         </div>
       </SecondaryHeader>
@@ -335,6 +353,9 @@ const MyAccount: React.FC<Props> = props => {
                         : "Manage Registry"
                       : pathname == "/account/giftcard-activation"
                       ? "Activate Gift Card"
+                      : pathname == "/account/cerise" ||
+                        pathname == "/account/cerise/transaction"
+                      ? "Cerise"
                       : currentSection}
                   </span>
                 </div>
@@ -390,18 +411,18 @@ const MyAccount: React.FC<Props> = props => {
                           isLoggedIn ? true : !item.loggedInOnly
                         )
                         .map(item => {
-                          return (
-                            <li key={item.label}>
+                          return item.label ? (
+                            <li key={item?.label}>
                               <NavLink
                                 onClick={() => setAccountListing(false)}
-                                key={item.label}
-                                to={item.href}
+                                key={item?.label}
+                                to={item?.href}
                                 activeClassName={styles.gold}
                               >
-                                {item.label}
+                                {item?.label}
                               </NavLink>
                             </li>
-                          );
+                          ) : null;
                         })}
 
                       {/* <li>
@@ -442,9 +463,9 @@ const MyAccount: React.FC<Props> = props => {
                 {accountMenuItems
                   .filter(item => (isLoggedIn ? true : !item.loggedInOnly))
                   .map(item => {
-                    return item.title == "bridal" ? (
+                    return item?.title == "bridal" ? (
                       <li
-                        key={item.label}
+                        key={item?.label}
                         className={
                           showRegistry
                             ? styles.bridalleftsec
@@ -467,7 +488,7 @@ const MyAccount: React.FC<Props> = props => {
                               <NavLink
                                 // name="bridal"
 
-                                to={item.href}
+                                to={item?.href}
                                 activeClassName={styles.gold}
                                 // className={showregistry && currentSection == "bridal" ? "cerise":""}
                               >
@@ -490,14 +511,14 @@ const MyAccount: React.FC<Props> = props => {
                         )}
                       </li>
                     ) : (
-                      <li key={item.label}>
+                      <li key={item?.label}>
                         {" "}
                         <NavLink
-                          key={item.label}
-                          to={item.href}
+                          key={item?.label}
+                          to={item?.href}
                           activeClassName={styles.gold}
                         >
-                          {item.label}
+                          {item?.label}
                         </NavLink>
                       </li>
                     );
@@ -535,13 +556,15 @@ const MyAccount: React.FC<Props> = props => {
             {accountMenuItems.map(
               ({ component, href, label, title, currentCallBackComponent }) => {
                 const Component = component;
-                if (title.toLowerCase() == "cerise") {
+                if (title?.toLowerCase() == "cerise" || title === "") {
                   return (
                     <Route key={label} exact path={href}>
                       <div className={bgClass}>
                         <div className={bootstrapStyles.row}>
                           <Component
-                            setCurrentSection={() => setCurrentSection(title)}
+                            setCurrentSection={() =>
+                              setCurrentSection(title || "Cerise")
+                            }
                             currentCallBackComponent={currentCallBackComponent}
                           />
                         </div>
@@ -566,7 +589,7 @@ const MyAccount: React.FC<Props> = props => {
                             {title.toLowerCase() == "bridal" ? (
                               <Component
                                 setCurrentSection={() =>
-                                  setCurrentSection(title)
+                                  setCurrentSection(title || "Cerise")
                                 }
                                 currentCallBackComponent={
                                   currentCallBackComponent
@@ -575,9 +598,9 @@ const MyAccount: React.FC<Props> = props => {
                               />
                             ) : (
                               <Component
-                                setCurrentSection={() => {
-                                  setCurrentSection(title);
-                                }}
+                                setCurrentSection={() =>
+                                  setCurrentSection(title || "Cerise")
+                                }
                                 currentCallBackComponent={
                                   currentCallBackComponent
                                 }

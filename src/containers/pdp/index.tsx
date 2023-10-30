@@ -408,21 +408,23 @@ class PDPContainer extends React.Component<Props, State> {
         // const scrollAfterDiv = document.getElementById("more_collection_div");
         const dockedDiv = document.getElementById("docked_div");
         const scrollAfterDiv = document.getElementById("product_detail_sec");
-        const headerContainer = document.getElementById("header_container");
+        // const headerContainer = document.getElementById("header_container");
         if (scrollAfterDiv) {
           const rect = scrollAfterDiv.getBoundingClientRect();
-          const scrollBottom = rect.bottom;
-          // console.log("bottom---" +scrollBottom);
-          // console.log("y---" +rect.y);
+          const scrollBottom = rect.bottom + 100; // added 100 for padding of div
+          //  console.log("bottom---" +scrollBottom);
+          // console.log("y---" +rect);
           // console.log("window---" +windowScroll);
           if (dockedDiv) {
             if (windowScroll >= scrollBottom) {
-              dockedDiv.style.cssText = "position: absolute;bottom: -9%;";
+              dockedDiv.style.cssText =
+                "position: absolute;bottom: -9%;transition: transform .3s ease-out,-webkit-transform .3s ease-out;";
               if (scrollAfterDiv) {
                 scrollAfterDiv.style.cssText = "z-index: 5";
               }
             } else {
-              dockedDiv.style.cssText = "position: fixed;bottom: 0;";
+              dockedDiv.style.cssText =
+                "position: fixed;bottom: 0;transition: transform .3s ease-out,-webkit-transform .3s ease-out;";
               if (scrollAfterDiv) {
                 scrollAfterDiv.style.cssText = "z-index: 6";
               }
@@ -1150,7 +1152,8 @@ class PDPContainer extends React.Component<Props, State> {
         isSale: isSale,
         discountedPrice: discountedPriceRecords[currency],
         list: "pdp",
-        sliderImages: plpSliderImages
+        sliderImages: plpSliderImages,
+        collections: collections
       },
       false,
       undefined
@@ -1464,13 +1467,16 @@ class PDPContainer extends React.Component<Props, State> {
                 })}
               >
                 {media_type === "Image" || type === "main" ? (
-                  <LazyImage
-                    alt={data?.altText || data?.title}
-                    aspectRatio="62:93"
-                    src={productImage?.replace("/Micro/", "/Medium/")}
-                    className={globalStyles.imgResponsive}
-                    onClick={this.getMobileZoomListener(i)}
-                  />
+                  <div className={cs(styles.container)}>
+                    <img
+                      fetchpriority={i < 2 ? "high" : "low"}
+                      alt={data?.altText || data?.title}
+                      // aspectRatio="62:93"
+                      src={productImage?.replace("/Micro/", "/Medium/")}
+                      className={globalStyles.imgResponsive}
+                      onClick={this.getMobileZoomListener(i)}
+                    />
+                  </div>
                 ) : (
                   <>
                     {/* <div className={styles.overlayDiv}></div>

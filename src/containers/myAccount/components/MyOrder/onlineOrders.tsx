@@ -142,6 +142,7 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
                   {data.occasion} Registry
                 </span>
                 <span className={styles.bridalMessage}></span>
+                <span>Address predefined by registrant</span>
               </div>
             )}
             {!data.isBridalOrder ? (
@@ -320,9 +321,12 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
               className={cs(styles.price, styles.price3, styles.discount)}
               key={i}
             >
-              <span className={styles.label}>Gift Card/Credit Note</span>
+              <span className={styles.label}>{Object.keys(gccn)?.[0]}</span>
               <span className={styles.value}>
-                {`(-) ${displayPriceWithCommas(gccn, item.currency)}`}
+                {`(-) ${displayPriceWithCommas(
+                  Object.values(gccn)?.[0],
+                  item.currency
+                )}`}
               </span>
             </div>
           );

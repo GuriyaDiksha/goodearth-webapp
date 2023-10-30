@@ -5,7 +5,7 @@ import initAction from "containers/pdp/initAction";
 import metaAction from "containers/pdp/metaAction";
 import metaActionPlp from "containers/plp/metaAction";
 import metaActionCareer from "containers/careerDetail/metaAction";
-import initActionCollection from "containers/collectionLanding/initAction";
+// import initActionCollection from "containers/collectionLanding/initAction";
 // import metaActionCollectionLanding from "containers/collectionLanding/metaAction";
 import metaActionCollectionSpecific from "containers/collectionSpecific/metaAction";
 import initActionSpecific from "containers/collectionSpecific/initAction";
@@ -32,7 +32,7 @@ const routes: RouteConfig = [
   {
     path: ROUTES.CollectionLanding,
     component: loadable(() => import("containers/collectionLanding")),
-    action: initActionCollection,
+    action: async () => null,
     // meta: metaActionCollectionLanding,
     exact: true
   },
@@ -116,6 +116,12 @@ const routes: RouteConfig = [
   },
   {
     path: ROUTES.CHECKOUT,
+    component: loadable(() => import("containers/checkout")),
+    action: initActionCheckout,
+    exact: true
+  },
+  {
+    path: ROUTES.GCCHECKOUT,
     component: loadable(() => import("containers/checkout")),
     action: initActionCheckout,
     exact: true
@@ -276,7 +282,8 @@ const makerRoutes = [
   ROUTES.VINITACHAITANYA,
   ROUTES.VASUDHARAI,
   ROUTES.BOSPORUSMETALDECOR,
-  ROUTES.TELLINGSTORIES
+  ROUTES.TELLINGSTORIES,
+  ROUTES.VIRTUALSHOPPINGSALON
 ];
 
 const makerSmartnav = [
