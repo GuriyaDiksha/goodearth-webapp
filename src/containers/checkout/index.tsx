@@ -966,7 +966,7 @@ class Checkout extends React.Component<Props, State> {
         }
         this.setState({ isLoading: true });
         this.props
-          .specifyBillingAddress(data, this?.state?.boId)
+          .specifyBillingAddress(data, this?.state?.boId, this.props.user)
           .then(() => {
             const userConsent = CookieService.getCookie("consent").split(",");
             if (userConsent.includes(GA_CALLS)) {
