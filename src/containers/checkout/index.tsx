@@ -25,12 +25,7 @@ import HeaderService from "services/headerFooter";
 import Api from "services/api";
 import { Dispatch } from "redux";
 import { specifyBillingAddressData } from "containers/checkout/typings";
-import {
-  updateAddressList,
-  updateAddressMode,
-  updateBillingAddressId,
-  updateShippingAddressId
-} from "actions/address";
+import { updateAddressList, updateAddressMode } from "actions/address";
 import {
   showGrowlMessage,
   showErrors,
@@ -60,6 +55,7 @@ import CheckoutBreadcrumb from "./component/CheckoutBreadcrumb";
 import Loader from "components/Loader";
 import { GA_CALLS } from "constants/cookieConsent";
 import { updateShowShippingAddress } from "actions/info";
+import { useLocation } from "react-router";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -82,6 +78,7 @@ const mapStateToProps = (state: AppState) => {
 };
 
 const mapDispatchToProps = (dispatch: Dispatch) => {
+  const isGcCheckout = useLocation().pathname.endsWith("gc_checkout");
   return {
     // create function for dispatch
     showNotify: (message: string) => {
@@ -105,35 +102,54 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       const userData = { ...user, shippingData: shippingAddress };
       dispatch(updateUser(userData));
       // isLoading(true);
-      AddressService.fetchAddressList(dispatch, boId).then(addressList => {
-        dispatch(updateAddressList(addressList));
-      });
+      AddressService.fetchAddressList(dispatch, boId, isGcCheckout).then(
+        addressList => {
+          dispatch(updateAddressList(addressList));
+        }
+      );
       // .finally(()=> isLoading(false));
 
       return data;
     },
     specifyBillingAddress: async (
       specifyBillingAddressData: specifyBillingAddressData,
-      boId: string
+      boId: string,
+      user: User
     ) => {
       const data = await AddressService.specifyBillingAddress(
         dispatch,
         specifyBillingAddressData
       );
-      AddressService.fetchAddressList(dispatch, boId).then(addressList => {
-        dispatch(updateAddressList(addressList));
-      });
+      AddressService.fetchAddressList(dispatch, boId, isGcCheckout).then(
+        addressList => {
+          dispatch(updateAddressList(addressList));
+        }
+      );
+      CheckoutService.getLoyaltyPoints(dispatch, { email: user?.email }).then(
+        loyalty => {
+          dispatch(updateUser({ loyaltyData: loyalty }));
+        }
+      );
       return data;
     },
     fetchAddressBridal: async (boId: string) => {
-      const addressList = await AddressService.fetchAddressList(dispatch, boId);
+      const addressList = await AddressService.fetchAddressList(
+        dispatch,
+        boId,
+        isGcCheckout
+      );
       dispatch(updateAddressList(addressList));
       return addressList;
     },
     reloadPage: (cookies: Cookies, history: any, isLoggedIn: boolean) => {
       dispatch(refreshPage(undefined));
       MetaService.updateMeta(dispatch, cookies);
-      BasketService.fetchBasket(dispatch, "checkout", history, isLoggedIn);
+      BasketService.fetchBasket(
+        dispatch,
+        isGcCheckout ? "gc_checkout" : "checkout",
+        history,
+        isLoggedIn
+      );
       showGrowlMessage(dispatch, MESSAGE.CURRENCY_CHANGED_SUCCESS, 7000);
       // HeaderService.fetchHomepageData(dispatch);
       HeaderService.fetchHeaderDetails(dispatch);
@@ -168,7 +184,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     fetchBasket: async (history: any, isLoggedIn: boolean) => {
       return await BasketService.fetchBasket(
         dispatch,
-        "checkout",
+        isGcCheckout ? "gc_checkout" : "checkout",
         history,
         isLoggedIn
       );
@@ -188,6 +204,11 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       const res = await HeaderService.checkPinCodeShippable(dispatch, pinCode);
       return res;
     },
+    removeRedeem: async (isLoggedIn: boolean) => {
+      const response = await CheckoutService.removeRedeem(dispatch);
+      BasketService.fetchBasket(dispatch, "checkout", history, isLoggedIn);
+      return response;
+    },
     goLogin: (event?: React.MouseEvent, nextUrl?: string) => {
       LoginService.showLogin(dispatch);
       event?.preventDefault();
@@ -197,6 +218,16 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     },
     updateMode: () => {
       dispatch(updateAddressMode("list"));
+    },
+    showExitPopup: (location: any, action: any) => {
+      dispatch(
+        updateComponent(
+          POPUP.GCCHECKOUT,
+          { location: location, action: action, history: history },
+          true
+        )
+      );
+      dispatch(updateModal(true));
     }
   };
 };
@@ -236,11 +267,13 @@ type State = {
 };
 
 class Checkout extends React.Component<Props, State> {
+  public unlisten: any = "";
   constructor(props: Props) {
     super(props);
+    const isGcCheckout = props.location.pathname.endsWith("gc_checkout");
     this.state = {
       activeStep: props.user.isLoggedIn
-        ? props.user.shippingData
+        ? props.user.shippingData || isGcCheckout
           ? STEP_BILLING
           : STEP_SHIPPING
         : STEP_LOGIN,
@@ -275,7 +308,7 @@ class Checkout extends React.Component<Props, State> {
       onlyOnetime: true,
       isShipping: false,
       currentStep: props.user.isLoggedIn
-        ? props.user.shippingData
+        ? props.user.shippingData || isGcCheckout
           ? STEP_ORDER[STEP_BILLING]
           : STEP_ORDER[STEP_SHIPPING]
         : STEP_ORDER[STEP_LOGIN]
@@ -285,6 +318,7 @@ class Checkout extends React.Component<Props, State> {
   setCurrentStep = (step: number) => {
     this.setState({ currentStep: step });
   };
+
   setInfoPopupCookie() {
     const cookieString =
       "checkoutinfopopup3=show; expires=Sat, 01 Jan 2050 00:00:01 UTC; path=/";
@@ -305,15 +339,34 @@ class Checkout extends React.Component<Props, State> {
     return item1 && item2;
   }
 
+  componentWillUnmount() {
+    this.unlisten();
+  }
+
   componentDidMount() {
     // const bridalId = CookieService.getCookie("bridalId");
     // const gaKey = CookieService.getCookie("_ga");
     // this.setState({ bridalId, gaKey });
     pageViewGTM("Checkout");
+    localStorage.setItem("openGCExitModal", "false");
     const checkoutPopupCookie = CookieService.getCookie("checkoutinfopopup3");
     const queryString = this.props.location.search;
     const urlParams = new URLSearchParams(queryString);
     const boId = urlParams.get("bo_id");
+
+    const isGcCheckout = this.props.location.pathname.endsWith("gc_checkout");
+    this.unlisten = this.props.history.block((location, action) => {
+      // false means stop navigation
+      if (isGcCheckout) {
+        if (localStorage.getItem("openGCExitModal") === "true") {
+          // Do nothing
+        } else {
+          localStorage.setItem("openGCExitModal", "true");
+          this.props.showExitPopup(location, action);
+          return false;
+        }
+      }
+    });
     if (boId) {
       this.setState({
         activeStep: STEP_BILLING,
@@ -448,6 +501,13 @@ class Checkout extends React.Component<Props, State> {
         if (this.checkToMessage(res)) {
           this.props.showNotify(REGISTRY_MIXED_SHIPPING);
         }
+        // if (
+        //   res?.loyalty?.length &&
+        //   !(res?.loyalty?.[0]?.isValidated === true)
+        // ) {
+        this.props.removeRedeem(this.props.user.isLoggedIn);
+        // }
+
         proceedTocheckout(res, this.props.currency);
         checkoutGTM(1, this.props.currency, res);
         // code for call loyalty point api only one time
@@ -458,34 +518,38 @@ class Checkout extends React.Component<Props, State> {
           getLoyaltyPoints(data);
         }
         if (!res.bridal && this.props.user.isLoggedIn && !boId) {
-          const {
-            user: { shippingData },
-            addresses,
-            currency
-          } = this.props;
-          const { isGoodearthShipping } = this.state;
-          const defaultAddresses = addresses.filter(
-            val => val.addressCurrency == currency
-          );
-          if (
-            defaultAddresses?.length &&
-            defaultAddresses.filter(val => val?.id === shippingData?.id)
-              .length === 0
-          ) {
-            this.setState(
-              {
-                shippingAddress: defaultAddresses.find(
-                  val => val?.isDefaultForShipping
-                ),
-                billingAddress: isGoodearthShipping
-                  ? undefined
-                  : defaultAddresses.find(val => val?.isDefaultForShipping)
-              },
-              () => {
-                this.nextStep(STEP_SHIPPING);
-                this.props.updateMode();
-              }
+          if (isGcCheckout) {
+            this.nextStep(STEP_BILLING);
+          } else {
+            const {
+              user: { shippingData },
+              addresses,
+              currency
+            } = this.props;
+            const { isGoodearthShipping } = this.state;
+            const defaultAddresses = addresses.filter(
+              val => val.addressCurrency == currency
             );
+            if (
+              defaultAddresses?.length &&
+              defaultAddresses.filter(val => val?.id === shippingData?.id)
+                .length === 0
+            ) {
+              this.setState(
+                {
+                  shippingAddress: defaultAddresses.find(
+                    val => val?.isDefaultForShipping
+                  ),
+                  billingAddress: isGoodearthShipping
+                    ? undefined
+                    : defaultAddresses.find(val => val?.isDefaultForShipping)
+                },
+                () => {
+                  this.nextStep(STEP_SHIPPING);
+                  this.props.updateMode();
+                }
+              );
+            }
           }
         }
       });
@@ -493,6 +557,7 @@ class Checkout extends React.Component<Props, State> {
 
   UNSAFE_componentWillReceiveProps(nextProps: Props) {
     const { isGoodearthShipping } = this.state;
+    const isGcCheckout = this.props.location.pathname.endsWith("gc_checkout");
     if (nextProps.user.isLoggedIn) {
       const { shippingData } = nextProps.user;
 
@@ -543,7 +608,7 @@ class Checkout extends React.Component<Props, State> {
         }
       }
       // things to reset on currency change
-      if (!shippingData) {
+      if (!shippingData && !isGcCheckout) {
         if (this.state.isShipping == false) {
           const userConsent = CookieService.getCookie("consent").split(",");
           if (userConsent.includes(GA_CALLS)) {
@@ -613,7 +678,6 @@ class Checkout extends React.Component<Props, State> {
       });
     }
 
-    //
     if (this.props.showShipping !== nextProps.showShipping) {
       if (nextProps.showShipping) {
         this.nextStep(STEP_SHIPPING);
@@ -869,9 +933,11 @@ class Checkout extends React.Component<Props, State> {
     } else {
       let data: specifyBillingAddressData;
       const billingAddress = address ? address : this.state.shippingAddress;
+      const isGcCheckout = this.props.location.pathname.endsWith("gc_checkout");
       if (billingAddress) {
         data = {
-          billingAddressId: billingAddress.id
+          billingAddressId: billingAddress.id,
+          source: isGcCheckout ? "gc_checkout" : ""
         };
         // let stopBillingApi = false;
         // if (this.state.shippingAddress?.id != billingAddress.id) {
@@ -985,10 +1051,17 @@ class Checkout extends React.Component<Props, State> {
             );
           })
           .catch(err => {
-            this.setState({
-              billingError:
-                showErrors(err.response.data) || err.response.data.msg || ""
-            });
+            if (isGcCheckout && this.props.basket.lineItems.length == 0) {
+              this.setState({
+                billingError: showErrors("There are no items in your cart.")
+              });
+            } else {
+              this.setState({
+                billingError:
+                  showErrors(err.response.data) || err.response.data.msg || ""
+              });
+            }
+
             this.showErrorMsg();
             this.showErrorMsgs();
           })
@@ -1019,6 +1092,7 @@ class Checkout extends React.Component<Props, State> {
     return response;
   };
   render() {
+    const isGcCheckout = this.props.location.pathname.endsWith("gc_checkout");
     return (
       <div
         className={cs(bootstrap.containerFluid, styles.pageBody, {
@@ -1044,23 +1118,26 @@ class Checkout extends React.Component<Props, State> {
                 next={this.nextStep}
                 boEmail={this.state.boEmail}
               />
-              <AddressMain
-                isActive={this.isActiveStep(STEP_SHIPPING)}
-                isBridal={false}
-                selectedAddress={this.state.shippingAddress}
-                currentCallBackComponent="checkout-shipping"
-                next={this.nextStep}
-                finalizeAddress={this.finalizeAddress}
-                hidesameShipping={true}
-                activeStep={STEP_SHIPPING}
-                bridalId=""
-                isGoodearthShipping={this.state.isGoodearthShipping}
-                addressType={STEP_SHIPPING}
-                addresses={this.props.addresses}
-                error={this.state.shippingError}
-                errorNotification={this.state.errorNotification}
-                currentStep={this.state.currentStep}
-              />
+              {!isGcCheckout && (
+                <AddressMain
+                  isActive={this.isActiveStep(STEP_SHIPPING)}
+                  isBridal={false}
+                  selectedAddress={this.state.shippingAddress}
+                  currentCallBackComponent="checkout-shipping"
+                  next={this.nextStep}
+                  finalizeAddress={this.finalizeAddress}
+                  hidesameShipping={true}
+                  activeStep={STEP_SHIPPING}
+                  bridalId=""
+                  isGoodearthShipping={this.state.isGoodearthShipping}
+                  addressType={STEP_SHIPPING}
+                  addresses={this.props.addresses}
+                  error={this.state.shippingError}
+                  errorNotification={this.state.errorNotification}
+                  currentStep={this.state.currentStep}
+                  isGcCheckout={isGcCheckout}
+                />
+              )}
               <AddressMain
                 isActive={this.isActiveStep(STEP_BILLING)}
                 isBridal={false}
@@ -1076,6 +1153,7 @@ class Checkout extends React.Component<Props, State> {
                 addresses={this.props.addresses}
                 error={this.state.billingError}
                 currentStep={this.state.currentStep}
+                isGcCheckout={isGcCheckout}
               />
               {this.props.showPromo && this.props.basket.showCouponSection && (
                 <PromoSection
@@ -1100,6 +1178,7 @@ class Checkout extends React.Component<Props, State> {
                 gstNo={this.state.gstNo}
                 activeStep={STEP_PROMO}
                 currentStep={this.state.currentStep}
+                isGcCheckout={isGcCheckout}
               />
             </div>
             <div

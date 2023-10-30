@@ -17,6 +17,7 @@ import { POPUP } from "constants/components";
 import CookieService from "services/cookie";
 import { GA_CALLS } from "constants/cookieConsent";
 import { displayPriceWithCommasFloat } from "utils/utility";
+// import { currencyCodes } from "constants/currency";
 import checkoutIcon from "../../../images/checkout.svg";
 import freeShippingInfoIcon from "../../../images/free_shipping_info.svg";
 import Loader from "components/Loader";
@@ -171,9 +172,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
       <span className={globalStyles.marginT5}>
         Size: {size.value} | QTY: {qty}
       </span>
-    ) : (
-      ""
-    );
+    ) : null;
   };
 
   const getDeliveryStatusMobile = () => {
@@ -488,7 +487,8 @@ const OrderSummary: React.FC<OrderProps> = props => {
       });
     }
     const redeemDetails = basket.loyalty?.[0];
-    if (redeemDetails) {
+    if (redeemDetails && redeemDetails?.isValidated) {
+      isline = true;
       loyalty = (
         <div
           className={cs(
@@ -614,7 +614,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
           {
             remainingAmount:
               freeShippingApplicable -
-              parseInt((basket.totalWithoutShipping || 0).toString()),
+              parseInt((basket.totalWithoutShipping || 0)?.toString()),
             freeShippingApplicable,
             goLogin: props.goLogin
           },
@@ -723,11 +723,18 @@ const OrderSummary: React.FC<OrderProps> = props => {
             [styles.fixOrderItemsMobile]: checkoutOrderSummaryStatus
           })}
         >
-          {pathname === "/order/checkout" && page !== "checkoutMobileBottom"
+          {["/order/checkout", "/order/gc_checkout"].includes(pathname) &&
+          page !== "checkoutMobileBottom"
             ? getOrderItems()
             : null}
-          {pathname === "/order/checkout" ? null : <hr className={styles.hr} />}
-          {mobile && page == "checkout" ? null : (
+          {["/order/checkout", "/order/gc_checkout"].includes(
+            pathname
+          ) ? null : (
+            <hr className={styles.hr} />
+          )}
+          {mobile &&
+          page == "checkout" &&
+          !(pathname == "/order/gc_checkout") ? null : (
             <div className={styles.summaryAmountWrapper}>
               <div
                 className={cs(globalStyles.flex, globalStyles.gutterBetween)}
@@ -782,12 +789,15 @@ const OrderSummary: React.FC<OrderProps> = props => {
                   )}
                 </span>
               </div>
-              {((pathname === "/order/checkout" && !mobile) ||
+              {((["/order/checkout", "/order/gc_checkout"].includes(pathname) &&
+                !mobile) ||
                 pathname === "/cart" ||
                 (page == "checkoutMobileBottom" &&
                   !checkoutOrderSummaryStatus)) &&
                 getCoupons()}
-              <hr className={styles.hr} />
+              {!(pathname == "/order/gc_checkout") && (
+                <hr className={styles.hr} />
+              )}
               <div
                 className={cs(
                   globalStyles.flex,
@@ -889,7 +899,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
             Add products worth{" "}
             {String.fromCharCode(...currencyCode[props.currency])}{" "}
             {freeShippingApplicable - parseInt(totalWithoutShipping.toString())}{" "}
-            or more to qualify for free shipping.
+            or more to qualify for free shipping. Limited time only!
           </div>
         </div>
       ) : (
@@ -976,7 +986,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
               >
                 <h3 className={cs(styles.summaryTitle)}>
                   VIEW ITEMS{" "}
-                  {pathname === "/order/checkout"
+                  {["/order/checkout", "/order/gc_checkout"].includes(pathname)
                     ? `(${getItemsCount()})`
                     : null}
                 </h3>
@@ -1022,7 +1032,9 @@ const OrderSummary: React.FC<OrderProps> = props => {
             })}
           >
             {mobile && page == "checkout" ? "SHOPPING BAG " : "ORDER SUMMARY"}
-            {pathname === "/order/checkout" ? `(${getItemsCount()})` : null}
+            {["/order/checkout", "/order/gc_checkout"].includes(pathname)
+              ? `(${getItemsCount()})`
+              : null}
           </h3>
           {pathname === "/order/checkout" && !boId && (
             <Link to="/cart">EDIT BAG</Link>

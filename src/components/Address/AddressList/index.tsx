@@ -16,6 +16,7 @@ type Props = {
   isBridal?: boolean;
   bridalId?: number;
   showAddressInBridalUse?: boolean;
+  isGcCheckout?: boolean;
 };
 
 const AddressList: React.FC<Props> = props => {
@@ -179,6 +180,7 @@ const AddressList: React.FC<Props> = props => {
                 index={i}
                 isOnlyAddress={addressData.length === 1}
                 showAddressInBridalUse={props.showAddressInBridalUse}
+                isGcCheckout={props.isGcCheckout}
               />
             );
           })

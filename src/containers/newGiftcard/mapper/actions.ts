@@ -12,6 +12,7 @@ import { showGrowlMessage } from "utils/validate";
 import { Cookies } from "typings/cookies";
 import { Currency } from "typings/currency";
 import { MESSAGE } from "constants/messages";
+import { updateNextUrl } from "actions/info";
 
 const mapActionsToProps = (dispatch: Dispatch) => {
   return {
@@ -36,6 +37,11 @@ const mapActionsToProps = (dispatch: Dispatch) => {
     changeCurrency: async (data: any) => {
       const result = await LoginService.changeCurrency(dispatch, data);
       return result;
+    },
+    goLogin: (event?: React.MouseEvent, nextUrl?: string) => {
+      LoginService.showLogin(dispatch);
+      nextUrl && dispatch(updateNextUrl(nextUrl));
+      event?.preventDefault();
     },
     reloadPage: (
       cookies: Cookies,

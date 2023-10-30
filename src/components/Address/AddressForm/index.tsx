@@ -35,6 +35,7 @@ type Props = {
   currentCallBackComponent: string;
   saveAddress: () => void;
   openAddressList: () => void;
+  isGcCheckout?: boolean;
 };
 
 type CountryOptions = {
@@ -648,6 +649,7 @@ const AddressForm: React.FC<Props> = props => {
                 changeState={changeState}
                 placeholder={"Pin/Zip Code*"}
                 name="postCode"
+                disable={props.isGcCheckout && mode == "edit" ? true : false}
                 required
               />
             </div>
@@ -674,6 +676,7 @@ const AddressForm: React.FC<Props> = props => {
                   matchRegexp: isAlphanumericError,
                   maxLength: "Maximum Length is 20 characters"
                 }}
+                disable={props.isGcCheckout && mode == "edit" ? true : false}
               />
             </div>
           ) : (
@@ -686,6 +689,7 @@ const AddressForm: React.FC<Props> = props => {
                 handleChange={event => {
                   setIsAddressChanged(true);
                 }}
+                disable={props.isGcCheckout && mode == "edit" ? true : false}
                 // validations={{
                 //   isExisty: true,
                 //   matchRegexp: /^[a-z\d\-_\s]+$/i
@@ -731,6 +735,7 @@ const AddressForm: React.FC<Props> = props => {
                 options={countryOptions}
                 allowFilter={true}
                 inputRef={countryRef}
+                disable={props.isGcCheckout && mode == "edit" ? true : false}
               />
             </div>
           </div>
@@ -742,7 +747,7 @@ const AddressForm: React.FC<Props> = props => {
                   name="state"
                   label={"State*"}
                   placeholder={"Select State*"}
-                  disable={isIndia}
+                  disable={isIndia && mode == "edit"}
                   options={stateOptions}
                   value={
                     addressData && !isCountryChanged ? addressData.state : ""

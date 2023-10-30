@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import cs from "classnames";
 import globalStyles from "styles/global.scss";
 import styles from "../styles.scss";
@@ -8,10 +8,15 @@ import Redeem from "containers/checkout/component/redeem";
 
 type PopupProps = {
   setIsactiveredeem: (data: boolean) => any;
+  removeRedeem: () => any;
 };
 
-const RedeemPopup: React.FC<PopupProps> = ({ setIsactiveredeem }) => {
+const RedeemPopup: React.FC<PopupProps> = ({
+  setIsactiveredeem,
+  removeRedeem
+}) => {
   const { closeModal } = useContext(Context);
+  const [isOTPSent, setIsOTPSent] = useState(false);
 
   return (
     <div>
@@ -30,6 +35,9 @@ const RedeemPopup: React.FC<PopupProps> = ({ setIsactiveredeem }) => {
             className={cs(styles.cross, styles.deliveryIcon)}
             onClick={() => {
               setIsactiveredeem(false);
+              if (isOTPSent) {
+                removeRedeem();
+              }
               closeModal();
             }}
           >
@@ -53,6 +61,8 @@ const RedeemPopup: React.FC<PopupProps> = ({ setIsactiveredeem }) => {
           <Redeem
             closeModal={closeModal}
             setIsactiveredeem={setIsactiveredeem}
+            isOTPSent={isOTPSent}
+            setIsOTPSent={setIsOTPSent}
           />
         </div>
       </div>

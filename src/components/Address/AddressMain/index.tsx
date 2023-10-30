@@ -13,6 +13,7 @@ import { AddressContext } from "./context";
 import { Props, AddressModes } from "../typings";
 import AddressService from "services/address";
 // import { updatePinCodeList } from "actions/address";
+// import { updateAddressList } from "actions/address";
 import Loader from "components/Loader";
 import AddressSection from "containers/checkout/component/address";
 import {
@@ -377,6 +378,7 @@ const AddressMain: React.FC<Props> = props => {
             showAddressInBridalUse={["bridal", "bridal-edit"].includes(
               currentCallBackComponent
             )}
+            isGcCheckout={props.isGcCheckout}
           />
 
           {currentCallBackComponent == "bridal" &&
@@ -453,6 +455,7 @@ const AddressMain: React.FC<Props> = props => {
           currentCallBackComponent={currentCallBackComponent}
           saveAddress={() => null}
           openAddressList={() => null}
+          isGcCheckout={props.isGcCheckout}
         ></AddressForm>
       )}
       {mode == "edit" && (
@@ -461,6 +464,7 @@ const AddressMain: React.FC<Props> = props => {
           currentCallBackComponent={currentCallBackComponent}
           saveAddress={() => null}
           openAddressList={() => null}
+          isGcCheckout={props.isGcCheckout}
         ></AddressForm>
       )}
       {isLoading && <Loader />}
@@ -542,6 +546,7 @@ const AddressMain: React.FC<Props> = props => {
             errorNotification={props.errorNotification}
             isBridal={bridal}
             currentStep={props.currentStep}
+            isGcCheckout={props.isGcCheckout}
           >
             {addressContent}
           </AddressSection>
@@ -595,6 +600,7 @@ const AddressMain: React.FC<Props> = props => {
             errorNotification={props.errorNotification}
             isBridal={bridal}
             currentStep={props.currentStep}
+            isGcCheckout={props.isGcCheckout}
           >
             {addressContent}
           </AddressSection>

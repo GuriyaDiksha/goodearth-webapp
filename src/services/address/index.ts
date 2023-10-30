@@ -19,10 +19,16 @@ import { MESSAGE } from "constants/messages";
 import { showGrowlMessage } from "../../utils/validate";
 
 export default {
-  fetchAddressList: async (dispatch: Dispatch, boId?: string) => {
+  fetchAddressList: async (
+    dispatch: Dispatch,
+    boId?: string,
+    isGcCheckout = false
+  ) => {
     const data = await API.get<AddressData[]>(
       dispatch,
-      `${__API_HOST__}/myapi/address/user_address${boId ? `?boId=${boId}` : ""}`
+      `${__API_HOST__}/myapi/address/user_address?isGcCheckout=${isGcCheckout}${
+        boId ? `&boId=${boId}` : ""
+      }`
     );
     return data;
   },

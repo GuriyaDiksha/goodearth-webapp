@@ -29,6 +29,7 @@ export type BasketLineItem = {
 
 export type Points = {
   points: number | string;
+  isValidated: boolean;
 };
 
 export type Basket = {

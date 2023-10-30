@@ -6,6 +6,7 @@ import bootstrapStyles from "../../../../styles/bootstrap/bootstrap-grid.scss";
 import globalStyles from "styles/global.scss";
 import styles from "../styles.scss";
 import cs from "classnames";
+import { displayPriceWithCommasFloat } from "utils/utility";
 
 const TrackDetails: React.FC<OrdersProps> = props => {
   const [data] = useState(props.orderData || []);
@@ -403,9 +404,9 @@ const TrackDetails: React.FC<OrdersProps> = props => {
                 +parseFloat(item.priceExclTaxExclDiscounts).toFixed(2) /
                 +item.quantity;
 
-              const charCurrency = String.fromCharCode(
-                ...currencyCode[item.priceCurrency as Currency]
-              );
+              // const charCurrency = String.fromCharCode(
+              //   ...currencyCode[item.priceCurrency as Currency]
+              // );
 
               return (
                 <div className={cs(styles.product)} key={item.product.id}>
@@ -431,11 +432,17 @@ const TrackDetails: React.FC<OrdersProps> = props => {
                           [styles.gold]: isDiscount
                         })}
                       >
-                        {`${charCurrency} ${amountPaid}`}
+                        {`${displayPriceWithCommasFloat(
+                          amountPaid,
+                          item.priceCurrency
+                        )}`}
                       </span>
                       {isDiscount && (
                         <span className={styles.originalPrice}>
-                          {`${charCurrency} ${price}`}
+                          {`${displayPriceWithCommasFloat(
+                            price,
+                            item.priceCurrency
+                          )}`}
                         </span>
                       )}
                     </p>
