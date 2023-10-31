@@ -608,7 +608,7 @@ export default {
       message: string;
       attempts: number;
       maxAttemptsAllow: number;
-      token: string; //login response
+      token: string; //login response start from here
       userId: string;
       firstName: string;
       lastName: string;
@@ -618,7 +618,7 @@ export default {
       publishRemove: boolean;
       updated: boolean;
       updatedRemovedItems: string[];
-      customerGroup: string;
+      customerGroup: string; //login response end here
     }>(dispatch, `${__API_HOST__}/myapi/customer/verify_user_otp/`, {
       email: encrypttext(email),
       otp: encrypttext(otp)
