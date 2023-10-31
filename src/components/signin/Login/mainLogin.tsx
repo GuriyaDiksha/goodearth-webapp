@@ -707,6 +707,7 @@ class MainLogin extends React.Component<Props, loginState> {
             products={this.props.basket.products}
             currency={this.props.currency}
             nextStep={this.props.nextStep}
+            sortBy={this.props.sortBy}
           />
         ) : (
           <>

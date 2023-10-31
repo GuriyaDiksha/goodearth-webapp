@@ -168,8 +168,8 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
     const formData: any = {};
     formData["username"] = email;
     formData["email"] = email;
-    // formData["password1"] = password1;
-    // formData["password2"] = password2;
+    // formData["password1"] = "Test@123";
+    // formData["password2"] = "Test@123";
     formData["firstName"] = firstName;
     formData["lastName"] = lastName;
     formData["gender"] = gender;
@@ -1335,6 +1335,7 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
             goLogin={this.props.goToLogin}
             isCheckout={this.props.isCheckout}
             currency={this.props.currency}
+            sortBy={this.props.sortBy}
           />
         ) : (
           <>

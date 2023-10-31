@@ -15,6 +15,7 @@ import NewOtpComponent from "components/OtpComponent/NewOtpComponent";
 import { decriptdata } from "utils/validate";
 import { GA_CALLS } from "constants/cookieConsent";
 import CookieService from "services/cookie";
+import { Currency } from "typings/currency";
 
 type Props = {
   successMsg: string;
@@ -24,9 +25,10 @@ type Props = {
   socialLogin?: ReactNode;
   setIsSuccessMsg?: (arg: boolean) => void;
   isCheckout?: boolean;
-  currency: string;
+  currency: Currency;
   nextStep?: () => void;
   products?: any;
+  sortBy?: string;
 };
 
 const EmailVerification: React.FC<Props> = ({
@@ -38,7 +40,8 @@ const EmailVerification: React.FC<Props> = ({
   isCheckout,
   currency,
   nextStep,
-  products
+  products,
+  sortBy
 }) => {
   // const [isLoading, setIsLoading] = useState(false);
   // const [enableBtn, setEnableBtn] = useState(false);
@@ -93,22 +96,19 @@ const EmailVerification: React.FC<Props> = ({
   const verifyOtp = async (otp: string) => {
     try {
       // setIsLoading(true);
+      const source =
+        history.location.pathname.indexOf("checkout") != -1 ? "checkout" : "";
       setError("");
-      const res = await LoginService.verifyUserOTP(dispatch, email, otp);
+      const res = await LoginService.verifyUserOTP(
+        dispatch,
+        email,
+        otp,
+        currency,
+        source,
+        sortBy
+      );
 
-      if (res.success) {
-        // showGrowlMessage(
-        //   dispatch,
-        //   MESSAGE.VERIFY_SUCCESS,
-        //   3000,
-        //   "VERIFY_SUCCESS"
-        // );
-        // showLogin();
-        showGrowlMessage(
-          dispatch,
-          `${MESSAGE.LOGIN_SUCCESS} ${res.firstName}!`,
-          5000
-        );
+      if (res?.token) {
         gtmPushSignIn(res);
         const userConsent = CookieService.getCookie("consent").split(",");
 
@@ -161,7 +161,7 @@ const EmailVerification: React.FC<Props> = ({
         setError("Invalid OTP");
       }
     } catch (error) {
-      const data = decriptdata(error.response?.data);
+      const data = decriptdata(error?.response?.data);
       setAttempts({
         attempts: data?.attempts || 0,
         maxAttemptsAllow: data?.maxAttemptsAllow || 5
@@ -213,7 +213,7 @@ const EmailVerification: React.FC<Props> = ({
       }
       // setShowCustCare(true);
     } catch (err) {
-      if (err.response.data.alreadyVerified) {
+      if (err?.response?.data?.alreadyVerified) {
         setError([
           "Looks like you are aleady verified. ",
           <span
