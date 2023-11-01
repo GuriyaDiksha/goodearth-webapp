@@ -3,7 +3,7 @@
 
 .large-aqua-cta{
     @include large_aqua_cta();
-    &:hover , &:focus{
+    &:hover:not(.stop-hover) , &:focus:not(.stop-hover){
         background-color: $white;
         color: $aqua;
     }
@@ -15,7 +15,7 @@
 
 .large-gold-cta{
     @include large_gold_cta();
-    &:hover , &:focus{
+    &:hover:not(.stop-hover) , &:focus:not(.stop-hover){
         background-color: $white;
         color: $gold;
     }
@@ -25,9 +25,9 @@
 }
 .large-med-charcoal-cta{
     @include large_med_charcoal_cta();
-    &:hover , &:focus{
+    &:hover:not(.stop-hover) , &:focus:not(.stop-hover){
         background-color: $white;
-        color: $med-charcoal;
+        color: $med-charcoal !important;
     }
     &:disabled{
         @include disabled_cta();
@@ -36,14 +36,14 @@
 .large-light-grey-cta{
     @include large_light_grey_cta();
    
-    &:hover , &:focus{
+    &:hover:not(.stop-hover) , &:focus:not(.stop-hover){
         @include disabled_cta();
     }
 }
 
 .medium-aqua-cta{
     @include medium_aqua_cta();
-    &:hover , &:focus{
+    &:hover:not(.stop-hover) , &:focus:not(.stop-hover){
         background-color: $white;
         color: $aqua;
     }
@@ -54,9 +54,9 @@
 
 .medium-med-charcoal-cta{
     @include medium_med_charcoal_cta();
-    &:hover , &:focus{
+    &:hover:not(.stop-hover) , &:focus:not(.stop-hover){
         background-color: $white !important;
-        color: $med-charcoal;
+        color: $med-charcoal !important;
     }
     &:disabled{
         @include disabled_cta();
@@ -71,7 +71,7 @@
 
 .small-aqua-cta{
     @include small_aqua_cta();
-    &:hover , &:focus{
+    &:hover:not(.stop-hover) , &:focus:not(.stop-hover){
         background-color: $white;
         color: $aqua;
     }
@@ -82,7 +82,7 @@
 
 .small-med-charcoal-cta{
     @include small_med_charcoal_cta();
-    &:hover , &:focus{
+    &:hover:not(.stop-hover) , &:focus:not(.stop-hover){
         background-color: $white;
         color: $med-charcoal;
     }
@@ -92,7 +92,7 @@
 }
 .small-gold-cta{
     @include small_gold_cta();
-    &:hover , &:focus{
+    &:hover:not(.stop-hover) , &:focus:not(.stop-hover){
         background-color: $white;
         color: $gold;
     }
@@ -103,7 +103,7 @@
 
 .outline-small-med-charcoal-cta{
     @include outline_small_med_charcoal_cta();
-    &:hover , &:focus{
+    &:hover:not(.stop-hover) , &:focus:not(.stop-hover){
         border: 1px solid $aqua;
         color: $aqua;
     }
@@ -114,7 +114,7 @@
 
 .outline-extra-small-aqua-cta{
     @include outline_extra_small_aqua_cta();
-    &:hover , &:focus{
+    &:hover:not(.stop-hover) , &:focus:not(.stop-hover){
         border: 1px solid $aqua;
         color: $white;
         background-color: $aqua;

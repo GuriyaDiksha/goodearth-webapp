@@ -954,42 +954,47 @@ const AddressForm: React.FC<Props> = props => {
               <div>
                 {mode == "edit" ? (
                   <Button
-                    variant="largeMedCharcoalCta"
+                    variant="smallMedCharcoalCta"
                     type="submit"
                     label={isAddressChanged ? "Update Address" : "Updated"}
-                    className={cs(globalStyles.btnFullWidth)}
+                    className={cs({ [globalStyles.btnFullWidth]: mobile })}
                     disabled={!isAddressChanged}
                   />
                 ) : (
                   <Button
-                    variant="largeMedCharcoalCta"
+                    variant="smallMedCharcoalCta"
                     type="submit"
                     label={"save address"}
-                    className={cs(globalStyles.btnFullWidth)}
+                    className={cs({ [globalStyles.btnFullWidth]: mobile })}
                   />
                 )}
               </div>
               {currentCallBackComponent !== "bridal-edit" &&
                 currentCallBackComponent !== "bridal" && (
                   <div className="col-xs-6">
-                    <button
-                      className={cs(
-                        {
-                          [styles.aquaBtn]:
-                            currentCallBackComponent == "account" ||
-                            currentCallBackComponent == "checkout-shipping" ||
-                            currentCallBackComponent == "checkout-billing"
-                        },
-                        {
-                          [styles.charcoalBtnWidth]:
-                            currentCallBackComponent == "checkout-shipping" ||
-                            currentCallBackComponent == "checkout-billing"
-                        }
-                      )}
+                    <Button
+                      // className={cs(
+                      //   {
+                      //     [styles.aquaBtn]:
+                      //       currentCallBackComponent == "account" ||
+                      //       currentCallBackComponent == "checkout-shipping" ||
+                      //       currentCallBackComponent == "checkout-billing"
+                      //   },
+                      //   {
+                      //     [styles.charcoalBtnWidth]:
+                      //       currentCallBackComponent == "checkout-shipping" ||
+                      //       currentCallBackComponent == "checkout-billing"
+                      //   }
+                      // )}
                       onClick={closeAddressForm}
-                    >
-                      cancel
-                    </button>
+                      label={"cancel"}
+                      type="button"
+                      variant="outlineSmallMedCharcoalCta"
+                      className={cs(
+                        { [globalStyles.btnFullWidth]: mobile },
+                        styles.cancelBtn
+                      )}
+                    />
                   </div>
                 )}
             </div>

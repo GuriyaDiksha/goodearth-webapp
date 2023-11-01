@@ -1,8 +1,10 @@
 export type ButtonProps = {
-  label: string;
+  label: string | JSX.Element;
   onClick?: (event: React.MouseEvent) => void;
   disabled?: boolean;
   className?: string;
+  ref?: any;
+  stopHover?: boolean;
   type?: "button" | "submit" | "reset";
   variant:
     | "largeAquaCta"

@@ -1203,7 +1203,7 @@ const AddressSection: React.FC<AddressProps & {
                               {props.activeStep == STEP_SHIPPING &&
                                 mobile &&
                                 !checkoutMobileOrderSummary && (
-                                  <div
+                                  <Button
                                     onClick={() => {
                                       onSelectAddress(
                                         addressList?.find(val =>
@@ -1213,14 +1213,18 @@ const AddressSection: React.FC<AddressProps & {
                                         )
                                       );
                                     }}
-                                    className={cs(styles.sendToAddress)}
-                                  >
-                                    {props.activeStep == STEP_SHIPPING
-                                      ? "SHIP TO THIS ADDRESS"
-                                      : props.activeStep == STEP_BILLING
-                                      ? "PROCEED TO PAYMENT"
-                                      : "SHIP TO THIS ADDRESS"}
-                                  </div>
+                                    className={cs(styles.sendToAddress, {
+                                      [globalStyles.btnFullWidth]: mobile
+                                    })}
+                                    label={
+                                      props.activeStep == STEP_SHIPPING
+                                        ? "SHIP TO THIS ADDRESS"
+                                        : props.activeStep == STEP_BILLING
+                                        ? "PROCEED TO PAYMENT"
+                                        : "SHIP TO THIS ADDRESS"
+                                    }
+                                    variant="largeMedCharcoalCta"
+                                  />
                                 )}
                               {props.activeStep == STEP_SHIPPING && (
                                 <div
@@ -1292,7 +1296,7 @@ const AddressSection: React.FC<AddressProps & {
                                   {/* <div ref={orderSummaryRef}>&nbsp;</div> */}
                                   {((checkoutMobileOrderSummary && mobile) ||
                                     !mobile) && (
-                                    <div
+                                    <Button
                                       onClick={() => {
                                         onSelectAddress(
                                           addressList?.find(val =>
@@ -1305,15 +1309,18 @@ const AddressSection: React.FC<AddressProps & {
                                       }}
                                       className={cs(
                                         styles.sendToAddress,
-                                        styles.footerSendToAddress
+                                        styles.footerSendToAddress,
+                                        { [globalStyles.btnFullWidth]: mobile }
                                       )}
-                                    >
-                                      {props.activeStep == STEP_SHIPPING
-                                        ? "SHIP TO THIS ADDRESS"
-                                        : props.activeStep == STEP_BILLING
-                                        ? "PROCEED TO PAYMENT"
-                                        : "SHIP TO THIS ADDRESS"}
-                                    </div>
+                                      label={
+                                        props.activeStep == STEP_SHIPPING
+                                          ? "SHIP TO THIS ADDRESS"
+                                          : props.activeStep == STEP_BILLING
+                                          ? "PROCEED TO PAYMENT"
+                                          : "SHIP TO THIS ADDRESS"
+                                      }
+                                      variant="largeMedCharcoalCta"
+                                    />
                                   )}
                                 </div>
                               )}
@@ -1370,10 +1377,11 @@ const AddressSection: React.FC<AddressProps & {
                           bootstrapStyles.colLg7
                         )}
                       >
-                        <div
+                        <Button
                           className={cs(
                             globalStyles.marginT20,
-                            styles.sendToPayment
+                            // styles.sendToPayment,
+                            { [globalStyles.btnFullWidth]: mobile }
                           )}
                           onClick={() => {
                             handleSaveAndReview(
@@ -1392,11 +1400,13 @@ const AddressSection: React.FC<AddressProps & {
                                   )
                             );
                           }}
-                        >
-                          {mobile
-                            ? "SELECT & PROCEED TO PAYMENT"
-                            : "PROCEED TO PAYMENT"}
-                        </div>
+                          label={
+                            mobile
+                              ? "SELECT & PROCEED TO PAYMENT"
+                              : "PROCEED TO PAYMENT"
+                          }
+                          variant="largeMedCharcoalCta"
+                        />
                       </div>
                     </div>
                   )}
@@ -1413,7 +1423,7 @@ const AddressSection: React.FC<AddressProps & {
                       !sameAsShipping &&
                       mobile &&
                       !checkoutMobileOrderSummary && (
-                        <div
+                        <Button
                           onClick={() => {
                             handleSaveAndReview(
                               addressList?.find(val =>
@@ -1425,12 +1435,16 @@ const AddressSection: React.FC<AddressProps & {
                               )
                             );
                           }}
-                          className={cs(styles.sendToAddress)}
-                        >
-                          {mobile
-                            ? "SELECT & PROCEED TO PAYMENT"
-                            : "PROCEED TO PAYMENT"}
-                        </div>
+                          className={cs(styles.sendToAddress, {
+                            [globalStyles.btnFullWidth]: mobile
+                          })}
+                          label={
+                            mobile
+                              ? "SELECT & PROCEED TO PAYMENT"
+                              : "PROCEED TO PAYMENT"
+                          }
+                          variant="largeMedCharcoalCta"
+                        />
                       )}
                   </div>
                 </div>

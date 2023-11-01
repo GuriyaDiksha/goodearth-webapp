@@ -924,7 +924,7 @@ $list: $grey 92%, $white 8%;
   font-size: 14px;
   font-weight: $regular;
   text-transform: uppercase;
-  color: $white
+  color: $white !important
 }
 
 @mixin b3_14px_caps_gold{

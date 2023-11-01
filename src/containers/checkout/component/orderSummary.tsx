@@ -1064,29 +1064,37 @@ const OrderSummary: React.FC<OrderProps> = props => {
             ) : null} */}
 
             {page == "checkoutMobileBottom" && (
-              <button
+              <Button
                 className={cs(
                   globalStyles.marginT10,
-                  paymentStyles.sendToPayment,
-                  styles.proceedToPayment,
-                  {
-                    [paymentStyles.disabledBtn]: isLoading
-                  }
+                  styles.amtBtn,
+                  { [globalStyles.btnFullWidth]: mobile || tablet },
+                  // paymentStyles.sendToPayment,
+                  styles.proceedToPayment
+                  // {
+                  //   [paymentStyles.disabledBtn]: isLoading
+                  // }
                 )}
                 onClick={onsubmit}
                 disabled={isLoading}
-              >
-                <span>
-                  Amount Payable:{" "}
-                  {displayPriceWithCommasFloat(
-                    basket?.total?.toString(),
-                    currency
-                  )}
-                  {/* {parseFloat(basket?.total?.toString()).toFixed(2)} */}
-                  <br />
-                </span>
-                {isPaymentNeeded ? "PROCEED TO PAYMENT" : "PLACE ORDER"}
-              </button>
+                variant="largeMedCharcoalCta"
+                label={
+                  (
+                    <>
+                      <span className={styles.amtPayable}>
+                        Amount Payable:{" "}
+                        {displayPriceWithCommasFloat(
+                          basket?.total?.toString(),
+                          currency
+                        )}
+                        {/* {parseFloat(basket?.total?.toString()).toFixed(2)} */}
+                        <br />
+                      </span>
+                      {isPaymentNeeded ? "PROCEED TO PAYMENT" : "PLACE ORDER"}
+                    </>
+                  ) as JSX.Element
+                }
+              />
             )}
             {page == "checkout" && mobile ? (
               ""
@@ -1203,33 +1211,45 @@ const OrderSummary: React.FC<OrderProps> = props => {
                   }
                   to={canCheckout() && isLoggedIn ? "/order/checkout" : "#"}
                 >
-                  <button
+                  <Button
                     onClick={chkshipping}
-                    className={
-                      canCheckout()
-                        ? cs(
-                            globalStyles.checkoutBtn,
-                            globalStyles.marginT10,
-                            {
-                              [globalStyles.hidden]: mobile
-                            },
-                            styles.checkoutBtn
-                          )
-                        : cs(
-                            globalStyles.checkoutBtn,
-                            globalStyles.marginT10,
-                            globalStyles.disabledBtn,
-                            {
-                              [globalStyles.hidden]: mobile
-                            },
-                            styles.checkoutBtn
-                          )
-                    }
+                    // className={
+                    //   canCheckout()
+                    //     ? cs(
+                    //         globalStyles.checkoutBtn,
+                    //         globalStyles.marginT10,
+                    //         {
+                    //           [globalStyles.hidden]: mobile
+                    //         },
+                    //         styles.checkoutBtn
+                    //       )
+                    //     : cs(
+                    //         globalStyles.checkoutBtn,
+                    //         globalStyles.marginT10,
+                    //         globalStyles.disabledBtn,
+                    //         {
+                    //           [globalStyles.hidden]: mobile
+                    //         },
+                    //         styles.checkoutBtn
+                    //       )
+                    // }
+                    className={cs(
+                      globalStyles.marginT10,
+                      styles.checkoutBtn,
+                      globalStyles.btnFullWidth,
+                      { [globalStyles.hidden]: mobile }
+                    )}
                     disabled={canCheckout() ? false : true}
-                  >
-                    <img src={checkoutIcon} alt="checkout-button" />
-                    <span>PROCEED TO CHECKOUT</span>
-                  </button>
+                    label={
+                      (
+                        <>
+                          <img src={checkoutIcon} alt="checkout-button" />
+                          <span>PROCEED TO CHECKOUT</span>
+                        </>
+                      ) as JSX.Element
+                    }
+                    variant="largeAquaCta"
+                  />
                 </NavLink>
 
                 <div
@@ -1280,27 +1300,33 @@ const OrderSummary: React.FC<OrderProps> = props => {
                 }
                 to={canCheckout() && isLoggedIn ? "/order/checkout" : "#"}
               >
-                <button
+                <Button
                   onClick={chkshipping}
                   className={
-                    canCheckout()
-                      ? cs(
-                          globalStyles.checkoutBtn,
-                          styles.posFixed,
-                          styles.checkoutBtn
-                        )
-                      : cs(
-                          globalStyles.checkoutBtn,
-                          styles.posFixed,
-                          globalStyles.disabledBtn,
-                          styles.checkoutBtn
-                        )
+                    // canCheckout()
+                    //   ?
+
+                    cs(styles.posFixed, styles.checkoutBtn, {
+                      [globalStyles.btnFullWidth]: mobile || tablet
+                    })
+                    // : cs(
+                    //     globalStyles.checkoutBtn,
+                    //     styles.posFixed,
+                    //     globalStyles.disabledBtn,
+                    //     styles.checkoutBtn
+                    //   )
                   }
                   disabled={canCheckout() ? false : true}
-                >
-                  <img src={checkoutIcon} alt="checkout-button" />
-                  <span>PROCEED TO CHECKOUT</span>
-                </button>
+                  variant="largeAquaCta"
+                  label={
+                    (
+                      <>
+                        <img src={checkoutIcon} alt="checkout-button" />
+                        <span>PROCEED TO CHECKOUT</span>
+                      </>
+                    ) as JSX.Element
+                  }
+                />
               </NavLink>
             </div>
           )}

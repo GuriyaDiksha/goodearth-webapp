@@ -9,17 +9,22 @@ const Button: React.FC<ButtonProps> = ({
   disabled,
   className,
   variant,
-  type
+  type = "button",
+  ref = null,
+  stopHover = false
 }) => (
   <button
     type={type}
-    className={cs(className, styles[`${variant}`])}
+    className={cs(className, styles[`${variant}`], {
+      [styles.stopHover]: stopHover
+    })}
     onClick={(event): void => {
       if (onClick) {
         onClick(event);
       }
     }}
     disabled={disabled}
+    ref={ref}
   >
     {label}
   </button>
