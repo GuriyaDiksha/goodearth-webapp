@@ -147,7 +147,7 @@ class PDPContainer extends React.Component<Props, State> {
     const {
       updateComponentModal,
       changeModalState,
-      device: { mobile },
+      device: { mobile, tablet },
       data,
       corporatePDP,
       selectedSizeId,
@@ -176,6 +176,7 @@ class PDPContainer extends React.Component<Props, State> {
         images: images,
         startIndex: index,
         mobile: mobile,
+        tablet: tablet,
         changeModalState: changeModalState,
         alt: this.props?.data?.altText,
         data,
