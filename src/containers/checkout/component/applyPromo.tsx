@@ -6,10 +6,10 @@ import bootstrapStyles from "styles/bootstrap/bootstrap-grid.scss";
 import styles from "./gift.scss";
 import { GiftState } from "./typings";
 import mapDispatchToProps from "../mapper/action";
-import PromoItem from "./promoDetails";
 import { AppState } from "reducers/typings";
 import { errorTracking } from "utils/validate";
 import { RouteComponentProps, withRouter } from "react-router";
+import Button from "components/Button";
 const mapStateToProps = (state: AppState) => {
   return {
     currency: state.currency,
@@ -20,8 +20,11 @@ const mapStateToProps = (state: AppState) => {
 export type PromoProps = {
   onRef: any;
   onNext: () => void;
+  onsubmit: () => void;
+  promoVal: string;
+  setIsLoading: (a: boolean) => void;
 };
-type Props = ReturnType<typeof mapDispatchToProps> &
+type Props = {} & ReturnType<typeof mapDispatchToProps> &
   ReturnType<typeof mapStateToProps> &
   PromoProps &
   RouteComponentProps;
@@ -42,6 +45,9 @@ class ApplyPromo extends React.Component<Props, GiftState> {
   componentDidMount = () => {
     if (this.props.onRef != null) {
       this.props.onRef(this);
+    }
+    if (this.props.promoVal) {
+      this.setState({ txtvalue: this.props.promoVal });
     }
   };
 
@@ -77,16 +83,18 @@ class ApplyPromo extends React.Component<Props, GiftState> {
             },
             () => {
               errorTracking([this.state.error], location.href);
+              this.props.setIsLoading(false);
             }
           );
         } else {
           this.setState(
             {
-              newCardBox: false,
-              txtvalue: ""
+              newCardBox: false
+              // txtvalue: ""
             },
             () => {
               this.props.onNext();
+              this.props.setIsLoading(false);
             }
           );
         }
@@ -99,38 +107,16 @@ class ApplyPromo extends React.Component<Props, GiftState> {
           },
           () => {
             errorTracking([this.state.error], location.href);
+            this.props.setIsLoading(false);
           }
         );
       });
-  };
-
-  gcBalanceOtp = (response: any) => {
-    if (response.status == false) {
-      this.updateError();
-    } else {
-      this.setState({
-        newCardBox: false,
-        txtvalue: ""
-      });
-    }
   };
 
   newGiftcard = () => {
     this.setState({
       newCardBox: true
     });
-  };
-  onClose = (code: string) => {
-    const data: any = {
-      cardId: code
-    };
-    this.props
-      .removePromo(data, this.props.history, this.props.isLoggedIn)
-      .then(response => {
-        this.setState({
-          newCardBox: true
-        });
-      });
   };
 
   updateError = () => {
@@ -149,63 +135,59 @@ class ApplyPromo extends React.Component<Props, GiftState> {
 
   render() {
     const { newCardBox, txtvalue } = this.state;
-    const { currency, voucherDiscounts } = this.props;
     return (
       <Fragment>
         <div className={cs(bootstrapStyles.row, styles.giftDisplay)}>
-          {voucherDiscounts.map((data, i) => {
-            return (
-              <PromoItem
-                {...data.voucher}
-                onClose={this.onClose}
-                currency={currency}
-                type="crd"
-                currStatus={"sucess"}
-                key={i}
-              />
-            );
-          })}
           <div
             className={cs(
               styles.loginForm,
-              { [globalStyles.voffset4]: newCardBox },
+              { [globalStyles.voffset3]: newCardBox },
               bootstrapStyles.colMd7
             )}
           >
-            {voucherDiscounts.length == 0 ? (
-              <div>
-                <Fragment>
-                  <div
-                    className={cs(styles.flex, styles.vCenter, {
+            <div>
+              <Fragment>
+                <div
+                  className={cs(
+                    styles.flex,
+                    styles.vCenter,
+                    styles.promoInput,
+                    {
                       [globalStyles.hidden]: !newCardBox
-                    })}
-                  >
-                    <input
-                      type="text"
-                      autoComplete="off"
-                      value={txtvalue}
-                      onChange={this.changeValue}
-                      id="gift"
-                      className={
-                        this.state.error
-                          ? cs(styles.marginR10, styles.err)
-                          : styles.marginR10
-                      }
-                    />
-                  </div>
-                  <label>Promo Code</label>
-                </Fragment>
-                {this.state.error ? (
-                  <p className={cs(globalStyles.errorMsg)}>
-                    {this.state.error}
-                  </p>
-                ) : (
-                  ""
-                )}
-              </div>
-            ) : (
-              ""
-            )}
+                    }
+                  )}
+                >
+                  <input
+                    type="text"
+                    autoComplete="off"
+                    value={txtvalue}
+                    onChange={this.changeValue}
+                    id="gift"
+                    className={
+                      this.state.error
+                        ? cs(styles.marginR10, styles.err)
+                        : styles.promoInputBox
+                    }
+                    aria-label="Promocode"
+                  />
+                  <Button
+                    // className={cs(styles.promoApplyBtn, {
+                    //   [styles.emptyPromoValue]: txtvalue == ""
+                    // })}
+                    onClick={() => this.props.onsubmit()}
+                    label={"APPLY"}
+                    disabled={txtvalue == ""}
+                    variant="smallMedCharcoalCta"
+                    stopHover={true}
+                  />
+                </div>
+              </Fragment>
+              {this.state.error ? (
+                <p className={cs(globalStyles.errorMsg)}>{this.state.error}</p>
+              ) : (
+                ""
+              )}
+            </div>
           </div>
         </div>
       </Fragment>

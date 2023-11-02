@@ -7,6 +7,7 @@ import { useHistory } from "react-router";
 import Loader from "components/Loader";
 import bootstrap from "../../../../styles/bootstrap/bootstrap-grid.scss";
 import cs from "classnames";
+import Button from "components/Button";
 
 type Props = {
   data: DeptListData;
@@ -71,9 +72,12 @@ const Opportunities: React.FC<Props> = ({ data, title }) => {
 
       {data?.length !== list?.length && !isLoading ? (
         <div className={landing.load_more_btn_wrp}>
-          <button className={landing.load_more_btn} onClick={() => loadMore()}>
-            Load More
-          </button>
+          <Button
+            variant="outlineSmallMedCharcoalCta"
+            className={landing.load_more_btn}
+            onClick={() => loadMore()}
+            label="Load More"
+          />
         </div>
       ) : null}
     </>

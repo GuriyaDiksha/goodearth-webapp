@@ -291,6 +291,7 @@ class Search extends React.Component<Props, State> {
 
   onClickSearch = (event: any) => {
     if (this.state.searchValue.trim().length > 0) {
+      localStorage.setItem("inputValue", this.state.searchValue.trim());
       this.props.history.push(
         `/search/${this.state.url.split("/autocomplete")[1]}`
       );
@@ -320,6 +321,8 @@ class Search extends React.Component<Props, State> {
   checkSearchValueUp = debounce((event: any) => {
     if (event.target.value.trim().length > 0) {
       if ((!event.charCode ? event.which : event.charCode) == 13) {
+        localStorage.setItem("inputValue", this.state.searchValue.trim());
+
         this.props.history.push(
           "/search/?q=" + encodeURIComponent(event.target.value)
         );
@@ -347,7 +350,7 @@ class Search extends React.Component<Props, State> {
       });
       CookieService.setCookie("search", event.target.value, 365);
     }
-  }, 300);
+  }, 400);
 
   getSearchDataApi = debounce((name: string) => {
     const searchUrl = "/autocomplete?q=" + encodeURIComponent(name);
@@ -361,8 +364,8 @@ class Search extends React.Component<Props, State> {
         }&source=frontend`
       )
       .then(data => {
-        // debugger;
         productImpression(data, "SearchResults", this.props.currency);
+
         this.setState({
           productData: data.results?.products || [],
           url: searchUrl,
@@ -464,7 +467,8 @@ class Search extends React.Component<Props, State> {
       categories.length > 0 ||
       usefulLink.length > 0 ||
       productData.length > 0 ||
-      (trendingWords.length > 0 && searchValue.length == 0);
+      (trendingWords.length > 0 && searchValue.length == 0) ||
+      (recentSearchs.length > 0 && searchValue.length == 0);
 
     return (
       <div
@@ -766,6 +770,10 @@ class Search extends React.Component<Props, State> {
                                       this.searchBoxRef &&
                                       this.searchBoxRef.current
                                     ) {
+                                      localStorage.setItem(
+                                        "popularSearch",
+                                        cat?.name
+                                      );
                                       this.props.history.push(
                                         "/search/?q=" + cat.name
                                       );
@@ -829,6 +837,7 @@ class Search extends React.Component<Props, State> {
                             <Link
                               to={"/search/?q=" + encodeURIComponent(ele)}
                               onClick={() => {
+                                localStorage.setItem("recentSearchValue", ele);
                                 this.recentSearch(ele);
                                 this.props.hideSearch();
                               }}

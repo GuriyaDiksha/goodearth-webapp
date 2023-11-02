@@ -1,11 +1,11 @@
 import React from "react";
-import styles from "./styles.scss";
+import styles from "./styles_new.scss";
 import cs from "classnames";
 import { CartProps, State } from "./typings";
 import iconStyles from "../../styles/iconFonts.scss";
 import globalStyles from "../../styles/global.scss";
 import LineItems from "./Item";
-import { NavLink, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { currencyCodes } from "constants/currency";
 import { Dispatch } from "redux";
 import BasketService from "services/basket";
@@ -14,15 +14,25 @@ import { AppState } from "reducers/typings";
 import { getPageType } from "../../utils/validate";
 import CookieService from "services/cookie";
 import { GA_CALLS } from "constants/cookieConsent";
+import freeShippingInfoIcon from "../../images/free_shipping_info.svg";
 import {
   displayPriceWithCommas,
   displayPriceWithCommasFloat
 } from "utils/utility";
+import Button from "components/Button";
+import bootstrap from "../../styles/bootstrap/bootstrap-grid.scss";
+import HeaderService from "services/headerFooter";
+import noImagePlp from "../../images/noimageplp.png";
+import { currencyCode } from "typings/currency";
 
 const mapDispatchToProps = (dispatch: Dispatch) => {
   return {
     removeOutOfStockItems: async () => {
       const res = await BasketService.removeOutOfStockItems(dispatch);
+      return res;
+    },
+    fetchFeaturedContent: async () => {
+      const res = HeaderService.fetchSearchFeaturedContent(dispatch);
       return res;
     }
   };
@@ -31,7 +41,10 @@ const mapStateToProps = (state: AppState) => {
   return {
     isSale: state.info.isSale,
     customerGroup: state.user.customerGroup,
-    isLoggedIn: state.user.isLoggedIn
+    isLoggedIn: state.user.isLoggedIn,
+    mobile: state.device.mobile,
+    wishlistData: state.wishlist.items,
+    tablet: state.device.tablet
   };
 };
 type Props = CartProps &
@@ -45,14 +58,15 @@ class Bag extends React.Component<Props, State> {
       shipping: false,
       value: 1,
       freeShipping: false, // for all_free_shipping_india
-      isSuspended: true // for is_covid19
+      isSuspended: true, // for is_covid19
+      featureData: []
     };
   }
 
   componentDidMount = () => {
     document?.body?.classList?.add(globalStyles.noScroll);
     try {
-      const skuList = this.props.cart.lineItems.map(
+      const skuList = this.props.cart.lineItems?.map(
         item => item.product.childAttributes?.[0].sku
       );
       const userConsent = CookieService.getCookie("consent").split(",");
@@ -68,6 +82,17 @@ class Bag extends React.Component<Props, State> {
           "Page referrer url": location.href
         });
       }
+
+      this.props
+        .fetchFeaturedContent()
+        .then(data => {
+          this.setState({
+            featureData: data?.widgetImages
+          });
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
     } catch (err) {
       console.log(err);
     }
@@ -101,10 +126,13 @@ class Bag extends React.Component<Props, State> {
   getItems() {
     const {
       cart: { lineItems },
-      currency
+      currency,
+      mobile,
+      wishlistData,
+      isLoggedIn
     } = this.props;
 
-    const item = lineItems.map(item => {
+    const item = lineItems?.map(item => {
       return (
         <LineItems
           key={item.id}
@@ -118,166 +146,322 @@ class Bag extends React.Component<Props, State> {
     return item.length > 0 ? (
       item
     ) : (
-      <p className={cs(globalStyles.marginT20, globalStyles.textCenter)}>
-        No items added to bag.
-      </p>
+      <div className={cs(styles.cart, styles.emptyCart)}>
+        {/* {this.renderMessage()} */}
+        <div
+          className={cs(
+            globalStyles.marginT50,
+            globalStyles.textCenter,
+            // bootstrap.colMd4,
+            // bootstrap.offsetMd4,
+            {
+              // [bootstrap.col10]: !mobile,
+              [bootstrap.col12]: mobile
+            }
+          )}
+        >
+          {(!isLoggedIn || !wishlistData.length) && (
+            <>
+              {" "}
+              <div className={styles.emptyMsg}>
+                {" "}
+                Your bag is currently empty{" "}
+              </div>
+              <div
+                className={cs(
+                  bootstrap.colMd12,
+                  styles.searchHeading,
+                  { [styles.searchHeadingMobile]: mobile },
+                  globalStyles.textCenter
+                )}
+              >
+                <h2 className={globalStyles.voffset5}>
+                  Looking to discover some ideas?
+                </h2>
+              </div>
+            </>
+          )}
+          <div className={cs(bootstrap.col12, globalStyles.voffset3)}>
+            {(!isLoggedIn || wishlistData.length === 0) && (
+              <div
+                className={cs(
+                  bootstrap.row,
+                  styles.noResultPadding,
+                  styles.checkheight,
+                  { [styles.checkheightMobile]: mobile },
+                  styles.cartRow
+                )}
+              >
+                {this.state.featureData.length > 0
+                  ? this.state.featureData.map((data, i) => {
+                      return (
+                        <div
+                          key={i}
+                          className={cs(bootstrap.col6, styles.px10)}
+                        >
+                          <div className={styles.searchImageboxNew}>
+                            <Link to={data.ctaUrl}>
+                              <img
+                                src={
+                                  data.ctaImage == ""
+                                    ? noImagePlp
+                                    : data.ctaImage
+                                }
+                                // onError={this.addDefaultSrc}
+                                width="200"
+                                alt={data.ctaText}
+                                className={styles.imageResultNew}
+                              />
+                            </Link>
+                          </div>
+                          <div
+                            className={cs(
+                              styles.imageContent,
+                              styles.mobileHeight
+                            )}
+                          >
+                            <p className={styles.searchImageTitle}>
+                              {data.ctaText}
+                            </p>
+                            <p className={styles.searchFeature}>
+                              <Link to={data.ctaUrl}>{data.title}</Link>
+                            </p>
+                          </div>
+                        </div>
+                      );
+                    })
+                  : ""}
+              </div>
+            )}
+
+            {isLoggedIn && wishlistData.length > 0 && (
+              <>
+                <h6 className={styles.wishlistHead}>From your Wishlist</h6>
+                <p className={styles.wishlistSubHead}>
+                  There’s more waiting for you in your Wishlist
+                </p>
+
+                <div
+                  className={cs(
+                    bootstrap.col12,
+                    globalStyles.marginT20,
+                    globalStyles.marginB30
+                  )}
+                >
+                  <div
+                    className={cs(
+                      bootstrap.row,
+                      styles.noResultPadding,
+                      styles.checkheight,
+                      { [styles.checkheightMobile]: mobile },
+                      styles.cartRow
+                    )}
+                  >
+                    {wishlistData.length > 0
+                      ? [...wishlistData?.slice(0, 5), wishlistData[0]]?.map(
+                          (data, i) => {
+                            return (
+                              <div
+                                key={i}
+                                className={cs(bootstrap.col6, styles.px10)}
+                              >
+                                <div
+                                  className={cs(styles.searchImageboxNew, {
+                                    [styles.viewAllMobileWrapper]:
+                                      i === wishlistData.length
+                                  })}
+                                >
+                                  <Link
+                                    to={
+                                      i === wishlistData.length
+                                        ? "/wishlist"
+                                        : data.productUrl
+                                    }
+                                  >
+                                    <img
+                                      src={
+                                        data.productImage == ""
+                                          ? noImagePlp
+                                          : data.productImage
+                                      }
+                                      // onError={this.addDefaultSrc}
+                                      width="200"
+                                      alt={data.productName}
+                                      className={styles.imageResultNew}
+                                    />
+                                    {i === wishlistData.length && (
+                                      <span
+                                        className={cs(styles.viewAllMobile)}
+                                      >
+                                        VIEW ALL
+                                      </span>
+                                    )}
+                                  </Link>
+                                </div>
+                                {i < wishlistData.length && (
+                                  <div
+                                    className={cs(
+                                      styles.imageContent,
+                                      styles.mobileHeight
+                                    )}
+                                  >
+                                    {/* <p className={styles.searchImageTitle}>
+                              {data.productName}
+                            </p> */}
+                                    <p className={styles.searchFeature}>
+                                      <Link to={data.productUrl}>
+                                        {data.productName}
+                                      </Link>
+                                    </p>
+                                    <p className={styles.searchFeature}>
+                                      <Link to={data.productUrl}>
+                                        {String.fromCharCode(
+                                          ...currencyCode[this.props.currency]
+                                        ) +
+                                          " " +
+                                          data.price[currency]}
+                                      </Link>
+                                    </p>
+                                  </div>
+                                )}
+                              </div>
+                            );
+                          }
+                        )
+                      : ""}
+                  </div>
+                </div>
+              </>
+            )}
+          </div>
+        </div>
+      </div>
     );
   }
   removeOutOfStockItems = () => {
     this.props.removeOutOfStockItems();
   };
 
-  getFooter() {
-    if (this.props.cart) {
-      const discountAmount = this.props.cart.offerDiscounts
-        .map(discount => {
-          return +discount.amount;
-        })
-        .reduce((partialSum, a) => partialSum + a, 0);
-
-      return (
-        <div className={styles.bagFooter}>
-          {this.hasOutOfStockItems() && (
-            <div
-              className={cs(
-                globalStyles.errorMsg,
-                globalStyles.lineHt10,
-                styles.containerCost,
-                globalStyles.linkTextUnderline
-              )}
-              onClick={this.removeOutOfStockItems}
-              style={{ display: "inline-block" }}
-            >
-              Remove all Items out of stock
-            </div>
-          )}
-          {discountAmount > 0 && (
-            <div
-              className={cs(
-                globalStyles.flex,
-                globalStyles.gutterBetween,
-                styles.containerCost
-              )}
-            >
-              <div className={cs(styles.totalPrice, globalStyles.bold)}>
-                Discount
-              </div>
-              <div className={globalStyles.textRight}>
-                <h5 className={cs(styles.totalPrice, globalStyles.bold)}>
-                  (-)
-                  {displayPriceWithCommasFloat(
-                    discountAmount,
-                    this.props.currency
-                  )}
-                </h5>
-              </div>
-            </div>
-          )}
+  getDiscount = (data: any) => {
+    return data.length > 0
+      ? data.map((discount: any, index: number) => (
           <div
+            key={index}
             className={cs(
               globalStyles.flex,
               globalStyles.gutterBetween,
-              styles.containerCost
+              styles.containerCost,
+              styles.discountWrapper
             )}
           >
-            <div className={cs(styles.totalPrice, globalStyles.bold)}>
-              TOTAL*
-            </div>
+            <div className={cs(styles.discountPrice)}>{discount?.name}</div>
             <div className={globalStyles.textRight}>
-              <h5 className={cs(styles.totalPrice, globalStyles.bold)}>
+              <h5 className={cs(styles.discountPrice)}>
+                (-)
                 {displayPriceWithCommasFloat(
-                  this.props.cart.total,
+                  discount?.amount,
                   this.props.currency
                 )}
               </h5>
-              <p className={styles.subtext}>
-                *Excluding estimated cost of shipping
-              </p>
             </div>
           </div>
-          {/* {amount.name && (
-            <div
-              className={cs(
-                globalStyles.flex,
-                globalStyles.gutterBetween,
-                styles.containerCost
+        ))
+      : "";
+  };
+
+  getFooter() {
+    if (this.props.cart) {
+      return (
+        <div className={styles.bagFooter}>
+          {this.canCheckout() && (
+            <div className={cs(styles.orderSummaryWrapper)}>
+              <div className={cs(styles.orderSummary)}>Order Summary</div>
+
+              <div className={styles.subTotalDiscountWrapper}>
+                <div
+                  className={cs(globalStyles.flex, globalStyles.gutterBetween)}
+                >
+                  <div className={cs(styles.subTotalPrice)}>SUBTOTAL</div>
+
+                  <h5 className={cs(styles.subTotalPrice)}>
+                    {displayPriceWithCommasFloat(
+                      this.props.cart.subTotal,
+                      this.props.currency
+                    )}
+                  </h5>
+                </div>
+
+                {this.getDiscount(this.props.cart?.offerDiscounts)}
+              </div>
+
+              {this.hasOutOfStockItems() && (
+                <div
+                  className={cs(
+                    globalStyles.errorMsg,
+                    globalStyles.lineHt10,
+                    styles.containerCost,
+                    globalStyles.linkTextUnderline,
+                    styles.removeOutOfStock
+                  )}
+                  onClick={this.removeOutOfStockItems}
+                >
+                  Remove all Items out of stock
+                </div>
               )}
-            >
-              <div className={cs(styles.disPrice)}>EMP Discount</div>
-              <div className={globalStyles.textRight}>
-                <h5 className={cs(styles.disPrice, globalStyles.bold)}>
-                  (-)
-                  {String.fromCharCode(...currencyCodes[this.props.currency])}
-                  &nbsp;
-                  {parseFloat(amount.amount?.toString()).toFixed(2)}
-                </h5>
+
+              <div className={cs(styles.containerCost, styles.totalAmount)}>
+                <div
+                  className={cs(globalStyles.flex, globalStyles.gutterBetween)}
+                >
+                  <div className={cs(styles.totalPrice, globalStyles.bold)}>
+                    TOTAL*
+                  </div>
+                  <h5 className={cs(styles.totalPrice, globalStyles.bold)}>
+                    {displayPriceWithCommasFloat(
+                      this.props.cart.total,
+                      this.props.currency
+                    )}
+                  </h5>
+                </div>
+                <p className={styles.subtext}>
+                  *Excluding estimated cost of shipping
+                </p>
               </div>
             </div>
           )}
-          {amount.name && <div
-            className={cs(
-              globalStyles.flex,
-              globalStyles.gutterBetween,
-              styles.containerCost
-            )}
-          >
-            <div className={cs(styles.totalPrice, globalStyles.bold)}>
-              TOTAL
-            </div>
-            <div className={globalStyles.textRight}>
-              <h5 className={cs(styles.totalPrice, globalStyles.bold)}>
-                {String.fromCharCode(...currencyCodes[this.props.currency])}
-                &nbsp;
-                {parseFloat(
-                  this.props.cart.amountPayable?.toString() || ""
-                ).toFixed(2)}
-              </h5>
-            </div>
-          </div>
-          } */}
 
-          <div className={cs(globalStyles.flex, styles.bagFlex)}>
-            <div className={cs(styles.iconCart, globalStyles.pointer)}>
-              <Link to="/cart">
-                <div className={styles.innerDiv}>
-                  <div className={styles.cartIconDiv}>
-                    <i
-                      className={cs(
-                        iconStyles.icon,
-                        iconStyles.iconCart,
-                        globalStyles.cerise
-                      )}
-                    ></i>
-                  </div>
-                  <span className={styles.viewBag}>VIEW SHOPPING BAG</span>
-                </div>
+          {this.canCheckout() ? (
+            <div className={cs(styles.bagFlex)}>
+              <Link
+                to={!this.hasOutOfStockItems() ? "/cart" : ""}
+                className={cs(this.hasOutOfStockItems() && styles.outOfStock)}
+                onClick={e => {
+                  this.hasOutOfStockItems()
+                    ? e.preventDefault()
+                    : this.props.toggleBag();
+                  const userConsent = CookieService.getCookie("consent").split(
+                    ","
+                  );
+                  if (
+                    !this.hasOutOfStockItems() &&
+                    userConsent.includes(GA_CALLS)
+                  ) {
+                    dataLayer.push({
+                      event: "review_bag_and_checkout"
+                    });
+                  }
+                }}
+              >
+                <span className={styles.viewBag}>REVIEW BAG & CHECKOUT</span>
               </Link>
             </div>
-            {this.canCheckout() ? (
-              <NavLink key="checkout" to="/order/checkout">
-                <button
-                  onClick={this.chkshipping}
-                  className={cs(globalStyles.ceriseBtn, {
-                    [globalStyles.disabledBtn]: !this.canCheckout()
-                  })}
-                >
-                  PROCEED TO CHECKOUT
-                </button>
-              </NavLink>
-            ) : (
-              <div>
-                <button
-                  disabled={!this.canCheckout()}
-                  className={cs(
-                    globalStyles.ceriseBtn,
-                    globalStyles.disabledBtn
-                  )}
-                >
-                  PROCEED TO CHECKOUT
-                </button>
-              </div>
-            )}
-          </div>
+          ) : (
+            <div className={cs(styles.bagFlex, styles.continue)}>
+              <Link to="/" onClick={e => this.props.toggleBag()}>
+                <span className={styles.viewBag}>CONTINUE SHOPPING</span>
+              </Link>
+            </div>
+          )}
         </div>
       );
     }
@@ -319,10 +503,6 @@ class Bag extends React.Component<Props, State> {
   };
 
   canCheckout = () => {
-    // if (pathname.indexOf("checkout") > -1) {
-    //   return false;
-    // }
-    // this.amountLeft = 50000 - this.props.cart.subTotal;
     const {
       totalWithoutShipping,
       freeShippingThreshold,
@@ -330,7 +510,7 @@ class Bag extends React.Component<Props, State> {
     } = this.props.cart;
     if (
       !this.props.cart.lineItems ||
-      this.hasOutOfStockItems() ||
+      // this.hasOutOfStockItems() ||
       this.props.cart.lineItems.length == 0
     ) {
       return false;
@@ -362,7 +542,6 @@ class Bag extends React.Component<Props, State> {
     }
     return true;
   };
-
   render() {
     const {
       totalWithoutShipping,
@@ -394,9 +573,8 @@ class Bag extends React.Component<Props, State> {
               globalStyles.gutterBetween
             )}
           >
-            <div className={styles.heading}>Mini BAG</div>
-            <div className={styles.subtext}>
-              {this.props.cart ? this.getItemsCount() : "0"} item(s) in bag
+            <div className={styles.heading}>
+              Mini BAG ({this.props.cart ? this.getItemsCount() : "0"} ITEMS)
             </div>
             <div
               className={globalStyles.pointer}
@@ -411,33 +589,36 @@ class Bag extends React.Component<Props, State> {
               ></i>
             </div>
           </div>
+
           {this.state.shipping &&
-          totalWithoutShipping &&
-          totalWithoutShipping >= freeShippingThreshold &&
-          totalWithoutShipping < freeShippingApplicable &&
+          parseInt(totalWithoutShipping?.toString() || "") &&
+          parseInt(totalWithoutShipping?.toString() || "") >=
+            parseInt(freeShippingThreshold?.toString()) &&
+          parseInt(totalWithoutShipping?.toString() || "") <
+            parseInt(freeShippingApplicable?.toString()) &&
           this.props.cart.shippable ? (
-            <div className={styles.cart}>
-              <div className={cs(styles.message, styles.noMargin)}>
-                You&apos; re a step away from{" "}
-                <span className={globalStyles.textUnderline}>
-                  free shipping
-                </span>
-                !
-                <br /> Select products worth{" "}
-                <span>
-                  {displayPriceWithCommas(
-                    this.props.cart.freeShippingApplicable -
-                      parseInt(this.props.cart.total.toString()),
-                    this.props.currency
-                  )}
-                </span>{" "}
-                or more to your order to qualify.
+            <div className={cs(styles.freeShippingInfo, globalStyles.flex)}>
+              <div className={styles.freeShipImg}>
+                <img
+                  src={freeShippingInfoIcon}
+                  alt="free-shipping"
+                  width="200"
+                />
+              </div>
+
+              <div className={styles.text}>
+                Add products worth{" "}
+                {displayPriceWithCommas(
+                  parseInt(freeShippingApplicable?.toString()) -
+                    parseInt(totalWithoutShipping?.toString() || ""),
+                  this.props.currency
+                )}
+                &nbsp;or more to qualify for free shipping.
               </div>
             </div>
           ) : (
             ""
           )}
-
           <div className={styles.bagContents}>{this.getItems()}</div>
           {this.getFooter()}
         </div>

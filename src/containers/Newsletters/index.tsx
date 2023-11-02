@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef, RefObject } from "react";
 import styles from "./styles.scss";
 import globalStyles from "../../styles/global.scss";
 import cs from "classnames";
@@ -16,6 +16,8 @@ import MakerEnhance from "components/maker";
 import { updateCountryData } from "actions/address";
 import FormSelect from "components/Formsy/FormSelect";
 import { Country } from "components/Formsy/CountryCode/typings";
+import Button from "components/Button";
+import SelectDropdown from "components/Formsy/SelectDropdown";
 
 type StateOptions = {
   value: string;
@@ -36,6 +38,8 @@ const Newsletters: React.FC = () => {
   const { mobile } = useSelector((state: AppState) => state.device);
   const { showTimer } = useSelector((state: AppState) => state.info);
   const [countryOptions, setCountryOptions] = useState<CountryOptions[]>([]);
+  const [stateOptions, setStateOptions] = useState<StateOptions[]>([]);
+  const [countrycode, setCountrycode] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [successMsg, setSuccessMsg] = useState("");
   const [enableSubmit, setEnableSubmit] = useState(false);
@@ -43,7 +47,13 @@ const Newsletters: React.FC = () => {
   const history = useHistory();
   const location = history.location;
   const { countryData } = useSelector((state: AppState) => state.address);
-
+  const countryRef: RefObject<HTMLInputElement> = useRef(null);
+  const isAlphaError = "Only alphabets are allowed";
+  const isExistyError = "This field is required";
+  // const [isAddressChanged, setIsAddressChanged] = useState(false);
+  // const [isCountryChanged, setIsCountryChanged] = useState(false);
+  const { currency } = useSelector((state: AppState) => state);
+  const [isIndia, setIsIndia] = useState(currency === "INR");
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -52,9 +62,62 @@ const Newsletters: React.FC = () => {
         dispatch(updateCountryData(countryData));
       });
     }
-
     setMaker(true);
+    const firstField = document.getElementById("first-field") as HTMLDivElement;
+    firstField && firstField.focus();
+    setIsLoading(false);
   }, []);
+
+  // *************** Open State option **************
+  const EnquiryFormRef = useRef<Formsy>(null);
+  const onCountrySelect = (option: any, defaultCountry?: string) => {
+    if (countryOptions.length > 0) {
+      const form = EnquiryFormRef.current;
+      let selectedCountry = "";
+      if (option?.value) {
+        selectedCountry = option?.value;
+        form &&
+          form.updateInputsWithValue(
+            {
+              state: "",
+              country: selectedCountry
+            },
+            false
+          );
+      }
+
+      if (defaultCountry) {
+        selectedCountry = defaultCountry;
+        // need to set defaultCountry explicitly
+        if (form && selectedCountry) {
+          form.updateInputsWithValue({
+            country: selectedCountry
+          });
+        }
+      }
+
+      const { states, isd, value } = countryOptions.filter(
+        country => country.value == selectedCountry
+      )[0];
+
+      if (form) {
+        // reset state
+        const { state } = form.getModel();
+        if (state) {
+          form.updateInputsWithValue({
+            state: ""
+          });
+        }
+        form.updateInputsWithValue({
+          countrycode: isd,
+          country: selectedCountry
+        });
+      }
+      setStateOptions(states);
+      setEnableSubmit(true);
+    }
+  };
+  // *************** Closed State option **************
 
   const changeCountryData = (countryData: Country[]) => {
     const countryOptions = countryData.map(country => {
@@ -110,12 +173,16 @@ const Newsletters: React.FC = () => {
   ) => {
     setIsLoading(true);
     setSuccessMsg("");
-    HeaderService.saveHFH(dispatch, formData)
+    HeaderService.makeNewsletterSignupRequest(dispatch, formData)
       .then(data => {
-        setSuccessMsg(
-          "Thank you. You have successfully signed-up to our newsletter. "
-        );
-        resetForm();
+        if (data.status) {
+          setSuccessMsg(
+            "Thank you. You have successfully signed-up to our newsletter."
+          );
+        } else {
+          setSuccessMsg("You have already signed up for our newsletters.");
+        }
+        // resetForm();
         setEnableSubmit(false);
       })
       .catch(err => {
@@ -136,13 +203,12 @@ const Newsletters: React.FC = () => {
   };
   const prepareFormData = (model: any) => {
     const formData = new FormData();
-    const { email, firstName, lastName, country, city } = model;
+    const { email, name, country, state } = model;
     formData.append("email", email ? email.toString().toLowerCase() : "");
-    formData.append("firstName", firstName || "");
-    formData.append("lastName", lastName || "");
+    formData.append("name", name || "");
     formData.append("country", country || "");
-    formData.append("city", city || "");
-    formData.append("status", "subscribed");
+    formData.append("state", state || "");
+    formData.append("source", "Newsletter Signup");
 
     return formData;
   };
@@ -174,6 +240,7 @@ const Newsletters: React.FC = () => {
       <Formsy
         onValidSubmit={handleSubmit}
         onInvalidSubmit={handleInvalidSubmit}
+        ref={EnquiryFormRef}
         onChange={handleChange}
       >
         <div
@@ -187,12 +254,12 @@ const Newsletters: React.FC = () => {
           <div>
             <FormInput
               required
-              label="First Name*"
-              placeholder="First Name*"
-              name="firstName"
+              label="Name*"
+              placeholder="Name*"
+              name="name"
               validations={{
-                maxLength: 30,
-                isAlpha: true
+                maxLength: 100,
+                isWords: true
               }}
               handleChange={event => {
                 event.target.value
@@ -201,23 +268,7 @@ const Newsletters: React.FC = () => {
               }}
               validationErrors={{
                 maxLength: "Max limit reached.",
-                isAlpha: "Only alphabets are allowed."
-              }}
-            />
-          </div>
-          <div>
-            <FormInput
-              required
-              name="lastName"
-              label="Last Name*"
-              placeholder="Last Name*"
-              validations={{
-                maxLength: 30,
-                isAlpha: true
-              }}
-              validationErrors={{
-                maxLength: "Max limit reached.",
-                isAlpha: "Only alphabets are allowed."
+                isWords: isAlphaError
               }}
             />
           </div>
@@ -237,26 +288,31 @@ const Newsletters: React.FC = () => {
             />
           </div>
           <div className="select-group text-left">
-            <FormSelect
-              label="Country"
+            <SelectDropdown
+              required
+              label={"Country*"}
               options={countryOptions}
-              placeholder="Select Country"
+              handleChange={onCountrySelect}
+              placeholder="Select Country*"
               name="country"
-              value=""
-            />
-            <span className="arrow"></span>
-          </div>
-          <div>
-            <FormInput
-              name="city"
-              label="City"
-              placeholder="City"
               validations={{
-                maxLength: 50
+                isExisty: true
               }}
               validationErrors={{
-                maxLength: "Max limit reached."
+                isExisty: "Please select your Country",
+                isEmptyString: isExistyError
               }}
+              allowFilter={true}
+              inputRef={countryRef}
+            />
+          </div>
+          <div className="select-group text-left">
+            <FormSelect
+              name="state"
+              label={"State"}
+              placeholder={"Select State"}
+              options={stateOptions}
+              value=""
             />
           </div>
           <div className={styles.label}>
@@ -271,20 +327,22 @@ const Newsletters: React.FC = () => {
               </Link>
             ]}
           </div>
-          <p className={cs(styles.successMessage, styles.errorMsg)}>
+          <p
+            className={cs(
+              successMsg ==
+                "Thank you. You have successfully signed-up to our newsletter."
+                ? styles.successMessage
+                : styles.errorMsg
+            )}
+          >
             {successMsg}
           </p>
-          <input
+          <Button
             type="submit"
-            formNoValidate={true}
             disabled={!enableSubmit}
-            className={cs(
-              globalStyles.aquaBtn,
-              globalStyles.marginT10,
-              styles.jobApplicationSubmit,
-              { [globalStyles.disabledBtn]: !enableSubmit }
-            )}
-            value="Sign Up"
+            className={cs(globalStyles.btnFullWidth, globalStyles.marginT10)}
+            label="Sign Up"
+            variant="largeAquaCta"
           />
         </div>
       </Formsy>

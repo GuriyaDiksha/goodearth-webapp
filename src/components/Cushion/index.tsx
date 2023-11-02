@@ -11,7 +11,6 @@ import { AppState } from "reducers/typings";
 import LazyImage from "components/LazyImage";
 import CartSlider from "components/CartSlider";
 import { Link } from "react-router-dom";
-import { currencyCodes } from "constants/currency";
 import bootstrap from "styles/bootstrap/bootstrap-grid.scss";
 import SizeSelector from "components/SizeSelector";
 import PdpQuantity from "components/quantity/pdpQuantity";
@@ -338,6 +337,7 @@ class CushionBag extends React.Component<Props, State> {
                 src={asset}
                 className={styles.cushionFiller}
                 alt="cushion-filler-icon"
+                width="200"
               />
               <div>
                 <Link
@@ -455,7 +455,8 @@ class CushionBag extends React.Component<Props, State> {
         title,
         discount,
         badgeType,
-        discountedPriceRecords
+        discountedPriceRecords,
+        collections
       }
     } = this.props.filler;
     const { currency } = this.props;
@@ -492,7 +493,8 @@ class CushionBag extends React.Component<Props, State> {
         isSale: this.props.isSale,
         discountedPrice: discountPrices,
         list: "pdp",
-        sliderImages: data.plpSliderImages
+        sliderImages: data.plpSliderImages,
+        collections: collections
       },
       false
       // ModalStyles.bottomAlign

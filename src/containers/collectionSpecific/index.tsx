@@ -49,7 +49,8 @@ const mapStateToProps = (state: AppState) => {
     filteredCollectionData: state.collection.filteredCollectionData,
     collectionData: state.collection.result,
     collectionMobileView: state.collection.collectionMobileView,
-    collectionTemplates: state.collection.collectionTemplates
+    collectionTemplates: state.collection.collectionTemplates,
+    tablet: state.device.tablet
   };
 };
 
@@ -530,6 +531,7 @@ class CollectionSpecific extends React.Component<
   render() {
     const {
       mobile,
+      tablet,
       collectionSpecificData,
       collectionSpecficBanner,
       showTimer
@@ -624,7 +626,6 @@ class CollectionSpecific extends React.Component<
                     }
                   })}
                 </div>
-
                 <div className={bootstrap.col12}>
                   <img
                     src={banner}
@@ -638,28 +639,22 @@ class CollectionSpecific extends React.Component<
                 className={
                   mobile
                     ? banner
-                      ? cs(
-                          bootstrap.row,
-                          styles.imageContainerMobileBanner,
-                          globalStyles.paddTop20
-                        )
-                      : cs(
-                          bootstrap.row,
-                          styles.imageContainerMobile,
-                          globalStyles.paddTop20
-                        )
-                    : cs(
-                        bootstrap.row,
-                        styles.imageContainer,
-                        styles.minHeight,
-                        globalStyles.paddTop20
-                      )
+                      ? cs(bootstrap.row, styles.imageContainerMobileBanner)
+                      : cs(bootstrap.row, styles.imageContainerMobile)
+                    : cs(bootstrap.row, styles.imageContainer, styles.minHeight)
                 }
                 id="product_images"
               >
-                {showTemplates.Banner && (
-                  <Banner data={showTemplates.Banner} mobile={mobile} />
-                )}
+                <div className={styles.templateBanner}>
+                  {showTemplates.Banner && (
+                    <Banner
+                      data={showTemplates.Banner}
+                      mobile={mobile}
+                      tablet={tablet}
+                      colbanner={false}
+                    />
+                  )}
+                </div>
               </div>
             )}
           </div>
@@ -785,8 +780,8 @@ class CollectionSpecific extends React.Component<
             </div>
             <div className={styles.btnWrp}>
               <Button
+                variant="smallAquaCta"
                 label={"ALL COLLECTIONS"}
-                className={styles.button}
                 onClick={() =>
                   this.props?.history.push("/" + all_collection_link)
                 }
@@ -804,7 +799,8 @@ class CollectionSpecific extends React.Component<
         {mobile && this.state.count > -1 && this.state.showProductCounter && (
           <ProductCounter
             current={this.state.count}
-            total={results?.length}
+            // total={results?.length}
+            total={this.props.collectionSpecificData?.count}
             id="collection-product-counter"
           />
         )}

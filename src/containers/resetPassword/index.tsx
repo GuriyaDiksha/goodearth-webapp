@@ -22,6 +22,7 @@ import {
 } from "utils/validate";
 import Login from "./login";
 import LoginService from "services/login";
+import Button from "components/Button";
 
 type Props = {
   uid: string;
@@ -102,7 +103,9 @@ const ResetPassword: React.FC<Props> = props => {
         /[0-9]/.test(value) &&
         /[A-Z]/.test(value);
       if (res) {
-        setShowPassRules(false);
+        setTimeout(() => {
+          setShowPassRules(false);
+        }, 200);
       } else {
         ResetPasswordFormRef.current?.updateInputsWithError({
           password1:
@@ -294,15 +297,12 @@ const ResetPassword: React.FC<Props> = props => {
             ) : (
               ""
             )}
-            <input
+            <Button
               type="submit"
               disabled={!enableSubmit}
-              className={
-                enableSubmit
-                  ? globalStyles.charcoalBtn
-                  : cs(globalStyles.disabledBtn, globalStyles.charcoalBtn)
-              }
-              value="Set New Password"
+              className={globalStyles.btnFullWidth}
+              label="Set New Password"
+              variant="largeMedCharcoalCta"
             />
           </div>
         </div>

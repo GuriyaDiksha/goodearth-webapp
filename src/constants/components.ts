@@ -9,6 +9,8 @@ const BackendOrderPopup = loadable(() =>
 );
 const PincodePopup = loadable(() => import("components/Popups/pincodePopup"));
 const FreeShipping = loadable(() => import("components/Popups/freeShipping"));
+const ExitCheckout = loadable(() => import("components/Popups/exitGCCheckout"));
+
 const LoginForm = loadable(() => import("components/signin/Login"));
 const RegisterForm = loadable(() => import("components/signin/register"));
 const ForgotPasswordForm = loadable(() =>
@@ -64,10 +66,15 @@ const OrientationPopup = loadable(() =>
   import("components/Popups/OrientationPopup")
 );
 
+const BillingGST = loadable(() => import("components/Popups/BillingGST"));
+const ShippingTerms = loadable(() => import("components/Popups/ShippingTerms"));
+const RedeemPopup = loadable(() => import("components/Popups/RedeemPopup"));
+
 export const popupComponents: { [x: string]: React.ComponentType<any> } = {
   currency: CurrencyPopup,
   backendOrder: BackendOrderPopup,
   freeShipping: FreeShipping,
+  exitCheckout: ExitCheckout,
   pincodePopup: PincodePopup,
   loginForm: LoginForm,
   registerForm: RegisterForm,
@@ -94,6 +101,9 @@ export const popupComponents: { [x: string]: React.ComponentType<any> } = {
   videoPopup: VideoPopup,
   helloarPopup: HelloarPopup,
   orientationPopup: OrientationPopup,
+  billingGST: BillingGST,
+  shippingTerms: ShippingTerms,
+  redeemPopup: RedeemPopup,
   whatsappPopup: WhatsappPopup
 };
 
@@ -101,6 +111,7 @@ export const enum POPUP {
   CURRENCY = "currency",
   BACKENDORDER = "backendOrder",
   FREESHIPPING = "freeShipping",
+  GCCHECKOUT = "exitCheckout",
   PINCODEPOPUP = "pincodePopup",
   LOGINFORM = "loginForm",
   REGISTERFORM = "registerForm",
@@ -127,5 +138,8 @@ export const enum POPUP {
   VIDEOPOPUP = "videoPopup",
   HELLOARPOPUP = "helloarPopup",
   ORIENTATIONPOPUP = "orientationPopup",
+  BILLINGGST = "billingGST",
+  SHIPPINGTERMS = "shippingTerms",
+  REDEEMPOPUP = "redeemPopup",
   WHATSAPP = "whatsappPopup"
 }

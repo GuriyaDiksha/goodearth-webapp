@@ -5,10 +5,14 @@ import globalStyles from "../../../styles/global.scss";
 import styles from "../styles.scss";
 import cs from "classnames";
 import { Props } from "./typings";
+import { useSelector } from "react-redux";
+import { AppState } from "reducers/typings";
 
 const FormSelect: React.FC<Props & InjectedProps<string | null>> = props => {
   const [labelClass, setLabelClass] = useState(false);
-
+  const {
+    user: { isLoggedIn }
+  } = useSelector((state: AppState) => state);
   // useEffect(() => {
   //   !labelClass && props.value && setLabelClass(true);
   // }, [props.isPristine]);
@@ -41,7 +45,9 @@ const FormSelect: React.FC<Props & InjectedProps<string | null>> = props => {
   const errorMessage =
     props.errorMessage && !!props.disable
       ? props.errorMessage
-      : !props.isPristine && !props.isValid && !props.disable
+      : (!props.isPristine || props.errWithIsPristine) &&
+        !props.isValid &&
+        !props.disable
       ? getDefaultError()
       : "";
   const options = props.options

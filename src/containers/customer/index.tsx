@@ -95,14 +95,17 @@ const StaticPage: React.FC<Props> = props => {
   let bgClass = cs(globalStyles.colMd10, globalStyles.col12);
   bgClass +=
     slab && path == "/account/cerise"
-      ? slab.toLowerCase() == "cerise" || slab.toLowerCase() == "ff10"
+      ? slab.toLowerCase() == "cerise" ||
+        slab.toLowerCase() == "cerise sitara" ||
+        slab.toLowerCase() == "cerise club" ||
+        slab.toLowerCase() == "ff10"
         ? cs(styles.ceriseClub, styles.ceriseLoyalty)
         : cs(styles.ceriseSitaraClub, styles.ceriseLoyalty)
       : "";
   return (
     <div
       className={cs(styles.containerStart, {
-        [globalStyles.containerStartTimer]: showTimer
+        [styles.containerStartTimer]: showTimer
       })}
     >
       <SecondaryHeader>
@@ -262,9 +265,9 @@ const StaticPage: React.FC<Props> = props => {
                 bootstrapStyles.colMd10,
                 bootstrapStyles.offsetMd1,
                 bootstrapStyles.col10,
-                bootstrapStyles.offset1
+                bootstrapStyles.offset1,
                 // { [styles.accountFormBg]: !mobile },
-                // { [styles.accountFormBgMobile]: mobile }
+                { [globalStyles.marginT30]: mobile }
               )}
             >
               <Switch>

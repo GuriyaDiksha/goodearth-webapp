@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import moment from "moment";
 import { OrdersProps } from "./typings";
 import AccountService from "services/account";
-import { Currency, currencyCode } from "typings/currency";
 import bootstrapStyles from "../../../../styles/bootstrap/bootstrap-grid.scss";
 import globalStyles from "styles/global.scss";
 import styles from "../styles.scss";
@@ -13,6 +12,8 @@ import noPlpImage from "images/noimageplp.png";
 import invoice from "../../../../images/invoice.svg";
 import invoiceDisabled from "../../../../images/invoiceDisabled.svg";
 import { displayPriceWithCommas } from "utils/utility";
+import Button from "components/Button";
+import { displayPriceWithCommasFloat } from "utils/utility";
 
 const InShopOrder: React.FC<OrdersProps> = props => {
   const [data, setData] = useState<any>([]);
@@ -122,9 +123,6 @@ const InShopOrder: React.FC<OrdersProps> = props => {
     }
     {
       orderdata?.order_lines?.map((item: any) => {
-        const charCurrency = String.fromCharCode(
-          ...currencyCode["INR" as Currency]
-        );
         html.push(
           <div className={cs(styles.product)} key={item.sku}>
             <div className={cs(styles.imageContainer)}>
@@ -134,7 +132,7 @@ const InShopOrder: React.FC<OrdersProps> = props => {
               <p className={styles.title}>{item.title}</p>
               <p className={cs(styles.price)}>
                 <span className={cs(styles.amountPaid)}>
-                  {`${displayPriceWithCommas(item.price, "INR")}`}
+                  {`${displayPriceWithCommasFloat(item.price, "INR")}`}
                 </span>
               </p>
             </div>
@@ -197,7 +195,7 @@ const InShopOrder: React.FC<OrdersProps> = props => {
                 <span className={styles.label}>Amount Paid</span>
                 <span className={styles.data}>
                   {data.total > 0
-                    ? displayPriceWithCommas(data.total, "INR")
+                    ? displayPriceWithCommasFloat(data.total, "INR")
                     : data.total}
                 </span>
               </div>
@@ -292,13 +290,17 @@ const InShopOrder: React.FC<OrdersProps> = props => {
       {data?.length ? (
         <div className={styles.btnWrp}>
           {data?.length !== allData?.length ? (
-            <button className={styles.loadMoreBtn} onClick={() => loadMore()}>
-              Load More
-            </button>
+            <Button
+              variant="outlineExtraSmallAquaCta"
+              onClick={() => loadMore()}
+              label="Load More"
+            />
           ) : data.length >= 3 ? (
-            <button className={styles.backToTopBtn} onClick={() => backToTop()}>
-              Back to top
-            </button>
+            <Button
+              variant="outlineSmallMedCharcoalCta"
+              onClick={() => backToTop()}
+              label="back to top"
+            />
           ) : (
             ""
           )}

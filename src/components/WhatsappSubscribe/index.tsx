@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
 import FormCheckbox from "components/Formsy/FormCheckbox";
 import styles from "./styles.scss";
-import CountryCode from "components/Formsy/CountryCode";
+// import CountryCode from "components/Formsy/CountryCode";
 import FormInput from "components/Formsy/FormInput";
 import waIcon from "images/wa-icon.svg";
 import tooltipIcon from "images/tooltip.svg";
@@ -16,6 +16,8 @@ import { updatePreferenceData } from "actions/user";
 import { showGrowlMessage } from "utils/validate";
 import globalStyles from "../../styles/global.scss";
 import Formsy from "formsy-react";
+import Button from "components/Button";
+import SelectDropdown from "components/Formsy/SelectDropdown";
 
 type Props = {
   innerRef: any;
@@ -39,6 +41,7 @@ type Props = {
   oneLineMessage?: boolean;
   whatsappFormRef?: React.RefObject<Formsy>;
   whatsappNoErr?: string;
+  countryData?: any;
 };
 
 const WhatsappSubscribe: React.FC<Props> = ({
@@ -62,13 +65,14 @@ const WhatsappSubscribe: React.FC<Props> = ({
   buttonClass,
   oneLineMessage = false,
   whatsappFormRef,
-  whatsappNoErr = ""
+  whatsappNoErr = "",
+  countryData
 }) => {
   const dispatch = useDispatch();
   const [checked, setChecked] = useState(false);
   const [subscribe, setSubscribe] = useState(false);
   const [phone, setPhone] = useState(data.whatsappNo);
-  const [code, setCode] = useState(data.whatsappNoCountryCode);
+  const [code, setCode] = useState(data.whatsappNoCountryCode || "");
   const [showTip, setShowTip] = useState(false);
   // const [updated, setUpdated] = useState(false);
   const [numberError, setNumberError] = useState("");
@@ -144,7 +148,7 @@ const WhatsappSubscribe: React.FC<Props> = ({
 
   const onCodeChange = (e: any, newValue?: string) => {
     //const value = e.target.value;
-    setCode(newValue);
+    setCode(e?.value);
     setNumberError("");
     setError("");
   };
@@ -162,7 +166,7 @@ const WhatsappSubscribe: React.FC<Props> = ({
     dispatch(
       updateComponent(
         POPUP.WHATSAPP,
-        { data: data, isdList: isdList, closePopup },
+        { data: data, isdList: isdList, closePopup, countryData },
         true
       )
     );
@@ -344,6 +348,14 @@ const WhatsappSubscribe: React.FC<Props> = ({
     }
   }
 
+  const getCountryCodeObject = () => {
+    const arr: any[] = [];
+    countryData?.map(({ nameAscii, isdCode }: any) => {
+      arr.push({ label: `${nameAscii}(${isdCode})`, value: isdCode });
+    });
+    return arr;
+  };
+
   //all other cases
   return (
     // Improve this form by disabling enabling state using onValid and onInvalid
@@ -354,7 +366,9 @@ const WhatsappSubscribe: React.FC<Props> = ({
       ref={formRef}
       key={uniqueKey}
     >
-      <div className={cs(styles.whatsapp, whatsappClass)}>
+      <div
+        className={cs(styles.whatsapp, whatsappClass, styles.whatsappCheckout)}
+      >
         <div
           className={cs({
             [styles.flexForTooltip]: showTooltip
@@ -403,14 +417,56 @@ const WhatsappSubscribe: React.FC<Props> = ({
           }
         >
           {isdList?.length ? (
-            <CountryCode
+            // <CountryCode
+            //   name="whatsappNoCountryCode"
+            //   placeholder="Code"
+            //   label="Country Code"
+            //   value={code}
+            //   id={uniqueKey}
+            //   showLabel={true}
+            //   innerRef={codeRef}
+            //   validations={{
+            //     isCodeValid: (values, value) => {
+            //       const bool = !(values.whatsappNo && value == "");
+            //       if (!bool) {
+            //         setCodeError("Required");
+            //         return false;
+            //       } else {
+            //         setCodeError("");
+            //         return true;
+            //       }
+            //     },
+            //     isValidCode: (values, value) => {
+            //       let bool = true;
+
+            //       if (value && isdList.length > 0) {
+            //         bool = isdList.indexOf(value ? value : "") > -1;
+            //       }
+            //       if (!bool) {
+            //         setCodeError("Enter valid code");
+            //       } else {
+            //         if (value?.length > 0) {
+            //           setCodeError("");
+            //         }
+            //       }
+            //       return bool;
+            //     }
+            //   }}
+            //   validationErrors={{
+            //     isCodeValid: "Required",
+            //     isValidCode: "Enter valid code"
+            //   }}
+            //   autocomplete="off"
+            //   handleChange={onCodeChange}
+            //   hideArrow={true}
+            // />
+            <SelectDropdown
               name="whatsappNoCountryCode"
               placeholder="Code"
               label="Country Code"
+              options={getCountryCodeObject()}
               value={code}
-              id={uniqueKey}
-              showLabel={true}
-              innerRef={codeRef}
+              handleChange={onCodeChange}
               validations={{
                 isCodeValid: (values, value) => {
                   const bool = !(values.whatsappNo && value == "");
@@ -442,9 +498,13 @@ const WhatsappSubscribe: React.FC<Props> = ({
                 isCodeValid: "Required",
                 isValidCode: "Enter valid code"
               }}
-              autocomplete="off"
-              handleChange={onCodeChange}
-              hideArrow={true}
+              allowFilter={true}
+              showLabel={true}
+              optionsClass={styles.isdCode}
+              aquaClass={styles.aquaText}
+              searchIconClass={styles.countryCodeSearchIcon}
+              searchInputClass={styles.countryCodeSearchInput}
+              inputRef={codeRef}
             />
           ) : null}
 
@@ -530,17 +590,12 @@ const WhatsappSubscribe: React.FC<Props> = ({
         )}
         {!(onlyCheckbox || allowUpdate) && (
           <div className={styles.savePrefBtn}>
-            <input
+            <Button
               type="submit"
-              value="Save Preferences"
-              className={cs(
-                globalStyles.charcoalBtn,
-                {
-                  [globalStyles.disabledBtn]: isDisabled
-                },
-                buttonClass
-              )}
+              label="Save Preferences"
+              className={cs(globalStyles.btnFullWidth, buttonClass)}
               disabled={isDisabled}
+              variant="largeMedCharcoalCta"
             />
           </div>
         )}

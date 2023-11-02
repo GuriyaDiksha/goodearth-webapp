@@ -217,7 +217,12 @@ const CorporateEnquiryPopup: React.FC<Props> = ({ id, quantity }) => {
   }
 
   const button = (
-    <Button label={buttonText} onClick={action} className={styles.button} />
+    <Button
+      label={buttonText}
+      onClick={action}
+      className={styles.button}
+      variant={"largeAquaCta"}
+    />
   );
 
   return (

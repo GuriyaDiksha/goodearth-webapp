@@ -27,8 +27,9 @@ type Props = {
   billingErrorMsg?: string;
   addressDataIdError?: number;
   userAddress?: any;
-  defaultAddress: string;
-  setDefaultAddress: (x: string) => void;
+  defaultAddress?: string;
+  setDefaultAddress?: (x: string) => void;
+  isGcCheckout?: boolean;
 };
 
 const AddressItem: React.FC<Props> = props => {
@@ -42,7 +43,11 @@ const AddressItem: React.FC<Props> = props => {
     isAddressValid
   } = useContext(AddressContext);
   const { onSelectAddress } = useContext(CheckoutAddressContext);
-  const { currency, basket } = useSelector((state: AppState) => state);
+  const {
+    currency,
+    basket,
+    address: { shippingAddressId, billingAddressId }
+  } = useSelector((state: AppState) => state);
   const { defaultAddress, setDefaultAddress } = props;
 
   // const isDefaultAddress = () => {
@@ -58,7 +63,8 @@ const AddressItem: React.FC<Props> = props => {
   const [deleteError, setDeleteError] = useState("");
   const address = props.addressData;
   // const [selectId, setSelectId ] = useState(data.userAddress?.id || '');
-  const deleteAddress = () => {
+  const deleteAddress = (event: any) => {
+    event.stopPropagation();
     setIsLoading(true);
     AddressService.deleteAddress(dispatch, address.id)
       .catch(err => {
@@ -165,7 +171,7 @@ const AddressItem: React.FC<Props> = props => {
     }
   };
 
-  const addGAForShipping = () => {
+  const addGAForShipping = (address: any) => {
     const userConsent = CookieService.getCookie("consent").split(",");
     const items = basket.lineItems.map((line, ind) => {
       const index = line?.product.categories
@@ -181,21 +187,22 @@ const AddressItem: React.FC<Props> = props => {
         item_id: line?.product?.id, //Pass the product id
         item_name: line?.product?.title, // Pass the product name
         affiliation: line?.product?.title, // Pass the product name
-        coupon: "", // Pass the coupon if available
+        coupon: "NA", // Pass the coupon if available
         currency: currency, // Pass the currency code
-        discount: "", // Pass the discount amount
+        discount: "NA", // Pass the discount amount
         index: ind,
         item_brand: "Goodearth",
-        item_category: arr[arr.length - 2],
-        item_category2: arr[arr.length - 1],
-        item_category3: "",
-        item_list_id: "",
-        item_list_name: "",
-        item_variant: "",
-        item_category4: "",
-        item_category5: line?.product?.collection,
+        item_category: category?.split(">")?.join("/"),
+        item_category2: line.product?.childAttributes[0]?.size,
+        item_category3: line.product.is3d ? "3d" : "non3d",
+        item_category4: line.product.is3d ? "YES" : "NO",
+        item_list_id: "NA",
+        item_list_name: "NA",
+        item_variant: "NA",
+        // item_category5: line?.product?.collection,
         price: line?.product?.priceRecords[currency],
-        quantity: line?.quantity
+        quantity: line?.quantity,
+        collection_category: line?.product?.collections?.join("|")
       };
     });
 
@@ -203,10 +210,14 @@ const AddressItem: React.FC<Props> = props => {
       dataLayer.push({ ecommerce: null }); // Clear the previous ecommerce object.
       dataLayer.push({
         event: "add_shipping_info",
+        previous_page_url: CookieService.getCookie("prevUrl"),
+        shipping_address: shippingAddressId,
+        gst_invoice: "NA",
+        delivery_instruction: "NA", //Pass NA if not applicable the moment
         ecommerce: {
           currency: currency, // Pass the currency code
           value: basket?.total,
-          coupon: "",
+          coupon: "NA",
           items: items
         }
       });
@@ -265,16 +276,16 @@ const AddressItem: React.FC<Props> = props => {
   const i = props.index;
   const id = `default_check_${i}`;
   const addressLineOneWithSpace =
-    address.line1.split("").indexOf(" ") > 0 ? 55 : 30;
+    address.line1.split("").indexOf(" ") > 0 ? 40 : 30;
   const addressLineTwoWithSpace =
-    address.line2.split("").indexOf(" ") > 0 ? 25 : 12;
+    address.line2.split("").indexOf(" ") > 0 ? 40 : 12;
   const divOrText =
-    (address.firstName.length < 14 && address.lastName.length < 7) ||
-    (address.firstName.length < 7 && address.lastName.length < 14)
-      ? "text"
-      : "div";
+    address.firstName.length + address.lastName.length < 21 ? "text" : "div";
   const billingEditDisable =
-    activeStep == "BILLING" && shippingData && address.id == shippingData.id;
+    activeStep == "BILLING" &&
+    shippingData &&
+    address.id == shippingData.id &&
+    !props.isGcCheckout;
 
   return (
     <div
@@ -282,28 +293,45 @@ const AddressItem: React.FC<Props> = props => {
         currentCallBackComponent == "checkout-billing" ||
         currentCallBackComponent == "checkout-shipping"
           ? cs(
-              bootstrapStyles.col10,
-              bootstrapStyles.colSm4,
-              bootstrapStyles.colMd4,
-              globalStyles.voffset5,
+              bootstrapStyles.col12,
+              bootstrapStyles.colMd6,
+              globalStyles.voffset3v1,
+              styles.checkoutAddress,
               "address-container"
             )
           : cs(
               bootstrapStyles.col12,
               // bootstrapStyles.colMd12,
-              globalStyles.voffset5,
+              globalStyles.voffset3v1,
               "address-container"
             )
       }
       id={`address-item-${address.id}`}
+      onClick={() => {
+        if (!(props.isGcCheckout && currency != address.currency)) {
+          markAsDefault(address, address?.id);
+          currentCallBackComponent !== "checkout-billing" &&
+            currentCallBackComponent !== "checkout-shipping" &&
+            setDefaultAddress &&
+            setDefaultAddress(id);
+        }
+      }}
     >
       <div
         className={cs(
           styles.addressItemContainer,
+          props.isGcCheckout && currency != address.currency
+            ? styles.fadedContainer
+            : "",
+          {
+            [styles.defaultAddress]:
+              currentCallBackComponent == "checkout-shipping"
+                ? address.id.toString() === shippingAddressId.toString()
+                : currentCallBackComponent == "checkout-billing" &&
+                  address.id.toString() === billingAddressId.toString()
+          },
           {
             [styles.addressItemContainerCheckout]:
-              currentCallBackComponent == "checkout-shipping" ||
-              currentCallBackComponent == "checkout-billing" ||
               currentCallBackComponent == "bridal" ||
               currentCallBackComponent == "bridal-edit"
           },
@@ -313,7 +341,8 @@ const AddressItem: React.FC<Props> = props => {
           },
           {
             [styles.default]:
-              id === defaultAddress && currentCallBackComponent == "account"
+              address.id.toString() === shippingAddressId.toString() &&
+              currentCallBackComponent == "checkout-shipping"
           },
           {
             [styles.isTulsi]: address.isTulsi
@@ -332,8 +361,6 @@ const AddressItem: React.FC<Props> = props => {
             },
             {
               [styles.checkoutFix]:
-                currentCallBackComponent == "checkout-shipping" ||
-                currentCallBackComponent == "checkout-billing" ||
                 currentCallBackComponent == "bridal" ||
                 currentCallBackComponent == "bridal-edit"
             },
@@ -353,86 +380,123 @@ const AddressItem: React.FC<Props> = props => {
           )}
         >
           {/*=================== Name and Default ================= */}
-          {currentCallBackComponent != "account" && (
-            <div>
-              {!(id === defaultAddress) && (
-                <div className={cs(styles.line, styles.makeDefaultCheckoutFix)}>
-                  {!address.isTulsi && "Make default"}
-                  {!address.isTulsi &&
-                    props.currentCallBackComponent != "cerise" && (
-                      <div
-                        className={styles.radio}
-                        id={id}
-                        onClick={() => {
-                          markAsDefault(address, address?.id);
-                          setDefaultAddress(id);
-                        }}
-                      >
-                        <input
+          {currentCallBackComponent != "account" &&
+            currentCallBackComponent != "checkout-shipping" &&
+            currentCallBackComponent != "checkout-billing" && (
+              <div>
+                {!(id === defaultAddress) && (
+                  <div
+                    className={cs(styles.line, styles.makeDefaultCheckoutFix)}
+                  >
+                    {!address.isTulsi && "Make default"}
+                    {!address.isTulsi &&
+                      props.currentCallBackComponent != "cerise" && (
+                        <div
+                          className={styles.radio}
                           id={id}
-                          className={cs(
-                            styles.defaultAddressCheckbox,
-                            styles.checkoutFix
-                          )}
-                          checked={id === defaultAddress}
-                          name={id}
-                          type="radio"
-                          onChange={() => {
-                            markAsDefault(address, address?.id);
-                            setDefaultAddress(id);
+                          onClick={() => {
+                            if (
+                              !(
+                                props.isGcCheckout &&
+                                currency != address.currency
+                              )
+                            ) {
+                              markAsDefault(address, address?.id);
+                              setDefaultAddress && setDefaultAddress(id);
+                            }
                           }}
-                        />
-                      </div>
-                    )}
-                </div>
-              )}
-            </div>
-          )}
+                        >
+                          <input
+                            id={id}
+                            className={cs(
+                              styles.defaultAddressCheckbox,
+                              styles.checkoutFix
+                            )}
+                            checked={id === defaultAddress}
+                            name={id}
+                            type="radio"
+                            onChange={() => {
+                              if (
+                                !(
+                                  props.isGcCheckout &&
+                                  currency != address.currency
+                                )
+                              ) {
+                                markAsDefault(address, address?.id);
+                                setDefaultAddress && setDefaultAddress(id);
+                              }
+                            }}
+                          />
+                        </div>
+                      )}
+                  </div>
+                )}
+              </div>
+            )}
 
-          {currentCallBackComponent != "account" && (
-            <div>
-              {id === defaultAddress && (
-                <div className={cs(styles.line, styles.defaultCheckoutFix)}>
-                  {!address.isTulsi && "Default"}
-                  {!address.isTulsi &&
-                    props.currentCallBackComponent != "cerise" && (
-                      <div
-                        className={styles.radio}
-                        id={id}
-                        onClick={() => {
-                          markAsDefault(address, address.id);
-                          setDefaultAddress(id);
-                        }}
-                      >
-                        <input
+          {currentCallBackComponent != "account" &&
+            currentCallBackComponent != "checkout-shipping" &&
+            currentCallBackComponent != "checkout-billing" && (
+              <div>
+                {id === defaultAddress && (
+                  <div className={cs(styles.line, styles.defaultCheckoutFix)}>
+                    {!address.isTulsi && "Default"}
+                    {!address.isTulsi &&
+                      props.currentCallBackComponent != "cerise" && (
+                        <div
+                          className={styles.radio}
                           id={id}
-                          className={cs(
-                            styles.defaultAddressCheckbox,
-                            styles.checkoutFix
-                          )}
-                          checked={id === defaultAddress}
-                          name={id}
-                          type="radio"
-                          onChange={() => {
-                            markAsDefault(address, address.id);
-                            setDefaultAddress(id);
+                          onClick={() => {
+                            if (
+                              !(
+                                props.isGcCheckout &&
+                                currency != address.currency
+                              )
+                            ) {
+                              markAsDefault(address, address?.id);
+                              setDefaultAddress && setDefaultAddress(id);
+                            }
                           }}
-                        />
-                      </div>
-                    )}
-                </div>
-              )}
-            </div>
-          )}
+                        >
+                          <input
+                            id={id}
+                            className={cs(
+                              styles.defaultAddressCheckbox,
+                              styles.checkoutFix
+                            )}
+                            checked={id === defaultAddress}
+                            name={id}
+                            type="radio"
+                            onChange={() => {
+                              if (
+                                !(
+                                  props.isGcCheckout &&
+                                  currency != address.currency
+                                )
+                              ) {
+                                markAsDefault(address, address?.id);
+                                setDefaultAddress && setDefaultAddress(id);
+                              }
+                            }}
+                          />
+                        </div>
+                      )}
+                  </div>
+                )}
+              </div>
+            )}
 
-          {divOrText == "text" && currentCallBackComponent != "account" && (
-            <div className={cs(styles.lineHead, styles.checkoutFix)}>
-              {props.title}
-              {address.firstName}
-              &nbsp;
-              {address.lastName}
-            </div>
-          )}
+          {divOrText == "text" &&
+            currentCallBackComponent != "account" &&
+            currentCallBackComponent != "checkout-shipping" &&
+            currentCallBackComponent != "checkout-billing" && (
+              <div className={cs(styles.lineHead, styles.checkoutFix)}>
+                {props.title}
+                {address.firstName}
+                &nbsp;
+                {address.lastName}
+              </div>
+            )}
 
           {divOrText == "text" && currentCallBackComponent == "account" && (
             <div className={styles.lineHead}>
@@ -441,8 +505,10 @@ const AddressItem: React.FC<Props> = props => {
                   className={styles.radio}
                   id={id}
                   onClick={() => {
-                    markAsDefault(address, address?.id);
-                    setDefaultAddress(id);
+                    if (!(props.isGcCheckout && currency != address.currency)) {
+                      markAsDefault(address, address?.id);
+                      setDefaultAddress && setDefaultAddress(id);
+                    }
                   }}
                 >
                   <input
@@ -452,8 +518,12 @@ const AddressItem: React.FC<Props> = props => {
                     name={id}
                     type="radio"
                     onChange={() => {
-                      markAsDefault(address, address?.id);
-                      setDefaultAddress(id);
+                      if (
+                        !(props.isGcCheckout && currency != address.currency)
+                      ) {
+                        markAsDefault(address, address?.id);
+                        setDefaultAddress && setDefaultAddress(id);
+                      }
                     }}
                   />
                   <span className={styles.checkmark}></span>
@@ -496,34 +566,216 @@ const AddressItem: React.FC<Props> = props => {
               )}
             </div>
           )}
+          {divOrText == "text" &&
+            currentCallBackComponent == "checkout-shipping" && (
+              <div className={styles.lineHead}>
+                {!address.isTulsi &&
+                  props.currentCallBackComponent != "cerise" && (
+                    <div
+                      className={styles.radio}
+                      id={address.id.toString()}
+                      onClick={() => {
+                        markAsDefault(address, address?.id);
+                        // setDefaultAddress(id);
+                      }}
+                    >
+                      <input
+                        id={address.id.toString()}
+                        className={styles.defaultAddressCheckbox}
+                        checked={
+                          address.id.toString() === shippingAddressId.toString()
+                        }
+                        name={address.id.toString()}
+                        type="radio"
+                        onChange={() => {
+                          markAsDefault(address, address?.id);
+                          //setDefaultAddress(id);
+                        }}
+                      />
+                      <span className={styles.checkmark}></span>
+                    </div>
+                  )}
+                {props.title}
+                {address.firstName}
+                &nbsp;
+                {address.lastName}
+                {!address.isTulsi && (
+                  <div className={styles.defaultContainer}>
+                    <div
+                      className={cs(styles.defaultAddressDiv, {
+                        [styles.bridal]: address.isBridal
+                      })}
+                    >
+                      {address.isBridal && (
+                        <svg
+                          viewBox="-3 -3 46 46"
+                          width="60"
+                          height="60"
+                          preserveAspectRatio="xMidYMid meet"
+                          x="0"
+                          y="0"
+                          className={styles.ceriseBridalRings}
+                        >
+                          <use xlinkHref={`${bridalRing}#bridal-ring`}></use>
+                        </svg>
+                      )}
+                      {id === defaultAddress && (
+                        <div className={styles.defaultAddress}>
+                          Default Address
+                        </div>
+                      )}
+                      {/* {!address.isDefaultForShipping && (
+                      <div className={styles.line}>Make default</div>
+                    )} */}
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
+          {divOrText == "text" &&
+            currentCallBackComponent == "checkout-billing" && (
+              <div className={styles.lineHead}>
+                {!address.isTulsi &&
+                  props.currentCallBackComponent != "cerise" && (
+                    <div
+                      className={styles.radio}
+                      id={address.id.toString()}
+                      onClick={() => {
+                        if (
+                          !(props.isGcCheckout && currency != address.currency)
+                        ) {
+                          markAsDefault(address, address?.id);
+                          // setDefaultAddress(id);
+                        }
+                      }}
+                    >
+                      <input
+                        id={address.id.toString()}
+                        className={styles.defaultAddressCheckbox}
+                        checked={
+                          address.id.toString() === billingAddressId.toString()
+                        }
+                        name={address.id.toString()}
+                        type="radio"
+                        onChange={() => {
+                          if (
+                            !(
+                              props.isGcCheckout && currency != address.currency
+                            )
+                          ) {
+                            markAsDefault(address, address?.id);
+                            // setDefaultAddress(id);
+                          }
+                        }}
+                      />
+                      <span className={styles.checkmark}></span>
+                    </div>
+                  )}
+                {props.title}
+                {address.firstName}
+                &nbsp;
+                {address.lastName}
+                {!address.isTulsi && (
+                  <div className={styles.defaultContainer}>
+                    <div
+                      className={cs(styles.defaultAddressDiv, {
+                        [styles.bridal]: address.isBridal
+                      })}
+                    >
+                      {address.isBridal && (
+                        <svg
+                          viewBox="-3 -3 46 46"
+                          width="60"
+                          height="60"
+                          preserveAspectRatio="xMidYMid meet"
+                          x="0"
+                          y="0"
+                          className={styles.ceriseBridalRings}
+                        >
+                          <use xlinkHref={`${bridalRing}#bridal-ring`}></use>
+                        </svg>
+                      )}
+                      {id === defaultAddress && (
+                        <div className={styles.defaultAddress}>
+                          Default Address
+                        </div>
+                      )}
+                      {/* {!address.isDefaultForShipping && (
+                      <div className={styles.line}>Make default</div>
+                    )} */}
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
           {divOrText == "div" && (
             <div
               className={cs(styles.lineHead, {
                 [styles.checkoutFix]:
-                  currentCallBackComponent == "checkout-shipping" ||
-                  currentCallBackComponent == "checkout-billing" ||
+                  (currentCallBackComponent == "checkout-shipping" &&
+                    address.isTulsi) ||
+                  (currentCallBackComponent == "checkout-billing" &&
+                    address.isTulsi) ||
                   currentCallBackComponent == "bridal" ||
                   currentCallBackComponent == "bridal-edit"
               })}
             >
-              {!address.isTulsi && currentCallBackComponent == "account" && (
+              {((!address.isTulsi && currentCallBackComponent == "account") ||
+                currentCallBackComponent == "checkout-shipping" ||
+                (!address.isTulsi &&
+                  currentCallBackComponent == "checkout-billing")) && (
                 <div
                   className={styles.radio}
-                  id={id}
+                  id={
+                    currentCallBackComponent !== "checkout-billing" &&
+                    currentCallBackComponent !== "checkout-shipping"
+                      ? id
+                      : address.id.toString()
+                  }
                   onClick={() => {
-                    markAsDefault(address, address?.id);
-                    setDefaultAddress(id);
+                    if (!(props.isGcCheckout && currency != address.currency)) {
+                      markAsDefault(address, address?.id);
+                      currentCallBackComponent !== "checkout-billing" &&
+                        currentCallBackComponent !== "checkout-shipping" &&
+                        setDefaultAddress &&
+                        setDefaultAddress(id);
+                    }
                   }}
                 >
                   <input
-                    id={id}
+                    id={
+                      currentCallBackComponent !== "checkout-billing" &&
+                      currentCallBackComponent !== "checkout-shipping"
+                        ? id
+                        : address.id.toString()
+                    }
                     className={styles.defaultAddressCheckbox}
-                    checked={id === defaultAddress}
-                    name={id}
+                    checked={
+                      currentCallBackComponent == "checkout-billing" &&
+                      billingAddressId
+                        ? address.id.toString() === billingAddressId.toString()
+                        : currentCallBackComponent == "checkout-shipping" &&
+                          shippingAddressId
+                        ? address.id.toString() === shippingAddressId.toString()
+                        : id === defaultAddress
+                    }
+                    name={
+                      currentCallBackComponent !== "checkout-billing" &&
+                      currentCallBackComponent !== "checkout-shipping"
+                        ? id
+                        : address.id.toString()
+                    }
                     type="radio"
                     onChange={() => {
-                      markAsDefault(address, address?.id);
-                      setDefaultAddress(id);
+                      if (
+                        !(props.isGcCheckout && currency != address.currency)
+                      ) {
+                        markAsDefault(address, address?.id);
+                        currentCallBackComponent !== "checkout-billing" &&
+                          currentCallBackComponent !== "checkout-shipping" &&
+                          setDefaultAddress &&
+                          setDefaultAddress(id);
+                      }
                     }}
                   />
                   <span className={styles.checkmark}></span>
@@ -554,7 +806,9 @@ const AddressItem: React.FC<Props> = props => {
                       </svg>
                     )}
                     {id === defaultAddress &&
-                      currentCallBackComponent == "account" && (
+                      (currentCallBackComponent == "account" ||
+                        currentCallBackComponent == "checkout-billing" ||
+                        currentCallBackComponent == "checkout-shipping") && (
                         <div className={styles.defaultAddress}>
                           Default Address
                         </div>
@@ -567,81 +821,77 @@ const AddressItem: React.FC<Props> = props => {
               )}
             </div>
           )}
+
+          {/* =========== Nickname ======== */}
+
+          <div className={cs(styles.nicknameWrapper)}>
+            {address?.addressType}
+          </div>
           {/* ========= Address ============= */}
-          <div
-            className={cs(
-              globalStyles.voffset2,
-              styles.line,
-              styles.addressLine,
-              {
+          <div className={cs(styles.addressWrapper)}>
+            <div
+              className={cs(
+                globalStyles.voffset2,
+                styles.line,
+                styles.addressLine,
+                {
+                  [styles.checkoutFix]:
+                    currentCallBackComponent == "bridal" ||
+                    currentCallBackComponent == "bridal-edit"
+                }
+              )}
+            >
+              {address.line1.length > addressLineOneWithSpace
+                ? address.line1.slice(0, addressLineOneWithSpace).concat("...")
+                : address.line1}
+            </div>
+            <div
+              className={cs(styles.line, styles.addressLine, {
                 [styles.checkoutFix]:
-                  currentCallBackComponent == "checkout-shipping" ||
-                  currentCallBackComponent == "checkout-billing" ||
                   currentCallBackComponent == "bridal" ||
                   currentCallBackComponent == "bridal-edit"
-              }
-            )}
-          >
-            {address.line1.length > addressLineOneWithSpace
-              ? address.line1.slice(0, addressLineOneWithSpace).concat("...")
-              : address.line1}
-          </div>
-          <div
-            className={cs(styles.line, styles.addressLine, {
-              [styles.checkoutFix]:
-                currentCallBackComponent == "checkout-shipping" ||
-                currentCallBackComponent == "checkout-billing" ||
-                currentCallBackComponent == "bridal" ||
-                currentCallBackComponent == "bridal-edit"
-            })}
-          >
-            {address.line2.length > addressLineTwoWithSpace
-              ? address.line2.slice(0, addressLineTwoWithSpace).concat("...")
-              : address.line2}
-          </div>
-          <div
-            className={cs(styles.line, {
-              [styles.checkoutFix]:
-                currentCallBackComponent == "checkout-shipping" ||
-                currentCallBackComponent == "checkout-billing" ||
-                currentCallBackComponent == "bridal" ||
-                currentCallBackComponent == "bridal-edit"
-            })}
-          >
-            {address.city}
-          </div>
-          <div
-            className={cs(styles.line, styles.addressLine, {
-              [styles.checkoutFix]:
-                currentCallBackComponent == "checkout-shipping" ||
-                currentCallBackComponent == "checkout-billing" ||
-                currentCallBackComponent == "bridal" ||
-                currentCallBackComponent == "bridal-edit"
-            })}
-          >
-            {address.state
-              ? address.state
-              : address.province
-              ? address.province
-              : ""}
-            , {address.postCode == "000000" ? "" : address.postCode}
-          </div>
-          <div
-            className={cs(styles.line, styles.addressLine, {
-              [styles.checkoutFix]:
-                currentCallBackComponent == "checkout-shipping" ||
-                currentCallBackComponent == "checkout-billing" ||
-                currentCallBackComponent == "bridal" ||
-                currentCallBackComponent == "bridal-edit"
-            })}
-          >
-            {address.countryName}
+              })}
+            >
+              {address.line2.length > addressLineTwoWithSpace
+                ? address.line2.slice(0, addressLineTwoWithSpace).concat("...")
+                : address.line2}
+            </div>
+            <div
+              className={cs(styles.line, {
+                [styles.checkoutFix]:
+                  currentCallBackComponent == "bridal" ||
+                  currentCallBackComponent == "bridal-edit"
+              })}
+            >
+              {address.city}
+            </div>
+            <div
+              className={cs(styles.line, styles.addressLine, {
+                [styles.checkoutFix]:
+                  currentCallBackComponent == "bridal" ||
+                  currentCallBackComponent == "bridal-edit"
+              })}
+            >
+              {address.state
+                ? address.state
+                : address.province
+                ? address.province
+                : ""}
+              , {address.postCode == "000000" ? "" : address.postCode}
+            </div>
+            <div
+              className={cs(styles.line, styles.addressLine, {
+                [styles.checkoutFix]:
+                  currentCallBackComponent == "bridal" ||
+                  currentCallBackComponent == "bridal-edit"
+              })}
+            >
+              {address.countryName}
+            </div>
           </div>
           <div
             className={cs(styles.phoneAndEditContainer, {
               [styles.checkoutFix]:
-                currentCallBackComponent == "checkout-shipping" ||
-                currentCallBackComponent == "checkout-billing" ||
                 currentCallBackComponent == "bridal" ||
                 currentCallBackComponent == "bridal-edit"
             })}
@@ -650,8 +900,6 @@ const AddressItem: React.FC<Props> = props => {
             <div
               className={cs(styles.addressPhoneNumber, {
                 [styles.checkoutFix]:
-                  currentCallBackComponent == "checkout-shipping" ||
-                  currentCallBackComponent == "checkout-billing" ||
                   currentCallBackComponent == "bridal" ||
                   currentCallBackComponent == "bridal-edit"
               })}
@@ -662,8 +910,6 @@ const AddressItem: React.FC<Props> = props => {
             <div
               className={cs(styles.edit, {
                 [styles.addCheckoutActions]:
-                  currentCallBackComponent == "checkout-shipping" ||
-                  currentCallBackComponent == "checkout-billing" ||
                   currentCallBackComponent == "bridal" ||
                   currentCallBackComponent == "bridal-edit"
               })}
@@ -672,42 +918,44 @@ const AddressItem: React.FC<Props> = props => {
                 address.isTulsi ||
                 address.isBackendOrder ||
                 props.currentCallBackComponent == "cerise"
-              ) && (
-                <span
-                  className={cs(
-                    styles.action,
-                    {
-                      [styles.addressEdit]: billingEditDisable
-                    },
-                    {
-                      [styles.checkoutFix]:
-                        currentCallBackComponent == "checkout-shipping" ||
-                        currentCallBackComponent == "checkout-billing" ||
-                        currentCallBackComponent == "bridal" ||
-                        currentCallBackComponent == "bridal-edit"
-                    }
-                  )}
-                  onClick={
-                    billingEditDisable
-                      ? () => false
-                      : () => openAddressForm(address)
-                  }
-                >
-                  EDIT
-                </span>
-              )}
+              ) &&
+                !(props.isGcCheckout && currency != address.currency) && (
+                  <span
+                    className={cs(
+                      styles.action,
+                      {
+                        [styles.addressEdit]: billingEditDisable
+                      },
+                      {
+                        [styles.checkoutFix]:
+                          currentCallBackComponent == "bridal" ||
+                          currentCallBackComponent == "bridal-edit"
+                      }
+                    )}
+                    onClick={event => {
+                      event.stopPropagation();
+                      if (billingEditDisable) {
+                        false;
+                      } else {
+                        openAddressForm(address);
+                      }
+                    }}
+                  >
+                    EDIT
+                  </span>
+                )}
               {!(
                 address.isBridal ||
                 address.isBackendOrder ||
                 props.isOnlyAddress ||
                 address.isTulsi ||
-                props.currentCallBackComponent == "cerise"
+                props.currentCallBackComponent == "cerise" ||
+                currentCallBackComponent == "checkout-shipping" ||
+                currentCallBackComponent == "checkout-billing"
               ) && (
                 <span
                   className={cs(styles.separator, {
                     [styles.checkoutFix]:
-                      currentCallBackComponent == "checkout-shipping" ||
-                      currentCallBackComponent == "checkout-billing" ||
                       currentCallBackComponent == "bridal" ||
                       currentCallBackComponent == "bridal-edit"
                   })}
@@ -720,13 +968,13 @@ const AddressItem: React.FC<Props> = props => {
                 props.isOnlyAddress ||
                 address.isBackendOrder ||
                 address.isTulsi ||
-                props.currentCallBackComponent == "cerise"
+                props.currentCallBackComponent == "cerise" ||
+                currentCallBackComponent == "checkout-shipping" ||
+                currentCallBackComponent == "checkout-billing"
               ) && (
                 <span
                   className={cs(styles.action, {
                     [styles.checkoutFix]:
-                      currentCallBackComponent == "checkout-shipping" ||
-                      currentCallBackComponent == "checkout-billing" ||
                       currentCallBackComponent == "bridal" ||
                       currentCallBackComponent == "bridal-edit"
                   })}
@@ -738,6 +986,8 @@ const AddressItem: React.FC<Props> = props => {
             </div>
           </div>
           {currentCallBackComponent !== "account" &&
+            currentCallBackComponent !== "checkout-billing" &&
+            currentCallBackComponent !== "checkout-shipping" &&
             currentCallBackComponent !== "bridal" &&
             currentCallBackComponent !== "bridal-edit" &&
             props.currentCallBackComponent !== "cerise" && (
@@ -745,11 +995,17 @@ const AddressItem: React.FC<Props> = props => {
                 className={cs(globalStyles.ceriseBtn, styles.shipToThisBtn)}
                 onClick={() => {
                   onSelectAddress(address);
-                  addGAForShipping();
+                  addGAForShipping(address);
                 }}
               >
                 {activeStep == STEP_SHIPPING ? "SHIP" : "BILL"}
                 &nbsp;TO THIS ADDRESS {address.isTulsi ? "(FREE)" : ""}
+              </div>
+            )}
+          {address.isTulsi &&
+            currentCallBackComponent == "checkout-shipping" && (
+              <div className={styles.freeShippingText}>
+                Free shipping for this address
               </div>
             )}
           {(currentCallBackComponent == "bridal" ||

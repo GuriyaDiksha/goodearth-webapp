@@ -2,7 +2,6 @@ import React, { ChangeEvent } from "react";
 import cs from "classnames";
 import { AppState } from "reducers/typings";
 import { connect, DispatchProp } from "react-redux";
-
 import Formsy from "formsy-react";
 import FormSelect from "../../components/Formsy/FormSelect";
 import styles from "./styles.scss";
@@ -16,6 +15,7 @@ import { Link } from "react-router-dom";
 import { Basket } from "typings/basket";
 import { MESSAGE } from "constants/messages";
 import { displayPriceWithCommas, makeid } from "utils/utility";
+import { RouteComponentProps, withRouter } from "react-router-dom";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -23,13 +23,15 @@ const mapStateToProps = (state: AppState) => {
     device: state.device,
     saleTimer: state.info.showTimer,
     cookies: state.cookies,
-    customerGroup: state.user.customerGroup
+    customerGroup: state.user.customerGroup,
+    isLoggedIn: state.user.isLoggedIn
   };
 };
 
 type Props = ReturnType<typeof mapStateToProps> &
   ReturnType<typeof mapDispatchToProps> &
-  DispatchProp;
+  DispatchProp &
+  RouteComponentProps;
 
 type State = {
   giftImages: string[];
@@ -51,7 +53,7 @@ type State = {
   englishandSpace: RegExp;
   subscribe: boolean;
   customValueErrorMsg: string;
-  selectCountryErrorMsg: string;
+  // selectCountryErrorMsg: string;
   previewOpen: boolean;
   formDisabled: boolean;
   key: string;
@@ -86,7 +88,7 @@ class NewGiftcard extends React.Component<Props, State> {
       englishandSpace: /^[a-zA-Z\s]+$/,
       subscribe: false,
       customValueErrorMsg: "",
-      selectCountryErrorMsg: "",
+      // selectCountryErrorMsg: "",
       customValue: "",
       previewOpen: false,
       formDisabled: true,
@@ -116,14 +118,14 @@ class NewGiftcard extends React.Component<Props, State> {
       this.setState({
         currency: newCurrency,
         selectedCountry: newCountry,
-        selectCountryErrorMsg: "",
+        // selectCountryErrorMsg: "",
         currencyCharCode: currencyCode[newCurrency]
       });
     } else {
       this.setState({
         currency: newCurrency,
         selectedCountry: "",
-        selectCountryErrorMsg: "Please select your Country",
+        // selectCountryErrorMsg: "Please select your Country",
         currencyCharCode: currencyCode[newCurrency]
       });
     }
@@ -141,7 +143,7 @@ class NewGiftcard extends React.Component<Props, State> {
       senderName: "",
       subscribe: false,
       customValue: "",
-      previewOpen: false,
+      //previewOpen: false,
       formDisabled: true,
       key: makeid(5)
     });
@@ -162,8 +164,8 @@ class NewGiftcard extends React.Component<Props, State> {
 
     this.setState(
       {
-        selectedCountry: country,
-        selectCountryErrorMsg: ""
+        selectedCountry: country
+        // selectCountryErrorMsg: ""
       },
       () => {
         if (newCurrency != currency) {
@@ -351,6 +353,12 @@ class NewGiftcard extends React.Component<Props, State> {
         const basket: Basket = res.data;
         this.props.updateBasket(basket);
         this.props.showGrowlMessage(MESSAGE.ADD_TO_BAG_GIFTCARD_SUCCESS);
+        if (!this.props.isLoggedIn) {
+          this.props.goLogin(undefined, "/order/gc_checkout");
+        } else {
+          // Redirect to gc_checkout page
+          this.props.history.push("/order/gc_checkout");
+        }
       })
       .catch(error => {
         this.props.showGrowlMessage(
@@ -393,7 +401,7 @@ class NewGiftcard extends React.Component<Props, State> {
         this.setState({
           currency: newCurrency,
           selectedCountry: newCountry,
-          selectCountryErrorMsg: "",
+          // selectCountryErrorMsg: "",
           currencyCharCode: currencyCode[newCurrency],
           cardId: "",
           cardValue: "",
@@ -420,8 +428,9 @@ class NewGiftcard extends React.Component<Props, State> {
     entries.forEach((entry: IntersectionObserverEntry) => {
       if (ele) {
         if (
-          entry.intersectionRatio > 0 ||
-          entry.boundingClientRect.bottom < 130
+          // entry.intersectionRatio > 0 ||
+          // entry.boundingClientRect.bottom < 130 ||
+          entry.isIntersecting === true
         ) {
           ele.style.display = "none";
         } else {
@@ -431,13 +440,17 @@ class NewGiftcard extends React.Component<Props, State> {
     });
   };
 
-  componentDidMount() {
+  onScroll = () => {
     if (this.container) {
       this.observer = new IntersectionObserver(this.observerCallback, {
         rootMargin: "-130px 0px -110px 0px"
       });
       this.observer.observe(this.container);
     }
+  };
+
+  componentDidMount() {
+    document.addEventListener("scroll", this.onScroll);
 
     const { fetchCountryList, fetchProductList } = this.props;
     fetchProductList().then((data: any) => {
@@ -459,9 +472,9 @@ class NewGiftcard extends React.Component<Props, State> {
       } else if (this.props.currency == "SGD") {
         newCountry = "Singapore";
       } else if (this.props.currency == "USD") {
-        this.setState({
-          selectCountryErrorMsg: "Please Select a Country"
-        });
+        // this.setState({
+        //   selectCountryErrorMsg: "Please Select a Country"
+        // });
       }
       newCountry &&
         this.setState({
@@ -472,6 +485,10 @@ class NewGiftcard extends React.Component<Props, State> {
       currencyCharCode: currencyCode[this.props.currency]
     });
     util.pageViewGTM("GiftCard");
+    // Show login pop up if not logged in and redirect to giftcard page
+    if (!this.props.isLoggedIn) {
+      this.props.goLogin(undefined, "/giftcard");
+    }
   }
 
   render(): React.ReactNode {
@@ -496,7 +513,7 @@ class NewGiftcard extends React.Component<Props, State> {
       senderName,
       subscribe,
       customValueErrorMsg,
-      selectCountryErrorMsg,
+      // selectCountryErrorMsg,
       customValue,
       previewOpen,
       formDisabled,
@@ -529,7 +546,7 @@ class NewGiftcard extends React.Component<Props, State> {
             >
               <div className={styles.title}>Preview</div>
               <div className={styles.imageContainer}>
-                <img src={selectedImage} />
+                <img src={selectedImage} alt="giftcard preview" />
               </div>
               <div className={styles.salutation}>
                 Dear {recipientName ? recipientName : `[Reciever's Name]`}
@@ -576,7 +593,7 @@ class NewGiftcard extends React.Component<Props, State> {
                         onClick={() => this.onImageClick(img)}
                         key={`gift_${i}`}
                       >
-                        <img src={img} />
+                        <img src={img} alt="giftcard-img" />
                       </div>
                     );
                   })}
@@ -601,13 +618,14 @@ class NewGiftcard extends React.Component<Props, State> {
                       validationErrors={{
                         isExisty: "This field is required"
                       }}
+                      errWithIsPristine={true}
                     />
                   </Formsy>
-                  {selectCountryErrorMsg && (
+                  {/* {selectCountryErrorMsg && (
                     <div className={styles.errorMessage}>
                       {selectCountryErrorMsg}
                     </div>
-                  )}
+                  )} */}
                 </div>
                 <div className={styles.note}>
                   Please note: Gift cards can only be redeemed in the currency
@@ -765,6 +783,7 @@ class NewGiftcard extends React.Component<Props, State> {
                     required
                   />
                   <FormTextArea
+                    additionalErrorClass={styles.leftFloat}
                     placeholder=""
                     maxLength={248}
                     name="message"
@@ -859,7 +878,7 @@ class NewGiftcard extends React.Component<Props, State> {
                   })}
                   onClick={this.onSubmit}
                 >
-                  <a>ADD TO BAG</a>
+                  <a>BUY NOW</a>
                 </div>
               )}
               {/* 6. Contact Us */}
@@ -915,7 +934,7 @@ class NewGiftcard extends React.Component<Props, State> {
             })}
             onClick={this.onSubmit}
           >
-            <a>ADD TO BAG</a>
+            <a>BUY NOW</a>
           </div>
         )}
         {mobile && (
@@ -933,7 +952,7 @@ class NewGiftcard extends React.Component<Props, State> {
             </div>
             <div className={styles.title}>Preview</div>
             <div className={styles.imageContainer}>
-              <img src={selectedImage} />
+              <img src={selectedImage} alt="giftcard preview" />
             </div>
             <div className={styles.salutation}>
               Dear {recipientName ? recipientName : `[Reciever's Name]`}
@@ -967,4 +986,5 @@ class NewGiftcard extends React.Component<Props, State> {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(NewGiftcard);
+const gift = withRouter(NewGiftcard);
+export default connect(mapStateToProps, mapDispatchToProps)(gift);

@@ -2,7 +2,6 @@ import React, { RefObject } from "react";
 import styles from "../styles.scss";
 import globalStyles from "styles/global.scss";
 import InputField from "../InputField";
-import Loader from "components/Loader";
 import SocialLogin from "../socialLogin";
 import Popup from "../popup/Popup";
 import FormContainer from "../formContainer";
@@ -18,6 +17,7 @@ import { connect } from "react-redux";
 import { mapDispatchToProps } from "./mapper/actions";
 import { RouteComponentProps, withRouter } from "react-router";
 import cs from "classnames";
+import Button from "components/Button";
 
 const mapStateToProps = () => {
   return {};
@@ -256,13 +256,12 @@ class ForgotPasswordForm extends React.Component<Props, ForgotPasswordState> {
             />
           </div>
           <div>
-            <input
+            <Button
               type="submit"
-              className={cs(globalStyles.charcoalBtn, {
-                [globalStyles.disabledBtn]: forgotSuccess
-              })}
+              className={cs(globalStyles.btnFullWidth)}
               disabled={forgotSuccess}
-              value={forgotSuccess ? "Email Sent!" : "reset password"}
+              label={forgotSuccess ? "Email Sent!" : "reset password"}
+              variant="largeMedCharcoalCta"
             />
           </div>
         </div>
@@ -309,7 +308,7 @@ class ForgotPasswordForm extends React.Component<Props, ForgotPasswordState> {
             formContent={formContent}
             footer={this.state.isBo ? undefined : footer}
           />
-          {this.state.disableSelectedbox && <Loader />}
+          {/* {this.state.disableSelectedbox && <Loader />} */}
         </div>
       </Popup>
     );

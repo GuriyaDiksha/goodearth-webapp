@@ -45,3 +45,9 @@ export const updateLoader = (isLoading: boolean) =>
 
 export const updateCookiePrefrence = (showCookie: boolean) =>
   actionCreator("UPDATE_SHOW_COOKIE_PREF", showCookie);
+
+export const updateShowShippingAddress = (showShipping: boolean) =>
+  actionCreator("UPDATE_SHOW_SHIPPING_ADDESS", showShipping);
+
+export const updateIsLoyaltyFilterOpen = (menuOpen: boolean) =>
+  actionCreator("UPDATE_IS_LOYALTY_FILER_OPEN", menuOpen);

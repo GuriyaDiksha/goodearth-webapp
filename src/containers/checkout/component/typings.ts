@@ -2,6 +2,9 @@ import { AddressData } from "components/Address/typings";
 import { Currency } from "typings/currency";
 import { Basket } from "typings/basket";
 
+export type BreadcrumbProps = {
+  active: string;
+};
 export type LoginProps = {
   isActive: boolean;
   user: any;
@@ -31,16 +34,27 @@ export type AddressProps = {
   // user:
   error: string;
   errorNotification?: string;
+  currentStep: number;
+  isGcCheckout?: boolean;
 };
 
 export type OrderProps = {
   mobile: boolean;
   currency: Currency;
   basket: Basket;
-  page: string;
-  shippingAddress: any;
-  salestatus: boolean;
-  validbo: boolean;
+  page?: string;
+  shippingAddress?: any;
+  salestatus?: boolean;
+  validbo?: boolean;
+  goLogin?: (event?: React.MouseEvent, nextUrl?: string) => void;
+  setCheckoutMobileOrderSummary?: (data: boolean) => void;
+  isLoading?: any;
+  currentmethod?: any;
+  isPaymentNeeded?: any;
+  onsubmit?: () => any;
+  checkoutMobileOrderSummary?: boolean;
+  boId?: string;
+  tablet?: boolean;
 };
 
 export type PromoProps = {
@@ -48,13 +62,19 @@ export type PromoProps = {
   user: any;
   next: (step: string) => void;
   selectedAddress: any;
+  activeStep: string;
+  currentStep: number;
 };
 
 export type PaymentProps = {
   isActive: boolean;
   user: any;
   currency: Currency;
+  shippingAddress: any;
+  salestatus: boolean;
   checkout: (data: any) => any;
+  gstNo?: string;
+  isGcCheckout: boolean;
 };
 
 export type PopupProps = {
@@ -99,9 +119,12 @@ export type GiftState = {
   txtvalue: string;
   error: string;
   newCardBox: boolean;
-  toggleOtp: boolean;
+  toggleOtp?: boolean;
   isActivated: boolean;
   cardType?: string;
+  isLoader?: boolean;
+  isError?: boolean;
+  isEmptyInput?: boolean;
 };
 
 export type RedeemState = {
@@ -110,6 +133,8 @@ export type RedeemState = {
   newCardBox: boolean;
   toggleOtp: boolean;
   isActivated: boolean;
+  showTooltip: boolean;
+  showTooltipTwo: boolean;
 };
 
 // export type ReddemProps = {

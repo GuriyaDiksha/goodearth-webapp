@@ -21,7 +21,7 @@ input[type="text"]{
   }
 }
 .activategc-subheading{
-  width: 50%;
+  width: 65%;
   margin: 10px auto 30px auto;
   @media screen  and (max-width: 992px){
     width: 70%;
@@ -293,7 +293,7 @@ input[type="text"]{
           background-color: #fff;
           border: 1px solid #888;
           border-radius: 50%;
-          padding: 20px 0;
+          // padding: 20px 0;
         }
       }
       min-height: 160px;
@@ -873,43 +873,6 @@ input[type="text"]{
 
 .btnWrp{
   margin-top: 20px;
-
-  .loadMoreBtn {
-    @include b4_12px_medium_aqua_caps();
-    border: 1px solid $aqua;
-    text-align: center;
-    // font: normal normal medium 12px/20px $font-Montserrat;
-    letter-spacing: 0.36px;
-    // color: #548B8B;
-    // text-transform: uppercase;
-    opacity: 1;
-    background: $white;
-    padding: 8px 20px;
-    height: 50px;
-    &:hover {
-      background-color: $aqua;
-      color: $white;
-    }
-    
-  }
-
-  .backToTopBtn {
-    @include b4_12px_montserrat_charcoal_caps();
-    text-align: center;
-    // font: normal normal normal 12px/20px $font-Montserrat;
-    letter-spacing: 0.36px;
-    // color: #191919;
-    // text-transform: uppercase;
-    opacity: 1;
-    border: none;
-    background: white;
-    border-bottom: 1px solid;
-
-    &:hover {
-      color: $aqua;
-    }
-
-  }
 }
 
 .updated{
@@ -967,9 +930,10 @@ input[type="text"]{
   border-radius: 0;
   cursor: pointer;
   &:hover{
+    @media screen and (min-width:992px) {
     color: #191919;
     background-color: #fff;
-    border: 1px solid #4C4C4C;
+    border: 1px solid #4C4C4C;}
   }
   &.disabled-btn{
     color: #fff;
@@ -1513,5 +1477,41 @@ input[type="text"]{
       text-decoration: underline;
       text-underline-offset: 2px;
     }
+  }
+}
+
+.isd-code{
+  height: auto;
+  padding: 10px;
+  border-bottom: 1px solid #d8d8d8;
+  cursor: pointer;
+  text-align: left;
+  @include b5_10px_montserrat_light_charcoal();
+  letter-spacing: 0.36px;
+  display: flex;
+  align-items: center;
+  font-weight: 300 !important;
+  &:hover{
+    font-weight: 400 !important;
+    @include b5_10px_montserrat_charcoal();
+  }
+  &.aqua-text{
+    @include b5_10px_montserrat_aqua();
+  }
+}  
+
+img.country-code-search-icon{
+  width: 15px;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 10px;
+}
+
+input[type="text"].country-code-search-input{
+  padding-left: 30px !important;
+  height: 40px !important;
+  &:focus{
+    padding-left: 30px !important;
   }
 }

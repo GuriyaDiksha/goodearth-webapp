@@ -4,7 +4,7 @@ import { BridalItemData } from "containers/myAccount/components/Bridal/typings";
 import { Dispatch } from "redux";
 import BasketService from "../../services/basket";
 import { connect } from "react-redux";
-import { Currency, currencyCode } from "typings/currency";
+import { Currency } from "typings/currency";
 import bootstrap from "styles/bootstrap/bootstrap-grid.scss";
 import styles from "./styles.scss";
 import globalStyles from "../../styles/global.scss";
@@ -12,6 +12,7 @@ import cs from "classnames";
 import cartIcon from "../../images/bridal/icons_cartregistry-details.svg";
 import { showGrowlMessage } from "../../utils/validate";
 import { displayPriceWithCommas } from "utils/utility";
+import Button from "components/Button";
 const mapStateToProps = (state: AppState) => {
   return {
     isSale: state.info.isSale,
@@ -39,7 +40,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
         );
         return res;
       } catch (err) {
-        let errorMessage = err?.response.data;
+        let errorMessage = err?.response?.data;
         if (typeof errorMessage != "string") {
           errorMessage = "Can't add to bag";
         }
@@ -128,7 +129,6 @@ class BridalItem extends React.Component<Props, State> {
   };
 
   render() {
-    const code = currencyCode[this.props.currency as Currency];
     const { mobile } = this.props;
     return (
       <div className={cs(styles.cart, styles.cartContainer)}>
@@ -291,13 +291,14 @@ class BridalItem extends React.Component<Props, State> {
                 <div className={styles.manageHeight}>
                   {!mobile && (
                     <>
-                      <button
-                        className={this.state.btnDisable}
+                      <Button
+                        // className={this.state.btnDisable}
                         onClick={this.addToBag}
                         disabled={this.state.buttonStatus}
-                      >
-                        {this.state.btnContent}
-                      </button>
+                        label={this.state.btnContent}
+                        variant="mediumAquaCta"
+                      />
+
                       {this.props.bridalItem.productDeliveryDate && (
                         <div
                           className={cs(
@@ -305,7 +306,7 @@ class BridalItem extends React.Component<Props, State> {
                             globalStyles.voffset2
                           )}
                         >
-                          Estimated Delivery On or Before:{" "}
+                          Estimated delivery on or before:{" "}
                           <span className={styles.black}>
                             {" "}
                             {this.props.bridalItem.productDeliveryDate}

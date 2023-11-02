@@ -81,6 +81,10 @@ export default {
     const queryString = location.search;
     const urlParams = new URLSearchParams(queryString);
     const boId = urlParams.get("bo_id");
+    console.log("source:", source);
+    if (location.pathname == "/giftcard") {
+      source = "giftcard";
+    }
 
     const res = await API.post<loginResponse>(
       dispatch,
@@ -449,33 +453,37 @@ export default {
       `${__API_HOST__ + "/myapi/basket/change_currency/"}`,
       formData
     );
-    CookieService.setCookie("currency", formData.currency, 365);
-    dispatch(updateCurrency(formData.currency));
-    const {
-      publishRemove,
-      updatedRemovedItems,
-      unshippableRemove,
-      unshippableProducts
-    } = res;
-    if (publishRemove) {
-      showGrowlMessage(
-        dispatch,
-        MESSAGE.PRODUCT_UNPUBLISHED,
-        0,
-        undefined,
-        updatedRemovedItems
-      );
-    }
-    if (unshippableRemove) {
-      showGrowlMessage(
-        dispatch,
-        MESSAGE.PRODUCT_UNSHIPPABLE_REMOVED,
-        0,
-        undefined,
+    // res will be object only when API gives 200 response
+    if (typeof res === "object" && res !== null) {
+      CookieService.setCookie("currency", formData.currency, 365);
+      dispatch(updateCurrency(formData.currency));
+      const {
+        publishRemove,
+        updatedRemovedItems,
+        unshippableRemove,
         unshippableProducts
-      );
+      } = res;
+      if (publishRemove) {
+        showGrowlMessage(
+          dispatch,
+          MESSAGE.PRODUCT_UNPUBLISHED,
+          0,
+          undefined,
+          updatedRemovedItems
+        );
+      }
+      if (unshippableRemove) {
+        showGrowlMessage(
+          dispatch,
+          MESSAGE.PRODUCT_UNSHIPPABLE_REMOVED,
+          0,
+          undefined,
+          unshippableProducts
+        );
+      }
+    } else {
+      console.log("Change currency API error: ", res);
     }
-    // dispatch(updateBasket(res));
     return res;
   },
   reloadPage: (
@@ -485,17 +493,17 @@ export default {
   ) => {
     HeaderService.fetchHeaderDetails(dispatch, currency, customerGroup).catch(
       err => {
-        console.log("FOOTER API ERROR ==== " + err);
+        console.log("Fetch header API ERROR ==== " + err);
       }
     );
     HeaderService.fetchFooterDetails(dispatch).catch(err => {
-      console.log("FOOTER API ERROR ==== " + err);
+      console.log("Fetch footer API ERROR ==== " + err);
     });
     // HeaderService.fetchHomepageData(dispatch).catch(err => {
     //   console.log("Homepage API ERROR ==== " + err);
     // });
     Api.getAnnouncement(dispatch).catch(err => {
-      console.log("FOOTER API ERROR ==== " + err);
+      console.log("Get announcement API ERROR ==== " + err);
     });
     Api.getSalesStatus(dispatch).catch(err => {
       console.log("Sale status API error === " + err);
@@ -538,6 +546,13 @@ export default {
           } else {
             // CookieService.setCookie("region", "INDIA", 365);
             // CookieService.setCookie("ip", data?.ip, 365);
+            dispatch(
+              updateRegion({
+                region: "India",
+                ip: "",
+                country: "India"
+              })
+            );
             CookieService.setCookie("country", "India", 365);
             resolve("error");
           }

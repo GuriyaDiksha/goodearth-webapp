@@ -451,7 +451,7 @@
   -webkit-transform: translate3d(0, 0, 0);
   -webkit-transition: transform 1s ease;
   transition: transform 1s ease;
-  height: calc(100vh - #{$header-height});
+  height: 100dvh;
   overflow-y: scroll;
   background-color: $light-beige;
   overflow-x: hidden;
@@ -484,7 +484,8 @@
     margin: 0;
     padding: 0;
     font-weight: normal;
-    margin-bottom: 100px;
+    // margin-bottom: 100px;
+    overflow: scroll;
   }
   li {
     @include b4_12px_montserrat_charcoal();
@@ -1712,6 +1713,9 @@ ul.inner-menu-mobile {
     }
   }
 }
+.no-url{
+  cursor: unset;
+}
 .announcement-cta-btn {
   font-family: $font-Montserrat;
   font-size: 10px;
@@ -1754,6 +1758,7 @@ ul.inner-menu-mobile {
     font-size: 21px;
     color: #444444;
     margin: inherit;
+    cursor: pointer;
   }
   .top-badge{
     position: absolute;
@@ -1770,9 +1775,9 @@ ul.inner-menu-mobile {
     white-space: nowrap;
     vertical-align: baseline;
     border-radius: 10px;
-    &:hover {
-      color: $cerise;
-    }
+    // &:hover {
+    //   color: $cerise;
+    // }
   }
 }
 
@@ -1950,5 +1955,13 @@ ul.inner-menu-mobile {
       color: #9F9F9F;
       cursor: pointer;
     }
+  }
+}
+
+.sideMenuWrapper{
+  @media(min-width:992px){
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: space-between;
   }
 }

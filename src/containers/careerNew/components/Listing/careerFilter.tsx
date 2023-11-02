@@ -9,6 +9,7 @@ import bootstrap from "../../../../styles/bootstrap/bootstrap-grid.scss";
 import iconStyles from "../../../../styles/iconFonts.scss";
 import globalStyles from "../../../../styles/global.scss";
 import CheckboxWithLabel from "components/CheckboxWithLabel";
+import Button from "components/Button";
 
 type Props = {
   facets: Facets;
@@ -155,6 +156,12 @@ const CareerFilter: React.FC<Props> = ({
   useEffect(() => {
     clearFilter();
   }, [reset]);
+
+  useEffect(() => {
+    if (isFilterOpen) {
+      window.scrollTo(0, 0);
+    }
+  }, [isFilterOpen]);
 
   const toggle = (key: string) => {
     selectFilter(key, !showMore[key]);
@@ -549,15 +556,18 @@ const CareerFilter: React.FC<Props> = ({
           isFilterOpen ? "" : listing.filter_mobile_hide
         )}
       >
-        <button className={listing.cancel_btn} onClick={() => handleCancel()}>
-          Cancel
-        </button>
-        <button
+        <Button
+          label="Cancel"
+          variant="outlineSmallMedCharcoalCta"
+          className={listing.cancel_btn}
+          onClick={() => handleCancel()}
+        />
+        <Button
+          variant="smallMedCharcoalCta"
           className={listing.apply_btn}
           onClick={() => setIsFilterOpen(!isFilterOpen)}
-        >
-          Apply filter
-        </button>
+          label="Apply filter"
+        />
       </div>
     </>
   );

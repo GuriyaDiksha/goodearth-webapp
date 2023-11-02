@@ -38,7 +38,7 @@ const Mobilemenu = loadable(() => import("./mobileMenu"));
 import MegaMenu from "./megaMenu";
 import CountdownTimer from "./CountdownTimer";
 import AnnouncementBar from "./AnnouncementBar";
-import { CUST } from "constants/util";
+// import { CUST } from "constants/util";
 import Loader from "components/Loader";
 import Sizechart from "components/Sizechart";
 import CookieService from "services/cookie";
@@ -296,6 +296,7 @@ class Header extends React.Component<Props, State> {
     const sortHeader2 = document.getElementById("sortHeaderCust");
     const sortHeaderMobile = document.getElementById("sortHeaderMobile");
     const gridList = document.getElementById("gridList");
+    const accountFilterHeader = document.getElementById("accountFilterHeader");
     const mobileFilter = document.getElementById("mobileFilter");
     const filterHeader = document.getElementById("filterHeader");
     const mobileFilterMenu = document.getElementById("mobileFilterMenu");
@@ -316,6 +317,10 @@ class Header extends React.Component<Props, State> {
     const filterMenuHeader = document.getElementById("filter-menu-header");
 
     const pressSortHeader = document.getElementById("pressSortHeader");
+    const pressSortHeaderMenu = document.getElementById("pressSortHeaderMenu");
+    const pressSortHeaderMenuDropdown = document.getElementById(
+      "pressSortHeaderMenuDropdown"
+    );
 
     if (window?.pageYOffset > sticky) {
       // When announcement bar is hidden
@@ -324,13 +329,17 @@ class Header extends React.Component<Props, State> {
       const tim = timer !== undefined ? timer : this.props.showTimer;
 
       if (gridList) {
-        if (scrollDown && window?.pageYOffset != 0) {
+        if (scrollDown || window?.pageYOffset != 0) {
           (gridList as HTMLElement).style.top = "0px";
+          console.log("top 0");
         } else {
           if (tim) {
+            console.log(tim);
             (gridList as HTMLElement).style.top = "93px";
+            console.log("top 93");
           } else {
             (gridList as HTMLElement).style.top = "53px";
+            console.log("top 53");
           }
         }
       }
@@ -381,11 +390,19 @@ class Header extends React.Component<Props, State> {
         }
       }
 
+      if (accountFilterHeader) {
+        if (tim) {
+          (accountFilterHeader as HTMLElement).style.top = "90px";
+        } else {
+          (accountFilterHeader as HTMLElement).style.top = "50px";
+        }
+      }
+
       if (mobileFilter) {
         if (tim) {
-          (mobileFilter as HTMLElement).style.top = "90px";
+          (mobileFilter as HTMLElement).style.top = "140px";
         } else {
-          (mobileFilter as HTMLElement).style.top = "50px";
+          (mobileFilter as HTMLElement).style.top = "100px";
         }
       }
 
@@ -449,6 +466,22 @@ class Header extends React.Component<Props, State> {
           (pressSortHeader as HTMLElement).style.top = "90px";
         } else {
           (pressSortHeader as HTMLElement).style.top = "50px";
+        }
+      }
+
+      if (pressSortHeaderMenu) {
+        if (tim) {
+          (pressSortHeaderMenu as HTMLElement).style.top = "90px";
+        } else {
+          (pressSortHeaderMenu as HTMLElement).style.top = "50px";
+        }
+      }
+
+      if (pressSortHeaderMenuDropdown) {
+        if (tim) {
+          (pressSortHeaderMenuDropdown as HTMLElement).style.top = "138px";
+        } else {
+          (pressSortHeaderMenuDropdown as HTMLElement).style.top = "100px";
         }
       }
     } else {
@@ -525,12 +558,22 @@ class Header extends React.Component<Props, State> {
         }
       }
 
-      if (mobileFilter) {
+      if (accountFilterHeader) {
         if (tim) {
-          (mobileFilter as HTMLElement).style.top = `${130 -
+          (accountFilterHeader as HTMLElement).style.top = `${130 -
             window?.pageYOffset}px`;
         } else {
-          (mobileFilter as HTMLElement).style.top = `${90 -
+          (accountFilterHeader as HTMLElement).style.top = `${90 -
+            window?.pageYOffset}px`;
+        }
+      }
+
+      if (mobileFilter) {
+        if (tim) {
+          (mobileFilter as HTMLElement).style.top = `${180 -
+            window?.pageYOffset}px`;
+        } else {
+          (mobileFilter as HTMLElement).style.top = `${140 -
             window?.pageYOffset}px`;
         }
       }
@@ -547,7 +590,7 @@ class Header extends React.Component<Props, State> {
 
       if (mobileFilterMenu) {
         if (tim) {
-          (mobileFilterMenu as HTMLElement).style.top = `${170 -
+          (mobileFilterMenu as HTMLElement).style.top = `${180 -
             window?.pageYOffset}px`;
         } else {
           (mobileFilterMenu as HTMLElement).style.top = `${140 -
@@ -567,7 +610,7 @@ class Header extends React.Component<Props, State> {
 
       if (dropdownFilterHeaderMenu) {
         if (tim) {
-          (dropdownFilterHeaderMenu as HTMLElement).style.top = `${170 -
+          (dropdownFilterHeaderMenu as HTMLElement).style.top = `${180 -
             window?.pageYOffset}px`;
         } else {
           (dropdownFilterHeaderMenu as HTMLElement).style.top = `${145 -
@@ -610,6 +653,26 @@ class Header extends React.Component<Props, State> {
             window?.pageYOffset}px`;
         } else {
           (pressSortHeader as HTMLElement).style.top = `${90 -
+            window?.pageYOffset}px`;
+        }
+      }
+
+      if (pressSortHeaderMenu) {
+        if (tim) {
+          (pressSortHeaderMenu as HTMLElement).style.top = `${130 -
+            window?.pageYOffset}px`;
+        } else {
+          (pressSortHeaderMenu as HTMLElement).style.top = `${90 -
+            window?.pageYOffset}px`;
+        }
+      }
+
+      if (pressSortHeaderMenuDropdown) {
+        if (tim) {
+          (pressSortHeaderMenuDropdown as HTMLElement).style.top = `${180 -
+            window?.pageYOffset}px`;
+        } else {
+          (pressSortHeaderMenuDropdown as HTMLElement).style.top = `${140 -
             window?.pageYOffset}px`;
         }
       }
@@ -669,6 +732,13 @@ class Header extends React.Component<Props, State> {
   };
 
   onSideMenuClick = (clickType: string) => {
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes(GA_CALLS) && clickType === "Search") {
+      dataLayer.push({
+        event: "search_bar_click"
+      });
+    }
+
     headerClickGTM(clickType, "Top", this.props.mobile, this.props.isLoggedIn);
   };
 
@@ -679,6 +749,12 @@ class Header extends React.Component<Props, State> {
     //   this.props.mobile,
     //   this.props.isLoggedIn
     // );
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes(GA_CALLS) && clickType === "Search") {
+      dataLayer.push({
+        event: "search_bar_click"
+      });
+    }
     footerClickGTM(clickType, "Bottom", this.props.isLoggedIn);
   };
 
@@ -794,6 +870,11 @@ class Header extends React.Component<Props, State> {
     } else {
       document.body.classList.remove(globalStyles.noScroll);
     }
+
+    // if (onClickClose) {
+    //   document.body.classList.remove(globalStyles.noScroll);
+    // }
+
     this.setState({
       showMenu: !this.state.showMenu,
       showSearch: false
@@ -853,9 +934,9 @@ class Header extends React.Component<Props, State> {
       handleLogOut,
       location,
       mobile,
-      tablet,
-      slab,
-      customerGroup
+      tablet
+      // slab,
+      // customerGroup
     } = this.props;
     const wishlistCount = wishlistData.length;
     let bagCount = 0;
@@ -892,26 +973,26 @@ class Header extends React.Component<Props, State> {
       },
 
       {
-        label: "Check gift card Balance",
+        label: "Check Balance",
         href: "/account/check-balance",
         type: "link",
         value: "Check Balance"
-      },
-      {
-        label: "Cerise Program",
-        href: isLoggedIn && this.props.slab ? "/account/cerise" : "/cerise",
-        type: "link",
-        value: "Cerise Program"
-      },
-      {
-        label: "Good Earth Registry",
-        href: isLoggedIn ? "/account/bridal" : "",
-        onClick: isLoggedIn
-          ? () => null
-          : () => this.props.goLogin(undefined, "/account/bridal"),
-        type: isLoggedIn ? "link" : "button",
-        value: "Good Earth Registry"
       }
+      // {
+      //   label: "Cerise Program",
+      //   href: isLoggedIn && this.props.slab ? "/account/cerise" : "/cerise",
+      //   type: "link",
+      //   value: "Cerise Program"
+      // },
+      // {
+      //   label: "Good Earth Registry",
+      //   href: isLoggedIn ? "/account/bridal" : "",
+      //   onClick: isLoggedIn
+      //     ? () => null
+      //     : () => this.props.goLogin(undefined, "/account/bridal"),
+      //   type: isLoggedIn ? "link" : "button",
+      //   value: "Good Earth Registry"
+      // }
     );
     const loginItem: DropdownItem = {
       label: isLoggedIn ? "Logout" : "Login",
@@ -931,13 +1012,15 @@ class Header extends React.Component<Props, State> {
       this.props.location.pathname.indexOf("/bridal/") > -1 &&
       !(this.props.location.pathname.indexOf("/account/") > -1);
 
+    const isCartPage = this.props.location.pathname.indexOf("/cart") > -1;
+
     const { showMenu } = this.state;
-    const isCeriseCustomer = slab
-      ? slab.toLowerCase() == "cerise" ||
-        slab.toLowerCase() == "cerise sitara" ||
-        customerGroup == CUST.CERISE ||
-        customerGroup == CUST.CERISE_SITARA
-      : false;
+    // const isCeriseCustomer = slab
+    //   ? slab.toLowerCase() == "cerise" ||
+    //     slab.toLowerCase() == "cerise sitara" ||
+    //     customerGroup == CUST.CERISE ||
+    //     customerGroup == CUST.CERISE_SITARA
+    //   : false;
     return (
       <div className="">
         {meta.h1Tag && (
@@ -1186,7 +1269,13 @@ class Header extends React.Component<Props, State> {
                   />
                 </div>
               )}
-              <div className={cs(bootstrap.colLg3, bootstrap.col3)}>
+              <div
+                className={cs(
+                  bootstrap.colLg3,
+                  bootstrap.col3,
+                  styles.sideMenuWrapper
+                )}
+              >
                 {!(mobile || tablet) && (
                   <SideMenu
                     onSideMenuClick={this.onSideMenuClick}
@@ -1248,17 +1337,34 @@ class Header extends React.Component<Props, State> {
                           iconStyles.icon,
                           iconStyles.iconCart,
                           styles.iconStyle,
-                          styles.topBagIconStyle
+                          styles.topBagIconStyle,
+                          {
+                            [styles.cartGold]: this.props.location.pathname.includes(
+                              "/cart"
+                            )
+                          }
                         )}
                         onClick={(): void => {
-                          this.setShowBag(true);
+                          // this.setShowBag(true);
+                          this.props.history.push("/cart");
                           this.onBottomMenuClick("Cart");
+                          if (this.state.showMenu) {
+                            this.clickToggle();
+                          }
                         }}
                       ></i>
                       <span
-                        className={styles.topBadge}
+                        className={cs(styles.topBadge, {
+                          [styles.cartGold]: this.props.location.pathname.includes(
+                            "/cart"
+                          )
+                        })}
                         onClick={(): void => {
-                          this.setShowBag(true);
+                          this.props.history.push("/cart");
+                          this.onBottomMenuClick("Cart");
+                          if (this.state.showMenu) {
+                            this.clickToggle();
+                          }
                         }}
                       >
                         {bagCount}
@@ -1381,7 +1487,7 @@ class Header extends React.Component<Props, State> {
               </div>
             </div>
           )} */}
-        {(mobile || tablet) && !isBridalRegistryPage && (
+        {(mobile || tablet) && !isBridalRegistryPage && !isCartPage && (
           <BottomMenu
             onBottomMenuClick={this.onBottomMenuClick}
             showBag={this.state.showBag}

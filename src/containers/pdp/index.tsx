@@ -66,7 +66,7 @@ import { GA_CALLS } from "constants/cookieConsent";
 // import pdp_top from "images/3d/pdp_top.svg";
 import button_image from "images/3d/button_image.svg";
 import Mobile360 from "./../../icons/360mobile.svg";
-import ReactPlayer from "react-player";
+// import ReactPlayer from "react-player";
 
 const PDP_TOP_OFFSET = HEADER_HEIGHT + SECONDARY_HEADER_HEIGHT;
 const sidebarPosition = PDP_TOP_OFFSET + 23;
@@ -400,6 +400,52 @@ class PDPContainer extends React.Component<Props, State> {
     this.fetchMoreProductsFromCollection(this.props?.id);
 
     this.startImageAutoScroll();
+
+    window.addEventListener("scroll", event => {
+      const windowSize = window.outerWidth;
+      if (windowSize <= 992) {
+        const windowScroll = window.scrollY;
+        // const scrollAfterDiv = document.getElementById("more_collection_div");
+        const dockedDiv = document.getElementById("docked_div");
+        const scrollAfterDiv = document.getElementById("product_detail_sec");
+        // const headerContainer = document.getElementById("header_container");
+        if (scrollAfterDiv) {
+          const rect = scrollAfterDiv.getBoundingClientRect();
+          const scrollBottom = rect.bottom + 100; // added 100 for padding of div
+          //  console.log("bottom---" +scrollBottom);
+          // console.log("y---" +rect);
+          // console.log("window---" +windowScroll);
+          if (dockedDiv) {
+            if (windowScroll >= scrollBottom) {
+              dockedDiv.style.cssText =
+                "position: absolute;bottom: -9%;transition: transform .3s ease-out,-webkit-transform .3s ease-out;";
+              if (scrollAfterDiv) {
+                scrollAfterDiv.style.cssText = "z-index: 5";
+              }
+            } else {
+              dockedDiv.style.cssText =
+                "position: fixed;bottom: 0;transition: transform .3s ease-out,-webkit-transform .3s ease-out;";
+              if (scrollAfterDiv) {
+                scrollAfterDiv.style.cssText = "z-index: 6";
+              }
+            }
+          }
+        }
+        // if (scrollAfterDiv) {
+        //   const topPos = scrollAfterDiv.offsetTop;
+        //   const height = scrollAfterDiv.offsetHeight;
+        //   const newtopPos = topPos - (height);
+        //   console.log(windowScroll+ "----" +newtopPos+ "----" +topPos)
+        //   if (dockedDiv) {
+        //     if (windowScroll >= newtopPos) {
+        //       dockedDiv.style.cssText = "position: absolute;bottom: -7%;";
+        //     } else {
+        //       dockedDiv.style.cssText = "position: fixed;bottom: 0;";
+        //     }
+        //   }
+        // }
+      }
+    });
   }
 
   componentWillUnmount() {
@@ -515,13 +561,22 @@ class PDPContainer extends React.Component<Props, State> {
   }
 
   componentDidUpdate(props: Props) {
-    const { data } = this.props;
+    const {
+      data,
+      device: { mobile }
+    } = this.props;
     if (!data) {
       return;
     }
     const productImages = this.getProductImagesData();
     if (props?.data && props.data?.id !== data?.id) {
       document.removeEventListener("scroll", this.onScroll);
+      if (!this.state.showAddToBagMobile && mobile) {
+        this.setState({
+          showAddToBagMobile: true
+        });
+      }
+
       window.scrollTo({
         top: 0
       });
@@ -837,7 +892,7 @@ class PDPContainer extends React.Component<Props, State> {
     const {
       data,
       currency,
-      device: { mobile },
+      device: { mobile, tablet },
       updateComponentModal,
       changeModalState,
       corporatePDP,
@@ -857,6 +912,7 @@ class PDPContainer extends React.Component<Props, State> {
         changeModalState={changeModalState}
         loading={meta.templateType == "" ? true : false}
         setPDPButton={this.getPDPButton}
+        tablet={tablet}
       />
     );
   };
@@ -1096,7 +1152,8 @@ class PDPContainer extends React.Component<Props, State> {
         isSale: isSale,
         discountedPrice: discountedPriceRecords[currency],
         list: "pdp",
-        sliderImages: plpSliderImages
+        sliderImages: plpSliderImages,
+        collections: collections
       },
       false,
       undefined
@@ -1324,7 +1381,7 @@ class PDPContainer extends React.Component<Props, State> {
     );
   };
 
-  handleLooksClick = () => {
+  handleLooksClick = (e: any) => {
     const elem = document.getElementById("looks-section");
     if (elem) {
       const headerOffset = 130;
@@ -1332,6 +1389,7 @@ class PDPContainer extends React.Component<Props, State> {
       const offsetPos = elemPos - headerOffset;
       window.scroll({ top: offsetPos, behavior: "smooth" });
     }
+    e.stopPropagation();
   };
 
   getMobileZoomListener = (index: number) => {
@@ -1396,7 +1454,7 @@ class PDPContainer extends React.Component<Props, State> {
       if (images?.length > 0) {
         mobileSlides = images?.map(
           (
-            { id, productImage, icon, code, vimeo_link, media_type, type },
+            { id, productImage, icon, code, video_link, media_type, type },
             i: number
           ) => {
             return (
@@ -1409,16 +1467,19 @@ class PDPContainer extends React.Component<Props, State> {
                 })}
               >
                 {media_type === "Image" || type === "main" ? (
-                  <LazyImage
-                    alt={data?.altText || data?.title}
-                    aspectRatio="62:93"
-                    src={productImage?.replace("/Micro/", "/Medium/")}
-                    className={globalStyles.imgResponsive}
-                    onClick={this.getMobileZoomListener(i)}
-                  />
+                  <div className={cs(styles.container)}>
+                    <img
+                      fetchpriority={i < 2 ? "high" : "low"}
+                      alt={data?.altText || data?.title}
+                      // aspectRatio="62:93"
+                      src={productImage?.replace("/Micro/", "/Medium/")}
+                      className={globalStyles.imgResponsive}
+                      onClick={this.getMobileZoomListener(i)}
+                    />
+                  </div>
                 ) : (
                   <>
-                    <div className={styles.overlayDiv}></div>
+                    {/* <div className={styles.overlayDiv}></div>
                     <ReactPlayer
                       url={vimeo_link}
                       playing={true}
@@ -1426,6 +1487,33 @@ class PDPContainer extends React.Component<Props, State> {
                       muted={true}
                       width={"100%"}
                       height={"auto"}
+                      playsinline={true}
+                    /> */}
+                    {/* <video
+                      src={video_link}
+                      autoPlay
+                      loop
+                      preload="auto"
+                      width={"100%"}
+                      height={"auto"}
+                      onClick={this.getMobileZoomListener(i)}
+                      muted
+                    /> */}
+                    <div
+                      className={styles.videoWrp}
+                      onClick={this.getMobileZoomListener(i)}
+                      dangerouslySetInnerHTML={{
+                        __html: `
+                  <video
+                    loop
+                    muted
+                    autoplay
+                    playsinline
+                    preload="metadata"
+                  >
+                  <source src="${video_link}" />
+                  </video>`
+                      }}
                     />
                   </>
                 )}
@@ -1441,7 +1529,11 @@ class PDPContainer extends React.Component<Props, State> {
                       className={styles.viewInBtn}
                       onClick={(e: any) => this.onClickMobile3d(e, code)}
                     >
-                      <img className={styles.image} src={button_image} />
+                      <img
+                        className={styles.image}
+                        src={button_image}
+                        alt="product-img"
+                      />
                       <div className={styles.text}>VIEW IN 3D</div>
                     </div>
                   ) : (
@@ -1459,6 +1551,7 @@ class PDPContainer extends React.Component<Props, State> {
                           }
                         });
                       }}
+                      alt="product-img"
                     ></img>
                   )
                 ) : (
@@ -1477,7 +1570,7 @@ class PDPContainer extends React.Component<Props, State> {
                   className={styles.mobileZoomIcon}
                   onClick={this.getMobileZoomListener(i)}
                 >
-                  <img src={zoom}></img>
+                  <img src={zoom} alt="product-img"></img>
                 </div>
               </div>
             );
@@ -1527,6 +1620,7 @@ class PDPContainer extends React.Component<Props, State> {
           </div>
         )}
         <div
+          id="product_detail_sec"
           className={cs(bootstrap.row, styles.productSection)}
           ref={this.containerRef}
         >
@@ -1599,9 +1693,11 @@ class PDPContainer extends React.Component<Props, State> {
           <div
             className={cs(
               styles.detailsContainer,
-              bootstrap.colMd4,
               {
-                [globalStyles.pageStickyElement]: !mobile && detailStickyEnabled
+                [globalStyles.pageStickyElement]:
+                  !mobile && detailStickyEnabled,
+                [bootstrap.col12]: tablet || mobile,
+                [bootstrap.colMd4]: !tablet && !mobile
               },
               {
                 [globalStyles.paddTop20]: mobile

@@ -18,4 +18,5 @@ export type Props = {
   // ref?: RefObject<typeof FormSelect>;
   blur?: (event: React.FocusEvent) => void;
   showLabel?: boolean;
+  errWithIsPristine?: boolean;
 };

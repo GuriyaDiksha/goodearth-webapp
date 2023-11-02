@@ -3,88 +3,154 @@
 @import "../../styles/partials/mixins";
 
 .size-block-popup {
+  @media screen and (min-width: 992px) {
     height: auto !important;
-      // padding: 0 0 75px 0;
-      background-color: #fff;
-      // width: 35vw;
-      width: 430px;
-      min-height: 360px;
-      .gc-tnc {
-        height: auto;
-        padding: 50px 0 30px 0;
-        // overflow-y: scroll;
-        &.top-image{
-          padding: 20px;
+  }
+  // padding: 0 0 75px 0;
+  background-color: #fff;
+  // width: 35vw;
+  width: 460px;
+  
+  &.gstPopup {
+    top: unset;
+    left: unset;
+    transform: unset;
+    bottom: 0px;
+    transition: max-height 0.5s;
+  }
+  .gc-tnc {
+    height: auto;
+    padding: 0px 0 30px 0 !important;
+    // overflow-y: scroll;
+    &.top-image{
+      padding: 20px;
+    }
+    &.left-image{
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 30px;
+    }
+  }
+  .disclaimer{
+    p {
+      line-height: 15px;
+    }
+  }
+  .resend-gc{
+    padding: 30px 0 30px 0 !important;
+  }
+  // p {
+    // line-height: 20px;
+  // padding: 7px 57px;
+  // text-align: center;
+  // font-size: 12px;
+  /// }
+  .cms-content {
+    @include b4_12px_montserrat_charcoal();
+    letter-spacing: 0.36px;
+    margin-bottom: 30px;
+    padding: 0px 20px;
+    p {
+      padding: 0;
+    }
+    &.left-image-content{
+      margin-bottom: 0px;
+    }
+  }
+  .cerise-btn-width {
+    width: 60%;
+    margin: 0 auto;
+  }
+  .freeship-btn-width {
+    width: 80%;
+    margin: 0 auto;
+    background-color: $med-charcoal;
+    letter-spacing: 0.5px;
+    border: 1px solid $med-charcoal;
+    @include b3_14px_montserrat_white();
+    @media screen and (max-width:992px) {
+      width: 90% !important;
+      margin-bottom: 0 !important;
+    }
+    &:hover{
+      @media screen and (min-width:992px) {
+        background-color: $white;
+        border: 1px solid $med-charcoal;
+        color: $med-charcoal !important; 
+      }
+    }
+
+    a{
+      @include b3_14px_montserrat_white();
+      opacity: 0.7;
+      font-weight: 500;
+      &:hover{
+        @media screen and (min-width:992px) {
+          color: $med-charcoal !important; 
         }
-        &.left-image{
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-          gap: 30px;
-        }
+        
       }
-      .disclaimer{
-        p {
-          line-height: 15px;
-        }
-      }
-      p {
-        line-height: 20px;
-      // padding: 7px 57px;
-      text-align: center;
-      // font-size: 12px;
-      }
-      .cms-content {
-        @include b4_12px_montserrat_charcoal();
-        letter-spacing: 0.36px;
-        margin-bottom: 30px;
-        padding: 0px 20px;
-        p {
-          padding: 0;
-        }
-        &.left-image-content{
-          margin-bottom: 0px;
-        }
-      }
-      .cerise-btn-width {
-        width: 60%;
-        margin: 0 auto;
-      }
-      .cross {
-        border-bottom: 1px solid #f2f2f2;
-            text-align: right;
-            padding: 13px;
-            cursor: pointer;
-            position: fixed;
-            z-index: 10;
-            background-color: #fff;
-            width: 100%;
-            font-size: 13px;
-        }
-      .left-image-cross {
-        border-bottom: none;
-        background-color: transparent;
-        right: 0;
-        width: auto;
-      }
-      .cross-white-btn{
-        color: $white !important;
-      }
-      .cancel-btn {
-      position: absolute;
-      bottom: 25px;
-      text-align: center;
-      width: 100%;
-      line-height: 40px;
-      
-      a {
-        color: #333333;
-      cursor: pointer;
-      text-decoration: underline;
-      font-size: 14px;
-      font-family: $font-Lato;
-      }
-      }
+    }
+  }
+  .delivery-btn-width{
+    width: 85% !important;
+    line-height: 60px;
+    @media screen and (max-width:992px) {
+      width: 100% !important;
+    } 
+  }
+  .cross {
+    border-bottom: 1px solid #f2f2f2;
+        text-align: right;
+        padding: 13px;
+        cursor: pointer;
+        position: fixed;
+        z-index: 10;
+        background-color: #fff;
+        width: 100%;
+        font-size: 13px;
+    }
+  .left-image-cross {
+    border-bottom: none;
+    background-color: transparent;
+    right: 0;
+    width: auto;
+  }
+  .cross-white-btn{
+    color: $white !important;
+  }
+  .cancel-btn {
+  position: absolute;
+  bottom: 25px;
+  text-align: center;
+  width: 100%;
+  line-height: 40px;
+  
+  a {
+    color: #333333;
+  cursor: pointer;
+  text-decoration: underline;
+  font-size: 14px;
+  font-family: $font-Lato;
+  }
+  }
+  }
+
+
+  .mobile-popup {
+    position: fixed;
+    width: 100%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    @media screen and (max-width: 480px) {
+      bottom: -20% !important;
+      max-width: 400px;
+    }
+    @media screen and (min-width: 481px) {
+      top: 50%;
+      max-width: 450px;
+    }
   }
 
   @media (min-width: 992px) {
@@ -102,6 +168,8 @@
       left: 50%;
       -webkit-transform: translate(-50%, -50%);
       transform: translate(-50%, -50%);
+      max-height: 725px;
+      overflow-y: auto;
       //width: 100%;
     }
     .maker-popup-desktop {
@@ -114,11 +182,19 @@
       overflow-x: hidden;
     }
     }
+    .free-shipping-head{
+      margin-bottom: 20px;
+      margin-top: 20px;
+      @include h3_20px_lora_charcoal();
+    }
     .free-shipping {
       padding: 0 45px;
-      color: tint(#000, 30%);
       letter-spacing: .5px;
-      font-size: 10px;
+      font-weight: $regular !important;
+      @include b4_12px_montserrat_medcharcoal();
+      @media screen and (max-width: 992px) {
+        padding: 0 20px;
+      }
       .cerise-btn {
         position: inherit;
         margin: 25px 0 20px 0;
@@ -129,26 +205,25 @@
       }
     
       span {
-        font-weight: bold;
-        color: #000;
+        font-weight: $semibold;
       }
       a {
-        color: $cerise !important;
+        // color: $cerise !important;
         &.link {
           font-size: 12px;
-          letter-spacing: 1px;
-          font-weight: bold;
+          letter-spacing: 0.3px;
           text-transform: uppercase;
         }
       }
     }
     .free-instruction{
-      padding: 0 30px;
-      color: tint(#000, 30%);
-      letter-spacing: .5px;
-      font-size: 10px;
-      font-style: italic;
+      padding: 0 24px;
+      @include b6_9px_light_montserrat_charcoal();
       text-align: left;
+      color: $montserrat-light;
+      @media screen and (min-width: 992px) {
+        padding: 0 35px;
+      }
       .cerise-btn {
         position: inherit;
         margin: 25px 0 20px 0;
@@ -172,17 +247,39 @@
         }
       }
     }
+.free-shipping-popup {
+  .gc-tnc {
+    margin-top: 50px;
+    padding: 0px 0 30px 0 !important;
+  }
+} 
 .link-text-underline {
   text-decoration: underline;
   cursor: pointer;
 }
+.link-text{
+  @include b4_12px_medium_medcharcoal_caps();
+  border-bottom: 1px solid $med-charcoal;
+  text-decoration: unset;
+  &:hover{
+    color: $aqua-text !important;
+    border-bottom: 1px solid $aqua-text;
+  }
+}
 .link {
-  color: $cerise;
-  font-size: 12px;
-  letter-spacing: 1px;
-  font-weight: bold;
-  text-transform: uppercase;
   margin: 25px 0;
+
+  a{
+    @include b4_12px_montserrat_charcoal_caps();
+    border-bottom: 1px solid $med-charcoal;
+    color: $med-charcoal !important;
+    &:hover{
+      color: $aqua-text !important;
+      border-bottom: 1px solid $aqua-text;
+    }
+
+  }
+ 
 }
 .login-form {
   div {
@@ -401,6 +498,9 @@
     bottom: 0;
     width: 100%;
   }
+  .centerpage-desktop-fs-width {
+    width: 100%;
+  }
   .size-block-not-fixed.form-block {
     .gc-tnc {
       padding: 50px 0px 30px 0px;
@@ -438,9 +538,9 @@
     height: auto !important;
     min-height: 360px;
     width: 100%;
-    p {
-      padding: 7px 10%;
-    }
+    // p {
+    //   padding: 7px 10%;
+    // }
 }
 .maker-popup-mobile {
   height: 100% !important;
@@ -521,8 +621,15 @@
     // margin-bottom: 20px;
   }
   .cerise-btn80 {
-    width: 80%;
+    width: 50%;
     min-width: auto;
+    a{
+      width: 100%!important;
+      height: inherit;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
   }
 }
 
@@ -725,6 +832,22 @@
   max-width: 100%;
   background-color: #f9f8f5;
   font-size: 14px;
+  opacity: 0.7;
+  font-family: $font-Montserrat;
+
+  &::placeholder {
+    font-family: $font-Montserrat !important;
+  }
+  &::-webkit-input-placeholder{
+    font-family: $font-Montserrat !important;
+  }
+ 
+  &::-moz-placeholder{
+    font-family: $font-Montserrat !important;
+  }
+  &::-ms-input-placeholder{
+    font-family: $font-Montserrat !important;
+  }
 }
 
 .margin-bottom {
@@ -732,15 +855,16 @@
 }
 
 .deliver-subheading {
-  font-family: $font-Lato;
-  letter-spacing: .5px;
-  font-size: 14px;
+  width: 60%;
+  text-align: left;
+  margin: 0px 24px;
+  @include b4_12px_montserrat_charcoal();
+  @media screen and (min-width: 992px) {
+    margin: 0px 35px;
+  }
 }
 .free-delivery {
-  padding: 0px 30px;
-  color: #4d4d4d;
-  letter-spacing: .5px;
-  font-size: 10px;
+  @include b5_10px_montserrat_charcoal();
 }
 
 .cerisepop {
@@ -1349,12 +1473,12 @@
   // }
   .gc-tnc{
     padding: 30px 0 30px 0 !important;
-    img{
-      background-color: #E5E5E5;
-    }
-    .heading {
-      margin-bottom: 20px;
-    }
+    // img{
+    //   background-color: #E5E5E5;
+    // }
+    // .heading {
+    //   margin-bottom: 20px;
+    // }
     .popup-cta{
       width: 70%;
       font-size: 14px;
@@ -1362,7 +1486,7 @@
       color: $white;
       background: $aqua-bold;
       letter-spacing: 0.42px;
-      margin-bottom: 20px;
+      //margin-bottom: 20px;
       a {
         p {
           padding: 0px;
@@ -1376,4 +1500,246 @@
       }
     }
   }
+}
+
+.head-wrp{
+  display: flex;
+  justify-content: space-between;
+  margin: 0 24px 15px;
+  border-bottom: 1px solid #f2f2f2;
+  padding: 25px 0 20px;
+  @media screen and (min-width: 992px) {
+    margin: 0 35px 15px;
+  }
+  .delivery-head{
+    @include b4_12px_medium_charcoal_caps();
+  }
+  .delivery-icon{
+    width: unset;
+    position: relative;
+    padding: 0;
+    border-bottom: unset;
+  }
+}
+
+//====BillingGST popup======//
+
+.radio-list {
+  text-align: left;
+  margin: 0 40px;
+  .container {
+    width: 80px;
+    display: inline-block;
+    position: relative;
+    padding-left: 35px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    font-size: 12px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+
+  /* Hide the browser's default radio button */
+  .container input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+  }
+
+  /* Create a custom radio button */
+  .checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 20px;
+    width: 20px;
+    border: 1px solid #888;
+    border-radius: 50%;
+  }
+
+  /* Create the indicator (the dot/circle - hidden when not checked) */
+  .checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+  }
+
+  /* Show the indicator (dot/circle) when checked */
+  .container input:checked ~ .checkmark:after {
+    display: block;
+  }
+  .txt-gst {
+    position: absolute;
+    left: 30px;
+    top: 2px;
+    @include b4_12px_medium_charcoal_caps();
+  }
+
+  /* Style the indicator (dot/circle) */
+  .container .checkmark:after {
+    top: 2px;
+    left: 2px;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: $aqua;
+  }
+
+  [type="radio"]:not(:checked) {
+    position: relative;
+    left: auto;
+  }
+
+  [type="radio"]:checked {
+    position: relative;
+    left: auto;
+  }
+}
+
+.gst-title {
+  @include b4_12px_montserrat_charcoal();
+  margin-top: 15px;
+  margin-bottom: 10px;
+}
+.gst-desc {
+  @include b5_10px_montserrat_charcoal();
+  margin-bottom: 30px;
+}
+
+.form {
+  position: relative;
+  .form-label {
+    position: absolute;
+    top: -10px;
+    left: 60px;
+    font-weight: 100;
+    font-size: 10px;
+    color: tint(#000, 60%);
+    letter-spacing: 0.5px;
+    background-color: #fff;
+    padding: 3px;
+  }
+ 
+  div {
+  
+  input[type="text"],
+  input[type="password"],
+  input[type="email"],
+  input[type="date"],
+  select,
+  textarea {
+    background-color: #fff;
+    border: 1px solid #eee;
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+    line-height: 25px;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    border-radius: 0;
+
+    @include placeholder {
+      font-size: 14px;
+      color: tint(#000, 60%);
+      font-style: normal;
+      letter-spacing: 1px;
+      font-family: $font-Lato;
+    }
+  }
+  input[type="text"].panError {
+    border: 1px solid $cerise;
+  }
+}
+}
+
+.payment {
+  .gift-card {
+    .text-error {
+      text-transform: none;
+    }
+    .margin-rt {
+      margin: 2px 10px 0 0;
+    }
+    .form {
+      margin-top: 30px;
+    }
+  }
+
+
+  .input-container {
+    -webkit-box-flex: 1;
+    -ms-flex-positive: 1;
+    -webkit-flex-grow: 1;
+    flex-grow: 1;
+  }
+
+  input[type="text"].input {
+    width: 80%;
+    text-align: left;
+  }
+  input[type="text"].input2 {
+    width: 60%;
+    text-align: left;
+  }
+}
+
+.error-gst{
+  width: 80%;
+  margin: 10px auto;
+  font-size: 13px !important;
+  font-weight: normal !important;
+}
+
+.form-gst-error  {
+  border: 1px solid #ab1e56 !important;
+}
+.gst-input{
+  font-family: $font-Montserrat;
+}
+.desc{
+  p{
+    word-wrap: break-word;
+    text-align: left;
+    @include b4_12px_montserrat_charcoal();
+  }
+ 
+}
+
+@media (max-width:992px){
+  .cerise-popup-mobile{
+    height: 100% !important;
+    overflow-y: auto;
+
+    .head-wrp{
+      margin-bottom: 5px;
+    }
+  }
+}
+
+.custom-height {
+  height: 320px;
+}
+
+.link-decor {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  &:hover {
+    cursor: pointer;
+  }
+  font-weight: 300;
+}
+
+.gc-checkout {
+  font-family: "Montserrat", "sans-serif";
+  font-size: 12px;
+  @media (min-width: 481px) {
+    margin: 30px 0 50px 0;
+  }
+}
+
+.gc-checkout:hover {
+  color: #3C7979;
 }

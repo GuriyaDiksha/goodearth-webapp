@@ -110,11 +110,13 @@ const ProductDetails: React.FC<Props> = ({
     badgeMessage,
     fillerProduct,
     shortDesc,
-    sliderImages
+    sliderImages,
+    collections
   },
   data,
   corporatePDP,
   mobile,
+  tablet,
   currency,
   isQuickview,
   changeModalState,
@@ -498,28 +500,31 @@ const ProductDetails: React.FC<Props> = ({
       dataLayer.push({ ecommerce: null }); // Clear the previous ecommerce object.
       dataLayer.push({
         event: "add_to_cart",
+        previous_page_url: CookieService.getCookie("prevUrl"),
         ecommerce: {
           items: [
             {
               item_id: setSelectedSKU(), //Pass the product id
               item_name: title, // Pass the product name
               affiliation: title, // Pass the product name
-              coupon: "", // Pass the coupon if available
+              coupon: "NA", // Pass the coupon if available
               currency: currency, // Pass the currency code
               discount: discount, // Pass the discount amount
-              index: "",
+              index: "Na",
               item_brand: "Goodearth",
-              item_category: category,
+              item_category: category?.split(">")?.join("|"),
               item_category2: selectedSize?.size, //pass the item category2 ex.Size
               item_category3: category3, //pass the product type 3d or non 3d
-              item_list_id: "", //pass the item list id
-              item_list_name: search, //pass the item list name ex.search results
+              item_list_id: "NA", //pass the item list id
+              item_list_name: search ? search : "NA", //pass the item list name ex.search results
               item_variant: selectedSize?.size || "",
-              item_category4: l1,
-              item_category5: collection,
+              // item_category4: l1,
+              item_category4: "NA",
+              // item_category5: collection,
               price: discountPrices || price,
               quantity: quantity,
-              dimension12: selectedSize?.color
+              // dimension12: selectedSize?.color,
+              collection_category: collections?.join("|")
             }
           ]
         }
@@ -705,7 +710,8 @@ const ProductDetails: React.FC<Props> = ({
         isSale: info.isSale,
         discountedPrice: discountPrices,
         list: isQuickview ? "quickview" : "pdp",
-        sliderImages: sliderImages
+        sliderImages: sliderImages,
+        collections: collections
       },
       false,
       mobile ? ModalStyles.bottomAlignSlideUp : "",
@@ -909,8 +915,8 @@ const ProductDetails: React.FC<Props> = ({
               )}
               <div
                 className={cs(
-                  isQuickview || mobile ? bootstrap.col6 : bootstrap.col7,
-                  isQuickview || mobile ? bootstrap.colMd6 : bootstrap.colMd7,
+                  isQuickview || mobile ? bootstrap.col7 : bootstrap.col7,
+                  isQuickview || mobile ? bootstrap.colMd7 : bootstrap.colMd7,
                   styles.title
                 )}
               >
@@ -920,12 +926,15 @@ const ProductDetails: React.FC<Props> = ({
               {!(invisibleFields && invisibleFields.indexOf("price") > -1) && (
                 <div
                   className={cs(
-                    isQuickview || mobile ? bootstrap.col6 : bootstrap.col5,
-                    isQuickview || mobile ? bootstrap.colMd6 : bootstrap.colMd5,
+                    isQuickview || mobile ? bootstrap.col5 : bootstrap.col5,
+                    isQuickview || mobile ? bootstrap.colMd5 : bootstrap.colMd5,
                     styles.priceContainer,
                     { [globalStyles.textCenter]: !mobile }
                   )}
                 >
+                  {currency === "INR" && (
+                    <span className={styles.mrp}>MRP.</span>
+                  )}
                   {info.isSale && discount && discountedPriceRecords ? (
                     <span className={styles.discountedPrice}>
                       {displayPriceWithCommas(discountPrices, currency)}
@@ -945,6 +954,9 @@ const ProductDetails: React.FC<Props> = ({
                       {" "}
                       {displayPriceWithCommas(price, currency)}
                     </span>
+                  )}
+                  {currency === "INR" && (
+                    <p className={styles.incTax}>(Incl. of all taxes)</p>
                   )}
                 </div>
               )}
@@ -1103,7 +1115,9 @@ const ProductDetails: React.FC<Props> = ({
               })}
             >
               <div
-                className={cs(bootstrap.col8, { [bootstrap.colMd12]: mobile })}
+                className={cs(bootstrap.col8, {
+                  [bootstrap.colMd12]: mobile && !tablet
+                })}
               >
                 {!(
                   invisibleFields && invisibleFields.indexOf("quantity") > -1
@@ -1239,6 +1253,7 @@ const ProductDetails: React.FC<Props> = ({
               ""
             )}
             <div
+              id="docked_div"
               className={cs(
                 bootstrap.row,
                 styles.spacer,
@@ -1255,8 +1270,8 @@ const ProductDetails: React.FC<Props> = ({
                   [bootstrap.col8]: !corporatePDP,
                   [styles.addToBagBtnContainer]: mobile,
                   [bootstrap.colSm8]: !mobile,
-                  [bootstrap.colSm12]: corporatePDP && mobile,
-                  [globalStyles.hidden]: mobile && !showAddToBagMobile
+                  [bootstrap.colSm12]: corporatePDP && mobile
+                  // [globalStyles.hidden]: mobile && !showAddToBagMobile
                 })}
               >
                 {Pdpbutton}
@@ -1291,7 +1306,9 @@ const ProductDetails: React.FC<Props> = ({
                   [styles.wishlistText]: !mobile,
                   [styles.wishlistBtnContainer]: mobile,
                   [globalStyles.voffset1]: mobile,
-                  [globalStyles.hidden]: corporatePDP || !showAddToBagMobile
+                  [globalStyles.hidden]:
+                    partner == "Souk" || partner == "Object D Art"
+                  // [globalStyles.hidden]: corporatePDP || !showAddToBagMobile
                 })}
               >
                 <WishlistButtonpdp

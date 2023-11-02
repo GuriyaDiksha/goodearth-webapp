@@ -3,12 +3,13 @@ import React, {
   useState,
   useContext,
   useEffect,
-  useCallback
+  useCallback,
+  RefObject
 } from "react";
 import Formsy from "formsy-react";
 import FormInput from "../../../components/Formsy/FormInput";
 import FormSelect from "../../../components/Formsy/FormSelect";
-import CountryCode from "../../../components/Formsy/CountryCode";
+// import CountryCode from "../../../components/Formsy/CountryCode";
 import PinCode from "../../../components/Formsy/PinCode";
 import bootstrapStyles from "../../../styles/bootstrap/bootstrap-grid.scss";
 import globalStyles from "styles/global.scss";
@@ -23,18 +24,19 @@ import { AppState } from "reducers/typings";
 import { Country } from "components/Formsy/CountryCode/typings";
 import AddressService from "services/address";
 import { updateCountryData } from "actions/address";
-import {
-  getErrorList,
-  errorTracking,
-  closeKeyBoardMobile
-} from "utils/validate";
+import { getErrorList, errorTracking } from "utils/validate";
 import BridalContext from "containers/myAccount/components/Bridal/context";
 import noPincodeCountryList from "./noPincodeCountryList";
+import Button from "components/Button";
+import SelectDropdown from "components/Formsy/SelectDropdown";
+import iconStyles from "styles/iconFonts.scss";
+
 type Props = {
   addressData?: AddressData;
   currentCallBackComponent: string;
   saveAddress: () => void;
   openAddressList: () => void;
+  isGcCheckout?: boolean;
 };
 
 type CountryOptions = {
@@ -56,6 +58,7 @@ const AddressForm: React.FC<Props> = props => {
   const [isAddressChanged, setIsAddressChanged] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [isCountryChanged, setIsCountryChanged] = useState(false);
+  const [nickname, setNickname] = useState("");
   const dispatch = useDispatch();
   const {
     closeAddressForm,
@@ -64,12 +67,13 @@ const AddressForm: React.FC<Props> = props => {
     setIsLoading,
     currentCallBackComponent
   } = useContext(AddressContext);
-  const [isIndia, setIsIndia] = useState(false);
+
+  const { currency } = useSelector((state: AppState) => state);
+  const [isIndia, setIsIndia] = useState(currency === "INR");
   const [showPincode, setShowPincode] = useState(true);
   const [countryOptions, setCountryOptions] = useState<CountryOptions[]>([]);
   const [stateOptions, setStateOptions] = useState<StateOptions[]>([]);
   const { addressData } = props;
-  const { currency } = useSelector((state: AppState) => state);
   const { countryData, pinCodeData, addressList } = useSelector(
     (state: AppState) => state.address
   );
@@ -79,6 +83,8 @@ const AddressForm: React.FC<Props> = props => {
   const { setBridalAddress, bridalProfile } = useContext(BridalContext);
   const { email, isLoggedIn } = useSelector((state: AppState) => state.user);
   const { mobile } = useSelector((state: AppState) => state.device);
+  const countryRef: RefObject<HTMLInputElement> = useRef(null);
+  const countryCodeRef: RefObject<HTMLInputElement> = React.createRef();
 
   const isAddressPincodeValid = useCallback(
     (postCode: string, state: string): boolean => {
@@ -99,26 +105,87 @@ const AddressForm: React.FC<Props> = props => {
 
   const AddressFormRef = useRef<Formsy>(null);
 
-  const onCountrySelect = (
-    event: React.ChangeEvent<HTMLSelectElement> | null,
-    defaultCountry?: string
-  ) => {
+  // const onCountrySelect = (
+  //   event: React.ChangeEvent<HTMLSelectElement> | null,
+  //   defaultCountry?: string
+  // ) => {
+  //   if (countryOptions.length > 0) {
+  //     const form = AddressFormRef.current;
+  //     let selectedCountry = "";
+  //     if (event) {
+  //       selectedCountry = event.currentTarget.value;
+  //       setIsAddressChanged(true);
+  //       setIsCountryChanged(true);
+  //       form &&
+  //         form.updateInputsWithValue(
+  //           {
+  //             state: "",
+  //             province: ""
+  //           },
+  //           false
+  //         );
+  //     } else if (defaultCountry) {
+  //       selectedCountry = defaultCountry;
+  //       // need to set defaultCountry explicitly
+  //       if (form && selectedCountry) {
+  //         form.updateInputsWithValue({
+  //           country: selectedCountry
+  //         });
+  //       }
+  //     }
+
+  //     const { states, isd, value } = countryOptions.filter(
+  //       country => country.value == selectedCountry
+  //     )[0];
+
+  //     if (noPincodeCountryList.includes(selectedCountry)) {
+  //       setShowPincode(false);
+  //     } else {
+  //       setShowPincode(true);
+  //     }
+
+  //     if (form) {
+  //       // reset state
+  //       const { state, province } = form.getModel();
+  //       if (state) {
+  //         form.updateInputsWithValue({
+  //           state: ""
+  //         });
+  //       }
+  //       if (province) {
+  //         form.updateInputsWithValue({
+  //           province: ""
+  //         });
+  //       }
+  //       form.updateInputsWithValue({
+  //         phoneCountryCode: isd
+  //       });
+  //     }
+  //     setIsIndia(value == "India");
+  //     setStateOptions(states);
+  //   }
+  // };
+
+  const onCountrySelect = (option: any, defaultCountry?: string) => {
     if (countryOptions.length > 0) {
       const form = AddressFormRef.current;
       let selectedCountry = "";
-      if (event) {
-        selectedCountry = event.currentTarget.value;
+      if (option?.value) {
+        selectedCountry = option?.value;
         setIsAddressChanged(true);
         setIsCountryChanged(true);
         form &&
           form.updateInputsWithValue(
             {
               state: "",
-              province: ""
+              province: "",
+              country: selectedCountry
             },
             false
           );
-      } else if (defaultCountry) {
+      }
+
+      if (defaultCountry) {
         selectedCountry = defaultCountry;
         // need to set defaultCountry explicitly
         if (form && selectedCountry) {
@@ -163,9 +230,11 @@ const AddressForm: React.FC<Props> = props => {
   const setDefaultCountry = () => {
     switch (currency) {
       case "INR":
+        setIsIndia(true);
         onCountrySelect(null, "India");
         break;
       case "GBP":
+        setIsIndia(false);
         onCountrySelect(null, "United Kingdom");
         break;
     }
@@ -214,7 +283,7 @@ const AddressForm: React.FC<Props> = props => {
     setErrorMessage("");
     setIsLoading(true);
     // prepare data
-    const { country, state, province } = model;
+    const { country, state, province, addressType } = model;
     let st = state;
     let pro = province;
     const countryCode = countryOptions.filter(
@@ -232,7 +301,8 @@ const AddressForm: React.FC<Props> = props => {
       state: st,
       province: pro,
       isDefaultForBilling: false,
-      country: countryCode
+      country: countryCode,
+      addressType: addressType || ""
     };
     if (mode == "new") {
       AddressService.addNewAddress(dispatch, formData)
@@ -365,10 +435,12 @@ const AddressForm: React.FC<Props> = props => {
         line1,
         line2,
         state,
-        province
+        province,
+        addressType
       } = addressData;
       // update stateOptions based on country
       onCountrySelect(null, countryName);
+      setNickname(addressType || "");
 
       const form = AddressFormRef.current;
       form &&
@@ -385,12 +457,28 @@ const AddressForm: React.FC<Props> = props => {
             line1,
             line2,
             state,
-            province
+            province,
+            addressType: addressType || ""
           },
           true
         );
+
+      setTimeout(() => {
+        const firstErrorField = document.getElementsByClassName(
+          globalStyles.errorBorder
+        )[0] as HTMLDivElement;
+        if (firstErrorField) {
+          firstErrorField.focus();
+          // firstErrorField.scrollIntoView({ block: "start", behavior: "smooth" });
+        }
+      }, 500);
     }
   }, [addressData, countryOptions]);
+
+  const handleCharLimit = (e: any) => {
+    setNickname(e.target.value);
+    setIsAddressChanged(true);
+  };
   const bridalUser = { userId: 0 };
 
   return (
@@ -429,7 +517,38 @@ const AddressForm: React.FC<Props> = props => {
         onValidSubmit={submitAddress}
         onInvalidSubmit={handleInvalidSubmit}
       >
-        <div className={styles.categorylabel} id="address-form">
+        <div
+          className={cs(styles.categorylabel, {
+            [styles.checkoutMobilePopup]:
+              (mobile && currentCallBackComponent == "checkout-shipping") ||
+              currentCallBackComponent == "checkout-billing"
+          })}
+          id="address-form"
+        >
+          {(currentCallBackComponent == "checkout-shipping" ||
+            currentCallBackComponent == "checkout-billing") &&
+            mobile && (
+              <div
+                className={cs(
+                  styles.formTitleWrapper,
+                  globalStyles.flex,
+                  globalStyles.gutterBetween
+                )}
+              >
+                <div className={styles.formTitle}>
+                  {mode == "edit" ? "Edit ADDRESS" : "ADD NEW ADDRESS"}
+                </div>
+                <div className={styles.formClose} onClick={closeAddressForm}>
+                  <i
+                    className={cs(
+                      iconStyles.icon,
+                      iconStyles.iconCrossNarrowBig,
+                      styles.iconCross
+                    )}
+                  ></i>
+                </div>
+              </div>
+            )}
           <div>
             <FormInput
               name="emailId"
@@ -517,6 +636,7 @@ const AddressForm: React.FC<Props> = props => {
                 changeState={changeState}
                 placeholder={"Pin/Zip Code*"}
                 name="postCode"
+                disable={props.isGcCheckout && mode == "edit" ? true : false}
                 required
               />
             </div>
@@ -543,6 +663,7 @@ const AddressForm: React.FC<Props> = props => {
                   matchRegexp: isAlphanumericError,
                   maxLength: "Maximum Length is 20 characters"
                 }}
+                disable={props.isGcCheckout && mode == "edit" ? true : false}
               />
             </div>
           ) : (
@@ -555,6 +676,7 @@ const AddressForm: React.FC<Props> = props => {
                 handleChange={event => {
                   setIsAddressChanged(true);
                 }}
+                disable={props.isGcCheckout && mode == "edit" ? true : false}
                 // validations={{
                 //   isExisty: true,
                 //   matchRegexp: /^[a-z\d\-_\s]+$/i
@@ -568,7 +690,7 @@ const AddressForm: React.FC<Props> = props => {
           )}
           <div>
             <div className="select-group text-left">
-              <FormSelect
+              {/* <FormSelect
                 required
                 label={"Country*"}
                 options={countryOptions}
@@ -583,7 +705,25 @@ const AddressForm: React.FC<Props> = props => {
                   isEmptyString: isExistyError
                 }}
               />
-              <span className="arrow"></span>
+              <span className="arrow"></span>*/}
+              <SelectDropdown
+                required
+                name="country"
+                handleChange={onCountrySelect}
+                label="Country*"
+                placeholder="Select Country*"
+                validations={{
+                  isExisty: true
+                }}
+                validationErrors={{
+                  isExisty: "Please select your Country",
+                  isEmptyString: isExistyError
+                }}
+                options={countryOptions}
+                allowFilter={true}
+                inputRef={countryRef}
+                disable={props.isGcCheckout && mode == "edit" ? true : false}
+              />
             </div>
           </div>
           {stateOptions && stateOptions.length > 0 ? (
@@ -594,7 +734,7 @@ const AddressForm: React.FC<Props> = props => {
                   name="state"
                   label={"State*"}
                   placeholder={"Select State*"}
-                  disable={isIndia}
+                  disable={isIndia && mode == "edit"}
                   options={stateOptions}
                   value={
                     addressData && !isCountryChanged ? addressData.state : ""
@@ -637,8 +777,8 @@ const AddressForm: React.FC<Props> = props => {
             <FormInput
               required
               name="line1"
-              label={"Address Line 1*"}
-              placeholder={"Address Line 1*"}
+              label={"House no / Floor / Building / Area*"}
+              placeholder={"House no / Floor / Building / Area*"}
               handleChange={() => setIsAddressChanged(true)}
               maxlength={75}
               validations={{
@@ -654,8 +794,8 @@ const AddressForm: React.FC<Props> = props => {
           <div>
             <FormInput
               name="line2"
-              label="Address Line 2"
-              placeholder="Address Line 2"
+              label="Nearby landmark (optional)"
+              placeholder="Nearby landmark (optional)"
               handleChange={() => setIsAddressChanged(true)}
               maxlength={75}
               validations={{
@@ -685,7 +825,7 @@ const AddressForm: React.FC<Props> = props => {
             />
           </div>
           <div className={styles.countryCode}>
-            <CountryCode
+            {/* <CountryCode
               id="isdcode"
               value=""
               disable={!!props.currentCallBackComponent}
@@ -707,22 +847,52 @@ const AddressForm: React.FC<Props> = props => {
                 isCodeValid: "Required",
                 isValidCode: "Enter valid code"
               }}
+            /> */}
+
+            <SelectDropdown
+              value=""
+              disable={!!props.currentCallBackComponent}
+              placeholder="Code"
+              name="phoneCountryCode"
+              validations={{
+                isCodeValid: (values, value) => {
+                  return !(values.phone && value == "");
+                },
+                isValidCode: (values, value) => {
+                  if (value && isdList.length > 0) {
+                    return isdList.indexOf(value ? value : "") > -1;
+                  } else {
+                    return true;
+                  }
+                }
+              }}
+              validationErrors={{
+                isCodeValid: "Required",
+                isValidCode: "Enter valid code"
+              }}
+              allowFilter={true}
+              options={[]}
+              inputRef={countryCodeRef}
             />
 
             <FormInput
               type="number"
               required
               name="phoneNumber"
-              label={"Contact Number*"}
-              placeholder={"Contact Number*"}
+              label={isIndia ? "Mobile Number*" : "Contact Number*"}
+              placeholder={isIndia ? "Mobile Number*" : "Contact Number*"}
               handleChange={() => setIsAddressChanged(true)}
               validations={{
                 isExisty: true,
                 matchRegexp: /^[0-9\-/]+$/
               }}
               validationErrors={{
-                isExisty: "Please enter your Contact Number",
-                matchRegexp: "Please enter a valid Contact Number"
+                isExisty: `Please enter your ${
+                  isIndia ? "Mobile Number" : "Contact Number"
+                }`,
+                matchRegexp: `Please enter a valid ${
+                  isIndia ? "Mobile Number" : "Contact Number"
+                }`
               }}
               keyDown={e => (e.which === 69 ? e.preventDefault() : null)}
               onPaste={e =>
@@ -731,61 +901,102 @@ const AddressForm: React.FC<Props> = props => {
                   : null
               }
             />
-            <p key="contact-msg" className={styles.contactMsg}>
-              This number will be used for sending OTP during delivery.
+            {isIndia && (
+              <p key="contact-msg" className={styles.contactMsg}>
+                This number will be used for sending OTP during delivery.
+              </p>
+            )}
+          </div>
+
+          <div>
+            <FormInput
+              id="addressType"
+              name="addressType"
+              label={"Address Nickname"}
+              placeholder={"Address Nickname"}
+              handleChange={e => handleCharLimit(e)}
+              validations={{
+                isWords: true,
+                maxLength: 30
+              }}
+              validationErrors={{
+                isWords: isAlphaError,
+                maxLength: "You cannot type in more than 30 characters"
+              }}
+              maxlength={30}
+            />
+            <p className={styles.charLimit}>
+              Char Limit:{" "}
+              {30 - nickname?.length >= 0 ? 30 - nickname?.length : 0}/30
             </p>
           </div>
-          {true && (
-            <div className={styles.addressFormCheckbox}>
-              <FormCheckbox
-                name="isDefaultForShipping"
-                label={["Make Default Address"]}
-                value={false}
-                id="isShippingAddress"
-                disable={false}
-                handleChange={() => setIsAddressChanged(true)}
-              />
-            </div>
-          )}
-          <div>
-            <div className="row">
-              <div className="col-xs-12">
+          <div className={styles.addressFormCheckbox}>
+            <FormCheckbox
+              name="isDefaultForShipping"
+              label={["Make Default Address"]}
+              value={false}
+              id="isShippingAddress"
+              disable={addressData?.isDefaultForShipping || false}
+              handleChange={() =>
+                !addressData?.isDefaultForShipping && setIsAddressChanged(true)
+              }
+            />
+          </div>
+
+          <div
+            className={cs({
+              [styles.checkoutMobilePopupButton]:
+                currentCallBackComponent == "checkout-shipping" ||
+                currentCallBackComponent == "checkout-billing"
+            })}
+          >
+            <div className={cs(globalStyles.flex, styles.btnWrp)}>
+              <div>
                 {mode == "edit" ? (
-                  <input
-                    formNoValidate={true}
+                  <Button
+                    variant="smallMedCharcoalCta"
                     type="submit"
-                    value={isAddressChanged ? "Update Address" : "Updated"}
-                    className={cs(
-                      globalStyles.ceriseBtn,
-                      {
-                        [globalStyles.disabledBtn]: !isAddressChanged
-                      },
-                      {
-                        [styles.charcoalBtn]:
-                          currentCallBackComponent == "account"
-                      }
-                    )}
+                    label={isAddressChanged ? "Update Address" : "Updated"}
+                    className={cs({ [globalStyles.btnFullWidth]: mobile })}
                     disabled={!isAddressChanged}
                   />
                 ) : (
-                  <input
-                    formNoValidate={true}
+                  <Button
+                    variant="smallMedCharcoalCta"
                     type="submit"
-                    value="Save Address"
-                    className={cs(
-                      globalStyles.ceriseBtn,
-                      {
-                        [styles.disabledBtn]: !isAddressChanged
-                      },
-                      {
-                        [styles.charcoalBtn]:
-                          currentCallBackComponent == "account"
-                      }
-                    )}
-                    disabled={!isAddressChanged}
+                    label={"save address"}
+                    className={cs({ [globalStyles.btnFullWidth]: mobile })}
                   />
                 )}
               </div>
+              {currentCallBackComponent !== "bridal-edit" &&
+                currentCallBackComponent !== "bridal" && (
+                  <div className="col-xs-6">
+                    <Button
+                      // className={cs(
+                      //   {
+                      //     [styles.aquaBtn]:
+                      //       currentCallBackComponent == "account" ||
+                      //       currentCallBackComponent == "checkout-shipping" ||
+                      //       currentCallBackComponent == "checkout-billing"
+                      //   },
+                      //   {
+                      //     [styles.charcoalBtnWidth]:
+                      //       currentCallBackComponent == "checkout-shipping" ||
+                      //       currentCallBackComponent == "checkout-billing"
+                      //   }
+                      // )}
+                      onClick={closeAddressForm}
+                      label={"cancel"}
+                      type="button"
+                      variant="outlineSmallMedCharcoalCta"
+                      className={cs(
+                        { [globalStyles.btnFullWidth]: mobile },
+                        styles.cancelBtn
+                      )}
+                    />
+                  </div>
+                )}
             </div>
             {errorMessage ? (
               <p className={globalStyles.errorMsg}>{errorMessage}</p>
@@ -808,11 +1019,9 @@ const AddressForm: React.FC<Props> = props => {
               styles.addNewAddress
             )}
             onTouchEnd={() => {
-              console.log("mobile touch");
               closeAddressForm();
             }}
             onClick={() => {
-              console.log("click start");
               closeAddressForm();
             }}
           >
@@ -820,8 +1029,10 @@ const AddressForm: React.FC<Props> = props => {
           </span>
         </div>
       )}
+      {/* no need of BACK TO SAVED ADDRESSES at bottom so putting false here temprary */}
       {isLoggedIn &&
         !mobile &&
+        false &&
         (currentCallBackComponent == "checkout-billing" ||
           currentCallBackComponent == "checkout-shipping") && (
           <div

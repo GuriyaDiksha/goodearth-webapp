@@ -4,7 +4,7 @@ import { PLPResultItemProps } from "./typings";
 // import "../../../styles/myslick.css";
 // import "./slick.css";
 import styles from "./styles.scss";
-import { Currency, currencyCode } from "../../../typings/currency";
+import { Currency } from "../../../typings/currency";
 import cs from "classnames";
 import bootstrapStyles from "../../../styles/bootstrap/bootstrap-grid.scss";
 import { PartialChildProductAttributes } from "src/typings/product";
@@ -17,6 +17,7 @@ import { useSelector } from "react-redux";
 import { plpProductClick } from "utils/validate";
 import CookieService from "services/cookie";
 import { displayPriceWithCommas } from "utils/utility";
+import Button from "components/Button";
 
 const PlpResultListViewItem: React.FC<PLPResultItemProps> = (
   props: PLPResultItemProps
@@ -34,7 +35,6 @@ const PlpResultListViewItem: React.FC<PLPResultItemProps> = (
     onEnquireClick,
     notifyMeClick
   } = props;
-  const code = currencyCode[currency as Currency];
   // const {} = useStore({state:App})
   // const [primaryimage, setPrimaryimage] = useState(true);
   const { info } = useSelector((state: AppState) => state);
@@ -91,17 +91,21 @@ const PlpResultListViewItem: React.FC<PLPResultItemProps> = (
       };
     }
     return (
-      <button
+      <Button
         className={cs(
-          styles.addToBagListView,
-          styles.shopTheLookCta,
-          bootstrapStyles.col7,
-          { [styles.notifyMe]: allOutOfStock || isCorporate }
+          // styles.addToBagListView,
+          // styles.shopTheLookCta,
+          bootstrapStyles.col7
+          // { [styles.notifyMe]: allOutOfStock || isCorporate }
         )}
         onClick={action}
-      >
-        {buttonText}
-      </button>
+        label={buttonText}
+        variant={
+          allOutOfStock || isCorporate
+            ? "outlineSmallMedCharcoalCta"
+            : "outlineExtraSmallAquaCta"
+        }
+      />
     );
   }, []);
   const isStockAvailable = isCorporate || product.inStock;

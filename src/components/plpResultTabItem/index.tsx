@@ -99,12 +99,13 @@ const PlpResultTabItem: React.FC<PLPResultItemProps> = (
     return (
       <Button
         className={cs(
-          styles.addToBagListView,
+          // styles.addToBagListView,
           bootstrapStyles.col6,
           bootstrapStyles.offset3
         )}
         onClick={action}
         label={buttonText}
+        variant="smallAquaCta"
       />
     );
   }, []);

@@ -13,6 +13,10 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       const otp = await AccountService.sendOtpRedeem(dispatch, data);
       return otp;
     },
+    resendOtpRedeem: async (points: number | string) => {
+      const otp = await AccountService.resendOtpRedeem(dispatch, points);
+      return otp;
+    },
     checkOtpBalance: async (data: FormData) => {
       const balance = await AccountService.checkOtpBalance(dispatch, data);
       return balance;
@@ -44,7 +48,12 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     ) => {
       const gift: any = await CheckoutService.removeGiftCard(dispatch, data);
       if (gift.status) {
-        BasketService.fetchBasket(dispatch, "checkout", history, isLoggedIn);
+        await BasketService.fetchBasket(
+          dispatch,
+          "checkout",
+          history,
+          isLoggedIn
+        );
       }
       return gift;
     },

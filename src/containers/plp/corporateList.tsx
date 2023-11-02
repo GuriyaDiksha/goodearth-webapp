@@ -230,6 +230,13 @@ class CorporateFilter extends React.Component<Props, State> {
   createUrlfromFilter = (load?: any) => {
     const array = this.state.filter;
     const { history } = this.props;
+    const vars: any = {};
+    const url = decodeURI(history.location.search.replace(/\+/g, " "));
+    const re = /[?&]+([^=&]+)=([^&]*)/gi;
+    let match;
+    while ((match = re.exec(url))) {
+      vars[match[1]] = match[2];
+    }
     let filterUrl = "",
       categoryKey: any,
       mainurl: string | undefined = "",
@@ -263,16 +270,24 @@ class CorporateFilter extends React.Component<Props, State> {
             break;
           case "categoryShop":
             categoryKey = array[filterType][key];
-            Object.keys(categoryKey).map(data => {
-              if (categoryKey[data]) {
-                const orignalData = data;
-                data = encodeURIComponent(data).replace(/%20/g, "+");
-                categoryShopVars == ""
-                  ? (categoryShopVars = data)
-                  : (categoryShopVars += "|" + data);
-                mainurl = this.getMainUrl(orignalData);
+            if (Object.keys(categoryKey).length == 0) {
+              // Handling special case when products are attached to L1 only
+              if ("category_shop" in vars) {
+                categoryShopVars = vars["category_shop"];
               }
-            });
+            } else {
+              Object.keys(categoryKey).map(data => {
+                if (categoryKey[data]) {
+                  const orignalData = data;
+                  data = encodeURIComponent(data).replace(/%20/g, "+");
+                  categoryShopVars == ""
+                    ? (categoryShopVars = data)
+                    : (categoryShopVars += "|" + data);
+                  mainurl = this.getMainUrl(orignalData);
+                }
+              });
+            }
+            console.log(categoryShopVars);
             break;
           case "price":
             filterUrl += "&" + key + "=" + array[filterType][key];
@@ -554,7 +569,7 @@ class CorporateFilter extends React.Component<Props, State> {
     }
   };
 
-  updateDataFromAPI = (onload?: string) => {
+  updateDataFromAPI = (onload?: string, currency?: string) => {
     const { mobile, fetchPlpProducts, history, changeLoader } = this.props;
     if (!onload && mobile) {
       return true;
@@ -570,12 +585,15 @@ class CorporateFilter extends React.Component<Props, State> {
       .get("category_shop")
       ?.split(">")[1]
       ?.trim();
-    fetchPlpProducts(filterUrl + `&page_size=${pageSize}`).then(plpList => {
-      productImpression(plpList, categoryShop || "PLP", this.props.currency);
-      changeLoader?.(false);
-      this.createList(plpList);
-      this.props.updateFacets(this.getSortedFacets(plpList.results.facets));
-    });
+
+    fetchPlpProducts(filterUrl + `&page_size=${pageSize}`, currency).then(
+      plpList => {
+        productImpression(plpList, categoryShop || "PLP", this.props.currency);
+        changeLoader?.(false);
+        this.createList(plpList);
+        this.props.updateFacets(this.getSortedFacets(plpList.results.facets));
+      }
+    );
   };
 
   stateChange = (location: any, action: any) => {
@@ -608,47 +626,22 @@ class CorporateFilter extends React.Component<Props, State> {
     }
   };
 
-  // componentDidMount() {
-  //   moveChatDown();
-  //   window.addEventListener("scroll", this.handleScroll, { passive: true });
-  //   this.props.updateScrollDown(false);
-  //   this.unlisten = this.props.history.listen(this.stateChange);
-  // }
-
   componentDidMount() {
-    const that = this;
+    this.unlisten = this.props.history.listen(this.stateChange);
     window.addEventListener("scroll", this.handleScroll, { passive: true });
     this.props.updateScrollDown(false);
-    // this.unlisten = this.props.history.listen(this.stateChange);
-    let previousUrl = "";
-    let previousCategory = "";
-    const observer = new MutationObserver(function(mutations) {
-      if (location.href !== previousUrl) {
-        previousUrl = location.href;
-        const pathnameArr = location.pathname.split("/");
-        const currentCategory = pathnameArr.filter(
-          i => i != "" && i != "catalogue" && i != "category"
-        )[0];
-        if (previousCategory != currentCategory) {
-          previousCategory = currentCategory;
-          that.setState({
-            filter: {
-              currentColor: {},
-              availableSize: {},
-              categoryShop: {},
-              price: {},
-              currency: {},
-              sortBy: {},
-              productType: {},
-              availableDiscount: {}
-            }
-          });
-        }
+    this.setState({
+      filter: {
+        currentColor: {},
+        availableSize: {},
+        categoryShop: {},
+        price: {},
+        currency: {},
+        sortBy: {},
+        productType: {},
+        availableDiscount: {}
       }
     });
-    const config = { subtree: true, childList: true };
-    observer.observe(document, config);
-
     const header = document.getElementById("myHeader");
     const sticky = (header as HTMLElement)?.offsetTop;
     const filterMenu = document.getElementById("filter_by");
@@ -710,8 +703,8 @@ class CorporateFilter extends React.Component<Props, State> {
       this.props.customerGroup != nextProps.customerGroup
     ) {
       nextProps.mobile
-        ? this.updateDataFromAPI("load")
-        : this.updateDataFromAPI();
+        ? this.updateDataFromAPI("load", nextProps.currency)
+        : this.updateDataFromAPI(undefined, nextProps.currency);
     }
   };
 
@@ -769,7 +762,7 @@ class CorporateFilter extends React.Component<Props, State> {
 
   componentWillUnmount() {
     window.removeEventListener("scroll", this.handleScroll);
-    // this.unlisten();
+    this.unlisten();
     moveChatUp();
   }
 

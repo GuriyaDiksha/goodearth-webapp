@@ -20,6 +20,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import "../../../../styles/reactDatepicker.css";
 import { updateModal } from "actions/modal";
 import { BridalProfileData } from "./typings";
+import Button from "components/Button";
 
 type Props = {
   bridalProfile?: BridalProfileData;
@@ -40,6 +41,7 @@ const EditRegistry: React.FC<Props> = props => {
     moment(props.eventDate, "DD MMM, YYYY")
   );
   const [updateProfile, setUpdateProfile] = useState(false);
+  const [isDate, setisDate] = useState(true);
 
   // const { bridalProfile } = useContext(BridalContext);
 
@@ -48,8 +50,13 @@ const EditRegistry: React.FC<Props> = props => {
   let pickerRef: any = null;
 
   const onChange = (date: Date) => {
-    setDate(moment(date));
-    setApiDate(moment(date));
+    if (date) {
+      setDate(moment(date));
+      setApiDate(moment(date));
+      setisDate(false);
+    } else {
+      setisDate(true);
+    }
   };
 
   // changeScreen() {
@@ -166,9 +173,20 @@ const EditRegistry: React.FC<Props> = props => {
   const regName = useRef<HTMLInputElement>(null);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const registrantName = registrantNameRef.current?.value;
-    const coRegistrantName = coRegistrantNameRef.current?.value;
-    const registryName = regName.current?.value;
+    // const registrantName = registrantNameRef.current?.value;
+    // const coRegistrantName = coRegistrantNameRef.current?.value;
+    // const registryName = regName.current?.value;
+
+    const registrantName =
+      registrantNameRef.current?.value.trim() == ""
+        ? ""
+        : registrantNameRef.current?.value;
+    const coRegistrantName =
+      coRegistrantNameRef.current?.value.trim() == ""
+        ? ""
+        : coRegistrantNameRef.current?.value;
+    const registryName =
+      regName.current?.value.trim() == "" ? "" : regName.current?.value;
 
     if (registrantName && coRegistrantName && registryName && !updateProfile) {
       setUpdateProfile(true);
@@ -223,7 +241,10 @@ const EditRegistry: React.FC<Props> = props => {
                   <li>
                     <input
                       type="button"
-                      className={globalStyles.ceriseBtn}
+                      className={cs(globalStyles.ceriseBtn, {
+                        [globalStyles.disabledBtn]: isDate
+                      })}
+                      disabled={isDate}
                       value="SAVE DATE"
                       onClick={saveDate}
                     />
@@ -301,13 +322,12 @@ const EditRegistry: React.FC<Props> = props => {
                       />
                     </div>
                     <div>
-                      <input
+                      <Button
                         type="submit"
                         disabled={!updateProfile}
-                        className={cs(globalStyles.ceriseBtn, {
-                          [globalStyles.disabledBtn]: !updateProfile
-                        })}
-                        value="SAVE"
+                        className={cs(globalStyles.btnFullWidth)}
+                        label="SAVE"
+                        variant="largeAquaCta"
                       />
                     </div>
                   </div>
