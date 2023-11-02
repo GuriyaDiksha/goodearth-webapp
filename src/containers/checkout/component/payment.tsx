@@ -939,7 +939,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
                   type="checkbox"
                  
                 /> */}
-              <CheckboxWithLabel
+              {/* <CheckboxWithLabel
                 id="subscribe"
                 onChange={e => {
                   onClickSubscribe(e);
@@ -966,7 +966,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
                     </Link>
                   </label>
                 ]}
-              />
+              /> */}
               {/* <span className={styles.indicator}></span>
               </span>
             </div>
@@ -1134,7 +1134,41 @@ const PaymentSection: React.FC<PaymentProps> = props => {
                     </div>
                   )}
                 </div>
-                <label
+                <div>
+                  <div className={globalStyles.marginB20}>
+                    <CheckboxWithLabel
+                      id="subscribe"
+                      onChange={e => {
+                        onClickSubscribe(e);
+                      }}
+                      checked={subscribevalue}
+                      label={[
+                        <label
+                          key="subscribe"
+                          htmlFor="subscribe"
+                          className={cs(
+                            globalStyles.pointer,
+                            styles.linkCerise,
+                            styles.formSubheading,
+                            styles.checkBoxHeading,
+                            styles.agreeTermsAndCondition
+                          )}
+                        >
+                          I agree to receiving e-mails, newsletters, calls and
+                          text messages for service related information. To know
+                          more how we keep your data safe, refer to our{" "}
+                          <Link
+                            to="/customer-assistance/privacy-policy"
+                            target="_blank"
+                          >
+                            Privacy Policy
+                          </Link>
+                        </label>
+                      ]}
+                    />
+                  </div>
+                </div>
+                {/* <label
                   className={cs(
                     globalStyles.flex,
                     { [globalStyles.crossCenter]: !mobile },
@@ -1181,7 +1215,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
                       </Link>
                     </label>
                   </div>
-                </label>
+                </label> */}
               </div>
             )}
             {paymentError && !isPaymentNeeded && (

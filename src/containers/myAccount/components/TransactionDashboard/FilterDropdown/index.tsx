@@ -9,6 +9,7 @@ import Close from "./../../../../../icons/CloseButtonCharcoal.svg";
 import { updateIsLoyaltyFilterOpen } from "actions/info";
 import globalStyles from "../../../../../styles/global.scss";
 import Button from "components/Button";
+import CheckboxWithLabel from "components/CheckboxWithLabel";
 
 const FilterDropdown = ({
   id,
@@ -130,21 +131,35 @@ const FilterDropdown = ({
                 }}
               >
                 {isCheckBox ? (
-                  <input
-                    type="checkbox"
+                  <CheckboxWithLabel
+                    id="ceriseFilter"
                     checked={value === item?.value || value === "ALL"}
-                    className={styles.toggleCheckbox}
+                    // className={styles.toggleCheckbox}
                     onChange={e => {
                       e.preventDefault();
                       handleCheckbox && handleCheckbox(item?.value);
                     }}
+                    label={[
+                      <label
+                        key="ceriseFilter"
+                        htmlFor="ceriseFilter"
+                        className={
+                          displayValue === item?.label ? styles.active : ""
+                        }
+                      >
+                        {item.label}
+                      </label>
+                    ]}
                   />
-                ) : null}
-                <label
-                  className={displayValue === item?.label ? styles.active : ""}
-                >
-                  {item.label}
-                </label>
+                ) : (
+                  <label
+                    className={
+                      displayValue === item?.label ? styles.active : ""
+                    }
+                  >
+                    {item.label}
+                  </label>
+                )}
               </li>
             );
           })}

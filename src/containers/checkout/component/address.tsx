@@ -842,32 +842,48 @@ const AddressSection: React.FC<AddressProps & {
               {/* <hr
                 className={cs(globalStyles.marginy24, styles.widthFitContent)}
               /> */}
-              <label
+              {/* <label
                 className={cs(
                   styles.flex,
                   globalStyles.voffset3,
                   globalStyles.widthSet
                 )}
-              >
-                <div
+              > */}
+              {/* <div
                   className={cs(globalStyles.marginR10, globalStyles.marginT5)}
                 >
-                  <span className={styles.checkbox}>
-                    <input
-                      type="checkbox"
-                      onChange={() => {
-                        toggleGstInvoice();
-                      }}
-                    />
-                    <span
-                      id="gst"
-                      className={cs(styles.indicator, {
-                        [styles.checked]: gst && gstDetails?.gstText
-                      })}
-                    ></span>
-                  </span>
-                </div>
-                <div
+                  <span className={styles.checkbox}> */}
+              <CheckboxWithLabel
+                id="gst"
+                onChange={() => {
+                  toggleGstInvoice();
+                }}
+                checked={gst && gstDetails?.gstText !== ""}
+                label={[
+                  <label
+                    key="gst"
+                    htmlFor="gst"
+                    // className={cs(styles.indicator, {
+                    //   [styles.checked]: gst && gstDetails?.gstText
+                    // })}
+                    className={cs(
+                      styles.formSubheading,
+                      styles.checkBoxHeading,
+                      styles.gstInvoiceText
+                    )}
+                  >
+                    I need a GST invoice
+                    {gstDetails?.gstText && (
+                      <label className={styles.gstInvoiseNo}>
+                        {gstDetails?.gstType}: {gstDetails?.gstText}
+                      </label>
+                    )}
+                  </label>
+                ]}
+              />
+              {/* </span>
+                </div> */}
+              {/* <div
                   className={cs(
                     styles.formSubheading,
                     styles.checkBoxHeading,
@@ -880,8 +896,8 @@ const AddressSection: React.FC<AddressProps & {
                       {gstDetails?.gstType}: {gstDetails?.gstText}
                     </label>
                   )}
-                </div>
-              </label>
+                </div> */}
+              {/* </label> */}
             </div>
           ) : (
             ""
@@ -928,18 +944,37 @@ const AddressSection: React.FC<AddressProps & {
                   )}
                 </div>
               </div>
-              <label className={cs(styles.flex, globalStyles.voffset4)}>
-                <div className={globalStyles.marginR10}>
-                  <span className={styles.checkbox}>
-                    <input type="checkbox" onChange={togglepancard} />
-                    <span
-                      className={cs(styles.indicator, {
-                        [styles.checked]: pancardCheck
-                      })}
-                    ></span>
-                  </span>
-                </div>
-                {/* <div
+              {/* <label className={cs(styles.flex, globalStyles.voffset4)}> */}
+              <div
+                className={cs(globalStyles.marginT30, globalStyles.marginB20)}
+              >
+                {/* <span className={styles.checkbox}>  */}
+                <CheckboxWithLabel
+                  id="pancard"
+                  onChange={togglepancard}
+                  checked={pancardCheck}
+                  label={[
+                    <label
+                      key="pancard"
+                      htmlFor="pancard"
+                      // className={cs(styles.indicator, {
+                      //   [styles.checked]: pancardCheck
+                      // })}
+                      className={cs(
+                        styles.formSubheading,
+                        globalStyles.marginB0,
+                        globalStyles.marginT0,
+                        styles.checkBoxHeading
+                      )}
+                    >
+                      I CONFIRM THAT THE DATA I HAVE SHARED IS CORRECT
+                    </label>
+                  ]}
+                />
+
+                {/* </span> */}
+              </div>
+              {/* <div
                   className={cs(
                     styles.formSubheading,
                     globalStyles.marginB0,
@@ -949,7 +984,7 @@ const AddressSection: React.FC<AddressProps & {
                 >
                   I CONFIRM THAT THE DATA I HAVE SHARED IS CORRECT
                 </div> */}
-              </label>
+              {/* </label> */}
               {panCheck ? (
                 <span className={globalStyles.errorMsg}>{panCheck}</span>
               ) : (
@@ -981,29 +1016,47 @@ const AddressSection: React.FC<AddressProps & {
 
     return (
       show && (
-        <div className={cs(styles.payment, globalStyles.voffset4)}>
+        <div
+          className={cs(
+            styles.payment,
+            globalStyles.voffset4,
+            globalStyles.marginB20
+          )}
+        >
           {!mobile && <hr className={globalStyles.marginy24} />}
-          <label
+          {/* <label
             className={cs(
               styles.flex,
               styles.crossCenter,
               styles.widthFitContent
             )}
-          >
-            <div className={globalStyles.marginR10}>
-              <span className={styles.checkbox}>
-                <input type="checkbox" onChange={toggleSameAsShipping} />
-                <span
-                  className={cs(styles.indicator, {
-                    [styles.checked]: sameAsShipping
-                  })}
-                ></span>
-              </span>
-            </div>
-            <div className={cs(styles.formSubheading)}>
+          > */}
+          {/* <div className={globalStyles.marginR10}> */}
+          {/* <span className={styles.checkbox}> */}
+          <CheckboxWithLabel
+            id="sameAsShip"
+            onChange={toggleSameAsShipping}
+            checked={sameAsShipping}
+            label={[
+              <label
+                key="sameAsShip"
+                htmlFor="sameAsShip"
+                // className={cs(styles.indicator, {
+                //   [styles.checked]: sameAsShipping
+                // })}
+                className={cs(styles.formSubheading)}
+              >
+                Same as Shipping Address
+              </label>
+            ]}
+          />
+
+          {/* </span> */}
+          {/* </div> */}
+          {/* <div className={cs(styles.formSubheading)}>
               Same as Shipping Address
-            </div>
-          </label>
+            </div> */}
+          {/* </label> */}
         </div>
       )
     );
@@ -1238,50 +1291,34 @@ const AddressSection: React.FC<AddressProps & {
                                   ref={orderSummaryRef}
                                 >
                                   {customDuties?.visible && (
-                                    <label
-                                      className={cs(
-                                        styles.flex,
-                                        globalStyles.widthSet
-                                      )}
+                                    <div
+                                      className={globalStyles.marginB20}
+                                      id="termsAndCondition"
                                     >
-                                      <div
-                                        className={globalStyles.marginR10}
-                                        id="termsAndCondition"
-                                      >
-                                        <span className={styles.checkbox}>
-                                          <input
-                                            type="checkbox"
-                                            onClick={() => {
-                                              setIsTermChecked(!isTermChecked);
-                                              setTermsErr("");
-                                            }}
-                                          />
-                                          <span
-                                            className={cs(styles.indicator, {
-                                              [styles.checked]: isTermChecked
-                                            })}
-                                          ></span>
-                                        </span>
-                                      </div>
-                                      <div
-                                        className={cs(
-                                          styles.formSubheading,
-                                          styles.checkBoxHeading
-                                        )}
-                                      >
-                                        {ReactHtmlParser(customDuties?.message)}
-                                        {/* {customDuties?.popup_content && (
-                                        <span
-                                          onClick={() => openTermsPopup()}
-                                          className={
-                                            globalStyles.linkTextUnderline
-                                          }
-                                        >
-                                          Shipping & Payment terms.
-                                        </span>
-                                      )} */}
-                                      </div>
-                                    </label>
+                                      <CheckboxWithLabel
+                                        id="terms"
+                                        onChange={() => {
+                                          setIsTermChecked(!isTermChecked);
+                                          setTermsErr("");
+                                        }}
+                                        checked={isTermChecked}
+                                        label={[
+                                          <label
+                                            key="terms"
+                                            htmlFor="terms"
+                                            className={cs(
+                                              styles.formSubheading,
+                                              styles.checkBoxHeading
+                                            )}
+                                          >
+                                            {" "}
+                                            {ReactHtmlParser(
+                                              customDuties?.message
+                                            )}
+                                          </label>
+                                        ]}
+                                      />
+                                    </div>
                                   )}
                                   {termsErr && customDuties?.visible && (
                                     <div
