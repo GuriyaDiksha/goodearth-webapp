@@ -143,9 +143,9 @@ const FilterDropdown = ({
                       <label
                         key="ceriseFilter"
                         htmlFor="ceriseFilter"
-                        className={
-                          displayValue === item?.label ? styles.active : ""
-                        }
+                        className={cs(styles.checkboxLabel, {
+                          [styles.active]: displayValue === item?.label
+                        })}
                       >
                         {item.label}
                       </label>

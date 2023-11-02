@@ -293,7 +293,8 @@
   
   li {
     letter-spacing: 0.5px;
-    line-height: 40px;
+    line-height: 25px;
+    padding: 6px 0px;
     border-bottom: 1px solid tint(#000,90%);
     @include b4_12px_medium_gold_caps();
     li {
@@ -564,48 +565,48 @@ input[type="checkbox"]:checked + label{
 input[type="checkbox"]:not(:checked) + label{
   @include b4_12px_montserrat_light_charcoal();
 }
-input[type="radio"]:not(:checked) + label:before,
-input[type="radio"]:checked + label:before, [type="checkbox"]:not(:checked) + label:before,
-input[type="checkbox"]:checked + label:before {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 10px;
-  width: 18px;
-  height: 18px;
-  background-color: white;
-  border: 1px solid #9f9f9f;
+// input[type="radio"]:not(:checked) + label:before,
+// input[type="radio"]:checked + label:before, [type="checkbox"]:not(:checked) + label:before,
+// input[type="checkbox"]:checked + label:before {
+//   content: '';
+//   position: absolute;
+//   left: 0;
+//   top: 10px;
+//   width: 18px;
+//   height: 18px;
+//   background-color: white;
+//   border: 1px solid #9f9f9f;
 
-}
-input[type="radio"]:not(:checked) + label,
-input[type="radio"]:checked + label, [type="checkbox"]:not(:checked) + label,
-input[type="checkbox"]:checked + label {
-  padding-left: 30px;
-}
-input[type="checkbox"]:checked + label:before {
-  background-color: $aqua;
-  border: 1px solid $aqua;
-}
-  input[type="radio"]:not(:checked) + label:after,
-  input[type="radio"]:checked + label:after, [type="checkbox"]:not(:checked) + label:after,
-  input[type="checkbox"]:checked + label:after {
-    content: '';
-    display: block;
-    width: 6px;
-    height: 10px;
-    border: solid #ab1e56;
-    border-width: 0 2px 2px 0;
-    position: absolute;
-    top: 12px;
-    left: 6px;
-    font-size: 18px;
-    line-height: 0.8;
-    transition: all .1s;
-  }
-  input[type="checkbox"]:checked + label:after{
-    border: solid $white;
-    border-width: 0 2px 2px 0;
-  }
+// }
+// input[type="radio"]:not(:checked) + label,
+// input[type="radio"]:checked + label, [type="checkbox"]:not(:checked) + label,
+// input[type="checkbox"]:checked + label {
+//   padding-left: 30px;
+// }
+// input[type="checkbox"]:checked + label:before {
+//   background-color: $aqua;
+//   border: 1px solid $aqua;
+// }
+//   input[type="radio"]:not(:checked) + label:after,
+//   input[type="radio"]:checked + label:after, [type="checkbox"]:not(:checked) + label:after,
+//   input[type="checkbox"]:checked + label:after {
+//     content: '';
+//     display: block;
+//     width: 6px;
+//     height: 10px;
+//     border: solid #ab1e56;
+//     border-width: 0 2px 2px 0;
+//     position: absolute;
+//     top: 12px;
+//     left: 6px;
+//     font-size: 18px;
+//     line-height: 0.8;
+//     transition: all .1s;
+//   }
+//   input[type="checkbox"]:checked + label:after{
+//     border: solid $white;
+//     border-width: 0 2px 2px 0;
+//   }
 }
 
 .materiallabel{
@@ -616,26 +617,26 @@ input[type="checkbox"]:checked + label:before {
       position: relative;
     }
   }
-  input[type="radio"]:not(:checked) + label:after,
-  input[type="radio"]:checked + label:after, [type="checkbox"]:not(:checked) + label:after,
-  input[type="checkbox"]:checked + label:after {
-    content: '';
-    display: block;
-    width: 6px;
-    height: 10px;
-    border: solid #ab1e56;
-    border-width: 0 2px 2px 0;
-    position: absolute;
-    top: 12px;
-    left: 6px;
-    font-size: 18px;
-    line-height: 0.8;
-    transition: all .1s;
-  }
-  input[type="checkbox"]:checked + label:after{
-    border: solid $white;
-    border-width: 0 2px 2px 0;
-  }
+  // input[type="radio"]:not(:checked) + label:after,
+  // input[type="radio"]:checked + label:after, [type="checkbox"]:not(:checked) + label:after,
+  // input[type="checkbox"]:checked + label:after {
+  //   content: '';
+  //   display: block;
+  //   width: 6px;
+  //   height: 10px;
+  //   border: solid #ab1e56;
+  //   border-width: 0 2px 2px 0;
+  //   position: absolute;
+  //   top: 12px;
+  //   left: 6px;
+  //   font-size: 18px;
+  //   line-height: 0.8;
+  //   transition: all .1s;
+  // }
+  // input[type="checkbox"]:checked + label:after{
+  //   border: solid $white;
+  //   border-width: 0 2px 2px 0;
+  // }
 }
 
 .colorlabel {
