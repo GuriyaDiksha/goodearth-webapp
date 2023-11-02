@@ -11,6 +11,8 @@ import { useDispatch } from "react-redux";
 import noPlpImage from "images/noimageplp.png";
 import invoice from "../../../../images/invoice.svg";
 import invoiceDisabled from "../../../../images/invoiceDisabled.svg";
+import { displayPriceWithCommas } from "utils/utility";
+import Button from "components/Button";
 import { displayPriceWithCommasFloat } from "utils/utility";
 
 const InShopOrder: React.FC<OrdersProps> = props => {
@@ -288,13 +290,17 @@ const InShopOrder: React.FC<OrdersProps> = props => {
       {data?.length ? (
         <div className={styles.btnWrp}>
           {data?.length !== allData?.length ? (
-            <button className={styles.loadMoreBtn} onClick={() => loadMore()}>
-              Load More
-            </button>
+            <Button
+              variant="outlineExtraSmallAquaCta"
+              onClick={() => loadMore()}
+              label="Load More"
+            />
           ) : data.length >= 3 ? (
-            <button className={styles.backToTopBtn} onClick={() => backToTop()}>
-              Back to top
-            </button>
+            <Button
+              variant="outlineSmallMedCharcoalCta"
+              onClick={() => backToTop()}
+              label="back to top"
+            />
           ) : (
             ""
           )}

@@ -12,6 +12,7 @@ import { clone } from "lodash";
 import globalStyles from "../../styles/global.scss";
 import fontStyles from "styles/iconFonts.scss";
 import { OLD_COOKIE_SETTINGS } from "constants/cookieConsent";
+import Button from "components/Button";
 
 type Props = {
   hideCookies: any;
@@ -35,6 +36,7 @@ const CookiePolicy: React.FC<Props> = ({
     (state: AppState) => state.widget
   );
   const { email } = useSelector((state: AppState) => state.user);
+  const { mobile, tablet } = useSelector((state: AppState) => state.device);
   const store = useStore();
   const location = useLocation();
 
@@ -246,20 +248,21 @@ const CookiePolicy: React.FC<Props> = ({
                   </div>
                 </div>
                 <div className={styles.btnWrp}>
-                  <button
-                    className={styles.savebtn}
+                  <Button
+                    className={cs({ [styles.savebtn]: mobile })}
                     onClick={() => {
                       setIsPrefOpen(false), savePref();
                     }}
-                  >
-                    save preferences
-                  </button>
-                  <button
-                    className={styles.acceptbtn}
+                    variant="outlineSmallMedCharcoalCta"
+                    label="save preferences"
+                  />
+
+                  <Button
+                    className={cs({ [styles.acceptbtn]: mobile })}
                     onClick={() => acceptAll()}
-                  >
-                    accept all
-                  </button>
+                    variant="smallMedCharcoalCta"
+                    label="accept all"
+                  />
                 </div>
               </div>
             ) : (
@@ -330,19 +333,24 @@ const CookiePolicy: React.FC<Props> = ({
                   </p>
                 ) : null}
                 {/* ) : null} */}
-                <span
-                  style={{
-                    marginBottom: regionName !== "India" ? "20px" : "0px"
-                  }}
-                  className={cs(styles.okBtn, isPrefOpen ? styles.euBtn : "")}
+
+                <Button
+                  label={
+                    regionName === "India" ? "ACCEPT & CONTINUE" : "ACCEPT ALL"
+                  }
+                  className={cs({
+                    [styles.okBtn]: mobile || tablet,
+                    [styles.euBtn]: isPrefOpen,
+                    [globalStyles.marginB20]: regionName !== "India",
+                    [globalStyles.marginB0]: regionName === "India"
+                  })}
+                  variant="smallMedCharcoalCta"
                   onClick={() => {
                     regionName === "India"
                       ? acceptAndContinue()
                       : acceptAll(true);
                   }}
-                >
-                  {regionName === "India" ? "ACCEPT & CONTINUE" : "ACCEPT ALL"}
-                </span>
+                />
               </>
             )}
           </div>

@@ -22,6 +22,7 @@ import LoginService from "services/login";
 import { updateCountryData } from "actions/address";
 import { updatePreferenceData } from "actions/user";
 import { CONFIG } from "constants/util";
+import Button from "components/Button";
 import SelectDropdown from "components/Formsy/SelectDropdown";
 
 const MyProfile: React.FC<ProfileProps> = ({ setCurrentSection }) => {
@@ -746,14 +747,12 @@ const MyProfile: React.FC<ProfileProps> = ({ setCurrentSection }) => {
             </div>
             <div>
               {showerror ? <p className={styles.errorMsg}>{showerror}</p> : ""}
-              <input
+              <Button
                 type="submit"
-                formNoValidate
                 disabled={!updateProfile}
-                className={
-                  updateProfile ? styles.updateDetails : styles.updated
-                }
-                value={updateProfile ? "Update Details" : "Updated"}
+                className={globalStyles.btnFullWidth}
+                label={updateProfile ? "Update Details" : "Updated"}
+                variant="largeMedCharcoalCta"
               />
             </div>
           </div>

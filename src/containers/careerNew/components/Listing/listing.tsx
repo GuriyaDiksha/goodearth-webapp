@@ -13,6 +13,7 @@ import CareerService from "services/career";
 import { updateJobList } from "actions/career";
 import { uniq } from "lodash";
 import bootstrap from "../../../../styles/bootstrap/bootstrap-grid.scss";
+import Button from "components/Button";
 
 const Listing: React.FC = () => {
   const { facets, data }: CareerData = useSelector(
@@ -153,12 +154,11 @@ const Listing: React.FC = () => {
         No opportunities found for your search criteria. Reset your filters to
         view more results.
       </p>
-      <button
-        className={listing.no_resords_btn}
+      <Button
         onClick={() => setReset(!reset)}
-      >
-        Reset filters
-      </button>
+        label="Reset filters"
+        variant="smallMedCharcoalCta"
+      />
     </div>
   );
 

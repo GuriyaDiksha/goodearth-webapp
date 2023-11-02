@@ -14,6 +14,7 @@ import Formsy from "formsy-react";
 import FormInput from "../../../../components/Formsy/FormInput";
 import CookieService from "services/cookie";
 import { GA_CALLS } from "constants/cookieConsent";
+import Button from "components/Button";
 
 const BridalDetails: React.FC = () => {
   const { setCurrentModule, setCurrentModuleData, data } = useContext(
@@ -172,13 +173,12 @@ const BridalDetails: React.FC = () => {
                     />
                   </div>
                   <div>
-                    <input
+                    <Button
                       type="submit"
                       disabled={!updateProfile}
-                      className={cs(globalStyles.ceriseBtn, {
-                        [globalStyles.disabledBtn]: !updateProfile
-                      })}
-                      value="Proceed to add shipping details"
+                      className={cs(globalStyles.btnFullWidth)}
+                      label="Proceed to add shipping details"
+                      variant="largeAquaCta"
                     />
                   </div>
                 </div>

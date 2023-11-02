@@ -23,6 +23,7 @@ import { AppState } from "reducers/typings";
 import { errorTracking, getErrorList } from "utils/validate";
 import { updateCountryData } from "actions/address";
 import { Country } from "components/Formsy/CountryCode/typings";
+import Button from "components/Button";
 
 type Props = {
   id: ProductID;
@@ -513,11 +514,10 @@ const CorporateEnquiryPopup: React.FC<Props> = ({
           {enquiryMessage && (
             <p className={styles.enquireError}>{enquiryMessage}</p>
           )}
-          <input
+          <Button
             type="submit"
-            formNoValidate
-            className={globalStyles.aquaBtn}
-            value={submitted ? "close" : "submit"}
+            label={submitted ? "close" : "submit"}
+            variant="largeAquaCta"
           />
         </div>
       </div>

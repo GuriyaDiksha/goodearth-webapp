@@ -8,6 +8,7 @@ import { AppState } from "reducers/typings";
 import Close from "./../../../../../icons/CloseButtonCharcoal.svg";
 import { updateIsLoyaltyFilterOpen } from "actions/info";
 import globalStyles from "../../../../../styles/global.scss";
+import Button from "components/Button";
 
 const FilterDropdown = ({
   id,
@@ -149,29 +150,28 @@ const FilterDropdown = ({
           })}
           {isCheckBox && !mobile ? (
             <li className={styles.applyBtnWrp}>
-              <button
-                className={styles.applyBtn}
+              <Button
                 onClick={e => {
                   handleItemClick(value);
                 }}
-              >
-                Apply Selection
-              </button>
+                label={"Apply Selection"}
+                variant="smallAquaCta"
+              />
             </li>
           ) : null}
           {mobile ? (
             <li className={styles.btnWrp}>
-              <button
-                className={styles.cnlBtn}
+              <Button
                 onClick={() => {
                   cancelFilter();
                   setOpenState(!menuOpen);
                 }}
-              >
-                cancel
-              </button>
-              <button
-                className={styles.srtBtn}
+                label={"cancel"}
+                variant="outlineSmallMedCharcoalCta"
+              />
+
+              <Button
+                variant="smallAquaCta"
                 onClick={() => {
                   setOpenState(!menuOpen);
                   if (isCheckBox) {
@@ -180,9 +180,8 @@ const FilterDropdown = ({
                     handleItemClick({ value });
                   }
                 }}
-              >
-                {isCheckBox ? "apply selection" : "apply sort by"}
-              </button>
+                label={isCheckBox ? "apply selection" : "apply sort by"}
+              />
             </li>
           ) : null}
         </ul>

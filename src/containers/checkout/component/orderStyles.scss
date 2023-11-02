@@ -512,18 +512,19 @@ body:has(.open-summary) {
   span{
     padding-top: 15px;
   }
-  @include b3_14px_montserrat_charcoal();
-  color: $white !important;
-  letter-spacing: 0.5px;
+  // @include b3_14px_montserrat_charcoal();
+  // color: $white !important;
+  // letter-spacing: 0.5px;
 
-  &:hover {
-    @media screen and (min-width:992px) {
-      background-color: transparent !important;
+  &:hover, &:focus{
+    // @media screen and (min-width:992px) {
       img{
-        filter: invert(44%) sepia(100%) saturate(1093%) hue-rotate(132deg) brightness(85%) contrast(50%);
+        filter: invert(44%) sepia(100%) saturate(1093%) hue-rotate(132deg) brightness(85%) contrast(50%) !important;
       }
-    }
-    
+      span{
+        color: $aqua !important;
+      }
+    // }
   }
 }
 

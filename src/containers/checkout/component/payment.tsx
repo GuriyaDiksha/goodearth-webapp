@@ -10,7 +10,7 @@ import { AppState } from "reducers/typings";
 import { Link, useHistory } from "react-router-dom";
 import Loader from "components/Loader";
 import giftwrapIcon from "../../../images/gift-wrap-icon.svg";
-import { errorTracking, scrollToGivenId, showErrors } from "utils/validate";
+import { errorTracking, showErrors } from "utils/validate";
 // import { POPUP } from "constants/components";
 import CookieService from "services/cookie";
 import { proceedForPayment, getPageType } from "../../../utils/validate";
@@ -31,6 +31,7 @@ import { CONFIG } from "constants/util";
 import Formsy from "formsy-react";
 import { displayPriceWithCommasFloat } from "utils/utility";
 import { Currency } from "typings/currency";
+import Button from "components/Button";
 
 const PaymentSection: React.FC<PaymentProps> = props => {
   const data: any = {};
@@ -1168,31 +1169,39 @@ const PaymentSection: React.FC<PaymentProps> = props => {
             )}
             {isLoading && <Loader />}
             {!checkoutMobileOrderSummary && (
-              <button
+              <Button
                 ref={PaymentButton}
                 className={cs(
                   globalStyles.marginT10,
-                  styles.sendToPayment,
-                  styles.proceedToPayment,
-                  {
-                    [styles.disabledBtn]:
-                      isLoading || Object.keys(currentmethod).length === 0
-                  }
+                  styles.amtBtn,
+                  { [globalStyles.btnFullWidth]: mobile || tablet },
+                  // styles.sendToPayment,
+                  styles.proceedToPayment
+                  // {
+                  //   [styles.disabledBtn]:
+                  //     isLoading || Object.keys(currentmethod).length === 0
+                  // }
                 )}
                 onClick={onsubmit}
                 disabled={isLoading}
-              >
-                <span>
-                  Amount Payable:{" "}
-                  {displayPriceWithCommasFloat(
-                    basket?.total?.toString(),
-                    currency
-                  )}
-                  {/* {parseFloat(basket?.total?.toString()).toFixed(2)} */}
-                  <br />
-                </span>
-                {isPaymentNeeded ? "PROCEED TO PAYMENT" : "PLACE ORDER"}
-              </button>
+                variant="largeMedCharcoalCta"
+                label={
+                  (
+                    <>
+                      <span className={styles.amtPayable}>
+                        Amount Payable:{" "}
+                        {displayPriceWithCommasFloat(
+                          basket?.total?.toString(),
+                          currency
+                        )}
+                        {/* {parseFloat(basket?.total?.toString()).toFixed(2)} */}
+                        <br />
+                      </span>
+                      {isPaymentNeeded ? "PROCEED TO PAYMENT" : "PLACE ORDER"}
+                    </>
+                  ) as JSX.Element
+                }
+              />
             )}
           </div>
           {mobile && (

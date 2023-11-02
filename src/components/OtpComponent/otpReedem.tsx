@@ -10,6 +10,7 @@ import FormInput from "components/Formsy/FormInput";
 import Loader from "components/Loader";
 import { errorTracking } from "utils/validate";
 import NewOtpComponent from "./NewOtpComponent";
+import Button from "components/Button";
 
 class OtpReedem extends React.Component<otpRedeemProps, otpState> {
   constructor(props: otpRedeemProps) {

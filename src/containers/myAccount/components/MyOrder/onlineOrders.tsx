@@ -14,6 +14,7 @@ import {
   displayPriceWithCommas,
   displayPriceWithCommasFloat
 } from "utils/utility";
+import Button from "components/Button";
 
 const OnlineOrders: React.FC<OrdersProps> = props => {
   const [data, setData] = useState<any[]>([]);
@@ -500,16 +501,17 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
       {data?.length ? (
         <div className={styles.btnWrp}>
           {pagination?.next ? (
-            <button
-              className={styles.loadMoreBtn}
+            <Button
+              variant="outlineExtraSmallAquaCta"
+              label="Load More"
               onClick={() => fetchOrders(pagination?.next)}
-            >
-              Load More
-            </button>
+            />
           ) : data.length >= 3 ? (
-            <button className={styles.backToTopBtn} onClick={() => backToTop()}>
-              Back to top
-            </button>
+            <Button
+              variant="outlineSmallMedCharcoalCta"
+              label="Back to top"
+              onClick={() => backToTop()}
+            />
           ) : (
             ""
           )}

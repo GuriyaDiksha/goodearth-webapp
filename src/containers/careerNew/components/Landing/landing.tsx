@@ -11,6 +11,7 @@ import Opportunities from "./opportunities";
 import { CareerData } from "reducers/career/typings";
 import CareerService from "services/career";
 import { updateDeptList } from "actions/career";
+import Button from "components/Button";
 
 const Landing: React.FC = () => {
   const [mounted, setMounted] = useState(false);
@@ -78,12 +79,12 @@ const Landing: React.FC = () => {
           Send us your resume and we will reach out once a suitable opportunity
           arises.
         </p>
-        <button
+        <Button
+          label="Apply now"
+          variant="largeMedCharcoalCta"
           className={landing.apply_section_btn}
           onClick={() => applyNow()}
-        >
-          Apply now
-        </button>
+        />
       </div>
     </div>
   );
