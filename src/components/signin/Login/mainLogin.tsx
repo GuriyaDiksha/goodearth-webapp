@@ -2,12 +2,12 @@ import React, { RefObject, Fragment } from "react";
 import cs from "classnames";
 import styles from "../styles.scss";
 import globalStyles from "styles/global.scss";
-import inputStyles from "../../../components/Formsy/styles.scss";
+// import inputStyles from "../../../components/Formsy/styles.scss";
 import InputField from "../InputField";
 import Loader from "components/Loader";
 import SocialLogin from "../socialLogin";
-import show from "../../../images/showPass.svg";
-import hide from "../../../images/hidePass.svg";
+// import show from "../../../images/showPass.svg";
+// import hide from "../../../images/hidePass.svg";
 import { Context } from "components/Modal/context";
 import { checkBlank, checkMail, errorTracking } from "utils/validate";
 import { connect } from "react-redux";
@@ -603,7 +603,7 @@ class MainLogin extends React.Component<Props, loginState> {
               showLabel={true}
             />
           </div>
-          <div>
+          {/* <div>
             <InputField
               placeholder={""}
               value={this.state.password}
@@ -640,7 +640,7 @@ class MainLogin extends React.Component<Props, loginState> {
             >
               FORGOT PASSWORD
             </span>
-          </div>
+          </div> */}
           <div>
             {this.state.showerror ? (
               <p className={cs(styles.errorMsg, styles.mainLoginError)}>
@@ -686,12 +686,12 @@ class MainLogin extends React.Component<Props, loginState> {
     );
 
     const currentForm = () => {
-      const { showCurrentSection } = this.state;
-      if (showCurrentSection == "email") {
-        return this.emailForm();
-      } else if (showCurrentSection == "login") {
-        return formContent;
-      }
+      // const { showCurrentSection } = this.state;
+      // if (showCurrentSection == "email") {
+      return this.emailForm();
+      // } else if (showCurrentSection == "login") {
+      //   return formContent;
+      // }
     };
 
     return (
@@ -704,6 +704,10 @@ class MainLogin extends React.Component<Props, loginState> {
             goLogin={this.goLogin}
             // socialLogin={footer}
             setIsSuccessMsg={this.props.setIsSuccessMsg}
+            products={this.props.basket.products}
+            currency={this.props.currency}
+            nextStep={this.props.nextStep}
+            sortBy={this.props.sortBy}
           />
         ) : (
           <>

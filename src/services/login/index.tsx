@@ -53,7 +53,7 @@ export default {
   checkUserPassword: async function(dispatch: Dispatch, email: string) {
     const res = await API.post<checkUserPasswordResponse>(
       dispatch,
-      `${__API_HOST__ + "/myapi/auth/check_user_password/"}`,
+      `${__API_HOST__ + "/myapi/auth/check_user/"}`,
       {
         email: encrypttext(email)
       }
@@ -605,7 +605,14 @@ export default {
     const response = decriptdata(res);
     return response;
   },
-  verifyUserOTP: async (dispatch: Dispatch, email: string, otp: string) => {
+  verifyUserOTP: async (
+    dispatch: Dispatch,
+    email: string,
+    otp: string,
+    currency?: Currency,
+    source?: string,
+    sortBy?: string
+  ) => {
     const res = await API.post<{
       success: boolean;
       expired: boolean;
@@ -613,11 +620,115 @@ export default {
       message: string;
       attempts: number;
       maxAttemptsAllow: number;
+      token: string; //login response start from here
+      userId: string;
+      firstName: string;
+      lastName: string;
+      phoneNo: string;
+      gender: string;
+      oldBasketHasItems: boolean;
+      publishRemove: boolean;
+      updated: boolean;
+      updatedRemovedItems: string[];
+      customerGroup: string; //login response end here
     }>(dispatch, `${__API_HOST__}/myapi/customer/verify_user_otp/`, {
       email: encrypttext(email),
       otp: encrypttext(otp)
     });
     const response = decriptdata(res);
+    if (response?.token) {
+      CookieService.setCookie("atkn", response.token, 365);
+      CookieService.setCookie("userId", response.userId, 365);
+      CookieService.setCookie("email", response.email, 365);
+      CookieService.setCookie(
+        "custGrp",
+        res?.customerGroup ? res?.customerGroup.toLowerCase() : "",
+        365
+      );
+      showGrowlMessage(
+        dispatch,
+        `${LOGIN_SUCCESS} ${response.firstName}!`,
+        5000
+      );
+      if (response.oldBasketHasItems) {
+        showGrowlMessage(dispatch, MESSAGE.PREVIOUS_BASKET, 0);
+      }
+      if (
+        (response.updated || response.publishRemove) &&
+        response.updatedRemovedItems &&
+        response.updatedRemovedItems.length > 0
+      ) {
+        showGrowlMessage(
+          dispatch,
+          MESSAGE.PRODUCT_UNPUBLISHED,
+          0,
+          undefined,
+          response.updatedRemovedItems
+        );
+      }
+
+      dispatch(updateModal(false));
+      dispatch(updateCookies({ tkn: response.token }));
+      dispatch(
+        updateUser({
+          isLoggedIn: true,
+          customerGroup: response.customerGroup || ""
+        })
+      );
+
+      HeaderService.fetchHeaderDetails(
+        dispatch,
+        currency,
+        response.customerGroup
+      ).catch(err => {
+        console.log("FOOTER API ERROR ==== " + err);
+      });
+      const metaResponse = await MetaService.updateMeta(dispatch, {
+        tkn: response.token
+      });
+      WishlistService.updateWishlist(dispatch, sortBy);
+      Api.getAnnouncement(dispatch).catch(err => {
+        console.log("Announcement API ERROR ==== " + err);
+      });
+      Api.getSalesStatus(dispatch).catch(err => {
+        console.log("Sales Api Status ==== " + err);
+      });
+      Api.getPopups(dispatch).catch(err => {
+        console.log("Popups Api ERROR === " + err);
+      });
+      BasketService.fetchBasket(dispatch, source, history, true).then(
+        basketRes => {
+          if (source == "checkout") {
+            checkoutGTM(1, metaResponse?.currency || "INR", basketRes);
+            // call loyalty point api only one time after login
+            const data: any = {
+              email: res.email
+            };
+            CheckoutService.getLoyaltyPoints(dispatch, data).then(loyalty => {
+              dispatch(updateUser({ loyaltyData: loyalty }));
+            });
+          }
+          if (metaResponse) {
+            let basketBridalId = 0;
+            basketRes.lineItems.map(item =>
+              item.bridalProfile ? (basketBridalId = item.bridalProfile) : ""
+            );
+            if (basketBridalId && basketBridalId == metaResponse.bridalId) {
+              showGrowlMessage(dispatch, MESSAGE.REGISTRY_OWNER_CHECKOUT, 6000);
+            }
+            let item1 = false,
+              item2 = false;
+            basketRes.lineItems.map(data => {
+              if (!data.bridalProfile) item1 = true;
+              if (data.bridalProfile) item2 = true;
+            });
+            if (item1 && item2) {
+              showGrowlMessage(dispatch, MESSAGE.REGISTRY_MIXED_SHIPPING, 6000);
+            }
+          }
+        }
+      );
+    }
     return response;
   }
 };
