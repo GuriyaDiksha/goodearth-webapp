@@ -1280,7 +1280,7 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
                     ? cs(globalStyles.disabledBtn, globalStyles.charcoalBtn)
                     : globalStyles.charcoalBtn
                 }
-                value="Create My Account & Proceed"
+                value="Verify my account"
                 disabled={this.state.disableButton || !this.state.showFields}
               />
             )}

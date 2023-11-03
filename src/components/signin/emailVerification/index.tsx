@@ -16,6 +16,7 @@ import { decriptdata } from "utils/validate";
 import { GA_CALLS } from "constants/cookieConsent";
 import CookieService from "services/cookie";
 import { Currency } from "typings/currency";
+import { censorEmail, censorPhoneNumber } from "utils/utility";
 
 type Props = {
   successMsg: string;
@@ -29,6 +30,7 @@ type Props = {
   nextStep?: () => void;
   products?: any;
   sortBy?: string;
+  phoneNo?: number;
 };
 
 const EmailVerification: React.FC<Props> = ({
@@ -41,7 +43,8 @@ const EmailVerification: React.FC<Props> = ({
   currency,
   nextStep,
   products,
-  sortBy
+  sortBy,
+  phoneNo
 }) => {
   // const [isLoading, setIsLoading] = useState(false);
   // const [enableBtn, setEnableBtn] = useState(false);
@@ -276,12 +279,13 @@ const EmailVerification: React.FC<Props> = ({
             className={cs(styles.formHeading, styles.verifyHeading)}
             id="first-heading"
           >
-            Verify Email to Login
+            Welcome
           </div>
         )}
         {!isCheckout && (
           <div className={cs(styles.loginFormSubheading, styles.verifyOtp)}>
-            Please verify your email ID by entering OTP sent to {email}
+            Please enter the OTP sent to {censorEmail(email)}{" "}
+            {phoneNo && `& ${censorPhoneNumber(phoneNo.toString())}`} to login
           </div>
         )}
         {isCheckout && (

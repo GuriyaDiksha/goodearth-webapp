@@ -85,4 +85,32 @@ const makeid = (length: number) => {
   return result;
 };
 
-export { displayPriceWithCommas, displayPriceWithCommasFloat, makeid };
+const censorWord = (str: string) => {
+  return str[0] + "*".repeat(str.length);
+};
+
+const censorEmail = (email: string) => {
+  const arr = email.split("@");
+  return (
+    censorWord(arr[0]) +
+    "@" +
+    censorWord(arr[1]?.split(".")?.[0]) +
+    "." +
+    arr[1]?.split(".")?.[1]
+  );
+};
+
+const censorPhoneNumber = (phoneNo: string) => {
+  return (
+    "*".repeat("8511243011".length - 4) +
+    "8511243011".substr("8511243011".length - 4)
+  );
+};
+
+export {
+  displayPriceWithCommas,
+  displayPriceWithCommasFloat,
+  makeid,
+  censorEmail,
+  censorPhoneNumber
+};
