@@ -92,7 +92,8 @@ const PairItWithSlider: React.FC<PairItWithSliderProps> = (
           isSale: isSale,
           discountedPrice: discountedPriceRecords[currency],
           list: "plp",
-          sliderImages: plpSliderImages
+          sliderImages: plpSliderImages,
+          collections: collections
         },
         false,
         mobile ? ModalStyles.bottomAlign : undefined

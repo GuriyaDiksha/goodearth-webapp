@@ -28,6 +28,8 @@ import { AppState } from "reducers/typings";
 import { connect } from "react-redux";
 import ImageWithSideSubheadingMobile from "./templates/ImageWithSideSubheadingMobile";
 import TitleHeadingMobile from "./templates/TitleHeadingMobile";
+import * as util from "../../utils/validate";
+import CeriseCard from "components/CeriseCard";
 import { headerClickGTM } from "../../utils/validate";
 
 const mapStateToProps = (state: AppState) => {
@@ -35,6 +37,7 @@ const mapStateToProps = (state: AppState) => {
     isSale: state.info.isSale,
     currency: state.currency,
     isLoggedIn: state.user.isLoggedIn,
+    slab: state.user.slab,
     currencyList: state.info.currencyList,
     isLoading: state.info.isLoading
   };
@@ -874,6 +877,49 @@ class Mobilemenu extends React.Component<Props, MobileState> {
               )}
             </li>
           )}
+          <ul className={styles.adding}>
+            {profileItems.slice(0, 2).map(item => {
+              return (
+                <li
+                  key={item.label}
+                  onClick={e => {
+                    item.onClick && item.onClick(e);
+                    clickToggle();
+                  }}
+                >
+                  {item.type == "button" ? (
+                    <span
+                      onClick={() => {
+                        util.headerClickGTM(
+                          "Profile Item",
+                          "Top",
+                          true,
+                          isLoggedIn
+                        );
+                      }}
+                    >
+                      {item.label}
+                    </span>
+                  ) : (
+                    <NavLink
+                      key={item.label}
+                      to={item.href as string}
+                      onClick={() => {
+                        util.headerClickGTM(
+                          "Profile Item",
+                          "Top",
+                          true,
+                          isLoggedIn
+                        );
+                      }}
+                    >
+                      {item.label}
+                    </NavLink>
+                  )}
+                </li>
+              );
+            })}
+          </ul>
           <li>
             <Link
               to="/wishlist"
@@ -883,7 +929,7 @@ class Mobilemenu extends React.Component<Props, MobileState> {
                 headerClickGTM("Wishlist", "Top", true, isLoggedIn);
               }}
             >
-              <i
+              {/* <i
                 className={cs(
                   styles.wishlistIcon,
                   { [styles.wishlistGold]: wishlistIcon },
@@ -895,11 +941,11 @@ class Mobilemenu extends React.Component<Props, MobileState> {
                   },
                   iconStyles.icon
                 )}
-              />
-              <span>
-                {" "}
-                saved items {wishlistCount ? `(${wishlistCount})` : ""}
-              </span>
+              /> */}
+              {/* <span>
+                {" "} */}
+              saved items {wishlistCount ? `(${wishlistCount})` : ""}
+              {/* </span> */}
             </Link>
           </li>
           <li
@@ -952,7 +998,7 @@ class Mobilemenu extends React.Component<Props, MobileState> {
           </li>
 
           <ul className={styles.adding}>
-            {profileItems.map(item => {
+            {profileItems.slice(2, profileItems?.length).map(item => {
               return (
                 <li
                   key={item.label}
@@ -1151,6 +1197,27 @@ class Mobilemenu extends React.Component<Props, MobileState> {
         {outerMenu}
         {innerMenu}
         {lowerMenu}
+        {/* <NavLink
+          to={"/cerise"}
+          onClick={e => {
+            if ((e.target as HTMLInputElement)?.id === "dashboard") {
+              e.preventDefault();
+              this.props.history.push("/account/cerise");
+              clickToggle();
+            } else {
+              clickToggle();
+            }
+          }}
+        > */}
+        {(this.props.currency === "INR" ||
+          this.props.slab.toLowerCase() === "cerise club" ||
+          this.props.slab.toLowerCase() === "cerise sitara") && (
+          <CeriseCard
+            clickToggle={clickToggle}
+            showInnerMenu={this.state.showInnerMenu}
+          />
+        )}
+        {/* </NavLink> */}
       </div>
     );
   }

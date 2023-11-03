@@ -35,6 +35,7 @@ export type AddressProps = {
   error: string;
   errorNotification?: string;
   currentStep: number;
+  isGcCheckout?: boolean;
 };
 
 export type OrderProps = {
@@ -73,6 +74,7 @@ export type PaymentProps = {
   salestatus: boolean;
   checkout: (data: any) => any;
   gstNo?: string;
+  isGcCheckout: boolean;
 };
 
 export type PopupProps = {

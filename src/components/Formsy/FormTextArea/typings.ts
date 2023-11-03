@@ -25,6 +25,7 @@ export type Props = {
   inputRef?: RefObject<HTMLTextAreaElement>;
   isPlaceholderVisible?: boolean;
   rows?: number;
+  additionalErrorClass?: any;
 };
 
 export type State = {

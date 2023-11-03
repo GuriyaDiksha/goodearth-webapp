@@ -132,7 +132,8 @@ const FormInput: React.FC<Props & InjectedProps<string | null>> = props => {
           className={cs(
             styles.errorMsg,
             globalStyles.txtnormal,
-            globalStyles.textLeft
+            globalStyles.textLeft,
+            props.additionalErrorClass || ""
           )}
         >
           {errorMessage}
