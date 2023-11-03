@@ -710,6 +710,22 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                                   //   )}`}
                                   // </span>
                                 )}
+                                {item.product.badgeType != "B_flat" && (
+                                  <span
+                                    className={cs(
+                                      {
+                                        [globalStyles.cerise]:
+                                          item.product.badgeType == "B_flat"
+                                      },
+                                      styles.price
+                                    )}
+                                  >
+                                    {`${displayPriceWithCommasFloat(
+                                      price3,
+                                      confirmData.currency
+                                    )}`}
+                                  </span>
+                                )}
                               </p>
 
                               {item.product?.structure == "GiftCard" ? (
