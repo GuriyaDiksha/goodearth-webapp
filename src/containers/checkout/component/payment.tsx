@@ -29,6 +29,7 @@ import { updateCountryData } from "actions/address";
 import WhatsappSubscribe from "components/WhatsappSubscribe";
 import { CONFIG } from "constants/util";
 import Formsy from "formsy-react";
+import CheckboxWithLabel from "components/CheckboxWithLabel";
 import { displayPriceWithCommasFloat } from "utils/utility";
 import { Currency } from "typings/currency";
 import Button from "components/Button";
@@ -932,17 +933,41 @@ const PaymentSection: React.FC<PaymentProps> = props => {
               globalStyles.voffset2
             )}
           >
-            <div className={styles.marginR10}>
+            {/* <div className={styles.marginR10}>
               <span className={styles.checkbox}>
                 <input
                   type="checkbox"
-                  id="subscribe"
-                  onChange={e => {
-                    onClickSubscribe(e);
-                  }}
-                  checked={subscribevalue}
-                />
-                <span className={styles.indicator}></span>
+                 
+                /> */}
+              {/* <CheckboxWithLabel
+                id="subscribe"
+                onChange={e => {
+                  onClickSubscribe(e);
+                }}
+                checked={subscribevalue}
+                label={[
+                  <label
+                    key="subscribe"
+                    htmlFor="subscribe"
+                    className={cs(
+                      globalStyles.pointer,
+                      styles.linkCerise,
+                      globalStyles.marginT3
+                    )}
+                  >
+                    I agree to receiving e-mails, newsletters, calls and text
+                    messages for service related information. To know more how
+                    we keep your data safe, refer to our{" "}
+                    <Link
+                      to="/customer-assistance/privacy-policy"
+                      target="_blank"
+                    >
+                      Privacy Policy
+                    </Link>
+                  </label>
+                ]}
+              /> */}
+              {/* <span className={styles.indicator}></span>
               </span>
             </div>
             <div className={globalStyles.c10LR}>
@@ -1109,7 +1134,41 @@ const PaymentSection: React.FC<PaymentProps> = props => {
                     </div>
                   )}
                 </div>
-                <label
+                <div>
+                  <div className={globalStyles.marginB20}>
+                    <CheckboxWithLabel
+                      id="subscribe"
+                      onChange={e => {
+                        onClickSubscribe(e);
+                      }}
+                      checked={subscribevalue}
+                      label={[
+                        <label
+                          key="subscribe"
+                          htmlFor="subscribe"
+                          className={cs(
+                            globalStyles.pointer,
+                            styles.linkCerise,
+                            styles.formSubheading,
+                            styles.checkBoxHeading,
+                            styles.agreeTermsAndCondition
+                          )}
+                        >
+                          I agree to receiving e-mails, newsletters, calls and
+                          text messages for service related information. To know
+                          more how we keep your data safe, refer to our{" "}
+                          <Link
+                            to="/customer-assistance/privacy-policy"
+                            target="_blank"
+                          >
+                            Privacy Policy
+                          </Link>
+                        </label>
+                      ]}
+                    />
+                  </div>
+                </div>
+                {/* <label
                   className={cs(
                     globalStyles.flex,
                     { [globalStyles.crossCenter]: !mobile },
@@ -1156,7 +1215,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
                       </Link>
                     </label>
                   </div>
-                </label>
+                </label> */}
               </div>
             )}
             {paymentError && !isPaymentNeeded && (
