@@ -91,12 +91,12 @@ const Zoom: React.FC<Props> = ({
     setZoom(event.instance.transformState.scale);
   };
 
-  const onPan = (ref: any, e: any) => {
-    ref.zoomIn();
-  };
-  const onPinch = (ref: any, e: any) => {
-    ref.zoomOut();
-  };
+  // const onPan = (ref: any, e: any) => {
+  //   ref.zoomIn();
+  // };
+  // const onPinch = (ref: any, e: any) => {
+  //   ref.zoomOut();
+  // };
 
   return (
     <div
@@ -196,8 +196,8 @@ const Zoom: React.FC<Props> = ({
                     // pinch={{ disabled: true }}
                     doubleClick={{ disabled: true }}
                     onTransformed={e => handleScaleChange(e)}
-                    onPinching={(ref, e) => onPinch(ref, e)}
-                    onPanning={(ref, e) => onPan(ref, e)}
+                    // onPinching={(ref, e) => onPinch(ref, e)}
+                    // onPanning={(ref, e) => onPan(ref, e)}
                     limitToBounds={true}
                     alignmentAnimation={{ sizeX: 0, sizeY: 0 }}
                     centerZoomedOut={true}
@@ -255,8 +255,8 @@ const Zoom: React.FC<Props> = ({
                   // wheel={{ disabled: true, touchPadDisabled: true }}
                   doubleClick={{ disabled: true }}
                   onTransformed={e => handleScaleChange(e)}
-                  onPinching={(ref, e) => onPinch(ref, e)}
-                  onPanning={(ref, e) => onPan(ref, e)}
+                  // onPinching={(ref, e) => onPinch(ref, e)}
+                  // onPanning={(ref, e) => onPan(ref, e)}
                   limitToBounds={true}
                   alignmentAnimation={{ sizeX: 0, sizeY: 0 }}
                   centerZoomedOut={true}
