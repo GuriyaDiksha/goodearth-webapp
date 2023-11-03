@@ -35,6 +35,7 @@ import { AppState } from "reducers/typings";
 import CookieService from "../../services/cookie";
 import { GA_CALLS } from "constants/cookieConsent";
 import { displayPriceWithCommas } from "utils/utility";
+import { isArray } from "lodash";
 
 type Props = {
   basketLineId?: ProductID;
@@ -162,8 +163,8 @@ const NotifyMePopup: React.FC<Props> = ({
       subcategoryname = subcategoryname[subcategoryname.length - 1];
     }
     const size = selectedSize?.size || "";
-    const arr = category?.split(">");
-    const l1 = arr?.[arr.length - 3];
+    // const arr = category?.split(">");
+    // const l1 = arr?.[arr.length - 3];
     const category3 = (sliderImages || [])?.filter(ele => ele?.icon).length
       ? "3d"
       : "non 3d";
@@ -239,7 +240,9 @@ const NotifyMePopup: React.FC<Props> = ({
                 selectedSize?.priceRecords[currency],
               quantity: quantity,
               // dimension12: selectedSize?.color,
-              collection_category: collections?.join("|")
+              collection_category: isArray(collections)
+                ? collections?.join("|")
+                : collections
             }
           ]
         }
@@ -269,9 +272,9 @@ const NotifyMePopup: React.FC<Props> = ({
           closeModal();
         })
         .catch(err => {
-          if (typeof err.response.data != "object") {
-            showGrowlMessage(dispatch, err.response.data);
-            errorTracking([err.response.data], window.location.href);
+          if (typeof err?.response?.data != "object") {
+            showGrowlMessage(dispatch, err?.response?.data);
+            errorTracking([err?.response?.data], window.location.href);
           }
         })
         .finally(() => {

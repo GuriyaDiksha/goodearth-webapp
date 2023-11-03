@@ -112,6 +112,12 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
         );
       };
 
+      const index = item.category.length - 1;
+      let category = item.category[index]
+        ? item.category[index].replace(/\s/g, "")
+        : "";
+      category = category.replace(/>/g, "/");
+
       dispatch(
         updateComponent(
           POPUP.NOTIFYMEPOPUP,
@@ -130,7 +136,8 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
             badgeType: item.badgeType,
             list: "wishlist",
             sliderImages: [],
-            collections: item?.collection
+            collections: item?.collection,
+            category: category
           },
           false,
           mobile ? ModalStyles.bottomAlignSlideUp : "",
