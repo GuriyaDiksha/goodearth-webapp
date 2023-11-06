@@ -700,8 +700,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                                   <span
                                     className={cs(
                                       {
-                                        [globalStyles.cerise]:
-                                          item.product.badgeType == "B_flat"
+                                        [globalStyles.hidden]: isFlat
                                       },
                                       styles.price
                                     )}
