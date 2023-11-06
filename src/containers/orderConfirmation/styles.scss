@@ -417,5 +417,10 @@
     float: left;
   width: 70%;
   }
-  
+}
+
+.only-gift-order {
+  @media screen and (min-width: 768px) {
+    margin-left: -15%;
+  }
 }

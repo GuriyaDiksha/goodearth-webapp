@@ -28,6 +28,7 @@ import { popup } from "./popup";
 import { career } from "./career";
 import { filler } from "./Filler";
 import { widget } from "./widget";
+import { loyalty } from "./loyalty";
 
 const createRootReducer = (history: History) => {
   return combineReducers({
@@ -57,7 +58,8 @@ const createRootReducer = (history: History) => {
     popup,
     career,
     filler,
-    widget
+    widget,
+    loyalty
   });
 };
 

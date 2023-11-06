@@ -213,6 +213,7 @@ const NotifyMePopup: React.FC<Props> = ({
       dataLayer.push({ ecommerce: null }); // Clear the previous ecommerce object.
       dataLayer.push({
         event: "add_to_cart",
+        previous_page_url: CookieService.getCookie("prevUrl"),
         ecommerce: {
           items: [
             {
@@ -232,12 +233,12 @@ const NotifyMePopup: React.FC<Props> = ({
               item_variant: selectedSize?.size || "",
               // item_category4: l1, //pass the L1,
               item_category4: "NA",
-              item_category5: collection,
+              // item_category5: collection,
               price:
                 selectedSize?.discountedPriceRecords[currency] ||
                 selectedSize?.priceRecords[currency],
               quantity: quantity,
-              dimension12: selectedSize?.color,
+              // dimension12: selectedSize?.color,
               collection_category: collections?.join("|")
             }
           ]

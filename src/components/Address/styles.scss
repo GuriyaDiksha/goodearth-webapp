@@ -836,7 +836,12 @@ body:has(.mobile) {
 }
 
 .char-limit{
-float: right;
-margin-top: 5px;
-@include b6_9px_light_montserrat_charcoal();
+  float: right;
+  margin-top: 5px;
+  @include b6_9px_light_montserrat_charcoal();
+}
+
+.faded-container{
+  opacity: 50%;
+  cursor: default;
 }

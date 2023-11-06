@@ -102,6 +102,7 @@ const CartItems: React.FC<BasketItem> = memo(
           category = category.replace(/>/g, "/");
         }
         const userConsent = CookieService.getCookie("consent").split(",");
+        const search = CookieService.getCookie("search") || "";
 
         if (userConsent.includes(GA_CALLS)) {
           Moengage.track_event("remove_from_cart", {
@@ -171,6 +172,7 @@ const CartItems: React.FC<BasketItem> = memo(
           dataLayer.push({ ecommerce: null }); // Clear the previous ecommerce object.
           dataLayer.push({
             event: "remove_from_cart",
+            previous_page_url: CookieService.getCookie("prevUrl"),
             ecommerce: {
               items: [
                 {
@@ -188,11 +190,11 @@ const CartItems: React.FC<BasketItem> = memo(
                   item_category2: size,
                   item_category3: "NA",
                   item_list_id: "NA",
-                  item_list_name: "NA",
+                  item_list_name: search ? search : "NA",
                   item_variant: "NA",
                   // item_category4: product.categories[0],
                   item_category4: "NA",
-                  item_category5: product.collection,
+                  // item_category5: product.collection,
                   price: price,
                   quantity: quantity,
                   collection_category: product?.collections?.join("|")

@@ -147,7 +147,7 @@ class PDPContainer extends React.Component<Props, State> {
     const {
       updateComponentModal,
       changeModalState,
-      device: { mobile },
+      device: { mobile, tablet },
       data,
       corporatePDP,
       selectedSizeId,
@@ -176,6 +176,7 @@ class PDPContainer extends React.Component<Props, State> {
         images: images,
         startIndex: index,
         mobile: mobile,
+        tablet: tablet,
         changeModalState: changeModalState,
         alt: this.props?.data?.altText,
         data,
@@ -1467,13 +1468,16 @@ class PDPContainer extends React.Component<Props, State> {
                 })}
               >
                 {media_type === "Image" || type === "main" ? (
-                  <LazyImage
-                    alt={data?.altText || data?.title}
-                    aspectRatio="62:93"
-                    src={productImage?.replace("/Micro/", "/Medium/")}
-                    className={globalStyles.imgResponsive}
-                    onClick={this.getMobileZoomListener(i)}
-                  />
+                  <div className={cs(styles.container)}>
+                    <img
+                      fetchpriority={i < 2 ? "high" : "low"}
+                      alt={data?.altText || data?.title}
+                      // aspectRatio="62:93"
+                      src={productImage?.replace("/Micro/", "/Medium/")}
+                      className={globalStyles.imgResponsive}
+                      onClick={this.getMobileZoomListener(i)}
+                    />
+                  </div>
                 ) : (
                   <>
                     {/* <div className={styles.overlayDiv}></div>
