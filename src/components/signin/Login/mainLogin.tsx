@@ -58,7 +58,8 @@ class MainLogin extends React.Component<Props, loginState> {
       showPassword: false,
       showCurrentSection: "email",
       showEmailVerification: false,
-      usrWithNoOrder: false
+      usrWithNoOrder: false,
+      phoneNo: ""
     };
   }
   static contextType = Context;
@@ -75,7 +76,8 @@ class MainLogin extends React.Component<Props, loginState> {
       if (data.otpSent) {
         this.setState({
           showEmailVerification: true,
-          usrWithNoOrder: data.usrWithNoOrder
+          usrWithNoOrder: data.usrWithNoOrder,
+          phoneNo: data?.phoneNo
         });
       } else {
         if (data.invalidDomain) {
@@ -708,6 +710,7 @@ class MainLogin extends React.Component<Props, loginState> {
             currency={this.props.currency}
             nextStep={this.props.nextStep}
             sortBy={this.props.sortBy}
+            phoneNo={this.state.phoneNo}
           />
         ) : (
           <>

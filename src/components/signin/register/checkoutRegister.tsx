@@ -85,7 +85,8 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
       email: "",
       showTip: false,
       whatsappChecked: false,
-      selectedCountry: ""
+      selectedCountry: "",
+      phoneNo: ""
     };
   }
   static contextType = Context;
@@ -238,7 +239,8 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
         // this.props.nextStep?.();
         this.setState({
           showEmailVerification: true,
-          email
+          email,
+          phoneNo: data?.phoneNo
         });
       })
       .catch(error => {
@@ -1336,6 +1338,7 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
             isCheckout={this.props.isCheckout}
             currency={this.props.currency}
             sortBy={this.props.sortBy}
+            phoneNo={this.state.phoneNo}
           />
         ) : (
           <>

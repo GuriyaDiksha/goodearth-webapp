@@ -86,7 +86,7 @@ const makeid = (length: number) => {
 };
 
 const censorWord = (str: string) => {
-  return str[0] + "*".repeat(str.length);
+  return str[0] + "x".repeat(str.length);
 };
 
 const censorEmail = (email: string) => {
@@ -101,10 +101,7 @@ const censorEmail = (email: string) => {
 };
 
 const censorPhoneNumber = (phoneNo: string) => {
-  return (
-    "*".repeat("8511243011".length - 4) +
-    "8511243011".substr("8511243011".length - 4)
-  );
+  return "x".repeat(phoneNo?.length - 4) + phoneNo?.substr(phoneNo?.length - 4);
 };
 
 export {

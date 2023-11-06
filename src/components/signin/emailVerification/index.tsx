@@ -30,7 +30,7 @@ type Props = {
   nextStep?: () => void;
   products?: any;
   sortBy?: string;
-  phoneNo?: number;
+  phoneNo?: string;
 };
 
 const EmailVerification: React.FC<Props> = ({
