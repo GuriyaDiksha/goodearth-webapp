@@ -694,9 +694,6 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                                     &nbsp;
                                   </span>
                                 ) : (
-                                  ""
-                                )}
-                                {item.product?.structure == "GiftCard" && (
                                   <span
                                     className={cs(
                                       {

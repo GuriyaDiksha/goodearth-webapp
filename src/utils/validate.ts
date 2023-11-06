@@ -955,7 +955,7 @@ export function PDP(data: any, currency: Currency) {
           item_list_name: search !== "" ? search : "NA",
           item_variant: child.color,
           item_category4: "NA",
-          item_category5: data.collection,
+          // item_category5: data.collection,
           collection_category: data.collections?.join("|"),
           price: child.priceRecords[currency],
           quantity: 1
