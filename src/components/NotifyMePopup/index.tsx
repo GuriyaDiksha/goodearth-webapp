@@ -222,7 +222,7 @@ const NotifyMePopup: React.FC<Props> = ({
               affiliation: title, // Pass the product name
               coupon: "NA", // Pass the coupon if available
               currency: currency, // Pass the currency code
-              discount: discount, // Pass the discount amount
+              discount: selectedSize?.discountedPriceRecords[currency] || "NA", // Pass the discount amount
               index: "NA",
               item_brand: "Goodearth",
               item_category: category?.split(">")?.join("|"),
@@ -234,9 +234,7 @@ const NotifyMePopup: React.FC<Props> = ({
               // item_category4: l1, //pass the L1,
               item_category4: "NA",
               // item_category5: collection,
-              price:
-                selectedSize?.discountedPriceRecords[currency] ||
-                selectedSize?.priceRecords[currency],
+              price: selectedSize?.priceRecords[currency],
               quantity: quantity,
               // dimension12: selectedSize?.color,
               collection_category: collections?.join("|")
