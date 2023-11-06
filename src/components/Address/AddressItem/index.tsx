@@ -12,6 +12,7 @@ import { CheckoutAddressContext } from "containers/checkout/component/context";
 import BridalContext from "containers/myAccount/components/Bridal/context";
 import { AppState } from "reducers/typings";
 import bridalRing from "../../../images/bridal/rings.svg";
+import addedReg from "../../../images/registery/addedReg.svg";
 import CookieService from "services/cookie";
 import { GA_CALLS } from "constants/cookieConsent";
 
@@ -651,17 +652,23 @@ const AddressItem: React.FC<Props> = props => {
                     })}
                   >
                     {address.isBridal && (
-                      <svg
-                        viewBox="-3 -3 46 46"
-                        width="60"
-                        height="60"
-                        preserveAspectRatio="xMidYMid meet"
-                        x="0"
-                        y="0"
+                      // <svg
+                      //   viewBox="-3 -3 46 46"
+                      //   width="60"
+                      //   height="60"
+                      //   preserveAspectRatio="xMidYMid meet"
+                      //   x="0"
+                      //   y="0"
+                      //   className={styles.ceriseBridalRings}
+                      // >
+                      //   <use xlinkHref={`${bridalRing}#bridal-ring`}></use>
+                      // </svg>
+                      <img
                         className={styles.ceriseBridalRings}
-                      >
-                        <use xlinkHref={`${bridalRing}#bridal-ring`}></use>
-                      </svg>
+                        src={addedReg}
+                        width="35"
+                        alt="gift_reg_icon"
+                      />
                     )}
                     {id === defaultAddress && (
                       <div className={styles.defaultAddress}>
@@ -717,17 +724,23 @@ const AddressItem: React.FC<Props> = props => {
                       })}
                     >
                       {address.isBridal && (
-                        <svg
-                          viewBox="-3 -3 46 46"
-                          width="60"
-                          height="60"
-                          preserveAspectRatio="xMidYMid meet"
-                          x="0"
-                          y="0"
+                        // <svg
+                        //   viewBox="-3 -3 46 46"
+                        //   width="60"
+                        //   height="60"
+                        //   preserveAspectRatio="xMidYMid meet"
+                        //   x="0"
+                        //   y="0"
+                        //   className={styles.ceriseBridalRings}
+                        // >
+                        //   <use xlinkHref={`${bridalRing}#bridal-ring`}></use>
+                        // </svg>
+                        <img
                           className={styles.ceriseBridalRings}
-                        >
-                          <use xlinkHref={`${bridalRing}#bridal-ring`}></use>
-                        </svg>
+                          src={addedReg}
+                          width="35"
+                          alt="gift_reg_icon"
+                        />
                       )}
                       {id === defaultAddress && (
                         <div className={styles.defaultAddress}>
@@ -793,17 +806,23 @@ const AddressItem: React.FC<Props> = props => {
                       })}
                     >
                       {address.isBridal && (
-                        <svg
-                          viewBox="-3 -3 46 46"
-                          width="60"
-                          height="60"
-                          preserveAspectRatio="xMidYMid meet"
-                          x="0"
-                          y="0"
+                        // <svg
+                        //   viewBox="-3 -3 46 46"
+                        //   width="60"
+                        //   height="60"
+                        //   preserveAspectRatio="xMidYMid meet"
+                        //   x="0"
+                        //   y="0"
+                        //   className={styles.ceriseBridalRings}
+                        // >
+                        //   <use xlinkHref={`${bridalRing}#bridal-ring`}></use>
+                        // </svg>
+                        <img
                           className={styles.ceriseBridalRings}
-                        >
-                          <use xlinkHref={`${bridalRing}#bridal-ring`}></use>
-                        </svg>
+                          src={addedReg}
+                          width="35"
+                          alt="gift_reg_icon"
+                        />
                       )}
                       {id === defaultAddress && (
                         <div className={styles.defaultAddress}>
@@ -944,17 +963,23 @@ const AddressItem: React.FC<Props> = props => {
                     })}
                   >
                     {address.isBridal && (
-                      <svg
-                        viewBox="-3 -3 46 46"
-                        width="60"
-                        height="60"
-                        preserveAspectRatio="xMidYMid meet"
-                        x="0"
-                        y="0"
+                      // <svg
+                      //   viewBox="-3 -3 46 46"
+                      //   width="60"
+                      //   height="60"
+                      //   preserveAspectRatio="xMidYMid meet"
+                      //   x="0"
+                      //   y="0"
+                      //   className={styles.ceriseBridalRings}
+                      // >
+                      //   <use xlinkHref={`${bridalRing}#bridal-ring`}></use>
+                      // </svg>
+                      <img
                         className={styles.ceriseBridalRings}
-                      >
-                        <use xlinkHref={`${bridalRing}#bridal-ring`}></use>
-                      </svg>
+                        src={addedReg}
+                        width="35"
+                        alt="gift_reg_icon"
+                      />
                     )}
                     {id === defaultAddress &&
                       (currentCallBackComponent == "account" ||

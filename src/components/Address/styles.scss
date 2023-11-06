@@ -103,8 +103,7 @@ body:has(.mobile) {
       border: 2px solid #8cb8aa;
       padding: 35px 25px 110px 25px;
     }
-    &.diabled-border,
-    &.address-in-use {
+    &.diabled-border{
       // border: 2px solid $cerise;
       // padding: 35px 25px 84px 25px;
       padding: 30px 30px 30px 40px;
@@ -222,9 +221,9 @@ body:has(.mobile) {
         }
       }
       .cerise-bridal-rings {
-        background-color: #ab1e56;
-        border-radius: 50%;
-        fill: #fff;
+        // background-color: #ab1e56;
+        // border-radius: 50%;
+        // fill: #fff;
         height: 35px;
         width: 35px;
         padding: 2px;
