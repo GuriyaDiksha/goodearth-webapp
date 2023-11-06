@@ -26,12 +26,9 @@ import Bridal from "./components/Bridal";
 import { AppState } from "reducers/typings";
 import ActivateGiftCard from "./components/ActivateGiftCard";
 import TrackOrder from "./components/TrackOrder";
-import AccountServices from "services/account";
-import CeriseClubMain from "./components/CeriseClub/ceriseClubMain";
 import CeriseDashboard from "./components/CeriseDashboard";
 import TransactionDashboard from "./components/TransactionDashboard";
 import profileIcon from "../../images/dock_profile.svg";
-// import CookieService from "services/cookie";
 import { CONFIG } from "constants/util";
 
 type Props = {
@@ -40,21 +37,12 @@ type Props = {
   updateCeriseClubAccess: () => void;
 };
 
-// type State = {
-//     showregistry: boolean;
-// }
-
 const MyAccount: React.FC<Props> = props => {
   const { bridalId } = useSelector((state: AppState) => state.user);
   const [accountListing, setAccountListing] = useState(false);
-  // const [slab, setSlab] = useState("");
   const { mobile } = useSelector((state: AppState) => state.device);
-  const { isLoggedIn, email, slab } = useSelector(
-    (state: AppState) => state.user
-  );
+  const { isLoggedIn, slab } = useSelector((state: AppState) => state.user);
   const { showTimer } = useSelector((state: AppState) => state.info);
-  // const [ isCeriseClubMember, setIsCeriseClubMember ] = useState(false);
-
   const [currentSection, setCurrentSection] = useState("Profile");
   const location = useLocation();
   const [showRegistry, setShowRegistry] = useState(
@@ -64,105 +52,10 @@ const MyAccount: React.FC<Props> = props => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
-  // this.state = {
-  //     showregistry: location.search.split('=')[1] == 'bridal' ? true : false,
-  //     isCeriseClubMember: false
-  // }
 
-  // const setSelectedSection = () => {
-
-  //     switch (currentSection) {
-  //         case 'profile':
-  //             return <MyProfile/>
-  //             break;
-  //         case 'password':
-  //             return <ChangePassword/>
-  //             break;
-  //         case 'address':
-  //             return <RegistryAddress isCeriseClubMember={this.state.isCeriseClubMember} isbridal={this.props.isbridal} currentCallBackComponent="account" id={bridalId}/>
-  //             break;
-  //         case 'orders':
-  //             return <PastOrders setAccountPage={this.setAccountPage}/>
-  //             break;
-  //         case 'track':
-  //             return <Tracking setAccountPage={this.setAccountPage}/>
-  //             break;
-  //         case 'bridal':
-  //             return <MainBridal id={bridalId} mobile={mobile}/>
-  //             break;
-  //         case 'checkbalance':
-  //             return <CheckBalance />
-  //             break;
-  //         case 'agc':
-  //             return <Activate />
-  //             break;
-  //         case 'cerise':
-  //             return <CeriseClubMain mobile={mobile}/>
-  //             break;
-  //         default:
-
-  //     }
-  // }
-
-  // const getLoyaltyTransactions = () => {
-  //     const formData = new FormData();
-  //     formData.append("email", window.user.email);
-  //     formData.append("phoneno", "");
-  //     axios.post(`${Config.hostname}mobiquest/showloyaltytransactions/`, formData)
-  //     .then(res => {
-  //         if (res.data.is_success) {
-  //             let isCeriseClubMember = res.data.message.Slab == "CERISE" || res.data.message.Slab == "CERISE SITARA" || res.data.message.Slab == "FF10" || res.data.message.Slab == "FF15"
-  //             this.setState({
-  //                 slab: res.data.message.Slab,
-  //                 isCeriseClubMember: isCeriseClubMember
-  //             }, () => {
-  //                 const slab = slab.toLowerCase() == "cerise" || slab.toLowerCase() == "cerise sitara";
-  //                 this.props.updateCeriseClubAccess(slab);
-  //             })
-  //         }
-  //     })
-  //     .catch(err => {
-  //         console.log(err);
-  //     });
-  // }
-
-  // const showRegistry = () => {
-  //     this.setState({
-  //         showregistry: !this.state.showregistry
-  //     })
-  // }
-
-  // componentDidMount() {
-  //     this.getLoyaltyTransactions();
-  // }
-
-  // let ceriseClubAccess;
-  // if (slab) {
-  //     ceriseClubAccess = slab.toLowerCase() == "cerise" || slab.toLowerCase() == "ff10" || slab.toLowerCase() == "ff15" || slab.toLowerCase() == "cerise sitara";
-  // }
   const { pathname } = useLocation();
   const history = useHistory();
   const dispatch = useDispatch();
-
-  // const getLoyaltyTransactions = () => {
-  //   const formData = new FormData();
-  //   formData.append("email", email);
-  //   formData.append("phoneno", "");
-  // AccountServices.getLoyaltyTransactions(dispatch, formData)
-  //   .then((data: any) => {
-  //     if (data.is_success) {
-  // const isCeriseClubMember = data.message.Slab == "CERISE" || data.message.Slab == "CERISE SITARA" || data.message.Slab == "FF10" || data.message.Slab == "FF15"
-  // const responseSlab = data.message.Slab;
-  // setSlab(responseSlab);
-  // setIsCeriseClubMember(isCeriseClubMember);
-  // const slab = responseSlab.toLowerCase() == "cerise" || responseSlab.toLowerCase() == "cerise sitara";
-  // this.props.updateCeriseClubAccess(slab);
-  //   }
-  // })
-  // .catch(err => {
-  //   console.log(err);
-  // });
-  // };
 
   useEffect(() => {
     const noContentContainerElem = document.getElementById(
@@ -173,8 +66,6 @@ const MyAccount: React.FC<Props> = props => {
     ) {
       noContentContainerElem.classList.remove(globalStyles.contentContainer);
     }
-    // getLoyaltyTransactions();
-    // window.scrollTo(0, 0);
   }, []);
 
   const accountMenuItems: AccountMenuItem[] = [
@@ -216,7 +107,6 @@ const MyAccount: React.FC<Props> = props => {
     }
   ];
   let ceriseClubAccess = false;
-  debugger;
 
   if (slab) {
     ceriseClubAccess =
@@ -424,32 +314,6 @@ const MyAccount: React.FC<Props> = props => {
                             </li>
                           ) : null;
                         })}
-
-                      {/* <li>
-                        {ceriseClubAccess && 
-                            <li>
-                                <Link> className={currentSection == "cerise" ? "cerise" : ""} 
-                                onClick={this.setAccountPage} name="cerise">
-                                    Cerise
-                                </Link>
-                            </li>}
-                        <li className={this.state.showregistry?"bridalleftsec":"bridalleftsec bridalplus"}>
-                            <Link> onClick={this.showRegistry.bind(this)}
-                                className={this.state.showregistry && currentSection == "bridal"?"cerise":""}
-                                name="bridal">
-                                Good Earth Registry </Link>
-                            {this.state.showregistry ? <ul>{this.state.id}
-                                <li>
-                                    <Link> onClick={this.setAccountPage} name="bridal"
-                                        className={this.state.showregistry && currentSection == "bridal"?"cerise":""}>{bridalId == 0 ? 'Create Registry' : 'Manage Registry'}</Link>
-                                </li>
-                                <li>
-                                    <Link> href="/customer-assistance/terms-conditions?id=bridalregistryterms" target="_blank">Good Earth
-                                        Registry Policy</Link>
-                                </li>
-                            </ul> : ""}
-                        </li>
-                        */}
                     </ul>
                   </div>
                 </div>
@@ -486,11 +350,8 @@ const MyAccount: React.FC<Props> = props => {
                           <ul>
                             <li key="create-manage-bridal">
                               <NavLink
-                                // name="bridal"
-
                                 to={item?.href}
                                 activeClassName={styles.gold}
-                                // className={showregistry && currentSection == "bridal" ? "cerise":""}
                               >
                                 {bridalId == 0
                                   ? "Create a Registry"
@@ -523,30 +384,6 @@ const MyAccount: React.FC<Props> = props => {
                       </li>
                     );
                   })}
-                {/* <li>
-                    {ceriseClubAccess && <li>
-                        <Link> className={currentSection == "cerise" ? "cerise" : ""} 
-                        onClick={this.setAccountPage} name="cerise">
-                            Cerise
-                        </Link>
-                    </li>}
-                    <li className={this.state.showregistry?"bridalleftsec":"bridalleftsec bridalplus"}>
-                        <Link> onClick={this.showRegistry.bind(this)}
-                            className={this.state.showregistry && currentSection == "bridal"?"cerise":""}
-                            name="bridal">
-                            Good Earth Registry </Link>
-                        {this.state.showregistry ? <ul>{this.state.id}
-                            <li>
-                                <Link> onClick={this.setAccountPage} name="bridal"
-                                    className={this.state.showregistry && currentSection == "bridal" ? "cerise":""}>{bridalId == 0 ? 'Create a Registry' : 'Manage Registry'}</Link>
-                            </li>
-                            <li>
-                                <Link> href="/customer-assistance/terms-conditions?id=bridalregistryterms" target="_blank">Good Earth
-                                    Registry Policy</Link>
-                            </li>
-                        </ul> : ""}
-                    </li>
-                */}
               </ul>
             </div>
           </div>

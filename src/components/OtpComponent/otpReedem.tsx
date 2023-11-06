@@ -2,12 +2,9 @@ import React, { RefObject, Fragment } from "react";
 import cs from "classnames";
 import styles from "./styles.scss";
 import { otpRedeemProps, otpState } from "./typings";
-// import { Currency, currencyCode } from "typings/currency";
 import globalStyles from "styles/global.scss";
-// import OtpBox from "./otpBox";
 import Formsy from "formsy-react";
 import FormInput from "components/Formsy/FormInput";
-import Loader from "components/Loader";
 import { errorTracking } from "utils/validate";
 import NewOtpComponent from "./NewOtpComponent";
 
@@ -260,6 +257,7 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
     this.setState({
       isLoading: true
     });
+    this.props.removeError();
     this.props
       .sendOtp(formData)
       .then((data: any) => {

@@ -664,7 +664,8 @@ const PaymentSection: React.FC<PaymentProps> = props => {
                   className={cs(
                     bootstrapStyles.col12,
                     bootstrapStyles.colMd6,
-                    styles.title
+                    styles.title,
+                    { [globalStyles.marginB15]: mobile }
                   )}
                 >
                   {loyalty?.[0]?.points && (
@@ -709,7 +710,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
               </div>
               {loyalty?.[0]?.points || !isActive ? null : (
                 <>
-                  <hr className={styles.hr} />
+                  {!mobile && <hr className={styles.hr} />}
                   <div className={globalStyles.flex}>
                     <div className={styles.inputContainer}>
                       <label

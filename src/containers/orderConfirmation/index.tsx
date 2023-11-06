@@ -363,7 +363,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
   }
   return (
     <div>
-      <div className={cs(bootstrapStyles.row, styles.subcHeader)}>
+      {/* <div className={cs(bootstrapStyles.row, styles.subcHeader)}>
         <div
           className={cs(
             bootstrapStyles.col12,
@@ -381,7 +381,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
             />
           </Link>
         </div>
-      </div>
+      </div> */}
 
       <div className={cs(bootstrapStyles.row, styles.bgProfile, styles.os)}>
         <div

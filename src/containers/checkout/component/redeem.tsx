@@ -160,6 +160,10 @@ class Reedem extends React.Component<Props, RedeemState> {
     this.setState({ showTooltipTwo: value });
   };
 
+  removeError = () => {
+    this.setState({ error: "" });
+  };
+
   render() {
     const { newCardBox, txtvalue, showTooltip, showTooltipTwo } = this.state;
     const { loyalty } = this.props;
@@ -345,6 +349,7 @@ class Reedem extends React.Component<Props, RedeemState> {
                 disableBtn={this.state.error}
                 isOTPSent={this.props.isOTPSent}
                 setIsOTPSent={this.props.setIsOTPSent}
+                removeError={this.removeError}
               />
             </div>
           </Fragment>
