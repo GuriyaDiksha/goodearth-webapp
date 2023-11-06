@@ -1,4 +1,5 @@
 import React, { useState, useRef, useContext } from "react";
+import DatePicker from "react-datepicker";
 import moment from "moment";
 import "react-datepicker/dist/react-datepicker.css";
 import { useDispatch } from "react-redux";
@@ -13,6 +14,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import "../../../../styles/reactDatepicker.css";
 import { BridalProfileData } from "./typings";
 import BridalContext from "./context";
+import calendarIcon from "../../../../images/bridal/icons_bridal-registry-calendar.svg";
 
 type Props = {
   bridalProfile?: BridalProfileData;
@@ -23,11 +25,19 @@ type Props = {
     registrantName: string;
     registryName: string;
     coRegistrantName: string;
+    eventDate: string;
   }) => void;
   showManageRegistry: any;
 };
 
 const EditRegistryDetails: React.FC<Props> = props => {
+  const [date, setDate] = useState(
+    props.eventDate ? moment(props.eventDate, "DD MMM, YYYY") : undefined
+  );
+  const [apiDate, setApiDate] = useState(
+    moment(props.eventDate, "DD MMM, YYYY")
+  );
+  // const [isDate, setisDate] = useState(false);
   const dispatch = useDispatch();
   const { setCurrentScreenValue, setCurrentModule } = useContext(BridalContext);
   const [updateProfile, setUpdateProfile] = useState(false);
@@ -39,17 +49,38 @@ const EditRegistryDetails: React.FC<Props> = props => {
     setCurrentModule("created");
   }
 
+  let pickerRef: any = null;
+
+  const onChange = (date: Date) => {
+    if (date) {
+      setDate(moment(date));
+      setApiDate(moment(date));
+      // setisDate(true);
+    } else {
+      // setisDate(false);
+    }
+    setUpdateProfile(true);
+  };
+
+  const OnOutsideClick = () => {
+    pickerRef.setOpen(true);
+  };
+
   const BridalNameFormRef = useRef<Formsy>(null);
 
   const handleSubmit = (model: any) => {
+    const currentDate = moment(date).format("DD MMM, YYYY");
+    const currentApiDate = moment(apiDate).format("DD-MM-YYYY");
     if (!updateProfile) return false;
     const data = {
       bridalId: props.bridalId,
+      eventDate: currentApiDate,
       ...model
     };
     BridalService.updateBridalNames(dispatch, data)
       .then(res => {
         props.changeName(model);
+        props.changeDate(currentDate);
         props.showManageRegistry();
       })
       .catch(error => {
@@ -76,7 +107,6 @@ const EditRegistryDetails: React.FC<Props> = props => {
         : coRegistrantNameRef.current?.value;
     const registryName =
       regName.current?.value.trim() == "" ? "" : regName.current?.value;
-
     if (
       registrantName && coRegistrantName
         ? coRegistrantName
@@ -86,7 +116,7 @@ const EditRegistryDetails: React.FC<Props> = props => {
     } else if (
       (!registrantName || coRegistrantName
         ? !coRegistrantName
-        : "" || !registryName) &&
+        : "" || !registryName) ||
       updateProfile
     ) {
       setUpdateProfile(false);
@@ -188,24 +218,24 @@ const EditRegistryDetails: React.FC<Props> = props => {
                     handleChange={handleChange}
                   />
                 </div>
-                {/* <div className={cs(styles.datePicker)}>
-                    <DatePicker
-                        startOpen={true}
-                        minDate={new Date()}
-                        selected={date.toDate()}
-                        onChange={onChange}
-                        ref={node => {
-                          pickerRef = node;
-                        }}
-                        onClickOutside={OnOutsideClick}
-                        dateFormat="dd/MM/yyyy"
-                        placeholderText="DD/MM/YYYY"
-                        required
-                    />
-                    <div className={cs(styles.calIcon)} onClick={OnOutsideClick}>
-                        <img src={calendarIcon} width="35" height="35" />
-                    </div>
-                </div> */}
+                <div className={cs(styles.datePicker)}>
+                  <DatePicker
+                    startOpen={false}
+                    minDate={new Date()}
+                    selected={date?.toDate()}
+                    onChange={onChange}
+                    ref={(node: any) => {
+                      pickerRef = node;
+                    }}
+                    onClickOutside={OnOutsideClick}
+                    dateFormat="dd/MM/yyyy"
+                    placeholderText="DD/MM/YYYY"
+                  />
+                  <div className={cs(styles.calIcon)} onClick={OnOutsideClick}>
+                    <img src={calendarIcon} width="35" height="35" />
+                  </div>
+                </div>
+
                 <div>
                   <input
                     type="submit"

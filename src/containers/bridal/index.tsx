@@ -65,6 +65,7 @@ class BridalCheckout extends React.Component<Props, State> {
       registrantName: "",
       coRegistrantName: "",
       occasion: "",
+      occassion_choice: "",
       eventDate: "",
       items: [],
       bridalId: 0,
@@ -235,6 +236,7 @@ class BridalCheckout extends React.Component<Props, State> {
       coRegistrantName,
       registryName,
       occasion,
+      occassion_choice,
       eventDate,
       bridalId
     } = this.state.bridalProfile;
@@ -303,7 +305,9 @@ class BridalCheckout extends React.Component<Props, State> {
                           Occasion:
                         </span>
                         &nbsp;&nbsp;
-                        <span className={styles.txtCap}>{occasion} </span>{" "}
+                        <span className={styles.txtCap}>
+                          {occassion_choice ? occassion_choice : occasion}{" "}
+                        </span>{" "}
                       </span>
                     </div>
                     <div
@@ -351,7 +355,7 @@ class BridalCheckout extends React.Component<Props, State> {
                               </span>
                               &nbsp;&nbsp;
                               <span className={styles.txtCap}>
-                                {occasion}
+                                {occassion_choice ? occassion_choice : occasion}
                               </span>{" "}
                             </span>
                           </div>

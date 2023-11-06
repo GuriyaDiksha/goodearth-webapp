@@ -36,10 +36,11 @@ const CreateRegistryNew: React.FC = () => {
   const { setCurrentModule, setCurrentModuleData, data } = useContext(
     BridalContext
   );
-  const [selectId, setSelectId] = useState(data.occasion ? data.occasion : "");
-  const [other, setOther] = useState(
-    data.registryName ? data.registryName : ""
+  const [selectId, setSelectId] = useState(
+    data.occasion ? data.occasion : "wedding"
   );
+  const occasion = selectId;
+  const occasionInCaps = occasion[0].toUpperCase() + occasion.slice(1);
   const [active, setActive] = useState(false);
   const [updateProfile, setUpdateProfile] = useState(
     data.coRegistrantName && data.registrantName && data.eventDate
@@ -61,23 +62,7 @@ const CreateRegistryNew: React.FC = () => {
       setActive(true);
     } else {
       setActive(false);
-      setOther("");
-    }
-  };
-
-  const handleChangeLi = (event: React.ChangeEvent<HTMLInputElement>) => {
-    // setOther(data.registrantName);
-    const otherInput = document.getElementById("other_value");
-    const getOtherVal = otherInput?.getAttribute("value");
-    if (getOtherVal) {
-      setOther(getOtherVal);
-    }
-    const otherInp =
-      otherRef.current?.value.trim() == "" ? "" : otherRef.current?.value;
-    if (otherInp) {
-      setActive(true);
-    } else {
-      setActive(false);
+      // setOther("");
     }
   };
 
@@ -95,23 +80,26 @@ const CreateRegistryNew: React.FC = () => {
     }
   }, []);
 
-  //   const moveTonext = () => {
-  //     setCurrentModule("date");
-  //     setCurrentModuleData("create", { occasion: selectId });
-  //   };
-
   const handleSubmit = (
     model: any,
     resetForm: any,
     updateInputsWithError: any
   ) => {
-    const { registrantName, coRegistrantName, registryName } = model;
+    const {
+      occassion_choice,
+      registrantName,
+      coRegistrantName,
+      registryName
+    } = model;
+    const occasion = selectId;
+    const occasionInCaps = occasion[0].toUpperCase() + occasion.slice(1);
     if (!updateProfile) return false;
     setCurrentModuleData("create", {
-      occasion: selectId ? selectId : "wedding",
+      occasion: selectId == "others" ? occassion_choice : occasion,
+      occassion_choice: occassion_choice ? "Others" : occasionInCaps,
       eventDate: moment(date).format("YYYY-MM-DD"),
       registrantName: registrantName,
-      coRegistrantName: coRegistrantName,
+      coRegistrantName: coRegistrantName ? coRegistrantName : "",
       registryName: registryName
     });
     setCurrentModule("address");
@@ -121,6 +109,23 @@ const CreateRegistryNew: React.FC = () => {
     setUpdateProfile(true);
   };
 
+  // const handleChangeLi = (event: React.ChangeEvent<HTMLInputElement>) => {
+  //   // setOther(data.registrantName);
+  //   const otherInput = document.getElementById("other_value");
+  //   const getOtherVal = otherInput?.getAttribute("value");
+  //   if (getOtherVal) {
+  //     setOther(getOtherVal);
+  //   }
+  //   const otherInp =
+  //     otherRef.current?.value.trim() == "" ? "" : otherRef.current?.value;
+  //   if (otherInp) {
+  //     setActive(true);
+  //   } else {
+  //     setActive(false);
+  //   }
+  // };
+
+  const occasionChoiceRef = useRef<HTMLInputElement>(null);
   const registrantNameRef = useRef<HTMLInputElement>(null);
   const coRegistrantNameRef = useRef<HTMLInputElement>(null);
   const regName = useRef<HTMLInputElement>(null);
@@ -128,6 +133,10 @@ const CreateRegistryNew: React.FC = () => {
   const handleUpdateProfileChange = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
+    const occasionChoice =
+      occasionChoiceRef.current?.value.trim() == ""
+        ? ""
+        : registrantNameRef.current?.value;
     const registrantName =
       registrantNameRef.current?.value.trim() == ""
         ? ""
@@ -138,9 +147,12 @@ const CreateRegistryNew: React.FC = () => {
         : coRegistrantNameRef.current?.value;
     const registryName =
       regName.current?.value.trim() == "" ? "" : regName.current?.value;
-    if (registrantName && coRegistrantName && !updateProfile) {
+    if (occasionChoice && registrantName && registryName && !updateProfile) {
       setUpdateProfile(true);
-    } else if ((!registrantName || !coRegistrantName) && updateProfile) {
+    } else if (
+      (!occasionChoice || !registrantName || !registryName) &&
+      updateProfile
+    ) {
       setUpdateProfile(false);
     }
   };
@@ -246,23 +258,30 @@ const CreateRegistryNew: React.FC = () => {
                     </div>
                     <div
                       onClick={e => {
-                        setRegistry("other");
+                        setRegistry("others");
                       }}
-                      onChange={handleChangeLi}
-                      data-value={other}
+                      // onChange={handleChangeLi}
+                      data-value="others"
                       className={cs(styles.radioList, {
-                        [styles.active]: selectId == "other"
+                        [styles.active]: selectId == "others"
                       })}
                     >
                       <span className={cs(styles.checkMark)}></span>
-                      <li className={cs(styles.lastLiChild)} data-value={other}>
+                      <li
+                        className={cs(styles.lastLiChild)}
+                        data-value={
+                          data.occassion_choice
+                            ? data.occassion_choice
+                            : occasionInCaps
+                        }
+                      >
                         <FormInput
                           id="other_value"
                           className={cs(styles.regFormLabel)}
-                          name="other"
+                          name="occassion_choice"
                           placeholder="Other"
                           label=""
-                          inputRef={otherRef}
+                          inputRef={occasionChoiceRef}
                           validations={{
                             maxLength: 50,
                             isExisty: true
@@ -271,7 +290,7 @@ const CreateRegistryNew: React.FC = () => {
                             maxLength:
                               "You can not enter more than 50 characters"
                           }}
-                          value={other || ""}
+                          value={occasionInCaps ? "" : data.occassion_choice}
                           handleChange={handleUpdateProfileChange}
                         />
                       </li>
@@ -282,7 +301,7 @@ const CreateRegistryNew: React.FC = () => {
                   <FormInput
                     className={cs(styles.regFormLabel)}
                     name="registryName"
-                    // inputRef={regName}
+                    inputRef={regName}
                     placeholder="Registry Name*"
                     label={"Registry Name*"}
                     validations={{
@@ -294,7 +313,7 @@ const CreateRegistryNew: React.FC = () => {
                     }}
                     required
                     value={data.registryName || ""}
-                    // handleChange={handleUpdateProfileChange}
+                    handleChange={handleUpdateProfileChange}
                   />
                 </div>
                 <div>
