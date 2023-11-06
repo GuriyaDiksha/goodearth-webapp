@@ -180,7 +180,7 @@ const AddressItem: React.FC<Props> = props => {
         line?.product.categories && line?.product.categories[index]
           ? line?.product.categories[index].replace(/\s/g, "")
           : "";
-      const arr = category.split(">");
+      // const arr = category.split(">");
 
       return {
         item_id: line?.product?.id, //Pass the product id
@@ -188,7 +188,7 @@ const AddressItem: React.FC<Props> = props => {
         affiliation: line?.product?.title, // Pass the product name
         coupon: "", // Pass the coupon if available
         currency: currency, // Pass the currency code
-        discount: "", // Pass the discount amount
+        discount: "NA", // Pass the discount amount
         index: ind,
         item_brand: "Goodearth",
         item_category: category?.split(">")?.join("|"),

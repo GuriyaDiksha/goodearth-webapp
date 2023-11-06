@@ -506,10 +506,10 @@ const ProductDetails: React.FC<Props> = ({
               item_id: setSelectedSKU(), //Pass the product id
               item_name: title, // Pass the product name
               affiliation: title, // Pass the product name
-              coupon: "", // Pass the coupon if available
+              coupon: "NA", // Pass the coupon if available
               currency: currency, // Pass the currency code
-              discount: discount, // Pass the discount amount
-              index: "",
+              discount: discount ? discount : "NA", // Pass the discount amount
+              index: "NA",
               item_brand: "Goodearth",
               item_category: category?.split(">")?.join("|"),
               item_category2: selectedSize?.size, //pass the item category2 ex.Size

@@ -177,18 +177,19 @@ const CartItems: React.FC<BasketItem> = memo(
                   item_id: product.sku || product.childAttributes[0].sku,
                   item_name: product.title,
                   affiliation: product.title,
-                  coupon: "", // Pass the coupon if available
+                  coupon: "NA", // Pass the coupon if available
                   currency: currency, // Pass the currency code
                   discount:
-                    childAttributes[0]?.discountedPriceRecords[currency], // Pass the discount amount
-                  index: "",
+                    childAttributes[0]?.discountedPriceRecords[currency] ||
+                    "NA", // Pass the discount amount
+                  index: "NA",
                   item_brand: "goodearth",
                   item_category: category?.split(">")?.join("|"),
                   item_category2: size,
-                  item_category3: "",
-                  item_list_id: "",
-                  item_list_name: "",
-                  item_variant: "",
+                  item_category3: "NA",
+                  item_list_id: "NA",
+                  item_list_name: "NA",
+                  item_variant: "NA",
                   // item_category4: product.categories[0],
                   item_category4: "NA",
                   item_category5: product.collection,
