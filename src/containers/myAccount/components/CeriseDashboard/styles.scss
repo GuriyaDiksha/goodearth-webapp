@@ -27,19 +27,19 @@
                 @include b4_12px_montserrat_charcoal();
                 padding: 22px 0;
             }
-            .view-statement{
-                width: 207px;
-                height: 50px;
-                margin: auto;
-                background-color: $med-charcoal;
-                @include b3_14px_montserrat_white();
-                border: 1px solid $med-charcoal;
+            // .view-statement{
+            //     width: 207px;
+            //     height: 50px;
+            //     margin: auto;
+            //     background-color: $med-charcoal;
+            //     @include b3_14px_montserrat_white();
+            //     border: 1px solid $med-charcoal;
 
-                &:hover{
-                    @include b3_14px_montserrat_charcoal();
-                    background-color: transparent;
-                }
-            }
+            //     &:hover{
+            //         @include b3_14px_montserrat_charcoal();
+            //         background-color: transparent;
+            //     }
+            // }
 
         }
     }

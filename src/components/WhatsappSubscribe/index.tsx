@@ -16,6 +16,7 @@ import { updatePreferenceData } from "actions/user";
 import { showGrowlMessage } from "utils/validate";
 import globalStyles from "../../styles/global.scss";
 import Formsy from "formsy-react";
+import Button from "components/Button";
 import SelectDropdown from "components/Formsy/SelectDropdown";
 
 type Props = {
@@ -589,17 +590,12 @@ const WhatsappSubscribe: React.FC<Props> = ({
         )}
         {!(onlyCheckbox || allowUpdate) && (
           <div className={styles.savePrefBtn}>
-            <input
+            <Button
               type="submit"
-              value="Save Preferences"
-              className={cs(
-                globalStyles.charcoalBtn,
-                {
-                  [globalStyles.disabledBtn]: isDisabled
-                },
-                buttonClass
-              )}
+              label="Save Preferences"
+              className={cs(globalStyles.btnFullWidth, buttonClass)}
               disabled={isDisabled}
+              variant="largeMedCharcoalCta"
             />
           </div>
         )}

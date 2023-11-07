@@ -13,6 +13,7 @@ import { MESSAGE } from "constants/messages";
 import { useLocation } from "react-router";
 import NewOtpComponent from "components/OtpComponent/NewOtpComponent";
 import { decriptdata } from "utils/validate";
+import Button from "components/Button";
 
 type Props = {
   successMsg: string;
@@ -164,15 +165,12 @@ const EmailVerification: React.FC<Props> = ({
   }, []);
 
   const goBackCta = (
-    <input
+    <Button
       type="submit"
-      className={cs(
-        globalStyles.charcoalBtn,
-        globalStyles.withWhiteBgNoHover,
-        styles.changeEmailBtn
-      )}
-      value="Go Back"
+      className={cs(globalStyles.btnFullWidth, styles.changeEmailBtn)}
+      label="Go Back"
       onClick={changeEmail}
+      variant="outlineSmallMedCharcoalCta"
     />
   );
 

@@ -342,7 +342,8 @@ div.verify-otp-container{
     padding-bottom: 0px;
   }
   .verify-otp-cta{
-    width: 100%;
+    border-radius: 0%;
+    background-color: inherit;
   }
   .otp-policy{
     padding-top: 0px;

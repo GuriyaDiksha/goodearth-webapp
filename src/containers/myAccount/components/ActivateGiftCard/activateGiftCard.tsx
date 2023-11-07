@@ -15,6 +15,7 @@ import ReactHtmlParser from "react-html-parser";
 import { useSelector, useDispatch } from "react-redux";
 import AccountServices from "services/account";
 import { showGrowlMessage, errorTracking, getErrorList } from "utils/validate";
+import Button from "components/Button";
 
 const Giftcard: React.FC = () => {
   const { user } = useSelector((state: AppState) => state);
@@ -403,13 +404,12 @@ const Giftcard: React.FC = () => {
                   </div>
                   {!showSendOtp && (
                     <div>
-                      <input
+                      <Button
                         type="submit"
-                        value="proceed"
-                        className={cs(styles.charcoalBtn, {
-                          [styles.disabledBtn]: isProceedBtnDisabled
-                        })}
+                        label="proceed"
+                        className={cs(styles.btnFullWidth)}
                         disabled={isProceedBtnDisabled}
+                        variant="largeMedCharcoalCta"
                       />
                     </div>
                   )}
