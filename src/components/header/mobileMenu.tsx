@@ -845,7 +845,11 @@ class Mobilemenu extends React.Component<Props, MobileState> {
     } = this.props;
     const wishlistIcon = wishlistCount > 0;
     const lowerMenu = (
-      <div className={styles.lowerMenu}>
+      <div
+        className={cs(styles.lowerMenu, {
+          [styles.lowerMenuNonInrHeight]: this.props.currency !== "INR"
+        })}
+      >
         <ul>
           {loginItem.label == "Login" && (
             <li
