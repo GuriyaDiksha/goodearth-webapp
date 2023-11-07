@@ -363,6 +363,7 @@ class Checkout extends React.Component<Props, State> {
         } else {
           localStorage.setItem("openGCExitModal", "true");
           this.props.showExitPopup(location, action);
+          this.props?.history?.replace({ pathname: "/order/gc_checkout" });
           return false;
         }
       }

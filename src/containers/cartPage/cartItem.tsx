@@ -182,7 +182,8 @@ const CartItems: React.FC<BasketItem> = memo(
                   coupon: "NA", // Pass the coupon if available
                   currency: currency, // Pass the currency code
                   discount:
-                    childAttributes[0]?.discountedPriceRecords[currency], // Pass the discount amount
+                    childAttributes[0]?.discountedPriceRecords[currency] ||
+                    "NA", // Pass the discount amount
                   index: "NA",
                   item_brand: "goodearth",
                   item_category: category?.split(">")?.join("|"),

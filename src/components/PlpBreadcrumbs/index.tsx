@@ -11,14 +11,15 @@ const Breadcrumbs: React.FC<Props> = memo(
     levels.map(({ name, url }, index) => {
       if (index !== levels.length - 1) {
         const href = url ? url : "#";
-        breadcrumbs.push(
-          <Fragment key={name}>
-            <Link to={href}>{name}</Link>
-            <span className={styles.separator} key={`separator-${index}`}>
-              {separator}
-            </span>
-          </Fragment>
-        );
+        name &&
+          breadcrumbs.push(
+            <Fragment key={name}>
+              <Link to={href}>{name}</Link>
+              <span className={styles.separator} key={`separator-${index}`}>
+                {separator}
+              </span>
+            </Fragment>
+          );
       } else {
         const href = url ? url : "#";
         breadcrumbs.push(

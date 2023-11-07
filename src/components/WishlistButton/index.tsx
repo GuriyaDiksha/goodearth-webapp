@@ -153,7 +153,7 @@ const WishlistButton: React.FC<Props> = ({
                       ? childAttributes[0].size
                       : "",
                   item_category4: "",
-                  item_category5: "",
+                  // item_category5: "",
                   price: child?.[0].discountedPriceRecords
                     ? child?.[0].discountedPriceRecords[currency]
                     : child?.[0].priceRecords
