@@ -69,6 +69,7 @@ export default {
       registryName: string;
       registrantName: string;
       coRegistrantName: string;
+      eventDate: string;
     }
   ) => {
     const res = await API.post<{ message: string }>(

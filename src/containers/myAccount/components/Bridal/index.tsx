@@ -34,6 +34,7 @@ import { updateNextUrl } from "actions/info";
 import NewManageRegistry from "./NewManageRegistry";
 // import globalStyles from "styles/global.scss";
 import EditRegistryDetails from "./EditRegistryDetails";
+import { StringifyOptions } from "querystring";
 type Props = {
   bridalId: number;
 };
@@ -42,6 +43,7 @@ const Bridal: React.FC<Props> = props => {
   // const [ addressData, setAddressData ] = useState<AddressData>();
   const [bridalDetails, setBridalDetails] = useState<BridalDetailsType>({
     occasion: "",
+    occassion_choice: "",
     registrantName: "",
     registryName: "",
     coRegistrantName: "",
@@ -199,7 +201,6 @@ const Bridal: React.FC<Props> = props => {
           const items = data;
           for (let i = 0; i < items.length; i++) {
             if (items[i].id == newAddressId) {
-              alert(items);
               setBridalAddress(items[i]);
               break;
             }
@@ -218,6 +219,7 @@ const Bridal: React.FC<Props> = props => {
     if (bridalDetails) {
       const {
         occasion,
+        occassion_choice,
         eventDate,
         registrantName,
         coRegistrantName,
@@ -231,6 +233,9 @@ const Bridal: React.FC<Props> = props => {
       switch (section) {
         case "create":
           newBridalDetails["occasion"] = occasion ? occasion : "";
+          newBridalDetails["occassion_choice"] = occassion_choice
+            ? occassion_choice
+            : "";
           newBridalDetails["eventDate"] = eventDate ? eventDate : "";
           newBridalDetails["registrantName"] = registrantName
             ? registrantName
@@ -326,8 +331,6 @@ const Bridal: React.FC<Props> = props => {
 
             dispatch(updateUser(updatedUser));
             setCurrentModule("created");
-            // alert("editdetails====" +currentScreenValue);
-            // setCurrentScreenValue("createdNew");
           }
         })
         .catch(err => {
@@ -403,10 +406,12 @@ const Bridal: React.FC<Props> = props => {
       registrantName: string;
       coRegistrantName: string;
       registryName: string;
+      eventDate: string;
     }) => {
       setRegistrantName(data.registrantName);
       setCoRegistrantName(data.coRegistrantName);
       setRegistryName(data.registryName);
+      setCurrentEventDate(data.eventDate);
     };
 
     const changeDate = (date: string) => {
@@ -459,7 +464,7 @@ const Bridal: React.FC<Props> = props => {
           <EditRegistryDetails
             bridalProfile={bridalProfile}
             bridalId={bridalProfileData ? bridalProfileData.bridalId : 0}
-            eventDate={currentEventDate}
+            eventDate={bridalProfileData ? bridalProfileData.eventDate : ""}
             changeName={changeName}
             changeDate={changeDate}
             showManageRegistry={showCreatedRegistryModule}
@@ -501,10 +506,12 @@ const Bridal: React.FC<Props> = props => {
       registrantName: string;
       coRegistrantName: string;
       registryName: string;
+      eventDate: string;
     }) => {
       setRegistrantName(data.registrantName);
       setCoRegistrantName(data.coRegistrantName);
       setRegistryName(data.registryName);
+      setCurrentEventDate(data.eventDate);
     };
 
     const changeDate = (date: string) => {
@@ -566,7 +573,7 @@ const Bridal: React.FC<Props> = props => {
             bridalProfile={bridalProfile}
             bridalId={bridalProfileData ? bridalProfileData.bridalId : 0}
             // bridalId= {props.bridalId}
-            eventDate={currentEventDate}
+            eventDate={bridalProfileData ? bridalProfileData.eventDate : ""}
             changeName={changeName}
             changeDate={changeDate}
             showManageRegistry={showManageRegistry}

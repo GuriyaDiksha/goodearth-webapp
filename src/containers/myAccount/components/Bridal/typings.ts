@@ -5,6 +5,7 @@ import { PriceRecord } from "typings/price";
 
 export type BridalDetailsType = {
   occasion: string;
+  occassion_choice: string;
   coRegistrantName: string;
   eventDate: string;
   registrantName: string;
@@ -25,6 +26,7 @@ export type Props = {
 export type BridalProfileData = {
   bridalId: number;
   occasion: string;
+  occassion_choice: string;
   eventDate: string;
   key: string;
   shareLink: string;
@@ -62,6 +64,7 @@ export type BridalItemData = {
 export type BridalPublicProfileData = {
   bridalId: number;
   occasion: string;
+  occassion_choice: string;
   eventDate: string;
   registrantName: string;
   coRegistrantName: string;
