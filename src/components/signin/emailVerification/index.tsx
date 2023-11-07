@@ -287,7 +287,9 @@ const EmailVerification: React.FC<Props> = ({
         {!isCheckout && (
           <div className={cs(styles.loginFormSubheading, styles.verifyOtp)}>
             {isRegistration
-              ? `Please verify your email ID by entering OTP sent to ${email}`
+              ? `Please verify your email ID by entering OTP sent to ${censorEmail(
+                  email
+                )}`
               : `Please enter the OTP sent to ${censorEmail(email)}
            ${phoneNo && `& ${censorPhoneNumber(phoneNo.toString())}`} to login`}
           </div>

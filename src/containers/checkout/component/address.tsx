@@ -960,6 +960,7 @@ const AddressSection: React.FC<AddressProps & {
   let ctaText = "";
 
   if (addressList.length) {
+    debugger;
     if (activeStep == STEP_SHIPPING) {
       if (shippingAddressId) {
         ctaText = "SHIP TO THIS ADDRESS";
@@ -968,8 +969,9 @@ const AddressSection: React.FC<AddressProps & {
       }
     } else {
       if (
-        ((isBridal || isGoodearthShipping) && addressList.length > 1) ||
-        (!isBridal && !isGoodearthShipping)
+        (((isBridal || isGoodearthShipping) && addressList.length > 1) ||
+          (!isBridal && !isGoodearthShipping)) &&
+        !(isGcCheckout && addressList.length == 1 && addressList[0].isTulsi)
       ) {
         if (billingAddressId) {
           ctaText = "PROCEED TO PAYMENT";
@@ -1210,26 +1212,28 @@ const AddressSection: React.FC<AddressProps & {
                           props.isGcCheckout))) && (
                       <>
                         <div>{children}</div>
-                        {addressList.length === 0 && mode == "list" && (
-                          <div
-                            className={cs(
-                              bootstrapStyles.row,
-                              globalStyles.gutterBetween,
-                              styles.checkoutAddressFooter,
-                              globalStyles.paddT0
-                            )}
-                          >
+                        {props.activeStep == STEP_SHIPPING &&
+                          addressList.length === 0 &&
+                          mode == "list" && (
                             <div
-                              onClick={() => openAddressForm()}
                               className={cs(
-                                styles.sendToAddress,
-                                styles.footerSendToAddress
+                                bootstrapStyles.row,
+                                globalStyles.gutterBetween,
+                                styles.checkoutAddressFooter,
+                                globalStyles.paddT0
                               )}
                             >
-                              {ctaText}
+                              <div
+                                onClick={() => openAddressForm()}
+                                className={cs(
+                                  styles.sendToAddress,
+                                  styles.footerSendToAddress
+                                )}
+                              >
+                                {ctaText}
+                              </div>
                             </div>
-                          </div>
-                        )}
+                          )}
                         {addressList.length && mode == "list" ? (
                           <>
                             <div></div>

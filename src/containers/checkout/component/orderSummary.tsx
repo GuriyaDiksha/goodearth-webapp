@@ -736,31 +736,35 @@ const OrderSummary: React.FC<OrderProps> = props => {
           page == "checkout" &&
           !(pathname == "/order/gc_checkout") ? null : (
             <div className={styles.summaryAmountWrapper}>
-              <div
-                className={cs(globalStyles.flex, globalStyles.gutterBetween)}
-              >
-                <span className={styles.subtotal}>SUBTOTAL</span>
-                <span className={styles.subtotal}>
-                  {displayPriceWithCommasFloat(basket.subTotal, currency)}
-                </span>
-              </div>
+              {pathname != "/order/gc_checkout" && (
+                <div
+                  className={cs(globalStyles.flex, globalStyles.gutterBetween)}
+                >
+                  <span className={styles.subtotal}>SUBTOTAL</span>
+                  <span className={styles.subtotal}>
+                    {displayPriceWithCommasFloat(basket.subTotal, currency)}
+                  </span>
+                </div>
+              )}
               {getDiscount(basket.offerDiscounts)}
-              <div
-                className={cs(
-                  globalStyles.flex,
-                  globalStyles.gutterBetween,
-                  globalStyles.marginT20
-                )}
-              >
-                <span className={styles.subtotal}>SHIPPING</span>
-                <span className={styles.subtotal}>
-                  (+)
-                  {displayPriceWithCommasFloat(
-                    parseFloat(shippingCharge),
-                    currency
+              {pathname != "/order/gc_checkout" && (
+                <div
+                  className={cs(
+                    globalStyles.flex,
+                    globalStyles.gutterBetween,
+                    globalStyles.marginT20
                   )}
-                </span>
-              </div>
+                >
+                  <span className={styles.subtotal}>SHIPPING</span>
+                  <span className={styles.subtotal}>
+                    (+)
+                    {displayPriceWithCommasFloat(
+                      parseFloat(shippingCharge),
+                      currency
+                    )}
+                  </span>
+                </div>
+              )}
               {basket.finalDeliveryDate && showDeliveryTimelines && (
                 <div className={cs(styles.deliveryDate, styles.maxWidth)}>
                   Estimated delivery on or before:{" "}
@@ -776,8 +780,9 @@ const OrderSummary: React.FC<OrderProps> = props => {
                   to {shippingAddress.state} - {shippingAddress.postCode}
                 </div>
               )}
-
-              <hr className={styles.hr} />
+              {!(pathname == "/order/gc_checkout") && (
+                <hr className={styles.hr} />
+              )}
               <div
                 className={cs(globalStyles.flex, globalStyles.gutterBetween)}
               >
@@ -795,9 +800,9 @@ const OrderSummary: React.FC<OrderProps> = props => {
                 (page == "checkoutMobileBottom" &&
                   !checkoutOrderSummaryStatus)) &&
                 getCoupons()}
-              {!(pathname == "/order/gc_checkout") && (
-                <hr className={styles.hr} />
-              )}
+              {/* {!(pathname == "/order/gc_checkout") && ( */}
+              <hr className={styles.hr} />
+              {/* )} */}
               <div
                 className={cs(
                   globalStyles.flex,
