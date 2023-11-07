@@ -713,7 +713,12 @@ export default {
             basketRes.lineItems.map(item =>
               item.bridalProfile ? (basketBridalId = item.bridalProfile) : ""
             );
-            if (basketBridalId && basketBridalId == metaResponse.bridalId) {
+
+            if (
+              basketBridalId &&
+              basketBridalId == metaResponse.bridalId &&
+              location?.pathname != "/order/checkout"
+            ) {
               showGrowlMessage(dispatch, MESSAGE.REGISTRY_OWNER_CHECKOUT, 6000);
             }
             let item1 = false,
@@ -722,7 +727,7 @@ export default {
               if (!data.bridalProfile) item1 = true;
               if (data.bridalProfile) item2 = true;
             });
-            if (item1 && item2) {
+            if (item1 && item2 && location?.pathname != "/order/checkout") {
               showGrowlMessage(dispatch, MESSAGE.REGISTRY_MIXED_SHIPPING, 6000);
             }
           }
