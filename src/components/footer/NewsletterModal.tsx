@@ -225,6 +225,22 @@ const NewsletterModal: React.FC<Props> = ({ title, subTitle }) => {
   }, []);
   //  end close modal on ESC keyword
 
+  // start close modal on outsideClick
+  useEffect(() => {
+    const handleOutsideClick = (event: any) => {
+      if (displayPopUp && event.target.id == "newsletter-modal-container") {
+        onClose();
+      }
+    };
+    // Attach the event listener when the component mounts
+    document.addEventListener("click", handleOutsideClick);
+    // Remove the event listener when the component unmounts
+    return () => {
+      document.removeEventListener("click", handleOutsideClick);
+    };
+  }, [displayPopUp]);
+  // end close modal on outsideClick
+
   const saveData = (formData: any, updateInputsWithError: any) => {
     setIsLoading(false);
     setSuccessMsg("");
@@ -426,7 +442,7 @@ const NewsletterModal: React.FC<Props> = ({ title, subTitle }) => {
             onClick={onClose}
             data-dismiss="modal"
           >
-            <img src={crossIcon} />
+            <img src={crossIcon} width="18" height="18" />
           </button>
           <div className={cs(styles.modalContent)}>
             <div className={cs(styles.modalHeader)}>
