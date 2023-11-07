@@ -31,6 +31,7 @@ type Props = {
   products?: any;
   sortBy?: string;
   phoneNo?: string;
+  isRegistration?: boolean;
 };
 
 const EmailVerification: React.FC<Props> = ({
@@ -44,7 +45,8 @@ const EmailVerification: React.FC<Props> = ({
   nextStep,
   products,
   sortBy,
-  phoneNo
+  phoneNo,
+  isRegistration
 }) => {
   // const [isLoading, setIsLoading] = useState(false);
   // const [enableBtn, setEnableBtn] = useState(false);
@@ -284,10 +286,13 @@ const EmailVerification: React.FC<Props> = ({
         )}
         {!isCheckout && (
           <div className={cs(styles.loginFormSubheading, styles.verifyOtp)}>
-            Please enter the OTP sent to {censorEmail(email)}{" "}
-            {phoneNo && `& ${censorPhoneNumber(phoneNo.toString())}`} to login
+            {isRegistration
+              ? `Please verify your email ID by entering OTP sent to ${email}`
+              : `Please enter the OTP sent to ${censorEmail(email)}
+           ${phoneNo && `& ${censorPhoneNumber(phoneNo.toString())}`} to login`}
           </div>
         )}
+
         {isCheckout && (
           <div className={styles.checkoutHeaderContainer}>
             <div className={styles.header}>Verify Email</div>

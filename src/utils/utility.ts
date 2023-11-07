@@ -85,16 +85,16 @@ const makeid = (length: number) => {
   return result;
 };
 
-const censorWord = (str: string) => {
-  return str[0] + "x".repeat(str.length);
+const censorWord = (str: string, to: number) => {
+  return str.substring(0, to) + "x".repeat(str.length - to);
 };
 
 const censorEmail = (email: string) => {
   const arr = email.split("@");
   return (
-    censorWord(arr[0]) +
+    censorWord(arr[0], 2) +
     "@" +
-    censorWord(arr[1]?.split(".")?.[0]) +
+    censorWord(arr[1]?.split(".")?.[0], 1) +
     "." +
     arr[1]?.split(".")?.[1]
   );

@@ -1339,6 +1339,7 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
             currency={this.props.currency}
             sortBy={this.props.sortBy}
             phoneNo={this.state.phoneNo}
+            isRegistration={true}
           />
         ) : (
           <>
