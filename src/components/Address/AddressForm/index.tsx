@@ -29,6 +29,7 @@ import BridalContext from "containers/myAccount/components/Bridal/context";
 import noPincodeCountryList from "./noPincodeCountryList";
 import SelectDropdown from "components/Formsy/SelectDropdown";
 import iconStyles from "styles/iconFonts.scss";
+import { cloneDeep } from "lodash";
 
 type Props = {
   addressData?: AddressData;
@@ -315,11 +316,16 @@ const AddressForm: React.FC<Props> = props => {
               setBridalAddress(bridalAddress);
             }
           }
+          const copyAddressList = cloneDeep(addressList);
           setIsLoading(false);
           closeAddressForm(
-            addressList?.[addressList?.length - 1]?.isTulsi
-              ? addressList?.[addressList?.length - 2]?.id
-              : addressList?.[addressList?.length - 1]?.id
+            copyAddressList?.[copyAddressList?.length - 1]?.isTulsi
+              ? copyAddressList?.sort((a, b) => a.id - b.id)?.[
+                  copyAddressList?.length - 2
+                ]?.id
+              : copyAddressList?.sort((a, b) => a.id - b.id)?.[
+                  copyAddressList?.length - 1
+                ]?.id
           );
         })
         .catch(err => {
