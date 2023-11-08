@@ -7,7 +7,11 @@ import { Link } from "react-router-dom";
 import CookieService from "services/cookie";
 import { GA_CALLS } from "constants/cookieConsent";
 
-const CollectionItem: React.FC<CollectionItems> = ({ key, collectionData }) => {
+const CollectionItem: React.FC<CollectionItems> = ({
+  key,
+  collectionData,
+  activeFilterHandler
+}) => {
   const {
     name,
     longDescription,
@@ -44,7 +48,11 @@ const CollectionItem: React.FC<CollectionItems> = ({ key, collectionData }) => {
       <div className={styles.collectionItemContent}>
         <div className={styles.tagWrp}>
           {tags?.map((tag: string, i: number) => (
-            <p key={i} className={styles.tag}>
+            <p
+              key={i}
+              className={styles.tag}
+              onClick={() => activeFilterHandler(tag)}
+            >
               {tag}
             </p>
           ))}
