@@ -228,9 +228,12 @@ const RegistryAddress: React.FC<{ children: React.ReactNode }> = props => {
 
                 globalStyles.pointer
               )}
-              onClick={closeAddressForm}
+              onClick={() => {
+                window.scrollTo(0, 0);
+                closeAddressForm();
+              }}
             >
-              &lt; &nbsp;SAVED ADDRESSES
+              &lt; &nbsp;BACK
             </span>
           </div>
         )}
@@ -371,18 +374,27 @@ const RegistryAddress: React.FC<{ children: React.ReactNode }> = props => {
         currentCallBackComponent == "bridal" && (
           <div
             className={cs(
-              globalStyles.textCenter,
-
-              globalStyles.cerise,
-
-              globalStyles.voffset4,
-
-              styles.letterSpacing1
+              // globalStyles.textCenter,
+              // globalStyles.cerise,
+              // globalStyles.voffset4,
+              // styles.letterSpacing1
+              cs(styles.backBtnCenter, styles.backBtnProfile)
             )}
           >
-            <span className={globalStyles.pointer} onClick={closeAddressForm}>
+            <span
+              // className={globalStyles.pointer}
+              className={cs(
+                styles.backBtn,
+                globalStyles.ointer,
+                styles.addNewAddress
+              )}
+              onClick={() => {
+                window.scrollTo(0, 0);
+                closeAddressForm();
+              }}
+            >
               {" "}
-              &lt; &nbsp;SAVED ADDRESSES
+              GO BACK
             </span>
           </div>
         )}

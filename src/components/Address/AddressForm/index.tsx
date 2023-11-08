@@ -969,7 +969,7 @@ const AddressForm: React.FC<Props> = props => {
                   />
                 )}
               </div>
-              {currentCallBackComponent !== "bridal-edit" &&
+              {/* {currentCallBackComponent !== "bridal-edit" &&
                 currentCallBackComponent !== "bridal" && (
                   <div className="col-xs-6">
                     <Button
@@ -996,7 +996,7 @@ const AddressForm: React.FC<Props> = props => {
                       )}
                     />
                   </div>
-                )}
+                )} */}
             </div>
             {errorMessage ? (
               <p className={globalStyles.errorMsg}>{errorMessage}</p>
@@ -1019,13 +1019,15 @@ const AddressForm: React.FC<Props> = props => {
               styles.addNewAddress
             )}
             onTouchEnd={() => {
+              window.scrollTo(0, 0);
               closeAddressForm();
             }}
             onClick={() => {
+              window.scrollTo(0, 0);
               closeAddressForm();
             }}
           >
-            Cancel & Go Back
+            Go Back
           </span>
         </div>
       )}
