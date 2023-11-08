@@ -20,7 +20,7 @@
 .label {
   @include header_currency();
   display: flex;
-  line-height: $dropdown-label-height;
+  line-height: $dropdown-label-line-height;
   text-align: center;
   padding: 0 10px;
   align-items: center;
@@ -50,9 +50,16 @@
   &.right {
     right: -1px;
   }
+  &.right-profile {
+    right: -75px !important;
+  }
 
   &.left {
     left: -10px;
+  }
+
+  &.top-pos{
+    top: 24px;
   }
 }
 

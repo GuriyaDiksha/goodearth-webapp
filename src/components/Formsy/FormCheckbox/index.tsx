@@ -2,6 +2,7 @@ import React, { useCallback } from "react";
 import { withFormsy } from "formsy-react";
 import { InjectedProps } from "formsy-react/dist/Wrapper";
 import { Props } from "./typings";
+import CheckboxWithLabel from "components/CheckboxWithLabel";
 
 const FormCheckbox: React.FC<Props &
   InjectedProps<string | boolean | null>> = props => {
@@ -24,21 +25,21 @@ const FormCheckbox: React.FC<Props &
     inputClassName
   } = props;
   return (
-    <div className={className}>
-      <input
-        ref={inputRef}
-        name={name}
-        disabled={disable}
-        onChange={handleChange}
-        type="checkbox"
-        id={id}
-        checked={value || false}
-        className={inputClassName}
-      />
-      <label htmlFor={id} className={labelClassName}>
-        {label}
-      </label>
-    </div>
+    <CheckboxWithLabel
+      inputRef={inputRef}
+      name={name}
+      disabled={disable}
+      onChange={handleChange}
+      id={id}
+      checked={value || false}
+      inputClassName={inputClassName}
+      className={className}
+      label={[
+        <label key={id} htmlFor={id} className={labelClassName}>
+          {label}
+        </label>
+      ]}
+    />
   );
 };
 export default withFormsy(FormCheckbox);

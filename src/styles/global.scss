@@ -133,9 +133,18 @@ a {
   margin-top: 0px !important;
 }
 
+.margin-t-3 {
+  margin-top: 3px;
+}
+
 .margin-b-0 {
   margin-bottom: 0px !important;
 }
+
+.margin-b-20 {
+  margin-bottom: 20px;
+}
+
 .margin-auto {
   margin: auto !important;
 }
@@ -233,6 +242,15 @@ a {
 }
 .cerise {
   color: $cerise !important;
+}
+.cerise-background {
+  background-color: $cerise !important;
+}
+.grey-background{
+  background-color: $light-charcoal !important;
+}
+.grey-color{
+  color: $light-charcoal !important;
 }
 .ceriseDisabled {
   color: tint(#000,80%) !important;
@@ -689,6 +707,9 @@ font-weight: bold;
   }
 }
 
+.btn-full-width{
+  width: 100% !important;
+}
 .checkout-btn {
   @include cerise-btn();
   background-color: $aqua;

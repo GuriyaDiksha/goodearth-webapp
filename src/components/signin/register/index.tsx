@@ -25,6 +25,7 @@ import { getErrorList, errorTracking } from "utils/validate";
 import { AppState } from "reducers/typings";
 import CookieService from "services/cookie";
 import { GA_CALLS } from "constants/cookieConsent";
+import Button from "components/Button";
 import SelectDropdown from "components/Formsy/SelectDropdown";
 
 const mapStateToProps = (state: AppState) => {
@@ -746,16 +747,12 @@ class RegisterForm extends React.Component<Props, registerState> {
             ) : (
               ""
             )}
-            <input
+            <Button
               type="submit"
-              formNoValidate
-              className={
-                this.state.disableButton || !this.state.showFields
-                  ? cs(globalStyles.disabledBtn, globalStyles.ceriseBtn)
-                  : globalStyles.ceriseBtn
-              }
-              value="continue"
+              className={globalStyles.btnFullWidth}
+              label="continue"
               disabled={this.state.disableButton || !this.state.showFields}
+              variant="largeAquaCta"
             />
           </div>
         </div>

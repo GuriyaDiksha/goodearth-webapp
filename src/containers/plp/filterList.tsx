@@ -19,6 +19,7 @@ import bootstrap from "../../styles/bootstrap/bootstrap-grid.scss";
 import CookieService from "services/cookie";
 import { GA_CALLS } from "constants/cookieConsent";
 import { displayPriceWithCommas } from "utils/utility";
+import CheckboxWithLabel from "components/CheckboxWithLabel";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -267,13 +268,20 @@ class FilterList extends React.Component<Props, State> {
             break;
           case "categoryShop":
             categoryKey = array[filterType][key];
+            let l2Selected = false;
             Object.keys(categoryKey).map(data => {
-              if (categoryKey[data]) {
+              if (categoryKey[data] && !l2Selected) {
                 const orignalData = data;
                 data = encodeURIComponent(data).replace(/%20/g, "+");
-                categoryShopVars == ""
-                  ? (categoryShopVars = data)
-                  : (categoryShopVars += "|" + data);
+                if ((data.match(/%3E/g) || []).length == 1) {
+                  // Break loop if l2 is selected. No need to add l3s now.
+                  categoryShopVars = data;
+                  l2Selected = true;
+                } else {
+                  categoryShopVars == ""
+                    ? (categoryShopVars = data)
+                    : (categoryShopVars += "|" + data);
+                }
                 mainurl = this.getMainUrl(orignalData);
               }
             });
@@ -1059,8 +1067,7 @@ class FilterList extends React.Component<Props, State> {
             {this.productData.map((level4: any) => {
               return (
                 <li key={"pb_" + level4}>
-                  <input
-                    type="checkbox"
+                  <CheckboxWithLabel
                     onChange={this.onClickLevel4}
                     id={"pb_" + level4}
                     checked={
@@ -1073,18 +1080,21 @@ class FilterList extends React.Component<Props, State> {
                       filteredProductType?.filter((e: string[]) => e === level4)
                         .length === 0
                     }
+                    label={[
+                      <label
+                        key={"pb_" + level4}
+                        className={cs({
+                          [styles.disableType]:
+                            filteredProductType?.filter(
+                              (e: string[]) => e === level4
+                            ).length === 0
+                        })}
+                        htmlFor={"pb_" + level4}
+                      >
+                        {level4}
+                      </label>
+                    ]}
                   />
-                  <label
-                    className={cs({
-                      [styles.disableType]:
-                        filteredProductType?.filter(
-                          (e: string[]) => e === level4
-                        ).length === 0
-                    })}
-                    htmlFor={"pb_" + level4}
-                  >
-                    {level4}
-                  </label>
                 </li>
               );
             })}
@@ -1116,8 +1126,7 @@ class FilterList extends React.Component<Props, State> {
             {this.props.facets.availableDiscount.map((discount: any) => {
               return (
                 <li key={discount[0]}>
-                  <input
-                    type="checkbox"
+                  <CheckboxWithLabel
                     onChange={this.onClickDiscount}
                     id={"disc_" + discount[0]}
                     checked={
@@ -1132,18 +1141,21 @@ class FilterList extends React.Component<Props, State> {
                         (e: string[]) => e[0] === discount[0]
                       ).length === 0
                     }
+                    label={[
+                      <label
+                        className={cs({
+                          [styles.disableType]:
+                            filtered_facets?.availableDiscount?.filter(
+                              (e: string[]) => e[0] === discount?.[0]
+                            ).length === 0
+                        })}
+                        htmlFor={"disc_" + discount[0]}
+                        key={"disc_" + discount[0]}
+                      >
+                        {discount[1]}
+                      </label>
+                    ]}
                   />
-                  <label
-                    className={cs({
-                      [styles.disableType]:
-                        filtered_facets?.availableDiscount?.filter(
-                          (e: string[]) => e[0] === discount?.[0]
-                        ).length === 0
-                    })}
-                    htmlFor={"disc_" + discount[0]}
-                  >
-                    {discount[1]}
-                  </label>
                 </li>
               );
             })}
@@ -1162,8 +1174,7 @@ class FilterList extends React.Component<Props, State> {
     facets?.currentMaterial.map((data: any, i: number) => {
       html.push(
         <li className={styles.materiallabel} key={data?.[0]}>
-          <input
-            type="checkbox"
+          <CheckboxWithLabel
             id={data?.[0]}
             checked={
               filter?.currentMaterial[data[0]]
@@ -1177,18 +1188,21 @@ class FilterList extends React.Component<Props, State> {
                 (e: string[]) => e[0] === data[0]
               ).length === 0
             }
+            label={[
+              <label
+                className={cs({
+                  [styles.disableColors]:
+                    filtered_facets?.currentMaterial?.filter(
+                      (e: string[]) => e[0] === data?.[0]
+                    ).length === 0
+                })}
+                htmlFor={data?.[0]}
+                key={data?.[0]}
+              >
+                {data?.[0]}
+              </label>
+            ]}
           />
-          <label
-            className={cs({
-              [styles.disableColors]:
-                filtered_facets?.currentMaterial?.filter(
-                  (e: string[]) => e[0] === data?.[0]
-                ).length === 0
-            })}
-            htmlFor={data?.[0]}
-          >
-            {data?.[0]}
-          </label>
         </li>
       );
     });
@@ -1230,8 +1244,7 @@ class FilterList extends React.Component<Props, State> {
           >
             <ul className={styles.categorylabel}>
               <li>
-                <input
-                  type="checkbox"
+                <CheckboxWithLabel
                   id={id}
                   disabled={this.state.disableSelectedbox}
                   checked={
@@ -1242,8 +1255,12 @@ class FilterList extends React.Component<Props, State> {
                   onChange={this.handleClickCategory}
                   value={data[0].split(">")[1].trim()}
                   name="View all"
+                  label={[
+                    <label key={id} htmlFor={id}>
+                      View all
+                    </label>
+                  ]}
                 />
-                <label htmlFor={id}>View all</label>
               </li>
             </ul>
           </div>
@@ -1289,8 +1306,7 @@ class FilterList extends React.Component<Props, State> {
               {categoryObj[data].map((nestedList: any, j: number) => {
                 return (
                   <li key={nestedList[1]}>
-                    <input
-                      type="checkbox"
+                    <CheckboxWithLabel
                       id={nestedList[1]}
                       disabled={this.state.disableSelectedbox}
                       checked={
@@ -1301,8 +1317,12 @@ class FilterList extends React.Component<Props, State> {
                       onChange={this.handleClickCategory}
                       value={data}
                       name={nestedList[0]}
+                      label={[
+                        <label key={nestedList[1]} htmlFor={nestedList[1]}>
+                          {nestedList[0]}
+                        </label>
+                      ]}
                     />
-                    <label htmlFor={nestedList[1]}>{nestedList[0]}</label>
                   </li>
                 );
               })}

@@ -32,6 +32,8 @@ import checkmarkCircle from "./../../../images/checkmarkCircle.svg";
 import { updateComponent, updateModal } from "actions/modal";
 import { POPUP } from "constants/components";
 import { displayPriceWithCommas } from "utils/utility";
+import CheckboxWithLabel from "components/CheckboxWithLabel";
+import Button from "components/Button";
 import ReactHtmlParser from "react-html-parser";
 import { countryCurrencyCode } from "constants/currency";
 import ModalStyles from "components/Modal/styles.scss";
@@ -687,19 +689,20 @@ const AddressSection: React.FC<AddressProps & {
         affiliation: line?.product?.title, // Pass the product name
         coupon: "NA", // Pass the coupon if available
         currency: currency, // Pass the currency code
-        discount: "", // Pass the discount amount
+        discount: "NA", // Pass the discount amount
         index: ind,
         item_brand: "Goodearth",
-        item_category: arr[arr.length - 2],
+        item_category: category?.split(">")?.join("/"),
         item_category2: line.product?.childAttributes[0]?.size,
         item_category3: line.product.is3d ? "3d" : "non3d",
         item_category4: line.product.is3d ? "YES" : "NO",
         item_list_id: "NA",
         item_list_name: "NA",
         item_variant: "NA",
-        item_category5: line?.product?.collection,
+        // item_category5: line?.product?.collection,
         price: line?.product?.priceRecords[currency],
-        quantity: line?.quantity
+        quantity: line?.quantity,
+        collection_category: line?.product?.collections?.join("|")
       };
     });
 
@@ -707,13 +710,14 @@ const AddressSection: React.FC<AddressProps & {
       dataLayer.push({ ecommerce: null }); // Clear the previous ecommerce object.
       dataLayer.push({
         event: "add_shipping_info",
+        previous_page_url: CookieService.getCookie("prevUrl"),
         shipping_address: shippingAddressId,
-        gst_invoice: "",
-        delivery_instruction: "", //Pass NA if not applicable the moment
+        gst_invoice: "NA",
+        delivery_instruction: "NA", //Pass NA if not applicable the moment
         ecommerce: {
           currency: currency, // Pass the currency code
           value: basket?.total,
-          coupon: "",
+          coupon: "NA",
           items: items
         }
       });
@@ -838,32 +842,48 @@ const AddressSection: React.FC<AddressProps & {
               {/* <hr
                 className={cs(globalStyles.marginy24, styles.widthFitContent)}
               /> */}
-              <label
+              {/* <label
                 className={cs(
                   styles.flex,
                   globalStyles.voffset3,
                   globalStyles.widthSet
                 )}
-              >
-                <div
+              > */}
+              {/* <div
                   className={cs(globalStyles.marginR10, globalStyles.marginT5)}
                 >
-                  <span className={styles.checkbox}>
-                    <input
-                      type="checkbox"
-                      onChange={() => {
-                        toggleGstInvoice();
-                      }}
-                    />
-                    <span
-                      id="gst"
-                      className={cs(styles.indicator, {
-                        [styles.checked]: gst && gstDetails?.gstText
-                      })}
-                    ></span>
-                  </span>
-                </div>
-                <div
+                  <span className={styles.checkbox}> */}
+              <CheckboxWithLabel
+                id="gst"
+                onChange={() => {
+                  toggleGstInvoice();
+                }}
+                checked={gst && gstDetails?.gstText !== ""}
+                label={[
+                  <label
+                    key="gst"
+                    htmlFor="gst"
+                    // className={cs(styles.indicator, {
+                    //   [styles.checked]: gst && gstDetails?.gstText
+                    // })}
+                    className={cs(
+                      styles.formSubheading,
+                      styles.checkBoxHeading,
+                      styles.gstInvoiceText
+                    )}
+                  >
+                    I need a GST invoice
+                    {gstDetails?.gstText && (
+                      <label className={styles.gstInvoiseNo}>
+                        {gstDetails?.gstType}: {gstDetails?.gstText}
+                      </label>
+                    )}
+                  </label>
+                ]}
+              />
+              {/* </span>
+                </div> */}
+              {/* <div
                   className={cs(
                     styles.formSubheading,
                     styles.checkBoxHeading,
@@ -876,8 +896,8 @@ const AddressSection: React.FC<AddressProps & {
                       {gstDetails?.gstType}: {gstDetails?.gstText}
                     </label>
                   )}
-                </div>
-              </label>
+                </div> */}
+              {/* </label> */}
             </div>
           ) : (
             ""
@@ -924,18 +944,37 @@ const AddressSection: React.FC<AddressProps & {
                   )}
                 </div>
               </div>
-              <label className={cs(styles.flex, globalStyles.voffset4)}>
-                <div className={globalStyles.marginR10}>
-                  <span className={styles.checkbox}>
-                    <input type="checkbox" onChange={togglepancard} />
-                    <span
-                      className={cs(styles.indicator, {
-                        [styles.checked]: pancardCheck
-                      })}
-                    ></span>
-                  </span>
-                </div>
-                <div
+              {/* <label className={cs(styles.flex, globalStyles.voffset4)}> */}
+              <div
+                className={cs(globalStyles.marginT30, globalStyles.marginB20)}
+              >
+                {/* <span className={styles.checkbox}>  */}
+                <CheckboxWithLabel
+                  id="pancard"
+                  onChange={togglepancard}
+                  checked={pancardCheck}
+                  label={[
+                    <label
+                      key="pancard"
+                      htmlFor="pancard"
+                      // className={cs(styles.indicator, {
+                      //   [styles.checked]: pancardCheck
+                      // })}
+                      className={cs(
+                        styles.formSubheading,
+                        globalStyles.marginB0,
+                        globalStyles.marginT0,
+                        styles.checkBoxHeading
+                      )}
+                    >
+                      I CONFIRM THAT THE DATA I HAVE SHARED IS CORRECT
+                    </label>
+                  ]}
+                />
+
+                {/* </span> */}
+              </div>
+              {/* <div
                   className={cs(
                     styles.formSubheading,
                     globalStyles.marginB0,
@@ -944,8 +983,8 @@ const AddressSection: React.FC<AddressProps & {
                   )}
                 >
                   I CONFIRM THAT THE DATA I HAVE SHARED IS CORRECT
-                </div>
-              </label>
+                </div> */}
+              {/* </label> */}
               {panCheck ? (
                 <span className={globalStyles.errorMsg}>{panCheck}</span>
               ) : (
@@ -977,29 +1016,47 @@ const AddressSection: React.FC<AddressProps & {
 
     return (
       show && (
-        <div className={cs(styles.payment, globalStyles.voffset4)}>
+        <div
+          className={cs(
+            styles.payment,
+            globalStyles.voffset4,
+            globalStyles.marginB20
+          )}
+        >
           {!mobile && <hr className={globalStyles.marginy24} />}
-          <label
+          {/* <label
             className={cs(
               styles.flex,
               styles.crossCenter,
               styles.widthFitContent
             )}
-          >
-            <div className={globalStyles.marginR10}>
-              <span className={styles.checkbox}>
-                <input type="checkbox" onChange={toggleSameAsShipping} />
-                <span
-                  className={cs(styles.indicator, {
-                    [styles.checked]: sameAsShipping
-                  })}
-                ></span>
-              </span>
-            </div>
-            <div className={cs(styles.formSubheading)}>
+          > */}
+          {/* <div className={globalStyles.marginR10}> */}
+          {/* <span className={styles.checkbox}> */}
+          <CheckboxWithLabel
+            id="sameAsShip"
+            onChange={toggleSameAsShipping}
+            checked={sameAsShipping}
+            label={[
+              <label
+                key="sameAsShip"
+                htmlFor="sameAsShip"
+                // className={cs(styles.indicator, {
+                //   [styles.checked]: sameAsShipping
+                // })}
+                className={cs(styles.formSubheading)}
+              >
+                Same as Shipping Address
+              </label>
+            ]}
+          />
+
+          {/* </span> */}
+          {/* </div> */}
+          {/* <div className={cs(styles.formSubheading)}>
               Same as Shipping Address
-            </div>
-          </label>
+            </div> */}
+          {/* </label> */}
         </div>
       )
     );
@@ -1134,14 +1191,19 @@ const AddressSection: React.FC<AddressProps & {
                   false,
                   activeStep == STEP_BILLING && !isActive && !billingAddressId
                 )}
-              {isGcCheckout && props.currentStep == STEP_ORDER[STEP_BILLING] && 
-                <p className={cs(
-                  globalStyles.errorMsg,
-                  styles.marginT20,
-                  styles.customError
-                )}>
-                  Please select or add an address that matches the currency of your Gift Card.
-                </p>}
+              {isGcCheckout &&
+                props.currentStep == STEP_ORDER[STEP_BILLING] && (
+                  <p
+                    className={cs(
+                      globalStyles.errorMsg,
+                      styles.marginT20,
+                      styles.customError
+                    )}
+                  >
+                    Please select or add an address that matches the currency of
+                    your Gift Card.
+                  </p>
+                )}
               {renderSavedAddress()}
             </div>
             {isActive && (
@@ -1156,7 +1218,7 @@ const AddressSection: React.FC<AddressProps & {
                       {!sameAsShipping &&
                         isLoggedIn &&
                         !props.isBridal &&
-                        !props.isGoodearthShipping && 
+                        !props.isGoodearthShipping &&
                         !props.isGcCheckout &&
                         mode == "list" && (
                           <div>
@@ -1195,7 +1257,7 @@ const AddressSection: React.FC<AddressProps & {
                               {props.activeStep == STEP_SHIPPING &&
                                 mobile &&
                                 !checkoutMobileOrderSummary && (
-                                  <div
+                                  <Button
                                     onClick={() => {
                                       onSelectAddress(
                                         addressList?.find(val =>
@@ -1205,14 +1267,18 @@ const AddressSection: React.FC<AddressProps & {
                                         )
                                       );
                                     }}
-                                    className={cs(styles.sendToAddress)}
-                                  >
-                                    {props.activeStep == STEP_SHIPPING
-                                      ? "SHIP TO THIS ADDRESS"
-                                      : props.activeStep == STEP_BILLING
-                                      ? "PROCEED TO PAYMENT"
-                                      : "SHIP TO THIS ADDRESS"}
-                                  </div>
+                                    className={cs(styles.sendToAddress, {
+                                      [globalStyles.btnFullWidth]: mobile
+                                    })}
+                                    label={
+                                      props.activeStep == STEP_SHIPPING
+                                        ? "SHIP TO THIS ADDRESS"
+                                        : props.activeStep == STEP_BILLING
+                                        ? "PROCEED TO PAYMENT"
+                                        : "SHIP TO THIS ADDRESS"
+                                    }
+                                    variant="largeMedCharcoalCta"
+                                  />
                                 )}
                               {props.activeStep == STEP_SHIPPING && (
                                 <div
@@ -1225,50 +1291,34 @@ const AddressSection: React.FC<AddressProps & {
                                   ref={orderSummaryRef}
                                 >
                                   {customDuties?.visible && (
-                                    <label
-                                      className={cs(
-                                        styles.flex,
-                                        globalStyles.widthSet
-                                      )}
+                                    <div
+                                      className={globalStyles.marginB20}
+                                      id="termsAndCondition"
                                     >
-                                      <div
-                                        className={globalStyles.marginR10}
-                                        id="termsAndCondition"
-                                      >
-                                        <span className={styles.checkbox}>
-                                          <input
-                                            type="checkbox"
-                                            onClick={() => {
-                                              setIsTermChecked(!isTermChecked);
-                                              setTermsErr("");
-                                            }}
-                                          />
-                                          <span
-                                            className={cs(styles.indicator, {
-                                              [styles.checked]: isTermChecked
-                                            })}
-                                          ></span>
-                                        </span>
-                                      </div>
-                                      <div
-                                        className={cs(
-                                          styles.formSubheading,
-                                          styles.checkBoxHeading
-                                        )}
-                                      >
-                                        {ReactHtmlParser(customDuties?.message)}
-                                        {/* {customDuties?.popup_content && (
-                                        <span
-                                          onClick={() => openTermsPopup()}
-                                          className={
-                                            globalStyles.linkTextUnderline
-                                          }
-                                        >
-                                          Shipping & Payment terms.
-                                        </span>
-                                      )} */}
-                                      </div>
-                                    </label>
+                                      <CheckboxWithLabel
+                                        id="terms"
+                                        onChange={() => {
+                                          setIsTermChecked(!isTermChecked);
+                                          setTermsErr("");
+                                        }}
+                                        checked={isTermChecked}
+                                        label={[
+                                          <label
+                                            key="terms"
+                                            htmlFor="terms"
+                                            className={cs(
+                                              styles.formSubheading,
+                                              styles.checkBoxHeading
+                                            )}
+                                          >
+                                            {" "}
+                                            {ReactHtmlParser(
+                                              customDuties?.message
+                                            )}
+                                          </label>
+                                        ]}
+                                      />
+                                    </div>
                                   )}
                                   {termsErr && customDuties?.visible && (
                                     <div
@@ -1284,7 +1334,7 @@ const AddressSection: React.FC<AddressProps & {
                                   {/* <div ref={orderSummaryRef}>&nbsp;</div> */}
                                   {((checkoutMobileOrderSummary && mobile) ||
                                     !mobile) && (
-                                    <div
+                                    <Button
                                       onClick={() => {
                                         onSelectAddress(
                                           addressList?.find(val =>
@@ -1297,15 +1347,18 @@ const AddressSection: React.FC<AddressProps & {
                                       }}
                                       className={cs(
                                         styles.sendToAddress,
-                                        styles.footerSendToAddress
+                                        styles.footerSendToAddress,
+                                        { [globalStyles.btnFullWidth]: mobile }
                                       )}
-                                    >
-                                      {props.activeStep == STEP_SHIPPING
-                                        ? "SHIP TO THIS ADDRESS"
-                                        : props.activeStep == STEP_BILLING
-                                        ? "PROCEED TO PAYMENT"
-                                        : "SHIP TO THIS ADDRESS"}
-                                    </div>
+                                      label={
+                                        props.activeStep == STEP_SHIPPING
+                                          ? "SHIP TO THIS ADDRESS"
+                                          : props.activeStep == STEP_BILLING
+                                          ? "PROCEED TO PAYMENT"
+                                          : "SHIP TO THIS ADDRESS"
+                                      }
+                                      variant="largeMedCharcoalCta"
+                                    />
                                   )}
                                 </div>
                               )}
@@ -1362,10 +1415,11 @@ const AddressSection: React.FC<AddressProps & {
                           bootstrapStyles.colLg7
                         )}
                       >
-                        <div
+                        <Button
                           className={cs(
                             globalStyles.marginT20,
-                            styles.sendToPayment
+                            // styles.sendToPayment,
+                            { [globalStyles.btnFullWidth]: mobile }
                           )}
                           onClick={() => {
                             handleSaveAndReview(
@@ -1384,11 +1438,13 @@ const AddressSection: React.FC<AddressProps & {
                                   )
                             );
                           }}
-                        >
-                          {mobile
-                            ? "SELECT & PROCEED TO PAYMENT"
-                            : "PROCEED TO PAYMENT"}
-                        </div>
+                          label={
+                            mobile
+                              ? "SELECT & PROCEED TO PAYMENT"
+                              : "PROCEED TO PAYMENT"
+                          }
+                          variant="largeMedCharcoalCta"
+                        />
                       </div>
                     </div>
                   )}
@@ -1405,7 +1461,7 @@ const AddressSection: React.FC<AddressProps & {
                       !sameAsShipping &&
                       mobile &&
                       !checkoutMobileOrderSummary && (
-                        <div
+                        <Button
                           onClick={() => {
                             handleSaveAndReview(
                               addressList?.find(val =>
@@ -1417,12 +1473,16 @@ const AddressSection: React.FC<AddressProps & {
                               )
                             );
                           }}
-                          className={cs(styles.sendToAddress)}
-                        >
-                          {mobile
-                            ? "SELECT & PROCEED TO PAYMENT"
-                            : "PROCEED TO PAYMENT"}
-                        </div>
+                          className={cs(styles.sendToAddress, {
+                            [globalStyles.btnFullWidth]: mobile
+                          })}
+                          label={
+                            mobile
+                              ? "SELECT & PROCEED TO PAYMENT"
+                              : "PROCEED TO PAYMENT"
+                          }
+                          variant="largeMedCharcoalCta"
+                        />
                       )}
                   </div>
                 </div>

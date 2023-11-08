@@ -19,6 +19,7 @@ import {
   displayPriceWithCommas,
   displayPriceWithCommasFloat
 } from "utils/utility";
+import Button from "components/Button";
 import bootstrap from "../../styles/bootstrap/bootstrap-grid.scss";
 import HeaderService from "services/headerFooter";
 import noImagePlp from "../../images/noimageplp.png";
