@@ -23,6 +23,8 @@ import { updateCountryData } from "actions/address";
 import { updatePreferenceData } from "actions/user";
 import { CONFIG } from "constants/util";
 import SelectDropdown from "components/Formsy/SelectDropdown";
+import { updateComponent, updateModal } from "actions/modal";
+import { POPUP } from "constants/components";
 
 const MyProfile: React.FC<ProfileProps> = ({ setCurrentSection }) => {
   const {
@@ -439,6 +441,11 @@ const MyProfile: React.FC<ProfileProps> = ({ setCurrentSection }) => {
     return arr;
   };
 
+  const onEditClick = () => {
+    dispatch(updateComponent(POPUP.EditProfile, true));
+    dispatch(updateModal(true));
+  };
+
   const isExistyError = "This field is required";
 
   const formContent = (
@@ -764,6 +771,11 @@ const MyProfile: React.FC<ProfileProps> = ({ setCurrentSection }) => {
   );
   return (
     <div className={bootstrapStyles.row}>
+      <div className={styles.editBtnWrp}>
+        <button className={styles.editBtn} onClick={onEditClick}>
+          EDIT
+        </button>
+      </div>
       <div
         className={cs(
           bootstrapStyles.col10,
@@ -774,7 +786,7 @@ const MyProfile: React.FC<ProfileProps> = ({ setCurrentSection }) => {
       >
         <div className={styles.formHeading}>My Profile</div>
         <div className={styles.formSubheading}>
-          Manage your personal information and edit your email settings.
+          Manage your personal information.
         </div>
         {formContent}
       </div>

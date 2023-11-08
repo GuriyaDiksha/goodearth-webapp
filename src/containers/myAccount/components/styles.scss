@@ -1552,3 +1552,21 @@ input[type="text"].country-code-search-input{
     padding-left: 30px !important;
   }
 }
+//Edit button in my profile
+.edit-btn-wrp{
+  position: absolute;
+  right: 20px;
+  top: 20px;
+  .edit-btn{
+    cursor: pointer;
+    border: none;
+    background: none;
+    border-bottom: 1px solid $charcoal19;
+    @include b4_12px_montserrat_charcoal_caps();
+
+    &:hover{
+      color: $aqua-bold;
+      border-bottom: 1px solid $aqua-bold;
+    }
+  };
+}
