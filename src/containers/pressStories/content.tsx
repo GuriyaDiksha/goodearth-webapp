@@ -10,6 +10,8 @@ import SecondaryHeader from "components/SecondaryHeader";
 import iconPdf from "../../images/iconsPdf.svg";
 import ReactHtmlParser from "react-html-parser";
 import { removeFroala } from "utils/validate";
+import { AppState } from "reducers/typings";
+import { useSelector } from "react-redux";
 
 type Props = {
   content: PressStory[];
@@ -19,6 +21,8 @@ type Props = {
 };
 
 const Content: React.FC<Props> = props => {
+  const { showTimer } = useSelector((state: AppState) => state.info);
+
   useEffect(() => {
     window.scrollTo(0, 0);
     removeFroala();
@@ -30,7 +34,12 @@ const Content: React.FC<Props> = props => {
   const redirect = "/press-stories/" + n;
   return (
     <div>
-      <div className={cs(bootstrapStyles.row, styles.pressinternal)}>
+      <div
+        id="pressinternal"
+        className={cs(bootstrapStyles.row, styles.pressinternal, {
+          [styles.secondaryHeaderContainerTimer]: showTimer
+        })}
+      >
         <SecondaryHeader>
           <div
             className={cs(

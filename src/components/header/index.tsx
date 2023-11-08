@@ -321,6 +321,7 @@ class Header extends React.Component<Props, State> {
     const pressSortHeaderMenuDropdown = document.getElementById(
       "pressSortHeaderMenuDropdown"
     );
+    const pressInternal = document.getElementById("pressinternal");
 
     if (window?.pageYOffset > sticky) {
       // When announcement bar is hidden
@@ -482,6 +483,14 @@ class Header extends React.Component<Props, State> {
           (pressSortHeaderMenuDropdown as HTMLElement).style.top = "138px";
         } else {
           (pressSortHeaderMenuDropdown as HTMLElement).style.top = "100px";
+        }
+      }
+
+      if (pressInternal) {
+        if (tim) {
+          (pressInternal as HTMLElement).style.marginTop = "50px";
+        } else {
+          (pressInternal as HTMLElement).style.marginTop = "14px";
         }
       }
     } else {
@@ -674,6 +683,14 @@ class Header extends React.Component<Props, State> {
         } else {
           (pressSortHeaderMenuDropdown as HTMLElement).style.top = `${140 -
             window?.pageYOffset}px`;
+        }
+      }
+
+      if (pressInternal) {
+        if (tim) {
+          (pressInternal as HTMLElement).style.marginTop = "80px";
+        } else {
+          (pressInternal as HTMLElement).style.marginTop = "50px";
         }
       }
     }
