@@ -121,9 +121,9 @@ const OrderSummary: React.FC<OrderProps> = props => {
 
   const showDeliveryTimelines = true;
   const history = useHistory();
-  const queryString = history.location.search;
-  const urlParams = new URLSearchParams(queryString);
-  const boId = urlParams.get("bo_id");
+  // const queryString = history.location.search;
+  // const urlParams = new URLSearchParams(queryString);
+  // const boId = urlParams.get("bo_id");
 
   const removePromo = async (data: FormData) => {
     const userConsent = CookieService.getCookie("consent").split(",");
@@ -384,9 +384,10 @@ const OrderSummary: React.FC<OrderProps> = props => {
                 <span className={styles.textMuted}>
                   {" "}
                   {"(Promo Code Applied)"}
-                  {boId ? (
-                    ""
-                  ) : (
+                  {
+                    // boId ? (
+                    //   ""
+                    // ) :
                     <span
                       className={cs(globalStyles.marginL5, styles.cross)}
                       onClick={() => {
@@ -401,7 +402,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
                         )}
                       ></i>
                     </span>
-                  )}
+                  }
                 </span>
               </span>
               <span className={styles.subtotal}>
@@ -706,7 +707,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
             {mobile && page == "checkout" && (
               <div className={styles.orderSummaryTitle}>
                 <span className={styles.text}>VIEW ORDER SUMMARY</span>
-                {pathname == "/order/checkout" && !boId && (
+                {pathname == "/order/checkout" && (
                   <Link to="/cart" className={styles.textLink}>
                     EDIT BAG
                   </Link>
@@ -1006,21 +1007,18 @@ const OrderSummary: React.FC<OrderProps> = props => {
                 ? `(${getItemsCount()})`
                 : null}
               {page == "checkout" && !validbo ? (
-                boId ? (
-                  ""
-                ) : (
-                  <></>
-                  // <Link className={styles.editCart} to={"/cart"}>
-                  //   EDIT BAG
-                  // </Link>
-                )
+                // boId ? (
+                //   ""
+                // ) :
+                <></>
               ) : (
+                // <Link className={styles.editCart} to={"/cart"}>
+                //   EDIT BAG
+                // </Link>
                 ""
               )}
             </h3>
-            {pathname == "/order/checkout" && !boId && (
-              <Link to="/cart">EDIT BAG</Link>
-            )}
+            {pathname == "/order/checkout" && <Link to="/cart">EDIT BAG</Link>}
           </div>
         )}
 

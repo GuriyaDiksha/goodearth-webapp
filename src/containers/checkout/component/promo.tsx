@@ -33,14 +33,14 @@ const PromoSection: React.FC<PromoProps> = props => {
 
   let PromoChild: any = useRef<typeof ApplyPromo>(null);
   const history = useHistory();
-  const queryString = history.location.search;
-  const urlParams = new URLSearchParams(queryString);
-  const hideBoId = urlParams.get("bo_id")
-    ? basket.voucherDiscounts[0]?.voucher?.code
-      ? false
-      : true
-    : false;
-  const isBoId = urlParams.get("bo_id");
+  // const queryString = history.location.search;
+  // const urlParams = new URLSearchParams(queryString);
+  // const hideBoId = urlParams.get("bo_id")
+  //   ? basket.voucherDiscounts[0]?.voucher?.code
+  //     ? false
+  //     : true
+  //   : false;
+  // const isBoId = urlParams.get("bo_id");
 
   const removePromo = async (data: FormData) => {
     setIsLoading(true);
@@ -113,7 +113,7 @@ const PromoSection: React.FC<PromoProps> = props => {
     next(STEP_PROMO);
   };
 
-  const showPromo = basket.showCouponSection || !hideBoId;
+  const showPromo = basket.showCouponSection;
 
   return (
     <div
@@ -148,7 +148,7 @@ const PromoSection: React.FC<PromoProps> = props => {
           >
             PROMO CODE
           </span>
-          {mobile && !isBoId && (
+          {mobile && (
             <span
               className={cs(globalStyles.pointer, styles.promoEdit, {
                 [styles.hidden]: !(isActive || isactivepromo || isEdit)
@@ -177,7 +177,7 @@ const PromoSection: React.FC<PromoProps> = props => {
                 Promo Code Applied
               </span>
             </span>
-            {!mobile && !isBoId && (
+            {!mobile && (
               <span
                 className={cs(globalStyles.pointer, styles.promoEdit)}
                 onClick={() => {

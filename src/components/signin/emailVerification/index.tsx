@@ -58,10 +58,10 @@ const EmailVerification: React.FC<Props> = ({
     localStorage.setItem("tempEmail", email);
     goLogin();
   };
-  const location = useLocation();
-  const queryString = location.search;
-  const urlParams = new URLSearchParams(queryString);
-  const boId = urlParams.get("bo_id");
+  // const location = useLocation();
+  // const queryString = location.search;
+  // const urlParams = new URLSearchParams(queryString);
+  // const boId = urlParams.get("bo_id");
   const verifyOtp = async (otp: string) => {
     try {
       // setIsLoading(true);
@@ -228,7 +228,7 @@ const EmailVerification: React.FC<Props> = ({
           otpAttemptClass={styles.otpAttempt}
           verifyCtaClass={styles.verifyOtpCta}
           groupTimerAndAttempts={true}
-          goBackCta={!isCheckout && !boId ? goBackCta : null}
+          goBackCta={!isCheckout ? goBackCta : null}
           socialLogin={socialLogin}
           uniqueId="emailverifyid"
         />

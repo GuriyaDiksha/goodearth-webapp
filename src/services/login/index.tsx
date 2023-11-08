@@ -78,9 +78,9 @@ export default {
     history?: any,
     sortBy?: string
   ) {
-    const queryString = location.search;
-    const urlParams = new URLSearchParams(queryString);
-    const boId = urlParams.get("bo_id");
+    // const queryString = location.search;
+    // const urlParams = new URLSearchParams(queryString);
+    // const boId = urlParams.get("bo_id");
     console.log("source:", source);
     if (location.pathname == "/giftcard") {
       source = "giftcard";
@@ -91,8 +91,8 @@ export default {
       `${__API_HOST__}/myapi/auth/login/${source ? "?source=" + source : ""}`,
       {
         email: encrypttext(email),
-        password: encrypttext(password),
-        boId: boId ? encrypttext(boId) : boId
+        password: encrypttext(password)
+        // boId: boId ? encrypttext(boId) : boId
       }
     );
     const response = decriptdata(res);

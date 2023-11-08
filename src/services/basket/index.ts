@@ -16,17 +16,15 @@ export default {
     history?: any,
     isLoggedIn?: boolean
   ) {
-    let boId: any = "";
-    if (typeof document != "undefined") {
-      const queryString = location.search;
-      const urlParams = new URLSearchParams(queryString);
-      boId = urlParams.get("bo_id");
-    }
+    // let boId: any = "";
+    // if (typeof document != "undefined") {
+    // const queryString = location.search;
+    // const urlParams = new URLSearchParams(queryString);
+    // boId = urlParams.get("bo_id");
+    // }
     const res = await API.get<Basket>(
       dispatch,
-      `${__API_HOST__}/myapi/basket/detail${(source
-        ? "?source=" + source
-        : "") + (boId ? "&boId=" + boId : "")}`
+      `${__API_HOST__}/myapi/basket/detail${source ? "?source=" + source : ""}`
     );
     if (
       (res.updated || res.publishRemove) &&

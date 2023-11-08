@@ -25,11 +25,11 @@ export default async function cookies(
   const storeCurrency = state.currency;
 
   // Extract URL information
-  const { pathname, search } = ctx.history.location;
+  const { pathname } = ctx.history.location;
   const isBridalBasket = ctx.cookies.get("isBridal");
-  const queryString = search;
-  const urlParams = new URLSearchParams(queryString);
-  const boId = urlParams.get("bo_id");
+  // const queryString = search;
+  // const urlParams = new URLSearchParams(queryString);
+  // const boId = urlParams.get("bo_id");
 
   // Update the PLP (Product List Page) mobile view based on cookies
   if (plpMobileView && (plpMobileView == "list" || plpMobileView == "grid")) {
@@ -50,7 +50,7 @@ export default async function cookies(
   if (
     !currency &&
     (!isBridalBasket || isBridalBasket == "no") &&
-    !boId &&
+    // !boId &&
     !pathname.includes("/order/orderconfirmation/") &&
     !pathname.includes("/bridal/") &&
     !isBot
