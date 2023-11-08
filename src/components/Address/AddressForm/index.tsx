@@ -27,6 +27,7 @@ import { updateCountryData } from "actions/address";
 import { getErrorList, errorTracking } from "utils/validate";
 import BridalContext from "containers/myAccount/components/Bridal/context";
 import noPincodeCountryList from "./noPincodeCountryList";
+import Button from "components/Button";
 import SelectDropdown from "components/Formsy/SelectDropdown";
 import iconStyles from "styles/iconFonts.scss";
 
@@ -35,6 +36,7 @@ type Props = {
   currentCallBackComponent: string;
   saveAddress: () => void;
   openAddressList: () => void;
+  isGcCheckout?: boolean;
 };
 
 type CountryOptions = {
@@ -634,6 +636,7 @@ const AddressForm: React.FC<Props> = props => {
                 changeState={changeState}
                 placeholder={"Pin/Zip Code*"}
                 name="postCode"
+                disable={props.isGcCheckout && mode == "edit" ? true : false}
                 required
               />
             </div>
@@ -660,6 +663,7 @@ const AddressForm: React.FC<Props> = props => {
                   matchRegexp: isAlphanumericError,
                   maxLength: "Maximum Length is 20 characters"
                 }}
+                disable={props.isGcCheckout && mode == "edit" ? true : false}
               />
             </div>
           ) : (
@@ -672,6 +676,7 @@ const AddressForm: React.FC<Props> = props => {
                 handleChange={event => {
                   setIsAddressChanged(true);
                 }}
+                disable={props.isGcCheckout && mode == "edit" ? true : false}
                 // validations={{
                 //   isExisty: true,
                 //   matchRegexp: /^[a-z\d\-_\s]+$/i
@@ -717,6 +722,7 @@ const AddressForm: React.FC<Props> = props => {
                 options={countryOptions}
                 allowFilter={true}
                 inputRef={countryRef}
+                disable={props.isGcCheckout && mode == "edit" ? true : false}
               />
             </div>
           </div>
@@ -728,7 +734,7 @@ const AddressForm: React.FC<Props> = props => {
                   name="state"
                   label={"State*"}
                   placeholder={"Select State*"}
-                  disable={isIndia}
+                  disable={isIndia && mode == "edit"}
                   options={stateOptions}
                   value={
                     addressData && !isCountryChanged ? addressData.state : ""
@@ -947,80 +953,48 @@ const AddressForm: React.FC<Props> = props => {
             <div className={cs(globalStyles.flex, styles.btnWrp)}>
               <div>
                 {mode == "edit" ? (
-                  <input
-                    formNoValidate={true}
+                  <Button
+                    variant="smallMedCharcoalCta"
                     type="submit"
-                    value={isAddressChanged ? "Update Address" : "Updated"}
-                    className={cs(
-                      globalStyles.ceriseBtn,
-                      {
-                        [globalStyles.disabledBtn]: !isAddressChanged
-                      },
-                      {
-                        [styles.charcoalBtn]:
-                          currentCallBackComponent == "account" ||
-                          currentCallBackComponent == "checkout-shipping" ||
-                          currentCallBackComponent == "checkout-billing" ||
-                          currentCallBackComponent == "bridal-edit"
-                      },
-                      {
-                        [styles.charcoalBtnWidth]:
-                          currentCallBackComponent == "checkout-shipping" ||
-                          currentCallBackComponent == "checkout-billing" ||
-                          currentCallBackComponent == "bridal-edit"
-                      }
-                    )}
+                    label={isAddressChanged ? "Update Address" : "Updated"}
+                    className={cs({ [globalStyles.btnFullWidth]: mobile })}
                     disabled={!isAddressChanged}
                   />
                 ) : (
-                  <input
-                    formNoValidate={true}
+                  <Button
+                    variant="smallMedCharcoalCta"
                     type="submit"
-                    value="Save Address"
-                    className={cs(
-                      globalStyles.ceriseBtn,
-                      // {
-                      //   [styles.disabledBtn]: !isAddressChanged
-                      // },
-                      {
-                        [styles.charcoalBtn]:
-                          currentCallBackComponent == "account" ||
-                          currentCallBackComponent == "checkout-shipping" ||
-                          currentCallBackComponent == "checkout-billing" ||
-                          currentCallBackComponent == "bridal"
-                      },
-                      {
-                        [styles.charcoalBtnWidth]:
-                          currentCallBackComponent == "checkout-shipping" ||
-                          currentCallBackComponent == "checkout-billing" ||
-                          currentCallBackComponent == "bridal"
-                      }
-                    )}
-                    // disabled={!isAddressChanged}
+                    label={"save address"}
+                    className={cs({ [globalStyles.btnFullWidth]: mobile })}
                   />
                 )}
               </div>
               {currentCallBackComponent !== "bridal-edit" &&
                 currentCallBackComponent !== "bridal" && (
                   <div className="col-xs-6">
-                    <button
-                      className={cs(
-                        {
-                          [styles.aquaBtn]:
-                            currentCallBackComponent == "account" ||
-                            currentCallBackComponent == "checkout-shipping" ||
-                            currentCallBackComponent == "checkout-billing"
-                        },
-                        {
-                          [styles.charcoalBtnWidth]:
-                            currentCallBackComponent == "checkout-shipping" ||
-                            currentCallBackComponent == "checkout-billing"
-                        }
-                      )}
+                    <Button
+                      // className={cs(
+                      //   {
+                      //     [styles.aquaBtn]:
+                      //       currentCallBackComponent == "account" ||
+                      //       currentCallBackComponent == "checkout-shipping" ||
+                      //       currentCallBackComponent == "checkout-billing"
+                      //   },
+                      //   {
+                      //     [styles.charcoalBtnWidth]:
+                      //       currentCallBackComponent == "checkout-shipping" ||
+                      //       currentCallBackComponent == "checkout-billing"
+                      //   }
+                      // )}
                       onClick={closeAddressForm}
-                    >
-                      cancel
-                    </button>
+                      label={"cancel"}
+                      type="button"
+                      variant="outlineSmallMedCharcoalCta"
+                      className={cs(
+                        { [globalStyles.btnFullWidth]: mobile },
+                        styles.cancelBtn
+                      )}
+                    />
                   </div>
                 )}
             </div>

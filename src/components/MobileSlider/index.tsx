@@ -28,7 +28,12 @@ const MobileSlider: React.FC<Props> = ({
     slidesToScroll: 1,
     arrows: false,
     useTransform: true,
-    cssEase: "ease-in-out"
+    cssEase: "ease-in-out",
+    onReInit: () => {
+      document
+        ?.getElementsByClassName("slick-not-init")?.[0]
+        ?.classList.remove("slick-not-init");
+    }
   };
   if (type == "pdp") {
     set = {
@@ -65,7 +70,13 @@ const MobileSlider: React.FC<Props> = ({
     }
   }, [val?.index]);
   return (
-    <div className={cs("mobile-slider", { "pdp-slider": type == "pdp" })}>
+    <div
+      className={cs(
+        "mobile-slider",
+        { "pdp-slider": type == "pdp" },
+        "slick-not-init"
+      )}
+    >
       {Object.keys(children || {}).length > 0 && (
         <Slider
           {...{ ...settings, ...set }}

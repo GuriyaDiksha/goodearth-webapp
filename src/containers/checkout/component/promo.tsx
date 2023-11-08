@@ -9,6 +9,8 @@ import ApplyPromo from "./applyPromo";
 import { useDispatch, useSelector } from "react-redux";
 import { AppState } from "reducers/typings";
 import { useHistory } from "react-router";
+import Button from "components/Button";
+// import * as util from "utils/validate";
 import checkmarkCircle from "./../../../images/checkmarkCircle.svg";
 import CheckoutService from "services/checkout";
 import CookieService from "services/cookie";

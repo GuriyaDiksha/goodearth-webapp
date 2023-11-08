@@ -15,6 +15,7 @@ import styles from "../styles.scss";
 import cs from "classnames";
 import CookieService from "services/cookie";
 import { GA_CALLS } from "constants/cookieConsent";
+import Button from "components/Button";
 
 const mapDispatchToProps = (dispatch: Dispatch) => {
   return {
@@ -130,13 +131,12 @@ class PincodePopup extends React.Component<Props, State> {
                 />
               </li>
               <li>
-                <input
+                <Button
                   type="submit"
                   disabled={this.state.disableSubmit}
-                  value="Check Pincode"
-                  className={cs(globalStyles.ceriseBtn, {
-                    [globalStyles.disabledBtn]: this.state.disableSubmit
-                  })}
+                  label="Check Pincode"
+                  className={cs(globalStyles.btnFullWidth)}
+                  variant="largeAquaCta"
                 />
               </li>
             </ul>

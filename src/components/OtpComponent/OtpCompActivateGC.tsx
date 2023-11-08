@@ -11,6 +11,7 @@ import { errorTracking, decriptdata } from "utils/validate";
 import CustomerCareInfo from "components/CustomerCareInfo";
 import Loader from "components/Loader";
 import NewOtpComponent from "./NewOtpComponent";
+import Button from "components/Button";
 class OtpCompActivateGC extends React.Component<otpProps, otpState> {
   constructor(props: otpProps) {
     super(props);
@@ -703,25 +704,27 @@ class OtpCompActivateGC extends React.Component<otpProps, otpState> {
             ? true
             : false
           : true) && (
-          <NewOtpComponent
-            // otpSentVia={this.props.isIndiaGC ? "mobile number" : "email"}
-            otpSentVia={"email"}
-            resendOtp={this.resendOtp}
-            verifyOtp={this.checkOtpValidation}
-            errorMsg={this.state.showerror}
-            attempts={this.state.attempts}
-            btnText={
-              this.props.otpFor == "activateGC"
-                ? "Activate Gift Card"
-                : "Check Balance"
-            }
-            startTimer={this.state.startTimer}
-            setAttempts={this.changeAttepts}
-            uniqueId="activategcid"
-            containerClassName={styles.otpWrapperGc}
-          />
+          <>
+            <NewOtpComponent
+              // otpSentVia={this.props.isIndiaGC ? "mobile number" : "email"}
+              otpSentVia={"email"}
+              resendOtp={this.resendOtp}
+              verifyOtp={this.checkOtpValidation}
+              errorMsg={this.state.showerror}
+              attempts={this.state.attempts}
+              btnText={
+                this.props.otpFor == "activateGC"
+                  ? "Activate Gift Card"
+                  : "Check Balance"
+              }
+              startTimer={this.state.startTimer}
+              setAttempts={this.changeAttepts}
+              uniqueId="activategcid"
+              containerClassName={styles.otpWrapperGc}
+            />
+            <hr />
+          </>
         )}
-        <hr />
       </div>
     );
   };
@@ -968,17 +971,17 @@ class OtpCompActivateGC extends React.Component<otpProps, otpState> {
                 </div>
               </li>
               <li className={this.state.showerrorOtp ? styles.margintop : ""}>
-                <input
+                <Button
                   type="submit"
-                  disabled={this.state.disable}
-                  className={cs(styles.charcoalBtn, {
-                    [styles.disabledBtn]:
-                      !this.subscribeRef.current?.checked ||
-                      // (this.props.isIndiaGC && this.state.phoneInput == "") ||
-                      (!this.props.isIndiaGC && this.state.emailInput == "") ||
-                      (this.props.isCredit && this.state.emailInput == "")
-                  })}
-                  value="Send otp"
+                  disabled={
+                    this.state.disable ||
+                    !this.subscribeRef.current?.checked ||
+                    (!this.props.isIndiaGC && this.state.emailInput == "") ||
+                    (this.props.isCredit && this.state.emailInput == "")
+                  }
+                  className={cs(globalStyles.btnFullWidth)}
+                  label="Send otp"
+                  variant="largeMedCharcoalCta"
                 />
               </li>
             </Formsy>

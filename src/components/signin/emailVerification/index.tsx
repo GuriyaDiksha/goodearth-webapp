@@ -15,6 +15,7 @@ import NewOtpComponent from "components/OtpComponent/NewOtpComponent";
 import { decriptdata } from "utils/validate";
 import { GA_CALLS } from "constants/cookieConsent";
 import CookieService from "services/cookie";
+import Button from "components/Button";
 
 type Props = {
   successMsg: string;
@@ -176,15 +177,12 @@ const EmailVerification: React.FC<Props> = ({
   }, []);
 
   const goBackCta = (
-    <input
+    <Button
       type="submit"
-      className={cs(
-        globalStyles.charcoalBtn,
-        globalStyles.withWhiteBgNoHover,
-        styles.changeEmailBtn
-      )}
-      value="Go Back"
+      className={cs(globalStyles.btnFullWidth, styles.changeEmailBtn)}
+      label="Go Back"
       onClick={changeEmail}
+      variant="outlineSmallMedCharcoalCta"
     />
   );
 

@@ -1,12 +1,12 @@
 import React, {
   RefObject,
-  useEffect,
+  // useEffect,
   useRef,
-  useState,
-  MouseEvent
+  useState
+  // MouseEvent
 } from "react";
 // import DockedPanel from "containers/pdp/docked";
-import { Product } from "typings/product";
+// import { Product } from "typings/product";
 import styles from "./styles.scss";
 import cs from "classnames";
 import iconStyles from "styles/iconFonts.scss";
@@ -28,6 +28,7 @@ import {
 type Props = {
   images: ProductImage[];
   mobile?: boolean;
+  tablet?: boolean;
   changeModalState?: any;
   alt: string;
   startIndex: number;
@@ -37,6 +38,7 @@ const Zoom: React.FC<Props> = ({
   startIndex,
   images = [],
   mobile = false,
+  tablet = false,
   changeModalState = null,
   alt
 }) => {
@@ -65,6 +67,10 @@ const Zoom: React.FC<Props> = ({
           ? transformComponentMobileRef.current.zoomOut()
           : "";
       }
+      setZoom(
+        transformComponentMobileRef?.current?.instance?.transformState?.scale ||
+          1
+      );
     } else {
       if (value > zoom) {
         transformComponentRef.current
@@ -75,9 +81,22 @@ const Zoom: React.FC<Props> = ({
           ? transformComponentRef.current.zoomOut()
           : "";
       }
+      setZoom(
+        transformComponentRef?.current?.instance?.transformState?.scale || 1
+      );
     }
-    setZoom(value);
   };
+
+  const handleScaleChange = (event: any) => {
+    setZoom(event.instance.transformState.scale);
+  };
+
+  // const onPan = (ref: any, e: any) => {
+  //   ref.zoomIn();
+  // };
+  // const onPinch = (ref: any, e: any) => {
+  //   ref.zoomOut();
+  // };
 
   return (
     <div
@@ -97,6 +116,7 @@ const Zoom: React.FC<Props> = ({
                 })}
                 onClick={() => {
                   setSelectedImage(imgContent);
+                  transformComponentRef?.current?.setTransform(0, 0, 1);
                   setZoom(1);
                 }}
               >
@@ -167,12 +187,20 @@ const Zoom: React.FC<Props> = ({
                 {selectedImage?.media_type === "Image" ||
                 selectedImage?.type === "main" ? (
                   <TransformWrapper
+                    minScale={1}
+                    maxScale={4}
                     initialPositionX={0}
                     initialScale={zoom}
                     initialPositionY={0}
                     ref={transformComponentMobileRef}
-                    pinch={{ disabled: true }}
-                    wheel={{ disabled: true, touchPadDisabled: true }}
+                    // pinch={{ disabled: true }}
+                    doubleClick={{ disabled: true }}
+                    onTransformed={e => handleScaleChange(e)}
+                    // onPinching={(ref, e) => onPinch(ref, e)}
+                    // onPanning={(ref, e) => onPan(ref, e)}
+                    limitToBounds={true}
+                    alignmentAnimation={{ sizeX: 0, sizeY: 0 }}
+                    centerZoomedOut={true}
                   >
                     <TransformComponent>
                       <img
@@ -217,12 +245,21 @@ const Zoom: React.FC<Props> = ({
               {selectedImage?.media_type === "Image" ||
               selectedImage?.type === "main" ? (
                 <TransformWrapper
+                  minScale={1}
+                  maxScale={4}
                   initialPositionX={0}
                   initialScale={zoom}
                   initialPositionY={0}
                   ref={transformComponentRef}
-                  pinch={{ disabled: true }}
-                  wheel={{ disabled: true, touchPadDisabled: true }}
+                  // pinch={{ disabled: true }}
+                  // wheel={{ disabled: true, touchPadDisabled: true }}
+                  doubleClick={{ disabled: true }}
+                  onTransformed={e => handleScaleChange(e)}
+                  // onPinching={(ref, e) => onPinch(ref, e)}
+                  // onPanning={(ref, e) => onPan(ref, e)}
+                  limitToBounds={true}
+                  alignmentAnimation={{ sizeX: 0, sizeY: 0 }}
+                  centerZoomedOut={true}
                 >
                   <TransformComponent>
                     <img
@@ -295,35 +332,37 @@ const Zoom: React.FC<Props> = ({
               )}
             ></i>
           </div>
-          {(selectedImage?.media_type === "Image" ||
-            selectedImage?.type === "main") && (
-            <div className={styles.btnWrp}>
-              <button
-                className={styles.plus}
-                onClick={() => zoom < 4 && setZoomcall(zoom + 0.5)}
-              >
-                <img src={plus} alt={"incerment"} />
-              </button>
+          {!mobile &&
+            !tablet &&
+            (selectedImage?.media_type === "Image" ||
+              selectedImage?.type === "main") && (
+              <div className={styles.btnWrp}>
+                <button
+                  className={styles.plus}
+                  onClick={() => zoom < 4 && setZoomcall(zoom + 0.5)}
+                >
+                  <img src={plus} alt={"incerment"} />
+                </button>
 
-              <div className="custom-range">
-                <Slider
-                  min={1}
-                  max={4}
-                  step={0.1}
-                  vertical={true}
-                  value={zoom}
-                  onChange={(value: number) => setZoomcall(+value)}
-                />
+                <div className="custom-range">
+                  <Slider
+                    min={1}
+                    max={4}
+                    step={0.1}
+                    vertical={true}
+                    value={zoom}
+                    onChange={(value: number) => setZoomcall(+value)}
+                  />
+                </div>
+
+                <button
+                  className={styles.minus}
+                  onClick={() => zoom > 1 && setZoomcall(zoom - 0.5)}
+                >
+                  <img src={minus} alt={"incerment"} />
+                </button>
               </div>
-
-              <button
-                className={styles.minus}
-                onClick={() => zoom > 1 && setZoomcall(zoom - 0.5)}
-              >
-                <img src={minus} alt={"incerment"} />
-              </button>
-            </div>
-          )}
+            )}
         </div>
       </div>
       {/* <div className={cs(styles.footer, { [styles.mobileFooter]: mobile })}>

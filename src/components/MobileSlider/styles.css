@@ -33,5 +33,15 @@
 }
 
 .pdp-slider .slick-slide{
-    height: inherit;
+    height: 100%;
+}
+
+.slick-not-init .slick-track .slick-slide {
+        display: none;
+}
+.slick-not-init .slick-track .slick-slide:nth-child(1){
+    display: block;
+}
+.slick-not-init .slick-track .slick-slide:nth-child(2){
+    display: block;
 }

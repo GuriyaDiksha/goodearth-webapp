@@ -72,21 +72,9 @@
   }
 
   .btn-wrp {
-    width: 207px;
+    text-align: center;
     margin: auto;
     padding: 40px 0 70px 0;
-
-    .button {
-      background-color: $aqua;
-      text-transform: uppercase;
-      @include b3_14px_montserrat_white();
-
-      &:hover {
-        background-color: $white;
-        border: 1px solid $aqua;
-        @include b3_14px_caps_aqua();
-      }
-    }
   }
 }
 

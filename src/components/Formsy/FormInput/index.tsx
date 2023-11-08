@@ -5,10 +5,15 @@ import globalStyles from "styles/global.scss";
 import styles from "../styles.scss";
 import cs from "classnames";
 import { InjectedProps } from "formsy-react/dist/Wrapper";
+import { useSelector } from "react-redux";
+import { AppState } from "reducers/typings";
 
 const FormInput: React.FC<Props & InjectedProps<string | null>> = props => {
   const [labelClass, setLabelClass] = useState(false);
   const [placeholder, setPlaceholder] = useState(props.placeholder || "");
+  const {
+    user: { isLoggedIn }
+  } = useSelector((state: AppState) => state);
 
   const handleClick = useCallback(
     (event: React.MouseEvent | React.FocusEvent) => {

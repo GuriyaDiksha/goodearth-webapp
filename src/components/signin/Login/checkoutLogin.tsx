@@ -20,6 +20,7 @@ import EmailVerification from "../emailVerification";
 import { USR_WITH_NO_ORDER } from "constants/messages";
 import CookieService from "services/cookie";
 import { GA_CALLS } from "constants/cookieConsent";
+import Button from "components/Button";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -468,15 +469,12 @@ class CheckoutLoginForm extends React.Component<Props, loginState> {
             ) : (
               ""
             )}
-            <input
+            <Button
               type="submit"
-              className={
-                this.state.isLoginDisabled
-                  ? cs(globalStyles.ceriseBtn, globalStyles.disabledBtn)
-                  : globalStyles.ceriseBtn
-              }
-              value="continue"
+              className={globalStyles.btnFullWidth}
+              label="continue"
               disabled={this.state.isLoginDisabled}
+              variant="largeAquaCta"
             />
           </div>
         </div>
@@ -567,15 +565,12 @@ class CheckoutLoginForm extends React.Component<Props, loginState> {
             ) : (
               ""
             )}
-            <input
+            <Button
               type="submit"
-              className={
-                this.state.isSecondStepLoginDisabled
-                  ? cs(globalStyles.ceriseBtn, globalStyles.disabledBtn)
-                  : globalStyles.ceriseBtn
-              }
-              value="continue"
+              className={globalStyles.btnFullWidth}
+              label="continue"
               disabled={this.state.isSecondStepLoginDisabled}
+              variant="largeAquaCta"
             />
           </div>
         </div>

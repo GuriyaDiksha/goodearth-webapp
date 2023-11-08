@@ -14,6 +14,7 @@ import {
   displayPriceWithCommas,
   displayPriceWithCommasFloat
 } from "utils/utility";
+import Button from "components/Button";
 
 const OnlineOrders: React.FC<OrdersProps> = props => {
   const [data, setData] = useState<any[]>([]);
@@ -142,6 +143,7 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
                   {data.occasion} Registry
                 </span>
                 <span className={styles.bridalMessage}></span>
+                <span>Address predefined by registrant</span>
               </div>
             )}
             {!data.isBridalOrder ? (
@@ -238,11 +240,17 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
                     [styles.gold]: isDiscount
                   })}
                 >
-                  {`${displayPriceWithCommas(amountPaid, item.priceCurrency)}`}
+                  {`${displayPriceWithCommasFloat(
+                    amountPaid,
+                    item.priceCurrency
+                  )}`}
                 </span>
                 {isDiscount && (
                   <span className={styles.originalPrice}>
-                    {`${displayPriceWithCommas(price, item.priceCurrency)}`}
+                    {`${displayPriceWithCommasFloat(
+                      price,
+                      item.priceCurrency
+                    )}`}
                   </span>
                 )}
               </p>
@@ -320,9 +328,12 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
               className={cs(styles.price, styles.price3, styles.discount)}
               key={i}
             >
-              <span className={styles.label}>Gift Card/Credit Note</span>
+              <span className={styles.label}>{Object.keys(gccn)?.[0]}</span>
               <span className={styles.value}>
-                {`(-) ${displayPriceWithCommas(gccn, item.currency)}`}
+                {`(-) ${displayPriceWithCommas(
+                  Object.values(gccn)?.[0],
+                  item.currency
+                )}`}
               </span>
             </div>
           );
@@ -400,7 +411,7 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
                     <div className={styles.amountPaid}>
                       <span className={styles.label}>Amount Paid</span>
                       <span className={styles.data}>
-                        {displayPriceWithCommas(
+                        {displayPriceWithCommasFloat(
                           item.totalInclTax,
                           item.currency
                         )}
@@ -490,16 +501,17 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
       {data?.length ? (
         <div className={styles.btnWrp}>
           {pagination?.next ? (
-            <button
-              className={styles.loadMoreBtn}
+            <Button
+              variant="outlineExtraSmallAquaCta"
+              label="Load More"
               onClick={() => fetchOrders(pagination?.next)}
-            >
-              Load More
-            </button>
+            />
           ) : data.length >= 3 ? (
-            <button className={styles.backToTopBtn} onClick={() => backToTop()}>
-              Back to top
-            </button>
+            <Button
+              variant="outlineSmallMedCharcoalCta"
+              label="Back to top"
+              onClick={() => backToTop()}
+            />
           ) : (
             ""
           )}

@@ -329,13 +329,17 @@ class Header extends React.Component<Props, State> {
       const tim = timer !== undefined ? timer : this.props.showTimer;
 
       if (gridList) {
-        if (scrollDown && window?.pageYOffset != 0) {
+        if (scrollDown || window?.pageYOffset != 0) {
           (gridList as HTMLElement).style.top = "0px";
+          console.log("top 0");
         } else {
           if (tim) {
+            console.log(tim);
             (gridList as HTMLElement).style.top = "93px";
+            console.log("top 93");
           } else {
             (gridList as HTMLElement).style.top = "53px";
+            console.log("top 53");
           }
         }
       }
@@ -969,26 +973,26 @@ class Header extends React.Component<Props, State> {
       },
 
       {
-        label: "Check gift card Balance",
+        label: "Check Balance",
         href: "/account/check-balance",
         type: "link",
         value: "Check Balance"
-      },
-      {
-        label: "Cerise Program",
-        href: isLoggedIn && this.props.slab ? "/account/cerise" : "/cerise",
-        type: "link",
-        value: "Cerise Program"
-      },
-      {
-        label: "Good Earth Registry",
-        href: isLoggedIn ? "/account/bridal" : "",
-        onClick: isLoggedIn
-          ? () => null
-          : () => this.props.goLogin(undefined, "/account/bridal"),
-        type: isLoggedIn ? "link" : "button",
-        value: "Good Earth Registry"
       }
+      // {
+      //   label: "Cerise Program",
+      //   href: isLoggedIn && this.props.slab ? "/account/cerise" : "/cerise",
+      //   type: "link",
+      //   value: "Cerise Program"
+      // },
+      // {
+      //   label: "Good Earth Registry",
+      //   href: isLoggedIn ? "/account/bridal" : "",
+      //   onClick: isLoggedIn
+      //     ? () => null
+      //     : () => this.props.goLogin(undefined, "/account/bridal"),
+      //   type: isLoggedIn ? "link" : "button",
+      //   value: "Good Earth Registry"
+      // }
     );
     const loginItem: DropdownItem = {
       label: isLoggedIn ? "Logout" : "Login",
