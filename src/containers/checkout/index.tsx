@@ -529,7 +529,7 @@ class Checkout extends React.Component<Props, State> {
             } = this.props;
             const { isGoodearthShipping } = this.state;
             const defaultAddresses = addresses.filter(
-              val => val.addressCurrency == currency
+              val => val.currency == currency
             );
             if (
               defaultAddresses?.length &&
@@ -630,13 +630,13 @@ class Checkout extends React.Component<Props, State> {
         this.setState({
           activeStep: STEP_SHIPPING,
           shippingAddress: nextProps.addresses
-            .filter(val => val.addressCurrency == this.props.currency)
+            .filter(val => val.currency == this.props.currency)
             .find(val => val?.isDefaultForShipping),
           billingAddress:
             isGoodearthShipping || nextProps.basket.bridal
               ? undefined
               : nextProps.addresses
-                  .filter(val => val.addressCurrency == this.props.currency)
+                  .filter(val => val.currency == this.props.currency)
                   .find(val => val?.isDefaultForShipping),
           isShipping: true
         });
@@ -707,7 +707,7 @@ class Checkout extends React.Component<Props, State> {
           "isDefaultForBilling",
           "occasion",
           "isEdit",
-          "addressCurrency"
+          "currency"
         ].indexOf(key) == -1
       ) {
         if (Object.prototype.hasOwnProperty.call(obj, key)) {

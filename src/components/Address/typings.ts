@@ -11,7 +11,7 @@ export type AddressData = AddressFormData & {
   occasion: string;
   isTulsi?: boolean;
   isBackendOrder?: boolean;
-  addressCurrency: string;
+  // addressCurrency: string;
   currency: string;
 };
 
