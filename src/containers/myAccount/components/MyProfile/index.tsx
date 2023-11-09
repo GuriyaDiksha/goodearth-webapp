@@ -25,11 +25,13 @@ import { CONFIG } from "constants/util";
 import SelectDropdown from "components/Formsy/SelectDropdown";
 import { updateComponent, updateModal } from "actions/modal";
 import { POPUP } from "constants/components";
+import ModalStyles from "components/Modal/styles.scss";
 
 const MyProfile: React.FC<ProfileProps> = ({ setCurrentSection }) => {
   const {
     address: { countryData },
-    user: { isLoggedIn }
+    user: { isLoggedIn },
+    device: { mobile }
   } = useSelector((state: AppState) => state);
 
   const {
@@ -442,7 +444,15 @@ const MyProfile: React.FC<ProfileProps> = ({ setCurrentSection }) => {
   };
 
   const onEditClick = () => {
-    dispatch(updateComponent(POPUP.EditProfile, true));
+    dispatch(
+      updateComponent(
+        POPUP.EditProfile,
+        null,
+        false,
+        mobile ? ModalStyles.bottomAlignSlideUp : "",
+        mobile ? "slide-up-bottom-align" : ""
+      )
+    );
     dispatch(updateModal(true));
   };
 
@@ -771,10 +781,8 @@ const MyProfile: React.FC<ProfileProps> = ({ setCurrentSection }) => {
   );
   return (
     <div className={bootstrapStyles.row}>
-      <div className={styles.editBtnWrp}>
-        <button className={styles.editBtn} onClick={onEditClick}>
-          EDIT
-        </button>
+      <div className={styles.editBtnWrp} onClick={onEditClick}>
+        <button className={styles.editBtn}>EDIT</button>
       </div>
       <div
         className={cs(

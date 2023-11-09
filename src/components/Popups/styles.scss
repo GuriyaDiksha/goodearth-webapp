@@ -183,8 +183,8 @@
     }
     }
     .edit-profile-head{
-      margin-bottom: 30px;
-      margin-top: 60px;
+      padding-bottom: 30px;
+      padding-top: 60px;
       @include h3_20px_lora_charcoal();
     }
     .edit-profile{
@@ -208,6 +208,10 @@
         // opacity: 0.21;
         font-family: $font-Montserrat;
         background-color: $white;
+
+        &:disabled{
+          cursor: not-allowed;
+        }
       
         &::placeholder {
           font-family: $font-Montserrat !important;
@@ -246,6 +250,10 @@
         &:hover{
           background-color: $white;
           color: $med-charcoal;
+        }
+
+        &:disabled{
+          cursor: not-allowed;
         }
       }
     }

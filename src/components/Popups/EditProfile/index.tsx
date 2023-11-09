@@ -22,6 +22,13 @@ const EditProfile: React.FC = () => {
     formData["email"] = email || "";
     formData["reqMessage"] = textarea || "";
 
+    setError("");
+
+    if (textarea.length < 15) {
+      setError("Please write your complete request.");
+      return false;
+    }
+
     if (!reqSent) {
       AccountService.sendProfileEditRequest(dispatch, formData)
         .then(() => {
@@ -39,9 +46,9 @@ const EditProfile: React.FC = () => {
         className={cs(
           styles.sizeBlockPopup,
           styles.sizeBlockNotFixed,
-          styles.centerpageDesktopFs,
+          { [styles.centerpageDesktopFs]: !mobile },
           globalStyles.textCenter,
-          { [styles.mobilePopup]: mobile }
+          { [styles.centerpageDesktopFsWidth]: mobile }
         )}
       >
         <div className={styles.cross} onClick={closeModal}>
@@ -70,7 +77,10 @@ const EditProfile: React.FC = () => {
               <textarea
                 rows={6}
                 cols={100}
-                className={cs(styles.editMessage, { [styles.errMsg]: error })}
+                className={cs(styles.editMessage, {
+                  [styles.errMsg]: error,
+                  [styles.disabled]: reqSent
+                })}
                 value={textarea}
                 maxLength={250}
                 placeholder={"Write your message here"}
@@ -88,7 +98,9 @@ const EditProfile: React.FC = () => {
               </div>
             </div>
             <div
-              className={cs(globalStyles.ceriseBtn, styles.sendReqBtn)}
+              className={cs(globalStyles.ceriseBtn, styles.sendReqBtn, {
+                [styles.disabled]: reqSent
+              })}
               onClick={onRequestSend}
             >
               {reqSent ? "request sent!" : "send request"}
