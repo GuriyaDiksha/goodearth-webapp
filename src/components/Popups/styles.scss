@@ -182,6 +182,81 @@
       overflow-x: hidden;
     }
     }
+    .edit-profile-head{
+      padding-bottom: 30px;
+      padding-top: 60px;
+      @include h3_20px_lora_charcoal();
+    }
+    .edit-profile{
+      padding: 0 45px;
+      letter-spacing: .5px;
+      font-weight: $regular !important;
+      p{
+        @include b4_12px_montserrat_medcharcoal();
+        text-align: left;
+      }
+      @media screen and (max-width: 992px) {
+        padding: 0 20px;
+      }
+
+      .edit-message {
+        border: 1px solid #E4E5E4;
+        padding: 20px;
+        max-width: 100%;
+        // background-color: #f9f8f5;
+        font-size: 12px;
+        // opacity: 0.21;
+        font-family: $font-Montserrat;
+        background-color: $white;
+
+        &:disabled{
+          cursor: not-allowed;
+        }
+      
+        &::placeholder {
+          font-family: $font-Montserrat !important;
+        }
+        &::-webkit-input-placeholder{
+          font-family: $font-Montserrat !important;
+        }
+       
+        &::-moz-placeholder{
+          font-family: $font-Montserrat !important;
+        }
+        &::-ms-input-placeholder{
+          font-family: $font-Montserrat !important;
+        }
+      }
+      .errMsg{
+        border: 1px solid $cerise;
+      }
+      .error{
+        text-align: left;
+        float: left;
+        width: 65%;
+        @include err_13px_lora_italic_cerise();
+      }
+      .char-limit{
+        text-align: right;
+        float: right;
+        width: 35%;
+        @include b5_10px_montserrat_charcoal();
+      }
+      .send-req-btn{
+        background-color: $med-charcoal;
+        border: 1px solid $med-charcoal;
+        margin-top: 40px;
+        @include b3_14px_caps_white();
+        &:hover{
+          background-color: $white;
+          color: $med-charcoal;
+        }
+
+        &:disabled{
+          cursor: not-allowed;
+        }
+      }
+    }
     .free-shipping-head{
       margin-bottom: 20px;
       margin-top: 20px;
