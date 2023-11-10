@@ -579,7 +579,31 @@ const PaymentSection: React.FC<PaymentProps> = props => {
   const giftWrapRender = useMemo(() => {
     return (
       <div className={globalStyles.marginT20}>
-        <label className={cs(globalStyles.flex, globalStyles.crossCenter)}>
+        <CheckboxWithLabel
+          id="giftWrp"
+          checked={giftwrap}
+          onChange={() => {
+            setGiftwrap(!giftwrap);
+            setGiftwrapprice(!giftwrap);
+          }}
+          label={[
+            <label
+              key="giftWrp"
+              htmlFor="giftWrp"
+              className={cs(
+                styles.formSubheading,
+                styles.lineHeightLable,
+                styles.giftWrpPos
+              )}
+            >
+              {"Gift wrap this order"}{" "}
+              <span className={styles.giftImg}>
+                <img src={giftwrapIcon} width="30px" alt="Giftwarp Icon" />
+              </span>
+            </label>
+          ]}
+        />
+        {/* <label className={cs(globalStyles.flex, globalStyles.crossCenter)}>
           <div
             className={cs(
               styles.marginR10,
@@ -607,7 +631,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
           <div className={styles.giftImg}>
             <img src={giftwrapIcon} width="30px" alt="Giftwarp Icon" />
           </div>
-        </label>
+        </label> */}
       </div>
     );
   }, [giftwrap]);
@@ -714,7 +738,24 @@ const PaymentSection: React.FC<PaymentProps> = props => {
                   <hr className={styles.hr} />
                   <div className={globalStyles.flex}>
                     <div className={styles.inputContainer}>
-                      <label
+                      <CheckboxWithLabel
+                        id="cerise"
+                        checked={isactiveredeem}
+                        onChange={toggleInputReedem}
+                        label={[
+                          <label
+                            key="cerise"
+                            htmlFor="cerise"
+                            className={cs(
+                              styles.formSubheading,
+                              styles.lineHeightLable
+                            )}
+                          >
+                            See my balance & redeem points
+                          </label>
+                        ]}
+                      />
+                      {/* <label
                         className={cs(
                           globalStyles.flex,
                           globalStyles.crossCenter
@@ -744,7 +785,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
                         >
                           See my balance & redeem points
                         </div>
-                      </label>
+                      </label> */}
                     </div>
                   </div>
                 </>
@@ -818,7 +859,24 @@ const PaymentSection: React.FC<PaymentProps> = props => {
                     <hr className={styles.hr} />
 
                     <div className={styles.inputContainer}>
-                      <label
+                      <CheckboxWithLabel
+                        id="applyGC"
+                        checked={isactivepromo}
+                        onChange={toggleInput}
+                        label={[
+                          <label
+                            key="applyGC"
+                            htmlFor="applyGC"
+                            className={cs(
+                              styles.formSubheading,
+                              styles.lineHeightLable
+                            )}
+                          >
+                            Apply Gift Card Code/ Credit Note
+                          </label>
+                        ]}
+                      />
+                      {/* <label
                         className={cs(
                           globalStyles.flex,
                           globalStyles.crossCenter
@@ -843,7 +901,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
                         <div className={cs(styles.formSubheading)}>
                           {"Apply Gift Card Code/ Credit Note"}
                         </div>
-                      </label>
+                      </label> */}
                       {isactivepromo ? (
                         <ApplyGiftcard
                           onRef={(e1: any) => {

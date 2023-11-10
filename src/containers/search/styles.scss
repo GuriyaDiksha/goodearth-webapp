@@ -254,6 +254,9 @@
 }
 
 .filter-elements {
+  &.no-border{
+    border-bottom: none;
+  }
   span {
     @include b4_12px_medium_medcharcoal_caps();
     padding-left: 0px;
