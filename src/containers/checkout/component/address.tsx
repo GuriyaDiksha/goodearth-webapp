@@ -869,7 +869,7 @@ const AddressSection: React.FC<AddressProps & {
                     className={cs(
                       styles.formSubheading,
                       styles.checkBoxHeading,
-                      styles.gstInvoiceText
+                      styles.lineHeightLable
                     )}
                   >
                     I need a GST invoice
@@ -887,7 +887,7 @@ const AddressSection: React.FC<AddressProps & {
                   className={cs(
                     styles.formSubheading,
                     styles.checkBoxHeading,
-                    styles.gstInvoiceText
+                    styles.lineHeightLable
                   )}
                 >
                   I need a GST invoice
@@ -964,7 +964,8 @@ const AddressSection: React.FC<AddressProps & {
                         styles.formSubheading,
                         globalStyles.marginB0,
                         globalStyles.marginT0,
-                        styles.checkBoxHeading
+                        styles.checkBoxHeading,
+                        styles.lineHeightLable
                       )}
                     >
                       I CONFIRM THAT THE DATA I HAVE SHARED IS CORRECT
@@ -1044,7 +1045,7 @@ const AddressSection: React.FC<AddressProps & {
                 // className={cs(styles.indicator, {
                 //   [styles.checked]: sameAsShipping
                 // })}
-                className={cs(styles.formSubheading)}
+                className={cs(styles.formSubheading, styles.lineHeightLable)}
               >
                 Same as Shipping Address
               </label>
