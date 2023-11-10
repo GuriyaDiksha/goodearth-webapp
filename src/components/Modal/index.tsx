@@ -79,7 +79,7 @@ class Modal extends React.Component<ModalProps> {
       component,
       props
     } = this.props;
-
+    console.log("check====", classname, classname == "slide-up-bottom-align");
     const Comp = popupComponents[component];
 
     return openModal ? (

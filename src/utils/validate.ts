@@ -185,7 +185,7 @@ export function dataForBilling(data: Basket, currency: Currency) {
           currency: currency, // Pass the currency code
           discount: product.discountedPriceRecords
             ? product.discountedPriceRecords[currency]
-            : product.priceRecords[currency], // Pass the discount amount
+            : "NA", // Pass the discount amount
           index: ind,
           item_brand: "Goodearth",
           item_category: category?.split(">")?.join("/"),
@@ -951,10 +951,10 @@ export function PDP(data: any, currency: Currency) {
           item_category3: data.sliderImages?.some((key: any) => key.icon)
             ? "3d"
             : "non 3d",
-          item_list_id: "NA",
-          item_list_name: search,
+          item_list_id: "",
+          item_list_name: search !== "" ? search : "NA",
           item_variant: child.color,
-          item_category4: l1,
+          item_category4: "NA",
           // item_category5: data.collection,
           collection_category: data.collections?.join("|"),
           price: child.priceRecords[currency],
@@ -1260,7 +1260,7 @@ export function plpProductClick(
           item_list_id: "NA",
           item_list_name: search ? search : "NA",
           item_variant: child.color,
-          item_category4: l1,
+          item_category4: "NA",
           // item_category5: data.collection,
           collection_category: data.collections?.join("|"),
           price: child.priceRecords[currency],

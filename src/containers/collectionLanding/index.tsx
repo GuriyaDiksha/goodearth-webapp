@@ -149,7 +149,7 @@ const CollectionLanding = () => {
         setLoad(false);
       })
       .catch(() => console.log("error"));
-  }, [currency]);
+  }, [currency, history?.location.pathname]);
 
   useEffect(() => {
     if (vars?.tags) {
