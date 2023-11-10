@@ -773,7 +773,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
                   </span>
                 </div>
               )}
-              {shippingAddress?.state && (
+              {shippingAddress?.state && !(pathname == "/order/gc_checkout") && (
                 <div
                   className={cs(styles.selectedStvalue, globalStyles.marginT10)}
                 >

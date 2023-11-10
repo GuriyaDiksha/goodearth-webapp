@@ -971,7 +971,8 @@ const AddressSection: React.FC<AddressProps & {
       if (
         (((isBridal || isGoodearthShipping) && addressList.length > 1) ||
           (!isBridal && !isGoodearthShipping)) &&
-        !(isGcCheckout && addressList.length == 1 && addressList[0].isTulsi)
+        (!(isGcCheckout && addressList.length == 1 && addressList[0].isTulsi) ||
+          !(isGcCheckout && addressList.length == 1 && addressList[0].isBridal))
       ) {
         if (billingAddressId) {
           ctaText = "PROCEED TO PAYMENT";
@@ -1029,7 +1030,7 @@ const AddressSection: React.FC<AddressProps & {
                     : "BILLING DETAILS"}
                 </span>
               </div>
-              {renderActions(false)}
+              {ctaText !== "add a new address" && renderActions(false)}
               {renderSavedAddress()}
             </div>
             {isActive && (
