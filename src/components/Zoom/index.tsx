@@ -30,7 +30,7 @@ type Props = {
   showPrice: boolean;
   price: string | number;
   discountPrices: string | number;
-  tablet: boolean;
+  tablet?: boolean;
 };
 
 const Zoom: React.FC<Props> = ({
@@ -126,12 +126,12 @@ const Zoom: React.FC<Props> = ({
     setZoom(event.instance.transformState.scale);
   };
 
-  const onPan = (ref: any, e: any) => {
-    ref.zoomIn();
-  };
-  const onPinch = (ref: any, e: any) => {
-    ref.zoomOut();
-  };
+  // const onPan = (ref: any, e: any) => {
+  //   ref.zoomIn();
+  // };
+  // const onPinch = (ref: any, e: any) => {
+  //   ref.zoomOut();
+  // };
 
   return (
     <div
@@ -232,8 +232,11 @@ const Zoom: React.FC<Props> = ({
                     // pinch={{ disabled: true }}
                     doubleClick={{ disabled: true }}
                     onTransformed={e => handleScaleChange(e)}
-                    onPinching={(ref, e) => onPinch(ref, e)}
-                    onPanning={(ref, e) => onPan(ref, e)}
+                    // onPinching={(ref, e) => onPinch(ref, e)}
+                    // onPanning={(ref, e) => onPan(ref, e)}
+                    limitToBounds={true}
+                    alignmentAnimation={{ sizeX: 0, sizeY: 0 }}
+                    centerZoomedOut={true}
                   >
                     <TransformComponent>
                       <img
@@ -288,8 +291,11 @@ const Zoom: React.FC<Props> = ({
                   // wheel={{ disabled: true, touchPadDisabled: true }}
                   doubleClick={{ disabled: true }}
                   onTransformed={e => handleScaleChange(e)}
-                  onPinching={(ref, e) => onPinch(ref, e)}
-                  onPanning={(ref, e) => onPan(ref, e)}
+                  // onPinching={(ref, e) => onPinch(ref, e)}
+                  // onPanning={(ref, e) => onPan(ref, e)}
+                  limitToBounds={true}
+                  alignmentAnimation={{ sizeX: 0, sizeY: 0 }}
+                  centerZoomedOut={true}
                 >
                   <TransformComponent>
                     <img
@@ -363,6 +369,7 @@ const Zoom: React.FC<Props> = ({
             ></i>
           </div>
           {!mobile &&
+            !tablet &&
             (selectedImage?.media_type === "Image" ||
               selectedImage?.type === "main") && (
               <div className={styles.btnWrp}>

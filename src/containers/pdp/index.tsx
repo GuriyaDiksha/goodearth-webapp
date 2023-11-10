@@ -176,6 +176,7 @@ class PDPContainer extends React.Component<Props, State> {
         images: images,
         startIndex: index,
         mobile: mobile,
+        tablet: tablet,
         changeModalState: changeModalState,
         alt: this.props?.data?.altText,
         data,

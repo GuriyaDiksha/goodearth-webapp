@@ -694,21 +694,19 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                                     &nbsp;
                                   </span>
                                 ) : (
-                                  ""
-                                  // <span
-                                  //   className={cs(
-                                  //     {
-                                  //       [globalStyles.cerise]:
-                                  //         item.product.badgeType == "B_flat"
-                                  //     },
-                                  //     styles.price
-                                  //   )}
-                                  // >
-                                  //   {`${displayPriceWithCommasFloat(
-                                  //     price3,
-                                  //     confirmData.currency
-                                  //   )}`}
-                                  // </span>
+                                  <span
+                                    className={cs(
+                                      {
+                                        [globalStyles.hidden]: isFlat
+                                      },
+                                      styles.price
+                                    )}
+                                  >
+                                    {`${displayPriceWithCommasFloat(
+                                      price3,
+                                      confirmData.currency
+                                    )}`}
+                                  </span>
                                 )}
                               </p>
 

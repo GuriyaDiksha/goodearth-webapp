@@ -24,11 +24,15 @@ import { updatePreferenceData } from "actions/user";
 import { CONFIG } from "constants/util";
 import Button from "components/Button";
 import SelectDropdown from "components/Formsy/SelectDropdown";
+import { updateComponent, updateModal } from "actions/modal";
+import { POPUP } from "constants/components";
+import ModalStyles from "components/Modal/styles.scss";
 
 const MyProfile: React.FC<ProfileProps> = ({ setCurrentSection }) => {
   const {
     address: { countryData },
-    user: { isLoggedIn }
+    user: { isLoggedIn },
+    device: { mobile }
   } = useSelector((state: AppState) => state);
 
   const {
@@ -440,6 +444,19 @@ const MyProfile: React.FC<ProfileProps> = ({ setCurrentSection }) => {
     return arr;
   };
 
+  const onEditClick = () => {
+    dispatch(
+      updateComponent(
+        POPUP.EditProfile,
+        null,
+        false,
+        mobile ? ModalStyles.bottomAlignSlideUp : "",
+        mobile ? "slide-up-bottom-align" : ""
+      )
+    );
+    dispatch(updateModal(true));
+  };
+
   const isExistyError = "This field is required";
 
   const formContent = (
@@ -763,6 +780,9 @@ const MyProfile: React.FC<ProfileProps> = ({ setCurrentSection }) => {
   );
   return (
     <div className={bootstrapStyles.row}>
+      <div className={styles.editBtnWrp} onClick={onEditClick}>
+        <button className={styles.editBtn}>EDIT</button>
+      </div>
       <div
         className={cs(
           bootstrapStyles.col10,
@@ -773,7 +793,7 @@ const MyProfile: React.FC<ProfileProps> = ({ setCurrentSection }) => {
       >
         <div className={styles.formHeading}>My Profile</div>
         <div className={styles.formSubheading}>
-          Manage your personal information and edit your email settings.
+          Manage your personal information.
         </div>
         {formContent}
       </div>
