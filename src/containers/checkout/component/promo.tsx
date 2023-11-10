@@ -17,6 +17,7 @@ import CookieService from "services/cookie";
 import BasketService from "services/basket";
 import Loader from "components/Loader";
 import { GA_CALLS } from "constants/cookieConsent";
+import CheckboxWithLabel from "components/CheckboxWithLabel";
 
 const PromoSection: React.FC<PromoProps> = props => {
   const { isActive, next, activeStep, currentStep } = props;
@@ -198,7 +199,25 @@ const PromoSection: React.FC<PromoProps> = props => {
               {!mobile && <hr className={styles.hr} />}
               <div className={globalStyles.flex}>
                 <div className={styles.inputContainer}>
-                  <label
+                  <CheckboxWithLabel
+                    id="promocode"
+                    checked={isactivepromo}
+                    onChange={toggleInput}
+                    label={[
+                      <label
+                        key="promocode"
+                        htmlFor="promocode"
+                        className={cs(
+                          styles.formSubheading,
+                          styles.lineHeightLable,
+                          styles.giftWrpPos
+                        )}
+                      >
+                        {"Apply Promo Code"}
+                      </label>
+                    ]}
+                  />
+                  {/* <label
                     className={cs(globalStyles.flex, globalStyles.crossCenter)}
                   >
                     <div className={styles.marginR10}>
@@ -218,7 +237,7 @@ const PromoSection: React.FC<PromoProps> = props => {
                     <div className={cs(styles.formSubheading)}>
                       {"Apply Promo Code"}
                     </div>
-                  </label>
+                  </label> */}
                   {isactivepromo && (
                     <ApplyPromo
                       onRef={(el: any) => {
