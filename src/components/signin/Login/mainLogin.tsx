@@ -565,7 +565,11 @@ class MainLogin extends React.Component<Props, loginState> {
               type="submit"
               className={
                 this.state.isLoginDisabled
-                  ? cs(globalStyles.charcoalBtn, globalStyles.disabledBtn)
+                  ? cs(
+                      globalStyles.charcoalBtn,
+                      globalStyles.disabledBtn,
+                      globalStyles.nohoverBtn
+                    )
                   : globalStyles.charcoalBtn
               }
               value="continue"

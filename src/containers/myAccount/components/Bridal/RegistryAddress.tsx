@@ -230,15 +230,16 @@ const RegistryAddress: React.FC<{ children: React.ReactNode }> = props => {
 
                 globalStyles.pointer
               )}
-              onClick={() =>
+              onClick={() => {
+                window.scrollTo(0, 0);
                 closeAddressForm(
                   addressList?.[0]?.isBridal
                     ? addressList?.[1]?.id
                     : addressList?.[0]?.id
-                )
-              }
+                );
+              }}
             >
-              &lt; &nbsp;SAVED ADDRESSES
+              &lt; &nbsp;BACK
             </span>
           </div>
         )}
@@ -379,27 +380,35 @@ const RegistryAddress: React.FC<{ children: React.ReactNode }> = props => {
         currentCallBackComponent == "bridal" && (
           <div
             className={cs(
-              globalStyles.textCenter,
+              // globalStyles.textCenter,
 
-              globalStyles.cerise,
+              // globalStyles.cerise,
 
-              globalStyles.voffset4,
+              // globalStyles.voffset4,
 
-              styles.letterSpacing1
+              // styles.letterSpacing1
+              cs(styles.backBtnCenter, styles.backBtnProfile)
             )}
           >
             <span
-              className={globalStyles.pointer}
-              onClick={() =>
+              // className={globalStyles.pointer}
+              className={cs(
+                styles.backBtn,
+                globalStyles.ointer,
+                styles.addNewAddress
+              )}
+              onClick={() => {
+                window.scrollTo(0, 0);
                 closeAddressForm(
                   addressList?.[0]?.isBridal
                     ? addressList?.[1]?.id
                     : addressList?.[0]?.id
-                )
-              }
+                );
+              }}
             >
               {" "}
-              &lt; &nbsp;SAVED ADDRESSES
+              {/* &lt; &nbsp;SAVED ADDRESSES */}
+              GO BACK
             </span>
           </div>
         )}
