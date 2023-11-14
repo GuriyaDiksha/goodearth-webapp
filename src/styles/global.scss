@@ -444,6 +444,10 @@ font-weight: bold;
   }
 }
 
+.nohover-btn{
+  pointer-events: none;
+}
+
 .error-border {
   border: 1px solid $cerise !important;
 }
