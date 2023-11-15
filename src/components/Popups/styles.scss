@@ -192,7 +192,7 @@
       letter-spacing: .5px;
       font-weight: $regular !important;
       p{
-        @include b4_12px_montserrat_medcharcoal();
+        @include b4_12px_montserrat_charcoal();
         text-align: left;
       }
       @media screen and (max-width: 992px) {
