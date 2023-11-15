@@ -958,7 +958,7 @@ class FilterList extends React.Component<Props, State> {
       "currentColor",
       "currentMaterial",
       "availableSize",
-      "availableDiscount",
+      // "availableDiscount",
       "productType"
     ];
     for (let i = 0; i < filterTypes.length; i++) {
@@ -1002,6 +1002,7 @@ class FilterList extends React.Component<Props, State> {
   };
 
   onClickDiscount = (event: any) => {
+    debugger;
     const id = event.target.id;
     const { filter } = this.state;
     filter.availableDiscount[id] = {
@@ -1009,10 +1010,15 @@ class FilterList extends React.Component<Props, State> {
       value: event.target.value
     };
     // this.old_level4Value = event.target.value;
-    this.setState({
-      filter
-    });
-    this.createUrlfromFilter();
+    this.setState(
+      {
+        filter
+      },
+      () => {
+        this.createUrlfromFilter();
+      }
+    );
+
     event.stopPropagation();
   };
 
@@ -1119,6 +1125,7 @@ class FilterList extends React.Component<Props, State> {
         // filter.availableDiscount[prop] = false;
       }
     }
+    debugger;
     html.push(
       <ul key="discountType">
         <li>
