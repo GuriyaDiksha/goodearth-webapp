@@ -134,7 +134,6 @@ const BaseLayout: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    console.log("tablet ===== ", tablet, orientation, mobile);
     if (tablet) {
       if (orientation == "landscape") {
         dispatch(updateComponent(POPUP.ORIENTATIONPOPUP, undefined, true));
@@ -147,6 +146,55 @@ const BaseLayout: React.FC = () => {
       }
     }
   }, [orientation, tablet]);
+
+  const showPopup = (isShow: boolean) => {
+    if (popup && popup.length > 0) {
+      const currentPopup = popup.filter(
+        pop =>
+          decodeURI(pop.pageUrl || "") ==
+          decodeURI(pathname + history.location.search)
+      );
+      if (currentPopup && currentPopup.length > 0) {
+        //Check for on  which page
+        if (
+          popup?.pageRules === "ANY_PAGE" ||
+          (popup?.pageRules === "SPECIFIC_PAGE" && popup?.pageUrl === pathname)
+        ) {
+          //Check for session
+          let show = currentPopup[0].session == false;
+
+          //Check for cookie path
+          if (!show) {
+            if (
+              CookieService.getCookie(
+                pathname.split("/").join("_") + "_" + currentPopup[0].id
+              ) != "show"
+            ) {
+              show = true;
+            }
+          }
+
+          //Check for when to show
+
+          if (popup?.whenToShow === "AFTER_SECONDS") {
+            show = false;
+            setTimeout(() => {
+              show = true;
+              dispatch(updateComponent(POPUP.CMSPOPUP, currentPopup[0], true));
+              dispatch(updateModal(true));
+            }, popup?.timeInSeconds || 0 * 1000);
+          } else if (popup?.whenToShow === "AFTER_SCROLL" && isShow) {
+            show = isShow;
+          }
+
+          if (show) {
+            dispatch(updateComponent(POPUP.CMSPOPUP, currentPopup[0], true));
+            dispatch(updateModal(true));
+          }
+        }
+      }
+    }
+  };
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -168,30 +216,24 @@ const BaseLayout: React.FC = () => {
       }
     }
 
-    // show popup, if any
-    if (popup && popup.length > 0) {
-      const currentPopup = popup.filter(
-        pop =>
-          decodeURI(pop.pageUrl || "") ==
-          decodeURI(pathname + history.location.search)
-      );
-      if (currentPopup && currentPopup.length > 0) {
-        let show = currentPopup[0].session == false;
-        if (!show) {
-          if (
-            CookieService.getCookie(
-              pathname.split("/").join("_") + "_" + currentPopup[0].id
-            ) != "show"
-          ) {
-            show = true;
-          }
-        }
-        if (show) {
-          dispatch(updateComponent(POPUP.CMSPOPUP, currentPopup[0], true));
-          dispatch(updateModal(true));
-        }
+    let isScroll = false;
+    const handleScroll = () => {
+      if (popup?.whenToShow === "AFTER_SCROLL" && !isScroll) {
+        isScroll = true;
+        showPopup(true);
       }
+    };
+
+    // show popup, if any
+    if (popup?.whenToShow !== "AFTER_SCROLL") {
+      showPopup(false);
     }
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.addEventListener("scroll", handleScroll);
+    };
   }, [pathname, search, popup.length]);
 
   useEffect(() => {
