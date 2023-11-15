@@ -82,7 +82,7 @@ const EditProfile: React.FC = () => {
                   [styles.disabled]: reqSent
                 })}
                 value={textarea}
-                maxLength={250}
+                maxLength={246}
                 placeholder={"Write your message here"}
                 autoComplete="new-password"
                 onChange={(e: any) => {
@@ -97,14 +97,15 @@ const EditProfile: React.FC = () => {
                 </div>
               </div>
             </div>
-            <div
+            <button
               className={cs(globalStyles.ceriseBtn, styles.sendReqBtn, {
                 [styles.disabled]: reqSent
               })}
               onClick={onRequestSend}
+              disabled={reqSent}
             >
               {reqSent ? "request sent!" : "send request"}
-            </div>
+            </button>
           </div>
         </div>
       </div>
