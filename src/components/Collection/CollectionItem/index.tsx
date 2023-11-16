@@ -51,7 +51,7 @@ const CollectionItem: React.FC<CollectionItems> = ({
             <p
               key={i}
               className={styles.tag}
-              onClick={() => activeFilterHandler(tag)}
+              onClick={() => activeFilterHandler(tag, true)}
             >
               {tag}
             </p>

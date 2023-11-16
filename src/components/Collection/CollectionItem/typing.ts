@@ -19,5 +19,8 @@ export type CollectionItemType = {
 export interface CollectionItems {
   key: number;
   collectionData: CollectionItemType;
-  activeFilterHandler: (x: string) => void;
+  activeFilterHandler: (
+    data: string,
+    tagClickedFromCollection?: boolean
+  ) => void;
 }
