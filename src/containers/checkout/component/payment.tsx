@@ -657,7 +657,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
           <div
             id="cerise-section"
             className={
-              isActive
+              isActive && !loyalty?.[0]?.points
                 ? cs(styles.card, styles.cardOpen, styles.marginT5)
                 : cs(styles.card, styles.cardClosed, styles.marginT5, {
                     [styles.bgWhite]: STEP_ORDER[activeStep] > currentStep
@@ -673,20 +673,21 @@ const PaymentSection: React.FC<PaymentProps> = props => {
                     styles.title
                   )}
                 >
-                  {loyalty?.[0]?.points && (
-                    <img
-                      height={"15px"}
-                      className={globalStyles.marginR10}
-                      src={checkmarkCircle}
-                      alt="checkmarkdone"
-                    />
-                  )}
+                  {STEP_ORDER[activeStep] <= currentStep &&
+                    loyalty?.[0]?.points && (
+                      <img
+                        height={"15px"}
+                        className={globalStyles.marginR10}
+                        src={checkmarkCircle}
+                        alt="checkmarkdone"
+                      />
+                    )}
                   <span className={isActive ? "" : styles.closed}>
                     CERISE LOYALTY POINTS
                   </span>
                 </div>
 
-                {loyalty?.[0]?.points && (
+                {loyalty?.[0]?.points && STEP_ORDER[activeStep] <= currentStep && (
                   <div
                     className={cs(
                       styles.col12,
