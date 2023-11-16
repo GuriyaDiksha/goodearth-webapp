@@ -342,7 +342,7 @@ body:has(.open-summary) {
 .product-size,
 .text-coupon {
   @include b5_10px_montserrat_charcoal();
-  line-height: 1.5;
+  line-height: 1.7;
   .bold {
     font-weight: bold;
   }
@@ -452,7 +452,7 @@ body:has(.open-summary) {
 }
 .discount-font {
   cursor: pointer;
-  font-size: 9px;
+  font-size: 10px;
   font-weight: bold;
   margin-left: 5px;
 }
