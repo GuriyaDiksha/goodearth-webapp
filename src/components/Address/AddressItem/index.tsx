@@ -65,15 +65,22 @@ const AddressItem: React.FC<Props> = props => {
   const deleteAddress = (event: any) => {
     event.stopPropagation();
     setIsLoading(true);
+    const maindiv = document.getElementById(`address-item-${address.id}`);
     AddressService.deleteAddress(dispatch, address.id)
       .catch(err => {
         const error = err.response.data;
 
         if (typeof error == "string") {
+          maindiv.getElementsByTagName("div")[0].style =
+            "border : 1px solid #ab1e56";
           setDeleteError(error);
         }
       })
       .finally(() => setIsLoading(false));
+    if (deleteError) {
+      maindiv.getElementsByTagName("div")[0].style =
+        "border : 1px solid #ab1e56";
+    }
   };
 
   // deleteAddress(id) {

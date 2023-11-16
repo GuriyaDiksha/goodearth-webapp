@@ -989,7 +989,7 @@ const AddressForm: React.FC<Props> = props => {
                   <input
                     formNoValidate={true}
                     type="submit"
-                    value={isAddressChanged ? "Update Address" : "Updated"}
+                    value="SAVE ADDRESS"
                     className={cs(
                       globalStyles.ceriseBtn,
                       {
@@ -1015,7 +1015,7 @@ const AddressForm: React.FC<Props> = props => {
                   <input
                     formNoValidate={true}
                     type="submit"
-                    value="SAVE ADDRESS"
+                    value="ADD NEW ADDRESS"
                     className={cs(
                       globalStyles.ceriseBtn,
                       // {
