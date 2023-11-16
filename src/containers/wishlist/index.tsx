@@ -959,7 +959,7 @@ class Wishlist extends React.Component<Props, State> {
               <SelectableDropdownMenu
                 id="sort-dropdown-wishlist"
                 align="right"
-                className={styles.dropdownRoot}
+                className={styles.dropdownWishlist}
                 items={options}
                 value={this.state.defaultOption.value}
                 onChange={this.onChangeFilter}
