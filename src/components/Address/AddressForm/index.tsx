@@ -507,23 +507,31 @@ const AddressForm: React.FC<Props> = props => {
         }
       )}
     >
-      {((!mobile && currentCallBackComponent == "account") ||
-        currentCallBackComponent == "bridal-edit") && (
-        <div className="back-btn-div">
-          <div
-            className={cs(
-              styles.backBtnTop,
-              styles.backBtnAddress,
-              styles.backBtnFont
-            )}
-            onClick={() =>
-              closeAddressForm(mode === "edit" ? addressData?.id : undefined)
-            }
-          >
-            &lt; back
+      {currentCallBackComponent !== "checkout-shipping" &&
+        currentCallBackComponent !== "checkout-billing" && (
+          <div className="back-btn-div">
+            <div
+              className={
+                currentCallBackComponent == "bridal"
+                  ? cs(
+                      styles.backBtnTopBridal,
+                      styles.backBtnAddressBridal,
+                      styles.backBtnFont
+                    )
+                  : cs(
+                      styles.backBtnTop,
+                      styles.backBtnAddress,
+                      styles.backBtnFont
+                    )
+              }
+              onClick={() =>
+                closeAddressForm(mode === "edit" ? addressData?.id : undefined)
+              }
+            >
+              &lt; back
+            </div>
           </div>
-        </div>
-      )}
+        )}
       <Formsy
         ref={AddressFormRef}
         onValidSubmit={submitAddress}
@@ -1007,7 +1015,7 @@ const AddressForm: React.FC<Props> = props => {
                   <input
                     formNoValidate={true}
                     type="submit"
-                    value="ADD NEW ADDRESS"
+                    value="SAVE ADDRESS"
                     className={cs(
                       globalStyles.ceriseBtn,
                       // {
@@ -1068,10 +1076,7 @@ const AddressForm: React.FC<Props> = props => {
         </div>
       </Formsy>
 
-      {((currentCallBackComponent !== "checkout-billing" &&
-        currentCallBackComponent !== "checkout-shipping" &&
-        currentCallBackComponent !== "bridal") ||
-        mobile) && (
+      {
         <div className={cs(styles.backBtnCenter, styles.backBtnProfile)}>
           <span
             className={cs(
@@ -1093,9 +1098,9 @@ const AddressForm: React.FC<Props> = props => {
             Go Back
           </span>
         </div>
-      )}
+      }
       {/* no need of BACK TO SAVED ADDRESSES at bottom so putting false here temprary */}
-      {isLoggedIn &&
+      {/* {isLoggedIn &&
         !mobile &&
         false &&
         (currentCallBackComponent == "checkout-billing" ||
@@ -1119,10 +1124,10 @@ const AddressForm: React.FC<Props> = props => {
                   ? "< BACK TO SAVED ADDRESSES"
                   : ""
                 : "< BACK TO SAVED ADDRESSES"}
-              {/* Back to Saved Addresses */}
+              {/* Back to Saved Addresses 
             </div>
           </div>
-        )}
+        )} */}
     </div>
   );
 };

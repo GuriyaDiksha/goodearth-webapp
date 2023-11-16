@@ -207,7 +207,7 @@ const RegistryAddress: React.FC<{ children: React.ReactNode }> = props => {
         ""
       )}
 
-      {(mode == "new" || mode == "edit") &&
+      {/* {(mode == "new" || mode == "edit") &&
         currentCallBackComponent == "bridal" && (
           <div
             className={cs(
@@ -242,7 +242,7 @@ const RegistryAddress: React.FC<{ children: React.ReactNode }> = props => {
               &lt; &nbsp;BACK
             </span>
           </div>
-        )}
+        )} */}
 
       <div
         className={cs(
@@ -376,7 +376,7 @@ const RegistryAddress: React.FC<{ children: React.ReactNode }> = props => {
         </div>
       )}
 
-      {(mode == "edit" || mode == "new") &&
+      {/* {(mode == "edit" || mode == "new") &&
         currentCallBackComponent == "bridal" && (
           <div
             className={cs(
@@ -407,11 +407,11 @@ const RegistryAddress: React.FC<{ children: React.ReactNode }> = props => {
               }}
             >
               {" "}
-              {/* &lt; &nbsp;SAVED ADDRESSES */}
+              {/* &lt; &nbsp;SAVED ADDRESSES
               GO BACK
             </span>
           </div>
-        )}
+        )} */}
     </>
   );
 };
