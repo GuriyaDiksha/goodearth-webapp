@@ -960,6 +960,7 @@ const AddressSection: React.FC<AddressProps & {
   let ctaText = "";
 
   if (addressList.length) {
+    debugger;
     if (activeStep == STEP_SHIPPING) {
       if (shippingAddressId) {
         ctaText = "SHIP TO THIS ADDRESS";
@@ -1156,6 +1157,7 @@ const AddressSection: React.FC<AddressProps & {
                   </span>
                 </div>
                 {mobile &&
+                  ctaText != "ADD A NEW ADDRESS" &&
                   renderActions(
                     false,
                     activeStep == STEP_BILLING && !isActive && !billingAddressId
