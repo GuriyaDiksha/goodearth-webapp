@@ -960,7 +960,6 @@ const AddressSection: React.FC<AddressProps & {
   let ctaText = "";
 
   if (addressList.length) {
-    debugger;
     if (activeStep == STEP_SHIPPING) {
       if (shippingAddressId) {
         ctaText = "SHIP TO THIS ADDRESS";
@@ -969,10 +968,16 @@ const AddressSection: React.FC<AddressProps & {
       }
     } else {
       if (
-        (((isBridal || isGoodearthShipping) && addressList.length > 1) ||
+        (((isBridal || isGoodearthShipping) &&
+          addressList.length > 1 &&
+          addressList.filter(e => e?.isBridal || e?.isTulsi).length !=
+            addressList?.length) ||
           (!isBridal && !isGoodearthShipping)) &&
-        (!(isGcCheckout && addressList.length == 1 && addressList[0].isTulsi) ||
-          !(isGcCheckout && addressList.length == 1 && addressList[0].isBridal))
+        !(
+          isGcCheckout &&
+          addressList.length > 0 &&
+          (addressList[0].isTulsi || addressList[0].isBridal)
+        )
       ) {
         if (billingAddressId) {
           ctaText = "PROCEED TO PAYMENT";
@@ -1030,7 +1035,7 @@ const AddressSection: React.FC<AddressProps & {
                     : "BILLING DETAILS"}
                 </span>
               </div>
-              {ctaText !== "add a new address" && renderActions(false)}
+              {ctaText != "ADD A NEW ADDRESS" && renderActions(false)}
               {renderSavedAddress()}
             </div>
             {isActive && (
@@ -1092,6 +1097,7 @@ const AddressSection: React.FC<AddressProps & {
                 </div>
                 {addressList.length > 1 &&
                   mode == "list" &&
+                  ctaText != "ADD A NEW ADDRESS" &&
                   renderActions(true)}
               </>
             )}
@@ -1156,6 +1162,7 @@ const AddressSection: React.FC<AddressProps & {
                   )}
               </div>
               {!mobile &&
+                ctaText != "ADD A NEW ADDRESS" &&
                 renderActions(
                   false,
                   activeStep == STEP_BILLING && !isActive && !billingAddressId
@@ -1381,6 +1388,7 @@ const AddressSection: React.FC<AddressProps & {
                           mode == "list" &&
                           props.activeStep == STEP_BILLING &&
                           !sameAsShipping &&
+                          ctaText != "ADD A NEW ADDRESS" &&
                           renderActions(true)}
                       </>
                     )}
