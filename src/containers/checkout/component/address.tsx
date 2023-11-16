@@ -976,7 +976,7 @@ const AddressSection: React.FC<AddressProps & {
         !(
           isGcCheckout &&
           addressList.length > 0 &&
-          (addressList[0].isTulsi || addressList[0].isBridal)
+          (addressList[0].isTulsi || (isBridal && addressList[0].isBridal))
         )
       ) {
         if (billingAddressId) {

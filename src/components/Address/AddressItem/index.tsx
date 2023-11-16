@@ -546,18 +546,18 @@ const AddressItem: React.FC<Props> = props => {
                 <div className={styles.defaultContainer}>
                   <div
                     className={cs(styles.defaultAddressDiv, {
-                      [styles.bridal]: address.isBridal
+                      [styles.bridalAddressItem]: address.isBridal
                     })}
                   >
                     {address.isBridal && (
                       <svg
-                        viewBox="-3 -3 46 46"
-                        width="60"
-                        height="60"
+                        viewBox="0 5 40 40"
+                        width="35"
+                        height="35"
                         preserveAspectRatio="xMidYMid meet"
                         x="0"
                         y="0"
-                        className={styles.ceriseBridalRings}
+                        // className={styles.ceriseBridalRings}
                       >
                         <use xlinkHref={`${bridalRing}#bridal-ring`}></use>
                       </svg>
@@ -612,18 +612,18 @@ const AddressItem: React.FC<Props> = props => {
                   <div className={styles.defaultContainer}>
                     <div
                       className={cs(styles.defaultAddressDiv, {
-                        [styles.bridal]: address.isBridal
+                        [styles.bridalAddressItem]: address.isBridal
                       })}
                     >
                       {address.isBridal && (
                         <svg
-                          viewBox="-3 -3 46 46"
-                          width="60"
-                          height="60"
+                          viewBox="0 5 40 40"
+                          width="35"
+                          height="35"
                           preserveAspectRatio="xMidYMid meet"
                           x="0"
                           y="0"
-                          className={styles.ceriseBridalRings}
+                          // className={styles.ceriseBridalRings}
                         >
                           <use xlinkHref={`${bridalRing}#bridal-ring`}></use>
                         </svg>
@@ -688,18 +688,18 @@ const AddressItem: React.FC<Props> = props => {
                   <div className={styles.defaultContainer}>
                     <div
                       className={cs(styles.defaultAddressDiv, {
-                        [styles.bridal]: address.isBridal
+                        [styles.bridalAddressItem]: address.isBridal
                       })}
                     >
                       {address.isBridal && (
                         <svg
-                          viewBox="-3 -3 46 46"
-                          width="60"
-                          height="60"
+                          viewBox="0 5 40 40"
+                          width="35"
+                          height="35"
                           preserveAspectRatio="xMidYMid meet"
                           x="0"
                           y="0"
-                          className={styles.ceriseBridalRings}
+                          // className={styles.ceriseBridalRings}
                         >
                           <use xlinkHref={`${bridalRing}#bridal-ring`}></use>
                         </svg>
@@ -789,18 +789,18 @@ const AddressItem: React.FC<Props> = props => {
                 <div className={styles.defaultContainer}>
                   <div
                     className={cs(styles.defaultAddressDiv, {
-                      [styles.bridal]: address.isBridal
+                      [styles.bridalAddressItem]: address.isBridal
                     })}
                   >
                     {address.isBridal && (
                       <svg
-                        viewBox="-3 -3 46 46"
-                        width="60"
-                        height="60"
+                        viewBox="0 5 40 40"
+                        width="35"
+                        height="35"
                         preserveAspectRatio="xMidYMid meet"
                         x="0"
                         y="0"
-                        className={styles.ceriseBridalRings}
+                        // className={styles.ceriseBridalRings}
                       >
                         <use xlinkHref={`${bridalRing}#bridal-ring`}></use>
                       </svg>
