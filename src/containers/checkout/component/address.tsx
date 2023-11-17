@@ -970,11 +970,12 @@ const AddressSection: React.FC<AddressProps & {
         ctaText = "SELECT AN ADDRESS";
       }
     } else {
+      debugger;
       if (
-        ((isBridal && isGoodearthShipping && addressList.length - 2 > 1) ||
-          (isBridal && !isGoodearthShipping && addressList.length - 1 > 1) ||
-          (!isBridal && isGoodearthShipping && addressList.length - 1 > 1) ||
-          (!isBridal && !isGoodearthShipping && addressList.length > 1)) &&
+        ((isBridal && isGoodearthShipping && addressList.length - 2 > 0) ||
+          (isBridal && !isGoodearthShipping && addressList.length - 1 > 0) ||
+          (!isBridal && isGoodearthShipping && addressList.length - 1 > 0) ||
+          (!isBridal && !isGoodearthShipping && addressList.length > 0)) &&
         !(
           isGcCheckout &&
           addressList.length > 0 &&
