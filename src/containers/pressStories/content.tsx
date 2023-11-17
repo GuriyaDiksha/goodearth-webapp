@@ -42,6 +42,7 @@ const Content: React.FC<Props> = props => {
       >
         <SecondaryHeader>
           <div
+            id="pressinternalHeader"
             className={cs(
               bootstrapStyles.colMd12,
               bootstrapStyles.offsetMd1,
