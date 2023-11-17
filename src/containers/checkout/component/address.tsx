@@ -971,12 +971,10 @@ const AddressSection: React.FC<AddressProps & {
       }
     } else {
       if (
-        ((isBridal && isGoodearthShipping
-          ? addressList.length - 2 > 1
-          : isBridal || isGoodearthShipping
-          ? addressList.length - 1 > 1
-          : addressList.length > 1) ||
-          (!isBridal && !isGoodearthShipping)) &&
+        ((isBridal && isGoodearthShipping && addressList.length - 2 > 1) ||
+          (isBridal && !isGoodearthShipping && addressList.length - 1 > 1) ||
+          (!isBridal && isGoodearthShipping && addressList.length - 1 > 1) ||
+          (!isBridal && !isGoodearthShipping && addressList.length > 1)) &&
         !(
           isGcCheckout &&
           addressList.length > 0 &&
