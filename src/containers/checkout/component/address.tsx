@@ -194,7 +194,10 @@ const AddressSection: React.FC<AddressProps & {
     }
 
     // Always keep billing address as 0 initially for bridal and goodearth shipping
-    if ((isBridal || isGoodearthShipping) && activeStep == STEP_BILLING) {
+    if (
+      (isBridal || isGoodearthShipping || isGcCheckout) &&
+      activeStep == STEP_BILLING
+    ) {
       dispatch(updateBillingAddressId(0));
     }
 
@@ -960,7 +963,6 @@ const AddressSection: React.FC<AddressProps & {
   let ctaText = "";
 
   if (addressList.length) {
-    debugger;
     if (activeStep == STEP_SHIPPING) {
       if (shippingAddressId) {
         ctaText = "SHIP TO THIS ADDRESS";
@@ -969,10 +971,11 @@ const AddressSection: React.FC<AddressProps & {
       }
     } else {
       if (
-        (((isBridal || isGoodearthShipping) &&
-          addressList.length > 1 &&
-          addressList.filter(e => e?.isBridal || e?.isTulsi).length !=
-            addressList?.length) ||
+        ((isBridal && isGoodearthShipping
+          ? addressList.length - 2 > 1
+          : isBridal || isGoodearthShipping
+          ? addressList.length - 1 > 1
+          : addressList.length > 1) ||
           (!isBridal && !isGoodearthShipping)) &&
         !(
           isGcCheckout &&
