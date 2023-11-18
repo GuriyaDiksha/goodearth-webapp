@@ -970,7 +970,6 @@ const AddressSection: React.FC<AddressProps & {
         ctaText = "SELECT AN ADDRESS";
       }
     } else {
-      debugger;
       if (
         ((isBridal &&
           addressList.filter(e => e?.isTulsi)?.length == 1 &&
