@@ -972,8 +972,12 @@ const AddressSection: React.FC<AddressProps & {
     } else {
       debugger;
       if (
-        ((isBridal && isGoodearthShipping && addressList.length - 2 > 0) ||
-          (isBridal && !isGoodearthShipping && addressList.length - 1 > 0) ||
+        ((isBridal &&
+          addressList.filter(e => e?.isTulsi)?.length == 1 &&
+          addressList.length - 2 > 0) ||
+          (isBridal &&
+            addressList.filter(e => e?.isTulsi)?.length == 0 &&
+            addressList.length - 1 > 0) ||
           (!isBridal && isGoodearthShipping && addressList.length - 1 > 0) ||
           (!isBridal && !isGoodearthShipping && addressList.length > 0)) &&
         !(
