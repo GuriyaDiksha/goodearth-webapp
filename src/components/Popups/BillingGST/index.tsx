@@ -125,9 +125,9 @@ const BillingGST: React.FC<PopupProps> = ({
 
     if (msg.includes(error)) {
       setGst(false);
-      dispatch(setSameAsShipping(false));
       setGstDetails({ gstText: "", gstType: "" });
       closeModal();
+      dispatch(setSameAsShipping(false));
     } else {
       if (billingAddressId === 0) {
         setError("Please select billing address");

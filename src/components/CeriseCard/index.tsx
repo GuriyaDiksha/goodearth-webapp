@@ -7,6 +7,7 @@ import { updateLoyaltyPoints } from "actions/loyalty";
 import CeriseCardDetail from "./CeriseCardDetail";
 import cs from "classnames";
 import { Link } from "react-router-dom";
+import ceirseImage from "./../../images/ceirseImage.png";
 
 type StateData = { user: { slab: string; email: string } };
 type Props = {
@@ -54,10 +55,7 @@ const CeriseCard: React.FC<Props> = ({ clickToggle, showInnerMenu }) => {
             clickToggle && clickToggle();
           }}
         >
-          <img
-            src={"https://d3qn6cjsz7zlnp.cloudfront.net/ceries_pic.png"}
-            width={322}
-          />
+          <img src={ceirseImage} width={322} />
         </Link>
       )}
     </div>

@@ -15,9 +15,9 @@ import { AddressProps } from "./typings";
 import {
   updateAddressList,
   updateBillingAddressId,
-  updateCustomDuties,
   updateShippingAddressId,
-  updateSameAsShipping
+  updateSameAsShipping,
+  updateCustomDuties
 } from "actions/address";
 import AddressService from "services/address";
 import { useDispatch, useSelector } from "react-redux";
@@ -39,7 +39,8 @@ import { countryCurrencyCode } from "constants/currency";
 import ModalStyles from "components/Modal/styles.scss";
 import CookieService from "services/cookie";
 import { GA_CALLS } from "constants/cookieConsent";
-import { Currency, currencyCode } from "typings/currency";
+import bridalRing from "../../../images/bridal/rings.svg";
+import { useLocation } from "react-router";
 
 const AddressSection: React.FC<AddressProps & {
   mode: string;
@@ -52,7 +53,6 @@ const AddressSection: React.FC<AddressProps & {
     isBridal,
     selectedAddress,
     isGoodearthShipping,
-    // hidesameShipping,
     next,
     errorNotification,
     currentStep,
@@ -68,10 +68,7 @@ const AddressSection: React.FC<AddressProps & {
     setMode
   } = useContext(AddressContext);
   const { currency, user } = useSelector((state: AppState) => state);
-  const {
-    basket
-    // modal: { openModal }
-  } = useSelector((state: AppState) => state);
+  const { basket } = useSelector((state: AppState) => state);
   const { mobile } = useSelector((state: AppState) => state.device);
   const {
     addressList,
@@ -94,12 +91,8 @@ const AddressSection: React.FC<AddressProps & {
     AED: 9300,
     SGD: 3500
   };
-  const code = currencyCode[currency as Currency];
 
-  // const [sameAsShipping, setSameAsShipping] = useState(sameShipping);
   const [gst, setGst] = useState(false);
-  // const [gstNum, setGstNum] = useState("");
-  // let gstNum: any;
   const [pancardText, setPancardText] = useState(user.panPassport || "");
   const [pancardCheck, setPancardCheck] = useState(false);
   const [panError, setPanError] = useState("");
@@ -108,8 +101,10 @@ const AddressSection: React.FC<AddressProps & {
   const [termsErr, setTermsErr] = useState("");
   const [gstDetails, setGstDetails] = useState({ gstText: "", gstType: "" });
   const [billingError, setBillingError] = useState("");
+  const [shippingError, setShippingError] = useState("");
 
   const dispatch = useDispatch();
+  const location = useLocation();
 
   const { mode } = useSelector((state: AppState) => state.address);
 
@@ -155,12 +150,15 @@ const AddressSection: React.FC<AddressProps & {
   // End: Intersection Observer (Mobile)
 
   useEffect(() => {
+    const queryString = location.search;
+    const urlParams = new URLSearchParams(queryString);
+    const boId = urlParams.get("bo_id") || undefined;
     if (
       isLoggedIn &&
       (currentCallBackComponent == "checkout-shipping" ||
         (isGcCheckout && currentCallBackComponent == "checkout-billing"))
     ) {
-      AddressService.fetchAddressList(dispatch, isGcCheckout).then(
+      AddressService.fetchAddressList(dispatch, boId, isGcCheckout).then(
         addressList => {
           dispatch(updateAddressList(addressList));
         }
@@ -170,87 +168,60 @@ const AddressSection: React.FC<AddressProps & {
 
   useEffect(() => {
     setBillingError("");
+    setShippingError("");
     setGstDetails({ gstText: "", gstType: "" });
   }, [shippingAddressId, billingAddressId]);
 
   useEffect(() => {
-    const data = addressList.find(val =>
-      shippingAddressId
-        ? val?.id === shippingAddressId
-        : val?.isDefaultForShipping
-    );
-    AddressService.fetchCustomDuties &&
-      AddressService.fetchCustomDuties(
-        dispatch,
-        countryCurrencyCode?.[data?.country || "IN"]
-      )
-        .then(res => {
-          setIsTermChecked(customDuties?.visible || true);
-          setTermsErr("");
-          dispatch(updateCustomDuties(res));
-        })
-        .catch(e => {
-          setIsTermChecked(e?.response?.data?.visible || false);
-          setTermsErr("");
-          dispatch(
-            updateCustomDuties({
-              visible: e?.response?.data?.visible,
-              message: ""
-            })
-          );
-        });
-  }, [shippingAddressId]);
-
-  // useEffect(() => {
-
-  //   if (currentCallBackComponent === "checkout-shipping") {
-  //     dispatch(
-  //       updateShippingAddressId(
-  //         props.selectedAddress?.id ||
-  //           addressList?.find(val => val?.isDefaultForShipping)?.id ||
-  //           0
-  //       )
-  //     );
-  //   }
-  //   if (
-  //     (currentCallBackComponent === "checkout-billing" ||
-  //       currentCallBackComponent === "checkout-shipping") &&
-  //     sameAsShipping &&
-  //     !isBridal &&
-  //     !isGoodearthShipping &&
-  //     props.selectedAddress?.id
-  //   ) {
-  //     debugger;
-  //     dispatch(updateBillingAddressId(props.selectedAddress?.id));
-  //   }
-
-  //   if (
-  //     currentCallBackComponent === "checkout-billing" &&
-  //     (!sameAsShipping || isBridal || isGoodearthShipping)
-  //   ) {
-  //     debugger;
-  //     if (isBridal || isGoodearthShipping) {
-  //       debugger;
-  //       dispatch(updateBillingAddressId(0));
-  //     } else {
-  //       dispatch(updateBillingAddressId(billingAddressId));
-  //     }
-  //   }
-
-  // }, [props.selectedAddress, addressList]);
+    setIsTermChecked(customDuties?.visible || true);
+    setTermsErr("");
+  }, [customDuties]);
 
   useEffect(() => {
-    if (activeStep == STEP_BILLING && (!isBridal || !isGoodearthShipping)) {
+    if (
+      activeStep == STEP_BILLING &&
+      (!isBridal || !isGoodearthShipping) &&
+      props.selectedAddress &&
+      isActive
+    ) {
       dispatch(updateBillingAddressId(props.selectedAddress?.id || 0));
 
-      if (sameAsShipping) {
+      if (
+        sameAsShipping &&
+        props.selectedAddress
+        // props.selectedAddress?.isDefaultForShipping]
+      ) {
         dispatch(updateShippingAddressId(props.selectedAddress?.id || 0));
       }
     }
-    if (activeStep === STEP_SHIPPING) {
-      dispatch(updateShippingAddressId(props.selectedAddress?.id || 0));
+
+    // Always keep billing address as 0 initially for bridal and goodearth shipping
+    if (
+      (isBridal || isGoodearthShipping || isGcCheckout) &&
+      activeStep == STEP_BILLING
+    ) {
+      dispatch(updateBillingAddressId(0));
     }
-  }, [props.selectedAddress, activeStep]);
+
+    if (activeStep === STEP_SHIPPING && isActive) {
+      dispatch(updateShippingAddressId(props.selectedAddress?.id || 0));
+      dispatch(updateCustomDuties({ visible: false, message: "" }));
+
+      if (props.selectedAddress && props.selectedAddress?.id) {
+        AddressService.fetchCustomDuties(
+          dispatch,
+          countryCurrencyCode?.[props.selectedAddress?.country || "IN"]
+        );
+      }
+    }
+  }, [
+    props.selectedAddress,
+    activeStep,
+    currency,
+    isActive,
+    isBridal,
+    isGoodearthShipping
+  ]);
 
   const openNewAddressForm = () => {
     if (currentCallBackComponent === "checkout-billing") {
@@ -267,15 +238,6 @@ const AddressSection: React.FC<AddressProps & {
     setPancardText(user.panPassport || "");
   }, [user.panPassport]);
 
-  // Commented because of Same as shipping issue
-  // useEffect(() => {
-  //   dispatch(
-  //     updateSameAsShipping(
-  //       !isGoodearthShipping && !isBridal
-  //     )
-  //   );
-  // }, [isGoodearthShipping, isBridal]);
-
   useEffect(() => {
     setPanError("");
     setPanCheck("");
@@ -288,23 +250,20 @@ const AddressSection: React.FC<AddressProps & {
     isBottom?: boolean,
     isBillingDisable?: boolean
   ) {
-    if ((isActive && isLoggedIn) || isBillingDisable) {
+    if (((isActive && isLoggedIn) || isBillingDisable) && addressList?.length) {
       const clickAction =
         mode == "list" ? openNewAddressForm : backToAddressList;
-      const fullText =
-        mode == "new" || mode == "edit"
-          ? "< BACK TO SAVED ADDRESSES"
-          : isBillingDisable
-          ? ""
-          : "[+] ADD NEW ADDRESS"; //if billing is disabled then do not show anything here
-      const mobileText =
-        mode == "new" || mode == "edit"
-          ? "< BACK"
-          : isBillingDisable
-          ? " "
-          : "[+] ADD NEW ADDRESS";
+      const fullText = isBillingDisable ? "" : "[+] ADD NEW ADDRESS"; //if billing is disabled then do not show anything here
+      const mobileText = isBillingDisable ? " " : "[+] ADD NEW ADDRESS";
       if (isBridal && activeStep == STEP_SHIPPING) return "";
       if (isBillingDisable) return null;
+      if (mode == "new" || mode == "edit") return null;
+      if (
+        activeStep == STEP_BILLING &&
+        (isBridal || isGoodearthShipping) &&
+        addressList.length <= 1
+      )
+        return null;
       return (
         <div
           className={cs(
@@ -368,15 +327,46 @@ const AddressSection: React.FC<AddressProps & {
             styles.selectedStvalue
           )}
         >
-          <div>
-            <span className={globalStyles.marginR10}>
+          <div className={styles.bridalAddressTitleRing}>
+            <span
+              className={cs(
+                globalStyles.marginR10,
+                globalStyles.textCapitalize
+              )}
+            >
               {address.registrantName} & {address.coRegistrantName}&#39;s &nbsp;
               {address.occasion} Registry
             </span>
+            <div className={cs(styles.defaultAddressDiv, styles.bridalAddress)}>
+              <svg
+                viewBox="0 5 40 40"
+                width="35"
+                height="35"
+                preserveAspectRatio="xMidYMid meet"
+                x="0"
+                y="0"
+                className={styles.ceriseBridalRings}
+              >
+                <use xlinkHref={`${bridalRing}#bridal-ring`}></use>
+              </svg>
+            </div>
           </div>
-          <div>
-            <span className={globalStyles.marginR10}>(Address predefined)</span>
+
+          <div className={styles.addressMain}>
+            <div className={styles.text}>
+              {address.line1}
+              {address.line2 && ","}
+              {address.line2},
+            </div>
+
+            <div className={styles.text}>
+              {address.city},{address.state} - {address.postCode},
+            </div>
+            <div className={styles.text}>{address.countryName}</div>
           </div>
+          <p className={styles.phone}>
+            {address.phoneCountryCode} {address.phoneNumber}
+          </p>
         </div>
       );
     } else if (!isActive && address && STEP_ORDER[activeStep] < currentStep) {
@@ -422,19 +412,21 @@ const AddressSection: React.FC<AddressProps & {
                 </span>
               </div>
               <div className={styles.addressMain}>
-                <div className={styles.text}>{address.line1},</div>
-                {address.line2 && (
-                  <div className={styles.text}>{address.line2},</div>
-                )}
                 <div className={styles.text}>
-                  {address.city}, {address.state}, {address.postCode},
+                  {address.line1}
+                  {address.line2 && ","}
+                  {address.line2},
+                </div>
+
+                <div className={styles.text}>
+                  {address.city},{address.state} - {address.postCode},
                 </div>
                 <div className={styles.text}>{address.countryName}</div>
               </div>
               <p className={styles.phone}>
                 {address.phoneCountryCode} {address.phoneNumber}
               </p>
-              {currency === "INR" && (
+              {currency === "INR" && !isGoodearthShipping && (
                 <p className={styles.contactMsg}>
                   Note:
                   {`${address.phoneCountryCode} ${address.phoneNumber} will be used for sending OTP during delivery. Please ensure it is a mobile number.`}
@@ -468,17 +460,19 @@ const AddressSection: React.FC<AddressProps & {
                 </span>
               </div>
               <div className={styles.addressMain}>
-                <div className={styles.text}>{address.line1},</div>
-                {address.line2 ? (
-                  <div className={styles.text}>{address.line2},</div>
-                ) : null}
                 <div className={styles.text}>
-                  {address.city}, {address.state}, {address.postCode},
+                  {address.line1}
+                  {address.line2 && ","}
+                  {address.line2},
+                </div>
+
+                <div className={styles.text}>
+                  {address.city},{address.state} - {address.postCode},
                 </div>
                 <div className={styles.text}>{address.countryName}</div>
               </div>
               <p className={styles.phone}>
-                M: {address.phoneCountryCode} {address.phoneNumber}
+                {address.phoneCountryCode} {address.phoneNumber}
               </p>
               {gstDetails?.gstText && (
                 <p className={styles.gstNo}>
@@ -520,24 +514,12 @@ const AddressSection: React.FC<AddressProps & {
       // props.openAddressForm();
     }
   };
-  // const onChangeGst = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   setGstType(e.target.value);
-  //   setPanError("");
-  //   setError("");
-  //   setGstText("");
-  // };
 
   const onPanKeyPress = (event: React.KeyboardEvent) => {
     if (event.key === "Enter") {
       event.preventDefault();
     }
   };
-
-  // const onCouponChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-  //   console.log("test ====", event.target.value);
-  //   setGstText(event.target.value);
-  //   setError("");
-  // };
 
   const onPanChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPancardText(event.target.value);
@@ -737,6 +719,11 @@ const AddressSection: React.FC<AddressProps & {
         }
         return false;
       }
+
+      if (shippingAddressId === 0) {
+        setShippingError("Please select shipping address");
+        return false;
+      }
     }
     setTermsErr("");
     if (address) {
@@ -752,7 +739,7 @@ const AddressSection: React.FC<AddressProps & {
       if (!isBridal || !isGoodearthShipping) {
         dispatch(updateSameAsShipping(true));
       }
-      next(STEP_BILLING);
+      // next(STEP_BILLING);
     }
     return true;
   };
@@ -761,29 +748,6 @@ const AddressSection: React.FC<AddressProps & {
     onSubmit(address);
   };
 
-  // useEffect(() => {
-  //   if (openModal && gst) {
-  //     dispatch(
-  //       updateComponent(
-  //         POPUP.BILLINGGST,
-  //         {
-  //           onSubmit: onSubmit,
-  //           setGst: setGst,
-  //           gstNum: gstNum,
-  //           parentError: props.error,
-  //           isActive: isActive,
-  //           setGstNum: setGstNum,
-  //           // sameAsShipping: sameAsShipping,
-  //           setSameAsShipping: updateSameAsShipping,
-  //           setGstDetails:setGstDetails
-  //         },
-  //         mobile ? false : true,
-  //         mobile ? ModalStyles.bottomAlignSlideUp : "",
-  //         mobile ? "slide-up-bottom-align" : ""
-  //       )
-  //     );
-  //   }
-  // }, [props.error, isActive]);
   const toggleGstInvoice = () => {
     setGst(!gst);
     if (!gst) {
@@ -807,18 +771,6 @@ const AddressSection: React.FC<AddressProps & {
       setGstDetails({ gstText: "", gstType: "" });
     }
   };
-
-  // const openTermsPopup = () => {
-  //   dispatch(updateComponent(POPUP.SHIPPINGTERMS, { customDuties }, true));
-  //   dispatch(updateModal(true));
-  // };
-
-  // const onKeyPress = (event: React.KeyboardEvent) => {
-  //   if (event.key === "Enter") {
-  //     onSubmit();
-  //     event.preventDefault();
-  //   }
-  // };
 
   const renderPancard = useMemo(() => {
     if (props.activeStep == STEP_BILLING) {
@@ -1063,6 +1015,45 @@ const AddressSection: React.FC<AddressProps & {
     );
   };
 
+  //CTA text of shipping and billing section
+  let ctaText = "";
+
+  if (addressList.length) {
+    if (activeStep == STEP_SHIPPING) {
+      if (shippingAddressId) {
+        ctaText = "SHIP TO THIS ADDRESS";
+      } else {
+        ctaText = "SELECT AN ADDRESS";
+      }
+    } else {
+      if (
+        ((isBridal &&
+          addressList.filter(e => e?.isTulsi)?.length == 1 &&
+          addressList.length - 2 > 0) ||
+          (isBridal &&
+            addressList.filter(e => e?.isTulsi)?.length == 0 &&
+            addressList.length - 1 > 0) ||
+          (!isBridal && isGoodearthShipping && addressList.length - 1 > 0) ||
+          (!isBridal && !isGoodearthShipping && addressList.length > 0)) &&
+        !(
+          isGcCheckout &&
+          addressList.length > 0 &&
+          (addressList[0].isTulsi || (isBridal && addressList[0].isBridal))
+        )
+      ) {
+        if (billingAddressId) {
+          ctaText = "PROCEED TO PAYMENT";
+        } else {
+          ctaText = "SELECT AN ADDRESS";
+        }
+      } else {
+        ctaText = "ADD A NEW ADDRESS";
+      }
+    }
+  } else {
+    ctaText = "ADD A NEW ADDRESS";
+  }
+
   const renderCheckoutAddress = () => {
     let html: ReactElement | null = null;
 
@@ -1073,7 +1064,9 @@ const AddressSection: React.FC<AddressProps & {
             className={
               isActive
                 ? cs(styles.card, styles.cardOpen, styles.marginT5)
-                : cs(styles.card, styles.cardClosed, styles.marginT5)
+                : cs(styles.card, styles.cardClosed, styles.marginT5, {
+                    [styles.bgWhite]: STEP_ORDER[activeStep] > currentStep
+                  })
             }
           >
             <div className={bootstrapStyles.row}>
@@ -1104,13 +1097,53 @@ const AddressSection: React.FC<AddressProps & {
                     : "BILLING DETAILS"}
                 </span>
               </div>
-              {renderActions(false)}
+              {ctaText != "ADD A NEW ADDRESS" && renderActions(false)}
               {renderSavedAddress()}
             </div>
             {isActive && (
               <>
                 <div>
                   {children}
+                  {shippingError && (
+                    <div
+                      className={cs(
+                        globalStyles.errorMsg,
+                        globalStyles.paddT25
+                      )}
+                    >
+                      {shippingError}
+                    </div>
+                  )}
+                  {
+                    <div
+                      className={cs(
+                        bootstrapStyles.row,
+                        globalStyles.gutterBetween,
+                        styles.checkoutAddressFooter,
+                        globalStyles.paddT0
+                      )}
+                    >
+                      <div
+                        onClick={() => {
+                          onSelectAddress(
+                            addressList?.find(val =>
+                              shippingAddressId !== 0
+                                ? val?.id === shippingAddressId
+                                : val?.isDefaultForShipping === true ||
+                                  (isBridal &&
+                                    basket.bridalAddressId === val?.id)
+                            )
+                          );
+                        }}
+                        className={cs(
+                          styles.sendToAddress,
+                          styles.footerSendToAddress
+                        )}
+                      >
+                        {ctaText}
+                      </div>
+                    </div>
+                  }
                   {props.error ? (
                     <div
                       className={cs(
@@ -1126,6 +1159,7 @@ const AddressSection: React.FC<AddressProps & {
                 </div>
                 {addressList.length > 1 &&
                   mode == "list" &&
+                  ctaText != "ADD A NEW ADDRESS" &&
                   renderActions(true)}
               </>
             )}
@@ -1141,7 +1175,9 @@ const AddressSection: React.FC<AddressProps & {
                 ? cs(styles.card, styles.cardOpen, styles.marginT5)
                 : //: !(STEP_ORDER[activeStep] < currentStep)
                   // styles.hidden
-                  cs(styles.card, styles.cardClosed, styles.marginT5)
+                  cs(styles.card, styles.cardClosed, styles.marginT5, {
+                    [styles.bgWhite]: STEP_ORDER[activeStep] > currentStep
+                  })
             }
           >
             <div className={bootstrapStyles.row}>
@@ -1182,12 +1218,14 @@ const AddressSection: React.FC<AddressProps & {
                   </span>
                 </div>
                 {mobile &&
+                  ctaText != "ADD A NEW ADDRESS" &&
                   renderActions(
                     false,
                     activeStep == STEP_BILLING && !isActive && !billingAddressId
                   )}
               </div>
               {!mobile &&
+                ctaText != "ADD A NEW ADDRESS" &&
                 renderActions(
                   false,
                   activeStep == STEP_BILLING && !isActive && !billingAddressId
@@ -1245,6 +1283,28 @@ const AddressSection: React.FC<AddressProps & {
                           props.isGcCheckout))) && (
                       <>
                         <div>{children}</div>
+                        {props.activeStep == STEP_SHIPPING &&
+                          addressList.length === 0 &&
+                          mode == "list" && (
+                            <div
+                              className={cs(
+                                bootstrapStyles.row,
+                                globalStyles.gutterBetween,
+                                styles.checkoutAddressFooter,
+                                globalStyles.paddT0
+                              )}
+                            >
+                              <div
+                                onClick={() => openAddressForm()}
+                                className={cs(
+                                  styles.sendToAddress,
+                                  styles.footerSendToAddress
+                                )}
+                              >
+                                {ctaText}
+                              </div>
+                            </div>
+                          )}
                         {addressList.length && mode == "list" ? (
                           <>
                             <div></div>
@@ -1264,20 +1324,18 @@ const AddressSection: React.FC<AddressProps & {
                                         addressList?.find(val =>
                                           shippingAddressId !== 0
                                             ? val?.id === shippingAddressId
-                                            : val?.isDefaultForShipping === true
+                                            : val?.isDefaultForShipping ===
+                                                true ||
+                                              (isBridal &&
+                                                basket.bridalAddressId ===
+                                                  val?.id)
                                         )
                                       );
                                     }}
                                     className={cs(styles.sendToAddress, {
                                       [globalStyles.btnFullWidth]: mobile
                                     })}
-                                    label={
-                                      props.activeStep == STEP_SHIPPING
-                                        ? "SHIP TO THIS ADDRESS"
-                                        : props.activeStep == STEP_BILLING
-                                        ? "PROCEED TO PAYMENT"
-                                        : "SHIP TO THIS ADDRESS"
-                                    }
+                                    label={ctaText}
                                     variant="largeMedCharcoalCta"
                                   />
                                 )}
@@ -1331,6 +1389,11 @@ const AddressSection: React.FC<AddressProps & {
                                       {termsErr}
                                     </div>
                                   )}
+                                  {shippingError && (
+                                    <div className={globalStyles.errorMsg}>
+                                      {shippingError}
+                                    </div>
+                                  )}
                                   {/* ref for handling fixed button */}
                                   {/* <div ref={orderSummaryRef}>&nbsp;</div> */}
                                   {((checkoutMobileOrderSummary && mobile) ||
@@ -1342,7 +1405,10 @@ const AddressSection: React.FC<AddressProps & {
                                             shippingAddressId !== 0
                                               ? val?.id === shippingAddressId
                                               : val?.isDefaultForShipping ===
-                                                true
+                                                  true ||
+                                                (isBridal &&
+                                                  basket.bridalAddressId ===
+                                                    val?.id)
                                           )
                                         );
                                       }}
@@ -1351,13 +1417,7 @@ const AddressSection: React.FC<AddressProps & {
                                         styles.footerSendToAddress,
                                         { [globalStyles.btnFullWidth]: mobile }
                                       )}
-                                      label={
-                                        props.activeStep == STEP_SHIPPING
-                                          ? "SHIP TO THIS ADDRESS"
-                                          : props.activeStep == STEP_BILLING
-                                          ? "PROCEED TO PAYMENT"
-                                          : "SHIP TO THIS ADDRESS"
-                                      }
+                                      label={ctaText}
                                       variant="largeMedCharcoalCta"
                                     />
                                   )}
@@ -1378,6 +1438,7 @@ const AddressSection: React.FC<AddressProps & {
                           mode == "list" &&
                           props.activeStep == STEP_BILLING &&
                           !sameAsShipping &&
+                          ctaText != "ADD A NEW ADDRESS" &&
                           renderActions(true)}
                       </>
                     )}
@@ -1423,27 +1484,27 @@ const AddressSection: React.FC<AddressProps & {
                             { [globalStyles.btnFullWidth]: mobile }
                           )}
                           onClick={() => {
-                            handleSaveAndReview(
-                              !props.isGcCheckout
-                                ? addressList?.find(val =>
-                                    shippingAddressId !== 0
-                                      ? sameAsShipping &&
-                                        !isBridal &&
-                                        !isGoodearthShipping
-                                        ? val?.id === shippingAddressId
-                                        : val?.id === billingAddressId
-                                      : val?.isDefaultForShipping === true
-                                  )
-                                : addressList?.find(
-                                    val => val?.id === billingAddressId
-                                  )
-                            );
+                            if (ctaText === "ADD A NEW ADDRESS") {
+                              openAddressForm();
+                            } else {
+                              handleSaveAndReview(
+                                !props.isGcCheckout
+                                  ? addressList?.find(val =>
+                                      shippingAddressId !== 0
+                                        ? sameAsShipping &&
+                                          !isBridal &&
+                                          !isGoodearthShipping
+                                          ? val?.id === shippingAddressId
+                                          : val?.id === billingAddressId
+                                        : val?.isDefaultForShipping === true
+                                    )
+                                  : addressList?.find(
+                                      val => val?.id === billingAddressId
+                                    )
+                              );
+                            }
                           }}
-                          label={
-                            mobile
-                              ? "SELECT & PROCEED TO PAYMENT"
-                              : "PROCEED TO PAYMENT"
-                          }
+                          label={ctaText}
                           variant="largeMedCharcoalCta"
                         />
                       </div>
@@ -1464,24 +1525,24 @@ const AddressSection: React.FC<AddressProps & {
                       !checkoutMobileOrderSummary && (
                         <Button
                           onClick={() => {
-                            handleSaveAndReview(
-                              addressList?.find(val =>
-                                shippingAddressId !== 0
-                                  ? sameAsShipping
-                                    ? val?.id === shippingAddressId
-                                    : val?.id === billingAddressId
-                                  : val?.isDefaultForShipping === true
-                              )
-                            );
+                            if (ctaText === "ADD A NEW ADDRESS") {
+                              openAddressForm();
+                            } else {
+                              handleSaveAndReview(
+                                addressList?.find(val =>
+                                  shippingAddressId !== 0
+                                    ? sameAsShipping
+                                      ? val?.id === shippingAddressId
+                                      : val?.id === billingAddressId
+                                    : val?.isDefaultForShipping === true
+                                )
+                              );
+                            }
                           }}
                           className={cs(styles.sendToAddress, {
                             [globalStyles.btnFullWidth]: mobile
                           })}
-                          label={
-                            mobile
-                              ? "SELECT & PROCEED TO PAYMENT"
-                              : "PROCEED TO PAYMENT"
-                          }
+                          label={ctaText}
                           variant="largeMedCharcoalCta"
                         />
                       )}
