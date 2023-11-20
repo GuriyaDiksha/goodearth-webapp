@@ -148,6 +148,7 @@ const BaseLayout: React.FC = () => {
   }, [orientation, tablet]);
 
   const showPopup = (isShow: boolean) => {
+    debugger;
     if (popup && popup.length > 0) {
       const currentPopup = popup.filter(
         pop =>
@@ -172,18 +173,26 @@ const BaseLayout: React.FC = () => {
               ) != "show"
             ) {
               show = true;
+              CookieService.setCookie(
+                pathname.split("/").join("_") + "_" + currentPopup[0].id,
+                "show"
+              );
             }
           }
 
           //Check for when to show
-          if (currentPopup[0]?.whenToShow === "AFTER_SECONDS") {
+          if (currentPopup[0]?.whenToShow === "AFTER_SECONDS" && show) {
             show = false;
             setTimeout(() => {
               show = true;
               dispatch(updateComponent(POPUP.CMSPOPUP, currentPopup[0], true));
               dispatch(updateModal(true));
             }, (currentPopup[0]?.timeInSeconds || 0) * 1000);
-          } else if (currentPopup[0]?.whenToShow === "AFTER_SCROLL" && isShow) {
+          } else if (
+            currentPopup[0]?.whenToShow === "AFTER_SCROLL" &&
+            isShow &&
+            show
+          ) {
             show = isShow;
           }
 
