@@ -60,7 +60,12 @@ const displayPriceWithCommasFloat = (
         );
       });
   } else {
-    arr.push(parseFloat(price.toString()).toLocaleString(arg));
+    arr.push(
+      parseFloat(price.toString()).toLocaleString(arg, {
+        maximumFractionDigits: 2,
+        minimumFractionDigits: 2
+      })
+    );
   }
   return with_symbol
     ? currency_symbol + " " + arr.join(" - " + currency_symbol + " ")
@@ -79,7 +84,9 @@ const makeid = (length: number) => {
 };
 
 const censorWord = (str: string, to: number) => {
-  return str.substring(0, to) + "x".repeat(str.length - to);
+  return (
+    str.substring(0, to) + "x".repeat(str.length > to ? str.length - to : 0)
+  );
 };
 
 const censorEmail = (email: string) => {
