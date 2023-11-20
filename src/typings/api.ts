@@ -4,6 +4,9 @@ export type ApiResponse = {
 };
 
 export type PopupData = {
+  pageRules?: string;
+  whenToShow?: string;
+  timeInSeconds?: number;
   heading: string;
   icon: string;
   content?: string;
