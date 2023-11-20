@@ -17,6 +17,7 @@ export type BasketStockRecord = {
 };
 
 export type BasketLineItem = {
+  GCMeta?: GCMetaType;
   id: number;
   childAttributes: ChildProductAttributes[];
   bridalProfile: number;
