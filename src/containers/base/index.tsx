@@ -157,8 +157,9 @@ const BaseLayout: React.FC = () => {
       if (currentPopup && currentPopup.length > 0) {
         //Check for on  which page
         if (
-          popup?.pageRules === "ANY_PAGE" ||
-          (popup?.pageRules === "SPECIFIC_PAGE" && popup?.pageUrl === pathname)
+          currentPopup[0]?.pageRules === "ANY_PAGE" ||
+          (currentPopup[0]?.pageRules === "SPECIFIC_PAGE" &&
+            currentPopup[0]?.pageUrl === pathname)
         ) {
           //Check for session
           let show = currentPopup[0].session == false;
@@ -175,15 +176,14 @@ const BaseLayout: React.FC = () => {
           }
 
           //Check for when to show
-
-          if (popup?.whenToShow === "AFTER_SECONDS") {
+          if (currentPopup[0]?.whenToShow === "AFTER_SECONDS") {
             show = false;
             setTimeout(() => {
               show = true;
               dispatch(updateComponent(POPUP.CMSPOPUP, currentPopup[0], true));
               dispatch(updateModal(true));
-            }, popup?.timeInSeconds || 0 * 1000);
-          } else if (popup?.whenToShow === "AFTER_SCROLL" && isShow) {
+            }, (currentPopup[0]?.timeInSeconds || 0) * 1000);
+          } else if (currentPopup[0]?.whenToShow === "AFTER_SCROLL" && isShow) {
             show = isShow;
           }
 
@@ -217,15 +217,20 @@ const BaseLayout: React.FC = () => {
     }
 
     let isScroll = false;
+    const currentPopup = popup.filter(
+      pop =>
+        decodeURI(pop.pageUrl || "") ==
+        decodeURI(pathname + history.location.search)
+    );
     const handleScroll = () => {
-      if (popup?.whenToShow === "AFTER_SCROLL" && !isScroll) {
+      if (currentPopup[0]?.whenToShow === "AFTER_SCROLL" && !isScroll) {
         isScroll = true;
         showPopup(true);
       }
     };
 
     // show popup, if any
-    if (popup?.whenToShow !== "AFTER_SCROLL") {
+    if (currentPopup[0]?.whenToShow !== "AFTER_SCROLL") {
       showPopup(false);
     }
 
