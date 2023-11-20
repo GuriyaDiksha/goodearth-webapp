@@ -338,7 +338,7 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
               className={cs(styles.price, styles.price3, styles.discount)}
               key={i}
             >
-              <span className={styles.label}>Loyalty Points</span>
+              <span className={styles.label}>Cerise Points</span>
               <span className={styles.value}>
                 {`(-) ${displayPriceWithCommasFloat(point, item.currency)}`}
               </span>

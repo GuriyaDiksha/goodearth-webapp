@@ -2,7 +2,7 @@
     "/auth/register",
     "/auth/login",
     "/myapi/auth/meta",
-    "/auth/check_user_password",
+    "/auth/check_user",
     "/auth/sociallogin",
     "/giftcard/giftcard_activate",
     "/giftcard/giftcard_balance_check_for_anonymous_user",

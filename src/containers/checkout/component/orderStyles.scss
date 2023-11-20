@@ -113,9 +113,9 @@ body:has(.open-summary) {
   .checkout {
     padding-bottom: 180px;
   }
-  // .fix-order-items-mobile {
-  //   // overflow: scroll;
-  // }
+  .fix-order-items-mobile {
+    border-top: 0.5px solid #9f9f9f;
+  }
   // .summary-title {
   //  // margin-bottom: 15px;
   // }
@@ -232,7 +232,7 @@ body:has(.open-summary) {
     .delivery-date {
       @include b5_10px_montserrat_charcoal();
       padding-top: 5px;
-      line-height: 1;
+      line-height: 1.5;
       letter-spacing: 0.3px;
     }
     hr {
@@ -287,10 +287,16 @@ body:has(.open-summary) {
     @include b4_12px_medium_medcharcoal_caps();
     text-align: left;
     padding: 35px 0 0 0;
-  }
+    @media screen and (max-width:992px) {
+      margin: 20px 0;
+    }
+      }
   .summary-title-two{
     padding: 10px 0 0 0 !important;
-  }
+    @media screen and (max-width:992px) {
+      margin-bottom: 0 !important;
+    }
+      }
   .product-wrp {
     margin: 30px 10px;
   }
@@ -322,6 +328,7 @@ body:has(.open-summary) {
 .product-price {
   @include plp_prod_name_desktop();
   @include b3_14px_montserrat_charcoal();
+  padding-bottom: 8px;
 }
 
 .hr-product {
@@ -335,6 +342,7 @@ body:has(.open-summary) {
 .product-size,
 .text-coupon {
   @include b5_10px_montserrat_charcoal();
+  line-height: 1.7;
   .bold {
     font-weight: bold;
   }
@@ -444,7 +452,7 @@ body:has(.open-summary) {
 }
 .discount-font {
   cursor: pointer;
-  font-size: 9px;
+  font-size: 10px;
   font-weight: bold;
   margin-left: 5px;
 }
@@ -658,7 +666,7 @@ body:has(.open-summary) {
     .checkout-order {
       position: absolute;
       width: 100%;
-      max-height: 480px;
+      max-height: 600px;
       top: 50px;
       left: 0;
       z-index: 99;
@@ -669,6 +677,17 @@ body:has(.open-summary) {
     }
     .open-summary {
       height: auto;
+      background-color: $white;
+
+      .margin-l-r-30{
+        margin: 0 30px;
+        h3{
+          padding: 0px;
+        }
+        a{
+          padding: 0;
+        }
+      }
     }
 
     .summary-amount-wrapper {
@@ -717,7 +736,7 @@ body:has(.open-summary) {
       padding: 0 0px;
     }
     .fix-order-items {
-      max-height: 300px !important;
+      max-height: 530px !important;
       border: none;
       padding: 0 20px 20px;
       background-color: $white;
@@ -754,4 +773,7 @@ body:has(.open-summary) {
   .promocode-text {
     padding: 0 65px;
   }
+}
+.max-width{
+  max-width: 67%;
 }

@@ -78,4 +78,29 @@ const makeid = (length: number) => {
   return result;
 };
 
-export { displayPriceWithCommas, displayPriceWithCommasFloat, makeid };
+const censorWord = (str: string, to: number) => {
+  return str.substring(0, to) + "x".repeat(str.length - to);
+};
+
+const censorEmail = (email: string) => {
+  const arr = email.split("@");
+  return (
+    censorWord(arr[0], 2) +
+    "@" +
+    censorWord(arr[1]?.split(".")?.[0], 1) +
+    "." +
+    arr[1]?.split(".")?.[1]
+  );
+};
+
+const censorPhoneNumber = (phoneNo: string) => {
+  return "x".repeat(phoneNo?.length - 4) + phoneNo?.substr(phoneNo?.length - 4);
+};
+
+export {
+  displayPriceWithCommas,
+  displayPriceWithCommasFloat,
+  makeid,
+  censorEmail,
+  censorPhoneNumber
+};

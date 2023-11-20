@@ -96,6 +96,9 @@ li {
 .padd-t-20{
   padding-top: 20px !important;
 }
+.padd-t-25{
+  padding-top: 25px !important;
+}
 .padd-t-30{
   padding-top: 30px !important;
 }
@@ -131,6 +134,12 @@ a {
 }
 .margin-t-0 {
   margin-top: 0px !important;
+}
+.margin-t-2 {
+  margin-top: 2px !important;
+}
+.margin-t-5 {
+  margin-top: 5px !important;
 }
 
 .margin-b-0 {
@@ -435,6 +444,10 @@ font-weight: bold;
   }
 }
 
+.nohover-btn{
+  pointer-events: none;
+}
+
 .error-border {
   border: 1px solid $cerise !important;
 }
@@ -456,6 +469,10 @@ font-weight: bold;
 
 .bg-grey {
   background: #f2f2f2;
+}
+
+.bg-white {
+  background: $white;
 }
 
 .no-scroll {
@@ -731,4 +748,8 @@ font-weight: bold;
 }
 .gap20{
   gap: 20px;
+}
+
+.text-capitalize{
+  text-transform: capitalize;
 }
