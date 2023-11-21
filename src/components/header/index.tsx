@@ -53,6 +53,7 @@ const mapStateToProps = (state: AppState) => {
     mobile: state.device.mobile,
     tablet: state.device.tablet,
     wishlistData: state.wishlist.items,
+    wishlistCountData: state.wishlist.count,
     sortBy: state.wishlist.sortBy,
     cart: state.basket,
     message: state.message,
@@ -929,6 +930,7 @@ class Header extends React.Component<Props, State> {
     const { isLoggedIn } = this.context;
     const {
       wishlistData,
+      wishlistCountData,
       meta,
       goLogin,
       handleLogOut,
@@ -938,7 +940,8 @@ class Header extends React.Component<Props, State> {
       // slab,
       // customerGroup
     } = this.props;
-    const wishlistCount = wishlistData.length;
+    // const wishlistCount = wishlistData.length;
+    const wishlistCount = wishlistCountData;
     let bagCount = 0;
     const item = this.props.cart.lineItems;
     for (let i = 0; i < item.length; i++) {
@@ -1286,6 +1289,7 @@ class Header extends React.Component<Props, State> {
                     toggleSearch={this.showSearch}
                     mobile={mobile}
                     wishlistData={wishlistData}
+                    wishlistCountData={wishlistCountData}
                     currency={this.props.currency}
                     sidebagData={this.props.cart}
                   />

@@ -1,6 +1,6 @@
 import { Dispatch } from "redux";
 // typings
-import { WishlistResponse } from "./typings";
+import { WishlistResponse, WishlistCountResponse } from "./typings";
 // actions
 import { updateWishlist } from "actions/wishlist";
 // utils
@@ -154,6 +154,15 @@ export default {
       }
     );
     await this.updateWishlist(dispatch, sortBy);
+    return res;
+  },
+
+  countWishlist: async function(dispatch: Dispatch) {
+    const res = await API.get<WishlistCountResponse>(
+      dispatch,
+      `${__API_HOST__}/myapi/wishlist/wishlist_count`
+    );
+    // dispatch(updateWishlist(res.count));
     return res;
   }
 };

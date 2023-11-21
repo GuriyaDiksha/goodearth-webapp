@@ -156,6 +156,7 @@ export type SideMenuProps = {
   currency: Currency;
   mobile: boolean;
   wishlistData: WishListType[];
+  wishlistCountData: number;
   sidebagData: Basket;
   toggleSearch: () => void;
   showSearch: boolean;
