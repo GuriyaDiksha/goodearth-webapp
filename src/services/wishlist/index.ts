@@ -11,6 +11,7 @@ import BasketService from "services/basket";
 import { Basket } from "typings/basket";
 import { MESSAGE } from "constants/messages";
 import { showGrowlMessage } from "../../utils/validate";
+import { countWishlist } from "actions/wishlist";
 
 export default {
   updateWishlist: async function(dispatch: Dispatch, sortBy = "added_on") {
@@ -162,7 +163,7 @@ export default {
       dispatch,
       `${__API_HOST__}/myapi/wishlist/wishlist_count`
     );
-    // dispatch(updateWishlist(res.count));
+    dispatch(countWishlist(res.count));
     return res;
   }
 };
