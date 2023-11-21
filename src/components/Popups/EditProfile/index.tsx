@@ -82,7 +82,7 @@ const EditProfile: React.FC = () => {
                   [styles.disabled]: reqSent
                 })}
                 value={textarea}
-                maxLength={246}
+                maxLength={248}
                 placeholder={"Write your message here"}
                 autoComplete="new-password"
                 onChange={(e: any) => {
