@@ -37,10 +37,12 @@ const FreeShipping: React.FC<PopupProps> = props => {
         className={cs(
           styles.sizeBlockPopup,
           styles.sizeBlockNotFixed,
-          styles.centerpageDesktopFs,
           globalStyles.textCenter,
           styles.freeShippingPopup,
-          { [styles.mobilePopup]: mobile }
+          {
+            [styles.centerpageDesktopFsWidth]: mobile,
+            [styles.centerpageDesktopFs]: !mobile
+          }
         )}
       >
         <div className={styles.cross} onClick={closeModal}>
@@ -56,7 +58,7 @@ const FreeShipping: React.FC<PopupProps> = props => {
         <div className={cs(styles.gcTnc)}>
           <div
             className={cs(styles.freeShippingHead, {
-              [globalStyles.marginT30]: mobile
+              [globalStyles.paddTop50]: mobile
             })}
           >
             Free Shipping

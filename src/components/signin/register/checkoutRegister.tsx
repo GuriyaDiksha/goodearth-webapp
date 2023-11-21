@@ -3,8 +3,8 @@ import cs from "classnames";
 import styles from "../styles.scss";
 import globalStyles from "styles/global.scss";
 import bootstrapStyles from "../../../styles/bootstrap/bootstrap-grid.scss";
-import show from "../../../images/showPass.svg";
-import hide from "../../../images/hidePass.svg";
+// import show from "../../../images/showPass.svg";
+// import hide from "../../../images/hidePass.svg";
 import { Context } from "components/Modal/context";
 import moment from "moment";
 import Formsy from "formsy-react";
@@ -85,7 +85,8 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
       email: "",
       showTip: false,
       whatsappChecked: false,
-      selectedCountry: ""
+      selectedCountry: "",
+      phoneNo: ""
     };
   }
   static contextType = Context;
@@ -152,8 +153,8 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
   handleSubmit = (model: any, resetForm: any, updateInputsWithError: any) => {
     const {
       email,
-      password1,
-      password2,
+      // password1,
+      // password2,
       firstName,
       lastName,
       gender,
@@ -168,8 +169,8 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
     const formData: any = {};
     formData["username"] = email;
     formData["email"] = email;
-    formData["password1"] = password1;
-    formData["password2"] = password2;
+    // formData["password1"] = "Test@123";
+    // formData["password2"] = "Test@123";
     formData["firstName"] = firstName;
     formData["lastName"] = lastName;
     formData["gender"] = gender;
@@ -238,7 +239,8 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
         // this.props.nextStep?.();
         this.setState({
           showEmailVerification: true,
-          email
+          email,
+          phoneNo: data?.phoneNo
         });
       })
       .catch(error => {
@@ -255,8 +257,8 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
           switch (key) {
             case "firstName":
             case "lastName":
-            case "password1":
-            case "password2":
+            // case "password1":
+            // case "password2":
             case "gender":
             case "dateOfBirth":
               updateInputsWithError(
@@ -489,51 +491,51 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
     }, 0);
   };
 
-  handleResetPassword = (event: React.MouseEvent) => {
-    event.preventDefault();
+  // handleResetPassword = (event: React.MouseEvent) => {
+  //   event.preventDefault();
 
-    const formData = new FormData();
-    formData.append(
-      "email",
-      (this.RegisterFormRef.current &&
-        this.RegisterFormRef.current.getModel().email) ||
-        ""
-    );
+  //   const formData = new FormData();
+  //   formData.append(
+  //     "email",
+  //     (this.RegisterFormRef.current &&
+  //       this.RegisterFormRef.current.getModel().email) ||
+  //       ""
+  //   );
 
-    this.props
-      .resetPassword(formData)
-      .then(data => {
-        this.setState({
-          successMsg: data.success
-        });
-      })
-      .catch(err => {
-        if (err.response.data.email) {
-          this.RegisterFormRef.current &&
-            this.RegisterFormRef.current.updateInputsWithError(
-              {
-                email: err.response.data.email[0]
-              },
-              true
-            );
-          errorTracking(err.response.data.email[0], location.href);
-        } else if (err.response.data.error_message) {
-          let errorMsg = err.response.data.error_message[0];
-          if (errorMsg == "MaxRetries") {
-            errorMsg =
-              "You have exceeded max attempts, please try after some time.";
-          }
-          this.setState(
-            {
-              showerror: errorMsg
-            },
-            () => {
-              errorTracking([this.state.showerror as string], location.href);
-            }
-          );
-        }
-      });
-  };
+  //   this.props
+  //     .resetPassword(formData)
+  //     .then(data => {
+  //       this.setState({
+  //         successMsg: data.success
+  //       });
+  //     })
+  //     .catch(err => {
+  //       if (err.response.data.email) {
+  //         this.RegisterFormRef.current &&
+  //           this.RegisterFormRef.current.updateInputsWithError(
+  //             {
+  //               email: err.response.data.email[0]
+  //             },
+  //             true
+  //           );
+  //         errorTracking(err.response.data.email[0], location.href);
+  //       } else if (err.response.data.error_message) {
+  //         let errorMsg = err.response.data.error_message[0];
+  //         if (errorMsg == "MaxRetries") {
+  //           errorMsg =
+  //             "You have exceeded max attempts, please try after some time.";
+  //         }
+  //         this.setState(
+  //           {
+  //             showerror: errorMsg
+  //           },
+  //           () => {
+  //             errorTracking([this.state.showerror as string], location.href);
+  //           }
+  //         );
+  //       }
+  //     });
+  // };
 
   checkMailValidation = async (): Promise<boolean> => {
     let isValid = false;
@@ -575,28 +577,29 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
             true
           );
         isValid = false;
-      } else {
-        const error = [
-          <span key="email-error2">
-            This account already exists. Please{" "}
-            <span
-              className={globalStyles.linkTextUnderline}
-              onClick={this.handleResetPassword}
-            >
-              set a new password
-            </span>
-          </span>
-        ];
-        this.RegisterFormRef.current &&
-          this.RegisterFormRef.current.updateInputsWithError(
-            {
-              email: error
-            },
-            true
-          );
-        this.setState({ showFields: false });
-        isValid = false;
       }
+      //else {
+      // const error = [
+      //   <span key="email-error2">
+      //     This account already exists. Please{" "}
+      //     <span
+      //       className={globalStyles.linkTextUnderline}
+      //       onClick={this.handleResetPassword}
+      //     >
+      //       set a new password
+      //     </span>
+      //   </span>
+      // ];
+      // this.RegisterFormRef.current &&
+      //   this.RegisterFormRef.current.updateInputsWithError(
+      //     {
+      //       email: error
+      //     },
+      //     true
+      //   );
+      // this.setState({ showFields: false });
+      // isValid = false;
+      // }
     } else {
       this.setState({ showFields: true });
       this.firstNameInput.current && this.firstNameInput.current.focus();
@@ -975,7 +978,7 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
               showLabel={true}
             />
           </div>
-          <div>
+          {/* <div>
             <FormInput
               name="password1"
               placeholder={"Password*"}
@@ -1163,7 +1166,7 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
               required
               showLabel={true}
             />
-          </div>
+          </div> */}
           {CONFIG.WHATSAPP_SUBSCRIBE_ENABLED && !this.props.isCheckout && (
             <div
               className={cs(styles.subscribe, styles.tooltip, {
@@ -1279,7 +1282,7 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
                     ? cs(globalStyles.disabledBtn, globalStyles.charcoalBtn)
                     : globalStyles.charcoalBtn
                 }
-                value="Create My Account & Proceed"
+                value="Verify my account"
                 disabled={this.state.disableButton || !this.state.showFields}
               />
             )}
@@ -1333,6 +1336,10 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
             changeEmail={this.changeEmail}
             goLogin={this.props.goToLogin}
             isCheckout={this.props.isCheckout}
+            currency={this.props.currency}
+            sortBy={this.props.sortBy}
+            phoneNo={this.state.phoneNo}
+            isRegistration={true}
           />
         ) : (
           <>
