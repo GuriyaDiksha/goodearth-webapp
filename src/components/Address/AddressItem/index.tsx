@@ -48,7 +48,6 @@ const AddressItem: React.FC<Props> = props => {
     basket,
     address: { shippingAddressId, billingAddressId }
   } = useSelector((state: AppState) => state);
-  const { defaultAddress, setDefaultAddress } = props;
 
   // const isDefaultAddress = () => {
   //     return props.addressData.isDefaultForShipping;
@@ -66,15 +65,22 @@ const AddressItem: React.FC<Props> = props => {
   const deleteAddress = (event: any) => {
     event.stopPropagation();
     setIsLoading(true);
+    const maindiv = document.getElementById(`address-item-${address.id}`);
     AddressService.deleteAddress(dispatch, address.id)
       .catch(err => {
         const error = err.response.data;
 
         if (typeof error == "string") {
+          maindiv.getElementsByTagName("div")[0].style =
+            "border : 1px solid #ab1e56";
           setDeleteError(error);
         }
       })
       .finally(() => setIsLoading(false));
+    if (deleteError) {
+      maindiv.getElementsByTagName("div")[0].style =
+        "border : 1px solid #ab1e56";
+    }
   };
 
   // deleteAddress(id) {
@@ -309,11 +315,9 @@ const AddressItem: React.FC<Props> = props => {
       id={`address-item-${address.id}`}
       onClick={() => {
         if (!(props.isGcCheckout && currency != address.currency)) {
-          markAsDefault(address, address?.id);
-          currentCallBackComponent !== "checkout-billing" &&
-            currentCallBackComponent !== "checkout-shipping" &&
-            setDefaultAddress &&
-            setDefaultAddress(id);
+          (currentCallBackComponent == "checkout-billing" ||
+            currentCallBackComponent == "checkout-shipping") &&
+            markAsDefault(address);
         }
       }}
     >
@@ -380,7 +384,7 @@ const AddressItem: React.FC<Props> = props => {
           )}
         >
           {/*=================== Name and Default ================= */}
-          {currentCallBackComponent != "account" &&
+          {/* {currentCallBackComponent != "account" &&
             currentCallBackComponent != "checkout-shipping" &&
             currentCallBackComponent != "checkout-billing" && (
               <div>
@@ -395,6 +399,8 @@ const AddressItem: React.FC<Props> = props => {
                           className={styles.radio}
                           id={id}
                           onClick={() => {
+                            markAsDefault(address);
+                            setDefaultAddress && setDefaultAddress(id);
                             if (
                               !(
                                 props.isGcCheckout &&
@@ -416,6 +422,8 @@ const AddressItem: React.FC<Props> = props => {
                             name={id}
                             type="radio"
                             onChange={() => {
+                              markAsDefault(address);
+                              setDefaultAddress && setDefaultAddress(id);
                               if (
                                 !(
                                   props.isGcCheckout &&
@@ -447,6 +455,8 @@ const AddressItem: React.FC<Props> = props => {
                           className={styles.radio}
                           id={id}
                           onClick={() => {
+                            markAsDefault(address);
+                            setDefaultAddress && setDefaultAddress(id);
                             if (
                               !(
                                 props.isGcCheckout &&
@@ -468,6 +478,8 @@ const AddressItem: React.FC<Props> = props => {
                             name={id}
                             type="radio"
                             onChange={() => {
+                              markAsDefault(address);
+                              setDefaultAddress && setDefaultAddress(id);
                               if (
                                 !(
                                   props.isGcCheckout &&
@@ -484,7 +496,7 @@ const AddressItem: React.FC<Props> = props => {
                   </div>
                 )}
               </div>
-            )}
+            )} */}
 
           {divOrText == "text" &&
             currentCallBackComponent != "account" &&
@@ -500,11 +512,13 @@ const AddressItem: React.FC<Props> = props => {
 
           {divOrText == "text" && currentCallBackComponent == "account" && (
             <div className={styles.lineHead}>
-              {!address.isTulsi && props.currentCallBackComponent != "cerise" && (
+              {/* {!address.isTulsi && props.currentCallBackComponent != "cerise" && (
                 <div
                   className={styles.radio}
                   id={id}
                   onClick={() => {
+                    markAsDefault(address);
+                    setDefaultAddress && setDefaultAddress(id);
                     if (!(props.isGcCheckout && currency != address.currency)) {
                       markAsDefault(address, address?.id);
                       setDefaultAddress && setDefaultAddress(id);
@@ -518,6 +532,8 @@ const AddressItem: React.FC<Props> = props => {
                     name={id}
                     type="radio"
                     onChange={() => {
+                      markAsDefault(address);
+                      setDefaultAddress && setDefaultAddress(id);
                       if (
                         !(props.isGcCheckout && currency != address.currency)
                       ) {
@@ -528,7 +544,7 @@ const AddressItem: React.FC<Props> = props => {
                   />
                   <span className={styles.checkmark}></span>
                 </div>
-              )}
+              )} */}
               {props.title}
               {address.firstName}
               &nbsp;
@@ -537,27 +553,27 @@ const AddressItem: React.FC<Props> = props => {
                 <div className={styles.defaultContainer}>
                   <div
                     className={cs(styles.defaultAddressDiv, {
-                      [styles.bridal]: address.isBridal
+                      [styles.bridalAddressItem]: address.isBridal
                     })}
                   >
                     {address.isBridal && (
                       <svg
-                        viewBox="-3 -3 46 46"
-                        width="60"
-                        height="60"
+                        viewBox="0 5 40 40"
+                        width="35"
+                        height="35"
                         preserveAspectRatio="xMidYMid meet"
                         x="0"
                         y="0"
-                        className={styles.ceriseBridalRings}
+                        // className={styles.ceriseBridalRings}
                       >
                         <use xlinkHref={`${bridalRing}#bridal-ring`}></use>
                       </svg>
                     )}
-                    {id === defaultAddress && (
+                    {/* {id === defaultAddress && (
                       <div className={styles.defaultAddress}>
                         Default Address
                       </div>
-                    )}
+                    )} */}
                     {/* {!address.isDefaultForShipping && (
                       <div className={styles.line}>Make default</div>
                     )} */}
@@ -575,7 +591,7 @@ const AddressItem: React.FC<Props> = props => {
                       className={styles.radio}
                       id={address.id.toString()}
                       onClick={() => {
-                        markAsDefault(address, address?.id);
+                        markAsDefault(address);
                         // setDefaultAddress(id);
                       }}
                     >
@@ -588,7 +604,7 @@ const AddressItem: React.FC<Props> = props => {
                         name={address.id.toString()}
                         type="radio"
                         onChange={() => {
-                          markAsDefault(address, address?.id);
+                          markAsDefault(address);
                           //setDefaultAddress(id);
                         }}
                       />
@@ -603,27 +619,27 @@ const AddressItem: React.FC<Props> = props => {
                   <div className={styles.defaultContainer}>
                     <div
                       className={cs(styles.defaultAddressDiv, {
-                        [styles.bridal]: address.isBridal
+                        [styles.bridalAddressItem]: address.isBridal
                       })}
                     >
                       {address.isBridal && (
                         <svg
-                          viewBox="-3 -3 46 46"
-                          width="60"
-                          height="60"
+                          viewBox="0 5 40 40"
+                          width="35"
+                          height="35"
                           preserveAspectRatio="xMidYMid meet"
                           x="0"
                           y="0"
-                          className={styles.ceriseBridalRings}
+                          // className={styles.ceriseBridalRings}
                         >
                           <use xlinkHref={`${bridalRing}#bridal-ring`}></use>
                         </svg>
                       )}
-                      {id === defaultAddress && (
+                      {/* {id === defaultAddress && (
                         <div className={styles.defaultAddress}>
                           Default Address
                         </div>
-                      )}
+                      )} */}
                       {/* {!address.isDefaultForShipping && (
                       <div className={styles.line}>Make default</div>
                     )} */}
@@ -644,7 +660,7 @@ const AddressItem: React.FC<Props> = props => {
                         if (
                           !(props.isGcCheckout && currency != address.currency)
                         ) {
-                          markAsDefault(address, address?.id);
+                          markAsDefault(address);
                           // setDefaultAddress(id);
                         }
                       }}
@@ -663,7 +679,7 @@ const AddressItem: React.FC<Props> = props => {
                               props.isGcCheckout && currency != address.currency
                             )
                           ) {
-                            markAsDefault(address, address?.id);
+                            markAsDefault(address);
                             // setDefaultAddress(id);
                           }
                         }}
@@ -679,27 +695,27 @@ const AddressItem: React.FC<Props> = props => {
                   <div className={styles.defaultContainer}>
                     <div
                       className={cs(styles.defaultAddressDiv, {
-                        [styles.bridal]: address.isBridal
+                        [styles.bridalAddressItem]: address.isBridal
                       })}
                     >
                       {address.isBridal && (
                         <svg
-                          viewBox="-3 -3 46 46"
-                          width="60"
-                          height="60"
+                          viewBox="0 5 40 40"
+                          width="35"
+                          height="35"
                           preserveAspectRatio="xMidYMid meet"
                           x="0"
                           y="0"
-                          className={styles.ceriseBridalRings}
+                          // className={styles.ceriseBridalRings}
                         >
                           <use xlinkHref={`${bridalRing}#bridal-ring`}></use>
                         </svg>
                       )}
-                      {id === defaultAddress && (
+                      {/* {id === defaultAddress && (
                         <div className={styles.defaultAddress}>
                           Default Address
                         </div>
-                      )}
+                      )} */}
                       {/* {!address.isDefaultForShipping && (
                       <div className={styles.line}>Make default</div>
                     )} */}
@@ -720,8 +736,7 @@ const AddressItem: React.FC<Props> = props => {
                   currentCallBackComponent == "bridal-edit"
               })}
             >
-              {((!address.isTulsi && currentCallBackComponent == "account") ||
-                currentCallBackComponent == "checkout-shipping" ||
+              {(currentCallBackComponent == "checkout-shipping" ||
                 (!address.isTulsi &&
                   currentCallBackComponent == "checkout-billing")) && (
                 <div
@@ -734,11 +749,7 @@ const AddressItem: React.FC<Props> = props => {
                   }
                   onClick={() => {
                     if (!(props.isGcCheckout && currency != address.currency)) {
-                      markAsDefault(address, address?.id);
-                      currentCallBackComponent !== "checkout-billing" &&
-                        currentCallBackComponent !== "checkout-shipping" &&
-                        setDefaultAddress &&
-                        setDefaultAddress(id);
+                      markAsDefault(address);
                     }
                   }}
                 >
@@ -757,7 +768,7 @@ const AddressItem: React.FC<Props> = props => {
                         : currentCallBackComponent == "checkout-shipping" &&
                           shippingAddressId
                         ? address.id.toString() === shippingAddressId.toString()
-                        : id === defaultAddress
+                        : false
                     }
                     name={
                       currentCallBackComponent !== "checkout-billing" &&
@@ -770,11 +781,7 @@ const AddressItem: React.FC<Props> = props => {
                       if (
                         !(props.isGcCheckout && currency != address.currency)
                       ) {
-                        markAsDefault(address, address?.id);
-                        currentCallBackComponent !== "checkout-billing" &&
-                          currentCallBackComponent !== "checkout-shipping" &&
-                          setDefaultAddress &&
-                          setDefaultAddress(id);
+                        markAsDefault(address);
                       }
                     }}
                   />
@@ -789,30 +796,28 @@ const AddressItem: React.FC<Props> = props => {
                 <div className={styles.defaultContainer}>
                   <div
                     className={cs(styles.defaultAddressDiv, {
-                      [styles.bridal]: address.isBridal
+                      [styles.bridalAddressItem]: address.isBridal
                     })}
                   >
                     {address.isBridal && (
                       <svg
-                        viewBox="-3 -3 46 46"
-                        width="60"
-                        height="60"
+                        viewBox="0 5 40 40"
+                        width="35"
+                        height="35"
                         preserveAspectRatio="xMidYMid meet"
                         x="0"
                         y="0"
-                        className={styles.ceriseBridalRings}
+                        // className={styles.ceriseBridalRings}
                       >
                         <use xlinkHref={`${bridalRing}#bridal-ring`}></use>
                       </svg>
                     )}
-                    {id === defaultAddress &&
-                      (currentCallBackComponent == "account" ||
-                        currentCallBackComponent == "checkout-billing" ||
-                        currentCallBackComponent == "checkout-shipping") && (
+                    {/* {id === defaultAddress &&
+                      currentCallBackComponent == "account" && (
                         <div className={styles.defaultAddress}>
                           Default Address
                         </div>
-                      )}
+                      )} */}
                     {/* {!address.isDefaultForShipping && (
                       <div className={styles.line}>Make default</div>
                     )} */}

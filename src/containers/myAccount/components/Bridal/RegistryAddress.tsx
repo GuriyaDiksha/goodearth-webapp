@@ -69,6 +69,8 @@ const RegistryAddress: React.FC<{ children: React.ReactNode }> = props => {
     });
   }, []);
 
+  const { addressList } = useSelector((state: AppState) => state.address);
+
   // const manageAddress = (data, index) => {
 
   //     props.changeMode(data, state.data[index]);
@@ -205,7 +207,7 @@ const RegistryAddress: React.FC<{ children: React.ReactNode }> = props => {
         ""
       )}
 
-      {(mode == "new" || mode == "edit") &&
+      {/* {(mode == "new" || mode == "edit") &&
         currentCallBackComponent == "bridal" && (
           <div
             className={cs(
@@ -231,12 +233,17 @@ const RegistryAddress: React.FC<{ children: React.ReactNode }> = props => {
               onClick={() => {
                 window.scrollTo(0, 0);
                 closeAddressForm();
+                closeAddressForm(
+                  addressList?.[0]?.isBridal
+                    ? addressList?.[1]?.id
+                    : addressList?.[0]?.id
+                );
               }}
             >
               &lt; &nbsp;BACK
             </span>
           </div>
-        )}
+        )} */}
 
       <div
         className={cs(
@@ -370,13 +377,18 @@ const RegistryAddress: React.FC<{ children: React.ReactNode }> = props => {
         </div>
       )}
 
-      {(mode == "edit" || mode == "new") &&
+      {/* {(mode == "edit" || mode == "new") &&
         currentCallBackComponent == "bridal" && (
           <div
             className={cs(
               // globalStyles.textCenter,
               // globalStyles.cerise,
               // globalStyles.voffset4,
+
+              // globalStyles.cerise,
+
+              // globalStyles.voffset4,
+
               // styles.letterSpacing1
               cs(styles.backBtnCenter, styles.backBtnProfile)
             )}
@@ -394,10 +406,19 @@ const RegistryAddress: React.FC<{ children: React.ReactNode }> = props => {
               }}
             >
               {" "}
+                closeAddressForm(
+                  addressList?.[0]?.isBridal
+                    ? addressList?.[1]?.id
+                    : addressList?.[0]?.id
+                );
+              }}
+            >
+              {" "}
+              {/* &lt; &nbsp;SAVED ADDRESSES
               GO BACK
             </span>
           </div>
-        )}
+        )} */}
     </>
   );
 };

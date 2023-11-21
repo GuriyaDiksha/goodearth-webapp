@@ -74,6 +74,8 @@ export type PaymentProps = {
   salestatus: boolean;
   checkout: (data: any) => any;
   gstNo?: string;
+  activeStep: string;
+  currentStep: number;
   isGcCheckout: boolean;
 };
 
