@@ -2,12 +2,12 @@ import React, { RefObject, Fragment } from "react";
 import cs from "classnames";
 import styles from "../styles.scss";
 import globalStyles from "styles/global.scss";
-import inputStyles from "../../../components/Formsy/styles.scss";
+// import inputStyles from "../../../components/Formsy/styles.scss";
 import InputField from "../InputField";
 import Loader from "components/Loader";
 import SocialLogin from "../socialLogin";
-import show from "../../../images/showPass.svg";
-import hide from "../../../images/hidePass.svg";
+// import show from "../../../images/showPass.svg";
+// import hide from "../../../images/hidePass.svg";
 import { Context } from "components/Modal/context";
 import { checkBlank, checkMail, errorTracking } from "utils/validate";
 import { connect } from "react-redux";
@@ -58,7 +58,8 @@ class MainLogin extends React.Component<Props, loginState> {
       showPassword: false,
       showCurrentSection: "email",
       showEmailVerification: false,
-      usrWithNoOrder: false
+      usrWithNoOrder: false,
+      phoneNo: ""
     };
   }
   static contextType = Context;
@@ -75,7 +76,8 @@ class MainLogin extends React.Component<Props, loginState> {
       if (data.otpSent) {
         this.setState({
           showEmailVerification: true,
-          usrWithNoOrder: data.usrWithNoOrder
+          usrWithNoOrder: data.usrWithNoOrder,
+          phoneNo: data?.phoneNo
         });
       } else {
         if (data.invalidDomain) {
@@ -563,7 +565,11 @@ class MainLogin extends React.Component<Props, loginState> {
               type="submit"
               className={
                 this.state.isLoginDisabled
-                  ? cs(globalStyles.charcoalBtn, globalStyles.disabledBtn)
+                  ? cs(
+                      globalStyles.charcoalBtn,
+                      globalStyles.disabledBtn,
+                      globalStyles.nohoverBtn
+                    )
                   : globalStyles.charcoalBtn
               }
               value="continue"
@@ -603,7 +609,7 @@ class MainLogin extends React.Component<Props, loginState> {
               showLabel={true}
             />
           </div>
-          <div>
+          {/* <div>
             <InputField
               placeholder={""}
               value={this.state.password}
@@ -640,7 +646,7 @@ class MainLogin extends React.Component<Props, loginState> {
             >
               FORGOT PASSWORD
             </span>
-          </div>
+          </div> */}
           <div>
             {this.state.showerror ? (
               <p className={cs(styles.errorMsg, styles.mainLoginError)}>
@@ -686,12 +692,12 @@ class MainLogin extends React.Component<Props, loginState> {
     );
 
     const currentForm = () => {
-      const { showCurrentSection } = this.state;
-      if (showCurrentSection == "email") {
-        return this.emailForm();
-      } else if (showCurrentSection == "login") {
-        return formContent;
-      }
+      // const { showCurrentSection } = this.state;
+      // if (showCurrentSection == "email") {
+      return this.emailForm();
+      // } else if (showCurrentSection == "login") {
+      //   return formContent;
+      // }
     };
 
     return (
@@ -704,6 +710,11 @@ class MainLogin extends React.Component<Props, loginState> {
             goLogin={this.goLogin}
             // socialLogin={footer}
             setIsSuccessMsg={this.props.setIsSuccessMsg}
+            products={this.props.basket.products}
+            currency={this.props.currency}
+            nextStep={this.props.nextStep}
+            sortBy={this.props.sortBy}
+            phoneNo={this.state.phoneNo}
           />
         ) : (
           <>

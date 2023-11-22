@@ -671,7 +671,9 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                               <p
                                 className={cs(
                                   styles.productN,
-                                  globalStyles.flex
+                                  globalStyles.flex,
+                                  globalStyles.marginT10,
+                                  globalStyles.marginB10
                                 )}
                               >
                                 {isdisCount || isFlat ? (
@@ -694,21 +696,19 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                                     &nbsp;
                                   </span>
                                 ) : (
-                                  ""
-                                  // <span
-                                  //   className={cs(
-                                  //     {
-                                  //       [globalStyles.cerise]:
-                                  //         item.product.badgeType == "B_flat"
-                                  //     },
-                                  //     styles.price
-                                  //   )}
-                                  // >
-                                  //   {`${displayPriceWithCommasFloat(
-                                  //     price3,
-                                  //     confirmData.currency
-                                  //   )}`}
-                                  // </span>
+                                  <span
+                                    className={cs(
+                                      {
+                                        [globalStyles.hidden]: isFlat
+                                      },
+                                      styles.price
+                                    )}
+                                  >
+                                    {`${displayPriceWithCommasFloat(
+                                      price3,
+                                      confirmData.currency
+                                    )}`}
+                                  </span>
                                 )}
                               </p>
 
@@ -716,12 +716,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                                 ""
                               ) : (
                                 <Fragment>
-                                  <div
-                                    className={cs(
-                                      styles.productDetails,
-                                      globalStyles.voffset1
-                                    )}
-                                  >
+                                  <div className={cs(styles.productDetails)}>
                                     {item.product.size && (
                                       <>Size:&nbsp; {item.product.size}</>
                                     )}
@@ -748,14 +743,30 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                                 </Fragment>
                               )}
                             </div>
-                            {item.product?.structure == "GiftCard" && (
+                            {item.product.structure == "GiftCard" && (
+                              <>
+                                <div className={cs(styles.productSize)}>
+                                  Recipient&apos;s Name:{" "}
+                                  {item?.GcMeta?.recipeint_name}
+                                </div>
+                                <div className={cs(styles.productSize)}>
+                                  Recipient&apos;s Email:{" "}
+                                  {item?.GcMeta?.recipient_email}
+                                </div>
+                                <div className={cs(styles.productSize)}>
+                                  Sender&apos;s Name:{" "}
+                                  {item?.GcMeta?.sender_name}
+                                </div>
+                              </>
+                            )}
+                            {/* {item.product?.structure == "GiftCard" && (
                               <div className={globalStyles.textLeft}>
                                 <p className={styles.label}>Sent via Email:</p>
                                 <p className={styles.email}>
                                   {item.egiftCardRecipient}
                                 </p>
                               </div>
-                            )}
+                            )} */}
                           </div>
                         </div>
                       );
@@ -885,7 +896,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                         )}
                         key={`loyalty_`}
                       >
-                        <p>Loyalty Points</p>
+                        <p>CERISE POINTS</p>
                         <p>
                           (-){" "}
                           {`${displayPriceWithCommasFloat(
@@ -900,6 +911,15 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                     )
                   )}
                 </div>
+                {/* <div className={cs(styles.totalSection, styles.totalWrp)}>
+                  <p>TOTAL</p>
+                  <p>
+                    {displayPriceWithCommasFloat(
+                      confirmData.subTotalWithShipping,
+                      confirmData.currency
+                    )}
+                  </p>
+                </div> */}
                 <div className={cs(styles.totalSection)}>
                   <p>AMOUNT PAID</p>
                   <p>

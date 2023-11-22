@@ -483,7 +483,7 @@ hr {
 }
 
 .strikeprice {
-  font-size: 12px;
+  font-size: 12px !important;
   text-decoration: line-through;
   color: $light-charcoal;
   font-family: $font-Montserrat;

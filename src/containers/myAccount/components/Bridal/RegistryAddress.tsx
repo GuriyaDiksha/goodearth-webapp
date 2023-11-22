@@ -70,6 +70,8 @@ const RegistryAddress: React.FC<{ children: React.ReactNode }> = props => {
     });
   }, []);
 
+  const { addressList } = useSelector((state: AppState) => state.address);
+
   // const manageAddress = (data, index) => {
 
   //     props.changeMode(data, state.data[index]);
@@ -215,7 +217,7 @@ const RegistryAddress: React.FC<{ children: React.ReactNode }> = props => {
         ""
       )}
 
-      {(mode == "new" || mode == "edit") &&
+      {/* {(mode == "new" || mode == "edit") &&
         currentCallBackComponent == "bridal" && (
           <div
             className={cs(styles.backBtnTop, bootstrapStyles.offsetMd1)}
@@ -242,14 +244,21 @@ const RegistryAddress: React.FC<{ children: React.ReactNode }> = props => {
 
           //       bootstrapStyles.offsetMd2,
 
-          //       globalStyles.pointer
-          //     )}
-          //     onClick={closeAddressForm}
-          //   >
-          //     &lt; &nbsp;BACK
-          //   </span>
-          // </div>
-        )}
+                globalStyles.pointer
+              )}
+              onClick={() => {
+                window.scrollTo(0, 0);
+                closeAddressForm(
+                  addressList?.[0]?.isBridal
+                    ? addressList?.[1]?.id
+                    : addressList?.[0]?.id
+                );
+              }}
+            >
+              &lt; &nbsp;BACK
+            </span>
+          </div>
+        )} */}
 
       <div
         className={cs(
@@ -408,26 +417,42 @@ const RegistryAddress: React.FC<{ children: React.ReactNode }> = props => {
         </div>
       )}
 
-      {(mode == "edit" || mode == "new") &&
+      {/* {(mode == "edit" || mode == "new") &&
         currentCallBackComponent == "bridal" && (
           <div
             className={cs(
-              globalStyles.textCenter,
+              // globalStyles.textCenter,
 
-              globalStyles.cerise,
+              // globalStyles.cerise,
 
-              globalStyles.voffset4,
+              // globalStyles.voffset4,
 
               styles.letterSpacing1,
               styles.posUnset
             )}
           >
-            <span className={globalStyles.pointer} onClick={closeAddressForm}>
+            <span
+              // className={globalStyles.pointer}
+              className={cs(
+                styles.backBtn,
+                globalStyles.ointer,
+                styles.addNewAddress
+              )}
+              onClick={() => {
+                window.scrollTo(0, 0);
+                closeAddressForm(
+                  addressList?.[0]?.isBridal
+                    ? addressList?.[1]?.id
+                    : addressList?.[0]?.id
+                );
+              }}
+            >
               {" "}
-              &lt; &nbsp;SAVED ADDRESSES
+              {/* &lt; &nbsp;SAVED ADDRESSES
+              GO BACK
             </span>
           </div>
-        )}
+        )} */}
     </>
   );
 };

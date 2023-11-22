@@ -77,6 +77,10 @@ const PromoSection: React.FC<PromoProps> = props => {
   };
 
   useEffect(() => {
+    document.getElementById("promo-section")?.scrollIntoView();
+  }, []);
+
+  useEffect(() => {
     if (basket.voucherDiscounts.length === 0) {
       if (STEP_ORDER[activeStep] < currentStep) {
         setIsEdit(true);
@@ -115,12 +119,15 @@ const PromoSection: React.FC<PromoProps> = props => {
 
   return (
     <div
+      id="promo-section"
       className={
-        isActive
+        isActive || isEdit
           ? cs(styles.card, styles.cardOpen, styles.marginT5)
           : // : mobile
             // ? styles.hidden
-            cs(styles.card, styles.cardClosed, styles.marginT5)
+            cs(styles.card, styles.cardClosed, styles.marginT5, {
+              [styles.bgWhite]: STEP_ORDER[activeStep] > currentStep
+            })
       }
     >
       <div className={bootstrapStyles.row}>
@@ -142,42 +149,25 @@ const PromoSection: React.FC<PromoProps> = props => {
             />
           ) : null}
           <span
-            className={isActive || isactivepromo || isEdit ? "" : styles.closed}
+            className={cs(
+              {
+                [styles.iscompleted]:
+                  STEP_ORDER[activeStep] < currentStep && !isActive && !isEdit
+              },
+              STEP_ORDER[activeStep] <= currentStep ? "" : styles.closed
+            )}
           >
             PROMO CODE
           </span>
-          {mobile && !isBoId && (
-            <span
-              className={cs(globalStyles.pointer, styles.promoEdit, {
-                [styles.hidden]: !(isActive || isactivepromo || isEdit)
-              })}
-              onClick={() => {
-                onCurrentState();
-              }}
-            >
-              Edit
-            </span>
-          )}
-        </div>
-        {basket.voucherDiscounts.length > 0 && !isEdit && (
-          <div
-            className={cs(
-              styles.col12,
-              bootstrapStyles.colMd6,
-              styles.selectedStvalue
-            )}
-          >
-            <span className={styles.marginR10}>
-              <span className={styles.promoCode}>
-                {basket.voucherDiscounts[0]?.voucher?.code}
-              </span>
-              <span className={styles.promoCodeApplied}>
-                Promo Code Applied
-              </span>
-            </span>
-            {!mobile && !isBoId && (
+          {STEP_ORDER[activeStep] <= currentStep &&
+            basket.voucherDiscounts.length > 0 &&
+            !isEdit &&
+            mobile &&
+            !isBoId && (
               <span
-                className={cs(globalStyles.pointer, styles.promoEdit)}
+                className={cs(globalStyles.pointer, styles.promoEdit, {
+                  // [styles.hidden]: !(isActive || isactivepromo)
+                })}
                 onClick={() => {
                   onCurrentState();
                 }}
@@ -185,55 +175,88 @@ const PromoSection: React.FC<PromoProps> = props => {
                 Edit
               </span>
             )}
-          </div>
-        )}
-      </div>
-
-      {((isActive && basket.voucherDiscounts.length === 0) || isEdit) && (
-        <Fragment>
-          {showPromo && (
-            <div className={globalStyles.marginT20}>
-              {!mobile && <hr className={styles.hr} />}
-              <div className={globalStyles.flex}>
-                <div className={styles.inputContainer}>
-                  <label
-                    className={cs(globalStyles.flex, globalStyles.crossCenter)}
-                  >
-                    <div className={styles.marginR10}>
-                      <span className={styles.checkbox}>
-                        <input
-                          type="radio"
-                          checked={isactivepromo}
-                          onClick={() => toggleInput()}
-                        />
-                        <span
-                          className={cs(styles.indicator, {
-                            [styles.checked]: isactivepromo
-                          })}
-                        ></span>
-                      </span>
-                    </div>
-                    <div className={cs(styles.formSubheading)}>
-                      {"Apply Promo Code"}
-                    </div>
-                  </label>
-                  {isactivepromo && (
-                    <ApplyPromo
-                      onRef={(el: any) => {
-                        PromoChild = el;
-                      }}
-                      onNext={onNext}
-                      onsubmit={onsubmit}
-                      promoVal={promoVal}
-                      setIsLoading={setIsLoading}
-                    />
-                  )}
-                </div>
-              </div>
+        </div>
+        {STEP_ORDER[activeStep] <= currentStep &&
+          basket.voucherDiscounts.length > 0 &&
+          !isEdit && (
+            <div
+              className={cs(
+                styles.col12,
+                bootstrapStyles.colMd6,
+                styles.selectedStvalue
+              )}
+            >
+              <span className={styles.marginR10}>
+                <span className={styles.promoCode}>
+                  {basket.voucherDiscounts[0]?.voucher?.code}
+                </span>
+                <span className={styles.promoCodeApplied}>
+                  Promo Code Applied
+                </span>
+              </span>
+              {!mobile && !isBoId && (
+                <span
+                  className={cs(globalStyles.pointer, styles.promoEdit)}
+                  onClick={() => {
+                    onCurrentState();
+                  }}
+                >
+                  Edit
+                </span>
+              )}
             </div>
           )}
-        </Fragment>
-      )}
+      </div>
+
+      {STEP_ORDER[activeStep] <= currentStep &&
+        ((isActive && basket.voucherDiscounts.length === 0) || isEdit) && (
+          <Fragment>
+            {showPromo && (
+              <div className={globalStyles.marginT20}>
+                {!mobile && <hr className={styles.hr} />}
+                <div className={globalStyles.flex}>
+                  <div className={styles.inputContainer}>
+                    <label
+                      className={cs(
+                        globalStyles.flex,
+                        globalStyles.crossCenter
+                      )}
+                    >
+                      <div className={styles.marginR10}>
+                        <span className={styles.checkbox}>
+                          <input
+                            type="radio"
+                            checked={isactivepromo}
+                            onClick={() => toggleInput()}
+                          />
+                          <span
+                            className={cs(styles.indicator, {
+                              [styles.checked]: isactivepromo
+                            })}
+                          ></span>
+                        </span>
+                      </div>
+                      <div className={cs(styles.formSubheading)}>
+                        {"Apply Promo Code"}
+                      </div>
+                    </label>
+                    {isactivepromo && (
+                      <ApplyPromo
+                        onRef={(el: any) => {
+                          PromoChild = el;
+                        }}
+                        onNext={onNext}
+                        onsubmit={onsubmit}
+                        promoVal={promoVal}
+                        setIsLoading={setIsLoading}
+                      />
+                    )}
+                  </div>
+                </div>
+              </div>
+            )}
+          </Fragment>
+        )}
       {isLoading && <Loader />}
     </div>
   );

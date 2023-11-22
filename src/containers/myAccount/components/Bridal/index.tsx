@@ -264,6 +264,16 @@ const Bridal: React.FC<Props> = props => {
             if (isValid) {
               // this.props.onSelectAddress(address);
               newBridalDetails["userAddress"] = userAddress;
+              setTimeout(() => {
+                document
+                  .getElementById("address_button")
+                  ?.scrollIntoView({
+                    behavior: "smooth",
+                    block: "end",
+                    inline: "start"
+                  });
+              }, 200);
+
               // setCurrentModule("address");
             } else {
               // this.manageAddressPostcode("edit", address);

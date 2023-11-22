@@ -845,7 +845,11 @@ class Mobilemenu extends React.Component<Props, MobileState> {
     } = this.props;
     const wishlistIcon = wishlistCount > 0;
     const lowerMenu = (
-      <div className={styles.lowerMenu}>
+      <div
+        className={cs(styles.lowerMenu, {
+          [styles.lowerMenuNonInrHeight]: this.props.currency !== "INR"
+        })}
+      >
         <ul>
           {loginItem.label == "Login" && (
             <li
@@ -1212,7 +1216,10 @@ class Mobilemenu extends React.Component<Props, MobileState> {
         {(this.props.currency === "INR" ||
           this.props.slab.toLowerCase() === "cerise club" ||
           this.props.slab.toLowerCase() === "cerise sitara") && (
-          <CeriseCard clickToggle={clickToggle} />
+          <CeriseCard
+            clickToggle={clickToggle}
+            showInnerMenu={this.state.showInnerMenu}
+          />
         )}
         {/* </NavLink> */}
       </div>

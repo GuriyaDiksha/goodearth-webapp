@@ -463,10 +463,10 @@ span.checkout-forgot-pass{
       &.newsletters{
         margin-top: 15px;
         [type="checkbox"]:not(:checked) + label:before{
-          top: 5px;
+          // top: 5px;
         }
         [type="checkbox"]:not(:checked) + label:after{
-          top: 9px;
+          // top: 9px;
         }
       }
     }

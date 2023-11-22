@@ -27,7 +27,7 @@ export const AddressContext = createContext({
   openAddressForm: (x?: AddressData) => {
     return;
   },
-  closeAddressForm: () => {
+  closeAddressForm: (x?: number) => {
     return;
   }
 });
