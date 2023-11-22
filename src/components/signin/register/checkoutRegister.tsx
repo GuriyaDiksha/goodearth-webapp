@@ -1278,19 +1278,23 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
             {!this.props.isCheckout && (
               <Button
                 type="submit"
-                className={globalStyles.btnFullWidth}
+                className={cs({
+                  [globalStyles.btnFullWidth]: this.props.mobile
+                })}
                 label="Create My Account & Proceed"
                 disabled={this.state.disableButton || !this.state.showFields}
-                variant="largeMedCharcoalCta"
+                variant="mediumMedCharcoalCta366"
               />
             )}
             {!this.props.isCheckout && (
               <Button
                 type="submit"
-                className={cs(globalStyles.btnFullWidth, styles.changeEmailBtn)}
+                className={cs(styles.changeEmailBtn, {
+                  [globalStyles.btnFullWidth]: this.props.mobile
+                })}
                 label="Go Back"
                 onClick={this.changeEmail}
-                variant="outlineSmallMedCharcoalCta"
+                variant="outlineMediumMedCharcoalCta"
               />
             )}
             {this.props.isCheckout && (

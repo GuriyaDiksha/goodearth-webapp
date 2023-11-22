@@ -458,16 +458,17 @@ class PressStoriesContent extends React.Component<
                 styles.blockRight
               )}
             >
-              <div
+              <Button
                 className={cs(
+                  globalStyles.btnFullWidth,
                   styles.summaryPadding,
                   this.state.showMobileForm
                     ? styles.heading
                     : globalStyles.ceriseBtn
                 )}
-              >
-                contact us
-              </div>
+                label={"contact us"}
+                variant="largeMedCharcoalCta"
+              />
               <div
                 className={cs(styles.overflow, {
                   [globalStyles.hidden]: !this.state.showMobileForm

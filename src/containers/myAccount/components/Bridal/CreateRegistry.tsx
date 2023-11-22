@@ -1,9 +1,4 @@
 import React, { useState, useContext, useEffect } from "react";
-// import {render} from 'react-dom';
-// import * as mapper from "mappers/header"
-// import {connect} from 'react-redux'
-// import * as valid from 'components/common/validation/validate'
-// import { Props } from "./typings";
 import BridalContext from "./context";
 import styles from "./styles.scss";
 import myAccountStyles from "../styles.scss";
@@ -16,12 +11,16 @@ import { confirmPopup } from "utils/validate";
 import { pageViewGTM } from "utils/validate";
 import CookieService from "services/cookie";
 import { GA_CALLS } from "constants/cookieConsent";
+import Button from "components/Button";
+import { AppState } from "reducers/typings";
+import { useSelector } from "react-redux";
 
 const CreateRegistry: React.FC = () => {
   const { setCurrentModule, setCurrentModuleData, data } = useContext(
     BridalContext
   );
   const [selectId, setSelectId] = useState(data.occasion ? data.occasion : "");
+  const { mobile } = useSelector((state: AppState) => state.device);
 
   const setRegistry = (data: string) => {
     setSelectId(data);
@@ -143,14 +142,13 @@ const CreateRegistry: React.FC = () => {
             bootstrapStyles.offsetMd2
           )}
         >
-          <input
+          <Button
             type="button"
-            value="PROCEED TO SET THE DATE"
-            className={cs(globalStyles.ceriseBtn, {
-              [globalStyles.disabledBtn]: !selectId
-            })}
-            disabled={selectId ? false : true}
+            label="PROCEED TO SET THE DATE"
+            disabled={!selectId}
             onClick={moveTonext}
+            variant="mediumMedCharcoalCta366"
+            className={cs({ [globalStyles.btnFullWidth]: mobile })}
           />
         </div>
       </div>

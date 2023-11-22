@@ -549,7 +549,11 @@ class CushionBag extends React.Component<Props, State> {
           <div className={cs(globalStyles.flex, styles.bagFlex)}>
             <div className={bootstrap.row}>
               <div className={bootstrap.col8}>
-                <PdpButton label={buttonText} onClick={action} />
+                <PdpButton
+                  label={buttonText}
+                  onClick={action}
+                  variant="mediumAquaCta300"
+                />
               </div>
               <div
                 className={cs(bootstrap.col4, styles.wishlistMobileContainer)}

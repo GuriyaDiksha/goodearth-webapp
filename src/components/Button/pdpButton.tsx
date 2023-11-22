@@ -1,31 +1,23 @@
 import React from "react";
-import styles from "./styles.scss";
 import { ButtonProps } from "./typings";
 import Button from ".";
+import cs from "classnames";
+import globalStyles from "../../styles/global.scss";
 
-const PdpButton: React.FC<ButtonProps> = ({ label, disabled, onClick }) => (
+const PdpButton: React.FC<ButtonProps> = ({
+  label,
+  disabled = false,
+  onClick,
+  className,
+  variant
+}) => (
   <Button
-    className={styles.pdpPrimaryButton}
+    className={cs(globalStyles.btnFullWidth, className)}
     label={label}
     onClick={onClick}
-    variant={label == "Notify Me" ? "largeLightGreyCta" : "largeAquaCta"}
+    variant={variant}
     disabled={disabled}
   />
 );
 
 export default PdpButton;
-
-// <button
-//   className={cs(styles.pdpPrimaryButton, props.className, {
-//     [globalStyles.disabled]: props.disabled,
-//     [globalStyles.ceriseBtn]: !props.disabled,
-//     [styles.notifyMeCta]: props.label == "Notify Me"
-//   })}
-//   onClick={(event): void => {
-//     if (props.onClick) {
-//       props.onClick(event);
-//     }
-//   }}
-// >
-//   {props.label}
-// </button>

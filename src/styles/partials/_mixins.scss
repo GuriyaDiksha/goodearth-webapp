@@ -924,7 +924,7 @@ $list: $grey 92%, $white 8%;
   font-size: 14px;
   font-weight: $regular;
   text-transform: uppercase;
-  color: $white !important
+  color: $white;
 }
 
 @mixin b3_14px_caps_gold{
@@ -1308,7 +1308,8 @@ $list: $grey 92%, $white 8%;
 @mixin disabled_cta{
   background-color: $light-charcoal !important;
   border: 1px solid $light-charcoal;
-  cursor: default;
+  cursor: not-allowed;
+  pointer-events: none;
   @include b3_14px_caps_white();
 }
 
@@ -1317,8 +1318,13 @@ $list: $grey 92%, $white 8%;
   height: 58px;
 }
 
-@mixin medium_cta{
+@mixin medium_cta_300{
   width: 300px;
+  height: 58px;
+}
+
+@mixin medium_cta_366{
+  width: 366px;
   height: 58px;
 }
 
@@ -1365,23 +1371,39 @@ $list: $grey 92%, $white 8%;
 }
 
 @mixin medium_aqua_cta{
-  @include medium_cta();
+  @include medium_cta_300();
   background-color: $aqua;
   border: 1px solid $aqua;
   text-transform: uppercase;
   @include b3_14px_caps_white();
 }
 
-@mixin medium_med_charcoal_cta{
-  @include medium_cta();
+@mixin medium_aqua_cta_366{
+  @include medium_cta_366();
+  background-color: $aqua;
+  border: 1px solid $aqua;
+  text-transform: uppercase;
+  @include b3_14px_caps_white();
+}
+
+@mixin medium_med_charcoal_cta_366{
+  @include medium_cta_366();
   background-color: $med-charcoal !important;
   border: 1px solid $med-charcoal;
   text-transform: uppercase;
   @include b3_14px_caps_white();
 }
 
+@mixin outline_medium_med_charcoal_cta{
+  @include medium_cta_366();
+  background-color: $white;
+  border: 1px solid $med-charcoal;
+  text-transform: uppercase;
+  @include b3_14px_montserrat_caps_charcoal();
+}
+
 @mixin medium_light_grey_cta{
-  @include medium_cta();
+  @include medium_cta_300();
   background-color: $light-grey;
   border: 1px solid $light-grey;
   text-transform: uppercase;

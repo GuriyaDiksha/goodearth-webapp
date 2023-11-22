@@ -1023,9 +1023,11 @@ class OtpComponent extends React.Component<otpProps, otpState> {
                 <Button
                   type="submit"
                   disabled={this.state.disable}
-                  className={globalStyles.btnFullWidth}
+                  className={cs({
+                    [globalStyles.btnFullWidth]: this.props.mobile
+                  })}
                   label="Send otp"
-                  variant="largeAquaCta"
+                  variant="mediumMedCharcoalCta366"
                 />
               </li>
             </Formsy>

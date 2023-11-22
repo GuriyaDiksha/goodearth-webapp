@@ -1,4 +1,6 @@
 export type ButtonProps = {
+  id?: string;
+  tabIndex?: number;
   label: string | JSX.Element;
   onClick?: (event: React.MouseEvent) => void;
   disabled?: boolean;
@@ -11,9 +13,11 @@ export type ButtonProps = {
     | "largeLightGreyCta"
     | "largeMedCharcoalCta"
     | "largeGoldCta"
-    | "mediumAquaCta"
+    | "mediumAquaCta300"
+    | "mediumAquaCta366"
     | "mediumLightGreyCta"
-    | "mediumMedCharcoalCta"
+    | "mediumMedCharcoalCta366"
+    | "outlineMediumMedCharcoalCta"
     | "smallAquaCta"
     | "smallMedCharcoalCta"
     | "smallGoldCta"

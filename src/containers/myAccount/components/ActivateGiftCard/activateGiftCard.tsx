@@ -18,7 +18,10 @@ import { showGrowlMessage, errorTracking, getErrorList } from "utils/validate";
 import Button from "components/Button";
 
 const Giftcard: React.FC = () => {
-  const { user } = useSelector((state: AppState) => state);
+  const {
+    user,
+    device: { mobile }
+  } = useSelector((state: AppState) => state);
   const [giftCardState, setGiftCardState] = useState<GiftState>({
     txtvalue: "",
     firstName: user?.isLoggedIn ? user?.firstName : "",
@@ -407,9 +410,9 @@ const Giftcard: React.FC = () => {
                       <Button
                         type="submit"
                         label="proceed"
-                        className={cs(styles.btnFullWidth)}
+                        className={cs({ [globalStyles.btnFullWidth]: mobile })}
                         disabled={isProceedBtnDisabled}
-                        variant="largeMedCharcoalCta"
+                        variant="mediumMedCharcoalCta366"
                       />
                     </div>
                   )}
@@ -443,6 +446,7 @@ const Giftcard: React.FC = () => {
           updateList={updateList}
           newCardBox={newCardBox}
           newGiftCard={newGiftcard}
+          mobile={mobile}
         />
       )}
       <div className={cs(bootstrapStyles.row, styles.giftDisplay)}>

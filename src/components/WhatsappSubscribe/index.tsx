@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
 import FormCheckbox from "components/Formsy/FormCheckbox";
 import styles from "./styles.scss";
@@ -18,6 +18,7 @@ import globalStyles from "../../styles/global.scss";
 import Formsy from "formsy-react";
 import Button from "components/Button";
 import SelectDropdown from "components/Formsy/SelectDropdown";
+import { AppState } from "reducers/typings";
 
 type Props = {
   innerRef: any;
@@ -88,6 +89,9 @@ const WhatsappSubscribe: React.FC<Props> = ({
     ? "Checkout"
     : "registry_popup";
   const impactRef = useRef<HTMLInputElement>(null);
+  const {
+    device: { mobile }
+  } = useSelector((state: AppState) => state);
 
   const handleClickOutside = (evt: any) => {
     if (impactRef.current && !impactRef.current.contains(evt.target)) {
@@ -593,9 +597,11 @@ const WhatsappSubscribe: React.FC<Props> = ({
             <Button
               type="submit"
               label="Save Preferences"
-              className={cs(globalStyles.btnFullWidth, buttonClass)}
+              className={cs(buttonClass, {
+                [globalStyles.btnFullWidth]: mobile
+              })}
               disabled={isDisabled}
-              variant="largeMedCharcoalCta"
+              variant="mediumMedCharcoalCta366"
             />
           </div>
         )}

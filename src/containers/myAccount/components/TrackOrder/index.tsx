@@ -496,9 +496,11 @@ class TrackOrder extends React.Component<Props, State> {
                 <Button
                   type="submit"
                   disabled={!updateSubmit}
-                  className={cs(styles.btnFullWidth)}
+                  className={cs({
+                    [globalStyles.btnFullWidth]: this.props.mobile
+                  })}
                   label={"CHECK ORDER STATUS"}
-                  variant="largeMedCharcoalCta"
+                  variant="mediumMedCharcoalCta366"
                 />
               </div>
             </div>
