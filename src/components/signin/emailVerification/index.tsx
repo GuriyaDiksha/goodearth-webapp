@@ -55,6 +55,8 @@ const EmailVerification: React.FC<Props> = ({
     attempts: 0,
     maxAttemptsAllow: 5
   });
+  const [otpSmsSent, setOtpSmsSent] = useState(false);
+  // const headingref = React.useRef<null | HTMLDivElement>(null);
   const dispatch = useDispatch();
   const history = useHistory();
   const { mobile } = useSelector((state: AppState) => state.device);
@@ -67,6 +69,8 @@ const EmailVerification: React.FC<Props> = ({
   const queryString = location.search;
   const urlParams = new URLSearchParams(queryString);
   const boId = urlParams.get("bo_id");
+
+  useEffect(() => setOtpSmsSent(!!phoneNo), []);
 
   const gtmPushSignIn = (data: any) => {
     const userConsent = CookieService.getCookie("consent").split(",");
@@ -185,10 +189,12 @@ const EmailVerification: React.FC<Props> = ({
     try {
       // setIsLoading(true);
       setError("");
+      setOtpSmsSent(false);
       const res = await LoginService.sendUserOTP(dispatch, email);
       if (res.otpSent) {
         // handle success
         // timer();
+        setOtpSmsSent(res?.otpSmsSent);
       } else if (res.alreadyVerified) {
         setError([
           "Looks like you are aleady verified. ",
@@ -278,7 +284,9 @@ const EmailVerification: React.FC<Props> = ({
                   email
                 )}`
               : `Please enter the OTP sent to ${censorEmail(email)}
-           ${phoneNo && `& ${censorPhoneNumber(phoneNo.toString())}`} to login`}
+           ${phoneNo &&
+             otpSmsSent &&
+             `& ${censorPhoneNumber(phoneNo.toString())}`} to login`}
           </div>
         )}
 

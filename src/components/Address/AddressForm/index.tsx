@@ -980,11 +980,14 @@ const AddressForm: React.FC<Props> = props => {
           >
             <div className={cs(globalStyles.flex, styles.btnWrp)}>
               <div
-                className={cs({
-                  [styles.fullWidth]:
-                    currentCallBackComponent == "bridal-edit" ||
-                    currentCallBackComponent == "bridal"
-                })}
+                className={cs(
+                  {
+                    [styles.fullWidth]:
+                      currentCallBackComponent == "bridal-edit" ||
+                      currentCallBackComponent == "bridal"
+                  },
+                  globalStyles.paddT20
+                )}
               >
                 {mode == "edit" ? (
                   <Button
