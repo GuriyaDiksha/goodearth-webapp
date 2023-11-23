@@ -80,12 +80,12 @@ const Zoom: React.FC<Props> = ({
     ) {
       (document.getElementById(
         "modal-fullscreen"
-      ) as HTMLElement).style.height = "calc(100% - 55px)";
+      ) as HTMLElement).style.height = "auto";
     }
     if (document?.getElementById("modal-fullscreen-container") && mobile) {
       (document.getElementById(
         "modal-fullscreen-container"
-      ) as HTMLElement).style.height = "calc(100% - 55px)";
+      ) as HTMLElement).style.height = "auto";
     }
 
     document.body.classList.remove(globalStyles.fixed);
