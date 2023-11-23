@@ -153,53 +153,47 @@ const BaseLayout: React.FC = () => {
       const currentPopup = popup.filter(
         pop =>
           decodeURI(pop.pageUrl || "") ==
-          decodeURI(pathname + history.location.search)
+            decodeURI(pathname + history.location.search) ||
+          pop?.pageRules === "ANY_PAGE"
       );
       if (currentPopup && currentPopup.length > 0) {
-        //Check for on  which page
-        if (
-          currentPopup[0]?.pageRules === "ANY_PAGE" ||
-          (currentPopup[0]?.pageRules === "SPECIFIC_PAGE" &&
-            currentPopup[0]?.pageUrl === pathname)
-        ) {
-          //Check for session
-          let show = currentPopup[0].session == false;
+        //Check for session
+        let show = currentPopup[0].session == false;
 
-          //Check for cookie path
-          if (!show) {
-            if (
-              CookieService.getCookie(
-                pathname.split("/").join("_") + "_" + currentPopup[0].id
-              ) != "show"
-            ) {
-              show = true;
-              CookieService.setCookie(
-                pathname.split("/").join("_") + "_" + currentPopup[0].id,
-                "show"
-              );
-            }
-          }
-
-          //Check for when to show
-          if (currentPopup[0]?.whenToShow === "AFTER_SECONDS" && show) {
-            show = false;
-            setTimeout(() => {
-              show = true;
-              dispatch(updateComponent(POPUP.CMSPOPUP, currentPopup[0], true));
-              dispatch(updateModal(true));
-            }, (currentPopup[0]?.timeInSeconds || 0) * 1000);
-          } else if (
-            currentPopup[0]?.whenToShow === "AFTER_SCROLL" &&
-            isShow &&
-            show
+        //Check for cookie path
+        if (!show) {
+          if (
+            CookieService.getCookie(
+              pathname.split("/").join("_") + "_" + currentPopup[0].id
+            ) != "show"
           ) {
-            show = isShow;
+            show = true;
+            CookieService.setCookie(
+              pathname.split("/").join("_") + "_" + currentPopup[0].id,
+              "show"
+            );
           }
+        }
 
-          if (show) {
+        //Check for when to show
+        if (currentPopup[0]?.whenToShow === "AFTER_SECONDS" && show) {
+          show = false;
+          setTimeout(() => {
+            show = true;
             dispatch(updateComponent(POPUP.CMSPOPUP, currentPopup[0], true));
             dispatch(updateModal(true));
-          }
+          }, (currentPopup[0]?.timeInSeconds || 0) * 1000);
+        } else if (
+          currentPopup[0]?.whenToShow === "AFTER_SCROLL" &&
+          isShow &&
+          show
+        ) {
+          show = isShow;
+        }
+
+        if (show) {
+          dispatch(updateComponent(POPUP.CMSPOPUP, currentPopup[0], true));
+          dispatch(updateModal(true));
         }
       }
     }
@@ -229,7 +223,8 @@ const BaseLayout: React.FC = () => {
     const currentPopup = popup.filter(
       pop =>
         decodeURI(pop.pageUrl || "") ==
-        decodeURI(pathname + history.location.search)
+          decodeURI(pathname + history.location.search) ||
+        pop?.pageRules === "ANY_PAGE"
     );
     const handleScroll = () => {
       if (currentPopup[0]?.whenToShow === "AFTER_SCROLL" && !isScroll) {
