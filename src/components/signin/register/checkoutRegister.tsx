@@ -1294,7 +1294,7 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
                 })}
                 label="Go Back"
                 onClick={this.changeEmail}
-                variant="outlineMediumMedCharcoalCta"
+                variant="outlineMediumMedCharcoalCta366"
               />
             )}
             {this.props.isCheckout && (

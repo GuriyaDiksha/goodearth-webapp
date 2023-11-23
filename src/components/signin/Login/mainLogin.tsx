@@ -673,7 +673,7 @@ class MainLogin extends React.Component<Props, loginState> {
                 })}
                 label="Go Back"
                 onClick={this.changeEmail}
-                variant="outlineMediumMedCharcoalCta"
+                variant="outlineMediumMedCharcoalCta366"
               />
             )}
           </div>

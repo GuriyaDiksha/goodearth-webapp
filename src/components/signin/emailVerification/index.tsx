@@ -248,7 +248,7 @@ const EmailVerification: React.FC<Props> = ({
       })}
       label="Go Back"
       onClick={changeEmail}
-      variant="mediumMedCharcoalCta366"
+      variant="outlineMediumMedCharcoalCta366"
     />
   );
 

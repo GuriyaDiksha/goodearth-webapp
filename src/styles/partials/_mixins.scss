@@ -1394,7 +1394,7 @@ $list: $grey 92%, $white 8%;
   @include b3_14px_caps_white();
 }
 
-@mixin outline_medium_med_charcoal_cta{
+@mixin outline_medium_med_charcoal_cta_366{
   @include medium_cta_366();
   background-color: $white;
   border: 1px solid $med-charcoal;

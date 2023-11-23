@@ -7,6 +7,7 @@ import { Context } from "components/Modal/context";
 import { useDispatch, useSelector } from "react-redux";
 import { AppState } from "reducers/typings";
 import AccountService from "services/account";
+import Button from "components/Button";
 
 const EditProfile: React.FC = () => {
   const { closeModal } = useContext(Context);
@@ -97,15 +98,18 @@ const EditProfile: React.FC = () => {
                 </div>
               </div>
             </div>
-            <button
-              className={cs(globalStyles.ceriseBtn, styles.sendReqBtn, {
-                [styles.disabled]: reqSent
-              })}
+            <Button
+              variant="mediumMedCharcoalCta366"
+              className={cs(
+                {
+                  [globalStyles.btnFullWidth]: mobile
+                },
+                globalStyles.marginT20
+              )}
               onClick={onRequestSend}
               disabled={reqSent}
-            >
-              {reqSent ? "request sent!" : "send request"}
-            </button>
+              label={reqSent ? "request sent!" : "send request"}
+            />
           </div>
         </div>
       </div>
