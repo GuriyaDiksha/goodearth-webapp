@@ -367,6 +367,7 @@ const NotifyMePopup: React.FC<Props> = ({
         label={buttonText}
         onClick={action}
         className={cs(styles.button)}
+        variant="largeAquaCta"
       />
     );
   }, [selectedSize, email, quantity, msg]);

@@ -134,7 +134,7 @@ const JobDetail: React.FC = () => {
             <Button
               label="Apply Now"
               onClick={() => applyNow()}
-              variant="mediumMedCharcoalCta"
+              variant="smallMedCharcoalCta"
               className={jobDetail.job_detail_apply_btn}
             />
             <ul className={jobDetail.job_detail_share_wrp}>

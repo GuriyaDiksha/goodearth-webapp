@@ -727,6 +727,9 @@ font-weight: bold;
 .btn-full-width{
   width: 100% !important;
 }
+.btn-full-width-for-popup{
+  width: 90% !important;
+}
 .checkout-btn {
   @include cerise-btn();
   background-color: $aqua;

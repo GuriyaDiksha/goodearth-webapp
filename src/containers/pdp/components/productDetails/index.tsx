@@ -787,14 +787,40 @@ const ProductDetails: React.FC<Props> = ({
         : addToBasket;
       // setSizeerror(false);
     }
-    setPDPButton?.(<PdpButton label={buttonText} onClick={action} />);
+    setPDPButton?.(
+      <PdpButton
+        label={buttonText}
+        onClick={action}
+        variant={
+          buttonText == "Notify Me" ? "mediumLightGreyCta" : "mediumAquaCta300"
+        }
+      />
+    );
     if (setPDPButton) {
       dispatch(
-        updateButtonData(<PdpButton label={buttonText} onClick={action} />)
+        updateButtonData(
+          <PdpButton
+            label={buttonText}
+            onClick={action}
+            variant={
+              buttonText == "Notify Me"
+                ? "mediumLightGreyCta"
+                : "mediumAquaCta300"
+            }
+          />
+        )
       );
     }
 
-    return <PdpButton label={buttonText} onClick={action} />;
+    return (
+      <PdpButton
+        label={buttonText}
+        onClick={action}
+        variant={
+          buttonText == "Notify Me" ? "mediumLightGreyCta" : "mediumAquaCta300"
+        }
+      />
+    );
   }, [
     corporatePDP,
     selectedSize,

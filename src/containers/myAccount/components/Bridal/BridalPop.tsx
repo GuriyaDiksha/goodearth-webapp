@@ -52,7 +52,7 @@ const BridalPop: React.FC = () => {
   const DesktopButton = () => (
     <div className="">
       <NavLink to="/" onClick={closeBridalPop}>
-        <Button variant="mediumAquaCta" label="start adding to registry" />
+        <Button variant="mediumAquaCta300" label="start adding to registry" />
       </NavLink>
     </div>
   );
@@ -83,8 +83,8 @@ const BridalPop: React.FC = () => {
             <NavLink to="/" onClick={closeBridalPop}>
               <Button
                 label="start adding to registry"
-                className={globalStyles.btnFullWidth}
-                variant="largeAquaCta"
+                className={cs({ [globalStyles.btnFullWidth]: mobile })}
+                variant="mediumMedCharcoalCta366"
               />
             </NavLink>
           </div>

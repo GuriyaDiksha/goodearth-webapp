@@ -296,7 +296,7 @@ class BridalItem extends React.Component<Props, State> {
                         onClick={this.addToBag}
                         disabled={this.state.buttonStatus}
                         label={this.state.btnContent}
-                        variant="mediumAquaCta"
+                        variant="mediumAquaCta300"
                       />
 
                       {this.props.bridalItem.productDeliveryDate && (

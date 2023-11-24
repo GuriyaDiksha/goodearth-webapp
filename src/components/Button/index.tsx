@@ -11,9 +11,13 @@ const Button: React.FC<ButtonProps> = ({
   variant,
   type = "button",
   ref = null,
-  stopHover = false
+  stopHover = false,
+  id = "",
+  tabIndex = undefined
 }) => (
   <button
+    id={id}
+    tabIndex={tabIndex}
     type={type}
     className={cs(className, styles[`${variant}`], {
       [styles.stopHover]: stopHover

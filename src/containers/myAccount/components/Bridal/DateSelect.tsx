@@ -18,6 +18,9 @@ import "react-datepicker/dist/react-datepicker.css";
 import "../../../../styles/reactDatepicker.css";
 import CookieService from "services/cookie";
 import { GA_CALLS } from "constants/cookieConsent";
+import Button from "components/Button";
+import { useSelector } from "react-redux";
+import { AppState } from "reducers/typings";
 
 const DateSelect: React.FC = () => {
   // const [data, setData ] = useState();
@@ -35,6 +38,8 @@ const DateSelect: React.FC = () => {
   const [date, setDate] = useState(
     data.eventDate ? moment(data.eventDate, "YYYY-MM-DD").toDate() : undefined
   );
+  const { mobile } = useSelector((state: AppState) => state.device);
+
   let pickerRef: any = null;
   const onChange = (date: Date) => {
     setDate(date);
@@ -148,14 +153,15 @@ const DateSelect: React.FC = () => {
                 </li>
                 <li className={styles.blank}></li>
                 <li>
-                  <input
+                  <Button
                     type="button"
                     disabled={!updateDate || !date}
-                    className={cs(globalStyles.ceriseBtn, {
-                      [globalStyles.disabledBtn]: !(updateDate && date)
+                    className={cs({
+                      [globalStyles.btnFullWidth]: mobile
                     })}
-                    value="PROCEED TO FILL DETAILS"
+                    label="PROCEED TO FILL DETAILS"
                     onClick={saveBridalDate}
+                    variant="mediumMedCharcoalCta366"
                   />
                 </li>
               </ul>
