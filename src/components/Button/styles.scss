@@ -3,9 +3,10 @@
 
 .large-aqua-cta{
     @include large_aqua_cta();
-    &:hover:not(.stop-hover) , &:focus:not(.stop-hover){
-        background-color: $white;
-        color: $aqua;
+    &:hover:not(.stop-hover) {
+        @media screen and (min-width:992px) {
+        background-color: transparent;
+        color: $aqua;}
     }
     
     &:disabled{
@@ -15,9 +16,11 @@
 
 .large-gold-cta{
     @include large_gold_cta();
-    &:hover:not(.stop-hover) , &:focus:not(.stop-hover){
-        background-color: $white;
-        color: $gold;
+    &:hover:not(.stop-hover) {
+        @media screen and (min-width:992px) {
+            background-color: transparent;
+            color: $gold;
+        }
     }
     &:disabled{
         @include disabled_cta();
@@ -25,9 +28,11 @@
 }
 .large-med-charcoal-cta{
     @include large_med_charcoal_cta();
-    &:hover:not(.stop-hover) , &:focus:not(.stop-hover){
-        background-color: $white;
-        color: $med-charcoal !important;
+    &:hover:not(.stop-hover) {
+        @media screen and (min-width:992px) {
+            background-color: transparent;
+            color: $med-charcoal;
+        }
     }
     &:disabled{
         @include disabled_cta();
@@ -36,27 +41,61 @@
 .large-light-grey-cta{
     @include large_light_grey_cta();
    
-    &:hover:not(.stop-hover) , &:focus:not(.stop-hover){
-        @include disabled_cta();
+    &:hover:not(.stop-hover) {
+                @media screen and (min-width:992px) {
+                    @include disabled_cta();
+                }
     }
 }
 
-.medium-aqua-cta{
+.medium-aqua-cta-300{
     @include medium_aqua_cta();
-    &:hover:not(.stop-hover) , &:focus:not(.stop-hover){
-        background-color: $white;
-        color: $aqua;
+    &:hover:not(.stop-hover) {
+        @media screen and (min-width:992px) {
+        background-color: transparent;
+        color: $aqua;}
     }
     &:disabled{
         @include disabled_cta();
     }
 }
 
-.medium-med-charcoal-cta{
-    @include medium_med_charcoal_cta();
-    &:hover:not(.stop-hover) , &:focus:not(.stop-hover){
-        background-color: $white !important;
-        color: $med-charcoal !important;
+.medium-aqua-cta-366{
+    @include medium_aqua_cta_366();
+    &:hover:not(.stop-hover) {
+        @media screen and (min-width:992px) {
+        background-color: transparent;
+        color: $aqua;}
+    }
+    &:disabled{
+        @include disabled_cta();
+    }
+}
+
+
+.medium-med-charcoal-cta-366{
+    @include medium_med_charcoal_cta_366();
+    &:hover:not(.stop-hover){
+        @media screen and (min-width:992px) {
+            background-color: transparent !important;
+            color: $med-charcoal;
+        }
+    }
+        
+    &:focus{
+        color: $white;
+    }
+    &:disabled{
+        @include disabled_cta();
+    }
+}
+.outline-medium-med-charcoal-cta-366{
+    @include outline_medium_med_charcoal_cta_366();
+    &:hover:not(.stop-hover) {
+        @media screen and (min-width:992px) {
+            border: 1px solid $aqua;
+            color: $aqua;
+        }
     }
     &:disabled{
         @include disabled_cta();
@@ -65,15 +104,17 @@
 .medium-light-grey-cta{
     @include medium_light_grey_cta();
     &:disabled{
-        @include disabled_cta();
+        @media screen and (min-width:992px) {
+        @include disabled_cta();}
     }
 }
 
 .small-aqua-cta{
     @include small_aqua_cta();
-    &:hover:not(.stop-hover) , &:focus:not(.stop-hover){
-        background-color: $white;
-        color: $aqua;
+    &:hover:not(.stop-hover) {
+        @media screen and (min-width:992px) {
+        background-color: transparent;
+        color: $aqua;}
     }
     &:disabled{
         @include disabled_cta();
@@ -82,9 +123,10 @@
 
 .small-med-charcoal-cta{
     @include small_med_charcoal_cta();
-    &:hover:not(.stop-hover) , &:focus:not(.stop-hover){
-        background-color: $white;
-        color: $med-charcoal;
+    &:hover:not(.stop-hover) {
+        @media screen and (min-width:992px) {
+        background-color: transparent;
+        color: $med-charcoal;}
     }
     &:disabled{
         @include disabled_cta();
@@ -92,9 +134,10 @@
 }
 .small-gold-cta{
     @include small_gold_cta();
-    &:hover:not(.stop-hover) , &:focus:not(.stop-hover){
-        background-color: $white;
-        color: $gold;
+    &:hover:not(.stop-hover) {
+        @media screen and (min-width:992px) {
+        background-color: transparent;
+        color: $gold;}
     }
     &:disabled{
         @include disabled_cta();
@@ -103,9 +146,11 @@
 
 .outline-small-med-charcoal-cta{
     @include outline_small_med_charcoal_cta();
-    &:hover:not(.stop-hover) , &:focus:not(.stop-hover){
-        border: 1px solid $aqua;
-        color: $aqua;
+    &:hover:not(.stop-hover) {
+        @media screen and (min-width:992px) {
+            border: 1px solid $aqua;
+            color: $aqua;
+        }
     }
     &:disabled{
         @include disabled_cta();
@@ -114,16 +159,14 @@
 
 .outline-extra-small-aqua-cta{
     @include outline_extra_small_aqua_cta();
-    &:hover:not(.stop-hover) , &:focus:not(.stop-hover){
+    &:hover:not(.stop-hover) {
+        @media screen and (min-width:992px) {
+
         border: 1px solid $aqua;
-        color: $white;
-        background-color: $aqua;
+        color: transparent;
+        background-color: $aqua;}
     }
     &:disabled{
         @include disabled_cta();
     }
-}
-
-.pdp-primary-button{
-        width: 100%;
 }

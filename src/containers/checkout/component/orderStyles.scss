@@ -524,7 +524,7 @@ body:has(.open-summary) {
   // color: $white !important;
   // letter-spacing: 0.5px;
 
-  &:hover, &:focus{
+  &:hover{
     // @media screen and (min-width:992px) {
       img{
         filter: invert(44%) sepia(100%) saturate(1093%) hue-rotate(132deg) brightness(85%) contrast(50%) !important;

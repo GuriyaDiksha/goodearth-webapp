@@ -26,7 +26,8 @@ const mapStateToProps = (state: AppState) => {
     location: state.router.location,
     basket: state.basket,
     currency: state.currency,
-    sortBy: state.wishlist.sortBy
+    sortBy: state.wishlist.sortBy,
+    mobile: state.device.mobile
   };
 };
 
@@ -560,7 +561,7 @@ class MainLogin extends React.Component<Props, loginState> {
               showLabel={true}
             />
           </div>
-          <div>
+          <div className={styles.loginForm}>
             {this.state.showerror ? (
               <p className={cs(styles.errorMsg, styles.mainLoginError)}>
                 {this.state.showerror}
@@ -570,10 +571,10 @@ class MainLogin extends React.Component<Props, loginState> {
             )}
             <Button
               type="submit"
-              className={globalStyles.btnFullWidth}
+              className={cs({ [globalStyles.btnFullWidth]: this.props.mobile })}
               label="continue"
               disabled={this.state.isLoginDisabled}
-              variant="largeMedCharcoalCta"
+              variant="mediumMedCharcoalCta366"
             />
           </div>
         </div>
@@ -667,10 +668,12 @@ class MainLogin extends React.Component<Props, loginState> {
             ) : (
               <Button
                 type="submit"
-                className={cs(globalStyles.btnFullWidth, styles.changeEmailBtn)}
+                className={cs(styles.changeEmailBtn, {
+                  [globalStyles.btnFullWidth]: this.props.mobile
+                })}
                 label="Go Back"
                 onClick={this.changeEmail}
-                variant="outlineSmallMedCharcoalCta"
+                variant="outlineMediumMedCharcoalCta366"
               />
             )}
           </div>

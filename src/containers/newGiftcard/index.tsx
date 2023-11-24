@@ -16,6 +16,8 @@ import { Basket } from "typings/basket";
 import { MESSAGE } from "constants/messages";
 import { displayPriceWithCommas, makeid } from "utils/utility";
 import { RouteComponentProps, withRouter } from "react-router-dom";
+import Button from "components/Button";
+import globalStyles from "styles/global.scss";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -871,15 +873,14 @@ class NewGiftcard extends React.Component<Props, State> {
               </div>
               {/* 5. Add to Bag */}
               {!mobile && (
-                <div
-                  className={cs(styles.addToBag, {
-                    [styles.active]:
-                      !formDisabled && selectedCountry != "" && cardId != ""
-                  })}
+                <Button
+                  variant="mediumAquaCta366"
                   onClick={this.onSubmit}
-                >
-                  <a>BUY NOW</a>
-                </div>
+                  label={"BUY NOW"}
+                  disabled={
+                    !(!formDisabled && selectedCountry != "" && cardId != "")
+                  }
+                />
               )}
               {/* 6. Contact Us */}
               <div className={styles.contactUs}>
@@ -927,15 +928,13 @@ class NewGiftcard extends React.Component<Props, State> {
           </div>
         )}
         {mobile && (
-          <div
-            className={cs(styles.addToBag, {
-              [styles.active]:
-                !formDisabled && selectedCountry != "" && cardId != ""
-            })}
+          <Button
+            variant="mediumAquaCta366"
             onClick={this.onSubmit}
-          >
-            <a>BUY NOW</a>
-          </div>
+            label={"BUY NOW"}
+            disabled={!(!formDisabled && selectedCountry != "" && cardId != "")}
+            className={cs(globalStyles.btnFullWidth, styles.addToBag)}
+          />
         )}
         {mobile && (
           <div

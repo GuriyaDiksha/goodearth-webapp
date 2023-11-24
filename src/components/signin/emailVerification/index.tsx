@@ -5,7 +5,7 @@ import styles from "../styles.scss";
 import globalStyles from "styles/global.scss";
 // services
 import LoginService from "services/login";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 // import Loader from "components/Loader";
 // import OtpBox from "components/OtpComponent/otpBox";
 // import { showGrowlMessage } from "utils/validate";
@@ -18,6 +18,7 @@ import CookieService from "services/cookie";
 import Button from "components/Button";
 import { Currency } from "typings/currency";
 import { censorEmail, censorPhoneNumber } from "utils/utility";
+import { AppState } from "reducers/typings";
 
 type Props = {
   successMsg: string;
@@ -49,12 +50,6 @@ const EmailVerification: React.FC<Props> = ({
   phoneNo,
   isRegistration
 }) => {
-  // const [isLoading, setIsLoading] = useState(false);
-  // const [enableBtn, setEnableBtn] = useState(false);
-  // const [timeRemaining, setTimeRemaining] = useState(60);
-  //const [showCustCare, setShowCustCare] = useState(false);
-  // const [timerId, setTimerId] = useState<any>();
-  // const [otpValue, setOtpValue] = useState("");
   const [error, setError] = useState<(JSX.Element | string)[] | string>("");
   const [attempts, setAttempts] = useState({
     attempts: 0,
@@ -64,14 +59,7 @@ const EmailVerification: React.FC<Props> = ({
   // const headingref = React.useRef<null | HTMLDivElement>(null);
   const dispatch = useDispatch();
   const history = useHistory();
-  // const timer = () => {
-  //   setTimeRemaining(90);
-  //   setEnableBtn(false);
-  //   const id = setInterval(() => {
-  //     setTimeRemaining(timeRemaining => timeRemaining - 1);
-  //   }, 1000);
-  //   setTimerId(id);
-  // };
+  const { mobile } = useSelector((state: AppState) => state.device);
 
   const showLogin = () => {
     localStorage.setItem("tempEmail", email);
@@ -255,10 +243,12 @@ const EmailVerification: React.FC<Props> = ({
   const goBackCta = (
     <Button
       type="submit"
-      className={cs(globalStyles.btnFullWidth, styles.changeEmailBtn)}
+      className={cs(styles.changeEmailBtn, {
+        [globalStyles.btnFullWidth]: mobile
+      })}
       label="Go Back"
       onClick={changeEmail}
-      variant="outlineSmallMedCharcoalCta"
+      variant="outlineMediumMedCharcoalCta366"
     />
   );
 

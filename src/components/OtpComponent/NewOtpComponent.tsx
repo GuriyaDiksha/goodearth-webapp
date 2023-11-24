@@ -2,6 +2,9 @@ import React, { ReactNode, useEffect, useRef, useState } from "react";
 import style from "./styles.scss";
 import cs from "classnames";
 import Button from "components/Button";
+import globalStyles from "styles/global.scss";
+import { useSelector } from "react-redux";
+import { AppState } from "reducers/typings";
 
 type Props = {
   errorMsg: (JSX.Element | string)[] | string;
@@ -46,6 +49,7 @@ const NewOtpComponent: React.FC<Props> = ({
   socialLogin,
   uniqueId //made this component unique in dom
 }) => {
+  const { mobile } = useSelector((state: AppState) => state.device);
   const [timeRemaining, setTimeRemaining] = useState(90);
   const [timerId, setTimerId] = useState<any>();
   const [error, setError] = useState<(JSX.Element | string)[] | string>("");
@@ -348,7 +352,7 @@ const NewOtpComponent: React.FC<Props> = ({
         </p>
       )}
       <Button
-        className={cs(verifyCtaClass)}
+        className={cs(verifyCtaClass, { [globalStyles.btnFullWidth]: mobile })}
         onClick={() => sendOtp()}
         disabled={
           `${input?.[`${uniqueId}otp1`]}${input?.[`${uniqueId}otp2`]}${
@@ -358,7 +362,7 @@ const NewOtpComponent: React.FC<Props> = ({
           }`.length !== 6 || attempts?.maxAttemptsAllow === attempts?.attempts
         }
         label={btnText}
-        variant="mediumMedCharcoalCta"
+        variant="mediumMedCharcoalCta366"
       />
       {cancelOtpReq ? (
         <div

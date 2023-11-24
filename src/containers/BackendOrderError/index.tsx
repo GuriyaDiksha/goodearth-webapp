@@ -37,7 +37,7 @@ class ErrorPage extends React.Component<{}, {}> {
           <div className={globalStyles.voffset5}>
             {" "}
             <Link to="/">
-              <Button label="CONTINUE SHOPPING" variant="mediumAquaCta" />
+              <Button label="CONTINUE SHOPPING" variant="mediumAquaCta300" />
             </Link>{" "}
           </div>
           <div className={globalStyles.voffset5}>

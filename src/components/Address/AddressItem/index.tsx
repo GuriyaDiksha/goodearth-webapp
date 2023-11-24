@@ -14,6 +14,7 @@ import { AppState } from "reducers/typings";
 import bridalRing from "../../../images/bridal/rings.svg";
 import CookieService from "services/cookie";
 import { GA_CALLS } from "constants/cookieConsent";
+import Button from "components/Button";
 
 type Props = {
   addressData: AddressData;
@@ -1016,14 +1017,11 @@ const AddressItem: React.FC<Props> = props => {
           {(currentCallBackComponent == "bridal" ||
             currentCallBackComponent == "bridal-edit") &&
             !address.isBridal && (
-              <div
-                className={cs(
-                  globalStyles.ceriseBtn,
-                  globalStyles.cursorPointer,
-                  { [globalStyles.disabledBtn]: address.id == userAddress?.id },
-                  styles.shipToThisBtn
-                )}
-                // onClick={() => props.selectAddress(address)}
+              <Button
+                variant="largeMedCharcoalCta"
+                label={"USE THIS ADDRESS"}
+                className={cs(globalStyles.btnFullWidth, styles.shipToThisBtn)}
+                disabled={address.id == userAddress?.id}
                 onClick={() => {
                   if (address.id != userAddress?.id) {
                     onSelectBridalAddress(address);
@@ -1040,9 +1038,7 @@ const AddressItem: React.FC<Props> = props => {
                     window.scrollTo(0, 0);
                   }
                 }}
-              >
-                USE THIS ADDRESS
-              </div>
+              />
             )}
           {(currentCallBackComponent == "bridal" ||
             currentCallBackComponent == "bridal-edit") &&

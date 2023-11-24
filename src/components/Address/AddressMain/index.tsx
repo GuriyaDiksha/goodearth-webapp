@@ -36,6 +36,7 @@ import {
   updateShippingAddressId
 } from "actions/address";
 import { countryCurrencyCode } from "constants/currency";
+import Button from "components/Button";
 
 const AddressMain: React.FC<Props> = props => {
   // data: [],
@@ -52,7 +53,10 @@ const AddressMain: React.FC<Props> = props => {
     (state: AppState) => state.address
   );
   const { bridal } = useSelector((state: AppState) => state.basket);
-  const { user } = useSelector((state: AppState) => state);
+  const {
+    user,
+    device: { mobile }
+  } = useSelector((state: AppState) => state);
   const [scrollPos, setScrollPos] = useState<null | number>(null);
   const [innerScrollPos, setInnerScrollPos] = useState<null | number>(null);
   // const { isLoggedIn } = useSelector((state: AppState) => state.user);
@@ -419,15 +423,14 @@ const AddressMain: React.FC<Props> = props => {
               <div className={globalStyles.voffset4}>
                 <ul>
                   <li>
-                    <input
-                      type="button"
+                    <Button
+                      variant="mediumMedCharcoalCta366"
                       id="address_button"
-                      className={cs(styles.charcoalBtn, {
-                        [globalStyles.disabledBtn]:
-                          currentCallBackComponent == "bridal" &&
-                          !userAddress?.id
-                      })}
-                      value={
+                      className={cs({ [globalStyles.btnFullWidth]: mobile })}
+                      disabled={
+                        currentCallBackComponent == "bridal" && !userAddress?.id
+                      }
+                      label={
                         currentCallBackComponent == "bridal"
                           ? "create registry"
                           : "add a new address"

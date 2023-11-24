@@ -343,12 +343,15 @@ const ManageRegistryFull: React.FC<Props> = ({
                 <hr />
                 {bridalItems.length == 0 ? (
                   <Button
-                    className={globalStyles.btnFullWidth}
+                    className={cs(
+                      { [globalStyles.btnFullWidth]: mobile },
+                      styles.buttonCenter
+                    )}
                     onClick={() => {
                       history.push("/");
                     }}
                     label="start adding to registry"
-                    variant="largeAquaCta"
+                    variant="mediumMedCharcoalCta366"
                   />
                 ) : (
                   ""
