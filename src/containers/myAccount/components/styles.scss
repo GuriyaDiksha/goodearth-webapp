@@ -1534,3 +1534,24 @@ input[type="text"].country-code-search-input{
     }
   };
 }
+
+.edit-profile-section{
+    margin-top: 50px;
+    .edit-profile-head{
+      @include b4_12px_montserrat_charcoal();
+    }
+    .edit-profile-link{
+      margin-top: 10px;
+      margin-bottom: 50px;
+      background: none;
+      border: none;
+      border-bottom: 1px solid $charcoal19;
+      @include b4_12px_montserrat_charcoal_caps();
+
+      &:hover{
+        border-bottom: 1px solid $aqua;
+        @include b4_12px_montserrat_aqua_caps();
+      }
+      
+    }
+}
