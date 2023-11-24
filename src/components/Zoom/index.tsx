@@ -18,6 +18,8 @@ import {
   ReactZoomPanPinchRef
 } from "react-zoom-pan-pinch";
 import DockedPanel from "containers/pdp/docked";
+import VerticalImageSlider from "components/VerticalImageSlider";
+import { indexOf } from "lodash";
 
 type Props = {
   images: ProductImage[];
@@ -133,6 +135,79 @@ const Zoom: React.FC<Props> = ({
   //   ref.zoomOut();
   // };
 
+  const createImageSlider = () => {
+    let imageSlides: any[] = [];
+
+    imageSlides = images?.map(imgContent => (
+      <div
+        key={imgContent.id}
+        className={cs(styles.thumbnailImg, {
+          [styles.selectdImg]:
+            selectedImage?.productImage === imgContent?.productImage
+        })}
+        onClick={() => {
+          setSelectedImage(imgContent);
+          transformComponentRef?.current?.setTransform(0, 0, 1);
+          setZoom(1);
+        }}
+      >
+        {imgContent?.media_type === "Image" || imgContent?.type === "main" ? (
+          <img
+            src={imgContent.productImage?.replace(/Micro|Large/i, "Medium")}
+            alt={alt}
+            className={globalStyles.imgResponsive}
+          />
+        ) : (
+          <>
+            {/* <div className={styles.overlayDiv}></div>
+            <ReactPlayer
+              url={imgContent?.vimeo_link}
+              width={"100%"}
+              height={"auto"}
+              playing={playVideo}
+              playsinline={true}
+            /> */}
+            <video
+              ref={videoRef2}
+              src={imgContent?.video_link}
+              autoPlay={false}
+              loop
+              preload="auto"
+              width="100%"
+              height="auto"
+            />
+            {playVideo &&
+            imgContent?.video_link === selectedImage?.video_link ? (
+              <img
+                src={pause}
+                alt="pause"
+                className={styles.play}
+                onClick={() => {
+                  videoRef?.current?.pause();
+                  videoRef2?.current?.pause();
+                  setPlayVideo(false);
+                }}
+              />
+            ) : (
+              <img
+                src={play}
+                alt="play"
+                className={styles.play}
+                onClick={() => {
+                  videoRef?.current?.play();
+                  videoRef2?.current?.play();
+                  setPlayVideo(true);
+                }}
+              />
+            )}
+          </>
+        )}
+      </div>
+    ));
+
+    return imageSlides;
+  };
+
   return (
     <div
       id="zoomPopup"
@@ -143,76 +218,11 @@ const Zoom: React.FC<Props> = ({
       <div className={styles.body}>
         {!mobile && (
           <div className={styles.left}>
-            {images?.map(imgContent => (
-              <div
-                key={imgContent.id}
-                className={cs(styles.thumbnailImg, {
-                  [styles.selectdImg]:
-                    selectedImage?.productImage === imgContent?.productImage
-                })}
-                onClick={() => {
-                  setSelectedImage(imgContent);
-                  transformComponentRef?.current?.setTransform(0, 0, 1);
-                  setZoom(1);
-                }}
-              >
-                {imgContent?.media_type === "Image" ||
-                imgContent?.type === "main" ? (
-                  <img
-                    src={imgContent.productImage?.replace(
-                      /Micro|Large/i,
-                      "Medium"
-                    )}
-                    alt={alt}
-                    className={globalStyles.imgResponsive}
-                  />
-                ) : (
-                  <>
-                    {/* <div className={styles.overlayDiv}></div>
-                    <ReactPlayer
-                      url={imgContent?.vimeo_link}
-                      width={"100%"}
-                      height={"auto"}
-                      playing={playVideo}
-                      playsinline={true}
-                    /> */}
-                    <video
-                      ref={videoRef2}
-                      src={imgContent?.video_link}
-                      autoPlay={false}
-                      loop
-                      preload="auto"
-                      width="100%"
-                      height="auto"
-                    />
-                    {playVideo &&
-                    imgContent?.video_link === selectedImage?.video_link ? (
-                      <img
-                        src={pause}
-                        alt="pause"
-                        className={styles.play}
-                        onClick={() => {
-                          videoRef?.current?.pause();
-                          videoRef2?.current?.pause();
-                          setPlayVideo(false);
-                        }}
-                      />
-                    ) : (
-                      <img
-                        src={play}
-                        alt="play"
-                        className={styles.play}
-                        onClick={() => {
-                          videoRef?.current?.play();
-                          videoRef2?.current?.play();
-                          setPlayVideo(true);
-                        }}
-                      />
-                    )}
-                  </>
-                )}
-              </div>
-            ))}
+            <VerticalImageSlider
+              activeSlideIndex={indexOf(images, selectedImage)}
+            >
+              {createImageSlider()}
+            </VerticalImageSlider>
           </div>
         )}
 
