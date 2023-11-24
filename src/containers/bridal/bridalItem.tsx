@@ -277,7 +277,7 @@ class BridalItem extends React.Component<Props, State> {
                             globalStyles.voffset1
                           )}
                         >
-                          {this.props.bridalItem.qtyRequested}
+                          {this.props.bridalItem.qtyBought}
                         </div>
                       </div>
                       <div className={globalStyles.voffset3}>

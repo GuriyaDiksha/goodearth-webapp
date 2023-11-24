@@ -240,10 +240,12 @@ const EditRegistryDetails: React.FC<Props> = props => {
                   <input
                     type="submit"
                     // onClick={props.showManageRegistry}
-                    disabled={!updateProfile}
-                    className={cs(globalStyles.charcoalBtn, {
-                      [globalStyles.disabledBtn]: !updateProfile
-                    })}
+                    // disabled={!updateProfile}
+                    className={cs(
+                      globalStyles.charcoalBtn,
+                      globalStyles.charoalBtnHover
+                      // {[globalStyles.disabledBtn]: !updateProfile}
+                    )}
                     value="UPDATE DETAILS"
                   />
                 </div>

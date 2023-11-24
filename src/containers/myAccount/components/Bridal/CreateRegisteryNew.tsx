@@ -41,7 +41,7 @@ const CreateRegistryNew: React.FC = () => {
   );
   const occasion = selectId;
   const occasionInCaps = occasion[0].toUpperCase() + occasion.slice(1);
-  const [active, setActive] = useState(false);
+  // const [active, setActive] = useState(false);
   const [updateProfile, setUpdateProfile] = useState(
     data.coRegistrantName && data.registrantName && data.eventDate
       ? true
@@ -52,18 +52,18 @@ const CreateRegistryNew: React.FC = () => {
     data.eventDate ? moment(data.eventDate, "YYYY-MM-DD").toDate() : undefined
   );
 
-  const otherRef = useRef<HTMLInputElement>(null);
+  // const otherRef = useRef<HTMLInputElement>(null);
   const BridalDetailsFormRef = createRef<Formsy>();
 
   const setRegistry = (data: string) => {
     setSelectId(data);
-    setActive(false);
-    if (document.activeElement === otherRef.current) {
-      setActive(true);
-    } else {
-      setActive(false);
-      // setOther("");
-    }
+    // setActive(false);
+    // if (document.activeElement === otherRef.current) {
+    //   setActive(true);
+    // } else {
+    //   setActive(false);
+    //   // setOther("");
+    // }
   };
 
   useEffect(() => {
@@ -108,22 +108,6 @@ const CreateRegistryNew: React.FC = () => {
   const handleChange = () => {
     setUpdateProfile(true);
   };
-
-  // const handleChangeLi = (event: React.ChangeEvent<HTMLInputElement>) => {
-  //   // setOther(data.registrantName);
-  //   const otherInput = document.getElementById("other_value");
-  //   const getOtherVal = otherInput?.getAttribute("value");
-  //   if (getOtherVal) {
-  //     setOther(getOtherVal);
-  //   }
-  //   const otherInp =
-  //     otherRef.current?.value.trim() == "" ? "" : otherRef.current?.value;
-  //   if (otherInp) {
-  //     setActive(true);
-  //   } else {
-  //     setActive(false);
-  //   }
-  // };
 
   const occasionChoiceRef = useRef<HTMLInputElement>(null);
   const registrantNameRef = useRef<HTMLInputElement>(null);
@@ -374,10 +358,11 @@ const CreateRegistryNew: React.FC = () => {
                 <div>
                   <input
                     type="submit"
-                    disabled={!updateProfile}
-                    className={cs(globalStyles.charcoalBtn, {
-                      [globalStyles.disabledBtn]: !updateProfile
-                    })}
+                    // disabled={!updateProfile}
+                    className={cs(
+                      globalStyles.charcoalBtn
+                      // {[globalStyles.disabledBtn]: !updateProfile}
+                    )}
                     value="PROCEED"
                   />
                 </div>

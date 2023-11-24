@@ -114,6 +114,7 @@ export type AnnouncementBar = {
   bridalBgColorcode: string;
   isBridalActive: boolean;
   registrantName?: string;
+  occasionName?: string;
   coRegistrantName?: string;
   registryName?: string;
   data: {

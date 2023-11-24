@@ -146,15 +146,17 @@ class SideMenu extends React.Component<Props, State> {
         href: "/account/track-order",
         type: "link"
       },
-      // {
-      //   label: "Good Earth Registry",
-      //   href: isLoggedIn ? "/account/bridal" : "",
-      //   onClick: isLoggedIn
-      //     ? () => null
-      //     : () => this.props.goLogin(undefined, "/account/bridal"),
-      //   type: isLoggedIn ? "link" : "button",
-      //   value: "Good Earth Registry"
-      // },
+      {
+        label: "Good Earth Registry",
+        // href: isLoggedIn ? "/account/bridal" : "",
+        // onClick: isLoggedIn
+        //   ? () => null
+        //   : () => this.props.goLogin(undefined, "/account/bridal"),
+        // type: isLoggedIn ? "link" : "button",
+        href: "/gift-registery",
+        type: "link",
+        value: "Good Earth Registry"
+      },
       {
         label: "Activate Gift Card",
         href: "/account/giftcard-activation",
