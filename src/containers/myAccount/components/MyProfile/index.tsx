@@ -796,6 +796,14 @@ const MyProfile: React.FC<ProfileProps> = ({ setCurrentSection }) => {
           Manage your personal information.
         </div>
         {formContent}
+        <div className={styles.editProfileSection}>
+          <p className={styles.editProfileHead}>
+            Looking to update your profile?
+          </p>
+          <button className={styles.editProfileLink} onClick={onEditClick}>
+            EDIT PROFILE DETAILS
+          </button>
+        </div>
       </div>
     </div>
   );
