@@ -502,7 +502,7 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
         <div className={styles.btnWrp}>
           {pagination?.next ? (
             <Button
-              variant="outlineExtraSmallAquaCta"
+              variant="outlineSmallMedCharcoalCta"
               label="Load More"
               onClick={() => fetchOrders(pagination?.next)}
             />
