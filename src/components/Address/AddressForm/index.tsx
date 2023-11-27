@@ -991,7 +991,7 @@ const AddressForm: React.FC<Props> = props => {
               >
                 {mode == "edit" ? (
                   <Button
-                    variant="largeMedCharcoalCta"
+                    variant="mediumMedCharcoalCta366"
                     type="submit"
                     label={"SAVE ADDRESS"}
                     className={cs({ [globalStyles.btnFullWidth]: mobile })}
@@ -999,7 +999,7 @@ const AddressForm: React.FC<Props> = props => {
                   />
                 ) : (
                   <Button
-                    variant="largeMedCharcoalCta"
+                    variant="mediumMedCharcoalCta366"
                     type="submit"
                     label={"ADD NEW ADDRESS"}
                     className={cs({ [globalStyles.btnFullWidth]: mobile })}
