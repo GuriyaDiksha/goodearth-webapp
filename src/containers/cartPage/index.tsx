@@ -35,6 +35,7 @@ import { StaticContext } from "react-router";
 import CheckoutService from "services/checkout";
 import Loader from "components/Loader";
 import { GA_CALLS } from "constants/cookieConsent";
+import Button from "components/Button";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -649,9 +650,17 @@ class CartPage extends React.Component<Props, State> {
 
         {mobile && (
           <div className={styles.continueShoppingBtnWrapper}>
-            <Link to="/" className={styles.continueShoppingBtn}>
-              Continue Shopping
-            </Link>
+            <Button
+              variant="largeMedCharcoalCta"
+              className={cs(
+                styles.continueShoppingBtn,
+                globalStyles.btnFullWidth
+              )}
+              label={"Continue Shopping"}
+              onClick={() => {
+                this.props.history.push("/");
+              }}
+            />
           </div>
         )}
       </div>

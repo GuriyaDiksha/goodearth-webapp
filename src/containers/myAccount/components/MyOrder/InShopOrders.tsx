@@ -291,7 +291,7 @@ const InShopOrder: React.FC<OrdersProps> = props => {
         <div className={styles.btnWrp}>
           {data?.length !== allData?.length ? (
             <Button
-              variant="outlineExtraSmallAquaCta"
+              variant="outlineSmallMedCharcoalCta"
               onClick={() => loadMore()}
               label="Load More"
             />
