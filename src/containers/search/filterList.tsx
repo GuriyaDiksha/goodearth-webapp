@@ -2149,37 +2149,7 @@ class FilterList extends React.Component<Props, State> {
             {!mobile && <span>Filter By</span>}
             <ul id="currentFilter">{this.renderFilterList(filter)}</ul>
           </li>
-          <li>
-            <span
-              className={
-                this.state.categoryindex == 0 && this.state.categorylevel1
-                  ? cs(styles.menulevel1, styles.menulevel1Open)
-                  : styles.menulevel1
-              }
-              onClick={() => {
-                this.ClickmenuCategory(0);
-                this.handleAnimation(
-                  "category",
-                  this.state.categoryindex == 0 && this.state.categorylevel1
-                );
-              }}
-            >
-              Category
-            </span>
-            <div
-              id="category"
-              className={
-                this.state.categoryindex == 0 && this.state.categorylevel1
-                  ? styles.showheader1
-                  : styles.hideDiv
-              }
-            >
-              {this.createCatagoryFromFacets(
-                this.props.facetObject.categoryObj,
-                this.props.facetObject.facets
-              )}
-            </div>
-          </li>
+
           {this.props.salestatus && (
             <li
               className={
@@ -2235,6 +2205,38 @@ class FilterList extends React.Component<Props, State> {
               </div>
             </li>
           )}
+
+          <li>
+            <span
+              className={
+                this.state.categoryindex == 0 && this.state.categorylevel1
+                  ? cs(styles.menulevel1, styles.menulevel1Open)
+                  : styles.menulevel1
+              }
+              onClick={() => {
+                this.ClickmenuCategory(0);
+                this.handleAnimation(
+                  "category",
+                  this.state.categoryindex == 0 && this.state.categorylevel1
+                );
+              }}
+            >
+              Category
+            </span>
+            <div
+              id="category"
+              className={
+                this.state.categoryindex == 0 && this.state.categorylevel1
+                  ? styles.showheader1
+                  : styles.hideDiv
+              }
+            >
+              {this.createCatagoryFromFacets(
+                this.props.facetObject.categoryObj,
+                this.props.facetObject.facets
+              )}
+            </div>
+          </li>
           <li
             className={
               this.productData.length > 0 ? "" : `${styles.removeBorder} hidden`
