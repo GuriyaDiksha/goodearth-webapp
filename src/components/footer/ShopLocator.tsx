@@ -101,7 +101,6 @@ export const ShopLocator: React.FC<ShopLocatorProps> = ({
             placeholder="city, country"
             id="drop"
             autoComplete="off"
-            disabled
             onKeyUp={onChange}
           />
           <div
@@ -112,48 +111,50 @@ export const ShopLocator: React.FC<ShopLocatorProps> = ({
             }
           ></div>
         </div>
-        <div
-          className={
-            menuOpen
-              ? cs(styles.shopDropdown, styles.zindex)
-              : cs(globalStyles.hidden)
-          }
-        >
-          <ul>
-            {mobile && (
-              <li className={styles.header}>
-                <div className={styles.locatorLabel}>
-                  <span className={cs(styles.location)}>
-                    <i
-                      className={cs(
-                        iconStyles.icon,
-                        iconStyles.iconLocation,
-                        styles.iconStore
-                      )}
-                    ></i>
-                    <span className={styles.label}>City, Country</span>
-                  </span>
-                </div>
-                <i
-                  className={cs(
-                    iconStyles.icon,
-                    iconStyles.iconCrossNarrowBig,
-                    styles.iconCross
-                  )}
-                ></i>
-              </li>
-            )}
-            {locations?.map(
-              (data: { label: string; value: string }, index: number) => {
-                return (
-                  <li key={index} onClick={e => redirectToShop(e, data)}>
-                    <a>{data.label}</a>
-                  </li>
-                );
-              }
-            )}
-          </ul>
-        </div>
+        {locations?.length ? (
+          <div
+            className={
+              menuOpen
+                ? cs(styles.shopDropdown, styles.zindex)
+                : cs(globalStyles.hidden)
+            }
+          >
+            <ul>
+              {mobile && (
+                <li className={styles.header}>
+                  <div className={styles.locatorLabel}>
+                    <span className={cs(styles.location)}>
+                      <i
+                        className={cs(
+                          iconStyles.icon,
+                          iconStyles.iconLocation,
+                          styles.iconStore
+                        )}
+                      ></i>
+                      <span className={styles.label}>City, Country</span>
+                    </span>
+                  </div>
+                  <i
+                    className={cs(
+                      iconStyles.icon,
+                      iconStyles.iconCrossNarrowBig,
+                      styles.iconCross
+                    )}
+                  ></i>
+                </li>
+              )}
+              {locations?.map(
+                (data: { label: string; value: string }, index: number) => {
+                  return (
+                    <li key={index} onClick={e => redirectToShop(e, data)}>
+                      <a>{data.label}</a>
+                    </li>
+                  );
+                }
+              )}
+            </ul>
+          </div>
+        ) : null}
       </div>
     </div>
   );
