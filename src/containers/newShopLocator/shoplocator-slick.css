@@ -19,8 +19,8 @@
     /* content: url('../../images/shopLocatorPrev.svg');
     transform: rotate(180deg);	 */
     display: block;
-    height: 24px;
-    width: 24px;
+    height: 26px;
+    width: 26px;
 }
 
 .shopLocatorSlider .slick-prev.slick-disabled:before,.shopLocatorSlider .slick-next.slick-disabled:before {
