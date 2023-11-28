@@ -972,7 +972,7 @@ const AddressForm: React.FC<Props> = props => {
           </div> */}
 
           <div
-            className={cs({
+            className={cs(globalStyles.textCenter, {
               [styles.checkoutMobilePopupButton]:
                 currentCallBackComponent == "checkout-shipping" ||
                 currentCallBackComponent == "checkout-billing"
@@ -986,7 +986,13 @@ const AddressForm: React.FC<Props> = props => {
                       currentCallBackComponent == "bridal-edit" ||
                       currentCallBackComponent == "bridal"
                   },
-                  globalStyles.paddT20
+                  {
+                    [globalStyles.paddT20]: !(
+                      mobile &&
+                      (currentCallBackComponent == "checkout-shipping" ||
+                        currentCallBackComponent == "checkout-billing")
+                    )
+                  }
                 )}
               >
                 {mode == "edit" ? (
