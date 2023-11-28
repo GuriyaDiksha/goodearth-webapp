@@ -1123,7 +1123,8 @@ const AddressSection: React.FC<AddressProps & {
                         globalStyles.paddT0
                       )}
                     >
-                      <div
+                      <Button
+                        variant="largeMedCharcoalCta"
                         onClick={() => {
                           onSelectAddress(
                             addressList?.find(val =>
@@ -1139,9 +1140,8 @@ const AddressSection: React.FC<AddressProps & {
                           styles.sendToAddress,
                           styles.footerSendToAddress
                         )}
-                      >
-                        {ctaText}
-                      </div>
+                        label={ctaText}
+                      />
                     </div>
                   }
                   {props.error ? (
@@ -1291,18 +1291,18 @@ const AddressSection: React.FC<AddressProps & {
                                 bootstrapStyles.row,
                                 globalStyles.gutterBetween,
                                 styles.checkoutAddressFooter,
-                                globalStyles.paddT0
+                                globalStyles.paddT10
                               )}
                             >
-                              <div
+                              <Button
                                 onClick={() => openAddressForm()}
                                 className={cs(
                                   styles.sendToAddress,
                                   styles.footerSendToAddress
                                 )}
-                              >
-                                {ctaText}
-                              </div>
+                                label={ctaText}
+                                variant="largeMedCharcoalCta"
+                              />
                             </div>
                           )}
                         {addressList.length && mode == "list" ? (

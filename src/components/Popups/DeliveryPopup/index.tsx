@@ -97,7 +97,7 @@ const Delivery: React.FC<PopupProps> = props => {
               closeModal();
             }}
             label={"SAVE & PROCEED"}
-            className={cs({ [globalStyles.btnFullWidth]: mobile })}
+            className={cs({ [globalStyles.btnFullWidthForPopup]: mobile })}
           />
         </div>
       </div>
