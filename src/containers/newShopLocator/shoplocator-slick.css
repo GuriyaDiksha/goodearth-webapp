@@ -10,8 +10,8 @@
     /* content: url('../../images/shopLocatorPrev.svg'); */
     content: url('../../images/shopLocator_LeftArrow.svg');
     display: block;
-    height: 24px;
-    width: 24px;
+    height: 26px;
+    width: 26px;
 }
 
 .shopLocatorSlider .slick-next:before {
