@@ -91,7 +91,7 @@ class BridalItem extends React.Component<Props, State> {
       this.setState({
         buttonStatus: true,
         btnDisable: cs(globalStyles.aquaBtn, globalStyles.disabledBtn),
-        btnContent: "Out Of Stock"
+        btnContent: "NOTIFY ME"
       });
     }
   }
@@ -110,6 +110,9 @@ class BridalItem extends React.Component<Props, State> {
   };
 
   decreaseState = () => {
+    // if(this.props.bridalItem.stock == 0){
+    //   console.log("");
+    // }
     let qtyCurrent = this.state.qtyCurrent;
     if (qtyCurrent > 1) {
       qtyCurrent -= 1;
@@ -235,7 +238,12 @@ class BridalItem extends React.Component<Props, State> {
                           </div>
                         )}
                         {this.props.bridalItem.productAvailable && (
-                          <div className={styles.widgetQty}>
+                          <div
+                            className={cs(styles.widgetQty, {
+                              [styles.disableQty]:
+                                this.props.bridalItem.stock == 0
+                            })}
+                          >
                             <span
                               className={styles.btnQty}
                               onClick={this.decreaseState}

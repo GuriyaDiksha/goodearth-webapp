@@ -1052,3 +1052,12 @@
 .mob-padding-zero{
   padding: 0!important;
 }
+.disable-qty{
+  color: #d8d8d8;
+  .btn-qty{
+    cursor: unset;
+  }
+}
+.disable-qty .btn-qty{
+  cursor: unset!important;
+}
