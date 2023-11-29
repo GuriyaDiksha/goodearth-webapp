@@ -567,6 +567,9 @@ class BridalCheckout extends React.Component<Props, State> {
                   {/* Sorry, the event has ended. */}
                   Looks like the event has ended.
                 </div>
+                {/* <div>
+                  <button className={globalStyles.charcoalBtn}>PROCEED TO GOODEARTH.IN</button>
+                </div> */}
               </>
             )}
             {!mobile && (

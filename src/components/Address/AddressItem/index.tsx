@@ -573,46 +573,46 @@ const AddressItem: React.FC<Props> = props => {
                 &nbsp;
                 {address.lastName} */}
                 {(currentCallBackComponent == "bridal" ||
-                  currentCallBackComponent == "bridal-edit") &&
-                  !(props.showAddressInBridalUse && address.isBridal) && (
-                    <div className={cs(styles.radio, "bridalRadio")}>
-                      <input
-                        id={address.id.toString()}
-                        className={styles.defaultAddressCheckbox}
-                        // checked={
-                        //     address.id.toString() === bridalAddressId.toString()
-                        // }
-                        checked={
-                          props.showAddressInBridalUse && address.isBridal
-                            ? true
-                            : false
-                        }
-                        name={id}
-                        type="radio"
-                        onClick={() => {
-                          if (
-                            !(props.showAddressInBridalUse && address.isBridal)
-                          ) {
-                            if (address.id != userAddress?.id) {
-                              onSelectBridalAddress(address);
-                              const firstErrorField = document.getElementById(
-                                "address_button"
-                              ) as HTMLDivElement;
-                              if (firstErrorField) {
-                                firstErrorField.focus();
-                                firstErrorField.scrollIntoView({
-                                  block: "center",
-                                  behavior: "smooth"
-                                });
-                              }
-                              window.scrollTo(0, 0);
+                  currentCallBackComponent == "bridal-edit") && (
+                  // !(props.showAddressInBridalUse && address.isBridal) && (
+                  <div className={cs(styles.radio, "bridalRadio")}>
+                    <input
+                      id={address.id.toString()}
+                      className={styles.defaultAddressCheckbox}
+                      // checked={
+                      //     address.id.toString() === bridalAddressId.toString()
+                      // }
+                      checked={
+                        props.showAddressInBridalUse && address.isBridal
+                          ? true
+                          : false
+                      }
+                      name={id}
+                      type="radio"
+                      onClick={() => {
+                        if (
+                          !(props.showAddressInBridalUse && address.isBridal)
+                        ) {
+                          if (address.id != userAddress?.id) {
+                            onSelectBridalAddress(address);
+                            const firstErrorField = document.getElementById(
+                              "address_button"
+                            ) as HTMLDivElement;
+                            if (firstErrorField) {
+                              firstErrorField.focus();
+                              firstErrorField.scrollIntoView({
+                                block: "center",
+                                behavior: "smooth"
+                              });
                             }
+                            window.scrollTo(0, 0);
                           }
-                        }}
-                      />
-                      <span className={styles.checkmark}></span>
-                    </div>
-                  )}
+                        }
+                      }}
+                    />
+                    <span className={styles.checkmark}></span>
+                  </div>
+                )}
                 <div className="useName">
                   {address.firstName}
                   &nbsp;
@@ -918,46 +918,44 @@ const AddressItem: React.FC<Props> = props => {
                 </div>
               )}
               {(currentCallBackComponent == "bridal" ||
-                currentCallBackComponent == "bridal-edit") &&
-                !(props.showAddressInBridalUse && address.isBridal) && (
-                  <div className={cs(styles.radio, "bridalRadio")}>
-                    <input
-                      id={address.id.toString()}
-                      className={styles.defaultAddressCheckbox}
-                      // checked={
-                      //   address.id.toString() === bridalAddressId.toString()
-                      // }
-                      checked={
-                        props.showAddressInBridalUse && address.isBridal
-                          ? true
-                          : false
-                      }
-                      name={id}
-                      type="radio"
-                      onClick={() => {
-                        if (
-                          !(props.showAddressInBridalUse && address.isBridal)
-                        ) {
-                          if (address.id != userAddress?.id) {
-                            onSelectBridalAddress(address);
-                            const firstErrorField = document.getElementById(
-                              "address_button"
-                            ) as HTMLDivElement;
-                            if (firstErrorField) {
-                              firstErrorField.focus();
-                              firstErrorField.scrollIntoView({
-                                block: "center",
-                                behavior: "smooth"
-                              });
-                            }
-                            window.scrollTo(0, 0);
+                currentCallBackComponent == "bridal-edit") && (
+                // !(props.showAddressInBridalUse && address.isBridal) && (
+                <div className={cs(styles.radio, "bridalRadio")}>
+                  <input
+                    id={address.id.toString()}
+                    className={styles.defaultAddressCheckbox}
+                    // checked={
+                    //   address.id.toString() === bridalAddressId.toString()
+                    // }
+                    checked={
+                      props.showAddressInBridalUse && address.isBridal
+                        ? true
+                        : false
+                    }
+                    name={id}
+                    type="radio"
+                    onClick={() => {
+                      if (!(props.showAddressInBridalUse && address.isBridal)) {
+                        if (address.id != userAddress?.id) {
+                          onSelectBridalAddress(address);
+                          const firstErrorField = document.getElementById(
+                            "address_button"
+                          ) as HTMLDivElement;
+                          if (firstErrorField) {
+                            firstErrorField.focus();
+                            firstErrorField.scrollIntoView({
+                              block: "center",
+                              behavior: "smooth"
+                            });
                           }
+                          window.scrollTo(0, 0);
                         }
-                      }}
-                    />
-                    <span className={styles.checkmark}></span>
-                  </div>
-                )}
+                      }
+                    }}
+                  />
+                  <span className={styles.checkmark}></span>
+                </div>
+              )}
               {props.title}
               {address.firstName}
               &nbsp;
