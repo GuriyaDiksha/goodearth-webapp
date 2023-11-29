@@ -761,7 +761,7 @@ const AddressForm: React.FC<Props> = props => {
                   name="state"
                   label={"State*"}
                   placeholder={"Select State*"}
-                  disable={isIndia && mode == "edit"}
+                  disable={isIndia}
                   options={stateOptions}
                   value={
                     addressData && !isCountryChanged ? addressData.state : ""
