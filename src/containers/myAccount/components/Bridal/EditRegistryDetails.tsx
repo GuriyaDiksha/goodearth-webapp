@@ -130,7 +130,8 @@ const EditRegistryDetails: React.FC<Props> = props => {
           bootstrapStyles.col10,
           bootstrapStyles.offset1,
           bootstrapStyles.colMd10,
-          bootstrapStyles.offsetMd1
+          bootstrapStyles.offsetMd1,
+          styles.mobileContainer
         )}
       >
         <div className={cs(styles.backHead)}>

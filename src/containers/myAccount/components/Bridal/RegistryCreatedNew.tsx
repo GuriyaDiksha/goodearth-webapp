@@ -118,7 +118,13 @@ const RegistryCreatedNew: React.FC<Props> = ({
           Good Earth Registry
         </div>
         <div className={bootstrapStyles.row}>
-          <div className={cs(bootstrapStyles.col12, globalStyles.voffset5)}>
+          <div
+            className={cs(
+              bootstrapStyles.col12,
+              globalStyles.voffset5,
+              styles.mobileHeadSpace
+            )}
+          >
             <div className={styles.add}>
               <address className={cs(styles.orderBlock, styles.manageAdd)}>
                 <hr />
@@ -277,7 +283,7 @@ const RegistryCreatedNew: React.FC<Props> = ({
                       className={cs(styles.shareBtn, styles.black)}
                       onClick={openShareLinkPopup}
                     >
-                      <button>SHARE REGISTERY LINK</button>
+                      <button>SHARE REGISTRY LINK</button>
                     </a>
                   </p>
                 </div>

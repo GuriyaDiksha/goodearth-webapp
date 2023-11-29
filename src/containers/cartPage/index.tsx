@@ -766,6 +766,7 @@ class CartPage extends React.Component<Props, State> {
             </div>
           )}
           {/* {this.renderMessage()} */}
+
           {this.state.newLoading && <Loader />}
           {this.getItems()}
         </div>

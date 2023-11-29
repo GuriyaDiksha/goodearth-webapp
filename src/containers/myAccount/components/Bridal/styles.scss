@@ -248,6 +248,7 @@
         text-underline-offset: 0.4em;
         color: #4C4C4C;
         font-weight: normal;
+        font-size: 12px;
         a{
           color: #4C4C4C;
         }
@@ -1000,9 +1001,9 @@
     }
   }
   &.ht {
-    // min-height: 330px;
+    min-height: 330px;
     // height: 50vh;
-    min-width: 450px;
+    // min-width: 450px;
     height: auto;
     padding-bottom: 30px;
   }
@@ -1501,9 +1502,12 @@ margin-bottom: 50px !important;
   }
 }
 .discountprice {
-  color: $cerise;
+  // color: $cerise;
+  color: #9C7D50;
   font-family: $font-Serif;
   font-size: 14px;
+  letter-spacing: 0.42px;
+  line-height: 22px;
 }
 .strikeprice {
   font-size: 14px;
@@ -1624,6 +1628,13 @@ margin-bottom: 50px !important;
 .registery-form-content{
   padding-bottom: 40px;
   border-bottom: 1px solid #E5E5E5;
+  p{
+    font-family: $font-Montserrat;
+    color: #191919;
+    letter-spacing: 0.36px;
+    line-height: 20px;
+    font-size: 12px;
+  }
 }
 .registery-form{
   margin-top: 40px;
@@ -1794,6 +1805,9 @@ margin-bottom: 50px !important;
   color: #191919;
   text-decoration: underline;
   text-underline-offset: 0.4em;
+  &:hover{
+    color:#7EAAA9;
+  }
 }
 .manage-label{
   font-family: $font-Montserrat;
@@ -1917,6 +1931,62 @@ margin-bottom: 50px !important;
 }
 .m_40{
   margin-bottom: -40px;
+}
+.occasion-error-msg{
+  position: absolute!important;
+  top: 25px;
+  font-family: "Lora", serif !important;
+  font-size: 13px !important;
+  color: #ab1e56 !important;
+  font-style: italic !important;
+  letter-spacing: 0.5px !important;
+}
+.out-of-stock-txt,
+.not-available-txt{
+  width: 100%;
+  position: absolute;
+  top: 50%;
+  text-align: center;
+  font-family: $font-Lora;
+  font-style: italic;
+  font-size: 13px;
+  line-height: 16px;
+  letter-spacing: 0.26px;
+  color: #AB1E56;
+}
+.blur-img{
+  opacity: 0.4;
+}
+.blur-txt{
+  opacity: 0.3;
+  .btn-qty{
+    cursor: unset!important;
+  }
+}
+.not-available-item{
+  opacity: 0.4;
+}
+input::placeholder{
+  font-size: 12px!important;
+}
+.price-in-gold{
+  color: #9C7D50!important;
+} 
+@media(max-width:375px){
+  .mobile-container{
+    flex: 0 0 100%;
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+}
+@media(max-width:992px){
+  .mobile-head-space{
+    margin:0;
+  }
+  .letter-spacing1{
+    position: unset;
+  }
 }
 
 

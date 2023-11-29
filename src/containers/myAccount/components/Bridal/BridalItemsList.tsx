@@ -29,56 +29,80 @@ const BridalItemsList: React.FC<Props> = props => {
   // const saleStatus = useSelector((state: AppState) => state.info.isSale);
   const [reqCurrent, setReqCurrent] = useState(props.product.qtyRequested);
   const [err, setErr] = useState("");
+  const {
+    discountedPrice,
+    productName,
+    productUrl,
+    collection,
+    productImage,
+    discount,
+    price,
+    sku,
+    size,
+    qtyBought,
+    qtyRemaining,
+    badgeType,
+    stock,
+    productAvailable
+  } = props.product;
 
   const mobileAddToBag = () => {
-    const mobileAddIndex = props.mIndex;
-    props.onMobileAdd(mobileAddIndex);
+    if (productAvailable) {
+      const mobileAddIndex = props.mIndex;
+      props.onMobileAdd(mobileAddIndex);
+    }
   };
 
   const dispatch = useDispatch();
   const increaseState = () => {
-    if (reqCurrent >= props.product.stock) {
-      setErr(
-        `Only ${props.product.stock} piece${
-          props.product.stock > 1 ? "s" : ""
-        } available in stock`
-      );
-      return false;
-    }
+    if (!productAvailable || stock == 0) {
+    } else {
+      if (reqCurrent >= props.product.stock) {
+        setErr(
+          `Only ${props.product.stock} piece${
+            props.product.stock > 1 ? "s" : ""
+          } available in stock`
+        );
+        return false;
+      }
 
-    const data = {
-      bridalId: props.bridalId,
-      qtyRequested: reqCurrent + 1,
-      productId: props.product.productId
-    };
-
-    BridalService.updateBridalItemQuantity(dispatch, data)
-      .then(res => {
-        setReqCurrent(reqCurrent + 1);
-        props.fetchBridalItems();
-      })
-      .catch(error => {
-        // console.log(error);
-      });
-  };
-
-  const decreaseState = () => {
-    if (reqCurrent > 1) {
       const data = {
         bridalId: props.bridalId,
-        qtyRequested: reqCurrent - 1,
+        qtyRequested: reqCurrent + 1,
         productId: props.product.productId
       };
 
       BridalService.updateBridalItemQuantity(dispatch, data)
         .then(res => {
-          setReqCurrent(reqCurrent - 1);
-          setErr("");
+          setReqCurrent(reqCurrent + 1);
           props.fetchBridalItems();
         })
         .catch(error => {
           // console.log(error);
         });
+    }
+  };
+
+  const decreaseState = () => {
+    if (!productAvailable || stock == 0) {
+    } else {
+      if (reqCurrent > 1 && !productAvailable) {
+        const data = {
+          bridalId: props.bridalId,
+          qtyRequested: reqCurrent - 1,
+          productId: props.product.productId
+        };
+
+        BridalService.updateBridalItemQuantity(dispatch, data)
+          .then(res => {
+            setReqCurrent(reqCurrent - 1);
+            setErr("");
+            props.fetchBridalItems();
+          })
+          .catch(error => {
+            // console.log(error);
+          });
+      }
     }
   };
 
@@ -108,28 +132,27 @@ const BridalItemsList: React.FC<Props> = props => {
         });
     }
   };
-  const {
-    discountedPrice,
-    productName,
-    productUrl,
-    collection,
-    productImage,
-    discount,
-    price,
-    sku,
-    size,
-    qtyBought,
-    qtyRemaining,
-    badgeType
-  } = props.product;
   return (
     <div className={cs(styles.cart, styles.cartContainer)}>
-      <div className={cs("cart-item", styles.bridalPublic)}>
+      <div
+        className={cs("cart-item", styles.bridalPublic, {
+          [styles.notAvailableItem]: !productAvailable
+        })}
+      >
         <div className={cs(bootstrapStyles.row, styles.nowrap)}>
           <div className={cs(bootstrapStyles.col5, bootstrapStyles.colMd3)}>
             <a href={productUrl}>
+              {!productAvailable ? (
+                <div className={styles.notAvailableTxt}>Not Available</div>
+              ) : stock == 0 ? (
+                <div className={styles.outOfStockTxt}>Out of Stock</div>
+              ) : (
+                ""
+              )}
               <img
-                className={styles.productImage}
+                className={cs(styles.productImage, {
+                  [styles.blurImg]: stock == 0
+                })}
                 src={productImage}
                 alt={productName}
               />
@@ -168,7 +191,7 @@ const BridalItemsList: React.FC<Props> = props => {
                       <span
                         className={cs(
                           styles.productPrice,
-                          badgeType == "B_flat" ? globalStyles.cerise : ""
+                          badgeType == "B_flat" ? styles.priceInGold : ""
                         )}
                       >
                         {displayPriceWithCommas(
@@ -226,7 +249,11 @@ const BridalItemsList: React.FC<Props> = props => {
                   <div className={cs(styles.section, styles.sectionMiddle)}>
                     <div className="">
                       <div className={styles.textMuted}>Quantity Required</div>
-                      <div className={styles.widgetQty}>
+                      <div
+                        className={cs(styles.widgetQty, {
+                          [styles.blurTxt]: stock == 0 || !productAvailable
+                        })}
+                      >
                         <span className={styles.btnQty} onClick={decreaseState}>
                           -
                         </span>

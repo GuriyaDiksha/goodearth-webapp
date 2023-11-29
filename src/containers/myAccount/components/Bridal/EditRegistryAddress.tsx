@@ -27,6 +27,7 @@ const EditRegistryAddress: React.FC<{ children: React.ReactNode }> = ({
           bootstrapStyles.col10,
           bootstrapStyles.offset1,
           "checkout",
+          styles.mobileContainer,
           {
             [cs(bootstrapStyles.colMd8, bootstrapStyles.offsetMd2)]:
               mode == "edit"
