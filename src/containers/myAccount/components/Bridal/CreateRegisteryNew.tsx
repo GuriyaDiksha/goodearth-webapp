@@ -39,9 +39,6 @@ const CreateRegistryNew: React.FC = () => {
   const [selectId, setSelectId] = useState(
     data.occasion ? data.occasion : "wedding"
   );
-  const [occasionChoice, setOccasionChoice] = useState(
-    data.occassion_choice ? data.occassion_choice : ""
-  );
   const occasion = selectId;
   const occasionInCaps = occasion[0].toUpperCase() + occasion.slice(1);
   // const [active, setActive] = useState(false);
@@ -120,6 +117,8 @@ const CreateRegistryNew: React.FC = () => {
   const handleChange = () => {
     setUpdateProfile(true);
   };
+
+  const [occasionChoice, setOccasionChoice] = useState(data.occassion_choice);
 
   const occasionChoiceRef = useRef<HTMLInputElement>(null);
   const registrantNameRef = useRef<HTMLInputElement>(null);
@@ -221,6 +220,8 @@ const CreateRegistryNew: React.FC = () => {
                         setRegistry("wedding");
                         setOccasionError("");
                         setOccasionChoice("");
+                        // const input = document.getElementById("other_value")as HTMLInputElement | null;
+                        // input?.value
                       }}
                       data-value="Wedding"
                       className={cs(styles.radioList, {
@@ -292,7 +293,7 @@ const CreateRegistryNew: React.FC = () => {
                             maxLength:
                               "You can not enter more than 50 characters"
                           }}
-                          value={occasionInCaps ? "" : occasionChoice}
+                          value={occasionInCaps ? "" : data.occassion_choice}
                           handleChange={handleUpdateProfileChange}
                         />
                         <div className={cs(styles.occasionErrorMsg)}>
