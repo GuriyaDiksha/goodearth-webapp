@@ -651,13 +651,13 @@ $banner-mobile-height:180px;
             letter-spacing: 0.5px;
             line-height: 60px;
             color: white;
-            background-color: #9f9f9f;
+            // background-color: #9f9f9f;
             text-align: center;
             cursor: pointer;
-            &.active{
-                background-color: #7EAAA9;
-                pointer-events: all;
-            }
+            // &.active{
+            //     background-color: #7EAAA9;
+            //     pointer-events: all;
+            // }
         }
     }
 }

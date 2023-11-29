@@ -1124,7 +1124,7 @@ const AddressSection: React.FC<AddressProps & {
                       )}
                     >
                       <Button
-                        variant="largeMedCharcoalCta"
+                        variant="mediumMedCharcoalCta366"
                         onClick={() => {
                           onSelectAddress(
                             addressList?.find(val =>
@@ -1301,7 +1301,7 @@ const AddressSection: React.FC<AddressProps & {
                                   styles.footerSendToAddress
                                 )}
                                 label={ctaText}
-                                variant="largeMedCharcoalCta"
+                                variant="mediumMedCharcoalCta366"
                               />
                             </div>
                           )}
@@ -1336,7 +1336,7 @@ const AddressSection: React.FC<AddressProps & {
                                       [globalStyles.btnFullWidth]: mobile
                                     })}
                                     label={ctaText}
-                                    variant="largeMedCharcoalCta"
+                                    variant="mediumMedCharcoalCta366"
                                   />
                                 )}
                               {props.activeStep == STEP_SHIPPING && (
@@ -1418,7 +1418,7 @@ const AddressSection: React.FC<AddressProps & {
                                         { [globalStyles.btnFullWidth]: mobile }
                                       )}
                                       label={ctaText}
-                                      variant="largeMedCharcoalCta"
+                                      variant="mediumMedCharcoalCta366"
                                     />
                                   )}
                                 </div>
@@ -1505,7 +1505,7 @@ const AddressSection: React.FC<AddressProps & {
                             }
                           }}
                           label={ctaText}
-                          variant="largeMedCharcoalCta"
+                          variant="mediumMedCharcoalCta366"
                         />
                       </div>
                     </div>
@@ -1543,7 +1543,7 @@ const AddressSection: React.FC<AddressProps & {
                             [globalStyles.btnFullWidth]: mobile
                           })}
                           label={ctaText}
-                          variant="largeMedCharcoalCta"
+                          variant="mediumMedCharcoalCta366"
                         />
                       )}
                   </div>
