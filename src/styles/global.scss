@@ -142,9 +142,18 @@ a {
   margin-top: 5px !important;
 }
 
+.margin-t-3 {
+  margin-top: 3px;
+}
+
 .margin-b-0 {
   margin-bottom: 0px !important;
 }
+
+.margin-b-20 {
+  margin-bottom: 20px;
+}
+
 .margin-auto {
   margin: auto !important;
 }
@@ -188,6 +197,9 @@ a {
 
 .margin-b-10 {
   margin-bottom: 10px;
+}
+.margin-b-15 {
+  margin-bottom: 15px;
 }
 
 .margin-b-30 {
@@ -715,6 +727,12 @@ font-weight: bold;
   }
 }
 
+.btn-full-width{
+  width: 100% !important;
+}
+.btn-full-width-for-popup{
+  width: 90% !important;
+}
 .checkout-btn {
   @include cerise-btn();
   background-color: $aqua;

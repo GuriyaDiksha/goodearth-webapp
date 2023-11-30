@@ -11,6 +11,7 @@ import { errorTracking, decriptdata } from "utils/validate";
 import CustomerCareInfo from "components/CustomerCareInfo";
 import Loader from "components/Loader";
 import NewOtpComponent from "./NewOtpComponent";
+import Button from "components/Button";
 class OtpCompActivateGC extends React.Component<otpProps, otpState> {
   constructor(props: otpProps) {
     super(props);
@@ -970,17 +971,19 @@ class OtpCompActivateGC extends React.Component<otpProps, otpState> {
                 </div>
               </li>
               <li className={this.state.showerrorOtp ? styles.margintop : ""}>
-                <input
+                <Button
                   type="submit"
-                  disabled={this.state.disable}
-                  className={cs(styles.charcoalBtn, {
-                    [styles.disabledBtn]:
-                      !this.subscribeRef.current?.checked ||
-                      // (this.props.isIndiaGC && this.state.phoneInput == "") ||
-                      (!this.props.isIndiaGC && this.state.emailInput == "") ||
-                      (this.props.isCredit && this.state.emailInput == "")
+                  disabled={
+                    this.state.disable ||
+                    !this.subscribeRef.current?.checked ||
+                    (!this.props.isIndiaGC && this.state.emailInput == "") ||
+                    (this.props.isCredit && this.state.emailInput == "")
+                  }
+                  className={cs({
+                    [globalStyles.btnFullWidth]: this.props.mobile
                   })}
-                  value="Send otp"
+                  label="Send otp"
+                  variant="mediumMedCharcoalCta366"
                 />
               </li>
             </Formsy>

@@ -45,6 +45,7 @@ export type otpProps = {
   isIndiaGC?: boolean;
   newGiftCard?: () => void;
   isFromCheckBalance?: boolean;
+  mobile: boolean;
 };
 
 export type otpRedeemProps = {
@@ -77,6 +78,7 @@ export type otpRedeemProps = {
   isOTPSent: boolean;
   setIsOTPSent: (val: boolean) => void;
   closeModal: () => any;
+  mobile?: boolean;
 };
 
 export type otpBoxProps = {

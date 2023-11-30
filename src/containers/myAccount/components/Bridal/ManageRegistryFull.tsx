@@ -16,6 +16,7 @@ import bridalRing from "../../../../images/bridal/rings.svg";
 import iconEdit from "../../../../images/bridal/iconEdit.svg";
 import { AppState } from "reducers/typings";
 import { POPUP } from "constants/components";
+import Button from "components/Button";
 
 type Props = {
   // bridalProfile: BridalProfileData;
@@ -341,14 +342,17 @@ const ManageRegistryFull: React.FC<Props> = ({
                 </p>
                 <hr />
                 {bridalItems.length == 0 ? (
-                  <button
-                    className={globalStyles.ceriseBtn}
+                  <Button
+                    className={cs(
+                      { [globalStyles.btnFullWidth]: mobile },
+                      styles.buttonCenter
+                    )}
                     onClick={() => {
                       history.push("/");
                     }}
-                  >
-                    start adding to registry
-                  </button>
+                    label="start adding to registry"
+                    variant="mediumMedCharcoalCta366"
+                  />
                 ) : (
                   ""
                 )}

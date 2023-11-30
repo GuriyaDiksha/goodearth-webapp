@@ -13,7 +13,8 @@ import { errorTracking } from "utils/validate";
 
 const mapStateToProps = (state: AppState) => {
   return {
-    isLoggedIn: state.user.isLoggedIn
+    isLoggedIn: state.user.isLoggedIn,
+    mobile: state.device.mobile
   };
 };
 type Props = ReturnType<typeof mapDispatchToProps> &
@@ -366,6 +367,7 @@ class Giftcard extends React.Component<Props, GiftState> {
               checkOtpBalance={this.props.checkOtpBalance}
               updateList={this.updateList}
               isFromCheckBalance={this.props?.isFromCheckBalance}
+              mobile={this.props.mobile}
             />
           )
         ) : (
