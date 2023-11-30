@@ -28,15 +28,15 @@ const mapStateToProps = (state: AppState) => {
 
 type Props = ReturnType<typeof mapStateToProps> & RouteComponentProps;
 
-class CheckoutFooter extends React.Component<Props, { boId: string }> {
+class CheckoutFooter extends React.Component<Props> {
   constructor(props: Props) {
     super(props);
-    const queryString = props.location.search;
-    const urlParams = new URLSearchParams(queryString);
-    const boId = urlParams.get("bo_id") || "";
-    this.state = {
-      boId: boId
-    };
+    // const queryString = props.location.search;
+    // const urlParams = new URLSearchParams(queryString);
+    // const boId = urlParams.get("bo_id") || "";
+    // this.state = {
+    //   boId: boId
+    // };
   }
   static contextType = UserContext;
 

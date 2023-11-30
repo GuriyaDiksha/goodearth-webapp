@@ -232,6 +232,7 @@ const RegistryAddress: React.FC<{ children: React.ReactNode }> = props => {
               )}
               onClick={() => {
                 window.scrollTo(0, 0);
+                closeAddressForm();
                 closeAddressForm(
                   addressList?.[0]?.isBridal
                     ? addressList?.[1]?.id
@@ -381,6 +382,8 @@ const RegistryAddress: React.FC<{ children: React.ReactNode }> = props => {
           <div
             className={cs(
               // globalStyles.textCenter,
+              // globalStyles.cerise,
+              // globalStyles.voffset4,
 
               // globalStyles.cerise,
 
@@ -399,6 +402,10 @@ const RegistryAddress: React.FC<{ children: React.ReactNode }> = props => {
               )}
               onClick={() => {
                 window.scrollTo(0, 0);
+                closeAddressForm();
+              }}
+            >
+              {" "}
                 closeAddressForm(
                   addressList?.[0]?.isBridal
                     ? addressList?.[1]?.id

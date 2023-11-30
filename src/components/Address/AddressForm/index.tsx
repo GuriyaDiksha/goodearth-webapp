@@ -1058,12 +1058,10 @@ const AddressForm: React.FC<Props> = props => {
               styles.addNewAddress
             )}
             onTouchEnd={() => {
-              console.log("mobile touch");
               window.scrollTo(0, 0);
               closeAddressForm(mode === "edit" ? addressData?.id : undefined);
             }}
             onClick={() => {
-              console.log("click start");
               window.scrollTo(0, 0);
               closeAddressForm(mode === "edit" ? addressData?.id : undefined);
             }}
