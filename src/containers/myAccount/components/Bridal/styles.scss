@@ -1674,6 +1674,11 @@ margin-bottom: 50px !important;
   left: 22px;
   font-size: 12px;
 }
+@media(max-width:425px){
+  .radio-btn li:nth-child(4){
+     margin-bottom: 50px!important;  
+  }
+}
 .radio-btn .last-li-child{
   margin-bottom: 30px;
   top: -23px;
