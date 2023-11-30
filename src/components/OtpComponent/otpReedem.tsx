@@ -683,11 +683,14 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
             )}
             {!this.state.isOtpSent && (
               <div>
-                <input
+                <Button
+                  variant="mediumMedCharcoalCta366"
                   type="submit"
                   // disabled={this.state.disable}
-                  className={styles.sendOtpBtn}
-                  value={`${
+                  className={cs({
+                    [globalStyles.btnFullWidth]: this.props?.mobile
+                  })}
+                  label={`${
                     this.props.CustomerPointInformation
                       ?.EligibleRedemptionPoints > 0
                       ? "SEND OTP"
