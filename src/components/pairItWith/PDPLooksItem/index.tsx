@@ -17,6 +17,7 @@ import { useSelector } from "react-redux";
 import { plpProductClick } from "utils/validate";
 import CookieService from "services/cookie";
 import { displayPriceWithCommas } from "utils/utility";
+import Button from "components/Button";
 
 const PlpResultListViewItem: React.FC<PLPResultItemProps> = (
   props: PLPResultItemProps
@@ -90,17 +91,21 @@ const PlpResultListViewItem: React.FC<PLPResultItemProps> = (
       };
     }
     return (
-      <button
+      <Button
         className={cs(
-          styles.addToBagListView,
-          styles.shopTheLookCta,
-          bootstrapStyles.col7,
-          { [styles.notifyMe]: allOutOfStock || isCorporate }
+          // styles.addToBagListView,
+          // styles.shopTheLookCta,
+          bootstrapStyles.col7
+          // { [styles.notifyMe]: allOutOfStock || isCorporate }
         )}
         onClick={action}
-      >
-        {buttonText}
-      </button>
+        label={buttonText}
+        variant={
+          allOutOfStock || isCorporate
+            ? "outlineSmallMedCharcoalCta"
+            : "outlineExtraSmallAquaCta"
+        }
+      />
     );
   }, []);
   const isStockAvailable = isCorporate || product.inStock;

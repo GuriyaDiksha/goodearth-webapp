@@ -243,13 +243,11 @@ const Bridal: React.FC<Props> = props => {
               // this.props.onSelectAddress(address);
               newBridalDetails["userAddress"] = userAddress;
               setTimeout(() => {
-                document
-                  .getElementById("address_button")
-                  ?.scrollIntoView({
-                    behavior: "smooth",
-                    block: "end",
-                    inline: "start"
-                  });
+                document.getElementById("address_button")?.scrollIntoView({
+                  behavior: "smooth",
+                  block: "end",
+                  inline: "start"
+                });
               }, 200);
 
               // setCurrentModule("address");

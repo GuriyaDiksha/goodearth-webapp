@@ -310,5 +310,13 @@ export default {
       }
     );
     return data;
+  },
+  sendProfileEditRequest: async (dispatch: Dispatch, formData: FormData) => {
+    const data = await API.post<ProfileResponse>(
+      dispatch,
+      `${__API_HOST__ + "/myapi/customer/edit_profile_request/"}`,
+      formData
+    );
+    return data;
   }
 };

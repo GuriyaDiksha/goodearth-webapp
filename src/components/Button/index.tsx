@@ -2,27 +2,36 @@ import React from "react";
 import styles from "./styles.scss";
 import { ButtonProps } from "./typings";
 import cs from "classnames";
-import globalStyles from "../../styles/global.scss";
 
-class Button extends React.Component<ButtonProps> {
-  render() {
-    const props = this.props;
-    return (
-      <button
-        className={cs(styles.primaryButton, props.className, {
-          [globalStyles.disabled]: props.disabled,
-          [globalStyles.ceriseBtn]: !props.disabled
-        })}
-        onClick={(event): void => {
-          if (props.onClick) {
-            props.onClick(event);
-          }
-        }}
-      >
-        {props.label}
-      </button>
-    );
-  }
-}
+const Button: React.FC<ButtonProps> = ({
+  label,
+  onClick,
+  disabled,
+  className,
+  variant,
+  type = "button",
+  ref = null,
+  stopHover = false,
+  id = "",
+  tabIndex = undefined
+}) => (
+  <button
+    id={id}
+    tabIndex={tabIndex}
+    type={type}
+    className={cs(className, styles[`${variant}`], {
+      [styles.stopHover]: stopHover
+    })}
+    onClick={(event): void => {
+      if (onClick) {
+        onClick(event);
+      }
+    }}
+    disabled={disabled}
+    ref={ref}
+  >
+    {label}
+  </button>
+);
 
 export default Button;

@@ -5,7 +5,7 @@ import { CartProps, State } from "./typings";
 import iconStyles from "../../styles/iconFonts.scss";
 import globalStyles from "../../styles/global.scss";
 import LineItems from "./Item";
-import { Link } from "react-router-dom";
+import { Link, RouteComponentProps, withRouter } from "react-router-dom";
 import { currencyCodes } from "constants/currency";
 import { Dispatch } from "redux";
 import BasketService from "services/basket";
@@ -19,6 +19,7 @@ import {
   displayPriceWithCommas,
   displayPriceWithCommasFloat
 } from "utils/utility";
+import Button from "components/Button";
 import bootstrap from "../../styles/bootstrap/bootstrap-grid.scss";
 import HeaderService from "services/headerFooter";
 import noImagePlp from "../../images/noimageplp.png";
@@ -48,7 +49,8 @@ const mapStateToProps = (state: AppState) => {
 };
 type Props = CartProps &
   ReturnType<typeof mapDispatchToProps> &
-  ReturnType<typeof mapStateToProps>;
+  ReturnType<typeof mapStateToProps> &
+  RouteComponentProps;
 class Bag extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
@@ -431,9 +433,11 @@ class Bag extends React.Component<Props, State> {
 
           {this.canCheckout() ? (
             <div className={cs(styles.bagFlex)}>
-              <Link
-                to={!this.hasOutOfStockItems() ? "/cart" : ""}
-                className={cs(this.hasOutOfStockItems() && styles.outOfStock)}
+              <Button
+                variant="largeAquaCta"
+                // to={!this.hasOutOfStockItems() ? "/cart" : ""}
+                // className={cs(this.hasOutOfStockItems() && styles.outOfStock)}
+                disabled={this.hasOutOfStockItems()}
                 onClick={e => {
                   this.hasOutOfStockItems()
                     ? e.preventDefault()
@@ -445,20 +449,29 @@ class Bag extends React.Component<Props, State> {
                     !this.hasOutOfStockItems() &&
                     userConsent.includes(GA_CALLS)
                   ) {
+                    this.props.history.push("/cart");
                     dataLayer.push({
                       event: "review_bag_and_checkout"
                     });
                   }
                 }}
-              >
-                <span className={styles.viewBag}>REVIEW BAG & CHECKOUT</span>
-              </Link>
+                label={"REVIEW BAG & CHECKOUT"}
+              />
+              {/* <span className={styles.viewBag}></span> */}
+              {/* </Link> */}
             </div>
           ) : (
             <div className={cs(styles.bagFlex, styles.continue)}>
-              <Link to="/" onClick={e => this.props.toggleBag()}>
-                <span className={styles.viewBag}>CONTINUE SHOPPING</span>
-              </Link>
+              <Button
+                label={"CONTINUE SHOPPING"}
+                variant="largeMedCharcoalCta"
+                onClick={e => {
+                  this.props.history.push("/");
+                  this.props.toggleBag();
+                }}
+              />
+              {/* <span className={styles.viewBag}></span> */}
+              {/* </Link> */}
             </div>
           )}
         </div>
@@ -625,4 +638,4 @@ class Bag extends React.Component<Props, State> {
     );
   }
 }
-export default connect(mapStateToProps, mapDispatchToProps)(Bag);
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Bag));

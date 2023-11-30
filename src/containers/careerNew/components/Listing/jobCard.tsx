@@ -10,6 +10,7 @@ import { useStore } from "react-redux";
 import { useHistory } from "react-router";
 import { copyToClipboard } from "utils/clipboard";
 import cs from "classnames";
+import Button from "components/Button";
 
 type Props = {
   job: Data;
@@ -27,12 +28,12 @@ const JobCard: React.FC<Props> = ({ job }) => {
 
         <p className={listing.job_card_location}>{loc.join(", ")}</p>
         <p className={listing.job_card_desc}>{summary}</p>
-        <button
+        <Button
+          label="read more & apply"
+          variant="outlineSmallMedCharcoalCta"
           className={listing.job_card_apply_btn}
           onClick={() => history.push(`/careers/job/${id}`)}
-        >
-          read more & apply
-        </button>
+        />
       </div>
       <div className={listing.job_card_right_wrp}>
         <p className={listing.job_card_share_heading}>share</p>

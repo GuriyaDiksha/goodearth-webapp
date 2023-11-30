@@ -6,23 +6,23 @@ import iconStyles from "styles/iconFonts.scss";
 import { Context } from "components/Modal/context";
 import { useSelector } from "react-redux";
 import { AppState } from "reducers/typings";
-import { NavLink } from "react-router-dom";
+import { NavLink, useHistory } from "react-router-dom";
 import { displayPriceWithCommas } from "utils/utility";
+import Button from "components/Button";
 
 type PopupProps = {
   remainingAmount: number;
   freeShippingApplicable: number;
   goLogin: (a: any, b: any) => {};
-  // closeModal: (data?: any) => any;
-  // acceptCondition: (data?: any) => any;
 };
 
 const FreeShipping: React.FC<PopupProps> = props => {
-  //   const [isLoading, setIsLoading] = useState(false);
   const { closeModal } = useContext(Context);
   const currency = useSelector((state: AppState) => state.currency);
   const { mobile } = useSelector((state: AppState) => state.device);
   const { isLoggedIn } = useSelector((state: AppState) => state.user);
+
+  const history = useHistory();
 
   let amountINR = props.freeShippingApplicable.toString();
   if (amountINR.length > 3) {
@@ -94,20 +94,21 @@ const FreeShipping: React.FC<PopupProps> = props => {
             </div>
           </div>
         </div>
-        <div className={cs(globalStyles.ceriseBtn, styles.freeshipBtnWidth)}>
-          <NavLink
-            to="/order/checkout"
+        <div>
+          <Button
+            variant="mediumMedCharcoalCta366"
+            label={"checkout anyway"}
             onClick={e => {
               if (!isLoggedIn) {
                 e.preventDefault();
                 props.goLogin(undefined, "/order/checkout");
               } else {
+                history.push("/order/checkout");
                 closeModal();
               }
             }}
-          >
-            checkout anyway
-          </NavLink>
+            className={cs({ [globalStyles.btnFullWidthForPopup]: mobile })}
+          />
         </div>
         <div className={styles.link}>
           <NavLink to="/" onClick={closeModal}>
