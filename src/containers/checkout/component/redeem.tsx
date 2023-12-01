@@ -130,7 +130,7 @@ class Reedem extends React.Component<Props, RedeemState> {
     );
     const elem: any = document.getElementById("redeem");
     elem.scrollIntoView();
-    window.scrollBy(0, -200);
+    // window.scrollBy(0, -200);
   };
 
   updateList = (response: any) => {
