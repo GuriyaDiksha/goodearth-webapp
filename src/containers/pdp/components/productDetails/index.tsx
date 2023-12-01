@@ -936,7 +936,8 @@ const ProductDetails: React.FC<Props> = ({
                 <div className={bootstrap.col12}>
                   <img
                     src={images[0]?.badgeImagePdp}
-                    width="100"
+                    width="80px"
+                    height="80px"
                     className={styles.badgeImg}
                   />
                 </div>
