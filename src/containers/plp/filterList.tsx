@@ -1002,7 +1002,6 @@ class FilterList extends React.Component<Props, State> {
   };
 
   onClickDiscount = (event: any) => {
-    debugger;
     const id = event.target.id;
     const { filter } = this.state;
     filter.availableDiscount[id] = {
@@ -1125,7 +1124,6 @@ class FilterList extends React.Component<Props, State> {
         // filter.availableDiscount[prop] = false;
       }
     }
-    debugger;
     html.push(
       <ul key="discountType">
         <li>
