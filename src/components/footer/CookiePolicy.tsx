@@ -20,6 +20,7 @@ type Props = {
   setConsent: any;
   showCookiePref: boolean;
   showCookiePrefs: any;
+  mobile: boolean;
 };
 
 const CookiePolicy: React.FC<Props> = ({
@@ -27,7 +28,8 @@ const CookiePolicy: React.FC<Props> = ({
   acceptCookies,
   hideCookies,
   showCookiePref,
-  showCookiePrefs
+  showCookiePrefs,
+  mobile
 }) => {
   const [isPrefOpen, setIsPrefOpen] = useState(false);
   const [consents, setConsents] = useState<Consent[]>([]);
@@ -281,7 +283,7 @@ const CookiePolicy: React.FC<Props> = ({
                 )}
                 <h3
                   style={{
-                    marginTop: regionName !== "India" ? "20px" : "0px"
+                    marginTop: mobile ? "20px" : "0px"
                   }}
                 >
                   COOKIES & PRIVACY

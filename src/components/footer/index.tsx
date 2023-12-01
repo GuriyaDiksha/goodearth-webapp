@@ -1174,6 +1174,7 @@ class Footer extends React.Component<Props, FooterState> {
             setConsent={this.setConsent}
             showCookiePref={this.props?.showCookiePref}
             showCookiePrefs={this.props?.showCookiePrefs}
+            mobile={this.props.mobile}
           />
         )}
 
