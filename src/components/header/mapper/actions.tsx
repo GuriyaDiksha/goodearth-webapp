@@ -43,6 +43,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       MetaService.updateMeta(dispatch, cookies, bridalKey);
       if (!page?.includes("/wishlist")) {
         WishlistService.updateWishlist(dispatch, sortBy);
+        WishlistService.countWishlist(dispatch);
       }
       if (!page?.includes("/cart") && !page?.includes("/order/checkout")) {
         BasketService.fetchBasket(dispatch);

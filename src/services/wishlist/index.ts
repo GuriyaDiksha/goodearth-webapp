@@ -1,6 +1,6 @@
 import { Dispatch } from "redux";
 // typings
-import { WishlistResponse } from "./typings";
+import { WishlistResponse, WishlistCountResponse } from "./typings";
 // actions
 import { updateWishlist } from "actions/wishlist";
 // utils
@@ -11,6 +11,7 @@ import BasketService from "services/basket";
 import { Basket } from "typings/basket";
 import { MESSAGE } from "constants/messages";
 import { showGrowlMessage } from "../../utils/validate";
+import { countWishlist } from "actions/wishlist";
 
 export default {
   updateWishlist: async function(dispatch: Dispatch, sortBy = "added_on") {
@@ -154,6 +155,15 @@ export default {
       }
     );
     await this.updateWishlist(dispatch, sortBy);
+    return res;
+  },
+
+  countWishlist: async function(dispatch: Dispatch) {
+    const res = await API.get<WishlistCountResponse>(
+      dispatch,
+      `${__API_HOST__}/myapi/wishlist/wishlist_count`
+    );
+    dispatch(countWishlist(res.count));
     return res;
   }
 };
