@@ -28,6 +28,7 @@ const AnnouncementBar: React.FC<Props> = ({
     bridalBgColorcode,
     registrantName,
     coRegistrantName,
+    occasionName,
     registryName
   } = useSelector((state: AppState) => state.header.announcementData);
   const { mobile } = useSelector((state: AppState) => state.device);
@@ -97,9 +98,9 @@ const AnnouncementBar: React.FC<Props> = ({
                 <div className={styles.flexDiv}>
                   <img src={gift_icon_white} width="25" alt="gift_reg_icon" />
                   &nbsp;
-                  {registrantName}&#39;s{" "}
-                  {registryName ? registryName : coRegistrantName}{" "}
-                  {!registryName ? "Bridal Registry" : ""}&nbsp;
+                  {registrantName} {coRegistrantName ? coRegistrantName : ""}
+                  &#39;s {occasionName}
+                  &nbsp;
                   <b
                     style={{
                       textDecoration: "underline",

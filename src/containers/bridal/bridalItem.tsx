@@ -91,29 +91,46 @@ class BridalItem extends React.Component<Props, State> {
       this.setState({
         buttonStatus: true,
         btnDisable: cs(globalStyles.aquaBtn, globalStyles.disabledBtn),
-        btnContent: "Out Of Stock"
+        btnContent: "NOTIFY ME"
       });
     }
   }
 
   increaseState = () => {
-    const maxQty = this.props.bridalItem.stock;
-    let qtyCurrent = this.state.qtyCurrent;
-    if (qtyCurrent < maxQty) {
-      qtyCurrent += 1;
-      this.setState({ qtyCurrent: qtyCurrent });
+    if (
+      !this.props.bridalItem.productAvailable ||
+      this.props.bridalItem.stock == 0 ||
+      this.props.bridalItem.qtyRemaining == 0
+    ) {
     } else {
-      this.setState({
-        err: `Only ${maxQty} piece${maxQty > 1 ? "s" : ""} available in stock`
-      });
+      const maxQty = this.props.bridalItem.stock;
+      let qtyCurrent = this.state.qtyCurrent;
+      if (qtyCurrent < maxQty) {
+        qtyCurrent += 1;
+        this.setState({ qtyCurrent: qtyCurrent });
+      } else {
+        this.setState({
+          err: `Only ${maxQty} piece${maxQty > 1 ? "s" : ""} available in stock`
+        });
+      }
     }
   };
 
   decreaseState = () => {
-    let qtyCurrent = this.state.qtyCurrent;
-    if (qtyCurrent > 1) {
-      qtyCurrent -= 1;
-      this.setState({ qtyCurrent: qtyCurrent, err: "" });
+    // if(this.props.bridalItem.stock == 0){
+    //   console.log("");
+    // }
+    if (
+      !this.props.bridalItem.productAvailable ||
+      this.props.bridalItem.stock == 0 ||
+      this.props.bridalItem.qtyRemaining == 0
+    ) {
+    } else {
+      let qtyCurrent = this.state.qtyCurrent;
+      if (qtyCurrent > 1) {
+        qtyCurrent -= 1;
+        this.setState({ qtyCurrent: qtyCurrent, err: "" });
+      }
     }
   };
 
@@ -123,28 +140,47 @@ class BridalItem extends React.Component<Props, State> {
   };
 
   mobileAddToBag = () => {
-    const mobileAddIndex = this.props.index;
-    this.props.onMobileAdd(mobileAddIndex);
+    if (this.props.bridalItem.productAvailable) {
+      const mobileAddIndex = this.props.index;
+      this.props.onMobileAdd(mobileAddIndex);
+    }
   };
 
   render() {
     const { mobile } = this.props;
     return (
-      <div className={cs(styles.cart, styles.cartContainer)}>
+      <div
+        className={cs(styles.cart, styles.cartContainer, {
+          [styles.notAvailableItem]: !this.props.bridalItem.productAvailable
+        })}
+      >
         <div className={cs(styles.cartItem, globalStyles.gutter15)}>
           <div
             className={cs(bootstrap.row, globalStyles.flex, globalStyles.row)}
           >
-            <div className={cs(bootstrap.col5, bootstrap.colMd2)}>
+            <div
+              className={cs(bootstrap.col5, bootstrap.colMd2, styles.width50)}
+            >
               <a>
+                {!this.props.bridalItem.productAvailable ? (
+                  <div className={styles.notAvailableTxt}>Not Available</div>
+                ) : this.props.bridalItem.stock == 0 ? (
+                  <div className={styles.outOfStockTxt}>Out of Stock</div>
+                ) : (
+                  ""
+                )}
                 <img
-                  className={styles.productImage}
+                  className={cs(styles.productImage, {
+                    [styles.blurImg]: this.props.bridalItem.stock == 0
+                  })}
                   src={this.props.bridalItem.productImage}
                   style={{ cursor: "default" }}
                 />
               </a>
             </div>
-            <div className={cs(bootstrap.col5, bootstrap.colMd7)}>
+            <div
+              className={cs(bootstrap.col5, bootstrap.colMd7, styles.width50)}
+            >
               <div className={styles.rowMain}>
                 <div className={cs(bootstrap.col12, bootstrap.colMd6)}>
                   <div
@@ -235,7 +271,12 @@ class BridalItem extends React.Component<Props, State> {
                           </div>
                         )}
                         {this.props.bridalItem.productAvailable && (
-                          <div className={styles.widgetQty}>
+                          <div
+                            className={cs(styles.widgetQty, {
+                              [styles.disableQty]:
+                                this.props.bridalItem.stock == 0
+                            })}
+                          >
                             <span
                               className={styles.btnQty}
                               onClick={this.decreaseState}
@@ -277,7 +318,7 @@ class BridalItem extends React.Component<Props, State> {
                             globalStyles.voffset1
                           )}
                         >
-                          {this.props.bridalItem.qtyRequested}
+                          {this.props.bridalItem.qtyBought}
                         </div>
                       </div>
                       <div className={globalStyles.voffset3}>
@@ -303,7 +344,8 @@ class BridalItem extends React.Component<Props, State> {
               className={cs(
                 bootstrap.col2,
                 bootstrap.colMd3,
-                globalStyles.textCenter
+                globalStyles.textCenter,
+                styles.width0
               )}
             >
               <div className={styles.section}>
@@ -333,12 +375,12 @@ class BridalItem extends React.Component<Props, State> {
                       )}
                     </>
                   )}
-                  <div className={globalStyles.cerise}>
+                  {/* <div className={globalStyles.cerise}>
                     {this.state.btnContent == "Fulfilled" ||
-                    this.state.btnContent == "Out Of Stock"
+                    this.state.btnContent == "Notify Me"
                       ? this.state.btnContent
                       : ""}
-                  </div>
+                  </div> */}
                 </div>
               </div>
             </div>

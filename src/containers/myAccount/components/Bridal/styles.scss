@@ -248,6 +248,7 @@
         text-underline-offset: 0.4em;
         color: #4C4C4C;
         font-weight: normal;
+        font-size: 12px;
         a{
           color: #4C4C4C;
         }
@@ -416,6 +417,7 @@
     .error-msg {
       @include error-msg();
       text-align: center;
+      margin-top: 10px;
     }
   }
 
@@ -999,9 +1001,9 @@
     }
   }
   &.ht {
-    // min-height: 330px;
+    min-height: 330px;
     // height: 50vh;
-    min-width: 450px;
+    // min-width: 450px;
     height: auto;
     padding-bottom: 30px;
   }
@@ -1500,9 +1502,12 @@ margin-bottom: 50px !important;
   }
 }
 .discountprice {
-  color: $cerise;
+  // color: $cerise;
+  color: #9C7D50;
   font-family: $font-Serif;
   font-size: 14px;
+  letter-spacing: 0.42px;
+  line-height: 22px;
 }
 .strikeprice {
   font-size: 14px;
@@ -1532,6 +1537,9 @@ margin-bottom: 50px !important;
   text-transform: uppercase;
   text-decoration: underline;
   text-underline-offset: 0.4em;
+  &:hover{
+    color: #7EAAA9;
+  }
 }
 .form-heading {
   text-align: left;
@@ -1613,10 +1621,20 @@ margin-bottom: 50px !important;
   text-decoration: underline;
   text-underline-offset: 0.4em;
   cursor: pointer;
+  &:hover{
+    color: #7EAAA9;
+  }
 }
 .registery-form-content{
   padding-bottom: 40px;
   border-bottom: 1px solid #E5E5E5;
+  p{
+    font-family: $font-Montserrat;
+    color: #191919;
+    letter-spacing: 0.36px;
+    line-height: 20px;
+    font-size: 12px;
+  }
 }
 .registery-form{
   margin-top: 40px;
@@ -1654,6 +1672,7 @@ margin-bottom: 50px !important;
   position: relative!important;
   top: 0px;
   left: 22px;
+  font-size: 12px;
 }
 .radio-btn .last-li-child{
   margin-bottom: 30px;
@@ -1681,7 +1700,7 @@ margin-bottom: 50px !important;
   top: 50%;
   right: 50%;
   transform: translate(50%, -50%);
-  border: 1px solid #54b8b8;
+  border: 1px solid #9f9f9f;
 }
 .active .check-mark:after{
   content: "";
@@ -1714,7 +1733,7 @@ margin-bottom: 50px !important;
   margin-left: 20px;
   padding: 0 0 2px 0;
   width: 90%;
-  font-size: 10px!important;
+  font-size: 12px!important;
   font-weight: 400;
 }
 .radio-div{
@@ -1786,6 +1805,9 @@ margin-bottom: 50px !important;
   color: #191919;
   text-decoration: underline;
   text-underline-offset: 0.4em;
+  &:hover{
+    color:#7EAAA9;
+  }
 }
 .manage-label{
   font-family: $font-Montserrat;
@@ -1804,12 +1826,21 @@ margin-bottom: 50px !important;
   margin-bottom: 12px;
 }
 .shareBtn button{
-  width: 200px;
+  width: 210px;
   height: 50px;
   color: #fff;
   background: #7EAAA9;
   border: 1px solid #7EAAA9;
   margin: 15px 0 5px 0;
+  font-size: 14px;
+  letter-spacing: 0.42px;
+  line-height: 18px;
+  font-family: $font-Montserrat;
+  &:hover{
+    background: #fff;
+    color: #7EAAA9;
+    border: 1px solid #7EAAA9;
+  }
 }
 .full-name,
 .phone-no{
@@ -1901,4 +1932,61 @@ margin-bottom: 50px !important;
 .m_40{
   margin-bottom: -40px;
 }
+.occasion-error-msg{
+  position: absolute!important;
+  top: 25px;
+  font-family: "Lora", serif !important;
+  font-size: 13px !important;
+  color: #ab1e56 !important;
+  font-style: italic !important;
+  letter-spacing: 0.5px !important;
+}
+.out-of-stock-txt,
+.not-available-txt{
+  width: 100%;
+  position: absolute;
+  top: 50%;
+  text-align: center;
+  font-family: $font-Lora;
+  font-style: italic;
+  font-size: 13px;
+  line-height: 16px;
+  letter-spacing: 0.26px;
+  color: #AB1E56;
+}
+.blur-img{
+  opacity: 0.4;
+}
+.blur-txt{
+  opacity: 0.3;
+  .btn-qty{
+    cursor: unset!important;
+  }
+}
+.not-available-item{
+  opacity: 0.4;
+}
+input::placeholder{
+  font-size: 12px!important;
+}
+.price-in-gold{
+  color: #9C7D50!important;
+} 
+@media(max-width:375px){
+  .mobile-container{
+    flex: 0 0 100%;
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+}
+@media(max-width:992px){
+  .mobile-head-space{
+    margin:0;
+  }
+  .letter-spacing1{
+    position: unset;
+  }
+}
+
 

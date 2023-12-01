@@ -292,7 +292,7 @@ body:has(.mobile) {
         top: 50%;
         right: 50%;
         transform: translate(50%, -50%);
-        border: 1px solid #54b8b8;
+        border: 1px solid #9F9F9F;
       }
       &.checkout-fix {
         &::after {
@@ -575,11 +575,14 @@ body:has(.mobile) {
 
 .address-item-container {
   .address-item.address-in-use {
-    position: absolute;
-    background-color: #ccc;
-    height: 100%;
-    width: 100%;
+    // position: absolute;
+    // background-color: #ccc;
+    // height: 100%;
+    // width: 100%;
     cursor: unset!important;
+    padding: 30px 30px 30px 40px;
+    border: 2px solid #7EAAA9;
+    min-height: 260px;
   }
 }
 

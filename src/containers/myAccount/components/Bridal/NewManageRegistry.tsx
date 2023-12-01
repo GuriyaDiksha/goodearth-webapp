@@ -118,7 +118,13 @@ const NewManageRegistry: React.FC<Props> = ({
           Good Earth Registry
         </div>
         <div className={bootstrapStyles.row}>
-          <div className={cs(bootstrapStyles.col12, globalStyles.voffset5)}>
+          <div
+            className={cs(
+              bootstrapStyles.col12,
+              globalStyles.voffset5,
+              styles.mobileHeadSpace
+            )}
+          >
             <div className={styles.add}>
               <address className={cs(styles.orderBlock, styles.manageAdd)}>
                 <hr />
@@ -173,20 +179,7 @@ const NewManageRegistry: React.FC<Props> = ({
                         Registry&apos;s Name
                       </span>
                       <br />
-                      {registryName ? (
-                        <span className={cs(styles.manageValue)}>
-                          {registrantName}
-                          &#39;s&nbsp;
-                          {registryName}
-                        </span>
-                      ) : (
-                        <span className={cs(styles.manageValue)}>
-                          {" "}
-                          {registrantName}
-                          &#39;s&nbsp;
-                          {occasion}
-                        </span>
-                      )}
+                      {registryName}
                       <br />
                     </p>
                     <p className="occasion_date">
@@ -277,7 +270,7 @@ const NewManageRegistry: React.FC<Props> = ({
                       className={cs(styles.shareBtn, styles.black)}
                       onClick={openShareLinkPopup}
                     >
-                      <button>SHARE REGISTERY LINK</button>
+                      <button>SHARE REGISTRY LINK</button>
                     </a>
                   </p>
                 </div>

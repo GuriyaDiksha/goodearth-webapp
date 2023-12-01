@@ -41,7 +41,7 @@ const CreateRegistryNew: React.FC = () => {
   );
   const occasion = selectId;
   const occasionInCaps = occasion[0].toUpperCase() + occasion.slice(1);
-  const [active, setActive] = useState(false);
+  // const [active, setActive] = useState(false);
   const [updateProfile, setUpdateProfile] = useState(
     data.coRegistrantName && data.registrantName && data.eventDate
       ? true
@@ -51,19 +51,19 @@ const CreateRegistryNew: React.FC = () => {
   const [date, setDate] = useState(
     data.eventDate ? moment(data.eventDate, "YYYY-MM-DD").toDate() : undefined
   );
-
-  const otherRef = useRef<HTMLInputElement>(null);
+  const [occasionError, setOccasionError] = useState("");
+  // const otherRef = useRef<HTMLInputElement>(null);
   const BridalDetailsFormRef = createRef<Formsy>();
 
   const setRegistry = (data: string) => {
     setSelectId(data);
-    setActive(false);
-    if (document.activeElement === otherRef.current) {
-      setActive(true);
-    } else {
-      setActive(false);
-      // setOther("");
-    }
+    // setActive(false);
+    // if (document.activeElement === otherRef.current) {
+    //   setActive(true);
+    // } else {
+    //   setActive(false);
+    //   // setOther("");
+    // }
   };
 
   useEffect(() => {
@@ -85,6 +85,7 @@ const CreateRegistryNew: React.FC = () => {
     resetForm: any,
     updateInputsWithError: any
   ) => {
+    // debugger
     const {
       occassion_choice,
       registrantName,
@@ -102,28 +103,22 @@ const CreateRegistryNew: React.FC = () => {
       coRegistrantName: coRegistrantName ? coRegistrantName : "",
       registryName: registryName
     });
-    setCurrentModule("address");
+    if (selectId === "others" && occassion_choice === "") {
+      setOccasionError("Please enter occasion's name");
+    } else {
+      setCurrentModule("address");
+      setOccasionError("");
+    }
+    if (selectId != "others") {
+      setOccasionError("");
+    }
   };
 
   const handleChange = () => {
     setUpdateProfile(true);
   };
 
-  // const handleChangeLi = (event: React.ChangeEvent<HTMLInputElement>) => {
-  //   // setOther(data.registrantName);
-  //   const otherInput = document.getElementById("other_value");
-  //   const getOtherVal = otherInput?.getAttribute("value");
-  //   if (getOtherVal) {
-  //     setOther(getOtherVal);
-  //   }
-  //   const otherInp =
-  //     otherRef.current?.value.trim() == "" ? "" : otherRef.current?.value;
-  //   if (otherInp) {
-  //     setActive(true);
-  //   } else {
-  //     setActive(false);
-  //   }
-  // };
+  const [occasionChoice, setOccasionChoice] = useState(data.occassion_choice);
 
   const occasionChoiceRef = useRef<HTMLInputElement>(null);
   const registrantNameRef = useRef<HTMLInputElement>(null);
@@ -223,6 +218,10 @@ const CreateRegistryNew: React.FC = () => {
                     <div
                       onClick={e => {
                         setRegistry("wedding");
+                        setOccasionError("");
+                        setOccasionChoice("");
+                        // const input = document.getElementById("other_value")as HTMLInputElement | null;
+                        // input?.value
                       }}
                       data-value="Wedding"
                       className={cs(styles.radioList, {
@@ -235,6 +234,8 @@ const CreateRegistryNew: React.FC = () => {
                     <div
                       onClick={e => {
                         setRegistry("anniversary");
+                        setOccasionError("");
+                        setOccasionChoice("");
                       }}
                       data-value="anniversary"
                       className={cs(styles.radioList, {
@@ -247,6 +248,8 @@ const CreateRegistryNew: React.FC = () => {
                     <div
                       onClick={e => {
                         setRegistry("birthday");
+                        setOccasionError("");
+                        setOccasionChoice("");
                       }}
                       data-value="birthday"
                       className={cs(styles.radioList, {
@@ -293,6 +296,9 @@ const CreateRegistryNew: React.FC = () => {
                           value={occasionInCaps ? "" : data.occassion_choice}
                           handleChange={handleUpdateProfileChange}
                         />
+                        <div className={cs(styles.occasionErrorMsg)}>
+                          {occasionError ? occasionError : ""}
+                        </div>
                       </li>
                     </div>
                   </ul>
@@ -374,10 +380,11 @@ const CreateRegistryNew: React.FC = () => {
                 <div>
                   <input
                     type="submit"
-                    disabled={!updateProfile}
-                    className={cs(globalStyles.charcoalBtn, {
-                      [globalStyles.disabledBtn]: !updateProfile
-                    })}
+                    // disabled={!updateProfile}
+                    className={cs(
+                      globalStyles.charcoalBtn
+                      // {[globalStyles.disabledBtn]: !updateProfile}
+                    )}
                     value="PROCEED"
                   />
                 </div>

@@ -301,7 +301,7 @@ const AddressMain: React.FC<Props> = props => {
       } else if (currentCallBackComponent === "checkout-billing") {
         dispatch(updateBillingAddressId(addressData?.id));
         setIsLoading(false);
-            setIsLoading(false);
+        setIsLoading(false);
       }
       // else {
       // AddressService.updateAddress(dispatch, formData, id, addressId)
@@ -472,11 +472,14 @@ const AddressMain: React.FC<Props> = props => {
                     <input
                       type="button"
                       id="address_button"
-                      className={cs(globalStyles.charcoalBtn, {
-                        [globalStyles.disabledBtn]:
-                          currentCallBackComponent == "bridal" &&
-                          !userAddress?.id
-                      })}
+                      className={cs(
+                        globalStyles.charcoalBtn
+                        // {
+                        //   [globalStyles.disabledBtn]:
+                        //     currentCallBackComponent == "bridal" &&
+                        //     !userAddress?.id
+                        // }
+                      )}
                       value={
                         currentCallBackComponent == "bridal"
                           ? "select & create registry"

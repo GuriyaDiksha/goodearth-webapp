@@ -16,9 +16,15 @@
     text-decoration: underline;
     text-underline-offset: 0.5em;
     cursor: pointer;
+    &:hover{
+        color: #B59C77;
+    }
 }
 .dock-cta a{
     color: #191919;
+    &:hover{
+        color: #B59C77;
+    }
 }
 @media(max-width:991px){
     .dock-text{
