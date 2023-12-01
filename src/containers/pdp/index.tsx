@@ -184,7 +184,8 @@ class PDPContainer extends React.Component<Props, State> {
         showPrice:
           data.invisibleFields && data.invisibleFields.indexOf("price") > -1,
         price,
-        discountPrices
+        discountPrices,
+        tablet
       },
       true
     );

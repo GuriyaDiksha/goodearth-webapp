@@ -17,6 +17,7 @@ import { connect } from "react-redux";
 import { mapDispatchToProps } from "./mapper/actions";
 import { RouteComponentProps, withRouter } from "react-router";
 import cs from "classnames";
+import Button from "components/Button";
 
 const mapStateToProps = () => {
   return {};
@@ -255,13 +256,12 @@ class ForgotPasswordForm extends React.Component<Props, ForgotPasswordState> {
             />
           </div>
           <div>
-            <input
+            <Button
               type="submit"
-              className={cs(globalStyles.charcoalBtn, {
-                [globalStyles.disabledBtn]: forgotSuccess
-              })}
+              className={cs(globalStyles.btnFullWidth)}
               disabled={forgotSuccess}
-              value={forgotSuccess ? "Email Sent!" : "reset password"}
+              label={forgotSuccess ? "Email Sent!" : "reset password"}
+              variant="largeMedCharcoalCta"
             />
           </div>
         </div>

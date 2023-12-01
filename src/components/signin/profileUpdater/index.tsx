@@ -20,6 +20,7 @@ import { getErrorList, decriptdata, errorTracking } from "utils/validate";
 import { Country } from "components/Formsy/CountryCode/typings";
 import LoginService from "services/login";
 import { updateCountryData } from "actions/address";
+import Button from "components/Button";
 
 const mapDispatchToProps = (dispatch: Dispatch) => {
   return {
@@ -488,15 +489,12 @@ class ProfileUpdater extends React.Component<Props, State> {
             ) : (
               ""
             )}
-            <input
+            <Button
               type="submit"
               disabled={!this.state.updateProfile}
-              className={
-                this.state.updateProfile
-                  ? globalStyles.ceriseBtn
-                  : cs(globalStyles.disabledBtn, globalStyles.ceriseBtn)
-              }
-              value={this.state.updateProfile ? "Update Details" : "Updated"}
+              className={globalStyles.btnFullWidth}
+              label={this.state.updateProfile ? "Update Details" : "Updated"}
+              variant="largeAquaCta"
             />
           </div>
           {/* <SignedIn loginVia={loginVia} /> */}

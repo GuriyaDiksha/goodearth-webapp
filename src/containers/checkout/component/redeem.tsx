@@ -17,7 +17,8 @@ const mapStateToProps = (state: AppState) => {
   return {
     user: state.user,
     currency: state.currency,
-    loyalty: state.basket.loyalty
+    loyalty: state.basket.loyalty,
+    mobile: state.device.mobile
   };
 };
 type Props = {
@@ -350,6 +351,7 @@ class Reedem extends React.Component<Props, RedeemState> {
                 isOTPSent={this.props.isOTPSent}
                 setIsOTPSent={this.props.setIsOTPSent}
                 removeError={this.removeError}
+                mobile={this.props.mobile}
               />
             </div>
           </Fragment>

@@ -321,6 +321,8 @@ class Header extends React.Component<Props, State> {
     const pressSortHeaderMenuDropdown = document.getElementById(
       "pressSortHeaderMenuDropdown"
     );
+    const pressInternal = document.getElementById("pressinternal");
+    const pressinternalHeader = document.getElementById("pressinternalHeader");
 
     if (window?.pageYOffset > sticky) {
       // When announcement bar is hidden
@@ -482,6 +484,22 @@ class Header extends React.Component<Props, State> {
           (pressSortHeaderMenuDropdown as HTMLElement).style.top = "138px";
         } else {
           (pressSortHeaderMenuDropdown as HTMLElement).style.top = "100px";
+        }
+      }
+
+      if (pressInternal) {
+        if (tim) {
+          (pressInternal as HTMLElement).style.marginTop = "50px";
+        } else {
+          (pressInternal as HTMLElement).style.marginTop = "14px";
+        }
+      }
+
+      if (pressinternalHeader && this.props.mobile) {
+        if (tim) {
+          (pressinternalHeader as HTMLElement).style.top = "95px";
+        } else {
+          (pressinternalHeader as HTMLElement).style.top = "55px";
         }
       }
     } else {
@@ -673,6 +691,24 @@ class Header extends React.Component<Props, State> {
             window?.pageYOffset}px`;
         } else {
           (pressSortHeaderMenuDropdown as HTMLElement).style.top = `${140 -
+            window?.pageYOffset}px`;
+        }
+      }
+
+      if (pressInternal) {
+        if (tim) {
+          (pressInternal as HTMLElement).style.marginTop = "80px";
+        } else {
+          (pressInternal as HTMLElement).style.marginTop = "50px";
+        }
+      }
+
+      if (pressinternalHeader && this.props.mobile) {
+        if (tim) {
+          (pressinternalHeader as HTMLElement).style.top = `${135 -
+            window?.pageYOffset}px`;
+        } else {
+          (pressinternalHeader as HTMLElement).style.top = `${95 -
             window?.pageYOffset}px`;
         }
       }

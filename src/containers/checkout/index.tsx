@@ -89,18 +89,20 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       shippingAddress: AddressData,
       user: User,
       isBridal = false,
-      history: any
+      history: any,
+      boId: string
     ) => {
       const data = await AddressService.specifyShippingAddress(
         dispatch,
         shippingAddressId,
         isBridal,
-        history
+        history,
+        boId
       );
       const userData = { ...user, shippingData: shippingAddress };
       dispatch(updateUser(userData));
       // isLoading(true);
-      AddressService.fetchAddressList(dispatch, isGcCheckout).then(
+      AddressService.fetchAddressList(dispatch, boId, isGcCheckout).then(
         addressList => {
           dispatch(updateAddressList(addressList));
         }
@@ -111,13 +113,14 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     },
     specifyBillingAddress: async (
       specifyBillingAddressData: specifyBillingAddressData,
+      boId: string,
       user: User
     ) => {
       const data = await AddressService.specifyBillingAddress(
         dispatch,
         specifyBillingAddressData
       );
-      AddressService.fetchAddressList(dispatch, isGcCheckout).then(
+      AddressService.fetchAddressList(dispatch, boId, isGcCheckout).then(
         addressList => {
           dispatch(updateAddressList(addressList));
         }
@@ -129,9 +132,10 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       );
       return data;
     },
-    fetchAddressBridal: async () => {
+    fetchAddressBridal: async (boId: string) => {
       const addressList = await AddressService.fetchAddressList(
         dispatch,
+        boId,
         isGcCheckout
       );
       dispatch(updateAddressList(addressList));
@@ -255,7 +259,7 @@ type State = {
   isGoodearthShipping: boolean;
   isSuspended: boolean;
   boEmail: string;
-  boId: string;
+  // boId: string;
   errorNotification: string;
   onlyOnetime: boolean;
   isShipping: boolean;
@@ -295,7 +299,7 @@ class Checkout extends React.Component<Props, State> {
       id: "",
       addressIdError: "",
       boEmail: "",
-      boId: "",
+      // boId: "",
       isSuspended: true,
       isGoodearthShipping:
         props.user.shippingData && props.user.shippingData.isTulsi
@@ -348,7 +352,8 @@ class Checkout extends React.Component<Props, State> {
     const checkoutPopupCookie = CookieService.getCookie("checkoutinfopopup3");
     const queryString = this.props.location.search;
     const urlParams = new URLSearchParams(queryString);
-    const boId = urlParams.get("bo_id");
+    // const boId = urlParams.get("bo_id");
+    // const boId = urlParams.get("bo_id");
 
     const isGcCheckout = this.props.location.pathname.endsWith("gc_checkout");
     this.unlisten = this.props.history.block((location, action) => {
@@ -364,92 +369,92 @@ class Checkout extends React.Component<Props, State> {
         }
       }
     });
-    if (boId) {
-      this.setState({
-        activeStep: STEP_BILLING,
-        currentStep: STEP_ORDER[STEP_BILLING],
-        boId: boId,
-        billingAddress: this.state.shippingAddress
-      });
+    // if (boId) {
+    //   this.setState({
+    //     activeStep: STEP_BILLING,
+    //     currentStep: STEP_ORDER[STEP_BILLING],
+    //     boId: boId,
+    //     billingAddress: this.state.shippingAddress
+    //   });
 
-      if (
-        localStorage.getItem("from") === "cart" &&
-        this.props.user.isLoggedIn
-      ) {
-        this.props
-          .getBoDetail(boId)
-          .then((data: any) => {
-            if (!data?.email && !data?.isLogin) {
-              this.props.history.push("/backend-order-error");
-            }
-          })
-          .catch(error => {
-            this.props.history.push("/backend-order-error");
-          });
-      }
+    //   if (
+    //     localStorage.getItem("from") === "cart" &&
+    //     this.props.user.isLoggedIn
+    //   ) {
+    //     this.props
+    //       .getBoDetail(boId)
+    //       .then((data: any) => {
+    //         if (!data?.email && !data?.isLogin) {
+    //           this.props.history.push("/backend-order-error");
+    //         }
+    //       })
+    //       .catch(error => {
+    //         this.props.history.push("/backend-order-error");
+    //       });
+    //   }
 
-      if (
-        localStorage.getItem("from") !== "cart" &&
-        this.props.user.isLoggedIn
-      ) {
-        localStorage.removeItem("from");
-        this.props
-          .getBoDetail(boId)
-          .then(() => {
-            this.props
-              .logout(this.props.currency, this.props.user.customerGroup)
-              .then(res => {
-                this.props.history.push(`/cart?bo_id=${boId}`, {
-                  from: "checkout"
-                });
-              });
-          })
-          .catch(error => {
-            this.props.history.push("/backend-order-error");
-          });
-      }
+    //   if (
+    //     localStorage.getItem("from") !== "cart" &&
+    //     this.props.user.isLoggedIn
+    //   ) {
+    //     localStorage.removeItem("from");
+    //     this.props
+    //       .getBoDetail(boId)
+    //       .then(() => {
+    //         this.props
+    //           .logout(this.props.currency, this.props.user.customerGroup)
+    //           .then(res => {
+    //             this.props.history.push(`/cart?bo_id=${boId}`, {
+    //               from: "checkout"
+    //             });
+    //           });
+    //       })
+    //       .catch(error => {
+    //         this.props.history.push("/backend-order-error");
+    //       });
+    //   }
 
-      if (!this.props.user.isLoggedIn) {
-        this.props.history.push(`/cart?bo_id=${boId}`, { from: "checkout" });
-      }
+    //   if (!this.props.user.isLoggedIn) {
+    //     this.props.history.push(`/cart?bo_id=${boId}`, { from: "checkout" });
+    //   }
 
-      localStorage.removeItem("from");
-      // this.props
-      //   .getBoDetail(boId)
-      //   .then((data: any) => {
-      //     localStorage.setItem("tempEmail", data.email);
-      //     if (this.props.user.email && data.isLogin) {
-      //       CookieService.setCookie("currency", data.currency, 365);
-      //       CookieService.setCookie("currencypopup", "true", 365);
-      //       this.props
-      //         .logout(this.props.currency, this.props.user.customerGroup)
-      //         .then(res => {
-      //           localStorage.setItem("tempEmail", data.email);
-      //           this.setState({
-      //             boEmail: data.email,
-      //             boId: boId
-      //           });
-      //         });
-      //     } else if (data.email) {
-      //       CookieService.setCookie("currency", data.currency, 365);
-      //       CookieService.setCookie("currencypopup", "true", 365);
-      //       localStorage.setItem("tempEmail", data.email);
-      //       this.setState({
-      //         boEmail: data.email,
-      //         boId: boId
-      //       });
-      //     } else {
-      //       this.props.history.push("/backend-order-error");
-      //     }
-      //   })
-      //   .catch(error => {
-      //     this.props.history.push("/backend-order-error");
-      //   });
-    } else {
-      if (!this.props.user.isLoggedIn) {
-        this.props.history.push("/cart", { from: "checkout" });
-      }
+    //   localStorage.removeItem("from");
+    //   // this.props
+    //   //   .getBoDetail(boId)
+    //   //   .then((data: any) => {
+    //   //     localStorage.setItem("tempEmail", data.email);
+    //   //     if (this.props.user.email && data.isLogin) {
+    //   //       CookieService.setCookie("currency", data.currency, 365);
+    //   //       CookieService.setCookie("currencypopup", "true", 365);
+    //   //       this.props
+    //   //         .logout(this.props.currency, this.props.user.customerGroup)
+    //   //         .then(res => {
+    //   //           localStorage.setItem("tempEmail", data.email);
+    //   //           this.setState({
+    //   //             boEmail: data.email,
+    //   //             boId: boId
+    //   //           });
+    //   //         });
+    //   //     } else if (data.email) {
+    //   //       CookieService.setCookie("currency", data.currency, 365);
+    //   //       CookieService.setCookie("currencypopup", "true", 365);
+    //   //       localStorage.setItem("tempEmail", data.email);
+    //   //       this.setState({
+    //   //         boEmail: data.email,
+    //   //         boId: boId
+    //   //       });
+    //   //     } else {
+    //   //       this.props.history.push("/backend-order-error");
+    //   //     }
+    //   //   })
+    //   //   .catch(error => {
+    //   //     this.props.history.push("/backend-order-error");
+    //   //   });
+    // } else {
+    if (!this.props.user.isLoggedIn) {
+      this.props.history.push("/cart", { from: "checkout" });
     }
+    // }
     if (this.state.isSuspended && checkoutPopupCookie !== "show") {
       // this.props.showPopup(this.setInfoPopupCookie);
     }
@@ -514,27 +519,32 @@ class Checkout extends React.Component<Props, State> {
           };
           getLoyaltyPoints(data);
         }
-        if (!res.bridal && this.props.user.isLoggedIn && !boId) {
+        if (!res.bridal && this.props.user.isLoggedIn) {
           if (isGcCheckout) {
             this.nextStep(STEP_BILLING);
           } else {
             const {
               user: { shippingData },
-              addresses
+              addresses,
+              currency
             } = this.props;
             const { isGoodearthShipping } = this.state;
+            const defaultAddresses = addresses.filter(
+              val => val.currency == currency
+            );
             if (
-              addresses?.length &&
-              addresses.filter(val => val?.id === shippingData?.id).length === 0
+              defaultAddresses?.length &&
+              defaultAddresses.filter(val => val?.id === shippingData?.id)
+                .length === 0
             ) {
               this.setState(
                 {
-                  shippingAddress: addresses.find(
+                  shippingAddress: defaultAddresses.find(
                     val => val?.isDefaultForShipping
                   ),
                   billingAddress: isGoodearthShipping
                     ? undefined
-                    : addresses.find(val => val?.isDefaultForShipping)
+                    : defaultAddresses.find(val => val?.isDefaultForShipping)
                 },
                 () => {
                   this.nextStep(STEP_SHIPPING);
@@ -620,13 +630,15 @@ class Checkout extends React.Component<Props, State> {
         }
         this.setState({
           activeStep: STEP_SHIPPING,
-          shippingAddress: nextProps.addresses.find(
-            val => val?.isDefaultForShipping
-          ),
+          shippingAddress: nextProps.addresses
+            .filter(val => val.currency == this.props.currency)
+            .find(val => val?.isDefaultForShipping),
           billingAddress:
             isGoodearthShipping || nextProps.basket.bridal
               ? undefined
-              : nextProps.addresses.find(val => val?.isDefaultForShipping),
+              : nextProps.addresses
+                  .filter(val => val.currency == this.props.currency)
+                  .find(val => val?.isDefaultForShipping),
           isShipping: true
         });
       }
@@ -653,7 +665,7 @@ class Checkout extends React.Component<Props, State> {
         this.setState({ isGoodearthShipping: true });
       }
       if (!nextProps.basket.bridal && this.props.basket.bridal) {
-        this.props.fetchAddressBridal();
+        this.props.fetchAddressBridal(this?.state?.boId);
       }
     } else {
       // this.props.updateShipping(nextProps.user.shippingData?.id || 0)
@@ -695,7 +707,8 @@ class Checkout extends React.Component<Props, State> {
           "isDefaultForShipping",
           "isDefaultForBilling",
           "occasion",
-          "isEdit"
+          "isEdit",
+          "currency"
         ].indexOf(key) == -1
       ) {
         if (Object.prototype.hasOwnProperty.call(obj, key)) {
@@ -794,6 +807,8 @@ class Checkout extends React.Component<Props, State> {
       // }
 
       const { bridal } = this.props.basket;
+      const { boId } = this.state;
+
       const userConsent = CookieService.getCookie("consent").split(",");
       this.setState({ isLoading: true });
       this.props
@@ -802,7 +817,8 @@ class Checkout extends React.Component<Props, State> {
           address,
           this.props.user,
           bridal,
-          this.props.history
+          this.props.history,
+          boId
         )
         .then(data => {
           if (userConsent.includes(GA_CALLS)) {
@@ -840,14 +856,18 @@ class Checkout extends React.Component<Props, State> {
                     ? address.isTulsi
                     : false;
                   this.setState({ isGoodearthShipping });
-
-                  this.setState({
-                    shippingCharge: data.data.basket.shippingCharge,
-                    shippingAddress: address,
-                    billingAddress:
-                      isGoodearthShipping || bridal ? undefined : address,
-                    activeStep: STEP_BILLING
-                  });
+                  this.setState(
+                    {
+                      shippingCharge: data.data.basket.shippingCharge,
+                      shippingAddress: address,
+                      billingAddress:
+                        isGoodearthShipping || bridal ? undefined : address,
+                      activeStep: STEP_BILLING
+                    },
+                    () => {
+                      this.nextStep(STEP_BILLING);
+                    }
+                  );
 
                   checkoutGTM(2, this.props.currency, this.props.basket);
                   if (data.data.basket.pageReload) {
@@ -872,14 +892,18 @@ class Checkout extends React.Component<Props, State> {
                 ? address.isTulsi
                 : false;
               this.setState({ isGoodearthShipping });
-
-              this.setState({
-                shippingCharge: data.data.basket.shippingCharge,
-                shippingAddress: address,
-                billingAddress:
-                  isGoodearthShipping || bridal ? undefined : address,
-                activeStep: STEP_BILLING
-              });
+              this.setState(
+                {
+                  shippingCharge: data.data.basket.shippingCharge,
+                  shippingAddress: address,
+                  billingAddress:
+                    isGoodearthShipping || bridal ? undefined : address,
+                  activeStep: STEP_BILLING
+                },
+                () => {
+                  this.nextStep(STEP_BILLING);
+                }
+              );
 
               checkoutGTM(2, this.props.currency, this.props.basket);
               if (data.data.basket.pageReload) {
@@ -944,7 +968,7 @@ class Checkout extends React.Component<Props, State> {
         }
         this.setState({ isLoading: true });
         this.props
-          .specifyBillingAddress(data, this.props.user)
+          .specifyBillingAddress(data, this?.state?.boId, this.props.user)
           .then(() => {
             const userConsent = CookieService.getCookie("consent").split(",");
             if (userConsent.includes(GA_CALLS)) {
@@ -966,7 +990,8 @@ class Checkout extends React.Component<Props, State> {
                 activeStep:
                   localStorage.getItem("validBo") ||
                   localStorage.getItem("isSale") ||
-                  !this.props.showPromo
+                  (!this.props.showPromo &&
+                    this.props.basket.voucherDiscounts.length === 0)
                     ? // || this.props.isSale
                       STEP_PAYMENT
                     : STEP_PROMO,
@@ -978,8 +1003,43 @@ class Checkout extends React.Component<Props, State> {
               () => {
                 if (activeStep === STEP_BILLING) {
                   this.nextStep(
-                    this.props.showPromo ? STEP_PROMO : STEP_PAYMENT
+                    this.props.showPromo &&
+                      this.props.basket.voucherDiscounts.length === 0
+                      ? STEP_PROMO
+                      : STEP_PAYMENT
                   );
+
+                  if (
+                    this.props.showPromo &&
+                    this.props.basket.voucherDiscounts.length === 0
+                  ) {
+                    document
+                      .getElementById("promo-section")
+                      ?.scrollIntoView({ block: "center", behavior: "smooth" });
+                  } else {
+                    if (document.getElementById("cerise-section")) {
+                      document
+                        .getElementById("cerise-section")
+                        ?.scrollIntoView({
+                          block: "center",
+                          behavior: "smooth"
+                        });
+                    } else if (document.getElementById("gifting-section")) {
+                      document
+                        .getElementById("gifting-section")
+                        ?.scrollIntoView({
+                          block: "center",
+                          behavior: "smooth"
+                        });
+                    } else {
+                      document
+                        .getElementById("payment-section")
+                        ?.scrollIntoView({
+                          block: "center",
+                          behavior: "smooth"
+                        });
+                    }
+                  }
                 }
               }
             );
@@ -1021,9 +1081,9 @@ class Checkout extends React.Component<Props, State> {
     if (this.state.pancardNo) {
       data["panPassportNo"] = this.state.pancardNo;
     }
-    if (this.state.boId) {
-      data["BoId"] = this.state.boId;
-    }
+    // if (this.state.boId) {
+    //   data["BoId"] = this.state.boId;
+    // }
     if (this.props.deliveryText) {
       data["deliveryInstructions"] = this.props.deliveryText;
     }
@@ -1038,12 +1098,19 @@ class Checkout extends React.Component<Props, State> {
     return (
       <div
         className={cs(bootstrap.containerFluid, styles.pageBody, {
-          [styles.pB100]: !this.props.mobile
+          // [styles.pB100]: !this.props.mobile
         })}
       >
         <div className={styles.checkout}>
           <div className={bootstrap.row}>
-            <div className={cs(bootstrap.col12, bootstrap.colLg8)}>
+            <div
+              className={cs(
+                bootstrap.col12,
+                bootstrap.colLg8,
+                globalStyles.bgWhite,
+                globalStyles.padd0
+              )}
+            >
               {/* Breadcrumb */}
               <CheckoutBreadcrumb active={this.state.activeStep} />
 
@@ -1111,10 +1178,18 @@ class Checkout extends React.Component<Props, State> {
                 shippingAddress={this.state.shippingAddress}
                 salestatus={this.props.isSale}
                 gstNo={this.state.gstNo}
+                activeStep={STEP_PROMO}
+                currentStep={this.state.currentStep}
                 isGcCheckout={isGcCheckout}
               />
             </div>
-            <div className={cs(bootstrap.col12, bootstrap.colLg4)}>
+            <div
+              className={cs(
+                bootstrap.col12,
+                bootstrap.colLg4,
+                globalStyles.marginB20
+              )}
+            >
               <OrderSummary
                 mobile={this.props.mobile}
                 currency={this.props.currency}
@@ -1123,7 +1198,7 @@ class Checkout extends React.Component<Props, State> {
                 validbo={false}
                 basket={this.props.basket}
                 page="checkout"
-                boId={this.state.boId}
+                // boId={this.state.boId}
                 tablet={this.props.tablet}
               />
             </div>

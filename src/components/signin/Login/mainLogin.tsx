@@ -2,12 +2,12 @@ import React, { RefObject, Fragment } from "react";
 import cs from "classnames";
 import styles from "../styles.scss";
 import globalStyles from "styles/global.scss";
-import inputStyles from "../../../components/Formsy/styles.scss";
+// import inputStyles from "../../../components/Formsy/styles.scss";
 import InputField from "../InputField";
 import Loader from "components/Loader";
 import SocialLogin from "../socialLogin";
-import show from "../../../images/showPass.svg";
-import hide from "../../../images/hidePass.svg";
+// import show from "../../../images/showPass.svg";
+// import hide from "../../../images/hidePass.svg";
 import { Context } from "components/Modal/context";
 import { checkBlank, checkMail, errorTracking } from "utils/validate";
 import { connect } from "react-redux";
@@ -19,13 +19,15 @@ import EmailVerification from "../emailVerification";
 import { USR_WITH_NO_ORDER } from "constants/messages";
 import CookieService from "services/cookie";
 import { GA_CALLS } from "constants/cookieConsent";
+import Button from "components/Button";
 
 const mapStateToProps = (state: AppState) => {
   return {
     location: state.router.location,
     basket: state.basket,
     currency: state.currency,
-    sortBy: state.wishlist.sortBy
+    sortBy: state.wishlist.sortBy,
+    mobile: state.device.mobile
   };
 };
 
@@ -58,7 +60,8 @@ class MainLogin extends React.Component<Props, loginState> {
       showPassword: false,
       showCurrentSection: "email",
       showEmailVerification: false,
-      usrWithNoOrder: false
+      usrWithNoOrder: false,
+      phoneNo: ""
     };
   }
   static contextType = Context;
@@ -75,7 +78,8 @@ class MainLogin extends React.Component<Props, loginState> {
       if (data.otpSent) {
         this.setState({
           showEmailVerification: true,
-          usrWithNoOrder: data.usrWithNoOrder
+          usrWithNoOrder: data.usrWithNoOrder,
+          phoneNo: data?.phoneNo
         });
       } else {
         if (data.invalidDomain) {
@@ -209,10 +213,16 @@ class MainLogin extends React.Component<Props, loginState> {
 
     const subHeading = this.props.isCerise
       ? "Please enter your registered e-mail address to login to your Cerise account."
+      : ["/cart", "/order/checkout"].includes(location.pathname)
+      ? "Please enter your email to proceed."
       : "Enter your email address to register or sign in.";
 
     this.setState({
-      heading: this.props.heading || "Welcome",
+      heading: this.props.heading
+        ? this.props.heading
+        : ["/cart", "/order/checkout"].includes(location.pathname)
+        ? "Continue to Checkout"
+        : "Welcome",
       subHeading: this.props.subHeading || subHeading
     });
   }
@@ -321,13 +331,13 @@ class MainLogin extends React.Component<Props, loginState> {
           //   history.push(searchParams.get("redirect_to") || "");
           // }
 
-          const boid = new URLSearchParams(
-            this.props.history.location.search
-          ).get("bo_id");
+          // const boid = new URLSearchParams(
+          //   this.props.history.location.search
+          // ).get("bo_id");
 
-          if (boid) {
-            this.props.history.push(`/order/checkout?bo_id=${boid}`);
-          }
+          // if (boid) {
+          //   this.props.history.push(`/order/checkout?bo_id=${boid}`);
+          // }
         })
         .catch(err => {
           if (
@@ -551,7 +561,7 @@ class MainLogin extends React.Component<Props, loginState> {
               showLabel={true}
             />
           </div>
-          <div>
+          <div className={styles.loginForm}>
             {this.state.showerror ? (
               <p className={cs(styles.errorMsg, styles.mainLoginError)}>
                 {this.state.showerror}
@@ -559,15 +569,12 @@ class MainLogin extends React.Component<Props, loginState> {
             ) : (
               ""
             )}
-            <input
+            <Button
               type="submit"
-              className={
-                this.state.isLoginDisabled
-                  ? cs(globalStyles.charcoalBtn, globalStyles.disabledBtn)
-                  : globalStyles.charcoalBtn
-              }
-              value="continue"
+              className={cs({ [globalStyles.btnFullWidth]: this.props.mobile })}
+              label="continue"
               disabled={this.state.isLoginDisabled}
+              variant="mediumMedCharcoalCta366"
             />
           </div>
         </div>
@@ -603,7 +610,7 @@ class MainLogin extends React.Component<Props, loginState> {
               showLabel={true}
             />
           </div>
-          <div>
+          {/* <div>
             <InputField
               placeholder={""}
               value={this.state.password}
@@ -640,7 +647,7 @@ class MainLogin extends React.Component<Props, loginState> {
             >
               FORGOT PASSWORD
             </span>
-          </div>
+          </div> */}
           <div>
             {this.state.showerror ? (
               <p className={cs(styles.errorMsg, styles.mainLoginError)}>
@@ -649,28 +656,24 @@ class MainLogin extends React.Component<Props, loginState> {
             ) : (
               ""
             )}
-            <input
+            <Button
               type="submit"
-              className={
-                this.state.isSecondStepLoginDisabled
-                  ? cs(globalStyles.charcoalBtn, globalStyles.disabledBtn)
-                  : globalStyles.charcoalBtn
-              }
-              value="Login to my account"
+              className={globalStyles.btnFullWidth}
+              label="Login to my account"
               disabled={this.state.isSecondStepLoginDisabled}
+              variant="largeMedCharcoalCta"
             />
             {this.props.isBo ? (
               ""
             ) : (
-              <input
+              <Button
                 type="submit"
-                className={cs(
-                  globalStyles.charcoalBtn,
-                  globalStyles.withWhiteBgNoHover,
-                  styles.changeEmailBtn
-                )}
-                value="Go Back"
+                className={cs(styles.changeEmailBtn, {
+                  [globalStyles.btnFullWidth]: this.props.mobile
+                })}
+                label="Go Back"
                 onClick={this.changeEmail}
+                variant="outlineMediumMedCharcoalCta366"
               />
             )}
           </div>
@@ -686,12 +689,12 @@ class MainLogin extends React.Component<Props, loginState> {
     );
 
     const currentForm = () => {
-      const { showCurrentSection } = this.state;
-      if (showCurrentSection == "email") {
-        return this.emailForm();
-      } else if (showCurrentSection == "login") {
-        return formContent;
-      }
+      // const { showCurrentSection } = this.state;
+      // if (showCurrentSection == "email") {
+      return this.emailForm();
+      // } else if (showCurrentSection == "login") {
+      //   return formContent;
+      // }
     };
 
     return (
@@ -704,6 +707,11 @@ class MainLogin extends React.Component<Props, loginState> {
             goLogin={this.goLogin}
             // socialLogin={footer}
             setIsSuccessMsg={this.props.setIsSuccessMsg}
+            products={this.props.basket.products}
+            currency={this.props.currency}
+            nextStep={this.props.nextStep}
+            sortBy={this.props.sortBy}
+            phoneNo={this.state.phoneNo}
           />
         ) : (
           <>

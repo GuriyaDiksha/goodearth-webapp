@@ -342,7 +342,8 @@ div.verify-otp-container{
     padding-bottom: 0px;
   }
   .verify-otp-cta{
-    width: 100%;
+    border-radius: 0%;
+    background-color: inherit;
   }
   .otp-policy{
     padding-top: 0px;
@@ -463,10 +464,10 @@ span.checkout-forgot-pass{
       &.newsletters{
         margin-top: 15px;
         [type="checkbox"]:not(:checked) + label:before{
-          top: 5px;
+          // top: 5px;
         }
         [type="checkbox"]:not(:checked) + label:after{
-          top: 9px;
+          // top: 9px;
         }
       }
     }

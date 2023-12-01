@@ -13,6 +13,7 @@ import { AppState } from "reducers/typings";
 import Loader from "components/Loader";
 import { withRouter, RouteComponentProps } from "react-router";
 import { errorTracking } from "utils/validate";
+import Button from "components/Button";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -492,13 +493,14 @@ class TrackOrder extends React.Component<Props, State> {
                 ) : (
                   ""
                 )}
-                <input
+                <Button
                   type="submit"
                   disabled={!updateSubmit}
-                  className={cs(styles.charcoalBtn, {
-                    [styles.disabledBtn]: !updateSubmit
+                  className={cs({
+                    [globalStyles.btnFullWidth]: this.props.mobile
                   })}
-                  value={"CHECK ORDER STATUS"}
+                  label={"CHECK ORDER STATUS"}
+                  variant="mediumMedCharcoalCta366"
                 />
               </div>
             </div>

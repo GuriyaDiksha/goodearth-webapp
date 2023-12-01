@@ -4,12 +4,12 @@ import globalStyles from "styles/global.scss";
 import styles from "../styles.scss";
 import iconStyles from "styles/iconFonts.scss";
 import { Context } from "components/Modal/context";
-import { NavLink } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { AppState } from "reducers/typings";
 import { GA_CALLS } from "constants/cookieConsent";
 import CookieService from "services/cookie";
 import AddressService from "services/address";
+import Button from "components/Button";
 
 const desc = {
   GSTIN:
@@ -33,9 +33,7 @@ type PopupProps = {
 const BillingGST: React.FC<PopupProps> = ({
   setGst,
   setGstDetails,
-  setSameAsShipping,
-  isBridal,
-  isGoodearthShipping
+  setSameAsShipping
 }) => {
   const { closeModal } = useContext(Context);
   const [gstText, setGstText] = useState("");
@@ -45,32 +43,11 @@ const BillingGST: React.FC<PopupProps> = ({
   const { mobile } = useSelector((state: AppState) => state.device);
   const dispatch = useDispatch();
 
-  // const address: any =
-  //   addressList?.find((val: any) =>
-  //     shippingAddressId !== 0
-  //       ? sameAsShipping && !isGoodearthShipping && !isGoodearthShipping
-  //         ? val?.id === shippingAddressId
-  //         : val?.id === billingAddressId
-  //       : val?.isDefaultForShipping === true
-  //   ) || undefined;
-
   const msg = [
     "To be able to create a GST invoice, your billing address state must match the state registered with your GST no.",
     "GST can not apply for non Indian billing address.",
     "Please select billing address"
   ];
-
-  // useEffect(() => {
-  //   setGstText(gstNum);
-  // }, [gstNum]);
-
-  // useEffect(() => {
-  //   setError(parentError);
-  //   if (parentError === "" && !isActive && gstNum) {
-  //     setError("");
-  //     closeModal();
-  //   }
-  // }, [parentError, isActive, gstNum]);
 
   const onChangeGst = (e: React.ChangeEvent<HTMLInputElement>) => {
     setGstType(e.target.value);
@@ -125,9 +102,9 @@ const BillingGST: React.FC<PopupProps> = ({
 
     if (msg.includes(error)) {
       setGst(false);
-      dispatch(setSameAsShipping(false));
       setGstDetails({ gstText: "", gstType: "" });
       closeModal();
+      dispatch(setSameAsShipping(false));
     } else {
       if (billingAddressId === 0) {
         setError("Please select billing address");
@@ -182,7 +159,6 @@ const BillingGST: React.FC<PopupProps> = ({
             className={cs(styles.cross, styles.deliveryIcon)}
             onClick={() => {
               setGst(false);
-              // setGstNum("");
               setGstDetails({ gstText: "", gstType: "" });
               closeModal();
             }}
@@ -247,17 +223,15 @@ const BillingGST: React.FC<PopupProps> = ({
             )}
           </div>
         </div>
-        <div
-          className={cs(
-            globalStyles.checkoutBtn,
-            styles.deliveryBtnWidth,
-            styles.freeshipBtnWidth,
-            styles.marginBottom
-          )}
-        >
-          <NavLink to="/" onClick={e => handleSubmit(e)}>
-            {msg.includes(error) ? "EDIT BILLING ADDRESS" : "SAVE & PROCEED"}
-          </NavLink>
+        <div className={cs(globalStyles.paddBottom20)}>
+          <Button
+            variant="mediumMedCharcoalCta366"
+            onClick={e => handleSubmit(e)}
+            label={
+              msg.includes(error) ? "EDIT BILLING ADDRESS" : "SAVE & PROCEED"
+            }
+            className={cs({ [globalStyles.btnFullWidthForPopup]: mobile })}
+          />
         </div>
       </div>
     </div>

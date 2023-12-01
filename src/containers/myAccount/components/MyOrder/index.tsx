@@ -11,6 +11,7 @@ import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { AppState } from "reducers/typings";
 import { pageViewGTM } from "utils/validate";
+import Button from "components/Button";
 
 type Props = {
   setCurrentSection: () => void;
@@ -58,7 +59,11 @@ const PastOrders: React.FC<Props> = (props: Props) => {
   const startShoppingButton = (
     <div className={styles.startShoppingButton}>
       <Link to="/">
-        <input type="button" value="Start Shopping" />
+        <Button
+          variant="outlineSmallMedCharcoalCta"
+          type="button"
+          label="Start Shopping"
+        />
       </Link>
     </div>
   );

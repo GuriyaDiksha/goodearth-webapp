@@ -5,14 +5,20 @@ import styles from "../styles.scss";
 import globalStyles from "styles/global.scss";
 // services
 import LoginService from "services/login";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 // import Loader from "components/Loader";
 // import OtpBox from "components/OtpComponent/otpBox";
-import { showGrowlMessage } from "utils/validate";
-import { MESSAGE } from "constants/messages";
-import { useLocation } from "react-router";
+// import { showGrowlMessage } from "utils/validate";
+// import { MESSAGE } from "constants/messages";
+import { useHistory, useLocation } from "react-router";
 import NewOtpComponent from "components/OtpComponent/NewOtpComponent";
 import { decriptdata } from "utils/validate";
+import { GA_CALLS } from "constants/cookieConsent";
+import CookieService from "services/cookie";
+import Button from "components/Button";
+import { Currency } from "typings/currency";
+import { censorEmail, censorPhoneNumber } from "utils/utility";
+import { AppState } from "reducers/typings";
 
 type Props = {
   successMsg: string;
@@ -22,59 +28,128 @@ type Props = {
   socialLogin?: ReactNode;
   setIsSuccessMsg?: (arg: boolean) => void;
   isCheckout?: boolean;
+  currency: Currency;
+  nextStep?: () => void;
+  products?: any;
+  sortBy?: string;
+  phoneNo?: string;
+  isRegistration?: boolean;
 };
+
 const EmailVerification: React.FC<Props> = ({
   successMsg,
   email,
   changeEmail,
   goLogin,
   socialLogin,
-  isCheckout
+  isCheckout,
+  currency,
+  nextStep,
+  products,
+  sortBy,
+  phoneNo,
+  isRegistration
 }) => {
-  // const [isLoading, setIsLoading] = useState(false);
-  // const [enableBtn, setEnableBtn] = useState(false);
-  // const [timeRemaining, setTimeRemaining] = useState(60);
-  //const [showCustCare, setShowCustCare] = useState(false);
-  // const [timerId, setTimerId] = useState<any>();
-  // const [otpValue, setOtpValue] = useState("");
   const [error, setError] = useState<(JSX.Element | string)[] | string>("");
   const [attempts, setAttempts] = useState({
     attempts: 0,
     maxAttemptsAllow: 5
   });
+  const [otpSmsSent, setOtpSmsSent] = useState(false);
   // const headingref = React.useRef<null | HTMLDivElement>(null);
   const dispatch = useDispatch();
-  // const timer = () => {
-  //   setTimeRemaining(90);
-  //   setEnableBtn(false);
-  //   const id = setInterval(() => {
-  //     setTimeRemaining(timeRemaining => timeRemaining - 1);
-  //   }, 1000);
-  //   setTimerId(id);
-  // };
+  const history = useHistory();
+  const { mobile } = useSelector((state: AppState) => state.device);
 
   const showLogin = () => {
     localStorage.setItem("tempEmail", email);
     goLogin();
   };
   const location = useLocation();
-  const queryString = location.search;
-  const urlParams = new URLSearchParams(queryString);
-  const boId = urlParams.get("bo_id");
+  // const queryString = location.search;
+  // const urlParams = new URLSearchParams(queryString);
+  // const boId = urlParams.get("bo_id");
+
+  useEffect(() => setOtpSmsSent(!!phoneNo), []);
+
+  const gtmPushSignIn = (data: any) => {
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes(GA_CALLS)) {
+      dataLayer.push({
+        event: "eventsToSend",
+        eventAction: "signIn",
+        eventCategory: "formSubmission",
+        eventLabel: location.pathname
+      });
+      dataLayer.push({
+        event: "login",
+        user_status: "logged in", //'Pass the user status ex. logged in OR guest',
+        // login_method: "", //'Pass Email or Google as per user selection',
+        user_id: data?.userId
+      });
+    }
+  };
+
   const verifyOtp = async (otp: string) => {
     try {
       // setIsLoading(true);
+      const source =
+        history.location.pathname.indexOf("checkout") != -1 ? "checkout" : "";
       setError("");
-      const res = await LoginService.verifyUserOTP(dispatch, email, otp);
+      const res = await LoginService.verifyUserOTP(
+        dispatch,
+        email,
+        otp,
+        currency,
+        source,
+        sortBy
+      );
 
-      if (res.success) {
-        showGrowlMessage(
-          dispatch,
-          MESSAGE.VERIFY_SUCCESS,
-          3000,
-          "VERIFY_SUCCESS"
+      if (res?.token) {
+        gtmPushSignIn(res);
+        const userConsent = CookieService.getCookie("consent").split(",");
+
+        if (userConsent.includes(GA_CALLS)) {
+          Moengage.track_event("Login", {
+            email: res.email
+          });
+          Moengage.add_first_name(res.firstName);
+          Moengage.add_last_name(res.lastName);
+          Moengage.add_email(res.email);
+          Moengage.add_mobile(res.phoneNo);
+          Moengage.add_gender(res.gender);
+          Moengage.add_unique_user_id(res.email);
+        }
+        const loginpopup = new URLSearchParams(location.search).get(
+          "loginpopup"
         );
-        showLogin();
+        loginpopup == "cerise" && history.push("/");
+        if (userConsent.includes(GA_CALLS)) {
+          dataLayer.push({
+            event: "checkout",
+            ecommerce: {
+              currencyCode: currency,
+              checkout: {
+                actionField: { step: 1 },
+                products: products
+              }
+            }
+          });
+        }
+        // this.context.closeModal();
+        nextStep?.();
+        // const history = this.props.history
+        // const path = history.location.pathname;
+        // if (path.split("/")[1] == "password-reset") {
+        //   const searchParams = new URLSearchParams(history.location.search);
+        //   history.push(searchParams.get("redirect_to") || "");
+        // }
+
+        const boid = new URLSearchParams(history.location.search).get("bo_id");
+
+        if (boid) {
+          history.push(`/order/checkout?bo_id=${boid}`);
+        }
       } else {
         setAttempts({
           attempts: res?.attempts || 0,
@@ -83,7 +158,7 @@ const EmailVerification: React.FC<Props> = ({
         setError("Invalid OTP");
       }
     } catch (error) {
-      const data = decriptdata(error.response?.data);
+      const data = decriptdata(error?.response?.data);
       setAttempts({
         attempts: data?.attempts || 0,
         maxAttemptsAllow: data?.maxAttemptsAllow || 5
@@ -114,10 +189,12 @@ const EmailVerification: React.FC<Props> = ({
     try {
       // setIsLoading(true);
       setError("");
+      setOtpSmsSent(false);
       const res = await LoginService.sendUserOTP(dispatch, email);
       if (res.otpSent) {
         // handle success
         // timer();
+        setOtpSmsSent(res?.otpSmsSent);
       } else if (res.alreadyVerified) {
         setError([
           "Looks like you are aleady verified. ",
@@ -135,7 +212,7 @@ const EmailVerification: React.FC<Props> = ({
       }
       // setShowCustCare(true);
     } catch (err) {
-      if (err.response.data.alreadyVerified) {
+      if (err?.response?.data?.alreadyVerified) {
         setError([
           "Looks like you are aleady verified. ",
           <span
@@ -164,15 +241,14 @@ const EmailVerification: React.FC<Props> = ({
   }, []);
 
   const goBackCta = (
-    <input
+    <Button
       type="submit"
-      className={cs(
-        globalStyles.charcoalBtn,
-        globalStyles.withWhiteBgNoHover,
-        styles.changeEmailBtn
-      )}
-      value="Go Back"
+      className={cs(styles.changeEmailBtn, {
+        [globalStyles.btnFullWidth]: mobile
+      })}
+      label="Go Back"
       onClick={changeEmail}
+      variant="outlineMediumMedCharcoalCta366"
     />
   );
 
@@ -198,14 +274,22 @@ const EmailVerification: React.FC<Props> = ({
             className={cs(styles.formHeading, styles.verifyHeading)}
             id="first-heading"
           >
-            Verify Email to Login
+            Welcome
           </div>
         )}
         {!isCheckout && (
           <div className={cs(styles.loginFormSubheading, styles.verifyOtp)}>
-            Please verify your email ID by entering OTP sent to {email}
+            {isRegistration
+              ? `Please verify your email ID by entering OTP sent to ${censorEmail(
+                  email
+                )}`
+              : `Please enter the OTP sent to ${censorEmail(email)}
+           ${phoneNo &&
+             otpSmsSent &&
+             `& ${censorPhoneNumber(phoneNo.toString())}`} to login`}
           </div>
         )}
+
         {isCheckout && (
           <div className={styles.checkoutHeaderContainer}>
             <div className={styles.header}>Verify Email</div>
@@ -230,7 +314,7 @@ const EmailVerification: React.FC<Props> = ({
           otpAttemptClass={styles.otpAttempt}
           verifyCtaClass={styles.verifyOtpCta}
           groupTimerAndAttempts={true}
-          goBackCta={!isCheckout && !boId ? goBackCta : null}
+          goBackCta={!isCheckout ? goBackCta : null}
           socialLogin={socialLogin}
           uniqueId="emailverifyid"
         />

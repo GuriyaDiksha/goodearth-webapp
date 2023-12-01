@@ -17,23 +17,23 @@ export const address = (
 ): State => {
   switch (action.type) {
     case "UPDATE_ADDRESS_LIST": {
-      if (action.payload.addressId) {
-        const oldState = state.addressList.map(e => {
-          if (e?.id === action.payload.addressId) {
-            e.isDefaultForShipping = true;
-          }
-          return e;
-        });
-        return {
-          ...state,
-          addressList: oldState
-        };
-      } else {
-        return {
-          ...state,
-          addressList: action.payload.addressList
-        };
-      }
+      // if (action.payload.addressId) {
+      //   const oldState = state.addressList.map(e => {
+      //     if (e?.id === action.payload.addressId) {
+      //       e.isDefaultForShipping = true;
+      //     }
+      //     return e;
+      //   });
+      //   return {
+      //     ...state,
+      //     addressList: oldState
+      //   };
+      // } else {
+      return {
+        ...state,
+        addressList: action.payload.addressList
+      };
+      //}
     }
     case "UPDATE_PINCODE_LIST": {
       return {

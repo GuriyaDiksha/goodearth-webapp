@@ -21,6 +21,28 @@ body:has(.mobile) {
     &.back-btn-address {
       top: 24px;
       right: 0;
+      left: -19px;
+    }
+  }
+}
+
+.back-btn-top-bridal{
+  position: absolute;
+  top: 50px;
+  right: 40px;
+  text-transform: uppercase;
+  cursor: pointer;
+  z-index: 1;
+  &.back-btn-address-bridal {
+    top: 20px;
+    left: -65px;
+    text-align: left;
+  }
+  @media screen and (max-width: 992px) {
+    &.back-btn-address-bridal {
+      top: -10px;
+      right: 0;
+      left: -19px;
     }
   }
 }
@@ -678,14 +700,13 @@ body:has(.mobile) {
     height: 240px;
 
     &.default-address {
-      border-color: $aqua;
-
+      border-color: $med-charcoal;
       .cerise-bridal-rings {
         top: 24px;
       }
     }
     &.default {
-      border: 2px solid $aqua;
+      border: 1px solid $med-charcoal;
     }
   }
   .checkbox {
@@ -727,11 +748,19 @@ body:has(.mobile) {
 
   div {
     width: 100%;
+
+    @media screen and (max-width:992px) {
+      width: 100%;
+    }
+  }
+
+  .full-width{
+    width: 100% !important;
   }
 }
 
 .charcoal-btn-width {
-  width: 95%;
+  width: 100%;
 }
 
 @media screen and (max-width: 992px) {
@@ -769,6 +798,7 @@ body:has(.mobile) {
       width: 100%;
       left: 0;
       margin: 0 !important;
+      height: 58px;
       .charcoal-btn-width {
         width: 100%;
       }
@@ -836,12 +866,49 @@ body:has(.mobile) {
 }
 
 .char-limit{
+float: right;
+margin-top: 5px;
+@include b6_9px_light_montserrat_charcoal();
+}
+
+.address-main {
+  padding-top: 5px;
+  .text {
+    @include b4_12px_montserrat_light_charcoal();
+    letter-spacing: 0.36px;
+  }
+}
+.phone {
+  @include b4_12px_montserrat_charcoal();
+  letter-spacing: 0.36px;
+  padding: 5px 0;
+}
+
+.bridal-address{
+  width: 30%;
+  text-align: right;
+}
+
+.bridal-address-item{
   float: right;
-  margin-top: 5px;
-  @include b6_9px_light_montserrat_charcoal();
+  margin: auto;
+  width: 10%;
+}
+
+.title-width{
+  width: 70%;
+}
+
+.bridal-predefined{
+  @include b4_12px_montserrat_med_aqua();
+  font-size: 10px !important;
 }
 
 .faded-container{
   opacity: 50%;
   cursor: default;
+}
+
+.cancel-btn{
+  float: right;
 }

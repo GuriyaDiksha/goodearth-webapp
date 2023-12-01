@@ -13,6 +13,7 @@ import { Link } from "react-router-dom";
 import AccountService from "services/account";
 import { PasswordProps } from "./typings";
 import { AppState } from "reducers/typings";
+import Button from "components/Button";
 
 const ChangePassword: React.FC<PasswordProps> = ({ setCurrentSection }) => {
   const dispatch = useDispatch();
@@ -159,9 +160,11 @@ const ChangePassword: React.FC<PasswordProps> = ({ setCurrentSection }) => {
             <div className={cs(styles.loginForm, globalStyles.voffset4)}>
               <div className={styles.categorylabel}>
                 <Link to="/">
-                  <button className={globalStyles.ceriseBtn}>
-                    {mobile ? "SHOP NOW" : "CONTINUE SHOPPING"}
-                  </button>
+                  <Button
+                    className={globalStyles.btnFullWidth}
+                    variant="largeAquaCta"
+                    label={mobile ? "SHOP NOW" : "CONTINUE SHOPPING"}
+                  />
                 </Link>
                 <div className={styles.backBtn} onClick={handleBackClick}>
                   &lt; Back
@@ -343,13 +346,12 @@ const ChangePassword: React.FC<PasswordProps> = ({ setCurrentSection }) => {
                       ) : (
                         ""
                       )}
-                      <input
+                      <Button
                         type="submit"
                         disabled={!updatePassword}
-                        className={
-                          updatePassword ? styles.updateDetails : styles.updated
-                        }
-                        value={updatePassword ? "Update Details" : "Updated"}
+                        className={globalStyles.btnFullWidth}
+                        label={updatePassword ? "Update Details" : "Updated"}
+                        variant="largeMedCharcoalCta"
                       />
                     </div>
                   </div>

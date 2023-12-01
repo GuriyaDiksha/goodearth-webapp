@@ -34,6 +34,7 @@ import {
   displayPriceWithCommas,
   displayPriceWithCommasFloat
 } from "utils/utility";
+import Button from "components/Button";
 
 let AbsoluteGrid: any;
 
@@ -995,12 +996,11 @@ class Wishlist extends React.Component<Props, State> {
                     </>
                   )}
                 </p>
-                <div
-                  className={cs(globalStyles.ceriseBtn, styles.btn)}
+                <Button
+                  label={"Login"}
+                  variant="smallMedCharcoalCta"
                   onClick={this.props.openLogin}
-                >
-                  Login
-                </div>
+                />
               </div>
             </div>
           )}

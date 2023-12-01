@@ -7,6 +7,7 @@ import Formsy from "formsy-react";
 import FormInput from "components/Formsy/FormInput";
 import { errorTracking } from "utils/validate";
 import NewOtpComponent from "./NewOtpComponent";
+import Button from "components/Button";
 
 class OtpReedem extends React.Component<otpRedeemProps, otpState> {
   constructor(props: otpRedeemProps) {
@@ -680,11 +681,14 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
             )}
             {!this.state.isOtpSent && (
               <div>
-                <input
+                <Button
+                  variant="mediumMedCharcoalCta366"
                   type="submit"
                   // disabled={this.state.disable}
-                  className={styles.sendOtpBtn}
-                  value={`${
+                  className={cs({
+                    [globalStyles.btnFullWidth]: this.props?.mobile
+                  })}
+                  label={`${
                     this.props.CustomerPointInformation
                       ?.EligibleRedemptionPoints > 0
                       ? "SEND OTP"

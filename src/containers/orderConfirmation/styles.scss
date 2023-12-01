@@ -230,6 +230,10 @@
       justify-content: space-between;
       @include b4_12px_semibold_caps_charocal();
       padding-top: 22px;
+      padding-bottom: 22px;
+      &.total-wrp{
+          border-bottom: 1px solid $light-charcoal;
+      }
     }
 
     .discount-section {
@@ -407,7 +411,7 @@
 .billing-address-wrp{
   @media screen and (min-width:767px) {
     float: right;
-  width: 70%;
+    width: 70%;
   }
   
 }
@@ -415,8 +419,15 @@
 .shipping-address-wrp{
   @media screen and (min-width:767px) {
     float: left;
-  width: 70%;
+    width: 70%;
   }
+  
+}
+
+.product-size {
+  @include b5_10px_montserrat_charcoal();
+  padding: 0 !important;
+  line-height: 1.4;
 }
 
 .only-gift-order {

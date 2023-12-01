@@ -184,21 +184,32 @@ const CollectionLanding = () => {
   }, [load]);
 
   // Filter Tag Functionality
-  const activeFilterHandler = (ele: string) => {
+  const activeFilterHandler = (
+    ele: string,
+    tagClickedFromCollection?: boolean
+  ) => {
     let newData: string[] = [];
     const url = location.pathname;
     let tagUrl = "tags=";
-    if (ele === "All Collections") {
+
+    //This is called when tags are clicked from collection item
+    if (tagClickedFromCollection) {
       newData = [ele];
-    } else if (activeFilterList.includes(ele) && ele !== "All Collections") {
-      const newArr = activeFilterList?.filter(
-        tag => tag !== ele && tag !== "All Collections"
-      );
-      newData = newArr?.length ? [...newArr] : ["All Collections"];
-    } else if (!activeFilterList.includes(ele) && ele !== "All Collections") {
-      newData = [...activeFilterList, ele].filter(
-        tag => tag !== "All Collections"
-      );
+    } else {
+      //This is called when tags are clicked from tag filter
+
+      if (ele === "All Collections") {
+        newData = [ele];
+      } else if (activeFilterList.includes(ele) && ele !== "All Collections") {
+        const newArr = activeFilterList?.filter(
+          tag => tag !== ele && tag !== "All Collections"
+        );
+        newData = newArr?.length ? [...newArr] : ["All Collections"];
+      } else if (!activeFilterList.includes(ele) && ele !== "All Collections") {
+        newData = [...activeFilterList, ele].filter(
+          tag => tag !== "All Collections"
+        );
+      }
     }
 
     setActiveFilterList([...newData]);
@@ -218,7 +229,11 @@ const CollectionLanding = () => {
 
       <div className={styles.itemList}>
         {filteredData?.map((collectionData, i) => (
-          <CollectionItem key={i} collectionData={collectionData} />
+          <CollectionItem
+            key={i}
+            collectionData={collectionData}
+            activeFilterHandler={activeFilterHandler}
+          />
         ))}
       </div>
     </div>

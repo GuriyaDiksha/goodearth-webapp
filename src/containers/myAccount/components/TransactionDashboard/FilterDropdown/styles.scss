@@ -94,18 +94,21 @@
                     text-align: center;
                     margin: auto;
 
-                    .apply-btn{
-                        background-color: $aqua;
-                        border: 1px solid $aqua;
-                        width: 207px;
-                        height: 50px;
-                        @include b3_14px_caps_white();
+                    // .apply-btn{
+                    //     background-color: $aqua;
+                    //     border: 1px solid $aqua;
+                    //     width: 207px;
+                    //     height: 50px;
+                    //     @include b3_14px_caps_white();
 
-                        &:hover{
-                            background-color: transparent;
-                            color: $aqua;
-                        }
-                    }
+                    //     &:hover{
+                    //         background-color: transparent;
+                    //         color: $aqua;
+                    //     }
+                    // }
+                }
+                .checkbox-label{
+                    line-height: 2;
                 }
 
                 .active {
@@ -134,74 +137,74 @@
                         background-color: $white;
                     }
                     button{
-                        width: 50%;
-                        height: 50px;
+                        width: 50% !important;
+                        // height: 50px;
                     }
-                    .cnl-btn{
-                        background-color: $white;
-                        border: 1px solid $charcoal19;
-                        @include b3_14px_montserrat_caps_charcoal();
+                    // .cnl-btn{
+                    //     background-color: $white;
+                    //     border: 1px solid $charcoal19;
+                    //     @include b3_14px_montserrat_caps_charcoal();
 
-                        &:hover{
-                            color: $aqua;
-                            background-color: $white;
-                            border: 1px solid $aqua;
-                        }
-                    }
-                    .srt-btn{
-                        background-color: $aqua;
-                        @include b3_14px_caps_white();
-                        border: 1px solid $aqua;
+                    //     &:hover{
+                    //         color: $aqua;
+                    //         background-color: $white;
+                    //         border: 1px solid $aqua;
+                    //     }
+                    // }
+                    // .srt-btn{
+                    //     background-color: $aqua;
+                    //     @include b3_14px_caps_white();
+                    //     border: 1px solid $aqua;
 
-                        &:hover{
-                            color: $aqua;
-                            background-color: $white
-                        }
-                    }   
+                    //     &:hover{
+                    //         color: $aqua;
+                    //         background-color: $white
+                    //     }
+                    // }   
                 }
 
-                input[type="radio"]:not(:checked) + label:before,
-                input[type="radio"]:checked + label:before, [type="checkbox"]:not(:checked) + label:before,
-                input[type="checkbox"]:checked + label:before {
-                  content: '';
-                  position: absolute;
-                  left: 0;
-                  top: 15px;
-                  width: 18px;
-                  height: 18px;
-                  background-color: white;
-                  border: 1px solid #9f9f9f;
+                // input[type="radio"]:not(:checked) + label:before,
+                // input[type="radio"]:checked + label:before, [type="checkbox"]:not(:checked) + label:before,
+                // input[type="checkbox"]:checked + label:before {
+                //   content: '';
+                //   position: absolute;
+                //   left: 0;
+                //   top: 15px;
+                //   width: 18px;
+                //   height: 18px;
+                //   background-color: white;
+                //   border: 1px solid #9f9f9f;
               
-                }
-                input[type="radio"]:not(:checked) + label,
-                input[type="radio"]:checked + label, [type="checkbox"]:not(:checked) + label,
-                input[type="checkbox"]:checked + label {
-                  padding-left: 30px;
-                }
-                input[type="checkbox"]:checked + label:before {
-                  background-color: $aqua;
-                  border: 1px solid $aqua;
-                }
-                input[type="radio"]:not(:checked) + label:after,
-                input[type="radio"]:checked + label:after, [type="checkbox"]:not(:checked) + label:after,
-                input[type="checkbox"]:checked + label:after {
-                    content: '';
-                    display: block;
-                    width: 6px;
-                    height: 10px;
-                    border: solid #ab1e56;
-                    border-width: 0 2px 2px 0;
-                    position: absolute;
-                    top: 16px;
-                    left: 6px;
-                    font-size: 18px;
-                    line-height: 0.8;
-                    transition: all .1s;
-                }
-                input[type="checkbox"]:checked + label:after{
-                    border: solid $white;
-                    border-width: 0 2px 2px 0;
-                } 
+                // }
+                // input[type="radio"]:not(:checked) + label,
+                // input[type="radio"]:checked + label, [type="checkbox"]:not(:checked) + label,
+                // input[type="checkbox"]:checked + label {
+                //   padding-left: 30px;
+                // }
+                // input[type="checkbox"]:checked + label:before {
+                //   background-color: $aqua;
+                //   border: 1px solid $aqua;
+                // }
+                // input[type="radio"]:not(:checked) + label:after,
+                // input[type="radio"]:checked + label:after, [type="checkbox"]:not(:checked) + label:after,
+                // input[type="checkbox"]:checked + label:after {
+                //     content: '';
+                //     display: block;
+                //     width: 6px;
+                //     height: 10px;
+                //     border: solid #ab1e56;
+                //     border-width: 0 2px 2px 0;
+                //     position: absolute;
+                //     top: 16px;
+                //     left: 6px;
+                //     font-size: 18px;
+                //     line-height: 0.8;
+                //     transition: all .1s;
+                // }
+                // input[type="checkbox"]:checked + label:after{
+                //     border: solid $white;
+                //     border-width: 0 2px 2px 0;
+                // } 
                 &:hover{
                     background: #f7f7f7;
                     // color: $gold;

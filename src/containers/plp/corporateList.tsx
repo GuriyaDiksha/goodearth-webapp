@@ -14,6 +14,7 @@ import { RouteComponentProps } from "react-router-dom";
 import { productImpression, moveChatUp } from "utils/validate";
 import bootstrap from "../../styles/bootstrap/bootstrap-grid.scss";
 import iconStyles from "styles/iconFonts.scss";
+import CheckboxWithLabel from "components/CheckboxWithLabel";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -625,47 +626,22 @@ class CorporateFilter extends React.Component<Props, State> {
     }
   };
 
-  // componentDidMount() {
-  //   moveChatDown();
-  //   window.addEventListener("scroll", this.handleScroll, { passive: true });
-  //   this.props.updateScrollDown(false);
-  //   this.unlisten = this.props.history.listen(this.stateChange);
-  // }
-
   componentDidMount() {
-    const that = this;
+    this.unlisten = this.props.history.listen(this.stateChange);
     window.addEventListener("scroll", this.handleScroll, { passive: true });
     this.props.updateScrollDown(false);
-    // this.unlisten = this.props.history.listen(this.stateChange);
-    let previousUrl = "";
-    let previousCategory = "";
-    const observer = new MutationObserver(function(mutations) {
-      if (location.href !== previousUrl) {
-        previousUrl = location.href;
-        const pathnameArr = location.pathname.split("/");
-        const currentCategory = pathnameArr.filter(
-          i => i != "" && i != "catalogue" && i != "category"
-        )[0];
-        if (previousCategory != currentCategory) {
-          previousCategory = currentCategory;
-          that.setState({
-            filter: {
-              currentColor: {},
-              availableSize: {},
-              categoryShop: {},
-              price: {},
-              currency: {},
-              sortBy: {},
-              productType: {},
-              availableDiscount: {}
-            }
-          });
-        }
+    this.setState({
+      filter: {
+        currentColor: {},
+        availableSize: {},
+        categoryShop: {},
+        price: {},
+        currency: {},
+        sortBy: {},
+        productType: {},
+        availableDiscount: {}
       }
     });
-    const config = { subtree: true, childList: true };
-    observer.observe(document, config);
-
     const header = document.getElementById("myHeader");
     const sticky = (header as HTMLElement)?.offsetTop;
     const filterMenu = document.getElementById("filter_by");
@@ -786,7 +762,7 @@ class CorporateFilter extends React.Component<Props, State> {
 
   componentWillUnmount() {
     window.removeEventListener("scroll", this.handleScroll);
-    // this.unlisten();
+    this.unlisten();
     moveChatUp();
   }
 
@@ -951,9 +927,8 @@ class CorporateFilter extends React.Component<Props, State> {
             {this.props.facets.availableDiscount.map((discount: any) => {
               return (
                 <li key={discount[0]}>
-                  <input
-                    type="checkbox"
-                    onClick={this.onClickDiscount}
+                  <CheckboxWithLabel
+                    onChange={this.onClickDiscount}
                     id={"disc_" + discount[0]}
                     checked={
                       filter.availableDiscount["disc_" + discount[0]]
@@ -962,8 +937,15 @@ class CorporateFilter extends React.Component<Props, State> {
                         : false
                     }
                     value={discount[1]}
+                    label={[
+                      <label
+                        htmlFor={"disc_" + discount[0]}
+                        key={"disc_" + discount[0]}
+                      >
+                        {discount[1]}
+                      </label>
+                    ]}
                   />
-                  <label htmlFor={"disc_" + discount[0]}>{discount[1]}</label>
                 </li>
               );
             })}
@@ -1001,8 +983,7 @@ class CorporateFilter extends React.Component<Props, State> {
           >
             <ul className={styles.categorylabel}>
               <li>
-                <input
-                  type="checkbox"
+                <CheckboxWithLabel
                   id={id}
                   disabled={this.state.disableSelectedbox}
                   checked={
@@ -1010,11 +991,15 @@ class CorporateFilter extends React.Component<Props, State> {
                       ? filter.categoryShop[name][id]
                       : false
                   }
-                  onClick={this.handleClickCategory}
+                  onChange={this.handleClickCategory}
                   value={data[0].split(">")[1].trim()}
                   name="View all"
+                  label={[
+                    <label key={id} htmlFor={id}>
+                      View all
+                    </label>
+                  ]}
                 />
-                <label htmlFor={id}>View all</label>
               </li>
             </ul>
           </div>
@@ -1051,8 +1036,7 @@ class CorporateFilter extends React.Component<Props, State> {
               {categoryObj[data].map((nestedList: any, j: number) => {
                 return (
                   <li key={nestedList[1]}>
-                    <input
-                      type="checkbox"
+                    <CheckboxWithLabel
                       id={nestedList[1]}
                       disabled={this.state.disableSelectedbox}
                       checked={
@@ -1060,11 +1044,15 @@ class CorporateFilter extends React.Component<Props, State> {
                           ? filter.categoryShop[data][nestedList[1]]
                           : false
                       }
-                      onClick={this.handleClickCategory}
+                      onChange={this.handleClickCategory}
                       value={data}
                       name={nestedList[0]}
+                      label={[
+                        <label key={nestedList[1]} htmlFor={nestedList[1]}>
+                          {nestedList[0]}
+                        </label>
+                      ]}
                     />
-                    <label htmlFor={nestedList[1]}>{nestedList[0]}</label>
                   </li>
                 );
               })}
@@ -1093,16 +1081,19 @@ class CorporateFilter extends React.Component<Props, State> {
               <p className="showheader2">
                 <ul className={styles.categorylabel}>
                   <li>
-                    <input
-                      type="checkbox"
+                    <CheckboxWithLabel
                       id={id}
                       disabled={this.state.disableSelectedbox}
                       checked={this.state.isViewAll}
-                      onClick={this.handleClickCategory}
+                      onChange={this.handleClickCategory}
                       name="View all"
                       value={cat}
+                      label={[
+                        <label key={id} htmlFor={id}>
+                          {name}
+                        </label>
+                      ]}
                     />
-                    <label htmlFor={id}>{name}</label>
                   </li>
                 </ul>
               </p>
@@ -1116,8 +1107,7 @@ class CorporateFilter extends React.Component<Props, State> {
               <p className="showheader2">
                 <ul className={styles.categorylabel}>
                   <li>
-                    <input
-                      type="checkbox"
+                    <CheckboxWithLabel
                       id={id}
                       disabled={this.state.disableSelectedbox}
                       checked={
@@ -1125,11 +1115,15 @@ class CorporateFilter extends React.Component<Props, State> {
                           ? filter.categoryShop[cat][id]
                           : false
                       }
-                      onClick={this.handleClickCategory}
+                      onChange={this.handleClickCategory}
                       value={cat}
                       name={cat}
+                      label={[
+                        <label key={id} htmlFor={id}>
+                          {name}
+                        </label>
+                      ]}
                     />
-                    <label htmlFor={id}>{name}</label>
                   </li>
                 </ul>
               </p>
@@ -1264,20 +1258,21 @@ class CorporateFilter extends React.Component<Props, State> {
       };
       html.push(
         <li className={styles.colorlabel} key={data[0]}>
-          <input
-            type="checkbox"
+          <CheckboxWithLabel
             id={data[0]}
             checked={
               filter.currentColor[data[0]]
                 ? filter.currentColor[data[0]].isChecked
                 : false
             }
-            onClick={this.handleClickColor}
+            onChange={this.handleClickColor}
             value={data[0]}
+            label={[
+              <label key={data[0]} htmlFor={data[0]} style={color}>
+                {data[0].split("-")[1]}
+              </label>
+            ]}
           />
-          <label htmlFor={data[0]} style={color}>
-            {data[0].split("-")[1]}
-          </label>
         </li>
       );
     });

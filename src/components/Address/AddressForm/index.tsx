@@ -27,8 +27,10 @@ import { updateCountryData } from "actions/address";
 import { getErrorList, errorTracking } from "utils/validate";
 import BridalContext from "containers/myAccount/components/Bridal/context";
 import noPincodeCountryList from "./noPincodeCountryList";
+import Button from "components/Button";
 import SelectDropdown from "components/Formsy/SelectDropdown";
 import iconStyles from "styles/iconFonts.scss";
+import { cloneDeep } from "lodash";
 
 type Props = {
   addressData?: AddressData;
@@ -300,6 +302,7 @@ const AddressForm: React.FC<Props> = props => {
       state: st,
       province: pro,
       isDefaultForBilling: false,
+      isDefaultForShipping: false,
       country: countryCode,
       addressType: addressType || ""
     };
@@ -314,8 +317,17 @@ const AddressForm: React.FC<Props> = props => {
               setBridalAddress(bridalAddress);
             }
           }
+          const copyAddressList = cloneDeep(addressList);
           setIsLoading(false);
-          closeAddressForm();
+          closeAddressForm(
+            copyAddressList?.[copyAddressList?.length - 1]?.isTulsi
+              ? copyAddressList?.sort((a, b) => a.id - b.id)?.[
+                  copyAddressList?.length - 2
+                ]?.id
+              : copyAddressList?.sort((a, b) => a.id - b.id)?.[
+                  copyAddressList?.length - 1
+                ]?.id
+          );
         })
         .catch(err => {
           const errData = err.response.data;
@@ -353,7 +365,7 @@ const AddressForm: React.FC<Props> = props => {
           }
           setIsAddressChanged(false);
           setIsLoading(false);
-          closeAddressForm();
+          closeAddressForm(id);
         })
         .catch(err => {
           const errData = err.response.data;
@@ -430,7 +442,7 @@ const AddressForm: React.FC<Props> = props => {
         countryName,
         phoneCountryCode,
         phoneNumber,
-        isDefaultForShipping,
+        //  isDefaultForShipping = false,
         line1,
         line2,
         state,
@@ -452,7 +464,7 @@ const AddressForm: React.FC<Props> = props => {
             country: countryName,
             phoneCountryCode,
             phoneNumber,
-            isDefaultForShipping,
+            isDefaultForShipping: false,
             line1,
             line2,
             state,
@@ -496,21 +508,31 @@ const AddressForm: React.FC<Props> = props => {
         }
       )}
     >
-      {((!mobile && currentCallBackComponent == "account") ||
-        currentCallBackComponent == "bridal-edit") && (
-        <div className="back-btn-div">
-          <div
-            className={cs(
-              styles.backBtnTop,
-              styles.backBtnAddress,
-              styles.backBtnFont
-            )}
-            onClick={closeAddressForm}
-          >
-            &lt; back
+      {currentCallBackComponent !== "checkout-shipping" &&
+        currentCallBackComponent !== "checkout-billing" && (
+          <div className="back-btn-div">
+            <div
+              className={
+                currentCallBackComponent == "bridal"
+                  ? cs(
+                      styles.backBtnTopBridal,
+                      styles.backBtnAddressBridal,
+                      styles.backBtnFont
+                    )
+                  : cs(
+                      styles.backBtnTop,
+                      styles.backBtnAddress,
+                      styles.backBtnFont
+                    )
+              }
+              onClick={() =>
+                closeAddressForm(mode === "edit" ? addressData?.id : undefined)
+              }
+            >
+              &lt; back
+            </div>
           </div>
-        </div>
-      )}
+        )}
       <Formsy
         ref={AddressFormRef}
         onValidSubmit={submitAddress}
@@ -537,7 +559,14 @@ const AddressForm: React.FC<Props> = props => {
                 <div className={styles.formTitle}>
                   {mode == "edit" ? "Edit ADDRESS" : "ADD NEW ADDRESS"}
                 </div>
-                <div className={styles.formClose} onClick={closeAddressForm}>
+                <div
+                  className={styles.formClose}
+                  onClick={() =>
+                    closeAddressForm(
+                      mode === "edit" ? addressData?.id : undefined
+                    )
+                  }
+                >
                   <i
                     className={cs(
                       iconStyles.icon,
@@ -929,7 +958,7 @@ const AddressForm: React.FC<Props> = props => {
               {30 - nickname?.length >= 0 ? 30 - nickname?.length : 0}/30
             </p>
           </div>
-          <div className={styles.addressFormCheckbox}>
+          {/* <div className={styles.addressFormCheckbox}>
             <FormCheckbox
               name="isDefaultForShipping"
               label={["Make Default Address"]}
@@ -940,72 +969,50 @@ const AddressForm: React.FC<Props> = props => {
                 !addressData?.isDefaultForShipping && setIsAddressChanged(true)
               }
             />
-          </div>
+          </div> */}
 
           <div
-            className={cs({
+            className={cs(globalStyles.textCenter, {
               [styles.checkoutMobilePopupButton]:
                 currentCallBackComponent == "checkout-shipping" ||
                 currentCallBackComponent == "checkout-billing"
             })}
           >
             <div className={cs(globalStyles.flex, styles.btnWrp)}>
-              <div>
+              <div
+                className={cs(
+                  {
+                    [styles.fullWidth]:
+                      currentCallBackComponent == "bridal-edit" ||
+                      currentCallBackComponent == "bridal"
+                  },
+                  {
+                    [globalStyles.paddT20]: !(
+                      mobile &&
+                      (currentCallBackComponent == "checkout-shipping" ||
+                        currentCallBackComponent == "checkout-billing")
+                    )
+                  }
+                )}
+              >
                 {mode == "edit" ? (
-                  <input
-                    formNoValidate={true}
+                  <Button
+                    variant="mediumMedCharcoalCta366"
                     type="submit"
-                    value={isAddressChanged ? "Update Address" : "Updated"}
-                    className={cs(
-                      globalStyles.ceriseBtn,
-                      {
-                        [globalStyles.disabledBtn]: !isAddressChanged
-                      },
-                      {
-                        [styles.charcoalBtn]:
-                          currentCallBackComponent == "account" ||
-                          currentCallBackComponent == "checkout-shipping" ||
-                          currentCallBackComponent == "checkout-billing" ||
-                          currentCallBackComponent == "bridal-edit"
-                      },
-                      {
-                        [styles.charcoalBtnWidth]:
-                          currentCallBackComponent == "checkout-shipping" ||
-                          currentCallBackComponent == "checkout-billing" ||
-                          currentCallBackComponent == "bridal-edit"
-                      }
-                    )}
+                    label={"SAVE ADDRESS"}
+                    className={cs({ [globalStyles.btnFullWidth]: mobile })}
                     disabled={!isAddressChanged}
                   />
                 ) : (
-                  <input
-                    formNoValidate={true}
+                  <Button
+                    variant="mediumMedCharcoalCta366"
                     type="submit"
-                    value="Save Address"
-                    className={cs(
-                      globalStyles.ceriseBtn,
-                      // {
-                      //   [styles.disabledBtn]: !isAddressChanged
-                      // },
-                      {
-                        [styles.charcoalBtn]:
-                          currentCallBackComponent == "account" ||
-                          currentCallBackComponent == "checkout-shipping" ||
-                          currentCallBackComponent == "checkout-billing" ||
-                          currentCallBackComponent == "bridal"
-                      },
-                      {
-                        [styles.charcoalBtnWidth]:
-                          currentCallBackComponent == "checkout-shipping" ||
-                          currentCallBackComponent == "checkout-billing" ||
-                          currentCallBackComponent == "bridal"
-                      }
-                    )}
-                    // disabled={!isAddressChanged}
+                    label={"ADD NEW ADDRESS"}
+                    className={cs({ [globalStyles.btnFullWidth]: mobile })}
                   />
                 )}
               </div>
-              {currentCallBackComponent !== "bridal-edit" &&
+              {/* {currentCallBackComponent !== "bridal-edit" &&
                 currentCallBackComponent !== "bridal" && (
                   <div className="col-xs-6">
                     <button
@@ -1022,12 +1029,16 @@ const AddressForm: React.FC<Props> = props => {
                             currentCallBackComponent == "checkout-billing"
                         }
                       )}
-                      onClick={closeAddressForm}
+                      onClick={() =>
+                        closeAddressForm(
+                          mode === "edit" ? addressData?.id : undefined
+                        )
+                      }
                     >
                       cancel
                     </button>
                   </div>
-                )}
+                )} */}
             </div>
             {errorMessage ? (
               <p className={globalStyles.errorMsg}>{errorMessage}</p>
@@ -1038,10 +1049,7 @@ const AddressForm: React.FC<Props> = props => {
         </div>
       </Formsy>
 
-      {((currentCallBackComponent !== "checkout-billing" &&
-        currentCallBackComponent !== "checkout-shipping" &&
-        currentCallBackComponent !== "bridal") ||
-        mobile) && (
+      {
         <div className={cs(styles.backBtnCenter, styles.backBtnProfile)}>
           <span
             className={cs(
@@ -1050,18 +1058,20 @@ const AddressForm: React.FC<Props> = props => {
               styles.addNewAddress
             )}
             onTouchEnd={() => {
-              closeAddressForm();
+              window.scrollTo(0, 0);
+              closeAddressForm(mode === "edit" ? addressData?.id : undefined);
             }}
             onClick={() => {
-              closeAddressForm();
+              window.scrollTo(0, 0);
+              closeAddressForm(mode === "edit" ? addressData?.id : undefined);
             }}
           >
-            Cancel & Go Back
+            Go Back
           </span>
         </div>
-      )}
+      }
       {/* no need of BACK TO SAVED ADDRESSES at bottom so putting false here temprary */}
-      {isLoggedIn &&
+      {/* {isLoggedIn &&
         !mobile &&
         false &&
         (currentCallBackComponent == "checkout-billing" ||
@@ -1073,17 +1083,22 @@ const AddressForm: React.FC<Props> = props => {
               styles.backAddressForm
             )}
           >
-            <div className={globalStyles.pointer} onClick={closeAddressForm}>
+            <div
+              className={globalStyles.pointer}
+              onClick={() =>
+                closeAddressForm(mode === "edit" ? addressData?.id : undefined)
+              }
+            >
               {addressList
                 ? addressList.filter(data => !data.isBridal && !data.isTulsi)
                     .length > 0 || bridalUser.userId
                   ? "< BACK TO SAVED ADDRESSES"
                   : ""
                 : "< BACK TO SAVED ADDRESSES"}
-              {/* Back to Saved Addresses */}
+              {/* Back to Saved Addresses 
             </div>
           </div>
-        )}
+        )} */}
     </div>
   );
 };

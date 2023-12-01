@@ -53,7 +53,7 @@ export type OrderProps = {
   isPaymentNeeded?: any;
   onsubmit?: () => any;
   checkoutMobileOrderSummary?: boolean;
-  boId?: string;
+  // boId?: string;
   tablet?: boolean;
 };
 
@@ -74,6 +74,8 @@ export type PaymentProps = {
   salestatus: boolean;
   checkout: (data: any) => any;
   gstNo?: string;
+  activeStep: string;
+  currentStep: number;
   isGcCheckout: boolean;
 };
 
