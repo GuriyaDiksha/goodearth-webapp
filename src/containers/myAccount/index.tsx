@@ -216,6 +216,7 @@ const MyAccount: React.FC<Props> = props => {
     }
   ];
   let ceriseClubAccess = false;
+
   if (slab) {
     ceriseClubAccess =
       slab.toLowerCase() == "cerise" ||
