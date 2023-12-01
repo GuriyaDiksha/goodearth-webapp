@@ -20,7 +20,6 @@ type Props = {
   setConsent: any;
   showCookiePref: boolean;
   showCookiePrefs: any;
-  mobile: boolean;
 };
 
 const CookiePolicy: React.FC<Props> = ({
@@ -28,8 +27,7 @@ const CookiePolicy: React.FC<Props> = ({
   acceptCookies,
   hideCookies,
   showCookiePref,
-  showCookiePrefs,
-  mobile
+  showCookiePrefs
 }) => {
   const [isPrefOpen, setIsPrefOpen] = useState(false);
   const [consents, setConsents] = useState<Consent[]>([]);
