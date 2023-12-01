@@ -94,6 +94,8 @@ const PaymentSection: React.FC<PaymentProps> = props => {
 
   const PaymentButton = useRef(null);
 
+  const isSafari = /^((?!chrome|android).)*safari/i.test(navigator?.userAgent);
+
   const toggleInput = async () => {
     if (basket.giftCards.length > 0 && isactivepromo) {
       setIsLoading(true);
@@ -856,7 +858,13 @@ const PaymentSection: React.FC<PaymentProps> = props => {
                           styles.charLimitText
                         )}
                       >
-                        Char Limit: {250 - textarea.length}/250
+                        Char Limit:{" "}
+                        {250 -
+                          (textarea.length +
+                            (isSafari
+                              ? textarea?.match(/(\r\n|\n|\r)/g)?.length || 0
+                              : 0))}
+                        /250
                       </div>
                     </div>
                   )}
