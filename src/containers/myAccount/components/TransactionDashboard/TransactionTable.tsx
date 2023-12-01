@@ -147,7 +147,16 @@ const TransactionTable = ({ mobile }: Props) => {
       } else {
         (document.getElementById(id) as HTMLElement).style.maxHeight = "0px";
       }
+      if (document.getElementById(openStateId?.id.toString())) {
+        (document.getElementById(
+          openStateId?.id.toString()
+        ) as HTMLElement).style.maxHeight = "0px";
+      }
     }
+    setOpenStateId({
+      id: id,
+      state: isShow
+    });
   };
 
   return (
@@ -398,13 +407,6 @@ const TransactionTable = ({ mobile }: Props) => {
                             : ""
                         }
                         onClick={() => {
-                          setOpenStateId({
-                            id: ind + "t",
-                            state:
-                              openStateId["id"] === ind + "t"
-                                ? !openStateId["state"]
-                                : true
-                          });
                           handleAnimation(
                             ind + "t",
                             openStateId["id"] === ind + "t"
