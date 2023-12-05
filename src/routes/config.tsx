@@ -89,6 +89,12 @@ const routes: RouteConfig = [
     exact: true
   },
   {
+    path: ROUTES.SHAREDWISHLIST,
+    component: loadable(() => import("containers/wishlist")),
+    action: async () => null,
+    exact: true
+  },
+  {
     path: ROUTES.CATEGORY,
     component: loadable(() => import("containers/categoryLanding")),
     action: initActionCategoryLanding,

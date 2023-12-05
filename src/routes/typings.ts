@@ -14,6 +14,7 @@ export const enum ROUTES {
   CAREERDETAIL = "/careers-detail/:jobId",
   CAREER = "/careers",
   WISHLIST = "/wishlist",
+  SHAREDWISHLIST = "/shared-wishlist/:uid",
   GIFTCARD = "/giftcard",
   ResetPassword = "/password-reset/confirm/:uid/:token",
   STATIC = "/customer-assistance/",

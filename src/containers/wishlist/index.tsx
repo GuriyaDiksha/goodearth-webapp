@@ -46,7 +46,9 @@ const mapStateToProps = (state: AppState) => {
     sortedDiscount: state.wishlist.sortedDiscount,
     isLoggedIn: state.user.isLoggedIn,
     isSale: state.info.isSale,
-    showTimer: state.info.showTimer
+    showTimer: state.info.showTimer,
+    location: state.router.location,
+    isShared: state.router.location.pathname.includes("shared-wishlist")
   };
 };
 const mapDispatchToProps = (dispatch: Dispatch) => {
@@ -63,9 +65,26 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       await WishlistService.removeFromWishlist(dispatch, productId, id, sortBy),
     updateWishlist: async (sortBy: string) =>
       await WishlistService.updateWishlist(dispatch, sortBy),
+    updateWishlistShared: async (sortBy: string, location: any) => {
+      const uid = location.pathname.split("/")[2].split("?")[0];
+      await WishlistService.updateWishlistShared(dispatch, uid, sortBy);
+    },
     updateWishlistSequencing: async (sequencing: [number, number][]) =>
       await WishlistService.updateWishlistSequencing(dispatch, sequencing),
     openLogin: () => LoginService.showLogin(dispatch),
+    openSharePopup: () => {
+      dispatch(
+        updateComponent(
+          POPUP.SHAREWISHLIST,
+          {
+            shareUrl: "https://www.goodearth.in/sssss"
+            // bridalDetails={bridalDetails}
+          },
+          true
+        )
+      );
+      dispatch(updateModal(true));
+    },
     openPopup: (
       item: WishListGridItem,
       currency: Currency,
@@ -198,7 +217,8 @@ class Wishlist extends React.Component<Props, State> {
         mobile: this.props.mobile,
         currency: this.props.currency,
         isSale: this.props.isSale,
-        sortBy: this.state.currentFilter
+        sortBy: this.state.currentFilter,
+        isShared: this.props.isShared
       },
       false
     );
@@ -211,19 +231,35 @@ class Wishlist extends React.Component<Props, State> {
     if (!sortBy && this.state.defaultOption.value) {
       sortBy = this.state.defaultOption.value;
     }
-    this.props
-      .updateWishlist(sortBy)
-      .then(res => {
-        this.setState({
-          isLoading: false
+    if (!this.props.isShared) {
+      this.props
+        .updateWishlist(sortBy)
+        .then(res => {
+          this.setState({
+            isLoading: false
+          });
+        })
+        .catch(error => {
+          this.setState({
+            isLoading: false
+          });
+          // console.log(error);
         });
-      })
-      .catch(error => {
-        this.setState({
-          isLoading: false
+    } else {
+      this.props
+        .updateWishlistShared(sortBy, this.props.location)
+        .then(res => {
+          this.setState({
+            isLoading: false
+          });
+        })
+        .catch(error => {
+          this.setState({
+            isLoading: false
+          });
+          // console.log(error);
         });
-        // console.log(error);
-      });
+    }
   };
 
   onChangeFilter = (data?: string, label?: string) => {
@@ -310,6 +346,10 @@ class Wishlist extends React.Component<Props, State> {
   };
 
   componentDidMount() {
+    if (this.props.isShared) {
+      // Call get wishlist only in case of shared because there is no init action
+      this.getWishlist(this.state.defaultOption.value);
+    }
     this.container = document.getElementById("wishlist");
     this.root = createRoot(this.container);
     window.addEventListener("resize", debounce(this.updateStyle, 100));
@@ -344,7 +384,8 @@ class Wishlist extends React.Component<Props, State> {
           mobile: this.props.mobile,
           currency: this.props.currency,
           isSale: this.props.isSale,
-          sortBy: this.state.currentFilter
+          sortBy: this.state.currentFilter,
+          isShared: this.props.isShared
         },
         false
       );
@@ -378,7 +419,8 @@ class Wishlist extends React.Component<Props, State> {
           mobile: nextProps.mobile,
           currency: nextProps.currency,
           isSale: nextProps.isSale,
-          sortBy: this.state.currentFilter
+          sortBy: this.state.currentFilter,
+          isShared: this.props.isShared
         },
         false
       );
@@ -570,8 +612,8 @@ class Wishlist extends React.Component<Props, State> {
       }
     }
   };
+
   myrender = (data: WishListGridItem[]) => {
-    console.log(this.root);
     if (data.length > 0) {
       if (this.props.mobile) {
         this.root.render(
@@ -980,13 +1022,13 @@ class Wishlist extends React.Component<Props, State> {
           {!isLoggedIn && (
             <div className={styles.topBlockContainer}>
               <div className={styles.innerContainer}>
-                <h3 className={styles.heading}>Saved Items</h3>
+                <h3 className={styles.heading}>Your Saved List</h3>
                 <p className={styles.subheading}>
                   {this.state.wishlistCount > 0 ? (
                     <>
-                      Keep track of your favourite pieces all in one place!
+                      Here are your saved items. Login to share the list and
                       <br />
-                      Login to save this list!
+                      continue where you left off.
                     </>
                   ) : (
                     <>
@@ -1012,8 +1054,22 @@ class Wishlist extends React.Component<Props, State> {
             )}
           >
             {this.state.wishlistCount > 0 && (
-              <div className={cs(styles.wishlistTop, styles.wishlistSubtotal)}>
-                {this.getWishlistSubtotal()}
+              <div
+                onClick={
+                  this.props.isLoggedIn
+                    ? this.props.openSharePopup
+                    : this.props.openLogin
+                }
+              >
+                <div
+                  className={cs(styles.wishlistTop, styles.wishlistSubtotal)}
+                >
+                  {this.getWishlistSubtotal()}
+                </div>
+                <div className={styles.shareList}>
+                  <i className={cs(iconStyles.icon, styles.iconLink)}></i>SHARE
+                  LIST
+                </div>
               </div>
             )}
             <div

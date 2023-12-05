@@ -16,13 +16,13 @@ type Props = {
   mobile: boolean;
   isSale: boolean;
   sortBy: string;
+  isShared: boolean;
 };
 
 const SampleDisplay: React.FC<Props> = props => {
   // const { currency } = useSelector((state: AppState) => state);
   // const { isSale } = useSelector((state: AppState) => state.info);
-
-  const { isSale } = props;
+  const { isSale, isShared } = props;
 
   const atbOrNotify = (item: WishListGridItem) => {
     let flag = false;
@@ -101,7 +101,7 @@ const SampleDisplay: React.FC<Props> = props => {
               <img src={data.salesBadgeImage} />
             </div>
           )}
-          {mobile ? (
+          {mobile && !isShared ? (
             <i
               className={cs(
                 iconStyles.icon,

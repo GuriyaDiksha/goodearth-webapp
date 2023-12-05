@@ -22,6 +22,19 @@ export default {
     dispatch(updateWishlist(res.data, sortBy, res.sortedDiscount));
   },
 
+  updateWishlistShared: async function(
+    dispatch: Dispatch,
+    uid?: string,
+    sortBy = "added_on"
+  ) {
+    console.log("updateWishlistShared", uid, sortBy);
+    const res = await API.get<WishlistResponse>(
+      dispatch,
+      `${__API_HOST__}/myapi/wishlist/get_sharable_wishlist_items/${uid}?sort_by=${sortBy}`
+    );
+    dispatch(updateWishlist(res.data, sortBy, res.sortedDiscount));
+  },
+
   resetWishlist: function(dispatch: Dispatch) {
     dispatch(updateWishlist([]));
   },

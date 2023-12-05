@@ -5,7 +5,7 @@ const initActionWishlist: InitAction = async store => {
   try {
     await WishlistService.updateWishlist(store.dispatch);
   } catch (err) {
-    // do nothing
+    console.log("Init wishlist API throwing error:", err);
   }
 };
 
