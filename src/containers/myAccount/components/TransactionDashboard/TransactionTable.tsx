@@ -23,9 +23,9 @@ type Props = {
 
 const TransactionTable = ({ mobile }: Props) => {
   const [openStateId, setOpenStateId] = useState<{
-    id: string | number;
+    id: string;
     state: boolean;
-  }>({ id: 0, state: true });
+  }>({ id: "0", state: true });
   const [dropDownValue, setDropdownValue] = useState("L12M");
   const [dropDownValue2, setDropdownValue2] = useState("ALL");
   const [currentPage, setCurrentPage] = useState(1);
@@ -147,9 +147,10 @@ const TransactionTable = ({ mobile }: Props) => {
       } else {
         (document.getElementById(id) as HTMLElement).style.maxHeight = "0px";
       }
-      if (document.getElementById(openStateId?.id.toString())) {
+      // Close previous opened accordion
+      if (openStateId?.id != id && document.getElementById(openStateId?.id)) {
         (document.getElementById(
-          openStateId?.id.toString()
+          openStateId?.id
         ) as HTMLElement).style.maxHeight = "0px";
       }
     }
