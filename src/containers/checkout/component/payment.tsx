@@ -94,7 +94,10 @@ const PaymentSection: React.FC<PaymentProps> = props => {
 
   const PaymentButton = useRef(null);
 
-  const isSafari = /^((?!chrome|android).)*safari/i.test(navigator?.userAgent);
+  const isSafari =
+    typeof window !== "undefined"
+      ? /^((?!chrome|android).)*safari/i.test(window.navigator?.userAgent)
+      : false;
 
   const toggleInput = async () => {
     if (basket.giftCards.length > 0 && isactivepromo) {
