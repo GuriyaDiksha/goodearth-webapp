@@ -730,6 +730,16 @@ export default {
             if (item1 && item2 && location?.pathname != "/order/checkout") {
               showGrowlMessage(dispatch, MESSAGE.REGISTRY_MIXED_SHIPPING, 6000);
             }
+
+            let outOfStockMsg = "";
+            basketRes.lineItems.map(data => {
+              if (!data.product.inStock) {
+                outOfStockMsg = MESSAGE.PRODUCT_OUT_OF_STOCK;
+              }
+            });
+            if (outOfStockMsg) {
+              showGrowlMessage(dispatch, outOfStockMsg, 6000);
+            }
           }
         }
       );
