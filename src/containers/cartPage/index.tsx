@@ -36,8 +36,6 @@ import CheckoutService from "services/checkout";
 import Loader from "components/Loader";
 import { GA_CALLS } from "constants/cookieConsent";
 import { REGISTRY_MIXED_SHIPPING } from "constants/messages";
-import { Basket } from "typings/basket";
-import { basket } from "../../reducers/basket/index";
 
 const mapStateToProps = (state: AppState) => {
   return {
