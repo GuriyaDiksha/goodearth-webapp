@@ -529,7 +529,8 @@
       background-color: #fff;
       overflow: scroll;
       &.ht {
-        height: 60vh;
+        // height: 60vh;
+        height: auto;
       }
       .btn {
         @include cerise-btn();
@@ -1099,4 +1100,20 @@
   .btn-qty{
     cursor: unset!important;
   }
+}
+.proceed-button{
+  max-width: 365px;
+  margin: 0 auto;
+  padding-top: 45px;
+  button{
+    height: 50px;
+    &:hover{
+      background: #fff;
+      color: #4C4C4C;
+      border: 1px solid #4C4C4C;
+    }
+  }
+}
+.hide{
+  display: none;
 }

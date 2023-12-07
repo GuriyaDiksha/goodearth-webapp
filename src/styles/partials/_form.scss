@@ -362,6 +362,11 @@
     padding-left: 30px;
   }
 }
+@media(max-width:425px){
+  .categorylabel .country-code > div {
+    width: 50%!important;
+  }
+}
 
 .categorylabel {
   input[type="radio"]:not(:checked) + label:after,

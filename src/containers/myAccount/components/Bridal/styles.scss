@@ -1042,7 +1042,8 @@
     background-color: #fff;
     overflow: scroll;
     &.ht {
-      height: 60vh;
+      // height: 60vh;
+      height: auto;
     }
     .btn {
       @include cerise-btn();
@@ -1673,6 +1674,11 @@ margin-bottom: 50px !important;
   top: 0px;
   left: 22px;
   font-size: 12px;
+}
+@media(max-width:425px){
+  .radio-btn li:nth-child(4){
+     margin-bottom: 50px!important;  
+  }
 }
 .radio-btn .last-li-child{
   margin-bottom: 30px;

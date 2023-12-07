@@ -567,9 +567,11 @@ class BridalCheckout extends React.Component<Props, State> {
                   {/* Sorry, the event has ended. */}
                   Looks like the event has ended.
                 </div>
-                {/* <div>
-                  <button className={globalStyles.charcoalBtn}>PROCEED TO GOODEARTH.IN</button>
-                </div> */}
+                <div className={styles.proceedButton}>
+                  <button className={globalStyles.charcoalBtn}>
+                    PROCEED TO GOODEARTH.IN
+                  </button>
+                </div>
               </>
             )}
             {!mobile && (
@@ -581,7 +583,11 @@ class BridalCheckout extends React.Component<Props, State> {
                     styles.cart,
                     styles.cartContainer,
                     styles.fixedDiv,
-                    styles.stick
+                    styles.stick,
+                    {
+                      [styles.hide]:
+                        this.state.bridalProfile?.message == "Invalid bridal"
+                    }
                   )}
                 >
                   <div className={cs(styles.cartItem, globalStyles.gutter15)}>
