@@ -90,8 +90,14 @@ export const ADD_TO_REGISTRY_AGAIN = [
 ];
 export const REGISTRY_OWNER_CHECKOUT =
   "Looks like you are the owner of this Bridal Registry! Your order will be placed against your registry";
-export const REGISTRY_MIXED_SHIPPING =
-  "Note that items not part of the registry will also be shipped to registrant address unless removed from bag";
+export const REGISTRY_MIXED_SHIPPING = (
+  // "Note that items not part of the registry will also be shipped to registrant address unless removed from bag";
+  <>
+    Note that some items in your bag that are not part of the registry will
+    <br />
+    get shipped to registrant address unless removed from the bag.
+  </>
+);
 export const PREVIOUS_BASKET = (
   <>
     Some items already exist in your bag.

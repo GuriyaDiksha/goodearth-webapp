@@ -15,7 +15,7 @@ import bridalRing from "../../../images/bridal/rings.svg";
 import addedReg from "../../../images/registery/addedReg.svg";
 import CookieService from "services/cookie";
 import { GA_CALLS } from "constants/cookieConsent";
-
+import moment from "moment";
 type Props = {
   addressData: AddressData;
   title?: string;
@@ -53,6 +53,7 @@ const AddressItem: React.FC<Props> = props => {
   // const isDefaultAddress = () => {
   //     return props.addressData.isDefaultForShipping;
   // }
+  const currentDate = moment().format("DD/MM/YYYY");
   const {
     step,
     changeBridalAddress,
@@ -1238,6 +1239,12 @@ const AddressItem: React.FC<Props> = props => {
             )} */}
         </div>
       </div>
+      {props.showAddressInBridalUse && address.isBridal && (
+        <div className={globalStyles.errorMsg}>
+          All orders placed before {currentDate} will be shipped to the older
+          address.
+        </div>
+      )}
       {/* {props.shippingErrorMsg && address.id == props.addressDataIdError && (
         <div className={globalStyles.errorMsg}>{props.shippingErrorMsg}</div>
       )}
