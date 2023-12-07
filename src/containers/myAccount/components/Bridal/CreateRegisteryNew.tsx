@@ -118,8 +118,6 @@ const CreateRegistryNew: React.FC = () => {
     setUpdateProfile(true);
   };
 
-  const [occasionChoice, setOccasionChoice] = useState(data.occassion_choice);
-
   const occasionChoiceRef = useRef<HTMLInputElement>(null);
   const registrantNameRef = useRef<HTMLInputElement>(null);
   const coRegistrantNameRef = useRef<HTMLInputElement>(null);
@@ -131,7 +129,7 @@ const CreateRegistryNew: React.FC = () => {
     const occasionChoice =
       occasionChoiceRef.current?.value.trim() == ""
         ? ""
-        : registrantNameRef.current?.value;
+        : occasionChoiceRef.current?.value;
     const registrantName =
       registrantNameRef.current?.value.trim() == ""
         ? ""
@@ -151,6 +149,12 @@ const CreateRegistryNew: React.FC = () => {
       setUpdateProfile(false);
     }
   };
+
+  const [otherChoice, setOtherChoice] = useState("");
+  const onChangeOther = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setOtherChoice(event.target.value);
+  };
+
   //************** date picker *****************
   //   const [updateDate, setUpdateDate] = useState(data.eventDate ? true : false);
   let pickerRef: any = null;
@@ -219,7 +223,7 @@ const CreateRegistryNew: React.FC = () => {
                       onClick={e => {
                         setRegistry("wedding");
                         setOccasionError("");
-                        setOccasionChoice("");
+                        setOtherChoice("");
                         // const input = document.getElementById("other_value")as HTMLInputElement | null;
                         // input?.value
                       }}
@@ -235,7 +239,7 @@ const CreateRegistryNew: React.FC = () => {
                       onClick={e => {
                         setRegistry("anniversary");
                         setOccasionError("");
-                        setOccasionChoice("");
+                        setOtherChoice("");
                       }}
                       data-value="anniversary"
                       className={cs(styles.radioList, {
@@ -249,7 +253,7 @@ const CreateRegistryNew: React.FC = () => {
                       onClick={e => {
                         setRegistry("birthday");
                         setOccasionError("");
-                        setOccasionChoice("");
+                        setOtherChoice("");
                       }}
                       data-value="birthday"
                       className={cs(styles.radioList, {
@@ -293,8 +297,8 @@ const CreateRegistryNew: React.FC = () => {
                             maxLength:
                               "You can not enter more than 50 characters"
                           }}
-                          value={occasionInCaps ? "" : data.occassion_choice}
-                          handleChange={handleUpdateProfileChange}
+                          value={otherChoice}
+                          handleChange={onChangeOther}
                         />
                         <div className={cs(styles.occasionErrorMsg)}>
                           {occasionError ? occasionError : ""}

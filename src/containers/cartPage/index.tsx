@@ -35,6 +35,7 @@ import { StaticContext } from "react-router";
 import CheckoutService from "services/checkout";
 import Loader from "components/Loader";
 import { GA_CALLS } from "constants/cookieConsent";
+import { REGISTRY_MIXED_SHIPPING } from "constants/messages";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -348,6 +349,16 @@ class CartPage extends React.Component<Props, State> {
       count = count + items[i].quantity;
     }
     return count;
+  }
+
+  checkMixItems() {
+    let item1 = false,
+      item2 = false;
+    this.props.cart.lineItems.map(data => {
+      if (!data.bridalProfile) item1 = true;
+      if (data.bridalProfile) item2 = true;
+    });
+    return item1 && item2;
   }
 
   onUndoWishlistClick = () => {
@@ -766,11 +777,13 @@ class CartPage extends React.Component<Props, State> {
             </div>
           )}
           {/* {this.renderMessage()} */}
-
-          {this.state.newLoading && <Loader />}
+          {this.checkMixItems() && (
+            <div className={styles.mixedItemsMsg}>
+              <p>{REGISTRY_MIXED_SHIPPING}</p>
+            </div>
+          )}
           {this.getItems()}
         </div>
-
         <div
           className={cs(
             bootstrap.col12,
