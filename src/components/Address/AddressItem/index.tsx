@@ -1239,12 +1239,14 @@ const AddressItem: React.FC<Props> = props => {
             )} */}
         </div>
       </div>
-      {props.showAddressInBridalUse && address.isBridal && (
-        <div className={globalStyles.errorMsg}>
-          All orders placed before {currentDate} will be shipped to the older
-          address.
-        </div>
-      )}
+      {currentCallBackComponent == "bridal-edit" &&
+        props.showAddressInBridalUse &&
+        address.isBridal && (
+          <div className={globalStyles.errorMsg}>
+            All orders placed before {currentDate} will be shipped to the older
+            address.
+          </div>
+        )}
       {/* {props.shippingErrorMsg && address.id == props.addressDataIdError && (
         <div className={globalStyles.errorMsg}>{props.shippingErrorMsg}</div>
       )}
