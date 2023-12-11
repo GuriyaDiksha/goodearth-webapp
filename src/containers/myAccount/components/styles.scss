@@ -635,10 +635,6 @@ input[type="text"]{
   }
   .rtcinfo {
     margin-top: 15px;
-    &:hover{
-      color: $aqua-bold;
-      text-decoration: underline;
-    }
     p{
       line-height: 18px;
       margin-bottom: 10px;
@@ -1104,6 +1100,10 @@ input[type="text"]{
   letter-spacing: 0.5px;
   text-decoration: underline;
   text-underline-offset: 5px;
+  &:hover{
+    color: $aqua-bold;
+    text-decoration: underline;
+  }
 }
 
 .horizontal{

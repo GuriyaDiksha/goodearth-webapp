@@ -312,15 +312,17 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
             </span>
           </div>
         )}
-        <div className={cs(styles.price, styles.price2)}>
-          <span className={styles.label}>TOTAL</span>
-          <span className={styles.value}>
-            {`(+) ${displayPriceWithCommasFloat(
-              item?.subTotalWithShipping || 0,
-              item.currency
-            )}`}
-          </span>
-        </div>
+        {!item?.isOnlyGiftOrder && (
+          <div className={cs(styles.price, styles.price2)}>
+            <span className={styles.label}>TOTAL</span>
+            <span className={styles.value}>
+              {`(+) ${displayPriceWithCommasFloat(
+                item?.subTotalWithShipping || 0,
+                item.currency
+              )}`}
+            </span>
+          </div>
+        )}
         {/* voucher discounts */}
         {data.voucherDiscounts?.map((vd: any, i: number) => {
           return (
