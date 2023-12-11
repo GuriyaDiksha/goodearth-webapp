@@ -148,7 +148,6 @@ const BaseLayout: React.FC = () => {
   }, [orientation, tablet]);
 
   const showPopup = (isShow: boolean) => {
-    debugger;
     if (popup && popup.length > 0) {
       const currentPopup = popup.filter(
         pop =>
