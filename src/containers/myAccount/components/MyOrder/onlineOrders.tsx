@@ -316,7 +316,7 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
           <span className={styles.label}>TOTAL</span>
           <span className={styles.value}>
             {`(+) ${displayPriceWithCommasFloat(
-              item?.subTotalWithShipping || 0,
+              data?.subTotalWithShipping,
               item.currency
             )}`}
           </span>
