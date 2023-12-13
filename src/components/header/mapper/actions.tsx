@@ -41,9 +41,9 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       page?: string
     ) => {
       MetaService.updateMeta(dispatch, cookies, bridalKey);
-      if (!page?.includes("/wishlist")) {
+      WishlistService.countWishlist(dispatch);
+      if (page?.includes("/wishlist")) {
         WishlistService.updateWishlist(dispatch, sortBy);
-        WishlistService.countWishlist(dispatch);
       }
       if (!page?.includes("/cart") && !page?.includes("/order/checkout")) {
         BasketService.fetchBasket(dispatch);
@@ -83,11 +83,13 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       });
       // }
       if (!page?.includes("/wishlist")) {
-        WishlistService.updateWishlist(
-          dispatch,
-          sortBy == "discount" ? "added_on" : sortBy
-        );
+        // WishlistService.updateWishlist(
+        //   dispatch,
+        //   sortBy == "discount" ? "added_on" : sortBy
+        // );
+        // WishlistService.countWishlist(dispatch);
       }
+      WishlistService.countWishlist(dispatch);
       // HeaderService.fetchHomepageData(dispatch).catch(err => {
       //   console.log("Homepage API ERROR ==== " + err);
       // });
@@ -130,6 +132,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
         console.log("FOOTER API ERROR ==== " + err);
       });
       WishlistService.updateWishlist(dispatch);
+      WishlistService.countWishlist(dispatch);
       if (cookies.tkn) {
         MetaService.updateMeta(dispatch, cookies);
       }
