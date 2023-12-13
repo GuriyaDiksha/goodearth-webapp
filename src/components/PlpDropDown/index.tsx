@@ -238,9 +238,16 @@ const PlpDropdownMenu = ({
           >
             <span>{"Sort By"}</span>
 
-            <span onClick={onOutsideClick} ref={showmobileSort ? ref : null}>
-              X
-            </span>
+            <i
+              className={cs(
+                iconStyles.icon,
+                iconStyles.iconCrossNarrowBig,
+                styles.iconStyle,
+                styles.iconSearchCross,
+                styles.crossIcon
+              )}
+              onClick={onOutsideClick}
+            ></i>
           </div>
           <div className={cs(bootstrap.row, styles.minimumWidth)}>
             <div
