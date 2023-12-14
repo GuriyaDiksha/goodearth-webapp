@@ -13,10 +13,10 @@ const PromoItem = ({ code, onClose }: PromoListProps): JSX.Element => {
   const closeResult = (code: string) => {
     onClose(code);
   };
-  const history = useHistory();
-  const queryString = history.location.search;
-  const urlParams = new URLSearchParams(queryString);
-  const boId = urlParams.get("bo_id");
+  // const history = useHistory();
+  // const queryString = history.location.search;
+  // const urlParams = new URLSearchParams(queryString);
+  // const boId = urlParams.get("bo_id");
 
   return (
     <div id="gc-balance-info">
@@ -25,9 +25,10 @@ const PromoItem = ({ code, onClose }: PromoListProps): JSX.Element => {
           <div className={cl(styles.textLeft, styles.rtcinfo, styles.mTop0)}>
             <p className={styles.value12}>
               {code}{" "}
-              {boId ? (
-                ""
-              ) : (
+              {
+                // boId ? (
+                //   ""
+                // ) :
                 <span
                   className={styles.cross}
                   onClick={() => {
@@ -41,7 +42,7 @@ const PromoItem = ({ code, onClose }: PromoListProps): JSX.Element => {
                     )}
                   ></i>
                 </span>
-              )}
+              }
             </p>
           </div>
         </div>
@@ -51,9 +52,10 @@ const PromoItem = ({ code, onClose }: PromoListProps): JSX.Element => {
         >
           <span className={styles.txtup}>{code} </span>
           <span className={styles.textMuted}>PROMO CODE APPLIED</span>
-          {boId ? (
-            ""
-          ) : (
+          {
+            // boId ? (
+            //   ""
+            // ) :
             <span
               className={styles.cross}
               onClick={() => {
@@ -68,7 +70,7 @@ const PromoItem = ({ code, onClose }: PromoListProps): JSX.Element => {
                 )}
               ></i>
             </span>
-          )}
+          }
         </div>
       )}
     </div>

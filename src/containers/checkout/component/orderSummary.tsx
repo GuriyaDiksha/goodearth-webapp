@@ -122,9 +122,9 @@ const OrderSummary: React.FC<OrderProps> = props => {
 
   const showDeliveryTimelines = true;
   const history = useHistory();
-  const queryString = history.location.search;
-  const urlParams = new URLSearchParams(queryString);
-  const boId = urlParams.get("bo_id");
+  // const queryString = history.location.search;
+  // const urlParams = new URLSearchParams(queryString);
+  // const boId = urlParams.get("bo_id");
 
   const removePromo = async (data: FormData) => {
     const userConsent = CookieService.getCookie("consent").split(",");
@@ -396,33 +396,35 @@ const OrderSummary: React.FC<OrderProps> = props => {
                 </span>
                 <span className={styles.textMuted}>
                   {!mobile && "(Promo Code Applied)"}
-                  {boId ? (
+                  {/* {
+                  boId ? (
                     mobile && (
                       <span className={styles.giftCreditCodeText}>
                         (Promo Code Applied)
                       </span>
                     )
-                  ) : (
-                    <span
-                      className={cs(globalStyles.marginL5, styles.cross)}
-                      onClick={() => {
-                        onPromoRemove(voucher.code);
-                      }}
-                    >
-                      <i
-                        className={cs(
-                          iconStyles.icon,
-                          iconStyles.iconCrossNarrowBig,
-                          styles.discountFont
-                        )}
-                      ></i>
-                      {mobile && (
-                        <span className={styles.giftCreditCodeText}>
-                          (Promo Code Applied)
-                        </span>
+                  ) :
+                   ( */}
+                  <span
+                    className={cs(globalStyles.marginL5, styles.cross)}
+                    onClick={() => {
+                      onPromoRemove(voucher.code);
+                    }}
+                  >
+                    <i
+                      className={cs(
+                        iconStyles.icon,
+                        iconStyles.iconCrossNarrowBig,
+                        styles.discountFont
                       )}
-                    </span>
-                  )}
+                    ></i>
+                    {mobile && (
+                      <span className={styles.giftCreditCodeText}>
+                        (Promo Code Applied)
+                      </span>
+                    )}
+                  </span>
+                  {/* } */}
                 </span>
               </span>
               <span className={styles.subtotal}>
@@ -1042,9 +1044,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
               ? `(${getItemsCount()})`
               : null}
           </h3>
-          {pathname === "/order/checkout" && !boId && (
-            <Link to="/cart">EDIT BAG</Link>
-          )}
+          {pathname === "/order/checkout" && <Link to="/cart">EDIT BAG</Link>}
         </div>
 
         <div className={cs(styles.justchk)}>

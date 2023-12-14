@@ -1,0 +1,35 @@
+.prev-btn{
+    background: none;
+    border: none;
+      content: '';
+      border: solid grey;
+    border-width: 0 1px 1px 0;
+    width: 10px;
+    height: 10px;
+    transform: rotate(225deg);
+    margin: 10px auto;
+    text-align: center;
+    display: block;
+}
+
+.prev-btn.hide{
+    opacity: 0.5;
+}
+
+.next-btn{
+    background: none;
+    border: none;
+      content: '';
+      border: solid grey;
+    border-width: 0 1px 1px 0;
+    width: 10px;
+    height: 10px;
+    transform: rotate(45deg);
+    margin: 3px auto;
+    text-align: center;
+    display: block;
+}
+
+.next-btn.hide{
+    opacity: 0.5;
+}
