@@ -41,11 +41,11 @@
 .discounted-price {
     color: $gold;
     font-family: $font-Montserrat;
-    font-size: 16px;
+    font-size: 14px;
 }
 
 .old-price {
-    font-size: 14px;
+    font-size: 12px;
     text-decoration: line-through;
     color: #9f9f9f !important;
     font-family: $font-Montserrat;
@@ -55,6 +55,9 @@
     font-size: 12px !important;
 }
 
+.normal-price{
+    font-size: 14px;
+}
 .inc-tax{
     font-family: $font-Montserrat;
     font-weight: $regular;
@@ -217,6 +220,9 @@
     .title, .price-container {
         @include pdp_prod_title_mobile();
         // padding-bottom: 10px;
+    }
+    .title{
+        font-size: 16px;
     }
     .price-container{
         @include pdp_prod_title_mobile();
