@@ -28,7 +28,7 @@ const Price: React.FC<Props> = ({ product, isSale, code, currency }) => {
         </span>
       ) : (
         <span
-          className={product.badgeType == "B_flat" ? globalStyles.cerise : ""}
+          className={product.badgeType == "B_flat" ? styles.discountprice : ""}
         >
           {displayPriceWithCommas(
             product.priceRecords[currency as Currency],
