@@ -20,7 +20,7 @@ const LoginForm = (props: any) => {
   const { search, pathname } = useLocation();
   const urlParams = new URLSearchParams(search);
   const id = urlParams.get("loginpopup");
-  const boId = urlParams.get("bo_id");
+  // const boId = urlParams.get("bo_id");
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -48,16 +48,16 @@ const LoginForm = (props: any) => {
       history.push("/");
     }
     if (nextUrl) {
-      if (boId && nextUrl === "/order/checkout") {
-        props.history.push({
-          pathname: nextUrl,
-          search: `?bo_id=${boId}`,
-          state: { from: "cart" }
-        });
-        localStorage.setItem("from", "cart");
-      } else {
-        history.push(nextUrl);
-      }
+      // if (boId && nextUrl === "/order/checkout") {
+      //   props.history.push({
+      //     pathname: nextUrl,
+      //     search: `?bo_id=${boId}`,
+      //     state: { from: "cart" }
+      //   });
+      //   localStorage.setItem("from", "cart");
+      // } else {
+      history.push(nextUrl);
+      //}
       dispatch(updateNextUrl(""));
     }
   };
@@ -76,7 +76,7 @@ const LoginForm = (props: any) => {
         <MainLogin
           showRegister={goToRegister}
           nextStep={nextStep}
-          isBo={boId}
+          isBo={false}
           isCerise={id == "cerise"}
           setEmail={setEmail}
           email={email}

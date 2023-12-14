@@ -66,9 +66,9 @@ const EmailVerification: React.FC<Props> = ({
     goLogin();
   };
   const location = useLocation();
-  const queryString = location.search;
-  const urlParams = new URLSearchParams(queryString);
-  const boId = urlParams.get("bo_id");
+  // const queryString = location.search;
+  // const urlParams = new URLSearchParams(queryString);
+  // const boId = urlParams.get("bo_id");
 
   useEffect(() => setOtpSmsSent(!!phoneNo), []);
 
@@ -314,7 +314,7 @@ const EmailVerification: React.FC<Props> = ({
           otpAttemptClass={styles.otpAttempt}
           verifyCtaClass={styles.verifyOtpCta}
           groupTimerAndAttempts={true}
-          goBackCta={!isCheckout && !boId ? goBackCta : null}
+          goBackCta={!isCheckout ? goBackCta : null}
           socialLogin={socialLogin}
           uniqueId="emailverifyid"
         />

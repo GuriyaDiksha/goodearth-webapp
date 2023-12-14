@@ -259,7 +259,7 @@ type State = {
   isGoodearthShipping: boolean;
   isSuspended: boolean;
   boEmail: string;
-  boId: string;
+  // boId: string;
   errorNotification: string;
   onlyOnetime: boolean;
   isShipping: boolean;
@@ -299,7 +299,7 @@ class Checkout extends React.Component<Props, State> {
       id: "",
       addressIdError: "",
       boEmail: "",
-      boId: "",
+      // boId: "",
       isSuspended: true,
       isGoodearthShipping:
         props.user.shippingData && props.user.shippingData.isTulsi
@@ -352,7 +352,8 @@ class Checkout extends React.Component<Props, State> {
     const checkoutPopupCookie = CookieService.getCookie("checkoutinfopopup3");
     const queryString = this.props.location.search;
     const urlParams = new URLSearchParams(queryString);
-    const boId = urlParams.get("bo_id");
+    // const boId = urlParams.get("bo_id");
+    // const boId = urlParams.get("bo_id");
 
     const isGcCheckout = this.props.location.pathname.endsWith("gc_checkout");
     this.unlisten = this.props.history.block((location, action) => {
@@ -368,92 +369,92 @@ class Checkout extends React.Component<Props, State> {
         }
       }
     });
-    if (boId) {
-      this.setState({
-        activeStep: STEP_BILLING,
-        currentStep: STEP_ORDER[STEP_BILLING],
-        boId: boId,
-        billingAddress: this.state.shippingAddress
-      });
+    // if (boId) {
+    //   this.setState({
+    //     activeStep: STEP_BILLING,
+    //     currentStep: STEP_ORDER[STEP_BILLING],
+    //     boId: boId,
+    //     billingAddress: this.state.shippingAddress
+    //   });
 
-      if (
-        localStorage.getItem("from") === "cart" &&
-        this.props.user.isLoggedIn
-      ) {
-        this.props
-          .getBoDetail(boId)
-          .then((data: any) => {
-            if (!data?.email && !data?.isLogin) {
-              this.props.history.push("/backend-order-error");
-            }
-          })
-          .catch(error => {
-            this.props.history.push("/backend-order-error");
-          });
-      }
+    //   if (
+    //     localStorage.getItem("from") === "cart" &&
+    //     this.props.user.isLoggedIn
+    //   ) {
+    //     this.props
+    //       .getBoDetail(boId)
+    //       .then((data: any) => {
+    //         if (!data?.email && !data?.isLogin) {
+    //           this.props.history.push("/backend-order-error");
+    //         }
+    //       })
+    //       .catch(error => {
+    //         this.props.history.push("/backend-order-error");
+    //       });
+    //   }
 
-      if (
-        localStorage.getItem("from") !== "cart" &&
-        this.props.user.isLoggedIn
-      ) {
-        localStorage.removeItem("from");
-        this.props
-          .getBoDetail(boId)
-          .then(() => {
-            this.props
-              .logout(this.props.currency, this.props.user.customerGroup)
-              .then(res => {
-                this.props.history.push(`/cart?bo_id=${boId}`, {
-                  from: "checkout"
-                });
-              });
-          })
-          .catch(error => {
-            this.props.history.push("/backend-order-error");
-          });
-      }
+    //   if (
+    //     localStorage.getItem("from") !== "cart" &&
+    //     this.props.user.isLoggedIn
+    //   ) {
+    //     localStorage.removeItem("from");
+    //     this.props
+    //       .getBoDetail(boId)
+    //       .then(() => {
+    //         this.props
+    //           .logout(this.props.currency, this.props.user.customerGroup)
+    //           .then(res => {
+    //             this.props.history.push(`/cart?bo_id=${boId}`, {
+    //               from: "checkout"
+    //             });
+    //           });
+    //       })
+    //       .catch(error => {
+    //         this.props.history.push("/backend-order-error");
+    //       });
+    //   }
 
-      if (!this.props.user.isLoggedIn) {
-        this.props.history.push(`/cart?bo_id=${boId}`, { from: "checkout" });
-      }
+    //   if (!this.props.user.isLoggedIn) {
+    //     this.props.history.push(`/cart?bo_id=${boId}`, { from: "checkout" });
+    //   }
 
-      localStorage.removeItem("from");
-      // this.props
-      //   .getBoDetail(boId)
-      //   .then((data: any) => {
-      //     localStorage.setItem("tempEmail", data.email);
-      //     if (this.props.user.email && data.isLogin) {
-      //       CookieService.setCookie("currency", data.currency, 365);
-      //       CookieService.setCookie("currencypopup", "true", 365);
-      //       this.props
-      //         .logout(this.props.currency, this.props.user.customerGroup)
-      //         .then(res => {
-      //           localStorage.setItem("tempEmail", data.email);
-      //           this.setState({
-      //             boEmail: data.email,
-      //             boId: boId
-      //           });
-      //         });
-      //     } else if (data.email) {
-      //       CookieService.setCookie("currency", data.currency, 365);
-      //       CookieService.setCookie("currencypopup", "true", 365);
-      //       localStorage.setItem("tempEmail", data.email);
-      //       this.setState({
-      //         boEmail: data.email,
-      //         boId: boId
-      //       });
-      //     } else {
-      //       this.props.history.push("/backend-order-error");
-      //     }
-      //   })
-      //   .catch(error => {
-      //     this.props.history.push("/backend-order-error");
-      //   });
-    } else {
-      if (!this.props.user.isLoggedIn) {
-        this.props.history.push("/cart", { from: "checkout" });
-      }
+    //   localStorage.removeItem("from");
+    //   // this.props
+    //   //   .getBoDetail(boId)
+    //   //   .then((data: any) => {
+    //   //     localStorage.setItem("tempEmail", data.email);
+    //   //     if (this.props.user.email && data.isLogin) {
+    //   //       CookieService.setCookie("currency", data.currency, 365);
+    //   //       CookieService.setCookie("currencypopup", "true", 365);
+    //   //       this.props
+    //   //         .logout(this.props.currency, this.props.user.customerGroup)
+    //   //         .then(res => {
+    //   //           localStorage.setItem("tempEmail", data.email);
+    //   //           this.setState({
+    //   //             boEmail: data.email,
+    //   //             boId: boId
+    //   //           });
+    //   //         });
+    //   //     } else if (data.email) {
+    //   //       CookieService.setCookie("currency", data.currency, 365);
+    //   //       CookieService.setCookie("currencypopup", "true", 365);
+    //   //       localStorage.setItem("tempEmail", data.email);
+    //   //       this.setState({
+    //   //         boEmail: data.email,
+    //   //         boId: boId
+    //   //       });
+    //   //     } else {
+    //   //       this.props.history.push("/backend-order-error");
+    //   //     }
+    //   //   })
+    //   //   .catch(error => {
+    //   //     this.props.history.push("/backend-order-error");
+    //   //   });
+    // } else {
+    if (!this.props.user.isLoggedIn) {
+      this.props.history.push("/cart", { from: "checkout" });
     }
+    // }
     if (this.state.isSuspended && checkoutPopupCookie !== "show") {
       // this.props.showPopup(this.setInfoPopupCookie);
     }
@@ -518,7 +519,7 @@ class Checkout extends React.Component<Props, State> {
           };
           getLoyaltyPoints(data);
         }
-        if (!res.bridal && this.props.user.isLoggedIn && !boId) {
+        if (!res.bridal && this.props.user.isLoggedIn) {
           if (isGcCheckout) {
             this.nextStep(STEP_BILLING);
           } else {
@@ -1080,9 +1081,9 @@ class Checkout extends React.Component<Props, State> {
     if (this.state.pancardNo) {
       data["panPassportNo"] = this.state.pancardNo;
     }
-    if (this.state.boId) {
-      data["BoId"] = this.state.boId;
-    }
+    // if (this.state.boId) {
+    //   data["BoId"] = this.state.boId;
+    // }
     if (this.props.deliveryText) {
       data["deliveryInstructions"] = this.props.deliveryText;
     }
@@ -1197,7 +1198,7 @@ class Checkout extends React.Component<Props, State> {
                 validbo={false}
                 basket={this.props.basket}
                 page="checkout"
-                boId={this.state.boId}
+                // boId={this.state.boId}
                 tablet={this.props.tablet}
               />
             </div>

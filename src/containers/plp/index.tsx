@@ -464,9 +464,7 @@ class PLP extends React.Component<
       cards.forEach(card => {
         observer.observe(card);
       });
-      // debugger
     }
-    // debugger
   };
 
   plpViewGTM(newdata: any) {

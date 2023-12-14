@@ -43,7 +43,7 @@ const DockedPanel: React.FC<Props> = ({
     >
       <div
         className={cs(bootstrap.col6, globalStyles.flex, {
-          [bootstrap.col8]: mobile
+          // [bootstrap.col8]: mobile
         })}
       >
         {!mobile && (
@@ -67,7 +67,7 @@ const DockedPanel: React.FC<Props> = ({
           {data.title}
         </span>
       </div>
-      <div className={cs(bootstrap.col4)}>
+      <div className={cs(bootstrap.col4, { [bootstrap.col6]: mobile })}>
         {!showPrice && (
           <SelectedPrice
             code={currencyCodes[currency]}
