@@ -205,7 +205,7 @@ const SampleDisplay: React.FC<Props> = props => {
             ) : (
               <span
                 className={
-                  data.badgeType == "B_flat" ? globalStyles.cerise : ""
+                  data.badgeType == "B_flat" ? styles.discountprice : ""
                 }
               >
                 {displayPriceWithCommas(data.price[currency], currency)}
