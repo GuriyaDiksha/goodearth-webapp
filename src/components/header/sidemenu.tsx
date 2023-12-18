@@ -224,6 +224,7 @@ class SideMenu extends React.Component<Props, State> {
 
     const bagitem: Basket = this.props.sidebagData;
     // const wishlistCount = this.props.wishlistData.length;
+    // const wishlistCount = this.props.wishlistData.length?this.props.wishlistData.length:this.props.wishlistCountData;
     const wishlistCount = this.props.wishlistCountData;
     let bagCount = 0;
     const item = bagitem.lineItems;
