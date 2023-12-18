@@ -32,6 +32,7 @@ import { GA_CALLS } from "constants/cookieConsent";
 import { encryptdata, decriptdata, encrypttext } from "utils/validate";
 // import { updateBasket } from "actions/basket";
 // import { CUST } from "constants/util";
+import { countWishlist } from "actions/wishlist";
 
 export default {
   showForgotPassword: function(
@@ -152,7 +153,10 @@ export default {
     const metaResponse = await MetaService.updateMeta(dispatch, {
       tkn: response.token
     });
-    WishlistService.updateWishlist(dispatch, sortBy);
+    if (location.pathname == "/wishlist") {
+      WishlistService.updateWishlist(dispatch, sortBy);
+    }
+    WishlistService.countWishlist(dispatch);
     Api.getAnnouncement(dispatch).catch(err => {
       console.log("Announcement API ERROR ==== " + err);
     });
@@ -287,7 +291,10 @@ export default {
     Api.getAnnouncement(dispatch).catch(err => {
       console.log("Announcement API ERROR ==== " + err);
     });
-    WishlistService.updateWishlist(dispatch, sortBy);
+    if (location.pathname == "/wishlist") {
+      WishlistService.updateWishlist(dispatch, sortBy);
+    }
+    WishlistService.countWishlist(dispatch);
     const metaResponse = await MetaService.updateMeta(dispatch, {
       tkn: res.token
     });
@@ -355,6 +362,7 @@ export default {
       // RESET CURRENCY TO DEFAULT INR
       // CookieService.setCookie("currency", "INR", 365);
       // dispatch(updateCurrency("INR"));
+      dispatch(countWishlist(0));
       dispatch(updateCookies({ tkn: "" }));
       MetaService.updateMeta(dispatch, {}).catch(err => {
         console.log(err);
@@ -365,6 +373,7 @@ export default {
         Moengage.destroy_session();
       }
       WishlistService.resetWishlist(dispatch);
+      WishlistService.countWishlist(dispatch);
       Api.getSalesStatus(dispatch).catch(err => {
         console.log("Sales Api Status ==== " + err);
       });
@@ -686,7 +695,10 @@ export default {
       const metaResponse = await MetaService.updateMeta(dispatch, {
         tkn: response.token
       });
-      WishlistService.updateWishlist(dispatch, sortBy);
+      if (location.pathname == "/wishlist") {
+        WishlistService.updateWishlist(dispatch, sortBy);
+      }
+      WishlistService.countWishlist(dispatch);
       Api.getAnnouncement(dispatch).catch(err => {
         console.log("Announcement API ERROR ==== " + err);
       });
