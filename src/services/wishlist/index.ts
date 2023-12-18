@@ -164,6 +164,6 @@ export default {
       `${__API_HOST__}/myapi/wishlist/wishlist_count`
     );
     dispatch(countWishlist(res.count));
-    return res;
+    // return res;
   }
 };
