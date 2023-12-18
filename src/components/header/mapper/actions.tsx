@@ -133,7 +133,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       Api.getAnnouncement(dispatch).catch(err => {
         console.log("FOOTER API ERROR ==== " + err);
       });
-      WishlistService.updateWishlist(dispatch);
+      // WishlistService.updateWishlist(dispatch);
       WishlistService.countWishlist(dispatch);
       if (cookies.tkn) {
         MetaService.updateMeta(dispatch, cookies);

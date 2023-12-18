@@ -61,7 +61,6 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     undoMoveToWishlist: async () => {
       const res = await WishlistService.undoMoveToWishlist(dispatch);
       dispatch(updateBasket(res.basket));
-      WishlistService.countWishlist(dispatch);
       // BasketService.fetchBasket(dispatch, true);
       return res;
     },
