@@ -992,7 +992,17 @@ const ProductDetails: React.FC<Props> = ({
                   )}
                 >
                   {currency === "INR" && (
-                    <span className={styles.mrp}>MRP.</span>
+                    <span
+                      className={cs(
+                        styles.mrp,
+                        badgeType == "B_flat" ||
+                          (info.isSale && discount && discountedPriceRecords)
+                          ? globalStyles.gold
+                          : ""
+                      )}
+                    >
+                      MRP.
+                    </span>
                   )}
                   {info.isSale && discount && discountedPriceRecords ? (
                     <span className={styles.discountedPrice}>
@@ -1008,11 +1018,10 @@ const ProductDetails: React.FC<Props> = ({
                     </span>
                   ) : (
                     <span
-                      className={
-                        badgeType == "B_flat"
-                          ? globalStyles.gold
-                          : styles.normalPrice
-                      }
+                      className={cs(
+                        styles.normalPrice,
+                        badgeType == "B_flat" ? globalStyles.gold : ""
+                      )}
                     >
                       {" "}
                       {displayPriceWithCommas(price, currency)}
