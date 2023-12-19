@@ -374,7 +374,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
   }
   return (
     <div>
-      <div className={cs(bootstrapStyles.row, styles.subcHeader)}>
+      {/* <div className={cs(bootstrapStyles.row, styles.subcHeader)}>
         <div
           className={cs(
             bootstrapStyles.col12,
@@ -392,7 +392,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
             />
           </Link>
         </div>
-      </div>
+      </div> */}
 
       <div className={cs(bootstrapStyles.row, styles.bgProfile, styles.os)}>
         <div
@@ -823,25 +823,29 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                     </div>
                   )}
                   {/* Filter this key and remove vouchers */}
-                  {confirmData?.offerDiscounts?.map(
-                    (
-                      discount: { name: string; amount: string },
-                      index: number
-                    ) =>
-                      !confirmData.isOnlyGiftOrder && (
-                        <div className={cs(styles.discountSection)} key={index}>
-                          <p>{discount.name}</p>
-                          <p>
-                            (-){" "}
-                            {`${displayPriceWithCommasFloat(
-                              parseFloat(discount.amount),
-                              confirmData.currency
-                            )}`}
-                            {/* {parseFloat(discount.amount).toFixed(2)} */}
-                          </p>
-                        </div>
-                      )
-                  )}
+                  {!confirmData.isOnlyGiftOrder &&
+                    confirmData?.offerDiscounts?.map(
+                      (
+                        discount: { name: string; amount: string },
+                        index: number
+                      ) =>
+                        !confirmData.isOnlyGiftOrder && (
+                          <div
+                            className={cs(styles.discountSection)}
+                            key={index}
+                          >
+                            <p>{discount.name}</p>
+                            <p>
+                              (-){" "}
+                              {`${displayPriceWithCommasFloat(
+                                parseFloat(discount.amount),
+                                confirmData.currency
+                              )}`}
+                              {/* {parseFloat(discount.amount).toFixed(2)} */}
+                            </p>
+                          </div>
+                        )
+                    )}
 
                   {!confirmData.isOnlyGiftOrder && (
                     <div
@@ -862,22 +866,40 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                     </div>
                   )}
 
-                  {confirmData.voucherDiscounts.map((vd: any, i: number) => (
-                    <div
-                      className={cs(styles.discountSection)}
-                      key={`voucher_${i}`}
-                    >
-                      <p>{vd.name}</p>
-                      <p>
-                        (-){" "}
-                        {`${displayPriceWithCommasFloat(
-                          parseFloat(vd.amount),
-                          confirmData.currency
-                        )}`}
-                        {/* {parseFloat(vd.amount).toFixed(2)} */}
-                      </p>
-                    </div>
-                  ))}
+                  <div
+                    className={cs(
+                      styles.discountSection,
+                      styles.shippingSection
+                    )}
+                  >
+                    <p>TOTAL</p>
+                    <p>
+                      (+){" "}
+                      {`${displayPriceWithCommasFloat(
+                        parseFloat(confirmData?.subTotalWithShipping || 0),
+                        confirmData.currency
+                      )}`}
+                      {/* {parseFloat(confirmData.shippingInclTax).toFixed(2)} */}
+                    </p>
+                  </div>
+
+                  {!confirmData.isOnlyGiftOrder &&
+                    confirmData.voucherDiscounts.map((vd: any, i: number) => (
+                      <div
+                        className={cs(styles.discountSection)}
+                        key={`voucher_${i}`}
+                      >
+                        <p>{vd.name}</p>
+                        <p>
+                          (-){" "}
+                          {`${displayPriceWithCommasFloat(
+                            parseFloat(vd.amount),
+                            confirmData.currency
+                          )}`}
+                          {/* {parseFloat(vd.amount).toFixed(2)} */}
+                        </p>
+                      </div>
+                    ))}
 
                   {confirmData.giftVoucherRedeemed.map(
                     (gccn: number, i: number) => (

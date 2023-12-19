@@ -17,7 +17,7 @@ import CookiePolicy from "./CookiePolicy";
 import MakerSmartNav from "containers/base/MakerSmartNav";
 import ReactHtmlParser from "react-html-parser";
 import { OLD_COOKIE_SETTINGS } from "constants/cookieConsent";
-// import NewsletterModal from "./NewsletterModal";
+import NewsletterModal from "./NewsletterModal";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -1174,11 +1174,12 @@ class Footer extends React.Component<Props, FooterState> {
             setConsent={this.setConsent}
             showCookiePref={this.props?.showCookiePref}
             showCookiePrefs={this.props?.showCookiePrefs}
+            mobile={this.props.mobile}
           />
         )}
 
         {/* DO NOT REMOVE THIS CODE : Commented this code as per product requirement */}
-        {/* {!(OLD_COOKIE_SETTINGS
+        {!(OLD_COOKIE_SETTINGS
           ? cookiCheck
           : (cookiCheck && !this.state.isConsentSave) ||
             this.props?.showCookiePref) && (
@@ -1188,7 +1189,7 @@ class Footer extends React.Component<Props, FooterState> {
               "Be the first to know about new launches and the latest updates from the brand, delivered straight to your inbox!"
             }
           />
-        )} */}
+        )}
       </div>
     );
   }

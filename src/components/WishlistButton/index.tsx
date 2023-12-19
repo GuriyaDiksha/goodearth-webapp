@@ -184,6 +184,7 @@ const WishlistButton: React.FC<Props> = ({
         ).finally(() => {
           dispatch(updateLoader(false));
           onComplete && onComplete();
+          WishlistService.countWishlist(dispatch);
         });
       } else {
         WishlistService.moveToWishlist(
@@ -196,6 +197,7 @@ const WishlistButton: React.FC<Props> = ({
           .then(() => {
             onMoveToWishlist?.();
             gtmPushAddToWishlist(true);
+            WishlistService.countWishlist(dispatch);
           })
           .finally(() => {
             dispatch(updateLoader(false));
@@ -208,11 +210,13 @@ const WishlistButton: React.FC<Props> = ({
           dispatch(updateLoader(false));
           onComplete && onComplete();
           gtmPushAddToWishlist(false);
+          WishlistService.countWishlist(dispatch);
         });
       } else {
         WishlistService.addToWishlist(store.dispatch, id, size)
           .then(() => {
             gtmPushAddToWishlist(true);
+            WishlistService.countWishlist(dispatch);
           })
           .finally(() => {
             dispatch(updateLoader(false));

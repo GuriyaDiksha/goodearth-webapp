@@ -281,7 +281,7 @@ const CookiePolicy: React.FC<Props> = ({
                 )}
                 <h3
                   style={{
-                    marginTop: regionName !== "India" ? "20px" : "0px"
+                    marginTop: mobile ? "20px" : "0px"
                   }}
                 >
                   COOKIES & PRIVACY
