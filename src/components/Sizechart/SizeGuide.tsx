@@ -25,8 +25,8 @@ const SizeGuide: React.FC<SizeGuideProps> = memo(({ isSingleSection }) => {
   );
 
   const { mobile } = useSelector((state: AppState) => state.device);
-  const values = ["in", "cms"];
-  const [unit, setUnit] = useState("in");
+  const values = ["cms", "in"];
+  const [unit, setUnit] = useState("cms");
   const roundHalf = useCallback((num: number) => {
     return Math.round(num / 0.5) * 0.5;
   }, []);
@@ -54,7 +54,7 @@ const SizeGuide: React.FC<SizeGuideProps> = memo(({ isSingleSection }) => {
       ) : null}
       <Toggle
         values={values as string[]}
-        activeIndex={unit == "in" ? 0 : 1}
+        activeIndex={unit == "cms" ? 0 : 1}
         handleClick={index => setUnit(values[index])}
       />
       <div className={styles.smallTxt}>*Tap on size to select</div>
