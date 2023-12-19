@@ -1008,7 +1008,11 @@ const ProductDetails: React.FC<Props> = ({
                     </span>
                   ) : (
                     <span
-                      className={badgeType == "B_flat" ? globalStyles.gold : ""}
+                      className={
+                        badgeType == "B_flat"
+                          ? globalStyles.gold
+                          : styles.normalPrice
+                      }
                     >
                       {" "}
                       {displayPriceWithCommas(price, currency)}
