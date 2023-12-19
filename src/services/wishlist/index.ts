@@ -77,6 +77,7 @@ export default {
       }
     );
     await this.updateWishlist(dispatch);
+    await this.countWishlist(dispatch);
     return res;
   },
 
@@ -134,7 +135,8 @@ export default {
         res.basket.unshippableProducts
       );
     }
-    await this.updateWishlist(dispatch);
+    // await this.updateWishlist(dispatch);
+    await this.countWishlist(dispatch);
     return res;
   },
 
@@ -161,9 +163,9 @@ export default {
   countWishlist: async function(dispatch: Dispatch) {
     const res = await API.get<WishlistCountResponse>(
       dispatch,
-      `${__API_HOST__}/myapi/wishlist/wishlist_count`
+      `${__API_HOST__}/myapi/wishlist/wishlist_count/`
     );
     dispatch(countWishlist(res.count));
-    return res;
+    // return res;
   }
 };
