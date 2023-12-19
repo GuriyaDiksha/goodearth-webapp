@@ -33,6 +33,7 @@ import { encryptdata, decriptdata, encrypttext } from "utils/validate";
 // import { updateBasket } from "actions/basket";
 // import { CUST } from "constants/util";
 import { countWishlist } from "actions/wishlist";
+import LoginService from "services/login";
 
 export default {
   showForgotPassword: function(
@@ -408,6 +409,7 @@ export default {
     document.cookie = "custGrp=; expires=THu, 01 Jan 1970 00:00:01 GMT; path=/";
     // document.cookie =
     //   "cerisepopup=; expires=THu, 01 Jan 1970 00:00:01 GMT; path=/";
+    LoginService.showLogin(dispatch);
     dispatch(updateCookies({ tkn: "" }));
     MetaService.updateMeta(dispatch, {});
     WishlistService.resetWishlist(dispatch);

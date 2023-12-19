@@ -1204,7 +1204,7 @@ class Checkout extends React.Component<Props, State> {
             </div>
           </div>
         </div>
-        {this.state.isLoading && <Loader />}
+        {/* {this.state.isLoading && <Loader />} */}
       </div>
     );
   }
