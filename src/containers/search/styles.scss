@@ -1137,3 +1137,9 @@ input[type="radio"]:checked, [type="checkbox"]:not(:checked),
   top: 34%;
   transform: translateY(-50%);
 }
+.hide-bottom-menu{
+  bottom: -55px;
+}
+.hide-filter-sticky{
+  bottom: 0;
+}
