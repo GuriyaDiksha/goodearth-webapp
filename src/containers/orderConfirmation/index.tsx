@@ -874,7 +874,6 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                   >
                     <p>TOTAL</p>
                     <p>
-                      (+){" "}
                       {`${displayPriceWithCommasFloat(
                         parseFloat(confirmData?.subTotalWithShipping || 0),
                         confirmData.currency
