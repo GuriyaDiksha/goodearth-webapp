@@ -237,7 +237,8 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
               <p className={cs(styles.price)}>
                 <span
                   className={cs(styles.amountPaid, {
-                    [styles.gold]: isDiscount
+                    [styles.gold]:
+                      isDiscount || item?.product?.badgeType === "B_flat"
                   })}
                 >
                   {`${displayPriceWithCommasFloat(
