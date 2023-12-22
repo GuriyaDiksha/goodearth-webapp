@@ -9,7 +9,7 @@ import { AppState } from "reducers/typings";
 import { Dispatch } from "redux";
 import Loader from "components/Loader";
 import SecondaryHeader from "components/SecondaryHeader";
-import SelectableDropdownMenu from "components/dropdown/selectableDropdownMenu";
+import SecondaryHeaderDropdown from "components/dropdown/secondaryHeaderDropdown";
 import { WishlistItem, WishListGridItem } from "typings/wishlist";
 import WishlistService from "services/wishlist";
 import { Link } from "react-router-dom";
@@ -960,17 +960,13 @@ class Wishlist extends React.Component<Props, State> {
                 globalStyles.verticalMiddle
               )}
             >
-              <p className={styles.filterText}>SORT</p>
-              <SelectableDropdownMenu
+              <p className={styles.filterText}>SORT BY:</p>
+              <SecondaryHeaderDropdown
                 id="sort-dropdown-wishlist"
-                align="right"
-                className={styles.dropdownWishlist}
                 items={options}
                 value={this.state.defaultOption.value}
                 onChange={this.onChangeFilter}
-                disabled={this.state.wishlistCount == 0}
-                showCaret={true}
-              ></SelectableDropdownMenu>
+              />
             </div>
           </SecondaryHeader>
         )}

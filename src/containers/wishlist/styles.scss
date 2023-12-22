@@ -9,12 +9,11 @@
     line-height: 48px;
 }
 .filter-text{
-    line-height: 33px;
-    font-size: 14px;
-    font-family: $font-Lato;
-    letter-spacing: 1px;
-    color: #ab1e56;
-    text-transform: uppercase;
+  @include b4_12px_medium_medcharcoal_caps();
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  line-height: $secondary-header-height;
+  height:$secondary-header-height;
 }
 
 .Dropdown-root {
