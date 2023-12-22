@@ -116,11 +116,11 @@ const NotifyMePopup: React.FC<Props> = ({
         "modal-fullscreen"
       ) as HTMLElement).style.height = "auto";
     }
-    if (document?.getElementById("modal-fullscreen-container") && mobile) {
-      (document.getElementById(
-        "modal-fullscreen-container"
-      ) as HTMLElement).style.height = "auto";
-    }
+    // if (document?.getElementById("modal-fullscreen-container") && mobile) {
+    //   (document.getElementById(
+    //     "modal-fullscreen-container"
+    //   ) as HTMLElement).style.height = "auto";
+    // }
   }, []);
   const onSizeSelect = useCallback(
     selected => {
