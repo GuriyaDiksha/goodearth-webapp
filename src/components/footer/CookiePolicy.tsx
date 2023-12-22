@@ -193,6 +193,7 @@ const CookiePolicy: React.FC<Props> = ({
           <div
             className={cs(
               styles.cookieclass,
+              !mobile && regionName !== INDIA_TEXT ? styles.extraHeight : "",
               isPrefOpen ? styles.eucookieclass : styles.noneu,
               // styles.eucookieclass,
               isPrefOpen ? styles.euPref : ""
@@ -344,7 +345,8 @@ const CookiePolicy: React.FC<Props> = ({
                   className={cs({
                     [styles.okBtn]: mobile || tablet,
                     [styles.euBtn]: isPrefOpen,
-                    [globalStyles.marginB20]: regionName !== INDIA_TEXT,
+                    [globalStyles.marginB20]:
+                      regionName !== INDIA_TEXT && mobile,
                     [globalStyles.marginB0]: regionName === INDIA_TEXT
                   })}
                   variant="smallMedCharcoalCta"
