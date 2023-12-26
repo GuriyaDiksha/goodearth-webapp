@@ -145,51 +145,44 @@ body:has(.show-filter){
     
                     [type="checkbox"]:checked + label,
                      [type="checkbox"]:not(:checked) + label{
-                            position: relative;
-                            cursor: pointer;
-                            text-align: left;
-                            font: normal normal normal 12px/20px $font-Montserrat;
-                            letter-spacing: 0.36px;
-                            color: $charcoal19;
-                            opacity: 1;
-                            padding-left: 30px;
-                            width: 100%;
-                        }
+                           
+                            line-height: 2;
+                    }
                        
-                        [type="checkbox"]:not(:checked) + label:before {
-                            content: '';
-                            position: absolute;
-                            width: 18px;
-                            height: 18px;
-                            background-color: $white;
-                            border: 1px #dbd4d4 solid;
-                            left: 0;
-                          }
+                    //     [type="checkbox"]:not(:checked) + label:before {
+                    //         content: '';
+                    //         position: absolute;
+                    //         width: 18px;
+                    //         height: 18px;
+                    //         background-color: $white;
+                    //         border: 1px #dbd4d4 solid;
+                    //         left: 0;
+                    //       }
     
-                          [type="checkbox"]:checked + label:before {
-                            content: '';
-                            position: absolute;
-                            background-color: $aquablue;
-                            width: 18px;
-                            height: 18px;
-                            border: 1px #dbd4d4 solid;
-                            left: 0;
-                          }
+                    //       [type="checkbox"]:checked + label:before {
+                    //         content: '';
+                    //         position: absolute;
+                    //         background-color: $aquablue;
+                    //         width: 18px;
+                    //         height: 18px;
+                    //         border: 1px #dbd4d4 solid;
+                    //         left: 0;
+                    //       }
     
-                          input[type="checkbox"]:checked + label:after {
-                            content: '';
-                            display: block;
-                            width: 6px;
-                            height: 10px;
-                            border: solid $white;
-                            border-width: 0 2px 2px 0;
-                            position: absolute;
-                            top: 2px;
-                            left: 6px;
-                            font-size: 18px;
-                            line-height: 0.8;
-                            transition: all .1s;
-                          }
+                    //       input[type="checkbox"]:checked + label:after {
+                    //         content: '';
+                    //         display: block;
+                    //         width: 6px;
+                    //         height: 10px;
+                    //         border: solid $white;
+                    //         border-width: 0 2px 2px 0;
+                    //         position: absolute;
+                    //         top: 2px;
+                    //         left: 6px;
+                    //         font-size: 18px;
+                    //         line-height: 0.8;
+                    //         transition: all .1s;
+                    //       }
 
                           .disable_label{
                             opacity: 0.5;
@@ -338,38 +331,13 @@ body:has(.show-filter){
                     letter-spacing: 0.36px;
                     color: $charcoal19;
                     width:35%;
-                    margin: auto;
+                    margin: 0 auto 30px  auto;
 
                     @media screen and (max-width: 992px) {
                         width:100%;
                     }
                 }
 
-                .no_resords_btn{
-                    background: var(--med-charcoal-4c4c4c) 0% 0% no-repeat padding-box;
-                    background: #4C4C4C 0% 0% no-repeat padding-box;
-                    opacity: 1;
-                    text-align: center;
-                    font: normal normal normal 14px/30px $font-Montserrat;
-                    letter-spacing: 0.42px;
-                    color: $white;
-                    text-transform: uppercase;
-                    // width: 40%;
-                    // padding: 6px 0px;
-                    margin-top: 30px;
-                    padding: 14px 45px;
-
-                    &:hover{
-                        color: $lgtDefault;
-                        background: #FFFFFF00 0% 0% no-repeat padding-box;
-                        border: 1px solid $lgtDefault;
-                    }
-
-                    @media screen and (max-width: 992px) {
-                        // width:80%;
-                        padding: 15px 20px;
-                    }
-                }
             }
     
             .job_card_wrp{
@@ -417,29 +385,7 @@ body:has(.show-filter){
                     }
         
                     .job_card_apply_btn{
-                        background: #FFFFFF00 0% 0% no-repeat padding-box;
-                        border: 1px solid $lgtDefault;
-                        opacity: 1;
-                        text-align: center;
-                        font: normal normal normal 14px/30px $font-Montserrat;
-                        letter-spacing: 0.5px;
-                        color: $lgtDefault;
-                        text-transform: uppercase;
-                        opacity: 1;
-                        padding: 10px 20px;
                         margin: 20px 0px;
-        
-                        &:hover{
-                            color: $aquablue;
-                            background: #FFFFFF00 0% 0% no-repeat padding-box;
-                            border: 1px solid $aquablue;
-                            opacity: 1;
-                        }
-
-                        @media screen and (max-width: 992px) {
-                            padding: 10px 16px;
-                            font: normal normal normal 14px/18px $font-Montserrat;
-                        }
                     }
                 }
                
@@ -542,35 +488,11 @@ body:has(.show-filter){
             transition: bottom 0.3s;
 
             .cancel_btn{
-                text-align: center;
-                font: normal normal normal 14px/30px $font-Montserrat;
-                letter-spacing: 0.42px;
-                color: #4C4C4C;
-                text-transform: uppercase;
-                opacity: 1;
-                background: #FFFFFF00 0% 0% no-repeat padding-box;
-                border: 1px solid #4C4C4C;
                 width: 50%;
-                padding: 10px 0px;
             }
 
             .apply_btn{
-                background: #4C4C4C 0% 0% no-repeat padding-box;
-                opacity: 1;
-                text-align: center;
-                font: normal normal normal 14px/30px $font-Montserrat;
-                letter-spacing: 0.5px;
-                color: $white;
-                text-transform: uppercase;
                 width: 50%;
-                padding: 10px 0px;
-                border: 1px solid #4C4C4C;
-
-                &:hover{
-                    background: #FFFFFF00 0% 0% no-repeat padding-box;
-                    color: #4C4C4C;
-                    border: 1px solid #4C4C4C;
-                }
             }
         }
 

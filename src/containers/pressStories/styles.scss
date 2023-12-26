@@ -235,6 +235,9 @@
           text-transform: uppercase;
           letter-spacing: 1px;
           margin: 20px 0;
+          background: none;
+        border: none;
+        text-align: left;
         }
         .para {
           font-family: $font-Lato;
@@ -289,7 +292,7 @@
     }
   }
   .pressinternal {
-    margin-top: $header-height + $secondary-header-height;
+    margin-top: $secondary-header-margin-top-mobile ;
     .date {
       padding: 50px 0 50px 0;
     }
@@ -316,10 +319,17 @@
       }
     }
   }
+
+  .secondaryHeaderContainerTimer{
+    margin-top: $secondary-header-margin-top-mobile + $timer-height ; 
+  }
 }
 
+.secondaryHeaderContainerTimer{
+  margin-top: $secondary-header-margin-top + $timer-height ; 
+}
 .pressinternal {
-  margin-top: $header-height + $secondary-header-height;
+  margin-top: $secondary-header-margin-top ;
   .content-img {
   //  display: flex;
     font-size: 16px;

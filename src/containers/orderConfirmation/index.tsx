@@ -153,6 +153,17 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
         quantity: line.quantity
       };
     });
+    // Adding custom logic for GA4
+    let transactionId = result.transactionId;
+    if (transactionId.toLowerCase() == "loyalty") {
+      transactionId = transactionId + "_" + result.number;
+    } else if (transactionId == "") {
+      if (result.giftVoucherRedeemed?.length > 0) {
+        transactionId = "GC_CN_" + result.number;
+      } else if (result.voucherDiscounts?.length > 0) {
+        transactionId = "VOUCHER_" + result.number;
+      }
+    }
     if (result.pushToGA == false) {
       const userConsent = CookieService.getCookie("consent").split(",");
       if (userConsent.includes(GA_CALLS)) {
@@ -176,7 +187,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
         });
         dataLayer.push({
           event: "customPurchaseSuccess",
-          "Transaction ID": result.transactionId,
+          "Transaction ID": transactionId,
           Revenue: +result.totalInclTax,
           "Shipping Charges": +result.shippingInclTax,
           "Payment Method": result.paymentMethod,
@@ -199,7 +210,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
         dataLayer.push({
           event: "GA4_purchase",
           ecommerce: {
-            transaction_id: result.transactionId,
+            transaction_id: transactionId,
             affiliation: productname, // Pass the product name
             value: +result.totalInclTax,
             tax: 0,
@@ -298,7 +309,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
         whatsapp_subscribe: "",
         delivery_instruction: result.deliveryInstructions ? "Yes" : "No", //Pass NA if not applicable the moment
         ecommerce: {
-          transaction_id: result.transactionId,
+          transaction_id: transactionId,
           currency: result.currency,
           value: result.totalInclTax,
           tax: 0,

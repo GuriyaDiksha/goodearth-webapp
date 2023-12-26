@@ -9,6 +9,7 @@ import mapDispatchToProps from "../mapper/action";
 import { AppState } from "reducers/typings";
 import { errorTracking } from "utils/validate";
 import { RouteComponentProps, withRouter } from "react-router";
+import Button from "components/Button";
 const mapStateToProps = (state: AppState) => {
   return {
     currency: state.currency,
@@ -169,14 +170,16 @@ class ApplyPromo extends React.Component<Props, GiftState> {
                     }
                     aria-label="Promocode"
                   />
-                  <button
-                    className={cs(styles.promoApplyBtn, {
-                      [styles.emptyPromoValue]: txtvalue == ""
-                    })}
+                  <Button
+                    // className={cs(styles.promoApplyBtn, {
+                    //   [styles.emptyPromoValue]: txtvalue == ""
+                    // })}
                     onClick={() => this.props.onsubmit()}
-                  >
-                    APPLY
-                  </button>
+                    label={"APPLY"}
+                    disabled={txtvalue == ""}
+                    variant="smallMedCharcoalCta"
+                    stopHover={true}
+                  />
                 </div>
               </Fragment>
               {this.state.error ? (

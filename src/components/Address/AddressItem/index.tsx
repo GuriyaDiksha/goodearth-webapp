@@ -16,6 +16,8 @@ import addedReg from "../../../images/registery/addedReg.svg";
 import CookieService from "services/cookie";
 import { GA_CALLS } from "constants/cookieConsent";
 import moment from "moment";
+import Button from "components/Button";
+
 type Props = {
   addressData: AddressData;
   title?: string;
@@ -1195,14 +1197,11 @@ const AddressItem: React.FC<Props> = props => {
           {/* {(currentCallBackComponent == "bridal" ||
             currentCallBackComponent == "bridal-edit") &&
             !address.isBridal && (
-              <div
-                className={cs(
-                  globalStyles.ceriseBtn,
-                  globalStyles.cursorPointer,
-                  { [globalStyles.disabledBtn]: address.id == userAddress?.id },
-                  styles.shipToThisBtn
-                )}
-                // onClick={() => props.selectAddress(address)}
+              <Button
+                variant="largeMedCharcoalCta"
+                label={"USE THIS ADDRESS"}
+                className={cs(globalStyles.btnFullWidth, styles.shipToThisBtn)}
+                disabled={address.id == userAddress?.id}
                 onClick={() => {
                   if (address.id != userAddress?.id) {
                     onSelectBridalAddress(address);

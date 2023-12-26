@@ -10,19 +10,14 @@ import bootstrapStyles from "../../../../styles/bootstrap/bootstrap-grid.scss";
 import globalStyles from "styles/global.scss";
 import cs from "classnames";
 import bridalRing from "../../../../images/bridal/rings.svg";
+import Button from "components/Button";
+import { useSelector } from "react-redux";
+import { AppState } from "reducers/typings";
 
 const RegistryCreated: React.FC<Props> = props => {
-  // data: [],
-  // const [updateDate, setUpdateDate ] = useState(false);
-  // const [subscribe, setSubscribe ] = useState(false);
-
-  // const [date, setDate ] = useState(moment());
   const { data } = useContext(BridalContext);
 
-  // const onChange = (date: Date) => {
-  //         setDate(moment(date));
-  //         setUpdateDate(true);
-  // }
+  const { mobile } = useSelector((state: AppState) => state.device);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -110,10 +105,11 @@ const RegistryCreated: React.FC<Props> = props => {
             <form>
               <ul className={styles.categorylabel}>
                 <li>
-                  <input
+                  <Button
                     type="button"
-                    className={globalStyles.ceriseBtn}
-                    value="start adding to registry"
+                    variant="mediumMedCharcoalCta366"
+                    className={cs({ [globalStyles.btnFullWidth]: mobile })}
+                    label="start adding to registry"
                     onClick={saveBridalDate}
                   />
                 </li>

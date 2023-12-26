@@ -17,6 +17,7 @@ import CareerService from "services/career";
 import { updateJob } from "actions/career";
 import { Helmet } from "react-helmet";
 import { PageMeta } from "typings/meta";
+import Button from "components/Button";
 
 const JobDetail: React.FC = () => {
   const { job }: CareerData = useSelector((state: AppState) => state.career);
@@ -130,12 +131,12 @@ const JobDetail: React.FC = () => {
             ) : null}
           </div>
           <div className={jobDetail.job_detail_form_right}>
-            <button
-              className={jobDetail.job_detail_apply_btn}
+            <Button
+              label="Apply Now"
               onClick={() => applyNow()}
-            >
-              Apply Now
-            </button>
+              variant="smallMedCharcoalCta"
+              className={jobDetail.job_detail_apply_btn}
+            />
             <ul className={jobDetail.job_detail_share_wrp}>
               <li className={jobDetail.job_detail_share_li}>Share</li>
               <li>

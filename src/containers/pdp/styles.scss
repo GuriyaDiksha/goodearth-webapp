@@ -333,15 +333,20 @@ input[type="time"]::-webkit-calendar-picker-indicator{
     padding-left: 40px;
     font-family: $font-Lora;
     text-overflow: ellipsis;
+    letter-spacing: 0;
     &.mobile{
         padding-left: 0px;
         @include h6_16px_lora_charcoal();
         line-height: unset;
         margin-top: 0px;
-        white-space: nowrap;
+        white-space: pre-wrap;
         overflow: hidden;
         text-overflow: ellipsis;
         margin-right: 10px;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+
     }
 }
 
@@ -488,7 +493,7 @@ input[type="time"]::-webkit-calendar-picker-indicator{
 }
 
 .bottom-dock-price{
-    font-size: 20px !important;
+    font-size: 16px !important;
     font-family: $font-Montserrat !important;
 }
 

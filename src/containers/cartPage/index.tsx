@@ -36,6 +36,7 @@ import CheckoutService from "services/checkout";
 import Loader from "components/Loader";
 import { GA_CALLS } from "constants/cookieConsent";
 import { REGISTRY_MIXED_SHIPPING } from "constants/messages";
+import Button from "components/Button";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -126,9 +127,9 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       nextUrl && dispatch(updateNextUrl(nextUrl));
       event?.preventDefault();
     },
-    getBoDetail: async (id: string) => {
-      return await CheckoutService.getBoDetail(dispatch, id);
-    },
+    // getBoDetail: async (id: string) => {
+    //   return await CheckoutService.getBoDetail(dispatch, id);
+    // },
     logout: async (currency: Currency, customerGroup: string) => {
       return await LoginService.logout(
         dispatch,
@@ -170,44 +171,44 @@ class CartPage extends React.Component<Props, State> {
   }
 
   componentDidMount() {
-    const queryString = this.props.location.search;
-    const urlParams = new URLSearchParams(queryString);
-    const boId = urlParams.get("bo_id");
+    // const queryString = this.props.location.search;
+    // const urlParams = new URLSearchParams(queryString);
+    // const boId = urlParams.get("bo_id");
 
-    if (boId) {
-      this.props
-        .getBoDetail(boId)
-        .then((data: any) => {
-          localStorage.setItem("tempEmail", data.email);
-          if (this.props.user.email && data.isLogin) {
-            CookieService.setCookie("currency", data.currency, 365);
-            CookieService.setCookie("currencypopup", "true", 365);
-            this.setState({ newLoading: false });
-            this.props
-              .logout(this.props.currency, this.props.user.customerGroup)
-              .then(res => {
-                localStorage.setItem("tempEmail", data.email);
-                this.props.goLogin(undefined, "/order/checkout");
-                // this.setState({
-                //   boEmail: data.email,
-                //   boId: boId
-                // });
-              });
-          } else if (data.email) {
-            CookieService.setCookie("currency", data.currency, 365);
-            CookieService.setCookie("currencypopup", "true", 365);
-            localStorage.setItem("tempEmail", data.email);
-            this.props.goLogin(undefined, "/order/checkout");
-          } else {
-            this.props.history.push("/backend-order-error");
-          }
-        })
-        .catch(error => {
-          this.props.history.push("/backend-order-error");
-        });
-    }
+    // if (boId) {
+    //   this.props
+    //     .getBoDetail(boId)
+    //     .then((data: any) => {
+    //       localStorage.setItem("tempEmail", data.email);
+    //       if (this.props.user.email && data.isLogin) {
+    //         CookieService.setCookie("currency", data.currency, 365);
+    //         CookieService.setCookie("currencypopup", "true", 365);
+    //         this.setState({ newLoading: false });
+    //         this.props
+    //           .logout(this.props.currency, this.props.user.customerGroup)
+    //           .then(res => {
+    //             localStorage.setItem("tempEmail", data.email);
+    //             this.props.goLogin(undefined, "/order/checkout");
+    //             // this.setState({
+    //             //   boEmail: data.email,
+    //             //   boId: boId
+    //             // });
+    //           });
+    //       } else if (data.email) {
+    //         CookieService.setCookie("currency", data.currency, 365);
+    //         CookieService.setCookie("currencypopup", "true", 365);
+    //         localStorage.setItem("tempEmail", data.email);
+    //         this.props.goLogin(undefined, "/order/checkout");
+    //       } else {
+    //         this.props.history.push("/backend-order-error");
+    //       }
+    //     })
+    //     .catch(error => {
+    //       this.props.history.push("/backend-order-error");
+    //     });
+    // }
 
-    if (this.props.history.location.state?.from == "checkout" && !boId) {
+    if (this.props.history.location.state?.from == "checkout") {
       if (!this.props.isLoggedIn) {
         this.props.goLogin(undefined, "/order/checkout");
       }
@@ -660,9 +661,17 @@ class CartPage extends React.Component<Props, State> {
 
         {mobile && (
           <div className={styles.continueShoppingBtnWrapper}>
-            <Link to="/" className={styles.continueShoppingBtn}>
-              Continue Shopping
-            </Link>
+            <Button
+              variant="largeMedCharcoalCta"
+              className={cs(
+                styles.continueShoppingBtn,
+                globalStyles.btnFullWidth
+              )}
+              label={"Continue Shopping"}
+              onClick={() => {
+                this.props.history.push("/");
+              }}
+            />
           </div>
         )}
       </div>

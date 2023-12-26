@@ -4,6 +4,7 @@ import Header from "./Components/header";
 import Rewards from "./Components/rewards";
 import { useHistory } from "react-router";
 import Address from "./Components/address";
+import Button from "components/Button";
 
 const CeriseDashboard = () => {
   const history = useHistory();
@@ -17,12 +18,11 @@ const CeriseDashboard = () => {
           View your in-shop and web boutique transactions along with the current
           Cerise Points balance here.
         </p>
-        <button
-          className={styles.viewStatement}
+        <Button
+          variant="smallMedCharcoalCta"
           onClick={() => history.push("/account/cerise/transaction")}
-        >
-          VIEW STATEMENT
-        </button>
+          label={"VIEW STATEMENT"}
+        />
       </div>
       <Rewards />
       <Address />

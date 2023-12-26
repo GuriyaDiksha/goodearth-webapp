@@ -19,13 +19,15 @@ import EmailVerification from "../emailVerification";
 import { USR_WITH_NO_ORDER } from "constants/messages";
 import CookieService from "services/cookie";
 import { GA_CALLS } from "constants/cookieConsent";
+import Button from "components/Button";
 
 const mapStateToProps = (state: AppState) => {
   return {
     location: state.router.location,
     basket: state.basket,
     currency: state.currency,
-    sortBy: state.wishlist.sortBy
+    sortBy: state.wishlist.sortBy,
+    mobile: state.device.mobile
   };
 };
 
@@ -211,10 +213,16 @@ class MainLogin extends React.Component<Props, loginState> {
 
     const subHeading = this.props.isCerise
       ? "Please enter your registered e-mail address to login to your Cerise account."
+      : ["/cart", "/order/checkout"].includes(location.pathname)
+      ? "Please enter your email to proceed."
       : "Enter your email address to register or sign in.";
 
     this.setState({
-      heading: this.props.heading || "Welcome",
+      heading: this.props.heading
+        ? this.props.heading
+        : ["/cart", "/order/checkout"].includes(location.pathname)
+        ? "Continue to Checkout"
+        : "Welcome",
       subHeading: this.props.subHeading || subHeading
     });
   }
@@ -323,13 +331,13 @@ class MainLogin extends React.Component<Props, loginState> {
           //   history.push(searchParams.get("redirect_to") || "");
           // }
 
-          const boid = new URLSearchParams(
-            this.props.history.location.search
-          ).get("bo_id");
+          // const boid = new URLSearchParams(
+          //   this.props.history.location.search
+          // ).get("bo_id");
 
-          if (boid) {
-            this.props.history.push(`/order/checkout?bo_id=${boid}`);
-          }
+          // if (boid) {
+          //   this.props.history.push(`/order/checkout?bo_id=${boid}`);
+          // }
         })
         .catch(err => {
           if (
@@ -553,7 +561,7 @@ class MainLogin extends React.Component<Props, loginState> {
               showLabel={true}
             />
           </div>
-          <div>
+          <div className={styles.loginForm}>
             {this.state.showerror ? (
               <p className={cs(styles.errorMsg, styles.mainLoginError)}>
                 {this.state.showerror}
@@ -561,19 +569,12 @@ class MainLogin extends React.Component<Props, loginState> {
             ) : (
               ""
             )}
-            <input
+            <Button
               type="submit"
-              className={
-                this.state.isLoginDisabled
-                  ? cs(
-                      globalStyles.charcoalBtn,
-                      globalStyles.disabledBtn,
-                      globalStyles.nohoverBtn
-                    )
-                  : globalStyles.charcoalBtn
-              }
-              value="continue"
+              className={cs({ [globalStyles.btnFullWidth]: this.props.mobile })}
+              label="continue"
               disabled={this.state.isLoginDisabled}
+              variant="mediumMedCharcoalCta366"
             />
           </div>
         </div>
@@ -655,28 +656,24 @@ class MainLogin extends React.Component<Props, loginState> {
             ) : (
               ""
             )}
-            <input
+            <Button
               type="submit"
-              className={
-                this.state.isSecondStepLoginDisabled
-                  ? cs(globalStyles.charcoalBtn, globalStyles.disabledBtn)
-                  : globalStyles.charcoalBtn
-              }
-              value="Login to my account"
+              className={globalStyles.btnFullWidth}
+              label="Login to my account"
               disabled={this.state.isSecondStepLoginDisabled}
+              variant="largeMedCharcoalCta"
             />
             {this.props.isBo ? (
               ""
             ) : (
-              <input
+              <Button
                 type="submit"
-                className={cs(
-                  globalStyles.charcoalBtn,
-                  globalStyles.withWhiteBgNoHover,
-                  styles.changeEmailBtn
-                )}
-                value="Go Back"
+                className={cs(styles.changeEmailBtn, {
+                  [globalStyles.btnFullWidth]: this.props.mobile
+                })}
+                label="Go Back"
                 onClick={this.changeEmail}
+                variant="outlineMediumMedCharcoalCta366"
               />
             )}
           </div>

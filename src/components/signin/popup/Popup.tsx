@@ -23,7 +23,7 @@ const Popup: React.FC<{ disableClose?: boolean }> = ({
   const location = useLocation();
   const queryString = location.search;
   const urlParams = new URLSearchParams(queryString);
-  const boId = urlParams.get("bo_id");
+  // const boId = urlParams.get("bo_id");
   const history = useHistory();
 
   const closePopup = () => {
@@ -72,9 +72,7 @@ const Popup: React.FC<{ disableClose?: boolean }> = ({
                     }}
                   />
                 )}
-                {boId ||
-                disableClose ||
-                location.pathname == "/giftcard" ? null : (
+                {disableClose || location.pathname == "/giftcard" ? null : (
                   <button
                     className={cs(
                       styles.closePopup,

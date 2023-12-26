@@ -12,6 +12,7 @@ import cs from "classnames";
 import cartIcon from "../../images/bridal/icons_cartregistry-details.svg";
 import { showGrowlMessage } from "../../utils/validate";
 import { displayPriceWithCommas } from "utils/utility";
+import Button from "components/Button";
 const mapStateToProps = (state: AppState) => {
   return {
     isSale: state.info.isSale,
@@ -39,7 +40,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
         );
         return res;
       } catch (err) {
-        let errorMessage = err?.response.data;
+        let errorMessage = err?.response?.data;
         if (typeof errorMessage != "string") {
           errorMessage = "Can't add to bag";
         }
@@ -352,13 +353,14 @@ class BridalItem extends React.Component<Props, State> {
                 <div className={styles.manageHeight}>
                   {!mobile && (
                     <>
-                      <button
-                        className={this.state.btnDisable}
+                      <Button
+                        // className={this.state.btnDisable}
                         onClick={this.addToBag}
                         disabled={this.state.buttonStatus}
-                      >
-                        {this.state.btnContent}
-                      </button>
+                        label={this.state.btnContent}
+                        variant="mediumAquaCta300"
+                      />
+
                       {this.props.bridalItem.productDeliveryDate && (
                         <div
                           className={cs(

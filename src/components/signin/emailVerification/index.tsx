@@ -5,7 +5,7 @@ import styles from "../styles.scss";
 import globalStyles from "styles/global.scss";
 // services
 import LoginService from "services/login";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 // import Loader from "components/Loader";
 // import OtpBox from "components/OtpComponent/otpBox";
 // import { showGrowlMessage } from "utils/validate";
@@ -15,8 +15,10 @@ import NewOtpComponent from "components/OtpComponent/NewOtpComponent";
 import { decriptdata } from "utils/validate";
 import { GA_CALLS } from "constants/cookieConsent";
 import CookieService from "services/cookie";
+import Button from "components/Button";
 import { Currency } from "typings/currency";
 import { censorEmail, censorPhoneNumber } from "utils/utility";
+import { AppState } from "reducers/typings";
 
 type Props = {
   successMsg: string;
@@ -48,12 +50,6 @@ const EmailVerification: React.FC<Props> = ({
   phoneNo,
   isRegistration
 }) => {
-  // const [isLoading, setIsLoading] = useState(false);
-  // const [enableBtn, setEnableBtn] = useState(false);
-  // const [timeRemaining, setTimeRemaining] = useState(60);
-  //const [showCustCare, setShowCustCare] = useState(false);
-  // const [timerId, setTimerId] = useState<any>();
-  // const [otpValue, setOtpValue] = useState("");
   const [error, setError] = useState<(JSX.Element | string)[] | string>("");
   const [attempts, setAttempts] = useState({
     attempts: 0,
@@ -63,23 +59,16 @@ const EmailVerification: React.FC<Props> = ({
   // const headingref = React.useRef<null | HTMLDivElement>(null);
   const dispatch = useDispatch();
   const history = useHistory();
-  // const timer = () => {
-  //   setTimeRemaining(90);
-  //   setEnableBtn(false);
-  //   const id = setInterval(() => {
-  //     setTimeRemaining(timeRemaining => timeRemaining - 1);
-  //   }, 1000);
-  //   setTimerId(id);
-  // };
+  const { mobile } = useSelector((state: AppState) => state.device);
 
   const showLogin = () => {
     localStorage.setItem("tempEmail", email);
     goLogin();
   };
   const location = useLocation();
-  const queryString = location.search;
-  const urlParams = new URLSearchParams(queryString);
-  const boId = urlParams.get("bo_id");
+  // const queryString = location.search;
+  // const urlParams = new URLSearchParams(queryString);
+  // const boId = urlParams.get("bo_id");
 
   useEffect(() => setOtpSmsSent(!!phoneNo), []);
 
@@ -252,15 +241,14 @@ const EmailVerification: React.FC<Props> = ({
   }, []);
 
   const goBackCta = (
-    <input
+    <Button
       type="submit"
-      className={cs(
-        globalStyles.charcoalBtn,
-        globalStyles.withWhiteBgNoHover,
-        styles.changeEmailBtn
-      )}
-      value="Go Back"
+      className={cs(styles.changeEmailBtn, {
+        [globalStyles.btnFullWidth]: mobile
+      })}
+      label="Go Back"
       onClick={changeEmail}
+      variant="outlineMediumMedCharcoalCta366"
     />
   );
 
@@ -326,7 +314,7 @@ const EmailVerification: React.FC<Props> = ({
           otpAttemptClass={styles.otpAttempt}
           verifyCtaClass={styles.verifyOtpCta}
           groupTimerAndAttempts={true}
-          goBackCta={!isCheckout && !boId ? goBackCta : null}
+          goBackCta={!isCheckout ? goBackCta : null}
           socialLogin={socialLogin}
           uniqueId="emailverifyid"
         />

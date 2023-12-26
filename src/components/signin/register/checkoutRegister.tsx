@@ -31,6 +31,7 @@ import FormContainer from "../formContainer";
 import tooltipIcon from "images/tooltip.svg";
 import tooltipOpenIcon from "images/tooltip-open.svg";
 import { CONFIG } from "constants/util";
+import Button from "components/Button";
 
 const mapStateToProps = (state: AppState) => {
   const isdList = state.address.countryData.map(list => {
@@ -228,12 +229,12 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
             event: "newsletter_subscribe",
             click_type: " Sign in"
           });
-          dataLayer.push({
-            event: "sign_up",
-            user_status: "logged in", //'Pass the user status ex. logged in OR guest',
-            login_method: "", //Pass Email or Google as per user selection',
-            GE_user_ID: data?.userId
-          });
+          // dataLayer.push({
+          //   event: "sign_up",
+          //   user_status: "logged in", //'Pass the user status ex. logged in OR guest',
+          //   login_method: "", //Pass Email or Google as per user selection',
+          //   user_id: data?.userId
+          // });
         }
         this.gtmPushRegister();
         // this.props.nextStep?.();
@@ -1275,39 +1276,34 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
               ""
             )}
             {!this.props.isCheckout && (
-              <input
+              <Button
                 type="submit"
-                className={
-                  this.state.disableButton || !this.state.showFields
-                    ? cs(globalStyles.disabledBtn, globalStyles.charcoalBtn)
-                    : globalStyles.charcoalBtn
-                }
-                value="Verify my account"
+                className={cs({
+                  [globalStyles.btnFullWidth]: this.props.mobile
+                })}
+                label="Create My Account & Proceed"
                 disabled={this.state.disableButton || !this.state.showFields}
+                variant="mediumMedCharcoalCta366"
               />
             )}
             {!this.props.isCheckout && (
-              <input
+              <Button
                 type="submit"
-                className={cs(
-                  globalStyles.charcoalBtn,
-                  globalStyles.withWhiteBgNoHover,
-                  styles.changeEmailBtn
-                )}
-                value="Go Back"
+                className={cs(styles.changeEmailBtn, {
+                  [globalStyles.btnFullWidth]: this.props.mobile
+                })}
+                label="Go Back"
                 onClick={this.changeEmail}
+                variant="outlineMediumMedCharcoalCta366"
               />
             )}
             {this.props.isCheckout && (
-              <input
+              <Button
                 type="submit"
-                className={
-                  this.state.disableButton || !this.state.showFields
-                    ? cs(globalStyles.disabledBtn, globalStyles.ceriseBtn)
-                    : globalStyles.ceriseBtn
-                }
-                value="Continue"
+                className={globalStyles.btnFullWidth}
+                label="Continue"
                 disabled={this.state.disableButton || !this.state.showFields}
+                variant="largeAquaCta"
               />
             )}
           </div>

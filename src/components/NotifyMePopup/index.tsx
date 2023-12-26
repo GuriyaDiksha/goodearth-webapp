@@ -105,6 +105,23 @@ const NotifyMePopup: React.FC<Props> = ({
     [selectedSize]
   );
   const [showLoader, setShowLoader] = useState(false);
+
+  useEffect(() => {
+    if (
+      typeof document == "object" &&
+      (document?.getElementById("modal-fullscreen") as HTMLElement) &&
+      mobile
+    ) {
+      (document.getElementById(
+        "modal-fullscreen"
+      ) as HTMLElement).style.height = "auto";
+    }
+    if (document?.getElementById("modal-fullscreen-container") && mobile) {
+      (document.getElementById(
+        "modal-fullscreen-container"
+      ) as HTMLElement).style.height = "auto";
+    }
+  }, []);
   const onSizeSelect = useCallback(
     selected => {
       setSelectedSize(selected);
@@ -350,6 +367,7 @@ const NotifyMePopup: React.FC<Props> = ({
         label={buttonText}
         onClick={action}
         className={cs(styles.button)}
+        variant="largeAquaCta"
       />
     );
   }, [selectedSize, email, quantity, msg]);

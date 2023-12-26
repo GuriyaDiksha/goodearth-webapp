@@ -77,7 +77,9 @@ export const enum ROUTES {
   BOSPORUSMETALDECOR = "/Bosporus_Metal_Decor",
   TELLINGSTORIES = "/telling-stories-through-textiles",
   VIRTUALSHOPPINGSALON = "/virtual-shopping-salon",
-  GUIDETOLIGHTING = "/guide-to-lighting-your-home"
+  GUIDETOLIGHTING = "/guide-to-lighting-your-home",
+  INNERSPACE = "/inner-spaces",
+  LILANURPARFUMS = "/lilanur-parfums"
 }
 
 export type RouteConfig = RouteObject[];

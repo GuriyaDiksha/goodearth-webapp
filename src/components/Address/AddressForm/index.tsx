@@ -27,6 +27,7 @@ import { updateCountryData } from "actions/address";
 import { getErrorList, errorTracking } from "utils/validate";
 import BridalContext from "containers/myAccount/components/Bridal/context";
 import noPincodeCountryList from "./noPincodeCountryList";
+import Button from "components/Button";
 import SelectDropdown from "components/Formsy/SelectDropdown";
 import iconStyles from "styles/iconFonts.scss";
 import { cloneDeep } from "lodash";
@@ -971,7 +972,7 @@ const AddressForm: React.FC<Props> = props => {
           </div> */}
 
           <div
-            className={cs({
+            className={cs(globalStyles.textCenter, {
               [styles.checkoutMobilePopupButton]:
                 currentCallBackComponent == "checkout-shipping" ||
                 currentCallBackComponent == "checkout-billing"
@@ -985,60 +986,29 @@ const AddressForm: React.FC<Props> = props => {
                       currentCallBackComponent == "bridal-edit" ||
                       currentCallBackComponent == "bridal"
                   },
-                  globalStyles.paddT20
+                  {
+                    [globalStyles.paddT20]: !(
+                      mobile &&
+                      (currentCallBackComponent == "checkout-shipping" ||
+                        currentCallBackComponent == "checkout-billing")
+                    )
+                  }
                 )}
               >
                 {mode == "edit" ? (
-                  <input
-                    formNoValidate={true}
+                  <Button
+                    variant="mediumMedCharcoalCta366"
                     type="submit"
-                    value="SAVE ADDRESS"
-                    className={cs(
-                      globalStyles.ceriseBtn,
-                      {
-                        [globalStyles.disabledBtn]: !isAddressChanged
-                      },
-                      {
-                        [styles.charcoalBtn]:
-                          currentCallBackComponent == "account" ||
-                          currentCallBackComponent == "checkout-shipping" ||
-                          currentCallBackComponent == "checkout-billing" ||
-                          currentCallBackComponent == "bridal-edit"
-                      },
-                      {
-                        [styles.charcoalBtnWidth]:
-                          currentCallBackComponent == "checkout-shipping" ||
-                          currentCallBackComponent == "checkout-billing" ||
-                          currentCallBackComponent == "bridal-edit"
-                      }
-                    )}
+                    label={"SAVE ADDRESS"}
+                    className={cs({ [globalStyles.btnFullWidth]: mobile })}
                     disabled={!isAddressChanged}
                   />
                 ) : (
-                  <input
-                    formNoValidate={true}
+                  <Button
+                    variant="mediumMedCharcoalCta366"
                     type="submit"
-                    value="ADD NEW ADDRESS"
-                    className={cs(
-                      globalStyles.ceriseBtn,
-                      // {
-                      //   [styles.disabledBtn]: !isAddressChanged
-                      // },
-                      {
-                        [styles.charcoalBtn]:
-                          currentCallBackComponent == "account" ||
-                          currentCallBackComponent == "checkout-shipping" ||
-                          currentCallBackComponent == "checkout-billing" ||
-                          currentCallBackComponent == "bridal"
-                      },
-                      {
-                        [styles.charcoalBtnWidth]:
-                          currentCallBackComponent == "checkout-shipping" ||
-                          currentCallBackComponent == "checkout-billing" ||
-                          currentCallBackComponent == "bridal"
-                      }
-                    )}
-                    // disabled={!isAddressChanged}
+                    label={"ADD NEW ADDRESS"}
+                    className={cs({ [globalStyles.btnFullWidth]: mobile })}
                   />
                 )}
               </div>
@@ -1088,12 +1058,10 @@ const AddressForm: React.FC<Props> = props => {
               styles.addNewAddress
             )}
             onTouchEnd={() => {
-              console.log("mobile touch");
               window.scrollTo(0, 0);
               closeAddressForm(mode === "edit" ? addressData?.id : undefined);
             }}
             onClick={() => {
-              console.log("click start");
               window.scrollTo(0, 0);
               closeAddressForm(mode === "edit" ? addressData?.id : undefined);
             }}

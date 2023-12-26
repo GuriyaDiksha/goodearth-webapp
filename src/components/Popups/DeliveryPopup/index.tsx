@@ -1,27 +1,22 @@
 import React, { useContext, useEffect, useState } from "react";
 import cs from "classnames";
-// import iconStyles from "../../styles/iconFonts.scss";
-// import bootstrapStyles from "../../../styles/bootstrap/bootstrap-grid.scss";
 import globalStyles from "styles/global.scss";
 import styles from "../styles.scss";
-// import { PopupProps } from "./typings";
 import iconStyles from "styles/iconFonts.scss";
 import { Context } from "components/Modal/context";
-import { NavLink } from "react-router-dom";
 import { AppState } from "reducers/typings";
 import { useSelector } from "react-redux";
+import Button from "components/Button";
 
 type PopupProps = {
   saveInstruction: (data: string) => any;
-  // closeModal: (data?: any) => any;
-  // acceptCondition: (data?: any) => any;
 };
 
 const Delivery: React.FC<PopupProps> = props => {
-  //   const [isLoading, setIsLoading] = useState(false);
   const { closeModal } = useContext(Context);
   const [textarea, setTextarea] = useState("");
   const { deliveryText } = useSelector((state: AppState) => state.info);
+  const { mobile } = useSelector((state: AppState) => state.device);
 
   useEffect(() => {
     setTextarea(deliveryText);
@@ -54,12 +49,9 @@ const Delivery: React.FC<PopupProps> = props => {
           </div>
         </div>
         <div className={cs(globalStyles.paddT20, styles.gcTnc)}>
-          {/* <div className={globalStyles.c10LR}> */}
           <div>
             <div className={styles.deliverSubheading}>
               Please provide specific delivery instructions for this order.
-              {/* You’re a step away from{" "}
-              <span className={styles.linkTextUnderline}>free shipping!</span> */}
             </div>
             <div
               className={cs(
@@ -93,37 +85,20 @@ const Delivery: React.FC<PopupProps> = props => {
               Your instructions help us provide you with a seamless online
               shopping experience. Kindly note, our delivery teams reserve the
               right to refuse certain instructions under special circumstances.
-              {/* <a
-                href={"/customer-assistance/terms-conditions "}
-                className={styles.terms}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                {" "}
-                Read T&C{" "}
-              </a>
-              to know more. */}
             </div>
           </div>
         </div>
-        <div
-          className={cs(
-            globalStyles.checkoutBtn,
-            styles.deliveryBtnWidth,
-            styles.freeshipBtnWidth,
-            styles.marginBottom
-          )}
-        >
-          <NavLink
-            to="/"
+        <div className={cs(styles.marginBottom)}>
+          <Button
+            variant="mediumMedCharcoalCta366"
             onClick={e => {
               e.preventDefault();
               props.saveInstruction(textarea.trim());
               closeModal();
             }}
-          >
-            SAVE & PROCEED
-          </NavLink>
+            label={"SAVE & PROCEED"}
+            className={cs({ [globalStyles.btnFullWidthForPopup]: mobile })}
+          />
         </div>
       </div>
     </div>

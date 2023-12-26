@@ -813,6 +813,7 @@ body:has(.mobile) {
       width: 100%;
       left: 0;
       margin: 0 !important;
+      height: 58px;
       .charcoal-btn-width {
         width: 100%;
       }
@@ -962,4 +963,8 @@ div > .address-in-use {
 }
 .address-edit-msg{
   display: none;;
+}
+
+.cancel-btn{
+  float: right;
 }
