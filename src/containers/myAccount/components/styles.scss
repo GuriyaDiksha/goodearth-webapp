@@ -651,7 +651,7 @@ input[type="text"]{
       }
       &.balance{
         @include b4_12px_montserrat_aqua();
-        font-weight: $semibold;
+        font-weight: 500;
         // letter-spacing: 0.5px;
         // margin: 25px 0px 45px 0px;
         margin: 15px 0;
@@ -692,6 +692,10 @@ input[type="text"]{
     padding-left: 10px;
     font-size: 10px;
     cursor: pointer;
+    font-weight: 600;
+    i::before{
+      font-weight: 600;
+    }
   }
 }
 .gift-display{
@@ -1083,7 +1087,7 @@ input[type="text"]{
 .section {
   border-bottom: 1px solid lightgray;
   padding: 25px 0px;
-  cursor: pointer;
+  // cursor: pointer;
 }
 
 .balance-section-head{
