@@ -2184,7 +2184,7 @@ class FilterList extends React.Component<Props, State> {
                     );
                   }}
                 >
-                  FILTER BY DISCOUNT
+                  BY DISCOUNT
                 </span>
               ) : (
                 ""
