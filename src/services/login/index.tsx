@@ -32,6 +32,7 @@ import { GA_CALLS } from "constants/cookieConsent";
 import { encryptdata, decriptdata, encrypttext } from "utils/validate";
 // import { updateBasket } from "actions/basket";
 // import { CUST } from "constants/util";
+import BridalService from "services/bridal";
 
 export default {
   showForgotPassword: function(
@@ -709,6 +710,7 @@ export default {
             });
           }
           if (metaResponse) {
+            BridalService.countBridal(dispatch, metaResponse.bridalId);
             let basketBridalId = 0;
             basketRes.lineItems.map(item =>
               item.bridalProfile ? (basketBridalId = item.bridalProfile) : ""

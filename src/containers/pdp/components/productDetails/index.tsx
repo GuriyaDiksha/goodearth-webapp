@@ -77,6 +77,7 @@ import { GA_CALLS } from "constants/cookieConsent";
 import { displayPriceWithCommas } from "utils/utility";
 import addReg from "../../../../images/registery/addReg.svg";
 import addedReg from "../../../../images/registery/addedReg.svg";
+import { countBridal } from "actions/bridal";
 
 const ProductDetails: React.FC<Props> = ({
   data: {
@@ -662,6 +663,7 @@ const ProductDetails: React.FC<Props> = ({
             "Product ID": productId,
             Variant: selectedSize?.size
           });
+          BridalService.countBridal(dispatch, bridalId);
         }
 
         if (selectedSize) {

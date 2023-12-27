@@ -59,6 +59,8 @@ const mapStateToProps = (state: AppState) => {
     location: state.router.location,
     meta: state.meta,
     isLoggedIn: state.user.isLoggedIn,
+    bridalId: state.user.bridalId,
+    bridalCount: state.bridal.count,
     slab: state.user.slab,
     cookies: state.cookies,
     showTimer: state.info.showTimer,
@@ -149,6 +151,7 @@ class Header extends React.Component<Props, State> {
     this.props.onLoadAPiCall(
       this.props.isLoggedIn,
       this.props.cookies,
+      this.props.bridalId,
       bridalKey,
       this.props.sortBy,
       this.props.location.pathname
@@ -965,6 +968,7 @@ class Header extends React.Component<Props, State> {
     const { isLoggedIn } = this.context;
     const {
       wishlistData,
+      bridalCount,
       meta,
       goLogin,
       handleLogOut,
@@ -975,6 +979,7 @@ class Header extends React.Component<Props, State> {
       // customerGroup
     } = this.props;
     const wishlistCount = wishlistData.length;
+    const bridalCountData = bridalCount;
     let bagCount = 0;
     const item = this.props.cart.lineItems;
     for (let i = 0; i < item.length; i++) {
@@ -1324,6 +1329,7 @@ class Header extends React.Component<Props, State> {
                     wishlistData={wishlistData}
                     currency={this.props.currency}
                     sidebagData={this.props.cart}
+                    bridalCountData={bridalCountData}
                   />
                 )}
                 {(mobile || tablet) && (

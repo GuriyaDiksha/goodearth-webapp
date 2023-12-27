@@ -164,6 +164,7 @@ export type SideMenuProps = {
   showBag: boolean;
   setShowBag: (showBag: boolean) => void;
   hideSearch: () => void;
+  bridalCountData: number;
 };
 
 export type BottomMenuProps = {

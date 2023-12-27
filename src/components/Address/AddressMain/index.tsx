@@ -484,7 +484,7 @@ const AddressMain: React.FC<Props> = props => {
                         //     !userAddress?.id
                         // }
                       )}
-                      value={
+                      label={
                         currentCallBackComponent == "bridal"
                           ? "select & create registry"
                           : "+ add a new address"
