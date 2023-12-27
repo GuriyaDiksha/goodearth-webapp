@@ -41,11 +41,11 @@
 .discounted-price {
     color: $gold;
     font-family: $font-Montserrat;
-    font-size: 14px;
+    font-size: 16px;
 }
 
 .old-price {
-    font-size: 12px;
+    font-size: 14px;
     text-decoration: line-through;
     color: #9f9f9f !important;
     font-family: $font-Montserrat;
@@ -414,4 +414,8 @@
         flex: 0 0 66.66667%;
         max-width: 66.66667%;
     }
+}
+
+.badge-padding{
+    padding-bottom: 10px;
 }
