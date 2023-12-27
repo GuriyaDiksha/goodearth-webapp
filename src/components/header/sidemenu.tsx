@@ -458,6 +458,5 @@ class SideMenu extends React.Component<Props, State> {
     );
   }
 }
-
 const SideMenuWithRouter = withRouter(SideMenu);
 export default connect(mapStateToProps, mapDispatchToProps)(SideMenuWithRouter);
