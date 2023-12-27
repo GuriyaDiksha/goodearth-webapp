@@ -933,7 +933,7 @@ const ProductDetails: React.FC<Props> = ({
             {(isLoading || loading) && <Loader />}
             <div className={cs(bootstrap.row)}>
               {images && images[0]?.badgeImagePdp && (
-                <div className={bootstrap.col12}>
+                <div className={cs(bootstrap.col12, styles.badgePadding)}>
                   <img
                     src={images[0]?.badgeImagePdp}
                     width="80px"
