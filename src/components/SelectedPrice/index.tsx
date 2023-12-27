@@ -21,15 +21,27 @@ const SelectedPrice: React.FC<Props> = ({
         [styles.saleOn]: isSale && discount
       })}
     >
-      {currency === "INR" && <span className={styles.mrp}>MRP.</span>}
+      {currency === "INR" && (
+        <span
+          className={cs(
+            styles.mrp,
+            badgeType == "B_flat" || (isSale && discount)
+              ? globalStyles.gold
+              : ""
+          )}
+        >
+          MRP.
+        </span>
+      )}
       {isSale && discount ? (
         <span className={cs(styles.discountprice, className)}>
+          &nbsp;
           {displayPriceWithCommas(discountPrice, currency)}
         </span>
       ) : (
         ""
       )}
-      &nbsp; &nbsp;
+      &nbsp;
       {isSale && discount ? (
         <span className={cs(styles.strikeprice)}>
           {" "}
@@ -38,6 +50,7 @@ const SelectedPrice: React.FC<Props> = ({
       ) : (
         <span
           className={cs(
+            styles.normalPrice,
             badgeType == "B_flat" ? globalStyles.gold : "",
             className
           )}
