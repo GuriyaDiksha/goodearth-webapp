@@ -20,6 +20,7 @@ const WishlistItem: React.FC<Props> = props => {
   // const [disableSelectedbox, setDisableSelectedbox ] = useState(false);
   const { currency } = useSelector((state: AppState) => state);
   const { mobile } = useSelector((state: AppState) => state.device);
+  const isShared = location?.pathname?.includes("shared-wishlist");
   // salestatus: window.is_sale
 
   const atbOrNotify = (item: ItemType) => {
@@ -102,21 +103,22 @@ const WishlistItem: React.FC<Props> = props => {
     return (
       <div>
         <div className={styles.imagebox}>
-          {mobile ? (
-            <i
-              className={cs(iconStyles.icon, iconStyles.iconCross)}
-              onTouchStart={e => {
-                props.removeProduct(data);
-              }}
-            ></i>
-          ) : (
-            <i
-              className={cs(iconStyles.icon, iconStyles.iconCross)}
-              onClick={e => {
-                props.removeProduct(data);
-              }}
-            ></i>
-          )}
+          {!isShared &&
+            (mobile ? (
+              <i
+                className={cs(iconStyles.icon, iconStyles.iconCross)}
+                onTouchStart={e => {
+                  props.removeProduct(data);
+                }}
+              ></i>
+            ) : (
+              <i
+                className={cs(iconStyles.icon, iconStyles.iconCross)}
+                onClick={e => {
+                  props.removeProduct(data);
+                }}
+              ></i>
+            ))}
 
           <a href={data.productUrl}>
             <img

@@ -613,6 +613,21 @@ icon-cross {
   }
 }
 
+.shared-wrapper{
+    margin: 60px auto;
+    text-align: center;
+
+    .heading{
+      margin-bottom: 15px;
+      text-transform: capitalize;
+      @include h3_20px_lora_medCharcoal();
+    }
+
+    .subheading{
+      @include b4_12px_montserrat_light_charcoal();
+    }
+}
+
 .share-list {
   color: #666;
   border-bottom: 1px solid #666;
@@ -665,33 +680,49 @@ icon-cross {
     width: 100%;
     }
 
+    .main-wrp{
+      text-align: center;
+      margin: auto;
+    }
+
     .login-form {
       .wrapper{
         display: flex;
+        padding: 0 13%;
+        justify-content: space-between;
+
+        @media screen and (max-width:768px) {
+          margin-bottom: 80px;
+        }
       }
       .wup-link{
-        margin: auto;
+        margin-top: 10px;
       }
       .share-txt-box-wishlist {
         position: relative;
         width: 100%;
         border: 1px solid tint(#000, 90%);
         text-align: left;
-        width: 85%;
+        width: 100%;
         input[type="text"] {
           border: none;
           height: 50px;
           padding: 15px;
           width: 100%;
           background-color: #F8F8F8;
+          @include b4_12px_montserrat_charcoal();
+          text-overflow: ellipsis;
         }
+      }
+      .copy-icon{
+        margin: 12px 8px;
+        height: fit-content
       }
       .note{
         @include b5_10px_montserrat_light_charcoal();
-        width: 86%;
+        width: 100%;
         margin-top: 6px;
         text-align: left;
-        margin-bottom: 50px;
       }
       .link-wrp{
         .link{
@@ -701,6 +732,10 @@ icon-cross {
           width: fit-content;
           cursor: pointer;
           padding-top: 25px;
+
+          @media screen and (max-width:768px) {
+            margin-bottom: 80px;
+          }
         }
       }
       
@@ -709,17 +744,29 @@ icon-cross {
 }
 
 .footer{
+  height: 50px;
   position: absolute;
     bottom: -1px;
     left: 0;
     right: 0;
   background-color: $med-charcoal;
-  padding: 20px 40px;
+  padding: 10px 40px;
   display: flex;
   justify-content: space-between;
+
+  .img-text-wrp{
+    display: flex;
+    justify-content: start;
+    width: 80%;
+    @media screen and (max-width:768px) {
+      width: 70%;
+    }
+  }
   .footer-note{
     margin: auto;
     @include b4_12px_medium_white();
+    text-align: left;
+    margin-top: 5px;
   }
   .margin-auto{
     margin: auto;
@@ -758,4 +805,8 @@ icon-cross {
   position: absolute;
     bottom: 0;
     right: 0;
+}
+
+.bottom{
+  bottom: 50px;
 }

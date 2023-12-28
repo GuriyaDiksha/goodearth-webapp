@@ -7,7 +7,8 @@ const initialState: State = {
   is_success: false,
   message: "string",
   secret_key: "",
-  wishlist_link: ""
+  wishlist_link: "",
+  owner_name: ""
 };
 
 export const wishlist = (

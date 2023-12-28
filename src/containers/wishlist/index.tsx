@@ -35,6 +35,7 @@ import {
   displayPriceWithCommasFloat
 } from "utils/utility";
 import Button from "components/Button";
+import { updateNextUrl } from "actions/info";
 
 let AbsoluteGrid: any;
 
@@ -48,7 +49,8 @@ const mapStateToProps = (state: AppState) => {
     isSale: state.info.isSale,
     showTimer: state.info.showTimer,
     location: state.router.location,
-    isShared: state.router.location.pathname.includes("shared-wishlist")
+    isShared: state.router.location.pathname.includes("shared-wishlist"),
+    ownerName: state.wishlist.owner_name
   };
 };
 const mapDispatchToProps = (dispatch: Dispatch) => {
@@ -66,18 +68,24 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     updateWishlist: async (sortBy: string) =>
       await WishlistService.updateWishlist(dispatch, sortBy),
     updateWishlistShared: async (sortBy: string, location: any) => {
-      const uid = location.pathname.split("/")[2].split("?")[0];
+      const urlParam = new URLSearchParams(location.search);
+      const uid = urlParam.get("key") || "";
+
+      debugger;
       await WishlistService.updateWishlistShared(dispatch, uid, sortBy);
     },
     updateWishlistSequencing: async (sequencing: [number, number][]) =>
       await WishlistService.updateWishlistSequencing(dispatch, sequencing),
-    openLogin: () => LoginService.showLogin(dispatch),
+    openLogin: () => {
+      LoginService.showLogin(dispatch);
+      dispatch(updateNextUrl("/wishlist"));
+    },
     openSharePopup: (mobile: boolean) => {
       dispatch(
         updateComponent(
           POPUP.SHAREWISHLIST,
           {
-            shareUrl: "https://www.goodearth.in/sssss"
+            // shareUrl: "https://www.goodearth.in/sssss"
             // bridalDetails={bridalDetails}
           },
           mobile ? false : true,
@@ -1021,7 +1029,7 @@ class Wishlist extends React.Component<Props, State> {
             { [styles.wishlistBlockOuterTimer]: this.props.showTimer }
           )}
         >
-          {!isLoggedIn && (
+          {!isLoggedIn && !this.props.isShared && (
             <div className={styles.topBlockContainer}>
               <div className={styles.innerContainer}>
                 <h3 className={styles.heading}>Your Saved List</h3>
@@ -1048,6 +1056,17 @@ class Wishlist extends React.Component<Props, State> {
               </div>
             </div>
           )}
+
+          {this.props.isShared && (
+            <div className={styles.sharedWrapper}>
+              <h2 className={styles.heading}>
+                {this.props.ownerName}&apos;s Saved List
+              </h2>
+              <p className={styles.subheading}>
+                A wishlist has been shared with you. Start shopping!
+              </p>
+            </div>
+          )}
           <div
             className={cs(
               bootstrapStyles.col10,
@@ -1056,22 +1075,25 @@ class Wishlist extends React.Component<Props, State> {
             )}
           >
             {this.state.wishlistCount > 0 && (
-              <div
-                onClick={() =>
-                  this.props.isLoggedIn
-                    ? this.props.openSharePopup(this.props.mobile)
-                    : this.props.openLogin
-                }
-              >
+              <div>
                 <div
                   className={cs(styles.wishlistTop, styles.wishlistSubtotal)}
                 >
                   {this.getWishlistSubtotal()}
                 </div>
-                <div className={styles.shareList}>
-                  <i className={cs(iconStyles.icon, styles.iconLink)}></i>SHARE
-                  LIST
-                </div>
+                {!this.props.isShared && (
+                  <div
+                    className={styles.shareList}
+                    onClick={() =>
+                      this.props.isLoggedIn
+                        ? this.props.openSharePopup(this.props.mobile)
+                        : this.props.openLogin()
+                    }
+                  >
+                    <i className={cs(iconStyles.icon, styles.iconLink)}></i>
+                    SHARE LIST
+                  </div>
+                )}
               </div>
             )}
             <div

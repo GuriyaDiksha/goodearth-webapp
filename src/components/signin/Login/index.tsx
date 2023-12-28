@@ -6,6 +6,9 @@ import loadable from "@loadable/component";
 import Popup from "../popup/Popup";
 import { AppState } from "reducers/typings";
 import { updateNextUrl } from "actions/info";
+import { updateComponent, updateModal } from "actions/modal";
+import { POPUP } from "constants/components";
+import ModalStyles from "components/Modal/styles.scss";
 
 const MainLogin = loadable(() => import("components/signin/Login/mainLogin"));
 const CheckoutRegisterForm = loadable(() =>
@@ -16,6 +19,7 @@ const LoginForm = (props: any) => {
   const [isRegister, setIsRegister] = useState(false);
   const [email, setEmail] = useState("");
   const { nextUrl } = useSelector((state: AppState) => state.info);
+  const { mobile } = useSelector((state: AppState) => state.device);
   const history = useHistory();
   const { search, pathname } = useLocation();
   const urlParams = new URLSearchParams(search);
@@ -56,8 +60,22 @@ const LoginForm = (props: any) => {
       //   });
       //   localStorage.setItem("from", "cart");
       // } else {
-      history.push(nextUrl);
       //}
+
+      if (nextUrl === "/wishlist") {
+        dispatch(
+          updateComponent(
+            POPUP.SHAREWISHLIST,
+            null,
+            mobile ? false : true,
+            mobile ? ModalStyles.bottomAlignSlideUp : "",
+            mobile ? "slide-up-bottom-align" : ""
+          )
+        );
+        dispatch(updateModal(true));
+      } else {
+        history.push(nextUrl);
+      }
       dispatch(updateNextUrl(""));
     }
   };

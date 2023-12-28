@@ -33,7 +33,9 @@ export default {
       dispatch,
       `${__API_HOST__}/myapi/wishlist/get_sharable_wishlist_items/${uid}?sort_by=${sortBy}`
     );
-    dispatch(updateWishlist(res.data, sortBy, res.sortedDiscount));
+    dispatch(
+      updateWishlist(res.data, sortBy, res.sortedDiscount, res?.owner_name)
+    );
   },
 
   resetWishlist: function(dispatch: Dispatch) {

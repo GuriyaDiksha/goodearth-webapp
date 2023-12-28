@@ -85,9 +85,12 @@ const ShareWishlistLink: React.FC<Props> = props => {
       <div className={styles.cross} onClick={closeModal}>
         <i className={cs(iconStyles.icon, iconStyles.iconCrossNarrowBig)}></i>
       </div>
-      <img src={bgTwo} className={cs(styles.bgTwo)} />
+      <img
+        src={bgTwo}
+        className={cs(styles.bgTwo, { [styles.bottom]: wishlist_link })}
+      />
       <div className={bootstrapStyles.row}>
-        <div className={cs(bootstrapStyles.col8, bootstrapStyles.offset2)}>
+        <div className={cs(styles.mainWrp)}>
           <div className={styles.loginForm}>
             <div>
               <div className={globalStyles.voffset7}>
@@ -106,11 +109,21 @@ const ShareWishlistLink: React.FC<Props> = props => {
               {wishlist_link && (
                 <>
                   <div className={cs(globalStyles.voffset3, styles.wrapper)}>
-                    <div className={cs(styles.shareTxtBoxWishlist)}>
-                      <input type="text" value={wishlist_link} id="myInput" />
+                    <div>
+                      <div className={cs(styles.shareTxtBoxWishlist)}>
+                        <input type="text" value={wishlist_link} id="myInput" />
+                      </div>
+                      <p className={styles.note}>
+                        Please note, this link will be auto-updated whenever the
+                        Saved List is updated.
+                      </p>
                     </div>
-
-                    <img src={copy} width="30" onClick={copyLink} />
+                    <img
+                      src={copy}
+                      className={styles.copyIcon}
+                      width="25"
+                      onClick={copyLink}
+                    />
                     <a
                       id="whatsappShare"
                       data-action="share/whatsapp/share"
@@ -118,49 +131,25 @@ const ShareWishlistLink: React.FC<Props> = props => {
                       target="_blank"
                       className={styles.wupLink}
                     >
-                      <img src={wup} width="30" />
+                      <img src={wup} width="25" />
                     </a>
                   </div>
-
-                  <p className={styles.note}>
-                    Please note, this link will be auto-updated whenever the
-                    Saved List is updated.
-                  </p>
                 </>
               )}
-
-              {/* <div className={cs(globalStyles.voffset3, globalStyles.c10LR)}>
-                OR
-              </div> */}
-
-              {/* <div className={globalStyles.voffset3}>
-                <a
-                  id="whatsappShare"
-                  data-action="share/whatsapp/share"
-                  rel="noopener noreferrer"
-                  target="_blank"
-                >
-                  <img src={iconWhatsApp} width="50" />
-                </a>
-                <a
-                  id="mailShare"
-                  title="Share by Email"
-                  rel="noopener noreferrer"
-                  target="_blank"
-                >
-                  <img src={iconEmail} width="50" />
-                </a>
-              </div> */}
             </div>
           </div>
         </div>
       </div>
       {wishlist_link && (
         <div className={styles.footer}>
-          <p className={styles.footerNote}>
+          <div className={styles.imgTextWrp}>
             <img src={eye} className={cs(styles.eye)} width="25" />
-            People with this link can view your Saved list
-          </p>
+
+            <p className={styles.footerNote}>
+              People with this link can view your Saved list
+            </p>
+          </div>
+
           <div className={styles.marginAuto} onClick={deleteLink}>
             <p className={styles.deleteLink}>DELETE LINK</p>
           </div>

@@ -10,6 +10,7 @@ export type State = {
   message: string;
   secret_key: string;
   wishlist_link: string;
+  owner_name: string;
 };
 
 export { Actions };
