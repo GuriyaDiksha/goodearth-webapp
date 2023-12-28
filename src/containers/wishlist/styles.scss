@@ -625,3 +625,137 @@ icon-cross {
   font-size: 12px;
   content: "\1F517";
 }
+
+//======================whishlist popup======================//
+
+.size-block-bridal {
+  h2 {
+    @include h3_20px_lora_charcoal();
+    text-transform: capitalize;
+  }
+  // width: 30%;
+  //min-height: 360px;
+  background-color: #fff;
+  // height: 80vh !important;
+  .scrolly {
+    overflow-y: scroll;
+    overflow-x: hidden;
+    height: 80vh;
+    @include scrollbar-default();
+    &:hover {
+      @include scrollbar();
+    }
+  }
+  &.ht {
+    min-height: 330px;
+    height: 50vh;
+  }
+  .btn {
+    @include cerise-btn();
+    position: relative;
+  }
+  .cross {
+    border-bottom: 1px solid #f2f2f2;
+    text-align: right;
+    padding: 15px;
+    cursor: pointer;
+    position: fixed;
+    z-index: 10;
+    background-color: #fff;
+    width: 100%;
+    }
+
+    .login-form {
+      .wrapper{
+        display: flex;
+      }
+      .wup-link{
+        margin: auto;
+      }
+      .share-txt-box-wishlist {
+        position: relative;
+        width: 100%;
+        border: 1px solid tint(#000, 90%);
+        text-align: left;
+        width: 85%;
+        input[type="text"] {
+          border: none;
+          height: 50px;
+          padding: 15px;
+          width: 100%;
+          background-color: #F8F8F8;
+        }
+      }
+      .note{
+        @include b5_10px_montserrat_light_charcoal();
+        width: 86%;
+        margin-top: 6px;
+        text-align: left;
+        margin-bottom: 50px;
+      }
+      .link-wrp{
+        .link{
+          @include b5_10px_montserrat_charcoal();
+          border-bottom: 1px solid $charcoal19;
+          margin: auto;
+          width: fit-content;
+          cursor: pointer;
+          padding-top: 25px;
+        }
+      }
+      
+    }
+
+}
+
+.footer{
+  position: absolute;
+    bottom: -1px;
+    left: 0;
+    right: 0;
+  background-color: $med-charcoal;
+  padding: 20px 40px;
+  display: flex;
+  justify-content: space-between;
+  .footer-note{
+    margin: auto;
+    @include b4_12px_medium_white();
+  }
+  .margin-auto{
+    margin: auto;
+  }
+  .delete-link{
+    @include b5_10px_montserrat_white();
+    border-bottom: 1px solid $white;
+    cursor: pointer;
+  }
+}
+
+.centerpage-desktop {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  // width: 100%;
+  width: 30%;
+}
+
+.centerpage-mobile {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}
+
+.bg-one{
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 99;
+}
+
+.bg-two{
+  position: absolute;
+    bottom: 0;
+    right: 0;
+}

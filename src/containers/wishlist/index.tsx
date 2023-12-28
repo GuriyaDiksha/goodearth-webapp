@@ -72,7 +72,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     updateWishlistSequencing: async (sequencing: [number, number][]) =>
       await WishlistService.updateWishlistSequencing(dispatch, sequencing),
     openLogin: () => LoginService.showLogin(dispatch),
-    openSharePopup: () => {
+    openSharePopup: (mobile: boolean) => {
       dispatch(
         updateComponent(
           POPUP.SHAREWISHLIST,
@@ -80,7 +80,9 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
             shareUrl: "https://www.goodearth.in/sssss"
             // bridalDetails={bridalDetails}
           },
-          true
+          mobile ? false : true,
+          mobile ? ModalStyles.bottomAlignSlideUp : "",
+          mobile ? "slide-up-bottom-align" : ""
         )
       );
       dispatch(updateModal(true));
@@ -1055,9 +1057,9 @@ class Wishlist extends React.Component<Props, State> {
           >
             {this.state.wishlistCount > 0 && (
               <div
-                onClick={
+                onClick={() =>
                   this.props.isLoggedIn
-                    ? this.props.openSharePopup
+                    ? this.props.openSharePopup(this.props.mobile)
                     : this.props.openLogin
                 }
               >

@@ -3,7 +3,11 @@ import { State, WishlistActions } from "./typings";
 const initialState: State = {
   items: [],
   sortBy: "added_on",
-  sortedDiscount: false
+  sortedDiscount: false,
+  is_success: false,
+  message: "string",
+  secret_key: "",
+  wishlist_link: ""
 };
 
 export const wishlist = (
@@ -12,6 +16,12 @@ export const wishlist = (
 ): State => {
   switch (action.type) {
     case "UPDATE_WISHLIST": {
+      return {
+        ...state,
+        ...action.payload
+      };
+    }
+    case "CREATE_SHARED_LINK": {
       return {
         ...state,
         ...action.payload

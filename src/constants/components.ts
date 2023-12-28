@@ -99,6 +99,7 @@ export const popupComponents: { [x: string]: React.ComponentType<any> } = {
   shareLink: ShareLink,
   delivery: Delivery,
   cmsPopup: CMSPopup,
+  shareWishlist: ShareWishlist,
   cerise: CerisePopup,
   maker: MakerPopup,
   resendGc: ResendGcPopup,

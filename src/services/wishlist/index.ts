@@ -2,7 +2,7 @@ import { Dispatch } from "redux";
 // typings
 import { WishlistResponse } from "./typings";
 // actions
-import { updateWishlist } from "actions/wishlist";
+import { updateWishlist, createSharedLink } from "actions/wishlist";
 // utils
 import API from "utils/api";
 import { ProductID } from "typings/id";
@@ -11,6 +11,7 @@ import BasketService from "services/basket";
 import { Basket } from "typings/basket";
 import { MESSAGE } from "constants/messages";
 import { showGrowlMessage } from "../../utils/validate";
+import { createSharedLinkResponse } from "typings/wishlist";
 
 export default {
   updateWishlist: async function(dispatch: Dispatch, sortBy = "added_on") {
@@ -168,5 +169,23 @@ export default {
     );
     await this.updateWishlist(dispatch, sortBy);
     return res;
+  },
+
+  createSharedWishlistLink: async function(dispatch: Dispatch) {
+    const res = await API.get<createSharedLinkResponse>(
+      dispatch,
+      `${__API_HOST__}/myapi/wishlist/create_wishlist_link/`
+    );
+
+    dispatch(createSharedLink(res));
+  },
+  deleteSharedWishlistLink: async function(dispatch: Dispatch) {
+    const res = await API.delete<createSharedLinkResponse>(
+      dispatch,
+      `${__API_HOST__}/myapi/wishlist/create_wishlist_link/`,
+      {}
+    );
+
+    dispatch(createSharedLink({ ...res, wishlist_link: "" }));
   }
 };
