@@ -67,7 +67,7 @@ export const PRODUCT_UNSHIPPABLE_REMOVED = (items: string[]) => (
 export const PRODUCT_OUT_OF_STOCK_REMOVED =
   "Some items from your bag were removed as they are out of stock/unavailable.";
 export const PRODUCT_OUT_OF_STOCK = [
-  "Product in your registry is “Out of stock ",
+  "Product in your registry is Out of stock ",
   <Link
     to="/account/bridal"
     key="bridal"

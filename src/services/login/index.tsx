@@ -33,6 +33,7 @@ import { encryptdata, decriptdata, encrypttext } from "utils/validate";
 // import { updateBasket } from "actions/basket";
 // import { CUST } from "constants/util";
 import BridalService from "services/bridal";
+import { result } from "lodash";
 
 export default {
   showForgotPassword: function(
@@ -733,14 +734,24 @@ export default {
               showGrowlMessage(dispatch, MESSAGE.REGISTRY_MIXED_SHIPPING, 6000);
             }
 
-            let outOfStockMsg = "";
-            basketRes.lineItems.map(data => {
-              if (!data.product.inStock) {
-                outOfStockMsg = MESSAGE.PRODUCT_OUT_OF_STOCK;
-              }
-            });
-            if (outOfStockMsg) {
-              showGrowlMessage(dispatch, outOfStockMsg, 6000);
+            if (metaResponse.bridalUser) {
+              BridalService.fetchBridalItems(
+                dispatch,
+                metaResponse.bridalId
+              ).then(data => {
+                let outOfStock = false;
+                for (let i = 0; i < data.results.length; i++) {
+                  if (data.results[i].stock == 0) {
+                    showGrowlMessage(
+                      dispatch,
+                      MESSAGE.PRODUCT_OUT_OF_STOCK,
+                      6000
+                    );
+                    outOfStock = true;
+                    break;
+                  }
+                }
+              });
             }
           }
         }
