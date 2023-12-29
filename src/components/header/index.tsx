@@ -1162,6 +1162,10 @@ class Header extends React.Component<Props, State> {
             crossOrigin="crossorigin"
           />
         </Helmet>
+        <div data-currency="USD">
+          <div data-testid="pdp-product-price-prefix"></div>
+          <div data-testid="pdp-product-price-suffix"></div>
+        </div>
         {this.state.reloadAnnouncementBar && (
           <AnnouncementBar
             clearBridalSession={this.clearBridalSession}

@@ -13,6 +13,7 @@ import { Dispatch } from "redux";
 import { connect } from "react-redux";
 import { AppState } from "reducers/typings";
 import { OLD_COOKIE_SETTINGS } from "constants/cookieConsent";
+import { RouteComponentProps, withRouter } from "react-router";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -31,7 +32,8 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
 class Cust extends React.Component<
   Props &
     ReturnType<typeof mapStateToProps> &
-    ReturnType<typeof mapDispatchToProps>,
+    ReturnType<typeof mapDispatchToProps> &
+    RouteComponentProps,
   {
     link: string;
     content: string;
@@ -42,7 +44,8 @@ class Cust extends React.Component<
   constructor(
     props: Props &
       ReturnType<typeof mapStateToProps> &
-      ReturnType<typeof mapDispatchToProps>
+      ReturnType<typeof mapDispatchToProps> &
+      RouteComponentProps
   ) {
     super(props);
     this.state = {
@@ -54,6 +57,11 @@ class Cust extends React.Component<
     props.setCurrentSection();
   }
   saleStatus = true;
+
+  id = this.props.location?.search
+    ? this.props.location?.search.replace("?id=", "")
+    : this.props.location?.hash.replace("#", "");
+
   componentDidMount() {
     this.props.fetchTerms().then(res => {
       const cont = ReactHtmlParser(res.content).filter((e: any) => {
@@ -110,6 +118,7 @@ class Cust extends React.Component<
             bodyClassName={styles.accordionBody}
             openIconClassName={cs(faqStyles.horizontal, faqStyles.open)}
             closedIconClassName={cs(faqStyles.horizontal)}
+            defaultOpen={this.id}
           />
           {/* {accordionData.map(({ content, heading, isAccordion }, index) => {
             if (isAccordion) {
@@ -152,4 +161,4 @@ class Cust extends React.Component<
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Cust);
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Cust));
