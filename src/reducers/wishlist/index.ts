@@ -5,7 +5,7 @@ const initialState: State = {
   sortBy: "added_on",
   sortedDiscount: false,
   is_success: false,
-  message: "string",
+  message: "",
   secret_key: "",
   wishlist_link: "",
   owner_name: ""

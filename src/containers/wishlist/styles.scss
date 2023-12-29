@@ -618,7 +618,6 @@ icon-cross {
     text-align: center;
 
     .heading{
-      margin-bottom: 15px;
       text-transform: capitalize;
       @include h3_20px_lora_medCharcoal();
     }
@@ -716,7 +715,8 @@ icon-cross {
       }
       .copy-icon{
         margin: 12px 8px;
-        height: fit-content
+        height: fit-content;
+        cursor: pointer;
       }
       .note{
         @include b5_10px_montserrat_light_charcoal();
@@ -809,4 +809,13 @@ icon-cross {
 
 .bottom{
   bottom: 50px;
+}
+
+.empty-shared-wishlist-content{
+  text-align: center;
+  margin-top: 10%;
+  p{
+    @include h6_16px_lora_charcoal();
+    margin-bottom: 10px;
+  }
 }

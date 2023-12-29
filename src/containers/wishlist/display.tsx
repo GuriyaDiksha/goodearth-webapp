@@ -101,29 +101,30 @@ const SampleDisplay: React.FC<Props> = props => {
               <img src={data.salesBadgeImage} />
             </div>
           )}
-          {mobile && !isShared ? (
-            <i
-              className={cs(
-                iconStyles.icon,
-                iconStyles.iconCross,
-                styles.iconCrossMobile
-              )}
-              onTouchStart={e => {
-                props.removeProduct(data);
-              }}
-            ></i>
-          ) : (
-            <i
-              className={cs(
-                iconStyles.icon,
-                iconStyles.iconCross,
-                styles.iconCross
-              )}
-              onClick={e => {
-                props.removeProduct(data);
-              }}
-            ></i>
-          )}
+          {!isShared &&
+            (mobile ? (
+              <i
+                className={cs(
+                  iconStyles.icon,
+                  iconStyles.iconCross,
+                  styles.iconCrossMobile
+                )}
+                onTouchStart={e => {
+                  props.removeProduct(data);
+                }}
+              ></i>
+            ) : (
+              <i
+                className={cs(
+                  iconStyles.icon,
+                  iconStyles.iconCross,
+                  styles.iconCross
+                )}
+                onClick={e => {
+                  props.removeProduct(data);
+                }}
+              ></i>
+            ))}
 
           <a href={data.productUrl}>
             <img

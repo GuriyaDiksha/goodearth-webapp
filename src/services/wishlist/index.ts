@@ -28,14 +28,37 @@ export default {
     uid?: string,
     sortBy = "added_on"
   ) {
+    debugger;
+
     console.log("updateWishlistShared", uid, sortBy);
-    const res = await API.get<WishlistResponse>(
-      dispatch,
-      `${__API_HOST__}/myapi/wishlist/get_sharable_wishlist_items/${uid}?sort_by=${sortBy}`
-    );
-    dispatch(
-      updateWishlist(res.data, sortBy, res.sortedDiscount, res?.owner_name)
-    );
+
+    try {
+      const res = await API.get<WishlistResponse>(
+        dispatch,
+        `${__API_HOST__}/myapi/wishlist/get_sharable_wishlist_items/${uid}?sort_by=${sortBy}`
+      );
+      dispatch(
+        updateWishlist(
+          res.data || [],
+          sortBy,
+          res.sortedDiscount,
+          res?.owner_name,
+          res?.data?.length === 0
+            ? "Looks like there are no items in the list."
+            : ""
+        )
+      );
+    } catch (e) {
+      dispatch(
+        updateWishlist(
+          [],
+          sortBy,
+          undefined,
+          "",
+          "Looks like this link does not exist."
+        )
+      );
+    }
   },
 
   resetWishlist: function(dispatch: Dispatch) {

@@ -50,7 +50,9 @@ const mapStateToProps = (state: AppState) => {
     showTimer: state.info.showTimer,
     location: state.router.location,
     isShared: state.router.location.pathname.includes("shared-wishlist"),
-    ownerName: state.wishlist.owner_name
+    ownerName: state.wishlist.owner_name,
+    message: state.wishlist.message,
+    isSuccess: state.wishlist.is_success
   };
 };
 const mapDispatchToProps = (dispatch: Dispatch) => {
@@ -71,14 +73,15 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       const urlParam = new URLSearchParams(location.search);
       const uid = urlParam.get("key") || "";
 
-      debugger;
       await WishlistService.updateWishlistShared(dispatch, uid, sortBy);
     },
     updateWishlistSequencing: async (sequencing: [number, number][]) =>
       await WishlistService.updateWishlistSequencing(dispatch, sequencing),
-    openLogin: () => {
+    openLogin: (url?: string) => {
       LoginService.showLogin(dispatch);
-      dispatch(updateNextUrl("/wishlist"));
+      if (url) {
+        dispatch(updateNextUrl(url));
+      }
     },
     openSharePopup: (mobile: boolean) => {
       dispatch(
@@ -888,6 +891,18 @@ class Wishlist extends React.Component<Props, State> {
         </div>
       </div>
     );
+    const emptySharedWishlistContent = (
+      <div className={styles.emptySharedWishlistContent}>
+        <p>{this.props.message}</p>
+        <Button
+          className={cs({ [globalStyles.btnFullWidth]: mobile })}
+          variant="mediumMedCharcoalCta366"
+          label={"PROCEED TO GOODEARTH.IN"}
+          onClick={() => this.props.history.push("/")}
+        />
+      </div>
+    );
+
     return (
       <div className={bootstrapStyles.containerFluid}>
         {mobile ? (
@@ -1051,13 +1066,13 @@ class Wishlist extends React.Component<Props, State> {
                 <Button
                   label={"Login"}
                   variant="smallMedCharcoalCta"
-                  onClick={this.props.openLogin}
+                  onClick={() => this.props.openLogin()}
                 />
               </div>
             </div>
           )}
 
-          {this.props.isShared && (
+          {this.props.isShared && this.props.ownerName && (
             <div className={styles.sharedWrapper}>
               <h2 className={styles.heading}>
                 {this.props.ownerName}&apos;s Saved List
@@ -1087,7 +1102,7 @@ class Wishlist extends React.Component<Props, State> {
                     onClick={() =>
                       this.props.isLoggedIn
                         ? this.props.openSharePopup(this.props.mobile)
-                        : this.props.openLogin()
+                        : this.props.openLogin("/wishlist")
                     }
                   >
                     <i className={cs(iconStyles.icon, styles.iconLink)}></i>
@@ -1104,7 +1119,12 @@ class Wishlist extends React.Component<Props, State> {
               className={cs(styles.wishlistBlock, styles.awesome)}
               id="emptyWishlist"
             >
-              {this.state.wishlistCount == 0 && emptyWishlistContent}
+              {this.state.wishlistCount == 0 &&
+                !this.props.isShared &&
+                emptyWishlistContent}
+              {this.state.wishlistCount == 0 &&
+                this.props.isShared &&
+                emptySharedWishlistContent}
             </div>
             {this.state.wishlistCount > 0 && (
               <div className={cs({ [globalStyles.textCenter]: mobile })}>
