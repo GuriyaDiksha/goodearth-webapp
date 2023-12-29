@@ -711,7 +711,6 @@ export default {
             });
           }
           if (metaResponse) {
-            BridalService.countBridal(dispatch, metaResponse.bridalId);
             let basketBridalId = 0;
             basketRes.lineItems.map(item =>
               item.bridalProfile ? (basketBridalId = item.bridalProfile) : ""
@@ -735,6 +734,7 @@ export default {
             }
 
             if (metaResponse.bridalUser) {
+              BridalService.countBridal(dispatch, metaResponse.bridalId);
               BridalService.fetchBridalItems(
                 dispatch,
                 metaResponse.bridalId

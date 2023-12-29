@@ -1938,14 +1938,23 @@ margin-bottom: 50px !important;
 .m_40{
   margin-bottom: -40px;
 }
-.occasion-error-msg{
+// .occasion-error-msg{
+//   position: absolute!important;
+//   top: 25px;
+//   font-family: "Lora", serif !important;
+//   font-size: 13px !important;
+//   color: #ab1e56 !important;
+//   font-style: italic !important;
+//   letter-spacing: 0.5px !important;
+// }
+.other-input p{
   position: absolute!important;
-  top: 25px;
-  font-family: "Lora", serif !important;
-  font-size: 13px !important;
-  color: #ab1e56 !important;
-  font-style: italic !important;
-  letter-spacing: 0.5px !important;
+  top: 20px;
+}
+@media(max-width:425px){
+  .other-input p{
+    font-size: 12px!important;
+  }
 }
 .out-of-stock-txt,
 .not-available-txt{

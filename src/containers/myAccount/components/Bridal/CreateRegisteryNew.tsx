@@ -51,19 +51,11 @@ const CreateRegistryNew: React.FC = () => {
   const [date, setDate] = useState(
     data.eventDate ? moment(data.eventDate, "YYYY-MM-DD").toDate() : undefined
   );
-  const [occasionError, setOccasionError] = useState("");
-  // const otherRef = useRef<HTMLInputElement>(null);
+  // const [occasionError, setOccasionError] = useState("");
   const BridalDetailsFormRef = createRef<Formsy>();
 
   const setRegistry = (data: string) => {
     setSelectId(data);
-    // setActive(false);
-    // if (document.activeElement === otherRef.current) {
-    //   setActive(true);
-    // } else {
-    //   setActive(false);
-    //   // setOther("");
-    // }
   };
 
   useEffect(() => {
@@ -85,7 +77,6 @@ const CreateRegistryNew: React.FC = () => {
     resetForm: any,
     updateInputsWithError: any
   ) => {
-    // debugger
     const {
       occassion_choice,
       registrantName,
@@ -94,7 +85,7 @@ const CreateRegistryNew: React.FC = () => {
     } = model;
     const occasion = selectId;
     const occasionInCaps = occasion[0].toUpperCase() + occasion.slice(1);
-    if (!updateProfile) return false;
+    // if (!updateProfile) return false;
     setCurrentModuleData("create", {
       occasion: selectId == "others" ? occassion_choice : occasion,
       occassion_choice: occassion_choice ? "Others" : occasionInCaps,
@@ -103,15 +94,16 @@ const CreateRegistryNew: React.FC = () => {
       coRegistrantName: coRegistrantName ? coRegistrantName : "",
       registryName: registryName
     });
-    if (selectId === "others" && occassion_choice === "") {
-      setOccasionError("Please enter occasion's name");
-    } else {
-      setCurrentModule("address");
-      setOccasionError("");
-    }
-    if (selectId != "others") {
-      setOccasionError("");
-    }
+    // if (selectId === "others" && occassion_choice === "") {
+    //   setOccasionError("Please enter occasion's name");
+    // } else {
+    //   setCurrentModule("address");
+    //   setOccasionError("");
+    // }
+    // if (selectId != "others") {
+    //   setOccasionError("");
+    // }
+    setCurrentModule("address");
   };
 
   const handleChange = () => {
@@ -153,12 +145,19 @@ const CreateRegistryNew: React.FC = () => {
   const [otherChoice, setOtherChoice] = useState("");
   const onChangeOther = (event: React.ChangeEvent<HTMLInputElement>) => {
     setOtherChoice(event.target.value);
+    const occasionChoice =
+      occasionChoiceRef.current?.value.trim() == ""
+        ? ""
+        : occasionChoiceRef.current?.value;
   };
 
   //************** date picker *****************
   //   const [updateDate, setUpdateDate] = useState(data.eventDate ? true : false);
   let pickerRef: any = null;
   const OnOutsideClick = () => {
+    pickerRef.setOpen(false);
+  };
+  const onClick = () => {
     pickerRef.setOpen(true);
   };
   const onChange = (date: Date) => {
@@ -222,10 +221,8 @@ const CreateRegistryNew: React.FC = () => {
                     <div
                       onClick={e => {
                         setRegistry("wedding");
-                        setOccasionError("");
                         setOtherChoice("");
-                        // const input = document.getElementById("other_value")as HTMLInputElement | null;
-                        // input?.value
+                        // setOccasionError("");
                       }}
                       data-value="Wedding"
                       className={cs(styles.radioList, {
@@ -238,8 +235,8 @@ const CreateRegistryNew: React.FC = () => {
                     <div
                       onClick={e => {
                         setRegistry("anniversary");
-                        setOccasionError("");
                         setOtherChoice("");
+                        // setOccasionError("");
                       }}
                       data-value="anniversary"
                       className={cs(styles.radioList, {
@@ -252,8 +249,8 @@ const CreateRegistryNew: React.FC = () => {
                     <div
                       onClick={e => {
                         setRegistry("birthday");
-                        setOccasionError("");
                         setOtherChoice("");
+                        // setOccasionError("");
                       }}
                       data-value="birthday"
                       className={cs(styles.radioList, {
@@ -284,7 +281,7 @@ const CreateRegistryNew: React.FC = () => {
                       >
                         <FormInput
                           id="other_value"
-                          className={cs(styles.regFormLabel)}
+                          className={cs(styles.otherInput, styles.regFormLabel)}
                           name="occassion_choice"
                           placeholder="Other"
                           label=""
@@ -297,12 +294,14 @@ const CreateRegistryNew: React.FC = () => {
                             maxLength:
                               "You can not enter more than 50 characters"
                           }}
-                          value={otherChoice}
+                          required={selectId == "others"}
+                          value={otherChoice || ""}
+                          // value={data.occassion_choice||""}
                           handleChange={onChangeOther}
                         />
-                        <div className={cs(styles.occasionErrorMsg)}>
+                        {/* <div className={cs(styles.occasionErrorMsg)}>
                           {occasionError ? occasionError : ""}
-                        </div>
+                        </div> */}
                       </li>
                     </div>
                   </ul>
@@ -365,6 +364,7 @@ const CreateRegistryNew: React.FC = () => {
                 </div>
                 <div className={cs(styles.datePicker)}>
                   <DatePicker
+                    name="datePicker"
                     startOpen={isOpen}
                     minDate={new Date()}
                     selected={date}
@@ -377,7 +377,7 @@ const CreateRegistryNew: React.FC = () => {
                     placeholderText="DD/MM/YYYY"
                     required
                   />
-                  <div className={cs(styles.calIcon)} onClick={OnOutsideClick}>
+                  <div className={cs(styles.calIcon)} onClick={onClick}>
                     <img src={calendarIcon} width="35" height="35" />
                   </div>
                 </div>
