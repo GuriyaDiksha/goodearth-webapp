@@ -1970,3 +1970,11 @@ ul.inner-menu-mobile {
     justify-content: space-between;
   }
 }
+
+div[data-currency="USD"] div[data-testid="pdp-product-price-prefix"] {
+  display: none;
+}
+
+div[data-currency="USD"] div[data-testid="pdp-product-price-suffix"] {
+  display: none;
+}
