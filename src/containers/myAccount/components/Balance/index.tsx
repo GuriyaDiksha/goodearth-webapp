@@ -94,7 +94,7 @@ class CheckBalance extends React.Component<Props, State> {
                               onClick={this.toggleInputGC}
                               className={styles.balanceSectionHead}
                             >
-                              ENTER YOUR GIFT CARD CODE{" "}
+                              CHECK YOUR GIFT CARD BALANCE{" "}
                             </span>
                           </div>
                           <div>
@@ -124,7 +124,7 @@ class CheckBalance extends React.Component<Props, State> {
                               onClick={this.toggleInputCN}
                               className={styles.balanceSectionHead}
                             >
-                              ENTER YOUR CREDIT NOTE CODE
+                              CHECK YOUR CREDIT NOTE BALANCE
                             </span>
                           </div>
                           <div>

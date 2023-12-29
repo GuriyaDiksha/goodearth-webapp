@@ -679,7 +679,7 @@ input[type="checkbox"]:not(:checked) + label{
     content: '';
     position: absolute;
     left: 0;
-    top: 6px;;
+    top: 0;
     width: 25px;
     height: 25px;
     border-radius: 50%;

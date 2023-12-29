@@ -94,6 +94,11 @@ const PaymentSection: React.FC<PaymentProps> = props => {
 
   const PaymentButton = useRef(null);
 
+  const isSafari =
+    typeof window !== "undefined"
+      ? /^((?!chrome|android).)*safari/i.test(window.navigator?.userAgent)
+      : false;
+
   const toggleInput = async () => {
     if (basket.giftCards.length > 0 && isactivepromo) {
       setIsLoading(true);
@@ -696,7 +701,8 @@ const PaymentSection: React.FC<PaymentProps> = props => {
                   className={cs(
                     bootstrapStyles.col12,
                     bootstrapStyles.colMd6,
-                    styles.title
+                    styles.title,
+                    { [globalStyles.marginB15]: mobile }
                   )}
                 >
                   {STEP_ORDER[activeStep] <= currentStep &&
@@ -742,7 +748,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
               </div>
               {loyalty?.[0]?.points || !isActive ? null : (
                 <>
-                  <hr className={styles.hr} />
+                  {!mobile && <hr className={styles.hr} />}
                   <div className={globalStyles.flex}>
                     <div className={styles.inputContainer}>
                       <CheckboxWithLabel
@@ -855,7 +861,13 @@ const PaymentSection: React.FC<PaymentProps> = props => {
                           styles.charLimitText
                         )}
                       >
-                        Char Limit: {250 - textarea.length}/250
+                        Char Limit:{" "}
+                        {250 -
+                          (textarea.length +
+                            (isSafari
+                              ? textarea?.match(/(\r\n|\n|\r)/g)?.length || 0
+                              : 0))}
+                        /250
                       </div>
                     </div>
                   )}
