@@ -274,6 +274,7 @@ const NotifyMePopup: React.FC<Props> = ({
         sortBy,
         selectedSize.size
       );
+      WishlistService.countWishlist(dispatch);
       setShowLoader(true);
       BasketService.addToBasket(dispatch, selectedSize.id, quantity)
         .then(() => {

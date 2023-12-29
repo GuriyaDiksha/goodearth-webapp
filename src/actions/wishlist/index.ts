@@ -6,3 +6,6 @@ export const updateWishlist = (
   sortBy = "added_on",
   sortedDiscount = false
 ) => actionCreator("UPDATE_WISHLIST", { items, sortBy, sortedDiscount });
+
+export const countWishlist = (count: number) =>
+  actionCreator("WISHLIST_COUNT", { count });

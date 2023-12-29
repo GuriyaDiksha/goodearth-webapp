@@ -1,5 +1,5 @@
 import React from "react";
-import { connect } from "react-redux";
+import { connect, useDispatch } from "react-redux";
 import cs from "classnames";
 import iconStyles from "../../styles/iconFonts.scss";
 import createAbsoluteGrid from "react-absolute-grid";
@@ -9,7 +9,7 @@ import { AppState } from "reducers/typings";
 import { Dispatch } from "redux";
 import Loader from "components/Loader";
 import SecondaryHeader from "components/SecondaryHeader";
-import SelectableDropdownMenu from "components/dropdown/selectableDropdownMenu";
+import SecondaryHeaderDropdown from "components/dropdown/secondaryHeaderDropdown";
 import { WishlistItem, WishListGridItem } from "typings/wishlist";
 import WishlistService from "services/wishlist";
 import { Link } from "react-router-dom";
@@ -43,6 +43,7 @@ const mapStateToProps = (state: AppState) => {
     mobile: state.device.mobile,
     currency: state.currency,
     wishlistData: state.wishlist.items,
+    wishlistCountData: state.wishlist.count,
     sortedDiscount: state.wishlist.sortedDiscount,
     isLoggedIn: state.user.isLoggedIn,
     isSale: state.info.isSale,
@@ -63,6 +64,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       await WishlistService.removeFromWishlist(dispatch, productId, id, sortBy),
     updateWishlist: async (sortBy: string) =>
       await WishlistService.updateWishlist(dispatch, sortBy),
+    countWishlist: async () => await WishlistService.countWishlist(dispatch),
     updateWishlistSequencing: async (sequencing: [number, number][]) =>
       await WishlistService.updateWishlistSequencing(dispatch, sequencing),
     openLogin: () => LoginService.showLogin(dispatch),
@@ -295,6 +297,7 @@ class Wishlist extends React.Component<Props, State> {
     this.props
       .removeFromWishlist(this.state.defaultOption.value, undefined, data.id)
       .finally(() => {
+        this.props.countWishlist();
         Moengage.track_event("remove_from_wishlist", {
           "Product id": data.id,
           "Product name": data.productName,
@@ -401,7 +404,8 @@ class Wishlist extends React.Component<Props, State> {
     if (
       this.state.dragDrop &&
       this.state.sampleItems.length > 0 &&
-      nextProps.wishlistData.length == this.state.sampleItems.length
+      nextProps.wishlistData.length == this.state.sampleItems.length &&
+      nextProps.wishlistCountData == this.state.sampleItems.length
     ) {
       newWishlistData = nextProps.wishlistData.map((data, i) => {
         const item = this.state.sampleItems.filter(
@@ -956,17 +960,13 @@ class Wishlist extends React.Component<Props, State> {
                 globalStyles.verticalMiddle
               )}
             >
-              <p className={styles.filterText}>SORT</p>
-              <SelectableDropdownMenu
+              <p className={styles.filterText}>SORT BY:</p>
+              <SecondaryHeaderDropdown
                 id="sort-dropdown-wishlist"
-                align="right"
-                className={styles.dropdownRoot}
                 items={options}
                 value={this.state.defaultOption.value}
                 onChange={this.onChangeFilter}
-                disabled={this.state.wishlistCount == 0}
-                showCaret={true}
-              ></SelectableDropdownMenu>
+              />
             </div>
           </SecondaryHeader>
         )}

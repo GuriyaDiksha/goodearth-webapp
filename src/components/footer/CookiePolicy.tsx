@@ -13,6 +13,7 @@ import globalStyles from "../../styles/global.scss";
 import fontStyles from "styles/iconFonts.scss";
 import { OLD_COOKIE_SETTINGS } from "constants/cookieConsent";
 import Button from "components/Button";
+const INDIA_TEXT = "India";
 
 type Props = {
   hideCookies: any;
@@ -60,8 +61,8 @@ const CookiePolicy: React.FC<Props> = ({
       WidgetService.getWidgetDetail(
         store.dispatch,
         (country === "" ? CookieService.getCookie("country") : country) ===
-          "India"
-          ? "INDIA"
+          INDIA_TEXT
+          ? INDIA_TEXT.toUpperCase()
           : "ROTW"
       );
     }
@@ -122,7 +123,8 @@ const CookiePolicy: React.FC<Props> = ({
           .map((e: any) => e.functionalities)
           .join(","),
         country: country || CookieService.getCookie("country"),
-        widget_name: regionName === "India" ? "INDIA" : "ROTW",
+        widget_name:
+          regionName === INDIA_TEXT ? INDIA_TEXT.toUpperCase() : "ROTW",
         email: email || ""
       });
     }
@@ -191,17 +193,17 @@ const CookiePolicy: React.FC<Props> = ({
           <div
             className={cs(
               styles.cookieclass,
+              !mobile && regionName !== INDIA_TEXT ? styles.extraHeight : "",
               isPrefOpen ? styles.eucookieclass : styles.noneu,
               // styles.eucookieclass,
-              isPrefOpen ? styles.euPref : "",
-              { [styles.noneuPadding]: regionName !== "India" }
+              isPrefOpen ? styles.euPref : ""
             )}
           >
             {isPrefOpen ? (
               <div className={styles.euWrapper}>
                 <div className={styles.euInnerWrapper}>
                   <p className={styles.heading}>YOUR COOKIE PREFERENCES</p>
-                  {regionName === "India" && (
+                  {regionName === INDIA_TEXT && (
                     <span
                       className={cs(
                         styles.closePopup,
@@ -267,7 +269,7 @@ const CookiePolicy: React.FC<Props> = ({
               </div>
             ) : (
               <>
-                {regionName === "India" && (
+                {regionName === INDIA_TEXT && (
                   <span
                     className={cs(
                       styles.closePopup,
@@ -281,12 +283,12 @@ const CookiePolicy: React.FC<Props> = ({
                 )}
                 <h3
                   style={{
-                    marginTop: regionName !== "India" ? "20px" : "0px"
+                    marginTop: mobile ? "20px" : "0px"
                   }}
                 >
                   COOKIES & PRIVACY
                 </h3>
-                {regionName === "India" ? (
+                {regionName === INDIA_TEXT ? (
                   <p
                     style={{
                       textAlign: "center",
@@ -336,17 +338,20 @@ const CookiePolicy: React.FC<Props> = ({
 
                 <Button
                   label={
-                    regionName === "India" ? "ACCEPT & CONTINUE" : "ACCEPT ALL"
+                    regionName === INDIA_TEXT
+                      ? "ACCEPT & CONTINUE"
+                      : "ACCEPT ALL"
                   }
                   className={cs({
                     [styles.okBtn]: mobile || tablet,
                     [styles.euBtn]: isPrefOpen,
-                    [globalStyles.marginB20]: regionName !== "India",
-                    [globalStyles.marginB0]: regionName === "India"
+                    [globalStyles.marginB20]:
+                      regionName !== INDIA_TEXT && mobile,
+                    [globalStyles.marginB0]: regionName === INDIA_TEXT
                   })}
                   variant="smallMedCharcoalCta"
                   onClick={() => {
-                    regionName === "India"
+                    regionName === INDIA_TEXT
                       ? acceptAndContinue()
                       : acceptAll(true);
                   }}

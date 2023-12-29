@@ -6,6 +6,7 @@ export type State = {
   items: WishlistItem[];
   sortBy: string;
   sortedDiscount: boolean;
+  count: number;
 };
 
 export { Actions };

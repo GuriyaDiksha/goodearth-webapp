@@ -46,6 +46,11 @@ const BaseDropdownMenu = ({
 
   const { ref } = useOutsideDetection<HTMLDivElement>(onOutsideClick);
 
+  const isCurrencyTypeDropdown = [
+    "currency-dropdown",
+    "sort-dropdown-wishlist"
+  ].includes(id);
+
   useEffect(() => {
     if (scrollDown) {
       setOpenState(false);
@@ -111,20 +116,26 @@ const BaseDropdownMenu = ({
               {
                 [styles.caret]:
                   !menuOpen &&
-                  id != "currency-dropdown" &&
-                  id != "currency-dropdown-sidemenu"
+                  ![
+                    "currency-dropdown",
+                    "currency-dropdown-sidemenu",
+                    "sort-dropdown-wishlist"
+                  ].includes(id)
               },
               {
                 [styles.caretUp]:
                   menuOpen &&
-                  id != "currency-dropdown" &&
-                  id != "currency-dropdown-sidemenu"
+                  ![
+                    "currency-dropdown",
+                    "currency-dropdown-sidemenu",
+                    "sort-dropdown-wishlist"
+                  ].includes(id)
               },
               //================The classes are reversed because of different use case===============================
-              { [styles.arrow]: id == "currency-dropdown" },
-              { [styles.close]: !menuOpen && id == "currency-dropdown" },
-              { [styles.open]: menuOpen && id == "currency-dropdown" },
-              { [styles.goldBorder]: menuOpen && id == "currency-dropdown" },
+              { [styles.arrow]: isCurrencyTypeDropdown },
+              { [styles.close]: !menuOpen && isCurrencyTypeDropdown },
+              { [styles.open]: menuOpen && isCurrencyTypeDropdown },
+              { [styles.goldBorder]: menuOpen && isCurrencyTypeDropdown },
 
               //=================Currency Dropdown Sidemenu =====================================
               { [styles.arrow]: id == "currency-dropdown-sidemenu" },
@@ -150,11 +161,7 @@ const BaseDropdownMenu = ({
           styles.menu,
           { [styles.checkout]: id == "currency-dropdown-checkout" },
           { [styles.rightProfile]: id === "profile-dropdown" },
-          {
-            [styles.topPos]:
-              id === "sort-dropdown-wishlist" ||
-              id === "filter-dropdown-pressstories"
-          },
+          { [styles.topPos]: id === "filter-dropdown-pressstories" },
           styles[align],
           { [styles.openUp]: direction == "up" }
         )}
