@@ -135,7 +135,7 @@ export default {
         res.basket.unshippableProducts
       );
     }
-    // await this.updateWishlist(dispatch);
+    await this.updateWishlist(dispatch);
     await this.countWishlist(dispatch);
     return res;
   },

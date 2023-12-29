@@ -1179,7 +1179,7 @@ class Footer extends React.Component<Props, FooterState> {
         )}
 
         {/* DO NOT REMOVE THIS CODE : Commented this code as per product requirement */}
-        {!(OLD_COOKIE_SETTINGS
+        {/* {!(OLD_COOKIE_SETTINGS
           ? cookiCheck
           : (cookiCheck && !this.state.isConsentSave) ||
             this.props?.showCookiePref) && (
@@ -1189,7 +1189,7 @@ class Footer extends React.Component<Props, FooterState> {
               "Be the first to know about new launches and the latest updates from the brand, delivered straight to your inbox!"
             }
           />
-        )}
+        )} */}
       </div>
     );
   }
