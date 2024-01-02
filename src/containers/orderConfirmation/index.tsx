@@ -644,10 +644,17 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                         >
                           <div
                             className={cs(
+                              styles.imageContainer,
                               bootstrapStyles.col4,
                               bootstrapStyles.colMd3
                             )}
                           >
+                            {item.product.images?.[0]?.badgeImage && (
+                              <img
+                                className={cs(styles.badgeImage)}
+                                src={item.product.images?.[0]?.badgeImage}
+                              />
+                            )}
                             <img
                               src={item.product.images?.[0]?.productImage}
                               className={globalStyles.imgResponsive}
