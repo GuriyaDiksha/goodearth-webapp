@@ -1,5 +1,6 @@
 import { Dispatch } from "redux";
 import API from "utils/api";
+import { countBridal } from "actions/bridal";
 import {
   BridalProfileData,
   BridalItemData,
@@ -19,6 +20,10 @@ type SaveBridalProfileData = {
 type BridalItemsResponse = {
   count: number;
   results: BridalItemData[];
+};
+
+type BridalCount = {
+  count: number;
 };
 
 export default {
@@ -84,6 +89,14 @@ export default {
       dispatch,
       `${__API_HOST__}/myapi/customer/get_bridal_items/?bridalId=${bridalId}`
     );
+    return res;
+  },
+  countBridal: async function(dispatch: Dispatch, bridalId: number) {
+    const res = await API.get<BridalCount>(
+      dispatch,
+      `${__API_HOST__}/myapi/customer/get_bridal_basket_items_count/?bridalId=${bridalId}`
+    );
+    dispatch(countBridal(res.count));
     return res;
   },
   deleteBridalItem: async (

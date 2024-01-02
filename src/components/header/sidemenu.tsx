@@ -105,6 +105,7 @@ class SideMenu extends React.Component<Props, State> {
   };
   render() {
     const { isLoggedIn } = this.context;
+    const bridataCountData = this.props.bridalCountData;
     const curryList = this.props.currencyList.map(data => {
       // return data.currencyCode
       return {
@@ -147,7 +148,9 @@ class SideMenu extends React.Component<Props, State> {
         type: "link"
       },
       {
-        label: "Good Earth Registry",
+        label: `Good Earth Registry ${
+          isLoggedIn && bridataCountData > 0 ? "(" + bridataCountData + ")" : ""
+        }`,
         // href: isLoggedIn ? "/account/bridal" : "",
         // onClick: isLoggedIn
         //   ? () => null

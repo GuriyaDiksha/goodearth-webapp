@@ -71,10 +71,13 @@ const EditRegistryDetails: React.FC<Props> = props => {
   const handleSubmit = (model: any) => {
     const currentDate = moment(date).format("DD MMM, YYYY");
     const currentApiDate = moment(apiDate).format("DD-MM-YYYY");
-    if (!updateProfile) return false;
+    // if (!updateProfile) return false;
     const data = {
       bridalId: props.bridalId,
       eventDate: currentApiDate,
+      registrantName: model.registrantName,
+      registryName: model.registryName,
+      coRegistrantName: model.coRegistrantName,
       ...model
     };
     BridalService.updateBridalNames(dispatch, data)

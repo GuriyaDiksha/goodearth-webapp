@@ -76,6 +76,7 @@ const BridalItemsList: React.FC<Props> = props => {
         .then(res => {
           setReqCurrent(reqCurrent + 1);
           props.fetchBridalItems();
+          BridalService.countBridal(dispatch, props.bridalId);
         })
         .catch(error => {
           // console.log(error);
@@ -98,6 +99,7 @@ const BridalItemsList: React.FC<Props> = props => {
             setReqCurrent(reqCurrent - 1);
             setErr("");
             props.fetchBridalItems();
+            BridalService.countBridal(dispatch, props.bridalId);
           })
           .catch(error => {
             // console.log(error);
@@ -126,6 +128,7 @@ const BridalItemsList: React.FC<Props> = props => {
             });
           }
           props.fetchBridalItems();
+          BridalService.countBridal(dispatch, props.bridalId);
         })
         .catch(error => {
           // console.log(error);
