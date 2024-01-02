@@ -435,3 +435,12 @@
     margin-left: -15%;
   }
 }
+
+.image-container{
+  position: relative;
+}
+.badge-image{
+  position: absolute;
+  max-width: 52px;
+  top: 0px;
+}

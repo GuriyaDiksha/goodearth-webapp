@@ -1582,3 +1582,11 @@ input[type="text"].country-code-search-input{
       
     }
 }
+.image-container{
+  position: relative;
+}
+.badge-image{
+  position: absolute;
+  max-width: 52px;
+  top: 0px;
+}
