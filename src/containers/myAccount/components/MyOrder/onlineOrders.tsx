@@ -219,6 +219,12 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
         html.push(
           <div className={cs(styles.product)} key={item.product.id}>
             <div className={cs(styles.imageContainer)}>
+              {item.product.images[0].badgeImage && (
+                <img
+                  className={cs(styles.badgeImage)}
+                  src={item.product.images[0].badgeImage}
+                />
+              )}
               <img
                 src={
                   item.product.images[0]

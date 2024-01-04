@@ -315,6 +315,7 @@
           overflow: hidden;
           text-overflow: ellipsis;
           display: block;
+          cursor: pointer;
         }
         .disableColors {
           opacity: 0.5;
@@ -1041,6 +1042,7 @@ input[type="radio"]:checked, [type="checkbox"]:not(:checked),
 
 .remove-border{
   border-bottom:none !important;
+  padding:0!important;
 }
 
 .npfContainer{
