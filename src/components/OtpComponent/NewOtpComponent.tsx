@@ -66,7 +66,7 @@ const NewOtpComponent: React.FC<Props> = ({
   const secondsToMinutes = (seconds: number) => {
     const minutes = Math.floor(seconds / 60);
     seconds -= minutes * 60;
-    return minutes + ":" + seconds;
+    return minutes + ":" + String(seconds).padStart(2, "0");
   };
 
   const timer = () => {

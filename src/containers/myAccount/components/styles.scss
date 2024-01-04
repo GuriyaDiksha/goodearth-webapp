@@ -1097,6 +1097,7 @@ input[type="text"]{
   margin-left: 15px;
   line-height: 20px;
   letter-spacing: 0.36px;
+  cursor: pointer;
 }
 
 .check-another{
@@ -1115,6 +1116,7 @@ input[type="text"]{
   width: 16px;
   height: 16px;
   font-family: $font-Montserrat;
+  cursor: pointer;
 
   &:before,
   &:after{
@@ -1581,4 +1583,12 @@ input[type="text"].country-code-search-input{
       }
       
     }
+}
+.image-container{
+  position: relative;
+}
+.badge-image{
+  position: absolute;
+  max-width: 52px;
+  top: 0px;
 }
