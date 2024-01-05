@@ -174,6 +174,10 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     },
     fetchBasketCartpage: async () => {
       return await BasketService.fetchBasket(dispatch, "cart");
+    },
+    updateProfile: () => {
+      dispatch(updateComponent(POPUP.PROFILEUPDATER, null, true));
+      dispatch(updateModal(true));
     }
   };
 };
