@@ -1107,10 +1107,7 @@ const AddressSection: React.FC<AddressProps & {
                   {children}
                   {shippingError && (
                     <div
-                      className={cs(
-                        globalStyles.errorMsg,
-                        globalStyles.paddT25
-                      )}
+                      className={cs(globalStyles.errorMsg, globalStyles.padd10)}
                     >
                       {shippingError}
                     </div>
