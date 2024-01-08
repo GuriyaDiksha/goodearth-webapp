@@ -665,18 +665,20 @@ hr {
 }
 
 .badge-position-plp-mobile {
-  width: 100%;
-  max-width: 40px;
+  width: 40px;
+  max-width: 52px;
   top: 4px;
-  left:4px;
+  left: 4px;
   position: absolute;
   z-index: 1;
   img {
+    width: 100%;
   }
 }
 .badge-position-plp {
-  width: 30%;
-  top: 0;
+  width: 70px;
+  top: 10px;
+  left: 10px;
   z-index: 4;
   position: absolute;
   z-index: 1;
