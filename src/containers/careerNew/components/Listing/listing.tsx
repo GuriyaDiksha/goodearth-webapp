@@ -30,6 +30,7 @@ const Listing: React.FC = () => {
     loc: string[];
   }>({ tag: [], loc: [] });
   const { mobile } = useSelector((state: AppState) => state.device);
+  const { showTimer } = useSelector((state: AppState) => state.info);
   const history = useHistory();
   const dispatch = useDispatch();
   const vars: { dept?: string; loc?: string; tag?: string } = {};
@@ -163,7 +164,11 @@ const Listing: React.FC = () => {
   );
 
   return (
-    <div className={listing.career_list_main_wrp}>
+    <div
+      className={cs(listing.career_list_main_wrp, {
+        [listing.timer]: showTimer
+      })}
+    >
       <div className={cs(listing.career_list_wrp, bootstrap.row)}>
         <CareerFilter
           appliedFilters={appliedFilters}
