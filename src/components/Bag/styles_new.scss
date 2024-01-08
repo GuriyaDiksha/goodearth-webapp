@@ -552,3 +552,25 @@
   letter-spacing: 0.26px;
   font-weight: normal;
 }
+
+.badge-position-plp {
+  width: 100%;
+  max-width: 52px;
+  top: 0;
+  position: absolute;
+  z-index: 1;
+}
+
+.discountprice {
+  color: $gold;
+  font-family: $font-Montserrat;
+  font-size: 14px;
+}
+
+.strikeprice {
+  font-size: 12px !important;
+  text-decoration: line-through;
+  color: $light-charcoal;
+  font-family: $font-Montserrat;
+  vertical-align: middle;
+}
