@@ -1242,20 +1242,22 @@ visibility: visible !important;
 }
 
 .badge-position-plp {
-  width: 30%;
-  top: 0px;
+  width: 60px;
+  top: 10px;
+  left:10px;
   z-index: 4;
   position: absolute;
   z-index: 1;
   img {
-     width: 70%;
+    width: 100%;
     margin: 0px 0 0 0;
   }
 }
 
 .badge-position-plp-mobile {
-    width: 40%;
-    top: 0;
+    width: 60px;
+    top: 10px;
+    left: 10px;
     position: absolute;
     z-index: 4;
   img {

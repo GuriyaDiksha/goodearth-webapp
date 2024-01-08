@@ -554,11 +554,16 @@
 }
 
 .badge-position-plp {
-  width: 100%;
+  width: 40px;
   max-width: 52px;
-  top: 0;
+  top: 4px;
+  left: 4px;
   position: absolute;
   z-index: 1;
+
+  img{
+    width: 100%;
+  }
 }
 
 .discountprice {
