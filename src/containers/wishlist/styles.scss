@@ -558,6 +558,10 @@ icon-cross {
   z-index: 1;
   img {
      width: 100%;
+     max-width: 70px;
+     position: absolute;
+     left: 10px;
+     top: 10px;
   }
 }
 .badge-position-plp-mobile {
@@ -566,7 +570,11 @@ icon-cross {
     position: absolute;
     z-index: 4;
   img {
-    width: 100%;
+    width: 70px;
+    max-width: 70px;
+    position: absolute;
+    left: 10px;
+    top: 10px;
   }
 }
 .page-body {
