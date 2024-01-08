@@ -260,7 +260,9 @@
         position: absolute;
         top: 0px;
         width: 30%;
-        left: 0;
+        max-width: 70px;
+        top: 10px;
+        left: 10px;
     }
 }
 .badge-image-mobile{
@@ -271,7 +273,9 @@
     left: 0;
     img {
         position: absolute;
-        top: 0px;
+        max-width: 70px;
+        top: 10px;
+        left: 10px;
     }
 }
 
