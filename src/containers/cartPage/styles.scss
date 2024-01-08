@@ -673,6 +673,17 @@ hr {
   img {
   }
 }
+.badge-position-plp {
+  width: 30%;
+  top: 0;
+  z-index: 4;
+  position: absolute;
+  z-index: 1;
+  img {
+     width: 100%;
+  }
+}
+
 .stock-left {
   margin-top: 7px;
   position: relative;

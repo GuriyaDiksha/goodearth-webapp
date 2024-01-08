@@ -1,6 +1,5 @@
 import React from "react";
 import { RouteComponentProps, withRouter } from "react-router-dom";
-// import { Link } from "react-router-dom";
 import initActionCollection from "./initAction";
 import cs from "classnames";
 import { AppState } from "reducers/typings";
@@ -10,7 +9,6 @@ import globalStyles from "styles/global.scss";
 import bootstrap from "../../styles/bootstrap/bootstrap-grid.scss";
 import CartItems from "./cartItem";
 import OrderSummary from "containers/checkout/component/orderSummary";
-// import motifTigerTree from "../../images/motifTigerTree.png";
 import { Link } from "react-router-dom";
 import { Dispatch } from "redux";
 import WishlistService from "services/wishlist";
@@ -29,13 +27,13 @@ import noImagePlp from "../../images/noimageplp.png";
 import { updateComponent, updateModal } from "actions/modal";
 import { POPUP } from "constants/components";
 import CookieService from "services/cookie";
-import { Currency, currencyCode } from "typings/currency";
+import { Currency } from "typings/currency";
 import { updateLoader, updateNextUrl } from "actions/info";
 import { StaticContext } from "react-router";
-import CheckoutService from "services/checkout";
 import Loader from "components/Loader";
 import { GA_CALLS } from "constants/cookieConsent";
 import Button from "components/Button";
+import { displayPriceWithCommas } from "utils/utility";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -521,6 +519,20 @@ class CartPage extends React.Component<Props, State> {
                               )}
                             >
                               <div className={styles.searchImageboxNew}>
+                                {data?.salesBadgeImage && (
+                                  <div
+                                    className={cs(
+                                      {
+                                        [styles.badgePositionPlpMobile]: mobile
+                                      },
+                                      {
+                                        [styles.badgePositionPlp]: !mobile
+                                      }
+                                    )}
+                                  >
+                                    <img src={data.salesBadgeImage} />
+                                  </div>
+                                )}
                                 <Link to={data.productUrl}>
                                   <img
                                     src={
@@ -545,11 +557,40 @@ class CartPage extends React.Component<Props, State> {
                                 </p>
                                 <p className={styles.searchFeature}>
                                   <Link to={data.productUrl}>
-                                    {String.fromCharCode(
-                                      ...currencyCode[this.props.currency]
-                                    ) +
-                                      " " +
-                                      data.price[currency]}
+                                    {this.props?.isSale && data.discount ? (
+                                      <span className={styles.discountprice}>
+                                        {data.discountedPrice
+                                          ? displayPriceWithCommas(
+                                              data.discountedPrice[currency],
+                                              currency
+                                            )
+                                          : ""}{" "}
+                                        &nbsp;{" "}
+                                      </span>
+                                    ) : (
+                                      ""
+                                    )}
+                                    {this.props?.isSale && data.discount ? (
+                                      <span className={styles.strikeprice}>
+                                        {displayPriceWithCommas(
+                                          data.price[currency],
+                                          currency
+                                        )}
+                                      </span>
+                                    ) : (
+                                      <span
+                                        className={
+                                          data.badgeType == "B_flat"
+                                            ? styles.discountprice
+                                            : ""
+                                        }
+                                      >
+                                        {displayPriceWithCommas(
+                                          data.price[currency],
+                                          currency
+                                        )}
+                                      </span>
+                                    )}
                                   </Link>
                                 </p>
                               </div>
@@ -574,6 +615,20 @@ class CartPage extends React.Component<Props, State> {
                                       i === wishlistData.length
                                   })}
                                 >
+                                  {data?.salesBadgeImage && (
+                                    <div
+                                      className={cs(
+                                        {
+                                          [styles.badgePositionPlpMobile]: mobile
+                                        },
+                                        {
+                                          [styles.badgePositionPlp]: !mobile
+                                        }
+                                      )}
+                                    >
+                                      <img src={data.salesBadgeImage} />
+                                    </div>
+                                  )}
                                   <Link
                                     to={
                                       i === wishlistData.length
@@ -609,11 +664,44 @@ class CartPage extends React.Component<Props, State> {
                                     </p>
                                     <p className={styles.searchFeature}>
                                       <Link to={data.productUrl}>
-                                        {String.fromCharCode(
-                                          ...currencyCode[this.props.currency]
-                                        ) +
-                                          " " +
-                                          data.price[currency]}
+                                        {this.props?.isSale && data.discount ? (
+                                          <span
+                                            className={styles.discountprice}
+                                          >
+                                            {data.discountedPrice
+                                              ? displayPriceWithCommas(
+                                                  data.discountedPrice[
+                                                    currency
+                                                  ],
+                                                  currency
+                                                )
+                                              : ""}{" "}
+                                            &nbsp;{" "}
+                                          </span>
+                                        ) : (
+                                          ""
+                                        )}
+                                        {this.props?.isSale && data.discount ? (
+                                          <span className={styles.strikeprice}>
+                                            {displayPriceWithCommas(
+                                              data.price[currency],
+                                              currency
+                                            )}
+                                          </span>
+                                        ) : (
+                                          <span
+                                            className={
+                                              data.badgeType == "B_flat"
+                                                ? styles.discountprice
+                                                : ""
+                                            }
+                                          >
+                                            {displayPriceWithCommas(
+                                              data.price[currency],
+                                              currency
+                                            )}
+                                          </span>
+                                        )}
                                       </Link>
                                     </p>
                                   </div>
