@@ -5,33 +5,36 @@ import globalStyles from "styles/global.scss";
 import cs from "classnames";
 
 const InputField: React.FC<Props> = props => {
-  const [labelClass, setLabelClass] = useState(false);
   const [placeholder, setPlaceholder] = useState(props.placeholder || "");
-  const [readOnly, setReadOnly] = useState(true);
+  const [focused, setFocused] = useState(false);
 
   const handleClick = (
     event: React.MouseEvent | React.FocusEvent | React.TouchEvent
   ) => {
-    if (!labelClass || placeholder !== "") {
-      setLabelClass(true);
+    if (placeholder !== "") {
       setPlaceholder("");
     }
-    // setReadOnly(false);
+  };
+
+  const handleClickFocus = (event: React.FocusEvent) => {
+    setFocused(true);
+    handleClick(event);
   };
 
   const handleClickBlur = (event: React.FocusEvent) => {
-    if (!labelClass || placeholder !== "") {
-      setLabelClass(true);
-      setPlaceholder("");
+    if (!props.value) {
+      setFocused(false);
+    }
+
+    if (placeholder === "") {
+      setPlaceholder(props.placeholder);
     }
     props.blur ? props.blur(event) : "";
-    // setReadOnly(true);
   };
 
   useEffect(() => {
     if (props.isPlaceholderVisible && placeholder === "") {
       setPlaceholder(props.placeholder);
-      setLabelClass(false);
     }
   });
 
@@ -58,9 +61,8 @@ const InputField: React.FC<Props> = props => {
         autoComplete="new-password"
         onClick={e => handleClick(e)}
         onBlur={e => handleClickBlur(e)}
-        onFocus={e => handleClick(e)}
+        onFocus={e => handleClickFocus(e)}
         onTouchStart={e => handleClick(e)}
-        // readOnly={readOnly}
         onKeyPress={e => (props.keyPress ? props.keyPress(e) : null)}
         onKeyDown={e => (props.keyDown ? props.keyDown(e) : null)}
         onKeyUp={e => (props.keyUp ? props.keyUp(e) : null)}
@@ -71,23 +73,13 @@ const InputField: React.FC<Props> = props => {
               }
             : undefined
         }
-        // onPaste={
-        //   props.isPaste
-        //     ? e => {
-        //         e.preventDefault();
-        //       }
-        //     : undefined
-        // }
         min={props.min || ""}
         max={props.max || ""}
         ref={props.inputRef || null}
         disabled={props.disable || false}
       />
       <label
-        // className={
-        //   (labelClass && !props.disable) || false ? "" : globalStyles.hidden
-        // }
-        className={cs({ [globalStyles.hidden]: !props.showLabel })}
+        className={cs({ [globalStyles.hidden]: !props.showLabel || !focused })}
         id={
           props.id ||
           Math.random()

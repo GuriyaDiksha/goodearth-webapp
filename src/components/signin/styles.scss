@@ -283,7 +283,6 @@ span.error-msg {
 
 .error-msg {
   @include err_13px_lora_italic_cerise();
-  line-height: 16px;
   margin-top: 5px;
   &.main-login-error{
     margin-bottom: 20px;

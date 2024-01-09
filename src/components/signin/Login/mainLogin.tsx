@@ -550,7 +550,7 @@ class MainLogin extends React.Component<Props, loginState> {
           <div>
             <InputField
               value={this.state.email || this.props.email}
-              placeholder={"Email ID"}
+              placeholder={"Email ID*"}
               label={"Email ID*"}
               border={this.state.highlight}
               keyUp={e => this.handleKeyUp(e, "email")}

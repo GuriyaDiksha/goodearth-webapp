@@ -46,54 +46,49 @@
 
 .login-form {
   input[type="text"], input[type="password"], input[type="email"], input[type="number"], input[type="date"], select, textarea {
-    background-color: #fff;
-    border: 1px solid #D8D8D8;
-    width: 100%;
-    padding: 10px;
-    line-height: 25px;
+    background-color: $white;
+    border: 1px solid $lightest-charcoal;
+    width: 366px;
+    padding: 18px 20px;
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
     border-radius: 0;
-    @include b4_12px_montserrat_charcoal();
-    line-height: 20px;
-    letter-spacing: 0.36px;
     height: 50px;
+    @include b4_12px_montserrat_charcoal();
+
     @include placeholder {
-      @include b4_12px_montserrat_charcoal();
-      color: #19191958;
-      line-height: 20px;
-      letter-spacing: 0.36px;
-      font-style: normal;
+      opacity: 0.4;
     }
     text-align: start;
     &.redeem-input {
       padding: 10px 10px !important;
     }
     &:active, &:focus {
-      background-color: #fff;
-      border: 1px solid #d8d8d8;
-      width: 100%;
-      padding: 10px 10px;//fixed for all textbox
-      font-size: 12px;
-      line-height: 20px;
+      background-color: $white;
+      border: 1px solid $lightest-charcoal;
+      width: 366px;
+      padding: 18px 20px;//fixed for all textbox
       -webkit-appearance: none;
       -moz-appearance: none;
       appearance: none;
       border-radius: 0;
       @include placeholder {
-        @include b4_12px_montserrat_charcoal();
-        color: #19191958;
-        line-height: 20px;
-        letter-spacing: 0.36px;
-        font-style: normal;
+        opacity: 0.4;
       }
       text-align: start;
+
+      @media screen and (max-width:767px) {
+        width: 100%;      
+      }
     }
     &:disabled{
-      color: #9F9F9F;
-      // background-color: #d8d8d826; 
-      background-color: #f9f9f9;
+      color: $light-charcoal;
+      background-color: $lightest-grey;
+    }
+
+    @media screen and (max-width:767px) {
+      width: 100%;      
     }
   }
   .no-enough-point {
@@ -131,14 +126,10 @@
   label {
     position: absolute;
     top: -10px;
-    left: 10px;
+    left: 20px;
     background-color: #fff;
-    padding: 2px;
-    letter-spacing: 0.5px;
-    font-family: $font-Montserrat;
-    font-size: 9px;
-    font-weight: $light;
-    color: $charcoal19;
+    padding: 5px;
+    @include b6_9px_light_montserrat_charcoal();
   }
   div.categorylabel > div {
     position: relative;
@@ -270,6 +261,8 @@
   div {
     div {
       position: relative;
+      width: 366px;
+      margin: auto;
       &.user-gender-picker {
         .Dropdown-root {
           .Dropdown-menu {
@@ -289,6 +282,10 @@
             }
           }
         }
+      }
+
+      @media screen and (max-width:767px) {
+        width: 100%;      
       }
     }
     @include b5_10px_montserrat_charcoal();
