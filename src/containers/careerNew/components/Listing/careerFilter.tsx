@@ -55,6 +55,7 @@ const CareerFilter: React.FC<Props> = ({
     filters: string[];
   }>({ dept: [], filters: [] });
   const { mobile } = useSelector((state: AppState) => state.device);
+  const { showTimer } = useSelector((state: AppState) => state.info);
 
   const handleViewAllForFilters = (newList: any, tags: any, locs: any) => {
     const tagsList = clone(tags.map((e: any) => e.name));
@@ -261,8 +262,11 @@ const CareerFilter: React.FC<Props> = ({
         className={cs(
           mobile ? bootstrap.col12 : bootstrap.col3,
           listing.career_list_wrp_left,
-          isFilterOpen ? listing.show : "",
-          isFilterOpen ? listing.showFilter : ""
+          {
+            [listing.show]: isFilterOpen,
+            [listing.showFilter]: isFilterOpen,
+            [listing.timer]: showTimer
+          }
         )}
       >
         <ul>
