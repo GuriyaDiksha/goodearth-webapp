@@ -176,7 +176,7 @@ const WeRecommend: React.FC<RecommenedSliderProps> = (
               ) : (
                 <span
                   className={
-                    item.badgeType == "B_flat" ? globalStyles.cerise : ""
+                    item.badgeType == "B_flat" ? globalStyles.gold : ""
                   }
                 >
                   {" "}
