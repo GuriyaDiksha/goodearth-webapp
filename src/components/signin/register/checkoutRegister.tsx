@@ -759,29 +759,29 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
               showLabel={true}
             />
           </div>
-          <div className={styles.userGenderPicker}>
+          {/* <div className={styles.userGenderPicker}>
             <FormSelect
               required
               name="gender"
               label="Gender*"
-              placeholder="Select Option*"
+              placeholder="Select Gender*"
               options={genderOptions}
               disable={!this.state.showFields}
               className={this.state.showFields ? "" : styles.disabledInput}
               showLabel={true}
             />
-          </div>
-          {/* <div className={styles.userGenderPicker}>
+          </div> */}
+          <div className={styles.userGenderPicker}>
             <SelectDropdown
               required
               name="gender"
-              label="Select Gender*"
+              label="Gender*"
               placeholder="Select Gender*"
               options={genderOptions}
-              allowFilter={true}
+              allowFilter={false}
               inputRef={this.genderRef}
             />
-          </div> */}
+          </div>
           <div className={styles.calendarIconContainer}>
             <FormInput
               name="dateOfBirth"
@@ -918,7 +918,7 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
             <SelectDropdown
               name="code"
               placeholder="Code"
-              label="Country Code"
+              label="Code"
               options={this.getCountryCodeObject()}
               handleChange={this.onCountryCodeSelect}
               value=""

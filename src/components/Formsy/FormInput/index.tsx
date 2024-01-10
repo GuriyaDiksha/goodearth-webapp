@@ -5,15 +5,11 @@ import globalStyles from "styles/global.scss";
 import styles from "../styles.scss";
 import cs from "classnames";
 import { InjectedProps } from "formsy-react/dist/Wrapper";
-import { useSelector } from "react-redux";
-import { AppState } from "reducers/typings";
 
 const FormInput: React.FC<Props & InjectedProps<string | null>> = props => {
   const [labelClass, setLabelClass] = useState(false);
   const [placeholder, setPlaceholder] = useState(props.placeholder || "");
-  const {
-    user: { isLoggedIn }
-  } = useSelector((state: AppState) => state);
+  const [focused, setFocused] = useState(false);
 
   const handleClick = useCallback(
     (event: React.MouseEvent | React.FocusEvent) => {
@@ -26,14 +22,26 @@ const FormInput: React.FC<Props & InjectedProps<string | null>> = props => {
     []
   );
 
+  const handleClickFocus = (event: React.FocusEvent) => {
+    setFocused(true);
+    handleClick(event);
+  };
+
   useEffect(() => {
     !labelClass && props.value && setLabelClass(true);
   }, [props.isPristine]);
 
   const handleClickBlur = useCallback((event: React.FocusEvent) => {
-    if (!labelClass || placeholder !== "") {
+    if (!props.value) {
+      setFocused(false);
+    }
+
+    if (placeholder === "") {
+      setPlaceholder(props.placeholder);
+    }
+
+    if (!labelClass) {
       setLabelClass(true);
-      setPlaceholder("");
     }
     props.blur && props.isValid ? props.blur(event) : "";
   }, []);
@@ -136,6 +144,7 @@ const FormInput: React.FC<Props & InjectedProps<string | null>> = props => {
 
   return (
     <div className={props.className}>
+      {console.log("check===", placeholder, focused)}
       <input
         type={props.type || "text"}
         id={props.id}
@@ -151,7 +160,7 @@ const FormInput: React.FC<Props & InjectedProps<string | null>> = props => {
         onChange={e => handleChange(e)}
         autoComplete="off"
         onBlur={e => handleClickBlur(e)}
-        onFocus={e => handleClick(e)}
+        onFocus={e => handleClickFocus(e)}
         onKeyPress={e => (props.keyPress ? props.keyPress(e) : null)}
         onKeyUp={e => (props.isValid && props.keyUp ? props.keyUp(e) : null)} // use Key up if you want change only if input is valid
         onDrop={
@@ -181,6 +190,8 @@ const FormInput: React.FC<Props & InjectedProps<string | null>> = props => {
           [globalStyles.hidden]: labelClass
             ? false
             : props.showLabel
+            ? false
+            : focused
             ? false
             : true
         })}

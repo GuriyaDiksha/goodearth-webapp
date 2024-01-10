@@ -98,7 +98,7 @@ const SelectDropdown: React.FC<Props &
         ref={props.inputRef || null}
         disabled={props.disable}
       />
-      <label>{props.label}</label>
+      {(value || active) && <label>{props.label}</label>}
       <span
         className={cs(
           { [styles.arrow]: true },

@@ -24,9 +24,7 @@
   }
 select {
   &.default {
-    color: $formLabel;
-    font-weight: 300;
-    // border: 1px solid #ab1e56 !important;
+    @include b4_12px_montserrat_light_charcoal();
   }
   &.black {
     color: black;
@@ -47,6 +45,7 @@ input[type="date"] {
 .error-msg {
   @include err_13px_lora_italic_cerise();
   text-align: left;
+  margin-top: 5px;
 }
 .dropdown{
   position: relative;
