@@ -166,7 +166,12 @@ const PlpResultListViewItem: React.FC<PLPResultItemProps> = (
   return (
     <div className={styles.plpMain}>
       {product.salesBadgeImage && (
-        <div className={styles.badgeImage}>
+        <div
+          className={cs(
+            { [styles.badgeImage]: !mobile },
+            { [styles.badgeImageMobile]: mobile }
+          )}
+        >
           <img src={product.salesBadgeImage} />
         </div>
       )}
