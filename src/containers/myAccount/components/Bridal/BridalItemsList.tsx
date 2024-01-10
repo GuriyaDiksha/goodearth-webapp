@@ -168,7 +168,7 @@ const BridalItemsList: React.FC<Props> = props => {
                       <span
                         className={cs(
                           styles.productPrice,
-                          badgeType == "B_flat" ? globalStyles.cerise : ""
+                          badgeType == "B_flat" ? globalStyles.gold : ""
                         )}
                       >
                         {displayPriceWithCommas(

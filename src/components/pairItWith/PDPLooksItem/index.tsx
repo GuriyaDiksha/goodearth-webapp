@@ -232,9 +232,7 @@ const PlpResultListViewItem: React.FC<PLPResultItemProps> = (
             </span>
           ) : (
             <span
-              className={
-                product.badgeType == "B_flat" ? globalStyles.cerise : ""
-              }
+              className={product.badgeType == "B_flat" ? globalStyles.gold : ""}
             >
               {displayPriceWithCommas(
                 product.priceRecords[currency as Currency],

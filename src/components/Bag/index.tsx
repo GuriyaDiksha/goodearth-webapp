@@ -22,6 +22,7 @@ import Button from "components/Button";
 import bootstrap from "../../styles/bootstrap/bootstrap-grid.scss";
 import HeaderService from "services/headerFooter";
 import noImagePlp from "../../images/noimageplp.png";
+import WishlistService from "services/wishlist";
 
 const mapDispatchToProps = (dispatch: Dispatch) => {
   return {
@@ -32,6 +33,9 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     fetchFeaturedContent: async () => {
       const res = HeaderService.fetchSearchFeaturedContent(dispatch);
       return res;
+    },
+    updateWishlist: async () => {
+      await WishlistService.updateWishlist(dispatch);
     }
   };
 };
@@ -82,6 +86,8 @@ class Bag extends React.Component<Props, State> {
         });
       }
 
+      this.props.updateWishlist();
+
       this.props
         .fetchFeaturedContent()
         .then(data => {
@@ -96,6 +102,7 @@ class Bag extends React.Component<Props, State> {
       console.log(err);
     }
   };
+
   componentWillUnmount = () => {
     document.body.classList.remove(globalStyles.noScroll);
   };

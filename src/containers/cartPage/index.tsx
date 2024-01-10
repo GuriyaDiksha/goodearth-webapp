@@ -134,6 +134,9 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
         customerGroup,
         "cart"
       );
+    },
+    updateWishlist: async () => {
+      await WishlistService.updateWishlist(dispatch);
     }
   };
 };
@@ -317,6 +320,14 @@ class CartPage extends React.Component<Props, State> {
     //     behavior: "smooth"
     //   });
     // }, 800);
+  }
+
+  UNSAFE_componentWillReceiveProps(nextProps: Props) {
+    const { currency, updateWishlist } = this.props;
+
+    if (currency !== nextProps?.currency) {
+      updateWishlist();
+    }
   }
 
   onNotifyCart = (basketLineId: ProductID) => {

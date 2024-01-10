@@ -221,9 +221,7 @@ class CushionBag extends React.Component<Props, State> {
                     </span>
                   ) : (
                     <span
-                      className={
-                        badgeType == "B_flat" ? globalStyles.cerise : ""
-                      }
+                      className={badgeType == "B_flat" ? globalStyles.gold : ""}
                     >
                       {" "}
                       {displayPriceWithCommas(price, currency)}
