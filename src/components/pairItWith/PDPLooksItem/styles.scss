@@ -180,14 +180,21 @@
 }
 
 .badge-image{
-    width: 30%;
     position: absolute;
-    top: 0;
+    top: 10px;
+    left: 10px;
     z-index: 2;
-    left: 0;
     img {
-        width: 80%;
-        // margin:10px;
+        width: 70px;
+    }
+}
+.badge-image-mobile{
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    z-index: 2;
+    img {
+        width: 50px;
     }
 }
 

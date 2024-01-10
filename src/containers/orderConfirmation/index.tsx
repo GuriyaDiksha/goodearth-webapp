@@ -155,10 +155,13 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
     });
     // Adding custom logic for GA4
     let transactionId = result.transactionId;
-    if (transactionId.toLowerCase() == "loyalty") {
-      transactionId = transactionId + "_" + result.number;
-    } else if (transactionId == "") {
-      if (result.giftVoucherRedeemed?.length > 0) {
+    if (transactionId == "") {
+      if (
+        result.loyalityPointsRedeemed?.length > 0 &&
+        result.loyalityPointsRedeemed[0] == result.subTotalWithShipping
+      ) {
+        transactionId = "LOYALTY_" + result.number;
+      } else if (result.giftVoucherRedeemed?.length > 0) {
         transactionId = "GC_CN_" + result.number;
       } else if (result.voucherDiscounts?.length > 0) {
         transactionId = "VOUCHER_" + result.number;
@@ -644,10 +647,17 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                         >
                           <div
                             className={cs(
+                              styles.imageContainer,
                               bootstrapStyles.col4,
                               bootstrapStyles.colMd3
                             )}
                           >
+                            {item.product.images?.[0]?.badgeImage && (
+                              <img
+                                className={cs(styles.badgeImage)}
+                                src={item.product.images?.[0]?.badgeImage}
+                              />
+                            )}
                             <img
                               src={item.product.images?.[0]?.productImage}
                               className={globalStyles.imgResponsive}

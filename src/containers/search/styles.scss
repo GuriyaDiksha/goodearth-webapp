@@ -53,7 +53,7 @@
   }
 }
 .page-body-timer {
-  margin-top: $main-header + $timer-height;
+  margin-top: 30px + $timer-height;
 }
 
 @media screen and (min-width: 992px) {
@@ -75,7 +75,7 @@
   }
   .product-number{
     margin-left: 0;
-    margin-top: 48px!important;
+    margin-top: 48px;
   }
 }
 
@@ -315,6 +315,7 @@
           overflow: hidden;
           text-overflow: ellipsis;
           display: block;
+          cursor: pointer;
         }
         .disableColors {
           opacity: 0.5;
@@ -1041,6 +1042,7 @@ input[type="radio"]:checked, [type="checkbox"]:not(:checked),
 
 .remove-border{
   border-bottom:none !important;
+  padding:0!important;
 }
 
 .npfContainer{
