@@ -69,8 +69,12 @@
     z-index: 4;
     left: 3px;
     img {
-        width: 80%;
+        width: 93%;
         margin-top: 0;
+        max-width: 70px;
+        position: absolute;
+        left: 10px;
+        top: 10px;
     }
 }
 
