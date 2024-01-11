@@ -807,16 +807,9 @@ class NewGiftcard extends React.Component<Props, State> {
                     validationErrors={{
                       isEmpty: "Please enter your message"
                     }}
+                    charLimit={248}
                   ></FormTextArea>
-                  <div className={cs(styles.limit)}>
-                    Character Limit:{" "}
-                    {248 -
-                      (message.length +
-                        (this.isSafari
-                          ? message?.match(/(\r\n|\n|\r)/g)?.length || 0
-                          : 0))}{" "}
-                    / 248
-                  </div>
+
                   <FormInput
                     name="senderName"
                     placeholder={"Sender's Name"}

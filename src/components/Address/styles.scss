@@ -820,9 +820,9 @@ body:has(.mobile) {
               margin-left: 5px;
           }
       }
-      .country-code {
-          margin: 0px 0 20px 0px;
-      }
+      // .country-code {
+      //     margin: 0px 0 20px 0px;
+      // }
       a{
           color: $charcoal19;
           text-decoration: underline;
@@ -868,7 +868,7 @@ body:has(.mobile) {
 .char-limit{
 float: right;
 margin-top: 5px;
-@include b6_9px_light_montserrat_charcoal();
+@include b5_10px_montserrat_charcoal();
 }
 
 .address-main {

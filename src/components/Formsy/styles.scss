@@ -46,6 +46,7 @@ input[type="date"] {
   @include err_13px_lora_italic_cerise();
   text-align: left;
   margin-top: 5px;
+  line-height: 1;
 }
 .dropdown{
   position: relative;
@@ -100,4 +101,30 @@ input[type="date"] {
       }
     }
   }
+}
+
+
+.textarea-wrapper{
+    max-width: 366px;
+
+    textarea {
+      @include b4_12px_montserrat_charcoal();
+          letter-spacing: 0.5px;
+          width: 100%;
+          padding: 15px;
+          overflow: auto;
+          text-align: start;
+          resize: none; 
+          border: 1px solid $lightest-charcoal;
+      }
+
+}
+
+.char-limit{
+  @include b5_10px_montserrat_charcoal();
+  letter-spacing: 0.5px;
+  margin-top: 5px;
+  text-align: right;
+  float: right;
+  margin-top: 5px !important;
 }

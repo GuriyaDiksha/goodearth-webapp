@@ -9,6 +9,10 @@ import styles from "../styles.scss";
 const FormInput: React.FC<Props & InjectedProps<string | null>> = props => {
   const [labelClass, setLabelClass] = useState(false);
   const [placeholder, setPlaceholder] = useState(props.placeholder || "");
+  const isSafari =
+    typeof window !== "undefined"
+      ? /^((?!chrome|android).)*safari/i.test(window.navigator?.userAgent)
+      : false;
 
   const handleClick = useCallback(
     (event: React.MouseEvent | React.FocusEvent) => {
@@ -80,9 +84,11 @@ const FormInput: React.FC<Props & InjectedProps<string | null>> = props => {
     ? props.errorMessage
     : !props.isPristine && !props.isValid
     ? getRequiredErrorMessage(props.name)
+    : props.error
+    ? props.error
     : "";
   return (
-    <div className={props.className}>
+    <div className={cs(styles.textareaWrapper, props.className)}>
       <textarea
         rows={props.rows || 3}
         maxLength={props.maxLength}
@@ -138,6 +144,18 @@ const FormInput: React.FC<Props & InjectedProps<string | null>> = props => {
         >
           {errorMessage}
         </p>
+      )}
+      {props.charLimit && (
+        <div className={cs(styles.charLimit)}>
+          Character Limit:{" "}
+          {props.charLimit -
+            (props?.value?.length ||
+              0 +
+                (isSafari
+                  ? props.value?.match(/(\r\n|\n|\r)/g)?.length || 0
+                  : 0))}{" "}
+          / {props.charLimit}
+        </div>
       )}
     </div>
   );

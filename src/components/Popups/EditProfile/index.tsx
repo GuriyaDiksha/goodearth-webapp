@@ -8,6 +8,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppState } from "reducers/typings";
 import AccountService from "services/account";
 import Button from "components/Button";
+import FormTextArea from "components/Formsy/FormTextArea";
+import Formsy from "formsy-react";
 
 const EditProfile: React.FC = () => {
   const { closeModal } = useContext(Context);
@@ -17,8 +19,6 @@ const EditProfile: React.FC = () => {
   const [error, setError] = useState("");
   const [reqSent, setReqSent] = useState(false);
   const dispatch = useDispatch();
-
-  const isSafari = /^((?!chrome|android).)*safari/i.test(navigator?.userAgent);
 
   const onRequestSend = () => {
     const formData: any = {};
@@ -77,34 +77,23 @@ const EditProfile: React.FC = () => {
           <div className={styles.editProfile}>
             <p>Your Request:</p>
             <div className={cs(globalStyles.voffset2)}>
-              <textarea
-                rows={6}
-                cols={100}
-                className={cs(styles.editMessage, {
-                  [styles.errMsg]: error,
-                  [styles.disabled]: reqSent
-                })}
-                value={textarea}
-                maxLength={248}
-                placeholder={"Write your message here"}
-                autoComplete="new-password"
-                onChange={(e: any) => {
-                  setTextarea(e.target.value);
-                }}
-                disabled={reqSent}
-              />
-              <div>
-                {error && <p className={styles.error}>{error} </p>}
-                <div className={cs(styles.charLimit)}>
-                  Char Limit:{" "}
-                  {248 -
-                    (textarea.length +
-                      (isSafari
-                        ? textarea?.match(/(\r\n|\n|\r)/g)?.length || 0
-                        : 0))}{" "}
-                  / 248
-                </div>
-              </div>
+              <Formsy>
+                <FormTextArea
+                  rows={6}
+                  name="editProfileMessage"
+                  value={textarea}
+                  maxLength={248}
+                  placeholder={"Write your message here"}
+                  handleChange={(e: any) => {
+                    setError("");
+                    setTextarea(e.target.value);
+                  }}
+                  disable={reqSent}
+                  charLimit={248}
+                  error={error}
+                  additionalErrorClass={styles.leftFloat}
+                ></FormTextArea>
+              </Formsy>
             </div>
             <Button
               variant="mediumMedCharcoalCta366"

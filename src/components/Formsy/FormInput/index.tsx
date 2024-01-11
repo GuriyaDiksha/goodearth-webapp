@@ -35,8 +35,7 @@ const FormInput: React.FC<Props & InjectedProps<string | null>> = props => {
     if (!props.value) {
       setFocused(false);
     }
-
-    if (placeholder === "") {
+    if (!placeholder) {
       setPlaceholder(props.placeholder);
     }
 
@@ -144,7 +143,6 @@ const FormInput: React.FC<Props & InjectedProps<string | null>> = props => {
 
   return (
     <div className={props.className}>
-      {console.log("check===", placeholder, focused)}
       <input
         type={props.type || "text"}
         id={props.id}
@@ -156,7 +154,7 @@ const FormInput: React.FC<Props & InjectedProps<string | null>> = props => {
           props.value ? styles.black : props.defaultClass || styles.default
         )}
         value={props.value || ""}
-        placeholder={placeholder}
+        placeholder={props?.value || focused ? undefined : props.placeholder}
         onChange={e => handleChange(e)}
         autoComplete="off"
         onBlur={e => handleClickBlur(e)}
@@ -185,20 +183,20 @@ const FormInput: React.FC<Props & InjectedProps<string | null>> = props => {
         disabled={props.disable || false}
         onKeyDown={e => (props.keyDown ? props.keyDown(e) : null)}
       />
-      <label
-        className={cs({
-          [globalStyles.hidden]: labelClass
-            ? false
-            : props.showLabel
-            ? false
-            : focused
-            ? false
-            : true
-        })}
-        id={props.id}
-      >
-        {props.label || ""}
-      </label>
+      {focused && (
+        <label
+          className={cs({
+            [globalStyles.hidden]: labelClass
+              ? false
+              : props.showLabel
+              ? false
+              : true
+          })}
+          id={props.id}
+        >
+          {props.label || ""}
+        </label>
+      )}
       {errorMessage && (
         <p
           className={cs(

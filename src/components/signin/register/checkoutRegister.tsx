@@ -1185,6 +1185,7 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
                 ]}
                 handleChange={this.onWhatsappCheckChange}
                 required
+                className={globalStyles.margin0}
               />
               {this.state.whatsappChecked && (
                 <div className={styles.manageLine}>
@@ -1192,7 +1193,14 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
                   Profile
                 </div>
               )}
-              <div className={styles.tooltip} ref={this.impactRef}>
+              <div
+                className={cs(
+                  styles.tooltip,
+                  globalStyles.margin0,
+                  styles.width30
+                )}
+                ref={this.impactRef}
+              >
                 <img
                   src={this.state.showTip ? tooltipOpenIcon : tooltipIcon}
                   onClick={() => {

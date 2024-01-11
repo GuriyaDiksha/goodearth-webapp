@@ -1106,6 +1106,7 @@ hr {
 .char-limit-text {
   font-family: $font-Montserrat;
   letter-spacing: 0;
+  @include b5_10px_montserrat_charcoal();
 }
 
 .linkCerise {

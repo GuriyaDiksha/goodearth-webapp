@@ -957,7 +957,7 @@ const AddressForm: React.FC<Props> = props => {
               maxlength={30}
             />
             <p className={styles.charLimit}>
-              Char Limit:{" "}
+              Character Limit:{" "}
               {30 - nickname?.length >= 0 ? 30 - nickname?.length : 0}/30
             </p>
           </div>

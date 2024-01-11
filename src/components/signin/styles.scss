@@ -386,6 +386,11 @@ img.country-code-search-icon{
 input[type="text"].country-code-search-input{
   padding-left: 30px;
   height: 40px;
+  width: 105px !important;
+
+  @media screen and (max-width:767px) {
+    width: 100% !important;
+  }
   &:focus{
     padding-left: 30px;
   }
@@ -481,7 +486,7 @@ span.checkout-forgot-pass{
       height: 15px;
       position: absolute;
       top: -7px;
-      left: -10px;
+      left: 0px;
       cursor: pointer;
       z-index: 1;
   }
@@ -532,5 +537,11 @@ span.checkout-forgot-pass{
       top: -8px;
       left: -10px;
     }
+  }
+}
+
+.width-30{
+  @media screen and (max-width:767px) {
+    width: 30% !important; 
   }
 }

@@ -7,6 +7,8 @@ import { Context } from "components/Modal/context";
 import { AppState } from "reducers/typings";
 import { useSelector } from "react-redux";
 import Button from "components/Button";
+import FormTextArea from "components/Formsy/FormTextArea";
+import Formsy from "formsy-react";
 
 type PopupProps = {
   saveInstruction: (data: string) => any;
@@ -63,32 +65,24 @@ const Delivery: React.FC<PopupProps> = props => {
               )}
             >
               <div>
-                <textarea
-                  rows={5}
-                  cols={100}
-                  className={styles.deliverMessage}
-                  value={textarea}
-                  maxLength={250}
-                  placeholder={
-                    "Type here. For example,\n Leave my parcel with the Gaurd"
-                  }
-                  autoComplete="new-password"
-                  onChange={(e: any) => {
-                    setTextarea(e.target.value);
-                  }}
-                />
-                <div className={cs(styles.freeDelivery, globalStyles.textLeft)}>
-                  Char Limit:{" "}
-                  {250 -
-                    (textarea.length +
-                      (isSafari
-                        ? textarea?.match(/(\r\n|\n|\r)/g)?.length || 0
-                        : 0))}{" "}
-                  / 250
-                </div>
+                <Formsy>
+                  <FormTextArea
+                    rows={5}
+                    name="deliveryMessage"
+                    value={textarea}
+                    maxLength={250}
+                    placeholder={
+                      "Type here. For example,\n Leave my parcel with the Gaurd"
+                    }
+                    handleChange={(e: any) => {
+                      setTextarea(e.target.value);
+                    }}
+                    charLimit={250}
+                  ></FormTextArea>
+                </Formsy>
               </div>
             </div>
-            <div className={cs(globalStyles.voffset3, styles.freeInstruction)}>
+            <div className={cs(globalStyles.voffset4, styles.freeInstruction)}>
               {" "}
               Your instructions help us provide you with a seamless online
               shopping experience. Kindly note, our delivery teams reserve the

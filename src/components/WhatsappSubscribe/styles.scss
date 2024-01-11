@@ -59,6 +59,7 @@
     margin-bottom: 25px;
 }
 .whatsapp {
+    margin: 20px 0 !important;
     .flex-for-tooltip{
         display: flex;
     }
@@ -69,6 +70,8 @@
 }
 .show-popup-msg{
     display: flex;
+    margin: 20px 0 !important;
+
     &.manage-msg{
         padding-left: 30px;
         top: -18px;
