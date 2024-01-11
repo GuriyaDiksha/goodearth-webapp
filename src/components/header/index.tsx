@@ -70,7 +70,8 @@ const mapStateToProps = (state: AppState) => {
     mobileMenuOpenState: state.header.mobileMenuOpenState,
     filler: state.filler,
     openModal: state.modal.openModal,
-    scrollDown: state.info.scrollDown
+    scrollDown: state.info.scrollDown,
+    user: state.user
   };
 };
 
@@ -138,6 +139,7 @@ class Header extends React.Component<Props, State> {
   };
 
   componentDidMount() {
+    const { user } = this.props;
     const isBridalPublicPage =
       this.props.location.pathname.includes("/bridal/") &&
       !this.props.location.pathname.includes("/account/");
@@ -154,6 +156,14 @@ class Header extends React.Component<Props, State> {
       this.props.sortBy,
       this.props.location.pathname
     );
+    if (
+      typeof document != "undefined" &&
+      user.email &&
+      (!user.gender || !user.country || !user.lastName || !user.firstName)
+    ) {
+      debugger;
+      this.props.updateProfile();
+    }
     const queryString = this.props.location.search;
     const urlParams = new URLSearchParams(queryString);
     const id = urlParams.get("loginpopup");

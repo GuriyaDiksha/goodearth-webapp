@@ -127,7 +127,12 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
   return (
     <div className={styles.plpMain}>
       {product.salesBadgeImage && (
-        <div className={styles.badgeImage}>
+        <div
+          className={cs(
+            { [styles.badgeImage]: !mobile },
+            { [styles.badgeImageMobile]: mobile }
+          )}
+        >
           <img src={product.salesBadgeImage} />
         </div>
       )}
@@ -252,9 +257,7 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
             </span>
           ) : (
             <span
-              className={
-                product.badgeType == "B_flat" ? globalStyles.cerise : ""
-              }
+              className={product.badgeType == "B_flat" ? globalStyles.gold : ""}
             >
               {displayPriceWithCommas(
                 product.priceRecords[currency as Currency],

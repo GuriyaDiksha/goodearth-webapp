@@ -760,7 +760,9 @@ class Search extends React.Component<
                   globalStyles.marginT20,
                   styles.imageContainer,
                   {
-                    [styles.border]: mobile
+                    [styles.border]: mobile,
+                    [globalStyles.marginL0]: count == 1 && mobile && !tablet,
+                    [globalStyles.marginT0]: count == 1 && mobile && !tablet
                   }
                 )}
               >
