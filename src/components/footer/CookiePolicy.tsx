@@ -193,7 +193,9 @@ const CookiePolicy: React.FC<Props> = ({
           <div
             className={cs(
               styles.cookieclass,
-              !mobile && regionName !== INDIA_TEXT ? styles.extraHeight : "",
+              !mobile && regionName !== INDIA_TEXT && !isPrefOpen
+                ? styles.extraHeight
+                : "",
               isPrefOpen ? styles.eucookieclass : styles.noneu,
               // styles.eucookieclass,
               isPrefOpen ? styles.euPref : ""
