@@ -1606,3 +1606,14 @@ span.add-new-address {
     }
   }
 }
+.sale-time-msg{
+  @include b4_12px_lato();
+}
+
+.hide-label{
+    opacity: 0.5;
+
+    label{
+      cursor: not-allowed !important;
+    }
+}
