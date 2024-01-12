@@ -1611,9 +1611,5 @@ span.add-new-address {
 }
 
 .hide-label{
-    opacity: 0.5;
-
-    label{
-      cursor: not-allowed !important;
-    }
+    display: none;
 }
