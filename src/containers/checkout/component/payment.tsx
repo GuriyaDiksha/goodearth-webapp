@@ -777,8 +777,8 @@ const PaymentSection: React.FC<PaymentProps> = props => {
                       />
                       {DEACTIVATE_REDEEM_SECTION && (
                         <p className={styles.saleTimeMsg}>
-                          You will not be able to earn or redeem Cerise points
-                          during Sale.
+                          You will not be able to redeem Cerise points during
+                          Sale.
                         </p>
                       )}
                     </div>
