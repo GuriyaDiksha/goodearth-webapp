@@ -440,7 +440,7 @@ const AddressForm: React.FC<Props> = props => {
           setIsAddressChanged(false);
           setIsLoading(false);
           closeAddressForm(id);
-          if (address?.isBridal) {
+          if (currentCallBackComponent == "account" && address?.isBridal) {
             changeBridalAddressOnEdit(id);
           }
         })
