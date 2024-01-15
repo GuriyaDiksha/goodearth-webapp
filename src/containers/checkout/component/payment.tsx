@@ -27,7 +27,7 @@ import { updatePreferenceData } from "actions/user";
 import LoginService from "services/login";
 import { updateCountryData } from "actions/address";
 import WhatsappSubscribe from "components/WhatsappSubscribe";
-import { CONFIG } from "constants/util";
+import { CONFIG, DEACTIVATE_REDEEM_SECTION } from "constants/util";
 import Formsy from "formsy-react";
 import CheckboxWithLabel from "components/CheckboxWithLabel";
 import { displayPriceWithCommasFloat } from "utils/utility";
@@ -94,6 +94,11 @@ const PaymentSection: React.FC<PaymentProps> = props => {
 
   const PaymentButton = useRef(null);
 
+  const isSafari =
+    typeof window !== "undefined"
+      ? /^((?!chrome|android).)*safari/i.test(window.navigator?.userAgent)
+      : false;
+
   const toggleInput = async () => {
     if (basket.giftCards.length > 0 && isactivepromo) {
       setIsLoading(true);
@@ -128,6 +133,10 @@ const PaymentSection: React.FC<PaymentProps> = props => {
   };
 
   const toggleInputReedem = () => {
+    if (DEACTIVATE_REDEEM_SECTION) {
+      return false;
+    }
+
     setIsactiveredeem(true);
 
     dispatch(
@@ -696,7 +705,8 @@ const PaymentSection: React.FC<PaymentProps> = props => {
                   className={cs(
                     bootstrapStyles.col12,
                     bootstrapStyles.colMd6,
-                    styles.title
+                    styles.title,
+                    { [globalStyles.marginB15]: mobile }
                   )}
                 >
                   {STEP_ORDER[activeStep] <= currentStep &&
@@ -742,13 +752,16 @@ const PaymentSection: React.FC<PaymentProps> = props => {
               </div>
               {loyalty?.[0]?.points || !isActive ? null : (
                 <>
-                  <hr className={styles.hr} />
+                  {!mobile && <hr className={styles.hr} />}
                   <div className={globalStyles.flex}>
                     <div className={styles.inputContainer}>
                       <CheckboxWithLabel
                         id="cerise"
                         checked={isactiveredeem}
                         onChange={toggleInputReedem}
+                        className={cs({
+                          [styles.hideLabel]: DEACTIVATE_REDEEM_SECTION
+                        })}
                         label={[
                           <label
                             key="cerise"
@@ -762,37 +775,12 @@ const PaymentSection: React.FC<PaymentProps> = props => {
                           </label>
                         ]}
                       />
-                      {/* <label
-                        className={cs(
-                          globalStyles.flex,
-                          globalStyles.crossCenter
-                        )}
-                      >
-                        <div className={styles.marginR10}>
-                          <span className={styles.checkbox}>
-                            <input
-                              type="radio"
-                              checked={isactiveredeem}
-                              onClick={() => {
-                                toggleInputReedem();
-                              }}
-                            />
-                            <span
-                              className={cs(styles.indicator, {
-                                [styles.checked]: isactiveredeem
-                              })}
-                            ></span>
-                          </span>
-                        </div>
-                        <div
-                          className={cs(
-                            styles.formSubheading,
-                            styles.checkBoxHeading
-                          )}
-                        >
-                          See my balance & redeem points
-                        </div>
-                      </label> */}
+                      {DEACTIVATE_REDEEM_SECTION && (
+                        <p className={styles.saleTimeMsg}>
+                          You will not be able to earn or redeem Cerise points
+                          during Sale.
+                        </p>
+                      )}
                     </div>
                   </div>
                 </>
@@ -855,7 +843,13 @@ const PaymentSection: React.FC<PaymentProps> = props => {
                           styles.charLimitText
                         )}
                       >
-                        Char Limit: {250 - textarea.length}/250
+                        Char Limit:{" "}
+                        {250 -
+                          (textarea.length +
+                            (isSafari
+                              ? textarea?.match(/(\r\n|\n|\r)/g)?.length || 0
+                              : 0))}
+                        /250
                       </div>
                     </div>
                   )}

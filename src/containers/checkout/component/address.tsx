@@ -198,7 +198,8 @@ const AddressSection: React.FC<AddressProps & {
     // Always keep billing address as 0 initially for bridal and goodearth shipping
     if (
       (isBridal || isGoodearthShipping || isGcCheckout) &&
-      activeStep == STEP_BILLING
+      activeStep == STEP_BILLING &&
+      isActive
     ) {
       dispatch(updateBillingAddressId(0));
     }
@@ -1106,10 +1107,7 @@ const AddressSection: React.FC<AddressProps & {
                   {children}
                   {shippingError && (
                     <div
-                      className={cs(
-                        globalStyles.errorMsg,
-                        globalStyles.paddT25
-                      )}
+                      className={cs(globalStyles.errorMsg, globalStyles.padd10)}
                     >
                       {shippingError}
                     </div>

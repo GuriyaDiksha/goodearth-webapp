@@ -456,7 +456,7 @@ const LineItems: React.FC<BasketItem> = memo(
                   {saleStatus &&
                     childAttributes[0].showStockThreshold &&
                     childAttributes[0].stock > 0 &&
-                    `Only ${childAttributes[0].stock} Left!`}
+                    ` Only ${childAttributes[0].stock} Left!`}
                 </span>
               )}
 

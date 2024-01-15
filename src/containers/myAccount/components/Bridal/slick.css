@@ -59,3 +59,7 @@
     opacity: 1;
     background-color: #ab1e56;
 }
+
+.bridal-pop .slick-list {
+  max-height: 660px;
+}

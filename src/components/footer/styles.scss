@@ -113,6 +113,7 @@
   padding-top: 15px;
   padding-bottom: 15px;
   font-weight: 300;
+  font-family: $font-Montserrat;
 }
 
 .footer-bottomMobile {
@@ -123,6 +124,7 @@
   padding-bottom: 55px;
   font-weight: 300;
   bottom: 15px;
+  font-family: $font-Montserrat;
 
   &.filter-on-bottom{
     padding-bottom: 100px;
@@ -169,9 +171,7 @@
   bottom: 0;
   right: 0;
   width: 414px;
-  // height: 230px;
-  min-height: 276px;
-  max-height: 276px;
+  height: 276px;
   background-color: #fff;
   z-index: 100;
   padding: 30px 40px;
@@ -1120,6 +1120,7 @@ padding: 30px 20px;
 }
 .flower-right{
   width: 130px;
+  opacity: 0.5;
 }
 .news-butterfly-img{
   position: absolute;
@@ -1142,4 +1143,8 @@ padding: 30px 20px;
   .news-butterfly-img{
     right: 33%;
   }
+}
+
+.extra-height {
+  height: 330px;
 }

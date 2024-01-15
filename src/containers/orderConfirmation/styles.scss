@@ -20,7 +20,7 @@
   .bg-order {
     height: auto;
     overflow: inherit;
-    padding: 30px 0 50px 0;
+    padding: 70px 0 50px 0;
     margin: 50px auto;
 
     @media screen and (max-width: 991px) {
@@ -257,7 +257,7 @@
   }
 }
 .os {
-  padding: 30px 0 40px 0;
+  padding: 70px 0 40px 0;
   .bg-order {
     .motif {
       position: absolute;
@@ -434,4 +434,14 @@
   @media screen and (min-width: 768px) {
     margin-left: -15%;
   }
+}
+
+.image-container{
+  position: relative;
+}
+.badge-image{
+  position: absolute;
+  max-width: 40px;
+  top: 4px;
+  left: 4px;
 }

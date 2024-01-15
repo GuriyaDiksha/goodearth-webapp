@@ -172,6 +172,9 @@ a {
 .margin-r-5{
   margin-right: 5px;
 }
+.margin-l-0{
+  margin-left: 0px;
+}
 .margin-l-5{
   margin-left: 5px;
 }
@@ -210,6 +213,10 @@ a {
   margin-bottom: 20px;}
 .margin-b-50 {
   margin-bottom: 50px;
+}
+
+.margin-lr-auto{
+  margin: 1rem auto
 }
 
 .error-msg {

@@ -1242,20 +1242,22 @@ visibility: visible !important;
 }
 
 .badge-position-plp {
-  width: 30%;
-  top: 0px;
+  width: 60px;
+  top: 10px;
+  left:10px;
   z-index: 4;
   position: absolute;
   z-index: 1;
   img {
-    // width: 70%;
+    width: 100%;
     margin: 0px 0 0 0;
   }
 }
 
 .badge-position-plp-mobile {
-    width: 40%;
-    top: 0;
+    width: 40px;
+    top: 4px;
+    left: 4px;
     position: absolute;
     z-index: 4;
   img {
@@ -1981,4 +1983,12 @@ ul.inner-menu-mobile {
   letter-spacing: 0.6px;
   font-weight: 600;
   text-transform: capitalize;
+}
+
+div[data-currency="USD"] div[data-testid="pdp-product-price-prefix"] {
+  display: none;
+}
+
+div[data-currency="USD"] div[data-testid="pdp-product-price-suffix"] {
+  display: none;
 }

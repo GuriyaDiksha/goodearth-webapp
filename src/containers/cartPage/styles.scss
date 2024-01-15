@@ -665,14 +665,27 @@ hr {
 }
 
 .badge-position-plp-mobile {
-  width: 100%;
-  max-width: 52px;
-  top: 0;
+  width: 40px;
+  top: 4px;
+  left: 4px;
   position: absolute;
   z-index: 1;
   img {
+    width: 100%;
   }
 }
+.badge-position-plp {
+  width: 40px;
+  top: 4px;
+  left: 4px;
+  z-index: 4;
+  position: absolute;
+  z-index: 1;
+  img {
+     width: 100%;
+  }
+}
+
 .stock-left {
   margin-top: 7px;
   position: relative;

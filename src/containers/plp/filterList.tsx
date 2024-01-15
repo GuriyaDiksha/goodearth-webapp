@@ -2156,6 +2156,62 @@ class FilterList extends React.Component<Props, State> {
             {!mobile && <span>Filter By</span>}
             <ul id="currentFilter">{this.renderFilterList(filter)}</ul>
           </li>
+
+          {this.props.salestatus && (
+            <li
+              className={
+                this.props.facets &&
+                this.props.facets.availableDiscount &&
+                this.props.facets.availableDiscount.length > 0
+                  ? ""
+                  : globalStyles.hidden
+              }
+            >
+              {this.props.facets &&
+              this.props.facets.availableDiscount &&
+              this.props.facets.availableDiscount.length > 0 ? (
+                <span
+                  className={
+                    this.state.showFilterByDiscountMenu
+                      ? cs(styles.menulevel1, styles.menulevel1Open)
+                      : styles.menulevel1
+                  }
+                  onClick={() => {
+                    this.toggleFilterByDiscountMenu();
+                    this.handleAnimation(
+                      "discount",
+                      this.state.showFilterByDiscountMenu
+                    );
+                  }}
+                >
+                  BY DISCOUNT
+                </span>
+              ) : (
+                ""
+              )}
+              <div
+                className={
+                  this.state.showFilterByDiscountMenu
+                    ? styles.showheader1
+                    : styles.hideDiv
+                }
+                id="discount"
+              >
+                {this.createDiscountType(
+                  this.props.facets && this.props.facets.availableDiscount,
+                  this.props.filtered_facets
+                )}
+                <div data-name="availableDiscount">
+                  <span
+                    onClick={e => this.clearFilter(e, "availableDiscount")}
+                    className={styles.plp_filter_sub}
+                  >
+                    Clear
+                  </span>
+                </div>
+              </div>
+            </li>
+          )}
           <li>
             <span
               className={
@@ -2187,61 +2243,6 @@ class FilterList extends React.Component<Props, State> {
               )}
             </div>
           </li>
-          {this.props.salestatus && (
-            <li
-              className={
-                this.props.facets &&
-                this.props.facets.availableDiscount &&
-                this.props.facets.availableDiscount.length > 0
-                  ? ""
-                  : globalStyles.hidden
-              }
-            >
-              {this.props.facets &&
-              this.props.facets.availableDiscount &&
-              this.props.facets.availableDiscount.length > 0 ? (
-                <span
-                  className={
-                    this.state.showFilterByDiscountMenu
-                      ? cs(styles.menulevel1, styles.menulevel1Open)
-                      : styles.menulevel1
-                  }
-                  onClick={() => {
-                    this.toggleFilterByDiscountMenu();
-                    this.handleAnimation(
-                      "discount",
-                      this.state.showFilterByDiscountMenu
-                    );
-                  }}
-                >
-                  FILTER BY DISCOUNT
-                </span>
-              ) : (
-                ""
-              )}
-              <div
-                className={
-                  this.state.showFilterByDiscountMenu
-                    ? styles.showheader1
-                    : styles.hideDiv
-                }
-                id="discount"
-              >
-                {this.createDiscountType(
-                  this.props.facets && this.props.facets.availableDiscount,
-                  this.props.filtered_facets
-                )}
-                <div data-name="availableDiscount">
-                  <span
-                    onClick={e => this.clearFilter(e, "availableDiscount")}
-                    className={styles.plp_filter_sub}
-                  >
-                    Clear
-                  </span>
-                </div>
-              </div>
-            </li>
-          )}
 
           <li
             className={cs({

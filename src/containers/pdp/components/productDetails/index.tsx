@@ -937,10 +937,11 @@ const ProductDetails: React.FC<Props> = ({
             {(isLoading || loading) && <Loader />}
             <div className={cs(bootstrap.row)}>
               {images && images[0]?.badgeImagePdp && (
-                <div className={bootstrap.col12}>
+                <div className={cs(bootstrap.col12, styles.badgePadding)}>
                   <img
                     src={images[0]?.badgeImagePdp}
-                    width="100"
+                    width="80px"
+                    height="80px"
                     className={styles.badgeImg}
                   />
                 </div>
@@ -995,7 +996,17 @@ const ProductDetails: React.FC<Props> = ({
                   )}
                 >
                   {currency === "INR" && (
-                    <span className={styles.mrp}>MRP.</span>
+                    <span
+                      className={cs(
+                        styles.mrp,
+                        badgeType == "B_flat" ||
+                          (info.isSale && discount && discountedPriceRecords)
+                          ? globalStyles.gold
+                          : ""
+                      )}
+                    >
+                      MRP.
+                    </span>
                   )}
                   {info.isSale && discount && discountedPriceRecords ? (
                     <span className={styles.discountedPrice}>
@@ -1011,7 +1022,10 @@ const ProductDetails: React.FC<Props> = ({
                     </span>
                   ) : (
                     <span
-                      className={badgeType == "B_flat" ? globalStyles.gold : ""}
+                      className={cs(
+                        styles.normalPrice,
+                        badgeType == "B_flat" ? globalStyles.gold : ""
+                      )}
                     >
                       {" "}
                       {displayPriceWithCommas(price, currency)}
@@ -1108,11 +1122,11 @@ const ProductDetails: React.FC<Props> = ({
                             selectedSize &&
                             selectedSize.showStockThreshold &&
                             selectedSize.stock > 0 &&
-                            `Only ${selectedSize.stock} Left!${
+                            `${
                               selectedSize.othersBasketCount > 0
-                                ? ` *${selectedSize.othersBasketCount} others have this item in their bag.`
+                                ? ` ${selectedSize.othersBasketCount} others have this item in their bag.`
                                 : ""
-                            }`}
+                            } Only ${selectedSize.stock} Left!`}
                         </span>
                       </div>
                     </div>
@@ -1164,10 +1178,10 @@ const ProductDetails: React.FC<Props> = ({
                   selectedSize &&
                   selectedSize.stock > 0 &&
                   selectedSize.showStockThreshold &&
-                  `Only ${
+                  `${selectedSize.othersBasketCount &&
+                    ` ${selectedSize.othersBasketCount} others have this item in their bag.`} Only ${
                     selectedSize.stock
-                  } Left!${selectedSize.othersBasketCount &&
-                    ` *${selectedSize.othersBasketCount} others have this item in their bag.`}`}
+                  } Left!`}
               </span>
             )}
             <div
