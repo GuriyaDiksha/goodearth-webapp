@@ -46,6 +46,7 @@ const AddressItem: React.FC<Props> = props => {
     isAddressValid
   } = useContext(AddressContext);
   const { onSelectAddress } = useContext(CheckoutAddressContext);
+  const { bridalProfile } = useContext(BridalContext);
   const {
     currency,
     basket,
@@ -378,7 +379,9 @@ const AddressItem: React.FC<Props> = props => {
             { [styles.diabledBorder]: address.id == userAddress?.id },
             {
               [styles.addressInUse]:
-                props.showAddressInBridalUse && address.isBridal
+                // props.showAddressInBridalUse && address.isBridal
+                address.id.toString() ===
+                bridalProfile?.userAddressId.toString()
             },
             // { [styles.isActiveItem]: isSlected},
             {
@@ -582,13 +585,9 @@ const AddressItem: React.FC<Props> = props => {
                     <input
                       id={address.id.toString()}
                       className={styles.defaultAddressCheckbox}
-                      // checked={
-                      //     address.id.toString() === bridalAddressId.toString()
-                      // }
                       checked={
-                        props.showAddressInBridalUse && address.isBridal
-                          ? true
-                          : false
+                        address.id.toString() ===
+                        bridalProfile?.userAddressId.toString()
                       }
                       name={id}
                       type="radio"
@@ -927,13 +926,10 @@ const AddressItem: React.FC<Props> = props => {
                   <input
                     id={address.id.toString()}
                     className={styles.defaultAddressCheckbox}
-                    // checked={
-                    //   address.id.toString() === bridalAddressId.toString()
-                    // }
                     checked={
-                      props.showAddressInBridalUse && address.isBridal
-                        ? true
-                        : false
+                      // address.id.toString() === bridalAddressId.toString()
+                      address.id.toString() ===
+                      bridalProfile?.userAddressId.toString()
                     }
                     name={id}
                     type="radio"
