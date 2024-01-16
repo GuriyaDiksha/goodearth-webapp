@@ -39,7 +39,7 @@ const RegisteryDockcta: React.FC = () => {
           </span>
           <span
             className={cs(styles.dockCta)}
-            onClick={() => ctaClicked(dispatch, "/account/bridal")}
+            onClick={() => ctaClicked(dispatch, "/gift-registery")}
           >
             SIGN UP / LOGIN
           </span>
