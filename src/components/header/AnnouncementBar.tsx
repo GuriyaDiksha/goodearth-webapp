@@ -100,7 +100,7 @@ const AnnouncementBar: React.FC<Props> = ({
                   &nbsp;
                   {registrantName} {coRegistrantName ? coRegistrantName : ""}
                   &#39;s {occasionName}
-                  &nbsp;(Publick Link)&nbsp;
+                  &nbsp;(Public Link)&nbsp;
                   <b
                     style={{
                       textDecoration: "underline",
