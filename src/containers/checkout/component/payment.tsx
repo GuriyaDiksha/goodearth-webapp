@@ -372,7 +372,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
           const errorType = error.response?.data.errorType;
           if (errorType && errorType == "qty") {
             msg =
-              "Some of the products in your cart have been updated/become unavailable. Please refresh before proceeding.";
+              "Some items in your cart have been modified or are no longer available. Kindly refresh before proceeding.";
           }
           setPaymentError(msg);
           errorTracking([msg], location.href);
@@ -429,8 +429,8 @@ const PaymentSection: React.FC<PaymentProps> = props => {
       } else {
         setWhatsappNoErr("");
       }
-      setPaymentError("Please select a payment method");
-      errorTracking(["Please select a payment method"], location.href);
+      setPaymentError("Please select a Payment Method");
+      errorTracking(["Please select a Payment Method"], location.href);
       document.getElementById("payment-section")?.scrollIntoView();
     }
   };
