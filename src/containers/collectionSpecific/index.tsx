@@ -757,6 +757,7 @@ class CollectionSpecific extends React.Component<
                       currency={this.props.currency}
                       key={data.id + "plpitem"}
                       mobile={mobile}
+                      tablet={tablet}
                       onClickQuickView={this.onClickQuickView}
                       isCollection={true}
                       loader={
