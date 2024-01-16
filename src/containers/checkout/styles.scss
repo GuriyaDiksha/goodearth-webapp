@@ -1608,9 +1608,7 @@ span.add-new-address {
 }
 .sale-time-msg{
   // @include b4_12px_lato();
-  font-family: $font-Montserrat;
-  font-size: 12px;
-  color: #191919;
+  @include b4_12px_montserrat_regular_charcoal();
 }
 
 .hide-label{
