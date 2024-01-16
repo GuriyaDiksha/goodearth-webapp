@@ -17,6 +17,8 @@ import CookieService from "services/cookie";
 import { GA_CALLS } from "constants/cookieConsent";
 import moment from "moment";
 import Button from "components/Button";
+import BridalService from "services/bridal";
+import { BridalProfileData } from "containers/myAccount/components/Bridal/typings";
 
 type Props = {
   addressData: AddressData;
@@ -53,6 +55,7 @@ const AddressItem: React.FC<Props> = props => {
     address: { shippingAddressId, billingAddressId }
   } = useSelector((state: AppState) => state);
 
+  const [addressMsg, setAddressMsg] = useState("");
   // const isDefaultAddress = () => {
   //     return props.addressData.isDefaultForShipping;
   // }
@@ -68,6 +71,23 @@ const AddressItem: React.FC<Props> = props => {
   // const [isSlected, setIsSlected] = useState(false);
   const address = props.addressData;
   // const [selectId, setSelectId ] = useState(data.userAddress?.id || '');
+  const bridalProfileData = bridalProfile as BridalProfileData;
+  const fetchBridalItems = () => {
+    BridalService.fetchBridalItems(dispatch, bridalProfileData.bridalId).then(
+      data => {
+        const result = data.results;
+        let i;
+        for (i = 0; i <= result.length; i++) {
+          const qtyBought = result[i].qtyBought;
+          if (qtyBought == 1) {
+            setAddressMsg(
+              `All orders placed before ${currentDate} will be shipped to the older address.`
+            );
+          }
+        }
+      }
+    );
+  };
   const deleteAddress = (event: any) => {
     event.stopPropagation();
     setIsLoading(true);
@@ -177,6 +197,7 @@ const AddressItem: React.FC<Props> = props => {
         // this.props.onSelectAddress(address);
         handleSelect(address);
         // setIsSlected(true);
+        fetchBridalItems();
       } else {
         // this.manageAddressPostcode("edit", address);
         openAddressForm(address);
@@ -400,17 +421,17 @@ const AddressItem: React.FC<Props> = props => {
               // if (props.showAddressInBridalUse && address.isBridal) {
               if (address.id != userAddress?.id) {
                 onSelectBridalAddress(address);
-                const firstErrorField = document.getElementById(
-                  "address_button"
-                ) as HTMLDivElement;
-                if (firstErrorField) {
-                  firstErrorField.focus();
-                  firstErrorField.scrollIntoView({
-                    block: "center",
-                    behavior: "smooth"
-                  });
-                }
-                window.scrollTo(0, 0);
+                // const firstErrorField = document.getElementById(
+                //   "address_button"
+                // ) as HTMLDivElement;
+                // if (firstErrorField) {
+                //   firstErrorField.focus();
+                //   firstErrorField.scrollIntoView({
+                //     block: "center",
+                //     behavior: "smooth"
+                //   });
+                // }
+                // window.scrollTo(0, 0);
               }
               // }
             }
@@ -1234,14 +1255,15 @@ const AddressItem: React.FC<Props> = props => {
             )} */}
         </div>
       </div>
-      {currentCallBackComponent == "bridal-edit" &&
+      {addressMsg && <div className={globalStyles.errorMsg}>{addressMsg}</div>}
+      {/* {currentCallBackComponent == "bridal-edit" &&
         props.showAddressInBridalUse &&
         address.isBridal && (
           <div className={globalStyles.errorMsg}>
             All orders placed before {currentDate} will be shipped to the older
             address.
           </div>
-        )}
+        )} */}
       {/* {props.shippingErrorMsg && address.id == props.addressDataIdError && (
         <div className={globalStyles.errorMsg}>{props.shippingErrorMsg}</div>
       )}
