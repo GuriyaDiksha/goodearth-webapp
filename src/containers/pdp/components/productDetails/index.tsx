@@ -768,7 +768,7 @@ const ProductDetails: React.FC<Props> = ({
   const Pdpbutton = useMemo(() => {
     let buttonText: string, action: EventHandler<MouseEvent>;
     if (corporatePDP) {
-      buttonText = "Enquire now";
+      buttonText = "Enquire Now";
       action = apiTrigger || loading ? () => null : onEnquireClick;
       // setSizeerror(false);
     } else if (allOutOfStock || (selectedSize && selectedSize.stock == 0)) {
