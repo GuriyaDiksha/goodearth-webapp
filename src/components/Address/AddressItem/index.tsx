@@ -421,17 +421,17 @@ const AddressItem: React.FC<Props> = props => {
               // if (props.showAddressInBridalUse && address.isBridal) {
               if (address.id != userAddress?.id) {
                 onSelectBridalAddress(address);
-                // const firstErrorField = document.getElementById(
-                //   "address_button"
-                // ) as HTMLDivElement;
-                // if (firstErrorField) {
-                //   firstErrorField.focus();
-                //   firstErrorField.scrollIntoView({
-                //     block: "center",
-                //     behavior: "smooth"
-                //   });
-                // }
-                // window.scrollTo(0, 0);
+                const firstErrorField = document.getElementById(
+                  "address_button"
+                ) as HTMLDivElement;
+                if (firstErrorField) {
+                  firstErrorField.focus();
+                  firstErrorField.scrollIntoView({
+                    block: "center",
+                    behavior: "smooth"
+                  });
+                }
+                window.scrollTo(0, 0);
               }
               // }
             }
