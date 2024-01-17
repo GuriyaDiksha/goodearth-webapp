@@ -397,7 +397,11 @@ const AddressItem: React.FC<Props> = props => {
             //     currentCallBackComponent == "bridal-edit"
             // },
             // { [styles.shippingBorder]: address.isTulsi },
-            { [styles.diabledBorder]: address.id == userAddress?.id },
+            {
+              [styles.diabledBorder]:
+                address.id == userAddress?.id &&
+                currentCallBackComponent != "bridal-edit"
+            },
             {
               [styles.addressInUse]:
                 // props.showAddressInBridalUse && address.isBridal
