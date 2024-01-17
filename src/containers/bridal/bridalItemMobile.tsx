@@ -133,7 +133,7 @@ const BridalMobile: React.FC<Props> = ({ bridalItem, bridalId }) => {
             >
               {bridalItem.productAvailable && (
                 <div className={globalStyles.voffset7}>
-                  <div className={styles.textMuted}>Qunatity Required</div>
+                  <div className={styles.textMuted}>Quantity Required</div>
                   <div
                     className={cs(styles.widgetQty, {
                       [styles.blurTxt]: bridalItem.stock == 0

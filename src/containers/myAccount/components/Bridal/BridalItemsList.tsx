@@ -87,7 +87,7 @@ const BridalItemsList: React.FC<Props> = props => {
   const decreaseState = () => {
     if (!productAvailable || stock == 0) {
     } else {
-      if (reqCurrent > 1 && !productAvailable) {
+      if (reqCurrent > 1) {
         const data = {
           bridalId: props.bridalId,
           qtyRequested: reqCurrent - 1,
