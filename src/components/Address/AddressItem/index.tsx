@@ -79,7 +79,7 @@ const AddressItem: React.FC<Props> = props => {
         let i;
         for (i = 0; i <= result.length; i++) {
           const qtyBought = result[i].qtyBought;
-          if (qtyBought == 1) {
+          if (qtyBought == 0) {
             setAddressMsg(
               `All orders placed before ${currentDate} will be shipped to the older address.`
             );
@@ -351,6 +351,7 @@ const AddressItem: React.FC<Props> = props => {
     >
       <div
         className={cs(
+          "aaa",
           styles.addressItemContainer,
           props.isGcCheckout && currency != address.currency
             ? styles.fadedContainer

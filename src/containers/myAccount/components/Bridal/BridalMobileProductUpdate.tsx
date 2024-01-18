@@ -38,7 +38,7 @@ const BridalMobileProductUpdate: React.FC<Props> = props => {
     BridalService.updateBridalItemQuantity(dispatch, data)
       .then(res => {
         closeMPopup();
-        BridalService.countBridal(dispatch, props.bridalId);
+        // BridalService.countBridal(dispatch, props.bridalId);
       })
       .catch(error => {
         // console.log(error);

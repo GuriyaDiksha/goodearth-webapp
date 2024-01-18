@@ -170,6 +170,14 @@ class BridalItem extends React.Component<Props, State> {
                 ) : (
                   ""
                 )}
+                {this.props.bridalItem.badgeImage && (
+                  <div className={styles.badgeImage}>
+                    <img
+                      src={this.props.bridalItem.badgeImage}
+                      alt={this.props.bridalItem.badgeImage}
+                    />
+                  </div>
+                )}
                 <img
                   className={cs(styles.productImage, {
                     [styles.blurImg]: this.props.bridalItem.stock == 0
@@ -275,7 +283,8 @@ class BridalItem extends React.Component<Props, State> {
                           <div
                             className={cs(styles.widgetQty, {
                               [styles.disableQty]:
-                                this.props.bridalItem.stock == 0
+                                this.props.bridalItem.stock == 0 ||
+                                this.props.bridalItem.qtyRemaining == 0
                             })}
                           >
                             <span
@@ -358,7 +367,8 @@ class BridalItem extends React.Component<Props, State> {
                         onClick={this.addToBag}
                         disabled={this.state.buttonStatus}
                         label={this.state.btnContent}
-                        variant="mediumAquaCta300"
+                        // variant="mediumAquaCta300"
+                        variant="smallAquaCta"
                       />
 
                       {this.props.bridalItem.productDeliveryDate && (

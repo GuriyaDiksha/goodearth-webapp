@@ -136,7 +136,8 @@ const BridalMobile: React.FC<Props> = ({ bridalItem, bridalId }) => {
                   <div className={styles.textMuted}>Quantity Required</div>
                   <div
                     className={cs(styles.widgetQty, {
-                      [styles.blurTxt]: bridalItem.stock == 0
+                      [styles.blurTxt]:
+                        bridalItem.stock == 0 || bridalItem.qtyRemaining == 0
                     })}
                   >
                     <span className={styles.btnQty} onClick={decreaseState}>

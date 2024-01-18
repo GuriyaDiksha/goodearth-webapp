@@ -175,15 +175,10 @@
       letter-spacing: 0.28px;
     }
     .product-price {
-      // @include plp_prod_name_desktop();
+      @include plp_prod_name_desktop();
       // text-align: right;
       // font-family: "AmiriFont", "Baskerville", "Garamond";
       font-family: $font-Montserrat;
-      font-size: 14px;
-      line-height: 21px;
-      letter-spacing: 0.42px;
-      color: #191919;
-      text-transform: capitalize;
       margin-top: 15px;
     }
     
@@ -403,15 +398,15 @@
   }
 
   .discountprice {
-    color: $cerise;
-    font-family: $font-Serif;
-    font-size: 14px;
+    @include b3_14px_caps_gold();
   }
   .strikeprice {
-    font-size: 14px;
+    @include b4_12px_medium_charcoal_caps();
     text-decoration: line-through;
-    color: tint(#000, 50%) !important;
-    font-family: $font-Serif;
+    color: #9F9F9F!important;
+    font-weight: 400!important;
+    line-height: 20px;
+    letter-spacing: 0.36px;
   }
 
   .icon-cart {
@@ -1024,6 +1019,14 @@
   z-index: 1;
   width: inherit;
   margin: 0 auto;
+  box-shadow: 0px 0px 5px #d8d8d8;
+  text-align: right;
+  padding: 8px 0!important;
+  width: calc(100% - 10%);
+  margin: 0 45px;
+  .review-bag{
+    max-width: 300px!important;
+  }
 }
 .fixed-div.stick{
   position: fixed!important;
@@ -1034,9 +1037,6 @@
   margin-left: -15px;
   text-align: right;
   padding: 8px 30px!important;
-  .review-bag{
-    max-width: 300px!important;
-  }
 }
 .mob-qty-status,
 .mob-qty-remaining{
@@ -1077,9 +1077,10 @@
 }
 .out-of-stock-txt,
 .not-available-txt{
-  width: 100%;
   position: absolute;
   top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   text-align: center;
   font-family: $font-Lora;
   font-style: italic;
@@ -1116,4 +1117,15 @@
 }
 .hide{
   display: none;
+}
+.badge-image{
+  width: 40px;
+  position: relative;
+  top: 4px;
+  left: 4px;
+  img {
+      position: absolute;
+      top: 0px;
+      width: 100%;
+  }
 }

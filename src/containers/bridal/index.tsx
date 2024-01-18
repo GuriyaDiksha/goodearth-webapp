@@ -18,6 +18,7 @@ import { POPUP } from "constants/components";
 import { pageViewGTM } from "utils/validate";
 import addedReg from "../../images/registery/addedReg.svg";
 import gift_icon from "../../images/registery/gift_icon.svg";
+import Button from "components/Button";
 
 type RouteInfo = {
   id: string;
@@ -591,7 +592,7 @@ class BridalCheckout extends React.Component<Props, State> {
                   )}
                 >
                   <div className={cs(styles.cartItem, globalStyles.gutter15)}>
-                    <input
+                    {/* <input
                       type="button"
                       disabled={this.canCheckoutRegistry() ? false : true}
                       className={
@@ -605,6 +606,12 @@ class BridalCheckout extends React.Component<Props, State> {
                       }
                       value="REVIEW BAG & CHECKOUT >"
                       onClick={this.redirectCart}
+                    /> */}
+                    <Button
+                      onClick={this.redirectCart}
+                      disabled={this.canCheckoutRegistry() ? false : true}
+                      label="REVIEW BAG & CHECKOUT"
+                      variant="mediumAquaCta300"
                     />
                   </div>
                 </div>
