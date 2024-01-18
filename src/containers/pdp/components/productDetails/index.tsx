@@ -1443,7 +1443,7 @@ const ProductDetails: React.FC<Props> = ({
                 </span>
               </div>
             )}
-            {complianceLine && !isQuickview && !info?.isSale && (
+            {complianceLine && !isQuickview && (
               <div
                 className={cs(
                   bootstrap.col12,
