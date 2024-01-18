@@ -18,7 +18,7 @@ const Delivery: React.FC<PopupProps> = props => {
   const { deliveryText } = useSelector((state: AppState) => state.info);
   const { mobile } = useSelector((state: AppState) => state.device);
 
-  const isSafari = /^((?!chrome|android).)*safari/i.test(navigator?.userAgent);
+  // const isSafari = /^((?!chrome|android).)*safari/i.test(navigator?.userAgent);
 
   useEffect(() => {
     setTextarea(deliveryText);
@@ -78,13 +78,7 @@ const Delivery: React.FC<PopupProps> = props => {
                   }}
                 />
                 <div className={cs(styles.freeDelivery, globalStyles.textLeft)}>
-                  Char Limit:{" "}
-                  {250 -
-                    (textarea.length +
-                      (isSafari
-                        ? textarea?.match(/(\r\n|\n|\r)/g)?.length || 0
-                        : 0))}{" "}
-                  / 250
+                  Char Limit: {250 - textarea.length} / 250
                 </div>
               </div>
             </div>

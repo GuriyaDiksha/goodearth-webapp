@@ -62,10 +62,10 @@ type State = {
 };
 
 class NewGiftcard extends React.Component<Props, State> {
-  isSafari =
-    typeof window !== "undefined"
-      ? /^((?!chrome|android).)*safari/i.test(window.navigator?.userAgent)
-      : false;
+  // isSafari =
+  //   typeof window !== "undefined"
+  //     ? /^((?!chrome|android).)*safari/i.test(window.navigator?.userAgent)
+  //     : false;
   observer?: IntersectionObserver;
   container: HTMLDivElement | null = null;
   constructor(props: Props) {
@@ -809,13 +809,7 @@ class NewGiftcard extends React.Component<Props, State> {
                     }}
                   ></FormTextArea>
                   <div className={cs(styles.limit)}>
-                    Character Limit:{" "}
-                    {248 -
-                      (message.length +
-                        (this.isSafari
-                          ? message?.match(/(\r\n|\n|\r)/g)?.length || 0
-                          : 0))}{" "}
-                    / 248
+                    Character Limit: {248 - message.length} / 248
                   </div>
                   <FormInput
                     name="senderName"
