@@ -48,7 +48,7 @@ export default {
     }
     const res = await API.get<PlpProps>(
       dispatch,
-      `${__API_HOST__ + `/myapi/search/` + url + `&page_size=${40}`}`
+      `${__API_HOST__ + `/myapi/search/` + url}`
     );
     dispatch(newPlpList({ ...res }));
     dispatch(updatePlpProduct(res.results.data));
