@@ -351,7 +351,6 @@ const AddressItem: React.FC<Props> = props => {
     >
       <div
         className={cs(
-          "aaa",
           styles.addressItemContainer,
           props.isGcCheckout && currency != address.currency
             ? styles.fadedContainer
