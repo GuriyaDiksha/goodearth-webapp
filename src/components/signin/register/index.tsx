@@ -65,7 +65,8 @@ class RegisterForm extends React.Component<Props, registerState> {
       stateOptions: [],
       isIndia: false,
       showEmailVerification: false,
-      email: ""
+      email: "",
+      selectedCountry: ""
     };
   }
   static contextType = Context;

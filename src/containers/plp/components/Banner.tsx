@@ -10,7 +10,6 @@ type Props = {
   data: PlpTemplate;
   mobile: boolean;
   tablet: boolean;
-  colbanner: boolean;
 };
 const Banner: React.FC<Props> = ({ data, mobile, tablet }) => {
   const [colbanner, setColbanner] = useState(false);

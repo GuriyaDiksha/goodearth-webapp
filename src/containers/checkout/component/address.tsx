@@ -664,7 +664,6 @@ const AddressSection: React.FC<AddressProps & {
         line?.product.categories && line?.product.categories[index]
           ? line?.product.categories[index].replace(/\s/g, "")
           : "";
-      const arr = category.split(">");
 
       return {
         item_id: line?.product?.id, //Pass the product id

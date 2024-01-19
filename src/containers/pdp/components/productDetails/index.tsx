@@ -426,7 +426,6 @@ const ProductDetails: React.FC<Props> = ({
     categoryname = arr[arr.length - 2];
     subcategoryname = arr[arr.length - 1];
     category = category.replace(/>/g, "/");
-    const l1 = arr[arr.length - 3];
     const category3 = sliderImages.filter(ele => ele?.icon).length
       ? "3d"
       : "non 3d";

@@ -2,7 +2,6 @@ import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import cs from "classnames";
 import globalStyles from "styles/global.scss";
 import styles from "./orderStyles.scss";
-import paymentStyles from "../styles.scss";
 import { OrderProps } from "./typings";
 import { currencyCode } from "typings/currency";
 import { useLocation, NavLink, useHistory, Link } from "react-router-dom";
@@ -18,7 +17,6 @@ import CookieService from "services/cookie";
 import { GA_CALLS } from "constants/cookieConsent";
 import { displayPriceWithCommasFloat } from "utils/utility";
 import Button from "components/Button";
-// import { currencyCodes } from "constants/currency";
 import checkoutIcon from "../../../images/checkout.svg";
 import freeShippingInfoIcon from "../../../images/free_shipping_info.svg";
 import Loader from "components/Loader";
@@ -32,7 +30,6 @@ const OrderSummary: React.FC<OrderProps> = props => {
     page,
     shippingAddress,
     salestatus,
-    validbo,
     setCheckoutMobileOrderSummary,
     onsubmit,
     isPaymentNeeded,

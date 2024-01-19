@@ -17,7 +17,6 @@ import CookiePolicy from "./CookiePolicy";
 import MakerSmartNav from "containers/base/MakerSmartNav";
 import ReactHtmlParser from "react-html-parser";
 import { OLD_COOKIE_SETTINGS } from "constants/cookieConsent";
-import NewsletterModal from "./NewsletterModal";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -1174,7 +1173,6 @@ class Footer extends React.Component<Props, FooterState> {
             setConsent={this.setConsent}
             showCookiePref={this.props?.showCookiePref}
             showCookiePrefs={this.props?.showCookiePrefs}
-            mobile={this.props.mobile}
           />
         )}
 
