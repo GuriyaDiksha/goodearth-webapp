@@ -22,7 +22,7 @@ export default {
   onLoadSearchPage: async function(dispatch: Dispatch, url: string) {
     const res = await API.get<PlpProps>(
       dispatch,
-      `${__API_HOST__ + "/myapi/search/" + url + `&page_size=${40}`}`
+      `${__API_HOST__ + "/myapi/search/" + url}`
     );
     dispatch(newSearchList({ ...res }));
     // dispatch(updatePlpProduct(res.results.data));

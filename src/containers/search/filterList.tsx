@@ -723,9 +723,13 @@ class FilterList extends React.Component<Props, State> {
       const queryString = this.props.location.search;
       const urlParams = new URLSearchParams(queryString);
       const searchValue: any = urlParams.get("q") || "";
+      const isPageSizeExist = new URLSearchParams(filterUrl).get("page_size");
       this.setState({ isLoading: true });
       changeLoader?.(true);
-      updateProduct(filterUrl + `&page_size=${pageSize}`, listdata)
+      updateProduct(
+        filterUrl + `${isPageSizeExist ? "" : `&page_size=${pageSize}`}`,
+        listdata
+      )
         .then(searchList => {
           changeLoader?.(false);
           productImpression(
@@ -810,9 +814,12 @@ class FilterList extends React.Component<Props, State> {
 
     // const pageSize = mobile ? 10 : 20;
     const pageSize = 40;
+    const isPageSizeExist = new URLSearchParams(filterUrl).get("page_size");
     this.setState({ isLoading: true });
     changeLoader?.(true);
-    fetchSearchProducts(filterUrl + `&page_size=${pageSize}`)
+    fetchSearchProducts(
+      filterUrl + `${isPageSizeExist ? "" : `&page_size=${pageSize}`}`
+    )
       .then(searchList => {
         changeLoader?.(false);
         gaEventsForSearch(searchList);
