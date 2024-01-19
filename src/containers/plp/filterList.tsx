@@ -503,7 +503,7 @@ class FilterList extends React.Component<Props, State> {
       changeLoader?.(true);
       const filterUrl = "?" + nextUrl.split("?")[1];
       // const pageSize = mobile ? 10 : 20;
-      const pageSize = 20;
+      const pageSize = 40;
       const urlParams = new URLSearchParams(this.props.history.location.search);
       const categoryShop = urlParams.get("category_shop");
       const categoryShopL1 = urlParams
@@ -604,7 +604,7 @@ class FilterList extends React.Component<Props, State> {
       ?.split(">")[1]
       ?.trim();
     // const pageSize = mobile ? 10 : 20;
-    const pageSize = 20;
+    const pageSize = 40;
     fetchPlpProducts(filterUrl + `&page_size=${pageSize}`, currency).then(
       plpList => {
         productImpression(
