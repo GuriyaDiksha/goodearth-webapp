@@ -750,7 +750,6 @@ export default {
             }
 
             if (metaResponse.bridalUser) {
-              debugger;
               if (metaResponse.bridalId > 0) {
                 BridalService.countBridal(dispatch, metaResponse.bridalId);
               }
