@@ -79,7 +79,7 @@ const AddressItem: React.FC<Props> = props => {
         let i;
         for (i = 0; i <= result.length; i++) {
           const qtyBought = result[i].qtyBought;
-          if (qtyBought == 0) {
+          if (qtyBought >= 1) {
             setAddressMsg(
               `All orders placed before ${currentDate} will be shipped to the older address.`
             );
@@ -194,6 +194,7 @@ const AddressItem: React.FC<Props> = props => {
     if (address) {
       const isValid = isAddressValid(address);
       if (isValid) {
+        debugger;
         // this.props.onSelectAddress(address);
         handleSelect(address);
         // setIsSlected(true);
