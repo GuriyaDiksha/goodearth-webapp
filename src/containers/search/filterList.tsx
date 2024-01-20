@@ -609,6 +609,8 @@ class FilterList extends React.Component<Props, State> {
   };
 
   handleScroll = (event: any) => {
+    debugger;
+
     const windowHeight =
       "innerHeight" in window
         ? window.innerHeight
@@ -719,7 +721,7 @@ class FilterList extends React.Component<Props, State> {
       this.setState({ flag: false });
       let filterUrl = "?" + nextUrl.split("?")[1];
       // const pageSize = mobile ? 10 : 20;
-      const pageSize = 40;
+      const pageSize = 20;
       const queryString = this.props.location.search;
       const urlParams = new URLSearchParams(queryString);
       const searchValue: any = urlParams.get("q") || "";
@@ -813,7 +815,7 @@ class FilterList extends React.Component<Props, State> {
     const searchValue: any = urlParams.get("q") || "";
 
     // const pageSize = mobile ? 10 : 20;
-    const pageSize = 40;
+    const pageSize = 20;
     const isPageSizeExist = new URLSearchParams(filterUrl).get("page_size");
     if (!isPageSizeExist) {
       filterUrl = filterUrl + `&page_size=${pageSize}`;
