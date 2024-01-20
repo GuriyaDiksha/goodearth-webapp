@@ -609,8 +609,6 @@ class FilterList extends React.Component<Props, State> {
   };
 
   handleScroll = (event: any) => {
-    debugger;
-
     const windowHeight =
       "innerHeight" in window
         ? window.innerHeight

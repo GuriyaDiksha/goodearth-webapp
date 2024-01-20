@@ -161,7 +161,6 @@ class Header extends React.Component<Props, State> {
       user.email &&
       (!user.gender || !user.country || !user.lastName || !user.firstName)
     ) {
-      debugger;
       this.props.updateProfile();
     }
     const queryString = this.props.location.search;
