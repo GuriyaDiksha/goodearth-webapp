@@ -501,7 +501,7 @@ class FilterList extends React.Component<Props, State> {
     if (nextUrl && this.state.flag && this.state.scrollload) {
       this.setState({ flag: false });
       changeLoader?.(true);
-      const filterUrl = "?" + nextUrl.split("?")[1];
+      let filterUrl = "?" + nextUrl.split("?")[1];
       // const pageSize = mobile ? 10 : 20;
       const pageSize = 40;
       const urlParams = new URLSearchParams(this.props.history.location.search);
@@ -511,10 +511,12 @@ class FilterList extends React.Component<Props, State> {
         ?.split(">")[1]
         ?.trim();
       const isPageSizeExist = new URLSearchParams(filterUrl).get("page_size");
-      updateProduct(
-        filterUrl + `${isPageSizeExist ? "" : `&page_size=${pageSize}`}`,
-        listdata
-      ).then(plpList => {
+
+      if (!isPageSizeExist) {
+        filterUrl = filterUrl + `&page_size=${pageSize}`;
+      }
+
+      updateProduct(filterUrl, listdata).then(plpList => {
         changeLoader?.(false);
         productImpression(
           plpList,
@@ -596,7 +598,7 @@ class FilterList extends React.Component<Props, State> {
     }
     changeLoader?.(true);
     const url = decodeURI(history.location.search);
-    const filterUrl = "?" + url.split("?")[1];
+    let filterUrl = "?" + url.split("?")[1];
     const urlParams = new URLSearchParams(history.location.search);
     const categoryShop = urlParams.get("category_shop");
     const categoryShopL1 = urlParams
@@ -606,10 +608,11 @@ class FilterList extends React.Component<Props, State> {
     // const pageSize = mobile ? 10 : 20;
     const pageSize = 40;
     const isPageSizeExist = new URLSearchParams(filterUrl).get("page_size");
-    fetchPlpProducts(
-      filterUrl + `${isPageSizeExist ? "" : `&page_size=${pageSize}`}`,
-      currency
-    ).then(plpList => {
+
+    if (!isPageSizeExist) {
+      filterUrl = filterUrl + `&page_size=${pageSize}`;
+    }
+    fetchPlpProducts(filterUrl, currency).then(plpList => {
       productImpression(plpList, categoryShopL1 || "PLP", this.props.currency);
       changeLoader?.(false);
       this.createList(plpList, false);
