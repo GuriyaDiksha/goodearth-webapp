@@ -1048,6 +1048,7 @@
   color: #191919;
 }
 .mob-qty-status{
+  color: $aqua-text;
   text-transform: uppercase;
   text-decoration: underline;
   text-underline-offset: 0.4em;
@@ -1067,14 +1068,8 @@
 .not-available-item{
   opacity: 0.4;
 }
-@media(max-width:375px){
-  .width50{
-    max-width: 50%;
-    flex: 0 0 50%;
-  }
-  .width0{
-    display:none;
-  }
+a.pos-relative{
+  position: relative;
 }
 .out-of-stock-txt,
 .not-available-txt{

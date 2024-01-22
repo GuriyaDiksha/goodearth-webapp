@@ -1022,7 +1022,7 @@ class Header extends React.Component<Props, State> {
         label: `Good Earth Registry ${
           isLoggedIn && bridalCountData > 0 ? "(" + bridalCountData + ")" : ""
         }`,
-        href: "/gift-registery",
+        href: isLoggedIn ? "/account/bridal" : "/gift-registry",
         type: "link",
         value: "Good Earth Registry"
       },

@@ -160,9 +160,9 @@ class BridalItem extends React.Component<Props, State> {
             className={cs(bootstrap.row, globalStyles.flex, globalStyles.row)}
           >
             <div
-              className={cs(bootstrap.col5, bootstrap.colMd2, styles.width50)}
+              className={cs(bootstrap.colLg2, bootstrap.colMd2, bootstrap.col4)}
             >
-              <a>
+              <a className={styles.posRelative}>
                 {!this.props.bridalItem.productAvailable ? (
                   <div className={styles.notAvailableTxt}>Not Available</div>
                 ) : this.props.bridalItem.stock == 0 ? (
@@ -188,7 +188,7 @@ class BridalItem extends React.Component<Props, State> {
               </a>
             </div>
             <div
-              className={cs(bootstrap.col5, bootstrap.colMd7, styles.width50)}
+              className={cs(bootstrap.colLg7, bootstrap.colMd7, bootstrap.col8)}
             >
               <div className={styles.rowMain}>
                 <div className={cs(bootstrap.col12, bootstrap.colMd6)}>
@@ -233,7 +233,7 @@ class BridalItem extends React.Component<Props, State> {
                           className={cs(
                             styles.productPrice,
                             this.props.bridalItem.badgeType == "B_flat"
-                              ? globalStyles.cerise
+                              ? globalStyles.gold
                               : ""
                           )}
                         >
@@ -264,7 +264,7 @@ class BridalItem extends React.Component<Props, State> {
                           onClick={this.mobileAddToBag}
                         >
                           {/* <img src={cartIcon} width="40" height="40" /> */}
-                          <span>QUANTITY & STATUS</span>
+                          <span>+ CHECK QUANTITY & ADD TO BAG</span>
                         </div>
                       </>
                     )}
@@ -352,10 +352,10 @@ class BridalItem extends React.Component<Props, State> {
             </div>
             <div
               className={cs(
-                bootstrap.col2,
+                bootstrap.colLg3,
                 bootstrap.colMd3,
                 globalStyles.textCenter,
-                styles.width0
+                { [styles.hide]: mobile }
               )}
             >
               <div className={styles.section}>
