@@ -11,6 +11,7 @@ export type State = {
   secret_key: string;
   wishlist_link: string;
   owner_name: string;
+  count: number;
 };
 
 export { Actions };

@@ -198,7 +198,8 @@ const AddressSection: React.FC<AddressProps & {
     // Always keep billing address as 0 initially for bridal and goodearth shipping
     if (
       (isBridal || isGoodearthShipping || isGcCheckout) &&
-      activeStep == STEP_BILLING
+      activeStep == STEP_BILLING &&
+      isActive
     ) {
       dispatch(updateBillingAddressId(0));
     }
@@ -1106,10 +1107,7 @@ const AddressSection: React.FC<AddressProps & {
                   {children}
                   {shippingError && (
                     <div
-                      className={cs(
-                        globalStyles.errorMsg,
-                        globalStyles.paddT25
-                      )}
+                      className={cs(globalStyles.errorMsg, globalStyles.padd10)}
                     >
                       {shippingError}
                     </div>
@@ -1124,7 +1122,7 @@ const AddressSection: React.FC<AddressProps & {
                       )}
                     >
                       <Button
-                        variant="largeMedCharcoalCta"
+                        variant="mediumMedCharcoalCta366"
                         onClick={() => {
                           onSelectAddress(
                             addressList?.find(val =>
@@ -1209,11 +1207,13 @@ const AddressSection: React.FC<AddressProps & {
                     )}
                   >
                     {activeStep == STEP_SHIPPING
-                      ? mode == "edit"
+                      ? mode == "edit" && isActive
                         ? "EDIT ADDRESS"
                         : "SHIPPING ADDRESS"
-                      : mode == "edit"
-                      ? "EDIT ADDRESS"
+                      : activeStep == STEP_BILLING
+                      ? mode == "edit" && isActive
+                        ? "EDIT ADDRESS"
+                        : "BILLING ADDRESS"
                       : "BILLING ADDRESS"}
                   </span>
                 </div>
@@ -1301,7 +1301,7 @@ const AddressSection: React.FC<AddressProps & {
                                   styles.footerSendToAddress
                                 )}
                                 label={ctaText}
-                                variant="largeMedCharcoalCta"
+                                variant="mediumMedCharcoalCta366"
                               />
                             </div>
                           )}
@@ -1336,7 +1336,7 @@ const AddressSection: React.FC<AddressProps & {
                                       [globalStyles.btnFullWidth]: mobile
                                     })}
                                     label={ctaText}
-                                    variant="largeMedCharcoalCta"
+                                    variant="mediumMedCharcoalCta366"
                                   />
                                 )}
                               {props.activeStep == STEP_SHIPPING && (
@@ -1383,14 +1383,20 @@ const AddressSection: React.FC<AddressProps & {
                                     <div
                                       className={cs(
                                         globalStyles.errorMsg,
-                                        globalStyles.marginL30
+                                        globalStyles.marginL30,
+                                        globalStyles.marginB15
                                       )}
                                     >
                                       {termsErr}
                                     </div>
                                   )}
                                   {shippingError && (
-                                    <div className={globalStyles.errorMsg}>
+                                    <div
+                                      className={cs(
+                                        globalStyles.errorMsg,
+                                        globalStyles.marginB15
+                                      )}
+                                    >
                                       {shippingError}
                                     </div>
                                   )}
@@ -1418,7 +1424,7 @@ const AddressSection: React.FC<AddressProps & {
                                         { [globalStyles.btnFullWidth]: mobile }
                                       )}
                                       label={ctaText}
-                                      variant="largeMedCharcoalCta"
+                                      variant="mediumMedCharcoalCta366"
                                     />
                                   )}
                                 </div>
@@ -1461,7 +1467,12 @@ const AddressSection: React.FC<AddressProps & {
                   <div>{renderPancard}</div>
                   {props.activeStep == STEP_BILLING &&
                     (error || billingError) && (
-                      <div className={globalStyles.errorMsg}>
+                      <div
+                        className={cs(
+                          globalStyles.errorMsg,
+                          globalStyles.marginB15
+                        )}
+                      >
                         {error || billingError}
                       </div>
                     )}
@@ -1505,7 +1516,7 @@ const AddressSection: React.FC<AddressProps & {
                             }
                           }}
                           label={ctaText}
-                          variant="largeMedCharcoalCta"
+                          variant="mediumMedCharcoalCta366"
                         />
                       </div>
                     </div>
@@ -1543,7 +1554,7 @@ const AddressSection: React.FC<AddressProps & {
                             [globalStyles.btnFullWidth]: mobile
                           })}
                           label={ctaText}
-                          variant="largeMedCharcoalCta"
+                          variant="mediumMedCharcoalCta366"
                         />
                       )}
                   </div>

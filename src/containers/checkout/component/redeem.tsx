@@ -17,7 +17,8 @@ const mapStateToProps = (state: AppState) => {
   return {
     user: state.user,
     currency: state.currency,
-    loyalty: state.basket.loyalty
+    loyalty: state.basket.loyalty,
+    mobile: state.device.mobile
   };
 };
 type Props = {
@@ -129,7 +130,7 @@ class Reedem extends React.Component<Props, RedeemState> {
     );
     const elem: any = document.getElementById("redeem");
     elem.scrollIntoView();
-    window.scrollBy(0, -200);
+    // window.scrollBy(0, -200);
   };
 
   updateList = (response: any) => {
@@ -158,6 +159,10 @@ class Reedem extends React.Component<Props, RedeemState> {
 
   setShowTipTwo = (value: boolean) => {
     this.setState({ showTooltipTwo: value });
+  };
+
+  removeError = () => {
+    this.setState({ error: "" });
   };
 
   render() {
@@ -345,6 +350,8 @@ class Reedem extends React.Component<Props, RedeemState> {
                 disableBtn={this.state.error}
                 isOTPSent={this.props.isOTPSent}
                 setIsOTPSent={this.props.setIsOTPSent}
+                removeError={this.removeError}
+                mobile={this.props.mobile}
               />
             </div>
           </Fragment>

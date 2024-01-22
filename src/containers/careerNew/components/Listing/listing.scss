@@ -8,6 +8,10 @@ body:has(.show-filter){
 .career_list_main_wrp{
     margin-top: 30px;
 
+    &.timer{
+        margin-top: 30px + $timer-height;
+    }
+
     .career_list_wrp{
         display: flex;
     
@@ -280,6 +284,11 @@ body:has(.show-filter){
                 max-height: calc(100% - 207px);
                 overflow-y: auto;
                 z-index: 9;
+
+                &.timer{
+                    top: 115px;
+                    max-height: calc(100% - 226px); 
+                }
             }
 
             .hide{

@@ -6,3 +6,7 @@ export type WishlistResponse = {
   owner_name: string;
   message?: string;
 };
+
+export type WishlistCountResponse = {
+  count: number;
+};

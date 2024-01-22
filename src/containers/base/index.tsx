@@ -413,7 +413,7 @@ const BaseLayout: React.FC = () => {
     pathname.indexOf("/checkout") > -1 ||
     pathname.indexOf("/gc_checkout") > -1 ||
     pathname.indexOf("order/orderconfirmation") > -1;
-  const isCart = pathname.indexOf("/cart") > -1;
+  const isCart = pathname == "/cart" || pathname == "/cart/";
   // || pathname == "/cart" || pathname == "/cart/";
   // const confirmation = pathname.indexOf("order/orderconfirmation") > -1;
   const backOrder = pathname.indexOf("backend-order-error") > -1;

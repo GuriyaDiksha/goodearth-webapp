@@ -501,80 +501,82 @@ class FilterList extends React.Component<Props, State> {
     if (nextUrl && this.state.flag && this.state.scrollload) {
       this.setState({ flag: false });
       changeLoader?.(true);
-      const filterUrl = "?" + nextUrl.split("?")[1];
+      let filterUrl = "?" + nextUrl.split("?")[1];
       // const pageSize = mobile ? 10 : 20;
-      const pageSize = 20;
+      const pageSize = 40;
       const urlParams = new URLSearchParams(this.props.history.location.search);
       const categoryShop = urlParams.get("category_shop");
       const categoryShopL1 = urlParams
         .get("category_shop")
         ?.split(">")[1]
         ?.trim();
-      updateProduct(filterUrl + `&page_size=${pageSize}`, listdata).then(
-        plpList => {
-          changeLoader?.(false);
-          productImpression(
-            plpList,
-            categoryShopL1 || "PLP",
-            this.props.currency,
-            plpList.results.data.length
-          );
-          this.createFilterfromUrl(false);
-          const pricearray: any = [],
-            currentCurrency =
-              "price" +
-              currency[0].toUpperCase() +
-              currency.substring(1).toLowerCase();
-          plpList.results.filtered_facets[currentCurrency]?.map(function(
-            a: any
-          ) {
-            pricearray.push(+a[0]);
-          });
-          if (pricearray.length > 0) {
-            minMaxvalue.push(
-              pricearray.reduce(function(a: number, b: number) {
-                return Math.min(a, b);
-              })
-            );
-            minMaxvalue.push(
-              pricearray.reduce(function(a: number, b: number) {
-                return Math.max(a, b);
-              })
-            );
-          }
+      const isPageSizeExist = new URLSearchParams(filterUrl).get("page_size");
 
-          if (filter.price.min_price) {
-            currentRange.push(filter.price.min_price);
-            currentRange.push(filter.price.max_price);
-          } else {
-            currentRange = minMaxvalue;
-          }
+      if (!isPageSizeExist) {
+        filterUrl = filterUrl + `&page_size=${pageSize}`;
+      }
 
-          this.setState(
-            {
-              rangevalue: currentRange,
-              initialrangevalue: {
-                min: minMaxvalue[0],
-                max: minMaxvalue[1]
-              },
-              disableSelectedbox: false,
-              scrollload: true,
-              flag: true,
-              totalItems: plpList.count
-            },
-            () => {
-              if (
-                !this.state.scrollView &&
-                this.state.shouldScroll &&
-                this.props.history.action === "POP"
-              ) {
-                this.handleProductSearch();
-              }
-            }
+      updateProduct(filterUrl, listdata).then(plpList => {
+        changeLoader?.(false);
+        productImpression(
+          plpList,
+          categoryShopL1 || "PLP",
+          this.props.currency,
+          plpList.results.data.length
+        );
+        this.createFilterfromUrl(false);
+        const pricearray: any = [],
+          currentCurrency =
+            "price" +
+            currency[0].toUpperCase() +
+            currency.substring(1).toLowerCase();
+        plpList.results.filtered_facets[currentCurrency]?.map(function(a: any) {
+          pricearray.push(+a[0]);
+        });
+        if (pricearray.length > 0) {
+          minMaxvalue.push(
+            pricearray.reduce(function(a: number, b: number) {
+              return Math.min(a, b);
+            })
           );
-          this.props.updateFacets(this.getSortedFacets(plpList.results.facets));
+          minMaxvalue.push(
+            pricearray.reduce(function(a: number, b: number) {
+              return Math.max(a, b);
+            })
+          );
         }
-      );
+
+        if (filter.price.min_price) {
+          currentRange.push(filter.price.min_price);
+          currentRange.push(filter.price.max_price);
+        } else {
+          currentRange = minMaxvalue;
+        }
+
+        this.setState(
+          {
+            rangevalue: currentRange,
+            initialrangevalue: {
+              min: minMaxvalue[0],
+              max: minMaxvalue[1]
+            },
+            disableSelectedbox: false,
+            scrollload: true,
+            flag: true,
+            totalItems: plpList.count
+          },
+          () => {
+            if (
+              !this.state.scrollView &&
+              this.state.shouldScroll &&
+              this.props.history.action === "POP"
+            ) {
+              this.handleProductSearch();
+            }
+          }
+        );
+        this.props.updateFacets(this.getSortedFacets(plpList.results.facets));
+      });
 
       if (categoryShop) {
         fetchPlpTemplates(categoryShop);
@@ -596,7 +598,7 @@ class FilterList extends React.Component<Props, State> {
     }
     changeLoader?.(true);
     const url = decodeURI(history.location.search);
-    const filterUrl = "?" + url.split("?")[1];
+    let filterUrl = "?" + url.split("?")[1];
     const urlParams = new URLSearchParams(history.location.search);
     const categoryShop = urlParams.get("category_shop");
     const categoryShopL1 = urlParams
@@ -604,19 +606,18 @@ class FilterList extends React.Component<Props, State> {
       ?.split(">")[1]
       ?.trim();
     // const pageSize = mobile ? 10 : 20;
-    const pageSize = 20;
-    fetchPlpProducts(filterUrl + `&page_size=${pageSize}`, currency).then(
-      plpList => {
-        productImpression(
-          plpList,
-          categoryShopL1 || "PLP",
-          this.props.currency
-        );
-        changeLoader?.(false);
-        this.createList(plpList, false);
-        this.props.updateFacets(this.getSortedFacets(plpList.results.facets));
-      }
-    );
+    const pageSize = 40;
+    const isPageSizeExist = new URLSearchParams(filterUrl).get("page_size");
+
+    if (!isPageSizeExist) {
+      filterUrl = filterUrl + `&page_size=${pageSize}`;
+    }
+    fetchPlpProducts(filterUrl, currency).then(plpList => {
+      productImpression(plpList, categoryShopL1 || "PLP", this.props.currency);
+      changeLoader?.(false);
+      this.createList(plpList, false);
+      this.props.updateFacets(this.getSortedFacets(plpList.results.facets));
+    });
     if (categoryShop) {
       fetchPlpTemplates(categoryShop);
     }
@@ -1002,7 +1003,6 @@ class FilterList extends React.Component<Props, State> {
   };
 
   onClickDiscount = (event: any) => {
-    debugger;
     const id = event.target.id;
     const { filter } = this.state;
     filter.availableDiscount[id] = {
@@ -1125,7 +1125,6 @@ class FilterList extends React.Component<Props, State> {
         // filter.availableDiscount[prop] = false;
       }
     }
-    debugger;
     html.push(
       <ul key="discountType">
         <li>
@@ -2158,6 +2157,62 @@ class FilterList extends React.Component<Props, State> {
             {!mobile && <span>Filter By</span>}
             <ul id="currentFilter">{this.renderFilterList(filter)}</ul>
           </li>
+
+          {this.props.salestatus && (
+            <li
+              className={
+                this.props.facets &&
+                this.props.facets.availableDiscount &&
+                this.props.facets.availableDiscount.length > 0
+                  ? ""
+                  : globalStyles.hidden
+              }
+            >
+              {this.props.facets &&
+              this.props.facets.availableDiscount &&
+              this.props.facets.availableDiscount.length > 0 ? (
+                <span
+                  className={
+                    this.state.showFilterByDiscountMenu
+                      ? cs(styles.menulevel1, styles.menulevel1Open)
+                      : styles.menulevel1
+                  }
+                  onClick={() => {
+                    this.toggleFilterByDiscountMenu();
+                    this.handleAnimation(
+                      "discount",
+                      this.state.showFilterByDiscountMenu
+                    );
+                  }}
+                >
+                  BY DISCOUNT
+                </span>
+              ) : (
+                ""
+              )}
+              <div
+                className={
+                  this.state.showFilterByDiscountMenu
+                    ? styles.showheader1
+                    : styles.hideDiv
+                }
+                id="discount"
+              >
+                {this.createDiscountType(
+                  this.props.facets && this.props.facets.availableDiscount,
+                  this.props.filtered_facets
+                )}
+                <div data-name="availableDiscount">
+                  <span
+                    onClick={e => this.clearFilter(e, "availableDiscount")}
+                    className={styles.plp_filter_sub}
+                  >
+                    Clear
+                  </span>
+                </div>
+              </div>
+            </li>
+          )}
           <li>
             <span
               className={
@@ -2189,61 +2244,6 @@ class FilterList extends React.Component<Props, State> {
               )}
             </div>
           </li>
-          {this.props.salestatus && (
-            <li
-              className={
-                this.props.facets &&
-                this.props.facets.availableDiscount &&
-                this.props.facets.availableDiscount.length > 0
-                  ? ""
-                  : globalStyles.hidden
-              }
-            >
-              {this.props.facets &&
-              this.props.facets.availableDiscount &&
-              this.props.facets.availableDiscount.length > 0 ? (
-                <span
-                  className={
-                    this.state.showFilterByDiscountMenu
-                      ? cs(styles.menulevel1, styles.menulevel1Open)
-                      : styles.menulevel1
-                  }
-                  onClick={() => {
-                    this.toggleFilterByDiscountMenu();
-                    this.handleAnimation(
-                      "discount",
-                      this.state.showFilterByDiscountMenu
-                    );
-                  }}
-                >
-                  FILTER BY DISCOUNT
-                </span>
-              ) : (
-                ""
-              )}
-              <div
-                className={
-                  this.state.showFilterByDiscountMenu
-                    ? styles.showheader1
-                    : styles.hideDiv
-                }
-                id="discount"
-              >
-                {this.createDiscountType(
-                  this.props.facets && this.props.facets.availableDiscount,
-                  this.props.filtered_facets
-                )}
-                <div data-name="availableDiscount">
-                  <span
-                    onClick={e => this.clearFilter(e, "availableDiscount")}
-                    className={styles.plp_filter_sub}
-                  >
-                    Clear
-                  </span>
-                </div>
-              </div>
-            </li>
-          )}
 
           <li
             className={cs({

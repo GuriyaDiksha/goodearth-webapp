@@ -53,6 +53,7 @@ const mapStateToProps = (state: AppState) => {
     mobile: state.device.mobile,
     tablet: state.device.tablet,
     wishlistData: state.wishlist.items,
+    wishlistCountData: state.wishlist.count,
     sortBy: state.wishlist.sortBy,
     cart: state.basket,
     message: state.message,
@@ -69,7 +70,8 @@ const mapStateToProps = (state: AppState) => {
     mobileMenuOpenState: state.header.mobileMenuOpenState,
     filler: state.filler,
     openModal: state.modal.openModal,
-    scrollDown: state.info.scrollDown
+    scrollDown: state.info.scrollDown,
+    user: state.user
   };
 };
 
@@ -137,6 +139,7 @@ class Header extends React.Component<Props, State> {
   };
 
   componentDidMount() {
+    const { user } = this.props;
     const isBridalPublicPage =
       this.props.location.pathname.includes("/bridal/") &&
       !this.props.location.pathname.includes("/account/");
@@ -153,6 +156,13 @@ class Header extends React.Component<Props, State> {
       this.props.sortBy,
       this.props.location.pathname
     );
+    if (
+      typeof document != "undefined" &&
+      user.email &&
+      (!user.gender || !user.country || !user.lastName || !user.firstName)
+    ) {
+      this.props.updateProfile();
+    }
     const queryString = this.props.location.search;
     const urlParams = new URLSearchParams(queryString);
     const id = urlParams.get("loginpopup");
@@ -965,6 +975,7 @@ class Header extends React.Component<Props, State> {
     const { isLoggedIn } = this.context;
     const {
       wishlistData,
+      wishlistCountData,
       meta,
       goLogin,
       handleLogOut,
@@ -974,7 +985,8 @@ class Header extends React.Component<Props, State> {
       // slab,
       // customerGroup
     } = this.props;
-    const wishlistCount = wishlistData.length;
+    // const wishlistCount = wishlistData.length;
+    const wishlistCount = wishlistCountData;
     let bagCount = 0;
     const item = this.props.cart.lineItems;
     for (let i = 0; i < item.length; i++) {
@@ -1159,6 +1171,10 @@ class Header extends React.Component<Props, State> {
             crossOrigin="crossorigin"
           />
         </Helmet>
+        <div data-currency="USD">
+          <div data-testid="pdp-product-price-prefix"></div>
+          <div data-testid="pdp-product-price-suffix"></div>
+        </div>
         {this.state.reloadAnnouncementBar && (
           <AnnouncementBar
             clearBridalSession={this.clearBridalSession}
@@ -1322,6 +1338,7 @@ class Header extends React.Component<Props, State> {
                     toggleSearch={this.showSearch}
                     mobile={mobile}
                     wishlistData={wishlistData}
+                    wishlistCountData={wishlistCountData}
                     currency={this.props.currency}
                     sidebagData={this.props.cart}
                   />

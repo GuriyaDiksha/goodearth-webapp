@@ -126,7 +126,8 @@ const BridalPop: React.FC = () => {
           className={cs(
             styles.sizeBlock,
             styles.ipops,
-            styles.centerpageDesktop,
+            globalStyles.marginLrAuto,
+            // styles.centerpageDesktop,
             globalStyles.textCenter,
             "bridal-pop"
           )}

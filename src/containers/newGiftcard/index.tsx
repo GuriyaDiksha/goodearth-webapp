@@ -62,6 +62,10 @@ type State = {
 };
 
 class NewGiftcard extends React.Component<Props, State> {
+  isSafari =
+    typeof window !== "undefined"
+      ? /^((?!chrome|android).)*safari/i.test(window.navigator?.userAgent)
+      : false;
   observer?: IntersectionObserver;
   container: HTMLDivElement | null = null;
   constructor(props: Props) {
@@ -495,7 +499,6 @@ class NewGiftcard extends React.Component<Props, State> {
 
   render(): React.ReactNode {
     const { mobile } = this.props.device;
-
     const {
       giftImages,
       selectedImage,
@@ -807,7 +810,12 @@ class NewGiftcard extends React.Component<Props, State> {
                   ></FormTextArea>
                   <div className={cs(styles.limit)}>
                     Character Limit:{" "}
-                    {248 - (message.trim() == "" ? 0 : message.length)} / 248
+                    {248 -
+                      (message.length +
+                        (this.isSafari
+                          ? message?.match(/(\r\n|\n|\r)/g)?.length || 0
+                          : 0))}{" "}
+                    / 248
                   </div>
                   <FormInput
                     name="senderName"

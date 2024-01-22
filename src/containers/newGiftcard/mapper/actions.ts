@@ -65,7 +65,8 @@ const mapActionsToProps = (dispatch: Dispatch) => {
       Api.getPopups(dispatch).catch(err => {
         console.log("Popups Api ERROR === " + err);
       });
-      WishlistService.updateWishlist(dispatch);
+      // WishlistService.updateWishlist(dispatch);
+      WishlistService.countWishlist(dispatch);
       MetaService.updateMeta(dispatch, cookies);
       BasketService.fetchBasket(dispatch);
       showGrowlMessage(dispatch, MESSAGE.CURRENCY_CHANGED_SUCCESS, 7000);

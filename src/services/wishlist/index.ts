@@ -1,6 +1,6 @@
 import { Dispatch } from "redux";
 // typings
-import { WishlistResponse } from "./typings";
+import { WishlistResponse, WishlistCountResponse } from "./typings";
 // actions
 import { updateWishlist, createSharedLink } from "actions/wishlist";
 // utils
@@ -12,6 +12,7 @@ import { Basket } from "typings/basket";
 import { MESSAGE } from "constants/messages";
 import { showGrowlMessage } from "../../utils/validate";
 import { createSharedLinkResponse } from "typings/wishlist";
+import { countWishlist } from "actions/wishlist";
 
 export default {
   updateWishlist: async function(dispatch: Dispatch, sortBy = "added_on") {
@@ -115,6 +116,7 @@ export default {
       }
     );
     await this.updateWishlist(dispatch);
+    await this.countWishlist(dispatch);
     return res;
   },
 
@@ -173,6 +175,7 @@ export default {
       );
     }
     await this.updateWishlist(dispatch);
+    await this.countWishlist(dispatch);
     return res;
   },
 
@@ -212,5 +215,13 @@ export default {
     );
 
     dispatch(createSharedLink({ ...res, wishlist_link: "" }));
+  },
+  countWishlist: async function(dispatch: Dispatch) {
+    const res = await API.get<WishlistCountResponse>(
+      dispatch,
+      `${__API_HOST__}/myapi/wishlist/wishlist_count/`
+    );
+    dispatch(countWishlist(res.count));
+    // return res;
   }
 };

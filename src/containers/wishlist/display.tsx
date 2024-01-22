@@ -177,9 +177,6 @@ const SampleDisplay: React.FC<Props> = props => {
         </div>
         <div className={styles.imageContent}>
           {/*<p className="product-h">{data.collection ? data.collection : ''}</p>*/}
-          <span className={cs(globalStyles.errorMsg)}>
-            {isSale && showStockMessage && `Only ${stock} Left!`}
-          </span>
           <p className={styles.productN}>
             <a href={data.productUrl}>
               {data.productName ? data.productName : ""}{" "}
@@ -206,13 +203,16 @@ const SampleDisplay: React.FC<Props> = props => {
             ) : (
               <span
                 className={
-                  data.badgeType == "B_flat" ? globalStyles.cerise : ""
+                  data.badgeType == "B_flat" ? styles.discountprice : ""
                 }
               >
                 {displayPriceWithCommas(data.price[currency], currency)}
               </span>
             )}
           </p>
+          <span className={cs(globalStyles.errorMsg)}>
+            {isSale && showStockMessage && `Only ${stock} Left!`}
+          </span>
         </div>
       </div>
     );

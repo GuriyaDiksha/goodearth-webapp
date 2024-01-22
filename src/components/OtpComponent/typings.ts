@@ -78,6 +78,8 @@ export type otpRedeemProps = {
   isOTPSent: boolean;
   setIsOTPSent: (val: boolean) => void;
   closeModal: () => any;
+  removeError: () => any;
+  mobile?: boolean;
 };
 
 export type otpBoxProps = {

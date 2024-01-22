@@ -47,7 +47,12 @@ const MoreCollectionImage: React.FC<MoreCollectionSliderProps> = (
                 return (
                   <div key={item.id} className={styles.slide}>
                     {item.badgeImage ? (
-                      <div className={styles.saleBanner}>
+                      <div
+                        className={cs(
+                          { [styles.saleBanner]: !mobile },
+                          { [styles.saleBannerMobile]: mobile }
+                        )}
+                      >
                         <img src={item.badgeImage} />
                       </div>
                     ) : (

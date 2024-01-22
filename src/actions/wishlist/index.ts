@@ -18,3 +18,6 @@ export const updateWishlist = (
 
 export const createSharedLink = (payload: createSharedLinkResponse) =>
   actionCreator("CREATE_SHARED_LINK", payload);
+
+export const countWishlist = (count: number) =>
+  actionCreator("WISHLIST_COUNT", { count });

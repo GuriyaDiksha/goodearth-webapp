@@ -270,7 +270,7 @@
 //   letter-spacing: 0.5px;
 // }
 @mixin pdp_prod_title {
-  font-size: 20px;
+  font-size: 18px;
   color: $charcoal19;
   font-family: $font-Lora;
   letter-spacing: 0.48px;
@@ -1396,7 +1396,7 @@ $list: $grey 92%, $white 8%;
 
 @mixin outline_medium_med_charcoal_cta_366{
   @include medium_cta_366();
-  background-color: $white;
+  background-color: transparent;
   border: 1px solid $med-charcoal;
   text-transform: uppercase;
   @include b3_14px_montserrat_caps_charcoal();
@@ -1436,7 +1436,7 @@ $list: $grey 92%, $white 8%;
 
 @mixin outline_small_med_charcoal_cta{
   @include small_cta();
-  background-color: $white;
+  background-color: transparent;
   border: 1px solid $med-charcoal;
   text-transform: uppercase;
   @include b3_14px_montserrat_caps_charcoal();
@@ -1444,7 +1444,7 @@ $list: $grey 92%, $white 8%;
 
 @mixin outline_extra_small_aqua_cta{
   @include extra_small_cta();
-  background-color: $white;
+  background-color: transparent;
   border: 1px solid $aqua;
   text-transform: uppercase;
   @include b3_14px_caps_aqua();

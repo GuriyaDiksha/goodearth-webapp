@@ -20,6 +20,7 @@ import CookieService from "services/cookie";
 import Price from "components/Price";
 import SkeletonImage from "components/plpResultItem/skeleton";
 import { GA_CALLS } from "constants/cookieConsent";
+import Button from "components/Button";
 
 const PlpResultListViewItem: React.FC<PLPResultItemProps> = (
   props: PLPResultItemProps
@@ -109,17 +110,18 @@ const PlpResultListViewItem: React.FC<PLPResultItemProps> = (
       action = () => notifyMeClick(product);
     }
     return (
-      <div
+      <Button
         className={cs(
           styles.addToBagListView,
-          styles.productBtn,
+          // styles.productBtn,
           bootstrapStyles.col8,
+          globalStyles.btnFullWidth,
           { [styles.enquireNotifyMe]: isCorporate || allOutOfStock }
         )}
         onClick={action}
-      >
-        <span>{buttonText}</span>
-      </div>
+        label={buttonText}
+        variant="smallAquaCta"
+      />
     );
   }, []);
   const isStockAvailable = isCorporate || product.inStock;

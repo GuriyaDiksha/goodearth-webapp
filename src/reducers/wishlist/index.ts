@@ -8,13 +8,15 @@ const initialState: State = {
   message: "",
   secret_key: "",
   wishlist_link: "",
-  owner_name: ""
+  owner_name: "",
+  count: 0
 };
 
 export const wishlist = (
   state = initialState,
   action: WishlistActions
 ): State => {
+  // debugger
   switch (action.type) {
     case "UPDATE_WISHLIST": {
       return {
@@ -26,6 +28,12 @@ export const wishlist = (
       return {
         ...state,
         ...action.payload
+      };
+    }
+    case "WISHLIST_COUNT": {
+      return {
+        ...state,
+        count: action.payload.count
       };
     }
   }

@@ -116,11 +116,11 @@ const NotifyMePopup: React.FC<Props> = ({
         "modal-fullscreen"
       ) as HTMLElement).style.height = "auto";
     }
-    if (document?.getElementById("modal-fullscreen-container") && mobile) {
-      (document.getElementById(
-        "modal-fullscreen-container"
-      ) as HTMLElement).style.height = "auto";
-    }
+    // if (document?.getElementById("modal-fullscreen-container") && mobile) {
+    //   (document.getElementById(
+    //     "modal-fullscreen-container"
+    //   ) as HTMLElement).style.height = "auto";
+    // }
   }, []);
   const onSizeSelect = useCallback(
     selected => {
@@ -274,6 +274,7 @@ const NotifyMePopup: React.FC<Props> = ({
         sortBy,
         selectedSize.size
       );
+      WishlistService.countWishlist(dispatch);
       setShowLoader(true);
       BasketService.addToBasket(dispatch, selectedSize.id, quantity)
         .then(() => {
@@ -427,7 +428,7 @@ const NotifyMePopup: React.FC<Props> = ({
                 </span>
               ) : (
                 <span
-                  className={badgeType == "B_flat" ? globalStyles.cerise : ""}
+                  className={badgeType == "B_flat" ? globalStyles.gold : ""}
                 >
                   {selectedSize
                     ? displayPriceWithCommas(

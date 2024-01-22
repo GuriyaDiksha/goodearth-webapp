@@ -101,7 +101,12 @@ const censorEmail = (email: string) => {
 };
 
 const censorPhoneNumber = (phoneNo: string) => {
-  return "x".repeat(phoneNo?.length - 4) + phoneNo?.substr(phoneNo?.length - 4);
+  // return "x".repeat(phoneNo?.length - 4) + phoneNo?.substr(phoneNo?.length - 4);
+  return (
+    phoneNo?.substring(0, 3) +
+    "x".repeat(phoneNo?.length - 7) +
+    phoneNo?.substr(phoneNo?.length - 4)
+  );
 };
 
 export {

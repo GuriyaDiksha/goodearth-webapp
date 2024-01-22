@@ -17,6 +17,7 @@ body {
   color: $default;
   touch-action: manipulation;
   -ms-touch-action: manipulation;
+  overscroll-behavior:none !important; //Added for iphone scroll issues
   @include scrollbar();
 }
 @media screen and (-webkit-min-device-pixel-ratio:0) { 
@@ -172,6 +173,9 @@ a {
 .margin-r-5{
   margin-right: 5px;
 }
+.margin-l-0{
+  margin-left: 0px;
+}
 .margin-l-5{
   margin-left: 5px;
 }
@@ -198,6 +202,9 @@ a {
 .margin-b-10 {
   margin-bottom: 10px;
 }
+.margin-b-15 {
+  margin-bottom: 15px;
+}
 
 .margin-b-30 {
   margin-bottom: 30px;
@@ -207,6 +214,10 @@ a {
   margin-bottom: 20px;}
 .margin-b-50 {
   margin-bottom: 50px;
+}
+
+.margin-lr-auto{
+  margin: 1rem auto
 }
 
 .error-msg {

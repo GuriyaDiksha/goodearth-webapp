@@ -14,6 +14,7 @@ import { ConfirmResetPasswordResponse } from "containers/resetPassword/typings";
 // import WishlistService from "services/wishlist";
 // import BasketService from "services/basket";
 import { encryptdata, decriptdata } from "utils/validate";
+import { updateUser } from "actions/user";
 
 export default {
   fetchProfileData: async (dispatch: Dispatch) => {
@@ -33,6 +34,7 @@ export default {
       enc
     );
     const response = decriptdata(data);
+    dispatch(updateUser(data));
     return response;
   },
   changePassword: async (dispatch: Dispatch, formData: FormData) => {

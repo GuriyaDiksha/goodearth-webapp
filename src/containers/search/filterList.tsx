@@ -717,15 +717,19 @@ class FilterList extends React.Component<Props, State> {
     }
     if (nextUrl && this.state.flag && this.state.scrollload) {
       this.setState({ flag: false });
-      const filterUrl = "?" + nextUrl.split("?")[1];
+      let filterUrl = "?" + nextUrl.split("?")[1];
       // const pageSize = mobile ? 10 : 20;
-      const pageSize = 20;
+      const pageSize = 40;
       const queryString = this.props.location.search;
       const urlParams = new URLSearchParams(queryString);
       const searchValue: any = urlParams.get("q") || "";
+      const isPageSizeExist = new URLSearchParams(filterUrl).get("page_size");
+      if (!isPageSizeExist) {
+        filterUrl = filterUrl + `&page_size=${pageSize}`;
+      }
       this.setState({ isLoading: true });
       changeLoader?.(true);
-      updateProduct(filterUrl + `&page_size=${pageSize}`, listdata)
+      updateProduct(filterUrl, listdata)
         .then(searchList => {
           changeLoader?.(false);
           productImpression(
@@ -803,16 +807,20 @@ class FilterList extends React.Component<Props, State> {
     //     disableSelectedbox: true
     // });
     const url = decodeURIComponent(history.location.search);
-    const filterUrl = "?" + url.split("?")[1];
+    let filterUrl = "?" + url.split("?")[1];
     const queryString = this.props.location.search;
     const urlParams = new URLSearchParams(queryString);
     const searchValue: any = urlParams.get("q") || "";
 
     // const pageSize = mobile ? 10 : 20;
-    const pageSize = 20;
+    const pageSize = 40;
+    const isPageSizeExist = new URLSearchParams(filterUrl).get("page_size");
+    if (!isPageSizeExist) {
+      filterUrl = filterUrl + `&page_size=${pageSize}`;
+    }
     this.setState({ isLoading: true });
     changeLoader?.(true);
-    fetchSearchProducts(filterUrl + `&page_size=${pageSize}`)
+    fetchSearchProducts(filterUrl)
       .then(searchList => {
         changeLoader?.(false);
         gaEventsForSearch(searchList);
@@ -2156,6 +2164,63 @@ class FilterList extends React.Component<Props, State> {
             {!mobile && <span>Filter By</span>}
             <ul id="currentFilter">{this.renderFilterList(filter)}</ul>
           </li>
+
+          {this.props.salestatus && (
+            <li
+              className={
+                this.props.facets &&
+                this.props.facets.availableDiscount &&
+                this.props.facets.availableDiscount.length > 0
+                  ? ""
+                  : (styles.removeBorder, globalStyles.hidden)
+              }
+            >
+              {this.props.facets &&
+              this.props.facets.availableDiscount &&
+              this.props.facets.availableDiscount.length > 0 ? (
+                <span
+                  className={
+                    this.state.showFilterByDiscountMenu
+                      ? cs(styles.menulevel1, styles.menulevel1Open)
+                      : styles.menulevel1
+                  }
+                  onClick={() => {
+                    this.toggleFilterByDiscountMenu();
+                    this.handleAnimation(
+                      "discount",
+                      this.state.showFilterByDiscountMenu
+                    );
+                  }}
+                >
+                  BY DISCOUNT
+                </span>
+              ) : (
+                ""
+              )}
+              <div
+                id="discount"
+                className={
+                  this.state.showFilterByDiscountMenu
+                    ? styles.showheader1
+                    : styles.hideDiv
+                }
+              >
+                {this.createDiscountType(
+                  this.props.facets && this.props.facets.availableDiscount,
+                  this.props.filtered_facets
+                )}
+                <div data-name="availableDiscount">
+                  <span
+                    onClick={e => this.clearFilter(e, "availableDiscount")}
+                    className={styles.plp_filter_sub}
+                  >
+                    Clear
+                  </span>
+                </div>
+              </div>
+            </li>
+          )}
+
           <li>
             <span
               className={
@@ -2187,61 +2252,6 @@ class FilterList extends React.Component<Props, State> {
               )}
             </div>
           </li>
-          {this.props.salestatus && (
-            <li
-              className={
-                this.props.facets &&
-                this.props.facets.availableDiscount &&
-                this.props.facets.availableDiscount.length > 0
-                  ? ""
-                  : (styles.removeBorder, globalStyles.hidden)
-              }
-            >
-              {this.props.facets &&
-              this.props.facets.availableDiscount &&
-              this.props.facets.availableDiscount.length > 0 ? (
-                <span
-                  className={
-                    this.state.showFilterByDiscountMenu
-                      ? cs(styles.menulevel1, styles.menulevel1Open)
-                      : styles.menulevel1
-                  }
-                  onClick={() => {
-                    this.toggleFilterByDiscountMenu();
-                    this.handleAnimation(
-                      "discount",
-                      this.state.showFilterByDiscountMenu
-                    );
-                  }}
-                >
-                  FILTER BY DISCOUNT
-                </span>
-              ) : (
-                ""
-              )}
-              <div
-                id="discount"
-                className={
-                  this.state.showFilterByDiscountMenu
-                    ? styles.showheader1
-                    : styles.hideDiv
-                }
-              >
-                {this.createDiscountType(
-                  this.props.facets && this.props.facets.availableDiscount,
-                  this.props.filtered_facets
-                )}
-                <div data-name="availableDiscount">
-                  <span
-                    onClick={e => this.clearFilter(e, "availableDiscount")}
-                    className={styles.plp_filter_sub}
-                  >
-                    Clear
-                  </span>
-                </div>
-              </div>
-            </li>
-          )}
           <li
             className={
               this.productData.length > 0 ? "" : `${styles.removeBorder} hidden`

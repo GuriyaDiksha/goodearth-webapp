@@ -9,12 +9,11 @@
 }
 
 .filter-text{
-    line-height: 33px;
-    font-size: 14px;
-    font-family: $font-Lato;
-    letter-spacing: 1px;
-    color: #ab1e56;
-    text-transform: uppercase;
+  @include b4_12px_medium_medcharcoal_caps();
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  line-height: $secondary-header-height;
+  height:$secondary-header-height;
 }
 
 .Dropdown-root {
@@ -178,10 +177,9 @@
 }
 span{
   &.discountprice {
-      color: $cerise;
+      color: #9C7D50;
       font-family: $font-Lato;
       font-size: 14px;
-      color:$cerise;
     }
     &.strikeprice {
       font-size: 14px;
@@ -195,8 +193,11 @@ span{
     margin: 40px 0 100px 0;
 }
 .wishlist-block-outer-timer {
-  margin: 40px 0 100px 0;
-  margin-top: $header-height + $secondary-header-height + $timer-height;
+  margin: 80px 0 100px 0;
+
+  @media screen and (max-width:992px) {
+    margin: 0 0 100px 0;
+  }
 }
 .wishlist-block-outer-mobile {
   // padding-top: 30px;
@@ -562,6 +563,10 @@ icon-cross {
   z-index: 1;
   img {
      width: 100%;
+     max-width: 70px;
+     position: absolute;
+     left: 10px;
+     top: 10px;
   }
 }
 .badge-position-plp-mobile {
@@ -570,7 +575,11 @@ icon-cross {
     position: absolute;
     z-index: 4;
   img {
-    width: 100%;
+    width: 70px;
+    max-width: 70px;
+    position: absolute;
+    left: 10px;
+    top: 10px;
   }
 }
 .page-body {
@@ -580,7 +589,7 @@ icon-cross {
   margin-top: $header-height;
 }
 .page-body-timer {
-  margin-top: $header-height + $secondary-header-height + $timer-height;
+  margin-top: 80px;
 }
 .page-body-mobile-timer {
   margin-top: $header-height  + $timer-height;
@@ -817,5 +826,12 @@ icon-cross {
   p{
     @include h6_16px_lora_charcoal();
     margin-bottom: 10px;
+  }}
+.dropdown-wishlist {
+  ul {
+    li {
+      font-size: 12px !important;
+      background-color: #fff;
+    }
   }
 }

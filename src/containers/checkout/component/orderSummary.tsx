@@ -23,6 +23,7 @@ import checkoutIcon from "../../../images/checkout.svg";
 import freeShippingInfoIcon from "../../../images/free_shipping_info.svg";
 import Loader from "components/Loader";
 import ModalStyles from "components/Modal/styles.scss";
+import { countWishlist } from "actions/wishlist";
 
 const OrderSummary: React.FC<OrderProps> = props => {
   const {
@@ -639,6 +640,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
     }
     if (isSuspended) {
       resetInfoPopupCookie();
+      dispatch(countWishlist(0));
     }
   };
 
