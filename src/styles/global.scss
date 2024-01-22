@@ -17,6 +17,7 @@ body {
   color: $default;
   touch-action: manipulation;
   -ms-touch-action: manipulation;
+  overscroll-behavior:none !important; //Added for iphone scroll issues
   @include scrollbar();
 }
 @media screen and (-webkit-min-device-pixel-ratio:0) { 
