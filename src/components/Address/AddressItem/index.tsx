@@ -17,6 +17,8 @@ import CookieService from "services/cookie";
 import { GA_CALLS } from "constants/cookieConsent";
 import moment from "moment";
 import Button from "components/Button";
+import BridalService from "services/bridal";
+import { BridalProfileData } from "containers/myAccount/components/Bridal/typings";
 
 type Props = {
   addressData: AddressData;
@@ -46,12 +48,14 @@ const AddressItem: React.FC<Props> = props => {
     isAddressValid
   } = useContext(AddressContext);
   const { onSelectAddress } = useContext(CheckoutAddressContext);
+  const { bridalProfile } = useContext(BridalContext);
   const {
     currency,
     basket,
     address: { shippingAddressId, billingAddressId }
   } = useSelector((state: AppState) => state);
 
+  const [addressMsg, setAddressMsg] = useState("");
   // const isDefaultAddress = () => {
   //     return props.addressData.isDefaultForShipping;
   // }
@@ -67,6 +71,23 @@ const AddressItem: React.FC<Props> = props => {
   // const [isSlected, setIsSlected] = useState(false);
   const address = props.addressData;
   // const [selectId, setSelectId ] = useState(data.userAddress?.id || '');
+  const bridalProfileData = bridalProfile as BridalProfileData;
+  const fetchBridalItems = () => {
+    BridalService.fetchBridalItems(dispatch, bridalProfileData.bridalId).then(
+      data => {
+        const result = data.results;
+        let i;
+        for (i = 0; i <= result.length; i++) {
+          const qtyBought = result[i].qtyBought;
+          if (qtyBought >= 1) {
+            setAddressMsg(
+              `All orders placed before ${currentDate} will be shipped to the older address.`
+            );
+          }
+        }
+      }
+    );
+  };
   const deleteAddress = (event: any) => {
     event.stopPropagation();
     setIsLoading(true);
@@ -138,6 +159,7 @@ const AddressItem: React.FC<Props> = props => {
           // setSelectId(address.id);
           setCurrentModule("created");
         }
+        fetchBridalItems();
         break;
       // case "checkout":
       //     let products = valid.productForGa(props.items);
@@ -375,10 +397,16 @@ const AddressItem: React.FC<Props> = props => {
             //     currentCallBackComponent == "bridal-edit"
             // },
             // { [styles.shippingBorder]: address.isTulsi },
-            { [styles.diabledBorder]: address.id == userAddress?.id },
+            {
+              [styles.diabledBorder]:
+                address.id == userAddress?.id &&
+                currentCallBackComponent != "bridal-edit"
+            },
             {
               [styles.addressInUse]:
-                props.showAddressInBridalUse && address.isBridal
+                // props.showAddressInBridalUse && address.isBridal
+                address.id.toString() ===
+                bridalProfile?.userAddressId.toString()
             },
             // { [styles.isActiveItem]: isSlected},
             {
@@ -582,13 +610,9 @@ const AddressItem: React.FC<Props> = props => {
                     <input
                       id={address.id.toString()}
                       className={styles.defaultAddressCheckbox}
-                      // checked={
-                      //     address.id.toString() === bridalAddressId.toString()
-                      // }
                       checked={
-                        props.showAddressInBridalUse && address.isBridal
-                          ? true
-                          : false
+                        address.id.toString() ===
+                        bridalProfile?.userAddressId.toString()
                       }
                       name={id}
                       type="radio"
@@ -927,13 +951,10 @@ const AddressItem: React.FC<Props> = props => {
                   <input
                     id={address.id.toString()}
                     className={styles.defaultAddressCheckbox}
-                    // checked={
-                    //   address.id.toString() === bridalAddressId.toString()
-                    // }
                     checked={
-                      props.showAddressInBridalUse && address.isBridal
-                        ? true
-                        : false
+                      // address.id.toString() === bridalAddressId.toString()
+                      address.id.toString() ===
+                      bridalProfile?.userAddressId.toString()
                     }
                     name={id}
                     type="radio"
@@ -1238,14 +1259,18 @@ const AddressItem: React.FC<Props> = props => {
             )} */}
         </div>
       </div>
-      {currentCallBackComponent == "bridal-edit" &&
+      {addressMsg &&
+        address.id.toString() === bridalProfile?.userAddressId.toString() && (
+          <div className={globalStyles.errorMsg}>{addressMsg}</div>
+        )}
+      {/* {currentCallBackComponent == "bridal-edit" &&
         props.showAddressInBridalUse &&
         address.isBridal && (
           <div className={globalStyles.errorMsg}>
             All orders placed before {currentDate} will be shipped to the older
             address.
           </div>
-        )}
+        )} */}
       {/* {props.shippingErrorMsg && address.id == props.addressDataIdError && (
         <div className={globalStyles.errorMsg}>{props.shippingErrorMsg}</div>
       )}

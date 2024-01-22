@@ -1018,7 +1018,14 @@ class Header extends React.Component<Props, State> {
         href: "/account/track-order",
         type: "link"
       },
-
+      {
+        label: `Good Earth Registry ${
+          isLoggedIn && bridalCountData > 0 ? "(" + bridalCountData + ")" : ""
+        }`,
+        href: "/gift-registery",
+        type: "link",
+        value: "Good Earth Registry"
+      },
       {
         label: "Activate Gift Card",
         href: "/account/giftcard-activation",

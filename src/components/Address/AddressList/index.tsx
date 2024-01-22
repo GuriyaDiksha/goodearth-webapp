@@ -38,11 +38,11 @@ const AddressList: React.FC<Props> = props => {
       ) {
         if (addressDatas) {
           addressDatas = addressDatas.filter(address => !address.isTulsi);
-          if (isBridal) {
-            addressDatas = addressDatas.filter(
-              address => address.id != bridalAddressId
-            );
-          }
+          // if (isBridal) {
+          //   addressDatas = addressDatas.filter(
+          //     address => address.id != bridalAddressId
+          //   );
+          // }
         }
       }
       if (

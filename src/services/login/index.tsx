@@ -33,6 +33,7 @@ import { encryptdata, decriptdata, encrypttext } from "utils/validate";
 // import { updateBasket } from "actions/basket";
 // import { CUST } from "constants/util";
 import { countWishlist } from "actions/wishlist";
+import { countBridal } from "actions/bridal";
 import LoginService from "services/login";
 import BridalService from "services/bridal";
 import { result } from "lodash";
@@ -365,6 +366,7 @@ export default {
       // RESET CURRENCY TO DEFAULT INR
       // CookieService.setCookie("currency", "INR", 365);
       // dispatch(updateCurrency("INR"));
+      dispatch(countBridal(0));
       dispatch(countWishlist(0));
       dispatch(updateCookies({ tkn: "" }));
       MetaService.updateMeta(dispatch, {}).catch(err => {
@@ -748,7 +750,9 @@ export default {
             }
 
             if (metaResponse.bridalUser) {
-              BridalService.countBridal(dispatch, metaResponse.bridalId);
+              if (metaResponse.bridalId > 0) {
+                BridalService.countBridal(dispatch, metaResponse.bridalId);
+              }
               BridalService.fetchBridalItems(
                 dispatch,
                 metaResponse.bridalId

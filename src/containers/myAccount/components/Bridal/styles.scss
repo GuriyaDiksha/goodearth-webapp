@@ -1428,7 +1428,6 @@ margin-bottom: 50px !important;
   .product-price {
     @include plp_prod_name_desktop();
     font-family: $font-Montserrat;
-    line-height: 21px;
     letter-spacing: 0.42px;
     margin-top: 15px;
   }
@@ -1503,18 +1502,15 @@ margin-bottom: 50px !important;
   }
 }
 .discountprice {
-  // color: $cerise;
-  color: #9C7D50;
-  font-family: $font-Serif;
-  font-size: 14px;
-  letter-spacing: 0.42px;
-  line-height: 22px;
+  @include b3_14px_caps_gold();
 }
 .strikeprice {
-  font-size: 14px;
+  @include b4_12px_medium_charcoal_caps();
   text-decoration: line-through;
-  color: gray;
-  font-family: $font-Lato;
+  color: #9F9F9F!important;
+  font-weight: 400!important;
+  line-height: 20px;
+  letter-spacing: 0.36px;
 }
 .icon-cart {
   color: tint(#000, 20%);
@@ -1757,9 +1753,9 @@ margin-bottom: 50px !important;
     color: #191919;
     border: 1px solid #D8D8D8;
 }
-.reg-form-label input:focus{
-  border: 1px solid #D8D8D8!important;
-}
+// .reg-form-label input:focus{
+//   border: 1px solid #D8D8D8!important;
+// }
 .reg-form-label label{
   position: absolute;
   top: -5px;
@@ -1969,7 +1965,7 @@ margin-bottom: 50px !important;
   letter-spacing: 0.26px;
   color: #AB1E56;
 }
-.blur-img{
+.blur{
   opacity: 0.4;
 }
 .blur-txt{
@@ -2003,11 +1999,22 @@ input::placeholder{
     position: unset;
   }
 }
-
-
-
-
 .button-center{
   display: block;
   margin: auto;
+}
+.aqua-text div{
+  color: #548B8B!important;
+}
+
+.badge-image{
+    width: 40px;
+    position: relative;
+    top: 4px;
+    left: 4px;
+    img {
+        position: absolute;
+        top: 0px;
+        width: 100%;
+    }
 }

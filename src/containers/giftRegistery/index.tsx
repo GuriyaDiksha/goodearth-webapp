@@ -48,7 +48,7 @@ const Registery: React.FC<Props> = ({ mobileFaq }) => {
 
             <div className={cs(styles.builtRegistery)}>
               <div className={cs(styles.builtHeading)}>
-                Why We Built The Good Earth Registery
+                Why We Built The Good Earth Registry
               </div>
               <div className={cs(styles.builtContent)}>
                 <p>
@@ -72,7 +72,7 @@ const Registery: React.FC<Props> = ({ mobileFaq }) => {
                   <div className={cs(styles.registeryButton)}>
                     <a href="/account/bridal">
                       <button className={cs(styles.regBtn)}>
-                        CREATE MY REGISTERY
+                        CREATE MY REGISTRY
                       </button>
                     </a>
                   </div>
@@ -80,7 +80,7 @@ const Registery: React.FC<Props> = ({ mobileFaq }) => {
                   <div className={cs(styles.registeryButton)}>
                     <a href="/account/bridal">
                       <button className={cs(styles.regBtn)}>
-                        VIEW MY REGISTERY
+                        VIEW MY REGISTRY
                       </button>
                     </a>
                   </div>
