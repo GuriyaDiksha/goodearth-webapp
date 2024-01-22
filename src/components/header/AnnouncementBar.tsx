@@ -98,8 +98,15 @@ const AnnouncementBar: React.FC<Props> = ({
                 <div className={styles.flexDiv}>
                   <img src={gift_icon_white} width="25" alt="gift_reg_icon" />
                   &nbsp;
-                  {registrantName} {coRegistrantName ? coRegistrantName : ""}
-                  &#39;s {occasionName}
+                  {registrantName && !coRegistrantName && (
+                    <span>{registrantName}&#39;s</span>
+                  )}
+                  {registrantName && coRegistrantName && (
+                    <span>
+                      {registrantName}&nbsp;&&nbsp;{coRegistrantName}&#39;s
+                    </span>
+                  )}
+                  &nbsp;{occasionName}
                   &nbsp;(Public Link)&nbsp;
                   <b
                     style={{

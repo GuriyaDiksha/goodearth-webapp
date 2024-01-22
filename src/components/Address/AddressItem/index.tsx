@@ -159,6 +159,7 @@ const AddressItem: React.FC<Props> = props => {
           // setSelectId(address.id);
           setCurrentModule("created");
         }
+        fetchBridalItems();
         break;
       // case "checkout":
       //     let products = valid.productForGa(props.items);
@@ -194,11 +195,9 @@ const AddressItem: React.FC<Props> = props => {
     if (address) {
       const isValid = isAddressValid(address);
       if (isValid) {
-        debugger;
         // this.props.onSelectAddress(address);
         handleSelect(address);
         // setIsSlected(true);
-        fetchBridalItems();
       } else {
         // this.manageAddressPostcode("edit", address);
         openAddressForm(address);
@@ -1260,7 +1259,10 @@ const AddressItem: React.FC<Props> = props => {
             )} */}
         </div>
       </div>
-      {addressMsg && <div className={globalStyles.errorMsg}>{addressMsg}</div>}
+      {addressMsg &&
+        address.id.toString() === bridalProfile?.userAddressId.toString() && (
+          <div className={globalStyles.errorMsg}>{addressMsg}</div>
+        )}
       {/* {currentCallBackComponent == "bridal-edit" &&
         props.showAddressInBridalUse &&
         address.isBridal && (

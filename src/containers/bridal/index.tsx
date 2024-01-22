@@ -280,13 +280,20 @@ class BridalCheckout extends React.Component<Props, State> {
               <div className={styles.summaryPadding}>
                 <h3 className={cs(styles.summaryTitle)}>
                   {/* REGISTRY DETAILS  */}
-                  {registrantName}&#39;s {registryName}
+                  {registrantName && registryName && (
+                    <span>
+                      {registrantName}&#39;s {registryName}
+                    </span>
+                  )}
                   <img src={addedReg} width="25" alt="gift_reg_icon" />
                 </h3>
               </div>
               <div className={cs(styles.summaryPadding, styles.txtCap)}>
                 <hr className="hr" />
-                {registrantName}&nbsp;& &nbsp;{coRegistrantName}
+                {registrantName}
+                {coRegistrantName && (
+                  <span>&nbsp;& &nbsp;{coRegistrantName}</span>
+                )}
               </div>
 
               <div className="">
