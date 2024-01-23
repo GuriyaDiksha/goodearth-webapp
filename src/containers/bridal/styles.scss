@@ -441,6 +441,10 @@
       background-color: #e6e6e6!important;
       border-left: 1px solid whitesmoke!important;
     }
+    .full-disabled-btn{
+      background-color: #9F9F9F;
+      border: 1px solid #9f9f9f;
+    }
     .order-summary {
       left: 0;
       right: 0;
@@ -552,7 +556,7 @@
       //min-height: 250px;
       //margin-right: 20px;
       //margin-left: 20px;
-      padding: 20px 0;
+      padding: 0 15px!important;
     }
     .cart-block {
       margin-bottom: 30vh;
@@ -1124,4 +1128,7 @@ a.pos-relative{
       top: 0px;
       width: 100%;
   }
+}
+.padding10{
+  padding: 0 10px!important;
 }

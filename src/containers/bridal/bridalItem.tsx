@@ -160,7 +160,12 @@ class BridalItem extends React.Component<Props, State> {
             className={cs(bootstrap.row, globalStyles.flex, globalStyles.row)}
           >
             <div
-              className={cs(bootstrap.colLg2, bootstrap.colMd2, bootstrap.col4)}
+              className={cs(
+                bootstrap.colLg2,
+                bootstrap.colMd2,
+                bootstrap.col4,
+                { [styles.padding10]: mobile }
+              )}
             >
               <a className={styles.posRelative}>
                 {!this.props.bridalItem.productAvailable ? (

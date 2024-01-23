@@ -215,8 +215,12 @@ const BridalItemsList: React.FC<Props> = props => {
                     </div>
                   </div>
                   {props.mobile && (
-                    <div className={cs(styles.mobQtyRemaining)}>
-                      <span>Quantity Remaining: {qtyRemaining}</span>
+                    <div
+                      className={cs(styles.mobQtyRemaining, {
+                        [styles.aquaText]: qtyRemaining == 0
+                      })}
+                    >
+                      <div>Quantity Remaining: {qtyRemaining}</div>
                     </div>
                   )}
                   <div className={props.mobile ? styles.mobFlexDiv : ""}>
