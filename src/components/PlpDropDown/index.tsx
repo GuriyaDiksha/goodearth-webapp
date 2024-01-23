@@ -120,6 +120,7 @@ const PlpDropdownMenu = ({
 
   return (
     <div
+      id="fliter_sticky"
       className={cs(styles.cSort, bootstrap.col12, styles.filterSticky, {
         [styles.hide]: scrollDown,
         [styles.openMenuIndex]:
