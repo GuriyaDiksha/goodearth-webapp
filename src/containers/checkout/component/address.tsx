@@ -643,6 +643,7 @@ const AddressSection: React.FC<AddressProps & {
     // }
     if (validate) {
       removeErrorMessages();
+
       props.finalizeAddress(addr, props.activeStep, numberObj);
       // if (activeStep === STEP_BILLING) {
       //   next(showPromo ? STEP_PROMO : STEP_PAYMENT);
@@ -773,195 +774,137 @@ const AddressSection: React.FC<AddressProps & {
     }
   };
 
-  const renderPancard = useMemo(() => {
-    if (props.activeStep == STEP_BILLING) {
-      const pass =
-        currency == "INR"
-          ? `As per RBI government regulations, PAN details are mandatory for transaction above ${displayPriceWithCommas(
-              amountPrice[currency],
-              currency
-            )}.`
-          : `AS PER RBI GOVERNMENT REGULATIONS, PASSPORT DETAILS ARE MANDATORY FOR TRANSACTIONS ABOVE ${displayPriceWithCommas(
-              amountPrice[currency],
-              currency
-            )}.`;
-      const panText =
-        currency == "INR" ? "PAN Card Number*" : " Passport Number*";
-
-      return (
+  const gstSection = useMemo(() => {
+    return (
+      currency == "INR" && (
         <div>
-          {currency == "INR" ? (
-            <div>
-              {/* <hr
-                className={cs(globalStyles.marginy24, styles.widthFitContent)}
-              /> */}
-              {/* <label
+          <CheckboxWithLabel
+            id="gst"
+            onChange={() => {
+              toggleGstInvoice();
+            }}
+            checked={gst && gstDetails?.gstText !== ""}
+            label={[
+              <label
+                key="gst"
+                htmlFor="gst"
+                // className={cs(styles.indicator, {
+                //   [styles.checked]: gst && gstDetails?.gstText
+                // })}
+                className={cs(
+                  styles.formSubheading,
+                  styles.checkBoxHeading,
+                  styles.lineHeightLable
+                )}
+              >
+                I need a GST invoice
+                {gstDetails?.gstText && (
+                  <label className={styles.gstInvoiseNo}>
+                    {gstDetails?.gstType}: {gstDetails?.gstText}
+                  </label>
+                )}
+              </label>
+            ]}
+          />
+        </div>
+      )
+    );
+  }, [currency, gstDetails, gst]);
+
+  const renderPancard = useMemo(() => {
+    const pass =
+      currency == "INR"
+        ? `As per RBI government regulations, PAN details are mandatory for transaction above ${displayPriceWithCommas(
+            amountPrice[currency],
+            currency
+          )}.`
+        : `AS PER RBI GOVERNMENT REGULATIONS, PASSPORT DETAILS ARE MANDATORY FOR TRANSACTIONS ABOVE ${displayPriceWithCommas(
+            amountPrice[currency],
+            currency
+          )}.`;
+    const panText =
+      currency == "INR" ? "PAN Card Number*" : " Passport Number*";
+
+    return (
+      amountPrice[currency] <= basket.total && (
+        <div
+          className={cs(
+            styles.input2,
+            styles.formSubheading,
+            globalStyles.voffset4
+          )}
+        >
+          <hr className={globalStyles.marginy24} />
+          {pass}
+          <div>
+            <div className={styles.form}>
+              <div
                 className={cs(
                   styles.flex,
                   globalStyles.voffset3,
-                  globalStyles.widthSet
+                  styles.payment
                 )}
-              > */}
-              {/* <div
-                  className={cs(globalStyles.marginR10, globalStyles.marginT5)}
-                >
-                  <span className={styles.checkbox}> */}
-              <CheckboxWithLabel
-                id="gst"
-                onChange={() => {
-                  toggleGstInvoice();
-                }}
-                checked={gst && gstDetails?.gstText !== ""}
-                label={[
-                  <label
-                    key="gst"
-                    htmlFor="gst"
-                    // className={cs(styles.indicator, {
-                    //   [styles.checked]: gst && gstDetails?.gstText
-                    // })}
-                    className={cs(
-                      styles.formSubheading,
-                      styles.checkBoxHeading,
-                      styles.lineHeightLable
-                    )}
-                  >
-                    I need a GST invoice
-                    {gstDetails?.gstText && (
-                      <label className={styles.gstInvoiseNo}>
-                        {gstDetails?.gstType}: {gstDetails?.gstText}
-                      </label>
-                    )}
-                  </label>
-                ]}
-              />
-              {/* </span>
-                </div> */}
-              {/* <div
-                  className={cs(
-                    styles.formSubheading,
-                    styles.checkBoxHeading,
-                    styles.lineHeightLable
-                  )}
-                >
-                  I need a GST invoice
-                  {gstDetails?.gstText && (
-                    <label className={styles.gstInvoiseNo}>
-                      {gstDetails?.gstType}: {gstDetails?.gstText}
-                    </label>
-                  )}
-                </div> */}
-              {/* </label> */}
-            </div>
-          ) : (
-            ""
-          )}
-          {amountPrice[currency] <= basket.total ? (
-            <div
-              className={cs(
-                styles.input2,
-                styles.formSubheading,
-                globalStyles.voffset4
-              )}
-            >
-              <hr className={globalStyles.marginy24} />
-              {pass}
-              <div>
-                <div className={styles.form}>
-                  <div
-                    className={cs(
-                      styles.flex,
-                      globalStyles.voffset3,
-                      styles.payment
-                    )}
-                  >
-                    <input
-                      type="text"
-                      className={cs(
-                        { [styles.disabledInput]: !!user.panPassport },
-                        styles.input,
-                        styles.marginR10,
-                        { [styles.panError]: panError }
-                      )}
-                      onChange={onPanChange}
-                      disabled={!!user.panPassport}
-                      onKeyPress={onPanKeyPress}
-                      value={pancardText}
-                      aria-label="Pancard"
-                    />
-                  </div>
-                  <label className={styles.formLabel}>{panText}</label>
-                  {panError ? (
-                    <span className={globalStyles.errorMsg}>{panError}</span>
-                  ) : (
-                    ""
-                  )}
-                </div>
-              </div>
-              {/* <label className={cs(styles.flex, globalStyles.voffset4)}> */}
-              <div
-                className={cs(globalStyles.marginT30, globalStyles.marginB20)}
               >
-                {/* <span className={styles.checkbox}>  */}
-                <CheckboxWithLabel
-                  id="pancard"
-                  onChange={togglepancard}
-                  checked={pancardCheck}
-                  label={[
-                    <label
-                      key="pancard"
-                      htmlFor="pancard"
-                      // className={cs(styles.indicator, {
-                      //   [styles.checked]: pancardCheck
-                      // })}
-                      className={cs(
-                        styles.formSubheading,
-                        globalStyles.marginB0,
-                        globalStyles.marginT0,
-                        styles.checkBoxHeading,
-                        styles.lineHeightLable
-                      )}
-                    >
-                      I CONFIRM THAT THE DATA I HAVE SHARED IS CORRECT
-                    </label>
-                  ]}
-                />
-
-                {/* </span> */}
-              </div>
-              {/* <div
+                <input
+                  type="text"
                   className={cs(
-                    styles.formSubheading,
-                    globalStyles.marginB0,
-                    globalStyles.marginT0,
-                    styles.checkBoxHeading
+                    { [styles.disabledInput]: !!user.panPassport },
+                    styles.input,
+                    styles.marginR10,
+                    { [styles.panError]: panError }
                   )}
-                >
-                  I CONFIRM THAT THE DATA I HAVE SHARED IS CORRECT
-                </div> */}
-              {/* </label> */}
-              {panCheck ? (
-                <span className={globalStyles.errorMsg}>{panCheck}</span>
+                  onChange={onPanChange}
+                  disabled={!!user.panPassport}
+                  onKeyPress={onPanKeyPress}
+                  value={pancardText}
+                  aria-label="Pancard"
+                />
+              </div>
+              <label className={styles.formLabel}>{panText}</label>
+              {panError ? (
+                <span className={globalStyles.errorMsg}>{panError}</span>
               ) : (
                 ""
               )}
             </div>
+          </div>
+          {/* <label className={cs(styles.flex, globalStyles.voffset4)}> */}
+          <div className={cs(globalStyles.marginT30, globalStyles.marginB20)}>
+            {/* <span className={styles.checkbox}>  */}
+            <CheckboxWithLabel
+              id="pancard"
+              onChange={togglepancard}
+              checked={pancardCheck}
+              label={[
+                <label
+                  key="pancard"
+                  htmlFor="pancard"
+                  // className={cs(styles.indicator, {
+                  //   [styles.checked]: pancardCheck
+                  // })}
+                  className={cs(
+                    styles.formSubheading,
+                    globalStyles.marginB0,
+                    globalStyles.marginT0,
+                    styles.checkBoxHeading,
+                    styles.lineHeightLable
+                  )}
+                >
+                  I CONFIRM THAT THE DATA I HAVE SHARED IS CORRECT
+                </label>
+              ]}
+            />
+          </div>
+
+          {panCheck ? (
+            <span className={globalStyles.errorMsg}>{panCheck}</span>
           ) : (
             ""
           )}
         </div>
-      );
-    }
-  }, [
-    gst,
-    panCheck,
-    pancardCheck,
-    panError,
-    props.activeStep,
-    basket.total,
-    pancardText,
-    currency,
-    gstDetails
-  ]);
+      )
+    );
+  }, [currency, basket?.total, panCheck, panError, pancardCheck, pancardText]);
 
   const renderBillingCheckbox = function() {
     const show =
@@ -1464,7 +1407,13 @@ const AddressSection: React.FC<AddressProps & {
                   ) : (
                     ""
                   )}
-                  <div>{renderPancard}</div>
+
+                  {props.activeStep == STEP_BILLING && isActive && (
+                    <div>
+                      {gstSection}
+                      {renderPancard}
+                    </div>
+                  )}
                   {props.activeStep == STEP_BILLING &&
                     (error || billingError) && (
                       <div
