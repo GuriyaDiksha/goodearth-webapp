@@ -548,7 +548,11 @@ class CushionBag extends React.Component<Props, State> {
                 <PdpButton
                   label={buttonText}
                   onClick={action}
-                  variant="mediumAquaCta300"
+                  variant={
+                    buttonText == "Notify Me"
+                      ? "mediumLightGreyCta"
+                      : "mediumAquaCta300"
+                  }
                 />
               </div>
               <div
