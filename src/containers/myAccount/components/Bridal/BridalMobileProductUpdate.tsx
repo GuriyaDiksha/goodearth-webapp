@@ -143,7 +143,12 @@ const BridalMobileProductUpdate: React.FC<Props> = props => {
                     {props.itemData.qtyBought}
                   </div>
                 </div>
-                <div className={globalStyles.voffset4}>
+                <div
+                  className={cs(globalStyles.voffset4, {
+                    [styles.aquaText]:
+                      currentQty - props.itemData.qtyBought == 0
+                  })}
+                >
                   <div className={styles.textMuted}>Quantity Remaining</div>
                   <div
                     className={cs(
@@ -171,7 +176,7 @@ const BridalMobileProductUpdate: React.FC<Props> = props => {
             UPDATE DETAILS
           </button>
         </div>
-        <div className={bootstrap.row}>
+        <div className={cs(bootstrap.row, styles.hide)}>
           <div
             className={cs(
               bootstrap.col8,

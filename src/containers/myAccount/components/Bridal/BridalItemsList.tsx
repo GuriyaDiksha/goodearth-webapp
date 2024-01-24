@@ -48,7 +48,8 @@ const BridalItemsList: React.FC<Props> = props => {
   } = props.product;
 
   const mobileAddToBag = () => {
-    if (productAvailable) {
+    if (!productAvailable || stock == 0) {
+    } else {
       const mobileAddIndex = props.mIndex;
       props.onMobileAdd(mobileAddIndex);
     }
@@ -216,9 +217,11 @@ const BridalItemsList: React.FC<Props> = props => {
                   </div>
                   {props.mobile && (
                     <div
-                      className={cs(styles.mobQtyRemaining, {
-                        [styles.aquaText]: qtyRemaining == 0
-                      })}
+                      className={cs(
+                        styles.mobQtyRemaining,
+                        { [styles.aquaText]: qtyRemaining == 0 },
+                        { [styles.blurTxt]: !productAvailable }
+                      )}
                     >
                       <div>Quantity Remaining: {qtyRemaining}</div>
                     </div>
@@ -245,7 +248,9 @@ const BridalItemsList: React.FC<Props> = props => {
                     )}
                     {props.mobile && (
                       <div
-                        className={cs(styles.mobQtyStatus)}
+                        className={cs(styles.mobQtyStatus, {
+                          [styles.blurTxt]: stock == 0 || !productAvailable
+                        })}
                         onClick={mobileAddToBag}
                       >
                         {/* <img src={cartIcon} width="40" height="40" /> */}

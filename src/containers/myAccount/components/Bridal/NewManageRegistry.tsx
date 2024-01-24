@@ -160,7 +160,7 @@ const NewManageRegistry: React.FC<Props> = ({
                       styles.detailField,
                       bootstrapStyles.colLg6,
                       bootstrapStyles.colMd6,
-                      bootstrapStyles.colSm12
+                      bootstrapStyles.col6
                     )}
                   >
                     <p className="ocaasion_name">
@@ -194,7 +194,7 @@ const NewManageRegistry: React.FC<Props> = ({
                       styles.detailField,
                       bootstrapStyles.colLg6,
                       bootstrapStyles.colMd6,
-                      bootstrapStyles.colSm12
+                      bootstrapStyles.col6
                     )}
                   >
                     <p className="registrant_name">

@@ -336,7 +336,12 @@ class BridalItem extends React.Component<Props, State> {
                           {this.props.bridalItem.qtyBought}
                         </div>
                       </div>
-                      <div className={globalStyles.voffset3}>
+                      <div
+                        className={cs(globalStyles.voffset3, {
+                          [styles.auqaColorText]:
+                            this.props.bridalItem.qtyRemaining == 0
+                        })}
+                      >
                         <div className={styles.textMuted}>
                           Quantity Remaining
                         </div>
@@ -402,6 +407,14 @@ class BridalItem extends React.Component<Props, State> {
               </div>
             </div>
           </div>
+          {mobile && (
+            <div className={cs(styles.estimateMsg)}>
+              Estimated delivery on or before:{" "}
+              <span className={styles.black}>
+                {this.props.bridalItem.productDeliveryDate}{" "}
+              </span>
+            </div>
+          )}
           <hr className="hr" />
         </div>
       </div>

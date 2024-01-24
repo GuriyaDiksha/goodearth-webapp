@@ -153,6 +153,7 @@
       align-items: center;
       justify-content: space-between;
       text-transform: capitalize;
+      margin: 0;
     }
   
     .edit-cart {
@@ -434,6 +435,9 @@
       .order-summary {
         height: inherit;
       }
+    .summary-title {
+      font-size:14px!important;
+    }
     }
     .disabled-btn {
       // background-color: #f2f2f2 !important;
@@ -765,7 +769,8 @@
   }
 
   .page-body{
-    margin-top: $header-height;
+    // margin-top: $header-height;
+    margin-top: 40px;
   }
   .page-body-timer {
     margin-top: $header-height + $timer-height;
@@ -1131,4 +1136,19 @@ a.pos-relative{
 }
 .padding10{
   padding: 0 10px!important;
+}
+.registery-details-title{
+  @include b4_12px_montserrat_charcoal();
+  margin-bottom: 25px;
+  padding: 0 25px;
+}
+.estimateMsg{
+  @include b5_10px_montserrat_charcoal();
+  margin-top: 15px;
+}
+.aqua-color-text{
+  color: #548B8B!important;
+}
+.mobDiv{
+  margin-bottom: 15px;
 }

@@ -174,20 +174,17 @@ const BridalMobile: React.FC<Props> = ({ bridalItem, bridalId }) => {
                   {bridalItem.qtyRequested}
                 </div>
               </div>
-              <div className={globalStyles.voffset4}>
-                <div
-                  className={cs(styles.textMuted, {
-                    [styles.auqaColorText]: bridalItem.qtyRemaining == 0
-                  })}
-                >
-                  Quantity Remaining
-                </div>
+              <div
+                className={cs(globalStyles.voffset4, {
+                  [styles.auqaColorText]: bridalItem.qtyRemaining == 0
+                })}
+              >
+                <div className={cs(styles.textMuted)}>Quantity Remaining</div>
                 <div
                   className={cs(
                     globalStyles.textCenter,
                     globalStyles.c10LR,
-                    globalStyles.voffset1,
-                    { [styles.auqaColorText]: bridalItem.qtyRemaining == 0 }
+                    globalStyles.voffset1
                   )}
                 >
                   {bridalItem.qtyRemaining}
@@ -215,7 +212,7 @@ const BridalMobile: React.FC<Props> = ({ bridalItem, bridalId }) => {
               globalStyles.voffset3
             )}
           >
-            <div className={globalStyles.c10LR}>
+            {/* <div className={globalStyles.c10LR}>
               Estimated delivery on or before:{" "}
               <span className={styles.black}>
                 {bridalItem.productDeliveryDate}{" "}
@@ -227,7 +224,7 @@ const BridalMobile: React.FC<Props> = ({ bridalItem, bridalId }) => {
               {btnContent == "Fulfilled" || btnContent == "Notify Me"
                 ? btnContent
                 : ""}
-            </div>
+            </div> */}
           </div>
         </div>
       )}
