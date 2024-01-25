@@ -1083,9 +1083,9 @@ a.pos-relative{
 .out-of-stock-txt,
 .not-available-txt{
   position: absolute;
+  width: 100%;
   top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translateY(-50%);
   text-align: center;
   font-family: $font-Lora;
   font-style: italic;
@@ -1151,4 +1151,13 @@ a.pos-relative{
 }
 .mobDiv{
   margin-bottom: 15px;
+}
+.not-available-price-msg{
+  font-family: $font-Lora;
+  font-size: 11px;
+  letter-spacing: 0.22px;
+  line-height: 16px;
+  font-style: italic;
+  color: $cerise;
+  margin-top: 15px;
 }

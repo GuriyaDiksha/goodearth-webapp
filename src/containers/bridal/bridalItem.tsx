@@ -163,7 +163,7 @@ class BridalItem extends React.Component<Props, State> {
               className={cs(
                 bootstrap.colLg2,
                 bootstrap.colMd2,
-                bootstrap.col4,
+                bootstrap.col5,
                 { [styles.padding10]: mobile }
               )}
             >
@@ -183,17 +183,26 @@ class BridalItem extends React.Component<Props, State> {
                     />
                   </div>
                 )}
-                <img
-                  className={cs(styles.productImage, {
+                <div
+                  className={cs("productImage", {
                     [styles.blurImg]: this.props.bridalItem.stock == 0
                   })}
-                  src={this.props.bridalItem.productImage}
-                  style={{ cursor: "default" }}
-                />
+                >
+                  <img
+                    className={styles.productImage}
+                    src={this.props.bridalItem.productImage}
+                    style={{ cursor: "default" }}
+                  />
+                </div>
               </a>
             </div>
             <div
-              className={cs(bootstrap.colLg7, bootstrap.colMd7, bootstrap.col8)}
+              className={cs(
+                bootstrap.colLg7,
+                bootstrap.colMd7,
+                bootstrap.col7,
+                { [styles.mobPaddingZero]: mobile }
+              )}
             >
               <div className={styles.rowMain}>
                 <div className={cs(bootstrap.col12, bootstrap.colMd6)}>
@@ -214,41 +223,51 @@ class BridalItem extends React.Component<Props, State> {
                         </a>
                       </div>
                     </div>
-                    <div className={styles.productPrice}>
-                      {this.props.isSale && this.props.bridalItem.discount ? (
-                        <span className={styles.productPrice}>
-                          <span className={styles.discountprice}>
-                            {displayPriceWithCommas(
-                              this.props.bridalItem.discountedPrice[
+                    {this.props.bridalItem.price[this.props.currency] != 0 ? (
+                      <div className={styles.productPrice}>
+                        {this.props.isSale && this.props.bridalItem.discount ? (
+                          <span className={styles.productPrice}>
+                            <span className={styles.discountprice}>
+                              {displayPriceWithCommas(
+                                this.props.bridalItem.discountedPrice[
+                                  this.props.currency
+                                ],
                                 this.props.currency
-                              ],
-                              this.props.currency
-                            )}
+                              )}
+                            </span>
+                            &nbsp;{" "}
+                            <span className={styles.strikeprice}>
+                              {displayPriceWithCommas(
+                                this.props.bridalItem.price[
+                                  this.props.currency
+                                ],
+                                this.props.currency
+                              )}
+                            </span>
                           </span>
-                          &nbsp;{" "}
-                          <span className={styles.strikeprice}>
+                        ) : (
+                          <span
+                            className={cs(
+                              styles.productPrice,
+                              this.props.bridalItem.badgeType == "B_flat"
+                                ? globalStyles.gold
+                                : ""
+                            )}
+                          >
                             {displayPriceWithCommas(
                               this.props.bridalItem.price[this.props.currency],
                               this.props.currency
                             )}
                           </span>
+                        )}
+                      </div>
+                    ) : (
+                      <div className={styles.notAvailablePriceMsg}>
+                        <span>
+                          This product is not available in the selected currency
                         </span>
-                      ) : (
-                        <span
-                          className={cs(
-                            styles.productPrice,
-                            this.props.bridalItem.badgeType == "B_flat"
-                              ? globalStyles.gold
-                              : ""
-                          )}
-                        >
-                          {displayPriceWithCommas(
-                            this.props.bridalItem.price[this.props.currency],
-                            this.props.currency
-                          )}
-                        </span>
-                      )}
-                    </div>
+                      </div>
+                    )}
                     <div className={styles.sizeSku}>
                       <div className={styles.smallfont}>
                         SIZE: {this.props.bridalItem.size}

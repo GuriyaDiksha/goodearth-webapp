@@ -1948,11 +1948,15 @@ margin-bottom: 50px !important;
     font-size: 12px!important;
   }
 }
+a.product-url{
+  position: relative;
+}
 .out-of-stock-txt,
 .not-available-txt{
   width: 100%;
   position: absolute;
   top: 50%;
+  transform: translateY(-50%);
   text-align: center;
   font-family: $font-Lora;
   font-style: italic;
@@ -2024,6 +2028,15 @@ input::placeholder{
 }
 .event-label{
   z-index: 1;
+}
+.not-available-price-msg{
+  font-family: $font-Lora;
+  font-size: 11px;
+  letter-spacing: 0.22px;
+  line-height: 16px;
+  font-style: italic;
+  color: $cerise;
+  margin-top: 15px;
 }
 .error-msg {
   @include err_13px_lora_italic_cerise();
