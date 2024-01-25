@@ -1371,9 +1371,8 @@ margin-bottom: 50px !important;
 
   .text-muted {
     @include b4_12px_montserrat_light_charcoal();
-    font-weight: 500;
-    line-height: 20px;
-    letter-spacing: 0.36px;
+    font-size: 10px;
+    letter-spacing: 0.3px;
   }
 
   .row-main {
@@ -1995,6 +1994,11 @@ input::placeholder{
   .letter-spacing1{
     position: unset;
   }
+  .text-muted {
+    font-weight: 500!important;
+    line-height: 20px!important;;
+    letter-spacing: 0.36px!important;;
+  }
 }
 .button-center{
   display: block;
@@ -2017,4 +2021,18 @@ input::placeholder{
 }
 .hide{
   display:none;
+}
+.event-label{
+  z-index: 1;
+}
+.error-msg {
+  @include err_13px_lora_italic_cerise();
+  text-align: left;
+  margin-top: 5px;
+  // margin-top: 8px;
+}
+@media(max-width:425px){
+  .error-msg {
+    font-size: 12px!important;
+  }
 }
