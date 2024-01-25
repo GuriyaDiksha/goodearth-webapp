@@ -738,12 +738,12 @@ class FilterList extends React.Component<Props, State> {
           updateProduct(filterUrl, listdata)
             .then(searchList => {
               changeLoader?.(false);
-              // productImpression(
-              //   searchList,
-              //   searchValue || "PLP",
-              //   this.props.currency,
-              //   searchList.results.data.length
-              // );
+              productImpression(
+                searchList,
+                searchValue || "PLP",
+                this.props.currency,
+                searchList.results.data.length
+              );
               this.createFilterfromUrl();
               const pricearray: any = [],
                 currentCurrency =
