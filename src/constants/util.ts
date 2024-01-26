@@ -6,3 +6,5 @@ export const CUST = {
 export const CONFIG = {
   WHATSAPP_SUBSCRIBE_ENABLED: true
 };
+
+export const DEACTIVATE_REDEEM_SECTION = false;
