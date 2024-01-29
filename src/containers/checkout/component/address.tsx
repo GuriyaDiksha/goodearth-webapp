@@ -335,8 +335,19 @@ const AddressSection: React.FC<AddressProps & {
                 globalStyles.textCapitalize
               )}
             >
-              {address.registrantName} & {address.coRegistrantName}&#39;s &nbsp;
-              {address.occasion} Registry
+              {address.registrantName && !address.coRegistrantName && (
+                <span>
+                  {address.registrantName}&#39;s&nbsp;
+                  {address.occasion}&nbsp;Registry
+                </span>
+              )}
+              {address.registrantName && address.coRegistrantName && (
+                <span>
+                  {address.registrantName}&nbsp;&&nbsp;
+                  {address.coRegistrantName}&#39;s&nbsp;
+                  {address.occasion}&nbsp;Registry
+                </span>
+              )}
             </span>
             <div className={cs(styles.defaultAddressDiv, styles.bridalAddress)}>
               <svg

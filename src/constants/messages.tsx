@@ -103,9 +103,8 @@ export const REGISTRY_OWNER_CHECKOUT =
 export const REGISTRY_MIXED_SHIPPING = (
   // "Note that items not part of the registry will also be shipped to registrant address unless removed from bag";
   <>
-    Note that some items in your bag that are not part of the registry will
-    <br />
-    get shipped to registrant address unless removed from the bag.
+    Note that some items in your bag that are not part of the registry will get
+    shipped to registrant address unless removed from the bag.
   </>
 );
 export const PREVIOUS_BASKET = (
