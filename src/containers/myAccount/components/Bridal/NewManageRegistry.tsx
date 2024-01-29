@@ -45,7 +45,6 @@ const NewManageRegistry: React.FC<Props> = ({
   const [coRegistrantName, setCoRegistrantName] = useState("");
   const [registrantName, setRegistrantName] = useState("");
   const [currentEventDate, setCurrentEventDate] = useState("");
-  const [mobileIndex, setMobileIndex] = useState(0);
   const [occasion, setOccasion] = useState("");
   const dispatch = useDispatch();
   const { mobile } = useSelector((state: AppState) => state.device);
@@ -75,12 +74,12 @@ const NewManageRegistry: React.FC<Props> = ({
     );
   };
 
-  const openMobileProductUpdatePopup = () => {
+  const handleMobileAdd = (mIndex: number) => {
     dispatch(
       updateComponent(
         POPUP.BRIDALMOBILEPRODUCTUPDATE,
         {
-          itemData: bridalItems && bridalItems[mobileIndex],
+          itemData: bridalItems && bridalItems[mIndex],
           bridalId: bridalProfileData ? bridalProfileData.bridalId : 0,
           fetchBridalItems: fetchBridalItems
         },
@@ -88,11 +87,6 @@ const NewManageRegistry: React.FC<Props> = ({
       )
     );
     dispatch(updateModal(true));
-  };
-
-  const handleMobileAdd = (mIndex: number) => {
-    setMobileIndex(mIndex);
-    openMobileProductUpdatePopup();
   };
 
   useEffect(() => {

@@ -19,10 +19,10 @@ type Props = {
   mobile: boolean;
   currency: Currency;
   bridalId: number;
-  onMobileAdd: (index: number) => void;
+  mIndex: number;
+  onMobileAdd: (mIndex: number) => void;
   key: number;
   fetchBridalItems: () => void;
-  mIndex: number;
 };
 
 const BridalItemsList: React.FC<Props> = props => {
@@ -50,7 +50,6 @@ const BridalItemsList: React.FC<Props> = props => {
   const mobileAddToBag = () => {
     if (stock == 0 || price[props.currency] == 0) {
     } else {
-      console.log(props.product.id);
       const mobileAddIndex = props.mIndex;
       props.onMobileAdd(mobileAddIndex);
     }
