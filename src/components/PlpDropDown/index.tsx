@@ -270,7 +270,7 @@ const PlpDropdownMenu = ({
                       onClick={() => {
                         onIClickSelected(data);
                       }}
-                      key={data.name}
+                      key={data.value}
                       className={cs({
                         [styles.goldColor]: displayValue == data.value
                       })}
