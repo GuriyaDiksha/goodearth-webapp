@@ -23,7 +23,7 @@ const Registery: React.FC<Props> = ({ mobileFaq }) => {
   return (
     <div>
       <Switch>
-        <Route key="landing" exact path="/gift-registery">
+        <Route key="landing" exact path="/gift-registry">
           <div className={cs(styles.registeryContainer)}>
             <div className={cs(styles.registeryBanner)}>
               <div className="bannerImg">

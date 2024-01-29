@@ -247,7 +247,7 @@ const EditRegistryDetails: React.FC<Props> = props => {
                     // disabled={!updateProfile}
                     className={cs(
                       globalStyles.charcoalBtn,
-                      globalStyles.charoalBtnHover
+                      globalStyles.charcoalBtnHover
                       // {[globalStyles.disabledBtn]: !updateProfile}
                     )}
                     value="UPDATE DETAILS"

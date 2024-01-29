@@ -46,25 +46,31 @@ const BridalMobileProductUpdate: React.FC<Props> = props => {
   };
 
   const decreaseState = () => {
-    let qty = currentQty;
-    if (qty > 1) {
-      qty -= 1;
-      setCurrentQty(qty);
-      setBtnDisable(false);
-      setErr("");
+    if (props.itemData.stock == 0) {
+    } else {
+      let qty = currentQty;
+      if (qty > 1) {
+        qty -= 1;
+        setCurrentQty(qty);
+        setBtnDisable(false);
+        setErr("");
+      }
     }
   };
 
   const increaseState = () => {
-    const { stock } = props.itemData;
-    let qty = currentQty;
-    if (qty >= props.itemData.stock) {
-      setErr(`Only ${stock} piece${stock > 1 ? "s" : ""} available in stock`);
-      return false;
+    if (props.itemData.stock == 0) {
+    } else {
+      const { stock } = props.itemData;
+      let qty = currentQty;
+      if (qty >= props.itemData.stock) {
+        setErr(`Only ${stock} piece${stock > 1 ? "s" : ""} available in stock`);
+        return false;
+      }
+      qty += 1;
+      setCurrentQty(qty);
+      setBtnDisable(false);
     }
-    qty += 1;
-    setCurrentQty(qty);
-    setBtnDisable(false);
   };
 
   return (
@@ -92,7 +98,11 @@ const BridalMobileProductUpdate: React.FC<Props> = props => {
               >
                 <div className={globalStyles.voffset4}>
                   <div className={styles.textMuted}>Quantity Required</div>
-                  <div className={styles.widgetQty}>
+                  <div
+                    className={cs(styles.widgetQty, {
+                      [styles.blurTxt]: props.itemData.stock == 0
+                    })}
+                  >
                     <span className={styles.btnQty} onClick={decreaseState}>
                       -
                     </span>{" "}
@@ -133,7 +143,12 @@ const BridalMobileProductUpdate: React.FC<Props> = props => {
                     {props.itemData.qtyBought}
                   </div>
                 </div>
-                <div className={globalStyles.voffset4}>
+                <div
+                  className={cs(globalStyles.voffset4, {
+                    [styles.aquaText]:
+                      currentQty - props.itemData.qtyBought == 0
+                  })}
+                >
                   <div className={styles.textMuted}>Quantity Remaining</div>
                   <div
                     className={cs(
@@ -149,27 +164,19 @@ const BridalMobileProductUpdate: React.FC<Props> = props => {
             </div>
           </div>
         </div>
-        <div className={bootstrap.row}>
-          <div
-            className={cs(
-              bootstrap.col8,
-              bootstrap.offset2,
-              globalStyles.voffset3
-            )}
+        <div className={cs(bootstrap.row, globalStyles.voffset4)}>
+          <button
+            className={
+              btnDisable
+                ? cs(globalStyles.aquaBtn, globalStyles.disabledBtn)
+                : globalStyles.aquaBtn
+            }
+            onClick={save}
           >
-            <div
-              className={
-                btnDisable
-                  ? cs(globalStyles.aquaBtn, globalStyles.disabledBtn)
-                  : globalStyles.aquaBtn
-              }
-              onClick={save}
-            >
-              UPDATE DETAILS
-            </div>
-          </div>
+            UPDATE DETAILS
+          </button>
         </div>
-        <div className={bootstrap.row}>
+        <div className={cs(bootstrap.row, styles.hide)}>
           <div
             className={cs(
               bootstrap.col8,

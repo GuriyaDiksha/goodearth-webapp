@@ -129,7 +129,7 @@ body:has(.mobile) {
       // border: 2px solid $cerise;
       // padding: 35px 25px 84px 25px;
       padding: 30px 30px 30px 40px;
-      border: 2px solid #7EAAA9;
+      border: 2px solid #4C4C4C;
       min-height: 260px;
     }
     .ship-to-this-btn {
@@ -274,8 +274,8 @@ body:has(.mobile) {
     input[type="radio"]:checked.default-address-checkbox {
       &::after {
         content: "";
-        height: 8px;
-        width: 8px;
+        height: 13px;
+        width: 13px;
         border-radius: 50%;
         background-color: #548b8b;
         position: absolute;
@@ -285,8 +285,8 @@ body:has(.mobile) {
       }
       &::before {
         content: "";
-        height: 16px;
-        width: 16px;
+        height: 19px;
+        width: 19px;
         border-radius: 50%;
         background-color: white;
         position: absolute;
@@ -298,8 +298,8 @@ body:has(.mobile) {
       &.checkout-fix {
         &::after {
           content: "";
-          height: 8px;
-          width: 8px;
+          height: 13px;
+          width: 13px;
           border-radius: 50%;
           background-color: #191919;
           position: absolute;
@@ -309,8 +309,8 @@ body:has(.mobile) {
         }
         &::before {
           content: "";
-          height: 16px;
-          width: 16px;
+          height: 19px;
+          width: 19px;
           border-radius: 50%;
           background-color: white;
           position: absolute;
@@ -582,7 +582,7 @@ body:has(.mobile) {
     // width: 100%;
     cursor: unset!important;
     padding: 30px 30px 30px 40px;
-    border: 2px solid #7EAAA9;
+    border: 2px solid #4C4C4C;
     min-height: 260px;
   }
 }
@@ -931,7 +931,7 @@ div > .address-in-use {
 .is-active-item{
   background: transparent!important;
   padding: 30px 30px 30px 40px!important;
-  border: 2px solid #7EAAA9!important;
+  border: 2px solid #4C4C4C!important;
   min-height: 260px;
 }
 .is-active-item input{
@@ -940,21 +940,21 @@ div > .address-in-use {
 .diabled-border input:before,
 .is-active-item input:before{
   content: "";
-  height: 16px;
-  width: 16px;
+  height: 19px;
+  width: 19px;
   border-radius: 50%;
   background-color: white;
   position: absolute;
   top: 50%;
   right: 50%;
   transform: translate(50%, -50%);
-  border: 1px solid #54b8b8;
+  border: 1px solid #9f9f9f;
 }
 .diabled-border input:after,
 .is-active-item input:after{
   content: "";
-  height: 8px;
-  width: 8px;
+  height: 13px;
+  width: 13px;
   border-radius: 50%;
   background-color: #548b8b;
   position: absolute;

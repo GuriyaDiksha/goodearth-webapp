@@ -48,7 +48,9 @@ const BridalItemsList: React.FC<Props> = props => {
   } = props.product;
 
   const mobileAddToBag = () => {
-    if (productAvailable) {
+    if (stock == 0 || price[props.currency] == 0) {
+    } else {
+      console.log(props.product.id);
       const mobileAddIndex = props.mIndex;
       props.onMobileAdd(mobileAddIndex);
     }
@@ -56,7 +58,7 @@ const BridalItemsList: React.FC<Props> = props => {
 
   const dispatch = useDispatch();
   const increaseState = () => {
-    if (!productAvailable || stock == 0) {
+    if (stock == 0 || price[props.currency] == 0) {
     } else {
       if (reqCurrent >= props.product.stock) {
         setErr(
@@ -86,7 +88,7 @@ const BridalItemsList: React.FC<Props> = props => {
   };
 
   const decreaseState = () => {
-    if (!productAvailable || stock == 0) {
+    if (stock == 0 || price[props.currency] == 0) {
     } else {
       if (reqCurrent > 1) {
         const data = {
@@ -141,8 +143,8 @@ const BridalItemsList: React.FC<Props> = props => {
       <div className={cs("cart-item", styles.bridalPublic)}>
         <div className={cs(bootstrapStyles.row, styles.nowrap)}>
           <div className={cs(bootstrapStyles.col5, bootstrapStyles.colMd3)}>
-            <a href={productUrl}>
-              {!productAvailable ? (
+            <a href={productUrl} className={styles.productUrl}>
+              {price[props.currency] == 0 ? (
                 <div className={styles.notAvailableTxt}>Not Available</div>
               ) : stock == 0 ? (
                 <div className={styles.outOfStockTxt}>Out of Stock</div>
@@ -151,7 +153,7 @@ const BridalItemsList: React.FC<Props> = props => {
               )}
               <div
                 className={cs(styles.productImageSection, {
-                  [styles.blur]: stock == 0 || !productAvailable
+                  [styles.blur]: stock == 0 || price[props.currency] == 0
                 })}
               >
                 {badgeImage && (
@@ -171,52 +173,70 @@ const BridalItemsList: React.FC<Props> = props => {
                 className={cs(bootstrapStyles.col12, bootstrapStyles.colMd6)}
               >
                 <div className={cs(styles.section, styles.sectionInfo)}>
-                  <div className={cs({ [styles.blur]: !productAvailable })}>
+                  <div
+                    className={cs({
+                      [styles.blur]: price[props.currency] == 0
+                    })}
+                  >
                     <div>
                       <div className={styles.collectionName}>{collection}</div>
                       <div className={styles.productName}>
                         <a href={productUrl}>{productName}</a>
                       </div>
                     </div>
-                    <div className={styles.productPrice}>
-                      {discount ? (
-                        <span className={styles.productPrice}>
-                          <span className={styles.discountprice}>
-                            {displayPriceWithCommas(
-                              discountedPrice[props.currency],
-                              props.currency
-                            )}
+                    {price[props.currency] != 0 ? (
+                      <div className={styles.productPrice}>
+                        {discount ? (
+                          <span className={styles.productPrice}>
+                            <span className={styles.discountprice}>
+                              {displayPriceWithCommas(
+                                discountedPrice[props.currency],
+                                props.currency
+                              )}
+                            </span>
+                            &nbsp;{" "}
+                            <span className={styles.strikeprice}>
+                              {displayPriceWithCommas(
+                                price[props.currency],
+                                props.currency
+                              )}
+                            </span>
                           </span>
-                          &nbsp;{" "}
-                          <span className={styles.strikeprice}>
+                        ) : (
+                          <span
+                            className={cs(
+                              styles.productPrice,
+                              badgeType == "B_flat" ? globalStyles.gold : ""
+                            )}
+                          >
                             {displayPriceWithCommas(
                               price[props.currency],
                               props.currency
                             )}
                           </span>
+                        )}
+                      </div>
+                    ) : (
+                      <div className={styles.notAvailablePriceMsg}>
+                        <span>
+                          This product is not available in the selected currency
                         </span>
-                      ) : (
-                        <span
-                          className={cs(
-                            styles.productPrice,
-                            badgeType == "B_flat" ? globalStyles.gold : ""
-                          )}
-                        >
-                          {displayPriceWithCommas(
-                            price[props.currency],
-                            props.currency
-                          )}
-                        </span>
-                      )}
-                    </div>
+                      </div>
+                    )}
                     <div className={cs(styles.sizeSku)}>
                       <div className={cs(styles.smallfont)}>SIZE: {size}</div>
                       <div className={cs(styles.smallfont)}>SKU: {sku}</div>
                     </div>
                   </div>
                   {props.mobile && (
-                    <div className={cs(styles.mobQtyRemaining)}>
-                      <span>Quantity Remaining: {qtyRemaining}</span>
+                    <div
+                      className={cs(
+                        styles.mobQtyRemaining,
+                        { [styles.aquaText]: qtyRemaining == 0 },
+                        { [styles.blurTxt]: price[props.currency] == 0 }
+                      )}
+                    >
+                      <div>Quantity Remaining: {qtyRemaining}</div>
                     </div>
                   )}
                   <div className={props.mobile ? styles.mobFlexDiv : ""}>
@@ -241,7 +261,10 @@ const BridalItemsList: React.FC<Props> = props => {
                     )}
                     {props.mobile && (
                       <div
-                        className={cs(styles.mobQtyStatus)}
+                        className={cs(styles.mobQtyStatus, {
+                          [styles.blurTxt]:
+                            stock == 0 || price[props.currency] == 0
+                        })}
                         onClick={mobileAddToBag}
                       >
                         {/* <img src={cartIcon} width="40" height="40" /> */}
@@ -257,14 +280,15 @@ const BridalItemsList: React.FC<Props> = props => {
                 >
                   <div
                     className={cs(styles.section, styles.sectionMiddle, {
-                      [styles.blur]: !productAvailable
+                      [styles.blur]: price[props.currency] == 0
                     })}
                   >
                     <div className="">
                       <div className={styles.textMuted}>Quantity Required</div>
                       <div
                         className={cs(styles.widgetQty, {
-                          [styles.blurTxt]: stock == 0 || !productAvailable
+                          [styles.blurTxt]:
+                            stock == 0 || price[props.currency] == 0
                         })}
                       >
                         <span className={styles.btnQty} onClick={decreaseState}>

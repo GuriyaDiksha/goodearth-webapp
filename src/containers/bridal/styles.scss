@@ -153,6 +153,7 @@
       align-items: center;
       justify-content: space-between;
       text-transform: capitalize;
+      margin: 0;
     }
   
     .edit-cart {
@@ -434,12 +435,19 @@
       .order-summary {
         height: inherit;
       }
+    .summary-title {
+      font-size:14px!important;
+    }
     }
     .disabled-btn {
       // background-color: #f2f2f2 !important;
       // color: gray !important;
       background-color: #e6e6e6!important;
       border-left: 1px solid whitesmoke!important;
+    }
+    .full-disabled-btn{
+      background-color: #9F9F9F;
+      border: 1px solid #9f9f9f;
     }
     .order-summary {
       left: 0;
@@ -552,7 +560,7 @@
       //min-height: 250px;
       //margin-right: 20px;
       //margin-left: 20px;
-      padding: 20px 0;
+      padding: 0 15px!important;
     }
     .cart-block {
       margin-bottom: 30vh;
@@ -761,7 +769,8 @@
   }
 
   .page-body{
-    margin-top: $header-height;
+    // margin-top: $header-height;
+    margin-top: 40px;
   }
   .page-body-timer {
     margin-top: $header-height + $timer-height;
@@ -1048,6 +1057,7 @@
   color: #191919;
 }
 .mob-qty-status{
+  color: $aqua-text;
   text-transform: uppercase;
   text-decoration: underline;
   text-underline-offset: 0.4em;
@@ -1067,21 +1077,15 @@
 .not-available-item{
   opacity: 0.4;
 }
-@media(max-width:375px){
-  .width50{
-    max-width: 50%;
-    flex: 0 0 50%;
-  }
-  .width0{
-    display:none;
-  }
+a.pos-relative{
+  position: relative;
 }
 .out-of-stock-txt,
 .not-available-txt{
   position: absolute;
+  width: 100%;
   top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translateY(-50%);
   text-align: center;
   font-family: $font-Lora;
   font-style: italic;
@@ -1129,4 +1133,31 @@
       top: 0px;
       width: 100%;
   }
+}
+.padding10{
+  padding: 0 10px!important;
+}
+.registery-details-title{
+  @include b4_12px_montserrat_charcoal();
+  margin-bottom: 25px;
+  padding: 0 25px;
+}
+.estimateMsg{
+  @include b5_10px_montserrat_charcoal();
+  margin-top: 15px;
+}
+.aqua-color-text{
+  color: #548B8B!important;
+}
+.mobDiv{
+  margin-bottom: 15px;
+}
+.not-available-price-msg{
+  font-family: $font-Lora;
+  font-size: 11px;
+  letter-spacing: 0.22px;
+  line-height: 16px;
+  font-style: italic;
+  color: $cerise;
+  margin-top: 15px;
 }

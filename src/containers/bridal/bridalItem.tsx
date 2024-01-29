@@ -160,9 +160,14 @@ class BridalItem extends React.Component<Props, State> {
             className={cs(bootstrap.row, globalStyles.flex, globalStyles.row)}
           >
             <div
-              className={cs(bootstrap.col5, bootstrap.colMd2, styles.width50)}
+              className={cs(
+                bootstrap.colLg2,
+                bootstrap.colMd2,
+                bootstrap.col5,
+                { [styles.padding10]: mobile }
+              )}
             >
-              <a>
+              <a className={styles.posRelative}>
                 {!this.props.bridalItem.productAvailable ? (
                   <div className={styles.notAvailableTxt}>Not Available</div>
                 ) : this.props.bridalItem.stock == 0 ? (
@@ -178,17 +183,26 @@ class BridalItem extends React.Component<Props, State> {
                     />
                   </div>
                 )}
-                <img
-                  className={cs(styles.productImage, {
+                <div
+                  className={cs("productImage", {
                     [styles.blurImg]: this.props.bridalItem.stock == 0
                   })}
-                  src={this.props.bridalItem.productImage}
-                  style={{ cursor: "default" }}
-                />
+                >
+                  <img
+                    className={styles.productImage}
+                    src={this.props.bridalItem.productImage}
+                    style={{ cursor: "default" }}
+                  />
+                </div>
               </a>
             </div>
             <div
-              className={cs(bootstrap.col5, bootstrap.colMd7, styles.width50)}
+              className={cs(
+                bootstrap.colLg7,
+                bootstrap.colMd7,
+                bootstrap.col7,
+                { [styles.mobPaddingZero]: mobile }
+              )}
             >
               <div className={styles.rowMain}>
                 <div className={cs(bootstrap.col12, bootstrap.colMd6)}>
@@ -209,41 +223,51 @@ class BridalItem extends React.Component<Props, State> {
                         </a>
                       </div>
                     </div>
-                    <div className={styles.productPrice}>
-                      {this.props.isSale && this.props.bridalItem.discount ? (
-                        <span className={styles.productPrice}>
-                          <span className={styles.discountprice}>
-                            {displayPriceWithCommas(
-                              this.props.bridalItem.discountedPrice[
+                    {this.props.bridalItem.price[this.props.currency] != 0 ? (
+                      <div className={styles.productPrice}>
+                        {this.props.isSale && this.props.bridalItem.discount ? (
+                          <span className={styles.productPrice}>
+                            <span className={styles.discountprice}>
+                              {displayPriceWithCommas(
+                                this.props.bridalItem.discountedPrice[
+                                  this.props.currency
+                                ],
                                 this.props.currency
-                              ],
-                              this.props.currency
-                            )}
+                              )}
+                            </span>
+                            &nbsp;{" "}
+                            <span className={styles.strikeprice}>
+                              {displayPriceWithCommas(
+                                this.props.bridalItem.price[
+                                  this.props.currency
+                                ],
+                                this.props.currency
+                              )}
+                            </span>
                           </span>
-                          &nbsp;{" "}
-                          <span className={styles.strikeprice}>
+                        ) : (
+                          <span
+                            className={cs(
+                              styles.productPrice,
+                              this.props.bridalItem.badgeType == "B_flat"
+                                ? globalStyles.gold
+                                : ""
+                            )}
+                          >
                             {displayPriceWithCommas(
                               this.props.bridalItem.price[this.props.currency],
                               this.props.currency
                             )}
                           </span>
+                        )}
+                      </div>
+                    ) : (
+                      <div className={styles.notAvailablePriceMsg}>
+                        <span>
+                          This product is not available in the selected currency
                         </span>
-                      ) : (
-                        <span
-                          className={cs(
-                            styles.productPrice,
-                            this.props.bridalItem.badgeType == "B_flat"
-                              ? globalStyles.cerise
-                              : ""
-                          )}
-                        >
-                          {displayPriceWithCommas(
-                            this.props.bridalItem.price[this.props.currency],
-                            this.props.currency
-                          )}
-                        </span>
-                      )}
-                    </div>
+                      </div>
+                    )}
                     <div className={styles.sizeSku}>
                       <div className={styles.smallfont}>
                         SIZE: {this.props.bridalItem.size}
@@ -264,7 +288,7 @@ class BridalItem extends React.Component<Props, State> {
                           onClick={this.mobileAddToBag}
                         >
                           {/* <img src={cartIcon} width="40" height="40" /> */}
-                          <span>QUANTITY & STATUS</span>
+                          <span>+ CHECK QUANTITY & ADD TO BAG</span>
                         </div>
                       </>
                     )}
@@ -331,7 +355,12 @@ class BridalItem extends React.Component<Props, State> {
                           {this.props.bridalItem.qtyBought}
                         </div>
                       </div>
-                      <div className={globalStyles.voffset3}>
+                      <div
+                        className={cs(globalStyles.voffset3, {
+                          [styles.auqaColorText]:
+                            this.props.bridalItem.qtyRemaining == 0
+                        })}
+                      >
                         <div className={styles.textMuted}>
                           Quantity Remaining
                         </div>
@@ -352,10 +381,10 @@ class BridalItem extends React.Component<Props, State> {
             </div>
             <div
               className={cs(
-                bootstrap.col2,
+                bootstrap.colLg3,
                 bootstrap.colMd3,
                 globalStyles.textCenter,
-                styles.width0
+                { [styles.hide]: mobile }
               )}
             >
               <div className={styles.section}>
@@ -397,6 +426,14 @@ class BridalItem extends React.Component<Props, State> {
               </div>
             </div>
           </div>
+          {mobile && (
+            <div className={cs(styles.estimateMsg)}>
+              Estimated delivery on or before:{" "}
+              <span className={styles.black}>
+                {this.props.bridalItem.productDeliveryDate}{" "}
+              </span>
+            </div>
+          )}
           <hr className="hr" />
         </div>
       </div>

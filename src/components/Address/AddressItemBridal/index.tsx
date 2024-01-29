@@ -71,9 +71,19 @@ const AddressItemBridal: React.FC<Props> = ({
                   )}
                 >
                   {title}
-                  {addressData.registrantName}&nbsp; &{" "}
-                  {addressData.coRegistrantName}&#39;s {addressData.occasion}{" "}
-                  Registry
+                  {addressData.registrantName && !addressData.coRegistrantName && (
+                    <span>
+                      {addressData.registrantName}&#39;s&nbsp;
+                      {addressData.occasion}&nbsp;Registry
+                    </span>
+                  )}
+                  {addressData.registrantName && addressData.coRegistrantName && (
+                    <span>
+                      {addressData.registrantName}&nbsp;&&nbsp;
+                      {addressData.coRegistrantName}&#39;s&nbsp;
+                      {addressData.occasion}&nbsp;Registry
+                    </span>
+                  )}
                 </div>
 
                 <div

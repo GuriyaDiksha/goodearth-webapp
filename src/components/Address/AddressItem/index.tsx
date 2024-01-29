@@ -72,17 +72,20 @@ const AddressItem: React.FC<Props> = props => {
   const address = props.addressData;
   // const [selectId, setSelectId ] = useState(data.userAddress?.id || '');
   const bridalProfileData = bridalProfile as BridalProfileData;
+
   const fetchBridalItems = () => {
     BridalService.fetchBridalItems(dispatch, bridalProfileData.bridalId).then(
       data => {
         const result = data.results;
-        let i;
-        for (i = 0; i <= result.length; i++) {
-          const qtyBought = result[i].qtyBought;
-          if (qtyBought >= 1) {
-            setAddressMsg(
-              `All orders placed before ${currentDate} will be shipped to the older address.`
-            );
+        if (result.length != 0) {
+          let i;
+          for (i = 0; i <= result.length; i++) {
+            const qtyBought = result[i].qtyBought;
+            if (qtyBought && qtyBought >= 1) {
+              setAddressMsg(
+                `All orders placed before ${currentDate} will be shipped to the older address.`
+              );
+            }
           }
         }
       }
@@ -150,16 +153,17 @@ const AddressItem: React.FC<Props> = props => {
         }
         break;
       case "bridal-edit":
-        if (step == "create") {
-          changeBridalAddress(address.id);
-        } else {
-          setCurrentModuleData("address", {
-            userAddress: address
-          });
-          // setSelectId(address.id);
-          setCurrentModule("created");
-        }
+        changeBridalAddress(address.id);
         fetchBridalItems();
+        // if (step == "create") {
+        //   changeBridalAddress(address.id);
+        // } else {
+        //   setCurrentModuleData("address", {
+        //     userAddress: address
+        //   });
+        //   // setSelectId(address.id);
+        //   setCurrentModule("created");
+        // }
         break;
       // case "checkout":
       //     let products = valid.productForGa(props.items);

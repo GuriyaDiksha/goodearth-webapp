@@ -130,18 +130,15 @@ const NewManageRegistry: React.FC<Props> = ({
                 <hr />
                 <div className={cs(styles.flexHeader)}>
                   <div className={cs(styles.topRegisteryName)}>
-                    {registryName ? (
+                    {registryName && !coRegistrantName && (
                       <span>
-                        {registrantName}
-                        &#39;s&nbsp;
-                        {registryName}
+                        {registrantName}&#39;s&nbsp;{registryName}
                       </span>
-                    ) : (
-                      <span className="">
-                        {" "}
-                        {registrantName}
-                        &#39;s&nbsp;
-                        {occasion}
+                    )}
+                    {registryName && coRegistrantName && (
+                      <span>
+                        {registrantName}&nbsp;{coRegistrantName}&#39;s&nbsp;
+                        {registryName}
                       </span>
                     )}
                   </div>
@@ -163,7 +160,7 @@ const NewManageRegistry: React.FC<Props> = ({
                       styles.detailField,
                       bootstrapStyles.colLg6,
                       bootstrapStyles.colMd6,
-                      bootstrapStyles.colSm12
+                      bootstrapStyles.col6
                     )}
                   >
                     <p className="ocaasion_name">
@@ -197,7 +194,7 @@ const NewManageRegistry: React.FC<Props> = ({
                       styles.detailField,
                       bootstrapStyles.colLg6,
                       bootstrapStyles.colMd6,
-                      bootstrapStyles.colSm12
+                      bootstrapStyles.col6
                     )}
                   >
                     <p className="registrant_name">

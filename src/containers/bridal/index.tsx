@@ -288,246 +288,241 @@ class BridalCheckout extends React.Component<Props, State> {
                   <img src={addedReg} width="25" alt="gift_reg_icon" />
                 </h3>
               </div>
-              <div className={cs(styles.summaryPadding, styles.txtCap)}>
-                <hr className="hr" />
-                {registrantName}
-                {coRegistrantName && (
-                  <span>&nbsp;& &nbsp;{coRegistrantName}</span>
-                )}
-              </div>
 
-              <div className="">
-                {!mobile && (
-                  <div className={styles.summaryPadding}>
+              {!mobile && (
+                <div className={styles.summaryPadding}>
+                  <div className={styles.txtCap}>
                     <hr className="hr" />
-                    <div
-                      className={cs(
-                        globalStyles.flex,
-                        globalStyles.gutterBetween
-                      )}
-                    >
-                      <span
-                        className={cs(styles.subtotal, globalStyles.voffset2)}
-                      >
-                        <span className={cs(globalStyles.op2, styles.label)}>
-                          Occasion:
-                        </span>
-                        &nbsp;&nbsp;
-                        <span className={styles.txtCap}>
-                          {occassion_choice ? occassion_choice : occasion}{" "}
-                        </span>{" "}
-                      </span>
-                    </div>
-                    <div
-                      className={cs(
-                        globalStyles.flex,
-                        globalStyles.gutterBetween
-                      )}
-                    >
-                      <span
-                        className={cs(styles.subtotal, globalStyles.voffset2)}
-                      >
-                        <span className={cs(globalStyles.op2, styles.label)}>
-                          Special Occasion Date:
-                        </span>
-                        &nbsp;&nbsp;
-                        <span className={styles.txtCap}>{eventDate}</span>
-                      </span>
-                    </div>
+                    {registrantName}
+                    {coRegistrantName && (
+                      <span>&nbsp;& &nbsp;{coRegistrantName}</span>
+                    )}
                   </div>
-                )}
+                  <hr className="hr" />
+                  <div
+                    className={cs(
+                      globalStyles.flex,
+                      globalStyles.gutterBetween
+                    )}
+                  >
+                    <span
+                      className={cs(styles.subtotal, globalStyles.voffset2)}
+                    >
+                      <span className={cs(globalStyles.op2, styles.label)}>
+                        Occasion:
+                      </span>
+                      &nbsp;&nbsp;
+                      <span className={styles.txtCap}>
+                        {occassion_choice ? occassion_choice : occasion}{" "}
+                      </span>{" "}
+                    </span>
+                  </div>
+                  <div
+                    className={cs(
+                      globalStyles.flex,
+                      globalStyles.gutterBetween
+                    )}
+                  >
+                    <span
+                      className={cs(styles.subtotal, globalStyles.voffset2)}
+                    >
+                      <span className={cs(globalStyles.op2, styles.label)}>
+                        Special Occasion Date:
+                      </span>
+                      &nbsp;&nbsp;
+                      <span className={styles.txtCap}>{eventDate}</span>
+                    </span>
+                  </div>
+                </div>
+              )}
 
-                <div className="">
-                  {(!mobile || this.state.showSummary) && (
-                    <div className={styles.summaryPadding}>
-                      {mobile && (
-                        <div>
-                          <hr className="hr" />
-                          <div
-                            className={cs(
-                              styles.flex,
-                              styles.gutterBetween,
-                              styles.total
-                            )}
-                          >
-                            <span
-                              className={cs(
-                                styles.subtotal,
-                                globalStyles.voffset2
-                              )}
-                            >
-                              <span
-                                className={cs(globalStyles.op2, styles.label)}
-                              >
-                                Occasion:
-                              </span>
-                              &nbsp;&nbsp;
-                              <span className={styles.txtCap}>
-                                {occassion_choice ? occassion_choice : occasion}
-                              </span>{" "}
-                            </span>
-                          </div>
-                          <div
-                            className={cs(
-                              styles.flex,
-                              styles.gutterBetween,
-                              styles.total
-                            )}
-                          >
-                            <span
-                              className={cs(
-                                styles.subtotal,
-                                globalStyles.voffset2
-                              )}
-                            >
-                              <span
-                                className={cs(globalStyles.op2, styles.label)}
-                              >
-                                Special Occasion Date:
-                              </span>
-                              &nbsp;&nbsp;
-                              <span className={styles.txtCap}>{eventDate}</span>
-                            </span>
-                          </div>
-                        </div>
-                      )}
-                      <hr className="hr" />
-                      <div className={styles.bridalSidebarFooter}>
-                        <div
-                          className={cs(
-                            styles.textCoupon,
-                            globalStyles.voffset3
-                          )}
-                        >
-                          {/* To purchase an item, please select the quantity and
-                          click <span className="bold"> ADD TO BAG.</span> */}
-                          To purchase an item, please select the quantity and
-                          click ADD TO BAG.
-                          <br />
-                          <br />
-                          Please ensure you add the items from this public link
-                          only to contribute towards this Bridal Registry.
-                        </div>
-                        {/* <div
-                          className={cs(
-                            styles.textCoupon,
-                            globalStyles.voffset2,
-                            globalStyles.cerise,
-                            globalStyles.bold
-                          )}
-                        >
-                          Please ensure you add the items from this public link
-                          only to contribute towards this Bridal Registry.
-                        </div> */}
-                        <div
-                          className={cs(
-                            styles.textCoupon,
-                            globalStyles.voffset3
-                          )}
-                        >
-                          {/* If you need any assistance, talk to our representative
-                          on: */}
-                          For any assistance, enquiries or feedback, please
-                          reach out to us on: <br />
-                          <a href="tel: +91 9582999555">
-                            +91 9582 999 555
-                          </a> /{" "}
-                          <a href="tel: +91 9582999888">+91 9582 999 888</a>{" "}
-                          Monday through Saturday 9:00 am - 5:00 pm IST{" "}
-                          <a href="mailto:customercare@goodearth.in">
-                            customercare@goodearth.in
-                          </a>
-                        </div>
-                        <div
-                          className={cs(globalStyles.voffset3, styles.tcUrl)}
-                        >
-                          <a
-                            href="https://www.goodearth.in/customer-assistance/terms-conditions"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                          >
-                            Gifting Registry Terms & Conditions
-                          </a>
-                        </div>
+              {(!mobile || this.state.showSummary) && (
+                <div
+                  className={cs(styles.summaryPadding, {
+                    [styles.mobDiv]: mobile
+                  })}
+                >
+                  {mobile && (
+                    <div>
+                      <div className={styles.txtCap}>
+                        <hr className="hr" />
+                        {registrantName}
+                        {coRegistrantName && (
+                          <span>&nbsp;& &nbsp;{coRegistrantName}</span>
+                        )}
                       </div>
-                      {/* <div
-                        className={cs(styles.textCoupon, globalStyles.voffset2)}
+                      <hr className="hr" />
+                      <div
+                        className={cs(
+                          styles.flex,
+                          styles.gutterBetween,
+                          styles.total
+                        )}
                       >
-                        <a
-                          href="tel: +91 9582999555"
-                          className={globalStyles.cerise}
+                        <span
+                          className={cs(styles.subtotal, globalStyles.voffset2)}
                         >
-                          +91 9582999555
-                        </a>{" "}
-                        /{" "}
-                        <a
-                          href="tel: +91 9582999888"
-                          className={globalStyles.cerise}
-                        >
-                          +91 9582999888
-                        </a>
+                          <span className={cs(globalStyles.op2, styles.label)}>
+                            Occasion:
+                          </span>
+                          &nbsp;&nbsp;
+                          <span className={styles.txtCap}>
+                            {occassion_choice ? occassion_choice : occasion}
+                          </span>{" "}
+                        </span>
                       </div>
                       <div
-                        className={cs(styles.textCoupon, globalStyles.voffset2)}
+                        className={cs(
+                          styles.flex,
+                          styles.gutterBetween,
+                          styles.total
+                        )}
                       >
-                        <a
-                          href="https://www.goodearth.in/customer-assistance/terms-conditions"
-                          className={globalStyles.cerise}
-                          target="_blank"
-                          rel="noopener noreferrer"
+                        <span
+                          className={cs(styles.subtotal, globalStyles.voffset2)}
                         >
-                          Terms of Use
-                        </a>{" "}
-                        |{" "}
-                        <a
-                          href="https://www.goodearth.in/customer-assistance/returns-exchanges"
-                          className={globalStyles.cerise}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          Returns & Exchanges
-                        </a>
-                      </div> */}
-
-                      {!mobile && (
-                        <div
-                          className={cs(
-                            globalStyles.marginT20,
-                            globalStyles.textCenter
-                          )}
-                        >
-                          <img src={weddingFloral} />
-                        </div>
-                      )}
+                          <span className={cs(globalStyles.op2, styles.label)}>
+                            Special Occasion Date:
+                          </span>
+                          &nbsp;&nbsp;
+                          <span className={styles.txtCap}>{eventDate}</span>
+                        </span>
+                      </div>
                     </div>
                   )}
-                  {mobile && (
-                    <div className={globalStyles.voffset4}>
-                      <input
-                        type="button"
-                        disabled={this.canCheckoutRegistry() ? false : true}
-                        className={
-                          this.canCheckoutRegistry()
-                            ? cs(globalStyles.aquaBtn)
-                            : cs(
-                                globalStyles.aquaBtn,
-                                globalStyles.disabledBtn,
-                                styles.disabledBtn
-                              )
-                        }
-                        value="REVIEW BAG & CHECKOUT >"
-                        onClick={this.redirectCart}
-                      />
+                  <hr className="hr" />
+                  <div className={styles.bridalSidebarFooter}>
+                    <div
+                      className={cs(styles.textCoupon, globalStyles.voffset3, {
+                        [styles.aquaColorText]: mobile
+                      })}
+                    >
+                      {/* To purchase an item, please select the quantity and
+                      click <span className="bold"> ADD TO BAG.</span> */}
+                      To purchase an item, please select the quantity and click
+                      ADD TO BAG.
+                      <br />
+                      <br />
+                      Please ensure you add the items from this public link only
+                      to contribute towards this Bridal Registry.
+                    </div>
+                    {/* <div
+                      className={cs(
+                        styles.textCoupon,
+                        globalStyles.voffset2,
+                        globalStyles.cerise,
+                        globalStyles.bold
+                      )}
+                    >
+                      Please ensure you add the items from this public link
+                      only to contribute towards this Bridal Registry.
+                    </div> */}
+                    <div
+                      className={cs(styles.textCoupon, globalStyles.voffset3)}
+                    >
+                      {/* If you need any assistance, talk to our representative
+                      on: */}
+                      For any assistance, enquiries or feedback, please reach
+                      out to us on: <br />
+                      <a href="tel: +91 9582999555">+91 9582 999 555</a> /{" "}
+                      <a href="tel: +91 9582999888">+91 9582 999 888</a> Monday
+                      through Saturday 9:00 am - 5:00 pm IST{" "}
+                      <a href="mailto:customercare@goodearth.in">
+                        customercare@goodearth.in
+                      </a>
+                    </div>
+                    <div className={cs(globalStyles.voffset3, styles.tcUrl)}>
+                      <a
+                        href="https://www.goodearth.in/customer-assistance/terms-conditions"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        Gifting Registry Terms & Conditions
+                      </a>
+                    </div>
+                  </div>
+                  {/* <div
+                    className={cs(styles.textCoupon, globalStyles.voffset2)}
+                  >
+                    <a
+                      href="tel: +91 9582999555"
+                      className={globalStyles.cerise}
+                    >
+                      +91 9582999555
+                    </a>{" "}
+                    /{" "}
+                    <a
+                      href="tel: +91 9582999888"
+                      className={globalStyles.cerise}
+                    >
+                      +91 9582999888
+                    </a>
+                  </div>
+                  <div
+                    className={cs(styles.textCoupon, globalStyles.voffset2)}
+                  >
+                    <a
+                      href="https://www.goodearth.in/customer-assistance/terms-conditions"
+                      className={globalStyles.cerise}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      Terms of Use
+                    </a>{" "}
+                    |{" "}
+                    <a
+                      href="https://www.goodearth.in/customer-assistance/returns-exchanges"
+                      className={globalStyles.cerise}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      Returns & Exchanges
+                    </a>
+                  </div> */}
+
+                  {!mobile && (
+                    <div
+                      className={cs(
+                        globalStyles.marginT20,
+                        globalStyles.textCenter
+                      )}
+                    >
+                      <img src={weddingFloral} />
                     </div>
                   )}
                 </div>
-              </div>
+              )}
+              {mobile && (
+                <div className={globalStyles.voffset3}>
+                  <input
+                    type="button"
+                    disabled={this.canCheckoutRegistry() ? false : true}
+                    className={
+                      this.canCheckoutRegistry()
+                        ? cs(globalStyles.aquaBtn)
+                        : cs(
+                            globalStyles.aquaBtn,
+                            globalStyles.disabledBtn,
+                            styles.disabledBtn
+                          )
+                    }
+                    value="REVIEW BAG & CHECKOUT >"
+                    onClick={this.redirectCart}
+                  />
+                </div>
+              )}
             </div>
           </div>
           <div
             id="bridal_items_container"
             className={cs(bootstrap.col12, bootstrap.colMd9, styles.cartBlock)}
           >
+            {mobile && (
+              <div className={styles.registeryDetailsTitle}>
+                REGISTRY DETAILS
+                <hr />
+              </div>
+            )}
             {this.state.bridalProfile.bridalId
               ? this.state.bridalProfile.items.map((item, index) => {
                   return (

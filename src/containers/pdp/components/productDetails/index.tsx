@@ -650,6 +650,9 @@ const ProductDetails: React.FC<Props> = ({
     formData["qtyRequested"] = quantity;
     BridalService.addToRegistry(dispatch, formData)
       .then(res => {
+        {
+          bridalId !== 0 && BridalService.countBridal(dispatch, bridalId);
+        }
         showGrowlMessage(dispatch, MESSAGE.ADD_TO_REGISTRY_SUCCESS);
         const registry = Object.assign({}, isRegistry);
         const userConsent = CookieService.getCookie("consent").split(",");
@@ -663,7 +666,6 @@ const ProductDetails: React.FC<Props> = ({
             "Product ID": productId,
             Variant: selectedSize?.size
           });
-          BridalService.countBridal(dispatch, bridalId);
         }
 
         if (selectedSize) {
