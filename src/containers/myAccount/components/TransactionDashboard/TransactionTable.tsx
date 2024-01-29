@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
+import FilterDropdown from "./FilterDropdown";
 import FilterDropdown from "./FilterDropdown";
 import bootstrap from "../../../../styles/bootstrap/bootstrap-grid.scss";
 import Close from "./../../../../icons/imastClose.svg";
@@ -16,6 +17,8 @@ import Loader from "components/Loader";
 import moment from "moment";
 import { scrollToGivenId } from "utils/validate";
 import { Link } from "react-router-dom";
+import tooltipIcon from "images/tooltip.svg";
+import tooltipOpenIcon from "images/tooltip-open.svg";
 
 type Props = {
   mobile: boolean;
@@ -29,6 +32,8 @@ const TransactionTable = ({ mobile }: Props) => {
   const [dropDownValue, setDropdownValue] = useState("L12M");
   const [dropDownValue2, setDropdownValue2] = useState("ALL");
   const [currentPage, setCurrentPage] = useState(1);
+  const [numberError, setNumberError] = useState("");
+  const [showTip, setShowTip] = useState(false);
   const [isLoading, setLoading] = useState(false);
   const [oldFilterState, setOldFilterState] = useState({
     dropDownValue: "",
@@ -48,7 +53,14 @@ const TransactionTable = ({ mobile }: Props) => {
     info: { isLoyaltyFilterOpen }
   } = useSelector((state: AppState) => state);
   const dispatch = useDispatch();
-
+  const impactRef = useRef<HTMLInputElement>(null);
+  const handleClickOutside = (evt: any) => {
+    if (impactRef.current && !impactRef.current.contains(evt.target)) {
+      setShowTip(false);
+      //Do what you want to handle in the callback
+      // this.props.closePopup(evt);
+    }
+  };
   const fetchTransaction = (payload: TransactionPayload) => {
     setLoading(true);
     LoyaltyService.getTransaction(dispatch, payload)
@@ -83,6 +95,14 @@ const TransactionTable = ({ mobile }: Props) => {
       PageNumber: currentPage,
       PaginationFilter: 1
     });
+  }, []);
+
+  useEffect(() => {
+    setNumberError("");
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
   }, []);
 
   const onChangeFilter = (val: string, isMonthFilter: boolean) => {
@@ -391,7 +411,37 @@ const TransactionTable = ({ mobile }: Props) => {
                         }`
                       : ele?.Points}
                   </p>
-
+                  {ele.Description == "NA" ? (
+                    <>
+                      &nbsp;&nbsp;&nbsp;
+                      <div className={styles.tooltip} ref={impactRef}>
+                        <img
+                          src={showTip ? tooltipOpenIcon : tooltipIcon}
+                          onClick={() => {
+                            setShowTip(!showTip);
+                          }}
+                        />
+                        <div
+                          className={cs(styles.tooltipMsg, {
+                            [styles.show]: showTip
+                          })}
+                        >
+                          No cerise loyalty points were earned on this order as
+                          it was billed with GST. View{" "}
+                          <Link
+                            className={cs(styles.tooltipLink, {
+                              [styles.show]: showTip
+                            })}
+                            to="/account/my-orders"
+                          >
+                            order details
+                          </Link>
+                        </div>
+                      </div>
+                    </>
+                  ) : (
+                    ""
+                  )}
                   {ele?.Description !== "Welcome Bonus" && (
                     <p
                       className={cs(
