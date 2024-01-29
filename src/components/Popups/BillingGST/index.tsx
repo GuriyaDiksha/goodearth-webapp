@@ -40,6 +40,7 @@ const BillingGST: React.FC<PopupProps> = ({
   const [gstType, setGstType] = useState("GSTIN");
   const [error, setError] = useState("");
   const { billingAddressId } = useSelector((state: AppState) => state.address);
+  const { currency, user } = useSelector((state: AppState) => state);
   const { mobile } = useSelector((state: AppState) => state.device);
   const dispatch = useDispatch();
 
@@ -223,6 +224,14 @@ const BillingGST: React.FC<PopupProps> = ({
             )}
           </div>
         </div>
+        {user.customerGroup == "loyalty_cerise_club" ? (
+          <div className={cs(styles.ceriseGstDisclaimer)}>
+            Note: You will not be earning any cerise loyalty points on GST
+            billing
+          </div>
+        ) : (
+          ""
+        )}
         <div className={cs(globalStyles.paddBottom20)}>
           <Button
             variant="mediumMedCharcoalCta366"

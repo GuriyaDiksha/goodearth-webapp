@@ -1821,3 +1821,9 @@
 .gc-checkout:hover {
   color: #3C7979;
 }
+
+.cerise-gst-disclaimer {
+  @include b5_10px_montserrat_aqua();
+  padding-bottom: 10px;
+  letter-spacing: 0.3px;
+}
