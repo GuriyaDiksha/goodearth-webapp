@@ -339,6 +339,7 @@ const Bridal: React.FC<Props> = props => {
 
             dispatch(updateUser(updatedUser));
             setCurrentModule("created");
+            window.scrollTo(0, 0);
           }
         })
         .catch(err => {
@@ -387,6 +388,7 @@ const Bridal: React.FC<Props> = props => {
   const showManageRegistry = () => {
     getBridalProfileData();
     setCurrentScreenValue("manage");
+    window.scrollTo(0, 0);
   };
 
   const showEditRegistryDetails = () => {

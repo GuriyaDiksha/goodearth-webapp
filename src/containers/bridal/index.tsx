@@ -19,6 +19,7 @@ import { pageViewGTM } from "utils/validate";
 import addedReg from "../../images/registery/addedReg.svg";
 import gift_icon from "../../images/registery/gift_icon.svg";
 import Button from "components/Button";
+import { Link } from "react-router-dom";
 
 type RouteInfo = {
   id: string;
@@ -571,9 +572,11 @@ class BridalCheckout extends React.Component<Props, State> {
                   Looks like the event has ended.
                 </div>
                 <div className={styles.proceedButton}>
-                  <button className={globalStyles.charcoalBtn}>
-                    PROCEED TO GOODEARTH.IN
-                  </button>
+                  <Link to="/">
+                    <button className={globalStyles.charcoalBtn}>
+                      PROCEED TO GOODEARTH.IN
+                    </button>
+                  </Link>
                 </div>
               </>
             )}

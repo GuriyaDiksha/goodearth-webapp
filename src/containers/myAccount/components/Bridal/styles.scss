@@ -1948,9 +1948,9 @@ margin-bottom: 50px !important;
     font-size: 12px!important;
   }
 }
-a.product-url{
-  position: relative;
-}
+// a.product-url{
+//   position: relative;
+// }
 .out-of-stock-txt,
 .not-available-txt{
   width: 100%;
@@ -1964,6 +1964,7 @@ a.product-url{
   line-height: 16px;
   letter-spacing: 0.26px;
   color: #AB1E56;
+  margin-left: -4px;
 }
 .blur{
   opacity: 0.4;

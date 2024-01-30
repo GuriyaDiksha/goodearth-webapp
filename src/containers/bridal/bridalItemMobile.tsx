@@ -133,7 +133,7 @@ const BridalMobile: React.FC<Props> = ({ bridalItem, bridalId }) => {
             >
               {bridalItem.productAvailable && (
                 <div className={globalStyles.voffset7}>
-                  <div className={styles.textMuted}>Quantity Required</div>
+                  <div className={styles.textMuted}>Add Your Quantity</div>
                   <div
                     className={cs(styles.widgetQty, {
                       [styles.blurTxt]:
@@ -162,18 +162,6 @@ const BridalMobile: React.FC<Props> = ({ bridalItem, bridalId }) => {
                   )}
                 </div>
               )}
-              <div className={globalStyles.voffset4}>
-                <div className={styles.textMuted}>Quantity Requested</div>
-                <div
-                  className={cs(
-                    globalStyles.textCenter,
-                    globalStyles.c10LR,
-                    globalStyles.voffset1
-                  )}
-                >
-                  {bridalItem.qtyRequested}
-                </div>
-              </div>
               <div
                 className={cs(globalStyles.voffset4, {
                   [styles.auqaColorText]: bridalItem.qtyRemaining == 0
@@ -188,6 +176,18 @@ const BridalMobile: React.FC<Props> = ({ bridalItem, bridalId }) => {
                   )}
                 >
                   {bridalItem.qtyRemaining}
+                </div>
+              </div>
+              <div className={cs(globalStyles.voffset4, styles.lightCharcoal)}>
+                <div className={styles.textMuted}>Quantity Bought</div>
+                <div
+                  className={cs(
+                    globalStyles.textCenter,
+                    globalStyles.c10LR,
+                    globalStyles.voffset1
+                  )}
+                >
+                  {bridalItem.qtyBought}
                 </div>
               </div>
             </div>

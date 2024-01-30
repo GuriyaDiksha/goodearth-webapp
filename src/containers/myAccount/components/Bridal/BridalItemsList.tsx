@@ -19,10 +19,10 @@ type Props = {
   mobile: boolean;
   currency: Currency;
   bridalId: number;
-  onMobileAdd: (index: number) => void;
+  mIndex: number;
+  onMobileAdd: (mIndex: number) => void;
   key: number;
   fetchBridalItems: () => void;
-  mIndex: number;
 };
 
 const BridalItemsList: React.FC<Props> = props => {
@@ -50,7 +50,6 @@ const BridalItemsList: React.FC<Props> = props => {
   const mobileAddToBag = () => {
     if (stock == 0 || price[props.currency] == 0) {
     } else {
-      console.log(props.product.id);
       const mobileAddIndex = props.mIndex;
       props.onMobileAdd(mobileAddIndex);
     }
@@ -58,7 +57,7 @@ const BridalItemsList: React.FC<Props> = props => {
 
   const dispatch = useDispatch();
   const increaseState = () => {
-    if (stock == 0 || price[props.currency] == 0) {
+    if (!productAvailable || stock == 0 || price[props.currency] == 0) {
     } else {
       if (reqCurrent >= props.product.stock) {
         setErr(
@@ -88,7 +87,7 @@ const BridalItemsList: React.FC<Props> = props => {
   };
 
   const decreaseState = () => {
-    if (stock == 0 || price[props.currency] == 0) {
+    if (!productAvailable || stock == 0 || price[props.currency] == 0) {
     } else {
       if (reqCurrent > 1) {
         const data = {
@@ -144,7 +143,7 @@ const BridalItemsList: React.FC<Props> = props => {
         <div className={cs(bootstrapStyles.row, styles.nowrap)}>
           <div className={cs(bootstrapStyles.col5, bootstrapStyles.colMd3)}>
             <a href={productUrl} className={styles.productUrl}>
-              {price[props.currency] == 0 ? (
+              {!productAvailable ? (
                 <div className={styles.notAvailableTxt}>Not Available</div>
               ) : stock == 0 ? (
                 <div className={styles.outOfStockTxt}>Out of Stock</div>
@@ -153,7 +152,7 @@ const BridalItemsList: React.FC<Props> = props => {
               )}
               <div
                 className={cs(styles.productImageSection, {
-                  [styles.blur]: stock == 0 || price[props.currency] == 0
+                  [styles.blur]: stock == 0 || !productAvailable
                 })}
               >
                 {badgeImage && (
@@ -175,7 +174,7 @@ const BridalItemsList: React.FC<Props> = props => {
                 <div className={cs(styles.section, styles.sectionInfo)}>
                   <div
                     className={cs({
-                      [styles.blur]: price[props.currency] == 0
+                      [styles.blur]: !productAvailable
                     })}
                   >
                     <div>
@@ -280,15 +279,15 @@ const BridalItemsList: React.FC<Props> = props => {
                 >
                   <div
                     className={cs(styles.section, styles.sectionMiddle, {
-                      [styles.blur]: price[props.currency] == 0
+                      [styles.blur]:
+                        !productAvailable || price[props.currency] == 0
                     })}
                   >
                     <div className="">
                       <div className={styles.textMuted}>Quantity Required</div>
                       <div
                         className={cs(styles.widgetQty, {
-                          [styles.blurTxt]:
-                            stock == 0 || price[props.currency] == 0
+                          [styles.blurTxt]: stock == 0
                         })}
                       >
                         <span className={styles.btnQty} onClick={decreaseState}>

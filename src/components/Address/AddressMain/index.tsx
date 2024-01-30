@@ -477,7 +477,8 @@ const AddressMain: React.FC<Props> = props => {
                       variant="mediumMedCharcoalCta366"
                       id="address_button"
                       className={cs(
-                        globalStyles.charcoalBtn
+                        globalStyles.charcoalBtn,
+                        globalStyles.charcoalBtnHover
                         // {
                         //   [globalStyles.disabledBtn]:
                         //     currentCallBackComponent == "bridal" &&
@@ -512,7 +513,10 @@ const AddressMain: React.FC<Props> = props => {
                   <input
                     type="button"
                     id="address_button"
-                    className={cs(globalStyles.charcoalBtn)}
+                    className={cs(
+                      globalStyles.charcoalBtn,
+                      globalStyles.charcoalBtnHover
+                    )}
                     value="update details"
                     onClick={() => {
                       if (
