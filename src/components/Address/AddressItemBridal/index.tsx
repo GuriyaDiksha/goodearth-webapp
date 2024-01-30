@@ -31,6 +31,7 @@ const AddressItemBridal: React.FC<Props> = ({
               bootstrapStyles.col12,
               bootstrapStyles.colMd6,
               globalStyles.voffset5,
+              globalStyles.marginB30,
               styles.checkoutAddress,
               "address-container"
             )

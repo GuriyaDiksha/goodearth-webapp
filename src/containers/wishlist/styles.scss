@@ -193,8 +193,11 @@ span{
     margin: 40px 0 100px 0;
 }
 .wishlist-block-outer-timer {
-  margin: 40px 0 100px 0;
-  margin-top: $header-height + $secondary-header-height + $timer-height;
+  margin: 80px 0 100px 0;
+
+  @media screen and (max-width:992px) {
+    margin: 0 0 100px 0;
+  }
 }
 .wishlist-block-outer-mobile {
   // padding-top: 30px;
@@ -558,6 +561,10 @@ icon-cross {
   z-index: 1;
   img {
      width: 100%;
+     max-width: 70px;
+     position: absolute;
+     left: 10px;
+     top: 10px;
   }
 }
 .badge-position-plp-mobile {
@@ -566,7 +573,11 @@ icon-cross {
     position: absolute;
     z-index: 4;
   img {
-    width: 100%;
+    width: 70px;
+    max-width: 70px;
+    position: absolute;
+    left: 10px;
+    top: 10px;
   }
 }
 .page-body {
@@ -576,7 +587,7 @@ icon-cross {
   margin-top: $header-height;
 }
 .page-body-timer {
-  margin-top: $header-height + $secondary-header-height + $timer-height;
+  margin-top: 80px;
 }
 .page-body-mobile-timer {
   margin-top: $header-height  + $timer-height;

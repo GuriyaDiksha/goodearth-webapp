@@ -501,80 +501,82 @@ class FilterList extends React.Component<Props, State> {
     if (nextUrl && this.state.flag && this.state.scrollload) {
       this.setState({ flag: false });
       changeLoader?.(true);
-      const filterUrl = "?" + nextUrl.split("?")[1];
+      let filterUrl = "?" + nextUrl.split("?")[1];
       // const pageSize = mobile ? 10 : 20;
-      const pageSize = 20;
+      const pageSize = 40;
       const urlParams = new URLSearchParams(this.props.history.location.search);
       const categoryShop = urlParams.get("category_shop");
       const categoryShopL1 = urlParams
         .get("category_shop")
         ?.split(">")[1]
         ?.trim();
-      updateProduct(filterUrl + `&page_size=${pageSize}`, listdata).then(
-        plpList => {
-          changeLoader?.(false);
-          productImpression(
-            plpList,
-            categoryShopL1 || "PLP",
-            this.props.currency,
-            plpList.results.data.length
-          );
-          this.createFilterfromUrl(false);
-          const pricearray: any = [],
-            currentCurrency =
-              "price" +
-              currency[0].toUpperCase() +
-              currency.substring(1).toLowerCase();
-          plpList.results.filtered_facets[currentCurrency]?.map(function(
-            a: any
-          ) {
-            pricearray.push(+a[0]);
-          });
-          if (pricearray.length > 0) {
-            minMaxvalue.push(
-              pricearray.reduce(function(a: number, b: number) {
-                return Math.min(a, b);
-              })
-            );
-            minMaxvalue.push(
-              pricearray.reduce(function(a: number, b: number) {
-                return Math.max(a, b);
-              })
-            );
-          }
+      const isPageSizeExist = new URLSearchParams(filterUrl).get("page_size");
 
-          if (filter.price.min_price) {
-            currentRange.push(filter.price.min_price);
-            currentRange.push(filter.price.max_price);
-          } else {
-            currentRange = minMaxvalue;
-          }
+      if (!isPageSizeExist) {
+        filterUrl = filterUrl + `&page_size=${pageSize}`;
+      }
 
-          this.setState(
-            {
-              rangevalue: currentRange,
-              initialrangevalue: {
-                min: minMaxvalue[0],
-                max: minMaxvalue[1]
-              },
-              disableSelectedbox: false,
-              scrollload: true,
-              flag: true,
-              totalItems: plpList.count
-            },
-            () => {
-              if (
-                !this.state.scrollView &&
-                this.state.shouldScroll &&
-                this.props.history.action === "POP"
-              ) {
-                this.handleProductSearch();
-              }
-            }
+      updateProduct(filterUrl, listdata).then(plpList => {
+        changeLoader?.(false);
+        productImpression(
+          plpList,
+          categoryShopL1 || "PLP",
+          this.props.currency,
+          plpList.results.data.length
+        );
+        this.createFilterfromUrl(false);
+        const pricearray: any = [],
+          currentCurrency =
+            "price" +
+            currency[0].toUpperCase() +
+            currency.substring(1).toLowerCase();
+        plpList.results.filtered_facets[currentCurrency]?.map(function(a: any) {
+          pricearray.push(+a[0]);
+        });
+        if (pricearray.length > 0) {
+          minMaxvalue.push(
+            pricearray.reduce(function(a: number, b: number) {
+              return Math.min(a, b);
+            })
           );
-          this.props.updateFacets(this.getSortedFacets(plpList.results.facets));
+          minMaxvalue.push(
+            pricearray.reduce(function(a: number, b: number) {
+              return Math.max(a, b);
+            })
+          );
         }
-      );
+
+        if (filter.price.min_price) {
+          currentRange.push(filter.price.min_price);
+          currentRange.push(filter.price.max_price);
+        } else {
+          currentRange = minMaxvalue;
+        }
+
+        this.setState(
+          {
+            rangevalue: currentRange,
+            initialrangevalue: {
+              min: minMaxvalue[0],
+              max: minMaxvalue[1]
+            },
+            disableSelectedbox: false,
+            scrollload: true,
+            flag: true,
+            totalItems: plpList.count
+          },
+          () => {
+            if (
+              !this.state.scrollView &&
+              this.state.shouldScroll &&
+              this.props.history.action === "POP"
+            ) {
+              this.handleProductSearch();
+            }
+          }
+        );
+        this.props.updateFacets(this.getSortedFacets(plpList.results.facets));
+      });
 
       if (categoryShop) {
         fetchPlpTemplates(categoryShop);
@@ -596,7 +598,7 @@ class FilterList extends React.Component<Props, State> {
     }
     changeLoader?.(true);
     const url = decodeURI(history.location.search);
-    const filterUrl = "?" + url.split("?")[1];
+    let filterUrl = "?" + url.split("?")[1];
     const urlParams = new URLSearchParams(history.location.search);
     const categoryShop = urlParams.get("category_shop");
     const categoryShopL1 = urlParams
@@ -604,19 +606,18 @@ class FilterList extends React.Component<Props, State> {
       ?.split(">")[1]
       ?.trim();
     // const pageSize = mobile ? 10 : 20;
-    const pageSize = 20;
-    fetchPlpProducts(filterUrl + `&page_size=${pageSize}`, currency).then(
-      plpList => {
-        productImpression(
-          plpList,
-          categoryShopL1 || "PLP",
-          this.props.currency
-        );
-        changeLoader?.(false);
-        this.createList(plpList, false);
-        this.props.updateFacets(this.getSortedFacets(plpList.results.facets));
-      }
-    );
+    const pageSize = 40;
+    const isPageSizeExist = new URLSearchParams(filterUrl).get("page_size");
+
+    if (!isPageSizeExist) {
+      filterUrl = filterUrl + `&page_size=${pageSize}`;
+    }
+    fetchPlpProducts(filterUrl, currency).then(plpList => {
+      productImpression(plpList, categoryShopL1 || "PLP", this.props.currency);
+      changeLoader?.(false);
+      this.createList(plpList, false);
+      this.props.updateFacets(this.getSortedFacets(plpList.results.facets));
+    });
     if (categoryShop) {
       fetchPlpTemplates(categoryShop);
     }

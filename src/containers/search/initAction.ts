@@ -4,7 +4,7 @@ import SearchService from "services/search";
 const initActionSearch: InitAction = async (store, params, { search }) => {
   await SearchService.onLoadSearchPage(
     store.dispatch,
-    search,
+    search + `&page_size=${40}`,
     store.getState()?.currency,
     store.getState()?.info?.isSale
   ).catch(err => {

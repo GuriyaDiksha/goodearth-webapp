@@ -717,15 +717,19 @@ class FilterList extends React.Component<Props, State> {
     }
     if (nextUrl && this.state.flag && this.state.scrollload) {
       this.setState({ flag: false });
-      const filterUrl = "?" + nextUrl.split("?")[1];
+      let filterUrl = "?" + nextUrl.split("?")[1];
       // const pageSize = mobile ? 10 : 20;
-      const pageSize = 20;
+      const pageSize = 40;
       const queryString = this.props.location.search;
       const urlParams = new URLSearchParams(queryString);
       const searchValue: any = urlParams.get("q") || "";
+      const isPageSizeExist = new URLSearchParams(filterUrl).get("page_size");
+      if (!isPageSizeExist) {
+        filterUrl = filterUrl + `&page_size=${pageSize}`;
+      }
       this.setState({ isLoading: true });
       changeLoader?.(true);
-      updateProduct(filterUrl + `&page_size=${pageSize}`, listdata)
+      updateProduct(filterUrl, listdata)
         .then(searchList => {
           changeLoader?.(false);
           productImpression(
@@ -803,16 +807,20 @@ class FilterList extends React.Component<Props, State> {
     //     disableSelectedbox: true
     // });
     const url = decodeURIComponent(history.location.search);
-    const filterUrl = "?" + url.split("?")[1];
+    let filterUrl = "?" + url.split("?")[1];
     const queryString = this.props.location.search;
     const urlParams = new URLSearchParams(queryString);
     const searchValue: any = urlParams.get("q") || "";
 
     // const pageSize = mobile ? 10 : 20;
-    const pageSize = 20;
+    const pageSize = 40;
+    const isPageSizeExist = new URLSearchParams(filterUrl).get("page_size");
+    if (!isPageSizeExist) {
+      filterUrl = filterUrl + `&page_size=${pageSize}`;
+    }
     this.setState({ isLoading: true });
     changeLoader?.(true);
-    fetchSearchProducts(filterUrl + `&page_size=${pageSize}`)
+    fetchSearchProducts(filterUrl)
       .then(searchList => {
         changeLoader?.(false);
         gaEventsForSearch(searchList);
