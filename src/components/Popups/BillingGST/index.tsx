@@ -224,7 +224,8 @@ const BillingGST: React.FC<PopupProps> = ({
             )}
           </div>
         </div>
-        {user.customerGroup == "loyalty_cerise_club" ? (
+        {user.customerGroup == "loyalty_cerise_club" ||
+        user.customerGroup == "loyalty_cerise_sitara" ? (
           <div className={cs(styles.ceriseGstDisclaimer)}>
             Note: You will not be earning any cerise loyalty points on GST
             billing

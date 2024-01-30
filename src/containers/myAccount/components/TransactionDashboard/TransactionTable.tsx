@@ -392,6 +392,37 @@ const TransactionTable = ({ mobile }: Props) => {
                     )}
                   >
                     {ele?.Description}
+                    {ele?.Description == "NA" ? (
+                      <>
+                        &nbsp;&nbsp;&nbsp;
+                        <div className={styles.tooltip} ref={impactRef}>
+                          <img
+                            src={showTip ? tooltipOpenIcon : tooltipIcon}
+                            onClick={() => {
+                              setShowTip(!showTip);
+                            }}
+                          />
+                          <div
+                            className={cs(styles.tooltipMsg, {
+                              [styles.show]: showTip
+                            })}
+                          >
+                            No cerise loyalty points were earned on this order
+                            as it was billed with GST. View{" "}
+                            <Link
+                              className={cs(styles.tooltipLink, {
+                                [styles.show]: showTip
+                              })}
+                              to="/account/my-orders"
+                            >
+                              order details
+                            </Link>
+                          </div>
+                        </div>
+                      </>
+                    ) : (
+                      ""
+                    )}
                   </p>
                   <p
                     className={cs(
@@ -411,37 +442,6 @@ const TransactionTable = ({ mobile }: Props) => {
                         }`
                       : ele?.Points}
                   </p>
-                  {ele.Description == "NA" ? (
-                    <>
-                      &nbsp;&nbsp;&nbsp;
-                      <div className={styles.tooltip} ref={impactRef}>
-                        <img
-                          src={showTip ? tooltipOpenIcon : tooltipIcon}
-                          onClick={() => {
-                            setShowTip(!showTip);
-                          }}
-                        />
-                        <div
-                          className={cs(styles.tooltipMsg, {
-                            [styles.show]: showTip
-                          })}
-                        >
-                          No cerise loyalty points were earned on this order as
-                          it was billed with GST. View{" "}
-                          <Link
-                            className={cs(styles.tooltipLink, {
-                              [styles.show]: showTip
-                            })}
-                            to="/account/my-orders"
-                          >
-                            order details
-                          </Link>
-                        </div>
-                      </div>
-                    </>
-                  ) : (
-                    ""
-                  )}
                   {ele?.Description !== "Welcome Bonus" && (
                     <p
                       className={cs(
