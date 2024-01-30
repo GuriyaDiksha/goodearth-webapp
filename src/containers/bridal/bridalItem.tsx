@@ -300,7 +300,7 @@ class BridalItem extends React.Component<Props, State> {
                       <div className="">
                         {this.props.bridalItem.productAvailable && (
                           <div className={styles.textMuted}>
-                            Quantity required
+                            Add Your Quantity
                           </div>
                         )}
                         {this.props.bridalItem.productAvailable && (
@@ -343,18 +343,6 @@ class BridalItem extends React.Component<Props, State> {
                           )}
                         </div>
                       </div>
-                      <div className={globalStyles.voffset3}>
-                        <div className={styles.textMuted}>Quantity Bought</div>
-                        <div
-                          className={cs(
-                            globalStyles.textCenter,
-                            globalStyles.c10LR,
-                            globalStyles.voffset1
-                          )}
-                        >
-                          {this.props.bridalItem.qtyBought}
-                        </div>
-                      </div>
                       <div
                         className={cs(globalStyles.voffset3, {
                           [styles.auqaColorText]:
@@ -372,6 +360,26 @@ class BridalItem extends React.Component<Props, State> {
                           )}
                         >
                           {this.props.bridalItem.qtyRemaining}
+                        </div>
+                      </div>
+                      <div
+                        className={cs(
+                          globalStyles.voffset3,
+                          styles.lightCharcoal
+                        )}
+                      >
+                        <div className={cs(styles.textMuted)}>
+                          Quantity Bought
+                        </div>
+                        <div
+                          className={cs(
+                            globalStyles.textCenter,
+                            globalStyles.c10LR,
+                            styles.lightCharcoal,
+                            globalStyles.voffset1
+                          )}
+                        >
+                          {this.props.bridalItem.qtyBought}
                         </div>
                       </div>
                     </div>

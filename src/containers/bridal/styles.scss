@@ -847,7 +847,7 @@
     }
   
     .text-muted {
-      color: #808080;
+      color: #191919;
       font-size: 10px;
       font-style: normal;
       font-variant: normal;
@@ -1146,7 +1146,7 @@ a.pos-relative{
   @include b5_10px_montserrat_charcoal();
   margin-top: 15px;
 }
-.aqua-color-text{
+.auqa-color-text div{
   color: #548B8B!important;
 }
 .mobDiv{
@@ -1160,4 +1160,7 @@ a.pos-relative{
   font-style: italic;
   color: $cerise;
   margin-top: 15px;
+}
+.light-charcoal div{
+  color: #9F9F9F!important;
 }
