@@ -1,6 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
 import FilterDropdown from "./FilterDropdown";
-import FilterDropdown from "./FilterDropdown";
 import bootstrap from "../../../../styles/bootstrap/bootstrap-grid.scss";
 import Close from "./../../../../icons/imastClose.svg";
 import True from "./../../../../icons/imastTrue.svg";
@@ -33,7 +32,10 @@ const TransactionTable = ({ mobile }: Props) => {
   const [dropDownValue2, setDropdownValue2] = useState("ALL");
   const [currentPage, setCurrentPage] = useState(1);
   const [numberError, setNumberError] = useState("");
-  const [showTip, setShowTip] = useState(false);
+  const [showTip, setShowTip] = useState<{ id?: string; state?: boolean }>({
+    id: "0",
+    state: false
+  });
   const [isLoading, setLoading] = useState(false);
   const [oldFilterState, setOldFilterState] = useState({
     dropDownValue: "",
@@ -55,10 +57,11 @@ const TransactionTable = ({ mobile }: Props) => {
   const dispatch = useDispatch();
   const impactRef = useRef<HTMLInputElement>(null);
   const handleClickOutside = (evt: any) => {
+    evt.stopPropagation();
+    debugger;
+    console.log(impactRef.current?.contains(evt.target));
     if (impactRef.current && !impactRef.current.contains(evt.target)) {
-      setShowTip(false);
-      //Do what you want to handle in the callback
-      // this.props.closePopup(evt);
+      setShowTip({ id: showTip["id"], state: false });
     }
   };
   const fetchTransaction = (payload: TransactionPayload) => {
@@ -401,14 +404,25 @@ const TransactionTable = ({ mobile }: Props) => {
                           ref={impactRef}
                         >
                           <img
-                            src={showTip ? tooltipOpenIcon : tooltipIcon}
-                            onClick={() => {
-                              setShowTip(!showTip);
+                            src={
+                              showTip?.id === ind + "t" && showTip.state
+                                ? tooltipOpenIcon
+                                : tooltipIcon
+                            }
+                            onClick={e => {
+                              debugger;
+                              e.stopPropagation();
+                              e.preventDefault();
+                              setShowTip({
+                                id: ind + "t",
+                                state: !showTip["state"]
+                              });
                             }}
                           />
                           <div
                             className={cs(styles.tooltipMsg, {
-                              [styles.show]: showTip
+                              [styles.show]:
+                                showTip?.id === ind + "t" && showTip.state
                             })}
                           >
                             No cerise loyalty points were earned on this order
