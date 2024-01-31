@@ -58,7 +58,6 @@ const TransactionTable = ({ mobile }: Props) => {
   const impactRef = useRef<HTMLInputElement>(null);
   const handleClickOutside = (evt: any) => {
     evt.stopPropagation();
-    debugger;
     console.log(impactRef.current?.contains(evt.target));
     if (impactRef.current && !impactRef.current.contains(evt.target)) {
       setShowTip({ id: showTip["id"], state: false });

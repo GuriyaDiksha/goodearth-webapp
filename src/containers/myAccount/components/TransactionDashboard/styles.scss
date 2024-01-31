@@ -487,9 +487,17 @@
           width: 117px;
             &.show{
               bottom: 2px !important;
-              left: 88px !important;
+              left: 62px !important;
             }
         }
+        @media screen and (max-width:992px) {
+            height: 95px;
+            width: 117px;
+            &.show{
+              bottom: 2px !important;
+              left: 119px !important;
+            }
+          }
         box-shadow: 0px 3px 6px #00000029;
         display: none;
         &.show{
