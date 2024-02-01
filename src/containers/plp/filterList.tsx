@@ -393,18 +393,21 @@ class FilterList extends React.Component<Props, State> {
     );
     const windowBottom = windowHeight + window.pageYOffset;
     //new speed controller
-    const value = innerfilter.scrollTop;
-    if (this.state.scrolllastvalue < window.scrollY) {
-      innerfilter.scrollTo(0, value + 4);
-      this.setState({
-        scrolllastvalue: window.scrollY
-      });
-    } else {
-      innerfilter.scrollTo(0, value - 4);
-      this.setState({
-        scrolllastvalue: window.scrollY
-      });
+    if (!this.props.mobile) {
+      const value = innerfilter.scrollTop;
+      if (this.state.scrolllastvalue < window.scrollY) {
+        innerfilter.scrollTo(0, value + 4);
+        this.setState({
+          scrolllastvalue: window.scrollY
+        });
+      } else {
+        innerfilter.scrollTo(0, value - 4);
+        this.setState({
+          scrolllastvalue: window.scrollY
+        });
+      }
     }
+
     // html.clientHeight <= (window.pageYOffset + window.innerHeight-100)
     if (windowBottom + 2000 >= docHeight && this.state.scrollload) {
       this.appendData();
