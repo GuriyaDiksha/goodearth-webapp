@@ -42,7 +42,7 @@ const AddressItemBridal: React.FC<Props> = ({
     >
       {addressData && (
         <div
-          className={cs(styles.addressItemContainer, {
+          className={cs(styles.addressItemContainer, styles.checkout, {
             [styles.defaultAddress]: shippingAddressId === addressData?.id
           })}
         >

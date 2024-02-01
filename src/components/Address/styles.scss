@@ -87,6 +87,7 @@ body:has(.mobile) {
   &.checkout{
     width: 755px;
     max-width: 755px;
+    word-break: break-all;
 
     @media screen and (max-width:767px) {
 
