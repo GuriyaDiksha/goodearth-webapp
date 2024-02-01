@@ -12,7 +12,6 @@ import styles from "./styles.scss";
 import globalStyles from "../../styles/global.scss";
 import cs from "classnames";
 import weddingFloral from "../../images/bridal/wedding-floral.png";
-import bridalRing from "../../images/bridal/rings.svg";
 import iconStyles from "styles/iconFonts.scss";
 import { POPUP } from "constants/components";
 import { pageViewGTM } from "utils/validate";
@@ -20,9 +19,19 @@ import addedReg from "../../images/registery/addedReg.svg";
 import gift_icon from "../../images/registery/gift_icon.svg";
 import Button from "components/Button";
 import { Link } from "react-router-dom";
+import ModalStyles from "components/Modal/styles.scss";
 
 type RouteInfo = {
   id: string;
+};
+
+const mapStateToProps = (state: AppState) => {
+  return {
+    cart: state.basket,
+    mobile: state.device.mobile,
+    showTimer: state.info.showTimer,
+    isSale: state.info.isSale
+  };
 };
 
 const mapDispatchToProps = (dispatch: Dispatch, ownProps: any) => {
@@ -37,15 +46,19 @@ const mapDispatchToProps = (dispatch: Dispatch, ownProps: any) => {
     showMobilePopup: (component: string, props: any) => {
       dispatch(updateComponent(component, props, true));
       dispatch(updateModal(true));
+    },
+    openNotifyMePopup: (component: string, props: any, mobile: boolean) => {
+      dispatch(
+        updateComponent(
+          component,
+          props,
+          false,
+          mobile ? ModalStyles.bottomAlignSlideUp : "",
+          mobile ? "slide-up-bottom-align" : ""
+        )
+      );
+      dispatch(updateModal(true));
     }
-  };
-};
-
-const mapStateToProps = (state: AppState) => {
-  return {
-    cart: state.basket,
-    mobile: state.device.mobile,
-    showTimer: state.info.showTimer
   };
 };
 
@@ -121,9 +134,66 @@ class BridalCheckout extends React.Component<Props, State> {
     this.setState({ mobileIndex: mindex });
   };
 
+  NotifyMe = (mindex: number) => {
+    const component = POPUP.NOTIFYMEPOPUP;
+    const bridalItems = this.state.bridalProfile.items;
+    const bridalItem = bridalItems[mindex];
+    const currency = this.state.bridalProfile.currency;
+    const childAttributes = bridalItems.map(
+      ({
+        discountedPrice,
+        productId,
+        sku,
+        price,
+        size,
+        stock,
+        productName
+      }) => {
+        return {
+          discountedPriceRecords: discountedPrice,
+          id: productId,
+          isBridalProduct: false,
+          sku: sku,
+          priceRecords: price,
+          size: size,
+          stock: stock,
+          productName: productName
+        };
+      }
+    );
+    let selectedIndex;
+    let price = bridalItem.price[currency];
+    childAttributes.map((v, i) => {
+      if (v.size === bridalItem?.size) {
+        selectedIndex = i;
+        price = v.priceRecords[currency];
+      }
+    });
+    const props = {
+      price: bridalItem.price,
+      currency: currency,
+      title: bridalItem.productName,
+      childAttributes: childAttributes,
+      collection: bridalItem.collection,
+      selectedIndex: selectedIndex,
+      isSale: this.props.isSale,
+      discount: bridalItem.discount,
+      badgeType: bridalItem.badgeType,
+      discountedPrice:
+        bridalItem.discountedPrice[this.state.bridalProfile.currency],
+      list: "bridalItems",
+      sliderImages: [],
+      collections: bridalItem?.collection
+    };
+    const mobile = this.props.mobile;
+    this.props.openNotifyMePopup(component, props, mobile);
+    this.setState({ mobileIndex: mindex });
+  };
+
   // closeMobileAdd = () => {
   //   this.setState({showMobilePopup: false});
   // };
+
   redirectCheckout = () => {
     if (!this.canCheckoutRegistry()) {
       return false;
@@ -530,6 +600,7 @@ class BridalCheckout extends React.Component<Props, State> {
                     <BridalItem
                       bridalItem={item}
                       onMobileAdd={this.handleMobileAdd}
+                      notifyMe={this.NotifyMe}
                       currency={this.state.bridalProfile.currency}
                       index={index}
                       key={index}
