@@ -360,6 +360,17 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
     }
   }, []);
 
+  const colorName = (value: string) => {
+    let cName = value
+      .split("-")
+      .slice(1)
+      .join();
+    if (cName[cName.length - 1] == "s") {
+      cName = cName.slice(0, -1);
+    }
+    return cName;
+  };
+
   let totalItem = 0;
   for (let i = 0; i < confirmData?.lines?.length; i++) {
     totalItem += confirmData.lines[i].quantity;
@@ -742,9 +753,10 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                                       <>Size:&nbsp; {item.product.size}</>
                                     )}
                                   </div>
-                                  {item.color && (
+                                  {item?.product?.colors?.length && (
                                     <div className={styles.productDetails}>
-                                      Color:&nbsp; {item.color}
+                                      Color:&nbsp;{" "}
+                                      {colorName(item.product?.colors?.[0])}
                                     </div>
                                   )}
                                   <div className={styles.productDetails}>
