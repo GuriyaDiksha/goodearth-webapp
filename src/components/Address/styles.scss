@@ -84,6 +84,29 @@ body:has(.mobile) {
   margin: auto;
   min-height: 170px;
 
+  &.checkout{
+    width: 755px;
+    max-width: 755px;
+
+    @media screen and (max-width:767px) {
+
+      width: 100%;
+      
+    }
+  }
+
+  &.cerise{
+    width: 556px;
+    max-width: 556px;
+    margin: 0;
+
+    @media screen and (max-width:767px) {
+
+      width: 100%;
+      
+    }
+  }
+
   .address-wrapper {
     max-width: 93%;
   }
@@ -422,9 +445,9 @@ body:has(.mobile) {
 }
 
 .cerise-address-item-container {
-  min-height: 160px;
+  min-height: 170px;
   .address-item {
-    padding: 35px 25px 55px 25px;
+    // padding: 35px 25px 55px 25px;
     .line-head,
     .address-line,
     .line {
@@ -487,9 +510,9 @@ body:has(.mobile) {
       word-wrap: break-word;
       font-size: 12px;
       margin-top: 5px;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
+      // overflow: hidden;
+      // text-overflow: ellipsis;
+      word-break: break-all;
     }
     &.checkout-fix {
       font-size: 13px;
@@ -562,7 +585,7 @@ body:has(.mobile) {
   flex-wrap: wrap;
   flex-direction: column;
   &.checkout-fix {
-    flex-direction: row;
+    // flex-direction: row;
   }
 }
 

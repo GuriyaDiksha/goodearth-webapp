@@ -15,6 +15,7 @@ import bridalRing from "../../../images/bridal/rings.svg";
 import CookieService from "services/cookie";
 import { GA_CALLS } from "constants/cookieConsent";
 import Button from "components/Button";
+import { useHistory } from "react-router";
 
 type Props = {
   addressData: AddressData;
@@ -49,6 +50,7 @@ const AddressItem: React.FC<Props> = props => {
     basket,
     address: { shippingAddressId, billingAddressId }
   } = useSelector((state: AppState) => state);
+  const history = useHistory();
 
   // const isDefaultAddress = () => {
   //     return props.addressData.isDefaultForShipping;
@@ -299,6 +301,14 @@ const AddressItem: React.FC<Props> = props => {
           },
           {
             [styles.isTulsi]: address.isTulsi
+          },
+          {
+            [styles.checkout]:
+              currentCallBackComponent == "checkout-shipping" ||
+              currentCallBackComponent == "checkout-billing"
+          },
+          {
+            [styles.cerise]: props.currentCallBackComponent == "cerise"
           }
         )}
       >
@@ -664,11 +674,7 @@ const AddressItem: React.FC<Props> = props => {
                   currentCallBackComponent == "bridal-edit"
               })}
             >
-              {!(
-                address.isTulsi ||
-                address.isBackendOrder ||
-                props.currentCallBackComponent == "cerise"
-              ) &&
+              {!(address.isTulsi || address.isBackendOrder) &&
                 !(props.isGcCheckout && currency != address.currency) && (
                   <span
                     className={cs(
@@ -684,7 +690,11 @@ const AddressItem: React.FC<Props> = props => {
                     )}
                     onClick={event => {
                       event.stopPropagation();
-                      if (billingEditDisable) {
+                      if (
+                        billingEditDisable ||
+                        props.currentCallBackComponent == "cerise"
+                      ) {
+                        history.push("/account/address");
                         false;
                       } else {
                         openAddressForm(address);
