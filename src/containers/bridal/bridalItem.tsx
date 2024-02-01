@@ -197,6 +197,13 @@ class BridalItem extends React.Component<Props, State> {
                     <div className={styles.smallfont}>
                       SIZE: {this.props.bridalItem.size}
                     </div>
+                    {this.props.bridalItem?.color && (
+                      <div
+                        className={cs(styles.smallfont, globalStyles.voffset1)}
+                      >
+                        COLOR: {this.props.bridalItem.color}
+                      </div>
+                    )}
                     <div
                       className={cs(styles.smallfont, globalStyles.voffset1)}
                     >

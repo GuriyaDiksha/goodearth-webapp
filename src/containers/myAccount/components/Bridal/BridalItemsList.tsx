@@ -120,7 +120,8 @@ const BridalItemsList: React.FC<Props> = props => {
     size,
     qtyBought,
     qtyRemaining,
-    badgeType
+    badgeType,
+    color
   } = props.product;
   return (
     <div className={cs(styles.cart, styles.cartContainer)}>
@@ -181,6 +182,13 @@ const BridalItemsList: React.FC<Props> = props => {
                   <div className={cs(styles.smallfont, globalStyles.voffset2)}>
                     SIZE: {size}
                   </div>
+                  {color && (
+                    <div
+                      className={cs(styles.smallfont, globalStyles.voffset1)}
+                    >
+                      COLOR: {color}
+                    </div>
+                  )}
                   <div className={cs(styles.smallfont, globalStyles.voffset1)}>
                     SKU: {sku}
                   </div>
